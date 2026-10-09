@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 # -*- coding: utf-8 -*-
 """
-test_local_runner.py — 本地编码 Runner · 全离线测试（T1–T6）
+test_local_runner.py — 本地编码 Runner · 全离线测试（T1–T9）
 
 运行：python3 test_local_runner.py
 关键点：**T4 用本机 127.0.0.1 的假 OpenAI 端点**打真实 HTTP 链路 —— 全程不出公网。
@@ -63,9 +63,16 @@ class _Choice:
         self.message = _Msg(content)
 
 
+class _Usage:
+    prompt_tokens = 11
+    completion_tokens = 22
+    total_tokens = 33
+
+
 class _Resp:
     def __init__(self, content):
         self.choices = [_Choice(content)]
+        self.usage = _Usage()
 
 
 class _Completions:
@@ -185,6 +192,48 @@ def main() -> int:
     for k, v in saved.items():
         if v is not None:
             os.environ[k] = v
+
+    # T7 CLI 子进程 + 本机假端点：回归「脚本运行时 __main__ 与 codex_bridge 两份 RunnerResult」身份 bug
+    port2 = free_port()
+    srv2 = ThreadingHTTPServer(("127.0.0.1", port2), _Handler)
+    threading.Thread(target=srv2.serve_forever, daemon=True).start()
+    try:
+        spec_path = os.path.join(root, "t7_spec.json")
+        with open(spec_path, "w", encoding="utf-8") as fh:
+            json.dump(B.TaskSpec(task_id="lt7", goal="修复 add（CLI 路径）", repo=repo,
+                                 allow_paths=["*.py"], test_command=TESTC).__dict__,
+                      fh, ensure_ascii=False)
+        env7 = dict(os.environ, NANA_BRIDGE_BASE_URL="http://127.0.0.1:%d/v1" % port2,
+                    NANA_BRIDGE_API_KEY="local-test", NANA_BRIDGE_MODEL="fake-local",
+                    NANA_BRIDGE_MAX_CALLS="1")
+        p7 = subprocess.run([sys.executable, "codex_bridge.py", "--spec", spec_path,
+                             "--runner", "local_llm"],
+                            cwd=HERE, env=env7, capture_output=True, text=True, timeout=180)
+        out7 = json.loads(p7.stdout)
+        ep = out7.get("endpoint") or {}
+        check("T7 CLI 路径闭环成功（RunnerResult 身份 bug 回归）",
+              bool(out7.get("ok")) and bool(out7.get("applied"))
+              and ep.get("is_codex_cli") is False and ep.get("calls") == 1
+              and (ep.get("usage") or {}).get("total_tokens") == 2,
+              json.dumps(out7, ensure_ascii=False)[:400])
+    except Exception as e:
+        check("T7 CLI 路径闭环成功（RunnerResult 身份 bug 回归）", False,
+              "%s: %s" % (type(e).__name__, e))
+    finally:
+        srv2.shutdown()
+
+    # T8 请求次数硬闸门：超过 max_calls 拒绝外发
+    fc8 = FakeClient(good_payload())
+    r8 = L.LocalLLMRunner(fc8, max_calls=1)
+    sp8 = B.TaskSpec(task_id="lt8", goal="g", repo=repo, allow_paths=["*.py"])
+    a8 = r8.run(sp8, repo, "p")
+    b8 = r8.run(sp8, repo, "p")
+    check("T8 超请求上限后拒绝外发（费用闸门）",
+          a8.ok and (not b8.ok) and r8.calls == 1 and len(fc8.calls) == 1, b8.reason)
+
+    # T9 usage 被如实记录（成本证据）
+    check("T9 usage 被记录", (r8.last_usage or {}).get("total_tokens") == 33,
+          str(r8.last_usage))
 
     shutil.rmtree(root, ignore_errors=True)
     print("\n===== 结果：%d 通过 / %d 失败 =====" % (len(PASS), len(FAIL)))

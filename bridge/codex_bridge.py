@@ -34,6 +34,7 @@ import json
 import os
 import shutil
 import subprocess
+import sys
 import time
 from dataclasses import dataclass, field, asdict
 from typing import Any, Callable, Dict, List, Optional, Sequence
@@ -262,7 +263,13 @@ def execute_task(spec: TaskSpec, runner: Any = None) -> Receipt:
     try:
         res = runner.run(spec, scratch, spec.to_prompt())
         if not isinstance(res, RunnerResult):
-            res = RunnerResult(ok=False, reason="Runner 返回类型异常：%s" % type(res).__name__)
+            if all(hasattr(res, x) for x in ("ok", "reason")):
+                # 纵深防御：跨模块/跨进程的 RunnerResult 身份不同也不丢结果
+                res = RunnerResult(ok=bool(res.ok), stdout=getattr(res, "stdout", ""),
+                                   stderr=getattr(res, "stderr", ""), reason=res.reason,
+                                   exit_code=getattr(res, "exit_code", None))
+            else:
+                res = RunnerResult(ok=False, reason="Runner 返回类型异常：%s" % type(res).__name__)
     except Exception as e:
         res = RunnerResult(ok=False, reason="Runner 抛异常：%s: %s" % (type(e).__name__, e))
     r.runner_stdout = (res.stdout or "")[-4000:]
@@ -380,23 +387,54 @@ def main(argv: Sequence[str]) -> int:
     ap = argparse.ArgumentParser(description="奈奈 ↔ Codex 协作桥（最小闭环）")
     ap.add_argument("--selftest", action="store_true", help="用 StubRunner 离线跑通闭环")
     ap.add_argument("--spec", help="TaskSpec JSON 文件路径（真实 Runner）")
+    ap.add_argument("--runner", default="codex", choices=("codex", "local_llm"),
+                    help="真实 Runner 选型；默认 codex（未安装则明确报错，不联网）")
     a = ap.parse_args(list(argv))
     if a.selftest:
         return _selftest()
-    if a.spec:
-        with open(a.spec, encoding="utf-8") as fh:
-            raw = json.load(fh)
-        spec = TaskSpec(**raw)
+    if not a.spec:
+        ap.print_help()
+        return 0
+
+    with open(a.spec, encoding="utf-8") as fh:
+        raw = json.load(fh)
+    spec = TaskSpec(**raw)
+
+    if a.runner == "local_llm":
+        # 以脚本方式运行时模块名是 __main__；local_runner 会 `from codex_bridge import ...`，
+        # 若不别名就会出现「两份 RunnerResult」→ isinstance 误判（真实跑测抓到的 bug）。
+        sys.modules.setdefault("codex_bridge", sys.modules[__name__])
+        from local_runner import from_env          # 惰性导入：离线路径不受影响
+
+        runner = from_env()
+        if runner is None:
+            print(json.dumps({"ok": False, "reason":
+                              "未注入 NANA_BRIDGE_BASE_URL / NANA_BRIDGE_API_KEY，"
+                              "拒绝联网（本地 Runner 不可用）"}, ensure_ascii=False))
+            return 3
+    else:
         runner = CodexRunner()
         if not runner.is_available():
             print(json.dumps({"ok": False,
                               "reason": "codex 未安装，真实 Runner 不可用（需姐姐授权 L3）"},
                              ensure_ascii=False))
             return 2
-        print(json.dumps(execute_task(spec, runner).to_dict(), ensure_ascii=False, indent=1))
-        return 0
-    ap.print_help()
+
+    rec = execute_task(spec, runner)
+    out = rec.to_dict()
+    out["endpoint"] = {
+        "runner": getattr(runner, "name", "?"),
+        "model": getattr(runner, "model", None),
+        "base_url": (os.environ.get("NANA_BRIDGE_BASE_URL") or "").strip() or None,
+        "calls": getattr(runner, "calls", None),
+        "max_calls": getattr(runner, "max_calls", None),
+        "prompt_bytes": len(getattr(runner, "last_prompt", "") or "") or None,
+        "usage": getattr(runner, "last_usage", None),
+        "is_codex_cli": getattr(runner, "name", "") == "codex",
+    }
+    print(json.dumps(out, ensure_ascii=False, indent=1))
     return 0
+
 
 
 if __name__ == "__main__":

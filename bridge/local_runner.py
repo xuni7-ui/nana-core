@@ -89,13 +89,17 @@ class LocalLLMRunner:
 
     def __init__(self, client: Any = None, model: str = "",
                  *, max_files: int = 8, max_file_bytes: int = 40000,
-                 max_total_bytes: int = 120000, temperature: int = 0):
+                 max_total_bytes: int = 120000, temperature: int = 0,
+                 max_calls: int = 1):
         self.client = client
         self.model = model or os.environ.get(_MODEL_ENV, "deepseek-flash")
         self.max_files = max_files
         self.max_file_bytes = max_file_bytes
         self.max_total_bytes = max_total_bytes
         self.temperature = temperature
+        self.max_calls = max(1, int(max_calls))   # 费用闸门：单任务最多几次模型请求
+        self.calls = 0                            # 实际已发起的请求数（真实计费证据）
+        self.last_usage: Optional[Dict[str, Any]] = None
         self.last_prompt: str = ""          # 供测试断言"敏感内容未外泄"
 
     # ---------- 上下文采集（严格过滤） ----------
@@ -147,6 +151,8 @@ class LocalLLMRunner:
     def run(self, spec: TaskSpec, workdir: str, prompt: str) -> RunnerResult:
         if self.client is None:
             return RunnerResult(ok=False, reason="未注入模型客户端（离线模式，未发起任何请求）")
+        if self.calls >= self.max_calls:
+            return RunnerResult(ok=False, reason="已触及单任务请求上限（%d 次），拒绝继续外发" % self.max_calls)
 
         ctx = self.collect_context(workdir, spec)
         files_block = "\n\n".join(
@@ -156,11 +162,17 @@ class LocalLLMRunner:
         self.last_prompt = user
 
         try:
+            self.calls += 1                   # 计入真实外发次数（在请求前自增，异常也计）
             resp = self.client.chat.completions.create(
                 model=self.model, temperature=self.temperature,
                 messages=[{"role": "system", "content": SYSTEM_PROMPT},
                           {"role": "user", "content": user}])
             text = resp.choices[0].message.content or ""
+            u = getattr(resp, "usage", None)
+            self.last_usage = ({"prompt_tokens": getattr(u, "prompt_tokens", None),
+                                "completion_tokens": getattr(u, "completion_tokens", None),
+                                "total_tokens": getattr(u, "total_tokens", None)}
+                               if u is not None else None)
         except Exception as e:
             return RunnerResult(ok=False, reason="模型调用失败：%s: %s" % (type(e).__name__, e))
 
@@ -185,13 +197,23 @@ class LocalLLMRunner:
 
 
 def from_env() -> Optional[LocalLLMRunner]:
-    """按环境变量构造 Runner；缺任一变量 → None（**不联网**）。"""
+    """按环境变量构造 Runner；缺任一变量 → None（**不联网**）。
+
+    可调闸门：`NANA_BRIDGE_MAX_CALLS`（默认 1）、`NANA_BRIDGE_MAX_FILES`（默认 8）、
+    `NANA_BRIDGE_MAX_BYTES`（默认 120000）。
+    """
     base = (os.environ.get(_BASE_URL_ENV) or "").strip()
     key = (os.environ.get(_API_KEY_ENV) or "").strip()
     if not base or not key:
         return None
     try:
         import openai
-        return LocalLLMRunner(openai.OpenAI(api_key=key, base_url=base))
+        return LocalLLMRunner(
+            openai.OpenAI(api_key=key, base_url=base),
+            max_calls=int(os.environ.get("NANA_BRIDGE_MAX_CALLS", "1") or 1),
+            max_files=int(os.environ.get("NANA_BRIDGE_MAX_FILES", "8") or 8),
+            max_total_bytes=int(os.environ.get("NANA_BRIDGE_MAX_BYTES", "120000") or 120000),
+        )
     except Exception:
         return None
+

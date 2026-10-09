@@ -1,0 +1,10 @@
+{
+  "task_id": "c5v_real_01",
+  "goal": "在 src/bili_agent/c5v_wiring.py 上做一次最小增量（只加不破）：\n1) 给 vision_brief() 增加一个可选关键字参数 cache_dir（默认 None）。\n2) 语义：当 cache_dir 给出时，若该目录内已存在该 bvid 对应的视频文件（文件名形如 bvid 开头），则直接复用该本地文件、不调用 fetcher、不下载；未命中时才走原有 fetcher 流程。\n3) cache_dir=None 时，行为必须与改动前逐字节等价（原有 11 条离线用例必须全绿）。\n4) 在 src/bili_agent/test_c5v_wiring.py 中补充 1~2 条**离线**用例覆盖上述复用逻辑（不得发起任何真实网络请求，不得依赖真实下载）。\n5) 不得引入任何新的第三方依赖；不得硬编码任何密钥或凭据；不得改动其他文件。",
+  "repo": "/root/nana_dev/nana-core",
+  "allow_paths": ["src/bili_agent/c5v_wiring.py", "src/bili_agent/test_c5v_wiring.py"],
+  "deny_paths": ["src/bili_agent/notes/**"],
+  "test_command": "python3 src/bili_agent/test_c5v_wiring.py",
+  "test_timeout_s": 180,
+  "budget_s": 300
+}

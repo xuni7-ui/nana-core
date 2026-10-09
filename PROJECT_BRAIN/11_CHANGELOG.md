@@ -116,3 +116,28 @@
 | `p0_coref_backtrace` 复核 | 待办 T-23，只读可做，未排入本轮 |
 | 自制插件 LICENSE | 需姐姐决策（T-42） |
 | Codex 桥 `@codex` 实测 | 只读验证范围，未实测 |
+
+---
+
+## C-008 · 首次真实协作跑测（R2）+ 修掉协作桥身份 bug
+
+- **改了什么**
+  1. `bridge/codex_bridge.py`：`main()` 新增 `--runner {codex,local_llm}`（默认仍 `codex`，未显式指定绝不联网）；
+     新增 `sys.modules` 别名根修 + `execute_task` 类型转换纵深防御；回执新增 `endpoint{runner,model,base_url,calls,max_calls,prompt_bytes,usage,is_codex_cli}`。
+  2. `bridge/local_runner.py`：新增 `max_calls` 请求次数**硬闸门**（超限拒绝外发）、`last_usage` 用量采证；
+     `from_env()` 支持 `NANA_BRIDGE_MAX_CALLS/MAX_FILES/MAX_BYTES`。
+  3. `bridge/test_local_runner.py`：新增 T7（CLI 子进程回归身份 bug）/ T8（请求上限闸门）/ T9（usage）。
+  4. `bridge/tasks/c5v_real_01.json`：首个真实任务的 TaskSpec（`allow_paths` 收窄为精确两文件）。
+  5. 新增 `PROJECT_BRAIN/12_REAL_COLLAB_RUN_01.md`：完整证据。
+- **为什么**：姐姐一次性授权"首次真实模型端点协作测试"，需验证 奈奈派单 → 真实端点接收 → 返回代码 → 白名单校验 → 测试 → 验收 全链路。
+- **怎么验证**
+  - 离线：`test_codex_bridge.py` **9/9** + `test_local_runner.py` **9/9** + `--selftest` rc=0（合计 **18/18 全绿**）。
+  - 真实：`--spec tasks/c5v_real_01.json --runner local_llm` → `ok=true, applied=true`，验收命令 **13/13**，
+    `usage` 输入 5,953 / 输出 12,438；`violations=[]`。
+  - 源仓零改动：两目标文件 `sha256` 与 `git HEAD` **逐字节一致**；源仓原测试独立复跑 **11/11**。
+  - 独立行为探针：`cache_dir` 命中时间谍 fetcher **0** 次调用、未命中 1 次、不传参数旧行为保持。
+- **抓到的真 bug**：脚本运行时 `__main__` 与 `codex_bridge` 存在**两份 RunnerResult** → `isinstance` 恒假 →
+  模型结果被静默判否（离线测试因模块导入路径不同而漏检）。已根修 + 加回归 T7。
+- **成本**：3 次请求（1 探针 + 1 实跑 + 1 修复后 bounded 重试）· 输入 11,940 / 输出 25,734 tokens ≈ **¥0.2~0.7**（单价未核实）。
+- **边界**：生产改动 **0**；未装依赖、未加 remote、未 push、未重启；`receipts/`+`scratch/` 为可删运行时产物。
+- **影响文件**：`bridge/` 4 个 + `PROJECT_BRAIN/12` + 本次账本更新
