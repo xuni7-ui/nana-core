@@ -171,3 +171,30 @@
   - `ss -ltnp` 空 + 无 `*_proxy` 环境变量 → 无现成代理可用。
 - **结论**：B1 `chatgpt.com` SNI 阻断 ／ B2 `api.openai.com` 污染 ／ B3 `auth.openai.com` 403 ／ B4 无本地代理。**两条官方登录路径（网页授权 + device-auth）在本机均无法完成**；与 R3 实测一致，**按指令停止，未重试登录**。
 - **边界**：只读。未安装、未登录、未部署代理、未索取任何凭据、生产改动 0、无 push。
+
+---
+
+## C-011 · R9 GitHub 首次推送 + 官方 Codex `@codex` 派单实测
+
+- **改了什么**
+  1. 新增 `PROJECT_BRAIN/19_GITHUB_FIRST_PUSH_AND_CODEX_DISPATCH_01.md`（首次 push 全证据 + `@codex` 触发面实测）。
+  2. 本地历史重写：从**全部提交**中移除 `manifests/nana_iris_changes.diff`（根提交即在），11 提交全保留。
+  3. 合并远端 `origin/main`（无关历史），合并提交 `e406127`。
+  4. 首次 `git push -u origin master:main` 成功（**fast-forward，无 force**）。
+- **为什么**
+  姐姐指令「A，动手」：在已授权范围内把「奈奈 → 官方 Codex → 奈奈」真实闭环优先跑通，先推送再验 `@codex` 派单。
+- **怎么验证**（只读 / 可复现）
+  - `git rev-list --all --objects | grep -i nana_iris_changes` → **0 命中**（diff 已不在任何提交/对象）。
+  - `GET /repos/xuni7-ui/nana-core/commits/main` → `e406127`；tree blob 数 = **67**；含 diff = **False**。
+  - Issue #1：正文 `@codex` **无反应**；**评论** `@codex` → `chatgpt-codex-connector[bot]` **5 秒回复**。
+- **边界**：未改生产、未自动合并 PR、未启用付费 API、未 `--force`、`diff` 未上远端。
+- **阻塞**：该仓库在 Codex Cloud **尚未建 environment**（bot 明确提示）→ 闭环**待姐姐一步人工**。
+
+---
+
+## C-012 · 授权变更记录：姐姐批准 Git 推送 + `@codex` 派单 + PR 读取/复测/验收
+
+- **改了什么**：记录姐姐本轮一次性集中授权范围（不影响任何文件内容）。
+- **为什么**：把「姐姐退出日常传话」的授权边界固化为可追溯记录。
+- **授权内容**：①现有 PAT 安全配置（600）；②合并本地/远端无关历史并保留双方 README 与全部提交；③按白名单正常 push、排除 `nana_iris_changes.diff`、禁 force；④推送后验证官方 Codex `@codex` 派单；⑤若 Codex 产 PR，由奈奈读取/复测/验收；⑥全程不改生产、不自动合并、不启用付费 API。
+- **怎么验证**：见 C-011 及 `PROJECT_BRAIN/19_*.md`。
