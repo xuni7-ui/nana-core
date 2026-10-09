@@ -1,0 +1,10 @@
+{
+  "task_id": "c5v_wiring_increment_01",
+  "goal": "在 src/bili_agent/c5v_wiring.py 上做一次最小增量：\n1) 新增「证据不足时二次补帧」入口：当首次视觉结果为 evidence_sufficient=false 时，允许在预算内用 fallback_uniform 再抽一轮帧重试一次（仍失败则如实降级，绝不编造）。\n2) 新增「视频文件复用」：vision_brief 接受可选 cache_dir，若同名视频已存在则不重复下载。\n3) 不得改变默认关闭行为（NANA_C5V_WIRING 未设时逐字节还原原文）。\n4) 不得引入任何新的第三方依赖，不得硬编码任何密钥。\n5) 同步扩展 test_c5v_wiring.py，保证原有 11 条用例仍全绿，并为新增行为补 2~3 条用例。",
+  "repo": "/root/nana_dev/nana-core",
+  "allow_paths": ["src/bili_agent/*.py"],
+  "deny_paths": ["src/bili_agent/notes/**"],
+  "test_command": "python3 src/bili_agent/test_c5v_wiring.py",
+  "test_timeout_s": 300,
+  "budget_s": 900
+}

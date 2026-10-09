@@ -25,6 +25,7 @@
 |---|---|---|---|---|
 | T-11 | **C.4 事件接收与去重端到端验收**（下一核心问题） | TODO | 无硬阻塞；需设计"确定性优先"的验收方案 | 需批准"跑验收" |
 | T-12 | C.7 "OBSERVE 吞靶子"缺陷复核 + 确认是否已修 | TODO | 只读复核即可 | 否（只读） |
+| T-15 | C.5-V-1 生产接线（把适配层接进 `_understand`） | **待授权（L4）** | 改生产代码 + 更新封板指纹；回滚=改一个环境变量 | **是（可并入 T-41 一次审批）** |
 | T-13 | `test_bili_agent_semantic_retry.py` 硬编码 SESSDATA 去毒（改读 `bili_credential` 或环境变量） | BLOCKED | **改生产文件** → 需"动手"级授权 | **是** |
 | T-14 | `bili_send_comment.py` 补 precheck（对齐 reply 版） | TODO | 低风险，但属生产改动 | **是** |
 
@@ -49,7 +50,9 @@
 
 | ID | 任务 | 状态 | 依赖 / 阻塞 | 需姐姐？ |
 |---|---|---|---|---|
-| T-41 | **Codex 协作桥只读触发验证**（`@codex` 是否真能触发） | TODO | 需在**只读**范围内实测，**不得**当作已实现 | 否（只读验证） |
+| T-41 | **协作桥真实 Runner 启用**（首个真实协作 = C.5-V-1 接线增量跑测） | **待授权（L3）** | 需"允许代码片段发往已在用模型端点" | **是（本轮唯一审批项）** |
+| T-45 | 协作桥最小闭环实现 + 离线验证（`bridge/codex_bridge.py` / `local_runner.py`） | ✅ DONE | `test_codex_bridge.py` 9/9 + `test_local_runner.py` 6/6 |
+| T-46 | C.5-V-1 接线适配层（`src/bili_agent/c5v_wiring.py` + 测试） | ✅ DONE | `test_c5v_wiring.py` 11/11 |
 | T-42 | 自制插件 LICENSE 决策（4 个） | BLOCKED | 需姐姐指定许可 | **是** |
 | T-43 | Iris 改动 diff 的整体许可策略（AGPL 传染确认） | BLOCKED | 需姐姐决策 | **是** |
 | T-44 | GitHub 首次上传 / push | **未授权** | 姐姐明确保留 | **是** |

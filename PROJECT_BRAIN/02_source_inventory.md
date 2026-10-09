@@ -56,7 +56,20 @@
 - `奈奈源码_运行版_20261007_施工前.zip`（施工前快照，1.6 MB）
 - 各类 `*.md` 报告（P0B 实况包 / 运行态验证报告 等）
 
-## 六、尚未核实的源码位置（`[未知]`）
+## 六、本轮新增（隔离副本 `src/` 与 `bridge/`）
+
+| 文件 | 职责 | 状态 |
+|---|---|---|
+| `src/bili_agent/c5v_wiring.py` | C.5-V-1 接线适配层（默认关闭、失败逐字节还原） | ② 已测试（11/11） |
+| `src/bili_agent/test_c5v_wiring.py` | 适配层离线测试 T1–T9 | `[实测]` |
+| `bridge/codex_bridge.py` | 协作桥编排（隔离克隆 + 边界校验 + 回执） | ② 已测试（9/9） |
+| `bridge/local_runner.py` | 本地 Runner（openai SDK + 注入端点） | ② 已测试（6/6） |
+| `bridge/test_codex_bridge.py` / `test_local_runner.py` | 桥离线测试 | `[实测]` |
+| `docs/c5v_wiring_design.md` | 接线方案比较与选型 | 文档 |
+
+> ⚠️ 以上均为**隔离副本内**产物，**未**接入生产；`bridge/scratch|receipts` 为运行时产物，不入库。
+
+## 七、尚未核实的源码位置（`[未知]`）
 
 - 生图脚本（`gen_*.py`）散落于工作区根，**未逐一鉴定是否为工程组成部分**。
 - `nana_dsh_whale_*`（桌面/Android 悬浮窗）与奈奈 Core **无关**，属另一条产品线。

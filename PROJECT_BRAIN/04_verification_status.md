@@ -31,6 +31,8 @@
 | B站保活/登录 | `bili_refresh.py` 75 行；登录工具（qr_login 系列，生产 `[实测]` 存在） |
 | 健康巡检 + 封板指纹 | `nana_bili_health_check.py` **202 行** |
 | C.5-V 视频理解离线骨架 | `c5v/bili_video_vision.py` **496 行** + `README_c5v.md` |
+| C.5-V-1 接线适配层（本轮新增） | `src/bili_agent/c5v_wiring.py` + `test_c5v_wiring.py`；`docs/c5v_wiring_design.md` |
+| 协作桥最小闭环（本轮新增） | `bridge/codex_bridge.py` / `local_runner.py` / 2 个测试 / `README.md` |
 | 奈奈自制插件 4 个 | `nana_admin_guard` 39 行 / `nana_anchor` 121 行 / `nana_bilievent` 131 行 / `linna_tmp` 48 行 |
 
 > 合计：副本 `src/` **22 个文件**；B站外挂 **10 文件 / 2681 行**。
@@ -45,6 +47,8 @@
 | 发送可靠性状态机 | **9/9 mock 全绿** + 真实 B站**只读** precheck 命中 | `[账本]` `bili_send_reliability_v1.verify` |
 | C.2 收口（`code is None → PENDING_VERIFY`） | **T1–T11 离线全绿** + 静态穷举 RETRYABLE 仅 1 处带守卫 | `[账本]` `bili_send_c2_closure.verify` |
 | 记忆检索纪律 v3.4 | **pytest 420 passed**（基线 406 + 新增 14） | `[账本]` `code_version.verify` |
+| **C.5-V-1 接线适配层** | `test_c5v_wiring.py` **11/11**（含"失败逐字节还原""不编造""零公网"断言） | `[实测]` 2026-10-10 本副本 |
+| **协作桥最小闭环** | `test_codex_bridge.py` **9/9** + `test_local_runner.py` **6/6**（含 127.0.0.1 真实 HTTP 闭环 + 源仓只读哈希断言） | `[实测]` 2026-10-10 本副本 |
 
 > ⚠️ 全部为**离线/mock**级证据；**不构成**真实环境可用性证明。
 
@@ -73,10 +77,11 @@
 | U2 | **C.7 缺陷"OBSERVE 吞靶子"是否修复** | 仅有缺陷记录文档，**无修复验证** |
 | U3 | **运行态 vs 源码态是否一致** | `ps -e` 在本命名空间返回 **0 行**，**无法**探测进程；指纹只证明采集时刻 |
 | U4 | `message_hook.py` 是否已有账本写侧分支 | 未复核（原判断仅来自 `[聊天记忆]`） |
-| U5 | 上游 v0.3.0 ↔ 现行逐行差异 | 本地无 `.git`、未联网 |
+| U5 | 真实 Runner 能否在本机端点跑通 | 桥**机制**已离线验证，**真实编码能力**未验证（`codex` 未安装；外部端点未启用） |
 | U6 | 真实内存用量（MemTotal/MemFree） | 本命名空间**无 `free`**，无法实测 |
 | U7 | 72h 观察期是否已完成 | `[聊天记忆：进行中]`，**无**开始时刻的实测锚点 |
 | U8 | `astrbot_plugin_favour_ultra` 为何仅在 `plugin_data/` | 仅见残留目录，未见插件本体 |
+| U9 | 上游 v0.3.0 ↔ 现行逐行差异 | 本地无 `.git`、未联网 |
 
 ---
 
@@ -84,7 +89,10 @@
 
 - **Nana Core 抽离（M1/M2/M3）**：仅方案，**零代码**。
 - **Portable 运行环境**：仅方案，**零代码**。
-- **Codex 自动协作桥**：`@codex` 触发机制**未实测**，**不得**写作"已实现"（见 `07_ROADMAP.md` 与 `10_DECISIONS.md`）。
+- **协作桥的"真实编码能力"**：桥**机制**已实现并离线验证（见 §二），但 `codex` **未安装**、
+  外部端点**未启用** → 「奈奈↔Codex 真实自主协作」**只能算"机制就绪"**，
+  **不得**写作"已打通"（待 `10_DECISIONS.md` D-023 授权）。
+- **C.5-V-1 生产接线**：适配层已实现+离线测试通过，**未接生产**。
 - **本地版本控制**：本轮 P1/P2 前无 `.git`（本轮已补，见 `11_CHANGELOG.md`）。
 
 ---

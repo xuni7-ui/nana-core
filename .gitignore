@@ -34,3 +34,7 @@ __pycache__/
 *.bak_*
 *.pre_*
 *.zip
+
+# 协作桥运行时产物（隔离克隆与回执，不入库）
+bridge/scratch/
+bridge/receipts/

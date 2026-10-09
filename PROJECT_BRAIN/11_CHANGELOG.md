@@ -77,6 +77,37 @@
 
 ---
 
+## C-006 · 协作桥最小闭环（新增 `bridge/`）
+
+- **改了什么**
+  1. 新增 `bridge/codex_bridge.py`：`TaskSpec → 隔离克隆 → Runner → 边界校验 + 验收命令 → 回执 JSON`；
+     硬黑名单在 `allow_paths` 之前生效；源仓只读（`git clone --no-hardlinks`）。
+  2. 新增 `bridge/local_runner.py`：`LocalLLMRunner`（用**已装** openai SDK + 注入的兼容端点编码）；
+     上下文采集**永不外发**硬黑名单文件；模型越界编辑**整体拒绝**。
+  3. 新增 `bridge/test_codex_bridge.py`（T1–T9）、`bridge/test_local_runner.py`（T1–T6）、`bridge/README.md`。
+  4. `.gitignore` 增加 `bridge/scratch/`、`bridge/receipts/`。
+- **为什么**：D-020 要求"奈奈做统筹与验收、Runner 做编码"的真实链路；本轮把**机制**打通并证明。
+- **怎么验证**
+  - `python3 bridge/test_codex_bridge.py` → **9/9**
+  - `python3 bridge/test_local_runner.py` → **6/6**（含 127.0.0.1 真实 HTTP 闭环）
+  - `python3 bridge/codex_bridge.py --selftest` → happy=applied / violation=拒绝
+  - 关键不变式：**源仓逐字节未变**（T6 哈希断言）
+- **边界**：`codex` **未安装**（`codex_available=false`）；真实外部端点**未启用**（待 D-023 授权）。
+
+---
+
+## C-007 · C.5-V-1 视频视觉接线适配层
+
+- **改了什么**
+  1. 新增 `src/bili_agent/c5v_wiring.py`：BVID →（yt-dlp）本地视频 → c5v 抽帧+视觉 → 结构化事实 → 可注入文本；
+     默认**关闭**；失败**逐字节还原**原文；预算含时长/帧数/超时/清理。
+  2. 新增 `src/bili_agent/test_c5v_wiring.py`（T1–T9）；新增 `docs/c5v_wiring_design.md`（含 A/B/C/D 方案比较）。
+- **为什么**：首个真实协作任务（D-023）；且需在无授权期先把"可验证、可回滚"的部分做完，不阻塞主线。
+- **怎么验证**：`python3 src/bili_agent/test_c5v_wiring.py` → **11/11**；测试视频由 `ffmpeg lavfi` 现造，**全程零公网请求**。
+- **边界**：**未接生产**；生产接线见 `docs/c5v_wiring_design.md` §5（L4，待授权）。
+
+---
+
 ## 待记（本轮未做，登记备查）
 
 | 项 | 为什么没做 |
