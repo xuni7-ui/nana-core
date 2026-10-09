@@ -1,0 +1,52 @@
+# 上传白名单（Upload Whitelist）
+
+> 创建：2026-10-10 CST ｜ 原则：**白名单制**（默认禁止，仅列出的才允许）；**不依赖 `.gitignore`**。
+
+## 一、允许入库（白名单）
+
+### A. 文档与清单（安全）
+- `AGENTS.md`
+- `README.md`
+- `PROJECT_BRAIN/*.md`（全部 **12 个**：事实层 00–06 + 账本层 07–11）
+- `docs/*.md`
+- `manifests/upload_whitelist.md`、`sensitive_scan_report_20261010.md`、`proposed_commit_manifest.md`、`fingerprints_20261010.md`、`nana_iris_changes.diff`
+- `upstream/*.md`（第三方来源登记，仅元数据）
+
+### B. 奈奈原创源码（扫描通过）
+- `src/plugins/astrbot_plugin_nana_admin_guard/{main.py,metadata.yaml}`
+- `src/plugins/astrbot_plugin_nana_anchor/{main.py,metadata.yaml}`
+- `src/plugins/astrbot_plugin_nana_bilievent/{main.py,metadata.yaml}`
+- `src/plugins/astrbot_plugin_linna_tmp/{main.py,metadata.yaml}`
+- `src/bili_agent/*.py`（10 个，已逐文件扫描通过）
+- `src/bili_agent/notes/*.md`（笔记 + 缺陷记录）
+- `src/c5v/{README_c5v.md,bili_video_vision.py}`
+
+### C. 条件入库（需姐姐逐项批准）
+- ⚠️ Iris 插件**奈奈改动 diff**：`manifests/nana_iris_changes.diff`
+  - 含 AGPL-3.0 衍生代码上下文 → 入库则**整体须 AGPL-3.0 并提供署名**
+- ⚠️ 奈奈自制插件**缺少 LICENSE** → 入库前须指定许可
+
+## 二、明确禁止（黑名单）
+
+| 类别 | 路径示例 | 原因 |
+|---|---|---|
+| 全局配置 | `data/cmd_config.json` | 含 API Key |
+| 数据库 | `data/data_v4.db*` | 含会话/记忆 |
+| 日志 | `data/logs/*`、`*.log` | 含运行信息 |
+| 凭证 | `*credential*.json`、`*password*.txt` | 登录凭据 |
+| 聊天记录 | `对话流水/*.jsonl`、`merged_memory.*` | 私人隐私 |
+| 事件数据 | `bili_event_log.jsonl`、`bili_comment_log.jsonl`、`bili_event_state.json` | 运行态数据 |
+| 秘密目录 | `/root/.nana_secrets/**` | 凭证+源码混合 |
+| **硬编码密钥文件** | `test_bili_agent_semantic_retry.py` | **已阻断** |
+| 第三方整包 | 各上游插件源码 | LICENSE/署名风险 |
+| AstrBot 主体 | `/AstrBot/astrbot/**` | 体积+AGPL+非本项目 |
+| 无关产品线 | `nana_dsh_whale_*` | 与 nana-core 无关 |
+| 编译产物 | `__pycache__/`、`*.pyc` | 无用 |
+
+## 三、入库前置检查（每次必做）
+
+1. 文件在白名单内 ✅
+2. 敏感扫描通过 ✅
+3. 许可证核对通过 ✅
+4. 无不可逆操作 ✅
+5. 人类验收通过 ✅

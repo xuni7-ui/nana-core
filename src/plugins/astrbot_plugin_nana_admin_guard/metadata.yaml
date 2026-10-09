@@ -1,0 +1,7 @@
+name: astrbot_plugin_nana_admin_guard
+display_name: NanaAdminGuard
+author: Linna
+version: v1.0.0
+desc: 管理员名单守卫：AstrBot 启动时若 admins_id 里少了姐姐的 ID，自动补回并保存
+entry: main
+astrbot_version: ">=4.0.0"

@@ -1,0 +1,6 @@
+name: astrbot_plugin_nana_anchor
+description: 奈奈收束锚点插件 - 维护对话/排查的根目标锚点，防止自由联想发散跑题，支持一键收束
+author: Nana
+version: 1.0.0
+display_name: 奈奈收束锚点
+repo: ""

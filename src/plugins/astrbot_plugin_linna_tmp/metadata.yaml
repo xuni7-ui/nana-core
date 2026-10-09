@@ -1,0 +1,7 @@
+name: astrbot_plugin_linna_tmp
+display_name: LinnaTemp
+author: Linna
+version: v1.0.0
+desc: temporary ban executor
+entry: main
+astrbot_version: ">=4.0.0"

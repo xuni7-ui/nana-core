@@ -1,0 +1,7 @@
+name: astrbot_plugin_nana_bilievent
+display_name: 奈奈B站事件轮询
+author: Nana
+version: v1.0.0
+desc: C.4 第一阶段挂载点：向已有 AstrBot cron 调度器注册 60 秒 B站事件轮询（独立子进程，默认只读）
+entry: main
+astrbot_version: ">=4.0.0"

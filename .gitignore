@@ -1,0 +1,36 @@
+# ── 第二道防线：本文件不是唯一防线，白名单才是（见 manifests/upload_whitelist.md）
+# 任何情况下都不允许进入本仓库的内容：
+
+# 凭证 / 密钥
+*credential*.json
+*secret*
+*password*
+*token*
+*.pem
+*.key
+.env
+.env.*
+
+# 生产数据 / 库 / 日志
+*.db
+*.db-shm
+*.db-wal
+*.log
+*.jsonl
+logs/
+plugin_data/
+data_v4.db*
+
+# 私人内容
+对话流水/
+merged_memory.*
+nana_notes/
+*_secrets/
+
+# 代码产物 / 备份
+__pycache__/
+*.pyc
+*.bak
+*.bak_*
+*.pre_*
+*.zip
