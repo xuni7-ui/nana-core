@@ -156,3 +156,18 @@
   - 降权（`nobody`）实跑一次：真实落盘 `calc.py`/`test_calc.py`，真实执行 `python3 test_calc.py` → rc=0 `all tests passed`；奈奈独立复跑一致。
   - 凭据落盘扫描：`CODEX_HOME` 内**无**凭据（只报结论，不输出内容）。
 - **边界**：生产改动 0、无 push、无新密钥、无全局安装。
+
+## C-010 · R5 · OpenAI 官方出口只读体检（结论：不可达）
+
+- **改了什么**
+  1. 新增 `PROJECT_BRAIN/15_OPENAI_EGRESS_PROBE.md`（DNS/裸 TCP/TLS-SNI/对照组/代理排查 全套只读证据 + 阻塞点定性 + Cloud 替代路径评估）。
+  2. 更新 `09_STATE.md`：补 R5 结论与「官方 OpenAI 出口」状态行。
+- **为什么**
+  姐姐追加指令：先只读确认是否存在可靠 OpenAI 出口、官方 ChatGPT 登录能否完成；不通则停止、不反复重试、不擅自部署代理。
+- **怎么验证**（全部只读、可复现）
+  - `getent ahostsv4 chatgpt.com` → `199.59.150.40`（非 CF 边缘 = 污染）；`172.64.146.15` 真实边缘裸 TCP ✅ 可连，但 `--resolve` 强制走真实边缘后 HTTPS **0.079s 立刻失败** → SNI 阻断。
+  - `curl -o /dev/null -w %{http_code} https://auth.openai.com/` → **403**（TLS1.3 握手成功、证书 CN 有效 → 边缘拒绝）。
+  - 对照组 `baidu/github/api.github/npmjs/deepseek` 全 ✅ → 本机出网正常，**非**本机网络故障。
+  - `ss -ltnp` 空 + 无 `*_proxy` 环境变量 → 无现成代理可用。
+- **结论**：B1 `chatgpt.com` SNI 阻断 ／ B2 `api.openai.com` 污染 ／ B3 `auth.openai.com` 403 ／ B4 无本地代理。**两条官方登录路径（网页授权 + device-auth）在本机均无法完成**；与 R3 实测一致，**按指令停止，未重试登录**。
+- **边界**：只读。未安装、未登录、未部署代理、未索取任何凭据、生产改动 0、无 push。
