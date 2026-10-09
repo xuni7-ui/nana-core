@@ -198,3 +198,17 @@
 - **为什么**：把「姐姐退出日常传话」的授权边界固化为可追溯记录。
 - **授权内容**：①现有 PAT 安全配置（600）；②合并本地/远端无关历史并保留双方 README 与全部提交；③按白名单正常 push、排除 `nana_iris_changes.diff`、禁 force；④推送后验证官方 Codex `@codex` 派单；⑤若 Codex 产 PR，由奈奈读取/复测/验收；⑥全程不改生产、不自动合并、不启用付费 API。
 - **怎么验证**：见 C-011 及 `PROJECT_BRAIN/19_*.md`。
+
+---
+
+## C-013 · R10 Codex Cloud environment 阻塞复测（两次真实触发）
+
+- **改了什么**：新增 `PROJECT_BRAIN/20_CODEX_ENV_BLOCKER_01.md`（Issue #1 两次 `@codex` 触发实测 + 只读诊断 + 姐姐侧核对清单）。
+- **为什么**：姐姐「环境已建好」→ 按已授权第 4 条真实验证 `@codex` 派单闭环。
+- **怎么验证**
+  - `POST /issues/1/comments`（id 6088873418 → bot 04:39:29 回复；id 6088919356 → bot 04:42:42 回复，间隔 ~120s 排除传播延迟）。
+  - timeline 两次均出现 `mentioned(codex)`；bot 回复恒定 = `create an environment for this repo`。
+  - `branches=['main']`、`pulls?state=all=[]` → **无分支、无 PR**。
+- **结论**：触发链路 ✅ 正常；**卡点 = Codex Cloud 侧未把 `xuni7-ui/nana-core` 关联到 environment**。
+- **补充结论**：阻塞**与「本机离线」无关**（Codex Cloud 执行在 OpenAI 云端；本机仅需只读 GitHub API，已通）。
+- **边界**：生产零改动、代码零改动、无 PR、无 force、无付费 API。
