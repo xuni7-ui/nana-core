@@ -227,3 +227,21 @@
 - **撤销**：①「私有环境只对创建者可见」推测（无官方证据，降级待核实）；②「草稿未发布即根因」（被新证据推翻）。
 - **结论**：L-C 入口链路 ✅ / 环境发现 ❌；**唯一未闭环一步 = 姐姐侧 Codex 界面新任务**；**停止重复评论**，必要时打包交 OpenAI 支持。
 - **边界**：生产零改动、代码零改动、无 PR、无 force、无付费 API、仓库侧零写入。
+
+---
+
+## C-015 · R12 T-001 三项只读前置核验 + 首个真实 Codex 任务卡出卡
+
+- **改了什么**：新增 `PROJECT_BRAIN/22_PRE_T001_READONLY_RECON_01.md`、`docs/tasks/T-001-c5v1-wiring-increment.md`；本文件追加本条；`08_TASKS.md` 增 T-47 行。
+- **为什么**：姐姐授权（口令「动手」）核验 T-001 前置三项，并在无新重大风险时**直接制定首个最小可验收的 C.5-V-1 开发任务卡**。
+- **怎么验证**（只读命令，可复现）
+  - ① `git merge-base --is-ancestor a314c4c a9b1d36` → **exit=0（是祖先）**；`git log --oneline a314c4c..a9b1d36 | wc -l` → **1**；无分叉，对齐 = 纯快进。
+  - ② `git ls-tree -r --name-only a9b1d36` → **含** `src/bili_agent/c5v_wiring.py`、`src/bili_agent/test_c5v_wiring.py`、`src/c5v/bili_video_vision.py`；**无 `tests/` 目录**。
+  - ③ 测试实测：`python -m pytest src/bili_agent/test_c5v_wiring.py -q` → **no tests ran**；`python3 src/bili_agent/test_c5v_wiring.py` → **11 通过 / 0 失败**。⇒ 正确测试命令为后者。
+  - ④ 服务器凭据面：`gh`/`codex` 未装；`GITHUB_TOKEN`、`~/.git-credentials`、`~/.config/gh`、`~/.ssh` **全无**。
+  - ⑤ `git ls-remote origin` → **超时（退出码 124）**；`github.com` git 端点 curl **rc=28**；`api.github.com` **200**。⇒ **git-over-HTTPS 端点本轮不通**，远端真身**未复核**（不猜）。
+- **修正两条旧口径**：
+  1. 「在 `a314c4c` 上开发会把 main 往回退」→ 精确化为「PR diff 会出现 a9b1d36 的**逆向差异**」；**处理结论不变：一律从 `origin/main` 起分支**。
+  2. 任务卡的测试命令由 `python -m pytest tests/ -k c5v -q` **改为** `python3 src/bili_agent/test_c5v_wiring.py`（仓库无 `tests/`，且该文件是自跑脚本）。
+- **结论**：`a314c4c`→`a9b1d36` 线性 1 提交、无冲突风险；**origin/main 已含 C.5-V-1 全部源码与测试**；Codex 有源可改。无新重大风险 ⇒ **按授权出卡 T-001**。
+- **边界**：只读核验；生产零改动、代码零改动、无 push、无 PR、未建/改环境、未发 `@codex` 评论、未联网安装。仅新增两份文档并**本地**提交。
