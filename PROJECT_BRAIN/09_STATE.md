@@ -8,7 +8,7 @@
 
 ## 一、一句话状态
 
-**生产处于冻结观察期，B站事件泵正常常驻；`nana-core` 独立副本已完成 P1+P2，并新增「协作桥最小闭环」与「C.5-V-1 接线适配层」，二者均离线验证通过；真实 Runner 与生产接线均未启用、未授权。未 push、未上传、未改生产。**
+**生产处于冻结观察期，B站事件泵正常常驻；`nana-core` 独立副本已完成 P1+P2，并新增「协作桥最小闭环」「C.5-V-1 接线适配层」与「**真 Codex CLI 执行入口**」（2026-10-10 03:2x 实测成功）。**Codex CLI 已可真实执行代码任务，模型为 DeepSeek（非 OpenAI）；生产接线仍默认关闭、未启用。** 未 push、未上传、未改生产。**
 
 ---
 
@@ -117,3 +117,23 @@
 > 若指纹表与 `git status` 不一致 → **以 git 为准**。
 >
 > **自指说明**：文件无法包含自身的哈希。故指纹表**剔除自身**，其完整性由**上述提交**（Git 内容寻址）保证。
+
+---
+
+## 七、Codex CLI 真实执行入口（C-009 · `[实测]` 2026-10-10 03:2x）
+
+| 项 | 值 |
+|---|---|
+| 执行框架 | **Codex CLI 0.162.0**（官方 npm + 官方 linux-x64 二进制） |
+| 模型 | **DeepSeek `deepseek-flash`** @ `api.deepseek.com/v1`（**非** OpenAI 模型，二者不得混淆） |
+| 协议 | `wire_api = "responses"` —— 该版本 **已移除 `wire_api="chat"`** |
+| 地址 | 入口 `/opt/nana_codex/`（home + node_modules + sandbox），探针 `/root/nana_dev/codex_probe/` |
+| 隔离方式 | **OS 级外部沙箱**：进程降权为 `nobody(65534)` + `--dangerously-bypass-approvals-and-sandbox` |
+| 为何不用自带沙箱 | 容器**禁止创建 namespace**（`unshare -U`→EPERM），bwrap 与 Landlock 均不可用 `[实测]` |
+| 实测结果 | ✅ 真实写入文件 + 真实执行命令 + 测试 rc=0（模型自述与奈奈独立复跑一致） |
+| 成本 | 两次会话共 input 95,583 / output 2,274 tokens；估算 **≈¥0.03**（单价口径 `[未核实]`，量级 <¥0.5） |
+| 已知缺口 | ①沙箱靠外部降权，容器重建需重做；②模型元数据缺失告警；③桥 Runner 尚未切 `codex_cli`；④无成本熔断 |
+| 降级风险 | 降权进程可读**世界可读**文件（如 644 的 `data_v4.db`）→ **非结构性隔离**，待姐姐决策是否加固 |
+| 回滚 | `rm -rf /opt/nana_codex` 即彻底移除，生产与 `~/.codex` 未动 |
+
+**证据**：`14_CODEX_CLI_REAL_EXEC_01.md` ｜ **脚本**：`bridge/probes/codex_cli_probe.py`

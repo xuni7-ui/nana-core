@@ -141,3 +141,18 @@
 - **成本**：3 次请求（1 探针 + 1 实跑 + 1 修复后 bounded 重试）· 输入 11,940 / 输出 25,734 tokens ≈ **¥0.2~0.7**（单价未核实）。
 - **边界**：生产改动 **0**；未装依赖、未加 remote、未 push、未重启；`receipts/`+`scratch/` 为可删运行时产物。
 - **影响文件**：`bridge/` 4 个 + `PROJECT_BRAIN/12` + 本次账本更新
+
+## C-009 · Codex CLI 真实执行验证（自定义 Provider · 单次最小任务）
+
+- **改了什么**
+  1. 新增 `PROJECT_BRAIN/14_CODEX_CLI_REAL_EXEC_01.md`（证据：版本核验 / 沙箱约束 / 真实执行记录 / 成本 / 缺口 / 可复现命令 / 回滚）。
+  2. 新增 `bridge/probes/codex_cli_probe.py` 与 `codex_cli_probe_sandboxed_fail.py`（探针脚本，**不含任何明文凭据**）。
+  3. 更新 `09_STATE.md`：新增「Codex CLI 真实执行」状态行与沙箱约束事实。
+- **为什么**
+  姐姐授权做 Codex CLI 自定义 Provider 最小真实验证；需把「协议可行性 + 沙箱约束 + 真实执行结果」固化为工程事实，避免以后重复踩坑。
+- **怎么验证**
+  - `--strict-config` 实跑证明 `wire_api="chat"` 已被移除、仅支持 `responses`（CLI 原文报错）。
+  - `POST https://api.deepseek.com/v1/responses` → 200（真钥匙）/ 401（假钥匙），证明协议握手成立。
+  - 降权（`nobody`）实跑一次：真实落盘 `calc.py`/`test_calc.py`，真实执行 `python3 test_calc.py` → rc=0 `all tests passed`；奈奈独立复跑一致。
+  - 凭据落盘扫描：`CODEX_HOME` 内**无**凭据（只报结论，不输出内容）。
+- **边界**：生产改动 0、无 push、无新密钥、无全局安装。
