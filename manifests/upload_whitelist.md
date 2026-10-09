@@ -7,9 +7,10 @@
 ### A. 文档与清单（安全）
 - `AGENTS.md`
 - `README.md`
-- `PROJECT_BRAIN/*.md`（全部 **12 个**：事实层 00–06 + 账本层 07–11）
-- `docs/*.md`
-- `manifests/upload_whitelist.md`、`sensitive_scan_report_20261010.md`、`proposed_commit_manifest.md`、`fingerprints_20261010.md`、`nana_iris_changes.diff`
+- `PROJECT_BRAIN/*.md`（全部 **18 个**：事实层 00–06 + 账本层 07–11 + 核验层 12–18）
+- `bridge/**`（**9 个**：协作桥最小闭环 + 探针 + 任务样本 + 测试）
+- `docs/*.md`（含 `docs/c5v_wiring_design.md`、`docs/migration_report_20261010.md`、`docs/verification_and_fingerprint.md`）
+- `manifests/upload_whitelist.md`、`sensitive_scan_report_20261010.md`、`proposed_commit_manifest.md`、`fingerprints_20261010.md`
 - `upstream/*.md`（第三方来源登记，仅元数据）
 
 ### B. 奈奈原创源码（扫描通过）
@@ -17,13 +18,13 @@
 - `src/plugins/astrbot_plugin_nana_anchor/{main.py,metadata.yaml}`
 - `src/plugins/astrbot_plugin_nana_bilievent/{main.py,metadata.yaml}`
 - `src/plugins/astrbot_plugin_linna_tmp/{main.py,metadata.yaml}`
-- `src/bili_agent/*.py`（10 个，已逐文件扫描通过）
+- `src/bili_agent/*.py`（**12 个**，已逐文件扫描通过）
 - `src/bili_agent/notes/*.md`（笔记 + 缺陷记录）
 - `src/c5v/{README_c5v.md,bili_video_vision.py}`
 
 ### C. 条件入库（需姐姐逐项批准）
-- ⚠️ Iris 插件**奈奈改动 diff**：`manifests/nana_iris_changes.diff`
-  - 含 AGPL-3.0 衍生代码上下文 → 入库则**整体须 AGPL-3.0 并提供署名**
+- 🚫 **首发排除**：Iris 插件 **奈奈改动 diff** `manifests/nana_iris_changes.diff`
+  - 含 AGPL-3.0 衍生代码上下文 → 若入库则**整体须 AGPL-3.0 并提供署名**；首次同步**不带它**（见 `18_GITHUB_REMOTE_VERIFY_01.md` §6）
 - ⚠️ 奈奈自制插件**缺少 LICENSE** → 入库前须指定许可
 
 ## 二、明确禁止（黑名单）
@@ -50,3 +51,9 @@
 3. 许可证核对通过 ✅
 4. 无不可逆操作 ✅
 5. 人类验收通过 ✅
+
+## 四、口径备注
+
+- 「**敏感扫描通过**」的精确含义 = **密钥值 0 命中**。`sessdata` 等**键名**出现在源码中属正常（读 cookie 必需），**不构成泄露**。
+- 首次同步基线 = **66 文件**（本地 67 − 排除 `manifests/nana_iris_changes.diff`）。
+- 远端 `xuni7-ui/nana-core` 首核结果：private、默认分支 `main`、仅 `Initial commit` 1 个文件 → 详见 `PROJECT_BRAIN/18_GITHUB_REMOTE_VERIFY_01.md`。
