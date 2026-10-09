@@ -1,6 +1,6 @@
 # PROJECT_BRAIN 指纹清单（采集时刻快照）
 
-> 采集时间：2026-10-10 02:2x CST ｜ 方式：md5 ｜ **指纹仅证明采集时刻，不证明当前运行态**
+> 采集时间：2026-10-10 02:3x CST（第 2 次采集，锚点回填后刷新）｜ 方式：md5 ｜ **指纹仅证明采集时刻，不证明当前运行态**
 
 
 ## 〇、自指说明（P1 修正，2026-10-10）
@@ -26,9 +26,9 @@
 | `PROJECT_BRAIN/06_open_risks.md` | 2491 | `2d93408a9c7407de6e40476a8774f55c` |
 | `PROJECT_BRAIN/07_ROADMAP.md` | 4849 | `fd6c46b5b3914703ea4c0ba8fd5aaa83` |
 | `PROJECT_BRAIN/08_TASKS.md` | 4232 | `dbb4b4eb73bdc582a63f8c8b050ae58c` |
-| `PROJECT_BRAIN/09_STATE.md` | 3683 | `aa44da5666d6630cc1f78fed7ca94d28` |
+| `PROJECT_BRAIN/09_STATE.md` | 3898 | `d5f2a467dd458bba6db9b2e76375999e` |
 | `PROJECT_BRAIN/10_DECISIONS.md` | 5607 | `d522663245fb8f3a46bfe4803292fa5d` |
-| `PROJECT_BRAIN/11_CHANGELOG.md` | 3687 | `f8d52c5b594acb4cd662afd93d8a8186` |
+| `PROJECT_BRAIN/11_CHANGELOG.md` | 4395 | `0842a0077e6bebb972f1614fb00ce5a9` |
 | `README.md` | 3138 | `39565e52462d8ea896de21467cb722aa` |
 | `docs/external/README_bili_agent_c1.md` | 10458 | `5d173fc0fdfb0aa666008de36a689938` |
 | `docs/external/README_bili_send_c2.md` | 3995 | `21fcdcfb9cb5b3d4047b816c8f50f325` |
@@ -64,7 +64,7 @@
 | `src/plugins/astrbot_plugin_nana_bilievent/metadata.yaml` | 274 | `d2dfa3bb0fd559050983417f931e4a8b` |
 | `upstream/sources.md` | 1807 | `d20d81afbccfb0e98b93eceae66095f4` |
 
-> 条目数：**48** ｜ 合计 **332,448 B（324.7 KB）** ｜ 仓库实际文件数 = 条目数 + 1（本表自身）
+> 条目数：**48** ｜ 合计 **333,371 B（325.6 KB）** ｜ 仓库实际文件数 = 条目数 + 1（本表自身）
 
 ## 二、生产态：Iris 插件奈奈改动文件（14 个，只读采集）
 
@@ -85,7 +85,7 @@
 | `tests/core/test_gate_off_parity.py` | `447df8008ee2f0f698ec35123effed75` | 2026-10-05 19:11 |
 | `tests/core/test_semantic_gate.py` | `19b79a861f5020a56410718d59bc0592` | 2026-10-05 19:13 |
 
-> ✅ 与旧稿（2026-10-10 01:5x 采集）**逐条一致**，生产文件未漂移。
+> ✅ 与第 1 次采集（01:5x）**逐条一致**，生产文件未漂移。
 
 ## 三、采集边界
 
