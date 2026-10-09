@@ -65,3 +65,13 @@ nana-core/
 
 ---
 *本仓库内容 DRAFT 状态。第三方版权归其原作者，详见 `upstream/sources.md` 与 `PROJECT_BRAIN/05`。*
+
+
+---
+
+## 附：远端仓库初始 README（原样保留）
+
+> 来源：`origin/main` 首提交 `23e583b`（Initial commit）。合并无关历史时按「保留双方 README」原样保留，未删改。
+
+# nana-core
+Nana Core — portable AI agent architecture and development workspace
