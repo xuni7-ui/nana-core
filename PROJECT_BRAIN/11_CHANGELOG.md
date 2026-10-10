@@ -274,3 +274,12 @@
 - **为什么**：建立可审查、可复现的工程基线，供 GPT-6.1 Sol 全面盘点。
 - **怎么验证**：两套补丁 `git apply --check` + 往返 sha256 一致；上游 blob 全量比对；敏感值级扫描；远端 HEAD 回验。
 - **边界**：生产零改动、无重启、无部署、无付费任务、非强制推送。
+
+
+## C-017 收口同步完成（2026-10-10）
+
+- **远端完整 HEAD**：`86484be9d3cc9dd7ca850d804b13fbf10d67ff2e`（fast-forward：`ff1c870..86484be`，无 force）。
+- **验证**：`git ls-remote` + 鉴权 `api.github.com/repos/xuni7-ui/nana-core/commits/main` 双路一致；根目录新增 `materials/ patches/ requirements.txt LICENSES_AND_PROVENANCE.md`。
+- **推送文件**：34 个（+7198 行）。
+- **敏感**：预提交全量扫描零真值凭据。
+- **边界**：生产零改动、无重启、无部署、无付费任务。

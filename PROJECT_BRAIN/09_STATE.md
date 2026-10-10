@@ -147,6 +147,6 @@
 ## P3 收口快照（2026-10-10（CST））
 
 - 【实测】远端 `main`（同步前）= `ff1c8704a056c6ebe82594a24f2ecba48ae02e69`。
-- 【实测】本轮推送后远端完整 HEAD = **（见 CHANGELOG C-017 回填）**。
+- 【实测】本轮推送后远端完整 HEAD = **`86484be9d3cc9dd7ca850d804b13fbf10d67ff2e`**（R15，2026-10-10T12:10:59Z，34 文件）。已由 `git ls-remote` + 鉴权 `api.github.com` **双路独立回验**。
 - 【实测】本地分支 `master`，远端 `origin/main`，fast-forward 推送（无 force）。
 - 【实测】AstrBot v4.28.0 上游 commit `a412146401426c0cdff8bbefb8627a03da519da8`；Iris 0.3.0 commit `0557a4c1de1969bdccdb5a5de4b3724dc94aa6f6`。
