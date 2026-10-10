@@ -40,7 +40,10 @@ from dataclasses import dataclass, field, asdict
 from typing import Any, Callable, Dict, List, Optional, Sequence
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-SCRATCH_ROOT = os.path.join(HERE, "scratch")
+# 隔离克隆根。降权沙箱（nobody）必须能**穿越**到 scratch，故允许外置到 /opt：
+#   NANA_BRIDGE_SCRATCH_ROOT=/opt/nana_codex/sandbox/bridge
+SCRATCH_ROOT = (os.environ.get("NANA_BRIDGE_SCRATCH_ROOT") or "").strip() \
+    or os.path.join(HERE, "scratch")
 RECEIPT_ROOT = os.path.join(HERE, "receipts")
 
 DEFAULT_BUDGET_S = 900          # 单任务墙钟上限（15 min）
@@ -175,43 +178,215 @@ class StubRunner:
                             exit_code=0 if not self.fail else 1)
 
 
-class CodexRunner:
-    """真实 Codex Runner：调用 `codex exec`（非交互）。
+# ---------- 真实 Codex CLI 的运行时装配（密钥只在内存，绝不落盘） ----------
+CODEX_JS_DEFAULT = "/opt/nana_codex/node_modules/@openai/codex/bin/codex.js"
+CODEX_HOME_DEFAULT = "/opt/nana_codex/home"
+NODE_DEFAULT = "/usr/bin/node"
+SANDBOX_UID_DEFAULT = 65534                 # nobody
+SANDBOX_GID_DEFAULT = 65534                 # nogroup
+CONFIG_TOML_DEFAULT = "/opt/nana_codex/home/config.toml"
+CMDCONFIG_DEFAULT = "/AstrBot/data/cmd_config.json"
 
-    * 二进制不存在 → `is_available()` 为 False，`run()` 抛明确错误（**不假装成功**）；
-    * 出网与否、发送到哪个端点，由 `~/.codex/config.toml` 决定 —— 这属于
-      **L3（出网·不可逆）**，必须先获得姐姐授权才能启用。
+_SECRETS: List[str] = []                    # 运行期登记的敏感串：出参一律打码
+
+
+def register_secret(value: str) -> str:
+    """把运行期读到的密钥登记为「出参必打码」。返回原值，便于链式使用。"""
+    if isinstance(value, str) and len(value) >= 8 and value not in _SECRETS:
+        _SECRETS.append(value)
+    return value
+
+
+def redact(text: Any) -> Any:
+    """把已登记密钥从任意文本里抹掉（回执/日志的最后一道闸）。"""
+    if not isinstance(text, str):
+        return text
+    for s in _SECRETS:
+        text = text.replace(s, "<已打码>")
+    return text
+
+
+def read_codex_config(config_toml: str = CONFIG_TOML_DEFAULT) -> Dict[str, Any]:
+    """只读 config.toml：返回 model / provider / env_key / base_url（**不含任何密钥**）。"""
+    out: Dict[str, Any] = {"model": None, "provider": None, "env_key": None, "base_url": None}
+    try:
+        import tomllib
+        with open(config_toml, "rb") as fh:
+            cfg = tomllib.load(fh)
+        prov = cfg.get("model_provider")
+        out["model"] = cfg.get("model")
+        out["provider"] = prov
+        sec = (cfg.get("model_providers") or {}).get(prov) or {}
+        out["env_key"] = sec.get("env_key")
+        out["base_url"] = sec.get("base_url")
+    except Exception:
+        pass
+    return out
+
+
+def load_key_from_cmd_config(provider: str = "deepseek",
+                             path: str = CMDCONFIG_DEFAULT) -> str:
+    """从生产配置读入指定端点的 key —— **只读、只在内存、不打印、不落盘**。找不到返回 ""。"""
+    try:
+        with open(path, encoding="utf-8-sig") as fh:
+            d = json.load(fh)
+    except Exception:
+        return ""
+    for ps in d.get("provider_sources") or []:
+        if str(ps.get("provider", "")).lower() == provider.lower() and ps.get("enable"):
+            k = str(ps.get("key") or "")
+            if k:
+                return register_secret(k)
+    for pv in d.get("provider") or []:
+        if provider.lower() in str(pv.get("provider", "")).lower():
+            k = str(pv.get("api_key") or "")
+            if k:
+                return register_secret(k)
+    return ""
+
+
+class CodexRunner:
+    """真实 Codex Runner：以**外部沙箱化**方式调用 `codex exec`（非交互）。
+
+    本容器禁 namespace（bwrap 不可用，实测 EPERM），故必须采用外部沙箱形态：
+    `setpriv` 降权到 nobody + `--dangerously-bypass-approvals-and-sandbox`。
+
+    安全纪律：
+    1. 二进制 / 配置 / 家目录**全部由构造参数或环境变量指定**，不猜路径；
+    2. 密钥**只在运行期从生产配置读入内存**并注入子进程环境，**不写文件、不进回执**；
+    3. 出参一律经 `redact()` 打码；
+    4. 缺失任一前提 → `is_available()` 为假、`build_command()` 明确抛错（**不假装成功**）。
     """
 
     name = "codex"
+    needs_group_write = True
 
-    def __init__(self, binary: Optional[str] = None, *, extra_args: Sequence[str] = ()):
-        self.binary = binary or os.environ.get("NANA_CODEX_BIN", "codex")
+    def __init__(self, binary: Optional[str] = None, *, extra_args: Sequence[str] = (),
+                 codex_js: str = CODEX_JS_DEFAULT, node: str = NODE_DEFAULT,
+                 codex_home: Optional[str] = CODEX_HOME_DEFAULT,
+                 sandbox_uid: Optional[int] = SANDBOX_UID_DEFAULT,
+                 sandbox_gid: Optional[int] = SANDBOX_GID_DEFAULT,
+                 api_key: Optional[str] = None, env_key_name: Optional[str] = None,
+                 model: Optional[str] = None, strict_config: bool = True,
+                 config_toml: str = CONFIG_TOML_DEFAULT,
+                 cmd_config: str = CMDCONFIG_DEFAULT):
+        self.binary = binary if binary is not None else (os.environ.get("NANA_CODEX_BIN") or "")
+        self.codex_js = codex_js
+        self.node = node
+        self.codex_home = codex_home
+        self.sandbox_uid = sandbox_uid
+        self.sandbox_gid = sandbox_gid
         self.extra_args = list(extra_args)
+        self.strict_config = strict_config
+        cfg = read_codex_config(config_toml)
+        self.env_key_name = env_key_name or cfg.get("env_key") or "NANA_BRIDGE_API_KEY"
+        self.model = model or cfg.get("model")
+        self._cfg = cfg
+        self._api_key = api_key
+        self.cmd_config = cmd_config
+
+    # ---------- 可用性 ----------
+    def _entry(self) -> Optional[List[str]]:
+        """解析出「node + codex.js」这类可执行前置。解析不到 → None。"""
+        b = (self.binary or "").strip()
+        if b:
+            if os.path.isfile(b):
+                return [self.node, b] if b.endswith(".js") else [b]
+            w = shutil.which(b)
+            if w:
+                return [self.node, w] if w.endswith(".js") else [w]
+            return None
+        if os.path.isfile(self.codex_js) and os.path.isfile(self.node):
+            return [self.node, self.codex_js]
+        return None
 
     def is_available(self) -> bool:
-        return shutil.which(self.binary) is not None
+        return self._entry() is not None
 
+    # ---------- 密钥（内存级，只在降权模式下读取） ----------
+    def api_key(self) -> str:
+        if self._api_key:
+            return register_secret(self._api_key)
+        if self.sandbox_uid is None:
+            return ""                      # 不降权就整段跳过，连生产配置都不碰
+        self._api_key = load_key_from_cmd_config("deepseek", self.cmd_config)
+        return self._api_key
+
+    # ---------- 工作区授权（让降权后的 nobody 能写 scratch） ----------
+    def prepare_workdir(self, workdir: str) -> str:
+        if self.sandbox_gid is None:
+            return ""
+        try:
+            subprocess.run(["chgrp", "-R", str(self.sandbox_gid), workdir],
+                           check=True, capture_output=True)
+            subprocess.run(["chmod", "-R", "g+rwX", workdir],
+                           check=True, capture_output=True)
+            return ""
+        except Exception as e:
+            return "工作区授权失败：%s: %s" % (type(e).__name__, e)
+
+    # ---------- 命令装配 ----------
     def build_command(self, spec: TaskSpec, workdir: str, prompt: str) -> List[str]:
-        if not self.is_available():
+        entry = self._entry()
+        if entry is None:
             raise FileNotFoundError(
-                "未找到 codex 可执行文件（%s）。请先安装并完成授权后再启用真实 Runner。"
-                % self.binary)
-        return [self.binary, "exec", "--cd", workdir, "--skip-git-repo-check",
-                *self.extra_args, prompt]
+                "未找到 codex 可执行入口（binary=%r / codex_js=%r）。"
+                "请先确认安装与路径，再启用真实 Runner。" % (self.binary, self.codex_js))
+        inner: List[str] = [*entry, "exec"]
+        if self.strict_config:
+            inner.append("--strict-config")
+        inner += ["--json", "--dangerously-bypass-approvals-and-sandbox", "-C", workdir]
+        if self.model:
+            inner += ["-m", self.model]
+        inner += [*self.extra_args, prompt]
+
+        if self.sandbox_uid is None:
+            return inner                   # 显式退出降权模式（仅供对照/排查）
+
+        envp = ["env", "PATH=/usr/bin:/bin"]
+        if self.codex_home:
+            envp += ["HOME=%s" % self.codex_home, "CODEX_HOME=%s" % self.codex_home]
+        key = self.api_key()
+        if key:
+            envp.append("%s=%s" % (self.env_key_name, key))
+        gid = self.sandbox_gid if self.sandbox_gid is not None else self.sandbox_uid
+        return ["setpriv", "--reuid=%d" % self.sandbox_uid, "--regid=%d" % gid,
+                "--clear-groups", *envp, *inner]
+
+    def masked_command(self, spec: TaskSpec, workdir: str, prompt: str) -> List[str]:
+        """和 build_command 同形，但把密钥换成 `<已打码>`（用于 dry-run 展示）。"""
+        cmd = self.build_command(spec, workdir, prompt)
+        key = self._api_key or ""
+        return [("<已打码>" if key and key in a else a) for a in cmd]
+
+    def wrap_test_command(self, command: str) -> List[str]:
+        """把验收命令**也**套进同一个降权沙箱。
+
+        理由：验收阶段跑的是模型刚产出的代码，若以 root 执行，
+        等于把外部沙箱整个绕过。故必须同权限、同隔离。
+        """
+        if self.sandbox_uid is None or not command:
+            return ["/bin/sh", "-c", command]
+        gid = self.sandbox_gid if self.sandbox_gid is not None else self.sandbox_uid
+        return ["setpriv", "--reuid=%d" % self.sandbox_uid, "--regid=%d" % gid,
+                "--clear-groups", "env", "PATH=/usr/local/bin:/usr/bin:/bin",
+                "HOME=/tmp", "TMPDIR=/tmp", "/bin/sh", "-lc", command]
 
     def run(self, spec: TaskSpec, workdir: str, prompt: str) -> RunnerResult:
-        cmd = self.build_command(spec, workdir, prompt)
-        timeout = min(spec.budget_s, DEFAULT_TIMEOUT_RUNNER_S)
+        try:
+            cmd = self.build_command(spec, workdir, prompt)
+        except Exception as e:
+            return RunnerResult(ok=False, reason="Runner 未就绪：%s: %s" % (type(e).__name__, e))
+        timeout = max(1, min(spec.budget_s, DEFAULT_TIMEOUT_RUNNER_S))
         try:
             p = subprocess.run(cmd, cwd=workdir, capture_output=True, text=True,
-                               timeout=max(1, timeout))
+                               timeout=timeout)
         except subprocess.TimeoutExpired:
             return RunnerResult(ok=False, reason="Runner 超时（%ss）" % timeout)
         except Exception as e:
             return RunnerResult(ok=False, reason="Runner 异常：%s: %s" % (type(e).__name__, e))
-        return RunnerResult(ok=(p.returncode == 0), stdout=p.stdout[-8000:],
-                            stderr=p.stderr[-8000:], exit_code=p.returncode,
+        return RunnerResult(ok=(p.returncode == 0), stdout=redact((p.stdout or "")[-8000:]),
+                            stderr=redact((p.stderr or "")[-8000:]), exit_code=p.returncode,
                             reason="" if p.returncode == 0 else "codex 退出码 %d" % p.returncode)
 
 
@@ -258,6 +433,17 @@ def execute_task(spec: TaskSpec, runner: Any = None) -> Receipt:
     # 基线（克隆后应为干净）
     rc, base, _ = _git(["rev-parse", "HEAD"], scratch)
     base_head = base.strip()
+
+    # 若 Runner 需要降权（外部沙箱），先让沙箱用户对 scratch 有写权限
+    perm_err = ""
+    if getattr(runner, "needs_group_write", False) and hasattr(runner, "prepare_workdir"):
+        perm_err = runner.prepare_workdir(scratch) or ""
+
+    if perm_err:
+        r.reason = perm_err
+        r.duration_s = round(time.time() - t0, 3)
+        _write_receipt(r)
+        return r
 
     # 执行
     try:
@@ -306,11 +492,13 @@ def execute_task(spec: TaskSpec, runner: Any = None) -> Receipt:
     # 验收命令
     if spec.test_command:
         try:
-            p = subprocess.run(spec.test_command, cwd=scratch, shell=True,
+            argv = (runner.wrap_test_command(spec.test_command)
+                    if hasattr(runner, "wrap_test_command") else spec.test_command)
+            p = subprocess.run(argv, cwd=scratch, shell=isinstance(argv, str),
                                capture_output=True, text=True,
                                timeout=max(1, spec.test_timeout_s))
             r.test_ok = (p.returncode == 0)
-            r.test_output = ((p.stdout or "") + "\n" + (p.stderr or ""))[-4000:]
+            r.test_output = redact(((p.stdout or "") + "\n" + (p.stderr or ""))[-4000:])
         except subprocess.TimeoutExpired:
             r.test_ok = False
             r.test_output = "验收命令超时（%ss）" % spec.test_timeout_s
@@ -338,8 +526,10 @@ def _write_receipt(r: Receipt) -> str:
     payload["written_at"] = time.strftime("%Y-%m-%dT%H:%M:%S%z")
     payload["base_head_note"] = "见 scratch 克隆基线"
     try:
+        import json as _json
+        blob = _json.dumps(payload, ensure_ascii=False, indent=1)
         with open(path, "w", encoding="utf-8") as fh:
-            json.dump(payload, fh, ensure_ascii=False, indent=1)
+            fh.write(redact(blob))          # 最后一道闸：任何已登记密钥不得落盘
     except Exception:
         pass
     return path
@@ -389,6 +579,8 @@ def main(argv: Sequence[str]) -> int:
     ap.add_argument("--spec", help="TaskSpec JSON 文件路径（真实 Runner）")
     ap.add_argument("--runner", default="codex", choices=("codex", "local_llm"),
                     help="真实 Runner 选型；默认 codex（未安装则明确报错，不联网）")
+    ap.add_argument("--dry-run", action="store_true",
+                    help="只装配并打印最终命令（密钥打码），**不执行、不出网**")
     a = ap.parse_args(list(argv))
     if a.selftest:
         return _selftest()
@@ -419,6 +611,35 @@ def main(argv: Sequence[str]) -> int:
                               "reason": "codex 未安装，真实 Runner 不可用（需姐姐授权 L3）"},
                              ensure_ascii=False))
             return 2
+
+    if a.dry_run:
+        workdir = os.path.join(SCRATCH_ROOT, spec.task_id)
+        try:
+            os.makedirs(workdir, exist_ok=True)
+            cmd = (runner.masked_command(spec, workdir, spec.to_prompt())
+                   if hasattr(runner, "masked_command")
+                   else runner.build_command(spec, workdir, spec.to_prompt()))
+        except Exception as e:
+            print(json.dumps({"ok": False, "dry_run": True,
+                              "reason": "命令装配失败：%s: %s" % (type(e).__name__, e)},
+                             ensure_ascii=False, indent=1))
+            return 4
+        print(json.dumps({
+            "ok": True, "dry_run": True, "executed": False,
+            "argv": cmd,
+            "argv_note": "扁平展示：env 的 KEY=VALUE / setpriv 前缀均已展开；密钥打码",
+            "endpoint": {
+                "runner": getattr(runner, "name", "?"),
+                "model": getattr(runner, "model", None),
+                "base_url": (runner._cfg or {}).get("base_url") if hasattr(runner, "_cfg") else None,
+                "env_key_name": getattr(runner, "env_key_name", None),
+                "key_present": bool(runner.api_key()) if hasattr(runner, "api_key") else None,
+                "codex_home": getattr(runner, "codex_home", None),
+                "sandbox_uid": getattr(runner, "sandbox_uid", None),
+                "scratch_root": SCRATCH_ROOT,
+            },
+        }, ensure_ascii=False, indent=1))
+        return 0
 
     rec = execute_task(spec, runner)
     out = rec.to_dict()
