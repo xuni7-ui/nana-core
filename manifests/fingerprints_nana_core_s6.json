@@ -1,16 +1,23 @@
 {
   "baseline": "6491aa6ddadd63e23035f69dd18a218b70ccf650",
-  "scope": "S6 import/shadow/routing checkpoint; synthetic only; excludes self and ledger",
+  "scope": "S6 synthetic non-production final source, tests and evidence; excludes self and ledgers",
   "files": {
-    "pyproject.toml": "3a5321bcd0550b54eaad35901bc3f231ab350f7d9186eb86efb9bc6c87269b6c",
+    "docs/nana_core_s6_evidence/junit.xml": "c07512bed3d2b5a3b677e80503fa5e5edff3ca4d449000313ac36c6bbed6b36f",
+    "docs/nana_core_s6_evidence/migration_report.json": "aa6aeb1c502b24542773096704ddaea0ea43fd803a620db12067f8a90e2befbe",
+    "docs/nana_core_s6_evidence/test_results.json": "a34192cb1568396bbc2422e088d8989e591817e47d465dd9f47d74962f708730",
+    "docs/nana_core_s6_implementation.md": "769c5e2f540c87be59d29b711edcaacde4f9287e2458ac24396df54d486ec92d",
+    "docs/nana_core_s6_test_output.txt": "71fb9439d402e3fad0315c16dc0e428c437b13045bcf8188c133eee9168883a0",
+    "pyproject.toml": "83e96f5915786cfa7c263ab51a86ec9aebbde97d96cb402d1eba1c45b041204c",
     "src/nana_core/migration/__init__.py": "2aba88600c21ace498d1ff0a9a836a11f745d82a6fbbaaa5e6586ea540c256b4",
-    "src/nana_core/migration/legacy.py": "a0fbe2f0c17b915d87e88adf29b47881bccb19cdbbfcd1623d18e4137e19597b",
-    "tests/migration/__init__.py": "0e2b05388351bd850e1b04493820dca48d973ebd2f4424feff6fcdc7445d4d35",
-    "tests/migration/conftest.py": "4196fffea407b85e0d4fa92d35d16cf8a2b9cb2174ac2825ec0958da3a853d0a",
-    "tests/migration/test_legacy.py": "41c23d932aea70d5542476cf2a23f2b31d0b5b42b79f36d5b5e856215ad8b93f",
-    "src/nana_core/planning.py": "5bf23e00d85c318eca5859a47fefce916d996e41b6bb2d3f700c86cd8ff436f6",
+    "src/nana_core/migration/experiment.py": "e8435c13b49189c42d56d12b651631795c58fbe5c7a8a355fee30913489b02a3",
+    "src/nana_core/migration/legacy.py": "ba026c14787fe724362bfc5b5f138da2a2da600fc38263a8d3acfbf70d2c9817",
     "src/nana_core/migration/routing.py": "c4dbd140883fe8885ad3a182f51ba0e705abeae84f8689db06fcf80b4924452a",
     "src/nana_core/migration/shadow.py": "8916ed4e6f05de77e49d57b0b548bdea0073dca22e0407d1c8fdd8e4bb84fb5f",
+    "src/nana_core/planning.py": "5bf23e00d85c318eca5859a47fefce916d996e41b6bb2d3f700c86cd8ff436f6",
+    "tests/migration/__init__.py": "0e2b05388351bd850e1b04493820dca48d973ebd2f4424feff6fcdc7445d4d35",
+    "tests/migration/conftest.py": "4196fffea407b85e0d4fa92d35d16cf8a2b9cb2174ac2825ec0958da3a853d0a",
+    "tests/migration/test_experiment.py": "fe506f442b905cc46e2c61d26e07c1d77e570d336cb372fb07cdc4fa70b35f81",
+    "tests/migration/test_legacy.py": "be90c6d5db1a4075dafaa7cb3c6de79c2ab362440a16d045417664a6d83c8081",
     "tests/migration/test_shadow_routing.py": "f10020c668185ea399f47c36dcb0ee51a6e971ce6694ea9f3dbc38d01eab4060"
   }
 }

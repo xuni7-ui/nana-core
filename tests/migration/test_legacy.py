@@ -70,6 +70,13 @@ def test_strict_import_envelope_and_completeness(changes):
         LegacyRecord.model_validate(data)
 
 
+def test_import_does_not_assume_missing_synthetic_declaration():
+    data = synthetic_records()[0].model_dump()
+    del data["synthetic_only"]
+    with pytest.raises(ValidationError):
+        LegacyRecord.model_validate(data)
+
+
 def test_atomic_record_rollback_and_replay(tmp_path, monkeypatch):
     with Store(tmp_path / "core.db") as store:
         importer = LegacyImporter(store)

@@ -1,0 +1,43 @@
+{
+  "exitstatus": 0,
+  "tests": {
+    "tests/migration/test_experiment.py::test_complete_synthetic_migration_across_processes": "passed",
+    "tests/migration/test_legacy.py::test_import_preserves_identity_origin_exact_payload_and_unknown_time": "passed",
+    "tests/migration/test_legacy.py::test_duplicate_import_and_revision_conflict": "passed",
+    "tests/migration/test_legacy.py::test_explicit_legacy_time_units[2026-09-01T09:30:00+08:00-iso8601-1788226200000000]": "passed",
+    "tests/migration/test_legacy.py::test_explicit_legacy_time_units[1756688400-unix_seconds-1756688400000000]": "passed",
+    "tests/migration/test_legacy.py::test_explicit_legacy_time_units[1756688400000-unix_millis-1756688400000000]": "passed",
+    "tests/migration/test_legacy.py::test_explicit_legacy_time_units[2026-09-01T09:30:00-iso8601-None]": "passed",
+    "tests/migration/test_legacy.py::test_explicit_legacy_time_units[1756688400000-unknown-None]": "passed",
+    "tests/migration/test_legacy.py::test_strict_import_envelope_and_completeness[changes0]": "passed",
+    "tests/migration/test_legacy.py::test_strict_import_envelope_and_completeness[changes1]": "passed",
+    "tests/migration/test_legacy.py::test_strict_import_envelope_and_completeness[changes2]": "passed",
+    "tests/migration/test_legacy.py::test_strict_import_envelope_and_completeness[changes3]": "passed",
+    "tests/migration/test_legacy.py::test_strict_import_envelope_and_completeness[changes4]": "passed",
+    "tests/migration/test_legacy.py::test_import_does_not_assume_missing_synthetic_declaration": "passed",
+    "tests/migration/test_legacy.py::test_atomic_record_rollback_and_replay": "passed",
+    "tests/migration/test_legacy.py::test_real_sigkill_partial_import_resumes_without_new_identity": "passed",
+    "tests/migration/test_shadow_routing.py::test_shadow_compares_without_actions_permissions_or_budget_changes": "passed",
+    "tests/migration/test_shadow_routing.py::test_shadow_then_owner_executes_duplicate_event_once": "passed",
+    "tests/migration/test_shadow_routing.py::test_shadow_does_not_suspend_invalid_strategy": "passed",
+    "tests/migration/test_shadow_routing.py::test_only_selected_owner_can_reach_backend[shadow-SHADOW_HAS_NO_EXECUTION_RIGHT]": "passed",
+    "tests/migration/test_shadow_routing.py::test_only_selected_owner_can_reach_backend[core_simulator-EXECUTION_OWNER_MISMATCH]": "passed",
+    "tests/migration/test_shadow_routing.py::test_duplicate_direct_dispatch_is_fenced_before_backend": "passed",
+    "tests/migration/test_shadow_routing.py::test_core_proposal_cannot_bypass_kernel_authorization": "passed",
+    "tests/migration/test_shadow_routing.py::test_pending_handoff_denied_and_stale_ports_fenced": "passed",
+    "tests/migration/test_shadow_routing.py::test_router_rechecks_expiry_after_kernel_dispatch_check": "passed",
+    "tests/migration/test_shadow_routing.py::test_router_requires_consumed_budget_proof": "passed",
+    "tests/migration/test_shadow_routing.py::test_shadow_cannot_select_owner_or_bind_without_operator": "passed",
+    "tests/migration/test_shadow_routing.py::test_quarantined_replay_cannot_select_owner": "passed",
+    "tests/migration/test_shadow_routing.py::test_routed_card_real_sigkill_recovers_one_effect_and_owner": "passed"
+  },
+  "totals": {
+    "passed": 29,
+    "failed": 0,
+    "skipped": 0
+  },
+  "engineering_gate": "PASS",
+  "E12": "NOT_RUN",
+  "real_model_calls": 0,
+  "production_migration": "NOT_RUN"
+}

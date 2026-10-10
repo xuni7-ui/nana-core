@@ -1,0 +1,269 @@
+{
+  "provenance": "synthetic_only",
+  "engineering_gate": "PASS",
+  "E12": "NOT_RUN",
+  "production_migration": "NOT_RUN",
+  "real_model_calls": 0,
+  "external_fees": 0,
+  "checks": {
+    "same_identity_across_processes": true,
+    "actual_restart": true,
+    "history_prefix_equal": true,
+    "legacy_sources_once": true,
+    "original_and_unknown_times_preserved": true,
+    "shadow_has_no_calls": true,
+    "shadow_detected_learned_plan_difference": true,
+    "owner_changes_once": true,
+    "grants_unchanged": true,
+    "no_duplicate_side_effects": true,
+    "experience_executes_new_read": true,
+    "crash_recovered_by_verify_without_replan": true,
+    "full_replay_consistency": true
+  },
+  "processes": {
+    "initial": 3503,
+    "next": 3504,
+    "killed": 3505,
+    "recover": 3506
+  },
+  "identity": {
+    "body_json": "{\"charter\":[\"retain independent judgement\",\"evidence before success\",\"learning cannot expand permissions\"],\"expression_defaults\":{\"style\":\"warm and precise\"},\"name\":\"Nana\",\"self_preferences\":[]}",
+    "created_event_id": "241e5286-3fb3-44c3-a70d-836e24e1717d",
+    "identity_id": "33130271-9077-477e-89b5-fdab8359a61f",
+    "revision": 1
+  },
+  "owner_before": {
+    "actor": "legacy_simulator",
+    "epoch": 1,
+    "scope": "synthetic_only"
+  },
+  "owner_after": {
+    "actor": "core_simulator",
+    "epoch": 2,
+    "scope": "synthetic_only"
+  },
+  "legacy_imports": [
+    {
+      "artifact_id": "7933c100-12e4-4ef2-9d58-ef5445295953",
+      "data_json": "{\"changes\":[{\"row\":{\"body_json\":\"{\\\"assessment\\\":\\\"UNASSESSED\\\",\\\"content\\\":\\\"A fictional reader prefers private reading cards.\\\",\\\"content_coverage\\\":\\\"FULL\\\",\\\"epistemic_kind\\\":\\\"USER_STATEMENT\\\",\\\"execution_evidence\\\":false,\\\"legacy_source_refs\\\":[],\\\"origin\\\":{\\\"dataset_id\\\":\\\"synthetic:iris-l2\\\",\\\"record_id\\\":\\\"statement-1\\\",\\\"revision\\\":\\\"1\\\",\\\"source_system\\\":\\\"iris\\\"},\\\"original_time_raw\\\":\\\"2026-09-01T09:30:00+08:00\\\",\\\"source_payload_coverage\\\":\\\"FULL\\\",\\\"source_refs\\\":[{\\\"artifact_id\\\":\\\"7933c100-12e4-4ef2-9d58-ef5445295953\\\",\\\"coverage\\\":\\\"FULL\\\",\\\"event_id\\\":\\\"803192ec-ef8f-44a8-af4a-905f358e2347\\\",\\\"meaning\\\":\\\"complete supplied import envelope, not complete original history\\\"}],\\\"time_format\\\":\\\"iso8601\\\"}\",\"created_event_id\":\"803192ec-ef8f-44a8-af4a-905f358e2347\",\"kind\":\"CLAIM\",\"memory_id\":\"803192ec-ef8f-44a8-af4a-905f358e2347\",\"status\":\"ACTIVE\"},\"table\":\"memory_items\"}],\"data\":{\"dataset_id\":\"synthetic:iris-l2\",\"record_id\":\"statement-1\",\"revision\":\"1\",\"source_payload_hash\":\"93e1268fe54a57f53274fb83414a534abc060ccf00e8dcac333cb1108cf37efc\",\"source_system\":\"iris\",\"time_quality\":\"SOURCE\"}}",
+      "event_id": "803192ec-ef8f-44a8-af4a-905f358e2347",
+      "identity_id": "33130271-9077-477e-89b5-fdab8359a61f",
+      "kind": "migration.legacy_imported",
+      "observed_at_us": 1791590400000000,
+      "occurred_at_us": 1788226200000000,
+      "recorded_at_us": 1791590400000000,
+      "schema_version": 1,
+      "seq": 3,
+      "source_key": "[\"statement-1\",\"1\"]",
+      "source_namespace": "legacy.synthetic:iris:synthetic:iris-l2"
+    },
+    {
+      "artifact_id": "e171647a-5529-4ebb-892e-f149b59830d1",
+      "data_json": "{\"changes\":[{\"row\":{\"body_json\":\"{\\\"assessment\\\":\\\"UNASSESSED\\\",\\\"content\\\":\\\"An old model inferred that the fictional reader enjoys astronomy.\\\",\\\"content_coverage\\\":\\\"FULL\\\",\\\"epistemic_kind\\\":\\\"MODEL_INFERENCE\\\",\\\"execution_evidence\\\":false,\\\"legacy_source_refs\\\":[{\\\"ref\\\":\\\"synthetic:message-7\\\",\\\"resolution\\\":\\\"UNRESOLVED_LEGACY_REF\\\"}],\\\"origin\\\":{\\\"dataset_id\\\":\\\"synthetic:iris-l2\\\",\\\"record_id\\\":\\\"inference-1\\\",\\\"revision\\\":\\\"1\\\",\\\"source_system\\\":\\\"iris\\\"},\\\"original_time_raw\\\":\\\"unknown-local-time\\\",\\\"source_payload_coverage\\\":\\\"UNAVAILABLE\\\",\\\"source_refs\\\":[{\\\"artifact_id\\\":\\\"e171647a-5529-4ebb-892e-f149b59830d1\\\",\\\"coverage\\\":\\\"FULL\\\",\\\"event_id\\\":\\\"fb9a8449-a80c-47fa-8f28-8229566b8f72\\\",\\\"meaning\\\":\\\"complete supplied import envelope, not complete original history\\\"}],\\\"time_format\\\":\\\"iso8601\\\"}\",\"created_event_id\":\"fb9a8449-a80c-47fa-8f28-8229566b8f72\",\"kind\":\"CLAIM\",\"memory_id\":\"fb9a8449-a80c-47fa-8f28-8229566b8f72\",\"status\":\"ACTIVE\"},\"table\":\"memory_items\"}],\"data\":{\"dataset_id\":\"synthetic:iris-l2\",\"record_id\":\"inference-1\",\"revision\":\"1\",\"source_payload_hash\":null,\"source_system\":\"iris\",\"time_quality\":\"UNKNOWN\"}}",
+      "event_id": "fb9a8449-a80c-47fa-8f28-8229566b8f72",
+      "identity_id": "33130271-9077-477e-89b5-fdab8359a61f",
+      "kind": "migration.legacy_imported",
+      "observed_at_us": 1791590400000000,
+      "occurred_at_us": null,
+      "recorded_at_us": 1791590400000000,
+      "schema_version": 1,
+      "seq": 4,
+      "source_key": "[\"inference-1\",\"1\"]",
+      "source_namespace": "legacy.synthetic:iris:synthetic:iris-l2"
+    },
+    {
+      "artifact_id": "e78e0d77-7f68-4d48-929d-41a7155b27fe",
+      "data_json": "{\"changes\":[{\"row\":{\"body_json\":\"{\\\"assessment\\\":\\\"UNASSESSED\\\",\\\"content\\\":\\\"A compressed fictional reading conversation.\\\",\\\"content_coverage\\\":\\\"SUMMARY\\\",\\\"epistemic_kind\\\":\\\"SUMMARY\\\",\\\"execution_evidence\\\":false,\\\"legacy_source_refs\\\":[{\\\"ref\\\":\\\"synthetic:missing-original\\\",\\\"resolution\\\":\\\"UNRESOLVED_LEGACY_REF\\\"}],\\\"origin\\\":{\\\"dataset_id\\\":\\\"synthetic:conversation\\\",\\\"record_id\\\":\\\"summary-1\\\",\\\"revision\\\":\\\"1\\\",\\\"source_system\\\":\\\"astrbot\\\"},\\\"original_time_raw\\\":1756688400000,\\\"source_payload_coverage\\\":\\\"SUMMARY\\\",\\\"source_refs\\\":[{\\\"artifact_id\\\":\\\"e78e0d77-7f68-4d48-929d-41a7155b27fe\\\",\\\"coverage\\\":\\\"FULL\\\",\\\"event_id\\\":\\\"5e999973-f845-4d59-96e7-f7d99bb48533\\\",\\\"meaning\\\":\\\"complete supplied import envelope, not complete original history\\\"}],\\\"time_format\\\":\\\"unix_millis\\\"}\",\"created_event_id\":\"5e999973-f845-4d59-96e7-f7d99bb48533\",\"kind\":\"CLAIM\",\"memory_id\":\"5e999973-f845-4d59-96e7-f7d99bb48533\",\"status\":\"ACTIVE\"},\"table\":\"memory_items\"}],\"data\":{\"dataset_id\":\"synthetic:conversation\",\"record_id\":\"summary-1\",\"revision\":\"1\",\"source_payload_hash\":\"4165030757e6528c2945ecb9d96e872fe6912e947fc20b022ff466e2a009e018\",\"source_system\":\"astrbot\",\"time_quality\":\"SOURCE\"}}",
+      "event_id": "5e999973-f845-4d59-96e7-f7d99bb48533",
+      "identity_id": "33130271-9077-477e-89b5-fdab8359a61f",
+      "kind": "migration.legacy_imported",
+      "observed_at_us": 1791590400000000,
+      "occurred_at_us": 1756688400000000,
+      "recorded_at_us": 1791590400000000,
+      "schema_version": 1,
+      "seq": 5,
+      "source_key": "[\"summary-1\",\"1\"]",
+      "source_namespace": "legacy.synthetic:astrbot:synthetic:conversation"
+    },
+    {
+      "artifact_id": "0bb4a8a5-3db6-48e2-be61-45a420730202",
+      "data_json": "{\"changes\":[{\"row\":{\"body_json\":\"{\\\"assessment\\\":\\\"UNASSESSED\\\",\\\"content\\\":\\\"Legacy synthetic ledger claimed VERIFIED; independent evidence absent.\\\",\\\"content_coverage\\\":\\\"FULL\\\",\\\"epistemic_kind\\\":\\\"ACTION_CLAIM\\\",\\\"execution_evidence\\\":false,\\\"legacy_source_refs\\\":[],\\\"origin\\\":{\\\"dataset_id\\\":\\\"synthetic:ledger\\\",\\\"record_id\\\":\\\"receipt-1\\\",\\\"revision\\\":\\\"1\\\",\\\"source_system\\\":\\\"bili_agent\\\"},\\\"original_time_raw\\\":1756688400,\\\"source_payload_coverage\\\":\\\"FULL\\\",\\\"source_refs\\\":[{\\\"artifact_id\\\":\\\"0bb4a8a5-3db6-48e2-be61-45a420730202\\\",\\\"coverage\\\":\\\"FULL\\\",\\\"event_id\\\":\\\"a39a630e-cd06-4983-b81f-8645eec7970e\\\",\\\"meaning\\\":\\\"complete supplied import envelope, not complete original history\\\"}],\\\"time_format\\\":\\\"unix_seconds\\\"}\",\"created_event_id\":\"a39a630e-cd06-4983-b81f-8645eec7970e\",\"kind\":\"CLAIM\",\"memory_id\":\"a39a630e-cd06-4983-b81f-8645eec7970e\",\"status\":\"ACTIVE\"},\"table\":\"memory_items\"}],\"data\":{\"dataset_id\":\"synthetic:ledger\",\"record_id\":\"receipt-1\",\"revision\":\"1\",\"source_payload_hash\":\"074c9db2da98f9364555b66bc32172d3873f49a76aeba7846344e8402ef69abc\",\"source_system\":\"bili_agent\",\"time_quality\":\"SOURCE\"}}",
+      "event_id": "a39a630e-cd06-4983-b81f-8645eec7970e",
+      "identity_id": "33130271-9077-477e-89b5-fdab8359a61f",
+      "kind": "migration.legacy_imported",
+      "observed_at_us": 1791590400000000,
+      "occurred_at_us": 1756688400000000,
+      "recorded_at_us": 1791590400000000,
+      "schema_version": 1,
+      "seq": 6,
+      "source_key": "[\"receipt-1\",\"1\"]",
+      "source_namespace": "legacy.synthetic:bili_agent:synthetic:ledger"
+    }
+  ],
+  "shadow_after_learning": {
+    "comparison_event_id": "03f8a5fa-6a1d-4f45-be3e-2e3b41a994b4",
+    "core_draft": {
+      "applied_strategies": [
+        {
+          "matched_condition": "reading_card requires locator",
+          "required_output": "locator",
+          "revision": 1,
+          "strategy_id": "e784e660-e20e-48ee-bbfc-0fe4903a4632"
+        }
+      ],
+      "before": [
+        {
+          "capability": "reading.source.read",
+          "resource": "source://synthetic/s6/paper-observatory"
+        },
+        {
+          "capability": "reading.card.create",
+          "resource": "notebook://synthetic/s6/card-2"
+        }
+      ],
+      "compiler_version": "1",
+      "purpose": "A synthetic reading card.",
+      "request": {
+        "card_resource": "notebook://synthetic/s6/card-2",
+        "event_id": "1a9555b5-3dc0-4c6b-ae3b-042e82c29a3b",
+        "event_text": "Fictional reader resumes chapter 2 about a paper observatory.",
+        "event_text_coverage": "FULL",
+        "identity_id": "33130271-9077-477e-89b5-fdab8359a61f",
+        "identity_revision": 1,
+        "identity_snapshot": {
+          "charter": [
+            "retain independent judgement",
+            "evidence before success",
+            "learning cannot expand permissions"
+          ],
+          "expression_defaults": {
+            "style": "warm and precise"
+          },
+          "name": "Nana",
+          "self_preferences": []
+        },
+        "source_id": "source://synthetic/s6/paper-observatory",
+        "strategy_refs": [
+          "e784e660-e20e-48ee-bbfc-0fe4903a4632@1"
+        ]
+      },
+      "steps": [
+        {
+          "capability": "reading.source.read",
+          "resource": "source://synthetic/s6/paper-observatory"
+        },
+        {
+          "capability": "reading.source.locate",
+          "resource": "source://synthetic/s6/paper-observatory"
+        },
+        {
+          "capability": "reading.card.create",
+          "resource": "notebook://synthetic/s6/card-2"
+        }
+      ],
+      "template": "reading_card"
+    },
+    "differences": [
+      "PLAN_STEPS_DIFFER"
+    ],
+    "execution_owner_at_observation": {
+      "actor": "legacy_simulator",
+      "epoch": 1,
+      "scope": "synthetic_only"
+    },
+    "execution_requested": false,
+    "goal_created": false,
+    "input_hash": "d8062d19f7ab23266cac52b7d8983a7db1ae4e0a35c2ca27d99420c8f429435e",
+    "inputs": {
+      "core": {
+        "goal_template": "reading_card",
+        "purpose": "A synthetic reading card.",
+        "steps": [
+          {
+            "capability": "reading.source.read",
+            "resource": "source://synthetic/s6/paper-observatory"
+          },
+          {
+            "capability": "reading.card.create",
+            "resource": "notebook://synthetic/s6/card-2"
+          }
+        ]
+      },
+      "legacy": {
+        "goal_template": "reading_card",
+        "purpose": "A synthetic reading card.",
+        "steps": [
+          {
+            "capability": "reading.source.read",
+            "resource": "source://synthetic/s6/paper-observatory"
+          },
+          {
+            "capability": "reading.card.create",
+            "resource": "notebook://synthetic/s6/card-2"
+          }
+        ]
+      }
+    },
+    "legacy_plan_valid": true,
+    "observation_event_id": "1a9555b5-3dc0-4c6b-ae3b-042e82c29a3b",
+    "scope": "synthetic shadow comparison only; not legacy production parity"
+  },
+  "crash": {
+    "returncode": -9,
+    "marker": {
+      "capability": "reading.card.create",
+      "fault": "after_external_effect",
+      "pid": 3505
+    }
+  },
+  "states_before_recovery": [
+    "SUCCEEDED",
+    "SUCCEEDED",
+    "SUCCEEDED",
+    "SUCCEEDED",
+    "SUCCEEDED",
+    "SUCCEEDED",
+    "SUCCEEDED",
+    "DISPATCHING"
+  ],
+  "action_states_after_recovery": [
+    "SUCCEEDED",
+    "SUCCEEDED",
+    "SUCCEEDED",
+    "SUCCEEDED",
+    "SUCCEEDED",
+    "SUCCEEDED",
+    "SUCCEEDED",
+    "SUCCEEDED"
+  ],
+  "world_counts": {
+    "effects": 3,
+    "execute_calls": 8,
+    "locate_calls": 2,
+    "verify_calls": 8
+  },
+  "cards": [
+    {
+      "content": "A fictional observer folds a telescope from blue paper.",
+      "locator": null,
+      "resource": "notebook://synthetic/s6/card-1",
+      "source_digest": "9abf93a242be54b719db7025ffa714a6a80084a5dc68c28d01b8572219c9a09f",
+      "source_id": "source://synthetic/s6/paper-observatory"
+    },
+    {
+      "content": "A fictional observer folds a telescope from blue paper.\nSource: synthetic volume 2, page 41, paragraph 3",
+      "locator": "synthetic volume 2, page 41, paragraph 3",
+      "resource": "notebook://synthetic/s6/card-2",
+      "source_digest": "9abf93a242be54b719db7025ffa714a6a80084a5dc68c28d01b8572219c9a09f",
+      "source_id": "source://synthetic/s6/paper-observatory"
+    },
+    {
+      "content": "A fictional observer folds a telescope from blue paper.\nSource: synthetic volume 2, page 41, paragraph 3",
+      "locator": "synthetic volume 2, page 41, paragraph 3",
+      "resource": "notebook://synthetic/s6/card-3",
+      "source_digest": "9abf93a242be54b719db7025ffa714a6a80084a5dc68c28d01b8572219c9a09f",
+      "source_id": "source://synthetic/s6/paper-observatory"
+    }
+  ],
+  "interpretation": "simulated legacy actor uses existing ActionKernel; not production host parity or takeover"
+}

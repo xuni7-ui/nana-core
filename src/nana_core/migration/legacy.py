@@ -11,7 +11,7 @@ from ..storage import canonical, digest
 
 class LegacyRecord(DTO):
     schema_version: Literal[1] = 1
-    synthetic_only: Literal[True] = True
+    synthetic_only: Literal[True]
     source_system: Literal["iris", "astrbot", "bili_agent"]
     dataset_id: str = Field(pattern=r"^synthetic:[a-zA-Z0-9_-]{1,64}$")
     record_id: str = Field(min_length=1, max_length=128)
@@ -121,19 +121,19 @@ class LegacyImporter:
 def synthetic_records():
     """Generated compatibility envelopes, not exports of any real Iris database."""
     return (
-        LegacyRecord(source_system="iris", dataset_id="synthetic:iris-l2", record_id="statement-1",
+        LegacyRecord(synthetic_only=True, source_system="iris", dataset_id="synthetic:iris-l2", record_id="statement-1",
             epistemic_kind="USER_STATEMENT", content="A fictional reader prefers private reading cards.",
             content_coverage="FULL", source_payload=' { "speaker": "synthetic-reader", "text": "prefers private cards" }\n',
             source_coverage="FULL", original_time="2026-09-01T09:30:00+08:00", time_format="iso8601"),
-        LegacyRecord(source_system="iris", dataset_id="synthetic:iris-l2", record_id="inference-1",
+        LegacyRecord(synthetic_only=True, source_system="iris", dataset_id="synthetic:iris-l2", record_id="inference-1",
             epistemic_kind="MODEL_INFERENCE", content="An old model inferred that the fictional reader enjoys astronomy.",
             content_coverage="FULL", source_payload=None, source_coverage="UNAVAILABLE",
             original_time="unknown-local-time", time_format="iso8601", legacy_source_refs=("synthetic:message-7",)),
-        LegacyRecord(source_system="astrbot", dataset_id="synthetic:conversation", record_id="summary-1",
+        LegacyRecord(synthetic_only=True, source_system="astrbot", dataset_id="synthetic:conversation", record_id="summary-1",
             epistemic_kind="SUMMARY", content="A compressed fictional reading conversation.", content_coverage="SUMMARY",
             source_payload="Only a synthetic summary is available.", source_coverage="SUMMARY",
             original_time=1756688400000, time_format="unix_millis", legacy_source_refs=("synthetic:missing-original",)),
-        LegacyRecord(source_system="bili_agent", dataset_id="synthetic:ledger", record_id="receipt-1",
+        LegacyRecord(synthetic_only=True, source_system="bili_agent", dataset_id="synthetic:ledger", record_id="receipt-1",
             epistemic_kind="ACTION_CLAIM", content="Legacy synthetic ledger claimed VERIFIED; independent evidence absent.",
             content_coverage="FULL", source_payload='{"synthetic_status":"VERIFIED","synthetic_action":"old-1"}',
             source_coverage="FULL", original_time=1756688400, time_format="unix_seconds"),

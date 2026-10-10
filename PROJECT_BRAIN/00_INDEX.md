@@ -116,3 +116,9 @@
 - `src/nana_core/semantic/`：真实兼容 ModelPort 与冻结状态顺序评估。
 - `docs/nana_core_s5_implementation.md` / `docs/nana_core_s5_evidence/`：工程 PASS、真实语义 NOT_RUN 的分离证据。
 - `manifests/fingerprints_nana_core_s5.json`：S5 采集时刻代码/测试/报告指纹；不覆盖生产运行。
+
+
+## S6 非生产迁移准备（2026-10-10）
+- src/nana_core/migration/：合成旧来源保留、影子观察、统一能力单执行方及 CLI。
+- docs/nana_core_s6_implementation.md / docs/nana_core_s6_evidence/：工程、来源、真实进程故障证据。
+- S5 E12 仍 NOT_RUN；生产迁移未运行，不把模拟执行方误称实际宿主。

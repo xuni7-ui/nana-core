@@ -207,3 +207,11 @@
 [实测] C-029：影子观察与统一 CapabilityPort 单一执行方完成；S6 累计 27 passed。影子不改目标/行动/授权/预算/策略；模拟旧执行方与 Core 执行方只有当前 epoch 可到达 FakeWorld，未决禁止换主。生产迁移与 E12 均未验证。
 
 [实测] C-029 指纹锚点 ce2b9a8943512c036ca2e9a35e9388efbca842c1b9ee6643ebfc3d3f171ce39c。
+
+
+## S6 当前统一验收（C-030）
+[实测] 29 个 S6 测试通过，联合 127 passed / 0 failed / 1 skipped；CLI 已运行，13 条实际闭环检查均成立，真实 SIGKILL -9，三张卡片无重复副作用，恢复时模型调用 0。
+[实测] 四条旧来源记录精确保留来源、覆盖范围和时间，推断/摘要/旧 VERIFIED 均 UNASSESSED；影子无执行能力，单执行方持久 epoch，未决禁止换主。
+[未知] 真实宿主/真实数据映射与对账、生产执行权迁移、E12；均未执行。实验真实模型/生产调用/费用均为 0。报告 docs/nana_core_s6_implementation.md。
+
+[实测] C-030 最终指纹锚点：manifests/fingerprints_nana_core_s6.json SHA256 `bc52a0627ec3b82c8f2f5d4fcd983efd1ffa2f48cb3ea200de351e6e62f16ae6`。只证明本次采集的合成源码/测试/证据；排除自身与账本，不证明生产运行。

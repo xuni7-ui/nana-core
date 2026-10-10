@@ -1,0 +1,66 @@
+{
+  "baseline": "6491aa6ddadd63e23035f69dd18a218b70ccf650",
+  "checked_files": [
+    "LICENSES_AND_PROVENANCE.md",
+    "PROJECT_BRAIN/00_INDEX.md",
+    "PROJECT_BRAIN/04_verification_status.md",
+    "PROJECT_BRAIN/07_ROADMAP.md",
+    "PROJECT_BRAIN/08_TASKS.md",
+    "PROJECT_BRAIN/09_STATE.md",
+    "PROJECT_BRAIN/10_DECISIONS.md",
+    "PROJECT_BRAIN/11_CHANGELOG.md",
+    "docs/nana_core_s6_evidence/junit.xml",
+    "docs/nana_core_s6_evidence/migration_report.json",
+    "docs/nana_core_s6_evidence/test_results.json",
+    "docs/nana_core_s6_implementation.md",
+    "docs/nana_core_s6_test_output.txt",
+    "manifests/fingerprints_nana_core_s6.json",
+    "manifests/nana_core_s6_review.json",
+    "manifests/upload_whitelist.md",
+    "pyproject.toml",
+    "src/nana_core/migration/__init__.py",
+    "src/nana_core/migration/experiment.py",
+    "src/nana_core/migration/legacy.py",
+    "src/nana_core/migration/routing.py",
+    "src/nana_core/migration/shadow.py",
+    "src/nana_core/planning.py",
+    "tests/migration/__init__.py",
+    "tests/migration/conftest.py",
+    "tests/migration/test_experiment.py",
+    "tests/migration/test_legacy.py",
+    "tests/migration/test_shadow_routing.py"
+  ],
+  "allowlist_violations": [],
+  "credential_pattern_findings": [],
+  "scope": "all S6 committed versions and final UTF-8 files; synthetic only; pattern scan is not a universal secret detector",
+  "scanned_versions": 48,
+  "license_review": "controlled implementation; no third-party vendored code or AGPL source copied; original license remains owner decision",
+  "production_changes": false,
+  "dependency_changes": false,
+  "Core_schema_changed": false,
+  "new_Core_tables": 0,
+  "prior_source_changes": [
+    "src/nana_core/planning.py: pure shadow option, default unchanged"
+  ],
+  "source_fingerprint_anchor": "bc52a0627ec3b82c8f2f5d4fcd983efd1ffa2f48cb3ea200de351e6e62f16ae6",
+  "engineering_totals": {
+    "passed": 29,
+    "failed": 0,
+    "skipped": 0
+  },
+  "combined_totals": {
+    "passed": 127,
+    "failed": 0,
+    "skipped": 1
+  },
+  "earlier_failures": {
+    "legacy_time_annotation": 14,
+    "shadow_return_shape_and_attack_fixture": 2,
+    "resolved": true
+  },
+  "E12": "NOT_RUN",
+  "real_model_calls": 0,
+  "external_model_fees": 0,
+  "production_migration": "NOT_RUN",
+  "sigkill_recovery": "actual process kill -9; no model replan; one effect per card"
+}

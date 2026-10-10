@@ -83,6 +83,7 @@
 
 ## S6 非生产准备增量（用户本轮 GitHub 交付授权）
 - src/nana_core/migration/*.py、tests/migration/*.py、pyproject.toml
+- src/nana_core/planning.py（仅新增影子观察的 suspend_invalid=False 选项；默认行为不变）
 - docs/nana_core_s6_implementation.md、docs/nana_core_s6_test_output.txt、docs/nana_core_s6_evidence/*.json 与 junit.xml
 - manifests/fingerprints_nana_core_s6.json、manifests/nana_core_s6_review.json
 - PROJECT_BRAIN 工程状态/索引/任务/验证/决策/变更/路线追加，LICENSES_AND_PROVENANCE.md 来源登记。
