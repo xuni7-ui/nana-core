@@ -11,6 +11,7 @@
     "docs/nana_core_s5_config.example.json",
     "docs/nana_core_s5_evidence/engineering_results.json",
     "docs/nana_core_s5_evidence/frozen_continuity.json",
+    "docs/nana_core_s5_evidence/github_save_receipt.json",
     "docs/nana_core_s5_evidence/initial_collection_failure.txt",
     "docs/nana_core_s5_evidence/junit.xml",
     "docs/nana_core_s5_evidence/semantic_report.json",
@@ -47,7 +48,7 @@
     "pyproject.toml",
     "tests/offline_continuity/test_experiment.py"
   ],
-  "source_fingerprint_anchor": "b228d79c6a192a9b0ebd30f1b88a91f147e6fc3faabb746e7fc1b632e23c9962",
+  "source_fingerprint_anchor": "34805e92a62c1ae9b4f331c1a431e2d4ddd03769f4a34644b562c46ae48402f9",
   "engineering_totals": {
     "passed": 42,
     "failed": 0,
@@ -63,5 +64,6 @@
   "real_model_calls": 0,
   "external_model_fees": 0,
   "initial_collection_errors": 4,
-  "collection_errors_resolved": true
+  "collection_errors_resolved": true,
+  "implementation_remote_sha": "881e48a863257971e29a49f48ab8ec403313c3fa"
 }

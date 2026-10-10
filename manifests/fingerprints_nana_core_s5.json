@@ -24,6 +24,7 @@
     "tests/semantic_migration/conftest.py": "0597421b857c8e94f79bd6459ea7757fca059de4a1df8335880b848d046b308d",
     "tests/semantic_migration/helpers.py": "0133392385233a54e12ffde3d00a94671ffe85ef7e4154299339236d46c078f1",
     "tests/semantic_migration/test_evaluation.py": "10e37c2e3b7a670858e853a9e96be4e2abc38d055a33ef0ac57e6b4957e7aff9",
-    "tests/semantic_migration/test_model_port.py": "2318faec1c2d1e485cf170a3ce4930e6f43a4cbb7434932accfde7c4b06a717f"
+    "tests/semantic_migration/test_model_port.py": "2318faec1c2d1e485cf170a3ce4930e6f43a4cbb7434932accfde7c4b06a717f",
+    "docs/nana_core_s5_evidence/github_save_receipt.json": "4002b577669ff8e3f76ad91615af2b6877da21ac673f30c290ff329265525cc2"
   }
 }

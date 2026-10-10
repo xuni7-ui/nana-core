@@ -354,3 +354,10 @@
 - 当前环境：[实测] readiness 无配置模型绑定；没有复用历史生产 DeepSeek。nana-semantic 默认空配置实际执行，E12/semantic_gate=NOT_RUN，真实模型调用 0、费用 0。
 - 边界：Core schema、旧生产源码、生产依赖未改；不调用生产、无私人夹具、不安装新依赖/买服务，不实现 S6。
 - 证据：docs/nana_core_s5_implementation.md、docs/nana_core_s5_evidence/；指纹锚点见 09_STATE。
+
+
+## C-027 S5 私有分支保存回验
+- 改了什么：[实测] 推送 `dev/nana-core-v1-s5`，随后追加本条和合成工程保存回执，无源码改动。
+- 为什么：交付可审查的 S5 工程，保留已保存 S0—S4 分支，不影响 main。
+- 怎么验证：GitHub 元数据 visibility=private；git ls-remote S5=`881e48a863257971e29a49f48ab8ec403313c3fa`，S0—S4=`884db6a460c2803e8c89434c3fa8e36f7ffe90cf`，main=`18bc736d5e37fe3325e514a0e975403df2f97c9f`。
+- 工程结果不变：42 个新增测试通过，联合 98 pass / 1 skip；真实模型 0，E12 NOT_RUN，费用 0。证据 docs/nana_core_s5_evidence/github_save_receipt.json。

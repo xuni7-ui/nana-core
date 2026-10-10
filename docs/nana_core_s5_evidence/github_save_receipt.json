@@ -1,0 +1,18 @@
+{
+  "recorded_at_utc": "2026-10-10T17:02:55.145320+00:00",
+  "repository": "xuni7-ui/nana-core",
+  "visibility": "private",
+  "method": "git push + git ls-remote",
+  "S0_S4": {
+    "branch": "dev/nana-core-v1-s0-s4",
+    "remote_sha": "884db6a460c2803e8c89434c3fa8e36f7ffe90cf"
+  },
+  "S5_implementation": {
+    "branch": "dev/nana-core-v1-s5",
+    "remote_sha": "881e48a863257971e29a49f48ab8ec403313c3fa"
+  },
+  "main_unchanged": "18bc736d5e37fe3325e514a0e975403df2f97c9f",
+  "scope": "source implementation push verified before this receipt commit; later ledger-only HEAD verified separately",
+  "merged": false,
+  "deployed": false
+}

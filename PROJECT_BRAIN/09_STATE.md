@@ -193,3 +193,7 @@
 - S0—S4 指纹保留为历史快照；S5 修改 pyproject 和 E12 跳过理由，新指纹覆盖当前相关文件，不回写历史指纹。
 
 [实测] S5 指纹锚点：`manifests/fingerprints_nana_core_s5.json` SHA256 `b228d79c6a192a9b0ebd30f1b88a91f147e6fc3faabb746e7fc1b632e23c9962`。只证明本次采集文件，不证明生产运行。
+
+[实测] C-027：S5 实现提交 `881e48a863257971e29a49f48ab8ec403313c3fa` 已推送私有远端 `dev/nana-core-v1-s5`；git ls-remote 一致。此后仅追加保存回执/账本，最终 HEAD 以 Git 为准。原 S0—S4 分支和 main 均保持原 SHA。
+
+[实测] C-027 指纹锚点更新（新增保存回执，代码 hash 不变）：`34805e92a62c1ae9b4f331c1a431e2d4ddd03769f4a34644b562c46ae48402f9`。
