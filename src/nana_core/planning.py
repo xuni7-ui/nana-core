@@ -7,7 +7,7 @@ class ContextBuilder:
     def __init__(self, store):
         self.store = store
 
-    def build(self, event_id):
+    def build(self, event_id, *, suspend_invalid=True):
         event = self.store.event(event_id)
         observation = json.loads(event["data_json"])["data"]["observation"]
         if observation["kind"] != "reading" or not observation["source_id"] or not observation["card_resource"]:
@@ -28,7 +28,7 @@ class ContextBuilder:
                         support_valid = False
                 if feedback and feedback["status"] == "ACTIVE" and support_valid:
                     strategies.append(strategy)
-                else:
+                elif suspend_invalid:
                     with self.store.transaction("experience.support_unavailable", {"strategy_id": strategy["strategy_id"]}) as tx:
                         tx.update("strategies", strategy["strategy_id"], status="SUSPENDED")
         raw = self.store.artifact(event["artifact_id"]).decode()

@@ -203,3 +203,7 @@
 [实测] 本轮用户直接授权 S6 合成导入/影子观察/能力统一/单一执行权开发、测试、提交与 GitHub 开发分支交付；不扩展生产。基线 `6491aa6ddadd63e23035f69dd18a218b70ccf650`，分支 `dev/nana-core-v1-s6`。旧记忆导入纵向闭环 14 passed；影子/执行权尚未完成。E12 仍 NOT_RUN。
 
 [实测] C-028 指纹锚点 1d01dc300189565fce3d279af71bbfb2091ec61d5012ba14dbe0883dfd01db72。
+
+[实测] C-029：影子观察与统一 CapabilityPort 单一执行方完成；S6 累计 27 passed。影子不改目标/行动/授权/预算/策略；模拟旧执行方与 Core 执行方只有当前 epoch 可到达 FakeWorld，未决禁止换主。生产迁移与 E12 均未验证。
+
+[实测] C-029 指纹锚点 ce2b9a8943512c036ca2e9a35e9388efbca842c1b9ee6643ebfc3d3f171ce39c。

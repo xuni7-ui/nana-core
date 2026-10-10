@@ -173,3 +173,10 @@
 - 来源：本轮用户直接指令，SUPERSEDES D-032 的“不进入 S6”仅限合成非生产准备。
 - 决定：复用 schema v1；旧来源记录仅进入事件/证据/CLAIM，统一保留 UNASSESSED。逐记录事务，部分批次可幂等恢复；不把旧行动声明变成 Core Action/Grant/Strategy。
 - 影子与统一能力接口只在合成世界验证；生产导出、执行权接管、备份解除隔离、真实多模型均不包含。
+
+
+## D-035 同进程影子与闭合路由最小实现
+- 来源：Architecture V1 / D-004 / 用户本轮边界。
+- 决定：一个 Store、一个执行 Runtime，影子只有事件记录/纯计划比较；统一复用 CapabilityPort。core_meta 存持久 owner epoch 和每动作/核验尝试的路由标记，零新 Core 表。
+- 选主/换主只供受信本地操作员，任何未完成行动或活跃目标阻止换主；UNKNOWN 仅查询核验，不释放预算重发。
+- 模拟旧执行方也通过原 ActionKernel 执行，这证明路由不变量，不证明 AstrBot/Iris/B站真实迁移一致；生产仍是其原事实源，未接线。

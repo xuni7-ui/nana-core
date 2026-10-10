@@ -1,12 +1,16 @@
 {
   "baseline": "6491aa6ddadd63e23035f69dd18a218b70ccf650",
-  "scope": "S6 import checkpoint, synthetic only; excludes self and ledger",
+  "scope": "S6 import/shadow/routing checkpoint; synthetic only; excludes self and ledger",
   "files": {
     "pyproject.toml": "3a5321bcd0550b54eaad35901bc3f231ab350f7d9186eb86efb9bc6c87269b6c",
     "src/nana_core/migration/__init__.py": "2aba88600c21ace498d1ff0a9a836a11f745d82a6fbbaaa5e6586ea540c256b4",
     "src/nana_core/migration/legacy.py": "a0fbe2f0c17b915d87e88adf29b47881bccb19cdbbfcd1623d18e4137e19597b",
     "tests/migration/__init__.py": "0e2b05388351bd850e1b04493820dca48d973ebd2f4424feff6fcdc7445d4d35",
-    "tests/migration/conftest.py": "351de1a7d43d5d7b0dfee24120a7451d2721c67b14d40766af1dc4f2501e90b5",
-    "tests/migration/test_legacy.py": "41c23d932aea70d5542476cf2a23f2b31d0b5b42b79f36d5b5e856215ad8b93f"
+    "tests/migration/conftest.py": "4196fffea407b85e0d4fa92d35d16cf8a2b9cb2174ac2825ec0958da3a853d0a",
+    "tests/migration/test_legacy.py": "41c23d932aea70d5542476cf2a23f2b31d0b5b42b79f36d5b5e856215ad8b93f",
+    "src/nana_core/planning.py": "5bf23e00d85c318eca5859a47fefce916d996e41b6bb2d3f700c86cd8ff436f6",
+    "src/nana_core/migration/routing.py": "c4dbd140883fe8885ad3a182f51ba0e705abeae84f8689db06fcf80b4924452a",
+    "src/nana_core/migration/shadow.py": "8916ed4e6f05de77e49d57b0b548bdea0073dca22e0407d1c8fdd8e4bb84fb5f",
+    "tests/migration/test_shadow_routing.py": "f10020c668185ea399f47c36dcb0ee51a6e971ce6694ea9f3dbc38d01eab4060"
   }
 }
