@@ -150,3 +150,8 @@
 - 【实测】本轮推送后远端完整 HEAD = **`86484be9d3cc9dd7ca850d804b13fbf10d67ff2e`**（R15，2026-10-10T12:10:59Z，34 文件）。已由 `git ls-remote` + 鉴权 `api.github.com` **双路独立回验**。
 - 【实测】本地分支 `master`，远端 `origin/main`，fast-forward 推送（无 force）。
 - 【实测】AstrBot v4.28.0 上游 commit `a412146401426c0cdff8bbefb8627a03da519da8`；Iris 0.3.0 commit `0557a4c1de1969bdccdb5a5de4b3724dc94aa6f6`。
+
+
+## Nana Core V1 第一阶段开发（C-018）
+[实测] 用户正式授权 S0—S4 独立开发、提交与离线测试；旧 T-31 对 T-22 的依赖不作为本次合成离线实验的阻塞，不改变生产迁移依赖。
+基线 `18bc736d5e37fe3325e514a0e975403df2f97c9f`；本地分支 `dev/nana-core-v1-s0-s4`。S0 已测试（8 passed），后续未实现。
