@@ -88,3 +88,12 @@
 - manifests/fingerprints_nana_core_s6.json、manifests/nana_core_s6_review.json
 - PROJECT_BRAIN 工程状态/索引/任务/验证/决策/变更/路线追加，LICENSES_AND_PROVENANCE.md 来源登记。
 - 排除运行 DB/WAL/lock、真实导出、真实凭据/记忆；不修改生产树或导入 AGPL 宿主。
+# 本轮开发验证增量（用户明确授权）
+- src/nana_core/development/*.py、tests/development/*.py、pyproject.toml
+- src/nana_core/semantic/{contracts,evaluation,model_port,runner}.py（服务种类/真实模型计数，不改生产）
+- tests/semantic_migration/test_evaluation.py（显式标注假设账本的 real_model 种类，原断言不变）
+- docs/nana_core_development_validation.md、docs/nana_core_development_test_output.txt
+- docs/nana_core_development_evidence/*.json、docs/nana_core_development_evidence/junit.xml（安全元信息和合成证据）
+- manifests/fingerprints_nana_core_development.json、manifests/nana_core_development_review.json
+- PROJECT_BRAIN/{00_INDEX,04_verification_status,08_TASKS,09_STATE,10_DECISIONS,11_CHANGELOG}.md 追加；LICENSES_AND_PROVENANCE.md 来源追加。
+- 不上传源运行目录、DB/WAL/lock、真实模型配置/凭据/私人资料；不纳入生产目录或外部 secret 内容。

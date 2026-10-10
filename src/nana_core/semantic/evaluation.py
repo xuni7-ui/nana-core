@@ -71,8 +71,10 @@ def assess_behavior(store, world, frozen, case, goal_id, arm):
 
 
 def aggregate(results, ledger_summary, blockers, snapshot_hash, expected_cases, configured_count):
-    verified_calls = {c["call_id"]: c for c in ledger_summary["calls"]
+    http_calls = {c["call_id"]: c for c in ledger_summary["calls"]
         if json.loads(c["context_json"]).get("provenance") == "real_http"}
+    verified_calls = {key: c for key, c in http_calls.items()
+        if json.loads(c["context_json"]).get("service_kind") == "real_model"}
     real = [r for r in results if r.get("provenance") == "real_http" and r.get("call_id") in verified_calls]
     models = {r.get("provider_model") for r in real if r.get("provider_model")}
     checks = [r.get("semantic", {}).get("passed", False) and r.get("behavior", {}).get("passed", False) for r in real]
@@ -103,7 +105,12 @@ def aggregate(results, ledger_summary, blockers, snapshot_hash, expected_cases, 
     return {"schema_version": 1, "snapshot_hash": snapshot_hash, "semantic_gate": semantic_gate,
         "E12": semantic_gate, "engineering_gate": "SEE_SEPARATE_TEST_REPORT",
         "real_model_attempts": len(verified_calls), "provider_models": sorted(models),
+        "protocol_simulator_attempts": sum(json.loads(c["context_json"]).get("service_kind") == "protocol_simulator"
+                                           for c in http_calls.values()),
+        "unverified_http_attempts": sum(json.loads(c["context_json"]).get("service_kind") not in
+                                       {"real_model", "protocol_simulator"} for c in http_calls.values()),
         "ledger": ledger_summary, "results": results, "experience_contrasts": contrast, "blockers": blockers,
-        "fees": {"actual_external_cost": 0 if not verified_calls else None,
+        "fees": {"actual_external_cost": 0 if not http_calls or all(
+            json.loads(c["context_json"]).get("service_kind") == "protocol_simulator" for c in http_calls.values()) else None,
             "provider_billing_verified": False, "reservation_is_not_bill": True},
         "scope": "synthetic offline capability effects; sequential ModelPorts; no production account or services"}

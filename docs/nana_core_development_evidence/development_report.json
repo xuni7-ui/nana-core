@@ -1,0 +1,191 @@
+{
+  "schema_version": 1,
+  "scope": "pinned synthetic filesystem reads; fake notebook; sequential Store reopen",
+  "engineering_gate": "PASS",
+  "checks": {
+    "same_identity": true,
+    "grants_unchanged": true,
+    "all_goals_completed": true,
+    "learned_locator_actually_read": true,
+    "no_duplicate_card": true,
+    "source_file_unchanged": true
+  },
+  "phases": [
+    {
+      "index": 0,
+      "identity": {
+        "identity_id": "d2a26ae0-ee6a-4adf-a222-09bd6d1db1c3",
+        "revision": 1,
+        "body_json": "{\"charter\":[\"retain independent judgement\",\"evidence before success\",\"learning cannot expand permissions\"],\"expression_defaults\":{\"style\":\"warm and precise\"},\"name\":\"Nana\",\"self_preferences\":[]}",
+        "created_event_id": "b925bf16-deae-4b76-8e4e-4d25bad9b4ee"
+      },
+      "goal_state": "COMPLETED",
+      "plan": {
+        "applied_strategies": [],
+        "before": [
+          {
+            "capability": "reading.source.read",
+            "resource": "source://synthetic/development/paper-garden"
+          },
+          {
+            "capability": "reading.card.create",
+            "resource": "notebook://synthetic/development/first"
+          }
+        ],
+        "compiler_version": "1",
+        "purpose": "Prepare a private reading card to help resume shared reading.",
+        "request": {
+          "card_resource": "notebook://synthetic/development/first",
+          "event_id": "d5a86afc-b8c9-49f0-ae78-7e072ffafbfc",
+          "event_text": "A fictional reader pauses chapter 1; prepare a private reading card.",
+          "event_text_coverage": "FULL",
+          "identity_id": "d2a26ae0-ee6a-4adf-a222-09bd6d1db1c3",
+          "identity_revision": 1,
+          "identity_snapshot": {
+            "charter": [
+              "retain independent judgement",
+              "evidence before success",
+              "learning cannot expand permissions"
+            ],
+            "expression_defaults": {
+              "style": "warm and precise"
+            },
+            "name": "Nana",
+            "self_preferences": []
+          },
+          "source_id": "source://synthetic/development/paper-garden",
+          "strategy_refs": []
+        },
+        "steps": [
+          {
+            "capability": "reading.source.read",
+            "resource": "source://synthetic/development/paper-garden"
+          },
+          {
+            "capability": "reading.card.create",
+            "resource": "notebook://synthetic/development/first"
+          }
+        ],
+        "template": "reading_card"
+      },
+      "world_counts": {
+        "effects": 1,
+        "execute_calls": 2,
+        "locate_calls": 0,
+        "verify_calls": 2
+      },
+      "model": "engineering-fixture-v1",
+      "model_service_kind": "fixture",
+      "semantic_rubric": null,
+      "identity_equal": true,
+      "grants_unchanged": true
+    },
+    {
+      "index": 1,
+      "identity": {
+        "identity_id": "d2a26ae0-ee6a-4adf-a222-09bd6d1db1c3",
+        "revision": 1,
+        "body_json": "{\"charter\":[\"retain independent judgement\",\"evidence before success\",\"learning cannot expand permissions\"],\"expression_defaults\":{\"style\":\"warm and precise\"},\"name\":\"Nana\",\"self_preferences\":[]}",
+        "created_event_id": "b925bf16-deae-4b76-8e4e-4d25bad9b4ee"
+      },
+      "goal_state": "COMPLETED",
+      "plan": {
+        "applied_strategies": [
+          {
+            "matched_condition": "reading_card requires locator",
+            "required_output": "locator",
+            "revision": 1,
+            "strategy_id": "4fd0237e-f4b3-4579-a0eb-9b3a3e10860c"
+          }
+        ],
+        "before": [
+          {
+            "capability": "reading.source.read",
+            "resource": "source://synthetic/development/paper-garden"
+          },
+          {
+            "capability": "reading.card.create",
+            "resource": "notebook://synthetic/development/next"
+          }
+        ],
+        "compiler_version": "1",
+        "purpose": "Prepare a private reading card to help resume shared reading.",
+        "request": {
+          "card_resource": "notebook://synthetic/development/next",
+          "event_id": "0d81490b-b554-4b55-a84c-0f321cdd5f9e",
+          "event_text": "A fictional reader pauses chapter 2; prepare a private reading card.",
+          "event_text_coverage": "FULL",
+          "identity_id": "d2a26ae0-ee6a-4adf-a222-09bd6d1db1c3",
+          "identity_revision": 1,
+          "identity_snapshot": {
+            "charter": [
+              "retain independent judgement",
+              "evidence before success",
+              "learning cannot expand permissions"
+            ],
+            "expression_defaults": {
+              "style": "warm and precise"
+            },
+            "name": "Nana",
+            "self_preferences": []
+          },
+          "source_id": "source://synthetic/development/paper-garden",
+          "strategy_refs": [
+            "4fd0237e-f4b3-4579-a0eb-9b3a3e10860c@1"
+          ]
+        },
+        "steps": [
+          {
+            "capability": "reading.source.read",
+            "resource": "source://synthetic/development/paper-garden"
+          },
+          {
+            "capability": "reading.source.locate",
+            "resource": "source://synthetic/development/paper-garden"
+          },
+          {
+            "capability": "reading.card.create",
+            "resource": "notebook://synthetic/development/next"
+          }
+        ],
+        "template": "reading_card"
+      },
+      "world_counts": {
+        "effects": 2,
+        "execute_calls": 5,
+        "locate_calls": 1,
+        "verify_calls": 5
+      },
+      "model": "engineering-fixture-v1",
+      "model_service_kind": "fixture",
+      "semantic_rubric": null,
+      "identity_equal": true,
+      "grants_unchanged": true
+    }
+  ],
+  "file_reads": {
+    "execute_reads": 3,
+    "verify_reads": 3
+  },
+  "model_ledger": {
+    "attempts": 0,
+    "reserved_input_bytes": 0,
+    "reserved_output_tokens": 0,
+    "reserved_cost_micro": 0,
+    "calls": []
+  },
+  "experience_effect": {
+    "gate": "DEMONSTRATED",
+    "learned_strategy_ids": [
+      "4fd0237e-f4b3-4579-a0eb-9b3a3e10860c"
+    ],
+    "second_phase_locator_calls": 1,
+    "note": "A model that independently locates on the first event does not demonstrate an experience-caused change."
+  },
+  "real_model_attempts": 0,
+  "E12": "NOT_RUN",
+  "external_model_fees": 0,
+  "actual_provider_billing_verified": false,
+  "production_calls": 0,
+  "note": "This lab is not the frozen two-model heldout semantic gate; use nana-semantic for E12."
+}

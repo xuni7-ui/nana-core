@@ -132,3 +132,9 @@
 [实测] 29 个新增 S6 测试通过；S0—S6 联合 127 passed / 0 failed / 1 skipped。来源和测试节点 docs/nana_core_s6_evidence/test_results.json，联合 JUnit 同目录。
 [实测] 不同进程恢复相同身份、来源/原始时间、经验和唯一 owner；三张卡片/八次能力执行/八次核验；真实 SIGKILL -9 后恢复不重规划、不重发；全投影回放一致。
 [未知] 真实旧数据格式映射、真实宿主对账与接管、跨真实模型 E12；未运行生产。
+# 开发真实能力准备（C-032）
+- [实测] ③已运行验收：受限合成文件只读端口，经原 ActionKernel/CapabilityRouter 授权、预算、单执行方、独立核验；跨重开身份一致，源文件未变，无重复卡片。
+- [实测] ③已运行验收：31 个新增测试；联合 158 passed / 0 failed / 1 skipped。真实 SIGKILL 后零重执行/一次核验重读；7 个实际 loopback HTTP 协议测试通过。
+- [实测] 协议成功不等于模型推理：新增 service_kind，未声明/模拟器调用不能计入 E12；首次自主定位没有学习效应时明确 NOT_DEMONSTRATED。
+- [未知] ④未知：真实模型/E12、生产 SSH/容器与挂载来源、远端 webhooks 和外部轮询。Docker 默认沙箱 socket 请求 PermissionError；hooks API 403；未请求扩大生产权限。
+- 证据：docs/nana_core_development_validation.md 与 docs/nana_core_development_evidence/。既有离线验收不替代真实双模型。

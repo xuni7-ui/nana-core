@@ -217,3 +217,11 @@
 [实测] C-030 最终指纹锚点：manifests/fingerprints_nana_core_s6.json SHA256 `bc52a0627ec3b82c8f2f5d4fcd983efd1ffa2f48cb3ea200de351e6e62f16ae6`。只证明本次采集的合成源码/测试/证据；排除自身与账本，不证明生产运行。
 
 [实测] C-031：S6 实现提交 `14e5f2e71d209a2378290d7b591d932131ab28ba` 已推送并核验私有开发分支 dev/nana-core-v1-s6；main/S0—S4/S5 SHA 未变。之后仅追加保存回执与账本，最终 HEAD 以 Git 为准；工作区无运行 DB 入库。指纹锚点更新 `fa081fdc74255b54197fd376f6125bc18591b41666f3dc6ec4ae647254c514ed`；源码/测试 hash 不变，新增合成保存回执。
+# 当前开发能力验证（C-032，2026-10-10）
+[实测] 本轮用户明确授权并行生产权限类别只读核实与独立开发验证、编码/测试/提交/推送；未授权生产登录、凭据/私人记忆读取、生产变更、main 合并或部署。基线 b2b5b99e69377d024bbb58c13d9f2564dccea9f5；开发分支 dev/nana-core-v1-dev-validation。
+[实测] 31 个新测试，联合 158 passed / 0 failed / 1 skipped；真实源文件只读、独立重读、身份/Grant 连续、单执行方和真实 SIGKILL 恢复。实际 CLI 三次文件执行读取/三次核验重读、两张合成卡片；经验被引用并新增定位。
+[实测] 真实 loopback 协议测试不是真实模型；当前开发端点 0、实际推理/公网工具/生产调用 0、模型费用 0，E12 NOT_RUN。service_kind 未声明默认 unverified，不能以 HTTP 成功通过 E12。
+[实测/未知] 可见配置无生产访问绑定/生产命名挂载；Docker socket 请求在默认沙箱 PermissionError（拒绝阶段未记录），生产关联未知。GitHub 私有、Actions workflows 0、hooks GET 403；外部推送部署/轮询未知，未建立生产访问路径。
+来源：docs/nana_core_development_validation.md、docs/nana_core_development_evidence/；未改变总体架构/生产树，零新增依赖和 Core 表。
+
+[实测] C-032 指纹锚点 b175b377bf9f0536598811140953f24da795ff562b0b3801ec6a650429668975；只证明采集时刻的源码/测试/合成与元信息证据，不证明生产。

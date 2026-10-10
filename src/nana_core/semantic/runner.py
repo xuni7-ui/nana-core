@@ -108,8 +108,9 @@ def evaluate(snapshot, output, config_path=None):
             blockers.append(f"{endpoint.alias}: dedicated development binding not injected")
         else:
             ready.append(endpoint)
-    if len(ready) < 2:
-        blockers.append(f"only {len(ready)} ready real ModelPort(s); two distinct real models required for E12")
+    declared_real = sum(e.service_kind == "real_model" for e in ready)
+    if declared_real < 2:
+        blockers.append(f"only {declared_real} ready declared real ModelPort(s); two distinct real models required for E12")
     if not ready:
         blockers.append("historical production endpoint documentation and this assistant are not usable development ModelPorts")
     halted = False

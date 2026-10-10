@@ -388,3 +388,10 @@
 - [实测] 改了什么：追加 docs/nana_core_s6_evidence/github_save_receipt.json、更新指纹锚点/复核清单和当前状态；不改源码。
 - 为什么：记录已实际发生的推送与远端验证，区分实现提交和后续账本提交。
 - 怎么验证：git push 成功；git ls-remote 的 S6 为 `14e5f2e71d209a2378290d7b591d932131ab28ba`，main/S0—S4/S5 保持原 SHA；既有 127 passed / 1 skipped，账本修改不重复运行测试。生产和 E12 未执行。
+# C-032 — 只读权限核实与开发真实文件/HTTP 验证
+- 改了什么：新增 src/nana_core/development/ 与 tests/development/、nana-development CLI；S5 service_kind 分类及 E12/费用统计；报告/合成证据/白名单/来源/指纹和 PROJECT_BRAIN 追加。
+- 为什么：复用统一状态、身份、授权、预算、单执行方/核验，验证实际文件读取和真实 HTTP 协议；没有模型端点仍推进工程，避免将 wire 模拟器算作真实模型。
+- [实测] 怎么验证：31 新测试全通过；联合 158 passed / 0 failed / 1 skipped；CLI 源文件 hash 未变，两张卡片无重复，经验实际增加定位；真实进程 SIGKILL 后身份相同，零重新执行/一次核验重读。证据 docs/nana_core_development_evidence/。
+- 早期结果：文件工具/受影响 S5 65 passed；默认沙箱 23 passed / 7 failed（socket 创建 PermissionError），开发 network grant 下七项 wire tests 通过；一次未指定测试目录的自定义报告参数命令在解析阶段 exit 4，明确目录后运行。只读复核修正累计定位冒充经验效应，新增否定测试，无断言削弱。
+- [实测/未知] 权限核实：生产连接/命令/变更 0；当前就绪 secrets/vars/identities 0；Docker socket 请求 PermissionError、阶段未记录；GitHub repo/workflows GET 成功（私有/0），hooks GET 403，webhooks/外部轮询未知。
+- 真实模型推理、生产、公网工具调用与模型费用 0；E12 NOT_RUN。实际成功专项与最终 wire 运行各 8 个 loopback 请求，共 16，均 protocol simulator/unverified；不能宣称真实模型已验收。

@@ -46,3 +46,6 @@
 ## S6 非生产准备增量
 - src/nana_core/migration/、tests/migration/：本轮可控实现，未复制 Iris/AstrBot 派生代码；只设计规范化合成来源信封，非真实数据库导出器。
 - Python 标准库与既有 Pydantic/pytest；零新增依赖。原创许可继续待所有者决定，生产及 AGPL 边界不变。
+# 本轮开发真实能力准备
+- src/nana_core/development/、tests/development/：本轮可控实现，只复用本仓库既有 Core/ModelPort/FakeWorld 契约与 Python 标准库，无第三方宿主/SDK 源码复制。
+- 零新增依赖；来源文件、协议响应和实验输出均合成；原创许可仍待所有者决定，AstrBot/Iris AGPL 边界保持。

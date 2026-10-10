@@ -128,7 +128,7 @@ def test_model_identity_drift_is_reported_without_rewriting_state(frozen, tmp_pa
 def test_one_ready_model_is_only_partial_even_if_rubric_passes():
     result = {"provenance": "real_http", "provider_model": "model-a", "alias": "a", "case_id": "synthetic",
         "arm": "with", "call_id": "hypothetical", "semantic": {"passed": True}, "behavior": {"passed": True}}
-    calls = [{"call_id": "hypothetical", "context_json": canonical({"provenance": "real_http"}),
+    calls = [{"call_id": "hypothetical", "context_json": canonical({"provenance": "real_http", "service_kind": "real_model"}),
         "state": "COMPLETED", "evidence": {"provider_model": "model-a"}}]
     report = aggregate([result], {"calls": calls, "attempts": 1}, ["second missing"], "frozen", 4, 1)
     assert report["E12"] == "PARTIAL"
@@ -142,7 +142,7 @@ def test_claimed_real_results_without_call_evidence_cannot_pass():
 
 
 def test_failed_real_attempt_is_not_marked_not_run():
-    calls = [{"call_id": "hypothetical", "context_json": canonical({"provenance": "real_http"}),
+    calls = [{"call_id": "hypothetical", "context_json": canonical({"provenance": "real_http", "service_kind": "real_model"}),
         "state": "FAILED", "evidence": {"error": "rejected"}}]
     report = aggregate([], {"calls": calls, "attempts": 1}, [], "frozen", 4, 2)
     assert report["E12"] == "FAIL" and report["real_model_attempts"] == 1

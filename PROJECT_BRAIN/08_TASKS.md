@@ -133,3 +133,10 @@
 | NC-S6-ROUTER | ③合成离线运行验收 | 单 owner epoch、授权/尝试预算、路由幂等/恢复 |
 | NC-S6-PRODUCTION | ④未验证/未执行 | 无真实导出/接线/接管，旧未决未对账 |
 | NC-S5-E12 | ④未验证 / NOT_RUN | 不以 S6 夹具替代真实模型 |
+# 本轮开发验证（C-032）
+| 任务 | 档位 | 证据/边界 |
+|---|---|---|
+| NC-DEV-BOUNDARY | ③已运行验收（可见元信息） | access_boundary.json；未知路径、webhooks/外部轮询保留 UNKNOWN，未登录生产 |
+| NC-DEV-READONLY | ③已运行验收 | 实际合成文件读取/独立核验、单执行方、预算、SIGKILL 与身份恢复 |
+| NC-DEV-HTTP | ③已运行验收（协议） | 7 wire tests，均明确 loopback simulator；不计真实模型 |
+| NC-S5-E12 | ④未知 / NOT_RUN | 当前开发端点 0、真实调用 0；需两个授权 real_model 端点 |

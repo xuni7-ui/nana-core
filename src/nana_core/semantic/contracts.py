@@ -12,6 +12,8 @@ class Endpoint(DTO):
     model: str = Field(min_length=1, max_length=128)
     account_scope: Literal["development", "local_offline"]
     funding: Literal["existing_quota", "local_offline"]
+    # Operator declaration; successful HTTP alone is not evidence of inference.
+    service_kind: Literal["real_model", "protocol_simulator", "unverified"] = "unverified"
     credential_env: str | None = None
     timeout_seconds: int = Field(default=45, ge=1, le=120)
     max_input_bytes: int = Field(default=48_000, ge=1024, le=100_000)
@@ -30,6 +32,8 @@ class Endpoint(DTO):
             raise ValueError("HTTPS required except loopback development servers")
         if self.account_scope == "local_offline" and (not local or self.funding != "local_offline"):
             raise ValueError("local_offline requires loopback and local funding")
+        if self.service_kind == "protocol_simulator" and not local:
+            raise ValueError("protocol simulator must be loopback")
         if self.account_scope == "development" and self.funding != "existing_quota":
             raise ValueError("development uses existing quota only")
         if self.credential_env and not re.fullmatch(r"NANA_S5_DEV_[A-Z0-9_]+", self.credential_env):

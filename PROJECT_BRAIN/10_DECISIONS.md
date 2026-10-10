@@ -180,3 +180,12 @@
 - 决定：一个 Store、一个执行 Runtime，影子只有事件记录/纯计划比较；统一复用 CapabilityPort。core_meta 存持久 owner epoch 和每动作/核验尝试的路由标记，零新 Core 表。
 - 选主/换主只供受信本地操作员，任何未完成行动或活跃目标阻止换主；UNKNOWN 仅查询核验，不释放预算重发。
 - 模拟旧执行方也通过原 ActionKernel 执行，这证明路由不变量，不证明 AstrBot/Iris/B站真实迁移一致；生产仍是其原事实源，未接线。
+# D-036 — 本轮开发验证授权与最小真实只读端口
+- [文档] 用户授权并行 A 只读权限类别核实、B 独立开发与 GitHub 开发分支交付；延续 S0—S6，不建立 S7 或重规划。
+- [实测] 使用原三 capability 与 Store/ActionKernel/CapabilityRouter；仅将 read/locate 后端接到钉住的合成源文件，create 保持 FakeWorld。无新增 Core 表、模型 SDK或通用工具框架。
+- 生产登录/鉴权/私密资料/真实写工具/部署仍未授权；未知 webhooks 与不可读位置不能改写为“绝无生产权限”。
+
+# D-037 — 区分 HTTP 实际传输与真实模型推理
+- [实测] S5 Endpoint 新增 service_kind，默认 unverified；real_http + Operator 声明 real_model 才纳入 E12。protocol_simulator 只能 loopback。
+- 原因：真实 socket 与 provider_model 字符串本身不能证明模型推理，禁止新 wire fixture 误通过真实双模型门。
+- 代价：历史缺此声明的开发配置需要补充该非秘密字段；不改变 Core 状态模型。远端确实运行模型仍需 Operator 核实，不能信模型文本。

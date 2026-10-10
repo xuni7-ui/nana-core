@@ -1,0 +1,147 @@
+{
+  "schema_version": 1,
+  "checked_at_utc": "2026-10-10T17:57:06Z",
+  "mode": "READ_ONLY_METADATA",
+  "authorization": {
+    "production_login": false,
+    "production_exec": false,
+    "production_modify": false,
+    "development_branch_push": true
+  },
+  "managed_runtime": {
+    "observations_current": true,
+    "phase": "running",
+    "connectivity": "connected",
+    "configured_capabilities": 0,
+    "configured_secrets": 0,
+    "configured_runtime_variables": 0,
+    "outbound_identities": 0,
+    "network_policy_mode": "unrestricted",
+    "network_policy_state": "enforced"
+  },
+  "network_file": {
+    "path": "/etc/codex/network-policy.json",
+    "version": 1,
+    "vpn_configured": false,
+    "tcp_domain_grants": 0,
+    "tcp_ip_range_grants": 0,
+    "http_proxy_configured": true,
+    "production_network_probe": "NOT_RUN",
+    "note": "HTTP allowance does not establish production authentication or SSH connectivity."
+  },
+  "environment_name_inventory": {
+    "ssh_deploy_related_count": 0,
+    "credential_like_count": 1,
+    "credential_names_only": [
+      "GH_TOKEN"
+    ],
+    "model_like_names_only": [
+      "OPENAI_CLUSTER"
+    ],
+    "cloud_identity_related_count": 0,
+    "values_read": false,
+    "values_emitted": false,
+    "note": "Application authentication through existing GitHub client is permitted; no manual credential inspection. OPENAI_CLUSTER is not an authorized development ModelPort endpoint."
+  },
+  "ssh": {
+    "agent_variable_present": false,
+    "agent_socket_exists": false,
+    "git_ssh_override_present": false,
+    "workspace_ssh_directory_exists": false,
+    "root_candidate_metadata": "PERMISSION_DENIED",
+    "authenticated_production_access": "NOT_ESTABLISHED",
+    "production_login_attempts": 0
+  },
+  "mounts": {
+    "source": "/proc/self/mountinfo",
+    "production_named_mounts_detected": 0,
+    "workspace_mount": "rw overlay",
+    "readonly_metadata_mounts": [
+      "/workspace/.git",
+      "/workspace/.agents",
+      "/workspace/.codex",
+      "/workspace/.aws"
+    ],
+    "aws_metadata_entry_count": 0,
+    "codex_metadata_entry_count": 0,
+    "production_directories_missing": [
+      "/AstrBot",
+      "/opt/nana_codex",
+      "/app",
+      "/data"
+    ],
+    "root_production_path_metadata": "PERMISSION_DENIED",
+    "production_volume_origin": "NOT_ESTABLISHED",
+    "note": "Visible mountpoint names only; generic or inaccessible mounts cannot be excluded."
+  },
+  "containers": {
+    "docker_socket_exists": true,
+    "docker_socket_mode": "0660",
+    "metadata_os_access_read_write": true,
+    "read_only_requests": [
+      {
+        "endpoint": "/_ping",
+        "result": "PermissionError during socket request; phase not instrumented"
+      },
+      {
+        "endpoint": "/version",
+        "result": "PermissionError during socket request; phase not instrumented"
+      }
+    ],
+    "established_daemon_connections": 0,
+    "effective_default_sandbox_access": "DENIED",
+    "daemon_and_production_association": "UNKNOWN",
+    "container_list_or_exec_or_start": false,
+    "containerd_socket_exists": false,
+    "note": "No network/file permission escalation attempted for Docker; developer test network grants do not establish Docker or production access.",
+    "denied_phase": "UNKNOWN"
+  },
+  "repository_deployment": {
+    "active_local_git_hooks": [],
+    "custom_hooks_path": false,
+    "special_git_command_config_keys": [],
+    "tracked_github_workflows": [],
+    "gitlab_ci_exists": false,
+    "jenkinsfile_exists": false,
+    "deployment_named_tracked_paths": [],
+    "source_deploy_patterns_found": 0,
+    "github_private": true,
+    "github_default_branch": "main",
+    "github_pull_push_permission": true,
+    "remote_actions_workflow_count": 0,
+    "remote_hooks_metadata": "HTTP_403_RESOURCE_NOT_ACCESSIBLE_BY_INTEGRATION",
+    "remote_push_webhooks": "UNKNOWN",
+    "external_polling_deployer": "UNKNOWN",
+    "note": "Repo metadata admin=true does not override integration-specific hooks API denial; no hook URLs/config values inspected."
+  },
+  "github_read_only_requests": [
+    {
+      "route": "repos/xuni7-ui/nana-core/hooks",
+      "result": "HTTP_403"
+    },
+    {
+      "route": "repos/xuni7-ui/nana-core/actions/workflows",
+      "result": "HTTP_200_COUNT_0"
+    },
+    {
+      "route": "repos/xuni7-ui/nana-core",
+      "result": "HTTP_200_PRIVATE_PUSH_ALLOWED"
+    }
+  ],
+  "evidence_commands": [
+    "cloud_environment.environment_status",
+    "JSON parse /etc/codex/network-policy.json",
+    "environment variable names category-only enumeration",
+    "lstat known credential/production paths (metadata only)",
+    "parse /proc/self/mountinfo (mount points/filesystem/options only)",
+    "GET local Docker /_ping,/version (socket request denied, phase unknown)",
+    "git ls-files + active hook metadata + Git special config key names",
+    "rg deployment patterns excluding docs/brain/manifests",
+    "gh api repo/hooks/workflows metadata with restricted jq output"
+  ],
+  "credential_files_read": false,
+  "production_commands": 0,
+  "production_connections": 0,
+  "production_mutations": 0,
+  "interpretation": "Production operation is not authorized and no effective production access path was established. This is not proof that all possible technical production access is absent."
+}

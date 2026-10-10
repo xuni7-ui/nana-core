@@ -1,0 +1,38 @@
+{
+  "real_file_sigkill_recovery": {
+    "returncode": -9,
+    "identity_equal": true,
+    "action_id": "85812f88-9ac8-43c4-a6bd-ef06325a646d",
+    "recovered_state": "SUCCEEDED",
+    "file_reads_after_recovery": {
+      "execute_reads": 0,
+      "verify_reads": 1
+    },
+    "notebook_effects": 2,
+    "scope": "actual child SIGKILL after durable file-read receipt; verify-only restart"
+  },
+  "actual_loopback_protocol": {
+    "http_requests": 2,
+    "calls": [
+      {
+        "path": "/v1/chat/completions",
+        "bytes": 6432
+      },
+      {
+        "path": "/v1/chat/completions",
+        "bytes": 8757
+      }
+    ],
+    "file_reads": {
+      "execute_reads": 3,
+      "verify_reads": 3
+    },
+    "identity_equal": true,
+    "grants_unchanged": true,
+    "effects": 2,
+    "provenance": "protocol_simulator",
+    "real_model_calls": 0,
+    "E12": "NOT_RUN",
+    "model_attempts": 2
+  }
+}

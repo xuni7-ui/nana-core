@@ -122,3 +122,6 @@
 - src/nana_core/migration/：合成旧来源保留、影子观察、统一能力单执行方及 CLI。
 - docs/nana_core_s6_implementation.md / docs/nana_core_s6_evidence/：工程、来源、真实进程故障证据。
 - S5 E12 仍 NOT_RUN；生产迁移未运行，不把模拟执行方误称实际宿主。
+# 本轮开发验证入口（C-032，新增）
+- [实测] `docs/nana_core_development_validation.md`：权限边界、真实文件只读适配/HTTP 协议测试；E12 未运行。
+- [实测] `docs/nana_core_development_evidence/`：安全元信息、实际节点/JUnit、CLI、SIGKILL/回环 HTTP 证据。

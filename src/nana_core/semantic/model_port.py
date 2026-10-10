@@ -170,10 +170,12 @@ class CompatibleModelPort:
             raise CoreError("MODEL_DEVELOPMENT_BINDING_MISSING")
         call_id = self.ledger.begin(self.endpoint, payload, {"case_id": self.case.case_id, "arm": self.arm,
             "identity_id": request.identity_id, "event_id": request.event_id,
+            "service_kind": self.endpoint.service_kind,
             "provenance": "real_http" if self.transport.is_real_transport else "transport_fixture"})
         self.last_call_id = call_id
         started = time.monotonic_ns()
-        evidence = {"provenance": "real_http" if self.transport.is_real_transport else "transport_fixture"}
+        evidence = {"provenance": "real_http" if self.transport.is_real_transport else "transport_fixture",
+                    "service_kind": self.endpoint.service_kind}
         try:
             raw = self.transport.send(self.endpoint, payload)
             evidence["response_hash"] = digest(raw)
