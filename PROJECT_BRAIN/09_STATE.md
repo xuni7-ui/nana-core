@@ -228,3 +228,7 @@
 
 [实测] C-033：P0 已远端保存 b05468d63182c17644037be447688798fa5ce6b4；P1 模型适配收尾 81 targeted passed（开发 39）；配置/4xx/截断/回显边界保持，E12 NOT_RUN。当前继续只读网页开发，未建立生产访问。
 [实测] C-033 指纹锚点 6dfcea0ce525ee517543c28cc2072a3a64d22251c22821daedc85aea1e3c9da3（当前开发源与历史/本阶段证据，不证明生产）。
+
+[实测] C-034：网页单工具 84 targeted passed；新增开发 55，S6 29。公网一次授权尝试 UNKNOWN/WEB_TIMEOUT，实际 HTTP 0、代理连接 0；保留未决不重试。网页工程②已测试，公网④未知；模型 0、E12 NOT_RUN。P1 已保存远端 0d13ecc8ed84ee9c0cd3e28b19cf0cfed00fe5db。详见 docs/nana_core_web_validation.md；跨进程研究/经验消融待执行。
+
+[实测] C-034 指纹锚点 2b0b52e766be9975632724ce957149e74d0cbee69cd0fb6b1319f3122422074c；只证明采集时刻的源码/测试/证据，不证明生产。

@@ -400,3 +400,9 @@
 - [实测] P0 保存：b05468d63182c17644037be447688798fa5ce6b4 已推送，ls-remote 相同；main 未变。上次代码/HTTP 测试/访问边界报告完整保留，不依赖未提供的截图。
 - 改动与原因：HTTP 4xx 明确拒绝 FAILED，408/5xx/断连/截断 UNKNOWN；配置加载错误只输出安全代码，拒绝 symlink/超限配置；Endpoint 重新严格校验；已知开发 binding 原样回显在存储前拒绝。预算不退款、未决不重发，不修改生产。
 - [实测] 验证：受影响 S5 与开发测试合计 81 passed；开发 39 passed；新增 8 项覆盖状态/截断/配置/凭据回显/变造端点。真实推理 0，E12 NOT_RUN；本阶段 12 个 loopback 请求，均协议模拟器，模型费用 0。最终全量回归留待后续阶段完成。
+
+## C-034 — 网页单工具闭环
+- 改了什么：PublicHTTPTransport、WebSourcePort、受控 HTTP 服务与测试；路由可选 development_public scope。P1 提交 0d13ecc8ed84ee9c0cd3e28b19cf0cfed00fe5db 已推送且 ls-remote 一致。
+- 为什么：通过现有授权/预算/动作/核验接入固定 GET/HEAD，避免网页指令越权、SSRF 与恢复重复访问；不扩建 Core 框架。
+- [实测] 怎么验证：84 targeted passed（开发 55、S6 29），证据 web_single_tests.json/web_single_output.txt；默认私网拒绝、DNS 一致性、代理/TLS 目标、超限/截止时间/redirect、Grant/owner/shadow/预算、历史回执/定位来源均验证。
+- [实测] 公开 GET 仅尝试一次，DNS 阶段 WEB_TIMEOUT，HTTP/代理连接尝试均 0，UNKNOWN 不重试；public_web_attempt.json。真实模型 0、费用 0、E12 NOT_RUN，生产调用 0。公开运行验收未完成；P3/P4 待执行。

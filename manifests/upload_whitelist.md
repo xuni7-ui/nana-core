@@ -99,3 +99,8 @@
 - 不上传源运行目录、DB/WAL/lock、真实模型配置/凭据/私人资料；不纳入生产目录或外部 secret 内容。
 
 - C-033 增量：docs/nana_core_development_evidence/model_closeout_output.txt（实际合成测试 stdout）。
+
+## C-034 网页工程白名单增补
+- `src/nana_core/development/*.py` / `tests/development/*.py`：受控网页与公开只读传输。
+- `src/nana_core/migration/routing.py`：仅可选 development_public scope，默认与生产边界保持。
+- `docs/nana_core_web_validation.md` / `docs/nana_core_development_evidence/*.json` / `docs/nana_core_development_evidence/*_output.txt` / `docs/nana_core_development_evidence/*junit.xml`：合成工程与脱敏调用证据；不得包含运行 DB、密钥、真实私人资料或公开站点全文。

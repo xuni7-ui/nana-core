@@ -22,12 +22,17 @@ class BoundCapabilityPort:
 
 
 class CapabilityRouter:
-    def __init__(self, store, ports, authority):
+    def __init__(self, store, ports, authority, *, resource_scope="synthetic_only"):
         if set(ports) != CAPABILITIES:
             raise CoreError("CLOSED_SYNTHETIC_REGISTRY_REQUIRED")
         if any(getattr(p, "path", None) and p.path.resolve() == store.path.resolve() for p in ports.values()):
             raise CoreError("CAPABILITY_DATABASE_MUST_BE_SEPARATE")
+        if resource_scope not in {"synthetic_only", "development_public"}:
+            raise CoreError("INVALID_DEVELOPMENT_RESOURCE_SCOPE")
         self.store, self._ports, self._authority = store, dict(ports), authority
+        self._resource_scope = resource_scope
+        if self.owner and self.owner["scope"] != resource_scope:
+            raise CoreError("ROUTER_SCOPE_MISMATCH")
         # Reuse existing grant/time validation; this object never dispatches.
         self._grant_gate = ActionKernel(store, None, authority)
 
@@ -54,7 +59,7 @@ class CapabilityRouter:
                 or any(g["state"] in {"PROPOSED", "ACTIVE", "BLOCKED"} for g in self.store.all("goals"))):
                 raise CoreError("UNRESOLVED_WORK_PREVENTS_HANDOFF")
             owner = {"actor": actor, "epoch": previous["epoch"] + 1 if previous else 1,
-                     "scope": "synthetic_only"}
+                     "scope": self._resource_scope}
             tx.put("core_meta", {"key": OWNER_KEY, "value_json": canonical(owner)})
         return owner
 
@@ -80,7 +85,9 @@ class CapabilityRouter:
             or invocation.args_hash != digest(invocation.args) or action["idempotency_key"] != invocation.idempotency_key
             or invocation.capability not in self._ports):
             raise CoreError("ROUTE_INVOCATION_MISMATCH")
-        if not invocation.resource.startswith(("source://synthetic/", "notebook://synthetic/")):
+        prefixes = ("source://synthetic/", "notebook://synthetic/") if self._resource_scope == "synthetic_only" else (
+            "source://public/", "notebook://synthetic/")
+        if not invocation.resource.startswith(prefixes):
             raise CoreError("SYNTHETIC_RESOURCE_REQUIRED")
         return action
 

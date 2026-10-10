@@ -189,3 +189,6 @@
 - [实测] S5 Endpoint 新增 service_kind，默认 unverified；real_http + Operator 声明 real_model 才纳入 E12。protocol_simulator 只能 loopback。
 - 原因：真实 socket 与 provider_model 字符串本身不能证明模型推理，禁止新 wire fixture 误通过真实双模型门。
 - 代价：历史缺此声明的开发配置需要补充该非秘密字段；不改变 Core 状态模型。远端确实运行模型仍需 Operator 核实，不能信模型文本。
+
+## D-038 — 开发只读网页的最小接入
+[文档] 采用操作者持久化 URL/方法绑定及可选 development_public 路由作用域；复用三个既有能力与统一行动状态，不新建身份/权限/核心表。公网传输固定经过平台许可代理的数字目标；所有重定向拒绝。Locator 从同 Goal/Plan 已核验历史回执读取，独立核验不再次抓取，以避免恢复重复请求。代价：V1 不支持 query、动态域名变化、重定向/登录/浏览器；代理源站 peer 为未知。工程受控服务与真实公网/模型验收分开。

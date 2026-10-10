@@ -1,0 +1,22 @@
+{
+  "provenance": "actual_public_transport_attempt",
+  "source_url": "https://example.com/",
+  "method": "GET",
+  "state": "UNKNOWN",
+  "http_request_attempts": 0,
+  "proxy_connection_attempts": 0,
+  "error": "WEB_TIMEOUT",
+  "identity_id": "1f78742f-8800-45bd-b7d9-d16f0708cb26",
+  "action_id": "d3b628bf-961e-4eab-b407-b148762a814c",
+  "grant_id": "39a7c335-aba2-4348-9280-f572de00a2da",
+  "verification_event_id": "658d3477-8ffe-4512-a655-9a64973ce0ec",
+  "content_digest": null,
+  "content_summary": null,
+  "status": null,
+  "fetched_at_us": null,
+  "transport_evidence": null,
+  "real_model_calls": 0,
+  "external_fees": 0,
+  "production_calls": 0,
+  "no_auto_retry": true
+}
