@@ -48,3 +48,13 @@
 | API Key × 若干 | `data/cmd_config.json` | ✅ 掩码登记 |
 
 > 本文件**刻意不记录**任何密钥的值、前缀或长度。
+
+
+---
+
+## P3 增补（2026-10-10（CST））
+
+- 【实测】依赖清单入仓库根 `requirements.txt`（精确版本，无密钥）。
+- 【实测】Codex Bridge Node 侧：Node `v24.20.0` / npm `11.19.0` / `@openai/codex` `0.162.0`，安装于 `/opt/nana_codex`（**不在 git**）；重建见 `docs/bridge_node_rebuild.md`。
+- 【实测】外部工具：FFmpeg/FFprobe `7.1.5`。
+- 配置示例均**不含真实密钥**。

@@ -88,3 +88,19 @@
 | `12_REAL_COLLAB_RUN_01.md` | 首次真实模型端点协作跑测（LocalLLMRunner，**非** Codex） |
 | `13_CODEX_CLI_INSTALL_PROBE.md` | Codex CLI 安装/登录探针（登录被外网阻断） |
 | `14_CODEX_CLI_REAL_EXEC_01.md` | **Codex CLI 真实执行验证**（自定义 Provider + 外部降权沙箱，成功） |
+
+
+---
+
+## 六、P3 工程基线收口增补（2026-10-10（CST））
+
+### 新增文件
+- `24_BASELINE_CLOSURE_20261010.md`：本阶段 A–G 总证据文件。
+- 仓库根：`requirements.txt`、`LICENSES_AND_PROVENANCE.md`
+- 仓库目录：`patches/astrbot/`、`materials/iris_customizations/`、`materials/bili_agent/`
+- 仓库文档：`docs/bridge_node_rebuild.md`
+
+### 关键更正（覆盖旧描述）
+- 【实测】Codex CLI **已安装**（`/opt/nana_codex`，`@openai/codex` 0.162.0），非"未安装"。旧 `13_*` 中"登录被阻断"仅指**官方 OpenAI 端点**；经自定义 Provider，**真实 exec 已成功**。
+- 【源码确认】Iris 上游 **v0.3.0 已获取**（tag `0.3.0`，241 blob，逐字节校验）。旧"上游未获取"作废。
+- 【实测】本地 Bridge Runner **真实闭环成功**（≠ Codex Cloud 成功；Cloud environment 仍未创建）。

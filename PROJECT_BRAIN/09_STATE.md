@@ -140,3 +140,13 @@
 | 回滚 | `rm -rf /opt/nana_codex` 即彻底移除，生产与 `~/.codex` 未动 |
 
 **证据**：`14_CODEX_CLI_REAL_EXEC_01.md` ｜ **脚本**：`bridge/probes/codex_cli_probe.py`
+
+
+---
+
+## P3 收口快照（2026-10-10（CST））
+
+- 【实测】远端 `main`（同步前）= `ff1c8704a056c6ebe82594a24f2ecba48ae02e69`。
+- 【实测】本轮推送后远端完整 HEAD = **（见 CHANGELOG C-017 回填）**。
+- 【实测】本地分支 `master`，远端 `origin/main`，fast-forward 推送（无 force）。
+- 【实测】AstrBot v4.28.0 上游 commit `a412146401426c0cdff8bbefb8627a03da519da8`；Iris 0.3.0 commit `0557a4c1de1969bdccdb5a5de4b3724dc94aa6f6`。

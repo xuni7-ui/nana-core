@@ -1,0 +1,32 @@
+# Nana Core 依赖清单（D 线）
+# 生成依据：仓库 src/ 与 bridge/ 的真实 import + 生产运行环境实测版本
+# 【实测】2026-10-10 · Python 3.12.14
+# 版本号 = 生产实测精确版本（pinned，用于复现）。无密钥、无私有配置。
+
+# ── 宿主框架（生产以 editable 安装自 /AstrBot）──
+# AstrBot==4.28.0            # AGPL-3.0-or-later；官方源安装，非本仓库分发
+
+# ── B站 Agent 外挂 ──
+bilibili-api-python==17.4.2
+curl_cffi==0.14.0
+aiohttp==3.14.3
+requests==2.34.2
+
+# ── 协作桥（bridge/local_runner.py 使用 openai SDK 指向兼容端点）──
+openai==3.8.0
+
+# ── Iris 记忆插件运行依赖（上游 requirements.txt）──
+faiss-cpu==1.15.0
+numpy==2.5.3
+quart==0.22.0
+Pillow==12.3.0
+httpx==0.28.1
+# tiktoken                         # 可选：未安装（Iris 标注为可选）
+
+# ── 测试 ──
+pytest==9.1.1
+
+# ── 外部工具（非 pip）──
+# FFmpeg  7.1.5-0+deb13u1   （ffmpeg）
+# FFprobe 7.1.5-0+deb13u1   （ffprobe）
+# Node.js v24.20.0 / npm 11.19.0   （Codex Bridge）

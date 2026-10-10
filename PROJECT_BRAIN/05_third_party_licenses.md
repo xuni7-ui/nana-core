@@ -57,3 +57,16 @@
 | LICENSE 类型核对 | ✅ 已核对 |
 | 与上游 commit 逐行 diff | ❌ **未做**（本地无 `.git`、未联网拉取；且本阶段禁止联网安装） |
 | 改动边界 | ⚠️ **仅能给出"奈奈改前备份 ↔ 现行"边界**，见 `manifests/nana_iris_changes.diff` |
+
+
+---
+
+## P3 增补（2026-10-10（CST））
+
+| 对象 | 上游 | 版本 | 许可 | 本地形态 |
+|---|---|---|---|---|
+| AstrBot qqofficial | `AstrBotDevs/AstrBot` | v4.28.0 (`a4121464`) | **AGPL-3.0-or-later** | 补丁 `patches/astrbot/` |
+| Iris 记忆插件 | `Leafliber/…iris_chat_memory` | 0.3.0 (`0557a4c1`) | **AGPL-3.0** | 隔离材料 `materials/iris_customizations/`（附 AGPL 全文） |
+
+- 【实测】以上均**保留原许可**，未改写为自有许可。
+- 原创代码许可：**待姐姐决定**。详见根目录 `LICENSES_AND_PROVENANCE.md`。

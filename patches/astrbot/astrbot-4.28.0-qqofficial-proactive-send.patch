@@ -1,0 +1,35 @@
+diff --git a/astrbot/core/platform/sources/qqofficial/qqofficial_message_event.py b/astrbot/core/platform/sources/qqofficial/qqofficial_message_event.py
+index 7066422..5a2ce55 100644
+--- a/astrbot/core/platform/sources/qqofficial/qqofficial_message_event.py
++++ b/astrbot/core/platform/sources/qqofficial/qqofficial_message_event.py
+@@ -429,7 +429,7 @@ class QQOfficialMessageEvent(AstrMessageEvent):
+                 "msg_id": self.message_obj.message_id,
+             }
+ 
+-        if not isinstance(source, botpy.message.Message | botpy.message.DirectMessage):
++        if not isinstance(source, botpy.message.Message | botpy.message.DirectMessage | botpy.message.C2CMessage):
+             payload["msg_seq"] = random.randint(1, 10000)
+ 
+         ret = None
+diff --git a/astrbot/core/platform/sources/qqofficial/qqofficial_platform_adapter.py b/astrbot/core/platform/sources/qqofficial/qqofficial_platform_adapter.py
+index 8f73cca..ced9382 100644
+--- a/astrbot/core/platform/sources/qqofficial/qqofficial_platform_adapter.py
++++ b/astrbot/core/platform/sources/qqofficial/qqofficial_platform_adapter.py
+@@ -414,7 +414,7 @@ class QQOfficialPlatformAdapter(Platform):
+ 
+         if session.message_type == MessageType.GROUP_MESSAGE:
+             if scene == "group":
+-                payload["msg_seq"] = random.randint(1, 10000)
++                # msg_seq removed - not needed for proactive send
+                 if image_base64:
+                     media = await QQOfficialMessageEvent.upload_group_and_c2c_image(
+                         send_helper,  # type: ignore
+@@ -491,7 +491,7 @@ class QQOfficialPlatformAdapter(Platform):
+             # 参考 https://bot.q.qq.com/wiki/develop/pythonsdk/api/message/post_message.html
+             # msg_id 缺失时认为是主动推送，而似乎至少在私聊上主动推送是没有被限制的，这里直接移除 msg_id 可以避免越权或 msg_id 不可用的bug
+             payload.pop("msg_id", None)
+-            payload["msg_seq"] = random.randint(1, 10000)
++            # msg_seq removed - not needed for proactive send
+             if image_base64:
+                 media = await QQOfficialMessageEvent.upload_group_and_c2c_image(
+                     send_helper,  # type: ignore

@@ -1,0 +1,3219 @@
+diff --git a/_conf_schema.json b/_conf_schema.json
+index ccb2822..3f6b8b9 100644
+--- a/_conf_schema.json
++++ b/_conf_schema.json
+@@ -105,6 +105,60 @@
+         "default": 0.3,
+         "description": "相关性阈值",
+         "hint": "低于此分数的检索结果将被过滤，0 表示不过滤，推荐 0.2-0.5"
++      },
++      "inject_timestamp": {
++        "type": "bool",
++        "default": true,
++        "description": "记忆钉时间标签",
++        "hint": "每条记忆前面标注写入时间与距今时长，用来分辨新旧"
++      },
++      "retrieval_query_context_turns": {
++        "type": "int",
++        "default": 4,
++        "description": "检索词带上文轮数",
++        "hint": "检索词拼上最近 N 轮用户发言（0=只用原始消息）"
++      },
++      "lone_token_soft_confirm_enable": {
++        "type": "bool",
++        "default": true,
++        "description": "孤词软确认",
++        "hint": "孤词/唤醒词命中时先做软确认，不拿孤词裸奔检索"
++      },
++      "lone_token_max_chars": {
++        "type": "int",
++        "default": 3,
++        "description": "孤词阈值（字）",
++        "hint": "清洗标点后长度不超过该值即视为孤词"
++      },
++      "lone_thread_window_turns": {
++        "type": "int",
++        "default": 4,
++        "description": "孤词窗口（轮）",
++        "hint": "孤词专线回看最近几轮上文，夹逼在 2～4；与检索词轮数解耦"
++      },
++      "semantic_gate_enable": {
++        "type": "bool",
++        "default": false,
++        "description": "语意裁决闸（总闸）",
++        "hint": "开启后：孤词走专线不检索；非孤词按「自足/依赖上文/真指代」分级检索。关闭则完全回到三道闸 v1 行为。"
++      },
++      "semantic_gate_time_calibration": {
++        "type": "bool",
++        "default": true,
++        "description": "时间校准",
++        "hint": "时间锚点始终注入（含「距上次对话」）、记忆按写入时间衰减重排、近窗过滤、旧账冲突告警。仅在总闸开启时生效。"
++      },
++      "decision_log_enable": {
++        "type": "bool",
++        "default": false,
++        "description": "裁决日志",
++        "hint": "每轮裁决追加一行 JSONL 到插件数据目录 decision_log/。单文件封顶 5MB、只留 7 天、最多 8 个文件。"
++      },
++      "conversation_flow_enable": {
++        "type": "bool",
++        "default": true,
++        "description": "对话流水",
++        "hint": "每轮原文只增不改地追加到会话工作区「对话流水/YYYY-MM-DD.jsonl」（重启后仍能读回）。单文件封顶 5MB、只留 30 天、最多 8 个文件；写失败静默，绝不影响聊天。"
+       }
+     }
+   },
+diff --git a/iris_memory/config/defaults.py b/iris_memory/config/defaults.py
+index f43c979..b061793 100644
+--- a/iris_memory/config/defaults.py
++++ b/iris_memory/config/defaults.py
+@@ -30,6 +30,20 @@ class L1BufferConfig:
+     summary_provider: str = ""
+     inject_queue_length: int = 50
+     image_parsing: ImageParsingConfig = field(default_factory=ImageParsingConfig)
++    thin_context_warn_enable: bool = field(
++        default=True,
++        metadata={
++            "description": "L1 上下文条数低于阈值时注入稀薄告警，抑制模型用长期记忆脑补当前话题",
++            "group": "记忆检索纪律",
++        },
++    )
++    thin_context_warn_threshold: int = field(
++        default=6,
++        metadata={
++            "description": "L1 上下文条数低于该值时触发稀薄告警",
++            "group": "记忆检索纪律",
++        },
++    )
+ 
+ 
+ @dataclass
+@@ -42,6 +56,69 @@ class L2MemoryConfig:
+     embedding_model: str = "BAAI/bge-small-zh-v1.5"
+     top_k: int = 10
+     relevance_threshold: float = 0.3
++    inject_timestamp: bool = field(
++        default=True,
++        metadata={
++            "description": "L2 记忆注入时钉上写入时间与距今时长（治「分不清今夕何夕」）",
++            "group": "记忆检索纪律",
++        },
++    )
++    retrieval_query_context_turns: int = field(
++        default=4,
++        metadata={
++            "description": "检索词拼上最近 N 轮用户发言（0=只用原始消息，等同回退）",
++            "group": "记忆检索纪律",
++        },
++    )
++    lone_token_soft_confirm_enable: bool = field(
++        default=True,
++        metadata={
++            "description": "孤词/唤醒词命中时先做软确认，不拿孤词裸奔检索",
++            "group": "记忆检索纪律",
++        },
++    )
++    lone_token_max_chars: int = field(
++        default=3,
++        metadata={
++            "description": "清洗标点后长度不超过该值即视为孤词",
++            "group": "记忆检索纪律",
++        },
++    )
++    lone_thread_window_turns: int = field(
++        default=4,
++        metadata={
++            "description": "孤词专线回看的上文轮数（独立键，夹逼在 2～4；与检索词轮数解耦）",
++            "group": "记忆检索纪律",
++        },
++    )
++    semantic_gate_enable: bool = field(
++        default=False,
++        metadata={
++            "description": "语意裁决闸总闸（孤词专线 + 分级检索，替代孤词一刀切）",
++            "group": "记忆检索纪律",
++        },
++    )
++    semantic_gate_time_calibration: bool = field(
++        default=True,
++        metadata={
++            "description": "时间校准（锚点始终注入 / 时龄衰减 / 近窗过滤 / 冲突告警）",
++            "group": "记忆检索纪律",
++        },
++    )
++    decision_log_enable: bool = field(
++        default=False,
++        metadata={
++            "description": "裁决日志（JSONL，单文件 5MB / 留 7 天 / 最多 8 个文件）",
++            "group": "记忆检索纪律",
++        },
++    )
++    conversation_flow_enable: bool = field(
++        default=True,
++        metadata={
++            "description": "对话流水（每轮原文只增不改落 JSONL，单文件 5MB / 留 30 天 / 最多 8 个文件）",
++            "group": "记忆检索纪律",
++        },
++    )
+ 
+ 
+ @dataclass
+@@ -131,14 +208,35 @@ class HiddenConfig:
+     l1_max_single_message_tokens: int = field(
+         default=500,
+         metadata={
+-            "description": "单条消息最大 Token 数，普通消息超限丢弃，合并转发消息超限截断",
++            "description": "单条消息最大 Token 数，超限按 l1_oversize_mode 处理（默认保底压缩）",
+             "group": "L1 缓冲",
+         },
+     )
+     l1_inject_max_content_chars: int = field(
+-        default=300,
++        default=2000,
++        metadata={
++            "description": "注入时单条消息字符数硬上限（最终护栏），0 表示不截断；实际值再按 l1_inject_budget_chars 动态收紧",
++            "group": "L1 缓冲",
++        },
++    )
++    l1_inject_budget_chars: int = field(
++        default=12000,
++        metadata={
++            "description": "L1 注入消息的总字符预算，单条上限按「预算/条数」动态分配；0 退回固定单条上限",
++            "group": "L1 缓冲",
++        },
++    )
++    l1_inject_min_content_chars: int = field(
++        default=200,
++        metadata={
++            "description": "L1 注入单条消息字符数下限（预算不足时兜底），0 表示不设下限",
++            "group": "L1 缓冲",
++        },
++    )
++    l1_oversize_mode: str = field(
++        default="compress",
+         metadata={
+-            "description": "注入时单条消息最大字符数，0 不截断",
++            "description": "单条消息超 Token 限制时的处理：compress=保底压缩+截断标记；drop=旧行为整条丢弃",
+             "group": "L1 缓冲",
+         },
+     )
+diff --git a/iris_memory/core/action_ledger.py b/iris_memory/core/action_ledger.py
+new file mode 100644
+index 0000000..9b6c790
+--- /dev/null
++++ b/iris_memory/core/action_ledger.py
+@@ -0,0 +1,266 @@
++"""Iris Chat Memory - 动作账本（Action Ledger, v1）
++
++设计目标（对应「方案② 中档」）：
++    日志记的是「发生过什么」，账本记的是「现在是什么」。
++    按 **资源键** 覆盖（upsert），同一个键永远只留最新一行，
++    保证任何时候翻账都能直接拿到「最新状态」，而不是一堆要自己排序的流水。
++
++三层存储：
++    ledger.json   —— 物化的当前状态（按 key 索引，原子写入）
++    ledger.jsonl  —— append-only 流水（审计 / 可重建 ledger.json）
++    backups/      —— 每次写入前的滚动备份（保留最近 N 份）
++
++安全护栏：
++    * 单键 upsert，最大 MAX_KEYS 个键，超出的老键淘汰
++    * journal 单文件超过 JOURNAL_MAX_BYTES 就轮转，最多留 JOURNAL_KEEP 份
++    * 原子写（tmp + fsync + os.replace），中途崩掉不会留下半个坏文件
++    * 本模块 **不被任何现有代码 import**，纯外挂，零行为变更
++
++用法（CLI）：
++    python3 action_ledger.py list
++    python3 action_ledger.py get semantic_gate_enable
++    python3 action_ledger.py set semantic_gate_enable true --op 开闸 --verify "决策日志 18:10 起落盘"
++    python3 action_ledger.py rebuild
++"""
++
++from __future__ import annotations
++
++import argparse
++import json
++import os
++import time
++from datetime import datetime, timedelta, timezone
++from pathlib import Path
++from typing import Any, Dict, Optional
++
++LEDGER_VERSION = 1
++CST = timezone(timedelta(hours=8))
++
++MAX_KEYS = 200
++JOURNAL_MAX_BYTES = 5 * 1024 * 1024
++JOURNAL_KEEP = 8
++BACKUP_KEEP = 20
++
++
++def _default_dir() -> Path:
++    """定位账本目录：优先环境变量，其次按插件相对路径推导。"""
++    env = os.environ.get("NANA_LEDGER_DIR")
++    if env:
++        return Path(env)
++    # iris_memory/core/action_ledger.py -> parents[2] = 插件根目录
++    plugin_root = Path(__file__).resolve().parents[2]
++    return plugin_root.parent.parent / "plugin_data" / "astrbot_plugin_iris_chat_memory" / "action_ledger"
++
++
++LEDGER_DIR = _default_dir()
++LEDGER_FILE = LEDGER_DIR / "ledger.json"
++JOURNAL_FILE = LEDGER_DIR / "ledger.jsonl"
++BACKUP_DIR = LEDGER_DIR / "backups"
++
++
++def _now_iso() -> str:
++    return datetime.now(CST).strftime("%Y-%m-%d %H:%M:%S+08:00")
++
++
++def _ensure_dirs() -> None:
++    LEDGER_DIR.mkdir(parents=True, exist_ok=True)
++    BACKUP_DIR.mkdir(parents=True, exist_ok=True)
++
++
++def _atomic_write_json(path: Path, obj: Any) -> None:
++    tmp = path.with_suffix(path.suffix + ".tmp")
++    with open(tmp, "w", encoding="utf-8") as f:
++        json.dump(obj, f, ensure_ascii=False, indent=2, sort_keys=True)
++        f.flush()
++        os.fsync(f.fileno())
++    os.replace(tmp, path)
++
++
++def _read_ledger() -> Dict[str, Any]:
++    if not LEDGER_FILE.exists():
++        return {"version": LEDGER_VERSION, "updated_at": None, "keys": {}}
++    try:
++        with open(LEDGER_FILE, "r", encoding="utf-8") as f:
++            data = json.load(f)
++        if not isinstance(data, dict) or "keys" not in data:
++            raise ValueError("bad ledger shape")
++        return data
++    except Exception:
++        # 坏了就从流水重建，不抛异常打断调用方
++        return rebuild_from_journal(silent=True)
++
++
++def _backup() -> None:
++    if not LEDGER_FILE.exists():
++        return
++    stamp = datetime.now(CST).strftime("%Y%m%d_%H%M%S")
++    dst = BACKUP_DIR / f"ledger.json.bak_{stamp}"
++    try:
++        dst.write_bytes(LEDGER_FILE.read_bytes())
++    except Exception:
++        return
++    olds = sorted(BACKUP_DIR.glob("ledger.json.bak_*"))
++    for old in olds[:-BACKUP_KEEP]:
++        try:
++            old.unlink()
++        except Exception:
++            pass
++
++
++def _append_journal(record: Dict[str, Any]) -> None:
++    _ensure_dirs()
++    if JOURNAL_FILE.exists() and JOURNAL_FILE.stat().st_size >= JOURNAL_MAX_BYTES:
++        stamp = datetime.now(CST).strftime("%Y%m%d_%H%M%S")
++        JOURNAL_FILE.rename(JOURNAL_DIR_ROTATED(stamp))
++        olds = sorted(LEDGER_DIR.glob("ledger.*.jsonl"))
++        for old in olds[:-JOURNAL_KEEP]:
++            try:
++                old.unlink()
++            except Exception:
++                pass
++    with open(JOURNAL_FILE, "a", encoding="utf-8") as f:
++        f.write(json.dumps(record, ensure_ascii=False) + "\n")
++
++
++def JOURNAL_DIR_ROTATED(stamp: str) -> Path:
++    return LEDGER_DIR / f"ledger.{stamp}.jsonl"
++
++
++def upsert(
++    key: str,
++    state: Any,
++    *,
++    op: Optional[str] = None,
++    verify: Optional[str] = None,
++    note: Optional[str] = None,
++    actor: str = "nana",
++    ts: Optional[str] = None,
++) -> Dict[str, Any]:
++    """按资源键写入/覆盖一条状态。返回这条账目。"""
++    _ensure_dirs()
++    data = _read_ledger()
++    keys: Dict[str, Any] = data.get("keys", {})
++    now = ts or _now_iso()
++
++    old = keys.get(key)
++    entry = {
++        "key": key,
++        "state": state,
++        "updated_at": now,
++        "op": op,
++        "verify": verify,
++        "note": note,
++        "actor": actor,
++        "first_at": (old or {}).get("first_at", now),
++        "revision": int((old or {}).get("revision", 0)) + 1,
++    }
++    keys[key] = entry
++
++    # 超量淘汰：按 updated_at 从旧到新砍掉多余的键
++    if len(keys) > MAX_KEYS:
++        order = sorted(keys.items(), key=lambda kv: str(kv[1].get("updated_at", "")))
++        for k, _ in order[: len(keys) - MAX_KEYS]:
++            keys.pop(k, None)
++
++    data = {"version": LEDGER_VERSION, "updated_at": _now_iso(), "keys": keys}
++    _backup()
++    _atomic_write_json(LEDGER_FILE, data)
++    _append_journal({"t": now, "actor": actor, "event": "upsert", **entry})
++    return entry
++
++
++def get(key: str) -> Optional[Dict[str, Any]]:
++    e = _read_ledger().get("keys", {}).get(key)
++    return _normalize_entry(e) if isinstance(e, dict) else e
++
++
++def _normalize_entry(e: Dict[str, Any]) -> Dict[str, Any]:
++    """兼容旧条目：缺 updated_at 的用 first_at 兜底（防 list 崩）。"""
++    if not e.get("updated_at"):
++        e = dict(e)
++        e["updated_at"] = e.get("first_at")
++    return e
++
++
++def snapshot(limit: Optional[int] = None) -> Dict[str, Any]:
++    keys = _read_ledger().get("keys", {})
++    items = [_normalize_entry(e) for e in keys.values()]
++    items.sort(key=lambda e: str(e.get("updated_at") or ""), reverse=True)
++    if limit:
++        items = items[:limit]
++    return {"count": len(keys), "items": items}
++
++
++def rebuild_from_journal(silent: bool = False) -> Dict[str, Any]:
++    """从流水重放重建当前状态（账本损坏时的兜底）。"""
++    keys: Dict[str, Any] = {}
++    if JOURNAL_FILE.exists():
++        with open(JOURNAL_FILE, "r", encoding="utf-8") as f:
++            for line in f:
++                line = line.strip()
++                if not line:
++                    continue
++                try:
++                    rec = json.loads(line)
++                except Exception:
++                    continue
++                if rec.get("event") != "upsert" or not rec.get("key"):
++                    continue
++                rec.pop("event", None)
++                keys[rec["key"]] = rec
++    data = {"version": LEDGER_VERSION, "updated_at": _now_iso(), "keys": keys}
++    if not silent:
++        _ensure_dirs()
++        _atomic_write_json(LEDGER_FILE, data)
++    return data
++
++
++# --------------------------------------------------------------------------- #
++# CLI
++# --------------------------------------------------------------------------- #
++def _main() -> None:
++    ap = argparse.ArgumentParser(description="奈奈的动作账本")
++    sub = ap.add_subparsers(dest="cmd", required=True)
++
++    sub.add_parser("list", help="列出全部账目（按更新时间倒序）")
++    p_get = sub.add_parser("get", help="查一个资源键")
++    p_get.add_argument("key")
++    p_set = sub.add_parser("set", help="写入/覆盖一个资源键")
++    p_set.add_argument("key")
++    p_set.add_argument("state", help="状态值（自动尝试 JSON 解析，失败按字符串存）")
++    p_set.add_argument("--op", default=None)
++    p_set.add_argument("--verify", default=None)
++    p_set.add_argument("--note", default=None)
++    p_set.add_argument("--actor", default="nana")
++    p_set.add_argument("--ts", default=None)
++    sub.add_parser("rebuild", help="从流水重建账本")
++    sub.add_parser("where", help="打印账本目录")
++
++    args = ap.parse_args()
++
++    if args.cmd == "where":
++        print(LEDGER_DIR)
++    elif args.cmd == "list":
++        snap = snapshot()
++        print(f"共 {snap['count']} 条 | 目录 {LEDGER_DIR}")
++        for e in snap["items"]:
++            print(f"  {e.get('updated_at')}  {e['key']} = {json.dumps(e['state'], ensure_ascii=False)}"
++                  f"{'  # ' + e['op'] if e.get('op') else ''}")
++    elif args.cmd == "get":
++        e = get(args.key)
++        print(json.dumps(e, ensure_ascii=False, indent=2) if e else f"(无此键: {args.key})")
++    elif args.cmd == "set":
++        try:
++            state = json.loads(args.state)
++        except Exception:
++            state = args.state
++        e = upsert(args.key, state, op=args.op, verify=args.verify,
++                   note=args.note, actor=args.actor, ts=args.ts)
++        print(json.dumps(e, ensure_ascii=False, indent=2))
++    elif args.cmd == "rebuild":
++        data = rebuild_from_journal()
++        print(f"重建完成：{len(data['keys'])} 条 → {LEDGER_FILE}")
++
++
++if __name__ == "__main__":
++    _main()
+diff --git a/iris_memory/core/conversation_flow.py b/iris_memory/core/conversation_flow.py
+new file mode 100644
+index 0000000..3ebab31
+--- /dev/null
++++ b/iris_memory/core/conversation_flow.py
+@@ -0,0 +1,326 @@
++"""对话流水（只增不改的原文 JSONL · 重启后仍读得回）
++
++为什么单独一个模块：
++    L1 Buffer 住在内存里，一重启就空 —— 这正是「根本问题」的存储侧。
++    本模块把每轮原文 append 到磁盘 JSONL，**只增不改**，
++    重启后还能把原话读回来（兜底用）。
++
++落点（按天分文件 · **日期 key 按北京时间**）：
++    <AstrBot workspaces>/<会话净化名>/对话流水/YYYYMMDD.jsonl
++
++时间口径（P0-A）：
++    - `ts`     = aware UTC ISO8601（统一存储表示）
++    - `ts_cst` = 北京时间镜像（人类可读，明确带 +08:00）
++    - 文件日期 key = 北京时间（`timeutil.daykey_cst`），修「UTC 跨日错位」
++    - 历史 naive 行按 UTC 解释（见 `iris_memory.utils.timeutil`）
++
++护栏（照抄 decision_log.py 的尺度 · 宁可丢，不撑爆 4G 小服务器）：
++    ① 单文件封顶 5MB —— 超了滚成 `<YYYYMMDD>.1.jsonl`；当天已滚过就放弃写
++    ② 只留 30 天
++    ③ 目录内最多 8 个文件（含当天正在写的那个）
++    ④ 单字段截断 4000 字，避免单行撑爆
++
++安全承诺：
++    - 任何异常都被吞掉并返回 None，**绝不让主链路挂掉**
++    - 不联网、不 import 重库、只碰 stdlib
++    - 只以 "a" 模式追加，**永不重写 / 永不删除历史行**
++"""
++
++from __future__ import annotations
++
++import json
++import re
++import threading
++from pathlib import Path
++from typing import Any, Optional
++
++from iris_memory.utils import timeutil
++
++# ============================================================================
++# 护栏常量（要改就改这里）
++# ============================================================================
++
++FLOW_DIRNAME: str = "对话流水"
++MAX_FILE_BYTES: int = 5 * 1024 * 1024      # 单文件封顶 5MB
++KEEP_DAYS: int = 30                        # 只留 30 天
++MAX_FILES: int = 8                         # 目录内最多 8 个文件
++MAX_FIELD_CHARS: int = 4000                # 单字段截断长度
++ENABLE_KEY: str = "l2_memory.conversation_flow_enable"
++
++_lock = threading.Lock()
++
++
++# ============================================================================
++# 总开关 / 路径
++# ============================================================================
++
++
++def enabled(config: Any) -> bool:
++    """读不到配置就一律当「不写」（宁可丢流水，不撑磁盘）。"""
++    try:
++        return bool(config.get(ENABLE_KEY, True))
++    except Exception:
++        return False
++
++
++def _safe_umo(umo: str) -> str:
++    """把 unified_msg_origin 净化成目录名（与 AstrBot 官方换算同风格）。"""
++    safe = re.sub(r"[^A-Za-z0-9._-]+", "_", (umo or "").strip())
++    return safe.strip("_.-") or "unknown"
++
++
++def _flow_dir(umo: str, create: bool) -> Optional[Path]:
++    """`<会话工作区>/对话流水`；拿不到就返回 None（宁可不写）。
++
++    create=False 时只解析路径、绝不建目录（回读侧专用）。
++    """
++    umo = (umo or "").strip()
++    if not umo:
++        return None
++    base: Optional[Path] = None
++    try:  # ① 优先用 AstrBot 官方换算（与奈奈平时操作的工作区同一处）
++        from astrbot.core.workspace import default_workspace_root
++
++        base = Path(default_workspace_root(umo))
++    except Exception:
++        try:  # ② 兜底：自己拼 workspaces 根 + 净化名
++            from astrbot.core.utils.astrbot_path import get_astrbot_workspaces_path
++
++            base = Path(get_astrbot_workspaces_path()) / _safe_umo(umo)
++        except Exception:
++            return None
++    d = base / FLOW_DIRNAME
++    if not create:
++        return d
++    try:
++        d.mkdir(parents=True, exist_ok=True)
++        return d
++    except Exception:
++        return None
++
++
++def workspace_flow_dir(umo: str) -> Optional[Path]:
++    """`<会话工作区>/对话流水`（写侧入口，会建目录）；拿不到就返回 None。"""
++    return _flow_dir(umo, create=True)
++
++
++def read_recent(umo: str, limit: int = 12) -> list[dict]:
++    """只读：回读最近 limit 条流水（按时间正序）。
++
++    回读侧的铁律：**只看、不摸**——不建目录、不写盘、不删文件。
++    任何异常一律吞掉返回 []，绝不让主链路挂掉。
++    """
++    try:
++        if limit <= 0:
++            return []
++        directory = _flow_dir(umo, create=False)
++        if directory is None or not directory.is_dir():
++            return []
++        try:
++            files = sorted(
++                (p for p in directory.glob("*.jsonl") if p.is_file()),
++                key=lambda p: p.stat().st_mtime,
++            )
++        except Exception:
++            return []
++
++        rows: list[dict] = []
++        for path in reversed(files):  # 从最新文件往回凑，够数就停
++            chunk: list[dict] = []
++            try:
++                with open(path, "r", encoding="utf-8") as f:
++                    for line in f:
++                        line = line.strip()
++                        if not line:
++                            continue
++                        try:
++                            rec = json.loads(line)
++                        except Exception:
++                            continue
++                        if isinstance(rec, dict):
++                            chunk.append(rec)
++            except Exception:
++                continue
++            rows = chunk + rows
++            if len(rows) >= limit:
++                break
++        return rows[-limit:]
++    except Exception:
++        return []
++
++
++def _prune(
++    directory: Path,
++    keep_days: int = KEEP_DAYS,
++    max_files: int = MAX_FILES,
++    reserve: int = 1,
++) -> int:
++    """清掉超期文件 + 超量文件（按修改时间从旧到新删）。返回删了几个。"""
++    removed = 0
++    try:
++        files = sorted(
++            (p for p in directory.glob("*.jsonl") if p.is_file()),
++            key=lambda p: p.stat().st_mtime,
++        )
++    except Exception:
++        return 0
++
++    # TTL 一律用 epoch（时区无关），不再用本地 naive 时间做比较
++    deadline = timeutil.epoch() - max(1, int(keep_days)) * 86400
++    for p in list(files):
++        try:
++            if p.stat().st_mtime < deadline:
++                p.unlink()
++                files.remove(p)
++                removed += 1
++        except Exception:
++            continue
++
++    overflow = len(files) - (max_files - reserve)
++    for p in files[: max(0, overflow)]:
++        try:
++            p.unlink()
++            removed += 1
++        except Exception:
++            continue
++    return removed
++
++
++# ============================================================================
++# 追加（唯一对外写入口）
++# ============================================================================
++
++
++def _clip(value: Any) -> str:
++    text = "" if value is None else str(value)
++    return text if len(text) <= MAX_FIELD_CHARS else text[:MAX_FIELD_CHARS] + "…(截断)"
++
++
++def append_turn(
++    umo: str,
++    role: str,
++    content: Any,
++    sender_id: str = "",
++    sender_name: str = "",
++    extra: Any = None,
++) -> Optional[Path]:
++    """只增不改地追加一行流水。**永不抛异常**，失败返回 None。"""
++    try:
++        if not content:
++            return None
++        try:
++            from iris_memory.config import get_config
++
++            config = get_config()
++        except Exception:
++            config = None
++        if config is not None and not enabled(config):
++            return None
++
++        directory = workspace_flow_dir(umo)
++        if directory is None:
++            return None
++
++        now = timeutil.now_utc()
++        record = {
++            # ts：统一存储表示（aware UTC ISO8601）
++            "ts": timeutil.iso_utc(now),
++            # ts_cst：人类可读的北京时间镜像（明确带 +08:00），方便姐姐直接看
++            "ts_cst": timeutil.cst_full(now),
++            "umo": _clip(umo),
++            "role": _clip(role) or "unknown",
++            "sender_id": _clip(sender_id),
++            "sender_name": _clip(sender_name),
++            "text": _clip(content),
++        }
++        if extra is not None:
++            record["extra"] = _clip(extra)
++        line = json.dumps(record, ensure_ascii=False) + "\n"
++
++        # 文件日期 key 必须按【北京时间】生成（修跨日错位）：
++        # 北京时间 00:50 的消息要落在「北京时间那一天」的文件里，
++        # 而不是容器 UTC 的昨天（旧实现 datetime.now()=UTC 会错位一天）。
++        daykey = timeutil.daykey_cst(now)
++        with _lock:
++            _prune(directory)
++            path = directory / f"{daykey}.jsonl"
++            try:
++                if path.exists() and path.stat().st_size >= MAX_FILE_BYTES:
++                    rolled = directory / f"{daykey}.1.jsonl"
++                    if rolled.exists():   # 当天已滚过 → 直接放弃写
++                        return None
++                    path = rolled
++            except Exception:
++                pass
++            with open(path, "a", encoding="utf-8") as f:
++                f.write(line)
++        _log_first_write(path)
++        return path
++    except Exception as e:
++        _log_first_error(e)
++        return None
++
++
++_first_write_logged = False
++_first_error_logged = False
++
++
++def _lazy_logger():
++    try:
++        from iris_memory.core.logger import get_logger
++
++        return get_logger("conversation_flow")
++    except Exception:
++        return None
++
++
++def _log_first_write(path: Path) -> None:
++    """进程内一次性自检：确认流水真的开始落盘（治「以为写了其实没写」）。"""
++    global _first_write_logged
++    if _first_write_logged:
++        return
++    _first_write_logged = True
++    lg = _lazy_logger()
++    if lg:
++        lg.info(f"对话流水已开始落盘（进程内首次）：{path}")
++
++
++def _log_first_error(err: BaseException) -> None:
++    """进程内一次性自检：流水写入失败原因必须留痕，不许静默吞掉。"""
++    global _first_error_logged
++    if _first_error_logged:
++        return
++    _first_error_logged = True
++    lg = _lazy_logger()
++    if lg:
++        lg.warning(f"对话流水写入失败（进程内首次）：{type(err).__name__}: {err}")
++
++
++def append_event(event: Any, role: str, content: Any, extra: Any = None) -> Optional[Path]:
++    """从事件里取 umo / 发送者，再追加一行。同样**永不抛异常**。"""
++    try:
++        umo = getattr(event, "unified_msg_origin", "") or ""
++        sender_id = ""
++        sender_name = ""
++        try:
++            sender_id = str(
++                event.get_sender_id() if hasattr(event, "get_sender_id") else ""
++            )
++        except Exception:
++            pass
++        try:
++            sender_name = str(
++                event.get_sender_name() if hasattr(event, "get_sender_name") else ""
++            )
++        except Exception:
++            pass
++        return append_turn(
++            umo=umo,
++            role=role,
++            content=content,
++            sender_id=sender_id,
++            sender_name=sender_name,
++            extra=extra,
++        )
++    except Exception:
++        return None
+diff --git a/iris_memory/core/decision_log.py b/iris_memory/core/decision_log.py
+new file mode 100644
+index 0000000..a32188d
+--- /dev/null
++++ b/iris_memory/core/decision_log.py
+@@ -0,0 +1,259 @@
++"""裁决决策日志（JSONL 落盘 · 4G 小服务器护栏版）
++
++落盘目标：`tests/` 无关，正式落点 `iris_memory/core/decision_log.py`
++数据落点：`<插件数据目录>/decision_log/YYYYMMDD.jsonl`（一天一个文件，一行一轮）
++
++为什么单独一个模块：
++    `semantic_gate.py` 的底线是「纯函数、零副作用、零网络」，
++    落盘这种事不能塞进去——否则单测就会真的碰磁盘。所以护栏写在这里，
++    gate 只出纯数据，接线层负责调用。
++
++三条护栏（宁可丢日志，不许撑爆小服务器）：
++    ① 单文件封顶 5MB —— 超了就把当天文件滚成 `YYYYMMDD.1.jsonl`；
++       若当天已滚过一次，则**直接放弃写**（不无限滚）。
++    ② 只留 7 天 —— 启动/写入时顺手清掉超期文件。
++    ③ 目录里最多 8 个文件（**含当天正在写的那个**）—— 兜底防呆，再多就删最旧的。
++
++安全承诺：
++    - 任何异常都被吞掉并返回 None，**绝不让主链路挂掉**
++    - 不联网、不 import 重库、只碰 stdlib
++    - 每行超过 200 字的字段会被截断，避免单行撑爆
++"""
++
++from __future__ import annotations
++
++import json
++import os
++import threading
++from pathlib import Path
++from typing import Any, Mapping, Optional
++
++from iris_memory.utils import timeutil
++
++# ============================================================================
++# 护栏常量（要改就改这里，别散在函数里）
++# ============================================================================
++
++DECISION_LOG_DIRNAME: str = "decision_log"
++MAX_FILE_BYTES: int = 5 * 1024 * 1024      # 单文件封顶 5MB
++KEEP_DAYS: int = 7                          # 只留 7 天
++MAX_FILES: int = 8                          # 目录内最多 8 个文件
++MAX_FIELD_CHARS: int = 200                  # 单字段截断长度
++ENABLE_KEY: str = "l2_memory.decision_log_enable"
++GATE_KEY: str = "l2_memory.semantic_gate_enable"   # 总闸：关＝不落任何行
++
++_lock = threading.Lock()
++
++
++# ============================================================================
++# 路径与清理
++# ============================================================================
++
++
++def log_dir(data_dir: Any) -> Optional[Path]:
++    """`<插件数据目录>/decision_log`；拿不到数据目录就返回 None（宁可不写）。"""
++    if not data_dir:
++        return None
++    try:
++        d = Path(data_dir) / DECISION_LOG_DIRNAME
++        d.mkdir(parents=True, exist_ok=True)
++        return d
++    except Exception:
++        return None
++
++
++def _prune(
++    directory: Path,
++    keep_days: int = KEEP_DAYS,
++    max_files: int = MAX_FILES,
++    reserve: int = 1,
++) -> int:
++    """清掉超期文件 + 超量文件（按修改时间从旧到新删）。返回删了几个。
++
++    `reserve`：给「马上要写的那一个文件」预留的名额，
++    这样「目录内最多 8 个」是**写完之后的**总数，不是写之前的。
++    """
++    removed = 0
++    try:
++        files = sorted(
++            (p for p in directory.glob("*.jsonl") if p.is_file()),
++            key=lambda p: p.stat().st_mtime,
++        )
++    except Exception:
++        return 0
++
++    # P0-A：文件清理改用 epoch（时区无关），不再用 naive 本地时间比较
++    deadline_epoch = timeutil.epoch() - max(1, int(keep_days)) * 86400
++    alive = []
++    for p in files:
++        try:
++            too_old = p.stat().st_mtime < deadline_epoch
++        except Exception:
++            too_old = False
++        if too_old:
++            try:
++                p.unlink()
++                removed += 1
++                continue
++            except Exception:
++                pass
++        alive.append(p)
++
++    cap = max(1, int(max_files) - max(0, int(reserve)))
++    overflow = len(alive) - cap
++    for p in alive[:max(0, overflow)]:
++        try:
++            p.unlink()
++            removed += 1
++        except Exception:
++            pass
++    return removed
++
++
++def _rotate_if_needed(path: Path, max_bytes: int = MAX_FILE_BYTES) -> Optional[Path]:
++    """单文件超 5MB → 滚成 `<YYYYMMDD>.1.jsonl`；当天已滚过就返回 None（放弃写）。"""
++    try:
++        if (not path.exists()) or path.stat().st_size < max_bytes:
++            return path
++        rolled = path.with_name(path.stem + ".1" + path.suffix)
++        if rolled.exists():
++            return None                      # 一天只滚一次，剩下的宁可丢
++        path.rename(rolled)
++        return path
++    except Exception:
++        return None
++
++
++# ============================================================================
++# 记录构造
++# ============================================================================
++
++
++def _clip(value: Any, limit: int = MAX_FIELD_CHARS) -> str:
++    text = "" if value is None else str(value)
++    text = text.replace("\n", " ").replace("\r", " ").strip()
++    return text if len(text) <= limit else text[:limit] + "…"
++
++
++def make_record(
++    tier: str,
++    reason: str = "",
++    query: Any = "",
++    top_k: int = 0,
++    hits: int = 0,
++    route: str = "",
++    soft_confirm: bool = False,
++    window: Any = None,
++    elapsed_ms: Any = None,
++    extra: Optional[Mapping[str, Any]] = None,
++) -> dict:
++    """一轮裁决的日志记录（纯函数，方便单测）。"""
++    record = {
++        "t": timeutil.cst_full(),        # 北京时间（人类可读，带 +08:00）
++        "t_utc": timeutil.iso_utc(),     # aware UTC ISO8601（机器口径）
++        "tier": _clip(tier, 32),
++        "reason": _clip(reason),
++        "query": _clip(query),
++        "top_k": int(top_k or 0),
++        "hits": int(hits or 0),
++        "route": _clip(route, 32),
++        "soft_confirm": bool(soft_confirm),
++    }
++    if window is not None:
++        record["window"] = _clip(window, 64)
++    if elapsed_ms is not None:
++        try:
++            record["ms"] = int(elapsed_ms)
++        except Exception:
++            pass
++    if extra:
++        for k, v in extra.items():
++            key = _clip(k, 24)
++            if key and key not in record:
++                record[key] = _clip(v)
++    return record
++
++
++# ============================================================================
++# 落盘入口：唯一的对外副作用函数（永不抛异常）
++# ============================================================================
++
++
++def write_decision(
++    record: Mapping[str, Any],
++    data_dir: Any,
++    max_bytes: int = MAX_FILE_BYTES,
++    keep_days: int = KEEP_DAYS,
++    max_files: int = MAX_FILES,
++) -> Optional[Path]:
++    """追加一行 JSONL。返回落盘的路径；任何异常/被拒都返回 None。
++
++    Args:
++        record: `make_record()` 产出的字典
++        data_dir: 插件数据目录（`config.data_dir`），取不到就不写
++    """
++    try:
++        directory = log_dir(data_dir)
++        if directory is None or not record:
++            return None
++
++        with _lock:
++            _prune(directory, keep_days, max_files, reserve=1)
++            path = directory / f"{timeutil.daykey_cst()}.jsonl"
++            target = _rotate_if_needed(path, max_bytes)
++            if target is None:
++                return None
++            line = json.dumps(dict(record), ensure_ascii=False)
++            with open(target, "a", encoding="utf-8") as f:
++                f.write(line + "\n")
++            return target
++    except Exception:
++        return None
++
++
++def emit(
++    event: Any,
++    data_dir: Any,
++    tier: str,
++    reason: str = "",
++    query: Any = "",
++    top_k: int = 0,
++    hits: int = 0,
++    route: str = "",
++    soft_confirm: bool = False,
++    window: Any = None,
++    elapsed_ms: Any = None,
++    extra: Optional[Mapping[str, Any]] = None,
++) -> Optional[Path]:
++    """接线层用的顺手版：自己拼记录 + 落盘 + 顺带把结论挂到 event 上（便于 L3 读）。"""
++    try:
++        record = make_record(
++            tier=tier, reason=reason, query=query, top_k=top_k, hits=hits,
++            route=route, soft_confirm=soft_confirm, window=window,
++            elapsed_ms=elapsed_ms, extra=extra,
++        )
++        if event is not None:
++            try:
++                setattr(event, "_iris_decision", record)
++            except Exception:
++                pass
++        return write_decision(record, data_dir)
++    except Exception:
++        return None
++
++
++def should_log(config: Any, default: bool = False) -> bool:
++    """日志是否该落盘。**两道门都要开**：
++
++    ① `l2_memory.decision_log_enable`（日志自己的开关，缺省关）
++    ② `l2_memory.semantic_gate_enable`（语意裁决总闸，缺省关）
++
++    为什么要第二道：总闸关时行为要与 v1 逐字节一致，**包括不写盘**。
++    读配置异常一律当「不写」处理（宁可丢日志，不撑磁盘）。
++    """
++    try:
++        if not bool(config.get(GATE_KEY, False)):
++            return False
++        return bool(config.get(ENABLE_KEY, default))
++    except Exception:
++        return False
+diff --git a/iris_memory/core/llm_request_hook.py b/iris_memory/core/llm_request_hook.py
+index afafd35..87d04f3 100644
+--- a/iris_memory/core/llm_request_hook.py
++++ b/iris_memory/core/llm_request_hook.py
+@@ -24,11 +24,41 @@ req.contexts 和 req.prompt。
+ 使其不持久化到会话历史中。若当前 AstrBot 版本不支持 mark_as_temp()，则自动跳过。
+ """
+ 
++from datetime import datetime, timedelta
+ from typing import TYPE_CHECKING, List, Optional, cast
++import json
+ import re
+ 
+ from iris_memory.core import get_logger
+ 
++
++def _resolve_inject_max_chars(config, msg_count: int) -> int:
++    """P0-B：按 context budget 动态计算「单条消息注入字符上限」。
++
++    旧实现固定 300 字符，长消息被拦腰砍断、信息损失大。
++    新实现把 L1 注入总量切成「总字符预算 / 条数」，再夹在
++    [单条下限, 单条硬上限] 之间：消息多则单条少、消息少则单条多。
++
++    回退开关：l1_inject_budget_chars <= 0 时，退回固定单条上限。
++    """
++    hard_cap = cast(int, config.get("l1_inject_max_content_chars", 300))
++    budget = cast(int, config.get("l1_inject_budget_chars", 0))
++    if budget <= 0 or msg_count <= 0:
++        return hard_cap
++    floor = cast(int, config.get("l1_inject_min_content_chars", 0))
++    per_msg = budget // msg_count
++    # 预算硬约束：保证 msg_count * per_msg <= budget。
++    # 下限 floor 只在「抬到 floor 后总量仍 <= budget」时才兜底，否则让位给预算。
++    if floor > 0 and per_msg < floor and floor * msg_count <= budget:
++        per_msg = floor
++    if hard_cap > 0:
++        per_msg = min(per_msg, hard_cap)
++    # 保底 1：避免 per_msg=0 被上层当成「0=不截断」而全量注入，反破预算。
++    if per_msg < 1:
++        per_msg = 1
++    return per_msg
++
++
+ _KG_STOPWORDS = frozenset(
+     {
+         "什么",
+@@ -82,6 +112,47 @@ if TYPE_CHECKING:
+ 
+ logger = get_logger("llm_request_hook")
+ 
++# —— 奈奈治「断片」②：动作账本状态块 ——
++# 每轮把账本最近这些条「现状态」顶到 L1 段最上面（时间锚点之下）。
++# 账本记「现在是什么」，是硬事实；量小（5 条），按 mtime 缓存，不拖慢热路径。
++LEDGER_INJECT_ITEMS = 5
++
++_ledger_cache: dict = {"mtime": None, "text": ""}
++
++
++def _collect_action_ledger_block(limit: int = LEDGER_INJECT_ITEMS) -> str:
++    """读动作账本最近 limit 条状态，格式化成注入块。永不抛异常。"""
++    try:
++        from iris_memory.core import action_ledger as _al
++
++        try:
++            mtime = _al.LEDGER_FILE.stat().st_mtime
++        except Exception:
++            return ""
++        if _ledger_cache["mtime"] == mtime:
++            return str(_ledger_cache["text"])
++
++        items = (_al.snapshot(limit=limit).get("items") or []) if limit > 0 else []
++        if not items:
++            text = ""
++        else:
++            lines = ["## 奈奈的动作账本（现状态 · 与旧记忆打架时以本账为准）"]
++            for entry in items:
++                state = json.dumps(entry.get("state"), ensure_ascii=False)
++                op = entry.get("op") or ""
++                tail = f" · {op}" if op else ""
++                lines.append(
++                    f"- **{entry.get('key')}** = {state}"
++                    f"（{entry.get('updated_at')}{tail}）"
++                )
++            text = "\n".join(lines)
++
++        _ledger_cache["mtime"] = mtime
++        _ledger_cache["text"] = text
++        return text
++    except Exception:
++        return ""
++
+ 
+ async def preprocess_llm_request(
+     event: "AstrMessageEvent",
+@@ -123,6 +194,36 @@ async def preprocess_llm_request(
+     except Exception as e:
+         logger.error(f"L1 上下文收集失败，已隔离：{e}", exc_info=True)
+ 
++    # —— 奈奈治「断片」②：动作账本状态块（现状态优先，压在 L1 正文之上）——
++    try:
++        _ledger_block = _collect_action_ledger_block()
++        if _ledger_block:
++            l1_text = f"{_ledger_block}\n\n{l1_text}" if l1_text else _ledger_block
++    except Exception as e:
++        logger.error(f"动作账本注入失败，已隔离：{e}", exc_info=True)
++
++    # —— 修#5/#10：时间锚点（含「距上次对话」）挂在 L1 顶部，始终注入 ——
++    try:
++        from iris_memory.config import get_config as _get_config
++        from iris_memory.core import semantic_gate as _sg
++        from iris_memory.platform import get_adapter as _get_adapter
++
++        _cfg = _get_config()
++        if cast(bool, _cfg.get("l2_memory.semantic_gate_enable", False)) and cast(
++            bool, _cfg.get("l2_memory.semantic_gate_time_calibration", True)
++        ):
++            _buffer = component_manager.get_available_component("l1_buffer")
++            _last_ts = None
++            if _buffer:
++                _adapter = _get_adapter(event)
++                _msgs = _buffer.get_context(_adapter.get_session_id(event), 50)
++                if _msgs:
++                    _last_ts = getattr(_msgs[-1], "timestamp", None)
++            _anchor = _sg.time_anchor_line(last_message_ts=_last_ts)
++            l1_text = f"{_anchor}\n{l1_text}" if l1_text else _anchor
++    except Exception as e:
++        logger.error(f"时间锚点注入失败，已隔离：{e}", exc_info=True)
++
+     try:
+         profile_text = await _collect_user_profile(event, component_manager)
+     except Exception as e:
+@@ -139,6 +240,10 @@ async def preprocess_llm_request(
+     elif hasattr(event, "get_message_str"):
+         user_message = event.get_message_str()
+ 
++    # 闸②联动：孤词且无上文时，别让 L3 拿着孤词去搜关键词
++    if getattr(event, "_iris_lone_token_skip", False):
++        user_message = ""
++
+     try:
+         l3_text = await _collect_l3_knowledge_graph(
+             event, component_manager, l2_results, user_message
+@@ -146,6 +251,24 @@ async def preprocess_llm_request(
+     except Exception as e:
+         logger.error(f"L3 知识图谱检索失败，已隔离：{e}", exc_info=True)
+ 
++    # 闸③：稀薄上下文告警。只在「真的有记忆可能被误用」时才开口，
++    # 既无 L1 又无 L2/L3 时保持沉默，不制造无意义噪声。
++    try:
++        # 修#11（乙：跟随总闸）：开闸时软确认文案不算「有记忆」，要用真检索结果判；
++        # 总闸关时保持 v1 判据（软确认文案非空即算「有记忆」）→ 回退逐字节一致。
++        from iris_memory.config import get_config as _cfg_get_gate
++
++        _gate_on = cast(
++            bool, _cfg_get_gate().get("l2_memory.semantic_gate_enable", False)
++        )
++        if _gate_on:
++            _mem_present = bool(l2_results) or bool(l3_text)
++        else:
++            _mem_present = bool(l2_text) or bool(l3_text)
++        l1_text = _apply_thin_context_warn(l1_text, req, _mem_present)
++    except Exception as e:
++        logger.error(f"稀薄告警注入失败，已隔离：{e}", exc_info=True)
++
+     _inject_to_extra_user_content_parts(req, l1_text, profile_text, l2_text, l3_text)
+ 
+     _log_final_context(req)
+@@ -365,7 +488,7 @@ async def _collect_l1_context(
+         logger.debug(f"群聊 {group_id} 排除当前消息后 L1 上下文为空，跳过注入")
+         return ""
+ 
+-    max_content_chars = cast(int, config.get("l1_inject_max_content_chars"))
++    max_content_chars = _resolve_inject_max_chars(config, len(messages))
+ 
+     lines = []
+     if group_id:
+@@ -587,6 +710,162 @@ async def _rewrite_query_for_retrieval(
+         return None
+ 
+ 
++# ============================================================================
++# 记忆检索纪律闸（姐姐 2026-10-05 定：治「分不清今夕何夕」与「孤词乱检索」）
++# ============================================================================
++
++_WAKE_NOISE_RE = re.compile(r"\[At:[^\]]*\]")
++_PUNCT_ONLY_RE = re.compile(
++    r"[\s，。！？!?~～,.;；:：、…—\-—_\"'“”‘’（）()\[\]【】<>《》]+"
++)
++
++
++def _clean_short_text(text: str) -> str:
++    """洗掉 @占位符与标点，只留实词，用于判断是不是「孤词」。"""
++    if not text:
++        return ""
++    cleaned = _WAKE_NOISE_RE.sub("", text)
++    cleaned = _PUNCT_ONLY_RE.sub("", cleaned)
++    return cleaned.strip()
++
++
++def _is_lone_token(text: str, max_chars: int) -> bool:
++    """判断是否为孤词/唤醒词（清洗后长度不超过阈值）。"""
++    cleaned = _clean_short_text(text)
++    if not cleaned:
++        return True
++    return len(cleaned) <= max(1, max_chars)
++
++
++def _format_memory_time_tag(entry: object) -> str:
++    """给一条 L2 记忆钉上时间前缀：[MM-DD HH:MM · N天前]
++
++    时间口径说明：落库时间戳是写入时的「本地时钟」（容器多为 UTC），
++    展示时统一换算成北京时间（UTC+8）。补差是动态算的：
++    shift = 8h - 本地相对 UTC 的偏移，所以将来容器时区改成 CST，
++    也不会重复叠加 8 小时。没有时间戳时老实写 [时间未知]，
++    绝不用当前时间冒充。
++    """
++    raw = getattr(entry, "timestamp", None)
++    if not raw:
++        return "[时间未知] "
++    try:
++        dt = datetime.fromisoformat(str(raw))
++    except Exception:
++        return f"[{str(raw)[:16]}] "
++    if dt.tzinfo is not None:
++        dt = dt.astimezone().replace(tzinfo=None)
++
++    try:
++        import time as _time
++
++        shift = 8 * 3600 - int(_time.localtime().tm_gmtoff)
++    except Exception:
++        shift = 0
++
++    shown = dt + timedelta(seconds=shift)
++    now_shown = datetime.now() + timedelta(seconds=shift)
++    delta_days = (now_shown.date() - shown.date()).days
++    if delta_days <= 0:
++        age = "今天"
++    elif delta_days == 1:
++        age = "昨天"
++    else:
++        age = f"{delta_days}天前"
++    return f"[{shown.strftime('%m-%d %H:%M')} · {age}] "
++
++
++async def _recent_user_utterances(
++    event: "AstrMessageEvent",
++    component_manager: "ComponentManager",
++    turns: int,
++) -> List[str]:
++    """取最近若干条「用户实质发言」，用来给检索词补上下文。
++
++    跳过非用户消息、空消息、当前这句话本身，以及同样是孤词的历史条目。
++    """
++    if turns <= 0:
++        return []
++
++    from iris_memory.config import get_config
++    from iris_memory.platform import get_adapter
++
++    buffer = component_manager.get_available_component("l1_buffer")
++    if not buffer:
++        return []
++
++    config = get_config()
++    max_len = cast(int, config.get("l1_buffer.inject_queue_length", 50))
++    lone_max = cast(int, config.get("l2_memory.lone_token_max_chars", 3))
++
++    adapter = get_adapter(event)
++    session_id = adapter.get_session_id(event)
++
++    current = ""
++    if hasattr(event, "message_str") and event.message_str:
++        current = event.message_str
++    elif hasattr(event, "get_message_str"):
++        current = event.get_message_str()
++    current = (current or "").strip()
++
++    try:
++        messages = buffer.get_context(session_id, max_len)
++    except Exception as e:
++        logger.debug(f"取 L1 上下文补检索词失败：{e}")
++        return []
++
++    if not messages:
++        return []
++
++    utterances: List[str] = []
++    for msg in messages:
++        if getattr(msg, "role", "") != "user":
++            continue
++        content = (getattr(msg, "content", "") or "").strip()
++        if not content or (current and content == current):
++            continue
++        if _is_lone_token(content, lone_max):
++            continue
++        utterances.append(content)
++
++    return utterances[-turns:]
++
++
++def _apply_thin_context_warn(
++    l1_text: str, req: "ProviderRequest", memories_present: bool = False
++) -> str:
++    """闸③：L1 上下文稀薄时注入一行告警，抑制「用长期记忆脑补当前话题」。
++
++    只在「有 L1 文本」或「本轮真的注入了 L2/L3 记忆」时才开口——
++    两者都没有时，没有可被误用的东西，保持沉默。
++    """
++    from iris_memory.config import get_config
++
++    config = get_config()
++    if not config.get("l1_buffer.thin_context_warn_enable", True):
++        return l1_text
++
++    threshold = cast(int, config.get("l1_buffer.thin_context_warn_threshold", 6))
++    try:
++        count = int(getattr(req, "_l1_context_count", 0))
++    except Exception:
++        count = 0
++
++    if count >= threshold:
++        return l1_text
++
++    if not l1_text and not memories_present:
++        return l1_text
++
++    warn = (
++        f"⚠️【上下文稀薄告警】本轮可用对话上下文仅 {count} 条（阈值 {threshold}）。"
++        "请以姐姐当前这句话为准，不要拿长期记忆替她脑补当前话题；"
++        "信息不够就先用一句话温柔确认，再回答。"
++    )
++    logger.debug(f"上下文稀薄告警已注入（{count}/{threshold}）")
++    return f"{l1_text}\n{warn}" if l1_text else warn
++
++
+ async def _collect_l2_memory(
+     event: "AstrMessageEvent",
+     component_manager: "ComponentManager",
+@@ -639,11 +918,108 @@ async def _collect_l2_memory(
+         logger.debug("无法获取用户消息，跳过记忆检索")
+         return "", []
+ 
++    # —— 语意裁决闸 v3.3：①孤词专线（不检索）②分级检索 ③近窗兜底 ④时间校准 ——
++    from iris_memory.core import decision_log as _dl
++    from iris_memory.core import semantic_gate as _sg
++
++    lone_enable = cast(
++        bool, config.get("l2_memory.lone_token_soft_confirm_enable", True)
++    )
++    lone_max = cast(int, config.get("l2_memory.lone_token_max_chars", 3))
++    turns = cast(int, config.get("l2_memory.retrieval_query_context_turns", 4))
++    # 改动清单 F：孤词窗口与「检索词轮数」彻底解耦（独立键，夹逼在 2～4 轮）
++    lone_window = _sg.resolve_lone_window(
++        config.get("l2_memory.lone_thread_window_turns", _sg.LONE_THREAD_WINDOW_DEFAULT)
++    )
++    base_top_k = cast(int, config.get("l2_memory.top_k", 10))
++    base_threshold = cast(float, config.get("l2_memory.relevance_threshold", 0.3))
++    sg_enable = cast(bool, config.get("l2_memory.semantic_gate_enable", False))
++    # 修#12：时间校准跟随总闸 → 「总闸关 = 与 v1 逐字节一致」
++    sg_time = (
++        cast(bool, config.get("l2_memory.semantic_gate_time_calibration", True))
++        and sg_enable
++    )
++    # 改动清单 C：裁决日志（默认关；写盘异常全吞，绝不影响主链路）
++    # 修#11·乙配套：日志只在「总闸开」时落盘 → 总闸关时一个字节都不写。
++    log_enable = _dl.should_log(config)
++    data_dir = getattr(config, "data_dir", None)
++
++    # 总闸关时，取上文的窗口与 v1 完全一致（保「逐字节一致」承诺）
++    fetch_turns = max(int(turns), int(lone_window)) if sg_enable else int(turns)
++    recent = await _recent_user_utterances(event, component_manager, fetch_turns)
++    lone_v1 = lone_enable and _is_lone_token(query_text, lone_max)
++
++    # ===== ① 孤词专线：不叫醒 L2/L3，只接最近 2～4 轮上文 =====
++    if sg_enable and lone_v1:
++        setattr(event, "_iris_lone_token_skip", True)
++        notice, has_thread, _used = _sg.lone_thread_payload(recent, lone_window)
++        logger.debug(
++            f"孤词专线：L2/L3 零调用（窗口 {lone_window} 轮，有上文={has_thread}）"
++        )
++        if log_enable:
++            _dl.emit(
++                event, data_dir, tier="lone",
++                reason=f"孤词·{'有' if has_thread else '无'}上文"
++                       f"（{len(_sg.clean_text(query_text))}字）",
++                query=query_text, top_k=0, hits=0, route="lone_thread",
++                soft_confirm=not has_thread, window=lone_window,
++            )
++        return notice, []
++
++    # ===== ② 分级检索：热（自足）轻检索 / 冷（依赖上文）全量 / 真孤词兜底 =====
++    verdict = None
++    policy = None
++    if sg_enable:
++        try:
++            verdict = _sg.arbitrate(query_text, recent, lone_max=lone_max)
++            policy = _sg.policy_for(verdict, base_top_k, base_threshold)
++            logger.debug(
++                f"语意裁决：{verdict.tier}（{verdict.reason}）→ {verdict.retrieval_tier}"
++            )
++        except Exception as e:
++            logger.error(f"语意裁决失败，降级旧逻辑：{e}", exc_info=True)
++            verdict = None
++            policy = None
++
++    if verdict is not None and policy is not None:
++        retrieval_query = _sg.build_retrieval_query(verdict, query_text, recent, turns)
++        top_k = policy.top_k
++        min_score = policy.min_score
++        max_age_days = policy.max_age_days
++    else:
++        # ===== 回退分支：与三道闸 v1 行为逐字节一致 =====
++        if lone_v1 and not recent:
++            setattr(event, "_iris_lone_token_skip", True)
++            logger.debug("孤词且无上文：跳过 L2/L3 检索，改为软确认")
++            return (
++                "## 相关记忆\n"
++                "（本轮姐姐只发来一个极短孤词/唤醒词，且没有可用上文。"
++                "已按纪律跳过向量检索，避免凭长期记忆臆测她当下的意思。"
++                "请先用一句话温柔确认她想聊什么，不要翻旧账。）",
++                [],
++            )
++
++        query_parts = list(recent)
++        if not lone_v1:
++            query_parts.append(query_text)
++        if not query_parts:
++            query_parts = [query_text]
++        retrieval_query = " ".join(query_parts[-max(turns, 1):])
++        top_k = base_top_k
++        min_score = base_threshold
++        max_age_days = None
++
++    if retrieval_query != query_text:
++        logger.debug(
++            f"检索词已带上下文（孤词={lone_v1}，档位="
++            f"{verdict.retrieval_tier if verdict else 'v1'}）：{retrieval_query[:80]}"
++        )
++
+     try:
+         rewritten_query = await _rewrite_query_for_retrieval(
+-            query_text, component_manager
++            retrieval_query, component_manager
+         )
+-        search_query = rewritten_query if rewritten_query else query_text
++        search_query = rewritten_query if rewritten_query else retrieval_query
+ 
+         from iris_memory.l2_memory import MemoryRetriever
+ 
+@@ -652,19 +1028,79 @@ async def _collect_l2_memory(
+         )
+         retriever = MemoryRetriever(component_manager, llm_manager)
+ 
+-        l2_results = await retriever.retrieve(
+-            query=search_query,
+-            group_id=group_id,
+-            persona_id=persona_id,
+-        )
++        # 修#11·乙配套：总闸关时连「调用写法」都与 v1 对齐
++        # （v1 不传 top_k，靠 retriever 内部回落 l2_memory.top_k；开闸后才显式给剂量）
++        _retrieve_kwargs: dict = {
++            "query": search_query,
++            "group_id": group_id,
++            "persona_id": persona_id,
++        }
++        if verdict is not None:
++            _retrieve_kwargs["top_k"] = top_k
++
++        l2_results = await retriever.retrieve(**_retrieve_kwargs)
++
++        # 时间校准：修#2（不回退原结果）＋ 修#4（未知时间不当今天）
++        if l2_results and sg_time and verdict is not None:
++            try:
++                if max_age_days is not None:
++                    kept = []
++                    for r in l2_results:
++                        age = _sg.entry_age_days(getattr(r, "entry", r))
++                        if age is not None and age <= max_age_days:
++                            kept.append(r)
++                    l2_results = kept          # 修#2：空就空，不 or 回原结果
++                l2_results = [
++                    r
++                    for r in l2_results
++                    if float(getattr(r, "score", 0.0) or 0.0) >= min_score
++                ]
++                l2_results = _sg.rerank_by_time(l2_results)
++            except Exception as e:
++                logger.error(f"时间校准失败，保留原序：{e}", exc_info=True)
++
++        # 修#8：用 policy.soft_confirm_on_miss 当开关，取代硬编码
++        if (
++            verdict is not None
++            and policy is not None
++            and policy.soft_confirm_on_miss
++            and not l2_results
++        ):
++            setattr(event, "_iris_lone_token_skip", True)   # 顺带让 L3 也别拿这个词去搜
++            if log_enable:
++                _dl.emit(
++                    event, data_dir, tier=verdict.tier, reason=verdict.reason,
++                    query=retrieval_query, top_k=top_k, hits=0,
++                    route=verdict.retrieval_tier, soft_confirm=True,
++                )
++            return _sg.frail_miss_soft_confirm(verdict, 0), []
++
++        if log_enable and verdict is not None:
++            _dl.emit(
++                event, data_dir, tier=verdict.tier, reason=verdict.reason,
++                query=retrieval_query, top_k=top_k, hits=len(l2_results),
++                route=verdict.retrieval_tier, soft_confirm=False,
++            )
+ 
+         context_text = ""
+         if l2_results:
+             max_tokens = cast(int, config.get("token_budget_max_tokens", 2000))
+             trimmed = MemoryRetriever.trim_by_token_budget(l2_results, max_tokens)
++            stamp_enable = cast(bool, config.get("l2_memory.inject_timestamp", True))
+             context_lines = ["## 相关记忆"]
++            if stamp_enable:
++                context_lines.append(
++                    "（方括号内为该条记忆的写入时间与距今时长，用来分辨新旧："
++                    "越新的越可能仍有效，旧条目不要当成今天发生的事。）"
++                )
+             for i, result in enumerate(trimmed, 1):
+-                context_lines.append(f"{i}. {result.entry.content}")
++                tag = _format_memory_time_tag(result.entry) if stamp_enable else ""
++                context_lines.append(f"{i}. {tag}{result.entry.content}")
++            # 修#10：时间锚点已上移到 L1 段顶部统一注入（见 preprocess_llm_request）
++            if sg_time and verdict is not None:
++                warn = _sg.time_conflict_warn(l2_results, verdict)
++                if warn:
++                    context_lines.append(warn)
+             context_text = "\n".join(context_lines)
+ 
+         if context_text:
+@@ -677,6 +1113,7 @@ async def _collect_l2_memory(
+         return "", []
+ 
+ 
++
+ async def _collect_l3_knowledge_graph(
+     event: "AstrMessageEvent",
+     component_manager: "ComponentManager",
+diff --git a/iris_memory/core/llm_response_hook.py b/iris_memory/core/llm_response_hook.py
+index c4dbbf7..e93ffa1 100644
+--- a/iris_memory/core/llm_response_hook.py
++++ b/iris_memory/core/llm_response_hook.py
+@@ -67,3 +67,12 @@ async def handle_llm_response(
+     )
+ 
+     logger.debug(f"已添加助手响应到会话 {session_id} 的 L1 Buffer")
++
++    # —— 对话流水（只增不改的原文 JSONL · 存储侧兜底）——
++    # 放在最后、且模块内部吞掉一切异常，绝不阻断主链路。
++    try:
++        from iris_memory.core import conversation_flow as _cf
++
++        _cf.append_event(event, "assistant", assistant_msg)
++    except Exception:
++        pass
+diff --git a/iris_memory/core/message_hook.py b/iris_memory/core/message_hook.py
+index f768f62..fbc4199 100644
+--- a/iris_memory/core/message_hook.py
++++ b/iris_memory/core/message_hook.py
+@@ -26,6 +26,87 @@ logger = get_logger("message_hook")
+ _name_cache: OrderedDict = OrderedDict()
+ _NAME_CACHE_MAX_SIZE = 1000
+ 
++# —— 奈奈治「断片」①：对话流水回读数 ——
++# 重启 / 热重载后 L1 是白的，用最近这些条原话把上下文接回来（12 条 ≈ 6 个来回）。
++# 只在该会话 L1 为空时补一次，正常对话不触发、不重复补。
++REHYDRATE_LINES = 12
++
++_rehydrate_done: set[str] = set()
++
++
++async def _rehydrate_l1_if_empty(
++    event: "AstrMessageEvent", component_manager: "ComponentManager"
++) -> None:
++    """L1 为空时，从对话流水回读最近若干条，把上下文接回来。
++
++    触发条件（全部满足才动手）：
++      1. 该会话的 L1 队列为空（刚重启 / 刚热重载）
++      2. 对话流水里有原文
++
++    安全承诺：任何异常都被吞掉，绝不影响本条消息的正常入库。
++    """
++    try:
++        buffer = component_manager.get_available_component("l1_buffer")
++        if not buffer:
++            return
++
++        from iris_memory.platform import get_adapter
++
++        adapter = get_adapter(event)
++        session_id = adapter.get_session_id(event)
++        if not session_id:
++            return
++
++        l1_buffer = cast("L1Buffer", buffer)
++        if l1_buffer.get_context(session_id, 1):
++            _rehydrate_done.add(session_id)
++            return
++        if session_id in _rehydrate_done:
++            # 同一进程里刚补过又空了（例如清空会话），不再重复回读，避免刷屏
++            return
++
++        umo = getattr(event, "unified_msg_origin", "") or ""
++        if not umo:
++            return
++
++        from iris_memory.core import conversation_flow as _cf
++
++        rows = _cf.read_recent(umo, limit=REHYDRATE_LINES)
++        if not rows:
++            return
++
++        from iris_memory.core.persona import resolve_persona
++
++        persona_id = await resolve_persona(component_manager, event)
++
++        added = 0
++        for rec in rows:
++            role = "assistant" if str(rec.get("role")) == "assistant" else "user"
++            text = rec.get("text") or ""
++            if not text:
++                continue
++            source = (
++                "assistant" if role == "assistant" else str(rec.get("sender_id") or "flow")
++            )
++            ok = await l1_buffer.add_message(
++                group_id=session_id,
++                role=role,
++                content=text,
++                source=source,
++                persona_id=persona_id,
++            )
++            if ok:
++                added += 1
++
++        _rehydrate_done.add(session_id)
++        if added:
++            logger.info(
++                f"对话流水回读：会话 {session_id} 补回 {added}/{len(rows)} 条上下文"
++            )
++    except Exception as e:
++        logger.error(f"对话流水回读失败，已隔离：{e}", exc_info=True)
++
++
+ 
+ def _get_cached_name(key: str) -> str | None:
+     if key in _name_cache:
+@@ -50,6 +131,7 @@ async def handle_user_message(
+     """处理用户消息钩子
+ 
+     执行所有用户消息的处理逻辑（按顺序执行）：
++    0. L1 为空时先从对话流水回读（治「重启/热重载后断片」）
+     1. 添加用户消息到 L1 Buffer
+     2. 用户画像更新
+     3. 图片入队到 L1 Buffer 图片队列
+@@ -59,10 +141,20 @@ async def handle_user_message(
+         event: AstrBot 消息事件对象
+         component_manager: 组件管理器实例
+     """
++    await _rehydrate_l1_if_empty(event, component_manager)
+     await _add_to_l1_buffer(event, component_manager)
+     await _queue_images_to_l1_buffer(event, component_manager)
+     await _parse_images_if_enabled(event, component_manager)
+ 
++    # —— 对话流水（只增不改的原文 JSONL · 存储侧兜底）——
++    # 模块内部吞掉一切异常，这里再包一层，确保绝不阻断主链路。
++    try:
++        from iris_memory.core import conversation_flow as _cf
++
++        _cf.append_event(event, "user", getattr(event, "message_str", "") or "")
++    except Exception:
++        pass
++
+ 
+ def _backfill_reply_from_buffer(
+     l1_buffer: "L1Buffer",
+diff --git a/iris_memory/core/semantic_gate.py b/iris_memory/core/semantic_gate.py
+new file mode 100644
+index 0000000..e40e531
+--- /dev/null
++++ b/iris_memory/core/semantic_gate.py
+@@ -0,0 +1,516 @@
++"""
++语意裁决闸 v3.2 —— 「L1 上下文为主，L2/L3 为辅，时间做校准」
++
++姐姐 2026-10-05 定：裁决范围从「孤词」扩大到「所有消息」。
++姐姐 2026-10-06 定：孤词走「专线」——只看「是不是孤词」这一条，
++                     不再等 verdict 分级，也不再拿近窗去兜底。
++
++固定处理顺序：
++    ① 孤词专线：是孤词 → 不叫醒 L2/L3，只依据最近 2～4 轮上文接话
++       （有还悬着的事就顺一句轻软地接；没有就当作新对话自然开场）
++    ② 非孤词：先看 L1 上下文，判断这句话冷不冷（能不能自解释）
++    ③ 冷（依赖上文 / 指代）→ 才去叫醒 L2/L3；热（自足）→ 只做轻检索（半量）
++    ④ 兜底：指代但无上文 → 近窗（默认 3 天）兜一次，兜到接语义，兜不到才软确认
++    ⑤ 全程带时间思考与校准：时间锚点始终注入（含「距上次对话」）、
++       按记忆时龄降权、当下时态词 vs 全旧记忆冲突时告警
++
++三档语义裁决（Verdict.tier）：
++
++| tier            | 含义                             | 检索档位      | 查询词拼法            |
++|-----------------|----------------------------------|---------------|-----------------------|
++| self_contained  | 自身信息完整，不依赖上文         | light（半量） | 当前句为主 + 1 条上文 |
++| needs_context   | 靠 L1 上文才能懂                 | normal        | 最近 N 轮 + 当前句    |
++| frail           | 上文也补不出（指代无上文等）     | last_resort   | 1 条上文 + 当前词     |
++
++设计约束：
++- 纯函数、零副作用、零网络调用，方便单测
++- 不 import llm_request_hook（避免循环依赖）；清洗工具在这里定义，hook 反过来复用它
++- 任何异常都不能让主链路挂掉：调用方一律 try/except 包住
++
++v3.2 相对 v3.1 图纸的差异（奈奈补刀 #12，见方案文档）：
++- `time_anchor_line()` 的注入开关建议跟随总闸（`semantic_gate_enable`），
++  否则「总闸关 = 行为与 v1 逐字节一致」这句承诺不成立。
++  本文件只提供函数，开关裁决留给接线处（8.3 已按「跟随总闸」写好）。
++
++v3.3 相对 v3.2 的差异（2026-10-06 二审修订，改动清单 F）：
++- 【升④ 落地】孤词专线窗口与「检索词轮数」彻底解耦：
++  新增独立键 `l2_memory.lone_thread_window_turns`（默认 4），
++  并提供 `resolve_lone_window()` / `lone_window_recent()` 两个纯函数。
++  从此姐姐把 `retrieval_query_context_turns` 拧到 6，孤词窗口仍守在「最近二到四轮」。
++- 其余逻辑一行未动：`arbitrate` / `policy_for` / 时间校准 / 孤词文案 与 v3.2 逐字节一致。
++"""
++
++from dataclasses import dataclass, field
++from datetime import datetime, timedelta
++from typing import Any, Iterable, List, Optional, Sequence, Tuple
++import re
++
++# ============================================================================
++# 一、文本清洗（唯一真源：hook 复用本模块，不再各写一份）
++# ============================================================================
++
++_WAKE_NOISE_RE = re.compile(r"\[At:[^\]]*\]")
++_PUNCT_ONLY_RE = re.compile(
++    r"[\s，。！？!?~～,.;；:：、…—\-—_\"'“”‘’（）()\[\]【】<>《》]+"
++)
++
++
++def clean_text(text: Optional[str]) -> str:
++    """洗掉 @占位符与标点，只留实词。"""
++    if not text:
++        return ""
++    return _PUNCT_ONLY_RE.sub("", _WAKE_NOISE_RE.sub("", text)).strip()
++
++
++def is_lone(text: Optional[str], max_chars: int = 3) -> bool:
++    """是否为孤词/唤醒词（清洗后长度不超过阈值）。"""
++    cleaned = clean_text(text)
++    if not cleaned:
++        return True
++    return len(cleaned) <= max(1, int(max_chars))
++
++
++def has_context(recent_utterances: Optional[Sequence[str]]) -> bool:
++    """上方到底有没有可接的东西。
++
++    修#7：口径统一为「有任一条洗出实词」，与 arbitrate 内部判据同源，
++    不再出现 hook 用 `not recent`、闸内用 `clean_text` 两套标准。
++    """
++    return any(clean_text(u) for u in (recent_utterances or []))
++
++
++# ============================================================================
++# 二、语意信号词表
++# ============================================================================
++
++# 承上/指代词：命中即说明「必须靠上文才能懂」
++# 修#6：去掉裸单字（此 / 该 / 它 / 其），避免「因此 / 应该 / 其它 / 其实」被误伤
++_REFERENCE_WORDS: Tuple[str, ...] = (
++    "这个", "那个", "这些", "那些", "这样", "那样", "它们", "此方案", "该方案",
++    "上面", "上述", "前述", "前面", "前一条", "那条", "这条",
++    "接下来", "然后", "接着", "继续", "还有吗", "下一个", "同样", "也是",
++    "一样", "三个", "两个", "几个", "哪些", "哪条", "第一种", "第二种",
++    "上次", "之前", "那个方案", "那件事", "这题", "那条消息", "刚才那个",
++)
++
++# 单字指代：只有紧贴名词时才认（此方案 / 该条 / 它个…），裸「此」「该」「它」不认
++_SINGLE_REF_RE = re.compile(r"([此该它其])(?:方案|条|个|些|项|种|件事|题|消息)")
++
++# 当下时态词：说话人把锚点钉在「今天/现在」，旧记忆不该被当成今天的事
++_PRESENT_MARKERS: Tuple[str, ...] = (
++    "今天", "今晚", "今早", "现在", "刚刚", "刚才", "这会儿", "马上",
++    "待会", "这两天", "这周", "本周", "目前",
++)
++
++
++# ============================================================================
++# 三、裁决结果
++# ============================================================================
++
++
++@dataclass
++class Verdict:
++    """一句话的语意裁决结果。"""
++
++    tier: str  # self_contained | needs_context | frail
++    clean_len: int = 0
++    references: List[str] = field(default_factory=list)
++    present_marker: Optional[str] = None
++    reason: str = ""
++
++    @property
++    def retrieval_tier(self) -> str:
++        """检索档位：light / normal / last_resort。"""
++        return {
++            "self_contained": "light",
++            "needs_context": "normal",
++            "frail": "last_resort",
++        }.get(self.tier, "normal")
++
++    @property
++    def need_retrieval(self) -> bool:
++        """self_contained 允许轻检索；其余两档属于「必须叫醒」或「兜底」。"""
++        return self.tier != "self_contained"
++
++    def to_dict(self) -> dict:
++        return {
++            "tier": self.tier,
++            "clean_len": self.clean_len,
++            "references": list(self.references),
++            "present_marker": self.present_marker,
++            "reason": self.reason,
++            "retrieval_tier": self.retrieval_tier,
++        }
++
++
++def detect_references(text: str) -> List[str]:
++    """捡出指代/承上词（含「单字＋名词」的合法单字指代）。"""
++    cleaned = clean_text(text)
++    hits = [w for w in _REFERENCE_WORDS if w in cleaned]
++    for m in _SINGLE_REF_RE.finditer(cleaned):
++        if m.group(0) not in hits:
++            hits.append(m.group(0))
++    return hits
++
++
++def detect_present_marker(text: str) -> Optional[str]:
++    """捡出当下时态词（今天/现在/刚才…）。"""
++    cleaned = clean_text(text)
++    for w in _PRESENT_MARKERS:
++        if w in cleaned:
++            return w
++    return None
++
++
++def arbitrate(
++    current_text: Optional[str],
++    recent_utterances: Optional[Sequence[str]] = None,
++    lone_max: int = 3,
++) -> Verdict:
++    """核心裁决：先判「这句话离了上文能不能懂」。
++
++    注意：孤词在接线层已由「孤词专线」提前拦走；本函数仍保留孤词分支，
++    是为了「专线开关关掉」或「被别处单独调用」时行为依旧自洽。
++
++    Args:
++        current_text: 姐姐这一轮的原话
++        recent_utterances: 从 L1 捞到的最近若干条「用户实质发言」（旧→新）
++        lone_max: 孤词阈值（清洗后字数）
++
++    Returns:
++        Verdict
++    """
++    cleaned = clean_text(current_text)
++    refs = detect_references(cleaned)
++    present = detect_present_marker(cleaned)
++    has_recent = has_context(recent_utterances)
++
++    if not cleaned:
++        verdict = Verdict("frail", 0, refs, present, "空消息/纯符号")
++    elif is_lone(cleaned, lone_max):
++        if has_recent:
++            verdict = Verdict(
++                "needs_context", len(cleaned), refs, present,
++                f"孤词·有上文（{len(cleaned)}字）",
++            )
++        else:
++            verdict = Verdict(
++                "frail", len(cleaned), refs, present,
++                f"孤词·无上文（{len(cleaned)}字）",
++            )
++    elif refs and not has_recent:
++        verdict = Verdict(
++            "frail", len(cleaned), refs, present,
++            "指代词但无上文：" + "/".join(refs[:3]),
++        )
++    elif refs:
++        verdict = Verdict(
++            "needs_context", len(cleaned), refs, present,
++            "依赖上文：" + "/".join(refs[:3]),
++        )
++    else:
++        verdict = Verdict("self_contained", len(cleaned), refs, present, "自身信息完整")
++
++    return verdict
++
++
++# ============================================================================
++# 四、检索策略（按档位决定「叫不叫醒 L2/L3」「用多狠的阈值」）
++# ============================================================================
++
++
++@dataclass
++class RetrievalPolicy:
++    top_k: int
++    min_score: float
++    max_age_days: Optional[float]  # None = 不限时龄
++    soft_confirm_on_miss: bool      # 修#8：接线层必须真的读这个字段
++
++    def to_dict(self) -> dict:
++        return {
++            "top_k": self.top_k,
++            "min_score": self.min_score,
++            "max_age_days": self.max_age_days,
++            "soft_confirm_on_miss": self.soft_confirm_on_miss,
++        }
++
++
++def policy_for(
++    verdict: Verdict,
++    base_top_k: int = 10,
++    base_threshold: float = 0.3,
++    recent_days: float = 3.0,
++) -> RetrievalPolicy:
++    """按裁决档位生成检索策略。"""
++    base_top_k = max(1, int(base_top_k))
++    if verdict.tier == "self_contained":
++        return RetrievalPolicy(
++            top_k=max(3, base_top_k // 2),
++            min_score=base_threshold,
++            max_age_days=None,
++            soft_confirm_on_miss=False,
++        )
++    if verdict.tier == "needs_context":
++        return RetrievalPolicy(
++            top_k=base_top_k,
++            min_score=base_threshold,
++            max_age_days=None,
++            soft_confirm_on_miss=False,
++        )
++    # frail：兜底档，只在近期里找，阈值抬一点，找不到就软确认
++    return RetrievalPolicy(
++        top_k=base_top_k,
++        min_score=max(base_threshold, 0.35),
++        max_age_days=max(1.0, float(recent_days)),
++        soft_confirm_on_miss=True,
++    )
++
++
++def build_retrieval_query(
++    verdict: Verdict,
++    current_text: Optional[str],
++    recent_utterances: Optional[Sequence[str]] = None,
++    max_turns: int = 4,
++) -> str:
++    """按档位拼检索词（旧→新，当前句排在最后）。"""
++    turns = max(1, int(max_turns))
++    recent = [u.strip() for u in (recent_utterances or []) if clean_text(u)]
++    recent = recent[-turns:]
++    cur = (current_text or "").strip()
++
++    if verdict.tier == "self_contained":
++        parts = recent[-1:] + [cur] if recent else [cur]
++    elif verdict.tier == "needs_context":
++        parts = recent + [cur]
++    else:  # frail：上文补不出东西，只押当前词 + 1 条上文试运气
++        parts = recent[-1:] + [cur]
++
++    return " ".join(p for p in parts if p and p.strip())
++
++
++# ============================================================================
++# 五、时间思考与校准
++# ============================================================================
++
++
++def to_cst(dt: datetime) -> datetime:
++    """把「容器本地时钟」的 naive 时间换算成北京时间（naive）。
++
++    补差动态算：shift = 8h - 本地相对 UTC 的偏移。
++    将来容器时区改成 CST，也不会重复叠加 8 小时。
++    """
++    try:
++        import time as _time
++
++        shift = 8 * 3600 - int(_time.localtime().tm_gmtoff)
++    except Exception:
++        shift = 0
++    return dt + timedelta(seconds=shift)
++
++
++def now_cst() -> datetime:
++    """当前北京时间（naive）。"""
++    return to_cst(datetime.now())
++
++
++def gap_phrase(last_ts: Optional[datetime], now: Optional[datetime] = None) -> str:
++    """「距上次对话」分档文案（修#5）。"""
++    if last_ts is None:
++        return "距上次对话：时间未知"
++    sec = max(0.0, ((now or now_cst()) - to_cst(last_ts)).total_seconds())
++    if sec < 120:
++        return "距上次对话：刚刚"
++    if sec < 3600:
++        return f"距上次对话：{int(sec // 60)} 分钟前"
++    if sec < 86400:
++        return f"距上次对话：{int(sec // 3600)} 小时前"
++    return f"距上次对话：{int(sec // 86400)} 天前"
++
++
++def time_anchor_line(
++    now: Optional[datetime] = None,
++    last_message_ts: Optional[datetime] = None,
++) -> str:
++    """钉一行「当前对话时间」锚点（修#5：带「距上次对话」，由接线层始终注入）。"""
++    n = now or now_cst()
++    weekday = "一二三四五六日"[n.weekday()]
++    return (
++        f"[时间锚] 现在 {n.strftime('%Y-%m-%d %H:%M')}（北京时间，周{weekday}）"
++        f"· {gap_phrase(last_message_ts, n)}。"
++        "记忆自带「写入时间 · 距今多久」，请据此判断新旧，"
++        "不要把旧条目当成今天发生的事。"
++    )
++
++
++def entry_age_days(entry: Any, now: Optional[datetime] = None) -> Optional[float]:
++    """一条记忆距今天数；没有可信时间戳时返回 None（不猜，修#4）。"""
++    if entry is None:
++        return None
++    raw = getattr(entry, "timestamp", None)
++    if not raw:
++        return None
++    try:
++        dt = datetime.fromisoformat(str(raw))
++    except Exception:
++        return None
++    if dt.tzinfo is not None:
++        dt = dt.astimezone().replace(tzinfo=None)
++    shown = to_cst(dt)
++    return ((now or now_cst()) - shown).total_seconds() / 86400.0
++
++
++_DECAY_TABLE: Tuple[Tuple[float, float], ...] = (
++    (1.0, 1.0),     # 今天/昨天
++    (3.0, 0.92),
++    (7.0, 0.85),
++    (30.0, 0.65),
++    (3650.0, 0.45),
++)
++
++
++def time_decay(age_days: Optional[float]) -> float:
++    """时龄衰减系数。时间不明的记忆给中性偏低分，不冒充新的。"""
++    if age_days is None:
++        return 0.8
++    age = max(0.0, float(age_days))
++    for days, factor in _DECAY_TABLE:
++        if age <= days:
++            return factor
++    return 0.4
++
++
++def rerank_by_time(
++    results: Optional[Iterable[Any]], now: Optional[datetime] = None
++) -> List[Any]:
++    """按 score × 时龄衰减 重排（不改原对象，同分保持原序）。"""
++    scored: List[Tuple[float, int, Any]] = []
++    for idx, r in enumerate(list(results or [])):
++        try:
++            score = float(getattr(r, "score", 0.0) or 0.0)
++        except Exception:
++            score = 0.0
++        entry = getattr(r, "entry", r)
++        scored.append((score * time_decay(entry_age_days(entry, now)), idx, r))
++    scored.sort(key=lambda t: (-t[0], t[1]))
++    return [r for _, _, r in scored]
++
++
++def time_conflict_warn(
++    results: Optional[Iterable[Any]],
++    verdict: Verdict,
++    now: Optional[datetime] = None,
++    stale_days: float = 7.0,
++) -> str:
++    """当下时态词 vs 旧记忆冲突时，返回一行校准告警；不冲突则返回空串。
++
++    修#3：原判据用 max(known)（最旧）——方向写反，导致只要有一条旧账就告警；
++          文案本身写的是「最新的一条也已经是 N 天前」，应与 min(known) 一致。
++    修#9：原在 frail 时把 marker 硬兜成「刚才」，等于往上下文里塞姐姐没说过的词；
++          现在没有 marker 就不开口。
++    """
++    results = list(results or [])
++    if not results:
++        return ""
++    ages = [entry_age_days(getattr(r, "entry", r), now) for r in results]
++    known = [a for a in ages if a is not None]
++    if not known or min(known) <= stale_days:
++        return ""
++
++    marker = verdict.present_marker
++    if not marker:
++        return ""
++
++    return (
++        f"⚠️【时间校准】姐姐这句带着「{marker}」这类当下时态，"
++        f"但捞回的记忆里最新的一条也已经是 {int(min(known))} 天前。"
++        "不要把这些旧账当成今天发生的事；不确定就先温柔问一句。"
++    )
++
++
++def frail_miss_soft_confirm(verdict: Verdict, hit_count: int = 0) -> str:
++    """真孤词/指代无上文 + L2/L3 也没兜到 → 软确认文案（修#8 由接线层调用）。"""
++    if verdict.tier != "frail" or hit_count > 0:
++        return ""
++    return (
++        "## 相关记忆\n（本轮姐姐只发来一个极短词，上文也接不上，"
++        "近期记忆里没有能对上号的东西。已按纪律不硬猜，"
++        "请先用一句话温柔确认她想聊什么，不要翻旧账。）"
++    )
++
++
++# ============================================================================
++# 六、孤词专线（姐姐 2026-10-06 定：孤词不检索，只接最近 2～4 轮上文）
++# ============================================================================
++
++
++def lone_thread_notice(has_thread: bool) -> str:
++    """孤词专线的提示文案。
++
++    Args:
++        has_thread: 最近 2～4 轮里有没有还悬着的事/没回的问题
++                    （由接线层用 has_context() 判，判不出就交给模型软判）
++    """
++    if has_thread:
++        return (
++            "## 相关记忆\n（本轮是极短孤词。按纪律**不检索长期记忆**，"
++            "只依据上方【近期对话记录】里最近 2～4 轮接话："
++            "若有还悬着的事/没回的问题，就顺着一句轻软地接；"
++            "若没有悬着的东西，就当作新对话自然开场，不要翻旧账。）"
++        )
++    return (
++        "## 相关记忆\n（本轮是极短孤词，最近几轮也没有可接的线索。"
++        "按纪律不检索长期记忆，请当作新对话自然开场，不要翻旧账。）"
++    )
++
++
++# ============================================================================
++# 七、孤词专线窗口（v3.3 · 改动清单 F／二审「升④」落地）
++# ============================================================================
++
++LONE_THREAD_WINDOW_DEFAULT: int = 4   # 姐姐 2026-10-05 17:26 拍板：最近二到四轮，取上界
++LONE_THREAD_WINDOW_MIN: int = 2
++LONE_THREAD_WINDOW_MAX: int = 4
++
++
++def resolve_lone_window(raw: Any = None, default: int = LONE_THREAD_WINDOW_DEFAULT) -> int:
++    """把配置值收敛到姐姐拍板的「最近二到四轮」区间（纯函数）。
++
++    - 缺配置 / 非法值 → `default`（4）
++    - 比下限小 → 抬到 2；比上限大 → 压到 4
++
++    存在的意义：孤词窗口以前直接借用 `retrieval_query_context_turns`，
++    姐姐哪天把检索词轮数改成 6，孤词窗口就跟着变 6——那就不再是「最近二到四轮」了。
++    独立键 + 这个夹逼函数，把两件事钉死分开。
++    """
++    try:
++        value = int(raw)
++    except (TypeError, ValueError):
++        value = int(default)
++    return max(LONE_THREAD_WINDOW_MIN, min(LONE_THREAD_WINDOW_MAX, value))
++
++
++def lone_window_recent(
++    recent_utterances: Optional[Sequence[str]] = None,
++    lone_window: Any = LONE_THREAD_WINDOW_DEFAULT,
++) -> List[str]:
++    """从「已经取出的最近上文」里，切出孤词专线真正要看的那个窗口。
++
++    取尾部最靠近当前的若干条（旧→新列表的末尾 = 最近）。清洗后为空的条目丢掉。
++    """
++    window = resolve_lone_window(lone_window)
++    cleaned = [u for u in (recent_utterances or []) if clean_text(u)]
++    return cleaned[-window:]
++
++
++def lone_thread_payload(
++    recent_utterances: Optional[Sequence[str]] = None,
++    lone_window: Any = LONE_THREAD_WINDOW_DEFAULT,
++) -> Tuple[str, bool, List[str]]:
++    """孤词专线一次算全：返回 (提示文案, 有没有可接线索, 用到的窗口原文)。
++
++    接线层只要 `notice, has_thread, window_used = _sg.lone_thread_payload(recent, cfg)` 一行，
++    就同时拿到「文案」「是否算有上文」「实际窗口」，方便顺手写进决策日志。
++    """
++    window_used = lone_window_recent(recent_utterances, lone_window)
++    has_thread = has_context(window_used)
++    return lone_thread_notice(has_thread), has_thread, window_used
+diff --git a/iris_memory/l1_buffer/buffer.py b/iris_memory/l1_buffer/buffer.py
+index dc5f78f..0fc7b34 100644
+--- a/iris_memory/l1_buffer/buffer.py
++++ b/iris_memory/l1_buffer/buffer.py
+@@ -34,6 +34,78 @@ if TYPE_CHECKING:
+ logger = get_logger("buffer")
+ 
+ 
++# ============================================================================
++# P0-B：超长消息「保底压缩」——杜绝整条静默丢弃
++# ============================================================================
++
++_OVERSIZE_MARK: str = " …〔原文超长·已压缩〕… "
++_OVERSIZE_HEAD_RATIO: float = 0.6   # 压缩后头部预算占比
++_OVERSIZE_TAIL_RATIO: float = 0.4   # 压缩后尾部预算占比
++
++
++def _max_prefix_len(text: str, token_budget: int) -> int:
++    """二分求「前缀 token 数 <= token_budget」的最大字符长度。"""
++    if token_budget <= 0:
++        return 0
++    lo, hi = 0, len(text)
++    while lo < hi:
++        mid = (lo + hi + 1) // 2
++        if count_tokens(text[:mid]) <= token_budget:
++            lo = mid
++        else:
++            hi = mid - 1
++    return lo
++
++
++def _max_suffix_len(text: str, token_budget: int) -> int:
++    """二分求「后缀 token 数 <= token_budget」的最大字符长度。"""
++    if token_budget <= 0:
++        return 0
++    lo, hi = 0, len(text)
++    while lo < hi:
++        mid = (lo + hi + 1) // 2
++        if count_tokens(text[len(text) - mid:]) <= token_budget:
++            lo = mid
++        else:
++            hi = mid - 1
++    return lo
++
++
++def _compress_oversize(text: str, token_budget: int) -> str:
++    """把超长文本压缩进 token_budget：保留头 + 尾，中间插标记。
++
++    - 与 token 计数口径无关（二分实测），tiktoken 缺失降级时同样成立。
++    - 尾部通常是结论/最新内容，故头尾都保留，中间丢弃。
++    - 极端情况退化为「极短头部 + 标记」，绝不返回空串。
++    """
++    if token_budget <= 0 or count_tokens(text) <= token_budget:
++        return text
++
++    mark_tokens = count_tokens(_OVERSIZE_MARK)
++    room = max(1, token_budget - mark_tokens)
++
++    head_budget = max(1, int(room * _OVERSIZE_HEAD_RATIO))
++    tail_budget = max(0, room - head_budget)
++
++    n_head = _max_prefix_len(text, head_budget)
++    rest = text[n_head:]
++    n_tail = _max_suffix_len(rest, tail_budget) if tail_budget > 0 else 0
++    tail_part = rest[len(rest) - n_tail:] if n_tail > 0 else ""
++
++    result = text[:n_head] + _OVERSIZE_MARK + tail_part
++
++    # 收尾校准：分词边界可能让拼接结果略超预算，循环微调头部
++    guard = 0
++    while count_tokens(result) > token_budget and n_head > 0 and guard < 64:
++        n_head = int(n_head * 0.9)
++        rest = text[n_head:]
++        n_tail = _max_suffix_len(rest, tail_budget) if tail_budget > 0 else 0
++        tail_part = rest[len(rest) - n_tail:] if n_tail > 0 else ""
++        result = text[:n_head] + _OVERSIZE_MARK + tail_part
++        guard += 1
++    return result or _OVERSIZE_MARK
++
++
+ def _as_str(value: object) -> str | None:
+     if isinstance(value, str):
+         return value
+@@ -226,10 +298,24 @@ class L1Buffer(Component):
+ 
+         max_single_tokens = cast(int, config.get("l1_max_single_message_tokens", 500))
+         if token_count > max_single_tokens:
++            # P0-B：超限不再整条静默丢弃 —— 默认「保底压缩 + 截断标记」
++            # （保留头+尾，防信息全丢）；置 l1_oversize_mode=drop 可回退旧行为
++            mode = str(config.get("l1_oversize_mode", "compress") or "compress")
++            if mode == "drop":
++                logger.warning(
++                    f"消息 Token 数 {token_count} 超过限制 {max_single_tokens}，"
++                    f"已丢弃（l1_oversize_mode=drop）"
++                )
++                return False
++            original_chars = len(content)
++            content = _compress_oversize(content, max_single_tokens)
++            new_tokens = count_tokens(content)
+             logger.warning(
+-                f"消息 Token 数 {token_count} 超过限制 {max_single_tokens}，已丢弃"
++                f"消息 Token 数 {token_count} 超过限制 {max_single_tokens}，"
++                f"已保底压缩：{original_chars} 字符 → {len(content)} 字符"
++                f"（tokens {token_count} → {new_tokens}）"
+             )
+-            return False
++            token_count = new_tokens
+ 
+         message = ContextMessage(
+             role=role,
+diff --git a/iris_memory/utils/__init__.py b/iris_memory/utils/__init__.py
+index 4fd2442..74d6c18 100644
+--- a/iris_memory/utils/__init__.py
++++ b/iris_memory/utils/__init__.py
+@@ -15,8 +15,11 @@ from .forgetting import (
+ )
+ from .input_sanitizer import sanitize_input, is_injection_attempt
+ from .persistence import atomic_write_text, atomic_write_json
++from . import timeutil
+ 
+ __all__ = [
++    # 统一时间入口
++    "timeutil",
+     # Token 计数
+     "count_tokens",
+     "get_encoder",
+diff --git a/iris_memory/utils/timeutil.py b/iris_memory/utils/timeutil.py
+new file mode 100644
+index 0000000..db36e8e
+--- /dev/null
++++ b/iris_memory/utils/timeutil.py
+@@ -0,0 +1,241 @@
++"""Iris Chat Memory - 统一时间入口（timeutil）
++
++一句话原则：
++    **存储 / 计算层统一，展示层保持北京时间。**
++
++    - 内部比较 / 排序 / TTL / updated_at  → UTC / epoch 等统一表示
++    - 持久化时间                          → 明确、可解析、带时区（+00:00 / +08:00）
++    - 用户可见时间 / L1 时间              → +08:00（北京时间）
++
++为什么要有这个模块：
++    改造前全仓有「四套口径」——
++      ① 对话流水 / 决策日志：naive「本地时钟」字符串（实测容器 TZ=UTC，值=UTC 但没标）
++      ② 动作账本：`...+08:00`（CST，有标）
++      ③ L2/L3/dream 等 10+ 处 `datetime.now().isoformat()`（值=UTC，没标）
++      ④ 展示层各自写手工补丁 `now + timedelta(hours=8)`
++    结果是 naive-UTC 与 aware-CST 在字符串上无法区分，谁忘了 +8h 就静默错 8 小时。
++    本模块把「唯一权威表示」收敛到一处：aware datetime / epoch。
++    其它模块要么调这里，要么按这里的兼容规则 parse，**禁止再写手工 +8h 补丁**。
++
++历史兼容（重要）：
++    改造前落库的多数时间戳是 naive 字符串。容器 TZ 实测为 UTC，
++    故这些 naive 值一律按 **UTC** 解释（assume="utc"），绝不猜本地时区。
++    这样 `naive(值=UTC) 按 UTC 读` 结果正确，不会重复叠加 8 小时。
++
++安全承诺：
++    - 纯函数、零副作用、零网络、只碰 stdlib
++    - 任何解析失败返回 None（不猜、不用当前时间冒充）
++"""
++
++from __future__ import annotations
++
++import time as _time
++from datetime import datetime, timedelta, timezone
++from typing import Any, Optional
++
++# ============================================================================
++# 常量
++# ============================================================================
++
++UTC = timezone.utc
++CST = timezone(timedelta(hours=8))          # 北京时间（固定 +08:00，无夏令时）
++
++WEEKDAY_CN = "一二三四五六日"
++
++#: 存储 / 展示时最常用的机器可读格式
++FMT_ISO = "%Y-%m-%dT%H:%M:%S%z"             # aware ISO8601，带偏移
++FMT_SEC = "%Y-%m-%d %H:%M:%S"               # 秒级可读（不带时区，需先 display_*）
++FMT_DAYKEY = "%Y%m%d"                       # 文件日期 key（必须按北京时间生成）
++FMT_CST_FULL = "%Y-%m-%d %H:%M:%S+08:00"    # 北京时间全量（人类可读 + 明确带时区）
++
++
++# ============================================================================
++# 取当前时刻
++# ============================================================================
++
++
++def now_utc() -> datetime:
++    """当前时刻（aware，UTC）。内部计算 / 存储的统一基准。"""
++    return datetime.now(UTC)
++
++
++def now_cst() -> datetime:
++    """当前时刻（aware，北京时间 +08:00）。展示 / L1 时间锚用。"""
++    return datetime.now(CST)
++
++
++def epoch() -> float:
++    """当前 Unix 时间戳（秒，float）。用于 TTL / 排序等纯数值比较。"""
++    return _time.time()
++
++
++# ============================================================================
++# 归一化 / 解析
++# ============================================================================
++
++
++def ensure_aware(dt: datetime, assume: str = "utc") -> datetime:
++    """把 datetime 归一成 aware。
++
++    - 已带 tzinfo → 原样返回（保留其真实时区）
++    - naive       → 按 `assume` 补上时区（默认 UTC，即历史兼容规则）
++
++    绝不猜测：assume 只允许 "utc" / "cst"。
++    """
++    if dt is None:
++        raise TypeError("ensure_aware() 不接受 None")
++    if dt.tzinfo is not None:
++        return dt
++    if assume == "utc":
++        return dt.replace(tzinfo=UTC)
++    if assume == "cst":
++        return dt.replace(tzinfo=CST)
++    raise ValueError(f"未知的 assume 取值：{assume!r}（只允许 'utc' / 'cst'）")
++
++
++def parse(value: Any, assume: str = "utc") -> Optional[datetime]:
++    """把任意持久化时间解析成 aware datetime；解析不了返回 None（不猜）。
++
++    支持：
++      - datetime          → 归一化
++      - int / float       → 视作 Unix 时间戳（秒）
++      - 字符串 ISO8601    → 带偏移按原偏移；naive 按 `assume` 解释
++      - "2026-10-06 16:50:26"（空格分隔）→ 兼容解析
++      - "%Y%m%d" 日期 key → 当天 00:00（按 `assume`）
++
++    历史兼容：naive 字符串默认按 UTC 解释（assume="utc"）。
++    """
++    if value is None:
++        return None
++    if isinstance(value, datetime):
++        return ensure_aware(value, assume)
++    if isinstance(value, bool):          # bool 是 int 的子类，先挡掉
++        return None
++    if isinstance(value, (int, float)):
++        try:
++            return datetime.fromtimestamp(float(value), tz=UTC)
++        except Exception:
++            return None
++    if not isinstance(value, str):
++        return None
++
++    s = value.strip()
++    if not s:
++        return None
++
++    # 纯数字字符串 → 视作时间戳
++    if s.isdigit() and len(s) >= 9:
++        try:
++            return datetime.fromtimestamp(float(s), tz=UTC)
++        except Exception:
++            pass
++
++    # 8 位日期 key（YYYYMMDD）
++    if len(s) == 8 and s.isdigit():
++        try:
++            return datetime.strptime(s, FMT_DAYKEY).replace(tzinfo=CST if assume == "cst" else UTC)
++        except Exception:
++            return None
++
++    # Z 结尾（白名单，避免 fromisoformat 旧版本不认）
++    normalized = s
++    if normalized.endswith("Z"):
++        normalized = normalized[:-1] + "+00:00"
++
++    for candidate in (normalized, normalized.replace(" ", "T", 1)):
++        try:
++            return ensure_aware(datetime.fromisoformat(candidate), assume)
++        except Exception:
++            continue
++    return None
++
++
++# ============================================================================
++# 展示层（北京时间）
++# ============================================================================
++
++
++def display_cst(value: Any) -> Optional[datetime]:
++    """把任意时间换算成「aware 的北京时间」。解析不了返回 None。"""
++    dt = parse(value) if not isinstance(value, datetime) else ensure_aware(value)
++    if dt is None:
++        return None
++    return dt.astimezone(CST)
++
++
++def format_cst(value: Any, fmt: str = FMT_SEC) -> str:
++    """格式化成北京时间字符串；解析不了返回空串（调用方自己兜底文案）。"""
++    dt = display_cst(value)
++    return dt.strftime(fmt) if dt is not None else ""
++
++
++def cst_full(value: Any = None) -> str:
++    """北京时间全量串 `YYYY-MM-DD HH:MM:SS+08:00`（人类可读 + 明确带时区）。"""
++    dt = display_cst(value) if value is not None else now_cst()
++    if dt is None:
++        dt = now_cst()
++    return dt.strftime("%Y-%m-%d %H:%M:%S") + "+08:00"
++
++
++def daykey_cst(value: Any = None) -> str:
++    """文件日期 key（**按北京时间** 生成 YYYYMMDD）。
++
++    这是「跨日归档」的关键：北京时间 00:50 的消息必须写进「北京时间那一天」
++    的文件，而不是容器 UTC 的昨天。
++    """
++    dt = display_cst(value) if value is not None else now_cst()
++    if dt is None:
++        dt = now_cst()
++    return dt.strftime(FMT_DAYKEY)
++
++
++def weekday_cn(value: Any = None) -> str:
++    """北京时间对应的「周一/周二…」（返回单个汉字：一~日）。"""
++    dt = display_cst(value) if value is not None else now_cst()
++    if dt is None:
++        dt = now_cst()
++    return WEEKDAY_CN[dt.weekday()]
++
++
++# ============================================================================
++# 存储层（UTC / epoch）
++# ============================================================================
++
++
++def iso_utc(value: Any = None) -> str:
++    """持久化用：aware ISO8601（UTC，带 +00:00）。`value=None` 表示当前时刻。"""
++    dt = ensure_aware(value) if isinstance(value, datetime) else parse(value)
++    if dt is None:
++        dt = now_utc()
++    return dt.astimezone(UTC).isoformat()
++
++
++def iso_cst(value: Any = None) -> str:
++    """持久化 / 展示两用：aware ISO8601（北京时间，带 +08:00）。"""
++    dt = display_cst(value) if value is not None else now_cst()
++    if dt is None:
++        dt = now_cst()
++    return dt.isoformat()
++
++
++__all__ = [
++    "UTC",
++    "CST",
++    "WEEKDAY_CN",
++    "FMT_ISO",
++    "FMT_SEC",
++    "FMT_DAYKEY",
++    "FMT_CST_FULL",
++    "now_utc",
++    "now_cst",
++    "epoch",
++    "ensure_aware",
++    "parse",
++    "display_cst",
++    "format_cst",
++    "cst_full",
++    "daykey_cst",
++    "weekday_cn",
++    "iso_utc",
++    "iso_cst",
++]
+diff --git a/tests/core/test_gate_off_parity.py b/tests/core/test_gate_off_parity.py
+new file mode 100644
+index 0000000..8183ce6
+--- /dev/null
++++ b/tests/core/test_gate_off_parity.py
+@@ -0,0 +1,190 @@
++"""总闸关 = 与三道闸 v1 逐字节一致：负向回归（防复发）。
++
++覆盖复核报告点名的两条「隐性差异」：
++
++1. **修#11·乙**：软确认文案算不算「有记忆」——
++   - 总闸开：用真检索结果判（`l2_results`）→ 软确认文案 **不再** 触发稀薄告警
++   - 总闸关：用 v1 判据（`l2_text` 非空即算有记忆）→ 与 v1 同
++2. **裁决日志**：总闸关时一个字节都不写（即便 `decision_log_enable` 是开的）。
++3. **孤词专线**：必须挂在总闸下（`if sg_enable and lone_v1:`），不许裸早退。
++"""
++
++from unittest.mock import AsyncMock, MagicMock, patch
++
++import pytest
++
++from iris_memory.core import decision_log as dl
++from iris_memory.core.llm_request_hook import preprocess_llm_request
++
++_SOFT_CONFIRM_TEXT = (
++    "## 相关记忆\n（本轮姐姐只发来一个极短孤词/唤醒词，且没有可用上文。"
++    "已按纪律跳过向量检索。）"
++)
++
++_GET_CONFIG = "iris_memory.config.get_config"
++_COLLECT_L1 = "iris_memory.core.llm_request_hook._collect_l1_context"
++_COLLECT_PROFILE = "iris_memory.core.llm_request_hook._collect_user_profile"
++_COLLECT_L2 = "iris_memory.core.llm_request_hook._collect_l2_memory"
++_COLLECT_L3 = "iris_memory.core.llm_request_hook._collect_l3_knowledge_graph"
++_PARSE_IMAGES = "iris_memory.core.llm_request_hook._parse_images_if_related_mode"
++_LOG_FINAL = "iris_memory.core.llm_request_hook._log_final_context"
++_GET_ADAPTER = "iris_memory.platform.get_adapter"
++
++WARN_MARK = "上下文稀薄告警"
++
++
++def _cfg(gate: bool, log: bool = False, threshold: int = 6) -> MagicMock:
++    """最小可用的配置替身：只认这几把旋钮。"""
++    values = {
++        "l2_memory.semantic_gate_enable": gate,
++        "l2_memory.semantic_gate_time_calibration": True,
++        "l2_memory.decision_log_enable": log,
++        "l1_buffer.thin_context_warn_enable": True,
++        "l1_buffer.thin_context_warn_threshold": threshold,
++        "l1_buffer.inject_queue_length": 50,
++        "l1_inject_max_content_chars": 200,
++    }
++    cfg = MagicMock()
++    cfg.get.side_effect = lambda key, default=None: values.get(key, default)
++    cfg.data_dir = None
++    return cfg
++
++
++def _text_of(req) -> str:
++    parts = getattr(req, "extra_user_content_parts", []) or []
++    return "\n".join(getattr(p, "text", "") or str(p) for p in parts)
++
++
++async def _run_preprocess(
++    gate: bool,
++    l2_text: str,
++    l2_results,
++    l3_text: str,
++    l1_text: str = "L1 稀薄上下文",
++    l1_count: int = 1,
++):
++    """跑一遍完整 preprocess：L1 稀薄，L2/L3 给指定产物。"""
++    req = MagicMock()
++    req.extra_user_content_parts = []
++    req.system_prompt = "system"
++    req._l1_context_count = l1_count
++    event = MagicMock()
++    event.message_str = "妹妹"
++    event.get_message_str = lambda: "妹妹"
++    cm = MagicMock()
++
++    with (
++        patch(_GET_CONFIG, return_value=_cfg(gate=gate)),
++        patch(_GET_ADAPTER, return_value=MagicMock()),
++        patch(_COLLECT_L1, new_callable=AsyncMock, return_value=l1_text),
++        patch(_COLLECT_PROFILE, new_callable=AsyncMock, return_value=""),
++        patch(_COLLECT_L2, new_callable=AsyncMock, return_value=(l2_text, l2_results)),
++        patch(_COLLECT_L3, new_callable=AsyncMock, return_value=l3_text),
++        patch(_PARSE_IMAGES, new_callable=AsyncMock, return_value=None),
++        patch(_LOG_FINAL),
++    ):
++        await preprocess_llm_request(event, req, cm)
++    return _text_of(req)
++
++
++class TestThinWarnGate11:
++    """修#11 的甲/乙口径：只有开闸才换判据。"""
++
++    @pytest.mark.asyncio
++    async def test_gate_off_soft_confirm_counts_as_memory(self):
++        """总闸关：软确认文案＝v1 眼里的「有记忆」→ 告警照开（与 v1 一致）。"""
++        text = await _run_preprocess(
++            gate=False, l2_text=_SOFT_CONFIRM_TEXT, l2_results=[], l3_text="",
++            l1_text="",
++        )
++        assert WARN_MARK in text
++
++    @pytest.mark.asyncio
++    async def test_gate_on_soft_confirm_is_not_memory(self):
++        """总闸开：软确认文案不算记忆 → 没有可误用的东西 → 告警闭嘴（修#11）。"""
++        text = await _run_preprocess(
++            gate=True, l2_text=_SOFT_CONFIRM_TEXT, l2_results=[], l3_text="",
++            l1_text="",
++        )
++        assert WARN_MARK not in text
++
++    @pytest.mark.asyncio
++    async def test_gate_on_real_hits_keep_warn_awake(self):
++        """总闸开：真有命中 → 有东西可误用 → 告警开口。"""
++        text = await _run_preprocess(
++            gate=True, l2_text="## 相关记忆\n（命中）", l2_results=[object()],
++            l3_text="",
++        )
++        assert WARN_MARK in text
++
++    @pytest.mark.asyncio
++    async def test_gate_on_l3_alone_keeps_warn_awake(self):
++        """总闸开：只有 L3 图谱 → 也算「有记忆」。"""
++        text = await _run_preprocess(
++            gate=True, l2_text=_SOFT_CONFIRM_TEXT, l2_results=[],
++            l3_text="<iris:l3_kg>奈奈：…</iris:l3_kg>", l1_text="",
++        )
++        assert WARN_MARK in text
++
++    @pytest.mark.asyncio
++    async def test_both_empty_arms_stay_silent(self):
++        """两边都没东西可误用 → 告警保持沉默（设计如此）。"""
++        text = await _run_preprocess(
++            gate=False, l2_text="", l2_results=[], l3_text="", l1_text=""
++        )
++        assert WARN_MARK not in text
++
++    @pytest.mark.asyncio
++    async def test_thick_l1_never_warns(self):
++        """L1 够厚 → 不管有没有记忆都不报警。"""
++        text = await _run_preprocess(
++            gate=True, l2_text="", l2_results=[], l3_text="",
++            l1_text="L1 很厚", l1_count=9,
++        )
++        assert WARN_MARK not in text
++
++
++class TestDecisionLogGate:
++    """裁决日志：只在总闸开时落盘。"""
++
++    def test_gate_off_blocks_log_even_when_enabled(self):
++        assert dl.should_log(_cfg(gate=False, log=True)) is False
++
++    def test_gate_on_and_log_on_allows(self):
++        assert dl.should_log(_cfg(gate=True, log=True)) is True
++
++    def test_gate_on_but_log_off_blocks(self):
++        assert dl.should_log(_cfg(gate=True, log=False)) is False
++
++    def test_broken_config_means_no_write(self):
++        class Boom:
++            def get(self, *a, **k):
++                raise RuntimeError("配置炸了")
++
++        assert dl.should_log(Boom()) is False
++
++    def test_gate_key_is_the_master_switch(self):
++        assert dl.GATE_KEY == "l2_memory.semantic_gate_enable"
++
++
++class TestLoneLineIsUnderMasterGate:
++    """孤词专线必须挂在总闸下（复核第一条：防「总闸关还偷偷早退」）。"""
++
++    def test_lone_line_reads_master_gate(self):
++        import inspect
++
++        from iris_memory.core import llm_request_hook as hook
++
++        src = inspect.getsource(hook._collect_l2_memory)
++        assert "if sg_enable and lone_v1:" in src
++
++    def test_no_bare_lone_early_return(self):
++        import inspect
++
++        from iris_memory.core import llm_request_hook as hook
++
++        src = inspect.getsource(hook._collect_l2_memory)
++        # v1 回退分支里的「孤词 + 无上文」软确认是允许的（那是 v1 行为）
++        assert "if lone_v1 and not recent:" in src
++        # 但不许出现「不受总闸管辖」的裸早退
++        assert "\n    if lone_v1:\n" not in src.replace("        ", "    ")
+diff --git a/tests/core/test_semantic_gate.py b/tests/core/test_semantic_gate.py
+new file mode 100644
+index 0000000..78c2f6b
+--- /dev/null
++++ b/tests/core/test_semantic_gate.py
+@@ -0,0 +1,372 @@
++"""语意裁决闸 semantic_gate 单元测试（v3.3 · 改动清单 B）
++
++落盘目标：`tests/core/test_semantic_gate.py`
++跑法：`python -m pytest tests/core/test_semantic_gate.py -q`（在插件根目录）
++
++覆盖 §12 验收清单里的边界：
++    三档裁决 / 单字指代误伤(修#6) / 锚点含「距上次对话」(修#5)
++    / 冲突告警两向(修#3·#9) / 未知时间不冒充(修#4)
++    / 孤词专线窗口解耦(改动清单 F：独立键 + 夹逼)
++"""
++
++from datetime import datetime, timedelta
++from types import SimpleNamespace
++
++import json
++import os
++
++from iris_memory.core import decision_log as dl
++from iris_memory.core import semantic_gate as sg
++
++
++# --------------------------------------------------------------------------
++# 造数小工具
++# --------------------------------------------------------------------------
++
++def _mem(age_days, score=0.6):
++    """造一条「N 天前写入」的记忆结果对象。
++
++    刻意不给 `entry` 属性，让 getattr(r, "entry", r) 落回对象本身。
++    """
++    local_now = datetime.now()
++    raw = (local_now - timedelta(days=age_days)).replace(microsecond=0).isoformat()
++    return SimpleNamespace(timestamp=raw, score=score, content=f"第{age_days}天前的记忆")
++
++
++# --------------------------------------------------------------------------
++# 一、文本清洗 / 孤词判定
++# --------------------------------------------------------------------------
++
++class TestCleanAndLone:
++    def test_clean_text_strips_at_placeholder_and_punct(self):
++        assert sg.clean_text("[At:qq_official] 妹妹，！！！") == "妹妹"
++
++    def test_clean_text_none_and_empty(self):
++        assert sg.clean_text(None) == ""
++        assert sg.clean_text("") == ""
++        assert sg.clean_text("……——") == ""
++
++    def test_is_lone_true_for_short_word(self):
++        assert sg.is_lone("妹妹") is True
++        assert sg.is_lone("嗯") is True
++
++    def test_is_lone_respects_max_chars(self):
++        assert sg.is_lone("姐姐帮帮我", max_chars=3) is False
++        assert sg.is_lone("姐姐帮帮我", max_chars=5) is True
++
++    def test_has_context_ignores_blank_entries(self):
++        assert sg.has_context(["", "  ", "[At:x] 。。。"]) is False
++        assert sg.has_context(["上次那道题"]) is True
++        assert sg.has_context(None) is False
++
++
++# --------------------------------------------------------------------------
++# 二、指代词 / 时态词（修#6、修#9 的地基）
++# --------------------------------------------------------------------------
++
++class TestSignals:
++    def test_hits_plain_reference_words(self):
++        assert "这个" in sg.detect_references("这个怎么办")
++        assert "上次" in sg.detect_references("上次那个方案呢")
++
++    def test_single_char_does_not_break_common_words(self):
++        """修#6：裸单字不再触发误伤（『因此 / 应该 / 这些词本身』不算指代）。"""
++        assert sg.detect_references("因此我们应该先备份") == []
++        assert sg.detect_references("其实我们应该早点动手") == []
++
++    def test_single_char_reference_needs_noun(self):
++        """『此方案 / 该条』这类才认。"""
++        assert "此方案" in sg.detect_references("此方案可行")
++        assert sg.detect_references("此可行") == []
++
++    def test_known_imperfection_single_char_after_other(self):
++        """已知微瑕 #13（登记备查，本次不改逻辑）：『其它方案』会被认成「它+方案」。
++
++        影响面：仅在**无上文**时把自足句降到 frail 兜底档，功能不破。
++        改正则要加负向断言，属姐姐拍板项，故此处只固化现状。
++        """
++        assert sg.detect_references("其它方案都可以") == ["它方案"]
++
++    def test_present_marker(self):
++        assert sg.detect_present_marker("今天好累呀") == "今天"
++        assert sg.detect_present_marker("刚才说的那个") == "刚才"
++        assert sg.detect_present_marker("明天再说明天") is None
++
++
++# --------------------------------------------------------------------------
++# 三、三档裁决（核心）
++# --------------------------------------------------------------------------
++
++class TestArbitrate:
++    RECENT = ["妹妹帮我看下电磁感应", "嗯，先画受力分析"]
++
++    def test_empty_message_is_frail(self):
++        assert sg.arbitrate("", self.RECENT).tier == "frail"
++        assert sg.arbitrate("。。。", self.RECENT).tier == "frail"
++
++    def test_self_contained(self):
++        v = sg.arbitrate("姐姐帮我讲讲电磁感应", self.RECENT)
++        assert v.tier == "self_contained"
++        assert v.retrieval_tier == "light"
++        assert v.need_retrieval is False
++
++    def test_needs_context_when_reference_with_context(self):
++        v = sg.arbitrate("那个再讲一遍", self.RECENT)
++        assert v.tier == "needs_context"
++        assert v.retrieval_tier == "normal"
++        assert v.references
++
++    def test_frail_when_reference_without_context(self):
++        v = sg.arbitrate("那个再讲一遍", [])
++        assert v.tier == "frail"
++        assert v.retrieval_tier == "last_resort"
++        assert "无上文" in v.reason
++
++    def test_lone_branch_still_self_consistent(self):
++        """专线在接线层拦走，但 arbitrate 单独调用时仍要自洽。"""
++        assert sg.arbitrate("妹妹", self.RECENT).tier == "needs_context"
++        assert sg.arbitrate("妹妹", []).tier == "frail"
++
++    def test_verdict_to_dict_roundtrip(self):
++        d = sg.arbitrate("那个再讲一遍", self.RECENT).to_dict()
++        assert d["tier"] == "needs_context" and d["retrieval_tier"] == "normal"
++
++
++# --------------------------------------------------------------------------
++# 四、检索策略
++# --------------------------------------------------------------------------
++
++class TestPolicy:
++    def test_light_is_half_dose(self):
++        p = sg.policy_for(sg.Verdict("self_contained"), base_top_k=10, base_threshold=0.3)
++        assert p.top_k == 5 and p.min_score == 0.3
++        assert p.max_age_days is None
++        assert p.soft_confirm_on_miss is False  # 修#8：这个字段必须被真的读
++
++    def test_normal_keeps_base(self):
++        p = sg.policy_for(sg.Verdict("needs_context"), base_top_k=10, base_threshold=0.3)
++        assert p.top_k == 10 and p.max_age_days is None and p.soft_confirm_on_miss is False
++
++    def test_last_resort_raises_threshold_and_limits_age(self):
++        p = sg.policy_for(sg.Verdict("frail"), base_top_k=10, base_threshold=0.3)
++        assert p.min_score >= 0.35
++        assert p.max_age_days == 3.0
++        assert p.soft_confirm_on_miss is True
++
++    def test_top_k_never_below_three_in_light(self):
++        p = sg.policy_for(sg.Verdict("self_contained"), base_top_k=4)
++        assert p.top_k == 3
++
++    def test_build_retrieval_query_orders(self):
++        recent = ["一", "二", "三", "四"]
++        q = sg.build_retrieval_query(sg.Verdict("needs_context"), "现在这句", recent, 4)
++        assert q == "一 二 三 四 现在这句"
++        q2 = sg.build_retrieval_query(sg.Verdict("self_contained"), "现在这句", recent, 4)
++        assert q2 == "四 现在这句"
++
++
++# --------------------------------------------------------------------------
++# 五、时间校准（修#3 / #4 / #5 / #9）
++# --------------------------------------------------------------------------
++
++class TestTimeCalibration:
++    def test_gap_phrase_buckets(self):
++        """口径提醒：`now` 是**北京时间**，`last_ts` 是**容器本地时钟**（函数内部会换算）。
++
++        生产路径 `time_anchor_line()` 正是这么喂的，所以测试也照这个口径喂。
++        """
++        now = sg.now_cst()
++        local = datetime.now()          # 容器本地，等价于「刚刚」
++        assert "刚刚" in sg.gap_phrase(local - timedelta(seconds=30), now)
++        assert "分钟前" in sg.gap_phrase(local - timedelta(minutes=10), now)
++        assert "小时前" in sg.gap_phrase(local - timedelta(hours=5), now)
++        assert "天前" in sg.gap_phrase(local - timedelta(days=3), now)
++        assert "未知" in sg.gap_phrase(None, now)
++
++    def test_time_anchor_line_has_gap_and_weekday(self):
++        line = sg.time_anchor_line(datetime(2026, 10, 6, 2, 0, 0))
++        assert line.startswith("[时间锚]")
++        assert "距上次对话" in line
++        assert "北京时间" in line and "周" in line
++
++    def test_entry_age_days_unknown_returns_none(self):
++        """修#4：没时间戳不许猜成今天。"""
++        assert sg.entry_age_days(SimpleNamespace()) is None
++        assert sg.entry_age_days(SimpleNamespace(timestamp="不是时间")) is None
++        assert sg.entry_age_days(None) is None
++
++    def test_entry_age_days_normal(self):
++        age = sg.entry_age_days(_mem(2))
++        assert 1.9 < age < 2.1
++
++    def test_time_decay_monotonic(self):
++        assert sg.time_decay(0.5) == 1.0
++        assert sg.time_decay(5) == 0.85
++        assert sg.time_decay(None) == 0.8
++        assert sg.time_decay(99999) == 0.4
++
++    def test_rerank_by_time_promotes_fresh_memory(self):
++        old = _mem(400, score=0.80)
++        fresh = _mem(0.2, score=0.60)
++        ranked = sg.rerank_by_time([old, fresh])
++        assert ranked[0] is fresh  # 0.60×1.0 > 0.80×0.45
++
++    def test_rerank_keeps_original_order_on_tie(self):
++        a, b = _mem(0.2, 0.5), _mem(0.2, 0.5)
++        assert sg.rerank_by_time([a, b]) == [a, b]
++
++    def test_conflict_warn_fires_when_all_stale(self):
++        """修#3：判据是 min(known)，全部旧账才告警。"""
++        v = sg.arbitrate("今天那道题", ["上文"], )
++        warn = sg.time_conflict_warn([_mem(30), _mem(60)], v)
++        assert "时间校准" in warn and "今天" in warn
++
++    def test_conflict_warn_silent_when_something_recent(self):
++        v = sg.arbitrate("今天那道题", ["上文"])
++        assert sg.time_conflict_warn([_mem(30), _mem(0.5)], v) == ""
++
++    def test_conflict_warn_silent_without_present_marker(self):
++        """修#9：姐姐没提『今天/刚才』，就不许自己加戏。"""
++        v = sg.arbitrate("那道题", ["上文"])
++        assert v.present_marker is None
++        assert sg.time_conflict_warn([_mem(30)], v) == ""
++
++    def test_conflict_warn_silent_when_no_results(self):
++        v = sg.arbitrate("今天那道题", ["上文"])
++        assert sg.time_conflict_warn([], v) == ""
++
++
++# --------------------------------------------------------------------------
++# 六、兜底软确认（修#8）
++# --------------------------------------------------------------------------
++
++class TestSoftConfirm:
++    def test_soft_confirm_only_on_frail_miss(self):
++        frail = sg.arbitrate("那个", [])
++        assert sg.frail_miss_soft_confirm(frail, 0) != ""
++        assert sg.frail_miss_soft_confirm(frail, 1) == ""
++        assert sg.frail_miss_soft_confirm(sg.arbitrate("姐姐帮我讲讲电磁感应", []), 0) == ""
++
++    def test_soft_confirm_text_forbids_guessing(self):
++        txt = sg.frail_miss_soft_confirm(sg.arbitrate("那个", []), 0)
++        assert "不硬猜" in txt and "不要翻旧账" in txt
++
++
++# --------------------------------------------------------------------------
++# 七、孤词专线（v3.3 · 改动清单 F）
++# --------------------------------------------------------------------------
++
++class TestLoneThread:
++    RECENT = ["第一轮话", "第二轮话", "第三轮话", "第四轮话", "第五轮话"]
++
++    def test_notice_has_both_branches(self):
++        a = sg.lone_thread_notice(True)
++        b = sg.lone_thread_notice(False)
++        assert a != b
++        assert "【近期对话记录】" in a  # 修#5：锚点标题与线上 L1 块一致
++        assert "新对话" in b and "新对话" in a
++
++    def test_resolve_lone_window_default_is_four(self):
++        assert sg.resolve_lone_window(None) == 4
++        assert sg.resolve_lone_window("坏值") == 4
++
++    def test_resolve_lone_window_clamps(self):
++        """F 的核心：姐姐把窗口拧到 6，孤词这边也只认 4。"""
++        assert sg.resolve_lone_window(6) == 4
++        assert sg.resolve_lone_window(1) == 2
++        assert sg.resolve_lone_window(3) == 3
++
++    def test_lone_window_recent_takes_tail(self):
++        assert sg.lone_window_recent(self.RECENT, 2) == ["第四轮话", "第五轮话"]
++        assert sg.lone_window_recent(self.RECENT, 4) == [
++            "第二轮话", "第三轮话", "第四轮话", "第五轮话",
++        ]
++
++    def test_lone_window_recent_drops_blank(self):
++        assert sg.lone_window_recent(["", "   ", "真话"], 4) == ["真话"]
++
++    def test_lone_window_decoupled_from_retrieval_turns(self):
++        """检索词用 6 轮，孤词窗口仍是 4 —— 两件事不许再串。"""
++        all_recent = [f"第{i}轮话" for i in range(1, 7)]
++        retrieval_query = sg.build_retrieval_query(
++            sg.Verdict("needs_context"), "现在", all_recent, 6
++        )
++        assert len(retrieval_query.split()) == 7           # 6 轮 + 当前句
++        assert sg.lone_window_recent(all_recent, sg.resolve_lone_window(None)) == [
++            "第3轮话", "第4轮话", "第5轮话", "第6轮话",
++        ]                                                  # 只有 4 轮
++
++    def test_lone_thread_payload_returns_all_three(self):
++        notice, has_thread, used = sg.lone_thread_payload(self.RECENT, 4)
++        assert has_thread is True
++        assert len(used) == 4
++        assert "极短孤词" in notice
++        notice2, has_thread2, used2 = sg.lone_thread_payload([], 4)
++        assert has_thread2 is False and used2 == []
++        assert "极短孤词" in notice2
++
++
++# --------------------------------------------------------------------------
++# 八、决策日志护栏（改动清单 C）
++# --------------------------------------------------------------------------
++
++class TestDecisionLog:
++    def test_make_record_shape_and_clip(self):
++        rec = dl.make_record(
++            tier="frail", reason="指代无上文：" + "长" * 400, query="那个",
++            top_k=10, hits=0, route="last_resort", soft_confirm=True, window=4,
++        )
++        assert rec["tier"] == "frail" and rec["route"] == "last_resort"
++        assert rec["soft_confirm"] is True and rec["window"] == "4"
++        assert len(rec["reason"]) <= dl.MAX_FIELD_CHARS + 1   # 截断留一个省略号
++
++    def test_write_appends_jsonl(self, tmp_path):
++        for i in range(3):
++            p = dl.write_decision(dl.make_record(tier="lone", hits=i), tmp_path)
++        assert p is not None and p.name.endswith(".jsonl")
++        lines = p.read_text(encoding="utf-8").splitlines()
++        assert len(lines) == 3
++        assert json.loads(lines[0])["tier"] == "lone"
++
++    def test_no_data_dir_means_no_write(self):
++        assert dl.write_decision(dl.make_record(tier="lone"), None) is None
++        assert dl.write_decision({}, "/tmp") is None
++
++    def test_rotation_happens_only_once(self, tmp_path):
++        """超 5MB 滚一次；当天再超就放弃写（宁可丢日志）。"""
++        assert dl.write_decision(dl.make_record(tier="a"), tmp_path, max_bytes=1) is not None
++        assert dl.write_decision(dl.make_record(tier="b"), tmp_path, max_bytes=1) is not None
++        rolled = list(tmp_path.glob("decision_log/*.1.jsonl"))
++        assert len(rolled) == 1
++        assert dl.write_decision(dl.make_record(tier="c"), tmp_path, max_bytes=1) is None
++
++    def test_prune_old_files(self, tmp_path):
++        d = dl.log_dir(tmp_path)
++        old = d / "20260101.jsonl"
++        old.write_text("{}", encoding="utf-8")
++        stale = (datetime.now() - timedelta(days=30)).timestamp()
++        os.utime(old, (stale, stale))
++        dl.write_decision(dl.make_record(tier="lone"), tmp_path)
++        assert not old.exists()
++
++    def test_prune_overflow_files(self, tmp_path):
++        d = dl.log_dir(tmp_path)
++        for i in range(12):
++            f = d / f"202601{i:02d}.jsonl"
++            f.write_text("{}", encoding="utf-8")
++        dl.write_decision(dl.make_record(tier="lone"), tmp_path)
++        assert len(list(d.glob("*.jsonl"))) <= dl.MAX_FILES
++
++    def test_should_log_defaults_off(self):
++        assert dl.should_log({}) is False
++        assert dl.should_log(None) is False
++
++    def test_should_log_needs_master_gate(self):
++        """口径收紧（姐姐复核四.4）：日志两道门都要开——总闸关时一个字节都不写。
++
++        旧口径「只要 decision_log_enable 开就写」已被推翻：
++        总闸关＝回退到 v1，v1 是不写盘的，所以日志也必须闭嘴。
++        """
++        assert dl.should_log({dl.ENABLE_KEY: True}) is False
++        assert dl.should_log({dl.ENABLE_KEY: True, dl.GATE_KEY: True}) is True
++        assert dl.should_log({dl.GATE_KEY: True}) is False

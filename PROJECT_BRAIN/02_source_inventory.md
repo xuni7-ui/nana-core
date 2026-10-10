@@ -73,3 +73,13 @@
 
 - 生图脚本（`gen_*.py`）散落于工作区根，**未逐一鉴定是否为工程组成部分**。
 - `nana_dsh_whale_*`（桌面/Android 悬浮窗）与奈奈 Core **无关**，属另一条产品线。
+
+
+---
+
+## 八、P3 增补（2026-10-10（CST））
+
+- 【源码确认】**Iris 上游已获取**：tag `0.3.0`（commit `0557a4c1…`），241 blob；以 `git blob SHA1` 全量比对生产插件目录 → **234 同 / 7 改 / 7 新增 / 0 缺失**。旧"上游未获取/改前↔现行"作废。
+- 【实测】**AstrBot 上游基线**：GitHub tag `v4.28.0` commit `a4121464…`；补丁入 `patches/astrbot/`。
+- 【实测】**B站外挂**：5 个登录脚本入 `materials/bili_agent/login/`（`bili_qr_login*.py`）；9 个测试脚本排除（见 `materials/bili_agent/EXCLUSIONS.md`）。
+- 【实测】新增工程材料目录见 `00_INDEX` 第六节。
