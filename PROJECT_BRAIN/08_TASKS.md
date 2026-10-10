@@ -50,10 +50,10 @@
 
 | ID | 任务 | 状态 | 依赖 / 阻塞 | 需姐姐？ |
 |---|---|---|---|---|
-| T-41 | **协作桥真实 Runner 启用**（首个真实协作 = C.5-V-1 接线增量跑测） | **待授权（L3）** | 需"允许代码片段发往已在用模型端点" | **是（本轮唯一审批项）** |
+| T-41 | **协作桥真实 Runner 启用 + 首个真实协作执行**（C.5-V-1 接线增量） | ✅ **DONE** | `23_T41_REAL_RUNNER_01.md`：`applied=True`、13 通过 / 0 失败、边界 0 违规 | — |
 | T-45 | 协作桥最小闭环实现 + 离线验证（`bridge/codex_bridge.py` / `local_runner.py`） | ✅ DONE | `test_codex_bridge.py` 9/9 + `test_local_runner.py` 6/6 |
 | T-46 | C.5-V-1 接线适配层（`src/bili_agent/c5v_wiring.py` + 测试） | ✅ DONE | `test_c5v_wiring.py` 11/11 |
-| T-47 | **T-001 任务卡出卡**（首个真实 Codex 协作任务 = c5v_wiring 最小增量） | **出卡完成 · 待姐姐起任务** | `docs/tasks/T-001-c5v1-wiring-increment.md` + `22_PRE_T001_READONLY_RECON_01.md` |
+| T-47 | **T-001 任务卡出卡 + 执行**（首个真实 Codex 协作任务 = c5v_wiring 最小增量） | ✅ **DONE（B 路线执行）** | `docs/tasks/T-001-c5v1-wiring-increment.md` + `22_PRE_T001_READONLY_RECON_01.md` + `23_T41_REAL_RUNNER_01.md` | — |
 | T-48 | T-001 三项只读前置核验（祖先关系 / 远端源码 / 环境归属） | ✅ DONE（③部分未知，如实标记） | `22_PRE_T001_READONLY_RECON_01.md` |
 | T-42 | 自制插件 LICENSE 决策（4 个） | BLOCKED | 需姐姐指定许可 | **是** |
 | T-43 | Iris 改动 diff 的整体许可策略（AGPL 传染确认） | BLOCKED | 需姐姐决策 | **是** |
@@ -71,6 +71,7 @@
 | **BL-4** | 72h 观察期缺开始锚点 | 卡住 T-22 → T-31 全线 | 需姐姐给时刻 → **不可** |
 | **BL-5** | 进程不可观测（`ps` 空） | 无法做进程级存活/内存证据 | **不可**（命名空间限制） |
 | ~~BL-6~~ | ~~无本地版本控制~~ | — | ✅ **本轮已解除** |
+| ~~BL-7~~ | ~~协作桥无可用真实 Runner~~ | — | ✅ **本轮已解除**（R13/R14 打通，`applied=True`） |
 
 ---
 

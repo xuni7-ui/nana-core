@@ -31,6 +31,7 @@ from __future__ import annotations
 
 import fnmatch
 import json
+import re
 import os
 import shutil
 import subprocess
@@ -203,6 +204,9 @@ def redact(text: Any) -> Any:
         return text
     for s in _SECRETS:
         text = text.replace(s, "<已打码>")
+    # 端点/库自行打码后仍会残留尾部片段（如 `****e8`），一并抹掉
+    text = re.sub(r"(?<=api key: )\*+\S*", "<已打码>", text)
+    text = re.sub(r"sk-[A-Za-z0-9_\-]{4,}", "<已打码>", text)
     return text
 
 
@@ -224,6 +228,26 @@ def read_codex_config(config_toml: str = CONFIG_TOML_DEFAULT) -> Dict[str, Any]:
     return out
 
 
+def _first_key(value: Any) -> str:
+    """把配置里的 key 字段归一成单个字符串。
+
+    ⚠️ AstrBot 的 `provider_sources[].key` 是**列表**（多 key 轮询），
+    直接 `str()` 会得到 `"['sk-...']"` 这种带括号引号的伪串 ——
+    实测后果：401 Unauthorized（端点回显 `****e8']` 才暴露）。
+    """
+    if isinstance(value, str):
+        return value.strip()
+    if isinstance(value, (list, tuple)):
+        for item in value:
+            if isinstance(item, str) and item.strip():
+                return item.strip()
+            if isinstance(item, dict):
+                for kk in ("key", "api_key", "value", "token"):
+                    if isinstance(item.get(kk), str) and item[kk].strip():
+                        return item[kk].strip()
+    return ""
+
+
 def load_key_from_cmd_config(provider: str = "deepseek",
                              path: str = CMDCONFIG_DEFAULT) -> str:
     """从生产配置读入指定端点的 key —— **只读、只在内存、不打印、不落盘**。找不到返回 ""。"""
@@ -234,12 +258,12 @@ def load_key_from_cmd_config(provider: str = "deepseek",
         return ""
     for ps in d.get("provider_sources") or []:
         if str(ps.get("provider", "")).lower() == provider.lower() and ps.get("enable"):
-            k = str(ps.get("key") or "")
+            k = _first_key(ps.get("key"))
             if k:
                 return register_secret(k)
     for pv in d.get("provider") or []:
         if provider.lower() in str(pv.get("provider", "")).lower():
-            k = str(pv.get("api_key") or "")
+            k = _first_key(pv.get("api_key"))
             if k:
                 return register_secret(k)
     return ""
@@ -379,8 +403,10 @@ class CodexRunner:
             return RunnerResult(ok=False, reason="Runner 未就绪：%s: %s" % (type(e).__name__, e))
         timeout = max(1, min(spec.budget_s, DEFAULT_TIMEOUT_RUNNER_S))
         try:
+            # stdin 必须是 DEVNULL：codex 0.162 在 stdin 非 TTY 时会「读 stdin 到 EOF」，
+            # 若继承到永不关闭的管道，就会死等（实测：300s 零输出零改动的假超时）。
             p = subprocess.run(cmd, cwd=workdir, capture_output=True, text=True,
-                               timeout=timeout)
+                               stdin=subprocess.DEVNULL, timeout=timeout)
         except subprocess.TimeoutExpired:
             return RunnerResult(ok=False, reason="Runner 超时（%ss）" % timeout)
         except Exception as e:
@@ -496,6 +522,7 @@ def execute_task(spec: TaskSpec, runner: Any = None) -> Receipt:
                     if hasattr(runner, "wrap_test_command") else spec.test_command)
             p = subprocess.run(argv, cwd=scratch, shell=isinstance(argv, str),
                                capture_output=True, text=True,
+                               stdin=subprocess.DEVNULL,
                                timeout=max(1, spec.test_timeout_s))
             r.test_ok = (p.returncode == 0)
             r.test_output = redact(((p.stdout or "") + "\n" + (p.stderr or ""))[-4000:])

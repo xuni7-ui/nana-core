@@ -245,3 +245,22 @@
   2. 任务卡的测试命令由 `python -m pytest tests/ -k c5v -q` **改为** `python3 src/bili_agent/test_c5v_wiring.py`（仓库无 `tests/`，且该文件是自跑脚本）。
 - **结论**：`a314c4c`→`a9b1d36` 线性 1 提交、无冲突风险；**origin/main 已含 C.5-V-1 全部源码与测试**；Codex 有源可改。无新重大风险 ⇒ **按授权出卡 T-001**。
 - **边界**：只读核验；生产零改动、代码零改动、无 push、无 PR、未建/改环境、未发 `@codex` 评论、未联网安装。仅新增两份文档并**本地**提交。
+
+---
+
+## C-016 · R13/R14 T-41 协作桥真实 Runner 启用 + 首个真实协作执行
+
+- **改了什么**：`bridge/codex_bridge.py`（`CodexRunner` 重写、`wrap_test_command()`、`redact()`、`_first_key()`、`SCRATCH_ROOT` 可外置、`--dry-run`）；新增 `PROJECT_BRAIN/23_T41_REAL_RUNNER_01.md`；`08_TASKS.md` T-41/T-47 置 DONE、BL-7 解除；本文件追加本条。**生产代码零改动。**
+- **为什么**：姐姐授权（口令「动手」）走 **A+B 接力**中的 B（主机 Codex CLI）。原桥的 `CodexRunner` 只调 PATH 上的 `codex`（不在 PATH）且无降权/无严格配置，实测不可用。
+- **怎么验证**（可复现）
+  1. 离线回归：`python3 test_codex_bridge.py` → **9/9**；`python3 test_local_runner.py` → **9/9**；`--selftest` 通过；`codex_available=true`。
+  2. dry-run：`NANA_BRIDGE_SCRATCH_ROOT=/opt/nana_codex/sandbox/bridge python3 codex_bridge.py --spec tasks/c5v_real_01.json --dry-run` → 命令形状正确（`setpriv`→`nobody`→`env CODEX_HOME`→`node codex.js exec --strict-config --json …`），密钥 `key_present=true` 且**打码**。
+  3. 真跑：`… --runner codex` → `ok=True / applied=True / test_ok=True / duration_s=52.395`，`changed_files` = `src/bili_agent/c5v_wiring.py`、`src/bili_agent/test_c5v_wiring.py`，`violations=[]`，`diff_stat` = **2 files changed, 70 insertions(+), 4 deletions(-)**。
+  4. 独立验收（奈奈不信模型自述）：本机复跑 `python3 src/bili_agent/test_c5v_wiring.py` → **13 通过 / 0 失败**；顶层仅标准库；无硬编码密钥；源仓 HEAD 未变。
+- **修掉的三个真实缺陷/漏洞（含两次失败留证）**
+  1. **stdin 未关闭 → 300s 假超时**：codex 0.162 在 stdin 非 TTY 时读 stdin 到 EOF，继承永不关闭的管道即死等。探针：修前 `rc=124`、stdout 0 字节；修后 **0.27s** 明确报缺失环境变量。修法：`stdin=subprocess.DEVNULL`。
+  2. **key 取错 → 401**：AstrBot `provider_sources[].key` 是**列表**，`str()` 得到 `"['sk-…']"`。端点回显 `****e8']` 暴露。修法：`_first_key()` 归一化。
+  3. **验收阶段以 root 执行模型产物 → 沙箱被绕过**：新增 `wrap_test_command()`，验收同权限同隔离。
+- **结论**：B 路线**已真正打通**，桥具备「隔离克隆 → 降权执行 → 边界校验 → 同权限验收 → 回执」的完整可用闭环。首个真实协作任务 M2：**通过**。
+- **残留**：R-1 模型元数据缺失告警（上下文 fallback，`[未核实]`）；R-2 无逐次成本熔断台账；R-3 `/opt/nana_codex` 不在 git 内，容器重建需重做。
+- **边界**：生产零改动、无 push、无 PR、零新依赖、零新密钥；密钥仅运行期内存注入，回执已脱敏自查（`sk-`/`****` 痕迹 = 0）。
