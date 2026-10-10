@@ -1,0 +1,19 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/nana-core
+configfile: pyproject.toml
+plugins: anyio-4.14.2
+collected 57 items
+
+tests/offline_continuity/test_actions.py ............                    [ 21%]
+tests/offline_continuity/test_contracts.py ........                      [ 35%]
+tests/offline_continuity/test_experiment.py ...s                         [ 42%]
+tests/offline_continuity/test_hardening.py .........                     [ 57%]
+tests/offline_continuity/test_learning.py ...........                    [ 77%]
+tests/offline_continuity/test_runtime.py ........                        [ 91%]
+tests/offline_continuity/test_storage.py .....                           [100%]
+
+- generated xml file: /workspace/nana-core/docs/nana_core_v1_evidence/junit.xml -
+=========================== short test summary info ============================
+SKIPPED [1] tests/offline_continuity/test_experiment.py:21: E12 real dual-model semantics belongs to S5, explicitly excluded this turn
+======================== 56 passed, 1 skipped in 3.95s =========================

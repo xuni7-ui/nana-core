@@ -2,12 +2,8 @@
 import json
 from pathlib import Path
 import sqlite3
-from .contracts import CoreError, Invocation, Receipt, Verification
+from .contracts import CAPABILITIES, VERIFY_CAPABILITY, CoreError, Invocation, Receipt, Verification
 from .storage import canonical, digest, uid
-
-CAPABILITIES = {"reading.source.read", "reading.source.locate", "reading.card.create"}
-VERIFY_CAPABILITY = "reading.action.verify"
-
 
 class FakeWorld:
     def __init__(self, path):
@@ -15,6 +11,9 @@ class FakeWorld:
         self.path.parent.mkdir(parents=True, exist_ok=True)
         self.db = sqlite3.connect(self.path, isolation_level=None)
         self.db.row_factory = sqlite3.Row
+        if self.db.execute("SELECT name FROM sqlite_master WHERE name='identities'").fetchone():
+            self.db.close()
+            raise CoreError("EXTERNAL_WORLD_MUST_BE_SEPARATE")
         self.db.execute("PRAGMA journal_mode=WAL")
         self.db.execute("PRAGMA synchronous=FULL")
         self.db.executescript("""

@@ -85,6 +85,13 @@ class Runtime:
                 self._block(self.store.one("goals", goal_id), exc.code)
                 return goal_id
             if state != "SUCCEEDED":
+                if state in {"NOT_APPLIED", "FAILED_EFFECT", "CANCELLED"}:
+                    current = self.store.one("goals", goal_id)
+                    body = json.loads(current["body_json"])
+                    body["failure_reason"] = state
+                    with self.store.transaction("goal.failed", {"goal_id": goal_id, "reason": state}) as tx:
+                        tx.update("goals", goal_id, state="FAILED", version=current["version"] + 1, body_json=canonical(body))
+                    return goal_id
                 self._block(self.store.one("goals", goal_id), "PENDING_ACTION_VERIFICATION" if state == "UNKNOWN" else state)
                 return goal_id
             result = json.loads(self.store.one("actions", action_id)["result_json"])

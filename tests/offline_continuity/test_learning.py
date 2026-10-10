@@ -136,5 +136,20 @@ def test_E19_full_projection_replay_after_learning(environment, tmp_path):
     path = tmp_path / "replay.db"
     store.replay(path)
     with Store(path, environment[4]) as replay:
-        assert replay.snapshot() == store.snapshot()
+        expected, rebuilt = store.snapshot(), replay.snapshot()
+        for row in expected["core_meta"]:
+            if row["key"] == "recovery_quarantine":
+                row["value_json"] = "true"
+        assert rebuilt == expected
+        assert replay.one("core_meta", "recovery_quarantine")["value_json"] == "true"
     assert world.counts() == counts_before
+
+
+def test_E17_invalidated_support_suspends_strategy(environment):
+    store, world, kernel, authority, _ = environment
+    runtime, engine, _, strategy = learn_once(environment)
+    support = json.loads(store.one("strategies", strategy)["body_json"])["support_refs"][-1]
+    engine.invalidate_evidence(support, authority)
+    assert store.one("strategies", strategy)["status"] == "SUSPENDED"
+    runtime.process(reading("synthetic-reading-2", "notebook://synthetic/card-2"))
+    assert world.counts()["locate_calls"] == 0

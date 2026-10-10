@@ -1,7 +1,6 @@
 """Authorized, budgeted actions. Unknown is a recoverable uncertainty, never a retry signal."""
 import json
-from .contracts import CardArgs, CoreError, GrantSpec, Invocation, SourceArgs
-from .fake_world import CAPABILITIES, VERIFY_CAPABILITY
+from .contracts import CAPABILITIES, VERIFY_CAPABILITY, CardArgs, CoreError, GrantSpec, Invocation, SourceArgs
 from .storage import canonical, digest, uid
 
 LEGAL = {
@@ -65,6 +64,7 @@ class ActionKernel:
         high = self.store.one("core_meta", "auth_high_water_us")
         if high and now < json.loads(high["value_json"]) - 2_000_000:
             raise CoreError("CLOCK_ROLLBACK")
+        effective_now = max(now, json.loads(high["value_json"]) if high else now)
         matching = []
         for grant in self.store.all("grants"):
             if grant_id is not None and grant["grant_id"] != grant_id:
@@ -72,13 +72,18 @@ class ActionKernel:
             scope = json.loads(grant["body_json"])
             if capability in scope["capabilities"] and resource in scope["resources"]:
                 matching.append(grant)
-                if not grant["revoked"] and grant["not_before_us"] <= now < grant["expires_at_us"]:
+                if not grant["revoked"] and grant["not_before_us"] <= effective_now < grant["expires_at_us"]:
                     return grant
         if any(g["revoked"] for g in matching):
             raise CoreError("AUTH_REVOKED")
         if matching:
             raise CoreError("AUTH_EXPIRED")
         raise CoreError("AUTH_REQUIRED")
+
+    def _stamp_auth_time(self, tx):
+        high = self.store.one("core_meta", "auth_high_water_us")
+        value = max(self.store.clock.utc_now_us(), json.loads(high["value_json"]) if high else 0)
+        tx.put("core_meta", {"key": "auth_high_water_us", "value_json": canonical(value)})
 
     def _change(self, tx, action, state, **fields):
         if state not in LEGAL.get(action["state"], set()):
@@ -154,6 +159,7 @@ class ActionKernel:
                 if json.loads(self.store.one("core_meta", "recovery_quarantine")["value_json"]):
                     raise CoreError("RESTORE_QUARANTINE")
                 grant = self._grant_for(action["capability"], action["resource"])
+                self._stamp_auth_time(tx)
                 started = [a for a in self.store.all("attempts") if a["action_id"] == action_id
                            and a["kind"] == "EXECUTE" and a["started_at_us"] is not None]
                 if len(started) >= json.loads(grant["body_json"])["max_attempts"]:
@@ -182,7 +188,7 @@ class ActionKernel:
                 self._grant_for(action["capability"], action["resource"], attempt["grant_id"])
                 self._holds(tx, action["attempt_id"], {"external_requests", "write_attempts"})
                 tx.update("attempts", action["attempt_id"], started_at_us=self.store.clock.utc_now_us())
-                tx.put("core_meta", {"key": "auth_high_water_us", "value_json": canonical(self.store.clock.utc_now_us())})
+                self._stamp_auth_time(tx)
                 self._change(tx, action, "DISPATCHING")
         except CoreError as exc:
             with self.store.transaction("action.blocked", {"reason": exc.code}) as tx:
@@ -214,6 +220,7 @@ class ActionKernel:
         invocation = self._invocation(action)
         with self.store.transaction("action.verification_started", {"action_id": action_id}) as tx:
             grant = self._grant_for(VERIFY_CAPABILITY, action["resource"])
+            self._stamp_auth_time(tx)
             verification_attempt = self._attempt(tx, action, grant, "VERIFY")
             self._reserve(tx, verification_attempt, {"external_requests": 1, "cost_micro_units": 1})
             self._holds(tx, verification_attempt, {"external_requests"})

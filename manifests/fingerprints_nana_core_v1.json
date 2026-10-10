@@ -1,0 +1,30 @@
+{
+  "baseline": "18bc736d5e37fe3325e514a0e975403df2f97c9f",
+  "scope": "S0-S4 source/test snapshot; not production runtime; excludes self and engineering ledger",
+  "files": {
+    ".gitignore": "342282e419f0256465501090083b9ac51a7d72a35691b0109d1f8000f19755fb",
+    "pyproject.toml": "d2b509af144faca8047b16f554edfceb6f9c0af4910751add0f35e52676cc4eb",
+    "requirements-core-dev.lock": "9c3961923876f8fd9f3b435f589233f058f07cf67e9516f8606473b96193dff7",
+    "src/nana_core/__init__.py": "63438dc99a4b677b5efae37ba927e4e4ce69744412e5208a452a1eba25017f9f",
+    "src/nana_core/actions.py": "b7bc48e4035b3d58db869405d12555655cb0abac6f6cd2edc3c508e0d174873f",
+    "src/nana_core/clock.py": "2b698b496aad23225c2b54115a7789ad1c0acb1d77d34f673bfee8e09c2dc982",
+    "src/nana_core/contracts.py": "1b868359a29cd1f1b8787e3a2f0be34f370fe78fe911325eccefa4fafe4347fa",
+    "src/nana_core/experience.py": "023cee6ca7671d99f18a84a1da3c8095c020d9a919b08ab9ed18df08ff81579d",
+    "src/nana_core/experiment.py": "d490a1f324aa919d8313fb46061848c1f31b43f4c380160319cff13e01255482",
+    "src/nana_core/fake_world.py": "d2243893655608203b05a6c750f8e28334cd84042b0fe2d8fe958c445ed32b4d",
+    "src/nana_core/planning.py": "8de341d21ddd6fc286a9edfde4691a1f24b105a131383fe929bd92c512d05ea0",
+    "src/nana_core/ports.py": "d0be047cce9984c39af149fd6dda2da2b276f3fefb396fdec4a6760ad1144af7",
+    "src/nana_core/runtime.py": "f0eaf845772603bb277648a93355d3e4a6ba68bd01fccb22869776e35e688806",
+    "src/nana_core/storage/__init__.py": "6e35285b76cd2337c9d14976531de4ecd89ab184275b566eee7843e34e15e3c1",
+    "src/nana_core/storage/schema_v1.sql": "621500b6ba6d970f1c3e12326cf6ce501bcd4c7f5853da915a7d124e10665e4f",
+    "src/nana_core/storage/sqlite_store.py": "579cb680b749cbebba9d391249ad03251130fbe10b21d0796ec5e530f8e04329",
+    "tests/offline_continuity/conftest.py": "fb0cdb2e6e3e3a610879a4af591b506f84d9e3c780cbd2a6625b9eed6f54e5ff",
+    "tests/offline_continuity/test_actions.py": "c2979f9859677d104a35656fb1849454e86f5ba147587253d25da19ea92e6cef",
+    "tests/offline_continuity/test_contracts.py": "7927a2e2590800ceeabaa8d8e2ffcceb67ca243c88eab59a0d296d052c6be3e8",
+    "tests/offline_continuity/test_experiment.py": "d952d26a3040a550ce6e17c37ad922074b1720ba502c586645a61bd457475d09",
+    "tests/offline_continuity/test_hardening.py": "2e393d1fd15deee4f1349888cc1a694b003422ab6da15e854aceffbe5d8f0818",
+    "tests/offline_continuity/test_learning.py": "51ace7c3c6ae1b9798a8bc6bd365810d26e28e435f35525b5de04fbb32918838",
+    "tests/offline_continuity/test_runtime.py": "a7d5894fc619bc4f8c1b88106d544def8ab0ec2c0555a07bb14d3227b7ed3c2a",
+    "tests/offline_continuity/test_storage.py": "0df81eee693c87e034b6c4a06780c374c7a360bb02f97aac157402f7add871eb"
+  }
+}

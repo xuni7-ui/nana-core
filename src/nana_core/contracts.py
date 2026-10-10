@@ -3,6 +3,9 @@ from enum import StrEnum
 from typing import Literal
 from pydantic import BaseModel, ConfigDict, Field
 
+CAPABILITIES = {"reading.source.read", "reading.source.locate", "reading.card.create"}
+VERIFY_CAPABILITY = "reading.action.verify"
+
 
 class DTO(BaseModel):
     model_config = ConfigDict(strict=True, extra="forbid", frozen=True)

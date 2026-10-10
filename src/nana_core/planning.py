@@ -16,8 +16,21 @@ class ContextBuilder:
         for strategy in self.store.all("strategies"):
             if strategy["status"] == "ACTIVE":
                 feedback = self.store.one("memory_items", strategy["feedback_event_id"])
-                if feedback and feedback["status"] == "ACTIVE":
+                support_valid = True
+                for ref in json.loads(strategy["body_json"])["support_refs"]:
+                    try:
+                        if self.store.one("core_meta", "invalidated_evidence:" + ref):
+                            raise CoreError("EVIDENCE_INVALIDATED")
+                        evidence = self.store.event(ref)
+                        if evidence["artifact_id"]:
+                            self.store.artifact(evidence["artifact_id"])
+                    except CoreError:
+                        support_valid = False
+                if feedback and feedback["status"] == "ACTIVE" and support_valid:
                     strategies.append(strategy)
+                else:
+                    with self.store.transaction("experience.support_unavailable", {"strategy_id": strategy["strategy_id"]}) as tx:
+                        tx.update("strategies", strategy["strategy_id"], status="SUSPENDED")
         raw = self.store.artifact(event["artifact_id"]).decode()
         request = ModelRequest(identity_id=self.store.identity["identity_id"],
             identity_revision=self.store.identity["revision"], event_id=event_id,

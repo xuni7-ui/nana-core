@@ -1,0 +1,236 @@
+{
+  "exitstatus": 0,
+  "totals": {
+    "passed": 56,
+    "failed": 0,
+    "skipped": 1
+  },
+  "acceptance": {
+    "E01": {
+      "status": "PASS",
+      "tests": {
+        "tests/offline_continuity/test_runtime.py::test_E01_E02_event_to_verified_card_once": "passed"
+      },
+      "scope": "synthetic offline engineering acceptance"
+    },
+    "E02": {
+      "status": "PASS",
+      "tests": {
+        "tests/offline_continuity/test_runtime.py::test_E01_E02_event_to_verified_card_once": "passed",
+        "tests/offline_continuity/test_storage.py::test_identity_time_raw_and_channel_dedup": "passed"
+      },
+      "scope": "synthetic offline engineering acceptance"
+    },
+    "E03": {
+      "status": "PASS",
+      "tests": {
+        "tests/offline_continuity/test_actions.py::test_E03_E04_real_SIGKILL_recovery[after_effect]": "passed",
+        "tests/offline_continuity/test_hardening.py::test_entire_goal_recovers_after_real_card_commit_SIGKILL": "passed"
+      },
+      "scope": "synthetic offline engineering acceptance"
+    },
+    "E04": {
+      "status": "PASS",
+      "tests": {
+        "tests/offline_continuity/test_actions.py::test_E03_E04_real_SIGKILL_recovery[before_call]": "passed"
+      },
+      "scope": "synthetic offline engineering acceptance"
+    },
+    "E05": {
+      "status": "PASS",
+      "tests": {
+        "tests/offline_continuity/test_actions.py::test_E05_no_grant_means_no_execution": "passed",
+        "tests/offline_continuity/test_runtime.py::test_goal_can_be_proposed_without_execution_authority": "passed"
+      },
+      "scope": "synthetic offline engineering acceptance"
+    },
+    "E06": {
+      "status": "PASS",
+      "tests": {
+        "tests/offline_continuity/test_actions.py::test_E06_recheck_after_reservation[expire]": "passed",
+        "tests/offline_continuity/test_actions.py::test_E06_recheck_after_reservation[revoke]": "passed"
+      },
+      "scope": "synthetic offline engineering acceptance"
+    },
+    "E07": {
+      "status": "PASS",
+      "tests": {
+        "tests/offline_continuity/test_actions.py::test_E07_attempt_budget_atomic_reservation": "passed",
+        "tests/offline_continuity/test_hardening.py::test_E07_competing_processes_cannot_overreserve": "passed"
+      },
+      "scope": "synthetic offline engineering acceptance"
+    },
+    "E08": {
+      "status": "PASS",
+      "tests": {
+        "tests/offline_continuity/test_actions.py::test_E08_unknown_does_not_refund_or_blind_retry": "passed"
+      },
+      "scope": "synthetic offline engineering acceptance"
+    },
+    "E09": {
+      "status": "PASS",
+      "tests": {
+        "tests/offline_continuity/test_contracts.py::test_invalid_or_naive_time_is_unknown[None]": "passed",
+        "tests/offline_continuity/test_contracts.py::test_invalid_or_naive_time_is_unknown[invalid]": "passed",
+        "tests/offline_continuity/test_contracts.py::test_invalid_or_naive_time_is_unknown[2026-10-10T00:00:00]": "passed",
+        "tests/offline_continuity/test_contracts.py::test_utc_offset_preserved": "passed",
+        "tests/offline_continuity/test_storage.py::test_identity_time_raw_and_channel_dedup": "passed"
+      },
+      "scope": "synthetic offline engineering acceptance"
+    },
+    "E10": {
+      "status": "PASS",
+      "tests": {
+        "tests/offline_continuity/test_hardening.py::test_model_cannot_change_authorized_plan_target": "passed",
+        "tests/offline_continuity/test_runtime.py::test_E10_untrusted_model_success_and_target_are_rejected[forged0]": "passed",
+        "tests/offline_continuity/test_runtime.py::test_E10_untrusted_model_success_and_target_are_rejected[forged1]": "passed",
+        "tests/offline_continuity/test_runtime.py::test_E10_untrusted_model_success_and_target_are_rejected[forged2]": "passed"
+      },
+      "scope": "synthetic offline engineering acceptance"
+    },
+    "E11": {
+      "status": "PASS",
+      "tests": {
+        "tests/offline_continuity/test_experiment.py::test_E11_E13_E14_process_restart_and_behavioral_ablation[1]": "passed",
+        "tests/offline_continuity/test_experiment.py::test_E11_E13_E14_process_restart_and_behavioral_ablation[8]": "passed",
+        "tests/offline_continuity/test_experiment.py::test_E11_E13_E14_process_restart_and_behavioral_ablation[23]": "passed",
+        "tests/offline_continuity/test_storage.py::test_identity_time_raw_and_channel_dedup": "passed"
+      },
+      "scope": "synthetic offline engineering acceptance"
+    },
+    "E12": {
+      "status": "NOT_RUN",
+      "tests": {
+        "tests/offline_continuity/test_experiment.py::test_E12_real_model_migration": "skipped"
+      },
+      "scope": "S5 real-model semantics excluded"
+    },
+    "E13": {
+      "status": "PASS",
+      "tests": {
+        "tests/offline_continuity/test_experiment.py::test_E11_E13_E14_process_restart_and_behavioral_ablation[1]": "passed",
+        "tests/offline_continuity/test_experiment.py::test_E11_E13_E14_process_restart_and_behavioral_ablation[8]": "passed",
+        "tests/offline_continuity/test_experiment.py::test_E11_E13_E14_process_restart_and_behavioral_ablation[23]": "passed",
+        "tests/offline_continuity/test_learning.py::test_E13_E14_experience_changes_plan_and_actual_reads": "passed"
+      },
+      "scope": "synthetic offline engineering acceptance"
+    },
+    "E14": {
+      "status": "PASS",
+      "tests": {
+        "tests/offline_continuity/test_experiment.py::test_E11_E13_E14_process_restart_and_behavioral_ablation[1]": "passed",
+        "tests/offline_continuity/test_experiment.py::test_E11_E13_E14_process_restart_and_behavioral_ablation[8]": "passed",
+        "tests/offline_continuity/test_experiment.py::test_E11_E13_E14_process_restart_and_behavioral_ablation[23]": "passed"
+      },
+      "scope": "synthetic offline engineering acceptance"
+    },
+    "E15": {
+      "status": "PASS",
+      "tests": {
+        "tests/offline_continuity/test_learning.py::test_E15_learning_does_not_grant_added_read_permission": "passed",
+        "tests/offline_continuity/test_learning.py::test_E15_invalid_strategy_operations_are_rejected[extra0]": "passed",
+        "tests/offline_continuity/test_learning.py::test_E15_invalid_strategy_operations_are_rejected[extra1]": "passed",
+        "tests/offline_continuity/test_learning.py::test_E15_invalid_strategy_operations_are_rejected[extra2]": "passed"
+      },
+      "scope": "synthetic offline engineering acceptance"
+    },
+    "E16": {
+      "status": "PASS",
+      "tests": {
+        "tests/offline_continuity/test_learning.py::test_E16_scope_negative_and_E17_feedback_retraction": "passed",
+        "tests/offline_continuity/test_runtime.py::test_E16_unrelated_event_has_no_goal": "passed"
+      },
+      "scope": "synthetic offline engineering acceptance"
+    },
+    "E17": {
+      "status": "PASS",
+      "tests": {
+        "tests/offline_continuity/test_learning.py::test_E16_scope_negative_and_E17_feedback_retraction": "passed",
+        "tests/offline_continuity/test_learning.py::test_E17_invalidated_support_suspends_strategy": "passed"
+      },
+      "scope": "synthetic offline engineering acceptance"
+    },
+    "E18": {
+      "status": "PASS",
+      "tests": {
+        "tests/offline_continuity/test_actions.py::test_E18_backup_quarantine_prevents_old_state_redispatch": "passed"
+      },
+      "scope": "synthetic offline engineering acceptance"
+    },
+    "E19": {
+      "status": "PASS",
+      "tests": {
+        "tests/offline_continuity/test_learning.py::test_E19_full_projection_replay_after_learning": "passed",
+        "tests/offline_continuity/test_storage.py::test_append_only_and_pure_replay": "passed"
+      },
+      "scope": "synthetic offline engineering acceptance"
+    },
+    "E20": {
+      "status": "PASS",
+      "tests": {
+        "tests/offline_continuity/test_runtime.py::test_E20_wakes_are_deduplicated_and_not_autonomous_goals": "passed"
+      },
+      "scope": "synthetic offline engineering acceptance"
+    }
+  },
+  "tests": {
+    "tests/offline_continuity/test_actions.py::test_E05_no_grant_means_no_execution": "passed",
+    "tests/offline_continuity/test_actions.py::test_E06_recheck_after_reservation[expire]": "passed",
+    "tests/offline_continuity/test_actions.py::test_E06_recheck_after_reservation[revoke]": "passed",
+    "tests/offline_continuity/test_actions.py::test_E07_attempt_budget_atomic_reservation": "passed",
+    "tests/offline_continuity/test_actions.py::test_E08_unknown_does_not_refund_or_blind_retry": "passed",
+    "tests/offline_continuity/test_actions.py::test_receipt_is_not_success_and_readback_detects_wrong_effect": "passed",
+    "tests/offline_continuity/test_actions.py::test_operator_boundary_and_resource_scope": "passed",
+    "tests/offline_continuity/test_actions.py::test_effect_slot_and_immutable_arguments": "passed",
+    "tests/offline_continuity/test_actions.py::test_expired_write_can_be_verified_with_separate_read_grant": "passed",
+    "tests/offline_continuity/test_actions.py::test_E03_E04_real_SIGKILL_recovery[before_call]": "passed",
+    "tests/offline_continuity/test_actions.py::test_E03_E04_real_SIGKILL_recovery[after_effect]": "passed",
+    "tests/offline_continuity/test_actions.py::test_E18_backup_quarantine_prevents_old_state_redispatch": "passed",
+    "tests/offline_continuity/test_contracts.py::test_strict_model_cannot_claim_success": "passed",
+    "tests/offline_continuity/test_contracts.py::test_observation_does_not_coerce_identity": "passed",
+    "tests/offline_continuity/test_contracts.py::test_learning_cannot_expand_authority": "passed",
+    "tests/offline_continuity/test_contracts.py::test_invalid_or_naive_time_is_unknown[None]": "passed",
+    "tests/offline_continuity/test_contracts.py::test_invalid_or_naive_time_is_unknown[invalid]": "passed",
+    "tests/offline_continuity/test_contracts.py::test_invalid_or_naive_time_is_unknown[2026-10-10T00:00:00]": "passed",
+    "tests/offline_continuity/test_contracts.py::test_utc_offset_preserved": "passed",
+    "tests/offline_continuity/test_contracts.py::test_no_host_or_production_imports": "passed",
+    "tests/offline_continuity/test_experiment.py::test_E11_E13_E14_process_restart_and_behavioral_ablation[1]": "passed",
+    "tests/offline_continuity/test_experiment.py::test_E11_E13_E14_process_restart_and_behavioral_ablation[8]": "passed",
+    "tests/offline_continuity/test_experiment.py::test_E11_E13_E14_process_restart_and_behavioral_ablation[23]": "passed",
+    "tests/offline_continuity/test_experiment.py::test_E12_real_model_migration": "skipped",
+    "tests/offline_continuity/test_hardening.py::test_missing_identity_is_not_silently_recreated": "passed",
+    "tests/offline_continuity/test_hardening.py::test_backup_and_replay_refuse_overwrite": "passed",
+    "tests/offline_continuity/test_hardening.py::test_world_refuses_core_database_alias": "passed",
+    "tests/offline_continuity/test_hardening.py::test_clock_rollback_cannot_resurrect_authority": "passed",
+    "tests/offline_continuity/test_hardening.py::test_unknown_cannot_be_cancelled_and_free_budget": "passed",
+    "tests/offline_continuity/test_hardening.py::test_E07_competing_processes_cannot_overreserve": "passed",
+    "tests/offline_continuity/test_hardening.py::test_model_cannot_change_authorized_plan_target": "passed",
+    "tests/offline_continuity/test_hardening.py::test_entire_goal_recovers_after_real_card_commit_SIGKILL": "passed",
+    "tests/offline_continuity/test_hardening.py::test_candidate_induction_is_idempotent_for_same_feedback": "passed",
+    "tests/offline_continuity/test_learning.py::test_E13_E14_experience_changes_plan_and_actual_reads": "passed",
+    "tests/offline_continuity/test_learning.py::test_E11_restart_preserves_identity_time_strategy_and_decision": "passed",
+    "tests/offline_continuity/test_learning.py::test_E15_learning_does_not_grant_added_read_permission": "passed",
+    "tests/offline_continuity/test_learning.py::test_E16_scope_negative_and_E17_feedback_retraction": "passed",
+    "tests/offline_continuity/test_learning.py::test_candidate_needs_testing_and_support": "passed",
+    "tests/offline_continuity/test_learning.py::test_E15_invalid_strategy_operations_are_rejected[extra0]": "passed",
+    "tests/offline_continuity/test_learning.py::test_E15_invalid_strategy_operations_are_rejected[extra1]": "passed",
+    "tests/offline_continuity/test_learning.py::test_E15_invalid_strategy_operations_are_rejected[extra2]": "passed",
+    "tests/offline_continuity/test_learning.py::test_feedback_without_missing_field_does_not_manufacture_learning": "passed",
+    "tests/offline_continuity/test_learning.py::test_E19_full_projection_replay_after_learning": "passed",
+    "tests/offline_continuity/test_learning.py::test_E17_invalidated_support_suspends_strategy": "passed",
+    "tests/offline_continuity/test_runtime.py::test_E01_E02_event_to_verified_card_once": "passed",
+    "tests/offline_continuity/test_runtime.py::test_goal_can_be_proposed_without_execution_authority": "passed",
+    "tests/offline_continuity/test_runtime.py::test_E10_untrusted_model_success_and_target_are_rejected[forged0]": "passed",
+    "tests/offline_continuity/test_runtime.py::test_E10_untrusted_model_success_and_target_are_rejected[forged1]": "passed",
+    "tests/offline_continuity/test_runtime.py::test_E10_untrusted_model_success_and_target_are_rejected[forged2]": "passed",
+    "tests/offline_continuity/test_runtime.py::test_long_context_is_an_excerpt_with_full_raw_evidence": "passed",
+    "tests/offline_continuity/test_runtime.py::test_E20_wakes_are_deduplicated_and_not_autonomous_goals": "passed",
+    "tests/offline_continuity/test_runtime.py::test_E16_unrelated_event_has_no_goal": "passed",
+    "tests/offline_continuity/test_storage.py::test_identity_time_raw_and_channel_dedup": "passed",
+    "tests/offline_continuity/test_storage.py::test_source_collision_not_silently_ignored": "passed",
+    "tests/offline_continuity/test_storage.py::test_transaction_rolls_back_evidence_and_projection": "passed",
+    "tests/offline_continuity/test_storage.py::test_single_writer_and_corrupt_database_fail_closed": "passed",
+    "tests/offline_continuity/test_storage.py::test_append_only_and_pure_replay": "passed"
+  },
+  "real_model_calls": 0
+}

@@ -39,14 +39,16 @@ def test_goal_can_be_proposed_without_execution_authority(environment):
     assert world.counts()["execute_calls"] == 0
 
 
-def test_E10_untrusted_model_success_and_target_are_rejected(environment):
+@pytest.mark.parametrize("forged", [{"execution_succeeded": True}, {"action_state": "SUCCEEDED"},
+                                    {"receipt": {"external_id": "forged", "success": True}}])
+def test_E10_untrusted_model_success_and_target_are_rejected(environment, forged):
     store, world, kernel, authority, clock = environment
     authorize(kernel, authority, clock)
     class ForgingModel:
         descriptor = "untrusted-fixture"
         def propose(self, request):
             return {"purpose": "forge", "steps": [{"capability": "reading.source.read", "resource": SOURCE},
-                {"capability": "reading.card.create", "resource": CARD}], "execution_succeeded": True}
+                {"capability": "reading.card.create", "resource": CARD}], **forged}
     with pytest.raises(ValidationError):
         Runtime(store, kernel, ForgingModel()).process(reading())
     assert not store.all("actions")

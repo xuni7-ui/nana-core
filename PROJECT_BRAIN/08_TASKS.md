@@ -99,3 +99,18 @@
 | T-G GitHub 安全同步 | ✅ 完成（非强制增量 + 远端回验） |
 | T-C.5V-生产接线 | ⛔ 未做（授权禁止） |
 | T-Cloud-env | ⛔ 阻塞（待姐姐） |
+
+
+## Nana Core V1 独立离线任务（用户本轮直接授权）
+
+| ID | 内容 | 状态 | 证据 |
+|---|---|---|---|
+| NC-S0 | 包、DTO、schema、测试入口 | ③已离线运行验收 | C-018/C-023、contracts tests |
+| NC-S1 | 身份、时间、事件、证据、事务 | ③已离线运行验收 | C-019/C-023、storage tests |
+| NC-S2 | 授权/预算/动作/核验/SIGKILL恢复 | ③已离线运行验收 | C-020/C-023、action_recovery_trace.json |
+| NC-S3 | 单 reading_card 完整目标循环 | ③已离线运行验收 | C-021/C-023、runtime tests |
+| NC-S4 | 受限经验与重启行为消融 | ③已离线运行验收 | C-022/C-023、learning_ablation.json |
+| NC-S5 | 真实双模型语义迁移 | 未执行（本轮排除） | E12 NOT_RUN |
+| NC-S6 | 旧系统/生产迁移 | 未执行（本轮排除） | 没有生产调用 |
+
+不将旧 T-31—T-33 或生产事项改为 DONE。

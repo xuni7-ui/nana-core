@@ -1,5 +1,4 @@
 """Single writer, short transactions, append-only evidence and replayable projections."""
-import base64
 from contextlib import contextmanager
 import fcntl
 import hashlib
@@ -89,7 +88,11 @@ class Store:
                 raise CoreError("SCHEMA_VERSION_UNSUPPORTED")
             if self.db.execute("PRAGMA quick_check").fetchone()[0] != "ok":
                 raise CoreError("STORAGE_CORRUPT")
+            if self.db.execute("PRAGMA foreign_key_check").fetchone():
+                raise CoreError("BROKEN_FOREIGN_KEYS")
             if not self.all("identities"):
+                if self.all("events"):
+                    raise CoreError("IDENTITY_MISSING")
                 with self.transaction("identity.created") as tx:
                     tx.put("identities", {"identity_id": uid(), "revision": 1,
                         "body_json": canonical({"name": "Nana", "charter": [
@@ -196,6 +199,8 @@ class Store:
 
     def replay(self, destination):
         """Rebuild in a separate offline database; no model/capability methods exist here."""
+        if Path(destination).exists():
+            raise CoreError("DESTINATION_EXISTS")
         target = sqlite3.connect(destination, isolation_level=None)
         try:
             target.executescript(Path(__file__).with_name("schema_v1.sql").read_text())
@@ -215,6 +220,9 @@ class Store:
                     assignments = ",".join(f"{c}=excluded.{c}" for c in columns if c != KEYS[table])
                     target.execute(f"INSERT INTO {table}({','.join(columns)}) VALUES({','.join('?' for _ in columns)}) "
                         f"ON CONFLICT({KEYS[table]}) DO UPDATE SET {assignments}", list(row.values()))
+            # Rebuilt state is reviewable state, not permission to replay external effects.
+            # This is local restoration metadata, intentionally separate from domain replay.
+            target.execute("UPDATE core_meta SET value_json='true' WHERE key='recovery_quarantine'")
             target.execute("COMMIT")
         except BaseException:
             if target.in_transaction:
@@ -224,6 +232,8 @@ class Store:
             target.close()
 
     def backup(self, destination):
+        if Path(destination).exists():
+            raise CoreError("DESTINATION_EXISTS")
         target = sqlite3.connect(destination)
         try:
             self.db.backup(target)

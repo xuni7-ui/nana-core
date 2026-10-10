@@ -34,6 +34,9 @@ class ExperienceEngine:
         support = self.store.one("memory_items", feedback_event_id)
         if event["kind"] != "feedback.received" or not support or support["status"] != "ACTIVE":
             raise CoreError("INVALID_FEEDBACK_SOURCE")
+        existing = [s["strategy_id"] for s in self.store.all("strategies") if s["feedback_event_id"] == feedback_event_id]
+        if existing:
+            return existing
         feedback = Feedback.model_validate_json(canonical(json.loads(event["data_json"])["data"]["feedback"]))
         goal = self.store.one("goals", feedback.goal_id)
         if goal["state"] != "COMPLETED":
@@ -104,6 +107,8 @@ class ExperienceEngine:
         if body["evaluation"]["rule_hash"] != digest(rule.model_dump()) or not body["evaluation"]["tested"]:
             raise CoreError("STALE_STRATEGY_EVALUATION")
         for event_id in body["support_refs"]:
+            if self.store.one("core_meta", "invalidated_evidence:" + event_id):
+                raise CoreError("EVIDENCE_INVALIDATED")
             event = self.store.event(event_id)
             if event["artifact_id"]:
                 self.store.artifact(event["artifact_id"])
@@ -131,4 +136,14 @@ class ExperienceEngine:
             tx.update("memory_items", feedback_event_id, status="RETRACTED")
             for strategy in self.store.all("strategies"):
                 if strategy["feedback_event_id"] == feedback_event_id and strategy["status"] in {"ACTIVE", "TESTED", "CANDIDATE"}:
+                    tx.update("strategies", strategy["strategy_id"], status="SUSPENDED")
+
+    def invalidate_evidence(self, event_id, authority):
+        """Withdraw support, retaining historical evidence; not a full forgetting API."""
+        self.kernel._operator(authority)
+        self.store.event(event_id)
+        with self.store.transaction("evidence.invalidated", {"event_id": event_id}) as tx:
+            tx.put("core_meta", {"key": "invalidated_evidence:" + event_id, "value_json": "true"})
+            for strategy in self.store.all("strategies"):
+                if event_id in json.loads(strategy["body_json"])["support_refs"] and strategy["status"] in {"ACTIVE", "TESTED", "CANDIDATE"}:
                     tx.update("strategies", strategy["strategy_id"], status="SUSPENDED")

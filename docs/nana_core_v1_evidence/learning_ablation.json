@@ -1,0 +1,136 @@
+{
+  "assertions": {
+    "same_identity_across_processes": true,
+    "actual_process_restart": true,
+    "historical_events_preserved": true,
+    "matched_raw_proposal": true,
+    "matched_initial_plan": true,
+    "learning_did_not_change_grants": true,
+    "experience_cited": true,
+    "plan_changed": true,
+    "actual_new_read": true,
+    "requested_field_present": true,
+    "same_number_of_cards": true,
+    "all_actions_verified": true
+  },
+  "fork_hashes": {
+    "nana.db": "962a0df29b6c77b9f18d4e403e44bb8e8eca58d05c3e2c1bc2d7f34bd045614b",
+    "fake_world.db": "9726cd8f6a98b61eb48054c3381f6aeb4466911a64efaef6b71a545e4eb2ff10"
+  },
+  "with_experience": {
+    "plan": {
+      "applied_strategies": [
+        {
+          "matched_condition": "reading_card requires locator",
+          "required_output": "locator",
+          "revision": 1,
+          "strategy_id": "88d2aec3-4a51-4285-9248-2a02da610c00"
+        }
+      ],
+      "before": [
+        {
+          "capability": "reading.source.read",
+          "resource": "source://synthetic/garden"
+        },
+        {
+          "capability": "reading.card.create",
+          "resource": "notebook://synthetic/card-2"
+        }
+      ],
+      "compiler_version": "1",
+      "purpose": "Prepare a private reading card to help resume shared reading.",
+      "request": {
+        "card_resource": "notebook://synthetic/card-2",
+        "event_id": "83007933-83eb-4df0-824a-b87dfe09cfbb",
+        "event_text": "Synthetic reader 29 resumes another interrupted reading session.",
+        "event_text_coverage": "FULL",
+        "identity_id": "d3560740-9fde-4d1c-b3ec-01414c329309",
+        "identity_revision": 1,
+        "source_id": "source://synthetic/garden",
+        "strategy_refs": [
+          "88d2aec3-4a51-4285-9248-2a02da610c00@1"
+        ]
+      },
+      "steps": [
+        {
+          "capability": "reading.source.read",
+          "resource": "source://synthetic/garden"
+        },
+        {
+          "capability": "reading.source.locate",
+          "resource": "source://synthetic/garden"
+        },
+        {
+          "capability": "reading.card.create",
+          "resource": "notebook://synthetic/card-2"
+        }
+      ],
+      "template": "reading_card"
+    },
+    "counts": {
+      "effects": 2,
+      "execute_calls": 5,
+      "locate_calls": 1,
+      "verify_calls": 5
+    },
+    "card": {
+      "content": "A synthetic reader finds garden number 29 beside a quiet stream.\nSource: page 206, paragraph 2",
+      "locator": "page 206, paragraph 2",
+      "resource": "notebook://synthetic/card-2",
+      "source_digest": "79654a223d93209297896d9f15665440fbecd396da264263fd242dcd47198d3b",
+      "source_id": "source://synthetic/garden"
+    }
+  },
+  "without_experience": {
+    "plan": {
+      "applied_strategies": [],
+      "before": [
+        {
+          "capability": "reading.source.read",
+          "resource": "source://synthetic/garden"
+        },
+        {
+          "capability": "reading.card.create",
+          "resource": "notebook://synthetic/card-2"
+        }
+      ],
+      "compiler_version": "1",
+      "purpose": "Prepare a private reading card to help resume shared reading.",
+      "request": {
+        "card_resource": "notebook://synthetic/card-2",
+        "event_id": "80a8c558-9877-44e5-be40-71376da3bcf8",
+        "event_text": "Synthetic reader 29 resumes another interrupted reading session.",
+        "event_text_coverage": "FULL",
+        "identity_id": "d3560740-9fde-4d1c-b3ec-01414c329309",
+        "identity_revision": 1,
+        "source_id": "source://synthetic/garden",
+        "strategy_refs": []
+      },
+      "steps": [
+        {
+          "capability": "reading.source.read",
+          "resource": "source://synthetic/garden"
+        },
+        {
+          "capability": "reading.card.create",
+          "resource": "notebook://synthetic/card-2"
+        }
+      ],
+      "template": "reading_card"
+    },
+    "counts": {
+      "effects": 2,
+      "execute_calls": 4,
+      "locate_calls": 0,
+      "verify_calls": 4
+    },
+    "card": {
+      "content": "A synthetic reader finds garden number 29 beside a quiet stream.",
+      "locator": null,
+      "resource": "notebook://synthetic/card-2",
+      "source_digest": "79654a223d93209297896d9f15665440fbecd396da264263fd242dcd47198d3b",
+      "source_id": "source://synthetic/garden"
+    }
+  },
+  "interpretation": "causal compiler/behavior evidence with engineering fixtures, not real-model semantics"
+}

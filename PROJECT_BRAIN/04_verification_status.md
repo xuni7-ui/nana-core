@@ -114,3 +114,8 @@
 | Codex CLI 已安装 | 0.162.0 | 【实测】 |
 | 本地 Bridge Runner 闭环 | applied=True/13-0 | 【实测】 |
 | Codex **Cloud** 闭环 | **未达成**（environment 未建） | 【未知/待验证】 |
+
+
+## Nana Core V1 S0—S4（2026-10-10，独立合成环境）
+[实测] ③已离线运行验收：完整循环、真实进程重启、SIGKILL 恢复、受限经验/消融。56 passed / 0 failed / 1 skipped；E12/S5 真实模型语义未验证；生产运行未验证。
+证据：`docs/nana_core_v1_implementation.md`、`docs/nana_core_v1_evidence/acceptance_results.json`。

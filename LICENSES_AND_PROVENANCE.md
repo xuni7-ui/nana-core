@@ -29,3 +29,10 @@
 ## 三、待姐姐决策
 1. Nana Core **原创代码**采用何种许可证（默认：暂不添加根 LICENSE，保持待定）。
 2. 是否允许 Iris AGPL 派生材料（14 处补丁）存于主仓库 `materials/`（当前为**隔离 + 附 AGPL**方案）。
+
+
+## Nana Core V1 S0—S4 增量
+- `src/nana_core/`、`tests/offline_continuity/`：本轮依据 Architecture V1 实现的可控代码；未复制 AstrBot/Iris 的派生源码。原创许可继续待所有者决定。
+- Pydantic 2.13.4：MIT；pytest 9.1.1：MIT；CPython sqlite3 与 SQLite 为运行依赖，不整包入仓。精确开发依赖见 `requirements-core-dev.lock`，不修改生产依赖。
+- `docs/nana_core_v1_evidence/`：全部为本轮合成离线实验输出，不包含真实用户内容、凭据或数据库。
+- 前文 A 的 `patches/*` 泛列不改变 B 对 AstrBot/Iris 派生补丁的明确 AGPL 归属。

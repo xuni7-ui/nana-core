@@ -1,0 +1,35 @@
+{
+  "seed": 29,
+  "passed": true,
+  "assertions": {
+    "same_identity_across_processes": true,
+    "actual_process_restart": true,
+    "historical_events_preserved": true,
+    "matched_raw_proposal": true,
+    "matched_initial_plan": true,
+    "learning_did_not_change_grants": true,
+    "experience_cited": true,
+    "plan_changed": true,
+    "actual_new_read": true,
+    "requested_field_present": true,
+    "same_number_of_cards": true,
+    "all_actions_verified": true
+  },
+  "processes": {
+    "initial": 1530,
+    "restarted": 1531,
+    "control": 1532,
+    "killed": 1534,
+    "recovering": 1535
+  },
+  "crash_recovery_passed": true,
+  "S5": "NOT_RUN",
+  "evidence": [
+    "action_recovery_trace.json",
+    "dependency_manifest.json",
+    "event_trace.json",
+    "identity_snapshot_after.json",
+    "identity_snapshot_before.json",
+    "learning_ablation.json"
+  ]
+}

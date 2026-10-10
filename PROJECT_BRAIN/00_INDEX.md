@@ -104,3 +104,10 @@
 - 【实测】Codex CLI **已安装**（`/opt/nana_codex`，`@openai/codex` 0.162.0），非"未安装"。旧 `13_*` 中"登录被阻断"仅指**官方 OpenAI 端点**；经自定义 Provider，**真实 exec 已成功**。
 - 【源码确认】Iris 上游 **v0.3.0 已获取**（tag `0.3.0`，241 blob，逐字节校验）。旧"上游未获取"作废。
 - 【实测】本地 Bridge Runner **真实闭环成功**（≠ Codex Cloud 成功；Cloud environment 仍未创建）。
+
+
+## Nana Core V1 第一阶段实现（新建，2026-10-10）
+- `src/nana_core/`：S0—S4 独立离线 Core。
+- `docs/nana_core_v1_implementation.md`：实现、schema、E01—E20、边界和重现命令。
+- `docs/nana_core_v1_evidence/`：全合成验收证据，不包含运行 DB 或私人资料。
+- `manifests/fingerprints_nana_core_v1.json`：本阶段源/测试指纹，锚点见 09_STATE。

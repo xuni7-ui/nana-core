@@ -163,3 +163,17 @@
 [实测] C-021：S3 已测试，6 passed；S4 尚未完成；S5 不在本轮范围。
 
 [实测] C-022：S4 已测试，10 passed；S0—S4 阶段测试累计 41 项；统一实验与交付核验进行中。
+
+
+## Nana Core V1 S0—S4 最终离线验收（C-023）
+
+- **[实测] 基线**：`18bc736d5e37fe3325e514a0e975403df2f97c9f`；本地开发分支 `dev/nana-core-v1-s0-s4`。
+- **[实测] 实现**：`src/nana_core/` 独立包；schema v1（15 领域表）；没有 AstrBot/Iris/B站导入或生产路径。
+- **[实测] 验收**：56 passed / 0 failed / 1 skipped；E01—E20 中 19 离线 PASS，E12 真实双模型语义迁移 NOT_RUN。
+- **[实测] 连续性**：不同进程保持相同身份与历史；反馈形成受限经验；下一次 read→locate→create，对照 read→create。
+- **[实测] 恢复**：真实 SIGKILL -9，外部提交后本地 DISPATCHING 经查询恢复 SUCCEEDED；副作用与写调用均为 1。
+- **[实测] 工程环境**：Python 3.12.14 / SQLite 3.53.1 / Pydantic 2.13.4 / pytest 9.1.1。
+- **报告**：`docs/nana_core_v1_implementation.md`；原始证据 `docs/nana_core_v1_evidence/`（全为合成资料，不包含 DB）。
+- **源/测试指纹锚点**：`manifests/fingerprints_nana_core_v1.json` SHA256 = `25ba3e62a3fe30e332f81d9d127dd25523b64759b4c9c7411a92820a07316bdb`；不包含自文件和引用锚点的账本，避免自指。
+- **状态边界**：S0—S4 已离线运行验收；通用自然语言学习、真实模型、生产运行、迁移 S5/S6 未实现或未执行。旧 T-31—T-33 生产里程碑不因此宣称 DONE。
+- **费用与权限**：真实外部模型及生产调用 0；模拟预算单位不是真实费用。未部署、未合并 main。

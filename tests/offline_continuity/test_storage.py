@@ -67,5 +67,10 @@ def test_append_only_and_pure_replay(tmp_path):
             store.db.execute("UPDATE events SET kind='forged'")
         store.replay(tmp_path / "replay.db")
         with Store(tmp_path / "replay.db") as replay:
-            assert replay.snapshot() == store.snapshot()
+            original, reconstructed = store.snapshot(), replay.snapshot()
+            for row in original["core_meta"]:
+                if row["key"] == "recovery_quarantine":
+                    row["value_json"] = "true"
+            assert reconstructed == original
+            assert replay.one("core_meta", "recovery_quarantine")["value_json"] == "true"
             assert replay.all("events") == store.all("events")

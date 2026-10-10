@@ -57,3 +57,15 @@
 - 「**敏感扫描通过**」的精确含义 = **密钥值 0 命中**。`sessdata` 等**键名**出现在源码中属正常（读 cookie 必需），**不构成泄露**。
 - 首次同步基线 = **66 文件**（本地 67 − 排除 `manifests/nana_iris_changes.diff`）。
 - 远端 `xuni7-ui/nana-core` 首核结果：private、默认分支 `main`、仅 `Initial commit` 1 个文件 → 详见 `PROJECT_BRAIN/18_GITHUB_REMOTE_VERIFY_01.md`。
+
+
+## Nana Core V1 S0—S4 增量白名单（用户授权，合成资料）
+- `src/nana_core/**/*.py`、`src/nana_core/storage/schema_v1.sql`
+- `tests/offline_continuity/*.py`
+- `pyproject.toml`、`requirements-core-dev.lock`、`.gitignore`
+- `docs/nana_core_v1_implementation.md`、`docs/nana_core_v1_test_output.txt`
+- `docs/nana_core_v1_evidence/*.json`、`docs/nana_core_v1_evidence/junit.xml`（全合成，逐文件扫描）
+- `manifests/fingerprints_nana_core_v1.json`、`manifests/nana_core_v1_review.json`
+- `PROJECT_BRAIN/{00_INDEX,04_verification_status,08_TASKS,09_STATE,10_DECISIONS,11_CHANGELOG}.md`（本阶段追加）
+- `LICENSES_AND_PROVENANCE.md`（仅新增来源登记）
+不纳入 `.venv/`、DB/WAL/lock、wheel、运行目录或真实凭据。
