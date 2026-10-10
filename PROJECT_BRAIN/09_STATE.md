@@ -215,3 +215,5 @@
 [未知] 真实宿主/真实数据映射与对账、生产执行权迁移、E12；均未执行。实验真实模型/生产调用/费用均为 0。报告 docs/nana_core_s6_implementation.md。
 
 [实测] C-030 最终指纹锚点：manifests/fingerprints_nana_core_s6.json SHA256 `bc52a0627ec3b82c8f2f5d4fcd983efd1ffa2f48cb3ea200de351e6e62f16ae6`。只证明本次采集的合成源码/测试/证据；排除自身与账本，不证明生产运行。
+
+[实测] C-031：S6 实现提交 `14e5f2e71d209a2378290d7b591d932131ab28ba` 已推送并核验私有开发分支 dev/nana-core-v1-s6；main/S0—S4/S5 SHA 未变。之后仅追加保存回执与账本，最终 HEAD 以 Git 为准；工作区无运行 DB 入库。指纹锚点更新 `fa081fdc74255b54197fd376f6125bc18591b41666f3dc6ec4ae647254c514ed`；源码/测试 hash 不变，新增合成保存回执。

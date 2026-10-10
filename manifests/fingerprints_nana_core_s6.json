@@ -2,6 +2,7 @@
   "baseline": "6491aa6ddadd63e23035f69dd18a218b70ccf650",
   "scope": "S6 synthetic non-production final source, tests and evidence; excludes self and ledgers",
   "files": {
+    "docs/nana_core_s6_evidence/github_save_receipt.json": "9a2e7a457004350dd2f3c7b2a1ebd9e38d35f1a1fb1b70f1fa0a8b25e824fe32",
     "docs/nana_core_s6_evidence/junit.xml": "c07512bed3d2b5a3b677e80503fa5e5edff3ca4d449000313ac36c6bbed6b36f",
     "docs/nana_core_s6_evidence/migration_report.json": "aa6aeb1c502b24542773096704ddaea0ea43fd803a620db12067f8a90e2befbe",
     "docs/nana_core_s6_evidence/test_results.json": "a34192cb1568396bbc2422e088d8989e591817e47d465dd9f47d74962f708730",

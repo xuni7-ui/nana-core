@@ -9,6 +9,7 @@
     "PROJECT_BRAIN/09_STATE.md",
     "PROJECT_BRAIN/10_DECISIONS.md",
     "PROJECT_BRAIN/11_CHANGELOG.md",
+    "docs/nana_core_s6_evidence/github_save_receipt.json",
     "docs/nana_core_s6_evidence/junit.xml",
     "docs/nana_core_s6_evidence/migration_report.json",
     "docs/nana_core_s6_evidence/test_results.json",
@@ -33,7 +34,7 @@
   "allowlist_violations": [],
   "credential_pattern_findings": [],
   "scope": "all S6 committed versions and final UTF-8 files; synthetic only; pattern scan is not a universal secret detector",
-  "scanned_versions": 48,
+  "scanned_versions": 69,
   "license_review": "controlled implementation; no third-party vendored code or AGPL source copied; original license remains owner decision",
   "production_changes": false,
   "dependency_changes": false,
@@ -42,7 +43,7 @@
   "prior_source_changes": [
     "src/nana_core/planning.py: pure shadow option, default unchanged"
   ],
-  "source_fingerprint_anchor": "bc52a0627ec3b82c8f2f5d4fcd983efd1ffa2f48cb3ea200de351e6e62f16ae6",
+  "source_fingerprint_anchor": "fa081fdc74255b54197fd376f6125bc18591b41666f3dc6ec4ae647254c514ed",
   "engineering_totals": {
     "passed": 29,
     "failed": 0,
@@ -62,5 +63,6 @@
   "real_model_calls": 0,
   "external_model_fees": 0,
   "production_migration": "NOT_RUN",
-  "sigkill_recovery": "actual process kill -9; no model replan; one effect per card"
+  "sigkill_recovery": "actual process kill -9; no model replan; one effect per card",
+  "implementation_remote_sha": "14e5f2e71d209a2378290d7b591d932131ab28ba"
 }

@@ -1,0 +1,17 @@
+{
+  "repository": "xuni7-ui/nana-core",
+  "branch": "dev/nana-core-v1-s6",
+  "implementation_sha": "14e5f2e71d209a2378290d7b591d932131ab28ba",
+  "verified_remote_sha": "14e5f2e71d209a2378290d7b591d932131ab28ba",
+  "verification": "successful git push followed by git ls-remote exact match",
+  "preserved_refs": {
+    "main": "18bc736d5e37fe3325e514a0e975403df2f97c9f",
+    "dev/nana-core-v1-s0-s4": "884db6a460c2803e8c89434c3fa8e36f7ffe90cf",
+    "dev/nana-core-v1-s5": "6491aa6ddadd63e23035f69dd18a218b70ccf650"
+  },
+  "scope": "S6 synthetic non-production; subsequent ledger-only commit records this receipt; final HEAD is given by Git",
+  "production_changes": false,
+  "E12": "NOT_RUN",
+  "real_model_calls": 0,
+  "external_model_fees": 0
+}
