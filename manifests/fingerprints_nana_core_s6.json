@@ -1,0 +1,12 @@
+{
+  "baseline": "6491aa6ddadd63e23035f69dd18a218b70ccf650",
+  "scope": "S6 import checkpoint, synthetic only; excludes self and ledger",
+  "files": {
+    "pyproject.toml": "3a5321bcd0550b54eaad35901bc3f231ab350f7d9186eb86efb9bc6c87269b6c",
+    "src/nana_core/migration/__init__.py": "2aba88600c21ace498d1ff0a9a836a11f745d82a6fbbaaa5e6586ea540c256b4",
+    "src/nana_core/migration/legacy.py": "a0fbe2f0c17b915d87e88adf29b47881bccb19cdbbfcd1623d18e4137e19597b",
+    "tests/migration/__init__.py": "0e2b05388351bd850e1b04493820dca48d973ebd2f4424feff6fcdc7445d4d35",
+    "tests/migration/conftest.py": "351de1a7d43d5d7b0dfee24120a7451d2721c67b14d40766af1dc4f2501e90b5",
+    "tests/migration/test_legacy.py": "41c23d932aea70d5542476cf2a23f2b31d0b5b42b79f36d5b5e856215ad8b93f"
+  }
+}

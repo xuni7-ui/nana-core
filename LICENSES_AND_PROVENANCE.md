@@ -41,3 +41,8 @@
 - `src/nana_core/semantic/`、`tests/semantic_migration/`：本轮依据 Architecture V1 实现的可控代码；未复制模型 SDK、AstrBot/Iris 或第三方评估框架源码。原创许可仍待所有者决定。
 - HTTP、JSON、SQLite、进程控制使用 Python 标准库；未新增依赖，Pydantic/pytest 的现有 MIT 来源不变。
 - `docs/nana_core_s5_evidence/` 只含合成状态、工程测试和未运行语义报告；真实模型调用为 0，不分发模型权重、凭据或运行数据库。
+
+
+## S6 非生产准备增量
+- src/nana_core/migration/、tests/migration/：本轮可控实现，未复制 Iris/AstrBot 派生代码；只设计规范化合成来源信封，非真实数据库导出器。
+- Python 标准库与既有 Pydantic/pytest；零新增依赖。原创许可继续待所有者决定，生产及 AGPL 边界不变。

@@ -361,3 +361,10 @@
 - 为什么：交付可审查的 S5 工程，保留已保存 S0—S4 分支，不影响 main。
 - 怎么验证：GitHub 元数据 visibility=private；git ls-remote S5=`881e48a863257971e29a49f48ab8ec403313c3fa`，S0—S4=`884db6a460c2803e8c89434c3fa8e36f7ffe90cf`，main=`18bc736d5e37fe3325e514a0e975403df2f97c9f`。
 - 工程结果不变：42 个新增测试通过，联合 98 pass / 1 skip；真实模型 0，E12 NOT_RUN，费用 0。证据 docs/nana_core_s5_evidence/github_save_receipt.json。
+
+
+## C-028 S6 合成旧记忆导入
+- 改了什么：新增 migration.legacy 严格合成来源信封、显式时间单位、精确原文保存、逐记录事务导入/去重/冲突拒绝、恢复与回放测试；不新增 Core 表。
+- 为什么：保留旧来源且不把推断、摘要或旧 VERIFIED 声明提升成可信事实/执行证据。
+- 怎么验证：tests/migration 14 passed，包括真实 SIGKILL 部分导入后恢复、身份和来源保持、纯回放。首次 14 failed，原因是有限浮点约束误施于含字符串的时间联合类型；修正为只约束 float 后全部通过，未削弱断言。
+- 边界：全合成，无生产导出/数据库读取、真实模型 0，E12 NOT_RUN。

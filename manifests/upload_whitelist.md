@@ -79,3 +79,11 @@
 - `manifests/fingerprints_nana_core_s5.json`、`manifests/nana_core_s5_review.json`
 - PROJECT_BRAIN 状态、任务、决策、变更与验证记录追加；`LICENSES_AND_PROVENANCE.md` 来源登记。
 运行快照 DB、模型调用 DB、lock、开发绑定、真实服务配置不入库。
+
+
+## S6 非生产准备增量（用户本轮 GitHub 交付授权）
+- src/nana_core/migration/*.py、tests/migration/*.py、pyproject.toml
+- docs/nana_core_s6_implementation.md、docs/nana_core_s6_test_output.txt、docs/nana_core_s6_evidence/*.json 与 junit.xml
+- manifests/fingerprints_nana_core_s6.json、manifests/nana_core_s6_review.json
+- PROJECT_BRAIN 工程状态/索引/任务/验证/决策/变更/路线追加，LICENSES_AND_PROVENANCE.md 来源登记。
+- 排除运行 DB/WAL/lock、真实导出、真实凭据/记忆；不修改生产树或导入 AGPL 宿主。
