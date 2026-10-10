@@ -17,7 +17,7 @@ from ..fake_world import FakeWorld
 from ..planning import ContextBuilder
 from ..runtime import Runtime
 from ..storage import Store, canonical, digest
-from .contracts import EvaluationCase, RunConfig
+from .contracts import EvaluationCase, RunConfig, load_run_config
 from .evaluation import aggregate, assess_behavior, assess_reply
 from .model_port import CallLedger, CompatibleModelPort
 from .snapshot import fork_snapshot, model_continuity, prepare_snapshot, verify_snapshot, write_json
@@ -77,7 +77,7 @@ def execute_case(snapshot, output, case, arm, model_factory):
 
 def _worker(job_path):
     job = json.loads(Path(job_path).read_text())
-    config = RunConfig.model_validate_json(Path(job["config"]).read_text())
+    config = load_run_config(job["config"])
     endpoint = next(e for e in config.endpoints if e.alias == job["alias"])
     ledger = CallLedger(job["ledger"], config.budget, job["scope"])
     try:
@@ -94,7 +94,7 @@ def _worker(job_path):
 def evaluate(snapshot, output, config_path=None):
     snapshot, output = Path(snapshot).resolve(), Path(output).resolve()
     manifest, frozen = verify_snapshot(snapshot)
-    config = RunConfig.model_validate_json(Path(config_path).read_text()) if config_path else RunConfig()
+    config = load_run_config(config_path)
     output.mkdir(parents=True, exist_ok=False)
     actual_config = output / "run_config.json"
     write_json(actual_config, config.model_dump())  # no credential values, no secret files

@@ -97,3 +97,5 @@
 - manifests/fingerprints_nana_core_development.json、manifests/nana_core_development_review.json
 - PROJECT_BRAIN/{00_INDEX,04_verification_status,08_TASKS,09_STATE,10_DECISIONS,11_CHANGELOG}.md 追加；LICENSES_AND_PROVENANCE.md 来源追加。
 - 不上传源运行目录、DB/WAL/lock、真实模型配置/凭据/私人资料；不纳入生产目录或外部 secret 内容。
+
+- C-033 增量：docs/nana_core_development_evidence/model_closeout_output.txt（实际合成测试 stdout）。

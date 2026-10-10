@@ -1,6 +1,7 @@
 """Bounded OpenAI-compatible HTTP ModelPort; no SDK retries or execution rights."""
 from contextlib import contextmanager
 import fcntl
+from http.client import IncompleteRead
 import json
 import os
 from pathlib import Path
@@ -152,7 +153,11 @@ is about this event; cite applied active rule revisions and supporting evidence.
 class CompatibleModelPort:
     def __init__(self, endpoint: Endpoint, ledger: CallLedger, continuity: dict,
                  case, arm, transport=None):
-        self.endpoint, self.ledger, self.continuity = endpoint, ledger, continuity
+        try:
+            self.endpoint = Endpoint.model_validate(endpoint.model_dump())
+        except Exception:
+            raise CoreError("MODEL_ENDPOINT_REJECTED") from None
+        self.ledger, self.continuity = ledger, continuity
         self.case, self.arm = case, arm
         self.transport = transport or HTTPTransport()
         self.descriptor = f"s5-compatible:{endpoint.alias}:{endpoint.model}"
@@ -179,6 +184,11 @@ class CompatibleModelPort:
         try:
             raw = self.transport.send(self.endpoint, payload)
             evidence["response_hash"] = digest(raw)
+            binding = os.environ.get(self.endpoint.credential_env) if self.endpoint.credential_env else None
+            if binding and binding.encode() in raw:
+                # Reject known credential reflection before storing provider fields
+                # or raw content. This is not a universal secret/DLP detector.
+                raise CoreError("MODEL_CREDENTIAL_REFLECTION_REJECTED")
             envelope = json.loads(raw)
             evidence.update({"provider_model": envelope.get("model"), "provider_response_id": envelope.get("id"),
                              "usage": envelope.get("usage"), "configured_model": self.endpoint.model})
@@ -201,7 +211,14 @@ class CompatibleModelPort:
             # Never sent to Core as a successful action/receipt.
             evidence["raw_content"] = content
             reply = SemanticReply.model_validate_json(content)
-        except (TimeoutError, error.URLError, ConnectionError):
+        except error.HTTPError as exc:
+            uncertain = exc.code >= 500 or exc.code == 408
+            code = "MODEL_TRANSPORT_UNCERTAIN" if uncertain else "MODEL_HTTP_REJECTED"
+            self.ledger.finish(call_id, "UNKNOWN" if uncertain else "FAILED",
+                (time.monotonic_ns() - started) // 1_000_000,
+                {**evidence, "error": code, "http_status": exc.code})
+            raise CoreError(code) from None
+        except (TimeoutError, error.URLError, ConnectionError, IncompleteRead):
             self.ledger.finish(call_id, "UNKNOWN", (time.monotonic_ns() - started) // 1_000_000,
                 {**evidence, "error": "MODEL_TRANSPORT_UNCERTAIN"})
             raise CoreError("MODEL_TRANSPORT_UNCERTAIN") from None

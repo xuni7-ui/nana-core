@@ -225,3 +225,6 @@
 来源：docs/nana_core_development_validation.md、docs/nana_core_development_evidence/；未改变总体架构/生产树，零新增依赖和 Core 表。
 
 [实测] C-032 指纹锚点 b175b377bf9f0536598811140953f24da795ff562b0b3801ec6a650429668975；只证明采集时刻的源码/测试/合成与元信息证据，不证明生产。
+
+[实测] C-033：P0 已远端保存 b05468d63182c17644037be447688798fa5ce6b4；P1 模型适配收尾 81 targeted passed（开发 39）；配置/4xx/截断/回显边界保持，E12 NOT_RUN。当前继续只读网页开发，未建立生产访问。
+[实测] C-033 指纹锚点 6dfcea0ce525ee517543c28cc2072a3a64d22251c22821daedc85aea1e3c9da3（当前开发源与历史/本阶段证据，不证明生产）。

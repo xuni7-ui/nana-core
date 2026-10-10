@@ -395,3 +395,8 @@
 - 早期结果：文件工具/受影响 S5 65 passed；默认沙箱 23 passed / 7 failed（socket 创建 PermissionError），开发 network grant 下七项 wire tests 通过；一次未指定测试目录的自定义报告参数命令在解析阶段 exit 4，明确目录后运行。只读复核修正累计定位冒充经验效应，新增否定测试，无断言削弱。
 - [实测/未知] 权限核实：生产连接/命令/变更 0；当前就绪 secrets/vars/identities 0；Docker socket 请求 PermissionError、阶段未记录；GitHub repo/workflows GET 成功（私有/0），hooks GET 403，webhooks/外部轮询未知。
 - 真实模型推理、生产、公网工具调用与模型费用 0；E12 NOT_RUN。实际成功专项与最终 wire 运行各 8 个 loopback 请求，共 16，均 protocol simulator/unverified；不能宣称真实模型已验收。
+
+## C-033 — P0 保存与 P1 模型适配收尾
+- [实测] P0 保存：b05468d63182c17644037be447688798fa5ce6b4 已推送，ls-remote 相同；main 未变。上次代码/HTTP 测试/访问边界报告完整保留，不依赖未提供的截图。
+- 改动与原因：HTTP 4xx 明确拒绝 FAILED，408/5xx/断连/截断 UNKNOWN；配置加载错误只输出安全代码，拒绝 symlink/超限配置；Endpoint 重新严格校验；已知开发 binding 原样回显在存储前拒绝。预算不退款、未决不重发，不修改生产。
+- [实测] 验证：受影响 S5 与开发测试合计 81 passed；开发 39 passed；新增 8 项覆盖状态/截断/配置/凭据回显/变造端点。真实推理 0，E12 NOT_RUN；本阶段 12 个 loopback 请求，均协议模拟器，模型费用 0。最终全量回归留待后续阶段完成。

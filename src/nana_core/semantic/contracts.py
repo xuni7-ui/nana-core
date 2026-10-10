@@ -1,9 +1,10 @@
 """Non-secret operator configuration and untrusted semantic responses."""
 import re
+from pathlib import Path
 from urllib.parse import urlsplit
 from typing import Literal
 from pydantic import Field, model_validator
-from ..contracts import DTO, PlanProposal
+from ..contracts import CoreError, DTO, PlanProposal
 
 
 class Endpoint(DTO):
@@ -63,6 +64,19 @@ class RunConfig(DTO):
         if len({(e.base_url, e.model) for e in self.endpoints}) != len(self.endpoints):
             raise ValueError("two identical endpoints/models are not model migration")
         return self
+
+
+def load_run_config(path=None):
+    """Only explicit non-secret development config; errors never echo input values."""
+    if path is None:
+        return RunConfig()
+    try:
+        file = Path(path)
+        if file.is_symlink() or file.stat().st_size > 32_768:
+            raise ValueError("config boundary")
+        return RunConfig.model_validate_json(file.read_bytes())
+    except Exception:
+        raise CoreError("MODEL_CONFIG_REJECTED") from None
 
 
 class IdentityUnderstanding(DTO):

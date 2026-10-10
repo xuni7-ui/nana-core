@@ -25,6 +25,8 @@ def protocol_server(mode='valid'):
             if mode=='redirect':
                 self.send_response(307);self.send_header('Location','http://127.0.0.1:1/never');self.end_headers();return
             if mode=='disconnect':self.close_connection=True;return
+            if mode in {'400','429','500','408'}:
+                self.send_response(int(mode));self.end_headers();self.wfile.write(b'synthetic error body');return
             mutate=(lambda reply:reply.update(success=True)) if mode=='claims_success' else None
             raw=ScriptedTransport(mutate=mutate).send(None,payload)
             if mode=='oversize':raw=b'x'*65_537
@@ -92,7 +94,9 @@ def test_successful_real_http_cannot_be_promoted_to_real_model(tmp_path,monkeypa
 
 @pytest.mark.parametrize('mode,state,error',[('redirect','FAILED','MODEL_RESPONSE_REJECTED'),
     ('claims_success','FAILED','MODEL_RESPONSE_REJECTED'),('oversize','FAILED','MODEL_RESPONSE_REJECTED'),
-    ('disconnect','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN')])
+    ('disconnect','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN'),
+    ('400','FAILED','MODEL_HTTP_REJECTED'),('429','FAILED','MODEL_HTTP_REJECTED'),
+    ('500','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN'),('408','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN')])
 def test_actual_http_failures_have_no_retry_or_authority(tmp_path,monkeypatch,mode,state,error):
     monkeypatch.setenv('NO_PROXY','127.0.0.1');monkeypatch.setenv('no_proxy','127.0.0.1')
     with protocol_server(mode) as (url,calls):

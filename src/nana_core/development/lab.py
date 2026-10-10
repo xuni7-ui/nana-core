@@ -15,7 +15,7 @@ from ..fake_world import FakeWorld
 from ..migration.routing import CapabilityRouter
 from ..planning import FixtureModel
 from ..runtime import Runtime
-from ..semantic.contracts import EvaluationCase, RunConfig
+from ..semantic.contracts import EvaluationCase, load_run_config
 from ..semantic.evaluation import assess_reply
 from ..semantic.model_port import CallLedger, CompatibleModelPort
 from ..semantic.snapshot import model_continuity, write_json
@@ -28,7 +28,7 @@ CARDS = ("notebook://synthetic/development/first", "notebook://synthetic/develop
 
 def run(output, config_path=None):
     root = Path(output).absolute()
-    config = RunConfig.model_validate_json(Path(config_path).read_text()) if config_path else RunConfig()
+    config = load_run_config(config_path)
     # No fallback to production docs, global credentials, or this assistant.
     if any(e.credential_env and not os.environ.get(e.credential_env) for e in config.endpoints):
         raise CoreError("MODEL_DEVELOPMENT_BINDING_MISSING")

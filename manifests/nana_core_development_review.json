@@ -12,6 +12,8 @@
     "docs/nana_core_development_evidence/development_report.json",
     "docs/nana_core_development_evidence/integration_proof.json",
     "docs/nana_core_development_evidence/junit.xml",
+    "docs/nana_core_development_evidence/model_closeout_output.txt",
+    "docs/nana_core_development_evidence/model_closeout_tests.json",
     "docs/nana_core_development_evidence/semantic_report.json",
     "docs/nana_core_development_evidence/test_results.json",
     "docs/nana_core_development_test_output.txt",
@@ -32,18 +34,19 @@
     "tests/development/proof.py",
     "tests/development/test_file_source.py",
     "tests/development/test_http_integration.py",
+    "tests/development/test_model_boundaries.py",
     "tests/semantic_migration/test_evaluation.py"
   ],
   "allowlist_violations": [],
   "credential_pattern_findings": [],
   "scope": "changed UTF-8 files only; pattern scan is not universal secret detection",
-  "source_fingerprint_anchor": "b175b377bf9f0536598811140953f24da795ff562b0b3801ec6a650429668975",
+  "source_fingerprint_anchor": "6dfcea0ce525ee517543c28cc2072a3a64d22251c22821daedc85aea1e3c9da3",
   "license_review": "controlled code; no third-party vendoring; owner license pending",
   "production_changes": false,
   "dependency_changes": false,
   "Core_schema_changed": false,
   "engineering_totals": {
-    "passed": 31,
+    "passed": 39,
     "failed": 0,
     "skipped": 0
   },
@@ -55,11 +58,13 @@
   "E12": "NOT_RUN",
   "real_model_calls": 0,
   "external_model_fees": 0,
-  "actual_loopback_http_calls_this_stage": 16,
+  "actual_loopback_http_calls_this_stage": 12,
   "remote_webhooks": "UNKNOWN_HTTP_403",
   "prior_failures": {
     "sandbox_socket_failures": 7,
     "argument_parse_exit": 4,
     "resolved_with_development_network_and_explicit_test_paths": true
-  }
+  },
+  "last_targeted_total": 81,
+  "combined_totals_scope": "prior full run C-032; final full regression pending"
 }
