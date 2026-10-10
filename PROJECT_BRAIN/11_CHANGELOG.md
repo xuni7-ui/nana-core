@@ -406,3 +406,10 @@
 - 为什么：通过现有授权/预算/动作/核验接入固定 GET/HEAD，避免网页指令越权、SSRF 与恢复重复访问；不扩建 Core 框架。
 - [实测] 怎么验证：84 targeted passed（开发 55、S6 29），证据 web_single_tests.json/web_single_output.txt；默认私网拒绝、DNS 一致性、代理/TLS 目标、超限/截止时间/redirect、Grant/owner/shadow/预算、历史回执/定位来源均验证。
 - [实测] 公开 GET 仅尝试一次，DNS 阶段 WEB_TIMEOUT，HTTP/代理连接尝试均 0，UNKNOWN 不重试；public_web_attempt.json。真实模型 0、费用 0、E12 NOT_RUN，生产调用 0。公开运行验收未完成；P3/P4 待执行。
+
+## C-035 — 来源证据、跨进程多工具与经验消融
+- 改了什么：web_lab 纵向 CLI（观察→授权 GET→独立核验→来源卡片/引用结果→反馈→冻结两库→重启→经验/消融），真实 SIGKILL 及缺授权恢复分支；新增 6 测试，HEAD 明确 HEAD_NO_BODY 并核验。单工具 ccad1a2b9811eec853b4ecc908649ac3cc532de9 已推送/远端一致。
+- 为什么：复用既有模板与 PlanCompiler，证明下游真正使用上游证据、经验实际改变行为，不能用计划文本或虚拟重启替代。
+- [实测] 怎么验证：CLI 18 检查成立，5 实际 loopback GET；专项20 passed /0failed，14 实控请求（13 GET/1 HEAD）。SIGKILL -9 后 DISPATCHING→核验恢复，恢复 GET/模型提案0，所有动作 SUCCEEDED；缺locator授权保留read SUCCEEDED，goal BLOCKED，重启无重复GET/卡片。frozen两库hash相同，with1定位/without0定位，前置提案相同，授权未变化。
+- 首轮新增HEAD断言误判UNKNOWN，已有完整外部查询正确证明NOT_APPLIED；修正精确断言，不削弱门槛。HEAD顶层coverage实际缺口已改并受测试约束。报告 docs/nana_core_web_validation.md、web_continuity_report.json、web_multitool_proof.json。
+- 边界：工程夹具、合成loopback、fake notebook；真实模型0、费用0、E12 NOT_RUN；公网先前尝试UNKNOWN且不重试。Core schema/依赖不变，无生产变更。全量回归待执行。

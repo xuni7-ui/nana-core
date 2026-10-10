@@ -17,6 +17,7 @@ nana-offline = "nana_core.experiment:main"
 nana-semantic = "nana_core.semantic.runner:main"
 nana-migration = "nana_core.migration.experiment:main"
 nana-development = "nana_core.development.lab:main"
+nana-web = "nana_core.development.web_lab:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]

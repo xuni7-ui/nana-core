@@ -232,3 +232,7 @@
 [实测] C-034：网页单工具 84 targeted passed；新增开发 55，S6 29。公网一次授权尝试 UNKNOWN/WEB_TIMEOUT，实际 HTTP 0、代理连接 0；保留未决不重试。网页工程②已测试，公网④未知；模型 0、E12 NOT_RUN。P1 已保存远端 0d13ecc8ed84ee9c0cd3e28b19cf0cfed00fe5db。详见 docs/nana_core_web_validation.md；跨进程研究/经验消融待执行。
 
 [实测] C-034 指纹锚点 2b0b52e766be9975632724ce957149e74d0cbee69cd0fb6b1319f3122422074c；只证明采集时刻的源码/测试/证据，不证明生产。
+
+[实测] C-035：非生产研究/网页/定位/卡片跨进程闭环③已运行验收；CLI18检查成立，实际5 loopback GET。新专项20 passed，真实SIGKILL -9 恢复GET0/提案0；同冻结快照消融实际定位1对0，身份/时间/证据/Grant保持；缺定位授权目标BLOCKED，重启不重复已完成读取。公网/真实语义④未知，E12 NOT_RUN，模型0/费用0。P2已保存ccad1a2b9811eec853b4ecc908649ac3cc532de9。最终全量回归待执行。
+
+[实测] C-035 指纹锚点 60133cef53d18640410da5469fa6218b7d42db923a19d92739bf40ac2607b91c；只证明采集时刻的源码/测试/证据，不证明生产。

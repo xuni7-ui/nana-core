@@ -90,7 +90,7 @@ class WebSourcePort:
             "method": response.method, "status": response.status, "fetched_at_us": response.fetched_at_us,
             "response_headers": response.headers, "body_b64": base64.b64encode(response.body).decode(),
             "text_derivation": "UTF-8 replacement decode; HTML scripts/styles excluded; full raw bytes retained",
-            "body_coverage": "FULL", "trust": "UNTRUSTED_SOURCE_DATA", "provenance": spec.provenance,
+            "body_coverage": "HEAD_NO_BODY" if spec.method == "HEAD" else "FULL", "trust": "UNTRUSTED_SOURCE_DATA", "provenance": spec.provenance,
             "binding_hash": digest(spec.model_dump()), "transport_evidence": response.evidence,
             "read_action_id": invocation.action_id, "read_operation_key": invocation.idempotency_key}
 
@@ -170,6 +170,8 @@ class WebSourcePort:
             matches = bool(matches and len(raw) <= spec.max_bytes and result["source_blob_sha256"] == digest(raw)
                 and result["text"] == text and result["source_digest"] == digest(text.encode())
                 and result["method"] == spec.method and 200 <= result["status"] < 300
+                and result["body_coverage"] == ("HEAD_NO_BODY" if spec.method == "HEAD" else "FULL")
+                and (spec.method != "HEAD" or raw == b"")
                 and result["read_action_id"] == invocation.action_id and result["read_operation_key"] == invocation.idempotency_key)
         else:
             read, upstream = self._verified_upstream(invocation)

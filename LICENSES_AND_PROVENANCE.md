@@ -49,3 +49,7 @@
 # 本轮开发真实能力准备
 - src/nana_core/development/、tests/development/：本轮可控实现，只复用本仓库既有 Core/ModelPort/FakeWorld 契约与 Python 标准库，无第三方宿主/SDK 源码复制。
 - 零新增依赖；来源文件、协议响应和实验输出均合成；原创许可仍待所有者决定，AstrBot/Iris AGPL 边界保持。
+
+## 开发网页实验增量（C-034/C-035）
+- public_http/web_source/controlled_web/web_lab 与相关测试：本仓库受控实现，Python 标准库，未复制第三方代码/网页服务源码；新增依赖 0。
+- 入库网页/报告正文全部合成。真实公开网页若后续获准获取，仅在独立实验 DB 保存来源证据，不随工程仓库上传全文；工程许可证不覆盖来源内容许可证。原创许可仍待所有者决定。

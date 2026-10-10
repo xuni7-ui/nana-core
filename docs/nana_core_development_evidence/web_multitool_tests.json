@@ -1,0 +1,34 @@
+{
+  "exitstatus": 0,
+  "tests": {
+    "tests/development/test_web_source.py::test_one_authorized_get_has_durable_evidence_and_no_re_fetch": "passed",
+    "tests/development/test_web_source.py::test_untrusted_proposals_cannot_make_a_web_request[grant]": "passed",
+    "tests/development/test_web_source.py::test_untrusted_proposals_cannot_make_a_web_request[budget]": "passed",
+    "tests/development/test_web_source.py::test_untrusted_proposals_cannot_make_a_web_request[expired]": "passed",
+    "tests/development/test_web_source.py::test_untrusted_proposals_cannot_make_a_web_request[revoked]": "passed",
+    "tests/development/test_web_source.py::test_untrusted_proposals_cannot_make_a_web_request[shadow]": "passed",
+    "tests/development/test_web_source.py::test_untrusted_proposals_cannot_make_a_web_request[legacy]": "passed",
+    "tests/development/test_web_source.py::test_untrusted_proposals_cannot_make_a_web_request[url_arg]": "passed",
+    "tests/development/test_web_source.py::test_binding_and_router_scope_cannot_change_on_restart": "passed",
+    "tests/development/test_web_source.py::test_locator_requires_a_verified_read_from_same_goal": "passed",
+    "tests/development/test_web_source.py::test_lost_receipt_recovers_from_journal_without_second_get": "passed",
+    "tests/development/test_web_source.py::test_no_durable_receipt_stays_unknown_and_never_refetches": "passed",
+    "tests/development/test_web_source.py::test_read_journal_tampering_is_not_execution_evidence": "passed",
+    "tests/development/test_web_source.py::test_real_web_read_drives_existing_goal_without_content_authority": "passed",
+    "tests/development/test_web_source.py::test_authorized_head_preserves_metadata_without_get_or_card[HEAD]": "passed",
+    "tests/development/test_web_source.py::test_locator_journal_tampering_rejected_before_card[locator]": "passed",
+    "tests/development/test_web_source.py::test_locator_journal_tampering_rejected_before_card[upstream_action_id]": "passed",
+    "tests/development/test_web_source.py::test_locator_journal_tampering_rejected_before_card[source_blob_sha256]": "passed",
+    "tests/development/test_web_source.py::test_locator_retains_exact_verified_read_identity_and_raw_hash_without_refetch": "passed",
+    "tests/development/test_web_lab.py::test_research_restart_crash_and_multitool_experience_ablation": "passed"
+  },
+  "totals": {
+    "passed": 20,
+    "failed": 0,
+    "skipped": 0
+  },
+  "engineering_gate": "PASS",
+  "E12": "NOT_RUN",
+  "real_model_calls": 0,
+  "scope": "actual filesystem + loopback protocol simulators; no real inference"
+}
