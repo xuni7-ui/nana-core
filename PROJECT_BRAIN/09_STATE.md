@@ -157,3 +157,5 @@
 基线 `18bc736d5e37fe3325e514a0e975403df2f97c9f`；本地分支 `dev/nana-core-v1-s0-s4`。S0 已测试（8 passed），后续未实现。
 
 [实测] C-019：S1 已测试，5 passed；S2—S4 尚未完成。
+
+[实测] C-020：S2 已测试，12 passed，包含真实 SIGKILL；S3—S4 尚未完成。

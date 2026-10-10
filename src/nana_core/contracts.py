@@ -91,6 +91,17 @@ class Invocation(DTO):
     idempotency_key: str
 
 
+class SourceArgs(DTO):
+    source_id: str
+
+
+class CardArgs(DTO):
+    source_id: str
+    source_digest: str
+    content: str = Field(min_length=1, max_length=4096)
+    locator: str | None = None
+
+
 class Receipt(DTO):
     external_id: str
     result: dict

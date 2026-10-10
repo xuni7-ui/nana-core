@@ -93,6 +93,7 @@ CREATE TABLE attempts (
  attempt_id TEXT PRIMARY KEY,
  action_id TEXT NOT NULL REFERENCES actions(action_id),
  grant_id TEXT NOT NULL REFERENCES grants(grant_id),
+ kind TEXT NOT NULL CHECK(kind IN ('EXECUTE','VERIFY')),
  attempt_no INTEGER NOT NULL,
  started_at_us INTEGER,
  outcome TEXT,
