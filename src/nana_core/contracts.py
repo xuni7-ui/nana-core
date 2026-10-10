@@ -55,6 +55,7 @@ class ModelRequest(DTO):
     identity_revision: int
     event_id: str
     event_text: str
+    event_text_coverage: Literal["FULL", "EXCERPT"] = "FULL"
     source_id: str
     card_resource: str
     strategy_refs: tuple[str, ...] = ()

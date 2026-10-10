@@ -237,13 +237,13 @@ class ActionKernel:
                 body_json=canonical({"verification_event_id": tx.event_id}))
         return state
 
-    def run(self, action_id):
+    def run(self, action_id, fault=None):
         state = self.store.one("actions", action_id)["state"]
         if state in {"PROPOSED", "BLOCKED"}:
             self.prepare(action_id)
             state = "READY"
         if state == "READY":
-            self.dispatch(action_id)
+            self.dispatch(action_id, fault=fault)
             state = self.store.one("actions", action_id)["state"]
         if state in {"UNKNOWN", "PENDING_VERIFY"}:
             return self.verify(action_id)
