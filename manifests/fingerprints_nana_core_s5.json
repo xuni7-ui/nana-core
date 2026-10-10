@@ -1,0 +1,29 @@
+{
+  "baseline": "884db6a460c2803e8c89434c3fa8e36f7ffe90cf",
+  "scope": "S5 code/test/evidence snapshot; excludes self and PROJECT_BRAIN ledger; not production runtime",
+  "files": {
+    "docs/nana_core_s5_config.example.json": "72a7b96bcb61d5dda9b872c386fd44c0a353d82601ef2e26e91bb38636fc47b9",
+    "docs/nana_core_s5_evidence/engineering_results.json": "e3eb68b884efdd6bca2b2372c8ac3bff881dd7d313f340595a31ddfc967526dd",
+    "docs/nana_core_s5_evidence/frozen_continuity.json": "6e6a248dbfc7dfaa197cc7ad64cc0e4a6f2c490d0fcb10746632e4f484681acc",
+    "docs/nana_core_s5_evidence/initial_collection_failure.txt": "bdf12ba919601e518cbc522b2aed08734ee8e28f58efa3523994675b41ff6470",
+    "docs/nana_core_s5_evidence/junit.xml": "949cd0faf58956a21bbe6d2982c2fa1dc8f77f251c8ac224be3364afa97ad2a0",
+    "docs/nana_core_s5_evidence/semantic_report.json": "7a9dbf9cfeaf5e4378f926f982232e8e5b312d59fdf071d56f2271f0e933d422",
+    "docs/nana_core_s5_evidence/sequential_fixture_evidence.json": "326b29915b825e5ef3b580790f7306fe7ce1003177d3d3f41ef1f2c3405fcc66",
+    "docs/nana_core_s5_evidence/snapshot_manifest.json": "569741472806ccea065ea9fc0855f3176e4ef69d2d7480b99a3997ba4d270652",
+    "docs/nana_core_s5_implementation.md": "f32344581007361982a306ed4512bf68f9654dd34905963a2a16bf9a07204bfc",
+    "docs/nana_core_s5_test_output.txt": "8c22e267957784bf8e1874ae25f2f533d94999c726b34fdb01a88a0494bf9045",
+    "pyproject.toml": "9cbfcb4f5c8fc454b9ed12ff773170323803bde57f20c3b59625a0bd117e96bf",
+    "src/nana_core/semantic/__init__.py": "ce5886015c23af8a4150596b82181314ae19a51750f3078e95653e366fd71842",
+    "src/nana_core/semantic/contracts.py": "06f9e1545d5a48c25693527be7a69a9edc882113e1afeff8d5e48c07d048992b",
+    "src/nana_core/semantic/evaluation.py": "b301e27eee64f5b6823ea92d33afefc6154f7923519fb1f790b6731161b9a7cf",
+    "src/nana_core/semantic/model_port.py": "abe70a38b6fd8e71af2ea917ae695fe55f17a560cd05d49f591d193b6d967be4",
+    "src/nana_core/semantic/runner.py": "e601a12f25fdc2be7b6cee67760fd7841495bf6138f2a5a7ee0caa55e8b6401b",
+    "src/nana_core/semantic/snapshot.py": "8a051add4269c25cb301efe5b62bcaab7ff62315e2a1d4eae6511b844a233828",
+    "tests/offline_continuity/test_experiment.py": "f0e1402d415305dfdd2585bd8dafdc6fc684dbe41096bb5f10d64c03ac9f400d",
+    "tests/semantic_migration/__init__.py": "71adb1a4a29c86bd0574bf923aea145d02a51599b409994df337de2ca2377f14",
+    "tests/semantic_migration/conftest.py": "0597421b857c8e94f79bd6459ea7757fca059de4a1df8335880b848d046b308d",
+    "tests/semantic_migration/helpers.py": "0133392385233a54e12ffde3d00a94671ffe85ef7e4154299339236d46c078f1",
+    "tests/semantic_migration/test_evaluation.py": "10e37c2e3b7a670858e853a9e96be4e2abc38d055a33ef0ac57e6b4957e7aff9",
+    "tests/semantic_migration/test_model_port.py": "2318faec1c2d1e485cf170a3ce4930e6f43a4cbb7434932accfde7c4b06a717f"
+  }
+}

@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "nana-core-offline"
 version = "0.1.0"
-description = "Independent, offline Nana Core continuity experiment (S0-S4)"
+description = "Independent Nana Core continuity experiment and bounded S5 ModelPort evaluation"
 requires-python = ">=3.12"
 dependencies = ["pydantic==2.13.4"]
 
@@ -14,6 +14,7 @@ test = ["pytest==9.1.1"]
 
 [project.scripts]
 nana-offline = "nana_core.experiment:main"
+nana-semantic = "nana_core.semantic.runner:main"
 
 [tool.setuptools.packages.find]
 where = ["src"]
@@ -23,7 +24,7 @@ include = ["nana_core*"]
 nana_core = ["storage/*.sql"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests/offline_continuity"]
+testpaths = ["tests/offline_continuity", "tests/semantic_migration"]
 pythonpath = ["src"]
 addopts = "-ra --strict-markers"
-markers = ["s0: contracts", "s1: storage and identity", "s2: action kernel", "s3: goal loop", "s4: constrained experience", "acceptance: Architecture V1 E01-E20"]
+markers = ["s0: contracts", "s1: storage and identity", "s2: action kernel", "s3: goal loop", "s4: constrained experience", "s5: model adapter and semantic evaluation engineering", "acceptance: Architecture V1 E01-E20"]

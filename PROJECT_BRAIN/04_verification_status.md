@@ -119,3 +119,10 @@
 ## Nana Core V1 S0—S4（2026-10-10，独立合成环境）
 [实测] ③已离线运行验收：完整循环、真实进程重启、SIGKILL 恢复、受限经验/消融。56 passed / 0 failed / 1 skipped；E12/S5 真实模型语义未验证；生产运行未验证。
 证据：`docs/nana_core_v1_implementation.md`、`docs/nana_core_v1_evidence/acceptance_results.json`。
+
+
+## Nana Core V1 S5 增补（2026-10-10）
+[实测] 工程③已离线运行验收：42 个 S5 测试；完整联合回归 98 passed / 0 failed / 1 skipped。实际测试节点见 `docs/nana_core_s5_evidence/engineering_results.json`，完整 JUnit 和命令输出同目录。
+[实测] 16 个顺序工程子进程恢复相同身份和历史；经验组真实 FakeWorld 定位=1，对照=0；授权边界与范围反例通过。标记 transport_fixture，真实调用 0。
+[未知] E12 真实双模型语义 NOT_RUN，当前无就绪开发端点；不能把该工程成功写成模型语义成功。
+[实测] 初次联合运行 4 个收集错误，S5 测试命名空间修正后解决；保留初始错误记录，不削弱断言。

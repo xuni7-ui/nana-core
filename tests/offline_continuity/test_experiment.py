@@ -18,6 +18,6 @@ def test_E11_E13_E14_process_restart_and_behavioral_ablation(tmp_path, seed):
     assert report["without_experience"]["counts"]["locate_calls"] == 0
 
 
-@pytest.mark.skip(reason="E12 real dual-model semantics belongs to S5, explicitly excluded this turn")
+@pytest.mark.skip(reason="E12 real-model gate requires configured development endpoints via nana-semantic; offline pytest makes no real-model calls")
 def test_E12_real_model_migration():
     raise AssertionError("Do not turn this into a fixture-only pass")

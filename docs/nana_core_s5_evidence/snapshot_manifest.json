@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "provenance": "synthetic_only",
+  "files": {
+    "nana.db": "a2247bb7cb87a023c143bfb8bd28eeb039e0748a43acd70712ab0cf7acc4606a",
+    "fake_world.db": "b27a7b2c5a9afb7a4927f491e2734f92a15062e6074ec82c1d327838e7e1846b",
+    "continuity.json": "6e6a248dbfc7dfaa197cc7ad64cc0e4a6f2c490d0fcb10746632e4f484681acc"
+  },
+  "training_cases": 1,
+  "heldout_cases": 4,
+  "training_model": "engineering-fixture-v1"
+}

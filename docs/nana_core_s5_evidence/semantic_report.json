@@ -1,0 +1,30 @@
+{
+  "schema_version": 1,
+  "snapshot_hash": "933de6f80d7ed6ec0e6f5d1f10c4c5095ad7624596d7980f24aec8baf1a8f3dc",
+  "semantic_gate": "NOT_RUN",
+  "E12": "NOT_RUN",
+  "engineering_gate": "SEE_SEPARATE_TEST_REPORT",
+  "real_model_attempts": 0,
+  "provider_models": [],
+  "ledger": {
+    "attempts": 0,
+    "reserved_input_bytes": 0,
+    "reserved_output_tokens": 0,
+    "reserved_cost_micro": 0,
+    "calls": []
+  },
+  "results": [],
+  "experience_contrasts": [],
+  "blockers": [
+    "only 0 ready real ModelPort(s); two distinct real models required for E12",
+    "historical production endpoint documentation and this assistant are not usable development ModelPorts"
+  ],
+  "fees": {
+    "actual_external_cost": 0,
+    "provider_billing_verified": false,
+    "reservation_is_not_bill": true
+  },
+  "scope": "synthetic offline capability effects; sequential ModelPorts; no production account or services",
+  "snapshot_unchanged": true,
+  "sequential_processes": []
+}

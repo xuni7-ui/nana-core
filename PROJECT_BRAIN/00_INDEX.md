@@ -111,3 +111,8 @@
 - `docs/nana_core_v1_implementation.md`：实现、schema、E01—E20、边界和重现命令。
 - `docs/nana_core_v1_evidence/`：全合成验收证据，不包含运行 DB 或私人资料。
 - `manifests/fingerprints_nana_core_v1.json`：本阶段源/测试指纹，锚点见 09_STATE。
+
+## Nana Core V1 S5（2026-10-10，本轮新增）
+- `src/nana_core/semantic/`：真实兼容 ModelPort 与冻结状态顺序评估。
+- `docs/nana_core_s5_implementation.md` / `docs/nana_core_s5_evidence/`：工程 PASS、真实语义 NOT_RUN 的分离证据。
+- `manifests/fingerprints_nana_core_s5.json`：S5 采集时刻代码/测试/报告指纹；不覆盖生产运行。

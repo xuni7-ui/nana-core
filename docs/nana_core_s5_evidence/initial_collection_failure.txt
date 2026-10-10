@@ -1,0 +1,58 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/nana-core
+configfile: pyproject.toml
+plugins: anyio-4.14.2
+collected 56 items / 4 errors
+
+==================================== ERRORS ====================================
+__________ ERROR collecting tests/offline_continuity/test_actions.py ___________
+ImportError while importing test module '/workspace/nana-core/tests/offline_continuity/test_actions.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/offline_continuity/test_actions.py:12: in <module>
+    from conftest import CARD, SOURCE, authorize, card_args
+E   ImportError: cannot import name 'CARD' from 'conftest' (/workspace/nana-core/tests/semantic_migration/conftest.py)
+_________ ERROR collecting tests/offline_continuity/test_hardening.py __________
+ImportError while importing test module '/workspace/nana-core/tests/offline_continuity/test_hardening.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/offline_continuity/test_hardening.py:18: in <module>
+    from conftest import CARD, SOURCE, PARAGRAPHS, authorize, card_args
+E   ImportError: cannot import name 'CARD' from 'conftest' (/workspace/nana-core/tests/semantic_migration/conftest.py)
+__________ ERROR collecting tests/offline_continuity/test_learning.py __________
+ImportError while importing test module '/workspace/nana-core/tests/offline_continuity/test_learning.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/offline_continuity/test_learning.py:10: in <module>
+    from test_runtime import reading
+tests/offline_continuity/test_runtime.py:7: in <module>
+    from conftest import SOURCE, CARD, authorize
+E   ImportError: cannot import name 'SOURCE' from 'conftest' (/workspace/nana-core/tests/semantic_migration/conftest.py)
+__________ ERROR collecting tests/offline_continuity/test_runtime.py ___________
+ImportError while importing test module '/workspace/nana-core/tests/offline_continuity/test_runtime.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/offline_continuity/test_runtime.py:7: in <module>
+    from conftest import SOURCE, CARD, authorize
+E   ImportError: cannot import name 'SOURCE' from 'conftest' (/workspace/nana-core/tests/semantic_migration/conftest.py)
+- generated xml file: /workspace/nana-core/docs/nana_core_s5_evidence/junit.xml -
+=========================== short test summary info ============================
+ERROR tests/offline_continuity/test_actions.py
+ERROR tests/offline_continuity/test_hardening.py
+ERROR tests/offline_continuity/test_learning.py
+ERROR tests/offline_continuity/test_runtime.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 4 errors during collection !!!!!!!!!!!!!!!!!!!!
+============================== 4 errors in 0.13s ===============================

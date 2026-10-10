@@ -1,0 +1,11 @@
+{
+  "schema_version": 1,
+  "endpoints": [],
+  "budget": {
+    "max_calls": 16,
+    "max_reserved_input_bytes": 768000,
+    "max_reserved_output_tokens": 19200,
+    "max_reserved_cost_micro": 0,
+    "currency": "operator_quota"
+  }
+}

@@ -69,3 +69,13 @@
 - `PROJECT_BRAIN/{00_INDEX,04_verification_status,08_TASKS,09_STATE,10_DECISIONS,11_CHANGELOG}.md`（本阶段追加）
 - `LICENSES_AND_PROVENANCE.md`（仅新增来源登记）
 不纳入 `.venv/`、DB/WAL/lock、wheel、运行目录或真实凭据。
+
+## Nana Core V1 S5 增量（用户本轮开发与 GitHub 交付授权）
+- `src/nana_core/semantic/*.py`、`tests/semantic_migration/*.py`
+- `tests/offline_continuity/test_experiment.py`（仅 E12 跳过理由文字更新）
+- `pyproject.toml`（CLI/测试入口，不新增依赖）
+- `docs/nana_core_s5_implementation.md`、`docs/nana_core_s5_config.example.json`（空端点）
+- `docs/nana_core_s5_test_output.txt`、`docs/nana_core_s5_evidence/{*.json,*.xml,initial_collection_failure.txt}`（全合成）
+- `manifests/fingerprints_nana_core_s5.json`、`manifests/nana_core_s5_review.json`
+- PROJECT_BRAIN 状态、任务、决策、变更与验证记录追加；`LICENSES_AND_PROVENANCE.md` 来源登记。
+运行快照 DB、模型调用 DB、lock、开发绑定、真实服务配置不入库。

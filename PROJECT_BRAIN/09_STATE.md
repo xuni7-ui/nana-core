@@ -179,3 +179,17 @@
 - **费用与权限**：真实外部模型及生产调用 0；模拟预算单位不是真实费用。未部署、未合并 main。
 
 [实测] C-024：ModelRequest 补齐持久化 identity_snapshot；重启后 ID、版本和身份内容一同恢复。最终复验仍为 56 passed / 0 failed / 1 skipped，S5 未执行。
+
+
+## S0—S4 远端保存与 S5 当前状态（C-025/C-026，2026-10-10）
+[实测] 本轮用户明确授权推送开发分支并继续 S5；该授权更新历史 D-019 中本次开发分支上传边界，未授权生产或 main 合并。
+- S0—S4 远端分支：`dev/nana-core-v1-s0-s4`，完整 SHA `884db6a460c2803e8c89434c3fa8e36f7ffe90cf`；git push + git ls-remote 一致。
+- main：`18bc736d5e37fe3325e514a0e975403df2f97c9f`，未改。S5 从已保存提交创建 `dev/nana-core-v1-s5`。
+- S5 工程：③已离线运行验收；42 个新增测试通过，联合回归 98 passed / 0 failed / 1 skipped。
+- S5 真实语义 / E12：④未知（NOT_RUN）；实际模型无，调用 0，费用 0；当前环境没有就绪开发端点。历史 DeepSeek 记录不作为本环境能力。
+- 身份与行为：16 个顺序子进程的工程夹具恢复同一身份；新增定位实际发生，权限缺失则 BLOCKED。不得称为真实双模型。
+- 数据：全合成；未读取密钥文件/私人记忆，未使用生产账号；新增模型账本两表独立于 Core，Core schema 未变。
+- 证据：`docs/nana_core_s5_implementation.md` 与 `docs/nana_core_s5_evidence/`；S6 未实施。
+- S0—S4 指纹保留为历史快照；S5 修改 pyproject 和 E12 跳过理由，新指纹覆盖当前相关文件，不回写历史指纹。
+
+[实测] S5 指纹锚点：`manifests/fingerprints_nana_core_s5.json` SHA256 `b228d79c6a192a9b0ebd30f1b88a91f147e6fc3faabb746e7fc1b632e23c9962`。只证明本次采集文件，不证明生产运行。
