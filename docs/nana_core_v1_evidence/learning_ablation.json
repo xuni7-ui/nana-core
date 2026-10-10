@@ -14,8 +14,8 @@
     "all_actions_verified": true
   },
   "fork_hashes": {
-    "nana.db": "962a0df29b6c77b9f18d4e403e44bb8e8eca58d05c3e2c1bc2d7f34bd045614b",
-    "fake_world.db": "9726cd8f6a98b61eb48054c3381f6aeb4466911a64efaef6b71a545e4eb2ff10"
+    "nana.db": "62db91c74e22b7786d4f149aba9f7b56c43c6d8eb7cefc18eeda2906167279fa",
+    "fake_world.db": "458c235608ffec8e3d4752f0614f47f8bd611acdcbc6d35c74e4b9aa1e58a742"
   },
   "with_experience": {
     "plan": {
@@ -24,7 +24,7 @@
           "matched_condition": "reading_card requires locator",
           "required_output": "locator",
           "revision": 1,
-          "strategy_id": "88d2aec3-4a51-4285-9248-2a02da610c00"
+          "strategy_id": "c11c2135-a9de-4df9-91f4-413ac44c48ac"
         }
       ],
       "before": [
@@ -41,14 +41,26 @@
       "purpose": "Prepare a private reading card to help resume shared reading.",
       "request": {
         "card_resource": "notebook://synthetic/card-2",
-        "event_id": "83007933-83eb-4df0-824a-b87dfe09cfbb",
+        "event_id": "75dcf195-5443-4a25-9a02-3f71143e71c2",
         "event_text": "Synthetic reader 29 resumes another interrupted reading session.",
         "event_text_coverage": "FULL",
-        "identity_id": "d3560740-9fde-4d1c-b3ec-01414c329309",
+        "identity_id": "d0e829b0-aac7-45bc-b344-619d38efa831",
         "identity_revision": 1,
+        "identity_snapshot": {
+          "charter": [
+            "retain independent judgement",
+            "evidence before success",
+            "learning cannot expand permissions"
+          ],
+          "expression_defaults": {
+            "style": "warm and precise"
+          },
+          "name": "Nana",
+          "self_preferences": []
+        },
         "source_id": "source://synthetic/garden",
         "strategy_refs": [
-          "88d2aec3-4a51-4285-9248-2a02da610c00@1"
+          "c11c2135-a9de-4df9-91f4-413ac44c48ac@1"
         ]
       },
       "steps": [
@@ -98,11 +110,23 @@
       "purpose": "Prepare a private reading card to help resume shared reading.",
       "request": {
         "card_resource": "notebook://synthetic/card-2",
-        "event_id": "80a8c558-9877-44e5-be40-71376da3bcf8",
+        "event_id": "06e351f9-fe60-45ef-bd2f-8d555f319cfa",
         "event_text": "Synthetic reader 29 resumes another interrupted reading session.",
         "event_text_coverage": "FULL",
-        "identity_id": "d3560740-9fde-4d1c-b3ec-01414c329309",
+        "identity_id": "d0e829b0-aac7-45bc-b344-619d38efa831",
         "identity_revision": 1,
+        "identity_snapshot": {
+          "charter": [
+            "retain independent judgement",
+            "evidence before success",
+            "learning cannot expand permissions"
+          ],
+          "expression_defaults": {
+            "style": "warm and precise"
+          },
+          "name": "Nana",
+          "self_preferences": []
+        },
         "source_id": "source://synthetic/garden",
         "strategy_refs": []
       },

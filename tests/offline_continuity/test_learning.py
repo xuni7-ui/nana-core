@@ -63,6 +63,7 @@ def test_E11_restart_preserves_identity_time_strategy_and_decision(environment, 
         goal = new_runtime.process(reading("synthetic-reading-2", "notebook://synthetic/card-2"))
         decision = json.loads(next(d for d in restarted.all("decisions") if d["goal_id"] == goal)["body_json"])
         assert decision["request"]["identity_id"] == identity["identity_id"]
+        assert decision["request"]["identity_snapshot"] == json.loads(identity["body_json"])
         assert decision["request"]["strategy_refs"] == [strategy + "@1"]
         assert world.counts()["locate_calls"] == 1
 

@@ -56,6 +56,7 @@ class PlanProposal(DTO):
 class ModelRequest(DTO):
     identity_id: str
     identity_revision: int
+    identity_snapshot: dict
     event_id: str
     event_text: str
     event_text_coverage: Literal["FULL", "EXCERPT"] = "FULL"

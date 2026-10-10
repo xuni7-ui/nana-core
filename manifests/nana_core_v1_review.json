@@ -58,5 +58,6 @@
     "failed": 0,
     "skipped": 1,
     "E12": "NOT_RUN_S5"
-  }
+  },
+  "final_identity_context_review": "persisted identity snapshot delivered to ModelPort; full suite/evidence regenerated"
 }

@@ -16,4 +16,4 @@ tests/offline_continuity/test_storage.py .....                           [100%]
 - generated xml file: /workspace/nana-core/docs/nana_core_v1_evidence/junit.xml -
 =========================== short test summary info ============================
 SKIPPED [1] tests/offline_continuity/test_experiment.py:21: E12 real dual-model semantics belongs to S5, explicitly excluded this turn
-======================== 56 passed, 1 skipped in 3.95s =========================
+======================== 56 passed, 1 skipped in 3.64s =========================

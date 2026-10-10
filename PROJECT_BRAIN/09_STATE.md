@@ -174,6 +174,8 @@
 - **[实测] 恢复**：真实 SIGKILL -9，外部提交后本地 DISPATCHING 经查询恢复 SUCCEEDED；副作用与写调用均为 1。
 - **[实测] 工程环境**：Python 3.12.14 / SQLite 3.53.1 / Pydantic 2.13.4 / pytest 9.1.1。
 - **报告**：`docs/nana_core_v1_implementation.md`；原始证据 `docs/nana_core_v1_evidence/`（全为合成资料，不包含 DB）。
-- **源/测试指纹锚点**：`manifests/fingerprints_nana_core_v1.json` SHA256 = `25ba3e62a3fe30e332f81d9d127dd25523b64759b4c9c7411a92820a07316bdb`；不包含自文件和引用锚点的账本，避免自指。
+- **源/测试指纹锚点**：`manifests/fingerprints_nana_core_v1.json` SHA256 = `4e2426a09ae9fb8896ca585aee17f00c48940daebbb8aedfc59c38035debcb9d`；不包含自文件和引用锚点的账本，避免自指。
 - **状态边界**：S0—S4 已离线运行验收；通用自然语言学习、真实模型、生产运行、迁移 S5/S6 未实现或未执行。旧 T-31—T-33 生产里程碑不因此宣称 DONE。
 - **费用与权限**：真实外部模型及生产调用 0；模拟预算单位不是真实费用。未部署、未合并 main。
+
+[实测] C-024：ModelRequest 补齐持久化 identity_snapshot；重启后 ID、版本和身份内容一同恢复。最终复验仍为 56 passed / 0 failed / 1 skipped，S5 未执行。

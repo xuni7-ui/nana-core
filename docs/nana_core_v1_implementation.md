@@ -150,3 +150,6 @@ python -m venv .venv
 付费模型调用 0；B站/QQ/AstrBot/Iris 生产调用 0；实验真实外部服务费用 0。开发只下载 pytest 等公开开发依赖，并本地构建包；fake cost_micro_units 是模拟额度。
 
 S5 需要：明确授权的两个真实模型/端点或开发机离线权重；符合 ModelPort 的适配器；调用预算、超时和禁隐式重试；相同冻结连续性快照；用于评估身份、经验理解与计划质量的未见案例；顺序运行以避免双 Runtime 常驻。没有执行 S5，也没有执行 S6。
+
+
+最终接口核对（C-024）：ModelRequest 同时携带 identity_id、identity_revision 和持久化 identity_snapshot。重启测试比较三者，身份内容不由模型重新生成；最新证据已重新生成。

@@ -33,7 +33,8 @@ class ContextBuilder:
                         tx.update("strategies", strategy["strategy_id"], status="SUSPENDED")
         raw = self.store.artifact(event["artifact_id"]).decode()
         request = ModelRequest(identity_id=self.store.identity["identity_id"],
-            identity_revision=self.store.identity["revision"], event_id=event_id,
+            identity_revision=self.store.identity["revision"],
+            identity_snapshot=json.loads(self.store.identity["body_json"]), event_id=event_id,
             event_text=raw[:4000], event_text_coverage="FULL" if len(raw) <= 4000 else "EXCERPT",
             source_id=observation["source_id"], card_resource=observation["card_resource"],
             strategy_refs=tuple(f"{s['strategy_id']}@{s['revision']}" for s in strategies))
