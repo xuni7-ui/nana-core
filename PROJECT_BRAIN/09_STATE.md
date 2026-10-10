@@ -236,3 +236,10 @@
 [实测] C-035：非生产研究/网页/定位/卡片跨进程闭环③已运行验收；CLI18检查成立，实际5 loopback GET。新专项20 passed，真实SIGKILL -9 恢复GET0/提案0；同冻结快照消融实际定位1对0，身份/时间/证据/Grant保持；缺定位授权目标BLOCKED，重启不重复已完成读取。公网/真实语义④未知，E12 NOT_RUN，模型0/费用0。P2已保存ccad1a2b9811eec853b4ecc908649ac3cc532de9。最终全量回归待执行。
 
 [实测] C-035 指纹锚点 60133cef53d18640410da5469fa6218b7d42db923a19d92739bf40ac2607b91c；只证明采集时刻的源码/测试/证据，不证明生产。
+
+## 持续开发最终工程状态（C-036）
+[实测] 全量227 passed /0failed /0errors /1skip（E12），开发100项；真实SIGKILL/身份/时间/证据/授权/预算/幂等/影子/单执行方/经验消融均回归。网页研究卡片与3步多工具③已运行验收（合成loopback+确定性规划+fake notebook）；非真实自然语言研究语义。
+[实测] 最终测试26 loopback HTTP，独立CLI5GET；公开尝试一次DNS超时HTTP0，UNKNOWN不盲重试；模型/生产调用0、费用0。公网/E12④未知（NOT_RUN或未验证）；生产路径未建立，未知卷/凭据候选/容器关联/webhook/外部轮询不假设不可访问。
+[实测] 远端已保存P3/P4 fced7f8204b82da03e6fc9d60fe73e29727c3d0c，分支dev/nana-core-v1-dev-validation；最终HEAD以Git/ls-remote为准。报告docs/nana_core_web_validation.md、final_delivery.json；下一最短路径为开发DNS/代理适配的单次公网验收及两个既有额度真实开发ModelPort的E12。未更改总路线或生产树，零新增依赖/Core表。
+
+[实测] C-036 指纹锚点 ea365a72aa241b6db3ae95c43cb53131c1beeda528f04b659186263848ab6dc3；只证明采集时刻的源码/测试/证据，不证明生产。

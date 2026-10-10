@@ -413,3 +413,10 @@
 - [实测] 怎么验证：CLI 18 检查成立，5 实际 loopback GET；专项20 passed /0failed，14 实控请求（13 GET/1 HEAD）。SIGKILL -9 后 DISPATCHING→核验恢复，恢复 GET/模型提案0，所有动作 SUCCEEDED；缺locator授权保留read SUCCEEDED，goal BLOCKED，重启无重复GET/卡片。frozen两库hash相同，with1定位/without0定位，前置提案相同，授权未变化。
 - 首轮新增HEAD断言误判UNKNOWN，已有完整外部查询正确证明NOT_APPLIED；修正精确断言，不削弱门槛。HEAD顶层coverage实际缺口已改并受测试约束。报告 docs/nana_core_web_validation.md、web_continuity_report.json、web_multitool_proof.json。
 - 边界：工程夹具、合成loopback、fake notebook；真实模型0、费用0、E12 NOT_RUN；公网先前尝试UNKNOWN且不重试。Core schema/依赖不变，无生产变更。全量回归待执行。
+
+## C-036 — 持续开发最终全量回归
+- 改了什么：保存最终JUnit/工程结果/实际崩溃与wire proof/交付汇总，更新状态与开发/网页报告；源码无新增改动。
+- 为什么：统一历史阶段口径，防止模拟器/loopback或工程夹具冒充公网、模型语义或生产能力。
+- [实测] 怎么验证：全量228 collected，227 passed /0failed /0errors /1skipped（E12）；S0—S4 56、S5 42、S6 29、开发100。最终回归26 loopback HTTP（12协议POST、8网页GET+1HEAD、5多工具GET），独立CLI另5GET；公开一次DNS超时HTTP0，真实模型0/费用0。final_junit.xml/final_regression_output.txt/final_integration_proof.json/final_delivery.json。
+- [实测] P3/P4 已保存远端 fced7f8204b82da03e6fc9d60fe73e29727c3d0c，ls-remote一致；最终检查点随后独立提交/推送，不合并main。敏感pattern/白名单/许可证复核、指纹更新；零依赖/Core schema变动。
+- [未知] E12、公开proxy/TLS真实wire、生产SSH鉴权/未知卷/容器关联及webhook/外部自动部署；未触碰生产/私人资料/密钥，不以未发现代替绝对无权限。

@@ -31,3 +31,41 @@ P3/P4 的真实跨进程闭环与经验消融尚待执行，不能以本阶段�
 证据：web_continuity_report.json/web_continuity_output.txt（实际 CLI），web_multitool_tests.json/web_multitool_output.txt/web_multitool_proof.json（实际测试）。此前代理/DNS 公网尝试仍 UNKNOWN，不自动重试；真实模型和公网端到端均未运行验收。S0—S6 最终全量回归待下一检查点。
 
 [实测] 修正记录：新增 HEAD 测试首轮 18 pass/1 fail，测试曾预期 UNKNOWN，但已有 FakeWorld 的完整独立查询给 FINAL_NO_EFFECT，正确终态为 NOT_APPLIED/goal FAILED；改为更明确断言后19 pass。实际缺口为 HEAD 的顶层 body_coverage 曾是 FULL，现改 HEAD_NO_BODY 并加入独立核验与断言。未删测试、未放宽授权或状态机。
+
+## P5 最终统一回归与交付（C-036）
+[实测] 最终命令：
+
+```bash
+NANA_DEV_ENGINEERING_PROOF=docs/nana_core_development_evidence/final_integration_proof.json \
+.venv/bin/python -m pytest tests/offline_continuity tests/semantic_migration tests/migration tests/development \
+  --development-report docs/nana_core_development_evidence/final_engineering_tests.json \
+  --junitxml docs/nana_core_development_evidence/final_junit.xml
+```
+
+228 collected：**227 passed / 0 failed / 0 errors / 1 skipped**，11.31s。S0—S4 56 passed、S5 engineering 42、S6 29、开发100；唯一跳过 E12 真实双模型。对应最终 stdout、JUnit、proof 均入库，无测试删除或关键断言降低。
+
+最终回归实际26 loopback请求：12 POST模型协议模拟器 +8 GET/1 HEAD网页专项 +5 GET跨进程实验；独立CLI额外5 GET。公开只读尝试单次在DNS超时、HTTP与代理连接0；不计为成功请求且UNKNOWN未盲重试。真实模型0、生产0、模型/外部服务费用0；模拟预算单位并非真实货币。
+
+| 里程碑 | 结果 | 已核对远端提交 |
+|---|---|---|
+| P0 恢复保存 | PASS，原成果保留，截图未提供不能据图认定 | b05468d63182c17644037be447688798fa5ce6b4 |
+| P1 ModelPort 工程收尾 | 81 targeted passed | 0d13ecc8ed84ee9c0cd3e28b19cf0cfed00fe5db |
+| P2 授权只读网页 | 84 targeted passed，真实公网未验收 | ccad1a2b9811eec853b4ecc908649ac3cc532de9 |
+| P3/P4 引用结果、恢复、经验与多工具 | 20 targeted passed；CLI18checks | fced7f8204b82da03e6fc9d60fe73e29727c3d0c |
+| P5 最终回归/证据 | 227 passed /1 skipped；最终SHA以Git/ls-remote及交付报告为准 | 本检查点提交 |
+
+分支 `dev/nana-core-v1-dev-validation`，私有 xuni7-ui/nana-core；无 main 合并、生产部署或生产树改动。开发 URL绑定持久化、路由scope显式，不接真实私人材料。Core schema v1与两库基础未变，零新增依赖。版本化验收汇总 final_delivery.json。
+
+### 权限类别和未知边界
+
+详见既有 access_boundary.json / nana_core_development_validation.md。已确认 GitHub 开发推送可达、公开 HTTP 网络策略 unrestricted（不是生产鉴权证明）；元数据仓库 GET成功、workflows0、hooksGET403。默认沙箱 Docker socket 请求 PermissionError，拒绝阶段未记录；未申请解锁、未连接生产daemon或登录SSH。
+
+可见配置无就绪生产SSH/凭据绑定，无生产命名挂载；/root候选元信息权限拒绝。生产鉴权、SSH网络可达、泛名卷来源、Docker生产关联、webhooks/外部轮询均**无足够证据判断**。不得将“未发现”写成“绝对不可访问”；也不能保证dev push不会被未知外部部署系统监听。没有执行生产探测或读取密钥值。
+
+### 未验证与最短路径
+
+1. 公开 DNS 当前不可用；一次失败后未尝试绕过代理或盲重试。需开发环境支持合规DNS解析及代理numeric CONNECT/Host/TLS路径，再为新的操作者明确授权动作执行一次受限GET核验。现有UNKNOWN不自动重发；其证据不能凭未来成功补造。
+2. E12保持NOT_RUN。需要两个经操作者核实的真实开发端点、service_kind=real_model、development/existing_quota或真实local_offline、独立NANA_S5_DEV_*绑定与调用/费用预算，运行既有nana-semantic冻结身份快照/未见案例/双模型顺序/消融；模拟器不替代。
+3. 当前计划模板只有reading_card，结果是可追溯私有阅读卡；未实现通用网页研究推理、多模态/浏览器/登录/爬虫、真实写工具或生产迁移。将来验证真实模型对不可信网页的理解需要独立语义任务；本轮不能因夹具工程通过声称已具备。
+4. 代理信任与受信Python进程边界仍在；不是恶意插件OS沙箱或公网peer独立证明。GET后journal落盘前崩溃可保持UNKNOWN但不能重建消失的正文。
+5. 私有仓库原创许可证仍待所有者决定；本轮没有引入可替代既有核心的大框架或新依赖，不涉及派生代码迁移。

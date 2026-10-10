@@ -110,3 +110,6 @@ prepare/evaluate 的同快照、未见案例、消融对照与双模型顺序流
 
 ## P1 模型适配收尾（C-033）
 81 项受影响测试通过（S5 42、开发 39）。新增 8 项为实际缺口：4xx/429 拒绝、408/5xx 未决、截断未决、配置安全错误、开发 binding 原样回显拒绝、变造 DTO 拒绝。调用预算不退款，UNKNOWN 不自动重试；已知 binding 的检查不是通用 DLP。此阶段实际 loopback HTTP 请求 12，推理 0；最终联合回归在后续阶段运行。证据 model_closeout_tests.json/model_closeout_output.txt。
+
+## 本轮持续开发最终状态（C-036）
+[实测] 上述158/81等为历史阶段结果；本轮最终全量227 passed /0failed /1skip（E12）。开发100项覆盖真实文件、HTTP协议、公开传输安全夹具、网页回执、多工具与实际SIGKILL恢复。公开DNS尝试失败、真实HTTP0；实际模型0/费用0。新增网页CLI独立5 loopback GET，最终回归26 loopback请求，均非真实模型/公网。当前工程和边界以 docs/nana_core_web_validation.md 与 final_delivery.json 为准；既有权限报告不升级为生产可访问或绝对不可访问。

@@ -10,6 +10,11 @@
     "PROJECT_BRAIN/11_CHANGELOG.md",
     "docs/nana_core_development_evidence/access_boundary.json",
     "docs/nana_core_development_evidence/development_report.json",
+    "docs/nana_core_development_evidence/final_delivery.json",
+    "docs/nana_core_development_evidence/final_engineering_tests.json",
+    "docs/nana_core_development_evidence/final_integration_proof.json",
+    "docs/nana_core_development_evidence/final_junit.xml",
+    "docs/nana_core_development_evidence/final_regression_output.txt",
     "docs/nana_core_development_evidence/integration_proof.json",
     "docs/nana_core_development_evidence/junit.xml",
     "docs/nana_core_development_evidence/model_closeout_output.txt",
@@ -57,36 +62,37 @@
   "allowlist_violations": [],
   "credential_pattern_findings": [],
   "scope": "changed UTF-8 files only; pattern scan is not universal secret detection",
-  "source_fingerprint_anchor": "60133cef53d18640410da5469fa6218b7d42db923a19d92739bf40ac2607b91c",
+  "source_fingerprint_anchor": "ea365a72aa241b6db3ae95c43cb53131c1beeda528f04b659186263848ab6dc3",
   "license_review": "controlled code; no third-party vendoring; owner license pending",
   "production_changes": false,
   "dependency_changes": false,
   "Core_schema_changed": false,
   "engineering_totals": {
-    "passed": 39,
+    "passed": 100,
     "failed": 0,
     "skipped": 0
   },
   "combined_totals": {
-    "passed": 158,
+    "passed": 227,
     "failed": 0,
     "skipped": 1
   },
   "E12": "NOT_RUN",
   "real_model_calls": 0,
   "external_model_fees": 0,
-  "actual_loopback_http_calls_this_stage": 12,
+  "actual_loopback_http_calls_this_stage": 26,
   "remote_webhooks": "UNKNOWN_HTTP_403",
   "prior_failures": {
     "sandbox_socket_failures": 7,
     "argument_parse_exit": 4,
     "resolved_with_development_network_and_explicit_test_paths": true
   },
-  "last_targeted_total": 81,
-  "combined_totals_scope": "prior full run C-032; final full regression pending",
-  "latest_checkpoint": "C-035",
-  "latest_test_summary": "20 passed /0failed; CLI18checks PASS; actual loopback GET5",
+  "last_targeted_total": 20,
+  "combined_totals_scope": "actual final full C-036 regression; final_junit.xml",
+  "latest_checkpoint": "C-036",
+  "latest_test_summary": "227 passed /0failed /0errors /1skipped; E12 NOT_RUN",
   "public_http_requests": 0,
   "public_transport_attempts": 1,
-  "public_result": "UNKNOWN_WEB_TIMEOUT_BEFORE_HTTP"
+  "public_result": "UNKNOWN_WEB_TIMEOUT_BEFORE_HTTP",
+  "loopback_counts_scope": "final full regression only; separate CLI5 GET"
 }

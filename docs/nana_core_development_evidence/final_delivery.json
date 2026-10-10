@@ -1,0 +1,71 @@
+{
+  "schema_version": 1,
+  "provenance": "actual full pytest and separately executed controlled web CLI",
+  "branch": "dev/nana-core-v1-dev-validation",
+  "gates": {
+    "P0_restore_save": "PASS",
+    "P1_ModelPort_engineering": "PASS",
+    "P2_web_engineering": "PASS",
+    "P2_public_fetch": "NOT_VERIFIED_DNS_TIMEOUT",
+    "P3_cited_continuity_engineering": "PASS",
+    "P4_multitool_scoped_learning_engineering": "PASS",
+    "S5_E12_real_two_models": "NOT_RUN"
+  },
+  "full_regression": {
+    "passed": 227,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 1
+  },
+  "suites_passed": {
+    "S0_S4": 56,
+    "S5_engineering": 42,
+    "S6": 29,
+    "development": 100
+  },
+  "web_cli": {
+    "checks_passed": 18,
+    "normal_processes": 7,
+    "SIGKILL_processes": 1,
+    "controlled_GET": 5,
+    "public_HTTP": 0
+  },
+  "final_regression_actual_loopback_HTTP": {
+    "model_protocol_POST": 12,
+    "web_source_GET": 8,
+    "web_source_HEAD": 1,
+    "web_multitool_GET": 5,
+    "total": 26
+  },
+  "public_probe": {
+    "attempts": 1,
+    "HTTP_attempts": 0,
+    "proxy_connection_attempts": 0,
+    "state": "UNKNOWN",
+    "safe_error": "WEB_TIMEOUT",
+    "retry": false
+  },
+  "real_model_calls": 0,
+  "external_fees": 0,
+  "production_calls": 0,
+  "dependency_changes": false,
+  "Core_schema_changed": false,
+  "real_model_semantics": "NOT_RUN",
+  "public_proxy_TLS_wire": "NOT_RUN",
+  "production_access": "NOT_ESTABLISHED; unavailable metadata and external deployment hooks UNKNOWN",
+  "prior_checkpoint_remote_verified": {
+    "P0": "b05468d63182c17644037be447688798fa5ce6b4",
+    "P1": "0d13ecc8ed84ee9c0cd3e28b19cf0cfed00fe5db",
+    "P2": "ccad1a2b9811eec853b4ecc908649ac3cc532de9",
+    "P3_P4": "fced7f8204b82da03e6fc9d60fe73e29727c3d0c"
+  },
+  "source_reports": [
+    "final_junit.xml",
+    "final_regression_output.txt",
+    "final_integration_proof.json",
+    "web_continuity_report.json",
+    "public_web_attempt.json",
+    "access_boundary.json"
+  ],
+  "interpretation": "Loopback protocol servers are real wire tests but are not public services or actual model inference; budgets are synthetic units."
+}
