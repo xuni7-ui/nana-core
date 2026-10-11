@@ -124,7 +124,7 @@ def map_record(record):
     origin={'legacy_kind':kind,'legacy_key':record.legacy_key,'dataset_id':record.dataset_id,
         'legacy_persona_id':row.get('persona_id',None),'group_id':row.get('group_id',metadata.get('group_id')),
         'user_id':row.get('user_id',metadata.get('user_id')),'missing_persona':'persona_id' not in row}
-    normalized={'mapping_version':1,'origin':origin,'epistemic_kind':epistemic,'assessment':'UNASSESSED',
+    normalized={'mapping_version':2,'origin':origin,'epistemic_kind':epistemic,'assessment':'UNASSESSED',
         'legacy_fields':row,'unmapped_fields':unknown,'legacy_refs':refs,'content':content,
         'time':{'legacy_time_raw':raw_time,'legacy_record_time_us':timestamp,'quality':quality,
             'underlying_event_time_us':timestamp if kind in {'l1','conversation_flow'} else None,
@@ -167,13 +167,17 @@ class IrisAdapter:
         result=self.importer.import_record(envelope)
         if fault:fault('after_original_commit',record.legacy_key)
         memory=self.store.one('memory_items',result['event_id']);body=json.loads(memory['body_json'])
-        if 'iris' in body:
-            if body['iris']!=projection:raise CoreError('IRIS_CANONICAL_COLLISION')
-        else:
+        old_projection=body.get('iris')
+        ignored={'mapping_version','mapping_declaration_event_id'}
+        if old_projection and {k:v for k,v in old_projection.items() if k not in ignored}!={k:v for k,v in projection.items() if k not in ignored}:
+            raise CoreError('IRIS_CANONICAL_COLLISION')
+        if old_projection!=projection:
             body['iris']=projection
-            body['source_refs'].append({'event_id':declaration['event_id'],'artifact_id':declaration['artifact_id'],
-                'coverage':'FULL','meaning':'operator supplied mapping envelope/annotation; not original historical evidence'})
-            with self.store.transaction('migration.iris_mapped',{'source_event_id':result['event_id'],'mapping_version':1}) as tx:
+            ref={'event_id':declaration['event_id'],'artifact_id':declaration['artifact_id'],
+                'coverage':'FULL','meaning':'operator supplied mapping envelope/annotation; not original historical evidence'}
+            if not any(r['event_id']==ref['event_id'] for r in body['source_refs']):body['source_refs'].append(ref)
+            with self.store.transaction('migration.iris_mapped',{'source_event_id':result['event_id'],'mapping_version':2,
+                    'upgraded_from':old_projection.get('mapping_version') if old_projection else None}) as tx:
                 tx.update('memory_items',memory['memory_id'],body_json=canonical(body))
         return {**result,'legacy_key':record.legacy_key,'kind':record.kind,'status':'IMPORTED' if result['added'] else 'DUPLICATE',
             'unmapped_fields':projection['unmapped_fields'],'warnings':projection['warnings']}

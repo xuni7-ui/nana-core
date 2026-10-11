@@ -102,3 +102,18 @@ def test_declared_mapping_inputs_cannot_change_across_projection_gap(tmp_path):
         body=json.loads(store.one('memory_items',result['event_id'])['body_json'])
         assert body['iris']['claim']['polarity'] is True
         assert len(body['source_refs'])==2 and not result['added']
+
+
+def test_mapping_v1_upgrades_without_changing_raw_evidence_or_identity(tmp_path):
+    from nana_core.migration.legacy import LegacyImporter
+    from nana_core.storage import canonical
+    record=fixtures()[0];envelope,projection=map_record(record);projection['mapping_version']=1
+    with Store(tmp_path/'core.db') as store:
+        result=LegacyImporter(store).import_record(envelope);memory=store.one('memory_items',result['event_id']);body=json.loads(memory['body_json']);body['iris']=projection
+        with store.transaction('synthetic.old_mapping_fixture') as tx:tx.update('memory_items',memory['memory_id'],body_json=canonical(body))
+        source=store.artifact(store.event(result['event_id'])['artifact_id']);identity=store.identity
+        upgraded=IrisAdapter(store).import_record(record)
+        body=json.loads(store.one('memory_items',result['event_id'])['body_json'])
+        assert not upgraded['added'] and body['iris']['mapping_version']==2
+        assert len(body['source_refs'])==2 and store.identity==identity
+        assert store.artifact(store.event(result['event_id'])['artifact_id'])==source

@@ -25,6 +25,15 @@ class MemoryView:
                 'epistemic_kind':body['epistemic_kind'],
                 'source_refs':[{**{k:r[k] for k in ('event_id','artifact_id','coverage')},
                     'source_kind':self.store.event(r['event_id'])['kind']} for r in refs],'belief':body.get('belief')})
+        allowed_ids={e['memory_id'] for e in entries}
+        for e in entries:
+            belief=e['belief']
+            if belief and not set(belief['supporting_memory_ids']+belief['contradicting_memory_ids'])<=allowed_ids:
+                # An out-of-scope source cannot be leaked or silently used as truth.
+                e['belief']={**belief,'current_assessment':'UNASSESSED_OUT_OF_SCOPE',
+                    'supporting_memory_ids':[m for m in belief['supporting_memory_ids'] if m in allowed_ids],
+                    'contradicting_memory_ids':[m for m in belief['contradicting_memory_ids'] if m in allowed_ids],
+                    'evidence_refs':e['source_refs'],'why':'complete assessment evidence outside requested source scope'}
         return entries
 
     def assess_claims(self,dataset_ids):
@@ -32,7 +41,7 @@ class MemoryView:
         for entry in entries:
             claim=entry['iris']['claim']
             if claim:
-                key=digest([entry['iris']['origin']['dataset_id'],claim['subject'],claim['predicate'],claim['value']])
+                key=digest([self.store.identity['identity_id'],claim['subject'],claim['predicate'],claim['value']])
                 groups.setdefault(key,[]).append(entry)
         for key,group in groups.items():
             direct=[e for e in group if e['epistemic_kind']=='USER_STATEMENT']
@@ -55,12 +64,12 @@ class MemoryView:
                     'supporting_memory_ids':support,'contradicting_memory_ids':contradictions,
                     'evidence_refs':[ref for e in group for ref in e['source_refs']],
                     'why':'latest dated direct user statement' if not unresolved else 'unknown/tied chronology; preserve dispute',
-                    'verified_fact':False,'policy_version':1}
+                    'verified_fact':False,'policy_version':2}
                 body=json.loads(self.store.one('memory_items',entry['memory_id'])['body_json'])
                 if body.get('belief')!=belief:
                     body['belief']=belief;changed.append((entry['memory_id'],body))
         if changed:
-            with self.store.transaction('memory.claims_assessed',{'policy_version':1,'claim_groups':list(groups)}) as tx:
+            with self.store.transaction('memory.claims_assessed',{'policy_version':2,'claim_groups':list(groups)}) as tx:
                 for key,body in changed:tx.update('memory_items',key,body_json=canonical(body))
         return {'claim_groups':len(groups),'changed':len(changed),'disputed_groups':disputed_count}
 
@@ -71,7 +80,7 @@ class MemoryView:
         def relevance(e):return len(tokens&set(re.findall(r'\w+',e['content'].casefold())))
         selected=[e for e in entries if relevance(e)]
         selected.sort(key=lambda e:(e['belief'] is not None and e['belief']['current_assessment']=='CURRENT_USER_STATEMENT',
-            relevance(e),e['iris']['time']['legacy_record_time_us'] or -1,e['memory_id']),reverse=True)
+            relevance(e),e['iris']['time']['legacy_record_time_us'] or -1,e['iris']['origin']['legacy_key']),reverse=True)
         # Keep source-backed contradiction partners adjacent, ahead of generic
         # matches. A bounded context must not prefer extra matches over the
         # evidence that qualifies its top current belief.
@@ -99,7 +108,8 @@ def shadow_compare(store,query,dataset_ids,important_keys):
     def old_confidence(e):
         score=e['iris']['legacy_confidence']
         return float(score) if isinstance(score,(int,float)) and not isinstance(score,bool) and 0<=score<=1 else 0.
-    matching.sort(key=lambda e:(old_confidence(e),e['memory_id']),reverse=True)
+    matching.sort(key=lambda e:(old_confidence(e),len(tokens&set(re.findall(r'\w+',e['content'].casefold()))),
+        e['iris']['time']['legacy_record_time_us'] or -1,e['iris']['origin']['legacy_key']),reverse=True)
     old=[]
     for e in matching:
         item={'memory_id':e['memory_id'],'content':e['content'],'coverage':'FULL_SUPPLIED_CONTENT',

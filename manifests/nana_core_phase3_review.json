@@ -1,11 +1,12 @@
 {
-  "milestone": "C-044",
+  "milestone": "C-045",
   "reviewed_files": [
     "LICENSES_AND_PROVENANCE.md",
     "PROJECT_BRAIN/09_STATE.md",
     "PROJECT_BRAIN/10_DECISIONS.md",
     "PROJECT_BRAIN/11_CHANGELOG.md",
     "docs/nana_core_phase3_entry.md",
+    "docs/nana_core_phase3_evidence/cross_source_tests.txt",
     "docs/nana_core_phase3_evidence/final_development_proof.json",
     "docs/nana_core_phase3_evidence/final_junit.xml",
     "docs/nana_core_phase3_evidence/final_regression.txt",
@@ -51,9 +52,9 @@
   ],
   "allowlist_violations": [],
   "credential_pattern_findings": [],
-  "fingerprint_anchor": "132d32602cea82e477a5554b4cce9f6d7d7d48899a44aeff8f5bac92837afc95",
+  "fingerprint_anchor": "74bc4b3cef7932a35d6404a0c2f405613bd1e7e019d9b0a54d2bff77d9ef353a",
   "license_boundary": "Iris schema interoperability independently implemented; no AGPL code vendored; original license pending",
   "runtime_db_uploaded": false,
   "production_changes": false,
-  "summary": "Phase III import: freeze mapping declarations across crashes and keep contradiction partners in context"
+  "summary": "Phase III memory: reconcile cross-source claims without leaking retrieval scope or replacing evidence"
 }

@@ -465,3 +465,8 @@
 - 为什么：发现原始已提交但mapping没提交时sidecar能变化，以及格式异常会终止批次两真实缺口；补来源后不能让预算把矛盾原话挤掉。
 - [实测] 怎么验证：13 targeted passed，9adapter+4memory；相同声明恢复去重、不同行义冲突拒绝、错误2条+合法1条均有结果/留证，真实SIGKILL继续通过。补声明首轮2fail为来源体积挤出相反证据，改排序/引用表示后全部通过，未降低原断言或增加context预算。最新rehearsal CLI重新对账，原14/14、1relation/1conflict、replay不变；无Core schema/依赖变动。
 - [实测] C-043已保存450dbb49eddf9c268e4bacce28eaa285b4d8a719；最终全量在本补强后运行。
+
+## C-045 — 跨来源判断与旧映射连续性
+- 改了什么：跨dataset同canonical subject统一claim key，检索source范围隔离；稳定legacy/time排序；version2 mapping/policy与同语义旧mapping1最小升级。
+- 为什么：P5要求不同来源可对账，来源不能混入claim身份；单一source查询不能泄露其他证据。保存后的开发数据亦需能恢复，不能因补声明就拒绝合法旧projection。
+- [实测] 怎么验证：15 targeted passed（memory5+adapter10），跨source1冲突组/范围外ID不泄露，旧mapping升级不改变original artifact/identity。首轮旧surrogate随机UUID tie造成1fail，修为稳定relevance/time/key且保留断言。最新版rehearsal14/14、KG1/冲突1/replay PASS，无新表/依赖。

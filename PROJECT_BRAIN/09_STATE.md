@@ -275,3 +275,7 @@
 [实测] C-044：导入mapping声明跨崩溃冻结，异常逐条reject/继续，context矛盾原话优先但原证据不删；13 targeted pass，最新跨进程rehearsal仍14import/14duplicate与replay PASS。此前259pass/1skip为补强前回归，当前待最终完整复验。零新增Core表/依赖；公网/E12未验收。
 
 [实测] C-044 指纹锚点 132d32602cea82e477a5554b4cce9f6d7d7d48899a44aeff8f5bac92837afc95；仅本检查点文件状态，不证明生产。
+
+[实测] C-045：跨来源claim及source scope隔离、mapping1→2同语义升级②已测试，15 pass；源证据/身份不变，真实Iris检索仍PARTIAL；最新rehearsal14import/14duplicate、1relation/1conflict/replay PASS。最终全量待本补强后复验。
+
+[实测] C-045 指纹锚点 74bc4b3cef7932a35d6404a0c2f405613bd1e7e019d9b0a54d2bff77d9ef353a；仅本检查点文件状态，不证明生产。

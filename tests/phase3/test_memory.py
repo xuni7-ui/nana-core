@@ -53,3 +53,17 @@ def test_tied_claims_disputed_and_context_cut_never_claims_full_evidence(tmp_pat
         assert len(store.all('artifacts'))==5
         with pytest.raises(CoreError,match='IDENTITY_MISMATCH'):
             view.retrieve('paper',identity_id='other',dataset_ids=DATASETS)
+
+
+def test_cross_source_claim_identity_and_retrieval_scope_isolation(tmp_path):
+    records=[fixtures()[0],fixtures()[1].model_copy(update={'dataset_id':'synthetic:other-source'})]
+    with Store(tmp_path/'core.db') as store:
+        IrisAdapter(store).import_batch(records);view=MemoryView(store)
+        assert view.assess_claims((*DATASETS,'synthetic:other-source'))['claim_groups']==1
+        entries=view.entries((*DATASETS,'synthetic:other-source'))
+        assert {e['belief']['current_assessment'] for e in entries}=={'SUPERSEDED','CURRENT_USER_STATEMENT'}
+        own=view.entries(DATASETS)
+        assert len(own)==1 and own[0]['belief']['current_assessment']=='UNASSESSED_OUT_OF_SCOPE'
+        other_id=next(e['memory_id'] for e in entries if e['iris']['origin']['dataset_id']=='synthetic:other-source')
+        context=view.retrieve('paper',identity_id=store.identity['identity_id'],dataset_ids=DATASETS,max_chars=8000)
+        assert other_id not in json.dumps(context)

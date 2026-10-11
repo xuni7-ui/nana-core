@@ -198,3 +198,6 @@
 
 ## D-040 — 候选主动性不赋予权限
 [文档] GoalCandidate记录在既有CLAIM projection，评估通用need/priority/confidence/disturbance及引用证据，分离提案/接受/执行。Scheduler wake只是唤醒，不等于自主目的或外发。ReadingCard可通过既有Runtime显式activate，ActionKernel独立逐步授权；其他意图当前只表达候选，不为contact虚构能力。用户意愿进入判断但不能授予权限，也不删除charter；所有数值fixture judgment不能冒充真实语义能力。
+
+## D-041 — 跨来源claim身份与最小映射升级
+[文档] SUPERSEDES D-039 中claim key包含dataset的限定：来源不能分裂同一canonical subject的矛盾；claim key使用Core identity/subject/predicate/value，dataset保留于provenance及检索授权范围。范围外评估不能泄露其他source refs或当成当前事实。mapping2/policy2可在已证明语义完全相同时升级旧projection1，仅补版本/声明证据；原artifact不变，不同输入/语义仍collision拒绝。Core SQL/schema v1不变。

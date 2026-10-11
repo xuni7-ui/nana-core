@@ -53,3 +53,8 @@ network_followup_tests.txt：43 passed，包含任意URL不能进入该操作者
 
 ## Shadow 比较口径修正
 初次M4 surrogate top1与Core limit8不适合做召回优劣结论。最终对账已改为相同max_chars8000/limit8、相同规范化输出字段，旧路径不读取Core belief；重要原话recall两边均1.0，旧路径不标注矛盾/Core显式2条。新增断言要求旧路径也保留两条重要证据和matched bounds，未弱化来源/权限/冲突不变量；历史top1数字只是早期实验，不代表真实检索改进。P7仍PARTIAL（没有真实FAISS/Iris parity），最新memory_reconciliation.json为准。
+
+## 跨来源claim与版本连续性（C-045）
+[实测] Claim identity按Core identity+operator canonical subject/predicate/value，来源dataset属于provenance，不再分裂同一人的跨来源矛盾。显式纳入两个synthetic dataset时能形成1冲突组；检索只授权一个dataset时不泄露另一个memory ID/evidence，不借越域证据断言当前事实，标UNASSESSED_OUT_OF_SCOPE。排序tie使用legacy稳定key/发生时间，不依赖fresh UUID，避免surrogate实验随机抖动。Canonical mapping version2/assessment policy2明确记录；相同语义的旧mapping1可最小upgrade，原始证据/identity不变，不同语义仍拒绝collision。
+
+15 targeted passed（memory5/adapter10）：跨来源、范围隔离、旧mapping升级、原始证据不变、去重、崩溃均验证。跨来源补强首轮13pass/1fail揭示旧surrogate同confidence按随机UUID排序造成预算裁剪随机；改为实际relevance/time/legacy key后保留原recall/来源/矛盾断言并通过。最新14条rehearsal source/count/replay仍PASS；P7仍为纯surrogate PARTIAL。
