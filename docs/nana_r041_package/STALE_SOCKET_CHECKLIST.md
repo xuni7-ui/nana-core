@@ -1,0 +1,2 @@
+# Stale socket cleanup
+`./bridge.sh cleanup --directory <shadow-store-dir> --ipc-directory <old-ipc-dir>` is explicit, not startup autodeletion. Require original Store receipt/session fence, worker non-live/PID fingerprint, exact socketdev/inode/mode/owner. Reject symlinks/foreign sockets/stale forgedPID/uninitializeddirectories. Remove only bridge.sock/client.json; retain session.json/result.json/DB. A partial prepublication crash without an authenticated manifest staysBLOCKED for manualreview, not guessed cleanup. Never restores receipt permissions.

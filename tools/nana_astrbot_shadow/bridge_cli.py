@@ -5,6 +5,7 @@ import json
 import os
 from pathlib import Path
 import signal
+import re
 import socket
 import stat
 from .bridge_wire import private_directory,process_fingerprint,sha,stamp
@@ -20,6 +21,17 @@ def session_status(ipc):
     if type(row) is not dict or set(row)!={'schema_version','session_id','receipt_id','store_binding','pid','pid_fingerprint','uid',
         'socket_device','socket_inode','socket_path','expires_at','trust_domain','phase','host_binding','real_host_bridge','E12'}:
         raise ValueError('BRIDGE_SESSION_METADATA')
+    if type(row['schema_version']) is not int or row['schema_version']!=1:raise ValueError('BRIDGE_SESSION_SCHEMA')
+    for k in ('pid','uid','socket_device','socket_inode'):
+        if type(row[k]) is not int or row[k]<0:raise ValueError('BRIDGE_SESSION_INTEGER')
+    for k in ('pid_fingerprint','store_binding'):
+        if type(row[k]) is not str or not re.fullmatch('[0-9a-f]{64}',row[k]):raise ValueError('BRIDGE_SESSION_HASH')
+    if (type(row['session_id']) is not str or not re.fullmatch('[0-9a-f]{32}',row['session_id'])
+        or type(row['receipt_id']) is not str or not re.fullmatch('r04-[0-9a-f]{32}',row['receipt_id'])
+        or row['phase'] not in ('RUNNING','CLOSED') or row['trust_domain'] not in ('PRODUCTION','FIXTURE')
+        or row['host_binding']!='UNVERIFIED' or row['real_host_bridge']!='NOT_RUN' or row['E12']!='NOT_RUN'):
+        raise ValueError('BRIDGE_SESSION_LABEL')
+    stamp(row['expires_at'])
     if Path(row['socket_path'])!=ipc/'bridge.sock' or row['uid']!=os.getuid():raise ValueError('BRIDGE_SESSION_PATH')
     live=False
     try:live=process_fingerprint(row['pid'])==row['pid_fingerprint']
@@ -33,6 +45,13 @@ def verified_session(directory,ipc):
         r,v=l.record(row['receipt_id'])
         fence=l.store.one('core_meta','r041.receipt_session:'+row['receipt_id'])
         if not fence:raise ValueError('BRIDGE_SESSION_FENCE_MISSING')
+        journal=None
+        for e in l.store.db.execute("SELECT data_json FROM events WHERE kind LIKE 'r041.%' ORDER BY rowid DESC"):
+            for change in json.loads(e['data_json'])['changes']:
+                if change['table']=='core_meta' and change['row']['key']==fence['key']:
+                    journal=change['row']['value_json'];break
+            if journal is not None:break
+        if journal!=fence['value_json']:raise ValueError('BRIDGE_SESSION_PROJECTION_CORRUPT')
         value=json.loads(fence['value_json'])
         # A forged sidecar cannot turn stop into an arbitrary PID signal.
         if (value['session_id']!=row['session_id'] or value['store_binding']!=l.binding

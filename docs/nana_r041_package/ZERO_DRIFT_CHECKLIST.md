@@ -1,0 +1,2 @@
+# Zero drift
+AstrBot source/dependencies/private_sqlite import unchanged; worker separate short-lived process only, no daemon. No event/result mutation, no user reply/yield, Iriswrites0, Actions/Attempts/Grants/productionBudget0. AF_UNIXIPC ACK is not external output. Legacy natural replies/network/model activity are not Shadow activity; attribution needs Nana现场 evidence. No Core execution/memory authority handoff. Raw IDs/body/prompt/profile/history/attachments never crossIPC or appear in reports. Fixture trust remainsFixture regardless forged client domain strings.

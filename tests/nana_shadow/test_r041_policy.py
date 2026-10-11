@@ -110,3 +110,14 @@ def test_operator_errors_do_not_echo_values_or_admit_fixture(tmp_path,capsys):
     assert not list(ipc.iterdir())
     assert cli.main(['start','--ipc-directory',str(ipc),'--unsafe','PRIVATE-CANARY'])==2
     assert 'PRIVATE-CANARY' not in capsys.readouterr().out
+
+def test_tampered_session_fields_never_echo_private_data(tmp_path,capsys):
+    root,ipc,r,raw=fixture(tmp_path)
+    async def run():
+        w=ShortLivedWorker(root,ipc,r.receipt_id,client_pid=os.getpid(),seconds=.1,trust=FixtureTrustStore())
+        task,c=await ready(w);await task
+    asyncio.run(run())
+    row=json.loads((ipc/'session.json').read_text());row['phase']='PRIVATE-CANARY'
+    private_file(ipc/'session.json',row,replace=True)
+    assert cli.main(['status','--ipc-directory',str(ipc)])==2
+    assert 'PRIVATE-CANARY' not in capsys.readouterr().out

@@ -772,3 +772,8 @@
 - 改了什么：Old-SQLite client isolation, three actual worker SIGKILLs, PID/socket-fenced stop cleanup and adversarial lifecycle; 126 targeted passed; manifests/fingerprints_r041.json.
 - 为什么：host SQLite3.46.1 must stay untouched; bounded local metadata bridge, not second permanent Runtime.
 - 怎么验证：development-only targeted/full evidence, diff/allowlist/secret-private-artifact scans; approvedCore unchanged.
+
+## R041-M3
+- 改了什么：Bridge package/runbook and safe operator session readback; 44 targeted passed, real statuses unchanged; manifests/fingerprints_r041.json.
+- 为什么：host SQLite3.46.1 must stay untouched; bounded local metadata bridge, not second permanent Runtime.
+- 怎么验证：development-only targeted/full evidence, diff/allowlist/secret-private-artifact scans; approvedCore unchanged.

@@ -28,6 +28,9 @@ def main():
         from nana_host_shadow.bootstrap_entry import runtime
         runtime(root)
         sys.path.insert(0,str(root/'package'/'src'))
+        if args[:1]==['bridge']:
+            from tools.nana_astrbot_shadow.bridge_cli import main as bridge
+            return bridge(args[1:])
         if args==['harness']:
             from tools.nana_astrbot_shadow.one_shot_harness import run
             report=run(root/'data'/'r04-harness');print(json.dumps(report,sort_keys=True));return 0

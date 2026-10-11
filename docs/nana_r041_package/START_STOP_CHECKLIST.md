@@ -1,0 +1,2 @@
+# Start / stop
+Explicit FOREGROUND <=600sec/receiptexpiry. One session, one receipt, one eligible event. Directory/sessionPID/boot-start fingerprint/socketinode/nonce match. >=128frames ends session;100callback bound;0.2sec frame timeout. Client<=0.5sec/attemptflag beforeconnect, no retry. Stop checks authoritative Store fence then pidfdSIGTERM, no generic process control. KeepStore/proof; remove only owned socket/clientcap. UNKNOWN_CLOSE/UNKNOWN_WORKER_EXIT remainunknown, never writePASS.

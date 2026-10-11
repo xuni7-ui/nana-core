@@ -126,3 +126,51 @@ exec "$python" -I -B -S "$base/r04_entry.py" "$base" "$@"
     return {'filename':archive.name,'bytes':archive.stat().st_size,'SHA256':digest(archive.read_bytes()),
         'support_source_SHA':m['support_source_SHA'],'Core_source_SHA':m['Core_source_SHA'],
         'runtime_sha256':m['runtime_sha256'],'host_binding':'UNVERIFIED','production_trust_pins':0}
+
+
+def create_r041(repo,destination,*,runtime_from):
+    """R04 fixed-source builder reused; plugin ZIP contains stdlib bridge only."""
+    import zipfile
+    repo=Path(repo);root=Path(destination)
+    if subprocess.check_output(['git','status','--porcelain','--','docs/nana_r041_package','src/plugins/astrbot_plugin_nana_shadow_observer'],cwd=repo,text=True):
+        raise ValueError('COMMITTED_BRIDGE_REQUIRED')
+    create_r04(repo,root,runtime_from=runtime_from)
+    source=repo/'src/plugins/astrbot_plugin_nana_shadow_observer'
+    protocol=(repo/'tools/nana_astrbot_shadow/bridge_wire.py').read_bytes()
+    if protocol!=(source/'bridge_wire.py').read_bytes():raise ValueError('SHARED_PROTOCOL_DRIFT')
+    # Both earlier dormant ZIPs are historical kit components; only this ZIP
+    # is the R041 host plugin. No Core/runtime/tools vendored into its process.
+    files={'main.py':(source/'r041_main.py').read_bytes(),'bridge_client.py':(source/'bridge_client.py').read_bytes(),
+           'bridge_wire.py':protocol,'message_hook_adapter.py':(source/'message_hook_adapter.py').read_bytes(),
+           'metadata.yaml':b'name: astrbot_plugin_nana_shadow_bridge\nauthor: nana-core\nversion: 0.0.41\ndesc: R041 dormant metadata-only UDS bridge\n'}
+    archive_zip=root/'plugin/nana-shadow-r041-bridge.zip'
+    with zipfile.ZipFile(archive_zip,'x',compression=zipfile.ZIP_DEFLATED) as z:
+        for name,data in sorted(files.items()):
+            info=zipfile.ZipInfo('astrbot_plugin_nana_shadow_bridge/'+name,date_time=(2026,10,11,0,0,0));info.external_attr=0o600<<16;z.writestr(info,data)
+    book=root/'R041_RUNBOOK';book.mkdir()
+    for p in sorted((repo/'docs/nana_r041_package').glob('*.md')):shutil.copyfile(p,book/p.name)
+    launcher=root/'bridge.sh';launcher.write_text('''#!/bin/sh
+set -eu
+base=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+exec "$base/r04.sh" bridge "$@"
+''');launcher.chmod(0o700)
+    m=json.loads((root/'manifest.json').read_text())
+    m.update(r041='SHORT_LIVED_HOST_BRIDGE_IMPLEMENTED_TESTED',plugin='plugin/nana-shadow-r041-bridge.zip',
+        plugin_dependencies='stdlib + existing AstrBot only; NO Core/privateSQLite/Pydantic',
+        worker='explicit foreground isolated process <=600sec/receiptexpiry, one session/receipt/event; no daemon/autostart',
+        IPC='AF_UNIX filesystem,0700dir/0600socket,4096byte canonical metadata frames,peerPID/UID+nonce/HMAC',
+        real_host_bridge='NOT_RUN',production_review_pins=0,shared_protocol_sha256=digest(protocol))
+    m['files']={str(p.relative_to(root)):digest(p.read_bytes()) for p in root.rglob('*') if p.is_file() and p.name not in ('manifest.json','SHA256SUMS')}
+    private_file(root/'manifest.json',m,replace=True)
+    (root/'SHA256SUMS').write_text(''.join(h+'  '+n+'\n' for n,h in sorted(m['files'].items()))+digest((root/'manifest.json').read_bytes())+'  manifest.json\n')
+    verify_package(root)
+    archive=root.parent/(root.name+'-bridge-delivery.tar.gz')
+    with archive.open('xb') as f:
+        with gzip.GzipFile(fileobj=f,mode='wb',mtime=0,filename='') as gz:
+            with tarfile.open(fileobj=gz,mode='w') as t:
+                for p in sorted(root.rglob('*')):
+                    if not p.is_file():continue
+                    b=p.read_bytes();i=tarfile.TarInfo(root.name+'/'+str(p.relative_to(root)));i.size=len(b);i.mode=0o700 if p.suffix=='.sh' else 0o600;i.mtime=0;t.addfile(i,io.BytesIO(b))
+    return {'filename':archive.name,'bytes':archive.stat().st_size,'SHA256':digest(archive.read_bytes()),
+        'Core_source_SHA':m['Core_source_SHA'],'support_source_SHA':m['support_source_SHA'],'runtime_sha256':m['runtime_sha256'],
+        'shared_protocol_sha256':m['shared_protocol_sha256'],'production_review_pins':0,'real_host_bridge':'NOT_RUN'}

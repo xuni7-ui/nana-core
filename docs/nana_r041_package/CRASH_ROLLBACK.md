@@ -1,0 +1,2 @@
+# Crash rollback
+Unbind client immediately; never resend. If worker died, statusUNKNOWN_WORKER_EXIT, not automatic restart. R04 consumed receipt staysused1; preconsume session is still reserved and cannot restart thatreceipt. Read-only Store/evidence collection only. Operator cleanup may remove exact stale socket/clientcap after Store/session/PID/inode checks; no live cleanup, no broad rm, no kill host, no authority changes. Human unloads plugin; Nana proves registryabsence/zero drift. New independently reviewedreceipt/newsession required for another test.
