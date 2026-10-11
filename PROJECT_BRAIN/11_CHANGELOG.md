@@ -591,3 +591,8 @@
 - 改了什么：实际Ubuntu24.04/CPython3.12.3兼容证据、support ABI门/失败分类/复用原runtime或交付归档，按本检查点文件清单与docs/nana_shadow_host_compat.md。
 - 为什么：真实宿主被补丁版本字符串阻断；仅在开发侧闭合ABI与可下载包交付，不升级宿主/不改生产。
 - 怎么验证：对应targeted/完整回归/实际解包与SIGKILL证据保留，逐文件白名单/凭据模式/许可证审查，独立开发commit/push/ls-remote；最终SHA以Git为准。
+
+## C-070 · Shadow host FINAL: verified remote downloadable archive bytes, actual dual-Python318 regressions and unchanged production scope
+- 改了什么：实际Ubuntu24.04/CPython3.12.3兼容证据、support ABI门/失败分类/复用原runtime或交付归档，按本检查点文件清单与docs/nana_shadow_host_compat.md。
+- 为什么：真实宿主被补丁版本字符串阻断；仅在开发侧闭合ABI与可下载包交付，不升级宿主/不改生产。
+- 怎么验证：对应targeted/完整回归/实际解包与SIGKILL证据保留，逐文件白名单/凭据模式/许可证审查，独立开发commit/push/ls-remote；最终SHA以Git为准。

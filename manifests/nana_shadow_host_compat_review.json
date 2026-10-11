@@ -1,5 +1,5 @@
 {
-  "milestone": "C-069",
+  "milestone": "C-070",
   "reviewed_files": [
     "PROJECT_BRAIN/09_STATE.md",
     "PROJECT_BRAIN/10_DECISIONS.md",
@@ -28,6 +28,7 @@
     "docs/nana_shadow_host_compat_evidence/protocol_proof_31214.json",
     "docs/nana_shadow_host_compat_evidence/protocol_proof_3123.json",
     "docs/nana_shadow_host_compat_evidence/python-private",
+    "docs/nana_shadow_host_compat_evidence/remote_asset_verification.json",
     "docs/nana_shadow_host_compat_evidence/smoke_3123.json",
     "docs/nana_shadow_host_compat_evidence/smoke_abi.py",
     "docs/nana_shadow_host_compat_evidence/targeted_31214.txt",
@@ -43,7 +44,7 @@
   ],
   "allowlist_violations": [],
   "credential_pattern_findings": [],
-  "fingerprint_anchor": "cc671ee53599461c64d33c998ca2b83ab71b8cd4a659dd572f89053c20b194d1",
+  "fingerprint_anchor": "65e4a64556252313bd3ff2144e7ebf9ad0d011e3872cd1b5f31d93ace9f93c1d",
   "artifact_review": {
     "artifacts/shadow-bootstrap/nana-shadow-bootstrap-host3123-cd2e8a302a6d.tar.gz": {
       "SHA256": "c793991badd5efeaaa4676730278c2cdf3f2e01ee5ccafd1626edc4819b49c88",
@@ -280,5 +281,5 @@
   "production_changes": 0,
   "private_records_read": 0,
   "secret_values_read": 0,
-  "summary": "Shadow host package: dual actual Python full318 regressions and SIGKILL validation, fixed downloadable private-branch archive"
+  "summary": "Shadow host FINAL: verified remote downloadable archive bytes, actual dual-Python318 regressions and unchanged production scope"
 }

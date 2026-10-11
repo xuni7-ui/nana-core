@@ -367,3 +367,7 @@
 - [未知] 新包真实宿主复测未执行，真实AstrBot hook UNKNOWN。E12 NOT_RUN/真实模型0；生产修改/调用、私人记忆/secret值/外部消息0，owner/memory authority未切换，Core新增SQL表0/runtime依赖新增0。
 
 [实测] C-069：Shadow host package: dual actual Python full318 regressions and SIGKILL validation, fixed downloadable private-branch archive；指纹锚点 cc671ee53599461c64d33c998ca2b83ab71b8cd4a659dd572f89053c20b194d1；不证明生产运行。
+
+[实测] Host ABI远端资产闭合：GitHub私有开发分支commit 659e3f55104363ab0b21fe0709b2ecc2e1792e95已保存单文件artifacts/shadow-bootstrap/nana-shadow-bootstrap-host3123-cd2e8a302a6d.tar.gz；新建独立bare repo实际fetch/read remote blob，3,270,530bytes及SHA256 c793991badd5efeaaa4676730278c2cdf3f2e01ee5ccafd1626edc4819b49c88完全一致。下载URL在final_delivery.json/remote_asset_verification.json/docs，非仅/workspace路径；本轮未操作真实宿主。最终报告提交以HEAD/ls-remote为准；318pass/0fail/1skip每解释器，无后续代码变更。
+
+[实测] C-070：Shadow host FINAL: verified remote downloadable archive bytes, actual dual-Python318 regressions and unchanged production scope；指纹锚点 65e4a64556252313bd3ff2144e7ebf9ad0d011e3872cd1b5f31d93ace9f93c1d；不证明生产运行。

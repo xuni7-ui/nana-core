@@ -59,7 +59,7 @@
     "bundled_full_Python": false,
     "GitHub_asset_path": "artifacts/shadow-bootstrap/nana-shadow-bootstrap-host3123-cd2e8a302a6d.tar.gz"
   },
-  "download_artifact": "private development GitHub asset, staged for next checked commit/push; remote byte verification pending",
+  "download_artifact": "PROVIDED via private GitHub asset URL, actual remote Git bytes verified",
   "root_cause": "old exact patch comparison blocks3.12.3 before private extension load; actual old entry BLOCKED_RUNTIME_ABI reproduced",
   "full_regressions": {
     "3123": {
@@ -104,9 +104,9 @@
   "P5": "IMPLEMENTED and TESTED, specific classified failures with host/shadow metadata",
   "P6": "RUNTIME_VERIFIED development archive; real host re-run NOT_RUN",
   "P7": "same safety scope retained",
-  "P8": "archive built and tested; remote publication pending checked commit",
+  "P8": "RUNTIME_VERIFIED development; published private GitHub asset, remote bytes verified",
   "P9": "exact simple commands in docs/nana_shadow_host_compat.md",
-  "P10": "staged milestones on independent branch; final ls-remote follows",
+  "P10": "code/package checkpoints pushed and SHA verified; final documentation checkpoint follows",
   "new_Core_SQL_tables": 0,
   "new_runtime_dependencies": 0,
   "full_isolated_Python": false,
@@ -126,5 +126,8 @@
   "archive_runtime_hash_semantics": "canonical content per-file hash map; own runtime metadata excluded from self-reference and verified by outer manifest",
   "CI_trigger": "no .github workflow files in repo; no paid artifact workflow invoked",
   "private_artifact": "contains fixed reviewed licensed dependency runtime, no data directory/DB/secrets",
-  "external_paid_model_service_calls": 0
+  "external_paid_model_service_calls": 0,
+  "download_URL": "https://github.com/xuni7-ui/nana-core/raw/659e3f55104363ab0b21fe0709b2ecc2e1792e95/artifacts/shadow-bootstrap/nana-shadow-bootstrap-host3123-cd2e8a302a6d.tar.gz",
+  "remote_asset_commit_SHA": "659e3f55104363ab0b21fe0709b2ecc2e1792e95",
+  "remote_asset_verification": "PASS"
 }

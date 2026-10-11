@@ -1,0 +1,12 @@
+{
+  "status": "PASS",
+  "scope": "fresh bare repository fetched remote branch, actual remote asset bytes verified",
+  "asset_commit_SHA": "659e3f55104363ab0b21fe0709b2ecc2e1792e95",
+  "asset_path": "artifacts/shadow-bootstrap/nana-shadow-bootstrap-host3123-cd2e8a302a6d.tar.gz",
+  "bytes": 3270530,
+  "SHA256": "c793991badd5efeaaa4676730278c2cdf3f2e01ee5ccafd1626edc4819b49c88",
+  "download_URL": "https://github.com/xuni7-ui/nana-core/raw/659e3f55104363ab0b21fe0709b2ecc2e1792e95/artifacts/shadow-bootstrap/nana-shadow-bootstrap-host3123-cd2e8a302a6d.tar.gz",
+  "access": "private repo; existing GitHub repository authorization required",
+  "new_credential_created": false,
+  "credential_values_read_or_printed": false
+}
