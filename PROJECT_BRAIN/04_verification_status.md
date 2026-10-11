@@ -181,3 +181,61 @@
 - [实测] nana_core 全量套件在本宿主解释器下 `65 failed / 171 passed / 82 errors`，
   **全部**落点 = `SQLITE_VERSION_UNSUPPORTED`（`src/nana_core/storage/sqlite_store.py:78`，需 SQLite ≥3.51.3；宿主三解释器均 3.46.1）。
 - [实测] 此为**既有环境门槛**，与 R02 观察器改动无因果；观察器 9/9 在宿主解释器独立通过。
+
+
+---
+
+## Shadow Bind R03 · M0–M6（2026-10-11 CST）
+
+### M0 = 双分支合流（本地，未 push）
+- [实测] 在开发副本 `/root/nana_dev/nana-core` 从 Codex 交付 **bundle** 离线合流（零网络依赖）：
+  bundle sha256 `38b53b1598675cc81a12f376c11829bd0dd94e47c6cc817dc1c56f1d225439de`，
+  `git bundle verify` = ok，`list-heads` = `10581aea4009add4e311bb0df843fbedffa7acfb refs/heads/dev/nana-core-v1-astrbot-shadow-bind-codex`。
+- [实测] `merge-base HEAD bundle/codex` = `c3ada9b09faa8a2683f98d5c8bafec24779cfd71`（与任务书预期**逐字一致**）。
+- [实测] 合流提交 **`d3e8c818e9c770c10555e8731d65ab5dab74b019`**（`--no-ff`，双亲 `652a72f` + `10581aea`）。
+- [实测] 冲突仅 3 个 PROJECT_BRAIN 文件（`09/10/11`），**逐块并存**解决，**未**整文件 `ours/theirs`：
+  奈奈 R02 现场账本（`BLOCKED_AUTH_REQUIRED` / `BLOCKED_NO_INTERNAL_PROBE` / `SCHEMA_COMPATIBLE` / D-044）
+  与 Codex 交付记录（`C-M0…FINAL` / `372 pass` / `IMPLEMENTED/TESTED`）**同时保留**；残留冲突标记 = 0。
+
+### M1 = message pipeline 安全观察点（只读源码审计）
+- [实测] ①已实现：`docs/nana_shadow_message_observer_audit_20261011.md`（含 path/symbol/line 与逐候选 SAFE/UNSAFE 判定）。
+- [实测] ②结论：`SAFE result-path observer = AVAILABLE`（`OnDecoratingResultEvent`）；
+  `SAFE early all-message observer = NOT_AVAILABLE`；`AdapterMessageEvent` / `OnLLMRequestEvent` = **UNSAFE**。
+- [未知] ④：`Real dispatcher traversal = NOT_VERIFIED`（无安全内部合成事件入口）。
+
+### M2 = 最薄 message observer（开发副本，未安装）
+- [实测] ①已实现：
+  `src/plugins/astrbot_plugin_nana_shadow_observer/message_hook_adapter.py`（最薄层，复用 Codex `sanitize/observer/core_sink`，**未**另造第二套）；
+  `main.py` 增加 `filter.on_decorating_result()` 接线，**默认哑火**（adapter 未绑定即 `return None`）。
+- [实测] ②已测试：`python3 -m pytest tests/nana_shadow -q` → **31 passed / 1 skipped**。
+  覆盖：正常 / 缺字段 / 超长 / Unicode / null / 恶意对象 / `__repr__`→`__str__`→`__format__` 禁调 /
+  observer 异常 / sanitizer 异常 / Core 超时 / Core 异常 / 取消 / 重复 / 重启后重复 / 回调迟发异常；
+  并断言 reply=0、event 变更=0、Action/Attempt/Grant/Budget=0、network=0、model=0、Iris 写=0。
+- [实测] 状态仅标 **`IMPLEMENTED / TESTED`**，**不**升级为 real dispatcher `VERIFIED`。
+- [未知] ④：`Observer registered = NO`；`host_binding = UNVERIFIED`；`FIRST_REAL_ASTRBOT_SHADOW = BLOCKED`。
+
+### M3 = 全新插件免重启人工路径
+- [实测] ①已实现：写入 `docs/nana_shadow_message_observer_audit_20261011.md` §5。
+- [实测] ②结论：`NEW_PLUGIN_NO_RESTART_MANUAL_PATH = YES`（Dashboard 上传 → 进程内 `load()`）。
+- [未知] ④本轮**不上传 / 不安装 / 不 reload / 不改 `plugin_set` / 不读 JWT / 不重启**；
+  该动作需姐姐**届时单独授权**。
+
+### M4 = 合流后回归（三方对照，同机同解释器）
+| 版本 | 结果 |
+|---|---|
+| R02 基线 `652a72f` | `65 failed / 171 passed / 1 skipped / 82 errors` |
+| Codex 基线 `10581aea` | `71 failed / 219 passed / 1 skipped / 82 errors` |
+| **R03 合流 `d3e8c81`** | `71 failed / 219 passed / 1 skipped / 82 errors` |
+
+- [实测] Codex 基线 ≡ R03 合流（**逐数一致**）⇒ 合流**零回归**。
+- [实测] 全部失败/错误的 202 处签名均指向同一门：`SQLITE_VERSION_UNSUPPORTED`
+  （`src/nana_core/storage/sqlite_store.py:78`，需 SQLite ≥3.51.3；宿主解释器 3.46.1）。
+  因果已单独复现：真实 `MetadataCoreSink` 在宿主上 `observer_status = DROP_SHADOW_FAILURE`
+  → `harness` 报 `HARNESS_CORE_UNAVAILABLE`。
+- 口径：**`HOST_SYSTEM_SQLITE_GATE = BLOCKED`**；
+  **`ISOLATED_APPROVED_RUNTIME_FULL_REGRESSION = NOT_RUN`**（本机当前无达标的隔离 runtime）。
+  **未**绕过 SQLite 版本门。
+
+### M5 / M6
+- [实测] PROJECT_BRAIN 03/04/09/10/11 已同步（本文件即其一）。
+- 见 `11_CHANGELOG.md` `C-072` 与 `10_DECISIONS.md` `D-045`。

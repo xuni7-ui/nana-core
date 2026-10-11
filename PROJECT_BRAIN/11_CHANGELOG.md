@@ -668,3 +668,27 @@
 - 改了什么：Remote archive bytes verified; ordered Nana development handoff, 372 pass one skip; real dispatcher remains unverified；文件见manifests/whitelist_astrbot_codex.json。
 - 为什么：用户授权独立开发Observer/证据链，保留批准Core字节与现场事实边界。
 - 怎么验证：docs/nana_astrbot_shadow_evidence的专项/回归记录；白名单/敏感与运行产物检查通过，不代表真实宿主验收。
+
+
+## C-072 · Shadow Bind R03：双分支合流 + SAFE message observer + 免重启加载路径审计
+
+- 改了什么：
+  - **M0 合流**：`dev/nana-core-v1-astrbot-shadow-bind-r03`，`merge --no-ff` Codex 分支 `10581aea`（经离线 bundle 导入）；合并提交 `d3e8c81`。
+  - **M1 审计**：`docs/nana_shadow_message_observer_audit_20261011.md`（dispatcher map、逐候选 SAFE/UNSAFE、`plugin_set` 前置条件、免重启路径）。
+  - **M2 实现**：`src/plugins/astrbot_plugin_nana_shadow_observer/message_hook_adapter.py`（最薄层，复用 Codex `sanitize/observer/core_sink`）；
+    `main.py` 增 `filter.on_decorating_result()` 接线，默认哑火。
+  - **M2 测试**：`tests/nana_shadow/test_message_hook_adapter.py`（32 例）。
+  - **M5**：PROJECT_BRAIN `03/04/09/10/11` 同步（`D-045` 新裁决）。
+- 为什么：任务书要求在**不重启、不读 JWT、不碰生产**前提下，把「message 是否有可安全观察的 hook」
+  从摘要推进到源码级结论，并产出可审计的最薄 observer；同时把 Codex 独立实现与奈奈现场账本合流为单一 SSOT。
+- 怎么验证：
+  - `git bundle verify` ok；`merge-base = c3ada9b0…`；合流提交 `d3e8c81`（双亲 `652a72f` + `10581aea`）。
+  - `python3 -m pytest tests/nana_shadow -q` → **31 passed / 1 skipped**（skip = 宿主 SQLite 门）。
+  - 三方回归对照：R02 `65F/171P/1S/82E`；Codex `71F/219P/1S/82E`；**R03 与 Codex 逐数一致 ⇒ 零回归**；
+    全部 202 处失败签名 = `SQLITE_VERSION_UNSUPPORTED`（宿主 3.46.1，未绕过）。
+- 关键结论：
+  - `SAFE result-path observer = AVAILABLE`；`SAFE early all-message observer = NOT_AVAILABLE`；
+    `AdapterMessageEvent` / `OnLLMRequestEvent` = **UNSAFE**。
+  - `NEW_PLUGIN_NO_RESTART_MANUAL_PATH = YES`（人工 Dashboard 路径）。
+  - message observer `IMPLEMENTED / TESTED`；`Observer registered = NO`、`host_binding = UNVERIFIED`、
+    `FIRST_REAL_ASTRBOT_SHADOW = BLOCKED`、`E12 = NOT_RUN`。

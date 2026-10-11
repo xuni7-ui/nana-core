@@ -421,3 +421,36 @@
 [实测/开发] C-M7: Final full regression 372 passed one E12 skip; reviewed observer kit archive, approved55 unchanged and zero production actions。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 e7e2042cc4c39806fcec6c3388b033f15f49cb2b6ab6fac0bad2d6c0b2f56676，不证明宿主运行。
 
 [实测/开发] FINAL: Remote archive bytes verified; ordered Nana development handoff, 372 pass one skip; real dispatcher remains unverified。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 b01f90794a4322dd405fc41fa1d1c5d427392a8fac618c18f8b2753169454a4f，不证明宿主运行。
+
+
+---
+
+## 2026-10-11 (CST) · Shadow Bind R03：双分支合流 + SAFE message observer + 免重启加载路径
+
+> 在 R02 口径之上**追加**，不改写 R02 的现场账本。
+
+| 状态键 | 值 |
+|---|---|
+| `SAFE early all-message observer` | **NOT_AVAILABLE**（源码级，R03-M1） |
+| `SAFE result-path observer` | **AVAILABLE** — `EventType.OnDecoratingResultEvent` |
+| `Second-candidate observer` | `OnAfterMessageSentEvent`（发送后） |
+| `Unsafe hooks` | `AdapterMessageEvent` / `OnLLMRequestEvent` / `OnWaitingLLMRequestEvent` |
+| `message observer` | **IMPLEMENTED / TESTED**（开发副本，未安装；31 pass / 1 skip） |
+| `Observer registered` | **NO** |
+| `host_binding` | **UNVERIFIED** |
+| `Real dispatcher traversal` | **NOT_VERIFIED** |
+| `FIRST_REAL_ASTRBOT_SHADOW` | **BLOCKED** |
+| `Permitted dynamic load channel` | **BLOCKED_AUTH_REQUIRED**（不变） |
+| `NEW_PLUGIN_NO_RESTART_MANUAL_PATH` | **YES**（人工 Dashboard 上传 → 进程内 `load()`） |
+| `plugin_set is real precondition` | **YES**（`waking_check/stage.py:163-169` + `star_handler.py:169-184`） |
+| `HOST_SYSTEM_SQLITE_GATE` | **BLOCKED**（宿主 3.46.1 < 3.51.3） |
+| `ISOLATED_APPROVED_RUNTIME_FULL_REGRESSION` | **NOT_RUN**（本机无达标隔离 runtime） |
+| `E12` | **NOT_RUN** |
+
+- [实测] R03 合流提交 `d3e8c818e9c770c10555e8731d65ab5dab74b019`（双亲 `652a72f` + `10581aea`，`--no-ff`）。
+- [实测] Codex bundle sha256 `38b53b1598675cc81a12f376c11829bd0dd94e47c6cc817dc1c56f1d225439de`；`merge-base = c3ada9b09faa8a2683f98d5c8bafec24779cfd71`。
+- [实测] PROJECT_BRAIN 冲突 `09/10/11` **逐块并存**，双方证据块（R02 现场账本 + Codex `C-M0…FINAL`）**完整保留**。
+- [实测] 三方回归对照（R02 / Codex / R03）中 Codex ≡ R03 **逐数一致** ⇒ 零回归。
+- [实测] 本轮零漂移：生产源码改动 0 / 生产插件目录触碰 0 / 安装 0 / reload 0 / 重启 0 /
+  JWT·secret 读取 0 / 真实消息 0 / 正文读取 0 / Iris 私人内容 0 / 外发 0 / authority 切换 0。
+- [未知] 下一步唯一人工动作：姐姐在已登录 Dashboard **手动上传 observer 插件并纳入 `plugin_set`**（届时单独授权）。

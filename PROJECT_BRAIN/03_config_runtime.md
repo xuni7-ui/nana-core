@@ -73,3 +73,46 @@
 - 【实测】`ASTRBOT_RELOAD` **未设置**（宿主 shell + `/proc/1/environ` 均无）⇒ 文件 watcher 未启动。
 - 【实测】无重启载入新插件的现存通道 = Dashboard `POST /api/plugin/reload`（`astrbot/dashboard/api/plugins.py:1391/837/1104`），**需 JWT**。
 - 详见：`docs/nana_shadow_astrbot_dispatcher_audit_20261011.md`。
+
+
+---
+
+## P5 增补 · message pipeline 安全观察点（2026-10-11 CST · R03-M1，`[实测/源码]`）
+
+被审源码：`/AstrBot/astrbot` @ **4.28.0**。详见 `docs/nana_shadow_message_observer_audit_20261011.md`。
+
+- 【实测】真实消息调用链唯一入口：`EventBus.dispatch()`（`core/event_bus.py:39`）
+  → `asyncio.create_task(scheduler.execute(event))`（`:52`）
+  → `PipelineScheduler.execute()`（`core/pipeline/scheduler.py:82`）→ `_process_stages()`（`:36`）
+  → `STAGES_ORDER`（`core/pipeline/stage_order.py:3-13`，共 9 段）。
+- 【实测】**SAFE result-path observer = AVAILABLE**
+  `EventType.OnDecoratingResultEvent`（enum `core/star/star_handler.py:234`；
+  注册器 `core/star/register/star_handler.py:730`；调用点 `core/pipeline/result_decorate/stage.py:158-189`）。
+  安全性三根支柱：
+  1) `stage.py:173` `await handler.handler(event)` —— **返回值被丢弃**，返回 `None` 不改变消息结果；
+  2) `stage.py:181-182` `except BaseException: logger.error(...)` —— **局部吞掉**，不 re-raise、不产生默认错误回复；
+  3) `stage.py:184-189` 仅当 handler 自己 `stop_event()` 才 `return`。
+  与 `pipeline/context_utils.py:54-75` 的 `call_handler()`（会 `event.set_result(ret)`）语义**完全不同**。
+- 【实测】**SAFE early all-message observer = NOT_AVAILABLE**。
+  `OnDecoratingResultEvent` 只在「本条消息产生了待发送结果」时触发（`stage.py:130-132` 早退；
+  `:134-137` 流式分片早退），**不是**逐条消息观察点。**禁止**声称存在「每条消息到达即安全观察」的 hook。
+- 【实测】第二候选：`OnAfterMessageSentEvent`（`core/pipeline/respond/stage.py:328`，经 `call_event_hook`），
+  发生在**真正发送之后**，仅作备选。
+- 【实测】**UNSAFE（禁止接）**：
+  `AdapterMessageEvent` 是**指令 handler 的分组标签**（`register/star_handler.py:118/168/198/240/268/286/303/326`），
+  由 `waking_check/stage.py:172-175` 收集、`process_stage/method/star_request.py:27-36` **当业务 handler 直接执行**
+  —— 会 `set_result()` / `yield` / 发消息 / 调模型；
+  `OnLLMRequestEvent` / `OnWaitingLLMRequestEvent`（`process_stage/.../internal.py:225/277`、`third_party.py:307`）
+  既碰 prompt 本体，又有终止流程语义。
+- 【实测】**`plugin_set` 是真实前置条件**：`pipeline/waking_check/stage.py:163-169`
+  `plugin_set == ["*"] → event.plugins_name = None`（不过滤）；否则 `= 名单`；
+  过滤点在 `core/star/star_handler.py:169-184`（名单外且非 `reserved` 的 handler 全部被剔除），
+  另有 `:161-167` `only_activated=True`（插件须 `activated`）。
+  ⇒ **「观察器被加载」≠「观察器一定收到 message hook」**。
+- 【实测】**全新插件首次免重启加载（人工路径）= YES**：
+  `POST /api/plugin/install-upload`（`dashboard/api/plugins.py:1272/584/371`）
+  → `PluginService.install_plugin_upload_from_dashboard_form`（`dashboard/services/plugin_service.py:1726`）
+  → `PluginManager.install_plugin_from_file`（`core/star/star_manager.py:2076`，`:2087` 解包 / `:2097` 落位 `data/plugins/<new>`）
+  → `:2109` `await self.load(specified_dir_name=dir_name)`（`load()` 定义 `:1068`）。
+  对比：`reload(name)`（`:1002/1010`）**只**作用于已注册 plugin/module，**不载入全新目录**。
+- 【本轮零改动】未安装 / 未 reload / 未重启 / 未改 `plugin_set` / 未读 JWT / 未碰生产插件目录。

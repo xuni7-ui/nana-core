@@ -247,3 +247,26 @@ Dashboard `POST /api/plugin/reload` 需 JWT（`astrbot/dashboard/api/plugins.py`
 ## Codex AstrBot binding support boundary (2026-10-11 UTC)
 [本项目自定/源码输入] 独立support不改批准Core55文件。入口仅allowlist metadata + keyed scoped hashes +内部permit；影子接线复用Store/ShadowBridge/InitiativeHostGate，无新表。证据结构与真实来源分门，普通fixture不能改origin成为VERIFIED；真实来源trust pins尚空，待奈奈独立审核回执。
 [奈奈源码审计] 共享652a72f确认生命周期C direct registry与消息dispatcher不同；源码支持的4.28.0 lifecycle shim已开发测试，禁止接event_queue。该审计同时说明reload(name)不加载新目录，故“一次Dashboard reload新插件”建议不作为已证明步骤；记录加载路径BLOCKED_AUTH_REQUIRED/dispatcher BLOCKED_NO_INTERNAL_PROBE，不更改奈奈现场账本。
+
+
+## D-045 — message observer 的真实来源入口由「permit + sanitizer 双门」把守（2026-10-11 CST）
+
+[实测/源码] AstrBot 4.28.0 唯一 SAFE 的 message pipeline 观察点 = `EventType.OnDecoratingResultEvent`
+（`core/pipeline/result_decorate/stage.py:158-189`，真实 `EventBus.dispatch()` 路径内；返回值被丢弃；异常被局部吞掉）。
+它**只**是 result-path 观察点；`SAFE early all-message observer = NOT_AVAILABLE`。此口径写死，禁止再用「任何消息 hook」。
+
+[实测/设计] 最薄 adapter 只把 **9 键标量 dict** 交给 Codex 链，`AstrMessageEvent` 本体永不跨入 Core。
+真实来源（`event_source = astrbot_on_decorating_result`, `synthetic = False`）在链上被**两道门**独立挡下：
+
+1. `ShadowObserver.callback` 的 permit 门（无本地 permit ⇒ `DROP_UNAUTHORIZED_PROBE`）；
+2. `MetadataSanitizer.sanitize` 的 probe 作用域门（`probe_id` 不在作用域 ⇒ `DROP_PROBE_SCOPE`；
+   即便 probe 通过，`synthetic is True` 与 `event_source == 'operator_probe'` 仍会拦下真实来源）。
+
+⇒ **长期边界**：真实来源要进入 Core，必须先由奈奈**独立审核回执**提供可复核的信任锚
+（`tools/nana_astrbot_shadow/proof.py` 的 `TRUSTED_NANA_RECEIPTS` 目前**故意为空**），
+**不得**由调用方、fixture、CLI 参数或报告动态注入，**不得**用改配置位的方式绕过。
+在信任锚落地前，整条链只能以 **operator 内部探针**（`probe_class = C`）证明到 `SHADOW_BLOCKED`，
+该证明**不**等于真实 dispatcher 验收，`FIRST_REAL_ASTRBOT_SHADOW` 保持 `BLOCKED`。
+
+[实测] 框架侧安全与实现侧纪律**必须分开陈述**：框架保证「返回值被忽略 + 异常被吞」；
+「不 `set_result()` / 不 `yield` / 不改 event / 不调模型·网络·tool·Iris」由 adapter 自己保证并测试。
