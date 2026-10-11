@@ -10,6 +10,50 @@ import platform
 import sys
 import sysconfig
 
+SOABI = 'cpython-312-x86_64-linux-gnu'
+EXT_SUFFIX = '.cpython-312-x86_64-linux-gnu.so'
+VERIFIED_PYTHON_RELEASES = ('3.12.3', '3.12.14')
+
+
+class RuntimeBlocked(ValueError):
+    """Preserve only non-sensitive runtime metadata in a classified failure."""
+    def __init__(self, reason, host, shadow=None):
+        super().__init__(reason)
+        self.host = host
+        self.shadow = shadow
+
+
+def host_metadata():
+    libc, version = platform.libc_ver()
+    host = {'python': platform.python_version(), 'python_major_minor': list(sys.version_info[:2]),
+            'implementation': sys.implementation.name, 'executable': sys.executable,
+            'SOABI': sysconfig.get_config_var('SOABI'), 'EXT_SUFFIX': sysconfig.get_config_var('EXT_SUFFIX'),
+            'architecture': platform.machine(), 'system': platform.system(),
+            'glibc': {'kind': libc, 'version': version}, 'abiflags': getattr(sys, 'abiflags', ''),
+            'python_patch_regression': 'VERIFIED' if platform.python_version() in VERIFIED_PYTHON_RELEASES else 'UNTESTED'}
+    return host
+
+
+def check_abi(host):
+    # Extension ABI checks, not a language-level patch version requirement.
+    checks = [(host['implementation'] == 'cpython', 'BLOCKED_PYTHON_IMPLEMENTATION'),
+              (host['python_major_minor'] == [3, 12], 'BLOCKED_PYTHON_MINOR'),
+              (not host['abiflags'], 'BLOCKED_PYTHON_BUILD'),
+              (host['system'] == 'Linux', 'BLOCKED_OS'),
+              (host['architecture'] == 'x86_64', 'BLOCKED_ARCH'),
+              (host['SOABI'] == SOABI, 'BLOCKED_SOABI'),
+              (host['EXT_SUFFIX'] == EXT_SUFFIX, 'BLOCKED_EXT_SUFFIX')]
+    for passed, reason in checks:
+        if not passed:
+            raise RuntimeBlocked(reason, host)
+    try:
+        libc = host['glibc']
+        compatible = libc['kind'] == 'glibc' and tuple(map(int, libc['version'].split('.')[:2])) >= (2, 34)
+    except (ValueError, TypeError, KeyError):
+        compatible = False
+    if not compatible:
+        raise RuntimeBlocked('BLOCKED_GLIBC', host)
+
 
 def digest(data):
     return hashlib.sha256(data).hexdigest()
@@ -37,8 +81,13 @@ def verify(root):
 
 
 def runtime(root):
-    import sqlite3
-    host={'python':platform.python_version(),'sqlite':sqlite3.sqlite_version,'executable':sys.executable}
+    host = host_metadata()
+    check_abi(host)
+    try:
+        import sqlite3
+        host['sqlite'] = sqlite3.sqlite_version
+    except ImportError:
+        host['sqlite'] = 'UNKNOWN'
     # -S avoids executing global .pth/sitecustomize while obtaining metadata.
     # Read distribution metadata at the interpreter's standard install paths,
     # without adding those paths to imports or invoking site.main(). A venv's
@@ -47,22 +96,32 @@ def runtime(root):
     versions=[d.version for d in importlib.metadata.distributions(name='pydantic',path=paths)]
     host['pydantic']=versions[0] if len(set(versions))==1 else 'UNKNOWN'
     host['pydantic_scope']='installation metadata only; global site initialization disabled'
-    libc,version=platform.libc_ver()
-    if sys.implementation.name!='cpython' or platform.python_version()!='3.12.14' or getattr(sys,'abiflags','') or platform.machine()!='x86_64' or platform.system()!='Linux':
-        raise ValueError('BLOCKED_RUNTIME_ABI')
-    if libc!='glibc' or tuple(map(int,version.split('.')[:2]))<(2,34):raise ValueError('BLOCKED_RUNTIME_ABI')
     # Explicitly load the real standard-library binding built from CPython source.
     # This changes only this short-lived process's module namespace.
     for name in list(sys.modules):
         if name=='_sqlite3' or name=='sqlite3' or name.startswith('sqlite3.'):
             del sys.modules[name]
-    spec=importlib.util.spec_from_file_location('_sqlite3',root/'runtime/_sqlite3.cpython-312-x86_64-linux-gnu.so')
-    binding=importlib.util.module_from_spec(spec);spec.loader.exec_module(binding);sys.modules['_sqlite3']=binding
+    shadow = {'python': platform.python_version(), 'extension_ABI_target': SOABI,
+              'extension_build_python': '3.12.14', 'minimum_glibc': '2.34',
+              'executable': sys.executable, 'python_patch_regression': host['python_patch_regression'],
+              'sqlite': 'UNKNOWN', 'pydantic': 'UNKNOWN'}
+    try:
+        spec=importlib.util.spec_from_file_location('_sqlite3',root/('runtime/_sqlite3'+EXT_SUFFIX))
+        binding=importlib.util.module_from_spec(spec);spec.loader.exec_module(binding);sys.modules['_sqlite3']=binding
+    except Exception as exc:
+        shadow['load_failure_type'] = type(exc).__name__
+        raise RuntimeBlocked('BLOCKED_EXTENSION_LOAD', host, shadow) from None
     sys.path.insert(0,str(root/'runtime/deps'))
-    import sqlite3 as shadow_sql
-    shadow={'python':platform.python_version(),'sqlite':shadow_sql.sqlite_version,'pydantic':importlib.metadata.version('pydantic'),
-            'executable':sys.executable,'interpreter_scope':'existing host binary; private process-only SQLite/dependencies'}
-    if shadow['sqlite']!='3.51.3' or shadow['pydantic']!='2.13.5':raise ValueError('BLOCKED_RUNTIME_VERSION')
+    try:
+        import sqlite3 as shadow_sql
+        import pydantic
+        shadow.update(sqlite=shadow_sql.sqlite_version, pydantic=pydantic.__version__,
+                      interpreter_scope='existing host binary; private process-only SQLite/dependencies')
+    except Exception as exc:
+        shadow['load_failure_type'] = type(exc).__name__
+        raise RuntimeBlocked('BLOCKED_DEPENDENCY_LOAD', host, shadow) from None
+    if shadow['sqlite']!='3.51.3' or shadow['pydantic']!='2.13.5':
+        raise RuntimeBlocked('BLOCKED_RUNTIME_VERSION', host, shadow)
     return host,shadow
 
 
@@ -102,11 +161,18 @@ def main():
                 from nana_host_shadow.iris_wrappers import export
                 r=export(a.synthetic_fixture,mode=a.mode)
             r.update(HOST_GLOBAL_ENV=host,SHADOW_RUNTIME_ENV=shadow,bootstrap_source=m['support_source_SHA'])
+        r['python_regression_coverage'] = {'verified': list(VERIFIED_PYTHON_RELEASES), 'other_3_12_patches': 'UNTESTED'}
         print(json.dumps(r,sort_keys=True))
     except Exception as exc:
         allowed={'BLOCKED_PACKAGE_INTEGRITY','BLOCKED_RUNTIME_ABI','BLOCKED_RUNTIME_VERSION','BLOCKED_STARTUP_ISOLATION','INITIAL_PROBE_REQUIRED','BOUNDED_WINDOW_REQUIRED'}
         category=str(exc) if type(exc) is ValueError and str(exc) in allowed else getattr(exc,'code',type(exc).__name__)
-        print(json.dumps({'status':'BLOCKED','reason':category,'production_calls':0,'private_records_read':0}))
+        if isinstance(exc, RuntimeBlocked):
+            category=str(exc)
+        report={'status':'BLOCKED','reason':category,'adapter_local_probe_ready':False,
+                'production_calls':0,'private_records_read':0}
+        if isinstance(exc, RuntimeBlocked):
+            report.update(HOST_GLOBAL_ENV=exc.host, SHADOW_RUNTIME_ENV=exc.shadow)
+        print(json.dumps(report))
         raise SystemExit(2)
 
 

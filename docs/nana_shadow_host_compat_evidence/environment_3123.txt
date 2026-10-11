@@ -1,0 +1,5 @@
+{"python": "3.12.3 (main, Aug 31 2026, 10:18:26) [GCC 13.3.0]", "implementation": "cpython", "SOABI": "cpython-312-x86_64-linux-gnu", "EXT_SUFFIX": ".cpython-312-x86_64-linux-gnu.so", "architecture": "x86_64", "glibc": ["glibc", "2.39"], "system": "Linux", "executable": "/usr/bin/python3.12"}
+git	1:2.43.0-1ubuntu7.3
+libc6:amd64	2.39-0ubuntu8.9
+libsqlite3-0:amd64	3.45.1-1ubuntu2.8
+python3.12	3.12.3-1ubuntu0.17

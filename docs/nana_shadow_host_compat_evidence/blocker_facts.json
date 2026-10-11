@@ -1,0 +1,27 @@
+{
+  "schema_version": 1,
+  "base_SHA": "99098b21c6d48948807fd2052f808e6c9e1aba6b",
+  "old_support_SHA": "3aba4eb4253cb30f27141831a4c983d714594e3a",
+  "Core_SHA": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
+  "host_facts": {
+    "source": "user supplied preflight facts; no live host access this turn",
+    "os": "Ubuntu24.04",
+    "machine": "x86_64",
+    "glibc": "2.39",
+    "python": "3.12.3",
+    "executable": "/usr/bin/python3.12",
+    "SOABI": "cpython-312-x86_64-linux-gnu",
+    "EXT_SUFFIX": ".cpython-312-x86_64-linux-gnu.so",
+    "result": "BLOCKED_RUNTIME_ABI"
+  },
+  "source_confirmed_blocker": "bootstrap_entry.runtime compares platform.python_version()!=3.12.14 before extension load; supplied3.12.3 necessarily fails this condition",
+  "ABI_incompatibility_demonstrated": false,
+  "old_archive_sha256": "22ae38de7d2c751717a4ef351d0dc8f75491f2274a1bfea11e0a2e38c251b149",
+  "development_glibc": "2.41",
+  "environment_spec_revision": "55",
+  "production_changes": 0,
+  "private_records_read": 0,
+  "secret_values_read": 0,
+  "real_model_calls": 0,
+  "E12": "NOT_RUN"
+}

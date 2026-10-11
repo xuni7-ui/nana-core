@@ -1,0 +1,2 @@
+#!/bin/sh
+exec /usr/bin/python3.12 -I -B /lab/entry.py "$@"

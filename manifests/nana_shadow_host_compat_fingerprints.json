@@ -1,0 +1,27 @@
+{
+  "baseline": "99098b21c6d48948807fd2052f808e6c9e1aba6b",
+  "files": {
+    "docs/nana_shadow_host_compat.md": "a010cc002d17a27e2b2157e07170db5b367f832ca03968b587ee0365aeac215f",
+    "docs/nana_shadow_host_compat_evidence/Dockerfile": "a1f2c78b28d6360c5ab13ae58346921d67bb78f8078d31c0defc196e06afafa5",
+    "docs/nana_shadow_host_compat_evidence/blocker_facts.json": "2853aac7e6b59bb463f74016757e06204ec7880d31dd93d995da0747fd12bc6d",
+    "docs/nana_shadow_host_compat_evidence/cpython3123_source.json": "a978fb0c7878efc0fdd608785c6fbacc1c11762e58aeb66f031c8a61470fadf4",
+    "docs/nana_shadow_host_compat_evidence/docker_build.txt": "022eea5a5a63e2a360e69588591c4b63f267982b9a1e7e73ffc5fffb91b36186",
+    "docs/nana_shadow_host_compat_evidence/environment_3123.txt": "b807de0c9d056ec0f8d3a5fb12dec11b1e27b2cc3cec4b8976c26ff2f259459a",
+    "docs/nana_shadow_host_compat_evidence/initial_harness_original_runtime_3123_junit.xml": "6df54315609f5dfd01a3bbf3ff75173ea64cf40d2e2071ed122fa3bd63638f06",
+    "docs/nana_shadow_host_compat_evidence/initial_harness_original_runtime_3123_regression.txt": "043cc582feff436df8b877e578e283fd63923d540bfd987581ff3a768547d2a6",
+    "docs/nana_shadow_host_compat_evidence/original_entry_3123.json": "7d2d171e6cdde713f77b2ee4a9d8e8875940f4291746b41198f3e8fbc252847c",
+    "docs/nana_shadow_host_compat_evidence/original_runtime_3123_junit.xml": "6f3d67425e388e3708c5a560aa7d34f61b85b8bf7073cf1c7a541e9daf5fe9ea",
+    "docs/nana_shadow_host_compat_evidence/original_runtime_3123_regression.txt": "06058e96d63fcf3abd07865b610e33dfa2ae3094669c41031c67ffdfd4a56074",
+    "docs/nana_shadow_host_compat_evidence/python-private": "1eeb2e31cc4c9d8cc5da085e90a859e2460acb7dcf061ea70c4907c86744732f",
+    "docs/nana_shadow_host_compat_evidence/smoke_3123.json": "170b642dd20c2ff77abc7ede0a90911cf2c5ac74b74da069b6b9d214dc5fb6ae",
+    "docs/nana_shadow_host_compat_evidence/smoke_abi.py": "fcaa1b46b86567cfa525106f3bc415b66359406e71b47756b0888f35f887c098",
+    "docs/nana_shadow_host_compat_evidence/targeted_31214.txt": "232555f563c10474364f03e6aca354173488ae98e35ebbe26c0173187ec5ac40",
+    "docs/nana_shadow_host_compat_evidence/targeted_3123.txt": "232555f563c10474364f03e6aca354173488ae98e35ebbe26c0173187ec5ac40",
+    "docs/nana_shadow_host_compat_evidence/test_entry.py": "3849efb2a1dd4a6df95ed834f6c4a6abc9fd9d96b61e73c2d568c12e27ac5820",
+    "tests/integration/test_host_compat.py": "8bc61cc3504b729c91fb580205c2945dcee5c1b70831826e0f5e492ac6201497",
+    "tools/nana_host_shadow/bootstrap.py": "5ae5c8cc95ca178d1c4319e02ddb2063b16e98a797c0c096ddb081141eb7815d",
+    "tools/nana_host_shadow/bootstrap_entry.py": "3181ac7120f133ca80d7aed873d93976a1188654e421ea55e054b1307c047afb",
+    "tools/nana_host_shadow/isolated_runtime.py": "a962316757e897ab8269ab910f77908e18c86aca20ce2e59f75e667fd4d18f1f"
+  },
+  "scope": "controlled development code and synthetic/runtime evidence; excludes self/ledgers"
+}

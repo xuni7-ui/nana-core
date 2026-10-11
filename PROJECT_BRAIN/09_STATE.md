@@ -347,3 +347,13 @@
 [实测] C-066：Shadow Bootstrap startup isolation: disable global site hooks and fail closed before bundle access; 25 targeted passed；指纹锚点 431dc2faf4e6ed582355fec6fc6a0d8efc62035709b3fb971b0230e9f7acd2cb；仅本检查点文件状态，不证明生产。
 
 [实测] C-067：Shadow Bootstrap FINAL: 306 passing regressions, isolated archive SIGKILL recovery, compatibility matrix and exact operator upload receipt；指纹锚点 97639b5ec7269707930f1916cbaa6233bcfe5303a485d03b1ae36f4df743c702；仅本检查点文件状态，不证明生产。
+
+## 2026-10-11 UTC · Real Host ABI fix 开发验证
+
+- [用户提供] 新真实宿主preflight事实为Ubuntu24.04/x86_64/glibc2.39/Python3.12.3/SOABI cpython-312-x86_64-linux-gnu；旧包已到宿主，但BLOCKED_RUNTIME_ABI。本轮不登录宿主，不把用户提供的报告当成本轮实机采集。
+- [实测] 旧入口在private extension load前精确要求3.12.14，actual Ubuntu3.12.3复现该拒绝；不能从patch字符串推导ABI不兼容。
+- [实测] 独立Docker Ubuntu24.04/glibc2.39/真正CPython3.12.3（3.12.3-1ubuntu0.17），SOABI/EXT_SUFFIX匹配；使用原私有binding c18e64abba400c9c1ee91327680ce388dd51b4fb090b52ad829257ba19d82705，SQLite3.51.3/Pydantic2.13.5。原runtime全量306pass/0fail/0error/1skip(E12)，bounded205连接refcount53->53，WAL/backup PASS。首轮缺Git的4fail/6errors日志保留，补齐开发镜像后通过，未改断言。
+- [实测] 修正ABI/失败分类及原Shadow回归targeted37pass。新包待固定support提交后生成；批准Core55文件仍ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513；仅改support ABI条件/metadata并复用旧runtime二进制，不降SQLite门、不携带完整Python。
+- [未知] 新包真实宿主复测尚未运行；AstrBot实际hook UNKNOWN、E12 NOT_RUN、真实模型0。本轮生产修改/私忆/secret值/外部消息均0。
+
+[实测] C-068：Shadow host ABI: actual Ubuntu CPython3.12.3 verifies original runtime, classified preflight and ABI policy; 37 targeted passed；指纹锚点 2c8834c8a290ae9c5efb3457f1a31c625feeef88620d06276a9979d66bb2a0bd；不证明生产运行。

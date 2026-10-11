@@ -220,3 +220,7 @@
 
 ## 2026-10-11 · Bootstrap 启动隔离
 [文档/实测] 仅-I不会阻止全局site初始化，因此操作者Bootstrap必须-I -B -S；entry在任何bundle/Core/private runtime访问前检查isolated/no_site/dont_write_bytecode标志，缺失BLOCKED_STARTUP_ISOLATION。宿主Pydantic仅通过标准安装位置distribution metadata检查，不导入全局sitepackages；不可见的venv版本保留UNKNOWN。批准Core55文件不变；新support3aba归档取代旧67bc候选，实际解包及SIGKILL验收PASS、全量306pass/1skip。
+
+## 2026-10-11 · ABI shape 与 patch 回归覆盖分离
+[实测] SUPERSEDES Bootstrap精确Python3.12.14兼容门：同一原stdlib private binding在实际Ubuntu24.04/CPython3.12.3/glibc2.39通过306回归和真实WAL/backup/refcount测量，故补丁字符串不是已证明的ABI限制。
+[文档] 硬门采用CPython/minor3.12/normal ABI/Linux/x86_64/exact SOABI+suffix/glibc>=2.34及private extension/dependency实际加载；3.12.3、3.12.14为已测release，其余patch明确UNTESTED，不自动宣称full regression兼容。失败必须输出具体分类和非秘密环境metadata。保留-I -B -S、SQLite3.51.3、Core固定55文件；不升级宿主，不重建原runtime，不新增完整Python。

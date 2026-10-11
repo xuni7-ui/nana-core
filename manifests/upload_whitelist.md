@@ -115,3 +115,10 @@ Cloud bridge authorization: src/nana_core/integration/*.py, explicit ActionKerne
 First real Shadow authorization: tools/nana_host_shadow/*.py, tests/integration/test_first_shadow.py, docs/nana_first_cloud_shadow.md, docs/nana_first_shadow_evidence/{*.json,*.txt,*.xml}, manifests/nana_first_shadow*.json, PROJECT_BRAIN append records, LICENSES_AND_PROVENANCE.md. Fixed Core package built only in temporary isolated directory; runtime DB and bundle binaries excluded.
 
 Shadow Bootstrap: tools/nana_host_shadow/*.py, tests/integration/test_bootstrap.py, docs/nana_shadow_bootstrap.md, docs/nana_shadow_bootstrap_evidence/* (synthetic/version/hash/licensing/reproducer evidence), manifests/nana_shadow_bootstrap*.json, PROJECT_BRAIN append, LICENSES_AND_PROVENANCE.md, pyproject.toml and Core metadata preflight patch acceptance. No source runtime DB, binary or private snapshot upload.
+# 2026-10-11 · Host ABI compatibility development delivery
+
+- `tools/nana_host_shadow/bootstrap_entry.py`, `bootstrap.py`, `isolated_runtime.py`：ABI条件/报告及原runtime复用。
+- `tests/integration/test_host_compat.py`：失败分类工程夹具，不冒充实际解释器运行。
+- `docs/nana_shadow_host_compat.md`, `docs/nana_shadow_host_compat_evidence/*`：脱敏开发版本/测试/来源证据；不含DB/真实宿主数据。
+- `manifests/nana_shadow_host_compat_*.json`：指纹/白名单/逐文件检查清单。
+- `artifacts/shadow-bootstrap/nana-shadow-bootstrap-host3123-*.tar.gz`：仅当前批准Core+审核support+固定licensed runtime的单文件生成交付归档。逐archive entry/hash/license/credential扫描后允许保存私有开发分支，不能包含data/、DB、secret、生产配置或上游源码镜像。不是生产部署或第三方source vendoring目录。
