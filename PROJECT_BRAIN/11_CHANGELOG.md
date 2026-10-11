@@ -707,3 +707,13 @@
 - 改了什么：Atomic receipt and D-045 ingress/proof; 42 targeted passed, five actual SIGKILL boundaries; R03 pre-existing preflight drift disclosed; files in manifests/fingerprints_r04.json.
 - 为什么：one reviewed metadata observation, D-045 gates retained, approved Core unchanged.
 - 怎么验证：targeted evidence in docs/nana_r04_evidence, staged diff/secret/private-artifact allowlist checks; development only.
+
+## R04-C6-C7
+- 改了什么：Failure-isolated real-metadata callback and read-only operator CLI; 53 targeted passed; files in manifests/fingerprints_r04.json.
+- 为什么：one reviewed metadata observation, D-045 gates retained, approved Core unchanged.
+- 怎么验证：targeted evidence in docs/nana_r04_evidence, staged diff/secret/private-artifact allowlist checks; development only.
+
+## R04-C6-C8
+- 改了什么：Fail-closed operator CLI, 65 targeted passes, dormant message-only plugin and gated package/runbook; files in manifests/fingerprints_r04.json.
+- 为什么：one reviewed metadata observation, D-045 gates retained, approved Core unchanged.
+- 怎么验证：targeted evidence in docs/nana_r04_evidence, staged diff/secret/private-artifact allowlist checks; development only.

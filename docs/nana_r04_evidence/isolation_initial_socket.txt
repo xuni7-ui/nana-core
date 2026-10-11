@@ -1,0 +1,81 @@
+......F..............................................                    [100%]/tmp/nana-bootstrap-build/deps/_pytest/unraisableexception.py:33: RuntimeWarning: coroutine 'test_full_adapter_no_body_no_mutation_network_model_and_no_reply.<locals>.run' was never awaited
+  gc.collect()
+RuntimeWarning: Enable tracemalloc to get the object allocation traceback
+/tmp/nana-bootstrap-build/deps/_pytest/unraisableexception.py:67: PytestUnraisableExceptionWarning: Exception ignored in: <function BaseEventLoop.__del__ at 0x7fb5221a7880>
+
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py", line 732, in __del__
+    self.close()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/unix_events.py", line 68, in close
+    super().close()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/selector_events.py", line 104, in close
+    self._close_self_pipe()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/selector_events.py", line 111, in _close_self_pipe
+    self._remove_reader(self._ssock.fileno())
+                        ^^^^^^^^^^^
+AttributeError: '_UnixSelectorEventLoop' object has no attribute '_ssock'
+
+Enable tracemalloc to get traceback where the object was allocated.
+See https://docs.pytest.org/en/stable/how-to/capture-warnings.html#resource-warnings for more info.
+  warnings.warn(pytest.PytestUnraisableExceptionWarning(msg))
+
+=================================== FAILURES ===================================
+_______ test_full_adapter_no_body_no_mutation_network_model_and_no_reply _______
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-124/test_full_adapter_no_body_no_m0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fb52237dd90>
+
+    def test_full_adapter_no_body_no_mutation_network_model_and_no_reply(tmp_path,monkeypatch):
+        import socket
+        monkeypatch.setattr(socket,'socket',lambda *a,**k:(_ for _ in ()).throw(AssertionError('NETWORK_FORBIDDEN')))
+        a,s,r=make(tmp_path/'shadow');e=event();before=dict(vars(e));obj=dict(vars(e.message_obj))
+        async def run():
+            assert await a.on_decorating_result(e) is None
+            assert a.observer.last_result['status']=='RECORDED'
+            result=a.observer.last_result['receipt']
+            assert result['trust_domain']=='FIXTURE' and result['core']['barrier_result']=='SHADOW_BLOCKED'
+            assert await a.on_decorating_result(e) is None
+            assert a.observer.last_result['status']=='DROP_ONE_SHOT_FAILURE'
+            await a.close()
+>       asyncio.run(run())
+
+tests/nana_shadow/test_r04_isolation.py:40:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:194: in run
+    with Runner(debug=debug, loop_factory=loop_factory) as runner:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:58: in __enter__
+    self._lazy_init()
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:137: in _lazy_init
+    self._loop = events.new_event_loop()
+                 ^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/events.py:823: in new_event_loop
+    return get_event_loop_policy().new_event_loop()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/events.py:720: in new_event_loop
+    return self._loop_factory()
+           ^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/unix_events.py:64: in __init__
+    super().__init__(selector)
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/selector_events.py:66: in __init__
+    self._make_self_pipe()
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/selector_events.py:120: in _make_self_pipe
+    self._ssock, self._csock = socket.socketpair()
+                               ^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:660: in socketpair
+    a = socket(family, type, proto, a.detach())
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/nana_shadow/test_r04_isolation.py:30: in <lambda>
+    monkeypatch.setattr(socket,'socket',lambda *a,**k:(_ for _ in ()).throw(AssertionError('NETWORK_FORBIDDEN')))
+                                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+.0 = <tuple_iterator object at 0x7fb522ef4ee0>
+
+>   monkeypatch.setattr(socket,'socket',lambda *a,**k:(_ for _ in ()).throw(AssertionError('NETWORK_FORBIDDEN')))
+E   AssertionError: NETWORK_FORBIDDEN
+
+tests/nana_shadow/test_r04_isolation.py:30: AssertionError
+=========================== short test summary info ============================
+FAILED tests/nana_shadow/test_r04_isolation.py::test_full_adapter_no_body_no_mutation_network_model_and_no_reply
+1 failed, 52 passed in 1.50s

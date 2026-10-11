@@ -225,7 +225,7 @@ class ReceiptLedger:
             or metadata.event_source!=REAL_SOURCE or metadata.synthetic is not False
             or metadata.probe_id!='nana-probe-'+rid): raise ValueError('RECEIPT_SCOPE_MISMATCH')
         t=utc(metadata.timestamp)
-        if not utc(r.issued_at)-timedelta(seconds=SKEW_SECONDS)<=t<utc(r.expires_at): raise ValueError('EVENT_TIME_OUT_OF_SCOPE')
+        if not utc(r.issued_at)-timedelta(seconds=SKEW_SECONDS)<=t<utc(r.expires_at) or t>now+timedelta(seconds=SKEW_SECONDS): raise ValueError('EVENT_TIME_OUT_OF_SCOPE')
         event_key='r04.consumed_event:'+digest([r.hash_scope,metadata.platform,metadata.conversation_hash,metadata.event_id])
         if self.store.one('core_meta',event_key): raise ValueError('EVENT_REPLAY_BLOCKED')
         with self.store.transaction('r04.receipt_consumed',{'receipt_id':rid,'event_hash':metadata.event_id}) as tx:

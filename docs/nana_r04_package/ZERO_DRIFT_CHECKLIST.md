@@ -1,0 +1,2 @@
+# Zero drift
+Record metadata-only pre/postsource/config hashes/service health/registry/owner/memory authority. Shadow-attributed external writes/messages/model/network/Iris writes0; actions/attempts/grants/productionbudgets0. Legacy natural reply/network/model traffic is NOT Shadow traffic; identify attribution rather than asserting the whole host has no activity. No private DB/body/profile/secret reads.

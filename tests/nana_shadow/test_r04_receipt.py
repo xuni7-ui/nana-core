@@ -172,3 +172,25 @@ def test_tampered_artifact_cannot_be_declared_verified(tmp_path):
     assert verify_first_real_message_shadow(report,l)['status']=='INCOMPLETE'
     with pytest.raises(ValueError):mark_verified(report,l)
     sink.close()
+
+@pytest.mark.parametrize('raw',[None,{},'{}','x'*10000])
+def test_receipt_missing_null_oversize_or_unknown_shape(raw):
+    with pytest.raises(ValueError):parse_receipt(raw)
+
+def test_forged_review_digest_never_arms(tmp_path):
+    sink,l,r=setup(tmp_path/'shadow')
+    changed=receipt(binding=l.binding,review_receipt_digest='f'*64)
+    # Fixture construction helper seals reviews, so deliberately break the seal here.
+    changed=changed.model_copy(update={'review_receipt_digest':'f'*64})
+    l.create(changed)
+    with pytest.raises(ValueError,match='UNTRUSTED'):l.review(changed.receipt_id,review_document(changed))
+    assert l.status(changed.receipt_id)['uses']==0
+    sink.close()
+
+def test_backup_copy_quarantine_cannot_revive_receipt(tmp_path):
+    sink,l,r=setup(tmp_path/'shadow');arm(l,r)
+    out=tmp_path/'backup';out.mkdir(mode=0o700)
+    l.store.backup(out/'observer-shadow.db')
+    copied=OneShotCoreSink(out,OneShotSanitizer(scope='r04-test',hash_key=b'F'*32,receipt_id=r.receipt_id),r.receipt_id,trust=FixtureTrustStore())
+    with pytest.raises(ValueError,match='RESTORED_STORE_BLOCKED'):copied.accept(dict(RAW))
+    copied.close();sink.close()

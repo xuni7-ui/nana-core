@@ -71,3 +71,58 @@ exec "$python" -I -B -S "$base/observer_entry.py" "$base" "$@"
                     b=p.read_bytes();i=tarfile.TarInfo(root.name+'/'+str(p.relative_to(root)));i.size=len(b);i.mode=0o700 if p.suffix=='.sh' else 0o600;i.mtime=0;t.addfile(i,io.BytesIO(b))
     return {'filename':archive.name,'bytes':archive.stat().st_size,'SHA256':digest(archive.read_bytes()),'support_source_SHA':support_sha,
             'Core_source_SHA':m['Core_source_SHA'],'runtime_sha256':rt['runtime_sha256'],'binding_status':'BLOCKED_AUTH_REQUIRED'}
+
+
+def create_r04(repo,destination,*,runtime_from):
+    """Reuse fixed Core/runtime builder; add a dormant message-only plugin ZIP.
+
+    No install action and no fixture trust pin. Private runtime only belongs to
+    isolated CLI/harness, never load into already-running AstrBot interpreter.
+    """
+    import zipfile
+    repo=Path(repo);root=Path(destination)
+    if subprocess.check_output(['git','status','--porcelain','--','src/plugins/astrbot_plugin_nana_shadow_observer','docs/nana_r04_package'],cwd=repo,text=True):
+        raise ValueError('COMMITTED_PLUGIN_AND_RUNBOOK_REQUIRED')
+    # Existing builder creates a verified kit in the new directory. Preserve its
+    # intermediate archive; final R04 archive has a separate explicit suffix.
+    create(repo,root,runtime_from=runtime_from)
+    plugin=root/'plugin';plugin.mkdir()
+    source=repo/'src/plugins/astrbot_plugin_nana_shadow_observer'
+    files={'main.py':(source/'r04_main.py').read_bytes(),
+           'message_hook_adapter.py':(source/'message_hook_adapter.py').read_bytes(),
+           'metadata.yaml':b'name: astrbot_plugin_nana_shadow_observer\nauthor: nana-core\nversion: 0.0.4\ndesc: R04 dormant one-shot metadata shadow development package\n'}
+    with zipfile.ZipFile(plugin/'nana-shadow-r04-observer.zip','x',compression=zipfile.ZIP_DEFLATED) as z:
+        for name,data in sorted(files.items()):
+            info=zipfile.ZipInfo('astrbot_plugin_nana_shadow_observer/'+name,date_time=(2026,10,11,0,0,0))
+            info.external_attr=0o600<<16;z.writestr(info,data)
+    (root/'R04_RUNBOOK').mkdir()
+    for p in sorted((repo/'docs/nana_r04_package').glob('*.md')):shutil.copyfile(p,root/'R04_RUNBOOK'/p.name)
+    shutil.copyfile(repo/'tools/nana_astrbot_shadow/r04_entry.py',root/'r04_entry.py')
+    script=root/'r04.sh'
+    script.write_text('''#!/bin/sh
+set -eu
+base=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+python=$(command -v python3.12 || command -v python3) || exit 2
+exec "$python" -I -B -S "$base/r04_entry.py" "$base" "$@"
+''');script.chmod(0o700)
+    m=json.loads((root/'manifest.json').read_text())
+    m.update(r04='IMPLEMENTED_TESTED_DEVELOPMENT_ONLY',production_trust_pins=0,real_runtime_proof_pins=0,
+        real_astrbot_load='NOT_RUN',real_dispatcher_traversal='NOT_VERIFIED',host_binding='UNVERIFIED',E12='NOT_RUN',
+        plugin='plugin/nana-shadow-r04-observer.zip',plugin_automatically_armed=False,
+        plugin_support_wiring='operator-injected approved module path; no auto path/sys.modules/private runtime injection',
+        native_host_sqlite_required='>=3.51.3; private runtime cannot replace running AstrBot imports')
+    m['files']={str(p.relative_to(root)):digest(p.read_bytes()) for p in root.rglob('*')
+                if p.is_file() and p.name not in ('manifest.json','SHA256SUMS')}
+    private_file(root/'manifest.json',m,replace=True)
+    (root/'SHA256SUMS').write_text(''.join(h+'  '+n+'\n' for n,h in sorted(m['files'].items()))+digest((root/'manifest.json').read_bytes())+'  manifest.json\n')
+    verify_package(root)
+    archive=root.parent/(root.name+'-delivery.tar.gz')
+    with archive.open('xb') as f:
+        with gzip.GzipFile(fileobj=f,mode='wb',mtime=0,filename='') as z:
+            with tarfile.open(fileobj=z,mode='w') as t:
+                for p in sorted(root.rglob('*')):
+                    if not p.is_file():continue
+                    b=p.read_bytes();i=tarfile.TarInfo(root.name+'/'+str(p.relative_to(root)));i.size=len(b);i.mode=0o700 if p.suffix=='.sh' else 0o600;i.mtime=0;t.addfile(i,io.BytesIO(b))
+    return {'filename':archive.name,'bytes':archive.stat().st_size,'SHA256':digest(archive.read_bytes()),
+        'support_source_SHA':m['support_source_SHA'],'Core_source_SHA':m['Core_source_SHA'],
+        'runtime_sha256':m['runtime_sha256'],'host_binding':'UNVERIFIED','production_trust_pins':0}

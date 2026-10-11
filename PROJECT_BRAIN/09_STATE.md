@@ -461,3 +461,7 @@
 [实测/开发] R04-C1 strict receipt contract14passed; fixed Literal accepting bool-as1 via pre-validation, failure log retained. max_uses1/window<=600sec/UTC/scoped hashes/store binding/strict canonical JSON. Production trust pins empty; no Core changes.
 
 [实测/开发] R04-C2-C5: Atomic receipt and D-045 ingress/proof; 42 targeted passed, five actual SIGKILL boundaries; R03 pre-existing preflight drift disclosed. Fingerprint anchor f6f9186edf890c1bc6c253dac74779ccaf37ca05430d4303266816109c83ea88; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
+
+[实测/开发] R04-C6-C7: Failure-isolated real-metadata callback and read-only operator CLI; 53 targeted passed. Fingerprint anchor 0ec78b45d7e7dcd9c01a8edbfff2b14c1d451d050d66d0b43d4bee122d42d124; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
+
+[实测/开发] R04-C6-C8: Fail-closed operator CLI, 65 targeted passes, dormant message-only plugin and gated package/runbook. Fingerprint anchor 783fe3d03faf4cbdaf71bc996aed0c05a1509480712b56cb744970c463f1b10b; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
