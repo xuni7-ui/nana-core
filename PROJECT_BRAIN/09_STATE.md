@@ -485,3 +485,5 @@
 [实测/开发] R04-FINAL: Remote final asset bytes independently verified; handoff and ordered commit range, no further source changes. Fingerprint anchor 50f12ebcb238029e35ede95641c2ebf72896817dee28729af8a91fb7a42e0747; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
 
 [实测/开发] R041-M1: Bounded stdlib UDS metadata channel, R04 single-writer ingress and foreground session fence; 106 targeted passed; anchorf9efeadd9dfa8f84bb726b4ff45e8746f19d5dc529ff4fa5b491b37a53eb4239. SHORT_LIVED_HOST_BRIDGE IMPLEMENTED/TESTED only. Real host bridge/load/one-shot NOT_RUN, dispatcher NOT_VERIFIED, host_binding UNVERIFIED, FIRST_REAL_ASTRBOT_SHADOW BLOCKED, E12 NOT_RUN.
+
+[实测/开发] R041-M2: Old-SQLite client isolation, three actual worker SIGKILLs, PID/socket-fenced stop cleanup and adversarial lifecycle; 126 targeted passed; anchor0bf4becd75a5f66e5ffd180b3da1476fe7e13fd99ea2adf21fb26e9413ba76a8. SHORT_LIVED_HOST_BRIDGE IMPLEMENTED/TESTED only. Real host bridge/load/one-shot NOT_RUN, dispatcher NOT_VERIFIED, host_binding UNVERIFIED, FIRST_REAL_ASTRBOT_SHADOW BLOCKED, E12 NOT_RUN.

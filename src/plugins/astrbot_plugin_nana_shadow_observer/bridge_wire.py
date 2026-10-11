@@ -135,7 +135,8 @@ def process_fingerprint(pid):
     # Process start time only, not cmdline/env/credentials.
     text=Path('/proc')/str(pid)/'stat'
     start=text.read_text().rsplit(')',1)[1].split()[19]
-    return sha([pid,start])
+    boot=Path('/proc/sys/kernel/random/boot_id').read_text().strip()
+    return sha([pid,start,boot])
 
 def validate_socket(c):
     p=Path(c['socket_path']);private_directory(p.parent)

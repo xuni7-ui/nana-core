@@ -37,7 +37,8 @@ def verified_session(directory,ipc):
         # A forged sidecar cannot turn stop into an arbitrary PID signal.
         if (value['session_id']!=row['session_id'] or value['store_binding']!=l.binding
             or value['pid']!=row['pid'] or value['pid_fingerprint']!=row['pid_fingerprint']
-            or value['ipc_hash']!=sha(str(private_directory(ipc)))):raise ValueError('BRIDGE_SESSION_FENCE_DRIFT')
+            or value['ipc_hash']!=sha(str(private_directory(ipc)))
+            or value.get('socket_device')!=row['socket_device'] or value.get('socket_inode')!=row['socket_inode']):raise ValueError('BRIDGE_SESSION_FENCE_DRIFT')
     return row
 
 def stop(directory,ipc):

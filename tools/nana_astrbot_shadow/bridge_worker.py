@@ -37,6 +37,7 @@ class ShortLivedWorker:
         if type(self.trust) is ProductionTrustStore:
             with operator_ledger(self.directory) as l:
                 r,v=l.record(self.rid)
+                if l.store.one('core_meta','r041.receipt_session:'+self.rid):raise ValueError('BRIDGE_SESSION_REPLAY')
                 if v['state']!='ARMED' or not l._review_valid(r,v['review']):raise ValueError('BRIDGE_RECEIPT_NOT_ARMED_TRUSTED')
                 key=json.loads(l.store.one('core_meta','r04.hash_key')['value_json'])
                 scope=json.loads(l.store.one('core_meta','r04.hash_scope')['value_json'])
@@ -46,6 +47,7 @@ class ShortLivedWorker:
             with Store(self.directory/'observer-shadow.db') as store:
                 from .one_shot import ReceiptLedger
                 l=ReceiptLedger(store,self.trust);r,v=l.record(self.rid)
+                if store.one('core_meta','r041.receipt_session:'+self.rid):raise ValueError('BRIDGE_SESSION_REPLAY')
                 key=json.loads(store.one('core_meta','r04.hash_key')['value_json'])
                 scope=json.loads(store.one('core_meta','r04.hash_scope')['value_json'])
         if scope!=r.hash_scope or v['state']!='ARMED' or not l._review_valid(r,v['review']):raise ValueError('BRIDGE_RECEIPT_SCOPE')
@@ -100,6 +102,7 @@ class ShortLivedWorker:
             st=Path(path).lstat();self._socket_identity=(st.st_dev,st.st_ino)
             self.config.update(socket_device=st.st_dev,socket_inode=st.st_ino)
             decode_config((canonical(self.config)+'\n').encode())
+            await loop.run_in_executor(executor,self._publish_on_writer)
             private_file(self.ipc/'client.json',self.config)
             private_file(self.ipc/'session.json',self._summary('RUNNING'))
             remaining=max(0,(utc(self.config['expires_at'])-datetime.now(timezone.utc)).total_seconds())
@@ -171,6 +174,13 @@ class ShortLivedWorker:
             except BaseException:pass
             self.connections.discard(task)
 
+    def _publish_on_writer(self):
+        l=self._sink.ledger();key='r041.receipt_session:'+self.rid
+        value=json.loads(l.store.one('core_meta',key)['value_json'])
+        value.update(phase='BOUND',socket_device=self.config['socket_device'],socket_inode=self.config['socket_inode'])
+        with l.store.transaction('r041.session_bound',{'session_id':self.config['session_id']}) as tx:
+            tx.put('core_meta',{'key':key,'value_json':canonical(value)})
+
     def _finish_on_writer(self):
         l=self._sink.ledger()
         report=collect(l,self.rid,observer_callback_received=self.used,sanitizer_accepted=self.core_recorded,
@@ -180,7 +190,8 @@ class ShortLivedWorker:
         with l.store.transaction('r041.session_closed',{'session_id':self.config['session_id']}) as tx:
             tx.put('core_meta',{'key':fence,'value_json':canonical({'session_id':self.config['session_id'],
                 'store_binding':l.binding,'phase':'CLOSED','expires_at':self.config['expires_at'],
-                'pid':self.config['server_pid'],'pid_fingerprint':self.config['server_fingerprint'],'ipc_hash':sha(str(self.ipc))})})
+                'pid':self.config['server_pid'],'pid_fingerprint':self.config['server_fingerprint'],'ipc_hash':sha(str(self.ipc)),
+                'socket_device':self.config['socket_device'],'socket_inode':self.config['socket_inode']})})
         return {'status':verdict['status'],'proof':report,'verification':verdict,'receipt':l.status(self.rid),
                 'session_id':self.config['session_id'],'frames_seen':self.attempts,
                 'external_execute':False,'host_binding':'UNVERIFIED','real_host_bridge':'NOT_RUN','E12':'NOT_RUN'}
