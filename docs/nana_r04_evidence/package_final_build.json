@@ -1,10 +1,10 @@
 {
   "Core_source_SHA": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
-  "SHA256": "cd27698fb9e815a8b55e9034142a79bca7f795042bd0ddab62a17f29c9e7d65f",
-  "bytes": 3324800,
-  "filename": "nana-r04-one-shot-3b7f5ec14754-delivery.tar.gz",
+  "SHA256": "91e5c29e2b50b52f9931d44331770cbc577c4bbda027f743fb6cb87154b6749b",
+  "bytes": 3325152,
+  "filename": "nana-r04-one-shot-d025636c2682-delivery.tar.gz",
   "host_binding": "UNVERIFIED",
   "production_trust_pins": 0,
   "runtime_sha256": "95c7215bc78d43cae809e99fcc65c1572cd611c87ae273afb80138b61c01e6ec",
-  "support_source_SHA": "3b7f5ec147549b78914c40584262ac2126203d07"
+  "support_source_SHA": "d025636c2682f84c36be12007f1a4058ffaf5b2e"
 }

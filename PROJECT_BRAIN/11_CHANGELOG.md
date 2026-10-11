@@ -732,3 +732,8 @@
 - 改了什么：Stdlib hash gate before package execution and fixed proof diagnostics; 64 targeted passed, full468 passed one E12 skip; files in manifests/fingerprints_r04.json.
 - 为什么：one reviewed metadata observation, D-045 gates retained, approved Core unchanged.
 - 怎么验证：targeted evidence in docs/nana_r04_evidence, staged diff/secret/private-artifact allowlist checks; development only.
+
+## R04-RELEASE
+- 改了什么：Reviewed downloadable archive and extracted-package validation; full468 passed, one E12 skip, zero production operations; files in manifests/fingerprints_r04.json.
+- 为什么：one reviewed metadata observation, D-045 gates retained, approved Core unchanged.
+- 怎么验证：targeted evidence in docs/nana_r04_evidence, staged diff/secret/private-artifact allowlist checks; development only.

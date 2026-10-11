@@ -471,3 +471,5 @@
 [实测/开发] R04-C8-SEAL: Exact UTC microseconds, non-remintable permit and single-writer rollback instructions; 63 targeted passed. Fingerprint anchor 219f64680149c80802b5cce92ee4f00406649d3fcb79d862fc8fdb26323895a9; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
 
 [实测/开发] R04-C8-INTEGRITY: Stdlib hash gate before package execution and fixed proof diagnostics; 64 targeted passed, full468 passed one E12 skip. Fingerprint anchor 7472c6fc703cb2ea739560203b0c74136e7e1b9464bf7a9aedb0c0d5a42bfaa9; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
+
+[实测/开发] R04-RELEASE: Reviewed downloadable archive and extracted-package validation; full468 passed, one E12 skip, zero production operations. Fingerprint anchor 1c3c4503474ea7bb53c595ea2a944da5d50db6e1e9091da863a0e4e1eb2f7eba; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
