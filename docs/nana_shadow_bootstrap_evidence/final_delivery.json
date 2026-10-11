@@ -4,7 +4,7 @@
   "branch": "dev/nana-core-v1-shadow-bootstrap",
   "base_SHA": "8ff57a3a227ee1c35ed34cf314866300e34d01f8",
   "approved_Core_SHA": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
-  "bundle_support_SHA": "67bc134045017763de989668d569c47b15ebfd74",
+  "bundle_support_SHA": "3aba4eb4253cb30f27141831a4c983d714594e3a",
   "final_documentation_SHA": "resolve from Git HEAD; no self-referential hash",
   "main_expected_SHA": "18bc736d5e37fe3325e514a0e975403df2f97c9f",
   "stages": {
@@ -72,7 +72,7 @@
     },
     "P14": {
       "status": "TESTED",
-      "detail": "final delivered native binding full305pass/0fail/0error/1skip; compatibility_matrix written"
+      "detail": "final delivered native binding full306pass/0fail/0error/1skip; compatibility_matrix written"
     },
     "P15": {
       "status": "IMPLEMENTED",
@@ -92,7 +92,7 @@
     }
   },
   "tests": {
-    "passed": 305,
+    "passed": 306,
     "failed": 0,
     "errors": 0,
     "skipped": 1,
@@ -101,24 +101,24 @@
       "python": "3.12.14",
       "sqlite": "3.51.3",
       "pydantic": "2.13.5",
-      "driver": "/workspace/nana-core/.nana-experiment/shadow-bootstrap/nana-shadow-bootstrap-67bc13404501/runtime/_sqlite3.cpython-312-x86_64-linux-gnu.so",
+      "driver": "/workspace/nana-core/.nana-experiment/shadow-bootstrap/nana-shadow-bootstrap-3aba4eb4253c/runtime/_sqlite3.cpython-312-x86_64-linux-gnu.so",
       "driver_sha256": "c18e64abba400c9c1ee91327680ce388dd51b4fb090b52ad829257ba19d82705"
     },
     "junit": "final_runtime_junit.xml"
   },
   "artifact": {
-    "archive": "/workspace/nana-core/.nana-experiment/shadow-bootstrap/nana-shadow-bootstrap-67bc13404501.tar.gz",
-    "SHA256": "61574b2533cba222e58da24bf4d2e31b768b3811e2dd136b9244d0fcc07993b7",
-    "bytes": 3268428,
-    "support_source_SHA": "67bc134045017763de989668d569c47b15ebfd74",
+    "archive": "/workspace/nana-core/.nana-experiment/shadow-bootstrap/nana-shadow-bootstrap-3aba4eb4253c.tar.gz",
+    "SHA256": "22ae38de7d2c751717a4ef351d0dc8f75491f2274a1bfea11e0a2e38c251b149",
+    "bytes": 3268730,
+    "support_source_SHA": "3aba4eb4253cb30f27141831a4c983d714594e3a",
     "support_worktree_dirty": false,
     "runtime_bytes": 8518899,
     "runtime_sha256": "95c7215bc78d43cae809e99fcc65c1572cd611c87ae273afb80138b61c01e6ec",
-    "artifact_name": "nana-shadow-bootstrap-67bc13404501.tar.gz",
-    "runtime_including_manifest_bytes": 8537017,
-    "package_sha256": "46cc319fd6eccaaed7fcfce49cbbd79ab264464597091881ded8f44a4f98ede8",
+    "artifact_name": "nana-shadow-bootstrap-3aba4eb4253c.tar.gz",
     "Core_source_SHA": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
-    "runtime_hash_semantics": "SHA256 of canonical per-file hash map; runtime_manifest.json excluded to avoid self-reference; included in outer bundle manifest",
+    "runtime_including_manifest_bytes": 8537017,
+    "package_sha256": "3e786cbe90e590931a381547f87e0a8b4c8f3685c87736a84b3d1f7e04443b93",
+    "runtime_hash_semantics": "SHA256 of canonical per-file hash map; runtime_manifest excluded from self-reference and included in outer manifest",
     "full_regression_binding_sha256": "c18e64abba400c9c1ee91327680ce388dd51b4fb090b52ad829257ba19d82705"
   },
   "runtime_versions": {
@@ -168,5 +168,15 @@
     "Native Iris production body extraction requires future separate authorization",
     "E12 real dual model remains NOT_RUN"
   ],
-  "artifact_status": "SUPERSEDED_FOR_DELIVERY_BY_PENDING_STARTUP_ISOLATION_REBUILD"
+  "artifact_status": "READY_DEVELOPMENT_VALIDATED_NOT_UPLOADED_TO_HOST",
+  "startup_isolation": {
+    "flags": [
+      "-I",
+      "-B",
+      "-S"
+    ],
+    "missing_flags": "BLOCKED_STARTUP_ISOLATION before package access",
+    "global_pth_or_sitecustomize_executed": false,
+    "targeted_tests_passed": 25
+  }
 }

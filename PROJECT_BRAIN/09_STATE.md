@@ -338,4 +338,12 @@
 
 [实测] 2026-10-11 startup isolation追加：bootstrap使用-I -B -S，缺任一标志在读取包前BLOCKED_STARTUP_ISOLATION；仅读全局安装metadata，不执行.pth/sitecustomize。25targeted passed。上条67bc归档/305回归作为历史实测保留；最终操作者包待本隔离修正commit后的新归档替换，不推给真实宿主。
 
+### 当前交付（SUPERSEDES 上条67bc候选归档；历史证据保留）
+
+- [实测] support固定3aba4eb4253cb30f27141831a4c983d714594e3a；批准Core仍ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513，55文件不变。最终归档nana-shadow-bootstrap-3aba4eb4253c.tar.gz，3,268,730bytes，SHA256=22ae38de7d2c751717a4ef351d0dc8f75491f2274a1bfea11e0a2e38c251b149。runtime含manifest8,537,017bytes，不含完整Python二进制；runtime内容图hash仍95c7215bc78d43cae809e99fcc65c1572cd611c87ae273afb80138b61c01e6ec。
+- [实测] 使用最终归档binding重新完整回归：306passed/0failed/0errors/1skipped（仅E12）。全新目录解包的-I -B -S preflight/probe/restart-check/实际SIGKILL(-9)/UNKNOWN回滚/恢复/rollback/collect与tamper阻断PASS；25targeted包括全局site启用时在任何包访问之前拒绝启动。完整证据final_bundle_validation.json、final_runtime_junit.xml、final_delivery.json、compatibility_matrix.json。
+- [未知] 实际宿主访问/上传/安装仍未运行，FIRST_REAL_CLOUD_SHADOW=BLOCKED_NO_HOST_CHANNEL；手工上传仍需要。宿主真实ABI/hook仍UNKNOWN，native Iris生产KV/runtime extraction未启用。真实模型0/E12 NOT_RUN、生产修改/调用/私忆/secret值/外部消息均0，新Core SQL表0。上条“待重建”已由本包开发验收闭合，不代表真实宿主验收闭合。
+
 [实测] C-066：Shadow Bootstrap startup isolation: disable global site hooks and fail closed before bundle access; 25 targeted passed；指纹锚点 431dc2faf4e6ed582355fec6fc6a0d8efc62035709b3fb971b0230e9f7acd2cb；仅本检查点文件状态，不证明生产。
+
+[实测] C-067：Shadow Bootstrap FINAL: 306 passing regressions, isolated archive SIGKILL recovery, compatibility matrix and exact operator upload receipt；指纹锚点 97639b5ec7269707930f1916cbaa6233bcfe5303a485d03b1ae36f4df743c702；仅本检查点文件状态，不证明生产。

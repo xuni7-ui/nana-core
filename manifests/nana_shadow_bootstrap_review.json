@@ -1,5 +1,5 @@
 {
-  "milestone": "C-066",
+  "milestone": "C-067",
   "reviewed_files": [
     "LICENSES_AND_PROVENANCE.md",
     "PROJECT_BRAIN/09_STATE.md",
@@ -63,11 +63,11 @@
   ],
   "allowlist_violations": [],
   "credential_pattern_findings": [],
-  "fingerprint_anchor": "431dc2faf4e6ed582355fec6fc6a0d8efc62035709b3fb971b0230e9f7acd2cb",
+  "fingerprint_anchor": "97639b5ec7269707930f1916cbaa6233bcfe5303a485d03b1ae36f4df743c702",
   "license_boundary": "Iris schema interoperability independently implemented; no AGPL code vendored; original license pending",
   "runtime_db_uploaded": false,
   "production_changes": false,
   "private_records_read": 0,
   "secret_values_read": 0,
-  "summary": "Shadow Bootstrap startup isolation: disable global site hooks and fail closed before bundle access; 25 targeted passed"
+  "summary": "Shadow Bootstrap FINAL: 306 passing regressions, isolated archive SIGKILL recovery, compatibility matrix and exact operator upload receipt"
 }

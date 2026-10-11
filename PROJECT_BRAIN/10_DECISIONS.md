@@ -217,3 +217,6 @@
 [文档] SQLite >=3.51.3 gate保留：SQL语法未依赖新版本，但官方3.51.3修复WAL-reset腐败；普通single-writer/SIGKILL测试不能证明外部连接checkpoint竞态不存在。本机实构stdlibCPython3.12.14 binding静态链接3.46.1跑schema/backup/WAL primitive PASS，但Core全量65fail/82errors为门阻断，不宣称支持；报告见bootstrap_evidence。
 [实测] SUPERSEDES preflight/Pyproject Pydantic==2.13.4精确门：只接受实测2.13.4与2.13.5，依赖区间>=2.13.4,<=2.13.5；29 DTO schema/serialization/rejections digest一致，2.13.5全量291pass/1skip。不推广到未测2.13.6或2.14。
 [文档] 本轮选isolated dependency runtime：复用已存在CPython3.12.14解释器，只在短时Shadow子进程加载私有标准SQLite binding3.51.3和私有Pydantic2.13.5；不替换系统库、不改AstrBot依赖、无全局LD_LIBRARY_PATH。不另造完整Python/第二自治Runtime；包要求Linux x86_64、glibc>=2.34，宿主ABI未实测保持UNKNOWN。
+
+## 2026-10-11 · Bootstrap 启动隔离
+[文档/实测] 仅-I不会阻止全局site初始化，因此操作者Bootstrap必须-I -B -S；entry在任何bundle/Core/private runtime访问前检查isolated/no_site/dont_write_bytecode标志，缺失BLOCKED_STARTUP_ISOLATION。宿主Pydantic仅通过标准安装位置distribution metadata检查，不导入全局sitepackages；不可见的venv版本保留UNKNOWN。批准Core55文件不变；新support3aba归档取代旧67bc候选，实际解包及SIGKILL验收PASS、全量306pass/1skip。

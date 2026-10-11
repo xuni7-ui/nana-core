@@ -1,12 +1,13 @@
 {
-  "archive": "/workspace/nana-core/.nana-experiment/shadow-bootstrap/nana-shadow-bootstrap-67bc13404501.tar.gz",
-  "SHA256": "61574b2533cba222e58da24bf4d2e31b768b3811e2dd136b9244d0fcc07993b7",
-  "bytes": 3268428,
-  "support_source_SHA": "67bc134045017763de989668d569c47b15ebfd74",
+  "archive": "/workspace/nana-core/.nana-experiment/shadow-bootstrap/nana-shadow-bootstrap-3aba4eb4253c.tar.gz",
+  "SHA256": "22ae38de7d2c751717a4ef351d0dc8f75491f2274a1bfea11e0a2e38c251b149",
+  "bytes": 3268730,
+  "support_source_SHA": "3aba4eb4253cb30f27141831a4c983d714594e3a",
   "support_worktree_dirty": false,
   "runtime_bytes": 8518899,
   "runtime_sha256": "95c7215bc78d43cae809e99fcc65c1572cd611c87ae273afb80138b61c01e6ec",
-  "artifact_name": "nana-shadow-bootstrap-67bc13404501.tar.gz",
+  "artifact_name": "nana-shadow-bootstrap-3aba4eb4253c.tar.gz",
+  "Core_source_SHA": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
   "runtime_manifest": {
     "ELF_maximum_GLIBC_symbol": "2.34",
     "architecture": "x86_64",
@@ -236,8 +237,7 @@
     ]
   },
   "runtime_including_manifest_bytes": 8537017,
-  "package_sha256": "46cc319fd6eccaaed7fcfce49cbbd79ab264464597091881ded8f44a4f98ede8",
-  "Core_source_SHA": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
-  "runtime_hash_semantics": "SHA256 of canonical per-file hash map; runtime_manifest.json excluded to avoid self-reference; included in outer bundle manifest",
+  "package_sha256": "3e786cbe90e590931a381547f87e0a8b4c8f3685c87736a84b3d1f7e04443b93",
+  "runtime_hash_semantics": "SHA256 of canonical per-file hash map; runtime_manifest excluded from self-reference and included in outer manifest",
   "full_regression_binding_sha256": "c18e64abba400c9c1ee91327680ce388dd51b4fb090b52ad829257ba19d82705"
 }

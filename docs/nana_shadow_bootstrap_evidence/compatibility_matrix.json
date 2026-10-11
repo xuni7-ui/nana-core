@@ -39,7 +39,7 @@
       "status": "SUPPORTED",
       "scope": "actual private stdlib binding, official WAL fix, measured full regression and extracted archive",
       "full_regression": {
-        "passed": 305,
+        "passed": 306,
         "failed": 0,
         "errors": 0,
         "skipped": 1
@@ -79,7 +79,7 @@
       "component": "Pydantic",
       "version": "2.13.5",
       "status": "SUPPORTED",
-      "scope": "full measured305;29 DTO digest same as2.13.4",
+      "scope": "full measured306;29 DTO digest same as2.13.4",
       "evidence": [
         "contract_2135.json",
         "final_runtime_regression.txt"
@@ -111,5 +111,6 @@
     "version_strings_mocked": false,
     "Core_gate_bypassed": false
   },
-  "interpretation": "SUPPORTED is limited to listed measured versions/scopes. UNSUPPORTED3.46.1 is reliability policy based on upstream evidence, not an assertion SQL syntax fails."
+  "interpretation": "SUPPORTED is limited to listed measured versions/scopes. UNSUPPORTED3.46.1 is reliability policy based on upstream evidence, not an assertion SQL syntax fails.",
+  "startup_isolation": "actual extracted archive -I -B -S; no global site initialization"
 }
