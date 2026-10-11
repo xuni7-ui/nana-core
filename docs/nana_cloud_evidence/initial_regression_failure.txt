@@ -1,0 +1,60 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/nana-core
+configfile: pyproject.toml
+testpaths: tests/offline_continuity, tests/semantic_migration, tests/migration, tests/development, tests/phase3, tests/integration
+plugins: anyio-4.14.2
+collected 281 items
+
+tests/offline_continuity/test_actions.py ............                    [  4%]
+tests/offline_continuity/test_contracts.py .......F                      [  7%]
+tests/offline_continuity/test_experiment.py ...s                         [  8%]
+tests/offline_continuity/test_hardening.py .........                     [ 11%]
+tests/offline_continuity/test_learning.py ...........                    [ 15%]
+tests/offline_continuity/test_runtime.py ........                        [ 18%]
+tests/offline_continuity/test_storage.py .....                           [ 20%]
+tests/semantic_migration/test_evaluation.py ..............               [ 25%]
+tests/semantic_migration/test_model_port.py ............................ [ 35%]
+                                                                         [ 35%]
+tests/migration/test_experiment.py .                                     [ 35%]
+tests/migration/test_legacy.py ...............                           [ 40%]
+tests/migration/test_shadow_routing.py .............                     [ 45%]
+tests/development/test_file_source.py ........................           [ 54%]
+tests/development/test_http_integration.py ...........                   [ 58%]
+tests/development/test_model_boundaries.py ....                          [ 59%]
+tests/development/test_public_http.py .................................. [ 71%]
+.......                                                                  [ 74%]
+tests/development/test_web_lab.py .                                      [ 74%]
+tests/development/test_web_source.py ...................                 [ 81%]
+tests/phase3/test_initiative.py ....                                     [ 82%]
+tests/phase3/test_iris_adapter.py ..........                             [ 86%]
+tests/phase3/test_memory.py .....                                        [ 87%]
+tests/phase3/test_network_stage.py ..                                    [ 88%]
+tests/phase3/test_selection_engineering.py ...............               [ 93%]
+tests/integration/test_authority.py .                                    [ 94%]
+tests/integration/test_engineering.py ....                               [ 95%]
+tests/integration/test_export_preflight.py ...                           [ 96%]
+tests/integration/test_host.py ..                                        [ 97%]
+tests/integration/test_initiative_persona.py ..                          [ 98%]
+tests/integration/test_session.py .                                      [ 98%]
+tests/integration/test_shadow.py ....                                    [100%]
+
+=================================== FAILURES ===================================
+______________________ test_no_host_or_production_imports ______________________
+
+    def test_no_host_or_production_imports():
+        for path in Path("src/nana_core").rglob("*.py"):
+            tree = ast.parse(path.read_text())
+            for node in ast.walk(tree):
+                names = ([a.name for a in node.names] if isinstance(node, ast.Import)
+                         else [node.module or ""] if isinstance(node, ast.ImportFrom) else [])
+>               assert not any(n.split(".")[0] in {"astrbot", "iris_memory", "bilibili_api", "openai"} for n in names)
+E               assert not True
+E                +  where True = any(<generator object test_no_host_or_production_imports.<locals>.<genexpr> at 0x7f20a9393030>)
+
+tests/offline_continuity/test_contracts.py:41: AssertionError
+- generated xml file: /workspace/nana-core/docs/nana_cloud_evidence/final_junit.xml -
+=========================== short test summary info ============================
+SKIPPED [1] tests/offline_continuity/test_experiment.py:21: E12 real-model gate requires configured development endpoints via nana-semantic; offline pytest makes no real-model calls
+FAILED tests/offline_continuity/test_contracts.py::test_no_host_or_production_imports
+================== 1 failed, 279 passed, 1 skipped in 12.37s ===================

@@ -41,3 +41,13 @@ def test_shadow_store_kernel_cannot_be_reenabled_by_operator(tmp_path):
         with pytest.raises(CoreError,match='SHADOW_BLOCKED'):k.propose('reading.source.read','source://synthetic/a',{'source_id':'source://synthetic/a'})
         with pytest.raises(CoreError,match='SHADOW_BLOCKED'):k.set_budgets({'write_attempts':10,'external_requests':10,'cost_micro_units':10},a)
         assert not s.all('budgets') and not s.all('actions') and not s.all('attempts')
+
+def test_shadow_rehearsal_actual_process_restart(tmp_path):
+    import os,subprocess,sys
+    from pathlib import Path
+    env=dict(os.environ);env['PYTHONPATH']=str(Path('src').resolve())
+    argv=[sys.executable,'-m','nana_core.integration.rehearsal',str(tmp_path/'lab')]
+    first=json.loads(subprocess.run(argv,env=env,capture_output=True,text=True,check=True).stdout)
+    second=json.loads(subprocess.run(argv,env=env,capture_output=True,text=True,check=True).stdout)
+    assert first['pid']!=second['pid'] and first['reconciliation']['event_id']==second['reconciliation']['event_id']
+    assert first['same_identity'] and second['same_identity'] and not any(second['zero_execution_tables'].values())

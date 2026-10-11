@@ -1,6 +1,7 @@
 """Synthetic cloud wiring rehearsal; no production runtime, model or network."""
 import argparse
 import json
+import os
 from pathlib import Path
 from ..storage import Store,canonical
 from ..migration.iris_fixtures import fixtures
@@ -11,7 +12,10 @@ from .shadow import ShadowBridge,ShadowDecision,ProposedHostAction,reconcile,hum
 def run(directory):
     p=Path(directory);p.mkdir(parents=True,exist_ok=True)
     rows=[(r.kind,r.legacy_key,json.loads(r.raw_json)) for r in fixtures()]
-    export=bundle(rows,'synthetic:host-iris')
+    frozen=p/'frozen_synthetic_export.json'
+    if frozen.exists():export=json.loads(frozen.read_text())
+    else:
+        export=bundle(rows,'synthetic:host-iris');frozen.write_text(canonical(export))
     event=HostEvent(host_instance='synthetic-host',platform='qq',channel='group',sender_id='synthetic-sister',event_id='message-1',
         conversation_id='synthetic-chat',content='Fictional research request',raw_content_reference='synthetic://host/message-1')
     with Store(p/'shadow.db') as s:
@@ -27,7 +31,7 @@ def run(directory):
         invariant={t:len(s.all(t)) for t in ('actions','attempts','budgets','grants','strategies','goals','plans')}
     assert all(n==0 for n in invariant.values())
     report={'status':'PASS','scope':'synthetic host event and hash-only Iris export; fixture decision; not cloud integration',
-        'same_identity':True,'duplicate_after_restart':True,'export_record_count':14,'zero_execution_tables':invariant,
+        'pid':os.getpid(),'same_identity':True,'duplicate_after_restart':True,'export_record_count':14,'zero_execution_tables':invariant,
         'production_calls':0,'real_model_calls':0,'external_messages':0,'E12':'NOT_RUN','reconciliation':reconciliation}
     return report
 

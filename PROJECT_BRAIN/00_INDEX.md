@@ -127,3 +127,5 @@
 - [实测] `docs/nana_core_development_evidence/`：安全元信息、实际节点/JUnit、CLI、SIGKILL/回环 HTTP 证据。
 
 - Phase III 最终交付（C-046）：[工程报告](../docs/nana_core_phase3_entry.md)、[真实Iris映射](../docs/nana_core_phase3_iris_mapping.md)、[实际验收清单](../docs/nana_core_phase3_evidence/final_delivery.json)。E12仍NOT_RUN，公网仍BLOCKED。
+
+- Cloud bridge C-053：[真实状态与接线架构](../docs/nana_cloud_integration_architecture.md)、[未来部署设计](../docs/nana_cloud_deployment.md)、[首次只读Shadow操作手册](../docs/nana_cloud_shadow_runbook.md)、[实际验收](../docs/nana_cloud_evidence/final_delivery.json)。尚未接入生产。

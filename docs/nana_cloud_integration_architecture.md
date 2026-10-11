@@ -73,3 +73,11 @@ InitiativeHostGate只复用GoalCandidate/Initiative/jobs；Grant gate恒SHADOW_B
 ShadowBridge绑定Store `cloud.shadow_runtime`持久标志；原ActionKernel再次拒绝该Store的propose/dispatch/verify/Grant/现实预算配置，即使调用者误造Kernel也不能配置重启动作。非terminal旧action不能进入shadow。HANDOFF_PENDING/ROLLBACK_PENDING在Kernel创建/预留前亦阻断新动作，避免只在Router太晚拦截。HostShadowSession限制显式conversation、UTC截止时间、持久max_events；Crash会消耗一个slot而不是多读取新事件，重复原事件仍幂等。
 
 打包使用现有setuptools/wheel和no-index/no-deps/no-build-isolation，没有新增依赖。只读包/单同进程hook/独立shadow DB与backup路径、启动/卸载/升级/回滚见nana_cloud_deployment.md和nana_cloud_shadow_runbook.md。**没有安装到云端、没有确定现场AstrBot热加载/unregister API**；纯adapter不是已安装插件。首次真实接线需现场版本/hook证据；不可热加载则BLOCKED，不擅自重启。
+
+
+## FINAL (C-053)
+[实测] 全量282 collected→281 passed/0failed/0errors/1skip(E12)，12.47s；18项新增不变量，旧测试完整保留。首次279pass/1fail/1skip是内部.astrbot相对模块名被现有禁止宿主导入guard识别；内部改名host_observation而非放宽旧断言，保留initial_regression_failure.txt。旧错误pytest flag --development-proof被拒绝，按既有--development-report及NANA_DEV_ENGINEERING_PROOF采集，未因此宣称未运行测试通过。
+
+[实测] 独立两个CLI进程使用冻结synthetic export同一source/event/identity/draft，执行表0；先前CLI每次export time生成新manifest会触发合法decision collision，现固定synthetic输入manifest以真正检验重复投递。新增实际进程断言保留，不伪装mock重启。engineering SIGKILL=-9，patch Execute前后均1，独立verify恢复后完成真实dev测试/提交；相应证据engineering_sigkill.json。完整阅读/网页/旧学习消融、owner、UNKNOWN、影子、安全边界均回归。
+
+[实测/未知] E12新prepare/evaluate仍NOT_RUN，真实模型0、provider/token不适用、外部模型费用0；助手本身Codex额度不由Core账本测量。没有新增网络诊断证据，公网本轮0，不再次测试DNS/TLS。最终回归26loopback HTTP是受控协议不是公网/真实模型。新SQL表0/新依赖0；生产调用/修改/外部消息/secret值/私人记忆读取0。Package与runbook是准备，不是云端安装或已安全接入；实际server/hook/兼容版本UNKNOWN。完整P0—P15分档及P17/P18见final_delivery.json。最短下一路径为授权指定宿主的metadata preflight + 一个非私人probe的临时同进程shadow hook；不要求先解决公网/E12，也不默认迁移任何执行或memory authority。

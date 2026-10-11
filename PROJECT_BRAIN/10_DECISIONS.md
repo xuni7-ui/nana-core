@@ -204,3 +204,6 @@
 
 ## D-042 — 云端接线不等于云端执行授权
 [文档] 当前用户授权独立开发云端契约/只读快照导出/preflight/shadow/迁移协议及隔离dev工程能力，不授权生产读写/登录/私人记忆/真实authority翻转。Shadow只存draft/evidence，代码恒拒execute，不能配置打开。生产仍旧方执行，未来同宿主嵌入一个Core Store writer，非长期双Runtime。只读SQLite导出要求一致冻结备份，immutable不可用于活跃DB。真实执行权需未来所有legacy发送入口fence验证，本次owner/epoch协议只模拟，不能假装生效。
+
+## D-043 — 有限工程执行与Shadow持久屏障
+[文档/实测] 原Kernel/Router仅由Operator显式注入engineering registry，默认闭合reading不变；六能力仍同Grant/预算/Attempt/owner/独立核验。没有OS sandbox证明时仅执行literal数据补丁与可信AST runner，不能把固定argv当任意代码隔离。Shadow Store持久marker使误造Kernel也拒Action/Grant/现实预算；未来真实云端接线仍需新授权、metadata/hook/资源检查和可卸载临时observer，不默认handoff。

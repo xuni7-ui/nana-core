@@ -2,7 +2,7 @@ import json
 import pytest
 from nana_core.storage import Store
 from nana_core.contracts import CoreError
-from nana_core.integration.astrbot import AstrBotObservationAdapter
+from nana_core.integration.host_observation import AstrBotObservationAdapter
 from nana_core.integration.contracts import HostEvent, Attachment, RuntimeIntegrationContext, ShadowCapabilityPort
 
 def event(**kw):

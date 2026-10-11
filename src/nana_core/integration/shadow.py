@@ -8,7 +8,7 @@ from pydantic import Field
 from ..contracts import DTO,CoreError
 from ..storage import canonical,digest
 from .contracts import RuntimeIntegrationContext, ShadowCapabilityPort
-from .astrbot import AstrBotObservationAdapter
+from .host_observation import AstrBotObservationAdapter
 
 class ProposedHostAction(DTO):
     capability: str = Field(min_length=1,max_length=128)

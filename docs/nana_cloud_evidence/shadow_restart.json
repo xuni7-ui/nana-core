@@ -1,0 +1,17 @@
+{
+  "first_pid": 10360,
+  "restart_pid": 10361,
+  "same_observation": true,
+  "identity_kept": true,
+  "zero_execution_tables": {
+    "actions": 0,
+    "attempts": 0,
+    "budgets": 0,
+    "goals": 0,
+    "grants": 0,
+    "plans": 0,
+    "strategies": 0
+  },
+  "status": "PASS",
+  "scope": "two real dev processes, synthetic host probe and frozen synthetic export"
+}

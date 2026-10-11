@@ -144,3 +144,6 @@
 - [实测] ②已测试：Iris正式适配、最小跨来源冲突与范围隔离、GoalCandidate/initiative结构6/6、模型metadata/选择；零新SQL表/依赖。全量263 passed/0failed/0errors/1skip。
 - [实测] ③已非生产运行验收：14 synthetic真实schema记录跨进程导入/重启去重/源与时间/身份/replay；SIGKILL恢复不重复、工程经验消融保留。不是私人DB或生产迁移。
 - [未知] ④：公网DNS/TLS阻塞，origin HTTP0；E12 NOT_RUN（真实模型0）；P7真实Iris FAISS parity NOT_RUN；P11工程execute禁用；主动风险判断真实语义未知。完整阶段与证据见docs/nana_core_phase3_entry.md及final_delivery.json。
+
+## Cloud bridge C-053
+[实测] ②宿主Adapter/只读snapshot exporter/preflight/authority协议/initiative/Persona fixtures；③两个synthetic shadow CLI进程及真实dev工程patch/test/commit/SIGKILL恢复；全量281pass/0fail/1skip。④生产runtime/hook/version/private migration/authority翻转/真实模型E12未验证；公网BLOCKED，工程任意代码执行未启用。证据docs/nana_cloud_evidence/final_delivery.json与final_junit.xml。

@@ -1,0 +1,43 @@
+{
+  "real_process_exit": -9,
+  "fault": "after durable external patch receipt, before Core receipt",
+  "recovery": {
+    "9e5787e9-84e3-4e30-9f3d-f09055b0c837": "SUCCEEDED"
+  },
+  "patch_execute_attempts_before": 1,
+  "patch_execute_attempts_after": 1,
+  "identity_preserved": true,
+  "continued_result": {
+    "status": "PASS",
+    "identity": {
+      "identity_id": "2c65acb2-e07b-4626-8bbf-60940373de0b",
+      "revision": 1,
+      "body_json": "{\"charter\":[\"retain independent judgement\",\"evidence before success\",\"learning cannot expand permissions\"],\"expression_defaults\":{\"style\":\"warm and precise\"},\"name\":\"Nana\",\"self_preferences\":[]}",
+      "created_event_id": "0a8bc1f1-4d05-4482-bfce-6eaf01a470f0"
+    },
+    "goal_id": "5f1e2527-d51c-4ee4-8957-0374fa80e546",
+    "states": {
+      "file.patch": "SUCCEEDED",
+      "tests.run": "SUCCEEDED",
+      "git.diff": "SUCCEEDED",
+      "git.commit": "SUCCEEDED"
+    },
+    "action_ids": {
+      "file.patch": "9e5787e9-84e3-4e30-9f3d-f09055b0c837",
+      "tests.run": "0ca923d4-2fe9-43a1-b741-985435bf4a01",
+      "git.diff": "5de1c98d-6d51-4c91-8445-9c1a289fc4fc",
+      "git.commit": "4bbc9a4e-1c62-4c5b-96fd-9076804c3902"
+    },
+    "attempts": 8,
+    "commit_sha": "6a494c2f7edaee7eb75a2cecbf620123476287ad",
+    "workspace_hash": "0324c8a7964f52dcb3db40e4ce04c9260ad57b228c8798e339dde4948853f97b",
+    "model_kind": "fixture",
+    "real_model_calls": 0,
+    "E12": "NOT_RUN",
+    "model_autonomous_development": "NOT_RUN",
+    "production_calls": 0,
+    "external_messages": 0,
+    "experience": "verified episode + UNASSESSED candidate; no activated engineering Strategy"
+  },
+  "scope": "synthetic disposable dev repository; actual SIGKILL; no real model"
+}

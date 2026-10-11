@@ -1,0 +1,195 @@
+{
+  "repository": "xuni7-ui/nana-core",
+  "branch": "dev/nana-core-v1-cloud-bridge",
+  "baseline_sha": "d79fa3eb72efd1907d314780a5c8677bbc361021",
+  "final_sha_note": "Use git rev-parse HEAD and git ls-remote for final evidence commit; excluded circular self hash",
+  "stages": {
+    "P0": {
+      "status": "RUNTIME_VERIFIED",
+      "scope": "development baseline and architecture model; live production location/runtime UNKNOWN"
+    },
+    "P1": {
+      "status": "TESTED",
+      "scope": "strict integration contracts reuse Store/CapabilityPort/LegacyMemorySource"
+    },
+    "P2": {
+      "status": "TESTED",
+      "scope": "pure AstrBot-style host adapter; no installed AstrBot hook"
+    },
+    "P3": {
+      "status": "PARTIAL",
+      "scope": "read-only frozen SQLite memories/nodes/edges and explicit JSON envelopes; include/redact/hash-only tested; native L1/profile runtime wrapper extraction not implemented"
+    },
+    "P4": {
+      "status": "TESTED",
+      "scope": "metadata-only preflight; dev outcome UNKNOWN; production NOT_RUN"
+    },
+    "P5": {
+      "status": "RUNTIME_VERIFIED",
+      "scope": "synthetic ShadowBridge/session, code and persistent kernel execution barrier; goal/plan/decision drafts only"
+    },
+    "P6": {
+      "status": "RUNTIME_VERIFIED",
+      "scope": "fixture reconciliation and actual process restart; real legacy/model path comparison NOT_RUN"
+    },
+    "P7": {
+      "status": "TESTED",
+      "scope": "operator-only synthetic protocol reuses owner epoch; no real legacy process fencing/handoff"
+    },
+    "P8": {
+      "status": "IMPLEMENTED",
+      "scope": "production capability descriptors and disabled adapters, no live sends/reads"
+    },
+    "P9": {
+      "status": "TESTED",
+      "scope": "synthetic M0-M4 single writer protocol; actual Iris write fences/catch-up NOT_RUN"
+    },
+    "P10": {
+      "status": "TESTED",
+      "scope": "existing Identity/Memory relationship/persona/promise fixtures; private relationship restoration NOT_RUN"
+    },
+    "P11": {
+      "status": "TESTED",
+      "scope": "InitiativeHostGate reuses candidates/scheduler, blocks activation; previous six value cases regression retained"
+    },
+    "P12": {
+      "status": "RUNTIME_VERIFIED",
+      "scope": "six engineering capabilities through original ActionKernel/Router; actual literal patch/fixed trusted tests/dev commit only, no general code sandbox"
+    },
+    "P13": {
+      "status": "PARTIAL",
+      "scope": "fixture proposal -> real bounded dev patch/test/verify/commit -> episode and UNASSESSED experience candidate; real model autonomous engineering NOT_RUN; engineering Strategy not enabled"
+    },
+    "P14": {
+      "status": "TESTED",
+      "scope": "wheel build and separate packaged import/barrier smoke; topology/config/design only, no cloud install"
+    },
+    "P15": {
+      "status": "IMPLEMENTED",
+      "scope": "bounded reversible runbook; real hook registration/unregistration API and server compatibility await authorized read-only confirmation"
+    },
+    "P17_E12": {
+      "status": "NOT_RUN",
+      "scope": "fresh prepare/evaluate readiness; 0 ready authorized real models"
+    },
+    "P18_public_web": {
+      "status": "BLOCKED",
+      "scope": "no new concrete DNS/TLS diagnostic evidence; no further public attempt"
+    }
+  },
+  "final_tests": {
+    "collected": 282,
+    "passed": 281,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 1,
+    "only_skip": "E12",
+    "seconds": 12.465,
+    "new_invariant_tests": 18,
+    "old_tests_deleted_or_weakened": false
+  },
+  "initial_regression": {
+    "passed": 279,
+    "failed": 1,
+    "skipped": 1,
+    "reason": "internal .astrbot module name tripped existing host-import guard; renamed host_observation, no assertion changed",
+    "initial_output": "initial_regression_failure.txt"
+  },
+  "counts": {
+    "new_Core_SQL_tables": 0,
+    "Core_SQL_version": 1,
+    "new_dependencies": 0,
+    "public_HTTP_requests_this_turn": 0,
+    "public_retries_this_turn": 0,
+    "final_regression_loopback_HTTP": 26,
+    "real_model_calls": 0,
+    "actual_provider_models": [],
+    "E12": "NOT_RUN",
+    "token_usage": "N/A; no provider request",
+    "model_fees": 0,
+    "fee_basis": "0 external model requests; provider billing not read; assistant Codex quota outside Core ledger",
+    "production_calls": 0,
+    "production_modifications": 0,
+    "private_memories_read": 0,
+    "secret_values_read": 0,
+    "external_messages_sent": 0,
+    "real_execution_authority_switched": false,
+    "real_memory_authority_switched": false,
+    "main_merged": false,
+    "deployed": false
+  },
+  "iris_export": {
+    "fixture_schema_types": 11,
+    "rehearsal_records": 14,
+    "default_mode": "hash-only",
+    "live_SQLite_reader": false,
+    "original_synthetic_importer_production_scope_enabled": false,
+    "source_writes": 0
+  },
+  "shadow": {
+    "actual_process_restart": "shadow_restart.json",
+    "zero_execution_tables": {
+      "actions": 0,
+      "attempts": 0,
+      "budgets": 0,
+      "goals": 0,
+      "grants": 0,
+      "plans": 0,
+      "strategies": 0
+    },
+    "persistent_Store_fence": true,
+    "window_and_dedup_persisted": true,
+    "real_host_hook": "NOT_INSTALLED",
+    "real_model_semantics": "NOT_RUN"
+  },
+  "engineering": {
+    "actual_4_step_lab": "engineering_rehearsal.json",
+    "actual_SIGKILL": -9,
+    "recovered_patch_EXECUTE_count": 1,
+    "capabilities": [
+      "repo.inspect",
+      "file.read",
+      "file.patch",
+      "tests.run",
+      "git.diff",
+      "git.commit"
+    ],
+    "patch_restriction": "literal assignments only; no imports/calls",
+    "tests": "trusted packaged AST runner; does not import generated code",
+    "commit": "development branch only; verified passing test/current workspace hash/parent and exact dirty path gate",
+    "experience": "verified episode + UNASSESSED candidate; no activated engineering Strategy"
+  },
+  "package": {
+    "wheel_sha256": "7ca0d3db781b2243c377262c5469aa8092ae077203a1ec6e35f7169c8f87e161",
+    "wheel_filename": "nana_core_offline-0.1.0-py3-none-any.whl",
+    "new_dependencies": 0,
+    "installed_to_production": false,
+    "packaged_smoke": "packaged host/shadow/preflight imports + barrier PASS",
+    "wheel_binary_uploaded": false,
+    "stale_old_module_absent": true
+  },
+  "production_access_boundary": "No production login or scan this turn; unknown actual SSH/container/volume/webhook reachability not claimed absent",
+  "next_authorization_set": [
+    "specified host metadata-only preflight and hook compatibility confirmation",
+    "copy fixed reviewed package using existing compatible dependencies; no automatic upgrades/restart",
+    "synthetic or separately approved hash-only frozen snapshot export",
+    "temporary same-process observer for one explicitly selected nonprivate probe conversation/event, max_events=1 and fixed 10-minute window",
+    "local reconciliation/evidence report, then unregister observer/close shadow Store and verify legacy unchanged"
+  ],
+  "not_in_next_authorization": [
+    "private正文/export/include",
+    "real model/private context external calls",
+    "production action or memory authority handoff",
+    "real Bilibili/QQ send",
+    "host restart/upgrade if preflight blocked",
+    "merge main or deployment automation"
+  ],
+  "milestone_commits": [
+    "dcbe5e42a528f00b6f72226a598f541a1f3ac83e",
+    "ffe853976ed84bb9825ddb58583a9842af5312a9",
+    "89c1254930f9a43b4833e68f3acf831670dc3b01",
+    "79cda7062163e0ffae3854f8dea037b82c2c439b",
+    "30864adbd24f78e1db335398feeaad6c1286dfc3",
+    "d384c77169953f3b8db4d1daf1859ad363c44308"
+  ]
+}

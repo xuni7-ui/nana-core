@@ -1,6 +1,6 @@
 # Shadow reconciliation
-Event: 33110d31-783f-4467-8474-1e68a1aff182
+Event: c901eef0-89be-4b0e-8d1a-bed3a09ad9ba
 Execution: SHADOW_BLOCKED
-Differences:
+Differences: (none)
 Attribution describes changed inputs; causal superiority UNKNOWN.
 No winner inferred.
