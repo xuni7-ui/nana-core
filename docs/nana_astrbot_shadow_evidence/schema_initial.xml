@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="13" time="0.055" timestamp="2026-10-11T14:45:12.399141+00:00" hostname="cd95b0d4ef97"><testcase classname="tests.integration.test_astrbot_iris_schema" name="test_only_exact_metadata_queries_allowed[SELECT content FROM memories]" time="0.002" /><testcase classname="tests.integration.test_astrbot_iris_schema" name="test_only_exact_metadata_queries_allowed[SELECT * FROM memories]" time="0.001" /><testcase classname="tests.integration.test_astrbot_iris_schema" name="test_only_exact_metadata_queries_allowed[SELECT metadata FROM memories]" time="0.001" /><testcase classname="tests.integration.test_astrbot_iris_schema" name="test_only_exact_metadata_queries_allowed[SELECT sql FROM sqlite_master]" time="0.001" /><testcase classname="tests.integration.test_astrbot_iris_schema" name="test_only_exact_metadata_queries_allowed[SELECT dflt_value FROM pragma_table_info('memories')]" time="0.001" /><testcase classname="tests.integration.test_astrbot_iris_schema" name="test_only_exact_metadata_queries_allowed[PRAGMA wal_checkpoint]" time="0.001" /><testcase classname="tests.integration.test_astrbot_iris_schema" name="test_only_exact_metadata_queries_allowed[PRAGMA table_info(memories)]" time="0.001" /><testcase classname="tests.integration.test_astrbot_iris_schema" name="test_only_exact_metadata_queries_allowed[ATTACH DATABASE ':memory:' AS other]" time="0.001" /><testcase classname="tests.integration.test_astrbot_iris_schema" name="test_only_exact_metadata_queries_allowed[UPDATE memories SET content='x']" time="0.001" /><testcase classname="tests.integration.test_astrbot_iris_schema" name="test_only_exact_metadata_queries_allowed[SELECT count(*) FROM memories]" time="0.001" /><testcase classname="tests.integration.test_astrbot_iris_schema" name="test_only_exact_metadata_queries_allowed[SELECT load_extension('x')]" time="0.001" /><testcase classname="tests.integration.test_astrbot_iris_schema" name="test_metadata_only_compatibility_no_rows_or_default_values_and_zero_drift" time="0.001"><failure message="tools.nana_astrbot_shadow.iris_schema.SchemaPolicyError: BLOCKED_SCHEMA_INSPECTION_POLICY">tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-110/test_metadata_only_compatibili0')
+
+    def test_metadata_only_compatibility_no_rows_or_default_values_and_zero_drift(tmp_path):
+        p=tmp_path/'iris.db';fixture(p);before=hashlib.sha256(p.read_bytes()).hexdigest()
+        with SchemaInspector(p) as i:
+&gt;           report=i.inspect('l2');kg=i.inspect('kg')
+                   ^^^^^^^^^^^^^^^
+
+tests/integration/test_astrbot_iris_schema.py:26: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tools/nana_astrbot_shadow/iris_schema.py:69: in inspect
+    cols=self.query(COLUMNS,(name,));indexes=self.query(INDEXES,(name,))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;tools.nana_astrbot_shadow.iris_schema.SchemaInspector object at 0x7f8fc20df3b0&gt;
+sql = 'SELECT name,type,"notnull",pk FROM pragma_table_info(?)'
+parameters = ('memories',)
+
+    def query(self,sql,parameters=()):
+        valid=(sql in {TABLES,VERSION} and parameters==()) or (sql in {COLUMNS,INDEXES} and type(parameters) is tuple and len(parameters)==1 and parameters[0] in EXPECTED)
+        if not valid:raise SchemaPolicyError()
+        try:return self._db.execute(sql,parameters).fetchall()
+&gt;       except sqlite3.DatabaseError:raise SchemaPolicyError() from None
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       tools.nana_astrbot_shadow.iris_schema.SchemaPolicyError: BLOCKED_SCHEMA_INSPECTION_POLICY
+
+tools/nana_astrbot_shadow/iris_schema.py:61: SchemaPolicyError</failure></testcase><testcase classname="tests.integration.test_astrbot_iris_schema" name="test_schema_drift_and_active_wal_fail_closed" time="0.001"><failure message="tools.nana_astrbot_shadow.iris_schema.SchemaPolicyError: BLOCKED_SCHEMA_INSPECTION_POLICY">tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-110/test_schema_drift_and_active_w0')
+
+    def test_schema_drift_and_active_wal_fail_closed(tmp_path):
+        p=tmp_path/'iris.db';fixture(p)
+        with sqlite3.connect(p) as d:d.execute('ALTER TABLE memories ADD COLUMN unexpected TEXT')
+&gt;       with SchemaInspector(p) as i:assert i.inspect('l2')['status']=='SCHEMA_DRIFT'
+                                            ^^^^^^^^^^^^^^^
+
+tests/integration/test_astrbot_iris_schema.py:36: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tools/nana_astrbot_shadow/iris_schema.py:69: in inspect
+    cols=self.query(COLUMNS,(name,));indexes=self.query(INDEXES,(name,))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;tools.nana_astrbot_shadow.iris_schema.SchemaInspector object at 0x7f8fc20dff80&gt;
+sql = 'SELECT name,type,"notnull",pk FROM pragma_table_info(?)'
+parameters = ('memories',)
+
+    def query(self,sql,parameters=()):
+        valid=(sql in {TABLES,VERSION} and parameters==()) or (sql in {COLUMNS,INDEXES} and type(parameters) is tuple and len(parameters)==1 and parameters[0] in EXPECTED)
+        if not valid:raise SchemaPolicyError()
+        try:return self._db.execute(sql,parameters).fetchall()
+&gt;       except sqlite3.DatabaseError:raise SchemaPolicyError() from None
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       tools.nana_astrbot_shadow.iris_schema.SchemaPolicyError: BLOCKED_SCHEMA_INSPECTION_POLICY
+
+tools/nana_astrbot_shadow/iris_schema.py:61: SchemaPolicyError</failure></testcase></testsuite></testsuites>

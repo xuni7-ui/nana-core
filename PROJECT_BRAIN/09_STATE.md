@@ -381,3 +381,5 @@
 [实测/开发] C-M3: Shadow barrier and bounded callback failure isolation; 9 targeted passed including actual SIGKILL gap recovery。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 47348a1e5f3f9cdb24f4c27e4e3a7c24cd3c333db317856ac74144a0226a26bd，不证明宿主运行。
 
 [实测/开发] C-M4: Source-gated AstrBot registration block and exact neutral registry lifecycle; 3 targeted passed, shared audit still absent。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 b5c722d274c41db1d8cc8487592a657221b0bac72c79c30e9934d9a68cb7b37e，不证明宿主运行。
+
+[实测/开发] C-M5: Exact-query Iris schema inspector with authorizer and frozen-source comparison; 13 targeted passed, real compatibility UNKNOWN。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 34ff63403807bc52b0fc58216f3554f37785500debabfe7753f04215419b5213，不证明宿主运行。
