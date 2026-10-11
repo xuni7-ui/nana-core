@@ -1,0 +1,12 @@
+{
+  "archive": "/tmp/nana-bootstrap-development-m3.tar.gz",
+  "SHA256": "42d60e6077139eefbbd6656560018916be9048b600e69ea8078cea9f9de0375a",
+  "bytes": 3268823,
+  "support_source_SHA": "8aaea6b7417ef0c7dd1612d13d306535c77aa155",
+  "support_worktree_dirty": false,
+  "runtime_bytes": 8528563,
+  "runtime_sha256": "596e89b28b3db856d259580f5e4b04f26401693141359cb9d2474ebe1240ae1c",
+  "release_status": "WITHDRAWN_DEVELOPMENT_ONLY",
+  "known_metadata_error": "initial producer missed untracked support files in dirty check; not a committed/support-SHA-attested deliverable",
+  "replacement": "new artifact built after source commit; dirty-support manifests now rejected"
+}

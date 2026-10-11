@@ -64,3 +64,6 @@
 
 ## First Shadow operator support
 `tools/nana_host_shadow/` and new synthetic integration tests independently implement bounded operator-local probe tooling using Python standard library and existing Core APIs. No AstrBot/Iris implementation copied, no dependencies added. Approved Core is packaged unmodified from ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513; support is separately reviewed. Original project license remains pending. No DB, private data, credentials or binary artifact uploaded.
+
+## Shadow Bootstrap runtime interoperability
+Runtime archive is built locally from pinned official CPython3.12.14 (PSF/history licenses included) and SQLite3.51.3 (public domain), plus exact PyPI wheels Pydantic2.13.5/pydantic-core2.46.5/annotated-types0.8.0/typing-extensions4.16.0/typing-inspection0.4.4 with their license files. URLs and SHA256 in docs/nana_shadow_bootstrap_evidence/source_downloads.json and wheel_sources.json. No third-party source tree/binary uploaded to Git. Wrapper field interoperability independently implemented from pinned Iris0.3.0 AGPL references; no Iris implementation copied or executed. Original project license remains pending.
