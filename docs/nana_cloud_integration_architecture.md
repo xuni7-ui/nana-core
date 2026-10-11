@@ -44,3 +44,14 @@ Export bundle manifest独立校验后以UNASSESSED Observation/Evidence接收；
 Reconciliation纯比较同一event的interpretation/memory/evidence/goal/decision/planned action，列重要历史遗漏、changed inputs与causal attribution UNKNOWN。差异不等于优劣；模型/经验/记忆改变仅列输入差异，因果需要既有matched ablation另证。当前legacy path是显式fixture，不冒充AstrBot真实判断。
 
 [实测] 7 targeted passed；CLI实际Store关闭/重开、14条hash-only export→evidence→host observation→draft，重复source/event/decision幂等；identity一致、actions/attempts/budgets/grants/strategies/goals/plans均0。shadow_reconciliation.json/md。首次人类报告生成用了系统Python而无editable包，纠正为既有.venv Python；实现及测试未改断言。
+
+## Execution and memory authority protocols (M4)
+`ExecutionProtocol`只允许simulation_only，严格阶段 LEGACY_ACTIVE→SHADOW_CORE→CORE_READY→HANDOFF_PENDING→CORE_ACTIVE→ROLLBACK_PENDING→LEGACY_RESTORED。阶段只为迁移证据，唯一owner仍是S6 `migration.execution_owner`，持久epoch切换使旧bound port失效。HANDOFF_PENDING/ROLLBACK_PENDING在Router代码中阻断新dispatch，但允许当前owner独立verify未决；切owner与阶段记录之间崩溃产生epoch不匹配时fail-closed，可重新进行同一transition。Core_ACTIVE/恢复需Operator对象、同身份完整artifact及全部HandoffChecks；Router真实查询Core未完成actions/goals，UNKNOWN不视作完成。旧外部pending只能由未来独立清单对账提供attestation，模型不能提交Operator。
+
+**当前没有停止真实legacy进程或跨生产executor fence的机制**，不能据模拟owner切换宣称生产互斥。真实切换前须另授权给旧所有发送入口加持久fencing epoch，证明无旁路，核对legacy pending/irreversible queue、冻结state+Grant+Budget。任一UNKNOWN/pending阻止切换，不能靠默认bool放行。rollback同样先阻止新Core dispatch、核验pending，再epoch++恢复旧方，禁止简单把两个配置都开。
+
+Memory M0 Iris authoritative/writer Iris；M1 Iris writer+Core影子导入；M2 Iris writer+dual read；M3 Core canonical唯一writer，Iris只兼容读；M4 Core authoritative。Core导入写自己的派生影子DB不是production memory write authority。writer改变需fence attestation与独立对账artifact；MemoryAuthorityProtocol仅synthetic工程协议，不实际控制Iris写入口。冲突原证据保留、summary/inference仍UNASSESSED；M3/M4回滚必须把handoff后的新evidence补回受控只读兼容来源/恢复基线，不得删Core经历或让两个writer同时自由写。当前不实现生产catch-up执行。
+
+Production capability目录见`integration/capabilities.py`：B站/AstrBot send/allowlist file-read/QQ-NapCat，每项version/read-write/scope/Grant/幂等/verify/UNKNOWN恢复/maturity。所有生产adapter执行禁用。B站旧源码bili_send_core.py:318–320将send回包称VERIFIED；这不是Core独立核验，必须标LEGACY_PARTIAL，未来需以list/作者/content/root/rpid独立证据MATCH才能升级。AstrBot补丁仅发送平台适配，不提供统一delivery证明，不能伪造VERIFIED。
+
+[实测] M4旧S6+新protocol 30 passed，未决proposed action阻止换主，cancel后epoch1→2→rollback3，缺budget/snapshot等check阻止，memory writer翻转前必须证据+fence。首次测试导入错名FakeCapability，按真实FakeWorld修正后保留断言；不改旧用例。

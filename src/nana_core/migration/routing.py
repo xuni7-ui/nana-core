@@ -77,6 +77,15 @@ class CapabilityRouter:
             raise CoreError("EXECUTION_OWNER_MISMATCH")
         if json.loads(self.store.one("core_meta", "recovery_quarantine")["value_json"]):
             raise CoreError("RESTORE_QUARANTINE")
+        protocol = self.store.one("core_meta", "cloud.execution_protocol")
+        if protocol:
+            phase = json.loads(protocol["value_json"])
+            if phase["epoch"] != owner["epoch"]:
+                raise CoreError("HANDOFF_EPOCH_UNRECONCILED")
+            allowed = ({"CORE_ACTIVE"} if actor == "core_simulator" else
+                {"LEGACY_ACTIVE", "SHADOW_CORE", "CORE_READY", "LEGACY_RESTORED"})
+            if states == {"DISPATCHING"} and phase["state"] not in allowed:
+                raise CoreError("HANDOFF_EXECUTION_FENCED")
         action = self.store.one("actions", invocation.action_id)
         if not action or action["state"] not in states:
             raise CoreError("CORE_ACTION_REQUIRED")

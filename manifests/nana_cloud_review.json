@@ -1,11 +1,13 @@
 {
-  "milestone": "C-049",
+  "milestone": "C-050",
   "reviewed_files": [
     "PROJECT_BRAIN/09_STATE.md",
+    "PROJECT_BRAIN/10_DECISIONS.md",
     "PROJECT_BRAIN/11_CHANGELOG.md",
     "docs/nana_cloud_evidence/m1_tests.txt",
     "docs/nana_cloud_evidence/m2_tests.txt",
     "docs/nana_cloud_evidence/m3_tests.txt",
+    "docs/nana_cloud_evidence/m4_tests.txt",
     "docs/nana_cloud_evidence/preflight_dev.json",
     "docs/nana_cloud_evidence/shadow_reconciliation.json",
     "docs/nana_cloud_evidence/shadow_reconciliation.md",
@@ -15,20 +17,24 @@
     "pyproject.toml",
     "src/nana_core/integration/__init__.py",
     "src/nana_core/integration/astrbot.py",
+    "src/nana_core/integration/authority.py",
+    "src/nana_core/integration/capabilities.py",
     "src/nana_core/integration/contracts.py",
     "src/nana_core/integration/exporter.py",
     "src/nana_core/integration/preflight.py",
     "src/nana_core/integration/rehearsal.py",
     "src/nana_core/integration/shadow.py",
+    "src/nana_core/migration/routing.py",
+    "tests/integration/test_authority.py",
     "tests/integration/test_export_preflight.py",
     "tests/integration/test_host.py",
     "tests/integration/test_shadow.py"
   ],
   "allowlist_violations": [],
   "credential_pattern_findings": [],
-  "fingerprint_anchor": "76b70ed24ab1abf03927b426667521e9eb8711952d666213e9091e732c38ae2d",
+  "fingerprint_anchor": "0db2a5bfbb7dfb116d1e453669f5edd21c7384c9cd829d2ab71c625c1a0fb49e",
   "license_boundary": "Iris schema interoperability independently implemented; no AGPL code vendored; original license pending",
   "runtime_db_uploaded": false,
   "production_changes": false,
-  "summary": "Cloud M3: disabled host ShadowBridge and restartable evidence reconciliation; 7 targeted passed"
+  "summary": "Cloud M4: reuse owner epoch for fenced synthetic handoff and memory authority protocols; 30 targeted passed"
 }
