@@ -1,0 +1,1 @@
+{"pydantic": "2.13.5", "DTO_schema_count": 29, "contract_hash": "9c2cd3ab5f07da760b19b947e21946f9422c28e8bd64737151760d9c9abdcd15", "strict_errors": [["string_type"], ["extra_forbidden"], ["frozen_instance"]]}

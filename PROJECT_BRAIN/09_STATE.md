@@ -311,3 +311,7 @@
 [实测] C-058：First Shadow FINAL: 291 passed, one E12 skip; real host blocked, bounded package and rollback evidence saved；指纹锚点 93bc78fad82744034001ace1610c3afac2eb1c438814b9f28d153dd404fb84a2；仅本检查点文件状态，不证明生产。
 
 [实测] C-059：First Shadow FINAL save: normalize preserved failure-log whitespace; 291 passed and real host BLOCKED_NO_HOST_CHANNEL；指纹锚点 6eccc6e70d6232253941f85cb61465a93a35619488edb0fdab16a535e528d0f8；仅本检查点文件状态，不证明生产。
+
+[实测] C-060：Shadow Bootstrap M1: evidence-tagged host blockers and SQLite WAL-reset durability audit; 10 targeted passed；指纹锚点 82ef88ea168846e9fed09b8af14d6cd80afbedfb616722648d2c4e62fcb35772；仅本检查点文件状态，不证明生产。
+
+[实测] C-061：Shadow Bootstrap M2: real host-version comparison and Pydantic 2.13.5 291-pass regression; SQLite durability gate retained；指纹锚点 4a6e813b05d710b8ecd7ce8a180a8311ae9ceae8ff3f8bfa987ddce8de359048；仅本检查点文件状态，不证明生产。

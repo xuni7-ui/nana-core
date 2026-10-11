@@ -16,7 +16,7 @@ def probe(expected_paths=None, *, declared_host_versions=None):
     def add(name,state,detail):checks.append({'check':name,'status':state,'detail':detail})
     add('python','PASS' if sys.version_info >= (3,12) else 'BLOCKED',platform.python_version())
     add('sqlite','PASS' if sqlite3.sqlite_version_info >= (3,51,3) else 'BLOCKED',sqlite3.sqlite_version)
-    try:v=importlib.metadata.version('pydantic');add('pydantic','PASS' if v=='2.13.4' else 'BLOCKED',v)
+    try:v=importlib.metadata.version('pydantic');add('pydantic','PASS' if v in {'2.13.4','2.13.5'} else 'BLOCKED',v)
     except importlib.metadata.PackageNotFoundError:add('pydantic','BLOCKED','missing')
     for dist in ('astrbot','astrbot-plugin-iris-chat-memory'):
         try:add(dist,'PASS',{'package_metadata_version':importlib.metadata.version(dist),'runtime_version':'UNKNOWN'})

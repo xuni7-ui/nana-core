@@ -19,7 +19,7 @@ def preflight(bundle, paths=()):
     add('sqlite', 'PASS' if sqlite3.sqlite_version_info >= (3, 51, 3) else 'BLOCKED', sqlite3.sqlite_version)
     try:
         version = importlib.metadata.version('pydantic')
-        add('pydantic', 'PASS' if version == '2.13.4' else 'BLOCKED', version)
+        add('pydantic', 'PASS' if version in {'2.13.4', '2.13.5'} else 'BLOCKED', version)
     except importlib.metadata.PackageNotFoundError:
         add('pydantic', 'BLOCKED', 'missing; no automatic install')
     m = verify_bundle(bundle)

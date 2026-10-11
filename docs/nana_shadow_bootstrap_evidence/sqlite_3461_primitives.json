@@ -1,0 +1,1 @@
+{"python": "3.12.14", "sqlite": "3.46.1", "SQL_schema_and_JSON1": "PASS", "UPSERT": "PASS", "explicit_transaction_rollback": "PASS", "backup_integrity": "PASS", "real_SIGKILL": -9, "WAL_committed_recovery": "PASS", "upstream_WAL_reset_race": "NOT_REPRODUCED; passing these checks does not establish absence", "Core_support_gate": "NOT_BYPASSED"}

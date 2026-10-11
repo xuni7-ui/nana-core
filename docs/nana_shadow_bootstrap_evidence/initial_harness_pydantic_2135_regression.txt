@@ -1,0 +1,804 @@
+.........FF.........FFFs.....F.F......................................F. [ 24%]
+..............F............F..............F............F................ [ 49%]
+.....F..........................................................F....... [ 73%]
+...............F......F.....F......................F.................... [ 98%]
+...F                                                                     [100%]
+=================================== FAILURES ===================================
+_______________ test_E03_E04_real_SIGKILL_recovery[before_call] ________________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-90/test_E03_E04_real_SIGKILL_reco0')
+point = 'before_call'
+
+    @pytest.mark.parametrize("point", ["before_call", "after_effect"])
+    def test_E03_E04_real_SIGKILL_recovery(tmp_path, point):
+        from nana_core.clock import ManualClock
+        from conftest import PARAGRAPHS
+        store_path, world_path = tmp_path / "nana.db", tmp_path / "fake_world.db"
+        clock = ManualClock()
+        authority = OperatorAuthority()
+        with Store(store_path, clock) as store:
+            world = FakeWorld(world_path)
+            world.seed_source(SOURCE, PARAGRAPHS)
+            kernel = ActionKernel(store, world, authority)
+            kernel.set_budgets({"write_attempts": 1, "external_requests": 10, "cost_micro_units": 10}, authority)
+            authorize(kernel, authority, clock)
+            identity_id = store.identity["identity_id"]
+            action = kernel.propose("reading.card.create", CARD, card_args())
+            kernel.prepare(action)
+            world.close()
+        script = '''
+    import os, signal, sys
+    from nana_core.actions import ActionKernel, OperatorAuthority
+    from nana_core.clock import ManualClock
+    from nana_core.fake_world import FakeWorld
+    from nana_core.storage import Store
+    with Store(sys.argv[1], ManualClock()) as store:
+        world = FakeWorld(sys.argv[2])
+        kernel = ActionKernel(store, world, OperatorAuthority())
+        def fault(point):
+            if point == sys.argv[4]:
+                print("fault=" + point, flush=True)
+                os.kill(os.getpid(), signal.SIGKILL)
+        kernel.dispatch(sys.argv[3], fault=fault)
+    '''
+        child = subprocess.run([sys.executable, "-c", script, str(store_path), str(world_path), action, point],
+            env={"PATH": os.environ.get("PATH", ""), "PYTHONPATH": str(Path("src").resolve())},
+            capture_output=True, text=True, timeout=10)
+>       assert child.returncode == -signal.SIGKILL
+E       assert 1 == -<Signals.SIGKILL: 9>
+E        +  where 1 = CompletedProcess(args=['/tmp/nana-bootstrap-build/compat-python', '-c', '\nimport os, signal, sys\nfrom nana_core.acti...^^^^^^^^^^^^^^^^^^^^^^^\n  File "<string>", line 3, in <module>\nModuleNotFoundError: No module named \'nana_core\'\n').returncode
+E        +  and   <Signals.SIGKILL: 9> = signal.SIGKILL
+
+tests/offline_continuity/test_actions.py:159: AssertionError
+_______________ test_E03_E04_real_SIGKILL_recovery[after_effect] _______________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-90/test_E03_E04_real_SIGKILL_reco1')
+point = 'after_effect'
+
+    @pytest.mark.parametrize("point", ["before_call", "after_effect"])
+    def test_E03_E04_real_SIGKILL_recovery(tmp_path, point):
+        from nana_core.clock import ManualClock
+        from conftest import PARAGRAPHS
+        store_path, world_path = tmp_path / "nana.db", tmp_path / "fake_world.db"
+        clock = ManualClock()
+        authority = OperatorAuthority()
+        with Store(store_path, clock) as store:
+            world = FakeWorld(world_path)
+            world.seed_source(SOURCE, PARAGRAPHS)
+            kernel = ActionKernel(store, world, authority)
+            kernel.set_budgets({"write_attempts": 1, "external_requests": 10, "cost_micro_units": 10}, authority)
+            authorize(kernel, authority, clock)
+            identity_id = store.identity["identity_id"]
+            action = kernel.propose("reading.card.create", CARD, card_args())
+            kernel.prepare(action)
+            world.close()
+        script = '''
+    import os, signal, sys
+    from nana_core.actions import ActionKernel, OperatorAuthority
+    from nana_core.clock import ManualClock
+    from nana_core.fake_world import FakeWorld
+    from nana_core.storage import Store
+    with Store(sys.argv[1], ManualClock()) as store:
+        world = FakeWorld(sys.argv[2])
+        kernel = ActionKernel(store, world, OperatorAuthority())
+        def fault(point):
+            if point == sys.argv[4]:
+                print("fault=" + point, flush=True)
+                os.kill(os.getpid(), signal.SIGKILL)
+        kernel.dispatch(sys.argv[3], fault=fault)
+    '''
+        child = subprocess.run([sys.executable, "-c", script, str(store_path), str(world_path), action, point],
+            env={"PATH": os.environ.get("PATH", ""), "PYTHONPATH": str(Path("src").resolve())},
+            capture_output=True, text=True, timeout=10)
+>       assert child.returncode == -signal.SIGKILL
+E       assert 1 == -<Signals.SIGKILL: 9>
+E        +  where 1 = CompletedProcess(args=['/tmp/nana-bootstrap-build/compat-python', '-c', '\nimport os, signal, sys\nfrom nana_core.acti...^^^^^^^^^^^^^^^^^^^^^^^\n  File "<string>", line 3, in <module>\nModuleNotFoundError: No module named \'nana_core\'\n').returncode
+E        +  and   <Signals.SIGKILL: 9> = signal.SIGKILL
+
+tests/offline_continuity/test_actions.py:159: AssertionError
+_________ test_E11_E13_E14_process_restart_and_behavioral_ablation[1] __________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-90/test_E11_E13_E14_process_resta0')
+seed = 1
+
+    @pytest.mark.parametrize("seed", [1, 8, 23])
+    def test_E11_E13_E14_process_restart_and_behavioral_ablation(tmp_path, seed):
+>       manifest = run_experiment(tmp_path / "experiment", seed=seed)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/offline_continuity/test_experiment.py:10:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src/nana_core/experiment.py:121: in run_experiment
+    before = _child(reference, "initial", seed)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/tmp/pytest-of-agent/pytest-90/test_E11_E13_E14_process_resta0/experiment/reference')
+phase = 'initial', seed = 1, allow_crash = False
+
+    def _child(directory, phase, seed, allow_crash=False):
+        # Do not forward account credentials or private configuration to experiment processes.
+        env = {"PATH": os.environ.get("PATH", ""), "PYTHONPATH": str(Path(__file__).resolve().parent.parent),
+               "PYTHONDONTWRITEBYTECODE": "1"}
+        child = subprocess.run([sys.executable, "-m", "nana_core.experiment", "--session", phase,
+            "--output", str(directory), "--seed", str(seed)], env=env, capture_output=True, text=True, timeout=30)
+        if allow_crash:
+            if child.returncode != -signal.SIGKILL:
+                raise RuntimeError(f"expected actual SIGKILL, got {child.returncode}: {child.stderr}")
+            return {"returncode": child.returncode, "marker": json.loads(child.stdout), "stderr": child.stderr}
+        if child.returncode != 0:
+>           raise RuntimeError(f"session {phase} failed: {child.stderr}")
+E           RuntimeError: session initial failed: Traceback (most recent call last):
+E             File "<frozen runpy>", line 131, in _get_module_details
+E             File "<frozen importlib.util>", line 91, in find_spec
+E           ModuleNotFoundError: No module named 'nana_core'
+E
+E           The above exception was the direct cause of the following exception:
+E
+E           Traceback (most recent call last):
+E             File "/tmp/nana-bootstrap-build/compat_entry.py", line 11, in <module>
+E               sys.argv=a[1:];sys.path.insert(0,os.getcwd());runpy.run_module(a[1],run_name='__main__',alter_sys=True)
+E                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E             File "<frozen runpy>", line 222, in run_module
+E             File "<frozen runpy>", line 140, in _get_module_details
+E           ImportError: Error while finding module specification for 'nana_core.experiment' (ModuleNotFoundError: No module named 'nana_core')
+
+src/nana_core/experiment.py:113: RuntimeError
+_________ test_E11_E13_E14_process_restart_and_behavioral_ablation[8] __________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-90/test_E11_E13_E14_process_resta1')
+seed = 8
+
+    @pytest.mark.parametrize("seed", [1, 8, 23])
+    def test_E11_E13_E14_process_restart_and_behavioral_ablation(tmp_path, seed):
+>       manifest = run_experiment(tmp_path / "experiment", seed=seed)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/offline_continuity/test_experiment.py:10:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src/nana_core/experiment.py:121: in run_experiment
+    before = _child(reference, "initial", seed)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/tmp/pytest-of-agent/pytest-90/test_E11_E13_E14_process_resta1/experiment/reference')
+phase = 'initial', seed = 8, allow_crash = False
+
+    def _child(directory, phase, seed, allow_crash=False):
+        # Do not forward account credentials or private configuration to experiment processes.
+        env = {"PATH": os.environ.get("PATH", ""), "PYTHONPATH": str(Path(__file__).resolve().parent.parent),
+               "PYTHONDONTWRITEBYTECODE": "1"}
+        child = subprocess.run([sys.executable, "-m", "nana_core.experiment", "--session", phase,
+            "--output", str(directory), "--seed", str(seed)], env=env, capture_output=True, text=True, timeout=30)
+        if allow_crash:
+            if child.returncode != -signal.SIGKILL:
+                raise RuntimeError(f"expected actual SIGKILL, got {child.returncode}: {child.stderr}")
+            return {"returncode": child.returncode, "marker": json.loads(child.stdout), "stderr": child.stderr}
+        if child.returncode != 0:
+>           raise RuntimeError(f"session {phase} failed: {child.stderr}")
+E           RuntimeError: session initial failed: Traceback (most recent call last):
+E             File "<frozen runpy>", line 131, in _get_module_details
+E             File "<frozen importlib.util>", line 91, in find_spec
+E           ModuleNotFoundError: No module named 'nana_core'
+E
+E           The above exception was the direct cause of the following exception:
+E
+E           Traceback (most recent call last):
+E             File "/tmp/nana-bootstrap-build/compat_entry.py", line 11, in <module>
+E               sys.argv=a[1:];sys.path.insert(0,os.getcwd());runpy.run_module(a[1],run_name='__main__',alter_sys=True)
+E                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E             File "<frozen runpy>", line 222, in run_module
+E             File "<frozen runpy>", line 140, in _get_module_details
+E           ImportError: Error while finding module specification for 'nana_core.experiment' (ModuleNotFoundError: No module named 'nana_core')
+
+src/nana_core/experiment.py:113: RuntimeError
+_________ test_E11_E13_E14_process_restart_and_behavioral_ablation[23] _________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-90/test_E11_E13_E14_process_resta2')
+seed = 23
+
+    @pytest.mark.parametrize("seed", [1, 8, 23])
+    def test_E11_E13_E14_process_restart_and_behavioral_ablation(tmp_path, seed):
+>       manifest = run_experiment(tmp_path / "experiment", seed=seed)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/offline_continuity/test_experiment.py:10:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src/nana_core/experiment.py:121: in run_experiment
+    before = _child(reference, "initial", seed)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+directory = PosixPath('/tmp/pytest-of-agent/pytest-90/test_E11_E13_E14_process_resta2/experiment/reference')
+phase = 'initial', seed = 23, allow_crash = False
+
+    def _child(directory, phase, seed, allow_crash=False):
+        # Do not forward account credentials or private configuration to experiment processes.
+        env = {"PATH": os.environ.get("PATH", ""), "PYTHONPATH": str(Path(__file__).resolve().parent.parent),
+               "PYTHONDONTWRITEBYTECODE": "1"}
+        child = subprocess.run([sys.executable, "-m", "nana_core.experiment", "--session", phase,
+            "--output", str(directory), "--seed", str(seed)], env=env, capture_output=True, text=True, timeout=30)
+        if allow_crash:
+            if child.returncode != -signal.SIGKILL:
+                raise RuntimeError(f"expected actual SIGKILL, got {child.returncode}: {child.stderr}")
+            return {"returncode": child.returncode, "marker": json.loads(child.stdout), "stderr": child.stderr}
+        if child.returncode != 0:
+>           raise RuntimeError(f"session {phase} failed: {child.stderr}")
+E           RuntimeError: session initial failed: Traceback (most recent call last):
+E             File "<frozen runpy>", line 131, in _get_module_details
+E             File "<frozen importlib.util>", line 91, in find_spec
+E           ModuleNotFoundError: No module named 'nana_core'
+E
+E           The above exception was the direct cause of the following exception:
+E
+E           Traceback (most recent call last):
+E             File "/tmp/nana-bootstrap-build/compat_entry.py", line 11, in <module>
+E               sys.argv=a[1:];sys.path.insert(0,os.getcwd());runpy.run_module(a[1],run_name='__main__',alter_sys=True)
+E                                                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E             File "<frozen runpy>", line 222, in run_module
+E             File "<frozen runpy>", line 140, in _get_module_details
+E           ImportError: Error while finding module specification for 'nana_core.experiment' (ModuleNotFoundError: No module named 'nana_core')
+
+src/nana_core/experiment.py:113: RuntimeError
+_______________ test_E07_competing_processes_cannot_overreserve ________________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-90/test_E07_competing_processes_c0')
+
+    @pytest.mark.s2
+    def test_E07_competing_processes_cannot_overreserve(tmp_path):
+        path, world_path = tmp_path / "nana.db", tmp_path / "fake_world.db"
+        clock, authority = ManualClock(), OperatorAuthority()
+        with Store(path, clock) as store:
+            world = FakeWorld(world_path)
+            world.seed_source(SOURCE, PARAGRAPHS)
+            kernel = ActionKernel(store, world, authority)
+            kernel.set_budgets({"write_attempts": 1, "external_requests": 10, "cost_micro_units": 10}, authority)
+            authorize(kernel, authority, clock, resources=(SOURCE, CARD, CARD + "-other"))
+            actions = [kernel.propose("reading.card.create", r, card_args()) for r in (CARD, CARD + "-other")]
+            world.close()
+        script = '''
+    import sys, time
+    from nana_core.actions import ActionKernel, OperatorAuthority
+    from nana_core.clock import ManualClock
+    from nana_core.contracts import CoreError
+    from nana_core.fake_world import FakeWorld
+    from nana_core.storage import Store
+    try:
+        with Store(sys.argv[1], ManualClock()) as store:
+            world = FakeWorld(sys.argv[2])
+            ActionKernel(store, world, OperatorAuthority()).prepare(sys.argv[3])
+            print("RESERVED", flush=True)
+            time.sleep(0.15)
+            world.close()
+    except CoreError as error:
+        print(error.code, flush=True)
+    '''
+        env = {"PATH": os.environ.get("PATH", ""), "PYTHONPATH": str(Path("src").resolve())}
+        children = [subprocess.Popen([sys.executable, "-c", script, str(path), str(world_path), action],
+            env=env, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True) for action in actions]
+        output = [child.communicate(timeout=10)[0].strip() for child in children]
+>       assert all(child.returncode == 0 for child in children)
+E       assert False
+E        +  where False = all(<generator object test_E07_competing_processes_cannot_overreserve.<locals>.<genexpr> at 0x7f140f1eb030>)
+
+tests/offline_continuity/test_hardening.py:112: AssertionError
+___________ test_entire_goal_recovers_after_real_card_commit_SIGKILL ___________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-90/test_entire_goal_recovers_afte0')
+
+    @pytest.mark.s3
+    def test_entire_goal_recovers_after_real_card_commit_SIGKILL(tmp_path):
+        path, world_path = tmp_path / "nana.db", tmp_path / "fake_world.db"
+        clock, authority = ManualClock(), OperatorAuthority()
+        with Store(path, clock) as store:
+            world = FakeWorld(world_path)
+            world.seed_source(SOURCE, PARAGRAPHS)
+            kernel = ActionKernel(store, world, authority)
+            kernel.set_budgets({"write_attempts": 1, "external_requests": 20, "cost_micro_units": 20}, authority)
+            authorize(kernel, authority, clock)
+            world.close()
+        script = '''
+    import os, signal, sys
+    from nana_core.actions import ActionKernel, OperatorAuthority
+    from nana_core.clock import ManualClock
+    from nana_core.contracts import Observation
+    from nana_core.fake_world import FakeWorld
+    from nana_core.planning import FixtureModel
+    from nana_core.runtime import Runtime
+    from nana_core.storage import Store
+    with Store(sys.argv[1], ManualClock()) as store:
+        world = FakeWorld(sys.argv[2])
+        runtime = Runtime(store, ActionKernel(store, world, OperatorAuthority()), FixtureModel())
+        def crash(point, capability):
+            if point == "after_effect" and capability == "reading.card.create":
+                os.kill(os.getpid(), signal.SIGKILL)
+        runtime.process(Observation(source_namespace="synthetic", object_id="full-goal-crash",
+            raw_text="Synthetic interrupted reading.", source_id=sys.argv[3], card_resource=sys.argv[4]), fault=crash)
+    '''
+        result = subprocess.run([sys.executable, "-c", script, str(path), str(world_path), SOURCE, CARD],
+            env={"PATH": os.environ.get("PATH", ""), "PYTHONPATH": str(Path("src").resolve())}, timeout=10)
+>       assert result.returncode == -signal.SIGKILL
+E       AssertionError: assert 1 == -<Signals.SIGKILL: 9>
+E        +  where 1 = CompletedProcess(args=['/tmp/nana-bootstrap-build/compat-python', '-c', '\nimport os, signal, sys\nfrom nana_core.acti...t_entire_goal_recovers_afte0/fake_world.db', 'source://synthetic/garden', 'notebook://synthetic/card-1'], returncode=1).returncode
+E        +  and   <Signals.SIGKILL: 9> = signal.SIGKILL
+
+tests/offline_continuity/test_hardening.py:166: AssertionError
+----------------------------- Captured stderr call -----------------------------
+Traceback (most recent call last):
+  File "/tmp/nana-bootstrap-build/compat_entry.py", line 13, in <module>
+    sys.argv=['-c',*a[2:]];exec(a[1],{'__name__':'__main__'})
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "<string>", line 3, in <module>
+ModuleNotFoundError: No module named 'nana_core'
+__ test_sequential_actual_process_runner_cannot_label_transport_fixtures_real __
+
+frozen = PosixPath('/tmp/pytest-of-agent/pytest-90/test_sequential_actual_process0/snapshot')
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-90/test_sequential_actual_process0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f140f2d29f0>
+
+    def test_sequential_actual_process_runner_cannot_label_transport_fixtures_real(frozen, tmp_path, monkeypatch):
+        """16 real child processes, scripted HTTP, zero real models/network calls."""
+        import os
+        import subprocess
+        from nana_core.semantic import runner
+        config = {"schema_version": 1, "endpoints": [{"alias": alias,
+            "base_url": "http://127.0.0.1:9999/v1", "model": "fixture-" + alias,
+            "account_scope": "local_offline", "funding": "local_offline"} for alias in ("a", "b")]}
+        config_path = tmp_path / "synthetic_config.json"
+        config_path.write_text(canonical(config))
+        original_run = subprocess.run
+        script = """
+    import sys
+    from helpers import ScriptedTransport
+    from nana_core.semantic import runner
+    from nana_core.semantic.model_port import CompatibleModelPort
+    def fixture_port(endpoint,ledger,context,case,arm):
+        return CompatibleModelPort(endpoint,ledger,context,case,arm,ScriptedTransport())
+    runner.CompatibleModelPort=fixture_port
+    runner._worker(sys.argv[1])
+    """
+        started = []
+        def fixture_worker(command, **kwargs):
+            # Only transport replacement; all actual runner/storage/Kernel paths used.
+            env = dict(kwargs["env"])
+            env["PYTHONPATH"] += os.pathsep + str(Path(__file__).parent)
+            kwargs["env"] = env
+            result = original_run([command[0], "-c", script, command[-1]], **kwargs)
+            assert result.returncode == 0, result.stderr
+            started.append(command[-1])
+            return result
+        monkeypatch.setattr(runner.subprocess, "run", fixture_worker)
+>       report = evaluate(frozen, tmp_path / "sequential", config_path)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/semantic_migration/test_evaluation.py:184:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src/nana_core/semantic/runner.py:141: in evaluate
+    child = subprocess.run([sys.executable, "-m", "nana_core.semantic.runner", "_worker", str(job_path)],
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+command = ['/tmp/nana-bootstrap-build/compat-python', '-m', 'nana_core.semantic.runner', '_worker', '/tmp/pytest-of-agent/pytest-90/test_sequential_actual_process0/sequential/job-0.json']
+kwargs = {'env': {'PATH': '/home/agent/.local/bin:/opt/codex/runtimes/codex-primary-runtime/dependencies/bin/override:/opt/code...ation', 'PYTHONDONTWRITEBYTECODE': '1', 'HTTP_PROXY': 'http://proxy:8080', ...}, 'capture_output': True, 'timeout': 65}
+
+    def fixture_worker(command, **kwargs):
+        # Only transport replacement; all actual runner/storage/Kernel paths used.
+        env = dict(kwargs["env"])
+        env["PYTHONPATH"] += os.pathsep + str(Path(__file__).parent)
+        kwargs["env"] = env
+        result = original_run([command[0], "-c", script, command[-1]], **kwargs)
+>       assert result.returncode == 0, result.stderr
+E       AssertionError: b'Traceback (most recent call last):
+E           File "/tmp/nana-bootstrap-build/compat_entry.py", line 13, in <module>
+E             sy...^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "<string>", line 3, in <module>
+E         ModuleNotFoundError: No module named \'helpers\'
+E         '
+E       assert 1 == 0
+E        +  where 1 = CompletedProcess(args=['/tmp/nana-bootstrap-build/compat-python', '-c', '\nimport sys\nfrom helpers import ScriptedTra...^^^^^^^^^^^^^^^^^^^^^^^^^\n  File "<string>", line 3, in <module>\nModuleNotFoundError: No module named \'helpers\'\n').returncode
+
+tests/semantic_migration/test_evaluation.py:180: AssertionError
+____________ test_real_sigkill_leaves_call_unresolved_without_retry ____________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-90/test_real_sigkill_leaves_call_0')
+
+    def test_real_sigkill_leaves_call_unresolved_without_retry(tmp_path):
+        path = tmp_path / "calls.db"
+        script = """
+    import os, signal, sys
+    from nana_core.semantic.contracts import Endpoint, ModelBudget
+    from nana_core.semantic.model_port import CallLedger
+    ledger=CallLedger(sys.argv[1],ModelBudget(),{})
+    e=Endpoint(alias='a',base_url='http://127.0.0.1:9999/v1',model='local',account_scope='local_offline',funding='local_offline')
+    ledger.begin(e,b'synthetic',{'provenance':'transport_fixture'})
+    os.kill(os.getpid(),signal.SIGKILL)
+    """
+        env = {"PATH": os.environ.get("PATH", ""), "PYTHONPATH": str(Path(__file__).resolve().parents[2] / "src")}
+        child = subprocess.run([sys.executable, "-c", script, str(path)], env=env, capture_output=True, timeout=10)
+>       assert child.returncode == -signal.SIGKILL
+E       assert 1 == -<Signals.SIGKILL: 9>
+E        +  where 1 = CompletedProcess(args=['/tmp/nana-bootstrap-build/compat-python', '-c', "\nimport os, signal, sys\nfrom nana_core.sema...^^^^^^^^^^^^^^^^^^^^^^^\n  File "<string>", line 3, in <module>\nModuleNotFoundError: No module named \'nana_core\'\n').returncode
+E        +  and   <Signals.SIGKILL: 9> = signal.SIGKILL
+
+tests/semantic_migration/test_model_port.py:117: AssertionError
+______________ test_complete_synthetic_migration_across_processes ______________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-90/test_complete_synthetic_migrat0')
+
+    def test_complete_synthetic_migration_across_processes(tmp_path):
+>       report = run_experiment(tmp_path / "experiment")
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/migration/test_experiment.py:8:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src/nana_core/migration/experiment.py:122: in run_experiment
+    initial = _child(root, "initial")
+              ^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = PosixPath('/tmp/pytest-of-agent/pytest-90/test_complete_synthetic_migrat0/experiment')
+phase = 'initial', crash = False
+
+    def _child(root, phase, crash=False):
+        env = {"PATH": os.environ.get("PATH", ""), "PYTHONPATH": str(Path(__file__).resolve().parents[2]),
+               "PYTHONDONTWRITEBYTECODE": "1"}
+        result = subprocess.run([sys.executable, "-m", "nana_core.migration.experiment", "--session", phase,
+            "--output", str(root)], env=env, capture_output=True, text=True, timeout=30)
+        if crash:
+            if result.returncode != -signal.SIGKILL:
+                raise RuntimeError("expected actual SIGKILL; got worker exit " + str(result.returncode))
+            return {"returncode": result.returncode, "marker": json.loads(result.stdout)}
+        if result.returncode:
+>           raise RuntimeError("synthetic worker failed with exit " + str(result.returncode))
+E           RuntimeError: synthetic worker failed with exit 1
+
+src/nana_core/migration/experiment.py:115: RuntimeError
+________ test_real_sigkill_partial_import_resumes_without_new_identity _________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-90/test_real_sigkill_partial_impo0')
+
+    def test_real_sigkill_partial_import_resumes_without_new_identity(tmp_path):
+        path = tmp_path / "core.db"
+        with Store(path) as store:
+            identity = store.identity
+        code = """
+    import os,signal,sys
+    from nana_core.storage import Store
+    from nana_core.migration.legacy import LegacyImporter,synthetic_records
+    with Store(sys.argv[1]) as store:
+     def fault(point,record_id): os.kill(os.getpid(),signal.SIGKILL)
+     LegacyImporter(store).import_batch(synthetic_records(),fault=fault)
+    """
+        env = {"PATH": os.environ.get("PATH", ""), "PYTHONPATH": str(Path(__file__).resolve().parents[2] / "src")}
+        child = subprocess.run([sys.executable, "-c", code, str(path)], env=env, capture_output=True, timeout=10)
+>       assert child.returncode == -signal.SIGKILL
+E       assert 1 == -<Signals.SIGKILL: 9>
+E        +  where 1 = CompletedProcess(args=['/tmp/nana-bootstrap-build/compat-python', '-c', '\nimport os,signal,sys\nfrom nana_core.storag...^^^^^^^^^^^^^^^^^^^^^^^\n  File "<string>", line 3, in <module>\nModuleNotFoundError: No module named \'nana_core\'\n').returncode
+E        +  and   <Signals.SIGKILL: 9> = signal.SIGKILL
+
+tests/migration/test_legacy.py:116: AssertionError
+_________ test_routed_card_real_sigkill_recovers_one_effect_and_owner __________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-90/test_routed_card_real_sigkill_0')
+
+    def test_routed_card_real_sigkill_recovers_one_effect_and_owner(tmp_path):
+        core, external = tmp_path / "core.db", tmp_path / "world.db"
+        authority = OperatorAuthority()
+        from nana_core.clock import ManualClock
+        from nana_core.contracts import GrantSpec, VERIFY_CAPABILITY
+        clock = ManualClock()
+        with Store(core, clock) as store:
+            identity = store.identity
+            world = FakeWorld(external)
+            world.seed_source(SOURCE, [{"text": "Synthetic routed crash source.", "locator": "page 3"}])
+            router = CapabilityRouter(store, {c: world for c in CAPABILITIES}, authority)
+            router.select_owner("legacy_simulator", authority)
+            kernel = ActionKernel(store, router.bind("legacy_simulator", authority), authority)
+            kernel.set_budgets({"write_attempts": 3, "external_requests": 20, "cost_micro_units": 20}, authority)
+            kernel.grant(GrantSpec(capabilities=tuple(sorted(CAPABILITIES | {VERIFY_CAPABILITY})), resources=(SOURCE, CARD),
+                not_before_us=clock.utc_now_us(), expires_at_us=clock.utc_now_us() + 100_000_000), authority)
+            action = kernel.propose("reading.card.create", CARD, args(world))
+            kernel.prepare(action)
+            world.close()
+        script = """
+    import os,signal,sys
+    from nana_core.storage import Store
+    from nana_core.clock import ManualClock
+    from nana_core.actions import ActionKernel,OperatorAuthority
+    from nana_core.contracts import CAPABILITIES
+    from nana_core.fake_world import FakeWorld
+    from nana_core.migration.routing import CapabilityRouter
+    a=OperatorAuthority()
+    with Store(sys.argv[1],ManualClock()) as s:
+     w=FakeWorld(sys.argv[2]);r=CapabilityRouter(s,{c:w for c in CAPABILITIES},a)
+     k=ActionKernel(s,r.bind('legacy_simulator',a),a)
+     def fault(point):
+      if point=='after_effect':os.kill(os.getpid(),signal.SIGKILL)
+     k.dispatch(sys.argv[3],fault=fault)
+    """
+        env = {"PATH": os.environ.get("PATH", ""), "PYTHONPATH": str(Path(__file__).resolve().parents[2] / "src")}
+        child = subprocess.run([sys.executable, "-c", script, str(core), str(external), action], env=env, capture_output=True, timeout=10)
+>       assert child.returncode == -signal.SIGKILL
+E       assert 1 == -<Signals.SIGKILL: 9>
+E        +  where 1 = CompletedProcess(args=['/tmp/nana-bootstrap-build/compat-python', '-c', "\nimport os,signal,sys\nfrom nana_core.storag...^^^^^^^^^^^^^^^^^^^^^^^\n  File "<string>", line 3, in <module>\nModuleNotFoundError: No module named \'nana_core\'\n').returncode
+E        +  and   <Signals.SIGKILL: 9> = signal.SIGKILL
+
+tests/migration/test_shadow_routing.py:248: AssertionError
+_____ test_restart_after_real_sigkill_preserves_identity_and_read_receipt ______
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-90/test_restart_after_real_sigkil0')
+
+    def test_restart_after_real_sigkill_preserves_identity_and_read_receipt(tmp_path):
+        script='''
+    import os,signal,sys,json
+    from pathlib import Path
+    from nana_core.development.lab import run
+    from nana_core.actions import ActionKernel,OperatorAuthority
+    from nana_core.clock import ManualClock
+    from nana_core.contracts import CAPABILITIES
+    from nana_core.development.file_source import FileSourcePort,SourceBinding
+    from nana_core.development.lab import SOURCE
+    from nana_core.fake_world import FakeWorld
+    from nana_core.migration.routing import CapabilityRouter
+    from nana_core.storage import Store,digest
+    root=Path(sys.argv[1]);run(root)
+    authority=OperatorAuthority();store=Store(root/'nana.db',ManualClock());world=FakeWorld(root/'world.db')
+    file=root/'synthetic_sources'/'paper.json'
+    port=FileSourcePort(file.parent,{SOURCE:SourceBinding(synthetic_only=True,relative_path=file.name,blob_sha256=digest(file.read_bytes()))},world)
+    router=CapabilityRouter(store,{c:world if c=='reading.card.create' else port for c in CAPABILITIES},authority)
+    kernel=ActionKernel(store,router.bind('core_simulator',authority),authority)
+    action=kernel.propose('reading.source.read',SOURCE,{'source_id':SOURCE});kernel.prepare(action)
+    print(json.dumps({'identity':store.identity,'action':action}),flush=True)
+    def kill(point):
+     if point=='after_effect':os.kill(os.getpid(),signal.SIGKILL)
+    kernel.dispatch(action,fault=kill)
+    '''
+        root=tmp_path/'lab'
+        env={'PATH':os.environ.get('PATH',''),'PYTHONPATH':str(Path(__file__).resolve().parents[2]/'src'),'PYTHONDONTWRITEBYTECODE':'1'}
+        child=subprocess.run([sys.executable,'-c',script,str(root)],env=env,capture_output=True,text=True,timeout=15)
+>       assert child.returncode==-signal.SIGKILL,child.stderr
+E       AssertionError: Traceback (most recent call last):
+E           File "/tmp/nana-bootstrap-build/compat_entry.py", line 13, in <module>
+E             sys.argv=['-c',*a[2:]];exec(a[1],{'__name__':'__main__'})
+E                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           File "<string>", line 4, in <module>
+E         ModuleNotFoundError: No module named 'nana_core'
+E
+E       assert 1 == -<Signals.SIGKILL: 9>
+E        +  where 1 = CompletedProcess(args=['/tmp/nana-bootstrap-build/compat-python', '-c', "\nimport os,signal,sys,json\nfrom pathlib imp...^^^^^^^^^^^^^^^^^^^^^^^\n  File "<string>", line 4, in <module>\nModuleNotFoundError: No module named \'nana_core\'\n').returncode
+E        +  and   <Signals.SIGKILL: 9> = signal.SIGKILL
+
+tests/development/test_file_source.py:160: AssertionError
+________ test_research_restart_crash_and_multitool_experience_ablation _________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-90/test_research_restart_crash_an0')
+
+    def test_research_restart_crash_and_multitool_experience_ablation(tmp_path):
+>       report=run(tmp_path/'lab')
+               ^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_web_lab.py:7:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src/nana_core/development/web_lab.py:184: in run
+    first=child(baseline,"initial",server.server_port)
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+root = PosixPath('/tmp/pytest-of-agent/pytest-90/test_research_restart_crash_an0/lab/frozen')
+phase = 'initial', port_number = 34221
+
+    def child(root, phase, port_number):
+        # No inherited credential bindings and no second concurrent Runtime.
+        env={"PATH":os.environ.get("PATH",""),"PYTHONPATH":str(Path(__file__).resolve().parents[2]),"PYTHONDONTWRITEBYTECODE":"1"}
+        proc=subprocess.run([sys.executable,"-m","nana_core.development.web_lab","--output",str(root),
+            "--session",phase,"--controlled-port",str(port_number)],env=env,capture_output=True,text=True,timeout=30)
+        if phase=="crash":
+            if proc.returncode != -signal.SIGKILL:
+                raise CoreError("REAL_PROCESS_CRASH_NOT_OBSERVED")
+            return {"returncode":proc.returncode,"marker":json.loads(proc.stdout)}
+        if proc.returncode:
+            # Store only safe return codes; never raw provider/transport errors in reports.
+>           raise CoreError("WEB_WORKER_FAILED_"+str(proc.returncode))
+E           nana_core.contracts.CoreError: WEB_WORKER_FAILED_1
+
+src/nana_core/development/web_lab.py:159: CoreError
+________ test_real_crash_after_scheduler_commit_resumes_one_occurrence _________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-90/test_real_crash_after_schedule0')
+
+    def test_real_crash_after_scheduler_commit_resumes_one_occurrence(tmp_path):
+        import json,os,signal,subprocess,sys
+        from pathlib import Path
+        script='''import os,sys,signal
+    from nana_core.storage import Store
+    from nana_core.clock import ManualClock
+    from nana_core.fake_world import FakeWorld
+    from nana_core.actions import ActionKernel,OperatorAuthority
+    from nana_core.contracts import Observation
+    from nana_core.initiative import Initiative,GoalCandidate
+    with Store(sys.argv[1],ManualClock()) as store:
+     world=FakeWorld(sys.argv[2]);i=Initiative(store,ActionKernel(store,world,OperatorAuthority()))
+     eid=store.ingest(Observation(source_namespace="synthetic.i.crash",object_id="wake",kind="unrelated",raw_text="Synthetic pending need."))
+     cid=i.propose(GoalCandidate(purpose="Synthetic discussion",intent="dialogue",evidence_event_ids=(eid,),need=.8,importance=.8,urgency=.8,confidence=.8,disturbance=.1))
+     print(cid,flush=True)
+     def stop(point):os.kill(os.getpid(),signal.SIGKILL)
+     i.evaluate(cid,fault=stop)
+    '''
+        proc=subprocess.run([sys.executable,'-c',script,str(tmp_path/'core.db'),str(tmp_path/'world.db')],
+            env={'PATH':os.environ.get('PATH',''),'PYTHONPATH':str(Path('src').absolute())},capture_output=True,text=True,timeout=10)
+>       assert proc.returncode==-signal.SIGKILL
+E       assert 1 == -<Signals.SIGKILL: 9>
+E        +  where 1 = CompletedProcess(args=['/tmp/nana-bootstrap-build/compat-python', '-c', 'import os,sys,signal\nfrom nana_core.storage ...^^^^^^^^^^^^^^^^^^^^^^^\n  File "<string>", line 2, in <module>\nModuleNotFoundError: No module named \'nana_core\'\n').returncode
+E        +  and   <Signals.SIGKILL: 9> = <module 'signal' from '/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/signal.py'>.SIGKILL
+
+tests/phase3/test_initiative.py:90: AssertionError
+__________ test_real_sigkill_between_original_and_projection_resumes ___________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-90/test_real_sigkill_between_orig0')
+
+    def test_real_sigkill_between_original_and_projection_resumes(tmp_path):
+        db=tmp_path/'core.db'
+        script='''import os,signal,sys
+    from nana_core.storage import Store
+    from nana_core.migration.iris import IrisAdapter
+    from nana_core.migration.iris_fixtures import fixtures
+    with Store(sys.argv[1]) as store:
+     print(store.identity["identity_id"],flush=True)
+     def fault(point,key):os.kill(os.getpid(),signal.SIGKILL)
+     IrisAdapter(store).import_record(fixtures()[0],fault)
+    '''
+        proc=subprocess.run([sys.executable,'-c',script,str(db)],env={'PATH':os.environ.get('PATH',''),'PYTHONPATH':str(Path('src').absolute())},capture_output=True,text=True,timeout=10)
+>       assert proc.returncode==-signal.SIGKILL
+E       assert 1 == -<Signals.SIGKILL: 9>
+E        +  where 1 = CompletedProcess(args=['/tmp/nana-bootstrap-build/compat-python', '-c', 'import os,signal,sys\nfrom nana_core.storage ...^^^^^^^^^^^^^^^^^^^^^^^\n  File "<string>", line 2, in <module>\nModuleNotFoundError: No module named \'nana_core\'\n').returncode
+E        +  and   <Signals.SIGKILL: 9> = signal.SIGKILL
+
+tests/phase3/test_iris_adapter.py:71: AssertionError
+___________ test_migration_rehearsal_restarts_replays_and_reconciles ___________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-90/test_migration_rehearsal_resta0')
+
+    def test_migration_rehearsal_restarts_replays_and_reconciles(tmp_path):
+>       report=run(tmp_path/'rehearsal')
+               ^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/phase3/test_memory.py:36:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+output = PosixPath('/tmp/pytest-of-agent/pytest-90/test_migration_rehearsal_resta0/rehearsal')
+
+    def run(output):
+        root=Path(output);root.mkdir(parents=True,exist_ok=False)
+        env={'PATH':os.environ.get('PATH',''),'PYTHONPATH':str(Path(__file__).resolve().parents[2])}
+        results=[]
+        for phase in ('import','restart'):
+            proc=subprocess.run([sys.executable,'-m','nana_core.phase3.memory_rehearsal','--session',phase,'--output',str(root/'core.db')],
+                env=env,capture_output=True,text=True,timeout=30)
+>           if proc.returncode:raise RuntimeError('rehearsal worker failed '+str(proc.returncode))
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           RuntimeError: rehearsal worker failed 1
+
+src/nana_core/phase3/memory_rehearsal.py:87: RuntimeError
+______________ test_real_sigkill_after_patch_recovers_verify_only ______________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-90/test_real_sigkill_after_patch_0')
+
+    def test_real_sigkill_after_patch_recovers_verify_only(tmp_path):
+        p=tmp_path/'crash';env=dict(os.environ);env['PYTHONPATH']=str(__import__('pathlib').Path('src').resolve())
+        child=subprocess.run([sys.executable,'-m','nana_core.integration.engineering_lab',str(p),'--kill-after-patch'],env=env,capture_output=True)
+>       assert child.returncode==-signal.SIGKILL
+E       AssertionError: assert 1 == -<Signals.SIGKILL: 9>
+E        +  where 1 = CompletedProcess(args=['/tmp/nana-bootstrap-build/compat-python', '-m', 'nana_core.integration.engineering_lab', '/tmp...le specification for \'nana_core.integration.engineering_lab\' (ModuleNotFoundError: No module named \'nana_core\')\n').returncode
+E        +  and   <Signals.SIGKILL: 9> = signal.SIGKILL
+
+tests/integration/test_engineering.py:36: AssertionError
+_________________ test_shadow_rehearsal_actual_process_restart _________________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-90/test_shadow_rehearsal_actual_p0')
+
+    def test_shadow_rehearsal_actual_process_restart(tmp_path):
+        import os,subprocess,sys
+        from pathlib import Path
+        env=dict(os.environ);env['PYTHONPATH']=str(Path('src').resolve())
+        argv=[sys.executable,'-m','nana_core.integration.rehearsal',str(tmp_path/'lab')]
+>       first=json.loads(subprocess.run(argv,env=env,capture_output=True,text=True,check=True).stdout)
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/integration/test_shadow.py:50:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+input = None, capture_output = True, timeout = None, check = True
+popenargs = (['/tmp/nana-bootstrap-build/compat-python', '-m', 'nana_core.integration.rehearsal', '/tmp/pytest-of-agent/pytest-90/test_shadow_rehearsal_actual_p0/lab'],)
+kwargs = {'env': {'CODEX_EXEC_SERVER_PROXY_PRIVATE_IPS_VIA_UPSTREAM': 'true', 'GRPC_DEFAULT_SSL_ROOTS_FILE_PATH': '/etc/ssl/cer...tificates.crt', 'CODEX_CI': '1', 'no_proxy': 'localhost,127.0.0.1,::1', ...}, 'text': True, 'stdout': -1, 'stderr': -1}
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output & stderr attributes if those streams
+        were captured.
+
+        If timeout (seconds) is given and the process takes too long,
+         a TimeoutExpired exception will be raised.
+
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+>               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['/tmp/nana-bootstrap-build/compat-python', '-m', 'nana_core.integration.rehearsal', '/tmp/pytest-of-agent/pytest-90/test_shadow_rehearsal_actual_p0/lab']' returned non-zero exit status 1.
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py:571: CalledProcessError
+=========================== short test summary info ============================
+SKIPPED [1] tests/offline_continuity/test_experiment.py:21: E12 real-model gate requires configured development endpoints via nana-semantic; offline pytest makes no real-model calls
+FAILED tests/offline_continuity/test_actions.py::test_E03_E04_real_SIGKILL_recovery[before_call]
+FAILED tests/offline_continuity/test_actions.py::test_E03_E04_real_SIGKILL_recovery[after_effect]
+FAILED tests/offline_continuity/test_experiment.py::test_E11_E13_E14_process_restart_and_behavioral_ablation[1]
+FAILED tests/offline_continuity/test_experiment.py::test_E11_E13_E14_process_restart_and_behavioral_ablation[8]
+FAILED tests/offline_continuity/test_experiment.py::test_E11_E13_E14_process_restart_and_behavioral_ablation[23]
+FAILED tests/offline_continuity/test_hardening.py::test_E07_competing_processes_cannot_overreserve
+FAILED tests/offline_continuity/test_hardening.py::test_entire_goal_recovers_after_real_card_commit_SIGKILL
+FAILED tests/semantic_migration/test_evaluation.py::test_sequential_actual_process_runner_cannot_label_transport_fixtures_real
+FAILED tests/semantic_migration/test_model_port.py::test_real_sigkill_leaves_call_unresolved_without_retry
+FAILED tests/migration/test_experiment.py::test_complete_synthetic_migration_across_processes
+FAILED tests/migration/test_legacy.py::test_real_sigkill_partial_import_resumes_without_new_identity
+FAILED tests/migration/test_shadow_routing.py::test_routed_card_real_sigkill_recovers_one_effect_and_owner
+FAILED tests/development/test_file_source.py::test_restart_after_real_sigkill_preserves_identity_and_read_receipt
+FAILED tests/development/test_web_lab.py::test_research_restart_crash_and_multitool_experience_ablation
+FAILED tests/phase3/test_initiative.py::test_real_crash_after_scheduler_commit_resumes_one_occurrence
+FAILED tests/phase3/test_iris_adapter.py::test_real_sigkill_between_original_and_projection_resumes
+FAILED tests/phase3/test_memory.py::test_migration_rehearsal_restarts_replays_and_reconciles
+FAILED tests/integration/test_engineering.py::test_real_sigkill_after_patch_recovers_verify_only
+FAILED tests/integration/test_shadow.py::test_shadow_rehearsal_actual_process_restart
+19 failed, 272 passed, 1 skipped in 6.73s

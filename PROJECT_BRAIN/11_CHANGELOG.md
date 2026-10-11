@@ -541,3 +541,13 @@
 - 改了什么：本节点源码/测试/报告，详见docs/nana_first_cloud_shadow.md及阶段证据。
 - 为什么：用户授权首次真实宿主只读Shadow；无宿主入口时完成固定源码接线包，保持真实验收阻塞。
 - 怎么验证：对应targeted命令和结果在docs/nana_first_shadow_evidence；敏感模式/白名单检查、独立开发commit/push/ls-remote，最终SHA以Git为准。
+
+## C-060 · Shadow Bootstrap M1: evidence-tagged host blockers and SQLite WAL-reset durability audit; 10 targeted passed
+- 改了什么：本节点源码/测试/报告，详见docs/nana_shadow_bootstrap.md及阶段证据。
+- 为什么：用户授权首次真实宿主只读Shadow；无宿主入口时完成固定源码接线包，保持真实验收阻塞。
+- 怎么验证：对应targeted命令和结果在docs/nana_shadow_bootstrap_evidence；敏感模式/白名单检查、独立开发commit/push/ls-remote，最终SHA以Git为准。
+
+## C-061 · Shadow Bootstrap M2: real host-version comparison and Pydantic 2.13.5 291-pass regression; SQLite durability gate retained
+- 改了什么：本节点源码/测试/报告，详见docs/nana_shadow_bootstrap.md及阶段证据。
+- 为什么：用户授权首次真实宿主只读Shadow；无宿主入口时完成固定源码接线包，保持真实验收阻塞。
+- 怎么验证：对应targeted命令和结果在docs/nana_shadow_bootstrap_evidence；敏感模式/白名单检查、独立开发commit/push/ls-remote，最终SHA以Git为准。

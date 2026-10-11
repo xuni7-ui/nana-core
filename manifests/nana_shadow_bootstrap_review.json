@@ -1,21 +1,38 @@
 {
-  "milestone": "C-060",
+  "milestone": "C-061",
   "reviewed_files": [
+    "PROJECT_BRAIN/09_STATE.md",
+    "PROJECT_BRAIN/11_CHANGELOG.md",
     "docs/nana_shadow_bootstrap.md",
     "docs/nana_shadow_bootstrap_evidence/blocker_facts.json",
+    "docs/nana_shadow_bootstrap_evidence/contract_2134.json",
+    "docs/nana_shadow_bootstrap_evidence/contract_2135.json",
+    "docs/nana_shadow_bootstrap_evidence/host_versions_junit.xml",
+    "docs/nana_shadow_bootstrap_evidence/host_versions_regression.txt",
+    "docs/nana_shadow_bootstrap_evidence/initial_harness_host_versions_junit.xml",
+    "docs/nana_shadow_bootstrap_evidence/initial_harness_host_versions_regression.txt",
+    "docs/nana_shadow_bootstrap_evidence/initial_harness_pydantic_2135_junit.xml",
+    "docs/nana_shadow_bootstrap_evidence/initial_harness_pydantic_2135_regression.txt",
     "docs/nana_shadow_bootstrap_evidence/m1_tests.txt",
+    "docs/nana_shadow_bootstrap_evidence/pydantic_2135_junit.xml",
+    "docs/nana_shadow_bootstrap_evidence/pydantic_2135_protocol_proof.json",
+    "docs/nana_shadow_bootstrap_evidence/pydantic_2135_regression.txt",
     "docs/nana_shadow_bootstrap_evidence/source_downloads.json",
+    "docs/nana_shadow_bootstrap_evidence/sqlite_3461_primitives.json",
     "docs/nana_shadow_bootstrap_evidence/upstream_runtime_audit.json",
     "manifests/nana_shadow_bootstrap_fingerprints.json",
-    "manifests/nana_shadow_bootstrap_review.json"
+    "manifests/nana_shadow_bootstrap_review.json",
+    "pyproject.toml",
+    "src/nana_core/integration/preflight.py",
+    "tools/nana_host_shadow/metadata.py"
   ],
   "allowlist_violations": [],
   "credential_pattern_findings": [],
-  "fingerprint_anchor": "82ef88ea168846e9fed09b8af14d6cd80afbedfb616722648d2c4e62fcb35772",
+  "fingerprint_anchor": "4a6e813b05d710b8ecd7ce8a180a8311ae9ceae8ff3f8bfa987ddce8de359048",
   "license_boundary": "Iris schema interoperability independently implemented; no AGPL code vendored; original license pending",
   "runtime_db_uploaded": false,
   "production_changes": false,
   "private_records_read": 0,
   "secret_values_read": 0,
-  "summary": "Shadow Bootstrap M1: evidence-tagged host blockers and SQLite WAL-reset durability audit; 10 targeted passed"
+  "summary": "Shadow Bootstrap M2: real host-version comparison and Pydantic 2.13.5 291-pass regression; SQLite durability gate retained"
 }
