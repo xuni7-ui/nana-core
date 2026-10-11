@@ -697,3 +697,8 @@
 - 改了什么：追加R04 development scope/baseline evidence; no Core/source modification in this checkpoint.
 - 为什么：uploaded bundle is sole source, old frozen Codex branch not an implementation base.
 - 怎么验证：SHA256/list-heads/complete-history verify and approved-runtime404pass/1E12skip. Real host facts not promoted.
+
+## R04-C1 — receipt contract and separated trust types
+- 改了什么：one_shot DTO/provenance/source-empty production pins; fixture class cannot accept real/lifecycle provenance.
+- 为什么：one observation permission must not become Grant or wildcard/private-body authorization.
+- 怎么验证：14 contract tests pass; initial2 bool-Literal failures fixed in validator, assertions retained. Evidence contract_fixed.txt.

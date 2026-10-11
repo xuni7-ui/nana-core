@@ -457,3 +457,5 @@
 
 ## R04-C0 (2026-10-11 UTC) — development baseline only
 [实测/开发] Uploaded R03 bundle independently hash/verify/list-heads checked; sole base89385e98118da81bae751311fb6149f048b772a8. New independent R04 branch. Approved isolated runtime full baseline404 passed/0failed/1skip (E12). Existing R039-key adapter/support reused; real message gates remain closed. Evidence docs/nana_r04_evidence/baseline.xml and docs/nana_r04_one_shot.md. No real host operations.
+
+[实测/开发] R04-C1 strict receipt contract14passed; fixed Literal accepting bool-as1 via pre-validation, failure log retained. max_uses1/window<=600sec/UTC/scoped hashes/store binding/strict canonical JSON. Production trust pins empty; no Core changes.

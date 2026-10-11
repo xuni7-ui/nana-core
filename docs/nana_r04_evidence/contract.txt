@@ -1,0 +1,34 @@
+..F.........F.                                                           [100%]
+=================================== FAILURES ===================================
+_______________________ test_invalid_contract[changes1] ________________________
+
+changes = {'max_uses': True}
+
+    @pytest.mark.parametrize('changes',[{'max_uses':2},{'max_uses':True},{'sender_hash':'*'},{'conversation_hash':'*'},
+        {'issued_at':'2026-10-11T12:00:00'}, {'expires_at':(NOW+timedelta(hours=1)).isoformat()},
+        {'purpose':'secret'}, {'platform_scope':'平台'}, {'sender_hash':None}, {'event_type_scope':'x'*10000},
+        {'unknown':'PRIVATE-BODY-CANARY'}, {'schema_version':True}])
+    def test_invalid_contract(changes):
+>       with pytest.raises(ValueError):receipt(**changes)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/nana_shadow/test_r04_receipt.py:28: Failed
+_______________________ test_invalid_contract[changes11] _______________________
+
+changes = {'schema_version': True}
+
+    @pytest.mark.parametrize('changes',[{'max_uses':2},{'max_uses':True},{'sender_hash':'*'},{'conversation_hash':'*'},
+        {'issued_at':'2026-10-11T12:00:00'}, {'expires_at':(NOW+timedelta(hours=1)).isoformat()},
+        {'purpose':'secret'}, {'platform_scope':'平台'}, {'sender_hash':None}, {'event_type_scope':'x'*10000},
+        {'unknown':'PRIVATE-BODY-CANARY'}, {'schema_version':True}])
+    def test_invalid_contract(changes):
+>       with pytest.raises(ValueError):receipt(**changes)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/nana_shadow/test_r04_receipt.py:28: Failed
+=========================== short test summary info ============================
+FAILED tests/nana_shadow/test_r04_receipt.py::test_invalid_contract[changes1]
+FAILED tests/nana_shadow/test_r04_receipt.py::test_invalid_contract[changes11]
+2 failed, 12 passed in 0.12s
