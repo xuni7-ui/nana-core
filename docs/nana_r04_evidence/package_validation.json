@@ -3,13 +3,13 @@
   "approved_Core_files_verified": 55,
   "archive": {
     "Core_source_SHA": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
-    "SHA256": "7ebb806e202627f301f0735071e54c5f56b5b318a8f75e8132b312ed5a539b45",
-    "bytes": 3325164,
-    "filename": "nana-r04-one-shot-095a5fab00dd-delivery.tar.gz",
+    "SHA256": "faf85677f7625836cf0cffba36a044190333f35e0295edce1059c7a5efb9b6a4",
+    "bytes": 3325221,
+    "filename": "nana-r04-one-shot-3675a13a7bd7-delivery.tar.gz",
     "host_binding": "UNVERIFIED",
     "production_trust_pins": 0,
     "runtime_sha256": "95c7215bc78d43cae809e99fcc65c1572cd611c87ae273afb80138b61c01e6ec",
-    "support_source_SHA": "095a5fab00dde27a2015dcdf1cb744a9ae62db71"
+    "support_source_SHA": "3675a13a7bd74b4501b1da7c777336b695a0c7af"
   },
   "archive_file_count": 262,
   "commands": [
@@ -75,7 +75,7 @@
         "receipt",
         "create",
         "--directory",
-        "/tmp/nana-r04-release-gxw68rvv/nana-r04-one-shot-095a5fab00dd/data/unused",
+        "/tmp/nana-r04-release-o1t85xxm/nana-r04-one-shot-3675a13a7bd7/data/unused",
         "--dry-run"
       ],
       "result": {
@@ -90,7 +90,7 @@
         "receipt",
         "inspect",
         "--directory",
-        "/tmp/nana-r04-release-gxw68rvv/nana-r04-one-shot-095a5fab00dd/data/unused",
+        "/tmp/nana-r04-release-o1t85xxm/nana-r04-one-shot-3675a13a7bd7/data/unused",
         "--dry-run"
       ],
       "result": {
@@ -105,7 +105,7 @@
         "receipt",
         "review",
         "--directory",
-        "/tmp/nana-r04-release-gxw68rvv/nana-r04-one-shot-095a5fab00dd/data/unused",
+        "/tmp/nana-r04-release-o1t85xxm/nana-r04-one-shot-3675a13a7bd7/data/unused",
         "--dry-run"
       ],
       "result": {
@@ -120,7 +120,7 @@
         "receipt",
         "arm",
         "--directory",
-        "/tmp/nana-r04-release-gxw68rvv/nana-r04-one-shot-095a5fab00dd/data/unused",
+        "/tmp/nana-r04-release-o1t85xxm/nana-r04-one-shot-3675a13a7bd7/data/unused",
         "--dry-run"
       ],
       "result": {
@@ -135,7 +135,7 @@
         "receipt",
         "status",
         "--directory",
-        "/tmp/nana-r04-release-gxw68rvv/nana-r04-one-shot-095a5fab00dd/data/unused",
+        "/tmp/nana-r04-release-o1t85xxm/nana-r04-one-shot-3675a13a7bd7/data/unused",
         "--dry-run"
       ],
       "result": {
@@ -150,7 +150,7 @@
         "receipt",
         "disarm",
         "--directory",
-        "/tmp/nana-r04-release-gxw68rvv/nana-r04-one-shot-095a5fab00dd/data/unused",
+        "/tmp/nana-r04-release-o1t85xxm/nana-r04-one-shot-3675a13a7bd7/data/unused",
         "--dry-run"
       ],
       "result": {
@@ -165,7 +165,7 @@
         "receipt",
         "verify",
         "--directory",
-        "/tmp/nana-r04-release-gxw68rvv/nana-r04-one-shot-095a5fab00dd/data/unused",
+        "/tmp/nana-r04-release-o1t85xxm/nana-r04-one-shot-3675a13a7bd7/data/unused",
         "--dry-run"
       ],
       "result": {
@@ -183,17 +183,17 @@
         "E12": "NOT_RUN",
         "core_evidence": {
           "barrier_result": "SHADOW_BLOCKED",
-          "core_evidence_id": "cd619dc6-2a08-4701-a083-10c7cd99afc7",
+          "core_evidence_id": "2de6a909-0e61-4ead-8497-2da1c5a3fdcc",
           "dedup_result": "NEW",
-          "event_timestamp": "2026-10-11T17:11:10.044444+00:00",
-          "goal_candidate_id": "2b525179790a9a0816d5ceee1302908784660b9965a2bfcfe2d493f2e4824938",
-          "identity_id": "9b8abea7-f241-4595-b020-b1912910693b",
+          "event_timestamp": "2026-10-11T17:14:17.586131+00:00",
+          "goal_candidate_id": "616b98a801534d04eef8d4cd20a3a0d9d5e53143e4ad6873a49dfeb17f1a587c",
+          "identity_id": "52a230ad-88ab-4942-bb84-36af030e27d7",
           "identity_revision": 1,
-          "metadata_hash": "3640f8c4f71b4f582ca697c9f5ff6ed796df3d6e53f3ea87f086310929c8ffe1",
+          "metadata_hash": "009ed8a46875fa850fe3105ec86a38d0beb0170925ff2e23f114e1569a3e57f2",
           "model_semantics_verified": false,
-          "observation_id": "fff48445-502c-4803-87a2-6171821e2fa8",
-          "shadow_decision_id": "cloud.shadow:27e1fa235c7f73c2cd26539c668c8eca70bcab724617976277c9aec1e1a90f7f",
-          "shadow_plan_id": "cloud.shadow:27e1fa235c7f73c2cd26539c668c8eca70bcab724617976277c9aec1e1a90f7f#plan_draft",
+          "observation_id": "631fdb41-1683-4c48-b068-571fa992ab78",
+          "shadow_decision_id": "cloud.shadow:b3dd0f8499b0e9c72034169c9610e8a93423ccdae287a81771d4710928c9bf8b",
+          "shadow_plan_id": "cloud.shadow:b3dd0f8499b0e9c72034169c9610e8a93423ccdae287a81771d4710928c9bf8b#plan_draft",
           "zero_execution_counts": {
             "actions": 0,
             "attempts": 0,
@@ -212,8 +212,8 @@
         "receipt_status": {
           "completion": "RECORDED",
           "core_recorded": true,
-          "receipt_digest": "fd7b9a46bff04093f0fcab029810b216b577b56a0dc741489c90e5289a3309ef",
-          "receipt_id": "r04-c9effa53053d4aba98392b98b3052e0e",
+          "receipt_digest": "25db729890e859ebda197f3825b35653849bb3bd67b6f90b62657b6bea59f024",
+          "receipt_id": "r04-7792e86d58e641f9a1fb568047ffcbcf",
           "review_provenance": "FIXTURE",
           "state": "VERIFIED",
           "trust_domain": "FIXTURE",

@@ -40,3 +40,6 @@ Final sealed archive supersedes d025 candidate: see `docs/nana_r04_evidence/pack
 
 ### CLI diagnostic final seal
 Adversarial CLI review found argparse's default invalid-argument diagnostic echoes values. `_SafeParser` now blocks with a fixed code, never printing caller values. Existing negative --force/--trust-all assertion is strengthened to exact return2, not bypassed or removed. New private-canary invalid-argument cases ensure stdout/stderr contain no input. Latest full evidence cli_sealed_full.xml/txt supersedes earlier final counts: **470passed/0failed/0errors/1E12skip**, including66R04 cases. No further source changes required; final package must use this committed support.
+
+### Current operator asset
+**nana-r04-one-shot-3675a13a7bd7-delivery.tar.gz**, **3,325,221 bytes**, SHA256 **faf85677f7625836cf0cffba36a044190333f35e0295edce1059c7a5efb9b6a4**. Support3675a13a7bd74b4501b1da7c777336b695a0c7af; fixed Coreddab; unchanged runtime95c721… . Newly extracted package validationPASS. Old d025/095a archives are historical candidates, superseded by this CLI-redacted asset. Full470pass/1skip uses R03 repository Core (historical preflight line differs); package55ddab byte verification and isolated harness are separate evidence, not a claim of full470 against a different Core tree.
