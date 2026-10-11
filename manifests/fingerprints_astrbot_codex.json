@@ -1,0 +1,10 @@
+{
+  "base": "c3ada9b09faa8a2683f98d5c8bafec24779cfd71",
+  "files": {
+    "docs/nana_astrbot_shadow_binding.md": "b63dc9e327cdeec333f9572ff506f2b6a99bb9df1543f9d2e1fa76fcd825bd1f",
+    "docs/nana_astrbot_shadow_evidence/baseline.txt": "4d63fe74521ee1d1a71198240e49453a107fb22867d783b7eebcc4cc97372a74",
+    "docs/nana_astrbot_shadow_evidence/baseline.xml": "fd35ddc05948d309ed95607c22932adf6552ab7abff26e5787c2082d196899ae",
+    "manifests/whitelist_astrbot_codex.json": "7b98344b7934e75d54b2452ac65f1d8928b4da49f00ce5e75e4a515da2495d00"
+  },
+  "scan": "PASS; synthetic fixtures only; zero runtime DB/credential files"
+}

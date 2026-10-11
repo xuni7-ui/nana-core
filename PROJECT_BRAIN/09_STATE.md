@@ -371,3 +371,5 @@
 [实测] Host ABI远端资产闭合：GitHub私有开发分支commit 659e3f55104363ab0b21fe0709b2ecc2e1792e95已保存单文件artifacts/shadow-bootstrap/nana-shadow-bootstrap-host3123-cd2e8a302a6d.tar.gz；新建独立bare repo实际fetch/read remote blob，3,270,530bytes及SHA256 c793991badd5efeaaa4676730278c2cdf3f2e01ee5ccafd1626edc4819b49c88完全一致。下载URL在final_delivery.json/remote_asset_verification.json/docs，非仅/workspace路径；本轮未操作真实宿主。最终报告提交以HEAD/ls-remote为准；318pass/0fail/1skip每解释器，无后续代码变更。
 
 [实测] C-070：Shadow host FINAL: verified remote downloadable archive bytes, actual dual-Python318 regressions and unchanged production scope；指纹锚点 65e4a64556252313bd3ff2144e7ebf9ad0d011e3872cd1b5f31d93ace9f93c1d；不证明生产运行。
+
+[实测/开发] C-M0: Baseline 318 passed, E12 skipped; source audit and API evidence gap recorded。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 c110b3d8b75d808fa6b37c9f18cf4feb97bf27e0581c96135b5882851c676481，不证明宿主运行。

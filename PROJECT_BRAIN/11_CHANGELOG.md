@@ -596,3 +596,8 @@
 - 改了什么：实际Ubuntu24.04/CPython3.12.3兼容证据、support ABI门/失败分类/复用原runtime或交付归档，按本检查点文件清单与docs/nana_shadow_host_compat.md。
 - 为什么：真实宿主被补丁版本字符串阻断；仅在开发侧闭合ABI与可下载包交付，不升级宿主/不改生产。
 - 怎么验证：对应targeted/完整回归/实际解包与SIGKILL证据保留，逐文件白名单/凭据模式/许可证审查，独立开发commit/push/ls-remote；最终SHA以Git为准。
+
+## C-M0 · AstrBot Shadow Codex development
+- 改了什么：Baseline 318 passed, E12 skipped; source audit and API evidence gap recorded；文件见manifests/whitelist_astrbot_codex.json。
+- 为什么：用户授权独立开发Observer/证据链，保留批准Core字节与现场事实边界。
+- 怎么验证：docs/nana_astrbot_shadow_evidence的专项/回归记录；白名单/敏感与运行产物检查通过，不代表真实宿主验收。

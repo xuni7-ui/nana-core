@@ -1,0 +1,14 @@
+{
+  "base": "c3ada9b09faa8a2683f98d5c8bafec24779cfd71",
+  "allowed_files": [
+    "PROJECT_BRAIN/09_STATE.md",
+    "PROJECT_BRAIN/10_DECISIONS.md",
+    "PROJECT_BRAIN/11_CHANGELOG.md",
+    "docs/nana_astrbot_shadow_binding.md",
+    "docs/nana_astrbot_shadow_evidence/baseline.txt",
+    "docs/nana_astrbot_shadow_evidence/baseline.xml",
+    "manifests/fingerprints_astrbot_codex.json",
+    "manifests/whitelist_astrbot_codex.json"
+  ],
+  "scope": "Codex development only; no real host claims; approved Core unchanged"
+}
