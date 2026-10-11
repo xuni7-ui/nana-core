@@ -25,7 +25,7 @@ However, **SQLite3.51.3 is a WAL durability fix, not just a syntax version**. SQ
 
 References: https://www.sqlite.org/releaselog/3_51_3.html and https://www.sqlite.org/wal.html#walreset. Fetched official evidence is recorded in `docs/nana_shadow_bootstrap_evidence/upstream_runtime_audit.json`. The original gate was not documented with this rationale; this audit supplies the concrete upstream durability evidence without claiming a locally reproduced corruption.
 
-## Pending measured compatibility
+## Measured compatibility
 
 The development experiment builds CPython3.12.14's actual `_sqlite3` binding from pinned official sources, statically linking actual SQLite3.46.1 or3.51.3. It does not replace a version string or mock SQLite. Source URLs, downloaded hashes and licenses are recorded. The 3.46.1 comparison will be separated from the supported Shadow runtime; no experimental gate exception is shipped.
 
@@ -46,6 +46,7 @@ Preflight reports **HOST_GLOBAL_ENV** before private binding/dependency loading 
 Recommended transport: upload the final `.tar.gz` using the server panel into a directory the operator already controls. This development session has no host transfer channel and does not upload to production. Obtain the archive and its SHA256 through the reviewed development delivery; verify that SHA256 before extracting. Do not use a checksum stored only inside an untrusted archive as proof of authenticity.
 
 ```bash
+set -eu
 mkdir -p /opt/nana_shadow
 cd /opt/nana_shadow
 sha256sum UPLOADED_ARCHIVE.tar.gz
@@ -67,3 +68,57 @@ Alternative A: if the operator already has a trusted authenticated GitHub origin
 HookCompatibilityProbe reads distribution version and optionally parses explicitly selected API-module source names. It never imports/initializes AstrBot, registers a hook, restarts or claims dynamic registration/unregistration/probe isolation from name presence. Those remain UNKNOWN and FIRST_REAL_MESSAGE_STREAM_SHADOW remains BLOCKED.
 
 Pinned Iris0.3.0 L1 is a **volatile** `_queues[session].segment_1/2/3` container of ContextMessage.to_dict fields, not a native persisted JSON wrapper. The adapter preserves this distinction. Profiles use native `user_profile:{persona}:{group}:{user}` / `group_profile:{persona}:{group}` KV keys and profile_to_dict fields. Read-only wrapper interoperability is implemented for operator-created frozen **synthetic** envelopes, with schema-only(default), count-only, hash-only, redacted-sample. Schema-only opens no supplied snapshot. A count_metadata interface accepts numeric metadata without reading payloads. Hash/redaction of actual records would require reading those records; that is still a future explicit privacy authorization, not silently allowed because output is hashed. Production KV/runtime extraction remains disabled/unverified; no native disk format is invented. Unknown/missing/conflicting wrapper fields are rejected and never silently dropped. No import, Grant, Strategy or Action is created by wrapper export.
+
+## Measured archive receipt (2026-10-11 UTC; replacement pending startup-isolation rebuild)
+
+The actual delivered SQLite binding, not an earlier build, was loaded for the final full regression: CPython3.12.14 / SQLite3.51.3 / Pydantic2.13.5, **305 passed / 0 failed / 0 errors / 1 skipped**. Only E12 is skipped. Binding SHA256 is `c18e64abba400c9c1ee91327680ce388dd51b4fb090b52ad829257ba19d82705`. The same runtime inside the extracted archive passed all four dry-run script checks, preflight, probe, actual restart, actual SIGKILL(-9), initial UNKNOWN rollback, recovery, repeat rollback, collection, and deliberate file-tamper rejection. Identity/initial event time persist; unique probe/Evidence/candidate/shadow plan/decision each remain one; executable Actions/Grants/budgets remain zero. Plan is a Shadow draft in the existing memory projection, not an executable plans-table row.
+
+| Artifact | Value |
+|---|---|
+| Archive | `nana-shadow-bootstrap-67bc13404501.tar.gz` |
+| Archive bytes | 3,268,428 |
+| Archive SHA256 | `61574b2533cba222e58da24bf4d2e31b768b3811e2dd136b9244d0fcc07993b7` |
+| Core source SHA | `ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513` (55 original files unchanged) |
+| Operator support source SHA | `67bc134045017763de989668d569c47b15ebfd74` (clean committed support) |
+| Private runtime bytes | 8,537,017 including its manifest; 8,518,899 content bytes excluding manifest |
+| Runtime content-map SHA256 | `95c7215bc78d43cae809e99fcc65c1572cd611c87ae273afb80138b61c01e6ec` |
+| Package content-map SHA256 | `46cc319fd6eccaaed7fcfce49cbbd79ab264464597091881ded8f44a4f98ede8` |
+
+Runtime/package aggregate hashes are SHA256 of canonical per-file hash maps, not hashes of compressed tar streams. Runtime's own manifest is excluded from its aggregate to avoid self-reference, and is protected by the outer manifest. Full source/artifact/ELF/license metadata: `nana_shadow_bootstrap_evidence/final_bundle.json`. Compatibility assertions are bounded by `nana_shadow_bootstrap_evidence/compatibility_matrix.json`; extracted archive evidence is `final_bundle_validation.json`; full regression XML/log and loaded driver receipt are alongside it. The final evidence-only commit can differ from support source SHA without changing this already-tested archive. The archive is a generated local delivery file, not a binary committed to GitHub or uploaded to the Nana host.
+
+After manually uploading **that single file**, the exact operator commands are:
+
+```bash
+set -eu
+mkdir -p /opt/nana_shadow
+cd /opt/nana_shadow
+printf '%s  %s\n' '61574b2533cba222e58da24bf4d2e31b768b3811e2dd136b9244d0fcc07993b7' 'nana-shadow-bootstrap-67bc13404501.tar.gz' | sha256sum -c -
+# Continue only if the checksum above says OK. Use a new destination; do not overwrite an existing extraction.
+test ! -e nana-shadow-bootstrap-67bc13404501 && tar -xzf nana-shadow-bootstrap-67bc13404501.tar.gz
+cd nana-shadow-bootstrap-67bc13404501
+./run_shadow.sh preflight
+# Continue only if adapter_local_probe_ready is true. AstrBot/hook UNKNOWN does not prove host binding.
+./run_shadow.sh probe
+./run_shadow.sh restart-check
+./run_shadow.sh rollback
+./run_shadow.sh collect
+```
+
+There is no model/secret configuration. If the appropriate interpreter is not the default command, use `./run_shadow.sh --python /operator-reviewed/python ...` for the same commands. If permissions do not allow `/opt`, use a new user-owned directory; the script does not request sudo. Incompatible architecture/libc/interpreter means BLOCKED and no install/repair. No actual host hook is installed by any command: a successful future run would establish **real-host adapter-local engineering Shadow**, not an AstrBot message-stream Shadow.
+
+Production login/changes/private memory/secret-value reads/external messages are all zero this task. Model calls zero, E12 NOT_RUN, no new paid service. Official source/wheel downloads are development build traffic, not public Web Capability acceptance. New Core SQL tables zero; no global dependencies installed; five privately pinned dependency wheels and one private SQLite binding are included. Manual transfer, actual host ABI/preflight, dynamic hook and native production KV extraction remain explicit boundaries. The two initial gate/package blockers now have a ready development-side workaround, but no claim is made that a file absent on the server is already there.
+
+## Developer reproduction (not host installation)
+
+Use a separate Linux x86_64 CPython3.12.14 build workspace with GCC, binutils and matching Python headers. Obtain the **exact** two source archives in `tools/nana_host_shadow/isolated_runtime.py::SOURCES`, named `Python-3.12.14.tgz` and `sqlite-fixed.zip`. Place exact wheel files from `WHEEL_PINS` into `INPUTS/wheels/` and copy the recorded `nana_shadow_bootstrap_evidence/wheel_sources.json` into `INPUTS/wheel_sources.json`. URLs and SHA256 for every input are in that recorded metadata. Builder refuses a different source hash, wheel set/hash or a build whose ELF GLIBC requirement exceeds2.34. No network download or latest-version resolution occurs inside the builder.
+
+From the recorded clean support commit, generate a **new** destination with:
+
+```bash
+python -m tools.nana_host_shadow.bootstrap OUTPUT/nana-shadow-bootstrap-67bc13404501 --repo . --inputs INPUTS
+python docs/nana_shadow_bootstrap_evidence/reproducers/bootstrap_validation.py OUTPUT/nana-shadow-bootstrap-67bc13404501.tar.gz validation.json
+```
+
+The second command uses new temporary directories and real subprocesses/SIGKILL. The compatibility harness records its temporary development paths; adjust them to your pinned input and built-binding paths when reproducing old-version/full-regression comparisons. All source/build flags are pinned; the archive includes creation/build environment metadata, so a fresh build's whole archive hash is **not** promised identical. It must receive a new reviewed checksum receipt. Never build by replacing files inside the delivered artifact.
+
+Startup isolation checkpoint: the next release uses `-I -B -S` and rejects missing startup isolation before bundle access. Global `.pth`/sitecustomize are not executed; installation metadata is read without importing global packages. The 67bc archive above remains measured historical evidence, but is superseded for operator delivery by the pending rebuild. Targeted tests:25 passed.

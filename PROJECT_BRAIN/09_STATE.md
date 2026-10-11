@@ -323,3 +323,19 @@
 [实测] C-064：Shadow Bootstrap M5: source-backed Iris native-field wrappers and metadata-only hook probe; 16 targeted passed, hook UNKNOWN；指纹锚点 a246f2194cd1012269050c88bf98725354d6e39e31e0b91d5f6e2f8280b67d5c；仅本检查点文件状态，不证明生产。
 
 [实测] C-065：Shadow Bootstrap release hardening: private SQLite symbol binding, ABI guard and lossless wrapper JSON; 24 targeted passed；指纹锚点 29f4d02ac69f420bab21728a27b9a7c4a61369e5cba67a7163afedd98507331b；仅本检查点文件状态，不证明生产。
+
+## 2026-10-11 UTC · Shadow Bootstrap 最终兼容性与交付
+
+- [实测] 当前开发分支 dev/nana-core-v1-shadow-bootstrap，基线8ff57a3a227ee1c35ed34cf314866300e34d01f8；批准Core包55文件仍为ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513原字节；support固定67bc134045017763de989668d569c47b15ebfd74。最终报告提交SHA以Git/远端回验为准。
+- [聊天记忆/用户输入] 宿主Python3.12.14/SQLite3.46.1/Pydantic2.13.5及未有Shadow目录/批准包是用户提供的阻塞事实；当前仓库未保存原始实机输出。本轮无宿主通道，不标成宿主实测。
+- [文档/实测] SQLite语法本身不依赖3.51.3；官方WAL-reset corruption修复是保留>=3.51.3的可靠性依据。实际3.46.1的schema/backup/rollback/SIGKILL-WAL primitives PASS，原完整版本门对照144pass/65fail/82errors/1skip，未绕过门、未宣称重现corruption。完整矩阵docs/nana_shadow_bootstrap_evidence/compatibility_matrix.json。
+- [实测] Pydantic2.13.5兼容：29 DTO合同与2.13.4摘要相同；只放宽到>=2.13.4,<=2.13.5，不推广未测版本。最终直接加载交付包SQLite binding（c18e64abba400c9c1ee91327680ce388dd51b4fb090b52ad829257ba19d82705）进行完整回归：305passed/0failed/0errors/1skipped(E12)。Python3.12.14/SQLite3.51.3/Pydantic2.13.5均是真实运行版本。
+- [实测] 单包nana-shadow-bootstrap-67bc13404501.tar.gz，3,268,428bytes，SHA256=61574b2533cba222e58da24bf4d2e31b768b3811e2dd136b9244d0fcc07993b7。runtime含manifest8,537,017bytes；复用宿主CPython3.12.14，只在短期Shadow进程加载私有SQLite及5个固定wheel，不改系统/AstrBot。要求Linux x86_64/glibc>=2.34/正常cp312 ABI，宿主ABI仍未知。
+- [实测] 新目录解包验证：全部脚本dry-run不写数据，preflight/一次探针/重启/真正SIGKILL(-9)/UNKNOWN回滚/恢复/二次回滚/collect通过；篡改BLOCKED_PACKAGE_INTEGRITY。唯一probe/Evidence/候选/Shadow draft/decision各1，Action/Attempt/Grant/现实预算均0。HOST_GLOBAL_ENV与SHADOW_RUNTIME_ENV分离，真正所选解释器决定探针兼容性；metadata整体UNKNOWN不被冒充AstrBot接线PASS。
+- [实测/未知] HookCompatibilityProbe只读metadata/AST，无动态注册或真实消息流；真实hook UNKNOWN。Iris native L1 volatile queues/profile KV字段的synthetic冻结wrapper适配、schema/count/hash/redacted modes已测试；生产native KV/runtime extraction未启用，仍PARTIAL，不读取私人正文。
+- [实测] 本轮生产登录/修改/调用/私人记忆/secret值读取/外部消息/owner和memory authority切换均0；Core新增SQL表0、全局依赖新增0，包内私有依赖5。真实模型调用0/E12 NOT_RUN；官方材料/构建输入下载是开发构建流量，不是公网Web Capability验收。
+- [未知] FIRST_REAL_CLOUD_SHADOW仍BLOCKED_NO_HOST_CHANNEL。单文件上传仍由操作者完成；本轮未把包传到奈奈宿主。最短路径：人工上传归档、外部checksum验证、选定解释器preflight、adapter-local probe/restart-check/rollback/collect；准确命令及剩余授权边界见docs/nana_shadow_bootstrap.md。
+
+[实测] 2026-10-11 startup isolation追加：bootstrap使用-I -B -S，缺任一标志在读取包前BLOCKED_STARTUP_ISOLATION；仅读全局安装metadata，不执行.pth/sitecustomize。25targeted passed。上条67bc归档/305回归作为历史实测保留；最终操作者包待本隔离修正commit后的新归档替换，不推给真实宿主。
+
+[实测] C-066：Shadow Bootstrap startup isolation: disable global site hooks and fail closed before bundle access; 25 targeted passed；指纹锚点 431dc2faf4e6ed582355fec6fc6a0d8efc62035709b3fb971b0230e9f7acd2cb；仅本检查点文件状态，不证明生产。

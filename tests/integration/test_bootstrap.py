@@ -2,11 +2,22 @@ import hashlib
 import json
 from pathlib import Path
 import sys
+import subprocess
 import pytest
 sys.path.insert(0,str(Path(__file__).resolve().parents[2]/'tools'))
 from nana_host_shadow.bootstrap_entry import verify
 from nana_host_shadow.iris_wrappers import export,records,count_metadata
 from nana_host_shadow.hook_probe import probe
+
+
+def test_bootstrap_rejects_python_site_initialization_before_package_access(tmp_path):
+    entry=Path(__file__).resolve().parents[2]/'tools/nana_host_shadow/bootstrap_entry.py'
+    # No bundle exists: the startup barrier must reject before reading it or
+    # loading any private runtime/Core, rather than relying on a launch convention.
+    result=subprocess.run([sys.executable,'-I','-B',str(entry),str(tmp_path/'absent'),'preflight'],capture_output=True,text=True)
+    assert result.returncode==2
+    assert json.loads(result.stdout)['reason']=='BLOCKED_STARTUP_ISOLATION'
+    assert not (tmp_path/'absent').exists()
 
 
 def sealed(root):

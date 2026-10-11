@@ -8,6 +8,7 @@ import os
 from pathlib import Path
 import platform
 import sys
+import sysconfig
 
 
 def digest(data):
@@ -38,8 +39,14 @@ def verify(root):
 def runtime(root):
     import sqlite3
     host={'python':platform.python_version(),'sqlite':sqlite3.sqlite_version,'executable':sys.executable}
-    try:host['pydantic']=importlib.metadata.version('pydantic')
-    except importlib.metadata.PackageNotFoundError:host['pydantic']='MISSING'
+    # -S avoids executing global .pth/sitecustomize while obtaining metadata.
+    # Read distribution metadata at the interpreter's standard install paths,
+    # without adding those paths to imports or invoking site.main(). A venv's
+    # private site location may not be visible under -S: preserve UNKNOWN.
+    paths=list({sysconfig.get_path('purelib'),sysconfig.get_path('platlib')})
+    versions=[d.version for d in importlib.metadata.distributions(name='pydantic',path=paths)]
+    host['pydantic']=versions[0] if len(set(versions))==1 else 'UNKNOWN'
+    host['pydantic_scope']='installation metadata only; global site initialization disabled'
     libc,version=platform.libc_ver()
     if sys.implementation.name!='cpython' or platform.python_version()!='3.12.14' or getattr(sys,'abiflags','') or platform.machine()!='x86_64' or platform.system()!='Linux':
         raise ValueError('BLOCKED_RUNTIME_ABI')
@@ -68,6 +75,8 @@ def main():
     p.add_argument('--synthetic-fixture')
     a=p.parse_args();root=Path(a.root).absolute()
     try:
+        if not (sys.flags.isolated and sys.flags.no_site and sys.flags.dont_write_bytecode):
+            raise ValueError('BLOCKED_STARTUP_ISOLATION')
         m=verify(root)
         host,shadow=runtime(root)
         if not 0<=a.window_seconds<=600:raise ValueError('BOUNDED_WINDOW_REQUIRED')
@@ -95,7 +104,7 @@ def main():
             r.update(HOST_GLOBAL_ENV=host,SHADOW_RUNTIME_ENV=shadow,bootstrap_source=m['support_source_SHA'])
         print(json.dumps(r,sort_keys=True))
     except Exception as exc:
-        allowed={'BLOCKED_PACKAGE_INTEGRITY','BLOCKED_RUNTIME_ABI','BLOCKED_RUNTIME_VERSION','INITIAL_PROBE_REQUIRED','BOUNDED_WINDOW_REQUIRED'}
+        allowed={'BLOCKED_PACKAGE_INTEGRITY','BLOCKED_RUNTIME_ABI','BLOCKED_RUNTIME_VERSION','BLOCKED_STARTUP_ISOLATION','INITIAL_PROBE_REQUIRED','BOUNDED_WINDOW_REQUIRED'}
         category=str(exc) if type(exc) is ValueError and str(exc) in allowed else getattr(exc,'code',type(exc).__name__)
         print(json.dumps({'status':'BLOCKED','reason':category,'production_calls':0,'private_records_read':0}))
         raise SystemExit(2)

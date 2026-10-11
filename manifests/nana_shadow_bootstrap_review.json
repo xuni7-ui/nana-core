@@ -1,5 +1,5 @@
 {
-  "milestone": "C-065",
+  "milestone": "C-066",
   "reviewed_files": [
     "LICENSES_AND_PROVENANCE.md",
     "PROJECT_BRAIN/09_STATE.md",
@@ -13,11 +13,15 @@
     "docs/nana_shadow_bootstrap_evidence/bootstrap_restart.json",
     "docs/nana_shadow_bootstrap_evidence/bootstrap_rollback.json",
     "docs/nana_shadow_bootstrap_evidence/bootstrap_validation_m4.json",
+    "docs/nana_shadow_bootstrap_evidence/compatibility_matrix.json",
     "docs/nana_shadow_bootstrap_evidence/contract_2134.json",
     "docs/nana_shadow_bootstrap_evidence/contract_2135.json",
     "docs/nana_shadow_bootstrap_evidence/development_build.json",
     "docs/nana_shadow_bootstrap_evidence/final_bundle.json",
+    "docs/nana_shadow_bootstrap_evidence/final_bundle_validation.json",
+    "docs/nana_shadow_bootstrap_evidence/final_delivery.json",
     "docs/nana_shadow_bootstrap_evidence/final_protocol_proof.json",
+    "docs/nana_shadow_bootstrap_evidence/final_regression_environment.json",
     "docs/nana_shadow_bootstrap_evidence/final_runtime_junit.xml",
     "docs/nana_shadow_bootstrap_evidence/final_runtime_regression.txt",
     "docs/nana_shadow_bootstrap_evidence/hardening_tests.txt",
@@ -41,6 +45,7 @@
     "docs/nana_shadow_bootstrap_evidence/runtime_preflight.json",
     "docs/nana_shadow_bootstrap_evidence/source_downloads.json",
     "docs/nana_shadow_bootstrap_evidence/sqlite_3461_primitives.json",
+    "docs/nana_shadow_bootstrap_evidence/startup_isolation_tests.txt",
     "docs/nana_shadow_bootstrap_evidence/upstream_runtime_audit.json",
     "docs/nana_shadow_bootstrap_evidence/wheel_sources.json",
     "manifests/nana_shadow_bootstrap_fingerprints.json",
@@ -58,11 +63,11 @@
   ],
   "allowlist_violations": [],
   "credential_pattern_findings": [],
-  "fingerprint_anchor": "29f4d02ac69f420bab21728a27b9a7c4a61369e5cba67a7163afedd98507331b",
+  "fingerprint_anchor": "431dc2faf4e6ed582355fec6fc6a0d8efc62035709b3fb971b0230e9f7acd2cb",
   "license_boundary": "Iris schema interoperability independently implemented; no AGPL code vendored; original license pending",
   "runtime_db_uploaded": false,
   "production_changes": false,
   "private_records_read": 0,
   "secret_values_read": 0,
-  "summary": "Shadow Bootstrap release hardening: private SQLite symbol binding, ABI guard and lossless wrapper JSON; 24 targeted passed"
+  "summary": "Shadow Bootstrap startup isolation: disable global site hooks and fail closed before bundle access; 25 targeted passed"
 }

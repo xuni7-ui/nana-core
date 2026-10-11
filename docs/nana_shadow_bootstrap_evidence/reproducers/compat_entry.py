@@ -3,7 +3,7 @@ r=pathlib.Path('/tmp/nana-bootstrap-build')
 a=sys.argv[1:];old=a[:1]==['--engine-old'];fixed=a[:1]==['--engine-fixed']
 if old or fixed:a=a[1:]
 if old or fixed:
- spec=importlib.util.spec_from_file_location('_sqlite3',r/('engine-old' if old else 'engine-fixed')/'_sqlite3.cpython-312-x86_64-linux-gnu.so');m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);sys.modules['_sqlite3']=m
+ spec=importlib.util.spec_from_file_location('_sqlite3',(r/'engine-old'/'_sqlite3.cpython-312-x86_64-linux-gnu.so' if old else pathlib.Path('/workspace/nana-core/.nana-experiment/shadow-bootstrap/nana-shadow-bootstrap-67bc13404501/runtime/_sqlite3.cpython-312-x86_64-linux-gnu.so')));m=importlib.util.module_from_spec(spec);spec.loader.exec_module(m);sys.modules['_sqlite3']=m
 sys.dont_write_bytecode=True
 if '-I' not in a:sys.path[:0]=[p for p in os.environ.get('PYTHONPATH','').split(os.pathsep) if p]
 sys.path.insert(0,str(r/'deps'));sys.executable=str(r/('compat-python-old' if old else 'compat-python-fixed' if fixed else 'compat-python'))

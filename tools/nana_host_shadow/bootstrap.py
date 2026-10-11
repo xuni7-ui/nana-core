@@ -31,7 +31,7 @@ if [ "${1:-}" = "--python" ]; then
 else
     python=$(command -v python3.12 || command -v python3) || exit 2
 fi
-exec "$python" -I -B "$base/package/support/nana_host_shadow/bootstrap_entry.py" "$base" "$@"
+exec "$python" -I -B -S "$base/package/support/nana_host_shadow/bootstrap_entry.py" "$base" "$@"
 '''
     (root/'run_shadow.sh').write_text(driver);(root/'run_shadow.sh').chmod(0o700)
     for filename,command in [('stop_shadow.sh','stop'),('collect_shadow.sh','collect'),('rollback_shadow.sh','rollback')]:

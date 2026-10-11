@@ -1,0 +1,577 @@
+{
+  "status": "PASS",
+  "scope": "development actual archive extraction + subprocesses; NOT real host",
+  "archive_sha256": "61574b2533cba222e58da24bf4d2e31b768b3811e2dd136b9244d0fcc07993b7",
+  "preflight": {
+    "HOST_GLOBAL_ENV": {
+      "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+      "pydantic": "2.13.4",
+      "python": "3.12.14",
+      "sqlite": "3.53.1"
+    },
+    "SHADOW_RUNTIME_ENV": {
+      "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+      "interpreter_scope": "existing host binary; private process-only SQLite/dependencies",
+      "pydantic": "2.13.5",
+      "python": "3.12.14",
+      "sqlite": "3.51.3"
+    },
+    "adapter_local_probe_ready": true,
+    "astrbot_hook_ready": false,
+    "automatic_repairs": false,
+    "bootstrap_source": "67bc134045017763de989668d569c47b15ebfd74",
+    "checks": [
+      {
+        "check": "python",
+        "detail": "3.12.14",
+        "status": "PASS"
+      },
+      {
+        "check": "sqlite",
+        "detail": "3.51.3",
+        "status": "PASS"
+      },
+      {
+        "check": "pydantic",
+        "detail": "2.13.5",
+        "status": "PASS"
+      },
+      {
+        "check": "approved_package",
+        "detail": {
+          "commit": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
+          "core_fingerprint": "1e925df523f01f3db6367ba43b1e28383104d4cdbb1464f82779fefe43d5f67c"
+        },
+        "status": "PASS"
+      },
+      {
+        "check": "astrbot",
+        "detail": "distribution metadata absent; no host module imported",
+        "status": "UNKNOWN"
+      },
+      {
+        "check": "astrbot-plugin-iris-chat-memory",
+        "detail": "distribution metadata absent; no host module imported",
+        "status": "UNKNOWN"
+      },
+      {
+        "check": "disk",
+        "detail": {
+          "free_bytes": 4915449856
+        },
+        "status": "PASS"
+      },
+      {
+        "check": "os",
+        "detail": {
+          "distro": "UNKNOWN",
+          "release": "6.18.44",
+          "system": "Linux"
+        },
+        "status": "PASS"
+      },
+      {
+        "check": "host",
+        "detail": {
+          "container_identity": "UNKNOWN",
+          "filesystem_type": "UNKNOWN",
+          "gid": 1000,
+          "hostname_hash": "d2736b9ef35dff5d06180b233024c690cb6a3696728d9c58c2b4082914dae3b8",
+          "process_id": 21529,
+          "uid": 1000
+        },
+        "status": "PASS"
+      },
+      {
+        "check": "dynamic_observer",
+        "detail": {
+          "message_stream_attached": false,
+          "registration": "UNVERIFIED",
+          "restart_required": "UNKNOWN",
+          "unregistration": "UNVERIFIED"
+        },
+        "status": "UNKNOWN"
+      },
+      {
+        "check": "production_health",
+        "detail": "no production process channel inspected",
+        "status": "UNKNOWN"
+      }
+    ],
+    "files_written": 0,
+    "private_records_read": 0,
+    "secret_values_read": 0,
+    "status": "UNKNOWN"
+  },
+  "first": {
+    "AstrBot_restart": false,
+    "E12": "NOT_RUN",
+    "FIRST_REAL_CLOUD_SHADOW": "NOT_RUN",
+    "HOST_GLOBAL_ENV": {
+      "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+      "pydantic": "2.13.4",
+      "python": "3.12.14",
+      "sqlite": "3.53.1"
+    },
+    "Iris_writes": 0,
+    "SHADOW_RUNTIME_ENV": {
+      "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+      "interpreter_scope": "existing host binary; private process-only SQLite/dependencies",
+      "pydantic": "2.13.5",
+      "python": "3.12.14",
+      "sqlite": "3.51.3"
+    },
+    "barrier": [
+      {
+        "check": "plan_execute",
+        "status": "SHADOW_BLOCKED"
+      },
+      {
+        "check": "kernel_propose",
+        "status": "SHADOW_BLOCKED"
+      },
+      {
+        "check": "kernel_budget",
+        "status": "SHADOW_BLOCKED"
+      },
+      {
+        "check": "kernel_grant",
+        "status": "SHADOW_BLOCKED"
+      },
+      {
+        "check": "capability_execute",
+        "status": "SHADOW_BLOCKED"
+      }
+    ],
+    "bootstrap_source": "67bc134045017763de989668d569c47b15ebfd74",
+    "bundle_manifest_hash": "ba5f2f67457c439ee1bff5dc8e35335b27b3d86ffff690b8941be3e2b82436d8",
+    "core_fingerprint": "1e925df523f01f3db6367ba43b1e28383104d4cdbb1464f82779fefe43d5f67c",
+    "counts": {
+      "actions": 0,
+      "attempts": 0,
+      "budgets": 0,
+      "goals": 0,
+      "grants": 0,
+      "jobs": 1,
+      "plans": 0,
+      "strategies": 0
+    },
+    "evidence_artifact_id": "1e28df23-e0cf-4487-9923-735b1e8c49b1",
+    "evidence_hash": "62b57c155a56b96a8a70ed4830b091f406d51935906376e2bed6074b746a03c2",
+    "execution_owner_changed": false,
+    "external_messages_sent": 0,
+    "goal_candidate_id": "33615acb606f64390edb5f67d20a305534950ea1d42b88dde6a4cbc6ee80a554",
+    "goal_candidate_state": "ACCEPTED",
+    "health_samples": 1,
+    "host_binding": "UNVERIFIED",
+    "identity": {
+      "identity_id": "e4f5a170-9e0d-429a-b118-168570acf708",
+      "identity_revision": 1,
+      "identity_snapshot_hash": "0a5b5a46d24c07a4aaac49fe7df47162fa1a377c2cd27c1207d7b7506031cd3a"
+    },
+    "identity_restored": false,
+    "legacy_health_after": "UNKNOWN",
+    "memory_authority_changed": false,
+    "memory_context_ids": [
+      "1f209667-d5d4-4f56-ac51-84a4a2b86d6f"
+    ],
+    "observer_kind": "adapter_local_probe_only",
+    "observer_lifecycle": [
+      "install",
+      "probe_received",
+      "probe_received",
+      "uninstall"
+    ],
+    "observer_removed": true,
+    "plan_storage": "ShadowBridge draft in memory_items, not executable plans table",
+    "prior_termination": "CLEAN_OR_FIRST_START",
+    "private_memory_records_read": 0,
+    "private_message_plaintext_read": 0,
+    "probe_count_unique": 1,
+    "probe_delivery_attempts_this_run": 2,
+    "probe_event_id": "751dc695-4fed-4101-8388-5d5e120c3516",
+    "probe_external_delivery": false,
+    "process_id": 21533,
+    "production_action_count": 0,
+    "production_budget_count": 0,
+    "production_calls": 0,
+    "production_grant_count": 0,
+    "production_source_drift": "UNKNOWN; no production channel inspected",
+    "profile_plaintext_read": 0,
+    "public_internet_calls": 0,
+    "real_model_calls": 0,
+    "reconciliation": {
+      "chat_quality_assessed": false,
+      "core": {
+        "conversation_id": "host_local_probe",
+        "event_id": "first-shadow-probe-v1",
+        "observation_source": "operator_probe",
+        "platform": "operator_probe",
+        "timestamp": "2026-10-11T09:50:30.128147+00:00"
+      },
+      "core_event_id": "751dc695-4fed-4101-8388-5d5e120c3516",
+      "decision_trace": "first_shadow.barrier:751dc695-4fed-4101-8388-5d5e120c3516",
+      "dedup_key": "[\"unrelated\",\"6a4ff71ba554eac9120b0a4651f58f7c44d7eef954931979e56fa7cd18ea5aa4\",\"1\"]",
+      "legacy": {
+        "conversation_id": "host_local_probe",
+        "event_id": "first-shadow-probe-v1",
+        "observation_source": "operator_probe",
+        "platform": "operator_probe",
+        "timestamp": "2026-10-11T09:50:30.128147+00:00"
+      },
+      "legacy_scope": "adapter-local synthetic metadata; no AstrBot AI reply or private stream",
+      "matches": {
+        "conversation_id": true,
+        "event_id": true,
+        "observation_source": true,
+        "platform": true,
+        "timestamp": true
+      },
+      "status": "PASS"
+    },
+    "run_id": "0babd71177dc4d7ab139c88360907c4e",
+    "scope": "ENGINEERING_SHADOW",
+    "secret_values_read": 0,
+    "shadow_decision_count": 1,
+    "shadow_plan_count": 1,
+    "shadow_runtime_stopped": true,
+    "source_commit": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
+    "status": "PASS",
+    "store_closed": true
+  },
+  "restart": {
+    "AstrBot_restart": false,
+    "E12": "NOT_RUN",
+    "FIRST_REAL_CLOUD_SHADOW": "NOT_RUN",
+    "HOST_GLOBAL_ENV": {
+      "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+      "pydantic": "2.13.4",
+      "python": "3.12.14",
+      "sqlite": "3.53.1"
+    },
+    "Iris_writes": 0,
+    "SHADOW_RUNTIME_ENV": {
+      "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+      "interpreter_scope": "existing host binary; private process-only SQLite/dependencies",
+      "pydantic": "2.13.5",
+      "python": "3.12.14",
+      "sqlite": "3.51.3"
+    },
+    "barrier": [
+      {
+        "check": "plan_execute",
+        "status": "SHADOW_BLOCKED"
+      },
+      {
+        "check": "kernel_propose",
+        "status": "SHADOW_BLOCKED"
+      },
+      {
+        "check": "kernel_budget",
+        "status": "SHADOW_BLOCKED"
+      },
+      {
+        "check": "kernel_grant",
+        "status": "SHADOW_BLOCKED"
+      },
+      {
+        "check": "capability_execute",
+        "status": "SHADOW_BLOCKED"
+      }
+    ],
+    "bootstrap_source": "67bc134045017763de989668d569c47b15ebfd74",
+    "bundle_manifest_hash": "ba5f2f67457c439ee1bff5dc8e35335b27b3d86ffff690b8941be3e2b82436d8",
+    "core_fingerprint": "1e925df523f01f3db6367ba43b1e28383104d4cdbb1464f82779fefe43d5f67c",
+    "counts": {
+      "actions": 0,
+      "attempts": 0,
+      "budgets": 0,
+      "goals": 0,
+      "grants": 0,
+      "jobs": 1,
+      "plans": 0,
+      "strategies": 0
+    },
+    "evidence_artifact_id": "1e28df23-e0cf-4487-9923-735b1e8c49b1",
+    "evidence_hash": "62b57c155a56b96a8a70ed4830b091f406d51935906376e2bed6074b746a03c2",
+    "execution_owner_changed": false,
+    "external_messages_sent": 0,
+    "goal_candidate_id": "33615acb606f64390edb5f67d20a305534950ea1d42b88dde6a4cbc6ee80a554",
+    "goal_candidate_state": "ACCEPTED",
+    "health_samples": 1,
+    "host_binding": "UNVERIFIED",
+    "identity": {
+      "identity_id": "e4f5a170-9e0d-429a-b118-168570acf708",
+      "identity_revision": 1,
+      "identity_snapshot_hash": "0a5b5a46d24c07a4aaac49fe7df47162fa1a377c2cd27c1207d7b7506031cd3a"
+    },
+    "identity_restored": true,
+    "legacy_health_after": "UNKNOWN",
+    "memory_authority_changed": false,
+    "memory_context_ids": [
+      "1f209667-d5d4-4f56-ac51-84a4a2b86d6f"
+    ],
+    "observer_kind": "adapter_local_probe_only",
+    "observer_lifecycle": [
+      "install",
+      "probe_received",
+      "probe_received",
+      "uninstall"
+    ],
+    "observer_removed": true,
+    "plan_storage": "ShadowBridge draft in memory_items, not executable plans table",
+    "prior_termination": "CLEAN_OR_FIRST_START",
+    "private_memory_records_read": 0,
+    "private_message_plaintext_read": 0,
+    "probe_count_unique": 1,
+    "probe_delivery_attempts_this_run": 2,
+    "probe_event_id": "751dc695-4fed-4101-8388-5d5e120c3516",
+    "probe_external_delivery": false,
+    "process_id": 21537,
+    "production_action_count": 0,
+    "production_budget_count": 0,
+    "production_calls": 0,
+    "production_grant_count": 0,
+    "production_source_drift": "UNKNOWN; no production channel inspected",
+    "profile_plaintext_read": 0,
+    "public_internet_calls": 0,
+    "real_model_calls": 0,
+    "reconciliation": {
+      "chat_quality_assessed": false,
+      "core": {
+        "conversation_id": "host_local_probe",
+        "event_id": "first-shadow-probe-v1",
+        "observation_source": "operator_probe",
+        "platform": "operator_probe",
+        "timestamp": "2026-10-11T09:50:30.128147+00:00"
+      },
+      "core_event_id": "751dc695-4fed-4101-8388-5d5e120c3516",
+      "decision_trace": "first_shadow.barrier:751dc695-4fed-4101-8388-5d5e120c3516",
+      "dedup_key": "[\"unrelated\",\"6a4ff71ba554eac9120b0a4651f58f7c44d7eef954931979e56fa7cd18ea5aa4\",\"1\"]",
+      "legacy": {
+        "conversation_id": "host_local_probe",
+        "event_id": "first-shadow-probe-v1",
+        "observation_source": "operator_probe",
+        "platform": "operator_probe",
+        "timestamp": "2026-10-11T09:50:30.128147+00:00"
+      },
+      "legacy_scope": "adapter-local synthetic metadata; no AstrBot AI reply or private stream",
+      "matches": {
+        "conversation_id": true,
+        "event_id": true,
+        "observation_source": true,
+        "platform": true,
+        "timestamp": true
+      },
+      "status": "PASS"
+    },
+    "run_id": "dab09443e86c4a83aa8ce0df6280fc27",
+    "scope": "ENGINEERING_SHADOW",
+    "secret_values_read": 0,
+    "shadow_decision_count": 1,
+    "shadow_plan_count": 1,
+    "shadow_runtime_stopped": true,
+    "source_commit": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
+    "status": "PASS",
+    "store_closed": true
+  },
+  "dry_run_no_writes": true,
+  "SIGKILL_exit_code": -9,
+  "unknown_rollback": {
+    "HOST_GLOBAL_ENV": {
+      "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+      "pydantic": "2.13.4",
+      "python": "3.12.14",
+      "sqlite": "3.53.1"
+    },
+    "SHADOW_RUNTIME_ENV": {
+      "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+      "interpreter_scope": "existing host binary; private process-only SQLite/dependencies",
+      "pydantic": "2.13.5",
+      "python": "3.12.14",
+      "sqlite": "3.51.3"
+    },
+    "bootstrap_source": "67bc134045017763de989668d569c47b15ebfd74",
+    "database_deleted": false,
+    "evidence_deleted": 0,
+    "execution_owner_changed": false,
+    "legacy_health": "UNKNOWN",
+    "memory_authority_changed": false,
+    "observer_registration": "adapter-local only; no host hook installed",
+    "production_files_modified": 0,
+    "runtime_active": false,
+    "status": "UNKNOWN_UNCLEAN_TERMINATION"
+  },
+  "recovered": {
+    "AstrBot_restart": false,
+    "E12": "NOT_RUN",
+    "FIRST_REAL_CLOUD_SHADOW": "NOT_RUN",
+    "HOST_GLOBAL_ENV": {
+      "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+      "pydantic": "2.13.4",
+      "python": "3.12.14",
+      "sqlite": "3.53.1"
+    },
+    "Iris_writes": 0,
+    "SHADOW_RUNTIME_ENV": {
+      "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+      "interpreter_scope": "existing host binary; private process-only SQLite/dependencies",
+      "pydantic": "2.13.5",
+      "python": "3.12.14",
+      "sqlite": "3.51.3"
+    },
+    "barrier": [
+      {
+        "check": "plan_execute",
+        "status": "SHADOW_BLOCKED"
+      },
+      {
+        "check": "kernel_propose",
+        "status": "SHADOW_BLOCKED"
+      },
+      {
+        "check": "kernel_budget",
+        "status": "SHADOW_BLOCKED"
+      },
+      {
+        "check": "kernel_grant",
+        "status": "SHADOW_BLOCKED"
+      },
+      {
+        "check": "capability_execute",
+        "status": "SHADOW_BLOCKED"
+      }
+    ],
+    "bootstrap_source": "67bc134045017763de989668d569c47b15ebfd74",
+    "bundle_manifest_hash": "ba5f2f67457c439ee1bff5dc8e35335b27b3d86ffff690b8941be3e2b82436d8",
+    "core_fingerprint": "1e925df523f01f3db6367ba43b1e28383104d4cdbb1464f82779fefe43d5f67c",
+    "counts": {
+      "actions": 0,
+      "attempts": 0,
+      "budgets": 0,
+      "goals": 0,
+      "grants": 0,
+      "jobs": 1,
+      "plans": 0,
+      "strategies": 0
+    },
+    "evidence_artifact_id": "1e28df23-e0cf-4487-9923-735b1e8c49b1",
+    "evidence_hash": "62b57c155a56b96a8a70ed4830b091f406d51935906376e2bed6074b746a03c2",
+    "execution_owner_changed": false,
+    "external_messages_sent": 0,
+    "goal_candidate_id": "33615acb606f64390edb5f67d20a305534950ea1d42b88dde6a4cbc6ee80a554",
+    "goal_candidate_state": "ACCEPTED",
+    "health_samples": 1,
+    "host_binding": "UNVERIFIED",
+    "identity": {
+      "identity_id": "e4f5a170-9e0d-429a-b118-168570acf708",
+      "identity_revision": 1,
+      "identity_snapshot_hash": "0a5b5a46d24c07a4aaac49fe7df47162fa1a377c2cd27c1207d7b7506031cd3a"
+    },
+    "identity_restored": true,
+    "legacy_health_after": "UNKNOWN",
+    "memory_authority_changed": false,
+    "memory_context_ids": [
+      "1f209667-d5d4-4f56-ac51-84a4a2b86d6f"
+    ],
+    "observer_kind": "adapter_local_probe_only",
+    "observer_lifecycle": [
+      "install",
+      "probe_received",
+      "probe_received",
+      "uninstall"
+    ],
+    "observer_removed": true,
+    "plan_storage": "ShadowBridge draft in memory_items, not executable plans table",
+    "prior_termination": "UNKNOWN",
+    "private_memory_records_read": 0,
+    "private_message_plaintext_read": 0,
+    "probe_count_unique": 1,
+    "probe_delivery_attempts_this_run": 2,
+    "probe_event_id": "751dc695-4fed-4101-8388-5d5e120c3516",
+    "probe_external_delivery": false,
+    "process_id": 21549,
+    "production_action_count": 0,
+    "production_budget_count": 0,
+    "production_calls": 0,
+    "production_grant_count": 0,
+    "production_source_drift": "UNKNOWN; no production channel inspected",
+    "profile_plaintext_read": 0,
+    "public_internet_calls": 0,
+    "real_model_calls": 0,
+    "reconciliation": {
+      "chat_quality_assessed": false,
+      "core": {
+        "conversation_id": "host_local_probe",
+        "event_id": "first-shadow-probe-v1",
+        "observation_source": "operator_probe",
+        "platform": "operator_probe",
+        "timestamp": "2026-10-11T09:50:30.128147+00:00"
+      },
+      "core_event_id": "751dc695-4fed-4101-8388-5d5e120c3516",
+      "decision_trace": "first_shadow.barrier:751dc695-4fed-4101-8388-5d5e120c3516",
+      "dedup_key": "[\"unrelated\",\"6a4ff71ba554eac9120b0a4651f58f7c44d7eef954931979e56fa7cd18ea5aa4\",\"1\"]",
+      "legacy": {
+        "conversation_id": "host_local_probe",
+        "event_id": "first-shadow-probe-v1",
+        "observation_source": "operator_probe",
+        "platform": "operator_probe",
+        "timestamp": "2026-10-11T09:50:30.128147+00:00"
+      },
+      "legacy_scope": "adapter-local synthetic metadata; no AstrBot AI reply or private stream",
+      "matches": {
+        "conversation_id": true,
+        "event_id": true,
+        "observation_source": true,
+        "platform": true,
+        "timestamp": true
+      },
+      "status": "PASS"
+    },
+    "run_id": "b7964d5983874728a2bcb07d15867fe7",
+    "scope": "ENGINEERING_SHADOW",
+    "secret_values_read": 0,
+    "shadow_decision_count": 1,
+    "shadow_plan_count": 1,
+    "shadow_runtime_stopped": true,
+    "source_commit": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
+    "status": "PASS",
+    "store_closed": true
+  },
+  "rollback": {
+    "HOST_GLOBAL_ENV": {
+      "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+      "pydantic": "2.13.4",
+      "python": "3.12.14",
+      "sqlite": "3.53.1"
+    },
+    "SHADOW_RUNTIME_ENV": {
+      "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+      "interpreter_scope": "existing host binary; private process-only SQLite/dependencies",
+      "pydantic": "2.13.5",
+      "python": "3.12.14",
+      "sqlite": "3.51.3"
+    },
+    "bootstrap_source": "67bc134045017763de989668d569c47b15ebfd74",
+    "database_deleted": false,
+    "evidence_deleted": 0,
+    "execution_owner_changed": false,
+    "legacy_health": "UNKNOWN",
+    "memory_authority_changed": false,
+    "observer_registration": "adapter-local only; no host hook installed",
+    "production_files_modified": 0,
+    "runtime_active": false,
+    "status": "PASS"
+  },
+  "collected_report_count": 3,
+  "tamper_blocked": {
+    "status": "BLOCKED",
+    "reason": "BLOCKED_PACKAGE_INTEGRITY",
+    "production_calls": 0,
+    "private_records_read": 0
+  },
+  "production_calls": 0,
+  "private_records_read": 0,
+  "external_messages": 0,
+  "E12": "NOT_RUN"
+}

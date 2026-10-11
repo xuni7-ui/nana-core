@@ -1,0 +1,172 @@
+{
+  "schema_version": 1,
+  "repository": "xuni7-ui/nana-core",
+  "branch": "dev/nana-core-v1-shadow-bootstrap",
+  "base_SHA": "8ff57a3a227ee1c35ed34cf314866300e34d01f8",
+  "approved_Core_SHA": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
+  "bundle_support_SHA": "67bc134045017763de989668d569c47b15ebfd74",
+  "final_documentation_SHA": "resolve from Git HEAD; no self-referential hash",
+  "main_expected_SHA": "18bc736d5e37fe3325e514a0e975403df2f97c9f",
+  "stages": {
+    "P0": {
+      "status": "TESTED",
+      "detail": "Baseline8ff checked; user-provided host facts distinguished from missing raw host evidence; no host channel"
+    },
+    "P1": {
+      "status": "TESTED",
+      "detail": "SQL3.46.1 primitive tests PASS; official WAL race requires retained3.51.3 gate; full old gate comparison failures retained"
+    },
+    "P2": {
+      "status": "TESTED",
+      "detail": "2.13.5 full regression and paired29 DTO digest; accept only2.13.4..2.13.5"
+    },
+    "P3": {
+      "status": "RUNTIME_VERIFIED",
+      "scope": "development",
+      "detail": "8.54MB private dependency runtime; existing host CPython binary required; no second autonomous runtime"
+    },
+    "P4": {
+      "status": "RUNTIME_VERIFIED",
+      "scope": "development",
+      "detail": "selected executable preflight; HOST_GLOBAL_ENV separate from SHADOW_RUNTIME_ENV"
+    },
+    "P5": {
+      "status": "RUNTIME_VERIFIED",
+      "scope": "development",
+      "detail": "single archive; four scripts, all dry-run, bounded foreground probe, no system installation"
+    },
+    "P6": {
+      "status": "RUNTIME_VERIFIED",
+      "scope": "development",
+      "detail": "fixed55 Core files; every immutable file hash verified; tamper BLOCKED_PACKAGE_INTEGRITY; support67bc committed source"
+    },
+    "P7": {
+      "status": "IMPLEMENTED",
+      "detail": "three operator transfer instructions; recommend one file panel upload; actual host transfer NOT_RUN"
+    },
+    "P8": {
+      "status": "RUNTIME_VERIFIED",
+      "scope": "development",
+      "detail": "preflight/probe/restart-check/rollback/collect from extracted archive; zero sensitive configuration"
+    },
+    "P9": {
+      "status": "TESTED",
+      "detail": "actual CPython3.12.14/SQLite3.46.1/Pydantic2.13.5 reproduction, no mocked version, no gate bypass"
+    },
+    "P10": {
+      "status": "RUNTIME_VERIFIED",
+      "scope": "development only",
+      "detail": "fresh extracted archive normal restart and actual SIGKILL(-9); UNKNOWN retained, one unique probe/evidence/candidate/plan/decision; no actions/grants/budgets"
+    },
+    "P11": {
+      "status": "PARTIAL",
+      "detail": "metadata/AST HookCompatibilityProbe implemented and tested; actual dynamic hook UNKNOWN, no host hook attached"
+    },
+    "P12": {
+      "status": "PARTIAL",
+      "detail": "source-backed L1 volatile queues/profile KV frozen synthetic wrapper modes tested; production runtime/KV extraction disabled and unverified"
+    },
+    "P13": {
+      "status": "NOT_RUN",
+      "detail": "E12; no two authorized development model endpoints, real model calls0"
+    },
+    "P14": {
+      "status": "TESTED",
+      "detail": "final delivered native binding full305pass/0fail/0error/1skip; compatibility_matrix written"
+    },
+    "P15": {
+      "status": "IMPLEMENTED",
+      "detail": "STATE/CHANGELOG appended at each milestone; DECISION compatibility rationale; licenses retained"
+    },
+    "P16": {
+      "status": "IMPLEMENTED",
+      "detail": "M1/M2/M3/M4/M5/release commits separately pushed and ls-remote verified; final receipt commit follows"
+    },
+    "P17": {
+      "status": "TESTED",
+      "detail": "controlled development allowlist and credential pattern review, no production operations"
+    },
+    "P18": {
+      "status": "IMPLEMENTED",
+      "detail": "exact artifact receipt and host commands; manual transfer and host ABI/hook limits explicit"
+    }
+  },
+  "tests": {
+    "passed": 305,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 1,
+    "skip": "E12 NOT_RUN",
+    "engine": {
+      "python": "3.12.14",
+      "sqlite": "3.51.3",
+      "pydantic": "2.13.5",
+      "driver": "/workspace/nana-core/.nana-experiment/shadow-bootstrap/nana-shadow-bootstrap-67bc13404501/runtime/_sqlite3.cpython-312-x86_64-linux-gnu.so",
+      "driver_sha256": "c18e64abba400c9c1ee91327680ce388dd51b4fb090b52ad829257ba19d82705"
+    },
+    "junit": "final_runtime_junit.xml"
+  },
+  "artifact": {
+    "archive": "/workspace/nana-core/.nana-experiment/shadow-bootstrap/nana-shadow-bootstrap-67bc13404501.tar.gz",
+    "SHA256": "61574b2533cba222e58da24bf4d2e31b768b3811e2dd136b9244d0fcc07993b7",
+    "bytes": 3268428,
+    "support_source_SHA": "67bc134045017763de989668d569c47b15ebfd74",
+    "support_worktree_dirty": false,
+    "runtime_bytes": 8518899,
+    "runtime_sha256": "95c7215bc78d43cae809e99fcc65c1572cd611c87ae273afb80138b61c01e6ec",
+    "artifact_name": "nana-shadow-bootstrap-67bc13404501.tar.gz",
+    "runtime_including_manifest_bytes": 8537017,
+    "package_sha256": "46cc319fd6eccaaed7fcfce49cbbd79ab264464597091881ded8f44a4f98ede8",
+    "Core_source_SHA": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
+    "runtime_hash_semantics": "SHA256 of canonical per-file hash map; runtime_manifest.json excluded to avoid self-reference; included in outer bundle manifest",
+    "full_regression_binding_sha256": "c18e64abba400c9c1ee91327680ce388dd51b4fb090b52ad829257ba19d82705"
+  },
+  "runtime_versions": {
+    "python": "3.12.14 existing host binary",
+    "sqlite": "3.51.3 private",
+    "pydantic": "2.13.5 private"
+  },
+  "runtime_sources": "final_bundle.json runtime_manifest sources and wheels; hash-pinned official CPython/SQLite and fixed PyPI release artifacts",
+  "archive_extraction_validation": "final_bundle_validation.json",
+  "actual_host_access": false,
+  "FIRST_REAL_CLOUD_SHADOW": "BLOCKED_NO_HOST_CHANNEL",
+  "E12": "NOT_RUN",
+  "real_model_calls": 0,
+  "real_model_token_usage": 0,
+  "public_WebCapability_acceptance_calls": 0,
+  "public_WebCapability": "not retried; not relevant to offline bootstrap",
+  "public_HTTP_note": "Official release docs, source archives and fixed wheel assets fetched with TLS for development build; not public Web Capability acceptance; total transport request count was not instrumented",
+  "loopback_note": "full regression uses local protocol simulators; proof records2 model-HTTP and5 controlledWeb requests, not total test suite request count",
+  "external_paid_service_calls": 0,
+  "new_external_service_cost": 0,
+  "cost_scope": "no model purchase/paid API; underlying existing Codex subscription/build infrastructure not independently metered",
+  "new_Core_SQL_tables": 0,
+  "new_global_dependencies": 0,
+  "bundle_private_dependencies": 5,
+  "bundle_private_SQLite_binding": 1,
+  "production_calls": 0,
+  "production_changes": 0,
+  "private_memory_read": 0,
+  "private_message_plaintext_read": 0,
+  "secret_values_read": 0,
+  "external_messages_sent": 0,
+  "execution_owner_changed": false,
+  "memory_authority_changed": false,
+  "new_host_login_or_credentials": false,
+  "manual_upload_still_required": true,
+  "host_ABI": "UNKNOWN, must satisfy existing normal CPython3.12.14/Linux x86_64/glibc>=2.34; no repair if not compatible",
+  "AstrBot_real_hook": "UNKNOWN",
+  "native_Iris_wrappers": "PARTIAL: synthetic frozen native-field adapters and numeric metadata interface; native production KV/runtime extractor disabled",
+  "rollback": {
+    "development": "PASS; idempotent; real SIGKILL initially UNKNOWN_UNCLEAN_TERMINATION; resume no duplicate",
+    "production": "NOT_RUN; no host changes to rollback"
+  },
+  "remaining": [
+    "Operator single-file upload absent automatic host channel",
+    "Actual host ABI and selected-interpreter preflight NOT_RUN",
+    "Actual dynamic AstrBot hook remains UNKNOWN; adapter-local is not message-stream integration",
+    "Native Iris production body extraction requires future separate authorization",
+    "E12 real dual model remains NOT_RUN"
+  ],
+  "artifact_status": "SUPERSEDED_FOR_DELIVERY_BY_PENDING_STARTUP_ISOLATION_REBUILD"
+}

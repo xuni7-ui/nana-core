@@ -1,0 +1,115 @@
+{
+  "schema_version": 1,
+  "scope": "Measured development environments; host facts user-reported, no real host access",
+  "host_actual_execution": "NOT_RUN",
+  "entries": [
+    {
+      "component": "Python",
+      "version": "3.12.14",
+      "status": "SUPPORTED",
+      "scope": "actual CPython normal ABI Linux x86_64",
+      "evidence": [
+        "final_regression_environment.json",
+        "final_runtime_regression.txt",
+        "final_bundle_validation.json"
+      ]
+    },
+    {
+      "component": "SQLite",
+      "version": "3.46.1",
+      "status": "UNSUPPORTED",
+      "scope": "unpatched writable WAL Core policy; SQL primitives functionally pass",
+      "reason": "Official WAL-reset corruption fix absent, gate retained; race not locally reproduced",
+      "functional_primitives": "PASS",
+      "full_regression": {
+        "passed": 144,
+        "failed": 65,
+        "errors": 82,
+        "skipped": 1
+      },
+      "evidence": [
+        "sqlite_3461_primitives.json",
+        "host_versions_regression.txt",
+        "upstream_runtime_audit.json"
+      ]
+    },
+    {
+      "component": "SQLite",
+      "version": "3.51.3",
+      "status": "SUPPORTED",
+      "scope": "actual private stdlib binding, official WAL fix, measured full regression and extracted archive",
+      "full_regression": {
+        "passed": 305,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 1
+      },
+      "evidence": [
+        "final_regression_environment.json",
+        "final_runtime_regression.txt",
+        "final_bundle_validation.json"
+      ]
+    },
+    {
+      "component": "SQLite",
+      "version": "3.53.1",
+      "status": "SUPPORTED",
+      "scope": "development native binding with Pydantic2.13.5 before bootstrap tests",
+      "full_regression": {
+        "passed": 291,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 1
+      },
+      "evidence": [
+        "pydantic_2135_regression.txt"
+      ]
+    },
+    {
+      "component": "Pydantic",
+      "version": "2.13.4",
+      "status": "SUPPORTED",
+      "scope": "baseline regression291;29 DTO paired contract comparison",
+      "evidence": [
+        "../nana_first_shadow_evidence/final_delivery.json",
+        "contract_2134.json"
+      ]
+    },
+    {
+      "component": "Pydantic",
+      "version": "2.13.5",
+      "status": "SUPPORTED",
+      "scope": "full measured305;29 DTO digest same as2.13.4",
+      "evidence": [
+        "contract_2135.json",
+        "final_runtime_regression.txt"
+      ]
+    },
+    {
+      "component": "Python",
+      "version": "3.13",
+      "status": "UNTESTED",
+      "scope": "Core compatibility untested; bootstrap cp312 binding intentionally not supported",
+      "host_sqlite_and_missing_pydantic": "USER_REPORTED"
+    },
+    {
+      "component": "Other SQLite/Pydantic/Python versions",
+      "version": "other",
+      "status": "UNTESTED",
+      "scope": "No support inferred from tested releases; backports3.44.6/3.50.7 not tested"
+    }
+  ],
+  "gates": {
+    "Core_sqlite": ">=3.51.3",
+    "pydantic": ">=2.13.4,<=2.13.5",
+    "delivered_bootstrap": "exact CPython3.12.14 normal ABI/Linux x86_64/glibc>=2.34/private SQLite3.51.3/Pydantic2.13.5"
+  },
+  "original_host_environment_reproduced": {
+    "python": "3.12.14",
+    "sqlite": "3.46.1",
+    "pydantic": "2.13.5",
+    "version_strings_mocked": false,
+    "Core_gate_bypassed": false
+  },
+  "interpretation": "SUPPORTED is limited to listed measured versions/scopes. UNSUPPORTED3.46.1 is reliability policy based on upstream evidence, not an assertion SQL syntax fails."
+}

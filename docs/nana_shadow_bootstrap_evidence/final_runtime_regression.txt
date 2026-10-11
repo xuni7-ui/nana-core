@@ -2,7 +2,7 @@
 ........................................................................ [ 47%]
 ........................................................................ [ 70%]
 ........................................................................ [ 94%]
-.................                                                        [100%]
+..................                                                       [100%]
 =========================== short test summary info ============================
 SKIPPED [1] tests/offline_continuity/test_experiment.py:21: E12 real-model gate requires configured development endpoints via nana-semantic; offline pytest makes no real-model calls
-304 passed, 1 skipped in 15.31s
+305 passed, 1 skipped in 15.72s
