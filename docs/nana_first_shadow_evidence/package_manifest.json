@@ -9,5 +9,6 @@
   "source_commit_attests_core_only": true,
   "production_installed": false,
   "no_binary_uploaded_to_git": true,
-  "dependencies_added": 0
+  "dependencies_added": 0,
+  "workspace_artifact_copy": "/workspace/nana-core/.nana-experiment/first-real-shadow/nana-first-shadow-package-m3.tar.gz"
 }

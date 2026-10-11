@@ -6,7 +6,13 @@ Approved Core source: `ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513` (55 files). The
 
 Current result: **BLOCKED_NO_HOST_CHANNEL**. Environment spec 45 has no host capabilities, outbound identities, runtime variables or credential bindings; VPN is unconfigured and TCP grants are empty. No known target was supplied. No login, connection attempt, production source access, private record read or real host probe occurred. One known SSH-config metadata check was permission-denied (UNKNOWN); this does not prove there can never be another host channel.
 
+Final development regression: **291 passed / 0 failed / 1 skipped**. E12 is the only skip. The initial full run had 12 failures and 19 setup errors because the default sandbox refused AF_INET socket creation; its logs are retained. Rerunning with authorized test-network access passed without modifying old tests or Core source. Targeted initial launcher/test setup failures and corrections are separately retained. Public-content requests, real-model calls, production calls and private record/secret reads are all zero for this task. New dependencies and Core SQL tables: zero.
+
+Evidence: `docs/nana_first_shadow_evidence/final_delivery.json`, `final_junit.xml`, `development_continuity.json`, `sigkill_recovery.json`, `package_manifest.json`. The source package archive is 105393 bytes, SHA-256 `84996e143cc5cb3366d0e1598233ea7b07199e87957d7d6ea1bd408633685306`; binary archives and runtime DBs are deliberately not pushed to Git. The committed builder can regenerate a package from the approved Core object plus reviewed support. Its new archive hash may differ if support changes.
+
 This package can perform an **adapter-local** probe on an operator-selected host. It does **not** install an AstrBot message-stream hook. Dynamic hook registration, probe isolation, production service health and production version/schema compatibility remain UNKNOWN. A local probe running on a verified host is real-host engineering evidence; it does not establish that the running AstrBot emitted that event. The report intentionally keeps `FIRST_REAL_CLOUD_SHADOW=NOT_RUN` until separately verified host/binding evidence exists. Do not promote this report to full real AstrBot integration PASS.
+
+The current tools therefore prepare a reversible **host-local adapter fallback**, not the still-unverified running-AstrBot connection. There is no production hook uninstall claim to make: no such hook was installed. No production before/after health or memory authority was inspected; those remain UNKNOWN rather than inferred from fixture results.
 
 ## Build without touching production
 

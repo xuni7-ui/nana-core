@@ -1,0 +1,153 @@
+{
+  "repository": "xuni7-ui/nana-core",
+  "branch": "dev/nana-core-v1-first-real-shadow",
+  "approved_Core_source_sha": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
+  "real_host_access": "NO",
+  "FIRST_REAL_CLOUD_SHADOW": "BLOCKED_NO_HOST_CHANNEL",
+  "host_preflight": "NOT_RUN",
+  "shadow_package_installed_on_real_host": false,
+  "AstrBot_observer_registered": false,
+  "real_host_probe_injected": false,
+  "probe_external_delivery": false,
+  "real_host_shadow_evidence_count": 0,
+  "real_host_goal_candidate_count": 0,
+  "real_host_plan_count": 0,
+  "development_probe_evidence_count": 1,
+  "development_goal_candidate_count": 1,
+  "development_shadow_plan_count": 1,
+  "production_Action": 0,
+  "production_Grant_created": 0,
+  "production_budget_configured": 0,
+  "private_memory_records_read": 0,
+  "private_message_plaintext_read": 0,
+  "profile_plaintext_read": 0,
+  "secret_values_read": 0,
+  "external_messages_sent": 0,
+  "AstrBot_restart": false,
+  "Iris_writes": 0,
+  "execution_owner_changed": false,
+  "memory_authority_changed": false,
+  "real_host_observer_removed": "NOT_APPLICABLE; none installed",
+  "development_observer_removed": true,
+  "legacy_health_after": "UNKNOWN",
+  "tests": {
+    "passed": 291,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 1,
+    "unique_skip": "E12"
+  },
+  "first_regression_socket_denied": {
+    "passed": 260,
+    "failed": 12,
+    "errors": 19,
+    "skipped": 1,
+    "reason": "default sandbox AF_INET socket creation denied; rerun with authorized test network, unchanged tests/source"
+  },
+  "real_model_calls": 0,
+  "actual_real_model_identities": [],
+  "token_usage": {
+    "input": 0,
+    "output": 0,
+    "scope": "no real model calls"
+  },
+  "E12": "NOT_RUN",
+  "public_content_HTTP_calls": 0,
+  "loopback": "existing regression protocol simulators only; never real model/public web",
+  "production_calls": 0,
+  "production_modifications": 0,
+  "production_files_changed": 0,
+  "new_dependencies": 0,
+  "new_Core_SQL_tables": 0,
+  "incremental_cost": 0,
+  "cost_basis": "no paid API/services/model invocations; does not claim cloud subscription/computation is free",
+  "production_rollback": "NOT_APPLICABLE; no real host touched",
+  "development_rollback": "PASS after normal exit; UNKNOWN_UNCLEAN_TERMINATION after actual SIGKILL; subsequent normal restart/rollback PASS",
+  "phases": {
+    "P0": {
+      "status": "BLOCKED",
+      "reason": "BLOCKED_NO_HOST_CHANNEL",
+      "metadata": "environment readiness and known path metadata checked; real host preflight NOT_RUN"
+    },
+    "P1": {
+      "status": "IMPLEMENTED_TESTED",
+      "real_host": "NOT_RUN",
+      "deliverable": "approved fixed-source package + independently reviewed support; no global install"
+    },
+    "P2": {
+      "status": "IMPLEMENTED_TESTED",
+      "real_host": "NOT_RUN",
+      "deliverable": "independent development Shadow DB; stable identity across actual processes"
+    },
+    "P3": {
+      "status": "IMPLEMENTED_TESTED_RUNTIME_VERIFIED_DEVELOPMENT",
+      "real_host": "NOT_RUN",
+      "deliverable": "persistent Store fence and disabled port; 5 blocked entry points and audit event"
+    },
+    "P4": {
+      "status": "PARTIAL",
+      "deliverable": "probe-only adapter-local lifecycle verified",
+      "AstrBot_hook_registration": "NOT_RUN; API and dynamic registration unknown; no stream attached"
+    },
+    "P5": {
+      "status": "TESTED_RUNTIME_VERIFIED_DEVELOPMENT",
+      "real_host": "NOT_RUN",
+      "deliverable": "one unique synthetic probe, two delivery attempts per run; no external delivery"
+    },
+    "P6": {
+      "status": "BLOCKED",
+      "reason": "no Nana real host channel; development evidence is engineering only"
+    },
+    "P7": {
+      "status": "IMPLEMENTED_TESTED_RUNTIME_VERIFIED_DEVELOPMENT",
+      "real_host": "NOT_RUN",
+      "deliverable": "persisted metadata/evidence vs adapter-local input reconciliation; no chat quality score"
+    },
+    "P8": {
+      "status": "PARTIAL",
+      "real_host": "NOT_RUN",
+      "deliverable": "frozen schema-only SQLite probe and authorizer; production version/schema drift UNKNOWN; JSON/FAISS untouched"
+    },
+    "P9": {
+      "status": "TESTED_DEVELOPMENT",
+      "real_host": "NOT_RUN",
+      "deliverable": "no body/credential loading paths, fixed synthetic input, no real memory used"
+    },
+    "P10": {
+      "status": "NOT_RUN_REAL_HOST",
+      "development_window_seconds": 2,
+      "bounded_maximum_seconds": 600
+    },
+    "P11": {
+      "status": "IMPLEMENTED_TESTED_RUNTIME_VERIFIED_DEVELOPMENT",
+      "real_host": "NOT_RUN",
+      "deliverable": "normal stop, repeated rollback, callback-failure cleanup; SIGKILL reported unclean, subsequent restart closes normally"
+    },
+    "P12": {
+      "status": "PARTIAL",
+      "real_host": "NOT_RUN",
+      "production_before_after_drift": "UNKNOWN; no channel inspected",
+      "production_files_changed_by_task": 0,
+      "approved_Core_source_changes": 0
+    },
+    "P13": {
+      "status": "NOT_RUN",
+      "reason": "FIRST_REAL_CLOUD_SHADOW not PASS; no scope expansion"
+    },
+    "P14": {
+      "status": "BLOCKED",
+      "classification": "HOST_ACCESS_BLOCKED",
+      "canonical_status": "BLOCKED_NO_HOST_CHANNEL",
+      "production_rollback_required": false
+    }
+  },
+  "shortest_blocker_path": "operator runs the reviewed bundle on known Nana host, or establishes an explicitly authorized identifiable host channel; no new secret requested",
+  "remaining_boundaries": [
+    "verified real-host identity and metadata compatibility",
+    "AstrBot restart-free probe-isolated dynamic hook",
+    "production schema/version comparison without body",
+    "actual production health/source/config drift evidence",
+    "E12 real dual-model semantics"
+  ],
+  "Git_delivery": "milestone commits pushed and SHA checked; final SHA and clean worktree are reported after final Git checkpoint"
+}

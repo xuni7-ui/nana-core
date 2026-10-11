@@ -1,5 +1,5 @@
 {
-  "milestone": "C-057",
+  "milestone": "C-059",
   "reviewed_files": [
     "LICENSES_AND_PROVENANCE.md",
     "PROJECT_BRAIN/09_STATE.md",
@@ -14,13 +14,19 @@
     "docs/nana_first_shadow_evidence/development_probe_first.json",
     "docs/nana_first_shadow_evidence/development_probe_restart.json",
     "docs/nana_first_shadow_evidence/development_rollback.json",
+    "docs/nana_first_shadow_evidence/final_delivery.json",
+    "docs/nana_first_shadow_evidence/final_junit.xml",
+    "docs/nana_first_shadow_evidence/final_regression.txt",
     "docs/nana_first_shadow_evidence/host_access.json",
     "docs/nana_first_shadow_evidence/initial_failures.json",
     "docs/nana_first_shadow_evidence/m1_tests.txt",
     "docs/nana_first_shadow_evidence/m2_tests.txt",
     "docs/nana_first_shadow_evidence/m3_tests.txt",
     "docs/nana_first_shadow_evidence/package_manifest.json",
+    "docs/nana_first_shadow_evidence/regression_socket_denied.txt",
+    "docs/nana_first_shadow_evidence/regression_socket_denied.xml",
     "docs/nana_first_shadow_evidence/sigkill_recovery.json",
+    "docs/nana_first_shadow_evidence/test_output_normalization.json",
     "manifests/nana_first_shadow_fingerprints.json",
     "manifests/nana_first_shadow_review.json",
     "manifests/upload_whitelist.md",
@@ -35,11 +41,11 @@
   ],
   "allowlist_violations": [],
   "credential_pattern_findings": [],
-  "fingerprint_anchor": "f6620ccea15b6b20b9f60d3043825e4ac45e17f8202c8841dbcce9f18a1d19e2",
+  "fingerprint_anchor": "6eccc6e70d6232253941f85cb61465a93a35619488edb0fdab16a535e528d0f8",
   "license_boundary": "Iris schema interoperability independently implemented; no AGPL code vendored; original license pending",
   "runtime_db_uploaded": false,
   "production_changes": false,
   "private_records_read": 0,
   "secret_values_read": 0,
-  "summary": "First Shadow M3: exact rollback, metadata-only SQL authorizer and real SIGKILL recovery; 10 targeted passed"
+  "summary": "First Shadow FINAL save: normalize preserved failure-log whitespace; 291 passed and real host BLOCKED_NO_HOST_CHANNEL"
 }

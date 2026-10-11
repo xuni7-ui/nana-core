@@ -307,3 +307,7 @@
 [实测] C-056：First Shadow M2: persisted memory context and restart reconciliation; 15 targeted passed, host and E12 NOT_RUN；指纹锚点 e4533088583b9a7a2b1cce27b36fd7c4ec3cc4ef7c5dd6845d59de42858a12cf；仅本检查点文件状态，不证明生产。
 
 [实测] C-057：First Shadow M3: exact rollback, metadata-only SQL authorizer and real SIGKILL recovery; 10 targeted passed；指纹锚点 f6620ccea15b6b20b9f60d3043825e4ac45e17f8202c8841dbcce9f18a1d19e2；仅本检查点文件状态，不证明生产。
+
+[实测] C-058：First Shadow FINAL: 291 passed, one E12 skip; real host blocked, bounded package and rollback evidence saved；指纹锚点 93bc78fad82744034001ace1610c3afac2eb1c438814b9f28d153dd404fb84a2；仅本检查点文件状态，不证明生产。
+
+[实测] C-059：First Shadow FINAL save: normalize preserved failure-log whitespace; 291 passed and real host BLOCKED_NO_HOST_CHANNEL；指纹锚点 6eccc6e70d6232253941f85cb61465a93a35619488edb0fdab16a535e528d0f8；仅本检查点文件状态，不证明生产。

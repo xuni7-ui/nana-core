@@ -1,0 +1,14 @@
+{
+  "regression_socket_denied.txt": {
+    "raw_sha256": "9d354eac5b87123292757b5151c18d1ba914a4aded4eaa9a67769b34b6cfdb5a",
+    "stored_normalized_sha256": "191ea58f9047a4d6e17da75142ef7657aa799f6e4db1b5eed2fdcadb752812d2",
+    "normalization": "trailing whitespace only, for git diff --check; failure content and counts retained",
+    "raw_local_copy": "/workspace/nana-core/.nana-experiment/first-real-shadow/raw-test-output/regression_socket_denied.txt"
+  },
+  "regression_socket_denied.xml": {
+    "raw_sha256": "d631469e32297cc8f5d55ef45405be351bb202ace7cac9e0d69aca978f1f4d1e",
+    "stored_normalized_sha256": "ca216f280016c4c7e840a7b2893eaa8692379c178b6427fbf4114c569f2b1b11",
+    "normalization": "trailing whitespace only, for git diff --check; failure content and counts retained",
+    "raw_local_copy": "/workspace/nana-core/.nana-experiment/first-real-shadow/raw-test-output/regression_socket_denied.xml"
+  }
+}

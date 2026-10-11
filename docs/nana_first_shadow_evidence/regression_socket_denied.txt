@@ -1,0 +1,1396 @@
+.......................s................................................ [ 24%]
+........................................................................ [ 49%]
+........FFFFFFFFFFF.............................................FEEEEEEE [ 73%]
+EEEEEEEEEEEE............................................................ [ 98%]
+....                                                                     [100%]
+==================================== ERRORS ====================================
+_ ERROR at setup of test_one_authorized_get_has_durable_evidence_and_no_re_fetch _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_one_authorized_get_has_du0')
+request = <SubRequest 'web' for <Function test_one_authorized_get_has_durable_evidence_and_no_re_fetch>>
+
+    @pytest.fixture
+    def web(tmp_path, request):
+>       with controlled_service() as server, Store(tmp_path/'core.db',ManualClock()) as store:
+             ^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_web_source.py:24:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+src/nana_core/development/controlled_web.py:58: in controlled_service
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_ ERROR at setup of test_untrusted_proposals_cannot_make_a_web_request[grant] __
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_untrusted_proposals_canno0')
+request = <SubRequest 'web' for <Function test_untrusted_proposals_cannot_make_a_web_request[grant]>>
+
+    @pytest.fixture
+    def web(tmp_path, request):
+>       with controlled_service() as server, Store(tmp_path/'core.db',ManualClock()) as store:
+             ^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_web_source.py:24:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+src/nana_core/development/controlled_web.py:58: in controlled_service
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_ ERROR at setup of test_untrusted_proposals_cannot_make_a_web_request[budget] _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_untrusted_proposals_canno1')
+request = <SubRequest 'web' for <Function test_untrusted_proposals_cannot_make_a_web_request[budget]>>
+
+    @pytest.fixture
+    def web(tmp_path, request):
+>       with controlled_service() as server, Store(tmp_path/'core.db',ManualClock()) as store:
+             ^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_web_source.py:24:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+src/nana_core/development/controlled_web.py:58: in controlled_service
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_ ERROR at setup of test_untrusted_proposals_cannot_make_a_web_request[expired] _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_untrusted_proposals_canno2')
+request = <SubRequest 'web' for <Function test_untrusted_proposals_cannot_make_a_web_request[expired]>>
+
+    @pytest.fixture
+    def web(tmp_path, request):
+>       with controlled_service() as server, Store(tmp_path/'core.db',ManualClock()) as store:
+             ^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_web_source.py:24:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+src/nana_core/development/controlled_web.py:58: in controlled_service
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_ ERROR at setup of test_untrusted_proposals_cannot_make_a_web_request[revoked] _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_untrusted_proposals_canno3')
+request = <SubRequest 'web' for <Function test_untrusted_proposals_cannot_make_a_web_request[revoked]>>
+
+    @pytest.fixture
+    def web(tmp_path, request):
+>       with controlled_service() as server, Store(tmp_path/'core.db',ManualClock()) as store:
+             ^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_web_source.py:24:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+src/nana_core/development/controlled_web.py:58: in controlled_service
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_ ERROR at setup of test_untrusted_proposals_cannot_make_a_web_request[shadow] _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_untrusted_proposals_canno4')
+request = <SubRequest 'web' for <Function test_untrusted_proposals_cannot_make_a_web_request[shadow]>>
+
+    @pytest.fixture
+    def web(tmp_path, request):
+>       with controlled_service() as server, Store(tmp_path/'core.db',ManualClock()) as store:
+             ^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_web_source.py:24:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+src/nana_core/development/controlled_web.py:58: in controlled_service
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_ ERROR at setup of test_untrusted_proposals_cannot_make_a_web_request[legacy] _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_untrusted_proposals_canno5')
+request = <SubRequest 'web' for <Function test_untrusted_proposals_cannot_make_a_web_request[legacy]>>
+
+    @pytest.fixture
+    def web(tmp_path, request):
+>       with controlled_service() as server, Store(tmp_path/'core.db',ManualClock()) as store:
+             ^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_web_source.py:24:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+src/nana_core/development/controlled_web.py:58: in controlled_service
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_ ERROR at setup of test_untrusted_proposals_cannot_make_a_web_request[url_arg] _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_untrusted_proposals_canno6')
+request = <SubRequest 'web' for <Function test_untrusted_proposals_cannot_make_a_web_request[url_arg]>>
+
+    @pytest.fixture
+    def web(tmp_path, request):
+>       with controlled_service() as server, Store(tmp_path/'core.db',ManualClock()) as store:
+             ^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_web_source.py:24:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+src/nana_core/development/controlled_web.py:58: in controlled_service
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+___ ERROR at setup of test_binding_and_router_scope_cannot_change_on_restart ___
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_binding_and_router_scope_0')
+request = <SubRequest 'web' for <Function test_binding_and_router_scope_cannot_change_on_restart>>
+
+    @pytest.fixture
+    def web(tmp_path, request):
+>       with controlled_service() as server, Store(tmp_path/'core.db',ManualClock()) as store:
+             ^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_web_source.py:24:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+src/nana_core/development/controlled_web.py:58: in controlled_service
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+____ ERROR at setup of test_locator_requires_a_verified_read_from_same_goal ____
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_locator_requires_a_verifi0')
+request = <SubRequest 'web' for <Function test_locator_requires_a_verified_read_from_same_goal>>
+
+    @pytest.fixture
+    def web(tmp_path, request):
+>       with controlled_service() as server, Store(tmp_path/'core.db',ManualClock()) as store:
+             ^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_web_source.py:24:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+src/nana_core/development/controlled_web.py:58: in controlled_service
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_ ERROR at setup of test_lost_receipt_recovers_from_journal_without_second_get _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_lost_receipt_recovers_fro0')
+request = <SubRequest 'web' for <Function test_lost_receipt_recovers_from_journal_without_second_get>>
+
+    @pytest.fixture
+    def web(tmp_path, request):
+>       with controlled_service() as server, Store(tmp_path/'core.db',ManualClock()) as store:
+             ^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_web_source.py:24:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+src/nana_core/development/controlled_web.py:58: in controlled_service
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_ ERROR at setup of test_no_durable_receipt_stays_unknown_and_never_refetches __
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_no_durable_receipt_stays_0')
+request = <SubRequest 'web' for <Function test_no_durable_receipt_stays_unknown_and_never_refetches>>
+
+    @pytest.fixture
+    def web(tmp_path, request):
+>       with controlled_service() as server, Store(tmp_path/'core.db',ManualClock()) as store:
+             ^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_web_source.py:24:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+src/nana_core/development/controlled_web.py:58: in controlled_service
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+___ ERROR at setup of test_read_journal_tampering_is_not_execution_evidence ____
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_read_journal_tampering_is0')
+request = <SubRequest 'web' for <Function test_read_journal_tampering_is_not_execution_evidence>>
+
+    @pytest.fixture
+    def web(tmp_path, request):
+>       with controlled_service() as server, Store(tmp_path/'core.db',ManualClock()) as store:
+             ^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_web_source.py:24:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+src/nana_core/development/controlled_web.py:58: in controlled_service
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_ ERROR at setup of test_real_web_read_drives_existing_goal_without_content_authority _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_real_web_read_drives_exis0')
+request = <SubRequest 'web' for <Function test_real_web_read_drives_existing_goal_without_content_authority>>
+
+    @pytest.fixture
+    def web(tmp_path, request):
+>       with controlled_service() as server, Store(tmp_path/'core.db',ManualClock()) as store:
+             ^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_web_source.py:24:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+src/nana_core/development/controlled_web.py:58: in controlled_service
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_ ERROR at setup of test_authorized_head_preserves_metadata_without_get_or_card[HEAD] _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_authorized_head_preserves0')
+request = <SubRequest 'web' for <Function test_authorized_head_preserves_metadata_without_get_or_card[HEAD]>>
+
+    @pytest.fixture
+    def web(tmp_path, request):
+>       with controlled_service() as server, Store(tmp_path/'core.db',ManualClock()) as store:
+             ^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_web_source.py:24:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+src/nana_core/development/controlled_web.py:58: in controlled_service
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_ ERROR at setup of test_locator_journal_tampering_rejected_before_card[locator] _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_locator_journal_tampering0')
+request = <SubRequest 'web' for <Function test_locator_journal_tampering_rejected_before_card[locator]>>
+
+    @pytest.fixture
+    def web(tmp_path, request):
+>       with controlled_service() as server, Store(tmp_path/'core.db',ManualClock()) as store:
+             ^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_web_source.py:24:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+src/nana_core/development/controlled_web.py:58: in controlled_service
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_ ERROR at setup of test_locator_journal_tampering_rejected_before_card[upstream_action_id] _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_locator_journal_tampering1')
+request = <SubRequest 'web' for <Function test_locator_journal_tampering_rejected_before_card[upstream_action_id]>>
+
+    @pytest.fixture
+    def web(tmp_path, request):
+>       with controlled_service() as server, Store(tmp_path/'core.db',ManualClock()) as store:
+             ^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_web_source.py:24:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+src/nana_core/development/controlled_web.py:58: in controlled_service
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_ ERROR at setup of test_locator_journal_tampering_rejected_before_card[source_blob_sha256] _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_locator_journal_tampering2')
+request = <SubRequest 'web' for <Function test_locator_journal_tampering_rejected_before_card[source_blob_sha256]>>
+
+    @pytest.fixture
+    def web(tmp_path, request):
+>       with controlled_service() as server, Store(tmp_path/'core.db',ManualClock()) as store:
+             ^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_web_source.py:24:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+src/nana_core/development/controlled_web.py:58: in controlled_service
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_ ERROR at setup of test_locator_retains_exact_verified_read_identity_and_raw_hash_without_refetch _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_locator_retains_exact_ver0')
+request = <SubRequest 'web' for <Function test_locator_retains_exact_verified_read_identity_and_raw_hash_without_refetch>>
+
+    @pytest.fixture
+    def web(tmp_path, request):
+>       with controlled_service() as server, Store(tmp_path/'core.db',ManualClock()) as store:
+             ^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_web_source.py:24:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+src/nana_core/development/controlled_web.py:58: in controlled_service
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+=================================== FAILURES ===================================
+____________ test_real_wire_protocol_and_read_only_tool_end_to_end _____________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_real_wire_protocol_and_re0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f9892383020>
+
+    def test_real_wire_protocol_and_read_only_tool_end_to_end(tmp_path,monkeypatch):
+        monkeypatch.setenv('NO_PROXY','127.0.0.1');monkeypatch.setenv('no_proxy','127.0.0.1')
+>       with protocol_server() as (url,calls):
+             ^^^^^^^^^^^^^^^^^
+
+tests/development/test_http_integration.py:55:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/development/test_http_integration.py:35: in protocol_server
+    server=HTTPServer(('127.0.0.1',0),Handler)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_ test_successful_real_http_cannot_be_promoted_to_real_model[protocol_simulator] _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_successful_real_http_cann0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f98923801a0>
+service_kind = 'protocol_simulator'
+
+    @pytest.mark.parametrize('service_kind',['protocol_simulator','unverified'])
+    def test_successful_real_http_cannot_be_promoted_to_real_model(tmp_path,monkeypatch,service_kind):
+        monkeypatch.setenv('NO_PROXY','127.0.0.1');monkeypatch.setenv('no_proxy','127.0.0.1')
+>       with protocol_server() as (url,calls):
+             ^^^^^^^^^^^^^^^^^
+
+tests/development/test_http_integration.py:78:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/development/test_http_integration.py:35: in protocol_server
+    server=HTTPServer(('127.0.0.1',0),Handler)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+____ test_successful_real_http_cannot_be_promoted_to_real_model[unverified] ____
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_successful_real_http_cann1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f9892380e90>
+service_kind = 'unverified'
+
+    @pytest.mark.parametrize('service_kind',['protocol_simulator','unverified'])
+    def test_successful_real_http_cannot_be_promoted_to_real_model(tmp_path,monkeypatch,service_kind):
+        monkeypatch.setenv('NO_PROXY','127.0.0.1');monkeypatch.setenv('no_proxy','127.0.0.1')
+>       with protocol_server() as (url,calls):
+             ^^^^^^^^^^^^^^^^^
+
+tests/development/test_http_integration.py:78:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/development/test_http_integration.py:35: in protocol_server
+    server=HTTPServer(('127.0.0.1',0),Handler)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_ test_actual_http_failures_have_no_retry_or_authority[redirect-FAILED-MODEL_RESPONSE_REJECTED] _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_actual_http_failures_have0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f9892381b80>
+mode = 'redirect', state = 'FAILED', error = 'MODEL_RESPONSE_REJECTED'
+
+    @pytest.mark.parametrize('mode,state,error',[('redirect','FAILED','MODEL_RESPONSE_REJECTED'),
+        ('claims_success','FAILED','MODEL_RESPONSE_REJECTED'),('oversize','FAILED','MODEL_RESPONSE_REJECTED'),
+        ('disconnect','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN'),
+        ('400','FAILED','MODEL_HTTP_REJECTED'),('429','FAILED','MODEL_HTTP_REJECTED'),
+        ('500','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN'),('408','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN')])
+    def test_actual_http_failures_have_no_retry_or_authority(tmp_path,monkeypatch,mode,state,error):
+        monkeypatch.setenv('NO_PROXY','127.0.0.1');monkeypatch.setenv('no_proxy','127.0.0.1')
+>       with protocol_server(mode) as (url,calls):
+             ^^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_http_integration.py:102:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/development/test_http_integration.py:35: in protocol_server
+    server=HTTPServer(('127.0.0.1',0),Handler)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_ test_actual_http_failures_have_no_retry_or_authority[claims_success-FAILED-MODEL_RESPONSE_REJECTED] _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_actual_http_failures_have1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f9892382450>
+mode = 'claims_success', state = 'FAILED', error = 'MODEL_RESPONSE_REJECTED'
+
+    @pytest.mark.parametrize('mode,state,error',[('redirect','FAILED','MODEL_RESPONSE_REJECTED'),
+        ('claims_success','FAILED','MODEL_RESPONSE_REJECTED'),('oversize','FAILED','MODEL_RESPONSE_REJECTED'),
+        ('disconnect','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN'),
+        ('400','FAILED','MODEL_HTTP_REJECTED'),('429','FAILED','MODEL_HTTP_REJECTED'),
+        ('500','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN'),('408','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN')])
+    def test_actual_http_failures_have_no_retry_or_authority(tmp_path,monkeypatch,mode,state,error):
+        monkeypatch.setenv('NO_PROXY','127.0.0.1');monkeypatch.setenv('no_proxy','127.0.0.1')
+>       with protocol_server(mode) as (url,calls):
+             ^^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_http_integration.py:102:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/development/test_http_integration.py:35: in protocol_server
+    server=HTTPServer(('127.0.0.1',0),Handler)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_ test_actual_http_failures_have_no_retry_or_authority[oversize-FAILED-MODEL_RESPONSE_REJECTED] _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_actual_http_failures_have2')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f98921f8a10>
+mode = 'oversize', state = 'FAILED', error = 'MODEL_RESPONSE_REJECTED'
+
+    @pytest.mark.parametrize('mode,state,error',[('redirect','FAILED','MODEL_RESPONSE_REJECTED'),
+        ('claims_success','FAILED','MODEL_RESPONSE_REJECTED'),('oversize','FAILED','MODEL_RESPONSE_REJECTED'),
+        ('disconnect','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN'),
+        ('400','FAILED','MODEL_HTTP_REJECTED'),('429','FAILED','MODEL_HTTP_REJECTED'),
+        ('500','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN'),('408','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN')])
+    def test_actual_http_failures_have_no_retry_or_authority(tmp_path,monkeypatch,mode,state,error):
+        monkeypatch.setenv('NO_PROXY','127.0.0.1');monkeypatch.setenv('no_proxy','127.0.0.1')
+>       with protocol_server(mode) as (url,calls):
+             ^^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_http_integration.py:102:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/development/test_http_integration.py:35: in protocol_server
+    server=HTTPServer(('127.0.0.1',0),Handler)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_ test_actual_http_failures_have_no_retry_or_authority[disconnect-UNKNOWN-MODEL_TRANSPORT_UNCERTAIN] _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_actual_http_failures_have3')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f9892382570>
+mode = 'disconnect', state = 'UNKNOWN', error = 'MODEL_TRANSPORT_UNCERTAIN'
+
+    @pytest.mark.parametrize('mode,state,error',[('redirect','FAILED','MODEL_RESPONSE_REJECTED'),
+        ('claims_success','FAILED','MODEL_RESPONSE_REJECTED'),('oversize','FAILED','MODEL_RESPONSE_REJECTED'),
+        ('disconnect','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN'),
+        ('400','FAILED','MODEL_HTTP_REJECTED'),('429','FAILED','MODEL_HTTP_REJECTED'),
+        ('500','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN'),('408','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN')])
+    def test_actual_http_failures_have_no_retry_or_authority(tmp_path,monkeypatch,mode,state,error):
+        monkeypatch.setenv('NO_PROXY','127.0.0.1');monkeypatch.setenv('no_proxy','127.0.0.1')
+>       with protocol_server(mode) as (url,calls):
+             ^^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_http_integration.py:102:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/development/test_http_integration.py:35: in protocol_server
+    server=HTTPServer(('127.0.0.1',0),Handler)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_ test_actual_http_failures_have_no_retry_or_authority[400-FAILED-MODEL_HTTP_REJECTED] _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_actual_http_failures_have4')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f98921f9340>
+mode = '400', state = 'FAILED', error = 'MODEL_HTTP_REJECTED'
+
+    @pytest.mark.parametrize('mode,state,error',[('redirect','FAILED','MODEL_RESPONSE_REJECTED'),
+        ('claims_success','FAILED','MODEL_RESPONSE_REJECTED'),('oversize','FAILED','MODEL_RESPONSE_REJECTED'),
+        ('disconnect','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN'),
+        ('400','FAILED','MODEL_HTTP_REJECTED'),('429','FAILED','MODEL_HTTP_REJECTED'),
+        ('500','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN'),('408','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN')])
+    def test_actual_http_failures_have_no_retry_or_authority(tmp_path,monkeypatch,mode,state,error):
+        monkeypatch.setenv('NO_PROXY','127.0.0.1');monkeypatch.setenv('no_proxy','127.0.0.1')
+>       with protocol_server(mode) as (url,calls):
+             ^^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_http_integration.py:102:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/development/test_http_integration.py:35: in protocol_server
+    server=HTTPServer(('127.0.0.1',0),Handler)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_ test_actual_http_failures_have_no_retry_or_authority[429-FAILED-MODEL_HTTP_REJECTED] _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_actual_http_failures_have5')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f98921f9610>
+mode = '429', state = 'FAILED', error = 'MODEL_HTTP_REJECTED'
+
+    @pytest.mark.parametrize('mode,state,error',[('redirect','FAILED','MODEL_RESPONSE_REJECTED'),
+        ('claims_success','FAILED','MODEL_RESPONSE_REJECTED'),('oversize','FAILED','MODEL_RESPONSE_REJECTED'),
+        ('disconnect','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN'),
+        ('400','FAILED','MODEL_HTTP_REJECTED'),('429','FAILED','MODEL_HTTP_REJECTED'),
+        ('500','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN'),('408','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN')])
+    def test_actual_http_failures_have_no_retry_or_authority(tmp_path,monkeypatch,mode,state,error):
+        monkeypatch.setenv('NO_PROXY','127.0.0.1');monkeypatch.setenv('no_proxy','127.0.0.1')
+>       with protocol_server(mode) as (url,calls):
+             ^^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_http_integration.py:102:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/development/test_http_integration.py:35: in protocol_server
+    server=HTTPServer(('127.0.0.1',0),Handler)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_ test_actual_http_failures_have_no_retry_or_authority[500-UNKNOWN-MODEL_TRANSPORT_UNCERTAIN] _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_actual_http_failures_have6')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f9892b93d40>
+mode = '500', state = 'UNKNOWN', error = 'MODEL_TRANSPORT_UNCERTAIN'
+
+    @pytest.mark.parametrize('mode,state,error',[('redirect','FAILED','MODEL_RESPONSE_REJECTED'),
+        ('claims_success','FAILED','MODEL_RESPONSE_REJECTED'),('oversize','FAILED','MODEL_RESPONSE_REJECTED'),
+        ('disconnect','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN'),
+        ('400','FAILED','MODEL_HTTP_REJECTED'),('429','FAILED','MODEL_HTTP_REJECTED'),
+        ('500','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN'),('408','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN')])
+    def test_actual_http_failures_have_no_retry_or_authority(tmp_path,monkeypatch,mode,state,error):
+        monkeypatch.setenv('NO_PROXY','127.0.0.1');monkeypatch.setenv('no_proxy','127.0.0.1')
+>       with protocol_server(mode) as (url,calls):
+             ^^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_http_integration.py:102:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/development/test_http_integration.py:35: in protocol_server
+    server=HTTPServer(('127.0.0.1',0),Handler)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+_ test_actual_http_failures_have_no_retry_or_authority[408-UNKNOWN-MODEL_TRANSPORT_UNCERTAIN] _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_actual_http_failures_have7')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f9892382ed0>
+mode = '408', state = 'UNKNOWN', error = 'MODEL_TRANSPORT_UNCERTAIN'
+
+    @pytest.mark.parametrize('mode,state,error',[('redirect','FAILED','MODEL_RESPONSE_REJECTED'),
+        ('claims_success','FAILED','MODEL_RESPONSE_REJECTED'),('oversize','FAILED','MODEL_RESPONSE_REJECTED'),
+        ('disconnect','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN'),
+        ('400','FAILED','MODEL_HTTP_REJECTED'),('429','FAILED','MODEL_HTTP_REJECTED'),
+        ('500','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN'),('408','UNKNOWN','MODEL_TRANSPORT_UNCERTAIN')])
+    def test_actual_http_failures_have_no_retry_or_authority(tmp_path,monkeypatch,mode,state,error):
+        monkeypatch.setenv('NO_PROXY','127.0.0.1');monkeypatch.setenv('no_proxy','127.0.0.1')
+>       with protocol_server(mode) as (url,calls):
+             ^^^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_http_integration.py:102:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/development/test_http_integration.py:35: in protocol_server
+    server=HTTPServer(('127.0.0.1',0),Handler)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+________ test_research_restart_crash_and_multitool_experience_ablation _________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-87/test_research_restart_crash_an0')
+
+    def test_research_restart_crash_and_multitool_experience_ablation(tmp_path):
+>       report=run(tmp_path/'lab')
+               ^^^^^^^^^^^^^^^^^^^
+
+tests/development/test_web_lab.py:7:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+src/nana_core/development/web_lab.py:183: in run
+    with controlled_service() as server:
+         ^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+src/nana_core/development/controlled_web.py:58: in controlled_service
+    server = HTTPServer(("127.0.0.1", 0), Handler)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+=========================== short test summary info ============================
+SKIPPED [1] tests/offline_continuity/test_experiment.py:21: E12 real-model gate requires configured development endpoints via nana-semantic; offline pytest makes no real-model calls
+ERROR tests/development/test_web_source.py::test_one_authorized_get_has_durable_evidence_and_no_re_fetch
+ERROR tests/development/test_web_source.py::test_untrusted_proposals_cannot_make_a_web_request[grant]
+ERROR tests/development/test_web_source.py::test_untrusted_proposals_cannot_make_a_web_request[budget]
+ERROR tests/development/test_web_source.py::test_untrusted_proposals_cannot_make_a_web_request[expired]
+ERROR tests/development/test_web_source.py::test_untrusted_proposals_cannot_make_a_web_request[revoked]
+ERROR tests/development/test_web_source.py::test_untrusted_proposals_cannot_make_a_web_request[shadow]
+ERROR tests/development/test_web_source.py::test_untrusted_proposals_cannot_make_a_web_request[legacy]
+ERROR tests/development/test_web_source.py::test_untrusted_proposals_cannot_make_a_web_request[url_arg]
+ERROR tests/development/test_web_source.py::test_binding_and_router_scope_cannot_change_on_restart
+ERROR tests/development/test_web_source.py::test_locator_requires_a_verified_read_from_same_goal
+ERROR tests/development/test_web_source.py::test_lost_receipt_recovers_from_journal_without_second_get
+ERROR tests/development/test_web_source.py::test_no_durable_receipt_stays_unknown_and_never_refetches
+ERROR tests/development/test_web_source.py::test_read_journal_tampering_is_not_execution_evidence
+ERROR tests/development/test_web_source.py::test_real_web_read_drives_existing_goal_without_content_authority
+ERROR tests/development/test_web_source.py::test_authorized_head_preserves_metadata_without_get_or_card[HEAD]
+ERROR tests/development/test_web_source.py::test_locator_journal_tampering_rejected_before_card[locator]
+ERROR tests/development/test_web_source.py::test_locator_journal_tampering_rejected_before_card[upstream_action_id]
+ERROR tests/development/test_web_source.py::test_locator_journal_tampering_rejected_before_card[source_blob_sha256]
+ERROR tests/development/test_web_source.py::test_locator_retains_exact_verified_read_identity_and_raw_hash_without_refetch
+FAILED tests/development/test_http_integration.py::test_real_wire_protocol_and_read_only_tool_end_to_end
+FAILED tests/development/test_http_integration.py::test_successful_real_http_cannot_be_promoted_to_real_model[protocol_simulator]
+FAILED tests/development/test_http_integration.py::test_successful_real_http_cannot_be_promoted_to_real_model[unverified]
+FAILED tests/development/test_http_integration.py::test_actual_http_failures_have_no_retry_or_authority[redirect-FAILED-MODEL_RESPONSE_REJECTED]
+FAILED tests/development/test_http_integration.py::test_actual_http_failures_have_no_retry_or_authority[claims_success-FAILED-MODEL_RESPONSE_REJECTED]
+FAILED tests/development/test_http_integration.py::test_actual_http_failures_have_no_retry_or_authority[oversize-FAILED-MODEL_RESPONSE_REJECTED]
+FAILED tests/development/test_http_integration.py::test_actual_http_failures_have_no_retry_or_authority[disconnect-UNKNOWN-MODEL_TRANSPORT_UNCERTAIN]
+FAILED tests/development/test_http_integration.py::test_actual_http_failures_have_no_retry_or_authority[400-FAILED-MODEL_HTTP_REJECTED]
+FAILED tests/development/test_http_integration.py::test_actual_http_failures_have_no_retry_or_authority[429-FAILED-MODEL_HTTP_REJECTED]
+FAILED tests/development/test_http_integration.py::test_actual_http_failures_have_no_retry_or_authority[500-UNKNOWN-MODEL_TRANSPORT_UNCERTAIN]
+FAILED tests/development/test_http_integration.py::test_actual_http_failures_have_no_retry_or_authority[408-UNKNOWN-MODEL_TRANSPORT_UNCERTAIN]
+FAILED tests/development/test_web_lab.py::test_research_restart_crash_and_multitool_experience_ablation
+12 failed, 260 passed, 1 skipped, 19 errors in 13.85s
