@@ -4,7 +4,7 @@
   "commands": [
     {
       "argv": [
-        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/observer.sh",
+        "/tmp/r041-package-_qualasa/nana-r041-host-bridge-c24833e69ee1/observer.sh",
         "verify"
       ],
       "result": {
@@ -14,7 +14,7 @@
     },
     {
       "argv": [
-        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/observer.sh",
+        "/tmp/r041-package-_qualasa/nana-r041-host-bridge-c24833e69ee1/observer.sh",
         "preflight"
       ],
       "result": {
@@ -60,10 +60,10 @@
     },
     {
       "argv": [
-        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/bridge.sh",
+        "/tmp/r041-package-_qualasa/nana-r041-host-bridge-c24833e69ee1/bridge.sh",
         "preflight",
         "--ipc-directory",
-        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/data/unused",
+        "/tmp/r041-package-_qualasa/nana-r041-host-bridge-c24833e69ee1/data/unused",
         "--dry-run"
       ],
       "result": {
@@ -74,10 +74,10 @@
     },
     {
       "argv": [
-        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/bridge.sh",
+        "/tmp/r041-package-_qualasa/nana-r041-host-bridge-c24833e69ee1/bridge.sh",
         "start",
         "--ipc-directory",
-        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/data/unused",
+        "/tmp/r041-package-_qualasa/nana-r041-host-bridge-c24833e69ee1/data/unused",
         "--dry-run"
       ],
       "result": {
@@ -88,10 +88,10 @@
     },
     {
       "argv": [
-        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/bridge.sh",
+        "/tmp/r041-package-_qualasa/nana-r041-host-bridge-c24833e69ee1/bridge.sh",
         "stop",
         "--ipc-directory",
-        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/data/unused",
+        "/tmp/r041-package-_qualasa/nana-r041-host-bridge-c24833e69ee1/data/unused",
         "--dry-run"
       ],
       "result": {
@@ -102,10 +102,10 @@
     },
     {
       "argv": [
-        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/bridge.sh",
+        "/tmp/r041-package-_qualasa/nana-r041-host-bridge-c24833e69ee1/bridge.sh",
         "status",
         "--ipc-directory",
-        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/data/unused",
+        "/tmp/r041-package-_qualasa/nana-r041-host-bridge-c24833e69ee1/data/unused",
         "--dry-run"
       ],
       "result": {
@@ -116,10 +116,10 @@
     },
     {
       "argv": [
-        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/bridge.sh",
+        "/tmp/r041-package-_qualasa/nana-r041-host-bridge-c24833e69ee1/bridge.sh",
         "collect",
         "--ipc-directory",
-        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/data/unused",
+        "/tmp/r041-package-_qualasa/nana-r041-host-bridge-c24833e69ee1/data/unused",
         "--dry-run"
       ],
       "result": {
@@ -130,10 +130,10 @@
     },
     {
       "argv": [
-        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/bridge.sh",
+        "/tmp/r041-package-_qualasa/nana-r041-host-bridge-c24833e69ee1/bridge.sh",
         "verify",
         "--ipc-directory",
-        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/data/unused",
+        "/tmp/r041-package-_qualasa/nana-r041-host-bridge-c24833e69ee1/data/unused",
         "--dry-run"
       ],
       "result": {
@@ -144,10 +144,10 @@
     },
     {
       "argv": [
-        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/bridge.sh",
+        "/tmp/r041-package-_qualasa/nana-r041-host-bridge-c24833e69ee1/bridge.sh",
         "cleanup",
         "--ipc-directory",
-        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/data/unused",
+        "/tmp/r041-package-_qualasa/nana-r041-host-bridge-c24833e69ee1/data/unused",
         "--dry-run"
       ],
       "result": {
@@ -158,10 +158,10 @@
     },
     {
       "argv": [
-        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/bridge.sh",
+        "/tmp/r041-package-_qualasa/nana-r041-host-bridge-c24833e69ee1/bridge.sh",
         "start",
         "--ipc-directory",
-        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/data/unused",
+        "/tmp/r041-package-_qualasa/nana-r041-host-bridge-c24833e69ee1/data/unused",
         "--fixture"
       ],
       "result": {
@@ -176,8 +176,8 @@
         "-I",
         "-B",
         "-S",
-        "/tmp/r041-package-h4akd0wt/fixture-worker-check.py",
-        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc",
+        "/tmp/r041-package-_qualasa/fixture-worker-check.py",
+        "/tmp/r041-package-_qualasa/nana-r041-host-bridge-c24833e69ee1",
         "/workspace/nana-core"
       ],
       "result": {
@@ -190,10 +190,10 @@
     },
     {
       "argv": [
-        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/bridge.sh",
+        "/tmp/r041-package-_qualasa/nana-r041-host-bridge-c24833e69ee1/bridge.sh",
         "start",
         "--ipc-directory",
-        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/data/unused"
+        "/tmp/r041-package-_qualasa/nana-r041-host-bridge-c24833e69ee1/data/unused"
       ],
       "result": {
         "host_binding": "UNVERIFIED",
@@ -205,14 +205,14 @@
   "file_count": 273,
   "package": {
     "Core_source_SHA": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
-    "SHA256": "df69bf346ecc30ddee3362e22006f60dad7a8e57b47a7a736c33d30f3879107f",
-    "bytes": 3351207,
-    "filename": "nana-r041-host-bridge-27df51ef11fc-bridge-delivery.tar.gz",
+    "SHA256": "fafe82ec73dc2c4d996fb64cb6f2a6bd7402854305b5036e8516797b81c1dc63",
+    "bytes": 3351586,
+    "filename": "nana-r041-host-bridge-c24833e69ee1-bridge-delivery.tar.gz",
     "production_review_pins": 0,
     "real_host_bridge": "NOT_RUN",
     "runtime_sha256": "95c7215bc78d43cae809e99fcc65c1572cd611c87ae273afb80138b61c01e6ec",
-    "shared_protocol_sha256": "e348bd61edb422a0f56be9683c5e925effa9382130aa3a89597fee058d64f4e6",
-    "support_source_SHA": "27df51ef11fc930ba7c7cd4010ca06f842144155"
+    "shared_protocol_sha256": "b7c8fdef7e97361484389cd8399ea9d75583af917530809de9ac95802cb0212f",
+    "support_source_SHA": "c24833e69ee181f436eb7ebda75b6a8b58e71004"
   },
   "plugin_has_core_or_private_sqlite": false,
   "production_host_operations": 0,

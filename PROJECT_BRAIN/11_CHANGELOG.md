@@ -782,3 +782,8 @@
 - 改了什么：Bounded observation and isolated hard-exit grace, no late ingress; full510 passed one E12 skip; manifests/fingerprints_r041.json.
 - 为什么：host SQLite3.46.1 must stay untouched; bounded local metadata bridge, not second permanent Runtime.
 - 怎么验证：development-only targeted/full evidence, diff/allowlist/secret-private-artifact scans; approvedCore unchanged.
+
+## R041-RELEASE
+- 改了什么：Sealed-window package validated in fresh directory; full510 passed one E12 skip, no approvedCore or production changes; manifests/fingerprints_r041.json.
+- 为什么：host SQLite3.46.1 must stay untouched; bounded local metadata bridge, not second permanent Runtime.
+- 怎么验证：development-only targeted/full evidence, diff/allowlist/secret-private-artifact scans; approvedCore unchanged.
