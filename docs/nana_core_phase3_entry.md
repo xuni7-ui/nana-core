@@ -58,3 +58,29 @@ network_followup_tests.txt：43 passed，包含任意URL不能进入该操作者
 [实测] Claim identity按Core identity+operator canonical subject/predicate/value，来源dataset属于provenance，不再分裂同一人的跨来源矛盾。显式纳入两个synthetic dataset时能形成1冲突组；检索只授权一个dataset时不泄露另一个memory ID/evidence，不借越域证据断言当前事实，标UNASSESSED_OUT_OF_SCOPE。排序tie使用legacy稳定key/发生时间，不依赖fresh UUID，避免surrogate实验随机抖动。Canonical mapping version2/assessment policy2明确记录；相同语义的旧mapping1可最小upgrade，原始证据/identity不变，不同语义仍拒绝collision。
 
 15 targeted passed（memory5/adapter10）：跨来源、范围隔离、旧mapping升级、原始证据不变、去重、崩溃均验证。跨来源补强首轮13pass/1fail揭示旧surrogate同confidence按随机UUID排序造成预算裁剪随机；改为实际relevance/time/legacy key后保留原recall/来源/矛盾断言并通过。最新14条rehearsal source/count/replay仍PASS；P7仍为纯surrogate PARTIAL。
+
+## FINAL 验收与保存（C-046）
+
+[实测] 实现源码4048c3f2830911cbec9d238c3a25f8a2e992f660后的完整回归：264 collected，263 passed /0 failed /0 errors /1 skipped，11.83s；唯一skip为E12。相对基线新增36项不变量测试，旧测试未删除/放宽。JUnit、实际输出、开发SIGKILL/消融证据已保存。本最终提交仅保存文档和测试产物，未再改动实现；最终SHA以Git/ls-remote为准。
+
+[实测] 本次完整回归中的实际loopback HTTP为26（模型协议POST12、网页GET13/HEAD1），不是整轮所有复测的累计数，不是公网/真实模型。此前targeted复测另有独立loopback请求。两次不同公网目标有界尝试均未发出origin GET，proxy CONNECT尝试1；DNS/TLS阶段阻塞，两个UNKNOWN无盲重试。
+
+[实测] 最新迁移演习14合成记录、11源类型、导入14/拒绝0/重启去重14、1冲突组/1关系，来源/时间/身份/回放保持。Shadow相同8000chars/limit8：recall1/1、显式矛盾0/2、来源artifact可用率1/1、已知时间5/4、unsupported memory ID率0/0、重要证据丢弃0/0、context7197/7295；该指标不证明真实Iris向量检索或LLM幻觉率。6/6主动价值冲突结构夹具通过，真实语义未知、第三方联系0。
+
+[边界] 新Core SQL表0、原SQL schema版本未变、mapping/policy版本2、新依赖0。真实模型调用0、实际模型身份无、token usage不适用；外部模型费用0依据无请求，未查provider账单；本助手Codex额度未被Core账本测量。生产调用/修改/部署0、main未改、无生产登录、未读取secret值或私人记忆。当前metadata ready bindings0不能证明生产绝对不可访问；未知SSH/卷/自动部署webhook/外部轮询沿用既有只读边界，不登录/扫描。
+
+P0 RUNTIME_VERIFIED；P1 BLOCKED；P2/E12 NOT_RUN；P3 IMPLEMENTED（真实源码映射）；P4/P5 TESTED；P6 RUNTIME_VERIFIED（合成、实际进程）；P7 PARTIAL（surrogate）；P8/P9/P10 TESTED；P11 PARTIAL（接口准备，execute禁用）。没有将工程夹具写成真实语义验收。
+
+最短下一路径：两个已授权、既有额度且不同真实模型的开发ModelPort，顺序运行冻结快照E12。公网DNS/TLS仍需开发环境诊断；真实Iris FAISS parity未运行；工程能力需最小registry/预算/独立核验后才允许启用，非reading意图目前只有候选而非可执行通用模板。
+
+### 可复现入口与证据
+
+- `src/nana_core/migration/iris.py`：IrisRecord、稳定源键、声明/原证据/投影恢复、manifest。
+- `src/nana_core/memory.py`：跨来源claim、可信度/时间/范围隔离、上下文与纯shadow对比。
+- `src/nana_core/initiative.py`：candidate提出/接受/调度/激活；与现有Runtime/ActionKernel边界。
+- `src/nana_core/semantic/selection.py`：元数据和授权模型选择；不进行模型调用。
+- `src/nana_core/phase3/engineering.py`：隔离操作准备；真实execute明确禁用。
+- `docs/nana_core_phase3_iris_mapping.md` 与 `iris_source_manifest.json`：实际字段/代码位置/锁定源hash。
+- `final_delivery.json`、`final_junit.xml`、`final_regression.txt`、`final_development_proof.json`、`memory_reconciliation.json`：真实交付与验收。
+
+完整回归命令：`.venv/bin/python -m pytest --junitxml=docs/nana_core_phase3_evidence/final_junit.xml`；需开发沙箱允许隔离loopback网络，不涉及生产。迁移/主动CLI入口见 `src/nana_core/phase3/memory_rehearsal.py` 和 `initiative_cases.py`；公开探针仅两个operator固定公开URL，任何UNKNOWN不自动重派。

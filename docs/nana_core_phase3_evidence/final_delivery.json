@@ -1,0 +1,195 @@
+{
+  "repository": "xuni7-ui/nana-core",
+  "branch": "dev/nana-core-v1-phase3-entry",
+  "baseline_sha": "29872608b7b82fcca4a89a3be98fda8e8c65337f",
+  "source_implementation_sha": "4048c3f2830911cbec9d238c3a25f8a2e992f660",
+  "final_sha_note": "Final evidence commit SHA and remote equality are obtained with git rev-parse HEAD / git ls-remote; no circular self-hash.",
+  "stages": {
+    "P0": {
+      "status": "RUNTIME_VERIFIED",
+      "evidence": "baseline local/remote equal; clean original workspace; new development branch"
+    },
+    "P1": {
+      "status": "BLOCKED",
+      "evidence": "bounded public attempts: DNS_FIRST timeout and TLS failure; origin HTTP 0; no successful public evidence"
+    },
+    "P2": {
+      "status": "NOT_RUN",
+      "evidence": "0 ready authorized real ModelPorts; readiness ran; frozen snapshot unchanged; E12 NOT_RUN"
+    },
+    "P3": {
+      "status": "IMPLEMENTED",
+      "evidence": "11 real Iris 0.3.0 schema types, pinned upstream source and customization mapping; no private DB"
+    },
+    "P4": {
+      "status": "TESTED",
+      "evidence": "strict synthetic Iris adapter; deterministic declaration, original evidence, recoverable projection, manifest; actual SIGKILL recovery"
+    },
+    "P5": {
+      "status": "TESTED",
+      "evidence": "minimal cross-source claims, superseded/disputed/unassessed, evidence-preserving assessments, scope isolation"
+    },
+    "P6": {
+      "status": "RUNTIME_VERIFIED",
+      "evidence": "14 synthetic records imported, 0 rejected, restart 14 duplicates, source/time/identity/replay reconciliation PASS"
+    },
+    "P7": {
+      "status": "PARTIAL",
+      "evidence": "pure matched-bound lexical/confidence surrogate comparison; actual Iris FAISS/embedding parity NOT_RUN"
+    },
+    "P8": {
+      "status": "TESTED",
+      "evidence": "generic GoalCandidate proposal/evaluation/activation separation; pending restart and actual SIGKILL scheduler recovery"
+    },
+    "P9": {
+      "status": "TESTED",
+      "evidence": "6/6 structured synthetic value-conflict cases; no real model risk understanding or third-party contacts"
+    },
+    "P10": {
+      "status": "TESTED",
+      "evidence": "metadata and authorized ModelSelectionPolicy; privacy/task/context/tool guards; no endpoint calls"
+    },
+    "P11": {
+      "status": "PARTIAL",
+      "evidence": "6 bounded engineering preparation operations; bridge TaskSpec reuse; execution deliberately disabled and rejected by current Core registry"
+    }
+  },
+  "final_regression": {
+    "collected": 264,
+    "passed": 263,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 1,
+    "only_skip": "E12 real dual-model semantic continuity",
+    "seconds": 11.821,
+    "new_invariant_tests": 36,
+    "old_tests_deleted": false,
+    "old_assertions_weakened": false
+  },
+  "public_web": {
+    "gate": "BLOCKED",
+    "distinct_bounded_operator_attempts": 2,
+    "origin_GET_HEAD_requests": 0,
+    "proxy_CONNECT_attempts": 1,
+    "unknown_actions": 2,
+    "automatic_unknown_retries": 0,
+    "attempt_reports": [
+      "public_probe.json",
+      "public_numeric_probe.json"
+    ],
+    "tls_root_cause": "UNKNOWN; TLS stage observed, underlying exception detail unavailable",
+    "successful_public_fetches": 0
+  },
+  "loopback_http": {
+    "scope": "final full regression only; earlier targeted/regression runs also made separate loopback requests",
+    "requests": 26,
+    "model_protocol_POST": 12,
+    "web_GET": 13,
+    "web_HEAD": 1,
+    "real_models": false,
+    "public_web": false
+  },
+  "real_models": {
+    "E12": "NOT_RUN",
+    "calls": 0,
+    "actual_provider_models": [],
+    "input_output_usage": "N/A: no real provider call",
+    "external_model_fees": 0,
+    "fee_basis": "no real model requests; no provider billing accessed",
+    "UNKNOWN_calls": 0,
+    "assistant_Codex_session_quota": "not measured by Nana Core ledger"
+  },
+  "iris": {
+    "upstream_tag": "0.3.0",
+    "upstream_commit": "0557a4c1de1969bdccdb5a5de4b3724dc94aa6f6",
+    "schema_types": 11,
+    "fixture_records": 14,
+    "imported": 14,
+    "rejected": 0,
+    "duplicates_on_restart": 14,
+    "claim_conflict_groups": 1,
+    "relations": 1,
+    "raw_source_equal": true,
+    "replay_equal": true,
+    "production_migration": "NOT_RUN",
+    "canonical_mapping_version": 2,
+    "assessment_policy_version": 2
+  },
+  "shadow": {
+    "status": "PARTIAL",
+    "bounds": {
+      "limit": 8,
+      "max_chars": 8000
+    },
+    "old": {
+      "context_chars": 7197,
+      "contradictions_visible": 0,
+      "dropped_important_keys": [],
+      "provenance_completeness": 1.0,
+      "recall": 1.0,
+      "temporal_relevance_known": 5,
+      "unsupported_memory_rate": 0.0
+    },
+    "core": {
+      "context_chars": 7295,
+      "contradictions_visible": 2,
+      "dropped_important_keys": [],
+      "provenance_completeness": 1.0,
+      "recall": 1.0,
+      "temporal_relevance_known": 4,
+      "unsupported_memory_rate": 0.0
+    },
+    "metric_limits": "provenance availability is supplied artifact availability; unsupported ID rate is not model hallucination score; time metric is count of known times",
+    "real_Iris_retrieval_parity": "NOT_RUN"
+  },
+  "initiative": {
+    "cases": 6,
+    "passed": 6,
+    "third_party_contacts": 0,
+    "real_risk_semantics": "NOT_RUN",
+    "non_reading_plan_execution": "NOT_IMPLEMENTED"
+  },
+  "changes": {
+    "new_SQL_tables": 0,
+    "Core_SQL_schema_version_changed": false,
+    "new_dependencies": 0,
+    "second_Core_or_authorization_system": false
+  },
+  "boundaries": {
+    "production_calls": 0,
+    "production_modifications": 0,
+    "main_merged": false,
+    "deployed": false,
+    "secret_values_read_or_output": false,
+    "private_memories_accessed": false,
+    "production_login_attempts": 0,
+    "production_reachability": "UNKNOWN: metadata absence does not establish absolute inaccessibility; existing read-only access-boundary report retained",
+    "environment_ready_secrets_runtime_variables_outbound_identities": 0,
+    "automatic_deployment_trigger_reachability": "UNKNOWN; private webhook/external polling not established"
+  },
+  "license": {
+    "upstream_AGPL_code_vendored": false,
+    "upstream_execution": false,
+    "Iris_material": "read-only pinned source schema examination; independent interoperability code",
+    "new_original_code_license": "owner decision pending as existing provenance boundary"
+  },
+  "remaining": [
+    "two authorized existing-quota distinct real ModelPorts for E12",
+    "DNS/TLS transport diagnostic and successful bounded public Core fetch",
+    "actual Iris embedding/FAISS offline retrieval parity",
+    "engineering capability registration/budget/verification before actual operation",
+    "non-reading executable goal templates and real semantic initiative judgment"
+  ],
+  "next_shortest_path": "Provide two already-authorized development ModelPorts with existing quota and run the existing sequential frozen-snapshot E12 evaluator; do not create new services or buy quota.",
+  "milestone_commits": [
+    "4f51b5a385ac9a4673e1ba093b782b1ff840c023",
+    "820e688b809dad7b22049ab699b86f211b813135",
+    "ef51373570363ed715cb6eb0732365d4e611e86b",
+    "51c28cf29e5ac970d401f19b1ce2c7fa76534a81",
+    "ba7c86211c6a409218284b872c63b4d9ed132476",
+    "21464fcfb0c9071a23ebc1a779f1aa80ee4ac600",
+    "450dbb49eddf9c268e4bacce28eaa285b4d8a719",
+    "ac68a141a43e436b70dc08366c1b77ccff91c01b",
+    "4048c3f2830911cbec9d238c3a25f8a2e992f660"
+  ]
+}

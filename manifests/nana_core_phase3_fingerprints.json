@@ -1,11 +1,12 @@
 {
   "baseline": "29872608b7b82fcca4a89a3be98fda8e8c65337f",
   "files": {
-    "docs/nana_core_phase3_entry.md": "d7c81192416cbade19fa60c578eab57846ae34503f48dfed72cc423eea2a1c28",
+    "docs/nana_core_phase3_entry.md": "1985e42855b20d1a83687d7fc9741c26e73d71119c3b0da8706cc2aa4c686eb8",
     "docs/nana_core_phase3_evidence/cross_source_tests.txt": "f1eda0a10aa62f9f894b4694fd14e7eba9b7035ada93a1556fea18054d676574",
-    "docs/nana_core_phase3_evidence/final_development_proof.json": "9deceea35e85edc9e9ca8eb1a3c6ff64f26d2a284943926befcdb275a9a7fe3c",
-    "docs/nana_core_phase3_evidence/final_junit.xml": "467d704dc0409d827188fabc082378daab82a687a4e1999362bdfefb78097eeb",
-    "docs/nana_core_phase3_evidence/final_regression.txt": "08564f05fcf278f69a10355ea342373105c6f2b4045585b4d30ddc87f4f34100",
+    "docs/nana_core_phase3_evidence/final_delivery.json": "7cf44bf591c48c2026ef19f0e36538bdc667fe7e644f5785ea9b33ac257479fa",
+    "docs/nana_core_phase3_evidence/final_development_proof.json": "6ba1004edf7e62f913cbb4b4b30807bb287df3daa107aa89661bf7614b569331",
+    "docs/nana_core_phase3_evidence/final_junit.xml": "107ea1b7403d0b890bdbac227c901031c728be129103926612573f0b393de64a",
+    "docs/nana_core_phase3_evidence/final_regression.txt": "7177aa16d29d9a034c1ffd29ca374c4448f73076429d6379d6a1fc86ecd1f70e",
     "docs/nana_core_phase3_evidence/import_integrity_tests.txt": "bda81ae13324d272d403536cca5542762b578c8da0cce56ab0eda10096417022",
     "docs/nana_core_phase3_evidence/initiative_cases.json": "1620606762e4f44cdbf02a5dd6a09cfe9ddea02c3bea51a8cb18830dd306e77d",
     "docs/nana_core_phase3_evidence/initiative_tests.txt": "0aa26e08d563c3e80631f692da82cc6ab2b28a6b1b52bef3401c1af5affea9ff",

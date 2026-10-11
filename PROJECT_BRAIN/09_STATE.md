@@ -279,3 +279,7 @@
 [实测] C-045：跨来源claim及source scope隔离、mapping1→2同语义升级②已测试，15 pass；源证据/身份不变，真实Iris检索仍PARTIAL；最新rehearsal14import/14duplicate、1relation/1conflict/replay PASS。最终全量待本补强后复验。
 
 [实测] C-045 指纹锚点 74bc4b3cef7932a35d6404a0c2f405613bd1e7e019d9b0a54d2bff77d9ef353a；仅本检查点文件状态，不证明生产。
+
+[实测] C-046：Phase III最终全量263 passed /0failed /0errors /1skip(E12)，36项新增不变量；最新14import/0reject/14duplicate、11真实结构、1conflict/1relation、replay/source/time/identity PASS。匹配shadow PARTIAL、6/6结构initiative、selection TESTED/engineering disabled PARTIAL。公网DNS/TLS阻塞，两Unknown/HTTP0/proxy CONNECT1，无真实模型。零新增SQL表/依赖/生产动作/私人记忆或secret值读取；main不动。最终报告docs/nana_core_phase3_entry.md与phase3_evidence/final_delivery.json，最终commit与远端相同状态以Git/ls-remote为准。
+
+[实测] C-046 指纹锚点 848e1a6aa8160d067a6f39a1ad3639f963e3fd8f498b4c8833adab1ffffbcd57；仅本检查点文件状态，不证明生产。

@@ -470,3 +470,9 @@
 - 改了什么：跨dataset同canonical subject统一claim key，检索source范围隔离；稳定legacy/time排序；version2 mapping/policy与同语义旧mapping1最小升级。
 - 为什么：P5要求不同来源可对账，来源不能混入claim身份；单一source查询不能泄露其他证据。保存后的开发数据亦需能恢复，不能因补声明就拒绝合法旧projection。
 - [实测] 怎么验证：15 targeted passed（memory5+adapter10），跨source1冲突组/范围外ID不泄露，旧mapping升级不改变original artifact/identity。首轮旧surrogate随机UUID tie造成1fail，修为稳定relevance/time/key且保留断言。最新版rehearsal14/14、KG1/冲突1/replay PASS，无新表/依赖。
+
+## C-046 · Phase III 最终回归、证据冻结与交付
+
+- **改了什么**：保存263pass/1skip完整JUnit/输出、SIGKILL/消融开发证据、逐P0—P11 final_delivery；统一明确公网/真实模型/真实Iris检索/工程执行未验收边界。实现源码为4048c3f2830911cbec9d238c3a25f8a2e992f660；本节点仅证据/文档/指纹。
+- **为什么**：完成连续开发最终可复现交付，不能把fixture、surrogate或UNKNOWN写成真实能力成功；状态需与实际测试产物一致。
+- **怎么验证**：完整264 collected→263 passed/0fail/0error/1skip(E12)，旧测试完整保留；14源记录/11schema、restart14duplicate、source/time/identity/replay PASS；6/6主动夹具、影子零写入。两次公网阻塞DNS/TLS、HTTP0；实际真实模型0。allowlist/敏感模式/许可证检查、独立开发commit/push/ls-remote回验；完整最终SHA以Git为准。

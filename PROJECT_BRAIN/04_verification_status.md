@@ -138,3 +138,9 @@
 - [实测] 协议成功不等于模型推理：新增 service_kind，未声明/模拟器调用不能计入 E12；首次自主定位没有学习效应时明确 NOT_DEMONSTRATED。
 - [未知] ④未知：真实模型/E12、生产 SSH/容器与挂载来源、远端 webhooks 和外部轮询。Docker 默认沙箱 socket 请求 PermissionError；hooks API 403；未请求扩大生产权限。
 - 证据：docs/nana_core_development_validation.md 与 docs/nana_core_development_evidence/。既有离线验收不替代真实双模型。
+
+## Phase III Entry 最终（C-046）
+
+- [实测] ②已测试：Iris正式适配、最小跨来源冲突与范围隔离、GoalCandidate/initiative结构6/6、模型metadata/选择；零新SQL表/依赖。全量263 passed/0failed/0errors/1skip。
+- [实测] ③已非生产运行验收：14 synthetic真实schema记录跨进程导入/重启去重/源与时间/身份/replay；SIGKILL恢复不重复、工程经验消融保留。不是私人DB或生产迁移。
+- [未知] ④：公网DNS/TLS阻塞，origin HTTP0；E12 NOT_RUN（真实模型0）；P7真实Iris FAISS parity NOT_RUN；P11工程execute禁用；主动风险判断真实语义未知。完整阶段与证据见docs/nana_core_phase3_entry.md及final_delivery.json。

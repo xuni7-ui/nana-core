@@ -125,3 +125,5 @@
 # 本轮开发验证入口（C-032，新增）
 - [实测] `docs/nana_core_development_validation.md`：权限边界、真实文件只读适配/HTTP 协议测试；E12 未运行。
 - [实测] `docs/nana_core_development_evidence/`：安全元信息、实际节点/JUnit、CLI、SIGKILL/回环 HTTP 证据。
+
+- Phase III 最终交付（C-046）：[工程报告](../docs/nana_core_phase3_entry.md)、[真实Iris映射](../docs/nana_core_phase3_iris_mapping.md)、[实际验收清单](../docs/nana_core_phase3_evidence/final_delivery.json)。E12仍NOT_RUN，公网仍BLOCKED。
