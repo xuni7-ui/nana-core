@@ -6,7 +6,7 @@ from ..contracts import ModelRequest,Observation
 from ..memory import MemoryView,shadow_compare
 from ..migration.iris import IrisAdapter
 from ..migration.iris_fixtures import fixtures
-from ..planning import FixtureModel
+from ..planning import FixtureModel,ContextBuilder
 from ..storage import Store,canonical,digest
 
 DATASETS=('synthetic:iris-schema-v030',)
@@ -43,10 +43,11 @@ def session(path,phase):
         context=MemoryView(store).retrieve('paper garden',identity_id=store.identity['identity_id'],dataset_ids=DATASETS,max_chars=8000)
         # Existing ModelPort request and FixtureModel; memory context is an explicit
         # supplied input object, not injected charter or invented observed text.
-        request=ModelRequest(identity_id=store.identity['identity_id'],identity_revision=store.identity['revision'],
-            identity_snapshot=json.loads(store.identity['body_json']),event_id=store.all('events')[0]['event_id'],
-            event_text='Prepare a synthetic evidence-backed reading card.',source_id='source://synthetic/rehearsal',
-            card_resource='notebook://synthetic/rehearsal')
+        observation=Observation(source_namespace='synthetic.iris.rehearsal',object_id='post-restart-reading',
+            raw_text='Prepare a synthetic evidence-backed reading card.',source_id='source://synthetic/rehearsal',
+            card_resource='notebook://synthetic/rehearsal',occurred_at='2026-10-01T00:00:00Z')
+        event_id=store.ingest(observation)
+        request,_=ContextBuilder(store).build(event_id)
         model=MemoryDecisionFixture(context)
         proposal=model.propose(request)
         with store.transaction('decision.memory_preview',{'context':context,'proposal':proposal.model_dump(),

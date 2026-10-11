@@ -48,7 +48,7 @@ class Initiative:
         body={'type':'GOAL_CANDIDATE','identity_id':self.store.identity['identity_id'],'state':'PROPOSED',
             'identity_revision':self.store.identity['revision'],'charter':json.loads(self.store.identity['body_json'])['charter'],
             'proposal':proposal.model_dump(mode='json'),'source_refs':refs,'epistemic_kind':'MODEL_INFERENCE',
-            'assessment':'UNASSESSED','goal_id':None,'reason':None,'job_id':None}
+            'assessment':'UNASSESSED','goal_id':None,'reason':None,'job_id':None,'due_at_us':self.store.clock.utc_now_us()+60_000_000}
         with self.store.transaction('initiative.proposed',{'candidate_id':key}) as tx:
             tx.payload_id=tx.artifact(canonical(body).encode())
             tx.put('memory_items',{'memory_id':key,'kind':'CLAIM','status':'ACTIVE','body_json':canonical(body),'created_event_id':tx.event_id})
@@ -59,7 +59,7 @@ class Initiative:
         body=json.loads(memory['body_json'])
         if body.get('type')!='GOAL_CANDIDATE' or body['identity_id']!=self.store.identity['identity_id']:raise CoreError('CANDIDATE_IDENTITY_MISMATCH')
         return body
-    def evaluate(self,key):
+    def evaluate(self,key,fault=None):
         body=self.candidate(key)
         if body['state'] in {'REJECTED','ACTIVATED'}:return body
         p=GoalCandidate.model_validate_json(canonical(body['proposal']));self._evidence(p.evidence_event_ids)
@@ -79,7 +79,10 @@ class Initiative:
             'independent_judgement':'discretion is considered; does not fabricate permission or suppress a candidate'}
         if state in {'ACCEPTED','DEFERRED'} and not new['job_id']:
             # Existing Scheduler wake is not an autonomous goal or an external action.
-            new['job_id']=Runtime(self.store,self.kernel,None).schedule_wake('initiative:'+key,self.store.clock.utc_now_us()+60_000_000)
+            due=body.get('due_at_us',self.store.event(self.store.one('memory_items',key)['created_event_id'])['recorded_at_us']+60_000_000)
+            new['due_at_us']=due
+            new['job_id']=Runtime(self.store,self.kernel,None).schedule_wake('initiative:'+key,due)
+            if fault:fault('after_wake_commit')
         if new!=body:
             with self.store.transaction('initiative.evaluated',{'candidate_id':key,'state':state,'reason':reason}) as tx:
                 tx.update('memory_items',key,body_json=canonical(new))

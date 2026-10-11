@@ -263,3 +263,7 @@
 [实测] C-041：M5主动候选/价值冲突②已测试，22 targeted pass；fixture6/6，提出/接受/调度/执行隔离，contact BLOCKED、第三方联系0，pending重启保持。真实风险判断语义④未知；非reading计划模板未执行，无新表/依赖。M4远端51c28cf29e5ac970d401f19b1ce2c7fa76534a81。
 
 [实测] C-041 指纹锚点 9522567d2a20492d3babd86f647a512bf84e07a96c3d2d1b2c443e6756b5dd3d；仅本检查点文件状态，不证明生产。
+
+[实测] C-042：M6模型选择②已测试，显式Endpoint/privacy/task/context/tools/cost守门；工程能力PARTIAL（6操作preview，CapabilityPort disabled，Core registry拒绝），不自修改。51 targeted passed，initiative真实SIGKILL wake恢复jobs1；记忆同刻冲突/裁剪与真正ContextBuilder preview复验。E12 NOT_RUN/实际模型0，P11真实执行未启用；零新表/依赖。
+
+[实测] C-042 指纹锚点 71576f64450feaa9eafac7e801dbd30c95db66b408dddb362de6e03a2132149c；仅本检查点文件状态，不证明生产。

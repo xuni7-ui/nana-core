@@ -1,0 +1,47 @@
+{
+  "model_selection": {
+    "gate": "TESTED",
+    "scope": "operator metadata fixtures only; not ready endpoint discovery or inference",
+    "constraints": [
+      "explicit validated Endpoint only",
+      "privacy local task excludes remote",
+      "unsupported task/tools/context/cost BLOCKED",
+      "metadata cannot change endpoint scope",
+      "selection never invokes/loads credentials/creates quota"
+    ],
+    "actual_model_calls": 0
+  },
+  "engineering": {
+    "gate": "PARTIAL",
+    "scope": "dormant CapabilityPort preparation and Bridge TaskSpec/check_boundaries reuse",
+    "operations_prepared": [
+      "inspect_repository",
+      "read_file",
+      "patch_file",
+      "run_tests",
+      "inspect_diff",
+      "create_commit"
+    ],
+    "execution": "NOT_ENABLED",
+    "verification": "NO_EXECUTION_EVIDENCE",
+    "Core_registry": "engineering.* rejected UNKNOWN_CAPABILITY",
+    "actual_workspace_side_effects": 0,
+    "actual_shell_calls": 0,
+    "real_runner_calls": 0,
+    "real_commits_by_capability": 0,
+    "next_required": "bounded capability/args registry extension plus ActionKernel budget and independent verification before execution"
+  },
+  "targeted_tests": {
+    "passed": 51,
+    "failed": 0,
+    "scope": "selection/engineering15 + S5 adapter28 + memory4 + initiative4"
+  },
+  "E12": "NOT_RUN",
+  "actual_provider_models": [],
+  "fees": 0,
+  "token_usage": "N/A_NO_MODEL_CALLS",
+  "production_calls": 0,
+  "production_modifications": 0,
+  "Core_schema_changed": false,
+  "new_dependencies": false
+}

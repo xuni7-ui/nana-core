@@ -65,3 +65,35 @@ def test_candidate_evidence_and_duplicate_collision_are_strict(tmp_path):
             cid=i.propose(p);assert i.propose(p)==cid
             with pytest.raises(CoreError,match='CANDIDATE_KEY_COLLISION'):i.propose(p.model_copy(update={'need':.9}))
     finally:world.close()
+
+
+def test_real_crash_after_scheduler_commit_resumes_one_occurrence(tmp_path):
+    import json,os,signal,subprocess,sys
+    from pathlib import Path
+    script='''import os,sys,signal
+from nana_core.storage import Store
+from nana_core.clock import ManualClock
+from nana_core.fake_world import FakeWorld
+from nana_core.actions import ActionKernel,OperatorAuthority
+from nana_core.contracts import Observation
+from nana_core.initiative import Initiative,GoalCandidate
+with Store(sys.argv[1],ManualClock()) as store:
+ world=FakeWorld(sys.argv[2]);i=Initiative(store,ActionKernel(store,world,OperatorAuthority()))
+ eid=store.ingest(Observation(source_namespace="synthetic.i.crash",object_id="wake",kind="unrelated",raw_text="Synthetic pending need."))
+ cid=i.propose(GoalCandidate(purpose="Synthetic discussion",intent="dialogue",evidence_event_ids=(eid,),need=.8,importance=.8,urgency=.8,confidence=.8,disturbance=.1))
+ print(cid,flush=True)
+ def stop(point):os.kill(os.getpid(),signal.SIGKILL)
+ i.evaluate(cid,fault=stop)
+'''
+    proc=subprocess.run([sys.executable,'-c',script,str(tmp_path/'core.db'),str(tmp_path/'world.db')],
+        env={'PATH':os.environ.get('PATH',''),'PYTHONPATH':str(Path('src').absolute())},capture_output=True,text=True,timeout=10)
+    assert proc.returncode==-signal.SIGKILL
+    clock=ManualClock();clock.advance(50_000_000)
+    world=FakeWorld(tmp_path/'world.db')
+    try:
+        with Store(tmp_path/'core.db',clock) as store:
+            i=Initiative(store,ActionKernel(store,world,OperatorAuthority()));cid=proc.stdout.strip()
+            assert i.candidate(cid)['state']=='PROPOSED' and len(store.all('jobs'))==1
+            assert i.evaluate(cid)['state']=='ACCEPTED' and len(store.all('jobs'))==1
+            assert store.all('actions')==[] and world.counts()['effects']==0
+    finally:world.close()

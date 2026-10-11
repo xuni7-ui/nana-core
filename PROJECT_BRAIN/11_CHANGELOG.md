@@ -447,3 +447,9 @@
 - 为什么：支持独立建议/反对/信息获取和不打扰，不构建联系/关怀专用系统，不以模型提案授予权限。
 - [实测] 怎么验证：22 targeted passed；六场景6/6，低优先级DEFERRED，非紧急dialogue与先询问信息ACCEPTED，所有contact intent BLOCKED，消息0。ReadingCard显式activation仍不能越过card Grant，pending重启相同；GoalCandidate存入不执行Action。零新增Core表/依赖；真实判断语义未验证。
 - M4已保存远端51c28cf29e5ac970d401f19b1ce2c7fa76534a81一致。
+
+## C-042 — M6 模型选择与受控工程准备
+- 改了什么：有界operator模型元数据/selection policy、Bridge契约复用的disabled EngineeringPreparationPort；默认pytest加入phase3；修复candidate wake两事务间崩溃重复job风险（persist due）；补同刻冲突/剪裁，以及实际Observation→ContextBuilder→memory-aware fixture preview。
+- 为什么：选择不创建端点授权，工程任务不得借旧Bridge shell/credential或reading Grant越权；现在闭合注册表尚无engineering.*，明确PARTIAL。
+- [实测] 怎么验证：51 targeted passed（新selection/engineering15、S5 28、memory4、initiative4）；真实SIGKILL后延时重启jobs1/Action0。首轮selection夹具漏开发binding名称，补独立名称后严格Endpoint保持，无真实key读取。所有六工程操作只prepare，execute拒绝、verify拒绝伪造，无workspace副作用。
+- [未知] 真实模型能力/费用与真实工程执行；均未运行。模型0/E12 NOT_RUN，无新表/依赖、无生产变更。M5远端ba7c86211c6a409218284b872c63b4d9ed132476一致。

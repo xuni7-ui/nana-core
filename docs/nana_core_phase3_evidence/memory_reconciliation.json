@@ -17,42 +17,42 @@
   "first": {
     "count": 14,
     "event_hashes": [
-      "5e583fc7088543e856b5bd6ac3c4a9f846b2285a91c13260079c126d8121e05c",
-      "084650f827f02e8d0fffc2dfdcf290270b7388d48c0fbc10cf6ee808ef6717af",
-      "90766a1d97fcbd7d99c41d395d6b7eeb6e86728d21f5d4e655dc22f1afc5068b",
-      "4a2941e4713d0f5297013e6bb992eed47549a2c7f6a1594d6a05f3a1ec28ff0b",
-      "1dd7dd4ce451ee8551a18a39ec71b2c7fab3547129f9138a903985749cfc6e51",
-      "30760f9c1d88893c78abf5aa7b1ddb0faf60c68454adf09c4178eef967869b16",
-      "25710950cf40d35f4598f728b4729ceb9c510cffe71501cf9314dcd7b1d843dd",
-      "baa65e0cf95b3f3620bff378a46e8406b29f19dd864628e284e2e7a87757bc3c",
-      "5d01701869e2514e4d3c9d6a987b8bd43837ee15bc432f2d8c58bc3306484aa4",
-      "9b87dbe0c2d779942a33f52059f4f354b81756459d6ea8472b2afa292f666cec",
-      "9be6baf381dfd2c107c4e24c7075854ea07d33cb5eff789f825c612eea75b976",
-      "2423fb896f7b88e8219c82468235976d31baeb0d5a2d19962b2380ac9119aa6d",
-      "cc6e1dc3a74c5dd362104273874b2e987729a660ae4106404410f385ee33cd56",
-      "40ceb36073cb6098f909149848bacef3adfd654f584711c81c6856f4d4df1cae",
-      "423e7aa02a65dba3b29af53059533a35b81f8ebba5dd164c293b6000c8fa8ff9",
-      "d498a6ed64db876677463d657daa44f6f7b7611ca78c29f6658cdb83c85ed15e",
-      "96b0cb7ea6ddfdc6a02859a1b8188e6e6d5bba694dd80b65de73d9b362a6b73b",
-      "869e95dd85e27b5338385a3f1470eba09cb132d129434c630904f1d54240a035",
-      "cab54d69bf4a11f594c821c2d1533f90b5864ba36cc7c40f462232352771a198",
-      "2afeef8cbfec95c892b780a2d2bae45fa5f7a17aba08b07a5423189c6ccb3824",
-      "010d3ae66a68f73f4cb0e29631927cb60d6da56d7b9286692f058a1c9c983347",
-      "90f6844771a6d98821aa783033f152efc3e13f50447658b304e5aa01ec4657f5",
-      "1d8e2a8b0d4cac33473cb117ea33d52f1232925fa8cdb353f40188a53a4eb2a4",
-      "a1d4ab28340794bfd3f1af4699d6e80473eba57188496e6d718762b83a669b1b",
-      "97718e98e3bfe504159c4f81e96c47a3000ba8e9a1631042a8863be681fcde53",
-      "cbd8358c5edc47e8267f4c719e0d534dcb53f0b74ba624afa481833bf8f2b506",
-      "b811169267443029cc29324115c447175bdd03a95c0d9f5a0654380a9d8e9728",
-      "a6eea9a694015e14a43d8c97f740b7acea02060124f5d51cd74c59391f0789b3",
-      "16652e37f75296650c14fd2e4eeb52e8ab93ca17a9c28a6cd0af1e2018d59066",
-      "199dda429648d9d5318f76fc5df032b678d760449ea3f43813e89971d8a2f15b",
-      "e0ba2434e22fbf7c022dbc0bf6d6beb8dc8a63b99b6bcc4e23368446d8bcf8f3"
+      "5647d838651d8a76744f231b5ca899fe0155de204523ff03dc49700dc84058a3",
+      "cc8e26f12a15084e2ba52fa67049d17f94791149f1102dfce2d6bae741d748f7",
+      "d42cd35bd84f3c2d03d1ee463edf17c27bafecc7fc60293afc5978c48854e671",
+      "ea2e5dc4570c94eaf87f95a1128f6dc78e2ebf4c255fe127fc77cd519f73e986",
+      "1d292c9ab3e5ddf9bcde4a3704f31628fce7f0d7fb1d7575137255fbab6d9bdc",
+      "5a31b17ec93a381e8e78a15968bc95092368f29573b911ccda155d5f969fb2a6",
+      "0de066d76a74ad457564481d44a8bcae9e9c3ce1777452e3875979e455d081c9",
+      "09e73180512aff3fd18ff085962d8321f51f4875f120f86d815ab6fe409db99f",
+      "b988d8dcfb011c1419a74cf68e3da754b108f71554bf3599eaa60f043fbf1901",
+      "e3987c52e851d72c1cf222a27dee8194e7ce6fb1cd967d71f62ad207e9ee3ece",
+      "50f0984b58145c14e9d10a35a33787602ae35c9337333e19b0613ca0d7deff75",
+      "beaff27dea64fa8b85cbce4d2c68e68dbd3e76c68be68afed010faa7a9fcd3ff",
+      "c39cf5ba231c4e76049988702cca9a30f84fb4144f0688b6c9f795053ef438c5",
+      "f8cecfb37a781462d8277ba9ddf609c8213312f5224c194674d1c9c7e77a4251",
+      "d5a7d8db7af6a48730f528bfca8d9527e384b32ed8e3bf33b75703cf7a203414",
+      "141f4e2f3b65809767dc9b97b5af7b4d092e55d28f62197277b2c9406f2bc211",
+      "54368caddaf0d01496bdfd3c44a70c8cdae738c206f1276f1afe1c0363c138b9",
+      "1bd11be8d521d7d69f82910afa6ebd0946963aeacc235d89504be9ee628f48fd",
+      "9c7e6f3a18f54bb80031e02d3ba9e7fd539c0aa87389eac25231d71b9cb893b3",
+      "98ddbdc0c2bde58edc5673e3a5afde5aaeb926d36f12fef2799a926aa95b1770",
+      "a627aa197d9cf3a041a2690a76241ca6051c8187e455623e91095734980952eb",
+      "cec9b32c9a5c03687f6c18bd8b7dbe36bc399ee2a843183219e31536f4f0b96c",
+      "385ce8867e8ade718715d014678e2bb8fd26bc6633f471829d501cdb70051341",
+      "c806209dee099c01192212df968ffe3aa8ab62941c4a803d9523bc024ebb1e95",
+      "ac466dc03b7be8691572de96705a87a5d0b8575c66fe4bc98544783ef97a6f7a",
+      "8126f99f3865e74c1caf919cc56820da379dc37b04ae9cccd4c65baed299f7f6",
+      "d0245d1f659fa37f10e5b3a7f59be9b23afe2fc1bc8a24d49533bb910dff6f79",
+      "25eceace1f8b632859c1bb82fb1d80db4327a2e3272c3640b90d1f5f12e5c1e8",
+      "4ffba9be497a4114e19fd3739c4aac78a5e604fd9cee0ab965138f2ddf63d5b7",
+      "387cb62c60581ce915b3d42ebb4d7a02f08b8f82c493c9e2604cdb9885cf83d2",
+      "e2e8d4b531cdcc94422c978f52b2b5b52bf6812ddb237a4aeb5633bf9bd9399f"
     ],
     "identity": {
       "body_json": "{\"charter\":[\"retain independent judgement\",\"evidence before success\",\"learning cannot expand permissions\"],\"expression_defaults\":{\"style\":\"warm and precise\"},\"name\":\"Nana\",\"self_preferences\":[]}",
-      "created_event_id": "3e8d6d0a-6e44-47af-aa68-1e325fe995f3",
-      "identity_id": "b0d3bc2e-763e-4425-85b7-d45db30fe597",
+      "created_event_id": "9514a5a4-ed48-493d-a076-2036571a1222",
+      "identity_id": "80bec0a2-4bde-4eaa-8709-5b103c909261",
       "revision": 1
     },
     "manifest": {
@@ -77,7 +77,7 @@
       "results": [
         {
           "added": true,
-          "event_id": "4afa0f61-3a70-4bb1-88d0-20f0360a9386",
+          "event_id": "52dd1e21-102a-4d0f-a8ef-3bd0d683b0df",
           "kind": "l1",
           "legacy_key": "m1",
           "status": "IMPORTED",
@@ -86,7 +86,7 @@
         },
         {
           "added": true,
-          "event_id": "e7655dd5-0aa9-47b7-a6f9-ea417f58657d",
+          "event_id": "8b6a1a03-99ee-4535-a6ce-34434917f349",
           "kind": "l1",
           "legacy_key": "m2",
           "status": "IMPORTED",
@@ -95,7 +95,7 @@
         },
         {
           "added": true,
-          "event_id": "9393c293-c56e-4be7-b8dd-cb27533da4a0",
+          "event_id": "fa206376-9fe0-42ae-8842-cbe022eb75d7",
           "kind": "l2",
           "legacy_key": "summary",
           "status": "IMPORTED",
@@ -104,7 +104,7 @@
         },
         {
           "added": true,
-          "event_id": "356c7c38-3b92-4c83-ab1a-fe1e2e5b89b5",
+          "event_id": "cfb6dc72-f45c-4d98-aa48-2634db024aef",
           "kind": "l2",
           "legacy_key": "inference",
           "status": "IMPORTED",
@@ -115,7 +115,7 @@
         },
         {
           "added": true,
-          "event_id": "3192a306-8e64-41c8-8053-4a7c64751f1d",
+          "event_id": "c3a9d15d-fd47-4f8d-af6d-9313fd624021",
           "kind": "l2_row",
           "legacy_key": "sql",
           "status": "IMPORTED",
@@ -124,7 +124,7 @@
         },
         {
           "added": true,
-          "event_id": "ceef78c1-4e8c-4dc2-bfb9-30c5a5022a3c",
+          "event_id": "d66db829-f5fc-4147-a97b-e94e8d709a69",
           "kind": "kg_node",
           "legacy_key": "person",
           "status": "IMPORTED",
@@ -133,7 +133,7 @@
         },
         {
           "added": true,
-          "event_id": "19d5fe05-c2a9-4733-8fb0-dd947de94034",
+          "event_id": "11055024-c6c9-43df-8263-884bdfb1a300",
           "kind": "kg_node",
           "legacy_key": "garden",
           "status": "IMPORTED",
@@ -142,7 +142,7 @@
         },
         {
           "added": true,
-          "event_id": "ff7c2729-56b4-42ad-b1a9-002679a59c7a",
+          "event_id": "d94c5de7-df4f-4bd1-9ac5-48198bb87c99",
           "kind": "kg_edge",
           "legacy_key": "relation",
           "status": "IMPORTED",
@@ -151,7 +151,7 @@
         },
         {
           "added": true,
-          "event_id": "4bf79b4b-0c9c-448e-85df-8faf63a66a35",
+          "event_id": "5daa8b70-521b-40bd-a8b1-b9a788e035cc",
           "kind": "user_profile",
           "legacy_key": "profile",
           "status": "IMPORTED",
@@ -163,7 +163,7 @@
         },
         {
           "added": true,
-          "event_id": "1770bdae-13e1-4c18-91fd-4c07dcfd28e4",
+          "event_id": "50418257-80a9-4f2c-affa-f97a2a7c1ec3",
           "kind": "group_profile",
           "legacy_key": "group",
           "status": "IMPORTED",
@@ -175,7 +175,7 @@
         },
         {
           "added": true,
-          "event_id": "0e1542ab-0e41-4664-899f-683fa96cab57",
+          "event_id": "edd87d14-6af8-4cb0-9330-4e006c1337b8",
           "kind": "action_ledger",
           "legacy_key": "ledger",
           "status": "IMPORTED",
@@ -186,7 +186,7 @@
         },
         {
           "added": true,
-          "event_id": "1b2061f4-4d4e-4e65-bacf-7b9942b275c2",
+          "event_id": "667fe7d5-7ebd-4b89-a960-c9ca52e461db",
           "kind": "decision_log",
           "legacy_key": "decision",
           "status": "IMPORTED",
@@ -197,7 +197,7 @@
         },
         {
           "added": true,
-          "event_id": "eadf718c-e88b-4a67-8a5f-dc973d011a26",
+          "event_id": "131a7f02-1c66-493f-95b8-4af1fdf08e68",
           "kind": "conversation_flow",
           "legacy_key": "flow",
           "status": "IMPORTED",
@@ -206,7 +206,7 @@
         },
         {
           "added": true,
-          "event_id": "e36d1378-351b-419e-91e0-1c1f91e1814f",
+          "event_id": "c1b5d76d-cd00-4f7e-acb1-e1436ce53adb",
           "kind": "index_meta",
           "legacy_key": "index",
           "status": "IMPORTED",
@@ -221,7 +221,7 @@
         "synthetic:iris-schema-v030"
       ]
     },
-    "pid": 6751
+    "pid": 6900
   },
   "restarted": {
     "actions": 0,
@@ -236,26 +236,26 @@
         },
         "claim_key": "3253f85a19cc5247f68ffa879f90934ff9db8e273db70377d3412123a3ec732a",
         "contradicting_memory_ids": [
-          "e7655dd5-0aa9-47b7-a6f9-ea417f58657d"
+          "8b6a1a03-99ee-4535-a6ce-34434917f349"
         ],
         "current_assessment": "SUPERSEDED",
         "evidence_refs": [
           {
-            "artifact_id": "a1d3a896-4efb-4390-93c8-35b8e44845a1",
+            "artifact_id": "366507c5-d8e2-42d6-93d1-0f4b37d23bf9",
             "coverage": "FULL",
-            "event_id": "4afa0f61-3a70-4bb1-88d0-20f0360a9386",
+            "event_id": "52dd1e21-102a-4d0f-a8ef-3bd0d683b0df",
             "meaning": "complete supplied import envelope, not complete original history"
           },
           {
-            "artifact_id": "97180301-5db3-4cd0-9fad-ed42a09efac8",
+            "artifact_id": "bee0be7d-6c94-4ce8-9142-039b80b5b7cd",
             "coverage": "FULL",
-            "event_id": "e7655dd5-0aa9-47b7-a6f9-ea417f58657d",
+            "event_id": "8b6a1a03-99ee-4535-a6ce-34434917f349",
             "meaning": "complete supplied import envelope, not complete original history"
           }
         ],
         "policy_version": 1,
         "supporting_memory_ids": [
-          "4afa0f61-3a70-4bb1-88d0-20f0360a9386"
+          "52dd1e21-102a-4d0f-a8ef-3bd0d683b0df"
         ],
         "verified_fact": false,
         "why": "latest dated direct user statement"
@@ -269,26 +269,26 @@
         },
         "claim_key": "3253f85a19cc5247f68ffa879f90934ff9db8e273db70377d3412123a3ec732a",
         "contradicting_memory_ids": [
-          "4afa0f61-3a70-4bb1-88d0-20f0360a9386"
+          "52dd1e21-102a-4d0f-a8ef-3bd0d683b0df"
         ],
         "current_assessment": "CURRENT_USER_STATEMENT",
         "evidence_refs": [
           {
-            "artifact_id": "a1d3a896-4efb-4390-93c8-35b8e44845a1",
+            "artifact_id": "366507c5-d8e2-42d6-93d1-0f4b37d23bf9",
             "coverage": "FULL",
-            "event_id": "4afa0f61-3a70-4bb1-88d0-20f0360a9386",
+            "event_id": "52dd1e21-102a-4d0f-a8ef-3bd0d683b0df",
             "meaning": "complete supplied import envelope, not complete original history"
           },
           {
-            "artifact_id": "97180301-5db3-4cd0-9fad-ed42a09efac8",
+            "artifact_id": "bee0be7d-6c94-4ce8-9142-039b80b5b7cd",
             "coverage": "FULL",
-            "event_id": "e7655dd5-0aa9-47b7-a6f9-ea417f58657d",
+            "event_id": "8b6a1a03-99ee-4535-a6ce-34434917f349",
             "meaning": "complete supplied import envelope, not complete original history"
           }
         ],
         "policy_version": 1,
         "supporting_memory_ids": [
-          "e7655dd5-0aa9-47b7-a6f9-ea417f58657d"
+          "8b6a1a03-99ee-4535-a6ce-34434917f349"
         ],
         "verified_fact": false,
         "why": "latest dated direct user statement"
@@ -298,10 +298,10 @@
       "context_chars": 7967,
       "coverage": "SELECTED_CONTEXT",
       "dropped_memory_ids": [
-        "4bf79b4b-0c9c-448e-85df-8faf63a66a35",
-        "356c7c38-3b92-4c83-ab1a-fe1e2e5b89b5"
+        "cfb6dc72-f45c-4d98-aa48-2634db024aef",
+        "5daa8b70-521b-40bd-a8b1-b9a788e035cc"
       ],
-      "identity_id": "b0d3bc2e-763e-4425-85b7-d45db30fe597",
+      "identity_id": "80bec0a2-4bde-4eaa-8709-5b103c909261",
       "items": [
         {
           "belief": {
@@ -313,26 +313,26 @@
             },
             "claim_key": "3253f85a19cc5247f68ffa879f90934ff9db8e273db70377d3412123a3ec732a",
             "contradicting_memory_ids": [
-              "4afa0f61-3a70-4bb1-88d0-20f0360a9386"
+              "52dd1e21-102a-4d0f-a8ef-3bd0d683b0df"
             ],
             "current_assessment": "CURRENT_USER_STATEMENT",
             "evidence_refs": [
               {
-                "artifact_id": "a1d3a896-4efb-4390-93c8-35b8e44845a1",
+                "artifact_id": "366507c5-d8e2-42d6-93d1-0f4b37d23bf9",
                 "coverage": "FULL",
-                "event_id": "4afa0f61-3a70-4bb1-88d0-20f0360a9386",
+                "event_id": "52dd1e21-102a-4d0f-a8ef-3bd0d683b0df",
                 "meaning": "complete supplied import envelope, not complete original history"
               },
               {
-                "artifact_id": "97180301-5db3-4cd0-9fad-ed42a09efac8",
+                "artifact_id": "bee0be7d-6c94-4ce8-9142-039b80b5b7cd",
                 "coverage": "FULL",
-                "event_id": "e7655dd5-0aa9-47b7-a6f9-ea417f58657d",
+                "event_id": "8b6a1a03-99ee-4535-a6ce-34434917f349",
                 "meaning": "complete supplied import envelope, not complete original history"
               }
             ],
             "policy_version": 1,
             "supporting_memory_ids": [
-              "e7655dd5-0aa9-47b7-a6f9-ea417f58657d"
+              "8b6a1a03-99ee-4535-a6ce-34434917f349"
             ],
             "verified_fact": false,
             "why": "latest dated direct user statement"
@@ -340,7 +340,7 @@
           "content": "Fictional reader now dislikes paper gardens.",
           "coverage": "FULL_SUPPLIED_CONTENT",
           "epistemic_kind": "USER_STATEMENT",
-          "memory_id": "e7655dd5-0aa9-47b7-a6f9-ea417f58657d",
+          "memory_id": "8b6a1a03-99ee-4535-a6ce-34434917f349",
           "origin": {
             "dataset_id": "synthetic:iris-schema-v030",
             "group_id": null,
@@ -353,9 +353,9 @@
           "relation": null,
           "source_refs": [
             {
-              "artifact_id": "97180301-5db3-4cd0-9fad-ed42a09efac8",
+              "artifact_id": "bee0be7d-6c94-4ce8-9142-039b80b5b7cd",
               "coverage": "FULL",
-              "event_id": "e7655dd5-0aa9-47b7-a6f9-ea417f58657d",
+              "event_id": "8b6a1a03-99ee-4535-a6ce-34434917f349",
               "meaning": "complete supplied import envelope, not complete original history"
             }
           ],
@@ -373,7 +373,7 @@
           "content": "A model summarized a fictional paper garden preference.",
           "coverage": "FULL_SUPPLIED_CONTENT",
           "epistemic_kind": "SUMMARY",
-          "memory_id": "9393c293-c56e-4be7-b8dd-cb27533da4a0",
+          "memory_id": "fa206376-9fe0-42ae-8842-cbe022eb75d7",
           "origin": {
             "dataset_id": "synthetic:iris-schema-v030",
             "group_id": "synthetic-chat",
@@ -386,9 +386,9 @@
           "relation": null,
           "source_refs": [
             {
-              "artifact_id": "9948f66f-9cca-4e38-b43f-a306bf6ca5c2",
+              "artifact_id": "cc2392f9-2dee-4662-9ed6-1344fa2adedb",
               "coverage": "FULL",
-              "event_id": "9393c293-c56e-4be7-b8dd-cb27533da4a0",
+              "event_id": "fa206376-9fe0-42ae-8842-cbe022eb75d7",
               "meaning": "complete supplied import envelope, not complete original history"
             }
           ],
@@ -406,7 +406,7 @@
           "content": "{\"hits\":1,\"query\":\"paper garden\",\"reason\":\"synthetic\",\"route\":\"normal\",\"soft_confirm\":false,\"t\":\"2026-09-01 08:00:00+08:00\",\"t_utc\":\"2026-09-01T00:00:00Z\",\"tier\":\"normal\",\"top_k\":3}",
           "coverage": "FULL_SUPPLIED_CONTENT",
           "epistemic_kind": "OBSERVATION",
-          "memory_id": "1b2061f4-4d4e-4e65-bacf-7b9942b275c2",
+          "memory_id": "667fe7d5-7ebd-4b89-a960-c9ca52e461db",
           "origin": {
             "dataset_id": "synthetic:iris-schema-v030",
             "group_id": null,
@@ -419,9 +419,9 @@
           "relation": null,
           "source_refs": [
             {
-              "artifact_id": "324d3447-b958-4eda-8006-a5bfb04899b0",
+              "artifact_id": "ed3de436-616e-4910-8006-e83b9a2e768f",
               "coverage": "FULL",
-              "event_id": "1b2061f4-4d4e-4e65-bacf-7b9942b275c2",
+              "event_id": "667fe7d5-7ebd-4b89-a960-c9ca52e461db",
               "meaning": "complete supplied import envelope, not complete original history"
             }
           ],
@@ -439,7 +439,7 @@
           "content": "{\"field_meta\":{},\"group_id\":\"synthetic-chat\",\"group_name\":\"Fictional Garden\",\"interests\":[\"paper\"],\"version\":1}",
           "coverage": "FULL_SUPPLIED_CONTENT",
           "epistemic_kind": "MODEL_INFERENCE",
-          "memory_id": "1770bdae-13e1-4c18-91fd-4c07dcfd28e4",
+          "memory_id": "50418257-80a9-4f2c-affa-f97a2a7c1ec3",
           "origin": {
             "dataset_id": "synthetic:iris-schema-v030",
             "group_id": "synthetic-chat",
@@ -452,9 +452,9 @@
           "relation": null,
           "source_refs": [
             {
-              "artifact_id": "24dad798-dabd-4566-ac45-8c85bf6eaa69",
+              "artifact_id": "22744fb4-36db-4900-89ba-b98a18d4e83a",
               "coverage": "FULL",
-              "event_id": "1770bdae-13e1-4c18-91fd-4c07dcfd28e4",
+              "event_id": "50418257-80a9-4f2c-affa-f97a2a7c1ec3",
               "meaning": "complete supplied import envelope, not complete original history"
             }
           ],
@@ -472,7 +472,7 @@
           "content": "{\"confidence\":1.0,\"created_time\":\"2026-09-01T00:00:00Z\",\"properties\":{},\"relation_type\":\"LIKES\",\"source_id\":\"synthetic-person\",\"source_memory_id\":\"synthetic-summary\",\"target_id\":\"synthetic-garden\",\"weight\":1.0}",
           "coverage": "FULL_SUPPLIED_CONTENT",
           "epistemic_kind": "MODEL_INFERENCE",
-          "memory_id": "ff7c2729-56b4-42ad-b1a9-002679a59c7a",
+          "memory_id": "d94c5de7-df4f-4bd1-9ac5-48198bb87c99",
           "origin": {
             "dataset_id": "synthetic:iris-schema-v030",
             "group_id": null,
@@ -489,9 +489,9 @@
           },
           "source_refs": [
             {
-              "artifact_id": "0f21ecdc-9911-4d05-a85b-5f7dc9c96974",
+              "artifact_id": "9300c6bc-b7a2-42bf-920b-4165ff269f4d",
               "coverage": "FULL",
-              "event_id": "ff7c2729-56b4-42ad-b1a9-002679a59c7a",
+              "event_id": "d94c5de7-df4f-4bd1-9ac5-48198bb87c99",
               "meaning": "complete supplied import envelope, not complete original history"
             }
           ],
@@ -514,26 +514,26 @@
             },
             "claim_key": "3253f85a19cc5247f68ffa879f90934ff9db8e273db70377d3412123a3ec732a",
             "contradicting_memory_ids": [
-              "e7655dd5-0aa9-47b7-a6f9-ea417f58657d"
+              "8b6a1a03-99ee-4535-a6ce-34434917f349"
             ],
             "current_assessment": "SUPERSEDED",
             "evidence_refs": [
               {
-                "artifact_id": "a1d3a896-4efb-4390-93c8-35b8e44845a1",
+                "artifact_id": "366507c5-d8e2-42d6-93d1-0f4b37d23bf9",
                 "coverage": "FULL",
-                "event_id": "4afa0f61-3a70-4bb1-88d0-20f0360a9386",
+                "event_id": "52dd1e21-102a-4d0f-a8ef-3bd0d683b0df",
                 "meaning": "complete supplied import envelope, not complete original history"
               },
               {
-                "artifact_id": "97180301-5db3-4cd0-9fad-ed42a09efac8",
+                "artifact_id": "bee0be7d-6c94-4ce8-9142-039b80b5b7cd",
                 "coverage": "FULL",
-                "event_id": "e7655dd5-0aa9-47b7-a6f9-ea417f58657d",
+                "event_id": "8b6a1a03-99ee-4535-a6ce-34434917f349",
                 "meaning": "complete supplied import envelope, not complete original history"
               }
             ],
             "policy_version": 1,
             "supporting_memory_ids": [
-              "4afa0f61-3a70-4bb1-88d0-20f0360a9386"
+              "52dd1e21-102a-4d0f-a8ef-3bd0d683b0df"
             ],
             "verified_fact": false,
             "why": "latest dated direct user statement"
@@ -541,7 +541,7 @@
           "content": "Fictional reader likes paper gardens.",
           "coverage": "FULL_SUPPLIED_CONTENT",
           "epistemic_kind": "USER_STATEMENT",
-          "memory_id": "4afa0f61-3a70-4bb1-88d0-20f0360a9386",
+          "memory_id": "52dd1e21-102a-4d0f-a8ef-3bd0d683b0df",
           "origin": {
             "dataset_id": "synthetic:iris-schema-v030",
             "group_id": null,
@@ -554,9 +554,9 @@
           "relation": null,
           "source_refs": [
             {
-              "artifact_id": "a1d3a896-4efb-4390-93c8-35b8e44845a1",
+              "artifact_id": "366507c5-d8e2-42d6-93d1-0f4b37d23bf9",
               "coverage": "FULL",
-              "event_id": "4afa0f61-3a70-4bb1-88d0-20f0360a9386",
+              "event_id": "52dd1e21-102a-4d0f-a8ef-3bd0d683b0df",
               "meaning": "complete supplied import envelope, not complete original history"
             }
           ],
@@ -574,7 +574,7 @@
           "content": "An invented garden.",
           "coverage": "FULL_SUPPLIED_CONTENT",
           "epistemic_kind": "MODEL_INFERENCE",
-          "memory_id": "19d5fe05-c2a9-4733-8fb0-dd947de94034",
+          "memory_id": "11055024-c6c9-43df-8263-884bdfb1a300",
           "origin": {
             "dataset_id": "synthetic:iris-schema-v030",
             "group_id": "synthetic-chat",
@@ -587,9 +587,9 @@
           "relation": null,
           "source_refs": [
             {
-              "artifact_id": "ddfd5e14-74e7-4b7e-aa30-a69333457a59",
+              "artifact_id": "6ac48578-1fc2-4ac5-8268-5ce3af944d3a",
               "coverage": "FULL",
-              "event_id": "19d5fe05-c2a9-4733-8fb0-dd947de94034",
+              "event_id": "11055024-c6c9-43df-8263-884bdfb1a300",
               "meaning": "complete supplied import envelope, not complete original history"
             }
           ],
@@ -607,46 +607,47 @@
     },
     "count": 14,
     "event_hashes": [
-      "5e583fc7088543e856b5bd6ac3c4a9f846b2285a91c13260079c126d8121e05c",
-      "084650f827f02e8d0fffc2dfdcf290270b7388d48c0fbc10cf6ee808ef6717af",
-      "90766a1d97fcbd7d99c41d395d6b7eeb6e86728d21f5d4e655dc22f1afc5068b",
-      "4a2941e4713d0f5297013e6bb992eed47549a2c7f6a1594d6a05f3a1ec28ff0b",
-      "1dd7dd4ce451ee8551a18a39ec71b2c7fab3547129f9138a903985749cfc6e51",
-      "30760f9c1d88893c78abf5aa7b1ddb0faf60c68454adf09c4178eef967869b16",
-      "25710950cf40d35f4598f728b4729ceb9c510cffe71501cf9314dcd7b1d843dd",
-      "baa65e0cf95b3f3620bff378a46e8406b29f19dd864628e284e2e7a87757bc3c",
-      "5d01701869e2514e4d3c9d6a987b8bd43837ee15bc432f2d8c58bc3306484aa4",
-      "9b87dbe0c2d779942a33f52059f4f354b81756459d6ea8472b2afa292f666cec",
-      "9be6baf381dfd2c107c4e24c7075854ea07d33cb5eff789f825c612eea75b976",
-      "2423fb896f7b88e8219c82468235976d31baeb0d5a2d19962b2380ac9119aa6d",
-      "cc6e1dc3a74c5dd362104273874b2e987729a660ae4106404410f385ee33cd56",
-      "40ceb36073cb6098f909149848bacef3adfd654f584711c81c6856f4d4df1cae",
-      "423e7aa02a65dba3b29af53059533a35b81f8ebba5dd164c293b6000c8fa8ff9",
-      "d498a6ed64db876677463d657daa44f6f7b7611ca78c29f6658cdb83c85ed15e",
-      "96b0cb7ea6ddfdc6a02859a1b8188e6e6d5bba694dd80b65de73d9b362a6b73b",
-      "869e95dd85e27b5338385a3f1470eba09cb132d129434c630904f1d54240a035",
-      "cab54d69bf4a11f594c821c2d1533f90b5864ba36cc7c40f462232352771a198",
-      "2afeef8cbfec95c892b780a2d2bae45fa5f7a17aba08b07a5423189c6ccb3824",
-      "010d3ae66a68f73f4cb0e29631927cb60d6da56d7b9286692f058a1c9c983347",
-      "90f6844771a6d98821aa783033f152efc3e13f50447658b304e5aa01ec4657f5",
-      "1d8e2a8b0d4cac33473cb117ea33d52f1232925fa8cdb353f40188a53a4eb2a4",
-      "a1d4ab28340794bfd3f1af4699d6e80473eba57188496e6d718762b83a669b1b",
-      "97718e98e3bfe504159c4f81e96c47a3000ba8e9a1631042a8863be681fcde53",
-      "cbd8358c5edc47e8267f4c719e0d534dcb53f0b74ba624afa481833bf8f2b506",
-      "b811169267443029cc29324115c447175bdd03a95c0d9f5a0654380a9d8e9728",
-      "a6eea9a694015e14a43d8c97f740b7acea02060124f5d51cd74c59391f0789b3",
-      "16652e37f75296650c14fd2e4eeb52e8ab93ca17a9c28a6cd0af1e2018d59066",
-      "199dda429648d9d5318f76fc5df032b678d760449ea3f43813e89971d8a2f15b",
-      "e0ba2434e22fbf7c022dbc0bf6d6beb8dc8a63b99b6bcc4e23368446d8bcf8f3",
-      "993a10bb0a351f78020a2909ec34f656654d78c6522108fc33e83e11031b9b6d",
-      "c83ee027e3b15064af5afe24863a5da98cd50358b158c711113bcfc70c3564a4"
+      "5647d838651d8a76744f231b5ca899fe0155de204523ff03dc49700dc84058a3",
+      "cc8e26f12a15084e2ba52fa67049d17f94791149f1102dfce2d6bae741d748f7",
+      "d42cd35bd84f3c2d03d1ee463edf17c27bafecc7fc60293afc5978c48854e671",
+      "ea2e5dc4570c94eaf87f95a1128f6dc78e2ebf4c255fe127fc77cd519f73e986",
+      "1d292c9ab3e5ddf9bcde4a3704f31628fce7f0d7fb1d7575137255fbab6d9bdc",
+      "5a31b17ec93a381e8e78a15968bc95092368f29573b911ccda155d5f969fb2a6",
+      "0de066d76a74ad457564481d44a8bcae9e9c3ce1777452e3875979e455d081c9",
+      "09e73180512aff3fd18ff085962d8321f51f4875f120f86d815ab6fe409db99f",
+      "b988d8dcfb011c1419a74cf68e3da754b108f71554bf3599eaa60f043fbf1901",
+      "e3987c52e851d72c1cf222a27dee8194e7ce6fb1cd967d71f62ad207e9ee3ece",
+      "50f0984b58145c14e9d10a35a33787602ae35c9337333e19b0613ca0d7deff75",
+      "beaff27dea64fa8b85cbce4d2c68e68dbd3e76c68be68afed010faa7a9fcd3ff",
+      "c39cf5ba231c4e76049988702cca9a30f84fb4144f0688b6c9f795053ef438c5",
+      "f8cecfb37a781462d8277ba9ddf609c8213312f5224c194674d1c9c7e77a4251",
+      "d5a7d8db7af6a48730f528bfca8d9527e384b32ed8e3bf33b75703cf7a203414",
+      "141f4e2f3b65809767dc9b97b5af7b4d092e55d28f62197277b2c9406f2bc211",
+      "54368caddaf0d01496bdfd3c44a70c8cdae738c206f1276f1afe1c0363c138b9",
+      "1bd11be8d521d7d69f82910afa6ebd0946963aeacc235d89504be9ee628f48fd",
+      "9c7e6f3a18f54bb80031e02d3ba9e7fd539c0aa87389eac25231d71b9cb893b3",
+      "98ddbdc0c2bde58edc5673e3a5afde5aaeb926d36f12fef2799a926aa95b1770",
+      "a627aa197d9cf3a041a2690a76241ca6051c8187e455623e91095734980952eb",
+      "cec9b32c9a5c03687f6c18bd8b7dbe36bc399ee2a843183219e31536f4f0b96c",
+      "385ce8867e8ade718715d014678e2bb8fd26bc6633f471829d501cdb70051341",
+      "c806209dee099c01192212df968ffe3aa8ab62941c4a803d9523bc024ebb1e95",
+      "ac466dc03b7be8691572de96705a87a5d0b8575c66fe4bc98544783ef97a6f7a",
+      "8126f99f3865e74c1caf919cc56820da379dc37b04ae9cccd4c65baed299f7f6",
+      "d0245d1f659fa37f10e5b3a7f59be9b23afe2fc1bc8a24d49533bb910dff6f79",
+      "25eceace1f8b632859c1bb82fb1d80db4327a2e3272c3640b90d1f5f12e5c1e8",
+      "4ffba9be497a4114e19fd3739c4aac78a5e604fd9cee0ab965138f2ddf63d5b7",
+      "387cb62c60581ce915b3d42ebb4d7a02f08b8f82c493c9e2604cdb9885cf83d2",
+      "e2e8d4b531cdcc94422c978f52b2b5b52bf6812ddb237a4aeb5633bf9bd9399f",
+      "fccf59c00fcc5e70d52fed17033517ac63f0ec1d8c3212f6a8ef47873ead5f49",
+      "4c8d540c34cfd44c64aaaefc4ebb39abff1c8febca4ad3bd1a7073dda56a845f",
+      "08088d5336af8ef027e959737c833e6303971e0b3d4a77959fa3eae4f7a7d0fd"
     ],
     "goals": 0,
     "grants": 0,
     "identity": {
       "body_json": "{\"charter\":[\"retain independent judgement\",\"evidence before success\",\"learning cannot expand permissions\"],\"expression_defaults\":{\"style\":\"warm and precise\"},\"name\":\"Nana\",\"self_preferences\":[]}",
-      "created_event_id": "3e8d6d0a-6e44-47af-aa68-1e325fe995f3",
-      "identity_id": "b0d3bc2e-763e-4425-85b7-d45db30fe597",
+      "created_event_id": "9514a5a4-ed48-493d-a076-2036571a1222",
+      "identity_id": "80bec0a2-4bde-4eaa-8709-5b103c909261",
       "revision": 1
     },
     "manifest": {
@@ -671,7 +672,7 @@
       "results": [
         {
           "added": false,
-          "event_id": "4afa0f61-3a70-4bb1-88d0-20f0360a9386",
+          "event_id": "52dd1e21-102a-4d0f-a8ef-3bd0d683b0df",
           "kind": "l1",
           "legacy_key": "m1",
           "status": "DUPLICATE",
@@ -680,7 +681,7 @@
         },
         {
           "added": false,
-          "event_id": "e7655dd5-0aa9-47b7-a6f9-ea417f58657d",
+          "event_id": "8b6a1a03-99ee-4535-a6ce-34434917f349",
           "kind": "l1",
           "legacy_key": "m2",
           "status": "DUPLICATE",
@@ -689,7 +690,7 @@
         },
         {
           "added": false,
-          "event_id": "9393c293-c56e-4be7-b8dd-cb27533da4a0",
+          "event_id": "fa206376-9fe0-42ae-8842-cbe022eb75d7",
           "kind": "l2",
           "legacy_key": "summary",
           "status": "DUPLICATE",
@@ -698,7 +699,7 @@
         },
         {
           "added": false,
-          "event_id": "356c7c38-3b92-4c83-ab1a-fe1e2e5b89b5",
+          "event_id": "cfb6dc72-f45c-4d98-aa48-2634db024aef",
           "kind": "l2",
           "legacy_key": "inference",
           "status": "DUPLICATE",
@@ -709,7 +710,7 @@
         },
         {
           "added": false,
-          "event_id": "3192a306-8e64-41c8-8053-4a7c64751f1d",
+          "event_id": "c3a9d15d-fd47-4f8d-af6d-9313fd624021",
           "kind": "l2_row",
           "legacy_key": "sql",
           "status": "DUPLICATE",
@@ -718,7 +719,7 @@
         },
         {
           "added": false,
-          "event_id": "ceef78c1-4e8c-4dc2-bfb9-30c5a5022a3c",
+          "event_id": "d66db829-f5fc-4147-a97b-e94e8d709a69",
           "kind": "kg_node",
           "legacy_key": "person",
           "status": "DUPLICATE",
@@ -727,7 +728,7 @@
         },
         {
           "added": false,
-          "event_id": "19d5fe05-c2a9-4733-8fb0-dd947de94034",
+          "event_id": "11055024-c6c9-43df-8263-884bdfb1a300",
           "kind": "kg_node",
           "legacy_key": "garden",
           "status": "DUPLICATE",
@@ -736,7 +737,7 @@
         },
         {
           "added": false,
-          "event_id": "ff7c2729-56b4-42ad-b1a9-002679a59c7a",
+          "event_id": "d94c5de7-df4f-4bd1-9ac5-48198bb87c99",
           "kind": "kg_edge",
           "legacy_key": "relation",
           "status": "DUPLICATE",
@@ -745,7 +746,7 @@
         },
         {
           "added": false,
-          "event_id": "4bf79b4b-0c9c-448e-85df-8faf63a66a35",
+          "event_id": "5daa8b70-521b-40bd-a8b1-b9a788e035cc",
           "kind": "user_profile",
           "legacy_key": "profile",
           "status": "DUPLICATE",
@@ -757,7 +758,7 @@
         },
         {
           "added": false,
-          "event_id": "1770bdae-13e1-4c18-91fd-4c07dcfd28e4",
+          "event_id": "50418257-80a9-4f2c-affa-f97a2a7c1ec3",
           "kind": "group_profile",
           "legacy_key": "group",
           "status": "DUPLICATE",
@@ -769,7 +770,7 @@
         },
         {
           "added": false,
-          "event_id": "0e1542ab-0e41-4664-899f-683fa96cab57",
+          "event_id": "edd87d14-6af8-4cb0-9330-4e006c1337b8",
           "kind": "action_ledger",
           "legacy_key": "ledger",
           "status": "DUPLICATE",
@@ -780,7 +781,7 @@
         },
         {
           "added": false,
-          "event_id": "1b2061f4-4d4e-4e65-bacf-7b9942b275c2",
+          "event_id": "667fe7d5-7ebd-4b89-a960-c9ca52e461db",
           "kind": "decision_log",
           "legacy_key": "decision",
           "status": "DUPLICATE",
@@ -791,7 +792,7 @@
         },
         {
           "added": false,
-          "event_id": "eadf718c-e88b-4a67-8a5f-dc973d011a26",
+          "event_id": "131a7f02-1c66-493f-95b8-4af1fdf08e68",
           "kind": "conversation_flow",
           "legacy_key": "flow",
           "status": "DUPLICATE",
@@ -800,7 +801,7 @@
         },
         {
           "added": false,
-          "event_id": "e36d1378-351b-419e-91e0-1c1f91e1814f",
+          "event_id": "c1b5d76d-cd00-4f7e-acb1-e1436ce53adb",
           "kind": "index_meta",
           "legacy_key": "index",
           "status": "DUPLICATE",
@@ -815,7 +816,7 @@
         "synthetic:iris-schema-v030"
       ]
     },
-    "pid": 6752,
+    "pid": 6901,
     "proposal": {
       "goal_template": "reading_card",
       "purpose": "Prepare a private reading card to help resume shared reading. Current source-backed user statement: False prefers paper-gardens.",
@@ -847,10 +848,10 @@
         "context_chars": 7967,
         "coverage": "SELECTED_CONTEXT",
         "dropped_memory_ids": [
-          "4bf79b4b-0c9c-448e-85df-8faf63a66a35",
-          "356c7c38-3b92-4c83-ab1a-fe1e2e5b89b5"
+          "cfb6dc72-f45c-4d98-aa48-2634db024aef",
+          "5daa8b70-521b-40bd-a8b1-b9a788e035cc"
         ],
-        "identity_id": "b0d3bc2e-763e-4425-85b7-d45db30fe597",
+        "identity_id": "80bec0a2-4bde-4eaa-8709-5b103c909261",
         "items": [
           {
             "belief": {
@@ -862,26 +863,26 @@
               },
               "claim_key": "3253f85a19cc5247f68ffa879f90934ff9db8e273db70377d3412123a3ec732a",
               "contradicting_memory_ids": [
-                "4afa0f61-3a70-4bb1-88d0-20f0360a9386"
+                "52dd1e21-102a-4d0f-a8ef-3bd0d683b0df"
               ],
               "current_assessment": "CURRENT_USER_STATEMENT",
               "evidence_refs": [
                 {
-                  "artifact_id": "a1d3a896-4efb-4390-93c8-35b8e44845a1",
+                  "artifact_id": "366507c5-d8e2-42d6-93d1-0f4b37d23bf9",
                   "coverage": "FULL",
-                  "event_id": "4afa0f61-3a70-4bb1-88d0-20f0360a9386",
+                  "event_id": "52dd1e21-102a-4d0f-a8ef-3bd0d683b0df",
                   "meaning": "complete supplied import envelope, not complete original history"
                 },
                 {
-                  "artifact_id": "97180301-5db3-4cd0-9fad-ed42a09efac8",
+                  "artifact_id": "bee0be7d-6c94-4ce8-9142-039b80b5b7cd",
                   "coverage": "FULL",
-                  "event_id": "e7655dd5-0aa9-47b7-a6f9-ea417f58657d",
+                  "event_id": "8b6a1a03-99ee-4535-a6ce-34434917f349",
                   "meaning": "complete supplied import envelope, not complete original history"
                 }
               ],
               "policy_version": 1,
               "supporting_memory_ids": [
-                "e7655dd5-0aa9-47b7-a6f9-ea417f58657d"
+                "8b6a1a03-99ee-4535-a6ce-34434917f349"
               ],
               "verified_fact": false,
               "why": "latest dated direct user statement"
@@ -889,7 +890,7 @@
             "content": "Fictional reader now dislikes paper gardens.",
             "coverage": "FULL_SUPPLIED_CONTENT",
             "epistemic_kind": "USER_STATEMENT",
-            "memory_id": "e7655dd5-0aa9-47b7-a6f9-ea417f58657d",
+            "memory_id": "8b6a1a03-99ee-4535-a6ce-34434917f349",
             "origin": {
               "dataset_id": "synthetic:iris-schema-v030",
               "group_id": null,
@@ -902,9 +903,9 @@
             "relation": null,
             "source_refs": [
               {
-                "artifact_id": "97180301-5db3-4cd0-9fad-ed42a09efac8",
+                "artifact_id": "bee0be7d-6c94-4ce8-9142-039b80b5b7cd",
                 "coverage": "FULL",
-                "event_id": "e7655dd5-0aa9-47b7-a6f9-ea417f58657d",
+                "event_id": "8b6a1a03-99ee-4535-a6ce-34434917f349",
                 "meaning": "complete supplied import envelope, not complete original history"
               }
             ],
@@ -922,7 +923,7 @@
             "content": "A model summarized a fictional paper garden preference.",
             "coverage": "FULL_SUPPLIED_CONTENT",
             "epistemic_kind": "SUMMARY",
-            "memory_id": "9393c293-c56e-4be7-b8dd-cb27533da4a0",
+            "memory_id": "fa206376-9fe0-42ae-8842-cbe022eb75d7",
             "origin": {
               "dataset_id": "synthetic:iris-schema-v030",
               "group_id": "synthetic-chat",
@@ -935,9 +936,9 @@
             "relation": null,
             "source_refs": [
               {
-                "artifact_id": "9948f66f-9cca-4e38-b43f-a306bf6ca5c2",
+                "artifact_id": "cc2392f9-2dee-4662-9ed6-1344fa2adedb",
                 "coverage": "FULL",
-                "event_id": "9393c293-c56e-4be7-b8dd-cb27533da4a0",
+                "event_id": "fa206376-9fe0-42ae-8842-cbe022eb75d7",
                 "meaning": "complete supplied import envelope, not complete original history"
               }
             ],
@@ -955,7 +956,7 @@
             "content": "{\"hits\":1,\"query\":\"paper garden\",\"reason\":\"synthetic\",\"route\":\"normal\",\"soft_confirm\":false,\"t\":\"2026-09-01 08:00:00+08:00\",\"t_utc\":\"2026-09-01T00:00:00Z\",\"tier\":\"normal\",\"top_k\":3}",
             "coverage": "FULL_SUPPLIED_CONTENT",
             "epistemic_kind": "OBSERVATION",
-            "memory_id": "1b2061f4-4d4e-4e65-bacf-7b9942b275c2",
+            "memory_id": "667fe7d5-7ebd-4b89-a960-c9ca52e461db",
             "origin": {
               "dataset_id": "synthetic:iris-schema-v030",
               "group_id": null,
@@ -968,9 +969,9 @@
             "relation": null,
             "source_refs": [
               {
-                "artifact_id": "324d3447-b958-4eda-8006-a5bfb04899b0",
+                "artifact_id": "ed3de436-616e-4910-8006-e83b9a2e768f",
                 "coverage": "FULL",
-                "event_id": "1b2061f4-4d4e-4e65-bacf-7b9942b275c2",
+                "event_id": "667fe7d5-7ebd-4b89-a960-c9ca52e461db",
                 "meaning": "complete supplied import envelope, not complete original history"
               }
             ],
@@ -988,7 +989,7 @@
             "content": "{\"field_meta\":{},\"group_id\":\"synthetic-chat\",\"group_name\":\"Fictional Garden\",\"interests\":[\"paper\"],\"version\":1}",
             "coverage": "FULL_SUPPLIED_CONTENT",
             "epistemic_kind": "MODEL_INFERENCE",
-            "memory_id": "1770bdae-13e1-4c18-91fd-4c07dcfd28e4",
+            "memory_id": "50418257-80a9-4f2c-affa-f97a2a7c1ec3",
             "origin": {
               "dataset_id": "synthetic:iris-schema-v030",
               "group_id": "synthetic-chat",
@@ -1001,9 +1002,9 @@
             "relation": null,
             "source_refs": [
               {
-                "artifact_id": "24dad798-dabd-4566-ac45-8c85bf6eaa69",
+                "artifact_id": "22744fb4-36db-4900-89ba-b98a18d4e83a",
                 "coverage": "FULL",
-                "event_id": "1770bdae-13e1-4c18-91fd-4c07dcfd28e4",
+                "event_id": "50418257-80a9-4f2c-affa-f97a2a7c1ec3",
                 "meaning": "complete supplied import envelope, not complete original history"
               }
             ],
@@ -1021,7 +1022,7 @@
             "content": "{\"confidence\":1.0,\"created_time\":\"2026-09-01T00:00:00Z\",\"properties\":{},\"relation_type\":\"LIKES\",\"source_id\":\"synthetic-person\",\"source_memory_id\":\"synthetic-summary\",\"target_id\":\"synthetic-garden\",\"weight\":1.0}",
             "coverage": "FULL_SUPPLIED_CONTENT",
             "epistemic_kind": "MODEL_INFERENCE",
-            "memory_id": "ff7c2729-56b4-42ad-b1a9-002679a59c7a",
+            "memory_id": "d94c5de7-df4f-4bd1-9ac5-48198bb87c99",
             "origin": {
               "dataset_id": "synthetic:iris-schema-v030",
               "group_id": null,
@@ -1038,9 +1039,9 @@
             },
             "source_refs": [
               {
-                "artifact_id": "0f21ecdc-9911-4d05-a85b-5f7dc9c96974",
+                "artifact_id": "9300c6bc-b7a2-42bf-920b-4165ff269f4d",
                 "coverage": "FULL",
-                "event_id": "ff7c2729-56b4-42ad-b1a9-002679a59c7a",
+                "event_id": "d94c5de7-df4f-4bd1-9ac5-48198bb87c99",
                 "meaning": "complete supplied import envelope, not complete original history"
               }
             ],
@@ -1063,26 +1064,26 @@
               },
               "claim_key": "3253f85a19cc5247f68ffa879f90934ff9db8e273db70377d3412123a3ec732a",
               "contradicting_memory_ids": [
-                "e7655dd5-0aa9-47b7-a6f9-ea417f58657d"
+                "8b6a1a03-99ee-4535-a6ce-34434917f349"
               ],
               "current_assessment": "SUPERSEDED",
               "evidence_refs": [
                 {
-                  "artifact_id": "a1d3a896-4efb-4390-93c8-35b8e44845a1",
+                  "artifact_id": "366507c5-d8e2-42d6-93d1-0f4b37d23bf9",
                   "coverage": "FULL",
-                  "event_id": "4afa0f61-3a70-4bb1-88d0-20f0360a9386",
+                  "event_id": "52dd1e21-102a-4d0f-a8ef-3bd0d683b0df",
                   "meaning": "complete supplied import envelope, not complete original history"
                 },
                 {
-                  "artifact_id": "97180301-5db3-4cd0-9fad-ed42a09efac8",
+                  "artifact_id": "bee0be7d-6c94-4ce8-9142-039b80b5b7cd",
                   "coverage": "FULL",
-                  "event_id": "e7655dd5-0aa9-47b7-a6f9-ea417f58657d",
+                  "event_id": "8b6a1a03-99ee-4535-a6ce-34434917f349",
                   "meaning": "complete supplied import envelope, not complete original history"
                 }
               ],
               "policy_version": 1,
               "supporting_memory_ids": [
-                "4afa0f61-3a70-4bb1-88d0-20f0360a9386"
+                "52dd1e21-102a-4d0f-a8ef-3bd0d683b0df"
               ],
               "verified_fact": false,
               "why": "latest dated direct user statement"
@@ -1090,7 +1091,7 @@
             "content": "Fictional reader likes paper gardens.",
             "coverage": "FULL_SUPPLIED_CONTENT",
             "epistemic_kind": "USER_STATEMENT",
-            "memory_id": "4afa0f61-3a70-4bb1-88d0-20f0360a9386",
+            "memory_id": "52dd1e21-102a-4d0f-a8ef-3bd0d683b0df",
             "origin": {
               "dataset_id": "synthetic:iris-schema-v030",
               "group_id": null,
@@ -1103,9 +1104,9 @@
             "relation": null,
             "source_refs": [
               {
-                "artifact_id": "a1d3a896-4efb-4390-93c8-35b8e44845a1",
+                "artifact_id": "366507c5-d8e2-42d6-93d1-0f4b37d23bf9",
                 "coverage": "FULL",
-                "event_id": "4afa0f61-3a70-4bb1-88d0-20f0360a9386",
+                "event_id": "52dd1e21-102a-4d0f-a8ef-3bd0d683b0df",
                 "meaning": "complete supplied import envelope, not complete original history"
               }
             ],
@@ -1123,7 +1124,7 @@
             "content": "An invented garden.",
             "coverage": "FULL_SUPPLIED_CONTENT",
             "epistemic_kind": "MODEL_INFERENCE",
-            "memory_id": "19d5fe05-c2a9-4733-8fb0-dd947de94034",
+            "memory_id": "11055024-c6c9-43df-8263-884bdfb1a300",
             "origin": {
               "dataset_id": "synthetic:iris-schema-v030",
               "group_id": "synthetic-chat",
@@ -1136,9 +1137,9 @@
             "relation": null,
             "source_refs": [
               {
-                "artifact_id": "ddfd5e14-74e7-4b7e-aa30-a69333457a59",
+                "artifact_id": "6ac48578-1fc2-4ac5-8268-5ce3af944d3a",
                 "coverage": "FULL",
-                "event_id": "19d5fe05-c2a9-4733-8fb0-dd947de94034",
+                "event_id": "11055024-c6c9-43df-8263-884bdfb1a300",
                 "meaning": "complete supplied import envelope, not complete original history"
               }
             ],
@@ -1154,7 +1155,7 @@
         ],
         "original_evidence_unchanged": true
       },
-      "identity_id": "b0d3bc2e-763e-4425-85b7-d45db30fe597",
+      "identity_id": "80bec0a2-4bde-4eaa-8709-5b103c909261",
       "old": {
         "context_chars": 1917,
         "contradictions_visible": 0,
@@ -1287,7 +1288,7 @@
     ],
     "strategies": 0,
     "used_memory_ids": [
-      "e7655dd5-0aa9-47b7-a6f9-ea417f58657d"
+      "8b6a1a03-99ee-4535-a6ce-34434917f349"
     ]
   },
   "fixture_count": 14,

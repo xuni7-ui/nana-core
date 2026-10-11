@@ -26,7 +26,7 @@ class MemoryView:
         return entries
 
     def assess_claims(self,dataset_ids):
-        entries=self.entries(dataset_ids);groups={};changed=[]
+        entries=self.entries(dataset_ids);groups={};changed=[];disputed_count=0
         for entry in entries:
             claim=entry['iris']['claim']
             if claim:
@@ -40,6 +40,7 @@ class MemoryView:
             newest=max((t for t in times if t is not None),default=None)
             latest=[e for e in direct if e['iris']['time']['underlying_event_time_us']==newest]
             unresolved=opposing and (unknown or len({e['iris']['claim']['polarity'] for e in latest})>1)
+            disputed_count+=int(unresolved)
             for entry in group:
                 polarity=entry['iris']['claim']['polarity']
                 support=[e['memory_id'] for e in direct if e['iris']['claim']['polarity']==polarity]
@@ -59,7 +60,7 @@ class MemoryView:
         if changed:
             with self.store.transaction('memory.claims_assessed',{'policy_version':1,'claim_groups':list(groups)}) as tx:
                 for key,body in changed:tx.update('memory_items',key,body_json=canonical(body))
-        return {'claim_groups':len(groups),'changed':len(changed),'disputed_groups':sum(any(e['iris']['time']['underlying_event_time_us'] is None for e in g) for g in groups.values())}
+        return {'claim_groups':len(groups),'changed':len(changed),'disputed_groups':disputed_count}
 
     def retrieve(self,query,*,identity_id,dataset_ids,max_chars=4000,limit=8):
         if identity_id!=self.store.identity['identity_id']:raise CoreError('MEMORY_IDENTITY_MISMATCH')

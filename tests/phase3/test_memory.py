@@ -1,4 +1,6 @@
 import json
+import pytest
+from nana_core.contracts import CoreError
 from nana_core.clock import ManualClock
 from nana_core.memory import MemoryView,shadow_compare
 from nana_core.migration.iris import IrisAdapter
@@ -36,3 +38,17 @@ def test_migration_rehearsal_restarts_replays_and_reconciles(tmp_path):
     assert report['real_model_calls']==report['actual_http_calls']==0
     assert len(report['restarted']['used_memory_ids'])==1
     assert 'False prefers paper-gardens' in report['restarted']['proposal']['purpose']
+
+
+def test_tied_claims_disputed_and_context_cut_never_claims_full_evidence(tmp_path):
+    records=list(fixtures()[:2]);row=json.loads(records[1].raw_json);row['timestamp']=json.loads(records[0].raw_json)['timestamp']
+    records[1]=records[1].model_copy(update={'raw_json':json.dumps(row)})
+    with Store(tmp_path/'core.db') as store:
+        IrisAdapter(store).import_batch(records);view=MemoryView(store)
+        assert view.assess_claims(DATASETS)['disputed_groups']==1
+        assert all(json.loads(m['body_json'])['belief']['current_assessment']=='DISPUTED' for m in store.all('memory_items'))
+        context=view.retrieve('paper',identity_id=store.identity['identity_id'],dataset_ids=DATASETS,max_chars=256)
+        assert context['coverage']=='SELECTED_CONTEXT' and len(context['dropped_memory_ids'])==2
+        assert len(store.all('artifacts'))==3
+        with pytest.raises(CoreError,match='IDENTITY_MISMATCH'):
+            view.retrieve('paper',identity_id='other',dataset_ids=DATASETS)

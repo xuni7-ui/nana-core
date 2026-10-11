@@ -53,3 +53,8 @@
 ## 开发网页实验增量（C-034/C-035）
 - public_http/web_source/controlled_web/web_lab 与相关测试：本仓库受控实现，Python 标准库，未复制第三方代码/网页服务源码；新增依赖 0。
 - 入库网页/报告正文全部合成。真实公开网页若后续获准获取，仅在独立实验 DB 保存来源证据，不随工程仓库上传全文；工程许可证不覆盖来源内容许可证。原创许可仍待所有者决定。
+
+## Phase III Entry 互操作增量
+- Iris0.3.0公开AGPL源码仅/tmp只读核对，hash/永久版本引用见iris_source_manifest；不复制其实现，不导入运行插件。映射字段与适配器独立实现，不将AGPL补丁重新声明原创。
+- phase3/memory/initiative/selection和测试：本仓库可控增量，复用既有Core及原创Bridge契约，无新依赖。数据14条真实schema合成行与合成风险场景，不含私人记忆/生产库/凭据。
+- schema互操作不能赋予来源内容新许可；项目原创许可证继续待所有者决定。
