@@ -239,3 +239,22 @@
 ### M5 / M6
 - [实测] PROJECT_BRAIN 03/04/09/10/11 已同步（本文件即其一）。
 - 见 `11_CHANGELOG.md` `C-072` 与 `10_DECISIONS.md` `D-045`。
+
+
+### M6 = Git 收口（本地完成；推送受**凭据政策**阻断）
+
+- [实测] `git status` 干净；`git diff --check` / `--cached --check` = 空；改动 9 个文件，全部为新增或 PROJECT_BRAIN/README 类，**未触及** `src/nana_core`。
+- [实测] 密钥/隐私扫描：`eyJ…` / `gh[pousr]_…` / `sk-…` / `PRIVATE KEY` / `password=` / `cookie=` 命中 = **0**；
+  新文档与插件副本中 `nana_secrets` / `github_nana_core_pat` / `Bearer` / `Authorization:` 命中 = **0**。
+- [实测] **approved Core = `src/nana_core` 共 55 文件**，`c3ada9b…HEAD` 对该路径 diff = **空**（R02/Codex/R03 均未改）；
+  指纹 `9a4ca927358fb5cdb998b2cb97afd8b034f88d87254d838dc3bd0f2adca4841a`。
+- [实测] Codex 交付清单 `manifests/fingerprints_astrbot_codex.json`（72 文件）**drift = 0 / missing = 0**
+  ⇒ 合流未改动 Codex 交付字节。
+- [实测] 本地提交：合并 `d3e8c818…`；R03 实现 `460227893582d5067743412213a6965f660fbeff`。
+- [实测] **出口状态**：`github.com:443` TCP 可连；`api.github.com` 匿名 `200`；codeload 可应答；
+  匿名 `git ls-remote` 返回 `could not read Username`（私有库正常鉴权行为，**非**线路故障）。
+- [实测] **推送 = 阻断，原因是凭据政策而非网络**：本仓库唯一配置的 credential helper 读取
+  `/root/.nana_secrets/github_nana_core_pat`，该 PAT **已按泄露凭据处理并被姐姐明令禁止读取/使用/恢复**。
+  奈奈**未**读取该文件、**未**发起带凭据的推送、**未**为推送改动代理或宿主网络。
+- 状态：**`R03_IMPLEMENTATION_COMPLETE_LOCAL / PUSH_BLOCKED_CREDENTIAL_POLICY`**。
+- 交付方式：导出 R03 bundle 给姐姐（离线合流），`git rev-parse HEAD` 与 `ls-remote` 一致性**待推送后**才可宣称。
