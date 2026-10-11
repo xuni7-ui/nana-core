@@ -473,3 +473,5 @@
 [实测/开发] R04-C8-INTEGRITY: Stdlib hash gate before package execution and fixed proof diagnostics; 64 targeted passed, full468 passed one E12 skip. Fingerprint anchor 7472c6fc703cb2ea739560203b0c74136e7e1b9464bf7a9aedb0c0d5a42bfaa9; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
 
 [实测/开发] R04-RELEASE: Reviewed downloadable archive and extracted-package validation; full468 passed, one E12 skip, zero production operations. Fingerprint anchor 1c3c4503474ea7bb53c595ea2a944da5d50db6e1e9091da863a0e4e1eb2f7eba; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
+
+[实测/开发] R04-FINAL-TYPE-SEAL: Require actual ReceiptLedger at sanitizer permit gate; full469 passed, one E12 skip, 65 R04 cases. Fingerprint anchor 790c56f51e372e807912e11d5d1c31a4f40394072a33b8636caf9b60206ab11b; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.

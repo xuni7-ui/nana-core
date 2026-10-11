@@ -210,3 +210,10 @@ def test_single_permit_cannot_be_minted_again(tmp_path):
     sink.sanitizer.issue_consumed_permit(l,m)
     with pytest.raises(ValueError,match='ALREADY_ISSUED'):sink.sanitizer.issue_consumed_permit(l,m)
     sink.close()
+
+def test_duck_typed_fake_ledger_cannot_mint_permit(tmp_path):
+    sink,l,r=setup(tmp_path/'shadow');m=sink.sanitizer.project(dict(RAW))
+    class ForgedLedger:
+        def record(self,*a):raise AssertionError('fake ledger must never be consulted')
+    with pytest.raises(ValueError,match='LEDGER_TYPE'):sink.sanitizer.issue_consumed_permit(ForgedLedger(),m)
+    sink.close()

@@ -44,6 +44,7 @@ class OneShotSanitizer(MetadataSanitizer):
             REAL_SOURCE,False,'nana-probe-'+self.receipt_id)
 
     def issue_consumed_permit(self,ledger,metadata):
+        if type(ledger) is not ReceiptLedger:raise ValueError('DROP_LEDGER_TYPE')
         r,v=ledger.record(self.receipt_id)
         if self.__issued:raise ValueError('DROP_ALREADY_ISSUED_PERMIT')
         if (v['state']!='CONSUMED' or v['uses']!=1 or v['core'] is not None
