@@ -192,3 +192,6 @@
 
 ## D-038 — 开发只读网页的最小接入
 [文档] 采用操作者持久化 URL/方法绑定及可选 development_public 路由作用域；复用三个既有能力与统一行动状态，不新建身份/权限/核心表。公网传输固定经过平台许可代理的数字目标；所有重定向拒绝。Locator 从同 Goal/Plan 已核验历史回执读取，独立核验不再次抓取，以避免恢复重复请求。代价：V1 不支持 query、动态域名变化、重定向/登录/浏览器；代理源站 peer 为未知。工程受控服务与真实公网/模型验收分开。
+
+## D-039 — Iris互操作与最小信念
+[文档] 独立解释锁定Iris字段，不搬第三方执行代码；11类记录保留原JSON和unmapped字段。Canonical claim/profile/relation放现有memory_items JSON，schema不扩展。发生/旧观察/导入时间分离；naive仅按锁定Iris UTC约定并显式标注。支持/矛盾证据不可覆盖；新旧用户原话的operator annotation有明确定时才可supersede，否则disputed。Core VERIFIED/Grant/Action/Strategy不能从legacy赋值。Iris-style shadow是明确surrogate，不声称真实向量检索parity。

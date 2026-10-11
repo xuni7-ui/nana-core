@@ -255,3 +255,7 @@
 [实测] C-039：M3 Iris schema mapping+adapter②已测试，14 synthetic records/11结构，新7及S6 29共36pass；真实SIGKILL恢复、去重、拒绝/未知语义保留，无新Core表/权限。真实私人DB/生产迁移未运行；M2 E12仍NOT_RUN。映射docs/nana_core_phase3_iris_mapping.md与iris_source_manifest.json为锁定源证据。
 
 [实测] C-039 指纹锚点 5fe2336a8d6382a5ef14bde304bd202494fac378ba027327d688eff65ce2c6ae；仅本检查点文件状态，不证明生产。
+
+[实测] C-040：M4非生产迁移演习③已运行验收，14import/0reject→重启14duplicate，1relation/1conflict group，identity/time/source/replay保持，Goal/Action/Grant/Strategy/Budget0。10 targeted passed。MemoryView冲突及来源检索②已测试；P7影子PARTIAL（lexical surrogate，无真实Iris向量parity），E12 NOT_RUN。无新表/依赖。
+
+[实测] C-040 指纹锚点 fa1ea7258bcc0b6a8c04262f77430923e1b80d0a89cced6dc11e08c9a391c94d；仅本检查点文件状态，不证明生产。

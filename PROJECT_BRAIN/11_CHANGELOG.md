@@ -435,3 +435,9 @@
 - 改了什么：锁定上游源码证据manifest、正式11类schema字段映射；IrisAdapter复用LegacyImporter，原始与canonical两事务可恢复，14条synthetic真实字段夹具；不新增Core表。
 - 为什么：不能从补丁/文档想象L2/L3/profile字段，也不能把旧VERIFIED/summary/action变成Core事实/执行；实测源adapter为FAISS+SQLite/L3 SQLite而非旧注释Chroma/Kuzu。
 - [实测] 怎么验证：36 targeted passed（新7+S6 29），重复14duplicate，真实SIGKILL -9后1duplicate+13imported，来源/时间/身份保持、无Action/Grant/Strategy；拒绝记录完整batch evidence保留。首轮35pass/1fail为测试epoch常量误写2025，修正正确2026固定值未降断言。M2远端820e688b809dad7b22049ab699b86f211b813135一致。
+
+## C-040 — M4 记忆冲突与迁移/影子对账
+- 改了什么：MemoryView有界纯检索、最小claim信念projection；跨进程迁移/重启/replay/context/ModelPort工程fixture decision演习；old Iris-style lexical surrogate对比与真实对账报告。
+- 为什么：新陈述不能销毁旧证据，summary/inference/旧confidence不升级；影子不写Goal/Action/Grant/Strategy。
+- [实测] 怎么验证：10 targeted passed；CLI14导入/0拒绝、重启14duplicate、1KGrelation、1冲突组、identity/time/source/replay一致；source raw逐字对账；导入和preview没有动作/权限/预算。query重要证据recall surrogate0/Core1，矛盾可见0/2，shadow前后snapshot一致；fixture原始proposal实际引用当前否定陈述及memory ID。
+- [未知] 真实模型理解、Iris真实embedding retrieval parity；后者PARTIAL只测纯surrogate，不部署。零依赖/新Core表。映射M3已保存ef51373570363ed715cb6eb0732365d4e611e86b。
