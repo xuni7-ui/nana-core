@@ -35,3 +35,5 @@ Recommended handoff: merge this independent R04 branch **in Nana's development c
 
 ### Final permit-type seal (supersedes previous468 release count)
 Independent sanitizer gate additionally requires exact `ReceiptLedger` type, rejecting duck-typed forged ledger before consulting it. All runtime calls already used the real ledger; this closes an exposed permit-construction contract, not a Core change. New full suite **469passed/0failed/0errors/1E12skip**, including65R04 tests. Evidence sealed_full.xml/txt. Rebuild final package from this committed support; the d025 archive remains historical, not the final current-source release.
+
+Final sealed archive supersedes d025 candidate: see `docs/nana_r04_evidence/package_final_build.json` and `package_validation.json` for exact **095a5fa…support** asset bytes/checksum. Sealed full JUnit469pass/1skip is authoritative; prior logs/counts remain historical. No further source changes after095a5fa. Real production statuses unchanged.
