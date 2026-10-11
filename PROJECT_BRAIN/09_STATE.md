@@ -389,3 +389,5 @@
 [实测/开发] C-M4-SOURCE: Nana audit652a72f absorbed by reference; source-backed 4.28 lifecycle shim and safe unload, 21 targeted passed; dispatcher still blocked。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 b414c713192561130f562b10c177f7cebbb18bbf1efed2a682e9bda578f54239，不证明宿主运行。
 
 [实测/开发] C-M7-HARDEN: Lifecycle shim and kit validated in two actual Python environments; fail-closed BaseException/deferred completion guards, 22 targeted passed。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 1476c7707bc0b2a6b982ac96e692b13fb6123473aa39da3c803e78b10848c421，不证明宿主运行。
+
+[实测/开发] C-M7: Final full regression 372 passed one E12 skip; reviewed observer kit archive, approved55 unchanged and zero production actions。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 e7e2042cc4c39806fcec6c3388b033f15f49cb2b6ab6fac0bad2d6c0b2f56676，不证明宿主运行。

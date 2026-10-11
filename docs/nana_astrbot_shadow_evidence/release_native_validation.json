@@ -1,0 +1,463 @@
+{
+  "status": "PASS",
+  "scope": "DEVELOPMENT_PACKAGE_C_ONLY",
+  "host_binding": "UNVERIFIED",
+  "python": "3.12.14",
+  "archive_sha256": "77362306eddca16e12de5b08ee4748778caf4cf328e72bc9becea29f2c63355a",
+  "records": [
+    {
+      "command": [
+        "verify",
+        "--dry-run"
+      ],
+      "returncode": 0,
+      "result": {
+        "binding_status": "BLOCKED_AUTH_REQUIRED",
+        "external_execute": false,
+        "files_written": 0,
+        "host_operations": 0,
+        "status": "DRY_RUN"
+      }
+    },
+    {
+      "command": [
+        "preflight",
+        "--dry-run"
+      ],
+      "returncode": 0,
+      "result": {
+        "binding_status": "BLOCKED_AUTH_REQUIRED",
+        "external_execute": false,
+        "files_written": 0,
+        "host_operations": 0,
+        "status": "DRY_RUN"
+      }
+    },
+    {
+      "command": [
+        "harness",
+        "--dry-run"
+      ],
+      "returncode": 0,
+      "result": {
+        "binding_status": "BLOCKED_AUTH_REQUIRED",
+        "external_execute": false,
+        "files_written": 0,
+        "host_operations": 0,
+        "status": "DRY_RUN"
+      }
+    },
+    {
+      "command": [
+        "install-dry-run",
+        "--dry-run"
+      ],
+      "returncode": 0,
+      "result": {
+        "binding_status": "BLOCKED_AUTH_REQUIRED",
+        "external_execute": false,
+        "files_written": 0,
+        "host_operations": 0,
+        "status": "DRY_RUN"
+      }
+    },
+    {
+      "command": [
+        "uninstall-dry-run",
+        "--dry-run"
+      ],
+      "returncode": 0,
+      "result": {
+        "binding_status": "BLOCKED_AUTH_REQUIRED",
+        "external_execute": false,
+        "files_written": 0,
+        "host_operations": 0,
+        "status": "DRY_RUN"
+      }
+    },
+    {
+      "command": [
+        "rollback",
+        "--dry-run"
+      ],
+      "returncode": 0,
+      "result": {
+        "binding_status": "BLOCKED_AUTH_REQUIRED",
+        "external_execute": false,
+        "files_written": 0,
+        "host_operations": 0,
+        "status": "DRY_RUN"
+      }
+    },
+    {
+      "command": [
+        "collect",
+        "--dry-run"
+      ],
+      "returncode": 0,
+      "result": {
+        "binding_status": "BLOCKED_AUTH_REQUIRED",
+        "external_execute": false,
+        "files_written": 0,
+        "host_operations": 0,
+        "status": "DRY_RUN"
+      }
+    },
+    {
+      "command": [
+        "verify"
+      ],
+      "returncode": 0,
+      "result": {
+        "binding_status": "BLOCKED_AUTH_REQUIRED",
+        "status": "PACKAGE_INTEGRITY_PASS"
+      }
+    },
+    {
+      "command": [
+        "preflight"
+      ],
+      "returncode": 0,
+      "result": {
+        "HOST_GLOBAL_ENV": {
+          "EXT_SUFFIX": ".cpython-312-x86_64-linux-gnu.so",
+          "SOABI": "cpython-312-x86_64-linux-gnu",
+          "abiflags": "",
+          "architecture": "x86_64",
+          "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+          "glibc": {
+            "kind": "glibc",
+            "version": "2.41"
+          },
+          "implementation": "cpython",
+          "pydantic": "2.13.4",
+          "pydantic_scope": "installation metadata only; global site initialization disabled",
+          "python": "3.12.14",
+          "python_major_minor": [
+            3,
+            12
+          ],
+          "python_patch_regression": "VERIFIED",
+          "sqlite": "3.53.1",
+          "system": "Linux"
+        },
+        "SHADOW_RUNTIME_ENV": {
+          "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+          "extension_ABI_target": "cpython-312-x86_64-linux-gnu",
+          "extension_build_python": "3.12.14",
+          "interpreter_scope": "existing host binary; private process-only SQLite/dependencies",
+          "minimum_glibc": "2.34",
+          "pydantic": "2.13.5",
+          "python": "3.12.14",
+          "python_patch_regression": "VERIFIED",
+          "sqlite": "3.51.3"
+        },
+        "binding_status": "BLOCKED_AUTH_REQUIRED",
+        "engineering_harness_ready": true,
+        "host_binding": "UNVERIFIED",
+        "real_astrbot_binding_ready": false,
+        "status": "PASS"
+      }
+    },
+    {
+      "command": [
+        "harness"
+      ],
+      "returncode": 0,
+      "result": {
+        "E12": "NOT_RUN",
+        "external_messages": 0,
+        "host_binding": "UNVERIFIED",
+        "identity_id": "342b53e3-ba85-42af-b45e-a174bb89e05c",
+        "identity_revision": 1,
+        "observer_removed": true,
+        "private_records_read": 0,
+        "production_calls": 0,
+        "production_modifications": 0,
+        "proof": {
+          "evidence_origin": "development_fixture",
+          "observer_callback_fingerprint": "897033ebb55c57d22419efbaf4528c0e1dca3bd1c6ef205af5baccf0e881612a",
+          "observer_registration_id": "04fa9ecc3982b0b9961b25e8d9c5395ddb44e761c144ed86b845dc6e935385f8",
+          "probe_class": "C",
+          "schema_version": 1,
+          "stages": [
+            {
+              "callback_present": false,
+              "registry_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "stage": "registry_before"
+            },
+            {
+              "callback_present": true,
+              "registry_digest": "1a9048a55202ebd70e615f4832115b9b0c49ba6aa919b143e72aca7470777a4c",
+              "stage": "registry_after_register"
+            },
+            {
+              "event_id": "a8553b660466c510e9d6add09e71571a1a5f53d1262489da6bcb0ac29711dcfb",
+              "event_source": "operator_probe",
+              "event_timestamp": "2026-10-11T02:00:00+00:00",
+              "external_delivery": false,
+              "probe_id": "nana-probe-binding-v1",
+              "stage": "dispatch",
+              "synthetic": true
+            },
+            {
+              "event_id": "a8553b660466c510e9d6add09e71571a1a5f53d1262489da6bcb0ac29711dcfb",
+              "event_source": "operator_probe",
+              "event_timestamp": "2026-10-11T02:00:00+00:00",
+              "observer_received_at": "2026-10-11T15:00:58.017604+00:00",
+              "probe_id": "nana-probe-binding-v1",
+              "stage": "callback"
+            },
+            {
+              "core_evidence_id": "6c972379-97b0-4f5a-879a-95348940745b",
+              "goal_candidate_id": "fc776b2b60edc11204a967453e7739d12a048d9389c505a3a75da993b36fab67",
+              "metadata_hash": "09153be4de08c563ad1de8e4bdaeb5ccb53211ff2336c4c0f6968436f38305c7",
+              "observation_id": "6d4d94a0-af9b-4d12-8694-13f3ad3d998b",
+              "shadow_decision_id": "cloud.shadow:c8e4c158107e94a18040b5f3e642727f20411e7b71708b00894ba737739eb5d2",
+              "shadow_plan_id": "cloud.shadow:c8e4c158107e94a18040b5f3e642727f20411e7b71708b00894ba737739eb5d2#plan_draft",
+              "stage": "core"
+            },
+            {
+              "dedup_result": "DUPLICATE",
+              "observation_id": "6d4d94a0-af9b-4d12-8694-13f3ad3d998b",
+              "stage": "dedup"
+            },
+            {
+              "barrier_result": "SHADOW_BLOCKED",
+              "stage": "barrier",
+              "zero_execution_counts": {
+                "actions": 0,
+                "attempts": 0,
+                "budgets": 0,
+                "grants": 0,
+                "strategies": 0
+              }
+            },
+            {
+              "callback_present": false,
+              "registry_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "stage": "registry_after_unregister"
+            }
+          ]
+        },
+        "real_model_calls": 0,
+        "scope": "DEVELOPMENT_ENGINEERING_C_ONLY",
+        "store_closed": true,
+        "verification": {
+          "core_links_verified": true,
+          "host_binding": "UNVERIFIED",
+          "missing": [],
+          "status": "SIMULATED_BINDING_PROOF_PASS"
+        }
+      }
+    },
+    {
+      "command": [
+        "harness"
+      ],
+      "returncode": 0,
+      "result": {
+        "E12": "NOT_RUN",
+        "external_messages": 0,
+        "host_binding": "UNVERIFIED",
+        "identity_id": "342b53e3-ba85-42af-b45e-a174bb89e05c",
+        "identity_revision": 1,
+        "observer_removed": true,
+        "private_records_read": 0,
+        "production_calls": 0,
+        "production_modifications": 0,
+        "proof": {
+          "evidence_origin": "development_fixture",
+          "observer_callback_fingerprint": "897033ebb55c57d22419efbaf4528c0e1dca3bd1c6ef205af5baccf0e881612a",
+          "observer_registration_id": "04fa9ecc3982b0b9961b25e8d9c5395ddb44e761c144ed86b845dc6e935385f8",
+          "probe_class": "C",
+          "schema_version": 1,
+          "stages": [
+            {
+              "callback_present": false,
+              "registry_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "stage": "registry_before"
+            },
+            {
+              "callback_present": true,
+              "registry_digest": "1a9048a55202ebd70e615f4832115b9b0c49ba6aa919b143e72aca7470777a4c",
+              "stage": "registry_after_register"
+            },
+            {
+              "event_id": "a8553b660466c510e9d6add09e71571a1a5f53d1262489da6bcb0ac29711dcfb",
+              "event_source": "operator_probe",
+              "event_timestamp": "2026-10-11T02:00:00+00:00",
+              "external_delivery": false,
+              "probe_id": "nana-probe-binding-v1",
+              "stage": "dispatch",
+              "synthetic": true
+            },
+            {
+              "event_id": "a8553b660466c510e9d6add09e71571a1a5f53d1262489da6bcb0ac29711dcfb",
+              "event_source": "operator_probe",
+              "event_timestamp": "2026-10-11T02:00:00+00:00",
+              "observer_received_at": "2026-10-11T15:00:58.410641+00:00",
+              "probe_id": "nana-probe-binding-v1",
+              "stage": "callback"
+            },
+            {
+              "core_evidence_id": "6c972379-97b0-4f5a-879a-95348940745b",
+              "goal_candidate_id": "fc776b2b60edc11204a967453e7739d12a048d9389c505a3a75da993b36fab67",
+              "metadata_hash": "09153be4de08c563ad1de8e4bdaeb5ccb53211ff2336c4c0f6968436f38305c7",
+              "observation_id": "6d4d94a0-af9b-4d12-8694-13f3ad3d998b",
+              "shadow_decision_id": "cloud.shadow:c8e4c158107e94a18040b5f3e642727f20411e7b71708b00894ba737739eb5d2",
+              "shadow_plan_id": "cloud.shadow:c8e4c158107e94a18040b5f3e642727f20411e7b71708b00894ba737739eb5d2#plan_draft",
+              "stage": "core"
+            },
+            {
+              "dedup_result": "DUPLICATE",
+              "observation_id": "6d4d94a0-af9b-4d12-8694-13f3ad3d998b",
+              "stage": "dedup"
+            },
+            {
+              "barrier_result": "SHADOW_BLOCKED",
+              "stage": "barrier",
+              "zero_execution_counts": {
+                "actions": 0,
+                "attempts": 0,
+                "budgets": 0,
+                "grants": 0,
+                "strategies": 0
+              }
+            },
+            {
+              "callback_present": false,
+              "registry_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "stage": "registry_after_unregister"
+            }
+          ]
+        },
+        "real_model_calls": 0,
+        "scope": "DEVELOPMENT_ENGINEERING_C_ONLY",
+        "store_closed": true,
+        "verification": {
+          "core_links_verified": true,
+          "host_binding": "UNVERIFIED",
+          "missing": [],
+          "status": "SIMULATED_BINDING_PROOF_PASS"
+        }
+      }
+    },
+    {
+      "command": [
+        "rollback"
+      ],
+      "returncode": 0,
+      "result": {
+        "host_binding": "UNVERIFIED",
+        "observer_removed": true,
+        "status": "LOCAL_HARNESS_CLOSED; real registry UNKNOWN",
+        "store_closed": true
+      }
+    },
+    {
+      "command": [
+        "collect"
+      ],
+      "returncode": 0,
+      "result": {
+        "E12": "NOT_RUN",
+        "external_messages": 0,
+        "host_binding": "UNVERIFIED",
+        "identity_id": "342b53e3-ba85-42af-b45e-a174bb89e05c",
+        "identity_revision": 1,
+        "observer_removed": true,
+        "private_records_read": 0,
+        "production_calls": 0,
+        "production_modifications": 0,
+        "proof": {
+          "evidence_origin": "development_fixture",
+          "observer_callback_fingerprint": "897033ebb55c57d22419efbaf4528c0e1dca3bd1c6ef205af5baccf0e881612a",
+          "observer_registration_id": "04fa9ecc3982b0b9961b25e8d9c5395ddb44e761c144ed86b845dc6e935385f8",
+          "probe_class": "C",
+          "schema_version": 1,
+          "stages": [
+            {
+              "callback_present": false,
+              "registry_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "stage": "registry_before"
+            },
+            {
+              "callback_present": true,
+              "registry_digest": "1a9048a55202ebd70e615f4832115b9b0c49ba6aa919b143e72aca7470777a4c",
+              "stage": "registry_after_register"
+            },
+            {
+              "event_id": "a8553b660466c510e9d6add09e71571a1a5f53d1262489da6bcb0ac29711dcfb",
+              "event_source": "operator_probe",
+              "event_timestamp": "2026-10-11T02:00:00+00:00",
+              "external_delivery": false,
+              "probe_id": "nana-probe-binding-v1",
+              "stage": "dispatch",
+              "synthetic": true
+            },
+            {
+              "event_id": "a8553b660466c510e9d6add09e71571a1a5f53d1262489da6bcb0ac29711dcfb",
+              "event_source": "operator_probe",
+              "event_timestamp": "2026-10-11T02:00:00+00:00",
+              "observer_received_at": "2026-10-11T15:00:58.410641+00:00",
+              "probe_id": "nana-probe-binding-v1",
+              "stage": "callback"
+            },
+            {
+              "core_evidence_id": "6c972379-97b0-4f5a-879a-95348940745b",
+              "goal_candidate_id": "fc776b2b60edc11204a967453e7739d12a048d9389c505a3a75da993b36fab67",
+              "metadata_hash": "09153be4de08c563ad1de8e4bdaeb5ccb53211ff2336c4c0f6968436f38305c7",
+              "observation_id": "6d4d94a0-af9b-4d12-8694-13f3ad3d998b",
+              "shadow_decision_id": "cloud.shadow:c8e4c158107e94a18040b5f3e642727f20411e7b71708b00894ba737739eb5d2",
+              "shadow_plan_id": "cloud.shadow:c8e4c158107e94a18040b5f3e642727f20411e7b71708b00894ba737739eb5d2#plan_draft",
+              "stage": "core"
+            },
+            {
+              "dedup_result": "DUPLICATE",
+              "observation_id": "6d4d94a0-af9b-4d12-8694-13f3ad3d998b",
+              "stage": "dedup"
+            },
+            {
+              "barrier_result": "SHADOW_BLOCKED",
+              "stage": "barrier",
+              "zero_execution_counts": {
+                "actions": 0,
+                "attempts": 0,
+                "budgets": 0,
+                "grants": 0,
+                "strategies": 0
+              }
+            },
+            {
+              "callback_present": false,
+              "registry_digest": "4f53cda18c2baa0c0354bb5f9a3ecbe5ed12ab4d8e11ba873c2f11161202b945",
+              "stage": "registry_after_unregister"
+            }
+          ]
+        },
+        "real_model_calls": 0,
+        "scope": "DEVELOPMENT_ENGINEERING_C_ONLY",
+        "store_closed": true,
+        "verification": {
+          "core_links_verified": true,
+          "host_binding": "UNVERIFIED",
+          "missing": [],
+          "status": "SIMULATED_BINDING_PROOF_PASS"
+        }
+      }
+    },
+    {
+      "command": [
+        "verify"
+      ],
+      "returncode": 2,
+      "result": {
+        "status": "BLOCKED",
+        "reason": "SHADOW_OPERATOR_COMMAND_FAILED",
+        "host_binding": "UNVERIFIED",
+        "host_operations": 0
+      }
+    }
+  ]
+}

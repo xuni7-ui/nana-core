@@ -1,0 +1,61 @@
+{
+  "branch": "dev/nana-core-v1-astrbot-shadow-bind-codex",
+  "base_sha": "c3ada9b09faa8a2683f98d5c8bafec24779cfd71",
+  "Nana_audit_sha": "652a72fde12dcb4786491a6a0f73b06e8675fe1a",
+  "approved_core_sha": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
+  "observer": "IMPLEMENTED_TESTED",
+  "metadata_sanitizer": "IMPLEMENTED_TESTED",
+  "no_body_guarantee": "PASS",
+  "binding_verifier": "PASS (structure/readback), real origin pins empty",
+  "persistent_dedup": "PASS",
+  "shadow_barrier": "PASS",
+  "failure_isolation": "PASS",
+  "registration_shim": "IMPLEMENTED_TESTED lifecycle-only C; message shim BLOCKED_NO_INTERNAL_PROBE",
+  "unregister_tooling": "PASS fixture; real registry unregistration NOT_RUN",
+  "probe_support": "C",
+  "real_dispatcher_proven_by_Codex": false,
+  "iris_schema_inspector": "PASS development tests",
+  "real_iris_compatibility": "Nana report652a72f SCHEMA_COMPATIBLE11/11; Codex real inspection NOT_RUN",
+  "package": "READY development kit; real plugin integration/load PARTIAL/BLOCKED_AUTH_REQUIRED",
+  "rollback": "READY development/local kit; real unload uses source-backed shim but remains NOT_RUN",
+  "tests": {
+    "passed": 372,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 1,
+    "E12": "NOT_RUN"
+  },
+  "archive": {
+    "filename": "nana-astrbot-shadow-observer-8e61c1e.tar.gz",
+    "bytes": 3300736,
+    "SHA256": "77362306eddca16e12de5b08ee4748778caf4cf328e72bc9becea29f2c63355a",
+    "support_source_SHA": "8e61c1e4c6d6f1f1923ac4d5a5dc9915b3c0a3b4",
+    "Core_source_SHA": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
+    "runtime_sha256": "95c7215bc78d43cae809e99fcc65c1572cd611c87ae273afb80138b61c01e6ec",
+    "binding_status": "BLOCKED_AUTH_REQUIRED"
+  },
+  "actual_python_environments": [
+    "3.12.14 full regression",
+    "3.12.3 Ubuntu/glibc2.39 package smoke; NOT a new full regression"
+  ],
+  "new_core_sql_tables": 0,
+  "new_dependencies": 0,
+  "real_model_calls": 0,
+  "public_web_requests": 0,
+  "loopback_HTTP_requests": "existing regression protocol traffic only; no new Observer HTTP transport",
+  "production_modifications": 0,
+  "production_messages": 0,
+  "production_secrets_read": 0,
+  "real_host_actions_by_Codex": 0,
+  "private_memory_reads": 0,
+  "external_model_cost": 0,
+  "production_authority_changes": 0,
+  "remaining": [
+    "Nana host integration/load reachability",
+    "real registry lifecycle receipts/health/zero drift",
+    "safe dispatcher probe unavailable; C cannot upgrade A",
+    "reviewed real proof origin pins absent",
+    "E12 real models NOT_RUN"
+  ],
+  "head_and_remote": "see final Git/ls-remote receipt; FINAL SHA determined after docs commit"
+}

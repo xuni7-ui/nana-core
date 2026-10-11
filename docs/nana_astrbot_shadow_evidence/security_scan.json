@@ -1,0 +1,21 @@
+{
+  "status": "PASS",
+  "scope": "Codex development delta and generated archive; not proof of host state",
+  "delta_files": 72,
+  "archive_entries": 244,
+  "approved_core_files_unchanged": 55,
+  "original_core_delta_files": 0,
+  "archive_sha256": "77362306eddca16e12de5b08ee4748778caf4cf328e72bc9becea29f2c63355a",
+  "archive_bytes": 3300736,
+  "runtime_db_files": 0,
+  "credential_files": 0,
+  "private_data_fixtures": "only synthetic canaries/IDs; no real host data obtained",
+  "large_binary_exception": "one reviewed fixed-runtime observer kit archive; no other large new binaries",
+  "licenses_count": 8,
+  "license_boundary": "Core/original support license remains pending; private dependencies retain original licenses",
+  "production_access": 0,
+  "production_modifications": 0,
+  "secret_values_read": 0,
+  "external_messages": 0,
+  "scan_preparation_error": "initial local scan script had a generator syntax error; corrected before any PASS/commit"
+}

@@ -1,6 +1,7 @@
 {
   "base": "c3ada9b09faa8a2683f98d5c8bafec24779cfd71",
   "files": {
+    "artifacts/astrbot-observer/nana-astrbot-shadow-observer-8e61c1e.tar.gz": "77362306eddca16e12de5b08ee4748778caf4cf328e72bc9becea29f2c63355a",
     "docs/nana_astrbot_shadow_binding.md": "b45f70db2e30443e7b11b852d5e484b58c167dff3f2192a826274933ea902167",
     "docs/nana_astrbot_shadow_evidence/baseline.txt": "4d63fe74521ee1d1a71198240e49453a107fb22867d783b7eebcc4cc97372a74",
     "docs/nana_astrbot_shadow_evidence/baseline.xml": "fd35ddc05948d309ed95607c22932adf6552ab7abff26e5787c2082d196899ae",
@@ -14,6 +15,7 @@
     "docs/nana_astrbot_shadow_evidence/fail_closed.xml": "d3aa643d8244b08de28a46adb31a21ad36b9707cb76756ebfa75f8c386d6143c",
     "docs/nana_astrbot_shadow_evidence/fail_closed_initial.txt": "29ec4468cbe3680a7035f281b8b4491fbae44644b464ea2ea156aa8c299411ba",
     "docs/nana_astrbot_shadow_evidence/fail_closed_initial.xml": "449d883f6e3c771040a7b19874394ae9a7a286a44766b7de7d392dad54b2356e",
+    "docs/nana_astrbot_shadow_evidence/final_delivery.json": "6286d73bd16328cf09ba2e390925e0fa695e30b63f935e88dc201dc3e18c9272",
     "docs/nana_astrbot_shadow_evidence/final_full.txt": "240f1237dad824214ccb74bd1ebcb9ce777c914564edd974b83e4d2f047ae797",
     "docs/nana_astrbot_shadow_evidence/final_full.xml": "12521037c1718518a7dfb4551aa230df4ffd2aaab2cf59270ac4ed3f1c3108e9",
     "docs/nana_astrbot_shadow_evidence/full.txt": "bf4bcb81860325f3712a5b22c899f655400127df05e0f64b328f1bd439acc3ba",
@@ -28,6 +30,11 @@
     "docs/nana_astrbot_shadow_evidence/package_native_validation.json": "e463bb9d80a4d8984cc0e345af406b173e6de903aa7a6210c571b94028ff61f1",
     "docs/nana_astrbot_shadow_evidence/package_receipt.json": "1211da75b944f267e6f059ae41cb46855ca1a09d343a3ae21ccc56770939f7da",
     "docs/nana_astrbot_shadow_evidence/package_ubuntu3123_validation.json": "222edebf3f3fca23a8500e0c9ffcac7c2895f248630bf550310336ea67f7a41d",
+    "docs/nana_astrbot_shadow_evidence/release_full.txt": "3c30eeda9fd990709f38feb952af96e94e18da79e4c3cf0c938f9ec8e1d04a43",
+    "docs/nana_astrbot_shadow_evidence/release_full.xml": "75265e740f9e954ecd19d36b0ffbcc7c49fc15ff7efe77d3718710891b7682ac",
+    "docs/nana_astrbot_shadow_evidence/release_native_validation.json": "69f5fed499aad5f2a14536bac4bf7b66136e6a61acc3a88c09c68b9f14ab0b27",
+    "docs/nana_astrbot_shadow_evidence/release_receipt.json": "3b62f0ad23a3e5d5deaed02b33009fa3708e1c49f1461f4c2e087fb83ac38b08",
+    "docs/nana_astrbot_shadow_evidence/release_ubuntu3123_validation.json": "873159bde08c81353ed3724030b0aa2cf01ea35de6585cfec095f1195e00bf2f",
     "docs/nana_astrbot_shadow_evidence/sanitizer.txt": "2a90d6320f5e5f95c7802671d4db2609c26fc7e489c78e76f20f334d9b4ee1c6",
     "docs/nana_astrbot_shadow_evidence/sanitizer.xml": "90621cc00f06ca2fa54716560ba3811912d7d05900adf8ee4660e5c0e8e31f79",
     "docs/nana_astrbot_shadow_evidence/sanitizer_initial.txt": "362fd07b4df3f7f43a4098875ded5de2bd738588e9cfb473afebccbed178b1b6",
@@ -36,6 +43,7 @@
     "docs/nana_astrbot_shadow_evidence/schema.xml": "0ad67534baa2d700b5d3d2e5b10e5847422ec9163cd301534ac3d1076a732b39",
     "docs/nana_astrbot_shadow_evidence/schema_initial.txt": "32e0dfa18c54e71a718620b6daf8618ca6322ae5a7b2ad8c3fc7bc6910f7e436",
     "docs/nana_astrbot_shadow_evidence/schema_initial.xml": "9d224576b9a268b0daee2734baac60a8ccc1ad04074cf69929b4e86c00ceca4d",
+    "docs/nana_astrbot_shadow_evidence/security_scan.json": "2520c6b66f98e26620ab5e3214cdd9816a6f8a563b74b46ccc10104f9321bba1",
     "docs/nana_astrbot_shadow_evidence/source_shim.txt": "068e3b8cd9b59f5e9a951ce920b33007da8ef74714485e11e9927d95bfacf372",
     "docs/nana_astrbot_shadow_evidence/source_shim.xml": "ee935027eb3e653d420988fec1d30a01400dd77cd22bcb9f089862ceb6a887a3",
     "docs/nana_astrbot_shadow_package/OPERATOR_RUNBOOK.md": "1dbd584fc99505e8376b5d7ca31f6e3ebb9d842134c0aee1a17c4660ba4e4294",
@@ -62,7 +70,7 @@
     "tools/nana_astrbot_shadow/package.py": "afcfda015c666070a95b6e2957cf1ce0c666e12807b6917225d97c058aec023d",
     "tools/nana_astrbot_shadow/proof.py": "5e43608103c3d9ada5c62c753673606a804804d1c92fef9e3cbcb78be5a1cfdb",
     "tools/nana_astrbot_shadow/sanitize.py": "14569d02132f78f6d8aba7f0717a498ea4e0e6d6a5718273f84a44f0f79bcfc1",
-    "manifests/whitelist_astrbot_codex.json": "4624bb01e4cf07ad4bedfed89247c0b4bda774cb2f0bd34942afd6ab178c53d8"
+    "manifests/whitelist_astrbot_codex.json": "70333dfe81bf3c2430b411dd4958e9692ee2dbcecfde31c5ec54abecf6adbbbe"
   },
   "scan": "PASS; synthetic fixtures only; zero runtime DB/credential files"
 }
