@@ -477,3 +477,5 @@
 [实测/开发] R04-FINAL-TYPE-SEAL: Require actual ReceiptLedger at sanitizer permit gate; full469 passed, one E12 skip, 65 R04 cases. Fingerprint anchor 790c56f51e372e807912e11d5d1c31a4f40394072a33b8636caf9b60206ab11b; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
 
 [实测/开发] R04-FINAL-DELIVERY: Sealed support archive and extracted-package proof; JUnit469 passed one E12 skip, all65 R04 cases. Fingerprint anchor cc5296e35964eb37a1a499bad7a838b294cbf0c268a2c8ae4eb6c9be8193fbd4; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
+
+[实测/开发] R04-FINAL-CLI-SEAL: Redact invalid CLI arguments with fixed diagnostics; full470 passed one E12 skip, 66 R04 cases. Fingerprint anchor ac375710adb08f9f54eaf03e5a4d95336c88c3044b29d0108378dd0271960873; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.

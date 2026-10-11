@@ -747,3 +747,8 @@
 - 改了什么：Sealed support archive and extracted-package proof; JUnit469 passed one E12 skip, all65 R04 cases; files in manifests/fingerprints_r04.json.
 - 为什么：one reviewed metadata observation, D-045 gates retained, approved Core unchanged.
 - 怎么验证：targeted evidence in docs/nana_r04_evidence, staged diff/secret/private-artifact allowlist checks; development only.
+
+## R04-FINAL-CLI-SEAL
+- 改了什么：Redact invalid CLI arguments with fixed diagnostics; full470 passed one E12 skip, 66 R04 cases; files in manifests/fingerprints_r04.json.
+- 为什么：one reviewed metadata observation, D-045 gates retained, approved Core unchanged.
+- 怎么验证：targeted evidence in docs/nana_r04_evidence, staged diff/secret/private-artifact allowlist checks; development only.

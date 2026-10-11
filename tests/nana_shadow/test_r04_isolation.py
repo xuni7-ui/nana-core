@@ -102,5 +102,16 @@ def test_readonly_cli_and_empty_real_trust(tmp_path,capsys):
     with operator_ledger(path,write=True) as l:
         with pytest.raises(ValueError,match='UNTRUSTED'):l.review(r.receipt_id,review_document(r))
     for argv in (['receipt','arm','--directory',str(path),'--force'],['receipt','arm','--directory',str(path),'--trust-all']):
-        with pytest.raises(SystemExit):main(argv)
+        assert main(argv)==2
     assert CANARY not in capsys.readouterr().out
+
+
+def test_cli_invalid_arguments_never_echo_private_values(tmp_path,capsys):
+    from tools.nana_astrbot_shadow.one_shot_cli import main
+    for argv in ([CANARY,'arm','--directory',str(tmp_path)],
+                 ['receipt',CANARY,'--directory',str(tmp_path)],
+                 ['receipt','arm','--directory',str(tmp_path),'--unknown',CANARY]):
+        assert main(argv)==2
+        captured=capsys.readouterr()
+        assert CANARY not in captured.out+captured.err
+        assert json.loads(captured.out)['status']=='BLOCKED'

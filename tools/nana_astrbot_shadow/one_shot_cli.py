@@ -95,14 +95,19 @@ def build_operator_observer(directory,receipt_id,*,timeout=.2,logger=None):
     return observer
 
 
+class _SafeParser(argparse.ArgumentParser):
+    def error(self,message):
+        # argparse defaults echo invalid values; metadata tools must not do so.
+        raise ValueError('CLI_CONTRACT')
+
 def main(argv=None):
-    p=argparse.ArgumentParser(description=__doc__)
+    p=_SafeParser(description=__doc__)
     p.add_argument('family',choices=('receipt','observer'))
     p.add_argument('command',nargs='?',default='status',choices=('init','create','inspect','review','arm','status','disarm','verify','collect'))
     p.add_argument('--directory',required=True)
     p.add_argument('--receipt-id');p.add_argument('--input');p.add_argument('--dry-run',action='store_true')
-    args=p.parse_args(argv)
     try:
+        args=p.parse_args(argv)
         if args.dry_run:
             result={'status':'DRY_RUN','files_written':0,'real_arm_ready':False}
         elif args.family=='receipt' and args.command=='init':result=initialize(args.directory)
