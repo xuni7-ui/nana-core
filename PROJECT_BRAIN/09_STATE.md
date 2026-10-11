@@ -317,3 +317,5 @@
 [实测] C-061：Shadow Bootstrap M2: real host-version comparison and Pydantic 2.13.5 291-pass regression; SQLite durability gate retained；指纹锚点 4a6e813b05d710b8ecd7ce8a180a8311ae9ceae8ff3f8bfa987ddce8de359048；仅本检查点文件状态，不证明生产。
 
 [实测] C-062：Shadow Bootstrap M3: private fixed SQLite binding and Pydantic wheels, integrity-checked runtime; 22 targeted passed；指纹锚点 55c9b46177ba7db1c096b699f1ec9b6ef98ebf5d4366c9cb37c93331ec70fd1f；仅本检查点文件状态，不证明生产。
+
+[实测] C-063：Shadow Bootstrap M4: one-file archive, interpreter-scoped preflight and real extracted-bundle SIGKILL validation PASS；指纹锚点 3a2a859c90c3cb40932ee6de215659ce100026668611e4c1e797a705597d5706；仅本检查点文件状态，不证明生产。
