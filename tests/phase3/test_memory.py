@@ -18,7 +18,8 @@ def test_claim_updates_preserve_source_and_shadow_is_pure(tmp_path):
         before=store.snapshot();shadow=shadow_compare(store,'paper garden',DATASETS,('m1','m2'))
         assert store.snapshot()==before and shadow['core']['recall']==1
         assert shadow['core']['contradictions_visible']==2
-        assert shadow['old']['recall']<shadow['core']['recall']
+        assert shadow['matched_bounds']=={'max_chars':8000,'limit':8}
+        assert shadow['old']['recall']==1 and shadow['old']['contradictions_visible']==0
         assert store.artifact(store.event(imported['results'][0]['event_id'])['artifact_id'])==source
         beliefs=[json.loads(m['body_json']).get('belief') for m in store.all('memory_items')]
         assert {b['current_assessment'] for b in beliefs if b}=={'SUPERSEDED','CURRENT_USER_STATEMENT'}

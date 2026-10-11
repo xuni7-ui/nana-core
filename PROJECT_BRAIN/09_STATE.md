@@ -267,3 +267,7 @@
 [实测] C-042：M6模型选择②已测试，显式Endpoint/privacy/task/context/tools/cost守门；工程能力PARTIAL（6操作preview，CapabilityPort disabled，Core registry拒绝），不自修改。51 targeted passed，initiative真实SIGKILL wake恢复jobs1；记忆同刻冲突/裁剪与真正ContextBuilder preview复验。E12 NOT_RUN/实际模型0，P11真实执行未启用；零新表/依赖。
 
 [实测] C-042 指纹锚点 71576f64450feaa9eafac7e801dbd30c95db66b408dddb362de6e03a2132149c；仅本检查点文件状态，不证明生产。
+
+[实测] C-043：公网两个不同目标各一次有界新授权实验，主机名DNS_FIRST超时；公开数字IP经proxy到TLS失败（底层原因UNKNOWN），HTTP总0/proxy尝试1，两个UNKNOWN保留无自动重试。43 targeted network pass。最终shadow采用matched8000chars/8items，recall两边1.0、矛盾标注0/2，原top1统计不作优劣证据；P7仍PARTIAL。真实公网/E12未验收。
+
+[实测] C-043 指纹锚点 d83bd5dbb6265d75483dea11150e35dbe5a0c4e5bfa566ff078e7deebfd5200c；仅本检查点文件状态，不证明生产。

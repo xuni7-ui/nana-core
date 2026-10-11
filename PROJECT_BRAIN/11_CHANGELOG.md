@@ -453,3 +453,9 @@
 - 为什么：选择不创建端点授权，工程任务不得借旧Bridge shell/credential或reading Grant越权；现在闭合注册表尚无engineering.*，明确PARTIAL。
 - [实测] 怎么验证：51 targeted passed（新selection/engineering15、S5 28、memory4、initiative4）；真实SIGKILL后延时重启jobs1/Action0。首轮selection夹具漏开发binding名称，补独立名称后严格Endpoint保持，无真实key读取。所有六工程操作只prepare，execute拒绝、verify拒绝伪造，无workspace副作用。
 - [未知] 真实模型能力/费用与真实工程执行；均未运行。模型0/E12 NOT_RUN，无新表/依赖、无生产变更。M5远端ba7c86211c6a409218284b872c63b4d9ed132476一致。
+
+## C-043 — 最终前的公网分阶段诊断和影子公平口径
+- 改了什么：批准的公开数字IP文本探针、URL封闭白名单及脱敏summary；被动TLS trust元数据；shadow surrogate采用与Core相同8000chars/8items，避免旧top1比较制造召回优越印象。
+- 为什么：主机名DNS失败不等于TLS不可达；仍不重试UNKNOWN、不放宽SSRF/代理/TLS。公平比较比把Core写成优胜更重要。
+- [实测] 怎么验证：公开数字IP一次独立Grant/Action试验达TLS后失败，proxy尝试1、HTTP0、read UNKNOWN；精确TLS底层原因未记录，标UNKNOWN。两目标总HTTP0，不无限重试，tls_metadata仅被动统计。43 network targeted pass；shadow matched4pass，rehearsal新CLI回放一致，recall双方1.0，矛盾标注0/2。原旧top1统计不作为改进结论。
+- M6远端21464fcfb0c9071a23ebc1a779f1aa80ee4ac600一致；无生产/模型/付费调用。

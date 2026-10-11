@@ -89,9 +89,14 @@ def shadow_compare(store,query,dataset_ids,important_keys):
     view=MemoryView(store);entries=view.entries(dataset_ids);tokens=set(re.findall(r'\w+',query.casefold()))
     matching=[e for e in entries if tokens&set(re.findall(r'\w+',e['content'].casefold()))]
     matching.sort(key=lambda e:(e['iris']['legacy_confidence'] or 0,e['memory_id']),reverse=True)
-    old=matching[:1]
+    old=[]
+    for e in matching:
+        item={'memory_id':e['memory_id'],'content':e['content'],'coverage':'FULL_SUPPLIED_CONTENT',
+            'epistemic_kind':e['epistemic_kind'],'source_refs':e['source_refs'],'origin':e['iris']['origin'],
+            'time':e['iris']['time'],'belief':None,'relation':e['iris']['relation']}
+        if len(old)<8 and len(canonical(old+[item]))<=8000:old.append(item)
     new=view.retrieve(query,identity_id=store.identity['identity_id'],dataset_ids=dataset_ids,max_chars=8000)
-    old_keys={e['iris']['origin']['legacy_key'] for e in old};new_keys={e['origin']['legacy_key'] for e in new['items']}
+    old_keys={e['origin']['legacy_key'] for e in old};new_keys={e['origin']['legacy_key'] for e in new['items']}
     def metrics(items,keys,chars):
         return {'recall':len(set(important_keys)&keys)/len(important_keys) if important_keys else None,
             'provenance_completeness':sum(bool(e['source_refs']) for e in items)/len(items) if items else 1.,
@@ -100,5 +105,5 @@ def shadow_compare(store,query,dataset_ids,important_keys):
             'unsupported_memory_rate':sum(e['memory_id'] not in {x['memory_id'] for x in entries} for e in items)/len(items) if items else 0.,
             'context_chars':chars,'dropped_important_keys':sorted(set(important_keys)-keys)}
     return {'scope':'pure synthetic comparison; old lexical/confidence surrogate, not actual Iris embedding retrieval',
-        'identity_id':store.identity['identity_id'],'old':metrics(old,old_keys,len(canonical(old))),
+        'identity_id':store.identity['identity_id'],'matched_bounds':{'max_chars':8000,'limit':8},'old':metrics(old,old_keys,len(canonical(old))),
         'core':metrics(new['items'],new_keys,new['context_chars']),'core_context':new,'production_runtime_parity':'NOT_RUN'}

@@ -14,15 +14,18 @@ from ..runtime import Runtime
 from ..storage import Store
 
 
-def run(output):
+def run(output,url='https://example.com/'):
+    if url not in {'https://example.com/','https://1.1.1.1/cdn-cgi/trace'}:
+        raise ValueError('operator-approved public probe URL required')
     root=Path(output);root.mkdir(parents=True,exist_ok=False)
-    source='source://public/phase3/example';card='notebook://synthetic/phase3/public-card'
+    source='source://public/phase3/'+('example' if url=='https://example.com/' else 'public-trace')
+    card='notebook://synthetic/phase3/public-card'
     clock,authority=Clock(),OperatorAuthority('phase3-public-read-operator')
     with Store(root/'core.db',clock) as store:
         world=FakeWorld(root/'world.db')
         try:
             transport=PublicHTTPTransport()
-            port=WebSourcePort(store,{source:WebSpec(url='https://example.com/',timeout_seconds=5)},world,authority,transport)
+            port=WebSourcePort(store,{source:WebSpec(url=url,timeout_seconds=5)},world,authority,transport)
             router=CapabilityRouter(store,{c:world if c=='reading.card.create' else port for c in CAPABILITIES},authority,resource_scope='development_public')
             router.select_owner('core_simulator',authority)
             kernel=ActionKernel(store,router.bind('core_simulator',authority),authority)
@@ -30,11 +33,11 @@ def run(output):
             kernel.grant(GrantSpec(capabilities=tuple(sorted(CAPABILITIES|{VERIFY_CAPABILITY})),resources=(source,card),
                 not_before_us=clock.utc_now_us(),expires_at_us=clock.utc_now_us()+60_000_000),authority)
             goal=Runtime(store,kernel,FixtureModel()).process(Observation(source_namespace='synthetic.phase3.public',
-                object_id='one-public-research',raw_text='Read the approved public Example Domain page and preserve a sourced private card.',
+                object_id='one-public-research',raw_text='Read the operator-approved public text at '+url+' and preserve a sourced private card.',
                 occurred_at='2026-10-11T00:00:00Z',source_id=source,card_resource=card))
             actions=store.all('actions');read=next(a for a in actions if a['capability']=='reading.source.read')
             result=json.loads(read['result_json']) if read['result_json'] else None
-            return {'scope':'one actual public capability attempt; deterministic planning; fake notebook','URL':'https://example.com/',
+            return {'scope':'one actual public capability attempt; deterministic planning; fake notebook','URL':url,
                 'last_stage':transport.last_stage,'safe_error':port.last_error,'http_attempts':transport.http_requests,
                 'proxy_connection_attempts':transport.proxy_connections,'identity':store.identity,'goal_state':store.one('goals',goal)['state'],
                 'read_state':read['state'],'action_id':read['action_id'],'attempts':store.all('attempts'),
@@ -42,6 +45,6 @@ def run(output):
                 'verification_event_id':json.loads(read['body_json']).get('verification_event_id'),
                 'HTTP_status':result['status'] if result else None,'raw_content_hash':result['source_blob_sha256'] if result else None,
                 'summary_hash':__import__('hashlib').sha256(result['text'][:240].encode()).hexdigest() if result else None,
-                'cited_result':cite_completed_goal(store,goal),'public_gate':'PASS' if read['state']=='SUCCEEDED' and result['transport_evidence']['public_fetch'] else 'BLOCKED',
+                'cited_result':({k:v for k,v in cite_completed_goal(store,goal).items() if k!='summary'} if store.one('goals',goal)['state']=='COMPLETED' else None),'public_gate':'PASS' if read['state']=='SUCCEEDED' and result['transport_evidence']['public_fetch'] else 'BLOCKED',
                 'automatic_retries':0,'real_model_calls':0,'production_calls':0,'fees':0}
         finally:world.close()

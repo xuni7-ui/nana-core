@@ -43,3 +43,13 @@ P11为PARTIAL：EngineeringPreparationPort遵守CapabilityPort execute/verify形
 [实测] 51 targeted passed：selector/engineering15 + S5 ModelPort28 + memory4 + initiative4。首轮41pass/1fail为synthetic remote Endpoint夹具漏credential_env，补独立NANA_S5_DEV_SELECTION_FIXTURE名称后保留Endpoint严格校验（未读取/创建key，未放宽授权）。并修复initiative wake两事务间崩溃风险：due_at由candidate创建时持久化，旧candidate按原创建事件时间回推；真实SIGKILL在wake commit之后、状态commit之前，50秒后重启仍同occurrence/jobs1、无Action。最小记忆补充同时期相反陈述DISPUTED及context剪裁不得冒充完整证据的断言；decision preview改为实际Observation/ContextBuilder进入同ModelPort，未增Goal/Action。
 
 M5已保存ba7c86211c6a409218284b872c63b4d9ed132476。新selector/preparation实测摘要model_engineering_preparation.json；源码/测试不含真实credentials或私人资料。
+
+## 公网有限后续诊断
+[实测] 主机名DNS阻塞后，为区分解析与连接问题，另一个独立、有新显式Grant的新实验对公开文本 https://1.1.1.1/cdn-cgi/trace 执行一次GET尝试。标准resolver对数字地址两次一致/全球可路由检查保持，既有代理数字CONNECT，TLS仍严格校验IP证书；不绕过代理/沙箱，不关闭校验、不改全局配置。这不是重新派发先前UNKNOWN动作。
+
+该次DNS/代理CONNECT走到TLS阶段后失败，safe_error WEB_PROXY_REQUEST_FAILED，proxy连接尝试1、origin HTTP0、UNKNOWN，无HTTP正文/状态/receipt。具体TLS异常细节原先未记录，不能声称是证书/策略/源站中的哪一个；阶段确定TLS。被动TLS trust元数据tls_metadata.json说明CA store状态但不能据此证明公网握手。当前两个不同目标的有界尝试均无HTTP GET发出，停止公网实验，保留两条未决记录，不自动retry或变造成功。公开response正文/summary不上传Git（此次也未取得）；潜在后续成功只报hash/来源引用。
+
+network_followup_tests.txt：43 passed，包含任意URL不能进入该操作者探针，未知地址被拒且不建workspace。
+
+## Shadow 比较口径修正
+初次M4 surrogate top1与Core limit8不适合做召回优劣结论。最终对账已改为相同max_chars8000/limit8、相同规范化输出字段，旧路径不读取Core belief；重要原话recall两边均1.0，旧路径不标注矛盾/Core显式2条。新增断言要求旧路径也保留两条重要证据和matched bounds，未弱化来源/权限/冲突不变量；历史top1数字只是早期实验，不代表真实检索改进。P7仍PARTIAL（没有真实FAISS/Iris parity），最新memory_reconciliation.json为准。

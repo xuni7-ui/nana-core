@@ -1,0 +1,17 @@
+{
+  "scope": "passive Python TLS trust metadata; no network or certificate/private-key contents read",
+  "default_cafile_available": true,
+  "default_capath_available": true,
+  "SSL_CERT_FILE_binding_present": true,
+  "SSL_CERT_DIR_binding_present": false,
+  "certificate_store_stats": {
+    "x509": 154,
+    "crl": 0,
+    "x509_ca": 154
+  },
+  "TLS_verification_disabled": false,
+  "system_config_modified": false,
+  "numeric_probe_failure_stage": "TLS",
+  "exact_TLS_failure_cause": "UNKNOWN_EXCEPTION_DETAILS_NOT_RECORDED",
+  "automatic_retry": false
+}

@@ -1,0 +1,31 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/nana-core
+configfile: pyproject.toml
+plugins: anyio-4.14.2
+collected 4 items
+
+tests/phase3/test_memory.py F...                                         [100%]
+
+=================================== FAILURES ===================================
+____________ test_claim_updates_preserve_source_and_shadow_is_pure _____________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-49/test_claim_updates_preserve_so0')
+
+    def test_claim_updates_preserve_source_and_shadow_is_pure(tmp_path):
+        with Store(tmp_path/'core.db',ManualClock()) as store:
+            imported=IrisAdapter(store).import_batch(fixtures());view=MemoryView(store)
+            source=store.artifact(store.event(imported['results'][0]['event_id'])['artifact_id'])
+            assert view.assess_claims(DATASETS)['changed']==2
+            assert view.assess_claims(DATASETS)['changed']==0
+            before=store.snapshot();shadow=shadow_compare(store,'paper garden',DATASETS,('m1','m2'))
+            assert store.snapshot()==before and shadow['core']['recall']==1
+            assert shadow['core']['contradictions_visible']==2
+            assert shadow['matched_bounds']=={'max_chars':8000,'limit':8}
+>           assert shadow['old']['recall']==1 and shadow['old']['contradictions_visible']==0
+E           assert (0.5 == 1)
+
+tests/phase3/test_memory.py:22: AssertionError
+=========================== short test summary info ============================
+FAILED tests/phase3/test_memory.py::test_claim_updates_preserve_source_and_shadow_is_pure
+========================= 1 failed, 3 passed in 0.42s ==========================

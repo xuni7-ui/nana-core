@@ -1,0 +1,52 @@
+{
+  "scope": "one actual public capability attempt; deterministic planning; fake notebook",
+  "URL": "https://1.1.1.1/cdn-cgi/trace",
+  "last_stage": "TLS",
+  "safe_error": "WEB_PROXY_REQUEST_FAILED",
+  "http_attempts": 0,
+  "proxy_connection_attempts": 1,
+  "identity": {
+    "identity_id": "12a1f480-e395-486c-a5f2-11c59e5448cc",
+    "revision": 1,
+    "body_json": "{\"charter\":[\"retain independent judgement\",\"evidence before success\",\"learning cannot expand permissions\"],\"expression_defaults\":{\"style\":\"warm and precise\"},\"name\":\"Nana\",\"self_preferences\":[]}",
+    "created_event_id": "e92d78dd-d6ff-4cb5-95e2-244ed1921f7b"
+  },
+  "goal_state": "BLOCKED",
+  "read_state": "UNKNOWN",
+  "action_id": "ff4d268e-c766-4e63-988a-0fd082f989b0",
+  "attempts": [
+    {
+      "attempt_id": "c5637cf2-cbc8-4714-8d55-f31555b26842",
+      "action_id": "ff4d268e-c766-4e63-988a-0fd082f989b0",
+      "grant_id": "99d81f8f-de00-45f6-b531-64bac8c7cff4",
+      "kind": "EXECUTE",
+      "attempt_no": 1,
+      "started_at_us": 1791693754193962,
+      "outcome": null,
+      "receipt_event_id": null,
+      "verification_event_id": null
+    },
+    {
+      "attempt_id": "558e507d-0560-48fa-baa2-ed5005c94af2",
+      "action_id": "ff4d268e-c766-4e63-988a-0fd082f989b0",
+      "grant_id": "99d81f8f-de00-45f6-b531-64bac8c7cff4",
+      "kind": "VERIFY",
+      "attempt_no": 2,
+      "started_at_us": 1791693754215350,
+      "outcome": "UNKNOWN",
+      "receipt_event_id": null,
+      "verification_event_id": "67723839-32c0-40a2-a4d1-7e1ea4cfc23f"
+    }
+  ],
+  "receipt_event_id": null,
+  "verification_event_id": "67723839-32c0-40a2-a4d1-7e1ea4cfc23f",
+  "HTTP_status": null,
+  "raw_content_hash": null,
+  "summary_hash": null,
+  "cited_result": null,
+  "public_gate": "BLOCKED",
+  "automatic_retries": 0,
+  "real_model_calls": 0,
+  "production_calls": 0,
+  "fees": 0
+}

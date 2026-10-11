@@ -1,11 +1,14 @@
 {
-  "milestone": "C-042",
+  "milestone": "C-043",
   "reviewed_files": [
     "LICENSES_AND_PROVENANCE.md",
     "PROJECT_BRAIN/09_STATE.md",
     "PROJECT_BRAIN/10_DECISIONS.md",
     "PROJECT_BRAIN/11_CHANGELOG.md",
     "docs/nana_core_phase3_entry.md",
+    "docs/nana_core_phase3_evidence/final_development_proof.json",
+    "docs/nana_core_phase3_evidence/final_junit.xml",
+    "docs/nana_core_phase3_evidence/final_regression.txt",
     "docs/nana_core_phase3_evidence/initiative_cases.json",
     "docs/nana_core_phase3_evidence/initiative_tests.txt",
     "docs/nana_core_phase3_evidence/iris_source_manifest.json",
@@ -14,11 +17,15 @@
     "docs/nana_core_phase3_evidence/memory_tests.txt",
     "docs/nana_core_phase3_evidence/model_engineering_preparation.json",
     "docs/nana_core_phase3_evidence/model_readiness.json",
+    "docs/nana_core_phase3_evidence/network_followup_tests.txt",
     "docs/nana_core_phase3_evidence/network_tests.txt",
+    "docs/nana_core_phase3_evidence/public_numeric_probe.json",
     "docs/nana_core_phase3_evidence/public_probe.json",
     "docs/nana_core_phase3_evidence/selection_engineering_tests.txt",
     "docs/nana_core_phase3_evidence/semantic_readiness.txt",
     "docs/nana_core_phase3_evidence/semantic_report.json",
+    "docs/nana_core_phase3_evidence/shadow_matched_tests.txt",
+    "docs/nana_core_phase3_evidence/tls_metadata.json",
     "docs/nana_core_phase3_iris_mapping.md",
     "manifests/nana_core_phase3_fingerprints.json",
     "manifests/nana_core_phase3_review.json",
@@ -43,9 +50,9 @@
   ],
   "allowlist_violations": [],
   "credential_pattern_findings": [],
-  "fingerprint_anchor": "71576f64450feaa9eafac7e801dbd30c95db66b408dddb362de6e03a2132149c",
+  "fingerprint_anchor": "d83bd5dbb6265d75483dea11150e35dbe5a0c4e5bfa566ff078e7deebfd5200c",
   "license_boundary": "Iris schema interoperability independently implemented; no AGPL code vendored; original license pending",
   "runtime_db_uploaded": false,
   "production_changes": false,
-  "summary": "Phase III M6: constrain model selection and prepare disabled engineering interfaces"
+  "summary": "Phase III: preserve bounded TLS blockade and compare shadow retrieval under matched limits"
 }
