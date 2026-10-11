@@ -1,0 +1,18 @@
+{
+  "baseline": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
+  "files": {
+    "docs/nana_first_cloud_shadow.md": "70dd230cb55c7233d3b710328c3f0584c6a717bd17f8a19729eb8f4c04d54ec4",
+    "docs/nana_first_shadow_evidence/host_access.json": "5e7faba6800d87743e4a05f2303798aa66a2be770a84ccac28e9f3f26782e82e",
+    "docs/nana_first_shadow_evidence/initial_failures.json": "a9da57c045575d22c39d9befe15f5eebb4e21a57525b1fa7361f356e111fd367",
+    "docs/nana_first_shadow_evidence/m1_tests.txt": "324bcd8336fbbd9201e7a8d068ada1f537b09e471a0d3b279b1aed0d2b0385bc",
+    "tests/integration/test_first_shadow.py": "aa052327ca9bbad2cbd5503cc9d87b70cea80c32d2160472fb95b0ec028e38cc",
+    "tools/nana_host_shadow/__init__.py": "48a01dc1d686497a6edf0ca63305298158f0f84350d09444c27794a3c9c79afb",
+    "tools/nana_host_shadow/build.py": "db0981ed1e93ee8a2074f509f71744a9c674610fcae1a21c5650917ffac244e2",
+    "tools/nana_host_shadow/launcher.py": "34830a542d0115d988911f2288cccc11da4c53d02004609e406b28be9317a29d",
+    "tools/nana_host_shadow/metadata.py": "1b375d25c8fc175afe5301c3adc5fd6b2ad061b0b20ef1cbc7c87f55f668a472",
+    "tools/nana_host_shadow/observer.py": "a89931510ff978edf5272cb154b02472e8cc0bb2e8c5414ce91f9ba573dde273",
+    "tools/nana_host_shadow/runtime.py": "4972969cc8ee8dd6eb6e1482d4ce7b6ead57f246fc8332c12b8c346ab6b9f921",
+    "tools/nana_host_shadow/safety.py": "29b5340e8b1ae7606d7727369c55b9692e0b86fa2b4df6a00527e4eddac2756e"
+  },
+  "scope": "phase3 controlled code and synthetic/metadata evidence; excludes self/ledgers"
+}

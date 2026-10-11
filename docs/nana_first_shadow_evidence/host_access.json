@@ -1,0 +1,28 @@
+{
+  "status": "BLOCKED_NO_HOST_CHANNEL",
+  "real_host_access": "NO",
+  "environment_spec_revision": "45",
+  "current_observations": true,
+  "configured_host_capabilities": [],
+  "credential_bindings": [],
+  "outbound_identities": [],
+  "runtime_variables": [],
+  "vpn_configured": false,
+  "tcp_granted_domains": [],
+  "tcp_granted_ip_ranges": [],
+  "host_environment_variable_names": [],
+  "known_path_metadata": {
+    "/root/.ssh/config": "UNKNOWN_PERMISSION_DENIED",
+    "/workspace/.ssh/config": "ABSENT",
+    "/opt/nana_shadow": "ABSENT",
+    "/opt/AstrBot": "ABSENT",
+    "/app/AstrBot": "ABSENT"
+  },
+  "selected_mounts": [{"mount_point": "/workspace", "filesystem": "overlay"}],
+  "absolute_production_unreachability": "UNKNOWN; absence of a configured channel is not proof of impossibility",
+  "host_connections_attempted": 0,
+  "credential_files_opened": 0,
+  "production_model_calls": 0,
+  "E12": "NOT_RUN",
+  "method": "environment readiness, credential-free network policy, environment variable names and known path/mount metadata only; no host scan or login"
+}

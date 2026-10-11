@@ -61,3 +61,6 @@
 
 ## Cloud integration development additions (C-052)
 `src/nana_core/integration/` is independent interoperability/engineering code and original license decision remains pending. Iris schema references use pinned upstream 0.3.0 plus separately licensed customization materials; no AGPL execution code copied into Core. Existing Bridge/preparation boundary helper reused within development repository, no third-party runner vendored into wheel. All new fixtures synthetic; no runtime SQLite DB, production chat, credential value or wheel binary uploaded to Git.
+
+## First Shadow operator support
+`tools/nana_host_shadow/` and new synthetic integration tests independently implement bounded operator-local probe tooling using Python standard library and existing Core APIs. No AstrBot/Iris implementation copied, no dependencies added. Approved Core is packaged unmodified from ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513; support is separately reviewed. Original project license remains pending. No DB, private data, credentials or binary artifact uploaded.

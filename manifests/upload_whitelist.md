@@ -111,3 +111,5 @@
 - 不含DB、JSONL私人资料、运行凭据、完整第三方源树；上游Iris只在临时目录只读核对，不入库。
 
 Cloud bridge authorization: src/nana_core/integration/*.py, explicit ActionKernel/CapabilityRouter registry and fences, tests/integration/*.py, docs/nana_cloud*.md, docs/nana_cloud_evidence/{*.json,*.txt,*.xml,*.md}, manifests/nana_cloud*.json, pyproject.toml and PROJECT_BRAIN append records. No DB, credentials, private export or binary wheel in upload scope.
+
+First real Shadow authorization: tools/nana_host_shadow/*.py, tests/integration/test_first_shadow.py, docs/nana_first_cloud_shadow.md, docs/nana_first_shadow_evidence/{*.json,*.txt,*.xml}, manifests/nana_first_shadow*.json, PROJECT_BRAIN append records, LICENSES_AND_PROVENANCE.md. Fixed Core package built only in temporary isolated directory; runtime DB and bundle binaries excluded.

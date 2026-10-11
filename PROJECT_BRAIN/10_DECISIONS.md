@@ -207,3 +207,8 @@
 
 ## D-043 — 有限工程执行与Shadow持久屏障
 [文档/实测] 原Kernel/Router仅由Operator显式注入engineering registry，默认闭合reading不变；六能力仍同Grant/预算/Attempt/owner/独立核验。没有OS sandbox证明时仅执行literal数据补丁与可信AST runner，不能把固定argv当任意代码隔离。Shadow Store持久marker使误造Kernel也拒Action/Grant/现实预算；未来真实云端接线仍需新授权、metadata/hook/资源检查和可卸载临时observer，不默认handoff。
+
+## 2026-10-11 · First Shadow fixed-source and host-binding boundary
+[实测] 当前批准Core SHA为ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513。新增operator工具独立放tools/nana_host_shadow，打包时固定Git对象与55文件hash验证；不把新增工具冒充原审核SHA。
+[实测] 环境spec45未配置宿主能力/凭据/出站身份，无明确宿主入口，真实步骤BLOCKED_NO_HOST_CHANNEL。路径元数据权限拒绝保持UNKNOWN，不寻找凭据或猜主机。
+[文档] 无可核实AstrBot动态hook API时，只提供adapter-local probe生命周期；不接真实message stream，不宣称真实宿主/AstrBot绑定完成。Schema-only只支持显式冻结SQLite元数据，JSON/FAISS与活库安全快照保持未验证。

@@ -1,0 +1,10 @@
+{
+  "stage": "M1 initial targeted run",
+  "passed": 2,
+  "failed": 5,
+  "skipped": 0,
+  "cause": "SyntaxError in new support launcher: dict-like argument mixed with keyword arguments",
+  "fix": "Use valid keyword argument in state.update; preserve all assertions",
+  "subsequent_result": "m1_tests.txt",
+  "production_attempts": 0
+}

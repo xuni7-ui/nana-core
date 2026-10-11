@@ -1,0 +1,31 @@
+{
+  "milestone": "C-055",
+  "reviewed_files": [
+    "LICENSES_AND_PROVENANCE.md",
+    "PROJECT_BRAIN/10_DECISIONS.md",
+    "docs/nana_first_cloud_shadow.md",
+    "docs/nana_first_shadow_evidence/host_access.json",
+    "docs/nana_first_shadow_evidence/initial_failures.json",
+    "docs/nana_first_shadow_evidence/m1_tests.txt",
+    "manifests/nana_first_shadow_fingerprints.json",
+    "manifests/nana_first_shadow_review.json",
+    "manifests/upload_whitelist.md",
+    "tests/integration/test_first_shadow.py",
+    "tools/nana_host_shadow/__init__.py",
+    "tools/nana_host_shadow/build.py",
+    "tools/nana_host_shadow/launcher.py",
+    "tools/nana_host_shadow/metadata.py",
+    "tools/nana_host_shadow/observer.py",
+    "tools/nana_host_shadow/runtime.py",
+    "tools/nana_host_shadow/safety.py"
+  ],
+  "allowlist_violations": [],
+  "credential_pattern_findings": [],
+  "fingerprint_anchor": "6372a997357cddb33717c15b7e970a7bfcee43c77fa4b399a9c8140546717a64",
+  "license_boundary": "Iris schema interoperability independently implemented; no AGPL code vendored; original license pending",
+  "runtime_db_uploaded": false,
+  "production_changes": false,
+  "private_records_read": 0,
+  "secret_values_read": 0,
+  "summary": "First Shadow M1: fixed approved Core bundle and probe-only launcher; 7 targeted passed, real host blocked"
+}
