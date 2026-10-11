@@ -1,0 +1,20 @@
+{
+  "docs/nana_r04_evidence/atomic.txt": "0220e2d88a7031a783bfb6b637105c9c60e8ce0c08fe812c56b65bf9d482255d",
+  "docs/nana_r04_evidence/atomic.xml": "ea161fb6b6062a549de1aaee5a940c4614ff8f023f5b2a301e4bc1dd5d11cfda",
+  "docs/nana_r04_evidence/baseline.txt": "a697567455d7de4ac01f08a8b0c4a1ae3601f65df07fca7c7044bb3365e5c816",
+  "docs/nana_r04_evidence/baseline.xml": "83f350200d124303798c6dc90f8b7027207a441ddf7032d87fc249d474c690f7",
+  "docs/nana_r04_evidence/contract.txt": "d85191ee4a0858f3c34b3198c588b0a0eb6e2031364f69b1d5abe64b38bc6269",
+  "docs/nana_r04_evidence/contract_fixed.txt": "4cfcd66179ed487df4129ec54d6a4740d94fe60875b0ec11d0bc2f339f5866b4",
+  "docs/nana_r04_evidence/crash.txt": "ae632ff04d7c71ba9c1cfa41accc62d18b5633eefc8f143e565bad0ad5a2e19e",
+  "docs/nana_r04_evidence/crash.xml": "3dcb357f61a69a2d84f54dfc2ccfc42214ab534da22fb8f08b480636f3de48db",
+  "docs/nana_r04_evidence/ingress_proof.txt": "f05dbc81de3b6bf027131345d2bbd1ff879770941fdd347e72e1398c0caf5b3e",
+  "docs/nana_r04_evidence/ingress_proof.xml": "9ae539e6713dddcea2fc2e88830c537fa1f01cee3738dbff9bc98c8c8b81f06b",
+  "docs/nana_r04_one_shot.md": "14ac2e9e31519e90f785648f114182a3b19238cb56ffc9db6c7564eb0c5769fa",
+  "src/plugins/astrbot_plugin_nana_shadow_observer/message_hook_adapter.py": "f4a1e629d2501a0a48574b9028af7c5325b63af9954ae1d807e0e1d8734c3bd8",
+  "tests/nana_shadow/test_r04_crash.py": "bb106145cffe39b2192425d14ca4eb4a482739f29c64a1f6ed2b7d60268dfed5",
+  "tests/nana_shadow/test_r04_receipt.py": "f93726c71712b8b693ac001b14abe9a4c998f933f1499fcccf1431ec11ffe761",
+  "tools/nana_astrbot_shadow/core_sink.py": "564f6ee34bd66f8d4807bd2752484ea769ec4e3a598c4fa88a4c1e387bc062d0",
+  "tools/nana_astrbot_shadow/one_shot.py": "6ccd2c24be33faea9212b2904e5e58371b353225aa0fe31814270629164e5ee6",
+  "tools/nana_astrbot_shadow/one_shot_ingress.py": "dd54e2847c3f895b5a2320a9dc187347045d20b077c1be1f22becec7fed46962",
+  "tools/nana_astrbot_shadow/one_shot_proof.py": "efa3fbffbcd8b59b8bfa9f26badd4acaef362f86b148379a684c603f748ff1a8"
+}

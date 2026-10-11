@@ -11,3 +11,8 @@ Implementation constraints: 55 approved Core files unchanged. Receipt state uses
 Production review anchors remain empty, source pinned. Fixture trust has an incompatible persistent domain, not a CLI/env option. A development fixture cannot prove real dispatcher traversal or real binding. Real source pins require independently reviewed Nana evidence, future source review and human authorization.
 
 Real AstrBot load NOT_RUN; dispatcher NOT_VERIFIED; one-shot real message NOT_RUN; host_binding UNVERIFIED; FIRST_REAL_ASTRBOT_SHADOW BLOCKED; E12 NOT_RUN. All real host/private memory/production secrets/messages/model operations by Codex zero.
+
+## Baseline discrepancy (actual Git, not silently overwritten)
+R04 changes **zero** files under `src/nana_core`, relative to sole R03 base. However the R03 repository itself differs from approved ddab source in **one pre-existing file**, `src/nana_core/integration/preflight.py`: historical Pydantic version acceptance changed. Therefore "all55 repository files byte-identical to ddab" is FALSE at supplied baseline. R04 does not repair/restore that file. Package builder continues sourcing the **55 approved bytes directly from ddab**, so packaged Core remains approved. No new Core SHA is claimed. This discrepancy does not require changing a Core invariant for R04; real host approval must distinguish source repository vs pinned package.
+
+Evidence export sanitization: baseline JUnit parametrized test names included old synthetic credential-pattern attack strings. Those test node labels are redacted in the exported evidence; counts/assertions/outcomes unchanged. No actual credential was read. Stage scanner rejects such patterns before subsequent checkpoints.

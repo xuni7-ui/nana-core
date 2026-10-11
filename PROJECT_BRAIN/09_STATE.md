@@ -459,3 +459,5 @@
 [实测/开发] Uploaded R03 bundle independently hash/verify/list-heads checked; sole base89385e98118da81bae751311fb6149f048b772a8. New independent R04 branch. Approved isolated runtime full baseline404 passed/0failed/1skip (E12). Existing R039-key adapter/support reused; real message gates remain closed. Evidence docs/nana_r04_evidence/baseline.xml and docs/nana_r04_one_shot.md. No real host operations.
 
 [实测/开发] R04-C1 strict receipt contract14passed; fixed Literal accepting bool-as1 via pre-validation, failure log retained. max_uses1/window<=600sec/UTC/scoped hashes/store binding/strict canonical JSON. Production trust pins empty; no Core changes.
+
+[实测/开发] R04-C2-C5: Atomic receipt and D-045 ingress/proof; 42 targeted passed, five actual SIGKILL boundaries; R03 pre-existing preflight drift disclosed. Fingerprint anchor f6f9186edf890c1bc6c253dac74779ccaf37ca05430d4303266816109c83ea88; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.

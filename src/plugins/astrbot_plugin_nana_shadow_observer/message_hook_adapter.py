@@ -212,3 +212,26 @@ def _safe_call(obj, name):
         return func() if callable(func) else None
     except BaseException:
         return None
+
+
+class OneShotMessageHookAdapter(MessageHookAdapter):
+    """R04 result-path metadata; arm/review/consume occurs ONLY in receipt worker.
+
+    Base real adapter remains closed. No boolean, environment, unsafe flag, or
+    local synthetic permit opens this path. Cancellation here is isolated from
+    the host response task; R03 adapter cancellation contract is unchanged.
+    """
+    def __init__(self, *, observer, logger=None):
+        from tools.nana_astrbot_shadow.one_shot_ingress import OneShotObserver
+        if type(observer) is not OneShotObserver: raise ValueError('ONE_SHOT_OBSERVER_REQUIRED')
+        super().__init__(sanitizer=observer.sanitizer,observer=observer,mode='real',logger=logger)
+
+    async def on_decorating_result(self,event):
+        try:
+            if not self._active:return None
+            payload=self.build_payload(event)
+            if payload is None:self._note('DROP_EXTRACT');return None
+            await self.observer.callback_real(payload)
+        except BaseException:
+            self._note('DROP_ONE_SHOT_ADAPTER_FAILURE')
+        return None

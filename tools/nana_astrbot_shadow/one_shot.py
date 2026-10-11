@@ -140,6 +140,14 @@ class ReceiptLedger:
         row=self.store.one('core_meta',self._key(rid))
         if not row: raise ValueError('RECEIPT_NOT_FOUND')
         record=json.loads(row['value_json'])
+        # Detect projection-only corruption against the committed transaction log.
+        journal=None
+        for event in self.store.db.execute("SELECT data_json FROM events WHERE kind LIKE 'r04.%' ORDER BY rowid DESC"):
+            for change in json.loads(event['data_json'])['changes']:
+                if change['table']=='core_meta' and change['row']['key']==self._key(rid):
+                    journal=change['row']['value_json'];break
+            if journal is not None:break
+        if journal!=row['value_json']:raise ValueError('RECEIPT_PROJECTION_CORRUPT')
         receipt=parse_receipt(record['receipt'])
         if receipt.store_binding!=self.binding or record['receipt_digest']!=receipt.receipt_digest:
             raise ValueError('RECEIPT_CORRUPT_OR_COPIED')
@@ -241,6 +249,7 @@ class ReceiptLedger:
         # No self-declared VERIFIED, no raw identifier/body.
         return {'receipt_id':rid,'state':v['state'],'uses':v['uses'],'receipt_digest':r.receipt_digest,
                 'trust_domain':v['trust_domain'],'review_provenance':r.review_provenance.value,
-                'core_recorded':v['core'] is not None}
+                'core_recorded':v['core'] is not None,
+                'completion':('UNKNOWN' if v['uses']==1 and v['core'] is None else 'RECORDED' if v['core'] else 'NOT_STARTED')}
 
     def record(self,rid): return self._load(rid)

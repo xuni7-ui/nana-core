@@ -702,3 +702,8 @@
 - 改了什么：one_shot DTO/provenance/source-empty production pins; fixture class cannot accept real/lifecycle provenance.
 - 为什么：one observation permission must not become Grant or wildcard/private-body authorization.
 - 怎么验证：14 contract tests pass; initial2 bool-Literal failures fixed in validator, assertions retained. Evidence contract_fixed.txt.
+
+## R04-C2-C5
+- 改了什么：Atomic receipt and D-045 ingress/proof; 42 targeted passed, five actual SIGKILL boundaries; R03 pre-existing preflight drift disclosed; files in manifests/fingerprints_r04.json.
+- 为什么：one reviewed metadata observation, D-045 gates retained, approved Core unchanged.
+- 怎么验证：targeted evidence in docs/nana_r04_evidence, staged diff/secret/private-artifact allowlist checks; development only.
