@@ -762,3 +762,8 @@
 - 改了什么：Remote final asset bytes independently verified; handoff and ordered commit range, no further source changes; files in manifests/fingerprints_r04.json.
 - 为什么：one reviewed metadata observation, D-045 gates retained, approved Core unchanged.
 - 怎么验证：targeted evidence in docs/nana_r04_evidence, staged diff/secret/private-artifact allowlist checks; development only.
+
+## R041-M1
+- 改了什么：Bounded stdlib UDS metadata channel, R04 single-writer ingress and foreground session fence; 106 targeted passed; manifests/fingerprints_r041.json.
+- 为什么：host SQLite3.46.1 must stay untouched; bounded local metadata bridge, not second permanent Runtime.
+- 怎么验证：development-only targeted/full evidence, diff/allowlist/secret-private-artifact scans; approvedCore unchanged.

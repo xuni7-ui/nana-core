@@ -43,6 +43,12 @@ class OneShotSanitizer(MetadataSanitizer):
             self.scoped_hash('conversation_id',raw.get('conversation_id')),self.scoped_hash('sender_id',raw.get('sender_id')),
             REAL_SOURCE,False,'nana-probe-'+self.receipt_id)
 
+    def project_public(self,raw):
+        # Already scoped-hashed metadata crosses IPC, never raw host IDs/body.
+        from .bridge_wire import validate_metadata
+        m=validate_metadata(raw,self.receipt_id)
+        return Metadata(**m)
+
     def issue_consumed_permit(self,ledger,metadata):
         if type(ledger) is not ReceiptLedger:raise ValueError('DROP_LEDGER_TYPE')
         r,v=ledger.record(self.receipt_id)
@@ -81,7 +87,12 @@ class OneShotCoreSink(MetadataCoreSink):
     def ledger(self): return ReceiptLedger(self._open(),self.trust)
 
     def accept(self,raw):
-        m=self.sanitizer.project(raw)
+        return self._accept_metadata(self.sanitizer.project(raw))
+
+    def accept_public(self,raw):
+        return self._accept_metadata(self.sanitizer.project_public(raw))
+
+    def _accept_metadata(self,m):
         ledger=self.ledger()
         r,v=ledger.record(self.receipt_id)
         if r.hash_scope!=self.sanitizer.scope:raise ValueError('HASH_SCOPE_MISMATCH')
@@ -105,15 +116,22 @@ class OneShotObserver(ShadowObserver):
     operator_binding_verified=False
 
     async def callback_real(self,raw):
+        return await self._callback(raw,public=False)
+
+    async def callback_public(self,raw):
+        return await self._callback(raw,public=True)
+
+    async def _callback(self,raw,*,public):
         try:
             if not self.active:self._record('DROP_INACTIVE');return None
             # Shape/source check independent of receipt authority; two gates retained.
-            self.sanitizer.project(raw)
+            (self.sanitizer.project_public if public else self.sanitizer.project)(raw)
             # Drop unknown/nested/body values before worker submission; capture
             # immutable scalar snapshot so caller mutation cannot change matching.
-            raw={k:raw.get(k) for k in ('platform','type','event_id','timestamp','conversation_id','sender_id','event_source','synthetic','probe_id')}
+            keys=('platform','type','event_id','timestamp','conversation_hash','sender_hash','event_source','synthetic','probe_id') if public else ('platform','type','event_id','timestamp','conversation_id','sender_id','event_source','synthetic','probe_id')
+            raw={k:raw.get(k) for k in keys}
             if self._pending is not None and not self._pending.done():self._record('DROP_BUSY');return None
-            self._pending=self._worker.submit(self._sink.accept,raw)
+            self._pending=self._worker.submit(self._sink.accept_public if public else self._sink.accept,raw)
             wrapped=asyncio.wrap_future(self._pending);wrapped.add_done_callback(_consume_exception)
             value=await asyncio.wait_for(asyncio.shield(wrapped),self.timeout)
             if type(value) is not dict or value.get('barrier_result')!='SHADOW_BLOCKED':

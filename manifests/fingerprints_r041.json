@@ -1,0 +1,16 @@
+{
+  "docs/nana_r041_evidence/baseline.txt": "6c6e794bb31b75177a64d5e538017764bd9afc68a5c8b632df2cdf1e1fde322b",
+  "docs/nana_r041_evidence/baseline.xml": "db2efa151330cae00c47cda73e69b2f4b95f02ea5313b0d7947a19633fc82dc6",
+  "docs/nana_r041_evidence/initial.txt": "43ff247ffc44c6fbe8794cb5be3ff0e2410da29518c51163da8bc48a60b958a9",
+  "docs/nana_r041_evidence/initial.xml": "2206c8f5f8e0d6fdb378cf69c076d500ae0e860089f2fc0006d41e97e110e768",
+  "docs/nana_r041_host_bridge.md": "117c5dab792b5f04b9c391d37a25a5a3806a3513977ef99bba9fac7acff554a8",
+  "src/plugins/astrbot_plugin_nana_shadow_observer/bridge_client.py": "737c226c2418dee64b67e58036b0fc953d0b039a8348f459a12b78872e88f9b1",
+  "src/plugins/astrbot_plugin_nana_shadow_observer/bridge_wire.py": "d11924a0098f8dae0e12910733600a19ce0464748ffd5050dcadd556cb112298",
+  "src/plugins/astrbot_plugin_nana_shadow_observer/message_hook_adapter.py": "349a671bfb0ffadf87baaa07f0c08af3eb64af28b5e4507bc9d7505780c8e97f",
+  "src/plugins/astrbot_plugin_nana_shadow_observer/r041_main.py": "3e8798bb345a32e15f8d6c77d2d56f71eacddfc9c6cec2469d089934996bb4e6",
+  "tests/nana_shadow/test_r041_bridge.py": "b21cfe266c0f05dea7305d2f64ffb2138d388e725b4dafd54a2fb6d1036b5e6f",
+  "tools/nana_astrbot_shadow/bridge_cli.py": "f6f1e36c71b80c7f102e6849b9a841b9ac47b44a0a7298f72859aa571a41e503",
+  "tools/nana_astrbot_shadow/bridge_wire.py": "d11924a0098f8dae0e12910733600a19ce0464748ffd5050dcadd556cb112298",
+  "tools/nana_astrbot_shadow/bridge_worker.py": "3b6c6b0876ef790fb3b2f646350705328b3211f588523b43af4b4dad4798d2de",
+  "tools/nana_astrbot_shadow/one_shot_ingress.py": "7f3354a0cfbbb537282b2a3634d9456e56127dfdb835cf739cc73437a76e4151"
+}
