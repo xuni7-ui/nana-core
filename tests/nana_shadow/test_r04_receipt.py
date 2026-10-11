@@ -194,3 +194,13 @@ def test_backup_copy_quarantine_cannot_revive_receipt(tmp_path):
     copied=OneShotCoreSink(out,OneShotSanitizer(scope='r04-test',hash_key=b'F'*32,receipt_id=r.receipt_id),r.receipt_id,trust=FixtureTrustStore())
     with pytest.raises(ValueError,match='RESTORED_STORE_BLOCKED'):copied.accept(dict(RAW))
     copied.close();sink.close()
+
+def test_same_event_cannot_consume_second_receipt(tmp_path):
+    sink,l,r=setup(tmp_path/'shadow');arm(l,r);sink.accept(dict(RAW))
+    next_r=receipt(binding=l.binding,sender_hash=r.sender_hash,conversation_hash=r.conversation_hash)
+    l.create(next_r);arm(l,next_r)
+    s=OneShotSanitizer(scope='r04-test',hash_key=b'F'*32,receipt_id=next_r.receipt_id)
+    m=s.project(dict(RAW))
+    with pytest.raises(ValueError,match='EVENT_REPLAY_BLOCKED'):l.consume(next_r.receipt_id,m)
+    assert l.status(next_r.receipt_id)['uses']==0
+    sink.close()

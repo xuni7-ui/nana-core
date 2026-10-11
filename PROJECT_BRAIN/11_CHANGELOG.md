@@ -717,3 +717,8 @@
 - 改了什么：Fail-closed operator CLI, 65 targeted passes, dormant message-only plugin and gated package/runbook; files in manifests/fingerprints_r04.json.
 - 为什么：one reviewed metadata observation, D-045 gates retained, approved Core unchanged.
 - 怎么验证：targeted evidence in docs/nana_r04_evidence, staged diff/secret/private-artifact allowlist checks; development only.
+
+## R04-C8-HARDEN
+- 改了什么：Dormant plugin blocks fixture trust and empty pins; 62 R04 targeted passed; earlier 65 count corrected to62; files in manifests/fingerprints_r04.json.
+- 为什么：one reviewed metadata observation, D-045 gates retained, approved Core unchanged.
+- 怎么验证：targeted evidence in docs/nana_r04_evidence, staged diff/secret/private-artifact allowlist checks; development only.

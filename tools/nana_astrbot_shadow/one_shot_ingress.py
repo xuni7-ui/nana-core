@@ -98,6 +98,8 @@ class OneShotCoreSink(MetadataCoreSink):
 
 class OneShotObserver(ShadowObserver):
     """Same FIFO worker/deadline/logger/close; never accepts a synthetic permit for real metadata."""
+    operator_binding_verified=False
+
     async def callback_real(self,raw):
         try:
             if not self.active:self._record('DROP_INACTIVE');return None

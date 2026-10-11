@@ -10,12 +10,17 @@ from astrbot.api.star import Star, register
 _ADAPTER=None
 
 def bind_reviewed_adapter(adapter):
-    from tools.nana_astrbot_shadow.one_shot_ingress import OneShotObserver
-    from .message_hook_adapter import OneShotMessageHookAdapter
-    if adapter is not None and (type(adapter) is not OneShotMessageHookAdapter
-                              or type(adapter.observer) is not OneShotObserver):
-        raise ValueError('ONE_SHOT_ADAPTER_REQUIRED')
     global _ADAPTER
+    if adapter is not None:
+        from tools.nana_astrbot_shadow.one_shot import ProductionTrustStore, PRODUCTION_REVIEW_PINS
+        from tools.nana_astrbot_shadow.one_shot_ingress import OneShotObserver
+        from .message_hook_adapter import OneShotMessageHookAdapter
+        if (type(adapter) is not OneShotMessageHookAdapter
+            or type(adapter.observer) is not OneShotObserver
+            or type(adapter.observer._sink.trust) is not ProductionTrustStore
+            or not PRODUCTION_REVIEW_PINS
+            or adapter.observer.operator_binding_verified is not True):
+            raise ValueError('TRUSTED_PRODUCTION_ONE_SHOT_ADAPTER_REQUIRED')
     previous=_ADAPTER;_ADAPTER=adapter
     return previous
 

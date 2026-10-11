@@ -90,7 +90,9 @@ def build_operator_observer(directory,receipt_id,*,timeout=.2,logger=None):
         if scope!=r.hash_scope:raise ValueError('HASH_SCOPE_MISMATCH')
     s=OneShotSanitizer(scope=scope,hash_key=bytes.fromhex(key),receipt_id=receipt_id)
     sink=OneShotCoreSink(directory,s,receipt_id)
-    return OneShotObserver(s,sink,timeout=timeout,logger=logger)
+    observer=OneShotObserver(s,sink,timeout=timeout,logger=logger)
+    observer.operator_binding_verified=True
+    return observer
 
 
 def main(argv=None):
