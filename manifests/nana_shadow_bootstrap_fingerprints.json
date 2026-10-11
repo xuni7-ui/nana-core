@@ -1,0 +1,11 @@
+{
+  "baseline": "8ff57a3a227ee1c35ed34cf314866300e34d01f8",
+  "files": {
+    "docs/nana_shadow_bootstrap.md": "bddc126abd87707088e17743e6f123e5f0a5be66971bb510173f56c477baa3d9",
+    "docs/nana_shadow_bootstrap_evidence/blocker_facts.json": "86c9c562653c02bf5a78bfed19321515ae4228f0c3d8993ba27d1ebf0349bcaf",
+    "docs/nana_shadow_bootstrap_evidence/m1_tests.txt": "a37fb76a532081ee7ce882301c31441393b4cdf8403a768500ce7dd9e8b0bfbf",
+    "docs/nana_shadow_bootstrap_evidence/source_downloads.json": "a3dee78ef127de2af315482538b632c7f28f1510a5a620226cd58e4542824ffa",
+    "docs/nana_shadow_bootstrap_evidence/upstream_runtime_audit.json": "15383a75cf5e94153b91ce3a33586d1e94c52a0db782827ec0b0227ef91c2dcd"
+  },
+  "scope": "phase3 controlled code and synthetic/metadata evidence; excludes self/ledgers"
+}

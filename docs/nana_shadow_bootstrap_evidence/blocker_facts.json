@@ -1,0 +1,17 @@
+{
+  "baseline": "8ff57a3a227ee1c35ed34cf314866300e34d01f8",
+  "approved_Core_source": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
+  "host_versions": {"python": "3.12.14", "sqlite": "3.46.1", "pydantic": "2.13.5", "source": "user-reported; raw host report absent from current repository"},
+  "python3_13": {"sqlite": "3.46.1", "pydantic": "missing", "source": "user-reported; not a usable approved runtime"},
+  "host_shadow_directory": "user reports absent; no current host inspection",
+  "host_approved_package": "user reports absent; no current host inspection",
+  "real_host_access": "NO",
+  "environment_spec_revision": "48",
+  "configured_capabilities": [],
+  "configured_credential_bindings": [],
+  "FIRST_REAL_CLOUD_SHADOW": "BLOCKED_NO_HOST_CHANNEL",
+  "old_gate_against_reported_host": "BLOCKED_INCOMPATIBLE",
+  "production_changes": 0,
+  "private_records_read": 0,
+  "secret_values_read": 0
+}

@@ -1,0 +1,21 @@
+{
+  "milestone": "C-060",
+  "reviewed_files": [
+    "docs/nana_shadow_bootstrap.md",
+    "docs/nana_shadow_bootstrap_evidence/blocker_facts.json",
+    "docs/nana_shadow_bootstrap_evidence/m1_tests.txt",
+    "docs/nana_shadow_bootstrap_evidence/source_downloads.json",
+    "docs/nana_shadow_bootstrap_evidence/upstream_runtime_audit.json",
+    "manifests/nana_shadow_bootstrap_fingerprints.json",
+    "manifests/nana_shadow_bootstrap_review.json"
+  ],
+  "allowlist_violations": [],
+  "credential_pattern_findings": [],
+  "fingerprint_anchor": "82ef88ea168846e9fed09b8af14d6cd80afbedfb616722648d2c4e62fcb35772",
+  "license_boundary": "Iris schema interoperability independently implemented; no AGPL code vendored; original license pending",
+  "runtime_db_uploaded": false,
+  "production_changes": false,
+  "private_records_read": 0,
+  "secret_values_read": 0,
+  "summary": "Shadow Bootstrap M1: evidence-tagged host blockers and SQLite WAL-reset durability audit; 10 targeted passed"
+}
