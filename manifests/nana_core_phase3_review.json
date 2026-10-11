@@ -1,10 +1,12 @@
 {
-  "milestone": "C-040",
+  "milestone": "C-041",
   "reviewed_files": [
     "PROJECT_BRAIN/09_STATE.md",
     "PROJECT_BRAIN/10_DECISIONS.md",
     "PROJECT_BRAIN/11_CHANGELOG.md",
     "docs/nana_core_phase3_entry.md",
+    "docs/nana_core_phase3_evidence/initiative_cases.json",
+    "docs/nana_core_phase3_evidence/initiative_tests.txt",
     "docs/nana_core_phase3_evidence/iris_source_manifest.json",
     "docs/nana_core_phase3_evidence/iris_tests.txt",
     "docs/nana_core_phase3_evidence/memory_reconciliation.json",
@@ -19,21 +21,24 @@
     "manifests/nana_core_phase3_review.json",
     "manifests/upload_whitelist.md",
     "src/nana_core/development/public_http.py",
+    "src/nana_core/initiative.py",
     "src/nana_core/memory.py",
     "src/nana_core/migration/iris.py",
     "src/nana_core/migration/iris_fixtures.py",
     "src/nana_core/phase3/__init__.py",
+    "src/nana_core/phase3/initiative_cases.py",
     "src/nana_core/phase3/memory_rehearsal.py",
     "src/nana_core/phase3/public_probe.py",
+    "tests/phase3/test_initiative.py",
     "tests/phase3/test_iris_adapter.py",
     "tests/phase3/test_memory.py",
     "tests/phase3/test_network_stage.py"
   ],
   "allowlist_violations": [],
   "credential_pattern_findings": [],
-  "fingerprint_anchor": "fa1ea7258bcc0b6a8c04262f77430923e1b80d0a89cced6dc11e08c9a391c94d",
+  "fingerprint_anchor": "9522567d2a20492d3babd86f647a512bf84e07a96c3d2d1b2c443e6756b5dd3d",
   "license_boundary": "Iris schema interoperability independently implemented; no AGPL code vendored; original license pending",
   "runtime_db_uploaded": false,
   "production_changes": false,
-  "summary": "Phase III M4: reconcile source-backed claims across restart and pure shadow retrieval"
+  "summary": "Phase III M5: persist evidence-backed initiative candidates without granting execution rights"
 }

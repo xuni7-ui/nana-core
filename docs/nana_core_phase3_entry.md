@@ -25,3 +25,12 @@
 MemoryDecisionFixture明确接收selected memory context，在原始proposal中引用最新否定偏好及实际memory ID；没有模型推理、没有自动执行。10 targeted passed。memory_reconciliation.json为实际CLI对账。
 
 P7为PARTIAL：old Iris-style lexical+legacy-confidence纯函数surrogate对比，不运行真实FAISS/embedding或生产Runtime。相同query以m1/m2为明确重要证据ground truth，surrogate top1 recall0、Core recall1，contradictions0对2；来源artifact可用率、已知时间数量、context chars、unsupported ID率、dropped重要项均报告。该unsupported率不是LLM幻觉语义评分；真实Iris检索一致性NOT_RUN。影子前后Store snapshot逐字相同，无Goal/Action/预算/Strategy写入。
+
+## M5 主动候选与价值冲突
+[实测] GoalCandidate/Initiative复用memory_items.CLAIM、Event、Identity charter、jobs/Scheduler和现有Runtime/ActionKernel，无新表/框架。strict proposal存purpose、intent、evidence refs、need/importance/urgency/confidence/disturbance、user discretion、required capability/resource；提出PROPOSED与评估ACCEPTED/DEFERRED/REJECTED/BLOCKED分离，接受不是执行授权。模型给出的数值是待核实判断，不冒充真实风险识别。
+
+评估记录identity/revision/charter、why/priority/evidence与permission_source，不足优先级可不打扰；DEFERRED/ACCEPTED安排现有wake job但不创建Goal/Action。外部能力不可用则BLOCKED；ReadingCard显式activate再由Runtime/Core校验每一步授权预算，未授权card仍BLOCKED，不能借candidate前置接受扩大权限。Pending candidate/job重启保持；输入重复不重复candidate，冲突key拒绝。
+
+[实测] 22 targeted passed（新3+已有Runtime/learning19）；实际合成场景6/6符合结果：普通情绪低落DEFERRED；非紧急不同意见ACCEPTED dialogue；潜在严重但证据不足ACCEPTED information，不提出外泄；高可信迫切风险、要求保密及无联系授权均允许存提出的external candidate但BLOCKED能力不可用。保密意愿进入记录，不能伪造Grant；contact不是此次可执行能力。所有场景Action/Goal/Grant0、第三方联系0，initiative_cases.json。
+
+[未知] 真实模型的风险识别、价值判断语义和真实沟通能力未验收；没有联系模块/告状模块/场景专属框架。Fixture只证明结构能表达独立判断，不宣称数值可信。当前非reading intent只有候选/调度，不是可执行通用Plan模板。

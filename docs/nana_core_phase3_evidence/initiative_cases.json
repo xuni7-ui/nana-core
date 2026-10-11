@@ -1,0 +1,66 @@
+{
+  "scope": "synthetic structured judgement inputs; not real model understanding or contact ability",
+  "cases": [
+    {
+      "case": "ordinary_low_mood",
+      "candidate_id": "d1fde63f01f829e2258b3a08b67caf7c91c8a880c6b5e90fc893f70552975404",
+      "state": "DEFERRED",
+      "expected": "DEFERRED",
+      "reason": "LOW_PRIORITY_RESPECT_NON_INTERRUPTION",
+      "user_preference_considered": false,
+      "passed": true
+    },
+    {
+      "case": "nonurgent_disagreement",
+      "candidate_id": "d3ff2f3313422c9e14bba11f49df6943d4543a2278b89e9bf594dc1df21735db",
+      "state": "ACCEPTED",
+      "expected": "ACCEPTED",
+      "reason": "EVIDENCE_REFERENCED_NEED_EXCEEDS_DISTURBANCE",
+      "user_preference_considered": false,
+      "passed": true
+    },
+    {
+      "case": "uncertain_serious_risk",
+      "candidate_id": "9a1494e4c993d83d0038c02ce99ec397fdc92e9dc6cc25d2e064da2208b36892",
+      "state": "ACCEPTED",
+      "expected": "ACCEPTED",
+      "reason": "EVIDENCE_REFERENCED_NEED_EXCEEDS_DISTURBANCE",
+      "user_preference_considered": false,
+      "passed": true
+    },
+    {
+      "case": "urgent_supported_risk",
+      "candidate_id": "a30ae5378f8eeac7b50b5efd6f458e7af1882e3034aef42b65c180768d913379",
+      "state": "BLOCKED",
+      "expected": "BLOCKED",
+      "reason": "CAPABILITY_NOT_AVAILABLE",
+      "user_preference_considered": false,
+      "passed": true
+    },
+    {
+      "case": "discretion_request",
+      "candidate_id": "2c3da559b34349f26cb256f9153692d1c8f2bbb13e56dbe59fd483caad416e5a",
+      "state": "BLOCKED",
+      "expected": "BLOCKED",
+      "reason": "CAPABILITY_NOT_AVAILABLE",
+      "user_preference_considered": true,
+      "passed": true
+    },
+    {
+      "case": "no_contact_grant",
+      "candidate_id": "665e88ba01023d6e2290ec9bc694d00f678f636e44acdd3d038b56b5e2446438",
+      "state": "BLOCKED",
+      "expected": "BLOCKED",
+      "reason": "CAPABILITY_NOT_AVAILABLE",
+      "user_preference_considered": false,
+      "passed": true
+    }
+  ],
+  "passed": true,
+  "actions": 0,
+  "grants": 0,
+  "goals": 0,
+  "production_calls": 0,
+  "real_model_calls": 0,
+  "third_party_contacts": 0
+}

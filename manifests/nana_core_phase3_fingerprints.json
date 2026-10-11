@@ -1,7 +1,9 @@
 {
   "baseline": "29872608b7b82fcca4a89a3be98fda8e8c65337f",
   "files": {
-    "docs/nana_core_phase3_entry.md": "1b2816eef88fc16cda79d94fda642d1db68307032766918f766eb477448ad674",
+    "docs/nana_core_phase3_entry.md": "4bfaaa0de2d8822ae34ff2a945d508ef0ecd6a1a63bb2aa28acba2295ff99432",
+    "docs/nana_core_phase3_evidence/initiative_cases.json": "1620606762e4f44cdbf02a5dd6a09cfe9ddea02c3bea51a8cb18830dd306e77d",
+    "docs/nana_core_phase3_evidence/initiative_tests.txt": "0aa26e08d563c3e80631f692da82cc6ab2b28a6b1b52bef3401c1af5affea9ff",
     "docs/nana_core_phase3_evidence/iris_source_manifest.json": "00dabde50412842ea7c8b29e3b58c2326591e8c57874e0f4601532346659b6eb",
     "docs/nana_core_phase3_evidence/iris_tests.txt": "119bdb7c7202033cb023c943d5b052992f7e8e447a96b04f13b40833576135c2",
     "docs/nana_core_phase3_evidence/memory_reconciliation.json": "c49b90d0c023bcf557e096acca58a39ddd9b7cb37abf142d31784c0931c50bc1",
@@ -13,12 +15,15 @@
     "docs/nana_core_phase3_evidence/semantic_report.json": "4c8903c73e58f9082ea011a3db490362caa8b387ee4dff3ff370817cea640df3",
     "docs/nana_core_phase3_iris_mapping.md": "7cfd01e6ffad0e0798e01c5f74d6124b75aa20687f4429eee13281110879d316",
     "src/nana_core/development/public_http.py": "2360cb5401473654627356dc3beae269e117a2c42e426b5e031a63266fd689a0",
+    "src/nana_core/initiative.py": "be124cd10c757698f7b8093fef08bcb7a52da3853654417ac0afab522869156d",
     "src/nana_core/memory.py": "cac22b034db6634ff10a480df5986b7a0b3a55a8df889363460d648e1a63433d",
     "src/nana_core/migration/iris.py": "f1e5e7c914cd67e1868a3504670cc06ed669fdbd0249fcd6227289e4eb26ab2d",
     "src/nana_core/migration/iris_fixtures.py": "c79f736e9c68234de64cd12e4b9747d9b62efdbd21a767d0c7fdd1e858bc0417",
     "src/nana_core/phase3/__init__.py": "33d8d49f081e52d9d333e924fdbb599d8fdefd9e7031439119b055a63bf093ef",
+    "src/nana_core/phase3/initiative_cases.py": "5c5f4aaf3ec799abe89e68419f9089c9ec1b568f978eb191006cc83d6b5eb4f1",
     "src/nana_core/phase3/memory_rehearsal.py": "a08125dd65504902db3ea99215627a2af0828a17f51b9dc29956272e834a6c1a",
     "src/nana_core/phase3/public_probe.py": "2c8010c1ce6d5081320b6dd711c43b82b822dbd9695c7f22020b0389016f3509",
+    "tests/phase3/test_initiative.py": "8cce1c7b0f368cc0ff2f67308f041bd9fdf36d1cbea1e47fa7f1bb5bf8f89467",
     "tests/phase3/test_iris_adapter.py": "6261625ef92b9ac8ba8eff6cc9c0d40ed5d731458583f5d1ecc10f84b6095582",
     "tests/phase3/test_memory.py": "aac54aeb620d9cf91d016272110cfa963cfde1845efac4a78a8cc7854defffe8",
     "tests/phase3/test_network_stage.py": "600d5a659a02560364846ab98599feec9b10237dffe2531181baa6efdf166f8d"

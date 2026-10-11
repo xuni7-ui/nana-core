@@ -441,3 +441,9 @@
 - 为什么：新陈述不能销毁旧证据，summary/inference/旧confidence不升级；影子不写Goal/Action/Grant/Strategy。
 - [实测] 怎么验证：10 targeted passed；CLI14导入/0拒绝、重启14duplicate、1KGrelation、1冲突组、identity/time/source/replay一致；source raw逐字对账；导入和preview没有动作/权限/预算。query重要证据recall surrogate0/Core1，矛盾可见0/2，shadow前后snapshot一致；fixture原始proposal实际引用当前否定陈述及memory ID。
 - [未知] 真实模型理解、Iris真实embedding retrieval parity；后者PARTIAL只测纯surrogate，不部署。零依赖/新Core表。映射M3已保存ef51373570363ed715cb6eb0732365d4e611e86b。
+
+## C-041 — M5 主动候选与价值冲突工程夹具
+- 改了什么：通用GoalCandidate/Initiative、复用Scheduler、六合成情境；待决候选重启、来源/identity/revision/charter/理由、接受与执行分离。
+- 为什么：支持独立建议/反对/信息获取和不打扰，不构建联系/关怀专用系统，不以模型提案授予权限。
+- [实测] 怎么验证：22 targeted passed；六场景6/6，低优先级DEFERRED，非紧急dialogue与先询问信息ACCEPTED，所有contact intent BLOCKED，消息0。ReadingCard显式activation仍不能越过card Grant，pending重启相同；GoalCandidate存入不执行Action。零新增Core表/依赖；真实判断语义未验证。
+- M4已保存远端51c28cf29e5ac970d401f19b1ce2c7fa76534a81一致。

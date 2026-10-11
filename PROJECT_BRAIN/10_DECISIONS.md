@@ -195,3 +195,6 @@
 
 ## D-039 — Iris互操作与最小信念
 [文档] 独立解释锁定Iris字段，不搬第三方执行代码；11类记录保留原JSON和unmapped字段。Canonical claim/profile/relation放现有memory_items JSON，schema不扩展。发生/旧观察/导入时间分离；naive仅按锁定Iris UTC约定并显式标注。支持/矛盾证据不可覆盖；新旧用户原话的operator annotation有明确定时才可supersede，否则disputed。Core VERIFIED/Grant/Action/Strategy不能从legacy赋值。Iris-style shadow是明确surrogate，不声称真实向量检索parity。
+
+## D-040 — 候选主动性不赋予权限
+[文档] GoalCandidate记录在既有CLAIM projection，评估通用need/priority/confidence/disturbance及引用证据，分离提案/接受/执行。Scheduler wake只是唤醒，不等于自主目的或外发。ReadingCard可通过既有Runtime显式activate，ActionKernel独立逐步授权；其他意图当前只表达候选，不为contact虚构能力。用户意愿进入判断但不能授予权限，也不删除charter；所有数值fixture judgment不能冒充真实语义能力。

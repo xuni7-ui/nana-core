@@ -259,3 +259,7 @@
 [实测] C-040：M4非生产迁移演习③已运行验收，14import/0reject→重启14duplicate，1relation/1conflict group，identity/time/source/replay保持，Goal/Action/Grant/Strategy/Budget0。10 targeted passed。MemoryView冲突及来源检索②已测试；P7影子PARTIAL（lexical surrogate，无真实Iris向量parity），E12 NOT_RUN。无新表/依赖。
 
 [实测] C-040 指纹锚点 fa1ea7258bcc0b6a8c04262f77430923e1b80d0a89cced6dc11e08c9a391c94d；仅本检查点文件状态，不证明生产。
+
+[实测] C-041：M5主动候选/价值冲突②已测试，22 targeted pass；fixture6/6，提出/接受/调度/执行隔离，contact BLOCKED、第三方联系0，pending重启保持。真实风险判断语义④未知；非reading计划模板未执行，无新表/依赖。M4远端51c28cf29e5ac970d401f19b1ce2c7fa76534a81。
+
+[实测] C-041 指纹锚点 9522567d2a20492d3babd86f647a512bf84e07a96c3d2d1b2c443e6756b5dd3d；仅本检查点文件状态，不证明生产。
