@@ -49,3 +49,16 @@ def test_dormant_plugin_no_body_no_yield_and_fixture_bind_blocked(tmp_path,monke
     assert asyncio.run(main.nana_shadow_r04_on_decorating_result(FakeEvent())) is None
     assert asyncio.run(main.NanaShadowOneShotObserver().terminate()) is None
     assert main._ADAPTER is None
+
+def test_integrity_gate_never_executes_tampered_entry(tmp_path):
+    import subprocess,hashlib
+    root=tmp_path/'package';root.mkdir()
+    marker=tmp_path/'must-not-exist'
+    original=b'print("unexecuted original")\n'
+    (root/'observer_entry.py').write_text('from pathlib import Path\nPath('+repr(str(marker))+').write_text("unsafe")\n')
+    manifest={'files':{'observer_entry.py':hashlib.sha256(original).hexdigest()}}
+    (root/'manifest.json').write_text(json.dumps(manifest))
+    (root/'SHA256SUMS').write_text('not-trusted')
+    p=subprocess.run(['python3.12','-I','-B','-S',str(Path('tools/nana_astrbot_shadow/r04_entry.py').resolve()),str(root),'harness'],capture_output=True,text=True)
+    assert p.returncode==2 and json.loads(p.stdout)['status']=='BLOCKED'
+    assert not marker.exists()

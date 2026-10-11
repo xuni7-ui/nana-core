@@ -469,3 +469,5 @@
 [实测/开发] R04-C8-HARDEN: Dormant plugin blocks fixture trust and empty pins; 62 R04 targeted passed; earlier 65 count corrected to62. Fingerprint anchor 6fe8ab2aee25643b7b51a2717e9534759f2ddcf9e153318c537c1bf21e2bd994; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
 
 [实测/开发] R04-C8-SEAL: Exact UTC microseconds, non-remintable permit and single-writer rollback instructions; 63 targeted passed. Fingerprint anchor 219f64680149c80802b5cce92ee4f00406649d3fcb79d862fc8fdb26323895a9; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
+
+[实测/开发] R04-C8-INTEGRITY: Stdlib hash gate before package execution and fixed proof diagnostics; 64 targeted passed, full468 passed one E12 skip. Fingerprint anchor 7472c6fc703cb2ea739560203b0c74136e7e1b9464bf7a9aedb0c0d5a42bfaa9; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.

@@ -78,9 +78,14 @@ def verify_first_real_message_shadow(report,ledger):
             or type(binding) is not str or REAL_RUNTIME_PROOF_PINS.get(digest(report))!=binding):
             return {'status':'UNKNOWN','missing':['INDEPENDENT_REAL_RUNTIME_PROOF'], 'host_binding':'UNVERIFIED'}
         return {'status':'REAL_MESSAGE_SHADOW_PROOF_COMPLETE','missing':[],'host_binding':'VERIFIED'}
-    except BaseException:
+    except BaseException as exc:
+        # Fixed trusted error codes only, never stringify foreign exceptions.
+        codes={'REPORT_SCHEMA','CORE_RECORD_MISSING_OR_TAMPERED','EVENT_EVIDENCE_LINK','EVIDENCE_CONTENT_LINK',
+               'SOURCE_TIME_LINK','CANDIDATE_LINK','SHADOW_PLAN_DECISION_LINK','IDENTITY_LINK',
+               'CONSUMPTION_COMMIT_ORDER','PERSISTENT_REPLAY_FENCE','PERSISTENT_DEDUP_ALIAS','SHADOW_BARRIER'}
+        code=exc.args[0] if type(exc) is ValueError and len(exc.args)==1 and type(exc.args[0]) is str and exc.args[0] in codes else 'PERSISTENT_PROOF_READBACK'
         # No exception/input repr to logs, including hostile user objects.
-        return {'status':'INCOMPLETE','missing':['PERSISTENT_PROOF_READBACK'], 'host_binding':'UNVERIFIED'}
+        return {'status':'INCOMPLETE','missing':[code], 'host_binding':'UNVERIFIED'}
 
 
 def mark_verified(report,ledger):
