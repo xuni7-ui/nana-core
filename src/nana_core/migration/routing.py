@@ -22,19 +22,25 @@ class BoundCapabilityPort:
 
 
 class CapabilityRouter:
-    def __init__(self, store, ports, authority, *, resource_scope="synthetic_only"):
-        if set(ports) != CAPABILITIES:
+    def __init__(self, store, ports, authority, *, resource_scope="synthetic_only", registry=None):
+        self.registry = registry
+        expected_capabilities = set(registry.definitions) if registry else CAPABILITIES
+        if set(ports) != expected_capabilities:
             raise CoreError("CLOSED_SYNTHETIC_REGISTRY_REQUIRED")
+        if registry and resource_scope != "isolated_development":
+            raise CoreError("DEV_REGISTRY_SCOPE_REQUIRED")
+        if not registry and resource_scope == "isolated_development":
+            raise CoreError("DEV_REGISTRY_REQUIRED")
         if any(getattr(p, "path", None) and p.path.resolve() == store.path.resolve() for p in ports.values()):
             raise CoreError("CAPABILITY_DATABASE_MUST_BE_SEPARATE")
-        if resource_scope not in {"synthetic_only", "development_public"}:
+        if resource_scope not in {"synthetic_only", "development_public", "isolated_development"}:
             raise CoreError("INVALID_DEVELOPMENT_RESOURCE_SCOPE")
         self.store, self._ports, self._authority = store, dict(ports), authority
         self._resource_scope = resource_scope
         if self.owner and self.owner["scope"] != resource_scope:
             raise CoreError("ROUTER_SCOPE_MISMATCH")
         # Reuse existing grant/time validation; this object never dispatches.
-        self._grant_gate = ActionKernel(store, None, authority)
+        self._grant_gate = ActionKernel(store, None, authority, registry=registry)
 
     def _operator(self, authority):
         if authority is not self._authority:
@@ -96,6 +102,8 @@ class CapabilityRouter:
             raise CoreError("ROUTE_INVOCATION_MISMATCH")
         prefixes = ("source://synthetic/", "notebook://synthetic/") if self._resource_scope == "synthetic_only" else (
             "source://public/", "notebook://synthetic/")
+        if self.registry:
+            prefixes = ("workspace://synthetic/",)
         if not invocation.resource.startswith(prefixes):
             raise CoreError("SYNTHETIC_RESOURCE_REQUIRED")
         return action
@@ -104,11 +112,11 @@ class CapabilityRouter:
         if (not attempt or attempt["kind"] != kind or attempt["started_at_us"] is None
             or attempt["outcome"] is not None):
             raise CoreError("AUTHORIZED_ATTEMPT_REQUIRED")
-        capability = VERIFY_CAPABILITY if kind == "VERIFY" else invocation.capability
+        capability = self._grant_gate.verify_capability if kind == "VERIFY" else invocation.capability
         self._grant_gate._grant_for(capability, invocation.resource, attempt["grant_id"])
         holds = {h["dimension"]: h for h in self.store.all("budget_holds") if h["owner_id"] == attempt["attempt_id"]}
         expected = {"external_requests": "SPENT", "cost_micro_units": "HELD"}
-        if kind == "EXECUTE" and capability == "reading.card.create":
+        if kind == "EXECUTE" and (self.registry.is_write(capability) if self.registry else capability == "reading.card.create"):
             expected["write_attempts"] = "SPENT"
         if any(d not in holds or holds[d]["status"] != state or holds[d]["amount"] != 1 for d, state in expected.items()):
             raise CoreError("CONSUMED_ATTEMPT_BUDGET_REQUIRED")

@@ -55,3 +55,16 @@ Memory M0 Iris authoritative/writer Iris；M1 Iris writer+Core影子导入；M2 
 Production capability目录见`integration/capabilities.py`：B站/AstrBot send/allowlist file-read/QQ-NapCat，每项version/read-write/scope/Grant/幂等/verify/UNKNOWN恢复/maturity。所有生产adapter执行禁用。B站旧源码bili_send_core.py:318–320将send回包称VERIFIED；这不是Core独立核验，必须标LEGACY_PARTIAL，未来需以list/作者/content/root/rpid独立证据MATCH才能升级。AstrBot补丁仅发送平台适配，不提供统一delivery证明，不能伪造VERIFIED。
 
 [实测] M4旧S6+新protocol 30 passed，未决proposed action阻止换主，cancel后epoch1→2→rollback3，缺budget/snapshot等check阻止，memory writer翻转前必须证据+fence。首次测试导入错名FakeCapability，按真实FakeWorld修正后保留断言；不改旧用例。
+
+## Initiative, persona and bounded engineering integration (M5)
+InitiativeHostGate只复用GoalCandidate/Initiative/jobs；Grant gate恒SHADOW_BLOCKED、activate恒拒绝。提出/评价/调度是思考，不是行动权；charter、当下意愿、长期evidence进入既有candidate，重复/重启同candidate/job，不新建“告状”系统。原六场景继续回归。Identity+Memory claim/EPISODE+Experience可存synthetic姐姐标识/称呼/人物关系/偏好/共同经历/未完成承诺/长期目标，无新Persona prompt或人格生成器；这些fixture只是有来源的UNASSESSED记录，不能声明生产姐姐资料已恢复。
+
+`EngineeringRegistry`是**operator显式注入**原ActionKernel和CapabilityRouter的6能力集合，默认reading registry不变。复用同Grant/预算三维/Attempt/receipt/verify/state/owner epoch，不增Core表。资源只能workspace://synthetic/固定单workspace；file.patch/tests.run/git.commit计write_attempts，独立verify也占attempt预算。port本身再次检查持久route claim、action/args/resource/idempotency、活跃attempt、Grant时间/撤回、已消耗预算及owner，模型不能直接调用。执行中UNKNOWN仅核验，不重派。
+
+首次真实开发工程操作限定**一次性synthetic git repo**，不得运行当前Core或production代码；allow_paths精确、拒绝symlink/hardlink/secret/production字符串/main，无网络git操作、merge/push/deploy/docker/shell。当前file.patch仅Python字面量赋值数据，不接受import/call/任意代码；可信打包runner用AST检查值，**不import生成代码**。这是真实文件修改/固定subprocess测试/git dev commit，但不是通用任意Python工程sandbox。固定argv不等于OS filesystem隔离，通用代码执行仍需另阶段有证据的sandbox；本轮没有假装解除这个缺口。
+
+复用旧EngineeringPreparationPort路径检查和Bridge TaskSpec/check_boundaries，仍不调用旧Runner的shell/凭据路径。git关闭hooks/GPG/fsmonitor/external diff/textconv，子进程环境白名单，不继承模型/生产凭据。commit必须引用Core SUCCEEDED的tests.run、当前同workspace hash、指定parent、无越界dirty/staged文件；失败测试不得commit。模型只提供proposal，不提供test receipt/action id/Grant，Core接受并串行patch→tests→diff→commit。独立验证再读文件hash、实际HEAD/action trailer与可信测试执行记录，不以模型自述为证据。
+
+工程Goal/Plan复用既有表，新template engineering_literal（不增SQL），完成进入EPISODE及UNASSESSED engineering experience candidate，不自动启用Strategy或扩大权限。ModelSelectionPolicy无真实端点时BLOCKED→**明确fixture分支**；真实模型自主开发NOT_RUN，当前CompatibleModelPort仍reading schema，泛化工程真实模型proposal契约尚未接线。
+
+[实测] M5 targeted 74 passed（集成/旧ActionKernel/S6/initiative/selection），真实CLI四步骤均SUCCEEDED、8 Attempts、实际独立dev commit已产生，重复运行不重复patch/test/commit。新增真实SIGKILL在patch外部效果+durable外部journal之后、Core receipt之前；恢复只独立verify，EXECUTE仍1次，随后完成测试和commit。测试失败时commit保持UNKNOWN且HEAD不变，UNKNOWN再次run不重派。六能力均实际execute/verify测试，read/inspect/diff不耗write_attempts。工程夹具NOT_RUN真实语义，不输出真实自主开发能力。

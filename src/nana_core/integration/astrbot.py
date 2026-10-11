@@ -11,7 +11,7 @@ from .contracts import HostEvent
 class AstrBotObservationAdapter:
     def adapt(self, event):
         event = HostEvent.model_validate(event.model_dump())
-        return Observation(source_namespace=f'host.{event.host_instance}.{event.platform}',
+        return Observation(source_namespace='host.'+digest([event.host_instance,event.platform]),
             object_id=digest([event.conversation_id, event.event_id]), revision=event.revision,
             channel=event.channel, kind='unrelated', occurred_at=event.timestamp,
             raw_text=canonical({'host_event': event.model_dump(mode='json'),

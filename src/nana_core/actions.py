@@ -20,8 +20,12 @@ class OperatorAuthority:
 
 
 class ActionKernel:
-    def __init__(self, store, capability, authority: OperatorAuthority):
+    def __init__(self, store, capability, authority: OperatorAuthority, *, registry=None):
         self.store, self.capability, self._authority = store, capability, authority
+        # Trusted operator construction only. Default V1 remains closed reading.
+        self.registry = registry
+        self.capabilities = frozenset(registry.definitions) if registry else frozenset(CAPABILITIES)
+        self.verify_capability = registry.verify_capability if registry else VERIFY_CAPABILITY
         if getattr(capability, "path", None) and capability.path.resolve() == store.path.resolve():
             raise CoreError("EXTERNAL_WORLD_MUST_BE_SEPARATE")
 
@@ -43,7 +47,7 @@ class ActionKernel:
 
     def grant(self, spec: GrantSpec, authority):
         self._operator(authority)
-        if not set(spec.capabilities) <= CAPABILITIES | {VERIFY_CAPABILITY}:
+        if not set(spec.capabilities) <= self.capabilities | {self.verify_capability}:
             raise CoreError("UNKNOWN_CAPABILITY")
         if spec.expires_at_us <= spec.not_before_us:
             raise CoreError("INVALID_GRANT_TIME")
@@ -92,8 +96,10 @@ class ActionKernel:
                          version=action["version"] + 1, **fields)
 
     def _valid_args(self, capability, resource, args):
-        if capability not in CAPABILITIES:
+        if capability not in self.capabilities:
             raise CoreError("UNKNOWN_CAPABILITY")
+        if self.registry:
+            return self.registry.validate(capability, resource, args)
         model = CardArgs if capability == "reading.card.create" else SourceArgs
         parsed = model.model_validate(args)
         if capability.startswith("reading.source.") and parsed.source_id != resource:
@@ -166,7 +172,7 @@ class ActionKernel:
                     raise CoreError("ATTEMPTS_EXHAUSTED")
                 attempt_id = self._attempt(tx, action, grant, "EXECUTE")
                 requirements = {"external_requests": 1, "cost_micro_units": 1}
-                if action["capability"] == "reading.card.create":
+                if (self.registry.is_write(action["capability"]) if self.registry else action["capability"] == "reading.card.create"):
                     requirements["write_attempts"] = 1
                 self._reserve(tx, attempt_id, requirements)
                 self._change(tx, action, "READY", attempt_id=attempt_id, body_json="{}")
@@ -219,7 +225,7 @@ class ActionKernel:
             raise CoreError("ILLEGAL_ACTION_TRANSITION")
         invocation = self._invocation(action)
         with self.store.transaction("action.verification_started", {"action_id": action_id}) as tx:
-            grant = self._grant_for(VERIFY_CAPABILITY, action["resource"])
+            grant = self._grant_for(self.verify_capability, action["resource"])
             self._stamp_auth_time(tx)
             verification_attempt = self._attempt(tx, action, grant, "VERIFY")
             self._reserve(tx, verification_attempt, {"external_requests": 1, "cost_micro_units": 1})
