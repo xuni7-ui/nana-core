@@ -65,6 +65,7 @@ class PublicHTTPTransport:
         self._policy_path = Path(policy_path)
         self.http_requests = 0
         self.proxy_connections = 0
+        self.last_stage = "NOT_STARTED"
 
     def _addresses(self, host, port, timeout):
         result = queue.Queue(maxsize=1)
@@ -142,9 +143,12 @@ class PublicHTTPTransport:
 
         url = urlsplit(spec.url)
         port = 443 if url.scheme == "https" else 80
+        self.last_stage = "PROXY_CONFIGURATION"
         proxy_host, proxy_port = self._proxy(url.scheme)
+        self.last_stage = "DNS_FIRST"
         first = self._addresses(url.hostname, port, remaining())
         remaining()
+        self.last_stage = "DNS_SECOND"
         second = self._addresses(url.hostname, port, remaining())
         remaining()
         if first != second:
@@ -182,19 +186,23 @@ class PublicHTTPTransport:
             if url.scheme == "https":
                 connection.set_tunnel(selected, port)
             self.proxy_connections += 1
+            self.last_stage = "PROXY_TCP_CONNECT_OR_CONNECT_TUNNEL"
             connection.connect()
             remaining()
             deadline_socket = connection.sock.dup()
             if url.scheme == "https":
                 connection.sock.settimeout(remaining())
+                self.last_stage = "TLS"
                 connection.sock = self._tls_context().wrap_socket(connection.sock, server_hostname=url.hostname)
             connection.sock.settimeout(remaining())
             target = path if url.scheme == "https" else f"http://{numeric_host}{path}"
             self.http_requests += 1  # Attempt, not proof that the origin received it.
+            self.last_stage = "HTTP_SEND"
             connection.request(spec.method, target, headers={"Host": host_header,
                 "Accept-Encoding": "identity", "Connection": "close"})
             connection.sock.settimeout(remaining())
             stream_socket = connection.sock
+            self.last_stage = "HTTP_RESPONSE_HEADERS"
             response = connection.getresponse()
             remaining()
             if 300 <= response.status < 400:
@@ -207,6 +215,7 @@ class PublicHTTPTransport:
             if length is not None and (not length.isdecimal() or
                 (spec.method == "GET" and int(length) > spec.max_bytes)):
                 raise CoreError("WEB_BODY_LIMIT")
+            self.last_stage = "HTTP_BODY"
             body = bytearray()
             if spec.method == "GET":
                 while True:
@@ -224,6 +233,7 @@ class PublicHTTPTransport:
             headers = {key.lower(): value for key in ("Content-Type", "Date", "Last-Modified", "ETag")
                        if (value := response.getheader(key)) is not None}
             remaining()
+            self.last_stage = "COMPLETE"
             return FetchResponse(spec.url, spec.method, response.status, headers, bytes(body),
                 int(datetime.now(timezone.utc).timestamp() * 1_000_000), {
                     "transport": "inherited_http_proxy_numeric_destination",

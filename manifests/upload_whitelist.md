@@ -104,3 +104,8 @@
 - `src/nana_core/development/*.py` / `tests/development/*.py`：受控网页与公开只读传输。
 - `src/nana_core/migration/routing.py`：仅可选 development_public scope，默认与生产边界保持。
 - `docs/nana_core_web_validation.md` / `docs/nana_core_development_evidence/*.json` / `docs/nana_core_development_evidence/*_output.txt` / `docs/nana_core_development_evidence/*junit.xml`：合成工程与脱敏调用证据；不得包含运行 DB、密钥、真实私人资料或公开站点全文。
+
+## Phase III 增量白名单
+- src/nana_core/phase3/*.py、src/nana_core/migration/iris*.py、src/nana_core/memory*.py、src/nana_core/initiative*.py、src/nana_core/semantic/selection.py、semantic/contracts.py、development/public_http.py；仅独立Core增量，不改生产树。
+- tests/phase3/*.py、docs/nana_core_phase3*.md、docs/nana_core_phase3_evidence/*.json/*.txt/*.xml、manifests/nana_core_phase3*.json、PROJECT_BRAIN、LICENSES_AND_PROVENANCE.md、pyproject.toml。
+- 不含DB、JSONL私人资料、运行凭据、完整第三方源树；上游Iris只在临时目录只读核对，不入库。

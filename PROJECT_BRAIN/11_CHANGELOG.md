@@ -420,3 +420,8 @@
 - [实测] 怎么验证：全量228 collected，227 passed /0failed /0errors /1skipped（E12）；S0—S4 56、S5 42、S6 29、开发100。最终回归26 loopback HTTP（12协议POST、8网页GET+1HEAD、5多工具GET），独立CLI另5GET；公开一次DNS超时HTTP0，真实模型0/费用0。final_junit.xml/final_regression_output.txt/final_integration_proof.json/final_delivery.json。
 - [实测] P3/P4 已保存远端 fced7f8204b82da03e6fc9d60fe73e29727c3d0c，ls-remote一致；最终检查点随后独立提交/推送，不合并main。敏感pattern/白名单/许可证复核、指纹更新；零依赖/Core schema变动。
 - [未知] E12、公开proxy/TLS真实wire、生产SSH鉴权/未知卷/容器关联及webhook/外部自动部署；未触碰生产/私人资料/密钥，不以未发现代替绝对无权限。
+
+## C-037 — Phase III 基线与单次公网验收
+- 改了什么：从已验证29872608b7b82fcca4a89a3be98fda8e8c65337f建立dev/nana-core-v1-phase3-entry，新增现有公网传输阶段标记、单次完整Core探针及证据。
+- 为什么：精确定位公网阻塞，不因普通网络失败误报能力，也不盲重试UNKNOWN。
+- [实测] 怎么验证：本地/远端原HEAD一致，工作区干净；旧227/0/1证据保持。新42 targeted passed；实际一次DNS_FIRST超时，HTTP0/proxy连接0/read UNKNOWN/goal BLOCKED，独立核验与Attempt持久。未改系统网络/TLS/生产。

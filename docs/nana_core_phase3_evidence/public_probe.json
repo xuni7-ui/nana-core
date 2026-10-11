@@ -1,0 +1,52 @@
+{
+  "scope": "one actual public capability attempt; deterministic planning; fake notebook",
+  "URL": "https://example.com/",
+  "last_stage": "DNS_FIRST",
+  "safe_error": "WEB_TIMEOUT",
+  "http_attempts": 0,
+  "proxy_connection_attempts": 0,
+  "identity": {
+    "identity_id": "977d67e3-fa4b-4a31-a630-8a55858eb543",
+    "revision": 1,
+    "body_json": "{\"charter\":[\"retain independent judgement\",\"evidence before success\",\"learning cannot expand permissions\"],\"expression_defaults\":{\"style\":\"warm and precise\"},\"name\":\"Nana\",\"self_preferences\":[]}",
+    "created_event_id": "dc622046-b162-4d98-925c-a543efd8734e"
+  },
+  "goal_state": "BLOCKED",
+  "read_state": "UNKNOWN",
+  "action_id": "c01ccc16-31a5-4866-a4ee-9cd70dbabb38",
+  "attempts": [
+    {
+      "attempt_id": "11dd4373-e072-4283-bbe4-7f99a6b9eb2d",
+      "action_id": "c01ccc16-31a5-4866-a4ee-9cd70dbabb38",
+      "grant_id": "65c880f1-bc54-4bbb-86a2-7d7d7205368d",
+      "kind": "EXECUTE",
+      "attempt_no": 1,
+      "started_at_us": 1791692457488810,
+      "outcome": null,
+      "receipt_event_id": null,
+      "verification_event_id": null
+    },
+    {
+      "attempt_id": "30005523-390b-4fad-8c42-b56acedf2c75",
+      "action_id": "c01ccc16-31a5-4866-a4ee-9cd70dbabb38",
+      "grant_id": "65c880f1-bc54-4bbb-86a2-7d7d7205368d",
+      "kind": "VERIFY",
+      "attempt_no": 2,
+      "started_at_us": 1791692462493742,
+      "outcome": "UNKNOWN",
+      "receipt_event_id": null,
+      "verification_event_id": "40940511-ee30-42d6-93fa-9e988db635bd"
+    }
+  ],
+  "receipt_event_id": null,
+  "verification_event_id": "40940511-ee30-42d6-93fa-9e988db635bd",
+  "HTTP_status": null,
+  "raw_content_hash": null,
+  "summary_hash": null,
+  "cited_result": null,
+  "public_gate": "BLOCKED",
+  "automatic_retries": 0,
+  "real_model_calls": 0,
+  "production_calls": 0,
+  "fees": 0
+}

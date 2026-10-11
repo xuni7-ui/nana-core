@@ -1,0 +1,13 @@
+{
+  "baseline": "29872608b7b82fcca4a89a3be98fda8e8c65337f",
+  "files": {
+    "docs/nana_core_phase3_entry.md": "bbe827ea64f17c8144f9343a47a083ff3045b036676342da59015e06c347684e",
+    "docs/nana_core_phase3_evidence/network_tests.txt": "ff02d5255c6b90b095e922f30a34052a3834fabbf8a74f967248493d4684a602",
+    "docs/nana_core_phase3_evidence/public_probe.json": "d6bdd683cd96f52dc65d6d56634f55e89bece4d257d4868a6774ef4d6c9d6ce8",
+    "src/nana_core/development/public_http.py": "2360cb5401473654627356dc3beae269e117a2c42e426b5e031a63266fd689a0",
+    "src/nana_core/phase3/__init__.py": "33d8d49f081e52d9d333e924fdbb599d8fdefd9e7031439119b055a63bf093ef",
+    "src/nana_core/phase3/public_probe.py": "2c8010c1ce6d5081320b6dd711c43b82b822dbd9695c7f22020b0389016f3509",
+    "tests/phase3/test_network_stage.py": "600d5a659a02560364846ab98599feec9b10237dffe2531181baa6efdf166f8d"
+  },
+  "scope": "phase3 controlled code and synthetic/metadata evidence; excludes self/ledgers"
+}

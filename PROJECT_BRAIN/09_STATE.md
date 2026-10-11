@@ -243,3 +243,7 @@
 [实测] 远端已保存P3/P4 fced7f8204b82da03e6fc9d60fe73e29727c3d0c，分支dev/nana-core-v1-dev-validation；最终HEAD以Git/ls-remote为准。报告docs/nana_core_web_validation.md、final_delivery.json；下一最短路径为开发DNS/代理适配的单次公网验收及两个既有额度真实开发ModelPort的E12。未更改总路线或生产树，零新增依赖/Core表。
 
 [实测] C-036 指纹锚点 ea365a72aa241b6db3ae95c43cb53131c1beeda528f04b659186263848ab6dc3；只证明采集时刻的源码/测试/证据，不证明生产。
+
+[实测] C-037：Phase III原基线29872608b7b82fcca4a89a3be98fda8e8c65337f本地/远端一致，新分支dev/nana-core-v1-phase3-entry。公网验收一次DNS_FIRST/WEB_TIMEOUT，HTTP0、proxy0，UNKNOWN保留；42 targeted passed。公网④未验证，其他独立任务继续，未动main/生产。
+
+[实测] C-037 指纹锚点 503a533c70ed3635c34d7db0a02b4aa2bfb04f5dff9b1664621e0216d386bb77；仅本检查点文件状态，不证明生产。

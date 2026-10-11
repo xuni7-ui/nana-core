@@ -1,0 +1,12 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/nana-core
+configfile: pyproject.toml
+plugins: anyio-4.14.2
+collected 42 items
+
+tests/development/test_public_http.py .................................. [ 80%]
+.......                                                                  [ 97%]
+tests/phase3/test_network_stage.py .                                     [100%]
+
+============================== 42 passed in 1.16s ==============================
