@@ -44,7 +44,10 @@ def records(data):
     for key,row in data.get('profile_kv',{}).items():
         parts=key.split(':');kind='user_profile' if parts[0]=='user_profile' else 'group_profile' if parts[0]=='group_profile' else None
         fields=USER_FIELDS if kind=='user_profile' else GROUP_FIELDS
-        if not kind or len(parts)!=(4 if kind=='user_profile' else 3) or not all(parts) or not isinstance(row,dict) or set(row)-fields:
+        # Native private-chat profiles may use an empty group bucket. Preserve
+        # that key; do not mistake it for an invented/invalid namespace.
+        if (not kind or len(parts)!=(4 if kind=='user_profile' else 3) or not parts[1]
+                or (kind=='user_profile' and not parts[-1]) or not isinstance(row,dict) or set(row)-fields):
             raise ValueError('WRAPPER_SCHEMA_DRIFT')
         identifier='user_id' if kind=='user_profile' else 'group_id'
         if row.get(identifier)!=parts[-1]:raise ValueError('WRAPPER_KEY_PAYLOAD_CONFLICT')

@@ -1,5 +1,5 @@
 {
-  "milestone": "C-063",
+  "milestone": "C-064",
   "reviewed_files": [
     "LICENSES_AND_PROVENANCE.md",
     "PROJECT_BRAIN/09_STATE.md",
@@ -16,6 +16,9 @@
     "docs/nana_shadow_bootstrap_evidence/contract_2134.json",
     "docs/nana_shadow_bootstrap_evidence/contract_2135.json",
     "docs/nana_shadow_bootstrap_evidence/development_build.json",
+    "docs/nana_shadow_bootstrap_evidence/final_protocol_proof.json",
+    "docs/nana_shadow_bootstrap_evidence/final_runtime_junit.xml",
+    "docs/nana_shadow_bootstrap_evidence/final_runtime_regression.txt",
     "docs/nana_shadow_bootstrap_evidence/host_versions_junit.xml",
     "docs/nana_shadow_bootstrap_evidence/host_versions_regression.txt",
     "docs/nana_shadow_bootstrap_evidence/initial_harness_host_versions_junit.xml",
@@ -24,6 +27,7 @@
     "docs/nana_shadow_bootstrap_evidence/initial_harness_pydantic_2135_regression.txt",
     "docs/nana_shadow_bootstrap_evidence/m1_tests.txt",
     "docs/nana_shadow_bootstrap_evidence/m3_tests.txt",
+    "docs/nana_shadow_bootstrap_evidence/m5_tests.txt",
     "docs/nana_shadow_bootstrap_evidence/pydantic_2135_junit.xml",
     "docs/nana_shadow_bootstrap_evidence/pydantic_2135_protocol_proof.json",
     "docs/nana_shadow_bootstrap_evidence/pydantic_2135_regression.txt",
@@ -52,11 +56,11 @@
   ],
   "allowlist_violations": [],
   "credential_pattern_findings": [],
-  "fingerprint_anchor": "3a2a859c90c3cb40932ee6de215659ce100026668611e4c1e797a705597d5706",
+  "fingerprint_anchor": "a246f2194cd1012269050c88bf98725354d6e39e31e0b91d5f6e2f8280b67d5c",
   "license_boundary": "Iris schema interoperability independently implemented; no AGPL code vendored; original license pending",
   "runtime_db_uploaded": false,
   "production_changes": false,
   "private_records_read": 0,
   "secret_values_read": 0,
-  "summary": "Shadow Bootstrap M4: one-file archive, interpreter-scoped preflight and real extracted-bundle SIGKILL validation PASS"
+  "summary": "Shadow Bootstrap M5: source-backed Iris native-field wrappers and metadata-only hook probe; 16 targeted passed, hook UNKNOWN"
 }

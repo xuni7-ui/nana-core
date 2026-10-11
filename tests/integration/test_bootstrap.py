@@ -79,6 +79,12 @@ def test_wrapper_drift_missing_fields_privacy_and_secret_are_rejected(tmp_path):
     with pytest.raises(ValueError):count_metadata({'l1':True,'user_profile':0,'group_profile':0})
 
 
+def test_profile_empty_group_bucket_is_preserved_not_silently_dropped():
+    data={'synthetic':True,'private':False,'profile_kv':{'user_profile:default::synthetic-user':{'user_id':'synthetic-user','version':1}}}
+    rows=records(data)
+    assert len(rows)==1 and rows[0][1]=='user_profile:default::synthetic-user'
+
+
 def test_hook_names_are_metadata_not_dynamic_hook_proof(tmp_path):
     p=tmp_path/'event_hook.py';p.write_text('def register_observer(): pass\ndef unregister_observer(): pass\n')
     r=probe([p]);assert r['available_API_names']==['register_observer','unregister_observer']
