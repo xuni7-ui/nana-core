@@ -81,3 +81,5 @@ ShadowBridge绑定Store `cloud.shadow_runtime`持久标志；原ActionKernel再�
 [实测] 独立两个CLI进程使用冻结synthetic export同一source/event/identity/draft，执行表0；先前CLI每次export time生成新manifest会触发合法decision collision，现固定synthetic输入manifest以真正检验重复投递。新增实际进程断言保留，不伪装mock重启。engineering SIGKILL=-9，patch Execute前后均1，独立verify恢复后完成真实dev测试/提交；相应证据engineering_sigkill.json。完整阅读/网页/旧学习消融、owner、UNKNOWN、影子、安全边界均回归。
 
 [实测/未知] E12新prepare/evaluate仍NOT_RUN，真实模型0、provider/token不适用、外部模型费用0；助手本身Codex额度不由Core账本测量。没有新增网络诊断证据，公网本轮0，不再次测试DNS/TLS。最终回归26loopback HTTP是受控协议不是公网/真实模型。新SQL表0/新依赖0；生产调用/修改/外部消息/secret值/私人记忆读取0。Package与runbook是准备，不是云端安装或已安全接入；实际server/hook/兼容版本UNKNOWN。完整P0—P15分档及P17/P18见final_delivery.json。最短下一路径为授权指定宿主的metadata preflight + 一个非私人probe的临时同进程shadow hook；不要求先解决公网/E12，也不默认迁移任何执行或memory authority。
+
+[实测] C-054保存补正：最终回验发现已改名旧astrbot.py的删除未被baseline相对新增文件白名单stage（中间提交曾新增、最终相对基线不存在）。补staging旧模块删除，最终源码与281pass实际工作区完全相同，不再保留触发guard的旧模块。实现/断言未再改变，不重跑无关测试；远端最终SHA以本补正后Git/ls-remote为准。

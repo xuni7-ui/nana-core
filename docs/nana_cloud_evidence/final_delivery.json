@@ -191,5 +191,6 @@
     "79cda7062163e0ffae3854f8dea037b82c2c439b",
     "30864adbd24f78e1db335398feeaad6c1286dfc3",
     "d384c77169953f3b8db4d1daf1859ad363c44308"
-  ]
+  ],
+  "version_save_correction": "C-054 stages removal of obsolete internal astrbot.py: working tree used by passing full regression already lacked it; baseline-relative new-file allowlist initially missed deletion after intermediate commit. Final source equals tested local tree; no assertion or implementation behavior changed."
 }
