@@ -26,6 +26,50 @@ Repackage the original runtime unchanged using `--runtime-from` the integrity-ch
 
 ## Delivery status
 
-New archive and final validation are pending the committed support checkpoint. The old archive remains intact. The final single archive will also be saved as a reviewed generated deployment asset on the private development branch; it is not a third-party source mirror or a production deployment. Archive entry/path/hash/license/credential-pattern checks precede upload. No workflow/paid artifact service is triggered.
+The new archive was built from clean committed support `cd2e8a302a6dc53ee1bb4449a04aa5a739d58cf7`. It reuses the same original binary and private dependency files, revising runtime/support metadata only. Old bundle SHA256 `22ae38de7d2c751717a4ef351d0dc8f75491f2274a1bfea11e0a2e38c251b149` remains intact.
+
+| Delivery item | Value |
+|---|---|
+| File | `nana-shadow-bootstrap-host3123-cd2e8a302a6d.tar.gz` |
+| Bytes | 3,270,530 |
+| Archive SHA256 | `c793991badd5efeaaa4676730278c2cdf3f2e01ee5ccafd1626edc4819b49c88` |
+| Core SHA | `ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513` |
+| Support SHA | `cd2e8a302a6dc53ee1bb4449a04aa5a739d58cf7` |
+| Runtime content-map SHA256 | `95c7215bc78d43cae809e99fcc65c1572cd611c87ae273afb80138b61c01e6ec` |
+| Runtime bytes including updated manifest | 8,537,337 |
+| Verified Python releases | 3.12.3 and3.12.14 |
+| Required SOABI | `cpython-312-x86_64-linux-gnu` |
+| Minimum glibc | 2.34; actual3.12.3 environment2.39 |
+
+Final full regression **each**:318 passed/0 failed/0 errors/1 skipped(E12). Actual extracted archive processes **both**:preflight/probe/restart-check/SIGKILL(-9)/UNKNOWN rollback/recovery/rollback/collect/tamper-block PASS. Each arm restores the same identity, one unique probe/Evidence/candidate/draft Plan/Decision; all proposed external calls SHADOW_BLOCKED; Action/Grant/production budget/messages zero. These are development-equivalent engineering measurements, not live AstrBot integration or semantic model acceptance.
+
+The generated single archive is saved at `artifacts/shadow-bootstrap/` on the private development branch after per-entry/path/hash/credential/license checks. This narrow generated-delivery exception is recorded in upload_whitelist; no third-party upstream source repository is mirrored, and no runtime data/DB/secrets are included. No .github workflow exists or paid artifact service is invoked. The final GitHub download URL and remote byte verification receipt are recorded after that asset commit/push; the archive is not confined to /workspace.
 
 Production changes/private memory/secret values/external messages/real model calls are zero. E12 remains NOT_RUN. Actual AstrBot stream, Iris extraction, execution/memory handoff and real-host re-run are outside this task.
+
+
+## Smallest operator sequence
+
+Download the one reviewed private GitHub archive, upload through the already available panel, and use a **new** independent extraction directory. No Python upgrade, pip, API key or environment variable is needed. This task does not perform these host operations.
+
+```bash
+set -eu
+printf '%s  %s\n' 'c793991badd5efeaaa4676730278c2cdf3f2e01ee5ccafd1626edc4819b49c88' 'nana-shadow-bootstrap-host3123-cd2e8a302a6d.tar.gz' | sha256sum -c -
+test ! -e nana-shadow-bootstrap-host3123-cd2e8a302a6d
+tar -xzf nana-shadow-bootstrap-host3123-cd2e8a302a6d.tar.gz
+cd nana-shadow-bootstrap-host3123-cd2e8a302a6d
+./run_shadow.sh preflight
+```
+
+Only when `adapter_local_probe_ready=true`:
+
+```bash
+./run_shadow.sh probe
+./run_shadow.sh restart-check
+./run_shadow.sh rollback
+./run_shadow.sh collect
+```
+
+A preflight overall UNKNOWN for unverified AstrBot/hook metadata does not negate a true adapter-local readiness, and does not establish actual host-hook binding. If readiness is false, the reason now identifies the failing condition; no bypass or host repair is prescribed. Readability/stop remains available through `./stop_shadow.sh` for the bounded foreground probe, and all scripts support --dry-run.
+
+Evidence: `nana_shadow_host_compat_evidence/compatibility_matrix.json`, `final_delivery.json`, `final_3123_junit.xml`, `final_31214_junit.xml`, `bundle_validation_3123.json`, `bundle_validation_31214.json`, `new_bundle.json`. Archive Core55 source fingerprint stays original; no new Core SQL table/runtime dependency/full interpreter. Future live host re-run, message hook/Iris/semantic E12 remain separate unverified boundaries.

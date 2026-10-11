@@ -1,0 +1,130 @@
+{
+  "repository": "xuni7-ui/nana-core",
+  "branch": "dev/nana-core-v1-shadow-host-compat",
+  "base_SHA": "99098b21c6d48948807fd2052f808e6c9e1aba6b",
+  "Core_SHA": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
+  "support_SHA": "cd2e8a302a6dc53ee1bb4449a04aa5a739d58cf7",
+  "final_SHA": "resolve from final Git HEAD, no self-reference",
+  "artifact": {
+    "archive": "/workspace/nana-core/.nana-experiment/shadow-bootstrap/nana-shadow-bootstrap-host3123-cd2e8a302a6d.tar.gz",
+    "SHA256": "c793991badd5efeaaa4676730278c2cdf3f2e01ee5ccafd1626edc4819b49c88",
+    "bytes": 3270530,
+    "support_source_SHA": "cd2e8a302a6dc53ee1bb4449a04aa5a739d58cf7",
+    "support_worktree_dirty": false,
+    "runtime_bytes": 8518899,
+    "runtime_sha256": "95c7215bc78d43cae809e99fcc65c1572cd611c87ae273afb80138b61c01e6ec",
+    "filename": "nana-shadow-bootstrap-host3123-cd2e8a302a6d.tar.gz",
+    "Core_SHA": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
+    "package_SHA256": "c79822d30db302d66660d1fc065560eaacea84a4981ae03b26941cfc1c73ca3f",
+    "runtime_including_manifest_bytes": 8537337,
+    "extension_SHA256": "c18e64abba400c9c1ee91327680ce388dd51b4fb090b52ad829257ba19d82705",
+    "verified_host_Python": "3.12.3",
+    "verified_SOABI": "cpython-312-x86_64-linux-gnu",
+    "minimum_glibc": "2.34",
+    "verified_development_glibc": "2.39",
+    "full_regression": {
+      "3123": {
+        "python": "3.12.3",
+        "SOABI": "cpython-312-x86_64-linux-gnu",
+        "glibc": {
+          "kind": "glibc",
+          "version": "2.39"
+        },
+        "passed": 318,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 1,
+        "E12": "NOT_RUN",
+        "archive_steps": "PASS",
+        "actual_SIGKILL": -9,
+        "scope": "development actual runtime, not production host"
+      },
+      "31214": {
+        "python": "3.12.14",
+        "SOABI": "cpython-312-x86_64-linux-gnu",
+        "glibc": {
+          "kind": "glibc",
+          "version": "2.41"
+        },
+        "passed": 318,
+        "failed": 0,
+        "errors": 0,
+        "skipped": 1,
+        "E12": "NOT_RUN",
+        "archive_steps": "PASS",
+        "actual_SIGKILL": -9,
+        "scope": "development actual runtime, not production host"
+      }
+    },
+    "bundled_full_Python": false,
+    "GitHub_asset_path": "artifacts/shadow-bootstrap/nana-shadow-bootstrap-host3123-cd2e8a302a6d.tar.gz"
+  },
+  "download_artifact": "private development GitHub asset, staged for next checked commit/push; remote byte verification pending",
+  "root_cause": "old exact patch comparison blocks3.12.3 before private extension load; actual old entry BLOCKED_RUNTIME_ABI reproduced",
+  "full_regressions": {
+    "3123": {
+      "python": "3.12.3",
+      "SOABI": "cpython-312-x86_64-linux-gnu",
+      "glibc": {
+        "kind": "glibc",
+        "version": "2.39"
+      },
+      "passed": 318,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 1,
+      "E12": "NOT_RUN",
+      "archive_steps": "PASS",
+      "actual_SIGKILL": -9,
+      "scope": "development actual runtime, not production host"
+    },
+    "31214": {
+      "python": "3.12.14",
+      "SOABI": "cpython-312-x86_64-linux-gnu",
+      "glibc": {
+        "kind": "glibc",
+        "version": "2.41"
+      },
+      "passed": 318,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 1,
+      "E12": "NOT_RUN",
+      "archive_steps": "PASS",
+      "actual_SIGKILL": -9,
+      "scope": "development actual runtime, not production host"
+    }
+  },
+  "native_equivalent_environment": "Ubuntu24.04 CPython3.12.3-1ubuntu0.17 libc2.39-0ubuntu8.9 at/usr/bin/python3.12; host vendor revision/kernel not claimed identical",
+  "P0": "TESTED",
+  "P1": "RUNTIME_VERIFIED development",
+  "P2": "RUNTIME_VERIFIED development",
+  "P3": "IMPLEMENTED and TESTED",
+  "P4": "NOT_NEEDED: original binaries retained",
+  "P5": "IMPLEMENTED and TESTED, specific classified failures with host/shadow metadata",
+  "P6": "RUNTIME_VERIFIED development archive; real host re-run NOT_RUN",
+  "P7": "same safety scope retained",
+  "P8": "archive built and tested; remote publication pending checked commit",
+  "P9": "exact simple commands in docs/nana_shadow_host_compat.md",
+  "P10": "staged milestones on independent branch; final ls-remote follows",
+  "new_Core_SQL_tables": 0,
+  "new_runtime_dependencies": 0,
+  "full_isolated_Python": false,
+  "real_host_access_this_task": false,
+  "production_changes": 0,
+  "production_calls": 0,
+  "private_memory_reads": 0,
+  "private_message_reads": 0,
+  "secret_values_read": 0,
+  "external_messages": 0,
+  "real_model_calls": 0,
+  "E12": "NOT_RUN",
+  "execution_owner_changed": false,
+  "memory_authority_changed": false,
+  "old_bundle_preserved_SHA256": "22ae38de7d2c751717a4ef351d0dc8f75491f2274a1bfea11e0a2e38c251b149",
+  "first_real_cloud_shadow": "not re-run on production this turn; previous operator preflight blocked old entry",
+  "archive_runtime_hash_semantics": "canonical content per-file hash map; own runtime metadata excluded from self-reference and verified by outer manifest",
+  "CI_trigger": "no .github workflow files in repo; no paid artifact workflow invoked",
+  "private_artifact": "contains fixed reviewed licensed dependency runtime, no data directory/DB/secrets",
+  "external_paid_model_service_calls": 0
+}

@@ -357,3 +357,13 @@
 - [未知] 新包真实宿主复测尚未运行；AstrBot实际hook UNKNOWN、E12 NOT_RUN、真实模型0。本轮生产修改/私忆/secret值/外部消息均0。
 
 [实测] C-068：Shadow host ABI: actual Ubuntu CPython3.12.3 verifies original runtime, classified preflight and ABI policy; 37 targeted passed；指纹锚点 2c8834c8a290ae9c5efb3457f1a31c625feeef88620d06276a9979d66bb2a0bd；不证明生产运行。
+
+### 2026-10-11 · Host ABI 最终包工程验收
+
+- [实测] clean support cd2e8a302a6dc53ee1bb4449a04aa5a739d58cf7生成新包nana-shadow-bootstrap-host3123-cd2e8a302a6d.tar.gz；3,270,530bytes；SHA256 c793991badd5efeaaa4676730278c2cdf3f2e01ee5ccafd1626edc4819b49c88。Core仍ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513/55文件；原extension c18e64...和runtime内容图95c721...不变，只修support/metadata，runtime含metadata8,537,337bytes。
+- [实测] actual Ubuntu24.04/Python3.12.3/glibc2.39/SOABI cpython-312-x86_64-linux-gnu完整318pass/0fail/0error/1skip；actual开发Python3.12.14/glibc2.41完整同为318pass/0fail/0error/1skip。每个环境新解包preflight/probe/restart-check/真正SIGKILL(-9)/UNKNOWN恢复/rollback/collect/tamper阻断PASS；身份/原始事件/候选/Shadow draft/decision连续，唯一probe1，Action/Grant/生产预算/外部消息0。
+- [文档/实测] ABI门采用implementation/minor/normal build/SOABI/suffix/OS/arch/glibc及实际扩展加载，失败具体分类，HOST_GLOBAL_ENV与SHADOW_RUNTIME_ENV完整字段；3.12.3/3.12.14是实测coverage，其他3.12.x UNTESTED。无需完整隔离Python，不重建原extension，不修改服务器/系统Python/AstrBot。
+- [实测] 单包保存为私有开发分支artifacts/shadow-bootstrap生成交付资产，白名单/每entry路径/凭据模式/许可证及hash审查后commit/push；remote字节核验将在下一检查点记录。不是正式部署、不触发Actions workflow（repo无.github workflow）。旧包22ae38...保留不覆盖。
+- [未知] 新包真实宿主复测未执行，真实AstrBot hook UNKNOWN。E12 NOT_RUN/真实模型0；生产修改/调用、私人记忆/secret值/外部消息0，owner/memory authority未切换，Core新增SQL表0/runtime依赖新增0。
+
+[实测] C-069：Shadow host package: dual actual Python full318 regressions and SIGKILL validation, fixed downloadable private-branch archive；指纹锚点 cc671ee53599461c64d33c998ca2b83ab71b8cd4a659dd572f89053c20b194d1；不证明生产运行。
