@@ -1,0 +1,222 @@
+{
+  "E12": "NOT_RUN",
+  "approved_core55_exact": true,
+  "commands": [
+    {
+      "argv": [
+        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/observer.sh",
+        "verify"
+      ],
+      "result": {
+        "binding_status": "BLOCKED_AUTH_REQUIRED",
+        "status": "PACKAGE_INTEGRITY_PASS"
+      }
+    },
+    {
+      "argv": [
+        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/observer.sh",
+        "preflight"
+      ],
+      "result": {
+        "HOST_GLOBAL_ENV": {
+          "EXT_SUFFIX": ".cpython-312-x86_64-linux-gnu.so",
+          "SOABI": "cpython-312-x86_64-linux-gnu",
+          "abiflags": "",
+          "architecture": "x86_64",
+          "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+          "glibc": {
+            "kind": "glibc",
+            "version": "2.41"
+          },
+          "implementation": "cpython",
+          "pydantic": "2.13.4",
+          "pydantic_scope": "installation metadata only; global site initialization disabled",
+          "python": "3.12.14",
+          "python_major_minor": [
+            3,
+            12
+          ],
+          "python_patch_regression": "VERIFIED",
+          "sqlite": "3.53.1",
+          "system": "Linux"
+        },
+        "SHADOW_RUNTIME_ENV": {
+          "executable": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/bin/python3.12",
+          "extension_ABI_target": "cpython-312-x86_64-linux-gnu",
+          "extension_build_python": "3.12.14",
+          "interpreter_scope": "existing host binary; private process-only SQLite/dependencies",
+          "minimum_glibc": "2.34",
+          "pydantic": "2.13.5",
+          "python": "3.12.14",
+          "python_patch_regression": "VERIFIED",
+          "sqlite": "3.51.3"
+        },
+        "binding_status": "BLOCKED_AUTH_REQUIRED",
+        "engineering_harness_ready": true,
+        "host_binding": "UNVERIFIED",
+        "real_astrbot_binding_ready": false,
+        "status": "PASS"
+      }
+    },
+    {
+      "argv": [
+        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/bridge.sh",
+        "preflight",
+        "--ipc-directory",
+        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/data/unused",
+        "--dry-run"
+      ],
+      "result": {
+        "files_written": 0,
+        "host_binding": "UNVERIFIED",
+        "status": "DRY_RUN"
+      }
+    },
+    {
+      "argv": [
+        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/bridge.sh",
+        "start",
+        "--ipc-directory",
+        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/data/unused",
+        "--dry-run"
+      ],
+      "result": {
+        "files_written": 0,
+        "host_binding": "UNVERIFIED",
+        "status": "DRY_RUN"
+      }
+    },
+    {
+      "argv": [
+        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/bridge.sh",
+        "stop",
+        "--ipc-directory",
+        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/data/unused",
+        "--dry-run"
+      ],
+      "result": {
+        "files_written": 0,
+        "host_binding": "UNVERIFIED",
+        "status": "DRY_RUN"
+      }
+    },
+    {
+      "argv": [
+        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/bridge.sh",
+        "status",
+        "--ipc-directory",
+        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/data/unused",
+        "--dry-run"
+      ],
+      "result": {
+        "files_written": 0,
+        "host_binding": "UNVERIFIED",
+        "status": "DRY_RUN"
+      }
+    },
+    {
+      "argv": [
+        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/bridge.sh",
+        "collect",
+        "--ipc-directory",
+        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/data/unused",
+        "--dry-run"
+      ],
+      "result": {
+        "files_written": 0,
+        "host_binding": "UNVERIFIED",
+        "status": "DRY_RUN"
+      }
+    },
+    {
+      "argv": [
+        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/bridge.sh",
+        "verify",
+        "--ipc-directory",
+        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/data/unused",
+        "--dry-run"
+      ],
+      "result": {
+        "files_written": 0,
+        "host_binding": "UNVERIFIED",
+        "status": "DRY_RUN"
+      }
+    },
+    {
+      "argv": [
+        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/bridge.sh",
+        "cleanup",
+        "--ipc-directory",
+        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/data/unused",
+        "--dry-run"
+      ],
+      "result": {
+        "files_written": 0,
+        "host_binding": "UNVERIFIED",
+        "status": "DRY_RUN"
+      }
+    },
+    {
+      "argv": [
+        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/bridge.sh",
+        "start",
+        "--ipc-directory",
+        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/data/unused",
+        "--fixture"
+      ],
+      "result": {
+        "host_binding": "UNVERIFIED",
+        "reason": "BRIDGE_OPERATOR_POLICY_OR_STATE",
+        "status": "BLOCKED"
+      }
+    },
+    {
+      "argv": [
+        "python3.12",
+        "-I",
+        "-B",
+        "-S",
+        "/tmp/r041-package-h4akd0wt/fixture-worker-check.py",
+        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc",
+        "/workspace/nana-core"
+      ],
+      "result": {
+        "closed": true,
+        "host_binding": "UNVERIFIED",
+        "real_host_bridge": "NOT_RUN",
+        "status": "SIMULATED_REAL_SHADOW_PROOF_PASS",
+        "uses": 1
+      }
+    },
+    {
+      "argv": [
+        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/bridge.sh",
+        "start",
+        "--ipc-directory",
+        "/tmp/r041-package-h4akd0wt/nana-r041-host-bridge-27df51ef11fc/data/unused"
+      ],
+      "result": {
+        "host_binding": "UNVERIFIED",
+        "reason": "R04_PACKAGE_POLICY_OR_STATE",
+        "status": "BLOCKED"
+      }
+    }
+  ],
+  "file_count": 273,
+  "package": {
+    "Core_source_SHA": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
+    "SHA256": "df69bf346ecc30ddee3362e22006f60dad7a8e57b47a7a736c33d30f3879107f",
+    "bytes": 3351207,
+    "filename": "nana-r041-host-bridge-27df51ef11fc-bridge-delivery.tar.gz",
+    "production_review_pins": 0,
+    "real_host_bridge": "NOT_RUN",
+    "runtime_sha256": "95c7215bc78d43cae809e99fcc65c1572cd611c87ae273afb80138b61c01e6ec",
+    "shared_protocol_sha256": "e348bd61edb422a0f56be9683c5e925effa9382130aa3a89597fee058d64f4e6",
+    "support_source_SHA": "27df51ef11fc930ba7c7cd4010ca06f842144155"
+  },
+  "plugin_has_core_or_private_sqlite": false,
+  "production_host_operations": 0,
+  "runtime_unchanged": true,
+  "shared_wire_byte_identical": true,
+  "status": "DEVELOPMENT_EXTRACTED_PACKAGE_PASS"
+}

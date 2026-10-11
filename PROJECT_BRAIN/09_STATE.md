@@ -489,3 +489,5 @@
 [实测/开发] R041-M2: Old-SQLite client isolation, three actual worker SIGKILLs, PID/socket-fenced stop cleanup and adversarial lifecycle; 126 targeted passed; anchor0bf4becd75a5f66e5ffd180b3da1476fe7e13fd99ea2adf21fb26e9413ba76a8. SHORT_LIVED_HOST_BRIDGE IMPLEMENTED/TESTED only. Real host bridge/load/one-shot NOT_RUN, dispatcher NOT_VERIFIED, host_binding UNVERIFIED, FIRST_REAL_ASTRBOT_SHADOW BLOCKED, E12 NOT_RUN.
 
 [实测/开发] R041-M3: Bridge package/runbook and safe operator session readback; 44 targeted passed, real statuses unchanged; anchor51bf8f09c9dd6de44a68a6cd5f14742da2952bb559829d3779ef12ca45f584c6. SHORT_LIVED_HOST_BRIDGE IMPLEMENTED/TESTED only. Real host bridge/load/one-shot NOT_RUN, dispatcher NOT_VERIFIED, host_binding UNVERIFIED, FIRST_REAL_ASTRBOT_SHADOW BLOCKED, E12 NOT_RUN.
+
+[实测/开发] R041-M4-SEAL: Bounded observation and isolated hard-exit grace, no late ingress; full510 passed one E12 skip; anchor6ab228296e86e159d6039aa1917ce9d7a972fa4c250c56546f69e9c9870f3857. SHORT_LIVED_HOST_BRIDGE IMPLEMENTED/TESTED only. Real host bridge/load/one-shot NOT_RUN, dispatcher NOT_VERIFIED, host_binding UNVERIFIED, FIRST_REAL_ASTRBOT_SHADOW BLOCKED, E12 NOT_RUN.

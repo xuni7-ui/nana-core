@@ -155,6 +155,7 @@ class ShortLivedWorker:
                     or m['sender_hash']!=c['sender_hash'] or m['conversation_hash']!=c['conversation_hash']):raise ValueError('BRIDGE_METADATA_SCOPE')
                 async with self.lock:
                     if self.used:status='DROP_SESSION_USED'
+                    elif self.stop_event.is_set() or datetime.now(timezone.utc)>=utc(self.config['expires_at']):status='DROP_POLICY'
                     else:
                         self.used=True
                         await self.observer.callback_public(m)

@@ -144,3 +144,17 @@ def validate_socket(c):
     if not stat.S_ISSOCK(st.st_mode) or st.st_uid!=c['uid'] or stat.S_IMODE(st.st_mode)!=0o600:raise ValueError('WIRE_SOCKET_MODE')
     if (st.st_dev,st.st_ino)!=(c['socket_device'],c['socket_inode']):raise ValueError('WIRE_SOCKET_FINGERPRINT')
     if process_fingerprint(c['server_pid'])!=c['server_fingerprint']:raise ValueError('WIRE_STALE_SERVER')
+
+
+def install_process_deadline(seconds):
+    """Only isolated foreground worker: fixed hard exit after shutdown grace.
+
+    Never called by the client/plugin. No process-ID/command parameter.
+    """
+    import signal,sys
+    if not (sys.flags.isolated and sys.flags.no_site and sys.flags.dont_write_bytecode):raise ValueError('BRIDGE_STARTUP_ISOLATION')
+    if type(seconds) not in (int,float) or not 0<seconds<=605:raise ValueError('BRIDGE_HARD_DEADLINE')
+    previous=signal.getsignal(signal.SIGALRM)
+    signal.signal(signal.SIGALRM,lambda *_:os._exit(124))
+    signal.setitimer(signal.ITIMER_REAL,seconds)
+    return previous

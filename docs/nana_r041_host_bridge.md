@@ -13,3 +13,5 @@ Plugin-side <=0.5sec overall deadline(default0.15), attempt flag before connect/
 Production review pins remainEMPTY. Production CLI has no fixture trust option/env/force/unsafe, cannot start real worker for fixture receipt. Fixture channel authentication does not prove actual AstrBot dispatcher; final real runtime proof still requires independent Nana evidence.
 
 Real AstrBot load/host bridge/one-shot NOT_RUN; real dispatcher NOT_VERIFIED; host_bindingUNVERIFIED; FIRST_REAL_ASTRBOT_SHADOW BLOCKED; E12NOT_RUN. No Codex host/private/production secret/model/message/authority operation.
+
+Final lifetime seal: reject even authenticated already-connected frames after sessionexpiry/stop, not just new connects. Actual isolated foreground CLI has fixed SIGALRM exit124 after selected window+5sec shutdown grace, no arbitraryPID/command parameter. Client cannot install that alarm. This protects the bounded-process promise if a local writer fails to close; evidence staysUNKNOWN, session/receipt never auto-resume.

@@ -121,3 +121,27 @@ def test_tampered_session_fields_never_echo_private_data(tmp_path,capsys):
     private_file(ipc/'session.json',row,replace=True)
     assert cli.main(['status','--ipc-directory',str(ipc)])==2
     assert 'PRIVATE-CANARY' not in capsys.readouterr().out
+
+def test_already_connected_frame_cannot_cross_session_deadline(tmp_path):
+    root,ipc,r,raw=fixture(tmp_path)
+    async def run():
+        w=ShortLivedWorker(root,ipc,r.receipt_id,client_pid=os.getpid(),seconds=.1,trust=FixtureTrustStore())
+        task,c=await ready(w)
+        reader,writer=await asyncio.open_unix_connection(c['socket_path'])
+        await asyncio.sleep(.12)
+        writer.write(frame(envelope(project_raw(raw,c),c)));await writer.drain()
+        from tools.nana_astrbot_shadow.bridge_wire import read_frame
+        response=await read_frame(reader,.5)
+        assert response['status']=='DROP_POLICY'
+        writer.close();await writer.wait_closed();await task
+        assert json.loads((ipc/'result.json').read_text())['receipt']['uses']==0
+    asyncio.run(run())
+
+
+def test_owned_worker_hard_deadline_is_actual_process_exit(tmp_path):
+    root=Path('.').resolve()
+    code="import sys,time;sys.path.insert(0,"+repr(str(root))+ ");from tools.nana_astrbot_shadow.bridge_wire import install_process_deadline;install_process_deadline(.05);time.sleep(2)"
+    p=subprocess.run(['python3.12','-I','-B','-S','-c',code],capture_output=True,text=True,timeout=3)
+    assert p.returncode==124 and p.stdout==p.stderr==''
+    from tools.nana_astrbot_shadow.bridge_wire import install_process_deadline
+    with pytest.raises(ValueError,match='STARTUP_ISOLATION'):install_process_deadline(.05)

@@ -6,9 +6,10 @@ import os
 from pathlib import Path
 import signal
 import re
+from datetime import datetime,timezone
 import socket
 import stat
-from .bridge_wire import private_directory,process_fingerprint,sha,stamp
+from .bridge_wire import private_directory,process_fingerprint,sha,stamp,install_process_deadline
 from .one_shot_cli import operator_ledger,_SafeParser
 from .one_shot import PRODUCTION_REVIEW_PINS
 from .bridge_worker import ShortLivedWorker
@@ -96,7 +97,7 @@ def preflight(directory,rid,client_pid):
     private_directory(directory);process_fingerprint(client_pid)
     with operator_ledger(directory) as l:
         r,v=l.record(rid)
-        result.update(receipt_state=v['state'],exact_store_binding=r.store_binding==l.binding,
+        result.update(receipt_state=v['state'],receipt_expires_at=r.expires_at,exact_store_binding=r.store_binding==l.binding,
             receipt_trusted=l._review_valid(r,v['review']),session_fence_exists=l.store.one('core_meta','r041.receipt_session:'+rid) is not None)
         if (result['receipt_trusted'] and v['state']=='ARMED' and not result['session_fence_exists']
             and result['linux_peercred'] and result['pidfd']):result['status']='READY'
@@ -121,7 +122,12 @@ def main(argv=None):
                 loop=asyncio.get_running_loop()
                 loop.add_signal_handler(signal.SIGTERM,worker.stop_event.set)
                 loop.add_signal_handler(signal.SIGINT,worker.stop_event.set)
-                await worker.serve()
+                window=min(a.seconds,max(0,(stamp(check['receipt_expires_at'])-datetime.now(timezone.utc)).total_seconds()))
+                previous=install_process_deadline(window+5)
+                try:await worker.serve()
+                finally:
+                    signal.setitimer(signal.ITIMER_REAL,0)
+                    signal.signal(signal.SIGALRM,previous)
             asyncio.run(serve());r=session_status(a.ipc_directory)
         elif a.command=='status':r=session_status(a.ipc_directory)
         elif a.command=='stop':r=stop(a.directory,a.ipc_directory)
