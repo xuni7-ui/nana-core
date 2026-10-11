@@ -375,3 +375,5 @@
 [实测/开发] C-M0: Baseline 318 passed, E12 skipped; source audit and API evidence gap recorded。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 c110b3d8b75d808fa6b37c9f18cf4feb97bf27e0581c96135b5882851c676481，不证明宿主运行。
 
 [实测/开发] C-M1: Metadata sanitizer and no-response observer contract; 13 targeted passed, collection failure retained。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 233f0599cac2b1881e5ac5d76085ea1e95ce54cf56598b48aa405c34a0e4bbd5，不证明宿主运行。
+
+[实测/开发] C-M2: Persistent Store alias dedup and reviewed-origin binding proof; 13 targeted passed; unchanged approved Core。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 a6043107ea733679ac8c955c645d6df16b753b408aecfc8b333fb4411e1e74c7，不证明宿主运行。

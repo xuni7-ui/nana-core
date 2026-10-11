@@ -606,3 +606,8 @@
 - 改了什么：Metadata sanitizer and no-response observer contract; 13 targeted passed, collection failure retained；文件见manifests/whitelist_astrbot_codex.json。
 - 为什么：用户授权独立开发Observer/证据链，保留批准Core字节与现场事实边界。
 - 怎么验证：docs/nana_astrbot_shadow_evidence的专项/回归记录；白名单/敏感与运行产物检查通过，不代表真实宿主验收。
+
+## C-M2 · AstrBot Shadow Codex development
+- 改了什么：Persistent Store alias dedup and reviewed-origin binding proof; 13 targeted passed; unchanged approved Core；文件见manifests/whitelist_astrbot_codex.json。
+- 为什么：用户授权独立开发Observer/证据链，保留批准Core字节与现场事实边界。
+- 怎么验证：docs/nana_astrbot_shadow_evidence的专项/回归记录；白名单/敏感与运行产物检查通过，不代表真实宿主验收。
