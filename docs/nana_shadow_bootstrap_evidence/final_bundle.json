@@ -1,0 +1,9 @@
+{
+  "archive": "/workspace/nana-core/.nana-experiment/shadow-bootstrap/nana-shadow-bootstrap-1df6bcfcdb89.tar.gz",
+  "SHA256": "e35d20a52f7f30f524092271d6dd1dec127a9aadb6493cca566cb9639fe582d5",
+  "bytes": 3269344,
+  "support_source_SHA": "1df6bcfcdb89a94ff148e635a48b8e4d62693ba4",
+  "support_worktree_dirty": false,
+  "runtime_bytes": 8528563,
+  "runtime_sha256": "596e89b28b3db856d259580f5e4b04f26401693141359cb9d2474ebe1240ae1c"
+}

@@ -42,7 +42,7 @@ def build_runtime(inputs, destination):
         raise ValueError('BUILD_ARCH_UNSUPPORTED')
     cmd=['gcc','-shared','-fPIC','-O2','-DPy_BUILD_CORE_MODULE','-DSQLITE_THREADSAFE=1','-DSQLITE_ENABLE_COLUMN_METADATA',
          '-ffile-prefix-map='+str(work)+'=/nana-shadow-build','-I'+str(inc),'-I'+str(cpy),'-I'+str(sql),
-         *map(str,sorted(cpy.glob('*.c'))),str(sql/'sqlite3.c'),'-o',str(ext),'-lpthread','-ldl','-lm']
+         *map(str,sorted(cpy.glob('*.c'))),str(sql/'sqlite3.c'),'-o',str(ext),'-Wl,-Bsymbolic','-lpthread','-ldl','-lm']
     subprocess.run(cmd, check=True)
     symbols=subprocess.check_output(['objdump','-T',str(ext)],text=True)
     glibc=max((tuple(map(int,v.split('.'))) for v in re.findall(r'GLIBC_(\d+\.\d+)',symbols)),default=(0,0))
@@ -74,7 +74,7 @@ def build_runtime(inputs, destination):
        'sources':{k:{'url':v[0],'sha256':v[1]} for k,v in SOURCES.items()},'wheels':wheels,
        'licenses':['CPython PSF-2.0 and included historical licenses','SQLite public domain','Pydantic/dependencies: included wheel license files'],
        'compiler':subprocess.check_output(['gcc','--version'],text=True).splitlines()[0],
-       'flags':['shared','PIC','O2','Py_BUILD_CORE_MODULE','SQLITE_THREADSAFE=1','SQLITE_ENABLE_COLUMN_METADATA'],
+       'flags':['shared','PIC','O2','Py_BUILD_CORE_MODULE','SQLITE_THREADSAFE=1','SQLITE_ENABLE_COLUMN_METADATA','-Wl,-Bsymbolic'],
        'system_library_or_global_env_changed':False,'bytes':sum(p.stat().st_size for p in dest.rglob('*') if p.is_file())}
     private_file(dest/'runtime_manifest.json',m)
     return m

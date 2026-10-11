@@ -85,6 +85,11 @@ def test_profile_empty_group_bucket_is_preserved_not_silently_dropped():
     assert len(rows)==1 and rows[0][1]=='user_profile:default::synthetic-user'
 
 
+def test_wrapper_duplicate_json_fields_are_not_silently_overwritten(tmp_path):
+    p=tmp_path/'fixture.json';p.write_text('{"synthetic":true,"private":false,"profile_kv":{},"profile_kv":{}}')
+    with pytest.raises(ValueError,match='DUPLICATE_FIELD'):export(p,mode='hash-only')
+
+
 def test_hook_names_are_metadata_not_dynamic_hook_proof(tmp_path):
     p=tmp_path/'event_hook.py';p.write_text('def register_observer(): pass\ndef unregister_observer(): pass\n')
     r=probe([p]);assert r['available_API_names']==['register_observer','unregister_observer']

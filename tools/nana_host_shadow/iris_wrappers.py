@@ -69,7 +69,15 @@ def export(fixture=None,*,mode='schema-only'):
     if mode not in {'count-only','hash-only','redacted-sample'} or fixture is None:raise ValueError('SYNTHETIC_FROZEN_FIXTURE_REQUIRED')
     p=checked_path(fixture)
     if p.stat().st_size>1024*1024:raise ValueError('WRAPPER_INPUT_LIMIT')
-    data=json.loads(p.read_text());rows=records(data)
+    def unique_fields(pairs):
+        result={}
+        for key,value in pairs:
+            if key in result:raise ValueError('WRAPPER_DUPLICATE_FIELD')
+            result[key]=value
+        return result
+    data=json.loads(p.read_text(),object_pairs_hook=unique_fields,
+                    parse_constant=lambda value:(_ for _ in ()).throw(ValueError('WRAPPER_NONFINITE_JSON')))
+    rows=records(data)
     from nana_core.integration.exporter import bundle
     # Reuse canonical exporter checks, including nested secret rejection.
     exported=bundle(rows,data.get('source_identity','synthetic:iris-wrapper'),mode='redact' if mode=='redacted-sample' else 'hash-only')

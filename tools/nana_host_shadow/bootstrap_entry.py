@@ -41,7 +41,7 @@ def runtime(root):
     try:host['pydantic']=importlib.metadata.version('pydantic')
     except importlib.metadata.PackageNotFoundError:host['pydantic']='MISSING'
     libc,version=platform.libc_ver()
-    if sys.implementation.name!='cpython' or platform.python_version()!='3.12.14' or platform.machine()!='x86_64' or platform.system()!='Linux':
+    if sys.implementation.name!='cpython' or platform.python_version()!='3.12.14' or getattr(sys,'abiflags','') or platform.machine()!='x86_64' or platform.system()!='Linux':
         raise ValueError('BLOCKED_RUNTIME_ABI')
     if libc!='glibc' or tuple(map(int,version.split('.')[:2]))<(2,34):raise ValueError('BLOCKED_RUNTIME_ABI')
     # Explicitly load the real standard-library binding built from CPython source.
