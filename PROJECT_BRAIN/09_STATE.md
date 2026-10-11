@@ -454,3 +454,6 @@
 - [实测] 本轮零漂移：生产源码改动 0 / 生产插件目录触碰 0 / 安装 0 / reload 0 / 重启 0 /
   JWT·secret 读取 0 / 真实消息 0 / 正文读取 0 / Iris 私人内容 0 / 外发 0 / authority 切换 0。
 - [未知] 下一步唯一人工动作：姐姐在已登录 Dashboard **手动上传 observer 插件并纳入 `plugin_set`**（届时单独授权）。
+
+## R04-C0 (2026-10-11 UTC) — development baseline only
+[实测/开发] Uploaded R03 bundle independently hash/verify/list-heads checked; sole base89385e98118da81bae751311fb6149f048b772a8. New independent R04 branch. Approved isolated runtime full baseline404 passed/0failed/1skip (E12). Existing R039-key adapter/support reused; real message gates remain closed. Evidence docs/nana_r04_evidence/baseline.xml and docs/nana_r04_one_shot.md. No real host operations.

@@ -692,3 +692,8 @@
   - `NEW_PLUGIN_NO_RESTART_MANUAL_PATH = YES`（人工 Dashboard 路径）。
   - message observer `IMPLEMENTED / TESTED`；`Observer registered = NO`、`host_binding = UNVERIFIED`、
     `FIRST_REAL_ASTRBOT_SHADOW = BLOCKED`、`E12 = NOT_RUN`。
+
+## R04-C0 — independently verified R03 bundle and baseline
+- 改了什么：追加R04 development scope/baseline evidence; no Core/source modification in this checkpoint.
+- 为什么：uploaded bundle is sole source, old frozen Codex branch not an implementation base.
+- 怎么验证：SHA256/list-heads/complete-history verify and approved-runtime404pass/1E12skip. Real host facts not promoted.
