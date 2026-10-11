@@ -373,3 +373,5 @@
 [实测] C-070：Shadow host FINAL: verified remote downloadable archive bytes, actual dual-Python318 regressions and unchanged production scope；指纹锚点 65e4a64556252313bd3ff2144e7ebf9ad0d011e3872cd1b5f31d93ace9f93c1d；不证明生产运行。
 
 [实测/开发] C-M0: Baseline 318 passed, E12 skipped; source audit and API evidence gap recorded。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 c110b3d8b75d808fa6b37c9f18cf4feb97bf27e0581c96135b5882851c676481，不证明宿主运行。
+
+[实测/开发] C-M1: Metadata sanitizer and no-response observer contract; 13 targeted passed, collection failure retained。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 233f0599cac2b1881e5ac5d76085ea1e95ce54cf56598b48aa405c34a0e4bbd5，不证明宿主运行。

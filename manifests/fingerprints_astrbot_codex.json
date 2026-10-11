@@ -4,7 +4,15 @@
     "docs/nana_astrbot_shadow_binding.md": "b63dc9e327cdeec333f9572ff506f2b6a99bb9df1543f9d2e1fa76fcd825bd1f",
     "docs/nana_astrbot_shadow_evidence/baseline.txt": "4d63fe74521ee1d1a71198240e49453a107fb22867d783b7eebcc4cc97372a74",
     "docs/nana_astrbot_shadow_evidence/baseline.xml": "fd35ddc05948d309ed95607c22932adf6552ab7abff26e5787c2082d196899ae",
-    "manifests/whitelist_astrbot_codex.json": "7b98344b7934e75d54b2452ac65f1d8928b4da49f00ce5e75e4a515da2495d00"
+    "docs/nana_astrbot_shadow_evidence/sanitizer.txt": "2a90d6320f5e5f95c7802671d4db2609c26fc7e489c78e76f20f334d9b4ee1c6",
+    "docs/nana_astrbot_shadow_evidence/sanitizer.xml": "90621cc00f06ca2fa54716560ba3811912d7d05900adf8ee4660e5c0e8e31f79",
+    "docs/nana_astrbot_shadow_evidence/sanitizer_initial.txt": "362fd07b4df3f7f43a4098875ded5de2bd738588e9cfb473afebccbed178b1b6",
+    "docs/nana_astrbot_shadow_evidence/sanitizer_initial.xml": "0bdda79795c868d1e7303ad7c3785a7f550f41b0e354df7c29388785d0a25441",
+    "tests/integration/test_astrbot_sanitizer.py": "1d97209b35f6c0140e73e9fc87590928d809e70490dba131db70738f9d0b8749",
+    "tools/nana_astrbot_shadow/__init__.py": "0930076522e20c6decea50c075487ea88a6156d85e2eccd84910baa70e2ce387",
+    "tools/nana_astrbot_shadow/observer.py": "9bb266b78990cebe5bd2e47377fc5f4abdca7ffef8631ab2cfc414fb5732a987",
+    "tools/nana_astrbot_shadow/sanitize.py": "38bb3491198d45cce9ab796190cf23d4fd11bc2fd4ec3cc3165facf28639bf81",
+    "manifests/whitelist_astrbot_codex.json": "f1b1e7b389992ea96881ba6feea91dd4a3f54d27d0d054bb6904983479fe52b5"
   },
   "scan": "PASS; synthetic fixtures only; zero runtime DB/credential files"
 }
