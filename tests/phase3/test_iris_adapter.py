@@ -76,3 +76,29 @@ with Store(sys.argv[1]) as store:
         assert r['results'][0]['status']=='DUPLICATE' and sum(x['status']=='IMPORTED' for x in r['results'])==13
         assert len(store.all('memory_items'))==14 and store.all('events')[:len(before)]==before
         assert json.loads(store.one('memory_items',r['results'][0]['event_id'])['body_json'])['iris']
+
+
+def test_invalid_field_types_and_oversize_contract_are_per_record_rejections(tmp_path):
+    base=fixtures()[2];row=json.loads(base.raw_json);row['content']=12
+    malformed=base.model_copy(update={'legacy_key':'bad-type','raw_json':json.dumps(row)})
+    row['content']='x'*50001
+    oversize=base.model_copy(update={'legacy_key':'large-content','raw_json':json.dumps(row)})
+    with Store(tmp_path/'core.db') as store:
+        report=IrisAdapter(store).import_batch([malformed,oversize,fixtures()[0]])
+        assert [r['status'] for r in report['results']]==['REJECTED','REJECTED','IMPORTED']
+        assert [r.get('error') for r in report['results'][:2]]==['IRIS_FIELD_TYPE_REJECTED','IRIS_CONTRACT_REJECTED']
+        assert len(store.all('memory_items'))==1
+        assert len(json.loads(store.artifact(store.all('events')[-1]['artifact_id'])))==3
+
+
+def test_declared_mapping_inputs_cannot_change_across_projection_gap(tmp_path):
+    with Store(tmp_path/'core.db') as store:
+        adapter=IrisAdapter(store);record=fixtures()[0]
+        def stop(point,key):raise RuntimeError('synthetic projection gap')
+        with pytest.raises(RuntimeError):adapter.import_record(record,stop)
+        changed=record.model_copy(update={'annotation':record.annotation.model_copy(update={'polarity':False})})
+        with pytest.raises(CoreError,match='IRIS_MAPPING_INPUT_COLLISION'):adapter.import_record(changed)
+        result=adapter.import_record(record)
+        body=json.loads(store.one('memory_items',result['event_id'])['body_json'])
+        assert body['iris']['claim']['polarity'] is True
+        assert len(body['source_refs'])==2 and not result['added']

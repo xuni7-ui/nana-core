@@ -1,5 +1,5 @@
 {
-  "milestone": "C-043",
+  "milestone": "C-044",
   "reviewed_files": [
     "LICENSES_AND_PROVENANCE.md",
     "PROJECT_BRAIN/09_STATE.md",
@@ -9,6 +9,7 @@
     "docs/nana_core_phase3_evidence/final_development_proof.json",
     "docs/nana_core_phase3_evidence/final_junit.xml",
     "docs/nana_core_phase3_evidence/final_regression.txt",
+    "docs/nana_core_phase3_evidence/import_integrity_tests.txt",
     "docs/nana_core_phase3_evidence/initiative_cases.json",
     "docs/nana_core_phase3_evidence/initiative_tests.txt",
     "docs/nana_core_phase3_evidence/iris_source_manifest.json",
@@ -50,9 +51,9 @@
   ],
   "allowlist_violations": [],
   "credential_pattern_findings": [],
-  "fingerprint_anchor": "d83bd5dbb6265d75483dea11150e35dbe5a0c4e5bfa566ff078e7deebfd5200c",
+  "fingerprint_anchor": "132d32602cea82e477a5554b4cce9f6d7d7d48899a44aeff8f5bac92837afc95",
   "license_boundary": "Iris schema interoperability independently implemented; no AGPL code vendored; original license pending",
   "runtime_db_uploaded": false,
   "production_changes": false,
-  "summary": "Phase III: preserve bounded TLS blockade and compare shadow retrieval under matched limits"
+  "summary": "Phase III import: freeze mapping declarations across crashes and keep contradiction partners in context"
 }

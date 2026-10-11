@@ -37,3 +37,10 @@ LegacyMemorySource提供有界typed synthetic records；IrisAdapter→既有Lega
 任何导入都不建Goal/Action/Grant/Budget/Strategy/Identity，不自动产生可执行experience。经验候选不是此次迁移输出；旧偏好只能作为待评估记忆输入。scope、profile、关系链接与向量重新索引需要明确评估，不能借导入扩大权限。
 
 [实测] 14条合成真实schema夹具覆盖11种结构；36 targeted passed（新7+S6 29）。重复导入14duplicate；真实SIGKILL -9在首条原始证据落盘和projection之前，恢复1duplicate+13imported；身份和前缀相同。missing字段/镜像冲突/冗余字段冲突/未知kind拒绝，错时间/无source/未知字段保存并告警。首轮1fail因测试把2026-09-01误写为2025的epoch常量，改为正确2026固定期望后36pass，未降低断言。
+
+## 导入一致性补强（C-044）
+[实测] 最终协议先以已有core_meta/Event/Artifact持久化每条完整IrisRecord mapping envelope声明（含operator annotation/observed time的fingerprint），再执行原始LegacyImporter事务与canonical projection事务。任意间隙重启仍必须使用同一输入；原raw变化报LEGACY_SOURCE_KEY_COLLISION，mapping/annotation变化报IRIS_MAPPING_INPUT_COLLISION，不能在原始落盘但映射未完成时悄悄改变语义。所有声明亦为“操作者供给的映射证据”，不冒充旧历史事实。NativeJSON仍逐字保留。
+
+缺字段/错误类型/超限content均per-record REJECTED并进入完整batch artifact，不因Pydantic异常中断后续合法条目。整个batch UTF-8 envelope超过8MiB在写前拒绝，不让末尾manifest失败留下未对账输入。Context只缩短来源引用表示（保留event/artifact/coverage/source_kind），原Store refs及artifacts完整；排序把当前判断的相反原话成对放在普通匹配之前，不提高预算或隐藏dropped ids。
+
+13 targeted passed：9adapter+4memory；原始→projection间隙实际SIGKILL仍通过；mapping间隙更改annotation被拒；异常2条+合法1条完整留证且不丢合法条目。补声明后首轮11pass/2fail，暴露context预算挤掉相反证据；优先成对保留及缩短引用表示后13pass，原来源/recall/矛盾断言保留。

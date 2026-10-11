@@ -3,7 +3,7 @@ platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
 rootdir: /workspace/nana-core
 configfile: pyproject.toml
 plugins: anyio-4.14.2
-collected 259 items
+collected 260 items
 
 tests/offline_continuity/test_actions.py ............                    [  4%]
 tests/offline_continuity/test_contracts.py ........                      [  7%]
@@ -11,7 +11,7 @@ tests/offline_continuity/test_experiment.py ...s                         [  9%]
 tests/offline_continuity/test_hardening.py .........                     [ 12%]
 tests/offline_continuity/test_learning.py ...........                    [ 16%]
 tests/offline_continuity/test_runtime.py ........                        [ 20%]
-tests/offline_continuity/test_storage.py .....                           [ 22%]
+tests/offline_continuity/test_storage.py .....                           [ 21%]
 tests/semantic_migration/test_evaluation.py ..............               [ 27%]
 tests/semantic_migration/test_model_port.py ............................ [ 38%]
                                                                          [ 38%]
@@ -24,14 +24,14 @@ tests/development/test_model_boundaries.py ....                          [ 64%]
 tests/development/test_public_http.py .................................. [ 77%]
 .......                                                                  [ 80%]
 tests/development/test_web_lab.py .                                      [ 80%]
-tests/development/test_web_source.py ...................                 [ 88%]
+tests/development/test_web_source.py ...................                 [ 87%]
 tests/phase3/test_initiative.py ....                                     [ 89%]
-tests/phase3/test_iris_adapter.py .......                                [ 92%]
+tests/phase3/test_iris_adapter.py .......                                [ 91%]
 tests/phase3/test_memory.py ....                                         [ 93%]
-tests/phase3/test_network_stage.py .                                     [ 94%]
+tests/phase3/test_network_stage.py ..                                    [ 94%]
 tests/phase3/test_selection_engineering.py ...............               [100%]
 
 - generated xml file: /workspace/nana-core/docs/nana_core_phase3_evidence/final_junit.xml -
 =========================== short test summary info ============================
 SKIPPED [1] tests/offline_continuity/test_experiment.py:21: E12 real-model gate requires configured development endpoints via nana-semantic; offline pytest makes no real-model calls
-======================= 258 passed, 1 skipped in 11.73s ========================
+======================= 259 passed, 1 skipped in 11.41s ========================

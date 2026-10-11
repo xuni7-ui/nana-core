@@ -22,7 +22,9 @@ class MemoryView:
             # Missing/corrupt evidence cannot silently become supported memory.
             for ref in refs:self.store.artifact(ref['artifact_id'])
             entries.append({'memory_id':memory['memory_id'],'content':body['content'],'iris':iris,
-                'epistemic_kind':body['epistemic_kind'],'source_refs':refs,'belief':body.get('belief')})
+                'epistemic_kind':body['epistemic_kind'],
+                'source_refs':[{**{k:r[k] for k in ('event_id','artifact_id','coverage')},
+                    'source_kind':self.store.event(r['event_id'])['kind']} for r in refs],'belief':body.get('belief')})
         return entries
 
     def assess_claims(self,dataset_ids):
@@ -70,9 +72,15 @@ class MemoryView:
         selected=[e for e in entries if relevance(e)]
         selected.sort(key=lambda e:(e['belief'] is not None and e['belief']['current_assessment']=='CURRENT_USER_STATEMENT',
             relevance(e),e['iris']['time']['legacy_record_time_us'] or -1,e['memory_id']),reverse=True)
-        targets={m for e in selected for m in (e['belief'] or {}).get('contradicting_memory_ids',[])}
-        for e in entries:
-            if e['memory_id'] in targets and e not in selected:selected.append(e)
+        # Keep source-backed contradiction partners adjacent, ahead of generic
+        # matches. A bounded context must not prefer extra matches over the
+        # evidence that qualifies its top current belief.
+        indexed={e['memory_id']:e for e in entries};ordered=[];seen=set()
+        for entry in selected:
+            bundle=[entry]+[indexed[mid] for mid in (entry['belief'] or {}).get('contradicting_memory_ids',[]) if mid in indexed]
+            for e in bundle:
+                if e['memory_id'] not in seen:ordered.append(e);seen.add(e['memory_id'])
+        selected=ordered
         output=[];dropped=[]
         for e in selected:
             item={'memory_id':e['memory_id'],'content':e['content'],'coverage':'FULL_SUPPLIED_CONTENT',
@@ -88,7 +96,10 @@ def shadow_compare(store,query,dataset_ids,important_keys):
     """Pure Iris-style lexical/legacy-confidence surrogate, not FAISS parity."""
     view=MemoryView(store);entries=view.entries(dataset_ids);tokens=set(re.findall(r'\w+',query.casefold()))
     matching=[e for e in entries if tokens&set(re.findall(r'\w+',e['content'].casefold()))]
-    matching.sort(key=lambda e:(e['iris']['legacy_confidence'] or 0,e['memory_id']),reverse=True)
+    def old_confidence(e):
+        score=e['iris']['legacy_confidence']
+        return float(score) if isinstance(score,(int,float)) and not isinstance(score,bool) and 0<=score<=1 else 0.
+    matching.sort(key=lambda e:(old_confidence(e),e['memory_id']),reverse=True)
     old=[]
     for e in matching:
         item={'memory_id':e['memory_id'],'content':e['content'],'coverage':'FULL_SUPPLIED_CONTENT',

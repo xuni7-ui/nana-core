@@ -271,3 +271,7 @@
 [实测] C-043：公网两个不同目标各一次有界新授权实验，主机名DNS_FIRST超时；公开数字IP经proxy到TLS失败（底层原因UNKNOWN），HTTP总0/proxy尝试1，两个UNKNOWN保留无自动重试。43 targeted network pass。最终shadow采用matched8000chars/8items，recall两边1.0、矛盾标注0/2，原top1统计不作优劣证据；P7仍PARTIAL。真实公网/E12未验收。
 
 [实测] C-043 指纹锚点 d83bd5dbb6265d75483dea11150e35dbe5a0c4e5bfa566ff078e7deebfd5200c；仅本检查点文件状态，不证明生产。
+
+[实测] C-044：导入mapping声明跨崩溃冻结，异常逐条reject/继续，context矛盾原话优先但原证据不删；13 targeted pass，最新跨进程rehearsal仍14import/14duplicate与replay PASS。此前259pass/1skip为补强前回归，当前待最终完整复验。零新增Core表/依赖；公网/E12未验收。
+
+[实测] C-044 指纹锚点 132d32602cea82e477a5554b4cce9f6d7d7d48899a44aeff8f5bac92837afc95；仅本检查点文件状态，不证明生产。

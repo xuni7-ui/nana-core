@@ -459,3 +459,9 @@
 - 为什么：主机名DNS失败不等于TLS不可达；仍不重试UNKNOWN、不放宽SSRF/代理/TLS。公平比较比把Core写成优胜更重要。
 - [实测] 怎么验证：公开数字IP一次独立Grant/Action试验达TLS后失败，proxy尝试1、HTTP0、read UNKNOWN；精确TLS底层原因未记录，标UNKNOWN。两目标总HTTP0，不无限重试，tls_metadata仅被动统计。43 network targeted pass；shadow matched4pass，rehearsal新CLI回放一致，recall双方1.0，矛盾标注0/2。原旧top1统计不作为改进结论。
 - M6远端21464fcfb0c9071a23ebc1a779f1aa80ee4ac600一致；无生产/模型/付费调用。
+
+## C-044 — 导入声明一致性与来源上下文补强
+- 改了什么：每record完整mapping声明使用既有core_meta/Event/Artifact持久化，跨原始/映射事务冻结annotation；错误类型与DTO超限逐条REJECTED，batch8MiB写前上限；有源上下文按矛盾伙伴成对优先，引用简写仍保留source_kind/IDs/coverage，原证据不删。
+- 为什么：发现原始已提交但mapping没提交时sidecar能变化，以及格式异常会终止批次两真实缺口；补来源后不能让预算把矛盾原话挤掉。
+- [实测] 怎么验证：13 targeted passed，9adapter+4memory；相同声明恢复去重、不同行义冲突拒绝、错误2条+合法1条均有结果/留证，真实SIGKILL继续通过。补声明首轮2fail为来源体积挤出相反证据，改排序/引用表示后全部通过，未降低原断言或增加context预算。最新rehearsal CLI重新对账，原14/14、1relation/1conflict、replay不变；无Core schema/依赖变动。
+- [实测] C-043已保存450dbb49eddf9c268e4bacce28eaa285b4d8a719；最终全量在本补强后运行。

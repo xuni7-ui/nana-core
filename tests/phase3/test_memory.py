@@ -50,6 +50,6 @@ def test_tied_claims_disputed_and_context_cut_never_claims_full_evidence(tmp_pat
         assert all(json.loads(m['body_json'])['belief']['current_assessment']=='DISPUTED' for m in store.all('memory_items'))
         context=view.retrieve('paper',identity_id=store.identity['identity_id'],dataset_ids=DATASETS,max_chars=256)
         assert context['coverage']=='SELECTED_CONTEXT' and len(context['dropped_memory_ids'])==2
-        assert len(store.all('artifacts'))==3
+        assert len(store.all('artifacts'))==5
         with pytest.raises(CoreError,match='IDENTITY_MISMATCH'):
             view.retrieve('paper',identity_id='other',dataset_ids=DATASETS)

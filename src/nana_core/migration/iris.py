@@ -7,7 +7,7 @@ No Iris executable code, model, grants, strategies or execution receipts importe
 from datetime import datetime,timezone
 import json
 from typing import Literal,Protocol
-from pydantic import Field
+from pydantic import Field,ValidationError
 from ..clock import parse_utc
 from ..contracts import DTO,CoreError
 from ..storage import canonical,digest
@@ -85,6 +85,9 @@ def map_record(record):
     if record.kind not in KINDS:raise CoreError('IRIS_UNMAPPED_KIND')
     row=decode(record.raw_json);kind=record.kind
     if any(k not in row for k in REQUIRED[kind]):raise CoreError('IRIS_REQUIRED_FIELD_MISSING')
+    non_text={'token_count','state','version','embedding_dimensions'}
+    if any(not isinstance(row[k],str) or not row[k] for k in REQUIRED[kind] if k not in non_text):
+        raise CoreError('IRIS_FIELD_TYPE_REJECTED')
     metadata=row.get('metadata',{})
     if isinstance(metadata,str):metadata=decode(metadata)
     if not isinstance(metadata,dict):raise CoreError('IRIS_INVALID_METADATA')
@@ -135,10 +138,12 @@ def map_record(record):
         'warnings':unknown+(['NO_ORIGINAL_SOURCE_LINK'] if not refs else [])+(['UNKNOWN_TIME'] if timestamp is None else [])}
     # Event's occurrence is legacy record occurrence, not invented underlying history.
     original=datetime.fromtimestamp(timestamp/1e6,tz=timezone.utc).isoformat() if timestamp is not None else None
-    envelope=LegacyRecord(synthetic_only=True,source_system='iris',dataset_id=record.dataset_id,
+    try:
+        envelope=LegacyRecord(synthetic_only=True,source_system='iris',dataset_id=record.dataset_id,
         record_id=digest([kind,record.legacy_key]),revision=record.revision,epistemic_kind=epistemic,
         content=content,content_coverage='SUMMARY' if epistemic=='SUMMARY' else 'FULL',source_payload=record.raw_json,
         source_coverage='FULL',original_time=original,time_format='iso8601',legacy_source_refs=tuple(refs))
+    except ValidationError:raise CoreError('IRIS_CONTRACT_REJECTED') from None
     return envelope,normalized
 
 
@@ -146,6 +151,19 @@ class IrisAdapter:
     def __init__(self,store):self.store=store;self.importer=LegacyImporter(store)
     def import_record(self,record,fault=None):
         envelope,projection=map_record(record)
+        declaration_key='iris.record_declaration:'+digest([record.dataset_id,record.kind,record.legacy_key,record.revision])
+        fingerprint=digest(record.model_dump());raw_hash=digest(record.raw_json.encode())
+        prior=self.store.one('core_meta',declaration_key)
+        if prior:
+            declaration=json.loads(prior['value_json'])
+            if declaration['raw_hash']!=raw_hash:raise CoreError('LEGACY_SOURCE_KEY_COLLISION')
+            if declaration['fingerprint']!=fingerprint:raise CoreError('IRIS_MAPPING_INPUT_COLLISION')
+        else:
+            with self.store.transaction('migration.iris_record_declared',{'record_key':declaration_key}) as tx:
+                tx.payload_id=tx.artifact(record.model_dump_json().encode())
+                declaration={'fingerprint':fingerprint,'raw_hash':raw_hash,'event_id':tx.event_id,'artifact_id':tx.payload_id}
+                tx.put('core_meta',{'key':declaration_key,'value_json':canonical(declaration)})
+        projection['mapping_declaration_event_id']=declaration['event_id']
         result=self.importer.import_record(envelope)
         if fault:fault('after_original_commit',record.legacy_key)
         memory=self.store.one('memory_items',result['event_id']);body=json.loads(memory['body_json'])
@@ -153,6 +171,8 @@ class IrisAdapter:
             if body['iris']!=projection:raise CoreError('IRIS_CANONICAL_COLLISION')
         else:
             body['iris']=projection
+            body['source_refs'].append({'event_id':declaration['event_id'],'artifact_id':declaration['artifact_id'],
+                'coverage':'FULL','meaning':'operator supplied mapping envelope/annotation; not original historical evidence'})
             with self.store.transaction('migration.iris_mapped',{'source_event_id':result['event_id'],'mapping_version':1}) as tx:
                 tx.update('memory_items',memory['memory_id'],body_json=canonical(body))
         return {**result,'legacy_key':record.legacy_key,'kind':record.kind,'status':'IMPORTED' if result['added'] else 'DUPLICATE',
@@ -161,6 +181,8 @@ class IrisAdapter:
         if not isinstance(records,(list,tuple)) or len(records)>100:raise CoreError('IRIS_BATCH_BOUND')
         # Typed envelopes and entire manifest are fixed before any per-record writes.
         records=tuple(IrisRecord.model_validate(r.model_dump()) for r in records)
+        raw_batch=canonical([r.model_dump() for r in records]).encode()
+        if len(raw_batch)>8*1024*1024:raise CoreError('IRIS_BATCH_BYTES_EXCEEDED')
         manifest_hash=digest([r.model_dump() for r in records]);results=[]
         for record in records:
             try:result=self.import_record(record,fault)
@@ -173,6 +195,6 @@ class IrisAdapter:
         # Store last run report (including duplicate/rejected), with complete raw batch
         # evidence even for rejected/unmapped rows. Resume rereads frozen input.
         with self.store.transaction('migration.iris_batch_reported',{'manifest_hash':manifest_hash}) as tx:
-            tx.payload_id=tx.artifact(canonical([r.model_dump() for r in records]).encode())
+            tx.payload_id=tx.artifact(raw_batch)
             tx.put('core_meta',{'key':key,'value_json':canonical(manifest)})
         return manifest
