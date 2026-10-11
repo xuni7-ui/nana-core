@@ -73,8 +73,12 @@ def verify_bundle(root):
             p = checked_path(root / name)
             if digest(p.read_bytes()) != expected:
                 raise ValueError('PACKAGE_HASH_MISMATCH')
-    actual = {str(p.relative_to(root)) for p in (root / 'src' / 'nana_core').rglob('*')
-              if p.is_file() and '__pycache__' not in p.parts}
+    descendants = list((root / 'src' / 'nana_core').rglob('*'))
+    if any(p.is_symlink() for p in descendants):
+        raise ValueError('SYMLINK_PATH_BLOCKED')
+    # dont_write_bytecode does not prevent loading an injected cache. No PYC or
+    # other extra Core file may bypass the pinned source-file manifest.
+    actual = {str(p.relative_to(root)) for p in descendants if p.is_file()}
     if actual != set(entries):
         raise ValueError('UNREVIEWED_CORE_FILE')
     return m

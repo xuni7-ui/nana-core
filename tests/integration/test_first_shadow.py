@@ -50,6 +50,9 @@ def test_fixed_source_integrity_and_no_global_install(bundle, tmp_path):
     _, pf = invoke(bundle, 'preflight')
     assert pf['adapter_local_probe_ready'] and not pf['astrbot_hook_ready'] and pf['files_written'] == 0
     assert any(c['check'] == 'dynamic_observer' and c['status'] == 'UNKNOWN' for c in pf['checks'])
+    cache=bundle/'src/nana_core/__pycache__';cache.mkdir();(cache/'actions.cpython-312.pyc').write_bytes(b'fake-cache')
+    with pytest.raises(ValueError,match='UNREVIEWED_CORE_FILE'):verify_bundle(bundle)
+    (cache/'actions.cpython-312.pyc').unlink();cache.rmdir()
     (bundle / 'src/nana_core/actions.py').write_text('raise RuntimeError("tamper")')
     p, blocked = invoke(bundle, 'start', '--workdir', tmp_path/'shadow', '--window-seconds', 0, check=False)
     assert p.returncode == 2 and blocked['status'] == 'BLOCKED' and not (tmp_path/'shadow').exists()
@@ -173,3 +176,54 @@ def test_sigkill_recovery_never_reports_clean_rollback(bundle, tmp_path):
         assert resumed['observer_removed'] and resumed['store_closed']
     finally:
         if p.poll() is None:p.kill();p.wait()
+
+
+def test_callback_failure_always_removes_observer_closes_store(tmp_path):
+    from nana_host_shadow.runtime import probe_session
+    from nana_core.storage import Store
+    captured=[]
+    class FailureObserver(ProbeObserver):
+        def install(self):
+            captured.append(self)
+            return super().install()
+        def emit(self, probe, token):
+            super().emit(probe, token)
+            raise RuntimeError('synthetic callback failure')
+    w=tmp_path/'shadow';w.mkdir()
+    with pytest.raises(RuntimeError,match='synthetic callback failure'):
+        probe_session(w,host_instance='synthetic-host',window_seconds=0,stop_requested=lambda:False,observer_factory=FailureObserver)
+    assert len(captured)==1 and not captured[0].active and captured[0].lifecycle[-1]=='uninstall'
+    with Store(w/'shadow.db') as s:
+        assert not any(s.all(t) for t in ('actions','grants','budgets','attempts'))
+        assert len([e for e in s.all('events') if e['kind']=='observation.received'])==1
+
+
+def test_corrupt_session_metadata_releases_launcher_lock(bundle, tmp_path):
+    from nana_host_shadow.launcher import workspace, active
+    w=workspace(tmp_path/'shadow',create=True)
+    (w/'session.json').write_text('{broken')
+    # A fresh process is required: this test runner already imported development
+    # Core. The launcher correctly refuses to reuse that module as the fixed
+    # package. Do not weaken that source-verification gate to fault-inject JSON.
+    p,r=invoke(bundle,'start','--workdir',w,'--window-seconds',0,check=False)
+    assert p.returncode==2 and r['error_category']=='JSONDecodeError'
+    assert not active(w) and not (w/'shadow.db').exists()
+
+
+def test_schema_authorizer_rejects_application_row_select(tmp_path, monkeypatch):
+    # Fault-inject a query into the existing connection, not a separate weaker
+    # implementation. The authorizer must refuse it before a body is fetched.
+    p=tmp_path/'iris.db';db=sqlite3.connect(p)
+    db.execute('CREATE TABLE memories(id TEXT,content TEXT)');db.execute("INSERT INTO memories VALUES('m','synthetic-body')");db.commit();db.close()
+    real_connect=sqlite3.connect
+    denied=[]
+    class InspectedConnection(sqlite3.Connection):
+        def execute(self, sql, parameters=()):
+            if sql.startswith('SELECT name FROM sqlite_schema'):
+                with pytest.raises(sqlite3.DatabaseError):super().execute('SELECT content FROM memories').fetchall()
+                denied.append(True)
+            return super().execute(sql,parameters)
+    def connect(*args,**kwargs):return real_connect(*args,**kwargs,factory=InspectedConnection)
+    monkeypatch.setattr(sqlite3,'connect',connect)
+    before=digest(p.read_bytes());r=schema_only(p)
+    assert denied==[True] and before==digest(p.read_bytes()) and r['private_records_read']==0

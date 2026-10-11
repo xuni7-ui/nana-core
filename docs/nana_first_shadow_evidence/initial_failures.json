@@ -6,5 +6,12 @@
   "cause": "SyntaxError in new support launcher: dict-like argument mixed with keyword arguments",
   "fix": "Use valid keyword argument in state.update; preserve all assertions",
   "subsequent_result": "m1_tests.txt",
-  "production_attempts": 0
+  "production_attempts": 0,
+  "later_test_setup_failure": {
+    "stage": "M3 initial",
+    "passed": 9,
+    "failed": 1,
+    "cause": "in-process test had already imported development Core; source-path gate correctly rejected its reuse",
+    "correction": "fault injection moved to fresh isolated subprocess; JSON error and lock release asserted without weakening source gate"
+  }
 }

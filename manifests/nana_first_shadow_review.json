@@ -1,5 +1,5 @@
 {
-  "milestone": "C-056",
+  "milestone": "C-057",
   "reviewed_files": [
     "LICENSES_AND_PROVENANCE.md",
     "PROJECT_BRAIN/09_STATE.md",
@@ -7,6 +7,7 @@
     "PROJECT_BRAIN/11_CHANGELOG.md",
     "docs/nana_first_cloud_shadow.md",
     "docs/nana_first_shadow_evidence/build_m2.json",
+    "docs/nana_first_shadow_evidence/build_m3.json",
     "docs/nana_first_shadow_evidence/development_collection.json",
     "docs/nana_first_shadow_evidence/development_continuity.json",
     "docs/nana_first_shadow_evidence/development_preflight.json",
@@ -17,6 +18,9 @@
     "docs/nana_first_shadow_evidence/initial_failures.json",
     "docs/nana_first_shadow_evidence/m1_tests.txt",
     "docs/nana_first_shadow_evidence/m2_tests.txt",
+    "docs/nana_first_shadow_evidence/m3_tests.txt",
+    "docs/nana_first_shadow_evidence/package_manifest.json",
+    "docs/nana_first_shadow_evidence/sigkill_recovery.json",
     "manifests/nana_first_shadow_fingerprints.json",
     "manifests/nana_first_shadow_review.json",
     "manifests/upload_whitelist.md",
@@ -31,11 +35,11 @@
   ],
   "allowlist_violations": [],
   "credential_pattern_findings": [],
-  "fingerprint_anchor": "e4533088583b9a7a2b1cce27b36fd7c4ec3cc4ef7c5dd6845d59de42858a12cf",
+  "fingerprint_anchor": "f6620ccea15b6b20b9f60d3043825e4ac45e17f8202c8841dbcce9f18a1d19e2",
   "license_boundary": "Iris schema interoperability independently implemented; no AGPL code vendored; original license pending",
   "runtime_db_uploaded": false,
   "production_changes": false,
   "private_records_read": 0,
   "secret_values_read": 0,
-  "summary": "First Shadow M2: persisted memory context and restart reconciliation; 15 targeted passed, host and E12 NOT_RUN"
+  "summary": "First Shadow M3: exact rollback, metadata-only SQL authorizer and real SIGKILL recovery; 10 targeted passed"
 }

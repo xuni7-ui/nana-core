@@ -75,16 +75,24 @@ def start(bundle, path, *, host_instance='operator-host', window_seconds=30):
     w = workspace(path, create=True)
     fd = lock_session(w)
     state_path = w / 'session.json'
-    previous = read_json(state_path) if state_path.exists() else None
-    run_id = uuid.uuid4().hex
-    state = {'run_id': run_id, 'phase': 'RUNNING', 'pid': os.getpid(), 'host_instance': host_instance,
-             'source_commit': m['source_commit'], 'bundle_manifest_hash': digest((Path(bundle) / 'bundle_manifest.json').read_bytes()),
-             'prior_termination': 'UNKNOWN' if previous and previous['phase'] == 'RUNNING' else 'CLEAN_OR_FIRST_START',
-             'started_at_unix_ns': time.time_ns(), 'window_seconds': window_seconds, 'observer_kind': 'adapter_local_probe_only'}
-    stopped = [False]
-    def stop_signal(signum, frame):
-        stopped[0] = True
-    prior_handlers = {sig: signal.signal(sig, stop_signal) for sig in (signal.SIGTERM, signal.SIGINT)}
+    prior_handlers = {}
+    try:
+        previous = read_json(state_path) if state_path.exists() else None
+        run_id = uuid.uuid4().hex
+        state = {'run_id': run_id, 'phase': 'RUNNING', 'pid': os.getpid(), 'host_instance': host_instance,
+                 'source_commit': m['source_commit'], 'bundle_manifest_hash': digest((Path(bundle) / 'bundle_manifest.json').read_bytes()),
+                 'prior_termination': 'UNKNOWN' if previous and previous['phase'] == 'RUNNING' else 'CLEAN_OR_FIRST_START',
+                 'started_at_unix_ns': time.time_ns(), 'window_seconds': window_seconds, 'observer_kind': 'adapter_local_probe_only'}
+        stopped = [False]
+        def stop_signal(signum, frame):
+            stopped[0] = True
+        for sig in (signal.SIGTERM, signal.SIGINT):
+            prior_handlers[sig] = signal.signal(sig, stop_signal)
+    except BaseException:
+        for sig, handler in prior_handlers.items():
+            signal.signal(sig, handler)
+        os.close(fd)
+        raise
     def requested():
         if stopped[0]:
             return True

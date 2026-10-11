@@ -1,0 +1,13 @@
+{
+  "source_commit": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
+  "format": "source package + separate support overlay, not wheel",
+  "artifact_name": "nana-first-shadow-package-m3.tar.gz",
+  "artifact_path": "/tmp/nana-first-shadow-package-m3.tar.gz",
+  "artifact_sha256": "84996e143cc5cb3366d0e1598233ea7b07199e87957d7d6ea1bd408633685306",
+  "artifact_bytes": 105393,
+  "transport_manifest_sha256": "bd41385216bc21d8b23bf5c20c267e66d9fd8284b12d8cc2e1b0bcc3e69afc0e",
+  "source_commit_attests_core_only": true,
+  "production_installed": false,
+  "no_binary_uploaded_to_git": true,
+  "dependencies_added": 0
+}
