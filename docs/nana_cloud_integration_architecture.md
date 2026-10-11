@@ -30,3 +30,8 @@ flowchart LR
 源码依据：src/nana_core/storage/sqlite_store.py Store.ingest/identity/transaction；actions.py ActionKernel；migration/routing.py OWNER_KEY/select_owner；migration/shadow.py ShadowObserver；migration/iris.py IrisAdapter；materials/iris_customizations/NEW_FILES/conversation_flow.py:297 append_event；src/bili_agent/bili_event_pump.py、bili_send_core.py。正式Iris字段依据docs/nana_core_phase3_iris_mapping.md及锁定source manifest；本次未复制AGPL执行代码。
 
 契约：HostEvent保留platform/channel/sender/event/conversation/reply/附件reference/来源/原时间。Adapter只生成unrelated Observation，原envelope作为artifact；事件命名空间区分host/platform，稳定key包括conversation/event/revision。重复内容不是重复事件。缺失/坏时间UNKNOWN，不用接收时间补造发生时间；原事件聊天不是可信事实。附件不下载；raw_content_reference是opaque locator，不自动读文件。
+
+## Read-only export and preflight (M2)
+`integration/exporter.py`提供API/CLI `nana-iris-export`：必须显式选择已经一致备份的SQLite/JSON快照；SQLite `mode=ro&immutable=1`，拒绝未清理WAL/journal，固定memories/nodes/edges表。**不对活跃DB使用immutable，不运行Iris初始化代码**，不打开FAISS。L1/画像/流水/index_meta通过操作者提取的有界JSON envelope读取；不会假装自动理解所有原生磁盘wrapper。14类夹具中的11schema全可封装，实际磁盘reader仅上述固定表和JSON envelope。默认hash-only，redact逐字段最小白名单，include须未来明确授权且stdout敏感，不上传Git；弱口令/低熵文本hash不是匿名化保证。每条稳定legacy id/payload hash/source/version/type/time/relation/UNASSESSED，manifest有界8MiB/100条，无来源写。
+
+`nana-cloud-preflight`只stat显式路径、读取包版本metadata/Python/SQLite、disk/当前进程和hostname hash。不会import插件、读配置、secret、聊天、DB，不安装/修复。当前Core要求Python>=3.12、SQLite>=3.51.3和Pydantic2.13.4；真实云端是否满足未知，若不满足BLOCKED，不擅自升级。未运行中的Iris版本/事件hook/快照一致性保留UNKNOWN；PASS不是自动获准部署。4 targeted passed，fixture DB逐字和目录列表未变化，dev预检UNKNOWN而不是宣称production ready。

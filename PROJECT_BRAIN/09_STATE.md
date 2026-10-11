@@ -283,3 +283,7 @@
 [实测] C-046：Phase III最终全量263 passed /0failed /0errors /1skip(E12)，36项新增不变量；最新14import/0reject/14duplicate、11真实结构、1conflict/1relation、replay/source/time/identity PASS。匹配shadow PARTIAL、6/6结构initiative、selection TESTED/engineering disabled PARTIAL。公网DNS/TLS阻塞，两Unknown/HTTP0/proxy CONNECT1，无真实模型。零新增SQL表/依赖/生产动作/私人记忆或secret值读取；main不动。最终报告docs/nana_core_phase3_entry.md与phase3_evidence/final_delivery.json，最终commit与远端相同状态以Git/ls-remote为准。
 
 [实测] C-046 指纹锚点 848e1a6aa8160d067a6f39a1ad3639f963e3fd8f498b4c8833adab1ffffbcd57；仅本检查点文件状态，不证明生产。
+
+[实测] C-047：Cloud M1: strict host observation contracts and non-production AstrBot adapter; 2 targeted passed；指纹锚点 0b960cb600a5718510d32888462ec0c240007c33f34f69b96a18ae79e8e5ec7e；仅本检查点文件状态，不证明生产。
+
+[实测] C-048：Cloud M2: frozen-snapshot read-only Iris exporter and metadata-only preflight; 4 targeted passed；指纹锚点 3312c8a10d676599fcd508b0e18e8acda203f444e3206020f5bee6b145e08beb；仅本检查点文件状态，不证明生产。

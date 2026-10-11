@@ -13,6 +13,8 @@ dependencies = ["pydantic==2.13.4"]
 test = ["pytest==9.1.1"]
 
 [project.scripts]
+nana-iris-export = "nana_core.integration.exporter:main"
+nana-cloud-preflight = "nana_core.integration.preflight:main"
 nana-offline = "nana_core.experiment:main"
 nana-semantic = "nana_core.semantic.runner:main"
 nana-migration = "nana_core.migration.experiment:main"

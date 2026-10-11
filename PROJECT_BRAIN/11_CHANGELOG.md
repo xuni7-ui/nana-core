@@ -476,3 +476,13 @@
 - **改了什么**：保存263pass/1skip完整JUnit/输出、SIGKILL/消融开发证据、逐P0—P11 final_delivery；统一明确公网/真实模型/真实Iris检索/工程执行未验收边界。实现源码为4048c3f2830911cbec9d238c3a25f8a2e992f660；本节点仅证据/文档/指纹。
 - **为什么**：完成连续开发最终可复现交付，不能把fixture、surrogate或UNKNOWN写成真实能力成功；状态需与实际测试产物一致。
 - **怎么验证**：完整264 collected→263 passed/0fail/0error/1skip(E12)，旧测试完整保留；14源记录/11schema、restart14duplicate、source/time/identity/replay PASS；6/6主动夹具、影子零写入。两次公网阻塞DNS/TLS、HTTP0；实际真实模型0。allowlist/敏感模式/许可证检查、独立开发commit/push/ls-remote回验；完整最终SHA以Git为准。
+
+## C-047 · Cloud M1: strict host observation contracts and non-production AstrBot adapter; 2 targeted passed
+- 改了什么：本节点源码/测试/报告，详见docs/nana_cloud_integration_architecture.md及阶段证据。
+- 为什么：用户授权云端接线准备，保留只读/Shadow/单执行权边界。
+- 怎么验证：对应targeted命令和结果在docs/nana_cloud_evidence；敏感模式/白名单检查、独立开发commit/push/ls-remote，最终SHA以Git为准。
+
+## C-048 · Cloud M2: frozen-snapshot read-only Iris exporter and metadata-only preflight; 4 targeted passed
+- 改了什么：本节点源码/测试/报告，详见docs/nana_cloud_integration_architecture.md及阶段证据。
+- 为什么：用户授权云端接线准备，保留只读/Shadow/单执行权边界。
+- 怎么验证：对应targeted命令和结果在docs/nana_cloud_evidence；敏感模式/白名单检查、独立开发commit/push/ls-remote，最终SHA以Git为准。
