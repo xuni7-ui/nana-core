@@ -204,3 +204,9 @@ def test_same_event_cannot_consume_second_receipt(tmp_path):
     with pytest.raises(ValueError,match='EVENT_REPLAY_BLOCKED'):l.consume(next_r.receipt_id,m)
     assert l.status(next_r.receipt_id)['uses']==0
     sink.close()
+
+def test_single_permit_cannot_be_minted_again(tmp_path):
+    sink,l,r=setup(tmp_path/'shadow');arm(l,r);m=sink.sanitizer.project(dict(RAW));l.consume(r.receipt_id,m)
+    sink.sanitizer.issue_consumed_permit(l,m)
+    with pytest.raises(ValueError,match='ALREADY_ISSUED'):sink.sanitizer.issue_consumed_permit(l,m)
+    sink.close()

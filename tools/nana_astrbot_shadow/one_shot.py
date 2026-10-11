@@ -167,7 +167,7 @@ class ReceiptLedger:
         now=max(now,json.loads(row['value_json']) if row else now)
         with self.store.transaction('r04.clock_observed') as tx:
             tx.put('core_meta',{'key':'r04.clock_highwater','value_json':canonical(now)})
-        return datetime.fromtimestamp(now/1_000_000,timezone.utc)
+        return datetime(1970,1,1,tzinfo=timezone.utc)+timedelta(microseconds=now)
 
     def create(self,receipt):
         if type(receipt) is not OneShotReceipt: raise ValueError('STRICT_RECEIPT_REQUIRED')

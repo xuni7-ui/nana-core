@@ -22,3 +22,5 @@ Verify the external archive checksum first, extract to a NEW private directory. 
 8. `receipt disarm` if unconsumed. Unbind adapter, close worker/Store, human unloads via Dashboard. Nana verifies registry absence/service health/no source/config/Iris/authority changes. Keep sanitized proof + DB locally; do not upload private IDs/hash key/body.
 
 No transition to Small Real Memory Shadow or E12 automatically. Real dispatcher/load/one-shot remain NOT_RUN/NOT_VERIFIED/UNVERIFIED until Nana's real evidence.
+
+Store ownership: the Observer worker holds the existing exclusive Store fence after its first operation. CLI writes correctly report BLOCKED while that writer is active. For disarm/collection requiring writer access, first unbind and close the Observer, then run the CLI. Do not create a second writer or weaken the fence. Read-only status uses a consistent SQLite snapshot. A raw byte-for-byte clone of an entire active Store is not an authorized restore protocol; offline permission-clone protection needs operator fencing. Supported backup/replay sets quarantine and cannot arm/consume.

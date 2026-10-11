@@ -27,6 +27,7 @@ class OneShotSanitizer(MetadataSanitizer):
         self.receipt_id=receipt_id
         self.__permits={}
         self.__outputs={}
+        self.__issued=False
 
     def project(self,raw):
         if type(raw) is not dict or len(raw)>64: raise ValueError('DROP_METADATA_SHAPE')
@@ -44,10 +45,12 @@ class OneShotSanitizer(MetadataSanitizer):
 
     def issue_consumed_permit(self,ledger,metadata):
         r,v=ledger.record(self.receipt_id)
+        if self.__issued:raise ValueError('DROP_ALREADY_ISSUED_PERMIT')
         if (v['state']!='CONSUMED' or v['uses']!=1 or v['core'] is not None
             or not ledger._review_valid(r,v['review']) or v['matched_metadata']!=metadata.public()
             or r.hash_scope!=self.scope or r.store_binding!=ledger.binding): raise ValueError('DROP_UNCONSUMED_PERMIT')
         p=OneShotPermit(r.receipt_id,r.receipt_digest,digest(metadata.public()),ledger.binding,ledger.trust.domain)
+        self.__issued=True
         self.__permits[id(p)]=p
         return p
 
