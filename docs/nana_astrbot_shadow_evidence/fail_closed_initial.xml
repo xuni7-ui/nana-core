@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="3" failures="0" skipped="0" tests="3" time="0.238" timestamp="2026-10-11T14:59:26.615300+00:00" hostname="cd95b0d4ef97"><testcase classname="" name="tests.integration.test_astrbot_sanitizer" time="0.000"><error message="collection failure">/tmp/nana-bootstrap-build/deps/_pytest/python.py:508: in importtestmodule
+    mod = import_path(
+/tmp/nana-bootstrap-build/deps/_pytest/pathlib.py:596: in import_path
+    importlib.import_module(module_name)
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1387: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:935: in _load_unlocked
+    ???
+/tmp/nana-bootstrap-build/deps/_pytest/assertion/rewrite.py:188: in exec_module
+    exec(co, module.__dict__)
+tests/integration/test_astrbot_sanitizer.py:4: in &lt;module&gt;
+    from tools.nana_astrbot_shadow.sanitize import MetadataSanitizer
+E     File "/workspace/nana-core/tools/nana_astrbot_shadow/sanitize.py", line 91
+E       if (key=='event_id' and v is None) or (v is not None and (type(v) is not str or not LABEL.fullmatch(v) or FORBIDDEN_VALUE.search(v)):
+E                                                                                                                                           ^
+E   SyntaxError: invalid syntax</error></testcase><testcase classname="" name="tests.integration.test_astrbot_isolation" time="0.000"><error message="collection failure">/tmp/nana-bootstrap-build/deps/_pytest/python.py:508: in importtestmodule
+    mod = import_path(
+/tmp/nana-bootstrap-build/deps/_pytest/pathlib.py:596: in import_path
+    importlib.import_module(module_name)
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1387: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:935: in _load_unlocked
+    ???
+/tmp/nana-bootstrap-build/deps/_pytest/assertion/rewrite.py:188: in exec_module
+    exec(co, module.__dict__)
+tests/integration/test_astrbot_isolation.py:8: in &lt;module&gt;
+    from tools.nana_astrbot_shadow.observer import ShadowObserver
+tools/nana_astrbot_shadow/observer.py:9: in &lt;module&gt;
+    from .sanitize import Metadata
+E     File "/workspace/nana-core/tools/nana_astrbot_shadow/sanitize.py", line 91
+E       if (key=='event_id' and v is None) or (v is not None and (type(v) is not str or not LABEL.fullmatch(v) or FORBIDDEN_VALUE.search(v)):
+E                                                                                                                                           ^
+E   SyntaxError: invalid syntax</error></testcase><testcase classname="" name="tests.integration.test_astrbot_source_shim" time="0.000"><error message="collection failure">/tmp/nana-bootstrap-build/deps/_pytest/python.py:508: in importtestmodule
+    mod = import_path(
+/tmp/nana-bootstrap-build/deps/_pytest/pathlib.py:596: in import_path
+    importlib.import_module(module_name)
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+&lt;frozen importlib._bootstrap&gt;:1387: in _gcd_import
+    ???
+&lt;frozen importlib._bootstrap&gt;:1360: in _find_and_load
+    ???
+&lt;frozen importlib._bootstrap&gt;:1331: in _find_and_load_unlocked
+    ???
+&lt;frozen importlib._bootstrap&gt;:935: in _load_unlocked
+    ???
+/tmp/nana-bootstrap-build/deps/_pytest/assertion/rewrite.py:188: in exec_module
+    exec(co, module.__dict__)
+tests/integration/test_astrbot_source_shim.py:5: in &lt;module&gt;
+    from tools.nana_astrbot_shadow.observer import ShadowObserver
+tools/nana_astrbot_shadow/observer.py:9: in &lt;module&gt;
+    from .sanitize import Metadata
+E     File "/workspace/nana-core/tools/nana_astrbot_shadow/sanitize.py", line 91
+E       if (key=='event_id' and v is None) or (v is not None and (type(v) is not str or not LABEL.fullmatch(v) or FORBIDDEN_VALUE.search(v)):
+E                                                                                                                                           ^
+E   SyntaxError: invalid syntax</error></testcase></testsuite></testsuites>

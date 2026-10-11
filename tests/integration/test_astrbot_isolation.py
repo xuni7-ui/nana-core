@@ -11,7 +11,7 @@ from test_astrbot_dedup import new_sink
 from nana_core.actions import ActionKernel,OperatorAuthority
 from nana_core.contracts import GrantSpec,CoreError
 
-@pytest.mark.parametrize('failure',[RuntimeError,FileNotFoundError,PermissionError])
+@pytest.mark.parametrize('failure',[RuntimeError,FileNotFoundError,PermissionError,KeyboardInterrupt])
 def test_sink_failure_drops_without_exception_or_private_logging(failure):
     codes=[]
     class Broken(Sink):

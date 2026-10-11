@@ -34,7 +34,7 @@ class ShadowObserver:
         self.last_result = {'status': code}
         try:
             if self._logger is not None: self._logger(code)  # fixed code only, never event/exception
-        except Exception:
+        except BaseException:
             pass
 
     async def callback(self, metadata_input, *, permit=None):
@@ -62,7 +62,7 @@ class ShadowObserver:
             self._record('DROP_CANCELLED')
         except TimeoutError:
             self._record('UNKNOWN_LOCAL_STORE_COMPLETION')
-        except Exception:
+        except BaseException:
             self._record('DROP_SHADOW_FAILURE')
         return None
 
@@ -77,7 +77,7 @@ class ShadowObserver:
             wrapped = asyncio.wrap_future(future)
             wrapped.add_done_callback(_consume_exception)
             await asyncio.wait_for(asyncio.shield(wrapped), 2.)
-        except (Exception, asyncio.CancelledError):
+        except BaseException:
             self._record('UNKNOWN_CLOSE')
         finally:
             self._worker.shutdown(wait=False, cancel_futures=False)

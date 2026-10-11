@@ -73,7 +73,7 @@ class MetadataSanitizer:
                 timestamp = dt.astimezone(timezone.utc).isoformat()
             return SanitizeResult('ACCEPT', Metadata(label('platform'), label('type'), identifier('event_id', True),
                 timestamp, identifier('conversation_id'), identifier('sender_id'), 'operator_probe', True, probe))
-        except Exception:
+        except BaseException:
             # Do not expose exception text/type from attacker-controlled objects.
             return SanitizeResult('DROP_INVALID_METADATA')
 
@@ -84,7 +84,7 @@ class MetadataSanitizer:
             raise ValueError('METADATA_SCOPE_DRIFT')
         for key in ('event_id', 'sender_hash', 'conversation_hash'):
             v = p[key]
-            if v is not None and (type(v) is not str or not re.fullmatch(r'[0-9a-f]{64}', v)):
+            if (key=='event_id' and v is None) or (v is not None and (type(v) is not str or not re.fullmatch(r'[0-9a-f]{64}', v))):
                 raise ValueError('METADATA_ID_NOT_HASHED')
         for key in ('platform', 'type'):
             v = p[key]

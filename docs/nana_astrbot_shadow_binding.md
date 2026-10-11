@@ -20,3 +20,13 @@ A safe real dispatcher probe remains BLOCKED_NO_INTERNAL_PROBE. C cannot become 
 Source-reported Iris status from Nana's docs/nana_shadow_iris_schema_20261011.md is SCHEMA_COMPATIBLE for11 shapes (actual L2/L3 structure, other types by source). It is Nana's recorded audit, not this inspector's host execution; live WAL parsing by this stricter frozen inspector remains refused. No private value was fetched by Codex.
 
 Runbook conflict: Nana D-044/observer docs recommend one Dashboard reload for a new plugin, but the same source audit states reload(name) cannot load an unregistered directory. Codex will not claim that click suffices. An already-authorized full-load path must be verified by Nana; otherwise BLOCKED_AUTH_REQUIRED remains. No new token/restart workaround.
+
+## Development review of Nana prototype (do not overwrite现场 files)
+
+Nana commit652a72f `src/plugins/astrbot_plugin_nana_shadow_observer/nana_observe_core.py` is a preliminary lifecycle logger, not the Core chain. `build_lifecycle_record` invokes getters/str on metadata, emits raw short version strings, and sets synthetic/binding_proof=true unconditionally; `emit_record` takes an environment-selected append path without this kit's no-symlink/private-file gate. Under adversarial inputs these are weaker boundaries than requested. Do not treat that boolean as the binding verifier's proof or wire arbitrary real events through it. This development kit's sanitizer/one-shot operator permit/MetadataCoreSink/independent evidence readback should replace the logger path in a reviewed integration, not coexist as a second memory/Core system. Codex leaves Nana files untouched. No automatic installation or private metadata import is added.
+
+## Integration handoff
+
+The kit's `AstrBotLifecycleBinding` receives the already-loaded filter API/registry/version and this `ShadowObserver`, all from a trusted host integration point. It registers only two exact callback names under Nana's existing observer module, ignores StarMetadata, and forwards only an explicitly armed synthetic probe. It does not supply `Star`/manager/global-loader scaffolding or run private-extension replacement inside AstrBot. Before using the Core sink in-process Nana must establish host SQLite>=3.51.3/Pydantic tested versions; otherwise the callback drops safely. The bundled private dependencies are for isolated foreground DEV harness only. No long-lived second runtime workaround is introduced.
+
+A lifecycle-only load/probe/unload can prove registry wiring C after host receipts; it cannot close FIRST_REAL_ASTRBOT_SHADOW as a real message-dispatcher gate. A/B remains unavailable by audited source. E12 remains NOT_RUN.

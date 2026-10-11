@@ -1,0 +1,9 @@
+{
+  "filename": "nana-astrbot-shadow-observer-686363e.tar.gz",
+  "bytes": 3300746,
+  "SHA256": "d1d4aca681f68f91f35b7af358a362136f05286340f3d357c0962de41054f53a",
+  "support_source_SHA": "686363e8487d7eadbe365ad709b9cefaee6ea90c",
+  "Core_source_SHA": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
+  "runtime_sha256": "95c7215bc78d43cae809e99fcc65c1572cd611c87ae273afb80138b61c01e6ec",
+  "binding_status": "BLOCKED_AUTH_REQUIRED"
+}
