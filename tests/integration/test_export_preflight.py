@@ -30,3 +30,11 @@ def test_bounded_json_and_metadata_preflight(tmp_path):
     assert r['status']=='BLOCKED' and r['files_written']==0 and 'do not read' not in json.dumps(r)
     assert secret.read_bytes()==before and not r['private_content_read']
     assert any(c['status']=='UNKNOWN' for c in r['checks'])
+
+def test_hash_only_preserves_relation_linkage_without_content():
+    rows=[('kg_node','operator-alias',{'id':'synthetic-person','name':'Fictional person','content':'not exported'}),
+        ('kg_edge','edge',{'source_id':'synthetic-person','target_id':'unknown','relation_type':'KNOWS'})]
+    r=bundle(rows,'synthetic:s');node,edge=r['records']
+    assert edge['relationship']['source_id']['resolved_stable_ids']==[node['stable_legacy_id']]
+    assert edge['relationship']['target_id']['status']=='UNKNOWN'
+    assert 'Fictional person' not in json.dumps(r)

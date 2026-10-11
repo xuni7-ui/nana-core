@@ -15,6 +15,8 @@ test = ["pytest==9.1.1"]
 [project.scripts]
 nana-iris-export = "nana_core.integration.exporter:main"
 nana-cloud-preflight = "nana_core.integration.preflight:main"
+nana-cloud-shadow-rehearsal = "nana_core.integration.rehearsal:main"
+nana-engineering-lab = "nana_core.integration.engineering_lab:main"
 nana-offline = "nana_core.experiment:main"
 nana-semantic = "nana_core.semantic.runner:main"
 nana-migration = "nana_core.migration.experiment:main"

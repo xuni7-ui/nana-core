@@ -1,0 +1,9 @@
+Processing /workspace/nana-core
+  Preparing metadata (pyproject.toml): started
+  Preparing metadata (pyproject.toml): finished with status 'done'
+Building wheels for collected packages: nana-core-offline
+  Building wheel for nana-core-offline (pyproject.toml): started
+  Building wheel for nana-core-offline (pyproject.toml): finished with status 'done'
+  Created wheel for nana-core-offline: filename=nana_core_offline-0.1.0-py3-none-any.whl size=126183 sha256=47915659179849d71d1993dbbcd29f7f900dc7e6bf9dda68f93170d275de8a3d
+  Stored in directory: /tmp/pip-ephem-wheel-cache-4gc9a_6e/wheels/ad/02/f1/77592dfa3337fad6311bf93dcc927b3376f5de5fe8372143b0
+Successfully built nana-core-offline

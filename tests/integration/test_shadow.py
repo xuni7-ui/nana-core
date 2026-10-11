@@ -32,3 +32,12 @@ def test_export_to_evidence_rehearsal(tmp_path):
     from nana_core.integration.rehearsal import run
     r=run(tmp_path/'lab');assert r['status']=='PASS' and r['export_record_count']==14
     assert r['same_identity'] and r['duplicate_after_restart'] and not any(r['zero_execution_tables'].values())
+
+def test_shadow_store_kernel_cannot_be_reenabled_by_operator(tmp_path):
+    from nana_core.actions import ActionKernel,OperatorAuthority
+    with Store(tmp_path/'s.db') as s:
+        a=OperatorAuthority();b=ShadowBridge(s,RuntimeIntegrationContext(host_instance='synthetic-host',expected_identity_id=s.identity['identity_id']))
+        k=ActionKernel(s,None,a)
+        with pytest.raises(CoreError,match='SHADOW_BLOCKED'):k.propose('reading.source.read','source://synthetic/a',{'source_id':'source://synthetic/a'})
+        with pytest.raises(CoreError,match='SHADOW_BLOCKED'):k.set_budgets({'write_attempts':10,'external_requests':10,'cost_micro_units':10},a)
+        assert not s.all('budgets') and not s.all('actions') and not s.all('attempts')

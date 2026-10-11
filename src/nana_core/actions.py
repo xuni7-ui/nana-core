@@ -29,12 +29,26 @@ class ActionKernel:
         if getattr(capability, "path", None) and capability.path.resolve() == store.path.resolve():
             raise CoreError("EXTERNAL_WORLD_MUST_BE_SEPARATE")
 
+    def _execution_fence(self):
+        if self.store.one('core_meta','cloud.shadow_runtime'):
+            raise CoreError('SHADOW_BLOCKED')
+        protocol=self.store.one('core_meta','cloud.execution_protocol')
+        if protocol:
+            phase=json.loads(protocol['value_json'])
+            owner=self.store.one('core_meta','migration.execution_owner')
+            owner=json.loads(owner['value_json']) if owner else None
+            if not owner or owner['epoch']!=phase['epoch']:raise CoreError('HANDOFF_EPOCH_UNRECONCILED')
+            actor=getattr(self.capability,'_actor',owner['actor'])
+            allowed={'CORE_ACTIVE'} if actor=='core_simulator' else {'LEGACY_ACTIVE','SHADOW_CORE','CORE_READY','LEGACY_RESTORED'}
+            if phase['state'] not in allowed:raise CoreError('HANDOFF_EXECUTION_FENCED')
+
     def _operator(self, authority):
         if authority is not self._authority:
             raise CoreError("UNAUTHENTICATED_OPERATOR")
 
     def set_budgets(self, values: dict, authority):
         self._operator(authority)
+        if self.store.one('core_meta','cloud.shadow_runtime'):raise CoreError('SHADOW_BLOCKED')
         if set(values) != {"write_attempts", "external_requests", "cost_micro_units"}:
             raise CoreError("INVALID_BUDGET_DIMENSIONS")
         with self.store.transaction("budget.configured", {"issuer": authority.principal}) as tx:
@@ -47,6 +61,7 @@ class ActionKernel:
 
     def grant(self, spec: GrantSpec, authority):
         self._operator(authority)
+        if self.store.one('core_meta','cloud.shadow_runtime'):raise CoreError('SHADOW_BLOCKED')
         if not set(spec.capabilities) <= self.capabilities | {self.verify_capability}:
             raise CoreError("UNKNOWN_CAPABILITY")
         if spec.expires_at_us <= spec.not_before_us:
@@ -107,6 +122,7 @@ class ActionKernel:
         return parsed.model_dump()
 
     def propose(self, capability, resource, args, goal_id=None, plan_id=None, effect_slot=None):
+        self._execution_fence()
         args = self._valid_args(capability, resource, args)
         if effect_slot:
             old = self.store.db.execute("SELECT * FROM actions WHERE effect_slot=? AND state NOT IN ('CANCELLED','NOT_APPLIED')", (effect_slot,)).fetchone()
@@ -157,6 +173,7 @@ class ActionKernel:
             args_hash=action["args_hash"], idempotency_key=action["idempotency_key"])
 
     def prepare(self, action_id):
+        self._execution_fence()
         action = self.store.one("actions", action_id)
         if not action or action["state"] not in {"PROPOSED", "BLOCKED"}:
             raise CoreError("ILLEGAL_ACTION_TRANSITION")
@@ -182,6 +199,7 @@ class ActionKernel:
             raise
 
     def dispatch(self, action_id, fault=None):
+        self._execution_fence()
         action = self.store.one("actions", action_id)
         if not action or action["state"] != "READY":
             raise CoreError("ILLEGAL_ACTION_TRANSITION")
@@ -218,6 +236,7 @@ class ActionKernel:
         return "PENDING_VERIFY"
 
     def verify(self, action_id):
+        if self.store.one('core_meta','cloud.shadow_runtime'):raise CoreError('SHADOW_BLOCKED')
         action = self.store.one("actions", action_id)
         if action["state"] in {"SUCCEEDED", "NOT_APPLIED", "FAILED_EFFECT"}:
             return action["state"]

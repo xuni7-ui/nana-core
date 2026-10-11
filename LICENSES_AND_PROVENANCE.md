@@ -58,3 +58,6 @@
 - Iris0.3.0公开AGPL源码仅/tmp只读核对，hash/永久版本引用见iris_source_manifest；不复制其实现，不导入运行插件。映射字段与适配器独立实现，不将AGPL补丁重新声明原创。
 - phase3/memory/initiative/selection和测试：本仓库可控增量，复用既有Core及原创Bridge契约，无新依赖。数据14条真实schema合成行与合成风险场景，不含私人记忆/生产库/凭据。
 - schema互操作不能赋予来源内容新许可；项目原创许可证继续待所有者决定。
+
+## Cloud integration development additions (C-052)
+`src/nana_core/integration/` is independent interoperability/engineering code and original license decision remains pending. Iris schema references use pinned upstream 0.3.0 plus separately licensed customization materials; no AGPL execution code copied into Core. Existing Bridge/preparation boundary helper reused within development repository, no third-party runner vendored into wheel. All new fixtures synthetic; no runtime SQLite DB, production chat, credential value or wheel binary uploaded to Git.

@@ -63,8 +63,13 @@ InitiativeHostGate只复用GoalCandidate/Initiative/jobs；Grant gate恒SHADOW_B
 
 首次真实开发工程操作限定**一次性synthetic git repo**，不得运行当前Core或production代码；allow_paths精确、拒绝symlink/hardlink/secret/production字符串/main，无网络git操作、merge/push/deploy/docker/shell。当前file.patch仅Python字面量赋值数据，不接受import/call/任意代码；可信打包runner用AST检查值，**不import生成代码**。这是真实文件修改/固定subprocess测试/git dev commit，但不是通用任意Python工程sandbox。固定argv不等于OS filesystem隔离，通用代码执行仍需另阶段有证据的sandbox；本轮没有假装解除这个缺口。
 
-复用旧EngineeringPreparationPort路径检查和Bridge TaskSpec/check_boundaries，仍不调用旧Runner的shell/凭据路径。git关闭hooks/GPG/fsmonitor/external diff/textconv，子进程环境白名单，不继承模型/生产凭据。commit必须引用Core SUCCEEDED的tests.run、当前同workspace hash、指定parent、无越界dirty/staged文件；失败测试不得commit。模型只提供proposal，不提供test receipt/action id/Grant，Core接受并串行patch→tests→diff→commit。独立验证再读文件hash、实际HEAD/action trailer与可信测试执行记录，不以模型自述为证据。
+复用旧EngineeringPreparationPort路径检查；其Bridge TaskSpec/check_boundaries准备接口仍在开发仓库，新的执行port不调用Bridge Runner或shell/凭据路径，wheel不复制旧Bridge执行器。git关闭hooks/GPG/fsmonitor/external diff/textconv，子进程环境白名单，不继承模型/生产凭据。commit必须引用Core SUCCEEDED的tests.run、当前同workspace hash、指定parent、无越界dirty/staged文件；失败测试不得commit。模型只提供proposal，不提供test receipt/action id/Grant，Core接受并串行patch→tests→diff→commit。独立验证再读文件hash、实际HEAD/action trailer与可信测试执行记录，不以模型自述为证据。
 
 工程Goal/Plan复用既有表，新template engineering_literal（不增SQL），完成进入EPISODE及UNASSESSED engineering experience candidate，不自动启用Strategy或扩大权限。ModelSelectionPolicy无真实端点时BLOCKED→**明确fixture分支**；真实模型自主开发NOT_RUN，当前CompatibleModelPort仍reading schema，泛化工程真实模型proposal契约尚未接线。
 
 [实测] M5 targeted 74 passed（集成/旧ActionKernel/S6/initiative/selection），真实CLI四步骤均SUCCEEDED、8 Attempts、实际独立dev commit已产生，重复运行不重复patch/test/commit。新增真实SIGKILL在patch外部效果+durable外部journal之后、Core receipt之前；恢复只独立verify，EXECUTE仍1次，随后完成测试和commit。测试失败时commit保持UNKNOWN且HEAD不变，UNKNOWN再次run不重派。六能力均实际execute/verify测试，read/inspect/diff不耗write_attempts。工程夹具NOT_RUN真实语义，不输出真实自主开发能力。
+
+## Final predeployment barrier and packaging (M6)
+ShadowBridge绑定Store `cloud.shadow_runtime`持久标志；原ActionKernel再次拒绝该Store的propose/dispatch/verify/Grant/现实预算配置，即使调用者误造Kernel也不能配置重启动作。非terminal旧action不能进入shadow。HANDOFF_PENDING/ROLLBACK_PENDING在Kernel创建/预留前亦阻断新动作，避免只在Router太晚拦截。HostShadowSession限制显式conversation、UTC截止时间、持久max_events；Crash会消耗一个slot而不是多读取新事件，重复原事件仍幂等。
+
+打包使用现有setuptools/wheel和no-index/no-deps/no-build-isolation，没有新增依赖。只读包/单同进程hook/独立shadow DB与backup路径、启动/卸载/升级/回滚见nana_cloud_deployment.md和nana_cloud_shadow_runbook.md。**没有安装到云端、没有确定现场AstrBot热加载/unregister API**；纯adapter不是已安装插件。首次真实接线需现场版本/hook证据；不可热加载则BLOCKED，不擅自重启。

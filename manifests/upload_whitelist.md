@@ -109,3 +109,5 @@
 - src/nana_core/phase3/*.py、src/nana_core/migration/iris*.py、src/nana_core/memory*.py、src/nana_core/initiative*.py、src/nana_core/semantic/selection.py、semantic/contracts.py、development/public_http.py；仅独立Core增量，不改生产树。
 - tests/phase3/*.py、docs/nana_core_phase3*.md、docs/nana_core_phase3_evidence/*.json/*.txt/*.xml、manifests/nana_core_phase3*.json、PROJECT_BRAIN、LICENSES_AND_PROVENANCE.md、pyproject.toml。
 - 不含DB、JSONL私人资料、运行凭据、完整第三方源树；上游Iris只在临时目录只读核对，不入库。
+
+Cloud bridge authorization: src/nana_core/integration/*.py, explicit ActionKernel/CapabilityRouter registry and fences, tests/integration/*.py, docs/nana_cloud*.md, docs/nana_cloud_evidence/{*.json,*.txt,*.xml,*.md}, manifests/nana_cloud*.json, pyproject.toml and PROJECT_BRAIN append records. No DB, credentials, private export or binary wheel in upload scope.

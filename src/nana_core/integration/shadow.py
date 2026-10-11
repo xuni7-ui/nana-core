@@ -30,6 +30,13 @@ class ShadowBridge:
     def __init__(self,store,context):
         self.store=store;self.context=RuntimeIntegrationContext.model_validate(context.model_dump())
         if store.identity['identity_id']!=self.context.expected_identity_id:raise CoreError('SHADOW_IDENTITY_MISMATCH')
+        marker={'mode':'SHADOW','identity_id':self.context.expected_identity_id,'host_instance':self.context.host_instance,'external_execute':False}
+        prior=store.one('core_meta','cloud.shadow_runtime')
+        if prior and json.loads(prior['value_json'])!=marker:raise CoreError('SHADOW_RUNTIME_BINDING_MISMATCH')
+        if any(a['state'] not in {'SUCCEEDED','NOT_APPLIED','FAILED_EFFECT','CANCELLED'} for a in store.all('actions')):raise CoreError('UNRESOLVED_RUNTIME_CANNOT_ENTER_SHADOW')
+        if not prior:
+            with store.transaction('cloud.shadow_runtime_bound',marker) as tx:
+                tx.put('core_meta',{'key':'cloud.shadow_runtime','value_json':canonical(marker)})
         self.adapter=AstrBotObservationAdapter()
     def observe(self,event,decision,revision='1'):
         if event.host_instance!=self.context.host_instance:raise CoreError('SHADOW_HOST_MISMATCH')

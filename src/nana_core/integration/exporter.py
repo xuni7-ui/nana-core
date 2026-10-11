@@ -23,11 +23,28 @@ def _safe_payload(value):
         for v in value.values():_safe_payload(v)
     elif isinstance(value,list):
         for v in value:_safe_payload(v)
+    elif isinstance(value,str) and value.lstrip().startswith(('{','[')):
+        try:parsed=json.loads(value)
+        except ValueError:return
+        _safe_payload(parsed)
+
+def _redact(payload):
+    out={k:'[REDACTED]' for k in payload}
+    if isinstance(payload.get('role'),str) and payload['role'] in {'user','assistant','system','tool'}:out['role']=payload['role']
+    for k in ('version','confidence','weight'):
+        if type(payload.get(k)) in {int,float}:out[k]=payload[k]
+    for k in ('timestamp','created_time','updated_at','ts','t_utc'):
+        if iris_time(payload.get(k))[0] is not None:out[k]=payload[k]
+    return out
 
 def bundle(records, source_identity, *, mode='hash-only', clock=None, source_version='iris-0.3.0', max_records=100):
     if mode not in {'include','redact','hash-only'}:raise CoreError('INVALID_EXPORT_MODE')
     if len(records)>max_records:raise CoreError('EXPORT_RECORD_LIMIT')
-    output=[];counts=Counter();seen={}
+    output=[];counts=Counter();seen={};native={}
+    for kind,key,payload in records:
+        native_id=payload.get('id') if kind in {'kg_node','l2'} else payload.get('memory_id') if kind=='l2_row' else None
+        if native_id:
+            native.setdefault(('node' if kind=='kg_node' else 'memory',str(native_id)),[]).append(digest([source_identity,kind,key]))
     for kind,key,payload in records:
         if kind not in FIELDS or not key:raise CoreError('UNMAPPED_EXPORT_RECORD')
         raw=canonical(payload);_safe_payload(payload)
@@ -40,13 +57,18 @@ def bundle(records, source_identity, *, mode='hash-only', clock=None, source_ver
         t=payload.get('timestamp',payload.get('created_time',payload.get('updated_at',payload.get('ts',payload.get('t_utc')))))
         us,quality=iris_time(t)
         # Opaque hashes preserve equality/linkage without exposing names or text.
-        relation={k:digest([source_identity,payload[k]]) for k in ('source_id','target_id','source_memory_id') if payload.get(k)}
-        shown=payload if mode=='include' else ({k:(v if k in {'role','version','confidence','weight','timestamp','created_time','updated_at','ts','t_utc'} else '[REDACTED]') for k,v in payload.items()} if mode=='redact' else None)
+        relation={}
+        for k in ('source_id','target_id','source_memory_id'):
+            if payload.get(k):
+                ids=native.get(('memory' if k=='source_memory_id' else 'node',str(payload[k])),[])
+                relation[k]={'reference_token':digest([source_identity,payload[k]]),'resolved_stable_ids':ids,
+                    'status':'RESOLVED' if len(ids)==1 else 'AMBIGUOUS' if ids else 'UNKNOWN'}
+        shown=payload if mode=='include' else (_redact(payload) if mode=='redact' else None)
         item={'stable_legacy_id':stable,'legacy_kind':kind,'legacy_key':key if mode=='include' else digest(key),
             'payload_hash':h,'payload':shown,'coverage':'FULL_SUPPLIED_ROW' if mode=='include' else 'REDACTED' if mode=='redact' else 'HASH_ONLY',
             'source_identity':source_identity,'provenance':{'producer':'iris-readonly-snapshot-export','schema':'iris-0.3.0','upstream_commit':'0557a4c1de1969bdccdb5a5de4b3724dc94aa6f6'},
             'original_record_time_us':us,'underlying_occurrence_time_us':us if kind in {'l1','conversation_flow'} else None,
-            'time_quality':quality,'relationship':relation,'assessment':{'Core':'UNASSESSED','legacy_confidence':payload.get('confidence')}}
+            'time_quality':quality,'relationship':relation,'assessment':{'Core':'UNASSESSED','legacy_confidence':payload.get('confidence') if type(payload.get('confidence')) in {int,float} else None}}
         output.append(item);counts[kind]+=1
     result={'schema_version':1,'source_version':source_version,'source_identity':source_identity,'exported_at_us':(clock or Clock()).utc_now_us(),
         'mode':mode,'record_counts':dict(counts),'total_records':len(output),'records':output,
@@ -61,10 +83,13 @@ def read_sqlite_snapshot(path, table, *, frozen=False, limit=100):
     path=Path(path)
     if path.is_symlink() or not path.is_file():raise CoreError('REGULAR_SNAPSHOT_REQUIRED')
     if any(p.exists() and p.stat().st_size for p in (Path(str(path)+'-wal'),Path(str(path)+'-journal'))):raise CoreError('UNRESOLVED_SNAPSHOT_JOURNAL')
-    with sqlite3.connect(path.resolve().as_uri()+'?mode=ro&immutable=1',uri=True) as db:
+    db=sqlite3.connect(path.resolve().as_uri()+'?mode=ro&immutable=1',uri=True)
+    try:
+        db.setlimit(sqlite3.SQLITE_LIMIT_LENGTH,150000)
         db.row_factory=sqlite3.Row;db.execute('PRAGMA query_only=ON')
         db.execute('BEGIN')
         rows=[dict(row) for row in db.execute(f'SELECT * FROM {table} LIMIT ?', (limit+1,))]
+    finally:db.close()
     if len(rows)>limit:raise CoreError('EXPORT_RECORD_LIMIT')
     kind,key=TABLES[table];result=[]
     for row in rows:

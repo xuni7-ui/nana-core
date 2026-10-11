@@ -47,7 +47,10 @@ def bind(store,directory,authorize=False):
     return port,kernel
 
 def run(directory,*,authorize=True,kill_after_patch=False):
-    p=Path(directory);p.mkdir(parents=True,exist_ok=True)
+    p=Path(directory).resolve()
+    live=Path(__file__).resolve().parents[3]
+    if p==live or live in p.parents:raise CoreError('LIVE_CORE_WORKSPACE_FORBIDDEN')
+    p.mkdir(parents=True,exist_ok=True)
     if not (p/'workspace').exists():initialize(p/'workspace')
     with Store(p/'core.db') as s:
         port,kernel=bind(s,p,authorize)
