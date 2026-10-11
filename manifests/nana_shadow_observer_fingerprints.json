@@ -1,0 +1,22 @@
+{
+  "package": "astrbot_plugin_nana_shadow_observer",
+  "version": "0.0.1-dev",
+  "kind": "DEVELOPMENT_COPY_NOT_INSTALLED",
+  "built_note": "2026-10-11 CST",
+  "baseline_branch": "dev/nana-core-v1-astrbot-shadow-bind",
+  "baseline_head": "c3ada9b09faa8a2683f98d5c8bafec24779cfd71",
+  "source_dir": "src/plugins/astrbot_plugin_nana_shadow_observer",
+  "artifact": "artifacts/nana-shadow-observer/nana_shadow_observer-0.0.1-dev.tar.gz",
+  "artifact_sha256": "27fc75d98388d0890c4b7eeca67671b4b475f885c85938a958e0b1e9245e66fa",
+  "artifact_deterministic": true,
+  "artifact_determinism_recipe": "GNU tar format, sorted entries, mtime=0, uid/gid=0, uname/gname empty, mode 0644, gzip mtime=0",
+  "files": {
+    "src/plugins/astrbot_plugin_nana_shadow_observer/main.py": "07386a32f0140372b0bc4a458df6853d7023c602bbd004236e51aeba79930a93",
+    "src/plugins/astrbot_plugin_nana_shadow_observer/metadata.yaml": "954d011f8e0781f0655e043e97806af078278796c10b79eb1c4a0a0ed8cf14a5",
+    "src/plugins/astrbot_plugin_nana_shadow_observer/nana_observe_core.py": "06697836c4277e5947876b766c7c99fe0b22938b73ad4d53a1e648079d5e9734"
+  },
+  "intended_install_path_NOT_DONE": "/AstrBot/data/plugins/astrbot_plugin_nana_shadow_observer",
+  "installed": false,
+  "loaded": false,
+  "registered": false
+}

@@ -224,3 +224,22 @@
 ## 2026-10-11 · ABI shape 与 patch 回归覆盖分离
 [实测] SUPERSEDES Bootstrap精确Python3.12.14兼容门：同一原stdlib private binding在实际Ubuntu24.04/CPython3.12.3/glibc2.39通过306回归和真实WAL/backup/refcount测量，故补丁字符串不是已证明的ABI限制。
 [文档] 硬门采用CPython/minor3.12/normal ABI/Linux/x86_64/exact SOABI+suffix/glibc>=2.34及private extension/dependency实际加载；3.12.3、3.12.14为已测release，其余patch明确UNTESTED，不自动宣称full regression兼容。失败必须输出具体分类和非秘密环境metadata。保留-I -B -S、SQLite3.51.3、Core固定55文件；不升级宿主，不重建原runtime，不新增完整Python。
+
+
+## D-044 — 「已鉴权 reload 是当前唯一免重启入口」升格为长期边界（2026-10-11 CST）
+
+[实测] AstrBot 4.28.0 **框架层支持**动态 `load()/reload()`（`astrbot/core/star/star_manager.py:1068/1010`），
+因此**不得**再用 `BLOCKED_RESTART_REQUIRED` 描述框架能力。
+
+[实测] 但免重启通道**全部受限**：文件 watcher 需 `ASTRBOT_RELOAD=1`（未设）；
+Dashboard `POST /api/plugin/reload` 需 JWT（`astrbot/dashboard/api/plugins.py`，secret 禁读）；
+`reload(name)` 只作用于**已注册**插件，**不载入全新目录**。
+
+⇒ **长期边界**：在 `ASTRBOT_RELOAD` 未启用且不读取 Dashboard 凭据的前提下，
+「载入一个全新插件」**没有**免重启通道；唯一最小人工动作 = **姐姐在已登录 Dashboard 手动点一次 reload**。
+该动作不得由奈奈自动执行，也不得演化为读取 JWT 或重启 AstrBot。
+
+[实测] **dispatcher 与 registry 必须分开陈述**：`real registry` 绑定可被生命周期 hook 证明；
+`real dispatcher`（`EventBus.dispatch()` → 9 段管道）**不可**被生命周期 hook 证明。
+禁止把「registry binding PASS」写成「dispatcher probe PASS」。
+无安全内部合成事件入口 ⇒ 记录 `BLOCKED_NO_INTERNAL_PROBE`，**不使用真实用户消息替代**。

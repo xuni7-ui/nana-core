@@ -1,0 +1,7 @@
+name: astrbot_plugin_nana_shadow_observer
+display_name: Nana Shadow Observer (RO, DEV)
+author: nana-core
+version: v0.0.1
+desc: 只读、fail-closed 的临时观察插件（仅开发副本，未安装）。只吃生命周期 hook，无回复/无模型/无网络/无 Iris 写。
+entry: main
+astrbot_version: ">=4.0.0"

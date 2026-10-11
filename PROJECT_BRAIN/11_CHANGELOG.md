@@ -596,3 +596,20 @@
 - 改了什么：实际Ubuntu24.04/CPython3.12.3兼容证据、support ABI门/失败分类/复用原runtime或交付归档，按本检查点文件清单与docs/nana_shadow_host_compat.md。
 - 为什么：真实宿主被补丁版本字符串阻断；仅在开发侧闭合ABI与可下载包交付，不升级宿主/不改生产。
 - 怎么验证：对应targeted/完整回归/实际解包与SIGKILL证据保留，逐文件白名单/凭据模式/许可证审查，独立开发commit/push/ls-remote；最终SHA以Git为准。
+
+
+## C-071 · Shadow Bind R02: dispatcher/registry 源码审计 + observer 开发副本（未安装）+ 状态口径修正 + Iris schema-only 兼容
+
+- 改了什么：
+  - `docs/nana_shadow_astrbot_dispatcher_audit_20261011.md`（M1：P2 十问逐项带 `path + symbol + line`；dispatcher map；六硬问题直答）。
+  - `src/plugins/astrbot_plugin_nana_shadow_observer/{main.py,metadata.yaml,nana_observe_core.py}`（M2：零正文 / fail-closed 生命周期观察器，**开发副本**）。
+  - `tests/nana_shadow/test_observer_offline.py`（9 例离线）。
+  - `manifests/nana_shadow_observer_fingerprints.json` + `artifacts/nana-shadow-observer/nana_shadow_observer-0.0.1-dev.tar.gz`（确定性打包）。
+  - `docs/nana_shadow_registration_blocker_20261011.md`（M3）、`docs/nana_shadow_observer_dev_20261011.md`（M2+P14 runbook）、
+    `docs/nana_shadow_iris_schema_20261011.md`（M4）。
+  - PROJECT_BRAIN 03/04/09/10/11 同步。
+- 为什么：任务书要求在**不重启、不读 JWT** 前提下，把「hook 是否真实可绑」从摘要推进到源码级结论，
+  并产出可审计的 observer 开发副本与安装 runbook。
+- 怎么验证：`python3 -m pytest tests/nana_shadow -q` → 9 passed；打包确定性复算一致；
+  全量套件失败点全部为既有 `SQLITE_VERSION_UNSUPPORTED`（非回归）；逐文件指纹入 manifest；独立开发分支 commit/push/ls-remote。
+- 关键结论：**生命周期 hook = plugin manager 直调 registry，不是真实 dispatcher** ⇒ `BLOCKED_NO_INTERNAL_PROBE`。

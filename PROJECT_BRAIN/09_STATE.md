@@ -371,3 +371,31 @@
 [实测] Host ABI远端资产闭合：GitHub私有开发分支commit 659e3f55104363ab0b21fe0709b2ecc2e1792e95已保存单文件artifacts/shadow-bootstrap/nana-shadow-bootstrap-host3123-cd2e8a302a6d.tar.gz；新建独立bare repo实际fetch/read remote blob，3,270,530bytes及SHA256 c793991badd5efeaaa4676730278c2cdf3f2e01ee5ccafd1626edc4819b49c88完全一致。下载URL在final_delivery.json/remote_asset_verification.json/docs，非仅/workspace路径；本轮未操作真实宿主。最终报告提交以HEAD/ls-remote为准；318pass/0fail/1skip每解释器，无后续代码变更。
 
 [实测] C-070：Shadow host FINAL: verified remote downloadable archive bytes, actual dual-Python318 regressions and unchanged production scope；指纹锚点 65e4a64556252313bd3ff2144e7ebf9ad0d011e3872cd1b5f31d93ace9f93c1d；不证明生产运行。
+
+
+---
+
+## 2026-10-11 (CST) · Shadow Bind R02：dispatcher 审计 + observer 开发副本（**状态口径修正**）
+
+> SUPERSEDES 早前 `FIRST_REAL_ASTRBOT_SHADOW = BLOCKED_RESTART_REQUIRED` 的措辞。
+
+| 状态键 | 值 |
+|---|---|
+| `AstrBot dynamic reload supported` | **YES**（源码级：`star_manager.py:1010/1068`） |
+| `Restart required by framework` | **NO** |
+| `Permitted dynamic load channel` | **BLOCKED_AUTH_REQUIRED** |
+| `Observer registered` | **NO** |
+| `host_binding` | **UNVERIFIED** |
+| `FIRST_REAL_ASTRBOT_SHADOW` | **BLOCKED** |
+| `Internal synthetic dispatch available` | **NO** |
+| `Real dispatcher probe` | **BLOCKED_NO_INTERNAL_PROBE** |
+| `AstrBot runtime` | 4.28.0 / Python 3.12.14 / CONTAINER / `ASTRBOT_RELOAD` 未设（`[实测]`） |
+| `Iris schema compatibility` | **SCHEMA_COMPATIBLE**（11/11 类逐字段一致） |
+| `observer dev copy` | 已实现 + 9/9 离线测试 + 已打包指纹（**未安装**） |
+
+- [实测] 开发基线已切至 `dev/nana-core-v1-astrbot-shadow-bind` @ `c3ada9b09faa8a2683f98d5c8bafec24779cfd71`
+  （本地旧 `master@18bc736` 不再作为实现基线；三个未提交证据文件已备份至 `/root/nana_dev/_evidence_backup_20261011/` 并随分支保留）。
+- [实测] 本轮零漂移：重启 0 / secret 读取 0 / 认证绕过 0 / 生产源码改动 0 / 生产插件目录触碰 0 / 外发消息 0 / 私人正文读取 0。
+- [未知] 最短路径：**姐姐在已登录 Dashboard 手动点一次插件 reload**（奈奈不读 JWT、不重启），奈奈随后只读取证 —— runbook 见
+  `docs/nana_shadow_observer_dev_20261011.md` §6。
+- [未知] 该路径只能证明 **registry binding**，**不证明** dispatcher traversal。

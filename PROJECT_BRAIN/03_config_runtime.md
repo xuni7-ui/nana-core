@@ -58,3 +58,18 @@
 - 【实测】Codex Bridge Node 侧：Node `v24.20.0` / npm `11.19.0` / `@openai/codex` `0.162.0`，安装于 `/opt/nana_codex`（**不在 git**）；重建见 `docs/bridge_node_rebuild.md`。
 - 【实测】外部工具：FFmpeg/FFprobe `7.1.5`。
 - 配置示例均**不含真实密钥**。
+
+
+---
+
+## P4 增补 · 真实运行态 hook/registry 口径（2026-10-11 CST，`[实测]`）
+
+- 【实测】AstrBot 运行位置 = **CONTAINER**（与奈奈同一容器；PID1=`python main.py`）；版本 **4.28.0**；Python 3.12.14。
+- 【实测】插件目录 `/AstrBot/data/plugins`；保留插件目录 `/AstrBot/astrbot/builtin_stars`；插件数据 `/AstrBot/data/plugin_data`。
+- 【实测】**不存在统一 hook dispatcher**。唯一真派发器 `EventBus.dispatch()`（`astrbot/core/event_bus.py:39`）**只服务消息事件**；
+  生命周期/平台/结果装饰 hook 由各站点**直接遍历同一注册表**（`star_handlers_registry`，`astrbot/core/star/star_handler.py:216`）。
+- 【实测】`OnPluginLoadedEvent` 派发点 = `astrbot/core/star/star_manager.py:1421`（**plugin manager 直调**，非 dispatcher）；
+  `OnPluginUnloadedEvent` = `:2044`。卸载移除链 = `_unbind_plugin()`（`:1874`）→ `get_handlers_by_module_name`（`:1894`）→ `remove()`（`star_handler.py:205`）。
+- 【实测】`ASTRBOT_RELOAD` **未设置**（宿主 shell + `/proc/1/environ` 均无）⇒ 文件 watcher 未启动。
+- 【实测】无重启载入新插件的现存通道 = Dashboard `POST /api/plugin/reload`（`astrbot/dashboard/api/plugins.py:1391/837/1104`），**需 JWT**。
+- 详见：`docs/nana_shadow_astrbot_dispatcher_audit_20261011.md`。

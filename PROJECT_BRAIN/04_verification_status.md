@@ -147,3 +147,37 @@
 
 ## Cloud bridge C-053
 [实测] ②宿主Adapter/只读snapshot exporter/preflight/authority协议/initiative/Persona fixtures；③两个synthetic shadow CLI进程及真实dev工程patch/test/commit/SIGKILL恢复；全量281pass/0fail/1skip。④生产runtime/hook/version/private migration/authority翻转/真实模型E12未验证；公网BLOCKED，工程任意代码执行未启用。证据docs/nana_cloud_evidence/final_delivery.json与final_junit.xml。
+
+
+---
+
+## Shadow Bind R02 · M1–M4（2026-10-11 CST）
+
+### M1 = runtime topology + hook audit
+- [实测] ①已实现：`docs/nana_shadow_astrbot_dispatcher_audit_20261011.md`（P2 十问 + dispatcher map，全部带 path+symbol+line）。
+- [实测] ③已运行验收（只读）：AstrBot 4.28.0 / CONTAINER / `ASTRBOT_RELOAD` 未设 —— 均为宿主实测，非文档推断。
+- [未知] ④：`host_binding` 仍 `UNVERIFIED`。
+
+### M2 = observer 实现 + 离线测试
+- [实测] ①已实现：`src/plugins/astrbot_plugin_nana_shadow_observer/`（3 文件，开发副本，**未安装**）。
+- [实测] ②已测试：`python3 -m pytest tests/nana_shadow -q` → **9 passed**（zero-plaintext / fail-closed / 白名单 / handler 返回 None）。
+- [实测] 打包：`artifacts/nana-shadow-observer/nana_shadow_observer-0.0.1-dev.tar.gz`
+  sha256 `27fc75d98388d0890c4b7eeca67671b4b475f885c85938a958e0b1e9245e66fa`（确定性复算通过）。
+- [未知] ④：未加载 / 未注册 / probe 未跑。
+
+### M3 = real registration BLOCKED
+- [实测] ①已实现：`docs/nana_shadow_registration_blocker_20261011.md`、`docs/nana_shadow_observer_dev_20261011.md`。
+- [实测] 状态：`FIRST_REAL_ASTRBOT_SHADOW = BLOCKED`；`Permitted dynamic load channel = BLOCKED_AUTH_REQUIRED`；
+  `Real dispatcher probe = BLOCKED_NO_INTERNAL_PROBE`（生命周期 hook 是 plugin manager 直调，**不构成**真实 dispatcher probe）。
+- [未知] ④：无 `BLOCKED_RESTART_REQUIRED`（框架层动态加载能力已被源码证明存在）。
+
+### M4 = Iris schema-only 兼容
+- [实测] ①已实现：`docs/nana_shadow_iris_schema_20261011.md`。
+- [实测] ③判定：**`SCHEMA_COMPATIBLE`** —— Iris 0.3.0 的 11 类形态与 `src/nana_core/migration/iris.py:11-35` 的 `FIELDS` 逐字段一致；
+  L2 `metadata.db` / L3 `graph.db` 用 **`mode=ro`** 实读 `sqlite_master` 交叉验证；`index_meta.json` 实读键名。
+- [实测] 私人值读取 = **0**（只取结构元数据）。
+
+### 回归口径（重要）
+- [实测] nana_core 全量套件在本宿主解释器下 `65 failed / 171 passed / 82 errors`，
+  **全部**落点 = `SQLITE_VERSION_UNSUPPORTED`（`src/nana_core/storage/sqlite_store.py:78`，需 SQLite ≥3.51.3；宿主三解释器均 3.46.1）。
+- [实测] 此为**既有环境门槛**，与 R02 观察器改动无因果；观察器 9/9 在宿主解释器独立通过。
