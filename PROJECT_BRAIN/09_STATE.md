@@ -251,3 +251,7 @@
 [实测] C-038：M2 E12正式readiness已运行，冻结快照未变；开发端点0，真实模型0，E12 NOT_RUN、费用0，未读secret值。M1远端4f51b5a385ac9a4673e1ba093b782b1ff840c023一致。Iris上游完整源树不在仓库；本轮只读获取登记0.3.0 commit0557a4c1de1969bdccdb5a5de4b3724dc94aa6f6到/tmp用于字段核对，不入库或运行上游。
 
 [实测] C-038 指纹锚点 8be37a2e89c218faec3bb965572d8d2847aca8cf6930a71875a94d5036e6a42d；仅本检查点文件状态，不证明生产。
+
+[实测] C-039：M3 Iris schema mapping+adapter②已测试，14 synthetic records/11结构，新7及S6 29共36pass；真实SIGKILL恢复、去重、拒绝/未知语义保留，无新Core表/权限。真实私人DB/生产迁移未运行；M2 E12仍NOT_RUN。映射docs/nana_core_phase3_iris_mapping.md与iris_source_manifest.json为锁定源证据。
+
+[实测] C-039 指纹锚点 5fe2336a8d6382a5ef14bde304bd202494fac378ba027327d688eff65ce2c6ae；仅本检查点文件状态，不证明生产。

@@ -1,0 +1,34 @@
+{
+  "repository": "Leafliber/astrbot_plugin_iris_chat_memory",
+  "commit": "0557a4c1de1969bdccdb5a5de4b3724dc94aa6f6",
+  "license": "AGPL-3.0",
+  "temporary_read_only_checkout": "/tmp/nana-iris-phase3-upstream",
+  "vendored": false,
+  "executed_upstream_code": false,
+  "files": {
+    "iris_memory/l1_buffer/models.py": "d1d611cff08b50a3b7718f6132b8c9f4fc5d31ec33c6f948714d5309658e064b",
+    "iris_memory/l1_buffer/buffer.py": "4e63304c099218109ab181adef4a129e07e3fc62520494336b416043e69ec1c1",
+    "iris_memory/l1_buffer/summarizer.py": "ed0165ab19ed1cbeb76d5dee192896d3661ddff6b8249b1dea51f3f2c8edd445",
+    "iris_memory/l2_memory/models.py": "54a0a75ccfe18b111a1b114d27667404f2feb7079a2efc29ba209dab5b735c24",
+    "iris_memory/l2_memory/adapter.py": "c6570dca0d2697cec24900ed01139a79f4d41c66a412dcb1f2191c625f230435",
+    "iris_memory/l2_memory/io.py": "a7846bcf40e00de3c0745a50a71192ce3514cf9e21247252ee646597d579ff46",
+    "iris_memory/l2_memory/retriever.py": "92207b5fdb56ae1550f8070b0c2b9aaa8714cc014c76efadb6b6be2d9e790b11",
+    "iris_memory/l3_kg/models.py": "55b0d9a6d151d4012ff5d8cbf99f5087926e0ba5278f8e17fd136673c225420e",
+    "iris_memory/l3_kg/adapter.py": "767a7efbae20d4c9275631b3dedbb6745f4cb5d5ae57f6b153abda4b6a308033",
+    "iris_memory/l3_kg/extractor.py": "2a946a62c077b8f38251949bf3f5b667ee8a0d3e62600e8f020b0623c976ef9d",
+    "iris_memory/profile/models.py": "16cf77531b4a659146d94e2d12d4e5a5ee407fa9960182810cfe39d0524cdd61",
+    "iris_memory/profile/storage.py": "7de79cc046066f71f56b4c3631f1713d0916a97e584a078e2a3c8dcbe63407ac",
+    "iris_memory/dream/contradiction.py": "f63f895b773eca9d01cc444a92aa6fb576b0e04a935a6aed0c2039bb1ca71977",
+    "iris_memory/dream/pruning.py": "4d70fd5f88d8ab35df1a91bd8a5dba396fa33013f1ebf51fb8fc258fbca20685",
+    "iris_memory/core/storage.py": "80f2d48be9513b6c5ee76ce5f84fd60d352a8a0a9bb99d6d014a2ed13e370460"
+  },
+  "customizations": {
+    "materials/iris_customizations/NEW_FILES/decision_log.py": "2d8028060280fa8e33a97b64382daf46b06248d09fedb5f01173e58f28f8b61a",
+    "materials/iris_customizations/NEW_FILES/test_gate_off_parity.py": "9994fbe8324c1d551fdfce0092c6d730a110f7caf940dca7ee34c5c384ca43ce",
+    "materials/iris_customizations/NEW_FILES/timeutil.py": "a9c73bf9d125a94d0bf03bd23ac509c3b27bbdeb23e8974df05acd6993323179",
+    "materials/iris_customizations/NEW_FILES/semantic_gate.py": "7eda670c21292726e53373a6e0e9245a574200cad572ce3ebd4268e3ea3dd0e4",
+    "materials/iris_customizations/NEW_FILES/action_ledger.py": "d74d70bfdebb8006f49f24dffae999c4353385e67b320f298db7bee371a0a171",
+    "materials/iris_customizations/NEW_FILES/test_semantic_gate.py": "b92349f226f8fb08427a2b23f68f2f2af4d6fd0955b9856789979307a37edb2b",
+    "materials/iris_customizations/NEW_FILES/conversation_flow.py": "0fa5a1e81476e31fbff44cf56ad378fc23c4e9ae736a547db70118ed5d9e794c"
+  }
+}

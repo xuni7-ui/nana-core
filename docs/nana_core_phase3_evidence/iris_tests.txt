@@ -1,0 +1,13 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0
+rootdir: /workspace/nana-core
+configfile: pyproject.toml
+plugins: anyio-4.14.2
+collected 36 items
+
+tests/phase3/test_iris_adapter.py .......                                [ 19%]
+tests/migration/test_experiment.py .                                     [ 22%]
+tests/migration/test_legacy.py ...............                           [ 63%]
+tests/migration/test_shadow_routing.py .............                     [100%]
+
+============================== 36 passed in 1.15s ==============================

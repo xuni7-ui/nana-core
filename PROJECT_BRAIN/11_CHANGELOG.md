@@ -430,3 +430,8 @@
 - 改了什么：只新增脱敏环境就绪与S5正式readiness证据，无模型适配新框架。
 - 为什么：没有显式授权开发端点不能借用历史生产DeepSeek，也不能把当前助手或协议模拟器当E12。
 - [实测] 怎么验证：environment_status current/spec33，secrets/vars/identities0；既有prepare/evaluate实际运行，snapshot unchanged，E12 NOT_RUN、calls0、models[]、token不适用、费用0。M1已保存远端4f51b5a385ac9a4673e1ba093b782b1ff840c023。继续不依赖端点的记忆任务。
+
+## C-039 — M3 Iris真实结构映射与适配
+- 改了什么：锁定上游源码证据manifest、正式11类schema字段映射；IrisAdapter复用LegacyImporter，原始与canonical两事务可恢复，14条synthetic真实字段夹具；不新增Core表。
+- 为什么：不能从补丁/文档想象L2/L3/profile字段，也不能把旧VERIFIED/summary/action变成Core事实/执行；实测源adapter为FAISS+SQLite/L3 SQLite而非旧注释Chroma/Kuzu。
+- [实测] 怎么验证：36 targeted passed（新7+S6 29），重复14duplicate，真实SIGKILL -9后1duplicate+13imported，来源/时间/身份保持、无Action/Grant/Strategy；拒绝记录完整batch evidence保留。首轮35pass/1fail为测试epoch常量误写2025，修正正确2026固定值未降断言。M2远端820e688b809dad7b22049ab699b86f211b813135一致。
