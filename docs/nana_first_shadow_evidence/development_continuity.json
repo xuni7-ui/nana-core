@@ -1,0 +1,33 @@
+{
+  "status": "PASS",
+  "scope": "development isolated process engineering only; not Nana real host",
+  "source_sha": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
+  "first_process": 12322,
+  "restart_process": 12323,
+  "same_identity": true,
+  "same_probe_event": true,
+  "same_original_evidence_hash": true,
+  "same_memory_context": true,
+  "same_candidate": true,
+  "zero_execution_tables": {
+    "actions": 0,
+    "attempts": 0,
+    "budgets": 0,
+    "goals": 0,
+    "grants": 0,
+    "jobs": 1,
+    "plans": 0,
+    "strategies": 0
+  },
+  "observer_removed": true,
+  "store_closed": true,
+  "real_host_access": "NO",
+  "FIRST_REAL_CLOUD_SHADOW": "BLOCKED_NO_HOST_CHANNEL",
+  "E12": "NOT_RUN",
+  "production_calls": 0,
+  "private_records_read": 0,
+  "secret_values_read": 0,
+  "public_internet_calls": 0,
+  "real_model_calls": 0,
+  "source_changes_vs_approved": []
+}

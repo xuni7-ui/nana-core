@@ -2,6 +2,7 @@
 import argparse
 import fcntl
 import os
+import re
 from pathlib import Path
 import signal
 import sys
@@ -58,6 +59,8 @@ def active(w):
 def start(bundle, path, *, host_instance='operator-host', window_seconds=30):
     if type(window_seconds) is not int or not 0 <= window_seconds <= 600:
         raise ValueError('BOUNDED_WINDOW_REQUIRED')
+    if not isinstance(host_instance, str) or not re.fullmatch(r'[a-zA-Z0-9_-]{1,64}', host_instance):
+        raise ValueError('PUBLIC_HOST_LABEL_REQUIRED')
     m = verify_bundle(bundle)
     pf = preflight(bundle)
     if not pf['adapter_local_probe_ready']:
@@ -184,7 +187,13 @@ def main():
     except Exception as exc:
         # No exception message/path/body is echoed: provider/errors can contain
         # sensitive material. No network/API endpoint is ever loaded here.
-        print(canonical({'status': 'BLOCKED', 'error_category': exc.code if hasattr(exc, 'code') else type(exc).__name__,
+        allowed_reasons = {'PREFLIGHT_INCOMPATIBLE', 'APPROVED_SOURCE_MISMATCH', 'CORE_MANIFEST_MISMATCH',
+                           'PACKAGE_HASH_MISMATCH', 'UNREVIEWED_CORE_FILE', 'APPROVED_CORE_IMPORT_REQUIRED',
+                           'BOUNDED_WINDOW_REQUIRED', 'PRIVATE_OWNED_SHADOW_DIRECTORY_REQUIRED', 'UNKNOWN_WORKSPACE_BLOCKED',
+                           'UNEXPECTED_WORKSPACE_FILES', 'SYMLINK_PATH_BLOCKED', 'HARDLINK_FILE_BLOCKED',
+                           'FROZEN_SCHEMA_SNAPSHOT_REQUIRED', 'STOP_BEFORE_COLLECT', 'PUBLIC_HOST_LABEL_REQUIRED'}
+        reason = str(exc) if type(exc) is ValueError and str(exc) in allowed_reasons else type(exc).__name__
+        print(canonical({'status': 'BLOCKED', 'error_category': exc.code if hasattr(exc, 'code') else reason,
                          'production_calls': 0, 'private_records_read': 0}))
         raise SystemExit(2)
 

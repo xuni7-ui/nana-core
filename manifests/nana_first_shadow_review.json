@@ -1,12 +1,22 @@
 {
-  "milestone": "C-055",
+  "milestone": "C-056",
   "reviewed_files": [
     "LICENSES_AND_PROVENANCE.md",
+    "PROJECT_BRAIN/09_STATE.md",
     "PROJECT_BRAIN/10_DECISIONS.md",
+    "PROJECT_BRAIN/11_CHANGELOG.md",
     "docs/nana_first_cloud_shadow.md",
+    "docs/nana_first_shadow_evidence/build_m2.json",
+    "docs/nana_first_shadow_evidence/development_collection.json",
+    "docs/nana_first_shadow_evidence/development_continuity.json",
+    "docs/nana_first_shadow_evidence/development_preflight.json",
+    "docs/nana_first_shadow_evidence/development_probe_first.json",
+    "docs/nana_first_shadow_evidence/development_probe_restart.json",
+    "docs/nana_first_shadow_evidence/development_rollback.json",
     "docs/nana_first_shadow_evidence/host_access.json",
     "docs/nana_first_shadow_evidence/initial_failures.json",
     "docs/nana_first_shadow_evidence/m1_tests.txt",
+    "docs/nana_first_shadow_evidence/m2_tests.txt",
     "manifests/nana_first_shadow_fingerprints.json",
     "manifests/nana_first_shadow_review.json",
     "manifests/upload_whitelist.md",
@@ -21,11 +31,11 @@
   ],
   "allowlist_violations": [],
   "credential_pattern_findings": [],
-  "fingerprint_anchor": "6372a997357cddb33717c15b7e970a7bfcee43c77fa4b399a9c8140546717a64",
+  "fingerprint_anchor": "e4533088583b9a7a2b1cce27b36fd7c4ec3cc4ef7c5dd6845d59de42858a12cf",
   "license_boundary": "Iris schema interoperability independently implemented; no AGPL code vendored; original license pending",
   "runtime_db_uploaded": false,
   "production_changes": false,
   "private_records_read": 0,
   "secret_values_read": 0,
-  "summary": "First Shadow M1: fixed approved Core bundle and probe-only launcher; 7 targeted passed, real host blocked"
+  "summary": "First Shadow M2: persisted memory context and restart reconciliation; 15 targeted passed, host and E12 NOT_RUN"
 }

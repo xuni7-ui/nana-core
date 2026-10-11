@@ -516,3 +516,13 @@
 - 改了什么：本节点源码/测试/报告，详见docs/nana_cloud_integration_architecture.md及阶段证据。
 - 为什么：用户授权云端接线准备，保留只读/Shadow/单执行权边界。
 - 怎么验证：对应targeted命令和结果在docs/nana_cloud_evidence；敏感模式/白名单检查、独立开发commit/push/ls-remote，最终SHA以Git为准。
+
+## C-055 · First Shadow M1: fixed approved Core bundle and probe-only launcher; 7 targeted passed, real host blocked
+- 改了什么：本节点源码/测试/报告，详见docs/nana_first_cloud_shadow.md及阶段证据。
+- 为什么：用户授权首次真实宿主只读Shadow；无宿主入口时完成固定源码接线包，保持真实验收阻塞。
+- 怎么验证：对应targeted命令和结果在docs/nana_first_shadow_evidence；敏感模式/白名单检查、独立开发commit/push/ls-remote，最终SHA以Git为准。
+
+## C-056 · First Shadow M2: persisted memory context and restart reconciliation; 15 targeted passed, host and E12 NOT_RUN
+- 改了什么：本节点源码/测试/报告，详见docs/nana_first_cloud_shadow.md及阶段证据。
+- 为什么：用户授权首次真实宿主只读Shadow；无宿主入口时完成固定源码接线包，保持真实验收阻塞。
+- 怎么验证：对应targeted命令和结果在docs/nana_first_shadow_evidence；敏感模式/白名单检查、独立开发commit/push/ls-remote，最终SHA以Git为准。

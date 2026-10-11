@@ -61,6 +61,8 @@ def test_first_probe_restart_dedup_evidence_candidate_barrier(bundle, tmp_path):
     _, second = invoke(bundle, 'start', '--workdir', w, '--window-seconds', 0)
     assert first['process_id'] != second['process_id']
     assert first['identity'] == second['identity'] and first['probe_event_id'] == second['probe_event_id']
+    assert not first['identity_restored'] and second['identity_restored']
+    assert len(first['memory_context_ids']) == 1 and first['memory_context_ids'] == second['memory_context_ids']
     assert first['evidence_hash'] == second['evidence_hash'] and first['goal_candidate_id'] == second['goal_candidate_id']
     assert second['goal_candidate_state'] == 'ACCEPTED' and second['counts']['jobs'] == 1
     assert second['shadow_plan_count'] == second['shadow_decision_count'] == 1
@@ -144,9 +146,21 @@ def test_sigkill_recovery_never_reports_clean_rollback(bundle, tmp_path):
     p=subprocess.Popen([sys.executable,'-I',str(bundle/'nana-shadow'),'start','--workdir',str(w),'--window-seconds','30'],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
     try:
         wait_state(w/'session.json',process=p)
-        # Wait for persisted identity/probe, not merely a mocked crash boundary.
+        # Wait for committed candidate/draft/barrier, not merely a mocked crash
+        # boundary or a PID file written before the actual probe has run.
         end=time.monotonic()+8
-        while not (w/'identity_metadata.json').exists() and time.monotonic()<end:time.sleep(.01)
+        probe_eid=None
+        while time.monotonic()<end:
+            if (w/'shadow.db').exists():
+                db=sqlite3.connect((w/'shadow.db').as_uri()+'?mode=ro',uri=True)
+                try:
+                    audit=db.execute("SELECT event_id FROM events WHERE kind='cloud.probe_actions_blocked'").fetchone()
+                    row=db.execute("SELECT event_id FROM events WHERE kind='observation.received'").fetchone()
+                    if audit and row:probe_eid=row[0];break
+                except sqlite3.OperationalError:pass
+                finally:db.close()
+            time.sleep(.01)
+        assert probe_eid is not None
         assert (w/'identity_metadata.json').exists()
         identity=json.loads((w/'identity_metadata.json').read_text())
         os.kill(p.pid,signal.SIGKILL);p.communicate(timeout=5);assert p.returncode==-signal.SIGKILL
@@ -154,6 +168,7 @@ def test_sigkill_recovery_never_reports_clean_rollback(bundle, tmp_path):
         assert rollback['status']=='UNKNOWN_UNCLEAN_TERMINATION' and not rollback['runtime_active']
         _, resumed=invoke(bundle,'start','--workdir',w,'--window-seconds',0)
         assert resumed['prior_termination']=='UNKNOWN' and resumed['identity']==identity
+        assert resumed['probe_event_id']==probe_eid and resumed['counts']['jobs']==1
         assert all(resumed['counts'][t]==0 for t in ('actions','attempts','grants','budgets'))
         assert resumed['observer_removed'] and resumed['store_closed']
     finally:

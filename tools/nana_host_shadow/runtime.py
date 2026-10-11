@@ -40,20 +40,30 @@ def probe_session(workdir, *, host_instance, window_seconds, stop_requested, obs
         owner_before = s.one('core_meta', 'migration.execution_owner')
         memory_before = s.one('core_meta', 'cloud.memory_protocol')
         baseline_identity = w / 'identity_metadata.json'
+        identity_was_present = baseline_identity.exists()
         identity_summary = {'identity_id': identity['identity_id'], 'identity_revision': identity['revision'],
                             'identity_snapshot_hash': digest(json.loads(identity['body_json']))}
         if baseline_identity.exists() and read_json(baseline_identity) != identity_summary:
             raise CoreError('SHADOW_IDENTITY_DRIFT')
         if not baseline_identity.exists():
             private_file(baseline_identity, identity_summary)
-        decision = ShadowDecision(interpretation='Operator-created non-private local probe',
-                                  goal_purpose='Assess probe metadata without acting',
-                                  planned_actions=(ProposedHostAction(capability='astrbot.message.send',
-                                      resource='synthetic://no_delivery', reason='Exercise hard barrier only'),),
-                                  rationale='Engineering fixture; draft external action must be stopped')
         def receive(internal_probe):
             if internal_probe != probe:
                 raise CoreError('PROBE_PAYLOAD_MISMATCH')
+            # Context is retrieved from persisted Evidence/Observation claims,
+            # not fabricated from a model's recollection of this probe.
+            observation_id = bridge.adapter.ingest(s, event)
+            context_ids = tuple(m['memory_id'] for m in s.all('memory_items')
+                                if json.loads(m['body_json']).get('epistemic_kind') == 'OBSERVATION'
+                                and any(r.get('event_id') == observation_id for r in json.loads(m['body_json']).get('source_refs', [])))
+            if len(context_ids) != 1:
+                raise CoreError('PROBE_MEMORY_CONTEXT_AMBIGUOUS')
+            decision = ShadowDecision(interpretation='Operator-created non-private local probe',
+                                      memory_ids=context_ids, evidence_event_ids=(observation_id,),
+                                      goal_purpose='Assess probe metadata without acting',
+                                      planned_actions=(ProposedHostAction(capability='astrbot.message.send',
+                                          resource='synthetic://no_delivery', reason='Exercise hard barrier only'),),
+                                      rationale='Engineering fixture cites persisted observation; draft external action must be stopped')
             return bridge.observe(event, decision)
         observer = observer_factory(receive)
         token = observer.install()
@@ -123,7 +133,8 @@ def probe_session(workdir, *, host_instance, window_seconds, stop_requested, obs
         if owner_before != s.one('core_meta', 'migration.execution_owner') or memory_before != s.one('core_meta', 'cloud.memory_protocol'):
             raise CoreError('AUTHORITY_DRIFT')
         report = {'status': 'PASS', 'scope': 'ENGINEERING_SHADOW', 'host_binding': 'UNVERIFIED',
-            'FIRST_REAL_CLOUD_SHADOW': 'NOT_RUN', 'identity': identity_summary, 'identity_restored': True,
+            'FIRST_REAL_CLOUD_SHADOW': 'NOT_RUN', 'identity': identity_summary, 'identity_restored': identity_was_present,
+            'memory_context_ids': result['decision']['memory_ids'],
             'probe_count_unique': 1, 'probe_delivery_attempts_this_run': 2, 'probe_external_delivery': False,
             'probe_event_id': eid, 'evidence_artifact_id': persisted_event['artifact_id'],
             'evidence_hash': digest(s.artifact(persisted_event['artifact_id'])), 'goal_candidate_id': candidate,
