@@ -51,7 +51,9 @@ class ShadowObserver:
             # Timeout does not kill a local transaction. Completion may be UNKNOWN;
             # durable dedup resolves it, and no executor exists in this sink.
             self._pending = self._worker.submit(self._sink.accept, metadata)
-            value = await asyncio.wait_for(asyncio.shield(asyncio.wrap_future(self._pending)), self.timeout)
+            wrapped = asyncio.wrap_future(self._pending)
+            wrapped.add_done_callback(_consume_exception)
+            value = await asyncio.wait_for(asyncio.shield(wrapped), self.timeout)
             if type(value) is not dict or value.get('barrier_result') != 'SHADOW_BLOCKED':
                 self._record('DROP_CORE_CONTRACT'); return None
             self.last_result = {'status': 'RECORDED', 'core': value}
@@ -69,8 +71,17 @@ class ShadowObserver:
         # FIFO close runs after an already-started bounded local transaction.
         future = self._worker.submit(self._sink.close)
         try:
-            await asyncio.wait_for(asyncio.shield(asyncio.wrap_future(future)), 2.)
+            wrapped = asyncio.wrap_future(future)
+            wrapped.add_done_callback(_consume_exception)
+            await asyncio.wait_for(asyncio.shield(wrapped), 2.)
         except (Exception, asyncio.CancelledError):
             self._record('UNKNOWN_CLOSE')
         finally:
             self._worker.shutdown(wait=False, cancel_futures=False)
+
+
+def _consume_exception(future):
+    # Prevent asyncio's unhandled-future logger from printing private exception
+    # messages when completion arrives AFTER cancellation/timeout.
+    if not future.cancelled():
+        future.exception()

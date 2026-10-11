@@ -21,7 +21,10 @@ class MetadataCoreSink:
             from nana_core.integration.shadow import ShadowBridge
             from nana_core.integration.contracts import RuntimeIntegrationContext
             p = checked_path(self.directory / 'observer-shadow.db', missing=True)
+            for suffix in ('-wal','-shm','.lock'):
+                checked_path(str(p)+suffix, missing=True)
             self._store = Store(p)
+            self._store.db.execute('PRAGMA busy_timeout=100')
             try:
                 if any(self._store.all(t) for t in ('actions','attempts','grants','budgets','strategies','goals','plans')):
                     raise ValueError('CLEAN_SHADOW_STORE_REQUIRED')

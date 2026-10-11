@@ -8,19 +8,22 @@
     "docs/nana_astrbot_shadow_evidence/dedup_proof.xml": "849e4d8256936c3e034ed6a1c0c389c0a96e81c9dfc991dd358040fab2a47ba5",
     "docs/nana_astrbot_shadow_evidence/dedup_proof_initial.txt": "9d137e092a051b856d8a4790dba81de6fcb8a7afd9b30c524e1c77e1c93f00f7",
     "docs/nana_astrbot_shadow_evidence/dedup_proof_initial.xml": "9c93a7adfbd0fe6dfa3f158ec6e41be2a2bf18ba8400d38a20967ee3ddf430d4",
+    "docs/nana_astrbot_shadow_evidence/isolation.txt": "a4b013b327bd3d201abb5c8e8f1482c17138df7ca688683b1806e218ad83cca7",
+    "docs/nana_astrbot_shadow_evidence/isolation.xml": "8e9bead327f2cfac995d613005e19e9646a17082ff4689d265edae3aeea37d4b",
     "docs/nana_astrbot_shadow_evidence/sanitizer.txt": "2a90d6320f5e5f95c7802671d4db2609c26fc7e489c78e76f20f334d9b4ee1c6",
     "docs/nana_astrbot_shadow_evidence/sanitizer.xml": "90621cc00f06ca2fa54716560ba3811912d7d05900adf8ee4660e5c0e8e31f79",
     "docs/nana_astrbot_shadow_evidence/sanitizer_initial.txt": "362fd07b4df3f7f43a4098875ded5de2bd738588e9cfb473afebccbed178b1b6",
     "docs/nana_astrbot_shadow_evidence/sanitizer_initial.xml": "0bdda79795c868d1e7303ad7c3785a7f550f41b0e354df7c29388785d0a25441",
     "tests/integration/test_astrbot_dedup.py": "c92cde578f31412f6cb134d27ff1c9f290f308a01c77fee1f63c06eafa5c371e",
+    "tests/integration/test_astrbot_isolation.py": "4a35f273026ad7b2fcb2d5e2cbe8b401d3785177f6b73c289e6d826ae13dff7e",
     "tests/integration/test_astrbot_proof.py": "da45f81ff76f03f0eb63d9bf5c160d77494d5ed5d381706df4bc7c92bb5d1a76",
     "tests/integration/test_astrbot_sanitizer.py": "1d97209b35f6c0140e73e9fc87590928d809e70490dba131db70738f9d0b8749",
     "tools/nana_astrbot_shadow/__init__.py": "0930076522e20c6decea50c075487ea88a6156d85e2eccd84910baa70e2ce387",
-    "tools/nana_astrbot_shadow/core_sink.py": "236f08ae76186bfc713b4aa651e996754e364c49e45af12935d0273b260b8758",
-    "tools/nana_astrbot_shadow/observer.py": "9bb266b78990cebe5bd2e47377fc5f4abdca7ffef8631ab2cfc414fb5732a987",
+    "tools/nana_astrbot_shadow/core_sink.py": "af468804b79ac372894a60377a699ebbf71cfde9c0ad267662a61e9eba146dec",
+    "tools/nana_astrbot_shadow/observer.py": "efb65a142518ceefcef81c1bd45cf4dd75e3211f9ce34a799ef300cf88b64394",
     "tools/nana_astrbot_shadow/proof.py": "4642a795103e13c99405f6823b4e3308878a09c25e66a4ded02d0cccaf69cb5a",
     "tools/nana_astrbot_shadow/sanitize.py": "38bb3491198d45cce9ab796190cf23d4fd11bc2fd4ec3cc3165facf28639bf81",
-    "manifests/whitelist_astrbot_codex.json": "458c222e78dad7323b5bd975ef073b98920018f9e84cc111c6bd5bce46c82d11"
+    "manifests/whitelist_astrbot_codex.json": "fabb7fd193aebce59397dc1a06a34395f74213dcf34b8ed602c03540393fbc91"
   },
   "scan": "PASS; synthetic fixtures only; zero runtime DB/credential files"
 }
