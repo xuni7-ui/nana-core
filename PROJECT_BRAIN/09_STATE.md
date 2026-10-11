@@ -287,3 +287,5 @@
 [实测] C-047：Cloud M1: strict host observation contracts and non-production AstrBot adapter; 2 targeted passed；指纹锚点 0b960cb600a5718510d32888462ec0c240007c33f34f69b96a18ae79e8e5ec7e；仅本检查点文件状态，不证明生产。
 
 [实测] C-048：Cloud M2: frozen-snapshot read-only Iris exporter and metadata-only preflight; 4 targeted passed；指纹锚点 3312c8a10d676599fcd508b0e18e8acda203f444e3206020f5bee6b145e08beb；仅本检查点文件状态，不证明生产。
+
+[实测] C-049：Cloud M3: disabled host ShadowBridge and restartable evidence reconciliation; 7 targeted passed；指纹锚点 76b70ed24ab1abf03927b426667521e9eb8711952d666213e9091e732c38ae2d；仅本检查点文件状态，不证明生产。

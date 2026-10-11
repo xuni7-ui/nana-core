@@ -1,11 +1,14 @@
 {
-  "milestone": "C-048",
+  "milestone": "C-049",
   "reviewed_files": [
     "PROJECT_BRAIN/09_STATE.md",
     "PROJECT_BRAIN/11_CHANGELOG.md",
     "docs/nana_cloud_evidence/m1_tests.txt",
     "docs/nana_cloud_evidence/m2_tests.txt",
+    "docs/nana_cloud_evidence/m3_tests.txt",
     "docs/nana_cloud_evidence/preflight_dev.json",
+    "docs/nana_cloud_evidence/shadow_reconciliation.json",
+    "docs/nana_cloud_evidence/shadow_reconciliation.md",
     "docs/nana_cloud_integration_architecture.md",
     "manifests/nana_cloud_fingerprints.json",
     "manifests/nana_cloud_review.json",
@@ -15,14 +18,17 @@
     "src/nana_core/integration/contracts.py",
     "src/nana_core/integration/exporter.py",
     "src/nana_core/integration/preflight.py",
+    "src/nana_core/integration/rehearsal.py",
+    "src/nana_core/integration/shadow.py",
     "tests/integration/test_export_preflight.py",
-    "tests/integration/test_host.py"
+    "tests/integration/test_host.py",
+    "tests/integration/test_shadow.py"
   ],
   "allowlist_violations": [],
   "credential_pattern_findings": [],
-  "fingerprint_anchor": "3312c8a10d676599fcd508b0e18e8acda203f444e3206020f5bee6b145e08beb",
+  "fingerprint_anchor": "76b70ed24ab1abf03927b426667521e9eb8711952d666213e9091e732c38ae2d",
   "license_boundary": "Iris schema interoperability independently implemented; no AGPL code vendored; original license pending",
   "runtime_db_uploaded": false,
   "production_changes": false,
-  "summary": "Cloud M2: frozen-snapshot read-only Iris exporter and metadata-only preflight; 4 targeted passed"
+  "summary": "Cloud M3: disabled host ShadowBridge and restartable evidence reconciliation; 7 targeted passed"
 }
