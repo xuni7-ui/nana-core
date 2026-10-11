@@ -646,3 +646,8 @@
 - 改了什么：Final full regression 372 passed one E12 skip; reviewed observer kit archive, approved55 unchanged and zero production actions；文件见manifests/whitelist_astrbot_codex.json。
 - 为什么：用户授权独立开发Observer/证据链，保留批准Core字节与现场事实边界。
 - 怎么验证：docs/nana_astrbot_shadow_evidence的专项/回归记录；白名单/敏感与运行产物检查通过，不代表真实宿主验收。
+
+## FINAL · AstrBot Shadow Codex development
+- 改了什么：Remote archive bytes verified; ordered Nana development handoff, 372 pass one skip; real dispatcher remains unverified；文件见manifests/whitelist_astrbot_codex.json。
+- 为什么：用户授权独立开发Observer/证据链，保留批准Core字节与现场事实边界。
+- 怎么验证：docs/nana_astrbot_shadow_evidence的专项/回归记录；白名单/敏感与运行产物检查通过，不代表真实宿主验收。

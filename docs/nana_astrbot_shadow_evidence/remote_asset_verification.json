@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "method": "fresh bare repo fetch and remote archive blob bytes",
+  "remote_commit": "6f7da397f2795f0a29720fdb7c85b0552b7dd15a",
+  "path": "artifacts/astrbot-observer/nana-astrbot-shadow-observer-8e61c1e.tar.gz",
+  "bytes": 3300736,
+  "SHA256": "77362306eddca16e12de5b08ee4748778caf4cf328e72bc9becea29f2c63355a",
+  "download_URL": "https://github.com/xuni7-ui/nana-core/raw/6f7da397f2795f0a29720fdb7c85b0552b7dd15a/artifacts/astrbot-observer/nana-astrbot-shadow-observer-8e61c1e.tar.gz",
+  "authentication_boundary": "ordinary configured Git origin reused by Git; no credential values inspected or printed",
+  "earlier_attempts": "bare fetch by literal URL had no configured credential selection (exit128); reused authorized origin selector instead"
+}
