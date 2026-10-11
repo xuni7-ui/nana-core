@@ -493,3 +493,5 @@
 [实测/开发] R041-M4-SEAL: Bounded observation and isolated hard-exit grace, no late ingress; full510 passed one E12 skip; anchor6ab228296e86e159d6039aa1917ce9d7a972fa4c250c56546f69e9c9870f3857. SHORT_LIVED_HOST_BRIDGE IMPLEMENTED/TESTED only. Real host bridge/load/one-shot NOT_RUN, dispatcher NOT_VERIFIED, host_binding UNVERIFIED, FIRST_REAL_ASTRBOT_SHADOW BLOCKED, E12 NOT_RUN.
 
 [实测/开发] R041-RELEASE: Sealed-window package validated in fresh directory; full510 passed one E12 skip, no approvedCore or production changes; anchorbb14e79390fef4abe5750f0e59b6c4150521fd7bbcbd1bb827ae9c641ea7db80. SHORT_LIVED_HOST_BRIDGE IMPLEMENTED/TESTED only. Real host bridge/load/one-shot NOT_RUN, dispatcher NOT_VERIFIED, host_binding UNVERIFIED, FIRST_REAL_ASTRBOT_SHADOW BLOCKED, E12 NOT_RUN.
+
+[实测/开发] R041-FINAL: Remote asset bytes verified, handoff/minimal host sequence and ordered development commits; real bridge NOT_RUN; anchor06fa2add22c892bde0f32e791d9d8609c0f27cf525ae97890817b1ce6077ced7. SHORT_LIVED_HOST_BRIDGE IMPLEMENTED/TESTED only. Real host bridge/load/one-shot NOT_RUN, dispatcher NOT_VERIFIED, host_binding UNVERIFIED, FIRST_REAL_ASTRBOT_SHADOW BLOCKED, E12 NOT_RUN.

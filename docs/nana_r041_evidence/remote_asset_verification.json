@@ -1,0 +1,8 @@
+{
+  "SHA256": "fafe82ec73dc2c4d996fb64cb6f2a6bd7402854305b5036e8516797b81c1dc63",
+  "bytes": 3351586,
+  "download_URL": "https://github.com/xuni7-ui/nana-core/raw/60894dbdce826f0fff22dd6acb97a744576ccbdc/artifacts/r041/nana-r041-host-bridge-c24833e69ee1-bridge-delivery.tar.gz",
+  "fresh_bare_fetch": true,
+  "remote_SHA": "60894dbdce826f0fff22dd6acb97a744576ccbdc",
+  "status": "REMOTE_BYTES_VERIFIED"
+}
