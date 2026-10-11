@@ -54,9 +54,10 @@ exec "$python" -I -B -S "$base/observer_entry.py" "$base" "$@"
     files={str(p.relative_to(root)):digest(p.read_bytes()) for p in root.rglob('*') if p.is_file()}
     m={'schema_version':1,'Core_source_SHA':'ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513','support_source_SHA':support_sha,
         'files':files,'runtime_sha256':rt['runtime_sha256'],'runtime_kind':rt['kind'],'licenses':rt['licenses'],
-        'binding_ready':False,'binding_status':'BLOCKED_API_EVIDENCE','probe_support':'C','host_binding':'UNVERIFIED',
+        'binding_ready':False,'binding_status':'BLOCKED_AUTH_REQUIRED','probe_support':'C','host_binding':'UNVERIFIED',
         'production_execute':False,'no_runtime_database_in_package':True,'no_credentials':True,'mutable_paths':['data/'],
-        'install_requires':'reviewed Nana exact hook audit and separate real-host execution; no API guessed',
+        'lifecycle_shim':'IMPLEMENTED_TESTED_SOURCE_AUDIT_652a72f', 'dispatcher_probe':'BLOCKED_NO_INTERNAL_PROBE',
+        'install_requires':'Nana explicit integration into existing observer plugin and verified permitted load path; no automatic host install',
         'zero_drift':{'existing_source_changes':0,'existing_configuration_changes':0,'real_host_inspected':False}}
     private_file(root/'manifest.json',m)
     (root/'SHA256SUMS').write_text(''.join(h+'  '+n+'\n' for n,h in sorted(files.items()))+digest((root/'manifest.json').read_bytes())+'  manifest.json\n')
@@ -69,4 +70,4 @@ exec "$python" -I -B -S "$base/observer_entry.py" "$base" "$@"
                     if not p.is_file():continue
                     b=p.read_bytes();i=tarfile.TarInfo(root.name+'/'+str(p.relative_to(root)));i.size=len(b);i.mode=0o700 if p.suffix=='.sh' else 0o600;i.mtime=0;t.addfile(i,io.BytesIO(b))
     return {'filename':archive.name,'bytes':archive.stat().st_size,'SHA256':digest(archive.read_bytes()),'support_source_SHA':support_sha,
-            'Core_source_SHA':m['Core_source_SHA'],'runtime_sha256':rt['runtime_sha256'],'binding_status':'BLOCKED_API_EVIDENCE'}
+            'Core_source_SHA':m['Core_source_SHA'],'runtime_sha256':rt['runtime_sha256'],'binding_status':'BLOCKED_AUTH_REQUIRED'}

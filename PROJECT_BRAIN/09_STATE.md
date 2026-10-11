@@ -385,3 +385,5 @@
 [实测/开发] C-M5: Exact-query Iris schema inspector with authorizer and frozen-source comparison; 13 targeted passed, real compatibility UNKNOWN。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 34ff63403807bc52b0fc58216f3554f37785500debabfe7753f04215419b5213，不证明宿主运行。
 
 [实测/开发] C-M6: Observer development kit builder, independent Core proof readback and operator rollback/runbook; 13 targeted passed, real shim blocked。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 9ce97c99cd96b90919fdb8ea0c14f03726abb1ab547e050c3f040b10be0c45fc，不证明宿主运行。
+
+[实测/开发] C-M4-SOURCE: Nana audit652a72f absorbed by reference; source-backed 4.28 lifecycle shim and safe unload, 21 targeted passed; dispatcher still blocked。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 b414c713192561130f562b10c177f7cebbb18bbf1efed2a682e9bda578f54239，不证明宿主运行。

@@ -27,13 +27,13 @@ def main():
         from tools.nana_astrbot_shadow.package import verify_package
         verify_package(root)
         if args.dry_run or args.command.endswith('dry-run'):
-            report={'status':'DRY_RUN','binding_status':'BLOCKED_API_EVIDENCE','files_written':0,'host_operations':0,'external_execute':False}
-        elif args.command=='verify':report={'status':'PACKAGE_INTEGRITY_PASS','binding_status':'BLOCKED_API_EVIDENCE'}
+            report={'status':'DRY_RUN','binding_status':'BLOCKED_AUTH_REQUIRED','files_written':0,'host_operations':0,'external_execute':False}
+        elif args.command=='verify':report={'status':'PACKAGE_INTEGRITY_PASS','binding_status':'BLOCKED_AUTH_REQUIRED'}
         elif args.command=='preflight':
             from nana_host_shadow.bootstrap_entry import runtime
             host,shadow=runtime(root)
             report={'status':'PASS','HOST_GLOBAL_ENV':host,'SHADOW_RUNTIME_ENV':shadow,'engineering_harness_ready':True,
-                    'real_astrbot_binding_ready':False,'binding_status':'BLOCKED_API_EVIDENCE','host_binding':'UNVERIFIED'}
+                    'real_astrbot_binding_ready':False,'binding_status':'BLOCKED_AUTH_REQUIRED','host_binding':'UNVERIFIED'}
         elif args.command=='harness':
             from nana_host_shadow.bootstrap_entry import runtime
             runtime(root);sys.path.insert(0,str(root/'package'/'src'))

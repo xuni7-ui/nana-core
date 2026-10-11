@@ -20,6 +20,7 @@ class ShadowObserver:
         self._permits = {}
         self._worker = ThreadPoolExecutor(max_workers=1, thread_name_prefix='nana-shadow-metadata')
         self._pending = None
+        self._close_future = None
         self.active = True
         self.last_result = {'status': 'IDLE'}
 
@@ -69,7 +70,9 @@ class ShadowObserver:
         self.active = False
         self._permits.clear()
         # FIFO close runs after an already-started bounded local transaction.
-        future = self._worker.submit(self._sink.close)
+        if self._close_future is None:
+            self._close_future = self._worker.submit(self._sink.close)
+        future = self._close_future
         try:
             wrapped = asyncio.wrap_future(future)
             wrapped.add_done_callback(_consume_exception)
