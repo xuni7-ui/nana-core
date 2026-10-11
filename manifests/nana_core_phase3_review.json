@@ -1,11 +1,14 @@
 {
-  "milestone": "C-037",
+  "milestone": "C-038",
   "reviewed_files": [
     "PROJECT_BRAIN/09_STATE.md",
     "PROJECT_BRAIN/11_CHANGELOG.md",
     "docs/nana_core_phase3_entry.md",
+    "docs/nana_core_phase3_evidence/model_readiness.json",
     "docs/nana_core_phase3_evidence/network_tests.txt",
     "docs/nana_core_phase3_evidence/public_probe.json",
+    "docs/nana_core_phase3_evidence/semantic_readiness.txt",
+    "docs/nana_core_phase3_evidence/semantic_report.json",
     "manifests/nana_core_phase3_fingerprints.json",
     "manifests/nana_core_phase3_review.json",
     "manifests/upload_whitelist.md",
@@ -16,9 +19,9 @@
   ],
   "allowlist_violations": [],
   "credential_pattern_findings": [],
-  "fingerprint_anchor": "503a533c70ed3635c34d7db0a02b4aa2bfb04f5dff9b1664621e0216d386bb77",
+  "fingerprint_anchor": "8be37a2e89c218faec3bb965572d8d2847aca8cf6930a71875a94d5036e6a42d",
   "license_boundary": "Iris schema interoperability independently implemented; no AGPL code vendored; original license pending",
   "runtime_db_uploaded": false,
   "production_changes": false,
-  "summary": "Phase III M1: preserve baseline and pinpoint public DNS blockade"
+  "summary": "Phase III M2: record real model NOT_RUN readiness and unchanged continuity snapshot"
 }

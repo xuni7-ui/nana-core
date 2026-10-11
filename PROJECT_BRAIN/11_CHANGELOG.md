@@ -425,3 +425,8 @@
 - 改了什么：从已验证29872608b7b82fcca4a89a3be98fda8e8c65337f建立dev/nana-core-v1-phase3-entry，新增现有公网传输阶段标记、单次完整Core探针及证据。
 - 为什么：精确定位公网阻塞，不因普通网络失败误报能力，也不盲重试UNKNOWN。
 - [实测] 怎么验证：本地/远端原HEAD一致，工作区干净；旧227/0/1证据保持。新42 targeted passed；实际一次DNS_FIRST超时，HTTP0/proxy连接0/read UNKNOWN/goal BLOCKED，独立核验与Attempt持久。未改系统网络/TLS/生产。
+
+## C-038 — M2 真实模型就绪门
+- 改了什么：只新增脱敏环境就绪与S5正式readiness证据，无模型适配新框架。
+- 为什么：没有显式授权开发端点不能借用历史生产DeepSeek，也不能把当前助手或协议模拟器当E12。
+- [实测] 怎么验证：environment_status current/spec33，secrets/vars/identities0；既有prepare/evaluate实际运行，snapshot unchanged，E12 NOT_RUN、calls0、models[]、token不适用、费用0。M1已保存远端4f51b5a385ac9a4673e1ba093b782b1ff840c023。继续不依赖端点的记忆任务。

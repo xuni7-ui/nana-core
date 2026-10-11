@@ -1,0 +1,17 @@
+{
+  "observations_current": true,
+  "observed_spec_revision": "33",
+  "ready_development_endpoints": 0,
+  "configured_secrets": 0,
+  "configured_runtime_variables": 0,
+  "outbound_identities": 0,
+  "development_binding_names": [],
+  "secret_values_accessed": false,
+  "real_model_calls": 0,
+  "provider_models": [],
+  "E12": "NOT_RUN",
+  "token_usage": "NOT_APPLICABLE_NO_CALLS",
+  "actual_fees": 0,
+  "fee_confidence": "no model requests dispatched",
+  "blocked_reason": "No explicit authorized development endpoint/config/binding; historical production DeepSeek is not reusable authorization."
+}

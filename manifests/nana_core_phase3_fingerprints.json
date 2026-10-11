@@ -1,9 +1,12 @@
 {
   "baseline": "29872608b7b82fcca4a89a3be98fda8e8c65337f",
   "files": {
-    "docs/nana_core_phase3_entry.md": "bbe827ea64f17c8144f9343a47a083ff3045b036676342da59015e06c347684e",
+    "docs/nana_core_phase3_entry.md": "af46c1a544d7106faaabdf4a736997bf6767664d6a714624fd4ab3101f63d335",
+    "docs/nana_core_phase3_evidence/model_readiness.json": "adc94f99ae5c674fd116f99a04cbf31684da7bb4b048fc00f6625fb667096f2b",
     "docs/nana_core_phase3_evidence/network_tests.txt": "ff02d5255c6b90b095e922f30a34052a3834fabbf8a74f967248493d4684a602",
     "docs/nana_core_phase3_evidence/public_probe.json": "d6bdd683cd96f52dc65d6d56634f55e89bece4d257d4868a6774ef4d6c9d6ce8",
+    "docs/nana_core_phase3_evidence/semantic_readiness.txt": "4c4587f1b57425093d4e78d36f5ce730cfed03c486ea3513b3b8c8b745a8389b",
+    "docs/nana_core_phase3_evidence/semantic_report.json": "4c8903c73e58f9082ea011a3db490362caa8b387ee4dff3ff370817cea640df3",
     "src/nana_core/development/public_http.py": "2360cb5401473654627356dc3beae269e117a2c42e426b5e031a63266fd689a0",
     "src/nana_core/phase3/__init__.py": "33d8d49f081e52d9d333e924fdbb599d8fdefd9e7031439119b055a63bf093ef",
     "src/nana_core/phase3/public_probe.py": "2c8010c1ce6d5081320b6dd711c43b82b822dbd9695c7f22020b0389016f3509",

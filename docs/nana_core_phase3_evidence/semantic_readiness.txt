@@ -1,0 +1,1 @@
+{"E12":"NOT_RUN","blockers":["only 0 ready declared real ModelPort(s); two distinct real models required for E12","historical production endpoint documentation and this assistant are not usable development ModelPorts"],"provider_models":[],"real_model_attempts":0,"semantic_gate":"NOT_RUN"}

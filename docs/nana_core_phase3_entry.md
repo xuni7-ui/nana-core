@@ -9,3 +9,5 @@
 
 ## M2 E12 就绪状态
 待本节点核实与保存；不以fixture代替真实双模型。
+
+[实测] M2 环境 spec33/current/enforced：就绪secrets/runtime_variables/outbound_identities均0，无显式开发模型配置。既有S5 prepare/evaluate创建合成冻结快照后运行readiness，E12 NOT_RUN、models[]、calls0、snapshot unchanged。token usage不适用、费用0（没有请求）；没有借用历史生产DeepSeek/当前助手/GitHub凭据。见model_readiness.json、semantic_report.json。真实端点出现后仍用既有顺序with/without和原始proposal评分，不重造评估器。

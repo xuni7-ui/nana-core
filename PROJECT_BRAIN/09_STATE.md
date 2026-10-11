@@ -247,3 +247,7 @@
 [实测] C-037：Phase III原基线29872608b7b82fcca4a89a3be98fda8e8c65337f本地/远端一致，新分支dev/nana-core-v1-phase3-entry。公网验收一次DNS_FIRST/WEB_TIMEOUT，HTTP0、proxy0，UNKNOWN保留；42 targeted passed。公网④未验证，其他独立任务继续，未动main/生产。
 
 [实测] C-037 指纹锚点 503a533c70ed3635c34d7db0a02b4aa2bfb04f5dff9b1664621e0216d386bb77；仅本检查点文件状态，不证明生产。
+
+[实测] C-038：M2 E12正式readiness已运行，冻结快照未变；开发端点0，真实模型0，E12 NOT_RUN、费用0，未读secret值。M1远端4f51b5a385ac9a4673e1ba093b782b1ff840c023一致。Iris上游完整源树不在仓库；本轮只读获取登记0.3.0 commit0557a4c1de1969bdccdb5a5de4b3724dc94aa6f6到/tmp用于字段核对，不入库或运行上游。
+
+[实测] C-038 指纹锚点 8be37a2e89c218faec3bb965572d8d2847aca8cf6930a71875a94d5036e6a42d；仅本检查点文件状态，不证明生产。
