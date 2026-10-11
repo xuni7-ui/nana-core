@@ -1,0 +1,13 @@
+{
+  "baseline": "d79fa3eb72efd1907d314780a5c8677bbc361021",
+  "files": {
+    "docs/nana_cloud_evidence/m1_tests.txt": "19e95f03931508bcb63d5f1f276741db94fd3f8f0399d2690ed306a73c3ba6c7",
+    "docs/nana_cloud_integration_architecture.md": "43ce8128879f71be162874ec37a18b720cb21aa9c52af40a2ea08ccc20568eba",
+    "pyproject.toml": "727168e4a1daa26d63074f46e67d3bb4babe9d36af3701d31e1794fec3831d32",
+    "src/nana_core/integration/__init__.py": "156fe2d6981f675889ef6272974bcccde00ea6f5e6d5bef59f91bbf75c2bed51",
+    "src/nana_core/integration/astrbot.py": "5c503863ded345ceadaf7ab753d6c6463da054fa8c986bd7d28a6522c1972329",
+    "src/nana_core/integration/contracts.py": "b239020d482a7908556696eb2e604b7c14c5ea0c3a2cca2333898797a59cfaff",
+    "tests/integration/test_host.py": "73f4295e15991d21ca7c8a9c836cbbdd963cf320382b0468adb61ebc057cd8da"
+  },
+  "scope": "phase3 controlled code and synthetic/metadata evidence; excludes self/ledgers"
+}

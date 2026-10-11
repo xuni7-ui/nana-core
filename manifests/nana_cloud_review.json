@@ -1,0 +1,21 @@
+{
+  "milestone": "C-047",
+  "reviewed_files": [
+    "docs/nana_cloud_evidence/m1_tests.txt",
+    "docs/nana_cloud_integration_architecture.md",
+    "manifests/nana_cloud_fingerprints.json",
+    "manifests/nana_cloud_review.json",
+    "pyproject.toml",
+    "src/nana_core/integration/__init__.py",
+    "src/nana_core/integration/astrbot.py",
+    "src/nana_core/integration/contracts.py",
+    "tests/integration/test_host.py"
+  ],
+  "allowlist_violations": [],
+  "credential_pattern_findings": [],
+  "fingerprint_anchor": "0b960cb600a5718510d32888462ec0c240007c33f34f69b96a18ae79e8e5ec7e",
+  "license_boundary": "Iris schema interoperability independently implemented; no AGPL code vendored; original license pending",
+  "runtime_db_uploaded": false,
+  "production_changes": false,
+  "summary": "Cloud M1: strict host observation contracts and non-production AstrBot adapter; 2 targeted passed"
+}
