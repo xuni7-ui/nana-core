@@ -10,7 +10,7 @@ def proof():
     dispatch={'probe_id':'nana-probe-development-v1','event_id':'e'*64,'event_timestamp':None,'event_source':'operator_probe'}
     r.add('dispatch',{**dispatch,'synthetic':True,'external_delivery':False})
     r.add('callback',{**dispatch,'observer_received_at':datetime.now(timezone.utc).isoformat()})
-    r.add('core',dict(core_evidence_id='f'*64,observation_id='11111111-1111-4111-8111-111111111111',goal_candidate_id='1'*64,
+    r.add('core',dict(core_evidence_id='22222222-2222-4222-8222-222222222222',observation_id='11111111-1111-4111-8111-111111111111',goal_candidate_id='1'*64,
                       shadow_plan_id='cloud.shadow:'+'2'*64+'#plan_draft',shadow_decision_id='cloud.shadow:'+'2'*64,metadata_hash='3'*64))
     r.add('dedup',{'dedup_result':'DUPLICATE','observation_id':'11111111-1111-4111-8111-111111111111'})
     r.add('barrier',{'barrier_result':'SHADOW_BLOCKED','zero_execution_counts':dict.fromkeys(('actions','attempts','grants','budgets','strategies'),0)})

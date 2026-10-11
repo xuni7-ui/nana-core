@@ -78,7 +78,7 @@ def verify(report):
     core=stage['core']
     for field in ('core_evidence_id','observation_id','goal_candidate_id','shadow_plan_id','shadow_decision_id','metadata_hash'):
         v=core.get(field)
-        patterns={'core_evidence_id':r'[0-9a-f]{64}', 'metadata_hash':r'[0-9a-f]{64}', 'observation_id':r'[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}', 'goal_candidate_id':r'[0-9a-f]{64}', 'shadow_plan_id':r'cloud\.shadow:[0-9a-f]{64}#plan_draft', 'shadow_decision_id':r'cloud\.shadow:[0-9a-f]{64}'}
+        patterns={'core_evidence_id':r'[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}', 'metadata_hash':r'[0-9a-f]{64}', 'observation_id':r'[0-9a-f]{8}(?:-[0-9a-f]{4}){3}-[0-9a-f]{12}', 'goal_candidate_id':r'[0-9a-f]{64}', 'shadow_plan_id':r'cloud\.shadow:[0-9a-f]{64}#plan_draft', 'shadow_decision_id':r'cloud\.shadow:[0-9a-f]{64}'}
         if type(v) is not str or not re.fullmatch(patterns[field],v): missing.append('CORE_'+field)
     if stage['dedup'].get('dedup_result')!='DUPLICATE' or stage['dedup'].get('observation_id')!=core.get('observation_id'):
         missing.append('PERSISTENT_DEDUP')
@@ -103,3 +103,31 @@ def verify(report):
         return {'status':'HOST_ORIGIN_UNTRUSTED','host_binding':'UNVERIFIED','missing':[],
                 'review_required':'Nana source-backed dispatcher receipt + independently reviewed hash pin'}
     return {'status':'HOST_BINDING_PROOF_COMPLETE','host_binding':'VERIFIED','missing':[]}
+
+
+def verify_core_links(report, store):
+    """Independent read-back; receipt IDs alone are not proof of persistence."""
+    result=verify(report)
+    if result['missing']:return {**result,'core_links_verified':False}
+    try:
+        rows={r['stage']:r for r in report['stages']};core=rows['core']
+        event=store.event(core['observation_id'])
+        if event['kind']!='observation.received' or event['artifact_id']!=core['core_evidence_id']:
+            raise ValueError()
+        host=json.loads(store.artifact(core['core_evidence_id']))['host_event']
+        metadata=json.loads(host['content'])
+        dispatch=rows['dispatch']
+        if digest(metadata)!=core['metadata_hash'] or any(metadata[k]!=dispatch[field] for k,field in (
+            ('event_id','event_id'),('probe_id','probe_id'),('timestamp','event_timestamp'),('event_source','event_source'))):
+            raise ValueError()
+        candidate=store.one('memory_items',core['goal_candidate_id'])
+        c=json.loads(candidate['body_json'])
+        if c['type']!='GOAL_CANDIDATE' or c['proposal']['evidence_event_ids']!=[event['event_id']]:raise ValueError()
+        draft=json.loads(store.one('memory_items',core['shadow_decision_id'])['body_json'])
+        if draft['type']!='SHADOW_DECISION' or draft['observation_event_id']!=event['event_id'] or draft['execution_state']!='SHADOW_BLOCKED':raise ValueError()
+        if not draft['plan_draft'] or core['shadow_plan_id']!=core['shadow_decision_id']+'#plan_draft':raise ValueError()
+        if any(store.all(t) for t in ('actions','attempts','grants','budgets','strategies')):raise ValueError()
+        return {**result,'core_links_verified':True}
+    except Exception:
+        return {'status':'CORE_BINDING_LINKS_INCOMPLETE','host_binding':'UNVERIFIED','missing':['CORE_READBACK'],
+                'core_links_verified':False}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="3" time="0.150" timestamp="2026-10-11T14:49:47.419146+00:00" hostname="cd95b0d4ef97"><testcase classname="tests.integration.test_astrbot_package" name="test_package_hash_exact_file_list_and_runtime_artifact_rejection" time="0.003" /><testcase classname="tests.integration.test_astrbot_package" name="test_package_symlink_never_follows_production_path" time="0.001" /><testcase classname="tests.integration.test_astrbot_package" name="test_actual_neutral_harness_receipt_restart_and_unload" time="0.095"><failure message="ValueError: INCOMPLETE_OR_UNSAFE_BINDING_PROOF">tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-112/test_actual_neutral_harness_re0')
+
+    def test_actual_neutral_harness_receipt_restart_and_unload(tmp_path):
+&gt;       first=run(tmp_path/'shadow');second=run(tmp_path/'shadow')
+              ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/integration/test_astrbot_package.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tools/nana_astrbot_shadow/harness.py:59: in run
+    receipt=asyncio.run(session());proof=recorder.export()
+                                         ^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;tools.nana_astrbot_shadow.proof.BindingRecorder object at 0x7f37b5478410&gt;
+
+    def export(self):
+        candidate=json.loads(json.dumps(self.report))
+        # Validation catches accidental extra IDs/bodies before evidence emission.
+&gt;       if verify(candidate)['missing']: raise ValueError('INCOMPLETE_OR_UNSAFE_BINDING_PROOF')
+                                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       ValueError: INCOMPLETE_OR_UNSAFE_BINDING_PROOF
+
+tools/nana_astrbot_shadow/proof.py:48: ValueError</failure></testcase></testsuite></testsuites>
