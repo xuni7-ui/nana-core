@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="1" failures="0" skipped="0" tests="1" time="0.097" timestamp="2026-10-11T14:37:52.407662+00:00" hostname="cd95b0d4ef97"><testcase classname="" name="tests.integration.test_astrbot_sanitizer" time="0.000"><error message="collection failure">tests/integration/test_astrbot_sanitizer.py:17: in __getattribute__
+    def __getattribute__(self,k): raise AssertionError('getattr must not be called')
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: getattr must not be called</error></testcase></testsuite></testsuites>

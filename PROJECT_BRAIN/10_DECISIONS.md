@@ -243,3 +243,7 @@ Dashboard `POST /api/plugin/reload` 需 JWT（`astrbot/dashboard/api/plugins.py`
 `real dispatcher`（`EventBus.dispatch()` → 9 段管道）**不可**被生命周期 hook 证明。
 禁止把「registry binding PASS」写成「dispatcher probe PASS」。
 无安全内部合成事件入口 ⇒ 记录 `BLOCKED_NO_INTERNAL_PROBE`，**不使用真实用户消息替代**。
+
+## Codex AstrBot binding support boundary (2026-10-11 UTC)
+[本项目自定/源码输入] 独立support不改批准Core55文件。入口仅allowlist metadata + keyed scoped hashes +内部permit；影子接线复用Store/ShadowBridge/InitiativeHostGate，无新表。证据结构与真实来源分门，普通fixture不能改origin成为VERIFIED；真实来源trust pins尚空，待奈奈独立审核回执。
+[奈奈源码审计] 共享652a72f确认生命周期C direct registry与消息dispatcher不同；源码支持的4.28.0 lifecycle shim已开发测试，禁止接event_queue。该审计同时说明reload(name)不加载新目录，故“一次Dashboard reload新插件”建议不作为已证明步骤；记录加载路径BLOCKED_AUTH_REQUIRED/dispatcher BLOCKED_NO_INTERNAL_PROBE，不更改奈奈现场账本。

@@ -613,3 +613,58 @@
 - 怎么验证：`python3 -m pytest tests/nana_shadow -q` → 9 passed；打包确定性复算一致；
   全量套件失败点全部为既有 `SQLITE_VERSION_UNSUPPORTED`（非回归）；逐文件指纹入 manifest；独立开发分支 commit/push/ls-remote。
 - 关键结论：**生命周期 hook = plugin manager 直调 registry，不是真实 dispatcher** ⇒ `BLOCKED_NO_INTERNAL_PROBE`。
+
+## C-M0 · AstrBot Shadow Codex development
+- 改了什么：Baseline 318 passed, E12 skipped; source audit and API evidence gap recorded；文件见manifests/whitelist_astrbot_codex.json。
+- 为什么：用户授权独立开发Observer/证据链，保留批准Core字节与现场事实边界。
+- 怎么验证：docs/nana_astrbot_shadow_evidence的专项/回归记录；白名单/敏感与运行产物检查通过，不代表真实宿主验收。
+
+## C-M1 · AstrBot Shadow Codex development
+- 改了什么：Metadata sanitizer and no-response observer contract; 13 targeted passed, collection failure retained；文件见manifests/whitelist_astrbot_codex.json。
+- 为什么：用户授权独立开发Observer/证据链，保留批准Core字节与现场事实边界。
+- 怎么验证：docs/nana_astrbot_shadow_evidence的专项/回归记录；白名单/敏感与运行产物检查通过，不代表真实宿主验收。
+
+## C-M2 · AstrBot Shadow Codex development
+- 改了什么：Persistent Store alias dedup and reviewed-origin binding proof; 13 targeted passed; unchanged approved Core；文件见manifests/whitelist_astrbot_codex.json。
+- 为什么：用户授权独立开发Observer/证据链，保留批准Core字节与现场事实边界。
+- 怎么验证：docs/nana_astrbot_shadow_evidence的专项/回归记录；白名单/敏感与运行产物检查通过，不代表真实宿主验收。
+
+## C-M3 · AstrBot Shadow Codex development
+- 改了什么：Shadow barrier and bounded callback failure isolation; 9 targeted passed including actual SIGKILL gap recovery；文件见manifests/whitelist_astrbot_codex.json。
+- 为什么：用户授权独立开发Observer/证据链，保留批准Core字节与现场事实边界。
+- 怎么验证：docs/nana_astrbot_shadow_evidence的专项/回归记录；白名单/敏感与运行产物检查通过，不代表真实宿主验收。
+
+## C-M4 · AstrBot Shadow Codex development
+- 改了什么：Source-gated AstrBot registration block and exact neutral registry lifecycle; 3 targeted passed, shared audit still absent；文件见manifests/whitelist_astrbot_codex.json。
+- 为什么：用户授权独立开发Observer/证据链，保留批准Core字节与现场事实边界。
+- 怎么验证：docs/nana_astrbot_shadow_evidence的专项/回归记录；白名单/敏感与运行产物检查通过，不代表真实宿主验收。
+
+## C-M5 · AstrBot Shadow Codex development
+- 改了什么：Exact-query Iris schema inspector with authorizer and frozen-source comparison; 13 targeted passed, real compatibility UNKNOWN；文件见manifests/whitelist_astrbot_codex.json。
+- 为什么：用户授权独立开发Observer/证据链，保留批准Core字节与现场事实边界。
+- 怎么验证：docs/nana_astrbot_shadow_evidence的专项/回归记录；白名单/敏感与运行产物检查通过，不代表真实宿主验收。
+
+## C-M6 · AstrBot Shadow Codex development
+- 改了什么：Observer development kit builder, independent Core proof readback and operator rollback/runbook; 13 targeted passed, real shim blocked；文件见manifests/whitelist_astrbot_codex.json。
+- 为什么：用户授权独立开发Observer/证据链，保留批准Core字节与现场事实边界。
+- 怎么验证：docs/nana_astrbot_shadow_evidence的专项/回归记录；白名单/敏感与运行产物检查通过，不代表真实宿主验收。
+
+## C-M4-SOURCE · AstrBot Shadow Codex development
+- 改了什么：Nana audit652a72f absorbed by reference; source-backed 4.28 lifecycle shim and safe unload, 21 targeted passed; dispatcher still blocked；文件见manifests/whitelist_astrbot_codex.json。
+- 为什么：用户授权独立开发Observer/证据链，保留批准Core字节与现场事实边界。
+- 怎么验证：docs/nana_astrbot_shadow_evidence的专项/回归记录；白名单/敏感与运行产物检查通过，不代表真实宿主验收。
+
+## C-M7-HARDEN · AstrBot Shadow Codex development
+- 改了什么：Lifecycle shim and kit validated in two actual Python environments; fail-closed BaseException/deferred completion guards, 22 targeted passed；文件见manifests/whitelist_astrbot_codex.json。
+- 为什么：用户授权独立开发Observer/证据链，保留批准Core字节与现场事实边界。
+- 怎么验证：docs/nana_astrbot_shadow_evidence的专项/回归记录；白名单/敏感与运行产物检查通过，不代表真实宿主验收。
+
+## C-M7 · AstrBot Shadow Codex development
+- 改了什么：Final full regression 372 passed one E12 skip; reviewed observer kit archive, approved55 unchanged and zero production actions；文件见manifests/whitelist_astrbot_codex.json。
+- 为什么：用户授权独立开发Observer/证据链，保留批准Core字节与现场事实边界。
+- 怎么验证：docs/nana_astrbot_shadow_evidence的专项/回归记录；白名单/敏感与运行产物检查通过，不代表真实宿主验收。
+
+## FINAL · AstrBot Shadow Codex development
+- 改了什么：Remote archive bytes verified; ordered Nana development handoff, 372 pass one skip; real dispatcher remains unverified；文件见manifests/whitelist_astrbot_codex.json。
+- 为什么：用户授权独立开发Observer/证据链，保留批准Core字节与现场事实边界。
+- 怎么验证：docs/nana_astrbot_shadow_evidence的专项/回归记录；白名单/敏感与运行产物检查通过，不代表真实宿主验收。

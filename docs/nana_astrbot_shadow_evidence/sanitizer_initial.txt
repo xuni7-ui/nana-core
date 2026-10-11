@@ -1,0 +1,11 @@
+
+==================================== ERRORS ====================================
+_________ ERROR collecting tests/integration/test_astrbot_sanitizer.py _________
+tests/integration/test_astrbot_sanitizer.py:17: in __getattribute__
+    def __getattribute__(self,k): raise AssertionError('getattr must not be called')
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: getattr must not be called
+=========================== short test summary info ============================
+ERROR tests/integration/test_astrbot_sanitizer.py - AssertionError: getattr m...
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.10s

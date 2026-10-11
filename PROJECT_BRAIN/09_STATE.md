@@ -399,3 +399,25 @@
 - [未知] 最短路径：**姐姐在已登录 Dashboard 手动点一次插件 reload**（奈奈不读 JWT、不重启），奈奈随后只读取证 —— runbook 见
   `docs/nana_shadow_observer_dev_20261011.md` §6。
 - [未知] 该路径只能证明 **registry binding**，**不证明** dispatcher traversal。
+
+[实测/开发] C-M0: Baseline 318 passed, E12 skipped; source audit and API evidence gap recorded。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 c110b3d8b75d808fa6b37c9f18cf4feb97bf27e0581c96135b5882851c676481，不证明宿主运行。
+
+[实测/开发] C-M1: Metadata sanitizer and no-response observer contract; 13 targeted passed, collection failure retained。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 233f0599cac2b1881e5ac5d76085ea1e95ce54cf56598b48aa405c34a0e4bbd5，不证明宿主运行。
+
+[实测/开发] C-M2: Persistent Store alias dedup and reviewed-origin binding proof; 13 targeted passed; unchanged approved Core。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 a6043107ea733679ac8c955c645d6df16b753b408aecfc8b333fb4411e1e74c7，不证明宿主运行。
+
+[实测/开发] C-M3: Shadow barrier and bounded callback failure isolation; 9 targeted passed including actual SIGKILL gap recovery。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 47348a1e5f3f9cdb24f4c27e4e3a7c24cd3c333db317856ac74144a0226a26bd，不证明宿主运行。
+
+[实测/开发] C-M4: Source-gated AstrBot registration block and exact neutral registry lifecycle; 3 targeted passed, shared audit still absent。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 b5c722d274c41db1d8cc8487592a657221b0bac72c79c30e9934d9a68cb7b37e，不证明宿主运行。
+
+[实测/开发] C-M5: Exact-query Iris schema inspector with authorizer and frozen-source comparison; 13 targeted passed, real compatibility UNKNOWN。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 34ff63403807bc52b0fc58216f3554f37785500debabfe7753f04215419b5213，不证明宿主运行。
+
+[实测/开发] C-M6: Observer development kit builder, independent Core proof readback and operator rollback/runbook; 13 targeted passed, real shim blocked。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 9ce97c99cd96b90919fdb8ea0c14f03726abb1ab547e050c3f040b10be0c45fc，不证明宿主运行。
+
+[实测/开发] C-M4-SOURCE: Nana audit652a72f absorbed by reference; source-backed 4.28 lifecycle shim and safe unload, 21 targeted passed; dispatcher still blocked。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 b414c713192561130f562b10c177f7cebbb18bbf1efed2a682e9bda578f54239，不证明宿主运行。
+
+[实测/开发] C-M7-HARDEN: Lifecycle shim and kit validated in two actual Python environments; fail-closed BaseException/deferred completion guards, 22 targeted passed。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 1476c7707bc0b2a6b982ac96e692b13fb6123473aa39da3c803e78b10848c421，不证明宿主运行。
+
+[实测/开发] C-M7: Final full regression 372 passed one E12 skip; reviewed observer kit archive, approved55 unchanged and zero production actions。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 e7e2042cc4c39806fcec6c3388b033f15f49cb2b6ab6fac0bad2d6c0b2f56676，不证明宿主运行。
+
+[实测/开发] FINAL: Remote archive bytes verified; ordered Nana development handoff, 372 pass one skip; real dispatcher remains unverified。IMPLEMENTED/TESTED only；真实AstrBot binding UNVERIFIED、E12 NOT_RUN、Codex生产操作0。指纹锚点 b01f90794a4322dd405fc41fa1d1c5d427392a8fac618c18f8b2753169454a4f，不证明宿主运行。

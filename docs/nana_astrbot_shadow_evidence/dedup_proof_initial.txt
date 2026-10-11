@@ -1,0 +1,156 @@
+F.F..........                                                            [100%]
+=================================== FAILURES ===================================
+______ test_persistent_alias_dedup_original_time_and_no_production_state _______
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-107/test_persistent_alias_dedup_or0')
+
+    def test_persistent_alias_dedup_original_time_and_no_production_state(tmp_path):
+        s,sink=new_sink(tmp_path/'shadow')
+        first=sink.accept(s.sanitize(event()).metadata)
+        changed=event();changed['timestamp']='2026-10-12T00:00:00+00:00'
+>       second=sink.accept(s.sanitize(changed).metadata)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/integration/test_astrbot_dedup.py:21:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tools.nana_astrbot_shadow.core_sink.MetadataCoreSink object at 0x7f08a76f7a40>
+metadata = Metadata(platform='fixture', type='message', event_id='6afdbb1e4d0d42958611693769cd6963c952c661cec3617b9304c1643863042...8afa854f5f40747c2e3aa9e2aabb3c22', event_source='operator_probe', synthetic=True, probe_id='nana-probe-development-v1')
+
+    def accept(self, metadata):
+        m = self.sanitizer.validate_output(metadata)
+        s = self._open()
+        from nana_core.integration.contracts import HostEvent
+        from nana_core.integration.shadow import ShadowDecision, ProposedHostAction
+        from nana_core.integration.initiative import InitiativeHostGate
+        from nana_core.initiative import GoalCandidate
+        # Domain includes scoped conversation, but timestamp/probe ID do not
+        # redefine the logical event. Alias records and original artifact survive
+        # a crash between ingestion and decision commits.
+        key = digest([self.sanitizer.scope,m.platform,m.conversation_hash,m.event_id])
+        event_key = 'observer.event:'+key
+        probe_key = 'observer.probe:'+digest([self.sanitizer.scope,m.probe_id])
+        alias = s.one('core_meta',probe_key)
+        if alias and json.loads(alias['value_json'])['event_key'] != event_key:
+            raise ValueError('PROBE_ID_COLLISION')
+        host = HostEvent(host_instance='metadata-shadow',platform=m.platform or 'unknown',channel=m.type or 'unknown',
+            sender_id=m.sender_hash or 'UNKNOWN',event_id=key,conversation_id=m.conversation_hash or 'UNKNOWN',
+            timestamp=m.timestamp,content=canonical(m.public()),raw_content_reference='metadata://observer/'+key,
+            observation_source='operator_probe')
+        adapted = self._bridge.adapter.adapt(host)
+        source_key = canonical([adapted.kind,adapted.object_id,adapted.revision])
+        previous = s.db.execute('SELECT * FROM events WHERE source_namespace=? AND source_key=?',
+                                (adapted.source_namespace,source_key)).fetchone()
+        duplicate = previous is not None
+        if previous:
+            # Preserve FIRST occurrence time and original probe metadata. Do not
+            # call ingest with a mutated duplicate and overwrite/collide evidence.
+            stored = json.loads(s.artifact(previous['artifact_id']))['host_event']
+>           host = HostEvent.model_validate(stored)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           pydantic_core._pydantic_core.ValidationError: 1 validation error for HostEvent
+E           attachments
+E             Input should be a valid tuple [type=tuple_type, input_value=[], input_type=list]
+E               For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+
+tools/nana_astrbot_shadow/core_sink.py:63: ValidationError
+_______________ test_process_restart_recovers_identity_and_dedup _______________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-107/test_process_restart_recovers_0')
+
+    def test_process_restart_recovers_identity_and_dedup(tmp_path):
+        code='''import json,sys
+    from pathlib import Path
+    from tools.nana_astrbot_shadow.sanitize import MetadataSanitizer
+    from tools.nana_astrbot_shadow.core_sink import MetadataCoreSink
+    p=Path(sys.argv[1]);p.mkdir(exist_ok=True,mode=0o700)
+    s=MetadataSanitizer(scope="dev-observer-v1",hash_key=b"D"*32,probe_ids=frozenset({"nana-probe-development-v1"}))
+    e={"event_id":"synthetic-event","event_source":"operator_probe","synthetic":True,"probe_id":"nana-probe-development-v1","timestamp":"2026-10-11T02:00:00+00:00"}
+    sink=MetadataCoreSink(p,s);r=sink.accept(s.sanitize(e).metadata);sink.close();print(json.dumps(r))'''
+        env=dict(os.environ);env['PYTHONPATH']=str(Path('src').resolve())+os.pathsep+str(Path('.').resolve())
+        argv=[sys.executable,'-c',code,str(tmp_path/'shadow')]
+        a=json.loads(subprocess.run(argv,env=env,text=True,capture_output=True,check=True).stdout)
+>       b=json.loads(subprocess.run(argv,env=env,text=True,capture_output=True,check=True).stdout)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/integration/test_astrbot_dedup.py:53:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+input = None, capture_output = True, timeout = None, check = True
+popenargs = (['/tmp/nana-bootstrap-build/compat-python-fixed', '-c', 'import json,sys\nfrom pathlib import Path\nfrom tools.nana_a...tadata);sink.close();print(json.dumps(r))', '/tmp/pytest-of-agent/pytest-107/test_process_restart_recovers_0/shadow'],)
+kwargs = {'env': {'CODEX_EXEC_SERVER_PROXY_PRIVATE_IPS_VIA_UPSTREAM': 'true', 'GRPC_DEFAULT_SSL_ROOTS_FILE_PATH': '/etc/ssl/cer...certificates.crt', 'HTTPS_PROXY': 'http://proxy:8080', 'CODEX_CI': '1', ...}, 'text': True, 'stdout': -1, 'stderr': -1}
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output & stderr attributes if those streams
+        were captured.
+
+        If timeout (seconds) is given and the process takes too long,
+         a TimeoutExpired exception will be raised.
+
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+>               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['/tmp/nana-bootstrap-build/compat-python-fixed', '-c', 'import json,sys\nfrom pathlib import Path\nfrom tools.nana_astrbot_shadow.sanitize import MetadataSanitizer\nfrom tools.nana_astrbot_shadow.core_sink import MetadataCoreSink\np=Path(sys.argv[1]);p.mkdir(exist_ok=True,mode=0o700)\ns=MetadataSanitizer(scope="dev-observer-v1",hash_key=b"D"*32,probe_ids=frozenset({"nana-probe-development-v1"}))\ne={"event_id":"synthetic-event","event_source":"operator_probe","synthetic":True,"probe_id":"nana-probe-development-v1","timestamp":"2026-10-11T02:00:00+00:00"}\nsink=MetadataCoreSink(p,s);r=sink.accept(s.sanitize(e).metadata);sink.close();print(json.dumps(r))', '/tmp/pytest-of-agent/pytest-107/test_process_restart_recovers_0/shadow']' returned non-zero exit status 1.
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py:571: CalledProcessError
+=========================== short test summary info ============================
+FAILED tests/integration/test_astrbot_dedup.py::test_persistent_alias_dedup_original_time_and_no_production_state
+FAILED tests/integration/test_astrbot_dedup.py::test_process_restart_recovers_identity_and_dedup
+2 failed, 11 passed in 0.52s

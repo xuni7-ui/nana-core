@@ -1,0 +1,66 @@
+...........FF                                                            [100%]
+=================================== FAILURES ===================================
+__ test_metadata_only_compatibility_no_rows_or_default_values_and_zero_drift ___
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-110/test_metadata_only_compatibili0')
+
+    def test_metadata_only_compatibility_no_rows_or_default_values_and_zero_drift(tmp_path):
+        p=tmp_path/'iris.db';fixture(p);before=hashlib.sha256(p.read_bytes()).hexdigest()
+        with SchemaInspector(p) as i:
+>           report=i.inspect('l2');kg=i.inspect('kg')
+                   ^^^^^^^^^^^^^^^
+
+tests/integration/test_astrbot_iris_schema.py:26:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tools/nana_astrbot_shadow/iris_schema.py:69: in inspect
+    cols=self.query(COLUMNS,(name,));indexes=self.query(INDEXES,(name,))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tools.nana_astrbot_shadow.iris_schema.SchemaInspector object at 0x7f8fc20df3b0>
+sql = 'SELECT name,type,"notnull",pk FROM pragma_table_info(?)'
+parameters = ('memories',)
+
+    def query(self,sql,parameters=()):
+        valid=(sql in {TABLES,VERSION} and parameters==()) or (sql in {COLUMNS,INDEXES} and type(parameters) is tuple and len(parameters)==1 and parameters[0] in EXPECTED)
+        if not valid:raise SchemaPolicyError()
+        try:return self._db.execute(sql,parameters).fetchall()
+>       except sqlite3.DatabaseError:raise SchemaPolicyError() from None
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       tools.nana_astrbot_shadow.iris_schema.SchemaPolicyError: BLOCKED_SCHEMA_INSPECTION_POLICY
+
+tools/nana_astrbot_shadow/iris_schema.py:61: SchemaPolicyError
+_________________ test_schema_drift_and_active_wal_fail_closed _________________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-110/test_schema_drift_and_active_w0')
+
+    def test_schema_drift_and_active_wal_fail_closed(tmp_path):
+        p=tmp_path/'iris.db';fixture(p)
+        with sqlite3.connect(p) as d:d.execute('ALTER TABLE memories ADD COLUMN unexpected TEXT')
+>       with SchemaInspector(p) as i:assert i.inspect('l2')['status']=='SCHEMA_DRIFT'
+                                            ^^^^^^^^^^^^^^^
+
+tests/integration/test_astrbot_iris_schema.py:36:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+tools/nana_astrbot_shadow/iris_schema.py:69: in inspect
+    cols=self.query(COLUMNS,(name,));indexes=self.query(INDEXES,(name,))
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
+
+self = <tools.nana_astrbot_shadow.iris_schema.SchemaInspector object at 0x7f8fc20dff80>
+sql = 'SELECT name,type,"notnull",pk FROM pragma_table_info(?)'
+parameters = ('memories',)
+
+    def query(self,sql,parameters=()):
+        valid=(sql in {TABLES,VERSION} and parameters==()) or (sql in {COLUMNS,INDEXES} and type(parameters) is tuple and len(parameters)==1 and parameters[0] in EXPECTED)
+        if not valid:raise SchemaPolicyError()
+        try:return self._db.execute(sql,parameters).fetchall()
+>       except sqlite3.DatabaseError:raise SchemaPolicyError() from None
+                                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       tools.nana_astrbot_shadow.iris_schema.SchemaPolicyError: BLOCKED_SCHEMA_INSPECTION_POLICY
+
+tools/nana_astrbot_shadow/iris_schema.py:61: SchemaPolicyError
+=========================== short test summary info ============================
+FAILED tests/integration/test_astrbot_iris_schema.py::test_metadata_only_compatibility_no_rows_or_default_values_and_zero_drift
+FAILED tests/integration/test_astrbot_iris_schema.py::test_schema_drift_and_active_wal_fail_closed
+2 failed, 11 passed in 0.06s
