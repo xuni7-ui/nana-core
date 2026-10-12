@@ -17,7 +17,8 @@ from tools.nana_host_shadow.safety import canonical, digest
 REAL_SOURCE = 'astrbot_on_decorating_result'
 SKEW_SECONDS = 2
 MAX_WINDOW_SECONDS = 600
-PRODUCTION_REVIEW_PINS = MappingProxyType({})  # reviewed receipt digest -> authorization digest; NEVER configuration
+from . import sealed_trust
+PRODUCTION_REVIEW_PINS = sealed_trust.PRODUCTION_REVIEW_PINS  # static source, NEVER configuration
 
 class Provenance(StrEnum):
     FIXTURE = 'FIXTURE'
@@ -110,6 +111,8 @@ class ProductionTrustStore:
     domain='PRODUCTION'
     def validates(self,receipt,review):
         return (receipt.review_provenance is Provenance.ASTRBOT_REAL_MESSAGE
+                and receipt.receipt_digest==sealed_trust.EXACT_RECEIPT_DIGEST
+                and receipt.store_binding==sealed_trust.EXACT_STORE_BINDING
                 and PRODUCTION_REVIEW_PINS.get(digest(review))==receipt.authorization_digest)
 
 class FixtureTrustStore:
@@ -201,8 +204,13 @@ class ReceiptLedger:
             raise ValueError('RECEIPT_EXPIRED')
         if utc(r.issued_at)>now+timedelta(seconds=SKEW_SECONDS): raise ValueError('RECEIPT_FUTURE_ISSUED')
 
+    def _execution_seal(self):
+        if type(self.trust) is ProductionTrustStore and sealed_trust.SEAL_MODE!='ONE_SHOT':
+            raise ValueError('PRODUCTION_SEAL_NOT_EXECUTABLE')
+
     def arm(self,rid):
         r,v=self._load(rid)
+        self._execution_seal()
         if v['state']!='REVIEWED' or not self._review_valid(r,v['review']): raise ValueError('RECEIPT_NOT_REVIEWED')
         self._live(r,v,self._now());v['state']='ARMED'
         with self.store.transaction('r04.receipt_armed',{'receipt_id':rid}) as tx:self._write(tx,r,v)
@@ -217,6 +225,7 @@ class ReceiptLedger:
 
     def consume(self,rid,metadata, *, checkpoint=None):
         r,v=self._load(rid)
+        self._execution_seal()
         if v['uses']!=0 or v['state'] in ('CONSUMED','VERIFIED','UNKNOWN'): raise ValueError('ALREADY_CONSUMED')
         if v['state']!='ARMED' or not self._review_valid(r,v['review']): raise ValueError('RECEIPT_NOT_ARMED')
         now=self._now();self._live(r,v,now)

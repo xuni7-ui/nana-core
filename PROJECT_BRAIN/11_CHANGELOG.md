@@ -792,3 +792,8 @@
 - 改了什么：Remote asset bytes verified, handoff/minimal host sequence and ordered development commits; real bridge NOT_RUN; manifests/fingerprints_r041.json.
 - 为什么：host SQLite3.46.1 must stay untouched; bounded local metadata bridge, not second permanent Runtime.
 - 怎么验证：development-only targeted/full evidence, diff/allowlist/secret-private-artifact scans; approvedCore unchanged.
+
+### R042 C1 — close audited source-seal tooling gap (2026-10-12 UTC)
+- Why: R041 ledger review/arm cannot proceed with correctly EMPTY source maps and had no reviewed-build onboarding tool.
+- Change: EMPTY sealed source module, offline exact receipt preparation/review/seal, separately constrained VERIFY_ONLY proof package, operator runbook/D-048. Original approved Core untouched; no runtime pin setter or real authority.
+- Validation: R04/R041/onboarding targeted tests executed on actual CPython3.12.14 + privateSQLite3.51.3 + Pydantic2.13.5; full evidence/count at FINAL. Fixed gate order after an old trust-domain test exposed diagnostic regression; old assertions preserved.

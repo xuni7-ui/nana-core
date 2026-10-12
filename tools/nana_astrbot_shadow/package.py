@@ -174,3 +174,18 @@ exec "$base/r04.sh" bridge "$@"
     return {'filename':archive.name,'bytes':archive.stat().st_size,'SHA256':digest(archive.read_bytes()),
         'Core_source_SHA':m['Core_source_SHA'],'support_source_SHA':m['support_source_SHA'],'runtime_sha256':m['runtime_sha256'],
         'shared_protocol_sha256':m['shared_protocol_sha256'],'production_review_pins':0,'real_host_bridge':'NOT_RUN'}
+
+
+def create_r042(repo,destination,*,runtime_from):
+    """Production default remains EMPTY. No receipt/review/proof generated here."""
+    root=Path(destination)
+    create_r041(repo,root,runtime_from=runtime_from)
+    shutil.copyfile(Path(repo)/'docs/nana_r042_trust_onboarding.md',root/'R042_ONBOARDING.md')
+    launcher=root/'onboarding.sh'
+    launcher.write_text('#!/bin/sh\nset -eu\nbase=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)\nexec "$base/r04.sh" onboarding "$@"\n')
+    launcher.chmod(0o700)
+    m=json.loads((root/'manifest.json').read_text())
+    m.update(r042='EMPTY_DEFAULT_ONBOARDING_READY',seal_mode='EMPTY',production_review_pins=0,
+             production_trust_pins=0,real_runtime_proof_pins=0)
+    from .onboarding import finalize
+    return finalize(root,m)

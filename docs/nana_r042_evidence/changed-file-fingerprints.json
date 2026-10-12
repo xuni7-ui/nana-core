@@ -1,0 +1,65 @@
+{
+  "base_SHA": "c7d87018335de0797177f53bf8986f06e1e78eef",
+  "files": [
+    {
+      "bytes": 56970,
+      "path": "PROJECT_BRAIN/09_STATE.md",
+      "sha256": "bf6dacfaba7f27eb90c1ddf210e3119852b16cea08b003b598508c8161cc81cb"
+    },
+    {
+      "bytes": 30571,
+      "path": "PROJECT_BRAIN/10_DECISIONS.md",
+      "sha256": "1b339d42f968f10ec8fac46fa3e33750772ee91d87c02fce5facede65c224720"
+    },
+    {
+      "bytes": 79408,
+      "path": "PROJECT_BRAIN/11_CHANGELOG.md",
+      "sha256": "54b241b5348159e90268ac8108ba2b5b70b94b0a88fcd2cfbecd301e3bf7de82"
+    },
+    {
+      "bytes": 13743,
+      "path": "tools/nana_astrbot_shadow/one_shot.py",
+      "sha256": "1272f4c057014f398366822cfcd2ade232ccb789669d727004c30d4a97641527"
+    },
+    {
+      "bytes": 8050,
+      "path": "tools/nana_astrbot_shadow/one_shot_cli.py",
+      "sha256": "7dd2dc03e1d6e5119fb630add099da63e8aa2c5a469d37f6683c5cda9d319a7f"
+    },
+    {
+      "bytes": 7892,
+      "path": "tools/nana_astrbot_shadow/one_shot_proof.py",
+      "sha256": "3ece3b5fb5c8e8d73896ebc9c88b693d7a77c230122347aa76e461512ea0c23e"
+    },
+    {
+      "bytes": 13648,
+      "path": "tools/nana_astrbot_shadow/package.py",
+      "sha256": "e96690d99cce0402c66d49bc1cf30f3977f13fbbe430a253242efdfb6e91587f"
+    },
+    {
+      "bytes": 2559,
+      "path": "tools/nana_astrbot_shadow/r04_entry.py",
+      "sha256": "2697e4a822a89bf2860b9db8b5ee10188a909f981cc4138ea7eec9053e3d8cd3"
+    },
+    {
+      "bytes": 468,
+      "path": "tools/nana_astrbot_shadow/sealed_trust.py",
+      "sha256": "809b24cd7a3846146821a81a66a92c2625d67ef654f8b97596c73e8e63ed2544"
+    },
+    {
+      "bytes": 13276,
+      "path": "tools/nana_astrbot_shadow/onboarding.py",
+      "sha256": "b6f81ace4991faeff8e4d7b506cf461dde83cd2423a8d3ac33a8f6bb2749b1ac"
+    },
+    {
+      "bytes": 7703,
+      "path": "tests/nana_shadow/test_r042_onboarding.py",
+      "sha256": "ff28f7ea65dd8e5f883b86ada4de779d5528d74338a36a8c53443d08f069f11c"
+    },
+    {
+      "bytes": 12031,
+      "path": "docs/nana_r042_trust_onboarding.md",
+      "sha256": "c2edd9c06db296014a59dbea2be051743b42b7be8d21377ab89c6ec56440b78b"
+    }
+  ]
+}
