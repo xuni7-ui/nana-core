@@ -108,3 +108,23 @@ Default delivered permissions were not writable; gate lacked explicit rejection.
 LOW: Git review reader accepts mode120000 symlink blob if its bytes are canonical
 JSON. No real authorization minted; human reviewed source boundary remains.
 Six failing assertions preserved in supply-failures.xml; no success claim yet.
+
+## C3: supply-chain fixes and concurrent ingress
+
+Integrity gate now enumerates ALL immutable entries, rejects dangling symlinks,
+FIFO/special objects, hardlinks and group/world-writable files/directories. Mutable
+Shadow data is pruned (not scanned/read); symlinked data root still blocked. Both
+stdlib pre-import r04_entry and imported package verifier enforce the policy.
+Git review source must be mode100644 blob at exact full commit/path (not symlink
+or executable JSON). Existing source review/operator trust boundaries unchanged;
+no production seal/pin minted. Targeted package/onboarding:42pass.
+
+UDS races:13pass including2/10/100/500 same/different events, consume/disarm FIFO
+ordering, competing writer lease rejection, live read snapshots, pidfd/start-time
+change and copied IPC directory rejection. Documented128-frame lifetime cap may
+fail closed with0 ingress under500 flood; at most1 ALWAYS, no liveness claim under
+DoS. Duplicate concatenated frames accept at most the first authorized framed
+message then close; no second frame executes or creates ingress. No generic RPC.
+Actual kernel PID reuse is NOT forced; injected start-time mismatch and original
+actual foreign-process/SIGKILL tests exercise the comparison. Do not claim a
+kernel PID-allocator stress result which was not run.
