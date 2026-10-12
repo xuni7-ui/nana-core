@@ -829,3 +829,11 @@
 - Changes: deliver no-authority EMPTY kit, exact operator ordering/fields/stops, evidence and security fingerprints. Production one-shot/proof trust must still come from independently reviewed source builds; no real pin or host fact fabricated.
 - Validation: full543pass/0fail/0error/1E12skip in original privateSQLite3.51.3 runtime; extracted kit15 operations PASS; exact55Core byte hashes; original tests unchanged. Secret/private/runtime DB checks PASS. No host/model/message/production operation; no new tables/dependencies.
 - Delivery: support source c6eb7255d0d2d985ecf5e06cdf42cfa4a33040b6, artifacts/r042/nana-r042-empty-c6eb725-onboarding.tar.gz,3358013bytes,SHA256 fe9c4bc0ad6cdd11b8a491fb610cacdc43f9cb395bdc36730e1b58b27be8bca7. Final Git/remote verification recorded after saving. Scope: R042 operator/build closure only; next real one-shot requires Nana independent host review and Sister's exact authorization.
+
+
+## C-074 · R043 First-Real-Shadow Candidate Integration（合流 + 静态验收）
+
+- 改了什么：新建 `dev/nana-core-v1-r043-first-real-shadow-candidate`（基于 R042 preflight `7d8a481`），`merge --no-ff` Codex R042 onboarding `a436333`；合并提交双亲 `7d8a481` + `a436333`，共同基线 `c7d87018`。PROJECT_BRAIN 09/10/11 三处追加冲突**人工逐块合并**，两分支证据全保留；`10_DECISIONS.md` 追加 **D-049** 纠正 `D-046` 编号碰撞（原 D-046 = R04 One-Shot Receipt，D-047 = temporary Shadow bridge，D-048 = production trust onboarding）。
+- 为什么：把真实宿主 readiness + Codex R042 trust-onboarding 合成**唯一** FIRST_REAL_ASTRBOT_SHADOW 候选基线，并消除历史编号歧义。
+- 怎么验证：Codex onboarding 文件与 R041 bridge 文件同时存在；`src/`（Approved Core）合流零改动；无新增 SQL table / dependency；`git diff --check` PASS；conflict marker 0；secret/private 扫描 PASS；已批准 private runtime 下完整 regression **543 passed / 0 failed / 1 skipped(E12)**；EMPTY 包 SHA256 复核一致 + verify/preflight PASS（production pins 0）。
+- 生产动作计数 **0**：未上传 Dashboard / 未装 plugin / 未改 plugin_set / 未建真实 authorization / 未 seal production / 未 arm receipt / 未起正式 bridge / 未发消息 / 未 reload·restart / 未做 Iris 私人读取 / 未调用模型。

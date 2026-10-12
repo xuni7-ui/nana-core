@@ -550,3 +550,32 @@
 [实测/开发] Actual CPython3.12.14/privateSQLite3.51.3/Pydantic2.13.5 full regression543passed/0failed/0errors/1skipped(E12). All old510 pass tests retained;33 onboarding tests added. Existing 2/10/100 concurrency, restart, real SIGKILL, dedup, single owner, UNKNOWN/barrier tests PASS. Extracted final EMPTY package15 CLI/harness/tamper/copy/fixture rejection operations PASS; approved55 file hashes PASS. Evidence docs/nana_r042_evidence/. No new Core SQL tables/dependencies; zero Core changes vs R041; inherited R03 preflight-line discrepancy vs ddab remains disclosed, package uses exactddab55bytes.
 [交付] artifacts/r042/nana-r042-empty-c6eb725-onboarding.tar.gz,3358013bytes,SHA256 fe9c4bc0ad6cdd11b8a491fb610cacdc43f9cb395bdc36730e1b58b27be8bca7; support source c6eb7255d0d2d985ecf5e06cdf42cfa4a33040b6. EMPTY default, not an armed/host-installed candidate. Operator plan docs/nana_r042_trust_onboarding.md.
 [仍未验证] Real load NOT_RUN; real dispatcher NOT_VERIFIED; real host bridge/one-shot NOT_RUN; host_binding UNVERIFIED; FIRST_REAL_ASTRBOT_SHADOW BLOCKED; E12 NOT_RUN. Real independent review/sealed production authorization/runtime-proof not generated. Real host operations/production modifications/private memory reads/secret values read/external messages/real model calls all0. SameUID/root whole-DB cloning and dishonest privileged builder remain outside guarantees; do not claim fixture fields authenticate real source review.
+
+
+---
+
+## 2026-10-12 (CST) · R043 First-Real-Shadow Candidate Integration（合流 + 静态验收）
+
+> 在 R042 preflight 与 Codex R042 onboarding 之上**追加**，不改写既有账本。
+
+| 状态键 | 值 |
+|---|---|
+| `R043_BRANCH` | `dev/nana-core-v1-r043-first-real-shadow-candidate` |
+| `R043_MERGE_BASE` | `c7d87018`（两分支共同基线） |
+| `R043_MERGE_PARENTS` | `7d8a481`（preflight）+ `a436333`（onboarding） |
+| `D-046_COLLISION` | **CORRECTED_BY_D-049** |
+| `CODEX_ONBOARDING_FILES` | **PRESENT** |
+| `PRODUCTION_PINS` | **EMPTY**（sealed_trust.py `SEAL_MODE=EMPTY`） |
+| `R041_BRIDGE_FILES` | **PRESENT** |
+| `HOST_READINESS_EVIDENCE` | **PRESERVED** |
+| `APPROVED_CORE_DIFF` | **0** |
+| `NEW_SQL_TABLE_OR_DEPENDENCY` | **0** |
+| `FULL_REGRESSION` | **543 passed / 0 failed / 1 skipped** |
+| `EMPTY_PACKAGE_VERIFY` | **PASS**（15 operations，production pins 0） |
+| `PRODUCTION_ACTIONS` | **0** |
+
+- [实测] 09/10/11 三处追加冲突经**人工逐块合并**，两分支证据全部保留，无 ours/theirs 丢弃。
+- [实测] 10_DECISIONS.md 追加 **D-049** 纠正历史 `D-046` 编号碰撞；原 D-046 = R04 One-Shot Receipt，D-047 = R041 temporary Shadow bridge，D-048 = production trust onboarding。
+- [实测] 完整 regression 在已批准 private runtime（CPython 3.12.14 / private SQLite 3.51.3 / Pydantic 2.13.5）下 **543 passed / 0 failed / 1 skipped(E12)**，与 Codex R042 逐项一致。
+- [实测] EMPTY onboarding 包 `nana-r042-empty-c6eb725-onboarding.tar.gz` SHA256 = `fe9c4bc0…bca7` 校验一致；verify/preflight PASS，未生成真实 production pin。
+- [未知] 仍待人工授权：Dashboard 上传 / plugin_set / 真实 authorization / seal production / arm receipt / 正式 bridge / 真实消息 —— 本阶段全部 **0**。
