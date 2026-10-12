@@ -1,0 +1,10 @@
+{
+  "Core_source_SHA": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
+  "SHA256": "faf85677f7625836cf0cffba36a044190333f35e0295edce1059c7a5efb9b6a4",
+  "bytes": 3325221,
+  "filename": "nana-r04-one-shot-3675a13a7bd7-delivery.tar.gz",
+  "host_binding": "UNVERIFIED",
+  "production_trust_pins": 0,
+  "runtime_sha256": "95c7215bc78d43cae809e99fcc65c1572cd611c87ae273afb80138b61c01e6ec",
+  "support_source_SHA": "3675a13a7bd74b4501b1da7c777336b695a0c7af"
+}

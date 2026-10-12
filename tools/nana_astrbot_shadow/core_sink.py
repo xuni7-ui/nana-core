@@ -53,7 +53,7 @@ class MetadataCoreSink:
         host = HostEvent(host_instance='metadata-shadow',platform=m.platform or 'unknown',channel=m.type or 'unknown',
             sender_id=m.sender_hash or 'UNKNOWN',event_id=key,conversation_id=m.conversation_hash or 'UNKNOWN',
             timestamp=m.timestamp,content=canonical(m.public()),raw_content_reference='metadata://observer/'+key,
-            observation_source='operator_probe')
+            observation_source=m.event_source)
         adapted = self._bridge.adapter.adapt(host)
         source_key = canonical([adapted.kind,adapted.object_id,adapted.revision])
         previous = s.db.execute('SELECT * FROM events WHERE source_namespace=? AND source_key=?',
@@ -69,7 +69,7 @@ class MetadataCoreSink:
             if json.loads(row['body_json']).get('epistemic_kind')=='OBSERVATION'
             and any(ref.get('event_id')==eid for ref in json.loads(row['body_json']).get('source_refs',())))
         if len(context_ids)!=1: raise ValueError('OBSERVATION_CONTEXT_AMBIGUOUS')
-        decision = ShadowDecision(interpretation='Authorized synthetic metadata; private body never acquired',
+        decision = ShadowDecision(interpretation=('Authorized synthetic metadata; private body never acquired' if m.synthetic else 'Receipt-authorized metadata only; no private body acquired'),
             memory_ids=context_ids,evidence_event_ids=(eid,),goal_purpose='Evaluate internal binding metadata',
             planned_actions=(ProposedHostAction(capability='astrbot.message.send',resource='synthetic://no-delivery',
                                                 reason='Draft to exercise barrier, never dispatch'),),

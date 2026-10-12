@@ -454,3 +454,44 @@
 - [实测] 本轮零漂移：生产源码改动 0 / 生产插件目录触碰 0 / 安装 0 / reload 0 / 重启 0 /
   JWT·secret 读取 0 / 真实消息 0 / 正文读取 0 / Iris 私人内容 0 / 外发 0 / authority 切换 0。
 - [未知] 下一步唯一人工动作：姐姐在已登录 Dashboard **手动上传 observer 插件并纳入 `plugin_set`**（届时单独授权）。
+
+## R04-C0 (2026-10-11 UTC) — development baseline only
+[实测/开发] Uploaded R03 bundle independently hash/verify/list-heads checked; sole base89385e98118da81bae751311fb6149f048b772a8. New independent R04 branch. Approved isolated runtime full baseline404 passed/0failed/1skip (E12). Existing R039-key adapter/support reused; real message gates remain closed. Evidence docs/nana_r04_evidence/baseline.xml and docs/nana_r04_one_shot.md. No real host operations.
+
+[实测/开发] R04-C1 strict receipt contract14passed; fixed Literal accepting bool-as1 via pre-validation, failure log retained. max_uses1/window<=600sec/UTC/scoped hashes/store binding/strict canonical JSON. Production trust pins empty; no Core changes.
+
+[实测/开发] R04-C2-C5: Atomic receipt and D-045 ingress/proof; 42 targeted passed, five actual SIGKILL boundaries; R03 pre-existing preflight drift disclosed. Fingerprint anchor f6f9186edf890c1bc6c253dac74779ccaf37ca05430d4303266816109c83ea88; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
+
+[实测/开发] R04-C6-C7: Failure-isolated real-metadata callback and read-only operator CLI; 53 targeted passed. Fingerprint anchor 0ec78b45d7e7dcd9c01a8edbfff2b14c1d451d050d66d0b43d4bee122d42d124; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
+
+[实测/开发] R04-C6-C8: Fail-closed operator CLI, 65 targeted passes, dormant message-only plugin and gated package/runbook. Fingerprint anchor 783fe3d03faf4cbdaf71bc996aed0c05a1509480712b56cb744970c463f1b10b; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
+
+[实测/开发] R04-C8-HARDEN: Dormant plugin blocks fixture trust and empty pins; 62 R04 targeted passed; earlier 65 count corrected to62. Fingerprint anchor 6fe8ab2aee25643b7b51a2717e9534759f2ddcf9e153318c537c1bf21e2bd994; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
+
+[实测/开发] R04-C8-SEAL: Exact UTC microseconds, non-remintable permit and single-writer rollback instructions; 63 targeted passed. Fingerprint anchor 219f64680149c80802b5cce92ee4f00406649d3fcb79d862fc8fdb26323895a9; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
+
+[实测/开发] R04-C8-INTEGRITY: Stdlib hash gate before package execution and fixed proof diagnostics; 64 targeted passed, full468 passed one E12 skip. Fingerprint anchor 7472c6fc703cb2ea739560203b0c74136e7e1b9464bf7a9aedb0c0d5a42bfaa9; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
+
+[实测/开发] R04-RELEASE: Reviewed downloadable archive and extracted-package validation; full468 passed, one E12 skip, zero production operations. Fingerprint anchor 1c3c4503474ea7bb53c595ea2a944da5d50db6e1e9091da863a0e4e1eb2f7eba; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
+
+[实测/开发] R04-FINAL-TYPE-SEAL: Require actual ReceiptLedger at sanitizer permit gate; full469 passed, one E12 skip, 65 R04 cases. Fingerprint anchor 790c56f51e372e807912e11d5d1c31a4f40394072a33b8636caf9b60206ab11b; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
+
+[实测/开发] R04-FINAL-DELIVERY: Sealed support archive and extracted-package proof; JUnit469 passed one E12 skip, all65 R04 cases. Fingerprint anchor cc5296e35964eb37a1a499bad7a838b294cbf0c268a2c8ae4eb6c9be8193fbd4; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
+
+[实测/开发] R04-FINAL-CLI-SEAL: Redact invalid CLI arguments with fixed diagnostics; full470 passed one E12 skip, 66 R04 cases. Fingerprint anchor ac375710adb08f9f54eaf03e5a4d95336c88c3044b29d0108378dd0271960873; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
+
+[实测/开发] R04-FINAL-PACKAGE: Final CLI-redacted asset verified, full470 passed one E12 skip, package55ddab exact, zero host operations. Fingerprint anchor 4e7e8ae0cd4d2cb4a525d11b82b5c2ee3caa078e01cdf887c2e3b7e3eb1a8f70; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
+
+[实测/开发] R04-FINAL: Remote final asset bytes independently verified; handoff and ordered commit range, no further source changes. Fingerprint anchor 50f12ebcb238029e35ede95641c2ebf72896817dee28729af8a91fb7a42e0747; real load NOT_RUN/dispatcher NOT_VERIFIED/host_binding UNVERIFIED/E12 NOT_RUN.
+
+[实测/开发] R041-M1: Bounded stdlib UDS metadata channel, R04 single-writer ingress and foreground session fence; 106 targeted passed; anchorf9efeadd9dfa8f84bb726b4ff45e8746f19d5dc529ff4fa5b491b37a53eb4239. SHORT_LIVED_HOST_BRIDGE IMPLEMENTED/TESTED only. Real host bridge/load/one-shot NOT_RUN, dispatcher NOT_VERIFIED, host_binding UNVERIFIED, FIRST_REAL_ASTRBOT_SHADOW BLOCKED, E12 NOT_RUN.
+
+[实测/开发] R041-M2: Old-SQLite client isolation, three actual worker SIGKILLs, PID/socket-fenced stop cleanup and adversarial lifecycle; 126 targeted passed; anchor0bf4becd75a5f66e5ffd180b3da1476fe7e13fd99ea2adf21fb26e9413ba76a8. SHORT_LIVED_HOST_BRIDGE IMPLEMENTED/TESTED only. Real host bridge/load/one-shot NOT_RUN, dispatcher NOT_VERIFIED, host_binding UNVERIFIED, FIRST_REAL_ASTRBOT_SHADOW BLOCKED, E12 NOT_RUN.
+
+[实测/开发] R041-M3: Bridge package/runbook and safe operator session readback; 44 targeted passed, real statuses unchanged; anchor51bf8f09c9dd6de44a68a6cd5f14742da2952bb559829d3779ef12ca45f584c6. SHORT_LIVED_HOST_BRIDGE IMPLEMENTED/TESTED only. Real host bridge/load/one-shot NOT_RUN, dispatcher NOT_VERIFIED, host_binding UNVERIFIED, FIRST_REAL_ASTRBOT_SHADOW BLOCKED, E12 NOT_RUN.
+
+[实测/开发] R041-M4-SEAL: Bounded observation and isolated hard-exit grace, no late ingress; full510 passed one E12 skip; anchor6ab228296e86e159d6039aa1917ce9d7a972fa4c250c56546f69e9c9870f3857. SHORT_LIVED_HOST_BRIDGE IMPLEMENTED/TESTED only. Real host bridge/load/one-shot NOT_RUN, dispatcher NOT_VERIFIED, host_binding UNVERIFIED, FIRST_REAL_ASTRBOT_SHADOW BLOCKED, E12 NOT_RUN.
+
+[实测/开发] R041-RELEASE: Sealed-window package validated in fresh directory; full510 passed one E12 skip, no approvedCore or production changes; anchorbb14e79390fef4abe5750f0e59b6c4150521fd7bbcbd1bb827ae9c641ea7db80. SHORT_LIVED_HOST_BRIDGE IMPLEMENTED/TESTED only. Real host bridge/load/one-shot NOT_RUN, dispatcher NOT_VERIFIED, host_binding UNVERIFIED, FIRST_REAL_ASTRBOT_SHADOW BLOCKED, E12 NOT_RUN.
+
+[实测/开发] R041-FINAL: Remote asset bytes verified, handoff/minimal host sequence and ordered development commits; real bridge NOT_RUN; anchor06fa2add22c892bde0f32e791d9d8609c0f27cf525ae97890817b1ce6077ced7. SHORT_LIVED_HOST_BRIDGE IMPLEMENTED/TESTED only. Real host bridge/load/one-shot NOT_RUN, dispatcher NOT_VERIFIED, host_binding UNVERIFIED, FIRST_REAL_ASTRBOT_SHADOW BLOCKED, E12 NOT_RUN.

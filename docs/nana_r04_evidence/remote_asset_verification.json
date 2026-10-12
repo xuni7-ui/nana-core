@@ -1,0 +1,8 @@
+{
+  "SHA256": "faf85677f7625836cf0cffba36a044190333f35e0295edce1059c7a5efb9b6a4",
+  "bytes": 3325221,
+  "download_URL": "https://github.com/xuni7-ui/nana-core/raw/b332df16701e56f07224ba633016d6ba28e4bcee/artifacts/r04/nana-r04-one-shot-3675a13a7bd7-delivery.tar.gz",
+  "fresh_bare_fetch": true,
+  "remote_SHA": "b332df16701e56f07224ba633016d6ba28e4bcee",
+  "status": "REMOTE_BYTES_VERIFIED"
+}

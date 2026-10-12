@@ -1,0 +1,11 @@
+{
+  "Core_source_SHA": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
+  "SHA256": "fafe82ec73dc2c4d996fb64cb6f2a6bd7402854305b5036e8516797b81c1dc63",
+  "bytes": 3351586,
+  "filename": "nana-r041-host-bridge-c24833e69ee1-bridge-delivery.tar.gz",
+  "production_review_pins": 0,
+  "real_host_bridge": "NOT_RUN",
+  "runtime_sha256": "95c7215bc78d43cae809e99fcc65c1572cd611c87ae273afb80138b61c01e6ec",
+  "shared_protocol_sha256": "b7c8fdef7e97361484389cd8399ea9d75583af917530809de9ac95802cb0212f",
+  "support_source_SHA": "c24833e69ee181f436eb7ebda75b6a8b58e71004"
+}

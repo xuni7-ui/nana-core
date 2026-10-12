@@ -116,22 +116,7 @@ class MessageHookAdapter:
     # ── 观测面 ──────────────────────────────────────────────────────────────
     def extract(self, event):
         """只经白名单取值器抽取标量。任何异常 → None（fail-closed）。"""
-        try:
-            message_obj = getattr(event, "message_obj", None)  # 不 repr / 不遍历
-            return {
-                "platform": _only_str(_safe_call(event, "get_platform_id")),
-                "type": _only_str(type(event).__name__),
-                "event_id": _only_str(getattr(message_obj, "message_id", None)),
-                "timestamp": _normalize_timestamp(
-                    getattr(message_obj, "timestamp", None)
-                ),
-                "conversation_id": _only_str(
-                    getattr(event, "unified_msg_origin", None)
-                ),
-                "sender_id": _only_str(_safe_call(event, "get_sender_id")),
-            }
-        except BaseException:
-            return None
+        return extract_scalar_metadata(event)
 
     def build_payload(self, event):
         """抽取 + 打上来源标记。返回严格 9 键 dict；抽取失败返回 None。"""
@@ -210,5 +195,48 @@ def _safe_call(obj, name):
     try:
         func = getattr(obj, name, None)
         return func() if callable(func) else None
+    except BaseException:
+        return None
+
+
+class OneShotMessageHookAdapter(MessageHookAdapter):
+    """R04 result-path metadata; arm/review/consume occurs ONLY in receipt worker.
+
+    Base real adapter remains closed. No boolean, environment, unsafe flag, or
+    local synthetic permit opens this path. Cancellation here is isolated from
+    the host response task; R03 adapter cancellation contract is unchanged.
+    """
+    def __init__(self, *, observer, logger=None):
+        from tools.nana_astrbot_shadow.one_shot_ingress import OneShotObserver
+        if type(observer) is not OneShotObserver: raise ValueError('ONE_SHOT_OBSERVER_REQUIRED')
+        super().__init__(sanitizer=observer.sanitizer,observer=observer,mode='real',logger=logger)
+
+    async def on_decorating_result(self,event):
+        try:
+            if not self._active:return None
+            payload=self.build_payload(event)
+            if payload is None:self._note('DROP_EXTRACT');return None
+            await self.observer.callback_real(payload)
+        except BaseException:
+            self._note('DROP_ONE_SHOT_ADAPTER_FAILURE')
+        return None
+
+
+def extract_scalar_metadata(event):
+    """Shared R03 allowlist, stdlib-only; used by the UDS client too."""
+    try:
+        message_obj = getattr(event, "message_obj", None)  # 不 repr / 不遍历
+        return {
+            "platform": _only_str(_safe_call(event, "get_platform_id")),
+            "type": _only_str(type(event).__name__),
+            "event_id": _only_str(getattr(message_obj, "message_id", None)),
+            "timestamp": _normalize_timestamp(
+                getattr(message_obj, "timestamp", None)
+            ),
+            "conversation_id": _only_str(
+                getattr(event, "unified_msg_origin", None)
+            ),
+            "sender_id": _only_str(_safe_call(event, "get_sender_id")),
+        }
     except BaseException:
         return None

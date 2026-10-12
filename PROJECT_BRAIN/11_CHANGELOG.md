@@ -692,3 +692,103 @@
   - `NEW_PLUGIN_NO_RESTART_MANUAL_PATH = YES`（人工 Dashboard 路径）。
   - message observer `IMPLEMENTED / TESTED`；`Observer registered = NO`、`host_binding = UNVERIFIED`、
     `FIRST_REAL_ASTRBOT_SHADOW = BLOCKED`、`E12 = NOT_RUN`。
+
+## R04-C0 — independently verified R03 bundle and baseline
+- 改了什么：追加R04 development scope/baseline evidence; no Core/source modification in this checkpoint.
+- 为什么：uploaded bundle is sole source, old frozen Codex branch not an implementation base.
+- 怎么验证：SHA256/list-heads/complete-history verify and approved-runtime404pass/1E12skip. Real host facts not promoted.
+
+## R04-C1 — receipt contract and separated trust types
+- 改了什么：one_shot DTO/provenance/source-empty production pins; fixture class cannot accept real/lifecycle provenance.
+- 为什么：one observation permission must not become Grant or wildcard/private-body authorization.
+- 怎么验证：14 contract tests pass; initial2 bool-Literal failures fixed in validator, assertions retained. Evidence contract_fixed.txt.
+
+## R04-C2-C5
+- 改了什么：Atomic receipt and D-045 ingress/proof; 42 targeted passed, five actual SIGKILL boundaries; R03 pre-existing preflight drift disclosed; files in manifests/fingerprints_r04.json.
+- 为什么：one reviewed metadata observation, D-045 gates retained, approved Core unchanged.
+- 怎么验证：targeted evidence in docs/nana_r04_evidence, staged diff/secret/private-artifact allowlist checks; development only.
+
+## R04-C6-C7
+- 改了什么：Failure-isolated real-metadata callback and read-only operator CLI; 53 targeted passed; files in manifests/fingerprints_r04.json.
+- 为什么：one reviewed metadata observation, D-045 gates retained, approved Core unchanged.
+- 怎么验证：targeted evidence in docs/nana_r04_evidence, staged diff/secret/private-artifact allowlist checks; development only.
+
+## R04-C6-C8
+- 改了什么：Fail-closed operator CLI, 65 targeted passes, dormant message-only plugin and gated package/runbook; files in manifests/fingerprints_r04.json.
+- 为什么：one reviewed metadata observation, D-045 gates retained, approved Core unchanged.
+- 怎么验证：targeted evidence in docs/nana_r04_evidence, staged diff/secret/private-artifact allowlist checks; development only.
+
+## R04-C8-HARDEN
+- 改了什么：Dormant plugin blocks fixture trust and empty pins; 62 R04 targeted passed; earlier 65 count corrected to62; files in manifests/fingerprints_r04.json.
+- 为什么：one reviewed metadata observation, D-045 gates retained, approved Core unchanged.
+- 怎么验证：targeted evidence in docs/nana_r04_evidence, staged diff/secret/private-artifact allowlist checks; development only.
+
+## R04-C8-SEAL
+- 改了什么：Exact UTC microseconds, non-remintable permit and single-writer rollback instructions; 63 targeted passed; files in manifests/fingerprints_r04.json.
+- 为什么：one reviewed metadata observation, D-045 gates retained, approved Core unchanged.
+- 怎么验证：targeted evidence in docs/nana_r04_evidence, staged diff/secret/private-artifact allowlist checks; development only.
+
+## R04-C8-INTEGRITY
+- 改了什么：Stdlib hash gate before package execution and fixed proof diagnostics; 64 targeted passed, full468 passed one E12 skip; files in manifests/fingerprints_r04.json.
+- 为什么：one reviewed metadata observation, D-045 gates retained, approved Core unchanged.
+- 怎么验证：targeted evidence in docs/nana_r04_evidence, staged diff/secret/private-artifact allowlist checks; development only.
+
+## R04-RELEASE
+- 改了什么：Reviewed downloadable archive and extracted-package validation; full468 passed, one E12 skip, zero production operations; files in manifests/fingerprints_r04.json.
+- 为什么：one reviewed metadata observation, D-045 gates retained, approved Core unchanged.
+- 怎么验证：targeted evidence in docs/nana_r04_evidence, staged diff/secret/private-artifact allowlist checks; development only.
+
+## R04-FINAL-TYPE-SEAL
+- 改了什么：Require actual ReceiptLedger at sanitizer permit gate; full469 passed, one E12 skip, 65 R04 cases; files in manifests/fingerprints_r04.json.
+- 为什么：one reviewed metadata observation, D-045 gates retained, approved Core unchanged.
+- 怎么验证：targeted evidence in docs/nana_r04_evidence, staged diff/secret/private-artifact allowlist checks; development only.
+
+## R04-FINAL-DELIVERY
+- 改了什么：Sealed support archive and extracted-package proof; JUnit469 passed one E12 skip, all65 R04 cases; files in manifests/fingerprints_r04.json.
+- 为什么：one reviewed metadata observation, D-045 gates retained, approved Core unchanged.
+- 怎么验证：targeted evidence in docs/nana_r04_evidence, staged diff/secret/private-artifact allowlist checks; development only.
+
+## R04-FINAL-CLI-SEAL
+- 改了什么：Redact invalid CLI arguments with fixed diagnostics; full470 passed one E12 skip, 66 R04 cases; files in manifests/fingerprints_r04.json.
+- 为什么：one reviewed metadata observation, D-045 gates retained, approved Core unchanged.
+- 怎么验证：targeted evidence in docs/nana_r04_evidence, staged diff/secret/private-artifact allowlist checks; development only.
+
+## R04-FINAL-PACKAGE
+- 改了什么：Final CLI-redacted asset verified, full470 passed one E12 skip, package55ddab exact, zero host operations; files in manifests/fingerprints_r04.json.
+- 为什么：one reviewed metadata observation, D-045 gates retained, approved Core unchanged.
+- 怎么验证：targeted evidence in docs/nana_r04_evidence, staged diff/secret/private-artifact allowlist checks; development only.
+
+## R04-FINAL
+- 改了什么：Remote final asset bytes independently verified; handoff and ordered commit range, no further source changes; files in manifests/fingerprints_r04.json.
+- 为什么：one reviewed metadata observation, D-045 gates retained, approved Core unchanged.
+- 怎么验证：targeted evidence in docs/nana_r04_evidence, staged diff/secret/private-artifact allowlist checks; development only.
+
+## R041-M1
+- 改了什么：Bounded stdlib UDS metadata channel, R04 single-writer ingress and foreground session fence; 106 targeted passed; manifests/fingerprints_r041.json.
+- 为什么：host SQLite3.46.1 must stay untouched; bounded local metadata bridge, not second permanent Runtime.
+- 怎么验证：development-only targeted/full evidence, diff/allowlist/secret-private-artifact scans; approvedCore unchanged.
+
+## R041-M2
+- 改了什么：Old-SQLite client isolation, three actual worker SIGKILLs, PID/socket-fenced stop cleanup and adversarial lifecycle; 126 targeted passed; manifests/fingerprints_r041.json.
+- 为什么：host SQLite3.46.1 must stay untouched; bounded local metadata bridge, not second permanent Runtime.
+- 怎么验证：development-only targeted/full evidence, diff/allowlist/secret-private-artifact scans; approvedCore unchanged.
+
+## R041-M3
+- 改了什么：Bridge package/runbook and safe operator session readback; 44 targeted passed, real statuses unchanged; manifests/fingerprints_r041.json.
+- 为什么：host SQLite3.46.1 must stay untouched; bounded local metadata bridge, not second permanent Runtime.
+- 怎么验证：development-only targeted/full evidence, diff/allowlist/secret-private-artifact scans; approvedCore unchanged.
+
+## R041-M4-SEAL
+- 改了什么：Bounded observation and isolated hard-exit grace, no late ingress; full510 passed one E12 skip; manifests/fingerprints_r041.json.
+- 为什么：host SQLite3.46.1 must stay untouched; bounded local metadata bridge, not second permanent Runtime.
+- 怎么验证：development-only targeted/full evidence, diff/allowlist/secret-private-artifact scans; approvedCore unchanged.
+
+## R041-RELEASE
+- 改了什么：Sealed-window package validated in fresh directory; full510 passed one E12 skip, no approvedCore or production changes; manifests/fingerprints_r041.json.
+- 为什么：host SQLite3.46.1 must stay untouched; bounded local metadata bridge, not second permanent Runtime.
+- 怎么验证：development-only targeted/full evidence, diff/allowlist/secret-private-artifact scans; approvedCore unchanged.
+
+## R041-FINAL
+- 改了什么：Remote asset bytes verified, handoff/minimal host sequence and ordered development commits; real bridge NOT_RUN; manifests/fingerprints_r041.json.
+- 为什么：host SQLite3.46.1 must stay untouched; bounded local metadata bridge, not second permanent Runtime.
+- 怎么验证：development-only targeted/full evidence, diff/allowlist/secret-private-artifact scans; approvedCore unchanged.
