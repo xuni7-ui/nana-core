@@ -503,3 +503,7 @@
 
 ### R042 C2 — post-runtime review metadata allowlist (2026-10-12 UTC)
 [已实现/开发测试] Review source report's nested Core payload now admits ONLY actual CoreSink IDs/hash/time/barrier/zero-count scalars; refuses unknown/nested body/raw-ID fields. Review digest independently recomputed by review-document tool. VERIFY_ONLY gate separately tested without injecting any production pin. No real independent host review available; shipping maps EMPTY.
+
+### R042 C3 — exact scope generation without raw identifiers in delivery (2026-10-12 UTC)
+[已实现/开发测试] `onboarding scope` accepts only a future independently authorized host-local ID metadata file, hashes transient sender/conversation via original Store domain, validates labels, exports only FOUR-key hashed scope. It never discovers IDs, reads messages or logs input. Synthetic helper tests verify hash equivalence/no raw ID output, extra-body/history rejection and hostile-object rejection. No actual host input/private data read.
+[已测试] C2 extracted EMPTY package:14 command operations, approved55 hashes, default/untrusted/force/copy/fixture promotion/tamper rejection PASS. C2 full542passed/0failed/1E12skip; new scope helper final rerun will supersede this development checkpoint. Real source trust remains EMPTY.

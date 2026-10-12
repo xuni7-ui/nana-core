@@ -57,11 +57,18 @@ Build/audit prerequisites should be ready before the 600-second receipt window.
    `ReceiptLedger` commits `r04.store_binding = SHA256(canonical([identity_id,
    uuid4]))` once in original core_meta/event transaction. Store reopen preserves
    it. Init also persists local HMAC domain/key. **Never export the hash key.**
-   Host-only audited metadata helper must hash the exact authorized sender and
-   conversation with that Store's existing `MetadataSanitizer.scoped_hash`
-   domain (`r04-host`, separate sender_id/conversation_id). Do not guess raw IDs
-   or reuse hashes from another Store. R042 does not discover identities or read
-   event bodies; host safe extraction/helper is a separate Nana audit prerequisite.
+   Nana supplies an explicitly authorized, host-local metadata-only input with
+   exactly platform_scope/event_type_scope/sender_id/conversation_id (no body).
+   Do not pass raw IDs on argv or export/commit this input. Run:
+
+   ```sh
+   ./onboarding.sh scope --directory /opt/nana_shadow/r042-store --input authorized-id-metadata.json --output scope.json
+   ```
+
+   It reuses Store's existing `MetadataSanitizer.scoped_hash` domains (`r04-host`,
+   separate sender_id/conversation_id). Only hashed scope goes to stdout/output.
+   No ID discovery or reading of AstrBot messages; Nana's independent approved
+   metadata collection remains prerequisite. Never guess/reuse other Store hashes.
 
 2. Nana supplies `scope.json`, exact FOUR keys only:
    platform_scope, event_type_scope (actual audited adapter values), sender_hash,

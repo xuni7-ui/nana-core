@@ -2,9 +2,9 @@
   "base_SHA": "c7d87018335de0797177f53bf8986f06e1e78eef",
   "files": [
     {
-      "bytes": 57429,
+      "bytes": 58270,
       "path": "PROJECT_BRAIN/09_STATE.md",
-      "sha256": "cebae49853be97f794b594ccf3e29058266ddaac4a9bdfd9d080f40277b11a44"
+      "sha256": "6d25f3bb13c8620b8d466ed44c135faa47db42e833d0779793a4d51d2da05899"
     },
     {
       "bytes": 30571,
@@ -12,9 +12,9 @@
       "sha256": "1b339d42f968f10ec8fac46fa3e33750772ee91d87c02fce5facede65c224720"
     },
     {
-      "bytes": 79926,
+      "bytes": 80524,
       "path": "PROJECT_BRAIN/11_CHANGELOG.md",
-      "sha256": "a6e315b91bd6c094e1173634e5cf6b82152b177e5da646c4a6865eb93c56e4a6"
+      "sha256": "2ce55b8f0f05520210086c0b1fa0ca32306665c83c617723a69b5848c8e65c15"
     },
     {
       "bytes": 13743,
@@ -47,24 +47,34 @@
       "sha256": "809b24cd7a3846146821a81a66a92c2625d67ef654f8b97596c73e8e63ed2544"
     },
     {
-      "bytes": 14869,
+      "bytes": 16845,
       "path": "tools/nana_astrbot_shadow/onboarding.py",
-      "sha256": "9d7cf5fefe102769bd033756a1798a043cc94dd8f8f229ec891901d843d48647"
+      "sha256": "bb48075dbd0f0d8305fc87d159c152c1cdd0de86cde5aef8fda3285ba379e67e"
     },
     {
-      "bytes": 10672,
+      "bytes": 12303,
       "path": "tests/nana_shadow/test_r042_onboarding.py",
-      "sha256": "be805469395d8e5629e0409449793aac40d41a01385db2a19e19746203746e9f"
+      "sha256": "a194d6431883051dc44b8f6c539277be767b1633b744b188e29b93c0e5e2083b"
     },
     {
-      "bytes": 12031,
+      "bytes": 12320,
       "path": "docs/nana_r042_trust_onboarding.md",
-      "sha256": "c2edd9c06db296014a59dbea2be051743b42b7be8d21377ab89c6ec56440b78b"
+      "sha256": "1bc041d0b23893ecf6e4fc4fa615f497d2493e2068d916694487cb2b9eec2273"
+    },
+    {
+      "bytes": 332,
+      "path": "docs/nana_r042_evidence/package-build-final.json",
+      "sha256": "edc4e416b8bc8df5f978e827323c86be9b0ad0b1ac51d5be622de39c3a0ecc34"
     },
     {
       "bytes": 332,
       "path": "docs/nana_r042_evidence/package-build.json",
       "sha256": "cd9818e834381d3589954d877028fa53543b31eefaee4143327fdff284b28754"
+    },
+    {
+      "bytes": 2251,
+      "path": "docs/nana_r042_evidence/package-validation.json",
+      "sha256": "314d0fea6d20ee4effafed7c9ac66fd88ed9045177d7475ed4fe16536bae1ca5"
     }
   ]
 }

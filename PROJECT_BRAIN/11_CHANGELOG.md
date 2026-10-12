@@ -802,3 +802,8 @@
 - Why: a build review must not accidentally archive extra nested Core/body/private fields.
 - Change: exact metadata-only Core proof schema (UUID/hash/link refs/time/zero counts), immutable source read vs dirty worktree checks, review-document digest recomputation tests.
 - Validation: new strict/adversarial tests; no existing test/expectation removed or weakened. Package/default-production and final regression evidence follows FINAL.
+
+### R042 C3 — remove manual hash preparation from onboarding
+- Why: exact receipt hashes must match initialized Store's HMAC domain; manually composing Python or guessing IDs is not an executable safe workflow.
+- Change: metadata-only scope helper with transient explicitly authorized IDs and hashed-only output, no discovery/body/network; operator instructions updated.
+- Validation:33 onboarding tests passed in approved privateSQLite3.51.3 runtime. C2 package verification14 operations and full542pass/1skip retained as checkpoints; final build/regression follows new committed support seal.

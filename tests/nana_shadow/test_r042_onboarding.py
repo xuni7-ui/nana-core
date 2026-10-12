@@ -167,3 +167,25 @@ def test_review_document_recomputes_digest_without_grant(tmp_path):
         with pytest.raises(ValueError):make_review(request,{**approval,**extra},tmp_path/'bad.json')
     (request/'review.json').write_text('{}')
     with pytest.raises(ValueError,match='DIGEST'):make_review(request,approval,tmp_path/'bad.json')
+
+
+def test_scope_helper_reuses_store_hashes_and_never_exports_raw_ids(tmp_path):
+    from tools.nana_astrbot_shadow.one_shot_cli import initialize,operator_ledger
+    from tools.nana_astrbot_shadow.onboarding import scope_metadata
+    from tools.nana_astrbot_shadow.sanitize import MetadataSanitizer
+    directory=tmp_path/'shadow';directory.mkdir(mode=0o700);initialize(directory)
+    raw={'platform_scope':'aiocqhttp','event_type_scope':'GroupMessage','sender_id':'synthetic-sender','conversation_id':'synthetic-conversation'}
+    out=tmp_path/'scope.json';result=scope_metadata(directory,raw,out)
+    with operator_ledger(directory) as l:
+        key=json.loads(l.store.one('core_meta','r04.hash_key')['value_json'])
+    s=MetadataSanitizer(scope='r04-host',hash_key=bytes.fromhex(key),probe_ids=frozenset({'nana-probe-test'}))
+    assert result['scope']['sender_hash']==s.scoped_hash('sender_id',raw['sender_id'])
+    assert result['scope']['conversation_hash']==s.scoped_hash('conversation_id',raw['conversation_id'])
+    assert result['raw_identifiers_exported'] is False
+    assert all(v not in out.read_text() for v in (raw['sender_id'],raw['conversation_id']))
+    for extra in ({'message':'PRIVATE-SYNTHETIC'},{'history':[]},{'cookie':'SYNTHETIC'}):
+        with pytest.raises(ValueError):scope_metadata(directory,{**raw,**extra},tmp_path/'bad.json')
+    class Hostile:
+        def __repr__(self):raise AssertionError('repr must never run')
+        def __str__(self):raise AssertionError('str must never run')
+    with pytest.raises(ValueError):scope_metadata(directory,{**raw,'sender_id':Hostile()},tmp_path/'bad.json')

@@ -1,0 +1,97 @@
+{
+  "Core55_byte_hashes": "PASS",
+  "archive": {
+    "E12": "NOT_RUN",
+    "SHA256": "cf4018992f9b4f99ef2f1edbaf7d4212e4fa28f075b9e6aa7dd93071ce57d1b9",
+    "bytes": 3357456,
+    "filename": "nana-r042-empty-6446208-onboarding.tar.gz",
+    "host_binding": "UNVERIFIED",
+    "production_review_pins": 0,
+    "real_runtime_proof_pins": 0,
+    "seal_mode": "EMPTY",
+    "support_source_SHA": "6446208187625608794b49efff0953c8b2249d4f"
+  },
+  "copied_receipt": "BLOCKED",
+  "fixture_promotion": "BLOCKED",
+  "host_binding": "UNVERIFIED",
+  "operations": [
+    {
+      "operation": "r04.sh receipt",
+      "returncode": 0,
+      "status": "INITIALIZED"
+    },
+    {
+      "operation": "onboarding.sh prepare",
+      "returncode": 0,
+      "status": "UNTRUSTED_REVIEW_REQUEST"
+    },
+    {
+      "operation": "r04.sh receipt",
+      "returncode": 0,
+      "status": "CREATED"
+    },
+    {
+      "operation": "r04.sh receipt",
+      "returncode": 2,
+      "status": "BLOCKED"
+    },
+    {
+      "operation": "r04.sh receipt",
+      "returncode": 2,
+      "status": "BLOCKED"
+    },
+    {
+      "operation": "r04.sh receipt",
+      "returncode": 2,
+      "status": "BLOCKED"
+    },
+    {
+      "operation": "r04.sh receipt",
+      "returncode": 0,
+      "status": "CREATED"
+    },
+    {
+      "operation": "r04.sh receipt",
+      "returncode": 0,
+      "status": "INITIALIZED"
+    },
+    {
+      "operation": "r04.sh receipt",
+      "returncode": 2,
+      "status": "BLOCKED"
+    },
+    {
+      "operation": "r04.sh receipt",
+      "returncode": 0,
+      "status": "DISARMED"
+    },
+    {
+      "operation": "r04.sh receipt",
+      "returncode": 2,
+      "status": "BLOCKED"
+    },
+    {
+      "operation": "onboarding.sh seal",
+      "returncode": 2,
+      "status": "BLOCKED"
+    },
+    {
+      "operation": "r04.sh harness",
+      "returncode": 0,
+      "status": "SIMULATED_REAL_SHADOW_PROOF_PASS"
+    },
+    {
+      "operation": "r04.sh receipt",
+      "returncode": 2,
+      "status": "BLOCKED"
+    }
+  ],
+  "origin": "DEVELOPMENT_EXTRACTED_EMPTY_PACKAGE",
+  "production_pins": 0,
+  "real_authorizations_created": 0,
+  "real_host_actions": 0,
+  "real_runtime_pins": 0,
+  "status": "PASS",
+  "tampered_package": "BLOCKED",
+  "untrusted_arm": "BLOCKED"
+}

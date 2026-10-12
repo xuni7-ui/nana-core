@@ -27,6 +27,32 @@ REVIEW_KEYS = {'schema_version','kind','reviewer_origin','operator_authorization
               'host_metadata_evidence_digest','confirmation','receipt','review','runtime_report'}
 
 
+def scope_metadata(directory, metadata, output):
+    """Future operator's explicit ID metadata only; never discover/read chat data.
+
+    Raw IDs are transient inputs from a separate authorized metadata collection,
+    never argv, stdout, package, review document or Git. Use original hash domain.
+    """
+    if type(metadata) is not dict or set(metadata)!={'platform_scope','event_type_scope','sender_id','conversation_id'}:
+        raise ValueError('AUTHORIZED_ID_METADATA_ONLY')
+    from .sanitize import MetadataSanitizer
+    with operator_ledger(directory) as l:
+        scope=json.loads(l.store.one('core_meta','r04.hash_scope')['value_json'])
+        key=json.loads(l.store.one('core_meta','r04.hash_key')['value_json'])
+    if type(key) is not str or not HEX.fullmatch(key):raise ValueError('HASH_DOMAIN_REQUIRED')
+    sanitizer=MetadataSanitizer(scope=scope,hash_key=bytes.fromhex(key),probe_ids=frozenset({'nana-probe-r042-scope'}))
+    result={'platform_scope':metadata['platform_scope'],'event_type_scope':metadata['event_type_scope'],
+        'sender_hash':sanitizer.scoped_hash('sender_id',metadata['sender_id']),
+        'conversation_hash':sanitizer.scoped_hash('conversation_id',metadata['conversation_id'])}
+    # Reuse receipt validation before writing even platform/type values.
+    now=datetime.now(timezone.utc)
+    OneShotReceipt(receipt_id='r04-'+'0'*32,issued_at=now.isoformat(),expires_at=(now+timedelta(seconds=1)).isoformat(),
+        store_binding='0'*64,hash_scope=scope,review_provenance=Provenance.ASTRBOT_REAL_MESSAGE,
+        review_receipt_digest='0'*64,**result)
+    private_file(output,result)
+    return {'status':'SCOPED_METADATA_ONLY','raw_identifiers_exported':False,'scope':result}
+
+
 def prepare(directory, scope, output, *, now=None):
     """Unsigned request, not a trusted review or an authority. No raw IDs accepted."""
     if type(scope) is not dict or set(scope)!=SCOPE_KEYS:raise ValueError('EXACT_HASHED_SCOPE_REQUIRED')
@@ -214,13 +240,15 @@ def finalize(root,manifest):
 
 def main(argv=None):
     p=_SafeParser(description=__doc__);sub=p.add_subparsers(dest='command',required=True)
+    q=sub.add_parser('scope');q.add_argument('--directory',required=True);q.add_argument('--input',required=True);q.add_argument('--output',required=True)
     q=sub.add_parser('prepare');q.add_argument('--directory',required=True);q.add_argument('--scope',required=True);q.add_argument('--output',required=True)
     q=sub.add_parser('review-document');q.add_argument('--preparation',required=True);q.add_argument('--approval',required=True);q.add_argument('--output',required=True);q.add_argument('--runtime-report')
     q=sub.add_parser('seal');q.add_argument('--base',required=True);q.add_argument('--output',required=True)
     q.add_argument('--review-repo',required=True);q.add_argument('--review-sha',required=True);q.add_argument('--review-path',required=True)
     try:
         a=p.parse_args(argv)
-        if a.command=='prepare':result=prepare(a.directory,read_json(a.scope),a.output)
+        if a.command=='scope':result=scope_metadata(a.directory,read_json(a.input),a.output)
+        elif a.command=='prepare':result=prepare(a.directory,read_json(a.scope),a.output)
         elif a.command=='review-document':result=make_review(a.preparation,read_json(a.approval),a.output,
             runtime_report=read_json(a.runtime_report) if a.runtime_report else None)
         else:result=seal(a.base,a.output,a.review_repo,a.review_sha,a.review_path)
