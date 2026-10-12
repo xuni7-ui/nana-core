@@ -1,0 +1,211 @@
+{
+  "base_SHA": "a436333d3dceb30773860ff5a3168ca1acdf6682",
+  "files": {
+    "artifacts/r044/nana-r044-empty-2025bc4-onboarding.tar.gz": {
+      "SHA256": "be0348d13e55fb041ebef63d21161dc3027c2908521d031b2c6322425800cdde",
+      "bytes": 3368357
+    },
+    "docs/nana_r044_audit.md": {
+      "SHA256": "22a6c4fbb4562b371c59b54ff5f89aa3bae2f4369ed93e3e4662d4c88cc3286f",
+      "bytes": 14896
+    },
+    "docs/nana_r044_evidence/archive-tests.xml": {
+      "SHA256": "2ccaec8131c7dd511575fd55d9497c1d269bf2b71f881e9f6c42b9c61ca71ef2",
+      "bytes": 3730
+    },
+    "docs/nana_r044_evidence/baseline-regression.xml": {
+      "SHA256": "35ee836e124174961d91753c2d15469629bc1e49634723ba1e955ec5813be132",
+      "bytes": 96067
+    },
+    "docs/nana_r044_evidence/bugs.json": {
+      "SHA256": "4dc04b689a2c7719418d40fc19d73f94b654f7efa55a73181d9d02e228908462",
+      "bytes": 4837
+    },
+    "docs/nana_r044_evidence/c1-targeted.xml": {
+      "SHA256": "a2f5c756495cdffc91a70aa33518166f79c056d35096dd51a2a275d6f79eec82",
+      "bytes": 9704
+    },
+    "docs/nana_r044_evidence/c2-redteam.xml": {
+      "SHA256": "63e08ea95e15aa26237a87d657af5330d7bfe21266c7153136149828ebd285b4",
+      "bytes": 6699
+    },
+    "docs/nana_r044_evidence/c2-targeted.xml": {
+      "SHA256": "06c6b53327f90d35eb5076239cea2d2af184f7390837fd376e24cb48a3c318e6",
+      "bytes": 6358
+    },
+    "docs/nana_r044_evidence/c3-targeted.xml": {
+      "SHA256": "554f703f6986e6803f8a284c1a2a4f316042a74dfff66f37d93ec74361d999ef",
+      "bytes": 5998
+    },
+    "docs/nana_r044_evidence/c4-targeted.xml": {
+      "SHA256": "a30ebf36f024bd59d79dd269e5b279e6e98d2d3b631cc7a7cab371d9f91a86d9",
+      "bytes": 4936
+    },
+    "docs/nana_r044_evidence/capability-failure.xml": {
+      "SHA256": "406c089344ad4ecd2ec0315db15e414d02ea73b1f18666775b949925a4074dfd",
+      "bytes": 761
+    },
+    "docs/nana_r044_evidence/crash-matrix-tests.xml": {
+      "SHA256": "73df45e43f8831751fe192d6147a0e0fdd3c2df4fd280aec1b6f5bad8e5ce2e3",
+      "bytes": 5846
+    },
+    "docs/nana_r044_evidence/crash-matrix.json": {
+      "SHA256": "d748bed6d118b1c9cccaf6a5fc6023ef36a9b19c81e94160cb4cb9258be000c2",
+      "bytes": 17837
+    },
+    "docs/nana_r044_evidence/final-summary.json": {
+      "SHA256": "8c39cc017744ee8e4cd29a6276fc5b257f89dfc798f29185d9684cdba2e75c8d",
+      "bytes": 6495
+    },
+    "docs/nana_r044_evidence/full-regression.xml": {
+      "SHA256": "b83e2805dcc4c5fea0e763e01dcdaef74cf0c3a97f09eab0b0aa690d761284ea",
+      "bytes": 128119
+    },
+    "docs/nana_r044_evidence/initial-failures.xml": {
+      "SHA256": "ac030bfc221f19caefb53ba362764a03f9737e970e7e0e02a2e85e86eb55b7ac",
+      "bytes": 4415
+    },
+    "docs/nana_r044_evidence/link-publication-failure.xml": {
+      "SHA256": "84f14752bdc88cc413d3b8ab065b930f23e0664560a5fdcc90f82c5ae5aef8e5",
+      "bytes": 1498
+    },
+    "docs/nana_r044_evidence/offline-qualification.json": {
+      "SHA256": "dffbd1df8bcebfe45c09374a6258613867c8897711f2044c068f4afbab278452",
+      "bytes": 1327
+    },
+    "docs/nana_r044_evidence/privacy-tests.xml": {
+      "SHA256": "4289661cbb055ddee81e9d48e2672291cb7b6c16cd0cbcd9f3f042c2d0e73b76",
+      "bytes": 670
+    },
+    "docs/nana_r044_evidence/publication-failure-redacted.xml": {
+      "SHA256": "f785ca89ae4cdd01133761a428692162977dd4803a9bff85d44f356d2e939f61",
+      "bytes": 3041
+    },
+    "docs/nana_r044_evidence/r043-compatibility.json": {
+      "SHA256": "3b2524f5d24a6f9f3e610b295b2e586574a66c2b2b18a5f5f2360c20b49fbbb8",
+      "bytes": 2569
+    },
+    "docs/nana_r044_evidence/races.xml": {
+      "SHA256": "edf5f6a2c7208dec8fd6bf030bb6cfb2152adb4a251ccafa2279965ed0b2acdb",
+      "bytes": 2089
+    },
+    "docs/nana_r044_evidence/readiness-failure.xml": {
+      "SHA256": "c6912e64325c382bd1a7552577093cbe177e65c659b7a78ec4298bc8986e9832",
+      "bytes": 1304
+    },
+    "docs/nana_r044_evidence/reproducibility.json": {
+      "SHA256": "dae3676ceafaafdd7f79008cacd98b4799a33dc76d78bbfce3ed9bdd524186e5",
+      "bytes": 1141
+    },
+    "docs/nana_r044_evidence/security-scan.json": {
+      "SHA256": "3a5a9944a878679c62a5c43681bd2f20afc411169cf9e4eae90c2d7b2b23058f",
+      "bytes": 733
+    },
+    "docs/nana_r044_evidence/soak-final-code.json": {
+      "SHA256": "16c005f411d7fe7a353a045443730999a0e892adcd92709c1f462e553d4d3031",
+      "bytes": 2377
+    },
+    "docs/nana_r044_evidence/soak.json": {
+      "SHA256": "3f7070a2902c07bc31703ba6db4f435201038dd4a3b5a79e209db68a0845c59c",
+      "bytes": 2377
+    },
+    "docs/nana_r044_evidence/subprocess-soak.json": {
+      "SHA256": "ac98cec9e88f1fc716ae6caebe5baa6a4c1ab90d316ee3ee356e5178ac483beb",
+      "bytes": 308
+    },
+    "docs/nana_r044_evidence/supply-failures.xml": {
+      "SHA256": "e2900ad93d2a20da07497f27c0cf268d3739195e47b6f29064ec9d60dd77e55d",
+      "bytes": 3104
+    },
+    "docs/nana_r044_evidence/time-trust.xml": {
+      "SHA256": "ca671f01a2109d63786f216ae0949e3e7445fe09fbc7af15cc6b88cb1a200eef",
+      "bytes": 4113
+    },
+    "src/plugins/astrbot_plugin_nana_shadow_observer/bridge_client.py": {
+      "SHA256": "a8b5cb5d42f156d190c844082bd5fa379f07b6468f9f94f0d7295d5922756e9b",
+      "bytes": 3952
+    },
+    "src/plugins/astrbot_plugin_nana_shadow_observer/bridge_wire.py": {
+      "SHA256": "ac7b20def04e10102e966a36eb1dd404d0d3c263a0ce7d7537da06b6ffbef2ff",
+      "bytes": 15049
+    },
+    "tests/nana_shadow/r044_helpers.py": {
+      "SHA256": "d3fee33f732abcfb65855e2b6f30203849c7148b3ab45a145f1b363bb637192c",
+      "bytes": 2622
+    },
+    "tests/nana_shadow/r044_qualification.py": {
+      "SHA256": "f5e7efdb90e87611137247e719b93829ecff7d2a1c89f665f9fe40744ccd9216",
+      "bytes": 10544
+    },
+    "tests/nana_shadow/r044_soak.py": {
+      "SHA256": "846f3ef3844fd1f1400e0a5d6cad4baf9219e6a80a4dba8a8224fef79e31f0f5",
+      "bytes": 5273
+    },
+    "tests/nana_shadow/test_r044_crash_matrix.py": {
+      "SHA256": "b1af93624a0242d3a435b775985890e57237e22fc06bf7b61fba0880c9332a45",
+      "bytes": 9939
+    },
+    "tests/nana_shadow/test_r044_failures.py": {
+      "SHA256": "93735354d0321ef8c1ccff3d2b029c6791d6e4e53e96eb1f7d18de2c00b70b04",
+      "bytes": 5172
+    },
+    "tests/nana_shadow/test_r044_filesystem.py": {
+      "SHA256": "25dc4946452e8b48208d8585f90fdafc3f73ba77dead60ad68d94fb45fc69aca",
+      "bytes": 5521
+    },
+    "tests/nana_shadow/test_r044_invariants.py": {
+      "SHA256": "cd123edd8f6424567fc16beef15d1fc707e355ef7c8e728cc7799c16754676bf",
+      "bytes": 6525
+    },
+    "tests/nana_shadow/test_r044_privacy.py": {
+      "SHA256": "8c170506ca7ec0d64017c364b7207225d44609b5ccf5a911068c134a37ceeae2",
+      "bytes": 2919
+    },
+    "tests/nana_shadow/test_r044_protocol.py": {
+      "SHA256": "729577e67fd36b71a9d5e606830a8b5bc2c265f14bdda3ad0876d377bae7abad",
+      "bytes": 4439
+    },
+    "tests/nana_shadow/test_r044_races.py": {
+      "SHA256": "e3d039146572ac686aa55d6b9d8ef40cf2de56d73f51a360f7ed45a0bb5144a7",
+      "bytes": 5831
+    },
+    "tests/nana_shadow/test_r044_recovery.py": {
+      "SHA256": "b428dad22582d7382cf0d47a6189562ca45457a0211518ae512723c1db98976e",
+      "bytes": 3705
+    },
+    "tests/nana_shadow/test_r044_supply_chain.py": {
+      "SHA256": "dd68aa4a8bb46154d69c021f0779badc84ac9abf82c6a721c3d26f0f9ba4d6f3",
+      "bytes": 5281
+    },
+    "tests/nana_shadow/test_r044_time_trust.py": {
+      "SHA256": "07c029732869de559b986747cccf8f79da17852442370078339cdf3fe66284ca",
+      "bytes": 4742
+    },
+    "tools/nana_astrbot_shadow/bridge_cli.py": {
+      "SHA256": "820f0ad9538ddc5f6b4f906880cfdc12f1b725dad0ff47395cf8b7474678b45f",
+      "bytes": 11329
+    },
+    "tools/nana_astrbot_shadow/bridge_wire.py": {
+      "SHA256": "ac7b20def04e10102e966a36eb1dd404d0d3c263a0ce7d7537da06b6ffbef2ff",
+      "bytes": 15049
+    },
+    "tools/nana_astrbot_shadow/bridge_worker.py": {
+      "SHA256": "62345885df4fde6908cf589794c4c5631ac94551ad31c8f0973211fd1991ff97",
+      "bytes": 15438
+    },
+    "tools/nana_astrbot_shadow/onboarding.py": {
+      "SHA256": "111fc5e016ffd99e1d4680f75725cdfa1a9e774cf783eefb4162bc7c4a45da9f",
+      "bytes": 17090
+    },
+    "tools/nana_astrbot_shadow/package.py": {
+      "SHA256": "cef890e679520c2f38f83482f2a3e6854d973683d8f948d1d8d5db8537c1cd81",
+      "bytes": 14473
+    },
+    "tools/nana_astrbot_shadow/r04_entry.py": {
+      "SHA256": "1579f68113eade010d885260cc18be53b0171b843624ac227105b6f0ea352ee1",
+      "bytes": 3115
+    }
+  },
+  "scope": "R044 changed tracked files; excludes this fingerprint file itself",
+  "support_source_SHA": "2025bc4f3e63c371748005951529dff55c855ed4"
+}
