@@ -282,3 +282,17 @@ Dashboard `POST /api/plugin/reload` 需 JWT（`astrbot/dashboard/api/plugins.py`
 [本项目自定/实测] AF_UNIXfilesystem only,0700dir/0600socket,4096canonicalJSONbytes, hashesinsteadrawIDs, exactallowlists, peerUID/PID+boot-start fingerprint/reversepeer/inode, nonce+HMAC. SameUID/filesystem/PIDnamespace required, not tunnelling or permission relaxation. Persist sessionreservation in existing core_meta/events, no newSQLtable/receipt/store/dedup framework. Crash before/afterconsume cannot silently open a new session for thatreceipt; no retry/re-arm, originalUNKNOWN semantics retained.
 [实测/开发] Store-backed PID/inode/session journal prevents forged sidecar stop/cleanup; stoponlyownworker via pidfdSIGTERM, fixed harddeadline onlyisolatedworker, no arbitrarycommands/RPC. Stale cleanupexplicitownedfiles only, preservesDB/evidence. IPC authentication never grants receipt authority. RealpinsEMPTY; CLIcannotfixturepromote. Other privileged code inside authorizedclientPID/root is outside claimed tamper boundary.
 [未知] Actual AstrBot hook/load/dispatcher/channel/zero-drift remainNana现场 tasks. UDSfixture/old-SQLite development process isolation do notprove realhost. E12NOT_RUN; no production operation byCodex.
+
+
+## D-046 — HOST_NATIVE_SQLITE_GATE 的正确口径：不绕过，隔离（2026-10-12 CST）
+
+[实测] 真实宿主 AstrBot PID1 原生 SQLite = **3.46.1**（< Nana Core 门 3.51.3）。R041 明确禁止把 private
+`_sqlite3` 注入 AstrBot 进程。据此确立口径：
+
+- `HOST_NATIVE_SQLITE_GATE = BLOCKED`（宿主原生**不达标**）。
+- 解决路径 = **AstrBot 进程保持原生 3.46.1 不变；独立短生命周期 worker 使用已批准的 private 3.51.3 runtime**。
+  **不是**"绕过安全门"，而是把门**留在宿主进程上**、把合规 runtime 放进**隔离 worker**。
+- [实测] PID1 未加载 private shim ⇒ `ASTRBOT_PRIVATE_SQLITE_INJECTION = NO`（/proc/1/maps 零 `nana_shadow`）。
+- [实测] worker 与宿主满足 **same UID / same pid namespace / same filesystem visibility**；
+  IPC 基座 **UDS + subprocess/fork + private 0700 temp** 均 PASS。
+- ⇒ `SHORT_LIVED_SHADOW_WORKER_FEASIBLE = YES`（**仅短命**；常驻 worker 仍越权、须单独授权）。

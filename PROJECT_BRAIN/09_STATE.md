@@ -495,3 +495,40 @@
 [实测/开发] R041-RELEASE: Sealed-window package validated in fresh directory; full510 passed one E12 skip, no approvedCore or production changes; anchorbb14e79390fef4abe5750f0e59b6c4150521fd7bbcbd1bb827ae9c641ea7db80. SHORT_LIVED_HOST_BRIDGE IMPLEMENTED/TESTED only. Real host bridge/load/one-shot NOT_RUN, dispatcher NOT_VERIFIED, host_binding UNVERIFIED, FIRST_REAL_ASTRBOT_SHADOW BLOCKED, E12 NOT_RUN.
 
 [实测/开发] R041-FINAL: Remote asset bytes verified, handoff/minimal host sequence and ordered development commits; real bridge NOT_RUN; anchor06fa2add22c892bde0f32e791d9d8609c0f27cf525ae97890817b1ce6077ced7. SHORT_LIVED_HOST_BRIDGE IMPLEMENTED/TESTED only. Real host bridge/load/one-shot NOT_RUN, dispatcher NOT_VERIFIED, host_binding UNVERIFIED, FIRST_REAL_ASTRBOT_SHADOW BLOCKED, E12 NOT_RUN.
+
+
+---
+
+## 2026-10-12 (CST) · R042 Real Host Integration / Final Preflight（真实宿主只读侦察 + 短命 worker 前置）
+
+> 在 R03 / R041 之上**追加**，不改写既有账本。
+
+| 状态键 | 值 |
+|---|---|
+| `HOST_NATIVE_SQLITE_GATE` | **BLOCKED**（宿主原生 3.46.1 < 3.51.3） |
+| `HOST_ASTRBOT` | **4.28.0** |
+| `HOST_PYTHON` | **3.12.14** (GCC 14.2.0) |
+| `HOST_NATIVE_SQLITE` | **3.46.1** |
+| `HOST_PYDANTIC` | **2.13.5** |
+| `ASTRBOT_PRIVATE_SQLITE_INJECTION` | **NO** |
+| `SAME_UID` | **YES** |
+| `SAME_PID_NAMESPACE` | **YES** |
+| `SAME_FILESYSTEM_VISIBILITY` | **YES** |
+| `UDS_AVAILABLE` | **YES** |
+| `SHORT_LIVED_SUBPROCESS_AVAILABLE` | **YES** |
+| `PRIVATE_TEMP_DIR_AVAILABLE` | **YES**（0700） |
+| `PRIVATE_SQLITE_RUNTIME` | **3.51.3**（PASS） |
+| `R041_PACKAGE_SHA256` | **PASS** |
+| `API_HOOK_PLUGIN_SET_DRIFT` | **NONE** |
+| `SHORT_LIVED_SHADOW_WORKER_FEASIBLE` | **YES** |
+| `PRODUCTION_ACTIONS` | **0** |
+
+- [实测] 宿主版本与 R03 基线**逐项一致**（AstrBot / Python / 原生 SQLite 零 drift；Pydantic 本阶段新记录 2.13.5）。
+- [实测] PID1 = `python main.py`（`/usr/local/bin/python3.12`）；`/proc/1/maps` 仅加载系统
+  `/usr/local/lib/python3.12/lib-dynload/_sqlite3…so`，**零** `nana_shadow` 路径 ⇒ `ASTRBOT_PRIVATE_SQLITE_INJECTION = NO`。
+- [实测] operator shell 与 PID1 同 UID(0) / 同 pid·mnt·net·user namespace；`/tmp` 双方可见。
+- [实测] 独立短命进程加载 R041 packaged private `_sqlite3` → `sqlite3_libversion = 3.51.3`，Python ABI 3.12.14，进程立即退出。
+- [实测] R041 交付包 `artifacts/r041/nana-r041-host-bridge-c24833e69ee1-bridge-delivery.tar.gz`
+  SHA256 = `fafe82ec … dc63`，与任务书**逐字一致**。
+- **口径**：**不是**"绕过安全门"。正确描述 = **AstrBot 进程保持原生 3.46.1 不变；独立短生命周期 worker 使用已批准的 private 3.51.3 runtime**。
+- [未知] 仍待人工授权：Dashboard 上传 observer / 纳入 `plugin_set` / arm real receipt / production trust pin / 正式 bridge session —— 本阶段全部 **0**。

@@ -792,3 +792,20 @@
 - 改了什么：Remote asset bytes verified, handoff/minimal host sequence and ordered development commits; real bridge NOT_RUN; manifests/fingerprints_r041.json.
 - 为什么：host SQLite3.46.1 must stay untouched; bounded local metadata bridge, not second permanent Runtime.
 - 怎么验证：development-only targeted/full evidence, diff/allowlist/secret-private-artifact scans; approvedCore unchanged.
+
+
+## C-073 · R042 Real Host Integration / Final Preflight（真实宿主合流 + 非生产 preflight）
+
+- 改了什么：
+  - **M0 合流**：新建 `dev/nana-core-v1-r042-real-host-preflight`，基于 R03 `89385e98`，
+    `merge --no-ff` R041 `c7d87018`；合并提交 `ddcd848`（双亲 `89385e98` + `c7d87018`）。
+    PROJECT_BRAIN 09/10/11 为 R041 纯新增 ⇒ **零冲突**。
+  - **M1**：PROJECT_BRAIN `09/10/11` 写入本阶段真实宿主证据（新增 `D-046` 口径裁决）。
+  - **M2/M3**：只读证明 PID1 未注入 private sqlite；same UID / same pid·mnt ns / same fs visibility 核验通过。
+  - **M4**：R041 交付包 SHA256 = `fafe82ec…dc63` 独立复核 **PASS**。
+  - **M5**：短命子进程加载 R041 packaged private runtime → SQLite **3.51.3**，退出即清。
+- 为什么：把 R04 Host Readiness 的真实证据正式入账，并完成进入**人工 Dashboard 上传前**的最后一道非生产 preflight。
+- 怎么验证：
+  - `git rev-list --parents -n1 HEAD` = `ddcd848 89385e98 c7d87018`（--no-ff 双亲）。
+  - 状态键见 `09_STATE.md` 本阶段表；`HOST_NATIVE_SQLITE_GATE = BLOCKED`，`SHORT_LIVED_SHADOW_WORKER_FEASIBLE = YES`。
+  - 生产动作计数 **0**：未装 Observer / 未改 plugin_set / 未建 receipt / 未 pin trust / 未起正式 bridge / 未重启 / 未发消息。
