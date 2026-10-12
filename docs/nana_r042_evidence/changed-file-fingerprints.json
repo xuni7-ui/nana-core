@@ -2,9 +2,9 @@
   "base_SHA": "c7d87018335de0797177f53bf8986f06e1e78eef",
   "files": [
     {
-      "bytes": 56970,
+      "bytes": 57429,
       "path": "PROJECT_BRAIN/09_STATE.md",
-      "sha256": "bf6dacfaba7f27eb90c1ddf210e3119852b16cea08b003b598508c8161cc81cb"
+      "sha256": "cebae49853be97f794b594ccf3e29058266ddaac4a9bdfd9d080f40277b11a44"
     },
     {
       "bytes": 30571,
@@ -12,9 +12,9 @@
       "sha256": "1b339d42f968f10ec8fac46fa3e33750772ee91d87c02fce5facede65c224720"
     },
     {
-      "bytes": 79408,
+      "bytes": 79926,
       "path": "PROJECT_BRAIN/11_CHANGELOG.md",
-      "sha256": "54b241b5348159e90268ac8108ba2b5b70b94b0a88fcd2cfbecd301e3bf7de82"
+      "sha256": "a6e315b91bd6c094e1173634e5cf6b82152b177e5da646c4a6865eb93c56e4a6"
     },
     {
       "bytes": 13743,
@@ -47,19 +47,24 @@
       "sha256": "809b24cd7a3846146821a81a66a92c2625d67ef654f8b97596c73e8e63ed2544"
     },
     {
-      "bytes": 13276,
+      "bytes": 14869,
       "path": "tools/nana_astrbot_shadow/onboarding.py",
-      "sha256": "b6f81ace4991faeff8e4d7b506cf461dde83cd2423a8d3ac33a8f6bb2749b1ac"
+      "sha256": "9d7cf5fefe102769bd033756a1798a043cc94dd8f8f229ec891901d843d48647"
     },
     {
-      "bytes": 7703,
+      "bytes": 10672,
       "path": "tests/nana_shadow/test_r042_onboarding.py",
-      "sha256": "ff28f7ea65dd8e5f883b86ada4de779d5528d74338a36a8c53443d08f069f11c"
+      "sha256": "be805469395d8e5629e0409449793aac40d41a01385db2a19e19746203746e9f"
     },
     {
       "bytes": 12031,
       "path": "docs/nana_r042_trust_onboarding.md",
       "sha256": "c2edd9c06db296014a59dbea2be051743b42b7be8d21377ab89c6ec56440b78b"
+    },
+    {
+      "bytes": 332,
+      "path": "docs/nana_r042_evidence/package-build.json",
+      "sha256": "cd9818e834381d3589954d877028fa53543b31eefaee4143327fdff284b28754"
     }
   ]
 }

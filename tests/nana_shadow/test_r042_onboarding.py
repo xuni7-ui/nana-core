@@ -13,6 +13,16 @@ from tools.nana_host_shadow.safety import canonical, digest
 
 NOW=datetime(2026,10,12,12,tzinfo=timezone.utc)
 
+def core_metadata():
+    return {'identity_id':'11111111-1111-1111-1111-111111111111','identity_revision':1,
+        'core_evidence_id':'22222222-2222-2222-2222-222222222222',
+        'observation_id':'33333333-3333-3333-3333-333333333333','goal_candidate_id':'a'*64,
+        'shadow_decision_id':'cloud.shadow:'+'b'*64,'shadow_plan_id':'cloud.shadow:'+'b'*64+'#plan_draft',
+        'dedup_result':'NEW','barrier_result':'SHADOW_BLOCKED','event_timestamp':NOW.isoformat(),
+        'metadata_hash':'c'*64,'zero_execution_counts':{k:0 for k in ('actions','attempts','grants','budgets','strategies')},
+        'model_semantics_verified':False}
+
+
 def review(origin=Provenance.ASTRBOT_REAL_MESSAGE):
     # Structurally real-shaped synthetic data for validator tests, NOT a review.
     r=OneShotReceipt(receipt_id='r04-'+'1'*32,issued_at=NOW.isoformat(),expires_at=(NOW+timedelta(seconds=600)).isoformat(),
@@ -76,7 +86,7 @@ def test_runtime_proof_is_separate_verify_only_never_arm():
     d=review();r=parse_receipt(d['receipt']);d['kind']='RUNTIME_PROOF_REVIEW'
     d['runtime_report']={'schema_version':1,'receipt_id':r.receipt_id,'receipt_digest':r.receipt_digest,
         'source_provenance':'ASTRBOT_REAL_MESSAGE','trust_domain':'PRODUCTION','observer_callback_received':True,
-        'sanitizer_accepted':True,'core':{},'noncore_zero':{k:0 for k in ZERO_KEYS},'binding_evidence_digest':'d'*64}
+        'sanitizer_accepted':True,'core':core_metadata(),'noncore_zero':{k:0 for k in ZERO_KEYS},'binding_evidence_digest':'d'*64}
     r,mode,proof=validate_review(d,now=NOW+timedelta(days=1))
     assert mode=='VERIFY_ONLY' and proof=={digest(d['runtime_report']):'d'*64}
     # Compile/readback is safe data-only; do NOT load a fake real seal into production.
@@ -122,3 +132,38 @@ def test_verify_only_rejects_arm_and_consume_before_ledger_access():
     from tools.nana_astrbot_shadow.one_shot import ReceiptLedger
     ledger=object.__new__(ReceiptLedger);ledger.trust=ProductionTrustStore()
     with pytest.raises(ValueError,match='SEAL_NOT_EXECUTABLE'):ledger._execution_seal()
+
+
+@pytest.mark.parametrize('change',[{'body':'PRIVATE-SYNTHETIC-CANARY'}, {'identity_id':'raw-user-id'},
+    {'zero_execution_counts':{'actions':0}}, {'identity_revision':True}, {'metadata_hash':None},
+    {'event_timestamp':'naive'}, {'shadow_plan_id':'raw-conversation'}, {'model_semantics_verified':True}])
+def test_post_review_cannot_export_private_or_unknown_core_fields(change):
+    from tools.nana_astrbot_shadow.onboarding import validate_core_metadata
+    with pytest.raises(ValueError):validate_core_metadata({**core_metadata(),**change})
+
+
+def test_verify_only_gate_explicit(monkeypatch):
+    from tools.nana_astrbot_shadow.one_shot import ReceiptLedger
+    monkeypatch.setattr(sealed_trust,'SEAL_MODE','VERIFY_ONLY')  # gate only, no pin
+    ledger=object.__new__(ReceiptLedger);ledger.trust=ProductionTrustStore()
+    with pytest.raises(ValueError,match='SEAL_NOT_EXECUTABLE'):ledger._execution_seal()
+    ledger.trust=FixtureTrustStore();ledger._execution_seal()
+
+
+def test_review_document_recomputes_digest_without_grant(tmp_path):
+    from tools.nana_astrbot_shadow.one_shot_cli import initialize
+    from tools.nana_astrbot_shadow.onboarding import make_review
+    directory=tmp_path/'shadow';directory.mkdir(mode=0o700);initialize(directory)
+    scope={'platform_scope':'aiocqhttp','conversation_hash':'b'*64,'sender_hash':'c'*64,'event_type_scope':'GroupMessage'}
+    request=tmp_path/'request';prepare(directory,scope,request)
+    r=parse_receipt((request/'receipt.json').read_text())
+    approval={'reviewer_origin':'NANA_INDEPENDENT_HOST_REVIEW','operator_authorization_digest':r.authorization_digest,
+        'host_metadata_evidence_digest':'d'*64,'confirmation':'INDEPENDENTLY_REVIEWED_EXACT_ONE_SHOT'}
+    result=make_review(request,approval,tmp_path/'review.json')
+    assert result['production_authority_created'] is False
+    assert result['review_receipt_digest']==r.review_receipt_digest
+    assert not ProductionTrustStore().validates(r,review_document(r))
+    for extra in ({'body':'PRIVATE-SYNTHETIC'},{'sender_id':'SYNTHETIC-RAW'}):
+        with pytest.raises(ValueError):make_review(request,{**approval,**extra},tmp_path/'bad.json')
+    (request/'review.json').write_text('{}')
+    with pytest.raises(ValueError,match='DIGEST'):make_review(request,approval,tmp_path/'bad.json')

@@ -90,6 +90,28 @@ def source_review(repo, sha, path):
     return d
 
 
+def validate_core_metadata(core):
+    """The source review archive must not become a raw-memory/body export."""
+    keys={'identity_id','identity_revision','core_evidence_id','observation_id','goal_candidate_id',
+          'shadow_plan_id','shadow_decision_id','dedup_result','barrier_result','event_timestamp',
+          'metadata_hash','zero_execution_counts','model_semantics_verified'}
+    if type(core) is not dict or set(core)!=keys:raise ValueError('CORE_METADATA_ONLY')
+    for k in ('identity_id','core_evidence_id','observation_id'):
+        if type(core[k]) is not str or not re.fullmatch(r'[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}',core[k]):
+            raise ValueError('CORE_LINK_ID')
+    for k in ('goal_candidate_id','metadata_hash'):
+        if type(core[k]) is not str or not HEX.fullmatch(core[k]):raise ValueError('CORE_LINK_HASH')
+    if (type(core['identity_revision']) is not int or core['identity_revision']<1
+        or type(core['shadow_decision_id']) is not str or not re.fullmatch('cloud.shadow:[0-9a-f]{64}',core['shadow_decision_id'])
+        or core['shadow_plan_id']!=core['shadow_decision_id']+'#plan_draft'
+        or core['dedup_result'] not in ('NEW','DUPLICATE') or core['barrier_result']!='SHADOW_BLOCKED'
+        or core['model_semantics_verified'] is not False):raise ValueError('CORE_METADATA_CONTRACT')
+    utc(core['event_timestamp'])
+    z=core['zero_execution_counts']
+    if type(z) is not dict or set(z)!={'actions','attempts','grants','budgets','strategies'} or any(type(v) is not int or v!=0 for v in z.values()):
+        raise ValueError('CORE_ZERO_COUNTS')
+
+
 def validate_review(d, *, now=None):
     if type(d) is not dict or set(d)!=REVIEW_KEYS:raise ValueError('REVIEW_SCHEMA')
     if type(d['schema_version']) is not int or d['schema_version']!=1:raise ValueError('REVIEW_VERSION')
@@ -119,7 +141,7 @@ def validate_review(d, *, now=None):
         if type(z) is not dict or set(z)!=ZERO_KEYS or any(type(x) is not int or x!=0 for x in z.values()):
             raise ValueError('INDEPENDENT_ZERO_EVIDENCE_REQUIRED')
         # Full persisted Core/ledger/linkage proof still runs on the host later.
-        if type(report['core']) is not dict:raise ValueError('CORE_PROOF_REQUIRED')
+        validate_core_metadata(report['core'])
         mode='VERIFY_ONLY';proof={digest(report):d['host_metadata_evidence_digest']}
     else:raise ValueError('REVIEW_KIND')
     return r,mode,proof

@@ -797,3 +797,8 @@
 - Why: R041 ledger review/arm cannot proceed with correctly EMPTY source maps and had no reviewed-build onboarding tool.
 - Change: EMPTY sealed source module, offline exact receipt preparation/review/seal, separately constrained VERIFY_ONLY proof package, operator runbook/D-048. Original approved Core untouched; no runtime pin setter or real authority.
 - Validation: R04/R041/onboarding targeted tests executed on actual CPython3.12.14 + privateSQLite3.51.3 + Pydantic2.13.5; full evidence/count at FINAL. Fixed gate order after an old trust-domain test exposed diagnostic regression; old assertions preserved.
+
+### R042 C2 — bound post-review export and test separate read-only proof seal
+- Why: a build review must not accidentally archive extra nested Core/body/private fields.
+- Change: exact metadata-only Core proof schema (UUID/hash/link refs/time/zero counts), immutable source read vs dirty worktree checks, review-document digest recomputation tests.
+- Validation: new strict/adversarial tests; no existing test/expectation removed or weakened. Package/default-production and final regression evidence follows FINAL.
