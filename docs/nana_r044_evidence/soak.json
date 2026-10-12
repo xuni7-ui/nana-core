@@ -1,0 +1,113 @@
+{
+  "E12": "NOT_RUN",
+  "actual_subprocess_worker_cycles": 0,
+  "after": {
+    "child_observation": "UNAVAILABLE",
+    "children": null,
+    "fds": 4,
+    "rss_bytes": 37785600,
+    "threads": 1
+  },
+  "before": {
+    "child_observation": "UNAVAILABLE",
+    "children": null,
+    "fds": 4,
+    "rss_bytes": 33808384,
+    "threads": 1
+  },
+  "held_store_locks": 0,
+  "host_binding": "UNVERIFIED",
+  "origin": "OFFLINE_FIXTURE_API_WORKER_CYCLES",
+  "production_pins": 0,
+  "real_runtime_pins": 0,
+  "receipt_create_disarm_cycles": 1000,
+  "rejected_IPC_frames": 10000,
+  "residual_capabilities": 0,
+  "residual_sockets": 0,
+  "residual_temp_dirs": 0,
+  "samples": [
+    {
+      "child_observation": "UNAVAILABLE",
+      "children": null,
+      "cycle": 100,
+      "fds": 7,
+      "rss_bytes": 37679104,
+      "threads": 1
+    },
+    {
+      "child_observation": "UNAVAILABLE",
+      "children": null,
+      "cycle": 200,
+      "fds": 7,
+      "rss_bytes": 37715968,
+      "threads": 1
+    },
+    {
+      "child_observation": "UNAVAILABLE",
+      "children": null,
+      "cycle": 300,
+      "fds": 7,
+      "rss_bytes": 37744640,
+      "threads": 1
+    },
+    {
+      "child_observation": "UNAVAILABLE",
+      "children": null,
+      "cycle": 400,
+      "fds": 7,
+      "rss_bytes": 37752832,
+      "threads": 1
+    },
+    {
+      "child_observation": "UNAVAILABLE",
+      "children": null,
+      "cycle": 500,
+      "fds": 7,
+      "rss_bytes": 37761024,
+      "threads": 1
+    },
+    {
+      "child_observation": "UNAVAILABLE",
+      "children": null,
+      "cycle": 600,
+      "fds": 7,
+      "rss_bytes": 37769216,
+      "threads": 1
+    },
+    {
+      "child_observation": "UNAVAILABLE",
+      "children": null,
+      "cycle": 700,
+      "fds": 7,
+      "rss_bytes": 37769216,
+      "threads": 1
+    },
+    {
+      "child_observation": "UNAVAILABLE",
+      "children": null,
+      "cycle": 800,
+      "fds": 7,
+      "rss_bytes": 37773312,
+      "threads": 1
+    },
+    {
+      "child_observation": "UNAVAILABLE",
+      "children": null,
+      "cycle": 900,
+      "fds": 7,
+      "rss_bytes": 37773312,
+      "threads": 1
+    },
+    {
+      "child_observation": "UNAVAILABLE",
+      "children": null,
+      "cycle": 1000,
+      "fds": 7,
+      "rss_bytes": 37777408,
+      "threads": 1
+    }
+  ],
+  "seconds": 20.696,
+  "status": "PASS",
+  "worker_start_stop_cycles": 1000
+}

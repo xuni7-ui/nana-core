@@ -1,0 +1,15 @@
+{
+  "Core_and_Brain09_10_11_changes": 0,
+  "archive_SHA256": "be0348d13e55fb041ebef63d21161dc3027c2908521d031b2c6322425800cdde",
+  "archive_entries_scanned": 277,
+  "changed_files_scanned": 47,
+  "credential_pattern_values_found": 0,
+  "dependency_changes": 0,
+  "failed_pytest_evidence": "short trace; publication report long synthetic hex redacted before Git",
+  "privacy_canary_tests": "3_PASS; wire/hash key/nonce/raw synthetic IDs absent from runtime outputs",
+  "production_pins": "EMPTY",
+  "raw_private_identifiers_or_message_data": "NONE_SUPPLIED_OR_ACCESSED",
+  "runtime_DB_WAL_SHM_PYC_in_artifact": 0,
+  "status": "PASS",
+  "synthetic_source_fixture_literals": "intentional test data in source; not private identifiers"
+}

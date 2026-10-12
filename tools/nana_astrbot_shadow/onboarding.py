@@ -107,6 +107,10 @@ def source_review(repo, sha, path):
         raise ValueError('REVIEW_SOURCE_PATH')
     def git(*args):return subprocess.check_output(['git',*args],cwd=repo,stderr=subprocess.DEVNULL)
     if git('rev-parse',sha+'^{commit}').decode().strip()!=sha:raise ValueError('REVIEW_COMMIT_REQUIRED')
+    tree=git('ls-tree','-z',sha,'--',path)
+    expected_path=path.encode()+b'\0'
+    if not tree.endswith(expected_path) or tree.count(b'\0')!=1 or not tree.startswith(b'100644 blob '):
+        raise ValueError('REGULAR_REVIEW_SOURCE_REQUIRED')
     size=int(git('cat-file','-s',sha+':'+path))
     if size>65536:raise ValueError('REVIEW_SIZE')
     raw=git('show',sha+':'+path).decode('utf-8')

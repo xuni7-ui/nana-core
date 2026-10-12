@@ -13,7 +13,7 @@ import signal
 import socket
 import stat
 import struct
-from .bridge_wire import private_directory,process_fingerprint,verify_envelope,read_frame,frame,sha,decode_config
+from .bridge_wire import private_directory,process_fingerprint,verify_envelope,read_frame,frame,sha,decode_config,DirectoryFence
 from .one_shot import ProductionTrustStore,FixtureTrustStore,utc
 from .one_shot_ingress import OneShotSanitizer,OneShotCoreSink,OneShotObserver
 from .one_shot_proof import collect,verify_first_real_message_shadow,ZERO_KEYS
@@ -23,6 +23,10 @@ class ShortLivedWorker:
     def __init__(self,directory,ipc_directory,receipt_id,*,client_pid,seconds=60,trust=None,checkpoint=None):
         if type(seconds) not in (int,float) or not 0<seconds<=600:raise ValueError('BRIDGE_WINDOW')
         self.directory=private_directory(directory);self.ipc=private_directory(ipc_directory)
+        if len(os.fsencode(self.ipc/'bridge.sock'))>100:raise ValueError('BRIDGE_SOCKET_PATH_LENGTH')
+        self._store_directory_identity=self.directory.stat().st_dev,self.directory.stat().st_ino
+        self._ipc_directory_identity=self.ipc.stat().st_dev,self.ipc.stat().st_ino
+        self._ipc_fence=None
         self.rid=receipt_id;self.client_pid=client_pid;self.seconds=seconds
         self.trust=trust if trust is not None else ProductionTrustStore()
         if type(self.trust) not in (ProductionTrustStore,FixtureTrustStore):raise ValueError('BRIDGE_TRUST_TYPE')
@@ -31,11 +35,22 @@ class ShortLivedWorker:
         self.limit=asyncio.Semaphore(100);self.lock=asyncio.Lock();self.core_recorded=False
         self._socket_identity=None;self._prepared=False
 
+    def _check_directories(self):
+        for path,identity in ((self.directory,self._store_directory_identity),(self.ipc,self._ipc_directory_identity)):
+            st=private_directory(path).stat()
+            if (st.st_dev,st.st_ino)!=identity:raise ValueError('WIRE_DIRECTORY_DRIFT')
+        if self._ipc_fence is not None:self._ipc_fence.check()
+
+    def _write_sidecar(self,name,value,*,replace=False):
+        return self._ipc_fence.write(name,value,replace=replace)
+
     def _prepare_on_writer(self):
+        self._check_directories()
         # R04 hash key/scope are the only domain; do not create another identity/store.
         from .one_shot_cli import operator_ledger
         if type(self.trust) is ProductionTrustStore:
             with operator_ledger(self.directory) as l:
+                l._execution_seal()
                 r,v=l.record(self.rid)
                 if l.store.one('core_meta','r041.receipt_session:'+self.rid):raise ValueError('BRIDGE_SESSION_REPLAY')
                 if v['state']!='ARMED' or not l._review_valid(r,v['review']):raise ValueError('BRIDGE_RECEIPT_NOT_ARMED_TRUSTED')
@@ -59,6 +74,7 @@ class ShortLivedWorker:
         s=OneShotSanitizer(scope=scope,hash_key=bytes.fromhex(key),receipt_id=self.rid)
         sink=OneShotCoreSink(self.directory,s,self.rid,trust=self.trust,checkpoint=self.checkpoint)
         self._sink=sink;ledger=sink.ledger()
+        self._check_directories()
         fence='r041.receipt_session:'+self.rid
         if ledger.store.one('core_meta',fence):raise ValueError('BRIDGE_SESSION_REPLAY')
         session_id=secrets.token_hex(16)
@@ -72,7 +88,8 @@ class ShortLivedWorker:
         with ledger.store.transaction('r041.session_claimed',{'receipt_id':self.rid,'session_id':session_id}) as tx:
             tx.put('core_meta',{'key':fence,'value_json':canonical({'session_id':session_id,'store_binding':ledger.binding,
                   'phase':'CLAIMED','expires_at':expires.isoformat(),
-                  'pid':os.getpid(),'pid_fingerprint':self.config['server_fingerprint'],'ipc_hash':sha(str(self.ipc))})})
+                  'pid':os.getpid(),'pid_fingerprint':self.config['server_fingerprint'],'ipc_hash':sha(str(self.ipc)),
+                  'ipc_device':self._ipc_directory_identity[0],'ipc_inode':self._ipc_directory_identity[1]})})
         return sink
 
     def _summary(self,phase):
@@ -90,6 +107,8 @@ class ShortLivedWorker:
         executor=ThreadPoolExecutor(max_workers=1,thread_name_prefix='nana-short-shadow')
         loop=asyncio.get_running_loop()
         try:
+            self._check_directories()
+            self._ipc_fence=DirectoryFence(self.ipc)
             sink=await loop.run_in_executor(executor,self._prepare_on_writer)
             self._prepared=True
             # Reuse Observer, replace its still-empty thread before any work.
@@ -97,15 +116,18 @@ class ShortLivedWorker:
             self.observer._worker.shutdown(wait=False);self.observer._worker=executor
             path=self.config['socket_path']
             if len(os.fsencode(path))>100:raise ValueError('BRIDGE_SOCKET_PATH_LENGTH')
-            self.server=await asyncio.start_unix_server(self._handle,path=path,backlog=128,limit=8192)
-            os.chmod(path,0o600)
-            st=Path(path).lstat();self._socket_identity=(st.st_dev,st.st_ino)
+            self._check_directories()
+            bound_path='/proc/self/fd/'+str(self._ipc_fence.fd)+'/bridge.sock'
+            self.server=await asyncio.start_unix_server(self._handle,path=bound_path,backlog=128,limit=8192)
+            os.chmod('bridge.sock',0o600,dir_fd=self._ipc_fence.fd,follow_symlinks=False)
+            st=self._ipc_fence.entry('bridge.sock');self._socket_identity=(st.st_dev,st.st_ino)
             self.config.update(socket_device=st.st_dev,socket_inode=st.st_ino)
             decode_config((canonical(self.config)+'\n').encode())
             await loop.run_in_executor(executor,self._publish_on_writer)
-            private_file(self.ipc/'client.json',self.config)
-            private_file(self.ipc/'session.json',self._summary('RUNNING'))
-            remaining=max(0,(utc(self.config['expires_at'])-datetime.now(timezone.utc)).total_seconds())
+            # Publish the ingress capability LAST: its existence is readiness.
+            self._write_sidecar('session.json',self._summary('RUNNING'))
+            self._write_sidecar('client.json',self.config)
+            remaining=min(self.seconds,max(0,(utc(self.config['expires_at'])-datetime.now(timezone.utc)).total_seconds()))
             try:await asyncio.wait_for(self.stop_event.wait(),remaining)
             except TimeoutError:pass
         finally:
@@ -115,26 +137,35 @@ class ShortLivedWorker:
                 done,pending=await asyncio.wait(tasks,timeout=2.5)
                 for t in pending:t.cancel()
                 if pending:await asyncio.gather(*pending,return_exceptions=True)
-            if self.observer is not None:
+            # Evidence I/O may fail; each cleanup boundary must remain independent.
+            # No exception in report writing is allowed to skip Store/thread/socket close.
+            try:
+                if self.observer is not None:
+                    try:
+                        summary=await loop.run_in_executor(executor,self._finish_on_writer)
+                        self._write_sidecar('result.json',summary)
+                    except BaseException:
+                        try:self._write_sidecar('result.json',{'status':'UNKNOWN','host_binding':'UNVERIFIED'})
+                        except BaseException:pass
+            finally:
                 try:
-                    summary=await loop.run_in_executor(executor,self._finish_on_writer)
-                    private_file(self.ipc/'result.json',summary)
-                except BaseException:
-                    private_file(self.ipc/'result.json',{'status':'UNKNOWN','host_binding':'UNVERIFIED'})
-                await self.observer.close()
-            else:
-                if hasattr(self,'_sink'):await loop.run_in_executor(executor,self._sink.close)
-                executor.shutdown(wait=False)
-            if self._socket_identity is not None:
-                p=Path(self.config['socket_path'])
-                try:
-                    st=p.lstat()
-                    if stat.S_ISSOCK(st.st_mode) and (st.st_dev,st.st_ino)==self._socket_identity:p.unlink()
-                except FileNotFoundError:pass
-            if self.config and self._prepared:
-                private_file(self.ipc/'session.json',self._summary('CLOSED'),replace=True)
-                p=self.ipc/'client.json'
-                if p.exists() and not p.is_symlink():p.unlink()  # only this session's temporary capability
+                    if self.observer is not None:await self.observer.close()
+                    elif hasattr(self,'_sink'):await loop.run_in_executor(executor,self._sink.close)
+                finally:
+                    executor.shutdown(wait=False,cancel_futures=False)
+                    try:
+                        if self._ipc_fence is not None:
+                            if self._socket_identity is not None:
+                                try:self._ipc_fence.unlink_owned('bridge.sock',self._socket_identity,anchored=True)
+                                except (OSError,ValueError):pass
+                            if self.config and self._prepared:
+                                try:self._write_sidecar('session.json',self._summary('CLOSED'),replace=True)
+                                except BaseException:pass
+                                if 'client.json' in self._ipc_fence.owned:
+                                    try:self._ipc_fence.unlink_owned('client.json',anchored=True)
+                                    except (OSError,ValueError):pass
+                    finally:
+                        if self._ipc_fence is not None:self._ipc_fence.close()
 
     async def _handle(self,reader,writer):
         task=asyncio.current_task();self.connections.add(task)
@@ -147,6 +178,7 @@ class ShortLivedWorker:
                 pid,uid,gid=struct.unpack('3i',s.getsockopt(socket.SOL_SOCKET,socket.SO_PEERCRED,12))
                 if uid!=self.config['uid'] or pid!=self.client_pid or process_fingerprint(pid)!=self.config['client_fingerprint']:
                     raise ValueError('BRIDGE_CLIENT_PEER')
+                self._check_directories()
                 obj=await read_frame(reader,.2)
                 m=verify_envelope(obj,self.config)
                 # Do not consume a session attempt for mismatched R04 scope.
@@ -154,6 +186,7 @@ class ShortLivedWorker:
                 if (m['platform']!=c['platform_scope'] or m['type']!=c['event_type_scope']
                     or m['sender_hash']!=c['sender_hash'] or m['conversation_hash']!=c['conversation_hash']):raise ValueError('BRIDGE_METADATA_SCOPE')
                 async with self.lock:
+                    self._check_directories()
                     if self.used:status='DROP_SESSION_USED'
                     elif self.stop_event.is_set() or datetime.now(timezone.utc)>=utc(self.config['expires_at']):status='DROP_POLICY'
                     else:
@@ -178,7 +211,8 @@ class ShortLivedWorker:
     def _publish_on_writer(self):
         l=self._sink.ledger();key='r041.receipt_session:'+self.rid
         value=json.loads(l.store.one('core_meta',key)['value_json'])
-        value.update(phase='BOUND',socket_device=self.config['socket_device'],socket_inode=self.config['socket_inode'])
+        value.update(phase='BOUND',socket_device=self.config['socket_device'],socket_inode=self.config['socket_inode'],
+                     client_config_digest=sha(self.config))
         with l.store.transaction('r041.session_bound',{'session_id':self.config['session_id']}) as tx:
             tx.put('core_meta',{'key':key,'value_json':canonical(value)})
 
@@ -192,7 +226,9 @@ class ShortLivedWorker:
             tx.put('core_meta',{'key':fence,'value_json':canonical({'session_id':self.config['session_id'],
                 'store_binding':l.binding,'phase':'CLOSED','expires_at':self.config['expires_at'],
                 'pid':self.config['server_pid'],'pid_fingerprint':self.config['server_fingerprint'],'ipc_hash':sha(str(self.ipc)),
-                'socket_device':self.config['socket_device'],'socket_inode':self.config['socket_inode']})})
+                'ipc_device':self._ipc_directory_identity[0],'ipc_inode':self._ipc_directory_identity[1],
+                'socket_device':self.config['socket_device'],'socket_inode':self.config['socket_inode'],
+                'client_config_digest':sha(self.config)})})
         return {'status':verdict['status'],'proof':report,'verification':verdict,'receipt':l.status(self.rid),
                 'session_id':self.config['session_id'],'frames_seen':self.attempts,
                 'external_execute':False,'host_binding':'UNVERIFIED','real_host_bridge':'NOT_RUN','E12':'NOT_RUN'}

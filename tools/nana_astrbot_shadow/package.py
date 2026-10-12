@@ -5,6 +5,7 @@ import json
 from pathlib import Path
 import shutil
 import subprocess
+import stat
 import tarfile
 from tools.nana_host_shadow.safety import digest,private_file,checked_path
 from tools.nana_host_shadow.build import build
@@ -12,12 +13,31 @@ from tools.nana_host_shadow.isolated_runtime import reuse_runtime
 
 DOC_NAMES=('PRE_INSTALL_CHECKLIST.md','POST_LOAD_PROOF_CHECKLIST.md','UNLOAD_PROOF_CHECKLIST.md','ROLLBACK.md','OPERATOR_RUNBOOK.md')
 
+def package_members(root):
+    """No symlink/special-file blind spots; never walk mutable Shadow data."""
+    pending=[root];files=set()
+    while pending:
+        directory=pending.pop();ds=directory.lstat()
+        if not stat.S_ISDIR(ds.st_mode) or ds.st_mode & 0o022:raise ValueError('BLOCKED_PACKAGE_INTEGRITY')
+        for p in directory.iterdir():
+            st=p.lstat();name=str(p.relative_to(root))
+            if stat.S_ISLNK(st.st_mode):raise ValueError('SYMLINK_PATH_BLOCKED')
+            if st.st_mode & 0o022:raise ValueError('BLOCKED_PACKAGE_INTEGRITY')
+            if stat.S_ISDIR(st.st_mode):
+                if name!='data':pending.append(p)
+            elif stat.S_ISREG(st.st_mode):
+                if st.st_nlink!=1:raise ValueError('BLOCKED_PACKAGE_INTEGRITY')
+                files.add(name)
+            else:raise ValueError('BLOCKED_PACKAGE_INTEGRITY')
+    return files
+
+
 def verify_package(root):
     root=checked_path(root,directory=True)
     manifest=checked_path(root/'manifest.json')
     m=json.loads(manifest.read_text())
     expected=m['files']
-    actual={str(p.relative_to(root)) for p in root.rglob('*') if p.is_file() and p.relative_to(root).parts[0]!='data'}
+    actual=package_members(root)
     if actual!=set(expected)|{'manifest.json','SHA256SUMS'}:raise ValueError('BLOCKED_PACKAGE_INTEGRITY')
     for name,value in expected.items():
         if Path(name).is_absolute() or '..' in Path(name).parts:raise ValueError('BLOCKED_PACKAGE_INTEGRITY')

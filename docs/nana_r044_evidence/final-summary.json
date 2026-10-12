@@ -1,0 +1,227 @@
+{
+  "Brain09_10_11_changes": 0,
+  "Core_drift_vs_R042": 0,
+  "E12": "NOT_RUN",
+  "FIRST_REAL_ASTRBOT_SHADOW": "BLOCKED",
+  "SQL_schema_drift": 0,
+  "actual_SIGKILL_matrix": 32,
+  "base_SHA": "a436333d3dceb30773860ff5a3168ca1acdf6682",
+  "bugs": {
+    "all_fixed": true,
+    "critical": 0,
+    "high": 1,
+    "low": 5,
+    "medium": 4
+  },
+  "checkpoint_to_evidence_minutes": 76.85,
+  "dependency_drift": 0,
+  "full_task_start_not_instrumented": true,
+  "host_binding": "UNVERIFIED",
+  "independent_readers": 32,
+  "known_process_lifecycle": {
+    "SIGTERM_via_pidfd": 50,
+    "actual_worker_processes": 50,
+    "global_process_observation": "UNKNOWN",
+    "held_Store_leases": 0,
+    "host_binding": "UNVERIFIED",
+    "owned_child_handles_remaining": 0,
+    "production_pins": 0,
+    "reaped": 50,
+    "residual_sockets": 0,
+    "residual_temp_dirs": 0,
+    "seconds": 19.13,
+    "status": "PASS"
+  },
+  "limits": [
+    "Global children/zombie observation unavailable; all50 owned Popen children explicitly reaped.",
+    "Actual kernel PID reuse not forced; injected fingerprint mismatch plus real foreign-process/kill tests.",
+    "Arbitrary privileged source builder/root memory change/whole-DB rollback clone outside security boundary.",
+    "Same-UID privileged DB filename/VFS races are not claimed atomic by unchanged Core.",
+    "Crash matrix has32 named boundaries; not every machine instruction/power-loss scenario.",
+    "Fixture first eligible exact-scope event only; no real dispatcher/chat/semantic quality proof."
+  ],
+  "package_Core55_exact_ddab": "PASS",
+  "package_reproducible": true,
+  "paid_service_calls": 0,
+  "privacy_scan": "PASS",
+  "private_memory_reads": 0,
+  "production_authorization_pins": "EMPTY",
+  "production_messages": 0,
+  "production_modifications": 0,
+  "production_secrets_read": 0,
+  "qualification": {
+    "Core55_package_hashes": "PASS",
+    "Core_source_SHA": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
+    "E12": "NOT_RUN",
+    "FIRST_REAL_ASTRBOT_SHADOW": "BLOCKED",
+    "SIGKILL_after_core_complete": true,
+    "external_actions": 0,
+    "fixture_candidate_digest": "11ae5b4e9d0b7a61afa964a5798e498e29db5fae21de716879fa204eb89e1924",
+    "fresh_archive_verified": true,
+    "held_Store_leases": 0,
+    "host_binding": "UNVERIFIED",
+    "identity_continuous": true,
+    "official_backup_quarantine": "PASS",
+    "official_replay_quarantine": "PASS",
+    "one_ingress": true,
+    "production_pins": 0,
+    "real_model_calls": 0,
+    "real_runtime_pins": 0,
+    "receipt_terminal": "VERIFIED_FIXTURE",
+    "residual_client_capabilities": 0,
+    "residual_live_workers": 0,
+    "residual_sockets": 0,
+    "runtime": {
+      "extension_ABI_target": "cpython-312-x86_64-linux-gnu",
+      "extension_build_python": "3.12.14",
+      "interpreter_scope": "existing host binary; private process-only SQLite/dependencies",
+      "minimum_glibc": "2.34",
+      "pydantic": "2.13.5",
+      "python": "3.12.14",
+      "python_patch_regression": "VERIFIED",
+      "sqlite": "3.51.3"
+    },
+    "seconds": 0.792,
+    "status": "OFFLINE_RECOVERY_QUALIFIED",
+    "support_source_SHA": "2025bc4f3e63c371748005951529dff55c855ed4",
+    "trust_domain": "FIXTURE",
+    "verify": "SIMULATED_REAL_SHADOW_PROOF_PASS"
+  },
+  "real_AstrBot_load": "NOT_RUN",
+  "real_bridge": "NOT_RUN",
+  "real_dispatcher_traversal": "NOT_VERIFIED",
+  "real_host_operations": 0,
+  "real_model_calls": 0,
+  "real_one_shot": "NOT_RUN",
+  "real_production_receipts_created": 0,
+  "real_runtime_proof_pins": "EMPTY",
+  "runtime": {
+    "Pydantic": "2.13.5",
+    "SQLite": "3.51.3",
+    "python": "3.12.14"
+  },
+  "soak": {
+    "E12": "NOT_RUN",
+    "actual_subprocess_worker_cycles": 0,
+    "after": {
+      "child_observation": "UNAVAILABLE",
+      "children": null,
+      "fds": 4,
+      "rss_bytes": 39854080,
+      "threads": 1
+    },
+    "before": {
+      "child_observation": "UNAVAILABLE",
+      "children": null,
+      "fds": 4,
+      "rss_bytes": 34668544,
+      "threads": 1
+    },
+    "held_store_locks": 0,
+    "host_binding": "UNVERIFIED",
+    "origin": "OFFLINE_FIXTURE_API_WORKER_CYCLES",
+    "production_pins": 0,
+    "real_runtime_pins": 0,
+    "receipt_create_disarm_cycles": 1000,
+    "rejected_IPC_frames": 10000,
+    "residual_capabilities": 0,
+    "residual_sockets": 0,
+    "residual_temp_dirs": 0,
+    "samples": [
+      {
+        "child_observation": "UNAVAILABLE",
+        "children": null,
+        "cycle": 100,
+        "fds": 7,
+        "rss_bytes": 38645760,
+        "threads": 1
+      },
+      {
+        "child_observation": "UNAVAILABLE",
+        "children": null,
+        "cycle": 200,
+        "fds": 7,
+        "rss_bytes": 38653952,
+        "threads": 1
+      },
+      {
+        "child_observation": "UNAVAILABLE",
+        "children": null,
+        "cycle": 300,
+        "fds": 7,
+        "rss_bytes": 38658048,
+        "threads": 1
+      },
+      {
+        "child_observation": "UNAVAILABLE",
+        "children": null,
+        "cycle": 400,
+        "fds": 7,
+        "rss_bytes": 38670336,
+        "threads": 1
+      },
+      {
+        "child_observation": "UNAVAILABLE",
+        "children": null,
+        "cycle": 500,
+        "fds": 7,
+        "rss_bytes": 38670336,
+        "threads": 1
+      },
+      {
+        "child_observation": "UNAVAILABLE",
+        "children": null,
+        "cycle": 600,
+        "fds": 7,
+        "rss_bytes": 38879232,
+        "threads": 1
+      },
+      {
+        "child_observation": "UNAVAILABLE",
+        "children": null,
+        "cycle": 700,
+        "fds": 7,
+        "rss_bytes": 38879232,
+        "threads": 1
+      },
+      {
+        "child_observation": "UNAVAILABLE",
+        "children": null,
+        "cycle": 800,
+        "fds": 7,
+        "rss_bytes": 38887424,
+        "threads": 1
+      },
+      {
+        "child_observation": "UNAVAILABLE",
+        "children": null,
+        "cycle": 900,
+        "fds": 7,
+        "rss_bytes": 38887424,
+        "threads": 1
+      },
+      {
+        "child_observation": "UNAVAILABLE",
+        "children": null,
+        "cycle": 1000,
+        "fds": 7,
+        "rss_bytes": 39845888,
+        "threads": 1
+      }
+    ],
+    "seconds": 17.732,
+    "status": "PASS",
+    "worker_start_stop_cycles": 1000
+  },
+  "status": "OFFLINE_RECOVERY_QUALIFIED",
+  "support_SHA": "2025bc4f3e63c371748005951529dff55c855ed4",
+  "tests": {
+    "errors": 0,
+    "failed": 0,
+    "new_cases": 219,
+    "old_pass_cases_retained": 543,
+    "passed": 762,
+    "seconds": 94.238,
+    "skipped": 1
+  }
+}

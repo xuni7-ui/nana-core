@@ -3,6 +3,7 @@ import hashlib
 import json
 from pathlib import Path
 import sys
+import stat
 
 def main():
     try:
@@ -12,7 +13,19 @@ def main():
         # invoke observer_entry until its own bytes have been checked either.
         if root.is_symlink() or (root/'manifest.json').is_symlink():raise ValueError()
         manifest=json.loads((root/'manifest.json').read_text());expected=manifest['files']
-        actual={str(p.relative_to(root)) for p in root.rglob('*') if p.is_file() and p.relative_to(root).parts[0]!='data'}
+        actual=set();pending=[root]
+        while pending:
+            directory=pending.pop();ds=directory.lstat()
+            if not stat.S_ISDIR(ds.st_mode) or ds.st_mode & 0o022:raise ValueError()
+            for p in directory.iterdir():
+                st=p.lstat();name=str(p.relative_to(root))
+                if stat.S_ISLNK(st.st_mode) or st.st_mode & 0o022:raise ValueError()
+                if stat.S_ISDIR(st.st_mode):
+                    if name!='data':pending.append(p)
+                elif stat.S_ISREG(st.st_mode):
+                    if st.st_nlink!=1:raise ValueError()
+                    actual.add(name)
+                else:raise ValueError()
         if actual!=set(expected)|{'manifest.json','SHA256SUMS'}:raise ValueError()
         def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
         for name,h in expected.items():

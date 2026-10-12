@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="6" skipped="0" tests="6" time="0.196" timestamp="2026-10-12T12:20:23.989893+00:00" hostname="d4cc58f28ba5"><testcase classname="tests.nana_shadow.test_r044_supply_chain" name="test_integrity_rejects_unmanifested_or_writable_entries[dangling_symlink]" time="0.002"><failure message="Failed: DID NOT RAISE ValueError">tests/nana_shadow/test_r044_supply_chain.py:29: in test_integrity_rejects_unmanifested_or_writable_entries
+    with pytest.raises(ValueError):verify_package(root)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE ValueError</failure></testcase><testcase classname="tests.nana_shadow.test_r044_supply_chain" name="test_integrity_rejects_unmanifested_or_writable_entries[fifo]" time="0.001"><failure message="Failed: DID NOT RAISE ValueError">tests/nana_shadow/test_r044_supply_chain.py:29: in test_integrity_rejects_unmanifested_or_writable_entries
+    with pytest.raises(ValueError):verify_package(root)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE ValueError</failure></testcase><testcase classname="tests.nana_shadow.test_r044_supply_chain" name="test_integrity_rejects_unmanifested_or_writable_entries[writable_support]" time="0.001"><failure message="Failed: DID NOT RAISE ValueError">tests/nana_shadow/test_r044_supply_chain.py:29: in test_integrity_rejects_unmanifested_or_writable_entries
+    with pytest.raises(ValueError):verify_package(root)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE ValueError</failure></testcase><testcase classname="tests.nana_shadow.test_r044_supply_chain" name="test_integrity_rejects_unmanifested_or_writable_entries[writable_manifest]" time="0.001"><failure message="Failed: DID NOT RAISE ValueError">tests/nana_shadow/test_r044_supply_chain.py:29: in test_integrity_rejects_unmanifested_or_writable_entries
+    with pytest.raises(ValueError):verify_package(root)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE ValueError</failure></testcase><testcase classname="tests.nana_shadow.test_r044_supply_chain" name="test_integrity_rejects_unmanifested_or_writable_entries[writable_directory]" time="0.001"><failure message="Failed: DID NOT RAISE ValueError">tests/nana_shadow/test_r044_supply_chain.py:29: in test_integrity_rejects_unmanifested_or_writable_entries
+    with pytest.raises(ValueError):verify_package(root)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE ValueError</failure></testcase><testcase classname="tests.nana_shadow.test_r044_supply_chain" name="test_source_review_rejects_git_symlink_even_if_blob_is_valid_json" time="0.015"><failure message="Failed: DID NOT RAISE ValueError">tests/nana_shadow/test_r044_supply_chain.py:39: in test_source_review_rejects_git_symlink_even_if_blob_is_valid_json
+    with pytest.raises(ValueError,match='REGULAR_REVIEW'):source_review(repo,sha,'reviews/r042/synthetic.json')
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE ValueError</failure></testcase></testsuite></testsuites>

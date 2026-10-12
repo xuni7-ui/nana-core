@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="0.254" timestamp="2026-10-12T12:44:10.024183+00:00" hostname="d4cc58f28ba5"><testcase classname="tests.nana_shadow.test_r044_failures" name="test_preflight_never_reports_ready_for_readonly_or_expired_authorization[verify_only]" time="0.024"><failure message="AssertionError: assert 'READY' == 'BLOCKED'&#10;  &#10;  - BLOCKED&#10;  + READY">tests/nana_shadow/test_r044_failures.py:112: in test_preflight_never_reports_ready_for_readonly_or_expired_authorization
+    assert result['status']=='BLOCKED'
+E   AssertionError: assert 'READY' == 'BLOCKED'
+E     
+E     - BLOCKED
+E     + READY</failure></testcase><testcase classname="tests.nana_shadow.test_r044_failures" name="test_preflight_never_reports_ready_for_readonly_or_expired_authorization[expired]" time="0.007"><failure message="AssertionError: assert 'READY' == 'BLOCKED'&#10;  &#10;  - BLOCKED&#10;  + READY">tests/nana_shadow/test_r044_failures.py:112: in test_preflight_never_reports_ready_for_readonly_or_expired_authorization
+    assert result['status']=='BLOCKED'
+E   AssertionError: assert 'READY' == 'BLOCKED'
+E     
+E     - BLOCKED
+E     + READY</failure></testcase></testsuite></testsuites>

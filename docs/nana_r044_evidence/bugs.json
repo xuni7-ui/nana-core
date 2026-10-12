@@ -1,0 +1,120 @@
+{
+  "all_fixed": true,
+  "bugs": [
+    {
+      "duplicate_consumption_or_Core_ingress_demonstrated": false,
+      "fix_commit": "e1bc11fb25465bfaa97f720ac12d80241879d4c5",
+      "fixed": true,
+      "id": "B01",
+      "origin": "BASELINE",
+      "production_AstrBot_pipeline_impact_demonstrated": false,
+      "regression_test": "test_result_write_failure_still_closes_store_socket_and_executor",
+      "severity": "MEDIUM",
+      "trigger": "Evidence write failure skipped resource cleanup"
+    },
+    {
+      "duplicate_consumption_or_Core_ingress_demonstrated": false,
+      "fix_commit": "6fa6212b0070b70c7592bbd058ce6b99b3ed3e87",
+      "fixed": true,
+      "id": "B02",
+      "origin": "BASELINE",
+      "production_AstrBot_pipeline_impact_demonstrated": false,
+      "regression_test": "test_ipc_directory_replacement_before_start_is_blocked",
+      "severity": "MEDIUM",
+      "trigger": "Directory path replacement lacked held inode/descriptor fence"
+    },
+    {
+      "duplicate_consumption_or_Core_ingress_demonstrated": false,
+      "fix_commit": "6fa6212b0070b70c7592bbd058ce6b99b3ed3e87",
+      "fixed": true,
+      "id": "B03",
+      "origin": "BASELINE",
+      "production_AstrBot_pipeline_impact_demonstrated": false,
+      "regression_test": "test_client_capability_is_published_only_after_session_metadata",
+      "severity": "MEDIUM",
+      "trigger": "Client capability published before session proof"
+    },
+    {
+      "duplicate_consumption_or_Core_ingress_demonstrated": false,
+      "fix_commit": "134545fd7dfece1cb9b359102ea8841962249d92",
+      "fixed": true,
+      "id": "B04",
+      "origin": "BASELINE",
+      "production_AstrBot_pipeline_impact_demonstrated": false,
+      "regression_test": "test_integrity_rejects_unmanifested_or_writable_entries",
+      "severity": "LOW",
+      "trigger": "Package ignored dangling symlink/FIFO extra entries"
+    },
+    {
+      "duplicate_consumption_or_Core_ingress_demonstrated": false,
+      "fix_commit": "134545fd7dfece1cb9b359102ea8841962249d92",
+      "fixed": true,
+      "id": "B05",
+      "origin": "BASELINE_PERMISSION_DRIFT",
+      "production_AstrBot_pipeline_impact_demonstrated": false,
+      "regression_test": "test_integrity_rejects_unmanifested_or_writable_entries",
+      "severity": "HIGH",
+      "trigger": "Package accepted group/world-writable code/manifest/directories"
+    },
+    {
+      "duplicate_consumption_or_Core_ingress_demonstrated": false,
+      "fix_commit": "134545fd7dfece1cb9b359102ea8841962249d92",
+      "fixed": true,
+      "id": "B06",
+      "origin": "BASELINE",
+      "production_AstrBot_pipeline_impact_demonstrated": false,
+      "regression_test": "test_source_review_rejects_git_symlink_even_if_blob_is_valid_json",
+      "severity": "LOW",
+      "trigger": "Review Git reader did not reject symlink blob mode"
+    },
+    {
+      "duplicate_consumption_or_Core_ingress_demonstrated": false,
+      "fix_commit": "a77646f3fce45580be4b0bd97da313af7178dc9f",
+      "fixed": true,
+      "id": "B07",
+      "origin": "BASELINE",
+      "production_AstrBot_pipeline_impact_demonstrated": false,
+      "regression_test": "test_stale_cleanup_rejects_changed_capability_not_just_same_session",
+      "severity": "LOW",
+      "trigger": "Stale cleanup only checked same-session identity, not entire cap digest"
+    },
+    {
+      "duplicate_consumption_or_Core_ingress_demonstrated": false,
+      "fix_commit": "a77646f3fce45580be4b0bd97da313af7178dc9f",
+      "fixed": true,
+      "id": "B08",
+      "origin": "INTRODUCED_AND_FIXED_R044",
+      "production_AstrBot_pipeline_impact_demonstrated": false,
+      "regression_test": "test_atomic_publication_never_exposes_two_link_configuration",
+      "severity": "MEDIUM",
+      "trigger": "Hardlink publish briefly exposed nlink2 at readiness"
+    },
+    {
+      "duplicate_consumption_or_Core_ingress_demonstrated": false,
+      "fix_commit": "a77646f3fce45580be4b0bd97da313af7178dc9f",
+      "fixed": true,
+      "id": "B09",
+      "origin": "BASELINE",
+      "production_AstrBot_pipeline_impact_demonstrated": false,
+      "regression_test": "test_preflight_never_reports_ready_for_readonly_or_expired_authorization",
+      "severity": "LOW",
+      "trigger": "Preflight ignored expiry/VERIFY_ONLY executable readiness"
+    },
+    {
+      "duplicate_consumption_or_Core_ingress_demonstrated": false,
+      "fix_commit": "2025bc4f3e63c371748005951529dff55c855ed4",
+      "fixed": true,
+      "id": "B10",
+      "origin": "INTRODUCED_AND_FIXED_R044",
+      "production_AstrBot_pipeline_impact_demonstrated": false,
+      "regression_test": "test_package_symlink_never_follows_production_path",
+      "severity": "LOW",
+      "trigger": "Changed symlink diagnostic broke existing error contract"
+    }
+  ],
+  "critical": 0,
+  "high": 1,
+  "low": 5,
+  "medium": 4,
+  "total": 10
+}
