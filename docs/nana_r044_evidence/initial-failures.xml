@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="2" time="0.415" timestamp="2026-10-12T11:55:38.626191+00:00" hostname="d4cc58f28ba5"><testcase classname="tests.nana_shadow.test_r044_failures" name="test_result_write_failure_still_closes_store_socket_and_executor" time="0.121"><failure message="assert not True&#10; +  where True = &lt;tools.nana_astrbot_shadow.one_shot_ingress.OneShotObserver object at 0x7f2e7f131af0&gt;.active&#10; +    where &lt;tools.nana_astrbot_shadow.one_shot_ingress.OneShotObserver object at 0x7f2e7f131af0&gt; = &lt;tools.nana_astrbot_shadow.bridge_worker.ShortLivedWorker object at 0x7f2e7f19fec0&gt;.observer">tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-1/test_result_write_failure_stil0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7f2e7f1bb0e0&gt;
+
+    def test_result_write_failure_still_closes_store_socket_and_executor(tmp_path,monkeypatch):
+        root,ipc,r,raw=fixture(tmp_path)
+        original=worker_module.private_file
+        def fault(path,*args,**kwargs):
+            if Path(path).name=='result.json':raise OSError('SYNTHETIC_WRITE_FAILURE')
+            return original(path,*args,**kwargs)
+        monkeypatch.setattr(worker_module,'private_file',fault)
+        async def run():
+            w=ShortLivedWorker(root,ipc,r.receipt_id,client_pid=os.getpid(),seconds=.1,trust=FixtureTrustStore())
+            task,_=await ready(w)
+            try:
+                try:await task
+                except OSError:pass
+                assert not w.observer.active
+                assert not (ipc/'bridge.sock').exists()
+                assert not (ipc/'client.json').exists()
+                with Store(root/'observer-shadow.db') as s:assert not s.all('actions')
+            finally:
+                # Test teardown only; never disguise the failing assertions above.
+                if w.observer and w.observer.active:await w.observer.close()
+&gt;       asyncio.run(run())
+
+tests/nana_shadow/test_r044_failures.py:34: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+    async def run():
+        w=ShortLivedWorker(root,ipc,r.receipt_id,client_pid=os.getpid(),seconds=.1,trust=FixtureTrustStore())
+        task,_=await ready(w)
+        try:
+            try:await task
+            except OSError:pass
+&gt;           assert not w.observer.active
+E           assert not True
+E            +  where True = &lt;tools.nana_astrbot_shadow.one_shot_ingress.OneShotObserver object at 0x7f2e7f131af0&gt;.active
+E            +    where &lt;tools.nana_astrbot_shadow.one_shot_ingress.OneShotObserver object at 0x7f2e7f131af0&gt; = &lt;tools.nana_astrbot_shadow.bridge_worker.ShortLivedWorker object at 0x7f2e7f19fec0&gt;.observer
+
+tests/nana_shadow/test_r044_failures.py:27: AssertionError</failure></testcase><testcase classname="tests.nana_shadow.test_r044_failures" name="test_ipc_directory_replacement_before_start_is_blocked" time="0.060"><failure message="Failed: DID NOT RAISE ValueError">tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-1/test_ipc_directory_replacement0')
+
+    def test_ipc_directory_replacement_before_start_is_blocked(tmp_path):
+        root,ipc,r,raw=fixture(tmp_path)
+        w=ShortLivedWorker(root,ipc,r.receipt_id,client_pid=os.getpid(),seconds=.05,trust=FixtureTrustStore())
+        original=ipc.with_name('original-ipc');ipc.rename(original);ipc.mkdir(mode=0o700)
+&gt;       with pytest.raises(ValueError,match='DIRECTORY.*DRIFT|DIRECTORY.*REPLACED'):
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       Failed: DID NOT RAISE ValueError
+
+tests/nana_shadow/test_r044_failures.py:41: Failed</failure></testcase></testsuite></testsuites>
