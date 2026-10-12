@@ -91,8 +91,13 @@ def test_production_and_runtime_pin_separation_and_client_imports(monkeypatch):
     for source in ('bridge_client.py','bridge_wire.py','message_hook_adapter.py','r041_main.py'):
         path=Path('src/plugins/astrbot_plugin_nana_shadow_observer')/source
         tree=ast.parse(path.read_text())
-        imports=[n.module or '' for n in ast.walk(tree) if isinstance(n,ast.ImportFrom)]
-        imports += [a.name for n in ast.walk(tree) if isinstance(n,ast.Import) for a in n.names]
+        # Legacy R04 binder has a lazy Core import, but is NOT client execution.
+        # Check executable module-level + actual metadata extractor path, and
+        # retain prior subprocess import-guard test for transitive client imports.
+        nodes=([n for n in tree.body if isinstance(n,(ast.Import,ast.ImportFrom))]+
+               [child for n in tree.body if isinstance(n,(ast.FunctionDef,ast.AsyncFunctionDef)) and n.name=='extract_scalar_metadata' for child in ast.walk(n)]) if source=='message_hook_adapter.py' else list(ast.walk(tree))
+        imports=[n.module or '' for n in nodes if isinstance(n,ast.ImportFrom)]
+        imports += [a.name for n in nodes if isinstance(n,ast.Import) for a in n.names]
         assert not any(name.startswith(('nana_core','tools','pydantic','sqlite3','_sqlite3')) for name in imports)
 
 

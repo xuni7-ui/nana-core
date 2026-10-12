@@ -115,26 +115,35 @@ class ShortLivedWorker:
                 done,pending=await asyncio.wait(tasks,timeout=2.5)
                 for t in pending:t.cancel()
                 if pending:await asyncio.gather(*pending,return_exceptions=True)
-            if self.observer is not None:
+            # Evidence I/O may fail; each cleanup boundary must remain independent.
+            # No exception in report writing is allowed to skip Store/thread/socket close.
+            try:
+                if self.observer is not None:
+                    try:
+                        summary=await loop.run_in_executor(executor,self._finish_on_writer)
+                        private_file(self.ipc/'result.json',summary)
+                    except BaseException:
+                        try:private_file(self.ipc/'result.json',{'status':'UNKNOWN','host_binding':'UNVERIFIED'})
+                        except BaseException:pass
+            finally:
                 try:
-                    summary=await loop.run_in_executor(executor,self._finish_on_writer)
-                    private_file(self.ipc/'result.json',summary)
-                except BaseException:
-                    private_file(self.ipc/'result.json',{'status':'UNKNOWN','host_binding':'UNVERIFIED'})
-                await self.observer.close()
-            else:
-                if hasattr(self,'_sink'):await loop.run_in_executor(executor,self._sink.close)
-                executor.shutdown(wait=False)
-            if self._socket_identity is not None:
-                p=Path(self.config['socket_path'])
-                try:
-                    st=p.lstat()
-                    if stat.S_ISSOCK(st.st_mode) and (st.st_dev,st.st_ino)==self._socket_identity:p.unlink()
-                except FileNotFoundError:pass
-            if self.config and self._prepared:
-                private_file(self.ipc/'session.json',self._summary('CLOSED'),replace=True)
-                p=self.ipc/'client.json'
-                if p.exists() and not p.is_symlink():p.unlink()  # only this session's temporary capability
+                    if self.observer is not None:await self.observer.close()
+                    elif hasattr(self,'_sink'):await loop.run_in_executor(executor,self._sink.close)
+                finally:
+                    executor.shutdown(wait=False,cancel_futures=False)
+                    if self._socket_identity is not None:
+                        p=Path(self.config['socket_path'])
+                        try:
+                            st=p.lstat()
+                            if stat.S_ISSOCK(st.st_mode) and (st.st_dev,st.st_ino)==self._socket_identity:p.unlink()
+                        except OSError:pass
+                    if self.config and self._prepared:
+                        try:private_file(self.ipc/'session.json',self._summary('CLOSED'),replace=True)
+                        except BaseException:pass
+                        p=self.ipc/'client.json'
+                        try:
+                            if p.exists() and not p.is_symlink():p.unlink()
+                        except OSError:pass
 
     async def _handle(self,reader,writer):
         task=asyncio.current_task();self.connections.add(task)

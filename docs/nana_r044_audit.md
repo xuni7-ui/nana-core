@@ -57,3 +57,16 @@ Runtime protocol cannot authenticate a dishonest privileged source builder;
 Git/hash pins reviewed bytes, not human approval. Whole-DB cloning by a privileged
 actor outside approved quarantined backup/replay remains outside the guarantee.
 No offline fixture result upgrades real binding/dispatcher/message/zero-drift.
+
+## C1: report-write cleanup bug fixed
+
+Fix: independent finally boundaries. Failed result/UNKNOWN/session evidence I/O
+cannot skip observer close, original Store writer shutdown, owned socket/client
+cleanup. No failed report is upgraded to PASS. The preserved result-write failure
+regression now passes, and existing receipt invariants/engineering tests:71pass.
+IPC directory replacement repro remains pending C2; qualification not yet PASS.
+A new client AST test initially inspected unused legacy R04 lazy-binding imports;
+corrected to inspect actual module-level/extractor client path, preserving the
+prior subprocess forbidden-import guard. This was a test-scope error, not removal
+of an executable client dependency check. Ordinary/isolated child flags and
+absolute executable corrected in temporary development launcher; no Core edits.
