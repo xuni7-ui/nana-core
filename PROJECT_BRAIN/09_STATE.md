@@ -579,3 +579,58 @@
 - [实测] 完整 regression 在已批准 private runtime（CPython 3.12.14 / private SQLite 3.51.3 / Pydantic 2.13.5）下 **543 passed / 0 failed / 1 skipped(E12)**，与 Codex R042 逐项一致。
 - [实测] EMPTY onboarding 包 `nana-r042-empty-c6eb725-onboarding.tar.gz` SHA256 = `fe9c4bc0…bca7` 校验一致；verify/preflight PASS，未生成真实 production pin。
 - [未知] 仍待人工授权：Dashboard 上传 / plugin_set / 真实 authorization / seal production / arm receipt / 正式 bridge / 真实消息 —— 本阶段全部 **0**。
+
+
+---
+
+## 2026-10-12 (CST) · R044 红队修复事实（Codex，吸收前记录）
+
+> 事实来源：Codex 分支 `dev/nana-core-v1-r044-preprod-redteam-codex`（base `a436333`，HEAD `1bdf1f0`）。R044 **未修改** PROJECT_BRAIN 09/10/11；本块为其独立审计事实的正式入账。
+
+| 状态键 | 值 |
+|---|---|
+| `R044_BRANCH` | `dev/nana-core-v1-r044-preprod-redteam-codex` |
+| `R044_HEAD` | `1bdf1f07abb02d6610db86153b1cb7b14fe74dc1` |
+| `R044_BUG_FIXES` | **10**（critical **0** / high **1** / medium **4** / low **5**），全部已修 |
+| `R044_HIGH` | group/world-writable 的 package code/manifest/directory 被**旧 gate 接受** → 已修 |
+| `R044_NEW_TESTS` | **219** |
+| `R044_REGRESSION` | **762 passed / 0 failed / 1 skipped(E12)** |
+| `R044_RECOVERY` | `OFFLINE_RECOVERY_QUALIFIED`（**fixture/offline 限定，非真实 host PASS**） |
+| `R044_CRASH_MATRIX` | 32 个真实 SIGKILL 边界 |
+| `R044_PRODUCTION_PINS` | **EMPTY** |
+
+- [已实现/已测试] 修复覆盖：result-write 失败不跳过 cleanup；IPC directory inode/FD fence；capability LAST 发布；package 拒绝 dangling symlink/FIFO/special entries；package 拒绝 group/world-writable code/manifest/dirs；Git review source 拒绝 symlink blob；stale cleanup 校验完整 capability digest；atomic publication 不暴露 nlink=2；preflight 不对 expired/VERIFY_ONLY 报 READY；symlink 固定诊断契约保持。
+- [实测] crash matrix / race / filesystem / IPC / onboarding red-team / recovery qualification / supply-chain fixes / package hardening 记录于 `docs/nana_r044_evidence/`。Approved Core 未改。
+- [边界] `OFFLINE_RECOVERY_QUALIFIED` **不得**写成真实 host PASS；真实 load/dispatcher/bridge/one-shot 仍未运行。
+
+## 2026-10-12 (CST) · R045 First-Real-Shadow Release Candidate（R044 修复吸收 + 合流）
+
+> 在 R043 之上**追加**；R043 的宿主 readiness / D-049 / R042 preflight 事实**全部保留**。
+
+| 状态键 | 值 |
+|---|---|
+| `R045_BRANCH` | `dev/nana-core-v1-r045-first-real-shadow-release-candidate` |
+| `R045_CREATED_FROM` | `2d83e6a`（R043） |
+| `R045_MERGE_PARENTS` | `2d83e6a`（R043）+ `1bdf1f0`（R044） |
+| `R045_MERGE_BASE` | `a436333` |
+| `R044_FIXES_ABSORBED` | **10/10**（含唯一 High） |
+| `FULL_REGRESSION` | **762 passed / 0 failed / 1 skipped(E12)** |
+| `PROJECT_BRAIN_09_10_11` | **= R043**（R044 未改，合流未覆盖） |
+| `APPROVED_CORE_DIFF` | **0** |
+| `NEW_SQL_TABLE_OR_DEPENDENCY` | **0** |
+| `EMPTY_PACKAGE` | `nana-r045-empty-760e5e8-onboarding.tar.gz` |
+| `PRODUCTION_PINS` | **EMPTY** |
+| `PRODUCTION_ACTIONS` | **0** |
+| `real AstrBot load` | **NOT_RUN** |
+| `real dispatcher traversal` | **NOT_VERIFIED** |
+| `real bridge / one-shot` | **NOT_RUN** |
+| `host_binding` | **UNVERIFIED** |
+| `FIRST_REAL_ASTRBOT_SHADOW` | **BLOCKED** |
+| `E12` | **NOT_RUN** |
+
+- [实测] 合流零冲突：R043 变更集仅 PROJECT_BRAIN 09/10/11，R044 变更集与之**完全不重叠**；R043 现场事实逐字节保留，R044 未覆盖 PROJECT_BRAIN。
+- [实测] 10 项修复机械确认进入 R045（见 `docs/nana_r045_merge.md` 表）；对应 R044 新增测试全部存在。
+- [实测] 已批准 private runtime（CPython 3.12.14 / private SQLite 3.51.3 / Pydantic 2.13.5）下完整 regression **762 passed / 0 failed / 1 skipped(E12)**，收集 763，与 R044 一致。
+- [环境说明] 本容器默认 `/tmp` 为 overlayfs，刚释放的 inode 会被新对象**确定性复用**；`test_atomic_write_does_not_follow_symlink_or_overwrite_foreign_file` 需要不复用 inode。该用例在**未改动**的 R044 原树上**同样失败** ⇒ 环境特性，**非产品回归**；合格跑使用 tmpfs 临时目录。
+- [交付] 从 R045 final source **重新构建** EMPTY 包；旧 R042/R043 包全部 **superseded**（R044 已改 bridge 实现/session journal/integrity gate/package logic/onboarding safety，禁止混用旧 manifest/SHA）。
+- [仍未验证] 真实 host 绑定/加载/dispatcher/one-shot **一律未运行**；`OFFLINE_RECOVERY_QUALIFIED` 仅为 fixture 结论。

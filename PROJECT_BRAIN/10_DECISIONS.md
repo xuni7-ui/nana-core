@@ -316,3 +316,15 @@ Dashboard `POST /api/plugin/reload` 需 JWT（`astrbot/dashboard/api/plugins.py`
 - **不允许**出现两个都被当作有效编号的 `D-046`；本块为唯一权威纠正。
 
 [口径确认] `HOST_NATIVE_SQLITE_GATE = BLOCKED`：AstrBot 进程保持原生 SQLite 3.46.1 不变，独立短生命周期 worker 使用已批准的 private 3.51.3 runtime。**不是绕过安全门**，而是把门留在宿主进程上、把合规 runtime 放进隔离 worker。`SHORT_LIVED_SHADOW_WORKER_FEASIBLE = YES`（仅短命；常驻 worker 仍须单独授权）。
+
+## D-050 — R044 红队安全修复整体吸收进 R045；旧实现/旧包不得带现场（2026-10-12 CST）
+
+[姐姐指令/合流裁决] R044（`dev/nana-core-v1-r044-preprod-redteam-codex`，base `a436333`，HEAD `1bdf1f0`）在真实 one-shot 前发现并修复 **10** 个产品问题（critical **0** / high **1** / medium **4** / low **5**）。据此确立：
+
+- R045（`dev/nana-core-v1-r045-first-real-shadow-release-candidate`）以 R043 `2d83e6a` 为起点，`--no-ff` **完整 merge** R044，**不做零散 cherry-pick**，以免拆散相互依赖的安全修复。
+- R044 唯一 **High**（group/world-writable 的 package code/manifest/directory 被**旧 gate 接受**）**必须**确认已进入 R045；**不得**带旧实现上现场。
+- R044 **未修改** PROJECT_BRAIN 09/10/11 ⇒ 合流**不得**用 R044 覆盖 R043 的宿主现场事实；D-049 编号纠正继续有效。
+- R044 改过 bridge 实现 / session journal / integrity gate / package logic / onboarding safety ⇒ **旧 R042/R043 包全部 superseded**；**禁止**把旧 manifest/SHA 与新代码混用，必须从 R045 final source 重新构建 EMPTY 包。
+- `OFFLINE_RECOVERY_QUALIFIED` 是 **fixture/offline** 结论，**不是**真实 host PASS；真实 load/dispatcher/bridge/one-shot 仍未运行。
+
+[口径确认] 生产授权 pins 与 runtime-proof pins 保持 **EMPTY**；`seal_mode = EMPTY`；`FIRST_REAL_ASTRBOT_SHADOW = BLOCKED`，`E12 = NOT_RUN`。

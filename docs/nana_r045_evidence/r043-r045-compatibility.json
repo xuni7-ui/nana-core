@@ -1,0 +1,27 @@
+{
+  "R043_SHA": "2d83e6a2acfd07f5e67581543c9b7dff7e6d5cfa",
+  "R044_SHA": "1bdf1f07abb02d6610db86153b1cb7b14fe74dc1",
+  "R045_SHA": "760e5e829aa67b622b508c3f2c4a4e617528933f",
+  "merge_base": "a436333d3dceb30773860ff5a3168ca1acdf6682",
+  "merge_parents": [
+    "2d83e6a2acfd07f5e67581543c9b7dff7e6d5cfa",
+    "1bdf1f07abb02d6610db86153b1cb7b14fe74dc1"
+  ],
+  "merge_strategy": "no-ff",
+  "merge_conflicts": [],
+  "overlapping_files": [],
+  "R043_changed_files": [
+    "PROJECT_BRAIN/09_STATE.md",
+    "PROJECT_BRAIN/10_DECISIONS.md",
+    "PROJECT_BRAIN/11_CHANGELOG.md"
+  ],
+  "R044_touched_PROJECT_BRAIN_09_10_11": false,
+  "R045_preserved_R043_project_brain": true,
+  "R045_preserved_R044_fixes": true,
+  "R045_project_brain_identical_to_R043": true,
+  "Approved_Core_drift_in_R045_merge": 0,
+  "Approved_Core_inherited_disclosed_diff": "src/nana_core/integration/preflight.py single line (pydantic in {2.13.4,2.13.5}); pre-R043, unchanged by R044/R045",
+  "SQL_schema_drift": 0,
+  "dependency_drift": 0,
+  "conflict_markers": 0
+}

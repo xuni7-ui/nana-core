@@ -837,3 +837,20 @@
 - 为什么：把真实宿主 readiness + Codex R042 trust-onboarding 合成**唯一** FIRST_REAL_ASTRBOT_SHADOW 候选基线，并消除历史编号歧义。
 - 怎么验证：Codex onboarding 文件与 R041 bridge 文件同时存在；`src/`（Approved Core）合流零改动；无新增 SQL table / dependency；`git diff --check` PASS；conflict marker 0；secret/private 扫描 PASS；已批准 private runtime 下完整 regression **543 passed / 0 failed / 1 skipped(E12)**；EMPTY 包 SHA256 复核一致 + verify/preflight PASS（production pins 0）。
 - 生产动作计数 **0**：未上传 Dashboard / 未装 plugin / 未改 plugin_set / 未建真实 authorization / 未 seal production / 未 arm receipt / 未起正式 bridge / 未发消息 / 未 reload·restart / 未做 Iris 私人读取 / 未调用模型。
+
+
+## C-075 · R044 pre-production red-team / offline recovery qualification（Codex，吸收前事实）
+
+- 改了什么：`dev/nana-core-v1-r044-preprod-redteam-codex`（base `a436333`，HEAD `1bdf1f0`）修复 **10** 个产品问题（critical **0** / high **1** / medium **4** / low **5**），新增 **219** 测试；未改 PROJECT_BRAIN 09/10/11、未改 Approved Core。
+- 修复清单：result-write 失败不跳过 cleanup；IPC directory inode/FD fence；capability LAST 发布；package 拒绝 dangling symlink/FIFO/special entries；package 拒绝 group/world-writable code/manifest/dirs（**唯一 High**）；Git review source 拒绝 symlink blob；stale cleanup 校验完整 capability digest；atomic publication 不暴露 nlink=2；preflight 不对 expired/VERIFY_ONLY 报 READY；symlink 固定诊断契约保持。
+- 怎么验证：真实 SIGKILL crash matrix 32 边界、race/filesystem/IPC/onboarding red-team、recovery qualification、supply-chain/package hardening；已批准 private runtime 下 **762 passed / 0 failed / 1 skipped(E12)**；证据 `docs/nana_r044_evidence/`。
+- 边界：`OFFLINE_RECOVERY_QUALIFIED` 为 fixture/offline 结论，**不得**写成真实 host PASS；生产 pins **EMPTY**。
+
+## C-076 · R045 First-Real-Shadow Release Candidate（R044 修复吸收 + 合流）
+
+- 改了什么：新建 `dev/nana-core-v1-r045-first-real-shadow-release-candidate`（基于 R043 `2d83e6a`），`merge --no-ff` R044 `1bdf1f0`；合并提交双亲 `2d83e6a` + `1bdf1f0`，共同基线 `a436333`，**零冲突**。PROJECT_BRAIN 09/10/11 为 R043 现场事实，**逐字节保留**；追加 D-050 与 R044/R045 事实。
+- 为什么：把 R044 的全部安全修复、测试与交付能力吸收到 R043，形成**唯一**可进入真实 one-shot 前准备的候选。
+- 怎么验证：R044 10 项修复机械确认进入 R045（`docs/nana_r045_merge.md`）；`src/`（Approved Core）合流零改动；无新增 SQL table / dependency；conflict marker 0；已批准 private runtime（CPython 3.12.14 / private SQLite 3.51.3 / Pydantic 2.13.5）下完整 regression **762 passed / 0 failed / 1 skipped(E12)**（收集 763）；EMPTY 包从 final source **重新构建**、verify/preflight + 交付校验 **15 操作 PASS**、Core55 exact、dangerous entries 0、package permissions PASS、两次同 basename 构建 **byte reproducible**。
+- 交付：`artifacts/r045/nana-r045-empty-760e5e8-onboarding.tar.gz`，3368374 bytes，SHA256 `05e9765c…bd68c`，support source `760e5e829aa67b622b508c3f2c4a4e617528933f`；生产 pins **EMPTY**。旧 R042/R043 包 **superseded**。
+- 环境说明：本容器默认 `/tmp` 为 overlayfs，inode 复用使 `test_atomic_write_does_not_follow_symlink_or_overwrite_foreign_file` 期望的 ENTRY_DRIFT 无法触发；同用例在**未改动**的 R044 原树下**同样失败** ⇒ 环境特性、非产品回归；合格跑使用 tmpfs 临时目录。
+- 生产动作计数 **0**：未上传 Dashboard / 未装 plugin / 未改 plugin_set / 未建真实 authorization / 未 seal production / 未 arm / 未起正式 worker / 未发真实测试消息 / 未 reload·restart / 未做 Iris 私人读取 / 未调用模型。
