@@ -807,3 +807,8 @@
 - Why: exact receipt hashes must match initialized Store's HMAC domain; manually composing Python or guessing IDs is not an executable safe workflow.
 - Change: metadata-only scope helper with transient explicitly authorized IDs and hashed-only output, no discovery/body/network; operator instructions updated.
 - Validation:33 onboarding tests passed in approved privateSQLite3.51.3 runtime. C2 package verification14 operations and full542pass/1skip retained as checkpoints; final build/regression follows new committed support seal.
+
+### R042 FINAL — audited EMPTY package and full regression
+- Changes: deliver no-authority EMPTY kit, exact operator ordering/fields/stops, evidence and security fingerprints. Production one-shot/proof trust must still come from independently reviewed source builds; no real pin or host fact fabricated.
+- Validation: full543pass/0fail/0error/1E12skip in original privateSQLite3.51.3 runtime; extracted kit15 operations PASS; exact55Core byte hashes; original tests unchanged. Secret/private/runtime DB checks PASS. No host/model/message/production operation; no new tables/dependencies.
+- Delivery: support source c6eb7255d0d2d985ecf5e06cdf42cfa4a33040b6, artifacts/r042/nana-r042-empty-c6eb725-onboarding.tar.gz,3358013bytes,SHA256 fe9c4bc0ad6cdd11b8a491fb610cacdc43f9cb395bdc36730e1b58b27be8bca7. Final Git/remote verification recorded after saving. Scope: R042 operator/build closure only; next real one-shot requires Nana independent host review and Sister's exact authorization.

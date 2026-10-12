@@ -2,14 +2,14 @@
   "Core55_byte_hashes": "PASS",
   "archive": {
     "E12": "NOT_RUN",
-    "SHA256": "cf4018992f9b4f99ef2f1edbaf7d4212e4fa28f075b9e6aa7dd93071ce57d1b9",
-    "bytes": 3357456,
-    "filename": "nana-r042-empty-6446208-onboarding.tar.gz",
+    "SHA256": "fe9c4bc0ad6cdd11b8a491fb610cacdc43f9cb395bdc36730e1b58b27be8bca7",
+    "bytes": 3358013,
+    "filename": "nana-r042-empty-c6eb725-onboarding.tar.gz",
     "host_binding": "UNVERIFIED",
     "production_review_pins": 0,
     "real_runtime_proof_pins": 0,
     "seal_mode": "EMPTY",
-    "support_source_SHA": "6446208187625608794b49efff0953c8b2249d4f"
+    "support_source_SHA": "c6eb7255d0d2d985ecf5e06cdf42cfa4a33040b6"
   },
   "copied_receipt": "BLOCKED",
   "fixture_promotion": "BLOCKED",
@@ -19,6 +19,11 @@
       "operation": "r04.sh receipt",
       "returncode": 0,
       "status": "INITIALIZED"
+    },
+    {
+      "operation": "onboarding.sh scope",
+      "returncode": 0,
+      "status": "SCOPED_METADATA_ONLY"
     },
     {
       "operation": "onboarding.sh prepare",
