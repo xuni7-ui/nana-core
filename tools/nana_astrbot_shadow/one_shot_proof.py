@@ -4,7 +4,7 @@ from types import MappingProxyType
 from .one_shot import ProductionTrustStore, FixtureTrustStore, Provenance, utc, review_document
 from tools.nana_host_shadow.safety import digest
 
-REAL_RUNTIME_PROOF_PINS=MappingProxyType({})  # report hash -> independently reviewed Nana evidence hash
+from .sealed_trust import REAL_RUNTIME_PROOF_PINS  # separately sealed AFTER runtime evidence review
 ZERO_KEYS={'iris_writes','external_output','model_calls','network_calls','authority_transfers'}
 REPORT_KEYS={'schema_version','receipt_id','receipt_digest','source_provenance','trust_domain',
              'observer_callback_received','sanitizer_accepted','core','noncore_zero','binding_evidence_digest'}

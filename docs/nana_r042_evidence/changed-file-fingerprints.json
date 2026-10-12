@@ -1,0 +1,105 @@
+{
+  "base_SHA": "c7d87018335de0797177f53bf8986f06e1e78eef",
+  "files": [
+    {
+      "bytes": 60553,
+      "path": "PROJECT_BRAIN/09_STATE.md",
+      "sha256": "0f82d17789b9ce8ff1784e39a2e42dbac27e39dc90613fddb4e2658721a726b5"
+    },
+    {
+      "bytes": 30571,
+      "path": "PROJECT_BRAIN/10_DECISIONS.md",
+      "sha256": "1b339d42f968f10ec8fac46fa3e33750772ee91d87c02fce5facede65c224720"
+    },
+    {
+      "bytes": 81512,
+      "path": "PROJECT_BRAIN/11_CHANGELOG.md",
+      "sha256": "7c7cc8f41e112dc86acd77a9b5bde14508386585cd60230a394effb4f118f7e7"
+    },
+    {
+      "bytes": 13743,
+      "path": "tools/nana_astrbot_shadow/one_shot.py",
+      "sha256": "1272f4c057014f398366822cfcd2ade232ccb789669d727004c30d4a97641527"
+    },
+    {
+      "bytes": 8050,
+      "path": "tools/nana_astrbot_shadow/one_shot_cli.py",
+      "sha256": "7dd2dc03e1d6e5119fb630add099da63e8aa2c5a469d37f6683c5cda9d319a7f"
+    },
+    {
+      "bytes": 7892,
+      "path": "tools/nana_astrbot_shadow/one_shot_proof.py",
+      "sha256": "3ece3b5fb5c8e8d73896ebc9c88b693d7a77c230122347aa76e461512ea0c23e"
+    },
+    {
+      "bytes": 13648,
+      "path": "tools/nana_astrbot_shadow/package.py",
+      "sha256": "e96690d99cce0402c66d49bc1cf30f3977f13fbbe430a253242efdfb6e91587f"
+    },
+    {
+      "bytes": 2559,
+      "path": "tools/nana_astrbot_shadow/r04_entry.py",
+      "sha256": "2697e4a822a89bf2860b9db8b5ee10188a909f981cc4138ea7eec9053e3d8cd3"
+    },
+    {
+      "bytes": 468,
+      "path": "tools/nana_astrbot_shadow/sealed_trust.py",
+      "sha256": "809b24cd7a3846146821a81a66a92c2625d67ef654f8b97596c73e8e63ed2544"
+    },
+    {
+      "bytes": 16845,
+      "path": "tools/nana_astrbot_shadow/onboarding.py",
+      "sha256": "bb48075dbd0f0d8305fc87d159c152c1cdd0de86cde5aef8fda3285ba379e67e"
+    },
+    {
+      "bytes": 12303,
+      "path": "tests/nana_shadow/test_r042_onboarding.py",
+      "sha256": "a194d6431883051dc44b8f6c539277be767b1633b744b188e29b93c0e5e2083b"
+    },
+    {
+      "bytes": 12320,
+      "path": "docs/nana_r042_trust_onboarding.md",
+      "sha256": "1bc041d0b23893ecf6e4fc4fa615f497d2493e2068d916694487cb2b9eec2273"
+    },
+    {
+      "bytes": 1986,
+      "path": "docs/nana_r042_evidence/final-summary.json",
+      "sha256": "9cb06e6ca9c9d93d4870d5e7f7a7006cbf370f09f96cc4d438daa8d2247db5b5"
+    },
+    {
+      "bytes": 332,
+      "path": "docs/nana_r042_evidence/package-build-final.json",
+      "sha256": "edc4e416b8bc8df5f978e827323c86be9b0ad0b1ac51d5be622de39c3a0ecc34"
+    },
+    {
+      "bytes": 96059,
+      "path": "docs/nana_r042_evidence/full-regression.xml",
+      "sha256": "2b500268fc55f832bac1ec21082c58938f065ea0fef4c4a8eb90a107b5a65dde"
+    },
+    {
+      "bytes": 332,
+      "path": "docs/nana_r042_evidence/package-build-delivery.json",
+      "sha256": "81d18620b3bf069647f73d42abc883183a3cc20b0127da07a064affc0f521dc3"
+    },
+    {
+      "bytes": 332,
+      "path": "docs/nana_r042_evidence/package-build.json",
+      "sha256": "cd9818e834381d3589954d877028fa53543b31eefaee4143327fdff284b28754"
+    },
+    {
+      "bytes": 2368,
+      "path": "docs/nana_r042_evidence/package-validation.json",
+      "sha256": "e9a8e10dd08effac4428963a4f488f20606095f71a51341746f534be8fc398b6"
+    },
+    {
+      "bytes": 6558,
+      "path": "docs/nana_r042_evidence/validate-delivered-package.py",
+      "sha256": "cc6dcf62388e27eafa6d8eac464a70c950e3611e984d451a7defc50d61824f76"
+    },
+    {
+      "bytes": 3358013,
+      "path": "artifacts/r042/nana-r042-empty-c6eb725-onboarding.tar.gz",
+      "sha256": "fe9c4bc0ad6cdd11b8a491fb610cacdc43f9cb395bdc36730e1b58b27be8bca7"
+    }
+  ]
+}

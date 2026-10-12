@@ -1,0 +1,55 @@
+{
+  "E12": "NOT_RUN",
+  "FIRST_REAL_ASTRBOT_SHADOW": "BLOCKED",
+  "TRUST_ONBOARDING_READY": "YES_DEVELOPMENT_TOOLING",
+  "actual_production_authorizations_created": 0,
+  "approved_Core_diff_vs_R041": 0,
+  "base_SHA": "c7d87018335de0797177f53bf8986f06e1e78eef",
+  "coverage": {
+    "R041_crash_replay_session_fence": "PASS",
+    "R04_SIGKILL": "existing before/after-consume/before-Core/after-Evidence tests PASS",
+    "R04_concurrency": "2/10/100 existing tests PASS",
+    "fixture_runtime_provenance_promotion": "BLOCKED",
+    "old_tests_preserved": 510,
+    "post_review_metadata_allowlist": "PASS",
+    "r042_cases": 33,
+    "real_proof": "NOT_RUN",
+    "runtime_environment/config_pin_injection": "BLOCKED"
+  },
+  "external_messages": 0,
+  "fixture_pins_in_default_package": 0,
+  "host_binding": "UNVERIFIED",
+  "limits": [
+    "Independent source review/Sister authorization must actually exist; hashes alone do not authenticate humans.",
+    "A deliberately dishonest privileged source builder/root is outside the stated boundary.",
+    "Whole-Store cloning outside official quarantined backup/replay is not claimed tamper-proof.",
+    "No actual real authorization/runtime-proof sealed candidate created this turn."
+  ],
+  "new_SQL_tables": 0,
+  "new_dependencies": 0,
+  "package_approved55_hashes": "PASS",
+  "private_memory_reads": 0,
+  "production_modifications": 0,
+  "production_review_pins": 0,
+  "real_dispatcher_traversal": "NOT_VERIFIED",
+  "real_host_bridge": "NOT_RUN",
+  "real_host_operations": 0,
+  "real_model_calls": 0,
+  "real_runtime_proof_pins": 0,
+  "runtime": {
+    "SQLite": "3.51.3",
+    "command": "/tmp/nana-bootstrap-build/compat-python-fixed -m pytest tests -q",
+    "pydantic": "2.13.5",
+    "python": "3.12.14"
+  },
+  "secret_values_read": 0,
+  "status": "TESTED_DEVELOPMENT",
+  "support_SHA": "c6eb7255d0d2d985ecf5e06cdf42cfa4a33040b6",
+  "tests": {
+    "errors": 0,
+    "failed": 0,
+    "only_skip": "E12",
+    "passed": 543,
+    "skipped": 1
+  }
+}

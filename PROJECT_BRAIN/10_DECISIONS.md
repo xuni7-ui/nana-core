@@ -285,6 +285,7 @@ Dashboard `POST /api/plugin/reload` 需 JWT（`astrbot/dashboard/api/plugins.py`
 
 
 ## D-046 — HOST_NATIVE_SQLITE_GATE 的正确口径：不绕过，隔离（2026-10-12 CST）
+> ⚠️ **编号更正（见文末 D-049）**：本块原始标题误用了已被占用的 `D-046`（`D-046` 已专指 R04 One-Shot Receipt）。其技术内容继续有效；今后引用本「宿主隔离裁决」一律使用 **D-049**。历史块保留、不删除。
 
 [实测] 真实宿主 AstrBot PID1 原生 SQLite = **3.46.1**（< Nana Core 门 3.51.3）。R041 明确禁止把 private
 `_sqlite3` 注入 AstrBot 进程。据此确立口径：
@@ -296,3 +297,22 @@ Dashboard `POST /api/plugin/reload` 需 JWT（`astrbot/dashboard/api/plugins.py`
 - [实测] worker 与宿主满足 **same UID / same pid namespace / same filesystem visibility**；
   IPC 基座 **UDS + subprocess/fork + private 0700 temp** 均 PASS。
 - ⇒ `SHORT_LIVED_SHADOW_WORKER_FEASIBLE = YES`（**仅短命**；常驻 worker 仍越权、须单独授权）。
+
+## D-048 — R042 production one-shot onboarding is an offline reviewed source build
+[开发审计/实现] R041's EMPTY authorization/proof maps have no executable seal builder; runtime review/arm alone cannot onboard real authorization. Add default EMPTY `sealed_trust.py` and explicit offline builder from an independently reviewed full Git commit/path; one exact receipt/store/review digest, no runtime config/env/force/wildcard. Source-review hashes bind bytes, NOT human identity/honesty. Nana must independently audit real metadata and Sister's exact authorization; caller/fixture fields alone never authenticate these facts. Builder is a privileged source-review operation, never called by observer/worker. No real review or pin created by Codex.
+[开发设计] Two stages: ONE_SHOT authorization seal before the exact <=600sec experiment; independent RUNTIME_PROOF review after the host experiment yields VERIFY_ONLY artifact. Historical authorization pin remains for readback, but VERIFY_ONLY rejects arm/consume. Terminal ledger/session records remain original R04/R041 barriers. Missing outside-Core zero proof remains UNKNOWN. Old A/B/C TRUSTED_NANA_RECEIPTS anchor is separate and not a substitute for R04 real-message proof.
+[边界] No approved Core modification, new SQL table or dependency. Whole-DB cloning by privileged actor remains outside original D-046 guarantees. Real host/load/dispatcher/message/zero-drift are NOT_VERIFIED; E12 NOT_RUN.
+
+## D-049 — Decision-number collision correction and host-runtime isolation（2026-10-12 CST）
+
+[姐姐指令/合流纠正] 在 R043 合流（`dev/nana-core-v1-r042-real-host-preflight` ∪ `dev/nana-core-v1-r042-trust-onboarding-codex`）时发现编号碰撞：本项目历史上出现过**两个 `D-046`**。据此确立：
+
+- 2026-10-12 那个第二个 `## D-046 — HOST_NATIVE_SQLITE_GATE 的正确口径：不绕过，隔离` 属**历史编号误用**（该编号已被 R04 One-Shot Receipt 先行占用）。
+- 其**技术内容继续有效**，不删除、不改写。
+- 今后引用该**宿主隔离裁决**统一引用 **D-049**。
+- 原 **D-046** 仍专指 **R04 One-Shot Receipt**（scoped observation authority，never execution authority）。
+- **D-047** 仍专指 **R041 temporary process-local Shadow bridge**（非第二个常驻 Nana Runtime）。
+- **D-048** 仍专指 **R042 production trust onboarding**（offline reviewed source build）。
+- **不允许**出现两个都被当作有效编号的 `D-046`；本块为唯一权威纠正。
+
+[口径确认] `HOST_NATIVE_SQLITE_GATE = BLOCKED`：AstrBot 进程保持原生 SQLite 3.46.1 不变，独立短生命周期 worker 使用已批准的 private 3.51.3 runtime。**不是绕过安全门**，而是把门留在宿主进程上、把合规 runtime 放进隔离 worker。`SHORT_LIVED_SHADOW_WORKER_FEASIBLE = YES`（仅短命；常驻 worker 仍须单独授权）。

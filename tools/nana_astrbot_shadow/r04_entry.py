@@ -28,6 +28,9 @@ def main():
         from nana_host_shadow.bootstrap_entry import runtime
         runtime(root)
         sys.path.insert(0,str(root/'package'/'src'))
+        if args[:1]==['onboarding']:
+            from tools.nana_astrbot_shadow.onboarding import main as onboarding
+            return onboarding(args[1:])
         if args[:1]==['bridge']:
             from tools.nana_astrbot_shadow.bridge_cli import main as bridge
             return bridge(args[1:])

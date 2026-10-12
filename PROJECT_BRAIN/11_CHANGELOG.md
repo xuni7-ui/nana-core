@@ -809,3 +809,23 @@
   - `git rev-list --parents -n1 HEAD` = `ddcd848 89385e98 c7d87018`（--no-ff 双亲）。
   - 状态键见 `09_STATE.md` 本阶段表；`HOST_NATIVE_SQLITE_GATE = BLOCKED`，`SHORT_LIVED_SHADOW_WORKER_FEASIBLE = YES`。
   - 生产动作计数 **0**：未装 Observer / 未改 plugin_set / 未建 receipt / 未 pin trust / 未起正式 bridge / 未重启 / 未发消息。
+
+### R042 C1 — close audited source-seal tooling gap (2026-10-12 UTC)
+- Why: R041 ledger review/arm cannot proceed with correctly EMPTY source maps and had no reviewed-build onboarding tool.
+- Change: EMPTY sealed source module, offline exact receipt preparation/review/seal, separately constrained VERIFY_ONLY proof package, operator runbook/D-048. Original approved Core untouched; no runtime pin setter or real authority.
+- Validation: R04/R041/onboarding targeted tests executed on actual CPython3.12.14 + privateSQLite3.51.3 + Pydantic2.13.5; full evidence/count at FINAL. Fixed gate order after an old trust-domain test exposed diagnostic regression; old assertions preserved.
+
+### R042 C2 — bound post-review export and test separate read-only proof seal
+- Why: a build review must not accidentally archive extra nested Core/body/private fields.
+- Change: exact metadata-only Core proof schema (UUID/hash/link refs/time/zero counts), immutable source read vs dirty worktree checks, review-document digest recomputation tests.
+- Validation: new strict/adversarial tests; no existing test/expectation removed or weakened. Package/default-production and final regression evidence follows FINAL.
+
+### R042 C3 — remove manual hash preparation from onboarding
+- Why: exact receipt hashes must match initialized Store's HMAC domain; manually composing Python or guessing IDs is not an executable safe workflow.
+- Change: metadata-only scope helper with transient explicitly authorized IDs and hashed-only output, no discovery/body/network; operator instructions updated.
+- Validation:33 onboarding tests passed in approved privateSQLite3.51.3 runtime. C2 package verification14 operations and full542pass/1skip retained as checkpoints; final build/regression follows new committed support seal.
+
+### R042 FINAL — audited EMPTY package and full regression
+- Changes: deliver no-authority EMPTY kit, exact operator ordering/fields/stops, evidence and security fingerprints. Production one-shot/proof trust must still come from independently reviewed source builds; no real pin or host fact fabricated.
+- Validation: full543pass/0fail/0error/1E12skip in original privateSQLite3.51.3 runtime; extracted kit15 operations PASS; exact55Core byte hashes; original tests unchanged. Secret/private/runtime DB checks PASS. No host/model/message/production operation; no new tables/dependencies.
+- Delivery: support source c6eb7255d0d2d985ecf5e06cdf42cfa4a33040b6, artifacts/r042/nana-r042-empty-c6eb725-onboarding.tar.gz,3358013bytes,SHA256 fe9c4bc0ad6cdd11b8a491fb610cacdc43f9cb395bdc36730e1b58b27be8bca7. Final Git/remote verification recorded after saving. Scope: R042 operator/build closure only; next real one-shot requires Nana independent host review and Sister's exact authorization.

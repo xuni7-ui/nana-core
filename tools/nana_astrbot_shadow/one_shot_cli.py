@@ -12,7 +12,7 @@ from contextlib import contextmanager
 from tools.nana_host_shadow.safety import checked_path,canonical,read_json
 from .one_shot import ReceiptLedger,ProductionTrustStore,parse_receipt
 from .one_shot_ingress import OneShotCoreSink,OneShotSanitizer,OneShotObserver
-from .one_shot_proof import collect,verify_first_real_message_shadow
+from .one_shot_proof import collect,verify_first_real_message_shadow,mark_verified
 from .sanitize import MetadataSanitizer
 from .core_sink import MetadataCoreSink
 
@@ -103,7 +103,7 @@ class _SafeParser(argparse.ArgumentParser):
 def main(argv=None):
     p=_SafeParser(description=__doc__)
     p.add_argument('family',choices=('receipt','observer'))
-    p.add_argument('command',nargs='?',default='status',choices=('init','create','inspect','review','arm','status','disarm','verify','collect'))
+    p.add_argument('command',nargs='?',default='status',choices=('init','create','inspect','review','arm','status','disarm','verify','collect','finalize'))
     p.add_argument('--directory',required=True)
     p.add_argument('--receipt-id');p.add_argument('--input');p.add_argument('--dry-run',action='store_true')
     try:
@@ -112,7 +112,7 @@ def main(argv=None):
             result={'status':'DRY_RUN','files_written':0,'real_arm_ready':False}
         elif args.family=='receipt' and args.command=='init':result=initialize(args.directory)
         else:
-            write=args.family=='receipt' and args.command in ('create','review','arm','disarm')
+            write=args.family=='receipt' and args.command in ('create','review','arm','disarm','finalize')
             with operator_ledger(args.directory,write=write) as l:
                 if args.family=='observer' and args.command in ('collect','verify'):
                     if not args.receipt_id:raise ValueError('RECEIPT_ID_REQUIRED')
@@ -130,6 +130,11 @@ def main(argv=None):
                         if not args.input:raise ValueError('REVIEW_FILE_REQUIRED')
                         result=l.review(args.receipt_id,read_json(args.input))
                     elif args.command=='arm':result=l.arm(args.receipt_id)
+                    elif args.command=='finalize':
+                        if not args.input:raise ValueError('EVIDENCE_FILE_REQUIRED')
+                        report=read_json(args.input)
+                        if report.get('receipt_id')!=args.receipt_id:raise ValueError('RECEIPT_SCOPE')
+                        result=mark_verified(report,l)
                     elif args.command=='disarm':result=l.disarm(args.receipt_id)
                     elif args.command in ('inspect','status','verify'):
                         result=l.status(args.receipt_id)
