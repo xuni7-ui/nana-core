@@ -854,3 +854,9 @@
 - 交付：`artifacts/r045/nana-r045-empty-760e5e8-onboarding.tar.gz`，3368374 bytes，SHA256 `05e9765c…bd68c`，support source `760e5e829aa67b622b508c3f2c4a4e617528933f`；生产 pins **EMPTY**。旧 R042/R043 包 **superseded**。
 - 环境说明：本容器默认 `/tmp` 为 overlayfs，inode 复用使 `test_atomic_write_does_not_follow_symlink_or_overwrite_foreign_file` 期望的 ENTRY_DRIFT 无法触发；同用例在**未改动**的 R044 原树下**同样失败** ⇒ 环境特性、非产品回归；合格跑使用 tmpfs 临时目录。
 - 生产动作计数 **0**：未上传 Dashboard / 未装 plugin / 未改 plugin_set / 未建真实 authorization / 未 seal production / 未 arm / 未起正式 worker / 未发真实测试消息 / 未 reload·restart / 未做 Iris 私人读取 / 未调用模型。
+
+
+## FUTURE-ARCH-VNEXT1 · 持续主体架构设计（2026-10-12 UTC，设计分支）
+- 改了什么：新增 `docs/nana_future_architecture_vnext1.md`、固定源码/证据索引、阅读边界与文档校验记录，及独立设计指纹清单；仅向09_STATE追加设计存在的事实，不把提案写成已实现或新授权。
+- 为什么：依据当前R045源码及证据，为持续自我、可信长期记忆、有限目标经济、人格关系、可移植主体提供一年蓝图，继承五阶段总纲和当前one-shot→Small Memory Shadow→E12顺序。
+- 怎么验证：43处source fingerprint及行号、34节/主题覆盖、本地链接、敏感模式和实现零diff检查通过；未重跑产品回归、未运行新架构实验。既有R045762/0/1与当前真实Shadow/E12未验证边界保留。所有新设计待后续实施授权/评审，未触及生产/私密数据/真实receipt/pin。

@@ -1,0 +1,29 @@
+{
+  "schema_version": 1,
+  "kind": "architecture_design_manifest",
+  "status": "PROPOSED_NOT_IMPLEMENTED",
+  "source_sha": "ef7750e012a1004cbfb9d888319001f0b04154db",
+  "files": {
+    "docs/nana_future_architecture_vnext1.md": {
+      "sha256": "d027a9f7342ab68a91a21b832349825b57b82991873450d2afe4f04c21c17042",
+      "bytes": 104499
+    },
+    "docs/nana_future_architecture_sources.md": {
+      "sha256": "6f04dc674eee8df973cffe290eba85a9eb55a449b2ea6b36f0256ef05dcd3a95",
+      "bytes": 10608
+    },
+    "docs/nana_future_architecture_review.json": {
+      "sha256": "d0f7ac34fc8caaa248cd26d1395dbf9c889fe76fc4df8abab32860f963d98758",
+      "bytes": 11075
+    },
+    "docs/nana_future_architecture_validation.json": {
+      "sha256": "0d80973db9971ff073e2f638cd9f4082cfaf2dd1774a4e1ab8579e69021c690f",
+      "bytes": 1501
+    }
+  },
+  "excluded": [
+    "this manifest itself",
+    "PROJECT_BRAIN state/change appendices referencing manifest hash"
+  ],
+  "approved_core_modified": false
+}

@@ -634,3 +634,9 @@
 - [环境说明] 本容器默认 `/tmp` 为 overlayfs，刚释放的 inode 会被新对象**确定性复用**；`test_atomic_write_does_not_follow_symlink_or_overwrite_foreign_file` 需要不复用 inode。该用例在**未改动**的 R044 原树上**同样失败** ⇒ 环境特性，**非产品回归**；合格跑使用 tmpfs 临时目录。
 - [交付] 从 R045 final source **重新构建** EMPTY 包；旧 R042/R043 包全部 **superseded**（R044 已改 bridge 实现/session journal/integrity gate/package logic/onboarding safety，禁止混用旧 manifest/SHA）。
 - [仍未验证] 真实 host 绑定/加载/dispatcher/one-shot **一律未运行**；`OFFLINE_RECOVERY_QUALIFIED` 仅为 fixture 结论。
+
+
+## 2026-10-12 UTC · Future Architecture VNext-1（独立设计稿，未实施）
+[设计/文件校验] 基于已读取远端R045 `ef7750e012a1004cbfb9d888319001f0b04154db`，在独立 `dev/nana-core-future-architecture-astra` 形成 `docs/nana_future_architecture_vnext1.md`。34节覆盖持续Self/Memory/Goal/人格关系/权限/设备/恢复及一年分期；所有新增设计标记EXTEND/NEW/FUTURE，未变成实现或生产授权。来源索引固定43处代码/证据锚点；范围与校验见 `docs/nana_future_architecture_review.json` / `nana_future_architecture_validation.json`。
+[实测/本轮开发文档] 本轮只校验文档链接、source hashes、主题覆盖与修改边界；未运行产品回归。R045原JUnit762pass/0fail/1skip仅作为既有证据读取。Core/SQL/依赖/生产/真实模型变更与调用均0；R045真实Shadow及E12状态不升级。未修改当前现场分支或main。设计建议不是已接受的D系列裁决，不替代现行R045操作手册。
+[指纹] `manifests/nana_future_architecture_vnext1.json` SHA256 = `22b2375c613fb78dd44ffa215a5184d42b8c02c77cf2077f5af9ef80172ad939`；不含自身及引用它的账本。

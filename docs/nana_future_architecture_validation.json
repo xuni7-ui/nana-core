@@ -1,0 +1,39 @@
+{
+  "status": "DESIGN_DOCUMENT_VALIDATED_NOT_IMPLEMENTED",
+  "source_sha": "ef7750e012a1004cbfb9d888319001f0b04154db",
+  "design_branch": "dev/nana-core-future-architecture-astra",
+  "checked_sections": 34,
+  "required_topics_checked": 34,
+  "source_file_fingerprints_verified": 43,
+  "source_anchors_used": 41,
+  "broken_local_links": 0,
+  "source_hash_mismatches": 0,
+  "implementation_changes": 0,
+  "core_changes": 0,
+  "sql_schema_changes": 0,
+  "dependencies_added": 0,
+  "new_product_tests": 0,
+  "product_regression_run_this_turn": false,
+  "existing_R045_evidence": {
+    "passed": 762,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 1,
+    "source": "docs/nana_r045_evidence/full-regression.xml",
+    "verification": "parsed existing JUnit, not re-executed"
+  },
+  "new_architecture_acceptance": "NOT_RUN",
+  "host_binding": "UNVERIFIED",
+  "FIRST_REAL_ASTRBOT_SHADOW": "BLOCKED",
+  "E12": "NOT_RUN",
+  "production_operations": 0,
+  "private_data_read": 0,
+  "production_credentials_read": 0,
+  "real_model_calls": 0,
+  "limitations": [
+    "Whole versioned tree inventoried; architectural critical paths reviewed, not every binary/log/test line.",
+    "Design numeric targets are proposed experimental starting points, not measured runtime guarantees.",
+    "The original standalone Architecture V1 specification is not present; implementation reports, decisions, source, and evidence used.",
+    "No design decisions in this draft grant production access or modify Approved Core."
+  ]
+}

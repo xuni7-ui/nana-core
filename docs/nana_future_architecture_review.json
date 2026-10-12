@@ -1,0 +1,327 @@
+{
+  "design_status": "PROPOSED_NOT_IMPLEMENTED",
+  "source_sha": "ef7750e012a1004cbfb9d888319001f0b04154db",
+  "branch": "dev/nana-core-future-architecture-astra",
+  "scope": "Versioned whole-tree inventory plus architectural critical-path source review; not every binary/log/test line audited. No production/private stores opened.",
+  "tracked_file_count": 697,
+  "core_file_count": 55,
+  "sources": [
+    {
+      "id": "S01",
+      "title": "最新工程事实与真实边界",
+      "path": "PROJECT_BRAIN/09_STATE.md",
+      "line": 606,
+      "sha256": "9af0edc586e2586ce9702a1b6864c8a4f5bc214ed5fba9de2ccf418378c149d5"
+    },
+    {
+      "id": "S02",
+      "title": "五阶段前身、单 Runtime 与生产优先纪律",
+      "path": "PROJECT_BRAIN/07_ROADMAP.md",
+      "line": 57,
+      "sha256": "1bf01dfb01e670418212c503cca51b94053990da4da7cf4393ec2c9046f0fe6a"
+    },
+    {
+      "id": "S03",
+      "title": "人格与独立判断的既有裁决",
+      "path": "PROJECT_BRAIN/10_DECISIONS.md",
+      "line": 8,
+      "sha256": "aa161b5c8953239e909767a55f77eee288acb36984d4463bd6cad1c11baead93"
+    },
+    {
+      "id": "S04",
+      "title": "当前身份创建、数据库与恢复",
+      "path": "src/nana_core/storage/sqlite_store.py",
+      "line": 61,
+      "sha256": "579cb680b749cbebba9d391249ad03251130fbe10b21d0796ec5e530f8e04329"
+    },
+    {
+      "id": "S05",
+      "title": "15 表与一个 live goal / 一个 plan 的真实约束",
+      "path": "src/nana_core/storage/schema_v1.sql",
+      "line": 39,
+      "sha256": "621500b6ba6d970f1c3e12326cf6ce501bcd4c7f5853da915a7d124e10665e4f"
+    },
+    {
+      "id": "S06",
+      "title": "严格但 reading 专用 DTO",
+      "path": "src/nana_core/contracts.py",
+      "line": 27,
+      "sha256": "bc2efceb64b8b80f0eb2284cc598b9a859cb38b7c378c057836e4f19eed4cfc5"
+    },
+    {
+      "id": "S07",
+      "title": "事务记录、原文复制和去重",
+      "path": "src/nana_core/storage/sqlite_store.py",
+      "line": 180,
+      "sha256": "579cb680b749cbebba9d391249ad03251130fbe10b21d0796ec5e530f8e04329"
+    },
+    {
+      "id": "S08",
+      "title": "回放与备份隔离",
+      "path": "src/nana_core/storage/sqlite_store.py",
+      "line": 200,
+      "sha256": "579cb680b749cbebba9d391249ad03251130fbe10b21d0796ec5e530f8e04329"
+    },
+    {
+      "id": "S09",
+      "title": "合成记忆检索与最小冲突判断",
+      "path": "src/nana_core/memory.py",
+      "line": 12,
+      "sha256": "cc50504628ceddf000be140d77171547b22404ef4812a679c1e86082b034f4d3"
+    },
+    {
+      "id": "S10",
+      "title": "reading 驱动、恢复与持久化唤醒",
+      "path": "src/nana_core/runtime.py",
+      "line": 9,
+      "sha256": "f0eaf845772603bb277648a93355d3e4a6ba68bd01fccb22869776e35e688806"
+    },
+    {
+      "id": "S11",
+      "title": "上下文裁剪、固定计划和经验插入",
+      "path": "src/nana_core/planning.py",
+      "line": 6,
+      "sha256": "5bf23e00d85c318eca5859a47fefce916d996e41b6bb2d3f700c86cd8ff436f6"
+    },
+    {
+      "id": "S12",
+      "title": "有限经验、验证与撤回",
+      "path": "src/nana_core/experience.py",
+      "line": 12,
+      "sha256": "023cee6ca7671d99f18a84a1da3c8095c020d9a919b08ab9ed18df08ff81579d"
+    },
+    {
+      "id": "S13",
+      "title": "动作状态机、权限、预算、UNKNOWN",
+      "path": "src/nana_core/actions.py",
+      "line": 6,
+      "sha256": "5ab5fa8bc705d0c8bbbfff01353bfa8bba7875e0480e96ec7c9c403023be71bb"
+    },
+    {
+      "id": "S14",
+      "title": "模型和能力 Ports",
+      "path": "src/nana_core/ports.py",
+      "line": 6,
+      "sha256": "d0be047cce9984c39af149fd6dda2da2b276f3fefb396fdec4a6760ad1144af7"
+    },
+    {
+      "id": "S15",
+      "title": "开发模型端点与响应契约",
+      "path": "src/nana_core/semantic/contracts.py",
+      "line": 10,
+      "sha256": "eab405bbfec3acd72f9da05c02ff6f767312dfd7a9f0cc1351040853aeb7a9d3"
+    },
+    {
+      "id": "S16",
+      "title": "调用账本与 HTTP ModelPort",
+      "path": "src/nana_core/semantic/model_port.py",
+      "line": 16,
+      "sha256": "18a7d6f466bc0232788d7a3abf1b9a6684f12e67aab7cd2ed4f56f57005ec548"
+    },
+    {
+      "id": "S17",
+      "title": "原始提案与独立行为评分/E12",
+      "path": "src/nana_core/semantic/evaluation.py",
+      "line": 8,
+      "sha256": "03de312b57faadd0272c51f4849fee9e16be2fa89caa9c86627409dc7864896b"
+    },
+    {
+      "id": "S18",
+      "title": "模型能力选择，不授予权限",
+      "path": "src/nana_core/semantic/selection.py",
+      "line": 33,
+      "sha256": "363ddc16ef8694337858f0ab266cc44b45a6124f02eed174e89aae5d36fbb3b7"
+    },
+    {
+      "id": "S19",
+      "title": "initiative 是数字评估夹具且只激活 reading",
+      "path": "src/nana_core/initiative.py",
+      "line": 14,
+      "sha256": "e5088a9915ee7c39998240ab54550f3192763def5664c6de8a58a369978ac597"
+    },
+    {
+      "id": "S20",
+      "title": "合成旧记忆信封与导入",
+      "path": "src/nana_core/migration/legacy.py",
+      "line": 12,
+      "sha256": "ba026c14787fe724362bfc5b5f138da2a2da600fc38263a8d3acfbf70d2c9817"
+    },
+    {
+      "id": "S21",
+      "title": "Iris 字段映射与可恢复导入",
+      "path": "src/nana_core/migration/iris.py",
+      "line": 16,
+      "sha256": "0053968416373c83bfd2f681901479cb778001dc379e1ddd688825ba6412fd86"
+    },
+    {
+      "id": "S22",
+      "title": "Iris 锁定源码映射规范",
+      "path": "docs/nana_core_phase3_iris_mapping.md",
+      "line": 27,
+      "sha256": "d38d97366592850ccc4e119c0115074a404b90ff77abb230926c3d30fcf3a161"
+    },
+    {
+      "id": "S23",
+      "title": "单执行方 Router 是模拟/开发域",
+      "path": "src/nana_core/migration/routing.py",
+      "line": 24,
+      "sha256": "10c362d0672c14bec726c4b423b4e34c8cbab18a4480b33c5d0cf44395e8e46b"
+    },
+    {
+      "id": "S24",
+      "title": "执行与记忆 authority 仍为模拟协议",
+      "path": "src/nana_core/integration/authority.py",
+      "line": 26,
+      "sha256": "ce73f5784a210ec16c55c1c62bf6f900e3d227a27d1bfab6903be4e4538842d7"
+    },
+    {
+      "id": "S25",
+      "title": "Shadow draft 和实际 Action 分离",
+      "path": "src/nana_core/integration/shadow.py",
+      "line": 29,
+      "sha256": "efb9f337269cf93d37cee0cea040c20fcfb2133664c2225157e44ead023c8ecc"
+    },
+    {
+      "id": "S26",
+      "title": "宿主能力是 catalogue / 默认禁用",
+      "path": "src/nana_core/integration/capabilities.py",
+      "line": 18,
+      "sha256": "4e1fa8c656ad65858b225774298a842fffd03c2254001acfe9b2d9373ba718b8"
+    },
+    {
+      "id": "S27",
+      "title": "受控开发能力仅 literal patch / 固定 AST runner",
+      "path": "src/nana_core/integration/engineering.py",
+      "line": 40,
+      "sha256": "89f889f9c4c819a04cfc2510e4bc9510bc68cd946c7ecab908a68e4db7cb40fe"
+    },
+    {
+      "id": "S28",
+      "title": "metadata-only OneShotReceipt",
+      "path": "tools/nana_astrbot_shadow/one_shot.py",
+      "line": 49,
+      "sha256": "1272f4c057014f398366822cfcd2ade232ccb789669d727004c30d4a97641527"
+    },
+    {
+      "id": "S29",
+      "title": "Store binding 与单次原子消费",
+      "path": "tools/nana_astrbot_shadow/one_shot.py",
+      "line": 124,
+      "sha256": "1272f4c057014f398366822cfcd2ade232ccb789669d727004c30d4a97641527"
+    },
+    {
+      "id": "S30",
+      "title": "source seal 与 runtime proof 分离",
+      "path": "tools/nana_astrbot_shadow/onboarding.py",
+      "line": 145,
+      "sha256": "111fc5e016ffd99e1d4680f75725cdfa1a9e774cf783eefb4162bc7c4a45da9f"
+    },
+    {
+      "id": "S31",
+      "title": "默认生产 trust EMPTY",
+      "path": "tools/nana_astrbot_shadow/sealed_trust.py",
+      "line": 7,
+      "sha256": "809b24cd7a3846146821a81a66a92c2625d67ef654f8b97596c73e8e63ed2544"
+    },
+    {
+      "id": "S32",
+      "title": "有界隔离 worker",
+      "path": "tools/nana_astrbot_shadow/bridge_worker.py",
+      "line": 22,
+      "sha256": "62345885df4fde6908cf589794c4c5631ac94551ad31c8f0973211fd1991ff97"
+    },
+    {
+      "id": "S33",
+      "title": "真实 hook 覆盖有限，框架保证≠adapter纪律",
+      "path": "PROJECT_BRAIN/03_config_runtime.md",
+      "line": 80,
+      "sha256": "d07264d63b9b0da347f294f0ef9bb2c26fae67b37b9a00f733c90d80ab92d522"
+    },
+    {
+      "id": "S34",
+      "title": "Iris Semantic Gate 是检索策略",
+      "path": "materials/iris_customizations/NEW_FILES/semantic_gate.py",
+      "line": 165,
+      "sha256": "7eda670c21292726e53373a6e0e9245a574200cad572ce3ebd4268e3ea3dd0e4"
+    },
+    {
+      "id": "S35",
+      "title": "Iris 流水截断/保留期限",
+      "path": "materials/iris_customizations/NEW_FILES/conversation_flow.py",
+      "line": 44,
+      "sha256": "0fa5a1e81476e31fbff44cf56ad378fc23c4e9ae736a547db70118ed5d9e794c"
+    },
+    {
+      "id": "S36",
+      "title": "旧 B站发送仍有回包自证快路径",
+      "path": "src/bili_agent/bili_send_core.py",
+      "line": 316,
+      "sha256": "13757f13208b1dd08771afe49fa16b34426707c6e17cca8e7d4a405fb5616e2c"
+    },
+    {
+      "id": "S37",
+      "title": "旧 B站事件泵重放限制",
+      "path": "src/bili_agent/bili_event_pump.py",
+      "line": 140,
+      "sha256": "b2bbafba71db0d1e98302738d2d7bac71db3ccb45ec05b857c069f09b647b2d5"
+    },
+    {
+      "id": "S38",
+      "title": "许可证与派生边界",
+      "path": "LICENSES_AND_PROVENANCE.md",
+      "line": 5,
+      "sha256": "22d2e8c1c93c713a0b5602bd69a0a0ccc8922ff123a7169ab257f899559b2ed3"
+    },
+    {
+      "id": "S39",
+      "title": "R045 回归与包证据",
+      "path": "docs/nana_r045_evidence/final-summary.json",
+      "line": 1,
+      "sha256": "4d1a638a6531a07285933d8e57871187a4e220d7a8a8860314d1f5319c4a2e6f"
+    },
+    {
+      "id": "S40",
+      "title": "R044 风险、恢复与测试证据",
+      "path": "docs/nana_r044_evidence/final-summary.json",
+      "line": 1,
+      "sha256": "8c39cc017744ee8e4cd29a6276fc5b257f89dfc798f29185d9684cdba2e75c8d"
+    },
+    {
+      "id": "S41",
+      "title": "源码/宿主对照与已知 inode 环境差异",
+      "path": "docs/nana_r045_merge.md",
+      "line": 1,
+      "sha256": "4a89d13d7c704e38ca51f929dfd5b7d61ea6505ba8b98bd343389b139d92849b"
+    },
+    {
+      "id": "S42",
+      "title": "独立执行回执与结构化协作边界",
+      "path": "bridge/codex_bridge.py",
+      "line": 40,
+      "sha256": "d0d8b6585c4e6db209b71159c76c945c823afc49c6037f88ece6c466933d7eb8"
+    },
+    {
+      "id": "S43",
+      "title": "时间解析和单调时钟",
+      "path": "src/nana_core/clock.py",
+      "line": 6,
+      "sha256": "2b698b496aad23225c2b54115a7789ad1c0acb1d77d34f673bfee8e09c2dc982"
+    }
+  ],
+  "regression_evidence": {
+    "docs/nana_r045_evidence/full-regression.xml": {
+      "tests": "763",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "1",
+      "time": "147.667"
+    },
+    "docs/nana_r044_evidence/full-regression.xml": {
+      "tests": "763",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "1",
+      "time": "94.238"
+    }
+  }
+}
