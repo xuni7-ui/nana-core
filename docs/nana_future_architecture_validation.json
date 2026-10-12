@@ -35,5 +35,9 @@
     "Design numeric targets are proposed experimental starting points, not measured runtime guarantees.",
     "The original standalone Architecture V1 specification is not present; implementation reports, decisions, source, and evidence used.",
     "No design decisions in this draft grant production access or modify Approved Core."
+  ],
+  "document_check_history": [
+    "Initial staged diff check found one extra blank line at source-index EOF; document content checks passed.",
+    "EOF whitespace corrected; final staged diff check required before follow-up commit."
   ]
 }

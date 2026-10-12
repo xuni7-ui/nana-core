@@ -9,16 +9,16 @@
       "bytes": 104499
     },
     "docs/nana_future_architecture_sources.md": {
-      "sha256": "6f04dc674eee8df973cffe290eba85a9eb55a449b2ea6b36f0256ef05dcd3a95",
-      "bytes": 10608
+      "sha256": "6e0bea68983b5ca2b0eb318b11901aa29f906a8066193e33da4df78fd66bf14d",
+      "bytes": 10607
     },
     "docs/nana_future_architecture_review.json": {
       "sha256": "d0f7ac34fc8caaa248cd26d1395dbf9c889fe76fc4df8abab32860f963d98758",
       "bytes": 11075
     },
     "docs/nana_future_architecture_validation.json": {
-      "sha256": "0d80973db9971ff073e2f638cd9f4082cfaf2dd1774a4e1ab8579e69021c690f",
-      "bytes": 1501
+      "sha256": "564464d4f6651c8e7b7d2f255ee6362c4a4c3680057212bcb2f42828092884ba",
+      "bytes": 1739
     }
   },
   "excluded": [
