@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.236" timestamp="2026-10-12T12:41:07.862996+00:00" hostname="d4cc58f28ba5"><testcase classname="tests.nana_shadow.test_r044_failures" name="test_atomic_publication_never_exposes_two_link_configuration" time="0.003"><failure message="AssertionError: PUBLISHED_CONFIGURATION_HAS_TWO_LINKS&#10;assert 2 == 1&#10; +  where 2 = os.stat_result(st_mode=33152, st_ino=54332, st_dev=33, st_nlink=2, st_uid=1000, st_gid=1000, st_size=19, st_atime=1791808868, st_mtime=1791808868, st_ctime=1791808868).st_nlink">tests/nana_shadow/test_r044_failures.py:92: in test_atomic_publication_never_exposes_two_link_configuration
+    fence.write('client.json',{'synthetic':True})
+tools/nana_astrbot_shadow/bridge_wire.py:266: in write
+    st=self.entry(name);self.owned[name]=(st.st_dev,st.st_ino)
+       ^^^^^^^^^^^^^^^^
+tests/nana_shadow/test_r044_failures.py:89: in inspect
+    if name=='client.json':assert st.st_nlink==1,'PUBLISHED_CONFIGURATION_HAS_TWO_LINKS'
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   AssertionError: PUBLISHED_CONFIGURATION_HAS_TWO_LINKS
+E   assert 2 == 1
+E    +  where 2 = os.stat_result(st_mode=33152, st_ino=54332, st_dev=33, st_nlink=2, st_uid=1000, st_gid=1000, st_size=19, st_atime=1791808868, st_mtime=1791808868, st_ctime=1791808868).st_nlink</failure></testcase></testsuite></testsuites>

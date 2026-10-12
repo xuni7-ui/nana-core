@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.554" timestamp="2026-10-12T12:35:06.840479+00:00" hostname="d4cc58f28ba5"><testcase classname="tests.nana_shadow.test_r044_failures" name="test_stale_cleanup_rejects_changed_capability_not_just_same_session" time="0.349"><failure message="Failed: DID NOT RAISE ValueError">tests/nana_shadow/test_r044_failures.py:75: in test_stale_cleanup_rejects_changed_capability_not_just_same_session
+    with pytest.raises(ValueError,match='CLIENT.*DRIFT'):cli.stale_cleanup(root,ipc)
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   Failed: DID NOT RAISE ValueError</failure></testcase></testsuite></testsuites>

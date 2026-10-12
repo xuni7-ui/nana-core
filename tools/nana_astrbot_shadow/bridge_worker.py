@@ -50,6 +50,7 @@ class ShortLivedWorker:
         from .one_shot_cli import operator_ledger
         if type(self.trust) is ProductionTrustStore:
             with operator_ledger(self.directory) as l:
+                l._execution_seal()
                 r,v=l.record(self.rid)
                 if l.store.one('core_meta','r041.receipt_session:'+self.rid):raise ValueError('BRIDGE_SESSION_REPLAY')
                 if v['state']!='ARMED' or not l._review_valid(r,v['review']):raise ValueError('BRIDGE_RECEIPT_NOT_ARMED_TRUSTED')
@@ -210,7 +211,8 @@ class ShortLivedWorker:
     def _publish_on_writer(self):
         l=self._sink.ledger();key='r041.receipt_session:'+self.rid
         value=json.loads(l.store.one('core_meta',key)['value_json'])
-        value.update(phase='BOUND',socket_device=self.config['socket_device'],socket_inode=self.config['socket_inode'])
+        value.update(phase='BOUND',socket_device=self.config['socket_device'],socket_inode=self.config['socket_inode'],
+                     client_config_digest=sha(self.config))
         with l.store.transaction('r041.session_bound',{'session_id':self.config['session_id']}) as tx:
             tx.put('core_meta',{'key':key,'value_json':canonical(value)})
 
@@ -225,7 +227,8 @@ class ShortLivedWorker:
                 'store_binding':l.binding,'phase':'CLOSED','expires_at':self.config['expires_at'],
                 'pid':self.config['server_pid'],'pid_fingerprint':self.config['server_fingerprint'],'ipc_hash':sha(str(self.ipc)),
                 'ipc_device':self._ipc_directory_identity[0],'ipc_inode':self._ipc_directory_identity[1],
-                'socket_device':self.config['socket_device'],'socket_inode':self.config['socket_inode']})})
+                'socket_device':self.config['socket_device'],'socket_inode':self.config['socket_inode'],
+                'client_config_digest':sha(self.config)})})
         return {'status':verdict['status'],'proof':report,'verification':verdict,'receipt':l.status(self.rid),
                 'session_id':self.config['session_id'],'frames_seen':self.attempts,
                 'external_execute':False,'host_binding':'UNVERIFIED','real_host_bridge':'NOT_RUN','E12':'NOT_RUN'}

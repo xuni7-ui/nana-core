@@ -6,12 +6,13 @@ import os
 from pathlib import Path
 import signal
 import re
-from datetime import datetime,timezone
+from datetime import datetime,timezone,timedelta
 import socket
 import stat
 from .bridge_wire import private_directory,process_fingerprint,sha,stamp,install_process_deadline,DirectoryFence,canonical
 from .one_shot_cli import operator_ledger,_SafeParser
-from .one_shot import PRODUCTION_REVIEW_PINS
+from .one_shot import PRODUCTION_REVIEW_PINS,ProductionTrustStore,utc
+from . import sealed_trust
 from .bridge_worker import ShortLivedWorker
 from tools.nana_host_shadow.safety import read_json,private_file
 
@@ -43,7 +44,7 @@ def session_status(ipc):
     return {**row,'worker_alive':live,'effective_state':row['phase'] if live or row['phase']=='CLOSED' else 'UNKNOWN_WORKER_EXIT'}
 
 
-def verified_session(directory,ipc):
+def verified_session(directory,ipc,*,with_fence=False):
     row=session_status(ipc)
     with operator_ledger(directory) as l:
         r,v=l.record(row['receipt_id'])
@@ -65,7 +66,7 @@ def verified_session(directory,ipc):
             or value['pid']!=row['pid'] or value['pid_fingerprint']!=row['pid_fingerprint']
             or value['ipc_hash']!=sha(str(private_directory(ipc)))
             or value.get('socket_device')!=row['socket_device'] or value.get('socket_inode')!=row['socket_inode']):raise ValueError('BRIDGE_SESSION_FENCE_DRIFT')
-    return row
+    return (row,value) if with_fence else row
 
 def stop(directory,ipc):
     row=verified_session(directory,ipc)
@@ -82,22 +83,37 @@ def stop(directory,ipc):
 def stale_cleanup(directory,ipc):
     ipc=private_directory(ipc)
     with DirectoryFence(ipc) as fence:
-        row=verified_session(directory,ipc)
+        row,journal=verified_session(directory,ipc,with_fence=True)
         if row['worker_alive']:raise ValueError('BRIDGE_LIVE_CLEANUP_BLOCKED')
-        try:st=fence.entry('bridge.sock')
-        except FileNotFoundError:st=None
-        if st is not None:
-            if (not stat.S_ISSOCK(st.st_mode) or stat.S_IMODE(st.st_mode)!=0o600 or st.st_uid!=os.getuid()
-                or (st.st_dev,st.st_ino)!=(row['socket_device'],row['socket_inode'])):raise ValueError('BRIDGE_STALE_SOCKET_DRIFT')
-            fence.unlink_owned('bridge.sock',(st.st_dev,st.st_ino))
-        try:st=fence.entry('client.json')
-        except FileNotFoundError:st=None
-        if st is not None:
-            from .bridge_wire import decode_config
-            c=decode_config(fence.read('client.json',8192))
-            if c['session_id']!=row['session_id'] or c['server_fingerprint']!=row['pid_fingerprint']:raise ValueError('BRIDGE_STALE_CLIENT_DRIFT')
-            fence.unlink_owned('client.json',(st.st_dev,st.st_ino))
-    return {'status':'STALE_EPHEMERALS_REMOVED','receipt_rearmed':False,'store_modified':False,'evidence_preserved':True}
+        expected=journal.get('client_config_digest')
+        if type(expected) is not str or not re.fullmatch('[0-9a-f]{64}',expected):raise ValueError('BRIDGE_CLIENT_FENCE_MISSING')
+        owned=[];unresolved=0
+        # Fixed known names plus our atomic-detach tombstones. No arbitrary paths.
+        names=['bridge.sock','client.json']+[n for n in os.listdir(fence.fd) if re.fullmatch(r'\.fence-[0-9a-f]{32}',n)]
+        for name in names:
+            try:st=fence.entry(name)
+            except FileNotFoundError:continue
+            if stat.S_ISSOCK(st.st_mode):
+                if ((st.st_dev,st.st_ino)!=(row['socket_device'],row['socket_inode'])
+                    or st.st_uid!=os.getuid() or stat.S_IMODE(st.st_mode)!=0o600):
+                    if name=='bridge.sock':raise ValueError('BRIDGE_STALE_SOCKET_DRIFT')
+                    unresolved+=1;continue
+                owned.append((name,(st.st_dev,st.st_ino)))
+            elif name=='client.json' or name.startswith('.fence-'):
+                from .bridge_wire import decode_config
+                try:c=decode_config(fence.read(name,8192))
+                except (ValueError,OSError):
+                    if name=='client.json':raise ValueError('BRIDGE_STALE_CLIENT_DRIFT') from None
+                    unresolved+=1;continue
+                if sha(c)!=expected:
+                    if name=='client.json':raise ValueError('BRIDGE_STALE_CLIENT_DRIFT')
+                    unresolved+=1;continue
+                owned.append((name,(st.st_dev,st.st_ino)))
+            else:raise ValueError('BRIDGE_STALE_SOCKET_DRIFT')
+        # Validate ALL before first deletion; wrong client sidecar changes nothing.
+        for name,identity in owned:fence.unlink_owned(name,identity)
+    return {'status':'STALE_EPHEMERALS_REMOVED' if not unresolved else 'UNKNOWN_NEEDS_REVIEW',
+            'unresolved_ephemerals':unresolved,'receipt_rearmed':False,'store_modified':False,'evidence_preserved':True}
 
 
 def preflight(directory,rid,client_pid):
@@ -106,9 +122,13 @@ def preflight(directory,rid,client_pid):
     private_directory(directory);process_fingerprint(client_pid)
     with operator_ledger(directory) as l:
         r,v=l.record(rid)
-        result.update(receipt_state=v['state'],receipt_expires_at=r.expires_at,exact_store_binding=r.store_binding==l.binding,
+        now=datetime.now(timezone.utc)
+        live=utc(r.issued_at)<=now+timedelta(seconds=2) and now<utc(r.expires_at)
+        result.update(receipt_live=live,source_seal_executable=sealed_trust.SEAL_MODE=='ONE_SHOT',
+            operator_domain_is_production=type(l.trust) is ProductionTrustStore,receipt_state=v['state'],receipt_expires_at=r.expires_at,exact_store_binding=r.store_binding==l.binding,
             receipt_trusted=l._review_valid(r,v['review']),session_fence_exists=l.store.one('core_meta','r041.receipt_session:'+rid) is not None)
-        if (result['receipt_trusted'] and v['state']=='ARMED' and not result['session_fence_exists']
+        if (result['receipt_live'] and result['source_seal_executable'] and result['operator_domain_is_production']
+            and result['receipt_trusted'] and v['state']=='ARMED' and not result['session_fence_exists']
             and result['linux_peercred'] and result['pidfd']):result['status']='READY'
     return result
 

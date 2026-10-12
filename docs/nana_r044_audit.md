@@ -128,3 +128,40 @@ message then close; no second frame executes or creates ingress. No generic RPC.
 Actual kernel PID reuse is NOT forced; injected start-time mismatch and original
 actual foreign-process/SIGKILL tests exercise the comparison. Do not claim a
 kernel PID-allocator stress result which was not run.
+
+## C4: capability ownership / publication / readiness and crash qualification
+
+LOW pre-existing cleanup finding: same-session client.json with altered hash key
+was accepted for deletion. Preserved failure, then Store BOUND/CLOSED journal pins
+only client_config_digest (no key/nonce), cleanup validates complete digest before
+ANY deletion. Descriptor cleanup can recover matching detach tombstones; unknown
+conflicts preserved/UNKNOWN_NEEDS_REVIEW. Pre-existing sessions missing new journal
+fields intentionally BLOCKED, never guessed/rearmed.
+
+MEDIUM R044-introduced-and-fixed finding: hardlink atomic publish briefly exposed
+nlink2; a reader observing client.json could fail strict readiness. Preserved
+failure, replaced with fixed Linux renameat2(NOREPLACE) (stdlib ctypes, no new
+dependency/generic RPC). Unsupported platform fails closed; no unsafe fallback.
+
+LOW pre-existing readiness diagnostic: preflight could report READY for expired
+or VERIFY_ONLY reviewed/ARMED snapshot. Preserved counterfactual snapshot tests
+(no production pin). Preflight explicitly checks UTC live window, production
+trust domain and executable ONE_SHOT source seal; Production worker independently
+rejects non-executable seal before reservation. Actual consume/arm already had
+D-046/R042 hard gates; no consume permission bypass demonstrated.
+
+Actual32 OS SIGKILL points: init/binding/receipt create/review/arm/session reserve/
+bind/sidecar publish/frame/consume transaction/Evidence/Core complete/cleanup/
+unlink/verify/close commits. Each uses another independent read-only process;
+classification SAFE_RETRY / TERMINAL_CONSUMED / UNKNOWN_NEEDS_REVIEW / BLOCKED.
+No auto rearm/retry; partial unpublished session is UNKNOWN, not permission to
+unlink unverifiable objects. Source counts/identity/JSON/zero-action checks PASS.
+25 time/trust tests PASS (UTC/skew/high-water/reopen/tamper, no production minting).
+
+Soak on pre-C4 worker version:1000 fixture API-worker cycles,10000 rejected frames,
+1000 create/disarm in20.696sec. FD4->4, thread1->1, RSS33808384->37785600 bytes,
+0 owned sockets/caps/held leases/temp dirs. /proc/task/children unavailable: global
+child observation UNKNOWN, not falsely0; this API soak spawns0 subprocess workers.
+New actual-process lifecycle test and final-code repeat follow. Fixed bugs so far
+have no demonstrated duplicate ingress or real reply; all product changes stay
+outside approved Core and Brain09/10/11.

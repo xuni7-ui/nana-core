@@ -246,6 +246,18 @@ class DirectoryFence:
         self.owned.pop(name,None)
         return True
 
+    def _publish(self,temporary,name):
+        # Linux-only fixed renameat2(NOREPLACE). A hardlink publish briefly has
+        # nlink2 and can be observed/rejected as readiness by another process.
+        import ctypes
+        libc=ctypes.CDLL(None,use_errno=True)
+        call=getattr(libc,'renameat2',None)
+        if call is None:raise ValueError('WIRE_ATOMIC_PUBLISH_UNAVAILABLE')
+        call.argtypes=(ctypes.c_int,ctypes.c_char_p,ctypes.c_int,ctypes.c_char_p,ctypes.c_uint)
+        call.restype=ctypes.c_int
+        if call(self.fd,temporary.encode(),self.fd,name.encode(),1)!=0:
+            raise OSError(ctypes.get_errno(),'WIRE_ATOMIC_PUBLISH')
+
     def write(self,name,value,*,replace=False):
         import secrets
         self.check();name=self._name(name)
@@ -262,7 +274,7 @@ class DirectoryFence:
                 if expected is None:raise ValueError('WIRE_ENTRY_NOT_OWNED')
                 detached=self._detach(name,expected)
             # Never overwrite an object which appeared during construction.
-            os.link(temporary,name,src_dir_fd=self.fd,dst_dir_fd=self.fd,follow_symlinks=False)
+            self._publish(temporary,name)
             st=self.entry(name);self.owned[name]=(st.st_dev,st.st_ino)
             if detached:os.unlink(detached,dir_fd=self.fd)
             os.fsync(self.fd)

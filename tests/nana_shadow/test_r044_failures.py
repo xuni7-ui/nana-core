@@ -58,3 +58,55 @@ def test_client_capability_is_published_only_after_session_metadata(tmp_path,mon
         await w.serve()
     asyncio.run(run())
     assert seen==[True]
+
+
+def test_stale_cleanup_rejects_changed_capability_not_just_same_session(tmp_path,monkeypatch):
+    from test_r041_crash import launch,wait_file
+    from r044_helpers import fixture_view
+    from tools.nana_astrbot_shadow.bridge_wire import load_config
+    import tools.nana_astrbot_shadow.bridge_cli as cli
+    from tools.nana_host_shadow.safety import private_file
+    root,ipc,r,raw=fixture(tmp_path);p=launch(root,ipc,r.receipt_id,'never',tmp_path/'none')
+    try:
+        wait_file(p,ipc/'client.json');p.kill();p.wait(5);p.communicate(timeout=5)
+        c=load_config(ipc/'client.json');c['hash_key']='0'*64
+        private_file(ipc/'client.json',c,replace=True)
+        monkeypatch.setattr(cli,'operator_ledger',fixture_view)
+        with pytest.raises(ValueError,match='CLIENT.*DRIFT'):cli.stale_cleanup(root,ipc)
+        assert (ipc/'client.json').exists()
+    finally:
+        if p.poll() is None:p.kill();p.wait(5)
+        p.communicate(timeout=5)
+
+
+def test_atomic_publication_never_exposes_two_link_configuration(tmp_path,monkeypatch):
+    from tools.nana_astrbot_shadow.bridge_wire import DirectoryFence
+    d=tmp_path/'private';d.mkdir(mode=0o700)
+    with DirectoryFence(d) as fence:
+        original=fence.entry
+        def inspect(name):
+            st=original(name)
+            if name=='client.json':assert st.st_nlink==1,'PUBLISHED_CONFIGURATION_HAS_TWO_LINKS'
+            return st
+        monkeypatch.setattr(fence,'entry',inspect)
+        fence.write('client.json',{'synthetic':True})
+        assert (d/'client.json').stat().st_nlink==1
+
+
+@pytest.mark.parametrize('case',['verify_only','expired'])
+def test_preflight_never_reports_ready_for_readonly_or_expired_authorization(tmp_path,monkeypatch,case):
+    from r044_helpers import fixture_view
+    from tools.nana_astrbot_shadow import sealed_trust
+    import tools.nana_astrbot_shadow.bridge_cli as cli
+    from datetime import datetime,timezone,timedelta
+    root,ipc,r,raw=fixture(tmp_path)
+    # Counterfactual trusted snapshot only: no production pin is injected.
+    monkeypatch.setattr(cli,'operator_ledger',fixture_view)
+    monkeypatch.setattr(sealed_trust,'SEAL_MODE','VERIFY_ONLY' if case=='verify_only' else 'ONE_SHOT')
+    if case=='expired':
+        class FutureClock:
+            @staticmethod
+            def now(tz):return datetime.fromisoformat(r.expires_at)+timedelta(microseconds=1)
+        monkeypatch.setattr(cli,'datetime',FutureClock)
+    result=cli.preflight(root,r.receipt_id,os.getpid())
+    assert result['status']=='BLOCKED'
