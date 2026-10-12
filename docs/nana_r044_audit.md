@@ -70,3 +70,41 @@ corrected to inspect actual module-level/extractor client path, preserving the
 prior subprocess forbidden-import guard. This was a test-scope error, not removal
 of an executable client dependency check. Ordinary/isolated child flags and
 absolute executable corrected in temporary development launcher; no Core edits.
+
+## C2: directory / unlink / readiness fence fixes
+
+Original detached R042 baseline:543passed/0failed/1E12skip (actual privateSQLite
+3.51.3). Production/main/PROJECT_BRAIN untouched. Directory replacement regression
+fixed using original inode identity + retained directory FD. Socket bind and
+sidecar read/write/cleanup are descriptor-relative; no symlink traversal. Atomic
+publication and inode-aware detach-before-delete preserve unrelated replacements.
+Client independently fences config directory/socket before and after connect;
+constructor failures/close release its FD. Store journal now records IPC directory
+identity; stale cleanup refuses directory copy/substitution. Wire module copies
+remain byte-identical (protocol fields unchanged, implementation fingerprint new).
+
+Also found/fixed MEDIUM startup publication race: client.json existed before
+session.json. A crash at that instant made ownership cleanup unprovable. Preserved
+failure then publish client capability LAST, after journal/socket/session proof.
+The result-write fault injection now targets explicit sidecar write boundary
+instead of old private_file helper; SAME cleanup assertions retained.
+
+Evidence:43 existing/new bridge/fault/crash tests and46 filesystem/protocol tests
+PASS. Short failure traces/redacted intentional-failure XML are published: pytest
+verbose failure renderer can include synthetic test capability locals, unlike
+production fixed diagnostics. Redacted all long test hex from the pre-fix
+publication failure report; never deliver raw private fixture capability files.
+Root/authorized-PID memory modification and raw whole-DB clone are not claimed
+protected. Arbitrary DB filename race by a privileged same-UID filesystem writer
+is not made atomic by unchanged Core SQLite VFS; IPC descriptor fence does not
+invent that guarantee. Core remains unchanged.
+
+## C3 pending supply-chain findings (tests preserved before fixes)
+
+LOW: integrity enumeration ignores dangling symlink/FIFO extra entries.
+HIGH (permission-drift condition): verification accepts group/world-writable
+package code/manifest/root, permitting other local users to race verified imports.
+Default delivered permissions were not writable; gate lacked explicit rejection.
+LOW: Git review reader accepts mode120000 symlink blob if its bytes are canonical
+JSON. No real authorization minted; human reviewed source boundary remains.
+Six failing assertions preserved in supply-failures.xml; no success claim yet.

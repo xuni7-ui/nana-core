@@ -9,7 +9,7 @@ import re
 from datetime import datetime,timezone
 import socket
 import stat
-from .bridge_wire import private_directory,process_fingerprint,sha,stamp,install_process_deadline
+from .bridge_wire import private_directory,process_fingerprint,sha,stamp,install_process_deadline,DirectoryFence,canonical
 from .one_shot_cli import operator_ledger,_SafeParser
 from .one_shot import PRODUCTION_REVIEW_PINS
 from .bridge_worker import ShortLivedWorker
@@ -18,7 +18,10 @@ from tools.nana_host_shadow.safety import read_json,private_file
 
 def session_status(ipc):
     ipc=private_directory(ipc)
-    row=read_json(ipc/'session.json')
+    with DirectoryFence(ipc) as fence:
+        raw=fence.read('session.json',65536)
+    row=json.loads(raw)
+    if (canonical(row)+'\n').encode()!=raw:raise ValueError('BRIDGE_SESSION_CANONICAL')
     if type(row) is not dict or set(row)!={'schema_version','session_id','receipt_id','store_binding','pid','pid_fingerprint','uid',
         'socket_device','socket_inode','socket_path','expires_at','trust_domain','phase','host_binding','real_host_bridge','E12'}:
         raise ValueError('BRIDGE_SESSION_METADATA')
@@ -55,6 +58,9 @@ def verified_session(directory,ipc):
         if journal!=fence['value_json']:raise ValueError('BRIDGE_SESSION_PROJECTION_CORRUPT')
         value=json.loads(fence['value_json'])
         # A forged sidecar cannot turn stop into an arbitrary PID signal.
+        st=private_directory(ipc).stat()
+        if (value.get('ipc_device'),value.get('ipc_inode'))!=(st.st_dev,st.st_ino):
+            raise ValueError('BRIDGE_DIRECTORY_FENCE_DRIFT')
         if (value['session_id']!=row['session_id'] or value['store_binding']!=l.binding
             or value['pid']!=row['pid'] or value['pid_fingerprint']!=row['pid_fingerprint']
             or value['ipc_hash']!=sha(str(private_directory(ipc)))
@@ -74,20 +80,23 @@ def stop(directory,ipc):
 
 
 def stale_cleanup(directory,ipc):
-    ipc=private_directory(ipc);row=verified_session(directory,ipc)
-    if row['worker_alive']:raise ValueError('BRIDGE_LIVE_CLEANUP_BLOCKED')
-    path=ipc/'bridge.sock'
-    if path.exists():
-        st=path.lstat()
-        if (not stat.S_ISSOCK(st.st_mode) or stat.S_IMODE(st.st_mode)!=0o600 or st.st_uid!=os.getuid()
-            or (st.st_dev,st.st_ino)!=(row['socket_device'],row['socket_inode'])):raise ValueError('BRIDGE_STALE_SOCKET_DRIFT')
-        path.unlink()
-    client=ipc/'client.json'
-    if client.exists():
-        from .bridge_wire import load_config
-        c=load_config(client)
-        if c['session_id']!=row['session_id'] or c['server_fingerprint']!=row['pid_fingerprint']:raise ValueError('BRIDGE_STALE_CLIENT_DRIFT')
-        client.unlink()
+    ipc=private_directory(ipc)
+    with DirectoryFence(ipc) as fence:
+        row=verified_session(directory,ipc)
+        if row['worker_alive']:raise ValueError('BRIDGE_LIVE_CLEANUP_BLOCKED')
+        try:st=fence.entry('bridge.sock')
+        except FileNotFoundError:st=None
+        if st is not None:
+            if (not stat.S_ISSOCK(st.st_mode) or stat.S_IMODE(st.st_mode)!=0o600 or st.st_uid!=os.getuid()
+                or (st.st_dev,st.st_ino)!=(row['socket_device'],row['socket_inode'])):raise ValueError('BRIDGE_STALE_SOCKET_DRIFT')
+            fence.unlink_owned('bridge.sock',(st.st_dev,st.st_ino))
+        try:st=fence.entry('client.json')
+        except FileNotFoundError:st=None
+        if st is not None:
+            from .bridge_wire import decode_config
+            c=decode_config(fence.read('client.json',8192))
+            if c['session_id']!=row['session_id'] or c['server_fingerprint']!=row['pid_fingerprint']:raise ValueError('BRIDGE_STALE_CLIENT_DRIFT')
+            fence.unlink_owned('client.json',(st.st_dev,st.st_ino))
     return {'status':'STALE_EPHEMERALS_REMOVED','receipt_rearmed':False,'store_modified':False,'evidence_preserved':True}
 
 
@@ -133,7 +142,9 @@ def main(argv=None):
         elif a.command=='stop':r=stop(a.directory,a.ipc_directory)
         elif a.command=='cleanup':r=stale_cleanup(a.directory,a.ipc_directory)
         elif a.command in ('collect','verify'):
-            report=read_json(private_directory(a.ipc_directory)/'result.json')
+            with DirectoryFence(a.ipc_directory) as fence:raw=fence.read('result.json',65536)
+            report=json.loads(raw)
+            if (canonical(report)+'\n').encode()!=raw:raise ValueError('BRIDGE_RESULT_CANONICAL')
             from .one_shot_proof import verify_first_real_message_shadow
             with operator_ledger(a.directory) as l:
                 verdict=verify_first_real_message_shadow(report.get('proof'),l)

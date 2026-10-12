@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.243" timestamp="2026-10-12T12:09:21.927483+00:00" hostname="d4cc58f28ba5"><testcase classname="tests.nana_shadow.test_r044_failures" name="test_client_capability_is_published_only_after_session_metadata" time="0.023"><failure message="AssertionError: CLIENT_CAPABILITY_BEFORE_SESSION_PROOF&#10;assert False">tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-7/test_client_capability_is_publ0')
+monkeypatch = &lt;_pytest.monkeypatch.MonkeyPatch object at 0x7ff10e777800&gt;
+
+    def test_client_capability_is_published_only_after_session_metadata(tmp_path,monkeypatch):
+        root,ipc,r,raw=fixture(tmp_path)
+        original=ShortLivedWorker._write_sidecar
+        seen=[]
+        def write(self,name,*args,**kwargs):
+            if name=='client.json':
+                seen.append((ipc/'session.json').is_file())
+                assert seen[-1], 'CLIENT_CAPABILITY_BEFORE_SESSION_PROOF'
+            return original(self,name,*args,**kwargs)
+        monkeypatch.setattr(ShortLivedWorker,'_write_sidecar',write)
+        async def run():
+            w=ShortLivedWorker(root,ipc,r.receipt_id,client_pid=os.getpid(),seconds=.03,trust=FixtureTrustStore())
+            await w.serve()
+&gt;       asyncio.run(run())
+
+tests/nana_shadow/test_r044_failures.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:195: in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/runners.py:118: in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/asyncio/base_events.py:691: in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+tests/nana_shadow/test_r044_failures.py:58: in run
+    await w.serve()
+tools/nana_astrbot_shadow/bridge_worker.py:126: in serve
+    self._write_sidecar('client.json',self.config)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = &lt;tools.nana_astrbot_shadow.bridge_worker.ShortLivedWorker object at 0x7ff10ee3a8d0&gt;
+name = 'client.json'
+args = ({'schema_version': 1, 'session_id': '[REDACTED_SYNTHETIC_TEST_HEX]', 'session_nonce': '[REDACTED_SYNTHETIC_TEST_HEX]...[REDACTED_SYNTHETIC_TEST_HEX]', 'store_binding': '[REDACTED_SYNTHETIC_TEST_HEX]', ...},)
+kwargs = {}
+
+    def write(self,name,*args,**kwargs):
+        if name=='client.json':
+            seen.append((ipc/'session.json').is_file())
+&gt;           assert seen[-1], 'CLIENT_CAPABILITY_BEFORE_SESSION_PROOF'
+E           AssertionError: CLIENT_CAPABILITY_BEFORE_SESSION_PROOF
+E           assert False
+
+tests/nana_shadow/test_r044_failures.py:53: AssertionError</failure></testcase></testsuite></testsuites>
