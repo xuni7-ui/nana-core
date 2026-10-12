@@ -69,3 +69,19 @@ def test_git_commit_pins_old_bytes_despite_dirty_worktree_and_new_commit(tmp_pat
     assert source_review(repo,one,'reviews/r042/synthetic.json')=={'origin':'FIXTURE','revision':1}
     assert source_review(repo,two,'reviews/r042/synthetic.json')=={'origin':'FIXTURE','revision':2}
     # SHA substitution changes actual pinned bytes. Human approved SHA is external.
+
+@pytest.mark.parametrize('attack',['duplicate','traversal','absolute','symlink','hardlink','newline','writable','two_roots'])
+def test_archive_inventory_rejects_unsafe_members_before_extraction(tmp_path,attack):
+    import tarfile,io
+    from r044_qualification import archive_inventory
+    archive=tmp_path/'bad.tar.gz'
+    with tarfile.open(archive,'w:gz') as t:
+        first=tarfile.TarInfo('kit/file.py');first.size=1;first.mode=0o600;t.addfile(first,io.BytesIO(b'x'))
+        name={'duplicate':'kit/file.py','traversal':'kit/../outside','absolute':'/outside','newline':'kit/file\n.py',
+            'two_roots':'other/file.py'}.get(attack,'kit/extra.py')
+        info=tarfile.TarInfo(name);info.size=1;info.mode=0o666 if attack=='writable' else 0o600
+        if attack in ('symlink','hardlink'):
+            info.type=tarfile.SYMTYPE if attack=='symlink' else tarfile.LNKTYPE;info.linkname='../outside';info.size=0;t.addfile(info)
+        else:t.addfile(info,io.BytesIO(b'x'))
+    with pytest.raises(ValueError):archive_inventory(archive)
+    assert not (tmp_path/'outside').exists()

@@ -190,3 +190,44 @@ One actual LOW diagnostic compatibility regression: new symlink rejection used
 generic integrity code instead of original SYMLINK_PATH_BLOCKED; kept old test
 assertion and restored its fixed code. Final complete regression rerun follows;
 failed attempt is not qualification evidence. No approved Core changes.
+
+## FINAL development qualification
+
+762passed/0failed/0errors/1skipped(E12),219 new cases, all543 baseline pass cases
+retained,94.28sec final regression. No old test assertion weakened/deleted; original
+symlink diagnostic restored.10 product issues fixed:critical0/high1/medium4/low5,
+including2 introduced-and-fixed R044 regressions clearly labelled. No demonstrated
+repeated consumption/Core ingress or real pipeline impact; no actual host touched.
+Actual qualification runs after complete passing suite, on freshly extracted
+approved55/package/private runtime: metadata preparation -> FIXTURE-reviewed,
+metadata-sealed test candidate (NOT production sealed_trust) -> actual UDS worker
+-> one event -> SHADOW_BLOCKED -> SIGKILL after complete -> reopen -> fixture proof
+-> terminal VERIFIED_FIXTURE -> stop/stale cleanup -> zero live/socket/cap/lease
+-> backup/replay quarantine. OFFLINE_RECOVERY_QUALIFIED, real binding UNVERIFIED.
+
+Byte reproducibility: two NEW roots with same basename and same support commit
+2025bc4f3e63c371748005951529dff55c855ed4, identical archive3368357bytes,
+SHA256 be0348d13e55fb041ebef63d21161dc3027c2908521d031b2c6322425800cdde.
+Changing root basename changes tar path bytes, even if content manifests equivalent.
+mtime drift alone is not new content or permission; write-permission drift rejects.
+Fresh candidate/source sealing requires NEW approved hashes; no real pin generated.
+
+Final distribution: artifacts/r044/nana-r044-empty-2025bc4-onboarding.tar.gz.
+Package has277 entries, no DB/WAL/SHM/PYC/private inputs/credentials. Source/template
+synthetic ID literals are intentional fixture code; actual runtime outputs exclude
+raw input IDs/hash keys/wire keys/nonce. Initial failed pytest report with long
+synthetic hex was redacted before Git. Tests/guard results and limitations are
+mechanical JSON/XML under docs/nana_r044_evidence; no Brain09/10/11 edits.
+
+## R043 compatibility / handoff only
+
+R043 observed2d83e6a2acfd07f5e67581543c9b7dff7e6d5cfa; merge-base exactly
+R042 a436333d3dceb30773860ff5a3168ca1acdf6682. At that SHA only09_STATE,
+10_DECISIONS,11_CHANGELOG changed; NO product/Core source changes or overlaps.
+No receipt/pin values read, no merge or push to R043. Nana/Sister decides integration.
+Recommended: source fixes C1->C2->C3->C4->C5, with tests/evidence C0 then FINAL
+as needed. Preserve R043 field facts. Because worker/protocol implementation
+fingerprints and session journal changed, rebuild/review any R043 sealed candidate;
+never keep its old manifest/SHA while swapping these support files. Existing
+sessions lacking new directory/cap digest fences BLOCKED, not upgraded/rearmed.
+Do not infer FIRST_REAL_ASTRBOT_SHADOW PASS from R044 fixture qualification.

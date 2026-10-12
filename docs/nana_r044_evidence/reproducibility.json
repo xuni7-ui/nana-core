@@ -1,0 +1,32 @@
+{
+  "archive_mtime": 0,
+  "build1": {
+    "E12": "NOT_RUN",
+    "SHA256": "be0348d13e55fb041ebef63d21161dc3027c2908521d031b2c6322425800cdde",
+    "bytes": 3368357,
+    "filename": "nana-r044-empty-2025bc4-onboarding.tar.gz",
+    "host_binding": "UNVERIFIED",
+    "production_review_pins": 0,
+    "real_runtime_proof_pins": 0,
+    "seal_mode": "EMPTY",
+    "support_source_SHA": "2025bc4f3e63c371748005951529dff55c855ed4"
+  },
+  "build2": {
+    "E12": "NOT_RUN",
+    "SHA256": "be0348d13e55fb041ebef63d21161dc3027c2908521d031b2c6322425800cdde",
+    "bytes": 3368357,
+    "filename": "nana-r044-empty-2025bc4-onboarding.tar.gz",
+    "host_binding": "UNVERIFIED",
+    "production_review_pins": 0,
+    "real_runtime_proof_pins": 0,
+    "seal_mode": "EMPTY",
+    "support_source_SHA": "2025bc4f3e63c371748005951529dff55c855ed4"
+  },
+  "byte_for_byte_reproducible": true,
+  "different_archive_root_name": "content-equivalent manifests, different tar path bytes",
+  "identical_root_basename_required": true,
+  "production_pins": 0,
+  "real_runtime_proof_pins": 0,
+  "source_commit": "2025bc4f3e63c371748005951529dff55c855ed4",
+  "status": "PASS"
+}
