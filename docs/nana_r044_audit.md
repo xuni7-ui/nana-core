@@ -165,3 +165,28 @@ child observation UNKNOWN, not falsely0; this API soak spawns0 subprocess worker
 New actual-process lifecycle test and final-code repeat follow. Fixed bugs so far
 have no demonstrated duplicate ingress or real reply; all product changes stay
 outside approved Core and Brain09/10/11.
+
+## C5: official restore, unsupported clone, actual-process lifecycle
+
+19 recovery/supply-chain tests PASS. Official backup AND replay of old ARMED state
+quarantine=true, ledger arm/consume/session reuse blocked. Deliberate privileged
+raw pre-consume DB clone permits consuming in both synthetic forks: this is an
+EXPECTED documented counterexample, not anti-clone PASS. No production pin/action.
+50 actual short-lived fixture worker processes: pidfd SIGTERM, exit0, all Popen
+handles reaped, repeated stop returns ALREADY_EXITED, lease reacquired, owned cap/
+socket/temp removed. Global /proc children observation remains UNKNOWN; known50
+spawned children explicitly reaped. Kernel PID reuse not forced.
+
+Final-code soak repeated1000/10000/1000:17.732sec, FD4->4, thread1->1,
+RSS~=39.8MiB resident (precise JSON), no held leases/sockets/caps/temp residue.
+Resource dataset contains no wire/hash key or nonce.
+
+Full-regression attempt exposed development launcher child -I dropping inherited
+-B, creating private dependency __pycache__ and correctly triggering package
+integrity rejection on subsequent children. This caused69 environment/helper
+failures, not permissive product behavior. Preserved original extracted packages;
+re-extracted trusted archive to NEW root, verified bytes, child -B explicit.
+One actual LOW diagnostic compatibility regression: new symlink rejection used
+generic integrity code instead of original SYMLINK_PATH_BLOCKED; kept old test
+assertion and restored its fixed code. Final complete regression rerun follows;
+failed attempt is not qualification evidence. No approved Core changes.

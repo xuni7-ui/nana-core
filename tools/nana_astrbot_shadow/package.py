@@ -21,7 +21,8 @@ def package_members(root):
         if not stat.S_ISDIR(ds.st_mode) or ds.st_mode & 0o022:raise ValueError('BLOCKED_PACKAGE_INTEGRITY')
         for p in directory.iterdir():
             st=p.lstat();name=str(p.relative_to(root))
-            if stat.S_ISLNK(st.st_mode) or st.st_mode & 0o022:raise ValueError('BLOCKED_PACKAGE_INTEGRITY')
+            if stat.S_ISLNK(st.st_mode):raise ValueError('SYMLINK_PATH_BLOCKED')
+            if st.st_mode & 0o022:raise ValueError('BLOCKED_PACKAGE_INTEGRITY')
             if stat.S_ISDIR(st.st_mode):
                 if name!='data':pending.append(p)
             elif stat.S_ISREG(st.st_mode):

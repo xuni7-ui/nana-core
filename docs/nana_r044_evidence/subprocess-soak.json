@@ -1,0 +1,1 @@
+{"status": "PASS", "actual_worker_processes": 50, "reaped": 50, "owned_child_handles_remaining": 0, "SIGTERM_via_pidfd": 50, "seconds": 19.13, "residual_temp_dirs": 0, "residual_sockets": 0, "held_Store_leases": 0, "global_process_observation": "UNKNOWN", "host_binding": "UNVERIFIED", "production_pins": 0}
