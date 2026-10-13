@@ -131,7 +131,9 @@
         "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[current_preference-long]",
         "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[relationship_memory_refs-value4]",
         "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[preference_memory_refs-value5]",
-        "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[observation_coverage-FULL_FOR_DECLARED_SCOPE]"
+        "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[observation_coverage-FULL_FOR_DECLARED_SCOPE]",
+        "tests.next_stage.test_next_stage_contracts::test_full_coverage_cannot_hide_drop_or_disconnection[loss0]",
+        "tests.next_stage.test_next_stage_contracts::test_full_coverage_cannot_hide_drop_or_disconnection[loss1]"
       ],
       "development_test_result": "PASS_DECLARED_OFFLINE_SCOPE"
     },
@@ -167,11 +169,11 @@
     }
   },
   "tests": {
-    "passed": 81,
+    "passed": 83,
     "failed": 0,
     "errors": 0,
     "skipped": 0,
-    "evidence": "targeted_final.xml"
+    "evidence": "targeted_coverage_final.xml"
   },
   "E12": "NOT_RUN",
   "SMALL_REAL_MEMORY_SHADOW": "NOT_RUN_REAL_DEPENDENCY",

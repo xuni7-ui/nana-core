@@ -13,13 +13,17 @@
       "sha256": "788d944207e062879f199528d01393f4acfb43992af993727014a615172c4723",
       "bytes": 64878
     },
+    "docs/nana_next_stage_evidence/coverage_initial.xml": {
+      "sha256": "44d781b07dead19b8b89f48cacde8ef6aafb8e977cb648d8e3629ad80d724f5d",
+      "bytes": 1241
+    },
     "docs/nana_next_stage_evidence/e12_not_run.json": {
       "sha256": "19d05de54544593778a88e9379e148b4eba434710ff681e65025852a1301ae08",
       "bytes": 1130
     },
     "docs/nana_next_stage_evidence/final_delivery.json": {
-      "sha256": "bc6a6430b6663526a6546b48e17a73447d1b9b01647cc6850dd65d7f3d059ec3",
-      "bytes": 1623
+      "sha256": "e5e46021170109daa211b561f7161f484067456ad41c036c0bd6f6c8ddd130c9",
+      "bytes": 1850
     },
     "docs/nana_next_stage_evidence/final_regression.xml": {
       "sha256": "356a291c2f04cc7e902583e5bd767b37ad749c1f3de39df223705a22d4c13e62",
@@ -28,6 +32,10 @@
     "docs/nana_next_stage_evidence/final_regression_after_readback.xml": {
       "sha256": "f6826926ec59253b41716a46342829a475e43971471c2cf38d542a0732c9568c",
       "bytes": 65031
+    },
+    "docs/nana_next_stage_evidence/final_regression_coverage.xml": {
+      "sha256": "62b8da3f3a521576696f59f635c6013b541d795389b09f46e424ded940056b7e",
+      "bytes": 65325
     },
     "docs/nana_next_stage_evidence/memory.xml": {
       "sha256": "1bd07fa23ca9c6453a5118a3abc3b8be60054fb163c764b4c7cc5a0d3dd503c4",
@@ -54,8 +62,8 @@
       "bytes": 836
     },
     "docs/nana_next_stage_evidence/qualification_matrix.json": {
-      "sha256": "56ea57210f19ea655b2aa0cd77f4d34f6e2d7b10e0fa9aae32497b5323c1975a",
-      "bytes": 12681
+      "sha256": "9a929ed5c74f0f5e20aa8885c55d85aa51dc6f0a46f8a4e348ee708049745695",
+      "bytes": 12920
     },
     "docs/nana_next_stage_evidence/readiness.xml": {
       "sha256": "bc0ec8ca141d059edc0593ee0230e918bd7ba993a7e97416918770da70450756",
@@ -66,8 +74,8 @@
       "bytes": 11576
     },
     "docs/nana_next_stage_evidence/security_scan.json": {
-      "sha256": "0cf352a2b737c7dd0a39ebb0ecd2cd6062afbfb1b81088f15a15a650ab1a71d9",
-      "bytes": 408
+      "sha256": "9fd53cf572cb6d3fbedf5ee2b613dfaa4aa96c6c04ff111cb5e06a34acdf0903",
+      "bytes": 432
     },
     "docs/nana_next_stage_evidence/semantic_initial.xml": {
       "sha256": "42ebca3fcf46f8972124049de34a22e83e139dbc9e0f5babee9ab0d5e64a51b6",
@@ -76,6 +84,10 @@
     "docs/nana_next_stage_evidence/targeted.xml": {
       "sha256": "733a5bfa081f55f3386f42bbab4648ad0ed4c2b4beb9b55b028c84b3744f6fa8",
       "bytes": 12217
+    },
+    "docs/nana_next_stage_evidence/targeted_coverage_final.xml": {
+      "sha256": "d534be89806e51a2ba294626a657f91cc9cbed96fa0e0fed9fd157b7e11f774a",
+      "bytes": 12664
     },
     "docs/nana_next_stage_evidence/targeted_final.xml": {
       "sha256": "b32e593947f967894a3f69ab2cf748ec349c92419e635c825f55e6d2537845f4",
@@ -94,8 +106,8 @@
       "bytes": 5046
     },
     "docs/nana_next_stage_readiness.md": {
-      "sha256": "a02d798f2b6499471859f57bd2243b3c4f27ed07b1220ba05ed58a14ae82b500",
-      "bytes": 7145
+      "sha256": "3192fa7a88216b7891ad1bf41f74eb4cee1dec3fd51343f9c7f35fb08f20af85",
+      "bytes": 7448
     },
     "tests/next_stage/__init__.py": {
       "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
@@ -106,8 +118,8 @@
       "bytes": 737
     },
     "tests/next_stage/test_next_stage_contracts.py": {
-      "sha256": "2b53a00a801490d1759ecb891d9aee3d52281830f04e5dbfdbe7d0b41b6bc2b1",
-      "bytes": 4821
+      "sha256": "9ca1a4dd26e7de4a597ee5b668e7565a42abf94b52f2a4da72e481ec44f164dd",
+      "bytes": 5204
     },
     "tests/next_stage/test_next_stage_memory.py": {
       "sha256": "8286ae799bef69a8ac5d2c1d86597639ac1d8d43e1b97d60b526d3bb13f8249f",
@@ -130,8 +142,8 @@
       "bytes": 2001
     },
     "tools/nana_next_stage/contracts.py": {
-      "sha256": "11c5bdd6fab51a35c30453eeb3450b4c842947c1520008a66d081ad3437840c8",
-      "bytes": 7720
+      "sha256": "d5e13906ab6b5825fe59f01a431658df9f6c2d77e465610f736a09c35cb42313",
+      "bytes": 7884
     },
     "tools/nana_next_stage/fixtures.py": {
       "sha256": "b82063ec5dcf711917e76648bb0ee9c32afbd0d9daa6555436074e124b8ac4de",

@@ -84,6 +84,8 @@ class Coverage(ReadinessDTO):
     def interval(self):
         if utc_us(self.observed_until) < utc_us(self.observed_from):
             raise ValueError('COVERAGE_INTERVAL_REJECTED')
+        if self.completeness == 'FULL_FOR_DECLARED_SCOPE' and (self.dropped or self.disconnected):
+            raise ValueError('FULL_COVERAGE_WITH_LOSS_REJECTED')
         return self
 
 

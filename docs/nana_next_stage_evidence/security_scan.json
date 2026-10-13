@@ -1,11 +1,12 @@
 {
   "status": "PASS_PATTERN_AND_ALLOWLIST_SCAN",
-  "scanned_files": 36,
+  "scanned_files": 41,
   "secret_value_hits": 0,
   "binary_or_runtime_DB_hits": 0,
   "private_inputs": "all generated synthetic; no real data read",
   "limitations": "Pattern scan is not universal DLP. Synthetic failure XML and input canaries intentionally retained.",
   "approved_core_diff": 0,
   "r045_bridge_and_trust_diff": 0,
-  "dependencies_added": 0
+  "dependencies_added": 0,
+  "final_scan": "PASS"
 }

@@ -651,3 +651,5 @@
 
 [Next-Stage FINAL / 本分支开发证据] 新增81test；Core既定S0–S6/development/phase3/integration套件+新增共453passed/0failed/0errors/1skipped(E12)，原372pass保留；R04/R041桥接套件本轮未运行且源码/测试未改。实际CPython3.12.14/nativeSQLite3.53.1/Pydantic2.13.4；原SQLite门保持。独立CLI合成演习6import/6duplicate、重启/backup/replay/撤回checkpoint通过；真实模型/数据/生产/receipt/bridge操作0。SmallRealMemory真实准入仍BLOCKED，E12 NOT_RUN，ContinuousSelfMemory为合同/fixture PARTIAL；九项明确实施提案见docs/nana_next_stage_implementation_proposals.md。READINESS仅指工程准备，不授予任何真实操作权限，也不升级另一执行者的Shadow状态。
 [指纹] manifests/nana_next_stage_readiness.json SHA256=65d98858984f617eb74d8c64b8b33672178427cfef72befa03fce8b5762e27aa；不含自身与账本。
+
+[Next-Stage FINAL coverage收口] 拒绝FULL覆盖与drop/disconnection矛盾的声明；新增2反例，最终83新增passed；Core指定全套+新增455passed/0failed/0errors/1skip(E12)，原372passed保留，17.587sec。之前453/81为前一个真实检查点，不覆盖历史。最终manifest锚点=aad60e7202da5403b321c617a14028de6d51a44bbaf52a44c3bcb5e4a3a15b01。四项原型语义边界失败日志保留后修复；Core/SQL/依赖/真实主线0diff，真实数据/模型/receipt/bridge/生产操作0。

@@ -877,3 +877,8 @@
 - 改了什么：补实际进程承诺/SelfFrame/context恢复用例；实际CLI证据、N01–N06/N11–N13/E12逐门资格矩阵、九项最小实施提案与指纹。
 - 为什么：真实Shadow一旦通过即可复用准备工作；保留正式成长/承诺/实体/真实删除等基础边界。
 - 怎么验证：81新增pass；既有Core指定全套+新增453pass/0fail/1E12skip（18.364sec）；新CLI合成工程PASS、真实模型NOT_RUN；敏感模式/白名单/运行DB排除检查通过。未改Core/SQL/依赖/R045接线/生产，无私人内容与真实secret读取。
+
+## NEXT-STAGE-COVERAGE-FINAL
+- 改了什么：Coverage合同拒绝声明完整却有丢弃/断线；资格矩阵/指纹/最终报告更新至83新test、455pass+1skip。
+- 为什么：观察覆盖不能把缺失事件当未发生；属于Core之外的局部合同修复。
+- 怎么验证：先保留2failed反例，再修合同，83targeted和455/0/1全Core配置回归通过。四项原型语义修复均有失败证据；未改当前R045/R045.1源码或Approved Core。

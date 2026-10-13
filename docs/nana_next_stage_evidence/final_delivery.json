@@ -3,13 +3,13 @@
   "base_sha": "45a0e0b71f11b81f914141cfa139fc10ba6add9d",
   "final_sha": "SEE_GIT_HEAD_AFTER_FINAL_COMMIT",
   "tests": {
-    "passed": 453,
+    "passed": 455,
     "failed": 0,
     "errors": 0,
     "skipped": 1,
-    "new_tests": 81,
+    "new_tests": 83,
     "old_pass_cases_retained": 372,
-    "seconds": 18.364,
+    "seconds": 17.582,
     "scope": "Configured Core S0-S6/development/phase3/integration plus tests/next_stage; R04/R041 bridge suite excluded, not deleted"
   },
   "runtime": {
@@ -40,5 +40,12 @@
   "fresh_production_receipts": 0,
   "host_bridge_operations": 0,
   "READY_TO_CONTINUE_AFTER_FIRST_REAL_SHADOW": true,
-  "readiness_meaning": "Engineering preparations ready; requires listed authorization/schema gates, no claim of real acceptance."
+  "readiness_meaning": "Engineering preparations ready; requires listed authorization/schema gates, no claim of real acceptance.",
+  "prototype_semantic_boundaries_fixed": 4,
+  "preserved_initial_failure_evidence": [
+    "withdrawal_regression_initial.xml",
+    "temporal_context_initial.xml",
+    "context_hash_initial.xml",
+    "coverage_initial.xml"
+  ]
 }

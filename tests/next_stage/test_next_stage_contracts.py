@@ -85,3 +85,10 @@ def test_missing_support_huge_claim_and_unknown_fields_rejected():
         'value':'long','scope':'synthetic:next-stage','epistemic_kind':'USER_STATEMENT','supporting_memory_ids':['fixture-ref']}
     for change in ({'supporting_memory_ids':[]},{'value':'x'*257},{'verified':True},{'subject':None}):
         with pytest.raises(ValidationError):Claim.model_validate_json(canonical({**base,**change}))
+
+@pytest.mark.parametrize('loss', [{'dropped':1}, {'disconnected':True}])
+def test_full_coverage_cannot_hide_drop_or_disconnection(loss):
+    data=capture().coverage.model_dump(mode='json')
+    data.update(completeness='FULL_FOR_DECLARED_SCOPE',dropped=0,disconnected=False)
+    data.update(loss)
+    with pytest.raises(ValidationError):Coverage.model_validate_json(canonical(data))

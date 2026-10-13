@@ -92,13 +92,13 @@ correctness. No inherited test was edited/deleted. Initial failing XML is retain
 
 ## Final actual development validation
 
-81 new tests passed. Full configured Core S0–S6/development/phase3/integration suite
-plus readiness: **453 passed / 0 failed / 0 errors / 1 skipped**,18.37seconds on actual
+83 new tests passed. Full configured Core S0–S6/development/phase3/integration suite
+plus readiness: **455 passed / 0 failed / 0 errors / 1 skipped**,17.59seconds on actual
 CPython3.12.14 / nativeSQLite3.53.1 / Pydantic2.13.4. The only skip is E12. No private
 runtime injected into any host; this is a compatible development interpreter.
 R04/R041 host-bridge test suite was not run this turn because receipt/bridge operations
 are out of this task's scope; its code and all old tests are untouched. Do not compare
-453 with R045's broader762 as if tests had been deleted.
+455 with R045's broader762 as if tests had been deleted.
 
 Actual fresh CLI runs: qualify produced6imported/6duplicate, complete source/time
 context, restart/backup/replay/checkpoint suppression and zero execution objects in
@@ -111,3 +111,8 @@ real gate NOT_RUN_REAL_DEPENDENCY. Offline CLI evidence: offline_qualification.j
 real E12 absence: e12_not_run.json. Core blockers and minimal proposals:
 docs/nana_next_stage_implementation_proposals.md. No production/real-memory/secret/
 real-model/receipt/bridge operations; Approved Core semantics/schema/dependencies0diff.
+
+Final coverage hardening: FULL_FOR_DECLARED_SCOPE plus drop/disconnection now rejects.
+Two failing cases preserved in coverage_initial.xml;83 targeted pass and455+1E12skip
+full configured regression after the fix. This is the fourth corrected prototype
+semantic boundary; no Approved Core/R045 change.
