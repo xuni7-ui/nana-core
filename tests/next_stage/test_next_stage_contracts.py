@@ -78,3 +78,10 @@ def test_real_plan_exact_literal_types(field,value):
 def test_synthetic_boolean_is_not_a_numeric_flag(flag):
     data=capture().model_dump(mode='json');data['records'][0]['synthetic_only']=flag
     with pytest.raises(ValidationError):SyntheticCapture.model_validate_json(canonical(data))
+
+
+def test_missing_support_huge_claim_and_unknown_fields_rejected():
+    base={'claim_id':'synthetic:one','subject':'synthetic:sister','predicate':'reading.preference',
+        'value':'long','scope':'synthetic:next-stage','epistemic_kind':'USER_STATEMENT','supporting_memory_ids':['fixture-ref']}
+    for change in ({'supporting_memory_ids':[]},{'value':'x'*257},{'verified':True},{'subject':None}):
+        with pytest.raises(ValidationError):Claim.model_validate_json(canonical({**base,**change}))

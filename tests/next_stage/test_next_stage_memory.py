@@ -132,7 +132,8 @@ def test_withdrawal_invalidates_context_and_dependent_candidates(seeded):
     proto.withdraw(ids['new-preference'])
     with pytest.raises(CoreError,match='STALE_OR_TAMPERED_CONTEXT'):proto.verify_context(old)
     assert not proto.self_frame()['commitments'] and not proto.self_frame()['self_change_candidates']
-    assert proto.assessments(DATASET,as_of='2026-09-04T10:00:00+00:00')[0]['current_claim_ids']==['synthetic:old-preference']
+    assert proto.assessments(DATASET,as_of='2026-09-02T10:00:00+00:00')[0]['current_claim_ids']==['synthetic:old-preference']
+    assert not proto.assessments(DATASET,as_of='2026-09-04T10:00:00+00:00')[0]['current_claim_ids']
     assert proto.import_capture(capture())['results'][1]['status']=='DUPLICATE'
     assert ids['new-preference'] not in proto.context(scope=DATASET,as_of='2026-09-04T10:00:00+00:00',max_chars=16000)['manifest']['selected_memory_ids']
 
@@ -203,3 +204,51 @@ def test_checkpoint_tamper_wrong_identity_and_no_authority_release(seeded):
         bad={**checkpoint,field:value}
         with pytest.raises(CoreError,match='WITHDRAWAL_CHECKPOINT_REJECTED'):proto.apply_withdrawal_checkpoint(bad)
     assert all(not store.all(t) for t in ZERO)
+
+
+def test_withdrawing_newer_statement_does_not_make_old_belief_current(seeded):
+    _,proto,_,ids=seeded
+    proto.withdraw(ids['new-preference'])
+    current=proto.assessments(DATASET,as_of='2026-09-04T10:00:00+00:00')[0]
+    assert current['status']=='UNASSESSED_WITHDRAWN_SUPPORT'
+    assert not current['current_claim_ids']
+    historical=proto.assessments(DATASET,as_of='2026-09-02T10:00:00+00:00')[0]
+    assert historical['current_claim_ids']==['synthetic:old-preference']
+
+
+def test_historical_context_does_not_include_future_commitment_or_self_candidate(seeded):
+    _,proto,_,_=seeded
+    context=proto.context(scope=DATASET,as_of='2026-09-02T10:00:00+00:00',max_chars=16000)
+    assert not context['payload']['self']['commitments']
+    assert not context['payload']['self']['self_change_candidates']
+
+
+def test_self_declared_payload_hash_cannot_authenticate_fabricated_context(seeded):
+    from nana_core.storage import digest
+    _,proto,_,_=seeded
+    context=proto.context(scope=DATASET,as_of='2026-09-04T10:00:00+00:00',max_chars=16000)
+    context['payload']['self']['identity_snapshot']['charter']=['fabricated synthetic charter']
+    context['manifest']['payload_hash']=digest(context['payload'])
+    with pytest.raises(CoreError,match='STALE_OR_TAMPERED_CONTEXT'):proto.verify_context(context)
+
+@pytest.mark.parametrize('field,value',[('valid_from','2026-01-01T00:00:00+00:00'),('supporting_memory_ids',['missing-source'])])
+def test_claim_time_or_missing_source_cannot_be_fabricated(seeded,field,value):
+    _,proto,_,ids=seeded
+    proposal={'claim_id':'synthetic:bad-time','subject':'synthetic:sister','predicate':'reading.preference',
+        'value':'long','scope':DATASET,'epistemic_kind':'USER_STATEMENT','valid_from':'2026-09-01T10:00:00+00:00',
+        'supporting_memory_ids':[ids['old-preference']]}
+    proposal[field]=value
+    with pytest.raises(CoreError):proto.claim(Claim.model_validate_json(canonical(proposal)))
+
+
+def test_reimport_new_revision_still_cannot_revive_withdrawn_source(seeded):
+    store,proto,_,ids=seeded
+    proto.withdraw(ids['new-preference'])
+    data=capture().model_dump(mode='json');data['records'][1]['revision']='2'
+    report=proto.import_capture(SyntheticCapture.model_validate_json(canonical(data)))
+    assert report['results'][1]['status']=='IMPORTED'
+    assert len(proto.memories())==7
+    for m in proto.memories():
+        body=json.loads(m['body_json'])
+        if body['iris']['origin']['legacy_key']=='new-preference':assert m['status']=='RETRACTED'
+    assert not proto.assessments(DATASET,as_of='2026-09-04T10:00:00+00:00')[0]['current_claim_ids']

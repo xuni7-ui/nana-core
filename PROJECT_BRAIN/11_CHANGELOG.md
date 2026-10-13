@@ -867,3 +867,8 @@
 - 改了什么：新增tools/nana_next_stage严格合同与原Store上的合成投影、tests/next_stage及开发证据。
 - 为什么：在真实Shadow等待期间提前完成Phase A可独立运行的合同/fixture准备，不改批准Core或现场主线。
 - 怎么验证：52passed，实际SIGKILL导入恢复、backup/replay quarantine、scope/provenance/纠正/检索撤回。首次严格JSON边界失败记录保留后修复；真实数据、真实模型、生产操作0。
+
+## NEXT-STAGE-M2 · E12 frozen supplement / one-command qualification
+- 改了什么：在Core外复用S5 snapshot/execute_case/CompatibleModelPort/CallLedger，补关系/OFFERED承诺/偏好纠正/观察覆盖理解评分与CLI；原提案和Core行为分开留证。
+- 为什么：提前准备真实模型语义门，fixture绝不升级real；补齐Phase A可离线验证的合同。
+- 怎么验证：顺序双fixture/各case有无经验、原提案漏定位仍判语义失败、结构漂移/缺端点/模拟器配置不误报真实E12；原型撤回/历史时间/重算hash对抗用例保留后修复。实际真实模型/生产/私忆/receipt/bridge操作0。

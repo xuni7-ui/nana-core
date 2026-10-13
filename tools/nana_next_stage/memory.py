@@ -117,18 +117,18 @@ class PhaseAPrototype:
 
     def assessments(self, scope, *, as_of):
         now = utc_us(as_of)
-        groups = {}
+        groups, withdrawn = {}, {}
         for c in self.claims():
-            if c.scope != scope:
+            if c.scope != scope or (c.valid_from is not None and utc_us(c.valid_from) > now):
                 continue
             try:
                 self._support(c.supporting_memory_ids)
             except CoreError as exc:
                 if exc.code == 'SUPPORT_WITHDRAWN':
+                    withdrawn.setdefault(c.family, []).append(c)
                     continue
                 raise
-            if c.valid_from is None or utc_us(c.valid_from) <= now:
-                groups.setdefault(c.family, []).append(c)
+            groups.setdefault(c.family, []).append(c)
         output = []
         for family, group in sorted(groups.items()):
             direct = [c for c in group if c.epistemic_kind == 'USER_STATEMENT']
@@ -137,14 +137,19 @@ class PhaseAPrototype:
             current = [c for c in dated if utc_us(c.valid_from) == latest]
             values = {c.value for c in direct}
             disputed = len(values) > 1 and (len(dated) != len(direct) or len({c.value for c in current}) > 1)
-            status = 'DISPUTED' if disputed else 'CURRENT_USER_STATEMENT' if current else 'UNASSESSED'
+            missing_newer = any(c.epistemic_kind == 'USER_STATEMENT' and (
+                c.valid_from is None or latest is None or utc_us(c.valid_from) >= latest)
+                for c in withdrawn.get(family, []))
+            status = ('UNASSESSED_WITHDRAWN_SUPPORT' if missing_newer else 'DISPUTED' if disputed
+                      else 'CURRENT_USER_STATEMENT' if current else 'UNASSESSED')
             output.append({'family': family, 'subject': group[0].subject,
                 'predicate': group[0].predicate, 'scope': scope, 'as_of': as_of,
                 'status': status, 'verified_fact': False,
-                'current_claim_ids': [] if disputed else [c.claim_id for c in current],
+                'current_claim_ids': [] if disputed or missing_newer else [c.claim_id for c in current],
                 'supporting_claim_ids': [c.claim_id for c in group],
                 'contradicting_claim_ids': [c.claim_id for c in direct if current and c.value not in {x.value for x in current}],
-                'reason': 'unknown/tied chronology' if disputed else 'latest dated direct statement' if current else 'no dated direct statement'})
+                'reason': 'withdrawn later support; do not revive old belief' if missing_newer
+                    else 'unknown/tied chronology' if disputed else 'latest dated direct statement' if current else 'no dated direct statement'})
         return output
 
     def relationship(self, proposal):
@@ -209,7 +214,7 @@ class PhaseAPrototype:
             tx.put('core_meta', {'key': PREFIX+'withdrawals', 'value_json': canonical(keys)})
         self._enforce_withdrawals()
 
-    def self_frame(self, *, allowed_datasets=None):
+    def self_frame(self, *, allowed_datasets=None, as_of=None):
         def visible(prefix):
             result = []
             for row in self.store.all('core_meta'):
@@ -219,6 +224,9 @@ class PhaseAPrototype:
                 try:
                     support = self._support(value['supporting_memory_ids'])
                     if allowed_datasets is not None and any(b['iris']['origin']['dataset_id'] not in allowed_datasets for b in support):
+                        continue
+                    if as_of is not None and any(b['iris']['time']['underlying_event_time_us'] is not None
+                            and b['iris']['time']['underlying_event_time_us'] > utc_us(as_of) for b in support):
                         continue
                 except CoreError as exc:
                     if exc.code == 'SUPPORT_WITHDRAWN':
@@ -255,7 +263,7 @@ class PhaseAPrototype:
         assessments = self.assessments(scope, as_of=as_of)
         # Conservative all-or-nothing contradiction/history bundle. Do not
         # silently make a definite statement from a one-sided truncated context.
-        payload = {'self': self.self_frame(allowed_datasets={scope}), 'memories': rows, 'assessments': assessments}
+        payload = {'self': self.self_frame(allowed_datasets={scope}, as_of=as_of), 'memories': rows, 'assessments': assessments}
         selected = [r['memory_id'] for r in rows]
         status = 'READY' if len(canonical(payload)) <= max_chars else 'INSUFFICIENT_CONTEXT'
         if status != 'READY':
@@ -271,6 +279,7 @@ class PhaseAPrototype:
             'coverage': 'SELECTED_CONTEXT', 'observation_coverage': [v['coverage'] for v in coverages],
             'withdrawal_digest': self.withdrawal_checkpoint()['digest'],
             'payload_hash': digest(payload), 'context_chars': len(canonical(payload)),
+            'budget_chars': max_chars,
             'token_accounting': 'CHARACTER_BOUND_ONLY_TOKENIZER_NOT_IMPLEMENTED',
             'semantic_quality': 'NOT_RUN_REAL_DEPENDENCY'}
         return {'manifest': manifest, 'payload': payload}
@@ -290,6 +299,10 @@ class PhaseAPrototype:
                 raise ValueError()
             for mid in m['selected_memory_ids']:
                 self._support((mid,))
+            expected = self.context(scope=m['scope'], as_of=m['as_of'],
+                destination=m['destination'], max_chars=m['budget_chars'])
+            if canonical(context) != canonical(expected):
+                raise ValueError()
         except Exception:
             raise CoreError('STALE_OR_TAMPERED_CONTEXT') from None
         return True

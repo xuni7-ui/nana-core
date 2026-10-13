@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="1" skipped="0" tests="1" time="0.090" timestamp="2026-10-13T17:22:30.422876+00:00" hostname="4abde4046a6c"><testcase classname="tests.next_stage.test_next_stage_memory" name="test_withdrawing_newer_statement_does_not_make_old_belief_current" time="0.011"><failure message="AssertionError: assert 'CURRENT_USER_STATEMENT' == 'UNASSESSED_WITHDRAWN_SUPPORT'&#10;  &#10;  - UNASSESSED_WITHDRAWN_SUPPORT&#10;  + CURRENT_USER_STATEMENT">tests/next_stage/test_next_stage_memory.py:212: in test_withdrawing_newer_statement_does_not_make_old_belief_current
+    assert current['status']=='UNASSESSED_WITHDRAWN_SUPPORT'
+E   AssertionError: assert 'CURRENT_USER_STATEMENT' == 'UNASSESSED_WITHDRAWN_SUPPORT'
+E
+E     - UNASSESSED_WITHDRAWN_SUPPORT
+E     + CURRENT_USER_STATEMENT</failure></testcase></testsuite></testsuites>

@@ -646,3 +646,5 @@
 
 ## 2026-10-13 UTC · Next-Stage Readiness M1（独立开发 / 合成）
 [已实现/已测试] 独立分支dev/nana-core-next-stage-readiness-codex；继承VNext-1@45a0e0b。Core之外的合成capture/Phase A合同与持久投影52passed；来源/时间/纠正/候选关系与承诺/SelfFrame/context/withdrawal suppression/replay及实际SIGKILL恢复。无新Core表/依赖/语义改动。N11真正删除、正式承诺接受、身份成长及真实数据/模型验收仍未实现/未运行。详见docs/nana_next_stage_readiness.md；当前真实Shadow主线未触碰，E12 NOT_RUN。
+
+[Next-Stage M2 / 开发测试] 已复用S5引擎增加同Store冻结关系/承诺/偏好纠正/coverage、原rationale结构化补充理解评分、双fixture端口顺序消融、一命令qualify/e12准备。无配置E12 NOT_RUN/调用0；真实模型路径本轮未执行。原型撤回/时间/Context自报hash三项失败用例保留后修复，不改Approved Core。详细资格矩阵及全量回归待最终记录。
