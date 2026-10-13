@@ -642,3 +642,7 @@
 [指纹] `manifests/nana_future_architecture_vnext1.json` SHA256 = `22b2375c613fb78dd44ffa215a5184d42b8c02c77cf2077f5af9ef80172ad939`；不含自身及引用它的账本。
 
 [设计文档收口] 来源索引EOF空行修正，设计内容/实现不变；最终设计指纹锚点更新为 `002a0d5ab68640d5c1ab45765794237c1e25ac29536b222d2edbfd43301ea9ae`，上条锚点保留为初始文档提交记录。
+
+
+## 2026-10-13 UTC · Next-Stage Readiness M1（独立开发 / 合成）
+[已实现/已测试] 独立分支dev/nana-core-next-stage-readiness-codex；继承VNext-1@45a0e0b。Core之外的合成capture/Phase A合同与持久投影52passed；来源/时间/纠正/候选关系与承诺/SelfFrame/context/withdrawal suppression/replay及实际SIGKILL恢复。无新Core表/依赖/语义改动。N11真正删除、正式承诺接受、身份成长及真实数据/模型验收仍未实现/未运行。详见docs/nana_next_stage_readiness.md；当前真实Shadow主线未触碰，E12 NOT_RUN。

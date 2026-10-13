@@ -862,3 +862,8 @@
 - 怎么验证：43处source fingerprint及行号、34节/主题覆盖、本地链接、敏感模式和实现零diff检查通过；未重跑产品回归、未运行新架构实验。既有R045762/0/1与当前真实Shadow/E12未验证边界保留。所有新设计待后续实施授权/评审，未触及生产/私密数据/真实receipt/pin。
 
 [设计文档校验补记] 初次staged diff检查发现来源索引末尾多余空行；已规范化并更新设计manifest/校验记录，最终diff检查在提交前通过。无代码或运行验收变化。
+
+## NEXT-STAGE-M1 · 合成Memory / Phase A readiness
+- 改了什么：新增tools/nana_next_stage严格合同与原Store上的合成投影、tests/next_stage及开发证据。
+- 为什么：在真实Shadow等待期间提前完成Phase A可独立运行的合同/fixture准备，不改批准Core或现场主线。
+- 怎么验证：52passed，实际SIGKILL导入恢复、backup/replay quarantine、scope/provenance/纠正/检索撤回。首次严格JSON边界失败记录保留后修复；真实数据、真实模型、生产操作0。

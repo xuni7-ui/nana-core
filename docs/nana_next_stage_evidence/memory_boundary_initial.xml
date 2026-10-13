@@ -1,0 +1,334 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="14" failures="7" skipped="0" tests="52" time="0.530" timestamp="2026-10-13T17:16:38.217445+00:00" hostname="4abde4046a6c"><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_synthetic_input_and_real_plan_are_non_interchangeable" time="0.001"><failure message="pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture&#10;scope.dataset_ids&#10;  Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;scope.record_kinds&#10;  Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;records&#10;  Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type">tests/next_stage/test_next_stage_contracts.py:13: in test_synthetic_input_and_real_plan_are_non_interchangeable
+    assert SyntheticCapture.model_validate_json(canonical(value)).provenance == 'SYNTHETIC_FIXTURE'
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture
+E   scope.dataset_ids
+E     Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   scope.record_kinds
+E     Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   records
+E     Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type</failure></testcase><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_reject_capture_scope_and_domain_mutations[&lt;lambda&gt;0]" time="0.001" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_reject_capture_scope_and_domain_mutations[&lt;lambda&gt;1]" time="0.001" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_reject_capture_scope_and_domain_mutations[&lt;lambda&gt;2]" time="0.001" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_reject_capture_scope_and_domain_mutations[&lt;lambda&gt;3]" time="0.001" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_reject_capture_scope_and_domain_mutations[&lt;lambda&gt;4]" time="0.000" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_reject_capture_scope_and_domain_mutations[&lt;lambda&gt;5]" time="0.001" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_reject_capture_scope_and_domain_mutations[&lt;lambda&gt;6]" time="0.001" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_reject_capture_scope_and_domain_mutations[&lt;lambda&gt;7]" time="0.001" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_reject_capture_scope_and_domain_mutations[&lt;lambda&gt;8]" time="0.001" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_reject_capture_scope_and_domain_mutations[&lt;lambda&gt;9]" time="0.001" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_reject_capture_scope_and_domain_mutations[&lt;lambda&gt;10]" time="0.001" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_strict_json_rejection[{&quot;a&quot;:1,&quot;a&quot;:2}]" time="0.000" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_strict_json_rejection[{&quot;a&quot;:NaN}]" time="0.000" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_strict_json_rejection[{]" time="0.000" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_strict_json_rejection[\xff]" time="0.000" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_strict_json_rejection[{&quot;a&quot;:Infinity}]" time="0.000" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_json_bound_and_hostile_object_do_not_call_repr" time="0.000" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_time_keeps_unknown_explicit_and_rejects_naive[None]" time="0.000" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_time_keeps_unknown_explicit_and_rejects_naive[]" time="0.000" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_time_keeps_unknown_explicit_and_rejects_naive[2026-09-01T10:00:00]" time="0.000" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_time_keeps_unknown_explicit_and_rejects_naive[not-a-time]" time="0.001" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_time_keeps_unknown_explicit_and_rejects_naive[9999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999]" time="0.000" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_timezone_equivalence_and_microsecond_order" time="0.000" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_self_change_cannot_request_charter_or_authority" time="0.000" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_real_plan_exact_literal_types[schema_version-True]" time="0.000" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_real_plan_exact_literal_types[schema_version-1.0]" time="0.000" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_real_plan_exact_literal_types[reader_enabled-0]" time="0.000" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_synthetic_boolean_is_not_a_numeric_flag[1]" time="0.001" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_synthetic_boolean_is_not_a_numeric_flag[true]" time="0.001" /><testcase classname="tests.next_stage.test_next_stage_contracts" name="test_synthetic_boolean_is_not_a_numeric_flag[None]" time="0.001" /><testcase classname="tests.next_stage.test_next_stage_memory" name="test_import_preserves_provenance_time_types_and_never_executes" time="0.006"><error message="failed on setup with &quot;pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture&#10;scope.dataset_ids&#10;  Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;scope.record_kinds&#10;  Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;records&#10;  Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&quot;">tests/next_stage/conftest.py:19: in seeded
+    report, ids = seed_phase_a(proto)
+                  ^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/fixtures.py:35: in seed_phase_a
+    report = prototype.import_capture(capture())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/memory.py:58: in import_capture
+    capture = SyntheticCapture.model_validate_json(canonical(capture.model_dump(mode='json')))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture
+E   scope.dataset_ids
+E     Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   scope.record_kinds
+E     Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   records
+E     Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type</error></testcase><testcase classname="tests.next_stage.test_next_stage_memory" name="test_duplicate_import_and_reopen_preserve_identity_and_original_times" time="0.003"><error message="failed on setup with &quot;pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture&#10;scope.dataset_ids&#10;  Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;scope.record_kinds&#10;  Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;records&#10;  Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&quot;">tests/next_stage/conftest.py:19: in seeded
+    report, ids = seed_phase_a(proto)
+                  ^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/fixtures.py:35: in seed_phase_a
+    report = prototype.import_capture(capture())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/memory.py:58: in import_capture
+    capture = SyntheticCapture.model_validate_json(canonical(capture.model_dump(mode='json')))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture
+E   scope.dataset_ids
+E     Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   scope.record_kinds
+E     Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   records
+E     Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type</error></testcase><testcase classname="tests.next_stage.test_next_stage_memory" name="test_correction_is_temporal_and_keeps_both_evidence" time="0.003"><error message="failed on setup with &quot;pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture&#10;scope.dataset_ids&#10;  Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;scope.record_kinds&#10;  Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;records&#10;  Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&quot;">tests/next_stage/conftest.py:19: in seeded
+    report, ids = seed_phase_a(proto)
+                  ^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/fixtures.py:35: in seed_phase_a
+    report = prototype.import_capture(capture())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/memory.py:58: in import_capture
+    capture = SyntheticCapture.model_validate_json(canonical(capture.model_dump(mode='json')))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture
+E   scope.dataset_ids
+E     Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   scope.record_kinds
+E     Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   records
+E     Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type</error></testcase><testcase classname="tests.next_stage.test_next_stage_memory" name="test_unknown_time_conflict_is_disputed_not_arbitrary_latest" time="0.004"><error message="failed on setup with &quot;pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture&#10;scope.dataset_ids&#10;  Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;scope.record_kinds&#10;  Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;records&#10;  Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&quot;">tests/next_stage/conftest.py:19: in seeded
+    report, ids = seed_phase_a(proto)
+                  ^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/fixtures.py:35: in seed_phase_a
+    report = prototype.import_capture(capture())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/memory.py:58: in import_capture
+    capture = SyntheticCapture.model_validate_json(canonical(capture.model_dump(mode='json')))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture
+E   scope.dataset_ids
+E     Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   scope.record_kinds
+E     Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   records
+E     Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type</error></testcase><testcase classname="tests.next_stage.test_next_stage_memory" name="test_summary_inference_and_action_cannot_be_promoted[summary-USER_STATEMENT]" time="0.005"><error message="failed on setup with &quot;pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture&#10;scope.dataset_ids&#10;  Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;scope.record_kinds&#10;  Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;records&#10;  Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&quot;">tests/next_stage/conftest.py:19: in seeded
+    report, ids = seed_phase_a(proto)
+                  ^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/fixtures.py:35: in seed_phase_a
+    report = prototype.import_capture(capture())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/memory.py:58: in import_capture
+    capture = SyntheticCapture.model_validate_json(canonical(capture.model_dump(mode='json')))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture
+E   scope.dataset_ids
+E     Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   scope.record_kinds
+E     Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   records
+E     Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type</error></testcase><testcase classname="tests.next_stage.test_next_stage_memory" name="test_summary_inference_and_action_cannot_be_promoted[old-action-USER_STATEMENT]" time="0.004"><error message="failed on setup with &quot;pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture&#10;scope.dataset_ids&#10;  Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;scope.record_kinds&#10;  Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;records&#10;  Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&quot;">tests/next_stage/conftest.py:19: in seeded
+    report, ids = seed_phase_a(proto)
+                  ^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/fixtures.py:35: in seed_phase_a
+    report = prototype.import_capture(capture())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/memory.py:58: in import_capture
+    capture = SyntheticCapture.model_validate_json(canonical(capture.model_dump(mode='json')))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture
+E   scope.dataset_ids
+E     Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   scope.record_kinds
+E     Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   records
+E     Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type</error></testcase><testcase classname="tests.next_stage.test_next_stage_memory" name="test_summary_inference_and_action_cannot_be_promoted[profile-USER_STATEMENT]" time="0.005"><error message="failed on setup with &quot;pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture&#10;scope.dataset_ids&#10;  Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;scope.record_kinds&#10;  Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;records&#10;  Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&quot;">tests/next_stage/conftest.py:19: in seeded
+    report, ids = seed_phase_a(proto)
+                  ^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/fixtures.py:35: in seed_phase_a
+    report = prototype.import_capture(capture())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/memory.py:58: in import_capture
+    capture = SyntheticCapture.model_validate_json(canonical(capture.model_dump(mode='json')))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture
+E   scope.dataset_ids
+E     Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   scope.record_kinds
+E     Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   records
+E     Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type</error></testcase><testcase classname="tests.next_stage.test_next_stage_memory" name="test_source_key_collision_does_not_overwrite" time="0.004"><error message="failed on setup with &quot;pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture&#10;scope.dataset_ids&#10;  Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;scope.record_kinds&#10;  Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;records&#10;  Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&quot;">tests/next_stage/conftest.py:19: in seeded
+    report, ids = seed_phase_a(proto)
+                  ^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/fixtures.py:35: in seed_phase_a
+    report = prototype.import_capture(capture())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/memory.py:58: in import_capture
+    capture = SyntheticCapture.model_validate_json(canonical(capture.model_dump(mode='json')))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture
+E   scope.dataset_ids
+E     Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   scope.record_kinds
+E     Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   records
+E     Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type</error></testcase><testcase classname="tests.next_stage.test_next_stage_memory" name="test_bad_record_is_reported_without_losing_valid_records" time="0.004"><failure message="pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture&#10;scope.dataset_ids&#10;  Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;scope.record_kinds&#10;  Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;records&#10;  Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type">tests/next_stage/test_next_stage_memory.py:85: in test_bad_record_is_reported_without_losing_valid_records
+    report=proto.import_capture(SyntheticCapture.model_validate_json(canonical(d)))
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture
+E   scope.dataset_ids
+E     Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   scope.record_kinds
+E     Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   records
+E     Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type</failure></testcase><testcase classname="tests.next_stage.test_next_stage_memory" name="test_prewrite_json_and_secret_rejection[{&quot;a&quot;:1,&quot;a&quot;:2}]" time="0.003"><failure message="pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture&#10;scope.dataset_ids&#10;  Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;scope.record_kinds&#10;  Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;records&#10;  Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type">tests/next_stage/test_next_stage_memory.py:95: in test_prewrite_json_and_secret_rejection
+    proto.import_capture(SyntheticCapture.model_validate_json(canonical(d)))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture
+E   scope.dataset_ids
+E     Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   scope.record_kinds
+E     Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   records
+E     Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type</failure></testcase><testcase classname="tests.next_stage.test_next_stage_memory" name="test_prewrite_json_and_secret_rejection[{&quot;password&quot;:&quot;synthetic-secret-canary&quot;}]" time="0.005"><failure message="pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture&#10;scope.dataset_ids&#10;  Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;scope.record_kinds&#10;  Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;records&#10;  Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type">tests/next_stage/test_next_stage_memory.py:95: in test_prewrite_json_and_secret_rejection
+    proto.import_capture(SyntheticCapture.model_validate_json(canonical(d)))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture
+E   scope.dataset_ids
+E     Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   scope.record_kinds
+E     Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   records
+E     Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type</failure></testcase><testcase classname="tests.next_stage.test_next_stage_memory" name="test_prewrite_json_and_secret_rejection[{&quot;a&quot;:{&quot;token&quot;:&quot;synthetic-secret-canary&quot;}}]" time="0.004"><failure message="pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture&#10;scope.dataset_ids&#10;  Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;scope.record_kinds&#10;  Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;records&#10;  Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type">tests/next_stage/test_next_stage_memory.py:95: in test_prewrite_json_and_secret_rejection
+    proto.import_capture(SyntheticCapture.model_validate_json(canonical(d)))
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture
+E   scope.dataset_ids
+E     Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   scope.record_kinds
+E     Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   records
+E     Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type</failure></testcase><testcase classname="tests.next_stage.test_next_stage_memory" name="test_commitment_offer_persists_but_cannot_self_declare_acceptance" time="0.003"><error message="failed on setup with &quot;pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture&#10;scope.dataset_ids&#10;  Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;scope.record_kinds&#10;  Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;records&#10;  Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&quot;">tests/next_stage/conftest.py:19: in seeded
+    report, ids = seed_phase_a(proto)
+                  ^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/fixtures.py:35: in seed_phase_a
+    report = prototype.import_capture(capture())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/memory.py:58: in import_capture
+    capture = SyntheticCapture.model_validate_json(canonical(capture.model_dump(mode='json')))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture
+E   scope.dataset_ids
+E     Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   scope.record_kinds
+E     Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   records
+E     Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type</error></testcase><testcase classname="tests.next_stage.test_next_stage_memory" name="test_context_manifest_coverage_and_tampering" time="0.003"><error message="failed on setup with &quot;pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture&#10;scope.dataset_ids&#10;  Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;scope.record_kinds&#10;  Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;records&#10;  Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&quot;">tests/next_stage/conftest.py:19: in seeded
+    report, ids = seed_phase_a(proto)
+                  ^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/fixtures.py:35: in seed_phase_a
+    report = prototype.import_capture(capture())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/memory.py:58: in import_capture
+    capture = SyntheticCapture.model_validate_json(canonical(capture.model_dump(mode='json')))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture
+E   scope.dataset_ids
+E     Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   scope.record_kinds
+E     Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   records
+E     Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type</error></testcase><testcase classname="tests.next_stage.test_next_stage_memory" name="test_context_budget_keeps_conflict_bundle_or_refuses" time="0.004"><error message="failed on setup with &quot;pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture&#10;scope.dataset_ids&#10;  Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;scope.record_kinds&#10;  Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;records&#10;  Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&quot;">tests/next_stage/conftest.py:19: in seeded
+    report, ids = seed_phase_a(proto)
+                  ^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/fixtures.py:35: in seed_phase_a
+    report = prototype.import_capture(capture())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/memory.py:58: in import_capture
+    capture = SyntheticCapture.model_validate_json(canonical(capture.model_dump(mode='json')))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture
+E   scope.dataset_ids
+E     Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   scope.record_kinds
+E     Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   records
+E     Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type</error></testcase><testcase classname="tests.next_stage.test_next_stage_memory" name="test_withdrawal_invalidates_context_and_dependent_candidates" time="0.004"><error message="failed on setup with &quot;pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture&#10;scope.dataset_ids&#10;  Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;scope.record_kinds&#10;  Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;records&#10;  Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&quot;">tests/next_stage/conftest.py:19: in seeded
+    report, ids = seed_phase_a(proto)
+                  ^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/fixtures.py:35: in seed_phase_a
+    report = prototype.import_capture(capture())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/memory.py:58: in import_capture
+    capture = SyntheticCapture.model_validate_json(canonical(capture.model_dump(mode='json')))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture
+E   scope.dataset_ids
+E     Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   scope.record_kinds
+E     Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   records
+E     Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type</error></testcase><testcase classname="tests.next_stage.test_next_stage_memory" name="test_restart_backup_replay_and_stale_backup_with_checkpoint" time="0.003"><failure message="pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture&#10;scope.dataset_ids&#10;  Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;scope.record_kinds&#10;  Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;records&#10;  Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type">tests/next_stage/test_next_stage_memory.py:143: in test_restart_backup_replay_and_stale_backup_with_checkpoint
+    p=PhaseAPrototype(store); _,ids=seed_phase_a(p); identity=store.identity; frame=p.self_frame()
+                                    ^^^^^^^^^^^^^^^
+tools/nana_next_stage/fixtures.py:35: in seed_phase_a
+    report = prototype.import_capture(capture())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/memory.py:58: in import_capture
+    capture = SyntheticCapture.model_validate_json(canonical(capture.model_dump(mode='json')))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture
+E   scope.dataset_ids
+E     Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   scope.record_kinds
+E     Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   records
+E     Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type</failure></testcase><testcase classname="tests.next_stage.test_next_stage_memory" name="test_actual_sigkill_partial_import_resume" time="0.164"><failure message="AssertionError: assert 1 == -9&#10; +  where 1 = CompletedProcess(args=['/workspace/nana-core/.venv/bin/python', '-c', '\nimport os,signal,sys\nfrom nana_core.storage ...c_only\': True}], input_type=list]\n    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type\n').returncode">tests/next_stage/test_next_stage_memory.py:176: in test_actual_sigkill_partial_import_resume
+    assert child.returncode==-9
+E   AssertionError: assert 1 == -9
+E    +  where 1 = CompletedProcess(args=['/workspace/nana-core/.venv/bin/python', '-c', '\nimport os,signal,sys\nfrom nana_core.storage ...c_only\': True}], input_type=list]\n    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type\n').returncode</failure></testcase><testcase classname="tests.next_stage.test_next_stage_memory" name="test_foreign_scope_does_not_leak_self_relationship_or_commitment" time="0.004"><error message="failed on setup with &quot;pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture&#10;scope.dataset_ids&#10;  Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;scope.record_kinds&#10;  Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;records&#10;  Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&quot;">tests/next_stage/conftest.py:19: in seeded
+    report, ids = seed_phase_a(proto)
+                  ^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/fixtures.py:35: in seed_phase_a
+    report = prototype.import_capture(capture())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/memory.py:58: in import_capture
+    capture = SyntheticCapture.model_validate_json(canonical(capture.model_dump(mode='json')))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture
+E   scope.dataset_ids
+E     Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   scope.record_kinds
+E     Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   records
+E     Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type</error></testcase><testcase classname="tests.next_stage.test_next_stage_memory" name="test_nonfixture_store_cannot_be_adopted" time="0.003" /><testcase classname="tests.next_stage.test_next_stage_memory" name="test_checkpoint_tamper_wrong_identity_and_no_authority_release" time="0.003"><error message="failed on setup with &quot;pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture&#10;scope.dataset_ids&#10;  Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;scope.record_kinds&#10;  Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&#10;records&#10;  Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]&#10;    For further information visit https://errors.pydantic.dev/2.13/v/tuple_type&quot;">tests/next_stage/conftest.py:19: in seeded
+    report, ids = seed_phase_a(proto)
+                  ^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/fixtures.py:35: in seed_phase_a
+    report = prototype.import_capture(capture())
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tools/nana_next_stage/memory.py:58: in import_capture
+    capture = SyntheticCapture.model_validate_json(canonical(capture.model_dump(mode='json')))
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   pydantic_core._pydantic_core.ValidationError: 3 validation errors for SyntheticCapture
+E   scope.dataset_ids
+E     Input should be a valid array [type=tuple_type, input_value=['synthetic:next-stage'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   scope.record_kinds
+E     Input should be a valid array [type=tuple_type, input_value=['action_ledger', 'kg_edg...', 'l2', 'user_profile'], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E   records
+E     Input should be a valid array [type=tuple_type, input_value=[{'annotation': None, 'da...'synthetic_only': True}], input_type=list]
+E       For further information visit https://errors.pydantic.dev/2.13/v/tuple_type</error></testcase></testsuite></testsuites>
