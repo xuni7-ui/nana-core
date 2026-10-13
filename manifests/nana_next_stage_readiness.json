@@ -1,0 +1,158 @@
+{
+  "schema_version": 1,
+  "kind": "next_stage_development_readiness",
+  "base_sha": "45a0e0b71f11b81f914141cfa139fc10ba6add9d",
+  "approved_core_semantics_changed": false,
+  "real_data_or_model_acceptance": "NOT_RUN_REAL_DEPENDENCY",
+  "files": {
+    "docs/nana_next_stage_evidence/context_hash_initial.xml": {
+      "sha256": "c3c22d914f4fcfd15a1d959e47e00df0bd6ce6e80b985d148af96f681da149c1",
+      "bytes": 797
+    },
+    "docs/nana_next_stage_evidence/core_full_regression.xml": {
+      "sha256": "788d944207e062879f199528d01393f4acfb43992af993727014a615172c4723",
+      "bytes": 64878
+    },
+    "docs/nana_next_stage_evidence/e12_not_run.json": {
+      "sha256": "19d05de54544593778a88e9379e148b4eba434710ff681e65025852a1301ae08",
+      "bytes": 1130
+    },
+    "docs/nana_next_stage_evidence/final_delivery.json": {
+      "sha256": "bc6a6430b6663526a6546b48e17a73447d1b9b01647cc6850dd65d7f3d059ec3",
+      "bytes": 1623
+    },
+    "docs/nana_next_stage_evidence/final_regression.xml": {
+      "sha256": "356a291c2f04cc7e902583e5bd767b37ad749c1f3de39df223705a22d4c13e62",
+      "bytes": 65031
+    },
+    "docs/nana_next_stage_evidence/final_regression_after_readback.xml": {
+      "sha256": "f6826926ec59253b41716a46342829a475e43971471c2cf38d542a0732c9568c",
+      "bytes": 65031
+    },
+    "docs/nana_next_stage_evidence/memory.xml": {
+      "sha256": "1bd07fa23ca9c6453a5118a3abc3b8be60054fb163c764b4c7cc5a0d3dd503c4",
+      "bytes": 7930
+    },
+    "docs/nana_next_stage_evidence/memory_boundary_initial.xml": {
+      "sha256": "ab0adf1346258bf5a16ea7f0743bf564e3078de996eff293846c868a5c26d5d6",
+      "bytes": 50234
+    },
+    "docs/nana_next_stage_evidence/memory_initial.xml": {
+      "sha256": "9735e74b8bdb1c1a953d56a941b34477d3fcef5b49335a42165d6a2e911f78ec",
+      "bytes": 6674
+    },
+    "docs/nana_next_stage_evidence/offline_qualification.json": {
+      "sha256": "02cd4e97681c03fa8ebe98da065747aed1ce0cce6e54a87d02233050cd49d5cb",
+      "bytes": 15637
+    },
+    "docs/nana_next_stage_evidence/phase_a_e12.xml": {
+      "sha256": "e80c344b3f7c199d69a0a54a7164e091634e6ea8d8d6bdcccb956023d78abddd",
+      "bytes": 10673
+    },
+    "docs/nana_next_stage_evidence/qualification_final.xml": {
+      "sha256": "322a94b91bf73e11449798a366280428a11ab08f5652e1c2b40d31ec29128e3e",
+      "bytes": 836
+    },
+    "docs/nana_next_stage_evidence/qualification_matrix.json": {
+      "sha256": "56ea57210f19ea655b2aa0cd77f4d34f6e2d7b10e0fa9aae32497b5323c1975a",
+      "bytes": 12681
+    },
+    "docs/nana_next_stage_evidence/readiness.xml": {
+      "sha256": "bc0ec8ca141d059edc0593ee0230e918bd7ba993a7e97416918770da70450756",
+      "bytes": 11260
+    },
+    "docs/nana_next_stage_evidence/readiness_fixed.xml": {
+      "sha256": "51f4456a7bd6133ff30fac7c44fd41997b9b3a407d2ecf826e3b385b9e0f8e0e",
+      "bytes": 11576
+    },
+    "docs/nana_next_stage_evidence/security_scan.json": {
+      "sha256": "0cf352a2b737c7dd0a39ebb0ecd2cd6062afbfb1b81088f15a15a650ab1a71d9",
+      "bytes": 408
+    },
+    "docs/nana_next_stage_evidence/semantic_initial.xml": {
+      "sha256": "42ebca3fcf46f8972124049de34a22e83e139dbc9e0f5babee9ab0d5e64a51b6",
+      "bytes": 10523
+    },
+    "docs/nana_next_stage_evidence/targeted.xml": {
+      "sha256": "733a5bfa081f55f3386f42bbab4648ad0ed4c2b4beb9b55b028c84b3744f6fa8",
+      "bytes": 12217
+    },
+    "docs/nana_next_stage_evidence/targeted_final.xml": {
+      "sha256": "b32e593947f967894a3f69ab2cf748ec349c92419e635c825f55e6d2537845f4",
+      "bytes": 12370
+    },
+    "docs/nana_next_stage_evidence/temporal_context_initial.xml": {
+      "sha256": "49823b31e0c41871c9b8171b5675f88ea823515b379d92b82fe2ff45a923a66f",
+      "bytes": 1066
+    },
+    "docs/nana_next_stage_evidence/withdrawal_regression_initial.xml": {
+      "sha256": "18e9a0d34bd495c3cf1e9beead08c1d4af75c83f9c5d7bcaa19cea76f8f0a406",
+      "bytes": 927
+    },
+    "docs/nana_next_stage_implementation_proposals.md": {
+      "sha256": "0bfa619ea02986058a7534d079b2a69601723406ce1e8313177f292dd18e9ade",
+      "bytes": 5046
+    },
+    "docs/nana_next_stage_readiness.md": {
+      "sha256": "a02d798f2b6499471859f57bd2243b3c4f27ed07b1220ba05ed58a14ae82b500",
+      "bytes": 7145
+    },
+    "tests/next_stage/__init__.py": {
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    "tests/next_stage/conftest.py": {
+      "sha256": "15851df424135505f8b926741a52e24977db43f2110ad1b5da5d062b89423b95",
+      "bytes": 737
+    },
+    "tests/next_stage/test_next_stage_contracts.py": {
+      "sha256": "2b53a00a801490d1759ecb891d9aee3d52281830f04e5dbfdbe7d0b41b6bc2b1",
+      "bytes": 4821
+    },
+    "tests/next_stage/test_next_stage_memory.py": {
+      "sha256": "8286ae799bef69a8ac5d2c1d86597639ac1d8d43e1b97d60b526d3bb13f8249f",
+      "bytes": 15016
+    },
+    "tests/next_stage/test_next_stage_qualification.py": {
+      "sha256": "ada055b28a497363101ac9a2d4d36e3ce9a21f14820abcc37dd46fbd3154c4ef",
+      "bytes": 1840
+    },
+    "tests/next_stage/test_next_stage_semantic.py": {
+      "sha256": "76a6a60be670f5419f7e60b8d6febd8524c718bbbac082726e3bd43fa599cad3",
+      "bytes": 8451
+    },
+    "tools/nana_next_stage/__init__.py": {
+      "sha256": "8b11d000c470a90975ccd7cb513563bcb58a1450521aafa6943b1ee970c79132",
+      "bytes": 76
+    },
+    "tools/nana_next_stage/__main__.py": {
+      "sha256": "729dc690e1d22a2d8c6d0592d6269999353aad1a51a0bed503d86a7ed5ef72fc",
+      "bytes": 2001
+    },
+    "tools/nana_next_stage/contracts.py": {
+      "sha256": "11c5bdd6fab51a35c30453eeb3450b4c842947c1520008a66d081ad3437840c8",
+      "bytes": 7720
+    },
+    "tools/nana_next_stage/fixtures.py": {
+      "sha256": "b82063ec5dcf711917e76648bb0ee9c32afbd0d9daa6555436074e124b8ac4de",
+      "bytes": 3644
+    },
+    "tools/nana_next_stage/memory.py": {
+      "sha256": "bf0b3c9a7508ec16599b8141673518c382de0962504ba9dc96d03c7645d56e30",
+      "bytes": 17343
+    },
+    "tools/nana_next_stage/qualification.py": {
+      "sha256": "00ff349652cba05334f8100d4571255fabf94b524201ae4b479f46bb0cce4234",
+      "bytes": 6139
+    },
+    "tools/nana_next_stage/semantic.py": {
+      "sha256": "d8544a39ed1a75de9ded7bd458340a472887c0104b6c3f38a64df471c5995881",
+      "bytes": 14408
+    }
+  },
+  "exclusions": [
+    "self",
+    "PROJECT_BRAIN appendices referencing this anchor"
+  ],
+  "production_pins": "UNCHANGED_EMPTY_DEFAULT"
+}

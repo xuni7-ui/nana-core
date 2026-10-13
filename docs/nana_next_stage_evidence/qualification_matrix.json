@@ -1,0 +1,181 @@
+{
+  "schema_version": 1,
+  "provenance": "SYNTHETIC_FIXTURE",
+  "gates": {
+    "N01": {
+      "scope": "Identity restart/replay",
+      "readiness": "READY_OFFLINE",
+      "real_acceptance": "NOT_RUN_REAL_DEPENDENCY",
+      "remaining": "Actual model/host/identity adoption",
+      "development_tests": [
+        "tests.next_stage.test_next_stage_memory::test_restart_backup_replay_and_stale_backup_with_checkpoint",
+        "tests.next_stage.test_next_stage_memory::test_actual_process_restart_preserves_offered_commitment_and_context",
+        "tests.next_stage.test_next_stage_semantic::test_frozen_relationship_identity_experience_and_heldout_isolation",
+        "tests.next_stage.test_next_stage_semantic::test_two_fixture_ports_same_identity_both_arms_and_proposals[0]",
+        "tests.next_stage.test_next_stage_semantic::test_two_fixture_ports_same_identity_both_arms_and_proposals[1]",
+        "tests.next_stage.test_next_stage_semantic::test_two_fixture_ports_same_identity_both_arms_and_proposals[2]",
+        "tests.next_stage.test_next_stage_semantic::test_two_fixture_ports_same_identity_both_arms_and_proposals[3]"
+      ],
+      "development_test_result": "PASS_DECLARED_OFFLINE_SCOPE"
+    },
+    "N02": {
+      "scope": "Epistemic/provenance separation",
+      "readiness": "READY_OFFLINE",
+      "real_acceptance": "NOT_RUN_REAL_DEPENDENCY",
+      "remaining": "Authorized real legacy sample",
+      "development_tests": [
+        "tests.next_stage.test_next_stage_contracts::test_reject_capture_scope_and_domain_mutations[<lambda>0]",
+        "tests.next_stage.test_next_stage_contracts::test_reject_capture_scope_and_domain_mutations[<lambda>1]",
+        "tests.next_stage.test_next_stage_contracts::test_reject_capture_scope_and_domain_mutations[<lambda>2]",
+        "tests.next_stage.test_next_stage_contracts::test_reject_capture_scope_and_domain_mutations[<lambda>3]",
+        "tests.next_stage.test_next_stage_contracts::test_reject_capture_scope_and_domain_mutations[<lambda>4]",
+        "tests.next_stage.test_next_stage_contracts::test_reject_capture_scope_and_domain_mutations[<lambda>5]",
+        "tests.next_stage.test_next_stage_contracts::test_reject_capture_scope_and_domain_mutations[<lambda>6]",
+        "tests.next_stage.test_next_stage_contracts::test_reject_capture_scope_and_domain_mutations[<lambda>7]",
+        "tests.next_stage.test_next_stage_contracts::test_reject_capture_scope_and_domain_mutations[<lambda>8]",
+        "tests.next_stage.test_next_stage_contracts::test_reject_capture_scope_and_domain_mutations[<lambda>9]",
+        "tests.next_stage.test_next_stage_contracts::test_reject_capture_scope_and_domain_mutations[<lambda>10]",
+        "tests.next_stage.test_next_stage_memory::test_import_preserves_provenance_time_types_and_never_executes",
+        "tests.next_stage.test_next_stage_memory::test_summary_inference_and_action_cannot_be_promoted[summary-USER_STATEMENT]",
+        "tests.next_stage.test_next_stage_memory::test_summary_inference_and_action_cannot_be_promoted[old-action-USER_STATEMENT]",
+        "tests.next_stage.test_next_stage_memory::test_summary_inference_and_action_cannot_be_promoted[profile-USER_STATEMENT]",
+        "tests.next_stage.test_next_stage_memory::test_prewrite_json_and_secret_rejection[{\"a\":1,\"a\":2}]",
+        "tests.next_stage.test_next_stage_memory::test_prewrite_json_and_secret_rejection[{\"password\":\"synthetic-secret-canary\"}]",
+        "tests.next_stage.test_next_stage_memory::test_prewrite_json_and_secret_rejection[{\"a\":{\"token\":\"synthetic-secret-canary\"}}]"
+      ],
+      "development_test_result": "PASS_DECLARED_OFFLINE_SCOPE"
+    },
+    "N03": {
+      "scope": "Temporal correction and conflicting statements",
+      "readiness": "READY_OFFLINE",
+      "real_acceptance": "NOT_RUN_REAL_DEPENDENCY",
+      "remaining": "Real semantic extraction",
+      "development_tests": [
+        "tests.next_stage.test_next_stage_contracts::test_timezone_equivalence_and_microsecond_order",
+        "tests.next_stage.test_next_stage_memory::test_correction_is_temporal_and_keeps_both_evidence",
+        "tests.next_stage.test_next_stage_memory::test_unknown_time_conflict_is_disputed_not_arbitrary_latest",
+        "tests.next_stage.test_next_stage_memory::test_withdrawing_newer_statement_does_not_make_old_belief_current"
+      ],
+      "development_test_result": "PASS_DECLARED_OFFLINE_SCOPE"
+    },
+    "N04": {
+      "scope": "SelfFrame and self-change candidate only",
+      "readiness": "PARTIAL",
+      "real_acceptance": "NOT_RUN_REAL_DEPENDENCY",
+      "remaining": "Approved identity-growth commit/rollback interface",
+      "development_tests": [
+        "tests.next_stage.test_next_stage_contracts::test_self_change_cannot_request_charter_or_authority",
+        "tests.next_stage.test_next_stage_memory::test_historical_context_does_not_include_future_commitment_or_self_candidate"
+      ],
+      "development_test_result": "PASS_DECLARED_OFFLINE_SCOPE"
+    },
+    "N05": {
+      "scope": "Scoped synthetic relationship persistence",
+      "readiness": "PARTIAL",
+      "real_acceptance": "NOT_RUN_REAL_DEPENDENCY",
+      "remaining": "Real entity binding and split protocol",
+      "development_tests": [
+        "tests.next_stage.test_next_stage_memory::test_foreign_scope_does_not_leak_self_relationship_or_commitment",
+        "tests.next_stage.test_next_stage_memory::test_actual_process_restart_preserves_offered_commitment_and_context",
+        "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[person_id-synthetic:imposter]",
+        "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[address_term-fictional changed name]",
+        "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[commitment_due_at-2026-09-09T10:00:00+00:00]",
+        "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[current_preference-long]",
+        "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[relationship_memory_refs-value4]",
+        "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[preference_memory_refs-value5]",
+        "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[observation_coverage-FULL_FOR_DECLARED_SCOPE]"
+      ],
+      "development_test_result": "PASS_DECLARED_OFFLINE_SCOPE"
+    },
+    "N06": {
+      "scope": "OFFERED commitment persistence only",
+      "readiness": "PARTIAL",
+      "real_acceptance": "NOT_RUN_REAL_DEPENDENCY",
+      "remaining": "Accept/renegotiate/fulfilment protocol and Goal linkage",
+      "development_tests": [
+        "tests.next_stage.test_next_stage_memory::test_commitment_offer_persists_but_cannot_self_declare_acceptance",
+        "tests.next_stage.test_next_stage_memory::test_actual_process_restart_preserves_offered_commitment_and_context",
+        "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[person_id-synthetic:imposter]",
+        "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[address_term-fictional changed name]",
+        "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[commitment_due_at-2026-09-09T10:00:00+00:00]",
+        "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[current_preference-long]",
+        "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[relationship_memory_refs-value4]",
+        "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[preference_memory_refs-value5]",
+        "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[observation_coverage-FULL_FOR_DECLARED_SCOPE]"
+      ],
+      "development_test_result": "PASS_DECLARED_OFFLINE_SCOPE"
+    },
+    "N11": {
+      "scope": "Retrieval suppression and fixture checkpoint replay",
+      "readiness": "PARTIAL",
+      "real_acceptance": "NOT_RUN_REAL_DEPENDENCY",
+      "remaining": "Physical purge and authenticated revocation/backup anchors",
+      "development_tests": [
+        "tests.next_stage.test_next_stage_memory::test_withdrawal_invalidates_context_and_dependent_candidates",
+        "tests.next_stage.test_next_stage_memory::test_checkpoint_tamper_wrong_identity_and_no_authority_release",
+        "tests.next_stage.test_next_stage_memory::test_withdrawing_newer_statement_does_not_make_old_belief_current",
+        "tests.next_stage.test_next_stage_memory::test_reimport_new_revision_still_cannot_revive_withdrawn_source"
+      ],
+      "development_test_result": "PASS_DECLARED_OFFLINE_SCOPE"
+    },
+    "N12": {
+      "scope": "Observation coverage contract",
+      "readiness": "READY_OFFLINE",
+      "real_acceptance": "NOT_RUN_REAL_DEPENDENCY",
+      "remaining": "Real source coverage/freshness measurement",
+      "development_tests": [
+        "tests.next_stage.test_next_stage_memory::test_context_manifest_coverage_and_tampering",
+        "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[person_id-synthetic:imposter]",
+        "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[address_term-fictional changed name]",
+        "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[commitment_due_at-2026-09-09T10:00:00+00:00]",
+        "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[current_preference-long]",
+        "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[relationship_memory_refs-value4]",
+        "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[preference_memory_refs-value5]",
+        "tests.next_stage.test_next_stage_semantic::test_semantic_drift_fails_without_rewriting_core[observation_coverage-FULL_FOR_DECLARED_SCOPE]"
+      ],
+      "development_test_result": "PASS_DECLARED_OFFLINE_SCOPE"
+    },
+    "N13": {
+      "scope": "Bounded context and stale/withdrawal checks",
+      "readiness": "PARTIAL",
+      "real_acceptance": "NOT_RUN_REAL_DEPENDENCY",
+      "remaining": "Model tokenizer and semantic context quality",
+      "development_tests": [
+        "tests.next_stage.test_next_stage_memory::test_context_manifest_coverage_and_tampering",
+        "tests.next_stage.test_next_stage_memory::test_context_budget_keeps_conflict_bundle_or_refuses",
+        "tests.next_stage.test_next_stage_memory::test_historical_context_does_not_include_future_commitment_or_self_candidate",
+        "tests.next_stage.test_next_stage_memory::test_self_declared_payload_hash_cannot_authenticate_fabricated_context"
+      ],
+      "development_test_result": "PASS_DECLARED_OFFLINE_SCOPE"
+    },
+    "E12": {
+      "scope": "Original proposal plus behavior and Phase A understanding",
+      "readiness": "READY_OFFLINE",
+      "real_acceptance": "NOT_RUN_REAL_DEPENDENCY",
+      "remaining": "Two authorized distinct real development models",
+      "development_tests": [
+        "tests.next_stage.test_next_stage_semantic::test_one_command_no_config_reports_not_run_without_network",
+        "tests.next_stage.test_next_stage_semantic::test_two_fixture_ports_same_identity_both_arms_and_proposals[0]",
+        "tests.next_stage.test_next_stage_semantic::test_two_fixture_ports_same_identity_both_arms_and_proposals[1]",
+        "tests.next_stage.test_next_stage_semantic::test_two_fixture_ports_same_identity_both_arms_and_proposals[2]",
+        "tests.next_stage.test_next_stage_semantic::test_two_fixture_ports_same_identity_both_arms_and_proposals[3]",
+        "tests.next_stage.test_next_stage_semantic::test_compiler_cannot_hide_raw_plan_failure",
+        "tests.next_stage.test_next_stage_semantic::test_simulator_config_cannot_be_run_as_real",
+        "tests.next_stage.test_next_stage_semantic::test_missing_binding_remains_not_run"
+      ],
+      "development_test_result": "PASS_DECLARED_OFFLINE_SCOPE"
+    }
+  },
+  "tests": {
+    "passed": 81,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "evidence": "targeted_final.xml"
+  },
+  "E12": "NOT_RUN",
+  "SMALL_REAL_MEMORY_SHADOW": "NOT_RUN_REAL_DEPENDENCY",
+  "FIRST_REAL_ASTRBOT_SHADOW": "UNCHANGED_OTHER_EXECUTOR",
+  "ready_to_continue_after_first_real_shadow": true,
+  "meaning": "Offline preparation available; does not grant real-data/model/production access."
+}

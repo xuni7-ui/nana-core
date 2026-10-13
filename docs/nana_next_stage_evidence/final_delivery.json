@@ -1,0 +1,44 @@
+{
+  "branch": "dev/nana-core-next-stage-readiness-codex",
+  "base_sha": "45a0e0b71f11b81f914141cfa139fc10ba6add9d",
+  "final_sha": "SEE_GIT_HEAD_AFTER_FINAL_COMMIT",
+  "tests": {
+    "passed": 453,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 1,
+    "new_tests": 81,
+    "old_pass_cases_retained": 372,
+    "seconds": 18.364,
+    "scope": "Configured Core S0-S6/development/phase3/integration plus tests/next_stage; R04/R041 bridge suite excluded, not deleted"
+  },
+  "runtime": {
+    "python": "3.12.14",
+    "sqlite": "3.53.1",
+    "pydantic": "2.13.4"
+  },
+  "SMALL_REAL_MEMORY_READINESS": "OFFLINE_READY_REAL_IMPORT_BLOCKED",
+  "E12_READINESS": "OFFLINE_READY_REAL_EXECUTION_NOT_RUN",
+  "CONTINUOUS_SELF_MEMORY_READINESS": "PARTIAL_CONTRACT_AND_FIXTURE_READY",
+  "REAL_DEPENDENCIES_REMAINING": [
+    "FIRST_REAL_ASTRBOT_SHADOW independent proof",
+    "Explicit small real memory scope authorization",
+    "Approved privacy/real capture Core protocol",
+    "Two distinct authorized development models and quota",
+    "Identity adoption and formal commitment/growth/entity protocols"
+  ],
+  "blockers_found": 9,
+  "approved_core_semantics_changed": false,
+  "new_core_sql_tables": 0,
+  "dependency_drift": 0,
+  "production_changed": false,
+  "real_model_calls": 0,
+  "E12": "NOT_RUN",
+  "private_memory_read": 0,
+  "secret_values_read": 0,
+  "production_actions": 0,
+  "fresh_production_receipts": 0,
+  "host_bridge_operations": 0,
+  "READY_TO_CONTINUE_AFTER_FIRST_REAL_SHADOW": true,
+  "readiness_meaning": "Engineering preparations ready; requires listed authorization/schema gates, no claim of real acceptance."
+}

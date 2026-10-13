@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "snapshot_hash": "4015ade9127576bb2f106ec3166096e458a32dc3396f8dda38d831c4003a7ce7",
+  "semantic_gate": "NOT_RUN",
+  "E12": "NOT_RUN",
+  "engineering_gate": "SEE_SEPARATE_TEST_REPORT",
+  "real_model_attempts": 0,
+  "provider_models": [],
+  "protocol_simulator_attempts": 0,
+  "unverified_http_attempts": 0,
+  "ledger": {
+    "attempts": 0,
+    "reserved_input_bytes": 0,
+    "reserved_output_tokens": 0,
+    "reserved_cost_micro": 0,
+    "calls": []
+  },
+  "results": [],
+  "experience_contrasts": [],
+  "blockers": [
+    "NOT_RUN_REAL_DEPENDENCY: two distinct authorized development models required"
+  ],
+  "fees": {
+    "actual_external_cost": 0,
+    "provider_billing_verified": false,
+    "reservation_is_not_bill": true
+  },
+  "scope": "synthetic offline capability effects; sequential ModelPorts; no production account or services",
+  "snapshot_unchanged": true,
+  "phase_a_semantics": "NOT_RUN_REAL_DEPENDENCY",
+  "model_switch_comparisons": [],
+  "remaining_real_dependencies": [
+    "Real model semantic qualification",
+    "Real host binding",
+    "Authorized small real memory capture"
+  ]
+}

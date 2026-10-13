@@ -872,3 +872,8 @@
 - 改了什么：在Core外复用S5 snapshot/execute_case/CompatibleModelPort/CallLedger，补关系/OFFERED承诺/偏好纠正/观察覆盖理解评分与CLI；原提案和Core行为分开留证。
 - 为什么：提前准备真实模型语义门，fixture绝不升级real；补齐Phase A可离线验证的合同。
 - 怎么验证：顺序双fixture/各case有无经验、原提案漏定位仍判语义失败、结构漂移/缺端点/模拟器配置不误报真实E12；原型撤回/历史时间/重算hash对抗用例保留后修复。实际真实模型/生产/私忆/receipt/bridge操作0。
+
+## NEXT-STAGE-FINAL · qualification / regression / blocker handoff
+- 改了什么：补实际进程承诺/SelfFrame/context恢复用例；实际CLI证据、N01–N06/N11–N13/E12逐门资格矩阵、九项最小实施提案与指纹。
+- 为什么：真实Shadow一旦通过即可复用准备工作；保留正式成长/承诺/实体/真实删除等基础边界。
+- 怎么验证：81新增pass；既有Core指定全套+新增453pass/0fail/1E12skip（18.364sec）；新CLI合成工程PASS、真实模型NOT_RUN；敏感模式/白名单/运行DB排除检查通过。未改Core/SQL/依赖/R045接线/生产，无私人内容与真实secret读取。

@@ -89,3 +89,25 @@ Fixes retain historical truth, filter support by as_of and reconstruct context f
 Store instead of trusting caller hashes. The previous new-test assertion about old
 belief now checks its historical date plus current uncertainty, strengthening temporal
 correctness. No inherited test was edited/deleted. Initial failing XML is retained.
+
+## Final actual development validation
+
+81 new tests passed. Full configured Core S0–S6/development/phase3/integration suite
+plus readiness: **453 passed / 0 failed / 0 errors / 1 skipped**,18.37seconds on actual
+CPython3.12.14 / nativeSQLite3.53.1 / Pydantic2.13.4. The only skip is E12. No private
+runtime injected into any host; this is a compatible development interpreter.
+R04/R041 host-bridge test suite was not run this turn because receipt/bridge operations
+are out of this task's scope; its code and all old tests are untouched. Do not compare
+453 with R045's broader762 as if tests had been deleted.
+
+Actual fresh CLI runs: qualify produced6imported/6duplicate, complete source/time
+context, restart/backup/replay/checkpoint suppression and zero execution objects in
+the memory prototype. e12 without config produced0calls/NOT_RUN. Same frozen-state
+fixture cells exercise2ports×4cases×2arms=16cells, raw semantic vs Core behavior separate.
+Actual source/model identity from real inference remains untested.
+
+Qualification matrix: docs/nana_next_stage_evidence/qualification_matrix.json; every
+real gate NOT_RUN_REAL_DEPENDENCY. Offline CLI evidence: offline_qualification.json;
+real E12 absence: e12_not_run.json. Core blockers and minimal proposals:
+docs/nana_next_stage_implementation_proposals.md. No production/real-memory/secret/
+real-model/receipt/bridge operations; Approved Core semantics/schema/dependencies0diff.

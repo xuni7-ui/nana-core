@@ -252,3 +252,26 @@ def test_reimport_new_revision_still_cannot_revive_withdrawn_source(seeded):
         body=json.loads(m['body_json'])
         if body['iris']['origin']['legacy_key']=='new-preference':assert m['status']=='RETRACTED'
     assert not proto.assessments(DATASET,as_of='2026-09-04T10:00:00+00:00')[0]['current_claim_ids']
+
+
+def test_actual_process_restart_preserves_offered_commitment_and_context(tmp_path):
+    path=tmp_path/'restart.db'
+    with Store(path) as store:
+        proto=PhaseAPrototype(store);seed_phase_a(proto)
+        expected={'self':proto.self_frame(),
+            'context':proto.context(scope=DATASET,as_of='2026-09-04T10:00:00+00:00',max_chars=16000)}
+    code='''
+import sys
+from nana_core.storage import Store,canonical
+from tools.nana_next_stage.memory import PhaseAPrototype
+from tools.nana_next_stage.fixtures import DATASET
+with Store(sys.argv[1]) as s:
+ p=PhaseAPrototype(s)
+ print(canonical({'self':p.self_frame(),'context':p.context(scope=DATASET,as_of='2026-09-04T10:00:00+00:00',max_chars=16000)}))
+'''
+    env={**os.environ,'PYTHONPATH':str(Path.cwd())+os.pathsep+str(Path.cwd()/'src')}
+    child=subprocess.run([sys.executable,'-c',code,str(path)],env=env,capture_output=True,text=True,timeout=20)
+    assert child.returncode==0
+    assert json.loads(child.stdout)==expected
+    assert expected['self']['commitments'][0]['status']=='OFFERED'
+    assert expected['self']['commitments'][0]['due_at']=='2026-09-05T10:00:00+00:00'

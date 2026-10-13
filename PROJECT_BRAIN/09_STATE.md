@@ -648,3 +648,6 @@
 [已实现/已测试] 独立分支dev/nana-core-next-stage-readiness-codex；继承VNext-1@45a0e0b。Core之外的合成capture/Phase A合同与持久投影52passed；来源/时间/纠正/候选关系与承诺/SelfFrame/context/withdrawal suppression/replay及实际SIGKILL恢复。无新Core表/依赖/语义改动。N11真正删除、正式承诺接受、身份成长及真实数据/模型验收仍未实现/未运行。详见docs/nana_next_stage_readiness.md；当前真实Shadow主线未触碰，E12 NOT_RUN。
 
 [Next-Stage M2 / 开发测试] 已复用S5引擎增加同Store冻结关系/承诺/偏好纠正/coverage、原rationale结构化补充理解评分、双fixture端口顺序消融、一命令qualify/e12准备。无配置E12 NOT_RUN/调用0；真实模型路径本轮未执行。原型撤回/时间/Context自报hash三项失败用例保留后修复，不改Approved Core。详细资格矩阵及全量回归待最终记录。
+
+[Next-Stage FINAL / 本分支开发证据] 新增81test；Core既定S0–S6/development/phase3/integration套件+新增共453passed/0failed/0errors/1skipped(E12)，原372pass保留；R04/R041桥接套件本轮未运行且源码/测试未改。实际CPython3.12.14/nativeSQLite3.53.1/Pydantic2.13.4；原SQLite门保持。独立CLI合成演习6import/6duplicate、重启/backup/replay/撤回checkpoint通过；真实模型/数据/生产/receipt/bridge操作0。SmallRealMemory真实准入仍BLOCKED，E12 NOT_RUN，ContinuousSelfMemory为合同/fixture PARTIAL；九项明确实施提案见docs/nana_next_stage_implementation_proposals.md。READINESS仅指工程准备，不授予任何真实操作权限，也不升级另一执行者的Shadow状态。
+[指纹] manifests/nana_next_stage_readiness.json SHA256=65d98858984f617eb74d8c64b8b33672178427cfef72befa03fce8b5762e27aa；不含自身与账本。

@@ -63,7 +63,9 @@ def qualify(output):
         proto=PhaseAPrototype(store)
         checks['restart_same_identity']=store.identity==identity
         checks['restart_same_relationship']=proto.self_frame()['relationships']==frame['relationships']
-        checks['restart_same_offer_before_withdrawal']=frame['commitments'][0]['due_at']=='2026-09-05T10:00:00+00:00'
+        persisted_offer=proto._get('commitment:synthetic:reading-promise')
+        checks['restart_offer_record_preserved']=(persisted_offer['status']=='OFFERED'
+            and persisted_offer['due_at']=='2026-09-05T10:00:00+00:00')
         checks['restart_withdrawn_source_hidden']=ids['new-preference'] not in proto.context(scope=DATASET,as_of='2026-09-04T10:00:00+00:00',max_chars=16000)['manifest']['selected_memory_ids']
     for name in ('stale-backup.db','backup.db','replay.db'):
         with Store(root/name) as store:

@@ -1,0 +1,398 @@
+{
+  "schema_version": 1,
+  "provenance": "SYNTHETIC_FIXTURE",
+  "gates": {
+    "N01": {
+      "scope": "Identity restart/replay",
+      "readiness": "READY_OFFLINE",
+      "real_acceptance": "NOT_RUN_REAL_DEPENDENCY",
+      "remaining": "Actual model/host/identity adoption"
+    },
+    "N02": {
+      "scope": "Epistemic/provenance separation",
+      "readiness": "READY_OFFLINE",
+      "real_acceptance": "NOT_RUN_REAL_DEPENDENCY",
+      "remaining": "Authorized real legacy sample"
+    },
+    "N03": {
+      "scope": "Temporal correction and conflicting statements",
+      "readiness": "READY_OFFLINE",
+      "real_acceptance": "NOT_RUN_REAL_DEPENDENCY",
+      "remaining": "Real semantic extraction"
+    },
+    "N04": {
+      "scope": "SelfFrame and self-change candidate only",
+      "readiness": "PARTIAL",
+      "real_acceptance": "NOT_RUN_REAL_DEPENDENCY",
+      "remaining": "Approved identity-growth commit/rollback interface"
+    },
+    "N05": {
+      "scope": "Scoped synthetic relationship persistence",
+      "readiness": "PARTIAL",
+      "real_acceptance": "NOT_RUN_REAL_DEPENDENCY",
+      "remaining": "Real entity binding and split protocol"
+    },
+    "N06": {
+      "scope": "OFFERED commitment persistence only",
+      "readiness": "PARTIAL",
+      "real_acceptance": "NOT_RUN_REAL_DEPENDENCY",
+      "remaining": "Accept/renegotiate/fulfilment protocol and Goal linkage"
+    },
+    "N11": {
+      "scope": "Retrieval suppression and fixture checkpoint replay",
+      "readiness": "PARTIAL",
+      "real_acceptance": "NOT_RUN_REAL_DEPENDENCY",
+      "remaining": "Physical purge and authenticated revocation/backup anchors"
+    },
+    "N12": {
+      "scope": "Observation coverage contract",
+      "readiness": "READY_OFFLINE",
+      "real_acceptance": "NOT_RUN_REAL_DEPENDENCY",
+      "remaining": "Real source coverage/freshness measurement"
+    },
+    "N13": {
+      "scope": "Bounded context and stale/withdrawal checks",
+      "readiness": "PARTIAL",
+      "real_acceptance": "NOT_RUN_REAL_DEPENDENCY",
+      "remaining": "Model tokenizer and semantic context quality"
+    },
+    "E12": {
+      "scope": "Original proposal plus behavior and Phase A understanding",
+      "readiness": "READY_OFFLINE",
+      "real_acceptance": "NOT_RUN_REAL_DEPENDENCY",
+      "remaining": "Two authorized distinct real development models"
+    }
+  },
+  "tests": {
+    "status": "SEE_TEST_EVIDENCE"
+  },
+  "E12": "NOT_RUN",
+  "SMALL_REAL_MEMORY_SHADOW": "NOT_RUN_REAL_DEPENDENCY",
+  "FIRST_REAL_ASTRBOT_SHADOW": "UNCHANGED_OTHER_EXECUTOR",
+  "ready_to_continue_after_first_real_shadow": true,
+  "meaning": "Offline preparation available; does not grant real-data/model/production access.",
+  "engineering_gate": "PASS",
+  "checks": {
+    "import_count": true,
+    "record_rejections_reported": true,
+    "dedup": true,
+    "context_ready_and_verified": true,
+    "partial_coverage_honest": true,
+    "correction": true,
+    "offered_commitment_not_accepted": true,
+    "self_growth_not_applied": true,
+    "no_old_belief_resurrection": true,
+    "withdrawn_dependent_commitment_hidden": true,
+    "original_evidence_retained_not_purged": true,
+    "original_times_preserved": true,
+    "no_execution_objects": true,
+    "restart_same_identity": true,
+    "restart_same_relationship": true,
+    "restart_offer_record_preserved": true,
+    "restart_withdrawn_source_hidden": true,
+    "stale-backup.db_quarantined_no_resurrection": true,
+    "backup.db_quarantined_no_resurrection": true,
+    "replay.db_quarantined_no_resurrection": true,
+    "e12_not_run_zero_calls": true
+  },
+  "identity": {
+    "identity_id": "df14ff9b-445b-4187-a483-064799a396b0",
+    "revision": 1,
+    "body_json": "{\"charter\":[\"retain independent judgement\",\"evidence before success\",\"learning cannot expand permissions\"],\"expression_defaults\":{\"style\":\"warm and precise\"},\"name\":\"Nana\",\"self_preferences\":[]}",
+    "created_event_id": "23a9963c-ab4e-44b4-a181-be7b30d78ca7"
+  },
+  "fixture_record_count": 6,
+  "duplicate_count": 6,
+  "original_context": {
+    "manifest": {
+      "schema_version": 1,
+      "provenance": "SYNTHETIC_FIXTURE",
+      "status": "READY",
+      "identity_id": "df14ff9b-445b-4187-a483-064799a396b0",
+      "identity_revision": 1,
+      "as_of": "2026-09-04T10:00:00+00:00",
+      "scope": "synthetic:next-stage",
+      "destination": "local_only",
+      "event_cutoff": 28,
+      "selected_memory_ids": [
+        "28c376b2-f6cc-43b2-8485-8984fa2bda9e",
+        "c69cfe55-833a-4e03-945e-1a77cef6d181",
+        "8cae5435-3dc8-476f-ad98-f2984edb1ab8",
+        "7d07143e-5912-47e8-9cd3-1d2196089aef",
+        "98e66d8b-82a2-43d6-a2c6-434dca24634c",
+        "eeecc45b-0d78-4be0-a775-d6ede6949790"
+      ],
+      "dropped_memory_ids": [],
+      "coverage": "SELECTED_CONTEXT",
+      "observation_coverage": [
+        {
+          "completeness": "PARTIAL",
+          "disconnected": true,
+          "dropped": 2,
+          "event_scope": "result_path",
+          "observed_from": "2026-09-01T00:00:00+00:00",
+          "observed_until": "2026-09-04T00:00:00+00:00",
+          "source_instance": "synthetic:next-stage"
+        }
+      ],
+      "withdrawal_digest": "cb8429865d3b6c4cdc3813e6149f3d999c47c687718e9450e3f96b9656abab7e",
+      "payload_hash": "f48f56047c20ee3d296113448b9fea7759e759c2cb610b008c1c59557516ff52",
+      "context_chars": 6761,
+      "budget_chars": 16000,
+      "token_accounting": "CHARACTER_BOUND_ONLY_TOKENIZER_NOT_IMPLEMENTED",
+      "semantic_quality": "NOT_RUN_REAL_DEPENDENCY"
+    },
+    "payload": {
+      "self": {
+        "schema_version": 1,
+        "provenance": "SYNTHETIC_FIXTURE",
+        "identity_id": "df14ff9b-445b-4187-a483-064799a396b0",
+        "identity_revision": 1,
+        "identity_snapshot": {
+          "charter": [
+            "retain independent judgement",
+            "evidence before success",
+            "learning cannot expand permissions"
+          ],
+          "expression_defaults": {
+            "style": "warm and precise"
+          },
+          "name": "Nana",
+          "self_preferences": []
+        },
+        "relationships": [
+          {
+            "address_term": "姐姐（合成关系）",
+            "person_id": "synthetic:sister",
+            "role": "sister_fixture",
+            "supporting_memory_ids": [
+              "98e66d8b-82a2-43d6-a2c6-434dca24634c"
+            ]
+          }
+        ],
+        "commitments": [
+          {
+            "beneficiary_id": "synthetic:sister",
+            "commitment_id": "synthetic:reading-promise",
+            "due_at": "2026-09-05T10:00:00+00:00",
+            "outcome": "Proposed synthetic follow-up reading card.",
+            "status": "OFFERED",
+            "supporting_memory_ids": [
+              "c69cfe55-833a-4e03-945e-1a77cef6d181"
+            ]
+          }
+        ],
+        "self_change_candidates": [
+          {
+            "authority_change": false,
+            "change_id": "synthetic:expression-change",
+            "dimension": "expression_preference",
+            "proposed_value": "concise with sources",
+            "state": "CANDIDATE",
+            "supporting_memory_ids": [
+              "c69cfe55-833a-4e03-945e-1a77cef6d181"
+            ]
+          }
+        ],
+        "identity_growth_applied": false,
+        "execution_authority": "NONE"
+      },
+      "memories": [
+        {
+          "memory_id": "28c376b2-f6cc-43b2-8485-8984fa2bda9e",
+          "content": "Fictional sister prefers long reading cards.",
+          "epistemic_kind": "USER_STATEMENT",
+          "source_refs": [
+            {
+              "artifact_id": "0bb3236e-b521-4d26-a592-ac9da5fc4dcb",
+              "coverage": "FULL",
+              "event_id": "28c376b2-f6cc-43b2-8485-8984fa2bda9e",
+              "meaning": "complete supplied import envelope, not complete original history"
+            },
+            {
+              "artifact_id": "2cea4197-b441-49f7-a940-7509df87e30e",
+              "coverage": "FULL",
+              "event_id": "d613a933-c5b9-4bdf-9507-66fb9fbf4432",
+              "meaning": "operator supplied mapping envelope/annotation; not original historical evidence"
+            }
+          ],
+          "time": {
+            "legacy_observed_time_raw": null,
+            "legacy_observed_time_us": null,
+            "legacy_record_time_us": 1788256800000000,
+            "legacy_time_raw": "2026-09-01T10:00:00+00:00",
+            "quality": "EXPLICIT_ZONE",
+            "underlying_event_time_us": 1788256800000000
+          },
+          "coverage": "FULL"
+        },
+        {
+          "memory_id": "c69cfe55-833a-4e03-945e-1a77cef6d181",
+          "content": "Fictional sister now prefers short reading cards with a locator.",
+          "epistemic_kind": "USER_STATEMENT",
+          "source_refs": [
+            {
+              "artifact_id": "7f292182-7007-4696-a33a-877186136fdc",
+              "coverage": "FULL",
+              "event_id": "c69cfe55-833a-4e03-945e-1a77cef6d181",
+              "meaning": "complete supplied import envelope, not complete original history"
+            },
+            {
+              "artifact_id": "1ed5768d-d9f3-4d42-a18a-fcec1ae49675",
+              "coverage": "FULL",
+              "event_id": "296a0e59-a0c3-4c68-ad91-569194f54dda",
+              "meaning": "operator supplied mapping envelope/annotation; not original historical evidence"
+            }
+          ],
+          "time": {
+            "legacy_observed_time_raw": null,
+            "legacy_observed_time_us": null,
+            "legacy_record_time_us": 1788429600000000,
+            "legacy_time_raw": "2026-09-03T10:00:00+00:00",
+            "quality": "EXPLICIT_ZONE",
+            "underlying_event_time_us": 1788429600000000
+          },
+          "coverage": "FULL"
+        },
+        {
+          "memory_id": "8cae5435-3dc8-476f-ad98-f2984edb1ab8",
+          "content": "Synthetic model summary of a shared paper observatory.",
+          "epistemic_kind": "SUMMARY",
+          "source_refs": [
+            {
+              "artifact_id": "698b8a40-e56b-417b-9929-6fa8370726e2",
+              "coverage": "FULL",
+              "event_id": "8cae5435-3dc8-476f-ad98-f2984edb1ab8",
+              "meaning": "complete supplied import envelope, not complete original history"
+            },
+            {
+              "artifact_id": "4d601488-2d5d-4b40-8ac3-ec74424d539a",
+              "coverage": "FULL",
+              "event_id": "ba85a495-aff4-47e7-8554-9cdfeb23e21a",
+              "meaning": "operator supplied mapping envelope/annotation; not original historical evidence"
+            }
+          ],
+          "time": {
+            "legacy_observed_time_raw": null,
+            "legacy_observed_time_us": null,
+            "legacy_record_time_us": 1788343200000000,
+            "legacy_time_raw": "2026-09-02T10:00:00+00:00",
+            "quality": "EXPLICIT_ZONE",
+            "underlying_event_time_us": null
+          },
+          "coverage": "SUMMARY"
+        },
+        {
+          "memory_id": "7d07143e-5912-47e8-9cd3-1d2196089aef",
+          "content": "{\"relation_type\":\"shares_project\",\"source_id\":\"synthetic-nana\",\"source_memory_id\":\"synthetic-summary\",\"target_id\":\"synthetic-sister\"}",
+          "epistemic_kind": "MODEL_INFERENCE",
+          "source_refs": [
+            {
+              "artifact_id": "c74755a7-979c-40b8-a2ba-9fb0a58ae36c",
+              "coverage": "FULL",
+              "event_id": "7d07143e-5912-47e8-9cd3-1d2196089aef",
+              "meaning": "complete supplied import envelope, not complete original history"
+            },
+            {
+              "artifact_id": "6cf0d984-89fb-4564-946d-8cc78e47bf5f",
+              "coverage": "FULL",
+              "event_id": "f8bb7969-c2c9-4226-afb2-974af5778f6b",
+              "meaning": "operator supplied mapping envelope/annotation; not original historical evidence"
+            }
+          ],
+          "time": {
+            "legacy_observed_time_raw": null,
+            "legacy_observed_time_us": null,
+            "legacy_record_time_us": null,
+            "legacy_time_raw": null,
+            "quality": "UNKNOWN",
+            "underlying_event_time_us": null
+          },
+          "coverage": "FULL"
+        },
+        {
+          "memory_id": "98e66d8b-82a2-43d6-a2c6-434dca24634c",
+          "content": "{\"bot_relationship\":\"sister\",\"custom_fields\":{},\"field_meta\":{},\"user_id\":\"synthetic-sister\",\"user_name\":\"Fictional sister\"}",
+          "epistemic_kind": "MODEL_INFERENCE",
+          "source_refs": [
+            {
+              "artifact_id": "59b42257-659a-42bd-87f0-11390c8fccb3",
+              "coverage": "FULL",
+              "event_id": "98e66d8b-82a2-43d6-a2c6-434dca24634c",
+              "meaning": "complete supplied import envelope, not complete original history"
+            },
+            {
+              "artifact_id": "bc81731b-0a27-41c3-ba31-e388fd6a9454",
+              "coverage": "FULL",
+              "event_id": "784f06ca-8fc4-463d-b4e6-2d2b45814a10",
+              "meaning": "operator supplied mapping envelope/annotation; not original historical evidence"
+            }
+          ],
+          "time": {
+            "legacy_observed_time_raw": null,
+            "legacy_observed_time_us": null,
+            "legacy_record_time_us": null,
+            "legacy_time_raw": null,
+            "quality": "UNKNOWN",
+            "underlying_event_time_us": null
+          },
+          "coverage": "FULL"
+        },
+        {
+          "memory_id": "eeecc45b-0d78-4be0-a775-d6ede6949790",
+          "content": "{\"key\":\"synthetic-old-action\",\"state\":\"VERIFIED\",\"updated_at\":\"2026-09-02T10:00:00+00:00\",\"verify\":\"legacy claim, not Core execution\"}",
+          "epistemic_kind": "ACTION_CLAIM",
+          "source_refs": [
+            {
+              "artifact_id": "20fabe29-04aa-42f1-9f3d-4597ee034c30",
+              "coverage": "FULL",
+              "event_id": "eeecc45b-0d78-4be0-a775-d6ede6949790",
+              "meaning": "complete supplied import envelope, not complete original history"
+            },
+            {
+              "artifact_id": "bb84e551-8b76-4b7b-bdb1-e4501cb12de2",
+              "coverage": "FULL",
+              "event_id": "5ef5ed2d-d289-4725-a494-6de7d4b2dcd5",
+              "meaning": "operator supplied mapping envelope/annotation; not original historical evidence"
+            }
+          ],
+          "time": {
+            "legacy_observed_time_raw": null,
+            "legacy_observed_time_us": null,
+            "legacy_record_time_us": 1788343200000000,
+            "legacy_time_raw": "2026-09-02T10:00:00+00:00",
+            "quality": "EXPLICIT_ZONE",
+            "underlying_event_time_us": null
+          },
+          "coverage": "FULL"
+        }
+      ],
+      "assessments": [
+        {
+          "family": "a10cb144fe5fba0cd794a98b7493cd0d2f0606ba26fdaae2261001890f75d50e",
+          "subject": "synthetic:sister",
+          "predicate": "reading.preference",
+          "scope": "synthetic:next-stage",
+          "as_of": "2026-09-04T10:00:00+00:00",
+          "status": "CURRENT_USER_STATEMENT",
+          "verified_fact": false,
+          "current_claim_ids": [
+            "synthetic:new-preference"
+          ],
+          "supporting_claim_ids": [
+            "synthetic:old-preference",
+            "synthetic:new-preference"
+          ],
+          "contradicting_claim_ids": [
+            "synthetic:old-preference"
+          ],
+          "reason": "latest dated direct statement"
+        }
+      ]
+    }
+  },
+  "physical_purge": "NOT_IMPLEMENTED",
+  "real_model_calls": 0,
+  "real_memory_records_read": 0,
+  "production_operations": 0
+}
