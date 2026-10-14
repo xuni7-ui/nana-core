@@ -339,3 +339,13 @@ Dashboard `POST /api/plugin/reload` 需 JWT（`astrbot/dashboard/api/plugins.py`
 ## D-CS-001 — Cognitive proposals and derived self never acquire write or execution authority
 [姐姐C–D授权/VNext-1/开发验证] 永久SelfFrame/Context由Identity、当前assessment、关系、adopted承诺、项目和有限经验重建，不反写为原始事实。Context model port v2只给serialized data，模型输出只有proposal和来源引用；拒绝Grant/Receipt/success/换身份。承诺adoption与履约核验分开；lesson复用既有窄StrategyRule/PlanCompiler，经测试与operator激活，不改charter/权限。
 [隐私/边界] 当前task本身默认PERSONAL，和检索记忆一起受目的地策略检查。候选检索有界，矛盾整组且隐私预过滤；不可用即BLOCKED。C/D开发库固定Shadow屏障，真实memory ingress硬关闭；E12与真实宿主事实不能由fixture升级。本条使用独立D-CS命名空间，避免与奈奈并行B5编号争用。
+
+## D-CV2-001 — Unique subject loop and evidence-driven growth (2026-10-14)
+
+Adopt `docs/ADR/ADR-CV2-001-persistent-subject.md` for offline C-V2 implementation.
+Existing Core continuity remains authoritative; derived living/personality state
+is rebuilt, not a second truth store. New preferences require independent
+source roots and accept counter-evidence. Legacy initiative evaluation is not
+another decision engine inside this loop. C intentions never grant execution.
+Explicit development v7 migration is authorized only for dev Stores; deployed
+v1/default Store, real ingress, production pins and R045 remain unchanged.

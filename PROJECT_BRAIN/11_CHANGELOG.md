@@ -949,3 +949,11 @@
 - 改动：最终全量JUnit、20项永久能力证据、组合重启结果、安全/包检查、source manifest、API/架构/状态记录；CONTINUOUS_SELF_OFFLINE_CANDIDATE=READY。
 - 原因：交付正式长期能力与可复现证据，严格区分离线fixture/本地真实进程/真实宿主/真实模型。
 - 验证：865 passed /0 failed /1 E12 skip；Core源checkpoint579a0bd，最终tested checkpoint289a7a5；无旧测试删除/弱化，无生产/main/R045变化。密钥模式扫描0命中，无DB/WAL/SHM/binary入Git，production/proof pins仍EMPTY。详情见delivery和results.json。
+
+## 2026-10-14 — C-V2 Phase 0 meta-architecture gate
+
+Docs-only executable contract accepted for offline implementation: asset reuse,
+one causal SubjectLoop, authority/derived distinction, v7 schema/CAS, privacy,
+reflection constraints, independent preference support and counter-evidence,
+ten-day life/ablation/60-day soak specification. No business implementation or
+production changes in this gate. See ADR-CV2-001.

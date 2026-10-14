@@ -703,3 +703,30 @@
 [证据] `docs/nana_continuous_self_delivery.md`、`docs/nana_continuous_self_api.md`、`docs/nana_continuous_self_evidence/`。完整指纹 `manifests/nana_continuous_self_candidate.json`，自身SHA256锚：`88785144724e8fd87114bc1ffc94b5984b79d80a86847261591c177592152e3f`；清单不含自身或引用锚的Brain。
 [明确边界] REAL_MEMORY_IMPORT_ENABLED=NO；真实模型调用0/E12 NOT_RUN；production/main/R045/B5-3未操作，未读真实私密记忆/secret，未发真实消息。开发Core不是R045批准包，实际生产身份认领、populated-v1转换、现行删除锚跨机迁移和真实语义仍未验收。忙备份删除报告pending，任意外部副本/root全盘回滚不在应用擦除保证内。
 [下一接点] 奈奈B5-3达标后，另行明确小子集/隐私/身份授权，审阅新schema与legacy转换/删除恢复协议，再开展只读Small Real Memory Shadow；Iris仍权威、Core无执行/写回权。本分支不推断或升级奈奈并行现场事实。
+
+## C-V2 Phase 0 — Persistent Self meta-architecture (2026-10-14)
+
+Base `3330cbf5a68f5eb34b7f1643949d2493227734bf`; own continuous-self branch.
+Docs-only gate: `docs/ADR/ADR-CV2-001-persistent-subject.md` defines SUBJECT_LOOP,
+STATE_AUTHORITY_MODEL, EVENT_MODEL, STATE_TRANSITIONS, MODULE_DAG, SCHEMA_PLAN,
+INVARIANTS, SIMULATION_SPEC and IMPLEMENTATION_SEQUENCE. Business source remains
+unchanged in this gate. Phase 1/2 NOT_RUN. Production/real ingress unchanged.
+
+Persistent Self behavioral contract:
+1. User input is influential input, not Nana's will.
+2. Nana can form independent preferences.
+3. Nana can disagree with the user.
+4. Nana can autonomously select ordinary experiences for memory.
+5. Nana can generate intentions without user input.
+6. Nana can generate GoalCandidates without user input.
+7. Relationship history changes interaction style.
+8. Personality emerges primarily from experience, reflection, self-memory and preference formation.
+9. Persistent presence does not require continuous LLM inference.
+10. Autonomy and execution authority are separate dimensions.
+11. Silence is valid autonomous behavior.
+12. The system does not optimize for sycophancy, constant engagement or message count.
+13. Reflection cannot invent history.
+14. Nana's own self-beliefs may be wrong and may be revised.
+15. Past experience must causally influence future behavior.
+These are implementation/acceptance requirements, not claims of real-world or
+subjective consciousness validation.
