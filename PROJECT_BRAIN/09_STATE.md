@@ -655,3 +655,7 @@
 [Next-Stage FINAL coverage收口] 拒绝FULL覆盖与drop/disconnection矛盾的声明；新增2反例，最终83新增passed；Core指定全套+新增455passed/0failed/0errors/1skip(E12)，原372passed保留，17.587sec。之前453/81为前一个真实检查点，不覆盖历史。最终manifest锚点=aad60e7202da5403b321c617a14028de6d51a44bbaf52a44c3bcb5e4a3a15b01。四项原型语义边界失败日志保留后修复；Core/SQL/依赖/真实主线0diff，真实数据/模型/receipt/bridge/生产操作0。
 
 [时长勘误] 上条17.587sec为记录笔误；最终JUnit `docs/nana_next_stage_evidence/final_regression_coverage.xml` 为17.582sec，pytest控制台四舍五入记录17.59sec。通过数455/失败0/skip1不变。
+
+## 2026-10-14 UTC — C–D continuous-self development C1
+[已实现/已测试] 独立 `dev/nana-core-continuous-self-codex` 从 readiness `b3ff62a` 继续；同 Store 显式开发 schema v2 + CanonicalIdentity/IdentityRevision/IdentityProvenance，沿用原 UUID；表达修订需 operator + CAS，charter 无学习写口。身份重启/replay/另一宿主备份恢复测试通过（2 tests）；既有默认回归372 passed/1 E12 skip。详见 `docs/nana_continuous_self.md`。
+[边界] 不更改 R045/B5-3/生产状态；real memory ingress 仍关闭。已有业务正文的 v1 拒绝原地迁移，原因见 D-051。未接真实模型、宿主或私人数据。

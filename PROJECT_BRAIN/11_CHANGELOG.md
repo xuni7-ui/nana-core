@@ -884,3 +884,8 @@
 - 怎么验证：先保留2failed反例，再修合同，83targeted和455/0/1全Core配置回归通过。四项原型语义修复均有失败证据；未改当前R045/R045.1源码或Approved Core。
 
 [证据记录勘误] 09_STATE最后检查点的精确时长校正到JUnit17.582sec；产品代码、测试结果与manifest未变。
+
+## 2026-10-14 UTC — C1 canonical identity
+- 改动：独立 Core continuity 包、显式 v2 migration、沿用 Store UUID 的身份历史/CAS/来源合同。
+- 原因：把身份从 readiness 原型推进为长期状态，避免 model/host/session 创建新主体；拒绝伪安全的旧正文原地迁移。
+- 验证：2 identity tests PASS；现有默认372 PASS/1 E12 skip；无生产/真实模型操作。

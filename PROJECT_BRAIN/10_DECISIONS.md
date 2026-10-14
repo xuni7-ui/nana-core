@@ -328,3 +328,6 @@ Dashboard `POST /api/plugin/reload` 需 JWT（`astrbot/dashboard/api/plugins.py`
 - `OFFLINE_RECOVERY_QUALIFIED` 是 **fixture/offline** 结论，**不是**真实 host PASS；真实 load/dispatcher/bridge/one-shot 仍未运行。
 
 [口径确认] 生产授权 pins 与 runtime-proof pins 保持 **EMPTY**；`seal_mode = EMPTY`；`FIRST_REAL_ASTRBOT_SHADOW = BLOCKED`，`E12 = NOT_RUN`。
+
+## D-051 — Continuous Self uses explicit development schema on the same Store
+[姐姐C–D授权/开发验证] VNext-1 后续能力在独立开发分支进入正式 Core；不把 readiness 的 core_meta prototype 当长期实现。同一个 Store/identity/transaction/lock，默认 v1 不变，开发显式 opt-in 版本迁移。存在业务正文的 v1 拒绝原地升级：旧 immutable event/projection 复制正文，新增字段无法保证删除；需另行审阅离线转换。回滚恢复旧隔离快照，不对新事件做有损 downgrade。此决定不改变 R045 包或生产 schema。

@@ -59,7 +59,10 @@ class Transaction:
 
 
 class Store:
-    def __init__(self, path, clock: Clock | None = None):
+    def __init__(self, path, clock: Clock | None = None, *, schema_target=1):
+        from .development_schema import keys_for
+        self.schema_target = schema_target
+        self.keys = {**KEYS, **keys_for(schema_target)}
         self.path = Path(path)
         self.clock = clock or Clock()
         self.path.parent.mkdir(parents=True, exist_ok=True)
@@ -84,8 +87,11 @@ class Store:
                 raise CoreError("UNRECOGNIZED_DATABASE")
             if version == 0:
                 self.db.executescript(Path(__file__).with_name("schema_v1.sql").read_text())
-            elif version != 1:
+            elif version > schema_target:
                 raise CoreError("SCHEMA_VERSION_UNSUPPORTED")
+            if schema_target > 1:
+                from .development_schema import install
+                install(self.db, version or 1, schema_target)
             if self.db.execute("PRAGMA quick_check").fetchone()[0] != "ok":
                 raise CoreError("STORAGE_CORRUPT")
             if self.db.execute("PRAGMA foreign_key_check").fetchone():
@@ -121,13 +127,13 @@ class Store:
         return self.all("identities")[0]
 
     def one(self, table, key):
-        if table not in KEYS:
+        if table not in self.keys:
             raise ValueError(table)
-        row = self.db.execute(f"SELECT * FROM {table} WHERE {KEYS[table]}=?", (key,)).fetchone()
+        row = self.db.execute(f"SELECT * FROM {table} WHERE {self.keys[table]}=?", (key,)).fetchone()
         return dict(row) if row else None
 
     def all(self, table):
-        if table not in {*KEYS, "events", "artifacts"}:
+        if table not in {*self.keys, "events", "artifacts"}:
             raise ValueError(table)
         return [dict(r) for r in self.db.execute(f"SELECT * FROM {table} ORDER BY rowid")]
 
@@ -146,13 +152,13 @@ class Store:
         return row["payload"]
 
     def _put(self, table, row):
-        if table not in KEYS:
+        if table not in self.keys:
             raise ValueError(table)
         allowed = {r["name"] for r in self.db.execute(f"PRAGMA table_info({table})")}
         if set(row) != allowed:
             raise ValueError(f"invalid projection row for {table}")
         columns = list(row)
-        key = KEYS[table]
+        key = self.keys[table]
         assignments = ",".join(f"{c}=excluded.{c}" for c in columns if c != key)
         self.db.execute(f"INSERT INTO {table} ({','.join(columns)}) VALUES ({','.join('?' for _ in columns)}) "
                         f"ON CONFLICT({key}) DO UPDATE SET {assignments}", list(row.values()))
@@ -178,6 +184,8 @@ class Store:
             raise
 
     def ingest(self, observation: Observation):
+        if self.schema_target != 1:
+            raise CoreError("USE_CONTINUITY_EVIDENCE_INGRESS")
         key = canonical([observation.kind, observation.object_id, observation.revision])
         previous = self.db.execute("SELECT * FROM events WHERE source_namespace=? AND source_key=?",
                                    (observation.source_namespace, key)).fetchone()
@@ -204,6 +212,9 @@ class Store:
         target = sqlite3.connect(destination, isolation_level=None)
         try:
             target.executescript(Path(__file__).with_name("schema_v1.sql").read_text())
+            if self.schema_target > 1:
+                from .development_schema import install
+                install(target, 1, self.schema_target)
             target.execute("PRAGMA foreign_keys=ON")
             target.execute("BEGIN IMMEDIATE")
             for row in self.all("events"):
@@ -214,12 +225,12 @@ class Store:
             for event in self.all("events"):
                 for change in json.loads(event["data_json"])["changes"]:
                     table, row = change["table"], change["row"]
-                    if table not in KEYS:
+                    if table not in self.keys:
                         raise CoreError("INVALID_REPLAY_TABLE")
                     columns = list(row)
-                    assignments = ",".join(f"{c}=excluded.{c}" for c in columns if c != KEYS[table])
+                    assignments = ",".join(f"{c}=excluded.{c}" for c in columns if c != self.keys[table])
                     target.execute(f"INSERT INTO {table}({','.join(columns)}) VALUES({','.join('?' for _ in columns)}) "
-                        f"ON CONFLICT({KEYS[table]}) DO UPDATE SET {assignments}", list(row.values()))
+                        f"ON CONFLICT({self.keys[table]}) DO UPDATE SET {assignments}", list(row.values()))
             # Rebuilt state is reviewable state, not permission to replay external effects.
             # This is local restoration metadata, intentionally separate from domain replay.
             target.execute("UPDATE core_meta SET value_json='true' WHERE key='recovery_quarantine'")
@@ -243,4 +254,4 @@ class Store:
             target.close()
 
     def snapshot(self):
-        return {table: self.all(table) for table in KEYS}
+        return {table: self.all(table) for table in self.keys}
