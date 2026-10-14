@@ -13,6 +13,7 @@ from .test_privacy import CANARY
 
 
 def request(**kwargs):
+    kwargs.setdefault("task_privacy_class", "PUBLIC")  # explicitly synthetic/public instruction
     return ContextRequest(entity_id="synthetic-sister", scopes=("synthetic-home",),
         task_class="reading_card", task="Prepare a synthetic reading card", **kwargs)
 
@@ -63,6 +64,8 @@ def test_remote_privacy_filter_and_complete_conflict_bundle(cognitive):
     assert context.manifest.coverage[0].status == "UNKNOWN"
     with pytest.raises(CoreError, match="CONTEXT_SCOPE_DENIED"):
         assembler.assemble(request(), pol.model_copy(update={"allowed_scopes": ("another-scope",)}))
+    with pytest.raises(CoreError, match="CONTEXT_TASK_PRIVACY_DENIED"):
+        assembler.assemble(request(destination="DEVELOPMENT_REMOTE", task_privacy_class="PERSONAL"), pol)
     altered = context.model_copy(update={"blocks": context.blocks[:-1]})
     with pytest.raises(CoreError, match="CONTEXT_TAMPERED"):
         assembler.validate(altered, req, pol)

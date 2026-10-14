@@ -335,3 +335,7 @@ Dashboard `POST /api/plugin/reload` 需 JWT（`astrbot/dashboard/api/plugins.py`
 ## D-052 — Privacy erasure outranks immutable content retention
 [姐姐C4授权/VNext-1/开发验证] 新连续主体事件只保留typed metadata/opaque refs；正文只进可删除artifact。明确forget清除source对象的保守依赖闭包，不等同withdraw。删除意图在现行外部privacy journal先fsync，Store恢复/查询/受控备份与replay须应用tombstone；丢失现行锚则拒绝读旧continuity DB。可保留不含正文的删除审计，不能用append-only理由保留用户要求删除的payload。权限边界仍是可信应用controller持有operator，模型无Store引用。
 [限制] 任意未经登记副本/root全盘回滚、已外发provider副本、SSD取证不在应用删除保证内；忙碌备份报告PENDING_BACKUP_PURGE并可恢复，绝不伪报完全擦除。不授权真实私人数据导入。
+
+## D-CS-001 — Cognitive proposals and derived self never acquire write or execution authority
+[姐姐C–D授权/VNext-1/开发验证] 永久SelfFrame/Context由Identity、当前assessment、关系、adopted承诺、项目和有限经验重建，不反写为原始事实。Context model port v2只给serialized data，模型输出只有proposal和来源引用；拒绝Grant/Receipt/success/换身份。承诺adoption与履约核验分开；lesson复用既有窄StrategyRule/PlanCompiler，经测试与operator激活，不改charter/权限。
+[隐私/边界] 当前task本身默认PERSONAL，和检索记忆一起受目的地策略检查。候选检索有界，矛盾整组且隐私预过滤；不可用即BLOCKED。C/D开发库固定Shadow屏障，真实memory ingress硬关闭；E12与真实宿主事实不能由fixture升级。本条使用独立D-CS命名空间，避免与奈奈并行B5编号争用。

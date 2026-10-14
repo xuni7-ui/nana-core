@@ -690,3 +690,6 @@
 ## 2026-10-14 UTC — C/D bounded retrieval and combined restart acceptance
 [已实现/已测试] 检索在SQL privacy/scope过滤后限128候选（最多512），Manifest记录总量/截断；反证须整组，隐私不允许则不读payload并BLOCKED。schema v6仅加索引。SelfMemory绑定canonical SELF主体；正式authority服务拒绝None；履约核验需精确commitment/revision。
 [实测] 20永久C/D tests PASS，组合测试真实新解释器恢复identity/关系/纠正/承诺/项目/经验且state digest不变，换fixture仍引用lesson，Action/Attempt/Grant/Budget为0。之前全仓已864 PASS/0 FAIL/1 E12 skip；本提交最终全量复测待执行。
+
+## 2026-10-14 UTC — C/D current-task privacy completion
+[已实现/已测试] ContextRequest当前task默认PERSONAL，也必须通过目的地隐私门；不能只过滤检索记忆而漏发当前任务。20 C/D tests PASS，含明确PUBLIC synthetic远端夹具与PERSONAL默认拒绝。完整API/时间/删除/迁移限制见 `docs/nana_continuous_self_api.md`。真实入口保持NO。

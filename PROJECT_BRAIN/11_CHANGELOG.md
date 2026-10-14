@@ -929,3 +929,8 @@
 - 改动：SQL有界候选与manifest计数、隐私限制反证整组、SELF entity绑定、缺失authority拒绝、精确承诺核验；schema v6仅索引。
 - 原因：避免长期记忆增长时先读全量再裁剪，防止只展示可见反证一侧，以及不相关核验证明履约。
 - 验证：20 C/D tests PASS；全状态组合用真实新进程/另一fixture恢复且无主体状态变化；上一全仓864/0/1，最终source checkpoint后再全量。
+
+## 2026-10-14 UTC — C/D current-task destination privacy
+- 改动：任务输入默认PERSONAL并受同一context destination gate；补长期API使用/数据/迁移/删除限制文档与D-CS-001。
+- 原因：隐私不能只保护长期记忆，当前task也可能含私人内容。
+- 验证：20 C/D tests PASS；最终完整回归将在此source checkpoint之后运行。未触及任何真实宿主/消息/数据。

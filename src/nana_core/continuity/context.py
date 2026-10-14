@@ -68,6 +68,7 @@ class ContextRequest(DTO):
     scopes: tuple[str, ...] = Field(min_length=1, max_length=32)
     task_class: str = Field(pattern=r"^[A-Za-z0-9._:-]{1,96}$")
     task: str = Field(min_length=1, max_length=4096)
+    task_privacy_class: Literal["PUBLIC", "PROJECT", "PERSONAL", "SECRET"] = "PERSONAL"
     query_terms: tuple[str, ...] = Field(default=(), max_length=32)
     destination: Literal["LOCAL_FIXTURE", "DEVELOPMENT_REMOTE"] = "LOCAL_FIXTURE"
     max_input_tokens: int = Field(default=12000, ge=256, le=131072)
@@ -169,6 +170,8 @@ class ContextAssembler:
         if not set(request.scopes) <= set(policy.allowed_scopes):
             raise CoreError("CONTEXT_SCOPE_DENIED")
         privacy = tuple(p for p in policy.readable_privacy if request.destination == "LOCAL_FIXTURE" or p in policy.remote_privacy)
+        if request.task_privacy_class not in privacy:
+            raise CoreError("CONTEXT_TASK_PRIVACY_DENIED")
         frame = self_frame(self.store, self.authority, entity_id=request.entity_id,
             scopes=request.scopes, privacy_classes=privacy, capabilities=capabilities, limitations=limitations)
         memory_service = MemoryService(self.store)
