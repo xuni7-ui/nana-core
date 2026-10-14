@@ -1,0 +1,30 @@
+{
+  "test_origin": "SYNTHETIC_OFFLINE",
+  "real_process_restart": true,
+  "models": [
+    "offline-analytical-fixture-v2",
+    "offline-cautious-fixture-v2"
+  ],
+  "real_model_calls": 0,
+  "identity_id": "fdc8b205-30d4-4263-bbb0-a93ae9c4d439",
+  "state_digest_unchanged": true,
+  "active_commitment_recovered": true,
+  "project_recovered": true,
+  "correction_original_time_us": 200,
+  "experience_id": "fa962a6c-f74b-4f94-b491-5f55c1f2010d",
+  "lesson_refs": [
+    "dccefb1d-0e12-4fb2-b5a5-62faadc8afb7"
+  ],
+  "post_restart_operations": [
+    "READ_SOURCE",
+    "LOCATE_SOURCE",
+    "DRAFT"
+  ],
+  "action_counts": {
+    "actions": 0,
+    "attempts": 0,
+    "grants": 0,
+    "budgets": 0
+  },
+  "real_ingress_enabled": false
+}

@@ -72,3 +72,7 @@
 - ❓ 外挂脚本位于 `/root/.nana_secrets/`（含凭证），**入库时必须白名单隔离**，不可整目录纳入。
 - ❓ **进程可观测性受限**：本 shell 命名空间内 `ps -e` 返回 **0 行**，**看不到** AstrBot / 事件泵进程 → 进程级存活**不能**用 `ps` 证实，只能用**间接证据（账本心跳）**。`[实测 2026-10-10]`
 - ❓ **内存实况未知**：本命名空间无 `free` 命令 → `MemTotal/MemFree` **无法实测**（此前"3.8G/200M"为历史数据，非本次实测）。`[未知]`
+
+## 2026-10-14 — Continuous Self C–D independent development candidate
+[已实现/已测试，非生产] `src/nana_core/continuity/`在同Store/identity/lock/transactions上增加CanonicalIdentity、七类记忆与assessment、删除链、关系/承诺/项目、SelfFrame/ContextManifest、v2 ModelPort与窄经验。显式development schema v6，v1默认不变；12新增表，无新依赖、无第二Runtime。接口/状态/数据模型见 `docs/nana_continuous_self_api.md`，证据见 `docs/nana_continuous_self_delivery.md`。
+[边界] 这不是R045批准包；真实memory ingress硬关闭，模型不持有Store/operator，Shadow执行屏障固定。新schema与生产身份认领/旧数据转换必须另行审核，不能自动升级当前云端Store。

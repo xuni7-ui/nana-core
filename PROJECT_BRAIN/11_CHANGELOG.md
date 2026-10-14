@@ -944,3 +944,8 @@
 - 改动：权限拒绝测试显式chmod synthetic目录到0755后再断言拒绝。
 - 原因：全仓legacy测试遗留umask077，使mkdir(mode0755)实际得到0700；一次全量因此864 PASS/1 FAIL/1 skip。产品正确允许0700，测试前置条件错误，未放宽拒绝断言。
 - 验证：修正后20 C/D tests PASS；最终全仓复测继续。仅测试夹具改动。
+
+## 2026-10-14 UTC — C/D final offline candidate delivery
+- 改动：最终全量JUnit、20项永久能力证据、组合重启结果、安全/包检查、source manifest、API/架构/状态记录；CONTINUOUS_SELF_OFFLINE_CANDIDATE=READY。
+- 原因：交付正式长期能力与可复现证据，严格区分离线fixture/本地真实进程/真实宿主/真实模型。
+- 验证：865 passed /0 failed /1 E12 skip；Core源checkpoint579a0bd，最终tested checkpoint289a7a5；无旧测试删除/弱化，无生产/main/R045变化。密钥模式扫描0命中，无DB/WAL/SHM/binary入Git，production/proof pins仍EMPTY。详情见delivery和results.json。

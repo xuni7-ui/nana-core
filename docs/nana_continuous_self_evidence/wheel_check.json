@@ -1,0 +1,22 @@
+{
+  "package_imported_from_extracted_wheel": true,
+  "python": "3.12.14",
+  "sqlite": "3.53.1",
+  "pydantic": "2.13.4",
+  "schema_version": 6,
+  "user_table_count": 27,
+  "new_table_count": 12,
+  "shadow_execution_fence": true,
+  "wheel_sha256": "8a8d569bdfd184b8dc3c31f41d9919ceec4e3d65b6c0fb01836db9db43050f99",
+  "wheel_bytes": 161292,
+  "schemas": [
+    "nana_core/storage/schema_v1.sql",
+    "nana_core/storage/schema_v2.sql",
+    "nana_core/storage/schema_v3.sql",
+    "nana_core/storage/schema_v4.sql",
+    "nana_core/storage/schema_v5.sql",
+    "nana_core/storage/schema_v6.sql"
+  ],
+  "source_commit": "579a0bd885d4cb77b227c5e27d1ac0f5249885b0",
+  "approved_R045_replacement": false
+}

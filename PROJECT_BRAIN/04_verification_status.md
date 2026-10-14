@@ -258,3 +258,9 @@
   奈奈**未**读取该文件、**未**发起带凭据的推送、**未**为推送改动代理或宿主网络。
 - 状态：**`R03_IMPLEMENTATION_COMPLETE_LOCAL / PUSH_BLOCKED_CREDENTIAL_POLICY`**。
 - 交付方式：导出 R03 bundle 给姐姐（离线合流），`git rev-parse HEAD` 与 `ls-remote` 一致性**待推送后**才可宣称。
+
+## 2026-10-14 — C/D Continuous Self offline candidate
+- ①已实现 / ②已测试：C1–C7与D1–D4，20个永久能力测试；同库schema v6/12新表，源文/推断/当前assessment/派生SelfFrame分离。
+- ③仅本地离线进程验收：真实SIGKILL删除恢复、独立新解释器恢复完整主体state digest、换两个fixture与lesson消融；非真实LLM/非生产宿主。
+- 全仓：865 passed / 0 failed / 1 skipped（E12），CPython3.12.14/SQLite3.53.1/Pydantic2.13.4；失败修复轨迹与最终XML在 `docs/nana_continuous_self_evidence/`。
+- ④未运行：真实私密记忆导入、真实跨宿主迁移/身份认领、真实v2模型语义；E12 NOT_RUN。奈奈B5-3现场事实不由本分支升级。

@@ -1,0 +1,16 @@
+{
+  "result": "PASS",
+  "scanned_files": 45,
+  "credential_pattern_findings": 0,
+  "binary_runtime_artifacts": 0,
+  "large_files_over_3MB": 0,
+  "third_party_source_added": 0,
+  "dependencies_added": 0,
+  "data_origin": "authored examples and test results are synthetic only; no real/private input source opened",
+  "identifier_review": "synthetic names and opaque generated IDs; no real sender/conversation supplied",
+  "existing_untracked_bundle": "preserved and excluded",
+  "existing_tests_modified": false,
+  "production_review_pins": "EMPTY",
+  "real_runtime_proof_pins": "EMPTY",
+  "privacy_claim": "controlled payloads and managed copies only"
+}

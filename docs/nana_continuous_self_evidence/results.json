@@ -1,0 +1,61 @@
+{
+  "schema_version": 6,
+  "base": "b3ff62ac944fe95c7a29217071c3885aaa5f04bb",
+  "source_checkpoint": "289a7a590ede4b4496b79ebbfbae664d0dac7b41",
+  "product_source_checkpoint": "579a0bd885d4cb77b227c5e27d1ac0f5249885b0",
+  "runtime": {
+    "python": "3.12.14",
+    "sqlite": "3.53.1",
+    "pydantic": "2.13.4"
+  },
+  "full_regression": {
+    "passed": 865,
+    "failed": 0,
+    "skipped": 1,
+    "seconds": 58.564
+  },
+  "continuous_self": {
+    "passed": 20,
+    "failed": 0,
+    "skipped": 0,
+    "seconds": 0.868
+  },
+  "existing_tests_unchanged": true,
+  "real_model_calls": 0,
+  "E12": "NOT_RUN",
+  "real_memory_import_enabled": false,
+  "production_changed": false,
+  "main_changed": false,
+  "R045_changed": false,
+  "new_SQL_tables": 12,
+  "new_dependencies": 0,
+  "process_crash_test": "actual SIGKILL after durable privacy intent; reopens before reads",
+  "ablation": "same history, only lesson SUSPENDED; raw proposal loses LOCATE_SOURCE",
+  "real_host_operations": 0,
+  "real_private_memory_read": 0,
+  "explicit_secret_values_read": 0,
+  "production_review_pins": "EMPTY",
+  "real_runtime_proof_pins": "EMPTY",
+  "legacy_client_launcher": {
+    "path": "/tmp/nana-bootstrap-build/compat-python-old",
+    "interpreter": "/usr/bin/python3",
+    "python": "3.13.5",
+    "sqlite": "3.46.1",
+    "claim": "stdlib client no private imports, not a CPython 3.12 ABI test"
+  },
+  "intermediate_failures": [
+    {
+      "passed": 835,
+      "failed": 27,
+      "skipped": 1,
+      "reason": "26 borrowed-view compatibility failures fixed; 1 missing dev launcher restored"
+    },
+    {
+      "passed": 864,
+      "failed": 1,
+      "skipped": 1,
+      "reason": "unsafe-directory fixture needed explicit chmod under inherited umask077; product rejection assertion retained"
+    }
+  ],
+  "CONTINUOUS_SELF_OFFLINE_CANDIDATE": "READY"
+}

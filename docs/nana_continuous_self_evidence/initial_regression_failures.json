@@ -1,0 +1,117 @@
+{
+  "run": "before compatibility fix",
+  "passed": 835,
+  "failed": 27,
+  "skipped": 1,
+  "failures": [
+    {
+      "test": "tests.nana_shadow.test_r041_bridge.test_production_worker_never_accepts_fixture_receipt",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r041_client.test_forbidden_dependencies_in_actual_old_sqlite_process",
+      "cause": "MISSING_LEGACY_SQLITE_CLIENT_LAUNCHER"
+    },
+    {
+      "test": "tests.nana_shadow.test_r041_policy.test_absolute_deadline_no_daemon_and_live_stale_cleanup_blocked",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r041_policy.test_sigkill_stale_cleanup_exact_inode_and_receipt_not_rearmed",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r041_policy.test_forged_pid_or_socket_sidecar_cannot_signal_or_unlink",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r042_onboarding.test_prepare_same_store_restart_no_authority",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r042_onboarding.test_review_document_recomputes_digest_without_grant",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r042_onboarding.test_scope_helper_reuses_store_hashes_and_never_exports_raw_ids",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r044_crash_matrix.test_sigkill_matrix_reopened_state_never_revives_permission[after_consume_commit-worker]",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r044_crash_matrix.test_sigkill_matrix_reopened_state_never_revives_permission[before_evidence-worker]",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r044_crash_matrix.test_sigkill_matrix_reopened_state_never_revives_permission[after_evidence-worker]",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r044_crash_matrix.test_sigkill_matrix_reopened_state_never_revives_permission[core_complete:before-worker]",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r044_crash_matrix.test_sigkill_matrix_reopened_state_never_revives_permission[core_complete:after-worker]",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r044_crash_matrix.test_sigkill_matrix_reopened_state_never_revives_permission[cleanup:before-worker]",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r044_crash_matrix.test_sigkill_matrix_reopened_state_never_revives_permission[socket_unlink:before-worker]",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r044_crash_matrix.test_sigkill_matrix_reopened_state_never_revives_permission[socket_unlink:after-worker]",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r044_crash_matrix.test_sigkill_matrix_reopened_state_never_revives_permission[verify:before-worker]",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r044_crash_matrix.test_sigkill_matrix_reopened_state_never_revives_permission[r041.session_closed:inside-worker]",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r044_crash_matrix.test_sigkill_matrix_reopened_state_never_revives_permission[r041.session_closed:after-worker]",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r044_failures.test_stale_cleanup_rejects_changed_capability_not_just_same_session",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r044_failures.test_preflight_never_reports_ready_for_readonly_or_expired_authorization[verify_only]",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r044_failures.test_preflight_never_reports_ready_for_readonly_or_expired_authorization[expired]",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r044_races.test_other_writer_is_blocked_while_readonly_views_stay_consistent",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r044_races.test_pid_reuse_fingerprint_change_never_signals_unrelated_process",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r044_races.test_copied_directory_session_cannot_stop_or_cleanup",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r044_recovery.test_50_actual_worker_processes_stop_reap_and_release_lease",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    },
+    {
+      "test": "tests.nana_shadow.test_r04_isolation.test_readonly_cli_and_empty_real_trust",
+      "cause": "BORROWED_READONLY_VIEW_KEY_REGISTRY"
+    }
+  ],
+  "raw_environment_traceback_in_git": false
+}

@@ -696,3 +696,10 @@
 
 ## 2026-10-14 UTC — C/D local data-directory privacy
 [已实现/已测试] ContinuityStore及受控backup/replay要求owner-only目录0700，DB/WAL/SHM/lock为0600，symlink数据路径拒绝；不擅自chmod现有共享目录。20 C/D tests PASS（含不安全目录在创建DB前拒绝）。这只影响独立development continuity入口，v1 Store/R045不改。
+
+## 2026-10-14 UTC — CONTINUOUS_SELF_OFFLINE_CANDIDATE = READY
+[已实现/已测试] C1 CanonicalIdentity、C2七类Memory、C3 correction/supersession、C4 controlled physical deletion、C5 relationship、C6 adopted commitments、C7 project、D1 SelfFrame、D2 bounded/private ContextAssembler、D3 versioned ModelPort、D4 narrow experience learning，均在独立 `dev/nana-core-continuous-self-codex` 完成。
+[实测] 最终全仓865 PASS /0 FAIL /1 SKIP（E12），20新增永久C/D tests全过；真实本地新进程恢复同一主体state digest，两个不同fixture切换、原始时间、经验消融、真实SIGKILL删除恢复与受控backup/replay正文清理通过。运行时CPython3.12.14 /SQLite3.53.1 /Pydantic2.13.4，>=3.51.3门不变。v1默认不变；development schema v6新增12表/无新依赖；分阶段代码均已commit/push，本次收口仅证据/文档。
+[证据] `docs/nana_continuous_self_delivery.md`、`docs/nana_continuous_self_api.md`、`docs/nana_continuous_self_evidence/`。完整指纹 `manifests/nana_continuous_self_candidate.json`，自身SHA256锚：`88785144724e8fd87114bc1ffc94b5984b79d80a86847261591c177592152e3f`；清单不含自身或引用锚的Brain。
+[明确边界] REAL_MEMORY_IMPORT_ENABLED=NO；真实模型调用0/E12 NOT_RUN；production/main/R045/B5-3未操作，未读真实私密记忆/secret，未发真实消息。开发Core不是R045批准包，实际生产身份认领、populated-v1转换、现行删除锚跨机迁移和真实语义仍未验收。忙备份删除报告pending，任意外部副本/root全盘回滚不在应用擦除保证内。
+[下一接点] 奈奈B5-3达标后，另行明确小子集/隐私/身份授权，审阅新schema与legacy转换/删除恢复协议，再开展只读Small Real Memory Shadow；Iris仍权威、Core无执行/写回权。本分支不推断或升级奈奈并行现场事实。
