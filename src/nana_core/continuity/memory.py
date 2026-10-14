@@ -116,9 +116,24 @@ class MemoryService:
             if (source["event_time_us"] is None or old["event_time_us"] is None or
                     source["event_time_us"] < old["event_time_us"]):
                 raise CoreError("CORRECTION_TIME_UNPROVEN")
+        # Idempotent cognitive commit without retaining a content hash after
+        # erasure. Stable source keys plus remaining payload/lineage identify it.
+        for raw in self.store.db.execute("SELECT * FROM memories WHERE source_evidence_id=? "
+                "AND entity_id=? AND scope=?", (candidate.source_evidence_id, candidate.entity_id, candidate.scope)):
+            row = dict(raw)
+            if row["lifecycle"] == "DELETED":
+                continue
+            if (row["memory_type"], row["epistemic_kind"], row["predicate_key"], row["correction_of"]) != (
+                    candidate.memory_type.value, candidate.epistemic_kind, candidate.predicate_key, candidate.correction_of):
+                continue
+            parents = {r[0] for r in self.store.db.execute("SELECT parent_id FROM memory_dependencies "
+                "WHERE memory_id=? AND parent_kind='MEMORY'", (row["memory_id"],))}
+            if parents == set(candidate.derived_from) and self.store.artifact(row["payload_artifact_id"]).decode() == candidate.text:
+                return row["memory_id"]
         now = self.store.clock.utc_now_us()
         memory_id = uid()
-        assessment = "CURRENT" if not candidate.predicate_key or not family else "DISPUTED"
+        direct_family = [x for x in family if x["authority"] == "DIRECT"]
+        assessment = "CURRENT" if not candidate.predicate_key or not direct_family else "DISPUTED"
         if authority != "DIRECT" and candidate.predicate_key:
             assessment = "UNASSESSED"
         if old:
@@ -145,6 +160,7 @@ class MemoryService:
                     if old and item["memory_id"] == old["memory_id"]:
                         tx.update("memories", item["memory_id"], assessment="SUPERSEDED",
                                   superseded_by=memory_id, updated_at_us=now)
+                        self.store.db.execute("DELETE FROM memory_terms WHERE memory_id=?", (item["memory_id"],))
                         self._invalidate_descendants(tx, item["memory_id"])
                     elif item["assessment"] in {"CURRENT", "DISPUTED"}:
                         # Duplicate corroboration doesn't erase conflict provenance.
@@ -152,9 +168,11 @@ class MemoryService:
                             tx.update("memories", memory_id, assessment=item["assessment"])
                         else:
                             tx.update("memories", item["memory_id"], assessment="DISPUTED", updated_at_us=now)
+                            self.store.db.execute("DELETE FROM memory_terms WHERE memory_id=?", (item["memory_id"],))
                             self._invalidate_descendants(tx, item["memory_id"])
                             tx.update("memories", memory_id, assessment="DISPUTED")
-            self._index(memory_id, candidate.text)
+            if self.store.one("memories", memory_id)["assessment"] in {"CURRENT", "UNASSESSED"}:
+                self._index(memory_id, candidate.text)
         return memory_id
 
     def family(self, entity_id, scope, predicate_key):
@@ -193,6 +211,7 @@ class MemoryService:
                 pending.append(child)
                 tx.update("memories", child, assessment="WITHDRAWN",
                           updated_at_us=self.store.clock.utc_now_us())
+                self.store.db.execute("DELETE FROM memory_terms WHERE memory_id=?", (child,))
 
     def set_lifecycle(self, memory_id, state, authority):
         if self._authority is None or authority is not self._authority:
@@ -205,7 +224,10 @@ class MemoryService:
         with self.store.transaction("memory.lifecycle_changed") as tx:
             tx.update("memories", memory_id, lifecycle=state, updated_at_us=self.store.clock.utc_now_us())
             if state != "ACTIVE":
+                self.store.db.execute("DELETE FROM memory_terms WHERE memory_id=?", (memory_id,))
                 self._invalidate_descendants(tx, memory_id)
+            else:
+                self._index(memory_id, row["text"])
 
     def assess_confidence(self, memory_id, value, authority):
         if self._authority is None or authority is not self._authority:
@@ -229,5 +251,5 @@ class MemoryService:
     def rebuild_index(self):
         self.store.db.execute("DELETE FROM memory_terms")
         for row in self.store.all("memories"):
-            if row["lifecycle"] == "ACTIVE":
+            if row["lifecycle"] == "ACTIVE" and row["assessment"] in {"CURRENT", "UNASSESSED"}:
                 self._index(row["memory_id"], self.store.artifact(row["payload_artifact_id"]).decode())

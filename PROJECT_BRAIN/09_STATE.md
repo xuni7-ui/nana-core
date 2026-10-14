@@ -678,3 +678,7 @@
 ## 2026-10-14 UTC — D3 versioned context ModelPort
 [已实现/已测试] 永久continuity v2 ModelPort/immutable input/严格proposal，保留raw proposal与校验结果；两个不同fixture切换后Store/identity/记忆不变。模型不能返回Grant/Receipt/成功回执或写身份，调用前后检查context。累计15 C/D tests PASS。
 [未运行] 真实模型调用0，E12 NOT_RUN；fixture不作为语义迁移证明。
+
+## 2026-10-14 UTC — D4 bounded experience foundation
+[已实现/已测试] ExperienceRecord独立记录发生/判断/结果/核验/候选更新；真正读取synthetic卡片artifact检查locator，不接受模型success字段。窄lesson复用StrategyRule/PlanCompiler，经过test和operator激活，匹配context显式引用。新解释器重启+另一fixture恢复同identity并增加LOCATE_SOURCE；同历史关闭lesson的消融恢复原proposal，未改其他主体行。累计17 C/D +83 readiness =100 PASS。
+[边界] 仅工程夹具的原始提案差异，未执行新的现实Action；不声明真实LLM理解或E12。真实入口关闭，Grant/预算/身份不会由学习扩大；支撑删除后经验/lesson不再检索。尚待最终完整回归与候选评审。

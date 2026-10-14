@@ -914,3 +914,8 @@
 - 改动：Context-based v2 ModelPort、DeliberationSession与两个不同fixture adapter；兼容原reading-only端口。
 - 原因：主体状态属于Store，模型可更换且只能提案；不再把后续理解字段塞进rationale字符串。
 - 验证：15 C/D tests PASS；相同冻结context换fixture不改状态，伪造receipt/authority/identity/source均拒绝；真实模型未运行。
+
+## 2026-10-14 UTC — D4 experience → later context/proposal
+- 改动：schema v5 experience/lesson记录、artifact绑定独立质量核验、复用现有rule/compiler的窄学习试验、显式激活/撤回和context引用。
+- 原因：把经历与学到的规则分开，证明重启/换fixture后可观察的提案变化，而不是人格提示词。
+- 验证：17 C/D +83 readiness =100 PASS；新进程、raw proposal消融、不相关scope、旧source/lesson删除、权限不扩大。另修索引对失效/superseded项的清理及重复同源memory commit幂等，保留旧断言。

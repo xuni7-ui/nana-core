@@ -249,7 +249,8 @@ class ContextAssembler:
         return package
 
     def _lessons(self, request, privacy):
-        return []
+        from .learning import ExperienceService
+        return ExperienceService(self.store, self.authority).context_blocks(request, privacy)
 
     def _coverage(self, scopes):
         by_scope = {}

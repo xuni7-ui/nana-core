@@ -157,3 +157,30 @@ not two real LLMs. E12 real semantics remains NOT_RUN.
 Validation: 15 cumulative C/D tests, including unchanged state across adapters,
 unsupported-source/identity and fake success/authority/receipt rejection, and the
 existing ActionKernel Shadow budget fence. Zero real model/network calls.
+
+## D4 — experience changes later planning (IMPLEMENTED / fixture TESTED)
+
+ExperienceRecord separates context/decision/result/independent verification from
+its proposed update. The local verifier checks the actual synthetic reading-card
+artifact for a locator and ignores a model's `success:true`; evidence binds the
+result memory and artifact digest. A missing output selects a producer through
+the existing OUTPUT_PRODUCERS registry. The resulting lesson reuses StrategyRule
+and PlanCompiler, not a new arbitrary policy language. Candidate→tested→reviewed
+active; scope/idempotency/unchanged write target/no authority fields are checked.
+Suspension/retirement and erased/withdrawn support prevent later selection.
+
+ContextAssembler includes relevant experiences and exact-task active lessons.
+The fixture planner's **raw proposal** adds LOCATE_SOURCE from the supplied rule;
+there is no hidden post-compiler patch counted as semantic understanding. After a
+fresh interpreter opens the managed snapshot, a different fixture port restores
+the same identity and chooses the added operation. In a matched ablation all
+history/identity/memory/project/commitment/experience rows stay unchanged; only
+the lesson is suspended, and the raw proposal returns to READ_SOURCE→DRAFT.
+Unrelated tasks do not receive the reading-card lesson. This is deterministic
+engineering learning, not E12 or a general LLM learning claim. No proposed
+operation is executed by this C/D candidate.
+
+Schema v5 adds experiences and lessons; content remains deletable with dependencies.
+Validation: 17 cumulative C/D tests, 83 readiness tests retained (100 passed
+combined). The fresh-interpreter/model-swap/ablation and deletion-of-learning-support
+checks pass. Identity/Grant/budget/capability authority cannot be changed by a lesson.
