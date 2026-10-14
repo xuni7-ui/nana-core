@@ -122,6 +122,7 @@ def test_old_unmanaged_clone_without_current_privacy_anchor_is_blocked(cognitive
         ContinuityStore(clone)
     public_dir = tmp_path / "public-dir"
     public_dir.mkdir(mode=0o755)
+    public_dir.chmod(0o755)  # legacy suites may leave a restrictive process umask
     with pytest.raises(CoreError, match="PRIVATE_CONTINUITY_DIRECTORY_REQUIRED"):
         ContinuityStore(public_dir / "unsafe.db")
     assert not (public_dir / "unsafe.db").exists()

@@ -939,3 +939,8 @@
 - 改动：开发continuity DB/backup/replay私有目录与文件权限门、symlink拒绝，示例使用独立0700目录。
 - 原因：隐私边界也要覆盖本机落盘，不能只限制模型context。
 - 验证：20 C/D tests PASS，不安全共享目录在写DB前fail-closed；未更改系统/生产目录权限。
+
+## 2026-10-14 UTC — C/D full-suite fixture precondition
+- 改动：权限拒绝测试显式chmod synthetic目录到0755后再断言拒绝。
+- 原因：全仓legacy测试遗留umask077，使mkdir(mode0755)实际得到0700；一次全量因此864 PASS/1 FAIL/1 skip。产品正确允许0700，测试前置条件错误，未放宽拒绝断言。
+- 验证：修正后20 C/D tests PASS；最终全仓复测继续。仅测试夹具改动。
