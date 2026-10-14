@@ -909,3 +909,8 @@
 - 改动：正式派生SelfFrame、privacy-first动态context、完整来源manifest/state一致性、预算/冲突整组/coverage；continuity开发库固定Shadow执行屏障。
 - 原因：换模型不靠巨型persona prompt，删除/纠正/权限变化后不得继续用旧context。
 - 验证：13 C/D tests PASS；预算不足/私有远传/篡改/旧context与coverage伪FULL均拒绝；无真实外部调用。
+
+## 2026-10-14 UTC — D3 model-independent proposal contract
+- 改动：Context-based v2 ModelPort、DeliberationSession与两个不同fixture adapter；兼容原reading-only端口。
+- 原因：主体状态属于Store，模型可更换且只能提案；不再把后续理解字段塞进rationale字符串。
+- 验证：15 C/D tests PASS；相同冻结context换fixture不改状态，伪造receipt/authority/identity/source均拒绝；真实模型未运行。

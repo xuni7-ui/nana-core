@@ -138,3 +138,22 @@ execution remains blocked. This candidate grants no new acting authority.
 Validation: 13 cumulative C/D tests; frame reconstruction, provenance, source
 coverage/loss validation, token cap, remote privacy exclusion, complete conflict
 bundle, tamper/stale-context detection and deletion invalidation.
+
+## D3 — model-independent continuity (IMPLEMENTED / fixture TESTED)
+
+`ContinuityModelPort` is a versioned context-based proposal port. The existing
+reading-only ModelPort remains compatible. Models receive only FrozenModelInput
+(serialized ContextPackage); the strict v2 reply may propose interpretation,
+read/locate/draft/ask/wait operations and supplied source refs. It has no success,
+Receipt, Grant, adoption or identity-write fields. DeliberationSession validates
+identity/ref scope and context freshness before and after inference, and retains
+raw proposal separately from accepted proposal. It executes no operations.
+
+Two different deterministic adapters (analytical and cautious) demonstrate
+replaceable cognition over exactly the same identity/state. Their interpretations
+can differ; Store snapshots remain identical. These are engineering fixtures,
+not two real LLMs. E12 real semantics remains NOT_RUN.
+
+Validation: 15 cumulative C/D tests, including unchanged state across adapters,
+unsupported-source/identity and fake success/authority/receipt rejection, and the
+existing ActionKernel Shadow budget fence. Zero real model/network calls.

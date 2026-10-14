@@ -674,3 +674,7 @@
 ## 2026-10-14 UTC — D1/D2 derived self and bounded context
 [已实现/已测试] SelfFrame为派生view，ContextAssembler按scope/目的地隐私预过滤，动态组合身份/关系/承诺/项目/记忆/约束，权威与相关性等排序；Manifest保留来源、coverage、omissions、event cutoff/state token。纠正/删除后旧context失效；矛盾整组或BLOCKED。13 C/D tests PASS。
 [限制] 默认UTF8字节计数明确是离线保守估计，不是真实provider tokenizer；真实模型仍NOT_RUN。ContinuityStore沿用Shadow执行屏障，不给Grant/Budget/Action权限；生产R045/B5-3未变。
+
+## 2026-10-14 UTC — D3 versioned context ModelPort
+[已实现/已测试] 永久continuity v2 ModelPort/immutable input/严格proposal，保留raw proposal与校验结果；两个不同fixture切换后Store/identity/记忆不变。模型不能返回Grant/Receipt/成功回执或写身份，调用前后检查context。累计15 C/D tests PASS。
+[未运行] 真实模型调用0，E12 NOT_RUN；fixture不作为语义迁移证明。
