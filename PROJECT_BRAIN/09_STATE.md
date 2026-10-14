@@ -659,3 +659,6 @@
 ## 2026-10-14 UTC — C–D continuous-self development C1
 [已实现/已测试] 独立 `dev/nana-core-continuous-self-codex` 从 readiness `b3ff62a` 继续；同 Store 显式开发 schema v2 + CanonicalIdentity/IdentityRevision/IdentityProvenance，沿用原 UUID；表达修订需 operator + CAS，charter 无学习写口。身份重启/replay/另一宿主备份恢复测试通过（2 tests）；既有默认回归372 passed/1 E12 skip。详见 `docs/nana_continuous_self.md`。
 [边界] 不更改 R045/B5-3/生产状态；real memory ingress 仍关闭。已有业务正文的 v1 拒绝原地迁移，原因见 D-051。未接真实模型、宿主或私人数据。
+
+## 2026-10-14 UTC — C2 typed memory foundation
+[已实现/已测试] 正式 continuity schema v3：7类记忆、独立 evidence/artifact/claim/summary、实体与来源/时间/隐私元数据、依赖边、可重建词面索引；文本不复制进新增事件。5 tests PASS（含C1）；source dedup、replay、推断不升级观察、真实入口硬关闭已覆盖。C3/C4完整失效传播和物理删除尚待下一提交，不将中间状态报 READY。

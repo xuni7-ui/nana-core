@@ -889,3 +889,8 @@
 - 改动：独立 Core continuity 包、显式 v2 migration、沿用 Store UUID 的身份历史/CAS/来源合同。
 - 原因：把身份从 readiness 原型推进为长期状态，避免 model/host/session 创建新主体；拒绝伪安全的旧正文原地迁移。
 - 验证：2 identity tests PASS；现有默认372 PASS/1 E12 skip；无生产/真实模型操作。
+
+## 2026-10-14 UTC — C2 permanent memory foundation
+- 改动：正式 evidence/memory/实体/依赖/索引 schema v3 与严格synthetic DTO，7类记忆和独立认识层。
+- 原因：替换仅core_meta原型；保持原始证据与总结分离，并为可删除payload提供基础。
+- 验证：5 continuous-self tests PASS；纠正入口曾错误拒绝disputed旧项，已修正为显式family/authority检查；无放宽断言。真实入口保持关闭。

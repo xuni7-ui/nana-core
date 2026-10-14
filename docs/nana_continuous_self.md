@@ -27,3 +27,26 @@ Validation: `tests/continuous_self/test_identity.py`: 2 passed; identity revisio
 CAS rejection, unauthorized update, restart, replay, another-host backup and
 legacy migration rejection. Existing configured suite: 372 passed / 0 failed /
 1 skipped (real E12). These are offline results, not real-model semantics.
+
+## C2 — typed memory foundation (IMPLEMENTED / TESTED)
+
+Explicit v3 adds entities, evidence, typed memories, dependency edges and a
+rebuildable lexical term index. The seven memory facets are separate from the
+epistemic layer (observation / statement / belief / summary / inference / lesson).
+Memory has stable entity/scope, source reference and revision, occurrence,
+observation and ingestion times, authority/confidence, importance/significance,
+privacy, correction and assessment lifecycle. Text exists only in deletable
+artifacts; append-only events carry IDs, typed metadata and references.
+
+Only SYNTHETIC_ONLY source DTOs are admitted. RealMemoryIngress is code-level
+closed even when every proposed qualification flag is true. Imported history
+cannot create Grants, Actions, commitments or identity revisions. A summary must
+have source memory backlinks, inherits the most restrictive source privacy, and
+cannot be promoted to an original observation. Source-key collisions reject;
+source time is never replaced by restart time. Query filters scopes/privacy
+before reading payloads. There is no vector DB or new dependency.
+
+Validation to date: 5 continuous-self tests (identity plus all seven facets,
+source dedup/replay, correction/conflict, inference authority and real gate).
+Correction exists but full descendant invalidation/deletion follows C3/C4;
+this intermediate milestone does not claim physical deletion readiness.
