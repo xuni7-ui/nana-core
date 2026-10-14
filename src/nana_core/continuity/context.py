@@ -235,6 +235,21 @@ class ContextAssembler:
                 data_json=canonical({"assessment": "DISPUTED", "claims": [
                     {k: row[k] for k in ("memory_id", "text", "event_time_us", "authority", "confidence")} for row in rows]}),
                 source_memory_ids=tuple(r["memory_id"] for r in rows))))
+        # Persistent Self is another derived block in this SAME context builder.
+        # Only scopes with accepted subject events participate; legacy callers and
+        # default v1 runtime remain unchanged. Filter privacy before projection.
+        if "subject_events" in self.store.keys:
+            from .subject.projections import Environment, project_self
+            for scope in request.scopes:
+                if not self.store.db.execute("SELECT 1 FROM subject_events WHERE scope=? LIMIT 1", (scope,)).fetchone():
+                    continue
+                living, personality, relation = project_self(self.store, entity_id=request.entity_id,
+                    scope=scope, privacy_classes=privacy,
+                    environment=Environment(capabilities=tuple(capabilities)))
+                candidates.append((925.0, ContextBlock(block_id="persistent-self:" + scope, kind="PERSISTENT_SELF",
+                    data_json=canonical({"living": living.model_dump(mode="json"),
+                        "personality": personality.model_dump(mode="json"), "relationship": relation}),
+                    source_record_ids=living.source_record_ids, source_memory_ids=living.source_memory_ids)))
         # Future lessons are selected by exact task scope, never arbitrary global advice.
         candidates.extend(self._lessons(request, privacy))
         candidates.sort(key=lambda item: (-item[0], item[1].block_id))

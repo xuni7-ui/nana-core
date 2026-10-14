@@ -29,17 +29,24 @@ class Growth:
             topic = self.records.read(s['record_id'])['payload']['topic']
             break
         return {'assertion_id': row['assertion_id'], 'kind': row['assertion_kind'], 'topic': topic,
-            'state': state, 'revision': row['revision'], 'independent_support_count': len(support),
-            'supporting_evidence': tuple(sorted(support)), 'counter_evidence': tuple(sorted(counter)),
+            'state': 'SUPERSEDED' if row['state'] == 'SUPERSEDED' else state, 'revision': row['revision'], 'independent_support_count': len(support),
+            'supporting_evidence': tuple(sorted(support))[:16], 'counter_evidence': tuple(sorted(counter))[:16],
+            'support_evidence_total': len(support), 'counter_evidence_total': len(counter),
+            'omitted_signal_count': max(0, len(signals) - 32),
             'confidence': min(0.9, len(support) / (len(support) + len(counter) + 1)),
             'stability': 'ESTABLISHED' if state == 'ADOPTED' and len(support) >= 3 else 'PROVISIONAL',
             'last_reinforced': max((s['created_at_us'] for s in eligible if s['direction'] == 'SUPPORT'), default=None),
             'last_challenged': max((s['created_at_us'] for s in eligible if s['direction'] == 'COUNTER'), default=None),
-            'source_record_ids': tuple(s['record_id'] for s in signals)}
+            'source_record_ids': tuple(dict.fromkeys(s['record_id'] for s in
+                ([next(s for s in eligible if s['root_evidence_id'] == root and s['direction'] == direction)
+                  for direction in ('SUPPORT','COUNTER')
+                  for root in sorted({s['root_evidence_id'] for s in eligible if s['direction'] == direction})[:16]]
+                 or signals[:1])))}
 
-    def assertions(self, scope, kind=None):
+    def assertions(self, scope, kind=None, *, privacy_classes=('PUBLIC','PROJECT','PERSONAL','SECRET')):
         return tuple(self.assertion_view(r) for r in self.store.all('self_assertions')
-                     if r['scope'] == scope and (kind is None or r['assertion_kind'] == kind))
+                     if r['scope'] == scope and (kind is None or r['assertion_kind'] == kind)
+                     and self.store.one('continuity_records', r['record_id'])['privacy_class'] in privacy_classes)
 
     def _roots(self, memory_id):
         """Resolve inherited evidence: own derivations do not create new roots."""
@@ -68,6 +75,8 @@ class Growth:
                 return
             key = digest(canonical([signal.kind, signal.topic, event.scope, self.store.identity['identity_id']]).encode())
             old = self.store.one('self_assertions', key)
+            if old and old['state'] == 'SUPERSEDED':
+                raise CoreError('SUPERSEDED_ASSERTION_CANNOT_SELF_REVIVE')
             signal_record = self.records.create(tx, kind='ASSERTION_SIGNAL', scope=event.scope,
                 payload={'topic': signal.topic, 'interpretation': signal.interpretation, 'direction': signal.direction},
                 records=(row['record_id'],))
@@ -101,11 +110,14 @@ class Growth:
                     payload={'meaning': event.text, 'kind': event.relationship_kind}, records=(row['record_id'],)),
                 'occurred_at_us': event.occurred_at_us or event.observed_at_us})
 
-    def relationship(self, entity_id, scope):
+    def relationship(self, entity_id, scope, *, privacy_classes=('PUBLIC','PROJECT','PERSONAL','SECRET')):
         rows = [r for r in self.store.all('relationship_events') if r['to_entity_id'] == entity_id
-                and live_record(self.store, r['record_id'])
-                and self.store.one('continuity_records', r['record_id'])['scope'] == scope]
-        rows.sort(key=lambda r: (r['occurred_at_us'], r['relationship_event_id']))
+                and self.store.one('continuity_records', r['record_id'])['scope'] == scope
+                and self.store.one('continuity_records', r['record_id'])['privacy_class'] in privacy_classes
+                and live_record(self.store, r['record_id'])]
+        revisions = {r['subject_event_id']: r['revision'] for r in self.store.all('subject_cycles')}
+        next_revision = max(revisions.values(), default=0) + 1
+        rows.sort(key=lambda r: (r['occurred_at_us'], revisions.get(r['subject_event_id'], next_revision)))
         kinds = [r['relation_kind'] for r in rows]
         unresolved_conflict = 'CONFLICT' in kinds and ('REPAIR' not in kinds or
             max(i for i,x in enumerate(kinds) if x == 'CONFLICT') > max(i for i,x in enumerate(kinds) if x == 'REPAIR'))
@@ -117,4 +129,26 @@ class Growth:
             'self_disclosure_comfort': 'LIMITED' if boundary or not familiar else 'CONTEXTUAL',
             'challenge_comfort': 'DIRECT_WITH_CARE' if familiar and not unresolved_conflict else 'EXPLAIN_FIRST',
             'interaction_style': 'REPAIR_FIRST' if unresolved_conflict else 'WARM_PLAYFUL' if familiar and 'SHARED_JOKE' in kinds and not boundary else 'WARM_DIRECT' if familiar else 'RESPECTFUL_EXPLICIT',
-            'source_record_ids': tuple(r['record_id'] for r in rows)}
+            'source_record_ids': tuple(r['record_id'] for r in rows if r in [x for kind in set(kinds) for x in [a for a in rows if a['relation_kind'] == kind][-2:]])}
+
+    def supersede(self, assertion_id, replacement_id, *, expected_revision):
+        """Explicit evidence-backed replacement; never changes canonical identity.
+
+        Both assertions must already exist, and the replacement must have its
+        own independently adopted support. A model cannot invent a new value in
+        this transition. Old assertion stays terminal even if new support arrives.
+        """
+        with self.store.transaction('subject.assertion_superseded') as tx:
+            old, replacement = self.store.one('self_assertions', assertion_id), self.store.one('self_assertions', replacement_id)
+            if not old or not replacement or old['revision'] != expected_revision or old['state'] == 'SUPERSEDED':
+                raise CoreError('STALE_OR_TERMINAL_ASSERTION')
+            if assertion_id == replacement_id or (old['scope'],old['entity_id'],old['assertion_kind']) != (replacement['scope'],replacement['entity_id'],replacement['assertion_kind']):
+                raise CoreError('ASSERTION_REPLACEMENT_MISMATCH')
+            if self.assertion_view(replacement)['state'] != 'ADOPTED':
+                raise CoreError('ASSERTION_REPLACEMENT_NOT_SUPPORTED')
+            self.records.read(old['record_id'])
+            record = self.records.create(tx, kind='ASSERTION', scope=old['scope'],
+                payload={'state':'SUPERSEDED','superseded_by':replacement_id},
+                records=(replacement['record_id'],), supersedes=old['record_id'])
+            tx.update('self_assertions', assertion_id, state='SUPERSEDED', record_id=record,
+                revision=expected_revision + 1, updated_at_us=self.store.clock.utc_now_us())

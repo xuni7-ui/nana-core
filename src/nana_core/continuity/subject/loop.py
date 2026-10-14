@@ -23,10 +23,9 @@ class SubjectLoop:
         return json.loads(row['value_json']) if row else 0
 
     def visible(self, record_id, scope):
-        if not live_record(self.store, record_id):
-            return False
         row = self.store.one('continuity_records', record_id)
-        return row['scope'] == scope and row['privacy_class'] in self.privacy_classes
+        return bool(row and row['scope'] == scope and row['privacy_class'] in self.privacy_classes
+                    and live_record(self.store, record_id))
 
     def situation(self, event, source):
         now = self.store.clock.utc_now_us()
@@ -56,7 +55,7 @@ class SubjectLoop:
                 continue
             if type(value) is dict and type(value.get('allowed_methods')) is list:
                 methods.extend(x for x in value['allowed_methods'] if type(x) is str and len(x) <= 128)
-        assertions = [a for a in self.growth.assertions(event.scope) if a['state'] == 'ADOPTED'
+        assertions = [a for a in self.growth.assertions(event.scope, privacy_classes=self.privacy_classes) if a['state'] == 'ADOPTED'
             and all(self.visible(r, event.scope) for r in a['source_record_ids'])]
         interests = tuple(a['topic'] for a in assertions if a['kind'] == 'PREFERENCE' and a['topic'])
         for a in assertions:
@@ -64,7 +63,7 @@ class SubjectLoop:
         for r in records:
             memories.extend(self.records.support(r))
         pending = self.pending(event.scope)
-        relation = self.growth.relationship(event.entity_id, event.scope)
+        relation = self.growth.relationship(event.entity_id, event.scope, privacy_classes=self.privacy_classes)
         if not all(self.visible(r, event.scope) for r in relation['source_record_ids']):
             relation = {'familiarity': 'UNKNOWN', 'source_record_ids': ()}
         records.extend(relation['source_record_ids'])
@@ -101,7 +100,12 @@ class SubjectLoop:
     def run(self, event: SubjectInput, *, expected_revision=None):
         if event.scope not in self.scopes or event.privacy_class not in self.privacy_classes:
             raise CoreError('SUBJECT_CONTEXT_POLICY_BLOCKED')
+        if expected_revision is not None and type(expected_revision) is not int:
+            raise CoreError('INVALID_SUBJECT_REVISION')
         self.store.ensure_privacy_current()
+        high_water = self.store.db.execute('SELECT coalesce(max(created_at_us),0) FROM subject_cycles').fetchone()[0]
+        if self.store.clock.utc_now_us() < high_water:
+            raise CoreError('SUBJECT_CLOCK_ROLLBACK')
         source = self.ingress.ingest(event)
         old = self.store.db.execute('SELECT * FROM subject_cycles WHERE subject_event_id=?', (source['subject_event_id'],)).fetchone()
         if old:
@@ -168,7 +172,7 @@ class SubjectLoop:
         raise CoreError('SUBJECT_RATIONALE_NOT_RETAINED' if not row['record_id'] else 'SUBJECT_RATIONALE_RETIRED')
 
     def transition_intention(self, intention_id, *, expected_revision, state):
-        if state not in {'COMPLETED','DEFERRED','DROPPED','EXPIRED'}:
+        if type(expected_revision) is not int or state not in {'COMPLETED','DEFERRED','DROPPED','EXPIRED'}:
             raise CoreError('INVALID_INTENTION_TRANSITION')
         with self.store.transaction('subject.intention_transition') as tx:
             row = self.store.one('subject_intentions', intention_id)
@@ -178,3 +182,19 @@ class SubjectLoop:
             for goal in self.store.all('subject_goal_candidates'):
                 if goal['intention_id'] == intention_id:
                     tx.update('subject_goal_candidates', goal['candidate_id'], state='EXPIRED' if state == 'EXPIRED' else 'WITHDRAWN')
+
+    def reflect(self, experience_id, *, authority, expected_revision=None, apply=False):
+        """Explicit SubjectLoop transition, not an autonomous reflection engine.
+
+        Application still requires existing reviewed narrow-rule authority.
+        No reflection can alter CanonicalIdentity or create an Action.
+        """
+        from .reflection import ReflectionService
+        if expected_revision is not None and expected_revision != self.revision:
+            raise CoreError('STALE_SUBJECT_REVISION')
+        service = ReflectionService(self.store, authority)
+        reflection_id = service.propose(experience_id)
+        row = self.store.one('subject_reflections', reflection_id)
+        if apply and row['state'] == 'CANDIDATE':
+            service.apply(reflection_id, expected_revision=row['revision'], authority=authority)
+        return reflection_id

@@ -964,3 +964,12 @@ Added the single SubjectLoop and v7 development migration. Reused existing
 records/memory/privacy/event replay. Tested 24 continuity cases; no production,
 real memory ingress, model call or execution authority changes. All generated
 C goals remain proposed candidates; the barrier is NO_ACTION/SHADOW_BLOCKED.
+
+## 2026-10-14 — C-V2 Phase 1b projections and reflection
+
+Added deletable-source-backed living/personality/relationship views and context
+integration. Independent root counts resist copied support; counter-evidence
+can dispute and supported replacement can supersede without revival. Added
+source-backed reflection to existing checked lesson mechanism. Privacy precedes
+payload projection; ordinal internal activation does not overwrite personality
+or identity. 27 continuity tests passed; ten-day/soak still pending.

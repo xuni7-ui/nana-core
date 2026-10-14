@@ -741,3 +741,14 @@ roots/counter-evidence and relationship events. Default v1 Store unchanged.
 24 continuity tests passed including populated-v6 migration, replay, source
 dedup, stale CAS, deletion closure, no-retention and no external execution.
 Ten-day life and long-horizon verification are still NOT_RUN at this milestone.
+
+### C-V2 Phase 1b — derived living self and causal reflection
+
+IMPLEMENTED / OFFLINE TESTED: LivingSelfState/PersonalityProfile rebuilt from
+current sources, bounded qualitative internal state, relationship stance with
+conflict/repair, terminal assertion supersession, privacy-filtered Persistent
+Self block in the existing ContextAssembler, ReflectionService using the existing
+independent experience checker and tested narrow lesson lifecycle. Reflection
+can only be requested via explicit SubjectLoop/component transitions; no daemon
+or new reflection decision engine. StandingDelegation/Wake are contracts only.
+27 continuity tests passed. Real semantic/personality/host validation NOT_RUN.
