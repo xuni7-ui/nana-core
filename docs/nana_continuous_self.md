@@ -83,3 +83,31 @@ Validation: 9 cumulative continuous-self tests. Distinct synthetic erasure canar
 absent from active DB/WAL, controlled backup and replay; source reimport,
 consolidation from deleted input and lifecycle resurrection rejected. Actual
 SIGKILL after fsynced intent/before purge recovers to deleted before retrieval.
+
+## C5/C6/C7 — relationships, commitments and project continuity
+
+IMPLEMENTED / TESTED. RelationshipView combines scoped current shared episodes,
+preferences, norms, boundaries, unresolved topics, adopted promises and active
+projects. It never owns an Identity update API or an affection score.
+
+CommitmentCandidate → PROPOSED is distinct from reviewed ADOPTED → ACTIVE.
+Only the controller's operator object adopts/transitions with expected revision.
+FULFILLED requires a SYSTEM_VERIFICATION source, never model prose; terminal
+states cannot return to ACTIVE. Past deadlines are visible as overdue, not
+rewritten or automatically marked complete. No Grant is created by adoption.
+
+ProjectState persists its goal, current state, typed milestones, decisions,
+questions, blockers, progress and next actions. CAS revisions allow rebuilding
+where we are without chat replay. State, scope, binding and revision are indexed
+SQL columns; bounded typed narrative/list payloads live in artifacts so they can
+be deleted. `continuity_records`/`record_dependencies` share that discipline for
+all revision payloads. SUPPORT and REVISION edges are distinct: a new reviewed
+revision need not believe an obsolete source, but erasure still follows history.
+
+Schema v4 adds those four tables. There are no new services or dependencies.
+Correction marks stale support for re-review; deleting source memory erases every
+related record payload, including historical project revisions. Relationship
+views omit stale/deleted support. Validation: 11 cumulative C/D tests, including
+adoption rejection, terminal transition, independent fulfillment, overdue,
+project CAS, backup/restart continuity and physical deletion of relation/promise/
+all project revision payloads. No host or real semantic validation is claimed.

@@ -899,3 +899,8 @@
 - 改动：纠正传播到派生总结；正式生命周期/置信变更；受authority保护的物理forget、fsync删除意图、备份清理/恢复锚和索引清理。
 - 原因：用户隐私删除优先于保留正文审计，修正旧summary仍可能进入未来context的问题。
 - 验证：9 C/D tests PASS，含真实SIGKILL、DB/WAL/backup/replay无canary、旧source不同revision仍不能复活；83 readiness tests保留通过。无真实数据或生产操作。
+
+## 2026-10-14 UTC — C5–C7 persistent relationship / promises / projects
+- 改动：RelationshipView、CommitmentCandidate/AdoptedCommitment/状态机、ProjectState显式revision；四个规范化状态/可删除记录/依赖表。
+- 原因：主体需跨模型记住共同历史和正在做的事；用户提到与奈奈正式承诺不可混淆。
+- 验证：11 C/D tests PASS；模型不能自行adopt/履约；关系/承诺/项目重启恢复及所有历史payload删除通过。

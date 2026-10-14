@@ -666,3 +666,7 @@
 ## 2026-10-14 UTC — C3/C4 correction and controlled erasure
 [已实现/已测试] 正式 claim family 纠正/CAS来源时间检查、旧总结失效、confidence审阅、archive/suppression与forget分离。forget先fsync外部opaque tombstone，再清raw/derived/index及受控备份payload；恢复先应用现行删除锚。真实子进程SIGKILL恢复和受控文件canary扫描通过，累计9 C/D tests；readiness83旧tests保留。
 [边界] 删除保证限应用控制的DB/WAL/登记备份/派生链；不声明可擦除任意外部副本、root全盘回滚或SSD残留。真实记忆入口仍关闭，生产/B5-3不变。详见D-052及continuity文档。
+
+## 2026-10-14 UTC — C5/C6/C7 relationship / commitment / project
+[已实现/已测试] RelationshipView无好感分、从来源构建；CommitmentCandidate与operator显式adoption分开，履约需SYSTEM_VERIFICATION而非模型自报；ProjectState/CAS持久化里程碑/决定/问题/阻塞/进展/下一步。开发schema v4四表复用同库artifact/依赖/事件，关系不能改身份。11 tests PASS，含重启、逾期、非法状态、项目revision及相关正文级联删除。
+[边界] 仅synthetic/dev，不新增Grant或真实行动，不改R045/B5-3事实。
