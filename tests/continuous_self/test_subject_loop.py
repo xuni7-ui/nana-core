@@ -64,6 +64,7 @@ def test_preference_roots_counter_evidence_delete_and_idle(cognitive):
             preference_signal=signal.model_copy(update={'direction':'COUNTER'})))
     challenged = Growth(store).assertions('life')[0]
     assert challenged['state'] == 'DISPUTED' and len(challenged['counter_evidence']) == 2
+    assert not loop.pending('life')  # new evidence also inhibits old optional intent
     # Erasure reaches new subject records through existing dependency closure.
     memory.forget(first['memory_id'], authority)
     assert Growth(store).assertions('life')[0]['independent_support_count'] == 1

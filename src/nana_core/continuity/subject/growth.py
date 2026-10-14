@@ -93,7 +93,7 @@ class Growth:
             tx.put('assertion_signals', {'signal_id': uid(), 'assertion_id': key,
                 'subject_event_id': row['subject_event_id'], 'direction': signal.direction,
                 'root_evidence_id': roots[0], 'independent': independent,
-                'record_id': signal_record, 'created_at_us': event.occurred_at_us or event.observed_at_us})
+                'record_id': signal_record, 'created_at_us': event.occurred_at_us if event.occurred_at_us is not None else event.observed_at_us})
             current = self.store.one('self_assertions', key)
             view = self.assertion_view(current)
             parent_records = view['source_record_ids']
@@ -108,7 +108,7 @@ class Growth:
                 'to_entity_id': event.entity_id, 'relation_kind': event.relationship_kind,
                 'record_id': self.records.create(tx, kind='RELATIONSHIP_EVENT', scope=event.scope,
                     payload={'meaning': event.text, 'kind': event.relationship_kind}, records=(row['record_id'],)),
-                'occurred_at_us': event.occurred_at_us or event.observed_at_us})
+                'occurred_at_us': event.occurred_at_us if event.occurred_at_us is not None else event.observed_at_us})
 
     def relationship(self, entity_id, scope, *, privacy_classes=('PUBLIC','PROJECT','PERSONAL','SECRET')):
         rows = [r for r in self.store.all('relationship_events') if r['to_entity_id'] == entity_id

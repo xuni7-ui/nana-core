@@ -72,3 +72,37 @@ def test_preference_supersession_is_terminal(cognitive):
         loop.run(event(store, 'revival', kind='OUTCOME', origin='ENVIRONMENT',
             preference_signal=PreferenceSignal(topic=old['topic'],direction='SUPPORT',interpretation='Cannot silently revive')))
     assert not store.all('actions')
+
+
+def test_self_belief_is_revisable_not_identity(cognitive):
+    from nana_core.continuity.subject import PreferenceSignal
+    from nana_core.continuity.subject.growth import Growth
+    store, memory, authority = cognitive
+    loop=SubjectLoop(store, scopes=('life',))
+    identity=store.identity.copy()
+    for direction in ('SUPPORT','COUNTER'):
+        for i in range(2):
+            loop.run(event(store,f'belief-{direction}-{i}',kind='OUTCOME',origin='ENVIRONMENT',
+                preference_signal=PreferenceSignal(kind='SELF_BELIEF',topic='methodical_work',direction=direction,
+                    interpretation='Evidence about whether careful work is a stable tendency')))
+        state=Growth(store).assertions('life',kind='SELF_BELIEF')[0]['state']
+        assert state == ('ADOPTED' if direction=='SUPPORT' else 'DISPUTED')
+    assert store.identity==identity
+
+
+def test_model_failure_and_stale_cognition_cannot_adopt_intention(cognitive):
+    from nana_core.continuity.cognition import AnalyticalFixturePort
+    store, memory, authority=cognitive
+    loop=SubjectLoop(store,scopes=('life',))
+    policy=ContextPolicy(policy_id='local',allowed_scopes=('life',),readable_privacy=('PERSONAL',))
+    class MutatingFixture:
+        descriptor='adversarial-stale-fixture'
+        def propose(self, request):
+            # Fault injection: provider must not have this handle in deployment.
+            loop.run(event(store,'interleaved-real-source'))
+            return AnalyticalFixturePort().propose(request)
+    with pytest.raises(CoreError, match='STALE_CONTEXT'):
+        loop.cognize(event(store,'stale-model'),model=MutatingFixture(),authority=authority,policy=policy)
+    assert len(store.all('subject_cycles'))==1
+    assert not store.all('subject_intentions')
+    assert not any(store.all(t) for t in ('actions','attempts','grants','budgets'))

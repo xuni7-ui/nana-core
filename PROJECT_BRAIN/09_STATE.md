@@ -752,3 +752,18 @@ independent experience checker and tested narrow lesson lifecycle. Reflection
 can only be requested via explicit SubjectLoop/component transitions; no daemon
 or new reflection decision engine. StandingDelegation/Wake are contracts only.
 27 continuity tests passed. Real semantic/personality/host validation NOT_RUN.
+
+### C-V2 Phase 2 — synthetic life, ablation and recovery
+
+IMPLEMENTED / OFFLINE TESTED: optional pre-appraised frozen ModelPort cognition,
+new-process model swap/rebuild, ten-day life across three matched worlds,
+preference-support ablation and lesson-application ablation. All 20 simulation
+checks PASS in `docs/nana_persistent_self_evidence/life.json`. The no-lesson world
+retains the independently verified failure experience; model's success claim
+cannot override the actual locator check. 60 virtual-day soak: bounded concerns,
+no independent-support inflation from repeated own behavior, no reflection
+recursion or social spam, zero real actions. Actual SIGKILL during transaction
+and after commit resumes/replays exactly once in separate processes.
+32 continuity tests PASS. Initial whole-repository regression: 877 PASS / 0 FAIL /
+1 SKIP (E12). A final regression follows the last pre-deliberation ordering fix.
+No real model, private data, production host or execution authorization involved.

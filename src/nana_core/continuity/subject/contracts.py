@@ -52,6 +52,10 @@ class SubjectInput(DTO):
             raise ValueError('self wake cannot claim external occurrence')
         if self.preference_signal and not self.text:
             raise ValueError('preference signal requires an observed occurrence')
+        if self.kind == 'REFLECTION':
+            raise ValueError('reflection must reference an existing experience via SubjectLoop.reflect')
+        if self.relationship_kind and not self.text:
+            raise ValueError('relationship update requires a sourced occurrence')
         if self.relationship_kind and self.kind not in {'RELATIONSHIP', 'PROJECT', 'INTERACTION'}:
             raise ValueError('relationship occurrence kind mismatch')
         return self
@@ -97,6 +101,25 @@ class Intention(DTO):
     self_generated: bool
 
 
+class DeliberationFrame(DTO):
+    """Pre-model appraisal/attention, not model truth or an adopted intention."""
+    derived: Literal[True] = True
+    subject_event_id: str
+    scope: str
+    appraisal: Appraisal
+    motivations: tuple[Motivation, ...]
+    attention: Literal['FOCUS_NOW','BACKGROUND_WATCH','DEFER','IGNORE','RECALL_LATER']
+    source_memory_ids: tuple[str, ...]
+    source_record_ids: tuple[str, ...]
+
+
+class DeliberationTrace(DTO):
+    model_descriptor: str = Field(min_length=1, max_length=128)
+    context_digest: str
+    raw_proposal_json: str = Field(max_length=32768)
+    source_kind: Literal['MODEL_PROPOSAL_NOT_TRUTH'] = 'MODEL_PROPOSAL_NOT_TRUTH'
+
+
 class CycleResult(DTO):
     cycle_id: str
     event_id: str
@@ -112,6 +135,7 @@ class CycleResult(DTO):
     barrier: Literal['NO_ACTION','SHADOW_BLOCKED']
     record_id: str | None
     replayed: bool = False
+    deliberation: DeliberationTrace | None = None
 
 
 class WakeCondition(DTO):

@@ -2,11 +2,11 @@
 from typing import Literal
 from pydantic import Field
 from ...contracts import DTO
-from ..context import state_token
+from ..revision import state_token
 from ..records import RecordService
 from .contracts import DAY_US, MAX_PENDING
 from .growth import Growth
-from .loop import SubjectLoop
+from .state import pending as pending_intentions, visible, revision
 
 
 class Environment(DTO):
@@ -56,17 +56,19 @@ class LivingSelfState(DTO):
 
 def project_self(store, *, entity_id, scope, privacy_classes, environment=None):
     store.ensure_privacy_current()
-    loop, growth, records = SubjectLoop(store, scopes=(scope,), privacy_classes=privacy_classes), Growth(store), RecordService(store)
+    growth, records = Growth(store), RecordService(store)
+    def is_visible(record_id):
+        return visible(store,record_id,scope,privacy_classes)
     now, token = store.clock.utc_now_us(), state_token(store)
-    pending = loop.pending(scope)
+    pending = pending_intentions(store,scope,privacy_classes)
     concerns = pending[:MAX_PENDING]
     active_ids = tuple(r['intention_id'] for r in concerns)
     candidates = tuple(r['candidate_id'] for r in store.all('subject_goal_candidates')
         if r['state'] in {'PROPOSED','DEFERRED'} and r['intention_id'] in active_ids
-        and loop.visible(r['record_id'], scope))
-    commitments = tuple(r for r in store.all('commitments') if r['state'] in {'ADOPTED','ACTIVE'} and loop.visible(r['record_id'], scope))
-    projects = tuple(r for r in store.all('projects') if r['state'] == 'ACTIVE' and loop.visible(r['record_id'], scope))
-    reflections = tuple(r for r in store.all('subject_reflections') if r['state'] == 'CANDIDATE' and loop.visible(r['record_id'], scope))
+        and is_visible(r['record_id']))
+    commitments = tuple(r for r in store.all('commitments') if r['state'] in {'ADOPTED','ACTIVE'} and is_visible(r['record_id']))
+    projects = tuple(r for r in store.all('projects') if r['state'] == 'ACTIVE' and is_visible(r['record_id']))
+    reflections = tuple(r for r in store.all('subject_reflections') if r['state'] == 'CANDIDATE' and is_visible(r['record_id']))
     assertions = tuple(a for a in growth.assertions(scope, privacy_classes=privacy_classes) if a['topic'])[:32]
     adopted = [a for a in assertions if a['state'] == 'ADOPTED']
     relation = growth.relationship(entity_id, scope, privacy_classes=privacy_classes)
@@ -78,7 +80,7 @@ def project_self(store, *, entity_id, scope, privacy_classes, environment=None):
     last = store.db.execute('SELECT c.* FROM subject_cycles c JOIN subject_events e ON e.subject_event_id=c.subject_event_id '
         'WHERE e.scope=? ORDER BY c.revision DESC LIMIT 1', (scope,)).fetchone()
     stale = last is not None and now - last['created_at_us'] > DAY_US
-    unavailable = last is not None and last['record_id'] is not None and not loop.visible(last['record_id'], scope)
+    unavailable = last is not None and last['record_id'] is not None and not is_visible(last['record_id'])
     presence = 'DEGRADED' if unavailable else 'FOCUSED' if concerns and not stale else 'WATCHING' if concerns else 'IDLE'
     preferences = tuple(a['topic'] for a in adopted if a['kind'] == 'PREFERENCE')
     beliefs = tuple(a['topic'] for a in adopted if a['kind'] == 'SELF_BELIEF')
@@ -100,7 +102,7 @@ def project_self(store, *, entity_id, scope, privacy_classes, environment=None):
         interaction_style=relation['interaction_style'], support_record_ids=tuple(dict.fromkeys(support)),
         explanation=('Defaults are light; established tendencies require current independent sources.',
             'State activation, relationship stance and canonical identity are different layers.'))
-    state = LivingSelfState(identity_id=store.identity['identity_id'], subject_revision=loop.revision,
+    state = LivingSelfState(identity_id=store.identity['identity_id'], subject_revision=revision(store),
         state_token=token, as_of_us=now, presence=presence,
         current_activity=concerns[0]['kind'] if concerns else 'PRESENT_WITHOUT_ACTION',
         attention_focus=active_ids[0] if active_ids else None, secondary_attention=active_ids[1:],

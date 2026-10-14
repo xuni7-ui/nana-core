@@ -125,11 +125,7 @@ class ConservativeCounter:
         return len(text.encode("utf-8"))
 
 
-def state_token(store):
-    store.ensure_privacy_current()
-    return digest({"identity_revision": store.identity["revision"],
-        "event_cutoff": store.db.execute("SELECT coalesce(max(seq),0) FROM events").fetchone()[0],
-        "privacy": digest(store.privacy.read()["intents"])})
+from .revision import state_token
 
 
 def _visible(store, row, scopes, privacy_classes):
@@ -166,7 +162,7 @@ class ContextAssembler:
         self.counter = counter or ConservativeCounter()
         self._issued = deque(maxlen=64)  # hashes only, never a plaintext context cache
 
-    def assemble(self, request: ContextRequest, policy: ContextPolicy, *, capabilities=(), limitations=()):
+    def assemble(self, request: ContextRequest, policy: ContextPolicy, *, capabilities=(), limitations=(), subject_frame=None):
         if not set(request.scopes) <= set(policy.allowed_scopes):
             raise CoreError("CONTEXT_SCOPE_DENIED")
         privacy = tuple(p for p in policy.readable_privacy if request.destination == "LOCAL_FIXTURE" or p in policy.remote_privacy)
@@ -188,6 +184,26 @@ class ContextAssembler:
             ContextBlock(block_id="task", kind="TASK_CONSTRAINTS", data_json=canonical({
                 "task": request.task, "task_class": request.task_class, "capabilities": frame.capabilities,
                 "limitations": frame.limitations, "execution_authority": "NONE", "context_is_derived": True}))]
+        if subject_frame is not None:
+            from .subject.contracts import DeliberationFrame
+            if not isinstance(subject_frame, DeliberationFrame) or subject_frame.scope not in request.scopes:
+                raise CoreError("INVALID_SUBJECT_DELIBERATION_FRAME")
+            source = self.store.one("subject_events", subject_frame.subject_event_id)
+            if not source or source["scope"] != subject_frame.scope:
+                raise CoreError("INVALID_SUBJECT_DELIBERATION_SOURCE")
+            for mid in subject_frame.source_memory_ids:
+                row = self.store.one("memories", mid)
+                if not row or row["scope"] not in request.scopes or row["privacy_class"] not in privacy:
+                    raise CoreError("SUBJECT_FRAME_PRIVACY_DENIED")
+                memory_service.read(mid)
+            for rid in subject_frame.source_record_ids:
+                row = self.store.one("continuity_records", rid)
+                if not row or row["scope"] not in request.scopes or row["privacy_class"] not in privacy:
+                    raise CoreError("SUBJECT_FRAME_PRIVACY_DENIED")
+                RecordService(self.store).read(rid)
+            mandatory.append(ContextBlock(block_id="subject-deliberation",kind="SUBJECT_APPRAISAL",
+                data_json=subject_frame.model_dump_json(), source_memory_ids=subject_frame.source_memory_ids,
+                source_record_ids=subject_frame.source_record_ids))
         # No duplicate relationship prose; it is supplied as individual memory blocks.
         candidates.append((900.0, ContextBlock(block_id="relationship", kind="RELATIONSHIP_LINKS", data_json=canonical({
             "entity_id": frame.relationship.entity_id,

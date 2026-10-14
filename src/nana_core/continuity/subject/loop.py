@@ -8,6 +8,7 @@ from .contracts import CycleResult, DAY_US, INTENTION_TTL_US, MAX_PENDING, Subje
 from .growth import Growth, live_record
 from .ingress import SubjectIngress
 from .policy import Situation, appraise, decide, motivate
+from . import state
 
 
 class SubjectLoop:
@@ -19,13 +20,10 @@ class SubjectLoop:
 
     @property
     def revision(self):
-        row = self.store.one('core_meta', 'self.subject_revision')
-        return json.loads(row['value_json']) if row else 0
+        return state.revision(self.store)
 
     def visible(self, record_id, scope):
-        row = self.store.one('continuity_records', record_id)
-        return bool(row and row['scope'] == scope and row['privacy_class'] in self.privacy_classes
-                    and live_record(self.store, record_id))
+        return state.visible(self.store,record_id,scope,self.privacy_classes)
 
     def situation(self, event, source):
         now = self.store.clock.utc_now_us()
@@ -83,21 +81,23 @@ class SubjectLoop:
             idle=event.kind == 'WAKE')
 
     def pending(self, scope):
-        now = self.store.clock.utc_now_us()
-        return tuple(r for r in self.store.all('subject_intentions') if r['scope'] == scope and
-            r['state'] == 'PENDING' and r['expires_at_us'] > now and self.visible(r['record_id'], scope))
+        return state.pending(self.store,scope,self.privacy_classes)
 
     def _expire(self, tx):
         now = self.store.clock.utc_now_us()
         for row in self.store.all('subject_intentions'):
-            if row['state'] == 'PENDING' and (row['expires_at_us'] <= now or not live_record(self.store, row['record_id'])):
+            if row['scope'] not in self.scopes:
+                continue
+            supported_interests = {a['topic'] for a in self.growth.assertions(row['scope'], privacy_classes=self.privacy_classes) if a['state']=='ADOPTED'}
+            lost_motivation = row['kind']=='EXPLORE' and row['slot_key'].removeprefix('explore-') not in supported_interests
+            if row['state'] == 'PENDING' and (row['expires_at_us'] <= now or not live_record(self.store, row['record_id']) or lost_motivation):
                 state = 'EXPIRED' if row['expires_at_us'] <= now else 'DROPPED'
                 tx.update('subject_intentions', row['intention_id'], state=state, revision=row['revision'] + 1)
                 for goal in self.store.all('subject_goal_candidates'):
                     if goal['intention_id'] == row['intention_id']:
                         tx.update('subject_goal_candidates', goal['candidate_id'], state='EXPIRED' if state == 'EXPIRED' else 'WITHDRAWN')
 
-    def run(self, event: SubjectInput, *, expected_revision=None):
+    def run(self, event: SubjectInput, *, expected_revision=None, _deliberation=None):
         if event.scope not in self.scopes or event.privacy_class not in self.privacy_classes:
             raise CoreError('SUBJECT_CONTEXT_POLICY_BLOCKED')
         if expected_revision is not None and type(expected_revision) is not int:
@@ -116,13 +116,29 @@ class SubjectLoop:
                 raise CoreError('STALE_SUBJECT_REVISION')
             self._expire(tx)
             self.growth.apply(tx, event, source)
+            self._expire(tx)  # counter-evidence may inhibit an earlier optional intention
             situation = self.situation(event, source)
             appraisal = appraise(event, situation)
             motives = motivate(event, situation, appraisal)
             attention, judgment, intention = decide(event, situation, appraisal, motives)
+            if _deliberation is not None:
+                # Model uncertainty may inhibit ordinary interaction; it cannot
+                # overrule a sourced conflict, obligation or tested lesson.
+                operations = _deliberation.proposal.proposed_operations
+                if judgment.stance in {'WATCH','REMEMBER','THINK_MORE'} and not judgment.lesson_ids and any(x in operations for x in ('ASK','WAIT')):
+                    from .contracts import Intention, Judgment
+                    judgment = Judgment(stance='ASK' if 'ASK' in operations else 'DEFER',
+                        reason='Cognitive proposal requests clarification or waiting; no unsupported truth is adopted',
+                        source_ids=situation.memory_ids)
+                    intention = Intention(kind='WAIT', purpose='Hold the concern pending clarification',
+                        slot_key='clarify', source_ids=situation.memory_ids, self_generated=event.origin == 'SELF_WAKE')
             pending = self.pending(event.scope)
             duplicate_slot = any(r['slot_key'] == intention.slot_key for r in pending)
-            if len(pending) >= MAX_PENDING or duplicate_slot:
+            global_pending = self.store.db.execute(
+                "SELECT count(*) FROM subject_intentions i JOIN continuity_records r ON r.record_id=i.record_id "
+                "WHERE i.state='PENDING' AND i.expires_at_us>? AND r.lifecycle='ACTIVE'",
+                (self.store.clock.utc_now_us(),)).fetchone()[0]
+            if global_pending >= MAX_PENDING or duplicate_slot:
                 from .contracts import Intention, Judgment
                 attention = 'DEFER'
                 judgment = Judgment(stance='DEFER', reason='A matching concern is already pending or attention is full', source_ids=situation.memory_ids)
@@ -152,7 +168,10 @@ class SubjectLoop:
             result = CycleResult(cycle_id=cycle_id, event_id=source['subject_event_id'], revision=expected_revision + 1,
                 admission=source['admission'], appraisal=appraisal, motivations=motives, attention=attention,
                 judgment=judgment, intention=intention, intention_id=intention_id, goal_candidate_id=candidate_id,
-                barrier='NO_ACTION' if intention.kind == 'NO_ACTION' else 'SHADOW_BLOCKED', record_id=None)
+                barrier='NO_ACTION' if intention.kind == 'NO_ACTION' else 'SHADOW_BLOCKED', record_id=None,
+                deliberation=None if _deliberation is None else {
+                    'model_descriptor': _deliberation.model_descriptor,
+                    'context_digest': _deliberation.context_digest, 'raw_proposal_json': _deliberation.raw_proposal_json})
             record = None
             if parents or supports:
                 record = self.records.create(tx, kind='SUBJECT_CYCLE', scope=event.scope,
@@ -198,3 +217,40 @@ class SubjectLoop:
         if apply and row['state'] == 'CANDIDATE':
             service.apply(reflection_id, expected_revision=row['revision'], authority=authority)
         return reflection_id
+
+    def cognize(self, event, *, model, authority, policy):
+        """Optional bounded D cognition. Never hold SQLite transaction over model.
+
+        Freeze after idempotent ingress, validate before/after inference, then
+        accept against the same subject revision. No model receives services.
+        """
+        from ..context import ContextAssembler, ContextRequest
+        from ..cognition import DeliberationSession
+        if event.scope not in self.scopes or event.privacy_class not in self.privacy_classes:
+            raise CoreError('SUBJECT_CONTEXT_POLICY_BLOCKED')
+        source = self.ingress.ingest(event)
+        if self.store.db.execute('SELECT 1 FROM subject_cycles WHERE subject_event_id=?', (source['subject_event_id'],)).fetchone():
+            return self.run(event)
+        revision = self.revision
+        # Complete the pre-deliberation stages before invoking a ModelPort.
+        # This is a tentative view, not a committed judgment/intention. The
+        # transaction re-appraises against current support before acceptance.
+        situation = self.situation(event, source)
+        appraisal = appraise(event, situation)
+        motives = motivate(event, situation, appraisal)
+        attention = decide(event, situation, appraisal, motives)[0]
+        if attention == 'IGNORE':
+            return self.run(event, expected_revision=revision)
+        from .contracts import DeliberationFrame
+        frame = DeliberationFrame(subject_event_id=source['subject_event_id'], scope=event.scope,
+            appraisal=appraisal,motivations=motives,attention=attention,
+            source_memory_ids=situation.memory_ids,source_record_ids=situation.support_record_ids)
+        assembler = ContextAssembler(self.store, authority)
+        request = ContextRequest(entity_id=event.entity_id, scopes=(event.scope,),
+            task_class=event.task_class or 'subject_deliberation',
+            task=event.text or 'Assess current concerns; silence is allowed', task_privacy_class=event.privacy_class,
+            max_input_tokens=65536, output_reserve_tokens=4096)
+        context = assembler.assemble(request, policy, subject_frame=frame)
+        result = DeliberationSession(assembler).run(model, context, request, policy)
+        assembler.validate(context, request, policy)
+        return self.run(event, expected_revision=revision, _deliberation=result)

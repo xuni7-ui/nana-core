@@ -973,3 +973,13 @@ can dispute and supported replacement can supersede without revival. Added
 source-backed reflection to existing checked lesson mechanism. Privacy precedes
 payload projection; ordinal internal activation does not overwrite personality
 or identity. 27 continuity tests passed; ten-day/soak still pending.
+
+## 2026-10-14 — C-V2 whole-subject causal verification
+
+Added the reproducible ten-day synthetic life, matched preference/lesson controls
+and 60-day soak using real continuity modules; only world outcomes/ModelPorts are
+fixtures. Added actual SIGKILL transaction recovery and separate-process model
+swap checks. Fixed terminal optional-intention inhibition after counter-evidence,
+removed projection/coordinator dependency cycle, and supplied pre-model appraisal
+through the existing context budget/privacy path. 32 continuity tests passed;
+initial full suite 877/0/1, final source regression pending. Real gates unchanged.
