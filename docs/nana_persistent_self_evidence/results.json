@@ -1,0 +1,126 @@
+{
+  "origin": "SYNTHETIC_OFFLINE_ONLY",
+  "base": "3330cbf5a68f5eb34b7f1643949d2493227734bf",
+  "product_source_commit": "8e7fe91b827bd0de6801ce2f0cb70ee0f6022da8",
+  "meta_architect_commit": "123c6ed84c3485ca9336ec370dca9abc7e917196",
+  "runtime": {
+    "python": "3.12.14",
+    "sqlite": "3.53.1",
+    "pydantic": "2.13.4"
+  },
+  "full_regression": {
+    "tests": 878,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1,
+    "passed": 877,
+    "seconds": 81.029
+  },
+  "continuity_tests": 32,
+  "new_test_cases": 12,
+  "schema_version": 7,
+  "new_SQL_tables": 8,
+  "total_SQL_tables": 35,
+  "new_dependencies": 0,
+  "simulation_checks": {
+    "IDENTITY_STABLE": true,
+    "SELF_STATE_CONTINUES": true,
+    "MEMORY_EVOLVES": true,
+    "RELATIONSHIP_EVOLVES": true,
+    "PREFERENCE_EMERGES": true,
+    "COUNTER_EVIDENCE_CAN_REVISE_PREFERENCE": true,
+    "JUDGMENT_CAN_DISAGREE": true,
+    "INTENTION_CAN_SELF_GENERATE": true,
+    "GOALS_CAN_SELF_GENERATE": true,
+    "NO_USER_INPUT_REQUIRED": true,
+    "REFLECTION_CHANGES_BEHAVIOR": true,
+    "COUNTERFACTUAL_CAUSALITY": true,
+    "MODEL_SWAP_DOES_NOT_RESET_SELF": true,
+    "RESTART_DOES_NOT_RESET_SELF": true,
+    "NO_PERSONALITY_RUNAWAY": true,
+    "NO_REFLECTION_RECURSION": true,
+    "NO_GOAL_EXPLOSION": true,
+    "NO_SOCIAL_SPAM": true,
+    "NO_SECOND_TRUTH_SOURCE": true,
+    "ZERO_REAL_ACTIONS": true
+  },
+  "ten_day_worlds": 3,
+  "ablation_worlds": 2,
+  "soak": {
+    "virtual_days": 60,
+    "max_pending": 2,
+    "max_live_candidates": 2,
+    "max_hot_state_bytes": 3171,
+    "independent_support_unchanged": true,
+    "no_reflection_recursion": true,
+    "no_social_spam": true,
+    "identity_stable": true,
+    "bounded_qualitative_state": true,
+    "zero_actions": true
+  },
+  "crash_tests": {
+    "actual_SIGKILL": true,
+    "cuts": [
+      "assertion signal written inside uncommitted cycle transaction",
+      "after cycle commit"
+    ],
+    "assertions": [
+      "child exit -SIGKILL",
+      "fresh-process reopen",
+      "revision=cycles=signals=1",
+      "replay does not repeat ingress",
+      "integrity_check=ok",
+      "Actions/Attempts/Grants/Budgets=0"
+    ],
+    "source": "tests/continuous_self/test_subject_life.py"
+  },
+  "real_model_calls": 0,
+  "real_external_actions": 0,
+  "E12": "NOT_RUN",
+  "real_memory_import_enabled": false,
+  "production_changed": false,
+  "main_changed": false,
+  "R045_changed_by_this_task": false,
+  "private_memory_read": 0,
+  "secret_values_read": 0,
+  "production_review_pins": "EMPTY_UNCHANGED",
+  "runtime_proof_pins": "EMPTY_UNCHANGED",
+  "intermediate_failures": [
+    {
+      "stage": "new dedup test",
+      "result": "1 failed / 2 passed",
+      "cause": "strict Python validation of tuples after JSON decode",
+      "fix": "validate_json at serialized DTO boundary; schema not relaxed"
+    },
+    {
+      "stage": "first simulation launcher",
+      "cause": "subprocess used __main__ as module name",
+      "fix": "fixed absolute module entry point"
+    },
+    {
+      "stage": "second simulation",
+      "result": "19/20 checks passed",
+      "cause": "Python tuple/list representation compared across JSON process boundary; persisted state digest already equal",
+      "fix": "canonical JSON normalization of both full state snapshots"
+    },
+    {
+      "stage": "causal review",
+      "cause": "old optional exploration intention remained pending after counter-evidence",
+      "fix": "reconcile its motivation and drop terminally; stronger regression assertion"
+    },
+    {
+      "stage": "ordering/DAG review",
+      "cause": "optional model path needed explicit pre-appraisal and shared projection dependencies",
+      "fix": "pre-model typed appraisal frame and lower read-only state/revision modules"
+    }
+  ],
+  "candidate": "C_V2_PERSISTENT_SELF_OFFLINE_CANDIDATE_READY",
+  "limits": [
+    "Ordinal initial policy and source-annotated facets are not natural-language appraisal qualification.",
+    "Reflection initially supports only the existing independently checked reading-card locator lesson.",
+    "No real social initiative, model semantics, always-on scheduling or E/G execution qualification.",
+    "Trusted source-root independence is not statistical or adversarial-operator independence.",
+    "Cold event history grows linearly; hot state bounded in this 60-day synthetic workload, not a three-year performance proof.",
+    "Privileged unmanaged clones and already-exported/RAM data are outside existing erasure guarantees."
+  ]
+}

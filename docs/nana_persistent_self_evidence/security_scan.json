@@ -1,0 +1,40 @@
+{
+  "credential_patterns": true,
+  "no_runtime_artifacts": true,
+  "business_source_no_network_shell_random": true,
+  "prior_tests_unchanged": true,
+  "production_adapter_source_unchanged": true,
+  "production_pins_unchanged": true,
+  "scanned_files": [
+    "PROJECT_BRAIN/09_STATE.md",
+    "PROJECT_BRAIN/10_DECISIONS.md",
+    "PROJECT_BRAIN/11_CHANGELOG.md",
+    "docs/ADR/ADR-CV2-001-persistent-subject.md",
+    "docs/nana_persistent_self.md",
+    "docs/nana_persistent_self_evidence/life.json",
+    "src/nana_core/continuity/context.py",
+    "src/nana_core/continuity/memory.py",
+    "src/nana_core/continuity/revision.py",
+    "src/nana_core/continuity/subject/__init__.py",
+    "src/nana_core/continuity/subject/contracts.py",
+    "src/nana_core/continuity/subject/growth.py",
+    "src/nana_core/continuity/subject/ingress.py",
+    "src/nana_core/continuity/subject/loop.py",
+    "src/nana_core/continuity/subject/policy.py",
+    "src/nana_core/continuity/subject/projections.py",
+    "src/nana_core/continuity/subject/reflection.py",
+    "src/nana_core/continuity/subject/simulation.py",
+    "src/nana_core/continuity/subject/state.py",
+    "src/nana_core/storage/development_schema.py",
+    "src/nana_core/storage/schema_v7.sql",
+    "tests/continuous_self/test_subject_life.py",
+    "tests/continuous_self/test_subject_loop.py",
+    "tests/continuous_self/test_subject_projection.py"
+  ],
+  "third_party_source_added": false,
+  "new_dependencies": 0,
+  "limitations": [
+    "Source/static pattern scan is not a formal proof against privileged malicious code.",
+    "Only synthetic fixture IDs and content were used; no real memory or secrets were accessed."
+  ]
+}

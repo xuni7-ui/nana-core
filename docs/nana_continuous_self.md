@@ -232,3 +232,12 @@ fixture model; identity/revision/state digest are identical, original occurrence
 time remains 200µs, current preference/project/promise survive, and the locator
 lesson remains cited. Action/Attempt/Grant/Budget stay empty. Twenty permanent C/D
 tests now pass; full all-directory rerun follows this final source checkpoint.
+
+## C-V2 extension (2026-10-14)
+
+The prior v6 candidate above remains historical evidence. Current development
+ContinuityStore additionally supports v7 Persistent Self. See
+[`nana_persistent_self.md`](nana_persistent_self.md),
+[ADR-CV2-001](ADR/ADR-CV2-001-persistent-subject.md), and
+[offline delivery](nana_persistent_self_delivery.md). Default deployed/v1 Store
+and real ingress are not upgraded by this extension.

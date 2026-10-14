@@ -983,3 +983,12 @@ swap checks. Fixed terminal optional-intention inhibition after counter-evidence
 removed projection/coordinator dependency cycle, and supplied pre-model appraisal
 through the existing context budget/privacy path. 32 continuity tests passed;
 initial full suite 877/0/1, final source regression pending. Real gates unchanged.
+
+## 2026-10-14 — C-V2 final offline qualification and freeze
+
+Final product regression 877 passed / 0 failed / 1 skipped (E12 NOT_RUN), 32
+continuity cases. Published 20-check life/ablation/60-day evidence, actual
+SIGKILL/restart assertions, source privacy scan and 105-file fingerprint manifest.
+Documented ordinal-policy/one-lesson/real-semantic limits and intermediate fixes.
+No prior tests modified, no dependencies added, no production or external
+execution. Persistent Self offline candidate READY; automatic real rollout denied.

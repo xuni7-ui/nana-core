@@ -767,3 +767,31 @@ and after commit resumes/replays exactly once in separate processes.
 32 continuity tests PASS. Initial whole-repository regression: 877 PASS / 0 FAIL /
 1 SKIP (E12). A final regression follows the last pre-deliberation ordering fix.
 No real model, private data, production host or execution authorization involved.
+
+### C-V2 FINAL — Persistent Self offline candidate READY
+
+[实测·开发离线] Three phases complete on `dev/nana-core-continuous-self-codex`.
+Product checkpoint `8e7fe91b827bd0de6801ce2f0cb70ee0f6022da8`; final full regression
+**877 PASS / 0 FAIL / 1 SKIP** (E12 NOT_RUN), 81.05s console. 32 continuity cases,
+12 new cases; prior tests unchanged. 20/20 whole-subject simulation checks PASS.
+Ten-day three-world life + two ablations + 60-day soak; new-process rebuild/model
+fixture swap and actual SIGKILL recovery PASS. Evidence and intermediate fixes:
+`docs/nana_persistent_self_evidence/`, delivery `docs/nana_persistent_self_delivery.md`.
+Live concerns/candidates max2/2, living/personality hot state max3171 bytes in this
+workload, independent preference support does not increase from own repetition.
+
+C_V2_PERSISTENT_SELF_OFFLINE_CANDIDATE = READY (engineering candidate only).
+Real semantics, spontaneous natural social behavior, real host, real private
+memory and E12 are NOT qualified here. Initial ordinal policy/source annotations,
+only one checked reflection lesson family, D scheduler and StandingDelegation
+contracts without activation; cold history grows. No consciousness claim.
+
+Schema development v7: 8 new tables (35 total); no dependencies added. Default v1,
+SQLite>=3.51.3 gate, production pins EMPTY, real-memory hard deny and production
+execution fence unchanged. Main/R045/production unchanged by this task. Real
+model calls=0; real external actions=0; private data/secret reads=0.
+Manifest `manifests/nana_persistent_self_candidate.json` (105 files) SHA256:
+`e594c45e2aadf904a78d1100ea97f9d5048c00a0cd71ceaa0a2bac6d8de5691b`.
+No self-reference; snapshot file integrity only, no real-host attestation.
+Next boundary requires separate authorized real data/model/host qualification;
+this task stops without real integration or production rollout.
