@@ -22,7 +22,7 @@ def cognitive(tmp_path):
     authority = OperatorAuthority()
     with ContinuityStore(tmp_path / "self.db", ManualClock()) as store:
         IdentityService(store, authority)
-        memory = MemoryService(store)
+        memory = MemoryService(store, authority)
         memory.entity("synthetic-sister", "PERSON")
         yield store, memory, authority
 

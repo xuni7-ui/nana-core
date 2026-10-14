@@ -50,3 +50,36 @@ Validation to date: 5 continuous-self tests (identity plus all seven facets,
 source dedup/replay, correction/conflict, inference authority and real gate).
 Correction exists but full descendant invalidation/deletion follows C3/C4;
 this intermediate milestone does not claim physical deletion readiness.
+
+## C3/C4 — correction and physical deletion (IMPLEMENTED / TESTED)
+
+Correction requires a live claim in the same entity/predicate/scope family,
+direct-source authority and proven non-older occurrence time. It records both
+links, supersedes the old assessment and withdraws dependent summaries. Ambiguous
+contradiction stays DISPUTED; ordinary retrieval excludes disputed, stale and
+withdrawn claims. Confidence changes are separate reviewed transitions. Archive,
+suppression and deletion have distinct APIs; only archive/suppression retain text.
+
+`MemoryService.forget` requires its controller-owned operator object. It fsyncs an
+opaque-ID deletion intent to a 0600 external privacy journal before the SQLite
+transaction. It conservatively deletes the whole source-object dependency
+closure, including summaries sharing that source, and clears payload/hash/index.
+SQLite secure_delete + a checked WAL TRUNCATE checkpoint remove controlled DB/WAL
+copies. Known backups are scrubbed; busy backups produce PENDING_BACKUP_PURGE,
+not success. Opening any managed restore re-applies the current journal before
+reads. Replay uses remaining artifacts and the deletion changes, then rebuilds
+the lexical index. A deleted stable source cannot be reimported under a new
+revision. All derivation requires live, current parents.
+
+The journal must be retained independently of older snapshots. A missing anchor
+on an existing continuity DB fails closed; managed backup links require the
+current external anchor. Arbitrary privileged whole-filesystem rollback,
+unregistered exports, model-provider retention, RAM held by an external caller,
+and forensic SSD erasure are **not** controlled or certified. This is a synthetic
+offline candidate, not permission to ingest real private data. Canonical identity
+is not a deletable memory; private self beliefs stay outside the charter.
+
+Validation: 9 cumulative continuous-self tests. Distinct synthetic erasure canary
+absent from active DB/WAL, controlled backup and replay; source reimport,
+consolidation from deleted input and lifecycle resurrection rejected. Actual
+SIGKILL after fsynced intent/before purge recovers to deleted before retrieval.

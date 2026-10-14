@@ -14,8 +14,11 @@ PRIVACY_RANK = {"PUBLIC": 0, "PROJECT": 1, "PERSONAL": 2, "SECRET": 3}
 
 
 class MemoryService:
-    def __init__(self, store):
-        self.store = store
+    def __init__(self, store, authority=None):
+        self.store, self._authority = store, authority
+
+    def _fresh(self):
+        self.store.ensure_privacy_current()
 
     def entity(self, entity_id, kind):
         if type(entity_id) is not str or not re.fullmatch(r"[A-Za-z0-9._:-]{1,128}", entity_id):
@@ -33,6 +36,7 @@ class MemoryService:
         return entity_id
 
     def capture(self, candidate: EvidenceInput):
+        self._fresh()
         if not isinstance(candidate, EvidenceInput):
             raise CoreError("INVALID_EVIDENCE_CONTRACT")
         p = candidate.provenance
@@ -68,12 +72,14 @@ class MemoryService:
         return evidence_id
 
     def evidence(self, evidence_id):
+        self._fresh()
         row = self.store.one("continuity_evidence", evidence_id)
         if not row or row["state"] != "AVAILABLE":
             raise CoreError("EVIDENCE_UNAVAILABLE")
         return row
 
     def read(self, memory_id, *, include_inactive=False):
+        self._fresh()
         row = self.store.one("memories", memory_id)
         if not row or row["lifecycle"] == "DELETED":
             raise CoreError("MEMORY_UNAVAILABLE")
@@ -139,12 +145,14 @@ class MemoryService:
                     if old and item["memory_id"] == old["memory_id"]:
                         tx.update("memories", item["memory_id"], assessment="SUPERSEDED",
                                   superseded_by=memory_id, updated_at_us=now)
+                        self._invalidate_descendants(tx, item["memory_id"])
                     elif item["assessment"] in {"CURRENT", "DISPUTED"}:
                         # Duplicate corroboration doesn't erase conflict provenance.
                         if item["text"] == candidate.text and not old:
                             tx.update("memories", memory_id, assessment=item["assessment"])
                         else:
                             tx.update("memories", item["memory_id"], assessment="DISPUTED", updated_at_us=now)
+                            self._invalidate_descendants(tx, item["memory_id"])
                             tx.update("memories", memory_id, assessment="DISPUTED")
             self._index(memory_id, candidate.text)
         return memory_id
@@ -158,6 +166,7 @@ class MemoryService:
         return [self.read(r[0], include_inactive=True) for r in rows]
 
     def query(self, *, entity_ids=(), scopes=(), privacy_classes=("PUBLIC",), include_conflicts=False):
+        self._fresh()
         if not scopes or not privacy_classes:
             return []
         rows = self.store.db.execute("SELECT memory_id FROM memories WHERE lifecycle='ACTIVE' "
@@ -170,6 +179,47 @@ class MemoryService:
                     and (not entity_ids or row["entity_id"] in entity_ids)):
                 result.append(self.read(r[0], include_inactive=include_conflicts))
         return result
+
+    def _invalidate_descendants(self, tx, memory_id):
+        pending, seen = [memory_id], {memory_id}
+        while pending:
+            parent = pending.pop()
+            children = self.store.db.execute("SELECT memory_id FROM memory_dependencies "
+                "WHERE parent_kind='MEMORY' AND parent_id=?", (parent,)).fetchall()
+            for child, in children:
+                if child in seen:
+                    continue
+                seen.add(child)
+                pending.append(child)
+                tx.update("memories", child, assessment="WITHDRAWN",
+                          updated_at_us=self.store.clock.utc_now_us())
+
+    def set_lifecycle(self, memory_id, state, authority):
+        if self._authority is None or authority is not self._authority:
+            raise CoreError("UNAUTHENTICATED_OPERATOR")
+        if state not in {"SUPPRESSED", "ARCHIVED", "ACTIVE"}:
+            raise CoreError("USE_PRIVACY_ERASURE_FOR_DELETE")
+        row = self.read(memory_id, include_inactive=True)
+        if state == "ACTIVE" and row["assessment"] in {"WITHDRAWN", "SUPERSEDED"}:
+            raise CoreError("RETIRED_MEMORY_CANNOT_REVIVE")
+        with self.store.transaction("memory.lifecycle_changed") as tx:
+            tx.update("memories", memory_id, lifecycle=state, updated_at_us=self.store.clock.utc_now_us())
+            if state != "ACTIVE":
+                self._invalidate_descendants(tx, memory_id)
+
+    def assess_confidence(self, memory_id, value, authority):
+        if self._authority is None or authority is not self._authority:
+            raise CoreError("UNAUTHENTICATED_OPERATOR")
+        if type(value) is not float or not 0 <= value <= 1:
+            raise CoreError("INVALID_CONFIDENCE")
+        self.read(memory_id, include_inactive=True)
+        with self.store.transaction("memory.confidence_assessed") as tx:
+            tx.update("memories", memory_id, confidence=value, updated_at_us=self.store.clock.utc_now_us())
+
+    def forget(self, memory_id, authority):
+        if self._authority is None or authority is not self._authority:
+            raise CoreError("UNAUTHENTICATED_OPERATOR")
+        return self.store.privacy._erase(memory_id)
 
     def _index(self, memory_id, text):
         terms = set(re.findall(r"\w{2,64}", text.casefold()))

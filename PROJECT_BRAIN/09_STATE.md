@@ -662,3 +662,7 @@
 
 ## 2026-10-14 UTC — C2 typed memory foundation
 [已实现/已测试] 正式 continuity schema v3：7类记忆、独立 evidence/artifact/claim/summary、实体与来源/时间/隐私元数据、依赖边、可重建词面索引；文本不复制进新增事件。5 tests PASS（含C1）；source dedup、replay、推断不升级观察、真实入口硬关闭已覆盖。C3/C4完整失效传播和物理删除尚待下一提交，不将中间状态报 READY。
+
+## 2026-10-14 UTC — C3/C4 correction and controlled erasure
+[已实现/已测试] 正式 claim family 纠正/CAS来源时间检查、旧总结失效、confidence审阅、archive/suppression与forget分离。forget先fsync外部opaque tombstone，再清raw/derived/index及受控备份payload；恢复先应用现行删除锚。真实子进程SIGKILL恢复和受控文件canary扫描通过，累计9 C/D tests；readiness83旧tests保留。
+[边界] 删除保证限应用控制的DB/WAL/登记备份/派生链；不声明可擦除任意外部副本、root全盘回滚或SSD残留。真实记忆入口仍关闭，生产/B5-3不变。详见D-052及continuity文档。

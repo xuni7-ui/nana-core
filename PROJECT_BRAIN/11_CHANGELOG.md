@@ -894,3 +894,8 @@
 - 改动：正式 evidence/memory/实体/依赖/索引 schema v3 与严格synthetic DTO，7类记忆和独立认识层。
 - 原因：替换仅core_meta原型；保持原始证据与总结分离，并为可删除payload提供基础。
 - 验证：5 continuous-self tests PASS；纠正入口曾错误拒绝disputed旧项，已修正为显式family/authority检查；无放宽断言。真实入口保持关闭。
+
+## 2026-10-14 UTC — C3/C4 correction and deletion
+- 改动：纠正传播到派生总结；正式生命周期/置信变更；受authority保护的物理forget、fsync删除意图、备份清理/恢复锚和索引清理。
+- 原因：用户隐私删除优先于保留正文审计，修正旧summary仍可能进入未来context的问题。
+- 验证：9 C/D tests PASS，含真实SIGKILL、DB/WAL/backup/replay无canary、旧source不同revision仍不能复活；83 readiness tests保留通过。无真实数据或生产操作。
