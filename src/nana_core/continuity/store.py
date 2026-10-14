@@ -21,6 +21,11 @@ class ContinuityStore(Store):
             self.db.execute("PRAGMA secure_delete=ON")
             from .privacy import PrivacyJournal
             self.privacy = PrivacyJournal(self, new_database=new_database)
+            if not self.one("core_meta", "cloud.shadow_runtime"):
+                from ..storage import canonical
+                with self.transaction("self.offline_execution_fenced") as tx:
+                    tx.put("core_meta", {"key": "cloud.shadow_runtime", "value_json": canonical({
+                        "mode": "CONTINUOUS_SELF_OFFLINE", "external_execute": "DISABLED"})})
         except BaseException:
             self.close()
             raise

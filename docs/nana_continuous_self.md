@@ -111,3 +111,30 @@ views omit stale/deleted support. Validation: 11 cumulative C/D tests, including
 adoption rejection, terminal transition, independent fulfillment, overdue,
 project CAS, backup/restart continuity and physical deletion of relation/promise/
 all project revision payloads. No host or real semantic validation is claimed.
+
+## D1/D2 — SelfFrame and context assembly (IMPLEMENTED / TESTED)
+
+SelfFrame is rebuilt from current identity, relationship, adopted commitments,
+projects, self-memory and supplied capability/limitation descriptors. It is not
+stored as truth or allowed to write its sources. ContextAssembler applies scope
+and destination privacy *before* payload loading, then ranks authority, query
+relevance, importance/significance, recency, promises and project relevance.
+
+ContextPackage contains identity/task/constraints, selected source-backed blocks,
+coverage, omissions, unresolved conflict bundles, event cutoff/state token,
+policy/request hashes and a whole-input budget. Disputed claims are all-or-nothing;
+insufficient room produces INSUFFICIENT_CONTRADICTION_CONTEXT, not a one-sided
+fact. Missing coverage stays UNKNOWN. A stale/deleted memory invalidates already
+issued contexts before any model call; only 64 issued hashes are retained, no
+persisted plaintext context cache. Every mandatory block and manifest overhead
+counts against the budget. Small budgets block rather than silently drop identity.
+
+Default counting is explicitly UTF8_BYTE_ESTIMATE, a conservative offline
+engineering estimate, **not a real provider tokenizer**. Real model integration
+must supply its actual framing/token counter. No remote call is made here.
+ContinuityStore also sets the existing Shadow fence: ActionKernel grant/budget/
+execution remains blocked. This candidate grants no new acting authority.
+
+Validation: 13 cumulative C/D tests; frame reconstruction, provenance, source
+coverage/loss validation, token cap, remote privacy exclusion, complete conflict
+bundle, tamper/stale-context detection and deletion invalidation.

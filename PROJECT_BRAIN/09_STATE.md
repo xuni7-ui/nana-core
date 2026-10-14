@@ -670,3 +670,7 @@
 ## 2026-10-14 UTC — C5/C6/C7 relationship / commitment / project
 [已实现/已测试] RelationshipView无好感分、从来源构建；CommitmentCandidate与operator显式adoption分开，履约需SYSTEM_VERIFICATION而非模型自报；ProjectState/CAS持久化里程碑/决定/问题/阻塞/进展/下一步。开发schema v4四表复用同库artifact/依赖/事件，关系不能改身份。11 tests PASS，含重启、逾期、非法状态、项目revision及相关正文级联删除。
 [边界] 仅synthetic/dev，不新增Grant或真实行动，不改R045/B5-3事实。
+
+## 2026-10-14 UTC — D1/D2 derived self and bounded context
+[已实现/已测试] SelfFrame为派生view，ContextAssembler按scope/目的地隐私预过滤，动态组合身份/关系/承诺/项目/记忆/约束，权威与相关性等排序；Manifest保留来源、coverage、omissions、event cutoff/state token。纠正/删除后旧context失效；矛盾整组或BLOCKED。13 C/D tests PASS。
+[限制] 默认UTF8字节计数明确是离线保守估计，不是真实provider tokenizer；真实模型仍NOT_RUN。ContinuityStore沿用Shadow执行屏障，不给Grant/Budget/Action权限；生产R045/B5-3未变。

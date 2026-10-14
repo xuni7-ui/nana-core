@@ -904,3 +904,8 @@
 - 改动：RelationshipView、CommitmentCandidate/AdoptedCommitment/状态机、ProjectState显式revision；四个规范化状态/可删除记录/依赖表。
 - 原因：主体需跨模型记住共同历史和正在做的事；用户提到与奈奈正式承诺不可混淆。
 - 验证：11 C/D tests PASS；模型不能自行adopt/履约；关系/承诺/项目重启恢复及所有历史payload删除通过。
+
+## 2026-10-14 UTC — D1/D2 SelfFrame / ContextAssembler
+- 改动：正式派生SelfFrame、privacy-first动态context、完整来源manifest/state一致性、预算/冲突整组/coverage；continuity开发库固定Shadow执行屏障。
+- 原因：换模型不靠巨型persona prompt，删除/纠正/权限变化后不得继续用旧context。
+- 验证：13 C/D tests PASS；预算不足/私有远传/篡改/旧context与coverage伪FULL均拒绝；无真实外部调用。
