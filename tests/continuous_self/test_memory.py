@@ -42,6 +42,8 @@ def test_claim_correction_conflict_and_inference_cannot_upgrade(cognitive):
             predicate_key="preference", correction_of=a)
     assert memory.read(a, include_inactive=True)["superseded_by"] == b
     assert memory.read(b)["correction_of"] == a
+    assert add(memory, evidence(memory, "new", "Actually I prefer B", when=200), "B",
+               predicate_key="preference", correction_of=a) == b
     assert [r["text"] for r in memory.query(scopes=("synthetic-home",), privacy_classes=("PERSONAL",))] == ["B"]
     c = add(memory, evidence(memory, "ambiguous", "C", when=200), "C", predicate_key="preference")
     assert not memory.query(scopes=("synthetic-home",), privacy_classes=("PERSONAL",))

@@ -10,16 +10,21 @@ import os
 from pathlib import Path
 import sqlite3
 import tempfile
+from contextlib import contextmanager
+from uuid import UUID
 
 from ..contracts import CoreError
 from ..storage import canonical, digest, uid
 
 
 def _atomic(path, data):
+    encoded = canonical(data)
+    if len(encoded.encode()) > 16 * 1024 * 1024:
+        raise CoreError("PRIVACY_JOURNAL_CAPACITY")
     fd, temporary = tempfile.mkstemp(prefix=".privacy-", dir=path.parent)
     try:
         with os.fdopen(fd, "w") as out:
-            out.write(canonical(data))
+            out.write(encoded)
             out.flush()
             os.fsync(out.fileno())
         os.replace(temporary, path)
@@ -33,6 +38,24 @@ def _atomic(path, data):
             os.unlink(temporary)
 
 
+def _json_object(pairs):
+    body = {}
+    for key, value in pairs:
+        if key in body:
+            raise ValueError("duplicate metadata key")
+        body[key] = value
+    return body
+
+
+def _load(path):
+    try:
+        if path.stat().st_size > 16 * 1024 * 1024:
+            raise ValueError()
+        return json.loads(path.read_text(), object_pairs_hook=_json_object)
+    except (OSError, ValueError, TypeError):
+        raise CoreError("PRIVACY_ANCHOR_INVALID") from None
+
+
 class PrivacyJournal:
     def __init__(self, store, *, new_database):
         self.store = store
@@ -40,12 +63,20 @@ class PrivacyJournal:
         if self.sidecar.is_symlink():
             raise CoreError("PRIVACY_ANCHOR_INVALID")
         if self.sidecar.exists():
-            link = json.loads(self.sidecar.read_text())
-            self.path = Path(link["anchor_path"]) if "anchor_path" in link else self.sidecar
+            link = _load(self.sidecar)
+            if type(link) is not dict:
+                raise CoreError("PRIVACY_ANCHOR_INVALID")
+            if "anchor_path" in link:
+                if set(link) != {"anchor_path"} or type(link["anchor_path"]) is not str or not Path(link["anchor_path"]).is_absolute():
+                    raise CoreError("PRIVACY_ANCHOR_INVALID")
+                self.path = Path(link["anchor_path"])
+            else:
+                self.path = self.sidecar
         elif new_database:
             self.path = self.sidecar
             _atomic(self.path, {"schema_version": 1,
-                "identity_id": store.identity["identity_id"], "intents": [], "backups": []})
+                "identity_id": store.identity["identity_id"], "intents": [],
+                "backups": [str(store.path.resolve())]})
         else:
             raise CoreError("PRIVACY_ANCHOR_MISSING")
         self.applied = None
@@ -58,20 +89,37 @@ class PrivacyJournal:
         if self.path.is_symlink() or not self.path.is_file():
             raise CoreError("PRIVACY_ANCHOR_UNAVAILABLE")
         try:
-            body = json.loads(self.path.read_text())
-            if (set(body) != {"schema_version", "identity_id", "intents", "backups"} or
-                    body["schema_version"] != 1 or body["identity_id"] != self.store.identity["identity_id"]
+            body = _load(self.path)
+            if (type(body) is not dict or set(body) != {"schema_version", "identity_id", "intents", "backups"} or
+                    type(body["schema_version"]) is not int or body["schema_version"] != 1
+                    or body["identity_id"] != self.store.identity["identity_id"]
                     or type(body["intents"]) is not list or type(body["backups"]) is not list):
                 raise ValueError()
+            if any(type(x) is not str or not Path(x).is_absolute() for x in body["backups"]):
+                raise ValueError()
             for item in body["intents"]:
-                if set(item) != {"intent_id", "memory_ids", "evidence_ids", "created_at_us"}:
+                if (type(item) is not dict or set(item) != {"intent_id", "memory_ids", "evidence_ids", "created_at_us"}
+                        or type(item["memory_ids"]) is not list or type(item["evidence_ids"]) is not list
+                        or type(item["created_at_us"]) is not int or item["created_at_us"] < 0):
                     raise ValueError()
-                if any(type(x) is not str or len(x) > 128 for x in
-                       [item["intent_id"], *item["memory_ids"], *item["evidence_ids"]]):
-                    raise ValueError()
+                for value in [item["intent_id"], *item["memory_ids"], *item["evidence_ids"]]:
+                    if type(value) is not str or str(UUID(value)) != value:
+                        raise ValueError()
             return body
         except (OSError, ValueError, TypeError, KeyError):
             raise CoreError("PRIVACY_ANCHOR_INVALID") from None
+
+    @contextmanager
+    def _locked(self):
+        # Restored copies share one external deletion anchor. Serialize its
+        # updates as well as each DB's existing single-writer lock.
+        path = Path(str(self.path) + ".lock")
+        if path.is_symlink():
+            raise CoreError("PRIVACY_ANCHOR_INVALID")
+        fd = os.open(path, os.O_CREAT | os.O_RDWR | os.O_NOFOLLOW, 0o600)
+        with os.fdopen(fd, "a+b") as lock:
+            fcntl.flock(lock, fcntl.LOCK_EX)
+            yield
 
     def ensure_current(self):
         if self._applying:
@@ -96,12 +144,13 @@ class PrivacyJournal:
         row = self.store.one("memories", memory_id)
         if not row:
             raise CoreError("MEMORY_UNAVAILABLE")
-        body = self.read()
         intent = {"intent_id": uid(), "memory_ids": [memory_id],
             "evidence_ids": [row["source_evidence_id"]],
             "created_at_us": self.store.clock.utc_now_us()}
-        body["intents"].append(intent)
-        _atomic(self.path, body)  # privacy intent durable BEFORE destructive work
+        with self._locked():
+            body = self.read()
+            body["intents"].append(intent)
+            _atomic(self.path, body)  # privacy intent durable BEFORE destructive work
         self.ensure_current()
         pending = self.sanitize_backups()
         return {"intent_id": intent["intent_id"], "state": "COMPLETE" if not pending else "PENDING_BACKUP_PURGE",
@@ -109,15 +158,18 @@ class PrivacyJournal:
 
     def register_copy(self, destination):
         destination = Path(destination).resolve()
-        body = self.read()
-        if str(destination) not in body["backups"]:
-            body["backups"].append(str(destination))
-            _atomic(self.path, body)
+        with self._locked():
+            body = self.read()
+            if str(destination) not in body["backups"]:
+                body["backups"].append(str(destination))
+                _atomic(self.path, body)
         _atomic(Path(str(destination) + ".privacy.json"), {"anchor_path": str(self.path.resolve())})
 
     def sanitize_backups(self):
         body = self.read()
         pending = []
+        if not body["intents"]:
+            return pending
         for name in body["backups"]:
             path = Path(name)
             if not path.exists():

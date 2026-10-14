@@ -203,7 +203,8 @@ class ContextAssembler:
                 continue
             text = row["text"].casefold()
             relevance = sum(t.casefold() in text for t in request.query_terms)
-            age_days = max(0, now - (row["event_time_us"] or row["ingested_time_us"])) / 86_400_000_000
+            occurrence = row["event_time_us"] if row["event_time_us"] is not None else row["ingested_time_us"]
+            age_days = max(0, now - occurrence) / 86_400_000_000
             score = (100 if row["authority"] == "DIRECT" else 10) + 200 * relevance
             score += 100 * row["importance"] + 50 * row["significance"] + 20 / (1 + age_days)
             if row["memory_type"] == "SELF":

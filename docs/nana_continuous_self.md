@@ -184,3 +184,26 @@ Schema v5 adds experiences and lessons; content remains deletable with dependenc
 Validation: 17 cumulative C/D tests, 83 readiness tests retained (100 passed
 combined). The fresh-interpreter/model-swap/ablation and deletion-of-learning-support
 checks pass. Identity/Grant/budget/capability authority cannot be changed by a lesson.
+
+## Integration compatibility correction
+
+The first **all-directory** run (including legacy host suites, not just configured
+Core tests) found 26 failures caused by a new Store key registry assumption in
+borrowed `ReadOnlyStoreView` methods and one missing historical interpreter
+launcher: 835 passed / 27 failed / 1 skipped. This failure report is retained.
+`Store.one/all` now fall back to the original v1 registry for those non-initializing
+read-only views. No R045 support file or test assertion was changed. Targeted
+legacy readback/onboarding/client tests pass again (52 combined tests).
+
+The old-SQLite client test's expected `/tmp/nana-bootstrap-build/compat-python-old`
+was restored as a dev-only launcher to **actual system Python 3.13.5 / SQLite
+3.46.1**, not a version spoof or private shim. It tests no-private-import behavior,
+not a Python 3.12 ABI. The Core gate remains >=3.51.3; Core tests use native
+Python 3.12.14 / SQLite 3.53.1 / Pydantic 2.13.4. No global environment changed.
+
+Privacy refinements: restored copies share a locked deletion anchor; the original
+DB is also registered. Erasure from a restored copy reports pending if the origin
+writer is busy, and the origin applies the tombstone before its next read. Corrupt
+or duplicate-key journal metadata blocks retrieval. The bounded journal refuses
+new metadata above 16 MiB without replacing the valid old anchor; scalable journal
+compaction remains a future production-volume prerequisite.

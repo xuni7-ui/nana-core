@@ -127,13 +127,16 @@ class Store:
         return self.all("identities")[0]
 
     def one(self, table, key):
-        if table not in self.keys:
+        # Historical read-only host views deliberately borrow these read methods
+        # without constructing a Store (no init/checkpoint/migration writes).
+        keys = getattr(self, "keys", KEYS)
+        if table not in keys:
             raise ValueError(table)
-        row = self.db.execute(f"SELECT * FROM {table} WHERE {self.keys[table]}=?", (key,)).fetchone()
+        row = self.db.execute(f"SELECT * FROM {table} WHERE {keys[table]}=?", (key,)).fetchone()
         return dict(row) if row else None
 
     def all(self, table):
-        if table not in {*self.keys, "events", "artifacts"}:
+        if table not in {*getattr(self, "keys", KEYS), "events", "artifacts"}:
             raise ValueError(table)
         return [dict(r) for r in self.db.execute(f"SELECT * FROM {table} ORDER BY rowid")]
 

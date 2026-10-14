@@ -919,3 +919,8 @@
 - 改动：schema v5 experience/lesson记录、artifact绑定独立质量核验、复用现有rule/compiler的窄学习试验、显式激活/撤回和context引用。
 - 原因：把经历与学到的规则分开，证明重启/换fixture后可观察的提案变化，而不是人格提示词。
 - 验证：17 C/D +83 readiness =100 PASS；新进程、raw proposal消融、不相关scope、旧source/lesson删除、权限不扩大。另修索引对失效/superseded项的清理及重复同源memory commit幂等，保留旧断言。
+
+## 2026-10-14 UTC — C/D integration regression fix
+- 改动：Store.one/all兼容未初始化的历史只读view；跨恢复副本删除锚锁与origin登记、严格journal元数据；默认pytest纳入永久continuous-self tests。
+- 原因：全仓检查暴露新registry对旧只读借用方式的破坏；删除必须覆盖活跃原库而非只清当前恢复副本。
+- 验证：首次全仓835/27/1失败证据保留；兼容修复相关52 PASS，18 C/D PASS。旧SQLite client真实运行3.13.5/3.46.1且无private imports，未改系统/生产依赖。

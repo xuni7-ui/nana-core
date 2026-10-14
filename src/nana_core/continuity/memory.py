@@ -7,7 +7,7 @@ import json
 import re
 
 from ..contracts import CoreError
-from ..storage import canonical, digest, uid
+from ..storage import uid
 from .contracts import EvidenceInput, MemoryCandidate
 
 PRIVACY_RANK = {"PUBLIC": 0, "PROJECT": 1, "PERSONAL": 2, "SECRET": 3}
@@ -107,15 +107,6 @@ class MemoryService:
             raw = json.loads(self.store.artifact(source["payload_artifact_id"]))
             if candidate.text != raw["text"] or source["source_kind"] == "MODEL_DERIVATION":
                 raise CoreError("DERIVATION_CANNOT_BECOME_OBSERVATION")
-        family = self.family(candidate.entity_id, candidate.scope, candidate.predicate_key)
-        old = None
-        if candidate.correction_of:
-            old = self.read(candidate.correction_of, include_inactive=True)
-            if old not in family or authority != "DIRECT":
-                raise CoreError("INVALID_CORRECTION_AUTHORITY_OR_FAMILY")
-            if (source["event_time_us"] is None or old["event_time_us"] is None or
-                    source["event_time_us"] < old["event_time_us"]):
-                raise CoreError("CORRECTION_TIME_UNPROVEN")
         # Idempotent cognitive commit without retaining a content hash after
         # erasure. Stable source keys plus remaining payload/lineage identify it.
         for raw in self.store.db.execute("SELECT * FROM memories WHERE source_evidence_id=? "
@@ -130,6 +121,15 @@ class MemoryService:
                 "WHERE memory_id=? AND parent_kind='MEMORY'", (row["memory_id"],))}
             if parents == set(candidate.derived_from) and self.store.artifact(row["payload_artifact_id"]).decode() == candidate.text:
                 return row["memory_id"]
+        family = self.family(candidate.entity_id, candidate.scope, candidate.predicate_key)
+        old = None
+        if candidate.correction_of:
+            old = self.read(candidate.correction_of, include_inactive=True)
+            if old not in family or authority != "DIRECT":
+                raise CoreError("INVALID_CORRECTION_AUTHORITY_OR_FAMILY")
+            if (source["event_time_us"] is None or old["event_time_us"] is None or
+                    source["event_time_us"] < old["event_time_us"]):
+                raise CoreError("CORRECTION_TIME_UNPROVEN")
         now = self.store.clock.utc_now_us()
         memory_id = uid()
         direct_family = [x for x in family if x["authority"] == "DIRECT"]

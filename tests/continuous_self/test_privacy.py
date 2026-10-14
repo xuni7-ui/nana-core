@@ -120,3 +120,24 @@ def test_old_unmanaged_clone_without_current_privacy_anchor_is_blocked(cognitive
         store.db.backup(target)
     with pytest.raises(CoreError, match="PRIVACY_ANCHOR_MISSING"):
         ContinuityStore(clone)
+
+
+def test_delete_from_restored_copy_invalidates_live_origin_and_corrupt_anchor_blocks(cognitive):
+    store, memory, authority = cognitive
+    a = add(memory, evidence(memory, "shared-copy-source", CANARY), CANARY)
+    backup = store.path.with_name("live-restored.db")
+    store.backup(backup)
+    with ContinuityStore(backup, store.clock) as restored:
+        report = MemoryService(restored, authority).forget(a, authority)
+        assert report["state"] == "PENDING_BACKUP_PURGE"  # origin writer still owns its lock
+        assert report["pending_backup_count"] == 1
+        with pytest.raises(CoreError, match="MEMORY_UNAVAILABLE"):
+            memory.read(a)  # active original sees the shared tombstone before next read
+    assert CANARY.encode() not in store.path.read_bytes()
+    original = store.privacy.path.read_text()
+    try:
+        store.privacy.path.write_text('{"schema_version":1,"schema_version":1}')
+        with pytest.raises(CoreError, match="PRIVACY_ANCHOR_INVALID"):
+            memory.query(scopes=("synthetic-home",), privacy_classes=("PERSONAL",))
+    finally:
+        store.privacy.path.write_text(original)

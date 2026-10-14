@@ -682,3 +682,7 @@
 ## 2026-10-14 UTC — D4 bounded experience foundation
 [已实现/已测试] ExperienceRecord独立记录发生/判断/结果/核验/候选更新；真正读取synthetic卡片artifact检查locator，不接受模型success字段。窄lesson复用StrategyRule/PlanCompiler，经过test和operator激活，匹配context显式引用。新解释器重启+另一fixture恢复同identity并增加LOCATE_SOURCE；同历史关闭lesson的消融恢复原proposal，未改其他主体行。累计17 C/D +83 readiness =100 PASS。
 [边界] 仅工程夹具的原始提案差异，未执行新的现实Action；不声明真实LLM理解或E12。真实入口关闭，Grant/预算/身份不会由学习扩大；支撑删除后经验/lesson不再检索。尚待最终完整回归与候选评审。
+
+## 2026-10-14 UTC — C/D full-suite integration correction
+[实测/已修复] 首次所有tests目录回归835 PASS/27 FAIL/1 E12 skip：26处因新增Store注册表遗漏历史ReadOnlyStoreView借用方法，1处因旧SQLite测试启动器缺失。Store只读方法恢复v1 fallback，不改R045任何源码/断言；相关52 tests已通过。保留失败XML，最终全量复测待执行。
+[开发加强] 删除锚跨恢复副本加锁，origin也登记；busy原库报告pending并在下次读取前应用删除，corrupt journal拒绝。累计18 C/D tests PASS。旧client启动器仅/tmp，实际系统3.13.5/SQLite3.46.1，不冒称3.12 ABI；Core仍用3.12.14/SQLite3.53.1。
