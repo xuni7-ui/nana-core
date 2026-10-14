@@ -23,7 +23,7 @@ class MemoryService:
     def entity(self, entity_id, kind):
         if type(entity_id) is not str or not re.fullmatch(r"[A-Za-z0-9._:-]{1,128}", entity_id):
             raise CoreError("INVALID_ENTITY_ID")
-        if kind not in {"PERSON", "SELF", "PROJECT", "OBJECT"}:
+        if kind not in {"PERSON", "SELF", "PROJECT", "OBJECT", "GROUP", "COMMUNITY", "AGENT"}:
             raise CoreError("INVALID_ENTITY_KIND")
         existing = self.store.one("entities", entity_id)
         if existing:

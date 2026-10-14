@@ -730,3 +730,14 @@ Persistent Self behavioral contract:
 15. Past experience must causally influence future behavior.
 These are implementation/acceptance requirements, not claims of real-world or
 subjective consciousness validation.
+
+### C-V2 Phase 1a — unified loop and persistent transitions
+
+IMPLEMENTED / OFFLINE TESTED: development schema v7 (8 subject tables, existing
+parent CHECKs migrated), source-key ingress/admission, ordinal appraisal,
+competing motives, bounded attention, independent Judgment/Intention, atomic
+subject-revision CAS, persistent intent/candidate slots, independent assertion
+roots/counter-evidence and relationship events. Default v1 Store unchanged.
+24 continuity tests passed including populated-v6 migration, replay, source
+dedup, stale CAS, deletion closure, no-retention and no external execution.
+Ten-day life and long-horizon verification are still NOT_RUN at this milestone.

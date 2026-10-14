@@ -957,3 +957,10 @@ one causal SubjectLoop, authority/derived distinction, v7 schema/CAS, privacy,
 reflection constraints, independent preference support and counter-evidence,
 ten-day life/ablation/60-day soak specification. No business implementation or
 production changes in this gate. See ADR-CV2-001.
+
+## 2026-10-14 — C-V2 Phase 1a subject transactions
+
+Added the single SubjectLoop and v7 development migration. Reused existing
+records/memory/privacy/event replay. Tested 24 continuity cases; no production,
+real memory ingress, model call or execution authority changes. All generated
+C goals remain proposed candidates; the barrier is NO_ACTION/SHADOW_BLOCKED.
