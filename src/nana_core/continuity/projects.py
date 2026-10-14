@@ -5,6 +5,7 @@ from typing import Annotated, Literal
 from pydantic import Field
 
 from ..contracts import CoreError, DTO
+from ..actions import OperatorAuthority
 from .records import RecordService
 
 ShortText = Annotated[str, Field(min_length=1, max_length=2048)]
@@ -38,6 +39,8 @@ class ProjectState(DTO):
 
 class ProjectService:
     def __init__(self, store, authority):
+        if not isinstance(authority, OperatorAuthority):
+            raise CoreError("OPERATOR_AUTHORITY_REQUIRED")
         self.store, self._authority, self.records = store, authority, RecordService(store)
 
     def save(self, *, project_id, entity_id, scope, content: ProjectContent,

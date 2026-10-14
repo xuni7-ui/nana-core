@@ -12,7 +12,8 @@ from .conftest import evidence
 
 
 def add(memory, source, text, *, kind=MemoryType.SEMANTIC, **fields):
-    return memory.add(MemoryCandidate(entity_id="synthetic-sister", scope="synthetic-home",
+    entity_id = memory.store.identity["identity_id"] if kind == MemoryType.SELF else "synthetic-sister"
+    return memory.add(MemoryCandidate(entity_id=entity_id, scope="synthetic-home",
         memory_type=kind, epistemic_kind="BELIEF", source_evidence_id=source, text=text, **fields))
 
 

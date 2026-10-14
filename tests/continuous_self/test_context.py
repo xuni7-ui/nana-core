@@ -68,3 +68,22 @@ def test_remote_privacy_filter_and_complete_conflict_bundle(cognitive):
         assembler.validate(altered, req, pol)
     with pytest.raises(ValidationError):
         ObservationCoverage(scope="synthetic-home", start_us=100, end_us=200, status="FULL", dropped_count=1)
+
+
+def test_bounded_retrieval_and_hidden_counterevidence_never_loaded(cognitive, monkeypatch):
+    store, memory, authority = cognitive
+    for i in range(4):
+        add(memory, evidence(memory, f"bounded-{i}", f"synthetic topic {i}", privacy="PUBLIC"), f"synthetic topic {i}")
+    assert len(memory.query(scopes=("synthetic-home",), privacy_classes=("PUBLIC",), limit=2)) == 2
+    assert memory.query_count(scopes=("synthetic-home",), privacy_classes=("PUBLIC",)) == 4
+    add(memory, evidence(memory, "public-belief", "A", privacy="PUBLIC"), "A", predicate_key="private-counter")
+    hidden = add(memory, evidence(memory, "hidden-correction", CANARY), CANARY, predicate_key="private-counter")
+    forbidden_artifact = store.one("memories", hidden)["payload_artifact_id"]
+    real_read = store.artifact
+    def guarded(artifact_id):
+        assert artifact_id != forbidden_artifact, "private counterevidence must not be loaded before policy"
+        return real_read(artifact_id)
+    monkeypatch.setattr(store, "artifact", guarded)
+    with pytest.raises(CoreError, match="INSUFFICIENT_CONTRADICTION_CONTEXT"):
+        ContextAssembler(store, authority).assemble(request(destination="DEVELOPMENT_REMOTE"),
+                                                   policy(remote_privacy=("PUBLIC",)))

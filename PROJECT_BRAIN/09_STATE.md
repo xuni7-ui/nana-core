@@ -686,3 +686,7 @@
 ## 2026-10-14 UTC — C/D full-suite integration correction
 [实测/已修复] 首次所有tests目录回归835 PASS/27 FAIL/1 E12 skip：26处因新增Store注册表遗漏历史ReadOnlyStoreView借用方法，1处因旧SQLite测试启动器缺失。Store只读方法恢复v1 fallback，不改R045任何源码/断言；相关52 tests已通过。保留失败XML，最终全量复测待执行。
 [开发加强] 删除锚跨恢复副本加锁，origin也登记；busy原库报告pending并在下次读取前应用删除，corrupt journal拒绝。累计18 C/D tests PASS。旧client启动器仅/tmp，实际系统3.13.5/SQLite3.46.1，不冒称3.12 ABI；Core仍用3.12.14/SQLite3.53.1。
+
+## 2026-10-14 UTC — C/D bounded retrieval and combined restart acceptance
+[已实现/已测试] 检索在SQL privacy/scope过滤后限128候选（最多512），Manifest记录总量/截断；反证须整组，隐私不允许则不读payload并BLOCKED。schema v6仅加索引。SelfMemory绑定canonical SELF主体；正式authority服务拒绝None；履约核验需精确commitment/revision。
+[实测] 20永久C/D tests PASS，组合测试真实新解释器恢复identity/关系/纠正/承诺/项目/经验且state digest不变，换fixture仍引用lesson，Action/Attempt/Grant/Budget为0。之前全仓已864 PASS/0 FAIL/1 E12 skip；本提交最终全量复测待执行。

@@ -10,6 +10,7 @@ from typing import Literal
 from pydantic import Field
 
 from ..contracts import CoreError, DTO, StrategyRule
+from ..actions import OperatorAuthority
 from ..experience import OUTPUT_PRODUCERS
 from ..planning import PlanCompiler
 from ..storage import canonical, digest, uid
@@ -49,6 +50,8 @@ class ExperienceRecord(DTO):
 
 class ExperienceService:
     def __init__(self, store, authority):
+        if not isinstance(authority, OperatorAuthority):
+            raise CoreError("OPERATOR_AUTHORITY_REQUIRED")
         self.store, self._authority, self.records = store, authority, RecordService(store)
 
     def _operator(self, authority):

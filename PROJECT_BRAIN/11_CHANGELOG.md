@@ -924,3 +924,8 @@
 - 改动：Store.one/all兼容未初始化的历史只读view；跨恢复副本删除锚锁与origin登记、严格journal元数据；默认pytest纳入永久continuous-self tests。
 - 原因：全仓检查暴露新registry对旧只读借用方式的破坏；删除必须覆盖活跃原库而非只清当前恢复副本。
 - 验证：首次全仓835/27/1失败证据保留；兼容修复相关52 PASS，18 C/D PASS。旧SQLite client真实运行3.13.5/3.46.1且无private imports，未改系统/生产依赖。
+
+## 2026-10-14 UTC — C/D bounded context and vertical restart
+- 改动：SQL有界候选与manifest计数、隐私限制反证整组、SELF entity绑定、缺失authority拒绝、精确承诺核验；schema v6仅索引。
+- 原因：避免长期记忆增长时先读全量再裁剪，防止只展示可见反证一侧，以及不相关核验证明履约。
+- 验证：20 C/D tests PASS；全状态组合用真实新进程/另一fixture恢复且无主体状态变化；上一全仓864/0/1，最终source checkpoint后再全量。

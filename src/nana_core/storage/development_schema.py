@@ -7,7 +7,7 @@ from pathlib import Path
 
 from ..contracts import CoreError
 
-LATEST = 5
+LATEST = 6
 EXTENSION_KEYS = {
     2: {"identity_revisions": "revision_id"},
     3: {"entities": "entity_id", "continuity_evidence": "evidence_id",

@@ -11,6 +11,7 @@ from typing import Literal, Protocol
 from pydantic import Field, model_validator
 
 from ..contracts import CoreError, DTO
+from ..actions import OperatorAuthority
 from ..storage import canonical, digest
 from .commitments import CommitmentService, CommitmentState
 from .identity import CanonicalIdentity, IdentityService
@@ -99,6 +100,8 @@ class ContextManifest(DTO):
     counter: str
     input_tokens: int
     input_limit: int
+    retrieval_candidate_count: int
+    retrieval_total_visible: int
 
 
 class ContextPackage(DTO):
@@ -146,7 +149,8 @@ def self_frame(store, authority, *, entity_id, scopes, privacy_classes, capabili
             if r["entity_id"] == entity_id and r["state"] in {"ACTIVE", "PAUSED"}
             and _visible(store, r, scopes, privacy_classes)),
         self_memory_ids=tuple(r["memory_id"] for r in MemoryService(store).query(
-            scopes=scopes, privacy_classes=privacy_classes) if r["memory_type"] == "SELF"),
+            entity_ids=(identity.identity_id,), scopes=scopes,
+            privacy_classes=privacy_classes) if r["memory_type"] == "SELF"),
         capabilities=tuple(capabilities), limitations=tuple(limitations), state_token=token)
     if state_token(store) != token:
         raise CoreError("STATE_CHANGED_DURING_PROJECTION")
@@ -155,6 +159,8 @@ def self_frame(store, authority, *, entity_id, scopes, privacy_classes, capabili
 
 class ContextAssembler:
     def __init__(self, store, authority, *, counter=None):
+        if not isinstance(authority, OperatorAuthority):
+            raise CoreError("OPERATOR_AUTHORITY_REQUIRED")
         self.store, self.authority = store, authority
         self.counter = counter or ConservativeCounter()
         self._issued = deque(maxlen=64)  # hashes only, never a plaintext context cache
@@ -165,8 +171,12 @@ class ContextAssembler:
         privacy = tuple(p for p in policy.readable_privacy if request.destination == "LOCAL_FIXTURE" or p in policy.remote_privacy)
         frame = self_frame(self.store, self.authority, entity_id=request.entity_id,
             scopes=request.scopes, privacy_classes=privacy, capabilities=capabilities, limitations=limitations)
-        memories = MemoryService(self.store).query(scopes=request.scopes, privacy_classes=privacy,
+        memory_service = MemoryService(self.store)
+        memory_query = dict(scopes=request.scopes, privacy_classes=privacy,
             entity_ids=(request.entity_id, frame.identity.identity_id), include_conflicts=True)
+        memories = memory_service.query(**memory_query, query_terms=request.query_terms)
+        retrieval_total = memory_service.query_count(**memory_query)
+        self._retrieval = (len(memories), retrieval_total)
         coverage = self._coverage(request.scopes)
         candidates = []
         mandatory = [ContextBlock(block_id="identity", kind="IDENTITY",
@@ -199,7 +209,8 @@ class ContextAssembler:
         for row in memories:
             if row["assessment"] == "DISPUTED":
                 family = canonical([row["entity_id"], row["scope"], row["predicate_key"]])
-                conflicts.setdefault(family, []).append(row)
+                if family not in conflicts:
+                    conflicts[family] = memory_service.conflict_bundle(row, privacy)
                 continue
             text = row["text"].casefold()
             relevance = sum(t.casefold() in text for t in request.query_terms)
@@ -225,6 +236,8 @@ class ContextAssembler:
         candidates.extend(self._lessons(request, privacy))
         candidates.sort(key=lambda item: (-item[0], item[1].block_id))
         selected, omitted = list(mandatory), []
+        if retrieval_total > len(memories):
+            omitted.append("RETRIEVAL_CANDIDATE_LIMIT")
         conflict_ids = tuple(block.block_id for _, block in candidates if block.kind == "UNRESOLVED_CONFLICT")
         for _, block in candidates:
             if block.block_id in {x.block_id for x in selected}:
@@ -270,7 +283,8 @@ class ContextAssembler:
             request_digest=digest(request.model_dump(mode="json")), coverage=coverage,
             selected_ids=tuple(b.block_id for b in selected), omitted_ids=tuple(omitted), conflicts=conflicts,
             counter=self.counter.descriptor, input_tokens=0,
-            input_limit=request.max_input_tokens - request.output_reserve_tokens)
+            input_limit=request.max_input_tokens - request.output_reserve_tokens,
+            retrieval_candidate_count=self._retrieval[0], retrieval_total_visible=self._retrieval[1])
         package = ContextPackage(manifest=manifest, blocks=tuple(selected), content_digest="0" * 64)
         for _ in range(8):
             tokens = self.counter.count(package.model_dump_json())

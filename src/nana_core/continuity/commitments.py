@@ -4,6 +4,7 @@ from typing import Literal
 from pydantic import Field
 
 from ..contracts import CoreError, DTO
+from ..actions import OperatorAuthority
 from ..storage import uid
 from .records import RecordService
 
@@ -33,12 +34,23 @@ class AdoptedCommitment(CommitmentState):
     adoption_event_id: str
 
 
+class FulfillmentCheck(DTO):
+    """Produced by a trusted independent checker, not a conversational assertion."""
+    check: Literal["COMMITMENT_FULFILLMENT"] = "COMMITMENT_FULFILLMENT"
+    commitment_id: str
+    commitment_revision: int = Field(ge=1)
+    satisfied: bool
+    result_reference: str = Field(min_length=1, max_length=128)
+
+
 LEGAL = {"PROPOSED": {"ADOPTED", "CANCELLED"}, "ADOPTED": {"ACTIVE", "CANCELLED", "SUPERSEDED"},
          "ACTIVE": {"FULFILLED", "FAILED", "CANCELLED", "SUPERSEDED"}}
 
 
 class CommitmentService:
     def __init__(self, store, authority):
+        if not isinstance(authority, OperatorAuthority):
+            raise CoreError("OPERATOR_AUTHORITY_REQUIRED")
         self.store, self._authority = store, authority
         self.records = RecordService(store)
 
@@ -73,8 +85,13 @@ class CommitmentService:
                     raise CoreError("INDEPENDENT_FULFILLMENT_EVIDENCE_REQUIRED")
                 proof = self.records.memory.read(fulfillment_memory_id)
                 source = self.records.memory.evidence(proof["source_evidence_id"])
-                if source["source_kind"] != "SYSTEM_VERIFICATION" or proof["scope"] != row["scope"]:
+                if (source["source_kind"] != "SYSTEM_VERIFICATION" or proof["scope"] != row["scope"]
+                        or proof["epistemic_kind"] != "OBSERVATION"):
                     raise CoreError("INDEPENDENT_FULFILLMENT_EVIDENCE_REQUIRED")
+                check = FulfillmentCheck.model_validate_json(proof["text"])
+                if (not check.satisfied or check.commitment_id != commitment_id or
+                        check.commitment_revision != expected_revision):
+                    raise CoreError("FULFILLMENT_TARGET_MISMATCH")
                 # Erasing the fulfillment proof also invalidates this record.
                 tx.put("record_dependencies", {"link_id": uid(), "record_id": row["record_id"],
                     "parent_kind": "MEMORY", "parent_id": fulfillment_memory_id, "relation_kind": "SUPPORT"})

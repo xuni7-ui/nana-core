@@ -207,3 +207,28 @@ writer is busy, and the origin applies the tombstone before its next read. Corru
 or duplicate-key journal metadata blocks retrieval. The bounded journal refuses
 new metadata above 16 MiB without replacing the valid old anchor; scalable journal
 compaction remains a future production-volume prerequisite.
+
+## Final candidate guards and vertical acceptance
+
+Schema v6 adds only a scope/visibility index (no table). Retrieval filters in SQL,
+loads at most 128 candidates by default (explicit max512), prioritizes lexical
+query matches/authority/salience/time, and reports candidate vs visible counts.
+A candidate cap never licenses a partial contradiction bundle: the family is
+reloaded whole (bounded64), or assembly blocks. If any counterevidence is outside
+allowed privacy, assembly returns insufficient context without loading that
+payload. The lexical index is rebuilt only from current items, not retired claims.
+
+Self memory must use the canonical subject ID, automatically bound as a SELF
+entity. Formal services reject a missing/non-operator authority at construction.
+Commitment fulfillment requires an original SYSTEM_VERIFICATION observation
+bound to the exact commitment/revision with satisfied=true, rather than any
+unrelated verification record. It remains a checker assertion with provenance;
+it does not turn a conversational claim into an executed Action.
+
+The combined vertical test creates shared history, a corrected preference,
+canonical self-memory, an active adopted promise, a structured project and a
+verified lesson. A separate real interpreter reconstructs all state and changes
+fixture model; identity/revision/state digest are identical, original occurrence
+time remains 200µs, current preference/project/promise survive, and the locator
+lesson remains cited. Action/Attempt/Grant/Budget stay empty. Twenty permanent C/D
+tests now pass; full all-directory rerun follows this final source checkpoint.

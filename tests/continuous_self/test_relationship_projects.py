@@ -2,8 +2,8 @@ import pytest
 
 from nana_core.actions import OperatorAuthority
 from nana_core.continuity import ContinuityStore, IdentityService
-from nana_core.continuity.commitments import CommitmentCandidate, CommitmentService
-from nana_core.continuity.contracts import MemoryType
+from nana_core.continuity.commitments import CommitmentCandidate, CommitmentService, FulfillmentCheck
+from nana_core.continuity.contracts import MemoryType, MemoryCandidate
 from nana_core.continuity.memory import MemoryService
 from nana_core.continuity.projects import Milestone, ProjectContent, ProjectService
 from nana_core.continuity.relationships import relationship_view
@@ -54,8 +54,11 @@ def test_relationship_promises_project_revision_and_restart(cognitive):
         assert ProjectService(reopened, authority).get(first.project_id) == second
         current = relationship_view(reopened, "synthetic-sister", scopes=("synthetic-home",), privacy_classes=("PERSONAL",))
         assert current.adopted_commitment_ids == (candidate,) and current.shared_project_ids == (first.project_id,)
-    proof = add(memory, evidence(memory, "verified", "Synthetic output independently checked",
-        kind="SYSTEM_VERIFICATION"), "Synthetic output independently checked", kind=MemoryType.EPISODIC)
+    check = FulfillmentCheck(commitment_id=candidate, commitment_revision=3, satisfied=True,
+                             result_reference=first.project_id).model_dump_json()
+    proof = memory.add(MemoryCandidate(entity_id="synthetic-sister", scope="synthetic-home",
+        memory_type=MemoryType.EPISODIC, epistemic_kind="OBSERVATION",
+        source_evidence_id=evidence(memory, "verified", check, kind="SYSTEM_VERIFICATION"), text=check))
     assert commitments.transition(candidate, "FULFILLED", expected_revision=3, authority=authority,
                                   fulfillment_memory_id=proof).state == "FULFILLED"
     with pytest.raises(CoreError, match="ILLEGAL_COMMITMENT_TRANSITION"):

@@ -9,6 +9,7 @@ from typing import Literal
 from pydantic import Field
 
 from ..contracts import CoreError, DTO
+from ..actions import OperatorAuthority
 from ..storage import canonical, uid
 
 
@@ -46,6 +47,8 @@ class CanonicalIdentity(DTO):
 
 class IdentityService:
     def __init__(self, store, authority):
+        if not isinstance(authority, OperatorAuthority):
+            raise CoreError("OPERATOR_AUTHORITY_REQUIRED")
         self.store, self._authority = store, authority
         if not store.all("identity_revisions"):
             body = store.identity
@@ -60,6 +63,10 @@ class IdentityService:
                         reference_id=body["created_event_id"]).model_dump_json(),
                     "authority": "BOOTSTRAP", "reason_artifact_id": reason,
                     "created_at_us": event["recorded_at_us"], "event_id": tx.event_id})
+        if "entities" in store.keys and not store.one("entities", store.identity["identity_id"]):
+            with store.transaction("self.entity_bound") as tx:
+                tx.put("entities", {"entity_id": store.identity["identity_id"], "entity_type": "SELF",
+                                    "created_at_us": store.clock.utc_now_us()})
 
     def current(self):
         row = self.store.all("identity_revisions")[-1]

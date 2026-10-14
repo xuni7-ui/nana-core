@@ -53,3 +53,10 @@ def test_model_cannot_forge_authority_receipt_identity_or_memory_reference(cogni
         DeliberationSession(assembler).run(HostilePort({**base, "identity_id": "new-self"}), context, request(), policy())
     with pytest.raises(CoreError, match="UNSUPPORTED_COGNITIVE_REFERENCE"):
         DeliberationSession(assembler).run(HostilePort({**base, "memory_refs": ["invented-memory"]}), context, request(), policy())
+    from nana_core.continuity import IdentityService
+    from nana_core.continuity.commitments import CommitmentService
+    from nana_core.continuity.projects import ProjectService
+    from nana_core.continuity.learning import ExperienceService
+    for constructor in (IdentityService, CommitmentService, ProjectService, ExperienceService, ContextAssembler):
+        with pytest.raises(CoreError, match="OPERATOR_AUTHORITY_REQUIRED"):
+            constructor(store, None)

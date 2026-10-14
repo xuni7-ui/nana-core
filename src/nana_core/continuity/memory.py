@@ -94,6 +94,8 @@ class MemoryService:
             raise CoreError("INVALID_MEMORY_CONTRACT")
         if not self.store.one("entities", candidate.entity_id):
             raise CoreError("ENTITY_BINDING_REQUIRED")
+        if candidate.memory_type.value == "SELF" and candidate.entity_id != self.store.identity["identity_id"]:
+            raise CoreError("SELF_MEMORY_REQUIRES_CANONICAL_SUBJECT")
         source = self.evidence(candidate.source_evidence_id)
         authority = "DIRECT" if source["source_kind"] in {
             "USER_STATEMENT", "DIRECT_OBSERVATION", "SYSTEM_VERIFICATION"} else "INFERRED"
@@ -183,20 +185,53 @@ class MemoryService:
             (entity_id, scope, predicate_key)).fetchall()
         return [self.read(r[0], include_inactive=True) for r in rows]
 
-    def query(self, *, entity_ids=(), scopes=(), privacy_classes=("PUBLIC",), include_conflicts=False):
+    def _query_filter(self, entity_ids, scopes, privacy_classes, include_conflicts):
+        if not scopes or not privacy_classes:
+            return "0", []
+        states = ("CURRENT", "UNASSESSED", "DISPUTED") if include_conflicts else ("CURRENT", "UNASSESSED")
+        clauses, parameters = ["m.lifecycle='ACTIVE'"], []
+        for column, values in (("scope", scopes), ("privacy_class", privacy_classes), ("assessment", states)):
+            clauses.append(f"m.{column} IN ({','.join('?' for _ in values)})")
+            parameters.extend(values)
+        if entity_ids:
+            clauses.append(f"m.entity_id IN ({','.join('?' for _ in entity_ids)})")
+            parameters.extend(entity_ids)
+        return " AND ".join(clauses), parameters
+
+    def query_count(self, *, entity_ids=(), scopes=(), privacy_classes=("PUBLIC",), include_conflicts=False):
         self._fresh()
+        where, args = self._query_filter(entity_ids, scopes, privacy_classes, include_conflicts)
+        return self.store.db.execute("SELECT count(*) FROM memories m WHERE " + where, args).fetchone()[0]
+
+    def query(self, *, entity_ids=(), scopes=(), privacy_classes=("PUBLIC",), include_conflicts=False,
+              limit=128, query_terms=()):
+        self._fresh()
+        if type(limit) is not int or not 1 <= limit <= 512:
+            raise CoreError("INVALID_RETRIEVAL_LIMIT")
         if not scopes or not privacy_classes:
             return []
-        rows = self.store.db.execute("SELECT memory_id FROM memories WHERE lifecycle='ACTIVE' "
-            "AND assessment IN ('CURRENT','UNASSESSED'" + (",'DISPUTED'" if include_conflicts else "") + ")").fetchall()
-        result = []
-        for r in rows:
-            row = self.store.one("memories", r[0])
-            # Privacy filtering BEFORE loading any payload.
-            if (row["scope"] in scopes and row["privacy_class"] in privacy_classes
-                    and (not entity_ids or row["entity_id"] in entity_ids)):
-                result.append(self.read(r[0], include_inactive=include_conflicts))
-        return result
+        where, args = self._query_filter(entity_ids, scopes, privacy_classes, include_conflicts)
+        if query_terms:
+            if len(query_terms) > 32 or any(type(t) is not str or not 1 <= len(t) <= 128 for t in query_terms):
+                raise CoreError("INVALID_QUERY_TERMS")
+            relevance = "(SELECT count(*) FROM memory_terms t WHERE t.memory_id=m.memory_id "
+            relevance += f"AND t.term IN ({','.join('?' for _ in query_terms)}))"
+            order_args = [t.casefold() for t in query_terms]
+        else:
+            relevance, order_args = "0+0", []
+        # Privacy/entity/scope filter and bounded candidate ranking precede payload reads.
+        rows = self.store.db.execute("SELECT m.memory_id FROM memories m WHERE " + where +
+            " ORDER BY " + relevance + " DESC,(m.authority='DIRECT') DESC,m.importance DESC,"
+            "m.significance DESC,m.event_time_us DESC,m.rowid LIMIT ?", [*args, *order_args, limit]).fetchall()
+        return [self.read(r[0], include_inactive=include_conflicts) for r in rows]
+
+    def conflict_bundle(self, row, privacy_classes):
+        headers = self.store.db.execute("SELECT * FROM memories WHERE entity_id=? AND scope=? AND predicate_key=? "
+            "AND lifecycle='ACTIVE' AND assessment NOT IN ('SUPERSEDED','WITHDRAWN')",
+            (row["entity_id"], row["scope"], row["predicate_key"])).fetchall()
+        if len(headers) > 64 or any(h["privacy_class"] not in privacy_classes for h in headers):
+            raise CoreError("INSUFFICIENT_CONTRADICTION_CONTEXT")
+        return [self.read(h["memory_id"], include_inactive=True) for h in headers]
 
     def _invalidate_descendants(self, tx, memory_id):
         pending, seen = [memory_id], {memory_id}
