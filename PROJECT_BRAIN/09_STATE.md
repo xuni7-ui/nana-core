@@ -693,3 +693,6 @@
 
 ## 2026-10-14 UTC — C/D current-task privacy completion
 [已实现/已测试] ContextRequest当前task默认PERSONAL，也必须通过目的地隐私门；不能只过滤检索记忆而漏发当前任务。20 C/D tests PASS，含明确PUBLIC synthetic远端夹具与PERSONAL默认拒绝。完整API/时间/删除/迁移限制见 `docs/nana_continuous_self_api.md`。真实入口保持NO。
+
+## 2026-10-14 UTC — C/D local data-directory privacy
+[已实现/已测试] ContinuityStore及受控backup/replay要求owner-only目录0700，DB/WAL/SHM/lock为0600，symlink数据路径拒绝；不擅自chmod现有共享目录。20 C/D tests PASS（含不安全目录在创建DB前拒绝）。这只影响独立development continuity入口，v1 Store/R045不改。

@@ -24,6 +24,7 @@ model. The sole state authority remains one SQLite Store and writer lock.
 ## Minimal use
 
 ```python
+from pathlib import Path
 from nana_core.actions import OperatorAuthority
 from nana_core.continuity import ContinuityStore, IdentityService
 from nana_core.continuity.contracts import EvidenceInput, Provenance, MemoryCandidate, MemoryType
@@ -32,7 +33,9 @@ from nana_core.continuity.context import ContextAssembler, ContextPolicy, Contex
 from nana_core.continuity.cognition import AnalyticalFixturePort, DeliberationSession
 
 # This path is a fresh DEVELOPMENT database, never an AstrBot/Iris path.
-with ContinuityStore(".nana-experiment/continuous-self/example.db") as store:
+data = Path(".nana-experiment/continuous-self/private-example")
+data.mkdir(mode=0o700, parents=True, exist_ok=True)
+with ContinuityStore(data / "self.db") as store:
     authority = OperatorAuthority("synthetic-dev-controller")
     identity = IdentityService(store, authority).current()
     memory = MemoryService(store, authority)
@@ -141,6 +144,11 @@ that nothing happened. Models are supplied serialized data and a strict v2 schem
 raw proposal, validation and any future compilation must remain distinguishable.
 
 ## Physical erasure, backup and rollback
+
+ContinuityStore requires an owner-only 0700 data directory; it creates new private
+directories, but rejects an existing shared directory instead of changing its
+permissions. DB/WAL/SHM/lock files are 0600, symlink data paths reject, and managed
+backup/replay destinations use the same private-directory rule.
 
 The DB owns 12 additional development tables across schema2–5; schema6 adds only
 an index. v1 tables and execution state machines remain unchanged. Structured

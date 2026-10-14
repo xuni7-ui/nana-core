@@ -934,3 +934,8 @@
 - 改动：任务输入默认PERSONAL并受同一context destination gate；补长期API使用/数据/迁移/删除限制文档与D-CS-001。
 - 原因：隐私不能只保护长期记忆，当前task也可能含私人内容。
 - 验证：20 C/D tests PASS；最终完整回归将在此source checkpoint之后运行。未触及任何真实宿主/消息/数据。
+
+## 2026-10-14 UTC — C/D private local storage default
+- 改动：开发continuity DB/backup/replay私有目录与文件权限门、symlink拒绝，示例使用独立0700目录。
+- 原因：隐私边界也要覆盖本机落盘，不能只限制模型context。
+- 验证：20 C/D tests PASS，不安全共享目录在写DB前fail-closed；未更改系统/生产目录权限。

@@ -3,10 +3,23 @@ from ..storage.development_schema import LATEST
 from ..storage.sqlite_store import Store
 from ..contracts import CoreError
 from pathlib import Path
+import os
 
 
 class ContinuityStore(Store):
+    @staticmethod
+    def _private_path(path):
+        path = Path(path)
+        path.parent.mkdir(mode=0o700, parents=True, exist_ok=True)
+        stat = path.parent.stat()
+        if stat.st_uid != os.geteuid() or stat.st_mode & 0o077:
+            raise CoreError("PRIVATE_CONTINUITY_DIRECTORY_REQUIRED")
+        if any(Path(str(path) + suffix).is_symlink() for suffix in ("", "-wal", "-shm", ".lock", ".privacy.json")):
+            raise CoreError("CONTINUITY_SYMLINK_FORBIDDEN")
+        return path
+
     def __init__(self, path, clock=None):
+        path = self._private_path(path)
         new_database = not Path(path).exists()
         # An identity-only v1 upgrade has no private payloads or old privacy state.
         if not new_database:
@@ -19,6 +32,10 @@ class ContinuityStore(Store):
         super().__init__(path, clock, schema_target=LATEST)
         try:
             self.db.execute("PRAGMA secure_delete=ON")
+            for suffix in ("", "-wal", "-shm", ".lock"):
+                owned = Path(str(self.path) + suffix)
+                if owned.exists():
+                    owned.chmod(0o600)
             from .privacy import PrivacyJournal
             self.privacy = PrivacyJournal(self, new_database=new_database)
             if not self.one("core_meta", "cloud.shadow_runtime"):
@@ -34,13 +51,16 @@ class ContinuityStore(Store):
         self.privacy.ensure_current()
 
     def backup(self, destination):
+        destination = self._private_path(destination)
         self.ensure_privacy_current()
         if Path(destination).exists():
             raise CoreError("DESTINATION_EXISTS")
         self.privacy.register_copy(destination)
         super().backup(destination)
+        Path(destination).chmod(0o600)
 
     def replay(self, destination):
+        destination = self._private_path(destination)
         self.ensure_privacy_current()
         if Path(destination).exists():
             raise CoreError("DESTINATION_EXISTS")
