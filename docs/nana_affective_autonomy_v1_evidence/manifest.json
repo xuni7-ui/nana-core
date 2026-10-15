@@ -1,0 +1,388 @@
+{
+  "base_sha": "02e68d31d4d15beff141f19aebceb84d592f8a04",
+  "counts": {
+    "config_files": 1,
+    "docs_files": 17,
+    "project_brain_files": 5,
+    "source_files": 34,
+    "test_files": 16
+  },
+  "excluded": [
+    "manifest.json (self reference)",
+    "unrelated preexisting untracked Git bundle",
+    "development Store/world/marker files"
+  ],
+  "files": [
+    {
+      "bytes": 13278,
+      "path": "PROJECT_BRAIN/07_ROADMAP.md",
+      "sha256": "7db13ac9b54704df572fe1649fe74ccd21e17b197e6f7d6aa14480955a1967ee"
+    },
+    {
+      "bytes": 15911,
+      "path": "PROJECT_BRAIN/08_TASKS.md",
+      "sha256": "a313eaab2714d76a58cccd757321904951500d0ea7c484bfdeffb67a4c82537e"
+    },
+    {
+      "bytes": 101439,
+      "path": "PROJECT_BRAIN/09_STATE.md",
+      "sha256": "f965ab77c3c6ee665d66ee02237de089c9a506842289d436182d674c675d9cf4"
+    },
+    {
+      "bytes": 43381,
+      "path": "PROJECT_BRAIN/10_DECISIONS.md",
+      "sha256": "cdcb49bbda8cda3d462d5b92305ff8051a6c5a595e28fcab3ca62b1238414227"
+    },
+    {
+      "bytes": 110360,
+      "path": "PROJECT_BRAIN/11_CHANGELOG.md",
+      "sha256": "138ca42f536c77a2e1bdf8b53199b7c388727e2cfe05e6884d0956839a8e14b6"
+    },
+    {
+      "bytes": 4192,
+      "path": "docs/nana_affective_autonomy_v1_evidence/delivery_report.md",
+      "sha256": "333279561474ea6065f7c8f8bded4a7bd42e31c2c468422deaa61cd901a64ea8"
+    },
+    {
+      "bytes": 149902,
+      "path": "docs/nana_affective_autonomy_v1_evidence/full_regression.xml",
+      "sha256": "49fcc47e08473e229af0a09246ed459265d2f98e31928ef39d079cafef456603"
+    },
+    {
+      "bytes": 876,
+      "path": "docs/nana_affective_autonomy_v1_evidence/full_regression_summary.txt",
+      "sha256": "dff4247f87b234471a34e7e7369f4738cced58f13367c53f2ec4c23b040629cb"
+    },
+    {
+      "bytes": 2105,
+      "path": "docs/nana_affective_autonomy_v1_evidence/generic_subject_matrix.json",
+      "sha256": "ce4b6d2cc8083b7200ec7b06a9af74b91d5189ba8f6fa7237c8024ae8fafab9d"
+    },
+    {
+      "bytes": 1003,
+      "path": "docs/nana_affective_autonomy_v1_evidence/limitations.txt",
+      "sha256": "e77f8096a94408b7e4a47ee629921edc25f33b113c9dbd6f40566e3286413e47"
+    },
+    {
+      "bytes": 148378,
+      "path": "docs/nana_affective_autonomy_v1_evidence/major_regression.xml",
+      "sha256": "295cebb392c83626e149db846d13a7b55cfd58005dd09a8123492311b8b0ca7b"
+    },
+    {
+      "bytes": 149748,
+      "path": "docs/nana_affective_autonomy_v1_evidence/qualification_regression.xml",
+      "sha256": "e8c12ccf7c987676ab88809d555f4fb2661683fc4ae8d673e3ef9c1c9039d4a2"
+    },
+    {
+      "bytes": 1568,
+      "path": "docs/nana_affective_autonomy_v1_evidence/recovery_matrix.json",
+      "sha256": "b56f564e78891884db654c060104accd944f51903088491788cfe535a44d9a54"
+    },
+    {
+      "bytes": 2409,
+      "path": "docs/nana_affective_autonomy_v1_evidence/scenario_matrix.json",
+      "sha256": "efa582550fd9698e993b72e97f334e0d880356ec3136cf7a4dd411453a94108c"
+    },
+    {
+      "bytes": 1065,
+      "path": "docs/nana_affective_autonomy_v1_evidence/schema_migration_matrix.json",
+      "sha256": "c2391e2ccca8ea3f969787cdbd2ca3b22a1e13fa5e9a87d974a3ecdcd8b7c0b8"
+    },
+    {
+      "bytes": 676,
+      "path": "docs/nana_affective_autonomy_v1_evidence/schema_migration_summary.txt",
+      "sha256": "df67265b5812c9b39230c6a566307dc1c2ee78ba779f33ea23a9d73e522f3a7f"
+    },
+    {
+      "bytes": 550,
+      "path": "docs/nana_affective_autonomy_v1_evidence/security_summary.json",
+      "sha256": "97c04c81a9ea169e94b3aa6c5f192928399b26da3dbb32c0535e741fc70f239a"
+    },
+    {
+      "bytes": 10605,
+      "path": "docs/nana_affective_autonomy_v1_evidence/soak_matrix.json",
+      "sha256": "6bae46ad95720c7a31bef285ef7c1198751eb404202573e3f6d1d2b75e1009b4"
+    },
+    {
+      "bytes": 460,
+      "path": "docs/nana_affective_autonomy_v1_evidence/targeted_test_summary.txt",
+      "sha256": "2986efd2710e33f2167dec0636cad4e59e7f791e6cde1a54320af09023459d84"
+    },
+    {
+      "bytes": 3524,
+      "path": "docs/nana_affective_autonomy_v1_evidence/targeted_tests.xml",
+      "sha256": "fdacef98381cbaec6bfcebb66b4204bf6fc2378a256d9ec6b24ff761b21eac01"
+    },
+    {
+      "bytes": 21254,
+      "path": "docs/nana_affective_autonomy_v1_implementation.md",
+      "sha256": "d24eb313b2c184b72f1155584339ab5ce336aacc3b9874e14902c315c8a85503"
+    },
+    {
+      "bytes": 1642,
+      "path": "pyproject.toml",
+      "sha256": "1af0388442e62ff9e3fc083c5732eaca80d8669110842486085ad59f63c61d99"
+    },
+    {
+      "bytes": 18339,
+      "path": "src/nana_core/actions.py",
+      "sha256": "1df995a168b616d670104d78da48d82ed5ca4c9da6a479e68f9934a51dd31c1a"
+    },
+    {
+      "bytes": 77,
+      "path": "src/nana_core/continuity/autonomy/__init__.py",
+      "sha256": "8a9a544416ddb500d4e34b71f36bfee759260320b9462edbdbcf20ae6179a9dc"
+    },
+    {
+      "bytes": 4654,
+      "path": "src/nana_core/continuity/autonomy/contracts.py",
+      "sha256": "e0988d4b42d71fea80169f0bc230154851f2517ba9ff85173fc0d08a42fcb03c"
+    },
+    {
+      "bytes": 8782,
+      "path": "src/nana_core/continuity/autonomy/disclosure.py",
+      "sha256": "516e40d588fc70b1fc1300ed038449f91e9752f590960a76ef5d5f888afddfd6"
+    },
+    {
+      "bytes": 1283,
+      "path": "src/nana_core/continuity/autonomy/evaluation.py",
+      "sha256": "92266e1ff97dd28ebdcd467db83e94132a12fddb1a022a9f7c7d2b74c8146d04"
+    },
+    {
+      "bytes": 9635,
+      "path": "src/nana_core/continuity/autonomy/experience.py",
+      "sha256": "53f36621216f0b20b5dda148e3cc391ea9fbb1882b8d5f04c48e1e2df9fafc62"
+    },
+    {
+      "bytes": 3212,
+      "path": "src/nana_core/continuity/autonomy/fixture_effects.py",
+      "sha256": "488f0a58c674ae10ea4d0a6ca16e87bd5245634a70f5dcdbc9d32193718a1b2e"
+    },
+    {
+      "bytes": 14605,
+      "path": "src/nana_core/continuity/autonomy/governance.py",
+      "sha256": "224f76b373d8aa56daf09a2c6d693441900f24ef6e6a34afb02961dd8f8a257f"
+    },
+    {
+      "bytes": 1752,
+      "path": "src/nana_core/continuity/autonomy/history.py",
+      "sha256": "13df88aab256993b7411536bd81bf14a8b599848c86d4d01bb6847886bc01920"
+    },
+    {
+      "bytes": 4052,
+      "path": "src/nana_core/continuity/autonomy/realization.py",
+      "sha256": "0e749c1ecf613aef134eff91a1521d32913b32b3774690a7249d72772c7eb9dd"
+    },
+    {
+      "bytes": 7745,
+      "path": "src/nana_core/continuity/autonomy/relationships.py",
+      "sha256": "c6d987f9ccb00394008d622178b0861daf7064ce24f20c41b13a6f767b5ae861"
+    },
+    {
+      "bytes": 2301,
+      "path": "src/nana_core/continuity/autonomy/requests.py",
+      "sha256": "8fe9172bcaf170d1bd91ccd831039c3de21e8ddcef5e6e6e8d0b67bf17abee5d"
+    },
+    {
+      "bytes": 7433,
+      "path": "src/nana_core/continuity/commitments.py",
+      "sha256": "aec00fe0a516992b31e8e30fdffa4f6e4b72b0d3775f5fd80dba8dc93b234fa4"
+    },
+    {
+      "bytes": 20322,
+      "path": "src/nana_core/continuity/context.py",
+      "sha256": "902db75a2862bb2216f4b5c004c138295cebb84e8df0185c3a5a6fd41efd8b83"
+    },
+    {
+      "bytes": 20014,
+      "path": "src/nana_core/continuity/learning.py",
+      "sha256": "22df7de3e75d3d1048b00edcc185d4b0cc9f1583546432c2e423486b3942a76a"
+    },
+    {
+      "bytes": 3622,
+      "path": "src/nana_core/continuity/records.py",
+      "sha256": "629a324c1cadaebd9baa0b537d6a68d7cee0784b91279def81b02146ea5632e4"
+    },
+    {
+      "bytes": 2633,
+      "path": "src/nana_core/continuity/recurrence.py",
+      "sha256": "e7f08c9b9666037af49b35b48bee46ae9e780e7b63a322b7f5ee97f4d5b7dc13"
+    },
+    {
+      "bytes": 762,
+      "path": "src/nana_core/continuity/revision.py",
+      "sha256": "eb42e3053587784f466d37fb6753f6abda64a49aec8e1bb711dc80dd5c89f59a"
+    },
+    {
+      "bytes": 9099,
+      "path": "src/nana_core/continuity/subject/contracts.py",
+      "sha256": "c16a456955baa6a1afcf6e62aad11e8d9bea1ceaa18f099a10661f1be137039a"
+    },
+    {
+      "bytes": 12689,
+      "path": "src/nana_core/continuity/subject/growth.py",
+      "sha256": "88d6ada5676c41cdf3d546e67e5986e96c93e5fc874671df70726af1a9542c79"
+    },
+    {
+      "bytes": 5169,
+      "path": "src/nana_core/continuity/subject/ingress.py",
+      "sha256": "428423c0aad7c94259c438ac5f86e10bb91cf90443dc0d6076962f9ef1862f44"
+    },
+    {
+      "bytes": 32784,
+      "path": "src/nana_core/continuity/subject/loop.py",
+      "sha256": "607936483c4bb705f51254a80c64801965ea21ee1bb6f676d513a4ed4e2a5ab6"
+    },
+    {
+      "bytes": 11387,
+      "path": "src/nana_core/continuity/subject/policy.py",
+      "sha256": "def67ff1b73aa2ee651b687cc8c70438422dc6127d7722b19c7e39d54cefd1e7"
+    },
+    {
+      "bytes": 7940,
+      "path": "src/nana_core/continuity/subject/projections.py",
+      "sha256": "dbb305e6d933a926fd90c1059f3a61c779daf3f40a975a134cc8927c2d7c8643"
+    },
+    {
+      "bytes": 3698,
+      "path": "src/nana_core/continuity/subject/reflection.py",
+      "sha256": "54ab654ab1542272910455a5efae4e785eea4985bf24ba4c21a729e196856b9f"
+    },
+    {
+      "bytes": 4842,
+      "path": "src/nana_core/continuity/subject/watch.py",
+      "sha256": "c503a4397888d999c9a295d8b457f09902b08244a8543769eab2fdb82137cc33"
+    },
+    {
+      "bytes": 4623,
+      "path": "src/nana_core/presence/cli.py",
+      "sha256": "9c502f9fea920ccb35b69dc32aa9277a09d6a671f372a8fd435eb3dfd649ee21"
+    },
+    {
+      "bytes": 5226,
+      "path": "src/nana_core/presence/contracts.py",
+      "sha256": "7aa2abc3f7e8afd2a6d75745c7a87bf44b923f8de0af5334a5da2ac2b18274a2"
+    },
+    {
+      "bytes": 10154,
+      "path": "src/nana_core/presence/queue.py",
+      "sha256": "8bc7aeb64a3ec403ffd0f3364de9acfe76cf1814e0a60b2fbd5b1b89c9cf98d2"
+    },
+    {
+      "bytes": 12594,
+      "path": "src/nana_core/presence/runtime.py",
+      "sha256": "2bdc51e7b3e72b772cc9000e7138574ee4166e460288e471456ac4602ae5c1db"
+    },
+    {
+      "bytes": 4586,
+      "path": "src/nana_core/presence/scheduler.py",
+      "sha256": "5ed77e491e8fb5454f92dc13dfb29e062ed62dcead966659f93426a8207781e2"
+    },
+    {
+      "bytes": 5848,
+      "path": "src/nana_core/storage/development_schema.py",
+      "sha256": "71df5cffb2e7de30353e493f3a1a52c55ffcb31016480c6d2d0cde3badca6bf7"
+    },
+    {
+      "bytes": 4167,
+      "path": "src/nana_core/storage/schema_v9.sql",
+      "sha256": "269b9e017b6c219d4d6e9d4e1430923a36569031c7f288dc00d754af9ca8b0ad"
+    },
+    {
+      "bytes": 12670,
+      "path": "src/nana_core/storage/sqlite_store.py",
+      "sha256": "73145c78b12d58d610b8cff5a8e94a26ae400fe7e3225c2cf9c6cc170cbd262e"
+    },
+    {
+      "bytes": 0,
+      "path": "tests/affective_autonomy/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 1469,
+      "path": "tests/affective_autonomy/conftest.py",
+      "sha256": "ceeeb8bdf2d9e3d2894119cbd9ce5d3de8d244d3d8d230bfeff9d345e0d750cd"
+    },
+    {
+      "bytes": 20774,
+      "path": "tests/affective_autonomy/life.py",
+      "sha256": "2431c7d21fa5e0195210343c3a1f92bd0205a3f60c70b0a5bd297aa5dfd3a370"
+    },
+    {
+      "bytes": 4449,
+      "path": "tests/affective_autonomy/migrations.py",
+      "sha256": "a40c7ad0615a03e4d72ff0e58f5e1c10065b4ef36319eec7793fb7bd36843e5c"
+    },
+    {
+      "bytes": 1489,
+      "path": "tests/affective_autonomy/process_case.py",
+      "sha256": "605de5a283f4766afc6d76dcccae0437c44e864788ad13f33b9ecae720ef99a1"
+    },
+    {
+      "bytes": 4486,
+      "path": "tests/affective_autonomy/recovery.py",
+      "sha256": "18f34eb0713c72d8c643e43c4c7126d72759ab2e294853841c6e9b5c222c3d48"
+    },
+    {
+      "bytes": 7693,
+      "path": "tests/affective_autonomy/test_boundaries.py",
+      "sha256": "f21f87a48281a555991293ff2f2ee5362ab2333d2d7637e1bdb659592424794b"
+    },
+    {
+      "bytes": 2384,
+      "path": "tests/affective_autonomy/test_dispositions.py",
+      "sha256": "031d8983e9ffe4e6f8847bdade723d2ce39dcffc84ad987850736718eb9b0747"
+    },
+    {
+      "bytes": 3471,
+      "path": "tests/affective_autonomy/test_experience.py",
+      "sha256": "7e448db45ee9a8e3613a1bf49c2142203d66c7a3d36279508b2d8fd045c84bce"
+    },
+    {
+      "bytes": 3799,
+      "path": "tests/affective_autonomy/test_governance.py",
+      "sha256": "3b566c073e8545d2edc34af2a9fcb179a7bca76610ffa57b42b6ee981250f444"
+    },
+    {
+      "bytes": 228,
+      "path": "tests/affective_autonomy/test_migrations.py",
+      "sha256": "df3bafb025ad0b522cfebcc2c5e8104656b0da9663d7b739d26443d2d3cfc459"
+    },
+    {
+      "bytes": 2895,
+      "path": "tests/affective_autonomy/test_realization.py",
+      "sha256": "62c04dcd466304489de20108f333f83a8c963732074d662a21b9a81fc842ab67"
+    },
+    {
+      "bytes": 195,
+      "path": "tests/affective_autonomy/test_recovery.py",
+      "sha256": "7e344f63d3e20b45556a9e6254b1bbd4a96197bf6c697de59ba0a9d381629738"
+    },
+    {
+      "bytes": 4173,
+      "path": "tests/affective_autonomy/test_relationship_privacy.py",
+      "sha256": "e94f69f6dcbec13b38f597fb1174bccdc363017a91fd8af38ee002f82b1eb780"
+    },
+    {
+      "bytes": 3547,
+      "path": "tests/affective_autonomy/test_requests_calendar.py",
+      "sha256": "69101d62609f6753d2f80f27519cb594f7b2e3eead257238094a66943b5d2654"
+    },
+    {
+      "bytes": 536,
+      "path": "tests/affective_autonomy/test_system.py",
+      "sha256": "6eb1aa540b510262214b8e2c8d27a2f4543129ada3db90d363ff76883d0566d6"
+    }
+  ],
+  "final_commit": "containing documentation commit; independently verified against origin",
+  "origin": "OFFLINE_SYNTHETIC",
+  "roadmap_id": "L3-C-AFFECT-V1",
+  "runtime": {
+    "pydantic": "2.13.4",
+    "python": "3.12.14",
+    "sqlite": "3.53.1",
+    "sqlite_floor": "3.51.3"
+  },
+  "schema_version": 1,
+  "source_checkpoint": "09f45244d3d146e5381efb110fc8a89867a0f82e"
+}

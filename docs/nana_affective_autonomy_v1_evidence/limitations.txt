@@ -1,0 +1,13 @@
+OFFLINE/SYNTHETIC only. No real models, private memory, host access, production
+principal onboarding, external action, real disclosure delivery or E12 execution.
+Trusted local construction boundary; root arbitrary memory/code edits and
+privileged raw full-DB clones are outside the defended protocol.
+Semantic truthfulness contract is not an unrestricted natural-language lie detector.
+Daily typed recurrence only; unknown IANA timezone rejects. No NLP calendar parser.
+Projections use bounded candidates and report incomplete coverage, not invented LOW.
+Cold authoritative history may grow linearly; hot-state soak is60 virtual days,
+not all workloads or a production wall-clock longevity proof.
+Explicit development9 only. C default7/D default8 unchanged. Production migration
+and later E/G capability integration remain NOT AUTHORIZED / NOT_RUN.
+No known unresolved core invariant defect. Independent architecture/code review is
+recommended before development integration, not production deployment.

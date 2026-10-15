@@ -1,0 +1,8 @@
+L3-C-AFFECT-V1 final targeted suite
+Source:09f45244d3d146e5381efb110fc8a89867a0f82e
+Command:.venv/bin/python -m pytest -q tests/affective_autonomy
+23 passed /0 failed /0 skipped; 5.014 seconds.
+Before final disclosure-only fix: combined prior C/D/new65 PASS,35.83s.
+Final full includes C 32, D 11, new 23 cases, all passed.
+S1–S15 PASS; two independent subjects PASS; six SIGKILL cuts PASS;60-day soak PASS.
+No original tests deleted or assertions weakened.

@@ -120,7 +120,7 @@ OFFLINE_CANDIDATE READY，基线 ea65dab。以下 M1–M3 表保留原规划记�
 ## 2026-10-10 独立 Core 工程增补（历史零代码口径不再描述当前副本）
 [实测] S0—S4 离线连续性、S5 工程评估、S6 非生产准备已在开发副本实现与测试；E12 未验证。S6 仅合成旧来源/同进程影子/闭合 reading CapabilityPort/单模拟执行方，不代表 Portable 全框架、真实平台多工具或生产迁移完成。D-003/D-004 的小资源/单 Runtime/影子原则保持。
 
-## L3-C-AFFECT-V1 — CURRENT DEVELOPMENT (2026-10-15)
+## L3-C-AFFECT-V1 — OFFLINE_CANDIDATE READY (2026-10-15)
 Affective Drive, Autonomous Judgment & Governed Realization Foundation belongs
 to L3 Persistent Self, inherits C-V2/D-V1 offline candidates. Own branch only;
 no L1/L2/B5/R045 priority or production changes. Explicit v9, no new tables.
@@ -203,3 +203,21 @@ exact indexed sourced outcome (privacy/support checked) to MANAGER_BLOCKED or
 UNKNOWN; possible/verified effects are not rewritten. No authority escape or
 duplicate ingress occurred. Related source deletion still blocks disclosure.
 Targeted suite and final full are rerun after this fix. No production changes.
+
+
+## L3-C-AFFECT-V1 FINAL — OFFLINE_CANDIDATE READY (2026-10-15)
+Current result supersedes pending descriptions in the historical M1–M7 entries.
+R1–R6 IMPLEMENTED / SYNTHETIC TESTED / OFFLINE-VERIFIED. Qualified source:
+09f45244d3d146e5381efb110fc8a89867a0f82e; final containing documentation commit
+provides evidence hashes and does not change business behavior. Full911 passed /
+0 failed /1 skipped(E12),93.47s. New23 PASS; existing C32 and D11 PASS.
+S1–S15, generic two-Subject contrast, six actual local SIGKILL cuts,60 virtual-day
+soak, explicit7→9/8→9 and managed backup/replay/delete closure all PASS.
+One SubjectLoop/Store/Runtime; D WHEN, C WHAT/WHY; negative-only Manager after
+Judgment; Grant/Budget/privacy remain independent hard gates. NEW_TABLES=0;
+explicit9 only, C default7/D default8. No unresolved core invariant issue.
+Reference: docs/nana_affective_autonomy_v1_implementation.md and evidence/manifest.
+Production/main/R045/FIRST_REAL_ASTRBOT_SHADOW changed=NO; real models/private
+memory/external actions=0. Production review/proof pins remain EMPTY. Real-memory
+ingress remains deny-by-default. E12=NOT_RUN. These fixtures upgrade no real-host
+status. Next step is independent offline review/integration; do not auto-deploy.

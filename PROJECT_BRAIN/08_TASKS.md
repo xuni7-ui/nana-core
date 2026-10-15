@@ -142,8 +142,8 @@
 | NC-S5-E12 | ④未知 / NOT_RUN | 当前开发端点 0、真实调用 0；需两个授权 real_model 端点 |
 
 ## L3-C-AFFECT-V1 — implementation tracker
-R1 normative/disclosure/disposition: IMPLEMENTED / targeted offline TESTED.
-R2–R6 and system qualification: pending. No real models/data/actions.
+R1–R6: IMPLEMENTED / TESTED / OFFLINE_CANDIDATE READY.
+System qualification and final full911/0/1 PASS. No real models/data/actions.
 Evidence: docs/nana_affective_autonomy_v1_implementation.md.
 
 ## L3-C-AFFECT-V1 M2 — negative-only governance / governed fixture realization
@@ -224,3 +224,21 @@ exact indexed sourced outcome (privacy/support checked) to MANAGER_BLOCKED or
 UNKNOWN; possible/verified effects are not rewritten. No authority escape or
 duplicate ingress occurred. Related source deletion still blocks disclosure.
 Targeted suite and final full are rerun after this fix. No production changes.
+
+
+## L3-C-AFFECT-V1 FINAL — OFFLINE_CANDIDATE READY (2026-10-15)
+Current result supersedes pending descriptions in the historical M1–M7 entries.
+R1–R6 IMPLEMENTED / SYNTHETIC TESTED / OFFLINE-VERIFIED. Qualified source:
+09f45244d3d146e5381efb110fc8a89867a0f82e; final containing documentation commit
+provides evidence hashes and does not change business behavior. Full911 passed /
+0 failed /1 skipped(E12),93.47s. New23 PASS; existing C32 and D11 PASS.
+S1–S15, generic two-Subject contrast, six actual local SIGKILL cuts,60 virtual-day
+soak, explicit7→9/8→9 and managed backup/replay/delete closure all PASS.
+One SubjectLoop/Store/Runtime; D WHEN, C WHAT/WHY; negative-only Manager after
+Judgment; Grant/Budget/privacy remain independent hard gates. NEW_TABLES=0;
+explicit9 only, C default7/D default8. No unresolved core invariant issue.
+Reference: docs/nana_affective_autonomy_v1_implementation.md and evidence/manifest.
+Production/main/R045/FIRST_REAL_ASTRBOT_SHADOW changed=NO; real models/private
+memory/external actions=0. Production review/proof pins remain EMPTY. Real-memory
+ingress remains deny-by-default. E12=NOT_RUN. These fixtures upgrade no real-host
+status. Next step is independent offline review/integration; do not auto-deploy.

@@ -1,0 +1,9 @@
+Source: schema_migration_matrix.json, actual Store/Runtime migrations.
+Fresh9: PASS (system and generic fixtures).
+7→9: PASS;8→9: PASS; identity, C record IDs/history and D scheduler/epoch preserved.
+foreign_key_check: clean. Final tables39 = existing v8 count39; v9 delta0.
+Official backup/replay: quarantined; RuntimeLease acquisition denied.
+PrivacyJournal erasure honored in managed old backup/replay; independent governance
+root retained. Deleted private outcome prose is not restored for auditability.
+Schema defaults: ContinuityStore7, RuntimeConfig8. No production migration run.
+Rollback: explicit controlled pre-upgrade backup in quarantine; no lossy downgrade.

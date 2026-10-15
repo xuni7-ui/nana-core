@@ -424,3 +424,14 @@ the exact sealed offline port; no general external adapter is enabled.
 Personal outcome body erasure wins over audit prose; opaque events and independent
 constraint roots remain. A governance view exposes only id/revision/source event,
 reason, scope and validity, never secret/resource operands. No new tables.
+
+
+## D-AFFECT-007 — offline acceptance does not adopt production authority
+ADR2 R1–R6 are implemented on explicit development9 with no new business table.
+Final911/0/1 and independent synthetic worlds qualify only the offline mechanism.
+Local controller construction, fixture execution and verification do not create
+real governance principal/trust pins, Model authority or production grants.
+Historical block/cancel/UNKNOWN provenance is preserved; a later disclosure must
+resolve the actual sourced veto instead of calling a cancelled Action PLANNED.
+Any future real realization requires independently reviewed application wiring and
+existing Grant/Budget/Capability/Fence checks; no implicit E/G advancement.

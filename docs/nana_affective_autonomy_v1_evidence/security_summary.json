@@ -1,0 +1,18 @@
+{
+  "dependencies_changed": false,
+  "frozen_adr2_unchanged": true,
+  "new_autonomy_network_or_subprocess_imports": 0,
+  "origin": "DEVELOPMENT_SOURCE_AUDIT",
+  "production_changed": false,
+  "production_review_pins": "EMPTY",
+  "pydantic": "2.13.4",
+  "python": "3.12.14",
+  "real_external_actions": 0,
+  "real_models": 0,
+  "real_private_data": 0,
+  "runtime_db_artifacts_added": 0,
+  "runtime_proof_pins": "EMPTY",
+  "shadow_tools_plugins_unchanged": true,
+  "source_checkpoint": "09f45244d3d146e5381efb110fc8a89867a0f82e",
+  "sqlite": "3.53.1"
+}

@@ -1,0 +1,13 @@
+L3-C-AFFECT-V1 final full regression
+Source:09f45244d3d146e5381efb110fc8a89867a0f82e
+Command:.venv/bin/python -m pytest -q tests --junitxml=docs/nana_affective_autonomy_v1_evidence/full_regression.xml
+911 passed /0 failed /1 skipped; 93.451 seconds (pytest console93.47s).
+Skip:E12 real-model gate requires two configured authorized development endpoints.
+REAL_MODEL_EXECUTION=NOT_RUN; no models invoked by offline pytest.
+Runtime:CPython3.12.14 /SQLite3.53.1 /Pydantic2.13.4. SQLite minimum3.51.3 unchanged.
+Historical test launcher calls actual /usr/bin/python3 (3.13.5/SQLite3.46.1),
+not Core runtime; it supplies no fabricated version and installs no dependency.
+Earlier full at f513dcc:900/0/1,87.52s.
+Qualification full at645159e:910/0/1,90.45s.
+After late-cancel disclosure fix:911/0/1,93.47s.
+Production changes/private reads/real external actions/real model calls=0.
