@@ -22,7 +22,7 @@ class ReflectionService:
             record = self.records.create(tx, kind='REFLECTION', scope=scope,
                 payload={'experience_id': experience_id, 'outcome': experience.outcome,
                     'verification_memory_id': parent['verification_memory_id'],
-                    'interpretation': 'Keep contextual variety and reception constraints' if experience.task_class=='interaction.shared_discovery' else 'Inspect a missing verified output field before repeating this procedure',
+                    'interpretation': 'Distinguish the recorded non-execution fact from later evidence about its consequences; do not infer obedience or hostility' if experience.task_class=='disposition.review' else 'Keep contextual variety and reception constraints' if experience.task_class=='interaction.shared_discovery' else 'Inspect a missing verified output field before repeating this procedure',
                     'candidate_kind': 'LessonCandidate', 'changes_identity': False, 'grants_authority': False},
                 records=(parent['record_id'],))
             tx.put('subject_reflections', {'reflection_id': reflection_id, 'experience_id': experience_id,

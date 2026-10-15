@@ -182,7 +182,7 @@ class ManagerConstraintGate:
                 reason_codes=tuple(c.reason_code for r,c in veto) or ('NEGATIVE_ONLY_NO_VETO',) if result=='PASS' else tuple(c.reason_code for r,c in veto) or ('GOVERNANCE_UNAVAILABLE',),
                 snapshot=snapshot_id,runtime_epoch=epoch,at_us=now,valid_until_us=min([now+30_000_000]+[c.expires_at_us for r,c in veto]),
                 action_id=action['action_id'] if action else None,actual_effect=actual)
-            rid=self.records.create(tx,kind='CONSTRAINT_OUTCOME',scope=i['scope'],payload=payload,records=(i['record_id'],))
+            rid=self.records.create(tx,kind='CONSTRAINT_OUTCOME',scope=i['scope'],payload=payload,records=(i['record_id'],),target_id=intention_id)
             data['record_id']=rid
             record_disposition(self.store,tx,cycle_id=cycle['cycle_id'],intention_id=intention_id,intention_revision=expected_revision,
                 scope=i['scope'],parent_record=rid,stage='MANAGER',code='REALIZATION_ELIGIBLE' if result=='PASS' else 'MANAGER_'+('BLOCKED' if result=='BLOCK' else 'UNKNOWN'),

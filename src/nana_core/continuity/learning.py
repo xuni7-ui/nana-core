@@ -17,6 +17,7 @@ from ..storage import canonical, digest, uid
 from .contracts import EvidenceInput, MemoryCandidate, MemoryType, Provenance
 from .records import RecordService
 from .subject.social import InteractionRule,propose_social
+from .autonomy.experience import DispositionQualityCheck,DispositionRule,disposition_fact,lesson_method,ConsequenceObservation
 
 
 class LocalQualityCheck(DTO):
@@ -45,7 +46,7 @@ class InteractionQualityCheck(DTO):
     passed: bool
 
 
-Verification = Annotated[LocalQualityCheck | InteractionQualityCheck,Field(discriminator='check')]
+Verification = Annotated[LocalQualityCheck | InteractionQualityCheck | DispositionQualityCheck,Field(discriminator='check')]
 CHECKS = TypeAdapter(Verification)
 
 
@@ -67,7 +68,7 @@ class ExperienceRecord(DTO):
     result: str
     verification: Verification
     proposed_update: str | None
-    outcome: Literal["SUCCESS", "FAILURE"]
+    outcome: Literal["SUCCESS", "FAILURE", "NON_EXECUTION"]
 
 
 class ExperienceService:
@@ -148,12 +149,28 @@ class ExperienceService:
             passed = type(actual) is dict and type(actual.get("locator")) is str and bool(actual["locator"].strip())
             if candidate.task_class!='reading_card' or check.passed != passed or check.missing_field != (None if passed else "locator"):
                 raise CoreError("EXPERIENCE_VERIFICATION_MISMATCH")
-        else:
+        elif isinstance(check,InteractionQualityCheck):
             outcome=self._interaction_outcome(result)
             if candidate.task_class!='interaction.shared_discovery' or check.proposal_intention_id!=outcome.proposal_intention_id or check.reaction!=outcome.reaction or check.passed!=(outcome.reaction=='POSITIVE_PLAYFUL'):
                 raise CoreError("EXPERIENCE_VERIFICATION_MISMATCH")
+        else:
+            if self.store.schema_target<9 or candidate.task_class!='disposition.review' or source['source_namespace']!='synthetic.disposition-check':raise CoreError('EXPERIENCE_VERIFICATION_MISMATCH')
+            fact=disposition_fact(self.store,check.disposition_record_id)
+            parent=self.records.read(check.candidate_record_id)
+            if parent['record_kind']!='EXPERIENCE_CANDIDATE' or parent['scope']!=candidate.scope or not self.records.current_support(check.candidate_record_id):raise CoreError('EXPERIENCE_CANDIDATE_UNAVAILABLE')
+            if actual!={'candidate_record_id':check.candidate_record_id,'fact':fact,'reasoning_assessment':check.reasoning_assessment} or check.factual_code!=fact['code']:raise CoreError('EXPERIENCE_VERIFICATION_MISMATCH')
+            assessment='UNASSESSED'
+            if parent['payload']['consequence_memory_id']:
+                consequence=self.records.memory.read(parent['payload']['consequence_memory_id'])
+                assessment=ConsequenceObservation.model_validate_json(consequence['text']).assessment
+            if assessment!=check.reasoning_assessment:raise CoreError('CONSEQUENCE_ASSESSMENT_MISMATCH')
+            old=self.store.db.execute("SELECT data_json FROM events WHERE source_namespace='experience.disposition' AND source_key=?",(check.candidate_record_id,)).fetchone()
+            if old:
+                eid=json.loads(old[0])['data']['experience_id'];self.get(eid);return eid
         experience_id = uid()
-        with self.store.transaction("self.experience_recorded") as tx:
+        disposition=isinstance(check,DispositionQualityCheck)
+        with self.store.transaction("self.experience_recorded",{'experience_id':experience_id} if disposition else None,
+                source_namespace='experience.disposition' if disposition else None,source_key=check.candidate_record_id if disposition else None) as tx:
             record_id = self.records.create(tx, kind="EXPERIENCE", scope=candidate.scope,
                 payload={"decision": candidate.decision, "context_memory_ids": candidate.context_memory_ids,
                          "proposed_update": candidate.proposed_update},
@@ -161,7 +178,7 @@ class ExperienceService:
             tx.put("experiences", {"experience_id": experience_id, "record_id": record_id,
                 "task_class": candidate.task_class, "result_memory_id": candidate.result_memory_id,
                 "verification_memory_id": candidate.verification_memory_id,
-                "outcome": "SUCCESS" if check.passed else "FAILURE", "created_at_us": self.store.clock.utc_now_us()})
+                "outcome": "NON_EXECUTION" if disposition else "SUCCESS" if check.passed else "FAILURE", "created_at_us": self.store.clock.utc_now_us()})
         return experience_id
 
     def get(self, experience_id):
@@ -185,6 +202,8 @@ class ExperienceService:
             rule=StrategyRule(capability=producer,required_output=missing)
         elif experience.task_class=='interaction.shared_discovery' and experience.outcome=='SUCCESS' and isinstance(experience.verification,InteractionQualityCheck):
             rule=InteractionRule()
+        elif experience.task_class=='disposition.review' and isinstance(experience.verification,DispositionQualityCheck) and experience.verification.reasoning_assessment!='UNASSESSED':
+            rule=DispositionRule(assessment=experience.verification.reasoning_assessment)
         else:raise CoreError('NO_SUPPORTED_LESSON')
         previous = self.store.db.execute("SELECT lesson_id FROM lessons WHERE experience_id=?", (experience_id,)).fetchone()
         if previous:
@@ -207,7 +226,11 @@ class ExperienceService:
             raise CoreError("LESSON_SUPPORT_REQUIRES_REVIEW")
         rule = self._rule(row)
         compiler_version=PlanCompiler.version
-        if isinstance(rule,InteractionRule):
+        if isinstance(rule,DispositionRule):
+            checks={'source_assessment_required':rule.assessment in {'HELPFUL','HARMFUL'},'changes_review_method':lesson_method(rule)!=lesson_method(),
+                'no_authority':rule.grants_authority is False,'scope_limited':rule.scope=='disposition.review'}
+            compiler_version='C_DISPOSITION_REVIEW_v1'
+        elif isinstance(rule,InteractionRule):
             baseline=propose_social(topic='trial',style='WARM_PLAYFUL',available=True,source_ids=('source',),last_act='TEASE')
             learned=propose_social(topic='trial',style='WARM_PLAYFUL',available=True,source_ids=('source',),lesson_ids=(lesson_id,),last_act='TEASE')
             unavailable=propose_social(topic='trial',style='WARM_PLAYFUL',available=False,source_ids=('source',),lesson_ids=(lesson_id,),last_act='TEASE')
@@ -259,7 +282,7 @@ class ExperienceService:
 
     def _rule(self, row):
         payload=self.records.read(row['record_id'])['payload']['rule']
-        kind=InteractionRule if row['task_class']=='interaction.shared_discovery' else StrategyRule
+        kind=DispositionRule if row['task_class']=='disposition.review' else InteractionRule if row['task_class']=='interaction.shared_discovery' else StrategyRule
         return kind.model_validate_json(canonical(payload))
 
     def context_blocks(self, request, privacy):

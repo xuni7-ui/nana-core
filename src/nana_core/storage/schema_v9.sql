@@ -1,6 +1,7 @@
 -- Explicit opt-in; existing tables only. Parent rebuild preserves IDs/FKs.
 CREATE TABLE continuity_records_new (
  record_id TEXT PRIMARY KEY,
+ target_id TEXT,
  record_kind TEXT NOT NULL CHECK(record_kind IN ('COMMITMENT','PROJECT','EXPERIENCE','LESSON','SUBJECT_EVENT','SUBJECT_CYCLE','ASSERTION','ASSERTION_SIGNAL','RELATIONSHIP_EVENT','INTENTION','GOAL_CANDIDATE','REFLECTION','INTENTION_DISPOSITION','CONSTRAINT_OUTCOME','EXPERIENCE_CANDIDATE')),
  scope TEXT NOT NULL,
  privacy_class TEXT NOT NULL CHECK(privacy_class IN ('PUBLIC','PROJECT','PERSONAL','SECRET')),
@@ -9,7 +10,7 @@ CREATE TABLE continuity_records_new (
  created_at_us INTEGER NOT NULL,
  event_id TEXT NOT NULL REFERENCES events(event_id) DEFERRABLE INITIALLY DEFERRED
 );
-INSERT INTO continuity_records_new SELECT * FROM continuity_records;
+INSERT INTO continuity_records_new(record_id,record_kind,scope,privacy_class,payload_artifact_id,lifecycle,created_at_us,event_id) SELECT record_id,record_kind,scope,privacy_class,payload_artifact_id,lifecycle,created_at_us,event_id FROM continuity_records;
 DROP TABLE continuity_records;
 ALTER TABLE continuity_records_new RENAME TO continuity_records;
 CREATE TABLE subject_intentions_new (
@@ -52,4 +53,17 @@ INSERT INTO runtime_schedules_new SELECT * FROM runtime_schedules;
 DROP TABLE runtime_schedules;
 ALTER TABLE runtime_schedules_new RENAME TO runtime_schedules;
 CREATE INDEX runtime_due ON runtime_schedules(state,due_at_us);
+CREATE INDEX autonomy_record_target ON continuity_records(record_kind,target_id,created_at_us DESC);
+CREATE TABLE experiences_new (
+ experience_id TEXT PRIMARY KEY,
+ record_id TEXT NOT NULL REFERENCES continuity_records(record_id),
+ task_class TEXT NOT NULL,
+ result_memory_id TEXT NOT NULL REFERENCES memories(memory_id),
+ verification_memory_id TEXT NOT NULL REFERENCES memories(memory_id),
+ outcome TEXT NOT NULL CHECK(outcome IN ('SUCCESS','FAILURE','NON_EXECUTION')),
+ created_at_us INTEGER NOT NULL
+);
+INSERT INTO experiences_new SELECT * FROM experiences;
+DROP TABLE experiences;
+ALTER TABLE experiences_new RENAME TO experiences;
 PRAGMA user_version=9;

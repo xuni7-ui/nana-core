@@ -10,7 +10,7 @@ class RecordService:
     def __init__(self, store):
         self.store, self.memory = store, MemoryService(store)
 
-    def create(self, tx, *, kind, scope, payload, memories=(), records=(), supersedes=None):
+    def create(self, tx, *, kind, scope, payload, memories=(), records=(), supersedes=None, target_id=None):
         if not memories and not records:
             raise CoreError("RECORD_SUPPORT_REQUIRED")
         parents = [self.memory.read(x) for x in memories]
@@ -21,7 +21,8 @@ class RecordService:
         privacy = max((x["privacy_class"] for x in [*parents, *record_parents]), key=PRIVACY_RANK.get)
         tx.put("continuity_records", {"record_id": record_id, "record_kind": kind,
             "scope": scope, "privacy_class": privacy, "payload_artifact_id": tx.artifact(canonical(payload).encode()),
-            "lifecycle": "ACTIVE", "created_at_us": self.store.clock.utc_now_us(), "event_id": tx.event_id})
+            "lifecycle": "ACTIVE", "created_at_us": self.store.clock.utc_now_us(), "event_id": tx.event_id,
+            **({'target_id':target_id} if self.store.schema_target>=9 else {})})
         for parent_kind, values in (("MEMORY", memories), ("RECORD", records)):
             for parent in set(values):
                 tx.put("record_dependencies", {"link_id": uid(), "record_id": record_id,

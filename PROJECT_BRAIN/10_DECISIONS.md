@@ -402,3 +402,11 @@ and next-valid-minute gap, coalesces to the latest eligible local-day occurrence
 otherwise records missed metadata and advances. A calendar wake is only a source-
 backed opportunity; SubjectLoop and future gates still decide. No new scheduler,
 table, dependency or natural language time parser.
+
+## D-AFFECT-005 — non-execution fact is not success or moral correctness
+Disposition verifier reads committed subject/gate facts; only meaningful
+ExperienceCandidate gate can admit them. NON_EXECUTION is a separate outcome,
+not fake reading/interaction success. Independent later consequences can support
+a narrow reviewed lesson, never automatic Manager obedience/hostility or identity
+change. Same candidate is idempotent. Operational lookups use opaque indexed
+record target IDs; no second authority or business table.

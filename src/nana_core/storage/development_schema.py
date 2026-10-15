@@ -34,26 +34,40 @@ def keys_for(version):
 def install(db, current, target):
     if current > target:
         raise CoreError("SCHEMA_DOWNGRADE_FORBIDDEN")
-    # Earlier checkpoints of this unreleased development v9 had no normalized
-    # relationship links. Complete their additive finalization without touching
-    # v7/v8 or reinterpreting old history; official replay fills NULL defaults.
+    # Finalize additive fields of this unreleased development v9 only. Existing
+    # released v7/v8 remain explicit migrations, never implicitly upgraded.
     if current==target==9:
-        columns={r[1] for r in db.execute('PRAGMA table_info(relationship_events)')}
+        relations={r[1] for r in db.execute('PRAGMA table_info(relationship_events)')}
+        record_columns={r[1] for r in db.execute('PRAGMA table_info(continuity_records)')}
         additions={'related_event_id':'TEXT REFERENCES relationship_events(relationship_event_id)',
             'relation_domain':'TEXT','relation_effect':'TEXT'}
-        missing={k:v for k,v in additions.items() if k not in columns}
+        missing={k:v for k,v in additions.items() if k not in relations}
         calendar_missing='CALENDAR' not in db.execute("SELECT sql FROM sqlite_master WHERE name='runtime_schedules'").fetchone()[0]
-        if missing or calendar_missing:
+        outcome_missing='NON_EXECUTION' not in db.execute("SELECT sql FROM sqlite_master WHERE name='experiences'").fetchone()[0]
+        if missing or calendar_missing or outcome_missing or 'target_id' not in record_columns:
+            db.execute('PRAGMA foreign_keys=OFF')
             db.execute('BEGIN IMMEDIATE')
             try:
                 for name,definition in missing.items():db.execute('ALTER TABLE relationship_events ADD COLUMN '+name+' '+definition)
+                full=Path(__file__).with_name('schema_v9.sql').read_text()
                 if calendar_missing:
-                    full=Path(__file__).with_name('schema_v9.sql').read_text()
-                    fragment=full[full.index('CREATE TABLE runtime_schedules_new'):full.index('PRAGMA user_version=9')]
+                    fragment=full[full.index('CREATE TABLE runtime_schedules_new'):full.index('CREATE INDEX autonomy_record_target')]
                     for statement in fragment.split(';'):
                         if statement.strip():db.execute(statement)
+                if 'target_id' not in record_columns:db.execute('ALTER TABLE continuity_records ADD COLUMN target_id TEXT')
+                db.execute('CREATE INDEX IF NOT EXISTS autonomy_record_target ON continuity_records(record_kind,target_id,created_at_us DESC)')
+                if outcome_missing:
+                    fragment=full[full.index('CREATE TABLE experiences_new'):full.index('PRAGMA user_version=9')]
+                    for statement in fragment.split(';'):
+                        if statement.strip():db.execute(statement)
+                # Rebuild opaque lookup metadata, not private factual authority.
+                db.execute("UPDATE continuity_records SET target_id=(SELECT json_extract(CAST(payload AS TEXT),'$.intention_id') FROM artifacts WHERE artifact_id=payload_artifact_id) WHERE target_id IS NULL AND record_kind IN ('INTENTION_DISPOSITION','CONSTRAINT_OUTCOME') AND lifecycle='ACTIVE'")
+                if db.execute('PRAGMA foreign_key_check').fetchone():raise CoreError('MIGRATION_FOREIGN_KEY_FAILURE')
                 db.execute('COMMIT')
-            except BaseException:db.execute('ROLLBACK');raise
+            except BaseException:
+                if db.in_transaction:db.execute('ROLLBACK')
+                raise
+            finally:db.execute('PRAGMA foreign_keys=ON')
     if current == 1 and target > 1:
         # v1 replicated plaintext into immutable events. Adding nullable columns
         # cannot make those records deletable. Require a separate audited import.

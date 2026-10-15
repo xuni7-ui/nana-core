@@ -160,3 +160,18 @@ Targeted8 PASS (new calendar/requests + prior scheduler/promises), latest2 PASS.
 Queue metadata scrub extended for new structured personal fields; body remains
 in erasable records only. v9 extends runtime_schedules CHECK, tables still39.
 R5 experience and final scenarios/recovery remain pending, candidate not READY.
+
+## L3-C-AFFECT-V1 M5 — disposition experience gate and checked learning
+[实测·开发离线] R5 meaningful candidate gate selects consequence-backed, repeated
+distinct or explicitly reflected dispositions. Raw veto/read/restart is not
+automatically Experience. Typed independent verifier proves non-execution fact
+without claiming reasoning correctness; later observed consequences supply a
+separate assessment. Existing ExperienceService/Reflection/lesson trial/review
+lifecycle supports NON_EXECUTION and a narrow consequence-review rule. Replaying
+one candidate cannot create duplicate experience. Source erasure purges candidate/
+proof/experience support while independent Manager source survives.
+Targeted9 PASS (new experience + prior learning/privacy), final2 PASS. No new
+tables: existing experiences CHECK extended and records opaque target lookup
+column/index added; same Store/privacy/replay. Manager facts no longer become
+automatic transitive normative dependencies in every future cycle.
+Major full regression and final system qualification pending; NOT_READY yet.
