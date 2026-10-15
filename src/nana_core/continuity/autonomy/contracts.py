@@ -48,6 +48,7 @@ class SocialExpectationSpec(DTO):
     domain: str = Field(default='interaction',pattern=r'^[a-z][a-z0-9._-]{0,63}$')
     timing: Literal['BEFORE','AFTER','ON_REQUEST','DEFER_UNTIL'] = 'ON_REQUEST'
     reveal_at_us: int | None = Field(default=None,ge=0)
+    resource_ref: str | None = Field(default=None,pattern=r'^synthetic://[A-Za-z0-9/._:-]{1,160}$')
 
 class DispositionView(DTO):
     record_id: str

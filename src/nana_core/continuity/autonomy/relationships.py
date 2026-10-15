@@ -12,7 +12,8 @@ def relationship_influence(store,entity_id,*,scope,privacy_classes):
     if not allowed:raise CoreError('RELATIONSHIP_PRIVACY_POLICY_REQUIRED')
     marks=','.join('?' for _ in allowed)
     rows=store.db.execute("SELECT e.* FROM relationship_events e JOIN continuity_records r ON r.record_id=e.record_id WHERE e.to_entity_id=? AND r.scope=? AND r.privacy_class IN ("+marks+") AND r.lifecycle='ACTIVE' ORDER BY e.occurred_at_us DESC,e.rowid DESC LIMIT 97",(entity_id,scope,*allowed)).fetchall()
-    coverage='PARTIAL' if len(rows)>96 else 'FULL' if rows else 'UNKNOWN';events=[]
+    hidden=store.db.execute("SELECT 1 FROM relationship_events e JOIN continuity_records r ON r.record_id=e.record_id WHERE e.to_entity_id=? AND r.scope=? AND r.lifecycle='ACTIVE' AND r.privacy_class NOT IN ("+marks+") LIMIT 1",(entity_id,scope,*allowed)).fetchone()
+    coverage='PARTIAL' if len(rows)>96 or hidden else 'FULL' if rows else 'UNKNOWN';events=[]
     for raw in reversed(rows[:96]):
         r=dict(raw)
         if not records.current_support(r['record_id']):continue
@@ -62,8 +63,8 @@ def relationship_influence(store,entity_id,*,scope,privacy_classes):
     if state_token(store)!=token:raise CoreError('STATE_CHANGED_DURING_RELATIONSHIP_PROJECTION')
     return view
 
-def social_privacy(store,event,*,topic,privacy_classes):
-    facts=expectation(store,scope=event.scope,entity_id=event.entity_id,topic=topic,privacy_classes=privacy_classes)
+def social_privacy(store,event,*,topic,privacy_classes,resource=None):
+    facts=expectation(store,scope=event.scope,entity_id=event.entity_id,topic=topic,privacy_classes=privacy_classes,resource=resource)
     ranks={'UNKNOWN':0,'OPEN':1,'ORDINARILY_VISIBLE':2,'CONTEXT_SENSITIVE':3,'EXPLICITLY_PRIVATE':4,'EXPLICITLY_FORBIDDEN':5}
     values={s.expectation for mid,s in facts}
     # Conflicting current sources remain context-sensitive, not a confidence vote.

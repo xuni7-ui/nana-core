@@ -1,0 +1,44 @@
+{
+  "checks": [
+    {
+      "foreign_key_check": "clean",
+      "from": 7,
+      "history_ids_preserved": true,
+      "identity_preserved": true,
+      "result": "PASS",
+      "runtime_history_preserved": true,
+      "table_count": 39,
+      "to": 9
+    },
+    {
+      "foreign_key_check": "clean",
+      "from": 8,
+      "history_ids_preserved": true,
+      "identity_preserved": true,
+      "result": "PASS",
+      "runtime_history_preserved": true,
+      "table_count": 39,
+      "to": 9
+    },
+    {
+      "deleted_source_not_resurrected": true,
+      "derived_views_not_authority": true,
+      "governance_history_preserved": true,
+      "quarantined": true,
+      "restore": "backup",
+      "result": "PASS"
+    },
+    {
+      "deleted_source_not_resurrected": true,
+      "derived_views_not_authority": true,
+      "governance_history_preserved": true,
+      "quarantined": true,
+      "restore": "replay",
+      "result": "PASS"
+    }
+  ],
+  "default_continuity_schema": 7,
+  "default_runtime_schema": 8,
+  "result": "PASS",
+  "v9_new_business_tables": 0
+}

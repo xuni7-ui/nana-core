@@ -32,7 +32,7 @@ include = ["nana_core*"]
 nana_core = ["storage/*.sql"]
 
 [tool.pytest.ini_options]
-testpaths = ["tests/offline_continuity", "tests/semantic_migration", "tests/migration", "tests/development", "tests/phase3", "tests/integration", "tests/continuous_self", "tests/continuous_runtime"]
+testpaths = ["tests/offline_continuity", "tests/semantic_migration", "tests/migration", "tests/development", "tests/phase3", "tests/integration", "tests/continuous_self", "tests/continuous_runtime", "tests/affective_autonomy"]
 pythonpath = ["src"]
 addopts = "-ra --strict-markers"
 markers = ["s0: contracts", "s1: storage and identity", "s2: action kernel", "s3: goal loop", "s4: constrained experience", "s5: model adapter and semantic evaluation engineering", "s6: synthetic migration preparation", "acceptance: Architecture V1 E01-E20"]

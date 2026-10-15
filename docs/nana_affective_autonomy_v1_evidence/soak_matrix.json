@@ -1,0 +1,550 @@
+{
+  "calendar_occurrences": 59,
+  "real_external_actions": 0,
+  "real_model_calls": 0,
+  "result": "PASS",
+  "samples": [
+    {
+      "candidates": 2,
+      "day": 1,
+      "hot_bytes": 2304,
+      "manager_outcomes": 1,
+      "pending": 2,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 3,
+      "day": 2,
+      "hot_bytes": 2538,
+      "manager_outcomes": 1,
+      "pending": 3,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 3,
+      "day": 3,
+      "hot_bytes": 2538,
+      "manager_outcomes": 1,
+      "pending": 3,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 3,
+      "day": 4,
+      "hot_bytes": 2538,
+      "manager_outcomes": 1,
+      "pending": 3,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 3,
+      "day": 5,
+      "hot_bytes": 2538,
+      "manager_outcomes": 1,
+      "pending": 3,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 3,
+      "day": 6,
+      "hot_bytes": 2538,
+      "manager_outcomes": 1,
+      "pending": 3,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 2,
+      "day": 7,
+      "hot_bytes": 2297,
+      "manager_outcomes": 1,
+      "pending": 2,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 8,
+      "hot_bytes": 2072,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 9,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 10,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 11,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 12,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 13,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 14,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 15,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 16,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 17,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 18,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 19,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 20,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 21,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 22,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 23,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 24,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 25,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 26,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 27,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 28,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 29,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 30,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 31,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 32,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 33,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 34,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 35,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 36,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 37,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 38,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 39,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 40,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 41,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 42,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 43,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 44,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 45,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 46,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 47,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 48,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 49,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 50,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 51,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 52,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 53,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 54,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 55,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 56,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 57,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 58,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 59,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    },
+    {
+      "candidates": 1,
+      "day": 60,
+      "hot_bytes": 2033,
+      "manager_outcomes": 1,
+      "pending": 1,
+      "queue_depth": 0,
+      "reflections": 0
+    }
+  ],
+  "social_proposals": 0,
+  "virtual_days": 60
+}

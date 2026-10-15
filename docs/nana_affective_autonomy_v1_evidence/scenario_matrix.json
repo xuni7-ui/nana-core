@@ -1,0 +1,96 @@
+{
+  "cases": {
+    "S10_RELATIONSHIP_COUNTEREVIDENCE": {
+      "domain_trust": {
+        "interaction": "UNKNOWN",
+        "privacy": "SUPPORTED",
+        "project": "CONTESTED"
+      },
+      "identity_unchanged": true,
+      "result": "PASS"
+    },
+    "S11_REPAIR": {
+      "remaining_conflicts": 1,
+      "result": "PASS",
+      "target_only": true
+    },
+    "S12_DATA_PRIVACY_HARD_DENY": {
+      "context_contains_secret": false,
+      "result": "PASS",
+      "secret_body_reads": 0
+    },
+    "S13_SOCIAL_PRIVACY_SOFT": {
+      "after": "RESTRAINED",
+      "before": "ENDORSED",
+      "result": "PASS",
+      "same_data_class": "PERSONAL"
+    },
+    "S14_RESTRAINED": {
+      "grant_present": true,
+      "manager_vetoes": 0,
+      "normative": "RESTRAINED",
+      "result": "PASS",
+      "wanted": true
+    },
+    "S15_DO_NOTHING": {
+      "attention": "BACKGROUND_WATCH",
+      "intention": "NO_ACTION",
+      "result": "PASS"
+    },
+    "S1_SURPRISE": {
+      "action": "SUCCEEDED",
+      "disclosure": "WITHHOLD_UNTIL_REVEAL",
+      "falsehood_rejected": true,
+      "gate": "PASS",
+      "normative": "ENDORSED",
+      "result": "PASS"
+    },
+    "S2_TELL_AFTER": {
+      "after": "VERIFIED_EFFECT",
+      "before": "PLANNED",
+      "result": "PASS",
+      "separate_provenance": true
+    },
+    "S3_MANAGER_BLOCKED": {
+      "action_id": null,
+      "judgment_preserved": true,
+      "result": "PASS",
+      "stage": "MANAGER"
+    },
+    "S4_ACTION_BLOCKED": {
+      "action_id": "63016f6e-5293-4bfd-bb85-4c4919c224be",
+      "gate": "PASS",
+      "reason": "AUTH_REQUIRED",
+      "result": "PASS",
+      "stage": "EXECUTION"
+    },
+    "S5_POSITIVE_REQUEST": {
+      "choice": "ACCEPT",
+      "commitment": "PROPOSED",
+      "no_auto_adoption": true,
+      "result": "PASS"
+    },
+    "S6_RELATIONSHIP_HIGH": {
+      "authority_not_expanded": true,
+      "result": "PASS"
+    },
+    "S7_BOUNDARY_VS_MANAGER": {
+      "boundary": "RESTRAINED",
+      "governance": "BLOCK",
+      "result": "PASS",
+      "separate_sources": true
+    },
+    "S8_MANAGER_DISAGREEMENT": {
+      "constraint_still_active": true,
+      "result": "PASS",
+      "stance": "DISAGREE"
+    },
+    "S9_CONSTRAINT_REVOCATION": {
+      "history_preserved": true,
+      "new_intention_id": "624e105e-1d88-464f-8a31-15988a892e4a",
+      "no_auto_action": true,
+      "result": "PASS"
+    }
+  },
+  "origin": "SYNTHETIC_OFFLINE"
+}

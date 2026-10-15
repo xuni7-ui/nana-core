@@ -52,6 +52,17 @@ class ConstraintOutcome(DTO):
     valid_until_us: int
     action_id: str | None = None
     actual_effect: Literal['NONE','UNKNOWN','VERIFIED_EFFECT'] = 'NONE'
+    # Minimal governance provenance; no resource operands or controller secrets.
+    constraint_views: tuple['ConstraintDescriptor',...] = ()
+
+class ConstraintDescriptor(DTO):
+    constraint_id: str
+    revision: int
+    source_event_id: str
+    scope: str
+    effective_from_us: int
+    expires_at_us: int
+    reason_code: str
 
 def _required(store):
     if store.schema_target<9:raise CoreError('AUTONOMY_SCHEMA_REQUIRED')
@@ -136,7 +147,7 @@ def manager_views(store,*,scope,privacy_classes,limit=16):
         out.append({'record_id':r['record_id'],'intention_id':body['intention_id'],'intention_revision':body['intention_revision'],
             'constraint_refs':tuple(body['constraint_refs']),'reason_codes':tuple(body['reason_codes']),
             'scope':scope,'stage':'MANAGER','result':body['result'],'at_us':body['at_us'],'valid_until_us':body['valid_until_us'],
-            'action_id':body['action_id'],'actual_effect':body['actual_effect']})
+            'action_id':body['action_id'],'actual_effect':body['actual_effect'],'constraints':tuple(body.get('constraint_views',()))})
     return tuple(out)
 
 class ManagerConstraintGate:
@@ -161,7 +172,8 @@ class ManagerConstraintGate:
         cycle,body=self._cycle(i)
         if not body.get('evaluation') or body['evaluation']['normative']!='ENDORSED' or not body.get('realization_target'):raise CoreError('SUBJECT_DID_NOT_ENDORSE_TARGET')
         target=RealizationTarget.model_validate_json(canonical(body['realization_target']))
-        token,roots=snapshot(self.store)
+        try:token,roots=snapshot(self.store)
+        except (CoreError,ValueError,KeyError,TypeError):token,roots=None,()
         epoch=getattr(getattr(self.store,'_runtime_guard',None),'__self__',None)
         epoch=epoch.epoch if epoch else 0
         now=self.store.clock.utc_now_us()
@@ -181,7 +193,9 @@ class ManagerConstraintGate:
                 stage='MANAGER',result=result,target=target.model_dump(mode='json'),constraint_refs=tuple(r for r,c in veto),
                 reason_codes=tuple(c.reason_code for r,c in veto) or ('NEGATIVE_ONLY_NO_VETO',) if result=='PASS' else tuple(c.reason_code for r,c in veto) or ('GOVERNANCE_UNAVAILABLE',),
                 snapshot=snapshot_id,runtime_epoch=epoch,at_us=now,valid_until_us=min([now+30_000_000]+[c.expires_at_us for r,c in veto]),
-                action_id=action['action_id'] if action else None,actual_effect=actual)
+                action_id=action['action_id'] if action else None,actual_effect=actual,
+                constraint_views=tuple(ConstraintDescriptor(constraint_id=c.constraint_id,revision=c.revision,source_event_id=r,
+                    scope=c.scope,effective_from_us=c.effective_from_us,expires_at_us=c.expires_at_us,reason_code=c.reason_code).model_dump(mode='json') for r,c in veto))
             rid=self.records.create(tx,kind='CONSTRAINT_OUTCOME',scope=i['scope'],payload=payload,records=(i['record_id'],),target_id=intention_id)
             data['record_id']=rid
             record_disposition(self.store,tx,cycle_id=cycle['cycle_id'],intention_id=intention_id,intention_revision=expected_revision,

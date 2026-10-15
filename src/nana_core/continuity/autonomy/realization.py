@@ -26,8 +26,12 @@ class GovernedRealization:
         if outcome.target.resource_class!='ORDINARY':raise CoreError('REALIZATION_RESOURCE_HARD_DENY')
         operation='WRITE' if outcome.target.capability=='reading.card.create' else 'READ'
         if outcome.target.operation!=operation:raise CoreError('REALIZATION_OPERATION_MISMATCH')
-        with self._guard(outcome):
-            action_id=self.kernel.propose(outcome.target.capability,outcome.target.resource,args,effect_slot='subject:'+intention_id)
+        try:
+            with self._guard(outcome):
+                action_id=self.kernel.propose(outcome.target.capability,outcome.target.resource,args,effect_slot='subject:'+intention_id)
+        except CoreError as exc:
+            if exc.code!='STALE_MANAGER_PASS':raise
+            return self.gate.gate(intention_id,expected_revision=expected_revision),None
         old=self.store.db.execute("SELECT 1 FROM events WHERE kind='governance.action_linked' AND json_extract(data_json,'$.data.target_id')=?",(action_id,)).fetchone()
         if not old:
             with self.store.transaction('governance.action_linked',{'target_id':action_id,'intention_id':intention_id,'outcome_record_id':outcome.record_id,'scope':outcome.scope}):pass
@@ -44,7 +48,14 @@ class GovernedRealization:
         if outcome.result!='PASS':
             if action['state'] in {'PROPOSED','READY','BLOCKED'}:self.kernel.cancel(action_id)
             return 'INTENTION_BLOCKED_MANAGER'
-        with self._guard(outcome):
-            if action['state'] in {'PROPOSED','BLOCKED'}:self.kernel.prepare(action_id)
-            if self.store.one('actions',action_id)['state']=='READY':self.kernel.dispatch(action_id,fault=fault)
+        try:
+            with self._guard(outcome):
+                if action['state'] in {'PROPOSED','BLOCKED'}:self.kernel.prepare(action_id)
+                if self.store.one('actions',action_id)['state']=='READY':self.kernel.dispatch(action_id,fault=fault)
+        except CoreError as exc:
+            if exc.code!='STALE_MANAGER_PASS':raise
+            refreshed=self.gate.gate(intention_id,expected_revision=expected_revision)
+            if refreshed.result!='PASS' and self.store.one('actions',action_id)['state'] in {'PROPOSED','READY','BLOCKED'}:
+                self.kernel.cancel(action_id)
+            return 'INTENTION_BLOCKED_MANAGER' if refreshed.result!='PASS' else 'REALIZATION_NEEDS_REVIEW'
         return self.kernel.verify(action_id) if self.store.one('actions',action_id)['state'] in {'UNKNOWN','PENDING_VERIFY'} else self.store.one('actions',action_id)['state']

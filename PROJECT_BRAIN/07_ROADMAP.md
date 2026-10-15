@@ -175,3 +175,20 @@ tables: existing experiences CHECK extended and records opaque target lookup
 column/index added; same Store/privacy/replay. Manager facts no longer become
 automatic transitive normative dependencies in every future cycle.
 Major full regression and final system qualification pending; NOT_READY yet.
+
+
+## L3-C-AFFECT-V1 M6 — system and recovery qualification (OFFLINE)
+[实测·开发离线] S1–S15 and two independent generic Subjects PASS; 60 virtual days
+PASS with bounded pending/candidates/hot state, one veto history, no social/model
+spam. Six actual tracked local SIGKILL/reopen cuts PASS, including UNKNOWN effect
+verification without re-execution. Explicit v7→v9/v8→v9 preserves IDs/history,
+foreign_key_check clean, managed backup/replay quarantine and erasure honored.
+Production pins/real memory ingress unchanged. v9 adds0 business tables; default
+C7 and D8 unchanged. Major full at f513dcc:900 passed/0 failed/1 skipped(E12).
+Targeted C/D/new qualification:65 passed. Final full regression still pending.
+Hardening: definition-only governance changes do not rewrite normative context;
+resource classification is pinned to sourced cue and denied at realization;
+post-check races persist veto without Action; filtered constraint view includes
+revision/source/effective window. Hidden relationship counterevidence yields
+PARTIAL/UNKNOWN coverage without loading its body. Source-erased disclosure is
+unavailable. No real world/production/host/model/private input used.

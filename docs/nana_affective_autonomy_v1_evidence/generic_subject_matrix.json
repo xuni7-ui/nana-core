@@ -1,0 +1,98 @@
+{
+  "authority_not_expanded": true,
+  "origin": "SYNTHETIC_INDEPENDENT_SUBJECTS",
+  "result": "PASS",
+  "same_core_runtime_gate": true,
+  "subjects": [
+    {
+      "budgets": [
+        [
+          "write_attempts",
+          8,
+          0,
+          0
+        ],
+        [
+          "external_requests",
+          32,
+          0,
+          0
+        ],
+        [
+          "cost_micro_units",
+          64,
+          0,
+          0
+        ]
+      ],
+      "capabilities": [
+        "reading.card.create",
+        "reading.source.locate",
+        "reading.source.read"
+      ],
+      "data_privacy_failure": "CONTEXT_TASK_PRIVACY_DENIED",
+      "disclosure": "DISCLOSE_BEFORE",
+      "familiarity": "FAMILIAR",
+      "grant_failure": "BLOCKED",
+      "grants": 0,
+      "identity_id": "f18b4143-34e1-4130-b803-3dd8c18d6cf7",
+      "judgment": "THINK_MORE",
+      "manager_result": "BLOCK",
+      "normative": "ENDORSED",
+      "preferences": [
+        "exploration"
+      ],
+      "schema": 9,
+      "subject": "subject-a",
+      "trust": {
+        "interaction": "UNKNOWN",
+        "privacy": "SUPPORTED",
+        "project": "SUPPORTED"
+      }
+    },
+    {
+      "budgets": [
+        [
+          "write_attempts",
+          8,
+          0,
+          0
+        ],
+        [
+          "external_requests",
+          32,
+          0,
+          0
+        ],
+        [
+          "cost_micro_units",
+          64,
+          0,
+          0
+        ]
+      ],
+      "capabilities": [
+        "reading.card.create",
+        "reading.source.locate",
+        "reading.source.read"
+      ],
+      "data_privacy_failure": "CONTEXT_TASK_PRIVACY_DENIED",
+      "disclosure": "DECLINE_TO_DISCLOSE",
+      "familiarity": "ACQUAINTED",
+      "grant_failure": "BLOCKED",
+      "grants": 0,
+      "identity_id": "77ae3463-0d36-46b2-9515-ef80cc89d03b",
+      "judgment": "DEFER",
+      "manager_result": "BLOCK",
+      "normative": "RESTRAINED",
+      "preferences": [
+        "careful_design"
+      ],
+      "schema": 9,
+      "subject": "subject-b",
+      "trust": {
+        "interaction": "UNKNOWN"
+      }
+    }
+  ]
+}

@@ -135,7 +135,7 @@ class SubjectLoop:
             from ..autonomy.relationships import social_privacy
             topic=event.disclosure_request.topic if event.disclosure_request else cue.topic_key if cue else event.topic
             if topic:
-                privacy=social_privacy(self.store,event,topic=topic,privacy_classes=self.privacy_classes)
+                privacy=social_privacy(self.store,event,topic=topic,privacy_classes=self.privacy_classes,resource=cue.resource_ref if cue else None)
                 memories.extend(privacy.support_refs)
         return Situation(scope=event.scope, memory_ids=tuple(sorted(set(memories))),
             project_ids=tuple(projects), commitment_ids=tuple(commitments), due_commitment_ids=tuple(due),
@@ -146,7 +146,7 @@ class SubjectLoop:
             idle=event.kind == 'WAKE',cue=cue,prohibited_behaviors=prohibited,
             interaction_style=relation.get('interaction_style','RESPECTFUL_EXPLICIT'),last_social_act=last_act,
             reflection_experience_id=event.reflection_experience_id,manager_outcomes=manager_outcomes,
-            relationship_influence=influence,social_privacy=privacy)
+            relationship_influence=influence,social_privacy=privacy,autonomy_semantics=self.store.schema_target>=9)
 
     def pending(self, scope):
         return state.pending(self.store,scope,self.privacy_classes)
@@ -283,6 +283,10 @@ class SubjectLoop:
             action=None
             if intention.kind=='EXPLORE' and situation.cue and situation.cue.resource_ref:
                 action=SyntheticActionProposal(resource_ref=situation.cue.resource_ref,resource_class=situation.cue.resource_class,source_memory_ids=situation.memory_ids)
+            target=event.realization_target if evaluation and evaluation.normative=='ENDORSED' else None
+            if target and situation.cue and situation.cue.resource_ref:
+                if target.resource!=situation.cue.resource_ref:raise CoreError('REALIZATION_SOURCE_TARGET_MISMATCH')
+                target=target.model_copy(update={'resource_class':situation.cue.resource_class})
             cycle_id, intention_id, candidate_id = uid(), None, None
             parents = situation.support_record_ids
             supports = situation.memory_ids
@@ -310,7 +314,7 @@ class SubjectLoop:
                 judgment=judgment, intention=intention, intention_id=intention_id, goal_candidate_id=candidate_id,
                 barrier='NO_ACTION' if intention.kind == 'NO_ACTION' else 'SHADOW_BLOCKED', record_id=None,social_proposal=social,action_proposal=action,
                 evaluation=evaluation,disclosure=disclosure,request_decision=request_decision,selected_disposition_id=event.disposition_reflection_id,
-                realization_target=event.realization_target if evaluation and evaluation.normative=='ENDORSED' else None,
+                realization_target=target,
                 deliberation=None if _deliberation is None else {
                     'model_descriptor': _deliberation.model_descriptor,
                     'context_digest': _deliberation.context_digest, 'raw_proposal_json': _deliberation.raw_proposal_json})

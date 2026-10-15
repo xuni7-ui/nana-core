@@ -37,7 +37,7 @@ class ActionKernel:
     def _execution_fence(self):
         if self.store.one('core_meta','cloud.shadow_runtime') and not self._offline_subject_fixture():
             raise CoreError('SHADOW_BLOCKED')
-        if self._offline_subject_fixture():
+        if self.store.schema_target>=9:
             guard=getattr(self.store,'_governed_action_guard',None)
             if guard is None:raise CoreError('GOVERNANCE_FENCE_REQUIRED')
             guard()

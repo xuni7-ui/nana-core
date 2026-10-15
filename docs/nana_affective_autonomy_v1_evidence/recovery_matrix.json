@@ -1,0 +1,66 @@
+{
+  "cuts": [
+    {
+      "cut": "C1",
+      "effects": 0,
+      "identity_preserved": true,
+      "judgment_preserved": true,
+      "real_external_actions": 0,
+      "recovery": "FRESH_GATE_REQUIRED",
+      "result": "PASS",
+      "signal": "SIGKILL"
+    },
+    {
+      "cut": "C2",
+      "effects": 0,
+      "identity_preserved": true,
+      "judgment_preserved": true,
+      "real_external_actions": 0,
+      "recovery": "TERMINAL_BLOCKED",
+      "result": "PASS",
+      "signal": "SIGKILL"
+    },
+    {
+      "cut": "C3",
+      "effects": 0,
+      "identity_preserved": true,
+      "judgment_preserved": true,
+      "real_external_actions": 0,
+      "recovery": "FRESH_GATE_REQUIRED",
+      "result": "PASS",
+      "signal": "SIGKILL"
+    },
+    {
+      "cut": "C4",
+      "effects": 0,
+      "identity_preserved": true,
+      "judgment_preserved": true,
+      "real_external_actions": 0,
+      "recovery": "TERMINAL_BLOCKED",
+      "result": "PASS",
+      "signal": "SIGKILL"
+    },
+    {
+      "cut": "C5",
+      "effects": 1,
+      "identity_preserved": true,
+      "judgment_preserved": true,
+      "real_external_actions": 0,
+      "recovery": "VERIFY_ONLY_NO_RETRY",
+      "result": "PASS",
+      "signal": "SIGKILL"
+    },
+    {
+      "cut": "C6",
+      "effects": 0,
+      "identity_preserved": true,
+      "judgment_preserved": true,
+      "real_external_actions": 0,
+      "recovery": "REPLAY_NO_DUPLICATE_DISCLOSURE",
+      "result": "PASS",
+      "signal": "SIGKILL"
+    }
+  ],
+  "origin": "REAL_LOCAL_PROCESSES_SYNTHETIC_STORES",
+  "result": "PASS"
+}

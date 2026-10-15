@@ -410,3 +410,17 @@ not fake reading/interaction success. Independent later consequences can support
 a narrow reviewed lesson, never automatic Manager obedience/hostility or identity
 change. Same candidate is idempotent. Operational lookups use opaque indexed
 record target IDs; no second authority or business table.
+
+
+## D-AFFECT-006 — normative frame versus realization revision
+On explicitv9, governance definition revisions have their own snapshot/fence;
+they do not invalidate a frozen normative context merely by being installed.
+Actual constraint outcomes remain observable facts for later Subject cycles.
+Source resource classification cannot be downgraded by an input target. A hard
+resource veto belongs to realization, not erasure of Subject desire. Oldv7/v8
+retain conservative behavior. Every schema9 action mutation requires the same
+post-Judgment governance transaction fence. Local fixture exception accepts only
+the exact sealed offline port; no general external adapter is enabled.
+Personal outcome body erasure wins over audit prose; opaque events and independent
+constraint roots remain. A governance view exposes only id/revision/source event,
+reason, scope and validity, never secret/resource operands. No new tables.

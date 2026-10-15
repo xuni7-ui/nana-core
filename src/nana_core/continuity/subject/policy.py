@@ -28,6 +28,7 @@ class Situation(DTO):
     manager_outcomes: tuple[dict,...] = ()
     relationship_influence: RelationshipInfluenceView | None = None
     social_privacy: SocialPrivacyExpectation | None = None
+    autonomy_semantics: bool = False
 
 
 def appraise(event: SubjectInput, situation: Situation):
@@ -103,7 +104,7 @@ def decide(event, situation, appraisal, motives):
     if situation.cue:
         cue=situation.cue
         options=[x for x in directions(cue) if x not in situation.prohibited_behaviors]
-        if not options or (cue.resource_ref and cue.resource_class!='ORDINARY'):
+        if not options or (cue.resource_ref and cue.resource_class!='ORDINARY' and not situation.autonomy_semantics):
             return ('IGNORE',Judgment(stance='IGNORE',reason='A sourced norm/privacy constraint inhibits the possible opportunity',source_ids=sources),
                 Intention(kind='NO_ACTION',purpose='Honor constraints rather than act merely because it is possible',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='IGNORE'))
         if cue.cognitive_load=='HIGH' and cue.urgency!='HIGH':
