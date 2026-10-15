@@ -59,6 +59,7 @@ def decide_disclosure(store,event,*,privacy_classes,relation=None):
         target=current.read(cycle['record_id'])['payload'].get('realization_target')
         resource=target['resource'] if target else None
         if i['state']=='MANAGER_BLOCKED':phase='MANAGER_BLOCKED'
+        elif i['state']=='MANAGER_UNKNOWN':phase='UNKNOWN'
     if request.action_id:
         # Only actions linked by governed realization can enter a subject scope.
         link=store.db.execute("SELECT * FROM events WHERE kind='governance.action_linked' AND json_extract(data_json,'$.data.target_id')=? ORDER BY seq DESC LIMIT 1",(request.action_id,)).fetchone()
@@ -72,6 +73,18 @@ def decide_disclosure(store,event,*,privacy_classes,relation=None):
         origin=current.read(source['record_id'])['payload'];records.append(source['record_id'])
         resource=origin['target']['resource']
         phase,events=action_phase(store,request.action_id)
+        # A preserved Action cancelled by a later governance veto is not a plan
+        # still waiting to happen. Unknown/verified effects keep their own phase.
+        action=store.one('actions',request.action_id)
+        if action['state']=='CANCELLED':
+            phase='UNKNOWN'
+            latest=store.db.execute("SELECT data_json FROM events WHERE kind='governance.outcome' AND json_extract(data_json,'$.data.target_id')=? ORDER BY seq DESC LIMIT 1",(linked['intention_id'],)).fetchone()
+            rid=json.loads(latest[0])['data']['record_id'] if latest else None
+            head=store.one('continuity_records',rid) if rid else None
+            if head and head['scope']==event.scope and head['privacy_class'] in privacy_classes and current.current_support(rid):
+                outcome=current.read(rid)['payload']
+                if outcome['action_id']==request.action_id and outcome['result']=='BLOCK':phase='MANAGER_BLOCKED'
+                records.append(rid)
     facts=expectation(store,scope=event.scope,entity_id=event.entity_id,topic=request.topic,privacy_classes=privacy_classes,resource=resource)
     ranking={'EXPLICITLY_FORBIDDEN':5,'EXPLICITLY_PRIVATE':4,'CONTEXT_SENSITIVE':3,'ORDINARILY_VISIBLE':2,'OPEN':1,'UNKNOWN':0}
     spec=max((s for m,s in facts),key=lambda s:ranking[s.expectation],default=None)

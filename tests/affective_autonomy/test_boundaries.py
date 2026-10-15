@@ -113,3 +113,19 @@ def test_no_identity_specific_branch_or_second_subject_coordinator():
     for item in ast.walk(condition):
      if isinstance(item,ast.Constant) and type(item.value) is str:
       assert not any(x in item.value.lower() for x in ('nana','姐姐','奈奈','sister_override','user_is_special'))
+
+
+def test_cancelled_manager_action_disclosure_preserves_block_and_erasure(tmp_path):
+ with fresh(tmp_path/'self.db') as r:
+  realizer,ctrl=equip(r);c=propose(r)
+  _,aid=realizer.propose(c.intention_id,expected_revision=1,args={'source_id':TARGET.resource})
+  ctrl.install(rule(r),r.authority)
+  assert realizer.dispatch(c.intention_id,aid,expected_revision=1)=='INTENTION_BLOCKED_MANAGER'
+  d=cycle(r,'after-block',disclosure_request=DisclosureRequest(topic='work',action_id=aid))
+  assert d.disclosure.phase=='MANAGER_BLOCKED'
+  assert d.disclosure.source_record_ids and not d.disclosure.delivery_authority
+  mid=r.store.db.execute("SELECT memory_id FROM memories WHERE predicate_key='concern.open.work'").fetchone()[0]
+  MemoryService(r.store,r.authority).forget(mid,r.authority)
+  with pytest.raises(CoreError,match='RECORD_UNAVAILABLE|DISCLOSURE_SUPPORT_RETIRED'):
+   r.subject.run(inp(r,'after-erasure',disclosure_request=DisclosureRequest(topic='work',action_id=aid)))
+  assert snapshot(r.store)[1][0][1].constraint_id=='negative-a'

@@ -192,3 +192,14 @@ post-check races persist veto without Action; filtered constraint view includes
 revision/source/effective window. Hidden relationship counterevidence yields
 PARTIAL/UNKNOWN coverage without loading its body. Source-erased disclosure is
 unavailable. No real world/production/host/model/private input used.
+
+
+## L3-C-AFFECT-V1 M7 — cancelled-action disclosure correction
+[实测·开发离线] Pre-freeze full910 PASS/0 FAIL/1 SKIP,90.45s. Subsequent
+semantic audit found a medium-severity disclosure-only bug: an Action cancelled
+by later Manager veto could be projected as PLANNED when queried by Action ID.
+A failing regression was retained before repair. Cancellation now resolves the
+exact indexed sourced outcome (privacy/support checked) to MANAGER_BLOCKED or
+UNKNOWN; possible/verified effects are not rewritten. No authority escape or
+duplicate ingress occurred. Related source deletion still blocks disclosure.
+Targeted suite and final full are rerun after this fix. No production changes.
