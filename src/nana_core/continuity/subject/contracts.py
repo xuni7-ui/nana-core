@@ -45,6 +45,8 @@ class SubjectInput(DTO):
     relationship_kind: Literal['SHARED_HISTORY', 'SHARED_PROJECT', 'SHARED_JOKE', 'NORM', 'BOUNDARY', 'CONFLICT', 'REPAIR', 'TRUST', 'COMMITMENT'] | None = None
     task_class: str | None = Field(default=None, pattern=r'^[A-Za-z0-9._:-]{1,96}$')
     reflection_experience_id: str | None = None
+    result_for_intention_id: str | None = None
+    observed_availability: Literal['AVAILABLE','BUSY','UNKNOWN'] | None = None
 
     @model_validator(mode='after')
     def provenance(self):
@@ -53,6 +55,8 @@ class SubjectInput(DTO):
                 raise ValueError('wake cannot manufacture experience')
         elif self.origin == 'SELF_WAKE':
             raise ValueError('self wake cannot claim external occurrence')
+        if self.result_for_intention_id and (self.origin!='ENVIRONMENT' or self.kind!='OUTCOME' or not self.text):
+            raise ValueError('synthetic intention outcome requires an observed world result')
         if self.preference_signal and not self.text:
             raise ValueError('preference signal requires an observed occurrence')
         if self.kind == 'REFLECTION':

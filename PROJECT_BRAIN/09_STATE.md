@@ -849,3 +849,23 @@ Lesson suspension ablation changes future proposal without erasing history.
 clock/health refinements. Supervised model resource is parent-death fenced.
 S1 is one fixture, not a runtime default or primary metric. S1–S10 and system
 qualification still pending. Production/real G/E/real models remain NOT_RUN.
+
+### D-V1 M4 — whole-runtime offline and real local process qualification
+
+[实测·开发离线] 43 C+Runtime cases PASS (32 existing C, 11 Runtime), 27.50s.
+S1–S10 use the same C SubjectLoop; source cue options may be absent and C supplies
+initial interpretation. Supported preference is checked before a dependent
+creative direction; constraints/load/availability may instead cause non-action.
+72 virtual-hour no-input and 30 virtual-day mixed life pass. Actual local
+foreground process test passes heartbeat/scheduler/double-start/SIGKILL/restart/
+graceful stop. Four SIGKILL cuts: before C, after C before queue ACK, after model
+reservation, during model resource. One cycle/intention/candidate on recovery;
+reserved calls become UNKNOWN/no automatic retry; model child is terminated and
+reaped. These are synthetic dev Stores, not real host/real model qualification.
+
+Recovery fixes: reject second lease binding on one Store; restore time floor
+from committed history as well as lease; preserve provider backoff across model
+swaps; health distinguishes PID existence from active lease. v7→v8 opt-in,
+deleted queued source retirement and official replay quarantine tested. Previous
+tests/production trust/SQLite floor unchanged. Full regression and permanent
+delivery evidence pending; no production or real external actions.

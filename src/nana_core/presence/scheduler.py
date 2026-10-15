@@ -34,8 +34,8 @@ class Scheduler:
             import json
             payload=json.loads(row['template_json'])
             payload['input']['source_key']='synthetic.runtime.'+digest([row['schedule_id'],row['occurrence']])
-            # A scheduled check occurs now; it does not rewrite occurrence time
-            # of the memory/commitment that caused it.
+            # Preserve this scheduled occurrence across enqueue-before-ACK
+            # crashes; never rewrite the time of its source experience.
             payload['input']['observed_at_us']=row['due_at_us'];payload['input']['occurred_at_us']=row['due_at_us']
             payload['due_at_us']=row['due_at_us']
             try:

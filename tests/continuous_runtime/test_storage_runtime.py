@@ -41,6 +41,9 @@ def test_queue_cycle_commit_recovery_dedup_privacy(active):
 
 def test_lease_expiry_transaction_fence_and_no_double_writer(active):
     store,config,lease,clock=active
+    from nana_core.presence.authority import RuntimeLease
+    with pytest.raises(CoreError,match='RUNTIME_LEASE_ALREADY_BOUND'):
+        RuntimeLease(store,config).acquire()
     with pytest.raises(CoreError,match='RUNTIME_ALREADY_ACTIVE'):
         ContinuityStore(store.path,clock,schema_target=8)
     with pytest.raises(CoreError,match='RUNTIME_LEASE_LOST'):
@@ -69,3 +72,37 @@ def test_scheduler_coalesces_and_resumes_same_occurrence(active):
     from nana_core.presence.authority import RuntimeLease
     with ContinuityStore(backup,clock,schema_target=8) as copy:
         with pytest.raises(CoreError,match='RUNTIME_RESTORE_QUARANTINED'):RuntimeLease(copy,config).acquire()
+
+
+def test_v7_opt_in_migration_and_deleted_queue_never_resurrects(tmp_path):
+    from nana_core.actions import OperatorAuthority
+    from nana_core.continuity import IdentityService
+    from nana_core.continuity.memory import MemoryService
+    from nana_core.presence import NanaRuntime,RuntimeConfig
+    from nana_core.presence.authority import VirtualClock
+    from nana_core.presence.fixtures import memory
+    clock=VirtualClock();path=tmp_path/'self.db';auth=OperatorAuthority()
+    with ContinuityStore(path,clock) as old:
+        IdentityService(old,auth);MemoryService(old).entity('synthetic-person','PERSON')
+        identity=old.identity.copy()
+        assert old.db.execute('PRAGMA user_version').fetchone()[0]==7
+    cfg=RuntimeConfig(scopes=('life',),entity_id='synthetic-person',queue_capacity=4)
+    with NanaRuntime(path,cfg,clock=clock) as runtime:
+        assert runtime.store.identity==identity and runtime.store.db.execute('PRAGMA user_version').fetchone()[0]==8
+        assert not runtime.store.db.execute('PRAGMA foreign_key_check').fetchall()
+        ids=[]
+        for i in range(4):ids.append(runtime.submit(event(runtime.store,'bounded-'+str(i))))
+        before=len(runtime.store.all('memories'))
+        with pytest.raises(CoreError,match='RUNTIME_QUEUE_BACKPRESSURE'):
+            runtime.submit(event(runtime.store,'not-admitted'))
+        assert len(runtime.store.all('memories'))==before
+        first=runtime.store.one('runtime_queue',ids[0])
+        source=runtime.store.one('subject_events',first['subject_event_id'])
+        MemoryService(runtime.store,runtime.authority).forget(source['memory_id'],runtime.authority)
+        runtime.drain()
+        assert runtime.store.one('runtime_queue',ids[0])['state']=='IGNORED'
+        replay=tmp_path/'replay'/'self.db';runtime.store.replay(replay)
+        with ContinuityStore(replay,clock,schema_target=8) as copy:
+            from nana_core.presence.authority import RuntimeLease
+            with pytest.raises(CoreError,match='RUNTIME_RESTORE_QUARANTINED'):RuntimeLease(copy,cfg).acquire()
+            assert copy.one('memories',source['memory_id'])['lifecycle']=='DELETED'

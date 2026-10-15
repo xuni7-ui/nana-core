@@ -28,7 +28,11 @@ def status(path):
         try:alive=(process_identity(lease['pid'])==(lease['process_start'],lease['boot_id']))
         except (OSError,ValueError):pass
         rows=dict(db.execute("SELECT key,value_json FROM core_meta WHERE key='runtime.health'"))
-        return {'status':lease['state'] if alive else 'STOPPED_OR_CRASHED','process_alive':alive,'lease':lease,
+        now=Clock().utc_now_us()
+        freshness='UNKNOWN' if now<lease['heartbeat_at_us'] else 'FRESH' if now<lease['expires_at_us'] else 'STALE'
+        state=lease['state'] if lease['state']!='ACTIVE' or freshness=='FRESH' else 'STALE_OR_TIME_UNCERTAIN'
+        return {'status':state if alive else 'STOPPED_OR_CRASHED','process_alive':alive,'heartbeat_freshness':freshness,
+            'runtime_active':bool(alive and lease['state']=='ACTIVE' and freshness=='FRESH'),'lease':lease,
             'operational':json.loads(rows['runtime.health']) if rows else {},
             'queue':dict(db.execute('SELECT state,count(*) FROM runtime_queue GROUP BY state'))}
 

@@ -50,6 +50,8 @@ class RuntimeLease:
         self.epoch=None
 
     def acquire(self):
+        if getattr(self.store,'_runtime_guard',None) is not None:
+            raise CoreError('RUNTIME_LEASE_ALREADY_BOUND')
         quarantine=self.store.one('core_meta','recovery_quarantine')
         if quarantine and quarantine['value_json']=='true':
             raise CoreError('RUNTIME_RESTORE_QUARANTINED')
@@ -90,6 +92,7 @@ class RuntimeLease:
             self.assert_current()
             self.store._put('runtime_lease',{**row,'heartbeat_at_us':now,
                 'expires_at_us':now+self.config.lease_us,'clock_high_water_us':now})
+            self.assert_current()
             self.store.db.execute('COMMIT')
         except BaseException:
             self.store.db.execute('ROLLBACK');raise

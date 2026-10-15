@@ -23,7 +23,8 @@ class NanaRuntime:
         self.store=ContinuityStore(path,clock or Clock(),schema_target=8)
         try:
             old=self.store.one('runtime_lease',self.store.identity['identity_id'])
-            self.clock=RuntimeClock(clock or self.store.clock,old['clock_high_water_us'] if old else 0)
+            history_floor=self.store.db.execute('SELECT coalesce(max(recorded_at_us),0) FROM events').fetchone()[0]
+            self.clock=RuntimeClock(clock or self.store.clock,max(history_floor,old['clock_high_water_us'] if old else 0))
             self.store.clock=self.clock
             self.lease=RuntimeLease(self.store,config);self.lease.acquire()
             self.authority=OperatorAuthority()
@@ -52,7 +53,14 @@ class NanaRuntime:
         value=canonical(self.oper)
         old=self.store.one('core_meta','runtime.health')
         if not old or old['value_json']!=value:
-            self.store._put('core_meta',{'key':'runtime.health','value_json':value})
+            self.store.db.execute('BEGIN IMMEDIATE')
+            try:
+                self.lease.assert_current()
+                self.store._put('core_meta',{'key':'runtime.health','value_json':value})
+                self.lease.assert_current()
+                self.store.db.execute('COMMIT')
+            except BaseException:
+                self.store.db.execute('ROLLBACK');raise
 
     def _install_review(self):
         now=self.clock.utc_now_us()
@@ -123,7 +131,8 @@ class NanaRuntime:
                 try:
                     policy=ContextPolicy(policy_id='runtime-local-fixture',allowed_scopes=self.config.scopes,
                         readable_privacy=self.config.privacy_classes)
-                    result=self.subject.cognize(event,model=self.cognition.port(call),authority=self.authority,policy=policy)
+                    result=self.subject.cognize(event,model=self.cognition.port(call),authority=self.authority,policy=policy,
+                        capabilities=self.config.capability_snapshot.capabilities,limitations=('NO_EXTERNAL_EXECUTION_IN_C_D',))
                     self.cognition.finish(call,'SUCCEEDED')
                 except TimeoutError:
                     self.cognition.finish(call,'TIMED_OUT')
@@ -163,7 +172,8 @@ class NanaRuntime:
     def living(self,scope=None):
         return project_self(self.store,entity_id=self.config.entity_id,scope=scope or self.config.scopes[0],
             privacy_classes=self.config.privacy_classes,environment=Environment(capabilities=self.config.capability_snapshot.capabilities,
-                devices=self.config.capability_snapshot.devices,platforms=self.config.capability_snapshot.platforms))
+                devices=self.config.capability_snapshot.devices,platforms=self.config.capability_snapshot.platforms,
+                cognition_available=False if self.cognition.availability in {'DEGRADED','UNAVAILABLE'} else None))
 
     def health(self):
         now=self.clock.utc_now_us()

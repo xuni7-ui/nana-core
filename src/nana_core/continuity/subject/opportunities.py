@@ -13,7 +13,8 @@ class ConcernCue(DTO):
     cue_kind: Literal['OPEN_LOOP','OPPORTUNITY','DISCOVERY','CONSTRAINT','LOAD_STATE']
     motivation_source: str = Field(pattern=r'^[A-Z][A-Z0-9_]{1,63}$')
     topic_key: str = Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
-    possible_behaviors: tuple[Behavior, ...] = Field(default=('WATCH',),min_length=1,max_length=8)
+    possible_behaviors: tuple[Behavior, ...] = Field(default=(),max_length=8)
+    required_preference_id: str | None = None
     prohibited_behaviors: tuple[Behavior, ...] = Field(default=(),max_length=16)
     resource_ref: str | None = Field(default=None,pattern=r'^synthetic://[a-zA-Z0-9/._:-]{1,200}$')
     resource_class: Literal['ORDINARY','PASSWORD','CREDENTIAL','PAYMENT','OTHER_PERSON_SECRET','UNKNOWN'] = 'UNKNOWN'
@@ -53,3 +54,21 @@ class SyntheticActionProposal(DTO):
     resource_class: Literal['ORDINARY','PASSWORD','CREDENTIAL','PAYMENT','OTHER_PERSON_SECRET','UNKNOWN']
     source_memory_ids: tuple[str,...]
     execution_authority: Literal[False] = False
+
+
+# Initial C interpretation policy, not a Runtime registry or personality meter.
+# Source proposals can add options; C still inhibits by norms/load/uncertainty.
+DIRECTIONS = {
+    'PROJECT_COMPLETION': ('CONTINUE_PROJECT',), 'COMMITMENT': ('HONOR_COMMITMENT',),
+    'CAPABILITY_GAP': ('SEEK_CAPABILITY',), 'CREATIVE_INTEREST': ('CREATE',),
+    'MAINTENANCE': ('MAINTAIN',), 'LONG_TERM_GOAL': ('MAINTAIN',),
+    'SELF_DEVELOPMENT': ('LEARN',), 'REST': ('REST',),
+    'CURIOSITY': ('EXPLORE','WATCH'), 'UNRESOLVED_QUESTION': ('EXPLORE','WATCH'),
+    'OPPORTUNITY': ('EXPLORE','WATCH'),
+    'RELATIONSHIP': ('SOCIALIZE','WATCH'), 'NOVELTY': ('WATCH',),
+}
+
+
+def directions(cue):
+    if cue.possible_behaviors:return cue.possible_behaviors
+    return DIRECTIONS.get(cue.motivation_source,('WATCH',))

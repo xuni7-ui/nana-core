@@ -1025,3 +1025,14 @@ those checks; synthetic screen/file/presence/platform adapters read no devices.
 39 combined tests PASS; 7 Runtime tests PASS after final resource-clock/health
 changes. No raw body enters queue metadata; old C input JSON accepts new optional
 default fields. No real action or standing-delegation activation.
+
+## D-V1 M4 — 2026-10-15 — runtime system/recovery qualification
+
+[实测·开发离线] Added S1–S10 matrix, 72h no-input, 30d mixed life and bounded
+real local process qualification. Same C loop, generic source interpretation;
+no per-scenario runtime policy. Fixed duplicate lease binding, restart clock
+floor, backoff restoration and active-health semantics found during recovery
+review. Added v7→v8/erasure/replay tests. Four actual SIGKILL cuts preserve
+identity and one logical decision; unresolved model calls stay UNKNOWN.
+Validation: 43 C+Runtime PASS /0 FAIL, 27.50s. No prior tests weakened; E12 NOT_RUN;
+production untouched. Final full regression/evidence follows separately.

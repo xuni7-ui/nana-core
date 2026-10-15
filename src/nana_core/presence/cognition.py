@@ -24,6 +24,7 @@ class SupervisedModelPort:
         self.on_usage(len(payload),None)
         process=subprocess.Popen([sys.executable,'-m','nana_core.presence.model_worker',self.kind,str(os.getpid())],
             stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
+        self.process_pid=process.pid
         deadline=self.resource_clock.monotonic_ns()+int(self.timeout*1_000_000_000)
         first=True
         try:
@@ -44,23 +45,27 @@ class SupervisedModelPort:
         finally:
             if process.poll() is None:process.kill()
             process.communicate(timeout=2)  # reap even timeout/cancel/lease loss
+            self.process_pid=None
 
 
 class CognitionCoordinator:
     def __init__(self,store,config,lease):
         self.store,self.config,self.lease=store,config,lease
         self.model_kind=config.model
-        self.availability='UNCONFIGURED' if config.model is None else 'UNAVAILABLE' if config.model=='unavailable' else 'AVAILABLE'
-        last=store.db.execute("SELECT * FROM runtime_cognition_calls WHERE provider=? AND state IN ('FAILED','TIMED_OUT') ORDER BY started_at_us DESC LIMIT 1",(self.model_kind,)).fetchone()
-        self.backoff_until=(last['finished_at_us']+config.cognition_backoff_us) if last else 0
-        if last and store.clock.utc_now_us()<self.backoff_until:self.availability='DEGRADED'
+        self._restore_resource_state()
+
+    def _restore_resource_state(self):
+        self.availability='UNCONFIGURED' if self.model_kind is None else 'UNAVAILABLE' if self.model_kind=='unavailable' else 'AVAILABLE'
+        last=self.store.db.execute("SELECT * FROM runtime_cognition_calls WHERE provider=? AND state IN ('FAILED','TIMED_OUT') ORDER BY started_at_us DESC LIMIT 1",(self.model_kind,)).fetchone()
+        self.backoff_until=(last['finished_at_us']+self.config.cognition_backoff_us) if last else 0
+        if last and self.store.clock.utc_now_us()<self.backoff_until:self.availability='DEGRADED'
+        if self.store.db.execute("SELECT 1 FROM runtime_cognition_calls WHERE provider=? AND state IN ('RESERVED','UNKNOWN')",(self.model_kind,)).fetchone():self.availability='DEGRADED'
 
     def set_model(self,kind):
         if kind is not None and kind not in KINDS:raise CoreError('RUNTIME_MODEL_NOT_REGISTERED')
         if kind==self.model_kind:return
         self.model_kind=kind
-        self.availability='UNCONFIGURED' if kind is None else 'UNAVAILABLE' if kind=='unavailable' else 'AVAILABLE'
-        self.backoff_until=0
+        self._restore_resource_state()
 
     def choose(self,row,event,loop):
         if row['event_type']=='TIME_EVENT' and row['wake_trigger']=='TIME_TRIGGER':

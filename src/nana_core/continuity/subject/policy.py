@@ -1,7 +1,7 @@
 """Pure, inspectable initial C policy. No clock, storage, random or executor."""
 from ...contracts import DTO
 from .contracts import Appraisal, Intention, Judgment, Motivation, SubjectInput
-from .opportunities import ConcernCue
+from .opportunities import ConcernCue,directions
 
 
 class Situation(DTO):
@@ -28,7 +28,7 @@ class Situation(DTO):
 
 def appraise(event: SubjectInput, situation: Situation):
     conflict = bool(event.proposed_method and situation.allowed_methods and event.proposed_method not in situation.allowed_methods)
-    norm_conflict=bool(situation.cue and set(situation.cue.possible_behaviors)&set(situation.prohibited_behaviors))
+    norm_conflict=bool(situation.cue and set(directions(situation.cue))&set(situation.prohibited_behaviors))
     reasons = []
     if conflict:
         reasons.append('proposal conflicts with a current sourced project constraint')
@@ -88,7 +88,7 @@ def decide(event, situation, appraisal, motives):
     if appraisal.conflict == 'HIGH' and event.proposed_method and situation.allowed_methods:
         return ('FOCUS_NOW', Judgment(stance='ALTERNATIVE', reason='Prefer the method consistent with recorded project constraints',
             source_ids=sources, selected_method=situation.allowed_methods[0]),
-            Intention(kind='DISAGREE', purpose='Explain a sourced alternative without overriding the user', slot_key='project-alternative', source_ids=sources, self_generated=False))
+            Intention(kind='DISAGREE', purpose='Explain a sourced alternative without overriding the user', slot_key='project-alternative', source_ids=sources, self_generated=False,behavior='DISAGREE'))
     if situation.due_commitment_ids:
         return ('FOCUS_NOW', Judgment(stance='DEFER', reason='An adopted due commitment takes priority over optional exploration', source_ids=sources),
             Intention(kind='GOAL_CANDIDATE', purpose='Review a due commitment; no execution has been authorized', slot_key='commitment-review', source_ids=sources, self_generated=self_generated))
@@ -98,7 +98,7 @@ def decide(event, situation, appraisal, motives):
                 source_ids=sources,self_generated=self_generated,behavior='REFLECT'))
     if situation.cue:
         cue=situation.cue
-        options=[x for x in cue.possible_behaviors if x not in situation.prohibited_behaviors]
+        options=[x for x in directions(cue) if x not in situation.prohibited_behaviors]
         if not options or (cue.resource_ref and cue.resource_class!='ORDINARY'):
             return ('IGNORE',Judgment(stance='IGNORE',reason='A sourced norm/privacy constraint inhibits the possible opportunity',source_ids=sources),
                 Intention(kind='NO_ACTION',purpose='Honor constraints rather than act merely because it is possible',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='IGNORE'))

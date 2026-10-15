@@ -15,6 +15,7 @@ class Environment(DTO):
     platforms: tuple[str, ...] = Field(default=(), max_length=16)
     known_environment: tuple[str, ...] = Field(default=(), max_length=32)
     authority: Literal['NONE_IN_C'] = 'NONE_IN_C'
+    cognition_available: bool | None = None
 
 
 class PersonalityProfile(DTO):
@@ -81,7 +82,11 @@ def project_self(store, *, entity_id, scope, privacy_classes, environment=None):
         'WHERE e.scope=? ORDER BY c.revision DESC LIMIT 1', (scope,)).fetchone()
     stale = last is not None and now - last['created_at_us'] > DAY_US
     unavailable = last is not None and last['record_id'] is not None and not is_visible(last['record_id'])
-    presence = 'DEGRADED' if unavailable else 'FOCUSED' if concerns and not stale else 'WATCHING' if concerns else 'IDLE'
+    last_behavior=None
+    if last and last['record_id'] and is_visible(last['record_id']):
+        last_behavior=records.read(last['record_id'])['payload'].get('intention',{}).get('behavior')
+    presence = 'DEGRADED' if unavailable or (environment is not None and environment.cognition_available is False) else 'RESTING' if last_behavior in {'REST','WITHDRAW'} else 'FOCUSED' if concerns and not stale else 'WATCHING' if concerns else 'IDLE'
+    # Presence is rebuilt from C's last judgment and current resources.
     preferences = tuple(a['topic'] for a in adopted if a['kind'] == 'PREFERENCE')
     beliefs = tuple(a['topic'] for a in adopted if a['kind'] == 'SELF_BELIEF')
     internal = {'curiosity': 'ENGAGED' if preferences and concerns else 'AVAILABLE' if preferences else 'QUIET',

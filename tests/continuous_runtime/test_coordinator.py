@@ -47,5 +47,24 @@ def test_model_timeout_reaped_and_restart_continues(tmp_path):
     with NanaRuntime(path,config,clock=clock) as restored:
         assert restored.store.identity['identity_id']==old_identity and restored.lease.epoch==epoch+1
         assert restored.cognition.availability=='DEGRADED'
+        backoff=restored.cognition.backoff_until
+        restored.cognition.set_model('cautious');restored.cognition.set_model('timeout')
+        assert restored.cognition.availability=='DEGRADED' and restored.cognition.backoff_until==backoff
         assert restored.step() is None
         assert len(restored.store.all('subject_cycles'))==1
+
+
+def test_restart_clock_floor_includes_committed_subject_history(tmp_path):
+    path=tmp_path/'self.db';clock=VirtualClock();prepared(path,clock)
+    cfg=RuntimeConfig(scopes=('life',),entity_id='synthetic-person',lease_us=3*HOUR,heartbeat_us=HOUR)
+    old=NanaRuntime(path,cfg,clock=clock)
+    identity=old.store.identity['identity_id'];clock.advance(HOUR)
+    old.submit(event(old.store,'future-history'));floor=old.clock.utc_now_us()
+    # Crash analogue for clock-floor unit boundary; process SIGKILL is qualified
+    # independently. Leave old lease ACTIVE but release its dead Store handle.
+    old.store.close();old.stopped=True
+    clock.now_us-=2*HOUR
+    with NanaRuntime(path,cfg,clock=clock) as restored:
+        assert restored.clock.utc_now_us()>=floor and restored.store.identity['identity_id']==identity
+        assert restored.lease.epoch==2
+        restored.drain()

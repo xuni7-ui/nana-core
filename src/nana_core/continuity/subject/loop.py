@@ -63,6 +63,8 @@ class SubjectLoop:
         for r in records:
             memories.extend(self.records.support(r))
         pending = self.pending(event.scope)
+        for current in pending:
+            records.append(current['record_id']);memories.extend(self.records.support(current['record_id']))
         relation = self.growth.relationship(event.entity_id, event.scope, privacy_classes=self.privacy_classes)
         if not all(self.visible(r, event.scope) for r in relation['source_record_ids']):
             relation = {'familiarity': 'UNKNOWN', 'source_record_ids': ()}
@@ -79,13 +81,21 @@ class SubjectLoop:
         norm_ids=tuple(r['memory_id'] for r in norm_rows)
         candidates=cues_from(self.store,(*event.source_memory_ids,*norm_ids),scope=event.scope,privacy_classes=self.privacy_classes)
         cue=next((c for _,c in candidates if c.cue_kind!='CONSTRAINT'),None)
+        if cue is not None and event.result_for_intention_id and event.novelty=='HIGH':
+            from .opportunities import ConcernCue
+            cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='RELATIONSHIP',topic_key=cue.topic_key,
+                possible_behaviors=('SOCIALIZE','WATCH') if relation.get('familiarity')=='FAMILIAR' else ('WATCH',),availability=event.observed_availability or 'UNKNOWN')
         if cue is None and event.kind=='WAKE':
             from .opportunities import ConcernCue
             for pid in projects:
                 project=self.store.one('projects',pid)
                 if self.records.read(project['record_id'])['payload'].get('blockers'):
-                    cue=ConcernCue(cue_kind='OPEN_LOOP',motivation_source='PROJECT_COMPLETION',topic_key='project-'+digest(pid)[:16],possible_behaviors=('CONTINUE_PROJECT',))
+                    cue=ConcernCue(cue_kind='OPEN_LOOP',motivation_source='PROJECT_COMPLETION',topic_key='project-'+digest(pid)[:16])
                     break
+        if cue is not None and cue.required_preference_id and cue.required_preference_id not in {a['assertion_id'] for a in assertions}:
+            cue=cue.model_copy(update={'possible_behaviors':('WATCH',)})
+        if cue is not None and len(pending)>=6 and not due:
+            cue=cue.model_copy(update={'cognitive_load':'HIGH'})
         prohibited=tuple(dict.fromkeys(b for _,c in candidates if c.cue_kind=='CONSTRAINT' and (cue is None or c.topic_key==cue.topic_key) for b in c.prohibited_behaviors))
         memories.extend(mid for mid,_ in candidates)
         last_act=None
@@ -147,6 +157,15 @@ class SubjectLoop:
             if self.revision != expected_revision:
                 raise CoreError('STALE_SUBJECT_REVISION')
             self._expire(tx)
+            if event.result_for_intention_id:
+                parent=self.store.one('subject_intentions',event.result_for_intention_id)
+                if not parent or parent['kind']!='EXPLORE' or parent['scope']!=event.scope or parent['state']!='PENDING' or not self.visible(parent['record_id'],event.scope):
+                    raise CoreError('SYNTHETIC_INTENTION_OUTCOME_MISMATCH')
+                if not set(event.source_memory_ids)&set(self.records.support(parent['record_id'])):
+                    raise CoreError('SYNTHETIC_INTENTION_OUTCOME_MISMATCH')
+                tx.update('subject_intentions',parent['intention_id'],state='COMPLETED',revision=parent['revision']+1)
+                for candidate in self.store.all('subject_goal_candidates'):
+                    if candidate['intention_id']==parent['intention_id']:tx.update('subject_goal_candidates',candidate['candidate_id'],state='WITHDRAWN')
             self.growth.apply(tx, event, source)
             self._expire(tx)  # counter-evidence may inhibit an earlier optional intention
             situation = self.situation(event, source)
@@ -258,7 +277,7 @@ class SubjectLoop:
             service.apply(reflection_id, expected_revision=row['revision'], authority=authority)
         return reflection_id
 
-    def cognize(self, event, *, model, authority, policy):
+    def cognize(self, event, *, model, authority, policy, capabilities=(), limitations=()):
         """Optional bounded D cognition. Never hold SQLite transaction over model.
 
         Freeze after idempotent ingress, validate before/after inference, then
@@ -290,7 +309,7 @@ class SubjectLoop:
             task_class=event.task_class or 'subject_deliberation',
             task=event.text or 'Assess current concerns; silence is allowed', task_privacy_class=event.privacy_class,
             max_input_tokens=65536, output_reserve_tokens=4096)
-        context = assembler.assemble(request, policy, subject_frame=frame)
+        context = assembler.assemble(request, policy, subject_frame=frame,capabilities=capabilities,limitations=limitations)
         result = DeliberationSession(assembler).run(model, context, request, policy)
         assembler.validate(context, request, policy)
         return self.run(event, expected_revision=revision, _deliberation=result)
