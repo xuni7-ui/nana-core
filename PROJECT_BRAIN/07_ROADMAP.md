@@ -13,7 +13,7 @@
 | **L1** | B站 Agent（C 系列） | ①–③ 混合 | C.4 事件端到端验收 |
 | **L2** | Iris 记忆系统 | ①–③ 混合 | Stage-0 Memory Audit |
 | **L3** | Nana Core 独立化 / C Persistent Self | **OFFLINE_CANDIDATE READY** | C-V2 已实现/离线验证；真实接入另行验收 |
-| **L4** | D Continuous Runtime & Persistent Presence | **CURRENT DEVELOPMENT STAGE** | 独立开发 Runtime，无生产部署 |
+| **L4** | D Continuous Runtime & Persistent Presence | **OFFLINE_CANDIDATE READY** | 独立 Runtime 已实现/离线验证；真实接入另行授权，无生产部署 |
 | **L5** | 插件与接口维护 | ① 已实现 | 变更即记录 |
 | **LX** | 工程基建（事实源 / 版本 / 协作桥） | ①–② | 协作桥**机制已离线验证**，真实 Runner 待一次性授权 |
 

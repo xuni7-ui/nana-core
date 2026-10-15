@@ -1036,3 +1036,13 @@ review. Added v7→v8/erasure/replay tests. Four actual SIGKILL cuts preserve
 identity and one logical decision; unresolved model calls stay UNKNOWN.
 Validation: 43 C+Runtime PASS /0 FAIL, 27.50s. No prior tests weakened; E12 NOT_RUN;
 production untouched. Final full regression/evidence follows separately.
+
+## D-V1 FINAL — 2026-10-15 — offline candidate delivery
+
+[实测·开发离线] Full suite888 PASS /0 FAIL /1 SKIP (E12), 84.87s; system gates
+32/32 PASS. Archived S1–S10, 72h/30d and actual local process100-sample/4-SIGKILL
+measurements; documented standalone CLI/contracts/migration/rollback/limits.
+Explicitv8 tables4/dependencies0; no old tests or production source changed.
+Privacy/path/credential scan PASS; production pins EMPTY. Manifest128 files
+anchored in09_STATE. D_V1_CONTINUOUS_RUNTIME_OFFLINE_CANDIDATE=READY, not real
+host/model/E/G acceptance. Main/R045 untouched; no production or external action.

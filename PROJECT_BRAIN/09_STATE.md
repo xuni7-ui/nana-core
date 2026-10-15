@@ -869,3 +869,46 @@ swaps; health distinguishes PID existence from active lease. v7→v8 opt-in,
 deleted queued source retirement and official replay quarantine tested. Previous
 tests/production trust/SQLite floor unchanged. Full regression and permanent
 delivery evidence pending; no production or real external actions.
+
+### D-V1 FINAL — Continuous Runtime offline candidate READY (2026-10-15)
+
+[实测·开发离线] Product checkpoint `85ae606aac259d0ee96994093009627e1b24581c`.
+Full regression **888 PASS /0 FAIL /1 SKIP**, 84.87s; E12 remains NOT_RUN.
+Runtime system qualification **32/32 PASS**: S1–S10 same C subject, 72 virtual
+hours without new user input (one causal self intention/candidate, model calls0,
+social proposals0), 30 virtual mixed days (project/reflection/model outage/swap/
+restart; four fixture model calls, pending max2). ONE_SUBJECT_LOOP_MANY_BEHAVIORS
+= YES; 9 semantic behaviors observed. No scenario is a personality/default goal.
+
+Actual local process/synthetic Store soak: 100 samples/11.338s, FD growth0,
+peak sampled parent RSS30100KiB, heartbeat progress/double-start rejection/
+graceful stop PASS. Four actual SIGKILL cuts preserve one logical cycle/intention/
+candidate and identity; UNKNOWN not retried; model resource child reaped.
+Not a 24h endurance or real AstrBot/runtime/model qualification.
+
+RUNTIME / EVENT_QUEUE / WAKE_MANAGER / SCHEDULER / RUNTIME_CLOCK /
+BACKGROUND_ATTENTION / INTERNAL_EVENTS / COGNITION_BUDGET / MODEL_AVAILABILITY /
+PROACTIVE_SOCIAL_PROPOSALS / SYNTHETIC_PERCEPTION / RUNTIME_LEASE /
+RESTART_RECOVERY / HEALTH_INTERFACE = IMPLEMENTED / OFFLINE TESTED.
+D_V1_CONTINUOUS_RUNTIME_OFFLINE_CANDIDATE = READY.
+
+Explicit development schema v8 adds4 operational tables (39 total), default
+legacy v1/ContinuityStore v7 unchanged. New dependencies0. Local one-Store flock/
+epoch fence only; distributed partitions/hostile raw clones/NFS not qualified.
+Initial ordinal C cue interpretation/fixture semantics; cold history grows;
+real provider/billing/delegation/E/G integration remains outside candidate.
+
+Permanent report `docs/nana_continuous_runtime_delivery.md`; interfaces/rollback
+`docs/nana_continuous_runtime.md`; measurements/XML/scan metadata in
+`docs/nana_continuous_runtime_evidence/`. Manifest128 files, excluding itself/
+Brain/delivery self-reference: `manifests/nana_continuous_runtime_candidate.json`,
+SHA256 `c854fc207875481189efe10c3ca451743c2dbf0fb803996d1ac15acb0fdcc0ef`.
+File hashes are snapshot integrity, not real-host attestation.
+
+REAL_MEMORY_IMPORT_ENABLED=NO; production review/proof pins EMPTY. Real model
+calls0; real external actions0; production/secret/private-data changes/reads0.
+Own development branch only. Main/R045 refs verified unchanged at their existing
+18bc736d/ef7750e0 respectively; no main/R045 writes or production integration.
+Untracked pre-existing `nana-r03-codex-10581aea.bundle` retained unchanged.
+Stop at offline candidate; next authorized integration must attach to this same
+subject. No automatic E/G or real host deployment follows this result.

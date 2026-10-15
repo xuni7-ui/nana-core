@@ -264,3 +264,10 @@
 - ③仅本地离线进程验收：真实SIGKILL删除恢复、独立新解释器恢复完整主体state digest、换两个fixture与lesson消融；非真实LLM/非生产宿主。
 - 全仓：865 passed / 0 failed / 1 skipped（E12），CPython3.12.14/SQLite3.53.1/Pydantic2.13.4；失败修复轨迹与最终XML在 `docs/nana_continuous_self_evidence/`。
 - ④未运行：真实私密记忆导入、真实跨宿主迁移/身份认领、真实v2模型语义；E12 NOT_RUN。奈奈B5-3现场事实不由本分支升级。
+
+## 2026-10-15 — D-V1 Continuous Runtime offline candidate
+
+- ①已实现 / ②已测试：standalone NanaRuntime、单 Store lease/epoch fence、持久队列、scheduler、wake/cognition budget、C source opportunities、synthetic perception、CLI health/start/stop。
+- ③仅本地离线进程验收：100 samples/11.338s actual local process run；double-start拒绝、SIGKILL/restart/graceful stop；4个真实SIGKILL切点均保持单逻辑decision，reserved cognition UNKNOWN且不重试。
+- 系统32/32 gates PASS；S1–S10同一SubjectLoop；72h无输入/30d混合life通过。全仓888 passed /0 failed /1 skipped，E12 NOT_RUN。CPython3.12.14 /SQLite3.53.1 /Pydantic2.13.4。
+- ④未运行：真实host/dispatcher/bridge/one-shot、真实模型/真实记忆、E/G动作。未改变生产现场事实。证据：`docs/nana_continuous_runtime_delivery.md`、`docs/nana_continuous_runtime_evidence/`。
