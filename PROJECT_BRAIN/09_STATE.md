@@ -834,3 +834,18 @@ subject state; RuntimeHealth is operational, not Self Memory. CLI init/run/statu
 owned-PID stop, no daemon/install/network provider. 5 runtime tests PASS.
 Generic C source opportunities/social/interaction integration and S1–S10/system
 qualification remain pending. Real model calls=0, E12 NOT_RUN.
+
+### D-V1 M3 — generative C opportunities and synthetic perception
+
+IMPLEMENTED / OFFLINE TESTED: open MotivationSource names, source-backed concern
+cues, C-owned background opportunities for memory/project/commitment/experience,
+C semantic social proposals (no fixed utterance or sender), generic synthetic
+read proposals and four fixture perception ports. Norm/availability/load may
+inhibit activity; D does not pick personality. Interaction feedback is bound to
+an actual C social intention and independent synthetic outcome; same Experience/
+Reflection/lesson test+review lifecycle supports bounded contextual variation.
+Lesson suspension ablation changes future proposal without erasing history.
+39 C+Runtime targeted cases PASS; current 7 Runtime cases PASS after final timeout
+clock/health refinements. Supervised model resource is parent-death fenced.
+S1 is one fixture, not a runtime default or primary metric. S1–S10 and system
+qualification still pending. Production/real G/E/real models remain NOT_RUN.

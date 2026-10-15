@@ -9,6 +9,8 @@ from .growth import Growth, live_record
 from .ingress import SubjectIngress
 from .policy import Situation, appraise, decide, motivate
 from . import state
+from .opportunities import cues_from,SyntheticActionProposal
+from .social import propose_social
 
 
 class SubjectLoop:
@@ -65,11 +67,39 @@ class SubjectLoop:
         if not all(self.visible(r, event.scope) for r in relation['source_record_ids']):
             relation = {'familiarity': 'UNKNOWN', 'source_record_ids': ()}
         records.extend(relation['source_record_ids'])
+        for rid in relation['source_record_ids']:memories.extend(self.records.support(rid))
         lesson_rows = [r for r in self.store.all('lessons') if r['task_class'] == event.task_class
             and r['state'] == 'ACTIVE' and self.visible(r['record_id'], event.scope)]
         records.extend(r['record_id'] for r in lesson_rows)
         for r in lesson_rows:
             memories.extend(self.records.support(r['record_id']))
+        norm_rows=self.store.db.execute("SELECT memory_id FROM memories WHERE scope=? AND entity_id IN (?,?) AND predicate_key LIKE 'concern.constraint%' AND lifecycle='ACTIVE' AND assessment IN ('CURRENT','UNASSESSED') LIMIT 65",
+            (event.scope,event.entity_id,self.store.identity['identity_id'])).fetchall()
+        if len(norm_rows)>64:raise CoreError('SUBJECT_NORM_CAPACITY_REQUIRES_REVIEW')
+        norm_ids=tuple(r['memory_id'] for r in norm_rows)
+        candidates=cues_from(self.store,(*event.source_memory_ids,*norm_ids),scope=event.scope,privacy_classes=self.privacy_classes)
+        cue=next((c for _,c in candidates if c.cue_kind!='CONSTRAINT'),None)
+        if cue is None and event.kind=='WAKE':
+            from .opportunities import ConcernCue
+            for pid in projects:
+                project=self.store.one('projects',pid)
+                if self.records.read(project['record_id'])['payload'].get('blockers'):
+                    cue=ConcernCue(cue_kind='OPEN_LOOP',motivation_source='PROJECT_COMPLETION',topic_key='project-'+digest(pid)[:16],possible_behaviors=('CONTINUE_PROJECT',))
+                    break
+        prohibited=tuple(dict.fromkeys(b for _,c in candidates if c.cue_kind=='CONSTRAINT' and (cue is None or c.topic_key==cue.topic_key) for b in c.prohibited_behaviors))
+        memories.extend(mid for mid,_ in candidates)
+        last_act=None
+        for old in reversed(self.store.all('subject_intentions')):
+            if old['kind']=='SOCIAL_INTERACTION' and self.visible(old['record_id'],event.scope):
+                parent=self.store.one('subject_events',old['subject_event_id'])
+                if parent['entity_id']==event.entity_id:
+                    last_act=self.records.read(old['record_id'])['payload'].get('social_proposal')
+                    last_act=last_act.get('act') if last_act else None
+                    break
+        if event.reflection_experience_id:
+            experience=self.store.one('experiences',event.reflection_experience_id)
+            if not experience or not self.visible(experience['record_id'],event.scope):raise CoreError('EXPERIENCE_MISSING')
+            records.append(experience['record_id']);memories.extend(self.records.support(experience['record_id']))
         # An already pending interest is an open loop, not another reason to spawn.
         unresolved = next((x for x in interests if not any(p['slot_key'] == 'explore-' + x for p in pending)), None)
         return Situation(scope=event.scope, memory_ids=tuple(sorted(set(memories))),
@@ -78,7 +108,9 @@ class SubjectLoop:
             familiar=relation['familiarity'] == 'FAMILIAR', allowed_methods=tuple(sorted(set(methods))),
             lesson_ids=tuple(r['lesson_id'] for r in lesson_rows), lesson_record_ids=tuple(r['record_id'] for r in lesson_rows),
             support_record_ids=tuple(dict.fromkeys(records)), pending_count=len(pending),
-            idle=event.kind == 'WAKE')
+            idle=event.kind == 'WAKE',cue=cue,prohibited_behaviors=prohibited,
+            interaction_style=relation.get('interaction_style','RESPECTFUL_EXPLICIT'),last_social_act=last_act,
+            reflection_experience_id=event.reflection_experience_id)
 
     def pending(self, scope):
         return state.pending(self.store,scope,self.privacy_classes)
@@ -89,7 +121,7 @@ class SubjectLoop:
             if row['scope'] not in self.scopes:
                 continue
             supported_interests = {a['topic'] for a in self.growth.assertions(row['scope'], privacy_classes=self.privacy_classes) if a['state']=='ADOPTED'}
-            lost_motivation = row['kind']=='EXPLORE' and row['slot_key'].removeprefix('explore-') not in supported_interests
+            lost_motivation = row['kind']=='EXPLORE' and row['slot_key'].startswith('explore-') and row['slot_key'].removeprefix('explore-') not in supported_interests
             if row['state'] == 'PENDING' and (row['expires_at_us'] <= now or not live_record(self.store, row['record_id']) or lost_motivation):
                 state = 'EXPIRED' if row['expires_at_us'] <= now else 'DROPPED'
                 tx.update('subject_intentions', row['intention_id'], state=state, revision=row['revision'] + 1)
@@ -144,6 +176,14 @@ class SubjectLoop:
                 judgment = Judgment(stance='DEFER', reason='A matching concern is already pending or attention is full', source_ids=situation.memory_ids)
                 intention = Intention(kind='NO_ACTION', purpose='Keep existing concern without duplicate initiative',
                     slot_key='quiet', source_ids=situation.memory_ids, self_generated=event.origin == 'SELF_WAKE')
+            social=None
+            if intention.kind=='SOCIAL_INTERACTION' and situation.cue:
+                social=propose_social(topic=situation.cue.topic_key,style=situation.interaction_style,
+                    available=situation.cue.availability=='AVAILABLE',source_ids=situation.memory_ids,
+                    lesson_ids=situation.lesson_ids,last_act=situation.last_social_act)
+            action=None
+            if intention.kind=='EXPLORE' and situation.cue and situation.cue.resource_ref:
+                action=SyntheticActionProposal(resource_ref=situation.cue.resource_ref,resource_class=situation.cue.resource_class,source_memory_ids=situation.memory_ids)
             cycle_id, intention_id, candidate_id = uid(), None, None
             parents = situation.support_record_ids
             supports = situation.memory_ids
@@ -153,7 +193,7 @@ class SubjectLoop:
             if intention.kind != 'NO_ACTION' and (parents or supports):
                 intention_id = uid()
                 record = self.records.create(tx, kind='INTENTION', scope=event.scope,
-                    payload=intention.model_dump(mode='json'), records=parents, memories=supports)
+                    payload={**intention.model_dump(mode='json'),'social_proposal':social.model_dump(mode='json') if social else None}, records=parents, memories=supports)
                 tx.put('subject_intentions', {'intention_id': intention_id, 'subject_event_id': source['subject_event_id'],
                     'scope': event.scope, 'slot_key': intention.slot_key, 'kind': intention.kind, 'state': 'PENDING',
                     'revision': 1, 'record_id': record, 'created_at_us': self.store.clock.utc_now_us(),
@@ -168,7 +208,7 @@ class SubjectLoop:
             result = CycleResult(cycle_id=cycle_id, event_id=source['subject_event_id'], revision=expected_revision + 1,
                 admission=source['admission'], appraisal=appraisal, motivations=motives, attention=attention,
                 judgment=judgment, intention=intention, intention_id=intention_id, goal_candidate_id=candidate_id,
-                barrier='NO_ACTION' if intention.kind == 'NO_ACTION' else 'SHADOW_BLOCKED', record_id=None,
+                barrier='NO_ACTION' if intention.kind == 'NO_ACTION' else 'SHADOW_BLOCKED', record_id=None,social_proposal=social,action_proposal=action,
                 deliberation=None if _deliberation is None else {
                     'model_descriptor': _deliberation.model_descriptor,
                     'context_digest': _deliberation.context_digest, 'raw_proposal_json': _deliberation.raw_proposal_json})
@@ -254,3 +294,14 @@ class SubjectLoop:
         result = DeliberationSession(assembler).run(model, context, request, policy)
         assembler.validate(context, request, policy)
         return self.run(event, expected_revision=revision, _deliberation=result)
+
+    def maintain(self):
+        """C-owned expiration; D supplies time, never invents a judgment."""
+        now=self.store.clock.utc_now_us()
+        pending=[r for r in self.store.all('subject_intentions') if r['scope'] in self.scopes and r['state']=='PENDING']
+        if any(r['expires_at_us']<=now or not live_record(self.store,r['record_id']) for r in pending):
+            with self.store.transaction('subject.time_maintained') as tx:self._expire(tx)
+
+    def background_opportunities(self,**time_context):
+        from .watch import collect_opportunities
+        return collect_opportunities(self,**time_context)

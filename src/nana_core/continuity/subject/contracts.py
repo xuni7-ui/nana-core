@@ -2,6 +2,8 @@
 from typing import Literal
 from pydantic import Field, model_validator
 from ...contracts import DTO
+from .social import SocialInteractionProposal
+from .opportunities import Behavior,SyntheticActionProposal
 
 Key = str
 Level = Literal['NONE', 'LOW', 'RELEVANT', 'HIGH']
@@ -42,6 +44,7 @@ class SubjectInput(DTO):
     preference_signal: PreferenceSignal | None = None
     relationship_kind: Literal['SHARED_HISTORY', 'SHARED_PROJECT', 'SHARED_JOKE', 'NORM', 'BOUNDARY', 'CONFLICT', 'REPAIR', 'TRUST', 'COMMITMENT'] | None = None
     task_class: str | None = Field(default=None, pattern=r'^[A-Za-z0-9._:-]{1,96}$')
+    reflection_experience_id: str | None = None
 
     @model_validator(mode='after')
     def provenance(self):
@@ -79,7 +82,7 @@ class Appraisal(DTO):
 
 
 class Motivation(DTO):
-    source: Literal['CURIOSITY','SOCIAL_CONNECTION','PLAY','EXPLORATION','COMPETENCE','PROJECT_COMPLETION','COMMITMENT','CARE','SELF_DEVELOPMENT','REST','NOVELTY_SEEKING','UNFINISHED_TENSION']
+    source: str = Field(pattern=r'^[A-Z][A-Z0-9_]{1,63}$')
     strength: Literal['AVAILABLE','RELEVANT','PRESSING']
     source_ids: tuple[str, ...]
     inhibited_by: tuple[str, ...] = ()
@@ -99,6 +102,7 @@ class Intention(DTO):
     slot_key: str = Field(pattern=r'^[A-Za-z0-9._:-]{1,128}$')
     source_ids: tuple[str, ...]
     self_generated: bool
+    behavior: Behavior | None = None
 
 
 class DeliberationFrame(DTO):
@@ -136,6 +140,8 @@ class CycleResult(DTO):
     record_id: str | None
     replayed: bool = False
     deliberation: DeliberationTrace | None = None
+    social_proposal: SocialInteractionProposal | None = None
+    action_proposal: SyntheticActionProposal | None = None
 
 
 class WakeCondition(DTO):

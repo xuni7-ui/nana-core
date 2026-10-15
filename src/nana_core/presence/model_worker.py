@@ -1,5 +1,8 @@
 """Fixed fixture worker. No Store, authority, tools, credentials or network API."""
 import json
+import os
+import signal
+import ctypes
 import sys
 import time
 from ..continuity.cognition import FrozenModelInput,AnalyticalFixturePort,CautiousFixturePort
@@ -7,7 +10,11 @@ from ..continuity.cognition import FrozenModelInput,AnalyticalFixturePort,Cautio
 
 def main():
     try:
-        if len(sys.argv)!=2 or sys.argv[1] not in {'analytical','cautious','timeout','unavailable'}:raise ValueError()
+        if len(sys.argv)!=3 or sys.argv[1] not in {'analytical','cautious','timeout','unavailable'}:raise ValueError()
+        parent=int(sys.argv[2])
+        if os.getppid()!=parent:raise ValueError()
+        libc=ctypes.CDLL(None)
+        if libc.prctl(1,signal.SIGKILL,0,0,0)!=0 or os.getppid()!=parent:raise ValueError()
         raw=sys.stdin.buffer.read(196609)
         if len(raw)>196608:raise ValueError()
         request=FrozenModelInput.model_validate_json(raw)

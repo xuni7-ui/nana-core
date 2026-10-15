@@ -9,7 +9,7 @@ from ..storage import canonical,digest
 from ..continuity import ContinuityStore,IdentityService
 from ..continuity.context import ContextPolicy
 from ..continuity.subject import SubjectLoop,SubjectInput
-from ..continuity.subject.projections import project_self
+from ..continuity.subject.projections import project_self,Environment
 from .contracts import RuntimeConfig,RuntimeEvent,RuntimeHealth,ScheduleSpec,Cause
 from .authority import RuntimeClock,RuntimeLease
 from .queue import EventQueue
@@ -71,6 +71,10 @@ class NanaRuntime:
         self.next_scan_us=0
         return result
 
+    def refresh_attention(self):
+        self.lease.assert_current()
+        self.next_scan_us=0
+
     def _watch_sources(self):
         """D installs source-bound checks. C decides relevance and intentions."""
         now=self.clock.utc_now_us()
@@ -84,7 +88,16 @@ class NanaRuntime:
             opportunities=collector(entity_id=self.config.entity_id,now_us=now,
                 quiet_since_us=self.oper['last_activity_us'],quiet_window_us=self.config.idle_recall_us)
             for opportunity in opportunities:
-                try:self.scheduler.add(opportunity)
+                inp=SubjectInput(source_key='synthetic.runtime.attention-template',kind='WAKE',origin='SELF_WAKE',
+                    entity_id=opportunity.entity_id,scope=opportunity.scope,observed_at_us=now,
+                    source_memory_ids=opportunity.memory_ids[:32],task_class=opportunity.task_class,
+                    reflection_experience_id=opportunity.reflection_experience_id)
+                event=RuntimeEvent(event_type=opportunity.event_type,trigger=opportunity.wake_trigger,input=inp,
+                    causes=(Cause(kind=opportunity.source_kind,reference_id=opportunity.source_id,revision=opportunity.source_revision),),
+                    due_at_us=opportunity.due_at_us,priority=opportunity.priority)
+                spec=ScheduleSpec(dedupe_key=opportunity.key,kind='CONDITION',due_at_us=opportunity.due_at_us,event=event)
+                if self.store.db.execute('SELECT 1 FROM runtime_schedules WHERE dedupe_key=?',(opportunity.key,)).fetchone():continue
+                try:self.scheduler.add(spec)
                 except CoreError as exc:
                     if str(exc)=='RUNTIME_SCHEDULE_BACKPRESSURE':break
                     raise
@@ -123,6 +136,8 @@ class NanaRuntime:
                     reason='MODEL_FAILED_LIGHT_FALLBACK'
                 self.oper['last_cognition_us']=self.clock.utc_now_us()
             else:result=self.subject.run(event)
+            if result and result.intention.kind=='REFLECTION' and event.reflection_experience_id:
+                self.subject.reflect(event.reflection_experience_id,authority=self.authority,apply=False)
             if result and result.intention.kind!='NO_ACTION':self.oper['last_activity_us']=self.clock.utc_now_us()
             self.queue.finish(row,'DONE',reason,result.cycle_id if result else None)
             checkpoint=self.store.db.execute('PRAGMA wal_checkpoint(PASSIVE)').fetchone()
@@ -147,14 +162,18 @@ class NanaRuntime:
 
     def living(self,scope=None):
         return project_self(self.store,entity_id=self.config.entity_id,scope=scope or self.config.scopes[0],
-            privacy_classes=self.config.privacy_classes)
+            privacy_classes=self.config.privacy_classes,environment=Environment(capabilities=self.config.capability_snapshot.capabilities,
+                devices=self.config.capability_snapshot.devices,platforms=self.config.capability_snapshot.platforms))
 
     def health(self):
         now=self.clock.utc_now_us()
         lease=self.store.one('runtime_lease',self.store.identity['identity_id'])
-        status='STOPPED' if self.stopped else 'DEGRADED' if self.cognition.availability in {'DEGRADED','UNAVAILABLE'} else 'WATCHING'
+        lost=False
+        try:self.lease.assert_current()
+        except CoreError:lost=True
+        status='STOPPED' if self.stopped else 'LOST' if lost else 'DEGRADED' if self.cognition.availability in {'DEGRADED','UNAVAILABLE'} else 'WATCHING'
         return RuntimeHealth(status=status,runtime_instance_id=self.lease.instance_id,epoch=self.lease.epoch,
-            lease_status=lease['state'],identity_id=self.store.identity['identity_id'],
+            lease_status='LOST' if lost and not self.stopped else lease['state'],identity_id=self.store.identity['identity_id'],
             last_event=self.oper['last_event'],last_wake_us=self.oper['last_wake_us'],last_cognition_us=self.oper['last_cognition_us'],
             queue_depth=self.queue.depth(),deferred_count=self.store.db.execute("SELECT count(*) FROM runtime_queue WHERE state='DEFERRED'").fetchone()[0],
             model_availability=self.cognition.availability,subject_revision=self.subject.revision,

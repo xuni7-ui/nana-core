@@ -11,6 +11,15 @@ EventType = Literal['USER_EVENT','TIME_EVENT','WORLD_EVENT','DEVICE_EVENT','PLAT
 Trigger = Literal['INCOMING_EVENT','TIME_TRIGGER','GOAL_TRIGGER','ANOMALY','RELATIONSHIP_TRIGGER','SELF_TRIGGER','REFLECTION_TRIGGER','DEVICE_TRIGGER','ENVIRONMENT_CHANGE']
 
 
+class CapabilitySnapshot(DTO):
+    revision: int = Field(default=1,ge=1)
+    capabilities: tuple[str,...] = Field(default=(),max_length=32)
+    devices: tuple[str,...] = Field(default=(),max_length=32)
+    platforms: tuple[str,...] = Field(default=(),max_length=16)
+    provenance: Literal['SYNTHETIC_OPERATOR_SNAPSHOT'] = 'SYNTHETIC_OPERATOR_SNAPSHOT'
+    execution_authority: Literal[False] = False
+
+
 class RuntimeConfig(DTO):
     domain: Literal['SYNTHETIC_ONLY'] = 'SYNTHETIC_ONLY'
     scopes: tuple[str, ...] = Field(min_length=1,max_length=16)
@@ -28,6 +37,7 @@ class RuntimeConfig(DTO):
     schedule_capacity: int = Field(default=128,ge=4,le=1024)
     poll_seconds: float = Field(default=0.1,ge=.01,le=5)
     model: Literal['analytical','cautious','unavailable','timeout'] | None = None
+    capability_snapshot: CapabilitySnapshot = Field(default_factory=CapabilitySnapshot)
 
     @model_validator(mode='after')
     def heartbeat_window(self):

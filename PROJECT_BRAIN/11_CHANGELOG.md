@@ -1015,3 +1015,13 @@ supervised frozen model fixture subprocess and attempt-based daily budget/
 cooldown/backoff. Timeout fallback still runs C and preserves identity; repeated
 idle polling does not append domain history or rewrite unchanged health. Five
 runtime tests PASS; no real models or production integration.
+
+## 2026-10-15 — D-V1 M3 open opportunities and C social learning
+
+Extended C rather than adding behavior loops: open motivation labels, sourced
+concerns/constraints, background check descriptions, semantic social/read proposals
+and one verified interaction lesson with trial/review/suspension. D schedules
+those checks; synthetic screen/file/presence/platform adapters read no devices.
+39 combined tests PASS; 7 Runtime tests PASS after final resource-clock/health
+changes. No raw body enters queue metadata; old C input JSON accepts new optional
+default fields. No real action or standing-delegation activation.

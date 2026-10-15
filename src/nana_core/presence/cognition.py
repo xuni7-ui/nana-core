@@ -1,9 +1,10 @@
 """Bounded cognition resources, not another subject. Only offline fixture models."""
 import json
+import os
 import subprocess
 import sys
-import time
 from ..contracts import CoreError
+from ..clock import Clock
 from ..storage import uid
 from .contracts import DAY
 
@@ -11,23 +12,24 @@ KINDS={'analytical','cautious','unavailable','timeout'}
 
 
 class SupervisedModelPort:
-    def __init__(self,kind,timeout_seconds,progress,on_usage):
+    def __init__(self,kind,timeout_seconds,progress,on_usage,resource_clock=None):
         if kind not in KINDS:raise CoreError('RUNTIME_MODEL_NOT_REGISTERED')
         self.kind,self.timeout,self.progress,self.on_usage=kind,timeout_seconds,progress,on_usage
         self.descriptor='isolated-offline-fixture-'+kind
+        self.resource_clock=resource_clock or Clock()
 
     def propose(self,request):
         payload=request.model_dump_json().encode()
         if len(payload)>196608:raise CoreError('RUNTIME_MODEL_CONTEXT_LIMIT')
         self.on_usage(len(payload),None)
-        process=subprocess.Popen([sys.executable,'-m','nana_core.presence.model_worker',self.kind],
+        process=subprocess.Popen([sys.executable,'-m','nana_core.presence.model_worker',self.kind,str(os.getpid())],
             stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
-        deadline=time.monotonic()+self.timeout
+        deadline=self.resource_clock.monotonic_ns()+int(self.timeout*1_000_000_000)
         first=True
         try:
             while True:
                 self.progress()
-                remaining=deadline-time.monotonic()
+                remaining=(deadline-self.resource_clock.monotonic_ns())/1_000_000_000
                 if remaining<=0:raise TimeoutError('RUNTIME_MODEL_TIMEOUT')
                 try:
                     out,_=process.communicate(input=payload if first else None,timeout=min(.05,remaining))

@@ -42,7 +42,7 @@ class SubjectIngress:
                     old = self.records.read(row['record_id'])['payload']['input']
                 except CoreError:
                     raise CoreError('SUBJECT_SOURCE_RETIRED') from None
-                if old != json.loads(event.model_dump_json()):
+                if SubjectInput.model_validate_json(canonical(old)).model_dump(mode='json') != json.loads(event.model_dump_json()):
                     raise CoreError('SUBJECT_SOURCE_COLLISION')
             # Nonretained input intentionally has no content hash that might leak it.
             return row
