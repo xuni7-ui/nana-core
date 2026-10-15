@@ -12,5 +12,5 @@ def evaluate(event,situation,attention,judgment,intention):
     elif intention.kind not in {'NO_ACTION','WAIT'}:
         normative,code='ENDORSED','SUBJECT_ENDORSED'
     else:normative,code='UNDECIDED','SUBJECT_DEFERRED' if attention in {'DEFER','RECALL_LATER'} or hard_unavailable else 'SUBJECT_DROPPED'
-    return SubjectEvaluation(normative=normative,disposition=code,considered=motive,wanted=motive,
+    return SubjectEvaluation(normative=normative,disposition=code,considered=motive or normative=='ENDORSED',wanted=motive or normative=='ENDORSED',
         reason_refs=situation.memory_ids)

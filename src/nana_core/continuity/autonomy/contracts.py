@@ -8,6 +8,12 @@ DispositionCode = Literal['SUBJECT_ENDORSED','SUBJECT_RESTRAINED','SUBJECT_DEFER
 DisclosureMode = Literal['DISCLOSE_BEFORE','DISCLOSE_AFTER','DISCLOSE_WHEN_ASKED','WITHHOLD_UNTIL_REVEAL','DECLINE_TO_DISCLOSE','STAY_SILENT']
 BehaviorPhase = Literal['PLANNED','MANAGER_BLOCKED','ACTION_BLOCKED','ATTEMPTED','UNKNOWN','VERIFIED_EFFECT']
 
+class RealizationTarget(DTO):
+    capability: str = Field(pattern=r'^[a-z][a-z0-9._-]{1,95}$')
+    operation: Literal['READ','WRITE','DELETE','CONTACT']
+    resource: str = Field(pattern=r'^synthetic://[A-Za-z0-9/._:-]{1,160}$')
+    resource_class: Literal['ORDINARY','PASSWORD','CREDENTIAL','PAYMENT','OTHER_PERSON_SECRET','UNKNOWN'] = 'UNKNOWN'
+
 class DisclosureRequest(DTO):
     topic: str = Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
     asked: bool = False

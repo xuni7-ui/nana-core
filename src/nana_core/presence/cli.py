@@ -66,7 +66,7 @@ def main():
         config=RuntimeConfig.model_validate_json(Path(args.config).read_text()) if args.config else RuntimeConfig(scopes=('synthetic-life',),entity_id='synthetic-person')
         if args.command=='init-synthetic':
             if Path(args.db).exists():raise CoreError('RUNTIME_DESTINATION_EXISTS')
-            with ContinuityStore(args.db,schema_target=8) as store:
+            with ContinuityStore(args.db,schema_target=config.schema_target) as store:
                 IdentityService(store,OperatorAuthority())
                 MemoryService(store).entity(config.entity_id,'PERSON')
                 print(json.dumps({'status':'SYNTHETIC_STORE_CREATED','identity_id':store.identity['identity_id']}))

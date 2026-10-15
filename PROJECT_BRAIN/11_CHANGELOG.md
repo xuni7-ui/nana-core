@@ -1052,3 +1052,15 @@ Implemented v9 opt-in, normative evaluation/erasable disposition history and
 semantic disclosure with known-fact contradiction rejection on same subject.
 Targeted9 PASS; fixed strict DTO JSON rehydration after first failing regression.
 No new dependency/table or real-world operation. More phases pending.
+
+## L3-C-AFFECT-V1 M2 — negative-only governance / governed fixture realization
+[实测·开发离线] R2 implemented: OperatorAuthority-bound controller, exact finite
+negative constraints in existing events/artifacts, revision/revoke, post-Judgment
+PASS/BLOCK/UNKNOWN, erasable outcome/disposition and filtered next-cycle view.
+No Model/Memory/Subject authority path. Old blocked intentions do not revive.
+Governed handoff uses existing ActionKernel checks and pre/post-transaction fence.
+Only exact OfflineEffectPort on explicitv9 may exercise synthetic fixture actions;
+no subclass/arbitrary CapabilityPort gets this exception, ordinary Shadow fences
+remain. Fixture JSON is world data, not another subject DB/Store. No real effect.
+Targeted22 PASS (R1/R2 + existing action/runtime boundary); latest R2 four PASS.
+Full qualification/recovery matrix pending; not READY. No production changes.

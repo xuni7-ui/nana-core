@@ -20,7 +20,7 @@ from .cognition import CognitionCoordinator
 class NanaRuntime:
     def __init__(self,path,config:RuntimeConfig,*,clock=None):
         self.config,self.stopped,self.stop_requested=config,False,False
-        self.store=ContinuityStore(path,clock or Clock(),schema_target=8)
+        self.store=ContinuityStore(path,clock or Clock(),schema_target=config.schema_target)
         try:
             old=self.store.one('runtime_lease',self.store.identity['identity_id'])
             history_floor=self.store.db.execute('SELECT coalesce(max(recorded_at_us),0) FROM events').fetchone()[0]

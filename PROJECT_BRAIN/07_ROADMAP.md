@@ -124,3 +124,15 @@ OFFLINE_CANDIDATE READY，基线 ea65dab。以下 M1–M3 表保留原规划记�
 Affective Drive, Autonomous Judgment & Governed Realization Foundation belongs
 to L3 Persistent Self, inherits C-V2/D-V1 offline candidates. Own branch only;
 no L1/L2/B5/R045 priority or production changes. Explicit v9, no new tables.
+
+## L3-C-AFFECT-V1 M2 — negative-only governance / governed fixture realization
+[实测·开发离线] R2 implemented: OperatorAuthority-bound controller, exact finite
+negative constraints in existing events/artifacts, revision/revoke, post-Judgment
+PASS/BLOCK/UNKNOWN, erasable outcome/disposition and filtered next-cycle view.
+No Model/Memory/Subject authority path. Old blocked intentions do not revive.
+Governed handoff uses existing ActionKernel checks and pre/post-transaction fence.
+Only exact OfflineEffectPort on explicitv9 may exercise synthetic fixture actions;
+no subclass/arbitrary CapabilityPort gets this exception, ordinary Shadow fences
+remain. Fixture JSON is world data, not another subject DB/Store. No real effect.
+Targeted22 PASS (R1/R2 + existing action/runtime boundary); latest R2 four PASS.
+Full qualification/recovery matrix pending; not READY. No production changes.

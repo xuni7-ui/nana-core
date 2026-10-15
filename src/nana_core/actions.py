@@ -29,9 +29,18 @@ class ActionKernel:
         if getattr(capability, "path", None) and capability.path.resolve() == store.path.resolve():
             raise CoreError("EXTERNAL_WORLD_MUST_BE_SEPARATE")
 
+    def _offline_subject_fixture(self):
+        if self.store.schema_target<9:return False
+        from .continuity.autonomy.fixture_effects import OfflineEffectPort
+        return type(self.capability) is OfflineEffectPort and self.capability.identity_id==self.store.identity['identity_id'] and self.registry is None
+
     def _execution_fence(self):
-        if self.store.one('core_meta','cloud.shadow_runtime'):
+        if self.store.one('core_meta','cloud.shadow_runtime') and not self._offline_subject_fixture():
             raise CoreError('SHADOW_BLOCKED')
+        if self._offline_subject_fixture():
+            guard=getattr(self.store,'_governed_action_guard',None)
+            if guard is None:raise CoreError('GOVERNANCE_FENCE_REQUIRED')
+            guard()
         protocol=self.store.one('core_meta','cloud.execution_protocol')
         if protocol:
             phase=json.loads(protocol['value_json'])
@@ -48,7 +57,7 @@ class ActionKernel:
 
     def set_budgets(self, values: dict, authority):
         self._operator(authority)
-        if self.store.one('core_meta','cloud.shadow_runtime'):raise CoreError('SHADOW_BLOCKED')
+        if self.store.one('core_meta','cloud.shadow_runtime') and not self._offline_subject_fixture():raise CoreError('SHADOW_BLOCKED')
         if set(values) != {"write_attempts", "external_requests", "cost_micro_units"}:
             raise CoreError("INVALID_BUDGET_DIMENSIONS")
         with self.store.transaction("budget.configured", {"issuer": authority.principal}) as tx:
@@ -61,7 +70,7 @@ class ActionKernel:
 
     def grant(self, spec: GrantSpec, authority):
         self._operator(authority)
-        if self.store.one('core_meta','cloud.shadow_runtime'):raise CoreError('SHADOW_BLOCKED')
+        if self.store.one('core_meta','cloud.shadow_runtime') and not self._offline_subject_fixture():raise CoreError('SHADOW_BLOCKED')
         if not set(spec.capabilities) <= self.capabilities | {self.verify_capability}:
             raise CoreError("UNKNOWN_CAPABILITY")
         if spec.expires_at_us <= spec.not_before_us:
@@ -236,7 +245,7 @@ class ActionKernel:
         return "PENDING_VERIFY"
 
     def verify(self, action_id):
-        if self.store.one('core_meta','cloud.shadow_runtime'):raise CoreError('SHADOW_BLOCKED')
+        if self.store.one('core_meta','cloud.shadow_runtime') and not self._offline_subject_fixture():raise CoreError('SHADOW_BLOCKED')
         action = self.store.one("actions", action_id)
         if action["state"] in {"SUCCEEDED", "NOT_APPLIED", "FAILED_EFFECT"}:
             return action["state"]

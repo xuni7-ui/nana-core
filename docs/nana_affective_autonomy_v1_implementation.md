@@ -24,3 +24,15 @@ No production, private input, real model or external effects are authorized.
 Schema rollback: controlled pre-upgrade backup in quarantine, no lossy downgrade.
 Real-memory ingress and production pins remain disabled/EMPTY. Old untracked
 Git bundle is preserved and excluded from commits.
+
+## L3-C-AFFECT-V1 M2 — negative-only governance / governed fixture realization
+[实测·开发离线] R2 implemented: OperatorAuthority-bound controller, exact finite
+negative constraints in existing events/artifacts, revision/revoke, post-Judgment
+PASS/BLOCK/UNKNOWN, erasable outcome/disposition and filtered next-cycle view.
+No Model/Memory/Subject authority path. Old blocked intentions do not revive.
+Governed handoff uses existing ActionKernel checks and pre/post-transaction fence.
+Only exact OfflineEffectPort on explicitv9 may exercise synthetic fixture actions;
+no subclass/arbitrary CapabilityPort gets this exception, ordinary Shadow fences
+remain. Fixture JSON is world data, not another subject DB/Store. No real effect.
+Targeted22 PASS (R1/R2 + existing action/runtime boundary); latest R2 four PASS.
+Full qualification/recovery matrix pending; not READY. No production changes.

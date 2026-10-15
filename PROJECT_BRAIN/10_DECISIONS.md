@@ -373,3 +373,14 @@ all of Nana. No message frequency/engagement optimization or real permission gai
 Preserve v7/v8 defaults and old policy; normative/disclosure fields apply only
 under v9. Source-backed restraint is distinct from lack of motive; disclosure
 never creates authority. Model receives serialized proposals only.
+
+## D-AFFECT-002 — trusted controller and sealed synthetic effect realm
+[授权/ADR2/开发验证] Reuse exact application-held OperatorAuthority for installing/
+revoking negative governance. Definitions never enter ordinary Memory/context;
+subject reads only source-backed filtered outcome. Gate occurs after committed
+judgment, cannot mint Grant. Synthetic action qualification uses exact final
+OfflineEffectPort/v9, fixed reading-only capability family, synthetic resource
+URIs and private fixture JSON; no callbacks/network/device interfaces/subclasses.
+Production/default Shadow remains blocked. Kernel Grant/Budget/Verify/state graph
+unchanged; governed admission and transaction fence cannot be bypassed by another
+Kernel on same fixture Store. Root/hostile Python memory mutation is out of scope.

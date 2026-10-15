@@ -919,3 +919,15 @@ adds no tables: two parent CHECK rebuilds and indexes. C default7 / D default8
 unchanged. R1 normative dimension, append-only dispositions and semantic
 disclosure/claim eligibility integrated in same SubjectLoop. Targeted9 PASS.
 R2–R6/system READY not yet qualified. No production/real model/private data.
+
+## L3-C-AFFECT-V1 M2 — negative-only governance / governed fixture realization
+[实测·开发离线] R2 implemented: OperatorAuthority-bound controller, exact finite
+negative constraints in existing events/artifacts, revision/revoke, post-Judgment
+PASS/BLOCK/UNKNOWN, erasable outcome/disposition and filtered next-cycle view.
+No Model/Memory/Subject authority path. Old blocked intentions do not revive.
+Governed handoff uses existing ActionKernel checks and pre/post-transaction fence.
+Only exact OfflineEffectPort on explicitv9 may exercise synthetic fixture actions;
+no subclass/arbitrary CapabilityPort gets this exception, ordinary Shadow fences
+remain. Fixture JSON is world data, not another subject DB/Store. No real effect.
+Targeted22 PASS (R1/R2 + existing action/runtime boundary); latest R2 four PASS.
+Full qualification/recovery matrix pending; not READY. No production changes.

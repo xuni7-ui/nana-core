@@ -24,6 +24,7 @@ class Situation(DTO):
     interaction_style: str = 'RESPECTFUL_EXPLICIT'
     last_social_act: str | None = None
     reflection_experience_id: str | None = None
+    manager_outcomes: tuple[dict,...] = ()
 
 
 def appraise(event: SubjectInput, situation: Situation):

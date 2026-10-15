@@ -169,6 +169,8 @@ class Store:
     @contextmanager
     def transaction(self, kind, data=None, source_namespace=None, source_key=None,
                     occurred_at_us=None, artifact_id=None):
+        action_guard=getattr(self,'_governed_action_guard',None) if kind in {'action.proposed','action.reserved','action.dispatched'} else None
+        if action_guard:action_guard()
         guard = getattr(self, "_runtime_guard", None)
         if guard:
             guard()
@@ -188,6 +190,7 @@ class Store:
                              artifact_id or getattr(tx, "payload_id", None)))
             if guard:
                 guard()  # expired ownership rolls back the entire C transition
+            if action_guard:action_guard()
             self.db.execute("COMMIT")
         except BaseException:
             self.db.execute("ROLLBACK")
