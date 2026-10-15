@@ -97,3 +97,21 @@ Commit sequence: D0 facts/contract; D1 lease/queue/scheduler; D2 coordinator/mod
 budget/CLI; D3 C cue/social/interaction-learning integration and synthetic ports;
 D4 system scenarios/recovery fixes; FINAL full regression/evidence/manifest.
 No blocking architecture ambiguity identified; no change to C-V2 invariants.
+
+## Architecture clarification — one structure, many behaviors
+
+The folder example is S1 only, not a primary architecture or a success objective.
+D does not define preferences, personality, curiosity or sociability. Motivation
+sources remain extensible in C; adding a source never changes the Runtime loop.
+ACT/DEFER/WATCH/REFLECT/LEARN/EXPLORE/CREATE/MAINTAIN/CONTINUE_PROJECT/
+HONOR_COMMITMENT/SEEK_CAPABILITY/EXPRESS_OPINION/DISAGREE/SOCIALIZE/REST/
+WITHDRAW/IGNORE/STAY_SILENT/DO_NOTHING are equally legitimate policy outcomes.
+No message/engagement/reaction-count optimization.
+
+Qualification includes S1 relationship/curiosity/opportunity; S2 project/duty;
+S3 capability gap; S4 supported creative interest; S5 social OR silence;
+S6 value/norm conflict → non-action; S7 load/rest; S8 self-development;
+S9 independent opinion; S10 non-user world event. Same runtime and C SubjectLoop,
+no per-behavior engines. C-V2+D-V1 is persistent subject/time infrastructure,
+not the complete future Nana (cognition/world model/agency/E/G/embodiment and
+other stages still extend this subject).

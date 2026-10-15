@@ -169,6 +169,11 @@ class Store:
     @contextmanager
     def transaction(self, kind, data=None, source_namespace=None, source_key=None,
                     occurred_at_us=None, artifact_id=None):
+        guard = getattr(self, "_runtime_guard", None)
+        if guard:
+            guard()
+        elif self.one("core_meta", "runtime.managed"):
+            raise CoreError("RUNTIME_FENCE_REQUIRED")
         self.db.execute("BEGIN IMMEDIATE")
         tx = Transaction(self)
         try:
@@ -181,6 +186,8 @@ class Store:
                             (tx.event_id, kind, 1, identities[0]["identity_id"] if identities else None,
                              source_namespace, source_key, occurred_at_us, now, now, canonical(body),
                              artifact_id or getattr(tx, "payload_id", None)))
+            if guard:
+                guard()  # expired ownership rolls back the entire C transition
             self.db.execute("COMMIT")
         except BaseException:
             self.db.execute("ROLLBACK")

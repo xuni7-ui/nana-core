@@ -18,7 +18,9 @@ class ContinuityStore(Store):
             raise CoreError("CONTINUITY_SYMLINK_FORBIDDEN")
         return path
 
-    def __init__(self, path, clock=None):
+    def __init__(self, path, clock=None, *, schema_target=7):
+        if type(schema_target) is not int or not 7 <= schema_target <= LATEST:
+            raise CoreError("CONTINUITY_SCHEMA_UNSUPPORTED")
         path = self._private_path(path)
         new_database = not Path(path).exists()
         # An identity-only v1 upgrade has no private payloads or old privacy state.
@@ -29,7 +31,7 @@ class ContinuityStore(Store):
                 new_database = db.execute("PRAGMA user_version").fetchone()[0] == 1
             finally:
                 db.close()
-        super().__init__(path, clock, schema_target=LATEST)
+        super().__init__(path, clock, schema_target=schema_target)
         try:
             self.db.execute("PRAGMA secure_delete=ON")
             for suffix in ("", "-wal", "-shm", ".lock"):
@@ -66,7 +68,7 @@ class ContinuityStore(Store):
             raise CoreError("DESTINATION_EXISTS")
         self.privacy.register_copy(destination)
         super().replay(destination)
-        with ContinuityStore(destination, self.clock) as replay:
+        with ContinuityStore(destination, self.clock, schema_target=self.schema_target) as replay:
             from .memory import MemoryService
             MemoryService(replay).rebuild_index()
 

@@ -999,3 +999,11 @@ Read actual C-V2 READY base ea65dab; created isolated Runtime development branch
 Updated 07 current C/D status, preserving historical records. Recorded executable
 runtime/lease/queue/cognition/privacy/social boundaries and verification sequence.
 No business source or production changes in this checkpoint.
+
+## 2026-10-15 — D-V1 M1 authority/queue/scheduler
+
+Implemented dev v8 on the existing Store: runtime lease, queue, schedules and
+operational cognition-call table; local write lock plus epoch/lease commit fence,
+clock high-water, source-linked admission/queue, periodic coalescing and quarantine.
+35 targeted tests PASS. Clarification records S1–S10 as peer cases and keeps all
+judgment/personality in C. No production, new dependency or real-world adapter.

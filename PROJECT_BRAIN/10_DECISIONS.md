@@ -358,3 +358,12 @@ raw-clone protection claim. C remains sole judgment/intention authority. Wake is
 not LLM/execution. Operational health/heartbeat is not Self Memory. Development
 v8 only; real ingress/action/pins unchanged. Source-backed social/interaction
 extensions use existing C and learning services, never a new SocialLoop.
+
+## D-DV1-002 — Generative subject, not scenario-specific autonomy (2026-10-15)
+
+User D-V1 clarification: folder curiosity is one fixture case, never personality,
+default motive or runtime objective. C owns extensible MotivationSource and
+judgment; D supplies time/event/cognition opportunities. Qualification covers
+S1–S10 and legitimate non-action/rest/silence using one SubjectLoop. No social,
+project, creative or curiosity agent loops. Persistent C+D is a foundation, not
+all of Nana. No message frequency/engagement optimization or real permission gain.

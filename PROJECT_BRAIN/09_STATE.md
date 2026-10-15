@@ -806,3 +806,19 @@ Runtime business implementation/qualification NOT_RUN at this checkpoint.
 C source gap: social enum exists, complete proposal/interaction lesson does not;
 minimal extension stays inside existing C policy/experience services. No second
 subject judgment loop. Production/B5-3 facts not inferred or modified.
+
+### D-V1 M1 — local authority and durable event/time infrastructure
+
+IMPLEMENTED / OFFLINE TESTED: explicit v8 runtime schema (4 operational tables),
+RuntimeClock/epoch lease/PID identity and pre-BEGIN/pre-COMMIT C mutation fence;
+source-bound bounded queue and coalescing Scheduler using existing C admission,
+records/privacy/Store. C-V2 ContinuityStore default stays v7; NanaRuntime opts in
+v8. Default legacy v1 unchanged. Runtime-managed stores deny unfenced C mutation;
+expired lease cannot renew; existing file lock blocks double start; managed
+backup is quarantine. 35 targeted tests PASS (32 prior C +3 runtime cases).
+Standalone coordinator/system qualification still pending.
+
+Architecture clarification accepted: folder narrative = S1 only; S1–S10 domain-
+neutral matrix and ONE_SUBJECT_LOOP_MANY_BEHAVIORS are required. D only schedules
+opportunities; C owns open-source motivation/judgment. Silence/rest/non-action
+are valid. C-V2+D-V1 does not equal complete Nana. No engagement metric.
