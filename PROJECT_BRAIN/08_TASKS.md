@@ -140,3 +140,8 @@
 | NC-DEV-READONLY | ③已运行验收 | 实际合成文件读取/独立核验、单执行方、预算、SIGKILL 与身份恢复 |
 | NC-DEV-HTTP | ③已运行验收（协议） | 7 wire tests，均明确 loopback simulator；不计真实模型 |
 | NC-S5-E12 | ④未知 / NOT_RUN | 当前开发端点 0、真实调用 0；需两个授权 real_model 端点 |
+
+## L3-C-AFFECT-V1 — implementation tracker
+R1 normative/disclosure/disposition: IMPLEMENTED / targeted offline TESTED.
+R2–R6 and system qualification: pending. No real models/data/actions.
+Evidence: docs/nana_affective_autonomy_v1_implementation.md.

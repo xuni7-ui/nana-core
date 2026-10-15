@@ -912,3 +912,10 @@ Own development branch only. Main/R045 refs verified unchanged at their existing
 Untracked pre-existing `nana-r03-codex-10581aea.bundle` retained unchanged.
 Stop at offline candidate; next authorized integration must attach to this same
 subject. No automatic E/G or real host deployment follows this result.
+
+## L3-C-AFFECT-V1 M1 (2026-10-15)
+[实测·开发离线] Base02e68d3, independent affective-autonomy branch. Explicit v9
+adds no tables: two parent CHECK rebuilds and indexes. C default7 / D default8
+unchanged. R1 normative dimension, append-only dispositions and semantic
+disclosure/claim eligibility integrated in same SubjectLoop. Targeted9 PASS.
+R2–R6/system READY not yet qualified. No production/real model/private data.

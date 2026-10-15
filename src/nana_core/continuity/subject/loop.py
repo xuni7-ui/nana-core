@@ -140,6 +140,8 @@ class SubjectLoop:
                         tx.update('subject_goal_candidates', goal['candidate_id'], state='EXPIRED' if state == 'EXPIRED' else 'WITHDRAWN')
 
     def run(self, event: SubjectInput, *, expected_revision=None, _deliberation=None):
+        if event.disclosure_request is not None and self.store.schema_target<9:
+            raise CoreError('AUTONOMY_SCHEMA_REQUIRED')
         if event.scope not in self.scopes or event.privacy_class not in self.privacy_classes:
             raise CoreError('SUBJECT_CONTEXT_POLICY_BLOCKED')
         if expected_revision is not None and type(expected_revision) is not int:
@@ -196,6 +198,17 @@ class SubjectLoop:
                 intention = Intention(kind='NO_ACTION', purpose='Keep existing concern without duplicate initiative',
                     slot_key='quiet', source_ids=situation.memory_ids, self_generated=event.origin == 'SELF_WAKE')
             social=None
+            evaluation=disclosure=None
+            if self.store.schema_target>=9:
+                from ..autonomy.evaluation import evaluate
+                from ..autonomy.disclosure import decide_disclosure
+                evaluation=evaluate(event,situation,attention,judgment,intention)
+                disclosure=decide_disclosure(self.store,event,privacy_classes=self.privacy_classes)
+                if disclosure:
+                    # Disclosure sources participate in the same erasure lineage.
+                    situation=situation.model_copy(update={
+                        'memory_ids':tuple(dict.fromkeys((*situation.memory_ids,*disclosure.source_memory_ids))),
+                        'support_record_ids':tuple(dict.fromkeys((*situation.support_record_ids,*disclosure.source_record_ids)))})
             if intention.kind=='SOCIAL_INTERACTION' and situation.cue:
                 social=propose_social(topic=situation.cue.topic_key,style=situation.interaction_style,
                     available=situation.cue.availability=='AVAILABLE',source_ids=situation.memory_ids,
@@ -209,12 +222,13 @@ class SubjectLoop:
             # Non-retention also blocks derived retention, regardless of context.
             if event.retention == 'DO_NOT_REMEMBER':
                 parents, supports = (), ()
-            if intention.kind != 'NO_ACTION' and (parents or supports):
+            if (intention.kind != 'NO_ACTION' or (evaluation and evaluation.considered)) and (parents or supports):
                 intention_id = uid()
                 record = self.records.create(tx, kind='INTENTION', scope=event.scope,
                     payload={**intention.model_dump(mode='json'),'social_proposal':social.model_dump(mode='json') if social else None}, records=parents, memories=supports)
                 tx.put('subject_intentions', {'intention_id': intention_id, 'subject_event_id': source['subject_event_id'],
-                    'scope': event.scope, 'slot_key': intention.slot_key, 'kind': intention.kind, 'state': 'PENDING',
+                    'scope': event.scope, 'slot_key': intention.slot_key, 'kind': intention.kind,
+                    'state': 'DROPPED' if evaluation and evaluation.normative=='RESTRAINED' else 'DEFERRED' if intention.kind=='NO_ACTION' else 'PENDING',
                     'revision': 1, 'record_id': record, 'created_at_us': self.store.clock.utc_now_us(),
                     'expires_at_us': self.store.clock.utc_now_us() + INTENTION_TTL_US})
                 if intention.kind in {'EXPLORE','GOAL_CANDIDATE'}:
@@ -228,6 +242,7 @@ class SubjectLoop:
                 admission=source['admission'], appraisal=appraisal, motivations=motives, attention=attention,
                 judgment=judgment, intention=intention, intention_id=intention_id, goal_candidate_id=candidate_id,
                 barrier='NO_ACTION' if intention.kind == 'NO_ACTION' else 'SHADOW_BLOCKED', record_id=None,social_proposal=social,action_proposal=action,
+                evaluation=evaluation,disclosure=disclosure,
                 deliberation=None if _deliberation is None else {
                     'model_descriptor': _deliberation.model_descriptor,
                     'context_digest': _deliberation.context_digest, 'raw_proposal_json': _deliberation.raw_proposal_json})
@@ -235,6 +250,11 @@ class SubjectLoop:
             if parents or supports:
                 record = self.records.create(tx, kind='SUBJECT_CYCLE', scope=event.scope,
                     payload=result.model_dump(mode='json'), records=parents, memories=supports)
+                if evaluation:
+                    from ..autonomy.history import record_disposition
+                    record_disposition(self.store,tx,cycle_id=cycle_id,intention_id=intention_id,intention_revision=1,
+                        scope=event.scope,parent_record=record,stage='SUBJECT',code=evaluation.disposition,
+                        normative=evaluation.normative,wanted=evaluation.wanted,reason_refs=evaluation.reason_refs)
             tx.put('subject_cycles', {'cycle_id': cycle_id, 'subject_event_id': source['subject_event_id'],
                 'revision': expected_revision + 1, 'record_id': record, 'judgment': judgment.stance,
                 'attention': attention, 'barrier': result.barrier, 'created_at_us': self.store.clock.utc_now_us()})

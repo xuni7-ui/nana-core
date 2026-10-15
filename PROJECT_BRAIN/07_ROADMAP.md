@@ -119,3 +119,8 @@ OFFLINE_CANDIDATE READY，基线 ea65dab。以下 M1–M3 表保留原规划记�
 
 ## 2026-10-10 独立 Core 工程增补（历史零代码口径不再描述当前副本）
 [实测] S0—S4 离线连续性、S5 工程评估、S6 非生产准备已在开发副本实现与测试；E12 未验证。S6 仅合成旧来源/同进程影子/闭合 reading CapabilityPort/单模拟执行方，不代表 Portable 全框架、真实平台多工具或生产迁移完成。D-003/D-004 的小资源/单 Runtime/影子原则保持。
+
+## L3-C-AFFECT-V1 — CURRENT DEVELOPMENT (2026-10-15)
+Affective Drive, Autonomous Judgment & Governed Realization Foundation belongs
+to L3 Persistent Self, inherits C-V2/D-V1 offline candidates. Own branch only;
+no L1/L2/B5/R045 priority or production changes. Explicit v9, no new tables.

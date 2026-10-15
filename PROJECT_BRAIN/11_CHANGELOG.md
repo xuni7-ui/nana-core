@@ -1046,3 +1046,9 @@ Explicitv8 tables4/dependencies0; no old tests or production source changed.
 Privacy/path/credential scan PASS; production pins EMPTY. Manifest128 files
 anchored in09_STATE. D_V1_CONTINUOUS_RUNTIME_OFFLINE_CANDIDATE=READY, not real
 host/model/E/G acceptance. Main/R045 untouched; no production or external action.
+
+## L3-C-AFFECT-V1 M1 — normative/disclosure foundations
+Implemented v9 opt-in, normative evaluation/erasable disposition history and
+semantic disclosure with known-fact contradiction rejection on same subject.
+Targeted9 PASS; fixed strict DTO JSON rehydration after first failing regression.
+No new dependency/table or real-world operation. More phases pending.

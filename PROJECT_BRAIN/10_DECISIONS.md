@@ -367,3 +367,9 @@ judgment; D supplies time/event/cognition opportunities. Qualification covers
 S1–S10 and legitimate non-action/rest/silence using one SubjectLoop. No social,
 project, creative or curiosity agent loops. Persistent C+D is a foundation, not
 all of Nana. No message frequency/engagement optimization or real permission gain.
+
+## D-AFFECT-001 — opt-in generic subject semantics (2026-10-15)
+[本轮正式授权/ADR2] v9 extends existing records/CHECKs, no new table/Store/loop.
+Preserve v7/v8 defaults and old policy; normative/disclosure fields apply only
+under v9. Source-backed restraint is distinct from lack of motive; disclosure
+never creates authority. Model receives serialized proposals only.

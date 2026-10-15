@@ -4,6 +4,7 @@ from pydantic import Field, model_validator
 from ...contracts import DTO
 from .social import SocialInteractionProposal
 from .opportunities import Behavior,SyntheticActionProposal
+from ..autonomy.contracts import DisclosureRequest,DisclosureDecision,SubjectEvaluation
 
 Key = str
 Level = Literal['NONE', 'LOW', 'RELEVANT', 'HIGH']
@@ -47,6 +48,7 @@ class SubjectInput(DTO):
     reflection_experience_id: str | None = None
     result_for_intention_id: str | None = None
     observed_availability: Literal['AVAILABLE','BUSY','UNKNOWN'] | None = None
+    disclosure_request: DisclosureRequest | None = None
 
     @model_validator(mode='after')
     def provenance(self):
@@ -146,6 +148,8 @@ class CycleResult(DTO):
     deliberation: DeliberationTrace | None = None
     social_proposal: SocialInteractionProposal | None = None
     action_proposal: SyntheticActionProposal | None = None
+    evaluation: SubjectEvaluation | None = None
+    disclosure: DisclosureDecision | None = None
 
 
 class WakeCondition(DTO):
