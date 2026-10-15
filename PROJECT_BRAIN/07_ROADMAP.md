@@ -12,8 +12,8 @@
 |---|---|---|---|
 | **L1** | B站 Agent（C 系列） | ①–③ 混合 | C.4 事件端到端验收 |
 | **L2** | Iris 记忆系统 | ①–③ 混合 | Stage-0 Memory Audit |
-| **L3** | Nana Core 独立化 | **规划中（零代码）** | M1 记忆地基 + NanaState |
-| **L4** | 运行环境 / 统一能力接口 | **规划中（暂不排期）** | Portable，等 L3 稳定 |
+| **L3** | Nana Core 独立化 / C Persistent Self | **OFFLINE_CANDIDATE READY** | C-V2 已实现/离线验证；真实接入另行验收 |
+| **L4** | D Continuous Runtime & Persistent Presence | **CURRENT DEVELOPMENT STAGE** | 独立开发 Runtime，无生产部署 |
 | **L5** | 插件与接口维护 | ① 已实现 | 变更即记录 |
 | **LX** | 工程基建（事实源 / 版本 / 协作桥） | ①–② | 协作桥**机制已离线验证**，真实 Runner 待一次性授权 |
 
@@ -54,7 +54,11 @@
 
 ---
 
-## 四、L3 · Nana Core 独立化（**规划中**）
+## 四、L3 · Nana Core 独立化（当前 C-V2 离线候选 READY）
+
+当前入口（2026-10-15）：C = Persistent Self & Autonomous Personality Foundation，
+OFFLINE_CANDIDATE READY，基线 ea65dab。以下 M1–M3 表保留原规划记录，
+不再表示当前零代码状态；现行实测证据见 09_STATE 和 C-V2 delivery。
 
 **目标**：身份 / 记忆 / 状态 / 目标 / 计划 / 行动 / 经验学习 七要素独立可控。
 
@@ -74,7 +78,11 @@
 
 ---
 
-## 五、L4 · 运行环境 / 统一能力接口（**规划中，暂不排期**）
+## 五、L4 · D Continuous Runtime & Persistent Presence（CURRENT DEVELOPMENT STAGE）
+
+当前入口（2026-10-15）：独立开发 D-V1 Runtime，继承 C SubjectLoop。
+以下“当前不动”为2026-10-10历史前置条件，现由 C-V2 READY 满足开发前置；
+不授权生产常驻第二 Runtime、真实 G 感知或 E 执行。
 
 - Portable 可移植运行环境；统一能力接口（Capability 抽象）。
 - **前置**：L3 稳定之后。**当前不动**。

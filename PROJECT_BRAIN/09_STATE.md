@@ -795,3 +795,14 @@ Manifest `manifests/nana_persistent_self_candidate.json` (105 files) SHA256:
 No self-reference; snapshot file integrity only, no real-host attestation.
 Next boundary requires separate authorized real data/model/host qualification;
 this task stops without real integration or production rollout.
+
+## D-V1 START — Continuous Runtime & Persistent Presence (2026-10-15)
+
+[实测·开发] Base ea65dabaa907b8bd777723d5ccc9527e1014d0c5; own branch
+`dev/nana-core-continuous-runtime-codex`. C-V2 remains OFFLINE_CANDIDATE READY.
+D is CURRENT DEVELOPMENT STAGE. 07 current entry reconciled without deleting
+historical planning tables. Contract: docs/ADR/ADR-DV1-001-continuous-runtime.md.
+Runtime business implementation/qualification NOT_RUN at this checkpoint.
+C source gap: social enum exists, complete proposal/interaction lesson does not;
+minimal extension stays inside existing C policy/experience services. No second
+subject judgment loop. Production/B5-3 facts not inferred or modified.

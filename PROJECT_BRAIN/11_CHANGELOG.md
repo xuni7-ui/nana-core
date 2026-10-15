@@ -992,3 +992,10 @@ SIGKILL/restart assertions, source privacy scan and 105-file fingerprint manifes
 Documented ordinal-policy/one-lesson/real-semantic limits and intermediate fixes.
 No prior tests modified, no dependencies added, no production or external
 execution. Persistent Self offline candidate READY; automatic real rollout denied.
+
+## 2026-10-15 — D-V1 baseline and current-route reconciliation
+
+Read actual C-V2 READY base ea65dab; created isolated Runtime development branch.
+Updated 07 current C/D status, preserving historical records. Recorded executable
+runtime/lease/queue/cognition/privacy/social boundaries and verification sequence.
+No business source or production changes in this checkpoint.

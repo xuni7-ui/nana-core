@@ -349,3 +349,12 @@ source roots and accept counter-evidence. Legacy initiative evaluation is not
 another decision engine inside this loop. C intentions never grant execution.
 Explicit development v7 migration is authorized only for dev Stores; deployed
 v1/default Store, real ingress, production pins and R045 remain unchanged.
+
+## D-DV1-001 — Runtime schedules C, local lease fences decisions (2026-10-15)
+
+Adopt ADR-DV1-001 for standalone offline Runtime. Same Store/file lock plus
+persisted epoch/lease and pre/post-transaction fence; no distributed consensus or
+raw-clone protection claim. C remains sole judgment/intention authority. Wake is
+not LLM/execution. Operational health/heartbeat is not Self Memory. Development
+v8 only; real ingress/action/pins unchanged. Source-backed social/interaction
+extensions use existing C and learning services, never a new SocialLoop.
