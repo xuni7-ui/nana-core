@@ -822,3 +822,15 @@ Architecture clarification accepted: folder narrative = S1 only; S1–S10 domain
 neutral matrix and ONE_SUBJECT_LOOP_MANY_BEHAVIORS are required. D only schedules
 opportunities; C owns open-source motivation/judgment. Silence/rest/non-action
 are valid. C-V2+D-V1 does not equal complete Nana. No engagement metric.
+
+### D-V1 M2 — standalone foreground coordinator and cognition resource
+
+IMPLEMENTED / OFFLINE TESTED: NanaRuntime uses one queue→wake→C SubjectLoop path;
+low-frequency timer checks do not call a model. Persistent attempt budget,
+cooldown/backoff, crash-UNKNOWN/no automatic retry; model fixture runs in bounded
+short subprocess, timeout/lease-loss kills and reaps it. Operational heartbeats
+are separate from cognitive freshness. Fixture model swap/outage preserves
+subject state; RuntimeHealth is operational, not Self Memory. CLI init/run/status/
+owned-PID stop, no daemon/install/network provider. 5 runtime tests PASS.
+Generic C source opportunities/social/interaction integration and S1–S10/system
+qualification remain pending. Real model calls=0, E12 NOT_RUN.

@@ -1007,3 +1007,11 @@ operational cognition-call table; local write lock plus epoch/lease commit fence
 clock high-water, source-linked admission/queue, periodic coalescing and quarantine.
 35 targeted tests PASS. Clarification records S1–S10 as peer cases and keeps all
 judgment/personality in C. No production, new dependency or real-world adapter.
+
+## 2026-10-15 — D-V1 M2 standalone coordinator
+
+Added NanaRuntime foreground event loop, injectable clock, resource-health CLI,
+supervised frozen model fixture subprocess and attempt-based daily budget/
+cooldown/backoff. Timeout fallback still runs C and preserves identity; repeated
+idle polling does not append domain history or rewrite unchanged health. Five
+runtime tests PASS; no real models or production integration.
