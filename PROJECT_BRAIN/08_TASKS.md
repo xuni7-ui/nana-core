@@ -157,3 +157,15 @@ no subclass/arbitrary CapabilityPort gets this exception, ordinary Shadow fences
 remain. Fixture JSON is world data, not another subject DB/Store. No real effect.
 Targeted22 PASS (R1/R2 + existing action/runtime boundary); latest R2 four PASS.
 Full qualification/recovery matrix pending; not READY. No production changes.
+
+## L3-C-AFFECT-V1 M3 — relationship and privacy axes
+[实测·开发离线] R3 pure bounded RelationshipInfluenceView with seven facets,
+domain trust/counterevidence and target-specific repair. Existing RelationshipView
+retained; v9 personality/style/context use the same projector. Social expectation
+comes from direct sourced norms/boundaries, not model assignment. Private social
+meaning can cause self-restraint without becoming Manager authority. Hard context
+privacy/task/destination/deletion/conflict checks preserved; secret canary excluded.
+16 targeted PASS (new + prior projection/context); final four R1/R3 PASS after
+normalized-link/time tie refinements. v9 adds only3 normalized relationship
+columns on existing table; partial unreleased v9 checkpoints finalized additively.
+No new tables/Store/loop; R4/R5/system qualification remain pending.

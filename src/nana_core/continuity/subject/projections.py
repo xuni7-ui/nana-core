@@ -72,7 +72,10 @@ def project_self(store, *, entity_id, scope, privacy_classes, environment=None):
     reflections = tuple(r for r in store.all('subject_reflections') if r['state'] == 'CANDIDATE' and is_visible(r['record_id']))
     assertions = tuple(a for a in growth.assertions(scope, privacy_classes=privacy_classes) if a['topic'])[:32]
     adopted = [a for a in assertions if a['state'] == 'ADOPTED']
-    relation = growth.relationship(entity_id, scope, privacy_classes=privacy_classes)
+    if store.schema_target>=9:
+        from ..autonomy.relationships import relationship_influence,legacy_style
+        relation=legacy_style(relationship_influence(store,entity_id,scope=scope,privacy_classes=privacy_classes))
+    else:relation = growth.relationship(entity_id, scope, privacy_classes=privacy_classes)
     support = [r['record_id'] for r in (*concerns, *commitments, *projects, *reflections)]
     for a in assertions:
         support.extend(a['source_record_ids'])

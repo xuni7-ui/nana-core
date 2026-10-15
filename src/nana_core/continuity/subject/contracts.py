@@ -4,7 +4,7 @@ from pydantic import Field, model_validator
 from ...contracts import DTO
 from .social import SocialInteractionProposal
 from .opportunities import Behavior,SyntheticActionProposal
-from ..autonomy.contracts import DisclosureRequest,DisclosureDecision,SubjectEvaluation,RealizationTarget
+from ..autonomy.contracts import DisclosureRequest,DisclosureDecision,SubjectEvaluation,RealizationTarget,RelationshipDetails
 
 Key = str
 Level = Literal['NONE', 'LOW', 'RELEVANT', 'HIGH']
@@ -51,6 +51,7 @@ class SubjectInput(DTO):
     disclosure_request: DisclosureRequest | None = None
     realization_target: RealizationTarget | None = None
     governance_review_id: str | None = None
+    relationship_details: RelationshipDetails | None = None
 
     @model_validator(mode='after')
     def provenance(self):
@@ -69,6 +70,8 @@ class SubjectInput(DTO):
             raise ValueError('relationship update requires a sourced occurrence')
         if self.relationship_kind and self.kind not in {'RELATIONSHIP', 'PROJECT', 'INTERACTION'}:
             raise ValueError('relationship occurrence kind mismatch')
+        if self.relationship_details and not self.relationship_kind:raise ValueError('relationship metadata requires occurrence')
+        if self.relationship_details and self.relationship_details.social_expectation and self.relationship_kind not in {'BOUNDARY','NORM'}:raise ValueError('social expectation requires explicit norm/boundary')
         return self
 
 

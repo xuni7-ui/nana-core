@@ -103,12 +103,27 @@ class Growth:
             tx.update('self_assertions', key, revision=current['revision'] + int(old is not None),
                 state=view['state'], record_id=record, updated_at_us=self.store.clock.utc_now_us())
         if event.relationship_kind:
+            extra={}
+            if self.store.schema_target>=9:
+                details=event.relationship_details
+                target=(details.target_event_id or details.supersedes_event_id) if details else None
+                if target:
+                    prior=self.store.one('relationship_events',target)
+                    if not prior or prior['to_entity_id']!=event.entity_id or not live_record(self.store,prior['record_id']):raise CoreError('RELATIONSHIP_TARGET_INVALID')
+                    rec=self.records.read(prior['record_id'])
+                    if rec['scope']!=event.scope or (prior.get('relation_domain') or 'interaction')!=details.domain:raise CoreError('RELATIONSHIP_TARGET_SCOPE_MISMATCH')
+                    if event.relationship_kind=='REPAIR' and prior['relation_kind']!='CONFLICT':raise CoreError('REPAIR_TARGET_NOT_CONFLICT')
+                    if details.supersedes_event_id and (event.relationship_kind!='BOUNDARY' or prior['relation_kind']!='BOUNDARY'):raise CoreError('BOUNDARY_REVISION_INVALID')
+                if details and details.boundary_state=='WITHDRAWN' and not details.supersedes_event_id:raise CoreError('BOUNDARY_WITHDRAWAL_TARGET_REQUIRED')
+                extra={'related_event_id':target,'relation_domain':details.domain if details else 'interaction',
+                    'relation_effect':'WITHDRAWN' if details and details.boundary_state=='WITHDRAWN' else 'SUPERSEDES' if details and details.supersedes_event_id else None}
             tx.put('relationship_events', {'relationship_event_id': uid(),
                 'subject_event_id': row['subject_event_id'], 'from_entity_id': self.store.identity['identity_id'],
                 'to_entity_id': event.entity_id, 'relation_kind': event.relationship_kind,
                 'record_id': self.records.create(tx, kind='RELATIONSHIP_EVENT', scope=event.scope,
-                    payload={'meaning': event.text, 'kind': event.relationship_kind}, records=(row['record_id'],)),
-                'occurred_at_us': event.occurred_at_us if event.occurred_at_us is not None else event.observed_at_us})
+                    payload={'meaning': event.text, 'kind': event.relationship_kind,
+                        **({'details':event.relationship_details.model_dump(mode='json')} if event.relationship_details else {})}, records=(row['record_id'],)),
+                'occurred_at_us': event.occurred_at_us if event.occurred_at_us is not None else event.observed_at_us,**extra})
 
     def relationship(self, entity_id, scope, *, privacy_classes=('PUBLIC','PROJECT','PERSONAL','SECRET')):
         rows = [r for r in self.store.all('relationship_events') if r['to_entity_id'] == entity_id

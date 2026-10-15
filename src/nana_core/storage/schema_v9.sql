@@ -33,4 +33,7 @@ CREATE INDEX subject_current_intentions ON subject_intentions(scope,state,expire
 CREATE INDEX autonomy_event_lookup ON events(kind,json_extract(data_json,'$.data.target_id'),seq DESC);
 CREATE INDEX autonomy_record_lookup ON continuity_records(record_kind,scope,created_at_us DESC);
 CREATE INDEX autonomy_relationship_lookup ON relationship_events(to_entity_id,occurred_at_us DESC);
+ALTER TABLE relationship_events ADD COLUMN related_event_id TEXT REFERENCES relationship_events(relationship_event_id);
+ALTER TABLE relationship_events ADD COLUMN relation_domain TEXT;
+ALTER TABLE relationship_events ADD COLUMN relation_effect TEXT;
 PRAGMA user_version=9;

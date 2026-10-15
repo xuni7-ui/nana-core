@@ -58,3 +58,46 @@ class DispositionView(DTO):
     wanted: bool
     reason_refs: tuple[str,...]
     at_us: int
+
+class RelationshipDetails(DTO):
+    """Source interpretation metadata, never a direct facet assignment."""
+    domain: str = Field(default='interaction',pattern=r'^[a-z][a-z0-9._-]{0,63}$')
+    target_event_id: str | None = None
+    supersedes_event_id: str | None = None
+    valid_until_us: int | None = Field(default=None,ge=0)
+    trust_breach: bool = False
+    boundary_state: Literal['ASSERTED','WITHDRAWN'] = 'ASSERTED'
+    social_expectation: SocialExpectationSpec | None = None
+
+class RelationshipFacet(DTO):
+    domain: str
+    assessment: str
+    support_refs: tuple[str,...]
+    counter_refs: tuple[str,...]
+    coverage: Literal['FULL','PARTIAL','UNKNOWN']
+    confidence: Literal['SOURCE_BACKED','CONTESTED','INSUFFICIENT']
+
+class RelationshipInfluenceView(DTO):
+    derived: Literal[True] = True
+    entity_id: str
+    scope: str
+    as_of_us: int
+    state_token: str
+    familiarity: RelationshipFacet
+    trust: tuple[RelationshipFacet,...]
+    care_salience: RelationshipFacet
+    boundary_salience: RelationshipFacet
+    repair_tension: RelationshipFacet
+    interaction_latitude: RelationshipFacet
+    shared_commitment_relevance: RelationshipFacet
+    source_record_ids: tuple[str,...]
+
+class SocialPrivacyExpectation(DTO):
+    derived: Literal[True] = True
+    scope: str
+    topic: str
+    assessment: Literal['OPEN','ORDINARILY_VISIBLE','CONTEXT_SENSITIVE','EXPLICITLY_PRIVATE','EXPLICITLY_FORBIDDEN','UNKNOWN']
+    support_refs: tuple[str,...]
+    counter_refs: tuple[str,...] = ()
+    as_of_us: int
+    state_token: str

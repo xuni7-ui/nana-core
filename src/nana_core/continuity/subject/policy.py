@@ -2,6 +2,7 @@
 from ...contracts import DTO
 from .contracts import Appraisal, Intention, Judgment, Motivation, SubjectInput
 from .opportunities import ConcernCue,directions
+from ..autonomy.contracts import RelationshipInfluenceView,SocialPrivacyExpectation
 
 
 class Situation(DTO):
@@ -25,6 +26,8 @@ class Situation(DTO):
     last_social_act: str | None = None
     reflection_experience_id: str | None = None
     manager_outcomes: tuple[dict,...] = ()
+    relationship_influence: RelationshipInfluenceView | None = None
+    social_privacy: SocialPrivacyExpectation | None = None
 
 
 def appraise(event: SubjectInput, situation: Situation):

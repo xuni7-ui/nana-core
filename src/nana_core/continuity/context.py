@@ -267,6 +267,17 @@ class ContextAssembler:
                         "personality": personality.model_dump(mode="json"), "relationship": relation}),
                     source_record_ids=living.source_record_ids, source_memory_ids=living.source_memory_ids)))
         # Future lessons are selected by exact task scope, never arbitrary global advice.
+        if self.store.schema_target>=9:
+            from .autonomy.relationships import relationship_influence
+            from .autonomy.governance import manager_views
+            for scope in request.scopes:
+                influence=relationship_influence(self.store,request.entity_id,scope=scope,privacy_classes=privacy)
+                outcomes=manager_views(self.store,scope=scope,privacy_classes=privacy)
+                refs=tuple(dict.fromkeys((*influence.source_record_ids,*(o['record_id'] for o in outcomes))))
+                candidates.append((930.0,ContextBlock(block_id='subject-influence:'+scope,kind='SUBJECT_INFLUENCE',
+                    data_json=canonical({'relationship':influence.model_dump(mode='json'),'manager_outcomes':outcomes,
+                        'governance_is_external_fact_not_normative_directive':True,'execution_authority':'NONE'}),
+                    source_record_ids=refs,source_memory_ids=tuple(sorted({m for rid in refs for m in RecordService(self.store).support(rid)})))))
         candidates.extend(self._lessons(request, privacy))
         candidates.sort(key=lambda item: (-item[0], item[1].block_id))
         selected, omitted = list(mandatory), []

@@ -384,3 +384,12 @@ URIs and private fixture JSON; no callbacks/network/device interfaces/subclasses
 Production/default Shadow remains blocked. Kernel Grant/Budget/Verify/state graph
 unchanged; governed admission and transaction fence cannot be bypassed by another
 Kernel on same fixture Store. Root/hostile Python memory mutation is out of scope.
+
+## D-AFFECT-003 — source facets and privacy remain separate
+RelationshipView retained; bounded event projector derives domain-specific
+trust/counterevidence/targeted repairs, familiarity and other facets. No total
+score. Relation metadata is source interpretation, not a model's facet write.
+Three nullable normalized v9 columns retain opaque revision links, preventing
+erased later boundary versions from resurrecting old versions. No table added.
+Social expectation acts only after Data Privacy; all ContextAssembler hard
+checks remain. C oldv7/D oldv8 do not acquire new semantics.

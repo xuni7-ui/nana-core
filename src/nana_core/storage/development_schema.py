@@ -34,6 +34,20 @@ def keys_for(version):
 def install(db, current, target):
     if current > target:
         raise CoreError("SCHEMA_DOWNGRADE_FORBIDDEN")
+    # Earlier checkpoints of this unreleased development v9 had no normalized
+    # relationship links. Complete their additive finalization without touching
+    # v7/v8 or reinterpreting old history; official replay fills NULL defaults.
+    if current==target==9:
+        columns={r[1] for r in db.execute('PRAGMA table_info(relationship_events)')}
+        additions={'related_event_id':'TEXT REFERENCES relationship_events(relationship_event_id)',
+            'relation_domain':'TEXT','relation_effect':'TEXT'}
+        missing={k:v for k,v in additions.items() if k not in columns}
+        if missing:
+            db.execute('BEGIN IMMEDIATE')
+            try:
+                for name,definition in missing.items():db.execute('ALTER TABLE relationship_events ADD COLUMN '+name+' '+definition)
+                db.execute('COMMIT')
+            except BaseException:db.execute('ROLLBACK');raise
     if current == 1 and target > 1:
         # v1 replicated plaintext into immutable events. Adding nullable columns
         # cannot make those records deletable. Require a separate audited import.

@@ -6,7 +6,8 @@ from .contracts import SubjectEvaluation
 def evaluate(event,situation,attention,judgment,intention):
     motive=bool(situation.cue or situation.unresolved_interest or situation.due_commitment_ids)
     hard_unavailable=bool(situation.cue and situation.cue.resource_ref and situation.cue.resource_class!='ORDINARY')
-    restrained=bool(situation.cue and set(directions(situation.cue))<=set(situation.prohibited_behaviors))
+    restrained=bool(situation.cue and (set(directions(situation.cue))<=set(situation.prohibited_behaviors)
+        or (situation.social_privacy and situation.social_privacy.assessment in {'EXPLICITLY_PRIVATE','EXPLICITLY_FORBIDDEN'} and intention.kind=='NO_ACTION')))
     if restrained and not hard_unavailable:
         normative,code='RESTRAINED','SUBJECT_RESTRAINED'
     elif intention.kind not in {'NO_ACTION','WAIT'}:

@@ -16,6 +16,18 @@ def expectation(store,*,scope,entity_id,topic,privacy_classes):
         try:spec=SocialExpectationSpec.model_validate_json(item['text'])
         except ValueError:continue
         if spec.topic==topic:found.append((r['memory_id'],spec))
+    if store.schema_target>=9 and privacy_classes:
+        records=RecordService(store);marks=','.join('?' for _ in privacy_classes)
+        for raw in store.db.execute("SELECT e.* FROM relationship_events e JOIN continuity_records r ON r.record_id=e.record_id WHERE e.to_entity_id=? AND r.scope=? AND r.privacy_class IN ("+marks+") AND r.lifecycle='ACTIVE' AND e.relation_kind IN ('BOUNDARY','NORM') ORDER BY e.occurred_at_us DESC,e.rowid DESC LIMIT 64",(entity_id,scope,*privacy_classes)):
+            r=dict(raw)
+            if not records.current_support(r['record_id']) or r['relation_effect']=='WITHDRAWN':continue
+            if store.db.execute("SELECT 1 FROM relationship_events WHERE related_event_id=? AND relation_effect IN ('WITHDRAWN','SUPERSEDES') LIMIT 1",(r['relationship_event_id'],)).fetchone():continue
+            body=records.read(r['record_id'])['payload'].get('details',{})
+            if not body.get('social_expectation'):continue
+            try:spec=SocialExpectationSpec.model_validate_json(json.dumps(body['social_expectation']))
+            except ValueError:continue
+            if spec.topic==topic:
+                for mid in records.support(r['record_id']):found.append((mid,spec))
     return tuple(found)
 
 def action_phase(store,action_id):
@@ -57,6 +69,8 @@ def decide_disclosure(store,event,*,privacy_classes,relation=None):
         elif spec.timing=='ON_REQUEST':mode='DISCLOSE_WHEN_ASKED' if not request.asked else 'DISCLOSE_AFTER' if phase!='PLANNED' else 'DISCLOSE_BEFORE'
         elif spec.timing=='AFTER' and phase=='PLANNED':mode='STAY_SILENT'
     if not request.asked and event.observed_availability=='BUSY':mode='STAY_SILENT'
+    if spec and spec.expectation=='CONTEXT_SENSITIVE' and relation and relation.familiarity.assessment!='FAMILIAR' and mode=='DISCLOSE_BEFORE':
+        mode='DECLINE_TO_DISCLOSE' if request.asked else 'DISCLOSE_WHEN_ASKED'
     return DisclosureDecision(mode=mode,phase=phase,topic=request.topic,source_memory_ids=tuple(x[0] for x in facts),
         source_record_ids=tuple(records),source_event_ids=events,reveal_at_us=spec.reveal_at_us if spec else None,
         reason='Choose disclosure timing without inventing effects or creating authority')

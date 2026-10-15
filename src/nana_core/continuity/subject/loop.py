@@ -65,7 +65,12 @@ class SubjectLoop:
         pending = self.pending(event.scope)
         for current in pending:
             records.append(current['record_id']);memories.extend(self.records.support(current['record_id']))
-        relation = self.growth.relationship(event.entity_id, event.scope, privacy_classes=self.privacy_classes)
+        influence=None
+        if self.store.schema_target>=9:
+            from ..autonomy.relationships import relationship_influence,legacy_style
+            influence=relationship_influence(self.store,event.entity_id,scope=event.scope,privacy_classes=self.privacy_classes)
+            relation=legacy_style(influence)
+        else:relation = self.growth.relationship(event.entity_id, event.scope, privacy_classes=self.privacy_classes)
         if not all(self.visible(r, event.scope) for r in relation['source_record_ids']):
             relation = {'familiarity': 'UNKNOWN', 'source_record_ids': ()}
         records.extend(relation['source_record_ids'])
@@ -117,6 +122,13 @@ class SubjectLoop:
             from ..autonomy.governance import manager_views
             manager_outcomes=manager_views(self.store,scope=event.scope,privacy_classes=self.privacy_classes)
             records.extend(x['record_id'] for x in manager_outcomes)
+        privacy=None
+        if self.store.schema_target>=9:
+            from ..autonomy.relationships import social_privacy
+            topic=event.disclosure_request.topic if event.disclosure_request else cue.topic_key if cue else event.topic
+            if topic:
+                privacy=social_privacy(self.store,event,topic=topic,privacy_classes=self.privacy_classes)
+                memories.extend(privacy.support_refs)
         return Situation(scope=event.scope, memory_ids=tuple(sorted(set(memories))),
             project_ids=tuple(projects), commitment_ids=tuple(commitments), due_commitment_ids=tuple(due),
             adopted_interests=interests, unresolved_interest=unresolved,
@@ -125,7 +137,8 @@ class SubjectLoop:
             support_record_ids=tuple(dict.fromkeys(records)), pending_count=len(pending),
             idle=event.kind == 'WAKE',cue=cue,prohibited_behaviors=prohibited,
             interaction_style=relation.get('interaction_style','RESPECTFUL_EXPLICIT'),last_social_act=last_act,
-            reflection_experience_id=event.reflection_experience_id,manager_outcomes=manager_outcomes)
+            reflection_experience_id=event.reflection_experience_id,manager_outcomes=manager_outcomes,
+            relationship_influence=influence,social_privacy=privacy)
 
     def pending(self, scope):
         return state.pending(self.store,scope,self.privacy_classes)
@@ -145,7 +158,7 @@ class SubjectLoop:
                         tx.update('subject_goal_candidates', goal['candidate_id'], state='EXPIRED' if state == 'EXPIRED' else 'WITHDRAWN')
 
     def run(self, event: SubjectInput, *, expected_revision=None, _deliberation=None):
-        if any(x is not None for x in (event.disclosure_request,event.realization_target,event.governance_review_id)) and self.store.schema_target<9:
+        if any(x is not None for x in (event.disclosure_request,event.realization_target,event.governance_review_id,event.relationship_details)) and self.store.schema_target<9:
             raise CoreError('AUTONOMY_SCHEMA_REQUIRED')
         if event.scope not in self.scopes or event.privacy_class not in self.privacy_classes:
             raise CoreError('SUBJECT_CONTEXT_POLICY_BLOCKED')
@@ -179,6 +192,16 @@ class SubjectLoop:
             appraisal = appraise(event, situation)
             motives = motivate(event, situation, appraisal)
             attention, judgment, intention = decide(event, situation, appraisal, motives)
+            if self.store.schema_target>=9 and situation.cue and situation.social_privacy:
+                from .contracts import Intention,Judgment
+                if situation.social_privacy.assessment in {'EXPLICITLY_PRIVATE','EXPLICITLY_FORBIDDEN'}:
+                    attention='DEFER'
+                    judgment=Judgment(stance='DEFER',reason='A sourced social boundary makes self-restraint appropriate; this is not a governance veto',source_ids=situation.memory_ids)
+                    intention=Intention(kind='NO_ACTION',purpose='Choose to respect the social expectation',slot_key='quiet',source_ids=situation.memory_ids,self_generated=event.origin=='SELF_WAKE',behavior='STAY_SILENT')
+                elif situation.social_privacy.assessment=='CONTEXT_SENSITIVE' and not situation.familiar:
+                    attention='FOCUS_NOW'
+                    judgment=Judgment(stance='ASK',reason='Clarify the social expectation before proceeding in an unfamiliar context',source_ids=situation.memory_ids)
+                    intention=Intention(kind='WAIT',purpose='Clarify rather than assume interaction latitude',slot_key='clarify',source_ids=situation.memory_ids,self_generated=event.origin=='SELF_WAKE')
             if event.governance_review_id:
                 view=next((v for v in situation.manager_outcomes if v['record_id']==event.governance_review_id),None)
                 if not view:raise CoreError('MANAGER_REVIEW_SOURCE_UNAVAILABLE')
@@ -216,7 +239,7 @@ class SubjectLoop:
                 from ..autonomy.evaluation import evaluate
                 from ..autonomy.disclosure import decide_disclosure
                 evaluation=evaluate(event,situation,attention,judgment,intention)
-                disclosure=decide_disclosure(self.store,event,privacy_classes=self.privacy_classes)
+                disclosure=decide_disclosure(self.store,event,privacy_classes=self.privacy_classes,relation=situation.relationship_influence)
                 if disclosure:
                     # Disclosure sources participate in the same erasure lineage.
                     situation=situation.model_copy(update={
