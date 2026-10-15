@@ -11,6 +11,9 @@ class Scheduler:
         self.queue.lease.assert_current()
         old=self.store.db.execute('SELECT * FROM runtime_schedules WHERE dedupe_key=?',(spec.dedupe_key,)).fetchone()
         template=spec.event.model_dump(mode='json')
+        if spec.calendar:
+            if self.store.schema_target<9:raise CoreError('AUTONOMY_SCHEMA_REQUIRED')
+            template={'event':template,'calendar':spec.calendar.model_dump(mode='json')}
         # Scheduler templates contain no plaintext or mutable free-form objects.
         if old:
             if old['template_json']!=canonical(template) or old['schedule_kind']!=spec.kind:
@@ -33,11 +36,20 @@ class Scheduler:
             row=dict(raw)
             import json
             payload=json.loads(row['template_json'])
-            payload['input']['source_key']='synthetic.runtime.'+digest([row['schedule_id'],row['occurrence']])
+            calendar=None;due_at=row['due_at_us']
+            if row['schedule_kind']=='CALENDAR':
+                from ..continuity.recurrence import RecurrenceSpec
+                calendar=RecurrenceSpec.model_validate_json(canonical(payload['calendar']));payload=payload['event']
+                due_at=calendar.latest_due(now)
+                if due_at<row['due_at_us'] or now-due_at>calendar.grace_us:
+                    with self.store.transaction('runtime.calendar_missed',{'schedule_id':row['schedule_id']}) as tx:
+                        tx.update('runtime_schedules',row['schedule_id'],due_at_us=calendar.next_after(now))
+                    continue
+            payload['input']['source_key']='synthetic.runtime.'+digest([row['schedule_id'],calendar.occurrence_key(due_at) if calendar else row['occurrence']])
             # Preserve this scheduled occurrence across enqueue-before-ACK
             # crashes; never rewrite the time of its source experience.
-            payload['input']['observed_at_us']=row['due_at_us'];payload['input']['occurred_at_us']=row['due_at_us']
-            payload['due_at_us']=row['due_at_us']
+            payload['input']['observed_at_us']=due_at;payload['input']['occurred_at_us']=due_at
+            payload['due_at_us']=due_at
             try:
                 event=RuntimeEvent.model_validate_json(canonical(payload))
                 qid=self.queue.enqueue(event)
@@ -48,8 +60,8 @@ class Scheduler:
                     continue
                 raise
             with self.store.transaction('runtime.schedule_fired') as tx:
-                tx.update('runtime_schedules',row['schedule_id'],state='ACTIVE' if row['schedule_kind']=='PERIODIC' else 'FIRED',
-                    due_at_us=now+row['interval_us'] if row['interval_us'] else row['due_at_us'],
+                tx.update('runtime_schedules',row['schedule_id'],state='ACTIVE' if row['schedule_kind'] in {'PERIODIC','CALENDAR'} else 'FIRED',
+                    due_at_us=calendar.next_after(now) if calendar else now+row['interval_us'] if row['interval_us'] else row['due_at_us'],
                     last_queue_id=qid,occurrence=row['occurrence']+1)
 
     def cancel(self,schedule_id):

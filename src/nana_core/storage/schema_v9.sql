@@ -36,4 +36,20 @@ CREATE INDEX autonomy_relationship_lookup ON relationship_events(to_entity_id,oc
 ALTER TABLE relationship_events ADD COLUMN related_event_id TEXT REFERENCES relationship_events(relationship_event_id);
 ALTER TABLE relationship_events ADD COLUMN relation_domain TEXT;
 ALTER TABLE relationship_events ADD COLUMN relation_effect TEXT;
+CREATE TABLE runtime_schedules_new (
+ schedule_id TEXT PRIMARY KEY,
+ dedupe_key TEXT NOT NULL UNIQUE,
+ state TEXT NOT NULL CHECK(state IN ('ACTIVE','FIRED','CANCELLED')),
+ schedule_kind TEXT NOT NULL CHECK(schedule_kind IN ('ONE_SHOT','DEADLINE','PERIODIC','CONDITION','CALENDAR')),
+ due_at_us INTEGER NOT NULL,
+ interval_us INTEGER,
+ template_json TEXT NOT NULL,
+ last_queue_id TEXT REFERENCES runtime_queue(queue_id),
+ occurrence INTEGER NOT NULL CHECK(occurrence>=0),
+ created_at_us INTEGER NOT NULL
+);
+INSERT INTO runtime_schedules_new SELECT * FROM runtime_schedules;
+DROP TABLE runtime_schedules;
+ALTER TABLE runtime_schedules_new RENAME TO runtime_schedules;
+CREATE INDEX runtime_due ON runtime_schedules(state,due_at_us);
 PRAGMA user_version=9;

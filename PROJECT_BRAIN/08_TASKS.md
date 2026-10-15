@@ -169,3 +169,15 @@ privacy/task/destination/deletion/conflict checks preserved; secret canary exclu
 normalized-link/time tie refinements. v9 adds only3 normalized relationship
 columns on existing table; partial unreleased v9 checkpoints finalized additively.
 No new tables/Store/loop; R4/R5/system qualification remain pending.
+
+## L3-C-AFFECT-V1 M4 — positive requests and calendar opportunities
+[实测·开发离线] R4 typed positive request → Subject ACCEPT/NEGOTIATE/DECLINE.
+ACCEPT only offers existing CommitmentCandidate; trusted controller materializes
+idempotently, no auto-adopt/Grant/send. Reuses CommitmentService/CAS and due
+attention. Stdlib zoneinfo daily recurrence handles IANA zones, fold choice, gap
+next-valid-minute, missed-window coalescing and persistent occurrence keys on
+existing Scheduler. Calendar only emits SELF_WAKE checks, not user experiences.
+Targeted8 PASS (new calendar/requests + prior scheduler/promises), latest2 PASS.
+Queue metadata scrub extended for new structured personal fields; body remains
+in erasable records only. v9 extends runtime_schedules CHECK, tables still39.
+R5 experience and final scenarios/recovery remain pending, candidate not READY.

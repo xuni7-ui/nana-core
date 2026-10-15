@@ -3,6 +3,7 @@ from typing import Literal
 from pydantic import Field, model_validator
 from ..contracts import DTO
 from ..continuity.subject.contracts import SubjectInput
+from ..continuity.recurrence import RecurrenceSpec
 
 SECOND = 1_000_000
 HOUR = 3600 * SECOND
@@ -76,15 +77,18 @@ class RuntimeEvent(DTO):
 
 class ScheduleSpec(DTO):
     dedupe_key: str = Field(pattern=r'^[A-Za-z0-9._:-]{1,128}$')
-    kind: Literal['ONE_SHOT','DEADLINE','PERIODIC','CONDITION']
+    kind: Literal['ONE_SHOT','DEADLINE','PERIODIC','CONDITION','CALENDAR']
     due_at_us: int = Field(ge=0)
     interval_us: int | None = Field(default=None,ge=100_000)
     event: RuntimeEvent
+    calendar: RecurrenceSpec | None = None
 
     @model_validator(mode='after')
     def periodic(self):
         if (self.kind=='PERIODIC') != (self.interval_us is not None):
             raise ValueError('only periodic schedules have an interval')
+        if (self.kind=='CALENDAR') != (self.calendar is not None):raise ValueError('calendar spec/kind mismatch')
+        if self.kind=='CALENDAR' and (self.event.input.kind!='WAKE' or self.event.input.origin!='SELF_WAKE'):raise ValueError('calendar emits check opportunities only')
         if any(getattr(self.event.input,k) is not None for k in ('text','preference_signal','relationship_kind','proposed_method','topic')):
             raise ValueError('scheduler cannot manufacture a lived experience')
         return self

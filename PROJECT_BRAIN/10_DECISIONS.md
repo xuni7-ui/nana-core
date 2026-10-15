@@ -393,3 +393,12 @@ Three nullable normalized v9 columns retain opaque revision links, preventing
 erased later boundary versions from resurrecting old versions. No table added.
 Social expectation acts only after Data Privacy; all ContextAssembler hard
 checks remain. C oldv7/D oldv8 do not acquire new semantics.
+
+## D-AFFECT-004 — request adoption and daily calendar semantics
+Positive request decisions belong to the existing subject, never Manager.
+Application-held authority materializes/adopts through CommitmentService; model
+proposal cannot adopt. Daily calendar uses IANA zoneinfo, earliest/latest fold
+and next-valid-minute gap, coalesces to the latest eligible local-day occurrence,
+otherwise records missed metadata and advances. A calendar wake is only a source-
+backed opportunity; SubjectLoop and future gates still decide. No new scheduler,
+table, dependency or natural language time parser.

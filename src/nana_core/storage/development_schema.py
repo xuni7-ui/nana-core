@@ -42,10 +42,16 @@ def install(db, current, target):
         additions={'related_event_id':'TEXT REFERENCES relationship_events(relationship_event_id)',
             'relation_domain':'TEXT','relation_effect':'TEXT'}
         missing={k:v for k,v in additions.items() if k not in columns}
-        if missing:
+        calendar_missing='CALENDAR' not in db.execute("SELECT sql FROM sqlite_master WHERE name='runtime_schedules'").fetchone()[0]
+        if missing or calendar_missing:
             db.execute('BEGIN IMMEDIATE')
             try:
                 for name,definition in missing.items():db.execute('ALTER TABLE relationship_events ADD COLUMN '+name+' '+definition)
+                if calendar_missing:
+                    full=Path(__file__).with_name('schema_v9.sql').read_text()
+                    fragment=full[full.index('CREATE TABLE runtime_schedules_new'):full.index('PRAGMA user_version=9')]
+                    for statement in fragment.split(';'):
+                        if statement.strip():db.execute(statement)
                 db.execute('COMMIT')
             except BaseException:db.execute('ROLLBACK');raise
     if current == 1 and target > 1:

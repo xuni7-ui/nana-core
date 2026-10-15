@@ -5,8 +5,9 @@ from pydantic import Field
 
 from ..contracts import CoreError, DTO
 from ..actions import OperatorAuthority
-from ..storage import uid
+from ..storage import uid,digest
 from .records import RecordService
+from .recurrence import RecurrenceSpec
 
 
 class CommitmentCandidate(DTO):
@@ -15,6 +16,7 @@ class CommitmentCandidate(DTO):
     description: str = Field(min_length=1, max_length=2048)
     support_memory_ids: tuple[str, ...] = Field(min_length=1, max_length=32)
     due_at_us: int | None = Field(default=None, ge=0)
+    recurrence: RecurrenceSpec | None = None
 
 
 class CommitmentState(DTO):
@@ -54,13 +56,22 @@ class CommitmentService:
         self.store, self._authority = store, authority
         self.records = RecordService(store)
 
-    def propose(self, candidate: CommitmentCandidate):
+    def propose(self, candidate: CommitmentCandidate, *, source_key=None):
+        if candidate.recurrence and self.store.schema_target<9:raise CoreError('AUTONOMY_SCHEMA_REQUIRED')
+        if source_key:
+            import json
+            old=self.store.db.execute("SELECT data_json FROM events WHERE source_namespace='commitment.request' AND source_key=?",(source_key,)).fetchone()
+            if old:
+                data=json.loads(old[0])['data']
+                if data['candidate_digest']!=digest(candidate.model_dump(mode='json')):raise CoreError('COMMITMENT_REQUEST_COLLISION')
+                return data['commitment_id']
         if not self.store.one("entities", candidate.entity_id):
             raise CoreError("ENTITY_BINDING_REQUIRED")
         now, commitment_id = self.store.clock.utc_now_us(), uid()
-        with self.store.transaction("commitment.proposed") as tx:
+        data={'commitment_id':commitment_id,'candidate_digest':digest(candidate.model_dump(mode='json'))} if source_key else None
+        with self.store.transaction("commitment.proposed",data,source_namespace='commitment.request' if source_key else None,source_key=source_key) as tx:
             record_id = self.records.create(tx, kind="COMMITMENT", scope=candidate.scope,
-                payload={"description": candidate.description}, memories=candidate.support_memory_ids)
+                payload={"description": candidate.description,**({'recurrence':candidate.recurrence.model_dump(mode='json')} if candidate.recurrence else {})}, memories=candidate.support_memory_ids)
             tx.put("commitments", {"commitment_id": commitment_id, "entity_id": candidate.entity_id,
                 "scope": candidate.scope, "record_id": record_id, "revision": 1, "state": "PROPOSED",
                 "due_at_us": candidate.due_at_us, "adoption_event_id": None, "fulfillment_memory_id": None,

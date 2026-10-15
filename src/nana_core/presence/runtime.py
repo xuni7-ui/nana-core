@@ -99,11 +99,11 @@ class NanaRuntime:
                 inp=SubjectInput(source_key='synthetic.runtime.attention-template',kind='WAKE',origin='SELF_WAKE',
                     entity_id=opportunity.entity_id,scope=opportunity.scope,observed_at_us=now,
                     source_memory_ids=opportunity.memory_ids[:32],task_class=opportunity.task_class,
-                    reflection_experience_id=opportunity.reflection_experience_id)
+                    reflection_experience_id=opportunity.reflection_experience_id,commitment_check_id=opportunity.commitment_check_id)
                 event=RuntimeEvent(event_type=opportunity.event_type,trigger=opportunity.wake_trigger,input=inp,
                     causes=(Cause(kind=opportunity.source_kind,reference_id=opportunity.source_id,revision=opportunity.source_revision),),
                     due_at_us=opportunity.due_at_us,priority=opportunity.priority)
-                spec=ScheduleSpec(dedupe_key=opportunity.key,kind='CONDITION',due_at_us=opportunity.due_at_us,event=event)
+                spec=ScheduleSpec(dedupe_key=opportunity.key,kind='CALENDAR' if opportunity.calendar else 'CONDITION',due_at_us=opportunity.due_at_us,event=event,calendar=opportunity.calendar)
                 if self.store.db.execute('SELECT 1 FROM runtime_schedules WHERE dedupe_key=?',(opportunity.key,)).fetchone():continue
                 try:self.scheduler.add(spec)
                 except CoreError as exc:

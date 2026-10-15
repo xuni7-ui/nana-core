@@ -4,7 +4,7 @@ from pydantic import Field, model_validator
 from ...contracts import DTO
 from .social import SocialInteractionProposal
 from .opportunities import Behavior,SyntheticActionProposal
-from ..autonomy.contracts import DisclosureRequest,DisclosureDecision,SubjectEvaluation,RealizationTarget,RelationshipDetails
+from ..autonomy.contracts import DisclosureRequest,DisclosureDecision,SubjectEvaluation,RealizationTarget,RelationshipDetails,PositiveRequest,RequestDecision
 
 Key = str
 Level = Literal['NONE', 'LOW', 'RELEVANT', 'HIGH']
@@ -52,6 +52,8 @@ class SubjectInput(DTO):
     realization_target: RealizationTarget | None = None
     governance_review_id: str | None = None
     relationship_details: RelationshipDetails | None = None
+    positive_request: PositiveRequest | None = None
+    commitment_check_id: str | None = None
 
     @model_validator(mode='after')
     def provenance(self):
@@ -72,6 +74,8 @@ class SubjectInput(DTO):
             raise ValueError('relationship occurrence kind mismatch')
         if self.relationship_details and not self.relationship_kind:raise ValueError('relationship metadata requires occurrence')
         if self.relationship_details and self.relationship_details.social_expectation and self.relationship_kind not in {'BOUNDARY','NORM'}:raise ValueError('social expectation requires explicit norm/boundary')
+        if self.positive_request and (self.origin!='USER' or not self.text):raise ValueError('positive request must be a sourced user request')
+        if self.commitment_check_id and self.kind!='WAKE':raise ValueError('commitment check is a wake opportunity')
         return self
 
 
@@ -156,6 +160,7 @@ class CycleResult(DTO):
     evaluation: SubjectEvaluation | None = None
     disclosure: DisclosureDecision | None = None
     realization_target: RealizationTarget | None = None
+    request_decision: RequestDecision | None = None
 
 
 class WakeCondition(DTO):

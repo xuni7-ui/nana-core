@@ -48,6 +48,8 @@ class SubjectLoop:
                 commitments.append(r['commitment_id']); records.append(r['record_id'])
                 if r['due_at_us'] is not None and r['due_at_us'] <= now:
                     due.append(r['commitment_id'])
+                elif event.commitment_check_id==r['commitment_id']:due.append(r['commitment_id'])
+        if event.commitment_check_id and event.commitment_check_id not in commitments:raise CoreError('COMMITMENT_CHECK_SOURCE_STALE')
         for mid in event.constraint_memory_ids:
             try:
                 value = json.loads(self.records.memory.read(mid)['text'])
@@ -158,7 +160,7 @@ class SubjectLoop:
                         tx.update('subject_goal_candidates', goal['candidate_id'], state='EXPIRED' if state == 'EXPIRED' else 'WITHDRAWN')
 
     def run(self, event: SubjectInput, *, expected_revision=None, _deliberation=None):
-        if any(x is not None for x in (event.disclosure_request,event.realization_target,event.governance_review_id,event.relationship_details)) and self.store.schema_target<9:
+        if any(x is not None for x in (event.disclosure_request,event.realization_target,event.governance_review_id,event.relationship_details,event.positive_request,event.commitment_check_id)) and self.store.schema_target<9:
             raise CoreError('AUTONOMY_SCHEMA_REQUIRED')
         if event.scope not in self.scopes or event.privacy_class not in self.privacy_classes:
             raise CoreError('SUBJECT_CONTEXT_POLICY_BLOCKED')
@@ -192,6 +194,15 @@ class SubjectLoop:
             appraisal = appraise(event, situation)
             motives = motivate(event, situation, appraisal)
             attention, judgment, intention = decide(event, situation, appraisal, motives)
+            request_decision=None
+            if self.store.schema_target>=9 and event.positive_request and event.retention!='DO_NOT_REMEMBER':
+                from ..autonomy.requests import evaluate_request
+                from .contracts import Intention,Judgment
+                request_decision=evaluate_request(event,situation,self.store.clock.utc_now_us(),source_memory_id=source['memory_id'])
+                choice=request_decision.decision
+                judgment=Judgment(stance='AGREE' if choice=='ACCEPT' else 'ALTERNATIVE' if choice=='NEGOTIATE' else 'DISAGREE',reason=request_decision.reason,source_ids=situation.memory_ids)
+                intention=Intention(kind='GOAL_CANDIDATE' if choice=='ACCEPT' else 'SOCIAL_INTERACTION' if choice=='NEGOTIATE' else 'NO_ACTION',
+                    purpose='Propose, discuss or decline a commitment; this is not adoption',slot_key='request-'+digest(event.source_key)[:24],source_ids=situation.memory_ids,self_generated=False)
             if self.store.schema_target>=9 and situation.cue and situation.social_privacy:
                 from .contracts import Intention,Judgment
                 if situation.social_privacy.assessment in {'EXPLICITLY_PRIVATE','EXPLICITLY_FORBIDDEN'}:
@@ -234,6 +245,8 @@ class SubjectLoop:
                 intention = Intention(kind='NO_ACTION', purpose='Keep existing concern without duplicate initiative',
                     slot_key='quiet', source_ids=situation.memory_ids, self_generated=event.origin == 'SELF_WAKE')
             social=None
+            if request_decision and request_decision.decision=='NEGOTIATE':
+                social=propose_social(topic='commitment.scope',style='RESPECTFUL_EXPLICIT',available=True,source_ids=situation.memory_ids)
             evaluation=disclosure=None
             if self.store.schema_target>=9:
                 from ..autonomy.evaluation import evaluate
@@ -278,7 +291,7 @@ class SubjectLoop:
                 admission=source['admission'], appraisal=appraisal, motivations=motives, attention=attention,
                 judgment=judgment, intention=intention, intention_id=intention_id, goal_candidate_id=candidate_id,
                 barrier='NO_ACTION' if intention.kind == 'NO_ACTION' else 'SHADOW_BLOCKED', record_id=None,social_proposal=social,action_proposal=action,
-                evaluation=evaluation,disclosure=disclosure,
+                evaluation=evaluation,disclosure=disclosure,request_decision=request_decision,
                 realization_target=event.realization_target if evaluation and evaluation.normative=='ENDORSED' else None,
                 deliberation=None if _deliberation is None else {
                     'model_descriptor': _deliberation.model_descriptor,

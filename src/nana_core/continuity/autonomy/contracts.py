@@ -2,6 +2,8 @@
 from typing import Literal
 from pydantic import Field
 from ...contracts import DTO
+from ..recurrence import RecurrenceSpec
+from ..commitments import CommitmentCandidate
 
 NormativeDisposition = Literal['ENDORSED','RESTRAINED','UNDECIDED']
 DispositionCode = Literal['SUBJECT_ENDORSED','SUBJECT_RESTRAINED','SUBJECT_DEFERRED','SUBJECT_DROPPED','MANAGER_BLOCKED','MANAGER_UNKNOWN','REALIZATION_ELIGIBLE']
@@ -101,3 +103,15 @@ class SocialPrivacyExpectation(DTO):
     counter_refs: tuple[str,...] = ()
     as_of_us: int
     state_token: str
+
+class PositiveRequest(DTO):
+    task_class: Literal['REMINDER','PROJECT','CONTACT','MAINTENANCE']
+    description: str = Field(min_length=1,max_length=1024)
+    due_at_us: int | None = Field(default=None,ge=0)
+    recurrence: RecurrenceSpec | None = None
+
+class RequestDecision(DTO):
+    decision: Literal['ACCEPT','NEGOTIATE','DECLINE']
+    reason: str
+    source_refs: tuple[str,...]
+    candidate: CommitmentCandidate | None = None

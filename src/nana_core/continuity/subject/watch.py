@@ -4,6 +4,7 @@ from ...contracts import DTO
 from ...storage import digest
 from ..records import RecordService
 from .opportunities import cues_from
+from ..recurrence import RecurrenceSpec
 
 
 class AttentionOpportunity(DTO):
@@ -20,6 +21,8 @@ class AttentionOpportunity(DTO):
     priority: int = 1
     task_class: str | None = None
     reflection_experience_id: str | None = None
+    calendar: RecurrenceSpec | None = None
+    commitment_check_id: str | None = None
 
 
 def collect_opportunities(loop,*,entity_id,now_us,quiet_since_us,quiet_window_us):
@@ -36,6 +39,14 @@ def collect_opportunities(loop,*,entity_id,now_us,quiet_since_us,quiet_window_us
                 memory_ids=(mid,),event_type='SELF_EVENT',wake_trigger='SELF_TRIGGER',
                 task_class='interaction.shared_discovery' if cue.cue_kind=='DISCOVERY' else None))
         for row in store.all('commitments'):
+            if store.schema_target>=9 and row['state'] in {'ADOPTED','ACTIVE'} and loop.visible(row['record_id'],scope):
+                body=records.read(row['record_id'])['payload']
+                if body.get('recurrence'):
+                    from ...storage import canonical
+                    calendar=RecurrenceSpec.model_validate_json(canonical(body['recurrence']))
+                    result.append(AttentionOpportunity(key='calendar-'+digest([row['commitment_id'],row['revision']]),source_kind='COMMITMENT',source_id=row['commitment_id'],source_revision=row['revision'],
+                        scope=scope,entity_id=entity_id,due_at_us=calendar.next_after(row['updated_at_us']),memory_ids=records.support(row['record_id']),event_type='GOAL_EVENT',wake_trigger='GOAL_TRIGGER',priority=2,
+                        task_class='commitment.calendar_check',calendar=calendar,commitment_check_id=row['commitment_id']))
             if row['state'] in {'ADOPTED','ACTIVE'} and row['due_at_us'] is not None and loop.visible(row['record_id'],scope):
                 result.append(AttentionOpportunity(key='commitment-'+digest([row['commitment_id'],row['revision']]),
                     source_kind='COMMITMENT',source_id=row['commitment_id'],source_revision=row['revision'],scope=scope,entity_id=entity_id,
