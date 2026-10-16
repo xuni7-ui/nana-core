@@ -18,7 +18,7 @@ class ContinuityStore(Store):
             raise CoreError("CONTINUITY_SYMLINK_FORBIDDEN")
         return path
 
-    def __init__(self, path, clock=None, *, schema_target=7):
+    def __init__(self, path, clock=None, *, schema_target=7, identity_bootstrap=None):
         if type(schema_target) is not int or not 7 <= schema_target <= LATEST:
             raise CoreError("CONTINUITY_SCHEMA_UNSUPPORTED")
         path = self._private_path(path)
@@ -31,7 +31,7 @@ class ContinuityStore(Store):
                 new_database = db.execute("PRAGMA user_version").fetchone()[0] == 1
             finally:
                 db.close()
-        super().__init__(path, clock, schema_target=schema_target)
+        super().__init__(path, clock, schema_target=schema_target, identity_bootstrap=identity_bootstrap)
         try:
             self.db.execute("PRAGMA secure_delete=ON")
             for suffix in ("", "-wal", "-shm", ".lock"):

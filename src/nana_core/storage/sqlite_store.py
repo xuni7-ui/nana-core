@@ -59,7 +59,7 @@ class Transaction:
 
 
 class Store:
-    def __init__(self, path, clock: Clock | None = None, *, schema_target=1):
+    def __init__(self, path, clock: Clock | None = None, *, schema_target=1, identity_bootstrap=None):
         from .development_schema import keys_for
         self.schema_target = schema_target
         self.keys = {**KEYS, **keys_for(schema_target)}
@@ -96,14 +96,21 @@ class Store:
                 raise CoreError("STORAGE_CORRUPT")
             if self.db.execute("PRAGMA foreign_key_check").fetchone():
                 raise CoreError("BROKEN_FOREIGN_KEYS")
+            if identity_bootstrap is not None:
+                from .bootstrap import IdentityBootstrap
+                if type(identity_bootstrap) is not IdentityBootstrap:
+                    raise CoreError('TYPED_IDENTITY_BOOTSTRAP_REQUIRED')
+                identity_bootstrap=IdentityBootstrap.model_validate_json(identity_bootstrap.model_dump_json())
+                if self.all('identities'):
+                    raise CoreError('IDENTITY_ALREADY_BOOTSTRAPPED')
             if not self.all("identities"):
                 if self.all("events"):
                     raise CoreError("IDENTITY_MISSING")
-                with self.transaction("identity.created") as tx:
+                with self.transaction("identity.created", {'bootstrap_source':identity_bootstrap.source_reference} if identity_bootstrap else None) as tx:
                     tx.put("identities", {"identity_id": uid(), "revision": 1,
-                        "body_json": canonical({"name": "Subject", "charter": [
+                        "body_json": canonical({"name": identity_bootstrap.name if identity_bootstrap else "Subject", "charter": [
                             "retain independent judgement", "evidence before success", "learning cannot expand permissions"],
-                            "self_preferences": [], "expression_defaults": {"style": "unspecified"}}),
+                            "self_preferences": [], "expression_defaults": {"style": identity_bootstrap.expression_style if identity_bootstrap else "unspecified"}}),
                         "created_event_id": tx.event_id})
                     tx.put("core_meta", {"key": "recovery_quarantine", "value_json": "false"})
         except BaseException:
@@ -169,6 +176,14 @@ class Store:
     @contextmanager
     def transaction(self, kind, data=None, source_namespace=None, source_key=None,
                     occurred_at_us=None, artifact_id=None):
+        if self.one('core_meta', 'portable.retired'):
+            raise CoreError('PORTABLE_SOURCE_RETIRED')
+        received = self.one('core_meta', 'portable.received')
+        if received and json.loads(received['value_json'])['state'] != 'ACTIVE':
+            transfer_guard = getattr(self, '_portable_activation_guard', None)
+            if not transfer_guard:
+                raise CoreError('PORTABLE_IMPORT_QUARANTINED')
+            transfer_guard()
         action_guard=getattr(self,'_governed_action_guard',None) if kind in {'action.proposed','action.reserved','action.dispatched'} else None
         if action_guard:action_guard()
         guard = getattr(self, "_runtime_guard", None)

@@ -50,6 +50,8 @@ class RuntimeLease:
         self.epoch=None
 
     def acquire(self):
+        if self.store.one('core_meta', 'portable.retired'):
+            raise CoreError('PORTABLE_SOURCE_RETIRED')
         if getattr(self.store,'_runtime_guard',None) is not None:
             raise CoreError('RUNTIME_LEASE_ALREADY_BOUND')
         quarantine=self.store.one('core_meta','recovery_quarantine')
@@ -58,7 +60,9 @@ class RuntimeLease:
         # Store already holds exclusive flock. Unexpired old lease cannot keep a
         # dead/released local process alive; new epoch fences stale handles.
         old=self.store.one('runtime_lease',self.identity_id)
-        self.epoch=(old['epoch'] if old else 0)+1
+        floor=self.store.one('core_meta','runtime.epoch_floor')
+        import json
+        self.epoch=max(old['epoch'] if old else 0,json.loads(floor['value_json']) if floor else 0)+1
         now=self.store.clock.utc_now_us()
         row={'identity_id':self.identity_id,'instance_id':self.instance_id,'epoch':self.epoch,
             'state':'ACTIVE','pid':self.pid,'process_start':self.start,'boot_id':self.boot,

@@ -89,11 +89,14 @@ class ContinuityViews:
             ('subject_intentions','intention_id',('PENDING','DEFERRED'),intentions)):
             for row in self._store.db.execute(f"SELECT * FROM {table} WHERE scope IN ({','.join('?' for _ in scopes)}) ORDER BY rowid DESC LIMIT ?",(*scopes,limit)):
                 if 'entity_id' in row.keys() and row['entity_id']!=entity_id:continue
+                if table=='subject_intentions':
+                    source=self._store.one('subject_events',row['subject_event_id'])
+                    if not source or source['entity_id']!=entity_id or row['expires_at_us']<=self._store.clock.utc_now_us():continue
                 if row['state'] in states and visible(row['record_id']):
                     out.append(row[key]);rids.append(row['record_id'])
         for row in self._store.db.execute(f"SELECT c.record_id FROM subject_cycles c JOIN subject_events e ON e.subject_event_id=c.subject_event_id WHERE e.entity_id=? AND e.scope IN ({','.join('?' for _ in scopes)}) ORDER BY c.revision DESC LIMIT ?",(entity_id,*scopes,limit)):
             if visible(row[0]):cycles.append(row[0])
-        for row in self._store.db.execute(f"SELECT g.* FROM subject_goal_candidates g JOIN subject_intentions i ON i.intention_id=g.intention_id JOIN subject_events e ON e.subject_event_id=i.subject_event_id WHERE e.entity_id=? AND e.scope IN ({','.join('?' for _ in scopes)}) AND g.state IN ('PROPOSED','DEFERRED') ORDER BY g.rowid DESC LIMIT ?",(entity_id,*scopes,limit)):
+        for row in self._store.db.execute(f"SELECT g.* FROM subject_goal_candidates g JOIN subject_intentions i ON i.intention_id=g.intention_id JOIN subject_events e ON e.subject_event_id=i.subject_event_id WHERE e.entity_id=? AND e.scope IN ({','.join('?' for _ in scopes)}) AND g.state IN ('PROPOSED','DEFERRED') AND i.expires_at_us>? ORDER BY g.rowid DESC LIMIT ?",(entity_id,*scopes,self._store.clock.utc_now_us(),limit)):
             if visible(row['record_id']):goals.append(row['candidate_id']);rids.append(row['record_id'])
         memories=()
         if tier!='L0_LIVE':

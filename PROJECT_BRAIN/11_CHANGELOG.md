@@ -1173,3 +1173,18 @@ Embedding cache invalidates on provider/model/version/dimension/source revision 
 is excluded from portability. Frontend session exposes typed projections/commands,
 not DB/controller handles; future capability review stays proposal-only.
 Validation: three focused provider/media/frontend tests pass. Real calls = 0.
+
+### C6/C7 + B6–B10 development — controlled offline Subject transfer
+
+[离线实测] Source retirement, existing managed SQLite backup/quarantine, bounded
+three-file SubjectPackage manifest/hash verification, clean import and explicit
+activation implemented. Exact destination controller/root, fresh runtime epoch,
+old-grant revocation/budget reset and deletion-intent relocation preserve one
+supported active lineage. Unknown host metadata blocks export; no journal rewrite.
+Raw privileged archive/DB clones remain out of scope. Adds no business table/DB.
+Neutral instance bootstrap is typed initial data; existing identities cannot be
+rebootstrapped. Source-backed willing deference can accept where an unanchored
+same request is declined, while retaining desire and rejecting indefinite control.
+Validation: 17 focused tests pass, including v7/8/9→10, two distinct packages,
+privacy/official replay, old authority fencing, model/media and frontend boundary.
+No D2, real data/model/action, production or push.

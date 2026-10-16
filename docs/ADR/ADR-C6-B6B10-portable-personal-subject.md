@@ -44,3 +44,18 @@ Default C schema remains 7 and D remains 8; v10 is explicit. No new dependencies
 No package loader executes archived Python/pickle, interpolates SQL or extracts
 arbitrary paths. Integrity hashes detect corruption, not a malicious authorized
 operator replacing both manifest and payload. Real memory ingress stays disabled.
+
+## Transfer authority refinement
+
+Destination application construction binds an exact destination UUID and private
+root. Import/activation cannot redirect that controller to a second directory.
+The existing directory must not exist at import. Repeated activation is rejected.
+This is not cryptographic anti-cloning: a privileged operator constructing a new
+controller for a copied archive or rolling back the whole destination disk remains
+outside the supported migration protocol. No runtime ENV/config/fixture path
+turns archived grants into authority. Activation revokes their current projections
+and reduces old budgets to spent; historical authorization events remain history.
+Unknown core_meta is rejected rather than silently transporting host credentials.
+If host metadata has entered immutable journal changes, export is blocked instead
+of rewriting history. The portable sidecar contains only opaque deletion intents;
+local absolute backup paths are rebuilt at destination.

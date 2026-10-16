@@ -58,6 +58,7 @@ def deliberate(store,event,situation,*,source_record_id,privacy_classes):
     elif conflict and traits['commitment_seriousness']=='HIGH':choice='NEGOTIATE'
     elif 'UNRESOLVED_RELATIONAL_REPAIR' in person.context_modifiers:choice='NEGOTIATE'
     elif 'DOMAIN_TRUST_INSUFFICIENT' in willingness.counterconsiderations:choice='NEGOTIATE'
+    elif desired and request.operation=='REFRAIN' and willingness.assessment in {'UNKNOWN','NONE'} and traits['conviction_persistence']=='HIGH':choice='DECLINE'
     elif not desired and request.consequence=='LOW' and (related or request.operation!='REFRAIN'):choice='ACCEPT'
     elif desired and request.operation=='REFRAIN' and traits['self_direction_sensitivity']=='HIGH' and (broad or duration>DAY):choice='NEGOTIATE'
     elif willingness.assessment in {'STRONG','MODERATE'} and traits['relational_accommodation'] in {'HIGH','MODERATE'} and request.consequence!='HIGH':choice='ACCEPT'

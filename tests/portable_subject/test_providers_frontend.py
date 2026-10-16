@@ -28,6 +28,8 @@ def descriptor(name,operations=('COGNITION',),version='1',**kwargs):
 
 def test_model_swap_does_not_change_authoritative_subject(subject):
     store,operator=subject
+    from .test_package import populated
+    populated(store,operator)
     registry=ProviderRegistry()
     registry.register(descriptor('analytic'),AnalyticalFixturePort())
     registry.register(descriptor('cautious'),CautiousFixturePort())
