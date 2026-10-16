@@ -1,12 +1,12 @@
 """C-stage subject contracts. No executable authority and no real ingress switch."""
-from typing import Literal
+from typing import Literal,get_args
 from pydantic import Field, model_validator
 from ...contracts import DTO
 from .social import SocialInteractionProposal
 from .opportunities import Behavior,SyntheticActionProposal
 from ..autonomy.contracts import DisclosureRequest,DisclosureDecision,SubjectEvaluation,RealizationTarget,RelationshipDetails,PositiveRequest,RequestDecision
 
-from ..relational.contracts import RelationalRequest,RelationalDecision
+from ..relational.contracts import RelationalRequest,RelationalDecision,FacetName
 
 Key = str
 Level = Literal['NONE', 'LOW', 'RELEVANT', 'HIGH']
@@ -20,6 +20,11 @@ class PreferenceSignal(DTO):
     topic: str = Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
     direction: Literal['SUPPORT', 'COUNTER']
     interpretation: str = Field(min_length=1, max_length=512)
+
+    @model_validator(mode='after')
+    def personality_topic(self):
+        if self.kind=='PERSONALITY_TENDENCY' and self.topic not in {'personality.'+f for f in get_args(FacetName)}:raise ValueError('unknown personality facet')
+        return self
 
 
 class SubjectInput(DTO):

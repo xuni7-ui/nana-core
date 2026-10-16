@@ -465,3 +465,14 @@ scope/review sensitivity; relation changes willingness but never trust facts or
 execution authority. A Subject can endorse accommodation while the original
 SOCIALIZE preference remains visible as VOLUNTARILY_RESTRAINED. Manager/Grant/
 privacy remain later independent gates. No performative defiance or refusal quota.
+
+
+## D-RELATIONAL-004 — finite self-chosen accommodation is not governance
+Listening/accommodation can be an endorsed autonomous choice; original desire
+remains visible. Reuse CommitmentService's application-controlled adoption and
+CAS, not a Manager restriction. Finite terms/review opportunities permit ordinary
+SubjectLoop CONTINUE/MODIFY/END; no timer can send, adopt or extend forever.
+Prior commitments are not erased by relationship priority. A typed behavior domain
+prevents refraining from new contacts from inhibiting every social interaction.
+Relational request IDs cannot be reused as new independent requests after replay
+or deletion. No implicit permission, obligation or permanent identity change.

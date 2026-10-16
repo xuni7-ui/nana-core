@@ -31,6 +31,7 @@ class Situation(DTO):
     social_privacy: SocialPrivacyExpectation | None = None
     autonomy_semantics: bool = False
     social_appetite: SocialAppetiteView | None = None
+    voluntary_restraints: tuple[str,...] = ()
 
 
 def appraise(event: SubjectInput, situation: Situation):
@@ -103,6 +104,9 @@ def decide(event, situation, appraisal, motives):
         return ('FOCUS_NOW',Judgment(stance='REFLECT',reason='An independently recorded experience is eligible for reflection',source_ids=sources),
             Intention(kind='REFLECTION',purpose='Examine the recorded outcome without inventing new history',slot_key='reflect-'+situation.reflection_experience_id,
                 source_ids=sources,self_generated=self_generated,behavior='REFLECT'))
+    if situation.voluntary_restraints and situation.cue and 'SOCIALIZE' in directions(situation.cue) and event.urgency!='HIGH':
+        return ('DEFER',Judgment(stance='DEFER',reason='Honor a current bounded self-chosen accommodation; retain desire and permit later review',source_ids=sources),
+            Intention(kind='NO_ACTION',purpose='Choose temporary restraint without losing social desire',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='STAY_SILENT'))
     if situation.cue:
         cue=situation.cue
         options=[x for x in directions(cue) if x not in situation.prohibited_behaviors]

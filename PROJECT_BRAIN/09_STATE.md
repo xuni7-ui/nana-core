@@ -1052,3 +1052,16 @@ random defiance or numeric total. Filtered ContextAssembler exposes only legal
 source-backed projections/audited tradeoff; forged model anchor/deference/judgment
 fields reject. Nine targeted tests PASS; two focused tradeoff/context checks PASS.
 Commitment materialization/review and full system qualification remain pending.
+
+
+## L3-C-RELATIONAL-V1 M4 — bounded voluntary commitments and same-loop review
+[实测·开发离线] Accepted Subject judgment can be explicitly materialized through
+the existing CommitmentService with application authority, exact source-cycle
+lineage, finite terms/review time and idempotent request identity. This is not
+Manager, Grant or timer adoption. Scheduler emits existing due opportunities;
+the same SubjectLoop decides CONTINUE/MODIFY/END. Review CAS updates only that
+commitment and retains prior history. Current accepted refrain affects matching
+behavior-domain opportunities, never appetite or all social relationships;
+after review/end it does not silently persist as personality. Targeted tests
+prove SEEKING+RESTRAINED, repeat materialization/review dedup and later SOCIALIZE.
+Existing C7/D8/v9 commitment/calendar paths retained; no new Store/table/loop.
