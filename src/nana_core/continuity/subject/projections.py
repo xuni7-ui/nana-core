@@ -20,7 +20,7 @@ class Environment(DTO):
 
 class PersonalityProfile(DTO):
     derived: Literal[True] = True
-    initial_temperament: Literal['warm and precise'] = 'warm and precise'
+    initial_temperament: Literal['warm and precise','SOURCE_BACKED_TENDENCIES'] = 'warm and precise'
     stable_preferences: tuple[str, ...]
     self_beliefs: tuple[str, ...]
     expression_tendencies: dict[str, str]
@@ -116,6 +116,14 @@ def project_self(store, *, entity_id, scope, privacy_classes, environment=None):
         interaction_style=relation['interaction_style'], support_record_ids=tuple(dict.fromkeys(support)),
         explanation=('Defaults are light; established tendencies require current independent sources.',
             'State activation, relationship stance and canonical identity are different layers.'))
+    if store.schema_target>=10:
+        from ..relational.projections import personality_tendencies
+        tendencies=personality_tendencies(store,scope=scope,privacy_classes=privacy_classes,entity_id=entity_id)
+        support.extend(tendencies.source_record_ids)
+        memories=tuple(sorted({*memories,*(m for rid in tendencies.source_record_ids for m in records.support(rid))}))
+        personality=personality.model_copy(update={'initial_temperament':'SOURCE_BACKED_TENDENCIES',
+            'expression_tendencies':{**personality.expression_tendencies,**{f.name:f.assessment for f in tendencies.facets}},
+            'support_record_ids':tuple(dict.fromkeys(support))})
     state = LivingSelfState(identity_id=store.identity['identity_id'], subject_revision=revision(store),
         state_token=token, as_of_us=now, presence=presence,
         current_activity=concerns[0]['kind'] if concerns else 'PRESENT_WITHOUT_ACTION',

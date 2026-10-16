@@ -30,4 +30,5 @@ DROP TABLE self_assertions;
 ALTER TABLE self_assertions_new RENAME TO self_assertions;
 CREATE INDEX autonomy_record_lookup ON continuity_records(record_kind,scope,created_at_us DESC);
 CREATE INDEX autonomy_record_target ON continuity_records(record_kind,target_id,created_at_us DESC);
+CREATE UNIQUE INDEX relational_request_identity ON continuity_records(target_id) WHERE record_kind='SUBJECT_EVENT' AND target_id LIKE 'relational-request:%';
 PRAGMA user_version=10;

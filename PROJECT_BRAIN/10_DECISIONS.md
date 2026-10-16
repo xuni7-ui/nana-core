@@ -487,3 +487,13 @@ independent personality roots. Delete/rebuild removes learned support. Role labe
 and any future reference Subject binding belong to instance/package data, never
 generic Core branches. Existing historical respect/independent judgment decisions
 are retained and refined, not erased.
+
+
+## D-RELATIONAL-006 — truncation cannot declassify an assertion
+Bounded explanatory citations are not the complete privacy lineage. Aggregate
+classification must cover all active source headers; scoped projections filter
+before any body/current-support load. This repairs an inherited development
+privacy defect without weakening7/8/9 defaults, adding authority or changing
+ordinary judgment policy. Unreleased10 finalizes only its request-identity index.
+Review materialization cannot override a deferred final Judgment; a later ordinary
+Subject wake may reconsider a source-backed due accommodation, still one loop.

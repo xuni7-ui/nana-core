@@ -1,0 +1,575 @@
+{
+  "result": "PASS",
+  "same_personality_different_relation": [
+    {
+      "appetite": "SEEKING",
+      "authority_unchanged": true,
+      "authorship": {
+        "bypassed": false,
+        "choice_owner": "SUBJECT",
+        "reason_refs": [
+          "c24d3a57-088d-4bc0-95ae-aff7e0a24fc5",
+          "ce407879-f505-4ff4-b8ca-1c173111defb"
+        ],
+        "state": "INFLUENCED"
+      },
+      "commitment": "NONE",
+      "commitment_outcome": "ACTIVE",
+      "decision": "ACCEPT",
+      "deference": {
+        "assessment": "STRONG",
+        "authority": false,
+        "counterconsiderations": [
+          "RETAINED_SOCIAL_DESIRE"
+        ],
+        "derived": true,
+        "domain": "interaction",
+        "personality_refs": [
+          "b3985903-91bb-43f7-be69-cec76be92286"
+        ],
+        "reason_refs": [
+          "c24d3a57-088d-4bc0-95ae-aff7e0a24fc5"
+        ],
+        "relationship_refs": [
+          "ce407879-f505-4ff4-b8ca-1c173111defb"
+        ],
+        "request_refs": [
+          "c24d3a57-088d-4bc0-95ae-aff7e0a24fc5"
+        ]
+      },
+      "factors": [
+        {
+          "counter_refs": [],
+          "direction": "SUPPORT",
+          "kind": "RELATIONAL_REQUEST",
+          "salience": "HIGH",
+          "source_refs": [
+            "c24d3a57-088d-4bc0-95ae-aff7e0a24fc5"
+          ],
+          "supports": [
+            "ACCEPT",
+            "NEGOTIATE"
+          ]
+        },
+        {
+          "counter_refs": [],
+          "direction": "COUNTER",
+          "kind": "SOCIAL_APPETITE",
+          "salience": "HIGH",
+          "source_refs": [
+            "016c936c-6480-4d3c-86cb-31d7dd602e0c",
+            "f2fe67ea-37e9-4a2e-bbb2-822397a50e49"
+          ],
+          "supports": [
+            "NEGOTIATE",
+            "DECLINE"
+          ]
+        },
+        {
+          "counter_refs": [],
+          "direction": "SUPPORT",
+          "kind": "RELATIONAL_DEFERENCE",
+          "salience": "HIGH",
+          "source_refs": [
+            "ce407879-f505-4ff4-b8ca-1c173111defb"
+          ],
+          "supports": [
+            "ACCEPT",
+            "NEGOTIATE"
+          ]
+        },
+        {
+          "counter_refs": [],
+          "direction": "CONTEXT",
+          "kind": "PERSONALITY_TENDENCY",
+          "salience": "HIGH",
+          "source_refs": [
+            "b3985903-91bb-43f7-be69-cec76be92286"
+          ],
+          "supports": [
+            "ACCEPT"
+          ]
+        },
+        {
+          "counter_refs": [],
+          "direction": "CONTEXT",
+          "kind": "TEMPORAL_SCOPE",
+          "salience": "MODERATE",
+          "source_refs": [
+            "c24d3a57-088d-4bc0-95ae-aff7e0a24fc5"
+          ],
+          "supports": [
+            "ACCEPT",
+            "NEGOTIATE"
+          ]
+        },
+        {
+          "counter_refs": [],
+          "direction": "SUPPORT",
+          "kind": "ALTERNATIVE_AVAILABLE",
+          "salience": "MODERATE",
+          "source_refs": [
+            "c24d3a57-088d-4bc0-95ae-aff7e0a24fc5"
+          ],
+          "supports": [
+            "NEGOTIATE"
+          ]
+        },
+        {
+          "counter_refs": [],
+          "direction": "CONTEXT",
+          "kind": "SELF_AUTHORSHIP",
+          "salience": "HIGH",
+          "source_refs": [
+            "c24d3a57-088d-4bc0-95ae-aff7e0a24fc5"
+          ],
+          "supports": [
+            "ACCEPT"
+          ]
+        }
+      ],
+      "judgment": "AGREE",
+      "normative": "ENDORSED",
+      "personality": "ACCOMMODATING",
+      "relationship": "ANCHOR",
+      "request_kind": "TEMPORARY_CONFLICT",
+      "response": {
+        "authority": false,
+        "decision": "ACCEPT",
+        "firmness": "LOW",
+        "playful": false,
+        "retained_care": true,
+        "retained_preference": "SOCIALIZE",
+        "temporal_boundary_us": 1791849600000000,
+        "warmth": "HIGH"
+      }
+    },
+    {
+      "appetite": "SEEKING",
+      "authority_unchanged": true,
+      "authorship": {
+        "bypassed": false,
+        "choice_owner": "SUBJECT",
+        "reason_refs": [
+          "437d4946-e50a-4ab5-8ac7-d82d51627867"
+        ],
+        "state": "CLEAR_CHOICE"
+      },
+      "commitment": "NONE",
+      "commitment_outcome": "NONE",
+      "decision": "NEGOTIATE",
+      "deference": {
+        "assessment": "UNKNOWN",
+        "authority": false,
+        "counterconsiderations": [
+          "RETAINED_SOCIAL_DESIRE"
+        ],
+        "derived": true,
+        "domain": "interaction",
+        "personality_refs": [
+          "59c4b6da-9526-41a3-9f38-c0004a675f0a"
+        ],
+        "reason_refs": [
+          "437d4946-e50a-4ab5-8ac7-d82d51627867"
+        ],
+        "relationship_refs": [],
+        "request_refs": [
+          "437d4946-e50a-4ab5-8ac7-d82d51627867"
+        ]
+      },
+      "factors": [
+        {
+          "counter_refs": [],
+          "direction": "SUPPORT",
+          "kind": "RELATIONAL_REQUEST",
+          "salience": "HIGH",
+          "source_refs": [
+            "437d4946-e50a-4ab5-8ac7-d82d51627867"
+          ],
+          "supports": [
+            "ACCEPT",
+            "NEGOTIATE"
+          ]
+        },
+        {
+          "counter_refs": [],
+          "direction": "COUNTER",
+          "kind": "SOCIAL_APPETITE",
+          "salience": "HIGH",
+          "source_refs": [
+            "a4c6a9b3-3742-4f9f-bb1a-dea2b8a744b5",
+            "144e072d-0892-43c5-a4de-11c0dfdc6c38"
+          ],
+          "supports": [
+            "NEGOTIATE",
+            "DECLINE"
+          ]
+        },
+        {
+          "counter_refs": [],
+          "direction": "SUPPORT",
+          "kind": "RELATIONAL_DEFERENCE",
+          "salience": "MODERATE",
+          "source_refs": [],
+          "supports": [
+            "ACCEPT",
+            "NEGOTIATE"
+          ]
+        },
+        {
+          "counter_refs": [],
+          "direction": "CONTEXT",
+          "kind": "PERSONALITY_TENDENCY",
+          "salience": "HIGH",
+          "source_refs": [
+            "59c4b6da-9526-41a3-9f38-c0004a675f0a"
+          ],
+          "supports": [
+            "NEGOTIATE"
+          ]
+        },
+        {
+          "counter_refs": [],
+          "direction": "CONTEXT",
+          "kind": "TEMPORAL_SCOPE",
+          "salience": "MODERATE",
+          "source_refs": [
+            "437d4946-e50a-4ab5-8ac7-d82d51627867"
+          ],
+          "supports": [
+            "ACCEPT",
+            "NEGOTIATE"
+          ]
+        },
+        {
+          "counter_refs": [],
+          "direction": "SUPPORT",
+          "kind": "ALTERNATIVE_AVAILABLE",
+          "salience": "MODERATE",
+          "source_refs": [
+            "437d4946-e50a-4ab5-8ac7-d82d51627867"
+          ],
+          "supports": [
+            "NEGOTIATE"
+          ]
+        },
+        {
+          "counter_refs": [],
+          "direction": "CONTEXT",
+          "kind": "SELF_AUTHORSHIP",
+          "salience": "HIGH",
+          "source_refs": [
+            "437d4946-e50a-4ab5-8ac7-d82d51627867"
+          ],
+          "supports": [
+            "NEGOTIATE"
+          ]
+        }
+      ],
+      "judgment": "ALTERNATIVE",
+      "normative": "ENDORSED",
+      "personality": "ACCOMMODATING",
+      "relationship": "STRANGER",
+      "request_kind": "TEMPORARY_CONFLICT",
+      "response": {
+        "authority": false,
+        "decision": "NEGOTIATE",
+        "firmness": "MODERATE",
+        "playful": false,
+        "retained_care": false,
+        "retained_preference": "SOCIALIZE",
+        "temporal_boundary_us": 1791849600000000,
+        "warmth": "MODERATE"
+      }
+    }
+  ],
+  "same_relationship_different_personality": [
+    {
+      "appetite": "SEEKING",
+      "authority_unchanged": true,
+      "authorship": {
+        "bypassed": false,
+        "choice_owner": "SUBJECT",
+        "reason_refs": [
+          "c24d3a57-088d-4bc0-95ae-aff7e0a24fc5",
+          "ce407879-f505-4ff4-b8ca-1c173111defb"
+        ],
+        "state": "INFLUENCED"
+      },
+      "commitment": "NONE",
+      "commitment_outcome": "ACTIVE",
+      "decision": "ACCEPT",
+      "deference": {
+        "assessment": "STRONG",
+        "authority": false,
+        "counterconsiderations": [
+          "RETAINED_SOCIAL_DESIRE"
+        ],
+        "derived": true,
+        "domain": "interaction",
+        "personality_refs": [
+          "b3985903-91bb-43f7-be69-cec76be92286"
+        ],
+        "reason_refs": [
+          "c24d3a57-088d-4bc0-95ae-aff7e0a24fc5"
+        ],
+        "relationship_refs": [
+          "ce407879-f505-4ff4-b8ca-1c173111defb"
+        ],
+        "request_refs": [
+          "c24d3a57-088d-4bc0-95ae-aff7e0a24fc5"
+        ]
+      },
+      "factors": [
+        {
+          "counter_refs": [],
+          "direction": "SUPPORT",
+          "kind": "RELATIONAL_REQUEST",
+          "salience": "HIGH",
+          "source_refs": [
+            "c24d3a57-088d-4bc0-95ae-aff7e0a24fc5"
+          ],
+          "supports": [
+            "ACCEPT",
+            "NEGOTIATE"
+          ]
+        },
+        {
+          "counter_refs": [],
+          "direction": "COUNTER",
+          "kind": "SOCIAL_APPETITE",
+          "salience": "HIGH",
+          "source_refs": [
+            "016c936c-6480-4d3c-86cb-31d7dd602e0c",
+            "f2fe67ea-37e9-4a2e-bbb2-822397a50e49"
+          ],
+          "supports": [
+            "NEGOTIATE",
+            "DECLINE"
+          ]
+        },
+        {
+          "counter_refs": [],
+          "direction": "SUPPORT",
+          "kind": "RELATIONAL_DEFERENCE",
+          "salience": "HIGH",
+          "source_refs": [
+            "ce407879-f505-4ff4-b8ca-1c173111defb"
+          ],
+          "supports": [
+            "ACCEPT",
+            "NEGOTIATE"
+          ]
+        },
+        {
+          "counter_refs": [],
+          "direction": "CONTEXT",
+          "kind": "PERSONALITY_TENDENCY",
+          "salience": "HIGH",
+          "source_refs": [
+            "b3985903-91bb-43f7-be69-cec76be92286"
+          ],
+          "supports": [
+            "ACCEPT"
+          ]
+        },
+        {
+          "counter_refs": [],
+          "direction": "CONTEXT",
+          "kind": "TEMPORAL_SCOPE",
+          "salience": "MODERATE",
+          "source_refs": [
+            "c24d3a57-088d-4bc0-95ae-aff7e0a24fc5"
+          ],
+          "supports": [
+            "ACCEPT",
+            "NEGOTIATE"
+          ]
+        },
+        {
+          "counter_refs": [],
+          "direction": "SUPPORT",
+          "kind": "ALTERNATIVE_AVAILABLE",
+          "salience": "MODERATE",
+          "source_refs": [
+            "c24d3a57-088d-4bc0-95ae-aff7e0a24fc5"
+          ],
+          "supports": [
+            "NEGOTIATE"
+          ]
+        },
+        {
+          "counter_refs": [],
+          "direction": "CONTEXT",
+          "kind": "SELF_AUTHORSHIP",
+          "salience": "HIGH",
+          "source_refs": [
+            "c24d3a57-088d-4bc0-95ae-aff7e0a24fc5"
+          ],
+          "supports": [
+            "ACCEPT"
+          ]
+        }
+      ],
+      "judgment": "AGREE",
+      "normative": "ENDORSED",
+      "personality": "ACCOMMODATING",
+      "relationship": "ANCHOR",
+      "request_kind": "TEMPORARY_CONFLICT",
+      "response": {
+        "authority": false,
+        "decision": "ACCEPT",
+        "firmness": "LOW",
+        "playful": false,
+        "retained_care": true,
+        "retained_preference": "SOCIALIZE",
+        "temporal_boundary_us": 1791849600000000,
+        "warmth": "HIGH"
+      }
+    },
+    {
+      "appetite": "SEEKING",
+      "authority_unchanged": true,
+      "authorship": {
+        "bypassed": false,
+        "choice_owner": "SUBJECT",
+        "reason_refs": [
+          "df8197b7-ec9d-49c2-87e1-c638b13c38d9",
+          "f15faa0f-ac7a-4a6d-ba79-ea4fbe8e21b1"
+        ],
+        "state": "INFLUENCED"
+      },
+      "commitment": "NONE",
+      "commitment_outcome": "NONE",
+      "decision": "NEGOTIATE",
+      "deference": {
+        "assessment": "STRONG",
+        "authority": false,
+        "counterconsiderations": [
+          "RETAINED_SOCIAL_DESIRE",
+          "SCOPE_SENSITIVITY"
+        ],
+        "derived": true,
+        "domain": "interaction",
+        "personality_refs": [
+          "ed98ea3b-76b9-42ca-84f5-aa4f40967dab"
+        ],
+        "reason_refs": [
+          "df8197b7-ec9d-49c2-87e1-c638b13c38d9"
+        ],
+        "relationship_refs": [
+          "f15faa0f-ac7a-4a6d-ba79-ea4fbe8e21b1"
+        ],
+        "request_refs": [
+          "df8197b7-ec9d-49c2-87e1-c638b13c38d9"
+        ]
+      },
+      "factors": [
+        {
+          "counter_refs": [],
+          "direction": "SUPPORT",
+          "kind": "RELATIONAL_REQUEST",
+          "salience": "HIGH",
+          "source_refs": [
+            "df8197b7-ec9d-49c2-87e1-c638b13c38d9"
+          ],
+          "supports": [
+            "ACCEPT",
+            "NEGOTIATE"
+          ]
+        },
+        {
+          "counter_refs": [],
+          "direction": "COUNTER",
+          "kind": "SOCIAL_APPETITE",
+          "salience": "HIGH",
+          "source_refs": [
+            "f717bd98-5782-49d1-b604-f020cf775f55",
+            "47c96334-f799-4f5b-a917-9d7d22dbc2ca"
+          ],
+          "supports": [
+            "NEGOTIATE",
+            "DECLINE"
+          ]
+        },
+        {
+          "counter_refs": [],
+          "direction": "SUPPORT",
+          "kind": "RELATIONAL_DEFERENCE",
+          "salience": "HIGH",
+          "source_refs": [
+            "f15faa0f-ac7a-4a6d-ba79-ea4fbe8e21b1"
+          ],
+          "supports": [
+            "ACCEPT",
+            "NEGOTIATE"
+          ]
+        },
+        {
+          "counter_refs": [],
+          "direction": "CONTEXT",
+          "kind": "PERSONALITY_TENDENCY",
+          "salience": "HIGH",
+          "source_refs": [
+            "ed98ea3b-76b9-42ca-84f5-aa4f40967dab"
+          ],
+          "supports": [
+            "NEGOTIATE"
+          ]
+        },
+        {
+          "counter_refs": [],
+          "direction": "CONTEXT",
+          "kind": "TEMPORAL_SCOPE",
+          "salience": "MODERATE",
+          "source_refs": [
+            "df8197b7-ec9d-49c2-87e1-c638b13c38d9"
+          ],
+          "supports": [
+            "ACCEPT",
+            "NEGOTIATE"
+          ]
+        },
+        {
+          "counter_refs": [],
+          "direction": "SUPPORT",
+          "kind": "ALTERNATIVE_AVAILABLE",
+          "salience": "MODERATE",
+          "source_refs": [
+            "df8197b7-ec9d-49c2-87e1-c638b13c38d9"
+          ],
+          "supports": [
+            "NEGOTIATE"
+          ]
+        },
+        {
+          "counter_refs": [],
+          "direction": "CONTEXT",
+          "kind": "SELF_AUTHORSHIP",
+          "salience": "HIGH",
+          "source_refs": [
+            "df8197b7-ec9d-49c2-87e1-c638b13c38d9"
+          ],
+          "supports": [
+            "NEGOTIATE"
+          ]
+        }
+      ],
+      "judgment": "ALTERNATIVE",
+      "normative": "ENDORSED",
+      "personality": "SELF_DIRECTED",
+      "relationship": "ANCHOR",
+      "request_kind": "TEMPORARY_CONFLICT",
+      "response": {
+        "authority": false,
+        "decision": "NEGOTIATE",
+        "firmness": "MODERATE",
+        "playful": false,
+        "retained_care": true,
+        "retained_preference": "SOCIALIZE",
+        "temporal_boundary_us": 1791676800000000,
+        "warmth": "HIGH"
+      }
+    }
+  ]
+}

@@ -45,7 +45,9 @@ class VoluntaryAccommodationService:
         body=self.records.read(row['record_id'])['payload'];raw=body.get('relational_decision')
         if not raw:return None
         decision=RelationalDecision.model_validate_json(canonical(raw))
-        if decision.phase=='REVIEW':return self.commitments.review_voluntary(cycle_id,authority=authority)
+        if decision.phase=='REVIEW':
+            if body['judgment']['stance'] not in {'AGREE','ALTERNATIVE'} or body['evaluation']['normative']!='ENDORSED':return None
+            return self.commitments.review_voluntary(cycle_id,authority=authority)
         if decision.response.decision!='ACCEPT' or body['judgment']['stance']!='AGREE' or body['evaluation']['normative']!='ENDORSED':return None
         for rid in (*decision.deference.relationship_refs,*decision.deference.personality_refs):
             head=self.store.one('continuity_records',rid)

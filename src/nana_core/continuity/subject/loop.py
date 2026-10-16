@@ -270,10 +270,20 @@ class SubjectLoop:
                         reason='Subject-owned relational tradeoff; retained desire is not rewritten and no authority is created',source_ids=situation.memory_ids)
                     intention=Intention(kind='GOAL_CANDIDATE' if choice=='ACCEPT' else 'SOCIAL_INTERACTION' if choice=='NEGOTIATE' else 'NO_ACTION',
                         purpose='Consider bounded accommodation or discuss its scope',slot_key='relational-'+digest(event.source_key)[:24],source_ids=situation.memory_ids,self_generated=False)
-            if self.store.schema_target>=10 and event.task_class=='relational.accommodation.review':
+            review_event=event
+            if self.store.schema_target>=10 and event.kind=='WAKE' and not event.commitment_check_id and not situation.cue:
+                # A deferred due review can be reconsidered on an ordinary later
+                # wake. C selects the concern; Scheduler neither adopts nor sends.
+                for cid in situation.due_commitment_ids:
+                    row=self.store.one('commitments',cid)
+                    if self.records.read(row['record_id'])['payload'].get('voluntary'):
+                        review_event=event.model_copy(update={'task_class':'relational.accommodation.review','commitment_check_id':cid,'entity_id':row['entity_id']})
+                        break
+            if self.store.schema_target>=10 and review_event.task_class=='relational.accommodation.review':
                 from ..relational.accommodation import review
                 from .contracts import Intention,Judgment
-                relational=review(self.store,event,situation,privacy_classes=self.privacy_classes)
+                review_situation=situation if review_event is event else self.situation(review_event,source)
+                relational=review(self.store,review_event,review_situation,privacy_classes=self.privacy_classes)
                 attention='FOCUS_NOW'
                 judgment=Judgment(stance='ALTERNATIVE' if relational.review_choice=='MODIFY' else 'AGREE',reason='Reconsider bounded accommodation from current sources; timer is not authority',source_ids=situation.memory_ids)
                 intention=Intention(kind='GOAL_CANDIDATE',purpose='Apply the sourced voluntary review choice',slot_key='voluntary-review-'+digest(event.source_key)[:24],source_ids=situation.memory_ids,self_generated=True)

@@ -133,6 +133,7 @@ class CommitmentService:
         body=self.records.read(cycle['record_id'])['payload']
         decision=RelationalDecision.model_validate_json(canonical(body['relational_decision']))
         if decision.phase!='REVIEW' or not decision.review_choice:raise CoreError('VOLUNTARY_REVIEW_DECISION_REQUIRED')
+        if body['judgment']['stance'] not in {'AGREE','ALTERNATIVE'} or body['evaluation']['normative']!='ENDORSED':raise CoreError('VOLUNTARY_REVIEW_NOT_ENDORSED')
         cid=decision.review_commitment_id
         old=self.store.db.execute("SELECT 1 FROM events WHERE source_namespace='commitment.voluntary-review' AND source_key=?",(cycle_id,)).fetchone()
         if old:return cid

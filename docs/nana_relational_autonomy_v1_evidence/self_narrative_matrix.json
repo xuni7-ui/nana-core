@@ -1,0 +1,21 @@
+{
+  "counterevidence": {
+    "basis": "CONTESTED",
+    "identity_unchanged": true,
+    "result": "PASS"
+  },
+  "growth": {
+    "one": "BOOTSTRAP",
+    "result": "PASS",
+    "two": "EVIDENCE"
+  },
+  "narrative": {
+    "assessment": "CONTESTED",
+    "is_policy": false,
+    "result": "PASS",
+    "semantic": "TENDENCY.RELATIONAL_ACCOMMODATION"
+  },
+  "policy": false,
+  "result": "PASS",
+  "source_erasure": "targeted test_projections.py PASS"
+}

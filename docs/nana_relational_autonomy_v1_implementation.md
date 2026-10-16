@@ -66,3 +66,20 @@ reading/rebuilding narrative creates no new evidence/decision. Source erasure
 removes learned support; counterevidence contests it; canonical identity intact.
 Remaining work: full scenario/matched/generic matrices, recovery/90-day soak and
 major/final regression; this checkpoint does not claim READY or real verification.
+
+
+## L3-C-RELATIONAL-V1 M6 — system matrix and privacy boundary repair
+[实测·开发离线] S1–S22 PASS,12 representative four-dimensional deference cases,
+three-world appetite ablation and sibling-like/companion-like/no-anchor generic
+Subjects PASS. Combined prior C/D/AFFECT/new74 PASS; pre-hardening major full919
+passed/0 failed/1 skipped(E12),93.58s. Final regression remains pending.
+Focused review found a medium-severity inherited privacy seam: bounded assertion
+explanation refs could omit a SECRET root, underclassifying the aggregate and
+reading its body in an unprivileged projection. Deterministic failing regression
+retained, fixed by classifying all source headers and filtering before body/current
+support reads. Narrow privacy hardening also covers default development7/9;
+no schema defaults or ordinary normative/authority policy changed. Targeted tests
+cover7/9/10. Review application requires the actual final endorsed Judgment;
+ordinary later wakes can reconsider a deferred due review. V10 old warmth label
+is replaced by sourced tendencies; request IDs gain an exact unique index.
+Production/private/model/action changes remain0. Recovery/90d/final still pending.

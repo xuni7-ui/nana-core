@@ -68,6 +68,10 @@ def install(db, current, target):
                 if db.in_transaction:db.execute('ROLLBACK')
                 raise
             finally:db.execute('PRAGMA foreign_keys=ON')
+    if current==target==10:
+        # Finalize the index on unreleased v10 checkpoints; never migrate a
+        # deployed/default Store implicitly or revive retired request IDs.
+        db.execute("CREATE UNIQUE INDEX IF NOT EXISTS relational_request_identity ON continuity_records(target_id) WHERE record_kind='SUBJECT_EVENT' AND target_id LIKE 'relational-request:%'")
     if current == 1 and target > 1:
         # v1 replicated plaintext into immutable events. Adding nullable columns
         # cannot make those records deletable. Require a separate audited import.
