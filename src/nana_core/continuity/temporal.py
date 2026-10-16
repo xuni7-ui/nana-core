@@ -58,6 +58,14 @@ class TemporalMemoryService:
             rid=json.loads(event['data_json'])['data']['record_id'];row=self.store.one('continuity_records',rid)
             if row['privacy_class'] not in privacy_classes or row['lifecycle']=='DELETED':raise CoreError('TEMPORAL_MEMORY_UNAVAILABLE')
             validity=FactValidity.model_validate_json(canonical(self.records.read(rid,include_history=True)['payload']));source_record=rid
+            # Later correction is not backdated into earlier knowledge. But once
+            # known, a retired supporting declaration cannot certify validity.
+            for mid in self.records.support(rid):
+                support=self.store.one('memories',mid)
+                replacement=self.store.one('memories',support['superseded_by']) if support['superseded_by'] else None
+                challenged=(support['assessment'] in {'DISPUTED','WITHDRAWN'} and support['updated_at_us']<=as_of_known_us)
+                if challenged or (replacement and replacement['ingested_time_us']<=as_of_known_us):
+                    validity=None;source_record=None;break
         state='UNKNOWN'
         if validity:
             if (validity.valid_from_us is not None and as_of_valid_us<validity.valid_from_us) or (validity.valid_until_us is not None and as_of_valid_us>=validity.valid_until_us):state='OUTSIDE'

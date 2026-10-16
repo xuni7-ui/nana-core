@@ -1266,3 +1266,12 @@ V11 package transfer preserves goal/history, strips transient owner and revokes
 old authority; no agency/port is automatically reconstructed on new host.
 18 focused tests PASS, including bounded real process heartbeat/shutdown. Final
 full repository regression still pending; no production/real models/data/actions.
+
+### D2–D7 pre-final correction — temporal support and reservation fence
+
+[离线实测] First full946 PASS/1 SKIP. Final causal audit reproduced an old validity
+annotation remaining WITHIN after its direct support was explicitly corrected.
+Regression retained; temporal projection now invalidates support at known-time
+without backdating the correction into earlier knowledge. Also rechecks call cap/
+in-flight reservations inside the existing reservation transaction. Targeted20
+PASS. No authority/privacy gate relaxed. Final full will validate this fix.

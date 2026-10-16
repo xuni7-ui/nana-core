@@ -35,6 +35,8 @@ def resource_state(store,config):
 
 def allocation_reason(store,config,row):
     state=resource_state(store,config);l=config.living
+    if state.calls>=config.max_calls_per_day:return 'COGNITION_BUDGET_EXHAUSTED'
+    if state.unresolved_calls:return 'UNRESOLVED_PROVIDER_CALL'
     if state.reserved_bytes+l.call_reserved_bytes>l.max_model_bytes_per_day:return 'MODEL_BYTE_RESERVATION_EXHAUSTED'
     if state.reserved_estimated_cost_micro+l.call_estimated_cost_micro>l.max_estimated_cost_micro_per_day:return 'MODEL_ESTIMATED_COST_EXHAUSTED'
     if row['event_type']!='USER_EVENT' and (state.background_reserved_bytes+l.call_reserved_bytes)*100>l.max_model_bytes_per_day*l.background_fraction_percent:return 'BACKGROUND_SUB_BUDGET_PRESERVES_FOREGROUND'

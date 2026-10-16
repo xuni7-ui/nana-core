@@ -42,3 +42,15 @@ def test_frontend_same_runtime_surfaces_journal_and_private_filter(tmp_path):
         assert any(e['phase']=='VERIFIED_EFFECT' for e in journal['entries'])
         public=application.session(FrontendPolicy(context=policy.model_copy(update={'readable_privacy':('PUBLIC',)}),entity_id='synthetic-person',commands=()))
         assert not json.loads(public.view('LIVING_JOURNAL',scope='lab').data_json)['entries']
+
+
+def test_atomic_reservation_keeps_call_cap_even_if_caller_skips_choose(tmp_path):
+    import pytest
+    from nana_core.contracts import CoreError
+    with fresh(tmp_path/'self.db',model='analytical',max_calls_per_day=1) as r:
+        a=r.submit(event(r,'first',text='Fictional first source',significance='HIGH'))
+        r.cognition.reserve(r.store.one('runtime_queue',a))
+        b=r.submit(event(r,'second',text='Fictional second source',significance='HIGH'))
+        with pytest.raises(CoreError,match='RESERVATION_EXHAUSTED'):
+            r.cognition.reserve(r.store.one('runtime_queue',b))
+        assert len(r.store.all('runtime_cognition_calls'))==1

@@ -11,7 +11,7 @@ from .test_agency import setup,start
 
 def capture(r,key,text,**kwargs):
     m=MemoryService(r.store)
-    eid=m.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.life',source_reference=key,source_kind='DIRECT_OBSERVATION'),text=text,observed_time_us=r.clock.utc_now_us(),privacy_class='PERSONAL'))
+    eid=m.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.life',source_reference=key,source_kind='DIRECT_OBSERVATION'),text=text,event_time_us=r.clock.utc_now_us(),observed_time_us=r.clock.utc_now_us(),privacy_class='PERSONAL'))
     return m.add(MemoryCandidate(entity_id='synthetic-person',scope='lab',memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',source_evidence_id=eid,text=text,**kwargs))
 
 
@@ -69,3 +69,19 @@ def test_verified_failure_reflection_changes_future_plan_and_offline_skill(tmp_p
         grants=r.store.all('grants')
         assert service.enable_offline(proposal,authority=r.authority)=='fixture.learned-reading'
         assert r.store.all('grants')==grants
+
+
+def test_corrected_validity_source_cannot_remain_current_authority(tmp_path):
+    with fresh(tmp_path/'self.db') as r:
+        mid=capture(r,'fact-source','A fictional changing fact')
+        declaration=FactValidity(memory_id=mid,valid_from_us=10,valid_until_us=20)
+        source=capture(r,'source-v1',declaration.model_dump_json(),predicate_key='validity.source')
+        service=TemporalMemoryService(r.store,r.authority)
+        service.declare(declaration,support_memory_id=source,expected_revision=0,authority=r.authority)
+        known_before=r.clock.utc_now_us()
+        r.clock.source.advance(SECOND)
+        corrected=FactValidity(memory_id=mid,valid_from_us=30,valid_until_us=40)
+        capture(r,'source-v2',corrected.model_dump_json(),predicate_key='validity.source',correction_of=source)
+        kwargs=dict(scopes=('lab',),privacy_classes=('PERSONAL',),as_of_valid_us=15)
+        assert service.view(mid,as_of_known_us=r.clock.utc_now_us(),**kwargs).validity=='UNKNOWN'
+        assert service.view(mid,as_of_known_us=known_before,**kwargs).validity=='WITHIN'
