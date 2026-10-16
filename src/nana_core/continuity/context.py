@@ -283,9 +283,9 @@ class ContextAssembler:
             from .relational.projections import personality_tendencies,social_appetite,self_narrative
             for scope in request.scopes:
                 anchor=anchor_view(self.store,request.entity_id,scope=scope,privacy_classes=privacy)
-                tendency=personality_tendencies(self.store,scope=scope,privacy_classes=privacy)
+                tendency=personality_tendencies(self.store,scope=scope,privacy_classes=privacy,entity_id=request.entity_id)
                 appetite=social_appetite(self.store,scope=scope,privacy_classes=privacy)
-                narrative=self_narrative(self.store,scope=scope,privacy_classes=privacy)
+                narrative=self_narrative(self.store,scope=scope,privacy_classes=privacy,entity_id=request.entity_id)
                 refs=tuple(dict.fromkeys((*tendency.source_record_ids,*appetite.source_record_ids,*((anchor.source_record_id,) if anchor else ()))))
                 data={'anchor':anchor.model_dump(mode='json') if anchor else None,'personality':tendency.model_dump(mode='json'),
                     'social_appetite':appetite.model_dump(mode='json'),'self_narrative':narrative.model_dump(mode='json'),'execution_authority':'NONE'}

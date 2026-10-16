@@ -476,3 +476,14 @@ Prior commitments are not erased by relationship priority. A typed behavior doma
 prevents refraining from new contacts from inhibiting every social interaction.
 Relational request IDs cannot be reused as new independent requests after replay
 or deletion. No implicit permission, obligation or permanent identity change.
+
+
+## D-RELATIONAL-005 — dynamic tendency and narrative without self-certification
+Personality is seed plus evidence-backed/counterevidence-sensitive projection,
+not a numeric total or CanonicalIdentity charter. Relationship experiences and
+reviewed lessons can change current tradeoff context, not certify a stable trait
+by repetition. Model interpretations/own choices/narrative rereads cannot generate
+independent personality roots. Delete/rebuild removes learned support. Role labels
+and any future reference Subject binding belong to instance/package data, never
+generic Core branches. Existing historical respect/independent judgment decisions
+are retained and refined, not erased.

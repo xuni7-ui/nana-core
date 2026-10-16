@@ -53,3 +53,16 @@ behavior-domain opportunities, never appetite or all social relationships;
 after review/end it does not silently persist as personality. Targeted tests
 prove SEEKING+RESTRAINED, repeat materialization/review dedup and later SOCIALIZE.
 Existing C7/D8/v9 commitment/calendar paths retained; no new Store/table/loop.
+
+
+## L3-C-RELATIONAL-V1 M5 — personality/narrative source closure
+[实测·开发离线] PersonalityTendencyView combines seed, independent Growth
+assertions/counters, relevant reviewed lessons and current sourced relationship
+boundary/repair context. Context-dependent modifiers do not become permanent
+traits. SelfNarrative is a semantic derived view over supported self-beliefs,
+traits and shared history; no stored personality prompt/rule or new reflection
+engine. Copied roots/own repeated descriptions cannot create independent support;
+reading/rebuilding narrative creates no new evidence/decision. Source erasure
+removes learned support; counterevidence contests it; canonical identity intact.
+Remaining work: full scenario/matched/generic matrices, recovery/90-day soak and
+major/final regression; this checkpoint does not claim READY or real verification.

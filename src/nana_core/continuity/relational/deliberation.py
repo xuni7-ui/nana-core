@@ -35,7 +35,7 @@ def deliberate(store,event,situation,*,source_record_id,privacy_classes):
     if request.requesting_entity!=event.entity_id:raise CoreError('RELATIONAL_REQUEST_ENTITY_MISMATCH')
     relation=situation.relationship_influence
     anchor=anchor_view(store,event.entity_id,scope=event.scope,privacy_classes=privacy_classes)
-    person=personality_tendencies(store,scope=event.scope,privacy_classes=privacy_classes)
+    person=personality_tendencies(store,scope=event.scope,privacy_classes=privacy_classes,entity_id=event.entity_id)
     appetite=situation.social_appetite
     willingness=willing_deference(request,relationship=relation,anchor=anchor,personality=person,appetite=appetite,commitments=situation.commitment_ids,request_refs=(source_record_id,))
     traits={f.name:f.assessment for f in person.facets}
@@ -56,6 +56,7 @@ def deliberate(store,event,situation,*,source_record_id,privacy_classes):
     elif request.consequence=='HIGH' and (willingness.assessment in {'UNKNOWN','LIMITED'} or traits['conviction_persistence']=='HIGH'):choice='DECLINE'
     elif not appetite.available:choice='NEGOTIATE'
     elif conflict and traits['commitment_seriousness']=='HIGH':choice='NEGOTIATE'
+    elif 'UNRESOLVED_RELATIONAL_REPAIR' in person.context_modifiers:choice='NEGOTIATE'
     elif 'DOMAIN_TRUST_INSUFFICIENT' in willingness.counterconsiderations:choice='NEGOTIATE'
     elif not desired and request.consequence=='LOW' and (related or request.operation!='REFRAIN'):choice='ACCEPT'
     elif desired and request.operation=='REFRAIN' and traits['self_direction_sensitivity']=='HIGH' and (broad or duration>DAY):choice='NEGOTIATE'

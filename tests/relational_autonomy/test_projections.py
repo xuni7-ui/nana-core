@@ -34,3 +34,21 @@ def test_anchor_ablation_and_personality_growth_counter_erasure(tmp_path):
   rebuilt=personality_tendencies(r.store,scope='lab',privacy_classes=('PERSONAL',))
   assert next(f for f in rebuilt.facets if f.name=='relational_accommodation').basis=='BOOTSTRAP'
   assert not self_narrative(r.store,scope='lab',privacy_classes=('PERSONAL',)).entries
+
+
+def test_own_choices_copies_and_subject_narrative_cannot_self_certify(tmp_path):
+ from nana_core.continuity.subject import PreferenceSignal
+ with fresh(tmp_path/'self.db') as r:
+  bootstrap(r)
+  original=signal(r,'external','personality.relational_accommodation','PERSONALITY_TENDENCY')
+  source=r.store.one('subject_events',original.event_id)['memory_id']
+  # Repeated derived descriptions of one root, including own words, are not
+  # independent occurrences even if they have different external source keys.
+  for i in range(5):
+   r.subject.run(event(r,'copied'+str(i),kind='OUTCOME',origin='ENVIRONMENT',source_memory_ids=(source,),preference_signal=PreferenceSignal(kind='PERSONALITY_TENDENCY',topic='personality.relational_accommodation',direction='SUPPORT',interpretation='Repeated interpretation of the same root')))
+  view=personality_tendencies(r.store,scope='lab',privacy_classes=('PERSONAL',))
+  f=next(x for x in view.facets if x.name=='relational_accommodation')
+  assert f.independent_support_count==1 and f.basis=='BOOTSTRAP'
+  rev=r.subject.revision
+  for _ in range(5):assert not self_narrative(r.store,scope='lab',privacy_classes=('PERSONAL',)).entries
+  assert r.subject.revision==rev

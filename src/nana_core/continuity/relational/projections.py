@@ -9,7 +9,7 @@ from .bootstrap import read_current
 from .contracts import SubjectPersonalitySeed,TendencyFacet,PersonalityTendencyView,SocialAppetiteView,SelfNarrativeItem,SelfNarrativeView
 
 
-def personality_tendencies(store,*,scope,privacy_classes):
+def personality_tendencies(store,*,scope,privacy_classes,entity_id=None):
     token=state_token(store);now=store.clock.utc_now_us();records=RecordService(store)
     source=read_current(store,scope,'seed',privacy_classes)
     seed=SubjectPersonalitySeed.model_validate_json(canonical(source[1])) if source else None
@@ -29,10 +29,15 @@ def personality_tendencies(store,*,scope,privacy_classes):
             counter_refs=tuple(row['counter_evidence']) if row else (),independent_support_count=row['independent_support_count'] if row else 0))
     modifiers=[]
     # Reviewed lessons contribute context, not automatic new independent traits.
-    for row in store.db.execute("SELECT l.* FROM lessons l JOIN continuity_records r ON r.record_id=l.record_id WHERE l.state='ACTIVE' AND r.scope=? ORDER BY r.created_at_us DESC LIMIT 32",(scope,)):
+    for row in store.db.execute("SELECT l.* FROM lessons l JOIN continuity_records r ON r.record_id=l.record_id WHERE l.state='ACTIVE' AND l.task_class IN ('disposition.review','interaction.shared_discovery') AND r.scope=? ORDER BY r.created_at_us DESC LIMIT 32",(scope,)):
         head=store.one('continuity_records',row['record_id'])
         if head['scope']==scope and head['privacy_class'] in privacy_classes and head['lifecycle']=='ACTIVE' and records.current_support(head['record_id']):
             refs.append(head['record_id']);modifiers.append('REVIEWED_LESSON_AVAILABLE')
+    if entity_id is not None:
+        relation=relationship_influence(store,entity_id,scope=scope,privacy_classes=privacy_classes)
+        refs.extend(relation.source_record_ids)
+        if relation.repair_tension.assessment=='UNRESOLVED':modifiers.append('UNRESOLVED_RELATIONAL_REPAIR')
+        if relation.boundary_salience.assessment=='EXPLICIT':modifiers.append('EXPLICIT_RELATIONAL_BOUNDARY')
     if state_token(store)!=token:raise CoreError('STATE_CHANGED_DURING_PERSONALITY_PROJECTION')
     return PersonalityTendencyView(facets=tuple(facets),context_modifiers=tuple(dict.fromkeys(modifiers)),source_record_ids=tuple(dict.fromkeys(refs)),as_of_us=now,state_token=token)
 
@@ -65,8 +70,8 @@ def social_appetite(store,*,scope,privacy_classes):
     return SocialAppetiteView(state=state,source_record_ids=tuple(dict.fromkeys(refs)),source_memory_ids=tuple(mids),available=available,as_of_us=now,state_token=token)
 
 
-def self_narrative(store,*,scope,privacy_classes):
-    view=personality_tendencies(store,scope=scope,privacy_classes=privacy_classes)
+def self_narrative(store,*,scope,privacy_classes,entity_id=None):
+    view=personality_tendencies(store,scope=scope,privacy_classes=privacy_classes,entity_id=entity_id)
     items=[]
     for f in view.facets:
         if f.basis not in {'EVIDENCE','CONTESTED'}:continue
@@ -74,4 +79,7 @@ def self_narrative(store,*,scope,privacy_classes):
     for a in Growth(store).assertions(scope,'SELF_BELIEF',privacy_classes=privacy_classes):
         if a['state'] in {'ADOPTED','DISPUTED'}:
             items.append(SelfNarrativeItem(semantic='SELF_BELIEF.'+a['topic'],assessment='SUPPORTED' if a['state']=='ADOPTED' else 'CONTESTED',support_refs=a['source_record_ids'],counter_refs=a['counter_evidence']))
+    if entity_id is not None:
+        relation=relationship_influence(store,entity_id,scope=scope,privacy_classes=privacy_classes)
+        if relation.familiarity.assessment=='FAMILIAR':items.append(SelfNarrativeItem(semantic='SHARED_RELATIONAL_HISTORY',assessment='SUPPORTED',support_refs=relation.familiarity.support_refs,counter_refs=()))
     return SelfNarrativeView(entries=tuple(items[:32]),as_of_us=view.as_of_us,state_token=view.state_token)
