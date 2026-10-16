@@ -25,9 +25,11 @@ def review(store,event,situation,*,privacy_classes):
     context=situation.model_copy(update={'commitment_ids':tuple(c for c in situation.commitment_ids if c!=row['commitment_id'])})
     current=deliberate(store,event.model_copy(update={'relational_request':req}),context,source_record_id=row['record_id'],privacy_classes=privacy_classes)
     now=store.clock.utc_now_us();traits={f.name:f.assessment for f in personality_tendencies(store,scope=event.scope,privacy_classes=privacy_classes).facets}
-    choice='END' if now>=terms.end_us or current.response.decision=='DECLINE' or not situation.social_appetite.available else 'MODIFY' if traits['self_direction_sensitivity']=='HIGH' and situation.social_appetite.state=='SEEKING' else 'CONTINUE'
+    choice='END' if now>=terms.end_us or current.response.decision=='DECLINE' or not situation.social_appetite.available else 'MODIFY' if current.response.decision=='NEGOTIATE' or (traits['self_direction_sensitivity']=='HIGH' and situation.social_appetite.state=='SEEKING') else 'CONTINUE'
     duration=None if choice=='END' else min(terms.end_us-now,DAY) if choice=='MODIFY' else terms.end_us-now
-    return current.model_copy(update={'phase':'REVIEW','review_commitment_id':row['commitment_id'],'review_revision':row['revision'],'review_choice':choice,
+    response=current.response.model_copy(update={'decision':'DECLINE' if choice=='END' else 'NEGOTIATE' if choice=='MODIFY' else 'ACCEPT',
+        'temporal_boundary_us':now+duration if duration else None,'proposed_scope':'TARGETED' if choice=='MODIFY' else terms.accepted_scope})
+    return current.model_copy(update={'response':response,'prior_behavior_disposition':'RETAINED' if choice=='END' else current.prior_behavior_disposition,'phase':'REVIEW','review_commitment_id':row['commitment_id'],'review_revision':row['revision'],'review_choice':choice,
         'accepted_duration_us':duration,'review_at_us':now+duration if duration else None})
 
 

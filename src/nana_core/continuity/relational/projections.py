@@ -64,8 +64,8 @@ def social_appetite(store,*,scope,privacy_classes):
     # Specific observed social saturation/recovery is evidence, never elapsed
     # silence or the mere existence/online status of a particular relationship.
     for a in assertions:
-        if a['state']=='ADOPTED' and a['topic'] in {'social_recovery_needed','social_satiation'}:
-            state='RECOVERING' if a['topic']=='social_recovery_needed' else 'SATURATED';refs.extend(a['source_record_ids'])
+        if a['state']=='ADOPTED' and a['topic'] in {'social_recovery_needed','social_satiation','social_quiet_preference'}:
+            state='RECOVERING' if a['topic']=='social_recovery_needed' else 'QUIET' if a['topic']=='social_quiet_preference' else 'SATURATED';refs.extend(a['source_record_ids'])
     if state_token(store)!=token:raise CoreError('STATE_CHANGED_DURING_APPETITE_PROJECTION')
     return SocialAppetiteView(state=state,source_record_ids=tuple(dict.fromkeys(refs)),source_memory_ids=tuple(mids),available=available,as_of_us=now,state_token=token)
 

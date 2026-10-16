@@ -83,3 +83,20 @@ cover7/9/10. Review application requires the actual final endorsed Judgment;
 ordinary later wakes can reconsider a deferred due review. V10 old warmth label
 is replaced by sourced tendencies; request IDs gain an exact unique index.
 Production/private/model/action changes remain0. Recovery/90d/final still pending.
+
+
+## L3-C-RELATIONAL-V1 M7 — recovery, deletion and mixed lifetime qualification
+[实测·开发离线] Seven actual tracked local SIGKILL cuts PASS (C3 before/after
+review commit); identity/anchor revision/commitment/assertion/narrative replay
+remain consistent. Explicit7/8/9→10 migrations preserve IDs/history,39 tables,
+foreign_key_check clean; official backup/replay quarantines and source erasure
+prevent old anchor resurrection.90 virtual mixed days PASS in100.39s with
+bounded pending/candidates/voluntary commitments/hot views, no social/reflection
+spam or relationship competition. New boundary checks reject reused requests,
+random defiance fields, lost/deleted supports and non-source-backed promotion.
+Partial bootstrap capture retries reuse original source time; materialization
+resumes the existing proposal rather than duplicating it. Response plans now
+carry source/style/compromise metadata. A failing review response regression was
+fixed: continuation cannot advertise a later deadline than its actual terms,
+and END cannot advertise a renewed ACCEPT. No actual authority was expanded.
+Final full regression/evidence freeze pending. All real dependencies NOT_RUN.

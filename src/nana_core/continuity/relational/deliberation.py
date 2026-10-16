@@ -70,6 +70,7 @@ def deliberate(store,event,situation,*,source_record_id,privacy_classes):
     factors=[]
     def factor(kind,direction,salience,refs,options,counters=()):
         factors.append(DeliberationFactor(kind=kind,direction=direction,salience=salience,source_refs=tuple(refs),supports=tuple(options),counter_refs=tuple(counters)))
+    factor('PERSONAL_DESIRE','COUNTER' if desired and request.operation=='REFRAIN' else 'CONTEXT','HIGH' if desired else 'LOW',situation.memory_ids,('NEGOTIATE','DECLINE') if desired else ('ACCEPT',))
     factor('RELATIONAL_REQUEST','SUPPORT','HIGH',(source_record_id,),('ACCEPT','NEGOTIATE'))
     factor('SOCIAL_APPETITE','COUNTER' if desired and request.operation=='REFRAIN' else 'CONTEXT','HIGH' if desired else 'LOW',(*appetite.source_record_ids,*appetite.source_memory_ids),('NEGOTIATE','DECLINE') if desired else ('ACCEPT',))
     factor('RELATIONAL_DEFERENCE','SUPPORT','HIGH' if willingness.assessment=='STRONG' else 'MODERATE',willingness.relationship_refs,('ACCEPT','NEGOTIATE'))
@@ -77,11 +78,15 @@ def deliberate(store,event,situation,*,source_record_id,privacy_classes):
     factor('TEMPORAL_SCOPE','COUNTER' if indefinite else 'CONTEXT','HIGH' if indefinite else 'MODERATE',(source_record_id,),('NEGOTIATE','DECLINE') if indefinite else ('ACCEPT','NEGOTIATE'))
     if conflict:factor('COMMITMENT','COUNTER','HIGH',situation.commitment_ids,('NEGOTIATE','DECLINE'))
     if request.consequence!='LOW':factor('RISK_OR_CONSEQUENCE','COUNTER','HIGH',(source_record_id,),('NEGOTIATE','DECLINE'))
-    if own_boundary:factor('VALUE_OR_NORM','COUNTER','HIGH',situation.social_privacy.support_refs,('DECLINE',))
+    if situation.social_privacy and situation.social_privacy.assessment not in {'UNKNOWN','OPEN'}:factor('VALUE_OR_NORM','COUNTER' if own_boundary else 'CONTEXT','HIGH' if own_boundary else 'MODERATE',situation.social_privacy.support_refs,('DECLINE',) if own_boundary else ('NEGOTIATE','DECLINE'))
     factor('ALTERNATIVE_AVAILABLE','SUPPORT','MODERATE',(source_record_id,),('NEGOTIATE',))
     factor('SELF_AUTHORSHIP','CONTEXT','HIGH',(source_record_id,),(choice,))
+    care=bool((anchor and anchor.spec.care_orientation in {'MODERATE','HIGH'}) or relation.care_salience.assessment=='SALIENT')
     response=RelationalResponsePlan(decision=choice,retained_preference='SOCIALIZE' if desired else 'UNSPECIFIED',temporal_boundary_us=boundary,
-        warmth='HIGH' if related else 'MODERATE',firmness='HIGH' if choice=='DECLINE' else 'MODERATE' if choice=='NEGOTIATE' else 'LOW',retained_care=related)
+        warmth='HIGH' if care else 'MODERATE',firmness='HIGH' if choice=='DECLINE' else 'MODERATE' if choice=='NEGOTIATE' else 'LOW',retained_care=care,proposed_scope='TARGETED' if choice=='NEGOTIATE' and traits['self_direction_sensitivity']=='HIGH' else 'LOCAL' if choice=='NEGOTIATE' and broad else request.scope,
+        declined_indefinite=request.duration_us is None and request.review_at_us is None,reason_refs=tuple(dict.fromkeys((source_record_id,*willingness.reason_refs,*person.source_record_ids))),negotiation_style=traits['uncertainty_style'] if traits['uncertainty_style'] in {'CLARIFY','WAIT','COMPARE'} else 'CLARIFY',
+        conflict_style=traits['conflict_style'] if traits['conflict_style'] in {'NEGOTIATE','FIRM','EXPLORE'} else 'NEGOTIATE',
+        renegotiate_commitment_ids=situation.commitment_ids if conflict and choice=='ACCEPT' else ())
     authorship=SelfAuthorshipAppraisal(state='INFLUENCED' if related else 'CLEAR_CHOICE',reason_refs=tuple(dict.fromkeys((source_record_id,*willingness.relationship_refs))))
     return RelationalDecision(request=request,deference=willingness,authorship=authorship,factors=tuple(factors),response=response,
         prior_behavior_disposition='VOLUNTARILY_RESTRAINED' if choice=='ACCEPT' and desired and request.operation=='REFRAIN' else 'RETAINED',accepted_duration_us=accepted,review_at_us=review)

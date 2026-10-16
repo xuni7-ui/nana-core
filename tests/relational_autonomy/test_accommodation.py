@@ -27,11 +27,13 @@ def test_bounded_self_restraint_due_review_and_no_permanent_rule(tmp_path):
   assert check.task_class=='relational.accommodation.review'
   review=r.subject.run(event(r,'review',kind='WAKE',origin='SELF_WAKE',text=None,task_class=check.task_class,commitment_check_id=cid))
   assert review.relational_decision.review_choice=='CONTINUE'
+  assert review.relational_decision.response.temporal_boundary_us==accepted.relational_decision.response.temporal_boundary_us
   service.materialize(review.cycle_id,r.authority);version=service.commitments.get(cid).revision
   service.materialize(review.cycle_id,r.authority);assert service.commitments.get(cid).revision==version
   for _ in range(48):r.clock.source.advance(HOUR);r.lease.heartbeat(force=True)
   end=r.subject.run(event(r,'end',kind='WAKE',origin='SELF_WAKE',text=None,task_class=check.task_class,commitment_check_id=cid))
   assert end.relational_decision.review_choice=='END'
+  assert end.relational_decision.response.temporal_boundary_us is None and end.relational_decision.response.decision=='DECLINE'
   service.materialize(end.cycle_id,r.authority);assert service.commitments.get(cid).state=='CANCELLED'
   again=r.subject.run(event(r,'resume-social',kind='WAKE',origin='SELF_WAKE',text=None,source_memory_ids=(mid,)))
   assert again.intention.kind=='SOCIAL_INTERACTION' and again.evaluation.normative=='ENDORSED'

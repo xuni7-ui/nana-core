@@ -119,8 +119,10 @@ def scenarios(directory):
   passed('S6_HIGH_SELF_DIRECTION',decision='NEGOTIATE',proposed_duration_us=DAY)
  with fresh(directory/'quiet-willing'/'self.db') as r:
   bootstrap(r,relational_accommodation='HIGH')
+  for i in range(2):signal(r,'quiet-observed'+str(i),'social_quiet_preference')
+  assert social_appetite(r.store,scope='lab',privacy_classes=('PERSONAL',)).state=='QUIET'
   for i in range(3):assert request(r,'quiet'+str(i),operation='ASK_FOR_ATTENTION',behavior_domain='COMPANIONSHIP').relational_decision.response.decision=='ACCEPT'
-  passed('S7_NO_PERFORMATIVE_DEFIANCE',consecutive_willing_choices=3,forced_refusal=0)
+  passed('S7_NO_PERFORMATIVE_DEFIANCE',appetite='QUIET',consecutive_willing_choices=3,forced_refusal=0)
  with fresh(directory/'friends'/'self.db') as r:
   bootstrap(r,relational_accommodation='HIGH');social(r);close_friend(r)
   friend=request(r,'friend-request',entity='friend-person',trust_domain='technical')

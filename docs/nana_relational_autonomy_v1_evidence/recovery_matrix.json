@@ -1,0 +1,62 @@
+{
+  "cuts": [
+    {
+      "cut": "C1",
+      "identity_continuous": true,
+      "reopened_epoch": 2,
+      "result": "PASS",
+      "sigkill": true,
+      "zero_external_actions": true
+    },
+    {
+      "cut": "C2",
+      "identity_continuous": true,
+      "reopened_epoch": 2,
+      "result": "PASS",
+      "sigkill": true,
+      "zero_external_actions": true
+    },
+    {
+      "cut": "C3_BEFORE",
+      "identity_continuous": true,
+      "reopened_epoch": 2,
+      "result": "PASS",
+      "sigkill": true,
+      "zero_external_actions": true
+    },
+    {
+      "cut": "C3_AFTER",
+      "identity_continuous": true,
+      "reopened_epoch": 2,
+      "result": "PASS",
+      "sigkill": true,
+      "zero_external_actions": true
+    },
+    {
+      "cut": "C4",
+      "identity_continuous": true,
+      "reopened_epoch": 2,
+      "result": "PASS",
+      "sigkill": true,
+      "zero_external_actions": true
+    },
+    {
+      "cut": "C5",
+      "identity_continuous": true,
+      "reopened_epoch": 2,
+      "result": "PASS",
+      "sigkill": true,
+      "zero_external_actions": true
+    },
+    {
+      "cut": "C6",
+      "identity_continuous": true,
+      "reopened_epoch": 2,
+      "result": "PASS",
+      "sigkill": true,
+      "zero_external_actions": true
+    }
+  ],
+  "origin": "REAL_LOCAL_PROCESS_SYNTHETIC_STATE",
+  "result": "PASS"
+}

@@ -123,6 +123,12 @@ class RelationalResponsePlan(DTO):
     firmness: Level
     playful: Literal[False] = False
     retained_care: bool
+    proposed_scope: Literal['TARGETED','LOCAL','GLOBAL'] = 'LOCAL'
+    declined_indefinite: bool = False
+    reason_refs: tuple[str,...] = ()
+    negotiation_style: Literal['CLARIFY','WAIT','COMPARE'] = 'CLARIFY'
+    conflict_style: Literal['NEGOTIATE','FIRM','EXPLORE'] = 'NEGOTIATE'
+    renegotiate_commitment_ids: tuple[str,...] = ()
     authority: Literal[False] = False
 
 class VoluntaryTerms(DTO):

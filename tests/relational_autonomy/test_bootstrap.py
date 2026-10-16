@@ -29,6 +29,7 @@ def test_v10_bootstrap_zero_history_revision_and_erasure(tmp_path):
   assert anchor_view(s,'person-a',scope='lab',privacy_classes=('PERSONAL',)) is None
   MemoryService(s,op).forget(service.store.db.execute("SELECT parent_id FROM record_dependencies WHERE record_id=? AND parent_kind='MEMORY'",(rid2,)).fetchone()[0],op)
   assert anchor_view(s,'person-a',scope='lab',privacy_classes=('PERSONAL',)) is None
+  with pytest.raises(CoreError,match='BOOTSTRAP_SOURCE_RETIRED'):service.install(newer,authority)
   assert s.identity==identity and not s.db.execute('PRAGMA foreign_key_check').fetchall()
   assert s.db.execute("SELECT count(*) FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'").fetchone()[0]==39
  with ContinuityStore(path,clock,schema_target=10) as reopened:

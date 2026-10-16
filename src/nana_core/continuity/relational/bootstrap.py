@@ -58,13 +58,18 @@ class SubjectBootstrapService:
         prior=latest(self.store,spec.scope,component)
         previous=json.loads(prior['data_json'])['data'] if prior else None
         body=spec.model_dump(mode='json');sha=digest(body)
-        if previous and previous['digest']==sha:return previous['record_id']
+        if previous and previous['digest']==sha:
+            if not read_current(self.store,spec.scope,component,('PUBLIC','PROJECT','PERSONAL','SECRET')):raise CoreError('BOOTSTRAP_SOURCE_RETIRED')
+            return previous['record_id']
         if spec.revision!=(previous['revision']+1 if previous else 1):raise CoreError('STALE_BOOTSTRAP_REVISION')
         # A new explicit declaration can survive erasure of the old declaration;
         # only opaque supersession metadata is inherited, no old private content.
         mem=MemoryService(self.store);now=self.store.clock.utc_now_us();slot=component+':'+spec.scope
-        evidence=mem.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.subject-bootstrap',source_reference=digest([slot,spec.revision]),source_kind='USER_STATEMENT'),
-            text=canonical(body),privacy_class='PERSONAL',observed_time_us=now))
+        reference=digest([slot,spec.revision])
+        captured=self.store.db.execute("SELECT observed_time_us FROM continuity_evidence WHERE source_namespace='synthetic.subject-bootstrap' AND source_reference=? AND source_revision='1'",(reference,)).fetchone()
+        source_time=captured[0] if captured else now
+        evidence=mem.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.subject-bootstrap',source_reference=reference,source_kind='USER_STATEMENT'),
+            text=canonical(body),privacy_class='PERSONAL',observed_time_us=source_time))
         mid=mem.add(MemoryCandidate(entity_id=self.store.identity['identity_id'],scope=spec.scope,memory_type=MemoryType.SELF,
             epistemic_kind='STATEMENT',source_evidence_id=evidence,text=canonical(body),confidence=1.0))
         data={'target_id':slot,'revision':spec.revision,'digest':sha,'supersedes_record_id':previous['record_id'] if previous else None}
