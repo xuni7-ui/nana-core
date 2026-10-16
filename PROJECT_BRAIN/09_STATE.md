@@ -1043,3 +1043,35 @@ Manifest anchor: SHA256 b5ec015b3e010fda519a7514b5d45e445b3f1f7ba6f93b2c5affb5a3
 No production/main/R045/FIRST_REAL_ASTRBOT_SHADOW operation or status upgrade.
 REAL_MEMORY_IMPORT_ENABLED=NO; real models/private data/external actions=0;
 E12=NOT_RUN. Local commits only; **NO AUTO PUSH**. D2 not started.
+
+
+## D2–D7 Living Autonomy V1 FINAL — OFFLINE IMPLEMENTED / TESTED（2026-10-16）
+
+本段是当前开发状态入口；上方 C6/C7 “D2 not started”属于上一任务历史。
+Branch `dev/nana-core-d2d7-living-autonomy-v1-codex`，base
+`4ad273f540bf8ac2988854b68a689685333e8c67`；qualified business source
+`48174cb81002251dceec5dd54a1719e9ed61cc3d`。最终包含文档提交不改变业务行为。
+Relational 源码资产已继承；恢复的研究/历史证据不冒充本轮运行验证。
+
+D2–D7 IMPLEMENTED / TESTED (OFFLINE/SYNTHETIC)。单主体/Store/SubjectLoop/Runtime；
+D WHEN、C WHAT/WHY。用户事件抢占低优先级维护且游标可续；自主有来源目标按有限流程推进，
+每步仍过 C 和 Manager/Grant/Budget/Verify；原始愿望、外部限制与真实效果分别保留。
+Primary User 的可信角色显著影响自主选择，不授予权限、不直接满足/消除独立社交需求。
+Journal/生活前端投影可重建；数据硬隐私和删除支持闭包保留。Explicit schema11，表39，
+新表/依赖0；默认 C7/D8 不变，未迁移生产。
+
+最终 targeted20 PASS（4.02s）；完整948 PASS/0 FAIL/1 SKIP(E12)，98.61s。
+环境 CPython3.12.14 /SQLite3.53.1 /Pydantic2.13.4；SQLite≥3.51.3 门不降低。
+真实本地 SIGKILL 在 fixture durable effect 后/receipt 前切断，重启同一 Action 核验，
+EXECUTE1/effect1，无重复主体决策。显式7/8/9/10→11 FK clean、历史/ID保留。
+四虚拟小时演示：无输入可休息/推进，Manager保留原愿望，失败→受检验 lesson→后续计划
+成功，维护让路/续作，多入口同一身份，重启新epoch且不重建执行授权。所有报告布尔检查通过。
+
+REAL_MEMORY_IMPORT_ENABLED=NO；真实模型/私人数据读取/外部动作/生产更改均0。
+main/R045/FIRST_REAL_ASTRBOT_SHADOW 未改；production trust pins 未改；E12=NOT_RUN。
+本轮不升级任何真实宿主、真实模型或真实记忆状态。**NO AUTO PUSH / 本地提交**。
+范围限制：one_live_goal、有限 reading-card compiler、离线 procedure 数据启用；不声称
+通用规划/自主写插件/真实安装、真实发言/设备操作或长期生产 uptime。
+实现与证据：`docs/nana_d2d7_living_autonomy_v1_implementation.md` 和同名 evidence/。
+
+Delivery manifest anchor: SHA256 e93d2a38fa32ef1154095b67ecfa072d7f6ac8b09a14fa32b3806beaea5c0ef5 (`manifests/nana_d2d7_living_autonomy_v1.json`).

@@ -1,0 +1,10 @@
+{
+  "origin": "OFFLINE_SYNTHETIC_ONLY",
+  "focused": {"passed":20,"failed":0,"seconds":4.02},
+  "final_full": {"passed":948,"failed":0,"skipped":1,"seconds":98.61,"skip":"E12_NOT_RUN"},
+  "actual_process_sigkill": {"cut":"durable fixture effect before receipt", "execute_attempts":1,"effects":1,"duplicate_subject_cycles":0,"test":"tests/living_autonomy/test_recovery_migration.py::test_sigkill_after_effect_verifies_same_action_without_second_execution"},
+  "migration": {"from_versions":[7,8,9,10],"to_version":11,"business_tables":39,"new_tables":0,"foreign_keys":"CLEAN","default_c":7,"default_d":8},
+  "recovery": {"portable_goal_history":"PASS","old_grants_revoked":"PASS","fresh_epoch":"PASS","agency_auto_restored":false,"real_process_heartbeat_shutdown":"PASS"},
+  "corrections": {"temporal_support":"failing regression retained then fixed; no backdating","atomic_model_reservation":"count and unresolved fence rechecked"},
+  "real_models":0,"real_private_data":0,"real_external_actions":0,"production_changes":0,"push":"NOT_RUN"
+}

@@ -470,3 +470,47 @@ not memory truth; descriptor/source change requires rebuild. Frontend sessions
 receive typed projections and allowed service commands, never DB/authority handles.
 Capability approval/revocation hook returns proposal only. No new dependencies or
 business tables; explicit10, C default7/D default8. No D2 work or automatic push.
+
+
+## D-D2D7-001 — owner-thread cadence and durable ingress acknowledgment
+
+[源码/离线实测] 双节奏是同一 Runtime 的有界机会调度，不是两个主体。Adapter 线程
+post 只拿 volatile receipt；现有 EventQueue commit 后才 ACK。唯一 owner 执行 SQLite
+写入和 C decision；Condition generation 避免丢唤醒，安全点暂停后台 cognition/维护。
+不得在 owner 上等待尚未 drain 的自身 receipt。已派发 effect 不因抢占被改写为 NONE。
+
+## D-D2D7-002 — finite offline adoption does not create authority
+
+[源码/离线实测] 受信应用可给出有限 OfflineGoalPolicy/OfflineProgram，由 C sourced
+candidate 形成 adopted plan；每一步重新进入唯一 C SubjectLoop，现有 Manager/Kernel/
+Grant/Budget/Verify 决定现实可行。维持 one_live_goal。UNKNOWN 保留同一 intention/
+action，最多三次 verification 后停放；禁止新 effect ID 逃逸。revoke 不重跑旧愿望。
+有限自愿迁就通过现有 CommitmentService，不覆盖原始 desire 或变成 Manager 正向命令。
+
+## D-D2D7-003 — maintenance and journal are not truth authorities
+
+[源码/离线实测] 同一 jobs 表持久化分片游标；SUMMARY/INFERRED 候选由 C admission，
+不能写 Evidence/Identity，不能把摘要作为独立成长支持。已纠正/删除/隐藏 support 失效。
+FactValidity 只接受有来源的显式声明；已知时间与事实有效时间分开，后续纠正不倒写旧认知。
+Living Journal 是过滤投影。学习仍经既有 trial/verification/review，不自证、不自动提权。
+
+## D-D2D7-004 — resource pressure is operational and estimates remain estimates
+
+[源码/离线实测] 使用同一 cognition call reservation 原子预留次数/bytes/估算成本，后台
+subquota 保留前台余量，总额度仍约束全部。UNKNOWN/in-flight 保守计费且不盲重试。
+真实测量 bytes/latency 与估算 provider cost 分开；资源压力不是情绪或人格数值。
+
+## D-D2D7-005 — explicit11 erasable payload lineage closes action privacy
+
+[源码/离线实测] 无新业务表/依赖。仅显式 schema11 扩展现有 CHECK/columns/indexes；
+默认 C7/D8 不变。V11 action args/result/receipt/verification 正文通过既有可删除
+ACTION_PAYLOAD record/dependencies；不可变 action/attempt 行保留 opaque ref。
+升级既有 governed action 只复用 exact action-link provenance。删除后核验 fail closed，
+不能从 audit snapshot 复活正文；UNKNOWN 的真实效果不被改写。生产 migration未授权。
+
+## D-D2D7-006 — portable history, rebuildable views and local execution are distinct
+
+[源码/离线实测] 主体 goal/experience/memory 历史可随受控 B8 协议迁移；Journal/生活投影
+可重建；worker/owner/lease/PID/socket/port/provider/本地 controller 不可当主体身份迁移。
+恢复的 goal 不能自行重建 OfflineEffectPort/Grant/agency authority。沿用 trusted exact
+single destination 和旧离线 archive/raw clone 边界，不声称跨机器全局共识或抹除保证。

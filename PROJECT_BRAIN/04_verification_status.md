@@ -271,3 +271,14 @@
 - ③仅本地离线进程验收：100 samples/11.338s actual local process run；double-start拒绝、SIGKILL/restart/graceful stop；4个真实SIGKILL切点均保持单逻辑decision，reserved cognition UNKNOWN且不重试。
 - 系统32/32 gates PASS；S1–S10同一SubjectLoop；72h无输入/30d混合life通过。全仓888 passed /0 failed /1 skipped，E12 NOT_RUN。CPython3.12.14 /SQLite3.53.1 /Pydantic2.13.4。
 - ④未运行：真实host/dispatcher/bridge/one-shot、真实模型/真实记忆、E/G动作。未改变生产现场事实。证据：`docs/nana_continuous_runtime_delivery.md`、`docs/nana_continuous_runtime_evidence/`。
+
+
+## D2–D7 Living Autonomy V1（2026-10-16，开发离线）
+
+[实测] D2–D7 ①已实现 / ②已测试；四虚拟小时生活演示、真实本地进程及 SIGKILL
+属于 OFFLINE/SYNTHETIC 验证，不是生产③。源码48174cb；targeted20 PASS；
+完整948 PASS/0 FAIL/1 SKIP(E12)。Explicit schema11，无新表/依赖，默认C7/D8不变。
+有限参考流程/离线 procedure 可运行；通用规划、真实模型/感知/发送/插件安装未运行。
+证据：docs/nana_d2d7_living_autonomy_v1_implementation.md 和同名 evidence/。
+单主体链、Primary User、独立社交需求、negative-only Manager、Grant/Budget/Verify、
+硬隐私和删除语义保持；生产/main/R045未改，不升级任何真实宿主状态，未push。

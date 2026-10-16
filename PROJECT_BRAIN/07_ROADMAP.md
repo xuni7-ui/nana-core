@@ -6,13 +6,27 @@
 
 ---
 
-## 当前开发补充：C6/C7 + B6–B10（2026-10-16）
+## 当前开发入口：D2–D7 Living Autonomy V1（2026-10-16）
+
+[源码/离线实测] 分支 `dev/nana-core-d2d7-living-autonomy-v1-codex` 基于本地
+`4ad273f540bf8ac2988854b68a689685333e8c67`，已继承 C6/C7 与 Relational；OSS 研究
+只将经审查的模式吸收到同一 Runtime/SubjectLoop/Store。D2 抢占式双节奏、D3
+有来源的生活状态、D4 有限离线目标推进、D5 分片维护/时态/学习/Journal、D6 资源
+调节与恢复、D7 B10 派生投影：**IMPLEMENTED / TESTED (OFFLINE/SYNTHETIC)**。
+明确 schema11；默认 C7/D8 不变，39 个业务表，无新依赖。目标范围是有限参考流程，
+不是通用规划器/真实自动安装。最终20 targeted PASS；完整948 PASS/0 FAIL/1 SKIP(E12)。
+实现说明：`docs/nana_d2d7_living_autonomy_v1_implementation.md`；可复现生活演示与
+真实本地进程/SIGKILL 证据见同名 evidence 目录。L1/L2/B5/R045 真实状态与优先级不变；
+无生产迁移/部署/真实模型/真实私人数据/真实外部动作。**本地提交，未 push。**
+
+## 历史开发补充：C6/C7 + B6–B10（2026-10-16）
 
 [源码/离线实测] L3 下的 Portable Personal Subject foundation：复用 C6/C7
 Relational 资产；B6 Surface continuity、B7 open descriptors、B8 受控离线迁移、
 B9 provider/media/embedding、B10 frontend contract 已实现，17 targeted PASS。
 独立分支 dev/nana-core-c6c7-portable-subject-v1-codex；完整回归928 PASS /0 FAIL /1 SKIP（E12），开发侧 OFFLINE IMPLEMENTED/TESTED。
-历史 L1/L2/B5/R045 优先级和真实状态不变。**本任务不进入 D2，不自动 push**。
+历史 L1/L2/B5/R045 优先级和真实状态不变。**当时的 C6/C7 任务不进入 D2，不自动 push**；
+此限制是上一任务记录，当前 D2–D7 开发事实见上方入口。
 以下历史路线表保留；T-34 旧“不排期”不代表本轮授权的开发侧迁移仍未实现。
 
 ## 一、主线总览

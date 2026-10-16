@@ -1,0 +1,9 @@
+Qualified business source: 48174cb (full SHA in manifest).
+Runtime: Python 3.12.14 / SQLite 3.53.1 / Pydantic 2.13.4.
+Focused: .venv/bin/python -m pytest tests/living_autonomy -q
+20 passed, 4.02s.
+Final full: .venv/bin/python -m pytest -q tests
+948 passed, 1 skipped in 98.61s; failed=0.
+Skip: E12 requires real authorized model endpoints; no real model calls occurred.
+Earlier full946/0/1 was followed by the documented temporal-support correction.
+Real-world/production/host actions remain NOT_RUN; no automatic push.

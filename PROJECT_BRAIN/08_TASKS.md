@@ -260,3 +260,22 @@ status. Next step is independent offline review/integration; do not auto-deploy.
 
 No auto-push, no production migration/data/receipt/bridge/model/host operation.
 Historical task entries retained rather than rewritten as newly verified facts.
+
+
+## D2–D7 Living Autonomy V1 — 当前开发交付（2026-10-16）
+
+本节更新前段“D2–D7 未执行”的历史任务口径，不改写其当时事实。
+
+| 子项 | 当前开发状态 | 范围与证据 |
+|---|---|---|
+| D2 | IMPLEMENTED / TESTED | 单写者 mailbox/durable ACK、事件优先、后台安全点抢占与恢复 |
+| D3 | IMPLEMENTED / TESTED | 复用 C 来源状态/开放 Motivation；Primary User 和独立社交需求不混权 |
+| D4 | IMPLEMENTED / TESTED | 有限离线 procedure：C 候选、受控 adoption、每步 C 判断及现有执行门 |
+| D5 | IMPLEMENTED / TESTED | 分片维护、SUMMARY 候选 admission、有效/已知时间、受检验学习、派生 Journal |
+| D6 | IMPLEMENTED / TESTED | 原子资源预留、前台保留份额、UNKNOWN 有界核验、租约及相同 effect 恢复 |
+| D7 | IMPLEMENTED / TESTED | B10 in-process living/journal/resource 投影，L0/L1/L2 同一主体 |
+
+20 focused PASS；最终完整948 PASS/0 FAIL/1 SKIP(E12)，98.61s。
+复现：`PYTHONPATH=src .venv/bin/python -m nana_core.presence.living_demo`。
+下一入口：同一主体上受控 E capability/planning 扩展；真实模型、感知和外部执行须另行授权。
+尚无通用自写插件/安装/真实发送权限；不自动继续、不自动 push。

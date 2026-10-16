@@ -1,0 +1,31 @@
+{
+  "scope": "OFFLINE_SYNTHETIC_ONLY",
+  "real_models": 0,
+  "real_private_data": 0,
+  "real_external_actions": 0,
+  "primary_user_influences_choice": true,
+  "social_desire_preserved": true,
+  "relationship_did_not_grant": true,
+  "rest_is_valid": true,
+  "no_input_goal": true,
+  "wanted_but_manager_blocked": true,
+  "revocation_did_not_execute": true,
+  "quality_failure_observed": true,
+  "learned_replanning_succeeded": true,
+  "active_lessons": 1,
+  "offline_skill_extension": true,
+  "surfaces_same_identity": true,
+  "journal_entries": 32,
+  "maintenance_yields_to_user": true,
+  "maintenance_resumes": true,
+  "no_input_runtime_present": true,
+  "pending_intentions": 0,
+  "model_calls": 0,
+  "goals": [
+    "FAILED",
+    "COMPLETED"
+  ],
+  "restart_identity_stable": true,
+  "restart_fresh_epoch": true,
+  "no_authority_recreated": true
+}

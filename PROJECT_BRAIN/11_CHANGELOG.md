@@ -1275,3 +1275,18 @@ Regression retained; temporal projection now invalidates support at known-time
 without backdating the correction into earlier knowledge. Also rechecks call cap/
 in-flight reservations inside the existing reservation transaction. Targeted20
 PASS. No authority/privacy gate relaxed. Final full will validate this fix.
+
+
+### D2–D7 FINAL — living autonomy offline delivery（2026-10-16）
+
+[源码/离线实测] Qualified source48174cb81002251dceec5dd54a1719e9ed61cc3d。
+最终20 focused PASS；full948 PASS/0 FAIL/1 SKIP(E12)，98.61s；修复后的 temporal support
+纠正边界和原子 reservation regression 均包含于最终 full。此前946 是修复前记录。
+D2 owner-thread cadence/抢占恢复，D3 sourced生活状态，D4有限目标逐步执行，D5分片维护/
+时态/Journal/学习，D6资源及UNKNOWN恢复，D7既有B10投影交付；详见 implementation。
+四虚拟小时demo全部因果检查通过；真实本地SIGKILL保持EXECUTE1/effect1；显式7/8/9/10→11
+保持39表/FK clean/历史，default7/8不变。短wall-clock进程检查heartbeat/shutdown。
+只恢复 Relational 历史证据与 OSS 设计输入，不将研究冒充实现。实际实现无第三方源码复制。
+main/R045/生产不变；真实模型/真实私人数据/真实外部动作0；E12 NOT_RUN；本地提交未push。
+文档：docs/nana_d2d7_living_autonomy_v1_implementation.md；证据同名evidence/；
+完整性：manifests/nana_d2d7_living_autonomy_v1.json（无自指，09为外部锚点）。
