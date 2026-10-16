@@ -1,0 +1,13 @@
+{
+  "scope": "OFFLINE_ONLY",
+  "files": {
+    "PROJECT_BRAIN/11_CHANGELOG.md": "5b94e187d850ca6f59645afc6d2b56b65bfc0fda70feaab4a9e3dd7e4e510f62",
+    "src/nana_core/continuity/open_agency/code_skills.py": "829b7afca8faeabc785d5cebcd6366de4a60e5b8b18aec18366720d0d51b6e6f",
+    "src/nana_core/continuity/open_agency/planning.py": "c2ed109dbb1cdb1d104cb1be12ffdc40fab3d71ce844c94dc6921b105a1bc331",
+    "src/nana_core/continuity/open_agency/service.py": "447b8eb53dc87444eca576d3e5f37d9d43379e410d4ed76a1d97d206b586cc27",
+    "src/nana_core/storage/schema_v12.sql": "5f7298ff402daa56b30895b5fa9ac36fea8163df46f2dc5b020f04945b6054e3",
+    "tests/open_autonomy/test_delivery.py": "66b74976d19e3ff769f24285b9315b85c66ea94bd5be20aa14113bccbcf69a64",
+    "tests/open_autonomy/test_learning.py": "f176ed22c63af2dfbf489b3f05b8e2c5f5a475c3dbbcb638cc2dc4342f5b1033",
+    "tests/open_autonomy/test_planning.py": "47670bfa41093a4609929f8615c47c0dd57f5229eb7a2c492da44059504d741a"
+  }
+}

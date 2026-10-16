@@ -32,6 +32,9 @@ def test_plan_proposals_do_not_invent_capability_or_satisfy_missing_conditions()
     bad=PlanCandidate(operator_ids=('publish',),source_record_id='root',world_revision='version')
     with pytest.raises(CoreError,match='PRECONDITION'):validate_plan(request,bad,LocalWorldRegistry())
     with pytest.raises(CoreError,match='SOURCE_STALE'):validate_plan(request,plan.model_copy(update={'world_revision':'old'}),LocalWorldRegistry())
+    changed=obj.model_copy(update={'operators':tuple(op.model_copy(update={'args':{**op.args,'input_from':'not-in-plan'}}) if op.operator_id=='compute' else op for op in obj.operators)})
+    bad_request=request.model_copy(update={'objective':changed})
+    with pytest.raises(CoreError,match='DATAFLOW'):validate_plan(bad_request,plan,LocalWorldRegistry())
 
 def test_missing_grant_blocks_without_attempt_or_authority_from_adoption(tmp_path):
     with fresh(tmp_path/'s'/'self.db') as r:
@@ -59,3 +62,21 @@ def test_subgoal_dependency_suspend_resume_and_completed_cause_dedup(tmp_path):
         actions=r.store.all('actions');assert all(a['goal_id']==g['goal_id'] for a in actions[:3])
         send(r,'same-cause-after-complete',(mid,));r.drain(8)
         assert len(r.store.all('goals'))==2
+
+def test_world_change_replans_same_goal_with_fresh_observations_not_old_outputs(tmp_path):
+    from nana_core.continuity.agency_contracts import GoalReviewRef
+    with fresh(tmp_path/'s'/'self.db') as r:
+        obj=objective();port=configure(r,tmp_path/'w'/'world.fixture.json',(obj,));port.seed_observation(obj.operators[0].resource,[1,2])
+        mid=cue(r,obj);send(r,'old-world',(mid,));r.step();advance(r,4)
+        goal=r.store.all('goals')[0];assert goal['state']=='FAILED'
+        oldplan=json.loads(goal['body_json'])['plan_record_id']
+        port.seed_observation(obj.operators[0].resource,[1.2,2.3]);r.clock.source.advance(1)
+        cause=capture(r,'world-changed','A new direct synthetic observation reports changed source values.')
+        send(r,'new-world',(cause,),goal_review=GoalReviewRef(goal_id=goal['goal_id'],version=goal['version'],cause_memory_id=cause))
+        r.step();advance(r,6)
+        after=r.store.one('goals',goal['goal_id'])
+        assert after['state']=='COMPLETED' and json.loads(after['body_json'])['plan_record_id']!=oldplan
+        outputs=r.work.agency._outputs(goal['goal_id'])
+        reads=[o for o in outputs if o['operator_id']=='inspect']
+        assert json.loads(MemoryService(r.store).read(reads[-1]['memory_id'])['text'])['data']==[1.2,2.3]
+        assert len(r.store.all('goals'))==1

@@ -160,9 +160,21 @@ class OpenAgencyService(AgencyService):
         source=self.store.one('subject_events',cycle.event_id)
         if self.records.read(source['record_id'])['payload']['input'].get('goal_step')!=reference.model_dump(mode='json'):raise CoreError('GOAL_STEP_CYCLE_MISMATCH')
         if not cycle.intention_id or not cycle.evaluation or cycle.evaluation.normative!='ENDORSED' or cycle.realization_target!=view.target:return self._park(work,view,'SUBJECT_DEFERRED')
+        for rid in plan['strategy_ids']:
+            head=self.store.one('continuity_records',rid)
+            if not head or head['lifecycle']!='ACTIVE' or not self.records.current_support(rid):return self._park(work,view,'STRATEGY_SUPPORT_RETIRED')
+            if head['record_kind']=='LESSON':
+                lesson=self.store.db.execute('SELECT state FROM lessons WHERE record_id=?',(rid,)).fetchone()
+                if not lesson or lesson[0]!='ACTIVE':return self._park(work,view,'STRATEGY_SUSPENDED')
+            if head['record_kind']=='CODE_SKILL':
+                controller=getattr(self.realization.kernel.capability,'code_skills',None)
+                try:
+                    if not controller:raise CoreError('CURRENT_REALM_REVIEW_REQUIRED')
+                    controller.require_current(rid)
+                except CoreError:return self._park(work,view,'CODE_REALM_REVIEW_REQUIRED')
         op=plan['steps'][reference.cursor];args=dict(op['args']);input_mids=()
         if args.get('input_from'):
-            prior=self._outputs(view.goal_id)
+            prior=[o for o in self._outputs(view.goal_id) if o.get('plan_record_id')==work['record_id']]
             match=next((o for o in reversed(prior) if o.get('operator_id')==args['input_from']),None)
             if not match:return self._park(work,view,'VERIFIED_INPUT_REQUIRED')
             observed=self.records.memory.read(match['memory_id'])
@@ -204,7 +216,7 @@ class OpenAgencyService(AgencyService):
             else:
                 checked=service.verify_structured_result(mid,op['expected_digest'],self._authority)
                 exp=service.record(ExperienceInput(context_memory_ids=view.source_memory_ids[:32],scope=head['scope'],task_class=plan['task_class'],decision=cycle.judgment.reason,result_memory_id=mid,verification_memory_id=checked))
-        final=reference.cursor+1==len(plan['steps']);data={'goal_id':view.goal_id,'work_id':work['job_id'],'operator_id':op['operator_id'],'cursor':reference.cursor,'action_id':aid,'memory_id':mid,'experience_id':exp,'quality':quality}
+        final=reference.cursor+1==len(plan['steps']);data={'goal_id':view.goal_id,'work_id':work['job_id'],'plan_record_id':work['record_id'],'operator_id':op['operator_id'],'cursor':reference.cursor,'action_id':aid,'memory_id':mid,'experience_id':exp,'quality':quality}
         with self.store.transaction('living.goal_step_completed',data,source_namespace='living.goal-step',source_key=work['job_id']+':'+str(reference.revision)+':'+str(reference.cursor)) as tx:
             fresh=self.store.one('jobs',work['job_id'])
             if fresh['revision']!=reference.revision:raise CoreError('STALE_GOAL_STEP')

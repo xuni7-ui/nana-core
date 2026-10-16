@@ -123,10 +123,13 @@ class CodeSkillService:
         if row['record_kind']!='CODE_SKILL' or row['payload']['state']!='ACTIVE':raise CoreError('ACTIVE_SKILL_REQUIRED')
         with self.store.transaction('open.code_skill_retired',{'record_id':rid}) as tx:
             return self.records.create(tx,kind='CODE_SKILL',scope=row['scope'],payload={**row['payload'],'state':'RETIRED'},records=(rid,),supersedes=rid,target_id=row['target_id'])
-    def invoke(self,rid,data):
+    def require_current(self,rid):
         if rid not in self._enabled:raise CoreError('CURRENT_REALM_REVIEW_REQUIRED')
         row=self.records.read(rid);b=row['payload']
         if row['record_kind']!='CODE_SKILL' or b['state']!='ACTIVE' or not self.records.current_support(rid) or static_check(b['source'])!=b['source_digest']:raise CoreError('SKILL_NOT_ACTIVE')
+        return b
+    def invoke(self,rid,data):
+        b=self.require_current(rid)
         if len(canonical(data).encode())>b['spec']['input_limit']:raise CoreError('SKILL_INPUT_BOUND')
         value=self.runner.run(b['source'],data)
         if len(canonical(value).encode())>b['spec']['output_limit']:raise CoreError('SKILL_OUTPUT_BOUND')

@@ -71,3 +71,13 @@ def test_verified_failure_selects_learning_then_runtime_replans_same_goal(tmp_pa
         assert any(e['kind']=='open.goal_replanned' for e in r.store.all('events'))
         # Old failure is retained even though a reviewed revision now succeeds.
         assert r.store.one('experiences',exp['experience_id'])['outcome']=='FAILURE'
+
+def test_monitored_strategy_suspension_fences_already_compiled_plan_before_action(tmp_path):
+    with fresh(tmp_path/'s'/'self.db') as r:
+        r.work.configure_open_learning((number_learning(),));start_learning(r,number_learning())
+        obj=objective(method='NAIVE_SUM');port=configure(r,tmp_path/'w'/'world.fixture.json',(obj,));r.work.agency.learning=r.work.open_learning
+        port.seed_observation(obj.operators[0].resource,[1.2,2.3]);mid=cue(r,obj);send(r,'compiled-before-regression',(mid,));r.step()
+        lesson=r.store.all('lessons')[0]
+        r.work.open_learning.monitor(lesson['lesson_id'],(LearningCase(case_id='changed-context',context='new-constraint',data=[1,2],expected=999),),authority=r.authority)
+        advance(r,2)
+        assert r.store.all('goals')[0]['state']=='BLOCKED' and not r.store.all('actions')

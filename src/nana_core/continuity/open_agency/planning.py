@@ -28,13 +28,16 @@ def validate_plan(request,candidate,registry):
     if (candidate.source_record_id,candidate.world_revision)!=(request.source_record_id,request.world_revision):raise CoreError('PLAN_SOURCE_STALE')
     obj=request.objective
     if len(candidate.operator_ids)>obj.max_steps:raise CoreError('PLAN_STEP_LIMIT')
-    facts=set(obj.initial);operators={x.operator_id:x for x in obj.operators};steps=[]
+    facts=set(obj.initial);operators={x.operator_id:x for x in obj.operators};steps=[];produced=set()
     for oid in candidate.operator_ids:
         if oid not in operators:raise CoreError('PLAN_UNKNOWN_OPERATOR')
         op=operators[oid]
+        if oid in produced:raise CoreError('PLAN_AMBIGUOUS_REPEAT')
+        binding=op.args.get('input_from')
         if not set(op.requires)<=facts:raise CoreError('PLAN_PRECONDITION_UNSATISFIED')
+        if binding and binding not in produced:raise CoreError('PLAN_DATAFLOW_UNSATISFIED')
         registry.validate(op.capability,op.resource,op.args)
-        facts.difference_update(op.consumes);facts.update(op.produces);steps.append(op)
+        facts.difference_update(op.consumes);facts.update(op.produces);steps.append(op);produced.add(oid)
     if not set(obj.desired)<=facts:raise CoreError('PLAN_GOAL_NOT_REACHED')
     # Every external input/output edge must be explicit, no arbitrary placeholders.
     if len(canonical([s.model_dump(mode='json') for s in steps]).encode())>32768:raise CoreError('PLAN_SIZE_LIMIT')

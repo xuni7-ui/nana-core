@@ -1344,3 +1344,15 @@ label propagation through action args/receipt/result and derived observations.
 Personal read results cannot be downgraded by a PUBLIC goal; source deletion purges
 input-dependent payloads. SECRET fixture feed is rejected before Core capture.
 Targeted23 PASS,5.64s. Final full regression next; no real endpoint/production/push.
+
+### E1–E6 M4 — plan dataflow revision fence before final qualification
+
+[源码/离线实测] First full at c811850:971 PASS/0 FAIL/1 SKIP(E12),99.09s.
+Subsequent causal audit retained a failing regression: a plan could name an input
+operator absent from its path. Validate now requires preceding, unambiguous outputs;
+step input lookup is bound to exact current plan record, never an older revision.
+Suspended/retired strategy or locally unreviewed code is fenced before new Action.
+Added actual eligible-recipient fixture contact/NO_RESPONSE and admission payload/
+intention binding proof; world-change replan uses fresh observed values; monitored
+lesson suspension stops an already-compiled plan. Targeted26 PASS,5.87s.
+No authority escape observed, no invariant weakened. Final full next; no real use.
