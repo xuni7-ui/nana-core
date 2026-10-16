@@ -242,3 +242,13 @@ Production/main/R045/FIRST_REAL_ASTRBOT_SHADOW changed=NO; real models/private
 memory/external actions=0. Production review/proof pins remain EMPTY. Real-memory
 ingress remains deny-by-default. E12=NOT_RUN. These fixtures upgrade no real-host
 status. Next step is independent offline review/integration; do not auto-deploy.
+
+
+## L3-C-RELATIONAL-V1 M1 (2026-10-16) — initial conditions, not command authority
+[实测·开发离线] New independent branch from verified e26288e. Generic anchor/seed
+contracts and distinct SubjectBootstrapAuthority on explicit development10;
+zero-history anchor retains UNKNOWN trust/familiarity, nonexclusive. Source CAS,
+withdrawal/erasure/restart tested; three targeted PASS. No new business table
+(39 total); C7/D8/v9 default behavior unchanged. Focused source map and ledger:
+docs/nana_relational_autonomy_v1_implementation.md. Remaining phases pending.
+No production/main/R045/real data/model/action changes; preserved untracked bundle.

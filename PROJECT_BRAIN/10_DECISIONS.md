@@ -435,3 +435,13 @@ Historical block/cancel/UNKNOWN provenance is preserved; a later disclosure must
 resolve the actual sourced veto instead of calling a cancelled Action PLANNED.
 Any future real realization requires independently reviewed application wiring and
 existing Grant/Budget/Capability/Fence checks; no implicit E/G advancement.
+
+
+## D-RELATIONAL-001 — self-authored influence and nonexclusive bootstrap roles
+REFINES prior respect/independent-judgment semantics: autonomy is self-authored
+choice, not resistance; listening can be autonomous. Relationship may strongly
+influence, never silently replace choice. Primary role is nonexclusive and cannot
+fabricate history/trust, suppress appetite, or expand authority. Use a distinct
+trusted SubjectBootstrapAuthority for initial declarations, never Manager, model
+or interaction-count promotion. Existing canonical identity remains untouched.
+Explicit development10 extends existing CHECKs only; no new business table.

@@ -22,7 +22,7 @@ class CapabilitySnapshot(DTO):
 
 
 class RuntimeConfig(DTO):
-    schema_target: Literal[8,9] = 8
+    schema_target: Literal[8,9,10] = 8
     domain: Literal['SYNTHETIC_ONLY'] = 'SYNTHETIC_ONLY'
     scopes: tuple[str, ...] = Field(min_length=1,max_length=16)
     entity_id: str = Field(pattern=r'^[A-Za-z0-9._:-]{1,128}$')
