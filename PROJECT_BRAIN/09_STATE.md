@@ -1075,3 +1075,7 @@ main/R045/FIRST_REAL_ASTRBOT_SHADOW 未改；production trust pins 未改；E12=
 实现与证据：`docs/nana_d2d7_living_autonomy_v1_implementation.md` 和同名 evidence/。
 
 Delivery manifest anchor: SHA256 e93d2a38fa32ef1154095b67ecfa072d7f6ac8b09a14fa32b3806beaea5c0ef5 (`manifests/nana_d2d7_living_autonomy_v1.json`).
+
+## E1–E6 CURRENT DEVELOPMENT（2026-10-17）
+[源码/实测] 独立 E1–E6 分支继承30f7e6f。仅开发离线，尚未验收；真实端点/生产/授权范围不变，无自动push。
+Baseline manifest SHA256 de048df5d8c62fd8a5f5b9ede8acf8d4c5afa8d05ad800ef033165cf1661d0c8 (`manifests/nana_e1e6_baseline.json`).

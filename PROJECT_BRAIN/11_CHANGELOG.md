@@ -1290,3 +1290,12 @@ D2 owner-thread cadence/抢占恢复，D3 sourced生活状态，D4有限目标�
 main/R045/生产不变；真实模型/真实私人数据/真实外部动作0；E12 NOT_RUN；本地提交未push。
 文档：docs/nana_d2d7_living_autonomy_v1_implementation.md；证据同名evidence/；
 完整性：manifests/nana_d2d7_living_autonomy_v1.json（无自指，09为外部锚点）。
+
+### E1–E6 M0 — local baseline and bounded source map
+
+[源码/实测] Local HEAD30f7e6f confirmed, tracked worktree clean; old untracked bundle
+preserved. New independent E1–E6 branch inherits C6/C7/Relational/D2–D7. Map in
+nana_e1e6_open_autonomy_v1_implementation.md: explicit12 multi-goal, bounded generic
+planning, delivery admission, independent learning, sandboxed code skill lifecycle,
+existing Runtime/Kernel/privacy/portable/frontend reuse. bwrap namespace probe PASS;
+no credentials/real endpoint used, no push. Implementation not yet qualified.
