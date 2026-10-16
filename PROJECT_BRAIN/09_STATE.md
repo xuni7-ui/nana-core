@@ -1016,3 +1016,30 @@ Production/main/R045/FIRST_REAL_ASTRBOT_SHADOW changed=NO; real models/private
 memory/external actions=0. Production review/proof pins remain EMPTY. Real-memory
 ingress remains deny-by-default. E12=NOT_RUN. These fixtures upgrade no real-host
 status. Next step is independent offline review/integration; do not auto-deploy.
+
+
+## C6/C7 + B6–B10 FINAL — portable personal subject foundation（2026-10-16）
+
+[源码/实测·开发离线] Branch dev/nana-core-c6c7-portable-subject-v1-codex starts at
+exact e26288e8ffcc1697b1a1f86b55f304b76d9b04ed. Reuses Relational assets from
+67326d1, not a second implementation. C6 explicit primary binding/nonexclusive
+relational anchor/willing deference; C7 sourced personality/self-narrative foundation;
+B6 namespaced cross-surface + L0/L1/L2 views; B7 open descriptive extensions;
+B8 retired-source/quarantined-destination controlled offline transfer; B9 fixture
+provider/media and rebuildable embeddings; B10 frontend projection/transition facade:
+**IMPLEMENTED / TESTED (OFFLINE/SYNTHETIC)**.
+
+Targeted17 PASS. Full `.venv/bin/python -m pytest -q tests`:928 passed /0 failed /
+1 skipped(E12),90.73s. Environment CPython3.12.14 /SQLite3.53.1 /Pydantic2.13.4.
+Explicit schema10 reuses39 business tables; no new table/dependency; default C7/D8
+unchanged. One subject/Store/Runtime/SubjectLoop. Source retirement fences writes;
+exact clean destination activation revokes old grants/budget headroom and advances
+lease epoch. Root/archive cloning and detached old archives discovering later
+erasures are NOT guaranteed; see implementation report limits.
+
+Evidence: docs/nana_c6_c7_b6_b10_implementation.md,
+docs/ADR/ADR-C6-B6B10-portable-personal-subject.md, tests/portable_subject/.
+Manifest anchor: SHA256 b5ec015b3e010fda519a7514b5d45e445b3f1f7ba6f93b2c5affb5a38a8a93bd (manifests/nana_c6_c7_b6_b10_v1.json).
+No production/main/R045/FIRST_REAL_ASTRBOT_SHADOW operation or status upgrade.
+REAL_MEMORY_IMPORT_ENABLED=NO; real models/private data/external actions=0;
+E12=NOT_RUN. Local commits only; **NO AUTO PUSH**. D2 not started.

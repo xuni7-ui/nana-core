@@ -6,6 +6,15 @@
 
 ---
 
+## 当前开发补充：C6/C7 + B6–B10（2026-10-16）
+
+[源码/离线实测] L3 下的 Portable Personal Subject foundation：复用 C6/C7
+Relational 资产；B6 Surface continuity、B7 open descriptors、B8 受控离线迁移、
+B9 provider/media/embedding、B10 frontend contract 已实现，17 targeted PASS。
+独立分支 dev/nana-core-c6c7-portable-subject-v1-codex；完整回归928 PASS /0 FAIL /1 SKIP（E12），开发侧 OFFLINE IMPLEMENTED/TESTED。
+历史 L1/L2/B5/R045 优先级和真实状态不变。**本任务不进入 D2，不自动 push**。
+以下历史路线表保留；T-34 旧“不排期”不代表本轮授权的开发侧迁移仍未实现。
+
 ## 一、主线总览
 
 | 线 | 名称 | 当前档位 | 下一里程碑 |

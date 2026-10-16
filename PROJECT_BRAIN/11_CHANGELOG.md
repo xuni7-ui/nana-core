@@ -1188,3 +1188,17 @@ same request is declined, while retaining desire and rejecting indefinite contro
 Validation: 17 focused tests pass, including v7/8/9→10, two distinct packages,
 privacy/official replay, old authority fencing, model/media and frontend boundary.
 No D2, real data/model/action, production or push.
+
+
+### C6/C7 + B6–B10 FINAL — offline implemented/tested (2026-10-16)
+
+[实测·开发离线] Explicit full-repository command `.venv/bin/python -m pytest -q tests`:
+928 passed /0 failed /1 skipped(E12),90.73s. Targeted17 PASS,1.07s. Configured-directory
+run455/0/1,53.65s is not mislabeled full regression. No business changes after full.
+Implementation report and concentrated ADR document API/use, schema and limits.
+File fingerprints in manifests/nana_c6_c7_b6_b10_v1.json (no self/anchor cycle).
+Explicit development10,39 existing business tables,0 new tables/dependencies;
+C default7/D default8 unchanged. No second subject Store/Runtime/SubjectLoop.
+No real model/private data/external action/production/main/R045 changes; real memory
+ingress remains NO; E12 NOT_RUN. This task upgrades no real-host verification.
+No automatic push. D2–D7 remains recommendation only; task stops at this milestone.

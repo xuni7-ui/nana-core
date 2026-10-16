@@ -242,3 +242,21 @@ Production/main/R045/FIRST_REAL_ASTRBOT_SHADOW changed=NO; real models/private
 memory/external actions=0. Production review/proof pins remain EMPTY. Real-memory
 ingress remains deny-by-default. E12=NOT_RUN. These fixtures upgrade no real-host
 status. Next step is independent offline review/integration; do not auto-deploy.
+
+
+## C6/C7 + B6–B10（开发侧，2026-10-16）
+
+| 范围 | 档位 | 证据/边界 |
+|---|---|---|
+| C6 primary user / willing deference | 已实现/已测试 | typed role + explicit revision; no authority/exclusivity |
+| C7 personality/narrative foundation | 已实现/已测试 | reuse sourced Relational assets; derived, no identity rewrite |
+| B6 cross-surface / L0–L2 | 已实现/已测试 | same SubjectLoop/Store; synthetic-only, filtered refs |
+| B7 extension vocabulary | 已实现/已测试 | namespaced descriptive data; closed authority/privacy |
+| B8 SubjectPackage transfer | 已实现/已测试 | source retired, clean quarantined import, fresh epoch; no live/fork |
+| B9 model/media/embedding | 已实现/已测试 | deterministic fixtures; real models NOT_RUN |
+| B10 frontend contract | 已实现/已测试 | service transitions only; no server/UI/direct DB/Grant |
+| Final full regression | 已测试/离线 | 928 passed /0 failed /1 skipped(E12),90.73s; implementation report |
+| D2–D7 Living Runtime | 未执行 | next recommendation only; no automatic continuation |
+
+No auto-push, no production migration/data/receipt/bridge/model/host operation.
+Historical task entries retained rather than rewritten as newly verified facts.

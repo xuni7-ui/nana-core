@@ -435,3 +435,38 @@ Historical block/cancel/UNKNOWN provenance is preserved; a later disclosure must
 resolve the actual sourced veto instead of calling a cancelled Action PLANNED.
 Any future real realization requires independently reviewed application wiring and
 existing Grant/Budget/Capability/Fence checks; no implicit E/G advancement.
+
+
+## D-C6B-001 — generic personal-subject continuity reuses authoritative sources
+
+[文档/源码] C6/C7 reuses Relational source at 67326d1 on exact e26288e base.
+Primary-user role is explicit, versioned, app-controller owned; not inferred from
+model/conversation volume. Relational significance influences self-authored choice,
+not Grant/Manager/privacy or exclusive social satiation. Personality/narrative
+are sourced projections. Fresh identity bootstrap is neutral or explicit instance
+data; an existing canonical identity cannot be rebootstrapped. Open Surface/device/
+media descriptors do not open hard authority/lifecycle/privacy domains. L0/L1/L2
+are access projections of the same Store, not three memory databases.
+
+## D-C6B-002 — offline transfer retires source before destination activation
+
+[文档/源码] This task authorizes development-only SubjectPackage migration using
+existing managed backup/replay/quarantine, not production migration or a second
+subject runtime. Source is retired before package publication. Exact destination
+controller/root + clean import + explicit activation are required; old grants are
+revoked, budgets closed and fresh epoch exceeds source high-water. Deletion intent
+IDs move; host backup paths/lease/PID/health/provider objects do not. Unknown host
+metadata blocks export rather than rewriting immutable history. Integrity hashes
+are not malicious-packager signatures. Privileged raw copies, whole-disk rollback
+or construction of a second independent destination controller are outside local
+single-writer guarantees. Detached older archives need current deletion-journal
+review; no cross-machine global erasure claim. Fork is unsupported contract only.
+
+## D-C6B-003 — cognition resources and frontends are replaceable edges
+
+[文档/源码] Providers/media ports reuse existing context/session contracts and
+remain deterministic fixtures in this milestone. Embeddings are disposable caches,
+not memory truth; descriptor/source change requires rebuild. Frontend sessions
+receive typed projections and allowed service commands, never DB/authority handles.
+Capability approval/revocation hook returns proposal only. No new dependencies or
+business tables; explicit10, C default7/D default8. No D2 work or automatic push.
