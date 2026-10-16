@@ -38,7 +38,7 @@ def collect_opportunities(loop,*,entity_id,now_us,quiet_since_us,quiet_window_us
                 scope=scope,entity_id=entity_id,due_at_us=max(cue.not_before_us,source['ingested_time_us']+quiet_window_us,quiet_since_us+quiet_window_us),
                 memory_ids=(mid,),event_type='SELF_EVENT',wake_trigger='SELF_TRIGGER',
                 task_class='interaction.shared_discovery' if cue.cue_kind=='DISCOVERY' else None))
-        for row in store.all('commitments'):
+        for row in store.db.execute("SELECT * FROM commitments WHERE scope=? AND state IN ('ADOPTED','ACTIVE') ORDER BY due_at_us,updated_at_us LIMIT 64",(scope,)):
             if store.schema_target>=9 and row['state'] in {'ADOPTED','ACTIVE'} and loop.visible(row['record_id'],scope):
                 body=records.read(row['record_id'])['payload']
                 if body.get('recurrence'):
@@ -53,14 +53,14 @@ def collect_opportunities(loop,*,entity_id,now_us,quiet_since_us,quiet_window_us
                     source_kind='COMMITMENT',source_id=row['commitment_id'],source_revision=row['revision'],scope=scope,entity_id=row['entity_id'] if voluntary else entity_id,
                     task_class='relational.accommodation.review' if voluntary else None,commitment_check_id=row['commitment_id'] if voluntary else None,
                     due_at_us=row['due_at_us'],memory_ids=records.support(row['record_id']),event_type='GOAL_EVENT',wake_trigger='GOAL_TRIGGER',priority=3))
-        for row in store.all('projects'):
+        for row in store.db.execute("SELECT * FROM projects WHERE scope=? AND state='ACTIVE' ORDER BY updated_at_us DESC LIMIT 64",(scope,)):
             if row['state']!='ACTIVE' or not loop.visible(row['record_id'],scope):continue
             payload=records.read(row['record_id'])['payload']
             if not payload.get('blockers'):continue
             result.append(AttentionOpportunity(key='project-'+digest([row['project_id'],row['revision']]),source_kind='PROJECT',source_id=row['project_id'],source_revision=row['revision'],
                 scope=scope,entity_id=entity_id,due_at_us=max(row['updated_at_us']+quiet_window_us,quiet_since_us+quiet_window_us),
                 memory_ids=records.support(row['record_id']),event_type='PROJECT_EVENT',wake_trigger='GOAL_TRIGGER',priority=2))
-        for row in store.all('experiences'):
+        for row in store.db.execute("SELECT e.* FROM experiences e JOIN continuity_records r ON r.record_id=e.record_id WHERE r.scope=? AND r.lifecycle='ACTIVE' AND NOT EXISTS (SELECT 1 FROM subject_reflections f WHERE f.experience_id=e.experience_id) ORDER BY e.created_at_us LIMIT 32",(scope,)):
             if not loop.visible(row['record_id'],scope):continue
             if store.db.execute('SELECT 1 FROM subject_reflections WHERE experience_id=?',(row['experience_id'],)).fetchone():continue
             result.append(AttentionOpportunity(key='reflection-'+row['experience_id'],source_kind='EXPERIENCE',source_id=row['experience_id'],

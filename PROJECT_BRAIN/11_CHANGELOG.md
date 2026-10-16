@@ -1249,3 +1249,20 @@ Primary User, goals, Manager outcome and Living Journal projections are filtered
 rebuildable and authority-free; frontend input enters same runtime mailbox/queue.
 Targeted new10 PASS; combined existing C/D + new53 PASS (30.78s). No new table,
 model SDK, second loop/Store or real-world operation. Final qualification pending.
+
+### D2–D7 M4 — complete life and dangerous recovery qualification
+
+[离线实测] Reproducible four-virtual-hour demo uses actual Runtime/Subject/Store:
+Primary choice differs without Grant/social-satiation override; voluntary finite
+commitment persists/reviews; rest/no-input project; Manager blocks wanted action;
+revocation does not execute; fresh sourced reconsideration; observed quality failure
+→ C-selected reflection/verified lesson → self-wake → revised plan succeeds;
+reviewed offline procedure enabled without new Grant; two surfaces share identity;
+maintenance yields/resumes; restart retains identity and takes fresh epoch.
+Demo ends0 pending intentions/0 model calls; all causal checks true.
+Actual SIGKILL after durable effect/before receipt reopens and verifies one Action,
+one EXECUTE, no duplicate effect. Explicit7/8/9/10→11 preserves IDs/FKs/table39.
+V11 package transfer preserves goal/history, strips transient owner and revokes
+old authority; no agency/port is automatically reconstructed on new host.
+18 focused tests PASS, including bounded real process heartbeat/shutdown. Final
+full repository regression still pending; no production/real models/data/actions.

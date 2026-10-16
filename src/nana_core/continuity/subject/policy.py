@@ -53,7 +53,7 @@ def appraise(event: SubjectInput, situation: Situation):
     if situation.cue:
         reasons.append('a current source-backed concern offers options; it is not an adopted intention')
     return Appraisal(novelty=event.novelty,
-        goal_relevance='RELEVANT' if situation.project_ids else 'NONE',
+        goal_relevance='RELEVANT' if situation.project_ids or situation.plan_step or situation.adopted_program_ids else 'NONE',
         relationship_relevance='RELEVANT' if situation.familiar or event.relationship_kind else 'LOW',
         self_relevance='RELEVANT' if event.preference_signal else 'LOW',
         unfinished_tension='HIGH' if situation.due_commitment_ids else 'RELEVANT' if situation.unresolved_interest else 'NONE',
@@ -66,6 +66,8 @@ def appraise(event: SubjectInput, situation: Situation):
 
 def motivate(event, situation, appraisal):
     motives = []
+    if situation.plan_step:
+        motives.append(Motivation(source='ADOPTED_GOAL',strength='RELEVANT',source_ids=(situation.plan_step.goal_id,situation.plan_step.record_id)))
     if situation.due_commitment_ids:
         motives.append(Motivation(source='COMMITMENT', strength='PRESSING', source_ids=situation.due_commitment_ids))
     if situation.project_ids:

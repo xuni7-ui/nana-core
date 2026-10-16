@@ -11,6 +11,7 @@ from .resources import resource_state
 
 
 def runtime_projection(runtime,kind,policy,*,scopes,entity_id):
+    if not runtime.config.living:raise CoreError('LIVING_RUNTIME_NOT_ENABLED')
     if not set(scopes)<=set(policy.allowed_scopes):raise CoreError('RUNTIME_VIEW_SCOPE_DENIED')
     r=runtime;privacy=policy.readable_privacy;records=RecordService(r.store)
     if kind=='LIVING_JOURNAL':return living_journal(r.store,scopes=scopes,privacy_classes=privacy).model_dump(mode='json')

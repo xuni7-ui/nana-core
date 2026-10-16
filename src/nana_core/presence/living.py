@@ -22,6 +22,7 @@ class LivingWork:
         if event.memory_review_id:return self.review_memory(event.memory_review_id,cycle)
         if event.reflection_experience_id and cycle.intention.kind=='REFLECTION' and self.learning_policy:
             self.learning_policy.apply(self.runtime,event.reflection_experience_id)
+            self._learning_opportunity(event.reflection_experience_id)
             intention=self.runtime.store.one('subject_intentions',cycle.intention_id) if cycle.intention_id else None
             if intention and intention['state']=='PENDING':self.runtime.subject.transition_intention(cycle.intention_id,expected_revision=intention['revision'],state='COMPLETED')
         if not self.agency:return None
@@ -31,6 +32,20 @@ class LivingWork:
             except CoreError as exc:
                 if exc.code=='OFFLINE_PROGRAM_NOT_REVIEWED':return None
                 raise
+
+    def _learning_opportunity(self,experience_id):
+        """A checked new method is a chance to reconsider, not an adopted retry."""
+        r=self.runtime
+        lesson=r.store.db.execute("SELECT * FROM lessons WHERE experience_id=? AND state='ACTIVE'",(experience_id,)).fetchone()
+        if not lesson:return
+        from ..continuity.learning import ExperienceService
+        experience=ExperienceService(r.store,r.authority).get(experience_id)
+        if experience.outcome!='FAILURE':return
+        source=r.store.one('continuity_records',lesson['record_id'])
+        when=r.store.event(lesson['test_event_id'])['recorded_at_us']
+        inp=SubjectInput(source_key='synthetic.living.learned.'+lesson['lesson_id'],kind='WAKE',origin='SELF_WAKE',entity_id=r.config.entity_id,scope=source['scope'],
+            observed_at_us=when,source_memory_ids=experience.context_memory_ids[:32],task_class=experience.task_class)
+        r.submit(RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=inp,causes=(Cause(kind='EXPERIENCE',reference_id=experience_id),),due_at_us=when,priority=0))
 
     def review_memory(self,rid,cycle):
         old=self.runtime.store.db.execute("SELECT 1 FROM events WHERE source_namespace='living.review' AND source_key=?",(rid,)).fetchone()

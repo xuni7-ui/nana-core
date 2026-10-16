@@ -26,6 +26,11 @@ class ActionKernel:
         support=getattr(self.store,'_governed_payload_support',None)
         if not support and action:
             support=json.loads(action['args_json']).get('action_payload_record')
+            if not support:
+                # A governed v9/v10 action may already need verification at an
+                # explicit dev upgrade. Reuse its exact pre-existing provenance.
+                link=self.store.db.execute("SELECT data_json FROM events WHERE kind='governance.action_linked' AND json_extract(data_json,'$.data.target_id')=? ORDER BY seq DESC LIMIT 1",(action['action_id'],)).fetchone()
+                if link:support=json.loads(link[0])['data']['outcome_record_id']
         if not support:raise CoreError('ACTION_PAYLOAD_SUPPORT_REQUIRED')
         records=RecordService(self.store);parent=records.read(support)
         rid=records.create(tx,kind='ACTION_PAYLOAD',scope=parent['scope'],payload=payload,records=(support,))
