@@ -1149,3 +1149,11 @@ Production/main/R045/FIRST_REAL_ASTRBOT_SHADOW changed=NO; real models/private
 memory/external actions=0. Production review/proof pins remain EMPTY. Real-memory
 ingress remains deny-by-default. E12=NOT_RUN. These fixtures upgrade no real-host
 status. Next step is independent offline review/integration; do not auto-deploy.
+
+### C6/C7 + B6–B10 development — asset reuse
+
+[源码] Branch dev/nana-core-c6c7-portable-subject-v1-codex starts at exact e26288e.
+Reuses 21 Relational source assets from 67326d1 rather than a second implementation.
+Explicit primary-user role and neutral fresh Subject bootstrap are local extensions;
+existing identity/history unchanged. Validation: focused portable_subject tests.
+No production, D2 or push. Design contract: docs/ADR/ADR-C6-B6B10-portable-personal-subject.md.

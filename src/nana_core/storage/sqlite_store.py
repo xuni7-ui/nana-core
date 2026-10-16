@@ -101,9 +101,9 @@ class Store:
                     raise CoreError("IDENTITY_MISSING")
                 with self.transaction("identity.created") as tx:
                     tx.put("identities", {"identity_id": uid(), "revision": 1,
-                        "body_json": canonical({"name": "Nana", "charter": [
+                        "body_json": canonical({"name": "Subject", "charter": [
                             "retain independent judgement", "evidence before success", "learning cannot expand permissions"],
-                            "self_preferences": [], "expression_defaults": {"style": "warm and precise"}}),
+                            "self_preferences": [], "expression_defaults": {"style": "unspecified"}}),
                         "created_event_id": tx.event_id})
                     tx.put("core_meta", {"key": "recovery_quarantine", "value_json": "false"})
         except BaseException:

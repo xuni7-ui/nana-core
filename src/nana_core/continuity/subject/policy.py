@@ -2,6 +2,7 @@
 from ...contracts import DTO
 from .contracts import Appraisal, Intention, Judgment, Motivation, SubjectInput
 from .opportunities import ConcernCue,directions
+from ..relational.contracts import SocialAppetiteView
 from ..autonomy.contracts import RelationshipInfluenceView,SocialPrivacyExpectation
 
 
@@ -29,6 +30,8 @@ class Situation(DTO):
     relationship_influence: RelationshipInfluenceView | None = None
     social_privacy: SocialPrivacyExpectation | None = None
     autonomy_semantics: bool = False
+    social_appetite: SocialAppetiteView | None = None
+    voluntary_restraints: tuple[str,...] = ()
 
 
 def appraise(event: SubjectInput, situation: Situation):
@@ -69,7 +72,7 @@ def motivate(event, situation, appraisal):
     if event.novelty == 'HIGH':
         motives.append(Motivation(source='CURIOSITY', strength='AVAILABLE', source_ids=situation.memory_ids,
             inhibited_by=('COMMITMENT',) if situation.due_commitment_ids else ()))
-    if event.kind == 'INTERACTION' and situation.familiar:
+    if (situation.social_appetite and situation.social_appetite.state in {'OPEN','SEEKING'}) or (situation.social_appetite is None and event.kind == 'INTERACTION' and situation.familiar):
         motives.append(Motivation(source='SOCIAL_CONNECTION', strength='AVAILABLE', source_ids=situation.memory_ids))
     if appraisal.risk == 'HIGH':
         motives.insert(0, Motivation(source='CARE', strength='PRESSING', source_ids=situation.memory_ids))
@@ -101,6 +104,9 @@ def decide(event, situation, appraisal, motives):
         return ('FOCUS_NOW',Judgment(stance='REFLECT',reason='An independently recorded experience is eligible for reflection',source_ids=sources),
             Intention(kind='REFLECTION',purpose='Examine the recorded outcome without inventing new history',slot_key='reflect-'+situation.reflection_experience_id,
                 source_ids=sources,self_generated=self_generated,behavior='REFLECT'))
+    if situation.voluntary_restraints and situation.cue and 'SOCIALIZE' in directions(situation.cue) and event.urgency!='HIGH':
+        return ('DEFER',Judgment(stance='DEFER',reason='Honor a current bounded self-chosen accommodation; retain desire and permit later review',source_ids=sources),
+            Intention(kind='NO_ACTION',purpose='Choose temporary restraint without losing social desire',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='STAY_SILENT'))
     if situation.cue:
         cue=situation.cue
         options=[x for x in directions(cue) if x not in situation.prohibited_behaviors]

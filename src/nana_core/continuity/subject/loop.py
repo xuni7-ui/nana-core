@@ -137,6 +137,20 @@ class SubjectLoop:
             if topic:
                 privacy=social_privacy(self.store,event,topic=topic,privacy_classes=self.privacy_classes,resource=cue.resource_ref if cue else None)
                 memories.extend(privacy.support_refs)
+        appetite=None
+        if self.store.schema_target>=10:
+            from ..relational.projections import social_appetite
+            appetite=social_appetite(self.store,scope=event.scope,privacy_classes=self.privacy_classes)
+            records.extend(appetite.source_record_ids);memories.extend(appetite.source_memory_ids)
+            if unresolved in {'social_exploration','social_connection','social_play'} and cue is None:unresolved=None
+        voluntary=[]
+        if self.store.schema_target>=10 and cue and cue.behavior_domain:
+            from ..relational.contracts import VoluntaryTerms
+            for cid in commitments:
+                row=self.store.one('commitments',cid);body=self.records.read(row['record_id'])['payload']
+                if body.get('voluntary'):
+                    terms=VoluntaryTerms.model_validate_json(canonical(body['voluntary']))
+                    if terms.operation=='REFRAIN' and terms.behavior_domain==cue.behavior_domain and terms.start_us<=now<min(terms.end_us,terms.review_at_us):voluntary.append(cid)
         return Situation(scope=event.scope, memory_ids=tuple(sorted(set(memories))),
             project_ids=tuple(projects), commitment_ids=tuple(commitments), due_commitment_ids=tuple(due),
             adopted_interests=interests, unresolved_interest=unresolved,
@@ -146,7 +160,7 @@ class SubjectLoop:
             idle=event.kind == 'WAKE',cue=cue,prohibited_behaviors=prohibited,
             interaction_style=relation.get('interaction_style','RESPECTFUL_EXPLICIT'),last_social_act=last_act,
             reflection_experience_id=event.reflection_experience_id,manager_outcomes=manager_outcomes,
-            relationship_influence=influence,social_privacy=privacy,autonomy_semantics=self.store.schema_target>=9)
+            relationship_influence=influence,social_privacy=privacy,autonomy_semantics=self.store.schema_target>=9,social_appetite=appetite,voluntary_restraints=tuple(voluntary))
 
     def pending(self, scope):
         return state.pending(self.store,scope,self.privacy_classes)
@@ -166,6 +180,8 @@ class SubjectLoop:
                         tx.update('subject_goal_candidates', goal['candidate_id'], state='EXPIRED' if state == 'EXPIRED' else 'WITHDRAWN')
 
     def run(self, event: SubjectInput, *, expected_revision=None, _deliberation=None):
+        if event.relational_request and self.store.schema_target<10:raise CoreError('RELATIONAL_SCHEMA_REQUIRED')
+        if event.preference_signal and event.preference_signal.kind=='PERSONALITY_TENDENCY' and self.store.schema_target<10:raise CoreError('RELATIONAL_SCHEMA_REQUIRED')
         if any(x is not None for x in (event.disclosure_request,event.realization_target,event.governance_review_id,event.relationship_details,event.positive_request,event.commitment_check_id,event.disposition_reflection_id)) and self.store.schema_target<9:
             raise CoreError('AUTONOMY_SCHEMA_REQUIRED')
         if event.scope not in self.scopes or event.privacy_class not in self.privacy_classes:
@@ -239,6 +255,38 @@ class SubjectLoop:
                 judgment=Judgment(stance='ALTERNATIVE',reason='A checked later consequence supports reviewing context before repeating a decision',source_ids=situation.memory_ids,
                     selected_method=lesson_method(rule),lesson_ids=situation.lesson_ids)
                 intention=Intention(kind='REFLECTION',purpose='Review the supported consequence without acquiring authority',slot_key='learned-disposition-review',source_ids=situation.memory_ids,self_generated=event.origin=='SELF_WAKE',behavior='REFLECT')
+            relational=None
+            if self.store.schema_target>=10 and event.relational_request and event.retention!='DO_NOT_REMEMBER':
+                from ..relational.deliberation import deliberate
+                from .contracts import Intention,Judgment
+                relational=deliberate(self.store,event,situation,source_record_id=source['record_id'],privacy_classes=self.privacy_classes)
+                if relational:
+                    choice=relational.response.decision
+                    refs=tuple(dict.fromkeys((*relational.deference.relationship_refs,*relational.deference.personality_refs)))
+                    situation=situation.model_copy(update={'support_record_ids':tuple(dict.fromkeys((*situation.support_record_ids,*refs))),
+                        'memory_ids':tuple(sorted({*situation.memory_ids,*(m for r in refs for m in self.records.support(r))}))})
+                    attention='FOCUS_NOW'
+                    judgment=Judgment(stance='AGREE' if choice=='ACCEPT' else 'ALTERNATIVE' if choice=='NEGOTIATE' else 'DISAGREE',
+                        reason='Subject-owned relational tradeoff; retained desire is not rewritten and no authority is created',source_ids=situation.memory_ids)
+                    intention=Intention(kind='GOAL_CANDIDATE' if choice=='ACCEPT' else 'SOCIAL_INTERACTION' if choice=='NEGOTIATE' else 'NO_ACTION',
+                        purpose='Consider bounded accommodation or discuss its scope',slot_key='relational-'+digest(event.source_key)[:24],source_ids=situation.memory_ids,self_generated=False)
+            review_event=event
+            if self.store.schema_target>=10 and event.kind=='WAKE' and not event.commitment_check_id and not situation.cue:
+                # A deferred due review can be reconsidered on an ordinary later
+                # wake. C selects the concern; Scheduler neither adopts nor sends.
+                for cid in situation.due_commitment_ids:
+                    row=self.store.one('commitments',cid)
+                    if self.records.read(row['record_id'])['payload'].get('voluntary'):
+                        review_event=event.model_copy(update={'task_class':'relational.accommodation.review','commitment_check_id':cid,'entity_id':row['entity_id']})
+                        break
+            if self.store.schema_target>=10 and review_event.task_class=='relational.accommodation.review':
+                from ..relational.accommodation import review
+                from .contracts import Intention,Judgment
+                review_situation=situation if review_event is event else self.situation(review_event,source)
+                relational=review(self.store,review_event,review_situation,privacy_classes=self.privacy_classes)
+                attention='FOCUS_NOW'
+                judgment=Judgment(stance='ALTERNATIVE' if relational.review_choice=='MODIFY' else 'AGREE',reason='Reconsider bounded accommodation from current sources; timer is not authority',source_ids=situation.memory_ids)
+                intention=Intention(kind='GOAL_CANDIDATE',purpose='Apply the sourced voluntary review choice',slot_key='voluntary-review-'+digest(event.source_key)[:24],source_ids=situation.memory_ids,self_generated=True)
             if _deliberation is not None:
                 # Model uncertainty may inhibit ordinary interaction; it cannot
                 # overrule a sourced conflict, obligation or tested lesson.
@@ -314,7 +362,7 @@ class SubjectLoop:
                 judgment=judgment, intention=intention, intention_id=intention_id, goal_candidate_id=candidate_id,
                 barrier='NO_ACTION' if intention.kind == 'NO_ACTION' else 'SHADOW_BLOCKED', record_id=None,social_proposal=social,action_proposal=action,
                 evaluation=evaluation,disclosure=disclosure,request_decision=request_decision,selected_disposition_id=event.disposition_reflection_id,
-                realization_target=target,
+                realization_target=target,relational_decision=relational,
                 deliberation=None if _deliberation is None else {
                     'model_descriptor': _deliberation.model_descriptor,
                     'context_digest': _deliberation.context_digest, 'raw_proposal_json': _deliberation.raw_proposal_json})

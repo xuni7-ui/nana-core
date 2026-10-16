@@ -14,9 +14,15 @@ class Growth:
     def __init__(self, store):
         self.store, self.records = store, RecordService(store)
 
-    def assertion_view(self, row):
-        signals = [s for s in self.store.all('assertion_signals')
-                   if s['assertion_id'] == row['assertion_id'] and live_record(self.store, s['record_id'])]
+    def assertion_view(self, row, *, privacy_classes=None):
+        signals=[];hidden=False
+        for s in self.store.all('assertion_signals'):
+            if s['assertion_id']!=row['assertion_id']:continue
+            head=self.store.one('continuity_records',s['record_id'])
+            if privacy_classes is not None and head['privacy_class'] not in privacy_classes:
+                hidden=hidden or head['lifecycle']=='ACTIVE'
+                continue  # Privacy before current_support(), which reads bodies.
+            if live_record(self.store,s['record_id']):signals.append(s)
         eligible = [s for s in signals if s['independent']]
         support = {s['root_evidence_id'] for s in eligible if s['direction'] == 'SUPPORT'}
         counter = {s['root_evidence_id'] for s in eligible if s['direction'] == 'COUNTER'}
@@ -24,6 +30,7 @@ class Growth:
         support -= counter
         state = 'ADOPTED' if len(support) >= 2 and len(support) > len(counter) else (
             'DISPUTED' if counter else 'CANDIDATE')
+        if hidden:state='UNKNOWN'
         topic = None
         for s in reversed(signals):
             topic = self.records.read(s['record_id'])['payload']['topic']
@@ -44,7 +51,7 @@ class Growth:
                  or signals[:1])))}
 
     def assertions(self, scope, kind=None, *, privacy_classes=('PUBLIC','PROJECT','PERSONAL','SECRET')):
-        return tuple(self.assertion_view(r) for r in self.store.all('self_assertions')
+        return tuple(self.assertion_view(r,privacy_classes=privacy_classes) for r in self.store.all('self_assertions')
                      if r['scope'] == scope and (kind is None or r['assertion_kind'] == kind)
                      and self.store.one('continuity_records', r['record_id'])['privacy_class'] in privacy_classes)
 
@@ -89,7 +96,8 @@ class Growth:
             # Source supports must be direct, and observations cannot derive their
             # independence from earlier own choices/model/reflection outcomes.
             independent = int(event.origin == 'ENVIRONMENT' and event.kind in {'PLAY','OUTCOME'}
-                and not event.source_memory_ids and source['source_kind'] == 'DIRECT_OBSERVATION')
+                and not event.source_memory_ids and source['source_kind'] == 'DIRECT_OBSERVATION'
+                and (signal.kind!='PERSONALITY_TENDENCY' or not event.result_for_intention_id))
             tx.put('assertion_signals', {'signal_id': uid(), 'assertion_id': key,
                 'subject_event_id': row['subject_event_id'], 'direction': signal.direction,
                 'root_evidence_id': roots[0], 'independent': independent,
@@ -100,6 +108,13 @@ class Growth:
             prior_record = self.store.one('continuity_records', current['record_id'])
             record = self.records.create(tx, kind='ASSERTION', scope=event.scope, payload=view,
                 records=parent_records, supersedes=current['record_id'] if old and prior_record['lifecycle'] != 'DELETED' else None)
+            if self.store.schema_target>=7:
+                # Explanatory refs are bounded; classification must cover ALL
+                # source headers, not merely the displayed subset of roots.
+                from ..memory import PRIVACY_RANK
+                headers=[self.store.one('continuity_records',s['record_id']) for s in self.store.all('assertion_signals') if s['assertion_id']==key]
+                privacy=max((h['privacy_class'] for h in headers if h['lifecycle']=='ACTIVE'),key=PRIVACY_RANK.get)
+                tx.update('continuity_records',record,privacy_class=privacy)
             tx.update('self_assertions', key, revision=current['revision'] + int(old is not None),
                 state=view['state'], record_id=record, updated_at_us=self.store.clock.utc_now_us())
         if event.relationship_kind:

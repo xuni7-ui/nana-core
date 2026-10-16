@@ -13,7 +13,7 @@ def admission(event: SubjectInput):
         return 'IGNORE', ('explicit non-retention takes priority',)
     if event.kind == 'WAKE':
         return 'TEMPORARY', ('wake is a condition, not a new lived experience',)
-    if event.preference_signal or event.relationship_kind or event.constraint_memory_ids or event.positive_request:
+    if event.preference_signal or event.relationship_kind or event.constraint_memory_ids or event.positive_request or event.relational_request:
         return 'KEEP', ('future self/relationship/project relevance',)
     if event.significance in {'RELEVANT', 'HIGH'} or event.novelty == 'HIGH':
         return 'KEEP', ('significant or novel source occurrence',)
@@ -46,6 +46,11 @@ class SubjectIngress:
                     raise CoreError('SUBJECT_SOURCE_COLLISION')
             # Nonretained input intentionally has no content hash that might leak it.
             return row
+        request_target=None
+        if self.store.schema_target>=10 and event.relational_request:
+            request_target='relational-request:'+digest([event.scope,event.entity_id,event.relational_request.request_id])
+            if self.store.db.execute("SELECT 1 FROM continuity_records WHERE record_kind='SUBJECT_EVENT' AND target_id=? LIMIT 1",(request_target,)).fetchone():
+                raise CoreError('RELATIONAL_REQUEST_ID_REUSED')
         support = tuple(dict.fromkeys((*event.source_memory_ids, *event.constraint_memory_ids)))
         for memory_id in support:
             item = self.memory.read(memory_id)
@@ -74,7 +79,7 @@ class SubjectIngress:
             event_id, record = uid(), None
             if memory_id:
                 record = self.records.create(tx, kind='SUBJECT_EVENT', scope=event.scope,
-                    payload={'input': json.loads(event.model_dump_json()), 'admission_reasons': reasons},
+                    payload={'input': json.loads(event.model_dump_json()), 'admission_reasons': reasons},target_id=request_target,
                     memories=(*support, memory_id))
             tx.put('subject_events', {'subject_event_id': event_id, 'source_key': event.source_key,
                 'entity_id': event.entity_id, 'scope': event.scope, 'kind': event.kind, 'origin': event.origin,

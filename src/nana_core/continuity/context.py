@@ -278,6 +278,26 @@ class ContextAssembler:
                     data_json=canonical({'relationship':influence.model_dump(mode='json'),'manager_outcomes':outcomes,
                         'governance_is_external_fact_not_normative_directive':True,'execution_authority':'NONE'}),
                     source_record_ids=refs,source_memory_ids=tuple(sorted({m for rid in refs for m in RecordService(self.store).support(rid)})))))
+        if self.store.schema_target>=10:
+            from .relational.bootstrap import anchor_view
+            from .relational.projections import personality_tendencies,social_appetite,self_narrative
+            for scope in request.scopes:
+                anchor=anchor_view(self.store,request.entity_id,scope=scope,privacy_classes=privacy)
+                tendency=personality_tendencies(self.store,scope=scope,privacy_classes=privacy,entity_id=request.entity_id)
+                appetite=social_appetite(self.store,scope=scope,privacy_classes=privacy)
+                narrative=self_narrative(self.store,scope=scope,privacy_classes=privacy,entity_id=request.entity_id)
+                refs=tuple(dict.fromkeys((*tendency.source_record_ids,*appetite.source_record_ids,*((anchor.source_record_id,) if anchor else ()))))
+                data={'anchor':anchor.model_dump(mode='json') if anchor else None,'personality':tendency.model_dump(mode='json'),
+                    'social_appetite':appetite.model_dump(mode='json'),'self_narrative':narrative.model_dump(mode='json'),'execution_authority':'NONE'}
+                previous=self.store.db.execute('SELECT c.* FROM subject_cycles c JOIN subject_events e ON e.subject_event_id=c.subject_event_id WHERE e.entity_id=? AND e.scope=? ORDER BY c.revision DESC LIMIT 1',(request.entity_id,scope)).fetchone()
+                if previous and previous['record_id']:
+                    h=self.store.one('continuity_records',previous['record_id'])
+                    if h['lifecycle']=='ACTIVE' and h['privacy_class'] in privacy and RecordService(self.store).current_support(h['record_id']):
+                        past=RecordService(self.store).read(h['record_id'])['payload'].get('relational_decision')
+                        if past:
+                            data['historical_tradeoff_not_current_policy']=past;refs=(*refs,h['record_id'])
+                candidates.append((935.0,ContextBlock(block_id='relational-subject:'+scope,kind='RELATIONAL_SUBJECT',data_json=canonical(data),source_record_ids=refs,
+                    source_memory_ids=tuple(sorted({*appetite.source_memory_ids,*(m for rid in refs for m in RecordService(self.store).support(rid))})))))
         candidates.extend(self._lessons(request, privacy))
         candidates.sort(key=lambda item: (-item[0], item[1].block_id))
         selected, omitted = list(mandatory), []

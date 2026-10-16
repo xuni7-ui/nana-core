@@ -1,10 +1,12 @@
 """C-stage subject contracts. No executable authority and no real ingress switch."""
-from typing import Literal
+from typing import Literal,get_args
 from pydantic import Field, model_validator
 from ...contracts import DTO
 from .social import SocialInteractionProposal
 from .opportunities import Behavior,SyntheticActionProposal
 from ..autonomy.contracts import DisclosureRequest,DisclosureDecision,SubjectEvaluation,RealizationTarget,RelationshipDetails,PositiveRequest,RequestDecision
+
+from ..relational.contracts import RelationalRequest,RelationalDecision,FacetName
 
 Key = str
 Level = Literal['NONE', 'LOW', 'RELEVANT', 'HIGH']
@@ -14,10 +16,15 @@ INTENTION_TTL_US = 7 * DAY_US
 
 
 class PreferenceSignal(DTO):
-    kind: Literal['PREFERENCE', 'SELF_BELIEF'] = 'PREFERENCE'
+    kind: Literal['PREFERENCE', 'SELF_BELIEF', 'PERSONALITY_TENDENCY'] = 'PREFERENCE'
     topic: str = Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
     direction: Literal['SUPPORT', 'COUNTER']
     interpretation: str = Field(min_length=1, max_length=512)
+
+    @model_validator(mode='after')
+    def personality_topic(self):
+        if self.kind=='PERSONALITY_TENDENCY' and self.topic not in {'personality.'+f for f in get_args(FacetName)}:raise ValueError('unknown personality facet')
+        return self
 
 
 class SubjectInput(DTO):
@@ -55,6 +62,7 @@ class SubjectInput(DTO):
     positive_request: PositiveRequest | None = None
     commitment_check_id: str | None = None
     disposition_reflection_id: str | None = None
+    relational_request: RelationalRequest | None = None
 
     @model_validator(mode='after')
     def provenance(self):
@@ -75,9 +83,10 @@ class SubjectInput(DTO):
             raise ValueError('relationship occurrence kind mismatch')
         if self.relationship_details and not self.relationship_kind:raise ValueError('relationship metadata requires occurrence')
         if self.relationship_details and self.relationship_details.social_expectation and self.relationship_kind not in {'BOUNDARY','NORM'}:raise ValueError('social expectation requires explicit norm/boundary')
+        if self.relational_request and (self.origin!='USER' or not self.text or self.relational_request.requesting_entity!=self.entity_id):raise ValueError('relational request requires sourced requesting entity')
         if self.positive_request and (self.origin!='USER' or not self.text):raise ValueError('positive request must be a sourced user request')
         if self.commitment_check_id and self.kind!='WAKE':raise ValueError('commitment check is a wake opportunity')
-        if sum(x is not None for x in (self.positive_request,self.governance_review_id,self.disposition_reflection_id))>1:raise ValueError('one deliberation purpose per event')
+        if sum(x is not None for x in (self.positive_request,self.governance_review_id,self.disposition_reflection_id,self.relational_request))>1:raise ValueError('one deliberation purpose per event')
         return self
 
 
@@ -164,6 +173,7 @@ class CycleResult(DTO):
     realization_target: RealizationTarget | None = None
     request_decision: RequestDecision | None = None
     selected_disposition_id: str | None = None
+    relational_decision: RelationalDecision | None = None
 
 
 class WakeCondition(DTO):

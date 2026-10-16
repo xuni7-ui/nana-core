@@ -19,6 +19,7 @@ class ConcernCue(DTO):
     resource_ref: str | None = Field(default=None,pattern=r'^synthetic://[a-zA-Z0-9/._:-]{1,200}$')
     resource_class: Literal['ORDINARY','PASSWORD','CREDENTIAL','PAYMENT','OTHER_PERSON_SECRET','UNKNOWN'] = 'UNKNOWN'
     availability: Literal['AVAILABLE','BUSY','UNKNOWN'] = 'UNKNOWN'
+    behavior_domain: Literal['SOCIAL_NEW_CONTACTS','COMPANIONSHIP','PROJECT','CREATIVE','REST'] | None = None
     cognitive_load: Literal['LOW','OCCUPIED','HIGH'] = 'LOW'
     urgency: Literal['NONE','LOW','RELEVANT','HIGH'] = 'LOW'
     not_before_us: int = Field(default=0,ge=0)

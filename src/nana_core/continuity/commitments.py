@@ -8,6 +8,7 @@ from ..actions import OperatorAuthority
 from ..storage import uid,digest
 from .records import RecordService
 from .recurrence import RecurrenceSpec
+from .relational.contracts import VoluntaryTerms
 
 
 class CommitmentCandidate(DTO):
@@ -17,6 +18,8 @@ class CommitmentCandidate(DTO):
     support_memory_ids: tuple[str, ...] = Field(min_length=1, max_length=32)
     due_at_us: int | None = Field(default=None, ge=0)
     recurrence: RecurrenceSpec | None = None
+    voluntary: VoluntaryTerms | None = None
+    decision_record_id: str | None = None
 
 
 class CommitmentState(DTO):
@@ -57,6 +60,8 @@ class CommitmentService:
         self.records = RecordService(store)
 
     def propose(self, candidate: CommitmentCandidate, *, source_key=None):
+        if (candidate.voluntary or candidate.decision_record_id) and self.store.schema_target<10:raise CoreError('RELATIONAL_SCHEMA_REQUIRED')
+        if candidate.voluntary and candidate.recurrence:raise CoreError('VOLUNTARY_CALENDAR_NOT_ALLOWED')
         if candidate.recurrence and self.store.schema_target<9:raise CoreError('AUTONOMY_SCHEMA_REQUIRED')
         if source_key:
             import json
@@ -71,7 +76,8 @@ class CommitmentService:
         data={'commitment_id':commitment_id,'candidate_digest':digest(candidate.model_dump(mode='json'))} if source_key else None
         with self.store.transaction("commitment.proposed",data,source_namespace='commitment.request' if source_key else None,source_key=source_key) as tx:
             record_id = self.records.create(tx, kind="COMMITMENT", scope=candidate.scope,
-                payload={"description": candidate.description,**({'recurrence':candidate.recurrence.model_dump(mode='json')} if candidate.recurrence else {})}, memories=candidate.support_memory_ids)
+                records=(candidate.decision_record_id,) if candidate.decision_record_id else (),
+                payload={"description": candidate.description,**({'voluntary':candidate.voluntary.model_dump(mode='json')} if candidate.voluntary else {}),**({'recurrence':candidate.recurrence.model_dump(mode='json')} if candidate.recurrence else {})}, memories=candidate.support_memory_ids)
             tx.put("commitments", {"commitment_id": commitment_id, "entity_id": candidate.entity_id,
                 "scope": candidate.scope, "record_id": record_id, "revision": 1, "state": "PROPOSED",
                 "due_at_us": candidate.due_at_us, "adoption_event_id": None, "fulfillment_memory_id": None,
@@ -116,6 +122,35 @@ class CommitmentService:
                 superseded_by=superseded_by if state == "SUPERSEDED" else None,
                 updated_at_us=self.store.clock.utc_now_us())
         return self.get(commitment_id)
+
+    def review_voluntary(self,cycle_id,*,authority):
+        import json
+        from ..storage import canonical
+        from .relational.contracts import RelationalDecision
+        if self.store.schema_target<10 or authority is not self._authority:raise CoreError('UNAUTHENTICATED_VOLUNTARY_REVIEW')
+        cycle=self.store.db.execute('SELECT * FROM subject_cycles WHERE cycle_id=?',(cycle_id,)).fetchone()
+        if not cycle or not self.records.current_support(cycle['record_id']):raise CoreError('VOLUNTARY_REVIEW_SOURCE_RETIRED')
+        body=self.records.read(cycle['record_id'])['payload']
+        decision=RelationalDecision.model_validate_json(canonical(body['relational_decision']))
+        if decision.phase!='REVIEW' or not decision.review_choice:raise CoreError('VOLUNTARY_REVIEW_DECISION_REQUIRED')
+        if body['judgment']['stance'] not in {'AGREE','ALTERNATIVE'} or body['evaluation']['normative']!='ENDORSED':raise CoreError('VOLUNTARY_REVIEW_NOT_ENDORSED')
+        cid=decision.review_commitment_id
+        old=self.store.db.execute("SELECT 1 FROM events WHERE source_namespace='commitment.voluntary-review' AND source_key=?",(cycle_id,)).fetchone()
+        if old:return cid
+        with self.store.transaction('commitment.voluntary_reviewed',{'cycle_id':cycle_id,'commitment_id':cid},source_namespace='commitment.voluntary-review',source_key=cycle_id) as tx:
+            row=self.store.one('commitments',cid)
+            if not row or row['revision']!=decision.review_revision or row['state'] not in {'ADOPTED','ACTIVE'}:raise CoreError('STALE_VOLUNTARY_REVIEW')
+            prior=self.records.read(row['record_id']);terms=VoluntaryTerms.model_validate_json(canonical(prior['payload']['voluntary']))
+            if decision.review_choice=='END':
+                tx.update('commitments',cid,state='CANCELLED',revision=row['revision']+1,updated_at_us=self.store.clock.utc_now_us())
+            else:
+                now=cycle['created_at_us'];new_end=min(terms.end_us,now+decision.accepted_duration_us)
+                revised=terms.model_copy(update={'end_us':new_end,'review_at_us':new_end,'accepted_scope':'TARGETED' if decision.review_choice=='MODIFY' else terms.accepted_scope})
+                VoluntaryTerms.model_validate_json(revised.model_dump_json())
+                rid=self.records.create(tx,kind='COMMITMENT',scope=row['scope'],payload={**prior['payload'],'voluntary':revised.model_dump(mode='json'),'last_review_cycle_id':cycle_id},
+                    memories=self.records.support(row['record_id']),records=(cycle['record_id'],),supersedes=row['record_id'])
+                tx.update('commitments',cid,record_id=rid,due_at_us=new_end,revision=row['revision']+1,updated_at_us=self.store.clock.utc_now_us())
+        return cid
 
     def get(self, commitment_id):
         row = self.store.one("commitments", commitment_id)
