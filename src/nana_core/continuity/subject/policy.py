@@ -36,6 +36,7 @@ class Situation(DTO):
     plan_step: PlanStepView | None = None
     memory_review_id: str | None = None
     adopted_program_ids: tuple[str,...] = ()
+    separate_delivery: bool = False
 
 
 def appraise(event: SubjectInput, situation: Situation):
@@ -135,7 +136,7 @@ def decide(event, situation, appraisal, motives):
         if behavior in {'REST','WITHDRAW','IGNORE','WATCH','STAY_SILENT','DO_NOTHING','DEFER'}:
             return ('BACKGROUND_WATCH' if behavior=='WATCH' else 'DEFER',Judgment(stance='WATCH' if behavior=='WATCH' else 'DEFER',reason='An available concern does not require activity',source_ids=sources),
                 Intention(kind='NO_ACTION',purpose='Respect the current priority without external action',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior=behavior))
-        if behavior=='SOCIALIZE' and cue.availability!='AVAILABLE':
+        if behavior=='SOCIALIZE' and cue.availability!='AVAILABLE' and not situation.separate_delivery:
             return ('DEFER',Judgment(stance='DEFER',reason='Availability is unknown/busy; prefer silence over interruption',source_ids=sources),
                 Intention(kind='NO_ACTION',purpose='Wait for a receptive context',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='STAY_SILENT'))
         kind='SOCIAL_INTERACTION' if behavior=='SOCIALIZE' else 'EXPLORE' if behavior=='EXPLORE' else 'GOAL_CANDIDATE'

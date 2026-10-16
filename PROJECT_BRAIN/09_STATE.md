@@ -1079,3 +1079,5 @@ Delivery manifest anchor: SHA256 e93d2a38fa32ef1154095b67ecfa072d7f6ac8b09a14fa3
 ## E1–E6 CURRENT DEVELOPMENT（2026-10-17）
 [源码/实测] 独立 E1–E6 分支继承30f7e6f。仅开发离线，尚未验收；真实端点/生产/授权范围不变，无自动push。
 Baseline manifest SHA256 de048df5d8c62fd8a5f5b9ede8acf8d4c5afa8d05ad800ef033165cf1661d0c8 (`manifests/nana_e1e6_baseline.json`).
+
+[实测] E1/E2 主干开发 targeted7 PASS；完整验收待后续。M1 manifest SHA256 f6ead883494b675edfd2f34f9ffefd35b1e22aec89d4e478f3d6fd40c453a9b9 (`manifests/nana_e1e6_m1.json`).

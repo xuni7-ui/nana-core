@@ -215,11 +215,12 @@ class SubjectLoop:
             situation = self.situation(event, source)
             if self.store.schema_target>=11:
                 adopted=[];plan_refs=[]
-                for goal in self.store.db.execute("SELECT * FROM goals WHERE state IN ('ACTIVE','BLOCKED') LIMIT 1"):
+                for goal in self.store.db.execute("SELECT * FROM goals WHERE state IN ('ACTIVE','BLOCKED','SUSPENDED') LIMIT 16"):
                     rid=json.loads(goal['body_json']).get('plan_record_id')
                     if rid and self.visible(rid,event.scope):
-                        plan=self.records.read(rid)['payload'];adopted.append(plan['program']['program_id']);plan_refs.append(rid)
-                situation=situation.model_copy(update={'adopted_program_ids':tuple(adopted),'support_record_ids':tuple(dict.fromkeys((*situation.support_record_ids,*plan_refs)))})
+                        plan=self.records.read(rid)['payload'];adopted.append(plan['program']['program_id'])
+                        if self.store.schema_target<12:plan_refs.append(rid)
+                situation=situation.model_copy(update={'separate_delivery':self.store.schema_target>=12,'adopted_program_ids':tuple(adopted),'support_record_ids':tuple(dict.fromkeys((*situation.support_record_ids,*plan_refs)))})
             if event.memory_review_id:
                 from ..maintenance import MaintenanceService
                 head,body=MaintenanceService(self.store,scopes=self.scopes,entity_id=event.entity_id,privacy_classes=self.privacy_classes).candidate(event.memory_review_id)

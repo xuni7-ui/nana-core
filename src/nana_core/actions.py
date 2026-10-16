@@ -57,7 +57,11 @@ class ActionKernel:
     def _offline_subject_fixture(self):
         if self.store.schema_target<9:return False
         from .continuity.autonomy.fixture_effects import OfflineEffectPort
-        return type(self.capability) is OfflineEffectPort and self.capability.identity_id==self.store.identity['identity_id'] and self.registry is None
+        sealed = self.registry is None
+        if self.store.schema_target>=12:
+            from .continuity.open_agency.world import LocalWorldRegistry
+            sealed = sealed or type(self.registry) is LocalWorldRegistry
+        return type(self.capability) is OfflineEffectPort and self.capability.identity_id==self.store.identity['identity_id'] and sealed
 
     def _execution_fence(self):
         if self.store.one('core_meta','cloud.shadow_runtime') and not self._offline_subject_fixture():

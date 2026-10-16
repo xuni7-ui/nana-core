@@ -1,0 +1,29 @@
+{
+  "scope": "OFFLINE_ONLY",
+  "files": {
+    "PROJECT_BRAIN/11_CHANGELOG.md": "5c5892bb7343c963225dd49553894221b3bc1cc72e09046d3281d5787b8a30c8",
+    "src/nana_core/actions.py": "d242dbc5bb8b358a16726d1f0ad3f5401c7d5c057009dfe1174bfc38bba77680",
+    "src/nana_core/continuity/agency.py": "2b40233116d8be4fc3e27bee7501d99c4a5d6d5750524439eb84a5bce2828bfa",
+    "src/nana_core/continuity/agency_contracts.py": "5de8eed6c4a4e5b2e5e33b44b448a3d5b0724c782ef3d3d89057d5dc3c5079c0",
+    "src/nana_core/continuity/autonomy/fixture_effects.py": "9f2c5c6b7ac5b48f97cdd5f09a0674d3a3efcfa5baf74385c05e34f6b0b32284",
+    "src/nana_core/continuity/autonomy/realization.py": "9f3d144cb17875c2557fd9059794d5d6d3fd896a00bbda0b5fe4f347f416c5c0",
+    "src/nana_core/continuity/learning.py": "8eb86929b4f065bf83e886860fec1a2072d57b94eaec699c819c196bc0fe108d",
+    "src/nana_core/continuity/open_agency/__init__.py": "e1146113798e2875fa1c8ebaba57416cd0e67e0285b358a6e6815ce328877f0d",
+    "src/nana_core/continuity/open_agency/contracts.py": "3842c0c89918e830fb9d378d5600fba744ddbb350cdc6fe2e6e50214acdcfdb1",
+    "src/nana_core/continuity/open_agency/delivery.py": "baed7420742939193cec59e70b7467e993edaea658e66090ac6ada37bf7614fe",
+    "src/nana_core/continuity/open_agency/planning.py": "f980a5b39fcbff93b4e8d0c8b9e0782ffae47c2bb5b8f654af24570cdb3207f0",
+    "src/nana_core/continuity/open_agency/service.py": "baabfb9d6e8dc8c446b9cdffb9413622fabfb2e21c35c7fa9da8996b4864d7eb",
+    "src/nana_core/continuity/open_agency/world.py": "6db100f459a338c8eef97cd1170c73a640963f7c8f0083a1eebd8e2e64d5e0ac",
+    "src/nana_core/continuity/portable.py": "9dbb8d75bc8343e36c889764243f28084541552eab8dcc5e4cf2d6f05c861442",
+    "src/nana_core/continuity/subject/loop.py": "327d5c9ddc490054aa0c5695668f795cfc55fbc8709fdc253e2bf8ad100991d9",
+    "src/nana_core/continuity/subject/policy.py": "898819ec6849ac724daeec0805a3132c7cfe9a9c0dacac98a9de8667bbe041b4",
+    "src/nana_core/presence/contracts.py": "4824af32641df8ff1cf10b6843e60ec5cd9d268df776817d04e6ed6c37d08b9a",
+    "src/nana_core/presence/living.py": "23848f6c89f6ac53699efd7f28fedda1b5420f16967fe34020136b9618bedd03",
+    "src/nana_core/storage/development_schema.py": "885b9e2069b064a439ae5ea8c5d030a6a7b2e90c0d9aa590132369a806f5404e",
+    "src/nana_core/storage/schema_v12.sql": "7ff68121382adb70f8c755b3333982ca8651b3820c605548fad28bc680ee92b4",
+    "tests/open_autonomy/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/open_autonomy/helpers.py": "d098afb648a8018ea1bac1cbf31aaaf8d71b08eea040539e98fa59843c3bc200",
+    "tests/open_autonomy/test_delivery.py": "3e1ee22165d1ee4aa274eade3fe18231ebaae0f8c9f64e2329406a37036273a4",
+    "tests/open_autonomy/test_planning.py": "eeb09eb98405bfe8ae720b7343448806ce7c20f04215e62e2ed6f70f8712b8ac"
+  }
+}

@@ -19,6 +19,13 @@ from .learning import ExperienceService,ExperienceInput
 
 def step_view(store,reference,*,scope,privacy_classes):
     if store.schema_target<11:raise CoreError('LIVING_SCHEMA_REQUIRED')
+    if store.schema_target>=12:
+        row=store.one('jobs',reference.work_id)
+        if row and row['record_id']:
+            payload=RecordService(store).read(row['record_id'])['payload']
+            if payload.get('format')=='OPEN_PLAN_V1':
+                from .open_agency.service import open_step_view
+                return open_step_view(store,reference,scope=scope,privacy_classes=privacy_classes)
     work=store.one('jobs',reference.work_id);records=RecordService(store)
     if not work or work['work_kind']!='GOAL' or work['revision']!=reference.revision or work['cursor']!=reference.cursor or work['state'] not in {'WAITING','RUNNING','PAUSED','UNKNOWN'}:
         raise CoreError('STALE_GOAL_STEP')

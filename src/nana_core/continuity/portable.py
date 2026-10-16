@@ -48,7 +48,7 @@ class SubjectPackageManifest(DTO):
     identity_id: str
     identity_revision: int = Field(ge=1)
     source_commit: str = Field(pattern=r'^[0-9a-f]{40}$')
-    source_schema: int = Field(ge=7,le=11)
+    source_schema: int = Field(ge=7,le=12)
     export_event_cutoff: int = Field(ge=1)
     exported_at_us: int = Field(ge=0)
     epoch_floor: int = Field(ge=0)

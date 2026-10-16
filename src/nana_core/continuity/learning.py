@@ -46,7 +46,15 @@ class InteractionQualityCheck(DTO):
     passed: bool
 
 
-Verification = Annotated[LocalQualityCheck | InteractionQualityCheck | DispositionQualityCheck,Field(discriminator='check')]
+class StructuredQualityCheck(DTO):
+    check: Literal['STRUCTURED_EXPECTATION'] = 'STRUCTURED_EXPECTATION'
+    result_memory_id: str
+    result_artifact_digest: str
+    expected_digest: str
+    passed: bool
+
+
+Verification = Annotated[LocalQualityCheck | InteractionQualityCheck | DispositionQualityCheck | StructuredQualityCheck,Field(discriminator='check')]
 CHECKS = TypeAdapter(Verification)
 
 
@@ -105,6 +113,18 @@ class ExperienceService:
             memory_type=MemoryType.EPISODIC, epistemic_kind="OBSERVATION", source_evidence_id=source,
             text=check.model_dump_json(), confidence=1.0, derived_from=(result_memory_id,)))
 
+    def verify_structured_result(self,result_memory_id,expected_digest,authority):
+        self._operator(authority)
+        if self.store.schema_target<12:raise CoreError('OPEN_AGENCY_SCHEMA_REQUIRED')
+        result=self.records.memory.read(result_memory_id)
+        actual=json.loads(result['text'])
+        check=StructuredQualityCheck(result_memory_id=result_memory_id,
+            result_artifact_digest=digest(self.store.artifact(result['payload_artifact_id'])),
+            expected_digest=expected_digest,passed=digest(actual.get('data'))==expected_digest)
+        now=self.store.clock.utc_now_us()
+        eid=self.records.memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.structured-check',source_reference=result_memory_id,source_kind='SYSTEM_VERIFICATION'),text=check.model_dump_json(),privacy_class=result['privacy_class'],observed_time_us=now))
+        return self.records.memory.add(MemoryCandidate(entity_id=result['entity_id'],scope=result['scope'],memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',source_evidence_id=eid,text=check.model_dump_json(),derived_from=(result_memory_id,),confidence=1.))
+
     def _interaction_outcome(self,result):
         source=self.records.memory.evidence(result['source_evidence_id'])
         if source['source_kind']!='DIRECT_OBSERVATION' or result['epistemic_kind']!='OBSERVATION':
@@ -149,6 +169,8 @@ class ExperienceService:
             passed = type(actual) is dict and type(actual.get("locator")) is str and bool(actual["locator"].strip())
             if candidate.task_class!='reading_card' or check.passed != passed or check.missing_field != (None if passed else "locator"):
                 raise CoreError("EXPERIENCE_VERIFICATION_MISMATCH")
+        elif isinstance(check,StructuredQualityCheck):
+            if self.store.schema_target<12 or source['source_namespace']!='synthetic.structured-check' or check.passed!=(digest(actual.get('data'))==check.expected_digest):raise CoreError('EXPERIENCE_VERIFICATION_MISMATCH')
         elif isinstance(check,InteractionQualityCheck):
             outcome=self._interaction_outcome(result)
             if candidate.task_class!='interaction.shared_discovery' or check.proposal_intention_id!=outcome.proposal_intention_id or check.reaction!=outcome.reaction or check.passed!=(outcome.reaction=='POSITIVE_PLAYFUL'):

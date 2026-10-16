@@ -15,6 +15,10 @@ class LivingWork:
     def configure_agency(self,policy,port):
         r=self.runtime
         self.agency=AgencyService(r.store,r.subject,r.authority,policy,port,step_interval_us=r.config.living.step_interval_us)
+    def configure_open_agency(self,policy,port):
+        from ..continuity.open_agency.service import OpenAgencyService
+        r=self.runtime
+        self.agency=OpenAgencyService(r.store,r.subject,r.authority,policy,port,step_interval_us=r.config.living.step_interval_us)
     def after_cycle(self,cycle,event):
         if not cycle:return None
         if cycle.relational_decision and self.accommodation_policy:

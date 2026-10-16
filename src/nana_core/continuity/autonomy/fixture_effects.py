@@ -15,6 +15,10 @@ class OfflineEffectPort:
         body=self._load();body['workflow_fixture']=True
         body.setdefault('source_fixtures',{})[resource]={'text':text,'locator':locator}
         self._save(body)
+    def seed_observation(self,resource,data):
+        from ..open_agency.world import LocalWorldRegistry,bounded_data
+        LocalWorldRegistry().validate('world.observe',resource,{})
+        bounded_data(data);body=self._load();body.setdefault('observables',{})[resource]=data;self._save(body)
     def __init__(self,identity_id,world_path):
         self.identity_id=identity_id;self.path=Path(world_path)
         if not self.path.name.endswith('.fixture.json'):raise CoreError('OFFLINE_FIXTURE_PATH_REQUIRED')
@@ -40,6 +44,9 @@ class OfflineEffectPort:
             if os.path.exists(tmp):os.unlink(tmp)
 
     def _valid(self,inv):
+        if inv.capability.startswith('world.'):
+            from ..open_agency.world import LocalWorldRegistry
+            LocalWorldRegistry().validate(inv.capability,inv.resource,inv.args);return
         if inv.capability not in {'reading.source.read','reading.source.locate','reading.card.create'} or not re.fullmatch(r'synthetic://[A-Za-z0-9/._:-]{1,160}',inv.resource):raise CoreError('OFFLINE_RESOURCE_DENIED')
         if 'source_id' in inv.args and not re.fullmatch(r'synthetic://[A-Za-z0-9/._:-]{1,160}',inv.args['source_id']):raise CoreError('OFFLINE_SOURCE_DENIED')
 
@@ -48,6 +55,12 @@ class OfflineEffectPort:
         if old:
             if old['args_hash']!=inv.args_hash:raise CoreError('OFFLINE_EFFECT_COLLISION')
             return Receipt(external_id=inv.idempotency_key,result=old['result'])
+        if inv.capability.startswith('world.'):
+            from ..open_agency.world import execute_world
+            result=execute_world(self,inv)
+            body['effects'][inv.idempotency_key]={'args_hash':inv.args_hash,'resource':inv.resource,'result':result}
+            body['resources'][inv.resource]=result;self._save(body)
+            return Receipt(external_id=inv.idempotency_key,result=result)
         result={'text':inv.args.get('content','A supplied fictional observation'),'resource':inv.resource,'fixture':True}
         if body.get('workflow_fixture'):
             if inv.capability=='reading.card.create':

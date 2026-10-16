@@ -1299,3 +1299,14 @@ nana_e1e6_open_autonomy_v1_implementation.md: explicit12 multi-goal, bounded gen
 planning, delivery admission, independent learning, sandboxed code skill lifecycle,
 existing Runtime/Kernel/privacy/portable/frontend reuse. bwrap namespace probe PASS;
 no credentials/real endpoint used, no push. Implementation not yet qualified.
+
+### E1–E6 M1 — bounded open planning and independent delivery admission
+
+[源码/离线实测] Explicit12 removes only opt-in one_live_goal and adds goal priority,
+deadline, parent/dependency and service-time metadata; default7/8/11 preserved.
+Bounded generic operator planner validates references/preconditions/schema, same
+C per-step judgment and sealed world Registry through existing governed Kernel.
+Two persistent numeric/language goals interleave and reopen; six fixture Actions
+verified. Social intent can remain endorsed while recipient admission defers BUSY;
+no Grant/action from desire. Targeted7 PASS (new4 + inherited agency3).
+No real endpoint/model/data/production; no push. Learning/code qualification pending.

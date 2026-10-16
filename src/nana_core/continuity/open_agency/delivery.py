@@ -1,0 +1,67 @@
+"""Admission is a separate realization consideration, never a social drive."""
+import json
+from typing import Literal
+from pydantic import Field
+from ...contracts import DTO,CoreError
+from ...storage import canonical,digest
+from ..records import RecordService
+from .world import URI
+
+class RecipientState(DTO):
+    resource: str = Field(pattern=URI)
+    entity_id: str
+    availability: Literal['AVAILABLE','BUSY','UNKNOWN']
+    observed_at_us: int = Field(ge=0)
+    expires_at_us: int = Field(ge=0)
+    permitted_privacy: tuple[Literal['PUBLIC','PROJECT','PERSONAL'],...] = ('PUBLIC',)
+
+class DeliveryPolicy(DTO):
+    recipients: tuple[str,...] = Field(max_length=16)
+    privacy_classes: tuple[Literal['PUBLIC','PROJECT','PERSONAL'],...] = ('PUBLIC',)
+    quiet_start_utc_hour: int = Field(default=23,ge=0,le=23)
+    quiet_end_utc_hour: int = Field(default=7,ge=0,le=23)
+    admission_us: int = Field(default=30000000,ge=100000,le=60000000)
+
+class DeliveryAdmission:
+    def __init__(self,store,policy,*,scopes,privacy_classes):
+        self.store,self.policy=store,policy;self.scopes,self.privacy=tuple(scopes),tuple(privacy_classes);self.records=RecordService(store)
+    def _recipient(self,resource,scope):
+        for row in self.store.db.execute("SELECT * FROM memories WHERE scope=? AND predicate_key=? AND lifecycle='ACTIVE' AND assessment IN ('CURRENT','UNASSESSED') ORDER BY created_at_us DESC LIMIT 16",(scope,'recipient.'+digest(resource)[:32])):
+            if row['privacy_class'] not in self.privacy:continue
+            item=self.records.memory.read(row['memory_id'])
+            if item['authority']!='DIRECT':continue
+            try:state=RecipientState.model_validate_json(item['text'])
+            except ValueError:continue
+            if state.resource==resource and state.entity_id==item['entity_id']:return row['memory_id'],state
+        return None,None
+    def _quiet(self):
+        from datetime import datetime,timezone
+        hour=datetime.fromtimestamp(self.store.clock.utc_now_us()/1e6,tz=timezone.utc).hour
+        start,end=self.policy.quiet_start_utc_hour,self.policy.quiet_end_utc_hour
+        return start<=hour<end if start<end else hour>=start or hour<end if start>end else False
+    def assess(self,cycle,resource):
+        if not cycle.intention_id or not cycle.evaluation or cycle.evaluation.normative!='ENDORSED':raise CoreError('ENDORSED_SOCIAL_INTENTION_REQUIRED')
+        event=self.store.one('subject_events',cycle.event_id);scope=event['scope']
+        if scope not in self.scopes or cycle.intention.kind not in {'SOCIAL_INTERACTION','ACTION_PROPOSAL'}:raise CoreError('DELIVERY_SCOPE_DENIED')
+        mid,state=self._recipient(resource,scope);now=self.store.clock.utc_now_us()
+        code='ELIGIBLE'
+        if resource not in self.policy.recipients:code='DENY_RECIPIENT'
+        elif not mid or state.observed_at_us>now or state.expires_at_us<=now:code='UNKNOWN_AVAILABILITY'
+        elif state.availability!='AVAILABLE':code='DEFER_BUSY' if state.availability=='BUSY' else 'UNKNOWN_AVAILABILITY'
+        elif self._quiet():code='DEFER_QUIET_WINDOW'
+        parent=self.records.read(cycle.record_id)
+        if parent['privacy_class'] not in self.policy.privacy_classes or (state and parent['privacy_class'] not in state.permitted_privacy):code='DENY_PRIVACY'
+        key=digest([cycle.cycle_id,resource,mid,code])
+        old=self.store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='DELIVERY_DECISION' AND target_id=?",(key,)).fetchone()
+        if old:return {'record_id':old[0],**self.records.read(old[0])['payload']}
+        body={'intention_id':cycle.intention_id,'resource':resource,'result':code,'recipient_memory_id':mid,'expires_at_us':min(now+self.policy.admission_us,state.expires_at_us) if state else now,'authority_granted':False}
+        with self.store.transaction('open.delivery_assessed',{'intention_id':cycle.intention_id,'result':code}) as tx:
+            rid=self.records.create(tx,kind='DELIVERY_DECISION',scope=scope,payload=body,records=(cycle.record_id,),memories=(mid,) if mid else (),target_id=key)
+        return {'record_id':rid,**body}
+    def require(self,rid,resource):
+        if not rid:raise CoreError('DELIVERY_ADMISSION_REQUIRED')
+        record=self.records.read(rid);body=record['payload'];now=self.store.clock.utc_now_us()
+        if record['record_kind']!='DELIVERY_DECISION' or record['scope'] not in self.scopes or record['privacy_class'] not in self.privacy or not self.records.current_support(rid):raise CoreError('DELIVERY_ADMISSION_RETIRED')
+        mid,state=self._recipient(resource,record['scope'])
+        if body['result']!='ELIGIBLE' or body['resource']!=resource or body['expires_at_us']<=now or self._quiet() or mid!=body['recipient_memory_id'] or not state or state.availability!='AVAILABLE' or state.expires_at_us<=now:raise CoreError('DELIVERY_ADMISSION_STALE')
+        return True

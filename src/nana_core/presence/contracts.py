@@ -33,7 +33,7 @@ class LivingRuntimeConfig(DTO):
     step_interval_us: int = Field(default=SECOND,ge=100_000)
 
 class RuntimeConfig(DTO):
-    schema_target: Literal[8,9,10,11] = 8
+    schema_target: Literal[8,9,10,11,12] = 8
     living: LivingRuntimeConfig | None = None
     domain: Literal['SYNTHETIC_ONLY'] = 'SYNTHETIC_ONLY'
     scopes: tuple[str, ...] = Field(min_length=1,max_length=16)

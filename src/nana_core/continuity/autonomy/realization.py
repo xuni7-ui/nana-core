@@ -7,10 +7,13 @@ from .governance import ManagerConstraintGate
 from .fixture_effects import OfflineEffectPort
 
 class GovernedRealization:
-    def __init__(self,store,port,authority):
+    def __init__(self,store,port,authority,*,registry=None):
         if store.schema_target<9 or type(port) is not OfflineEffectPort:raise CoreError('OFFLINE_REALIZATION_ONLY')
         self.store,self.gate=store,ManagerConstraintGate(store)
-        self.kernel=ActionKernel(store,port,authority)
+        if registry is not None:
+            from ..open_agency.world import LocalWorldRegistry
+            if store.schema_target<12 or type(registry) is not LocalWorldRegistry:raise CoreError('SEALED_WORLD_REGISTRY_REQUIRED')
+        self.kernel=ActionKernel(store,port,authority,registry=registry)
 
     @contextmanager
     def _guard(self,outcome):
@@ -27,7 +30,7 @@ class GovernedRealization:
         outcome=self.gate.gate(intention_id,expected_revision=expected_revision)
         if outcome.result!='PASS':return outcome,None
         if outcome.target.resource_class!='ORDINARY':raise CoreError('REALIZATION_RESOURCE_HARD_DENY')
-        operation='WRITE' if outcome.target.capability=='reading.card.create' else 'READ'
+        operation=('CONTACT' if outcome.target.capability=='world.contact' else 'WRITE' if self.kernel.registry.is_write(outcome.target.capability) else 'READ') if self.kernel.registry else ('WRITE' if outcome.target.capability=='reading.card.create' else 'READ')
         if outcome.target.operation!=operation:raise CoreError('REALIZATION_OPERATION_MISMATCH')
         try:
             with self._guard(outcome):

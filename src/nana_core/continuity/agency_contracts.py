@@ -7,7 +7,7 @@ from .autonomy.contracts import RealizationTarget
 class GoalStepRef(DTO):
     work_id: str
     revision: int = Field(ge=1)
-    cursor: int = Field(ge=0,le=8)
+    cursor: int = Field(ge=0,le=32)
 
 class PlanStepView(DTO):
     reference: GoalStepRef
