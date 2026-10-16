@@ -98,7 +98,10 @@ class CognitionCoordinator:
             tx.put('runtime_cognition_calls',{'call_id':call_id,'queue_id':row['queue_id'],
                 'provider':self.model_kind,'state':'RESERVED','owner_epoch':self.lease.epoch,'reserved_units':1,
                 'input_bytes':None,'output_bytes':None,'actual_tokens':None,'actual_cost_micro':None,
-                'started_at_us':now,'finished_at_us':None})
+                'started_at_us':now,'finished_at_us':None,**({'lane':'FOREGROUND' if row['event_type']=='USER_EVENT' else 'BACKGROUND',
+                    'reserved_bytes':self.config.living.call_reserved_bytes if self.config.living else 0,
+                    'reserved_cost_micro':self.config.living.call_estimated_cost_micro if self.config.living else 0,
+                    'accounting':'ESTIMATED_UPPER_BOUND'} if self.store.schema_target>=11 else {})})
         return call_id
 
     def port(self,call_id):
@@ -107,16 +110,16 @@ class CognitionCoordinator:
             # Operational byte accounting must not change cognitive state stamp.
             self.store.db.execute('UPDATE runtime_cognition_calls SET input_bytes=?,output_bytes=? WHERE call_id=? AND state=?',
                 (input_bytes,output_bytes,call_id,'RESERVED'))
-        return SupervisedModelPort(self.model_kind,self.config.model_timeout_seconds,self.lease.heartbeat,usage)
+        return SupervisedModelPort(self.model_kind,self.config.model_timeout_seconds,getattr(self,'progress',self.lease.heartbeat),usage)
 
     def finish(self,call_id,state):
-        if state not in {'SUCCEEDED','FAILED','TIMED_OUT'}:raise CoreError('RUNTIME_CALL_TRANSITION_INVALID')
+        if state not in ({'SUCCEEDED','FAILED','TIMED_OUT','CANCELLED'} if self.store.schema_target>=11 else {'SUCCEEDED','FAILED','TIMED_OUT'}):raise CoreError('RUNTIME_CALL_TRANSITION_INVALID')
         row=self.store.one('runtime_cognition_calls',call_id)
         if not row or row['state']!='RESERVED':raise CoreError('RUNTIME_CALL_TERMINAL')
         with self.store.transaction('runtime.cognition_finished') as tx:
             tx.update('runtime_cognition_calls',call_id,state=state,finished_at_us=self.store.clock.utc_now_us(),
                 actual_tokens=0,actual_cost_micro=0)  # registered fixtures ONLY, not provider billing
-        if state!='SUCCEEDED':
+        if state not in {'SUCCEEDED','CANCELLED'}:
             self.availability='DEGRADED'
             self.backoff_until=self.store.clock.utc_now_us()+self.config.cognition_backoff_us
         else:self.availability='AVAILABLE'

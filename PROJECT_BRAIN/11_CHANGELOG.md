@@ -1211,3 +1211,13 @@ Relational implementation/evidence and OSS9a9f8fe design reports carried forward
 without claiming fresh validation. Construction plan is in
  docs/nana_d2d7_living_autonomy_v1_implementation.md.
 No production/main/R045/real input/model/action; no push.
+
+### D2–D7 M1 — bounded preemptible cadence
+
+[离线实测] Added owner-thread bounded mailbox (durable ACK only after queue commit),
+condition-generation wait (no lost wake), deadline/heartbeat bounded adaptive idle,
+and safe-point preemption of background fixture cognition. Child process reaped;
+queue resumes without duplicating Subject cycle. Explicit11 extends existing
+jobs/record/call CHECKs/columns; no new business table. Default8 unchanged.
+Targeted cadence2 PASS. Historical docs/evidence from67326d1/9a9f8fe preserved
+with original provenance, not treated as this milestone's qualification.

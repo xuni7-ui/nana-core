@@ -1,0 +1,134 @@
+{
+  "cases": {
+    "S10_COMMITMENT_CONFLICT": {
+      "accommodating": "ACCEPT",
+      "high_seriousness": "NEGOTIATE",
+      "old_commitment_preserved": true,
+      "result": "PASS"
+    },
+    "S11_SELF_AUTHORSHIP_INFLUENCED": {
+      "authorship": "INFLUENCED",
+      "normative": "ENDORSED",
+      "result": "PASS"
+    },
+    "S12_MANAGER_DIFFERENCE": {
+      "manager": "MANAGER_BLOCKED",
+      "manager_operation": "CONTACT",
+      "original_normative": "ENDORSED",
+      "relational": "SUBJECT_ACCEPT",
+      "result": "PASS",
+      "same_domain": "SOCIAL_NEW_CONTACTS",
+      "same_statement_digest": "a29f7d1c5779ced7f21064f8848a8be7239ad0a460e1f8a8ee04e68b634fb47f"
+    },
+    "S13_RELATIONSHIP_NO_AUTHORITY": {
+      "action": "BLOCKED",
+      "deference": "STRONG",
+      "grant": "ABSENT",
+      "manager": "PASS",
+      "normative": "ENDORSED",
+      "result": "PASS"
+    },
+    "S14_PRIVACY_HARD": {
+      "result": "PASS",
+      "secret_body_reads": 0,
+      "secret_in_model_context": false
+    },
+    "S15_PERSONALITY_GROWTH": {
+      "one": "BOOTSTRAP",
+      "result": "PASS",
+      "two": "EVIDENCE"
+    },
+    "S16_PERSONALITY_COUNTEREVIDENCE": {
+      "basis": "CONTESTED",
+      "identity_unchanged": true,
+      "result": "PASS"
+    },
+    "S17_SELF_NARRATIVE": {
+      "assessment": "CONTESTED",
+      "is_policy": false,
+      "result": "PASS",
+      "semantic": "TENDENCY.RELATIONAL_ACCOMMODATION"
+    },
+    "S18_ANCHOR_REVISION": {
+      "after": "UNKNOWN",
+      "before": "STRONG",
+      "history_not_rewritten": true,
+      "result": "PASS"
+    },
+    "S19_OTHER_FRIENDS_GROW": {
+      "anchor_revision_unchanged": true,
+      "new_familiarity": "FAMILIAR",
+      "result": "PASS"
+    },
+    "S1_ANCHOR_ZERO_HISTORY": {
+      "anchor": true,
+      "result": "PASS",
+      "shared_history": 0,
+      "trust": "UNKNOWN"
+    },
+    "S20_TWO_PERSONALITIES": {
+      "choices": [
+        "ACCEPT",
+        "NEGOTIATE"
+      ],
+      "result": "PASS"
+    },
+    "S21_TWO_RELATIONSHIPS": {
+      "choices": [
+        "ACCEPT",
+        "NEGOTIATE"
+      ],
+      "result": "PASS"
+    },
+    "S22_DO_NOTHING": {
+      "appetite": "SEEKING",
+      "intention": "NO_ACTION",
+      "result": "PASS"
+    },
+    "S2_ANCHOR_SOCIAL_APPETITE": {
+      "appetite": "SEEKING",
+      "intention": "SOCIAL_INTERACTION",
+      "result": "PASS"
+    },
+    "S3_SHORT_TERM_ACCOMMODATION": {
+      "commitment": "ACTIVE",
+      "decision": "ACCEPT",
+      "result": "PASS",
+      "retained_desire": true,
+      "until": 1791849600000000
+    },
+    "S4_INDEFINITE_ISOLATION": {
+      "accommodating": "NEGOTIATE",
+      "firm": "DECLINE",
+      "result": "PASS"
+    },
+    "S5_HIGH_ACCOMMODATION": {
+      "decision": "ACCEPT",
+      "result": "PASS"
+    },
+    "S6_HIGH_SELF_DIRECTION": {
+      "decision": "NEGOTIATE",
+      "proposed_duration_us": 86400000000,
+      "result": "PASS"
+    },
+    "S7_NO_PERFORMATIVE_DEFIANCE": {
+      "appetite": "QUIET",
+      "consecutive_willing_choices": 3,
+      "forced_refusal": 0,
+      "result": "PASS"
+    },
+    "S8_NON_ANCHOR_CLOSE_RELATION": {
+      "auto_anchor": false,
+      "deference": "STRONG",
+      "result": "PASS"
+    },
+    "S9_DOMAIN_TRUST": {
+      "anchor_technical": "UNKNOWN",
+      "friend_technical": "SUPPORTED",
+      "global_people_ranking": false,
+      "result": "PASS"
+    }
+  },
+  "origin": "OFFLINE_SYNTHETIC",
+  "result": "PASS"
+}

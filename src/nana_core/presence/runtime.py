@@ -1,7 +1,6 @@
 """One standalone event-driven runtime schedules the existing C SubjectLoop."""
 import json
 from pathlib import Path
-import time
 from ..actions import OperatorAuthority
 from ..clock import Clock
 from ..contracts import CoreError
@@ -15,11 +14,14 @@ from .authority import RuntimeClock,RuntimeLease
 from .queue import EventQueue
 from .scheduler import Scheduler
 from .cognition import CognitionCoordinator
+from .cadence import Cadence,CognitionPreempted
 
 
 class NanaRuntime:
     def __init__(self,path,config:RuntimeConfig,*,clock=None):
         self.config,self.stopped,self.stop_requested=config,False,False
+        self.cadence=Cadence(config.queue_capacity,config.living.max_idle_seconds if config.living else config.poll_seconds)
+        self._processing=None
         self.store=ContinuityStore(path,clock or Clock(),schema_target=config.schema_target)
         try:
             old=self.store.one('runtime_lease',self.store.identity['identity_id'])
@@ -34,6 +36,7 @@ class NanaRuntime:
             self.queue=EventQueue(self.store,config,self.lease)
             self.scheduler=Scheduler(self.store,config,self.queue)
             self.cognition=CognitionCoordinator(self.store,config,self.lease)
+            self.cognition.progress=self._model_progress
             self.queue.recover()
             persisted=self.store.one('core_meta','runtime.health')
             self.oper=json.loads(persisted['value_json']) if persisted else {
@@ -75,9 +78,34 @@ class NanaRuntime:
                 interval_us=self.config.review_interval_us,event=event))
 
     def submit(self,event:RuntimeEvent):
+        self.cadence.assert_owner()
         result=self.queue.enqueue(event)
         self.next_scan_us=0
+        self.cadence.notify()
         return result
+
+    def post(self,event:RuntimeEvent):
+        """Thread-safe producer API; receipt is durable only after wait() succeeds."""
+        return self.cadence.post(event)
+
+    def request_stop(self):
+        self.stop_requested=True;self.cadence.notify()
+
+    def _model_progress(self):
+        self.lease.heartbeat();self.cadence.drain(self.submit)
+        row=self._processing
+        if self.stop_requested or (self.config.living and row and row['event_type']!='USER_EVENT' and self.queue.has_reactive()):
+            raise CognitionPreempted()
+
+    def next_wait_seconds(self):
+        now=self.clock.utc_now_us()
+        deadlines=[now+self.cadence.max_wait*1_000_000,now+self.config.heartbeat_us]
+        for table in ('runtime_queue','runtime_schedules'):
+            states="('READY','DEFERRED')" if table=='runtime_queue' else "('ACTIVE')"
+            due=self.store.db.execute(f'SELECT min(due_at_us) FROM {table} WHERE state IN {states}').fetchone()[0]
+            if due is not None:deadlines.append(max(now+10000,due))
+        idle=min(self.cadence.max_wait,self.config.poll_seconds*(2**min(self.cadence.idle_rounds,8)))
+        return max(.001,min(idle,(min(deadlines)-now)/1_000_000))
 
     def refresh_attention(self):
         self.lease.assert_current()
@@ -111,11 +139,14 @@ class NanaRuntime:
                     raise
 
     def step(self):
+        self.cadence.assert_owner();self.cadence.drain(self.submit)
         self.lease.heartbeat()
         self._watch_sources();self.scheduler.due()
         row=self.queue.claim()
         if row is None:
+            self.cadence.idle_rounds=min(8,self.cadence.idle_rounds+1)
             self._save_oper();return None
+        self.cadence.idle_rounds=0;self._processing=row
         self.oper['last_event']=row['queue_id'];self.oper['last_wake_us']=self.clock.utc_now_us()
         try:
             event=self.queue.input(row)
@@ -134,6 +165,10 @@ class NanaRuntime:
                     result=self.subject.cognize(event,model=self.cognition.port(call),authority=self.authority,policy=policy,
                         capabilities=self.config.capability_snapshot.capabilities,limitations=('NO_EXTERNAL_EXECUTION_IN_C_D',))
                     self.cognition.finish(call,'SUCCEEDED')
+                except CognitionPreempted:
+                    self.cognition.finish(call,'CANCELLED' if self.store.schema_target>=11 else 'FAILED')
+                    self.queue.finish(row,'DEFERRED','PREEMPTED_AT_NO_EFFECT_SAFE_POINT')
+                    return {'queue_id':row['queue_id'],'mode':'NO_COGNITION','reason':'PREEMPTED','cycle':None}
                 except TimeoutError:
                     self.cognition.finish(call,'TIMED_OUT')
                     result=self.subject.run(event)
@@ -160,6 +195,7 @@ class NanaRuntime:
             self.queue.finish(row,'IGNORED','SOURCE_RETIRED_OR_INVALID')
             self._save_oper()
             return {'queue_id':row['queue_id'],'mode':'NO_COGNITION','reason':'SOURCE_RETIRED_OR_INVALID','cycle':None}
+        finally:self._processing=None
 
     def drain(self,limit=256):
         results=[]
@@ -195,13 +231,18 @@ class NanaRuntime:
         deadline=None if max_seconds==0 else self.clock.monotonic_ns()+int(max_seconds*1_000_000_000)
         try:
             while not self.stop_requested and (deadline is None or self.clock.monotonic_ns()<deadline):
-                self.step()
-                time.sleep(self.config.poll_seconds)
+                stamp=self.cadence.stamp()
+                result=self.step()
+                if result is None:
+                    wait=self.next_wait_seconds()
+                    if deadline is not None:wait=min(wait,max(0,(deadline-self.clock.monotonic_ns())/1_000_000_000))
+                    self.cadence.wait(wait,stamp)
         finally:self.stop()
 
     def stop(self):
         if self.stopped:return
         self.stopped=True
+        self.cadence.close()
         try:
             try:self._save_oper()
             except CoreError:pass

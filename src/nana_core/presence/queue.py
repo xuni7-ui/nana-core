@@ -16,6 +16,9 @@ class EventQueue:
     def depth(self):
         return self.store.db.execute("SELECT count(*) FROM runtime_queue WHERE state IN ('READY','DEFERRED','PROCESSING')").fetchone()[0]
 
+    def has_reactive(self):
+        return bool(self.store.db.execute("SELECT 1 FROM runtime_queue WHERE state IN ('READY','DEFERRED') AND event_type='USER_EVENT' AND due_at_us<=? LIMIT 1",(self.store.clock.utc_now_us(),)).fetchone())
+
     def cause_memories(self, causes, scope):
         memories=[]
         for cause in causes:

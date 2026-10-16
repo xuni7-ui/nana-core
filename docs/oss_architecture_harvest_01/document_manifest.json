@@ -1,0 +1,110 @@
+{
+  "scope": "research deliverables only; self excluded; containing Git commit binds manifest",
+  "nana_base": "67326d195edd0693d41eacc63fcc00e1c3205bd6",
+  "files": {
+    "00_EXECUTIVE_SUMMARY.md": {
+      "sha256": "f811bc6c02d4aab4dda494a091a63e3c8231deb17912ed2fce95b34b426d82ca",
+      "bytes": 5657
+    },
+    "01_YURIOS_DEEP_DIVE.md": {
+      "sha256": "a32164f30e64483beb80c25d174b7d2a1504cb1d7d159a729fba0340268ceb69",
+      "bytes": 11962
+    },
+    "02_GRAPHITI_DEEP_DIVE.md": {
+      "sha256": "e9ac67a363c91740e89ec4308f3fc6ca7356286c38e147610cb6f7a82cffab68",
+      "bytes": 4922
+    },
+    "03_LETTA_DEEP_DIVE.md": {
+      "sha256": "a47c9015fa163048bf90b49f82ad4557207de3ab75cb1d2365348a5c685a4437",
+      "bytes": 4671
+    },
+    "04_MEM0_DEEP_DIVE.md": {
+      "sha256": "0a6cc19c5701231ba8622ce5418e831cc135627ed7c9c93951159803336b6d47",
+      "bytes": 3628
+    },
+    "05_DURABLE_RUNTIME_COMPARISON.md": {
+      "sha256": "1753350cd76001d1b2b70a74414bedbb7435edd9081d4551c6aeb7f981a7ee64",
+      "bytes": 7486
+    },
+    "06_MEMORY_COMPARISON.md": {
+      "sha256": "c942f60b94097e4f4fd4ea9ee0f61364730bd68c1b4fb559d6617222d47c94c8",
+      "bytes": 5796
+    },
+    "07_AUTONOMY_COMPARISON.md": {
+      "sha256": "5f03f8a228a41bab2209d1c2bde8fc1875da532db77348ada0545d098345959e",
+      "bytes": 2895
+    },
+    "08_COMPANION_RELATIONSHIP_SURVEY.md": {
+      "sha256": "899abefc2ea6397f959686c1ccaa3d0c6f7a94517a49a03050d7a7852a056b9c",
+      "bytes": 3245
+    },
+    "09_LICENSE_MATRIX.md": {
+      "sha256": "ba71854ccd76d6c88ab0f9b19b0515fef47a25a3bc3f12738f35ee530171b774",
+      "bytes": 5410
+    },
+    "10_ADOPTION_MAP.md": {
+      "sha256": "818c32b2913a20ee95bdd9a823c17ee0fc07a8216f6a9b8987b086ca85958f63",
+      "bytes": 42434
+    },
+    "11_NANA_LIVING_RUNTIME_V2_CONCEPT.md": {
+      "sha256": "1e6a9fe45166c1de4b3528f9bef78a804935fee19ac1ccbdb566aa0f4c32899c",
+      "bytes": 6388
+    },
+    "12_NANA_MEMORY_VNEXT_CONCEPT.md": {
+      "sha256": "2980bb25669f8bc262751ffad3074fe8bf2b5026c0345de24ba08cea2272f828",
+      "bytes": 3833
+    },
+    "13_FUTURE_EYES_HANDS_MAP.md": {
+      "sha256": "815a77de94037183a89a976b89eaeb74a8f543139f055e16aad0f770df68f36f",
+      "bytes": 3151
+    },
+    "14_REJECTED_PATTERNS.md": {
+      "sha256": "fe2bebb8dda8fe2e3beed8895259dbbd39000da5c2dbdecf32e59229ee132f3f",
+      "bytes": 2291
+    },
+    "15_OPEN_QUESTIONS.md": {
+      "sha256": "c90c2a34ad501437351f6c3466cd46865fe3f4a252bc2d1cf5103f0e2d5f284d",
+      "bytes": 2006
+    },
+    "16_PROJECT_DOSSIERS.md": {
+      "sha256": "d01e71cbb908a0b1638cfadafd25ce9a2f675ebce4b43f7045c81ea49740ab2e",
+      "bytes": 37210
+    },
+    "17_RESEARCH_VALIDATION.md": {
+      "sha256": "9d2463d0c254b54f608ebc410ff48ae7cc6c7d74512eed39e6311201cfcf96d0",
+      "bytes": 4970
+    },
+    "adoption_map.json": {
+      "sha256": "e9e05fd1ac7fb23b14fe5137baa7755188670a9ed90fda46552ed8252b9b92fc",
+      "bytes": 41464
+    },
+    "anima_tests.json": {
+      "sha256": "3ff26ae555336b0e79356b9396eb40bf4e44cfedd889c116bec175e6334bcbe8",
+      "bytes": 287
+    },
+    "anima_tests.txt": {
+      "sha256": "bd027ff6e865faa1d1d4a233d02f3c9f99e2c0e216c9c1071d049e5541142261",
+      "bytes": 1799
+    },
+    "research_anima_store_tests.py": {
+      "sha256": "b0470caa327af107c26c512b2ddb68cbdd0685c46a7fe19780e8e4185a1f5ffc",
+      "bytes": 1706
+    },
+    "research_semantic_probe.py": {
+      "sha256": "cee3fc7c2ff7ffc9c61ef9dc608ea14aa8f6692def4ebf538c4ff7e9e72f5f6c",
+      "bytes": 5924
+    },
+    "semantic_probes.json": {
+      "sha256": "c5031b7feb6fad55842c5c2042e426a38bafb68eb43a13125f5722bcb480264d",
+      "bytes": 1559
+    },
+    "sources_manifest.json": {
+      "sha256": "e6035eefc8d23e2669767cfee87fd7f202d6566000f5f1da36fe4f791b8c6caf",
+      "bytes": 78357
+    },
+    "validation.json": {
+      "sha256": "06aca51b099396ceb7c5285498042133b4ed8703eafb60b45cbe671ad386076a",
+      "bytes": 626
+    }
+  }
+}

@@ -73,7 +73,7 @@ def main():
             return
         if not 0<=args.max_seconds<=86400:raise CoreError('RUNTIME_DURATION_INVALID')
         with NanaRuntime(args.db,config) as runtime:
-            def stop(*unused):runtime.stop_requested=True
+            def stop(*unused):runtime.request_stop()
             signal.signal(signal.SIGTERM,stop);signal.signal(signal.SIGINT,stop)
             # run() owns final close; read health before closing only via status.
             runtime.run(args.max_seconds)

@@ -21,8 +21,20 @@ class CapabilitySnapshot(DTO):
     execution_authority: Literal[False] = False
 
 
+class LivingRuntimeConfig(DTO):
+    max_idle_seconds: float = Field(default=2,ge=.02,le=30)
+    maintenance_interval_us: int = Field(default=HOUR,ge=100_000)
+    slice_items: int = Field(default=4,ge=1,le=16)
+    max_model_bytes_per_day: int = Field(default=2_000_000,ge=0)
+    max_estimated_cost_micro_per_day: int = Field(default=100000,ge=0)
+    background_fraction_percent: int = Field(default=25,ge=0,le=90)
+    call_reserved_bytes: int = Field(default=229376,ge=1024,le=1048576)
+    call_estimated_cost_micro: int = Field(default=1000,ge=0)
+    step_interval_us: int = Field(default=SECOND,ge=100_000)
+
 class RuntimeConfig(DTO):
-    schema_target: Literal[8,9,10] = 8
+    schema_target: Literal[8,9,10,11] = 8
+    living: LivingRuntimeConfig | None = None
     domain: Literal['SYNTHETIC_ONLY'] = 'SYNTHETIC_ONLY'
     scopes: tuple[str, ...] = Field(min_length=1,max_length=16)
     entity_id: str = Field(pattern=r'^[A-Za-z0-9._:-]{1,128}$')
@@ -43,6 +55,7 @@ class RuntimeConfig(DTO):
 
     @model_validator(mode='after')
     def heartbeat_window(self):
+        if self.living and self.schema_target<11:raise ValueError('living runtime requires explicit development11')
         if self.heartbeat_us * 2 >= self.lease_us:
             raise ValueError('heartbeat must leave a lease safety margin')
         return self

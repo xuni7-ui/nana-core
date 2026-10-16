@@ -1,0 +1,8 @@
+Fresh explicit10 and7→10 /8→10 /9→10 PASS.
+39 existing business tables; schema10 new business tables0.
+Existing continuity_records/self_assertions CHECK rebuild, exact request identity index.
+IDs, C history and D runtime history preserved; foreign_key_check clean.
+Defaults C7/D8 and explicit AFFECT9 remain. Narrow shared privacy hardening is a security fix, not a default architecture change.
+Official backup/replay quarantine blocks runtime acquisition; managed erasure prevents old Anchor resurrection.
+Rollback: controlled pre-upgrade backup in quarantine, never lossy downgrade.
+No production Store migration run.

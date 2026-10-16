@@ -1,0 +1,55 @@
+{
+  "scope": "11 isolated semantic/abstract checks, including observed upstream failure-bookkeeping behavior; NOT upstream full suites; NOT Nana qualification",
+  "passed": 11,
+  "failed": 0,
+  "real_models": 0,
+  "production": 0,
+  "checks": [
+    {
+      "check": "Graphiti: future plan assertion starts at reference time",
+      "result": "PASS"
+    },
+    {
+      "check": "Graphiti: soft deadline is not fact invalidation",
+      "result": "PASS"
+    },
+    {
+      "check": "Graphiti: ongoing unavailability retains end",
+      "result": "PASS"
+    },
+    {
+      "check": "Graphiti: completed event date stays distinct",
+      "result": "PASS"
+    },
+    {
+      "check": "Graphiti: naive UTC is assumed, not rejected",
+      "result": "PASS"
+    },
+    {
+      "check": "YuriOS: quiet hours veto decided interruption",
+      "result": "PASS"
+    },
+    {
+      "check": "YuriOS: daily cap veto decided interruption",
+      "result": "PASS"
+    },
+    {
+      "check": "YuriOS: decided open-window line is suggestion",
+      "result": "PASS"
+    },
+    {
+      "check": "YuriOS: low worthiness remains silent",
+      "result": "PASS"
+    },
+    {
+      "check": "Abstract effect-before-checkpoint crash/retry duplicates effect (not a framework test)",
+      "result": "PASS"
+    },
+    {
+      "check": "YuriOS pinned DREAM: generic utility failure returns no facts but marks day processed",
+      "result": "PASS"
+    }
+  ],
+  "dependencies": "stdlib only; selected reviewed AST nodes, no upstream package imports",
+  "framework_services_started": 0
+}

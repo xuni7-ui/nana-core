@@ -1,0 +1,22 @@
+test_archive_then_purge (reviewed_anima_store_tests.StoreTest.test_archive_then_purge) ... ok
+test_cluster_groups_similar (reviewed_anima_store_tests.StoreTest.test_cluster_groups_similar) ... ok
+test_consolidated_episodics_fade_faster (reviewed_anima_store_tests.StoreTest.test_consolidated_episodics_fade_faster) ... ok
+test_cosine_basics (reviewed_anima_store_tests.StoreTest.test_cosine_basics) ... ok
+test_decay_monotonic (reviewed_anima_store_tests.StoreTest.test_decay_monotonic) ... ok
+test_duplicate_memory_reinforces_not_duplicates (reviewed_anima_store_tests.StoreTest.test_duplicate_memory_reinforces_not_duplicates) ... ok
+test_goals (reviewed_anima_store_tests.StoreTest.test_goals) ... ok
+test_importance_boosts_rank (reviewed_anima_store_tests.StoreTest.test_importance_boosts_rank) ... ok
+test_importance_slows_decay (reviewed_anima_store_tests.StoreTest.test_importance_slows_decay) ... ok
+test_persistence_across_reopen (reviewed_anima_store_tests.StoreTest.test_persistence_across_reopen) ... ok
+test_recall_excludes_archived (reviewed_anima_store_tests.StoreTest.test_recall_excludes_archived) ... ok
+test_recall_ranks_by_relevance (reviewed_anima_store_tests.StoreTest.test_recall_ranks_by_relevance) ... ok
+test_recall_recency_breaks_ties (reviewed_anima_store_tests.StoreTest.test_recall_recency_breaks_ties) ... ok
+test_recall_reinforces (reviewed_anima_store_tests.StoreTest.test_recall_reinforces) ... ok
+test_rehearsal_slows_decay (reviewed_anima_store_tests.StoreTest.test_rehearsal_slows_decay) ... ok
+test_self_model_versioning (reviewed_anima_store_tests.StoreTest.test_self_model_versioning) ... ok
+test_stats (reviewed_anima_store_tests.StoreTest.test_stats) ... ok
+
+----------------------------------------------------------------------
+Ran 17 tests in 0.014s
+
+OK

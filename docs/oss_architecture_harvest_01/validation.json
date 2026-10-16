@@ -1,0 +1,19 @@
+{
+  "required_files": "PASS",
+  "project_snapshots_verified": 15,
+  "source_hashes_verified": 110,
+  "source_citation_paths": "PASS",
+  "adoption_records": 32,
+  "license_code_borrow": 0,
+  "syntax_research_scripts": "PASS",
+  "secret_pattern_scan": "PASS (bounded pattern scan, not proof all possible secrets absent)",
+  "artifact_scan": "PASS",
+  "business_source_schema_tests_dependency_drift": 0,
+  "models": 0,
+  "production_changes": 0,
+  "private_memory_reads": 0,
+  "semantics_checks_passed": 11,
+  "anima_store_tests_passed": 17,
+  "upstream_full_suites": "NOT_RUN",
+  "nana_full_regression": "NOT_RERUN_DOCS_ONLY"
+}

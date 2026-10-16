@@ -1,0 +1,51 @@
+{
+  "checks": [
+    {
+      "foreign_key_check": "clean",
+      "from": 7,
+      "identity_ids_history_preserved": true,
+      "result": "PASS",
+      "runtime_history_preserved": true,
+      "table_count": 39,
+      "to": 10
+    },
+    {
+      "foreign_key_check": "clean",
+      "from": 8,
+      "identity_ids_history_preserved": true,
+      "result": "PASS",
+      "runtime_history_preserved": true,
+      "table_count": 39,
+      "to": 10
+    },
+    {
+      "foreign_key_check": "clean",
+      "from": 9,
+      "identity_ids_history_preserved": true,
+      "result": "PASS",
+      "runtime_history_preserved": true,
+      "table_count": 39,
+      "to": 10
+    },
+    {
+      "no_deleted_anchor_resurrection": true,
+      "quarantined": true,
+      "restore": "backup",
+      "result": "PASS"
+    },
+    {
+      "no_deleted_anchor_resurrection": true,
+      "quarantined": true,
+      "restore": "replay",
+      "result": "PASS"
+    }
+  ],
+  "defaults": {
+    "AFFECT": 9,
+    "C": 7,
+    "D": 8,
+    "relational": "explicit10"
+  },
+  "new_business_tables": 0,
+  "result": "PASS"
+}

@@ -1,0 +1,2146 @@
+{
+  "task": "OSS-ARCH-HARVEST-01",
+  "captured_at_utc": "2026-10-16T15:38:52.914803+00:00",
+  "nana_reference_requested": {
+    "branch": "dev/nana-core-affective-autonomy-v1-codex",
+    "head": "e26288e8ffcc1697b1a1f86b55f304b76d9b04ed"
+  },
+  "nana_actual_base": {
+    "branch": "dev/nana-core-relational-autonomy-v1-codex",
+    "head": "67326d195edd0693d41eacc63fcc00e1c3205bd6",
+    "research_branch": "dev/nana-core-oss-architecture-harvest-01",
+    "followup_state": "Relational offline READY per PROJECT_BRAIN; no real verification inferred"
+  },
+  "methodology": {
+    "priority": [
+      "fixed current source",
+      "tests",
+      "normative spec",
+      "issue/PR",
+      "README",
+      "marketing"
+    ],
+    "read_scope": "Selected mechanisms/line ranges, not exhaustive whole repositories; no line-coverage metric. README-only current Letta entry is NOT counted deep read. Missing/renamed paths disclosed.",
+    "deep_read_definition": "multiple mechanism source paths plus relevant test assertions inspected; no claim full suite executed",
+    "clones": "shallow public clones outside Nana; no install, no models, no service start",
+    "negative_claims": "UNKNOWN or absent-in-selected-tree does not prove absent in whole ecosystem",
+    "license": "root/selected notices initial review only; no upstream code incorporated"
+  },
+  "stats": {
+    "repos_reviewed": 14,
+    "pinned_snapshots": 15,
+    "repos_deep_read": 7,
+    "deep_read_projects": [
+      "yuri-os/YuriOS",
+      "getzep/graphiti",
+      "letta-ai/letta-code",
+      "mem0ai/mem0",
+      "langchain-ai/langgraph",
+      "shuaiyuan17/tomo",
+      "huodebing-alt/anima"
+    ],
+    "external_files_inspected": 98,
+    "source_files_read": 75,
+    "test_files_read": 19,
+    "nana_files_inspected": 12,
+    "adoption_mechanisms": 32,
+    "borrow_code": 0
+  },
+  "repositories": [
+    {
+      "repo": "yuri-os/YuriOS",
+      "sha": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "commit_time": "2026-10-09T11:49:22+09:00",
+      "license": "Apache-2.0",
+      "label": "yuri-os/YuriOS",
+      "scope": "current pinned snapshot",
+      "public_url": "https://github.com/yuri-os/YuriOS",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4",
+          "bytes": 11357,
+          "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/LICENSE"
+        },
+        {
+          "path": "THIRD_PARTY_NOTICES.md",
+          "sha256": "623ec3e1f877aa7b60f6a3e8523fd5bedd3fb624fbdd06f00be5195c7762036f",
+          "bytes": 2187,
+          "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/THIRD_PARTY_NOTICES.md"
+        }
+      ]
+    },
+    {
+      "repo": "getzep/graphiti",
+      "sha": "d50741d1bf463cbe3859eb73914cbff1b66839e6",
+      "commit_time": "2026-10-15T19:00:06Z",
+      "license": "Apache-2.0",
+      "label": "getzep/graphiti",
+      "scope": "current pinned snapshot",
+      "public_url": "https://github.com/getzep/graphiti",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "2825300b20d7b951209835a4a331f29e24725a39d65168e4b831df53aa372650",
+          "bytes": 11325,
+          "url": "https://github.com/getzep/graphiti/blob/d50741d1bf463cbe3859eb73914cbff1b66839e6/LICENSE"
+        }
+      ]
+    },
+    {
+      "repo": "letta-ai/letta",
+      "sha": "5bcdd177d70fa2b31a754cfcd801e77b2e1ab16a",
+      "commit_time": "2026-09-10T10:59:06-07:00",
+      "license": "Apache-2.0",
+      "label": "letta-ai/letta",
+      "scope": "current pinned snapshot",
+      "public_url": "https://github.com/letta-ai/letta",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "984c6db99fc6609803108dfc196762118662cd94b82a456dd9217583f18f3612",
+          "bytes": 10759,
+          "url": "https://github.com/letta-ai/letta/blob/5bcdd177d70fa2b31a754cfcd801e77b2e1ab16a/LICENSE"
+        }
+      ]
+    },
+    {
+      "repo": "letta-ai/letta-code",
+      "sha": "1297870b0aa6662d6c70729d273f5073c1bcbdea",
+      "commit_time": "2026-10-15T22:24:29-07:00",
+      "license": "Apache-2.0",
+      "label": "letta-ai/letta-code",
+      "scope": "current pinned snapshot",
+      "public_url": "https://github.com/letta-ai/letta-code",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "036e78b9d7dd33ae5b378fdda973b4aad7901c8d8371a0ae40fae1f6659a89d0",
+          "bytes": 11092,
+          "url": "https://github.com/letta-ai/letta-code/blob/1297870b0aa6662d6c70729d273f5073c1bcbdea/LICENSE"
+        }
+      ]
+    },
+    {
+      "repo": "mem0ai/mem0",
+      "sha": "0724291bd864cf807e88ee8981c8226644e8fb42",
+      "commit_time": "2026-10-14T21:09:50+05:30",
+      "license": "Apache-2.0",
+      "label": "mem0ai/mem0",
+      "scope": "current pinned snapshot",
+      "public_url": "https://github.com/mem0ai/mem0",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "0bbcbe931c353293a2fafce08326181dfeea0e568c566afd4ce8337a70f5e219",
+          "bytes": 11349,
+          "url": "https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/LICENSE"
+        }
+      ]
+    },
+    {
+      "repo": "langchain-ai/langgraph",
+      "sha": "4e2dfe4a247abfc0d001f3ef8242cbbbba400d2c",
+      "commit_time": "2026-10-16T08:02:43-04:00",
+      "license": "MIT",
+      "label": "langchain-ai/langgraph",
+      "scope": "current pinned snapshot",
+      "public_url": "https://github.com/langchain-ai/langgraph",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "d9bb52f2e3540d60ff50d8f0f5b6ba649b7fd346948c4c3d086c8afb120763c7",
+          "bytes": 1072,
+          "url": "https://github.com/langchain-ai/langgraph/blob/4e2dfe4a247abfc0d001f3ef8242cbbbba400d2c/LICENSE"
+        }
+      ]
+    },
+    {
+      "repo": "temporalio/sdk-python",
+      "sha": "346d4dcd0863657c3a33283c952a296762059339",
+      "commit_time": "2026-10-15T21:21:12Z",
+      "license": "MIT",
+      "label": "temporalio/sdk-python",
+      "scope": "current pinned snapshot",
+      "public_url": "https://github.com/temporalio/sdk-python",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "d7706f28d144dabf07e4946553a4d117d1dab5cda6bf34a602959b4a2fa86b38",
+          "bytes": 1108,
+          "url": "https://github.com/temporalio/sdk-python/blob/346d4dcd0863657c3a33283c952a296762059339/LICENSE"
+        }
+      ]
+    },
+    {
+      "repo": "mindverse/Second-Me",
+      "sha": "d0e40251d9de61b3340b8d0d7d83150669f1885a",
+      "commit_time": "2025-09-19T11:31:40+08:00",
+      "license": "Apache-2.0",
+      "label": "mindverse/Second-Me",
+      "scope": "current pinned snapshot",
+      "public_url": "https://github.com/mindverse/Second-Me",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "e76682b62adf372eabe2290f7fb1867191d9db10b960c8b85803ced1dbad7f43",
+          "bytes": 11326,
+          "url": "https://github.com/mindverse/Second-Me/blob/d0e40251d9de61b3340b8d0d7d83150669f1885a/LICENSE"
+        }
+      ]
+    },
+    {
+      "repo": "AFK-surf/Comma",
+      "sha": "ba4f55db1bf038a9246a9f71a7b5059cd91853f1",
+      "commit_time": "2026-10-02T22:59:16+08:00",
+      "license": "AGPL-3.0-only",
+      "label": "AFK-surf/Comma",
+      "scope": "current pinned snapshot",
+      "public_url": "https://github.com/AFK-surf/Comma",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "0d96a4ff68ad6d4b6f1f30f713b18d5184912ba8dd389f86aa7710db079abcb0",
+          "bytes": 34523,
+          "url": "https://github.com/AFK-surf/Comma/blob/ba4f55db1bf038a9246a9f71a7b5059cd91853f1/LICENSE"
+        }
+      ]
+    },
+    {
+      "repo": "OpenHands/OpenHands",
+      "sha": "9d02893bc96aa256a4c0ece316bdb992247bc918",
+      "commit_time": "2026-10-16T20:58:14+07:00",
+      "license": "MIT",
+      "label": "OpenHands/OpenHands",
+      "scope": "current pinned snapshot",
+      "public_url": "https://github.com/OpenHands/OpenHands",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "e1d1fa9f3a8d7bef24449d488fcd8f00f8f272cac297bb9bed161eb6175b876a",
+          "bytes": 1096,
+          "url": "https://github.com/OpenHands/OpenHands/blob/9d02893bc96aa256a4c0ece316bdb992247bc918/LICENSE"
+        }
+      ]
+    },
+    {
+      "repo": "max286674-cpu/OpenWatari-Jarvis",
+      "sha": "b6a1924bc35daaf9520ac6e9fc8ee8c7ef7b4c10",
+      "commit_time": "2026-09-06T23:03:52+03:00",
+      "license": "MIT",
+      "label": "max286674-cpu/OpenWatari-Jarvis",
+      "scope": "current pinned snapshot",
+      "public_url": "https://github.com/max286674-cpu/OpenWatari-Jarvis",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "8091392ed2d2a1db5779f3b59cc7b3e9a9f1ec7b64bec9f54f0a8988b6bed40e",
+          "bytes": 1208,
+          "url": "https://github.com/max286674-cpu/OpenWatari-Jarvis/blob/b6a1924bc35daaf9520ac6e9fc8ee8c7ef7b4c10/LICENSE"
+        },
+        {
+          "path": "NOTICE",
+          "sha256": "57e52a50eb080286fa5ed1908c4d851fda160b5148b1c4c691ddd76ef5185b24",
+          "bytes": 1080,
+          "url": "https://github.com/max286674-cpu/OpenWatari-Jarvis/blob/b6a1924bc35daaf9520ac6e9fc8ee8c7ef7b4c10/NOTICE"
+        },
+        {
+          "path": "THIRD_PARTY_NOTICES.md",
+          "sha256": "b5b5d2ef92c626025545807bb3877ba988439f100a571f56579358eb635a17d6",
+          "bytes": 4572,
+          "url": "https://github.com/max286674-cpu/OpenWatari-Jarvis/blob/b6a1924bc35daaf9520ac6e9fc8ee8c7ef7b4c10/THIRD_PARTY_NOTICES.md"
+        },
+        {
+          "path": "ACCEPTABLE_USE.md",
+          "sha256": "599ec12356e8b76e2348057129771a29a0a7f14e6aa7c8e3c70af13853150754",
+          "bytes": 2909,
+          "url": "https://github.com/max286674-cpu/OpenWatari-Jarvis/blob/b6a1924bc35daaf9520ac6e9fc8ee8c7ef7b4c10/ACCEPTABLE_USE.md"
+        }
+      ]
+    },
+    {
+      "repo": "shuaiyuan17/tomo",
+      "sha": "a6ee1bec12bee2d59cd5015bf86208710aaf6915",
+      "commit_time": "2026-10-16T08:04:29-07:00",
+      "license": "MIT",
+      "label": "shuaiyuan17/tomo",
+      "scope": "current pinned snapshot",
+      "public_url": "https://github.com/shuaiyuan17/tomo",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "839282388305e2610eae1a87556843a2a810eb5ae75af529e7c6654f343a8a68",
+          "bytes": 1067,
+          "url": "https://github.com/shuaiyuan17/tomo/blob/a6ee1bec12bee2d59cd5015bf86208710aaf6915/LICENSE"
+        }
+      ]
+    },
+    {
+      "repo": "huodebing-alt/anima",
+      "sha": "ba215ce72bcaedd147d5d08de6e54555a62952c1",
+      "commit_time": "2026-07-11T18:41:08+08:00",
+      "license": "MIT",
+      "label": "huodebing-alt/anima",
+      "scope": "current pinned snapshot",
+      "public_url": "https://github.com/huodebing-alt/anima",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "9ed13b6577960d6d75a3a2423f20d68a68d2f3bf2159e5632ce77467a72db731",
+          "bytes": 1075,
+          "url": "https://github.com/huodebing-alt/anima/blob/ba215ce72bcaedd147d5d08de6e54555a62952c1/LICENSE"
+        }
+      ]
+    },
+    {
+      "repo": "letta-ai/letta",
+      "label": "letta-ai/letta-archive",
+      "sha": "56ba9c25552605eec89de8ed3dc6394b625c1993",
+      "commit_time": "2026-08-13T20:08:39-07:00",
+      "license": "Apache-2.0",
+      "scope": "HISTORICAL retired server archive",
+      "public_url": "https://github.com/letta-ai/letta",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "984c6db99fc6609803108dfc196762118662cd94b82a456dd9217583f18f3612",
+          "bytes": 10759,
+          "url": "https://github.com/letta-ai/letta/blob/56ba9c25552605eec89de8ed3dc6394b625c1993/LICENSE"
+        }
+      ]
+    },
+    {
+      "repo": "OpenHands/software-agent-sdk",
+      "label": "OpenHands/software-agent-sdk",
+      "sha": "12e967664c2353f4cb85dd27da04ade035ff078c",
+      "commit_time": "2026-10-16T09:13:44+02:00",
+      "license": "MIT",
+      "scope": "current pinned snapshot",
+      "public_url": "https://github.com/OpenHands/software-agent-sdk",
+      "notices": [
+        {
+          "path": "LICENSE",
+          "sha256": "14a9b631c658eee682c6c2973525fbdf808c3457176bc47513052c559cc5ce86",
+          "bytes": 1079,
+          "url": "https://github.com/OpenHands/software-agent-sdk/blob/12e967664c2353f4cb85dd27da04ade035ff078c/LICENSE"
+        }
+      ]
+    }
+  ],
+  "inspected_files": [
+    {
+      "project_snapshot": "AFK-surf/Comma",
+      "file": "systems/apps/salix_ifc/lib/salix_ifc/receipt.ex",
+      "sha256": "4ac748a9e2452d0eca9ced29cd064bcf471553045925b63f949c539c87d71066",
+      "inspected_ranges": [
+        [
+          1,
+          26
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "ba4f55db1bf038a9246a9f71a7b5059cd91853f1",
+      "url": "https://github.com/AFK-surf/Comma/blob/ba4f55db1bf038a9246a9f71a7b5059cd91853f1/systems/apps/salix_ifc/lib/salix_ifc/receipt.ex"
+    },
+    {
+      "project_snapshot": "AFK-surf/Comma",
+      "file": "systems/connector/salix-connect/connection_session.go",
+      "sha256": "dc7b735ad118151568d25768fd5adfd34949b23b6ec1e90a2a4875bf2981ad46",
+      "inspected_ranges": [
+        [
+          1,
+          100
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "ba4f55db1bf038a9246a9f71a7b5059cd91853f1",
+      "url": "https://github.com/AFK-surf/Comma/blob/ba4f55db1bf038a9246a9f71a7b5059cd91853f1/systems/connector/salix-connect/connection_session.go"
+    },
+    {
+      "project_snapshot": "AFK-surf/Comma",
+      "file": "systems/connector/salix-connect/device_access.go",
+      "sha256": "18ab18112f721d460d7125b944e826a94f0b2d9fe6ec19906c31d3b49ededb27",
+      "inspected_ranges": [
+        [
+          1,
+          145
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "ba4f55db1bf038a9246a9f71a7b5059cd91853f1",
+      "url": "https://github.com/AFK-surf/Comma/blob/ba4f55db1bf038a9246a9f71a7b5059cd91853f1/systems/connector/salix-connect/device_access.go"
+    },
+    {
+      "project_snapshot": "AFK-surf/Comma",
+      "file": "systems/connector/salix-connect/runtime_execution_admission_test.go",
+      "sha256": "cc0980d98b0f54133b6eb3b17bc47e917b97f96d09da8a87f37889328dfd4fcb",
+      "inspected_ranges": [
+        [
+          1,
+          85
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "ba4f55db1bf038a9246a9f71a7b5059cd91853f1",
+      "url": "https://github.com/AFK-surf/Comma/blob/ba4f55db1bf038a9246a9f71a7b5059cd91853f1/systems/connector/salix-connect/runtime_execution_admission_test.go"
+    },
+    {
+      "project_snapshot": "Nana",
+      "file": "src/nana_core/actions.py",
+      "sha256": "1df995a168b616d670104d78da48d82ed5ca4c9da6a479e68f9934a51dd31c1a",
+      "inspected_ranges": [
+        [
+          1,
+          80
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "67326d195edd0693d41eacc63fcc00e1c3205bd6",
+      "url": "https://github.com/xuni7-ui/nana-core/blob/67326d195edd0693d41eacc63fcc00e1c3205bd6/src/nana_core/actions.py"
+    },
+    {
+      "project_snapshot": "Nana",
+      "file": "src/nana_core/continuity/autonomy/governance.py",
+      "sha256": "224f76b373d8aa56daf09a2c6d693441900f24ef6e6a34afb02961dd8f8a257f",
+      "inspected_ranges": [
+        [
+          138,
+          222
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "67326d195edd0693d41eacc63fcc00e1c3205bd6",
+      "url": "https://github.com/xuni7-ui/nana-core/blob/67326d195edd0693d41eacc63fcc00e1c3205bd6/src/nana_core/continuity/autonomy/governance.py"
+    },
+    {
+      "project_snapshot": "Nana",
+      "file": "src/nana_core/continuity/context.py",
+      "sha256": "4b04b64d4894dea44a29ec6efe5a47923e317a1d44dc8b885650a131f1c6d036",
+      "inspected_ranges": [
+        [
+          165,
+          185
+        ],
+        [
+          211,
+          256
+        ],
+        [
+          343,
+          377
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "67326d195edd0693d41eacc63fcc00e1c3205bd6",
+      "url": "https://github.com/xuni7-ui/nana-core/blob/67326d195edd0693d41eacc63fcc00e1c3205bd6/src/nana_core/continuity/context.py"
+    },
+    {
+      "project_snapshot": "Nana",
+      "file": "src/nana_core/continuity/memory.py",
+      "sha256": "c909c7809b6c2d2a5e98587131aa3466f1c7a6b14958b438ef0e38c353dfe48e",
+      "inspected_ranges": [
+        [
+          188,
+          228
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "67326d195edd0693d41eacc63fcc00e1c3205bd6",
+      "url": "https://github.com/xuni7-ui/nana-core/blob/67326d195edd0693d41eacc63fcc00e1c3205bd6/src/nana_core/continuity/memory.py"
+    },
+    {
+      "project_snapshot": "Nana",
+      "file": "src/nana_core/continuity/privacy.py",
+      "sha256": "f7f3aa63ba540a6a2ec724f744dd99ff5deae649a887de9aa72ac08337f8a94b",
+      "inspected_ranges": [
+        [
+          1,
+          65
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "67326d195edd0693d41eacc63fcc00e1c3205bd6",
+      "url": "https://github.com/xuni7-ui/nana-core/blob/67326d195edd0693d41eacc63fcc00e1c3205bd6/src/nana_core/continuity/privacy.py"
+    },
+    {
+      "project_snapshot": "Nana",
+      "file": "src/nana_core/continuity/records.py",
+      "sha256": "629a324c1cadaebd9baa0b537d6a68d7cee0784b91279def81b02146ea5632e4",
+      "inspected_ranges": [
+        [
+          1,
+          70
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "67326d195edd0693d41eacc63fcc00e1c3205bd6",
+      "url": "https://github.com/xuni7-ui/nana-core/blob/67326d195edd0693d41eacc63fcc00e1c3205bd6/src/nana_core/continuity/records.py"
+    },
+    {
+      "project_snapshot": "Nana",
+      "file": "src/nana_core/continuity/relational/projections.py",
+      "sha256": "8679135265d8d33f56099b35c65538aca6012fa0a75d1d69d0ca21f182076e04",
+      "inspected_ranges": [
+        [
+          1,
+          75
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "67326d195edd0693d41eacc63fcc00e1c3205bd6",
+      "url": "https://github.com/xuni7-ui/nana-core/blob/67326d195edd0693d41eacc63fcc00e1c3205bd6/src/nana_core/continuity/relational/projections.py"
+    },
+    {
+      "project_snapshot": "Nana",
+      "file": "src/nana_core/presence/authority.py",
+      "sha256": "ebf7f1d91034ce3b8953f552e697ee04309b06bb2cfad80232073721fd381dff",
+      "inspected_ranges": [
+        [
+          48,
+          106
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "67326d195edd0693d41eacc63fcc00e1c3205bd6",
+      "url": "https://github.com/xuni7-ui/nana-core/blob/67326d195edd0693d41eacc63fcc00e1c3205bd6/src/nana_core/presence/authority.py"
+    },
+    {
+      "project_snapshot": "Nana",
+      "file": "src/nana_core/presence/cognition.py",
+      "sha256": "64c9c840c2cb3408c6cdec90cb55b8228390cc0b68176b1eebd9dd0bef79c8c9",
+      "inspected_ranges": [
+        [
+          70,
+          115
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "67326d195edd0693d41eacc63fcc00e1c3205bd6",
+      "url": "https://github.com/xuni7-ui/nana-core/blob/67326d195edd0693d41eacc63fcc00e1c3205bd6/src/nana_core/presence/cognition.py"
+    },
+    {
+      "project_snapshot": "Nana",
+      "file": "src/nana_core/presence/queue.py",
+      "sha256": "00e2eadab0b8a02759f3cacea3e2e2ef8ab20196e1c3ceeece9546235f02009f",
+      "inspected_ranges": [
+        [
+          104,
+          145
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "67326d195edd0693d41eacc63fcc00e1c3205bd6",
+      "url": "https://github.com/xuni7-ui/nana-core/blob/67326d195edd0693d41eacc63fcc00e1c3205bd6/src/nana_core/presence/queue.py"
+    },
+    {
+      "project_snapshot": "Nana",
+      "file": "src/nana_core/presence/runtime.py",
+      "sha256": "2bdc51e7b3e72b772cc9000e7138574ee4166e460288e471456ac4602ae5c1db",
+      "inspected_ranges": [
+        [
+          113,
+          164
+        ],
+        [
+          194,
+          211
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "67326d195edd0693d41eacc63fcc00e1c3205bd6",
+      "url": "https://github.com/xuni7-ui/nana-core/blob/67326d195edd0693d41eacc63fcc00e1c3205bd6/src/nana_core/presence/runtime.py"
+    },
+    {
+      "project_snapshot": "Nana",
+      "file": "src/nana_core/presence/scheduler.py",
+      "sha256": "5ed77e491e8fb5454f92dc13dfb29e062ed62dcead966659f93426a8207781e2",
+      "inspected_ranges": [
+        [
+          32,
+          67
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "67326d195edd0693d41eacc63fcc00e1c3205bd6",
+      "url": "https://github.com/xuni7-ui/nana-core/blob/67326d195edd0693d41eacc63fcc00e1c3205bd6/src/nana_core/presence/scheduler.py"
+    },
+    {
+      "project_snapshot": "OpenHands/OpenHands",
+      "file": "src/hooks/mutation/use-respond-to-confirmation.ts",
+      "sha256": "60deeb6d229bfd65a832e79f2d943f978d14d97dab4477811e8b1e162df8d640",
+      "inspected_ranges": [
+        [
+          1,
+          32
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "9d02893bc96aa256a4c0ece316bdb992247bc918",
+      "url": "https://github.com/OpenHands/OpenHands/blob/9d02893bc96aa256a4c0ece316bdb992247bc918/src/hooks/mutation/use-respond-to-confirmation.ts"
+    },
+    {
+      "project_snapshot": "OpenHands/software-agent-sdk",
+      "file": "openhands-sdk/openhands/sdk/conversation/event_store.py",
+      "sha256": "af721391c46a1979c45e0e414c45a82dfc42d8a92d62ac2ccea0242f725450b0",
+      "inspected_ranges": [
+        [
+          1,
+          130
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "12e967664c2353f4cb85dd27da04ade035ff078c",
+      "url": "https://github.com/OpenHands/software-agent-sdk/blob/12e967664c2353f4cb85dd27da04ade035ff078c/openhands-sdk/openhands/sdk/conversation/event_store.py"
+    },
+    {
+      "project_snapshot": "OpenHands/software-agent-sdk",
+      "file": "openhands-sdk/openhands/sdk/event/llm_convertible/action.py",
+      "sha256": "d3a6e8ba116595668ba3cc2bb667d8bdc1d39fdf935f36dbb83894dcbfcdf1d9",
+      "inspected_ranges": [
+        [
+          1,
+          110
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "12e967664c2353f4cb85dd27da04ade035ff078c",
+      "url": "https://github.com/OpenHands/software-agent-sdk/blob/12e967664c2353f4cb85dd27da04ade035ff078c/openhands-sdk/openhands/sdk/event/llm_convertible/action.py"
+    },
+    {
+      "project_snapshot": "OpenHands/software-agent-sdk",
+      "file": "openhands-sdk/openhands/sdk/security/confirmation_policy.py",
+      "sha256": "6ecac839fa3740e5cdc8aae6515cd0cf4ef4177c5b27bb99a7d593af844c765f",
+      "inspected_ranges": [
+        [
+          1,
+          61
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "12e967664c2353f4cb85dd27da04ade035ff078c",
+      "url": "https://github.com/OpenHands/software-agent-sdk/blob/12e967664c2353f4cb85dd27da04ade035ff078c/openhands-sdk/openhands/sdk/security/confirmation_policy.py"
+    },
+    {
+      "project_snapshot": "OpenHands/software-agent-sdk",
+      "file": "tests/sdk/security/test_confirmation_policy.py",
+      "sha256": "0cfe5cf0f1a9a42f7fa37e2de8388c132521c647a7a05b9ba45c61bbf79f6fd5",
+      "inspected_ranges": [
+        [
+          1,
+          65
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "12e967664c2353f4cb85dd27da04ade035ff078c",
+      "url": "https://github.com/OpenHands/software-agent-sdk/blob/12e967664c2353f4cb85dd27da04ade035ff078c/tests/sdk/security/test_confirmation_policy.py"
+    },
+    {
+      "project_snapshot": "getzep/graphiti",
+      "file": "graphiti_core/edges.py",
+      "sha256": "637732ae4291ca0e5b53e43dd92be6f46a91e352719cb7ea1570ebab7d5d0e33",
+      "inspected_ranges": [
+        [
+          258,
+          310
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "d50741d1bf463cbe3859eb73914cbff1b66839e6",
+      "url": "https://github.com/getzep/graphiti/blob/d50741d1bf463cbe3859eb73914cbff1b66839e6/graphiti_core/edges.py"
+    },
+    {
+      "project_snapshot": "getzep/graphiti",
+      "file": "graphiti_core/nodes.py",
+      "sha256": "47f191e927c467e97d5b80286b7cbe64365ab6d67a4734570d4019b61d775897",
+      "inspected_ranges": [
+        [
+          275,
+          320
+        ],
+        [
+          318,
+          348
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "d50741d1bf463cbe3859eb73914cbff1b66839e6",
+      "url": "https://github.com/getzep/graphiti/blob/d50741d1bf463cbe3859eb73914cbff1b66839e6/graphiti_core/nodes.py"
+    },
+    {
+      "project_snapshot": "getzep/graphiti",
+      "file": "graphiti_core/search/search_config.py",
+      "sha256": "43bbc500b16a814f88b0361b1a3cdc2e51f354807489eba73ca407a6c9352157",
+      "inspected_ranges": [
+        [
+          15,
+          100
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "d50741d1bf463cbe3859eb73914cbff1b66839e6",
+      "url": "https://github.com/getzep/graphiti/blob/d50741d1bf463cbe3859eb73914cbff1b66839e6/graphiti_core/search/search_config.py"
+    },
+    {
+      "project_snapshot": "getzep/graphiti",
+      "file": "graphiti_core/search/search_filters.py",
+      "sha256": "5112d9c57ae294a65d064723d3dcd718db01b8d71666db3946b231d02d490c0b",
+      "inspected_ranges": [
+        [
+          50,
+          83
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "d50741d1bf463cbe3859eb73914cbff1b66839e6",
+      "url": "https://github.com/getzep/graphiti/blob/d50741d1bf463cbe3859eb73914cbff1b66839e6/graphiti_core/search/search_filters.py"
+    },
+    {
+      "project_snapshot": "getzep/graphiti",
+      "file": "graphiti_core/search/search_helpers.py",
+      "sha256": "a2dcbe20754f7ffd07c57b121b1db588f30bf613000837040a676190696d9958",
+      "inspected_ranges": [
+        [
+          1,
+          72
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "d50741d1bf463cbe3859eb73914cbff1b66839e6",
+      "url": "https://github.com/getzep/graphiti/blob/d50741d1bf463cbe3859eb73914cbff1b66839e6/graphiti_core/search/search_helpers.py"
+    },
+    {
+      "project_snapshot": "getzep/graphiti",
+      "file": "graphiti_core/utils/datetime_utils.py",
+      "sha256": "ff641aed24fa2e04e08264d920faa2e66ec825a66abdd31cd10aa2a9779a89c6",
+      "inspected_ranges": [
+        [
+          1,
+          60
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "d50741d1bf463cbe3859eb73914cbff1b66839e6",
+      "url": "https://github.com/getzep/graphiti/blob/d50741d1bf463cbe3859eb73914cbff1b66839e6/graphiti_core/utils/datetime_utils.py"
+    },
+    {
+      "project_snapshot": "getzep/graphiti",
+      "file": "graphiti_core/utils/maintenance/edge_operations.py",
+      "sha256": "c98b606007d6490412c0fb3ec20482965a123a08987a7c1f48ae78ddeb718b75",
+      "inspected_ranges": [
+        [
+          715,
+          792
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "d50741d1bf463cbe3859eb73914cbff1b66839e6",
+      "url": "https://github.com/getzep/graphiti/blob/d50741d1bf463cbe3859eb73914cbff1b66839e6/graphiti_core/utils/maintenance/edge_operations.py"
+    },
+    {
+      "project_snapshot": "getzep/graphiti",
+      "file": "graphiti_core/utils/maintenance/temporal_edge_utils.py",
+      "sha256": "a86f7bc023e60c4a085677d589f9f183424eeb7324464149cddb344d052922fb",
+      "inspected_ranges": [
+        [
+          1,
+          96
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "d50741d1bf463cbe3859eb73914cbff1b66839e6",
+      "url": "https://github.com/getzep/graphiti/blob/d50741d1bf463cbe3859eb73914cbff1b66839e6/graphiti_core/utils/maintenance/temporal_edge_utils.py"
+    },
+    {
+      "project_snapshot": "getzep/graphiti",
+      "file": "tests/utils/maintenance/test_temporal_edge_utils.py",
+      "sha256": "f43e8efa86653bd007a6e01a66c1f984a3845d87a81cc5b2756800fa1ac8462c",
+      "inspected_ranges": [
+        [
+          1,
+          95
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "d50741d1bf463cbe3859eb73914cbff1b66839e6",
+      "url": "https://github.com/getzep/graphiti/blob/d50741d1bf463cbe3859eb73914cbff1b66839e6/tests/utils/maintenance/test_temporal_edge_utils.py"
+    },
+    {
+      "project_snapshot": "huodebing-alt/anima",
+      "file": "anima/agent.py",
+      "sha256": "b5490ce41ffe9d40efa64d887eab481c7b6f9c81456573c5bb4b51e248a0c7d9",
+      "inspected_ranges": [
+        [
+          275,
+          385
+        ],
+        [
+          201,
+          258
+        ],
+        [
+          387,
+          415
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "ba215ce72bcaedd147d5d08de6e54555a62952c1",
+      "url": "https://github.com/huodebing-alt/anima/blob/ba215ce72bcaedd147d5d08de6e54555a62952c1/anima/agent.py"
+    },
+    {
+      "project_snapshot": "huodebing-alt/anima",
+      "file": "anima/sleep.py",
+      "sha256": "bc40b09956f04b0e865885af10752b7104ff29a9d05aeb2852c2032923de3536",
+      "inspected_ranges": [
+        [
+          141,
+          170
+        ],
+        [
+          236,
+          270
+        ],
+        [
+          174,
+          235
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "ba215ce72bcaedd147d5d08de6e54555a62952c1",
+      "url": "https://github.com/huodebing-alt/anima/blob/ba215ce72bcaedd147d5d08de6e54555a62952c1/anima/sleep.py"
+    },
+    {
+      "project_snapshot": "huodebing-alt/anima",
+      "file": "anima/store.py",
+      "sha256": "df0609f0505181b56466513114eba9a59cdb61b0402412fef379c9dc0debcaaa",
+      "inspected_ranges": [
+        [
+          247,
+          303
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "ba215ce72bcaedd147d5d08de6e54555a62952c1",
+      "url": "https://github.com/huodebing-alt/anima/blob/ba215ce72bcaedd147d5d08de6e54555a62952c1/anima/store.py"
+    },
+    {
+      "project_snapshot": "huodebing-alt/anima",
+      "file": "tests/test_store.py",
+      "sha256": "92362829fb73b2c36cb1a9ac4fc6e7081fd575b2ef408cec3f7bec51c7280c4f",
+      "inspected_ranges": [
+        [
+          1,
+          100
+        ],
+        [
+          100,
+          213
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "ba215ce72bcaedd147d5d08de6e54555a62952c1",
+      "url": "https://github.com/huodebing-alt/anima/blob/ba215ce72bcaedd147d5d08de6e54555a62952c1/tests/test_store.py"
+    },
+    {
+      "project_snapshot": "langchain-ai/langgraph",
+      "file": "libs/langgraph/langgraph/func/__init__.py",
+      "sha256": "f07e4a9f9bac75e2b48ac987fb91ca8c13a0a3d40723aa1997840bcde56732b7",
+      "inspected_ranges": [
+        [
+          315,
+          359
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "4e2dfe4a247abfc0d001f3ef8242cbbbba400d2c",
+      "url": "https://github.com/langchain-ai/langgraph/blob/4e2dfe4a247abfc0d001f3ef8242cbbbba400d2c/libs/langgraph/langgraph/func/__init__.py"
+    },
+    {
+      "project_snapshot": "langchain-ai/langgraph",
+      "file": "libs/langgraph/langgraph/pregel/_loop.py",
+      "sha256": "757e7ed39181024fe6d45607ac9842d4d173fab13ce6449fdb0d85d602e75e52",
+      "inspected_ranges": [
+        [
+          1480,
+          1532
+        ],
+        [
+          1226,
+          1289
+        ],
+        [
+          1684,
+          1717
+        ],
+        [
+          1680,
+          1716
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "4e2dfe4a247abfc0d001f3ef8242cbbbba400d2c",
+      "url": "https://github.com/langchain-ai/langgraph/blob/4e2dfe4a247abfc0d001f3ef8242cbbbba400d2c/libs/langgraph/langgraph/pregel/_loop.py"
+    },
+    {
+      "project_snapshot": "langchain-ai/langgraph",
+      "file": "libs/langgraph/langgraph/pregel/main.py",
+      "sha256": "c96d4424e7a75388aef09afeaa8fcfe17c026e60dafca1331003775ca1bf0ffc",
+      "inspected_ranges": [
+        [
+          3065,
+          3083
+        ],
+        [
+          3539,
+          3554
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "4e2dfe4a247abfc0d001f3ef8242cbbbba400d2c",
+      "url": "https://github.com/langchain-ai/langgraph/blob/4e2dfe4a247abfc0d001f3ef8242cbbbba400d2c/libs/langgraph/langgraph/pregel/main.py"
+    },
+    {
+      "project_snapshot": "langchain-ai/langgraph",
+      "file": "libs/langgraph/langgraph/types.py",
+      "sha256": "062583a1c0af9833477935a9a78d336408cc9a33c425722a1191e000d032107a",
+      "inspected_ranges": [
+        [
+          40,
+          85
+        ],
+        [
+          105,
+          145
+        ],
+        [
+          90,
+          104
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "4e2dfe4a247abfc0d001f3ef8242cbbbba400d2c",
+      "url": "https://github.com/langchain-ai/langgraph/blob/4e2dfe4a247abfc0d001f3ef8242cbbbba400d2c/libs/langgraph/langgraph/types.py"
+    },
+    {
+      "project_snapshot": "langchain-ai/langgraph",
+      "file": "libs/langgraph/tests/test_pregel.py",
+      "sha256": "a324e247db206657ae65b9eff96bb502222e8d3885aeb94d1245966cfceaf15c",
+      "inspected_ranges": [
+        [
+          3280,
+          3330
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "4e2dfe4a247abfc0d001f3ef8242cbbbba400d2c",
+      "url": "https://github.com/langchain-ai/langgraph/blob/4e2dfe4a247abfc0d001f3ef8242cbbbba400d2c/libs/langgraph/tests/test_pregel.py"
+    },
+    {
+      "project_snapshot": "letta-ai/letta-archive",
+      "file": "letta/agents/letta_agent.py",
+      "sha256": "99c16e28049949f81d25d052acbe395ebb14e214f0ac804bec5c95b9884882a7",
+      "inspected_ranges": [
+        [
+          1576,
+          1658
+        ],
+        [
+          1870,
+          1920
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "56ba9c25552605eec89de8ed3dc6394b625c1993",
+      "url": "https://github.com/letta-ai/letta/blob/56ba9c25552605eec89de8ed3dc6394b625c1993/letta/agents/letta_agent.py"
+    },
+    {
+      "project_snapshot": "letta-ai/letta-archive",
+      "file": "letta/groups/sleeptime_multi_agent_v4.py",
+      "sha256": "5353ff0789688138d6cc846cadfc632aef2f2e9987bcb291751baf3644664b53",
+      "inspected_ranges": [
+        [
+          1,
+          115
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "56ba9c25552605eec89de8ed3dc6394b625c1993",
+      "url": "https://github.com/letta-ai/letta/blob/56ba9c25552605eec89de8ed3dc6394b625c1993/letta/groups/sleeptime_multi_agent_v4.py"
+    },
+    {
+      "project_snapshot": "letta-ai/letta-archive",
+      "file": "letta/schemas/memory.py",
+      "sha256": "febcd15fa5bad3e73a40d5229f75f747782f046c5e3f3c26b8f5c557403cc91c",
+      "inspected_ranges": [
+        [
+          1,
+          135
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "56ba9c25552605eec89de8ed3dc6394b625c1993",
+      "url": "https://github.com/letta-ai/letta/blob/56ba9c25552605eec89de8ed3dc6394b625c1993/letta/schemas/memory.py"
+    },
+    {
+      "project_snapshot": "letta-ai/letta-code",
+      "file": "src/agent/memory-conflict-repair.ts",
+      "sha256": "d45b77562bb6954e3d265a804803de32d424f6faf31b0c5940bc8ed109d9589e",
+      "inspected_ranges": [
+        [
+          150,
+          215
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "1297870b0aa6662d6c70729d273f5073c1bcbdea",
+      "url": "https://github.com/letta-ai/letta-code/blob/1297870b0aa6662d6c70729d273f5073c1bcbdea/src/agent/memory-conflict-repair.ts"
+    },
+    {
+      "project_snapshot": "letta-ai/letta-code",
+      "file": "src/agent/memory-filesystem.ts",
+      "sha256": "a2884fd2e467af615a7a56584ccf9df520e470c6eef39930a98ec7dc10bfe628",
+      "inspected_ranges": [
+        [
+          1,
+          125
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "1297870b0aa6662d6c70729d273f5073c1bcbdea",
+      "url": "https://github.com/letta-ai/letta-code/blob/1297870b0aa6662d6c70729d273f5073c1bcbdea/src/agent/memory-filesystem.ts"
+    },
+    {
+      "project_snapshot": "letta-ai/letta-code",
+      "file": "src/agent/memory-operation.ts",
+      "sha256": "ad2ed4fe2a5db068748ca653b7e9e94a337685f1d114ef3b6bbfef6d18ba514c",
+      "inspected_ranges": [
+        [
+          1,
+          59
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "1297870b0aa6662d6c70729d273f5073c1bcbdea",
+      "url": "https://github.com/letta-ai/letta-code/blob/1297870b0aa6662d6c70729d273f5073c1bcbdea/src/agent/memory-operation.ts"
+    },
+    {
+      "project_snapshot": "letta-ai/letta-code",
+      "file": "src/agent/memory-prompt.integration.test.ts",
+      "sha256": "11514b215a38696c2404a24b8064d5365ea12eaa9e4d43d7cd0ef3c68542b17e",
+      "inspected_ranges": [
+        [
+          1,
+          65
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "1297870b0aa6662d6c70729d273f5073c1bcbdea",
+      "url": "https://github.com/letta-ai/letta-code/blob/1297870b0aa6662d6c70729d273f5073c1bcbdea/src/agent/memory-prompt.integration.test.ts"
+    },
+    {
+      "project_snapshot": "letta-ai/letta-code",
+      "file": "src/agent/memory-worktree.ts",
+      "sha256": "5ec3f50a36dcffbe4318042db0420fb45966de129bf24e146d9f7559e3ce708d",
+      "inspected_ranges": [
+        [
+          1,
+          90
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "1297870b0aa6662d6c70729d273f5073c1bcbdea",
+      "url": "https://github.com/letta-ai/letta-code/blob/1297870b0aa6662d6c70729d273f5073c1bcbdea/src/agent/memory-worktree.ts"
+    },
+    {
+      "project_snapshot": "letta-ai/letta-code",
+      "file": "src/agent/prompts/memory_filesystem.mdx",
+      "sha256": "c0ccac8154b5cca6126a39e910f478691b11a8b14f1c8522eb2effc61bf43a2b",
+      "inspected_ranges": [
+        [
+          1,
+          6
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "1297870b0aa6662d6c70729d273f5073c1bcbdea",
+      "url": "https://github.com/letta-ai/letta-code/blob/1297870b0aa6662d6c70729d273f5073c1bcbdea/src/agent/prompts/memory_filesystem.mdx"
+    },
+    {
+      "project_snapshot": "letta-ai/letta-code",
+      "file": "src/agent/subagents/memory-worker.test.ts",
+      "sha256": "89547c836fc72c7e336b0c40fea90d9520bf5740bb1ac2b6105dd499fa68ec2a",
+      "inspected_ranges": [
+        [
+          1,
+          90
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "1297870b0aa6662d6c70729d273f5073c1bcbdea",
+      "url": "https://github.com/letta-ai/letta-code/blob/1297870b0aa6662d6c70729d273f5073c1bcbdea/src/agent/subagents/memory-worker.test.ts"
+    },
+    {
+      "project_snapshot": "letta-ai/letta-code",
+      "file": "src/agent/subagents/memory-worker.ts",
+      "sha256": "f6d3f588399c01afa6d39407df6cd0c8a467a034cb387bdaf4ab856c189fbab8",
+      "inspected_ranges": [
+        [
+          1,
+          110
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "1297870b0aa6662d6c70729d273f5073c1bcbdea",
+      "url": "https://github.com/letta-ai/letta-code/blob/1297870b0aa6662d6c70729d273f5073c1bcbdea/src/agent/subagents/memory-worker.ts"
+    },
+    {
+      "project_snapshot": "letta-ai/letta-code",
+      "file": "src/cli/helpers/post-turn-reflection.ts",
+      "sha256": "fd26c19d55f1dc74b23b477f0caf2b8ac2f4d2ae906d309d9d3a3afc71c873a8",
+      "inspected_ranges": [
+        [
+          1,
+          80
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "1297870b0aa6662d6c70729d273f5073c1bcbdea",
+      "url": "https://github.com/letta-ai/letta-code/blob/1297870b0aa6662d6c70729d273f5073c1bcbdea/src/cli/helpers/post-turn-reflection.ts"
+    },
+    {
+      "project_snapshot": "letta-ai/letta-code",
+      "file": "src/cron/scheduler.test.ts",
+      "sha256": "9b8c4ebb2beaf9f8571940929dac741e26271f8a980741faa5a0f8f1bb319e62",
+      "inspected_ranges": [
+        [
+          1,
+          65
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "1297870b0aa6662d6c70729d273f5073c1bcbdea",
+      "url": "https://github.com/letta-ai/letta-code/blob/1297870b0aa6662d6c70729d273f5073c1bcbdea/src/cron/scheduler.test.ts"
+    },
+    {
+      "project_snapshot": "letta-ai/letta-code",
+      "file": "src/cron/scheduler.ts",
+      "sha256": "e5123e4579e2ba9975470d3b78ed3424bd79275887cce09081f44fb83b19c198",
+      "inspected_ranges": [
+        [
+          1,
+          110
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "1297870b0aa6662d6c70729d273f5073c1bcbdea",
+      "url": "https://github.com/letta-ai/letta-code/blob/1297870b0aa6662d6c70729d273f5073c1bcbdea/src/cron/scheduler.ts"
+    },
+    {
+      "project_snapshot": "max286674-cpu/OpenWatari-Jarvis",
+      "file": "src/jarvis/edge/brain_bridge.py",
+      "sha256": "936e58353940ed7cf897608a0ecabeb7ca46f1ce51038cf68b5dafc3343a6229",
+      "inspected_ranges": [
+        [
+          1,
+          125
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "b6a1924bc35daaf9520ac6e9fc8ee8c7ef7b4c10",
+      "url": "https://github.com/max286674-cpu/OpenWatari-Jarvis/blob/b6a1924bc35daaf9520ac6e9fc8ee8c7ef7b4c10/src/jarvis/edge/brain_bridge.py"
+    },
+    {
+      "project_snapshot": "max286674-cpu/OpenWatari-Jarvis",
+      "file": "src/jarvis/edge/remote_brain.py",
+      "sha256": "e8c19a0117ed56b5c652c372e4d9b0becab0bffadf4bf94fdde9107d2733ccd7",
+      "inspected_ranges": [
+        [
+          1,
+          110
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "b6a1924bc35daaf9520ac6e9fc8ee8c7ef7b4c10",
+      "url": "https://github.com/max286674-cpu/OpenWatari-Jarvis/blob/b6a1924bc35daaf9520ac6e9fc8ee8c7ef7b4c10/src/jarvis/edge/remote_brain.py"
+    },
+    {
+      "project_snapshot": "max286674-cpu/OpenWatari-Jarvis",
+      "file": "src/jarvis/shared/protocol.py",
+      "sha256": "9f7a99e443cac4356aae8834a038f863db0ecbd4fde4a7227bae70723716f882",
+      "inspected_ranges": [
+        [
+          1,
+          65
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "b6a1924bc35daaf9520ac6e9fc8ee8c7ef7b4c10",
+      "url": "https://github.com/max286674-cpu/OpenWatari-Jarvis/blob/b6a1924bc35daaf9520ac6e9fc8ee8c7ef7b4c10/src/jarvis/shared/protocol.py"
+    },
+    {
+      "project_snapshot": "mem0ai/mem0",
+      "file": "mem0/memory/main.py",
+      "sha256": "f329ca4a17af1fbefb32ac10d4cc7ae7ddbdb7435a87eb74c30915cff98b8b7c",
+      "inspected_ranges": [
+        [
+          881,
+          924
+        ],
+        [
+          1015,
+          1138
+        ],
+        [
+          1975,
+          2007
+        ],
+        [
+          2052,
+          2152
+        ],
+        [
+          1420,
+          1455
+        ],
+        [
+          924,
+          1009
+        ],
+        [
+          427,
+          457
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "0724291bd864cf807e88ee8981c8226644e8fb42",
+      "url": "https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/mem0/memory/main.py"
+    },
+    {
+      "project_snapshot": "mem0ai/mem0",
+      "file": "tests/memory/test_decay_feature_notice.py",
+      "sha256": "36757bce7d6b2ed15a26b43fa76408b5e8a391af8f4f338a9aaa2c840c7fb132",
+      "inspected_ranges": [
+        [
+          1,
+          45
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "0724291bd864cf807e88ee8981c8226644e8fb42",
+      "url": "https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/tests/memory/test_decay_feature_notice.py"
+    },
+    {
+      "project_snapshot": "mem0ai/mem0",
+      "file": "tests/memory/test_session_scope.py",
+      "sha256": "af27ec9cb2d587ed5927a8a43f1e2179cd92501dff6815d1a5d30f29e0324276",
+      "inspected_ranges": [
+        [
+          1,
+          65
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "0724291bd864cf807e88ee8981c8226644e8fb42",
+      "url": "https://github.com/mem0ai/mem0/blob/0724291bd864cf807e88ee8981c8226644e8fb42/tests/memory/test_session_scope.py"
+    },
+    {
+      "project_snapshot": "mindverse/Second-Me",
+      "file": "lpm_kernel/L0/l0_generator.py",
+      "sha256": "6b3ae7265419972bf9bb5eb8dc3b32cbd55cde2b60f8792a5c575615a3d8edc0",
+      "inspected_ranges": [
+        [
+          1,
+          85
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "d0e40251d9de61b3340b8d0d7d83150669f1885a",
+      "url": "https://github.com/mindverse/Second-Me/blob/d0e40251d9de61b3340b8d0d7d83150669f1885a/lpm_kernel/L0/l0_generator.py"
+    },
+    {
+      "project_snapshot": "mindverse/Second-Me",
+      "file": "lpm_kernel/L1/l1_generator.py",
+      "sha256": "0b3ac8fd1c15f3f374f6c72f7ff512f7e7229d08929e50e752fc02dfdb8c086a",
+      "inspected_ranges": [
+        [
+          1,
+          85
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "d0e40251d9de61b3340b8d0d7d83150669f1885a",
+      "url": "https://github.com/mindverse/Second-Me/blob/d0e40251d9de61b3340b8d0d7d83150669f1885a/lpm_kernel/L1/l1_generator.py"
+    },
+    {
+      "project_snapshot": "mindverse/Second-Me",
+      "file": "lpm_kernel/L1/shade_generator.py",
+      "sha256": "6ac18b79682abe4ffe531474e8d1a68a9c45fc2e1f63d0b491e57c627a10651f",
+      "inspected_ranges": [
+        [
+          1,
+          110
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "d0e40251d9de61b3340b8d0d7d83150669f1885a",
+      "url": "https://github.com/mindverse/Second-Me/blob/d0e40251d9de61b3340b8d0d7d83150669f1885a/lpm_kernel/L1/shade_generator.py"
+    },
+    {
+      "project_snapshot": "mindverse/Second-Me",
+      "file": "lpm_kernel/L2/memory_manager.py",
+      "sha256": "376f9ac8f64c81dbc1ad8b2de596649c974745e9a49e49b7703c227ff1361c4a",
+      "inspected_ranges": [
+        [
+          1,
+          149
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "d0e40251d9de61b3340b8d0d7d83150669f1885a",
+      "url": "https://github.com/mindverse/Second-Me/blob/d0e40251d9de61b3340b8d0d7d83150669f1885a/lpm_kernel/L2/memory_manager.py"
+    },
+    {
+      "project_snapshot": "mindverse/Second-Me",
+      "file": "lpm_kernel/file_data/memory_service.py",
+      "sha256": "be1f1bba95baa8b631a2b73694a6e548f7c420e302c1de08fe28e5a32d0e1587",
+      "inspected_ranges": [
+        [
+          1,
+          160
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "d0e40251d9de61b3340b8d0d7d83150669f1885a",
+      "url": "https://github.com/mindverse/Second-Me/blob/d0e40251d9de61b3340b8d0d7d83150669f1885a/lpm_kernel/file_data/memory_service.py"
+    },
+    {
+      "project_snapshot": "mindverse/Second-Me",
+      "file": "lpm_kernel/models/memory.py",
+      "sha256": "4c2ca0ed986f804b2574c2c8c5c45ed3f89a5fc2bf4fe37f3e08e7133cdffacb",
+      "inspected_ranges": [
+        [
+          1,
+          51
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "d0e40251d9de61b3340b8d0d7d83150669f1885a",
+      "url": "https://github.com/mindverse/Second-Me/blob/d0e40251d9de61b3340b8d0d7d83150669f1885a/lpm_kernel/models/memory.py"
+    },
+    {
+      "project_snapshot": "shuaiyuan17/tomo",
+      "file": "defaults/CONTINUITY.md",
+      "sha256": "2feb4af4f0933f9f3c10b7f8fb7b5d5cf9d44422f6aa14b70470f967db4a823c",
+      "inspected_ranges": [
+        [
+          1,
+          35
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "a6ee1bec12bee2d59cd5015bf86208710aaf6915",
+      "url": "https://github.com/shuaiyuan17/tomo/blob/a6ee1bec12bee2d59cd5015bf86208710aaf6915/defaults/CONTINUITY.md"
+    },
+    {
+      "project_snapshot": "shuaiyuan17/tomo",
+      "file": "defaults/skills/lcm/DAILY.md",
+      "sha256": "08c5cbd65327c50ee01a67aed2372344128f82c5656b6595563382c31a73ef1f",
+      "inspected_ranges": [
+        [
+          1,
+          77
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "a6ee1bec12bee2d59cd5015bf86208710aaf6915",
+      "url": "https://github.com/shuaiyuan17/tomo/blob/a6ee1bec12bee2d59cd5015bf86208710aaf6915/defaults/skills/lcm/DAILY.md"
+    },
+    {
+      "project_snapshot": "shuaiyuan17/tomo",
+      "file": "src/cron/scheduler.ts",
+      "sha256": "9d2ba3b17deb2bd092e07377832764e0a2fba55573160e23b7692c9f04729f4d",
+      "inspected_ranges": [
+        [
+          1,
+          230
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "a6ee1bec12bee2d59cd5015bf86208710aaf6915",
+      "url": "https://github.com/shuaiyuan17/tomo/blob/a6ee1bec12bee2d59cd5015bf86208710aaf6915/src/cron/scheduler.ts"
+    },
+    {
+      "project_snapshot": "shuaiyuan17/tomo",
+      "file": "src/people.ts",
+      "sha256": "35e266203991a69c38ff9eefc114c73b0e9de0dba62f8ec004268a4fc9a3f4bd",
+      "inspected_ranges": [
+        [
+          1,
+          90
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "a6ee1bec12bee2d59cd5015bf86208710aaf6915",
+      "url": "https://github.com/shuaiyuan17/tomo/blob/a6ee1bec12bee2d59cd5015bf86208710aaf6915/src/people.ts"
+    },
+    {
+      "project_snapshot": "shuaiyuan17/tomo",
+      "file": "tests/cron-scheduler.test.ts",
+      "sha256": "0b8a4844afe6ce1300a172cb3e7fad8da1555a432848bcca22b3a69e01753d3b",
+      "inspected_ranges": [
+        [
+          410,
+          460
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "a6ee1bec12bee2d59cd5015bf86208710aaf6915",
+      "url": "https://github.com/shuaiyuan17/tomo/blob/a6ee1bec12bee2d59cd5015bf86208710aaf6915/tests/cron-scheduler.test.ts"
+    },
+    {
+      "project_snapshot": "shuaiyuan17/tomo",
+      "file": "tests/proactive-send.test.ts",
+      "sha256": "d1318e1bb99929c71a69824729dd2c23b75f1b0ff936c6301b95ea65469846a4",
+      "inspected_ranges": [
+        [
+          1,
+          80
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "a6ee1bec12bee2d59cd5015bf86208710aaf6915",
+      "url": "https://github.com/shuaiyuan17/tomo/blob/a6ee1bec12bee2d59cd5015bf86208710aaf6915/tests/proactive-send.test.ts"
+    },
+    {
+      "project_snapshot": "temporalio/sdk-python",
+      "file": "temporalio/common.py",
+      "sha256": "fb7b8febee5f8029342f6449761172c16bd372b58cfb7390d492b9fddd22c65c",
+      "inspected_ranges": [
+        [
+          37,
+          60
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "346d4dcd0863657c3a33283c952a296762059339",
+      "url": "https://github.com/temporalio/sdk-python/blob/346d4dcd0863657c3a33283c952a296762059339/temporalio/common.py"
+    },
+    {
+      "project_snapshot": "temporalio/sdk-python",
+      "file": "temporalio/workflow/_activities.py",
+      "sha256": "1aaa2ce887c0d819d37d23078c93f61e6894325caa5a4ba0d6baf9ce2b097ee8",
+      "inspected_ranges": [
+        [
+          482,
+          526
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "346d4dcd0863657c3a33283c952a296762059339",
+      "url": "https://github.com/temporalio/sdk-python/blob/346d4dcd0863657c3a33283c952a296762059339/temporalio/workflow/_activities.py"
+    },
+    {
+      "project_snapshot": "temporalio/sdk-python",
+      "file": "temporalio/workflow/_context.py",
+      "sha256": "36a8eb36139e8a071ce48b112c559a4c3dec0104d594fd9dd80bb1c1fdb251a3",
+      "inspected_ranges": [
+        [
+          1003,
+          1061
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "346d4dcd0863657c3a33283c952a296762059339",
+      "url": "https://github.com/temporalio/sdk-python/blob/346d4dcd0863657c3a33283c952a296762059339/temporalio/workflow/_context.py"
+    },
+    {
+      "project_snapshot": "temporalio/sdk-python",
+      "file": "temporalio/workflow/_handlers.py",
+      "sha256": "eb38214d70093cd3863663a5d1f81f8cfe299eb7c2d443fe214284d4ccb34fe5",
+      "inspected_ranges": [
+        [
+          98,
+          155
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "346d4dcd0863657c3a33283c952a296762059339",
+      "url": "https://github.com/temporalio/sdk-python/blob/346d4dcd0863657c3a33283c952a296762059339/temporalio/workflow/_handlers.py"
+    },
+    {
+      "project_snapshot": "temporalio/sdk-python",
+      "file": "temporalio/workflow/_workflow_ops.py",
+      "sha256": "9d3fb68da778db5966ce305fe31e78920e091100d8f94bee7e3c839adfc93cfa",
+      "inspected_ranges": [
+        [
+          826,
+          901
+        ],
+        [
+          1,
+          90
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "346d4dcd0863657c3a33283c952a296762059339",
+      "url": "https://github.com/temporalio/sdk-python/blob/346d4dcd0863657c3a33283c952a296762059339/temporalio/workflow/_workflow_ops.py"
+    },
+    {
+      "project_snapshot": "temporalio/sdk-python",
+      "file": "tests/test_activity.py",
+      "sha256": "1bd8ff484543b3e9b0870ac6fe14dfdbb424b7a51ac8ebc78d8dcd66fe05fa50",
+      "inspected_ranges": [
+        [
+          1,
+          55
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "346d4dcd0863657c3a33283c952a296762059339",
+      "url": "https://github.com/temporalio/sdk-python/blob/346d4dcd0863657c3a33283c952a296762059339/tests/test_activity.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "SPEC.md",
+      "sha256": "78fd943c1100beaa99eed2460cea60b269f6b7cacf6a8a0b5d7a2a2f412cc39b",
+      "inspected_ranges": [
+        [
+          1634,
+          1694
+        ],
+        [
+          2733,
+          2799
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/SPEC.md"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "tests/test_embed_off_loop.py",
+      "sha256": "c9238770b4e2a6587561de7b79967b1f52e1fa9db6a92240956ab830aa32389a",
+      "inspected_ranges": [
+        [
+          79,
+          135
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/tests/test_embed_off_loop.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "tests/test_events.py",
+      "sha256": "f17525fe93f76e9555599f8d2a46e9caeafe2bbc3738c45d76c4a8cac4c2bcbb",
+      "inspected_ranges": [
+        [
+          72,
+          110
+        ],
+        [
+          169,
+          183
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/tests/test_events.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "tests/test_journal_clock.py",
+      "sha256": "4ea7d2f62cccfa86e96785b21cb9fa3515b75fe7dd212218fb2907a547da0e2e",
+      "inspected_ranges": [
+        [
+          56,
+          97
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/tests/test_journal_clock.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "tests/test_memory_recall.py",
+      "sha256": "526f1236a96d4594373026ec51fb2612dc88b1ea6eaad39becee1159df84afaa",
+      "inspected_ranges": [
+        [
+          64,
+          128
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/tests/test_memory_recall.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "tests/test_mind_loop.py",
+      "sha256": "696ef7aa1f3ac62bde31bbd4b28d213bfd07344da3912a9cdb0d3c11e077c04d",
+      "inspected_ranges": [
+        [
+          46,
+          81
+        ],
+        [
+          225,
+          241
+        ],
+        [
+          648,
+          718
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/tests/test_mind_loop.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "tests/test_runtime_build.py",
+      "sha256": "b9c1bea7ebe8e332c45d7e61413a80e4b2a5af9cafbe86450562d2ba3f0576dc",
+      "inspected_ranges": [
+        [
+          165,
+          215
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/tests/test_runtime_build.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/app/core/assemble.py",
+      "sha256": "a5678bd97f53878da89d630963ed2a194d8047634f3e8b1e2b3e25d402c22fda",
+      "inspected_ranges": [
+        [
+          20,
+          125
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/app/core/assemble.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/app/memory/partner.py",
+      "sha256": "c13d64f50d43319a03525ea0ee4304e5d4f56b00e38d8e6a97244ac30518f995",
+      "inspected_ranges": [
+        [
+          1034,
+          1073
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/app/memory/partner.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/app/memory/store.py",
+      "sha256": "a2b10304f991aaed5740c19fe2cde166b92b2966bd395135457724fe211b157a",
+      "inspected_ranges": [
+        [
+          1,
+          220
+        ],
+        [
+          220,
+          537
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/app/memory/store.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/mind/acts.py",
+      "sha256": "3e284526e101921b7af206200d00087dc5bedd83c57cff49dfb97f35413fac9b",
+      "inspected_ranges": [
+        [
+          1,
+          90
+        ],
+        [
+          744,
+          850
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/mind/acts.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/mind/budget.py",
+      "sha256": "900708bbdd405705f48d0cdd874620c72c612ab76c0092e88b12d0d1d7c532b6",
+      "inspected_ranges": [
+        [
+          1,
+          66
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/mind/budget.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/mind/dream.py",
+      "sha256": "7cc1d5bcf7abb996c4ffa34381e7a432db862cdca057f6ac25d042a6468df2d2",
+      "inspected_ranges": [
+        [
+          1,
+          230
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/mind/dream.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/mind/dreamjobs/builtins.py",
+      "sha256": "96c89bc48a3224a0e28675953ca7e8791aa0a9bc14cca160f7e8f8f506101510",
+      "inspected_ranges": [
+        [
+          1,
+          90
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/mind/dreamjobs/builtins.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/mind/dreamjobs/context.py",
+      "sha256": "38ff2422eb7409e3b08af234dcd286e27375824def3adfdc8dce0ba49931f753",
+      "inspected_ranges": [
+        [
+          1,
+          78
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/mind/dreamjobs/context.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/mind/dreamjobs/research.py",
+      "sha256": "9db27a36ef3ca29330f7ee2b80aa26fe40b57a751a23ee0e767b853b9e326cb6",
+      "inspected_ranges": [
+        [
+          1,
+          85
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/mind/dreamjobs/research.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/mind/dreamjobs/runner.py",
+      "sha256": "58da47f7d8767cdac2809cacc524ab65b0ae47820203a05067d88de639d60fb8",
+      "inspected_ranges": [
+        [
+          1,
+          210
+        ],
+        [
+          282,
+          398
+        ],
+        [
+          398,
+          473
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/mind/dreamjobs/runner.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/mind/goals.py",
+      "sha256": "1cc92ab82413a4d66e2bb3dc10fc19f54880fc0d8a44cff9a8fb92793d7d8f4c",
+      "inspected_ranges": [
+        [
+          295,
+          410
+        ],
+        [
+          350,
+          410
+        ],
+        [
+          774,
+          865
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/mind/goals.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/mind/hands.py",
+      "sha256": "31e73183925079ae4b9ccd2deb590e7308017bfc9b93b7160f2042a31e7d1326",
+      "inspected_ranges": [
+        [
+          451,
+          669
+        ],
+        [
+          523,
+          668
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/mind/hands.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/mind/handwork.py",
+      "sha256": "87bda89c18a42b116e6400026d7868bd0ff3b902696f30849dbc002a76790388",
+      "inspected_ranges": [
+        [
+          117,
+          150
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/mind/handwork.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/mind/journal.py",
+      "sha256": "6616b224f36574be8ab8b5b0dd19ed78998047e11b9921c7df935c65dc267ebd",
+      "inspected_ranges": [
+        [
+          1,
+          112
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/mind/journal.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/mind/knowledge.py",
+      "sha256": "393c0874588dbd73f65bf7458a5f88c5a7d2e03445afc4a4f280ee8e5beb84bf",
+      "inspected_ranges": [
+        [
+          763,
+          859
+        ],
+        [
+          432,
+          480
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/mind/knowledge.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/mind/loop.py",
+      "sha256": "6eb1940777095ed49e44db05fa311e50b84e635819b0bc135309b186dc43f607",
+      "inspected_ranges": [
+        [
+          350,
+          710
+        ],
+        [
+          82,
+          150
+        ],
+        [
+          350,
+          444
+        ],
+        [
+          722,
+          856
+        ],
+        [
+          898,
+          940
+        ],
+        [
+          1006,
+          1044
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/mind/loop.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/mind/policy.py",
+      "sha256": "bc1a797326ceccda10cf7b4a5afad4d7d12f8da87561c50eafde1f08048fac0d",
+      "inspected_ranges": [
+        [
+          1,
+          234
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/mind/policy.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/mind/promptlog.py",
+      "sha256": "f574d84be804ad08a5de617f2a9f84d951b747c771030dfad25594f5ad9b3f2f",
+      "inspected_ranges": [
+        [
+          1,
+          85
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/mind/promptlog.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/mind/selfedit.py",
+      "sha256": "d15402c5c768e36d9761d12307d2122bdfa7567428016ec234006ae6155cbb8a",
+      "inspected_ranges": [
+        [
+          1,
+          110
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/mind/selfedit.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/mind/signals.py",
+      "sha256": "85dc0d39caed8bd9cb57b6701d62e7ee54ad137350f405554e09efe45c2d3b8c",
+      "inspected_ranges": [
+        [
+          1,
+          189
+        ],
+        [
+          95,
+          189
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/mind/signals.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/mind/trace.py",
+      "sha256": "5b983a94d9554776450744569c6ef47f4d6497aec1ac6fb8ba4ea75e9078f686",
+      "inspected_ranges": [
+        [
+          1,
+          37
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/mind/trace.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/mind/vaultio.py",
+      "sha256": "60a86d56c31f7f47f1ee2ef2d460fa305fd26a150acb592f0cd28b00c72522f8",
+      "inspected_ranges": [
+        [
+          1,
+          110
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/mind/vaultio.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/mind/world.py",
+      "sha256": "e73dc02f6e6b7608f4224466276af1b0119f6f82dec7b18a324df1258f96c098",
+      "inspected_ranges": [
+        [
+          120,
+          220
+        ],
+        [
+          40,
+          120
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/mind/world.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/world/brain.py",
+      "sha256": "0851a27b5f89660197808b8a2e037fb1493048e86f8f35d7aae5558734868dbe",
+      "inspected_ranges": [
+        [
+          655,
+          740
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/world/brain.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/world/runtime.py",
+      "sha256": "d4c61fa2cefce7cee295eb5d46640e2368a52bf7582773f84e81644ad63af847",
+      "inspected_ranges": [
+        [
+          1,
+          80
+        ],
+        [
+          145,
+          219
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/world/runtime.py"
+    },
+    {
+      "project_snapshot": "yuri-os/YuriOS",
+      "file": "yurios/world/turns.py",
+      "sha256": "a6a4f76aa12f8d1e9a506418671faeefd3393641789949bba990d333a56cc568",
+      "inspected_ranges": [
+        [
+          260,
+          364
+        ]
+      ],
+      "inspection": "selected source ranges; not whole-repository audit",
+      "source_commit": "cd4d1f16ae095f0f694dbbe7b1aac8e33db25367",
+      "url": "https://github.com/yuri-os/YuriOS/blob/cd4d1f16ae095f0f694dbbe7b1aac8e33db25367/yurios/world/turns.py"
+    }
+  ],
+  "path_resolutions": [
+    {
+      "requested": "YuriOS yurios/mind/dreamjobs.py",
+      "actual": "yurios/mind/dreamjobs/ package",
+      "status": "RENAMED_STRUCTURE"
+    },
+    {
+      "requested": "Letta current server source",
+      "actual": "current Code repository and historical pinned archive",
+      "status": "SEPARATED"
+    },
+    {
+      "requested": "tomo poster / curator / plan store",
+      "actual": "current cron scheduler, outbound service, LCM/workspace/people",
+      "status": "EXACT_OLD_SYMBOLS_NOT_VERIFIED"
+    },
+    {
+      "requested": "OpenWatari official upstream",
+      "actual": "max286674-cpu/OpenWatari-Jarvis public match",
+      "status": "UPSTREAM_AUTHORITY_UNKNOWN"
+    },
+    {
+      "requested": "Mem0 graph / Dream / Synthesis / Merge / Supersede",
+      "actual": "not located in reviewed OSS memory tree; reference_date and decay unsupported notices",
+      "status": "NOT_VERIFIED_IN_THIS_OSS_SNAPSHOT"
+    }
+  ],
+  "checks": {
+    "semantic": {
+      "scope": "11 isolated semantic/abstract checks, including observed upstream failure-bookkeeping behavior; NOT upstream full suites; NOT Nana qualification",
+      "passed": 11,
+      "failed": 0,
+      "real_models": 0,
+      "production": 0,
+      "checks": [
+        {
+          "check": "Graphiti: future plan assertion starts at reference time",
+          "result": "PASS"
+        },
+        {
+          "check": "Graphiti: soft deadline is not fact invalidation",
+          "result": "PASS"
+        },
+        {
+          "check": "Graphiti: ongoing unavailability retains end",
+          "result": "PASS"
+        },
+        {
+          "check": "Graphiti: completed event date stays distinct",
+          "result": "PASS"
+        },
+        {
+          "check": "Graphiti: naive UTC is assumed, not rejected",
+          "result": "PASS"
+        },
+        {
+          "check": "YuriOS: quiet hours veto decided interruption",
+          "result": "PASS"
+        },
+        {
+          "check": "YuriOS: daily cap veto decided interruption",
+          "result": "PASS"
+        },
+        {
+          "check": "YuriOS: decided open-window line is suggestion",
+          "result": "PASS"
+        },
+        {
+          "check": "YuriOS: low worthiness remains silent",
+          "result": "PASS"
+        },
+        {
+          "check": "Abstract effect-before-checkpoint crash/retry duplicates effect (not a framework test)",
+          "result": "PASS"
+        },
+        {
+          "check": "YuriOS pinned DREAM: generic utility failure returns no facts but marks day processed",
+          "result": "PASS"
+        }
+      ],
+      "dependencies": "stdlib only; selected reviewed AST nodes, no upstream package imports",
+      "framework_services_started": 0
+    },
+    "anima_upstream_store_suite": {
+      "suite": "huodebing-alt/anima tests/test_store.py",
+      "passed": 17,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 0.0141,
+      "network_calls": 0,
+      "LLM_calls": 0,
+      "guard": "socket connect + urllib urlopen reject; reviewed temp-store suite only",
+      "python": "3.12.14"
+    },
+    "nana_regression": "NOT_RERUN: no business/schema/test/config changes; previous 929/0/1 is historical baseline only",
+    "other_upstream_suites": "NOT_RUN",
+    "real_models": 0,
+    "production_changes": 0,
+    "private_data_reads": 0,
+    "real_external_actions": 0
+  }
+}

@@ -1,0 +1,21 @@
+{
+  "counterevidence": {
+    "basis": "CONTESTED",
+    "identity_unchanged": true,
+    "result": "PASS"
+  },
+  "delete_restart": "test_projections + SIGKILL C6 + full regression PASS",
+  "growth": {
+    "one": "BOOTSTRAP",
+    "result": "PASS",
+    "two": "EVIDENCE"
+  },
+  "is_policy": false,
+  "narrative": {
+    "assessment": "CONTESTED",
+    "is_policy": false,
+    "result": "PASS",
+    "semantic": "TENDENCY.RELATIONAL_ACCOMMODATION"
+  },
+  "result": "PASS"
+}

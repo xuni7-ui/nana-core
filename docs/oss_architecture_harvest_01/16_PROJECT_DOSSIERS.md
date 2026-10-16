@@ -1,0 +1,543 @@
+# Uniform project dossiers
+
+每项目相同字段；只回答已读snapshot，UNKNOWN不是未实现证明。模型调用/成本/承诺/社交问题分别落在COGNITION/RUNTIME/SCHEDULER/RELATIONSHIP/PRIMARY_GOAL，并在01–08展开。Apache/MIT许可不等于本轮借代码。
+
+## yuri-os/YuriOS
+
+- **PROJECT**: yuri-os/YuriOS
+- **COMMIT**: `cd4d1f16ae095f0f694dbbe7b1aac8e33db25367`
+- **LICENSE**: Apache-2.0
+- **ACTIVITY**: last observed commit `2026-10-09T11:49:22+09:00`; not a maintainer/SLA guarantee
+- **LANGUAGE**: Python
+- **PRIMARY_GOAL**: local-friendly always-on embodied companion
+- **ARCHITECTURE**: reactive ToolBrain + MindLoop sharing Vault/host surfaces
+- **STATE_AUTHORITY**: SOUL/USER/episodic/goals/world files; embedding cache derived
+- **RUNTIME_MODEL**: asyncio mind task plus direct conversation turns
+- **MEMORY_MODEL**: episodic files, partner ops/quarantine, facts, vector cache, knowledge shelf
+- **COGNITION_MODEL**: cheap APPRAISE, model in selected ACT; chat separate fast turn
+- **ACTION_MODEL**: Guard+MCP+audit+hands cap/switch; host realization
+- **CRASH_MODEL**: engine/bus_epoch persisted; arrival log NOT replayed; multi-file/effect transaction gaps
+- **SCHEDULER_MODEL**: Activity cadence+bus wake+timers+wakeups; one catchup signal
+- **OBSERVABILITY**: correlated journal/tick trace/tool audit/prompt log
+- **PRIVACY_MODEL**: vault/privacy surfaces; prompt logs contain raw context; forget keeps Git history
+- **RELATIONSHIP_MODEL**: USER partner topical narrative/phase; names are configurable
+- **PERSONALITY_MODEL**: SOUL high-risk proposal review; constitution readonly; low-risk auto memory writes
+- **STRONGEST_IDEA**: cheap quiet mind plus visible living journal and separate interruption gate
+- **WEAKEST_ASSUMPTION**: file/summary truth and multi-surface writes do not provide Nana evidence/erasure/fenced effect contracts
+- **BETTER_THAN_NANA_AT**: reactive cadence, maintenance UX, recall diversity, inspectability
+- **NANA_ALREADY_STRONGER_AT**: durable ingress/epoch, typed realization authority, deletion closure, independent growth evidence
+- **BORROW_PATTERN**: cadence, maintenance slices, act-vs-interrupt, correlated read views
+- **REJECT**: volatile arrival replay assumption, low-risk free selfedit, Git retention as delete
+- **FUTURE_STAGE**: background hands/resource split after E authority
+- **INTEGRATION_RISK**: HIGH if whole brain adopted; LOW/MEDIUM if D scheduling pattern only
+- **MIGRATION_COST**: MEDIUM independent rewrite
+- **EXPECTED_BENEFIT**: HIGH timeliness/cost/inspectability, not proven personality quality
+- **VERDICT**: BORROW_PATTERN
+- **BORROW_CODE**: NONE (no upstream implementation copied)
+- **BENCHMARK_ONLY**: real-model/performance comparison NOT_RUN; Mem0 is explicit future matched benchmark
+- **LICENSE_RISK**: LOW root-license pattern discussion; transitive/model/assets not cleared for code integration
+- **EVIDENCE**: exact source files/ranges/SHA256 in sources_manifest.json; conceptual/partial read breadth explicitly limited
+
+## getzep/graphiti
+
+- **PROJECT**: getzep/graphiti
+- **COMMIT**: `d50741d1bf463cbe3859eb73914cbff1b66839e6`
+- **LICENSE**: Apache-2.0
+- **ACTIVITY**: last observed commit `2026-10-15T19:00:06Z`; not a maintainer/SLA guarantee
+- **LANGUAGE**: Python
+- **PRIMARY_GOAL**: incremental temporal graph memory and retrieval
+- **ARCHITECTURE**: episodes→extraction→entity/edge resolution→graphdriver→hybrid search
+- **STATE_AUTHORITY**: driver-persisted nodes/edges; model extraction is input
+- **RUNTIME_MODEL**: library/API work; continuous subject NOT_APPLICABLE
+- **MEMORY_MODEL**: raw episode, temporal edges, embeddings, community/entity summaries
+- **COGNITION_MODEL**: LLM extraction/dedup/timestamps plus embeddings; query reranker optional
+- **ACTION_MODEL**: graph mutations; real-world action authority NOT_APPLICABLE
+- **CRASH_MODEL**: driver transactions vary; whole external side-effect replay UNKNOWN
+- **SCHEDULER_MODEL**: episode reference time; no companion wake contract
+- **OBSERVABILITY**: episode references/edge timestamps/tracing
+- **PRIVACY_MODEL**: group filters/metadata; Nana-style erasure across all derivatives/backups UNKNOWN
+- **RELATIONSHIP_MODEL**: generic temporal entity edges, not Primary Bond or authority
+- **PERSONALITY_MODEL**: NOT_APPLICABLE
+- **STRONGEST_IDEA**: explicit valid/reference/recording time semantics
+- **WEAKEST_ASSUMPTION**: temporal parser/model candidate quality can be mistaken for truth; naiveUTC accepted
+- **BETTER_THAN_NANA_AT**: temporal fact queries and graph retrieval options
+- **NANA_ALREADY_STRONGER_AT**: subject identity/authority/privacy closure and uncertain judgment
+- **BORROW_PATTERN**: temporal semantics and optional retrieval pattern
+- **REJECT**: second graph DB as new truth; extraction promoted without assessment
+- **FUTURE_STAGE**: World Model temporal views
+- **INTEGRATION_RISK**: MEDIUM temporal migration; HIGH second authority
+- **MIGRATION_COST**: MEDIUM view+future schema ADR
+- **EXPECTED_BENEFIT**: FOUNDATIONAL explicit historical beliefs and delayed correction
+- **VERDICT**: BORROW_PATTERN
+- **BORROW_CODE**: NONE (no upstream implementation copied)
+- **BENCHMARK_ONLY**: real-model/performance comparison NOT_RUN; Mem0 is explicit future matched benchmark
+- **LICENSE_RISK**: LOW root-license pattern discussion; transitive/model/assets not cleared for code integration
+- **EVIDENCE**: exact source files/ranges/SHA256 in sources_manifest.json; conceptual/partial read breadth explicitly limited
+
+## letta-ai/letta
+
+- **PROJECT**: letta-ai/letta
+- **COMMIT**: `5bcdd177d70fa2b31a754cfcd801e77b2e1ab16a`
+- **LICENSE**: Apache-2.0
+- **ACTIVITY**: last observed commit `2026-09-10T10:59:06-07:00`; not a maintainer/SLA guarantee
+- **LANGUAGE**: current snapshot docs; retired server Python
+- **PRIMARY_GOAL**: current entry redirects to Letta Code
+- **ARCHITECTURE**: no service source in this root snapshot
+- **STATE_AUTHORITY**: UNKNOWN from current root; inspect archive/Code separately
+- **RUNTIME_MODEL**: UNKNOWN from root source
+- **MEMORY_MODEL**: UNKNOWN from root source
+- **COGNITION_MODEL**: UNKNOWN from root source
+- **ACTION_MODEL**: UNKNOWN from root source
+- **CRASH_MODEL**: UNKNOWN
+- **SCHEDULER_MODEL**: UNKNOWN
+- **OBSERVABILITY**: README points current Code and archive
+- **PRIVACY_MODEL**: PRIVACY.md is policy text, not verified filtering implementation
+- **RELATIONSHIP_MODEL**: UNKNOWN
+- **PERSONALITY_MODEL**: UNKNOWN
+- **STRONGEST_IDEA**: explicit historical/current boundary
+- **WEAKEST_ASSUMPTION**: old tutorials can describe code no longer in main
+- **BETTER_THAN_NANA_AT**: NOT_ASSESSED
+- **NANA_ALREADY_STRONGER_AT**: no direct comparison possible with docs-only snapshot
+- **BORROW_PATTERN**: source-version discipline only
+- **REJECT**: claiming historical server current without pin
+- **FUTURE_STAGE**: use current Code; archive only for semantics
+- **INTEGRATION_RISK**: LOW documentation; HIGH if versions conflated
+- **MIGRATION_COST**: NONE for adoption
+- **EXPECTED_BENEFIT**: version clarity
+- **VERDICT**: BENCHMARK_ONLY / source locator
+- **BORROW_CODE**: NONE (no upstream implementation copied)
+- **BENCHMARK_ONLY**: real-model/performance comparison NOT_RUN; Mem0 is explicit future matched benchmark
+- **LICENSE_RISK**: LOW root-license pattern discussion; transitive/model/assets not cleared for code integration
+- **EVIDENCE**: exact source files/ranges/SHA256 in sources_manifest.json; conceptual/partial read breadth explicitly limited
+
+## letta-ai/letta-archive
+
+- **PROJECT**: letta-ai/letta
+- **COMMIT**: `56ba9c25552605eec89de8ed3dc6394b625c1993`
+- **LICENSE**: Apache-2.0
+- **ACTIVITY**: last observed commit `2026-08-13T20:08:39-07:00`; not a maintainer/SLA guarantee
+- **LANGUAGE**: Python
+- **PRIMARY_GOAL**: retired V1 API server reproduction
+- **ARCHITECTURE**: agents/managers/blocks, foreground and sleeptime group variants
+- **STATE_AUTHORITY**: server records and memory blocks/repository
+- **RUNTIME_MODEL**: server agent stepping plus background group
+- **MEMORY_MODEL**: core/system blocks, recall/transcript, archival/files, summary
+- **COGNITION_MODEL**: request_heartbeat/tool-rule continuation; not wall-clock life heartbeat
+- **ACTION_MODEL**: tools/server; full pertool authority not audited
+- **CRASH_MODEL**: server persistence; external effects exactlyonce UNKNOWN
+- **SCHEDULER_MODEL**: legacy stepping; cron current Code treated separately
+- **OBSERVABILITY**: ContextWindowOverview token/memory sections
+- **PRIVACY_MODEL**: actor/block access paths; delete closure NOT_VERIFIED
+- **RELATIONSHIP_MODEL**: text memory can describe relation; formal multifacet graph UNKNOWN
+- **PERSONALITY_MODEL**: editable persona/block and agent id; not canonical subject proof
+- **STRONGEST_IDEA**: context recompilation and memory organization
+- **WEAKEST_ASSUMPTION**: retired topology plus model-editable core-memory semantics
+- **BETTER_THAN_NANA_AT**: in/out-context organization and context metrics
+- **NANA_ALREADY_STRONGER_AT**: separate identity/growth, constraints and erasure
+- **BORROW_PATTERN**: temperature/context accounting
+- **REJECT**: legacy multiagent sleeptime as extra Subject authority
+- **FUTURE_STAGE**: procedural organization ideas
+- **INTEGRATION_RISK**: MEDIUM stale design
+- **MIGRATION_COST**: MEDIUM concept rewrite
+- **EXPECTED_BENEFIT**: clarity of context memory role
+- **VERDICT**: BORROW_PATTERN (HISTORICAL ONLY)
+- **BORROW_CODE**: NONE (no upstream implementation copied)
+- **BENCHMARK_ONLY**: real-model/performance comparison NOT_RUN; Mem0 is explicit future matched benchmark
+- **LICENSE_RISK**: LOW root-license pattern discussion; transitive/model/assets not cleared for code integration
+- **EVIDENCE**: exact source files/ranges/SHA256 in sources_manifest.json; conceptual/partial read breadth explicitly limited
+
+## letta-ai/letta-code
+
+- **PROJECT**: letta-ai/letta-code
+- **COMMIT**: `1297870b0aa6662d6c70729d273f5073c1bcbdea`
+- **LICENSE**: Apache-2.0
+- **ACTIVITY**: last observed commit `2026-10-15T22:24:29-07:00`; not a maintainer/SLA guarantee
+- **LANGUAGE**: TypeScript
+- **PRIMARY_GOAL**: stateful agent harness/server/UI with filesystem memory
+- **ARCHITECTURE**: backend abstraction, conversation runtime, tool harness, memoryFS workers
+- **STATE_AUTHORITY**: memory files/Git plus backend agent/conversation records
+- **RUNTIME_MODEL**: listener/server queues, postturn triggers and cron
+- **MEMORY_MODEL**: system files in context, tree/discovery/ondemand files, reflection worktrees
+- **COGNITION_MODEL**: primary turns and triggered background workers; compaction/step-count triggers
+- **ACTION_MODEL**: tools and backend permissions; Nana hard gates not assumed
+- **CRASH_MODEL**: checkout PID/start lease, repair signature, isolated worktree merge; primary edits bypass same lease
+- **SCHEDULER_MODEL**: 60s scoped cronlease/queue; missed occurrences handled by scheduler path
+- **OBSERVABILITY**: memory tree/Git/worker statuses/cron run logs
+- **PRIVACY_MODEL**: directory/memory constraints; full prompt/erasure closure NOT_VERIFIED
+- **RELATIONSHIP_MODEL**: personality/human memory files; source-certified facet model UNKNOWN
+- **PERSONALITY_MODEL**: memory/skills/current context, editable by agents under harness policy
+- **STRONGEST_IDEA**: background memory isolation and readable memory filesystem
+- **WEAKEST_ASSUMPTION**: Git semantic merge/conflict not equivalent to authority CAS; snapshot current turn visibility not universal
+- **BETTER_THAN_NANA_AT**: memory inspection, off-turn memory tools, conflict-repair UX
+- **NANA_ALREADY_STRONGER_AT**: single subject writer/typed evidence/privacy/delete and source independence
+- **BORROW_PATTERN**: background candidate workflow, tiers, compiled context refresh
+- **REJECT**: multiple memory agents becoming authoritative writers
+- **FUTURE_STAGE**: skills/procedural UX
+- **INTEGRATION_RISK**: MEDIUM pattern; HIGH wholesale replacement
+- **MIGRATION_COST**: MEDIUM
+- **EXPECTED_BENEFIT**: HIGH context efficiency and debug UX
+- **VERDICT**: BORROW_PATTERN
+- **BORROW_CODE**: NONE (no upstream implementation copied)
+- **BENCHMARK_ONLY**: real-model/performance comparison NOT_RUN; Mem0 is explicit future matched benchmark
+- **LICENSE_RISK**: LOW root-license pattern discussion; transitive/model/assets not cleared for code integration
+- **EVIDENCE**: exact source files/ranges/SHA256 in sources_manifest.json; conceptual/partial read breadth explicitly limited
+
+## mem0ai/mem0
+
+- **PROJECT**: mem0ai/mem0
+- **COMMIT**: `0724291bd864cf807e88ee8981c8226644e8fb42`
+- **LICENSE**: Apache-2.0
+- **ACTIVITY**: last observed commit `2026-10-14T21:09:50+05:30`; not a maintainer/SLA guarantee
+- **LANGUAGE**: Python / TypeScript
+- **PRIMARY_GOAL**: memory extraction CRUD/search integration
+- **ARCHITECTURE**: infer extraction→vector persist→history/entity linking; async equivalents
+- **STATE_AUTHORITY**: vector payload plus separate history/entity storage
+- **RUNTIME_MODEL**: SDK called by application; no independent subject loop
+- **MEMORY_MODEL**: extracted records, metadata/scope, vector/BM25 retrieval, expiry filter
+- **COGNITION_MODEL**: infer=True usesLLM+embedding; infer=False still may embed remotely
+- **ACTION_MODEL**: memory CRUD; external capability governance NOT_APPLICABLE
+- **CRASH_MODEL**: batch partial fallback; multiple stores no universal atomic transaction; retries provider-dependent
+- **SCHEDULER_MODEL**: OSS memory expiry date, not autonomous scheduler
+- **OBSERVABILITY**: CRUD/history/search explain
+- **PRIVACY_MODEL**: scope keys protected from metadata override; hard erasure/history closure not demonstrated
+- **RELATIONSHIP_MODEL**: extracted relationship text, no tested Subject graph
+- **PERSONALITY_MODEL**: NOT_APPLICABLE
+- **STRONGEST_IDEA**: broad memory API and efficient batch processing
+- **WEAKEST_ASSUMPTION**: memory payload extraction/old text history not Nana evidence/deletion contract
+- **BETTER_THAN_NANA_AT**: retrieval integration and benchmark baseline
+- **NANA_ALREADY_STRONGER_AT**: provenance/authority/delete/Subject continuity
+- **BORROW_PATTERN**: scope hygiene/test corpus/measurement
+- **REJECT**: treat Cloud Dream/temporal/decay marketing as OSS implementation
+- **FUTURE_STAGE**: standalone benchmark only
+- **INTEGRATION_RISK**: HIGH as memory authority; LOW as synthetic comparator
+- **MIGRATION_COST**: MEDIUM benchmark
+- **EXPECTED_BENEFIT**: HIGH independent retrieval/update evaluation
+- **VERDICT**: BENCHMARK_ONLY
+- **BORROW_CODE**: NONE (no upstream implementation copied)
+- **BENCHMARK_ONLY**: real-model/performance comparison NOT_RUN; Mem0 is explicit future matched benchmark
+- **LICENSE_RISK**: LOW root-license pattern discussion; transitive/model/assets not cleared for code integration
+- **EVIDENCE**: exact source files/ranges/SHA256 in sources_manifest.json; conceptual/partial read breadth explicitly limited
+
+## langchain-ai/langgraph
+
+- **PROJECT**: langchain-ai/langgraph
+- **COMMIT**: `4e2dfe4a247abfc0d001f3ef8242cbbbba400d2c`
+- **LICENSE**: MIT
+- **ACTIVITY**: last observed commit `2026-10-16T08:02:43-04:00`; not a maintainer/SLA guarantee
+- **LANGUAGE**: Python / related JS tooling
+- **PRIMARY_GOAL**: durable stateful graph execution
+- **ARCHITECTURE**: Pregel channels/tasks/checkpoints/pending writes
+- **STATE_AUTHORITY**: graph/checkpointer state; optional cross-thread Store
+- **RUNTIME_MODEL**: invocation/resume; hosting longevity separate
+- **MEMORY_MODEL**: execution checkpoint and user-managed store, not epistemic memory
+- **COGNITION_MODEL**: graph-defined model nodes, no built-in companion motivation
+- **ACTION_MODEL**: task functions may cause effects; checkpoint does not authorize or atomically commit external effect
+- **CRASH_MODEL**: sync/async/exit saves; replay finished task caches; in-flight effect gap persists
+- **SCHEDULER_MODEL**: core graph resume; hosted cron not proven in reviewed core
+- **OBSERVABILITY**: state history, interrupts, task/debug streams
+- **PRIVACY_MODEL**: application-owned filtering, not Nana policy
+- **RELATIONSHIP_MODEL**: NOT_APPLICABLE
+- **PERSONALITY_MODEL**: NOT_APPLICABLE
+- **STRONGEST_IDEA**: explicit durability/resume/interrupt vocabulary
+- **WEAKEST_ASSUMPTION**: users may confuse durable control state with exactly-once external reality
+- **BETTER_THAN_NANA_AT**: generic graph composition/operator pause UX
+- **NANA_ALREADY_STRONGER_AT**: subject semantics/evidence/policy/unknown verification
+- **BORROW_PATTERN**: durability documentation and pause/resume contracts
+- **REJECT**: replace D/SubjectLoop or add second checkpoint truth
+- **FUTURE_STAGE**: isolated subordinate planning workflow only if needed
+- **INTEGRATION_RISK**: HIGH wholesale; LOW vocabulary
+- **MIGRATION_COST**: LARGE replacement, SMALL pattern
+- **EXPECTED_BENEFIT**: MEDIUM operator understanding
+- **VERDICT**: BORROW_PATTERN; REJECT replacement
+- **BORROW_CODE**: NONE (no upstream implementation copied)
+- **BENCHMARK_ONLY**: real-model/performance comparison NOT_RUN; Mem0 is explicit future matched benchmark
+- **LICENSE_RISK**: LOW root-license pattern discussion; transitive/model/assets not cleared for code integration
+- **EVIDENCE**: exact source files/ranges/SHA256 in sources_manifest.json; conceptual/partial read breadth explicitly limited
+
+## temporalio/sdk-python
+
+- **PROJECT**: temporalio/sdk-python
+- **COMMIT**: `346d4dcd0863657c3a33283c952a296762059339`
+- **LICENSE**: MIT
+- **ACTIVITY**: last observed commit `2026-10-15T21:21:12Z`; not a maintainer/SLA guarantee
+- **LANGUAGE**: Python SDK with native bridge; server external
+- **PRIMARY_GOAL**: durable deterministic workflows and activities
+- **ARCHITECTURE**: workflow commands/history replay, worker activities, server timers/signals
+- **STATE_AUTHORITY**: service history/control; actual effect belongs activity external target
+- **RUNTIME_MODEL**: worker+server; no model until application calls
+- **MEMORY_MODEL**: workflow history not subject knowledge
+- **COGNITION_MODEL**: activities/workflows application-defined
+- **ACTION_MODEL**: retryable activities need idempotency; cancellation not effect rollback
+- **CRASH_MODEL**: deterministic replay and activity heartbeat details; server not tested here
+- **SCHEDULER_MODEL**: durable timer/signal/wait_condition/continue_as_new contracts
+- **OBSERVABILITY**: history/query/worker diagnostics; service UI not started
+- **PRIVACY_MODEL**: payload handling/encryption policy app-owned, not inspected endtoend
+- **RELATIONSHIP_MODEL**: NOT_APPLICABLE
+- **PERSONALITY_MODEL**: NOT_APPLICABLE
+- **STRONGEST_IDEA**: durable timer and explicit effect/control separation
+- **WEAKEST_ASSUMPTION**: infinite default retry unsuitable for unknown non-idempotent action; infrastructure cost
+- **BETTER_THAN_NANA_AT**: distributed durable workflow features, not measured performance
+- **NANA_ALREADY_STRONGER_AT**: personal subject and scoped action verification; simpler single local stack
+- **BORROW_PATTERN**: timers/idempotency/retry/continue-as-new concepts
+- **REJECT**: deploy service stack on current unproven need; blind retries
+- **FUTURE_STAGE**: only when distributed multi-day work demands
+- **INTEGRATION_RISK**: MEDIUM concept; HIGH operational migration
+- **MIGRATION_COST**: LARGE replacement; RAM actual UNKNOWN
+- **EXPECTED_BENEFIT**: MEDIUM future planning durability
+- **VERDICT**: BORROW_PATTERN concepts; no install
+- **BORROW_CODE**: NONE (no upstream implementation copied)
+- **BENCHMARK_ONLY**: real-model/performance comparison NOT_RUN; Mem0 is explicit future matched benchmark
+- **LICENSE_RISK**: LOW root-license pattern discussion; transitive/model/assets not cleared for code integration
+- **EVIDENCE**: exact source files/ranges/SHA256 in sources_manifest.json; conceptual/partial read breadth explicitly limited
+
+## shuaiyuan17/tomo
+
+- **PROJECT**: shuaiyuan17/tomo
+- **COMMIT**: `a6ee1bec12bee2d59cd5015bf86208710aaf6915`
+- **LICENSE**: MIT
+- **ACTIVITY**: last observed commit `2026-10-16T08:04:29-07:00`; not a maintainer/SLA guarantee
+- **LANGUAGE**: TypeScript
+- **PRIMARY_GOAL**: personal assistant in messaging apps
+- **ARCHITECTURE**: agent/session queues, cron store/scheduler, explicit outbound service, file memory
+- **STATE_AUTHORITY**: session/cron stores and workspace memory files
+- **RUNTIME_MODEL**: long-running agent; 30s cron scans
+- **MEMORY_MODEL**: MEMORY index, daily/archive/LCM rollups, public/private people
+- **COGNITION_MODEL**: incoming/cron/heartbeat turns invoke agent; NO_REPLY default heartbeat
+- **ACTION_MODEL**: explicit send_message/proactive service separate from heartbeat output; permissions path
+- **CRASH_MODEL**: markStarted before dispatch; interrupted recovery; ACK failure parked not rerun
+- **SCHEDULER_MODEL**: fixed due scan, perjob inflight, one-shot disabled when interrupted
+- **OBSERVABILITY**: watch bus, Study memory/TODO/cron/status
+- **PRIVACY_MODEL**: private people notes not injected group; full erasure/backups UNKNOWN
+- **RELATIONSHIP_MODEL**: people records/aliases/timezone/owner routing; not formal Primary Anchor
+- **PERSONALITY_MODEL**: identity/continuity/skills files; no reviewed causal personality state machine
+- **STRONGEST_IDEA**: human-readable memory and execution-vs-ACK error distinction
+- **WEAKEST_ASSUMPTION**: language/file policies not equivalent to typed Subject authority
+- **BETTER_THAN_NANA_AT**: small operator surfaces and messaging UX
+- **NANA_ALREADY_STRONGER_AT**: typed commitments/authority, source correction/delete, subject growth
+- **BORROW_PATTERN**: parked-run diagnostics, human-facing scoped memory view
+- **REJECT**: timer prompt makes binding promise; owner becomes relational authority
+- **FUTURE_STAGE**: channel UX after legal delivery
+- **INTEGRATION_RISK**: LOWUX/MEDIUM if memory file becomes authority
+- **MIGRATION_COST**: SMALL–MEDIUM
+- **EXPECTED_BENEFIT**: MEDIUM operator recovery/readability
+- **VERDICT**: BORROW_PATTERN
+- **BORROW_CODE**: NONE (no upstream implementation copied)
+- **BENCHMARK_ONLY**: real-model/performance comparison NOT_RUN; Mem0 is explicit future matched benchmark
+- **LICENSE_RISK**: LOW root-license pattern discussion; transitive/model/assets not cleared for code integration
+- **EVIDENCE**: exact source files/ranges/SHA256 in sources_manifest.json; conceptual/partial read breadth explicitly limited
+
+## huodebing-alt/anima
+
+- **PROJECT**: huodebing-alt/anima
+- **COMMIT**: `ba215ce72bcaedd147d5d08de6e54555a62952c1`
+- **LICENSE**: MIT
+- **ACTIVITY**: last observed commit `2026-07-11T18:41:08+08:00`; not a maintainer/SLA guarantee
+- **LANGUAGE**: Python stdlib
+- **PRIMARY_GOAL**: small local LLM always-on mind/sleep demo
+- **ARCHITECTURE**: sync perceive/reflex reply/think/act plus sleep-cycle
+- **STATE_AUTHORITY**: SQLite memories/goals/self_model and runtime metadata
+- **RUNTIME_MODEL**: backoff ticks, inbox wake slices, model call each tick
+- **MEMORY_MODEL**: vector/relevance/importance/recency; rehearsal strength; consolidation links
+- **COGNITION_MODEL**: reply fast then think; sleep summarise/reflection/dream/selfrewrite
+- **ACTION_MODEL**: capability booleans/cooldown with direct browse/file adapters
+- **CRASH_MODEL**: SQLite records survive; entire tick/effect recovery UNKNOWN
+- **SCHEDULER_MODEL**: wall-clock tick/sleep pressure; no typed authoritative durable timer contract
+- **OBSERVABILITY**: journal/state/UI
+- **PRIVACY_MODEL**: local model option; fine-grained hard context routing/erasure closure UNKNOWN
+- **RELATIONSHIP_MODEL**: user/self context and memory; no sourced domain trust projector
+- **PERSONALITY_MODEL**: LLM selfmodel rewrite from gists/dreaminsights
+- **STRONGEST_IDEA**: minimal backoff and interruptible lowpriority phases
+- **WEAKEST_ASSUMPTION**: thought/summary can directly mutate semantic self and act; automatic scalar-basedpurge
+- **BETTER_THAN_NANA_AT**: minimal demo/low-dependency memory mechanics
+- **NANA_ALREADY_STRONGER_AT**: causal growth/authority/no-modelwake/delete/clock/recovery fencing
+- **BORROW_PATTERN**: bounded adaptivewait/interruptible slices only
+- **REJECT**: randomdream truth/selfrewrite/retention by scalarimportance
+- **FUTURE_STAGE**: association candidates only under sourced proposal gate
+- **INTEGRATION_RISK**: HIGH if whole sleep architecture; LOW cadence
+- **MIGRATION_COST**: SMALL pattern
+- **EXPECTED_BENEFIT**: MEDIUM lightweight waiting
+- **VERDICT**: BORROW_PATTERN limited; REJECT truth pipeline
+- **BORROW_CODE**: NONE (no upstream implementation copied)
+- **BENCHMARK_ONLY**: real-model/performance comparison NOT_RUN; Mem0 is explicit future matched benchmark
+- **LICENSE_RISK**: LOW root-license pattern discussion; transitive/model/assets not cleared for code integration
+- **EVIDENCE**: exact source files/ranges/SHA256 in sources_manifest.json; conceptual/partial read breadth explicitly limited
+
+## mindverse/Second-Me
+
+- **PROJECT**: mindverse/Second-Me
+- **COMMIT**: `d0e40251d9de61b3340b8d0d7d83150669f1885a`
+- **LICENSE**: Apache-2.0
+- **ACTIVITY**: last observed commit `2025-09-19T11:31:40+08:00`; not a maintainer/SLA guarantee
+- **LANGUAGE**: Python / TypeScript
+- **PRIMARY_GOAL**: user digital extension through hierarchical memory/alignment
+- **ARCHITECTURE**: raw documents→L0 summaries→L1 bio/shades/timelines→L2training
+- **STATE_AUTHORITY**: documents/DB/profiles/model artifacts; not separate Subject contract
+- **RUNTIME_MODEL**: services/training flow; companion always-on state machine NOT_VERIFIED
+- **MEMORY_MODEL**: source documents, notes, profile abstractions, training material
+- **COGNITION_MODEL**: LLM generator/classification and training; local hosting possible, remote endpoint also configured
+- **ACTION_MODEL**: user-profile agents/app interfaces; execution authority NOT_VERIFIED
+- **CRASH_MODEL**: DB/file stages separate commits; pipeline restart closure UNKNOWN
+- **SCHEDULER_MODEL**: training/process orchestration, not C/D wake
+- **OBSERVABILITY**: localUI/profile/trainlogs
+- **PRIVACY_MODEL**: local raw path option; actual code supports external LLM configs, so local-first not never-egress
+- **RELATIONSHIP_MODEL**: represents user persona, not independent companion relationship
+- **PERSONALITY_MODEL**: user bio/alignment in model is central
+- **STRONGEST_IDEA**: hierarchical profile navigation and local ownership orientation
+- **WEAKEST_ASSUMPTION**: model-dependent personalized identity and unlearning problem
+- **BETTER_THAN_NANA_AT**: profile organization/training pipeline UX
+- **NANA_ALREADY_STRONGER_AT**: identity independent of model/user, evidence/growth/privacy authority
+- **BORROW_PATTERN**: source→abstraction organization, not fine-tuning as self
+- **REJECT**: Nana=user digital twin; weight update erases need for evidence/forgetting
+- **FUTURE_STAGE**: portable read-only organization design
+- **INTEGRATION_RISK**: HIGH identity mismatch
+- **MIGRATION_COST**: MEDIUM organization; LARGE training stack rejected
+- **EXPECTED_BENEFIT**: MEDIUM
+- **VERDICT**: BORROW_PATTERN organization only
+- **BORROW_CODE**: NONE (no upstream implementation copied)
+- **BENCHMARK_ONLY**: real-model/performance comparison NOT_RUN; Mem0 is explicit future matched benchmark
+- **LICENSE_RISK**: LOW root-license pattern discussion; transitive/model/assets not cleared for code integration
+- **EVIDENCE**: exact source files/ranges/SHA256 in sources_manifest.json; conceptual/partial read breadth explicitly limited
+
+## max286674-cpu/OpenWatari-Jarvis
+
+- **PROJECT**: max286674-cpu/OpenWatari-Jarvis
+- **COMMIT**: `b6a1924bc35daaf9520ac6e9fc8ee8c7ef7b4c10`
+- **LICENSE**: MIT
+- **ACTIVITY**: last observed commit `2026-09-06T23:03:52+03:00`; not a maintainer/SLA guarantee
+- **LANGUAGE**: Python
+- **PRIMARY_GOAL**: voice-first local-friendly multi-device companion framework
+- **ARCHITECTURE**: thin audio edge↔central brain WS; warm local fallback
+- **STATE_AUTHORITY**: central agent/memory plus potential independent local fallback
+- **RUNTIME_MODEL**: brain24h/scheduler and edge voice; real reliability NOT_RUN
+- **MEMORY_MODEL**: multiple layers documented; full six-layer implementation not audited
+- **COGNITION_MODEL**: central reasoning/model chain, local fallback chain
+- **ACTION_MODEL**: tool runner/pendingconfirmation; full Grant/Verify equivalent UNKNOWN
+- **CRASH_MODEL**: reconnect/supervised links; fallback may produce another writer, not safe Subject takeover proven
+- **SCHEDULER_MODEL**: proactive/scheduler paths documented, selected protocol review only
+- **OBSERVABILITY**: stream assistant/tool/lifecycle and auditpack docs
+- **PRIVACY_MODEL**: localaudio but transcripts sent brain; logs may contain text; device/source auth requires deeper audit
+- **RELATIONSHIP_MODEL**: contacts/personality/primaryowner context, causal facet model UNKNOWN
+- **PERSONALITY_MODEL**: prompt/assets and agentstate, independent stable identity UNKNOWN
+- **STRONGEST_IDEA**: one central brain with device-specific localaudio transport
+- **WEAKEST_ASSUMPTION**: automatic independent localagent fallback conflicts Nana single authority
+- **BETTER_THAN_NANA_AT**: voice/device embodiment coverage
+- **NANA_ALREADY_STRONGER_AT**: writer identity/authority continuity and unknown effect handling
+- **BORROW_PATTERN**: typed thin device/session protocol at future stage
+- **REJECT**: unfenced local fallback and assume transcriptsharing allowed
+- **FUTURE_STAGE**: G device bridge only
+- **INTEGRATION_RISK**: HIGH authority/privacy if direct integration
+- **MIGRATION_COST**: LARGE E/G package
+- **EXPECTED_BENEFIT**: HIGH future bodies
+- **VERDICT**: FUTURE_STAGE
+- **BORROW_CODE**: NONE (no upstream implementation copied)
+- **BENCHMARK_ONLY**: real-model/performance comparison NOT_RUN; Mem0 is explicit future matched benchmark
+- **LICENSE_RISK**: LOW root-license pattern discussion; transitive/model/assets not cleared for code integration
+- **EVIDENCE**: exact source files/ranges/SHA256 in sources_manifest.json; conceptual/partial read breadth explicitly limited
+
+## AFK-surf/Comma
+
+- **PROJECT**: AFK-surf/Comma
+- **COMMIT**: `ba4f55db1bf038a9246a9f71a7b5059cd91853f1`
+- **LICENSE**: AGPL-3.0-only
+- **ACTIVITY**: last observed commit `2026-10-02T22:59:16+08:00`; not a maintainer/SLA guarantee
+- **LANGUAGE**: Elixir / Go / Lean / TypeScript
+- **PRIMARY_GOAL**: always-on multi-device assistant and connector infrastructure
+- **ARCHITECTURE**: OTP apps+kernelagents+deviceconnectors+IFC receipt layer
+- **STATE_AUTHORITY**: distributed runtime/connector policy; whole stack not qualified
+- **RUNTIME_MODEL**: service/connector generation lifecycle, boundeddrain/cancel
+- **MEMORY_MODEL**: not audited as epistemic memory backend
+- **COGNITION_MODEL**: runtime provider agents; source sections focus transport/admission
+- **ACTION_MODEL**: deviceaccess admission, passive discovery, request correlation, IFC receipt
+- **CRASH_MODEL**: transport generation fence and pending ACK state; allsideeffect recovery UNKNOWN
+- **SCHEDULER_MODEL**: not deep audited; distributed specs not executed
+- **OBSERVABILITY**: runtime metadata/readiness/receipt audit
+- **PRIVACY_MODEL**: source/destination IFC/declassification receipt interfaces, device permission
+- **RELATIONSHIP_MODEL**: social app participant relations, personal bond model NOT_VERIFIED
+- **PERSONALITY_MODEL**: NOT_VERIFIED
+- **STRONGEST_IDEA**: connection generation ownership and readiness≠permission
+- **WEAKEST_ASSUMPTION**: formalcriticalkernel claims not blanket guarantee; heavy polyglot stack/AGPL obligations
+- **BETTER_THAN_NANA_AT**: future network/device contracts and operational discovery
+- **NANA_ALREADY_STRONGER_AT**: simpler singleStore Subject authority; not comparable on distributed breadth
+- **BORROW_PATTERN**: passive inventory/sessionreceipt pattern only
+- **REJECT**: copy AGPL connector or bring full service stack
+- **FUTURE_STAGE**: G reconnect/discovery protocol design
+- **INTEGRATION_RISK**: HIGH integration and license
+- **MIGRATION_COST**: LARGE stack; MEDIUM independent port pattern
+- **EXPECTED_BENEFIT**: HIGH future device reliability
+- **VERDICT**: FUTURE_STAGE / BORROW_PATTERN only
+- **BORROW_CODE**: NONE (no upstream implementation copied)
+- **BENCHMARK_ONLY**: real-model/performance comparison NOT_RUN; Mem0 is explicit future matched benchmark
+- **LICENSE_RISK**: HIGH AGPL and transitive review; no code adoption
+- **EVIDENCE**: exact source files/ranges/SHA256 in sources_manifest.json; conceptual/partial read breadth explicitly limited
+
+## OpenHands/OpenHands
+
+- **PROJECT**: OpenHands/OpenHands
+- **COMMIT**: `9d02893bc96aa256a4c0ece316bdb992247bc918`
+- **LICENSE**: MIT
+- **ACTIVITY**: last observed commit `2026-10-16T20:58:14+07:00`; not a maintainer/SLA guarantee
+- **LANGUAGE**: TypeScript
+- **PRIMARY_GOAL**: Agent Canvas UI/backend orchestration
+- **ARCHITECTURE**: multi-backend canvas consumes canonical SDK Agent Server API
+- **STATE_AUTHORITY**: backend conversations, UI itself not execution authority
+- **RUNTIME_MODEL**: web/electron/backend; not a persistent personalSubject
+- **MEMORY_MODEL**: conversation/context UX; full memory source NOT_APPLICABLE
+- **COGNITION_MODEL**: delegates agentbackend
+- **ACTION_MODEL**: confirmation response posted to backend; sandbox choice external
+- **CRASH_MODEL**: websocket/backend recovery; whole effect exactlyonce NOT_VERIFIED
+- **SCHEDULER_MODEL**: automation service decideswhen, server decideswhat per README; not audited as Nana loop
+- **OBSERVABILITY**: conversation/actions/confirmation/remote backend UI
+- **PRIVACY_MODEL**: local server can fullfilesystem access; sandbox scope not wholeapplication
+- **RELATIONSHIP_MODEL**: NOT_APPLICABLE
+- **PERSONALITY_MODEL**: NOT_APPLICABLE
+- **STRONGEST_IDEA**: explicit backend/remote agent control UX
+- **WEAKEST_ASSUMPTION**: UI confirmation or risk label can be mistaken for authority/sandbox
+- **BETTER_THAN_NANA_AT**: human-facing tool/event observability
+- **NANA_ALREADY_STRONGER_AT**: subject identity/evidence/policy continuity
+- **BORROW_PATTERN**: approval/audit UX only
+- **REJECT**: use UI runtime as Subject core
+- **FUTURE_STAGE**: E engineering sandbox console
+- **INTEGRATION_RISK**: MEDIUM future UI, HIGHdirect agent host access
+- **MIGRATION_COST**: LARGE full app; SMALLpattern
+- **EXPECTED_BENEFIT**: MEDIUM
+- **VERDICT**: FUTURE_STAGE
+- **BORROW_CODE**: NONE (no upstream implementation copied)
+- **BENCHMARK_ONLY**: real-model/performance comparison NOT_RUN; Mem0 is explicit future matched benchmark
+- **LICENSE_RISK**: LOW root-license pattern discussion; transitive/model/assets not cleared for code integration
+- **EVIDENCE**: exact source files/ranges/SHA256 in sources_manifest.json; conceptual/partial read breadth explicitly limited
+
+## OpenHands/software-agent-sdk
+
+- **PROJECT**: OpenHands/software-agent-sdk
+- **COMMIT**: `12e967664c2353f4cb85dd27da04ade035ff078c`
+- **LICENSE**: MIT
+- **ACTIVITY**: last observed commit `2026-10-16T09:13:44+02:00`; not a maintainer/SLA guarantee
+- **LANGUAGE**: Python
+- **PRIMARY_GOAL**: canonical agent/tool/conversation/server SDK
+- **ARCHITECTURE**: typed LLM-convertible action/observation events+conversation eventstore+tools/security
+- **STATE_AUTHORITY**: conversationstate/eventlog; real side effect external
+- **RUNTIME_MODEL**: local/remote conversation and agent server; no inherent NanaSubject
+- **MEMORY_MODEL**: eventstore/compaction/LLMcontext; not epistemic memory guarantee
+- **COGNITION_MODEL**: agent LLM tool loop; model may propose risk
+- **ACTION_MODEL**: confirmation policy Always/Never/ConfirmRisky, securityanalysis; not NanaGrant semantics
+- **CRASH_MODEL**: eventlist indexed/locked, warnsNFS; effect/ACK atomicity NOT_VERIFIED
+- **SCHEDULER_MODEL**: conversationrun; durable personal obligations NOT_APPLICABLE
+- **OBSERVABILITY**: action/toolcall IDs, responseIDs, observations/security events
+- **PRIVACY_MODEL**: tool/server/app policy; rawthought/context fields can contain private data
+- **RELATIONSHIP_MODEL**: NOT_APPLICABLE
+- **PERSONALITY_MODEL**: NOT_APPLICABLE
+- **STRONGEST_IDEA**: typed action/observation/security interfaces and sandbox-oriented tools
+- **WEAKEST_ASSUMPTION**: LLM risk/summaries are untrusted assessment; confirmation not full capability authority
+- **BETTER_THAN_NANA_AT**: engineering toolcatalog/remote conversation surfaces
+- **NANA_ALREADY_STRONGER_AT**: canonical Subject/evidence/Manager/Grant/Budget/Verify contract
+- **BORROW_PATTERN**: receipt/event schema separation and testboundary ideas
+- **REJECT**: NeverConfirm as permission; direct fullfilesystem default
+- **FUTURE_STAGE**: E/G isolated tooladapter
+- **INTEGRATION_RISK**: HIGHwithout outerpolicy
+- **MIGRATION_COST**: LARGE adapterqualification
+- **EXPECTED_BENEFIT**: HIGH future Eyes/Hands engineering
+- **VERDICT**: FUTURE_STAGE
+- **BORROW_CODE**: NONE (no upstream implementation copied)
+- **BENCHMARK_ONLY**: real-model/performance comparison NOT_RUN; Mem0 is explicit future matched benchmark
+- **LICENSE_RISK**: LOW root-license pattern discussion; transitive/model/assets not cleared for code integration
+- **EVIDENCE**: exact source files/ranges/SHA256 in sources_manifest.json; conceptual/partial read breadth explicitly limited

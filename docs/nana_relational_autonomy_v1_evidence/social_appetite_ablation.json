@@ -1,0 +1,69 @@
+{
+  "comparison": "semantic desire + equal normalized evidence roots, not incidental Store UUID/global state stamps",
+  "result": "PASS",
+  "worlds": [
+    {
+      "anchor": true,
+      "appetite_after": "SEEKING",
+      "appetite_before": "SEEKING",
+      "available_before": true,
+      "intention": "SOCIAL_INTERACTION",
+      "normalized_source_roots": [
+        [
+          "synthetic.subject",
+          "21ea3a799095c0447e0f5b526e33a16be53e2c22a1da9fabcb3155162c905b29"
+        ],
+        [
+          "synthetic.subject",
+          "4376d49f15e3e074b9dc77f6d51e2e18dcf7dc104e453ea7f8aeb333640f2ffb"
+        ]
+      ],
+      "prior_behavior_disposition": null,
+      "request": false,
+      "request_choice": null,
+      "world": "A"
+    },
+    {
+      "anchor": false,
+      "appetite_after": "SEEKING",
+      "appetite_before": "SEEKING",
+      "available_before": true,
+      "intention": "SOCIAL_INTERACTION",
+      "normalized_source_roots": [
+        [
+          "synthetic.subject",
+          "21ea3a799095c0447e0f5b526e33a16be53e2c22a1da9fabcb3155162c905b29"
+        ],
+        [
+          "synthetic.subject",
+          "4376d49f15e3e074b9dc77f6d51e2e18dcf7dc104e453ea7f8aeb333640f2ffb"
+        ]
+      ],
+      "prior_behavior_disposition": null,
+      "request": false,
+      "request_choice": null,
+      "world": "B"
+    },
+    {
+      "anchor": true,
+      "appetite_after": "SEEKING",
+      "appetite_before": "SEEKING",
+      "available_before": true,
+      "intention": "GOAL_CANDIDATE",
+      "normalized_source_roots": [
+        [
+          "synthetic.subject",
+          "21ea3a799095c0447e0f5b526e33a16be53e2c22a1da9fabcb3155162c905b29"
+        ],
+        [
+          "synthetic.subject",
+          "4376d49f15e3e074b9dc77f6d51e2e18dcf7dc104e453ea7f8aeb333640f2ffb"
+        ]
+      ],
+      "prior_behavior_disposition": "VOLUNTARILY_RESTRAINED",
+      "request": true,
+      "request_choice": "ACCEPT",
+      "world": "C"
+    }
+  ]
+}

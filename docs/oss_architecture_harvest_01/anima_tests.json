@@ -1,0 +1,12 @@
+{
+  "suite": "huodebing-alt/anima tests/test_store.py",
+  "passed": 17,
+  "failed": 0,
+  "errors": 0,
+  "skipped": 0,
+  "seconds": 0.0141,
+  "network_calls": 0,
+  "LLM_calls": 0,
+  "guard": "socket connect + urllib urlopen reject; reviewed temp-store suite only",
+  "python": "3.12.14"
+}
