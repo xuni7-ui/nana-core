@@ -75,7 +75,7 @@ class EventQueue:
             # No durable body/interpretation for discarded input. Timers can
             # retain typed metadata via existing, erasable memory dependencies.
             retained.update(text=None,topic=None,proposed_method=None,preference_signal=None,relationship_kind=None)
-            retained.update(positive_request=None,relationship_details=None,disclosure_request=None,realization_target=None,goal_step=None,memory_review_id=None,surface=None)
+            retained.update(positive_request=None,relationship_details=None,disclosure_request=None,realization_target=None,goal_step=None,goal_review=None,memory_review_id=None,surface=None)
         safe=SubjectInput.model_validate_json(canonical(retained))
         now=self.store.clock.utc_now_us()
         with self.store.transaction('runtime.event_enqueued') as tx:
@@ -86,7 +86,7 @@ class EventQueue:
             seq=self.store.db.execute('SELECT coalesce(max(sequence_no),0)+1 FROM runtime_queue').fetchone()[0]
             metadata=safe.model_dump(mode='json');metadata['text']=None
             # Structured semantic fields only survive via deletable record.
-            for field in ('topic','proposed_method','preference_signal','relationship_kind','positive_request','relationship_details','disclosure_request','realization_target','relational_request','goal_step','memory_review_id','surface'):
+            for field in ('topic','proposed_method','preference_signal','relationship_kind','positive_request','relationship_details','disclosure_request','realization_target','relational_request','goal_step','goal_review','memory_review_id','surface'):
                 metadata[field]=None
             tx.put('runtime_queue',{'queue_id':queue_id,'source_key':event.input.source_key,'sequence_no':seq,
                 'event_type':event.event_type,'wake_trigger':event.trigger,'subject_event_id':source['subject_event_id'],

@@ -121,7 +121,8 @@ class ExperienceService:
         check=StructuredQualityCheck(result_memory_id=result_memory_id,
             result_artifact_digest=digest(self.store.artifact(result['payload_artifact_id'])),
             expected_digest=expected_digest,passed=digest(actual.get('data'))==expected_digest)
-        now=self.store.clock.utc_now_us()
+        previous=self.store.db.execute("SELECT observed_time_us FROM continuity_evidence WHERE source_namespace='synthetic.structured-check' AND source_reference=?",(result_memory_id,)).fetchone()
+        now=previous[0] if previous else self.store.clock.utc_now_us()
         eid=self.records.memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.structured-check',source_reference=result_memory_id,source_kind='SYSTEM_VERIFICATION'),text=check.model_dump_json(),privacy_class=result['privacy_class'],observed_time_us=now))
         return self.records.memory.add(MemoryCandidate(entity_id=result['entity_id'],scope=result['scope'],memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',source_evidence_id=eid,text=check.model_dump_json(),derived_from=(result_memory_id,),confidence=1.))
 
@@ -248,7 +249,17 @@ class ExperienceService:
             raise CoreError("LESSON_SUPPORT_REQUIRES_REVIEW")
         rule = self._rule(row)
         compiler_version=PlanCompiler.version
-        if isinstance(rule,DispositionRule):
+        from .open_agency.learning import MethodStrategyRule
+        if isinstance(rule,MethodStrategyRule):
+            trial=self.records.read(rule.trial_record_id)
+            data=trial['payload'];results=data.get('results',{})
+            checks={'source_backed_trial':trial['record_kind']=='LEARNING_TRIAL' and self.records.current_support(rule.trial_record_id),
+                'domain_and_method':data.get('domain')==rule.scope and data.get('method')==rule.method,
+                'heldout_and_transfer':all(results.get(k,{}).get('all_passed') and results[k].get('checked',0)>0 for k in ('EVALUATE','TRANSFER')),
+                'improvement':results.get('EVALUATE',{}).get('passed',0)>results.get('BASELINE',{}).get('passed',0),
+                'not_authority':rule.grants_authority is False}
+            compiler_version='BOUNDED_OPERATOR_METHOD_V1'
+        elif isinstance(rule,DispositionRule):
             checks={'source_assessment_required':rule.assessment in {'HELPFUL','HARMFUL'},'changes_review_method':lesson_method(rule)!=lesson_method(),
                 'no_authority':rule.grants_authority is False,'scope_limited':rule.scope=='disposition.review'}
             compiler_version='C_DISPOSITION_REVIEW_v1'
@@ -304,6 +315,9 @@ class ExperienceService:
 
     def _rule(self, row):
         payload=self.records.read(row['record_id'])['payload']['rule']
+        if payload.get('kind')=='METHOD_SELECTION':
+            from .open_agency.learning import MethodStrategyRule
+            return MethodStrategyRule.model_validate_json(canonical(payload))
         kind=DispositionRule if row['task_class']=='disposition.review' else InteractionRule if row['task_class']=='interaction.shared_discovery' else StrategyRule
         return kind.model_validate_json(canonical(payload))
 

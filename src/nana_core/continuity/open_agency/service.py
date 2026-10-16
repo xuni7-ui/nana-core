@@ -58,6 +58,11 @@ class OpenAgencyService(AgencyService):
         proposal=self.policy.planner.plan(request)
         steps=validate_plan(request,proposal,self.registry)
         if not steps:raise CoreError('GOAL_ALREADY_SATISFIED')
+        for step in steps:
+            if step.capability=='world.skill':
+                rid=step.args['skill_record_id'];head=self.records.read(rid)
+                if head['record_kind']!='CODE_SKILL' or head['scope']!=obj.scope or head['privacy_class'] not in self.subject.privacy_classes or head['payload']['state']!='ACTIVE' or not self.records.current_support(rid):raise CoreError('SKILL_SOURCE_RETIRED')
+                strategy_ids.append(rid)
         return obj,steps,strategy_ids
 
     def adopt(self,cycle):
@@ -107,9 +112,35 @@ class OpenAgencyService(AgencyService):
             return GoalStepRef(work_id=row['job_id'],revision=row['revision'],cursor=row['cursor'])
         return None
 
+    def learning_opportunity(self,entity_id):
+        if not self.learning:return None
+        from ...presence.contracts import RuntimeEvent,Cause
+        from ..subject.contracts import SubjectInput
+        from ..agency_contracts import GoalReviewRef
+        for goal in self.store.db.execute("SELECT * FROM goals WHERE state IN ('FAILED','BLOCKED') ORDER BY priority DESC,last_served_us LIMIT 16"):
+            meta=json.loads(goal['body_json']);head=self.store.one('continuity_records',meta.get('plan_record_id'))
+            if not head or not self.subject.visible(head['record_id'],head['scope']):continue
+            strategy=self.learning.strategy(goal['template'],head['scope'])
+            if not strategy:continue
+            plan=self.records.read(head['record_id'])['payload']
+            if plan.get('format')!='OPEN_PLAN_V1' or strategy[0] in plan['strategy_ids']:continue
+            lesson=self.store.db.execute('SELECT * FROM lessons WHERE record_id=?',(strategy[0],)).fetchone()
+            exp=self.store.one('experiences',lesson['experience_id']);mid=exp['result_memory_id']
+            m=self.records.memory.read(mid);work=self.store.one('jobs',meta['work_id'])
+            if m['observed_time_us']<work['updated_at_us']:continue
+            if self.store.db.execute("SELECT 1 FROM actions WHERE goal_id=? AND state IN ('READY','DISPATCHING','UNKNOWN','PENDING_VERIFY')",(goal['goal_id'],)).fetchone():continue
+            key='synthetic.open.review.'+digest([goal['goal_id'],goal['version'],strategy[0]])
+            if self.store.db.execute('SELECT 1 FROM subject_events WHERE source_key=?',(key,)).fetchone():continue
+            ref=GoalReviewRef(goal_id=goal['goal_id'],version=goal['version'],cause_memory_id=mid)
+            inp=SubjectInput(source_key=key,kind='WAKE',origin='SELF_WAKE',entity_id=entity_id,scope=head['scope'],observed_at_us=self.store.clock.utc_now_us(),source_memory_ids=(mid,),task_class=goal['template'],goal_review=ref)
+            return RuntimeEvent(event_type='GOAL_EVENT',trigger='GOAL_TRIGGER',input=inp,causes=(Cause(kind='EXPERIENCE',reference_id=exp['experience_id']),),due_at_us=self.store.clock.utc_now_us(),priority=2)
+        return None
+
     def advance(self,reference,cycle):
         work=self.store.one('jobs',reference.work_id)
-        if not work or work['revision']!=reference.revision:return None
+        if not work or work['revision']!=reference.revision:
+            old=self.store.db.execute("SELECT data_json FROM events WHERE source_namespace='living.goal-step' AND source_key=?",(reference.work_id+':'+str(reference.revision)+':'+str(reference.cursor),)).fetchone()
+            return json.loads(old[0])['data'] if old else None
         head=self.store.one('continuity_records',work['record_id'])
         view=open_step_view(self.store,reference,scope=head['scope'],privacy_classes=self.subject.privacy_classes)
         plan=self.records.read(work['record_id'])['payload']
@@ -145,10 +176,11 @@ class OpenAgencyService(AgencyService):
         # Evidence capture is idempotent on action; no external effect is retried
         # if a crash happens between this observation and progress commit.
         result=self.realization.kernel.payload(action,'result_json');now=self.store.clock.utc_now_us()
+        verified_at=self.store.event(json.loads(action['body_json'])['verification_event_id'])['recorded_at_us']
         existing=self.store.db.execute("SELECT m.memory_id FROM memories m JOIN continuity_evidence e ON m.source_evidence_id=e.evidence_id WHERE e.source_namespace='synthetic.open-action' AND e.source_reference=? AND m.lifecycle='ACTIVE' LIMIT 1",(aid,)).fetchone()
         if existing:mid=existing[0]
         else:
-            eid=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.open-action',source_reference=aid,source_kind='SYSTEM_VERIFICATION'),text=result,privacy_class=head['privacy_class'],observed_time_us=now))
+            eid=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.open-action',source_reference=aid,source_kind='SYSTEM_VERIFICATION'),text=result,privacy_class=head['privacy_class'],observed_time_us=verified_at))
             mid=memory.add(MemoryCandidate(entity_id=source['entity_id'],scope=head['scope'],memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',source_evidence_id=eid,text=result,derived_from=view.source_memory_ids,confidence=1.))
         quality=True;exp=None
         if op.get('expected_digest'):

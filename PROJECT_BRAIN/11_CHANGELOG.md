@@ -1310,3 +1310,19 @@ Two persistent numeric/language goals interleave and reopen; six fixture Actions
 verified. Social intent can remain endorsed while recipient admission defers BUSY;
 no Grant/action from desire. Targeted7 PASS (new4 + inherited agency3).
 No real endpoint/model/data/production; no push. Learning/code qualification pending.
+
+### E1–E6 M2 — executed learning, generated code and media integration
+
+[源码/离线实测] Same jobs/ExperienceService/Lesson lifecycle now supports recoverable
+OBSERVE→VALUE→HYPOTHESIZE→BASELINE→PRACTICE→EVALUATE→TRANSFER→CONSOLIDATE→MONITOR.
+Independent numeric/language splits execute actual transforms; checked strategy
+changes C selected_method and subsequent plan. Failure-triggered reflection offers
+same-goal replanning via a fresh C cycle; old failure remains. Timeout leaves cursor.
+Generated Python first fails, repaired source passes bwrap isolated CPython tests,
+reviewed hashed local realm activation/package/retirement works, no new Grant.
+Existing B9 MediaSession feeds source-linked INFERENCE interest candidates to C.
+New10 + existing C32/D2–D7 20:62 PASS,26.73s. No real models/private data/effects.
+Small reusable fix: RecordService does not insert duplicate REVISION edge when
+same old record is already a SUPPORT parent; erase closure is still retained.
+Recovery fixes retain stable observation time and resume partially consolidated
+learning/observation without re-execution. Final full/recovery qualification pending.

@@ -30,3 +30,8 @@ class OfflineProgram(DTO):
     def distinct(self):
         if self.source_resource==self.output_resource:raise ValueError('distinct source/output required')
         return self
+
+class GoalReviewRef(DTO):
+    goal_id: str
+    version: int = Field(ge=1)
+    cause_memory_id: str

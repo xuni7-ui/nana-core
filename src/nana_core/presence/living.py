@@ -8,7 +8,7 @@ from .contracts import RuntimeEvent,Cause
 
 class LivingWork:
     def __init__(self,runtime):
-        self.runtime=runtime;self.agency=None;self.learning_policy=None;self.accommodation_policy=None
+        self.runtime=runtime;self.agency=None;self.learning_policy=None;self.accommodation_policy=None;self.open_learning=None;self.exploration=None
         from ..continuity.maintenance import MaintenanceService
         self.maintenance=MaintenanceService(runtime.store,scopes=runtime.config.scopes,entity_id=runtime.config.entity_id,
             privacy_classes=runtime.config.privacy_classes,slice_items=runtime.config.living.slice_items,interval_us=runtime.config.living.maintenance_interval_us)
@@ -19,10 +19,27 @@ class LivingWork:
         from ..continuity.open_agency.service import OpenAgencyService
         r=self.runtime
         self.agency=OpenAgencyService(r.store,r.subject,r.authority,policy,port,step_interval_us=r.config.living.step_interval_us)
+        self.agency.learning=self.open_learning
+    def configure_open_learning(self,specs,**kwargs):
+        from ..continuity.open_agency.learning import LearningService
+        r=self.runtime
+        self.open_learning=LearningService(r.store,r.authority,specs,privacy_classes=r.config.privacy_classes,**kwargs)
+        if self.agency:self.agency.learning=self.open_learning
     def after_cycle(self,cycle,event):
         if not cycle:return None
         if cycle.relational_decision and self.accommodation_policy:
             self.accommodation_policy.apply(self.runtime,cycle)
+        if event.goal_review and self.agency:
+            if cycle.evaluation and cycle.evaluation.normative=='ENDORSED' and cycle.intention.kind=='GOAL_CANDIDATE':
+                ref=event.goal_review
+                self.agency.revise(ref.goal_id,expected_version=ref.version,cause_memory_id=ref.cause_memory_id,authority=self.runtime.authority)
+                with self.runtime.store.transaction('open.plan_review_adopted',{'goal_id':ref.goal_id}) as tx:
+                    self.agency._complete(tx,cycle.intention_id)
+                    if cycle.goal_candidate_id:tx.update('subject_goal_candidates',cycle.goal_candidate_id,state='ADOPTED')
+            return None
+        if self.open_learning:
+            learned=self.open_learning.after_cycle(self.runtime,cycle,event)
+            if learned:return {'learning_work_id':learned}
         if event.memory_review_id:return self.review_memory(event.memory_review_id,cycle)
         if event.reflection_experience_id and cycle.intention.kind=='REFLECTION' and self.learning_policy:
             self.learning_policy.apply(self.runtime,event.reflection_experience_id)
@@ -30,7 +47,11 @@ class LivingWork:
             intention=self.runtime.store.one('subject_intentions',cycle.intention_id) if cycle.intention_id else None
             if intention and intention['state']=='PENDING':self.runtime.subject.transition_intention(cycle.intention_id,expected_revision=intention['revision'],state='COMPLETED')
         if not self.agency:return None
-        if event.goal_step:return self.agency.advance(event.goal_step,cycle)
+        if event.goal_step:
+            result=self.agency.advance(event.goal_step,cycle)
+            if self.exploration and result and result.get('memory_id'):
+                self.exploration.observe(self.runtime,result['memory_id'])
+            return result
         if cycle.proposed_program_id:
             try:return self.agency.adopt(cycle)
             except CoreError as exc:
@@ -60,6 +81,9 @@ class LivingWork:
 
     def maintenance_slice(self):
         r=self.runtime
+        if self.open_learning:
+            activity=self.open_learning.slice()
+            if activity:return activity
         for head in r.store.db.execute("SELECT * FROM continuity_records c WHERE record_kind='MAINTENANCE_CANDIDATE' AND lifecycle='ACTIVE' AND NOT EXISTS (SELECT 1 FROM events e WHERE e.source_namespace='living.review' AND e.source_key=c.record_id) ORDER BY created_at_us LIMIT 16"):
             try:_,body=self.maintenance.candidate(head['record_id'])
             except CoreError:continue
@@ -75,7 +99,12 @@ class LivingWork:
         return self.maintenance.slice()
     def opportunity(self):
         if not self.agency:return None
-        r=self.runtime;ref=self.agency.next_reference()
+        r=self.runtime
+        provider=getattr(self.agency,'learning_opportunity',None)
+        if provider:
+            event=provider(r.config.entity_id)
+            if event:return {'queue_id':r.submit(event),'learning_reconsideration':True}
+        ref=self.agency.next_reference()
         if not ref:return None
         work=r.store.one('jobs',ref.work_id);head=r.store.one('continuity_records',work['record_id'])
         try:view=step_view(r.store,ref,scope=head['scope'],privacy_classes=r.config.privacy_classes)

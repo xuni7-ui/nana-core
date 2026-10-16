@@ -37,6 +37,7 @@ class Situation(DTO):
     memory_review_id: str | None = None
     adopted_program_ids: tuple[str,...] = ()
     separate_delivery: bool = False
+    goal_review_id: str | None = None
 
 
 def appraise(event: SubjectInput, situation: Situation):
@@ -111,6 +112,8 @@ def decide(event, situation, appraisal, motives):
         return ('FOCUS_NOW',Judgment(stance='REFLECT',reason='An independently recorded experience is eligible for reflection',source_ids=sources),
             Intention(kind='REFLECTION',purpose='Examine the recorded outcome without inventing new history',slot_key='reflect-'+situation.reflection_experience_id,
                 source_ids=sources,self_generated=self_generated,behavior='REFLECT'))
+    if situation.goal_review_id and not (situation.cue and situation.cue.cognitive_load=='HIGH'):
+        return ('FOCUS_NOW',Judgment(stance='ALTERNATIVE',reason='A checked new method warrants reconsidering a supported goal; no old action is retried',source_ids=sources,lesson_ids=situation.lesson_ids),Intention(kind='GOAL_CANDIDATE',purpose='Reconsider the plan using independently checked learning',slot_key='revise-'+situation.goal_review_id,source_ids=sources,self_generated=self_generated,behavior='LEARN'))
     if situation.memory_review_id:
         return ('BACKGROUND_WATCH',Judgment(stance='REMEMBER',reason='Preserve a source-linked bounded summary as derived memory, never a new observation',source_ids=sources),Intention(kind='MEMORY_CANDIDATE',purpose='Admit a traceable derived summary',slot_key='summary-'+situation.memory_review_id,source_ids=sources,self_generated=True,behavior='MAINTAIN'))
     if situation.voluntary_restraints and situation.cue and 'SOCIALIZE' in directions(situation.cue) and event.urgency!='HIGH':

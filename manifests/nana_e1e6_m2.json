@@ -1,0 +1,32 @@
+{
+  "scope": "OFFLINE_ONLY",
+  "files": {
+    "PROJECT_BRAIN/11_CHANGELOG.md": "cce4fdf065aa616291425eb3f4069698a0d980595c02ab88834c8d7cbecb2fc9",
+    "src/nana_core/continuity/agency_contracts.py": "66321692fe1ed039f1181dc1434e4c447258c4db1e946233997c4c090c77650d",
+    "src/nana_core/continuity/learning.py": "49123ff65d7756fb8efea70d6939b1219c6408841ea6c604e857b13698a0dd12",
+    "src/nana_core/continuity/open_agency/__init__.py": "e1146113798e2875fa1c8ebaba57416cd0e67e0285b358a6e6815ce328877f0d",
+    "src/nana_core/continuity/open_agency/code_skills.py": "82c46fc56b3bc902590c25f43a3fe8cf6bb5a10dc4cc37d437dd0b25698bd5a1",
+    "src/nana_core/continuity/open_agency/contracts.py": "3842c0c89918e830fb9d378d5600fba744ddbb350cdc6fe2e6e50214acdcfdb1",
+    "src/nana_core/continuity/open_agency/delivery.py": "baed7420742939193cec59e70b7467e993edaea658e66090ac6ada37bf7614fe",
+    "src/nana_core/continuity/open_agency/exploration.py": "7a2ede85004c5d0b3aa6e059182e34bec732cbd00a4ee6963474d7e900b038a1",
+    "src/nana_core/continuity/open_agency/learning.py": "f06002484a061c26dc416e9c5d59a7ebaa75abda99796fee03eaef2e5d9fc546",
+    "src/nana_core/continuity/open_agency/planning.py": "f980a5b39fcbff93b4e8d0c8b9e0782ffae47c2bb5b8f654af24570cdb3207f0",
+    "src/nana_core/continuity/open_agency/service.py": "e6ec7058fe373462d55e06ccceb74529803a529732b2546e1f4a31fce4e212ec",
+    "src/nana_core/continuity/open_agency/skill_runner.py": "60b1c7fa77384ee70237a59eaedf6f55116c4477177d0b521c8556ff87f9a532",
+    "src/nana_core/continuity/open_agency/world.py": "6db100f459a338c8eef97cd1170c73a640963f7c8f0083a1eebd8e2e64d5e0ac",
+    "src/nana_core/continuity/records.py": "488277e06bc1273ea45d92ee9d47f3cb0c5822a446060022c4bcc806ab09bc4f",
+    "src/nana_core/continuity/subject/contracts.py": "4361caccd748a546f5d29053bdaa0fc9a8fb0337fa9cf311a484c0c779a35127",
+    "src/nana_core/continuity/subject/loop.py": "6658d01cec50fef04d52d2f42332d4d1f3af005fdf53dc53b3fc2f6237a65add",
+    "src/nana_core/continuity/subject/policy.py": "f4087b104f567206cf86e6c6f27240d28dd2e83510285d7f8ec3754eb38537fc",
+    "src/nana_core/continuity/subject/reflection.py": "36f6c6b1f42ff0a1c5ce7ddca93e27b9cc57808876aab5a6a2875430078e1672",
+    "src/nana_core/presence/living.py": "32e7316a6ded7f7ac016d004daa672dbf5fd20c001be25dc1456fe1e85a8f3e5",
+    "src/nana_core/presence/queue.py": "9d6d008381a405f072dee743e4f0980d902a788ba61884dd55159c47ff01e467",
+    "tests/open_autonomy/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/open_autonomy/helpers.py": "d098afb648a8018ea1bac1cbf31aaaf8d71b08eea040539e98fa59843c3bc200",
+    "tests/open_autonomy/test_code_skills.py": "ccf5e96541779a32c4e6244d527cac6f2a6cf741b055879572372453bd4dafc2",
+    "tests/open_autonomy/test_delivery.py": "3e1ee22165d1ee4aa274eade3fe18231ebaae0f8c9f64e2329406a37036273a4",
+    "tests/open_autonomy/test_learning.py": "54064a392cfcdbe8d1ed319701211a39dbc95bc98c2d36ad9f308ae8a27d542b",
+    "tests/open_autonomy/test_media_ports.py": "85c15bc26cbae432a61d7e6e7983c486182242f478806ec1708cf70ad68b4ca5",
+    "tests/open_autonomy/test_planning.py": "eeb09eb98405bfe8ae720b7343448806ce7c20f04215e62e2ed6f70f8712b8ac"
+  }
+}

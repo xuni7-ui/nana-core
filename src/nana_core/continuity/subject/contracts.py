@@ -6,7 +6,7 @@ from .social import SocialInteractionProposal
 from .opportunities import Behavior,SyntheticActionProposal
 from ..autonomy.contracts import DisclosureRequest,DisclosureDecision,SubjectEvaluation,RealizationTarget,RelationshipDetails,PositiveRequest,RequestDecision
 from ..extensions import SurfaceEnvelope
-from ..agency_contracts import GoalStepRef
+from ..agency_contracts import GoalStepRef,GoalReviewRef
 
 from ..relational.contracts import RelationalRequest,RelationalDecision,FacetName
 
@@ -35,6 +35,7 @@ class SubjectInput(DTO):
     source_key: str = Field(pattern=r'^synthetic[.:_-][A-Za-z0-9._:-]{1,128}$')
     surface: SurfaceEnvelope | None = None
     goal_step: GoalStepRef | None = None
+    goal_review: GoalReviewRef | None = None
     memory_review_id: str | None = None
     kind: Literal['INTERACTION', 'PROJECT', 'PLAY', 'OUTCOME', 'WAKE', 'RELATIONSHIP', 'REFLECTION']
     origin: Literal['USER', 'ENVIRONMENT', 'SELF_WAKE']
@@ -71,6 +72,7 @@ class SubjectInput(DTO):
 
     @model_validator(mode='after')
     def provenance(self):
+        if self.goal_review and (self.kind!='WAKE' or self.origin!='SELF_WAKE' or self.goal_step or self.memory_review_id or self.goal_review.cause_memory_id not in self.source_memory_ids):raise ValueError('review requires a separate source-backed opportunity')
         if self.goal_step and (self.kind!='WAKE' or self.origin!='SELF_WAKE' or not self.source_memory_ids):
             raise ValueError('plan step requires a source-backed internal opportunity')
         if self.memory_review_id and (self.kind!='WAKE' or self.origin!='SELF_WAKE' or self.goal_step or not self.source_memory_ids):

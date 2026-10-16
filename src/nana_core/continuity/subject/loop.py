@@ -221,6 +221,12 @@ class SubjectLoop:
                         plan=self.records.read(rid)['payload'];adopted.append(plan['program']['program_id'])
                         if self.store.schema_target<12:plan_refs.append(rid)
                 situation=situation.model_copy(update={'separate_delivery':self.store.schema_target>=12,'adopted_program_ids':tuple(adopted),'support_record_ids':tuple(dict.fromkeys((*situation.support_record_ids,*plan_refs)))})
+            if event.goal_review:
+                goal=self.store.one('goals',event.goal_review.goal_id)
+                if self.store.schema_target<12 or not goal or goal['version']!=event.goal_review.version or goal['state'] not in {'FAILED','BLOCKED','ACTIVE','SUSPENDED'}:raise CoreError('STALE_GOAL_REVIEW')
+                rid=json.loads(goal['body_json'])['record_id']
+                if not self.visible(rid,event.scope):raise CoreError('GOAL_SOURCE_UNAVAILABLE')
+                situation=situation.model_copy(update={'goal_review_id':goal['goal_id'],'support_record_ids':tuple(dict.fromkeys((*situation.support_record_ids,rid)))})
             if event.memory_review_id:
                 from ..maintenance import MaintenanceService
                 head,body=MaintenanceService(self.store,scopes=self.scopes,entity_id=event.entity_id,privacy_classes=self.privacy_classes).candidate(event.memory_review_id)
@@ -236,6 +242,14 @@ class SubjectLoop:
             appraisal = appraise(event, situation)
             motives = motivate(event, situation, appraisal)
             attention, judgment, intention = decide(event, situation, appraisal, motives)
+            if self.store.schema_target>=12 and situation.lesson_ids and event.task_class:
+                from ..open_agency.learning import MethodStrategyRule
+                for lid in situation.lesson_ids:
+                    payload=self.records.read(self.store.one('lessons',lid)['record_id'])['payload']['rule']
+                    rule=MethodStrategyRule.model_validate_json(canonical(payload)) if payload.get('kind')=='METHOD_SELECTION' else None
+                    if isinstance(rule,MethodStrategyRule):
+                        judgment=judgment.model_copy(update={'selected_method':rule.method,'lesson_ids':situation.lesson_ids})
+                        break
             request_decision=None
             if self.store.schema_target>=9 and event.positive_request and event.retention!='DO_NOT_REMEMBER':
                 from ..autonomy.requests import evaluate_request

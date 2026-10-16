@@ -30,9 +30,10 @@ class RecordService:
                                                "relation_kind": "SUPPORT"})
         if supersedes:
             # Link revisions for erasure even if a future revision omits an old source.
-            tx.put("record_dependencies", {"link_id": uid(), "record_id": record_id,
-                                           "parent_kind": "RECORD", "parent_id": supersedes,
-                                           "relation_kind": "REVISION"})
+            if supersedes not in records:
+                tx.put("record_dependencies", {"link_id": uid(), "record_id": record_id,
+                                               "parent_kind": "RECORD", "parent_id": supersedes,
+                                               "relation_kind": "REVISION"})
             tx.update("continuity_records", supersedes, lifecycle="SUPERSEDED")
         return record_id
 
