@@ -100,6 +100,12 @@ def project_self(store, *, entity_id, scope, privacy_classes, environment=None):
         'playfulness_activation': relation['playfulness_permission'],
         'exploration_drive': 'INHIBITED_BY_DUTY' if any(r['due_at_us'] and r['due_at_us'] <= now for r in commitments)
             else 'AVAILABLE' if preferences else 'QUIET'}
+    if store.schema_target>=10:
+        from ..relational.projections import social_appetite
+        appetite=social_appetite(store,scope=scope,privacy_classes=privacy_classes)
+        internal['social_drive']=appetite.state
+        support.extend(appetite.source_record_ids)
+        memories=tuple(sorted({*memories,*appetite.source_memory_ids,*(m for rid in appetite.source_record_ids for m in records.support(rid))}))
     personality = PersonalityProfile(stable_preferences=preferences, self_beliefs=beliefs,
         expression_tendencies={'curiosity': 'EVIDENCE_SUPPORTED' if 'exploration' in preferences else 'UNESTABLISHED',
             'playfulness': relation['playfulness_permission'], 'directness': relation['challenge_comfort'],

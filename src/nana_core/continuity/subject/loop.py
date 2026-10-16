@@ -137,6 +137,12 @@ class SubjectLoop:
             if topic:
                 privacy=social_privacy(self.store,event,topic=topic,privacy_classes=self.privacy_classes,resource=cue.resource_ref if cue else None)
                 memories.extend(privacy.support_refs)
+        appetite=None
+        if self.store.schema_target>=10:
+            from ..relational.projections import social_appetite
+            appetite=social_appetite(self.store,scope=event.scope,privacy_classes=self.privacy_classes)
+            records.extend(appetite.source_record_ids);memories.extend(appetite.source_memory_ids)
+            if unresolved in {'social_exploration','social_connection','social_play'} and cue is None:unresolved=None
         return Situation(scope=event.scope, memory_ids=tuple(sorted(set(memories))),
             project_ids=tuple(projects), commitment_ids=tuple(commitments), due_commitment_ids=tuple(due),
             adopted_interests=interests, unresolved_interest=unresolved,
@@ -146,7 +152,7 @@ class SubjectLoop:
             idle=event.kind == 'WAKE',cue=cue,prohibited_behaviors=prohibited,
             interaction_style=relation.get('interaction_style','RESPECTFUL_EXPLICIT'),last_social_act=last_act,
             reflection_experience_id=event.reflection_experience_id,manager_outcomes=manager_outcomes,
-            relationship_influence=influence,social_privacy=privacy,autonomy_semantics=self.store.schema_target>=9)
+            relationship_influence=influence,social_privacy=privacy,autonomy_semantics=self.store.schema_target>=9,social_appetite=appetite)
 
     def pending(self, scope):
         return state.pending(self.store,scope,self.privacy_classes)
@@ -166,6 +172,7 @@ class SubjectLoop:
                         tx.update('subject_goal_candidates', goal['candidate_id'], state='EXPIRED' if state == 'EXPIRED' else 'WITHDRAWN')
 
     def run(self, event: SubjectInput, *, expected_revision=None, _deliberation=None):
+        if event.preference_signal and event.preference_signal.kind=='PERSONALITY_TENDENCY' and self.store.schema_target<10:raise CoreError('RELATIONAL_SCHEMA_REQUIRED')
         if any(x is not None for x in (event.disclosure_request,event.realization_target,event.governance_review_id,event.relationship_details,event.positive_request,event.commitment_check_id,event.disposition_reflection_id)) and self.store.schema_target<9:
             raise CoreError('AUTONOMY_SCHEMA_REQUIRED')
         if event.scope not in self.scopes or event.privacy_class not in self.privacy_classes:

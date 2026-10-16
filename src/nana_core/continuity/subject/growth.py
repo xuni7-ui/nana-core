@@ -89,7 +89,8 @@ class Growth:
             # Source supports must be direct, and observations cannot derive their
             # independence from earlier own choices/model/reflection outcomes.
             independent = int(event.origin == 'ENVIRONMENT' and event.kind in {'PLAY','OUTCOME'}
-                and not event.source_memory_ids and source['source_kind'] == 'DIRECT_OBSERVATION')
+                and not event.source_memory_ids and source['source_kind'] == 'DIRECT_OBSERVATION'
+                and (signal.kind!='PERSONALITY_TENDENCY' or not event.result_for_intention_id))
             tx.put('assertion_signals', {'signal_id': uid(), 'assertion_id': key,
                 'subject_event_id': row['subject_event_id'], 'direction': signal.direction,
                 'root_evidence_id': roots[0], 'independent': independent,

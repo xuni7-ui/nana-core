@@ -445,3 +445,13 @@ fabricate history/trust, suppress appetite, or expand authority. Use a distinct
 trusted SubjectBootstrapAuthority for initial declarations, never Manager, model
 or interaction-count promotion. Existing canonical identity remains untouched.
 Explicit development10 extends existing CHECKs only; no new business table.
+
+
+## D-RELATIONAL-002 — appetite before relationship choice
+On explicit10, social appetite is independently projected from source-backed
+preference/opportunity/recovery evidence and seed openness, never anchor presence
+or a close person being online. Deference may change behavior while retained
+desire stays observable. Qualitative personality support reuses Growth's source
+roots/counterevidence; one own choice or repeated audit replay is not independent
+trait support. Self Narrative is derived explanation, not a policy/charter.
+No performative defiance, independence quotas or engagement objective.

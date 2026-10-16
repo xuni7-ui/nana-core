@@ -14,3 +14,16 @@ trust, Grant, action or identity revision. Erasure/withdrawal never revives olde
 role. Schema10 CHECK extensions rebuild existing tables only (39 total), old
 C7/D8/v9 defaults unchanged. Three targeted tests passed. Remaining phases pending;
 not a READY or real-world claim. No production/private/model/external action.
+
+
+## L3-C-RELATIONAL-V1 M2 — independent appetite and sourced personality
+[实测·开发离线] Explicit10 project_self/motivate now use SocialAppetiteView,
+not relationship familiarity or anchor presence. Matched anchor/no-anchor worlds
+with equal social evidence remain equivalent. Existing Growth supports typed
+PERSONALITY_TENDENCY with independent roots/counterevidence; own action result
+cannot self-certify it. Seed supplies only qualitative initial tendency. Pure
+PersonalityTendency/SelfNarrative views rebuild after source erasure. One observed
+outcome leaves bootstrap baseline; two independent supports can establish a
+trait; counters contest it. No second truth source/personality loop. Targeted
+projection test PASS after correcting a lessons timestamp query to existing
+record metadata. Further request/accommodation/system qualification pending.

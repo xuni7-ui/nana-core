@@ -2,6 +2,7 @@
 from ...contracts import DTO
 from .contracts import Appraisal, Intention, Judgment, Motivation, SubjectInput
 from .opportunities import ConcernCue,directions
+from ..relational.contracts import SocialAppetiteView
 from ..autonomy.contracts import RelationshipInfluenceView,SocialPrivacyExpectation
 
 
@@ -29,6 +30,7 @@ class Situation(DTO):
     relationship_influence: RelationshipInfluenceView | None = None
     social_privacy: SocialPrivacyExpectation | None = None
     autonomy_semantics: bool = False
+    social_appetite: SocialAppetiteView | None = None
 
 
 def appraise(event: SubjectInput, situation: Situation):
@@ -69,7 +71,7 @@ def motivate(event, situation, appraisal):
     if event.novelty == 'HIGH':
         motives.append(Motivation(source='CURIOSITY', strength='AVAILABLE', source_ids=situation.memory_ids,
             inhibited_by=('COMMITMENT',) if situation.due_commitment_ids else ()))
-    if event.kind == 'INTERACTION' and situation.familiar:
+    if (situation.social_appetite and situation.social_appetite.state in {'OPEN','SEEKING'}) or (situation.social_appetite is None and event.kind == 'INTERACTION' and situation.familiar):
         motives.append(Motivation(source='SOCIAL_CONNECTION', strength='AVAILABLE', source_ids=situation.memory_ids))
     if appraisal.risk == 'HIGH':
         motives.insert(0, Motivation(source='CARE', strength='PRESSING', source_ids=situation.memory_ids))

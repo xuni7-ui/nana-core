@@ -14,7 +14,7 @@ INTENTION_TTL_US = 7 * DAY_US
 
 
 class PreferenceSignal(DTO):
-    kind: Literal['PREFERENCE', 'SELF_BELIEF'] = 'PREFERENCE'
+    kind: Literal['PREFERENCE', 'SELF_BELIEF', 'PERSONALITY_TENDENCY'] = 'PREFERENCE'
     topic: str = Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
     direction: Literal['SUPPORT', 'COUNTER']
     interpretation: str = Field(min_length=1, max_length=512)
