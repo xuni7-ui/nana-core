@@ -6,11 +6,11 @@ from nana_core.presence.contracts import LivingRuntimeConfig,RuntimeEvent,Cause
 from nana_core.continuity.subject import SubjectInput
 from nana_core.presence.authority import VirtualClock
 
-def fresh(path,*,clock=None,model=None,**kwargs):
+def fresh(path,*,clock=None,model=None,living=None,**kwargs):
     clock=clock or VirtualClock()
     with ContinuityStore(path,clock,schema_target=11) as s:
         IdentityService(s,OperatorAuthority());MemoryService(s).entity('synthetic-person','PERSON')
-    return NanaRuntime(path,RuntimeConfig(schema_target=11,scopes=('lab',),entity_id='synthetic-person',living=LivingRuntimeConfig(),model=model,**kwargs),clock=clock)
+    return NanaRuntime(path,RuntimeConfig(schema_target=11,scopes=('lab',),entity_id='synthetic-person',living=living or LivingRuntimeConfig(),model=model,**kwargs),clock=clock)
 
 def event(r,key,*,background=False,**kwargs):
     inp=SubjectInput(source_key='synthetic.living.'+key,kind='WAKE' if background else 'INTERACTION',origin='SELF_WAKE' if background else 'USER',entity_id='synthetic-person',scope='lab',observed_at_us=r.clock.utc_now_us(),**kwargs)

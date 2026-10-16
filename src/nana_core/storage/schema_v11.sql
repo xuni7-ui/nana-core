@@ -38,7 +38,7 @@ CREATE TABLE runtime_cognition_calls_new (
  lane TEXT NOT NULL DEFAULT 'FOREGROUND' CHECK(lane IN ('FOREGROUND','BACKGROUND')),
  reserved_bytes INTEGER NOT NULL DEFAULT 0 CHECK(reserved_bytes>=0),
  reserved_cost_micro INTEGER NOT NULL DEFAULT 0 CHECK(reserved_cost_micro>=0),
- accounting TEXT NOT NULL DEFAULT 'ESTIMATED_UPPER_BOUND'
+ accounting TEXT NOT NULL DEFAULT 'ESTIMATED_UPPER_BOUND', wall_latency_us INTEGER
 );
 INSERT INTO runtime_cognition_calls_new(call_id,queue_id,provider,state,owner_epoch,reserved_units,input_bytes,output_bytes,actual_tokens,actual_cost_micro,started_at_us,finished_at_us)
 SELECT * FROM runtime_cognition_calls;

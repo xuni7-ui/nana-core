@@ -132,7 +132,7 @@ class Runtime:
         job_id = uid()
         with self.store.transaction("scheduler.wake_scheduled") as tx:
             tx.put("jobs", {"job_id": job_id, "occurrence_key": key, "due_at_us": due_at_us,
-                "state": "WAITING", "body_json": canonical({"purpose": None})})
+                "state": "WAITING", "body_json": canonical({"purpose": None}),**({'work_kind':'LEGACY','record_id':None,'revision':1,'cursor':0,'owner_epoch':None,'updated_at_us':self.store.clock.utc_now_us()} if self.store.schema_target>=11 else {})})
         return job_id
 
     def tick(self):

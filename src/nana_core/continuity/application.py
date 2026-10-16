@@ -40,10 +40,11 @@ class CapabilityReviewProposal(DTO):
     state: Literal['PROPOSAL_ONLY_NOT_AUTHORIZATION'] = 'PROPOSAL_ONLY_NOT_AUTHORIZATION'
 
 class SubjectApplication:
-    def __init__(self,store,subject_loop,operator,*,providers,bootstrap_authority=None,health=None):
+    def __init__(self,store,subject_loop,operator,*,providers,bootstrap_authority=None,health=None,runtime_views=None,ingress=None):
         if subject_loop.store is not store:raise CoreError('FRONTEND_SUBJECT_STORE_MISMATCH')
         self._store,self._subject,self._operator=store,subject_loop,operator
         self._providers,self._bootstrap,self._health=providers,bootstrap_authority,health
+        self._runtime_views,self._ingress=runtime_views,ingress
     def session(self,policy:FrontendPolicy):
         if not set(policy.deletable_scopes)<=set(policy.context.allowed_scopes):raise CoreError('FRONTEND_POLICY_INVALID')
         if not self._store.one('entities',policy.entity_id):raise CoreError('FRONTEND_ENTITY_UNBOUND')
@@ -62,6 +63,7 @@ class FrontendSession:
         self._scope(event.scope)
         if event.entity_id!=self.__policy.entity_id or event.privacy_class not in self.__policy.context.readable_privacy or event.origin!='USER':
             raise CoreError('FRONTEND_INPUT_POLICY_DENIED')
+        if self.__app._ingress:return self.__app._ingress(envelope,event)
         return SurfaceIngress(self.__app._subject).submit(envelope,event)
     def send_input(self,envelope:SurfaceEnvelope,event:SubjectInput):
         self._allowed('SEND_INPUT');return self._event(envelope,event)
@@ -95,7 +97,10 @@ class FrontendSession:
         scopes=(scope,) if scope else p.context.allowed_scopes
         for s in scopes:self._scope(s)
         privacy=p.context.readable_privacy
-        if kind=='SELF':
+        if kind in {'LIVING_RUNTIME','LIVING_JOURNAL','RESOURCE_STATE'}:
+            if not app._runtime_views:raise CoreError('RUNTIME_VIEW_UNAVAILABLE')
+            data=app._runtime_views(kind,p.context,scopes=scopes,entity_id=p.entity_id)
+        elif kind=='SELF':
             data=self_frame(app._store,app._operator,entity_id=p.entity_id,scopes=scopes,privacy_classes=privacy).model_dump(mode='json')
         elif kind=='CONTINUITY':
             return ContinuityViews(app._store,p.context).project(tier,entity_id=p.entity_id,scopes=scopes)

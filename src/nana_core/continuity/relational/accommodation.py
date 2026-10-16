@@ -74,3 +74,18 @@ class VoluntaryAccommodationService:
         if state.state=='PROPOSED':state=self.commitments.transition(cid,'ADOPTED',expected_revision=state.revision,authority=authority)
         if state.state=='ADOPTED':self.commitments.transition(cid,'ACTIVE',expected_revision=state.revision,authority=authority)
         return cid
+
+
+class OfflineAccommodationPolicy:
+    """App-owned finite adoption policy; no desired response or execution power."""
+    def __init__(self,domains=('SOCIAL_NEW_CONTACTS',),max_duration_us=DAY):
+        if not domains or not set(domains)<={'SOCIAL_NEW_CONTACTS','COMPANIONSHIP','PROJECT','CREATIVE','REST'} or not 0<max_duration_us<=30*DAY:raise CoreError('FINITE_ACCOMMODATION_POLICY_REQUIRED')
+        self.domains,self.max_duration_us=frozenset(domains),max_duration_us
+    def apply(self,runtime,cycle):
+        d=cycle.relational_decision
+        if not d or d.request.behavior_domain not in self.domains:return None
+        if d.phase!='REVIEW' and (d.response.decision!='ACCEPT' or d.accepted_duration_us is None or d.accepted_duration_us>self.max_duration_us):return None
+        cid=VoluntaryAccommodationService(runtime.store,runtime.authority).materialize(cycle.cycle_id,runtime.authority)
+        intention=runtime.store.one('subject_intentions',cycle.intention_id) if cycle.intention_id else None
+        if cid and intention and intention['state']=='PENDING':runtime.subject.transition_intention(cycle.intention_id,expected_revision=intention['revision'],state='COMPLETED')
+        return cid

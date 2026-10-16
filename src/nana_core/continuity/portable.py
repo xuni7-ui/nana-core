@@ -23,7 +23,7 @@ from .store import ContinuityStore
 
 MAX_PACKAGE=64*1024*1024
 _FILES={'subject.sqlite','privacy.json','manifest.json'}
-_META={'recovery_quarantine','cloud.shadow_runtime','self.subject_revision','governance.registry',
+_META={'recovery_quarantine','cloud.shadow_runtime','self.subject_revision','governance.registry','governance.clock',
        'auth_high_water_us','portable.retired','portable.received','runtime.epoch_floor'}
 _TRANSIENT={'runtime.managed','runtime.health'}
 
@@ -48,7 +48,7 @@ class SubjectPackageManifest(DTO):
     identity_id: str
     identity_revision: int = Field(ge=1)
     source_commit: str = Field(pattern=r'^[0-9a-f]{40}$')
-    source_schema: int = Field(ge=7,le=10)
+    source_schema: int = Field(ge=7,le=11)
     export_event_cutoff: int = Field(ge=1)
     exported_at_us: int = Field(ge=0)
     epoch_floor: int = Field(ge=0)
@@ -167,6 +167,7 @@ class SubjectPackageService:
             db=sqlite3.connect(dbpath,isolation_level=None)
             try:
                 if s.schema_target>=8:db.execute('DELETE FROM runtime_lease')
+                if s.schema_target>=11:db.execute('UPDATE jobs SET owner_epoch=NULL')
                 db.execute("DELETE FROM core_meta WHERE key IN ('runtime.managed','runtime.health')")
                 db.execute("INSERT OR REPLACE INTO core_meta VALUES('runtime.epoch_floor',?)",(canonical(transfer['epoch_floor']),))
                 schema_sha=_schema_digest(db)

@@ -34,6 +34,8 @@ class Situation(DTO):
     social_appetite: SocialAppetiteView | None = None
     voluntary_restraints: tuple[str,...] = ()
     plan_step: PlanStepView | None = None
+    memory_review_id: str | None = None
+    adopted_program_ids: tuple[str,...] = ()
 
 
 def appraise(event: SubjectInput, situation: Situation):
@@ -106,6 +108,8 @@ def decide(event, situation, appraisal, motives):
         return ('FOCUS_NOW',Judgment(stance='REFLECT',reason='An independently recorded experience is eligible for reflection',source_ids=sources),
             Intention(kind='REFLECTION',purpose='Examine the recorded outcome without inventing new history',slot_key='reflect-'+situation.reflection_experience_id,
                 source_ids=sources,self_generated=self_generated,behavior='REFLECT'))
+    if situation.memory_review_id:
+        return ('BACKGROUND_WATCH',Judgment(stance='REMEMBER',reason='Preserve a source-linked bounded summary as derived memory, never a new observation',source_ids=sources),Intention(kind='MEMORY_CANDIDATE',purpose='Admit a traceable derived summary',slot_key='summary-'+situation.memory_review_id,source_ids=sources,self_generated=True,behavior='MAINTAIN'))
     if situation.voluntary_restraints and situation.cue and 'SOCIALIZE' in directions(situation.cue) and event.urgency!='HIGH':
         return ('DEFER',Judgment(stance='DEFER',reason='Honor a current bounded self-chosen accommodation; retain desire and permit later review',source_ids=sources),
             Intention(kind='NO_ACTION',purpose='Choose temporary restraint without losing social desire',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='STAY_SILENT'))
@@ -116,6 +120,8 @@ def decide(event, situation, appraisal, motives):
         return ('FOCUS_NOW',Judgment(stance='AGREE',reason='Continue one supported adopted-plan step; execution authority is checked separately',source_ids=sources,lesson_ids=situation.lesson_ids),Intention(kind='ACTION_PROPOSAL',purpose='Propose the next reviewed plan step',slot_key='step-'+ref.work_id+'-'+str(ref.cursor),source_ids=sources,self_generated=self_generated,behavior='CONTINUE_PROJECT'))
     if situation.cue:
         cue=situation.cue
+        if cue.program_id and cue.program_id in situation.adopted_program_ids:
+            return ('BACKGROUND_WATCH',Judgment(stance='WATCH',reason='An adopted goal already carries this concern; do not duplicate it',source_ids=sources),Intention(kind='NO_ACTION',purpose='Let the existing plan progress',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='WATCH'))
         options=[x for x in directions(cue) if x not in situation.prohibited_behaviors]
         if not options or (cue.resource_ref and cue.resource_class!='ORDINARY' and not situation.autonomy_semantics):
             return ('IGNORE',Judgment(stance='IGNORE',reason='A sourced norm/privacy constraint inhibits the possible opportunity',source_ids=sources),

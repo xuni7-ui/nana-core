@@ -1234,3 +1234,18 @@ V11 action arguments/results/receipt/verification payloads use existing deletabl
 records/dependencies rather than copying personal body into immutable action rows.
 Source erasure cancels future work, removes these payloads, preserves opaque history.
 Targeted cadence/agency and prior realization7 PASS; real external actions=0.
+
+### D2–D7 M3 — living maintenance, learning and operational projections
+
+[离线实测] Interruptible bounded source scans persist cursor in existing jobs;
+summary candidates require the same C SubjectLoop admission and remain INFERRED.
+Source correction/erasure invalidates candidates and derived summaries. Explicit
+sourced validity distinguishes event/observed/record/reference/valid time; historical
+query never undoes erasure. Existing reflection/lesson trials alter later plans;
+reviewed bounded offline procedure extension uses same policy/registry, no code install.
+Resource reservations now cover byte/cost estimates and background subquota;
+actual fixture bytes/latency/cost remain separately labeled. B10 runtime, needs,
+Primary User, goals, Manager outcome and Living Journal projections are filtered,
+rebuildable and authority-free; frontend input enters same runtime mailbox/queue.
+Targeted new10 PASS; combined existing C/D + new53 PASS (30.78s). No new table,
+model SDK, second loop/Store or real-world operation. Final qualification pending.

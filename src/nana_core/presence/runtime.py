@@ -29,6 +29,7 @@ class NanaRuntime:
             self.clock=RuntimeClock(clock or self.store.clock,max(history_floor,old['clock_high_water_us'] if old else 0))
             self.store.clock=self.clock
             self.lease=RuntimeLease(self.store,config);self.lease.acquire()
+            self.identity_id=self.store.identity['identity_id']
             self.authority=OperatorAuthority()
             IdentityService(self.store,self.authority)
             if not self.store.one('entities',config.entity_id):raise CoreError('RUNTIME_ENTITY_BINDING_REQUIRED')
@@ -75,7 +76,7 @@ class NanaRuntime:
             inp=SubjectInput(source_key='synthetic.runtime.review-template',kind='WAKE',origin='SELF_WAKE',
                 entity_id=self.config.entity_id,scope=scope,observed_at_us=now)
             event=RuntimeEvent(event_type='TIME_EVENT',trigger='TIME_TRIGGER',input=inp,
-                causes=(Cause(kind='CANONICAL_SELF',reference_id=self.store.identity['identity_id']),),due_at_us=now+self.config.review_interval_us)
+                causes=(Cause(kind='CANONICAL_SELF',reference_id=self.store.identity['identity_id']),),due_at_us=now+self.config.review_interval_us,priority=0)
             self.scheduler.add(ScheduleSpec(dedupe_key=key,kind='PERIODIC',due_at_us=event.due_at_us,
                 interval_us=self.config.review_interval_us,event=event))
 
@@ -89,6 +90,19 @@ class NanaRuntime:
     def post(self,event:RuntimeEvent):
         """Thread-safe producer API; receipt is durable only after wait() succeeds."""
         return self.cadence.post(event)
+
+    def post_surface(self,envelope,event):
+        from ..continuity.surfaces import surface_input
+        event=surface_input(envelope,event,identity_id=self.identity_id)
+        wrapped=RuntimeEvent(event_type='USER_EVENT' if event.origin=='USER' else 'WORLD_EVENT',trigger='INCOMING_EVENT',input=event,
+            causes=(Cause(kind='CANONICAL_SELF',reference_id=self.identity_id),),due_at_us=event.observed_at_us,priority=3 if event.origin=='USER' else 1)
+        return self.post(wrapped)
+
+    def application(self,*,providers,bootstrap_authority=None):
+        from ..continuity.application import SubjectApplication
+        from .projections import runtime_projection
+        return SubjectApplication(self.store,self.subject,self.authority,providers=providers,bootstrap_authority=bootstrap_authority,health=self.health,
+            runtime_views=lambda kind,policy,**kw:runtime_projection(self,kind,policy,**kw),ingress=self.post_surface)
 
     def request_stop(self):
         self.stop_requested=True;self.cadence.notify()
@@ -105,6 +119,9 @@ class NanaRuntime:
         for table in ('runtime_queue','runtime_schedules'):
             states="('READY','DEFERRED')" if table=='runtime_queue' else "('ACTIVE')"
             due=self.store.db.execute(f'SELECT min(due_at_us) FROM {table} WHERE state IN {states}').fetchone()[0]
+            if due is not None:deadlines.append(max(now+10000,due))
+        if self.work:
+            due=self.store.db.execute("SELECT min(due_at_us) FROM jobs WHERE state IN ('WAITING','RUNNING','UNKNOWN') AND work_kind IN ('SCAN','GOAL')").fetchone()[0]
             if due is not None:deadlines.append(max(now+10000,due))
         idle=min(self.cadence.max_wait,self.config.poll_seconds*(2**min(self.cadence.idle_rounds,8)))
         return max(.001,min(idle,(min(deadlines)-now)/1_000_000))
@@ -144,9 +161,17 @@ class NanaRuntime:
         self.cadence.assert_owner();self.cadence.drain(self.submit)
         self.lease.heartbeat()
         self._watch_sources();self.scheduler.due()
-        if self.work and not self.queue.has_reactive():self.work.opportunity()
+        work_activity=self.work.opportunity() if self.work and not self.queue.has_reactive() else None
         row=self.queue.claim()
         if row is None:
+            if work_activity and ('recovered' in work_activity or 'blocked' in work_activity):
+                self._save_oper()
+                return {'queue_id':None,'mode':'NO_COGNITION','reason':'RECOVERED_WORK_SAFE_POINT','cycle':None,'work':work_activity}
+            if self.work:
+                activity=self.work.maintenance_slice()
+                if activity:
+                    self._save_oper()
+                    return {'queue_id':None,'mode':'NO_COGNITION','reason':'BOUNDED_MAINTENANCE_SLICE','cycle':None,'maintenance':activity}
             self.cadence.idle_rounds=min(8,self.cadence.idle_rounds+1)
             self._save_oper();return None
         self.cadence.idle_rounds=0;self._processing=row

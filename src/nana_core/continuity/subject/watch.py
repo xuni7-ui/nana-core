@@ -66,5 +66,5 @@ def collect_opportunities(loop,*,entity_id,now_us,quiet_since_us,quiet_window_us
             result.append(AttentionOpportunity(key='reflection-'+row['experience_id'],source_kind='EXPERIENCE',source_id=row['experience_id'],
                 scope=scope,entity_id=entity_id,due_at_us=max(row['created_at_us']+quiet_window_us,quiet_since_us+quiet_window_us),
                 memory_ids=records.support(row['record_id']),event_type='REFLECTION_EVENT',wake_trigger='REFLECTION_TRIGGER',
-                task_class=row['task_class'],reflection_experience_id=row['experience_id']))
+                task_class=row['task_class'],reflection_experience_id=row['experience_id'],priority=2))
     return tuple(result[:64])

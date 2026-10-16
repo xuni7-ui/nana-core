@@ -38,6 +38,13 @@ class OfflineGoalPolicy:
     def __init__(self,programs):
         if not 1<=len(programs)<=16 or len({p.program_id for p in programs})!=len(programs):raise CoreError('FINITE_PROGRAM_POLICY_REQUIRED')
         self._programs={p.program_id:OfflineProgram.model_validate_json(p.model_dump_json()) for p in programs}
+        self._review_sources={}
+    def install_reviewed(self,program,proposal_id):
+        if program.program_id in self._programs:
+            if self._programs[program.program_id]!=program or self._review_sources.get(program.program_id)!=proposal_id:raise CoreError('PROGRAM_REGISTRY_COLLISION')
+            return
+        if len(self._programs)>=16:raise CoreError('PROGRAM_REGISTRY_CAPACITY')
+        self._programs[program.program_id]=program;self._review_sources[program.program_id]=proposal_id
     def get(self,program_id):
         if program_id not in self._programs:raise CoreError('OFFLINE_PROGRAM_NOT_REVIEWED')
         return self._programs[program_id]
@@ -56,6 +63,8 @@ class AgencyService:
         if existing:return existing[0]
         if self.store.db.execute("SELECT 1 FROM goals WHERE state IN ('PROPOSED','ACTIVE','BLOCKED')").fetchone():return None
         p=self.policy.get(cycle.proposed_program_id)
+        review=self.policy._review_sources.get(p.program_id)
+        if review and not self.records.current_support(review):raise CoreError('SKILL_SOURCE_RETIRED')
         candidate=self.store.one('subject_goal_candidates',cycle.goal_candidate_id)
         event=self.store.one('subject_events',cycle.event_id)
         if not candidate or candidate['state']!='PROPOSED' or event['scope']!=p.scope or p.motivation_source not in {m.source for m in cycle.motivations}:
@@ -159,6 +168,22 @@ class AgencyService:
 
     def _outputs(self,goal_id):
         return [json.loads(r[0])['data'] for r in self.store.db.execute("SELECT data_json FROM events WHERE kind='living.goal_step_completed' AND json_extract(data_json,'$.data.goal_id')=? ORDER BY seq",(goal_id,))]
+
+    def reconsider(self,goal_id,*,cause_memory_id,expected_version,authority):
+        """Fresh supported opportunity, never revocation -> replay of an old will."""
+        if authority is not self._authority:raise CoreError('UNAUTHENTICATED_OPERATOR')
+        goal=self.store.one('goals',goal_id)
+        if not goal or goal['version']!=expected_version or goal['state']!='BLOCKED':raise CoreError('STALE_OR_NONBLOCKED_GOAL')
+        if self.store.db.execute("SELECT 1 FROM actions WHERE goal_id=? AND state IN ('READY','DISPATCHING','UNKNOWN','PENDING_VERIFY')",(goal_id,)).fetchone():raise CoreError('VERIFY_UNKNOWN_EFFECT_FIRST')
+        meta=json.loads(goal['body_json']);work=self.store.one('jobs',meta['work_id'])
+        plan=self.records.read(work['record_id']);cause=self.records.memory.read(cause_memory_id)
+        if cause['scope']!=plan['scope'] or cause['authority']!='DIRECT' or cause['observed_time_us']<work['updated_at_us']:raise CoreError('FRESH_RECONSIDERATION_SOURCE_REQUIRED')
+        with self.store.transaction('living.goal_reconsidered',{'goal_id':goal_id,'cause_memory_id':cause_memory_id}) as tx:
+            rid=self.records.create(tx,kind='AUTONOMOUS_PLAN',scope=plan['scope'],payload=plan['payload'],records=(work['record_id'],),memories=(cause_memory_id,))
+            tx.update('jobs',work['job_id'],record_id=rid,state='WAITING',revision=work['revision']+1,due_at_us=self.store.clock.utc_now_us(),updated_at_us=self.store.clock.utc_now_us())
+            tx.update('plans',json.loads(work['body_json'])['plan_id'],body_json=canonical({'record_id':rid}))
+            tx.update('goals',goal_id,state='ACTIVE',version=goal['version']+1,body_json=canonical({**meta,'plan_record_id':rid}))
+        return goal_id
 
     def _park(self,work,view,reason,unknown=False):
         body=json.loads(work['body_json']);tries=body.get('verify_checks',0)+(1 if unknown else 0)

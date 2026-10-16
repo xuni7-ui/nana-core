@@ -20,16 +20,18 @@ def source_key(envelope):
     return 'synthetic.surface.' + digest([envelope.platform, envelope.adapter,
         envelope.surface, envelope.source_event_key])
 
+def surface_input(envelope,event,*,identity_id):
+    envelope=SurfaceEnvelope.model_validate_json(envelope.model_dump_json())
+    if envelope.subject_id!=identity_id:raise CoreError('SURFACE_SUBJECT_MISMATCH')
+    event=event.model_copy(update={'surface':envelope,'source_key':source_key(envelope)})
+    return SubjectInput.model_validate_json(event.model_dump_json())
+
 class SurfaceIngress:
     def __init__(self, subject_loop):
         self._subject = subject_loop
 
     def submit(self, envelope: SurfaceEnvelope, event: SubjectInput):
-        envelope = SurfaceEnvelope.model_validate_json(envelope.model_dump_json())
-        if envelope.subject_id != self._subject.store.identity['identity_id']:
-            raise CoreError('SURFACE_SUBJECT_MISMATCH')
-        event = event.model_copy(update={'surface': envelope, 'source_key': source_key(envelope)})
-        event = SubjectInput.model_validate_json(event.model_dump_json())
+        event=surface_input(envelope,event,identity_id=self._subject.store.identity['identity_id'])
         return self._subject.run(event)
 
 class ContinuityTier(DTO):

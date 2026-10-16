@@ -213,6 +213,19 @@ class SubjectLoop:
             self.growth.apply(tx, event, source)
             self._expire(tx)  # counter-evidence may inhibit an earlier optional intention
             situation = self.situation(event, source)
+            if self.store.schema_target>=11:
+                adopted=[];plan_refs=[]
+                for goal in self.store.db.execute("SELECT * FROM goals WHERE state IN ('ACTIVE','BLOCKED') LIMIT 1"):
+                    rid=json.loads(goal['body_json']).get('plan_record_id')
+                    if rid and self.visible(rid,event.scope):
+                        plan=self.records.read(rid)['payload'];adopted.append(plan['program']['program_id']);plan_refs.append(rid)
+                situation=situation.model_copy(update={'adopted_program_ids':tuple(adopted),'support_record_ids':tuple(dict.fromkeys((*situation.support_record_ids,*plan_refs)))})
+            if event.memory_review_id:
+                from ..maintenance import MaintenanceService
+                head,body=MaintenanceService(self.store,scopes=self.scopes,entity_id=event.entity_id,privacy_classes=self.privacy_classes).candidate(event.memory_review_id)
+                situation=situation.model_copy(update={'memory_review_id':event.memory_review_id,
+                    'memory_ids':tuple(dict.fromkeys((*situation.memory_ids,*body['memory_ids']))),
+                    'support_record_ids':tuple(dict.fromkeys((*situation.support_record_ids,event.memory_review_id)))})
             if event.goal_step:
                 from ..agency import step_view
                 view=step_view(self.store,event.goal_step,scope=event.scope,privacy_classes=self.privacy_classes)
@@ -370,6 +383,7 @@ class SubjectLoop:
                 evaluation=evaluation,disclosure=disclosure,request_decision=request_decision,selected_disposition_id=event.disposition_reflection_id,
                 realization_target=target,relational_decision=relational,
                 proposed_program_id=situation.cue.program_id if candidate_id and situation.cue else None,
+                selected_memory_candidate_id=event.memory_review_id,
                 deliberation=None if _deliberation is None else {
                     'model_descriptor': _deliberation.model_descriptor,
                     'context_digest': _deliberation.context_digest, 'raw_proposal_json': _deliberation.raw_proposal_json})

@@ -3,6 +3,7 @@ import json
 import os
 import subprocess
 import sys
+import time
 from ..contracts import CoreError
 from ..clock import Clock
 from ..storage import uid
@@ -52,6 +53,7 @@ class CognitionCoordinator:
     def __init__(self,store,config,lease):
         self.store,self.config,self.lease=store,config,lease
         self.model_kind=config.model
+        self._started={}
         self._restore_resource_state()
 
     def _restore_resource_state(self):
@@ -89,11 +91,18 @@ class CognitionCoordinator:
         count=self.store.db.execute('SELECT count(*) FROM runtime_cognition_calls WHERE started_at_us>=?',(now//DAY*DAY,)).fetchone()[0]
         if count>=self.config.max_calls_per_day:return 'LIGHT_COGNITION','COGNITION_BUDGET_EXHAUSTED'
         if situation.pending_count>=6:return 'LIGHT_COGNITION','COGNITIVE_LOAD'
+        if self.config.living:
+            from .resources import allocation_reason
+            reason=allocation_reason(self.store,self.config,row)
+            if reason:return 'LIGHT_COGNITION',reason
         return 'FULL_COGNITION','IMPORTANT_UNCERTAIN_SOURCE'
 
     def reserve(self,row):
         now=self.store.clock.utc_now_us()
         with self.store.transaction('runtime.cognition_reserved') as tx:
+            if self.config.living:
+                from .resources import allocation_reason
+                if allocation_reason(self.store,self.config,row):raise CoreError('COGNITION_RESERVATION_EXHAUSTED')
             call_id=uid()
             tx.put('runtime_cognition_calls',{'call_id':call_id,'queue_id':row['queue_id'],
                 'provider':self.model_kind,'state':'RESERVED','owner_epoch':self.lease.epoch,'reserved_units':1,
@@ -101,12 +110,16 @@ class CognitionCoordinator:
                 'started_at_us':now,'finished_at_us':None,**({'lane':'FOREGROUND' if row['event_type']=='USER_EVENT' else 'BACKGROUND',
                     'reserved_bytes':self.config.living.call_reserved_bytes if self.config.living else 0,
                     'reserved_cost_micro':self.config.living.call_estimated_cost_micro if self.config.living else 0,
-                    'accounting':'ESTIMATED_UPPER_BOUND'} if self.store.schema_target>=11 else {})})
+                    'accounting':'ESTIMATED_UPPER_BOUND','wall_latency_us':None} if self.store.schema_target>=11 else {})})
+        if self.store.schema_target>=11:self._started[call_id]=time.monotonic_ns()
         return call_id
 
     def port(self,call_id):
         def usage(input_bytes,output_bytes):
             self.lease.assert_current()
+            row=self.store.one('runtime_cognition_calls',call_id)
+            if self.config.living and input_bytes+(output_bytes if output_bytes is not None else 32768)>row['reserved_bytes']:
+                raise CoreError('COGNITION_BYTE_RESERVATION_EXCEEDED')
             # Operational byte accounting must not change cognitive state stamp.
             self.store.db.execute('UPDATE runtime_cognition_calls SET input_bytes=?,output_bytes=? WHERE call_id=? AND state=?',
                 (input_bytes,output_bytes,call_id,'RESERVED'))
@@ -118,7 +131,7 @@ class CognitionCoordinator:
         if not row or row['state']!='RESERVED':raise CoreError('RUNTIME_CALL_TERMINAL')
         with self.store.transaction('runtime.cognition_finished') as tx:
             tx.update('runtime_cognition_calls',call_id,state=state,finished_at_us=self.store.clock.utc_now_us(),
-                actual_tokens=0,actual_cost_micro=0)  # registered fixtures ONLY, not provider billing
+                actual_tokens=0,actual_cost_micro=0,**({'wall_latency_us':max(0,(time.monotonic_ns()-self._started.pop(call_id,time.monotonic_ns()))//1000)} if self.store.schema_target>=11 else {}))  # registered fixtures ONLY
         if state not in {'SUCCEEDED','CANCELLED'}:
             self.availability='DEGRADED'
             self.backoff_until=self.store.clock.utc_now_us()+self.config.cognition_backoff_us
