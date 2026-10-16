@@ -1083,3 +1083,5 @@ Baseline manifest SHA256 de048df5d8c62fd8a5f5b9ede8acf8d4c5afa8d05ad800ef033165c
 [实测] E1/E2 主干开发 targeted7 PASS；完整验收待后续。M1 manifest SHA256 f6ead883494b675edfd2f34f9ffefd35b1e22aec89d4e478f3d6fd40c453a9b9 (`manifests/nana_e1e6_m1.json`).
 
 [实测] E3/E4/B9 接线 targeted C/new/旧D2–D7 合计62 PASS；最终全量待验。M2 manifest SHA256 eecacaab705e2e0d63d7dbc74c4f1a06134f0ab5bf701c6b2a3f13e616c71cb3 (`manifests/nana_e1e6_m2.json`).
+
+[实测] E1–E6 integrated offline candidate:23 targeted PASS；真实生产状态不升级，最终全量待验。M3 manifest SHA256 e65a40fed8e2cf84c2c802438c2039f44110e5bd015527df0509bc7281fe285d (`manifests/nana_e1e6_m3.json`).

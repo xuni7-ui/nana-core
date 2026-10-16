@@ -20,10 +20,11 @@ class LivingWork:
         r=self.runtime
         self.agency=OpenAgencyService(r.store,r.subject,r.authority,policy,port,step_interval_us=r.config.living.step_interval_us)
         self.agency.learning=self.open_learning
+        port.permitted_privacy=r.config.privacy_classes
     def configure_open_learning(self,specs,**kwargs):
         from ..continuity.open_agency.learning import LearningService
         r=self.runtime
-        self.open_learning=LearningService(r.store,r.authority,specs,privacy_classes=r.config.privacy_classes,**kwargs)
+        self.open_learning=LearningService(r.store,r.authority,specs,privacy_classes=r.config.privacy_classes,scopes=r.config.scopes,**kwargs)
         if self.agency:self.agency.learning=self.open_learning
     def after_cycle(self,cycle,event):
         if not cycle:return None
@@ -82,7 +83,13 @@ class LivingWork:
     def maintenance_slice(self):
         r=self.runtime
         if self.open_learning:
-            activity=self.open_learning.slice()
+            try:activity=self.open_learning.slice()
+            except (CoreError,TimeoutError) as exc:
+                if isinstance(exc,CoreError) and exc.code in {'RUNTIME_LEASE_LOST','PRIVACY_ANCHOR_INVALID','PRIVACY_ANCHOR_UNAVAILABLE'}:raise
+                job=self.open_learning.next_job()
+                if not job:raise
+                with r.store.transaction('open.learning_unknown',{'work_id':job['job_id'],'error_type':type(exc).__name__}) as tx:tx.update('jobs',job['job_id'],state='UNKNOWN',revision=job['revision']+1)
+                return {'work_id':job['job_id'],'reason':'LEARNING_UNKNOWN_REVIEW_REQUIRED'}
             if activity:return activity
         for head in r.store.db.execute("SELECT * FROM continuity_records c WHERE record_kind='MAINTENANCE_CANDIDATE' AND lifecycle='ACTIVE' AND NOT EXISTS (SELECT 1 FROM events e WHERE e.source_namespace='living.review' AND e.source_key=c.record_id) ORDER BY created_at_us LIMIT 16"):
             try:_,body=self.maintenance.candidate(head['record_id'])

@@ -15,10 +15,25 @@ class OfflineEffectPort:
         body=self._load();body['workflow_fixture']=True
         body.setdefault('source_fixtures',{})[resource]={'text':text,'locator':locator}
         self._save(body)
-    def seed_observation(self,resource,data):
+    def seed_observation(self,resource,data,*,privacy_class='PUBLIC'):
         from ..open_agency.world import LocalWorldRegistry,bounded_data
         LocalWorldRegistry().validate('world.observe',resource,{})
-        bounded_data(data);body=self._load();body.setdefault('observables',{})[resource]=data;self._save(body)
+        bounded_data(data)
+        from ..memory import PRIVACY_RANK
+        if privacy_class not in PRIVACY_RANK:raise CoreError('WORLD_PRIVACY_INVALID')
+        labels=[privacy_class]
+        def labels_from(value):
+            if isinstance(value,dict):
+                if 'privacy_class' in value:
+                    if value['privacy_class'] not in PRIVACY_RANK:raise CoreError('WORLD_PRIVACY_INVALID')
+                    labels.append(value['privacy_class'])
+                for item in value.values():labels_from(item)
+            elif isinstance(value,list):
+                for item in value:labels_from(item)
+        labels_from(data)
+        body=self._load();body.setdefault('observables',{})[resource]=data
+        body.setdefault('observation_privacy',{})[resource]=max(labels,key=PRIVACY_RANK.get)
+        self._save(body)
     def __init__(self,identity_id,world_path):
         self.identity_id=identity_id;self.path=Path(world_path)
         if not self.path.name.endswith('.fixture.json'):raise CoreError('OFFLINE_FIXTURE_PATH_REQUIRED')

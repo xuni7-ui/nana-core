@@ -34,3 +34,12 @@ def test_generated_python_fails_repairs_sandbox_tests_reviews_packages_and_retir
 def test_untrusted_import_or_reflection_cannot_become_a_skill():
     for code in ('import os\ndef transform(data): return os.environ', 'def transform(data):\n return data.__class__', 'def transform(data):\n return open("/etc/passwd").read()'):
         with pytest.raises(CoreError):static_check(code)
+
+def test_copied_active_skill_record_does_not_recreate_local_execution_authority(tmp_path):
+    with fresh(tmp_path/'s'/'self.db') as r:
+        _,cycle=skill_need(r);svc=CodeSkillService(r.store,r.authority);spec=CodeSpec(name='total',revision=1,purpose='A local precision task',task='FRACTIONAL_TOTAL')
+        generated=svc.propose(cycle,spec,FixtureCodeProposer(),diagnostic='preserve fractions')
+        tested=svc.test(generated,(LearningCase(case_id='check',context='test',data=[.25,.5],expected=.75),))
+        sha=RecordService(r.store).read(tested)['payload']['source_digest'];active=svc.review(tested,authority=r.authority,expected_digest=sha)
+        other=CodeSkillService(r.store,r.authority)
+        with pytest.raises(CoreError,match='CURRENT_REALM_REVIEW_REQUIRED'):other.invoke(active,[1,2])

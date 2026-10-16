@@ -60,14 +60,17 @@ class IndependentEvaluator:
         return {'checked':len(rows),'passed':sum(r['passed'] for r in rows),'cases':rows,'all_passed':all(r['passed'] for r in rows)}
 
 class LearningService:
-    def __init__(self,store,authority,specs,*,privacy_classes,proposer=None,evaluator=None,max_pending=4,cost_ceiling_micro=10000):
+    def __init__(self,store,authority,specs,*,privacy_classes,scopes,proposer=None,evaluator=None,max_pending=4,cost_ceiling_micro=10000):
         if store.schema_target<12:raise CoreError('OPEN_AGENCY_SCHEMA_REQUIRED')
         self.store,self.authority=store,authority;self.records=RecordService(store)
         self.specs={s.learning_key:LearningSpec.model_validate_json(s.model_dump_json()) for s in specs}
         if len(self.specs)>16 or not 1<=max_pending<=8:raise CoreError('LEARNING_POLICY_BOUND')
         self.proposer=proposer or FixtureLearningProposer();self.evaluator=evaluator or IndependentEvaluator()
-        self.privacy=privacy_classes;self.max_pending=max_pending;self.ceiling=cost_ceiling_micro
+        self.scopes=tuple(scopes)
+        if not self.scopes:raise CoreError('LEARNING_SCOPE_REQUIRED')
+        self.privacy=tuple(privacy_classes);self.max_pending=max_pending;self.ceiling=cost_ceiling_micro
     def after_cycle(self,runtime,cycle,event):
+        if event.scope not in self.scopes:raise CoreError('LEARNING_SCOPE_DENIED')
         if not cycle.evaluation or cycle.evaluation.normative!='ENDORSED':return None
         spec=self.specs.get(cycle.proposed_program_id)
         experience=None
@@ -81,7 +84,7 @@ class LearningService:
         if old:return old['job_id']
         # One work item per supported learning problem; a wake/replay cannot
         # recreate completed work or indefinitely train on its own outputs.
-        previous=self.store.db.execute("SELECT j.* FROM jobs j JOIN continuity_records r ON r.record_id=j.record_id WHERE j.work_kind='LEARNING' AND r.target_id=? AND r.lifecycle='ACTIVE' LIMIT 1",(spec.learning_key,)).fetchone()
+        previous=self.store.db.execute("SELECT j.* FROM jobs j JOIN continuity_records r ON r.record_id=j.record_id WHERE j.work_kind='LEARNING' AND r.target_id=? AND r.scope=? AND r.lifecycle='ACTIVE' LIMIT 1",(spec.learning_key,event.scope)).fetchone()
         if previous:
             i=self.store.one('subject_intentions',cycle.intention_id)
             if i and i['state']=='PENDING':
@@ -98,8 +101,11 @@ class LearningService:
             if cycle.goal_candidate_id:tx.update('subject_goal_candidates',cycle.goal_candidate_id,state='ADOPTED')
         return wid
 
+    def next_job(self):
+        scopes=','.join('?' for _ in self.scopes);privacy=','.join('?' for _ in self.privacy)
+        return self.store.db.execute(f"SELECT j.* FROM jobs j JOIN continuity_records r ON r.record_id=j.record_id WHERE r.scope IN ({scopes}) AND r.privacy_class IN ({privacy}) AND j.work_kind='LEARNING' AND j.state='WAITING' AND j.due_at_us<=? ORDER BY j.due_at_us LIMIT 1",(*self.scopes,*self.privacy,self.store.clock.utc_now_us())).fetchone()
     def slice(self):
-        job=self.store.db.execute("SELECT * FROM jobs WHERE work_kind='LEARNING' AND state='WAITING' AND due_at_us<=? ORDER BY due_at_us LIMIT 1",(self.store.clock.utc_now_us(),)).fetchone()
+        job=self.next_job()
         if not job:return None
         rid=job['record_id'];head=self.store.one('continuity_records',rid)
         if not self.records.current_support(rid) or head['lifecycle']!='ACTIVE':return self._terminal(job,'CANCELLED','SOURCE_RETIRED')
@@ -166,7 +172,15 @@ class LearningService:
     def _terminal(self,job,state,reason):
         with self.store.transaction('open.learning_parked',{'work_id':job['job_id'],'reason':reason}) as tx:tx.update('jobs',job['job_id'],state=state,revision=job['revision']+1)
         return {'work_id':job['job_id'],'reason':reason}
+    def resume(self,work_id,*,expected_revision,cause_memory_id,authority):
+        if authority is not self.authority:raise CoreError('UNAUTHENTICATED_OPERATOR')
+        job=self.store.one('jobs',work_id)
+        if not job or job['work_kind']!='LEARNING' or job['state']!='UNKNOWN' or job['revision']!=expected_revision:raise CoreError('STALE_LEARNING_WORK')
+        parent=self.records.read(job['record_id']);cause=self.records.memory.read(cause_memory_id)
+        if parent['scope'] not in self.scopes or not self.records.current_support(job['record_id']) or cause['scope']!=parent['scope'] or cause['authority']!='DIRECT':raise CoreError('LEARNING_RECOVERY_SOURCE_REQUIRED')
+        with self.store.transaction('open.learning_reconsidered',{'work_id':work_id,'cause_memory_id':cause_memory_id}) as tx:tx.update('jobs',work_id,state='WAITING',revision=job['revision']+1)
     def strategy(self,domain,scope):
+        if scope not in self.scopes:raise CoreError('LEARNING_SCOPE_DENIED')
         for row in self.store.db.execute("SELECT * FROM lessons WHERE task_class=? AND state='ACTIVE' ORDER BY rowid DESC LIMIT 16",(domain,)):
             head=self.store.one('continuity_records',row['record_id'])
             if head['scope']!=scope or head['privacy_class'] not in self.privacy or head['lifecycle']!='ACTIVE' or not self.records.current_support(head['record_id']):continue

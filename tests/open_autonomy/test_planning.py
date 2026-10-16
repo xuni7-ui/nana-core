@@ -39,3 +39,23 @@ def test_missing_grant_blocks_without_attempt_or_authority_from_adoption(tmp_pat
         mid=cue(r,o);send(r,'adopt',(mid,));r.step();advance(r,2)
         assert r.store.all('goals')[0]['state']=='BLOCKED'
         assert not r.store.all('attempts') and not r.store.all('grants')
+
+def test_subgoal_dependency_suspend_resume_and_completed_cause_dedup(tmp_path):
+    with fresh(tmp_path/'s'/'self.db') as r:
+        parent=objective();port=configure(r,tmp_path/'w'/'world.fixture.json',(parent,))
+        port.seed_observation(parent.operators[0].resource,[1.2,2.3]);mid=cue(r,parent)
+        send(r,'parent',(mid,));r.step();g=r.store.all('goals')[0]
+        cause=capture(r,'pause-review','A sourced synthetic pause and later continuation opportunity.')
+        r.work.agency.transition(g['goal_id'],'SUSPENDED',expected_version=g['version'],authority=r.authority,cause_memory_id=cause)
+        child=objective('fixture.child',parent_id=g['goal_id'],depends_on=(g['goal_id'],))
+        r.work.agency.policy.objectives[child.objective_id]=child
+        now=r.clock.utc_now_us();kernel=r.work.agency.realization.kernel
+        kernel.grant(GrantSpec(capabilities=tuple(kernel.capabilities)+(kernel.verify_capability,),resources=tuple(op.resource for op in child.operators),not_before_us=now,expires_at_us=now+HOUR),r.authority)
+        port.seed_observation(child.operators[0].resource,[1.2,2.3]);cmid=cue(r,child);send(r,'child',(cmid,));r.drain(8)
+        assert len(r.store.all('goals'))==2 and not r.store.all('actions')
+        suspended=r.store.one('goals',g['goal_id'])
+        r.work.agency.transition(g['goal_id'],'ACTIVE',expected_version=suspended['version'],authority=r.authority,cause_memory_id=cause)
+        advance(r,12);assert all(g['state']=='COMPLETED' for g in r.store.all('goals'))
+        actions=r.store.all('actions');assert all(a['goal_id']==g['goal_id'] for a in actions[:3])
+        send(r,'same-cause-after-complete',(mid,));r.drain(8)
+        assert len(r.store.all('goals'))==2

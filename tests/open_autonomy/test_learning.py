@@ -25,7 +25,7 @@ def start_learning(r,spec,key='learn'):
 
 def test_learning_heldout_transfer_changes_actual_later_plan_and_judgment(tmp_path):
     with fresh(tmp_path/'s'/'self.db') as r:
-        spec=number_learning();ls=LearningService(r.store,r.authority,(spec,),privacy_classes=('PERSONAL',));r.work.open_learning=ls
+        spec=number_learning();ls=LearningService(r.store,r.authority,(spec,),privacy_classes=('PERSONAL',),scopes=('lab',));r.work.open_learning=ls
         start_learning(r,spec)
         assert ls.strategy('numbers','lab')[1]=='NUMERIC_SUM'
         obj=objective(method='NAIVE_SUM');p=configure(r,tmp_path/'w'/'world.fixture.json',(obj,));r.work.agency.learning=ls
@@ -41,7 +41,7 @@ def test_learning_heldout_transfer_changes_actual_later_plan_and_judgment(tmp_pa
 
 def test_different_domain_and_timeout_does_not_advance_learning_cursor(tmp_path):
     with fresh(tmp_path/'s'/'self.db') as r:
-        spec=language_learning();ls=LearningService(r.store,r.authority,(spec,),privacy_classes=('PERSONAL',));r.work.open_learning=ls
+        spec=language_learning();ls=LearningService(r.store,r.authority,(spec,),privacy_classes=('PERSONAL',),scopes=('lab',));r.work.open_learning=ls
         start_learning(r,spec,'words')
         assert ls.strategy('language','lab')[1]=='UNICODE_WORDS'
         work=r.store.db.execute("SELECT * FROM jobs WHERE work_kind='LEARNING'").fetchone()
@@ -53,10 +53,10 @@ def test_different_domain_and_timeout_does_not_advance_learning_cursor(tmp_path)
         spec=number_learning()
         class Broken:
             def evaluate(self,*a):raise TimeoutError()
-        ls=LearningService(r.store,r.authority,(spec,),privacy_classes=('PERSONAL',),evaluator=Broken());r.work.open_learning=ls
-        with pytest.raises(TimeoutError):start_learning(r,spec)
+        ls=LearningService(r.store,r.authority,(spec,),privacy_classes=('PERSONAL',),scopes=('lab',),evaluator=Broken());r.work.open_learning=ls
+        start_learning(r,spec)
         job=r.store.db.execute("SELECT * FROM jobs WHERE work_kind='LEARNING'").fetchone()
-        assert job['cursor']==3 and job['state']=='WAITING' and not r.store.all('lessons')
+        assert job['cursor']==3 and job['state']=='UNKNOWN' and not r.store.all('lessons')
 
 def test_verified_failure_selects_learning_then_runtime_replans_same_goal(tmp_path):
     with fresh(tmp_path/'s'/'self.db') as r:

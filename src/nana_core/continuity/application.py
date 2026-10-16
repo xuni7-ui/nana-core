@@ -97,7 +97,7 @@ class FrontendSession:
         scopes=(scope,) if scope else p.context.allowed_scopes
         for s in scopes:self._scope(s)
         privacy=p.context.readable_privacy
-        if kind in {'LIVING_RUNTIME','LIVING_JOURNAL','RESOURCE_STATE'}:
+        if kind in {'LIVING_RUNTIME','LIVING_JOURNAL','RESOURCE_STATE','OPEN_AUTONOMY'}:
             if not app._runtime_views:raise CoreError('RUNTIME_VIEW_UNAVAILABLE')
             data=app._runtime_views(kind,p.context,scopes=scopes,entity_id=p.entity_id)
         elif kind=='SELF':

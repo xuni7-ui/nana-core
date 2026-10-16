@@ -17,7 +17,7 @@ class CodeSpec(DTO):
     revision: int = Field(ge=1)
     purpose: str = Field(min_length=1,max_length=512)
     contract: Literal['JSON_PURE_TRANSFORM_V1'] = 'JSON_PURE_TRANSFORM_V1'
-    task: Literal['FRACTIONAL_TOTAL','UNICODE_TOKENS']
+    task: str = Field(pattern=r'^[A-Z][A-Z0-9_]{1,63}$')
     input_limit: int = Field(default=8192,ge=1,le=8192)
     output_limit: int = Field(default=8192,ge=1,le=8192)
 class CodeCandidate(DTO):
@@ -29,7 +29,8 @@ class FixtureCodeProposer:
     def implement(self,spec,diagnostic=None):
         if spec.task=='FRACTIONAL_TOTAL':
             source='def transform(data):\n    return sum(x for x in data if isinstance(x, (int, float)))\n' if diagnostic else 'def transform(data):\n    return sum(int(x) for x in data if isinstance(x, (int, float)))\n'
-        else:source='def transform(data):\n    return data.split()\n'
+        elif spec.task=='UNICODE_TOKENS':source='def transform(data):\n    return data.split()\n'
+        else:raise CoreError('FIXTURE_CODE_TASK_UNAVAILABLE')
         return CodeCandidate(source=source)
 
 def static_check(source):
@@ -79,7 +80,7 @@ class IsolatedSkillRunner:
 class CodeSkillService:
     def __init__(self,store,authority,*,runner=None):
         if store.schema_target<12:raise CoreError('OPEN_AGENCY_SCHEMA_REQUIRED')
-        self.store,self.authority=store,authority;self.records=RecordService(store);self.runner=runner or IsolatedSkillRunner()
+        self.store,self.authority=store,authority;self.records=RecordService(store);self.runner=runner or IsolatedSkillRunner();self._tested=set();self._enabled=set()
     def propose(self,cycle,spec,proposer,*,diagnostic=None):
         if not cycle.evaluation or cycle.evaluation.normative!='ENDORSED' or not cycle.record_id or cycle.intention.behavior not in {'LEARN','SEEK_CAPABILITY','CREATE'}:raise CoreError('SUBJECT_SKILL_NEED_REQUIRED')
         if not self.records.current_support(cycle.record_id):raise CoreError('SKILL_SOURCE_RETIRED')
@@ -94,7 +95,7 @@ class CodeSkillService:
         return rid
     def test(self,rid,cases):
         row=self.records.read(rid);body=row['payload']
-        if row['record_kind']!='CODE_SKILL' or body['state']!='GENERATED' or not self.records.current_support(rid):raise CoreError('SKILL_NOT_TESTABLE')
+        if row['record_kind']!='CODE_SKILL' or body['state'] not in {'GENERATED','ACTIVE','TESTED'} or not self.records.current_support(rid):raise CoreError('SKILL_NOT_TESTABLE')
         if not 1<=len(cases)<=16:raise CoreError('SKILL_TEST_BOUND')
         results=[];started=time.monotonic_ns()
         for case in cases:
@@ -103,15 +104,18 @@ class CodeSkillService:
         new={**body,'state':'TESTED' if all(x['passed'] for x in results) else 'REJECTED','tests':{'cases':results,'wall_latency_us':(time.monotonic_ns()-started)//1000,'actual_model_cost_micro':0,'isolation':'BWRAP_NAMESPACES_READONLY_NO_NETWORK'}}
         with self.store.transaction('open.code_skill_tested',{'source_digest':body['source_digest'],'passed':new['state']=='TESTED'}) as tx:
             out=self.records.create(tx,kind='CODE_SKILL',scope=row['scope'],payload=new,records=(rid,),supersedes=rid,target_id=row['target_id'])
+        self._tested.add(out)
         return out
     def review(self,rid,*,authority,expected_digest):
         if authority is not self.authority:raise CoreError('UNAUTHENTICATED_OPERATOR')
         row=self.records.read(rid);b=row['payload']
+        if rid not in self._tested:raise CoreError('CURRENT_REALM_TEST_REQUIRED')
         if b['state']!='TESTED' or b['source_digest']!=expected_digest or not self.records.current_support(rid) or not all(x['passed'] for x in b['tests']['cases']):raise CoreError('SKILL_REVIEW_REJECTED')
         # Activation is an application reviewed local realm only. Invoking still
         # requires the ordinary world.skill Kernel Grant/Manager/Budget gates.
         with self.store.transaction('open.code_skill_reviewed',{'source_digest':expected_digest,'realm':'ISOLATED_ONLY'}) as tx:
             active=self.records.create(tx,kind='CODE_SKILL',scope=row['scope'],payload={**b,'state':'ACTIVE'},records=(rid,),supersedes=rid,target_id=row['target_id'])
+        self._enabled.add(active)
         return active
     def retire(self,rid,*,authority):
         if authority is not self.authority:raise CoreError('UNAUTHENTICATED_OPERATOR')
@@ -120,6 +124,7 @@ class CodeSkillService:
         with self.store.transaction('open.code_skill_retired',{'record_id':rid}) as tx:
             return self.records.create(tx,kind='CODE_SKILL',scope=row['scope'],payload={**row['payload'],'state':'RETIRED'},records=(rid,),supersedes=rid,target_id=row['target_id'])
     def invoke(self,rid,data):
+        if rid not in self._enabled:raise CoreError('CURRENT_REALM_REVIEW_REQUIRED')
         row=self.records.read(rid);b=row['payload']
         if row['record_kind']!='CODE_SKILL' or b['state']!='ACTIVE' or not self.records.current_support(rid) or static_check(b['source'])!=b['source_digest']:raise CoreError('SKILL_NOT_ACTIVE')
         if len(canonical(data).encode())>b['spec']['input_limit']:raise CoreError('SKILL_INPUT_BOUND')

@@ -49,6 +49,9 @@ class ContinuityTier(DTO):
     intention_ids: tuple[str, ...] = ()
     goal_candidate_ids: tuple[str, ...] = ()
     latest_cycle_record_ids: tuple[str, ...] = ()
+    adopted_goal_ids: tuple[str,...] = ()
+    learning_work_ids: tuple[str,...] = ()
+    skill_record_ids: tuple[str,...] = ()
     surfaces: tuple[SurfaceEnvelope, ...] = ()
     recorded_at_us: tuple[int, ...] = ()
     coverage: Literal['BOUNDED_PROJECTION_NOT_FULL_HISTORY'] = 'BOUNDED_PROJECTION_NOT_FULL_HISTORY'
@@ -109,10 +112,16 @@ class ContinuityViews:
             # Narrative/assertion history is a view over existing, deletable records.
             for raw in self._store.db.execute(f"SELECT record_id FROM continuity_records WHERE scope IN ({','.join('?' for _ in scopes)}) AND record_kind IN ('REFLECTION','LESSON','ASSERTION','SUBJECT_BOOTSTRAP','EXPERIENCE') ORDER BY created_at_us DESC LIMIT ?",(*scopes,limit)):
                 if visible(raw[0]):rids.append(raw[0])
+        adopted=[];learning=[];skills=[]
+        if self._store.schema_target>=12:
+            from .open_agency.projections import project_open
+            filtered=self._policy.model_copy(update={'readable_privacy':privacy})
+            view=project_open(self._store,filtered,scopes=scopes,limit=min(limit,64))
+            adopted=[g.goal_id for g in view.goals];learning=[l.work_id for l in view.learning];skills=[s.record_id for s in view.skills]
         if token!=state_token(self._store):raise CoreError('CONTINUITY_VIEW_STALE')
         return ContinuityTier(tier=tier,subject_id=self._store.identity['identity_id'],entity_id=entity_id,
             as_of_us=self._store.clock.utc_now_us(),state_token=token,source_event_ids=tuple(events),
             source_record_ids=tuple(dict.fromkeys(rids)),source_memory_ids=memories,
             commitment_ids=tuple(commitments),project_ids=tuple(projects),intention_ids=tuple(intentions),
-            goal_candidate_ids=tuple(goals),latest_cycle_record_ids=tuple(cycles),
+            goal_candidate_ids=tuple(goals),latest_cycle_record_ids=tuple(cycles),adopted_goal_ids=tuple(adopted),learning_work_ids=tuple(learning),skill_record_ids=tuple(skills),
             surfaces=tuple(surfaces),recorded_at_us=tuple(times))

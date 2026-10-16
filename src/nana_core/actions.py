@@ -24,6 +24,8 @@ class ActionKernel:
         """Explicit v11 payloads inherit C provenance/erasure, not immutable prose."""
         from .continuity.records import RecordService
         support=getattr(self.store,'_governed_payload_support',None)
+        if action and self.store.schema_target>=12:
+            support=json.loads(action['args_json']).get('action_payload_record') or support
         if not support and action:
             support=json.loads(action['args_json']).get('action_payload_record')
             if not support:
@@ -33,7 +35,9 @@ class ActionKernel:
                 if link:support=json.loads(link[0])['data']['outcome_record_id']
         if not support:raise CoreError('ACTION_PAYLOAD_SUPPORT_REQUIRED')
         records=RecordService(self.store);parent=records.read(support)
-        rid=records.create(tx,kind='ACTION_PAYLOAD',scope=parent['scope'],payload=payload,records=(support,))
+        floor=self.registry.payload_privacy(payload) if self.store.schema_target>=12 and self.registry else None
+        inputs=getattr(self.store,'_governed_input_memories',()) if action is None else ()
+        rid=records.create(tx,kind='ACTION_PAYLOAD',scope=parent['scope'],payload=payload,records=(support,),memories=inputs,privacy_floor=floor)
         return rid,self.store.one('continuity_records',rid)['payload_artifact_id']
 
     def payload(self,action,field):

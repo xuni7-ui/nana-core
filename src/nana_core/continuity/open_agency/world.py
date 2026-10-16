@@ -14,9 +14,11 @@ URI=r'^synthetic://[A-Za-z0-9/._:-]{1,160}$'
 class ObserveArgs(DTO): pass
 class ComputeArgs(DTO):
     method: Literal['IDENTITY','NAIVE_SUM','NUMERIC_SUM','SPLIT_SPACE','UNICODE_WORDS','SORT','JOIN','CASEFOLD']
+    data_privacy: Literal['PUBLIC','PROJECT','PERSONAL','SECRET'] = 'PUBLIC'
     data: Any = None
     input_from: str | None = Field(default=None,pattern=r'^[a-z][a-z0-9._-]{0,63}$')
 class PublishArgs(DTO):
+    data_privacy: Literal['PUBLIC','PROJECT','PERSONAL','SECRET'] = 'PUBLIC'
     data: Any = None
     input_from: str | None = Field(default=None,pattern=r'^[a-z][a-z0-9._-]{0,63}$')
 class ContactArgs(PublishArgs):
@@ -42,6 +44,18 @@ class LocalWorldRegistry:
     verify_capability='world.action.verify'
     @staticmethod
     def is_write(capability):return capability in {'world.publish','world.contact'}
+    @staticmethod
+    def payload_privacy(payload):
+        from ..memory import PRIVACY_RANK
+        labels=['PUBLIC']
+        def visit(value):
+            if isinstance(value,dict):
+                for key,item in value.items():
+                    if key in {'privacy_class','data_privacy'} and isinstance(item,str) and item in PRIVACY_RANK:labels.append(item)
+                    visit(item)
+            elif isinstance(value,(list,tuple)):
+                for item in value:visit(item)
+        visit(payload);return max(labels,key=PRIVACY_RANK.get)
     def validate(self,capability,resource,args):
         if capability not in MODELS or not re.fullmatch(URI,resource):raise CoreError('WORLD_SCOPE_DENIED')
         result=MODELS[capability].model_validate(args).model_dump()
@@ -72,19 +86,21 @@ def execute_world(port,inv):
     args=LocalWorldRegistry().validate(inv.capability,inv.resource,inv.args)
     body=port._load()
     if inv.capability=='world.observe':
+        classification=body.get('observation_privacy',{}).get(inv.resource,'UNKNOWN')
+        if classification not in getattr(port,'permitted_privacy',('PUBLIC',)):raise CoreError('WORLD_DATA_PRIVACY_DENIED')
         value=body.get('observables',{}).get(inv.resource)
         if value is None:raise CoreError('WORLD_OBSERVATION_UNAVAILABLE')
-        return {'data':value,'revision':digest(value),'origin':'SYNTHETIC_WORLD_OBSERVATION'}
-    if inv.capability=='world.compute':return {'data':transform(args['method'],args['data']),'method':args['method']}
+        return {'data':value,'data_privacy':classification,'revision':digest(value),'origin':'SYNTHETIC_WORLD_OBSERVATION'}
+    if inv.capability=='world.compute':return {'data':transform(args['method'],args['data']),'data_privacy':args['data_privacy'],'method':args['method']}
     if inv.capability=='world.skill':
         controller=getattr(port,'code_skills',None)
         if controller is None:raise CoreError('CODE_SKILL_CONTROLLER_UNAVAILABLE')
-        return {'data':controller.invoke(args['skill_record_id'],args['data']), 'skill_record_id':args['skill_record_id']}
+        return {'data':controller.invoke(args['skill_record_id'],args['data']),'data_privacy':args['data_privacy'], 'skill_record_id':args['skill_record_id']}
     if inv.capability=='world.contact':
         # Admission is checked again at dispatch through a trusted callback.
         if not getattr(port,'delivery',None):raise CoreError('DELIVERY_ADMISSION_REQUIRED')
-        port.delivery.require(args['admission_id'],inv.resource)
+        port.delivery.require(args['admission_id'],inv.resource,invocation=inv)
         contact=body.get('observables',{}).get(inv.resource,{})
         if contact.get('availability')!='AVAILABLE':raise CoreError('RECIPIENT_NOT_AVAILABLE')
-        return {'data':args['data'],'delivered':'SYNTHETIC_ONLY','reaction':contact.get('reaction','NO_RESPONSE')}
-    return {'data':args['data'],'published':'SYNTHETIC_ONLY'}
+        return {'data':args['data'],'data_privacy':args['data_privacy'],'delivered':'SYNTHETIC_ONLY','reaction':contact.get('reaction','NO_RESPONSE')}
+    return {'data':args['data'],'data_privacy':args['data_privacy'],'published':'SYNTHETIC_ONLY'}

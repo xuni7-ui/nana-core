@@ -14,6 +14,9 @@ def runtime_projection(runtime,kind,policy,*,scopes,entity_id):
     if not runtime.config.living:raise CoreError('LIVING_RUNTIME_NOT_ENABLED')
     if not set(scopes)<=set(policy.allowed_scopes):raise CoreError('RUNTIME_VIEW_SCOPE_DENIED')
     r=runtime;privacy=policy.readable_privacy;records=RecordService(r.store)
+    if kind=='OPEN_AUTONOMY':
+        from ..continuity.open_agency.projections import project_open
+        return project_open(r.store,policy,scopes=scopes).model_dump(mode='json')
     if kind=='LIVING_JOURNAL':return living_journal(r.store,scopes=scopes,privacy_classes=privacy).model_dump(mode='json')
     if kind=='RESOURCE_STATE':return resource_state(r.store,r.config).model_dump(mode='json')
     if kind!='LIVING_RUNTIME':raise CoreError('RUNTIME_VIEW_UNKNOWN')

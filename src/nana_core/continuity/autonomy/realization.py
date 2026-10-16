@@ -16,24 +16,26 @@ class GovernedRealization:
         self.kernel=ActionKernel(store,port,authority,registry=registry)
 
     @contextmanager
-    def _guard(self,outcome):
+    def _guard(self,outcome,input_memory_ids=()):
         if getattr(self.store,'_governed_action_guard',None):raise CoreError('NESTED_REALIZATION_FORBIDDEN')
         self.gate.require_current(outcome)
         self.store._governed_action_guard=lambda:self.gate.require_current(outcome)
         self.store._governed_payload_support=outcome.record_id
+        self.store._governed_input_memories=tuple(input_memory_ids)
         try:yield
         finally:
             del self.store._governed_action_guard
             del self.store._governed_payload_support
+            del self.store._governed_input_memories
 
-    def propose(self,intention_id,*,expected_revision,args):
+    def propose(self,intention_id,*,expected_revision,args,input_memory_ids=()):
         outcome=self.gate.gate(intention_id,expected_revision=expected_revision)
         if outcome.result!='PASS':return outcome,None
         if outcome.target.resource_class!='ORDINARY':raise CoreError('REALIZATION_RESOURCE_HARD_DENY')
         operation=('CONTACT' if outcome.target.capability=='world.contact' else 'WRITE' if self.kernel.registry.is_write(outcome.target.capability) else 'READ') if self.kernel.registry else ('WRITE' if outcome.target.capability=='reading.card.create' else 'READ')
         if outcome.target.operation!=operation:raise CoreError('REALIZATION_OPERATION_MISMATCH')
         try:
-            with self._guard(outcome):
+            with self._guard(outcome,input_memory_ids):
                 action_id=self.kernel.propose(outcome.target.capability,outcome.target.resource,args,effect_slot='subject:'+intention_id)
         except CoreError as exc:
             if exc.code!='STALE_MANAGER_PASS':raise

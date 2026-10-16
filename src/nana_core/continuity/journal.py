@@ -26,7 +26,7 @@ class LivingJournal(DTO):
 def living_journal(store,*,scopes,privacy_classes,limit=32):
     if not 1<=limit<=128 or not scopes:raise CoreError('JOURNAL_REQUEST_INVALID')
     store.ensure_privacy_current();token=state_token(store);records=RecordService(store);entries=[]
-    kinds={'SUBJECT_CYCLE','CONSTRAINT_OUTCOME','ADOPTED_GOAL','EXPERIENCE','REFLECTION','LESSON','MAINTENANCE_CANDIDATE','SKILL_PROPOSAL'}
+    kinds={'SUBJECT_CYCLE','CONSTRAINT_OUTCOME','ADOPTED_GOAL','EXPERIENCE','REFLECTION','LESSON','MAINTENANCE_CANDIDATE','SKILL_PROPOSAL','OPEN_LEARNING','LEARNING_TRIAL','CODE_SKILL','DELIVERY_DECISION'}
     sql=f"SELECT * FROM continuity_records WHERE scope IN ({','.join('?' for _ in scopes)}) AND lifecycle='ACTIVE' ORDER BY created_at_us DESC,rowid DESC LIMIT ?"
     for row in store.db.execute(sql,(*scopes,limit*4)):
         if row['record_kind'] not in kinds or row['privacy_class'] not in privacy_classes or not records.current_support(row['record_id']):continue
@@ -40,6 +40,10 @@ def living_journal(store,*,scopes,privacy_classes,limit=32):
         elif row['record_kind']=='EXPERIENCE':phase='VERIFIED_EXPERIENCE';facts={'meaning':'OUTCOME_NOT_PERSONALITY_BY_FIAT'}
         elif row['record_kind']=='MAINTENANCE_CANDIDATE':phase='INFERRED_CANDIDATE';facts={'coverage':body['coverage'],'authority':body['authority']}
         elif row['record_kind']=='SKILL_PROPOSAL':phase='TESTED_OFFLINE_PROCEDURE';facts={'real_installation':False}
+        elif row['record_kind']=='OPEN_LEARNING':phase=body['stage'];facts={'cause':body['cause'],'domain':body['spec']['domain'],'learning_not_fact_invention':True}
+        elif row['record_kind']=='LEARNING_TRIAL':phase='INDEPENDENT_TRIAL';facts={'domain':body['domain'],'transfer_passed':body['results']['TRANSFER']['all_passed']}
+        elif row['record_kind']=='CODE_SKILL':phase=body['state'];facts={'source_digest':body['source_digest'],'realm':body['realm'],'installation_authority':False}
+        elif row['record_kind']=='DELIVERY_DECISION':phase=body['result'];facts={'desire_not_erased':True,'authority_granted':False};links=[body['intention_id']]
         entries.append(JournalEntry(entry_id=event['event_id']+':'+row['record_id'],kind=row['record_kind'],phase=phase,record_id=row['record_id'],occurred_at_us=event['occurred_at_us'],observed_at_us=event['observed_at_us'],recorded_at_us=event['recorded_at_us'],linkage_ids=tuple(links),facts=facts))
     # An action state is a separate fact from wanting/planning and from quality.
     for action in store.db.execute('SELECT * FROM actions ORDER BY rowid DESC LIMIT ?',(limit,)):

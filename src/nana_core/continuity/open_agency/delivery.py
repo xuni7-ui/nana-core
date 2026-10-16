@@ -39,7 +39,7 @@ class DeliveryAdmission:
         hour=datetime.fromtimestamp(self.store.clock.utc_now_us()/1e6,tz=timezone.utc).hour
         start,end=self.policy.quiet_start_utc_hour,self.policy.quiet_end_utc_hour
         return start<=hour<end if start<end else hour>=start or hour<end if start>end else False
-    def assess(self,cycle,resource):
+    def assess(self,cycle,resource,*,payload=None,source_memory_ids=()):
         if not cycle.intention_id or not cycle.evaluation or cycle.evaluation.normative!='ENDORSED':raise CoreError('ENDORSED_SOCIAL_INTENTION_REQUIRED')
         event=self.store.one('subject_events',cycle.event_id);scope=event['scope']
         if scope not in self.scopes or cycle.intention.kind not in {'SOCIAL_INTERACTION','ACTION_PROPOSAL'}:raise CoreError('DELIVERY_SCOPE_DENIED')
@@ -50,18 +50,23 @@ class DeliveryAdmission:
         elif state.availability!='AVAILABLE':code='DEFER_BUSY' if state.availability=='BUSY' else 'UNKNOWN_AVAILABILITY'
         elif self._quiet():code='DEFER_QUIET_WINDOW'
         parent=self.records.read(cycle.record_id)
-        if parent['privacy_class'] not in self.policy.privacy_classes or (state and parent['privacy_class'] not in state.permitted_privacy):code='DENY_PRIVACY'
-        key=digest([cycle.cycle_id,resource,mid,code])
+        from ..memory import PRIVACY_RANK
+        classification=max((parent['privacy_class'],*(self.records.memory.read(m)['privacy_class'] for m in source_memory_ids)),key=PRIVACY_RANK.get)
+        if classification not in self.policy.privacy_classes or (state and classification not in state.permitted_privacy):code='DENY_PRIVACY'
+        key=digest([cycle.cycle_id,resource,mid,code,digest(payload)])
         old=self.store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='DELIVERY_DECISION' AND target_id=?",(key,)).fetchone()
         if old:return {'record_id':old[0],**self.records.read(old[0])['payload']}
-        body={'intention_id':cycle.intention_id,'resource':resource,'result':code,'recipient_memory_id':mid,'expires_at_us':min(now+self.policy.admission_us,state.expires_at_us) if state else now,'authority_granted':False}
+        body={'intention_id':cycle.intention_id,'intention_revision':self.store.one('subject_intentions',cycle.intention_id)['revision'],'payload_digest':digest(payload),'resource':resource,'result':code,'recipient_memory_id':mid,'expires_at_us':min(now+self.policy.admission_us,state.expires_at_us) if state else now,'authority_granted':False}
         with self.store.transaction('open.delivery_assessed',{'intention_id':cycle.intention_id,'result':code}) as tx:
-            rid=self.records.create(tx,kind='DELIVERY_DECISION',scope=scope,payload=body,records=(cycle.record_id,),memories=(mid,) if mid else (),target_id=key)
+            rid=self.records.create(tx,kind='DELIVERY_DECISION',scope=scope,payload=body,records=(cycle.record_id,),memories=tuple(dict.fromkeys((*((mid,) if mid else ()),*source_memory_ids))),target_id=key)
         return {'record_id':rid,**body}
-    def require(self,rid,resource):
+    def require(self,rid,resource,*,invocation=None):
         if not rid:raise CoreError('DELIVERY_ADMISSION_REQUIRED')
         record=self.records.read(rid);body=record['payload'];now=self.store.clock.utc_now_us()
         if record['record_kind']!='DELIVERY_DECISION' or record['scope'] not in self.scopes or record['privacy_class'] not in self.privacy or not self.records.current_support(rid):raise CoreError('DELIVERY_ADMISSION_RETIRED')
         mid,state=self._recipient(resource,record['scope'])
         if body['result']!='ELIGIBLE' or body['resource']!=resource or body['expires_at_us']<=now or self._quiet() or mid!=body['recipient_memory_id'] or not state or state.availability!='AVAILABLE' or state.expires_at_us<=now:raise CoreError('DELIVERY_ADMISSION_STALE')
+        if invocation is not None:
+            action=self.store.one('actions',invocation.action_id);intention=self.store.one('subject_intentions',body['intention_id'])
+            if not action or action['effect_slot']!='subject:'+body['intention_id'] or not intention or intention['revision']!=body['intention_revision'] or intention['state']!='PENDING' or digest(invocation.args.get('data'))!=body['payload_digest']:raise CoreError('DELIVERY_INTENTION_OR_PAYLOAD_MISMATCH')
         return True

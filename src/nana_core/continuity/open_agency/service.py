@@ -7,6 +7,7 @@ import json
 from ...contracts import CoreError
 from ...storage import canonical,digest,uid
 from ..records import RecordService
+from ..memory import PRIVACY_RANK
 from ..agency import AgencyService
 from ..agency_contracts import GoalStepRef,PlanStepView
 from ..autonomy.realization import GovernedRealization
@@ -75,19 +76,29 @@ class OpenAgencyService(AgencyService):
         if not self.subject.visible(candidate['record_id'],obj.scope):raise CoreError('GOAL_SOURCE_UNAVAILABLE')
         from ..subject.opportunities import cues_from
         cues=cues_from(self.store,self.records.support(candidate['record_id']),scope=obj.scope,privacy_classes=self.subject.privacy_classes)
-        if not any(c.program_id==obj.objective_id for _,c in cues):raise CoreError('GOAL_PROGRAM_SOURCE_REQUIRED')
+        cause_ids=tuple(sorted(mid for mid,c in cues if c.program_id==obj.objective_id))
+        if not cause_ids:raise CoreError('GOAL_PROGRAM_SOURCE_REQUIRED')
+        goal_key='open:'+digest([obj.objective_id,cause_ids])
+        represented=self.store.db.execute('SELECT goal_id FROM goals WHERE goal_key=?',(goal_key,)).fetchone()
+        if represented:
+            with self.store.transaction('open.concern_already_represented',{'goal_id':represented[0],'candidate_id':cycle.goal_candidate_id}) as tx:
+                tx.update('subject_goal_candidates',cycle.goal_candidate_id,state='WITHDRAWN');self._complete(tx,cycle.intention_id)
+            return represented[0]
         if self.store.db.execute("SELECT count(*) FROM goals WHERE state IN ('ACTIVE','BLOCKED','SUSPENDED')").fetchone()[0]>=self.policy.max_active:return None
+        dependency_records=[]
         for dep in (*obj.depends_on,*((obj.parent_id,) if obj.parent_id else ())):
             g=self.store.one('goals',dep)
             if not g:raise CoreError('GOAL_DEPENDENCY_UNKNOWN')
             parent=self.store.one('continuity_records',json.loads(g['body_json'])['record_id'])
             if parent['scope']!=obj.scope:raise CoreError('CROSS_SCOPE_GOAL_DEPENDENCY')
+            if not self.subject.visible(parent['record_id'],obj.scope):raise CoreError('GOAL_DEPENDENCY_UNAVAILABLE')
+            dependency_records.append(parent['record_id'])
         obj,steps,strategies=self._plan(obj,candidate['record_id'])
         gid,pid,wid=uid(),uid(),uid();now=self.store.clock.utc_now_us()
         with self.store.transaction('open.goal_adopted',{'goal_id':gid,'candidate_id':cycle.goal_candidate_id}) as tx:
-            rid=self.records.create(tx,kind='ADOPTED_GOAL',scope=obj.scope,payload={'purpose':cycle.intention.purpose,'objective':obj.model_dump(mode='json'),'candidate_id':cycle.goal_candidate_id},records=(candidate['record_id'],))
+            rid=self.records.create(tx,kind='ADOPTED_GOAL',scope=obj.scope,payload={'purpose':cycle.intention.purpose,'objective':obj.model_dump(mode='json'),'candidate_id':cycle.goal_candidate_id},records=(candidate['record_id'],*dependency_records))
             plan=self._plan_record(tx,gid,pid,obj,steps,rid,strategies)
-            tx.put('goals',{'goal_id':gid,'goal_key':cycle.goal_candidate_id,'event_id':self.store.one('continuity_records',cycle.record_id)['event_id'],'template':obj.task_domain,'state':'ACTIVE','version':1,
+            tx.put('goals',{'goal_id':gid,'goal_key':goal_key,'event_id':self.store.one('continuity_records',cycle.record_id)['event_id'],'template':obj.task_domain,'state':'ACTIVE','version':1,
                 'body_json':canonical({'record_id':rid,'plan_record_id':plan,'work_id':wid}),'priority':obj.priority,'deadline_us':obj.deadline_us,'parent_id':obj.parent_id,'depends_json':canonical(obj.depends_on),'last_served_us':0})
             tx.put('plans',{'plan_id':pid,'goal_id':gid,'body_json':canonical({'record_id':plan})})
             tx.put('jobs',{'job_id':wid,'occurrence_key':'goal:'+gid,'due_at_us':now,'state':'WAITING','body_json':canonical({'goal_id':gid,'plan_id':pid}),'work_kind':'GOAL','record_id':plan,'revision':1,'cursor':0,'owner_epoch':None,'updated_at_us':now})
@@ -103,7 +114,8 @@ class OpenAgencyService(AgencyService):
 
     def next_reference(self):
         now=self.store.clock.utc_now_us()
-        rows=self.store.db.execute("SELECT j.*,g.depends_json,g.deadline_us,g.priority,g.last_served_us FROM jobs j JOIN goals g ON json_extract(j.body_json,'$.goal_id')=g.goal_id WHERE j.work_kind='GOAL' AND j.state IN ('WAITING','RUNNING','UNKNOWN') AND g.state IN ('ACTIVE','BLOCKED') AND j.due_at_us<=? ORDER BY CASE WHEN g.deadline_us<=? THEN 0 ELSE 1 END,g.priority DESC,g.last_served_us,j.due_at_us LIMIT 32",(now,now)).fetchall()
+        scopes=','.join('?' for _ in self.subject.scopes);privacy=','.join('?' for _ in self.subject.privacy_classes)
+        rows=self.store.db.execute(f"SELECT j.*,g.depends_json,g.deadline_us,g.priority,g.last_served_us FROM jobs j JOIN goals g ON json_extract(j.body_json,'$.goal_id')=g.goal_id JOIN continuity_records cr ON cr.record_id=j.record_id WHERE cr.scope IN ({scopes}) AND cr.privacy_class IN ({privacy}) AND j.work_kind='GOAL' AND j.state IN ('WAITING','RUNNING','UNKNOWN') AND g.state IN ('ACTIVE','BLOCKED') AND j.due_at_us<=? ORDER BY CASE WHEN g.deadline_us<=? THEN 0 ELSE 1 END,min(3,g.priority+cast((?-j.due_at_us)/60000000 AS INTEGER)) DESC,g.last_served_us,j.due_at_us LIMIT 32",(*self.subject.scopes,*self.subject.privacy_classes,now,now,now)).fetchall()
         # At most one committed step at a time; round-robin within priority and
         # bounded aging means low-priority goals are not silently lost.
         for row in rows:
@@ -119,7 +131,7 @@ class OpenAgencyService(AgencyService):
         from ..agency_contracts import GoalReviewRef
         for goal in self.store.db.execute("SELECT * FROM goals WHERE state IN ('FAILED','BLOCKED') ORDER BY priority DESC,last_served_us LIMIT 16"):
             meta=json.loads(goal['body_json']);head=self.store.one('continuity_records',meta.get('plan_record_id'))
-            if not head or not self.subject.visible(head['record_id'],head['scope']):continue
+            if not head or head['scope'] not in self.subject.scopes or not self.subject.visible(head['record_id'],head['scope']):continue
             strategy=self.learning.strategy(goal['template'],head['scope'])
             if not strategy:continue
             plan=self.records.read(head['record_id'])['payload']
@@ -148,15 +160,16 @@ class OpenAgencyService(AgencyService):
         source=self.store.one('subject_events',cycle.event_id)
         if self.records.read(source['record_id'])['payload']['input'].get('goal_step')!=reference.model_dump(mode='json'):raise CoreError('GOAL_STEP_CYCLE_MISMATCH')
         if not cycle.intention_id or not cycle.evaluation or cycle.evaluation.normative!='ENDORSED' or cycle.realization_target!=view.target:return self._park(work,view,'SUBJECT_DEFERRED')
-        op=plan['steps'][reference.cursor];args=dict(op['args'])
+        op=plan['steps'][reference.cursor];args=dict(op['args']);input_mids=()
         if args.get('input_from'):
             prior=self._outputs(view.goal_id)
             match=next((o for o in reversed(prior) if o.get('operator_id')==args['input_from']),None)
             if not match:return self._park(work,view,'VERIFIED_INPUT_REQUIRED')
-            args['data']=json.loads(self.records.memory.read(match['memory_id'])['text'])['data']
+            observed=self.records.memory.read(match['memory_id'])
+            args['data']=json.loads(observed['text'])['data'];args['data_privacy']=observed['privacy_class'];input_mids=(match['memory_id'],)
         if op['capability']=='world.contact':
             if not self.delivery:return self._park(work,view,'DELIVERY_ADMISSION_REQUIRED')
-            admission=self.delivery.assess(cycle,view.target.resource)
+            admission=self.delivery.assess(cycle,view.target.resource,payload=args.get('data'),source_memory_ids=input_mids)
             if admission['result']!='ELIGIBLE':
                 # Preserve original social desire/intention and defer this step;
                 # a new observed availability/window is needed before retry.
@@ -166,7 +179,7 @@ class OpenAgencyService(AgencyService):
         try:
             if action:aid=action[0]
             else:
-                outcome,aid=self.realization.propose(cycle.intention_id,expected_revision=1,args=args)
+                outcome,aid=self.realization.propose(cycle.intention_id,expected_revision=1,args=args,input_memory_ids=input_mids)
                 if not aid:return self._park(work,view,'MANAGER_'+outcome.result)
                 with self.store.transaction('open.action_bound',{'goal_id':view.goal_id,'work_id':work['job_id']}) as tx:tx.update('actions',aid,goal_id=view.goal_id,plan_id=view.plan_id)
             state=self.realization.dispatch(cycle.intention_id,aid,expected_revision=1)
@@ -180,8 +193,8 @@ class OpenAgencyService(AgencyService):
         existing=self.store.db.execute("SELECT m.memory_id FROM memories m JOIN continuity_evidence e ON m.source_evidence_id=e.evidence_id WHERE e.source_namespace='synthetic.open-action' AND e.source_reference=? AND m.lifecycle='ACTIVE' LIMIT 1",(aid,)).fetchone()
         if existing:mid=existing[0]
         else:
-            eid=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.open-action',source_reference=aid,source_kind='SYSTEM_VERIFICATION'),text=result,privacy_class=head['privacy_class'],observed_time_us=verified_at))
-            mid=memory.add(MemoryCandidate(entity_id=source['entity_id'],scope=head['scope'],memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',source_evidence_id=eid,text=result,derived_from=view.source_memory_ids,confidence=1.))
+            eid=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.open-action',source_reference=aid,source_kind='SYSTEM_VERIFICATION'),text=result,privacy_class=max((head['privacy_class'],self.registry.payload_privacy(json.loads(result))),key=PRIVACY_RANK.get),observed_time_us=verified_at))
+            mid=memory.add(MemoryCandidate(entity_id=source['entity_id'],scope=head['scope'],memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',source_evidence_id=eid,text=result,derived_from=tuple(dict.fromkeys((*view.source_memory_ids,*input_mids))),confidence=1.))
         quality=True;exp=None
         if op.get('expected_digest'):
             quality=digest(json.loads(result).get('data'))==op['expected_digest']

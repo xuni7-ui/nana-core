@@ -1326,3 +1326,21 @@ Small reusable fix: RecordService does not insert duplicate REVISION edge when
 same old record is already a SUPPORT parent; erase closure is still retained.
 Recovery fixes retain stable observation time and resume partially consolidated
 learning/observation without re-execution. Final full/recovery qualification pending.
+
+### E1–E6 M3 — integrated life, recovery, privacy and live projections
+
+[源码/离线实测] Full synthetic story uses one existing Runtime/Subject/Store:
+Primary/voluntary restraint, preserved appetite, busy-recipient deferral, rest,
+three persistent goals, failure+interest learning, same-goal C-approved replan,
+Manager veto/revoke/fresh review, real generated Python isolated execution through
+Kernel, retirement, two surfaces, source erasure and restart. All boolean checks
+PASS. Contrast uses other motives/tasks with plan lengths2/4, six verified actions.
+Actual two SIGKILL cuts PASS: effect-before-receipt and Lesson-active-before-cursor.
+Explicit7/8/11→12, legacy11 goal/action official replay and12 package transfer PASS;
+39 tables, defaults7/8 unchanged, old Grants revoked, no realm/agency auto-restored.
+B10 typed goal/learning/skill/delivery views and L0/L1/L2 reflect real Store results.
+Fixed completed-concern re-adoption, scope-first work selection and source privacy
+label propagation through action args/receipt/result and derived observations.
+Personal read results cannot be downgraded by a PUBLIC goal; source deletion purges
+input-dependent payloads. SECRET fixture feed is rejected before Core capture.
+Targeted23 PASS,5.64s. Final full regression next; no real endpoint/production/push.
