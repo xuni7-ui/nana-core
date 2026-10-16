@@ -1202,3 +1202,12 @@ C default7/D default8 unchanged. No second subject Store/Runtime/SubjectLoop.
 No real model/private data/external action/production/main/R045 changes; real memory
 ingress remains NO; E12 NOT_RUN. This task upgrades no real-host verification.
 No automatic push. D2–D7 remains recommendation only; task stops at this milestone.
+
+## D2–D7 Living Autonomy V1 — integration baseline (2026-10-16)
+
+[源码/文档] Independent branch from local4ad273f (not remote). Bounded comparison
+against Relational67326d1 confirms prior source assets retained. Historical
+Relational implementation/evidence and OSS9a9f8fe design reports carried forward
+without claiming fresh validation. Construction plan is in
+ docs/nana_d2d7_living_autonomy_v1_implementation.md.
+No production/main/R045/real input/model/action; no push.
