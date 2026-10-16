@@ -83,7 +83,7 @@ class EventQueue:
             seq=self.store.db.execute('SELECT coalesce(max(sequence_no),0)+1 FROM runtime_queue').fetchone()[0]
             metadata=safe.model_dump(mode='json');metadata['text']=None
             # Structured semantic fields only survive via deletable record.
-            for field in ('topic','proposed_method','preference_signal','relationship_kind','positive_request','relationship_details','disclosure_request','realization_target'):
+            for field in ('topic','proposed_method','preference_signal','relationship_kind','positive_request','relationship_details','disclosure_request','realization_target','relational_request'):
                 metadata[field]=None
             tx.put('runtime_queue',{'queue_id':queue_id,'source_key':event.input.source_key,'sequence_no':seq,
                 'event_type':event.event_type,'wake_trigger':event.trigger,'subject_event_id':source['subject_event_id'],

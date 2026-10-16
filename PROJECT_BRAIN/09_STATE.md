@@ -1039,3 +1039,16 @@ outcome leaves bootstrap baseline; two independent supports can establish a
 trait; counters contest it. No second truth source/personality loop. Targeted
 projection test PASS after correcting a lessons timestamp query to existing
 record metadata. Further request/accommodation/system qualification pending.
+
+
+## L3-C-RELATIONAL-V1 M3 — same-loop qualitative relational tradeoff
+[实测·开发离线] RelationalRequest is a sourced typed input, not governance.
+Personality/relationship/domain trust/scope/duration/desire/load/commitments inform
+pure WillingDeference, SelfAuthorship and factor trace in the existing cycle.
+Same short request: accommodating Subject ACCEPT, high-self-direction Subject
+NEGOTIATE; indefinite isolation is negotiated/declined, never silently permanent.
+Retained social desire stays SEEKING during endorsed voluntary restraint. No
+random defiance or numeric total. Filtered ContextAssembler exposes only legal
+source-backed projections/audited tradeoff; forged model anchor/deference/judgment
+fields reject. Nine targeted tests PASS; two focused tradeoff/context checks PASS.
+Commitment materialization/review and full system qualification remain pending.

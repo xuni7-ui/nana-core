@@ -455,3 +455,13 @@ desire stays observable. Qualitative personality support reuses Growth's source
 roots/counterevidence; one own choice or repeated audit replay is not independent
 trait support. Self Narrative is derived explanation, not a policy/charter.
 No performative defiance, independence quotas or engagement objective.
+
+
+## D-RELATIONAL-003 — desire, chosen accommodation and authority are distinct
+Self-authorship includes willing influence; it is not a maximize-independence
+objective. Relational choice uses qualitative context gates and bounded compromise,
+not a total score or permanent winning priority. Personality changes salience/
+scope/review sensitivity; relation changes willingness but never trust facts or
+execution authority. A Subject can endorse accommodation while the original
+SOCIALIZE preference remains visible as VOLUNTARILY_RESTRAINED. Manager/Grant/
+privacy remain later independent gates. No performative defiance or refusal quota.

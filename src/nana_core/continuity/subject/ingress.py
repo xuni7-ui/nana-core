@@ -13,7 +13,7 @@ def admission(event: SubjectInput):
         return 'IGNORE', ('explicit non-retention takes priority',)
     if event.kind == 'WAKE':
         return 'TEMPORARY', ('wake is a condition, not a new lived experience',)
-    if event.preference_signal or event.relationship_kind or event.constraint_memory_ids or event.positive_request:
+    if event.preference_signal or event.relationship_kind or event.constraint_memory_ids or event.positive_request or event.relational_request:
         return 'KEEP', ('future self/relationship/project relevance',)
     if event.significance in {'RELEVANT', 'HIGH'} or event.novelty == 'HIGH':
         return 'KEEP', ('significant or novel source occurrence',)

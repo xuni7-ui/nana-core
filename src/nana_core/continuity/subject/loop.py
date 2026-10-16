@@ -172,6 +172,7 @@ class SubjectLoop:
                         tx.update('subject_goal_candidates', goal['candidate_id'], state='EXPIRED' if state == 'EXPIRED' else 'WITHDRAWN')
 
     def run(self, event: SubjectInput, *, expected_revision=None, _deliberation=None):
+        if event.relational_request and self.store.schema_target<10:raise CoreError('RELATIONAL_SCHEMA_REQUIRED')
         if event.preference_signal and event.preference_signal.kind=='PERSONALITY_TENDENCY' and self.store.schema_target<10:raise CoreError('RELATIONAL_SCHEMA_REQUIRED')
         if any(x is not None for x in (event.disclosure_request,event.realization_target,event.governance_review_id,event.relationship_details,event.positive_request,event.commitment_check_id,event.disposition_reflection_id)) and self.store.schema_target<9:
             raise CoreError('AUTONOMY_SCHEMA_REQUIRED')
@@ -246,6 +247,21 @@ class SubjectLoop:
                 judgment=Judgment(stance='ALTERNATIVE',reason='A checked later consequence supports reviewing context before repeating a decision',source_ids=situation.memory_ids,
                     selected_method=lesson_method(rule),lesson_ids=situation.lesson_ids)
                 intention=Intention(kind='REFLECTION',purpose='Review the supported consequence without acquiring authority',slot_key='learned-disposition-review',source_ids=situation.memory_ids,self_generated=event.origin=='SELF_WAKE',behavior='REFLECT')
+            relational=None
+            if self.store.schema_target>=10 and event.relational_request and event.retention!='DO_NOT_REMEMBER':
+                from ..relational.deliberation import deliberate
+                from .contracts import Intention,Judgment
+                relational=deliberate(self.store,event,situation,source_record_id=source['record_id'],privacy_classes=self.privacy_classes)
+                if relational:
+                    choice=relational.response.decision
+                    refs=tuple(dict.fromkeys((*relational.deference.relationship_refs,*relational.deference.personality_refs)))
+                    situation=situation.model_copy(update={'support_record_ids':tuple(dict.fromkeys((*situation.support_record_ids,*refs))),
+                        'memory_ids':tuple(sorted({*situation.memory_ids,*(m for r in refs for m in self.records.support(r))}))})
+                    attention='FOCUS_NOW'
+                    judgment=Judgment(stance='AGREE' if choice=='ACCEPT' else 'ALTERNATIVE' if choice=='NEGOTIATE' else 'DISAGREE',
+                        reason='Subject-owned relational tradeoff; retained desire is not rewritten and no authority is created',source_ids=situation.memory_ids)
+                    intention=Intention(kind='GOAL_CANDIDATE' if choice=='ACCEPT' else 'SOCIAL_INTERACTION' if choice=='NEGOTIATE' else 'NO_ACTION',
+                        purpose='Consider bounded accommodation or discuss its scope',slot_key='relational-'+digest(event.source_key)[:24],source_ids=situation.memory_ids,self_generated=False)
             if _deliberation is not None:
                 # Model uncertainty may inhibit ordinary interaction; it cannot
                 # overrule a sourced conflict, obligation or tested lesson.
@@ -321,7 +337,7 @@ class SubjectLoop:
                 judgment=judgment, intention=intention, intention_id=intention_id, goal_candidate_id=candidate_id,
                 barrier='NO_ACTION' if intention.kind == 'NO_ACTION' else 'SHADOW_BLOCKED', record_id=None,social_proposal=social,action_proposal=action,
                 evaluation=evaluation,disclosure=disclosure,request_decision=request_decision,selected_disposition_id=event.disposition_reflection_id,
-                realization_target=target,
+                realization_target=target,relational_decision=relational,
                 deliberation=None if _deliberation is None else {
                     'model_descriptor': _deliberation.model_descriptor,
                     'context_digest': _deliberation.context_digest, 'raw_proposal_json': _deliberation.raw_proposal_json})
