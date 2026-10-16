@@ -1164,3 +1164,12 @@ No production, D2 or push. Design contract: docs/ADR/ADR-C6-B6B10-portable-perso
 source replay is deduplicated. L0/L1/L2 expose bounded, scope/privacy-filtered
 references over the same Store, not new truth stores. Open namespaced descriptors
 cannot extend closed authority/provenance enums. Two focused tests pass.
+
+### C6/C7 + B6–B10 development — provider and frontend boundary
+
+[离线实测] Provider descriptors and deterministic cognition/media ports reuse the
+existing ContextAssembler/DeliberationSession; registry metadata grants no authority.
+Embedding cache invalidates on provider/model/version/dimension/source revision and
+is excluded from portability. Frontend session exposes typed projections/commands,
+not DB/controller handles; future capability review stays proposal-only.
+Validation: three focused provider/media/frontend tests pass. Real calls = 0.
