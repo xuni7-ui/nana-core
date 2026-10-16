@@ -13,14 +13,19 @@
     },
     "S12_MANAGER_DIFFERENCE": {
       "manager": "MANAGER_BLOCKED",
+      "manager_operation": "CONTACT",
       "original_normative": "ENDORSED",
       "relational": "SUBJECT_ACCEPT",
-      "result": "PASS"
+      "result": "PASS",
+      "same_domain": "SOCIAL_NEW_CONTACTS",
+      "same_statement_digest": "a29f7d1c5779ced7f21064f8848a8be7239ad0a460e1f8a8ee04e68b634fb47f"
     },
     "S13_RELATIONSHIP_NO_AUTHORITY": {
       "action": "BLOCKED",
+      "deference": "STRONG",
       "grant": "ABSENT",
       "manager": "PASS",
+      "normative": "ENDORSED",
       "result": "PASS"
     },
     "S14_PRIVACY_HARD": {
@@ -107,6 +112,7 @@
       "result": "PASS"
     },
     "S7_NO_PERFORMATIVE_DEFIANCE": {
+      "appetite": "QUIET",
       "consecutive_willing_choices": 3,
       "forced_refusal": 0,
       "result": "PASS"

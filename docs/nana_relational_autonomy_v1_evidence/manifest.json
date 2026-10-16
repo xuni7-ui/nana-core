@@ -1,0 +1,361 @@
+{
+  "base_sha": "e26288e8ffcc1697b1a1f86b55f304b76d9b04ed",
+  "counts": {
+    "config_files": 1,
+    "docs_files": 24,
+    "project_brain_files": 5,
+    "source_files": 21,
+    "test_files": 17,
+    "total_files": 68
+  },
+  "excluded": [
+    "manifest.json (self reference)",
+    "PROJECT_BRAIN/09_STATE.md (contains manifest SHA anchor; verified by containing Git commit)",
+    "unrelated preexisting untracked Git bundle",
+    "development Store/fixtures/marker files"
+  ],
+  "files": [
+    {
+      "bytes": 15699,
+      "path": "PROJECT_BRAIN/07_ROADMAP.md",
+      "sha256": "b1b4437b4bbc7d058ea78a4d4d88474f2b7ade9b98bc1895a5ee3e4ea4a4d239"
+    },
+    {
+      "bytes": 18332,
+      "path": "PROJECT_BRAIN/08_TASKS.md",
+      "sha256": "ff3bcd21017a717d113744b979bf83c920842f3624d8b0b46ba50854951b1b3f"
+    },
+    {
+      "bytes": 48323,
+      "path": "PROJECT_BRAIN/10_DECISIONS.md",
+      "sha256": "c6f2bcda89cfd8ccbfbcda106f325c1ca3b82d8e6de707d10cd73861302f7085"
+    },
+    {
+      "bytes": 119298,
+      "path": "PROJECT_BRAIN/11_CHANGELOG.md",
+      "sha256": "51fac373ac1d2c7f0b45fde97899a7a18c35f6cc8ae95e7dfa17f3bc12222656"
+    },
+    {
+      "bytes": 2503,
+      "path": "docs/nana_relational_autonomy_v1_evidence/architecture_delta.md",
+      "sha256": "29424572b7f78ecdd2e9911dbbc8e8c066552c3a08f9011e1dad82b20e1b7466"
+    },
+    {
+      "bytes": 4196,
+      "path": "docs/nana_relational_autonomy_v1_evidence/delivery_report.md",
+      "sha256": "be36cfe6c95b4c4edbdb1cbfa70eaef79e71981273c96cf7c115ae46d70978f1"
+    },
+    {
+      "bytes": 152575,
+      "path": "docs/nana_relational_autonomy_v1_evidence/full_regression.xml",
+      "sha256": "cc48f55555bc0a7935a55ef9073be240b30c065f4f5deb3407102629e69ace14"
+    },
+    {
+      "bytes": 802,
+      "path": "docs/nana_relational_autonomy_v1_evidence/full_regression_summary.txt",
+      "sha256": "3a9a306089762c6340fb55fd7c1e10748ba603e027e9332fe507a8127ed1273e"
+    },
+    {
+      "bytes": 1148,
+      "path": "docs/nana_relational_autonomy_v1_evidence/limitations.txt",
+      "sha256": "6a8584aba36ae4b7b3c0dfb63feedd303fb9eedba797aaf23f75a75134193c00"
+    },
+    {
+      "bytes": 151062,
+      "path": "docs/nana_relational_autonomy_v1_evidence/major_regression.xml",
+      "sha256": "189cfec9e4aedc2c1d60dc2c7e4e29a389f19f7ed093fc5f70f84622e72daf82"
+    },
+    {
+      "bytes": 10779,
+      "path": "docs/nana_relational_autonomy_v1_evidence/major_targeted.xml",
+      "sha256": "f2cbca09aab851e95a4ab45219d8631653e2a446748b57f1d0750b1f15f3ddbb"
+    },
+    {
+      "bytes": 18188,
+      "path": "docs/nana_relational_autonomy_v1_evidence/personality_tradeoff_matrix.json",
+      "sha256": "e0ed2386c1f9cdec7f2c8081b4074e31ff4d0ee6cabfc6a2a043b477a19ff2c1"
+    },
+    {
+      "bytes": 152575,
+      "path": "docs/nana_relational_autonomy_v1_evidence/pre_scope_regression.xml",
+      "sha256": "42e4ee99044636cf2f965edd7b43c3f435eab5ee9bbaf49bfad82a979a1deb93"
+    },
+    {
+      "bytes": 1341,
+      "path": "docs/nana_relational_autonomy_v1_evidence/recovery_matrix.json",
+      "sha256": "59e159ed91a94acd9495b5eb33aa50a00bf51f18b858904c5f839132cc852d7f"
+    },
+    {
+      "bytes": 1434,
+      "path": "docs/nana_relational_autonomy_v1_evidence/recovery_targeted.xml",
+      "sha256": "23ec63563f03de7af3137305c5e20c0e4f651bf8438dfce8cc2f2adae23d9143"
+    },
+    {
+      "bytes": 13466,
+      "path": "docs/nana_relational_autonomy_v1_evidence/relational_anchor_matrix.json",
+      "sha256": "4ecd393877fe544e0f9b153f700bef628faa3c272187c19cd7a075ba28dec7a8"
+    },
+    {
+      "bytes": 3412,
+      "path": "docs/nana_relational_autonomy_v1_evidence/scenario_matrix.json",
+      "sha256": "36b2f6cab1d8af48e915a065f3c41c58e0ad4c2de7a09d1861d6133ffda74453"
+    },
+    {
+      "bytes": 1085,
+      "path": "docs/nana_relational_autonomy_v1_evidence/schema_migration_matrix.json",
+      "sha256": "b8ac2056f78adb06ee0749d34fbe89d3f12bdf3a19230189f10abc00e636423b"
+    },
+    {
+      "bytes": 626,
+      "path": "docs/nana_relational_autonomy_v1_evidence/schema_migration_summary.txt",
+      "sha256": "e2ac94cb13bd1dccd65dc7589865f0f246b6192b790fcd57af83f0bb7543e7da"
+    },
+    {
+      "bytes": 759,
+      "path": "docs/nana_relational_autonomy_v1_evidence/security_summary.json",
+      "sha256": "0468ddf89c45c92ca60dbe45dd19b35ec20d514bcc01045673ee7e466b159920"
+    },
+    {
+      "bytes": 466,
+      "path": "docs/nana_relational_autonomy_v1_evidence/self_narrative_matrix.json",
+      "sha256": "c37dc8bcc4c5a41a5300d438ffb3256598b58726e8130dd8e898fb699e710be0"
+    },
+    {
+      "bytes": 19278,
+      "path": "docs/nana_relational_autonomy_v1_evidence/soak_90d.json",
+      "sha256": "2d3753d2a4c99ef87c9d9f3b6f918aa8bb8e730833f15b23796d48c32207ada4"
+    },
+    {
+      "bytes": 1962,
+      "path": "docs/nana_relational_autonomy_v1_evidence/social_appetite_ablation.json",
+      "sha256": "6a7e25db7a4a28196c56e3a31c020b6ac2d151d61c75c4c65e8f13809846be6a"
+    },
+    {
+      "bytes": 619,
+      "path": "docs/nana_relational_autonomy_v1_evidence/targeted_test_summary.txt",
+      "sha256": "38981cfd7c8cff4fab848290c1207e026b724701a5e5757030f63c2f44aba57e"
+    },
+    {
+      "bytes": 2356,
+      "path": "docs/nana_relational_autonomy_v1_evidence/targeted_tests.xml",
+      "sha256": "6be32a8e50cae0cafe99a851c52637f1883aabef5bd7d94e0bb51c19795fecb5"
+    },
+    {
+      "bytes": 61536,
+      "path": "docs/nana_relational_autonomy_v1_evidence/willing_deference_matrix.json",
+      "sha256": "168c53ad2bf4e76201fe906da0125fb0a6a6ed7fdf8e91491d21b926c056ef1c"
+    },
+    {
+      "bytes": 20706,
+      "path": "docs/nana_relational_autonomy_v1_implementation.md",
+      "sha256": "436a7f1d055be3400415b91a8b7c40241c08591afd9c9490e758adf016d9feb5"
+    },
+    {
+      "bytes": 1671,
+      "path": "pyproject.toml",
+      "sha256": "fd0ac353ea0e47b1dde45e2d47d3ec7e3fb0bfe8c7a0277e7edbd6ca4f0099b1"
+    },
+    {
+      "bytes": 1381,
+      "path": "src/nana_core/continuity/autonomy/evaluation.py",
+      "sha256": "92fe4da3356a69a767982555c5f913b9868df323e926e10d0fee9e9a5d772430"
+    },
+    {
+      "bytes": 10773,
+      "path": "src/nana_core/continuity/commitments.py",
+      "sha256": "3a5a8e3e67804a68cccf407497f4a2926e62f70f669ec6518557cabda88849af"
+    },
+    {
+      "bytes": 22534,
+      "path": "src/nana_core/continuity/context.py",
+      "sha256": "4b04b64d4894dea44a29ec6efe5a47923e317a1d44dc8b885650a131f1c6d036"
+    },
+    {
+      "bytes": 79,
+      "path": "src/nana_core/continuity/relational/__init__.py",
+      "sha256": "42c354edf2aa26da00f0d4e76c2d8fa3088ba92436ab31613ab1e89eb22875e7"
+    },
+    {
+      "bytes": 6443,
+      "path": "src/nana_core/continuity/relational/accommodation.py",
+      "sha256": "9d82e0ca0099db3d93fa9d43ee905587e421294886e9baa13212248bebc36bbc"
+    },
+    {
+      "bytes": 5521,
+      "path": "src/nana_core/continuity/relational/bootstrap.py",
+      "sha256": "efc4b070014b0ca1ad342947844ca70dc5d0e3f91d4d070b866117b5745a802d"
+    },
+    {
+      "bytes": 7095,
+      "path": "src/nana_core/continuity/relational/contracts.py",
+      "sha256": "c66e119dd31eeba921571535f4209d87f9403bb1715b5027e7ad86cbc1e1724f"
+    },
+    {
+      "bytes": 8894,
+      "path": "src/nana_core/continuity/relational/deliberation.py",
+      "sha256": "8b236edd1d6a2e83e64346d3fc55b427d68100fd647fe3b102ed995fc8ce4e72"
+    },
+    {
+      "bytes": 7085,
+      "path": "src/nana_core/continuity/relational/projections.py",
+      "sha256": "8679135265d8d33f56099b35c65538aca6012fa0a75d1d69d0ca21f182076e04"
+    },
+    {
+      "bytes": 9816,
+      "path": "src/nana_core/continuity/subject/contracts.py",
+      "sha256": "9eba231a9c49426c04e74c264d7de9a87b9db95fb37cb1222792e9275b870589"
+    },
+    {
+      "bytes": 13817,
+      "path": "src/nana_core/continuity/subject/growth.py",
+      "sha256": "8486cb04c7a78547a3d01f2706e56d240d2622ab30374f018306d247d8bf93e4"
+    },
+    {
+      "bytes": 5668,
+      "path": "src/nana_core/continuity/subject/ingress.py",
+      "sha256": "8f29980660a3fd77b1337f0b54f515aef29d251f7ba7656f4a73a3f28d97fb3d"
+    },
+    {
+      "bytes": 37444,
+      "path": "src/nana_core/continuity/subject/loop.py",
+      "sha256": "8e25732047832e7e582ab97448e836fd057b63a71fb618087c2ebdc67785cc97"
+    },
+    {
+      "bytes": 3928,
+      "path": "src/nana_core/continuity/subject/opportunities.py",
+      "sha256": "3c417ece14b1ce23dd64d44ceb64e73aef2725ee91f4f1a2a316661bed2f85ad"
+    },
+    {
+      "bytes": 12161,
+      "path": "src/nana_core/continuity/subject/policy.py",
+      "sha256": "aefd3efc8e0c8911c91e749c4a664f25e03cb516863b4ba81619773064876500"
+    },
+    {
+      "bytes": 9065,
+      "path": "src/nana_core/continuity/subject/projections.py",
+      "sha256": "15318cd917f15b6d99a165d6f49d2cf97ccc18a818d1f878470ef77d66dc4ba3"
+    },
+    {
+      "bytes": 5149,
+      "path": "src/nana_core/continuity/subject/watch.py",
+      "sha256": "f0790104ba6cdf1f96be1e1108ca11e50150bf735b19410945a303c75236bd88"
+    },
+    {
+      "bytes": 5229,
+      "path": "src/nana_core/presence/contracts.py",
+      "sha256": "334e34b4d0bb268310dabd6b96b1b0f22fe886156076188a3c6cfe12913fcbb7"
+    },
+    {
+      "bytes": 10175,
+      "path": "src/nana_core/presence/queue.py",
+      "sha256": "00e2eadab0b8a02759f3cacea3e2e2ef8ab20196e1c3ceeece9546235f02009f"
+    },
+    {
+      "bytes": 6225,
+      "path": "src/nana_core/storage/development_schema.py",
+      "sha256": "329f49beea51a708a9a3224792429d274cc92505ffc4d02ccee7f1677ac8e007"
+    },
+    {
+      "bytes": 2325,
+      "path": "src/nana_core/storage/schema_v10.sql",
+      "sha256": "03c0b269cb4eb1210b685e08e6465da6fd5cce424d30c0adb08e353f849652e9"
+    },
+    {
+      "bytes": 0,
+      "path": "tests/relational_autonomy/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "bytes": 255,
+      "path": "tests/relational_autonomy/conftest.py",
+      "sha256": "69cf2bf48eb264844ef6b11045bd6710c2cdf58dc03555cd52902cf072e0ea4e"
+    },
+    {
+      "bytes": 2260,
+      "path": "tests/relational_autonomy/fixtures.py",
+      "sha256": "6f8d8e4031a692bd89e5411d93b41554fee099874ead9feb9ffa138143ea386a"
+    },
+    {
+      "bytes": 3683,
+      "path": "tests/relational_autonomy/migrations.py",
+      "sha256": "22762f36a7d8e69b943932ecfdffddb464d80ec26d6cfe558cfe4b7dfe84265d"
+    },
+    {
+      "bytes": 2791,
+      "path": "tests/relational_autonomy/process_case.py",
+      "sha256": "a50e7c668ecbeb2660ca7086cea9b86bf51477ac5df9006db247d502131f049a"
+    },
+    {
+      "bytes": 20011,
+      "path": "tests/relational_autonomy/qualification.py",
+      "sha256": "3c3a7310703cc611d4fc01504b2027838387b265662ae178f79ff34dcf09d733"
+    },
+    {
+      "bytes": 4066,
+      "path": "tests/relational_autonomy/recovery.py",
+      "sha256": "a7ee11fcc1a5640bf1298613579fcd17880cfe0d25ee6a934a38962b46c0317c"
+    },
+    {
+      "bytes": 4812,
+      "path": "tests/relational_autonomy/soak.py",
+      "sha256": "cf33e3546ac1f7abcb38698911869f2fa58bf9bcebc9bd7516b6c022853dea9c"
+    },
+    {
+      "bytes": 3137,
+      "path": "tests/relational_autonomy/test_accommodation.py",
+      "sha256": "524dbe8331e3e9847aa86c2fea068154da4078ee708024c947d9b89dcbaf4074"
+    },
+    {
+      "bytes": 2820,
+      "path": "tests/relational_autonomy/test_bootstrap.py",
+      "sha256": "37dd28c197250cd33bb47184a5754f06be4a910b1c32f0c762a7a6c541deb429"
+    },
+    {
+      "bytes": 4836,
+      "path": "tests/relational_autonomy/test_boundaries.py",
+      "sha256": "b5c838f1f9ecff3aca7ee1080d0b0a0868c231e139d2a970a4e1935207446c3a"
+    },
+    {
+      "bytes": 208,
+      "path": "tests/relational_autonomy/test_migrations.py",
+      "sha256": "ef00ddf68751c8c1494d03b2417ff512327b0be059206fa5e00e4dcbfc85b7e0"
+    },
+    {
+      "bytes": 7086,
+      "path": "tests/relational_autonomy/test_projections.py",
+      "sha256": "3d1e1edcea69ad644d76be80861e2f3348df7511d630c582e12df34eafa6f35f"
+    },
+    {
+      "bytes": 183,
+      "path": "tests/relational_autonomy/test_recovery.py",
+      "sha256": "7eafc3e4f12759a7a15c7c1f12453a7318424a5bb2f3a2dc93470bba80de76a9"
+    },
+    {
+      "bytes": 180,
+      "path": "tests/relational_autonomy/test_soak.py",
+      "sha256": "98e5b600016abeff957cada71b21543b11fbefb6b2ed47cef018ecc04d2c0bc9"
+    },
+    {
+      "bytes": 744,
+      "path": "tests/relational_autonomy/test_system.py",
+      "sha256": "7016c6d8869884f32ded42de6c76af2fbf1612eb73cc3742f272c427736d9bd6"
+    },
+    {
+      "bytes": 3514,
+      "path": "tests/relational_autonomy/test_tradeoff.py",
+      "sha256": "e32264201ed67bc58ccc5da192b7bc13fec7ac11e26a2666ee99c68323014db9"
+    }
+  ],
+  "final_commit": "containing documentation commit; independently verified against origin",
+  "new_business_tables": 0,
+  "origin": "OFFLINE_SYNTHETIC",
+  "roadmap_id": "L3-C-RELATIONAL-V1",
+  "runtime": {
+    "pydantic": "2.13.4",
+    "python": "3.12.14",
+    "sqlite": "3.53.1",
+    "sqlite_floor": "3.51.3"
+  },
+  "schema_version": 1,
+  "source_test_checkpoint": "a97a8114b7d638d7c9bd1a9895822dbc6efc4e7c"
+}

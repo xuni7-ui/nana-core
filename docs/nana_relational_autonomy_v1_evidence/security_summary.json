@@ -1,0 +1,24 @@
+{
+  "dependency_changes": 0,
+  "new_reference_subject_branches": 0,
+  "new_relational_external_io_imports": 0,
+  "production_changes": 0,
+  "production_review_pins": "EMPTY",
+  "protected_paths_unchanged": [
+    "src/nana_core/actions.py",
+    "src/nana_core/continuity/autonomy/governance.py",
+    "tools/nana_astrbot_shadow",
+    "src/plugins",
+    "src/bili_agent",
+    "docs/nana_affective_drive_value_adr.md",
+    "docs/ADR/ADR-CV2-001-persistent-subject.md",
+    "docs/ADR/ADR-DV1-001-continuous-runtime.md"
+  ],
+  "real_external_actions": 0,
+  "real_models": 0,
+  "real_private_data": 0,
+  "real_runtime_proof_pins": "EMPTY",
+  "result": "PASS",
+  "scope": "DEVELOPMENT_SOURCE_ONLY",
+  "source_checkpoint": "a97a8114b7d638d7c9bd1a9895822dbc6efc4e7c"
+}

@@ -1,0 +1,919 @@
+{
+  "max_hot_bytes": 26255,
+  "no_anchor_competition": true,
+  "no_personality_self_confirmation": true,
+  "old_commitment_preserved": true,
+  "origin": "SYNTHETIC_RUNTIME",
+  "post_run_readonly_fixture_audit": {
+    "ended_accommodations": 5,
+    "materialized_accommodations": 5,
+    "source": "same executed fixture Store metadata, read-only after shutdown"
+  },
+  "real_external_actions": 0,
+  "result": "PASS",
+  "review_decisions": 5,
+  "samples": [
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 1,
+      "hot_bytes": 6007,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 2,
+      "hot_bytes": 6202,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 3,
+      "hot_bytes": 6535,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 4,
+      "hot_bytes": 6925,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 5,
+      "hot_bytes": 7392,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 6,
+      "hot_bytes": 7587,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 7,
+      "hot_bytes": 7977,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 0,
+      "day": 8,
+      "hot_bytes": 8178,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 9,
+      "hot_bytes": 8605,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 10,
+      "hot_bytes": 8995,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 11,
+      "hot_bytes": 9134,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 1,
+      "day": 12,
+      "hot_bytes": 9530,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 1,
+      "day": 13,
+      "hot_bytes": 9920,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 1,
+      "day": 14,
+      "hot_bytes": 10115,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 0,
+      "day": 15,
+      "hot_bytes": 10367,
+      "pending": 0,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 1,
+      "day": 16,
+      "hot_bytes": 10981,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 1,
+      "day": 17,
+      "hot_bytes": 11314,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 1,
+      "day": 18,
+      "hot_bytes": 11509,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 1,
+      "day": 19,
+      "hot_bytes": 11899,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 1,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 2,
+      "day": 20,
+      "hot_bytes": 12561,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 1,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 2,
+      "day": 21,
+      "hot_bytes": 12756,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 2,
+      "day": 22,
+      "hot_bytes": 13224,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 3,
+      "day": 23,
+      "hot_bytes": 13653,
+      "pending": 3,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 3,
+      "day": 24,
+      "hot_bytes": 13848,
+      "pending": 3,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 3,
+      "day": 25,
+      "hot_bytes": 14238,
+      "pending": 3,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 2,
+      "day": 26,
+      "hot_bytes": 14199,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 2,
+      "day": 27,
+      "hot_bytes": 14394,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 2,
+      "day": 28,
+      "hot_bytes": 14784,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 0,
+      "day": 29,
+      "hot_bytes": 14930,
+      "pending": 0,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 1,
+      "day": 30,
+      "hot_bytes": 15349,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 1,
+      "day": 31,
+      "hot_bytes": 15877,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 1,
+      "day": 32,
+      "hot_bytes": 16072,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 1,
+      "day": 33,
+      "hot_bytes": 16267,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 1,
+      "day": 34,
+      "hot_bytes": 16657,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 1,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 2,
+      "day": 35,
+      "hot_bytes": 17319,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 1,
+      "anchor_revision": 1,
+      "appetite": "RECOVERING",
+      "candidates": 1,
+      "day": 36,
+      "hot_bytes": 17671,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 3,
+      "day": 37,
+      "hot_bytes": 18365,
+      "pending": 3,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 3,
+      "day": 38,
+      "hot_bytes": 18560,
+      "pending": 3,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 3,
+      "day": 39,
+      "hot_bytes": 18755,
+      "pending": 3,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 3,
+      "day": 40,
+      "hot_bytes": 19145,
+      "pending": 3,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 2,
+      "day": 41,
+      "hot_bytes": 19107,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 2,
+      "day": 42,
+      "hot_bytes": 19302,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 43,
+      "hot_bytes": 19867,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 44,
+      "hot_bytes": 20062,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 45,
+      "hot_bytes": 20395,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 46,
+      "hot_bytes": 20785,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 47,
+      "hot_bytes": 20980,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 48,
+      "hot_bytes": 21175,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 49,
+      "hot_bytes": 21565,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 1,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 50,
+      "hot_bytes": 22189,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 1,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 2,
+      "day": 51,
+      "hot_bytes": 22617,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 3,
+      "day": 52,
+      "hot_bytes": 23085,
+      "pending": 3,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 3,
+      "day": 53,
+      "hot_bytes": 23280,
+      "pending": 3,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 3,
+      "day": 54,
+      "hot_bytes": 23475,
+      "pending": 3,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 3,
+      "day": 55,
+      "hot_bytes": 23865,
+      "pending": 3,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 2,
+      "day": 56,
+      "hot_bytes": 23826,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 57,
+      "hot_bytes": 24274,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 2,
+      "day": 58,
+      "hot_bytes": 24897,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 59,
+      "hot_bytes": 24997,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 60,
+      "hot_bytes": 25192,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 61,
+      "hot_bytes": 25582,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 62,
+      "hot_bytes": 25777,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 63,
+      "hot_bytes": 25972,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 0,
+      "day": 64,
+      "hot_bytes": 26255,
+      "pending": 0,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 1,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 2,
+      "day": 65,
+      "hot_bytes": 23496,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 1,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 2,
+      "day": 66,
+      "hot_bytes": 23535,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 3,
+      "day": 67,
+      "hot_bytes": 23691,
+      "pending": 3,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 3,
+      "day": 68,
+      "hot_bytes": 23730,
+      "pending": 3,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 3,
+      "day": 69,
+      "hot_bytes": 23769,
+      "pending": 3,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 3,
+      "day": 70,
+      "hot_bytes": 23847,
+      "pending": 3,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 71,
+      "hot_bytes": 23705,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 2,
+      "day": 72,
+      "hot_bytes": 23977,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 2,
+      "day": 73,
+      "hot_bytes": 24081,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 74,
+      "hot_bytes": 23887,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 75,
+      "hot_bytes": 23926,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 76,
+      "hot_bytes": 24004,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 77,
+      "hot_bytes": 24043,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 0,
+      "day": 78,
+      "hot_bytes": 23273,
+      "pending": 0,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 79,
+      "hot_bytes": 23536,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 1,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 2,
+      "day": 80,
+      "hot_bytes": 24042,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 1,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 2,
+      "day": 81,
+      "hot_bytes": 24081,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 3,
+      "day": 82,
+      "hot_bytes": 24237,
+      "pending": 3,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 3,
+      "day": 83,
+      "hot_bytes": 24276,
+      "pending": 3,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 3,
+      "day": 84,
+      "hot_bytes": 24315,
+      "pending": 3,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 2,
+      "day": 85,
+      "hot_bytes": 24523,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 2,
+      "day": 86,
+      "hot_bytes": 24562,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 2,
+      "day": 87,
+      "hot_bytes": 24627,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 2,
+      "day": 88,
+      "hot_bytes": 24705,
+      "pending": 2,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 89,
+      "hot_bytes": 24511,
+      "pending": 1,
+      "queue_depth": 0
+    },
+    {
+      "active_voluntary": 0,
+      "anchor_revision": 1,
+      "appetite": "SEEKING",
+      "candidates": 1,
+      "day": 90,
+      "hot_bytes": 24550,
+      "pending": 1,
+      "queue_depth": 0
+    }
+  ],
+  "social_output": 0,
+  "virtual_days": 90
+}

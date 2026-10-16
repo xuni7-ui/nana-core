@@ -1,0 +1,12 @@
+L3-C-RELATIONAL-V1 final regression
+Source/test checkpoint:a97a8114b7d638d7c9bd1a9895822dbc6efc4e7c
+Command:.venv/bin/python -m pytest -q tests
+929 passed /0 failed /1 skipped;204.41 seconds (XML:204.346).
+C-V2:32 passed; D-V1:11 passed; AFFECT:23 passed; new relational:18 passed.
+E12 real-model gate is the sole skip; E12=NOT_RUN.
+Real models/private data/real external actions/production changes=0.
+Runtime:CPython3.12.14 /SQLite3.53.1 /Pydantic2.13.4; floor3.51.3 unchanged.
+Historical bootstrap client uses temporary launcher to actual /usr/bin/python3, no fabricated version or install.
+Major pre-hardening919/0/1,93.58s; combined targeted74 PASS,40.31s.
+Pre-scope-tightening final929/0/1,207.24s; final same-domain qualification929/0/1,204.41s.
+No original tests deleted or assertions weakened.

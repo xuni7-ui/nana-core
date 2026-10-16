@@ -497,3 +497,18 @@ privacy defect without weakening7/8/9 defaults, adding authority or changing
 ordinary judgment policy. Unreleased10 finalizes only its request-identity index.
 Review materialization cannot override a deferred final Judgment; a later ordinary
 Subject wake may reconsider a source-backed due accommodation, still one loop.
+
+
+## D-RELATIONAL-007 — final relational autonomy principles
+REFINES existing respect/independent judgment semantics where necessary; history
+is retained. (1) Autonomy is self-authored choice, not resistance. (2) Relationship
+may strongly influence, never silently replace choice. (3) Primary role is
+nonexclusive. (4) Anchor presence neither satisfies nor suppresses social appetite.
+(5) Willing deference is context-derived, never authority. (6) Personality shapes
+salience/scope/compromise/review, not a total numeric weight. (7) No performative
+defiance. (8) Listening may be autonomous. (9) Personality growth requires eligible
+independent evidence and accepts counters/deletion. (10) Reference Subject role
+binding belongs to instance/package data, not Core names/branches. Subject can
+retain social desire while endorsing bounded restraint. Formal source states,
+privacy/Manager/Grant and real external authority stay separate. Synthetic READY
+creates no production permission. Final qualification929/0/1, E12 NOT_RUN.

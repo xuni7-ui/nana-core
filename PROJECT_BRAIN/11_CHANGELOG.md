@@ -1255,3 +1255,27 @@ request. Low-seriousness duty contrast explicitly preserves/proposes renegotiati
 its old commitment. Two system tests PASS. Prior final full929/0/1,207.24s,
 including90-day5 reviews/5 accommodations all ended/max hot26255 bytes. Full suite
 is rerun against this stronger final test checkpoint; not a new feature/authority.
+
+
+## L3-C-RELATIONAL-V1 FINAL — OFFLINE_CANDIDATE READY (2026-10-16)
+This current block supersedes pending descriptions in historical M1–M8 entries.
+[实测·开发离线] R1–R7 generic Anchor, independent appetite, self-authorship,
+source-backed personality/deference/tradeoff, bounded accommodation and narrative
+IMPLEMENTED / SYNTHETIC TESTED / OFFLINE-VERIFIED. Final source/test checkpoint:
+a97a8114b7d638d7c9bd1a9895822dbc6efc4e7c. Final documentation commit changes no
+business source/tests. Final full929 passed /0 failed /1 skipped(E12),204.41s;
+C32 / D11 / AFFECT23 / new relational18 PASS. S1–S22,12 representative4D cases,
+matched3-world appetite ablation and3 generic Subjects PASS.7 actual local SIGKILL
+cuts, fresh10/7→10/8→10/9→10 and managed restore quarantine/erasure PASS.
+90 virtual days:5 reviews,5 accommodations materialized/all5 ended, peak active1,
+max combined hot26255 bytes, no social/reflection spam, no role competition.
+One SubjectLoop/Runtime/Store authority per Subject; schema10 adds0 business
+tables (39 total), C7/D8/AFFECT9 opt-in/default boundaries retained. A narrow
+inherited privacy bug was repaired in7/9/10; no ordinary authority/judgment policy
+was weakened. ActionKernel/Manager/frozen ADR2/production Shadow tools unchanged.
+Source private memory/real model/external effect/production/main/R045 changes0.
+Production review/proof pins in this branch remain EMPTY; real ingress disabled;
+E12 NOT_RUN. No real-host status is upgraded by this fixture qualification.
+Evidence: docs/nana_relational_autonomy_v1_implementation.md and its evidence/.
+No unresolved core invariant defect / architecture conflict. Stop at offline READY;
+next is independent review/development integration, not automatic real social/E/G.

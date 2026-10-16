@@ -1,0 +1,7 @@
+Final full includes18 new relational tests, all PASS.
+Focused14 PASS,5.57s; strengthened system pair PASS,1.97s.
+S1–S22;12 four-dimensional contrasts;3-world ablation;3 generic Subjects PASS.
+7 actual local SIGKILL cuts PASS;7/8/9→10 and quarantined restore PASS.
+90 virtual days: 5 actual reviews, 5 accommodations materialized/5 ended, peak active 1, max combined hot views 26255 bytes.
+Source privacy failing regression retained/fixed; review response deadline failing regression retained/fixed.
+Business source unchanged after1d80d0b; exact final source/test checkpointa97a8114b7d638d7c9bd1a9895822dbc6efc4e7c.

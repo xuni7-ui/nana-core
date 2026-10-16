@@ -1,0 +1,10 @@
+OFFLINE/SYNTHETIC only. No real Subject Package, user entity binding, private memory import, model, social account, world perception or external execution.
+Trusted local application construction; no remote bootstrap principal onboarding.
+One initial anchor slot per scope in V1; explicit revision/withdrawal. No friendship count cap.
+Personality judgments use fictional sourced observations; they are not human personality or subjective consciousness verification.
+Typed qualitative fallback and bounded compromise; no NLP request parser or utterance renderer.
+Core supports semantic warmth/firmness/retained preference and provenance, not generated dialogue.
+Current projections use bounded source candidates and conservative unknown/coverage.
+Managed restore is quarantined. Hostile root/in-process arbitrary mutation/raw DB clones are outside this trust boundary.
+90 virtual-day soak is a bounded synthetic workload, not all future volumes or a production wall-clock soak. Cold history can grow linearly.
+No unresolved core invariant defect is accepted as READY. Independent offline review/integration recommended, no automatic next-layer work.
