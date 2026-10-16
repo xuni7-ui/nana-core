@@ -20,6 +20,26 @@ class OperatorAuthority:
 
 
 class ActionKernel:
+    def _stored_payload(self,tx,payload,*,action=None):
+        """Explicit v11 payloads inherit C provenance/erasure, not immutable prose."""
+        from .continuity.records import RecordService
+        support=getattr(self.store,'_governed_payload_support',None)
+        if not support and action:
+            support=json.loads(action['args_json']).get('action_payload_record')
+        if not support:raise CoreError('ACTION_PAYLOAD_SUPPORT_REQUIRED')
+        records=RecordService(self.store);parent=records.read(support)
+        rid=records.create(tx,kind='ACTION_PAYLOAD',scope=parent['scope'],payload=payload,records=(support,))
+        return rid,self.store.one('continuity_records',rid)['payload_artifact_id']
+
+    def payload(self,action,field):
+        raw=action[field]
+        if raw is None:return None
+        value=json.loads(raw)
+        if self.store.schema_target>=11 and type(value) is dict and set(value)=={'action_payload_record'}:
+            from .continuity.records import RecordService
+            return canonical(RecordService(self.store).read(value['action_payload_record'])['payload'])
+        return raw
+
     def __init__(self, store, capability, authority: OperatorAuthority, *, registry=None):
         self.store, self.capability, self._authority = store, capability, authority
         # Trusted operator construction only. Default V1 remains closed reading.
@@ -141,9 +161,13 @@ class ActionKernel:
                 return old["action_id"]
         action_id = uid()
         with self.store.transaction("action.proposed", {"action_id": action_id}) as tx:
+            stored_args=canonical(args)
+            if self.store.schema_target>=11:
+                rid,_=self._stored_payload(tx,args)
+                stored_args=canonical({'action_payload_record':rid})
             tx.put("actions", {"action_id": action_id, "goal_id": goal_id, "plan_id": plan_id,
                 "effect_slot": effect_slot, "idempotency_key": digest([self.store.identity["identity_id"], action_id]),
-                "capability": capability, "resource": resource, "args_json": canonical(args),
+                "capability": capability, "resource": resource, "args_json": stored_args,
                 "args_hash": digest(args), "state": "PROPOSED", "version": 1, "attempt_id": None,
                 "result_json": None, "body_json": "{}"})
         return action_id
@@ -174,7 +198,7 @@ class ActionKernel:
         return attempt_id
 
     def _invocation(self, action):
-        args = json.loads(action["args_json"])
+        args = json.loads(self.payload(action,'args_json'))
         if digest(args) != action["args_hash"]:
             raise CoreError("ACTION_ARGS_CORRUPT")
         return Invocation(action_id=action["action_id"], attempt_id=action["attempt_id"],
@@ -239,7 +263,9 @@ class ActionKernel:
                 self._change(tx, self.store.one("actions", action_id), "UNKNOWN")
             return "UNKNOWN"
         with self.store.transaction("action.receipt_received", {"action_id": action_id}) as tx:
-            tx.payload_id = tx.artifact(receipt.model_dump_json().encode())
+            if self.store.schema_target>=11:
+                _,tx.payload_id=self._stored_payload(tx,receipt.model_dump(mode='json'),action=self.store.one('actions',action_id))
+            else:tx.payload_id = tx.artifact(receipt.model_dump_json().encode())
             tx.update("attempts", action["attempt_id"], receipt_event_id=tx.event_id)
             self._change(tx, self.store.one("actions", action_id), "PENDING_VERIFY")
         return "PENDING_VERIFY"
@@ -268,13 +294,19 @@ class ActionKernel:
             return "UNKNOWN"
         state = {"MATCH": "SUCCEEDED", "FINAL_NO_EFFECT": "NOT_APPLIED", "EFFECT_MISMATCH": "FAILED_EFFECT", "INCONCLUSIVE": "UNKNOWN"}[result.verdict]
         with self.store.transaction("action.verified", {"action_id": action_id, "verdict": result.verdict}) as tx:
-            tx.payload_id = tx.artifact(result.model_dump_json().encode())
+            if self.store.schema_target>=11:
+                _,tx.payload_id=self._stored_payload(tx,result.model_dump(mode='json'),action=action)
+                rid,_=self._stored_payload(tx,result.evidence.get('result'),action=action)
+                stored_result=canonical({'action_payload_record':rid})
+            else:
+                tx.payload_id = tx.artifact(result.model_dump_json().encode())
+                stored_result=canonical(result.evidence.get('result'))
             tx.update("attempts", verification_attempt, outcome=state, verification_event_id=tx.event_id)
             if state != "UNKNOWN":
                 tx.update("attempts", action["attempt_id"], outcome=state, verification_event_id=tx.event_id)
                 self._holds(tx, action["attempt_id"], {"cost_micro_units"})
             self._holds(tx, verification_attempt, {"cost_micro_units"})
-            self._change(tx, action, state, result_json=canonical(result.evidence.get("result")),
+            self._change(tx, action, state, result_json=stored_result,
                 body_json=canonical({"verification_event_id": tx.event_id}))
         return state
 

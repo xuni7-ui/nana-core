@@ -12,6 +12,7 @@ class ConcernCue(DTO):
     schema_version: Literal[1] = 1
     cue_kind: Literal['OPEN_LOOP','OPPORTUNITY','DISCOVERY','CONSTRAINT','LOAD_STATE']
     motivation_source: str = Field(pattern=r'^[A-Z][A-Z0-9_]{1,63}$')
+    program_id: str | None = Field(default=None,pattern=r'^[a-z][a-z0-9_-]{0,31}\.[a-z][a-z0-9._-]{0,95}$')
     topic_key: str = Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
     possible_behaviors: tuple[Behavior, ...] = Field(default=(),max_length=8)
     required_preference_id: str | None = None

@@ -6,6 +6,7 @@ from .social import SocialInteractionProposal
 from .opportunities import Behavior,SyntheticActionProposal
 from ..autonomy.contracts import DisclosureRequest,DisclosureDecision,SubjectEvaluation,RealizationTarget,RelationshipDetails,PositiveRequest,RequestDecision
 from ..extensions import SurfaceEnvelope
+from ..agency_contracts import GoalStepRef
 
 from ..relational.contracts import RelationalRequest,RelationalDecision,FacetName
 
@@ -33,6 +34,7 @@ class SubjectInput(DTO):
     domain: Literal['SYNTHETIC_ONLY'] = 'SYNTHETIC_ONLY'
     source_key: str = Field(pattern=r'^synthetic[.:_-][A-Za-z0-9._:-]{1,128}$')
     surface: SurfaceEnvelope | None = None
+    goal_step: GoalStepRef | None = None
     kind: Literal['INTERACTION', 'PROJECT', 'PLAY', 'OUTCOME', 'WAKE', 'RELATIONSHIP', 'REFLECTION']
     origin: Literal['USER', 'ENVIRONMENT', 'SELF_WAKE']
     entity_id: str = Field(pattern=r'^[A-Za-z0-9._:-]{1,128}$')
@@ -68,6 +70,8 @@ class SubjectInput(DTO):
 
     @model_validator(mode='after')
     def provenance(self):
+        if self.goal_step and (self.kind!='WAKE' or self.origin!='SELF_WAKE' or not self.source_memory_ids):
+            raise ValueError('plan step requires a source-backed internal opportunity')
         if self.surface and (self.surface.entity_id != self.entity_id or self.surface.privacy_class != self.privacy_class
                 or self.surface.observed_at_us != self.observed_at_us or self.surface.occurred_at_us != self.occurred_at_us):
             raise ValueError('surface metadata must match canonical input')
@@ -170,6 +174,7 @@ class CycleResult(DTO):
     barrier: Literal['NO_ACTION','SHADOW_BLOCKED']
     record_id: str | None
     replayed: bool = False
+    proposed_program_id: str | None = None
     deliberation: DeliberationTrace | None = None
     social_proposal: SocialInteractionProposal | None = None
     action_proposal: SyntheticActionProposal | None = None

@@ -10,6 +10,11 @@ from ...contracts import CoreError,Receipt,Verification
 from ...storage import digest,canonical
 
 class OfflineEffectPort:
+    def seed_source(self,resource,*,text,locator):
+        if not re.fullmatch(r'synthetic://[A-Za-z0-9/._:-]{1,160}',resource) or type(text) is not str or not 1<=len(text)<=4096 or type(locator) is not str or not 1<=len(locator)<=256:raise CoreError('OFFLINE_FIXTURE_INVALID')
+        body=self._load();body['workflow_fixture']=True
+        body.setdefault('source_fixtures',{})[resource]={'text':text,'locator':locator}
+        self._save(body)
     def __init__(self,identity_id,world_path):
         self.identity_id=identity_id;self.path=Path(world_path)
         if not self.path.name.endswith('.fixture.json'):raise CoreError('OFFLINE_FIXTURE_PATH_REQUIRED')
@@ -44,6 +49,14 @@ class OfflineEffectPort:
             if old['args_hash']!=inv.args_hash:raise CoreError('OFFLINE_EFFECT_COLLISION')
             return Receipt(external_id=inv.idempotency_key,result=old['result'])
         result={'text':inv.args.get('content','A supplied fictional observation'),'resource':inv.resource,'fixture':True}
+        if body.get('workflow_fixture'):
+            if inv.capability=='reading.card.create':
+                result.update(locator=inv.args.get('locator'),source_id=inv.args['source_id'])
+            else:
+                source=body.get('source_fixtures',{}).get(inv.resource)
+                if not source:raise CoreError('OFFLINE_SOURCE_UNAVAILABLE')
+                result['text']=source['text']
+                if inv.capability=='reading.source.locate':result['locator']=source['locator']
         body['effects'][inv.idempotency_key]={'args_hash':inv.args_hash,'resource':inv.resource,'result':result}
         body['resources'][inv.resource]=result
         self._save(body)

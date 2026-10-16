@@ -17,8 +17,11 @@ class GovernedRealization:
         if getattr(self.store,'_governed_action_guard',None):raise CoreError('NESTED_REALIZATION_FORBIDDEN')
         self.gate.require_current(outcome)
         self.store._governed_action_guard=lambda:self.gate.require_current(outcome)
+        self.store._governed_payload_support=outcome.record_id
         try:yield
-        finally:del self.store._governed_action_guard
+        finally:
+            del self.store._governed_action_guard
+            del self.store._governed_payload_support
 
     def propose(self,intention_id,*,expected_revision,args):
         outcome=self.gate.gate(intention_id,expected_revision=expected_revision)

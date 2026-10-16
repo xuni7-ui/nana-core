@@ -2,7 +2,7 @@
 CREATE TABLE continuity_records_new (
  record_id TEXT PRIMARY KEY,
  target_id TEXT,
- record_kind TEXT NOT NULL CHECK(record_kind IN ('COMMITMENT','PROJECT','EXPERIENCE','LESSON','SUBJECT_EVENT','SUBJECT_CYCLE','ASSERTION','ASSERTION_SIGNAL','RELATIONSHIP_EVENT','INTENTION','GOAL_CANDIDATE','REFLECTION','INTENTION_DISPOSITION','CONSTRAINT_OUTCOME','EXPERIENCE_CANDIDATE','SUBJECT_BOOTSTRAP','RUNTIME_WORK','ADOPTED_GOAL','AUTONOMOUS_PLAN','MAINTENANCE_CANDIDATE','MEMORY_VALIDITY','SKILL_PROPOSAL')),
+ record_kind TEXT NOT NULL CHECK(record_kind IN ('COMMITMENT','PROJECT','EXPERIENCE','LESSON','SUBJECT_EVENT','SUBJECT_CYCLE','ASSERTION','ASSERTION_SIGNAL','RELATIONSHIP_EVENT','INTENTION','GOAL_CANDIDATE','REFLECTION','INTENTION_DISPOSITION','CONSTRAINT_OUTCOME','EXPERIENCE_CANDIDATE','SUBJECT_BOOTSTRAP','RUNTIME_WORK','ADOPTED_GOAL','AUTONOMOUS_PLAN','MAINTENANCE_CANDIDATE','MEMORY_VALIDITY','SKILL_PROPOSAL','ACTION_PAYLOAD')),
  scope TEXT NOT NULL,
  privacy_class TEXT NOT NULL CHECK(privacy_class IN ('PUBLIC','PROJECT','PERSONAL','SECRET')),
  payload_artifact_id TEXT NOT NULL REFERENCES artifacts(artifact_id),
@@ -44,4 +44,13 @@ INSERT INTO runtime_cognition_calls_new(call_id,queue_id,provider,state,owner_ep
 SELECT * FROM runtime_cognition_calls;
 DROP TABLE runtime_cognition_calls;
 ALTER TABLE runtime_cognition_calls_new RENAME TO runtime_cognition_calls;
+CREATE TABLE subject_goal_candidates_new (
+ candidate_id TEXT PRIMARY KEY,
+ intention_id TEXT NOT NULL UNIQUE REFERENCES subject_intentions(intention_id),
+ record_id TEXT NOT NULL REFERENCES continuity_records(record_id),
+ state TEXT NOT NULL CHECK(state IN ('PROPOSED','DEFERRED','WITHDRAWN','EXPIRED','ADOPTED'))
+);
+INSERT INTO subject_goal_candidates_new SELECT * FROM subject_goal_candidates;
+DROP TABLE subject_goal_candidates;
+ALTER TABLE subject_goal_candidates_new RENAME TO subject_goal_candidates;
 PRAGMA user_version=11;

@@ -1221,3 +1221,16 @@ queue resumes without duplicating Subject cycle. Explicit11 extends existing
 jobs/record/call CHECKs/columns; no new business table. Default8 unchanged.
 Targeted cadence2 PASS. Historical docs/evidence from67326d1/9a9f8fe preserved
 with original provenance, not treated as this milestone's qualification.
+
+### D2–D7 M2 — sustained offline goal/plan/action/verify path
+
+[离线实测] Finite application-owned OfflineGoalPolicy adopts only C-endorsed,
+source-bound candidates. The existing C SubjectLoop independently considers every
+plan step; GovernedRealization/ActionKernel retain Manager/Grant/Budget/Verify.
+Explicit11 jobs preserve step cursor and deterministic ingress identity across
+restart/ACK gaps. UNKNOWN retains original effect identity and bounded verification,
+never blind redispatch. Program registry grants no execution permission.
+V11 action arguments/results/receipt/verification payloads use existing deletable
+records/dependencies rather than copying personal body into immutable action rows.
+Source erasure cancels future work, removes these payloads, preserves opaque history.
+Targeted cadence/agency and prior realization7 PASS; real external actions=0.

@@ -213,6 +213,12 @@ class SubjectLoop:
             self.growth.apply(tx, event, source)
             self._expire(tx)  # counter-evidence may inhibit an earlier optional intention
             situation = self.situation(event, source)
+            if event.goal_step:
+                from ..agency import step_view
+                view=step_view(self.store,event.goal_step,scope=event.scope,privacy_classes=self.privacy_classes)
+                if event.realization_target!=view.target:raise CoreError('GOAL_STEP_TARGET_MISMATCH')
+                situation=situation.model_copy(update={'plan_step':view,'memory_ids':tuple(dict.fromkeys((*situation.memory_ids,*view.source_memory_ids))),
+                    'support_record_ids':tuple(dict.fromkeys((*situation.support_record_ids,view.record_id)))})
             appraisal = appraise(event, situation)
             motives = motivate(event, situation, appraisal)
             attention, judgment, intention = decide(event, situation, appraisal, motives)
@@ -332,7 +338,7 @@ class SubjectLoop:
             if intention.kind=='EXPLORE' and situation.cue and situation.cue.resource_ref:
                 action=SyntheticActionProposal(resource_ref=situation.cue.resource_ref,resource_class=situation.cue.resource_class,source_memory_ids=situation.memory_ids)
             target=event.realization_target if evaluation and evaluation.normative=='ENDORSED' else None
-            if target and situation.cue and situation.cue.resource_ref:
+            if target and situation.cue and situation.cue.resource_ref and not situation.plan_step:
                 if target.resource!=situation.cue.resource_ref:raise CoreError('REALIZATION_SOURCE_TARGET_MISMATCH')
                 target=target.model_copy(update={'resource_class':situation.cue.resource_class})
             cycle_id, intention_id, candidate_id = uid(), None, None
@@ -363,6 +369,7 @@ class SubjectLoop:
                 barrier='NO_ACTION' if intention.kind == 'NO_ACTION' else 'SHADOW_BLOCKED', record_id=None,social_proposal=social,action_proposal=action,
                 evaluation=evaluation,disclosure=disclosure,request_decision=request_decision,selected_disposition_id=event.disposition_reflection_id,
                 realization_target=target,relational_decision=relational,
+                proposed_program_id=situation.cue.program_id if candidate_id and situation.cue else None,
                 deliberation=None if _deliberation is None else {
                     'model_descriptor': _deliberation.model_descriptor,
                     'context_digest': _deliberation.context_digest, 'raw_proposal_json': _deliberation.raw_proposal_json})

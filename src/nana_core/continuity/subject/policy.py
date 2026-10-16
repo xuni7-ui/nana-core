@@ -4,6 +4,7 @@ from .contracts import Appraisal, Intention, Judgment, Motivation, SubjectInput
 from .opportunities import ConcernCue,directions
 from ..relational.contracts import SocialAppetiteView
 from ..autonomy.contracts import RelationshipInfluenceView,SocialPrivacyExpectation
+from ..agency_contracts import PlanStepView
 
 
 class Situation(DTO):
@@ -32,6 +33,7 @@ class Situation(DTO):
     autonomy_semantics: bool = False
     social_appetite: SocialAppetiteView | None = None
     voluntary_restraints: tuple[str,...] = ()
+    plan_step: PlanStepView | None = None
 
 
 def appraise(event: SubjectInput, situation: Situation):
@@ -107,6 +109,11 @@ def decide(event, situation, appraisal, motives):
     if situation.voluntary_restraints and situation.cue and 'SOCIALIZE' in directions(situation.cue) and event.urgency!='HIGH':
         return ('DEFER',Judgment(stance='DEFER',reason='Honor a current bounded self-chosen accommodation; retain desire and permit later review',source_ids=sources),
             Intention(kind='NO_ACTION',purpose='Choose temporary restraint without losing social desire',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='STAY_SILENT'))
+    if situation.plan_step:
+        if situation.cue and (situation.cue.cognitive_load=='HIGH' or set(directions(situation.cue))<=set(situation.prohibited_behaviors)):
+            return ('DEFER',Judgment(stance='DEFER',reason='Pause an adopted plan while a sourced load or norm deserves attention',source_ids=sources),Intention(kind='NO_ACTION',purpose='Wait before continuing the plan',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='REST'))
+        ref=situation.plan_step.reference
+        return ('FOCUS_NOW',Judgment(stance='AGREE',reason='Continue one supported adopted-plan step; execution authority is checked separately',source_ids=sources,lesson_ids=situation.lesson_ids),Intention(kind='ACTION_PROPOSAL',purpose='Propose the next reviewed plan step',slot_key='step-'+ref.work_id+'-'+str(ref.cursor),source_ids=sources,self_generated=self_generated,behavior='CONTINUE_PROJECT'))
     if situation.cue:
         cue=situation.cue
         options=[x for x in directions(cue) if x not in situation.prohibited_behaviors]

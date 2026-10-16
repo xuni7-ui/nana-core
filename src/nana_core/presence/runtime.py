@@ -37,6 +37,8 @@ class NanaRuntime:
             self.scheduler=Scheduler(self.store,config,self.queue)
             self.cognition=CognitionCoordinator(self.store,config,self.lease)
             self.cognition.progress=self._model_progress
+            from .living import LivingWork
+            self.work=LivingWork(self) if config.living else None
             self.queue.recover()
             persisted=self.store.one('core_meta','runtime.health')
             self.oper=json.loads(persisted['value_json']) if persisted else {
@@ -142,6 +144,7 @@ class NanaRuntime:
         self.cadence.assert_owner();self.cadence.drain(self.submit)
         self.lease.heartbeat()
         self._watch_sources();self.scheduler.due()
+        if self.work and not self.queue.has_reactive():self.work.opportunity()
         row=self.queue.claim()
         if row is None:
             self.cadence.idle_rounds=min(8,self.cadence.idle_rounds+1)
@@ -183,6 +186,7 @@ class NanaRuntime:
             if result and result.intention.kind=='REFLECTION' and event.reflection_experience_id:
                 self.subject.reflect(event.reflection_experience_id,authority=self.authority,apply=False)
             if result and result.intention.kind!='NO_ACTION':self.oper['last_activity_us']=self.clock.utc_now_us()
+            if self.work and result:self.work.after_cycle(result,event)
             self.queue.finish(row,'DONE',reason,result.cycle_id if result else None)
             checkpoint=self.store.db.execute('PRAGMA wal_checkpoint(PASSIVE)').fetchone()
             if checkpoint[0]==0:self.oper['last_successful_checkpoint_us']=self.clock.utc_now_us()

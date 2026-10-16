@@ -81,10 +81,10 @@ class SubjectIngress:
         # deletable and dependency-bound. Wake copies no user text.
         with self.store.transaction('subject.input_ingested') as tx:
             event_id, record = uid(), None
-            if memory_id:
+            if memory_id or (event.kind=='WAKE' and support):
                 record = self.records.create(tx, kind='SUBJECT_EVENT', scope=event.scope,
                     payload={'input': json.loads(event.model_dump_json()), 'admission_reasons': reasons},target_id=request_target,
-                    memories=(*support, memory_id))
+                    memories=(*support, *((memory_id,) if memory_id else ())))
             tx.put('subject_events', {'subject_event_id': event_id, 'source_key': event.source_key,
                 'entity_id': event.entity_id, 'scope': event.scope, 'kind': event.kind, 'origin': event.origin,
                 'record_id': record, 'memory_id': memory_id, 'occurred_at_us': event.occurred_at_us,
