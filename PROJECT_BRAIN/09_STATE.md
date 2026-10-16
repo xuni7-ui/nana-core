@@ -1087,3 +1087,5 @@ Baseline manifest SHA256 de048df5d8c62fd8a5f5b9ede8acf8d4c5afa8d05ad800ef033165c
 [实测] E1–E6 integrated offline candidate:23 targeted PASS；真实生产状态不升级，最终全量待验。M3 manifest SHA256 e65a40fed8e2cf84c2c802438c2039f44110e5bd015527df0509bc7281fe285d (`manifests/nana_e1e6_m3.json`).
 
 [实测] E1–E6 规划 dataflow/current revision fence 修复，26 targeted PASS；971全量为修复前记录，最终回归待验。M4 manifest SHA256 3f3f30fce68f55e2dce94917664b713ffdb3f12bfda7991a5a19ec185e404bb3 (`manifests/nana_e1e6_m4.json`).
+
+[实测] E1–E6 explicit12 action payload support freshness 修复；29 focused PASS，业务冻结待最终全量。M5 manifest SHA256 90c02c049b5c06f89135e25a3cb7edf19d951fad3666ccec5eaf71640c1a1ca1 (`manifests/nana_e1e6_m5.json`).

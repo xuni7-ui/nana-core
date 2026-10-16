@@ -46,7 +46,9 @@ class ActionKernel:
         value=json.loads(raw)
         if self.store.schema_target>=11 and type(value) is dict and set(value)=={'action_payload_record'}:
             from .continuity.records import RecordService
-            return canonical(RecordService(self.store).read(value['action_payload_record'])['payload'])
+            records=RecordService(self.store)
+            if self.store.schema_target>=12 and not records.current_support(value['action_payload_record']):raise CoreError('ACTION_PAYLOAD_SOURCE_NOT_CURRENT')
+            return canonical(records.read(value['action_payload_record'])['payload'])
         return raw
 
     def __init__(self, store, capability, authority: OperatorAuthority, *, registry=None):

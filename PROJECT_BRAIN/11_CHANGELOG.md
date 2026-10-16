@@ -1356,3 +1356,13 @@ Added actual eligible-recipient fixture contact/NO_RESPONSE and admission payloa
 intention binding proof; world-change replan uses fresh observed values; monitored
 lesson suspension stops an already-compiled plan. Targeted26 PASS,5.87s.
 No authority escape observed, no invariant weakened. Final full next; no real use.
+
+### E1–E6 M5 — execution input support freshness
+
+[源码/离线实测] Full at1f01b77:974 PASS/0 FAIL/1 SKIP,98.00s.
+A retained failing suppression regression showed a persisted action payload could
+still be read after its newly linked input memory became non-current. Explicit12
+Kernel payload resolution now checks supporting memory currency before obtaining
+arguments/results. It fails closed without rewriting historical effects or retrying
+UNKNOWN. Legacy≤11 behavior unchanged; new26 + inherited agency3 =29 PASS,6.25s.
+Business implementation frozen here; final full follows. No new authority/endpoint.

@@ -1,0 +1,8 @@
+{
+  "scope": "OFFLINE_ONLY",
+  "files": {
+    "src/nana_core/actions.py": "31c6f3af600216ff7d147b0fe60fcdd30a7857ba7489dab88b26793c6af1a92b",
+    "tests/open_autonomy/test_privacy_views.py": "a4cc43ad4928b6882e0a1454553a3a708654533ef45bcc1ff6ac951c9cb976a7",
+    "PROJECT_BRAIN/11_CHANGELOG.md": "c0c66eaa398d8665132f4ed9d72355c7ae73b03502554207d3d4f761814edb34"
+  }
+}

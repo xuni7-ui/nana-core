@@ -46,6 +46,11 @@ def test_observation_classification_propagates_into_kernel_payload_and_derived_r
         assert records.read(second_args)['privacy_class']=='PERSONAL'
         outputs=r.work.agency._outputs(r.store.all('goals')[0]['goal_id'])
         observed=outputs[0]['memory_id'];assert MemoryService(r.store).read(observed)['privacy_class']=='PERSONAL'
+        import pytest
+        from nana_core.contracts import CoreError
+        MemoryService(r.store,r.authority).set_lifecycle(observed,'SUPPRESSED',r.authority)
+        with pytest.raises(CoreError,match='ACTION_PAYLOAD_SOURCE_NOT_CURRENT'):
+            r.work.agency.realization.kernel.payload(actions[1],'args_json')
         MemoryService(r.store,r.authority).forget(observed,r.authority)
         import pytest
         from nana_core.contracts import CoreError
