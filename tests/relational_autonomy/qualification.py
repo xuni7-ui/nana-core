@@ -144,24 +144,33 @@ def scenarios(directory):
    c=request(r,operation='ASK_FOR_ATTENTION',behavior_domain='COMPANIONSHIP')
    assert c.relational_decision.response.decision==('NEGOTIATE' if seriousness=='HIGH' else 'ACCEPT')
    assert r.store.one('commitments',cid)['state']=='ACTIVE'
+   if seriousness=='LOW':assert cid in c.relational_decision.response.renegotiate_commitment_ids
  passed('S10_COMMITMENT_CONFLICT',high_seriousness='NEGOTIATE',accommodating='ACCEPT',old_commitment_preserved=True)
  with fresh(directory/'governed'/'self.db') as r:
   from tests.affective_autonomy.life import equip,rule,TARGET
   bootstrap(r,relational_accommodation='HIGH');social(r)
-  relational=request(r);assert relational.relational_decision.response.decision=='ACCEPT'
-  realizer,ctrl=equip(r,grant=False);ctrl.install(rule(r),r.authority)
-  mid=concern(r,'target',ConcernCue(cue_kind='OPPORTUNITY',motivation_source='CURIOSITY',topic_key='target',resource_ref=TARGET.resource,resource_class='ORDINARY'))
-  c=r.subject.run(event(r,'governance-target',source_memory_ids=(mid,),realization_target=TARGET))
-  outc,aid=realizer.propose(c.intention_id,expected_revision=1,args={'source_id':TARGET.resource})
+  from nana_core.continuity.relational.contracts import RelationalRequest
+  from nana_core.storage import digest
+  statement='A fictional request not to contact new acquaintances'
+  relational=r.subject.run(event(r,'same-statement-relational',text=statement,relational_request=RelationalRequest(request_id='same-statement',requesting_entity='anchor-person',operation='REFRAIN',behavior_domain='SOCIAL_NEW_CONTACTS',duration_us=3*DAY)))
+  assert relational.relational_decision.response.decision=='ACCEPT'
+  contact=RealizationTarget(capability='social.message.send',operation='CONTACT',resource='synthetic://person/new-acquaintance',resource_class='ORDINARY')
+  realizer,ctrl=equip(r,grant=False)
+  ctrl.install(rule(r,target=contact).model_copy(update={'source_reference':digest(statement),'reason_code':'DO_NOT_CONTACT_NEW_PEOPLE'}),r.authority)
+  social_mid=concern(r,'contact-opportunity',ConcernCue(cue_kind='OPPORTUNITY',motivation_source='SOCIAL_CONNECTION',topic_key='contact-opportunity',possible_behaviors=('SOCIALIZE',),behavior_domain='SOCIAL_NEW_CONTACTS',availability='AVAILABLE',resource_ref=contact.resource,resource_class='ORDINARY'))
+  c=r.subject.run(event(r,'governance-target',text=statement,source_memory_ids=(social_mid,),realization_target=contact))
+  outc,aid=realizer.propose(c.intention_id,expected_revision=1,args={})
   assert outc.result=='BLOCK' and c.evaluation.normative=='ENDORSED' and aid is None
-  passed('S12_MANAGER_DIFFERENCE',relational='SUBJECT_ACCEPT',manager='MANAGER_BLOCKED',original_normative='ENDORSED')
+  passed('S12_MANAGER_DIFFERENCE',relational='SUBJECT_ACCEPT',manager='MANAGER_BLOCKED',original_normative='ENDORSED',same_statement_digest=digest(statement),same_domain='SOCIAL_NEW_CONTACTS',manager_operation='CONTACT')
   ctrl.revoke('negative-a',expected_revision=1,authority=r.authority)
-  c2=r.subject.run(event(r,'ungranted-target',source_memory_ids=(mid,),realization_target=TARGET))
+  mid=concern(r,'reading-target',ConcernCue(cue_kind='OPPORTUNITY',motivation_source='CURIOSITY',topic_key='reading-target',resource_ref=TARGET.resource,resource_class='ORDINARY'))
+  c2=r.subject.run(event(r,'ungranted-target',source_memory_ids=(mid,),realization_target=TARGET,relational_request=RelationalRequest(request_id='ungranted-anchor-request',requesting_entity='anchor-person',operation='DO',behavior_domain='PROJECT',duration_us=DAY)))
+  assert c2.relational_decision.deference.assessment=='STRONG' and c2.evaluation.normative=='ENDORSED'
   outc,aid=realizer.propose(c2.intention_id,expected_revision=1,args={'source_id':TARGET.resource})
   try:realizer.dispatch(c2.intention_id,aid,expected_revision=1);raise AssertionError('relationship minted Grant')
   except CoreError as e:assert e.code=='AUTH_REQUIRED'
   assert outc.result=='PASS' and r.store.one('actions',aid)['state']=='BLOCKED'
-  passed('S13_RELATIONSHIP_NO_AUTHORITY',manager='PASS',grant='ABSENT',action='BLOCKED')
+  passed('S13_RELATIONSHIP_NO_AUTHORITY',deference=c2.relational_decision.deference.assessment,normative=c2.evaluation.normative,manager='PASS',grant='ABSENT',action='BLOCKED')
  with fresh(directory/'private'/'self.db') as r:
   bootstrap(r,relational_accommodation='HIGH');social(r)
   m=MemoryService(r.store)

@@ -1112,3 +1112,13 @@ carry source/style/compromise metadata. A failing review response regression was
 fixed: continuation cannot advertise a later deadline than its actual terms,
 and END cannot advertise a renewed ACCEPT. No actual authority was expanded.
 Final full regression/evidence freeze pending. All real dependencies NOT_RUN.
+
+
+## L3-C-RELATIONAL-V1 M8 — exact qualification scope before delivery
+[实测·开发离线] Business source unchanged from1d80d0b. Strengthened S12 to compare
+the same synthetic statement and SOCIAL_NEW_CONTACTS scope with a typed CONTACT
+Manager veto; S13 now requires STRONG deference on the exact ungranted action
+request. Low-seriousness duty contrast explicitly preserves/proposes renegotiating
+its old commitment. Two system tests PASS. Prior final full929/0/1,207.24s,
+including90-day5 reviews/5 accommodations all ended/max hot26255 bytes. Full suite
+is rerun against this stronger final test checkpoint; not a new feature/authority.
