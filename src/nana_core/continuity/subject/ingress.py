@@ -28,6 +28,10 @@ class SubjectIngress:
 
     def ingest(self, event: SubjectInput):
         now = self.store.clock.utc_now_us()
+        if event.surface:
+            from ..surfaces import source_key
+            if event.surface.subject_id != self.store.identity['identity_id'] or event.source_key != source_key(event.surface):
+                raise CoreError('SURFACE_BINDING_INVALID')
         if event.observed_at_us > now or (event.occurred_at_us is not None and event.occurred_at_us > event.observed_at_us):
             raise CoreError('INVALID_SUBJECT_TIME')
         if not self.store.one('entities', event.entity_id):

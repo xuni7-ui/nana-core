@@ -1157,3 +1157,10 @@ Reuses 21 Relational source assets from 67326d1 rather than a second implementat
 Explicit primary-user role and neutral fresh Subject bootstrap are local extensions;
 existing identity/history unchanged. Validation: focused portable_subject tests.
 No production, D2 or push. Design contract: docs/ADR/ADR-C6-B6B10-portable-personal-subject.md.
+
+### C6/C7 + B6–B10 development — Surface continuity
+
+[离线实测] Three synthetic surfaces enter the same SubjectLoop and identity;
+source replay is deduplicated. L0/L1/L2 expose bounded, scope/privacy-filtered
+references over the same Store, not new truth stores. Open namespaced descriptors
+cannot extend closed authority/provenance enums. Two focused tests pass.

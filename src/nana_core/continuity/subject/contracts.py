@@ -5,6 +5,7 @@ from ...contracts import DTO
 from .social import SocialInteractionProposal
 from .opportunities import Behavior,SyntheticActionProposal
 from ..autonomy.contracts import DisclosureRequest,DisclosureDecision,SubjectEvaluation,RealizationTarget,RelationshipDetails,PositiveRequest,RequestDecision
+from ..extensions import SurfaceEnvelope
 
 from ..relational.contracts import RelationalRequest,RelationalDecision,FacetName
 
@@ -31,6 +32,7 @@ class SubjectInput(DTO):
     schema_version: Literal[1] = 1
     domain: Literal['SYNTHETIC_ONLY'] = 'SYNTHETIC_ONLY'
     source_key: str = Field(pattern=r'^synthetic[.:_-][A-Za-z0-9._:-]{1,128}$')
+    surface: SurfaceEnvelope | None = None
     kind: Literal['INTERACTION', 'PROJECT', 'PLAY', 'OUTCOME', 'WAKE', 'RELATIONSHIP', 'REFLECTION']
     origin: Literal['USER', 'ENVIRONMENT', 'SELF_WAKE']
     entity_id: str = Field(pattern=r'^[A-Za-z0-9._:-]{1,128}$')
@@ -66,6 +68,9 @@ class SubjectInput(DTO):
 
     @model_validator(mode='after')
     def provenance(self):
+        if self.surface and (self.surface.entity_id != self.entity_id or self.surface.privacy_class != self.privacy_class
+                or self.surface.observed_at_us != self.observed_at_us or self.surface.occurred_at_us != self.occurred_at_us):
+            raise ValueError('surface metadata must match canonical input')
         if self.kind == 'WAKE':
             if self.origin != 'SELF_WAKE' or self.text or self.preference_signal or self.relationship_kind:
                 raise ValueError('wake cannot manufacture experience')
