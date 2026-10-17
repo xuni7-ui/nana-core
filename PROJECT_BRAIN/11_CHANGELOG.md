@@ -1489,3 +1489,13 @@ Local final save only; no push/production/main/R045/private/live-model operation
 Why: complete existing World/Cognition/Concern integration and its causal recovery,
 rather than build duplicate planner/learner/agent. Qualified offline readiness is
 separate from live semantic-provider, ASR and device/social qualification (NOT_RUN).
+
+### H1 M1 — typed media interpretations enter the existing world
+[源码/离线测试] From frozen dcaf30fe on independent H1 branch. Added bounded media
+DTO/packaging, image/audio/video wire adapter and same-session interpretation→model
+belief materialization. Source-only ContextAssembler option excludes unrelated
+memory without lowering privacy/token/conflict checks. No schema/table/default/
+Runtime/SubjectLoop/authority change. Initial16 H1 tests PASS; actual generated
+public codecs only, narrow SYNTHETIC semantic oracle; live semantic/ASR NOT_RUN.
+Why: distinguish media meaning proposals from technical decode and verified truth.
+No push or production/private/live side effects.

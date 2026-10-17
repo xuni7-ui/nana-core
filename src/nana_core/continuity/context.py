@@ -162,7 +162,7 @@ class ContextAssembler:
         self.counter = counter or ConservativeCounter()
         self._issued = deque(maxlen=64)  # hashes only, never a plaintext context cache
 
-    def assemble(self, request: ContextRequest, policy: ContextPolicy, *, capabilities=(), limitations=(), subject_frame=None, required_memory_ids=()):
+    def assemble(self, request: ContextRequest, policy: ContextPolicy, *, capabilities=(), limitations=(), subject_frame=None, required_memory_ids=(), source_only=False):
         if not set(request.scopes) <= set(policy.allowed_scopes):
             raise CoreError("CONTEXT_SCOPE_DENIED")
         privacy = tuple(p for p in policy.readable_privacy if request.destination == "LOCAL_FIXTURE" or p in policy.remote_privacy)
@@ -315,6 +315,10 @@ class ContextAssembler:
             required=[block for _,block in candidates if block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&set(required_memory_ids)]
             if not set(required_memory_ids)<={m for block in required for m in block.source_memory_ids}:raise CoreError('CONTEXT_REQUIRED_SOURCE_UNAVAILABLE')
             mandatory.extend(required)
+        if source_only:
+            # Media processors receive only the pinned, policy-filtered source,
+            # never unrelated relationship, project or memory context.
+            candidates=[(score,block) for score,block in candidates if block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&set(required_memory_ids)]
         candidates.sort(key=lambda item: (-item[0], item[1].block_id))
         selected, omitted = list(mandatory), []
         if retrieval_total > len(memories):

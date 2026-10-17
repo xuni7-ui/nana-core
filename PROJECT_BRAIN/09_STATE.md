@@ -1232,3 +1232,13 @@ report and A–J reconciliation in docs/. Residual E semantic-provider and H liv
 adapter gaps need independent authorization; do not restart F or enter production.
 
 GLOBAL E final delivery manifest SHA256 `6e380309d10ec639cec4b3b16c3e2f14fc08870a56df3d161498471f2e2b6ec2` (`manifests/nana_global_stage_e_final.json`); self/09 excluded.
+
+## GLOBAL_STAGE H1 — DEVELOPMENT IN PROGRESS
+[源码/离线测试] Independent dev/nana-core-h1-semantic-grounding-v1-codex from
+frozen/pushed E dcaf30fe. H1 Eyes/Ears semantic contracts and grounding implemented;
+initial16 synthetic tests PASS. Same cognition lifecycle/WorldModel, schema13/43
+business tables, no new worker/Store/SubjectLoop. Semantic quality with real models,
+ASR/live capture NOT_RUN (managed provider configuration empty). Hands not enabled.
+System/recovery/soak/full regression pending; H1 NOT_READY yet. No push authorized.
+
+H1 M1 manifest SHA256 49676d00ee58b08a207d0d6b1682f9c2009a34263aef80ff20e31e78bd62290c (self/09 excluded).

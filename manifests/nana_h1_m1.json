@@ -1,0 +1,12 @@
+{
+  "src/nana_core/continuity/context.py": "1b237b829a9f79f67e157c911e80c430a13eb03eb9c235c3cad6d5d1844d844f",
+  "src/nana_core/continuity/world_loop/cognition.py": "48c577bcaa4699bf215fd94d1db7042af196ef5f6ad1122ec2d31bd15b62fca4",
+  "src/nana_core/continuity/world_loop/semantic_harness.py": "9cc7f591c54b41f96d77aa99d127aa08711e1663f3c077d7d31e0a5d807b3c12",
+  "src/nana_core/continuity/world_loop/semantic_contracts.py": "bb31e4e291af9a48e9c051c90908ba44771e678a39a83d095254654057066102",
+  "src/nana_core/continuity/world_loop/semantics.py": "634803257bb9ad2b57d0181f49e4aeb3ee539815276828f23597e1b48834ee94",
+  "tests/h1_semantics/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "tests/h1_semantics/test_grounding.py": "292a97e389db999d79f865092a0ae8f54a009dba0f5463f70b42567a33a9382f",
+  "docs/nana_h1_semantic_grounding_implementation.md": "aeb7f26c9929478621217536805bb62fea5dffe1e645458ccb95b42de993e00b",
+  "PROJECT_BRAIN/10_DECISIONS.md": "9f18265696e626a291274d21577904136a271e1160268533ebf6b9ecd8dd77ac",
+  "PROJECT_BRAIN/11_CHANGELOG.md": "4c81d474193fdecb4f942da621748963e662affb3ae8a6e116503470c28a2d56"
+}

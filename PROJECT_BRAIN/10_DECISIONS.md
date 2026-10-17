@@ -627,3 +627,14 @@ This is local source/lifecycle closure, no new subsystem/schema/authority and no
 change to C-owned judgment or D-owned scheduling. Deliberately finite descriptive
 realms and fail-closed revision overflow remain explicit limitations, not hidden
 claims of unlimited production scalability.
+
+## D-H1-001 — semantic observations reuse CognitionSession, not a perception brain
+[源码/开发] H1 uses explicit13 existing cognitive_requests, RecordService/Memory
+and WorldModel. No new tables or workers. MEDIA is a typed proposal role with an
+exact transport-owned modality descriptor, source-only filtered context and
+byte/pixel/PCM/temporal correlation. All interpretations/ASR are model-derived;
+confidence never certifies truth. Historical accepted proposals can resume belief
+materialization after restart with current source/deletion validation, never as
+execution permission or permission to repeat provider calls. Source-linked summary
+is separate and deletable; audio-track association requires independent same-byte
+container ingress. Live provider absent: NOT_RUN, not an implementation blocker.
