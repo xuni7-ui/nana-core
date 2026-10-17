@@ -90,7 +90,11 @@ class ProviderRegistry:
         d,p=self._ports[model_id]
         if operation not in d.operations:raise CoreError('PROVIDER_OPERATION_UNAVAILABLE')
         # Descriptors do not turn a cloud/local SDK into authorized live execution.
-        if d.locality!='LOCAL_FIXTURE':raise CoreError('REAL_MODEL_EXECUTION_NOT_AUTHORIZED')
+        if d.locality!='LOCAL_FIXTURE':
+            # Exact pure local codec processor, not a general live model/SDK bypass.
+            from .world_loop.perception import DecodedMediaProcessor
+            if not (d.locality=='LOCAL' and type(p) is DecodedMediaProcessor and operation in {'VISION','AUDIO_UNDERSTAND','VIDEO_UNDERSTAND'}):
+                raise CoreError('REAL_MODEL_EXECUTION_NOT_AUTHORIZED')
         return d,p
     def cognition(self, model_id):
         return self._resolve(model_id,'COGNITION')[1]

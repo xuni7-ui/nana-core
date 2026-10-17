@@ -1134,3 +1134,8 @@ Final E1–E6 delivery manifest anchor: SHA256 `d80ace4091e658a6442e1b5840369640
 不push、不改生产/main/R045，不读取私人数据。实现地图见docs/nana_real_cognition_world_loop_v1_implementation.md。
 
 World M0 manifest SHA256 55e9e11f391417c3e16a79f3cf47ce0e00bd0e751e74776bdc2cc183ed63b9c1.
+
+[源码/离线实测] World M1: cognition/world/media基础已实现并测试。真实codec解码技术观察，
+HTTP调用为SYNTHETIC loopback，真实模型NOT_RUN。当前schema13仅开发显式迁移；最终验收待集成soak。
+
+nana_world_loop_m1 manifest SHA256 86361bf0dedf7b15c1c5f21aeba6fbb9750e5f9df8f41f79df189086bab12edc.

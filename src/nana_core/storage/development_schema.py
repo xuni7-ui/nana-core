@@ -7,7 +7,7 @@ from pathlib import Path
 
 from ..contracts import CoreError
 
-LATEST = 12
+LATEST = 13
 EXTENSION_KEYS = {
     2: {"identity_revisions": "revision_id"},
     3: {"entities": "entity_id", "continuity_evidence": "evidence_id",
@@ -19,6 +19,8 @@ EXTENSION_KEYS = {
         "self_assertions": "assertion_id", "assertion_signals": "signal_id",
         "relationship_events": "relationship_event_id", "subject_intentions": "intention_id",
         "subject_goal_candidates": "candidate_id", "subject_reflections": "reflection_id"},
+    13: {"cognitive_requests": "request_id", "world_beliefs": "belief_id",
+         "open_concerns": "concern_id", "strategy_assessments": "assessment_id"},
     8: {"runtime_lease": "identity_id", "runtime_queue": "queue_id",
         "runtime_schedules": "schedule_id", "runtime_cognition_calls": "call_id"},
 }
@@ -81,7 +83,7 @@ def install(db, current, target):
             raise CoreError("LEGACY_PAYLOAD_MIGRATION_REQUIRED")
     for version in range(current + 1, target + 1):
         sql = Path(__file__).with_name(f"schema_v{version}.sql").read_text()
-        if version in {7, 9, 10, 11, 12}:
+        if version in {7, 9, 10, 11, 12, 13}:
             # SQLite parent-table rebuild must disable FK outside the transaction.
             # Never rename the old parent: that would rewrite children to *_old.
             db.execute("PRAGMA foreign_keys=OFF")

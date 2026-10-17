@@ -40,6 +40,8 @@ class MemoryService:
         if not isinstance(candidate, EvidenceInput):
             raise CoreError("INVALID_EVIDENCE_CONTRACT")
         p = candidate.provenance
+        if p.domain!="SYNTHETIC_ONLY" and (self.store.schema_target<13 or candidate.privacy_class!="PUBLIC"):
+            raise CoreError("PUBLIC_DEVELOPMENT_INGRESS_ONLY")
         previous = self.store.db.execute("SELECT * FROM continuity_evidence WHERE "
             "source_namespace=? AND source_reference=? AND source_revision=?",
             (p.source_namespace, p.source_reference, p.source_revision)).fetchone()

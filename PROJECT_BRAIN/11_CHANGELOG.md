@@ -1390,3 +1390,11 @@ E12 NOT_RUN；本地提交，不push。真实接线阻塞和导出/原始clone�
 [源码/实测] 新分支继承完整255ac99，无远端替代或旧成果丢失。有限检查既有C/D/E模块、
 privacy/provenance/schema/port边界，记录实现地图；ffmpeg/ffprobe/Pillow/bwrap已存在，
 managed provider配置为空。开始显式13开发，不升级生产，不push。业务代码尚未变更。
+
+## World Loop V1 M1 — durable cognition, temporal beliefs and actual codecs
+[源码/离线实测] 显式13新增4个索引化header表，正文仍在同一Record/Privacy体系；默认7/8不变。
+实现HTTPS structured transport与本地HTTP harness、先写CALLING、超时/重复/过期/来源删除
+语义；现有ContextAssembler支持必需来源但不绕预算/隐私。世界信念有event/valid/known时间、
+冲突/显式纠错/无复活投影。真实PNG像素/音频PCM/视频多点解码；FFmpeg在无宿主数据/网络
+namespace里运行，限制资源；不冒充ASR/语义视频理解。9项foundation测试通过（与后续
+dynamic goal/learning合计11 targeted通过），真实provider未配置/NOT_RUN。无生产/push。

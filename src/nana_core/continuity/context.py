@@ -162,7 +162,7 @@ class ContextAssembler:
         self.counter = counter or ConservativeCounter()
         self._issued = deque(maxlen=64)  # hashes only, never a plaintext context cache
 
-    def assemble(self, request: ContextRequest, policy: ContextPolicy, *, capabilities=(), limitations=(), subject_frame=None):
+    def assemble(self, request: ContextRequest, policy: ContextPolicy, *, capabilities=(), limitations=(), subject_frame=None, required_memory_ids=()):
         if not set(request.scopes) <= set(policy.allowed_scopes):
             raise CoreError("CONTEXT_SCOPE_DENIED")
         privacy = tuple(p for p in policy.readable_privacy if request.destination == "LOCAL_FIXTURE" or p in policy.remote_privacy)
@@ -174,6 +174,13 @@ class ContextAssembler:
         memory_query = dict(scopes=request.scopes, privacy_classes=privacy,
             entity_ids=(request.entity_id, frame.identity.identity_id), include_conflicts=True)
         memories = memory_service.query(**memory_query, query_terms=request.query_terms)
+        if len(required_memory_ids)>16:raise CoreError('CONTEXT_REQUIRED_SOURCE_BOUND')
+        for mid in required_memory_ids:
+            head=self.store.one('memories',mid)
+            if not head or head['scope'] not in request.scopes or head['privacy_class'] not in privacy or head['entity_id'] not in {request.entity_id,frame.identity.identity_id}:
+                raise CoreError('CONTEXT_REQUIRED_SOURCE_DENIED')
+            row=memory_service.read(mid)
+            if not any(m['memory_id']==mid for m in memories):memories.append(row)
         retrieval_total = memory_service.query_count(**memory_query)
         self._retrieval = (len(memories), retrieval_total)
         coverage = self._coverage(request.scopes)
@@ -299,6 +306,10 @@ class ContextAssembler:
                 candidates.append((935.0,ContextBlock(block_id='relational-subject:'+scope,kind='RELATIONAL_SUBJECT',data_json=canonical(data),source_record_ids=refs,
                     source_memory_ids=tuple(sorted({*appetite.source_memory_ids,*(m for rid in refs for m in RecordService(self.store).support(rid))})))))
         candidates.extend(self._lessons(request, privacy))
+        if required_memory_ids:
+            required=[block for _,block in candidates if block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&set(required_memory_ids)]
+            if not set(required_memory_ids)<={m for block in required for m in block.source_memory_ids}:raise CoreError('CONTEXT_REQUIRED_SOURCE_UNAVAILABLE')
+            mandatory.extend(required)
         candidates.sort(key=lambda item: (-item[0], item[1].block_id))
         selected, omitted = list(mandatory), []
         if retrieval_total > len(memories):

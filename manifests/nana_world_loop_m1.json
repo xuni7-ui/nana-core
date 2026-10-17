@@ -1,0 +1,24 @@
+{
+  "scope": "OFFLINE_DEVELOPMENT",
+  "files": {
+    "PROJECT_BRAIN/11_CHANGELOG.md": "bd1e9ff09374e82274fdfb4fbfbfa361796b9c797d22295c04bb83b22ed9ff2b",
+    "src/nana_core/storage/development_schema.py": "f30333fe9cd9bfe3c627fe69680a4d5918ac443be417a1d9df38f985d3754ad6",
+    "src/nana_core/storage/schema_v13.sql": "fa6966ec938774eb2957fa412d5081948472bf303b8b9288a725cbcc62107c88",
+    "src/nana_core/continuity/contracts.py": "0d1bc61abf4177bec2c032fe4659bfb857075f2bf87e79584b98bee17a50164e",
+    "src/nana_core/continuity/memory.py": "9f63e3556dc774eff3eca131e5de3cd25cfc4ab29838871386810e3cfce65b31",
+    "src/nana_core/continuity/context.py": "41f6f6f3553dcb007517f948c579915a62fd154cfa83c7dd75f29a98ab90b408",
+    "src/nana_core/continuity/providers.py": "f8fe0714b5431d243edac28696be4c151be5eb1ee5da50a3c6731a7afa925d73",
+    "src/nana_core/continuity/portable.py": "a7b7a4c414dbbfd749c8e318676b78e29e75602ac627f12dc8633159691da101",
+    "src/nana_core/presence/contracts.py": "9c31a6654c02158f612fa1be41aedca45e86abbcf5d2bc9bd1c7c6d7fbe52bee",
+    "src/nana_core/continuity/world_loop/__init__.py": "f7a760a4f2706d2bb81e06ac899eaded79bc908be47f26376a0284781f1b4921",
+    "src/nana_core/continuity/world_loop/cognition.py": "696eaf19ab93135fe0adcc819e9ef72eff06cd04fea3ee7d4c0e326e5bc368e0",
+    "src/nana_core/continuity/world_loop/world.py": "4c8e73ac9af3077001d613965a22dcac740858f2f8b87d7e171718b05b0445e2",
+    "src/nana_core/continuity/world_loop/perception.py": "c75370538bf38e059211da49b12cbedc49f3b589055daf72c4e657f1c40bb6ba",
+    "src/nana_core/continuity/world_loop/harness.py": "f94bce8f530fbf74494fbcafa1d0394eb7960304a34f978e926fb9f2917ab34f",
+    "src/nana_core/continuity/world_loop/samples.py": "4b697a7517be5143b42072f74ad7c6b6bf3ab058b1b4945e6ed95a63dc696267",
+    "tests/world_loop/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/world_loop/helpers.py": "c6bdc31c5e7e4e69e60da6581354256a68674fd1c17fb83380d592b64f8dba78",
+    "tests/world_loop/test_foundation.py": "556ff77c0c3331277ecb831be469db2693b2e8e83ab2cfe849fefe830313e6e2",
+    "pyproject.toml": "abcce2740e7e78b67b04624de501cb07c41e20f0b04efc9891af170c69cdf72c"
+  }
+}
