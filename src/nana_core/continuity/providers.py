@@ -123,10 +123,11 @@ class ProviderRegistry:
         return result
 
 class MediaSession:
-    def __init__(self,store,registry,policy: ContextPolicy,*,limits=None,route_guard=None):
+    def __init__(self,store,registry,policy: ContextPolicy,*,limits=None,route_guard=None,route_binding=None):
         self._store,self._registry,self._policy=store,registry,policy
-        self._limits=limits;self._route_guard=route_guard
+        self._limits=limits;self._route_guard=route_guard;self._route_binding=route_binding
     def _invoke(self,model_id,operation,memory_ids,*,scopes):
+        if self._route_binding is not None and self._route_binding!=(model_id,operation):raise CoreError('ROUTE_TARGET_MISMATCH')
         if self._route_guard is not None and not self._route_guard():raise CoreError('ROUTE_CHANGED_BEFORE_DISPATCH')
         d,p=self._registry._resolve(model_id,operation)
         if not scopes or not set(scopes)<=set(self._policy.allowed_scopes):raise CoreError('MEDIA_SCOPE_DENIED')

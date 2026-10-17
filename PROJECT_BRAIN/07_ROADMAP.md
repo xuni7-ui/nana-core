@@ -290,3 +290,7 @@ Production/main/R045/FIRST_REAL_ASTRBOT_SHADOW changed=NO; real models/private
 memory/external actions=0. Production review/proof pins remain EMPTY. Real-memory
 ingress remains deny-by-default. E12=NOT_RUN. These fixtures upgrade no real-host
 status. Next step is independent offline review/integration; do not auto-deploy.
+
+## Current cross-cutting workstream — 2026-10-17
+
+GLOBAL_STAGE remains H. PROVIDER_CAPABILITY_ROUTING_V1 = OFFLINE_CANDIDATE_READY [源码/离线实测]. B9/B10 extension: host-local configuration, capability-specific primary/fallback routing, existing port factory and frontend contract. No stage priority or L1/L2/B5/R045 change. H1-LIVE remains historical PARTIAL_PROVIDER_QUALIFICATION, not full/live/device qualification. Next real provider, H2, Hands and UI require separate authorized work.

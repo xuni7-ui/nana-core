@@ -1,0 +1,10 @@
+{
+  "scenario_C": "PASS",
+  "test": "test_subjectpackage_excludes_host_config_and_same_subject_uses_new_host",
+  "actual_B8_export_import": true,
+  "identity_and_history_preserved": true,
+  "endpoint_secret_ref_config_not_in_archive": true,
+  "new_host_requires_explicit_configuration": true,
+  "historical_sanitized_call_provenance_retained": true,
+  "provider_delete_does_not_delete_history": true
+}

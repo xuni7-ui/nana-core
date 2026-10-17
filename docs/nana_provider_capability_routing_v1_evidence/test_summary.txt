@@ -1,0 +1,9 @@
+Execution: OFFLINE / SYNTHETIC_LOOPBACK
+Focused command: .venv/bin/python -m pytest -q tests/provider_routing tests/portable_subject/test_providers_frontend.py tests/h1_semantics tests/h1_live_semantics tests/open_autonomy
+Focused: {"tests": 114, "passed": 114, "failures": 0, "errors": 0, "skipped": 0}
+Final full command: .venv/bin/python -m pytest -q tests
+Final full: {"tests": 1103, "passed": 1102, "failures": 0, "errors": 0, "skipped": 1}
+Groups: {"H1_live_offline": 11, "H1": 32, "open_autonomy": 26, "B9_B10": 3, "routing": 42}
+Initial full: 1102 passed, 1 skipped in 162.46s; final run verifies route-binding refinement.
+E12: NOT_RUN, existing explicit offline gate skipped.
+Real provider calls: 0

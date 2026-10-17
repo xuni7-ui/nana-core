@@ -690,3 +690,20 @@ Provider usage.cost without confirmed units is not a known actual bill.
 Ordinal model observations are not stable semantic identity: qualification caller
 uses per-request predicates; existing conflicting history is retained. Optional
 HTTP measurements preserve old absent-field canonical reply hashes, no migration.
+
+## 2026-10-17 — Provider capability routing V1 implementation decisions
+
+[源码/离线实测] GLOBAL_STAGE H, cross-cutting B9/B10 foundation, not another brain.
+
+1. Nana/Subject is not a model. Changing provider never revises identity, relationships, memory authority, goals, Manager or Primary User.
+2. Reuse B9 operation vocabulary, existing Registry/ports and original CognitionSession/H1 contracts; one SubjectLoop/Runtime/Store.
+3. Provider configuration is host/application-local typed JSON schema1, not authoritative Subject data. No Subject migration: schema13/tables43.
+4. Only opaque secret_ref is persisted in host configuration; explicit application resolver, no credential discovery. B8 excludes active config/endpoints/secret refs/handles; frontend omits secret_ref too.
+5. Fallback is pre-dispatch only, with explicit reasons. Exact provider+profile mode never substitutes a model.
+6. UNKNOWN/timeout/malformed after dispatch never fallback or blind retry. Terminal request replay never resends.
+7. Privacy/timeout/cost/context/output limits intersect with existing policy and Runtime reservations; REMOTE SECRET remains denied. Application owns remote execution/host allowlist, not frontend configuration.
+8. Settings changes affect future routing only; historical sanitized route snapshots remain. V1 conservatively stales all prepared requests tied to an older document revision, including retained media sessions.
+9. B10 configuration commands use application-owned controller and CAS, not Primary User/relationship/Grant/Manager authority. No settings mutation creates Subject events or intentions.
+10. Existing H1-LIVE historical status remains PARTIAL_PROVIDER_QUALIFICATION. All current routing qualification is offline SYNTHETIC_LOOPBACK/fixtures, real provider calls0.
+11. No second Registry implementation, Store or HTTP stack: runtime Registry gained profile-qualified identity while unique legacy-name lookup remains compatible.
+12. Atomic JSON is deliberately small host config, not a portable Subject snapshot. Corruption fails closed; ignored private temp residue is not a recovery authority. No automatic fallback after dispatch, no discovery/SDK/UI scope expansion.

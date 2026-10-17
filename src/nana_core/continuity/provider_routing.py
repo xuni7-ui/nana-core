@@ -118,7 +118,7 @@ class RoutedTarget:
         return CognitionSession(runtime,self.port,self.context_policy,route_snapshot=self.snapshot,route_guard=self._current)
     def media_session(self,store):
         if not self._current():raise CoreError('ROUTE_CHANGED_BEFORE_DISPATCH')
-        return MediaSession(store,self._router.factory.registry,self.context_policy,limits=self.snapshot.effective,route_guard=self._current)
+        return MediaSession(store,self._router.factory.registry,self.context_policy,limits=self.snapshot.effective,route_guard=self._current,route_binding=(self.snapshot.model_profile_id,self.snapshot.operation))
     def media(self,store,memory_ids,*,scopes):
         if not self._current():raise CoreError('ROUTE_CHANGED_BEFORE_DISPATCH')
         session=self.media_session(store)

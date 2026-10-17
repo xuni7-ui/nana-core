@@ -1,0 +1,63 @@
+{
+  "pre_dispatch": [
+    {
+      "cause": "disabled",
+      "fallback_calls": 1,
+      "primary_calls": 0,
+      "result": "PASS"
+    },
+    {
+      "cause": "unsupported",
+      "fallback_calls": 1,
+      "primary_calls": 0,
+      "result": "PASS"
+    },
+    {
+      "cause": "missing_secret",
+      "fallback_calls": 1,
+      "primary_calls": 0,
+      "result": "PASS"
+    },
+    {
+      "cause": "modality",
+      "fallback_calls": 1,
+      "primary_calls": 0,
+      "result": "PASS"
+    },
+    {
+      "cause": "runtime_unavailable",
+      "fallback_calls": 1,
+      "primary_calls": 0,
+      "result": "PASS"
+    }
+  ],
+  "post_dispatch": [
+    {
+      "cause": "unknown",
+      "primary_calls": 1,
+      "fallback_calls": 0,
+      "restart_retry_calls": 0,
+      "result": "PASS"
+    },
+    {
+      "cause": "timeout",
+      "primary_calls": 1,
+      "fallback_calls": 0,
+      "restart_retry_calls": 0,
+      "result": "PASS"
+    },
+    {
+      "cause": "malformed",
+      "primary_calls": 1,
+      "fallback_calls": 0,
+      "restart_retry_calls": 0,
+      "result": "PASS"
+    }
+  ],
+  "exact_model_unavailable": {
+    "fallback_calls": 0,
+    "result": "PASS"
+  },
+  "no_silent_provider_switch": "PASS",
+  "test": "test_pre_dispatch_fallback_exactly_once / test_after_dispatch_never_fallback_restart_no_retry / test_exact_disabled_no_fallback_and_stale_prepared_cannot_switch"
+}

@@ -5,7 +5,7 @@ from pydantic import ValidationError
 from nana_core.contracts import CoreError
 from .helpers import *
 
-def test_host_document_cas_dependencies_and_secret_handle(tmp_path):
+def test_host_document_cas_dependencies_and_secret_handle(tmp_path,caplog):
     s,a=config_service(tmp_path/'host/providers.json')
     update(s,a,'UPSERT_PROVIDER',provider=provider())
     stale=s.load().revision;update(s,a,'UPSERT_MODEL',model=model())
@@ -21,7 +21,11 @@ def test_host_document_cas_dependencies_and_secret_handle(tmp_path):
     assert (tmp_path/'host/providers.json').stat().st_mode&0o777==0o600
     secret=ResolvedSecret('TEST_ONLY_NOT_SECRET')
     assert 'TEST_ONLY_NOT_SECRET' not in str(secret)+repr(secret)
-    import pickle
+    import pickle,logging
+    logging.getLogger('provider-test').warning('credential=%s',secret)
+    assert 'TEST_ONLY_NOT_SECRET' not in caplog.text
+    try:raise ValueError(secret)
+    except ValueError as exc:assert 'TEST_ONLY_NOT_SECRET' not in str(exc)+repr(exc)
     with pytest.raises(TypeError,match='SERIALIZATION_DENIED'):pickle.dumps(secret)
     with pytest.raises(TypeError):json.dumps(secret)
     secret.clear();assert secret.reveal_for_header() is None

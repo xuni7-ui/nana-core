@@ -1596,3 +1596,7 @@ qualification pending. No new Subject table/schema, Runtime or SubjectLoop.
 ## 2026-10-17 Provider routing P4/P5 — implemented/tested offline
 
 B10 PROVIDER_SETTINGS typed application transitions, revision CAS, dependency-safe removal, native loopback and B8 transfer exclusion implemented. Retained routed media sessions reject changed config. Sanitized original Cognition journal projects route provenance without credentials. Combined focused/B9/B10/H1/open-autonomy: 103 passed; full regression pending. Subject schema13/tables43 unchanged; H1 historical PARTIAL unchanged; real provider calls0.
+
+## 2026-10-17 — PROVIDER_CAPABILITY_ROUTING_V1 final offline delivery
+
+[源码/离线实测] Configuration schema1; compatible Registry; capability routing and existing transport factory; B10 settings/CAS; B8 host-config exclusion; embedding rebuild; sanitized call provenance; retained session target/revision fences implemented. New focused42 PASS, combined focused114 PASS, final full1102 PASS/1 E12 skipped/0 failures. Initial full also1102 PASS/1skip. Two process SIGKILL config checkpoints PASS. Subject schema13/43 tables, new dependencies0. Real calls0, no key reuse or environment/history discovery. H1 historical PARTIAL unchanged. Report/evidence: docs/nana_provider_capability_routing_v1_implementation.md and matching evidence directory. Local normal commits; current branch push authorized by this task, verified separately at handoff. No main/R045/production/device/social changes.

@@ -1,0 +1,19 @@
+{
+  "actual_process_SIGKILL": [
+    {
+      "checkpoint": "TEMP_FSYNCED",
+      "result": "PASS",
+      "reopened_revision": 0
+    },
+    {
+      "checkpoint": "REPLACED",
+      "result": "PASS",
+      "reopened_revision": 1
+    }
+  ],
+  "invalid_json_version_duplicate_unknown_field_dangling_route_url": "FAIL_CLOSED_TESTED",
+  "two_clients_stale_revision": "REJECTED",
+  "unknown_restart_no_fallback_or_retry": "PASS",
+  "temporary_residue": "ignored private temp file, never load fallback",
+  "runtime_epoch_and_source_checks": "existing CognitionSession retained"
+}

@@ -1,0 +1,38 @@
+{
+  "global_stage": "H",
+  "workstream": "PROVIDER_CAPABILITY_ROUTING_V1",
+  "status": "OFFLINE_CANDIDATE_READY",
+  "base": "ba798b201ff2f7ba671a2cb9939d9692b59fd93f",
+  "execution": "OFFLINE_SYNTHETIC_LOOPBACK_ONLY",
+  "real_provider_calls": 0,
+  "schema_version": 13,
+  "business_tables": 43,
+  "new_business_tables": 0,
+  "new_dependencies": 0,
+  "focused": {
+    "tests": 114,
+    "passed": 114,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "full_regression": {
+    "tests": 1103,
+    "passed": 1102,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1
+  },
+  "test_groups": {
+    "H1_live_offline": 11,
+    "H1": 32,
+    "open_autonomy": 26,
+    "B9_B10": 3,
+    "routing": 42
+  },
+  "h1_historical": "PARTIAL_PROVIDER_QUALIFICATION",
+  "e12": "NOT_RUN",
+  "one_subject": true,
+  "one_store": true,
+  "one_subject_loop": true
+}

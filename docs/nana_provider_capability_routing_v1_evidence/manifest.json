@@ -1,0 +1,43 @@
+{
+  "base": "ba798b201ff2f7ba671a2cb9939d9692b59fd93f",
+  "scope": "OFFLINE_SYNTHETIC_LOOPBACK",
+  "excluded": [
+    "manifest itself",
+    "PROJECT_BRAIN/09_STATE.md anchor",
+    "old untracked bundle",
+    "temporary DBs/archives/test output outside repo"
+  ],
+  "files": {
+    "PROJECT_BRAIN/07_ROADMAP.md": "f2a2d5af152477490b7f70830a7c7c3d87709a3068819b0d16a5ed2a0d6e6f80",
+    "PROJECT_BRAIN/08_TASKS.md": "4ce214ed649eefd90a38719999fe4c9896418d07fb1b3eff5b8be6720916da03",
+    "PROJECT_BRAIN/10_DECISIONS.md": "6e3805124d8a32d80a6a0aea6a1b012a672194902d88b65d2818d91a40c85b94",
+    "PROJECT_BRAIN/11_CHANGELOG.md": "954f7f24b5ec0a053cc0d00c208192fd8b6e6952d96ff8a75ba958c1113151b0",
+    "docs/nana_provider_capability_routing_v1_evidence/fallback_matrix.json": "e11f9b3b738391f928066459793bbdafff560204183e12b0f6168ae11ddd5345",
+    "docs/nana_provider_capability_routing_v1_evidence/frontend_contract.json": "d8eb93561c5eeb4423579c492c2cce579a54f286cea0c703dad7735296a443ea",
+    "docs/nana_provider_capability_routing_v1_evidence/limitations.txt": "9df6e3448914d31bf210d46cd41429f13e6e1bbd733f061bf531853612b928b0",
+    "docs/nana_provider_capability_routing_v1_evidence/portability.json": "3422b0eefc08b36bc35ddde47cf2af0ce8e5acd2d32c54822c7ae543edb2a5a6",
+    "docs/nana_provider_capability_routing_v1_evidence/privacy_matrix.json": "2a5925b03488502d35b7e58940e6c61b5f81549e45e4e9378bd687fdeb099d18",
+    "docs/nana_provider_capability_routing_v1_evidence/qualification.json": "a316c542fb9cead137fedfd0ca0f3cafdb7f386db58b84d52e8732a01fb18b78",
+    "docs/nana_provider_capability_routing_v1_evidence/recovery.json": "5f6a689dc029927934342d243dd934e789643c7367bea0948d51e040a97772ae",
+    "docs/nana_provider_capability_routing_v1_evidence/routing_matrix.json": "f0ffb92e4db18e0ba01487334a7f27a3e64a41c09a7f4d95867a36670a76aa5c",
+    "docs/nana_provider_capability_routing_v1_evidence/secret_scan.json": "e7c264750464c04b4aa70b6c1981bc129897aab977e113b592d0da3bf85cb53d",
+    "docs/nana_provider_capability_routing_v1_evidence/test_summary.txt": "501d7e2eadadac06f3318f00c32ff90fdab373653fc1bae71ef4455d1dc71da8",
+    "docs/nana_provider_capability_routing_v1_frontend_contract.md": "6798fab878f4eec8b2e08f4f6b419bc1c88a7118abdecf5a579e47d0fe851483",
+    "docs/nana_provider_capability_routing_v1_implementation.md": "6889694f8b9552597313b23ae26a5e50f2b2671e8483f6e78c3f73e355340acc",
+    "manifests/nana_provider_routing_p1.json": "f6dbd3e4d77c8d1d224b74043befa9c932d3ce78a724da7e9990948d5178c41c",
+    "manifests/nana_provider_routing_p2.json": "d81f62f4ee5421f49bc45afb08f8afcb0f6f50641ee43f5841faa990ad1d9008",
+    "manifests/nana_provider_routing_p4.json": "338dc40585d7b3987cbbc5db3cbc6e35f91e0e79d4aafa54ccb7882030605219",
+    "src/nana_core/continuity/application.py": "b09cbecf5e67c6fc73f689ee14df0898a58c0c19e41d2df8c30029bfbb7c8030",
+    "src/nana_core/continuity/provider_config.py": "52a36a4f044915ce55d45468eec920eda91b1be32af87d7fda8b33fbbbe3e868",
+    "src/nana_core/continuity/provider_routing.py": "91af3f367a4fbfe685ccf29a69be7a10205d3309f56616790ad4b774f7330e30",
+    "src/nana_core/continuity/providers.py": "51ccb67f6172519b8f38097fd30e35c772b12504ae4d7240a0a261c79f2a6559",
+    "src/nana_core/continuity/world_loop/cognition.py": "f8eed397be5a8949c3c31be9f96ad86e7d8901c980c91b628bfc4b9f3d754304",
+    "src/nana_core/continuity/world_loop/harness.py": "1aada8920925fa9597f1e2a58a64731c41fd60dc138690d1f7da4db528a6f069",
+    "tests/provider_routing/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/provider_routing/helpers.py": "be4ff2900f7b5bb0718a988fc1dffee8b4a18cce28f403ab542d7f17c9859ee0",
+    "tests/provider_routing/test_config.py": "1caeed05b226ea173429cbecfee31787fb217964b23c2bc172b5104ee6b5cf7f",
+    "tests/provider_routing/test_frontend_transfer.py": "41002fc205549d4c4899ae665c6d311beabd301429de3e5e07694329f32c6e2e",
+    "tests/provider_routing/test_ports.py": "c21793c29071be072eaf3b68b5b570ac8b1244e303334d4eeb9ac3c7873c3eae",
+    "tests/provider_routing/test_router.py": "c28a79a9bd8011f08a7036d02967174a966eafccc8f1e0c6b9f5383e9ede3d48"
+  }
+}

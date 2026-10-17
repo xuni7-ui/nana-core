@@ -1,0 +1,8 @@
+No real provider, vendor, device, social, production or E12 qualification.
+Reserved future protocols unavailable. Local non-chat operations use existing deterministic fixtures.
+Host remote execution needs explicit resolver and exact-host egress policy; DNS pinning is not implemented by this layer.
+Synchronous fixture timeout is measured after return; original remote Cognition worker remains bounded.
+Conservative config revision fence stales all prepared routed calls after any settings update.
+Crash can leave ignored private temp residue; no temp document is auto-restored.
+Python introspection/root is outside the frontend service contract.
+H1 historical PARTIAL_PROVIDER_QUALIFICATION unchanged.

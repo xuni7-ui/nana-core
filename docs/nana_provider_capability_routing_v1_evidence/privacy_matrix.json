@@ -1,0 +1,9 @@
+{
+  "PUBLIC_remote_configured": "PASS",
+  "PERSONAL_requires_context_provider_route": "PASS",
+  "SECRET_remote": "DENIED",
+  "timeout_cost_context_output_minima": "PASS",
+  "provider_and_route_cannot_raise_runtime_budget": "PASS",
+  "test": "test_privacy_and_budget_are_intersections / test_remote_personal_requires_context_and_route_and_provider",
+  "actual_cost": "UNKNOWN unless existing reply provides it; fixture cost zero is synthetic, not relay billing"
+}

@@ -1324,8 +1324,18 @@ relay usage已返回部分token/cost字段，实际费用单位/结算未知，A
 
 H1-LIVE partial delivery manifest SHA256 `a36ad88548dd991171ecda1d11bdad14f03f5c6468296e0f53696752ca344928` (`docs/nana_h1_live_semantic_provider_evidence/manifest.json`); self/09 excluded. Exact secret scan0; no retained credential.
 
-## PROVIDER_CAPABILITY_ROUTING_V1 — IN_PROGRESS (2026-10-17)
+## PROVIDER_CAPABILITY_ROUTING_V1 — P1 historical checkpoint (2026-10-17)
 [源码/离线测试] GLOBAL_STAGE=H. Base ba798b201ff2f7ba671a2cb9939d9692b59fd93f;
 branch dev/nana-core-provider-capability-routing-v1-codex. P1 host config/compatible
 Registry implemented/tested,25 PASS/2 SIGKILL. Routing/factory/frontend/qualification
 pending. No real provider calls; prior H1-LIVE PARTIAL remains historical.
+
+## PROVIDER_CAPABILITY_ROUTING_V1 — CURRENT: OFFLINE_CANDIDATE_READY (2026-10-17)
+
+[源码/离线实测] GLOBAL_STAGE=H. Branch dev/nana-core-provider-capability-routing-v1-codex; base ba798b201ff2f7ba671a2cb9939d9692b59fd93f. Host-local typed config schema1 and existing B9/B10/H1 paths integrated; no second Subject Store/Loop/Runtime. Nine operation contracts, profile-qualified identities, exact mode, pre-dispatch fallback only, UNKNOWN no fallback/retry, privacy and budget intersections, atomic CAS settings, retained-session freshness/target fence, B8 exclusion and embedding rebuild tested.
+
+New routing42 PASS; combined focused114 PASS; final full1102 PASS/0fail/1skip(E12). Two actual local process SIGKILL checkpoints PASS. Subject schema13/business tables43/new tables0/new dependencies0. REAL_PROVIDER_CALLS=0; no previous credential accessed. Source-pattern scan0; credentials not persisted/exposed. H1-LIVE remains historical PARTIAL_PROVIDER_QUALIFICATION, not upgraded. No production/main/R045/capture/Hands/social changes.
+
+Report: docs/nana_provider_capability_routing_v1_implementation.md. Frontend: docs/nana_provider_capability_routing_v1_frontend_contract.md. Evidence: docs/nana_provider_capability_routing_v1_evidence/. Future real provider qualification and actual UI/native protocols NOT_RUN. Current status supersedes P1 in-progress checkpoint above; historical entries retained.
+
+Delivery manifest SHA256: `df3ab192a0a96be25415f54bb8c02ca2f01d9d581d03229ad8f498b4332ff2c3` (self/09 excluded). Final Git commit containing this block is the exact source anchor.

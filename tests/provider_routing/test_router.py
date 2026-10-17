@@ -91,6 +91,8 @@ def test_remote_personal_requires_context_and_route_and_provider(tmp_path):
     update(s,a,'UPSERT_PROVIDER',provider=p);update(s,a,'UPSERT_MODEL',model=model('model.remote',p.provider_profile_id))
     update(s,a,'SET_CAPABILITY_ROUTE',route=CapabilityRoute(operation='COGNITION',primary_model_profile_id='model.remote',permitted_privacy=('PUBLIC','PERSONAL','SECRET')))
     resolver=Resolver(('test.reference',));router=CapabilityRouter(s,RuntimeProviderFactory(ProviderRegistry(),resolver,RoutingPolicy(allow_remote=True,allowed_remote_hosts=('api.example',))))
+    assert router.factory.secret_state(p)=='AVAILABLE'
+    assert router.factory.secret_state(p.model_copy(update={'secret_ref':'missing.reference'}))=='MISSING'
     for privacy in ['PERSONAL','SECRET']:
         with pytest.raises(CoreError,match='PRIVACY_DENIED'):router.resolve(RouteRequest(operation='COGNITION',privacy_class=privacy),policy())
     allowed=policy().model_copy(update={'remote_privacy':('PUBLIC','PERSONAL','SECRET')})

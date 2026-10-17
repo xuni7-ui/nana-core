@@ -1,0 +1,17 @@
+{
+  "scenario_D": "PASS",
+  "test": "test_frontend_settings_cas_no_subject_mutation_or_authority",
+  "view": "PROVIDER_SETTINGS",
+  "typed_mutations": true,
+  "revision_conflict": "PASS",
+  "secret_state": [
+    "AVAILABLE",
+    "MISSING",
+    "UNCONFIGURED"
+  ],
+  "secret_value_exposed": false,
+  "secret_reference_exposed": false,
+  "authority_exposed": false,
+  "settings_change_subject_events": 0,
+  "ui_implemented": false
+}

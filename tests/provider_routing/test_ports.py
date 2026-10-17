@@ -52,10 +52,11 @@ def test_all_existing_media_ports_and_embedding_route_rebuild(tmp_path):
             else:assert target.media(r.store,(mid,),scopes=('world',))['proposal'].operation==op
         assert before==r.store.snapshot()
         retained=target.media_session(r.store)
+        with pytest.raises(CoreError,match='ROUTE_TARGET_MISMATCH'):retained._invoke('other.model','VISION',(mid,),scopes=('world',))
         new=model('model.other',p.provider_profile_id,ops)
         update(s,a,'UPSERT_MODEL',model=new);registry.register(new.descriptor(p),FixtureMediaPort())
         update(s,a,'SET_CAPABILITY_ROUTE',route=CapabilityRoute(operation='EMBED',primary_model_profile_id=new.model_profile_id))
-        with pytest.raises(CoreError,match='ROUTE_CHANGED_BEFORE_DISPATCH'):retained._invoke('model.media','VISION',(mid,),scopes=('world',))
+        with pytest.raises(CoreError,match='ROUTE_CHANGED_BEFORE_DISPATCH'):retained._invoke('model.media','VIDEO_UNDERSTAND',(mid,),scopes=('world',))
         target=router.resolve(RouteRequest(operation='EMBED'),policy())
         with pytest.raises(CoreError,match='REBUILD_REQUIRED'):target.embedding_lookup(cache,r.store,dimension=3)
         target.embedding_rebuild(cache,r.store,(mid,),scopes=('world',))

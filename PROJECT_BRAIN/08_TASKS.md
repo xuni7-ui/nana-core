@@ -354,3 +354,7 @@ relay usage已返回部分token/cost字段，实际费用单位/结算未知，A
 业务代码唯一改动为HTTP观测；其它仅qualification工具/测试/文档。临时凭据不写仓库/日志。
 无H2/Hands/capture/生产/main/R045/私人数据/真实外部action/social send；E12 NOT_RUN。
 报告：docs/nana_h1_live_semantic_provider_qualification.md；证据：同名provider_evidence目录。
+
+## PROVIDER_CAPABILITY_ROUTING_V1 — complete offline, 2026-10-17
+
+[源码/离线实测] Typed host-local schema1 config/CAS/atomic replace, profile identity, explicit secret resolver, bounded pre-dispatch fallback and exact mode, original Cognition/Media/Embedding paths, B10 settings commands, B8 exclusion and config recovery completed. Focused114 PASS; new routing42 PASS; full1102 PASS/1 E12 skipped/0 failures. Two actual local SIGKILL checkpoints PASS. No real provider/key/device/production use. Settings UI, native future protocols and real vendor qualification are NOT_RUN.

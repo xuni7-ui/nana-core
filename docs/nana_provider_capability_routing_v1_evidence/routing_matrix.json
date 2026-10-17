@@ -1,0 +1,55 @@
+{
+  "operations": [
+    {
+      "operation": "COGNITION",
+      "result": "PASS",
+      "execution": "SYNTHETIC_LOOPBACK_AND_FIXTURE"
+    },
+    {
+      "operation": "EMBED",
+      "result": "PASS",
+      "execution": "FIXTURE_ONLY"
+    },
+    {
+      "operation": "VISION",
+      "result": "PASS",
+      "execution": "SYNTHETIC_LOOPBACK_AND_FIXTURE"
+    },
+    {
+      "operation": "IMAGE_GENERATE",
+      "result": "PASS",
+      "execution": "FIXTURE_ONLY"
+    },
+    {
+      "operation": "STT",
+      "result": "PASS",
+      "execution": "FIXTURE_ONLY"
+    },
+    {
+      "operation": "TTS",
+      "result": "PASS",
+      "execution": "FIXTURE_ONLY"
+    },
+    {
+      "operation": "AUDIO_UNDERSTAND",
+      "result": "PASS",
+      "execution": "FIXTURE_ONLY"
+    },
+    {
+      "operation": "AUDIO_GENERATE",
+      "result": "PASS",
+      "execution": "FIXTURE_ONLY"
+    },
+    {
+      "operation": "VIDEO_UNDERSTAND",
+      "result": "PASS",
+      "execution": "SYNTHETIC_LOOPBACK_AND_FIXTURE"
+    }
+  ],
+  "same_remote_model_different_provider": "PASS",
+  "embedding_route_and_version_rebuild": "PASS",
+  "media_session_binding_and_freshness": "PASS",
+  "route_snapshot": "SANITIZED_HISTORICAL_CALL_PROVENANCE",
+  "scenario_A": "test_multi_provider_life_restart_disable_remove_no_history_delete",
+  "reproduce": ".venv/bin/python -m pytest -q tests/provider_routing/test_frontend_transfer.py"
+}
