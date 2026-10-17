@@ -1,0 +1,52 @@
+{
+  "status": "PASS",
+  "evidence_tests": [
+    "test_semantic_contradiction_direct_correction_and_context",
+    "test_source_withdrawal_during_call_and_semantic_epistemic_promotion",
+    "test_new_semantic_revision_reaches_fresh_c_review_and_can_stay_silent"
+  ],
+  "main_checks": {
+    "semantic_conflict": true,
+    "direct_correction": true,
+    "timeout_unknown": true,
+    "revoke_not_execution": true,
+    "semantic_support_reaches_adopted_goal": true,
+    "subject_can_no_action": true,
+    "C_owns_goals": true,
+    "skill_reuses_existing_lifecycle": true,
+    "learning_reuses_existing_lifecycle": true,
+    "F_replanned_after_checked_learning": true,
+    "multiple_concerns": true,
+    "bounded_hot_state": true,
+    "manager_keeps_stage_provenance": true,
+    "source_delete_world_unknown": true,
+    "restart_same_subject": true,
+    "restart_no_handles": true,
+    "fk_clean": true
+  },
+  "contrast_checks": {
+    "semantic_conflict": true,
+    "direct_correction": true,
+    "timeout_unknown": true,
+    "revoke_not_execution": true,
+    "semantic_support_reaches_adopted_goal": true,
+    "subject_can_no_action": true,
+    "C_owns_goals": true,
+    "skill_reuses_existing_lifecycle": true,
+    "learning_reuses_existing_lifecycle": "NOT_APPLICABLE_NO_FAILURE",
+    "F_replanned_after_checked_learning": "NOT_APPLICABLE_NO_FAILURE",
+    "multiple_concerns": true,
+    "bounded_hot_state": true,
+    "manager_keeps_stage_provenance": "NOT_APPLICABLE_REST",
+    "source_delete_world_unknown": true,
+    "restart_same_subject": true,
+    "restart_no_handles": true,
+    "fk_clean": true
+  },
+  "world_claim_kind": "MODEL_BELIEF",
+  "source_kind": "MODEL_DERIVATION",
+  "later_verification": "independent exact generated target/pixel comparison",
+  "F": "existing OpenAgencyService plans and checked-learning replan",
+  "G": "existing nine-stage language formatting learning; not semantic model training",
+  "I": "existing SelfExtensionWork / CodeSkillService; local pure-JSON sandbox only"
+}

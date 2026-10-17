@@ -310,3 +310,11 @@ Original F/G/I reused; next work chosen from A–J actual gaps, not automatic F 
 Real semantic model/E12/live media capture/private memory/external sends/production
 remain NOT_RUN/disabled. Final local commits, no automatic push or deployment.
 See docs/nana_real_cognition_world_loop_v1_implementation.md and evidence/.
+
+## GLOBAL_STAGE H1 — offline semantic-grounding qualification（2026-10-17）
+[源码/离线实测] H1合同/输入归一化/原CognitionSession/解释→原WorldModel/C来源链：
+IMPLEMENTED / TESTED / OFFLINE_RUNTIME_VERIFIED。原F/G/I复用，无新脑/表/Store/worker。
+32 targeted PASS；full1049 PASS/0 FAIL/1 SKIP(E12)；5 SIGKILL、48.0953h/48.1025h、
+301.344s实际wall。独立runbook、A–J矩阵、implementation/evidence位于docs/nana_h1_*。
+Live provider、真实媒体语义质量/ASR、真实capture/Hands：NOT_RUN；不属于本轮DONE。
+本地提交完成，不push；无生产/main/R045变更，不提升任何真实宿主状态。

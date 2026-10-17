@@ -1,0 +1,11 @@
+{
+  "status": "PASS",
+  "scope": "H1 changed text plus delivered public synthetic evidence; bounded pattern scan, not a universal detector",
+  "files_scanned": 40,
+  "credential_patterns": 0,
+  "evidence_canary_leaks": 0,
+  "new_runtime_db_binary_archive_files": 0,
+  "protected_main_unchanged": true,
+  "old_bundle_unchanged": true,
+  "remote_private_data_or_models_used": false
+}

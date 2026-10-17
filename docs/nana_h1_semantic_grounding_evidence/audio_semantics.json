@@ -1,0 +1,60 @@
+{
+  "qualification_domain": "SYNTHETIC_NARROW_ORACLE_WITH_ACTUAL_DECODED_BYTES",
+  "live_semantic_quality": "SEMANTIC_NOT_RUN",
+  "source_files_actually_decoded_in_two_worlds": 2,
+  "accepted_semantic_sessions": 2,
+  "asr_execution": "NOT_RUN",
+  "items": [
+    {
+      "entity_id": "device",
+      "predicate": "media.audio",
+      "source_memory_id": "b11ffe71-f03c-455f-b0ec-c6a3b2ec5699",
+      "semantic_memory_ids": [
+        "04fafcfc-3606-4eb3-8c0a-b5f6f4078f0e"
+      ],
+      "belief_ids": [
+        "5a0b0405-0c93-4d7d-961d-2e0038b46b98"
+      ],
+      "provider_id": "synthetic.http",
+      "model_id": "harness-v1",
+      "origin": "SYNTHETIC",
+      "asr_status": "NOT_SUPPORTED",
+      "coverage": "EXPLICIT_SEGMENTS",
+      "covered_intervals": [
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "unobserved_gaps": [],
+      "audio_linkage": "NOT_APPLICABLE",
+      "proposal_not_truth": true
+    },
+    {
+      "entity_id": "device",
+      "predicate": "media.audio",
+      "source_memory_id": "a2f43ad6-9c2e-4791-9aa9-d7f5d505aa68",
+      "semantic_memory_ids": [
+        "ff3440c4-bea7-4f32-bbad-429b80dd0549"
+      ],
+      "belief_ids": [
+        "60f3987c-389f-49f1-bf11-b3c12141ae55"
+      ],
+      "provider_id": "synthetic.http",
+      "model_id": "harness-v1",
+      "origin": "SYNTHETIC",
+      "asr_status": "NOT_SUPPORTED",
+      "coverage": "EXPLICIT_SEGMENTS",
+      "covered_intervals": [
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "unobserved_gaps": [],
+      "audio_linkage": "NOT_APPLICABLE",
+      "proposal_not_truth": true
+    }
+  ],
+  "additional_contracts": {}
+}

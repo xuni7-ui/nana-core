@@ -1,0 +1,752 @@
+{
+  "status": "OFFLINE_SYNTHETIC_SEMANTIC_HARNESS",
+  "variant": 1,
+  "virtual_hours": 48.1025,
+  "checks": {
+    "semantic_conflict": true,
+    "direct_correction": true,
+    "timeout_unknown": true,
+    "revoke_not_execution": true,
+    "semantic_support_reaches_adopted_goal": true,
+    "subject_can_no_action": true,
+    "C_owns_goals": true,
+    "skill_reuses_existing_lifecycle": true,
+    "learning_reuses_existing_lifecycle": "NOT_APPLICABLE_NO_FAILURE",
+    "F_replanned_after_checked_learning": "NOT_APPLICABLE_NO_FAILURE",
+    "multiple_concerns": true,
+    "bounded_hot_state": true,
+    "manager_keeps_stage_provenance": "NOT_APPLICABLE_REST",
+    "source_delete_world_unknown": true,
+    "restart_same_subject": true,
+    "restart_no_handles": true,
+    "fk_clean": true
+  },
+  "counts": {
+    "goals": 2,
+    "completed_goals": 2,
+    "actions": 4,
+    "verified_actions": 4,
+    "experiences": 2,
+    "lessons": 0,
+    "cycles": 63,
+    "http_calls": 12
+  },
+  "media": {
+    "IMAGE": {
+      "entity_id": "device",
+      "predicate": "media.image",
+      "source_memory_id": "1e1ec30c-bfe3-43a1-aef3-8437c816d8a0",
+      "semantic_memory_ids": [
+        "6a693f95-9ae5-493a-bfe8-514582eef35b"
+      ],
+      "belief_ids": [
+        "6a267c1c-41e6-4b84-bf02-32996664fbdb"
+      ],
+      "provider_id": "synthetic.http",
+      "model_id": "harness-v1",
+      "origin": "SYNTHETIC",
+      "asr_status": "NOT_SUPPORTED",
+      "coverage": "WHOLE_IMAGE",
+      "covered_intervals": [
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "unobserved_gaps": [],
+      "audio_linkage": "NOT_APPLICABLE",
+      "proposal_not_truth": true
+    },
+    "AUDIO": {
+      "entity_id": "device",
+      "predicate": "media.audio",
+      "source_memory_id": "a2f43ad6-9c2e-4791-9aa9-d7f5d505aa68",
+      "semantic_memory_ids": [
+        "ff3440c4-bea7-4f32-bbad-429b80dd0549"
+      ],
+      "belief_ids": [
+        "60f3987c-389f-49f1-bf11-b3c12141ae55"
+      ],
+      "provider_id": "synthetic.http",
+      "model_id": "harness-v1",
+      "origin": "SYNTHETIC",
+      "asr_status": "NOT_SUPPORTED",
+      "coverage": "EXPLICIT_SEGMENTS",
+      "covered_intervals": [
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "unobserved_gaps": [],
+      "audio_linkage": "NOT_APPLICABLE",
+      "proposal_not_truth": true
+    },
+    "VIDEO": {
+      "entity_id": "device",
+      "predicate": "media.video",
+      "source_memory_id": "16e588e5-2cb1-4aff-b531-cff066ef8bee",
+      "semantic_memory_ids": [
+        "ac8bd36b-302d-464e-b536-756574efd623",
+        "bd8ca42d-2c34-43cd-ac66-88b94fa39a8a",
+        "1b089b12-d8da-474d-9f5a-72d3b48b8a81",
+        "474d1b95-7f0c-4d48-b953-ba9833d49e7e",
+        "994b4a0f-8f0f-4897-893c-d5f5c8660215",
+        "73cd4bb5-7f3d-4833-a0f3-e7d423117ebd",
+        "3b5cde54-70b3-4b68-83b3-b8f4a7d1db2d",
+        "70b9895e-a6ae-43a3-bca8-c72970e9c0d7",
+        "c2eabf5c-86ca-465e-b9d6-2d6db94616f0"
+      ],
+      "belief_ids": [
+        "4dfc7e1b-0c92-4562-9861-73824d3e5bfb",
+        "d3ad8281-2b99-4ba0-93d6-abf249d491e8",
+        "f0af1136-5f0f-41ec-bf0f-1f42ab4662f7",
+        "76a0fb45-52b4-4271-8c9d-271dd80f2839",
+        "f3bf872a-36b8-4189-bcd1-862a60a4cce2",
+        "dd778bcf-d895-42f2-92e3-402aaec62ebc",
+        "9f63a65a-c569-43c7-bcc1-80c9ff9cd924",
+        "f66ba26d-64d2-423e-a7b1-e24e898c298a",
+        "4c78db39-9163-434d-89e3-004cb9a6803d"
+      ],
+      "provider_id": "synthetic.http",
+      "model_id": "harness-v1",
+      "origin": "SYNTHETIC",
+      "asr_status": "NOT_SUPPORTED",
+      "coverage": "EXPLICIT_SEGMENTS",
+      "covered_intervals": [
+        [
+          0.0,
+          0.25
+        ],
+        [
+          0.25,
+          0.5
+        ],
+        [
+          0.5,
+          0.75
+        ],
+        [
+          0.75,
+          1.0
+        ],
+        [
+          1.0,
+          1.25
+        ],
+        [
+          1.25,
+          1.5
+        ],
+        [
+          1.5,
+          1.75
+        ],
+        [
+          1.75,
+          2.0
+        ]
+      ],
+      "unobserved_gaps": [],
+      "audio_linkage": "SEPARATE_INGRESS_REQUIRED",
+      "proposal_not_truth": true
+    }
+  },
+  "beliefs": [
+    {
+      "entity_id": "device",
+      "predicate": "media.image.0",
+      "state": "SUPPORTED_BELIEF",
+      "alternatives": [
+        {
+          "belief_id": "42f8caf2-97ba-4d8a-92fc-e3793dce793c",
+          "revision": 3,
+          "kind": "VERIFIED_RESULT",
+          "value": {
+            "kind": "ATTRIBUTE",
+            "label": "red-dominant field",
+            "region": null,
+            "span": [
+              0.0,
+              0.0
+            ]
+          },
+          "confidence": 1.0,
+          "event_time_us": 1791601252000000,
+          "valid_from_us": 1791590400000000,
+          "known_at_us": 1791601252000000
+        },
+        {
+          "belief_id": "6a267c1c-41e6-4b84-bf02-32996664fbdb",
+          "revision": 1,
+          "kind": "MODEL_BELIEF",
+          "value": {
+            "kind": "ATTRIBUTE",
+            "label": "red-dominant field",
+            "region": null,
+            "span": [
+              0.0,
+              0.0
+            ]
+          },
+          "confidence": 0.6,
+          "event_time_us": 1791590400000000,
+          "valid_from_us": 1791590400000000,
+          "known_at_us": 1791590400000000
+        }
+      ],
+      "support_records": [
+        "9e8b4b24-b350-4ece-bad3-ec9d49908e44",
+        "f9ca410f-e35d-45ad-a6c7-a69dc28721f9"
+      ],
+      "as_of_valid_us": 1791763569000000,
+      "as_of_known_us": 1791763569000000,
+      "projection": true
+    },
+    {
+      "entity_id": "device",
+      "predicate": "media.audio.0",
+      "state": "SUPPORTED_BELIEF",
+      "alternatives": [
+        {
+          "belief_id": "60f3987c-389f-49f1-bf11-b3c12141ae55",
+          "revision": 1,
+          "kind": "MODEL_BELIEF",
+          "value": {
+            "kind": "ACOUSTIC_EVENT",
+            "label": "high periodic tone",
+            "region": null,
+            "span": [
+              0.0,
+              1.0
+            ]
+          },
+          "confidence": 0.55,
+          "event_time_us": 1791590400000000,
+          "valid_from_us": 1791590400000000,
+          "known_at_us": 1791590400000000
+        }
+      ],
+      "support_records": [
+        "d7ec2a17-272a-49fd-944c-749fde7ae4ec"
+      ],
+      "as_of_valid_us": 1791763569000000,
+      "as_of_known_us": 1791763569000000,
+      "projection": true
+    },
+    {
+      "entity_id": "media.audio",
+      "predicate": "media.technical",
+      "state": "SUPPORTED_BELIEF",
+      "alternatives": [
+        {
+          "belief_id": "9fd3bb26-9aa2-4571-9df7-bb5513078493",
+          "revision": 1,
+          "kind": "VERIFIED_RESULT",
+          "value": {
+            "modality": "AUDIO",
+            "semantic_model": "NOT_RUN",
+            "source_byte_digest": "d406f332714ca68cbbc47bdd5124e7e60ff30fee6dc18d4004b8560695755cdb",
+            "technical": {
+              "energy_segments": 2,
+              "segments": 2,
+              "speech": "UNKNOWN"
+            }
+          },
+          "confidence": 1.0,
+          "event_time_us": 1791590400000000,
+          "valid_from_us": 1791590400000000,
+          "known_at_us": 1791590400000000
+        }
+      ],
+      "support_records": [
+        "ae84b90e-d3f7-40a3-8479-c78f1b2a490a"
+      ],
+      "as_of_valid_us": 1791763569000000,
+      "as_of_known_us": 1791763569000000,
+      "projection": true
+    },
+    {
+      "entity_id": "media.image",
+      "predicate": "media.technical",
+      "state": "SUPPORTED_BELIEF",
+      "alternatives": [
+        {
+          "belief_id": "018a9742-91de-4d88-8e8e-ff21615e3998",
+          "revision": 1,
+          "kind": "VERIFIED_RESULT",
+          "value": {
+            "modality": "IMAGE",
+            "semantic_model": "NOT_RUN",
+            "source_byte_digest": "cbf72b06e3be2a0efca8aed0c7c201ede4c861b3e06cfccef72b7eba54cd9443",
+            "technical": {
+              "height": 32,
+              "mean_rgb": [
+                170.0,
+                80.0,
+                160.0
+              ],
+              "width": 48
+            }
+          },
+          "confidence": 1.0,
+          "event_time_us": 1791590400000000,
+          "valid_from_us": 1791590400000000,
+          "known_at_us": 1791590400000000
+        }
+      ],
+      "support_records": [
+        "55a7903c-ca02-4370-bd7f-1026c026eee1"
+      ],
+      "as_of_valid_us": 1791763569000000,
+      "as_of_known_us": 1791763569000000,
+      "projection": true
+    }
+  ],
+  "trajectory": [
+    {
+      "hour": 0.0,
+      "cycle_id": "44b7e4f0-4808-48ba-bbc2-f6c1a4d7a4e2",
+      "stance": "THINK_MORE",
+      "behavior": "CREATE",
+      "intention": "GOAL_CANDIDATE"
+    },
+    {
+      "hour": 0.0,
+      "cycle_id": "8b35c9d6-fbf5-4631-a148-b936600e09ea",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 0.0,
+      "cycle_id": "1199629e-b89a-4cac-b383-33a26d913398",
+      "stance": "AGREE",
+      "behavior": "CONTINUE_PROJECT",
+      "intention": "ACTION_PROPOSAL"
+    },
+    {
+      "hour": 0.0,
+      "cycle_id": "5c2b9f16-6923-4abe-bc7d-e142a4b52f5f",
+      "stance": "AGREE",
+      "behavior": "CONTINUE_PROJECT",
+      "intention": "ACTION_PROPOSAL"
+    },
+    {
+      "hour": 0.0,
+      "cycle_id": "fcfb18e0-60f3-4d78-9b5a-aa2ae8d71bd0",
+      "stance": "AGREE",
+      "behavior": "CONTINUE_PROJECT",
+      "intention": "ACTION_PROPOSAL"
+    },
+    {
+      "hour": 1.0,
+      "cycle_id": "a0368aed-825b-4274-8888-861a9277b003",
+      "stance": "REFLECT",
+      "behavior": "REFLECT",
+      "intention": "REFLECTION"
+    },
+    {
+      "hour": 1.0,
+      "cycle_id": "b5109cb8-eb31-42b0-a434-290dd8a16498",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 1.0,
+      "cycle_id": "f0914832-3036-460d-9676-02b1453ef2b8",
+      "stance": "THINK_MORE",
+      "behavior": "SEEK_CAPABILITY",
+      "intention": "GOAL_CANDIDATE"
+    },
+    {
+      "hour": 1.0,
+      "cycle_id": "29b2a00f-c1ec-45de-ae3b-94effd5cabf3",
+      "stance": "THINK_MORE",
+      "behavior": "LEARN",
+      "intention": "GOAL_CANDIDATE"
+    },
+    {
+      "hour": 1.0,
+      "cycle_id": "b4818c98-3816-4f04-8c5e-76e046166df0",
+      "stance": "AGREE",
+      "behavior": "CONTINUE_PROJECT",
+      "intention": "ACTION_PROPOSAL"
+    },
+    {
+      "hour": 1.0,
+      "cycle_id": "98fd8739-4011-40d9-b268-de0bfe4d216d",
+      "stance": "REMEMBER",
+      "behavior": "MAINTAIN",
+      "intention": "MEMORY_CANDIDATE"
+    },
+    {
+      "hour": 1.0,
+      "cycle_id": "3d005b17-7c95-4188-90ee-1f2d7e85306c",
+      "stance": "REMEMBER",
+      "behavior": "MAINTAIN",
+      "intention": "MEMORY_CANDIDATE"
+    },
+    {
+      "hour": 1.0,
+      "cycle_id": "fd81f76f-0e2c-415c-97a2-3b9ba8e6c5d1",
+      "stance": "REMEMBER",
+      "behavior": "MAINTAIN",
+      "intention": "MEMORY_CANDIDATE"
+    },
+    {
+      "hour": 1.0,
+      "cycle_id": "e1ffbf24-7e03-414c-b858-4f181cbf6d1c",
+      "stance": "REMEMBER",
+      "behavior": "MAINTAIN",
+      "intention": "MEMORY_CANDIDATE"
+    },
+    {
+      "hour": 1.5,
+      "cycle_id": "8d017e66-2108-4427-a2bd-17fee5a5183a",
+      "stance": "WATCH",
+      "behavior": null,
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 2.0,
+      "cycle_id": "c7038e7a-9ed2-4e86-a92d-ec2a5724b263",
+      "stance": "REFLECT",
+      "behavior": "REFLECT",
+      "intention": "REFLECTION"
+    },
+    {
+      "hour": 2.0,
+      "cycle_id": "892c3a41-8f65-4fe6-ba50-b8622e6f5271",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 3.0,
+      "cycle_id": "b84ab19f-46f1-40b7-ab8b-7181f25e0db8",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 4.0,
+      "cycle_id": "b823d331-6cbe-490d-8459-a51b9d530230",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 5.0,
+      "cycle_id": "11c03f5f-7e4a-4b1c-a338-b64465925b4e",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 6.0,
+      "cycle_id": "c804f768-20ec-4d41-a1a3-0c58121b393b",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 7.0,
+      "cycle_id": "3866c294-e0c3-40d0-9497-33cdd7eb9f8a",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 8.0,
+      "cycle_id": "4b00ef1d-038b-4388-88fb-11d93b591f59",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 8.75,
+      "cycle_id": "6253c099-3d2a-49fa-8b2b-cb03c4161a54",
+      "stance": "WATCH",
+      "behavior": null,
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 9.0,
+      "cycle_id": "22b0fa47-e36d-4dd7-a4c9-21f91226a32b",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 10.0,
+      "cycle_id": "3431339e-feb6-48be-9f2a-c1a67ee4aba8",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 11.0,
+      "cycle_id": "18205d7e-53be-4186-b1af-8a76e1a2875a",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 12.0,
+      "cycle_id": "59e9b13a-027e-4995-b05a-1363baa2e43d",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 13.0,
+      "cycle_id": "376d5785-68e8-49b8-ab0e-8919f1899d34",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 14.0,
+      "cycle_id": "e42fe505-0645-420c-a899-eb56aeba7e93",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 15.0,
+      "cycle_id": "b6e8755d-6d5d-4d94-aad8-36f43023406c",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 16.0,
+      "cycle_id": "54a40950-4abd-4d9b-9f32-69d67d962ba2",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 17.0,
+      "cycle_id": "351d8151-789f-41f3-b080-94ebd85ee191",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 18.0,
+      "cycle_id": "bd8621a0-cd58-4b6f-b993-8490c67faf58",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 19.0,
+      "cycle_id": "b946bf1c-3277-43d9-919e-e8ef6f5f38ec",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 20.0,
+      "cycle_id": "f83b6c86-5bd2-4c8a-bfd6-c71fe87be949",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 21.0,
+      "cycle_id": "c3ad16f2-1561-4586-ad47-d32cc1ea8f4c",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 22.0,
+      "cycle_id": "e85c6131-04d7-47d6-b8ca-fd1816addc22",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 23.0,
+      "cycle_id": "9b2bdb36-e065-4890-aad6-04432508c404",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 24.0,
+      "cycle_id": "43dd4707-bcb4-433c-8273-8f04b39e7778",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 25.0,
+      "cycle_id": "a5d2fe20-3dd5-42cf-bdfa-f71dd778b5b1",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 26.0,
+      "cycle_id": "691f118a-a0b8-49a2-86da-1b36e1395c88",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 27.0,
+      "cycle_id": "ff585d6a-a8a1-4660-b31c-a112ddb7ed84",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 28.0,
+      "cycle_id": "a0c02929-a5a9-43f9-ab54-799ebe0e582f",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 29.0,
+      "cycle_id": "77425719-08a4-474d-8bde-faffa5307f8b",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 30.0,
+      "cycle_id": "588245d7-2596-4759-ae2f-fd729f27b448",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 31.0,
+      "cycle_id": "fbdfc82f-a8da-47db-8fa8-22cf9fe7996f",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 32.0,
+      "cycle_id": "9cfea50e-646e-46ef-a593-ad00fbbb073c",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 33.0,
+      "cycle_id": "4f856a53-aaee-46b1-a1cd-39b81b13e85e",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 34.0,
+      "cycle_id": "e3bcaac3-7fa0-4572-af21-77d511f32242",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 35.0,
+      "cycle_id": "cad2d61f-586c-4de3-8e6c-4ff9e7920658",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 36.0,
+      "cycle_id": "2c6d39c8-052d-48de-85fc-95ffb456c4da",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 37.0,
+      "cycle_id": "2f98e7b1-2eb8-4cb7-a95a-4bf191d5c7fa",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 38.0,
+      "cycle_id": "9fde5899-f323-4a67-983d-dfacc031231d",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 39.0,
+      "cycle_id": "a470bd25-75da-4282-bc4c-93affd5cd2db",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 40.0,
+      "cycle_id": "278b9008-6f10-4cbc-8a4a-efe082df45d7",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 41.0,
+      "cycle_id": "05e62a5f-8d64-43d4-9e8f-7fd68ecc22c2",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 42.0,
+      "cycle_id": "aa9cfef8-311e-42a3-8a74-f25eef521ded",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 43.0,
+      "cycle_id": "7f4fae13-3d36-4ad9-9447-440d1992e268",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 44.0,
+      "cycle_id": "df3f2348-0bb2-4d22-9aae-5ef3f537e1b2",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 45.0,
+      "cycle_id": "478613a9-52b5-4143-a8b8-8c59f12e0a4b",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 46.0,
+      "cycle_id": "fc581a66-60e6-4d87-96af-aa8062e43fb2",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 47.0,
+      "cycle_id": "9e0fdfc9-dd49-444d-b06b-632eb9012c9e",
+      "stance": "DEFER",
+      "behavior": "REST",
+      "intention": "NO_ACTION"
+    }
+  ],
+  "live_semantic_provider": "NOT_RUN",
+  "real_model_calls": 0,
+  "real_external_actions": 0
+}

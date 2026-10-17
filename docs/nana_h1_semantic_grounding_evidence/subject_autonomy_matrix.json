@@ -1,0 +1,50 @@
+{
+  "status": "PASS",
+  "actual_test": "test_same_semantic_observation_different_subject_priorities",
+  "same_image_different_sourced_situation": [
+    {
+      "situation": "available",
+      "judgment": "THINK_MORE",
+      "behavior": "EXPLORE"
+    },
+    {
+      "situation": "high load",
+      "judgment": "DEFER",
+      "behavior": "REST"
+    },
+    {
+      "situation": "watch opportunity",
+      "judgment": "WATCH",
+      "behavior": "WATCH"
+    },
+    {
+      "situation": "high risk/uncertainty",
+      "judgment": "ASK",
+      "behavior": null
+    }
+  ],
+  "fresh_review_can_no_action": true,
+  "contrasting_world_counts": [
+    {
+      "goals": 3,
+      "completed_goals": 2,
+      "actions": 6,
+      "verified_actions": 6,
+      "experiences": 4,
+      "lessons": 1,
+      "cycles": 24,
+      "http_calls": 14
+    },
+    {
+      "goals": 2,
+      "completed_goals": 2,
+      "actions": 4,
+      "verified_actions": 4,
+      "experiences": 2,
+      "lessons": 0,
+      "cycles": 63,
+      "http_calls": 12
+    }
+  ],
+  "no_goal_insert_in_media_service": true
+}

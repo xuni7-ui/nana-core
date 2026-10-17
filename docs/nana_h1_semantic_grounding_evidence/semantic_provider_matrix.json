@@ -1,0 +1,23 @@
+{
+  "configured_managed_capabilities": [],
+  "configured_credentials_or_identities": [],
+  "real_provider_calls": 0,
+  "live_semantic_provider": "NOT_RUN",
+  "real_provider_id": null,
+  "real_model_id": null,
+  "local_harness": {
+    "provider_id": "synthetic.http",
+    "model_id": "harness-v1",
+    "modalities": [
+      "IMAGE",
+      "AUDIO",
+      "VIDEO"
+    ],
+    "processing": "actual PNG pixels / PCM periodic energy / sampled fields",
+    "general_object_ocr_asr_scene_model": "NOT_RUN",
+    "http_transport": "ACTUALLY_EXECUTED"
+  },
+  "wire_adapter": "OpenAIMediaTransport implements native image_url/input_audio parts and explicit sampled video frames; no live endpoint qualification",
+  "billing": "UNKNOWN preserved when usage/cost not reported",
+  "no_credentials_searched": true
+}

@@ -1,0 +1,24 @@
+{
+  "status": "PASS",
+  "tests": [
+    "test_media_context_routes_parts_not_untyped_source_body",
+    "test_semantic_privacy_isolated_context_stale_and_digest",
+    "test_data_privacy_and_media_wire_parts_do_not_expand_authority",
+    "test_actual_media_grounding_temporal_lineage_summary_and_erasure",
+    "test_source_withdrawal_during_call_and_semantic_epistemic_promotion",
+    "test_separate_video_audio_association_and_gapped_coverage"
+  ],
+  "privacy_classes_unchanged": [
+    "PUBLIC",
+    "PROJECT",
+    "PERSONAL",
+    "SECRET"
+  ],
+  "remote_source_policy": "PUBLIC only in this qualification",
+  "source_body": "NOT_SENT_IN_MEDIA_CONTEXT",
+  "routing": "citation metadata + typed normalized media parts",
+  "source_delete": "Memory/Record artifacts and dependent beliefs/context/concern/plan support invalidated",
+  "summary_delete": "source technical observation remains",
+  "detached_export_boundary": "Managed erasure does not revoke previously detached reports or privileged raw clones; no such guarantee claimed",
+  "private_user_data_reads": 0
+}

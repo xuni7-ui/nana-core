@@ -1,0 +1,65 @@
+{
+  "global_stage": "H",
+  "workstream": "H1_REAL_SEMANTIC_GROUNDING",
+  "status": "OFFLINE_CANDIDATE_READY",
+  "base": "dcaf30fe1581c5fff19ab302a83b4b56e69487a0",
+  "source_anchor": "20758ecec2ef02efc3459985051cfbc3036b4697",
+  "schema": 13,
+  "business_tables": 43,
+  "new_tables": 0,
+  "defaults": {
+    "ContinuityStore": 7,
+    "Runtime": 8
+  },
+  "focused": {
+    "passed": 32,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 23.726
+  },
+  "full_repository": {
+    "passed": 1049,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 1,
+    "seconds": 147.227
+  },
+  "sigkill_cases": 5,
+  "virtual_hours": [
+    48.0953,
+    48.1025
+  ],
+  "wall_soak_seconds": 301.344,
+  "wall_soak_why_5min": "Runtime/Scheduler/SubjectLoop and provider worker execute/recover unchanged; only typed media adapter/contract/grounding added; final-source focused semantic Runtime.run executed >=300s",
+  "live_semantic_provider": "NOT_RUN",
+  "real_provider_calls": 0,
+  "real_provider_id": null,
+  "real_model_id": null,
+  "actual_decoded_public_generated_files": {
+    "IMAGE": 2,
+    "AUDIO": 2,
+    "VIDEO": 2
+  },
+  "synthetic_semantic_accepted_sessions": {
+    "IMAGE": 4,
+    "AUDIO": 2,
+    "VIDEO": 2
+  },
+  "synthetic_video_atomic_observations_and_summaries": 18,
+  "real_model_semantic_quality": {
+    "IMAGE": "SEMANTIC_NOT_RUN",
+    "AUDIO": "SEMANTIC_NOT_RUN",
+    "VIDEO": "SEMANTIC_NOT_RUN"
+  },
+  "actual_asr_transcripts": 0,
+  "asr_contract_wrong_fixture": "tested as MODEL_DERIVATION, not accuracy evidence",
+  "real_external_actions": 0,
+  "real_social_sends": 0,
+  "private_user_data_reads": 0,
+  "production_changes": 0,
+  "main_changes": 0,
+  "R045_changes": 0,
+  "pushes": 0,
+  "E12": "NOT_RUN"
+}

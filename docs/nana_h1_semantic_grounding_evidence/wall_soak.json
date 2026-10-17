@@ -1,0 +1,23 @@
+{
+  "actual_wall_seconds": 301.344,
+  "configured_runtime_seconds": 300,
+  "identity_stable": true,
+  "queue_depth": 0,
+  "fd_before": 4,
+  "fd_after": 4,
+  "max_rss_kib": 48048,
+  "http_calls": 6,
+  "counts": {
+    "beliefs": 14,
+    "cycles": 2,
+    "actions": 0
+  },
+  "interpretations": {
+    "IMAGE": 1,
+    "AUDIO": 1,
+    "VIDEO": 9
+  },
+  "live_semantic_provider": "NOT_RUN",
+  "real_external_actions": 0,
+  "scope": "actual bounded Runtime.run with semantic sources; no Runtime/Scheduler/provider-worker changes"
+}

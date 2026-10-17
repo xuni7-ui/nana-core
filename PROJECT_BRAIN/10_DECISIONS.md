@@ -638,3 +638,23 @@ materialization after restart with current source/deletion validation, never as
 execution permission or permission to repeat provider calls. Source-linked summary
 is separate and deletable; audio-track association requires independent same-byte
 container ingress. Live provider absent: NOT_RUN, not an implementation blocker.
+
+## D-H1-002 — media content travels only in typed parts, not arbitrary source prose
+[失败回归→修复/实测] A retained regression demonstrated source-only media context
+still sent Memory.text. Metadata-only citation blocks now preserve privacy,
+required-source/conflict completeness and token checks; normalized typed media
+parts are the only content channel. Normal C/D assembly defaults unchanged.
+primary_source_refs names focus, not new evidence/authority. Model output/ASR/
+OCR/captions remain model interpretations; knowingly wrong transcript fixture
+proves only that transcripts cannot become user commands. Real ASR NOT_RUN.
+
+## D-H1-003 — offline candidate is not semantic-model quality qualification
+[实测] No configured managed provider/credential/identity available. H1 executes
+actual generated public codecs and a narrow SYNTHETIC pixel/PCM oracle through
+HTTP. Live recognition/ASR/scene-quality and E12 remain NOT_RUN. Existing worker
+execute/recover, Runtime/Scheduler/SubjectLoop/Kernel unchanged; final-source301s
+focused semantic Runtime.run meets the5-minute unchanged-worker qualification.
+Video8 sampled frames/gaps and separately linked same-container audio, max98304
+normalized semantic bytes, no silent broad capture/downsampling/auto retries.
+Same explicit13/43 tables; no production migration/push or new execution authority.
+Next live-provider public labelled qualification is separate; do not auto-enter H2.

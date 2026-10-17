@@ -1,0 +1,151 @@
+{
+  "qualification_domain": "SYNTHETIC_NARROW_ORACLE_WITH_ACTUAL_DECODED_BYTES",
+  "live_semantic_quality": "SEMANTIC_NOT_RUN",
+  "source_files_actually_decoded_in_two_worlds": 2,
+  "accepted_semantic_sessions": 2,
+  "asr_execution": "NOT_APPLICABLE",
+  "items": [
+    {
+      "entity_id": "device",
+      "predicate": "media.video",
+      "source_memory_id": "dacb81b6-e1f2-401d-bc1c-b25c87d2e7d6",
+      "semantic_memory_ids": [
+        "ae6c7c30-d3cd-409c-9570-20688e48ba30",
+        "16d0de6d-acb6-4113-a570-41701a93d58b",
+        "ac8a1d87-32c1-4d76-8387-e877cfbf16b0",
+        "72e36cd1-6a69-4d70-a8ca-7884bb90555b",
+        "288d467f-1494-4e8a-a04b-4c3bb6c96feb",
+        "a48a1636-7921-4a61-a61f-a085e21e9b75",
+        "3e857318-9ac7-40ca-aa29-4e0c23eaeeca",
+        "4c526dd4-5390-4088-85d3-281689029b51",
+        "ea68aafd-aac8-401e-a2a9-5b5a3751bb84"
+      ],
+      "belief_ids": [
+        "092c6793-62a1-4fbb-92bd-a2d4594158d5",
+        "67b26c03-a974-48d9-a916-800df2d4dc85",
+        "500071e7-0766-497d-a06f-d1f711bd6233",
+        "8dcde45b-fce5-4a81-b9f9-ae1cff64edcd",
+        "f7ff2ee7-36a6-4c0b-99a3-2f36eda2622c",
+        "88ef5314-2691-42c9-a5bd-50b7840d61e8",
+        "b6595a04-cbdc-4a33-8b43-f4a32ddb4086",
+        "7da14459-d2a8-4351-ada8-c4df6dc9bd78",
+        "1ee4d0aa-4e66-4444-8fd5-9c994e856fe7"
+      ],
+      "provider_id": "synthetic.http",
+      "model_id": "harness-v1",
+      "origin": "SYNTHETIC",
+      "asr_status": "NOT_SUPPORTED",
+      "coverage": "EXPLICIT_SEGMENTS",
+      "covered_intervals": [
+        [
+          0.0,
+          0.25
+        ],
+        [
+          0.25,
+          0.5
+        ],
+        [
+          0.5,
+          0.75
+        ],
+        [
+          0.75,
+          1.0
+        ],
+        [
+          1.0,
+          1.25
+        ],
+        [
+          1.25,
+          1.5
+        ],
+        [
+          1.5,
+          1.75
+        ],
+        [
+          1.75,
+          2.0
+        ]
+      ],
+      "unobserved_gaps": [],
+      "audio_linkage": "SEPARATE_INGRESS_REQUIRED",
+      "proposal_not_truth": true
+    },
+    {
+      "entity_id": "device",
+      "predicate": "media.video",
+      "source_memory_id": "16e588e5-2cb1-4aff-b531-cff066ef8bee",
+      "semantic_memory_ids": [
+        "ac8bd36b-302d-464e-b536-756574efd623",
+        "bd8ca42d-2c34-43cd-ac66-88b94fa39a8a",
+        "1b089b12-d8da-474d-9f5a-72d3b48b8a81",
+        "474d1b95-7f0c-4d48-b953-ba9833d49e7e",
+        "994b4a0f-8f0f-4897-893c-d5f5c8660215",
+        "73cd4bb5-7f3d-4833-a0f3-e7d423117ebd",
+        "3b5cde54-70b3-4b68-83b3-b8f4a7d1db2d",
+        "70b9895e-a6ae-43a3-bca8-c72970e9c0d7",
+        "c2eabf5c-86ca-465e-b9d6-2d6db94616f0"
+      ],
+      "belief_ids": [
+        "4dfc7e1b-0c92-4562-9861-73824d3e5bfb",
+        "d3ad8281-2b99-4ba0-93d6-abf249d491e8",
+        "f0af1136-5f0f-41ec-bf0f-1f42ab4662f7",
+        "76a0fb45-52b4-4271-8c9d-271dd80f2839",
+        "f3bf872a-36b8-4189-bcd1-862a60a4cce2",
+        "dd778bcf-d895-42f2-92e3-402aaec62ebc",
+        "9f63a65a-c569-43c7-bcc1-80c9ff9cd924",
+        "f66ba26d-64d2-423e-a7b1-e24e898c298a",
+        "4c78db39-9163-434d-89e3-004cb9a6803d"
+      ],
+      "provider_id": "synthetic.http",
+      "model_id": "harness-v1",
+      "origin": "SYNTHETIC",
+      "asr_status": "NOT_SUPPORTED",
+      "coverage": "EXPLICIT_SEGMENTS",
+      "covered_intervals": [
+        [
+          0.0,
+          0.25
+        ],
+        [
+          0.25,
+          0.5
+        ],
+        [
+          0.5,
+          0.75
+        ],
+        [
+          0.75,
+          1.0
+        ],
+        [
+          1.0,
+          1.25
+        ],
+        [
+          1.25,
+          1.5
+        ],
+        [
+          1.5,
+          1.75
+        ],
+        [
+          1.75,
+          2.0
+        ]
+      ],
+      "unobserved_gaps": [],
+      "audio_linkage": "SEPARATE_INGRESS_REQUIRED",
+      "proposal_not_truth": true
+    }
+  ],
+  "additional_contracts": {
+    "sparse_video_audio_association": "test_separate_video_audio_association_and_gapped_coverage",
+    "summary_delete_leaves_technical": "test_actual_media_grounding_temporal_lineage_summary_and_erasure[VIDEO]"
+  }
+}

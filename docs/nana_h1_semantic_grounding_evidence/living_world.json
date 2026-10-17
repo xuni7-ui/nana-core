@@ -1,0 +1,479 @@
+{
+  "status": "OFFLINE_SYNTHETIC_SEMANTIC_HARNESS",
+  "variant": 0,
+  "virtual_hours": 48.0953,
+  "checks": {
+    "semantic_conflict": true,
+    "direct_correction": true,
+    "timeout_unknown": true,
+    "revoke_not_execution": true,
+    "semantic_support_reaches_adopted_goal": true,
+    "subject_can_no_action": true,
+    "C_owns_goals": true,
+    "skill_reuses_existing_lifecycle": true,
+    "learning_reuses_existing_lifecycle": true,
+    "F_replanned_after_checked_learning": true,
+    "multiple_concerns": true,
+    "bounded_hot_state": true,
+    "manager_keeps_stage_provenance": true,
+    "source_delete_world_unknown": true,
+    "restart_same_subject": true,
+    "restart_no_handles": true,
+    "fk_clean": true
+  },
+  "counts": {
+    "goals": 3,
+    "completed_goals": 2,
+    "actions": 6,
+    "verified_actions": 6,
+    "experiences": 4,
+    "lessons": 1,
+    "cycles": 24,
+    "http_calls": 14
+  },
+  "media": {
+    "IMAGE": {
+      "entity_id": "device",
+      "predicate": "media.image",
+      "source_memory_id": "cf5247cb-fb96-4976-aba0-2c97a06a9db7",
+      "semantic_memory_ids": [
+        "365da09b-e6a1-4864-8c0e-7ea66f6968ee"
+      ],
+      "belief_ids": [
+        "16e747c1-efb4-48d5-a86e-3753afcc37b7"
+      ],
+      "provider_id": "synthetic.http",
+      "model_id": "harness-v1",
+      "origin": "SYNTHETIC",
+      "asr_status": "NOT_SUPPORTED",
+      "coverage": "WHOLE_IMAGE",
+      "covered_intervals": [
+        [
+          0.0,
+          0.0
+        ]
+      ],
+      "unobserved_gaps": [],
+      "audio_linkage": "NOT_APPLICABLE",
+      "proposal_not_truth": true
+    },
+    "AUDIO": {
+      "entity_id": "device",
+      "predicate": "media.audio",
+      "source_memory_id": "b11ffe71-f03c-455f-b0ec-c6a3b2ec5699",
+      "semantic_memory_ids": [
+        "04fafcfc-3606-4eb3-8c0a-b5f6f4078f0e"
+      ],
+      "belief_ids": [
+        "5a0b0405-0c93-4d7d-961d-2e0038b46b98"
+      ],
+      "provider_id": "synthetic.http",
+      "model_id": "harness-v1",
+      "origin": "SYNTHETIC",
+      "asr_status": "NOT_SUPPORTED",
+      "coverage": "EXPLICIT_SEGMENTS",
+      "covered_intervals": [
+        [
+          0.0,
+          1.0
+        ]
+      ],
+      "unobserved_gaps": [],
+      "audio_linkage": "NOT_APPLICABLE",
+      "proposal_not_truth": true
+    },
+    "VIDEO": {
+      "entity_id": "device",
+      "predicate": "media.video",
+      "source_memory_id": "dacb81b6-e1f2-401d-bc1c-b25c87d2e7d6",
+      "semantic_memory_ids": [
+        "ae6c7c30-d3cd-409c-9570-20688e48ba30",
+        "16d0de6d-acb6-4113-a570-41701a93d58b",
+        "ac8a1d87-32c1-4d76-8387-e877cfbf16b0",
+        "72e36cd1-6a69-4d70-a8ca-7884bb90555b",
+        "288d467f-1494-4e8a-a04b-4c3bb6c96feb",
+        "a48a1636-7921-4a61-a61f-a085e21e9b75",
+        "3e857318-9ac7-40ca-aa29-4e0c23eaeeca",
+        "4c526dd4-5390-4088-85d3-281689029b51",
+        "ea68aafd-aac8-401e-a2a9-5b5a3751bb84"
+      ],
+      "belief_ids": [
+        "092c6793-62a1-4fbb-92bd-a2d4594158d5",
+        "67b26c03-a974-48d9-a916-800df2d4dc85",
+        "500071e7-0766-497d-a06f-d1f711bd6233",
+        "8dcde45b-fce5-4a81-b9f9-ae1cff64edcd",
+        "f7ff2ee7-36a6-4c0b-99a3-2f36eda2622c",
+        "88ef5314-2691-42c9-a5bd-50b7840d61e8",
+        "b6595a04-cbdc-4a33-8b43-f4a32ddb4086",
+        "7da14459-d2a8-4351-ada8-c4df6dc9bd78",
+        "1ee4d0aa-4e66-4444-8fd5-9c994e856fe7"
+      ],
+      "provider_id": "synthetic.http",
+      "model_id": "harness-v1",
+      "origin": "SYNTHETIC",
+      "asr_status": "NOT_SUPPORTED",
+      "coverage": "EXPLICIT_SEGMENTS",
+      "covered_intervals": [
+        [
+          0.0,
+          0.25
+        ],
+        [
+          0.25,
+          0.5
+        ],
+        [
+          0.5,
+          0.75
+        ],
+        [
+          0.75,
+          1.0
+        ],
+        [
+          1.0,
+          1.25
+        ],
+        [
+          1.25,
+          1.5
+        ],
+        [
+          1.5,
+          1.75
+        ],
+        [
+          1.75,
+          2.0
+        ]
+      ],
+      "unobserved_gaps": [],
+      "audio_linkage": "SEPARATE_INGRESS_REQUIRED",
+      "proposal_not_truth": true
+    }
+  },
+  "beliefs": [
+    {
+      "entity_id": "device",
+      "predicate": "media.image.0",
+      "state": "SUPPORTED_BELIEF",
+      "alternatives": [
+        {
+          "belief_id": "2d737f7a-4941-4f04-b0e9-223e00fe700a",
+          "revision": 3,
+          "kind": "VERIFIED_RESULT",
+          "value": {
+            "kind": "ATTRIBUTE",
+            "label": "blue-dominant field",
+            "region": null,
+            "span": [
+              0.0,
+              0.0
+            ]
+          },
+          "confidence": 1.0,
+          "event_time_us": 1791601271000000,
+          "valid_from_us": 1791590400000000,
+          "known_at_us": 1791601271000000
+        },
+        {
+          "belief_id": "16e747c1-efb4-48d5-a86e-3753afcc37b7",
+          "revision": 1,
+          "kind": "MODEL_BELIEF",
+          "value": {
+            "kind": "ATTRIBUTE",
+            "label": "blue-dominant field",
+            "region": null,
+            "span": [
+              0.0,
+              0.0
+            ]
+          },
+          "confidence": 0.6,
+          "event_time_us": 1791590400000000,
+          "valid_from_us": 1791590400000000,
+          "known_at_us": 1791590400000000
+        }
+      ],
+      "support_records": [
+        "5d6be86b-4dfa-44c3-8e18-2bbc48a1b523",
+        "c3c9f714-a725-4624-b5cd-1bb367fbbdd9"
+      ],
+      "as_of_valid_us": 1791763543000000,
+      "as_of_known_us": 1791763543000000,
+      "projection": true
+    },
+    {
+      "entity_id": "device",
+      "predicate": "media.audio.0",
+      "state": "SUPPORTED_BELIEF",
+      "alternatives": [
+        {
+          "belief_id": "5a0b0405-0c93-4d7d-961d-2e0038b46b98",
+          "revision": 1,
+          "kind": "MODEL_BELIEF",
+          "value": {
+            "kind": "ACOUSTIC_EVENT",
+            "label": "low periodic tone",
+            "region": null,
+            "span": [
+              0.0,
+              1.0
+            ]
+          },
+          "confidence": 0.55,
+          "event_time_us": 1791590400000000,
+          "valid_from_us": 1791590400000000,
+          "known_at_us": 1791590400000000
+        }
+      ],
+      "support_records": [
+        "50a07847-6bb8-4d2f-9ce6-d4cd5b6c4e10"
+      ],
+      "as_of_valid_us": 1791763543000000,
+      "as_of_known_us": 1791763543000000,
+      "projection": true
+    },
+    {
+      "entity_id": "media.audio",
+      "predicate": "media.technical",
+      "state": "SUPPORTED_BELIEF",
+      "alternatives": [
+        {
+          "belief_id": "4c0cc99b-7013-4350-8eb2-c78b8ceb92f3",
+          "revision": 1,
+          "kind": "VERIFIED_RESULT",
+          "value": {
+            "modality": "AUDIO",
+            "semantic_model": "NOT_RUN",
+            "source_byte_digest": "13adab0a810c3e6a0eec4f3fcd896fc208e78f65c7b62af5e8bbc22ec0986032",
+            "technical": {
+              "energy_segments": 2,
+              "segments": 2,
+              "speech": "UNKNOWN"
+            }
+          },
+          "confidence": 1.0,
+          "event_time_us": 1791590400000000,
+          "valid_from_us": 1791590400000000,
+          "known_at_us": 1791590400000000
+        }
+      ],
+      "support_records": [
+        "5761da38-d04b-406f-a31a-06bbb3d01632"
+      ],
+      "as_of_valid_us": 1791763543000000,
+      "as_of_known_us": 1791763543000000,
+      "projection": true
+    },
+    {
+      "entity_id": "media.image",
+      "predicate": "media.technical",
+      "state": "SUPPORTED_BELIEF",
+      "alternatives": [
+        {
+          "belief_id": "293d660c-3e2e-41d6-b17e-8a4b50cbde92",
+          "revision": 1,
+          "kind": "VERIFIED_RESULT",
+          "value": {
+            "modality": "IMAGE",
+            "semantic_model": "NOT_RUN",
+            "source_byte_digest": "b917fb98ce33307699b7d1a4507c38523f156db16ff1f802d4706c03a2b26a11",
+            "technical": {
+              "height": 32,
+              "mean_rgb": [
+                20.0,
+                80.0,
+                160.0
+              ],
+              "width": 48
+            }
+          },
+          "confidence": 1.0,
+          "event_time_us": 1791590400000000,
+          "valid_from_us": 1791590400000000,
+          "known_at_us": 1791590400000000
+        }
+      ],
+      "support_records": [
+        "65d41c4f-6f0a-4468-9f28-b1a0a37a7028"
+      ],
+      "as_of_valid_us": 1791763543000000,
+      "as_of_known_us": 1791763543000000,
+      "projection": true
+    }
+  ],
+  "trajectory": [
+    {
+      "hour": 0.0,
+      "cycle_id": "33ec0790-7e6d-46d9-a2e6-4722a7fd3872",
+      "stance": "THINK_MORE",
+      "behavior": "CREATE",
+      "intention": "GOAL_CANDIDATE"
+    },
+    {
+      "hour": 0.0,
+      "cycle_id": "2928ab78-c6fa-4584-b028-b4e572f5b96d",
+      "stance": "THINK_MORE",
+      "behavior": "EXPLORE",
+      "intention": "EXPLORE"
+    },
+    {
+      "hour": 0.0,
+      "cycle_id": "5669874e-8d26-46b8-9d9b-a9051d229e9e",
+      "stance": "AGREE",
+      "behavior": "CONTINUE_PROJECT",
+      "intention": "ACTION_PROPOSAL"
+    },
+    {
+      "hour": 0.0,
+      "cycle_id": "1ad64d3f-8cb6-46d1-923e-4743dee69326",
+      "stance": "AGREE",
+      "behavior": "CONTINUE_PROJECT",
+      "intention": "ACTION_PROPOSAL"
+    },
+    {
+      "hour": 0.0,
+      "cycle_id": "5a7f6aea-4060-4774-93e0-5cdde7b0dbfd",
+      "stance": "AGREE",
+      "behavior": "CONTINUE_PROJECT",
+      "intention": "ACTION_PROPOSAL"
+    },
+    {
+      "hour": 1.0,
+      "cycle_id": "fde0beeb-7186-41d6-a60d-16ecfcd39afd",
+      "stance": "REFLECT",
+      "behavior": "REFLECT",
+      "intention": "REFLECTION"
+    },
+    {
+      "hour": 1.0,
+      "cycle_id": "d91fe6a7-0bcd-40e6-bbe1-f6101954a7ee",
+      "stance": "THINK_MORE",
+      "behavior": "SEEK_CAPABILITY",
+      "intention": "GOAL_CANDIDATE"
+    },
+    {
+      "hour": 1.0,
+      "cycle_id": "f9a70fff-53ae-47c4-94cc-e5e153ce15ad",
+      "stance": "THINK_MORE",
+      "behavior": "LEARN",
+      "intention": "GOAL_CANDIDATE"
+    },
+    {
+      "hour": 1.0,
+      "cycle_id": "d32ba8d6-5736-44ba-b083-d79dac09ebb4",
+      "stance": "AGREE",
+      "behavior": "CONTINUE_PROJECT",
+      "intention": "ACTION_PROPOSAL"
+    },
+    {
+      "hour": 1.0,
+      "cycle_id": "8bb376ff-0de2-4985-9e48-e1e9ca302df6",
+      "stance": "ALTERNATIVE",
+      "behavior": "LEARN",
+      "intention": "GOAL_CANDIDATE"
+    },
+    {
+      "hour": 1.0,
+      "cycle_id": "30878257-4f35-4871-ab81-4a5273d2c193",
+      "stance": "AGREE",
+      "behavior": "CONTINUE_PROJECT",
+      "intention": "ACTION_PROPOSAL"
+    },
+    {
+      "hour": 1.0,
+      "cycle_id": "6fead240-03e1-40ca-9945-91a9d097a667",
+      "stance": "AGREE",
+      "behavior": "CONTINUE_PROJECT",
+      "intention": "ACTION_PROPOSAL"
+    },
+    {
+      "hour": 1.0,
+      "cycle_id": "93e4fd85-e458-4fef-9308-c6270b33a3e3",
+      "stance": "AGREE",
+      "behavior": "CONTINUE_PROJECT",
+      "intention": "ACTION_PROPOSAL"
+    },
+    {
+      "hour": 1.0,
+      "cycle_id": "6220d521-6edb-4647-ac0e-7126387dcc5b",
+      "stance": "REMEMBER",
+      "behavior": "MAINTAIN",
+      "intention": "MEMORY_CANDIDATE"
+    },
+    {
+      "hour": 1.25,
+      "cycle_id": "97984cfa-1bda-4ccb-bc0e-22031850e413",
+      "stance": "REMEMBER",
+      "behavior": "MAINTAIN",
+      "intention": "MEMORY_CANDIDATE"
+    },
+    {
+      "hour": 1.25,
+      "cycle_id": "49c5215c-a7b5-48da-b8cf-fefeae79d759",
+      "stance": "REMEMBER",
+      "behavior": "MAINTAIN",
+      "intention": "MEMORY_CANDIDATE"
+    },
+    {
+      "hour": 1.25,
+      "cycle_id": "06073085-c205-4a9f-a364-daa041545182",
+      "stance": "REMEMBER",
+      "behavior": "MAINTAIN",
+      "intention": "MEMORY_CANDIDATE"
+    },
+    {
+      "hour": 1.25,
+      "cycle_id": "c2072bfd-5ce9-4e80-9c99-120ee543a842",
+      "stance": "REMEMBER",
+      "behavior": "MAINTAIN",
+      "intention": "MEMORY_CANDIDATE"
+    },
+    {
+      "hour": 1.25,
+      "cycle_id": "fdf9a153-81a0-416d-8eb7-b319f94ae97e",
+      "stance": "REMEMBER",
+      "behavior": "MAINTAIN",
+      "intention": "MEMORY_CANDIDATE"
+    },
+    {
+      "hour": 1.5,
+      "cycle_id": "d73fc05c-4a1f-475d-85d5-a0bb967b5d16",
+      "stance": "WATCH",
+      "behavior": null,
+      "intention": "NO_ACTION"
+    },
+    {
+      "hour": 2.0,
+      "cycle_id": "fecdc1cd-7ced-49bf-b985-65163dd3fd2d",
+      "stance": "REFLECT",
+      "behavior": "REFLECT",
+      "intention": "REFLECTION"
+    },
+    {
+      "hour": 2.0,
+      "cycle_id": "a2459a6c-fdd8-4c4e-ae33-6968724d69b0",
+      "stance": "REFLECT",
+      "behavior": "REFLECT",
+      "intention": "REFLECTION"
+    },
+    {
+      "hour": 2.0,
+      "cycle_id": "1ecc50bf-d887-4950-aba5-754fc1162b66",
+      "stance": "REFLECT",
+      "behavior": "REFLECT",
+      "intention": "REFLECTION"
+    },
+    {
+      "hour": 8.75,
+      "cycle_id": "54aedbb9-7049-4001-be9e-da19c1c1a1e2",
+      "stance": "WATCH",
+      "behavior": null,
+      "intention": "NO_ACTION"
+    }
+  ],
+  "live_semantic_provider": "NOT_RUN",
+  "real_model_calls": 0,
+  "real_external_actions": 0
+}

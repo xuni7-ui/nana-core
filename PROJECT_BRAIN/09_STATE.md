@@ -1253,3 +1253,33 @@ Final full regression/frozen evidence pending; no auto push or Hands enabled.
 H1 M2 manifest SHA256 d2ad4690dbd4d372e23d8d21acdda8a94f1349cbca7f9a44a054396f115bcc29 (self/09 excluded).
 
 H1 M2 final checkpoint manifest SHA256 5d2c87811cd88c33c1643c4bb602b1f34f054e5b4d9cc41a2ab1df3caa3f29cd (replaces pending M2 fingerprint;32 focused PASS).
+
+## GLOBAL_STAGE H1 FINAL — OFFLINE_CANDIDATE_READY（2026-10-17）
+[源码/实测] Supersedes pending H1 M1/M2 entries above. Base E dcaf30fe remains a
+frozen/pushed offline anchor. H1 branch dev/nana-core-h1-semantic-grounding-v1-codex,
+source20758ecec2ef02efc3459985051cfbc3036b4697; containing final commit is evidence/
+documentation only. H1 LOCAL COMMITS ONLY; PUSHES=0, no automatic H2/production.
+Typed media/descriptor/parts/source+response digest/time/uncertainty, metadata-only
+media context, interpreted beliefs and deletable summaries use existing schema13
+CognitionSession/Record/Memory/WorldModel. One Subject/Store/SubjectLoop/Runtime.
+Final C judgment stays C-owned; D WHEN; H observation/interpretation only. Original
+F/G/I reused (actual bounded local planning/replan/independent trials/generated
+skill use); no new execution permissions or relationship/Manager overrides.
+
+Final32 H1 PASS /0 FAIL; repository1049 PASS/0 FAIL/1 SKIP(E12),147.227s JUnit.
+Five actual local SIGKILL cuts and portable history PASS. Main48.0953h:3 goals,
+6 verified synthetic local actions/4 Experiences/1 Lesson; contrast48.1025h:
+2 goals/4 actions/2 Experiences/0 Lessons, independent REST/normalization choices.
+Final-source real Runtime301.344s, FD4→4, queue0, identity stable; worker execute/
+recover and Runtime/Scheduler unchanged. No false hot reload or interrupted-time
+credit. Schema13/43 tables, H1 new tables0, C default7/D default8, dependency delta0.
+
+LIVE_SEMANTIC_PROVIDER=NOT_RUN; real provider calls0; ASR execution0. Real model
+image/audio/video semantic quality SEMANTIC_NOT_RUN. Actual public generated
+media decode and narrow SYNTHETIC color/periodicity/temporal-field interpretation
+are separately labelled. E12=NOT_RUN. No private user data, real external actions,
+social sends, production/main/R045 changes. No fresh production trust/receipt.
+Evidence/runbook/implementation/A–J matrix in docs/nana_h1_*; next independently
+authorized live-provider public labelled qualification remains a real dependency.
+
+H1 final manifest SHA256 `49d8fea5e1237dbeb699b4ec56e8c8a260d17d74a1e762e4b353179bf17a4644` (`docs/nana_h1_semantic_grounding_evidence/manifest.json`); self/09 excluded.

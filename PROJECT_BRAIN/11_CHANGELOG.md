@@ -1516,3 +1516,21 @@ media source-only context still carried full source Memory.text. Media requests
 now project citation/epistemic metadata only; typed validated parts carry content.
 Ordinary C/D ContextAssembler defaults remain unchanged. Final focused32 PASS.
 No new privacy access, authority, table or worker. Final full/evidence next.
+
+### GLOBAL H1 FINAL — freeze semantic grounding offline candidate
+[源码/测试/离线运行] Business/test anchor20758ecec2ef02efc3459985051cfbc3036b4697,
+base dcaf30fe. Same-session typed media proposal, provenance/confidence/span/coverage,
+source-only metadata context, original world conflict/correction/UNKNOWN, delete
+closure and C-owned attention. Why: give the same Subject revisable media meaning,
+without a perception brain or new authority. F planning/replan/G9-stage formatting
+learning/I generated skills actually reused; no new subsystem/table/worker.
+Final focused32 PASS/23.726s; full1049 PASS/0 FAIL/1 E12 SKIP/147.227s JUnit
+(147.32s CLI). Actual5 SIGKILL and portable semantic-history retention PASS.
+Main48.0953h:3 goals/6 verified local synthetic actions/1 lesson; contrast48.1025h:
+2/4/0, distinct source fields/priorities/REST and no invented learning claim.
+Final-source Runtime wall301.344s, FD4→4, queue0, identity stable,6 local HTTP calls.
+Media real-model quality/ASR/live capture NOT_RUN; narrow public synthetic oracle
+and wrong transcript contract fixture explicitly not accuracy evidence.
+Append current roadmap/task/state/decisions, A–J/runbook/evidence/final fingerprints.
+Source-only prose routing regression retained then repaired. No dependencies/schema
+migration/default/production/main/R045/private/live model/social/external action/push.

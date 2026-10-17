@@ -309,3 +309,12 @@ Same Subject/Store/SubjectLoop; schema13 explicit/default7/8 unchanged,43 tables
 qualification/private memory import/production migration. Actual generated public
 media byte decode is REAL execution with SYNTHETIC content, not live capture or
 semantic understanding. No real host/binding status upgraded; no auto push.
+
+## GLOBAL H1 — offline semantic grounding (2026-10-17)
+[实测] IMPLEMENTED / TESTED / OFFLINE_RUNTIME_VERIFIED on source20758ec.
+32 H1 PASS; full1049 PASS/0 FAIL/1 E12 SKIP;5 actual SIGKILL, two48h worlds,
+301.344s actual same-owner Runtime. Actual generated public codecs + narrow
+SYNTHETIC semantic oracle enter original WorldModel/C; no live quality claim.
+Live provider/ASR/OCR/general image/video semantics=NOT_RUN; H2 capture/Hands not
+enabled. E12 remains NOT_RUN. No real host/production/R045 status changes.
+Evidence docs/nana_h1_semantic_grounding_evidence/qualification.json.

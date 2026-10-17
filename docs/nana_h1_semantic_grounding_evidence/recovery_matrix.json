@@ -1,0 +1,41 @@
+{
+  "status": "PASS",
+  "actual_local_sigkill_cases": [
+    {
+      "cut": "decode",
+      "boundary": "technical observation committed before semantic request",
+      "status": "PASS",
+      "test": "test_actual_h1_sigkill_reopen_no_duplicate_provider_belief_cycle_or_goal[decode]"
+    },
+    {
+      "cut": "calling",
+      "boundary": "audio MEDIA request CALLING",
+      "status": "PASS",
+      "test": "test_actual_h1_sigkill_reopen_no_duplicate_provider_belief_cycle_or_goal[calling]"
+    },
+    {
+      "cut": "proposed",
+      "boundary": "video semantic proposal committed before world belief",
+      "status": "PASS",
+      "test": "test_actual_h1_sigkill_reopen_no_duplicate_provider_belief_cycle_or_goal[proposed]"
+    },
+    {
+      "cut": "belief",
+      "boundary": "image world belief committed before materialization ACK",
+      "status": "PASS",
+      "test": "test_actual_h1_sigkill_reopen_no_duplicate_provider_belief_cycle_or_goal[belief]"
+    },
+    {
+      "cut": "cycle",
+      "boundary": "C cycle committed before H/world post-commit ACK",
+      "status": "PASS",
+      "test": "test_actual_h1_sigkill_reopen_no_duplicate_provider_belief_cycle_or_goal[cycle]"
+    }
+  ],
+  "provider_recovery": "UNKNOWN without automatic retry",
+  "accepted_history": "idempotent model-belief materialization with source and response integrity validation",
+  "independent_maintenance": "Count exact review lineage; do not mistake legitimate maintenance for duplicate C decision",
+  "portable_test": "test_h1_subject_package_retains_interpretation_not_provider_or_execution_handles",
+  "schema": 13,
+  "new_tables": 0
+}

@@ -94,3 +94,56 @@ only content channel. Existing normal ContextAssembler behavior is untouched.
 Final targeted32 PASS, including two48h worlds, six recovery/portability checks,
 five true SIGKILL cuts, provider/ASR/epistemic/privacy/deletion fences. Final whole
 repository result and frozen-source wall/world runs follow this business anchor.
+
+## Final delivery / source and status
+
+**GLOBAL_STAGE_H1_REAL_SEMANTIC_GROUNDING = OFFLINE_CANDIDATE_READY.**
+Base `dcaf30fe1581c5fff19ab302a83b4b56e69487a0`.
+Source/test anchor `20758ecec2ef02efc3459985051cfbc3036b4697`.
+Containing final documentation/evidence commit is HEAD_FINAL (read with git rev-parse
+HEAD); no self-referential commit hash is invented in its own content. Three local
+logical commits; no push. Main/R045/production unchanged; old bundle preserved.
+Historical checkpoint fingerprints describe their collection snapshots; final
+manifest describes current final source/evidence and excludes itself/09_STATE.
+
+| Module | Responsibility / input / output / state |
+|---|---|
+| semantic_contracts | strict descriptor/parts/observation DTOs; explicit source, spans, uncertainty and supported ASR; no persisted authority |
+| semantics | exact decoded source bytes→bounded parts→existing CognitionSession; PROPOSED→model-derived Memory/WorldBelief; no decision/executor |
+| OpenAIMediaTransport | native image/WAV/sampled-frame wire adaptation, exact construction identity; existing HTTP quotas/timeout/UNKNOWN worker |
+| ContextAssembler | optional media source-only metadata projection; all normal defaults and privacy/contradiction/token/source checks retained |
+| semantic_harness | SYNTHETIC actual pixel/PCM oracle; source-focused proposal fixture, no real model/general recognition/ASR |
+| semantic_demo | finite public environment inputs over existing Runtime/Subject/F/G/I; no scripted final Actions |
+| existing world/concern/C | sourced belief/conflict→opportunity→sole final Judgment/intention/no-action |
+| tests/h1_semantics | source/privacy/epistemic/restart/deletion/portability/5 real SIGKILL and paired48h qualification |
+
+No schema migration or new table: explicit13/43 tables; old defaults7/8 remain.
+Raw content is normalized PNG, WAV PCM, sampled96x64 PNGs; parts are capped98304
+bytes (descriptor may lower it). Video audio is separately ingressed from exact
+same container, never silently described as sampled-frame coverage. Summary-only
+erasure leaves original technical source; original-source erasure removes supported
+semantic/world/concern/plan context. Detached exports/raw privileged snapshots are
+outside the managed privacy journal's revocation boundary.
+
+Full: **1049 passed /0 failed /1 skipped(E12)**,147.227s JUnit/147.32s CLI.
+H1: **32 passed**,23.726s. Five real SIGKILL cuts PASS; portable pending request
+recovers UNKNOWN, stable beliefs retain MODEL_BELIEF, no execution handles restore.
+Main48.0953h:3 goals/6 verified local synthetic Actions/4 Experiences/1 Lesson;
+contrast48.1025h:2/4/2/0, with distinct beliefs, priorities, rest and learning needs.
+F checked-lesson replan / G original9 stages / I original generated-test-review-use
+all exercised, no duplicate implementations. H1 does not train semantic models.
+Final-source wall301.344s:6 HTTP calls,14 beliefs,2 C cycles,0 Actions, FD4→4,
+queue0, identity stable. Runtime/Scheduler/SubjectLoop/Kernel and provider worker
+execute/recover unchanged; the final-source >=5min focused semantic mode applies.
+Earlier exploratory/pre-freeze runs are not credited as final-source duration.
+
+Real provider/ASR/OCR/object/scene accuracy/live capture NOT_RUN. Each modality's
+real semantic quality remains SEMANTIC_NOT_RUN. Narrow harness outputs are useful
+contract/causal/recovery evidence, not real model qualification. A deliberately
+wrong transcript-shaped fixture proves it cannot acquire command authority; it is
+not counted as ASR execution. No live devices, accounts, models or private data.
+No unresolved core-invariant failure. Limits: finite8-frame/30s/byte-bounded media,
+conservative stale/deletion policy, OpenAI-compatible wire shape without live API
+qualification, no universal vendor adapters or native streaming. Next recommended
+work is separately configured public live-provider quality/cost qualification;
+do not automatically enter H2 capture or hands. See runbook and A–J reconciliation.

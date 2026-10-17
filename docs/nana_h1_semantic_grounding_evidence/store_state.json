@@ -1,0 +1,30 @@
+{
+  "main": {
+    "tables": 43,
+    "foreign_key_violations": 0,
+    "counts": {
+      "memories": 43,
+      "continuity_records": 237,
+      "world_beliefs": 16,
+      "cognitive_requests": 15,
+      "open_concerns": 5,
+      "goals": 3,
+      "actions": 6,
+      "subject_cycles": 24
+    }
+  },
+  "contrast": {
+    "tables": 43,
+    "foreign_key_violations": 0,
+    "counts": {
+      "memories": 83,
+      "continuity_records": 351,
+      "world_beliefs": 16,
+      "cognitive_requests": 13,
+      "open_concerns": 5,
+      "goals": 2,
+      "actions": 4,
+      "subject_cycles": 63
+    }
+  }
+}

@@ -1,0 +1,13 @@
+LIVE_SEMANTIC_PROVIDER=NOT_RUN. No preconfigured legal provider was available. No secret search.
+Real image/OCR/object, audio/ASR, video/scene semantic quality: SEMANTIC_NOT_RUN.
+Narrow harness only identifies dominant color and periodic energy over generated public data; it is not general world understanding.
+Transcript-shaped contract fixture is deliberately not true audio content; no ASR accuracy claim.
+Video limited to8 sampled96x64 frames and explicit gaps; audio linked through separate same-container ingress.
+Input normalization and finite98304-byte semantic cap can reject longer/complex clips despite technical30s decoder cap; no auto-trim/downsample to invent coverage.
+No new codecs, native video upload/streaming, live capture, device controls, social sends, accounts, production or private memories.
+Only OpenAI-compatible native image/input_audio wire shape implemented; live API/vendor compatibility NOT_RUN.
+Context and request/epoch/world fencing conservatively reject unrelated concurrent revisions.
+Source erasure can invalidate broad downstream support; detached reports/privileged clones are outside managed-erasure guarantees.
+No noisy model retries; UNKNOWN requires fresh human/application review, not automatic reauthorization.
+Existing F/G/I remain bounded finite domains/pure local reviewed code, not unrestricted hands/installation.
+E12 NOT_RUN. No automatic H2, live provider qualification, production or push.

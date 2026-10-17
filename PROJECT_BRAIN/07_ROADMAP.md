@@ -6,7 +6,19 @@
 
 ---
 
-## 当前开发入口：GLOBAL_STAGE E — World Model / Real Cognition（2026-10-17）
+## 当前开发入口：GLOBAL_STAGE H1 — Semantic Grounding（2026-10-17）
+
+[源码/离线实测] H1 OFFLINE_CANDIDATE_READY，独立分支
+`dev/nana-core-h1-semantic-grounding-v1-codex`，业务/测试源20758ec。
+实际公开生成PNG/WAV/MP4→有界typed semantic proposal→原WorldModel→Concern/C，
+原F/G/I复用。32 targeted PASS；全仓1049 PASS/0 FAIL/1 SKIP(E12)。
+5实际本地SIGKILL、两48h世界、301.344s最终源码wall；显式schema13/43表，新增0。
+真实语义provider/图像识别/ASR/视频理解质量SEMANTIC_NOT_RUN；窄SYNTHETIC oracle
+不冒充真实模型。H1是Eyes/Ears基础，不开放Hands/live capture；无部署/自动push。
+当前L1/L2/B5/R045优先级及真实状态不变。下一缺口是已合法配置的public-provider
+独立质量/成本/身份验收，不自动进入H2。详见docs/nana_h1_capability_reconciliation.md。
+
+## 历史已冻结入口：GLOBAL_STAGE E — World Model / Real Cognition（2026-10-17）
 
 [用户纠偏/源码] OFFLINE_CANDIDATE_READY。上一任务局部E1–E6编号不等于总路线E；F/G/I已具备
 离线基础，本轮复用；模型transport/持久world/实际媒体decode与关注目标链已离线收口。真实semantic provider/ASR仍NOT_RUN。现场

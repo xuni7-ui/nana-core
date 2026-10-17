@@ -1,0 +1,61 @@
+{
+  "status": "PASS",
+  "components": {
+    "MediaSemanticService": {
+      "role": "decoded-media interpretation/history/grounding only",
+      "authority": "NONE_NEW"
+    },
+    "PerceptionService": {
+      "role": "existing technical observation",
+      "authority": "NONE_NEW"
+    },
+    "CognitionSession": {
+      "role": "existing bounded proposal lifecycle",
+      "authority": "NONE_NEW"
+    },
+    "WorldModel": {
+      "role": "existing sourced temporal belief revisions",
+      "authority": "NONE_NEW"
+    },
+    "WorldLoopWork": {
+      "role": "same-runtime work slices; offer concerns",
+      "authority": "NONE_NEW"
+    },
+    "ConcernService": {
+      "role": "source-backed attention opportunities",
+      "authority": "NONE_NEW"
+    },
+    "SubjectLoop": {
+      "role": "sole final Subject judgment/intention",
+      "authority": "NONE_NEW"
+    },
+    "OpenAgencyService": {
+      "role": "existing C-backed adoption/planning",
+      "authority": "NONE_NEW"
+    },
+    "Learning": {
+      "role": "existing independent trials and lessons",
+      "authority": "NONE_NEW"
+    },
+    "SelfExtension": {
+      "role": "existing reviewed pure local skills",
+      "authority": "NONE_NEW"
+    },
+    "Runtime": {
+      "role": "WHEN only; existing owner/cadence",
+      "authority": "NONE_NEW"
+    }
+  },
+  "SECOND_SUBJECT": "NO",
+  "SECOND_AGENT_LOOP": "NO",
+  "SECOND_TRUTH_STORE": "NO",
+  "MODEL_FINAL_JUDGMENT": "NO",
+  "PERCEPTION_ADOPTS_GOAL": "NO",
+  "PLANNER_HAS_WILL": "NO",
+  "MEDIA_SERVICE_HAS_WILL": "NO",
+  "LEARNING_AGENT": "NO",
+  "SKILL_ACTIVATION_MINTS_GRANT": "NO",
+  "SubjectLoop_class_count": 1,
+  "provider_worker_execute_and_recover_unchanged": true,
+  "runtime_scheduler_subject_kernel_storage_plugins_unchanged": true
+}
