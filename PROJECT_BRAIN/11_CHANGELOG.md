@@ -1422,3 +1422,10 @@ provenance仍保留，Context预算/完整冲突/隐私不放宽。post-judgment
 reservation，真实未知billing不伪装0。对用户GLOBAL E纠偏追加能力矩阵/路线口径。
 51 targeted通过（含两个26h世界、两实际SIGKILL/迁移），额外public file边界5/0.76s。
 完整回归与30min实际wall-clock进行中；真实模型/外部动作/生产/push仍0。
+
+## GLOBAL E qualification follow-up — transparent accounting / stronger history proof
+[源码/离线实测] 保留失败回归后修复：已成功PROPOSED但billing缺失时，成本未知计数不能
+变成0。新增真实HTTP回包后world revision变化的stale测试；记录每个goal的已提交
+candidate/intention/cycle/SELF_WAKE concern谱系。7/8/12→13迁移测试现在迁移非空C历史，
+验证旧Memory、全部Record IDs与已提交Cycle保留，不只验证空Store身份。targeted boundary
+7通过/0.96s，recovery7通过/1.42s，26h主/对照system2通过/16.41s。全仓库显式tests回归中。

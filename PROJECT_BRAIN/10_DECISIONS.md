@@ -588,3 +588,15 @@ CALLING；超时/中断UNKNOWN不自动重发；epoch/source/subject/goal/world 
 并入原Runtime resource projection与前台保留份额，未知usage/cost保留未知，不伪造零账单。
 允许development13 PUBLIC非私人录制媒体的typed provenance，RealMemoryIngress仍disabled。
 FFmpeg仅只读系统运行库+单次输入sandbox，无宿主Store/private目录/网络；不新增真实执行权。
+
+## D-WORLD-004 — bounded provenance/context and cost uncertainty
+[2026-10-17 / GLOBAL E / implementation decision]
+Full Record dependencies preserve causal deletion, but do not require every transitive
+support memory to be copied as mandatory model input. The original ContextAssembler
+pins at most two concise relevant sources for planner/code roles, retains complete
+contradiction bundles and hard scope/privacy/token limits; role input's source record
+remains a dependency. Model-visible citations are still limited to actual selected
+context. Committed C judgment followed by failed context/provider realization is parked,
+not silently retried on every Runtime step. No assertion of stronger model cognition.
+Successful transport without billing remains cost UNKNOWN; known-charge sum plus the
+explicit unknown counter is not total real billing. No live pricing qualification yet.

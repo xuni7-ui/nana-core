@@ -89,3 +89,29 @@ else:raise AssertionError('nonregular file admitted')
 """
     child=subprocess.run([sys.executable,'-c',script,str(root)],capture_output=True,timeout=3)
     assert child.returncode==0,child.stderr.decode()
+
+
+def test_completed_reply_without_billing_stays_unknown_cost(tmp_path):
+    from nana_core.presence.resources import resource_state
+    with fresh(tmp_path/'s'/'self.db') as r,provider_harness() as (transport,state):
+        original=transport.exchange
+        transport.exchange=lambda request:original(request).model_copy(update={'cost_micro':None,'billing':'UNKNOWN'})
+        session=CognitionSession(r,transport,policy());mid=capture(r,'unpriced',{'data':'public observation'})
+        cid=session.prepare('unpriced','INTERPRET',(mid,));assert session.execute(cid)['state']=='PROPOSED'
+        assert resource_state(r.store,r.config).unknown_cost_calls==1
+        assert r.store.one('cognitive_requests',cid)['actual_cost_micro'] is None
+
+
+def test_world_change_invalidates_actual_http_reply_without_new_subject_cycle(tmp_path):
+    from nana_core.continuity.world_loop.cognition import CognitionRequest
+    with fresh(tmp_path/'s'/'self.db') as r,provider_harness() as (transport,state):
+        mid=capture(r,'frozen-input',{'data':'public observation'});session=CognitionSession(r,transport,policy())
+        cid=session.prepare('frozen','INTERPRET',(mid,));row=r.store.one('cognitive_requests',cid)
+        request=CognitionRequest.model_validate_json(canonical(session.records.read(row['record_id'])['payload']['request']))
+        with r.store.transaction('test.calling') as tx:tx.update('cognitive_requests',cid,state='CALLING')
+        reply=transport.exchange(request);revision=r.subject.revision
+        source=capture(r,'changed-world',{'world_claim':SourcedClaim(entity_id='device',predicate='availability',value='changed',kind='RAW_OBSERVATION',valid_from_us=r.clock.utc_now_us()).model_dump(mode='json')})
+        WorldModel(r.store,scopes=('world',),privacy_classes=('PUBLIC',)).ingest(source)
+        assert r.subject.revision==revision
+        assert session.accept(cid,reply)['state']=='STALE' and state['calls']==1
+        assert not r.store.db.execute("SELECT 1 FROM continuity_records WHERE record_kind='COGNITION_PROPOSAL'").fetchone()

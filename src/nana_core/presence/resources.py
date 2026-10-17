@@ -34,7 +34,7 @@ def resource_state(store,config):
     latencies.extend(r['latency_us'] for r in world if r['latency_us'] is not None)
     return ResourceState(calls=len(rows)+len(world),reserved_bytes=rb,actual_input_bytes=sum(r['input_bytes'] or 0 for r in [*rows,*world]),actual_output_bytes=sum(r['output_bytes'] or 0 for r in [*rows,*world]),
         reserved_estimated_cost_micro=cost,actual_cost_micro=sum(r['actual_cost_micro'] or 0 for r in [*rows,*world]),background_reserved_bytes=sum(r['reserved_bytes'] for r in rows if r['lane']=='BACKGROUND')+sum(r['reserved_bytes'] for r in world),
-        byte_limit=limits[0],estimated_cost_limit_micro=limits[1],pressure=pressure,unresolved_calls=sum(r['state'] in {'RESERVED','UNKNOWN'} for r in rows)+sum(r['state'] in {'CALLING','UNKNOWN'} for r in world),unknown_cost_calls=sum(r['actual_cost_micro'] is None and r['state'] in {'CALLING','UNKNOWN','FAILED'} for r in world),max_observed_latency_us=max(latencies) if latencies else None)
+        byte_limit=limits[0],estimated_cost_limit_micro=limits[1],pressure=pressure,unresolved_calls=sum(r['state'] in {'RESERVED','UNKNOWN'} for r in rows)+sum(r['state'] in {'CALLING','UNKNOWN'} for r in world),unknown_cost_calls=sum(r['actual_cost_micro'] is None and r['state'] in {'CALLING','UNKNOWN','FAILED','PROPOSED','REJECTED'} for r in world),max_observed_latency_us=max(latencies) if latencies else None)
 
 
 def allocation_reason(store,config,row):

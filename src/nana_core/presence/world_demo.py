@@ -164,7 +164,18 @@ def run_world(directory,*,variant=0,hours=26):
         records=RecordService(r.store);goals=r.store.all('goals');belief=world.view('device','available')
         blocks=[records.read(x['record_id'])['payload'] for x in r.store.db.execute("SELECT * FROM continuity_records WHERE record_kind='CONSTRAINT_OUTCOME' AND lifecycle='ACTIVE'")]
         outcomes=[c for c in blocks if c['result']=='BLOCK']
-        checks.update({'self_originated_goals':len(goals)>=3,'goals_from_c_not_direct_insert':all(g['goal_key'].startswith('open:') for g in goals),'multiple_goals_coexist':any(sum(s in {'ACTIVE','BLOCKED'} for s in snap['goals'].values())>=2 for snap in priority_samples),
+        lineage=[]
+        for goal in goals:
+            adopted=records.read(json.loads(goal['body_json'])['record_id'])['payload']
+            candidate=r.store.one('subject_goal_candidates',adopted['candidate_id'])
+            intention=r.store.one('subject_intentions',candidate['intention_id'])
+            source=r.store.one('subject_events',intention['subject_event_id'])
+            source_input=records.read(source['record_id'])['payload']['input']
+            cycle=r.store.db.execute('SELECT cycle_id FROM subject_cycles WHERE subject_event_id=?',(source['subject_event_id'],)).fetchone()
+            lineage.append({'goal_id':goal['goal_id'],'candidate_id':candidate['candidate_id'],'intention_id':intention['intention_id'],'cycle_id':cycle[0] if cycle else None,'source_origin':source_input['origin'],'concern_id':source_input.get('world_concern_id')})
+        reports['goal_lineage']=lineage
+        checks['goals_have_committed_c_lineage']=all(x['cycle_id'] and x['concern_id'] and x['source_origin']=='SELF_WAKE' for x in lineage)
+        checks.update({'self_originated_goals' :len(goals)>=3,'goals_from_c_not_direct_insert':all(g['goal_key'].startswith('open:') for g in goals),'multiple_goals_coexist':any(sum(s in {'ACTIVE','BLOCKED'} for s in snap['goals'].values())>=2 for snap in priority_samples),
             'self_rest':any(t['behavior']=='REST' for t in trajectory),'self_exploration':any(t['behavior']=='EXPLORE' for t in trajectory),'new_interest':bool(r.work.world.concerns.view()),'abandoned_low_value':any(g['state']=='ABANDONED' for g in goals),'background_preempted':foreground,'background_resumed':resumed,'learning_reused':learned_checked if not variant else 'NOT_APPLICABLE_NO_FAILURE_LESSON_SELECTED','skill_need_detected':bool(skill_used),'busy_keeps_desire':busy,'manager_blocks_without_rewriting_will':bool(outcomes),'no_social_delivery':not any(a['capability']=='world.contact' and a['state']=='SUCCEEDED' for a in r.store.all('actions')),'revoked_not_executed':not any(a['resource']=='synthetic://revoked' and a['state']=='SUCCEEDED' for a in r.store.all('actions')),'bounded_model_calls':metrics['calls']<=48,'bounded_hot_concerns':len(r.store.all('open_concerns'))<=16,'bounded_pending_intentions':len(r.subject.pending('world'))<=8})
         app=r.application(providers=codec_providers()).session(FrontendPolicy(context=context_policy(),entity_id='observer',commands=()))
         view=json.loads(app.view('WORLD_LOOP',scope='world').data_json);checks['frontend_actual_world']=bool(view['beliefs']) and bool(view['concerns'])

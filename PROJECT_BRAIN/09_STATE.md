@@ -1156,3 +1156,9 @@ F/G/I V1基础复用；不重造九阶段/skill lifecycle。当前分支仍继�
 同一C关注/目标；source world revision可replan。最终全量/实际wall soak待完成，不预称READY。
 
 nana_world_loop_m3 manifest SHA256 bd1950dd02a229558426e48ece1b7836af7e9af8173c90f2373262407a36c5e0.
+
+[GLOBAL E / qualification] 缺失billing的成功模型回包保持UNKNOWN成本；world change可
+使已返回的旧HTTP proposal失效。加强非空7/8/12迁移与goal C谱系验收。完整回归/30min
+实际runtime仍进行中，最终状态待证据收口。
+
+nana_world_loop_m4 manifest SHA256 132399cf67a224990ff8a4127e8c86eeca4db674835819e9e6708c275b7d0e1e.

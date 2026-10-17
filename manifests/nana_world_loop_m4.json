@@ -1,0 +1,11 @@
+{
+  "scope": "OFFLINE_DEVELOPMENT",
+  "files": {
+    "PROJECT_BRAIN/10_DECISIONS.md": "eedb35b4ea0d6d142cd56fd6f3f1a4f23181d75871f491fb4b77a3fd8482a9bb",
+    "PROJECT_BRAIN/11_CHANGELOG.md": "e3e8af5555c06b79c390591209d8243e33673a284a52f9b4554372230f2073d5",
+    "src/nana_core/presence/resources.py": "129a35078ed61bf772108268b41075048de70d82e21b4531eac79542c9e19b36",
+    "src/nana_core/presence/world_demo.py": "8b267ecb7e1727cc3d02d65a5cb233569bc1d101fb8f143cffddba08abbfe0ab",
+    "tests/world_loop/test_boundaries.py": "348df50d5654b537289220bf782fa456e887a7989fe3965b5a78560c9b2fc41f",
+    "tests/world_loop/test_recovery.py": "c10dc368e70ada695dfd6e617297e66e3c8ba8f680612e7d0d87c11ec8bf290c"
+  }
+}

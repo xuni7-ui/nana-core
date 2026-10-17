@@ -32,9 +32,21 @@ def test_actual_sigkill_correlation_and_single_adopted_goal(tmp_path,cut):
 @pytest.mark.parametrize('version',[7,8,12])
 def test_forward_v13_with_old_ids_and_legacy_replay(tmp_path,version):
     path=tmp_path/'s'/'self.db'
-    with ContinuityStore(path,VirtualClock(),schema_target=version) as s:identity=s.identity['identity_id'];events=len(s.all('events'))
+    with ContinuityStore(path,VirtualClock(),schema_target=version) as s:
+        from nana_core.actions import OperatorAuthority
+        from nana_core.continuity.memory import MemoryService
+        from nana_core.continuity.contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
+        from nana_core.continuity.subject import SubjectLoop,SubjectInput
+        from nana_core.continuity import IdentityService
+        IdentityService(s,OperatorAuthority());memory=MemoryService(s);memory.entity('observer','PERSON')
+        eid=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.migration',source_reference='old-history',source_kind='DIRECT_OBSERVATION'),text='Existing public development history',privacy_class='PUBLIC',observed_time_us=s.clock.utc_now_us()))
+        mid=memory.add(MemoryCandidate(entity_id='observer',scope='world',memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',source_evidence_id=eid,text='Existing public development history'))
+        cycle=SubjectLoop(s,scopes=('world',)).run(SubjectInput(source_key='synthetic.old-history',kind='WAKE',origin='SELF_WAKE',entity_id='observer',scope='world',source_memory_ids=(mid,),privacy_class='PUBLIC',observed_at_us=s.clock.utc_now_us()))
+        identity=s.identity['identity_id'];events=len(s.all('events'));prior_record_ids={r['record_id'] for r in s.all('continuity_records')}
     with ContinuityStore(path,VirtualClock(),schema_target=13) as s:
         assert s.identity['identity_id']==identity and len(s.all('events'))==events
+        assert s.one('subject_cycles',cycle.cycle_id) and prior_record_ids=={r['record_id'] for r in s.all('continuity_records')}
+        assert MemoryService(s).read(mid)['text']=='Existing public development history' 
         assert not s.db.execute('PRAGMA foreign_key_check').fetchall()
         assert s.db.execute("SELECT count(*) FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'").fetchone()[0]==43
         s.replay(tmp_path/'replay'/'self.db')
