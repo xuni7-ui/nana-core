@@ -1548,3 +1548,29 @@ H1 OFFLINE_CANDIDATE_READY保持；历史1049/0/1、focused32、5 SIGKILL不重�
 源码/schema13/43表/权限/Runtime/SubjectLoop不变。E12/real ASR/OCR/quality/capture/Hands
 仍NOT_RUN；无生产/main/R045/私人数据/外部action/push。报告及证据见
 `docs/nana_h1_live_semantic_provider_readiness.md`和同名evidence目录。
+
+## H1-LIVE TianToken — PARTIAL_PROVIDER_QUALIFICATION（2026-10-17）
+[实测/开发真实relay调用 + 本地核验] 当前分支dev/nana-core-h1-live-semantic-provider-v1-codex，
+base c3cd0017。用户明确授权临时凭据及TianToken；公开/api/status链接到官方Apifox文档，
+确认https://api.tiantoken.com/v1/chat/completions，Bearer；不是猜测endpoint。
+请求/返回model=qwen3.8-flash；UPSTREAM_IDENTITY=RELAY_CLAIMED_UNVERIFIED，非永久默认。
+实际9请求（models1/text1/image6/video-visual1），MEDIA3 PROPOSED/1 strict格式FAILED/
+3 UNKNOWN超时，未知call key不重发。OCR同一生成字符串两次正确；shape结果有缺项。
+视频/视觉注入无已接收响应，LIVE质量/攻击guard NOT_RUN，不升级为全面资格PASS。
+已接收真实解释→MODEL_DERIVATION Memory→原WorldModel→有来源的本地实验review/Concern
+→唯一原C，WATCH/BACKGROUND_WATCH/NO_ACTION；0 Action/Grant/adopted Goal。
+本地真实payload变异关联/model/authority拒绝，stale/deleted为STALE；独立进程重开同identity，
+不回调provider/不重复C，删除传播后不从audit复活正文。控制CALLING cut不是live SIGKILL。
+同序号不同观察顺序导致实验调用方predicate冲突，Core保持CONFLICT；新调用方用request scope，
+旧历史不改。独立像素定位来源补充一条缺region解释，未虚构错误OCR或强制truth winner。
+HTTP观测新增允许字段DTO，旧reply缺字段时原digest不变；schema13/43表/新增0，依赖不变。
+full1060/0/1(E12)，focused42 PASS；另一次focused出现1次既有FFmpeg sandbox非零退出，
+原因UNKNOWN；不改decoder边界，单独2-case及focused42复核通过，失败记录保留。
+relay usage已返回部分token/cost字段，实际费用单位/结算未知，ACTUAL_COST=UNKNOWN。
+业务代码唯一改动为HTTP观测；其它仅qualification工具/测试/文档。临时凭据不写仓库/日志。
+无H2/Hands/capture/生产/main/R045/私人数据/真实外部action/social send；E12 NOT_RUN。
+报告：docs/nana_h1_live_semantic_provider_qualification.md；证据：同名provider_evidence目录。
+
+[H1-LIVE collector follow-up / failure→fix] Timeout行不得引用上一条completed envelope的
+usage/ID。修复实验收集器并保留回归，删除UNKNOWN行不相关metadata；Core没有复用/接收
+旧响应。最终11新增guard PASS；完整1060 PASS/0 FAIL/1 SKIP(E12),151.84s。

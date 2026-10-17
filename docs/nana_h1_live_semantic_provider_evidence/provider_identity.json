@@ -1,21 +1,45 @@
 {
-  "evidence_class": "CURRENT_MANAGED_CONFIGURATION_OBSERVATION",
-  "observed_date_utc": "2026-10-17",
-  "observations_current": true,
-  "observed_spec_revision": "204",
-  "network_policy": {
-    "mode": "unrestricted",
-    "state": "enforced"
-  },
-  "capabilities": [],
-  "secrets": [],
-  "runtime_variables": [],
-  "outbound_identities": [],
-  "explicit_provider_supplied_in_task": false,
-  "provider_id": null,
-  "requested_model_id": null,
-  "returned_model_id": null,
-  "endpoint_class": null,
-  "status": "BLOCKED_NO_CONFIGURED_PROVIDER",
-  "scope": "No configured provider established by task or managed configuration. No process environment dump, credential search, secret file inspection, provider probe, or production access."
+  "provider": "TianToken",
+  "user_confirmed_name": "词元流域",
+  "observed_public_site_brand": "词元流墟",
+  "domain": "api.tiantoken.com",
+  "site": "https://api.tiantoken.com/",
+  "pricing_page": "https://api.tiantoken.com/pricing",
+  "base_url": "https://api.tiantoken.com/v1",
+  "endpoint": "https://api.tiantoken.com/v1/chat/completions",
+  "protocol": "OpenAI-compatible non-streaming Chat Completions / JSON object + image_url",
+  "auth_format": "Bearer (credential never recorded)",
+  "confirmation_chain": [
+    {
+      "url": "https://api.tiantoken.com/api/status",
+      "source": "Live public site configuration",
+      "fields": {
+        "server_address": "https://api.tiantoken.com",
+        "api_info_url": "https://api.tiantoken.com",
+        "docs_link": "https://tokenmarket.apifox.cn"
+      }
+    },
+    {
+      "url": "https://tokenmarket.apifox.cn/502442100e0",
+      "source": "Provider-linked official docs via web indexed page; direct Apifox root fetch503",
+      "documented_method": "POST",
+      "documented_endpoint": "https://api.tiantoken.com/v1/chat/completions",
+      "documented_auth": "Authorization: Bearer"
+    },
+    {
+      "url": "https://tokenmarket.apifox.cn/502442067e0",
+      "source": "Provider-linked official chat/multimodal examples"
+    }
+  ],
+  "requested_model": "qwen3.8-flash",
+  "returned_models": [
+    "qwen3.8-flash"
+  ],
+  "model_route_match": true,
+  "claimed_upstream_provider": "Qwen/Alibaba Cloud model branding, not authenticated upstream",
+  "claimed_upstream_model": "qwen3.8-flash",
+  "upstream_identity_verification": "RELAY_CLAIMED_UNVERIFIED",
+  "permanent_default": false,
+  "qualification_only": true,
+  "model_capability_officially_verified": false
 }

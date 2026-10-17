@@ -667,3 +667,26 @@ authority. Preserve offline H1; live controls/quality/ASR/E12 remain NOT_RUN.
 No credential search, speculative integration, schema/source change or push.
 Native provider IDs/raw response fingerprints and independent quality fixtures
 remain required before a future explicitly configured live qualification.
+
+## D-H1-LIVE-002 — capabilities route to replaceable ports, not one permanent model
+[用户裁决/2026-10-17] Nana Core uses capability-specific ports for text/reasoning,
+vision, audio understanding, ASR, TTS, embedding, image generation, video and future
+capabilities. Each may configure primary/fallback providers/models. Future settings
+include provider/protocol/base URL/secret reference/model/capability mapping,
+primary/fallback/timeout/budget/privacy. This task freezes the decision only, not
+new Provider Registry/UI. Existing B9 ports remain assets. TianToken and
+qwen3.8-flash are qualification-only; permanent default=NO. Exact-model experiments
+never silently switch to fallback. Audio/ASR deferred, no omni substitution.
+
+## D-H1-LIVE-003 — real relay output remains revisable, and partial is not READY
+[实测/2026-10-17] User configuration supersedes missing-provider configuration at
+c3cd0017, not the original stop's historical validity. Official linked endpoint,
+exact requested/returned alias and native IDs/digests are recorded. Upstream remains
+RELAY_CLAIMED_UNVERIFIED.9 relay requests: MEDIA3 accepted,1 schema failure,
+3 unknown; no unknown retry. Accepted sources remain MODEL_DERIVATION and C alone
+judges. Local payload mutations/recovery are not live visual injection or SIGKILL.
+Partial video/latency/schema quality cannot become H2/production/E12 readiness.
+Provider usage.cost without confirmed units is not a known actual bill.
+Ordinal model observations are not stable semantic identity: qualification caller
+uses per-request predicates; existing conflicting history is retained. Optional
+HTTP measurements preserve old absent-field canonical reply hashes, no migration.

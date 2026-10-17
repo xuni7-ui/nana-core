@@ -1,0 +1,15 @@
+{
+  "color_contrast": [
+    "FAILED_STRICT_FORMAT",
+    "ACCEPTED_PARTIAL_RUBRIC"
+  ],
+  "ocr": [
+    "ACCEPTED_ORBIT27",
+    "ACCEPTED_ORBIT27"
+  ],
+  "video": "NOT_RUN_REPEAT_AFTER_UNKNOWN_FORBIDDEN",
+  "injection": "NOT_RUN_REPEAT_AFTER_UNKNOWN_FORBIDDEN",
+  "cross_response_atom_order": "Unstable: different kinds at ordinal0. Not a canonical semantic identity. Existing conflict retained; future caller uses request-scoped predicate.",
+  "wrong_source_or_model_in_accepted_reply": false,
+  "response_reuse": "Distinct request IDs and response IDs on received cases; old key execution returns replayed without network."
+}

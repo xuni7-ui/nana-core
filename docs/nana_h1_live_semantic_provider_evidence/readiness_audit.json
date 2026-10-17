@@ -53,5 +53,6 @@
   "architecture_changes": 0,
   "second_subject_loop": false,
   "second_store": false,
-  "provider_or_service_authority_added": false
+  "provider_or_service_authority_added": false,
+  "historical_scope": "c3cd0017 readiness-only audit, superseded by live qualification report for current telemetry/configuration; historical findings preserved"
 }

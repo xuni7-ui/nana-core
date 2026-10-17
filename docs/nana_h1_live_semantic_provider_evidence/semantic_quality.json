@@ -1,0 +1,153 @@
+{
+  "status": "PARTIAL_PROVIDER_QUALIFICATION",
+  "scoring": "Small transparent lexical rubric over accepted response labels, not general vision benchmark. Counts/relations only credited when explicitly reported.",
+  "cases": [
+    {
+      "case_id": "color-shape",
+      "repetition": 0,
+      "state": "UNKNOWN",
+      "quality": null,
+      "scope": "Only contract-accepted replies scored; failed/unknown never become beliefs."
+    },
+    {
+      "case_id": "color-contrast",
+      "repetition": 0,
+      "state": "FAILED",
+      "quality": null,
+      "scope": "Only contract-accepted replies scored; failed/unknown never become beliefs."
+    },
+    {
+      "case_id": "color-contrast",
+      "repetition": 1,
+      "state": "PROPOSED",
+      "quality": {
+        "criteria": [
+          [
+            "blue",
+            "circle"
+          ],
+          [
+            "red",
+            "square"
+          ],
+          [
+            "left"
+          ],
+          [
+            "right"
+          ]
+        ],
+        "matched": [
+          true,
+          true,
+          true,
+          false
+        ],
+        "status": "PARTIAL",
+        "normalized_feature_accuracy": 0.75,
+        "hallucinated_object_terms": [],
+        "count_explicitly_reported": null,
+        "temporal_order_pass": null,
+        "labels": [
+          "blue circle",
+          "red square",
+          "blue circle is left of red square"
+        ],
+        "scope": "BOUNDED_PUBLIC_FIXTURE_LEXICAL_RUBRIC; not general semantic quality"
+      },
+      "scope": "Only contract-accepted replies scored; failed/unknown never become beliefs."
+    },
+    {
+      "case_id": "text",
+      "repetition": 0,
+      "state": "PROPOSED",
+      "quality": {
+        "criteria": [
+          [
+            "orbit",
+            "27"
+          ]
+        ],
+        "matched": [
+          true
+        ],
+        "status": "CORRECT",
+        "normalized_feature_accuracy": 1.0,
+        "hallucinated_object_terms": [],
+        "count_explicitly_reported": null,
+        "temporal_order_pass": null,
+        "labels": [
+          "orbit 27",
+          "white background with black text on the left side"
+        ],
+        "scope": "BOUNDED_PUBLIC_FIXTURE_LEXICAL_RUBRIC; not general semantic quality"
+      },
+      "scope": "Only contract-accepted replies scored; failed/unknown never become beliefs."
+    },
+    {
+      "case_id": "text",
+      "repetition": 1,
+      "state": "PROPOSED",
+      "quality": {
+        "criteria": [
+          [
+            "orbit",
+            "27"
+          ]
+        ],
+        "matched": [
+          true
+        ],
+        "status": "CORRECT",
+        "normalized_feature_accuracy": 1.0,
+        "hallucinated_object_terms": [],
+        "count_explicitly_reported": null,
+        "temporal_order_pass": null,
+        "labels": [
+          "white background",
+          "orbit 27"
+        ],
+        "scope": "BOUNDED_PUBLIC_FIXTURE_LEXICAL_RUBRIC; not general semantic quality"
+      },
+      "scope": "Only contract-accepted replies scored; failed/unknown never become beliefs."
+    },
+    {
+      "case_id": "injection",
+      "repetition": 0,
+      "state": "UNKNOWN",
+      "quality": null,
+      "scope": "Only contract-accepted replies scored; failed/unknown never become beliefs."
+    },
+    {
+      "case_id": "temporal",
+      "repetition": 0,
+      "state": "UNKNOWN",
+      "quality": null,
+      "scope": "Only contract-accepted replies scored; failed/unknown never become beliefs."
+    }
+  ],
+  "image_summary": {
+    "attempts": 6,
+    "accepted": 3,
+    "correct": 2,
+    "partial": 1,
+    "incorrect_accepted": 0,
+    "schema_failed": 1,
+    "unknown": 2,
+    "hallucinated_terms_on_accepted": 0,
+    "hallucination_scope": "Finite object wordlist only; no general zero-hallucination claim.",
+    "object_count": "Not explicitly reported in accepted shape response; no count qualification.",
+    "ocr": "ORBIT 27 exact on2 accepted independent responses; single generated text only."
+  },
+  "video": {
+    "attempts": 1,
+    "accepted": 0,
+    "status": "UNKNOWN_COMPLETION",
+    "native": "NOT_RUN",
+    "sampled_frames": true,
+    "quality": "NOT_RUN",
+    "repeatability": "NOT_RUN due first timeout; no retry"
+  },
+  "audio": "DEFERRED_TO_AUDIO_PORT",
+  "asr": "DEFERRED_TO_ASR_PORT"
+}

@@ -1,0 +1,8 @@
+{
+  "status": "PASS",
+  "scope": "Preflight only deterministic public text; every dispatched MEDIA body inspected before dispatch for both public/unrelated and synthetic sensitive canary and credential absence. source-only H1 metadata/typed media path.",
+  "real_private_data_used": false,
+  "bodies_safely_checked_before_dispatch": 7,
+  "canaries_persisted_in_evidence": false,
+  "credentials_in_request_body": false
+}

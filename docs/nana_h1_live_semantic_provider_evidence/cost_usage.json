@@ -1,0 +1,29 @@
+{
+  "actual_cost": "UNKNOWN",
+  "cost_source": "Relay usage.cost field is a claim without confirmed unit/currency/settlement semantics; never replaced with official upstream pricing.",
+  "reported_usage_input_tokens": 12590,
+  "reported_usage_output_tokens": 8605,
+  "reported_usage_response_count": 5,
+  "usage_for_unknown_calls": "UNKNOWN",
+  "relay_reported_cost_values": [
+    3.08529e-05,
+    1e-05,
+    1e-05,
+    3.95256e-05,
+    1e-05
+  ],
+  "currency": null,
+  "ledger_ceiling_micro_per_media_call": 10000,
+  "ledger_is_estimate_not_actual_price": true,
+  "max_relay_requests": 12,
+  "actual_relay_requests": 9,
+  "models_get_included_in_cap": true,
+  "max_audio_calls": 0,
+  "max_asr_calls": 0,
+  "max_request_bytes": 196608,
+  "max_media_output_tokens_after_first_unknown": 2048,
+  "first_unknown_output_token_ceiling": 4096,
+  "billing_unknown_calls": 3,
+  "billing_status_for_all_inferences": "ACTUAL_COST_UNKNOWN",
+  "retries_after_unknown": 0
+}

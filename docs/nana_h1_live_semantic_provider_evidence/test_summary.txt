@@ -1,4 +1,7 @@
-This audit ran no pytest, provider, synthetic harness, process soak or SIGKILL.
-Historical H1 anchor f6aabc3c8e8712b811540764a3937cc9283861af: full1049 passed /0 failed /1 skipped(E12); H1 focused32 passed;5 SIGKILL PASS.
-These are inherited results, not H1-LIVE qualification.
-Validation for this documentation-only change: diff whitespace, allowlisted paths, secret/artifact pattern scan and manifest fingerprints.
+Final offline full repository:1060 passed /0 failed /1 skipped(E12),151.84s. Earlier full1059 passed.
+Initial focused:42 passed,22.89s.
+Post-full focused:41 passed /1 failed (ffmpeg sandbox nonzero, MEDIA_MALFORMED_OR_UNSUPPORTED); no decoder changes.
+Isolated life2 recheck:2 passed,10.33s. Final new wire/collector guards11 PASS; prior full focused42 recheck PASS. Final new-guard JUnit:{'tests': 11.0, 'failures': 0.0, 'errors': 0.0, 'skipped': 0.0, 'time': 1.288}
+Keyless separate-process checks PASS;0 provider calls,1 existing C cycle,0 Action/Grant/adopted Goal; second keyless rerun PASS.
+Provider calls9 including models GET and text probe; MEDIA7:3 PROPOSED,1 strict-format FAILED,3 UNKNOWN. No blind retry.
+Live tests never run from pytest. Public fixture generation only. No semantic accuracy credit for local mutation tests.

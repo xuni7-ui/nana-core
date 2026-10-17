@@ -1,0 +1,106 @@
+{
+  "status": "PASS",
+  "subject": {
+    "cycle_id": "8081c89d-9253-49bf-b7ec-e678d761721c",
+    "judgment": "WATCH",
+    "attention": "BACKGROUND_WATCH",
+    "barrier": "NO_ACTION",
+    "subject_can_choose_no_action": true,
+    "detail": "Derived input/intention body erased with source; opaque audit columns only, no resurrection."
+  },
+  "guards": {
+    "correlation": "REJECTED",
+    "model_identity": "REJECTED",
+    "authority_fields": "REJECTED",
+    "stale": "STALE",
+    "interrupted": "UNKNOWN",
+    "deleted": "STALE"
+  },
+  "stronger_evidence": {
+    "method": "Independent deterministic generator/actual pixel bounds",
+    "region": [
+      0.064453125,
+      0.39375,
+      0.259765625,
+      0.49375
+    ],
+    "old_model_belief_id": "0061ec52-e8ce-4b7e-b2c0-6acfb482dd49",
+    "correction_memory_id": "81d9688e-df3e-4e36-a3d2-d8caa4ec0c17",
+    "current_view": {
+      "entity_id": "device",
+      "predicate": "live.case.1.0",
+      "state": "CONFLICT",
+      "alternatives": [
+        {
+          "belief_id": "cf4c386c-0b5a-4098-928a-fc4a1693203a",
+          "revision": 3,
+          "kind": "RAW_OBSERVATION",
+          "value": {
+            "kind": "TEXT_REGION",
+            "label": "ORBIT 27",
+            "region": [
+              0.064453125,
+              0.39375,
+              0.259765625,
+              0.49375
+            ],
+            "span": [
+              0.0,
+              0.0
+            ]
+          },
+          "confidence": 1.0,
+          "event_time_us": 1791590400000000,
+          "valid_from_us": 1791590400000000,
+          "known_at_us": 1791590400000000
+        },
+        {
+          "belief_id": "2afac801-a995-4548-9b39-49c666223003",
+          "revision": 2,
+          "kind": "MODEL_BELIEF",
+          "value": {
+            "kind": "SCENE",
+            "label": "White background",
+            "region": [
+              0.0,
+              0.0,
+              1.0,
+              1.0
+            ],
+            "span": [
+              0.0,
+              0.0
+            ]
+          },
+          "confidence": 1.0,
+          "event_time_us": 1791590400000000,
+          "valid_from_us": 1791590400000000,
+          "known_at_us": 1791590400000000
+        }
+      ],
+      "support_records": [
+        "07eeb3fb-5683-4d15-8f06-3c2ed902a798",
+        "9ad66715-c2a7-425b-a19b-42bcdb2bf5aa"
+      ],
+      "as_of_valid_us": 1791590431000000,
+      "as_of_known_us": 1791590431000000,
+      "projection": true
+    },
+    "scope": "Refines missing precise region. No factual OCR error claimed. Original response provenance retained. Existing repeat replies placed different observation kinds at ordinal0; this caller binding leaves an explicit CONFLICT, not a forced truth winner. Future qualification calls use per-request predicates."
+  },
+  "separate_process_reopen": true,
+  "same_identity": true,
+  "no_duplicate_judgment": true,
+  "no_duplicate_provider_call_on_restart": true,
+  "deleted_source_not_revived": true,
+  "counts": {
+    "actions": 0,
+    "grants": 0,
+    "goals": 0,
+    "subject_cycles": 1,
+    "business_tables": 43
+  },
+  "real_provider_calls_in_this_command": 0,
+  "calling_cut": "CONTROLLED_LOCAL_STATE, NOT_A_LIVE_CALL_INTERRUPTION",
+  "authority_attack": "LOCAL_MUTATION_OF_REAL_REPLY, not completed live visual injection"
+}

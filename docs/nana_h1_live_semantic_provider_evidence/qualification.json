@@ -1,71 +1,67 @@
 {
   "global_stage": "H",
   "workstream": "H1_LIVE_SEMANTIC_PROVIDER_QUALIFICATION",
-  "status": "BLOCKED_NO_CONFIGURED_PROVIDER",
-  "base": "f6aabc3c8e8712b811540764a3937cc9283861af",
-  "audit_kind": "SOURCE_READINESS_ONLY",
-  "source_modified": false,
+  "status": "PARTIAL_PROVIDER_QUALIFICATION",
+  "base": "c3cd0017d2dd88169a7993905c29ff0844183967",
+  "provider": "TianToken",
+  "requested_model": "qwen3.8-flash",
+  "upstream_identity": "RELAY_CLAIMED_UNVERIFIED",
+  "real_provider_calls": 9,
+  "real_inference_calls": 8,
+  "models_get": 1,
+  "states": {
+    "UNKNOWN": 3,
+    "FAILED": 1,
+    "PROPOSED": 3
+  },
+  "qualified_capabilities": [
+    "TEXT_TRANSPORT_ON_ONE_PROBE",
+    "IMAGE_GROUNDING_ON_3_ACCEPTED_PUBLIC_RESPONSES"
+  ],
+  "image_quality": "PARTIAL_BOUNDED_FIXTURES",
+  "video_quality": "NOT_RUN_TIMEOUT_UNKNOWN",
+  "live_visual_injection": "NOT_RUN_TIMEOUT_UNKNOWN",
+  "audio": "DEFERRED_TO_AUDIO_PORT",
+  "asr": "DEFERRED_TO_ASR_PORT",
   "schema": 13,
   "business_tables": 43,
   "new_tables": 0,
-  "schema_count_evidence": "Inherited H1 qualification.json; no schema changes or database opened in this audit.",
-  "real_provider_calls": 0,
-  "live_call_budget": {
-    "max_total_calls": 0,
-    "max_calls_per_modality": {
-      "IMAGE": 0,
-      "AUDIO": 0,
-      "VIDEO": 0
-    },
-    "max_outbound_bytes": 0,
-    "max_output_tokens": 0,
-    "max_authorized_cost_micro": 0,
-    "reason": "Provider prerequisite failed; no outbound inference authorized for this execution."
+  "full_regression": {
+    "tests": 1061.0,
+    "failures": 0.0,
+    "errors": 0.0,
+    "skipped": 1.0,
+    "time": 151.827,
+    "passed": 1060
   },
-  "quality": {
-    "IMAGE": "NOT_RUN",
-    "AUDIO": "NOT_RUN",
-    "ASR": "NOT_RUN",
-    "VIDEO": "NOT_RUN"
+  "final_focused": {
+    "tests": 11.0,
+    "failures": 0.0,
+    "errors": 0.0,
+    "skipped": 0.0,
+    "time": 1.288,
+    "passed": 11
   },
-  "live_controls": {
-    "privacy_canary": "NOT_RUN",
-    "authority_attack": "NOT_RUN",
-    "stale_reply_guard": "NOT_RUN",
-    "source_delete_guard": "NOT_RUN",
-    "world_grounding": "NOT_RUN",
-    "subject_no_action": "NOT_RUN",
-    "calling_recovery": "NOT_RUN",
-    "accepted_restart": "NOT_RUN",
-    "belief_restart": "NOT_RUN"
+  "prior_h1_combined_recheck": {
+    "passed": 42,
+    "seconds": 25.48
   },
-  "billing": {
-    "known_cost": null,
-    "estimated_cost": null,
-    "provider_reported_usage": null,
-    "unknown_billing_calls": 0,
-    "note": "No calls/reservations/spend; null cost is not a provider-reported zero bill."
-  },
-  "new_test_runs": 0,
-  "inherited_tests": {
-    "anchor": "f6aabc3c8e8712b811540764a3937cc9283861af",
-    "full": {
-      "passed": 1049,
-      "failed": 0,
-      "skipped": 1
-    },
-    "focused_passed": 32,
-    "sigkill_passed": 5,
-    "reexecuted": false
-  },
-  "live_capture": "NOT_RUN",
-  "hands": "NOT_RUN",
+  "collector_metadata_fix": "A timeout must not inherit prior response metadata; removed uncorrelated usage/ID from unknown row. Core never reused response; new regression passes.",
+  "additional_observed_failure": "One post-full focused run had a pre-existing ffmpeg sandbox nonzero exit in a48h case; unchanged isolated2-case and full focused42 recheck passed. Original failure retained in test summary. No decoder guard relaxed.",
+  "source_core_behavior_delta": "Optional sanitized HTTP measurement DTO; absent telemetry serializes identically for legacy reply digests. No new SubjectLoop, Runtime, schema, Store or authority.",
+  "provider_selection_blocked": false,
+  "permanent_model_default": false,
+  "real_capture": "NOT_RUN",
+  "Hands": "NOT_RUN",
   "E12": "NOT_RUN",
-  "real_external_actions": 0,
-  "real_social_sends": 0,
-  "private_user_data_reads": 0,
-  "production_changes": 0,
   "main_changes": 0,
   "R045_changes": 0,
-  "pushes": 0
+  "production_changes": 0,
+  "private_data_used": false,
+  "real_external_actions": 0,
+  "real_social_sends": 0,
+  "secret_present": true,
+  "secret_persisted": false,
+  "secret_match_count": 0,
+  "full_qualification": false
 }

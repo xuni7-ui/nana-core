@@ -6,6 +6,13 @@
 
 ---
 
+## 当前开发验收入口：H1-LIVE — PARTIAL_PROVIDER_QUALIFICATION（2026-10-17）
+[真实开发relay/本地核验] 用户配置TianToken与qwen3.8-flash，9请求，3媒体解释接受、1格式拒绝、
+3超时UNKNOWN；原C选择NO_ACTION。部分公开图像grounding，非全面live语义资格；视频/
+视觉注入未确认，audio/ASR后续独立port。完整1060/0/1，最终focused42 PASS（一次decoder
+环境失败及复核如实记录）。下一缺口为有界protocol/latency/semantic资格，不自动H2/Hands。
+不改L1/L2/B5/R045真实状态或优先级。详见docs/nana_h1_live_semantic_provider_qualification.md。
+
 ## 当前资格验证入口：H1-LIVE — BLOCKED_NO_CONFIGURED_PROVIDER（2026-10-17）
 [当前配置观测/源码审计] H1已交接的远端稳定锚点f6aabc3；本轮独立H1-LIVE分支
 仅完成readiness audit。当前managed显式provider配置为空，真实调用/预算0；按任务停止。

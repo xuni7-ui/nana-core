@@ -68,3 +68,9 @@ E12 remains independent and NOT_RUN. H2 is not automatically the next step: this
 H1-LIVE provider prerequisite is still open. No source change, real model call,
 private data, live capture, external action/social send, production/main/R045
 change or push. The old untracked R03 bundle was not read or changed.
+
+## Subsequent qualification
+The prior configuration-absence finding is historical at c3cd0017. The user later
+provided a temporary credential and confirmed TianToken; see
+`nana_h1_live_semantic_provider_qualification.md`. The live batch is PARTIAL, not
+fully qualified. HTTP measurement implementation now addresses the earlier gap.

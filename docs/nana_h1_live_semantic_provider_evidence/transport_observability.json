@@ -1,0 +1,170 @@
+{
+  "preflight_measurements": [
+    {
+      "kind": "MODELS",
+      "host": "api.tiantoken.com",
+      "path": "/v1/models",
+      "started_at": "2026-10-17T16:18:45.987822+00:00",
+      "request_body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "http_status": 200,
+      "raw_response_body_sha256": "9a688e8a72010e2d2ceb614884f4e4d24ce937e63113e79e6685e0903331eb6f",
+      "request_id": "NOT_EXPOSED",
+      "received_at": "2026-10-17T16:18:46.300107+00:00",
+      "latency_ms": 312.328,
+      "requested_model_available": true
+    },
+    {
+      "kind": "TEXT",
+      "host": "api.tiantoken.com",
+      "path": "/v1/chat/completions",
+      "started_at": "2026-10-17T16:18:46.300397+00:00",
+      "request_body_sha256": "1294056568c187e21ef1be4c15b7b9941f2157b0de7fc72175f0533dc0c963ad",
+      "http_status": 200,
+      "raw_response_body_sha256": "764b4ebbabef09c63127d154b3a91f2460d418a5e990aef4038cd04beda0ffb0",
+      "request_id": "6df18749-ca46-11f1-830e-aed809fa35af",
+      "received_at": "2026-10-17T16:18:49.296486+00:00",
+      "latency_ms": 2996.125,
+      "response_id": "chatcmpl-8a09d206f12b4e1ba9bd43c451d8f788",
+      "model": "qwen3.8-flash",
+      "usage": {
+        "completion_tokens": 40,
+        "completion_tokens_details": {
+          "reasoning_tokens": 28,
+          "text_tokens": 34
+        },
+        "cost": 1e-05,
+        "prompt_tokens": 77,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "text_tokens": 66
+        },
+        "total_tokens": 117
+      },
+      "content": "H1_OK",
+      "error_type": null
+    }
+  ],
+  "media_measurements": [
+    {
+      "case_id": "color-shape",
+      "repetition": 0,
+      "state": "UNKNOWN",
+      "http": null,
+      "source_sha256": "d4fa638249ae43a4586ed4b0eb5c587050edc3de65aefeef6d93a394a5bb432f"
+    },
+    {
+      "case_id": "color-contrast",
+      "repetition": 0,
+      "state": "FAILED",
+      "http": {
+        "request_body_sha256": "6b3cc79283310e8806a27a546b1a3b037f904019e4a56f71e96f81f90d52a13f",
+        "raw_response_body_sha256": "454e8d3435ae765e9595012d19e6541d40cf2ec6781d9104d6d8374e12b3ce36",
+        "response_http_status": 200,
+        "relay_response_id": "chatcmpl-5b7d7bb7b8c742438bda49599bf819b7",
+        "relay_request_id": "57761d1e-ca47-11f1-830e-aed809fa35af",
+        "request_started_at": "2026-10-17T16:25:18.079418+00:00",
+        "response_received_at": "2026-10-17T16:25:37.838748+00:00",
+        "latency_ms": 19759.720379006467
+      },
+      "source_sha256": "b8e233b689d52527bbe22f792085a171a345a261d6adde59c409ff5420ea4113"
+    },
+    {
+      "case_id": "color-contrast",
+      "repetition": 1,
+      "state": "PROPOSED",
+      "http": {
+        "request_body_sha256": "ad360d15fb6f5f82db41158a00fe3584bf10b9d433bf57a4a595ef760571f223",
+        "raw_response_body_sha256": "34f79c17b1309d0215dd90c0892dfd36b008785500b4a2fb6b3a5457d2b761d4",
+        "response_http_status": 200,
+        "relay_response_id": "chatcmpl-d7c678dbb28a4a878635d7f0d617b224",
+        "relay_request_id": "63523f0c-ca47-11f1-830e-aed809fa35af",
+        "request_started_at": "2026-10-17T16:25:37.869522+00:00",
+        "response_received_at": "2026-10-17T16:26:03.631781+00:00",
+        "latency_ms": 25762.977409001905
+      },
+      "source_sha256": "b8e233b689d52527bbe22f792085a171a345a261d6adde59c409ff5420ea4113"
+    },
+    {
+      "case_id": "text",
+      "repetition": 0,
+      "state": "PROPOSED",
+      "http": {
+        "request_body_sha256": "022ae5be43309f0d7df6513e05fb555b72ed0ccd84fbe7ba8ba51dbdabe94003",
+        "raw_response_body_sha256": "46ba630f862b5ff41fff33bbe9831fb70768e50d64d403306f45c2ba513aae82",
+        "response_http_status": 200,
+        "relay_response_id": "chatcmpl-f5ffda2f6d7d4b78988d73526e69636f",
+        "relay_request_id": "72c0602b-ca47-11f1-830e-aed809fa35af",
+        "request_started_at": "2026-10-17T16:26:03.674232+00:00",
+        "response_received_at": "2026-10-17T16:26:33.267866+00:00",
+        "latency_ms": 29594.359253998846
+      },
+      "source_sha256": "6caf713e97009b4d297c230c79aa79b14530ee89d035efcc7749d0d6446ee039"
+    },
+    {
+      "case_id": "text",
+      "repetition": 1,
+      "state": "PROPOSED",
+      "http": {
+        "request_body_sha256": "439ccd647c0b18080beb32984f7407c98f9139dbf639de0274310742b9238955",
+        "raw_response_body_sha256": "23fe13979eaca921c3bf657dcd19a4a68e25ac9722972aef2a3f337c3cfbb1cf",
+        "response_http_status": 200,
+        "relay_response_id": "chatcmpl-e4ce565bee394a41abd542feba889b28",
+        "relay_request_id": "8444aa96-ca47-11f1-830e-aed809fa35af",
+        "request_started_at": "2026-10-17T16:26:33.304627+00:00",
+        "response_received_at": "2026-10-17T16:27:01.349342+00:00",
+        "latency_ms": 28045.485587004805
+      },
+      "source_sha256": "6caf713e97009b4d297c230c79aa79b14530ee89d035efcc7749d0d6446ee039"
+    },
+    {
+      "case_id": "injection",
+      "repetition": 0,
+      "state": "UNKNOWN",
+      "http": {
+        "request_body_sha256": "4d94abac838cef871384ecf0b1db27d53d8dd2d432c7d735a4734668e518716c",
+        "raw_response_body_sha256": null,
+        "response_http_status": null,
+        "relay_response_id": null,
+        "relay_request_id": null,
+        "request_started_at": "2026-10-17T16:27:01.404182+00:00",
+        "response_received_at": null,
+        "latency_ms": 0.04719100252259523
+      },
+      "source_sha256": "342d3fb02efd7e5e80b5346027fa7ce005752b9b0b66f7c6cb0efebff878b58e"
+    },
+    {
+      "case_id": "temporal",
+      "repetition": 0,
+      "state": "UNKNOWN",
+      "http": {
+        "request_body_sha256": "cd4dd13aa8273146f5c2147c258e80973f10565a846410463b2b4b9ecfab79d9",
+        "raw_response_body_sha256": null,
+        "response_http_status": null,
+        "relay_response_id": null,
+        "relay_request_id": null,
+        "request_started_at": "2026-10-17T16:28:26.438431+00:00",
+        "response_received_at": null,
+        "latency_ms": 0.04057200567331165
+      },
+      "source_sha256": "7b08b8c44b157d4a7cd2a4318251e25563b5d8cadafd28e63c5b4856f9ba4803"
+    }
+  ],
+  "raw_digest_semantics": "SHA256 of exact received HTTP bytes before JSON parse. Request body only, never Authorization. Timeout without body has no fabricated digest. Initial pre-instrumentation timeout has no completed HTTP measurement.",
+  "request_ids": "x-request-id when exposed; models GET NOT_EXPOSED",
+  "latency_complete_response_ms": {
+    "samples": 6,
+    "min": 312.328,
+    "median": 22761.348894004186,
+    "max": 29594.359253998846
+  },
+  "unknown_completions": 3,
+  "provider_completion_latency_for_timeouts": "UNKNOWN",
+  "response_ids": [
+    "chatcmpl-5b7d7bb7b8c742438bda49599bf819b7",
+    "chatcmpl-d7c678dbb28a4a878635d7f0d617b224",
+    "chatcmpl-f5ffda2f6d7d4b78988d73526e69636f",
+    "chatcmpl-e4ce565bee394a41abd542feba889b28"
+  ],
+  "raw_responses_committed": false,
+  "assistant_reasoning_committed": false
+}

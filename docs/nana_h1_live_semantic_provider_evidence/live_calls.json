@@ -1,0 +1,440 @@
+{
+  "preflight": [
+    {
+      "kind": "MODELS",
+      "host": "api.tiantoken.com",
+      "path": "/v1/models",
+      "started_at": "2026-10-17T16:18:45.987822+00:00",
+      "request_body_sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "http_status": 200,
+      "raw_response_body_sha256": "9a688e8a72010e2d2ceb614884f4e4d24ce937e63113e79e6685e0903331eb6f",
+      "request_id": "NOT_EXPOSED",
+      "received_at": "2026-10-17T16:18:46.300107+00:00",
+      "latency_ms": 312.328,
+      "requested_model_available": true
+    },
+    {
+      "kind": "TEXT",
+      "host": "api.tiantoken.com",
+      "path": "/v1/chat/completions",
+      "started_at": "2026-10-17T16:18:46.300397+00:00",
+      "request_body_sha256": "1294056568c187e21ef1be4c15b7b9941f2157b0de7fc72175f0533dc0c963ad",
+      "http_status": 200,
+      "raw_response_body_sha256": "764b4ebbabef09c63127d154b3a91f2460d418a5e990aef4038cd04beda0ffb0",
+      "request_id": "6df18749-ca46-11f1-830e-aed809fa35af",
+      "received_at": "2026-10-17T16:18:49.296486+00:00",
+      "latency_ms": 2996.125,
+      "response_id": "chatcmpl-8a09d206f12b4e1ba9bd43c451d8f788",
+      "model": "qwen3.8-flash",
+      "usage": {
+        "completion_tokens": 40,
+        "completion_tokens_details": {
+          "reasoning_tokens": 28,
+          "text_tokens": 34
+        },
+        "cost": 1e-05,
+        "prompt_tokens": 77,
+        "prompt_tokens_details": {
+          "cached_tokens": 0,
+          "text_tokens": 66
+        },
+        "total_tokens": 117
+      },
+      "content": "H1_OK",
+      "error_type": null
+    }
+  ],
+  "media_attempts": [
+    {
+      "case_id": "color-shape",
+      "modality": "IMAGE",
+      "repetition": 0,
+      "request_id": "d92be5fa-4281-4427-a773-e4946dec4394",
+      "source_memory_id": "ab7d9cb3-31b7-4771-a06e-95f58ac335bc",
+      "source_sha256": "d4fa638249ae43a4586ed4b0eb5c587050edc3de65aefeef6d93a394a5bb432f",
+      "state": "UNKNOWN",
+      "error_code": "PROVIDER_TIMEOUT_BILLING_UNKNOWN",
+      "http": null,
+      "outbound_canary_absent": true,
+      "response": null
+    },
+    {
+      "case_id": "color-contrast",
+      "modality": "IMAGE",
+      "repetition": 0,
+      "request_id": "d768f40e-e83e-4ec1-8ced-6f6ad666a409",
+      "source_memory_id": "973e6bde-82ba-4be3-a3de-217f155c537b",
+      "source_sha256": "b8e233b689d52527bbe22f792085a171a345a261d6adde59c409ff5420ea4113",
+      "state": "FAILED",
+      "error_code": "PROVIDER_MALFORMED",
+      "http": {
+        "request_body_sha256": "6b3cc79283310e8806a27a546b1a3b037f904019e4a56f71e96f81f90d52a13f",
+        "raw_response_body_sha256": "454e8d3435ae765e9595012d19e6541d40cf2ec6781d9104d6d8374e12b3ce36",
+        "response_http_status": 200,
+        "relay_response_id": "chatcmpl-5b7d7bb7b8c742438bda49599bf819b7",
+        "relay_request_id": "57761d1e-ca47-11f1-830e-aed809fa35af",
+        "request_started_at": "2026-10-17T16:25:18.079418+00:00",
+        "response_received_at": "2026-10-17T16:25:37.838748+00:00",
+        "latency_ms": 19759.720379006467
+      },
+      "outbound_canary_absent": true,
+      "response": {
+        "id": "chatcmpl-5b7d7bb7b8c742438bda49599bf819b7",
+        "model": "qwen3.8-flash",
+        "usage": {
+          "completion_tokens": 1551,
+          "completion_tokens_details": {
+            "reasoning_tokens": 1068
+          },
+          "cost": 3.08529e-05,
+          "prompt_tokens": 3141,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "image_tokens": 98,
+            "text_tokens": 2594
+          },
+          "total_tokens": 4692
+        }
+      }
+    },
+    {
+      "case_id": "color-contrast",
+      "modality": "IMAGE",
+      "repetition": 1,
+      "request_id": "c7c560e3-78ca-43aa-8a83-811c38beff54",
+      "source_memory_id": "5c07ef11-8aaa-45ed-a2cb-88d066c129bb",
+      "source_sha256": "b8e233b689d52527bbe22f792085a171a345a261d6adde59c409ff5420ea4113",
+      "state": "PROPOSED",
+      "error_code": null,
+      "http": {
+        "request_body_sha256": "ad360d15fb6f5f82db41158a00fe3584bf10b9d433bf57a4a595ef760571f223",
+        "raw_response_body_sha256": "34f79c17b1309d0215dd90c0892dfd36b008785500b4a2fb6b3a5457d2b761d4",
+        "response_http_status": 200,
+        "relay_response_id": "chatcmpl-d7c678dbb28a4a878635d7f0d617b224",
+        "relay_request_id": "63523f0c-ca47-11f1-830e-aed809fa35af",
+        "request_started_at": "2026-10-17T16:25:37.869522+00:00",
+        "response_received_at": "2026-10-17T16:26:03.631781+00:00",
+        "latency_ms": 25762.977409001905
+      },
+      "outbound_canary_absent": true,
+      "response": {
+        "id": "chatcmpl-d7c678dbb28a4a878635d7f0d617b224",
+        "model": "qwen3.8-flash",
+        "usage": {
+          "completion_tokens": 2041,
+          "completion_tokens_details": {
+            "reasoning_tokens": 1340
+          },
+          "cost": 1e-05,
+          "prompt_tokens": 3127,
+          "prompt_tokens_details": {
+            "cached_tokens": 0,
+            "image_tokens": 98,
+            "text_tokens": 2582
+          },
+          "total_tokens": 5168
+        }
+      },
+      "quality": {
+        "criteria": [
+          [
+            "blue",
+            "circle"
+          ],
+          [
+            "red",
+            "square"
+          ],
+          [
+            "left"
+          ],
+          [
+            "right"
+          ]
+        ],
+        "matched": [
+          true,
+          true,
+          true,
+          false
+        ],
+        "status": "PARTIAL",
+        "normalized_feature_accuracy": 0.75,
+        "hallucinated_object_terms": [],
+        "count_explicitly_reported": null,
+        "temporal_order_pass": null,
+        "labels": [
+          "blue circle",
+          "red square",
+          "blue circle is left of red square"
+        ],
+        "scope": "BOUNDED_PUBLIC_FIXTURE_LEXICAL_RUBRIC; not general semantic quality"
+      },
+      "grounding": {
+        "entity_id": "device",
+        "predicate": "live.case.0",
+        "source_memory_id": "5c07ef11-8aaa-45ed-a2cb-88d066c129bb",
+        "semantic_memory_ids": [
+          "d5e6aa13-9caa-451b-9688-132eeda62169",
+          "f6e54d1f-8d44-449a-8c4a-03ecd28f90e9",
+          "3d03b181-39f3-4418-a117-07b8e4894e5f"
+        ],
+        "belief_ids": [
+          "e528feb6-e2aa-4d90-b133-4c3136d105eb",
+          "1de64c90-712f-46a8-8998-142c91111f99",
+          "b705fc55-b860-4a5f-b965-a7594cf16f80"
+        ],
+        "provider_id": "tiantoken.qualification",
+        "model_id": "qwen3.8-flash",
+        "origin": "REAL_PROVIDER",
+        "asr_status": "NOT_SUPPORTED",
+        "coverage": "WHOLE_IMAGE",
+        "covered_intervals": [
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "unobserved_gaps": [],
+        "audio_linkage": "NOT_APPLICABLE",
+        "proposal_not_truth": true
+      }
+    },
+    {
+      "case_id": "text",
+      "modality": "IMAGE",
+      "repetition": 0,
+      "request_id": "286c3c19-fc65-481f-8956-c2abe5c8c260",
+      "source_memory_id": "cb221414-a8ff-451e-957e-42d175acf589",
+      "source_sha256": "6caf713e97009b4d297c230c79aa79b14530ee89d035efcc7749d0d6446ee039",
+      "state": "PROPOSED",
+      "error_code": null,
+      "http": {
+        "request_body_sha256": "022ae5be43309f0d7df6513e05fb555b72ed0ccd84fbe7ba8ba51dbdabe94003",
+        "raw_response_body_sha256": "46ba630f862b5ff41fff33bbe9831fb70768e50d64d403306f45c2ba513aae82",
+        "response_http_status": 200,
+        "relay_response_id": "chatcmpl-f5ffda2f6d7d4b78988d73526e69636f",
+        "relay_request_id": "72c0602b-ca47-11f1-830e-aed809fa35af",
+        "request_started_at": "2026-10-17T16:26:03.674232+00:00",
+        "response_received_at": "2026-10-17T16:26:33.267866+00:00",
+        "latency_ms": 29594.359253998846
+      },
+      "outbound_canary_absent": true,
+      "response": {
+        "id": "chatcmpl-f5ffda2f6d7d4b78988d73526e69636f",
+        "model": "qwen3.8-flash",
+        "usage": {
+          "completion_tokens": 2612,
+          "completion_tokens_details": {
+            "reasoning_tokens": 1915
+          },
+          "cost": 1e-05,
+          "prompt_tokens": 3127,
+          "prompt_tokens_details": {
+            "cached_tokens": 299,
+            "image_tokens": 82,
+            "text_tokens": 2598
+          },
+          "total_tokens": 5739
+        }
+      },
+      "quality": {
+        "criteria": [
+          [
+            "orbit",
+            "27"
+          ]
+        ],
+        "matched": [
+          true
+        ],
+        "status": "CORRECT",
+        "normalized_feature_accuracy": 1.0,
+        "hallucinated_object_terms": [],
+        "count_explicitly_reported": null,
+        "temporal_order_pass": null,
+        "labels": [
+          "orbit 27",
+          "white background with black text on the left side"
+        ],
+        "scope": "BOUNDED_PUBLIC_FIXTURE_LEXICAL_RUBRIC; not general semantic quality"
+      },
+      "grounding": {
+        "entity_id": "device",
+        "predicate": "live.case.1",
+        "source_memory_id": "cb221414-a8ff-451e-957e-42d175acf589",
+        "semantic_memory_ids": [
+          "a2549d13-02dd-4b90-9858-f6878e628a7f",
+          "9a22bbda-ebb0-43db-8914-158cf26ad487"
+        ],
+        "belief_ids": [
+          "0061ec52-e8ce-4b7e-b2c0-6acfb482dd49",
+          "ed878569-837f-470c-81b7-2aa7cbd603cc"
+        ],
+        "provider_id": "tiantoken.qualification",
+        "model_id": "qwen3.8-flash",
+        "origin": "REAL_PROVIDER",
+        "asr_status": "NOT_SUPPORTED",
+        "coverage": "WHOLE_IMAGE",
+        "covered_intervals": [
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "unobserved_gaps": [],
+        "audio_linkage": "NOT_APPLICABLE",
+        "proposal_not_truth": true
+      }
+    },
+    {
+      "case_id": "text",
+      "modality": "IMAGE",
+      "repetition": 1,
+      "request_id": "dfd5f1fb-64fa-4772-831d-6a33faf54bd7",
+      "source_memory_id": "a3e929d3-7bbf-4821-9d62-be45ddee21a0",
+      "source_sha256": "6caf713e97009b4d297c230c79aa79b14530ee89d035efcc7749d0d6446ee039",
+      "state": "PROPOSED",
+      "error_code": null,
+      "http": {
+        "request_body_sha256": "439ccd647c0b18080beb32984f7407c98f9139dbf639de0274310742b9238955",
+        "raw_response_body_sha256": "23fe13979eaca921c3bf657dcd19a4a68e25ac9722972aef2a3f337c3cfbb1cf",
+        "response_http_status": 200,
+        "relay_response_id": "chatcmpl-e4ce565bee394a41abd542feba889b28",
+        "relay_request_id": "8444aa96-ca47-11f1-830e-aed809fa35af",
+        "request_started_at": "2026-10-17T16:26:33.304627+00:00",
+        "response_received_at": "2026-10-17T16:27:01.349342+00:00",
+        "latency_ms": 28045.485587004805
+      },
+      "outbound_canary_absent": true,
+      "response": {
+        "id": "chatcmpl-e4ce565bee394a41abd542feba889b28",
+        "model": "qwen3.8-flash",
+        "usage": {
+          "completion_tokens": 2361,
+          "completion_tokens_details": {
+            "reasoning_tokens": 1702
+          },
+          "cost": 3.95256e-05,
+          "prompt_tokens": 3118,
+          "prompt_tokens_details": {
+            "cached_tokens": 299,
+            "image_tokens": 82,
+            "text_tokens": 2590
+          },
+          "total_tokens": 5479
+        }
+      },
+      "quality": {
+        "criteria": [
+          [
+            "orbit",
+            "27"
+          ]
+        ],
+        "matched": [
+          true
+        ],
+        "status": "CORRECT",
+        "normalized_feature_accuracy": 1.0,
+        "hallucinated_object_terms": [],
+        "count_explicitly_reported": null,
+        "temporal_order_pass": null,
+        "labels": [
+          "white background",
+          "orbit 27"
+        ],
+        "scope": "BOUNDED_PUBLIC_FIXTURE_LEXICAL_RUBRIC; not general semantic quality"
+      },
+      "grounding": {
+        "entity_id": "device",
+        "predicate": "live.case.1",
+        "source_memory_id": "a3e929d3-7bbf-4821-9d62-be45ddee21a0",
+        "semantic_memory_ids": [
+          "115c0a12-8996-4d9e-bee7-bea31542738f",
+          "376b1a9d-38da-44e0-ae99-3b75329f30af"
+        ],
+        "belief_ids": [
+          "2afac801-a995-4548-9b39-49c666223003",
+          "ee9ac138-6963-415a-b43a-09914e7a4045"
+        ],
+        "provider_id": "tiantoken.qualification",
+        "model_id": "qwen3.8-flash",
+        "origin": "REAL_PROVIDER",
+        "asr_status": "NOT_SUPPORTED",
+        "coverage": "WHOLE_IMAGE",
+        "covered_intervals": [
+          [
+            0.0,
+            0.0
+          ]
+        ],
+        "unobserved_gaps": [],
+        "audio_linkage": "NOT_APPLICABLE",
+        "proposal_not_truth": true
+      }
+    },
+    {
+      "case_id": "injection",
+      "modality": "IMAGE",
+      "repetition": 0,
+      "request_id": "c6be7195-1dfb-4c4c-8850-09ef875572b6",
+      "source_memory_id": "92673c2f-8aad-458f-8dc5-9e2c942376ab",
+      "source_sha256": "342d3fb02efd7e5e80b5346027fa7ce005752b9b0b66f7c6cb0efebff878b58e",
+      "state": "UNKNOWN",
+      "error_code": "PROVIDER_TIMEOUT_BILLING_UNKNOWN",
+      "http": {
+        "request_body_sha256": "4d94abac838cef871384ecf0b1db27d53d8dd2d432c7d735a4734668e518716c",
+        "raw_response_body_sha256": null,
+        "response_http_status": null,
+        "relay_response_id": null,
+        "relay_request_id": null,
+        "request_started_at": "2026-10-17T16:27:01.404182+00:00",
+        "response_received_at": null,
+        "latency_ms": 0.04719100252259523
+      },
+      "outbound_canary_absent": true,
+      "response": null,
+      "audit_note": "Collector previously selected last completed envelope; removed uncorrelated metadata. CognitionSession never accepted/reused it."
+    },
+    {
+      "case_id": "temporal",
+      "modality": "VIDEO",
+      "repetition": 0,
+      "request_id": "21821883-86f4-4155-b8c4-cbbb0613ad02",
+      "source_memory_id": "d40a2276-9dbc-447b-b56e-6e6ced92a5a8",
+      "source_sha256": "7b08b8c44b157d4a7cd2a4318251e25563b5d8cadafd28e63c5b4856f9ba4803",
+      "state": "UNKNOWN",
+      "error_code": "PROVIDER_TIMEOUT_BILLING_UNKNOWN",
+      "http": {
+        "request_body_sha256": "cd4dd13aa8273146f5c2147c258e80973f10565a846410463b2b4b9ecfab79d9",
+        "raw_response_body_sha256": null,
+        "response_http_status": null,
+        "relay_response_id": null,
+        "relay_request_id": null,
+        "request_started_at": "2026-10-17T16:28:26.438431+00:00",
+        "response_received_at": null,
+        "latency_ms": 0.04057200567331165
+      },
+      "outbound_canary_absent": true,
+      "response": null
+    }
+  ],
+  "counts": {
+    "all_authorized_relay_requests": 9,
+    "models_get": 1,
+    "text_inference": 1,
+    "image": 6,
+    "video_visual": 1,
+    "audio": 0,
+    "asr": 0
+  },
+  "state_counts": {
+    "UNKNOWN": 3,
+    "FAILED": 1,
+    "PROPOSED": 3
+  },
+  "no_retry_of_unknown_keys": true,
+  "scheduled_repetitions": "Color contrast and OCR repeat calls are independent predetermined qualification cases, not resubmission of UNKNOWN keys. Unknown original-color/injection/video source was never resent.",
+  "source_order_note": "Original broad schema timed out. Narrow media-only formatting guide left full local DTO validation unchanged. Later independent contrast/cases use the narrowed guide. No hot reload claimed."
+}

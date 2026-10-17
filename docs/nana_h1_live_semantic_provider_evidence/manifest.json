@@ -1,20 +1,43 @@
 {
-  "kind": "H1_LIVE_BLOCKED_READINESS_AUDIT",
-  "base": "f6aabc3c8e8712b811540764a3937cc9283861af",
-  "excludes": [
-    "manifest.json",
+  "kind": "H1_LIVE_TIANTOKEN_PARTIAL_QUALIFICATION",
+  "base": "c3cd0017d2dd88169a7993905c29ff0844183967",
+  "qualification_status": "PARTIAL_PROVIDER_QUALIFICATION",
+  "files": {
+    "PROJECT_BRAIN/07_ROADMAP.md": "05ebc6948a688ebbe21f68e14aa4de0836cd411e8deee0a8a9ee2ad6304c138c",
+    "PROJECT_BRAIN/08_TASKS.md": "10a947df160e930109ba2250e44bf9122e00321e951a44e541799b15f7aaf49e",
+    "PROJECT_BRAIN/10_DECISIONS.md": "f5e7a72f639600c10b7443120093faf8a753bb2737727d09edc02e642a91e9f4",
+    "PROJECT_BRAIN/11_CHANGELOG.md": "df039e4b18600f9997070b31129647d6d5687cc06ccab36e74805cd0e8652043",
+    "docs/nana_h1_live_semantic_provider_evidence/authority_attack.json": "47a630a2f64a504b1403534ed0e399c396ac8caacd582c5ff56cfaaecd1d6446",
+    "docs/nana_h1_live_semantic_provider_evidence/correlation_recovery.json": "c2999f42d2b244940387f4d954540a2c9e8554061ede6e93daba2567a46ecebb",
+    "docs/nana_h1_live_semantic_provider_evidence/cost_usage.json": "ad827c2462af497918f5cd5cdddfc2e682e085a243c862139f260b85e71c633b",
+    "docs/nana_h1_live_semantic_provider_evidence/dataset_manifest.json": "028c02041b0551f83e123ebf1eb698b0774ba2e25966058aefe7045f2054a6b9",
+    "docs/nana_h1_live_semantic_provider_evidence/failure_matrix.json": "144da0a4fba993a75164a6944f500bae9e00e3ad99a229ac0df5fe3c52c21678",
+    "docs/nana_h1_live_semantic_provider_evidence/limitations.txt": "9ef09f4473b195f02295273418a507852abdf881e35d460ab25aac214215fda0",
+    "docs/nana_h1_live_semantic_provider_evidence/live_calls.json": "7e766504510842be3e1ca12771827091c036616b7b57e245354fbe86469f4fac",
+    "docs/nana_h1_live_semantic_provider_evidence/privacy_canary.json": "ff905392e8cf61895f7055106531277c57030bcb5e5b466a0568a9db21789d6c",
+    "docs/nana_h1_live_semantic_provider_evidence/provider_identity.json": "6a95ff6b05a0e75b0a2842f273fd74c6afd6124248b62be6281a4486e29e9f59",
+    "docs/nana_h1_live_semantic_provider_evidence/qualification.json": "ccda2b6435ffc4ab85dc187572152c50f06496b401139fecb32e360f3e2769a8",
+    "docs/nana_h1_live_semantic_provider_evidence/readiness_audit.json": "42679c9d0fefd750edebdbaf9d7ad182ef5133eb8bd0159b4c00feadff17169b",
+    "docs/nana_h1_live_semantic_provider_evidence/repeatability.json": "711fafa13f01a24329a65343c90809c4c31b54ff17be2768fa30282874f2efc2",
+    "docs/nana_h1_live_semantic_provider_evidence/semantic_quality.json": "27fe931b7339e1794c509d01107d5adc87a7f829ee5158e697fafb5f31a8b766",
+    "docs/nana_h1_live_semantic_provider_evidence/test_summary.txt": "07487ddc3f64e10a5b064918364daf5f22f458d9647801fef610c263a84266c4",
+    "docs/nana_h1_live_semantic_provider_evidence/transport_observability.json": "6cbc7b82d0034e623900f33fb6cb91229ed29a8663dbb08dbd97f7f93f104ce2",
+    "docs/nana_h1_live_semantic_provider_evidence/world_grounding.json": "a692e3e89eb4d6a89fc6c8fdec846961e873658557dba8ff46bf4187f39e1e99",
+    "docs/nana_h1_live_semantic_provider_qualification.md": "a01b3f2b3a88f6567bf4ab6b06a7bee6de7af81899e96d6c948801a6156c5397",
+    "docs/nana_h1_live_semantic_provider_readiness.md": "ded36a6619e56ed9a2bfde9f89efbe2a31cd21135c534dd2bb9cc3c1c5005439",
+    "pyproject.toml": "981ff13bacd640aaa33b1a853fea787bd11bc81d577dba49fd2d635d5bc21da9",
+    "src/nana_core/continuity/world_loop/cognition.py": "4a15f6ec45ed1615a795a48a756268e0702ad223cafe41035509704d233f15e8",
+    "tests/h1_live_semantics/test_wire.py": "e218a2dd522538374c46981c72738cfe23e2dbfcf1d270f3c8a3c406aa64a1d9",
+    "tools/nana_h1_live_qualification/__init__.py": "38e8f6b8be0cd790232f5bf0c1cbf343cfe4de8598fb2611e3bcd8a38e9962cc",
+    "tools/nana_h1_live_qualification/fixtures.py": "eaf1e56b8c879b409ee5c98cd9f708ec6819210633541129b1b607e15702830c",
+    "tools/nana_h1_live_qualification/recover.py": "b11afcdd2bb25f692d6651de30853db9d99bc78a40d4076d6c910103f61a0f34",
+    "tools/nana_h1_live_qualification/run.py": "9aabd760703f64737de74976f7e13b616def0e25c1946181f512f08bc6216c21",
+    "docs/nana_h1_live_semantic_provider_evidence/privacy_scan.json": "b0388a2fb14fac2136410966f9e6929b4255e8dae8bfa43010dac2070a248eed"
+  },
+  "excluded": [
+    "self",
     "PROJECT_BRAIN/09_STATE.md"
   ],
-  "files": {
-    "PROJECT_BRAIN/07_ROADMAP.md": "f4616b74ce0aa0e67220418dccb8d9e247a62ab293254dbf3e5d6fb8b1bcc9bd",
-    "PROJECT_BRAIN/08_TASKS.md": "d037f7d51f9fe0e03cacaaf70aaab11e1cb05f4431d3b8e8dac0e9f1aedfd90d",
-    "PROJECT_BRAIN/10_DECISIONS.md": "a77c621bbc4b8dd5cc6ea1921bec25ca26bc70e1e30f268e030e1711b3154f47",
-    "PROJECT_BRAIN/11_CHANGELOG.md": "e0f6725bc3e905d8ced9c2eef565aac6addb35fcc9babdb3bd2926de6e7dd77f",
-    "docs/nana_h1_live_semantic_provider_readiness.md": "84393577b7953718920a5c3ab17fa946c7b78960e2f4ffe557dc4391e52c5881",
-    "docs/nana_h1_live_semantic_provider_evidence/limitations.txt": "e5dc1b963f00f8520407e9f1226a8615bb78f142e5443cc5c28be58bbb21a5ee",
-    "docs/nana_h1_live_semantic_provider_evidence/provider_identity.json": "ac08e5342c666e23eee0d5e4abc04a0ea5fc6b37f64ee8432ee6f2e17f73ab06",
-    "docs/nana_h1_live_semantic_provider_evidence/qualification.json": "5972719aed80eb892af7d802ffe22577fc336cb5c2878387bbf22863c915207f",
-    "docs/nana_h1_live_semantic_provider_evidence/readiness_audit.json": "54cf6fa5b599b275d2fa96d31f53fbeadb540bf3d594b3e068dc01d841f83eef",
-    "docs/nana_h1_live_semantic_provider_evidence/test_summary.txt": "b7a558c4f511d8f5238a1fa02ce205aa03be40e4d47df0df4b91c9aa1e8be743"
-  }
+  "qualification_calls": 9,
+  "secret_exact_scan": "privacy_scan.json;0 matches; only hashes/count metadata added after scan"
 }

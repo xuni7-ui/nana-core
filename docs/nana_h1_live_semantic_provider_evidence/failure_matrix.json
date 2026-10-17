@@ -1,0 +1,14 @@
+{
+  "timeout": "REAL3_UNKNOWN_NO_RETRY",
+  "malformed_contract": "REAL1_REJECTED_BY_STRICT_DTO (misplaced confidence_semantics)",
+  "4xx": "NOT_RUN",
+  "5xx": "OFFLINE_CONTROLLED_ONLY",
+  "refusal": "OFFLINE_CONTROLLED_ONLY",
+  "model_mismatch": "LOCAL_MUTATION_OF_REAL_REPLY_REJECTED",
+  "stale": "LOCAL_MUTATION_OF_REAL_REPLY_STALE",
+  "deleted": "LOCAL_MUTATION_OF_REAL_REPLY_STALE",
+  "calling_restart": "CONTROLLED_LOCAL_STATE_TO_UNKNOWN, not live interruption",
+  "accepted_grounded_restart": "PASS_ACTUAL_SEPARATE_INTERPRETER_KEYLESS",
+  "budget_and_host_denial": "OFFLINE_TESTED_BEFORE_NETWORK",
+  "live_visual_injection": "UNKNOWN_COMPLETION"
+}

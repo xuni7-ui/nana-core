@@ -1,5 +1,10 @@
-BLOCKED_NO_CONFIGURED_PROVIDER. Managed current configuration has no explicit provider capability/variable/secret/outbound identity; task provides none. No credential discovery attempted.
-No live media/model quality, ASR/OCR, provider error/repeatability/cost, canary, stale/delete or recovery qualification executed.
-Do not claim UNSUPPORTED for a modality without a selected provider; modality availability remains UNKNOWN.
-Provider-native response identity/raw wire digest telemetry and independent bounded quality fixtures still need qualification plumbing once a provider is explicitly configured.
-No source implementation, schema migration, new dependencies, database, new Store/SubjectLoop, H2, Hands, production or push.
+PARTIAL_PROVIDER_QUALIFICATION, not full live readiness.
+Provider/model identity is relay-reported; upstream unauthenticated.
+Three UNKNOWN completions retained, unknown billing; no retries.
+Visual injection and video have no accepted live response; live guards/quality NOT_RUN. No native video/audio/ASR.
+One color reply failed strict nesting despite semantically correct visible words; not repaired into acceptance.
+Accepted shape response omitted explicit count and right label; conservative lexical rubric PARTIAL. OCR only one public string repeated twice.
+Repeat response atom order is not stable ontology. Initial caller ordinal binding creates explicit conflict; direct correction supersedes a named old belief but leaves another conflict. Future qualification caller now uses request-scoped predicates. Historical records not rewritten.
+Local controlled real-payload mutation/recovery is not a live SIGKILL qualification.
+One post-full focused decoder process failed nonzero; no stderr retained by existing bounded decoder, cause UNKNOWN. Isolated2-case and full42-case rechecks passed; no guard weakened.
+No model benchmark/permanent provider/model decision, no capture/Hands/deploy/social sends or private data. E12 NOT_RUN.

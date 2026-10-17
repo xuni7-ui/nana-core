@@ -1,0 +1,15 @@
+{
+  "secret_present": true,
+  "secret_persisted": false,
+  "exact_secret_match_count": 0,
+  "files_scanned": 1175,
+  "scope": [
+    "tracked files",
+    "working/staged diff",
+    "current H1-LIVE evidence/source tools/tests",
+    "known task-generated logs and synthetic lab files"
+  ],
+  "old_bundle_excluded": true,
+  "credential_printed": false,
+  "credential_written": false
+}
