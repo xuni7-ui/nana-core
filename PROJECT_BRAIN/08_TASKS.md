@@ -279,3 +279,24 @@ Historical task entries retained rather than rewritten as newly verified facts.
 复现：`PYTHONPATH=src .venv/bin/python -m nana_core.presence.living_demo`。
 下一入口：同一主体上受控 E capability/planning 扩展；真实模型、感知和外部执行须另行授权。
 尚无通用自写插件/安装/真实发送权限；不自动继续、不自动 push。
+
+
+## E1–E6 Open Autonomy V1 — 当前开发交付（2026-10-17）
+
+[源码/离线实测] 继承本地30f7e6f，不从旧远端丢失已有成果；不变更其它执行者生产主线。
+
+| 子项 | 状态 | 实际离线范围 |
+|---|---|---|
+| E1 | IMPLEMENTED / TESTED | bounded persistent multi-goal/subgoal/dependency; revised typed plans/current-source dataflow |
+| E2 | IMPLEMENTED / TESTED | source-backed desire; separate recipient/privacy/quiet-hour admission; actual local synthetic contact |
+| E3 | IMPLEMENTED / TESTED | nine recoverable stages; independent baseline/held-out/new-context transfer; checked later strategy |
+| E4 | IMPLEMENTED / TESTED | generated/repaired Python; actual bwrap tests; hash review/local Kernel use/retire, no host install |
+| E5 | IMPLEMENTED / TESTED | existing B9 MediaSession/ProviderRegistry, B6 Surface, B10 application actually called |
+| E6 | IMPLEMENTED / TESTED | lease/UNKNOWN recovery, controlled transfer, privacy/deletion, source-filtered typed projections |
+
+最终974 PASS /0 FAIL /1 SKIP(E12)，新增26；两处真实本地 SIGKILL；完整生活/不同动机
+对照演示均通过。复现 `PYTHONPATH=src .venv/bin/python -m nana_core.presence.open_demo`
+及 `--contrast`。证据：`docs/nana_e1e6_open_autonomy_v1_evidence/qualification.json`。
+后续实际依赖：受审查真实模型 transport / E12、来源化媒体/设备感知 adapter、recipient-aware
+social CapabilityPort + delivery verification、独立授权和预算。均 NOT_RUN，不能由此任务
+自行启动。真实 memory ingress 仍关闭；不自动 push，不自动进入生产或真实外部动作。

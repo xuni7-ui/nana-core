@@ -282,3 +282,16 @@
 证据：docs/nana_d2d7_living_autonomy_v1_implementation.md 和同名 evidence/。
 单主体链、Primary User、独立社交需求、negative-only Manager、Grant/Budget/Verify、
 硬隐私和删除语义保持；生产/main/R045未改，不升级任何真实宿主状态，未push。
+
+
+## E1–E6 Open Autonomy V1（2026-10-17，开发离线）
+
+[源码/实测] ①已实现/②已测试：有界跨领域多目标、投递准入、九阶段独立学习、生成代码
+隔离开发闭环、既有B9/B6/B10接线、恢复/迁移/隐私投影。业务源码ac0d934；完整974 PASS /
+0 FAIL /1 SKIP(E12)，97.54s；新增26。③验收仅指本地合成进程/服务，不是生产③：
+主故事3目标10动作、对照2/4步6动作；真实本地SIGKILL两处恢复一次效果/一次学习。
+显式schema12迁移/官方replay/B8 transfer与FK clean已测试，默认C7/D8不变。
+④未运行：真实模型/E12、真实视频/屏幕/设备、真实平台发送、生产安装/迁移/长期soak。
+未改变真实host binding/FIRST_REAL_ASTRBOT_SHADOW/R045状态；无生产或main修改/无push。
+报告 `docs/nana_e1e6_open_autonomy_v1_implementation.md`；机器验收
+`docs/nana_e1e6_open_autonomy_v1_evidence/qualification.json`。

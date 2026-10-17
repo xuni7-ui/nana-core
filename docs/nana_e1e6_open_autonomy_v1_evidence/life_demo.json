@@ -1,0 +1,82 @@
+{
+  "domain": "OFFLINE_SYNTHETIC_ONLY",
+  "real_models": 0,
+  "real_social_delivery": 0,
+  "real_private_data": 0,
+  "real_external_actions": 0,
+  "primary_user_influences_choice": true,
+  "voluntary_accommodation_preserves_desire": true,
+  "relationship_does_not_grant": true,
+  "rest_is_valid": true,
+  "busy_defers_delivery_not_will": true,
+  "no_contact_from_desire": true,
+  "multiple_persistent_goals": true,
+  "user_preempts_background_learning": true,
+  "interrupted_learning_resumes": true,
+  "failure_triggered_learning": true,
+  "interest_triggered_learning": true,
+  "wanted_but_manager_blocked": true,
+  "revocation_does_not_execute": true,
+  "same_goal_replanned_and_completed": true,
+  "old_failure_preserved": true,
+  "generated_code_failed_then_repaired": true,
+  "skill_review_does_not_grant": true,
+  "skill_package": {
+    "manifest_digest": "d8fd4ceeda0a4fee74fbb2c13e5b1c2491dde9cdaf27b932994f405aad01a0e8",
+    "source_digest": "61f9d9a7565e98221bb0ef994060f3a3addcdf18513cbd1ec802a2403954f4ad",
+    "installation_authority": false
+  },
+  "generated_skill_executed_through_kernel": true,
+  "skill_rollback_disables": true,
+  "two_surfaces_one_subject": true,
+  "frontend_reads_actual_work": true,
+  "learning_comparison": [
+    {
+      "domain": "numbers",
+      "cause": "VERIFIED_FAILURE",
+      "baseline_passed": 0,
+      "transfer_passed": 1,
+      "stage": "MONITOR"
+    },
+    {
+      "domain": "language",
+      "cause": "SOURCED_INTEREST_OR_GAP",
+      "baseline_passed": 0,
+      "transfer_passed": 1,
+      "stage": "MONITOR"
+    }
+  ],
+  "deleted_source_invalidates_learning": true,
+  "deleted_source_removed_from_view": true,
+  "goal_states": [
+    "COMPLETED",
+    "COMPLETED",
+    "COMPLETED"
+  ],
+  "actions": 10,
+  "model_calls": 0,
+  "kernel_budget": [
+    {
+      "dimension": "write_attempts",
+      "held": 0,
+      "spent": 1
+    },
+    {
+      "dimension": "external_requests",
+      "held": 0,
+      "spent": 20
+    },
+    {
+      "dimension": "cost_micro_units",
+      "held": 0,
+      "spent": 20
+    }
+  ],
+  "one_store_one_subject_loop": true,
+  "restart_same_identity": true,
+  "restart_fresh_epoch": true,
+  "restart_retains_goals_and_learning": true,
+  "no_local_authority_reconstructed": true,
+  "measured_wall_ms": 2532,
+  "provider_cost": "FIXTURE_ZERO_REAL_COST; Kernel units are synthetic budgets, not provider billing"
+}

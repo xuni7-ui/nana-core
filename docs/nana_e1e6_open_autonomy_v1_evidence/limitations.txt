@@ -1,0 +1,13 @@
+OFFLINE / SYNTHETIC qualification only.
+Planner: bounded supplied operators/conditions; no general natural-language world model.
+Learning: independently executed finite numeric/text tasks, not proven real-model semantic learning.
+Code proposer: fixture text generator and repair; actual generated Python execution is sandboxed.
+Code realm: pure bounded JSON transform; missing isolation fails closed; no plugin install authority.
+Retire rollback disables; previous versions are not automatically enabled.
+Namespace isolation relies on this development kernel/bwrap, not a hostile-kernel guarantee.
+Detached exported code candidates/old archives require operator erasure/retention handling.
+Data validity is based on sourced observations; planning digest is not omniscient world revision.
+Managed B8 single-destination transfer does not prevent privileged raw database cloning.
+Real model/E12, decoded video, real social sender, devices, production install and long production soak NOT_RUN.
+Provider cost is fixture zero; Kernel units are synthetic budgets, not measured provider charges.
+No production permission, trust pin, private data, remote branch or main change.

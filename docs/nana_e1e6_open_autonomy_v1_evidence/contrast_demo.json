@@ -1,0 +1,14 @@
+{
+  "domain": "OFFLINE_SYNTHETIC_CONTRAST",
+  "different_motives": true,
+  "plan_lengths": [
+    2,
+    4
+  ],
+  "both_goals_completed": true,
+  "actual_verified_actions": 6,
+  "no_user_input": true,
+  "one_subject": true,
+  "real_models": 0,
+  "real_external_actions": 0
+}

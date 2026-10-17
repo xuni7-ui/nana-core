@@ -514,3 +514,54 @@ ACTION_PAYLOAD record/dependencies；不可变 action/attempt 行保留 opaque r
 可重建；worker/owner/lease/PID/socket/port/provider/本地 controller 不可当主体身份迁移。
 恢复的 goal 不能自行重建 OfflineEffectPort/Grant/agency authority。沿用 trusted exact
 single destination 和旧离线 archive/raw clone 边界，不声称跨机器全局共识或抹除保证。
+
+## D-E1E6-001 — bounded multiple goals supersede the development11 single-goal cap
+
+[附件授权/源码/实测] Supersedes only D-D2D7-002's one_live_goal *development capability
+limit*. Explicit12 removes the index, keeps one writer/SubjectLoop/cycle intention,
+with default8/max16 live goals, source-deduplicated adoption, typed finite operators,
+soft deadlines, dependency/parent and bounded aging. A planner offers IDs, not facts/
+Grant. Conditions/dataflow/source revision/schema validate before adoption; every step
+returns to C. Default7/8/11 unchanged; no production migration or route reprioritization.
+
+## D-E1E6-002 — desire, delivery admission and execution are three different decisions
+
+[源码/实测] V12 social intention may remain endorsed with unavailable recipient.
+Admission checks exact recipient/direct source, privacy, quiet window, expiry and
+intention/payload binding; no message or Grant follows just from ELIGIBLE. Existing
+negative-only Manager and Kernel Grant/Budget/Verify remain mandatory. Data privacy
+classification propagates through observed inputs/action payloads/derived results;
+PUBLIC purpose cannot downgrade PERSONAL data. Non-current input support blocks
+payload resolution without changing historical wanted/effect facts or retrying UNKNOWN.
+
+## D-E1E6-003 — learning advances only on independently executed comparable results
+
+[源码/实测] Existing jobs/ExperienceService/lessons/RecordService implement staged
+learning with disjoint practice/held-out/transfer and new-context transfer. Successful
+summary/model assertion is not a trial. C selects the problem/reflection; application
+policy bounds evaluation/review; only checked improvement may change method selection.
+Monitoring may suspend the lesson, fencing existing compiled plans. Timeouts/errors
+park UNKNOWN without cursor advancement; no blind retry. Reflection cannot mint
+Evidence, Identity, Manager, Capability or Grant; repeated problem does not self-reinforce.
+
+## D-E1E6-004 — generated code is a reviewed isolated capability realm, not an installer
+
+[源码/实测] Code generation/AST compilation, actual isolated tests, source-hash review,
+local activation, Kernel use and retirement are separate. bwrap isolation is required,
+not Python private names. Only bounded pure JSON transform code; no host directories,
+network, Store/controller or arbitrary install operation. Local tested/enabled handles
+are ephemeral; historical ACTIVE record/package is not execution authority after
+restart/import. Old Grants are not migrated. Exported candidate copies are explicit
+operator artifacts, subject to detached-copy erasure limits; managed Store lineage
+still propagates deletion. No real self-installation or production daemon authority.
+
+## D-E1E6-005 — source-bound dataflow and projections stay in the one authoritative Store
+
+[源码/实测] Current plan output bindings cannot resolve older plan revision results.
+Old failures and Manager blocks remain historical; source-backed C reconsideration
+creates a revised plan, not silent history rewrite. Existing B9 MediaSession proposes
+source-linked interest INFERENCE and existing B10 exposes typed bounded goal/learning/
+skill/delivery views. L0/L1/L2 are views, not duplicate selves. Existing39 tables suffice;
+no new workflow service/framework/provider SDK. Migratable records/history, rebuildable
+projections and machine-local execution are distinct. Main/R045/production untouched;
+real memory ingress remains closed, E12 NOT_RUN, no automatic push.

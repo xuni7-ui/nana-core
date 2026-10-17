@@ -1366,3 +1366,22 @@ Kernel payload resolution now checks supporting memory currency before obtaining
 arguments/results. It fails closed without rewriting historical effects or retrying
 UNKNOWN. Legacy≤11 behavior unchanged; new26 + inherited agency3 =29 PASS,6.25s.
 Business implementation frozen here; final full follows. No new authority/endpoint.
+
+
+### E1–E6 FINAL — freeze qualified offline implementation and evidence（2026-10-17）
+
+[源码/离线实测] Qualified business source `ac0d934cfc116c55f75a597653579fba7ffdca8a`，完整继承本地
+D2–D7 `30f7e6f5e0b6e935f7d27a2847a5107d261c4ef5`。最终文档批次不再修改业务源码。
+完成显式12 bounded multi-goal/typed planning/recipient admission/independent staged
+learning/generated isolated code review-use-retire，接入原B9/B6/B10、Runtime、Kernel；
+修复已保留failing test的跨plan输入及non-current source payload问题，未放松断言或执行门。
+为何：消除one_live_goal/fixed reading-card/data-only skill能力上限，并保留同一主体
+来源、意愿/权限与隐私删除闭包；不将fixture当真实模型/外部能力。
+最终验证：974 passed /0 failed /1 skipped(E12)，97.54s；新增26，focused29/6.25s；
+恢复sanity5/0.78s。主生活3完成目标10合成核验动作，两领域baseline0/1→transfer1/1；
+跨领域对照2/4步6动作；两真实本地SIGKILL、显式7/8/11→12、legacy官方replay、B8迁移
+保留历史不恢复授权。独立worker实际Python3.13.5/bwrap；Core3.12.14/SQLite3.53.1。
+同步07/08/09/04当前状态、追加10裁决、完整报告/小型JSON证据/生成代码candidate；最终
+acyclic指纹清单排除自身及09，在09留hash锚点。数据源均synthetic，无DB/凭据入库。
+无新依赖/业务表，默认C7/D8不变。生产/main/R045/真实模型/私人数据/真实外部动作0；
+E12 NOT_RUN；本地提交，不push。真实接线阻塞和导出/原始clone边界见报告limitations。

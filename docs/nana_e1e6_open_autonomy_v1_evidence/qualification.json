@@ -1,0 +1,165 @@
+{
+  "format": "NANA_E1E6_OFFLINE_QUALIFICATION_V1",
+  "domain": "OFFLINE_SYNTHETIC_ONLY",
+  "branch": "dev/nana-core-e1e6-open-autonomy-self-extension-v1-codex",
+  "base_sha": "30f7e6f5e0b6e935f7d27a2847a5107d261c4ef5",
+  "qualified_business_sha": "ac0d934cfc116c55f75a597653579fba7ffdca8a",
+  "delivery_commit": "Containing final documentation commit; use git rev-parse HEAD (no self-referential hash)",
+  "result": "E1_E6_OPEN_AUTONOMY_OFFLINE_CANDIDATE_READY",
+  "stages": {
+    "E1": {
+      "status": "IMPLEMENTED_AND_TESTED",
+      "scope": "bounded offline implementation; see report for real adapters NOT_RUN"
+    },
+    "E2": {
+      "status": "IMPLEMENTED_AND_TESTED",
+      "scope": "bounded offline implementation; see report for real adapters NOT_RUN"
+    },
+    "E3": {
+      "status": "IMPLEMENTED_AND_TESTED",
+      "scope": "bounded offline implementation; see report for real adapters NOT_RUN"
+    },
+    "E4": {
+      "status": "IMPLEMENTED_AND_TESTED",
+      "scope": "bounded offline implementation; see report for real adapters NOT_RUN"
+    },
+    "E5": {
+      "status": "IMPLEMENTED_AND_TESTED",
+      "scope": "bounded offline implementation; see report for real adapters NOT_RUN"
+    },
+    "E6": {
+      "status": "IMPLEMENTED_AND_TESTED",
+      "scope": "bounded offline implementation; see report for real adapters NOT_RUN"
+    }
+  },
+  "tests": {
+    "full": {
+      "passed": 974,
+      "failed": 0,
+      "skipped": 1,
+      "seconds": 97.54,
+      "skip": "E12 real-model gate NOT_RUN",
+      "command": ".venv/bin/python -m pytest -q tests"
+    },
+    "new_cases": 26,
+    "focused_new_and_inherited_agency": {
+      "passed": 29,
+      "seconds": 6.25
+    },
+    "resume_sanity_planning": {
+      "passed": 5,
+      "seconds": 0.78
+    }
+  },
+  "runtime": {
+    "core_python": "3.12.14",
+    "sqlite": "3.53.1",
+    "sqlite_minimum": "3.51.3",
+    "pydantic": "2.13.4",
+    "isolated_code_python": "3.13.5",
+    "code_isolation": "actual bwrap namespace/read-only filesystem/no network sandbox"
+  },
+  "schema": {
+    "explicit_development_target": 12,
+    "default_continuity": 7,
+    "default_runtime": 8,
+    "business_tables": 39,
+    "new_business_tables": 0,
+    "new_dependencies": 0,
+    "migrations_tested": [
+      7,
+      8,
+      11
+    ],
+    "foreign_key_check": "CLEAN",
+    "production_migration": "NOT_RUN"
+  },
+  "main_demo": {
+    "report": "life_demo.json",
+    "completed_goals": 3,
+    "actual_verified_local_fixture_actions": 10,
+    "measured_wall_ms": 2532,
+    "boolean_gates": "ALL_TRUE",
+    "learning_domains": [
+      {
+        "domain": "numbers",
+        "cause": "VERIFIED_FAILURE",
+        "baseline_passed": 0,
+        "transfer_passed": 1,
+        "stage": "MONITOR"
+      },
+      {
+        "domain": "language",
+        "cause": "SOURCED_INTEREST_OR_GAP",
+        "baseline_passed": 0,
+        "transfer_passed": 1,
+        "stage": "MONITOR"
+      }
+    ],
+    "provider_cost": "FIXTURE_ZERO_REAL_COST; Kernel units synthetic, not provider billing"
+  },
+  "contrast_demo": {
+    "domain": "OFFLINE_SYNTHETIC_CONTRAST",
+    "different_motives": true,
+    "plan_lengths": [
+      2,
+      4
+    ],
+    "both_goals_completed": true,
+    "actual_verified_actions": 6,
+    "no_user_input": true,
+    "one_subject": true,
+    "real_models": 0,
+    "real_external_actions": 0
+  },
+  "generated_skill": {
+    "source": "skill_candidate/skill.py",
+    "manifest": "skill_candidate/manifest.json",
+    "source_sha256": "61f9d9a7565e98221bb0ef994060f3a3addcdf18513cbd1ec802a2403954f4ad",
+    "manifest_sha256": "d8fd4ceeda0a4fee74fbb2c13e5b1c2491dde9cdaf27b932994f405aad01a0e8",
+    "failed_then_repaired": true,
+    "actual_isolated_tests": true,
+    "kernel_routed_local_use": true,
+    "retirement_disables": true,
+    "installation_authority": false
+  },
+  "recovery": {
+    "actual_sigkill_cuts": 2,
+    "matrix": "recovery_matrix.json",
+    "official_replay": "old v11 Action/goal preserved at explicit12 in quarantine",
+    "portable_transfer": "multi-goal/partial learning preserved; old Grants revoked; fresh epoch; no local execution authority restored"
+  },
+  "invariants": {
+    "one_subject": true,
+    "one_authoritative_store": true,
+    "one_subject_loop": true,
+    "d_when_c_what_why": true,
+    "primary_role_not_grant": true,
+    "independent_social_appetite": true,
+    "voluntary_accommodation_retains_desire": true,
+    "negative_only_manager": true,
+    "privacy_and_delete_closure": true,
+    "unknown_no_blind_retry": true,
+    "generated_code_not_host_authority": true
+  },
+  "not_run": [
+    "real models / E12",
+    "real video decoding / screen / device perception",
+    "real QQ / Bilibili / social delivery",
+    "production installation or migration",
+    "long production soak",
+    "arbitrary self-written plugin installation"
+  ],
+  "counts": {
+    "real_model_calls": 0,
+    "real_private_data_reads": 0,
+    "real_social_deliveries": 0,
+    "real_external_actions": 0,
+    "production_changes": 0,
+    "main_changes": 0,
+    "r045_changes": 0,
+    "pushes": 0
+  },
+  "limitations": "limitations.txt",
+  "evidence_boundary": "Summaries reference actual service calls and tests; independent external attestation and real endpoint quality are not claimed."
+}

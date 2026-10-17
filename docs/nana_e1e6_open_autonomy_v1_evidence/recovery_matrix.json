@@ -1,0 +1,45 @@
+{
+  "domain": "OFFLINE_SYNTHETIC_ONLY",
+  "business_source": "ac0d934cfc116c55f75a597653579fba7ffdca8a",
+  "actual_sigkill": [
+    {
+      "cut": "durable fixture effect before receipt",
+      "restart": "original Action verified; exactly one started EXECUTE and one effect; no new Subject cycle",
+      "result": "PASS"
+    },
+    {
+      "cut": "Lesson ACTIVE before consolidation cursor",
+      "restart": "same job resumes cursor7 to9; one Lesson and one Experience",
+      "result": "PASS"
+    }
+  ],
+  "other_checks": [
+    {
+      "case": "explicit7/8/11 to12",
+      "result": "PASS",
+      "proof": "identity/event IDs retained; FK clean; business tables39; default runtime8 unchanged"
+    },
+    {
+      "case": "legacy11 official replay after migration12",
+      "result": "PASS",
+      "proof": "goal and SUCCEEDED Action IDs preserved; recovery quarantine"
+    },
+    {
+      "case": "SubjectPackage transfer12",
+      "result": "PASS",
+      "proof": "two goals and partial learning cursor preserved; revoked old Grants; fresh epoch; no agency/learning controller reconstructed"
+    },
+    {
+      "case": "timeout during learning trial",
+      "result": "PASS",
+      "proof": "UNKNOWN parks cursor without false success or automatic retry"
+    },
+    {
+      "case": "support deletion/suppression",
+      "result": "PASS",
+      "proof": "projections/learning lose support; payload resolution rejects non-current inputs; historical effects not rewritten"
+    }
+  ],
+  "test_source": "tests/open_autonomy/test_recovery.py and test_learning.py / test_privacy_views.py",
+  "limits": "Two actual SIGKILL cuts, not exhaustive power-loss testing. Privileged raw whole-database cloning remains outside the trusted single-destination migration guarantee."
+}

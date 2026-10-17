@@ -6,7 +6,22 @@
 
 ---
 
-## 当前开发入口：D2–D7 Living Autonomy V1（2026-10-16）
+## 当前开发入口：E1–E6 Open Autonomy V1（2026-10-17）
+
+[源码/离线实测] 独立分支 `dev/nana-core-e1e6-open-autonomy-self-extension-v1-codex`，
+完整继承本地 D2–D7 `30f7e6f`（含 C6/C7 / Relational），qualified business source
+`ac0d934`。E1 有界多目标/跨领域增量规划；E2 意图与投递准入分离；E3 九阶段独立
+验证学习；E4 实际生成、隔离测试/修复/受检验本地使用/退役的 Python 技能；E5 既有
+B9/B6/B10 端口接线；E6 恢复/迁移/删除闭包/运行投影：**IMPLEMENTED / TESTED，
+OFFLINE_CANDIDATE READY**。最终974 PASS /0 FAIL /1 SKIP(E12)，新增26测试。
+主故事3个完成目标/10次真实执行的本地合成 Action；跨领域对照2/4步计划、6次核验动作。
+显式 schema12，仍39业务表，无新依赖；默认 C7 / Runtime8 不变。单主体/单 Store/
+单 SubjectLoop/Runtime、Primary 特殊关系与独立社交需求、negative-only Manager、
+Grant/Budget/Verify、硬隐私保留。真实模型/感知/发送/安装未运行，不改 L1/L2/B5/R045
+现场状态或优先级。实现报告与同名 evidence/ 位于 `docs/nana_e1e6_open_autonomy_v1_*`。
+**本地提交，未 push；有限规划与纯 JSON 代码隔离域不冒充通用自主安装能力。**
+
+## 历史开发入口：D2–D7 Living Autonomy V1（2026-10-16）
 
 [源码/离线实测] 分支 `dev/nana-core-d2d7-living-autonomy-v1-codex` 基于本地
 `4ad273f540bf8ac2988854b68a689685333e8c67`，已继承 C6/C7 与 Relational；OSS 研究

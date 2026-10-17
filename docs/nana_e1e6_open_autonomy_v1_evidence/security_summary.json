@@ -1,0 +1,19 @@
+{
+  "domain": "OFFLINE_DEVELOPMENT_DELIVERY",
+  "scan": "PASS",
+  "method": "Pattern/AST/file whitelist plus synthetic-evidence review; not a universal secret detector",
+  "files_checked": 67,
+  "bytes_checked": 762843,
+  "generic_python_files_checked": 33,
+  "checks": {
+    "credential_patterns": "PASS",
+    "private_data_scope": "synthetic-only fixtures/results, no real-data ingress performed",
+    "unexpected_binary_database_wal_shm": "NONE",
+    "large_files_over_1MiB": "NONE",
+    "named_subject_conditional": "NONE",
+    "json_parse": "PASS",
+    "external_source_copy": "NONE; generic implementation and generated fixture code, no third-party source import"
+  },
+  "excluded_existing_untracked_file": "nana-r03-codex-10581aea.bundle left untouched",
+  "production_or_remote_operations": 0
+}

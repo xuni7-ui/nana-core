@@ -1089,3 +1089,40 @@ Baseline manifest SHA256 de048df5d8c62fd8a5f5b9ede8acf8d4c5afa8d05ad800ef033165c
 [实测] E1–E6 规划 dataflow/current revision fence 修复，26 targeted PASS；971全量为修复前记录，最终回归待验。M4 manifest SHA256 3f3f30fce68f55e2dce94917664b713ffdb3f12bfda7991a5a19ec185e404bb3 (`manifests/nana_e1e6_m4.json`).
 
 [实测] E1–E6 explicit12 action payload support freshness 修复；29 focused PASS，业务冻结待最终全量。M5 manifest SHA256 90c02c049b5c06f89135e25a3cb7edf19d951fad3666ccec5eaf71640c1a1ca1 (`manifests/nana_e1e6_m5.json`).
+
+
+## E1–E6 FINAL — OFFLINE_CANDIDATE READY（2026-10-17）
+
+[源码/实测] 此节更新上方 E1–E6 CURRENT DEVELOPMENT/各 M 节的历史待验口径。
+Branch `dev/nana-core-e1e6-open-autonomy-self-extension-v1-codex`，base `30f7e6f5e0b6e935f7d27a2847a5107d261c4ef5`；
+qualified business source `ac0d934cfc116c55f75a597653579fba7ffdca8a`。最终包含文档提交仅冻结交付，
+不改变已回归业务源码；所有提交本地保存，未 push。
+
+E1–E6 IMPLEMENTED / TESTED (OFFLINE / SYNTHETIC)：显式12有界多目标/子目标/
+依赖/优先与重规划；意图与投递分离；九阶段独立学习；实际生成 Python fail→repair→
+isolated test→review→Kernel local use→retire；B9/B6/B10 同一主体实际接线；恢复/迁移/
+来源删除闭包/前端投影。单 Subject/权威 Store/SubjectLoop/Runtime；D WHEN、C WHAT/WHY。
+Primary User 特殊来源角色显著影响判断但不赋权；独立 social appetite、自愿迁就保留
+原始需求；negative-only Manager、Grant/Budget/Verify、硬 Data Privacy 与 UNKNOWN 保持。
+
+[实测] 最终全仓974 PASS /0 FAIL /1 SKIP(E12)，97.54s；新增26测试，最终focused29
+PASS /6.25s。恢复后仅规划sanity5 PASS /0.78s，无业务改动。CPython3.12.14 /
+SQLite3.53.1 /Pydantic2.13.4；SQLite>=3.51.3 门未降低。生成代码实际运行在隔离系统
+Python3.13.5：bwrap namespace/只读系统运行库/无宿主Store/无网络，有限JSON输入输出。
+主生活演示3个完成目标、10次verified本地合成Action、两个学习领域baseline0/1→
+transfer1/1，耗时2532ms；不同动机/领域对照2/4步计划、6次verified动作。
+两处真实 SIGKILL：effect后receipt前恢复同一Action一次效果；Lesson激活后cursor前
+恢复同一job、无重复Lesson/Experience。
+显式7/8/11→12 IDs/历史保留、FK clean；旧11 official replay quarantine；12 B8
+多目标/partial learning迁移，不恢复旧Grant/lease/controller。业务表39，新表/依赖0；
+默认Continuity7/Runtime8不变，无生产migration。已有971/974早期回归为历史，最终以本节为准。
+
+REAL_MEMORY_IMPORT_ENABLED=NO；真实模型/私密数据读取/真实社交投递/真实外部动作/
+生产/main/R045修改0；production trust pins不变，E12=NOT_RUN。真实宿主现场事实
+不由fixture升级。有限operator planning/数值文本学习/fixture提案器/纯JSON代码隔离
+不等于通用自主安装、真实视频理解或长期生产uptime。导出candidate副本/原始DB克隆边界
+见limitations，不能声称受托Store删除可远程抹除任意已导出副本。
+实现报告：`docs/nana_e1e6_open_autonomy_v1_implementation.md`；机器验收和demo：
+`docs/nana_e1e6_open_autonomy_v1_evidence/`。**NO PUSH / NO PRODUCTION**。
+
+Final E1–E6 delivery manifest anchor: SHA256 `d80ace4091e658a6442e1b5840369640c4d2bf6111e7999b4f71c0163e6456fc` (`manifests/nana_e1e6_open_autonomy_v1.json`).
