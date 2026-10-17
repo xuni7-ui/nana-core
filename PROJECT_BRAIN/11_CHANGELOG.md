@@ -1464,3 +1464,12 @@ opaque historical rows remain and deleted topics cannot revive. Added one compac
 transient→revisit→independent interest→source erasure and restart→expiry lifecycle
 qualification. No table/authority/SubjectLoop added. Current boundaries/life16 PASS;
 earlier full1014/0/1 at M6 retained as historical, final full follows these repairs.
+
+### GLOBAL E closeout M8 — populated D history and world portability proof
+[离线实测] Strengthened existing migration tests with actual v8 Runtime queue/C
+history before13 upgrade, and an actual sourced world belief before SubjectPackage
+transfer. Four targeted checks PASS, IDs/queue content retained, FK clean and old
+Grants revoked. No business code change. Latest full1017 PASS/0 FAIL/1 E12 SKIP,
+125.41s; world43 PASS/34.36s. Full will be captured on this final test tree too.
+Correction: M7's boundaries/life count was15, not16; raw command output is retained.
+The final evidence uses executable outputs, not that transcription error.

@@ -1186,3 +1186,11 @@ full and final source/evidence freeze pending. Existing30-minute Runtime process
 still running. No live semantic model or private data use; no push.
 
 nana_world_loop_m7 manifest SHA256 5a6a33869c6eb841f9a4af6089730854d8525823e025ef4b5565ad7af84e1ebf.
+
+[GLOBAL E closeout M8 / tested] Final business source07b736a. Existing forward13
+qualification now includes populated D-v8 Runtime queue/history and a real persisted
+world belief in the offline B8 transfer;4 targeted PASS. Prior full1017/0/1 and
+world43 PASS; final test tree capture and active wall soak pending. M7 targeted
+count corrected to15. No new source behavior, schema, dependency or authority.
+
+nana_world_loop_m8 manifest SHA256 e23b4a6a017edb0584d88f6b8bf1b872066d259b9d54f2496380b4f065630872.

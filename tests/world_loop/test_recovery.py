@@ -89,9 +89,24 @@ def test_forward_v13_with_old_ids_and_legacy_replay(tmp_path,version):
         mid=memory.add(MemoryCandidate(entity_id='observer',scope='world',memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',source_evidence_id=eid,text='Existing public development history'))
         cycle=SubjectLoop(s,scopes=('world',)).run(SubjectInput(source_key='synthetic.old-history',kind='WAKE',origin='SELF_WAKE',entity_id='observer',scope='world',source_memory_ids=(mid,),privacy_class='PUBLIC',observed_at_us=s.clock.utc_now_us()))
         identity=s.identity['identity_id'];events=len(s.all('events'));prior_record_ids={r['record_id'] for r in s.all('continuity_records')}
+    runtime_history=None
+    if version==8:
+        from nana_core.presence import NanaRuntime
+        from nana_core.presence.contracts import RuntimeConfig,RuntimeEvent,Cause
+        with NanaRuntime(path,RuntimeConfig(schema_target=8,entity_id='observer',scopes=('world',)),clock=VirtualClock()) as runtime:
+            inp=SubjectInput(source_key='synthetic.old-runtime-event',kind='WAKE',origin='SELF_WAKE',entity_id='observer',scope='world',source_memory_ids=(mid,),observed_at_us=runtime.clock.utc_now_us())
+            runtime.submit(RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=inp,causes=(Cause(kind='MEMORY',reference_id=mid),),due_at_us=runtime.clock.utc_now_us()))
+            runtime.step();runtime.stop_requested=True
+            runtime_history={row['queue_id']:dict(row) for row in runtime.store.all('runtime_queue')}
+            assert runtime_history
+        # Include the genuine D runtime's committed history and graceful stop.
+        with ContinuityStore(path,VirtualClock(),schema_target=8) as s:
+            events=len(s.all('events'));prior_record_ids={r['record_id'] for r in s.all('continuity_records')}
     with ContinuityStore(path,VirtualClock(),schema_target=13) as s:
         assert s.identity['identity_id']==identity and len(s.all('events'))==events
         assert s.one('subject_cycles',cycle.cycle_id) and prior_record_ids=={r['record_id'] for r in s.all('continuity_records')}
+        if runtime_history:
+            assert {row['queue_id']:dict(row) for row in s.all('runtime_queue')}==runtime_history
         assert MemoryService(s).read(mid)['text']=='Existing public development history'
         assert not s.db.execute('PRAGMA foreign_key_check').fetchall()
         assert s.db.execute("SELECT count(*) FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'").fetchone()[0]==43
@@ -105,6 +120,9 @@ def test_v13_package_world_history_and_pending_call_not_execution_authority(tmp_
     path=tmp_path/'s'/'self.db';clock=VirtualClock();target=str(uuid4());controller=PortableTransferAuthority()
     with provider_harness() as (transport,_),open_runtime(path,clock) as r:
         configure(r,tmp_path,transport,('synthetic://test',));mid=capture(r,'source',{'data':'public fixture'})
+        from nana_core.continuity.world_loop.world import WorldModel,SourcedClaim
+        fact=capture(r,'portable-world',{'world_claim':SourcedClaim(entity_id='device',predicate='portable',value='public recorded world belief',kind='RAW_OBSERVATION',valid_from_us=r.clock.utc_now_us()).model_dump(mode='json')})
+        belief_id=r.work.world.world.ingest(fact)
         cid=r.work.world.cognition.prepare('prepared','INTERPRET',(mid,));identity=r.identity_id
     with ContinuityStore(path,clock,schema_target=13) as s:
         package=SubjectPackageService(s,controller).export(tmp_path/'subject.zip',destination_id=target,source_commit='255ac99593219295b7126725bf6d51e1890051de',authority=controller)
@@ -113,6 +131,8 @@ def test_v13_package_world_history_and_pending_call_not_execution_authority(tmp_
     with ContinuityStore(imported,clock,schema_target=13) as s:
         SubjectPackageService(s,destination).activate(transfer_id=package['manifest'].transfer_id,destination_id=target,authority=destination)
         assert s.one('cognitive_requests',cid)['state']=='PREPARED' and all(g['revoked'] for g in s.all('grants'))
+        view=WorldModel(s,scopes=('world',),privacy_classes=('PUBLIC',)).view('device','portable')
+        assert view.state=='SUPPORTED_BELIEF' and view.alternatives[0]['belief_id']==belief_id
     with open_runtime(imported,clock) as r,provider_harness() as (transport,metrics):
         assert r.identity_id==identity and r.work.world is None
         configure(r,tmp_path/'new-world',transport,('synthetic://test',),grant=False)
