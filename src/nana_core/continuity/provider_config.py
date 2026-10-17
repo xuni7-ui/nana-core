@@ -37,7 +37,10 @@ def endpoint(base,locality,protocol):
         if len(h)>253 or '.' not in h or not all(re.fullmatch(r'[A-Za-z0-9](?:[A-Za-z0-9-]{0,61}[A-Za-z0-9])?',x) for x in h.split('.')) or h.lower().endswith(('.localhost','.local','.internal')):raise ValueError('invalid remote host')
     return urlunsplit((u.scheme,u.netloc.lower(),path,'',''))
 
-class ProviderProfile(DTO):
+class ConfigDTO(DTO):
+    model_config={'hide_input_in_errors':True}
+
+class ProviderProfile(ConfigDTO):
     provider_profile_id:str=Field(pattern=NAME_PATTERN)
     display_name:str=Field(min_length=1,max_length=96)
     protocol:ProtocolKind
@@ -57,7 +60,7 @@ class ProviderProfile(DTO):
         if self.base_url!=endpoint(self.base_url,self.locality,self.protocol):raise ValueError('noncanonical base URL')
         return self
 
-class ModelProfile(DTO):
+class ModelProfile(ConfigDTO):
     model_profile_id:str=Field(pattern=NAME_PATTERN)
     provider_profile_id:str=Field(pattern=NAME_PATTERN)
     remote_model_id:str=Field(pattern=r'^[A-Za-z0-9][A-Za-z0-9._:/-]{0,95}$')
@@ -76,13 +79,15 @@ class ModelProfile(DTO):
     def descriptor(self,provider):
         return ProviderDescriptor(provider_id=provider.provider_profile_id,model_id=self.remote_model_id,model_profile_id=self.model_profile_id,model_version=self.model_version,operations=self.operations,input_modalities=self.input_modalities,output_modalities=self.output_modalities,context_limit=self.context_limit,output_limit=self.output_limit,tool_proposals=self.tool_proposals,locality=provider.locality,permitted_privacy=provider.permitted_privacy,latency_class=self.latency_class,cost_class=self.cost_class,tags=self.tags)
 
-class CapabilityRoute(DTO):
+class CapabilityRoute(ConfigDTO):
     operation:Operation
     primary_model_profile_id:str=Field(pattern=NAME_PATTERN)
     fallback_model_profile_ids:tuple[str,...]=Field(default=(),max_length=8)
     enabled:bool=True
     timeout_ceiling_ms:int=Field(default=3000,ge=50,le=30000)
     cost_ceiling:int=Field(default=1000,ge=0,le=1000000)
+    context_ceiling:int=Field(default=2000000,ge=256,le=2000000)
+    output_ceiling:int=Field(default=131072,ge=1,le=131072)
     permitted_privacy:tuple[Privacy,...]=Field(default=('PUBLIC',),min_length=1,max_length=4)
     revision:int=Field(default=1,ge=1)
     @model_validator(mode='after')
@@ -91,7 +96,7 @@ class CapabilityRoute(DTO):
         if len(ids)!=len(set(ids)):raise ValueError('duplicate route model')
         return self
 
-class ProviderConfiguration(DTO):
+class ProviderConfiguration(ConfigDTO):
     schema_version:Literal[1]=1
     revision:int=Field(default=0,ge=0)
     providers:tuple[ProviderProfile,...]=Field(default=(),max_length=64)
@@ -122,7 +127,7 @@ class ResolvedSecret:
 
 class ProviderConfigurationAuthority:pass
 
-class ProviderCommand(DTO):
+class ProviderCommand(ConfigDTO):
     operation:Literal['UPSERT_PROVIDER','REMOVE_PROVIDER','UPSERT_MODEL','REMOVE_MODEL','SET_CAPABILITY_ROUTE','REMOVE_CAPABILITY_ROUTE','ENABLE_PROVIDER','DISABLE_PROVIDER']
     expected_revision:int=Field(ge=0)
     target_id:str|None=None
@@ -180,7 +185,7 @@ class ProviderConfigService:
     def initialize(self,authority):
         self._check(authority);fd=self._lock()
         try:
-            if self._path.exists():return self._load()
+            if os.path.lexists(self._path):return self._load()
             c=ProviderConfiguration();self._atomic(c);return c
         finally:os.close(fd)
     def _check(self,authority):

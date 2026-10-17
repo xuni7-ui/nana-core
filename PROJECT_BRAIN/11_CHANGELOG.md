@@ -1582,3 +1582,13 @@ checks and explicit memory-only SecretResolver contract. Existing ephemeral B9
 Registry accepts stable profile keys and disambiguates same remote name by provider.
 25 targeted/B9 tests PASS,2 actual local SIGKILL cuts. No Subject table/schema,
 secret/provider call or H1 historical PARTIAL upgrade. Router/frontend still pending.
+
+### Provider routing P2/P3 — pre-dispatch selection and existing session factory
+[源码/离线测试] Typed intersections, exact-model, profile-specific fixture and explicit
+OpenAI-compatible construction. Fallback exists only in resolution before call;
+UNKNOWN/malformed never re-dispatch. Immutable route snapshot persists in original
+CognitionRequest, optional absent field retains old hashes. Old PREPARED request
+cannot dispatch using changed route/model. Native loopback Text/Vision/sampled Video
+reuse same H1 path; generic fixture media/embedding retain old B9 interfaces.
+43 routing/B9/open-media focused PASS;0 real provider calls. Frontend/transfer
+qualification pending. No new Subject table/schema, Runtime or SubjectLoop.

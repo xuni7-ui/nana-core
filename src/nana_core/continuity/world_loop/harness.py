@@ -65,7 +65,19 @@ def provider_harness(proposer=propose_from_context,*,mode='ok',delay=0):
             try:
                 n=int(self.headers.get('Content-Length',0))
                 if not 1<=n<=196608:self.send_error(413);return
-                body=json.loads(self.rfile.read(n));request=CognitionRequest.model_validate_json(body['messages'][-1]['content'])
+                body=json.loads(self.rfile.read(n));content=body['messages'][-1]['content']
+                if isinstance(content,list):
+                    metadata=json.loads(content[0]['text'])
+                    parts=metadata['role_input']['parts']
+                    if len(content)!=len(parts)+1:raise ValueError('fixture part count')
+                    for part,wire in zip(parts,content[1:]):
+                        if part['kind']=='IMAGE':
+                            url=wire['image_url']['url'];prefix='data:image/png;base64,'
+                            if not url.startswith(prefix):raise ValueError('fixture image contract')
+                            part['data_b64']=url[len(prefix):]
+                        else:part['data_b64']=wire['input_audio']['data']
+                    content=canonical(metadata)
+                request=CognitionRequest.model_validate_json(content)
                 state['calls']+=1;state['request_ids'].append(request.request_id)
                 actual_delay=state.get('delay',delay);selected_mode=state.get('mode',mode)
                 if actual_delay:time.sleep(actual_delay)

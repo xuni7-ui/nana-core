@@ -12,6 +12,7 @@ from ...contracts import DTO,CoreError
 from ...storage import canonical,digest,uid
 from ..context import ContextAssembler,ContextRequest,ContextPolicy
 from ..records import RecordService
+from ..provider_routing import RouteSnapshot
 from ..open_agency.contracts import Objective
 from ..subject.opportunities import Behavior
 
@@ -39,6 +40,12 @@ class CognitionRequest(DTO):
     created_at_us:int
     deadline_us:int
     provenance:Literal['PROPOSAL_NOT_AUTHORITY']='PROPOSAL_NOT_AUTHORITY'
+    route_snapshot:RouteSnapshot|None=None
+    @model_serializer(mode='wrap')
+    def legacy_route_wire(self,handler):
+        result=handler(self)
+        if self.route_snapshot is None:result.pop('route_snapshot',None)
+        return result
 class InterestProposal(DTO):
     topic:str=Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
     motivation_source:str=Field(pattern=r'^[A-Z][A-Z0-9_]{1,63}$')
@@ -197,16 +204,25 @@ def allowed_for_role(transport,policy):
     return policy.remote_privacy if transport.remote else policy.readable_privacy
 
 class CognitionSession:
-    def __init__(self,runtime,transport,policy,*,max_calls_per_day=24):
+    def __init__(self,runtime,transport,policy,*,max_calls_per_day=24,route_snapshot=None,route_guard=None):
         if runtime.store.schema_target<13:raise CoreError('WORLD_SCHEMA_REQUIRED')
         self.runtime,self.store,self.transport,self.policy=runtime,runtime.store,transport,policy
         self.records=RecordService(self.store);self.assembler=ContextAssembler(self.store,runtime.authority)
         self.max_calls=max_calls_per_day;self._workers=[]
+        if route_snapshot is not None and type(route_snapshot) is not RouteSnapshot:raise CoreError('ROUTE_SNAPSHOT_REQUIRED')
+        self.route_snapshot,self._route_guard=route_snapshot,route_guard
         if not 1<=max_calls_per_day<=128:raise CoreError("COGNITION_QUOTA_BOUND")
     def prepare(self,key,role,source_ids,*,budget=None,goal_id=None,capabilities=(),role_input=None):
         old=self.store.db.execute('SELECT * FROM cognitive_requests WHERE request_key=?',(key,)).fetchone()
         if old:return old['request_id']
         r=self.runtime;r.lease.assert_current();b=budget or CognitionBudget()
+        if self.route_snapshot is not None:
+            snap=self.route_snapshot;limit=snap.effective
+            if not self._route_guard or not self._route_guard():raise CoreError('ROUTE_CHANGED_BEFORE_DISPATCH')
+            media_op={'VISION':'IMAGE','AUDIO_UNDERSTAND':'AUDIO','VIDEO_UNDERSTAND':'VIDEO'}.get(snap.operation)
+            if (snap.operation=='COGNITION' and role=='MEDIA') or (media_op and (role!='MEDIA' or not role_input or role_input.get('modality')!=media_op)):raise CoreError('ROUTED_OPERATION_MISMATCH')
+            if limit.output_limit<64 or limit.context_limit<256:raise CoreError('BUDGET_DENIED')
+            b=CognitionBudget(input_tokens=min(b.input_tokens,limit.context_limit),output_tokens=min(b.output_tokens,limit.output_limit),timeout_ms=min(b.timeout_ms,limit.timeout_ms),cost_ceiling_micro=min(b.cost_ceiling_micro,limit.cost_ceiling))
         now=self.store.clock.utc_now_us();count=self.store.db.execute("SELECT count(*) FROM cognitive_requests WHERE created_at_us>=?",(now//86400_000_000*86400_000_000,)).fetchone()[0]
         if count>=self.max_calls:raise CoreError('COGNITION_DAILY_BUDGET')
         if self.transport.remote and b.cost_ceiling_micro==0:raise CoreError('REMOTE_COST_RESERVATION_REQUIRED')
@@ -251,7 +267,7 @@ class CognitionSession:
             head=self.store.one('continuity_records',json.loads(g['body_json']).get('record_id'))
             if head and head['scope'] in req.scopes and head['privacy_class'] in allowed and self.records.current_support(head['record_id']):current.append({'goal_id':g['goal_id'],'version':g['version'],'state':g['state']})
         current=tuple(current)
-        request=CognitionRequest(request_id=request_id,subject_epoch=r.lease.epoch,subject_revision=r.subject.revision,cognitive_role=role,source_context_refs=refs,primary_source_refs=tuple(source_ids),context_json=context.model_dump_json(),current_goals=current,available_capabilities=tuple(capabilities),world_stamp=self._world_stamp(req.scopes,allowed),expected_schema=StructuredProposal.model_json_schema(),role_input=role_input,budget=b,created_at_us=now,deadline_us=now+b.timeout_ms*1000)
+        request=CognitionRequest(request_id=request_id,subject_epoch=r.lease.epoch,subject_revision=r.subject.revision,cognitive_role=role,source_context_refs=refs,primary_source_refs=tuple(source_ids),context_json=context.model_dump_json(),current_goals=current,available_capabilities=tuple(capabilities),world_stamp=self._world_stamp(req.scopes,allowed),expected_schema=StructuredProposal.model_json_schema(),role_input=role_input,budget=b,created_at_us=now,deadline_us=now+b.timeout_ms*1000,route_snapshot=self.route_snapshot)
         reserved_bytes=len(request.model_dump_json().encode())*2+16384+min(131072,b.output_tokens*4+4096)
         if r.config.living:
             from ...presence.resources import resource_state
@@ -272,6 +288,9 @@ class CognitionSession:
         self.runtime.lease.assert_current()
         if row['owner_epoch']!=self.runtime.lease.epoch or row['subject_revision']!=self.runtime.subject.revision or self.store.clock.utc_now_us()>row['deadline_us'] or not self.records.current_support(row['record_id']):return False
         request=self.records.read(row['record_id'])['payload']['request']
+        if (request.get('route_snapshot') is not None or self.route_snapshot is not None):
+            if self.route_snapshot is None or request.get('route_snapshot')!=self.route_snapshot.model_dump(mode='json') or self._route_guard is None or not self._route_guard():return False
+        if (self.records.read(row['record_id'])['payload']['provider'],self.records.read(row['record_id'])['payload']['model'])!=(self.transport.provider_id,self.transport.model_id):return False
         allowed=allowed_for_role(self.transport,self.policy)
         if request['world_stamp']!=self._world_stamp(self.runtime.config.scopes,allowed):return False
         if json.loads(request['context_json'])['manifest']['identity_revision']!=self.store.identity['revision']:return False

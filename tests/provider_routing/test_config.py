@@ -60,3 +60,10 @@ s.update(ProviderCommand(operation='UPSERT_PROVIDER',expected_revision=0,provide
     assert len(loaded.providers)==loaded.revision
     # Temp files are untrusted crash residue, never read as config/defaults.
     assert ProviderConfigService(path,ProviderConfigurationAuthority()).load()==loaded
+
+def test_symlink_config_never_resets_and_errors_do_not_echo_input(tmp_path):
+    path=tmp_path/'host/providers.json';s,a=config_service(path);path.unlink();path.symlink_to(tmp_path/'missing')
+    with pytest.raises(CoreError):s.initialize(a)
+    assert path.is_symlink()
+    with pytest.raises(ValidationError) as e:ProviderProfile(provider_profile_id='fixture.bad',display_name='x',protocol='LOCAL',locality='LOCAL_FIXTURE',api_key='TEST_ONLY_NOT_SECRET')
+    assert 'TEST_ONLY_NOT_SECRET' not in str(e.value)

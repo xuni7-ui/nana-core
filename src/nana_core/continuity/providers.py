@@ -87,6 +87,9 @@ class ProviderRegistry:
         if any(not callable(getattr(port,_METHODS[op],None)) for op in descriptor.operations):
             raise CoreError('PROVIDER_CONTRACT_MISMATCH')
         self._ports[key]=(descriptor,port)
+    def unregister(self,model_profile_id):
+        if model_profile_id not in self._ports:raise CoreError('PROVIDER_UNAVAILABLE')
+        del self._ports[model_profile_id]
     def descriptors(self): return tuple(d for d,p in self._ports.values())
     def _resolve(self, model_id, operation):
         matches=[v for k,v in self._ports.items() if k==model_id or (v[0].model_profile_id is None and v[0].model_id==model_id)]
@@ -120,8 +123,9 @@ class ProviderRegistry:
         return result
 
 class MediaSession:
-    def __init__(self,store,registry,policy: ContextPolicy):
+    def __init__(self,store,registry,policy: ContextPolicy,*,limits=None):
         self._store,self._registry,self._policy=store,registry,policy
+        self._limits=limits
     def _invoke(self,model_id,operation,memory_ids,*,scopes):
         d,p=self._registry._resolve(model_id,operation)
         if not scopes or not set(scopes)<=set(self._policy.allowed_scopes):raise CoreError('MEDIA_SCOPE_DENIED')
@@ -134,7 +138,7 @@ class MediaSession:
                 raise CoreError('MEDIA_PRIVACY_DENIED')
             items.append({'memory_id':mid,'content':memory.read(mid)['text']})
         raw=canonical(items)
-        if len(raw.encode())>min(d.context_limit,65536):raise CoreError('MEDIA_INPUT_TOO_LARGE')
+        if len(raw.encode())>min(d.context_limit,65536,self._limits.context_limit if self._limits else 65536):raise CoreError('MEDIA_INPUT_TOO_LARGE')
         inp=FrozenMediaInput(source_memory_ids=tuple(memory_ids),state_token=token,content_json=raw,content_digest=digest(raw.encode()))
         result=getattr(p,_METHODS[operation])(inp)
         if token!=state_token(self._store):raise CoreError('MEDIA_SOURCE_STALE')
@@ -142,7 +146,7 @@ class MediaSession:
         if not isinstance(result,expected):raise CoreError('MEDIA_PROPOSAL_INVALID')
         result=expected.model_validate_json(result.model_dump_json())
         if result.source_memory_ids!=tuple(memory_ids):raise CoreError('MEDIA_SOURCE_MISMATCH')
-        if isinstance(result,MediaProposal) and (result.operation!=operation or len(result.result_json.encode())>d.output_limit):
+        if isinstance(result,MediaProposal) and (result.operation!=operation or len(result.result_json.encode())>min(d.output_limit,self._limits.output_limit if self._limits else d.output_limit)):
             raise CoreError('MEDIA_PROPOSAL_INVALID')
         if isinstance(result,MediaProposal):
             import json

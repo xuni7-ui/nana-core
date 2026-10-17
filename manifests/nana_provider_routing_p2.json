@@ -1,0 +1,14 @@
+{
+  "files": {
+    "src/nana_core/continuity/providers.py": "1bc05287ed2a7468527af826fcc97f71dc4a0bfc846cf1a39cacf7cfb5a0fa58",
+    "src/nana_core/continuity/provider_config.py": "52a36a4f044915ce55d45468eec920eda91b1be32af87d7fda8b33fbbbe3e868",
+    "src/nana_core/continuity/provider_routing.py": "21a7317ddc8e36cdb31584d2df7f8695b1b0c2400098d4a47350284cbb7eef1c",
+    "src/nana_core/continuity/world_loop/cognition.py": "a612b9ec077602662f95bc3fa8b34d322dd801eeb376faa653b00d7d96df2758",
+    "src/nana_core/continuity/world_loop/harness.py": "1aada8920925fa9597f1e2a58a64731c41fd60dc138690d1f7da4db528a6f069",
+    "tests/provider_routing/helpers.py": "be4ff2900f7b5bb0718a988fc1dffee8b4a18cce28f403ab542d7f17c9859ee0",
+    "tests/provider_routing/test_config.py": "175723b5026f730aa241919c8e0854cc9cc66299c41fdf54b352a273896780ec",
+    "tests/provider_routing/test_router.py": "689e78837138972cadb02426448eb76a637bb873a8b7c15d65a4664c7a40c93a",
+    "tests/provider_routing/test_ports.py": "2cf67fcffefed1ebca0ff2a3fca5207fae5074c431720088ed38f09ff45f76fe",
+    "PROJECT_BRAIN/11_CHANGELOG.md": "c3aada517a9edf4bbab132e2d4e85b3ac4935e308f73b123ec984c487830f86c"
+  }
+}
