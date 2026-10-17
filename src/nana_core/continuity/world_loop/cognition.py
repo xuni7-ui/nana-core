@@ -206,8 +206,8 @@ class CognitionSession:
             tx.put('cognitive_requests',{'request_id':request_id,'request_key':key,'record_id':rid,'subject_revision':r.subject.revision,'owner_epoch':r.lease.epoch,'goal_id':goal_id,'goal_version':goal['version'] if goal else None,'state':'PREPARED','deadline_us':request.deadline_us,'request_digest':digest(request.model_dump(mode='json')),'response_digest':None,'error_code':None,'created_at_us':now,'reserved_bytes':reserved_bytes,'reserved_cost_micro':b.cost_ceiling_micro,'input_bytes':None,'output_bytes':None,'actual_cost_micro':None,'latency_us':None})
         return request_id
     def _world_stamp(self,scopes,privacy):
-        sp=','.join('?' for _ in scopes) or 'NULL';pp=','.join('?' for _ in privacy) or 'NULL'
-        rows=self.store.db.execute(f"SELECT b.belief_id,b.revision,b.state,r.lifecycle FROM world_beliefs b JOIN continuity_records r ON b.record_id=r.record_id WHERE b.scope IN ({sp}) AND r.privacy_class IN ({pp}) ORDER BY b.rowid DESC LIMIT 65",(*scopes,*privacy)).fetchall()
+        sp=','.join('?' for _ in scopes) or 'NULL';pp=','.join('?' for _ in privacy) or 'NULL';now=self.store.clock.utc_now_us()
+        rows=self.store.db.execute(f"SELECT b.belief_id,b.revision,b.state,r.lifecycle,(b.valid_from_us<=? AND (b.valid_until_us IS NULL OR b.valid_until_us>?)) AS currently_valid FROM world_beliefs b JOIN continuity_records r ON b.record_id=r.record_id WHERE b.scope IN ({sp}) AND r.privacy_class IN ({pp}) ORDER BY b.rowid DESC LIMIT 65",(now,now,*scopes,*privacy)).fetchall()
         return digest([tuple(x) for x in rows])
     def _current(self,row):
         self.runtime.lease.assert_current()

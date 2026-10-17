@@ -1,0 +1,11 @@
+{
+  "scope": "OFFLINE_DEVELOPMENT",
+  "files": {
+    "PROJECT_BRAIN/11_CHANGELOG.md": "72ad020d6b5e5ed4cc9bb511825ba71e148530c12d3ce5eca0e5ba8e39fa31ee",
+    "docs/nana_real_cognition_world_loop_v1_implementation.md": "a85979a90da413df6115013d2d1d874d924902796c458cd05a0cb7cf9e387266",
+    "src/nana_core/continuity/world_loop/cognition.py": "8301fd2c8d3665c80ef949ea840d91f3634c4f00fc51d5885150a3f439a13254",
+    "tests/world_loop/test_boundaries.py": "651140c6106dc0e95a2c40cfad1b0c9ddefb22bd38539d8c0bc74600b78b8ec9",
+    "tests/world_loop/test_learning.py": "1aff3ea00d1b09c7ee81e6bbb9b65666a7c418a098e55a2f904b00e62f7cf211",
+    "tests/world_loop/test_recovery.py": "5493f159df96acf3c8cfd4baa64815531f24e0e7e0734276acf06fa5568e377e"
+  }
+}

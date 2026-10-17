@@ -31,3 +31,28 @@ def test_episode_reuse_counterexample_and_independent_revalidation(tmp_path):
         MemoryService(r.store,r.authority).set_lifecycle(counter,'SUPPRESSED',r.authority)
         assert review.revalidate(lesson['lesson_id'],authority=r.authority)['state']=='ACTIVE'
         assert review.competition('numbers')[0]['state']=='ACTIVE'
+
+
+def test_transport_hypothesis_reuses_original_nine_stages_and_reflection_stays_proposal(tmp_path):
+    from nana_core.continuity.world_loop.cognition import CognitionSession
+    from nana_core.continuity.world_loop.ports import CognitionLearningProposer
+    from nana_core.continuity.world_loop.harness import provider_harness
+    from nana_core.continuity.records import RecordService
+    with fresh(tmp_path/'s'/'self.db') as r,provider_harness() as (transport,metrics):
+        source=capture(r,'source',{'data':'Independent numeric precision problem'})
+        session=CognitionSession(r,transport,policy());port=CognitionLearningProposer(session,(source,))
+        r.work.configure_open_learning((numeric_learning(),),proposer=port)
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='numbers',program_id='learn.numbers',possible_behaviors=('LEARN',))
+        e=MemoryService(r.store).capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.learning-cognition',source_reference='cue',source_kind='DIRECT_OBSERVATION'),text=cue.model_dump_json(),privacy_class='PUBLIC',observed_time_us=r.clock.utc_now_us()))
+        mid=MemoryService(r.store).add(MemoryCandidate(entity_id='observer',scope='world',memory_type=MemoryType.PROSPECTIVE,epistemic_kind='OBSERVATION',source_evidence_id=e,text=cue.model_dump_json(),predicate_key='concern.numbers'))
+        inp=SubjectInput(source_key='synthetic.learning-http',kind='WAKE',origin='SELF_WAKE',entity_id='observer',scope='world',source_memory_ids=(mid,),observed_at_us=r.clock.utc_now_us())
+        r.submit(RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=inp,causes=(Cause(kind='MEMORY',reference_id=mid),),due_at_us=r.clock.utc_now_us()));r.drain(32)
+        assert metrics['calls']==1
+        lesson=r.store.all('lessons')[0];assert lesson['state']=='ACTIVE'
+        records=RecordService(r.store);assert source in records.support(lesson['record_id'])
+        work=r.store.db.execute("SELECT * FROM jobs WHERE work_kind='LEARNING'").fetchone()
+        assert work['state']=='DONE' and work['cursor']==9
+        assert records.read(work['record_id'])['payload']['hypothesis_source']==port.last_record_id
+        before=(len(r.store.all('experiences')),len(r.store.all('lessons')))
+        request=session.prepare('reflect-proposal','REFLECT',(source,));assert session.execute(request)['state']=='PROPOSED'
+        assert (len(r.store.all('experiences')),len(r.store.all('lessons')))==before

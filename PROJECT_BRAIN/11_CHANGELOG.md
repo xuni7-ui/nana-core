@@ -1429,3 +1429,11 @@ reservation，真实未知billing不伪装0。对用户GLOBAL E纠偏追加能�
 candidate/intention/cycle/SELF_WAKE concern谱系。7/8/12→13迁移测试现在迁移非空C历史，
 验证旧Memory、全部Record IDs与已提交Cycle保留，不只验证空Store身份。targeted boundary
 7通过/0.96s，recovery7通过/1.42s，26h主/对照system2通过/16.41s。全仓库显式tests回归中。
+
+## GLOBAL E temporal-expiry fence and actual transport role qualification
+[源码/离线实测] 保留失败回归后修复：belief自然跨过valid_until而未新增revision时，旧认知
+上下文仍可能被接受。world stamp现包含来源的当前有效区间状态；有效期跨界即STALE，
+不因微秒正常流逝无故invalidate。新增实际HTTP LEARN proposer→原九阶段→独立核验/
+Lesson的接线测试；REFLECT回包不自行创建Experience/Lesson。World suite30通过/21.72s，
+含两个26h综合世界；初次全仓1002通过/1 E12跳过，最终新增测试后的全仓待重跑。
+实现文档说明模块/数据/时态/迁移/边界/复现命令，未新增第二学习或技能系统。

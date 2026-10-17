@@ -46,7 +46,7 @@ def test_forward_v13_with_old_ids_and_legacy_replay(tmp_path,version):
     with ContinuityStore(path,VirtualClock(),schema_target=13) as s:
         assert s.identity['identity_id']==identity and len(s.all('events'))==events
         assert s.one('subject_cycles',cycle.cycle_id) and prior_record_ids=={r['record_id'] for r in s.all('continuity_records')}
-        assert MemoryService(s).read(mid)['text']=='Existing public development history' 
+        assert MemoryService(s).read(mid)['text']=='Existing public development history'
         assert not s.db.execute('PRAGMA foreign_key_check').fetchall()
         assert s.db.execute("SELECT count(*) FROM sqlite_master WHERE type='table' AND name NOT LIKE 'sqlite_%'").fetchone()[0]==43
         s.replay(tmp_path/'replay'/'self.db')

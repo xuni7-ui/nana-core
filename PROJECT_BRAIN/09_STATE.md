@@ -1162,3 +1162,8 @@ nana_world_loop_m3 manifest SHA256 bd1950dd02a229558426e48ece1b7836af7e9af8173c9
 实际runtime仍进行中，最终状态待证据收口。
 
 nana_world_loop_m4 manifest SHA256 132399cf67a224990ff8a4127e8c86eeca4db674835819e9e6708c275b7d0e1e.
+
+[GLOBAL E / tested] world suite30通过；新增valid-time expiry认知fence与真实本地HTTP
+hypothesis→原九阶段接线。早期全仓1002通过/1 E12 skip；最终全仓及30min wall待完成。
+
+nana_world_loop_m5 manifest SHA256 7cbc9df8d662eeae119395a9d7c4915563e2a291fa4d79870e76d7b7c869a7bb.

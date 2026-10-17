@@ -115,3 +115,14 @@ def test_world_change_invalidates_actual_http_reply_without_new_subject_cycle(tm
         assert r.subject.revision==revision
         assert session.accept(cid,reply)['state']=='STALE' and state['calls']==1
         assert not r.store.db.execute("SELECT 1 FROM continuity_records WHERE record_kind='COGNITION_PROPOSAL'").fetchone()
+
+
+def test_world_valid_time_expiry_stales_frozen_context_before_provider_call(tmp_path):
+    with fresh(tmp_path/'s'/'self.db') as r,provider_harness() as (transport,state):
+        now=r.clock.utc_now_us()
+        source=capture(r,'short-lived',{'world_claim':SourcedClaim(entity_id='device',predicate='window',value='open',kind='RAW_OBSERVATION',valid_from_us=now,valid_until_us=now+SECOND).model_dump(mode='json')})
+        world=WorldModel(r.store,scopes=('world',),privacy_classes=('PUBLIC',));world.ingest(source)
+        session=CognitionSession(r,transport,policy());cid=session.prepare('expiring','INTERPRET',(source,))
+        r.clock.source.advance(2*SECOND)
+        assert world.view('device','window').state=='UNKNOWN'
+        assert session.execute(cid)['state']=='STALE' and state['calls']==0
