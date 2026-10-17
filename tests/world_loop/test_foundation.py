@@ -61,6 +61,8 @@ def test_actual_image_audio_video_decode_spans_and_source_erasure(tmp_path):
             with pytest.raises(CoreError):p.records.read(rid)
         assert len(reports['VIDEO']['frames'])>=3 and len(reports['VIDEO']['changes'])>=2
         assert reports['AUDIO']['samples']==16000 and reports['AUDIO']['transcript_status']=='NOT_RUN_NO_ASR'
+        assert reports['AUDIO']['source_codec']=='pcm_s16le'
+        assert reports['AUDIO']['source_sample_rate']==16000 and reports['AUDIO']['source_channels']==1
         assert reports['VIDEO']['unobserved_between_samples']
         assert all(len(f['source_interval_s'])==2 and f['source_interval_s'][0]<=f['sample_s']<f['source_interval_s'][1] for f in reports['VIDEO']['frames'])
         with pytest.raises(CoreError):p.decoder.decode(b'not a video','VIDEO')

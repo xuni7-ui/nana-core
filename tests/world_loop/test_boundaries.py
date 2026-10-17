@@ -126,3 +126,37 @@ def test_world_valid_time_expiry_stales_frozen_context_before_provider_call(tmp_
         r.clock.source.advance(2*SECOND)
         assert world.view('device','window').state=='UNKNOWN'
         assert session.execute(cid)['state']=='STALE' and state['calls']==0
+
+
+def test_generic_proposals_use_json_object_wire_and_local_schema_validation(tmp_path):
+    # Operator arguments are extensible dictionaries. Advertising their ordinary
+    # Pydantic schema as provider-native strict JSON Schema is not compatible
+    # with providers requiring every object to be closed/all fields required.
+    with fresh(tmp_path/'s'/'self.db') as r,provider_harness() as (transport,state):
+        formats=[];original=transport.opener.open
+        def capture_format(request,**kwargs):
+            formats.append(json.loads(request.data)['response_format'])
+            return original(request,**kwargs)
+        transport.opener.open=capture_format
+        session=CognitionSession(r,transport,policy());source=capture(r,'wire-contract',{'data':'public observation'})
+        cid=session.prepare('wire-contract','INTERPRET',(source,));assert session.execute(cid)['state']=='PROPOSED'
+        assert formats==[{'type':'json_object'}]
+    from types import SimpleNamespace
+    def forged(request):
+        return SimpleNamespace(model_dump_json=lambda:canonical({'interpretation':'A proposal cannot issue authority','grant':{'capability':'arbitrary'}}))
+    with fresh(tmp_path/'forged'/'self.db') as r,provider_harness(proposer=forged) as (transport,state):
+        session=CognitionSession(r,transport,policy());source=capture(r,'forged-wire',{'data':'public observation'})
+        cid=session.prepare('forged-wire','INTERPRET',(source,));assert session.execute(cid)['state']=='FAILED'
+        assert not r.store.all('grants') and not r.store.all('goals')
+        assert not r.store.db.execute("SELECT 1 FROM continuity_records WHERE record_kind='COGNITION_PROPOSAL'").fetchone()
+
+
+def test_loopback_reply_cannot_promote_itself_to_real_provider_evidence(tmp_path):
+    with fresh(tmp_path/'s'/'self.db') as r,provider_harness() as (transport,state):
+        exchange=transport.exchange
+        transport.exchange=lambda request:exchange(request).model_copy(update={'origin':'REAL_PROVIDER'})
+        session=CognitionSession(r,transport,policy());source=capture(r,'forged-origin',{'data':'public observation'})
+        cid=session.prepare('forged-origin','INTERPRET',(source,))
+        assert session.execute(cid)['state']=='REJECTED'
+        assert state['calls']==1
+        assert not r.store.db.execute("SELECT 1 FROM continuity_records WHERE record_kind='COGNITION_PROPOSAL'").fetchone()

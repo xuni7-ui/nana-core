@@ -1167,3 +1167,14 @@ nana_world_loop_m4 manifest SHA256 132399cf67a224990ff8a4127e8c86eeca4db67483581
 hypothesis→原九阶段接线。早期全仓1002通过/1 E12 skip；最终全仓及30min wall待完成。
 
 nana_world_loop_m5 manifest SHA256 7cbc9df8d662eeae119395a9d7c4915563e2a291fa4d79870e76d7b7c869a7bb.
+
+## GLOBAL_STAGE E — FINALIZATION IN PROGRESS（2026-10-17）
+[实测] Current branch dev/nana-core-real-cognition-world-loop-v1-codex, start9e7ce710.
+User separately authorized/pushed existing255ac995 and9e7ce710 histories; this closeout
+again has NO AUTO PUSH. Current legitimate dirty test/evidence retained, old bundle
+untouched. JSON wire/local strict validation, origin pin and atomic counterexample
+fence repaired with failing regressions. Recovery now includes actual SIGKILL on
+indexed Stage E transaction boundaries. Final full and long wall soak still pending;
+LIVE_MODEL_EXECUTION=NOT_RUN. No upgrade of real host/private memory/E12 states.
+
+nana_world_loop_m6 manifest SHA256 5418b5de661bb1a8afc0447c623632a9114a7a095f32a87bbe494b50ac85d062.

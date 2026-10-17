@@ -1437,3 +1437,17 @@ candidate/intention/cycle/SELF_WAKE concern谱系。7/8/12→13迁移测试现�
 Lesson的接线测试；REFLECT回包不自行创建Experience/Lesson。World suite30通过/21.72s，
 含两个26h综合世界；初次全仓1002通过/1 E12跳过，最终新增测试后的全仓待重跑。
 实现文档说明模块/数据/时态/迁移/边界/复现命令，未新增第二学习或技能系统。
+
+### GLOBAL E closeout M6 — repair retained regressions and qualify durable boundaries
+[源码/离线实测] Resume exact9e7ce710 after authorized two-ref history sync; preserve old
+unrelated bundle and finish legitimate dirty tests/evidence on the same branch. Fixed
+retained strict-schema wire mismatch, origin promotion and counterexample/suspension
+commit gap; each reproduced failing before repair. Audio technical records preserve
+source codec/rate/channels, never transcript or semantic claims. Existing world
+SIGKILL worker now covers PREPARED/proposal/concern/C commit/world revision/strategy
+commit/skill cursor/deletion anchor, alongside CALLING/adoption and inherited effect/
+learning cuts. Same Store/SubjectLoop; all authority and privacy gates preserved.
+Focused world + inherited recovery46 PASS before final added provenance assertion;
+latest dangerous-boundary/learning/recovery27 PASS. Final whole repository regression,
+updated scenarios and active30-minute wall-clock Runtime soak follow. Not READY yet.
+No push/main/R045/production/private/live model operations in this task.

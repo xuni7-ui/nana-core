@@ -31,7 +31,11 @@ class EpisodeLearning:
         with self.store.transaction('world.strategy_episode_checked',{'assessment_id':aid,'verdict':verdict}) as tx:
             rid=self.records.create(tx,kind='STRATEGY_REVIEW',scope=memory['scope'],payload={'episode':body,'result':result,'method':rule.method,'attribution':'STRATEGY_OUTPUT_VS_INDEPENDENT_EXPECTATION','not_a_personality_change':True},memories=(source_memory_id,),records=(lesson['record_id'],),target_id=lesson_id)
             tx.put('strategy_assessments',{'assessment_id':aid,'lesson_id':lesson_id,'record_id':rid,'episode_key':key,'verdict':verdict,'context_digest':digest([case.context,case.data]),'created_at_us':self.store.clock.utc_now_us()})
-        if verdict=='COUNTEREXAMPLE' and lesson['state']=='ACTIVE':self.experiences.suspend(lesson_id,self.authority)
+            # A durable disproof and its strategy fence are one causal change.
+            # A crash must never leave ACTIVE selection between two commits;
+            # replay of an already assessed episode would otherwise skip it.
+            if verdict=='COUNTEREXAMPLE' and lesson['state']=='ACTIVE':
+                tx.update('lessons',lesson_id,state='SUSPENDED',revision=lesson['revision']+1)
         return aid
     def view(self,lesson_id):
         rows=self.store.db.execute('SELECT * FROM strategy_assessments WHERE lesson_id=? ORDER BY created_at_us DESC,rowid DESC LIMIT 64',(lesson_id,)).fetchall();seen=set();valid=[]

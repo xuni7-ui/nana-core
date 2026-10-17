@@ -10,7 +10,7 @@ from nana_core.presence.contracts import RuntimeEvent,Cause
 from nana_core.continuity.memory import MemoryService
 from .helpers import *
 
-def test_episode_reuse_counterexample_and_independent_revalidation(tmp_path):
+def test_episode_reuse_counterexample_and_independent_revalidation(tmp_path,monkeypatch):
     with fresh(tmp_path/'s'/'self.db') as r:
         r.work.configure_open_learning((numeric_learning(),))
         cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='SELF_DEVELOPMENT',topic_key='numbers',program_id='learn.numbers',possible_behaviors=('LEARN',))
@@ -24,7 +24,19 @@ def test_episode_reuse_counterexample_and_independent_revalidation(tmp_path):
             body={'strategy_episode':{'episode_key':key,'lesson_id':lesson['lesson_id'],'case':LearningCase(case_id=key,context=key,data=data,expected=expected).model_dump(mode='json')}}
             mid=capture(r,key,body);aid=review.assess(lesson['lesson_id'],mid,authority=r.authority);return mid,aid
         assess('reuse',[3.5,2],5.5);view=review.view(lesson['lesson_id']);assert view['supports']==1 and view['state']=='ACTIVE'
-        counter,aid=assess('precision-counter',[.1,.2],.3);assert review.view(lesson['lesson_id'])['counterexamples']==1 and not r.work.open_learning.strategy('numbers','world')
+        # A process can die after the independent verdict is durable but before
+        # the caller resumes. Suspension must share that very same transaction.
+        from contextlib import contextmanager
+        original=r.store.transaction
+        @contextmanager
+        def after_commit(kind,*args,**kwargs):
+            with original(kind,*args,**kwargs) as tx:yield tx
+            if kind=='world.strategy_episode_checked':
+                assert r.store.one('lessons',lesson['lesson_id'])['state']=='SUSPENDED'
+        with monkeypatch.context() as patch:
+            patch.setattr(r.store,'transaction',after_commit)
+            counter,aid=assess('precision-counter',[.1,.2],.3)
+        assert review.view(lesson['lesson_id'])['counterexamples']==1 and not r.work.open_learning.strategy('numbers','world')
         assert review.assess(lesson['lesson_id'],counter,authority=r.authority)==aid
         assess('recheck-a',[2,3],5);assess('recheck-b',[1.25,2.5],3.75)
         with pytest.raises(CoreError,match='UNRESOLVED_COUNTEREXAMPLE'):review.revalidate(lesson['lesson_id'],authority=r.authority)

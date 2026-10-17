@@ -1,0 +1,15 @@
+{
+  "scope": "OFFLINE_DEVELOPMENT",
+  "files": {
+    "src/nana_core/continuity/world_loop/cognition.py": "bfe9f67df9fea20c104b422ca71001f02eaf9f540b2958b2a1fa3b660688c58a",
+    "src/nana_core/continuity/world_loop/learning.py": "0329b369e3c95c4e46df45184377cc90bd0fb31113da81c6fc71d218719a938f",
+    "src/nana_core/continuity/world_loop/perception.py": "cc92c0d6686c864923f3429c6e8457f874671a5a388464267952a9d56182d814",
+    "tests/world_loop/crash_worker.py": "c98b54f712f135dc0bc71c7a454f8f6da49e24f06071e7feaea8216c2950ffc6",
+    "tests/world_loop/test_boundaries.py": "20537925c5e87be042a873a481d991f5be2e67ffca496a7317f49199328189e5",
+    "tests/world_loop/test_foundation.py": "96cf2340b986d897d363085dc5038defd02928e47b066a7fc11dab82f791347b",
+    "tests/world_loop/test_learning.py": "acd74d43fda6baf92653329783a7a65159629f7dd3021a821c8b735e22da1516",
+    "tests/world_loop/test_recovery.py": "0136ff9e69e5aa498c779c9bc7412020e81c2d871c68916803553f88a9dda784",
+    "PROJECT_BRAIN/10_DECISIONS.md": "7f99e23c02e51163e4ef03f31ff6bda529c1ab282090df9da16a794c81092e8b",
+    "PROJECT_BRAIN/11_CHANGELOG.md": "36097f1fafb7ea68c77bee9c4c0002a7550b1e41673c2370b20a4428c144d061"
+  }
+}

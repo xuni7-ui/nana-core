@@ -63,13 +63,15 @@ class MediaDecoder:
             if not math.isfinite(duration) or not 0<duration<=30:raise CoreError('MEDIA_DURATION_BOUND')
             prefix=['ffmpeg','-nostdin','-v','error','-max_alloc','16777216','-threads','1','-protocol_whitelist','file,pipe','-i',str(path),'-t','30','-threads','1','-filter_threads','1']
             if modality=='AUDIO':
+                stream=next((s for s in meta['streams'] if s['codec_type']=='audio'),None)
+                if not stream:raise CoreError('MEDIA_AUDIO_STREAM_REQUIRED')
                 raw=self._run(prefix+['-vn','-ac','1','-ar','16000','-f','s16le','pipe:1'],limit=1_000_000,input_root=Path(d))
                 samples=array.array('h');samples.frombytes(raw)
                 segments=[]
                 for start in range(0,len(samples),8000):
                     chunk=samples[start:start+8000];rms=math.sqrt(sum(x*x for x in chunk)/max(1,len(chunk)))/32768
                     segments.append({'start_s':start/16000,'end_s':(start+len(chunk))/16000,'rms':rms,'activity':'ENERGY_PRESENT' if rms>.01 else 'LOW_ENERGY','speech':'UNKNOWN'})
-                return {'modality':'AUDIO','decoded':True,'duration_s':duration,'sample_rate':16000,'samples':len(samples),'pcm_digest':hashlib.sha256(raw).hexdigest(),'segments':segments,'transcript':None,'transcript_status':'NOT_RUN_NO_ASR','speech':'UNKNOWN','coverage':'FULL_BOUNDED_PCM_DECODE'}
+                return {'modality':'AUDIO','decoded':True,'duration_s':duration,'source_codec':stream['codec_name'],'source_sample_rate':int(stream['sample_rate']),'source_channels':int(stream['channels']),'sample_rate':16000,'samples':len(samples),'pcm_digest':hashlib.sha256(raw).hexdigest(),'segments':segments,'transcript':None,'transcript_status':'NOT_RUN_NO_ASR','speech':'UNKNOWN','coverage':'FULL_BOUNDED_PCM_DECODE'}
             stream=next((s for s in meta['streams'] if s['codec_type']=='video'),None)
             if not stream or int(stream['width'])*int(stream['height'])>8_000_000:raise CoreError('MEDIA_VIDEO_BOUND')
             frame_meta=json.loads(self._run(['ffprobe','-v','error','-protocol_whitelist','file,pipe','-select_streams','v:0','-show_frames','-show_entries','frame=best_effort_timestamp_time','-of','json',str(path)],limit=1_000_000,input_root=Path(d)))
@@ -90,7 +92,7 @@ class MediaDecoder:
 def validate_decoded(decoded,modality):
     allowed={
         'IMAGE':{'modality','decoded','width','height','format','mean_rgb','pixel_digest','semantic_interpretation','coverage'},
-        'AUDIO':{'modality','decoded','duration_s','sample_rate','samples','pcm_digest','segments','transcript','transcript_status','speech','coverage'},
+        'AUDIO':{'modality','decoded','duration_s','source_codec','source_sample_rate','source_channels','sample_rate','samples','pcm_digest','segments','transcript','transcript_status','speech','coverage'},
         'VIDEO':{'modality','decoded','duration_s','width','height','frames','source_frame_count','changes','coverage','unobserved_between_samples','audio_linkage','semantic_interpretation'}}
     if type(decoded)!=dict or set(decoded)!=allowed[modality] or decoded.get('modality')!=modality or decoded.get('decoded') is not True:raise CoreError('PERCEPTION_RESULT_INVALID')
     if len(canonical(decoded).encode())>16384:raise CoreError('PERCEPTION_RESULT_BOUND')

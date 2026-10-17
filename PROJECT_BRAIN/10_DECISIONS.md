@@ -600,3 +600,17 @@ context. Committed C judgment followed by failed context/provider realization is
 not silently retried on every Runtime step. No assertion of stronger model cognition.
 Successful transport without billing remains cost UNKNOWN; known-charge sum plus the
 explicit unknown counter is not total real billing. No live pricing qualification yet.
+
+## D-WORLD-005 — provider JSON contract and atomic counterexample fencing
+[2026-10-17 / GLOBAL E closeout / source and failing-before-fix tests]
+Generic proposal DTOs contain open operator arguments and optional properties; their
+ordinary Pydantic schema is not provider-native strict JSON Schema. The existing
+HTTPS transport now requests JSON-object wire mode and retains the full expected
+schema in the frozen request, with exact local DTO/citation/provenance validation.
+This is protocol compatibility, not relaxed acceptance or a real-model qualification.
+Reply origin must match trusted transport construction; a loopback reply cannot label
+itself REAL_PROVIDER. An independently executed counterexample and ACTIVE→SUSPENDED
+strategy transition now commit atomically in the original Store. Restart/replay cannot
+leave the known-disproved strategy active between two transactions. No new table,
+loop, authority, dependency or live provider. Actual source audio codec/rate/channels
+are retained separately from normalized output PCM metadata.

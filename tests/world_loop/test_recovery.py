@@ -29,6 +29,52 @@ def test_actual_sigkill_correlation_and_single_adopted_goal(tmp_path,cut):
             assert len(json.loads((tmp_path/'world'/'state.fixture.json').read_text())['effects'])==1
         assert not r.store.db.execute('PRAGMA foreign_key_check').fetchall()
 
+
+@pytest.mark.parametrize('cut',['prepared','proposed','concern','cycle','revision','strategy','skill','delete'])
+def test_actual_sigkill_at_committed_world_boundaries(tmp_path,cut):
+    child=subprocess.run([sys.executable,'-m','tests.world_loop.crash_worker',str(tmp_path),cut],env={'PATH':os.defpath,'PYTHONPATH':str(Path('src').resolve())},capture_output=True,timeout=20)
+    assert child.returncode==-signal.SIGKILL,child.stderr.decode()[:500]
+    clock=VirtualClock()
+    with provider_harness() as (transport,metrics),open_runtime(tmp_path/'subject'/'self.db',clock) as r:
+        world_before=r.store.all('world_beliefs');identity=r.identity_id
+        assert r.work.world is None and r.work.agency is None
+        if cut=='strategy':
+            assert len(r.store.all('strategy_assessments'))==1
+            assert r.store.all('lessons')[0]['state']=='SUSPENDED'
+        if cut=='delete':
+            from nana_core.continuity.world_loop.world import WorldModel
+            assert WorldModel(r.store,scopes=('world',),privacy_classes=('PUBLIC',)).view('device','available').state=='UNKNOWN'
+            assert r.store.all('memories')[0]['lifecycle']=='DELETED'
+        configure(r,tmp_path,transport,('synthetic://recover',),grant=False,planner=False)
+        if cut=='prepared':
+            assert r.store.all('cognitive_requests')[0]['state']=='UNKNOWN' and metrics['calls']==0
+        if cut=='proposed':
+            assert r.store.all('cognitive_requests')[0]['state']=='PROPOSED'
+            # The stored proposal is historical; its old epoch cannot authorize
+            # concern formation after a fresh runtime has taken ownership.
+            for _ in range(3):clock.advance(SECOND);r.step()
+            assert not r.store.all('open_concerns') and metrics['calls']==0
+        if cut in {'concern','cycle'}:
+            for _ in range(32):clock.advance(SECOND);r.step()
+            # A later, distinct observation may legitimately create a transient
+            # world question. The original recover concern/goal must stay unique.
+            assert len([c for c in r.work.world.concerns.view() if c['topic']=='recover'])==1
+            assert len(r.store.all('goals'))==1
+            assert len(r.store.all('subject_goal_candidates'))==1
+        if cut=='revision':
+            assert len(world_before)==2
+            assert r.work.world.world.view('device','available').alternatives[0]['value'] is False
+        if cut=='skill':
+            job=r.store.db.execute("SELECT * FROM jobs WHERE work_kind='CODE_DEVELOPMENT'").fetchone()
+            assert job['cursor']==1
+            candidate=r.work.world.records.read(job['record_id'])['payload']['candidate_record_id']
+            from nana_core.contracts import CoreError
+            with pytest.raises(CoreError):r.work.world.skills.codes.invoke(candidate,'no restored execution handle')
+            for _ in range(32):clock.advance(SECOND);r.step()
+            assert len(r.store.db.execute("SELECT * FROM jobs WHERE work_kind='CODE_DEVELOPMENT'").fetchall())==1
+        assert r.identity_id==identity and len(r.store.all('world_beliefs'))==len(world_before)
+        assert not r.store.db.execute('PRAGMA foreign_key_check').fetchall()
+
 @pytest.mark.parametrize('version',[7,8,12])
 def test_forward_v13_with_old_ids_and_legacy_replay(tmp_path,version):
     path=tmp_path/'s'/'self.db'
