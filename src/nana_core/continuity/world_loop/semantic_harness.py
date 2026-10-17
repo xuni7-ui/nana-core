@@ -22,7 +22,7 @@ def semantic_proposer(request):
         return propose_from_context(request)
     from PIL import Image,ImageStat
     from ...storage import canonical
-    inp=MediaSemanticInput.model_validate_json(canonical(request.role_input));observations=[]
+    inp=MediaSemanticInput.model_validate_json(canonical(request.media_input()));observations=[]
     for i,p in enumerate(inp.parts):
         raw=base64.b64decode(p.data_b64)
         if p.kind=='IMAGE':

@@ -21,7 +21,7 @@ from .subject.contracts import SubjectInput
 class FrontendPolicy(DTO):
     context: ContextPolicy
     entity_id: str
-    commands: tuple[Literal['SEND_INPUT','PROPOSE_GOAL','FORGET','CONFIGURE_PRIMARY_USER','CHANGE_SETTING','CAPABILITY_REVIEW','VIEW_PROVIDER_SETTINGS','CONFIGURE_PROVIDERS'],...]
+    commands: tuple[Literal['SEND_INPUT','PROPOSE_GOAL','FORGET','CONFIGURE_PRIMARY_USER','CHANGE_SETTING','CAPABILITY_REVIEW','VIEW_PROVIDER_SETTINGS','CONFIGURE_PROVIDERS','VIEW_PERCEPTION','CONFIGURE_PERCEPTION','REQUEST_CAPTURE'],...]
     deletable_scopes: tuple[str,...] = ()
 
 class FrontendProjection(DTO):
@@ -40,12 +40,12 @@ class CapabilityReviewProposal(DTO):
     state: Literal['PROPOSAL_ONLY_NOT_AUTHORIZATION'] = 'PROPOSAL_ONLY_NOT_AUTHORIZATION'
 
 class SubjectApplication:
-    def __init__(self,store,subject_loop,operator,*,providers,bootstrap_authority=None,health=None,runtime_views=None,ingress=None,provider_settings=None):
+    def __init__(self,store,subject_loop,operator,*,providers,bootstrap_authority=None,health=None,runtime_views=None,ingress=None,provider_settings=None,perception_settings=None):
         if subject_loop.store is not store:raise CoreError('FRONTEND_SUBJECT_STORE_MISMATCH')
         self._store,self._subject,self._operator=store,subject_loop,operator
         self._providers,self._bootstrap,self._health=providers,bootstrap_authority,health
         self._runtime_views,self._ingress=runtime_views,ingress
-        self._provider_settings=provider_settings
+        self._provider_settings=provider_settings;self._perception_settings=perception_settings
     def session(self,policy:FrontendPolicy):
         if not set(policy.deletable_scopes)<=set(policy.context.allowed_scopes):raise CoreError('FRONTEND_POLICY_INVALID')
         if not self._store.one('entities',policy.entity_id):raise CoreError('FRONTEND_ENTITY_UNBOUND')
@@ -99,6 +99,14 @@ class FrontendSession:
         if type(command) is not ProviderCommand:raise CoreError('PROVIDER_CONFIG_TYPED_COMMAND_REQUIRED')
         if self.__app._provider_settings is None:raise CoreError('PROVIDER_SETTINGS_UNAVAILABLE')
         return FrontendProjection(kind='PROVIDER_SETTINGS',data_json=canonical(self.__app._provider_settings.command(command)))
+    def perception_command(self,command):
+        self._allowed('CONFIGURE_PERCEPTION')
+        if self.__app._perception_settings is None:raise CoreError('PERCEPTION_SETTINGS_UNAVAILABLE')
+        return FrontendProjection(kind='PERCEPTION_SETTINGS',data_json=canonical(self.__app._perception_settings.command(command,self.__policy.context)))
+    def request_capture(self,*,source_id,request_id,expected_revision):
+        self._allowed('REQUEST_CAPTURE')
+        if self.__app._perception_settings is None:raise CoreError('PERCEPTION_SETTINGS_UNAVAILABLE')
+        return self.__app._perception_settings.request_capture(source_id=source_id,request_id=request_id,expected_revision=expected_revision,context=self.__policy.context)
     def view(self,kind,*,scope=None,tier='L0_LIVE'):
         app,p=self.__app,self.__policy
         scopes=(scope,) if scope else p.context.allowed_scopes
@@ -137,6 +145,10 @@ class FrontendSession:
             data={'goal_candidate_ids':view.goal_candidate_ids,'commitment_ids':view.commitment_ids,'project_ids':view.project_ids,'intention_ids':view.intention_ids,'source_record_ids':view.source_record_ids}
         elif kind=='RUNTIME':
             data=app._health().model_dump(mode='json') if app._health else {'status':'NOT_RUNNING','derived':True}
+        elif kind in {'PERCEPTION_SETTINGS','PERCEPTION_STATUS'}:
+            self._allowed('VIEW_PERCEPTION')
+            if app._perception_settings is None:raise CoreError('PERCEPTION_SETTINGS_UNAVAILABLE')
+            data=app._perception_settings.projection(p.context) if kind=='PERCEPTION_SETTINGS' else app._perception_settings.status(p.context)
         elif kind=='PROVIDER_SETTINGS':
             self._allowed('VIEW_PROVIDER_SETTINGS')
             if app._provider_settings is None:raise CoreError('PROVIDER_SETTINGS_UNAVAILABLE')

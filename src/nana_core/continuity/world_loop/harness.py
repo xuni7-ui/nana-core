@@ -65,10 +65,12 @@ def provider_harness(proposer=propose_from_context,*,mode='ok',delay=0):
             try:
                 n=int(self.headers.get('Content-Length',0))
                 if not 1<=n<=196608:self.send_error(413);return
-                body=json.loads(self.rfile.read(n));content=body['messages'][-1]['content']
+                body=json.loads(self.rfile.read(n));content=body['messages'][-1]['content'];volatile=None
                 if isinstance(content,list):
                     metadata=json.loads(content[0]['text'])
-                    parts=metadata['role_input']['parts']
+                    volatile_mode=any(p.get('data_b64','legacy') is None for p in metadata['role_input']['parts'])
+                    hydrated=json.loads(canonical(metadata))
+                    parts=hydrated['role_input']['parts']
                     if len(content)!=len(parts)+1:raise ValueError('fixture part count')
                     for part,wire in zip(parts,content[1:]):
                         if part['kind']=='IMAGE':
@@ -76,8 +78,11 @@ def provider_harness(proposer=propose_from_context,*,mode='ok',delay=0):
                             if not url.startswith(prefix):raise ValueError('fixture image contract')
                             part['data_b64']=url[len(prefix):]
                         else:part['data_b64']=wire['input_audio']['data']
+                    if volatile_mode:volatile=hydrated['role_input']
+                    else:metadata=hydrated
                     content=canonical(metadata)
                 request=CognitionRequest.model_validate_json(content)
+                if volatile is not None:request._volatile_media=volatile
                 state['calls']+=1;state['request_ids'].append(request.request_id)
                 actual_delay=state.get('delay',delay);selected_mode=state.get('mode',mode)
                 if actual_delay:time.sleep(actual_delay)

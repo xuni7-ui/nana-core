@@ -22,6 +22,23 @@ class PublicMediaSource(DTO):
     privacy:Literal['PUBLIC']='PUBLIC'
     public_nonpersonal:Literal[True]=True
 
+class MediaSourceDescriptor(DTO):
+    """Sanitized capture provenance; never a host device/path/adapter handle."""
+    source_id:str=Field(pattern=r'^[a-z][a-z0-9._:-]{0,95}$')
+    modality:Literal['IMAGE','AUDIO','VIDEO']
+    origin:Literal['SYNTHETIC']='SYNTHETIC'
+    event_time_us:int=Field(ge=0)
+    observed_time_us:int=Field(ge=0)
+    privacy:Literal['PUBLIC','PROJECT','PERSONAL','SECRET']='PUBLIC'
+    source_profile_id:str
+    source_revision:int=Field(ge=1)
+    source_kind:str
+    capture_id:str
+    adapter_identity:str
+    byte_length:int=Field(ge=1,le=16777216)
+    capture_coverage:str
+    sequence:int=Field(ge=0)
+
 class MediaDecoder:
     def _run(self,args,*,limit=4*1024*1024,input_root=None):
         if not shutil.which('bwrap'):raise CoreError('MEDIA_SANDBOX_UNAVAILABLE')
@@ -42,7 +59,7 @@ class MediaDecoder:
             if p.returncode:raise CoreError('MEDIA_MALFORMED_OR_UNSUPPORTED')
             if out.stat().st_size>limit:raise CoreError('MEDIA_DECODE_BOUND')
             return out.read_bytes()
-    def decode(self,data,modality):
+    def decode(self,data,modality,*,memory_only=False):
         if type(data) is not bytes or not 1<=len(data)<=16*1024*1024:raise CoreError('MEDIA_BYTE_BOUND')
         if modality=='IMAGE':
             try:
@@ -54,6 +71,20 @@ class MediaDecoder:
                     im.load();rgb=im.convert('RGB');stats=ImageStat.Stat(rgb)
                     return {'modality':'IMAGE','decoded':True,'width':im.width,'height':im.height,'format':im.format,'mean_rgb':stats.mean,'pixel_digest':hashlib.sha256(rgb.tobytes()).hexdigest(),'semantic_interpretation':'UNKNOWN','coverage':'FULL_PIXEL_DECODE'}
             except (ValueError,OSError,SyntaxError,Warning):raise CoreError('MEDIA_IMAGE_INVALID') from None
+        if memory_only:
+            if modality!='AUDIO':raise CoreError('PRIVATE_VIDEO_MEMORY_DECODER_UNAVAILABLE')
+            # Exact bounded PCM contract, no temp files for private audio.
+            import wave
+            try:
+                with wave.open(io.BytesIO(data),'rb') as w:
+                    if (w.getnchannels(),w.getsampwidth(),w.getframerate())!=(1,2,16000) or not 0<w.getnframes()<=480000:raise CoreError('MEDIA_PCM_CONTRACT')
+                    raw=w.readframes(w.getnframes());duration=len(raw)/32000
+            except (wave.Error,EOFError):raise CoreError('MEDIA_AUDIO_INVALID') from None
+            samples=array.array('h');samples.frombytes(raw);segments=[]
+            for start in range(0,len(samples),8000):
+                chunk=samples[start:start+8000];rms=math.sqrt(sum(x*x for x in chunk)/max(1,len(chunk)))/32768
+                segments.append({'start_s':start/16000,'end_s':(start+len(chunk))/16000,'rms':rms,'activity':'ENERGY_PRESENT' if rms>.01 else 'LOW_ENERGY','speech':'UNKNOWN'})
+            return {'modality':'AUDIO','decoded':True,'duration_s':duration,'source_codec':'pcm_s16le','source_sample_rate':16000,'source_channels':1,'sample_rate':16000,'samples':len(samples),'pcm_digest':hashlib.sha256(raw).hexdigest(),'segments':segments,'transcript':None,'transcript_status':'NOT_RUN_NO_ASR','speech':'UNKNOWN','coverage':'FULL_BOUNDED_PCM_DECODE'}
         if modality not in {'AUDIO','VIDEO'}:raise CoreError('MEDIA_MODALITY_INVALID')
         if not shutil.which('ffmpeg') or not shutil.which('ffprobe'):raise CoreError('MEDIA_DECODER_UNAVAILABLE')
         with tempfile.TemporaryDirectory(prefix='subject-media-') as d:
@@ -140,13 +171,13 @@ class PerceptionService:
         return self.ingest(data,source,entity_id=entity_id,scope=scope)
 
     def ingest(self,data,source,*,entity_id,scope):
-        if self.store.schema_target<13 or scope not in self.policy.allowed_scopes or 'PUBLIC' not in self.policy.readable_privacy:raise CoreError('PERCEPTION_INGRESS_DENIED')
+        if self.store.schema_target<13 or scope not in self.policy.allowed_scopes or source.privacy not in self.policy.readable_privacy:raise CoreError('PERCEPTION_INGRESS_DENIED')
         if source.observed_time_us>self.store.clock.utc_now_us() or source.event_time_us>source.observed_time_us:raise CoreError('PERCEPTION_TIME_INVALID')
-        decoded=validate_decoded(self.decoder.decode(data,source.modality),source.modality)
+        decoded=validate_decoded(self.decoder.decode(data,source.modality,**({'memory_only':True} if source.privacy in {'PERSONAL','SECRET'} else {})),source.modality)
         body={'source':source.model_dump(mode='json'),'source_byte_digest':hashlib.sha256(data).hexdigest(),'decoded':decoded}
         domain='SYNTHETIC_ONLY' if source.origin=='SYNTHETIC' else 'RECORDED_PUBLIC';prefix='synthetic' if source.origin=='SYNTHETIC' else 'recorded'
         memory=self.records.memory
-        eid=memory.capture(EvidenceInput(provenance=Provenance(domain=domain,source_namespace=prefix+'.public-media',source_reference=source.source_id,source_kind='DIRECT_OBSERVATION'),text=canonical(body),privacy_class='PUBLIC',event_time_us=source.event_time_us,observed_time_us=source.observed_time_us))
+        eid=memory.capture(EvidenceInput(provenance=Provenance(domain=domain,source_namespace=prefix+'.public-media',source_reference=source.source_id,source_kind='DIRECT_OBSERVATION'),text=canonical(body),privacy_class=source.privacy,event_time_us=source.event_time_us,observed_time_us=source.observed_time_us))
         old=self.store.db.execute('SELECT memory_id FROM memories WHERE source_evidence_id=?',(eid,)).fetchone()
         mid=old[0] if old else memory.add(MemoryCandidate(entity_id=entity_id,scope=scope,memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',source_evidence_id=eid,text=canonical(body),confidence=1.))
         prior=self.store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='MEDIA_OBSERVATION' AND target_id=?",(mid,)).fetchone()
@@ -165,10 +196,10 @@ class PerceptionService:
         memory.entity(media_entity,'OBJECT')
         claim=SourcedClaim(entity_id=media_entity,predicate='media.technical',value={'modality':source.modality,'technical':item['technical_observation'],'source_byte_digest':body['source_byte_digest'],'semantic_model':'NOT_RUN'},kind='VERIFIED_RESULT',valid_from_us=source.event_time_us,confidence=1.)
         claim_text=canonical({'world_claim':claim.model_dump(mode='json')})
-        verified=memory.capture(EvidenceInput(provenance=Provenance(domain=domain,source_namespace=prefix+'.media-processor',source_reference=digest([source.source_id,body['source_byte_digest']]),source_kind='SYSTEM_VERIFICATION'),text=claim_text,privacy_class='PUBLIC',event_time_us=source.event_time_us,observed_time_us=source.observed_time_us))
+        verified=memory.capture(EvidenceInput(provenance=Provenance(domain=domain,source_namespace=prefix+'.media-processor',source_reference=digest([source.source_id,body['source_byte_digest']]),source_kind='SYSTEM_VERIFICATION'),text=claim_text,privacy_class=source.privacy,event_time_us=source.event_time_us,observed_time_us=source.observed_time_us))
         prior_claim=self.store.db.execute('SELECT memory_id FROM memories WHERE source_evidence_id=?',(verified,)).fetchone()
         claim_mid=prior_claim[0] if prior_claim else memory.add(MemoryCandidate(entity_id=entity_id,scope=scope,memory_type=MemoryType.SEMANTIC,epistemic_kind='OBSERVATION',source_evidence_id=verified,text=claim_text,derived_from=(mid,),confidence=1.))
-        belief_id=WorldModel(self.store,scopes=(scope,),privacy_classes=('PUBLIC',)).ingest(claim_mid)
+        belief_id=WorldModel(self.store,scopes=(scope,),privacy_classes=(source.privacy,)).ingest(claim_mid)
         with self.store.transaction('world.media_observed',{'source_memory_id':mid,'modality':source.modality}) as tx:
             rid=self.records.create(tx,kind='MEDIA_OBSERVATION',scope=scope,payload={'source_memory_id':mid,'processor_id':self.model_id,'observation':json.loads(interpreted.result_json),'origin':source.origin,'semantic_interpretation':'NOT_RUN','world_belief_id':belief_id,'world_source_memory_id':claim_mid},memories=(mid,claim_mid),target_id=mid)
         return mid,rid

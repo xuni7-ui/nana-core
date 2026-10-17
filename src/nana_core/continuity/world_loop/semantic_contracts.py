@@ -14,14 +14,14 @@ class SemanticDescriptor(DTO):
 class MediaPart(DTO):
     kind: Literal['IMAGE','AUDIO']
     mime: Literal['image/png','audio/wav']
-    data_b64: str = Field(min_length=1,max_length=131072)
+    data_b64: str|None = Field(min_length=1,max_length=131072)
     digest: str = Field(pattern=r'^[a-f0-9]{64}$')
     start_s: float = Field(default=0,ge=0,le=30,allow_inf_nan=False)
     end_s: float = Field(default=0,ge=0,le=30,allow_inf_nan=False)
     @model_validator(mode='after')
     def exact(self):
-        data=base64.b64decode(self.data_b64,validate=True)
-        if not data or hashlib.sha256(data).hexdigest()!=self.digest or self.end_s<self.start_s:raise ValueError('media part integrity')
+        data=base64.b64decode(self.data_b64,validate=True) if self.data_b64 is not None else None
+        if (data is not None and (not data or hashlib.sha256(data).hexdigest()!=self.digest)) or self.end_s<self.start_s:raise ValueError('media part integrity')
         if (self.kind,self.mime) not in {('IMAGE','image/png'),('AUDIO','audio/wav')}:raise ValueError('media type')
         return self
 
@@ -34,7 +34,7 @@ class MediaSemanticInput(DTO):
     asr_supported: bool
     @model_validator(mode='after')
     def bounded(self):
-        if sum(len(base64.b64decode(p.data_b64)) for p in self.parts)>98304:raise ValueError('media input bound')
+        if sum((len(base64.b64decode(p.data_b64)) if p.data_b64 is not None else 0) for p in self.parts)>98304:raise ValueError('media input bound')
         if self.modality=='IMAGE' and (len(self.parts)!=1 or self.parts[0].kind!='IMAGE' or self.duration_s!=0):raise ValueError('image envelope')
         if self.modality=='AUDIO' and (len(self.parts)!=1 or self.parts[0].kind!='AUDIO'):raise ValueError('audio envelope')
         if self.modality!='IMAGE' and self.duration_s<=0:raise ValueError('duration')

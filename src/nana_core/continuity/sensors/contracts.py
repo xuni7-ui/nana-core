@@ -72,6 +72,7 @@ class ObservationRequest(ConfigDTO):
     foreground:bool=False
     source_record_ids:tuple[str,...]=Field(default=(),max_length=16)
     privacy_class:Privacy='PUBLIC'
+    max_capture_bytes:int=Field(default=1048576,ge=1,le=16777216)
     semantic_requested:bool=True
     requested_operations:tuple[Literal['VISION','AUDIO_UNDERSTAND','STT','VIDEO_UNDERSTAND'],...]=()
     sample_key:str|None=Field(default=None,max_length=128)

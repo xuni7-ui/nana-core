@@ -21,7 +21,7 @@ class NanaRuntime:
     def __init__(self,path,config:RuntimeConfig,*,clock=None):
         self.config,self.stopped,self.stop_requested=config,False,False
         self.cadence=Cadence(config.queue_capacity,config.living.max_idle_seconds if config.living else config.poll_seconds)
-        self._processing=None
+        self._processing=None;self.perception=None
         self.store=ContinuityStore(path,clock or Clock(),schema_target=config.schema_target)
         try:
             old=self.store.one('runtime_lease',self.store.identity['identity_id'])
@@ -98,11 +98,11 @@ class NanaRuntime:
             causes=(Cause(kind='CANONICAL_SELF',reference_id=self.identity_id),),due_at_us=event.observed_at_us,priority=3 if event.origin=='USER' else 1)
         return self.post(wrapped)
 
-    def application(self,*,providers,bootstrap_authority=None):
+    def application(self,*,providers,bootstrap_authority=None,provider_settings=None,perception_settings=None):
         from ..continuity.application import SubjectApplication
         from .projections import runtime_projection
         return SubjectApplication(self.store,self.subject,self.authority,providers=providers,bootstrap_authority=bootstrap_authority,health=self.health,
-            runtime_views=lambda kind,policy,**kw:runtime_projection(self,kind,policy,**kw),ingress=self.post_surface)
+            runtime_views=lambda kind,policy,**kw:runtime_projection(self,kind,policy,**kw),ingress=self.post_surface,provider_settings=provider_settings,perception_settings=perception_settings)
 
     def request_stop(self):
         self.stop_requested=True;self.cadence.notify()
@@ -160,6 +160,7 @@ class NanaRuntime:
     def step(self):
         self.cadence.assert_owner();self.cadence.drain(self.submit)
         self.lease.heartbeat()
+        if self.perception:self.perception.poll()
         self._watch_sources();self.scheduler.due()
         work_activity=self.work.opportunity() if self.work and not self.queue.has_reactive() else None
         row=self.queue.claim()
@@ -177,6 +178,12 @@ class NanaRuntime:
         self.cadence.idle_rounds=0;self._processing=row
         self.oper['last_event']=row['queue_id'];self.oper['last_wake_us']=self.clock.utc_now_us()
         try:
+            if self.perception:
+                observed=self.perception.handle_queue(row)
+                if observed is not None:
+                    self.queue.finish(row,'DONE','PERCEPTION_OPPORTUNITY_HANDLED')
+                    self._save_oper()
+                    return {'queue_id':row['queue_id'],'mode':'NO_COGNITION','reason':'PERCEPTION_OPPORTUNITY_HANDLED','cycle':None,'perception':observed}
             event=self.queue.input(row)
             self.queue.cause_memories(tuple(Cause.model_validate_json(canonical(x)) for x in json.loads(row['cause_json'])),event.scope)
             if event.origin=='USER':self.oper['last_interaction_us']=event.observed_at_us

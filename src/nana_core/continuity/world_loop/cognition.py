@@ -7,7 +7,7 @@ import json,time,socket,urllib.request,urllib.error,threading,queue,hashlib,re
 from datetime import datetime,timezone
 from urllib.parse import urlsplit
 from typing import Literal,Any,Protocol
-from pydantic import Field,model_serializer
+from pydantic import Field,model_serializer,PrivateAttr
 from ...contracts import DTO,CoreError
 from ...storage import canonical,digest,uid
 from ..context import ContextAssembler,ContextRequest,ContextPolicy
@@ -23,6 +23,8 @@ class CognitionBudget(DTO):
     timeout_ms: int=Field(default=3000,ge=50,le=30000)
     cost_ceiling_micro: int=Field(default=0,ge=0,le=1000000)
 class CognitionRequest(DTO):
+    _volatile_media:dict|None=PrivateAttr(default=None)
+    def media_input(self):return self._volatile_media or self.role_input
     request_id:str
     subject_epoch:int
     subject_revision:int
@@ -208,18 +210,18 @@ class CognitionSession:
         if runtime.store.schema_target<13:raise CoreError('WORLD_SCHEMA_REQUIRED')
         self.runtime,self.store,self.transport,self.policy=runtime,runtime.store,transport,policy
         self.records=RecordService(self.store);self.assembler=ContextAssembler(self.store,runtime.authority)
-        self.max_calls=max_calls_per_day;self._workers=[]
+        self.max_calls=max_calls_per_day;self._workers=[];self._volatile_inputs={}
         if route_snapshot is not None and type(route_snapshot) is not RouteSnapshot:raise CoreError('ROUTE_SNAPSHOT_REQUIRED')
         self.route_snapshot,self._route_guard=route_snapshot,route_guard
         if not 1<=max_calls_per_day<=128:raise CoreError("COGNITION_QUOTA_BOUND")
-    def prepare(self,key,role,source_ids,*,budget=None,goal_id=None,capabilities=(),role_input=None):
+    def prepare(self,key,role,source_ids,*,budget=None,goal_id=None,capabilities=(),role_input=None,volatile_input=None):
         old=self.store.db.execute('SELECT * FROM cognitive_requests WHERE request_key=?',(key,)).fetchone()
         if old:return old['request_id']
         r=self.runtime;r.lease.assert_current();b=budget or CognitionBudget()
         if self.route_snapshot is not None:
             snap=self.route_snapshot;limit=snap.effective
             if not self._route_guard or not self._route_guard():raise CoreError('ROUTE_CHANGED_BEFORE_DISPATCH')
-            media_op={'VISION':'IMAGE','AUDIO_UNDERSTAND':'AUDIO','VIDEO_UNDERSTAND':'VIDEO'}.get(snap.operation)
+            media_op={'VISION':'IMAGE','AUDIO_UNDERSTAND':'AUDIO','VIDEO_UNDERSTAND':'VIDEO','STT':'AUDIO'}.get(snap.operation)
             if (snap.operation=='COGNITION' and role=='MEDIA') or (media_op and (role!='MEDIA' or not role_input or role_input.get('modality')!=media_op)):raise CoreError('ROUTED_OPERATION_MISMATCH')
             if limit.output_limit<64 or limit.context_limit<256:raise CoreError('BUDGET_DENIED')
             b=CognitionBudget(input_tokens=min(b.input_tokens,limit.context_limit),output_tokens=min(b.output_tokens,limit.output_limit),timeout_ms=min(b.timeout_ms,limit.timeout_ms),cost_ceiling_micro=min(b.cost_ceiling_micro,limit.cost_ceiling))
@@ -252,7 +254,11 @@ class CognitionSession:
                 if role_input.get('diagnostic') is not None and (type(role_input['diagnostic']) is not str or len(role_input['diagnostic'])>512):raise CoreError('COGNITION_ROLE_INPUT_REJECTED')
             elif role=='MEDIA':
                 from .semantics import validate_media_input
-                validate_media_input(self,role_input,source_ids)
+                validate_media_input(self,volatile_input or role_input,source_ids)
+                if volatile_input is not None:
+                    clean=json.loads(canonical(volatile_input))
+                    for part in clean['parts']:part['data_b64']=None
+                    if clean!=role_input:raise CoreError('MEDIA_VOLATILE_BINDING_MISMATCH')
             else:raise CoreError('COGNITION_ROLE_INPUT_REJECTED')
             if LocalWorldRegistry.payload_privacy(role_input) not in allowed_for_role(self.transport,self.policy):raise CoreError('COGNITION_ROLE_PRIVACY_DENIED')
         allowed=self.policy.remote_privacy if self.transport.remote else self.policy.readable_privacy
@@ -268,7 +274,7 @@ class CognitionSession:
             if head and head['scope'] in req.scopes and head['privacy_class'] in allowed and self.records.current_support(head['record_id']):current.append({'goal_id':g['goal_id'],'version':g['version'],'state':g['state']})
         current=tuple(current)
         request=CognitionRequest(request_id=request_id,subject_epoch=r.lease.epoch,subject_revision=r.subject.revision,cognitive_role=role,source_context_refs=refs,primary_source_refs=tuple(source_ids),context_json=context.model_dump_json(),current_goals=current,available_capabilities=tuple(capabilities),world_stamp=self._world_stamp(req.scopes,allowed),expected_schema=StructuredProposal.model_json_schema(),role_input=role_input,budget=b,created_at_us=now,deadline_us=now+b.timeout_ms*1000,route_snapshot=self.route_snapshot)
-        reserved_bytes=len(request.model_dump_json().encode())*2+16384+min(131072,b.output_tokens*4+4096)
+        reserved_bytes=(len(request.model_dump_json().encode())+(len(canonical(volatile_input).encode()) if volatile_input else 0))*2+16384+min(131072,b.output_tokens*4+4096)
         if r.config.living:
             from ...presence.resources import resource_state
             resource=resource_state(self.store,r.config);limits=r.config.living
@@ -279,6 +285,7 @@ class CognitionSession:
         with self.store.transaction('world.cognition_prepared',{'request_id':request_id}) as tx:
             rid=self.records.create(tx,kind='COGNITION_REQUEST',scope=req.scopes[0],payload={'request':request.model_dump(mode='json'),'provider':self.transport.provider_id,'model':self.transport.model_id},memories=refs,records=tuple(dict.fromkeys((*extra_parents,*(x for block in context.blocks for x in block.source_record_ids)))))
             tx.put('cognitive_requests',{'request_id':request_id,'request_key':key,'record_id':rid,'subject_revision':r.subject.revision,'owner_epoch':r.lease.epoch,'goal_id':goal_id,'goal_version':goal['version'] if goal else None,'state':'PREPARED','deadline_us':request.deadline_us,'request_digest':digest(request.model_dump(mode='json')),'response_digest':None,'error_code':None,'created_at_us':now,'reserved_bytes':reserved_bytes,'reserved_cost_micro':b.cost_ceiling_micro,'input_bytes':None,'output_bytes':None,'actual_cost_micro':None,'latency_us':None})
+        if volatile_input is not None:self._volatile_inputs[request_id]=volatile_input
         return request_id
     def _world_stamp(self,scopes,privacy):
         sp=','.join('?' for _ in scopes) or 'NULL';pp=','.join('?' for _ in privacy) or 'NULL';now=self.store.clock.utc_now_us()
@@ -307,6 +314,9 @@ class CognitionSession:
         if row['state']!='PREPARED':return {'state':row['state'],'request_id':request_id,'replayed':True}
         if not self._current(row):return self._finish(row,'STALE','STALE_CONTEXT')
         request=CognitionRequest.model_validate_json(canonical(self.records.read(row['record_id'])['payload']['request']))
+        if request.cognitive_role=='MEDIA' and any(p.get('data_b64') is None for p in request.role_input.get('parts',[])):
+            if request_id not in self._volatile_inputs:return self._finish(row,'STALE','SEMANTIC_DEFERRED_SOURCE_BYTES_EXPIRED')
+            request._volatile_media=self._volatile_inputs.pop(request_id)
         with self.store.transaction('world.cognition_calling',{'request_id':request_id}) as tx:tx.update('cognitive_requests',request_id,state='CALLING')
         started=time.monotonic_ns()
         try:

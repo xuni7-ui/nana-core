@@ -29,6 +29,11 @@ def package_media(data,body,decoder=None):
         with Image.open(io.BytesIO(data)) as im:
             rgb=im.convert('RGB');out=io.BytesIO();rgb.save(out,format='PNG')
         return (_part(out.getvalue(),'IMAGE'),)
+    if mod=='AUDIO' and body['source'].get('privacy') in {'PERSONAL','SECRET'}:
+        with wave.open(io.BytesIO(data),'rb') as w:
+            if (w.getnchannels(),w.getsampwidth(),w.getframerate())!=(1,2,16000):raise CoreError('MEDIA_PCM_CONTRACT')
+        return (_part(data,'AUDIO',0,d['duration_s']),)
+    if mod=='VIDEO' and body['source'].get('privacy') in {'PERSONAL','SECRET'}:raise CoreError('PRIVATE_VIDEO_MEMORY_DECODER_UNAVAILABLE')
     with tempfile.TemporaryDirectory(prefix='semantic-public-') as root:
         path=Path(root)/'source';path.write_bytes(data)
         cmd=['ffmpeg','-nostdin','-v','error','-threads','1','-protocol_whitelist','file,pipe','-i',str(path),'-t','30','-threads','1','-filter_threads','1']
@@ -51,6 +56,7 @@ def package_media(data,body,decoder=None):
 
 def validate_media_input(session,body,source_ids):
     envelope=MediaSemanticInput.model_validate_json(canonical(body))
+    if any(p.data_b64 is None for p in envelope.parts):raise CoreError('MEDIA_SOURCE_BYTES_REQUIRED')
     desc=getattr(session.transport,'semantic_descriptor',None)
     if not isinstance(desc,SemanticDescriptor) or (desc.provider_id,desc.model_id)!=(session.transport.provider_id,session.transport.model_id):raise CoreError('MEDIA_DESCRIPTOR_REQUIRED')
     if envelope.modality not in desc.modalities or envelope.asr_supported!=desc.asr:raise CoreError('MEDIA_MODALITY_UNSUPPORTED')
@@ -112,7 +118,7 @@ def validate_semantics(request,reply,transport):
 class MediaSemanticService:
     def __init__(self,session:CognitionSession):
         self.session,self.store,self.records=session,session.store,session.records
-    def prepare(self,key,source_memory_id,data,*,budget=None):
+    def prepare(self,key,source_memory_id,data,*,budget=None,ephemeral=False):
         m=self.records.memory.read(source_memory_id)
         if m['scope'] not in self.session.policy.allowed_scopes or m['privacy_class'] not in (self.session.policy.remote_privacy if self.session.transport.remote else self.session.policy.readable_privacy):raise CoreError('MEDIA_PRIVACY_DENIED')
         body=json.loads(m['text']);descriptor=getattr(self.session.transport,'semantic_descriptor',None)
@@ -124,8 +130,14 @@ class MediaSemanticService:
         prior=self.store.db.execute('SELECT * FROM cognitive_requests WHERE request_key=?',('media:'+key,)).fetchone()
         if prior:
             original=self.records.read(prior['record_id'])['payload']['request']
-            if original['role_input']!=envelope.model_dump(mode='json') or original['cognitive_role']!='MEDIA':raise CoreError('MEDIA_IDEMPOTENCY_KEY_MISMATCH')
-        return self.session.prepare('media:'+key,'MEDIA',(source_memory_id,),role_input=envelope.model_dump(mode='json'),budget=budget or CognitionBudget(output_tokens=4096))
+            comparison=envelope.model_dump(mode='json')
+            if ephemeral:
+                for part in comparison['parts']:part['data_b64']=None
+            if original['role_input']!=comparison or original['cognitive_role']!='MEDIA':raise CoreError('MEDIA_IDEMPOTENCY_KEY_MISMATCH')
+        full=envelope.model_dump(mode='json');safe=json.loads(canonical(full))
+        if ephemeral:
+            for part in safe['parts']:part['data_b64']=None
+        return self.session.prepare('media:'+key,'MEDIA',(source_memory_id,),role_input=safe,volatile_input=full if ephemeral else None,budget=budget or CognitionBudget(output_tokens=4096))
     def execute(self,request_id):return self.session.execute(request_id)
     def ground(self,request_id,*,entity_id,predicate='media.content'):
         """Resumable adoption of a historical interpretation, never authorization.
@@ -211,7 +223,7 @@ class OpenAIMediaTransport(OpenAIJSONTransport):
         self.semantic_descriptor=descriptor
     def messages(self,request):
         if request.cognitive_role!='MEDIA':return super().messages(request)
-        inp=MediaSemanticInput.model_validate_json(canonical(request.role_input))
+        inp=MediaSemanticInput.model_validate_json(canonical(request.media_input()))
         # Do not duplicate base64 in text. The digest/part spans remain explicit.
         metadata=request.model_dump(mode='json')
         for p in metadata['role_input']['parts']:p.pop('data_b64')

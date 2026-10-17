@@ -44,13 +44,20 @@ class FileImportAdapter:
     def capture(self,request):
         if type(request) is not ObservationRequest:raise CoreError('CAPTURE_TYPED_REQUEST_REQUIRED')
         try:
-            directory=os.open(self.root,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)
+            directory=os.open('/',os.O_RDONLY|os.O_DIRECTORY)
+            try:
+                for component in self.root.absolute().parts[1:]:
+                    if component in {'.','..'}:raise CoreError('SOURCE_PATH_DENIED')
+                    following=os.open(component,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW,dir_fd=directory)
+                    os.close(directory);directory=following
+            except BaseException:
+                os.close(directory);raise
             try:
                 fd=os.open(self.filename,os.O_RDONLY|os.O_NONBLOCK|os.O_NOFOLLOW,dir_fd=directory)
                 with os.fdopen(fd,'rb') as f:
                     info=os.fstat(f.fileno())
-                    if not stat.S_ISREG(info.st_mode) or info.st_nlink!=1 or not 1<=info.st_size<=self.max_bytes:raise CoreError('SOURCE_FILE_DENIED')
-                    data=f.read(self.max_bytes+1);self.bytes_read+=len(data)
+                    if not stat.S_ISREG(info.st_mode) or info.st_nlink!=1 or not 1<=info.st_size<=min(self.max_bytes,request.max_capture_bytes):raise CoreError('SOURCE_FILE_DENIED')
+                    data=f.read(min(self.max_bytes,request.max_capture_bytes)+1);self.bytes_read+=len(data)
                     if len(data)>self.max_bytes:raise CoreError('SOURCE_FILE_DENIED')
             finally:os.close(directory)
         except OSError:raise CoreError('SOURCE_UNAVAILABLE') from None

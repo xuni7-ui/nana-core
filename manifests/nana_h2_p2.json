@@ -1,0 +1,26 @@
+{
+  "base": "a4abd5ce230848ae6667e5e5362964636e3ead08",
+  "files": {
+    "src/nana_core/continuity/application.py": "f0ed601611ccc3604d91ca7f9c64a1e10784128fc608484eb4bbb7802aceb5bb",
+    "src/nana_core/continuity/sensors/adapters.py": "8cdfde6aa9450744bf05bc8cc3a88f112e25ab9d6409fadae8253bbda03f4f6e",
+    "src/nana_core/continuity/sensors/contracts.py": "6d7793b5759bee9c0d4611f930a55f0555b5fa62ccfbd8e6e26ab6adb383563d",
+    "src/nana_core/continuity/world_loop/cognition.py": "a95693ca1c1db5d174ca6d9befde3f679c5f30873b536ec18cb6d87713805902",
+    "src/nana_core/continuity/world_loop/harness.py": "667ddcc537e3d2ee93919af5f34d58cf1c78ca31c7eb95a91317a3f4da5e31c8",
+    "src/nana_core/continuity/world_loop/perception.py": "f6237f5ff3f601207dc9168f261e8d09d7962ba577b11ad3c82f83f445968714",
+    "src/nana_core/continuity/world_loop/semantic_contracts.py": "4c0ddac5800f512297321e79d831fa810efa0633fcf4751c98a0f5240fab7c51",
+    "src/nana_core/continuity/world_loop/semantic_harness.py": "fe5def91c9f4dcc5e5555749bac452761d41d9e10cc2c47d32b08ba09b3693de",
+    "src/nana_core/continuity/world_loop/semantics.py": "ef5e00cf0a488f38329b75edcc716780662373daea7d619ae52cd7c9ea5f5fc8",
+    "src/nana_core/presence/runtime.py": "24292dae8d8a6fceac074b8ed8b53e9a228a7ecbc7138627e493cc6c86e6b178",
+    "src/nana_core/continuity/sensors/application.py": "d14cd4ec492538cc6d638c7c740bed91d7ace218aeb2dd48dd26bdc3da6df2fa",
+    "src/nana_core/continuity/sensors/coordinator.py": "01acd3039e7735c05b80f4cc9d9f8d548c343c4421c9663fd79201ad0565d616",
+    "tests/h2_perception/test_recovery.py": "43a4965520eae47d7c0433742450eda2f0ecb07cce5e0ba1cbcc4fc60056f3e7",
+    "tests/h2_perception/test_system.py": "0290394e4d3000be9fa3287088b0ba1295d5b80362650c755fec4afc129a8ad7",
+    "tests/h2_perception/test_runtime.py": "3ed19dd2cf5a03d3aa56e3ec1f0c4443e1c138818fd40772cd769ce5f3b7f146",
+    "tests/h2_perception/helpers.py": "b96760e2677a405f143476d25edc50a7492fa9561d424ecd4f5cb568b66fda09",
+    "tests/h2_perception/test_boundaries.py": "1eabe2d63c33e5a5d28059703ab9dd3e7cad1de525ef4180e15766487db44499",
+    "tests/h2_perception/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/h2_perception/process_worker.py": "3677ed37929d2809a642875a1d268599b7f7ba9254f864c1b0d2a8ea1b185df1",
+    "tests/h2_perception/test_config.py": "4712bb1732baf66cbf3bd304ac15807b8fd0a07471a067cc81a2565f26688888",
+    "tests/h2_perception/test_capture.py": "cbf63b1b0bde9bf1f141fe43dcc3297e63bcfbf998ff14828152e39f0cbc908e"
+  }
+}
