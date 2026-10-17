@@ -55,3 +55,27 @@ def test_event_driven_sample_expiry_no_fabricated_restore(tmp_path):
         r.clock.source.advance(SECOND)
         missing=c.observe(c.request('screen.a',request_id='event-two',sample_key='not-retained'))
         assert missing['reason']=='SOURCE_SAMPLE_EXPIRED' and m.calls==1
+
+def test_event_metadata_producer_uses_original_runtime_pull_no_bytes_in_queue(tmp_path):
+    import threading
+    with fresh(tmp_path/'subject/self.db') as r:
+        c,adapter,m,a=setup(r,tmp_path);c.attach();p=c.configuration.load().sources[0].model_copy(update={'capture_mode':'EVENT_DRIVEN'})
+        c.configuration.update(SourceCommand(operation='UPSERT_PERCEPTION_SOURCE',expected_revision=1,profile=p),a)
+        now=r.clock.utc_now_us();adapter.publish('sample1',png(),event_time=now,sequence=1);receipts=[]
+        producer=threading.Thread(target=lambda:receipts.append(c.notify_sample('screen.a','sample1',observed_at_us=now)));producer.start();producer.join(2)
+        assert receipts and adapter.bytes_read==0
+        result=r.step();assert receipts[0].wait(.1) and result['perception']['state']=='GROUNDED' and m.calls==1
+        assert all('data_b64' not in row['metadata_json'] for row in r.store.all('runtime_queue'))
+        r.clock.source.advance(SECOND)
+        receipts.append(c.notify_sample('screen.a','lost-sample',observed_at_us=r.clock.utc_now_us()))
+        result=r.step();assert result['perception']['reason']=='SOURCE_SAMPLE_EXPIRED' and m.calls==1
+
+def test_repeated_tick_while_user_pressure_has_one_pending_per_source(tmp_path):
+    with fresh(tmp_path/'subject/self.db') as r:
+        c,adapter,m,a=setup(r,tmp_path);periodic(c,a,ms=1000);c.attach();r.step()
+        for n in range(3):
+            r.clock.source.advance(2*SECOND);r.submit(user_event(r,'pressure'+str(n)));result=r.step()
+            assert r.store.one('runtime_queue',result['queue_id'])['event_type']=='USER_EVENT'
+        pending=r.store.db.execute("SELECT count(*) FROM runtime_queue WHERE event_type='DEVICE_EVENT' AND state IN ('READY','DEFERRED')").fetchone()[0]
+        assert pending==1 and adapter.captures==0 and c.state['coalesced']>=1
+        assert r.step()['perception']['state']=='GROUNDED' and adapter.captures==1

@@ -132,3 +132,24 @@ def test_authenticated_manager_veto_never_changes_watch(tmp_path):
         with pytest.raises(CoreError,match='MANAGER_BLOCKED'):c.observe(c.request('screen.a',request_id='blocked'))
         assert adapter.captures==1 and r.store.one('subject_cycles',cycle.cycle_id)==old
         assert c.status(c.policy)['sources'][0]['last_block']['stage']=='MANAGER'
+
+def test_resource_privacy_floor_cannot_be_downgraded_by_profile(tmp_path):
+    with fresh(tmp_path/'subject/self.db') as r:
+        c,adapter,m,a=setup(r,tmp_path);original=adapter.describe
+        adapter.describe=lambda:original().model_copy(update={'privacy_floor':'SECRET'})
+        with pytest.raises(CoreError,match='PRIVACY_FLOOR'):c.observe(c.request('screen.a',request_id='downgrade'))
+        assert adapter.bytes_read==0 and m.calls==0
+
+def test_manager_resource_binding_denies_profile_alias(tmp_path):
+    from nana_core.continuity.autonomy.governance import GovernanceController,ManagerConstraint
+    from nana_core.continuity.autonomy.contracts import RealizationTarget
+    from nana_core.storage import digest
+    with fresh(tmp_path/'subject/self.db') as r:
+        c,adapter,m,a=setup(r,tmp_path);p=c._source('screen.a');controller=GovernanceController(r.store,r.authority);now=r.clock.utc_now_us()
+        target=RealizationTarget(capability='perception.capture',operation='READ',resource='synthetic://perception/resource/'+digest([p.adapter_ref,p.resource_ref]),resource_class='ORDINARY')
+        controller.install(ManagerConstraint(constraint_id='resource.veto',revision=1,issuer=r.authority.principal,source_reference='host.policy',identity_id=r.identity_id,scope=p.scope,targets=(target,),effective_from_us=now,expires_at_us=now+10000000,reason_code='NO_CAPTURE'),r.authority)
+        alias=p.model_copy(update={'source_profile_id':'screen.alias'})
+        c.configuration.update(SourceCommand(operation='UPSERT_PERCEPTION_SOURCE',expected_revision=1,profile=alias),a)
+        for sid in ['screen.a','screen.alias']:
+            with pytest.raises(CoreError,match='MANAGER_BLOCKED'):c.observe(c.request(sid,request_id=sid))
+        assert adapter.bytes_read==0

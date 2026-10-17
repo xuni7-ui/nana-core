@@ -66,7 +66,7 @@ class ObservationRequest(ConfigDTO):
     source_profile_id:str
     source_revision:int=Field(ge=1)
     requested_modality:Modality
-    reason_kind:Literal['USER_REQUEST','SCHEDULED','SUBJECT_WATCH','SYSTEM_RECOVERY']
+    reason_kind:Literal['USER_REQUEST','SCHEDULED','SUBJECT_WATCH','SYSTEM_RECOVERY','SOURCE_EVENT']
     requested_at_us:int=Field(ge=0)
     deadline_us:int=Field(ge=0)
     foreground:bool=False
@@ -107,6 +107,7 @@ class SourceDescription(DTO):
     source_kind:Kind
     modalities:tuple[Modality,...]
     max_bytes:int=Field(ge=1,le=16777216)
+    privacy_floor:Privacy='PUBLIC'
 class PerceptionSourcePort(Protocol):
     def describe(self)->SourceDescription:...
     def capture(self,request:ObservationRequest)->CapturedMedia:...
@@ -126,4 +127,6 @@ class HostPerceptionResolver:
         try:d=port.describe()
         except Exception:raise CoreError('SOURCE_UNAVAILABLE') from None
         if type(d) is not SourceDescription or d.source_kind!=profile.source_kind or profile.modality not in d.modalities or profile.max_capture_bytes>d.max_bytes:raise CoreError('SOURCE_DESCRIPTOR_MISMATCH')
+        from ..memory import PRIVACY_RANK
+        if PRIVACY_RANK[profile.privacy_class]<PRIVACY_RANK[d.privacy_floor]:raise CoreError('SOURCE_PRIVACY_FLOOR_DENIED')
         return port

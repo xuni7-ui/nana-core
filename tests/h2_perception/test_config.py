@@ -35,3 +35,10 @@ def test_invalid_profile(change):
 
 def test_duplicate_source():
     with pytest.raises(ValueError):PerceptionConfiguration(sources=(profile(),profile()))
+
+def test_removed_recreated_source_never_reuses_revision(tmp_path):
+    s,a,_,_=service(tmp_path);p=profile()
+    s.update(SourceCommand(operation='UPSERT_PERCEPTION_SOURCE',expected_revision=0,profile=p),a)
+    s.update(SourceCommand(operation='REMOVE_PERCEPTION_SOURCE',expected_revision=1,target_id=p.source_profile_id),a)
+    c=s.update(SourceCommand(operation='UPSERT_PERCEPTION_SOURCE',expected_revision=2,profile=p),a)
+    assert c.sources[0].revision==3

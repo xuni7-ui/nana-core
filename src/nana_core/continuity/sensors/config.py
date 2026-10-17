@@ -21,12 +21,12 @@ class PerceptionConfigService(ProviderConfigService):
             if c.revision!=command.expected_revision:raise CoreError('PERCEPTION_CONFIG_REVISION_CONFLICT')
             ps={p.source_profile_id:p for p in c.sources};op=command.operation;target=command.target_id;policy=c.policy
             if op=='UPSERT_PERCEPTION_SOURCE':
-                p=command.profile;self.__resolver.resolve(p);ps[p.source_profile_id]=p.model_copy(update={'revision':ps[p.source_profile_id].revision+1 if p.source_profile_id in ps else 1})
+                p=command.profile;self.__resolver.resolve(p);ps[p.source_profile_id]=p.model_copy(update={'revision':c.revision+1})
             elif op=='SET_CAPTURE_POLICY':policy=command.policy
             else:
                 if target not in ps:raise CoreError('SOURCE_UNAVAILABLE')
                 if op=='REMOVE_PERCEPTION_SOURCE':del ps[target]
-                else:ps[target]=ps[target].model_copy(update={'enabled':op=='ENABLE_PERCEPTION_SOURCE','revision':ps[target].revision+1})
+                else:ps[target]=ps[target].model_copy(update={'enabled':op=='ENABLE_PERCEPTION_SOURCE','revision':c.revision+1})
             updated=PerceptionConfiguration(revision=c.revision+1,sources=tuple(ps.values()),policy=policy)
             self._atomic(updated);return updated
         finally:os.close(fd)

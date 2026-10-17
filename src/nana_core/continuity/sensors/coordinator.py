@@ -36,7 +36,7 @@ class PerceptionCoordinator:
         if self.store.one('core_meta','governance.registry'):
             from ..autonomy.governance import snapshot
             _,roots=snapshot(self.store)
-            denied=[(event,c) for event,c,active in roots if active and c.scope==p.scope and any(t.capability=='perception.capture' and t.operation=='READ' and t.resource=='synthetic://perception/'+p.source_profile_id for t in c.targets)]
+            denied=[(event,c) for event,c,active in roots if active and c.scope==p.scope and any(t.capability=='perception.capture' and t.operation=='READ' and t.resource in {'synthetic://perception/'+p.source_profile_id,'synthetic://perception/resource/'+digest([p.adapter_ref,p.resource_ref])} for t in c.targets)]
             if denied:
                 refs=[{'constraint_id':c.constraint_id,'revision':c.revision,'source_event_id':event} for event,c in denied]
                 self.state['sources'].setdefault(p.source_profile_id,{})['last_block']={'stage':'MANAGER','constraint_refs':refs,'actual_capture':'NONE'}
@@ -246,6 +246,11 @@ class PerceptionCoordinator:
                 if row:self.runtime.scheduler.cancel(row['schedule_id'])
             src['schedule_key']=key
             existing=self.store.db.execute('SELECT * FROM runtime_schedules WHERE dedupe_key=?',(key,)).fetchone()
+            if existing and existing['state']=='ACTIVE' and existing['last_queue_id']:
+                queued=self.store.one('runtime_queue',existing['last_queue_id'])
+                if queued and queued['state'] in {'READY','DEFERRED','PROCESSING'} and existing['due_at_us']<=now:
+                    self.state['coalesced']+=1+(now-existing['due_at_us'])//(interval*1000)
+                    with self.store.transaction('h2.pending_tick_coalesced') as tx:tx.update('runtime_schedules',existing['schedule_id'],due_at_us=now+interval*1000)
             if existing and existing['state']=='CANCELLED':
                 # A renewed interest is a new timer occurrence, not a replay of the old template.
                 with self.store.transaction('h2.schedule_reenabled') as tx:tx.update('runtime_schedules',existing['schedule_id'],state='ACTIVE',due_at_us=now+interval*1000)
@@ -258,10 +263,32 @@ class PerceptionCoordinator:
         existing_ids={p.source_profile_id for p in c.sources}
         self.state['sources']={k:v for k,v in self.state['sources'].items() if k in existing_ids}
         self._save()
+    def notify_sample(self,source_id,sample_key,*,observed_at_us):
+        """Producer-side metadata only, via existing thread-safe D post().
+
+        The adapter retains at most its bounded volatile sample. A receipt is
+        durable only after the ordinary Runtime owner drains its mailbox.
+        """
+        import re
+        from ...presence.contracts import RuntimeEvent,Cause
+        from ..subject.contracts import SubjectInput
+        if type(sample_key) is not str or not re.fullmatch(r'[A-Za-z0-9._-]{1,24}',sample_key):raise CoreError('SOURCE_SAMPLE_KEY_INVALID')
+        p=self._source(source_id)
+        if p.capture_mode!='EVENT_DRIVEN':raise CoreError('SOURCE_EVENT_MODE_REQUIRED')
+        key='synthetic.h2.sample.'+p.source_profile_id+':'+str(p.revision)+':'+sample_key
+        inp=SubjectInput(source_key=key,kind='WAKE',origin='SELF_WAKE',entity_id=self.runtime.config.entity_id,scope=p.scope,observed_at_us=observed_at_us)
+        return self.runtime.post(RuntimeEvent(event_type='DEVICE_EVENT',trigger='DEVICE_TRIGGER',input=inp,causes=(Cause(kind='CANONICAL_SELF',reference_id=self.runtime.identity_id),),due_at_us=observed_at_us,priority=0))
     def handle_queue(self,row):
         pending=self.state.setdefault('pending',{});req=None;request_key=None
         for rid,body in pending.items():
             if row['source_key']=='synthetic.h2.'+digest(rid):req=ObservationRequest.model_validate_json(canonical(body));request_key=rid;break
+        if req is None and row['source_key'].startswith('synthetic.h2.sample.'):
+            try:
+                sid,revision,sample=row['source_key'].removeprefix('synthetic.h2.sample.').split(':')
+                p=self._source(sid)
+                if p.revision!=int(revision) or p.capture_mode!='EVENT_DRIVEN':raise CoreError('SOURCE_REVISION_STALE')
+                req=self.request(sid,request_id='event.'+digest(row['source_key']),reason='SOURCE_EVENT',sample_key=sample)
+            except (CoreError,ValueError):return {'state':'FAILED','reason':'SOURCE_UNAVAILABLE_OR_STALE'}
         if req is None:
             schedule=self.store.db.execute("SELECT * FROM runtime_schedules WHERE last_queue_id=? AND dedupe_key LIKE 'h2.%'",(row['queue_id'],)).fetchone()
             if not schedule:return None
