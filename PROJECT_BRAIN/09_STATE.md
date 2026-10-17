@@ -1323,3 +1323,9 @@ relay usage已返回部分token/cost字段，实际费用单位/结算未知，A
 报告：docs/nana_h1_live_semantic_provider_qualification.md；证据：同名provider_evidence目录。
 
 H1-LIVE partial delivery manifest SHA256 `a36ad88548dd991171ecda1d11bdad14f03f5c6468296e0f53696752ca344928` (`docs/nana_h1_live_semantic_provider_evidence/manifest.json`); self/09 excluded. Exact secret scan0; no retained credential.
+
+## PROVIDER_CAPABILITY_ROUTING_V1 — IN_PROGRESS (2026-10-17)
+[源码/离线测试] GLOBAL_STAGE=H. Base ba798b201ff2f7ba671a2cb9939d9692b59fd93f;
+branch dev/nana-core-provider-capability-routing-v1-codex. P1 host config/compatible
+Registry implemented/tested,25 PASS/2 SIGKILL. Routing/factory/frontend/qualification
+pending. No real provider calls; prior H1-LIVE PARTIAL remains historical.

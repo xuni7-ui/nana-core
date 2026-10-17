@@ -1,0 +1,11 @@
+{
+  "base": "ba798b201ff2f7ba671a2cb9939d9692b59fd93f",
+  "files": {
+    "src/nana_core/continuity/providers.py": "7e2fd82ca6df02c9baed439df9f06f858d58c120b5edfcd361951671ac756786",
+    "src/nana_core/continuity/provider_config.py": "81d6ef8f0139bfdd761ef7ca0b45400a32423ce3a2a67a665fed3d6a811a8462",
+    "tests/provider_routing/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/provider_routing/helpers.py": "0f30b2fe1cceed275432897109632a938e12995922c65a5385777c3bb46e8e95",
+    "tests/provider_routing/test_config.py": "f72c06a76179a5962a3b4ecc0b6fd6eb47ae5a3cdc061d9e304a011260876275",
+    "PROJECT_BRAIN/11_CHANGELOG.md": "ce19b1e2fed659c62521ff4e6fc226a257bdc211658c0d87dc4ef96fef0ed8bb"
+  }
+}

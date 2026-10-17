@@ -14,12 +14,14 @@ from .revision import state_token
 from .extensions import NAME_PATTERN
 
 Modality = Literal['TEXT','EMBEDDING','IMAGE','AUDIO','VIDEO']
+Operation = Literal['COGNITION','EMBED','VISION','IMAGE_GENERATE','STT','TTS','AUDIO_UNDERSTAND','AUDIO_GENERATE','VIDEO_UNDERSTAND']
 
 class ProviderDescriptor(DTO):
     provider_id: str = Field(pattern=NAME_PATTERN)
-    model_id: str = Field(pattern=NAME_PATTERN)
+    model_id: str = Field(pattern=r'^[A-Za-z0-9][A-Za-z0-9._:/-]{0,95}$')
+    model_profile_id: str|None = Field(default=None,pattern=NAME_PATTERN)
     model_version: str = Field(min_length=1, max_length=96)
-    operations: tuple[Literal['COGNITION','EMBED','VISION','IMAGE_GENERATE','STT','TTS','AUDIO_UNDERSTAND','AUDIO_GENERATE','VIDEO_UNDERSTAND'], ...] = Field(min_length=1, max_length=9)
+    operations: tuple[Operation, ...] = Field(min_length=1, max_length=9)
     input_modalities: tuple[Modality,...] = Field(min_length=1,max_length=5)
     output_modalities: tuple[Modality,...] = Field(min_length=1,max_length=5)
     context_limit: int = Field(ge=256, le=2000000)
@@ -80,14 +82,17 @@ class ProviderRegistry:
     def __init__(self): self._ports={}
     def register(self, descriptor: ProviderDescriptor, port):
         descriptor=ProviderDescriptor.model_validate_json(descriptor.model_dump_json())
-        if descriptor.model_id in self._ports:raise CoreError('PROVIDER_ALREADY_REGISTERED')
+        key=descriptor.model_profile_id or (descriptor.provider_id,descriptor.model_id)
+        if key in self._ports:raise CoreError('PROVIDER_ALREADY_REGISTERED')
         if any(not callable(getattr(port,_METHODS[op],None)) for op in descriptor.operations):
             raise CoreError('PROVIDER_CONTRACT_MISMATCH')
-        self._ports[descriptor.model_id]=(descriptor,port)
+        self._ports[key]=(descriptor,port)
     def descriptors(self): return tuple(d for d,p in self._ports.values())
     def _resolve(self, model_id, operation):
-        if model_id not in self._ports:raise CoreError('PROVIDER_UNAVAILABLE')
-        d,p=self._ports[model_id]
+        matches=[v for k,v in self._ports.items() if k==model_id or (v[0].model_profile_id is None and v[0].model_id==model_id)]
+        if not matches:raise CoreError('PROVIDER_UNAVAILABLE')
+        if len(matches)!=1:raise CoreError('PROVIDER_MODEL_AMBIGUOUS')
+        d,p=matches[0]
         if operation not in d.operations:raise CoreError('PROVIDER_OPERATION_UNAVAILABLE')
         # Descriptors do not turn a cloud/local SDK into authorized live execution.
         if d.locality!='LOCAL_FIXTURE':
@@ -164,11 +169,12 @@ class EmbeddingIndexMetadata(DTO):
     index_format: Literal['FIXTURE_FLAT_V1'] = 'FIXTURE_FLAT_V1'
     source_revision: str
     rebuild_token: str
+    route_token: str|None = None
 
 class EmbeddingCache:
     """Disposable process-local cache. Never portable authority or exported data."""
     def __init__(self): self.metadata=None;self._vectors={}
-    def rebuild(self,session: MediaSession,model_id,memory_ids,*,scopes):
+    def rebuild(self,session: MediaSession,model_id,memory_ids,*,scopes,route_token=None):
         d,_=session._registry._resolve(model_id,'EMBED')
         result=session.embed(model_id,memory_ids,scopes=scopes)
         lengths={len(v) for v in result.vectors}
@@ -177,10 +183,12 @@ class EmbeddingCache:
             raise CoreError('EMBEDDING_SHAPE_INVALID')
         token=state_token(session._store)
         self.metadata=EmbeddingIndexMetadata(provider_id=d.provider_id,model_id=d.model_id,model_version=d.model_version,
-            dimension=next(iter(lengths)),source_revision=token,rebuild_token=digest([d.model_dump(mode='json'),token,tuple(memory_ids)]))
+            dimension=next(iter(lengths)),source_revision=token,route_token=route_token,rebuild_token=digest([d.model_dump(mode='json'),token,tuple(memory_ids)]))
         self._vectors=dict(zip(memory_ids,result.vectors))
         return self.metadata
-    def lookup(self,store,*,provider_id,model_id,model_version,dimension,index_format='FIXTURE_FLAT_V1'):
+    def lookup(self,store,*,provider_id,model_id,model_version,dimension,index_format='FIXTURE_FLAT_V1',route_token=None):
+        if route_token is not None and (not self.metadata or self.metadata.route_token!=route_token):
+            self.metadata=None;self._vectors={};raise CoreError('EMBEDDING_REBUILD_REQUIRED')
         if not self.metadata or (self.metadata.provider_id,self.metadata.model_id,self.metadata.model_version,self.metadata.dimension,self.metadata.index_format,self.metadata.source_revision)!=(provider_id,model_id,model_version,dimension,index_format,state_token(store)):
             self.metadata=None;self._vectors={}
             raise CoreError('EMBEDDING_REBUILD_REQUIRED')

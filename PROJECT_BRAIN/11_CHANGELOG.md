@@ -1574,3 +1574,11 @@ relay usage已返回部分token/cost字段，实际费用单位/结算未知，A
 [H1-LIVE collector follow-up / failure→fix] Timeout行不得引用上一条completed envelope的
 usage/ID。修复实验收集器并保留回归，删除UNKNOWN行不相关metadata；Core没有复用/接收
 旧响应。最终11新增guard PASS；完整1060 PASS/0 FAIL/1 SKIP(E12),151.84s。
+
+### Provider routing P1 — host configuration foundation (2026-10-17)
+[源码/离线测试] From verified remote ba798b2 on independent provider-capability-routing
+branch. Typed host-local JSON schema1, private atomic/CAS persistence, dependency
+checks and explicit memory-only SecretResolver contract. Existing ephemeral B9
+Registry accepts stable profile keys and disambiguates same remote name by provider.
+25 targeted/B9 tests PASS,2 actual local SIGKILL cuts. No Subject table/schema,
+secret/provider call or H1 historical PARTIAL upgrade. Router/frontend still pending.
