@@ -21,7 +21,7 @@ from .subject.contracts import SubjectInput
 class FrontendPolicy(DTO):
     context: ContextPolicy
     entity_id: str
-    commands: tuple[Literal['SEND_INPUT','PROPOSE_GOAL','FORGET','CONFIGURE_PRIMARY_USER','CHANGE_SETTING','CAPABILITY_REVIEW'],...]
+    commands: tuple[Literal['SEND_INPUT','PROPOSE_GOAL','FORGET','CONFIGURE_PRIMARY_USER','CHANGE_SETTING','CAPABILITY_REVIEW','VIEW_PROVIDER_SETTINGS','CONFIGURE_PROVIDERS'],...]
     deletable_scopes: tuple[str,...] = ()
 
 class FrontendProjection(DTO):
@@ -40,11 +40,12 @@ class CapabilityReviewProposal(DTO):
     state: Literal['PROPOSAL_ONLY_NOT_AUTHORIZATION'] = 'PROPOSAL_ONLY_NOT_AUTHORIZATION'
 
 class SubjectApplication:
-    def __init__(self,store,subject_loop,operator,*,providers,bootstrap_authority=None,health=None,runtime_views=None,ingress=None):
+    def __init__(self,store,subject_loop,operator,*,providers,bootstrap_authority=None,health=None,runtime_views=None,ingress=None,provider_settings=None):
         if subject_loop.store is not store:raise CoreError('FRONTEND_SUBJECT_STORE_MISMATCH')
         self._store,self._subject,self._operator=store,subject_loop,operator
         self._providers,self._bootstrap,self._health=providers,bootstrap_authority,health
         self._runtime_views,self._ingress=runtime_views,ingress
+        self._provider_settings=provider_settings
     def session(self,policy:FrontendPolicy):
         if not set(policy.deletable_scopes)<=set(policy.context.allowed_scopes):raise CoreError('FRONTEND_POLICY_INVALID')
         if not self._store.one('entities',policy.entity_id):raise CoreError('FRONTEND_ENTITY_UNBOUND')
@@ -92,6 +93,12 @@ class FrontendSession:
     def request_capability_review(self,proposal:CapabilityReviewProposal):
         self._allowed('CAPABILITY_REVIEW');self._scope(proposal.scope)
         return CapabilityReviewProposal.model_validate_json(proposal.model_dump_json())
+    def provider_command(self,command):
+        self._allowed('CONFIGURE_PROVIDERS')
+        from .provider_config import ProviderCommand
+        if type(command) is not ProviderCommand:raise CoreError('PROVIDER_CONFIG_TYPED_COMMAND_REQUIRED')
+        if self.__app._provider_settings is None:raise CoreError('PROVIDER_SETTINGS_UNAVAILABLE')
+        return FrontendProjection(kind='PROVIDER_SETTINGS',data_json=canonical(self.__app._provider_settings.command(command)))
     def view(self,kind,*,scope=None,tier='L0_LIVE'):
         app,p=self.__app,self.__policy
         scopes=(scope,) if scope else p.context.allowed_scopes
@@ -130,6 +137,10 @@ class FrontendSession:
             data={'goal_candidate_ids':view.goal_candidate_ids,'commitment_ids':view.commitment_ids,'project_ids':view.project_ids,'intention_ids':view.intention_ids,'source_record_ids':view.source_record_ids}
         elif kind=='RUNTIME':
             data=app._health().model_dump(mode='json') if app._health else {'status':'NOT_RUNNING','derived':True}
+        elif kind=='PROVIDER_SETTINGS':
+            self._allowed('VIEW_PROVIDER_SETTINGS')
+            if app._provider_settings is None:raise CoreError('PROVIDER_SETTINGS_UNAVAILABLE')
+            data=app._provider_settings.projection()
         elif kind=='PROVIDERS':data={'descriptors':[d.model_dump(mode='json') for d in app._providers.descriptors()]}
         else:raise CoreError('FRONTEND_VIEW_UNKNOWN')
         return FrontendProjection(kind=kind,data_json=canonical(data))

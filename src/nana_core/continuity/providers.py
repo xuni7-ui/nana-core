@@ -92,7 +92,7 @@ class ProviderRegistry:
         del self._ports[model_profile_id]
     def descriptors(self): return tuple(d for d,p in self._ports.values())
     def _resolve(self, model_id, operation):
-        matches=[v for k,v in self._ports.items() if k==model_id or (v[0].model_profile_id is None and v[0].model_id==model_id)]
+        matches=[self._ports[model_id]] if model_id in self._ports else [v for v in self._ports.values() if v[0].model_profile_id is None and v[0].model_id==model_id]
         if not matches:raise CoreError('PROVIDER_UNAVAILABLE')
         if len(matches)!=1:raise CoreError('PROVIDER_MODEL_AMBIGUOUS')
         d,p=matches[0]
@@ -123,10 +123,11 @@ class ProviderRegistry:
         return result
 
 class MediaSession:
-    def __init__(self,store,registry,policy: ContextPolicy,*,limits=None):
+    def __init__(self,store,registry,policy: ContextPolicy,*,limits=None,route_guard=None):
         self._store,self._registry,self._policy=store,registry,policy
-        self._limits=limits
+        self._limits=limits;self._route_guard=route_guard
     def _invoke(self,model_id,operation,memory_ids,*,scopes):
+        if self._route_guard is not None and not self._route_guard():raise CoreError('ROUTE_CHANGED_BEFORE_DISPATCH')
         d,p=self._registry._resolve(model_id,operation)
         if not scopes or not set(scopes)<=set(self._policy.allowed_scopes):raise CoreError('MEDIA_SCOPE_DENIED')
         if not 1<=len(memory_ids)<=32 or len(set(memory_ids))!=len(memory_ids):raise CoreError('MEDIA_INPUT_BOUND_INVALID')
@@ -140,11 +141,15 @@ class MediaSession:
         raw=canonical(items)
         if len(raw.encode())>min(d.context_limit,65536,self._limits.context_limit if self._limits else 65536):raise CoreError('MEDIA_INPUT_TOO_LARGE')
         inp=FrozenMediaInput(source_memory_ids=tuple(memory_ids),state_token=token,content_json=raw,content_digest=digest(raw.encode()))
+        import time
+        started=time.monotonic()
         result=getattr(p,_METHODS[operation])(inp)
+        if self._limits and (time.monotonic()-started)*1000>self._limits.timeout_ms:raise CoreError('MEDIA_UNKNOWN_COMPLETION')
         if token!=state_token(self._store):raise CoreError('MEDIA_SOURCE_STALE')
         expected=EmbeddingResult if operation=='EMBED' else MediaProposal
         if not isinstance(result,expected):raise CoreError('MEDIA_PROPOSAL_INVALID')
         result=expected.model_validate_json(result.model_dump_json())
+        if self._limits and operation=='EMBED' and len(result.model_dump_json().encode())>self._limits.output_limit:raise CoreError('MEDIA_PROPOSAL_INVALID')
         if result.source_memory_ids!=tuple(memory_ids):raise CoreError('MEDIA_SOURCE_MISMATCH')
         if isinstance(result,MediaProposal) and (result.operation!=operation or len(result.result_json.encode())>min(d.output_limit,self._limits.output_limit if self._limits else d.output_limit)):
             raise CoreError('MEDIA_PROPOSAL_INVALID')
@@ -191,7 +196,7 @@ class EmbeddingCache:
         self._vectors=dict(zip(memory_ids,result.vectors))
         return self.metadata
     def lookup(self,store,*,provider_id,model_id,model_version,dimension,index_format='FIXTURE_FLAT_V1',route_token=None):
-        if route_token is not None and (not self.metadata or self.metadata.route_token!=route_token):
+        if (route_token is not None or (self.metadata and self.metadata.route_token is not None)) and (not self.metadata or self.metadata.route_token!=route_token):
             self.metadata=None;self._vectors={};raise CoreError('EMBEDDING_REBUILD_REQUIRED')
         if not self.metadata or (self.metadata.provider_id,self.metadata.model_id,self.metadata.model_version,self.metadata.dimension,self.metadata.index_format,self.metadata.source_revision)!=(provider_id,model_id,model_version,dimension,index_format,state_token(store)):
             self.metadata=None;self._vectors={}

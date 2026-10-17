@@ -371,5 +371,10 @@ class CognitionSession:
         for x in self.store.db.execute('SELECT * FROM cognitive_requests ORDER BY created_at_us DESC LIMIT ?',(min(64,limit),)):
             head=self.store.one('continuity_records',x['record_id'])
             if head['scope'] in scopes and head['privacy_class'] in privacy and head['lifecycle']=='ACTIVE' and self.records.current_support(head['record_id']):
-                out.append({'request_id':x['request_id'],'state':x['state'],'error_code':x['error_code'],'response_digest':x['response_digest']})
+                item={'request_id':x['request_id'],'state':x['state'],'error_code':x['error_code'],'response_digest':x['response_digest']}
+                snapshot=self.records.read(x['record_id'])['payload']['request'].get('route_snapshot')
+                if snapshot is not None:
+                    # UNKNOWN is deliberately not reported as either success or no dispatch.
+                    item['routing']={'snapshot':snapshot,'dispatch_status':'RESPONSE_RECEIVED' if x['state']=='PROPOSED' else 'NOT_STARTED' if x['state']=='PREPARED' else 'POSSIBLE_OR_ATTEMPTED','completion_state':x['state'],'latency_us':x['latency_us'],'input_bytes':x['input_bytes'],'output_bytes':x['output_bytes'],'actual_cost_micro':x['actual_cost_micro'],'cost_known':x['actual_cost_micro'] is not None,'response_digest':x['response_digest']}
+                out.append(item)
         return tuple(out)

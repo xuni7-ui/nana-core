@@ -1,0 +1,12 @@
+{
+  "files": {
+    "src/nana_core/continuity/application.py": "b09cbecf5e67c6fc73f689ee14df0898a58c0c19e41d2df8c30029bfbb7c8030",
+    "src/nana_core/continuity/providers.py": "60e6291f156a81140aae3e7aff30499df62c2b126a06eef15d6c482c4435bdef",
+    "src/nana_core/continuity/provider_routing.py": "0ddcfe452558c5ad46dad3159d540249c65c48ea73486672346053b6586c8e9f",
+    "src/nana_core/continuity/world_loop/cognition.py": "f8eed397be5a8949c3c31be9f96ad86e7d8901c980c91b628bfc4b9f3d754304",
+    "tests/provider_routing/test_frontend_transfer.py": "41002fc205549d4c4899ae665c6d311beabd301429de3e5e07694329f32c6e2e",
+    "tests/provider_routing/test_ports.py": "665a40af0f0b9def1c01188a13177966f77fb920addb48683994290f5239a94e",
+    "tests/provider_routing/test_router.py": "8472d8c4a8ef5d81a40ed4e4cd7f7acf42f9073c47dea0c3555678455c7380d1",
+    "PROJECT_BRAIN/11_CHANGELOG.md": "f56101bb4c1dde7955b9acf1898123f5664724fd769957afc4cce2b78040408e"
+  }
+}

@@ -16,6 +16,7 @@ def test_primary_same_remote_model_different_provider_and_profile(tmp_path):
         mid=capture(r,'source',{'fact':'public fixture'});identity=r.identity_id
         session=target.cognition_session(r);cid=session.prepare('primary','INTERPRET',(mid,));result=session.execute(cid)
         assert result['state']=='PROPOSED' and ports[0].calls==1 and ports[1].calls==0
+        observation=session.journal()[0]['routing'];assert observation['dispatch_status']=='RESPONSE_RECEIVED' and observation['snapshot']['selection']=='PRIMARY'
         body=session.records.read(r.store.one('cognitive_requests',cid)['record_id'])['payload']['request']
         assert body['route_snapshot']==target.snapshot.model_dump(mode='json') and 'base_url' not in body['route_snapshot'] and 'secret_ref' not in body['route_snapshot']
         update(s,a,'DISABLE_PROVIDER',target_id='fixture.a')

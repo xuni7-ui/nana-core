@@ -1592,3 +1592,7 @@ cannot dispatch using changed route/model. Native loopback Text/Vision/sampled V
 reuse same H1 path; generic fixture media/embedding retain old B9 interfaces.
 43 routing/B9/open-media focused PASS;0 real provider calls. Frontend/transfer
 qualification pending. No new Subject table/schema, Runtime or SubjectLoop.
+
+## 2026-10-17 Provider routing P4/P5 — implemented/tested offline
+
+B10 PROVIDER_SETTINGS typed application transitions, revision CAS, dependency-safe removal, native loopback and B8 transfer exclusion implemented. Retained routed media sessions reject changed config. Sanitized original Cognition journal projects route provenance without credentials. Combined focused/B9/B10/H1/open-autonomy: 103 passed; full regression pending. Subject schema13/tables43 unchanged; H1 historical PARTIAL unchanged; real provider calls0.
