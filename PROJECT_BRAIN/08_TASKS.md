@@ -318,3 +318,17 @@ IMPLEMENTED / TESTED / OFFLINE_RUNTIME_VERIFIED。原F/G/I复用，无新脑/表
 301.344s实际wall。独立runbook、A–J矩阵、implementation/evidence位于docs/nana_h1_*。
 Live provider、真实媒体语义质量/ASR、真实capture/Hands：NOT_RUN；不属于本轮DONE。
 本地提交完成，不push；无生产/main/R045变更，不提升任何真实宿主状态。
+
+## H1-LIVE provider qualification — BLOCKED_NO_CONFIGURED_PROVIDER（2026-10-17）
+[实测/当前配置观测 + 源码审计] 独立开发分支
+`dev/nana-core-h1-live-semantic-provider-v1-codex`，base H1 `f6aabc3c8e8712b811540764a3937cc9283861af`。
+managed spec204/current观测：capabilities/secrets/runtime_variables/outbound_identities均为空；
+任务未提供exact provider/model/endpoint。未搜索secret/读取生产配置/调用provider。
+按本轮附件§3/§30完成有界readiness audit后停止：真实调用0，预算0，
+LIVE_PROVIDER_QUALIFICATION=BLOCKED_NO_CONFIGURED_PROVIDER；不是失败模型或语义PASS。
+H1 OFFLINE_CANDIDATE_READY保持；历史1049/0/1、focused32、5 SIGKILL不重跑、不冒充LIVE证据。
+发现后续live measurement需保留provider-native response/request ID及raw response digest，
+现有typed reply digest不能冒充raw HTTP fingerprint；无provider时不做猜测性实现。
+源码/schema13/43表/权限/Runtime/SubjectLoop不变。E12/real ASR/OCR/quality/capture/Hands
+仍NOT_RUN；无生产/main/R045/私人数据/外部action/push。报告及证据见
+`docs/nana_h1_live_semantic_provider_readiness.md`和同名evidence目录。

@@ -658,3 +658,12 @@ Video8 sampled frames/gaps and separately linked same-container audio, max98304
 normalized semantic bytes, no silent broad capture/downsampling/auto retries.
 Same explicit13/43 tables; no production migration/push or new execution authority.
 Next live-provider public labelled qualification is separate; do not auto-enter H2.
+
+## D-H1-LIVE-001 — absent provider stops qualification, not permission discovery
+[2026-10-17 / 当前配置观测 / 任务§3/§30] Explicitly configured development semantic
+provider absent; live calls/budget0. Stop after bounded source readiness audit.
+Unrestricted network and existing synthetic harness are not configured provider
+authority. Preserve offline H1; live controls/quality/ASR/E12 remain NOT_RUN.
+No credential search, speculative integration, schema/source change or push.
+Native provider IDs/raw response fingerprints and independent quality fixtures
+remain required before a future explicitly configured live qualification.

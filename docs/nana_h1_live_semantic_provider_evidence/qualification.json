@@ -1,0 +1,71 @@
+{
+  "global_stage": "H",
+  "workstream": "H1_LIVE_SEMANTIC_PROVIDER_QUALIFICATION",
+  "status": "BLOCKED_NO_CONFIGURED_PROVIDER",
+  "base": "f6aabc3c8e8712b811540764a3937cc9283861af",
+  "audit_kind": "SOURCE_READINESS_ONLY",
+  "source_modified": false,
+  "schema": 13,
+  "business_tables": 43,
+  "new_tables": 0,
+  "schema_count_evidence": "Inherited H1 qualification.json; no schema changes or database opened in this audit.",
+  "real_provider_calls": 0,
+  "live_call_budget": {
+    "max_total_calls": 0,
+    "max_calls_per_modality": {
+      "IMAGE": 0,
+      "AUDIO": 0,
+      "VIDEO": 0
+    },
+    "max_outbound_bytes": 0,
+    "max_output_tokens": 0,
+    "max_authorized_cost_micro": 0,
+    "reason": "Provider prerequisite failed; no outbound inference authorized for this execution."
+  },
+  "quality": {
+    "IMAGE": "NOT_RUN",
+    "AUDIO": "NOT_RUN",
+    "ASR": "NOT_RUN",
+    "VIDEO": "NOT_RUN"
+  },
+  "live_controls": {
+    "privacy_canary": "NOT_RUN",
+    "authority_attack": "NOT_RUN",
+    "stale_reply_guard": "NOT_RUN",
+    "source_delete_guard": "NOT_RUN",
+    "world_grounding": "NOT_RUN",
+    "subject_no_action": "NOT_RUN",
+    "calling_recovery": "NOT_RUN",
+    "accepted_restart": "NOT_RUN",
+    "belief_restart": "NOT_RUN"
+  },
+  "billing": {
+    "known_cost": null,
+    "estimated_cost": null,
+    "provider_reported_usage": null,
+    "unknown_billing_calls": 0,
+    "note": "No calls/reservations/spend; null cost is not a provider-reported zero bill."
+  },
+  "new_test_runs": 0,
+  "inherited_tests": {
+    "anchor": "f6aabc3c8e8712b811540764a3937cc9283861af",
+    "full": {
+      "passed": 1049,
+      "failed": 0,
+      "skipped": 1
+    },
+    "focused_passed": 32,
+    "sigkill_passed": 5,
+    "reexecuted": false
+  },
+  "live_capture": "NOT_RUN",
+  "hands": "NOT_RUN",
+  "E12": "NOT_RUN",
+  "real_external_actions": 0,
+  "real_social_sends": 0,
+  "private_user_data_reads": 0,
+  "production_changes": 0,
+  "main_changes": 0,
+  "R045_changes": 0,
+  "pushes": 0
+}

@@ -1,0 +1,5 @@
+BLOCKED_NO_CONFIGURED_PROVIDER. Managed current configuration has no explicit provider capability/variable/secret/outbound identity; task provides none. No credential discovery attempted.
+No live media/model quality, ASR/OCR, provider error/repeatability/cost, canary, stale/delete or recovery qualification executed.
+Do not claim UNSUPPORTED for a modality without a selected provider; modality availability remains UNKNOWN.
+Provider-native response identity/raw wire digest telemetry and independent bounded quality fixtures still need qualification plumbing once a provider is explicitly configured.
+No source implementation, schema migration, new dependencies, database, new Store/SubjectLoop, H2, Hands, production or push.

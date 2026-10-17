@@ -1,0 +1,4 @@
+This audit ran no pytest, provider, synthetic harness, process soak or SIGKILL.
+Historical H1 anchor f6aabc3c8e8712b811540764a3937cc9283861af: full1049 passed /0 failed /1 skipped(E12); H1 focused32 passed;5 SIGKILL PASS.
+These are inherited results, not H1-LIVE qualification.
+Validation for this documentation-only change: diff whitespace, allowlisted paths, secret/artifact pattern scan and manifest fingerprints.

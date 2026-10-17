@@ -1283,3 +1283,19 @@ Evidence/runbook/implementation/A–J matrix in docs/nana_h1_*; next independent
 authorized live-provider public labelled qualification remains a real dependency.
 
 H1 final manifest SHA256 `49d8fea5e1237dbeb699b4ec56e8c8a260d17d74a1e762e4b353179bf17a4644` (`docs/nana_h1_semantic_grounding_evidence/manifest.json`); self/09 excluded.
+
+## H1-LIVE provider qualification — BLOCKED_NO_CONFIGURED_PROVIDER（2026-10-17）
+[实测/当前配置观测 + 源码审计] 独立开发分支
+`dev/nana-core-h1-live-semantic-provider-v1-codex`，base H1 `f6aabc3c8e8712b811540764a3937cc9283861af`。
+managed spec204/current观测：capabilities/secrets/runtime_variables/outbound_identities均为空；
+任务未提供exact provider/model/endpoint。未搜索secret/读取生产配置/调用provider。
+按本轮附件§3/§30完成有界readiness audit后停止：真实调用0，预算0，
+LIVE_PROVIDER_QUALIFICATION=BLOCKED_NO_CONFIGURED_PROVIDER；不是失败模型或语义PASS。
+H1 OFFLINE_CANDIDATE_READY保持；历史1049/0/1、focused32、5 SIGKILL不重跑、不冒充LIVE证据。
+发现后续live measurement需保留provider-native response/request ID及raw response digest，
+现有typed reply digest不能冒充raw HTTP fingerprint；无provider时不做猜测性实现。
+源码/schema13/43表/权限/Runtime/SubjectLoop不变。E12/real ASR/OCR/quality/capture/Hands
+仍NOT_RUN；无生产/main/R045/私人数据/外部action/push。报告及证据见
+`docs/nana_h1_live_semantic_provider_readiness.md`和同名evidence目录。
+
+H1-LIVE readiness manifest SHA256 `c70b91952bdaed76bfcc7bd1d92d55df5a6c5697c26b3c2caa6996a9da538076` (`docs/nana_h1_live_semantic_provider_evidence/manifest.json`); self/09 excluded.

@@ -1,0 +1,20 @@
+{
+  "kind": "H1_LIVE_BLOCKED_READINESS_AUDIT",
+  "base": "f6aabc3c8e8712b811540764a3937cc9283861af",
+  "excludes": [
+    "manifest.json",
+    "PROJECT_BRAIN/09_STATE.md"
+  ],
+  "files": {
+    "PROJECT_BRAIN/07_ROADMAP.md": "f4616b74ce0aa0e67220418dccb8d9e247a62ab293254dbf3e5d6fb8b1bcc9bd",
+    "PROJECT_BRAIN/08_TASKS.md": "d037f7d51f9fe0e03cacaaf70aaab11e1cb05f4431d3b8e8dac0e9f1aedfd90d",
+    "PROJECT_BRAIN/10_DECISIONS.md": "a77c621bbc4b8dd5cc6ea1921bec25ca26bc70e1e30f268e030e1711b3154f47",
+    "PROJECT_BRAIN/11_CHANGELOG.md": "e0f6725bc3e905d8ced9c2eef565aac6addb35fcc9babdb3bd2926de6e7dd77f",
+    "docs/nana_h1_live_semantic_provider_readiness.md": "84393577b7953718920a5c3ab17fa946c7b78960e2f4ffe557dc4391e52c5881",
+    "docs/nana_h1_live_semantic_provider_evidence/limitations.txt": "e5dc1b963f00f8520407e9f1226a8615bb78f142e5443cc5c28be58bbb21a5ee",
+    "docs/nana_h1_live_semantic_provider_evidence/provider_identity.json": "ac08e5342c666e23eee0d5e4abc04a0ea5fc6b37f64ee8432ee6f2e17f73ab06",
+    "docs/nana_h1_live_semantic_provider_evidence/qualification.json": "5972719aed80eb892af7d802ffe22577fc336cb5c2878387bbf22863c915207f",
+    "docs/nana_h1_live_semantic_provider_evidence/readiness_audit.json": "54cf6fa5b599b275d2fa96d31f53fbeadb540bf3d594b3e068dc01d841f83eef",
+    "docs/nana_h1_live_semantic_provider_evidence/test_summary.txt": "b7a558c4f511d8f5238a1fa02ce205aa03be40e4d47df0df4b91c9aa1e8be743"
+  }
+}

@@ -1,0 +1,57 @@
+{
+  "method": "Bounded static source review; no new synthetic/live executions.",
+  "items": [
+    {
+      "area": "Construction",
+      "source": "src/nana_core/continuity/world_loop/semantics.py::OpenAIMediaTransport",
+      "finding": "Exact provider/model descriptor supplied by trusted application; explicit endpoint/credential; no discovery.",
+      "status": "EXISTING_SOURCE"
+    },
+    {
+      "area": "Wire",
+      "source": "src/nana_core/continuity/world_loop/cognition.py::OpenAIJSONTransport",
+      "finding": "HTTPS, no redirects/automatic retries; bounded JSON chat envelope. image_url / input_audio via media subclass; sampled video images, not native video.",
+      "status": "EXISTING_SOURCE_NOT_LIVE_QUALIFIED"
+    },
+    {
+      "area": "Identity/correlation",
+      "source": "src/nana_core/continuity/world_loop/cognition.py::CognitionSession.accept",
+      "finding": "Exact returned model/provider/request/digest fences; no model alias substitution to satisfy a mismatch.",
+      "status": "EXISTING_SOURCE"
+    },
+    {
+      "area": "Privacy",
+      "source": "src/nana_core/continuity/context.py::ContextAssembler / semantics.py::validate_media_input",
+      "finding": "Source-only citation context and typed media; existing privacy/scope/support gates retained. Live outbound canary still requires actual wire inspection.",
+      "status": "EXISTING_SOURCE_LIVE_NOT_RUN"
+    },
+    {
+      "area": "Authority/world/recovery",
+      "source": "semantics.py::validate_semantics / MediaSemanticService.ground; cognition.py::CognitionSession.recover",
+      "finding": "MEDIA proposals lack goals/code authority; beliefs stay model-derived; CALLING becomes UNKNOWN without provider recall. Historical H1 tests not new live proof.",
+      "status": "EXISTING_SOURCE_LIVE_NOT_RUN"
+    },
+    {
+      "area": "Telemetry",
+      "source": "cognition.py::OpenAIJSONTransport.exchange / CognitionReply",
+      "finding": "Selected usage, byte counts, requested/returned identity and correlation retained. Native provider response ID/header ID and raw wire-response fingerprint are not currently retained in CognitionReply. Qualification must add a bounded sanitized measurement path before live acceptance; proposal/reply digest is not raw response digest.",
+      "status": "REQUIRED_BEFORE_LIVE_QUALIFICATION"
+    },
+    {
+      "area": "Independent dataset/metrics",
+      "source": "docs/nana_h1_semantic_grounding_runbook.md",
+      "finding": "Prior narrow color/tone fixtures are not object/OCR/ASR quality qualification. New independently labelled public cases, repeats, canary, modality metrics and provider-specific capability checks needed. Not generated because no-provider stop branch applies.",
+      "status": "NOT_RUN_REAL_DEPENDENCY"
+    },
+    {
+      "area": "Budget/pricing",
+      "source": "cognition.py::CognitionBudget / OpenAIJSONTransport.exchange",
+      "finding": "Reservation ceiling distinct from selected usage; real cost defaults UNKNOWN. No provider prices or explicit model parameters available; per-modality total-call caps and pricing reviewed only once exact provider supplied. No accurate cost inferred from tokens.",
+      "status": "NOT_RUN_REAL_DEPENDENCY"
+    }
+  ],
+  "architecture_changes": 0,
+  "second_subject_loop": false,
+  "second_store": false,
+  "provider_or_service_authority_added": false
+}

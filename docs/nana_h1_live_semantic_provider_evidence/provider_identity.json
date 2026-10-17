@@ -1,0 +1,21 @@
+{
+  "evidence_class": "CURRENT_MANAGED_CONFIGURATION_OBSERVATION",
+  "observed_date_utc": "2026-10-17",
+  "observations_current": true,
+  "observed_spec_revision": "204",
+  "network_policy": {
+    "mode": "unrestricted",
+    "state": "enforced"
+  },
+  "capabilities": [],
+  "secrets": [],
+  "runtime_variables": [],
+  "outbound_identities": [],
+  "explicit_provider_supplied_in_task": false,
+  "provider_id": null,
+  "requested_model_id": null,
+  "returned_model_id": null,
+  "endpoint_class": null,
+  "status": "BLOCKED_NO_CONFIGURED_PROVIDER",
+  "scope": "No configured provider established by task or managed configuration. No process environment dump, credential search, secret file inspection, provider probe, or production access."
+}

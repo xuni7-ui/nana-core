@@ -6,6 +6,12 @@
 
 ---
 
+## 当前资格验证入口：H1-LIVE — BLOCKED_NO_CONFIGURED_PROVIDER（2026-10-17）
+[当前配置观测/源码审计] H1已交接的远端稳定锚点f6aabc3；本轮独立H1-LIVE分支
+仅完成readiness audit。当前managed显式provider配置为空，真实调用/预算0；按任务停止。
+H1 offline候选不升级；H1-LIVE质量、ASR、E12仍NOT_RUN；不自动进入H2/Hands/J或生产。
+报告：docs/nana_h1_live_semantic_provider_readiness.md。历史优先级和现场状态不变。
+
 ## 当前开发入口：GLOBAL_STAGE H1 — Semantic Grounding（2026-10-17）
 
 [源码/离线实测] H1 OFFLINE_CANDIDATE_READY，独立分支
