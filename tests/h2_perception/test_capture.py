@@ -20,11 +20,12 @@ def test_screen_ephemeral_h1_route_idempotency_injection(tmp_path):
         assert not r.store.all('grants') and not r.store.all('goals') and not r.store.all('actions') and not r.store.all('subject_cycles')
         assert all(m['source_provenance']['source_kind']=='MODEL_DERIVATION' for m in [c.records.memory.read(x['memory_id']) for x in r.store.all('memories') if x['epistemic_kind']=='INFERENCE'])
 
-@pytest.mark.parametrize('reason',['host','disabled','scope','privacy','size','budget'])
+@pytest.mark.parametrize('reason',['host','disabled','scope','privacy','size','budget','health'])
 def test_denied_before_read(tmp_path,reason):
     with fresh(tmp_path/'subject/self.db') as r:
         c,adapter,m,a=setup(r,tmp_path,host_allow=(lambda p:False) if reason=='host' else None)
         if reason=='disabled':c.configuration.update(SourceCommand(operation='DISABLE_PERCEPTION_SOURCE',expected_revision=1,target_id='screen.a'),a)
+        if reason=='health':adapter.health=lambda:'UNAVAILABLE'
         if reason=='scope':c.policy=c.policy.model_copy(update={'allowed_scopes':('other',)})
         if reason=='privacy':c.policy=c.policy.model_copy(update={'readable_privacy':()})
         if reason=='budget':c.configuration.update(SourceCommand(operation='SET_CAPTURE_POLICY',expected_revision=1,policy=CapturePolicy(max_bytes_per_minute=1)),a)

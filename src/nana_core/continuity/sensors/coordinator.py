@@ -51,7 +51,11 @@ class PerceptionCoordinator:
         for rid in req.source_record_ids:
             r=self.records.read(rid)
             if r['scope']!=p.scope or r['privacy_class'] not in self.policy.readable_privacy or not self.records.current_support(rid):raise CoreError('SOURCE_SUPPORT_RETIRED')
-        return self.resolver.resolve(p)
+        port=self.resolver.resolve(p)
+        try:health=port.health()
+        except Exception:raise CoreError('SOURCE_UNAVAILABLE') from None
+        if health not in {'AVAILABLE','DEGRADED'}:raise CoreError('SOURCE_UNAVAILABLE')
+        return port
     def _reserve(self,req,p):
         now=self.store.clock.utc_now_us();policy=self.configuration.load().policy
         b=self.state['budget']
@@ -92,7 +96,8 @@ class PerceptionCoordinator:
         self._save();self._busy=True
         try:
             self._safe_point(req,'BEFORE_SOURCE_OPEN')
-            cap=port.capture(req)
+            try:cap=port.capture(req)
+            except (OSError,TimeoutError):raise CoreError('SOURCE_UNAVAILABLE') from None
             if type(cap) is not CapturedMedia:raise CoreError('CAPTURE_TYPED_RESULT_REQUIRED')
             cap.verify(p,self.store.clock.utc_now_us())
             self._set(key,state='CAPTURED',capture_id=cap.capture_id)
@@ -109,7 +114,8 @@ class PerceptionCoordinator:
             source=MediaSourceDescriptor(source_id='capture.'+cap.capture_id,modality=cap.modality,event_time_us=cap.event_time_us,observed_time_us=cap.observed_time_us,privacy=p.privacy_class,source_profile_id=p.source_profile_id,source_revision=p.revision,source_kind=p.source_kind,capture_id=cap.capture_id,adapter_identity=port.describe().adapter_identity,byte_length=cap.byte_length,capture_coverage=cap.coverage,sequence=cap.sequence)
             mid,rid=self.perception.ingest(cap.data,source,entity_id=p.entity_id,scope=p.scope)
             previous=self.state['sources'].get(p.source_profile_id,{})
-            same=(previous.get('digest')==cap.byte_digest and cap.observed_time_us-previous.get('last_capture_us',0)<=self.configuration.load().policy.debounce_us)
+            routing_revision=self.router.config.load().revision if self.router is not None else None
+            same=(previous.get('semantic_route_revision')==routing_revision and previous.get('digest')==cap.byte_digest and cap.observed_time_us-previous.get('last_capture_us',0)<=self.configuration.load().policy.debounce_us)
             self.state['sources'][p.source_profile_id]={**previous,'digest':cap.byte_digest,'last_capture_us':cap.observed_time_us,'last_memory_id':mid,'last_record_id':rid,'health':'AVAILABLE'}
             self._set(key,state='DECODED',memory_id=mid,record_id=rid)
             self._safe_point(req,'AFTER_TECHNICAL_INGEST')
@@ -134,6 +140,7 @@ class PerceptionCoordinator:
                     if outcome['state']=='PROPOSED':
                         result=service.ground(cid,entity_id='media.capture.'+cap.capture_id,predicate='capture.'+cap.capture_id+'.'+{'VISION':'vision','AUDIO_UNDERSTAND':'audio','STT':'stt','VIDEO_UNDERSTAND':'video'}[op])
                         self.state['requests'][key]['semantic'][op]={'state':'GROUNDED','request_id':cid,'belief_ids':result['belief_ids']}
+                        self.state['sources'][p.source_profile_id]['semantic_route_revision']=target.snapshot.config_revision
                         self._set(key,state='GROUNDED')
                         self._safe_point(req,'BEFORE_CONCERN')
                         if self.concern_callback:self.concern_callback(result,cid)
@@ -273,7 +280,9 @@ class PerceptionCoordinator:
         for p in c.sources:
             if p.scope not in context.allowed_scopes or p.privacy_class not in context.readable_privacy:continue
             last=self.state['sources'].get(p.source_profile_id,{})
-            health='DISABLED' if not p.enabled else self.resolver.resolve(p).health()
+            try:health='DISABLED' if not p.enabled else self.resolver.resolve(p).health()
+            except Exception:health='UNKNOWN'
+            if health not in {'AVAILABLE','DEGRADED','UNAVAILABLE','DISABLED','UNKNOWN'}:health='UNKNOWN'
             last_mid=last.get('last_memory_id')
             if last_mid:
                 try:self.records.memory.read(last_mid)

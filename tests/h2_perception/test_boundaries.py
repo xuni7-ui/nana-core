@@ -75,7 +75,7 @@ def test_provider_disabled_capture_survives_and_route_swap_history(tmp_path):
         update(ps,pa,'UPSERT_MODEL',model=other);other_port=SemanticFixture(pp.provider_profile_id,other.remote_model_id)
         c.perception.session._registry.register(other.descriptor(pp),other_port)
         update(ps,pa,'SET_CAPABILITY_ROUTE',route=CapabilityRoute(operation='VISION',primary_model_profile_id=other.model_profile_id))
-        r.clock.source.advance(3000000);fourth=c.observe(c.request('screen.a',request_id='d'));assert fourth['state']=='GROUNDED' and other_port.calls==1
+        r.clock.source.advance(200000);fourth=c.observe(c.request('screen.a',request_id='d'));assert fourth['state']=='GROUNDED' and other_port.calls==1
         assert old_request['route_snapshot']['model_profile_id']=='model.semantic'
         latest=c.records.read(r.store.db.execute('SELECT record_id FROM cognitive_requests ORDER BY created_at_us DESC,rowid DESC LIMIT 1').fetchone()[0])['payload']['request']
         assert latest['route_snapshot']['model_profile_id']=='model.other'

@@ -1,0 +1,8 @@
+{
+  "files": {
+    "src/nana_core/continuity/sensors/contracts.py": "ac56cf1d575a2570c707cb11426623899848fb1e0f2c5613e77f249289967f1b",
+    "src/nana_core/continuity/sensors/coordinator.py": "426f3117c74928a70526d13e79649bdca449227b282e779b0ccd4d38df93bafa",
+    "tests/h2_perception/test_capture.py": "6f056ea0b55a8ce9831da7eb1fd9851bcccff0fe1a588138d0fd00cae5acbe32",
+    "tests/h2_perception/test_boundaries.py": "87b128059bd1f4c1a8e18b29f21eb8aa3984db89d11aea68079e15fb9856ede8"
+  }
+}

@@ -123,6 +123,7 @@ class HostPerceptionResolver:
     def resolve(self,profile):
         port=self.__ports.get((profile.adapter_ref,profile.resource_ref))
         if port is None:raise CoreError('SOURCE_UNAVAILABLE')
-        d=port.describe()
+        try:d=port.describe()
+        except Exception:raise CoreError('SOURCE_UNAVAILABLE') from None
         if type(d) is not SourceDescription or d.source_kind!=profile.source_kind or profile.modality not in d.modalities or profile.max_capture_bytes>d.max_bytes:raise CoreError('SOURCE_DESCRIPTOR_MISMATCH')
         return port
