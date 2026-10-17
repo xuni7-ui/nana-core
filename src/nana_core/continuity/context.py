@@ -319,6 +319,16 @@ class ContextAssembler:
             # Media processors receive only the pinned, policy-filtered source,
             # never unrelated relationship, project or memory context.
             candidates=[(score,block) for score,block in candidates if block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&set(required_memory_ids)]
+            def source_metadata(block):
+                if block.kind not in {'MEMORY','UNRESOLVED_CONFLICT'}:return block
+                body=json.loads(block.data_json)
+                if block.kind=='MEMORY':body.pop('text',None)
+                else:
+                    for claim in body['claims']:claim.pop('text',None)
+                body['content_routed_in_typed_parts']=True
+                return block.model_copy(update={'data_json':canonical(body)})
+            mandatory=[source_metadata(block) for block in mandatory]
+            candidates=[(score,source_metadata(block)) for score,block in candidates]
         candidates.sort(key=lambda item: (-item[0], item[1].block_id))
         selected, omitted = list(mandatory), []
         if retrieval_total > len(memories):

@@ -1242,3 +1242,14 @@ ASR/live capture NOT_RUN (managed provider configuration empty). Hands not enabl
 System/recovery/soak/full regression pending; H1 NOT_READY yet. No push authorized.
 
 H1 M1 manifest SHA256 49676d00ee58b08a207d0d6b1682f9c2009a34263aef80ff20e31e78bd62290c (self/09 excluded).
+
+[H1 M2 / development] Main48h synthetic life now demonstrates semantic support
+through actual Memory dependencies→C goal→failed formatting→existing G learning→
+F replan, plus existing I code-skill use. Five actual SIGKILL cuts and same-image
+EXPLORE/REST/WATCH/ASK priority contrast tested. Same-container audio association
+and sparse temporal gaps supported. Production/live ASR/semantic provider NOT_RUN.
+Final full regression/frozen evidence pending; no auto push or Hands enabled.
+
+H1 M2 manifest SHA256 d2ad4690dbd4d372e23d8d21acdda8a94f1349cbca7f9a44a054396f115bcc29 (self/09 excluded).
+
+H1 M2 final checkpoint manifest SHA256 5d2c87811cd88c33c1643c4bb602b1f34f054e5b4d9cc41a2ab1df3caa3f29cd (replaces pending M2 fingerprint;32 focused PASS).

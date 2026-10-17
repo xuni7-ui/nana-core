@@ -21,7 +21,7 @@ def _part(data,kind,start=0,end=0):
 
 def package_media(data,body,decoder=None):
     """Only decoded matching public bytes. No filename supplied by a model."""
-    if type(data) is not bytes or hashlib.sha256(data).hexdigest()!=body['source_byte_digest']:raise CoreError('MEDIA_SOURCE_DIGEST_MISMATCH')
+    if type(data) is not bytes or not 1<=len(data)<=16*1024*1024 or hashlib.sha256(data).hexdigest()!=body['source_byte_digest']:raise CoreError('MEDIA_SOURCE_DIGEST_MISMATCH')
     decoder=decoder or MediaDecoder();d=body['decoded'];mod=d['modality']
     from PIL import Image
     if mod=='IMAGE':
@@ -91,6 +91,8 @@ def validate_semantics(request,reply,transport):
     if not out or (out.source_memory_id,out.source_byte_digest)!=(inp.source_memory_id,inp.source_byte_digest):raise ValueError('semantic source mismatch')
     if reply.proposal.interests or reply.proposal.plan_operator_ids or reply.proposal.skill_source or reply.proposal.method:raise ValueError('media cannot propose goals or code')
     if out.coverage=='WHOLE_IMAGE' and inp.modality!='IMAGE':raise ValueError('false whole clip coverage')
+    has_transcript=any(ob.kind=='ASR_TRANSCRIPT' for ob in out.observations)
+    if (out.asr_status=='TRANSCRIPT_PROPOSED')!=has_transcript:raise ValueError('empty or unreported transcript')
     if out.asr_status=='TRANSCRIPT_PROPOSED' and not inp.asr_supported:raise ValueError('unsupported ASR')
     for i,ob in enumerate(out.observations):
         if any(j<0 or j>=len(inp.parts) for j in ob.part_indices):raise ValueError('part citation')
@@ -134,6 +136,7 @@ class MediaSemanticService:
         row=self.store.one('cognitive_requests',request_id)
         if not row or row['state']!='PROPOSED':raise CoreError('SEMANTIC_PROPOSAL_UNAVAILABLE')
         request_record=self.records.read(row['record_id']);request=CognitionRequest.model_validate_json(canonical(request_record['payload']['request']))
+        if digest(request.model_dump(mode='json'))!=row['request_digest']:raise CoreError('SEMANTIC_REQUEST_DIGEST_MISMATCH')
         if request.cognitive_role!='MEDIA' or not self.records.current_support(row['record_id']):raise CoreError('SEMANTIC_SOURCE_RETIRED')
         if request_record['scope'] not in self.session.policy.allowed_scopes or request_record['privacy_class'] not in self.session.policy.readable_privacy:raise CoreError('MEDIA_PRIVACY_DENIED')
         proposal=self.store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='COGNITION_PROPOSAL' AND target_id=?",(request_id,)).fetchone()

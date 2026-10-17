@@ -1499,3 +1499,20 @@ Runtime/SubjectLoop/authority change. Initial16 H1 tests PASS; actual generated
 public codecs only, narrow SYNTHETIC semantic oracle; live semantic/ASR NOT_RUN.
 Why: distinguish media meaning proposals from technical decode and verified truth.
 No push or production/private/live side effects.
+
+### H1 M2 — same-Subject priorities and recoverable semantic life
+[源码/实测] Added finite decoded video/audio association, primary-source focus on
+synthetic proposer, typed media→C priorities, actual5 SIGKILL cuts and portable
+semantic history/recovery proof. Paired48h worlds exercise original F planning,
+G9-stage learning and I skill lifecycle; no new planner/learner/Store/loop. A
+transcript-shaped wrong fixture remains MODEL_DERIVATION, never a user command.
+Known generated pixels supply independent later verification, not model echo.
+Source-only privacy and unknown billing preserved. Updated report/default H1 test
+path. Initial main48h causal checks pass; contrast uses different needs and REST.
+Final full/frozen scenarios/wall qualification follow. No production or push.
+
+[H1 M2 follow-up / failure→fix] Retained failing metadata-routing regression proved
+media source-only context still carried full source Memory.text. Media requests
+now project citation/epistemic metadata only; typed validated parts carry content.
+Ordinary C/D ContextAssembler defaults remain unchanged. Final focused32 PASS.
+No new privacy access, authority, table or worker. Final full/evidence next.

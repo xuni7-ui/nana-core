@@ -1,0 +1,16 @@
+{
+  "pyproject.toml": "8ac3a40dbf00f5399493faf45193e849520843fb4660955e649d926dbca215e6",
+  "src/nana_core/continuity/world_loop/cognition.py": "1c3e0a43baaaaf59e4546e1c458f5c59adf290c09402522647861d799f8c7b4f",
+  "src/nana_core/continuity/world_loop/semantic_harness.py": "d817657dfe8f7aa5f0bc30437d1cb20e1b829181c8d84933376a583eeb8d69d9",
+  "src/nana_core/continuity/world_loop/semantics.py": "53b51928c1a1d7037d0db7139f934804052ef2a23891f351729f951064d7cc89",
+  "src/nana_core/presence/semantic_demo.py": "3215db5c6a8cba1aafae1e2ab9bc54b6b5b5c4a0564f6f49938c830d61af0f2b",
+  "tests/h1_semantics/test_recovery.py": "a242979e939a0b3c9e8b9dff617342e40827d237f6985a8f03f8d894998f494e",
+  "tests/h1_semantics/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+  "tests/h1_semantics/test_life.py": "a1a67987f30093613554ab7a4bfcb0227a07fd3fea0de66cf4194227ad7af7ea",
+  "tests/h1_semantics/crash_worker.py": "8e90b7d7a718b73d740d02d69f6e38f789ee4c36ad482940d3dc42491f5bcd76",
+  "tests/h1_semantics/test_integration.py": "606bc2151365fa7362745e63f3ef16b19daac7b4fe2a0de171d83d90ec9b578b",
+  "tests/h1_semantics/test_grounding.py": "681967985c6546623ef974354108e9ff48e24c4b18fa6c91eb52c0923b29992b",
+  "docs/nana_h1_semantic_grounding_implementation.md": "c65a87f110bf8a52ae78c9261945f6dbdc24637ef4e4526f3a559306f3057663",
+  "PROJECT_BRAIN/11_CHANGELOG.md": "6576100b5820c2f2f96a3c2ba4a948a91e71aef0100903c3eb33146d2f4df918",
+  "src/nana_core/continuity/context.py": "180efeabaf0f8e2fc3d0f1782f4836f6cb5d3cce2ca8d5dbba636c7c1a0e0409"
+}

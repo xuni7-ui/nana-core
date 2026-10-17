@@ -106,3 +106,47 @@ def test_semantic_failures_no_retry_or_late_write(tmp_path,mode):
         time.sleep(.22 if mode=='timeout' else 0)
         before=state['calls'];assert s.execute(cid)['replayed'] and state['calls']==before
         assert not r.store.all('goals')
+
+def test_source_withdrawal_during_call_and_semantic_epistemic_promotion(tmp_path):
+    from nana_core.continuity.contracts import MemoryCandidate,MemoryType
+    with fresh(tmp_path/'s'/'self.db') as r,semantic_harness() as (t,_):
+        raw=media_samples()['IMAGE'];mid=ingest(r,'IMAGE',raw);service=setup(r,t)
+        cid=service.prepare('accepted',mid,raw);service.execute(cid);result=service.ground(cid,entity_id='device')
+        m=MemoryService(r.store,r.authority);semantic=m.read(result['semantic_memory_ids'][0]);body=json.loads(semantic['text']);body['world_claim']['kind']='RAW_OBSERVATION'
+        forged=m.add(MemoryCandidate(entity_id='observer',scope='world',memory_type=MemoryType.SEMANTIC,epistemic_kind='INFERENCE',source_evidence_id=semantic['source_evidence_id'],text=canonical(body),derived_from=(result['semantic_memory_ids'][0],)))
+        with pytest.raises(CoreError,match='EPISTEMIC'):WorldModel(r.store,scopes=('world',),privacy_classes=('PUBLIC',)).ingest(forged)
+        pending=service.prepare('inflight',mid,raw);request=service.records.read(r.store.one('cognitive_requests',pending)['record_id'])['payload']['request']
+        from nana_core.continuity.world_loop.cognition import CognitionRequest
+        with r.store.transaction('test.semantic_calling') as tx:tx.update('cognitive_requests',pending,state='CALLING')
+        reply=t.exchange(CognitionRequest.model_validate_json(canonical(request)))
+        m.forget(mid,r.authority)
+        assert service.session.accept(pending,reply)['state']=='STALE'
+        with pytest.raises(CoreError):service.ground(cid,entity_id='device')
+
+
+def test_input_bounds_exact_source_key_and_billing_unknown(tmp_path):
+    with fresh(tmp_path/'s'/'self.db') as r,semantic_harness() as (t,_):
+        raw=media_samples()['IMAGE'];mid=ingest(r,'IMAGE',raw);s=setup(r,t);cid=s.prepare('key',mid,raw)
+        other=media_samples(5)['IMAGE'];mid2=ingest(r,'IMAGE',other,key='other')
+        with pytest.raises(CoreError,match='IDEMPOTENCY'):s.prepare('key',mid2,other)
+        t.semantic_descriptor=t.semantic_descriptor.model_copy(update={'max_input_bytes':1})
+        with pytest.raises(CoreError,match='BOUND'):s.prepare('small-bound',mid,raw)
+        t.semantic_descriptor=t.semantic_descriptor.model_copy(update={'max_input_bytes':98304})
+        original=t.exchange
+        def unknown(req):return original(req).model_copy(update={'usage':None,'cost_micro':None,'billing':'UNKNOWN'})
+        t.exchange=unknown
+        cid=s.prepare('fresh-billing',mid,raw)
+        assert s.execute(cid)['state']=='PROPOSED'
+        row=r.store.one('cognitive_requests',cid);assert row['actual_cost_micro'] is None
+        proposal=s.session.proposal(s.store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='COGNITION_PROPOSAL' AND target_id=?",(cid,)).fetchone()[0])
+        assert proposal.billing=='UNKNOWN' and proposal.cost_micro is None
+
+
+def test_media_context_routes_parts_not_untyped_source_body(tmp_path):
+    with fresh(tmp_path/'s'/'self.db') as r,semantic_harness() as (t,_):
+        raw=media_samples()['IMAGE'];mid=ingest(r,'IMAGE',raw);s=setup(r,t);cid=s.prepare('minimal-context',mid,raw)
+        frozen=s.records.read(r.store.one('cognitive_requests',cid)['record_id'])['payload']['request']
+        # Binary/semantic input is the validated parts envelope. Media processors
+        # have no need for the source's arbitrary text or future source extensions.
+        assert 'pixel_digest' not in frozen['context_json']
+        assert mid in frozen['source_context_refs'] and frozen['role_input']['parts']

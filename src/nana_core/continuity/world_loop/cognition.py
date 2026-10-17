@@ -27,6 +27,7 @@ class CognitionRequest(DTO):
     world_stamp:str
     cognitive_role:Role
     source_context_refs:tuple[str,...]
+    primary_source_refs:tuple[str,...]=()
     context_json:str=Field(max_length=131072)
     current_goals:tuple[dict,...]=Field(max_length=16)
     available_capabilities:tuple[str,...]=Field(max_length=32)
@@ -204,7 +205,7 @@ class CognitionSession:
             head=self.store.one('continuity_records',json.loads(g['body_json']).get('record_id'))
             if head and head['scope'] in req.scopes and head['privacy_class'] in allowed and self.records.current_support(head['record_id']):current.append({'goal_id':g['goal_id'],'version':g['version'],'state':g['state']})
         current=tuple(current)
-        request=CognitionRequest(request_id=request_id,subject_epoch=r.lease.epoch,subject_revision=r.subject.revision,cognitive_role=role,source_context_refs=refs,context_json=context.model_dump_json(),current_goals=current,available_capabilities=tuple(capabilities),world_stamp=self._world_stamp(req.scopes,allowed),expected_schema=StructuredProposal.model_json_schema(),role_input=role_input,budget=b,created_at_us=now,deadline_us=now+b.timeout_ms*1000)
+        request=CognitionRequest(request_id=request_id,subject_epoch=r.lease.epoch,subject_revision=r.subject.revision,cognitive_role=role,source_context_refs=refs,primary_source_refs=tuple(source_ids),context_json=context.model_dump_json(),current_goals=current,available_capabilities=tuple(capabilities),world_stamp=self._world_stamp(req.scopes,allowed),expected_schema=StructuredProposal.model_json_schema(),role_input=role_input,budget=b,created_at_us=now,deadline_us=now+b.timeout_ms*1000)
         reserved_bytes=len(request.model_dump_json().encode())*2+16384+min(131072,b.output_tokens*4+4096)
         if r.config.living:
             from ...presence.resources import resource_state

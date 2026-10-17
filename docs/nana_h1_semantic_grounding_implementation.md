@@ -47,3 +47,50 @@ LIVE_SEMANTIC_PROVIDER=NOT_RUN; real image/audio/video semantic quality=SEMANTIC
 correction, filtered context, summary/source erasure, malformed/partial/timeout,
 stale and forged origin/model/source/span/ASR/summary/code rejection. Later stages
 will qualify system causality, actual SIGKILL and final regression/soaks.
+
+## M2 — integrated priorities, recovery, audio linkage and life qualification
+
+The same semantic input can produce EXPLORE / REST / WATCH / ASK through the
+existing SubjectLoop and independently sourced situation cues. H never commits a
+Judgment, goal, Grant, Manager rule or external action. Historical media proposals
+resume as beliefs; CALLING/old PREPARED requests recover UNKNOWN without retries.
+Five actual SIGKILL cuts cover decode, audio CALLING, video accepted proposal,
+belief commit and C commit; exact review-event lineage is checked separately from
+legitimate maintenance decisions. Portable transfer retains semantic beliefs and
+identity, revokes Grants and reconstructs no provider/runtime/controller handles.
+
+Separate video/audio ingress of the SAME source-container digest can be linked;
+visual frame intervals and audio transcript/event lineage remain distinct. Video
+with no decoded audio source explicitly requires separate audio ingress. Sparse
+24-frame/8-sample test reports actual uncovered gaps; no full-video claim.
+The ASR transcript test is a deliberately wrong synthetic contract response over a
+tone, proving even command-looking transcripts remain model beliefs. It is NOT ASR
+execution or speech accuracy evidence. Actual speech-recognition execution=NOT_RUN.
+
+The two48h environment variants use one code path with different generated pixels,
+tones, annotation-processing needs and attention options. The primary trace has a
+failed annotation-formatting step, independently tested existing language learning,
+C-approved replan and generated/repaired/reviewed skill use. The contrast uses a
+different normalization workflow, REST instead of optional exploration, and a
+TOKEN_ANALYSIS skill; it does not claim a failed-goal lesson where none occurred.
+F/G/I are the existing services, not new media planners/learners/installers.
+Only pure local synthetic Kernel actions execute. Exact known generated pixels,
+not provider self-report, back the later direct visual correction.
+
+The H1 harness now distinguishes primary observed sources from background context,
+so an unrelated old observation cannot masquerade as a new opportunity. The request
+pins primary_source_refs as a descriptive focus field, not authority. Regular E
+harness behavior/worker implementation is unchanged. Idempotency-key/source binding,
+source/request/response digests and canonical replay equality are checked. Unknown
+billing stays null/UNKNOWN. Tests are included in the default pytest testpaths.
+
+Full regression, final-source paired worlds, focused wall run and final evidence
+are pending at this checkpoint. No new schema/Store/loop/worker or real provider.
+
+Pre-freeze retained failure `test_media_context_routes_parts_not_untyped_source_body`
+showed that source-only mode still forwarded source Memory.text. Repaired by
+projecting only citation/epistemic metadata in media context; typed parts are the
+only content channel. Existing normal ContextAssembler behavior is untouched.
+Final targeted32 PASS, including two48h worlds, six recovery/portability checks,
+five true SIGKILL cuts, provider/ASR/epistemic/privacy/deletion fences. Final whole
+repository result and frozen-source wall/world runs follow this business anchor.

@@ -10,7 +10,16 @@ from .harness import propose_from_context,provider_harness
 from contextlib import contextmanager
 
 def semantic_proposer(request):
-    if request.cognitive_role!='MEDIA':return propose_from_context(request)
+    if request.cognitive_role!='MEDIA':
+        # Focus the synthetic interpreter on newly supplied observations; other
+        # context is background knowledge, not another independent opportunity.
+        if request.primary_source_refs:
+            import json
+            from ...storage import canonical
+            package=json.loads(request.context_json)
+            package['blocks']=[b for b in package['blocks'] if b['kind']!='MEMORY' or set(b['source_memory_ids'])&set(request.primary_source_refs)]
+            request=request.model_copy(update={'context_json':canonical(package)})
+        return propose_from_context(request)
     from PIL import Image,ImageStat
     from ...storage import canonical
     inp=MediaSemanticInput.model_validate_json(canonical(request.role_input));observations=[]
@@ -36,5 +45,5 @@ def semantic_proposer(request):
 @contextmanager
 def semantic_harness(*,proposer=semantic_proposer,mode='ok',delay=0):
     with provider_harness(proposer,mode=mode,delay=delay) as (transport,metrics):
-        transport.semantic_descriptor=SemanticDescriptor(provider_id=transport.provider_id,model_id=transport.model_id,modalities=('IMAGE','AUDIO','VIDEO'))
+        transport.semantic_descriptor=SemanticDescriptor(provider_id=transport.provider_id,model_id=transport.model_id,modalities=('IMAGE','AUDIO','VIDEO'),max_input_bytes=98304)
         yield transport,metrics
