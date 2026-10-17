@@ -1,0 +1,9 @@
+OFFLINE/SYNTHETIC foundation only; all real screen/camera/mic/provider/ASR/Hands/production qualification NOT_RUN.
+PERSONAL/SECRET VIDEO fails closed until a memory-only decoder is supplied.
+Synthetic ASR text is a typed test fixture, not actual speech recognition.
+Application-injected ports must honor deadlines; V1 yields at declared safe points, not arbitrary callback instruction boundaries.
+A crash can leave ignored private config temp residue; no temp file becomes config authority.
+Recovery grounding requires the exact original provider profile to be available; otherwise parks without network or silent substitution.
+Legacy H1 historical full-envelope records are not rewritten; new H2 calls use ephemeral attachments.
+Python object/root introspection is outside the service contract.
+H1-LIVE historical PARTIAL and E12 NOT_RUN remain unchanged.

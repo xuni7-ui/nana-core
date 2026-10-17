@@ -1,0 +1,18 @@
+{
+  "request_key_and_capture_key": "DISTINCT",
+  "capture_identity_fields": [
+    "source_profile_id",
+    "source_revision",
+    "source_event_id",
+    "event_time_us",
+    "sequence",
+    "byte_digest"
+  ],
+  "request_replay": "PASS",
+  "capture_replay_under_other_request": "PASS",
+  "same_bytes_different_time": "NEW_OBSERVATION",
+  "event_time": "sample time",
+  "observed_time": "host receipt",
+  "known_at": "original Memory.ingested_time_us / record creation",
+  "source_recreate_revision_reuse": "REJECTED_BY_MONOTONIC_DOCUMENT_REVISION"
+}

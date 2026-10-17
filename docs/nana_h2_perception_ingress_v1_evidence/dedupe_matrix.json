@@ -1,0 +1,9 @@
+{
+  "camera_frames": 3,
+  "technical_observations": 3,
+  "semantic_calls": 2,
+  "same_digest_short_debounce": "SKIP_SEMANTIC_ONLY",
+  "routing_revision_change_inside_debounce": "NEW_MODEL_USED",
+  "cross_capture_semantic_identity": "CAPTURE_SCOPED",
+  "no_similarity_or_importance_heuristic": true
+}

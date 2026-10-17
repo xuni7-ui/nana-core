@@ -1,0 +1,17 @@
+{
+  "original_runtime": true,
+  "original_scheduler": true,
+  "source_loop_added": false,
+  "capture_serial": true,
+  "user_priority_and_safe_point_preemption": "PASS",
+  "event_metadata_producer_thread": "EXISTING_RUNTIME_POST_RECEIPT",
+  "event_bytes_in_queue": false,
+  "one_pending_periodic_opportunity_per_source_under_user_pressure": "PASS",
+  "relevant_tests": [
+    "test_event_metadata_producer_uses_original_runtime_pull_no_bytes_in_queue",
+    "test_repeated_tick_while_user_pressure_has_one_pending_per_source",
+    "test_user_preempts_at_capture_safe_point_one_owner"
+  ],
+  "H2_has_will": false,
+  "C_owns_concern_judgment": true
+}

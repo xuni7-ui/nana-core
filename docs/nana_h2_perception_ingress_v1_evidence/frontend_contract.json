@@ -1,0 +1,20 @@
+{
+  "views": [
+    "PERCEPTION_SETTINGS",
+    "PERCEPTION_STATUS"
+  ],
+  "commands": [
+    "UPSERT_PERCEPTION_SOURCE",
+    "REMOVE_PERCEPTION_SOURCE",
+    "ENABLE_PERCEPTION_SOURCE",
+    "DISABLE_PERCEPTION_SOURCE",
+    "SET_CAPTURE_POLICY",
+    "REQUEST_CAPTURE"
+  ],
+  "revision_CAS": "PASS",
+  "handle_exposure": false,
+  "resource_ref_exposure": false,
+  "pixels_audio_exposure": false,
+  "settings_mutation_subject_history_changes": 0,
+  "real_UI": "NOT_IMPLEMENTED"
+}

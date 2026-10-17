@@ -1,0 +1,46 @@
+{
+  "source_kinds": [
+    {
+      "kind": "SYNTHETIC",
+      "status": "PASS",
+      "qualification": "SYNTHETIC_ADAPTER_CONTRACT_ONLY"
+    },
+    {
+      "kind": "FILE_IMPORT",
+      "status": "PASS",
+      "qualification": "ACTUAL_GENERATED_FILE_READ"
+    },
+    {
+      "kind": "SCREEN",
+      "status": "PASS",
+      "qualification": "SYNTHETIC_ADAPTER_CONTRACT_ONLY"
+    },
+    {
+      "kind": "CAMERA",
+      "status": "PASS",
+      "qualification": "SYNTHETIC_ADAPTER_CONTRACT_ONLY"
+    },
+    {
+      "kind": "MICROPHONE",
+      "status": "PASS",
+      "qualification": "SYNTHETIC_ADAPTER_CONTRACT_ONLY"
+    },
+    {
+      "kind": "APPLICATION_MEDIA",
+      "status": "PASS",
+      "qualification": "SYNTHETIC_ADAPTER_CONTRACT_ONLY"
+    },
+    {
+      "kind": "PLATFORM_MEDIA",
+      "status": "PASS",
+      "qualification": "SYNTHETIC_ADAPTER_CONTRACT_ONLY"
+    }
+  ],
+  "concurrent_profiles_virtual_soak": 3,
+  "image_decode": "PILLOW_ACTUAL",
+  "audio_decode": "FFMPEG_AND_PRIVATE_IN_MEMORY_PCM_ACTUAL",
+  "video_decode": "SANDBOXED_FFMPEG_FFPROBE_ACTUAL",
+  "native_semantic_wire": "OPENAI_COMPATIBLE_SYNTHETIC_LOOPBACK",
+  "asr_content": "SYNTHETIC_TEST_ONLY",
+  "live_device_api_access": false
+}

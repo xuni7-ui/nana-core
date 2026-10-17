@@ -1,0 +1,19 @@
+{
+  "request_reservation": "existing indexed event journal",
+  "operational_state": "original runtime.health transient metadata",
+  "raw_bytes_reconstructed_after_restart": false,
+  "prepared_no_attachment": "STALE_SOURCE_BYTES_EXPIRED",
+  "calling": "UNKNOWN_NO_RETRY",
+  "accepted": "IDEMPOTENT_GROUND_AND_ORIGINAL_WORLD_JOB",
+  "deleted_source": "NOT_RESURRECTED",
+  "route_provider_unavailable": "PARK_NOT_SUBSTITUTE",
+  "repeated_recover_duplicates": 0,
+  "full_legacy_test_environment_failure": {
+    "test": "tests/nana_shadow/test_r041_client.py::test_forbidden_dependencies_in_actual_old_sqlite_process",
+    "initial_full": "1 failed /1164 passed/1 skipped",
+    "cause": "missing /tmp/nana-bootstrap-build/compat-python-old",
+    "resolution": "temporary launcher to actual system /usr/bin/python3; real Python3.13.5/SQLite3.46.1; original test passed",
+    "repository_test_or_R045_changes": false,
+    "version_spoofing": false
+  }
+}

@@ -1,0 +1,20 @@
+{
+  "actual_B8_export_import": true,
+  "same_identity_and_history": true,
+  "archive_members": [
+    "manifest.json",
+    "privacy.json",
+    "subject.sqlite"
+  ],
+  "host_config_resource_refs_and_paths_not_in_archive": true,
+  "runtime_health_removed_by_existing_B8": true,
+  "new_host_explicitly_configures_sources": true,
+  "source_delete_does_not_delete_memory": true,
+  "forget_invalidation": [
+    "technical descendants",
+    "semantic Memory",
+    "World beliefs",
+    "Concern"
+  ],
+  "test": "test_b8_host_sources_not_portable_same_subject_new_device / test_real_h2_h1_world_concern_original_c_and_delete / test_forget_closure_restart_no_resurrection"
+}

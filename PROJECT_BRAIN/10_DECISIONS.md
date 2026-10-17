@@ -707,3 +707,22 @@ HTTP measurements preserve old absent-field canonical reply hashes, no migration
 10. Existing H1-LIVE historical status remains PARTIAL_PROVIDER_QUALIFICATION. All current routing qualification is offline SYNTHETIC_LOOPBACK/fixtures, real provider calls0.
 11. No second Registry implementation, Store or HTTP stack: runtime Registry gained profile-qualified identity while unique legacy-name lookup remains compatible.
 12. Atomic JSON is deliberately small host config, not a portable Subject snapshot. Corruption fails closed; ignored private temp residue is not a recovery authority. No automatic fallback after dispatch, no discovery/SDK/UI scope expansion.
+
+## H2 ingress/runtime decisions — 2026-10-18
+
+[源码/离线实测] Qualified source identified in H2 evidence; source code frozen before fresh-process final full/soak.
+
+1. D owns WHEN; H2 observes/verifies source; H1 proposes uncertain interpretations; original C owns WHAT/WHY. No second Runtime/SubjectLoop/WorldModel/Store.
+2. Sensor config is host/application local; source kind/name/device identity is not Subject identity, authority or permission. Host-injected ports and explicit allow policy default-deny. Source config never creates memory/goal/emotion/relationship/cycle.
+3. Raw media defaults to memory-only ephemeral. New H2 requests persist only digests/spans/metadata in original CognitionSession; reserve the actual full temporary payload against existing D6 resources. Legacy H1 path/history remains compatible, not rewritten. Missing attachments expire; UNKNOWN never retry/fallback.
+4. PublicMediaSource remains; MediaSourceDescriptor is a compatible separate capture descriptor. Exact private PCM/image paths are memory-only; unsupported private VIDEO fails closed. Real media/device provenance requires future explicit qualification, not relabeling synthetic data.
+5. FILE_IMPORT securely reads through descriptor-scoped host port then original PerceptionService.ingest. Reusing ingest_file inside a port would improperly give the port Store mutation; the original public helper remains unchanged. No new decoder/semantic brain.
+6. Trusted source descriptor privacy_floor cannot be lowered by frontend configuration. Manager veto supports canonical host binding digest across aliases, independent of host permission/privacy/Grant/Primary User. A block preserves original C desire and only reports infrastructure outcome.
+7. Capture identity includes source revision/event/time/sequence/digest. Same bytes at another time are another temporal observation. Exact-digest semantic debounce retains observations and is scoped to route revision. Semantic predicates are capture-scoped.
+8. Source profile mutation revision takes new config revision, preventing removed/recreated IDs from reusing stale capture/WATCH identity. CAS/atomic source persistence reuses existing host JSON primitives, no Subject migration.
+9. Existing Scheduler handles periodic/coalesced opportunities; original Runtime.post handles event metadata without bytes. One pending periodic tick per source under user pressure. Exact volatile sample loss yields SOURCE_SAMPLE_EXPIRED. No H2 loop or curiosity metric.
+10. Only a current source-backed C WATCH cycle may adjust cadence inside host min/base bounds and validity; H2 cannot configure itself or decide importance. Screen text/audio transcript is observation/model derivation, not user command or authenticated Primary User.
+11. Disable/remove stops future access, preserves past facts. Only explicit Memory forget invalidates source/derived support. Source availability is infrastructure, not emotion or permanent world absence.
+12. Living/Frontend projections are derived and privacy-filtered, no raw bytes/paths/resource refs/handles. B8 carries identity/history, never host source config or operational runtime health. New host explicitly binds devices.
+13. First full failure was missing ephemeral legacy SQLite launcher. Restoring /tmp launcher to actual system Python3.13.5/SQLite3.46.1 allowed unchanged isolation test; no version spoof/test removal/R045 or production change. Final full1171/0/1.
+14. H2 is OFFLINE/SYNTHETIC foundation. H1-LIVE stays historical PARTIAL; E12, live hardware/provider/ASR, Hands and production perception remain NOT_RUN. No new dependency/table/schema.

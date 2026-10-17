@@ -1,0 +1,60 @@
+{
+  "cases": [
+    {
+      "stage": "BEFORE_SOURCE_OPEN",
+      "actual_child_exit": -9,
+      "fresh_process_takeover": "AFTER_LEASE_EXPIRY",
+      "recovery": "PASS",
+      "semantic_provider_calls_after_restart": 0,
+      "capture_bytes_read_after_restart": 0,
+      "repeated_recovery_counts_stable": true
+    },
+    {
+      "stage": "AFTER_CAPTURE_BEFORE_INGEST",
+      "actual_child_exit": -9,
+      "fresh_process_takeover": "AFTER_LEASE_EXPIRY",
+      "recovery": "PASS",
+      "semantic_provider_calls_after_restart": 0,
+      "capture_bytes_read_after_restart": 0,
+      "repeated_recovery_counts_stable": true
+    },
+    {
+      "stage": "AFTER_TECHNICAL_INGEST",
+      "actual_child_exit": -9,
+      "fresh_process_takeover": "AFTER_LEASE_EXPIRY",
+      "recovery": "PASS",
+      "semantic_provider_calls_after_restart": 0,
+      "capture_bytes_read_after_restart": 0,
+      "repeated_recovery_counts_stable": true
+    },
+    {
+      "stage": "BEFORE_SEMANTIC_DISPATCH",
+      "actual_child_exit": -9,
+      "fresh_process_takeover": "AFTER_LEASE_EXPIRY",
+      "recovery": "PASS",
+      "semantic_provider_calls_after_restart": 0,
+      "capture_bytes_read_after_restart": 0,
+      "repeated_recovery_counts_stable": true
+    },
+    {
+      "stage": "AFTER_SEMANTIC_RESPONSE",
+      "actual_child_exit": -9,
+      "fresh_process_takeover": "AFTER_LEASE_EXPIRY",
+      "recovery": "PASS",
+      "semantic_provider_calls_after_restart": 0,
+      "capture_bytes_read_after_restart": 0,
+      "repeated_recovery_counts_stable": true
+    },
+    {
+      "stage": "BEFORE_CONCERN",
+      "actual_child_exit": -9,
+      "fresh_process_takeover": "AFTER_LEASE_EXPIRY",
+      "recovery": "PASS",
+      "semantic_provider_calls_after_restart": 0,
+      "capture_bytes_read_after_restart": 0,
+      "repeated_recovery_counts_stable": true
+    }
+  ],
+  "test": "test_actual_sigkill_six_safe_points",
+  "extra_prepared_bytes_expired_case": "PASS"
+}

@@ -1339,3 +1339,17 @@ New routing42 PASS; combined focused114 PASS; final full1102 PASS/0fail/1skip(E1
 Report: docs/nana_provider_capability_routing_v1_implementation.md. Frontend: docs/nana_provider_capability_routing_v1_frontend_contract.md. Evidence: docs/nana_provider_capability_routing_v1_evidence/. Future real provider qualification and actual UI/native protocols NOT_RUN. Current status supersedes P1 in-progress checkpoint above; historical entries retained.
 
 Delivery manifest SHA256: `df3ab192a0a96be25415f54bb8c02ca2f01d9d581d03229ad8f498b4332ff2c3` (self/09 excluded). Final Git commit containing this block is the exact source anchor.
+
+## CURRENT — H2_PERCEPTION_INGRESS_SENSOR_RUNTIME_V1: OFFLINE_CANDIDATE_READY (2026-10-18)
+
+[源码/离线实测] GLOBAL_STAGE=H. Branch dev/nana-core-h2-perception-ingress-v1-codex; base a4abd5ce230848ae6667e5e5362964636e3ead08. Qualified source798cc33 (full SHA in evidence). Latest current workstream supersedes prior Provider caption; existing B9/B10/H1/C/D assets retained. H2 observes, original C decides, D owns timing; source/model/device identity is not Subject identity.
+
+Source contracts/config (host schema1 atomic/CAS), file/synthetic adapters, original codec/H1/Router, raw ephemeral attachment, source privacy floor/Manager binding veto, periodic/event-driven original Runtime opportunities, WATCH modulation, queue/preemption, B10 settings/status and B8 exclusion/delete closure implemented/tested offline. Schema13/business tables43/new tables0/dependencies0; foreign_key_check clean.
+
+H2 focused69 PASS; prior existing rechecks202 PASS; final fresh-process full1171 passed/0failed/1skip(E12). Six actual local SIGKILL cuts PASS;24 virtual hours with3 sources PASS;180.039439 actual wall seconds PASS (FD4→4,threads1→1,peak RSS growth8832KiB,identity stable). First full missing /tmp old SQLite launcher failure retained; only ephemeral local launcher restored to actual system3.46.1, unchanged isolation test passed. No source/test/version falsification or production runtime change.
+
+H1_LIVE_HISTORICAL_STATUS=PARTIAL_PROVIDER_QUALIFICATION; REAL_PROVIDER_CALLS=0. REAL_CAMERA/MICROPHONE/SCREEN=NOT_RUN; real ASR/E12/Hands/production perception NOT_RUN. Real private data/actions/social sends0; previous key/env/history/old bundle not read. Only generated synthetic media used. PRIVATE video currently fail-closed pending memory-only decoder.
+
+Reports: docs/nana_h2_perception_ingress_v1_implementation.md and frontend_contract.md. Evidence: docs/nana_h2_perception_ingress_v1_evidence/. Final containing commit is the documentation anchor; core source matches qualified commit. No auto-entry into real devices/Hands/production.
+
+H2 delivery manifest SHA256 `a611615b41b91b2716bdc2aebe16e9753d25359cb27b8b25fe2bde956cfaab8e` (self/09 excluded).

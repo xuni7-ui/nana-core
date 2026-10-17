@@ -1,0 +1,32 @@
+{
+  "qualified_source": "798cc3318410e24b1b529ffde59d366982853388",
+  "virtual": {
+    "virtual_hours": 24.0,
+    "screen_captures": 46,
+    "semantic_calls": 27,
+    "queue_max": 5,
+    "request_hot_count": 64,
+    "source_hot_count": 3,
+    "coalesced": 278,
+    "watch_boost": true,
+    "user_preemption": true,
+    "identity_stable": true,
+    "records": 513
+  },
+  "actual_wall": {
+    "elapsed_seconds": 180.03943933899973,
+    "captures": 17,
+    "semantic_calls": 17,
+    "queue_max": 1,
+    "pending_max": 0,
+    "identity_stable": true,
+    "execution": "SYNTHETIC_SCREEN_ONLY_NO_LIVE_DEVICE",
+    "fd_before": 4,
+    "fd_after": 4,
+    "threads_before": 1,
+    "threads_after": 1,
+    "maxrss_growth_kib": 8832
+  },
+  "real_capture": false,
+  "notes": "Separate fresh processes and temporary synthetic stores; no production resources."
+}

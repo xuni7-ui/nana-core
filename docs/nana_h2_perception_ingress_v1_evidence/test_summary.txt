@@ -1,0 +1,9 @@
+Source qualification: 798cc3318410e24b1b529ffde59d366982853388
+Focused H2: {"passed": 69, "failures": 0, "skipped": 0}
+Full committed-source regression: {"passed": 1171, "failures": 0, "skipped": 1}
+Existing targeted rechecks: {"passed": 202, "failures": 0, "skipped": 0}
+Groups in final full: {"affective_autonomy": 23, "continuous_runtime": 11, "continuous_self": 32, "development": 100, "h1_live_semantics": 11, "h1_semantics": 32, "h2_perception": 69, "integration": 109, "living_autonomy": 20, "migration": 29, "nana_shadow": 390, "next_stage": 83, "offline_continuity": 57, "open_autonomy": 26, "phase3": 36, "portable_subject": 17, "provider_routing": 42, "semantic_migration": 42, "world_loop": 43}
+Full command: .venv/bin/python -m pytest -q tests
+Focused command: .venv/bin/python -m pytest -q tests/h2_perception
+Initial full environment failure retained in recovery.json. No tests removed/relaxed.
+E12 NOT_RUN. No live devices/providers/Hands.

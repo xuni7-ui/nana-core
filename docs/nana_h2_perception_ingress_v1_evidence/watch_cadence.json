@@ -1,0 +1,11 @@
+{
+  "sourced_original_C_WATCH": "REQUIRED",
+  "source_revision_pin": true,
+  "base_ms_example": 30000,
+  "watch_ms_example": 5000,
+  "higher_host_floor_ms_example": 10000,
+  "higher_host_floor_effective_ms": 10000,
+  "boost_expires": true,
+  "host_and_manager_denial_rewrites_C": false,
+  "test": "test_watch_sourced_host_bound_and_desire_survives_denial"
+}

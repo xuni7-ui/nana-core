@@ -1,0 +1,20 @@
+{
+  "privacy_before_bytes": [
+    "host deny",
+    "disabled",
+    "scope deny",
+    "classification deny",
+    "size mismatch",
+    "budget deny",
+    "unavailable health",
+    "trusted privacy floor"
+  ],
+  "denied_bytes_read": 0,
+  "PUBLIC_PERSONAL_SECRET_synthetic_classifications_tested": true,
+  "PERSONAL_remote": "CONTEXT_PROVIDER_ROUTE_INTERSECTION_REQUIRED",
+  "SECRET_remote": "DENIED",
+  "private_audio_raw_disk_writes": 0,
+  "raw_media_subject_persistence": false,
+  "private_video": "FAIL_CLOSED_MEMORY_DECODER_UNAVAILABLE",
+  "test": "test_denied_before_read / test_remote_semantic_denied_local_capture_survives / test_resource_privacy_floor_cannot_be_downgraded_by_profile"
+}

@@ -1,0 +1,21 @@
+{
+  "file_rejected_before_bytes": [
+    "symlink",
+    "hardlink",
+    "oversize",
+    "FIFO",
+    "device",
+    "directory",
+    "path traversal",
+    "symlink ancestor"
+  ],
+  "screen_instructions": "MODEL_DERIVATION_NOT_USER_COMMAND",
+  "synthetic_transcript": "NOT_USER_COMMAND",
+  "MEDIA_authority_shape": "REJECTED",
+  "grant_or_action_created": false,
+  "manager_binding_alias_veto": "PASS",
+  "trusted_privacy_floor": "PASS",
+  "models_can_configure_sources": false,
+  "real_credentials_accessed": false,
+  "hands_enabled": false
+}

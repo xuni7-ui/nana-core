@@ -358,3 +358,7 @@ relay usage已返回部分token/cost字段，实际费用单位/结算未知，A
 ## PROVIDER_CAPABILITY_ROUTING_V1 — complete offline, 2026-10-17
 
 [源码/离线实测] Typed host-local schema1 config/CAS/atomic replace, profile identity, explicit secret resolver, bounded pre-dispatch fallback and exact mode, original Cognition/Media/Embedding paths, B10 settings commands, B8 exclusion and config recovery completed. Focused114 PASS; new routing42 PASS; full1102 PASS/1 E12 skipped/0 failures. Two actual local SIGKILL checkpoints PASS. No real provider/key/device/production use. Settings UI, native future protocols and real vendor qualification are NOT_RUN.
+
+## H2_PERCEPTION_INGRESS_SENSOR_RUNTIME_V1 — completed offline, 2026-10-18
+
+[源码/离线实测] Typed atomic/CAS host source config; explicit resolver; generated File/Screen/Camera/Microphone/App/Platform sources; privacy/host/Manager-before-bytes; raw ephemeral H1 attachment; existing Scheduler, event metadata pull, WATCH bounds, pending-tick coalescing/preemption; B10 settings/status; B8 exclusion/delete closure complete. H2 focused69 PASS; existing rechecks202 PASS; fresh committed-source full1171 PASS/0fail/1skip(E12). Six actual SIGKILL safe points,24h virtual and180.039s actual wall synthetic soak PASS. Schema13/43 tables/new tables0/new dependencies0. Real provider/device/private data/actions0. Remaining real capabilities are NOT_RUN, not failures hidden by fixture success.

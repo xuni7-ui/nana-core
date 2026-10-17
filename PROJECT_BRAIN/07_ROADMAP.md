@@ -294,3 +294,7 @@ status. Next step is independent offline review/integration; do not auto-deploy.
 ## Current cross-cutting workstream — 2026-10-17
 
 GLOBAL_STAGE remains H. PROVIDER_CAPABILITY_ROUTING_V1 = OFFLINE_CANDIDATE_READY [源码/离线实测]. B9/B10 extension: host-local configuration, capability-specific primary/fallback routing, existing port factory and frontend contract. No stage priority or L1/L2/B5/R045 change. H1-LIVE remains historical PARTIAL_PROVIDER_QUALIFICATION, not full/live/device qualification. Next real provider, H2, Hands and UI require separate authorized work.
+
+## Current GLOBAL_STAGE H workstream — H2 foundation, 2026-10-18
+
+[源码/离线实测] H2_PERCEPTION_INGRESS_SENSOR_RUNTIME_V1 = OFFLINE_CANDIDATE_READY. Source configuration/ports and controlled observation now join original D Runtime + H1 + WorldModel + C, without another brain/Store. This supersedes the previous current Provider-routing caption, not its completed assets. No L1/L2/B5/R045 priority change. H1-LIVE remains PARTIAL_PROVIDER_QUALIFICATION. Real camera/mic/screen, production perception and Hands NOT_RUN; no automatic next-stage authorization.

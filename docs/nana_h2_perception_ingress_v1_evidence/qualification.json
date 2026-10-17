@@ -1,0 +1,56 @@
+{
+  "global_stage": "H",
+  "workstream": "H2_PERCEPTION_INGRESS_SENSOR_RUNTIME_V1",
+  "status": "OFFLINE_CANDIDATE_READY",
+  "base": "a4abd5ce230848ae6667e5e5362964636e3ead08",
+  "qualified_source": "798cc3318410e24b1b529ffde59d366982853388",
+  "fresh_process_import": true,
+  "full": {
+    "passed": 1171,
+    "failures": 0,
+    "skipped": 1
+  },
+  "focused": {
+    "passed": 69,
+    "failures": 0,
+    "skipped": 0
+  },
+  "existing_rechecks": {
+    "passed": 202,
+    "failures": 0,
+    "skipped": 0
+  },
+  "groups": {
+    "affective_autonomy": 23,
+    "continuous_runtime": 11,
+    "continuous_self": 32,
+    "development": 100,
+    "h1_live_semantics": 11,
+    "h1_semantics": 32,
+    "h2_perception": 69,
+    "integration": 109,
+    "living_autonomy": 20,
+    "migration": 29,
+    "nana_shadow": 390,
+    "next_stage": 83,
+    "offline_continuity": 57,
+    "open_autonomy": 26,
+    "phase3": 36,
+    "portable_subject": 17,
+    "provider_routing": 42,
+    "semantic_migration": 42,
+    "world_loop": 43
+  },
+  "schema_version": 13,
+  "business_tables": 43,
+  "new_business_tables": 0,
+  "new_dependencies": 0,
+  "real_provider_calls": 0,
+  "real_devices": "NOT_RUN",
+  "h1_historical": "PARTIAL_PROVIDER_QUALIFICATION",
+  "e12": "NOT_RUN",
+  "one_subject": true,
+  "one_store": true,
+  "one_runtime": true,
+  "one_subject_loop": true
+}

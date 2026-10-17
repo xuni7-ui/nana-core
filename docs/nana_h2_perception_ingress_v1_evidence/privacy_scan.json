@@ -1,0 +1,7 @@
+{
+  "credential_shaped_literal_matches": 0,
+  "scope": "tracked files + delivery docs/evidence; old untracked bundle and environment/history/previous key not read",
+  "real_credential_used": false,
+  "raw_fixture_bytes_not_in_new_H2_artifacts": "ASSERTED_BY_TEST",
+  "no_private_real_data": true
+}
