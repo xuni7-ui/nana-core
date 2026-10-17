@@ -160,3 +160,15 @@ def test_loopback_reply_cannot_promote_itself_to_real_provider_evidence(tmp_path
         assert session.execute(cid)['state']=='REJECTED'
         assert state['calls']==1
         assert not r.store.db.execute("SELECT 1 FROM continuity_records WHERE record_kind='COGNITION_PROPOSAL'").fetchone()
+
+
+def test_derived_summary_cannot_relabel_direct_evidence_as_raw_world_fact(tmp_path):
+    with fresh(tmp_path/'s'/'self.db') as r:
+        mid=capture(r,'raw',{'data':'Original public measurement, no such claim'})
+        memory=MemoryService(r.store);source=memory.read(mid)
+        claim=SourcedClaim(entity_id='device',predicate='summary-escalation',value='invented by a summary',kind='RAW_OBSERVATION',valid_from_us=r.clock.utc_now_us())
+        summary=memory.add(MemoryCandidate(entity_id='observer',scope='world',memory_type=MemoryType.SEMANTIC,epistemic_kind='SUMMARY',source_evidence_id=source['source_evidence_id'],text=canonical({'world_claim':claim.model_dump(mode='json')}),derived_from=(mid,)))
+        assert memory.read(summary)['authority']=='INFERRED'
+        with pytest.raises(CoreError,match='WORLD_EPISTEMIC_ESCALATION'):
+            WorldModel(r.store,scopes=('world',),privacy_classes=('PUBLIC',)).ingest(summary)
+        assert not r.store.all('world_beliefs')

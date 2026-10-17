@@ -1,0 +1,10 @@
+{
+  "scope": "OFFLINE_DEVELOPMENT",
+  "files": {
+    "src/nana_core/continuity/world_loop/world.py": "5e58e5e39fb9fd55d362c7eb393c82403900eb41d29a64b18538a279a3994f3b",
+    "src/nana_core/continuity/world_loop/attention.py": "389e7b6be6c07bb9fbfb7e50516ce2ca8f85fdbfb3e26289474f913e56e7e927",
+    "tests/world_loop/test_boundaries.py": "10cfe3e3a702055a257c0a4fb3ae85c1316b52dda283a7c47f88bf7ee387e707",
+    "tests/world_loop/test_living.py": "9fb2cca04eaea607ae0d49096d5c5b7389187f8e92e5cc93fe3cc50cfdb08b32",
+    "PROJECT_BRAIN/11_CHANGELOG.md": "f962cc9fe92c9e2aec1b31a12426676e6d85c1499d470d38277b9b640bd6b549"
+  }
+}

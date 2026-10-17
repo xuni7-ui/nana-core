@@ -49,6 +49,9 @@ class WorldModel:
         except (ValueError,KeyError,TypeError):raise CoreError('WORLD_SOURCED_CLAIM_REQUIRED') from None
         if not self.store.one('entities',claim.entity_id):raise CoreError('WORLD_ENTITY_UNBOUND')
         source_kind=memory['source_provenance']['source_kind']
+        # A summary may cite genuine raw evidence without containing its text.
+        # The original evidence's kind does not certify the derived claim.
+        if claim.kind in {'RAW_OBSERVATION','VERIFIED_RESULT','USER_CLAIM'} and (memory['authority']!='DIRECT' or memory['epistemic_kind'] not in {'OBSERVATION','STATEMENT'}):raise CoreError('WORLD_EPISTEMIC_ESCALATION')
         if source_kind=='USER_STATEMENT' and claim.kind not in {'USER_CLAIM','HISTORICAL'}:raise CoreError('WORLD_USER_CLAIM_NOT_OBSERVATION')
         if (claim.kind=='VERIFIED_RESULT' and source_kind!='SYSTEM_VERIFICATION') or (claim.kind=='USER_CLAIM' and source_kind!='USER_STATEMENT') or (source_kind=='MODEL_DERIVATION' and claim.kind not in {'MODEL_BELIEF','INFERENCE','INTERPRETED'}):raise CoreError('WORLD_EPISTEMIC_ESCALATION')
         if claim.valid_from_us>self.store.clock.utc_now_us():

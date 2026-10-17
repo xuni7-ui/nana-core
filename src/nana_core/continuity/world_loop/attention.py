@@ -38,7 +38,9 @@ class ConcernService:
                 if previous.get('objective') and obj and previous['objective']!=obj.model_dump(mode='json'):raise CoreError('CONCERN_OBJECTIVE_REVISION_REQUIRED')
                 sources=tuple(dict.fromkeys((*previous['encounter_sources'],*idea.source_memory_ids)))[:32]
             else:
-                if self.store.db.execute("SELECT count(*) FROM open_concerns WHERE state NOT IN ('ABANDONED','EXPIRED')").fetchone()[0]>=self.max_hot:continue
+                # Erased records are opaque historical headers, not live
+                # attention. Keeping them must not permanently consume capacity.
+                if self.store.db.execute("SELECT count(*) FROM open_concerns c JOIN continuity_records r ON c.record_id=r.record_id WHERE c.state NOT IN ('ABANDONED','EXPIRED') AND r.lifecycle='ACTIVE'").fetchone()[0]>=self.max_hot:continue
                 sources=idea.source_memory_ids
             count=1 if not old else old['encounters']+1
             state=('INTEREST' if idea.expected_value=='HIGH' or count>=2 else 'TRANSIENT') if not old or old['state'] in {'TRANSIENT','INTEREST','DEFERRED'} else old['state']

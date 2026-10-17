@@ -62,3 +62,61 @@ def test_source_backed_world_revision_replans_without_reusing_old_observation(tm
         current=json.loads(goal['body_json'])['plan_record_id'];assert current!=oldplan
         outputs=r.work.agency._outputs(goal['goal_id']);observations=[o for o in outputs if o.get('plan_record_id')==current and o['operator_id']=='inspect']
         assert observations and json.loads(MemoryService(r.store).read(observations[0]['memory_id'])['text'])['data']==[1,2.5]
+
+
+def test_transient_revisit_independent_interest_expiry_and_source_erasure(tmp_path):
+    from nana_core.continuity.world_loop.cognition import CognitionSession,StructuredProposal,InterestProposal
+    from nana_core.continuity.world_loop.attention import ConcernService
+    from nana_core.presence.authority import VirtualClock
+    clock=VirtualClock();path=tmp_path/'s'/'self.db'
+    def propose(request):
+        return StructuredProposal(interpretation='A sourced unresolved question, no goal or authority',source_refs=request.source_context_refs,interests=(InterestProposal(topic='question',motivation_source='UNRESOLVED_QUESTION',source_memory_ids=(request.source_context_refs[0],),interpretation='Worth watching',possible_behaviors=('WATCH',)),))
+    with fresh(path,clock) as r,provider_harness(proposer=propose) as (transport,metrics):
+        session=CognitionSession(r,transport,policy());concerns=ConcernService(r,resources=('synthetic://watch',))
+        first=capture(r,'question-one',{'data':'First independent observation'})
+        outcome=session.execute(session.prepare('question-one','INTERPRET',(first,)))
+        cid=concerns.offer(outcome['record_id'])[0]
+        assert concerns.offer(outcome['record_id'])==()  # replay is not independent support
+        assert r.store.one('open_concerns',cid)['state']=='TRANSIENT'
+        assert concerns.opportunity() is None
+        assert r.store.one('open_concerns',cid)['next_review_us']>clock.utc_now_us()
+        second=capture(r,'question-two',{'data':'Second independent observation'})
+        outcome=session.execute(session.prepare('question-two','INTERPRET',(second,)))
+        assert concerns.offer(outcome['record_id'])==(cid,)
+        assert r.store.one('open_concerns',cid)['state']=='INTEREST'
+        assert concerns.opportunity().input.origin=='SELF_WAKE'
+        assert not r.store.all('goals') and not r.store.all('subject_goal_candidates')
+        MemoryService(r.store,r.authority).forget(first,r.authority)
+        assert concerns.view()==()  # no stale independent projection after erasure
+    # A fresh surviving concern can expire across a true Store close/reopen.
+    # Use a different topic in a fresh sourced response, never edit history or
+    # revive the old topic whose support was deleted.
+    def transport_proposer(req):
+        return StructuredProposal(interpretation='New question',source_refs=req.source_context_refs,interests=(InterestProposal(topic='expires',motivation_source='UNRESOLVED_QUESTION',source_memory_ids=(req.source_context_refs[0],),interpretation='Transient question'),))
+    with fresh(path,clock) as r,provider_harness(proposer=transport_proposer) as (transport,metrics):
+        source=capture(r,'expires',{'data':'Transient public input'})
+        session=CognitionSession(r,transport,policy());out=session.execute(session.prepare('expires','INTERPRET',(source,)))
+        cid=ConcernService(r,resources=('synthetic://watch',)).offer(out['record_id'])[0]
+    clock.advance(3*24*HOUR+SECOND)
+    with fresh(path,clock) as r:
+        assert ConcernService(r,resources=('synthetic://watch',)).opportunity() is None
+        assert r.store.one('open_concerns',cid)['state']=='EXPIRED'
+        assert not r.store.all('goals')
+
+
+def test_deleted_concern_history_does_not_exhaust_hot_attention_capacity(tmp_path):
+    from nana_core.continuity.world_loop.cognition import CognitionSession,StructuredProposal,InterestProposal
+    from nana_core.continuity.world_loop.attention import ConcernService
+    topic=['first']
+    def propose(req):
+        return StructuredProposal(interpretation='Independent concern',source_refs=req.source_context_refs,interests=(InterestProposal(topic=topic[0],motivation_source='CURIOSITY',source_memory_ids=(req.source_context_refs[0],),interpretation='Public concern',expected_value='HIGH'),))
+    with fresh(tmp_path/'s'/'self.db') as r,provider_harness(proposer=propose) as (transport,metrics):
+        session=CognitionSession(r,transport,policy());concerns=ConcernService(r,resources=('synthetic://watch',),max_hot=1)
+        source=capture(r,'old-interest',{'data':'Public old interest'})
+        old=concerns.offer(session.execute(session.prepare('old-interest','INTERPRET',(source,)))['record_id'])[0]
+        MemoryService(r.store,r.authority).forget(source,r.authority)
+        topic[0]='new';source=capture(r,'new-interest',{'data':'Public new interest'})
+        accepted=concerns.offer(session.execute(session.prepare('new-interest','INTERPRET',(source,)))['record_id'])
+        assert len(accepted)==1 and accepted[0]!=old
+        assert len(concerns.view())==1 and concerns.view()[0]['topic']=='new'
+        assert r.store.one('open_concerns',old)  # erased source cannot return; opaque history remains

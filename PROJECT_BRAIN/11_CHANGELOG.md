@@ -1451,3 +1451,16 @@ Focused world + inherited recovery46 PASS before final added provenance assertio
 latest dangerous-boundary/learning/recovery27 PASS. Final whole repository regression,
 updated scenarios and active30-minute wall-clock Runtime soak follow. Not READY yet.
 No push/main/R045/production/private/live model operations in this task.
+
+### GLOBAL E closeout M7 — epistemic and deletion-liveness closure
+[源码/失败回归→修复] WorldModel previously checked raw evidence kind but not the
+referencing Memory's derived status. A SUMMARY could therefore present a newly
+invented RAW_OBSERVATION while citing a genuine original Evidence. Reproduced and
+fixed locally: RAW/VERIFIED/USER claim admission requires direct, observation/
+statement Memory too. Summary remains a summary; no base Memory semantics changed.
+A second retained regression showed erased concern headers could permanently fill
+hot attention capacity. Only ACTIVE source records now count against that budget;
+opaque historical rows remain and deleted topics cannot revive. Added one compact
+transient→revisit→independent interest→source erasure and restart→expiry lifecycle
+qualification. No table/authority/SubjectLoop added. Current boundaries/life16 PASS;
+earlier full1014/0/1 at M6 retained as historical, final full follows these repairs.

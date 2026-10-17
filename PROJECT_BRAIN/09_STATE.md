@@ -1178,3 +1178,11 @@ indexed Stage E transaction boundaries. Final full and long wall soak still pend
 LIVE_MODEL_EXECUTION=NOT_RUN. No upgrade of real host/private memory/E12 states.
 
 nana_world_loop_m6 manifest SHA256 5418b5de661bb1a8afc0447c623632a9114a7a095f32a87bbe494b50ac85d062.
+
+[GLOBAL E closeout M7 / tested] Derived summaries cannot escalate into raw world
+facts; erased concern headers no longer exhaust live attention. Current boundaries/
+life targeted16 PASS. Main/contrast actual26.08h/26.069444h scenarios passed; final
+full and final source/evidence freeze pending. Existing30-minute Runtime process is
+still running. No live semantic model or private data use; no push.
+
+nana_world_loop_m7 manifest SHA256 5a6a33869c6eb841f9a4af6089730854d8525823e025ef4b5565ad7af84e1ebf.
