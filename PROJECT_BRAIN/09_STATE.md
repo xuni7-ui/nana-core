@@ -1139,3 +1139,8 @@ World M0 manifest SHA256 55e9e11f391417c3e16a79f3cf47ce0e00bd0e751e74776bdc2cc18
 HTTP调用为SYNTHETIC loopback，真实模型NOT_RUN。当前schema13仅开发显式迁移；最终验收待集成soak。
 
 nana_world_loop_m1 manifest SHA256 86361bf0dedf7b15c1c5f21aeba6fbb9750e5f9df8f41f79df189086bab12edc.
+
+[源码/离线实测] World M2：开放Concern/Interest/Goal、C注意选择、跨episode反例与两类
+技能需求已接线。同一Loop/Store；SIGKILL后关联/采纳ACK可恢复。最终长期验收与回归待完成。
+
+nana_world_loop_m2 manifest SHA256 2b3d8a2105640c747a4c7543946c417e22f59b49abce5044a3e55471fb09175a.

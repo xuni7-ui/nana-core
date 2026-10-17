@@ -18,10 +18,20 @@ from .planning import BoundedPlanner,validate_plan
 from .world import LocalWorldRegistry
 
 class OpenGoalPolicy:
-    def __init__(self,objectives,*,max_active=8,planner=None):
-        if not 1<=len(objectives)<=64 or len({o.objective_id for o in objectives})!=len(objectives) or not 1<=max_active<=16:raise CoreError('OPEN_GOAL_POLICY_INVALID')
+    def __init__(self,objectives,*,max_active=8,planner=None,dynamic_resources=()):
+        if not (1<=len(objectives)<=64 or (not objectives and dynamic_resources)) or len({o.objective_id for o in objectives})!=len(objectives) or not 1<=max_active<=16:raise CoreError('OPEN_GOAL_POLICY_INVALID')
         self.objectives={o.objective_id:Objective.model_validate_json(o.model_dump_json()) for o in objectives}
-        self.max_active=max_active;self.planner=planner or BoundedPlanner()
+        self.max_active=max_active;self.planner=planner or BoundedPlanner();self.dynamic_resources=frozenset(dynamic_resources)
+    def offer(self,objective):
+        if not self.dynamic_resources:raise CoreError('DYNAMIC_GOALS_NOT_CONFIGURED')
+        obj=Objective.model_validate_json(objective.model_dump_json())
+        if any(op.resource not in self.dynamic_resources for op in obj.operators):raise CoreError('GOAL_RESOURCE_NOT_DESCRIBED')
+        for op in obj.operators:LocalWorldRegistry().validate(op.capability,op.resource,op.args)
+        prior=self.objectives.get(obj.objective_id)
+        if prior and prior!=obj:raise CoreError('GOAL_DESCRIPTION_CONFLICT')
+        if not prior and len(self.objectives)>=64:raise CoreError('DYNAMIC_GOAL_BOUND')
+        self.objectives[obj.objective_id]=obj
+
     def get(self,key):
         if key not in self.objectives:raise CoreError('OFFLINE_PROGRAM_NOT_REVIEWED')
         return self.objectives[key]
@@ -71,6 +81,9 @@ class OpenAgencyService(AgencyService):
         old=self.store.db.execute('SELECT goal_id FROM goals WHERE goal_key=?',(cycle.goal_candidate_id,)).fetchone()
         if old:return old[0]
         candidate=self.store.one('subject_goal_candidates',cycle.goal_candidate_id)
+        if self.store.schema_target>=13 and candidate and candidate['state']=='ADOPTED':
+            represented=self.store.db.execute("SELECT g.goal_id FROM goals g JOIN continuity_records r ON r.record_id=json_extract(g.body_json,'$.record_id') JOIN artifacts a ON a.artifact_id=r.payload_artifact_id WHERE r.record_kind='ADOPTED_GOAL' AND r.lifecycle='ACTIVE' AND json_extract(CAST(a.payload AS TEXT),'$.candidate_id')=? LIMIT 1",(cycle.goal_candidate_id,)).fetchone()
+            if represented:return represented[0]
         obj=self.policy.get(cycle.proposed_program_id);source=self.store.one('subject_events',cycle.event_id)
         if not candidate or candidate['state']!='PROPOSED' or source['scope']!=obj.scope or obj.motivation_source not in {m.source for m in cycle.motivations}:raise CoreError('GOAL_ADOPTION_SOURCE_MISMATCH')
         if not self.subject.visible(candidate['record_id'],obj.scope):raise CoreError('GOAL_SOURCE_UNAVAILABLE')

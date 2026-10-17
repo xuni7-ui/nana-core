@@ -8,7 +8,7 @@ from .contracts import RuntimeEvent,Cause
 
 class LivingWork:
     def __init__(self,runtime):
-        self.runtime=runtime;self.agency=None;self.learning_policy=None;self.accommodation_policy=None;self.open_learning=None;self.exploration=None
+        self.runtime=runtime;self.agency=None;self.learning_policy=None;self.accommodation_policy=None;self.open_learning=None;self.exploration=None;self.world=None
         from ..continuity.maintenance import MaintenanceService
         self.maintenance=MaintenanceService(runtime.store,scopes=runtime.config.scopes,entity_id=runtime.config.entity_id,
             privacy_classes=runtime.config.privacy_classes,slice_items=runtime.config.living.slice_items,interval_us=runtime.config.living.maintenance_interval_us)
@@ -26,7 +26,14 @@ class LivingWork:
         r=self.runtime
         self.open_learning=LearningService(r.store,r.authority,specs,privacy_classes=r.config.privacy_classes,scopes=r.config.scopes,**kwargs)
         if self.agency:self.agency.learning=self.open_learning
+    def configure_world(self,transport,policy,*,resources,skill_development=None):
+        from ..continuity.world_loop.coordinator import WorldLoopWork
+        self.world=WorldLoopWork(self.runtime,transport,policy,resources=resources,skill_development=skill_development)
     def after_cycle(self,cycle,event):
+        result=self._after_cycle(cycle,event)
+        if self.world and cycle:self.world.after_cycle(cycle,event,result)
+        return result
+    def _after_cycle(self,cycle,event):
         if not cycle:return None
         if cycle.relational_decision and self.accommodation_policy:
             self.accommodation_policy.apply(self.runtime,cycle)
@@ -82,6 +89,9 @@ class LivingWork:
 
     def maintenance_slice(self):
         r=self.runtime
+        if self.world:
+            activity=self.world.maintenance_slice()
+            if activity:return activity
         if self.open_learning:
             try:activity=self.open_learning.slice()
             except (CoreError,TimeoutError) as exc:
@@ -105,6 +115,9 @@ class LivingWork:
             return {'review_enqueued':head['record_id']}
         return self.maintenance.slice()
     def opportunity(self):
+        if self.world:
+            event=self.world.opportunity()
+            if event:return {'queue_id':self.runtime.submit(event),'source':'WORLD_CONCERN'}
         if not self.agency:return None
         r=self.runtime
         provider=getattr(self.agency,'learning_opportunity',None)

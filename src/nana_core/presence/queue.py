@@ -75,7 +75,7 @@ class EventQueue:
             # No durable body/interpretation for discarded input. Timers can
             # retain typed metadata via existing, erasable memory dependencies.
             retained.update(text=None,topic=None,proposed_method=None,preference_signal=None,relationship_kind=None)
-            retained.update(positive_request=None,relationship_details=None,disclosure_request=None,realization_target=None,goal_step=None,goal_review=None,memory_review_id=None,surface=None)
+            retained.update(positive_request=None,relationship_details=None,disclosure_request=None,realization_target=None,goal_step=None,goal_review=None,world_concern_id=None,memory_review_id=None,surface=None)
         safe=SubjectInput.model_validate_json(canonical(retained))
         now=self.store.clock.utc_now_us()
         with self.store.transaction('runtime.event_enqueued') as tx:

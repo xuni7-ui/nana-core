@@ -17,6 +17,7 @@ class CodeSpec(DTO):
     revision: int = Field(ge=1)
     purpose: str = Field(min_length=1,max_length=512)
     contract: Literal['JSON_PURE_TRANSFORM_V1'] = 'JSON_PURE_TRANSFORM_V1'
+    skill_kind: Literal['BOUNDED_DATA','BOUNDED_ANALYSIS_WORKFLOW'] = 'BOUNDED_DATA'
     task: str = Field(pattern=r'^[A-Z][A-Z0-9_]{1,63}$')
     input_limit: int = Field(default=8192,ge=1,le=8192)
     output_limit: int = Field(default=8192,ge=1,le=8192)
@@ -38,7 +39,7 @@ def static_check(source):
     try:tree=ast.parse(source)
     except (SyntaxError,ValueError):raise CoreError('SKILL_SYNTAX_REJECTED') from None
     if len(tree.body)!=1 or not isinstance(tree.body[0],ast.FunctionDef) or tree.body[0].name!='transform' or tree.body[0].decorator_list or len(tree.body[0].args.args)!=1 or tree.body[0].args.args[0].arg!='data' or tree.body[0].args.defaults or tree.body[0].args.kwonlyargs or tree.body[0].args.vararg or tree.body[0].args.kwarg:raise CoreError('SKILL_CONTRACT_REJECTED')
-    allowed=(ast.Module,ast.FunctionDef,ast.arguments,ast.arg,ast.Return,ast.Expr,ast.Name,ast.Load,ast.Store,ast.Constant,ast.Call,ast.Attribute,ast.GeneratorExp,ast.ListComp,ast.comprehension,ast.Tuple,ast.List,ast.IfExp,ast.Compare,ast.Eq,ast.NotEq,ast.Lt,ast.LtE,ast.Gt,ast.GtE,ast.BinOp,ast.Add,ast.Sub,ast.Mult,ast.Div,ast.UnaryOp,ast.USub,ast.BoolOp,ast.And,ast.Or,ast.Subscript,ast.Slice)
+    allowed=(ast.Module,ast.FunctionDef,ast.arguments,ast.arg,ast.Return,ast.Expr,ast.Name,ast.Load,ast.Store,ast.Constant,ast.Call,ast.Attribute,ast.GeneratorExp,ast.ListComp,ast.comprehension,ast.Tuple,ast.List,ast.Dict,ast.IfExp,ast.Compare,ast.Eq,ast.NotEq,ast.Lt,ast.LtE,ast.Gt,ast.GtE,ast.BinOp,ast.Add,ast.Sub,ast.Mult,ast.Div,ast.UnaryOp,ast.USub,ast.BoolOp,ast.And,ast.Or,ast.Subscript,ast.Slice)
     names={'sum','len','sorted','min','max','isinstance','int','float','str','list','bool'}
     for n in ast.walk(tree):
         if not isinstance(n,allowed):raise CoreError('SKILL_STATIC_REJECTED')

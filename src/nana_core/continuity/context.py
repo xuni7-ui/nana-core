@@ -305,6 +305,11 @@ class ContextAssembler:
                             data['historical_tradeoff_not_current_policy']=past;refs=(*refs,h['record_id'])
                 candidates.append((935.0,ContextBlock(block_id='relational-subject:'+scope,kind='RELATIONAL_SUBJECT',data_json=canonical(data),source_record_ids=refs,
                     source_memory_ids=tuple(sorted({*appetite.source_memory_ids,*(m for rid in refs for m in RecordService(self.store).support(rid))})))))
+        if self.store.schema_target>=13:
+            from .world_loop.world import WorldModel
+            records=RecordService(self.store)
+            for view in WorldModel(self.store,scopes=request.scopes,privacy_classes=privacy).snapshot(limit=16):
+                candidates.append((945.0,ContextBlock(block_id='world:'+digest([view.entity_id,view.predicate]),kind='WORLD_BELIEF',data_json=view.model_dump_json(),source_record_ids=view.support_records,source_memory_ids=tuple(sorted({m for rid in view.support_records for m in records.support(rid)})))))
         candidates.extend(self._lessons(request, privacy))
         if required_memory_ids:
             required=[block for _,block in candidates if block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&set(required_memory_ids)]

@@ -19,9 +19,11 @@ class SourcedClaim(DTO):
     valid_until_us:int|None=Field(default=None,ge=0)
     confidence:float=Field(default=0.,ge=0.,le=1.)
     corrects:str|None=None
+    related_resources:tuple[str,...]=Field(default=(),max_length=8)
     @model_validator(mode='after')
     def bounded(self):
         bounded_data(self.value)
+        if any(not 1<=len(r)<=160 or "\x00" in r for r in self.related_resources):raise ValueError("invalid resource link")
         if self.valid_until_us is not None and self.valid_until_us<=self.valid_from_us:raise ValueError('invalid world interval')
         return self
 
@@ -47,6 +49,7 @@ class WorldModel:
         except (ValueError,KeyError,TypeError):raise CoreError('WORLD_SOURCED_CLAIM_REQUIRED') from None
         if not self.store.one('entities',claim.entity_id):raise CoreError('WORLD_ENTITY_UNBOUND')
         source_kind=memory['source_provenance']['source_kind']
+        if source_kind=='USER_STATEMENT' and claim.kind not in {'USER_CLAIM','HISTORICAL'}:raise CoreError('WORLD_USER_CLAIM_NOT_OBSERVATION')
         if (claim.kind=='VERIFIED_RESULT' and source_kind!='SYSTEM_VERIFICATION') or (claim.kind=='USER_CLAIM' and source_kind!='USER_STATEMENT') or (source_kind=='MODEL_DERIVATION' and claim.kind not in {'MODEL_BELIEF','INFERENCE','INTERPRETED'}):raise CoreError('WORLD_EPISTEMIC_ESCALATION')
         if claim.valid_from_us>self.store.clock.utc_now_us():
             # Expected future events are explicitly beliefs, not observations.
@@ -54,9 +57,9 @@ class WorldModel:
         key=digest([source_memory_id,claim.model_dump(mode='json')])
         old=self.store.db.execute("SELECT b.belief_id FROM world_beliefs b JOIN continuity_records r ON b.record_id=r.record_id WHERE r.target_id=?",(key,)).fetchone()
         if old:return old[0]
-        previous=self.store.db.execute('SELECT * FROM world_beliefs WHERE entity_id=? AND predicate_key=? ORDER BY revision DESC LIMIT 64',(claim.entity_id,claim.predicate)).fetchall()
+        previous=self.store.db.execute('SELECT * FROM world_beliefs WHERE scope=? AND entity_id=? AND predicate_key=? ORDER BY revision DESC LIMIT 64',(memory['scope'],claim.entity_id,claim.predicate)).fetchall()
         replaced=self.store.one('world_beliefs',claim.corrects) if claim.corrects else None
-        if claim.corrects and (not replaced or replaced['entity_id']!=claim.entity_id or replaced['predicate_key']!=claim.predicate or source_kind=='MODEL_DERIVATION' or memory['authority']!='DIRECT'):raise CoreError('WORLD_CORRECTION_AUTHORITY_REQUIRED')
+        if claim.corrects and (not replaced or replaced['scope']!=memory['scope'] or replaced['entity_id']!=claim.entity_id or replaced['predicate_key']!=claim.predicate or source_kind=='MODEL_DERIVATION' or memory['authority']!='DIRECT'):raise CoreError('WORLD_CORRECTION_AUTHORITY_REQUIRED')
         state='CURRENT';conflicts=[]
         for p in previous:
             head=self.store.one('continuity_records',p['record_id'])
@@ -72,13 +75,14 @@ class WorldModel:
             # Corrections reference the opaque old ID, but erasure of old evidence
             # must not destroy independent new evidence or resurrect the old claim.
             rid=self.records.create(tx,kind='WORLD_BELIEF',scope=memory['scope'],payload={'claim':claim.model_dump(mode='json'),'source_memory_id':source_memory_id,'belief_not_truth':True},memories=(source_memory_id,),target_id=key)
-            tx.put('world_beliefs',{'belief_id':bid,'record_id':rid,'entity_id':claim.entity_id,'predicate_key':claim.predicate,'revision':previous[0]['revision']+1 if previous else 1,'epistemic_kind':claim.kind,'state':state,'valid_from_us':claim.valid_from_us,'valid_until_us':claim.valid_until_us,'known_at_us':now,'replaces':claim.corrects})
+            tx.put('world_beliefs',{'belief_id':bid,'record_id':rid,'scope':memory['scope'],'entity_id':claim.entity_id,'predicate_key':claim.predicate,'revision':previous[0]['revision']+1 if previous else 1,'epistemic_kind':claim.kind,'state':state,'valid_from_us':claim.valid_from_us,'valid_until_us':claim.valid_until_us,'known_at_us':now,'replaces':claim.corrects})
             if replaced:tx.update('world_beliefs',replaced['belief_id'],state='SUPERSEDED')
             for p in conflicts:tx.update('world_beliefs',p['belief_id'],state='CONFLICT')
         return bid
     def view(self,entity_id,predicate,*,valid_at_us=None,known_at_us=None):
         now=self.store.clock.utc_now_us();valid=now if valid_at_us is None else valid_at_us;known=now if known_at_us is None else known_at_us
-        rows=self.store.db.execute('SELECT * FROM world_beliefs WHERE entity_id=? AND predicate_key=? AND known_at_us<=? ORDER BY revision DESC LIMIT 65',(entity_id,predicate,known)).fetchall()
+        sp=','.join('?' for _ in self.scopes) or 'NULL'
+        rows=self.store.db.execute(f'SELECT * FROM world_beliefs WHERE scope IN ({sp}) AND entity_id=? AND predicate_key=? AND known_at_us<=? ORDER BY revision DESC LIMIT 65',(*self.scopes,entity_id,predicate,known)).fetchall()
         alternatives=[];supports=[];unknown=len(rows)>64
         replaced={r['replaces'] for r in rows if r['replaces']}
         for row in rows:

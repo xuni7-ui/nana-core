@@ -30,14 +30,15 @@ CREATE TABLE cognitive_requests (
 CREATE INDEX cognition_pending ON cognitive_requests(state,deadline_us);
 CREATE TABLE world_beliefs (
  belief_id TEXT PRIMARY KEY, record_id TEXT NOT NULL REFERENCES continuity_records(record_id),
+ scope TEXT NOT NULL,
  entity_id TEXT NOT NULL REFERENCES entities(entity_id), predicate_key TEXT NOT NULL,
  revision INTEGER NOT NULL, epistemic_kind TEXT NOT NULL,
  state TEXT NOT NULL CHECK(state IN ('CURRENT','CONFLICT','UNKNOWN','SUPERSEDED')),
  valid_from_us INTEGER NOT NULL, valid_until_us INTEGER,
  known_at_us INTEGER NOT NULL, replaces TEXT REFERENCES world_beliefs(belief_id),
- UNIQUE(entity_id,predicate_key,revision)
+ UNIQUE(scope,entity_id,predicate_key,revision)
 );
-CREATE INDEX world_current ON world_beliefs(entity_id,predicate_key,known_at_us DESC);
+CREATE INDEX world_current ON world_beliefs(scope,entity_id,predicate_key,known_at_us DESC);
 CREATE TABLE open_concerns (
  concern_id TEXT PRIMARY KEY, concern_key TEXT NOT NULL UNIQUE,
  record_id TEXT NOT NULL REFERENCES continuity_records(record_id),

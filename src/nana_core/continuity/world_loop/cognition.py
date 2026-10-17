@@ -12,6 +12,7 @@ from ...storage import canonical,digest,uid
 from ..context import ContextAssembler,ContextRequest,ContextPolicy
 from ..records import RecordService
 from ..open_agency.contracts import Objective
+from ..subject.opportunities import Behavior
 
 Role=Literal['INTERPRET','GOALS','PLAN','REPLAN','REFLECT','LEARN','SKILL','SOCIAL','SELF','RETRIEVE','SUMMARIZE']
 class CognitionBudget(DTO):
@@ -23,6 +24,7 @@ class CognitionRequest(DTO):
     request_id:str
     subject_epoch:int
     subject_revision:int
+    world_stamp:str
     cognitive_role:Role
     source_context_refs:tuple[str,...]
     context_json:str=Field(max_length=131072)
@@ -30,6 +32,7 @@ class CognitionRequest(DTO):
     available_capabilities:tuple[str,...]=Field(max_length=32)
     uncertainty_required:Literal[True]=True
     expected_schema:dict
+    role_input:dict=Field(default_factory=dict)
     budget:CognitionBudget
     created_at_us:int
     deadline_us:int
@@ -41,6 +44,7 @@ class InterestProposal(DTO):
     interpretation:str=Field(min_length=1,max_length=512)
     objective:Objective|None=None
     expected_value:Literal['LOW','RELEVANT','HIGH']='RELEVANT'
+    possible_behaviors:tuple[Behavior,...]=Field(default=(),max_length=8)
     skill_task:str|None=Field(default=None,pattern=r'^[A-Z][A-Z0-9_]{1,63}$')
 class StructuredProposal(DTO):
     interpretation:str=Field(min_length=1,max_length=2048)
@@ -114,9 +118,14 @@ class OpenAIJSONTransport:
             if choice.get('message',{}).get('refusal') or choice.get('finish_reason')=='content_filter':raise TransportFailure('PROVIDER_REFUSAL')
             if choice.get('finish_reason')!='stop':raise TransportFailure('PROVIDER_PARTIAL_OUTPUT')
             proposal=StructuredProposal.model_validate_json(canonical(strict_json(choice['message']['content'])))
-            usage=envelope.get('usage')
-            if usage is not None and (type(usage)!=dict or any(type(v)!=int or v<0 for v in usage.values())):raise ValueError('invalid usage')
-            return CognitionReply(request_id=request.request_id,request_digest=digest(request.model_dump(mode='json')),provider_id=self.provider_id,model_id=self.model_id,
+            reported=envelope.get('usage');usage=None
+            if reported is not None:
+                if type(reported)!=dict:raise ValueError('invalid usage')
+                usage={k:v for k,v in reported.items() if k in {'prompt_tokens','completion_tokens','total_tokens','input_tokens','output_tokens'}}
+                if any(type(v)!=int or v<0 for v in usage.values()):raise ValueError('invalid usage')
+            actual_model=envelope.get('model')
+            if type(actual_model)!=str or not 1<=len(actual_model)<=96:raise ValueError('missing model identity')
+            return CognitionReply(request_id=request.request_id,request_digest=digest(request.model_dump(mode='json')),provider_id=self.provider_id,model_id=actual_model,
                 origin='SYNTHETIC' if self.harness else 'REAL_PROVIDER',proposal=proposal,usage=usage,cost_micro=0 if self.harness else None,billing='FIXTURE_ZERO' if self.harness else 'UNKNOWN')
         except urllib.error.HTTPError as exc:
             code='PROVIDER_RATE_LIMIT' if exc.code==429 else 'PROVIDER_CONTEXT_OVERFLOW' if exc.code==413 else 'PROVIDER_HTTP_ERROR'
@@ -125,6 +134,9 @@ class OpenAIJSONTransport:
         except urllib.error.URLError:raise TransportFailure('PROVIDER_NETWORK_ERROR') from None
         except (KeyError,IndexError,TypeError,ValueError,UnicodeError):raise TransportFailure('PROVIDER_MALFORMED') from None
 
+def allowed_for_role(transport,policy):
+    return policy.remote_privacy if transport.remote else policy.readable_privacy
+
 class CognitionSession:
     def __init__(self,runtime,transport,policy,*,max_calls_per_day=24):
         if runtime.store.schema_target<13:raise CoreError('WORLD_SCHEMA_REQUIRED')
@@ -132,7 +144,7 @@ class CognitionSession:
         self.records=RecordService(self.store);self.assembler=ContextAssembler(self.store,runtime.authority)
         self.max_calls=max_calls_per_day;self._workers=[]
         if not 1<=max_calls_per_day<=128:raise CoreError("COGNITION_QUOTA_BOUND")
-    def prepare(self,key,role,source_ids,*,budget=None,goal_id=None,capabilities=()):
+    def prepare(self,key,role,source_ids,*,budget=None,goal_id=None,capabilities=(),role_input=None):
         old=self.store.db.execute('SELECT * FROM cognitive_requests WHERE request_key=?',(key,)).fetchone()
         if old:return old['request_id']
         r=self.runtime;r.lease.assert_current();b=budget or CognitionBudget()
@@ -145,6 +157,26 @@ class CognitionSession:
         if not set(source_ids)<=selected:raise CoreError('COGNITION_SOURCE_OUTSIDE_CONTEXT_BUDGET')
         refs=tuple(dict.fromkeys((*source_ids,*(m for block in context.blocks for m in block.source_memory_ids))))
         if not refs:raise CoreError('COGNITION_SOURCES_REQUIRED')
+        role_input=role_input or {};extra_parents=()
+        if role_input:
+            from ..open_agency.world import bounded_data,LocalWorldRegistry
+            bounded_data(role_input)
+            if role in {'PLAN','REPLAN'}:
+                from ..open_agency.contracts import PlannerInput
+                parsed=PlannerInput.model_validate_json(canonical(role_input))
+                parent=self.records.read(parsed.source_record_id)
+                if parent['scope'] not in req.scopes or parent['privacy_class'] not in allowed_for_role(self.transport,self.policy) or not self.records.current_support(parsed.source_record_id):raise CoreError('COGNITION_ROLE_SOURCE_DENIED')
+                extra_parents=(parsed.source_record_id,)
+            elif role=='LEARN':
+                from ..open_agency.learning import LearningSpec
+                LearningSpec.model_validate_json(canonical(role_input))
+            elif role=='SKILL':
+                from ..open_agency.code_skills import CodeSpec
+                if set(role_input)-{'spec','diagnostic'}:raise CoreError('COGNITION_ROLE_INPUT_REJECTED')
+                CodeSpec.model_validate_json(canonical(role_input['spec']))
+                if role_input.get('diagnostic') is not None and (type(role_input['diagnostic']) is not str or len(role_input['diagnostic'])>512):raise CoreError('COGNITION_ROLE_INPUT_REJECTED')
+            else:raise CoreError('COGNITION_ROLE_INPUT_REJECTED')
+            if LocalWorldRegistry.payload_privacy(role_input) not in allowed_for_role(self.transport,self.policy):raise CoreError('COGNITION_ROLE_PRIVACY_DENIED')
         allowed=self.policy.remote_privacy if self.transport.remote else self.policy.readable_privacy
         for mid in refs:
             m=self.records.memory.read(mid)
@@ -157,16 +189,22 @@ class CognitionSession:
             head=self.store.one('continuity_records',json.loads(g['body_json']).get('record_id'))
             if head and head['scope'] in req.scopes and head['privacy_class'] in allowed and self.records.current_support(head['record_id']):current.append({'goal_id':g['goal_id'],'version':g['version'],'state':g['state']})
         current=tuple(current)
-        request=CognitionRequest(request_id=request_id,subject_epoch=r.lease.epoch,subject_revision=r.subject.revision,cognitive_role=role,source_context_refs=refs,context_json=context.model_dump_json(),current_goals=current,available_capabilities=tuple(capabilities),expected_schema=StructuredProposal.model_json_schema(),budget=b,created_at_us=now,deadline_us=now+b.timeout_ms*1000)
+        request=CognitionRequest(request_id=request_id,subject_epoch=r.lease.epoch,subject_revision=r.subject.revision,cognitive_role=role,source_context_refs=refs,context_json=context.model_dump_json(),current_goals=current,available_capabilities=tuple(capabilities),world_stamp=self._world_stamp(req.scopes,allowed),expected_schema=StructuredProposal.model_json_schema(),role_input=role_input,budget=b,created_at_us=now,deadline_us=now+b.timeout_ms*1000)
         self.assembler.validate(context,req,self.policy)
         with self.store.transaction('world.cognition_prepared',{'request_id':request_id}) as tx:
-            rid=self.records.create(tx,kind='COGNITION_REQUEST',scope=req.scopes[0],payload={'request':request.model_dump(mode='json'),'provider':self.transport.provider_id,'model':self.transport.model_id},memories=refs,records=tuple(dict.fromkeys(x for block in context.blocks for x in block.source_record_ids)))
+            rid=self.records.create(tx,kind='COGNITION_REQUEST',scope=req.scopes[0],payload={'request':request.model_dump(mode='json'),'provider':self.transport.provider_id,'model':self.transport.model_id},memories=refs,records=tuple(dict.fromkeys((*extra_parents,*(x for block in context.blocks for x in block.source_record_ids)))))
             tx.put('cognitive_requests',{'request_id':request_id,'request_key':key,'record_id':rid,'subject_revision':r.subject.revision,'owner_epoch':r.lease.epoch,'goal_id':goal_id,'goal_version':goal['version'] if goal else None,'state':'PREPARED','deadline_us':request.deadline_us,'request_digest':digest(request.model_dump(mode='json')),'response_digest':None,'error_code':None,'created_at_us':now})
         return request_id
+    def _world_stamp(self,scopes,privacy):
+        sp=','.join('?' for _ in scopes) or 'NULL';pp=','.join('?' for _ in privacy) or 'NULL'
+        rows=self.store.db.execute(f"SELECT b.belief_id,b.revision,b.state,r.lifecycle FROM world_beliefs b JOIN continuity_records r ON b.record_id=r.record_id WHERE b.scope IN ({sp}) AND r.privacy_class IN ({pp}) ORDER BY b.rowid DESC LIMIT 65",(*scopes,*privacy)).fetchall()
+        return digest([tuple(x) for x in rows])
     def _current(self,row):
         self.runtime.lease.assert_current()
         if row['owner_epoch']!=self.runtime.lease.epoch or row['subject_revision']!=self.runtime.subject.revision or self.store.clock.utc_now_us()>row['deadline_us'] or not self.records.current_support(row['record_id']):return False
         request=self.records.read(row['record_id'])['payload']['request']
+        allowed=allowed_for_role(self.transport,self.policy)
+        if request['world_stamp']!=self._world_stamp(self.runtime.config.scopes,allowed):return False
         if json.loads(request['context_json'])['manifest']['identity_revision']!=self.store.identity['revision']:return False
         for prior in request['current_goals']:
             goal=self.store.one('goals',prior['goal_id'])
@@ -229,7 +267,10 @@ class CognitionSession:
     def proposal(self,rid):
         row=self.records.read(rid)
         if row['record_kind']!='COGNITION_PROPOSAL' or not self.records.current_support(rid):raise CoreError('COGNITION_SOURCE_RETIRED')
-        return CognitionReply.model_validate_json(canonical(row['payload']['reply']))
+        reply=CognitionReply.model_validate_json(canonical(row['payload']['reply']))
+        request=self.store.one('cognitive_requests',reply.request_id)
+        if not request or request['state']!='PROPOSED' or not self._current(request):raise CoreError('STALE_COGNITION_PROPOSAL')
+        return reply
     def journal(self,limit=32,*,scopes=None,privacy_classes=None):
         scopes=tuple(scopes or self.runtime.config.scopes);privacy=tuple(privacy_classes or self.runtime.config.privacy_classes);out=[]
         for x in self.store.db.execute('SELECT * FROM cognitive_requests ORDER BY created_at_us DESC LIMIT ?',(min(64,limit),)):

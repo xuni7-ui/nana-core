@@ -1,0 +1,119 @@
+"""C-owned sourced concern/interest/goal formation; D only offers a time slice."""
+import json
+from ...contracts import CoreError
+from ...storage import canonical,digest,uid
+from ..contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
+from ..records import RecordService
+from ..subject.opportunities import ConcernCue
+from ..subject.contracts import SubjectInput
+from ..open_agency.contracts import Objective
+from ..open_agency.world import LocalWorldRegistry
+from .cognition import CognitionReply
+
+class ConcernService:
+    def __init__(self,runtime,*,resources,max_hot=16,revisit_us=3600_000_000):
+        self.runtime,self.store=runtime,runtime.store;self.records=RecordService(self.store)
+        self.resources=frozenset(resources);self.max_hot=max_hot;self.revisit=revisit_us
+        if not 1<=max_hot<=32 or not 1<=len(self.resources)<=128:raise CoreError('CONCERN_POLICY_BOUND')
+    def offer(self,proposal_record):
+        record=self.records.read(proposal_record)
+        if record['record_kind']!='COGNITION_PROPOSAL' or not self.records.current_support(proposal_record):raise CoreError('CONCERN_PROPOSAL_SOURCE_REQUIRED')
+        if record['scope'] not in self.runtime.config.scopes or record['privacy_class'] not in self.runtime.config.privacy_classes:raise CoreError('CONCERN_PRIVACY_DENIED')
+        reply=CognitionReply.model_validate_json(canonical(record['payload']['reply']));accepted=[]
+        for idea in reply.proposal.interests:
+            if not set(idea.source_memory_ids)<=set(self.records.support(proposal_record)):raise CoreError('CONCERN_SOURCE_MISMATCH')
+            obj=idea.objective
+            if obj:
+                if obj.scope!=record['scope'] or obj.motivation_source!=idea.motivation_source:raise CoreError('GOAL_CANDIDATE_SCOPE_MISMATCH')
+                for op in obj.operators:
+                    if op.resource not in self.resources:raise CoreError('GOAL_RESOURCE_NOT_DESCRIBED')
+                    LocalWorldRegistry().validate(op.capability,op.resource,op.args)
+            key=digest([record['scope'],self.runtime.config.entity_id,idea.topic]);old=self.store.db.execute('SELECT * FROM open_concerns WHERE concern_key=?',(key,)).fetchone()
+            if old and old['state'] in {'ABANDONED','EXPIRED'}:continue
+            if old:
+                try:previous=self.records.read(old['record_id'])['payload']
+                except CoreError:continue
+                if set(idea.source_memory_ids)<=set(previous['encounter_sources']):continue
+                # An adopted objective cannot be silently changed by new prose.
+                if previous.get('objective') and obj and previous['objective']!=obj.model_dump(mode='json'):raise CoreError('CONCERN_OBJECTIVE_REVISION_REQUIRED')
+                sources=tuple(dict.fromkeys((*previous['encounter_sources'],*idea.source_memory_ids)))[:32]
+            else:
+                if self.store.db.execute("SELECT count(*) FROM open_concerns WHERE state NOT IN ('ABANDONED','EXPIRED')").fetchone()[0]>=self.max_hot:continue
+                sources=idea.source_memory_ids
+            count=1 if not old else old['encounters']+1
+            state=('INTEREST' if idea.expected_value=='HIGH' or count>=2 else 'TRANSIENT') if not old or old['state'] in {'TRANSIENT','INTEREST','DEFERRED'} else old['state']
+            if idea.expected_value=='LOW' and old and old['goal_id']:state='INTEREST'
+            body={**idea.model_dump(mode='json'),'encounter_sources':sources,'proposal_record_id':proposal_record,'goal_candidate_not_adopted':True,'last_enqueued_revision':None}
+            cid=old['concern_id'] if old else uid();now=self.store.clock.utc_now_us()
+            with self.store.transaction('world.concern_formed',{'concern_id':cid,'state':state}) as tx:
+                rid=self.records.create(tx,kind='OPEN_CONCERN',scope=record['scope'],payload=body,memories=sources,records=(proposal_record,*((old['record_id'],) if old else ())),supersedes=old['record_id'] if old else None,target_id=cid)
+                if old:tx.update('open_concerns',cid,record_id=rid,state=state,revision=old['revision']+1,encounters=count,next_review_us=now,updated_at_us=now)
+                else:tx.put('open_concerns',{'concern_id':cid,'concern_key':key,'record_id':rid,'state':state,'revision':1,'encounters':count,'next_review_us':now,'updated_at_us':now,'goal_id':None})
+            accepted.append(cid)
+        return tuple(accepted)
+    def restore_descriptions(self):
+        # Reconstruct descriptive plans only, not old Grants or execution handles.
+        for row in self.store.db.execute("SELECT * FROM open_concerns WHERE state NOT IN ('ABANDONED','EXPIRED') LIMIT 32"):
+            try:
+                body=self.records.read(row['record_id'])['payload']
+                if not self.records.current_support(row['record_id']):continue
+                if body['objective']:self.runtime.work.agency.policy.offer(Objective.model_validate_json(canonical(body['objective'])))
+            except CoreError:continue
+    def opportunity(self):
+        r=self.runtime;now=self.store.clock.utc_now_us()
+        for row in self.store.db.execute("SELECT * FROM open_concerns WHERE state IN ('TRANSIENT','INTEREST','DEFERRED') AND next_review_us<=? ORDER BY encounters DESC,updated_at_us LIMIT 16",(now,)):
+            try:body=self.records.read(row['record_id'])['payload']
+            except CoreError:continue
+            if not self.records.current_support(row['record_id']):continue
+            age=now-row['updated_at_us']
+            if age>3*86400_000_000:
+                with self.store.transaction('world.concern_expired',{'concern_id':row['concern_id']}) as tx:tx.update('open_concerns',row['concern_id'],state='EXPIRED',revision=row['revision']+1)
+                continue
+            if row['state']=='TRANSIENT':
+                with self.store.transaction('world.concern_deferred',{'concern_id':row['concern_id']}) as tx:tx.update('open_concerns',row['concern_id'],next_review_us=now+self.revisit)
+                continue
+            if body['objective'] and body['expected_value']!='LOW':r.work.agency.policy.offer(Objective.model_validate_json(canonical(body['objective'])))
+            behavior=('IGNORE',) if body['expected_value']=='LOW' else ('SEEK_CAPABILITY',) if body['skill_task'] else ('EXPLORE',) if body['motivation_source']=='CURIOSITY' else tuple(body.get('possible_behaviors',()))
+            cue=ConcernCue(cue_kind='DISCOVERY',motivation_source=body['motivation_source'],topic_key=body['topic'],program_id=body['objective']['objective_id'] if body['objective'] and body['expected_value']!='LOW' else None,possible_behaviors=behavior)
+            key=digest([row['concern_id'],row['revision']]);source_ids=tuple(body['source_memory_ids'])
+            prior=self.store.db.execute('SELECT * FROM subject_events WHERE source_key=?',('synthetic.world.concern.'+key,)).fetchone()
+            if prior:
+                accepted=self.store.db.execute('SELECT * FROM subject_cycles WHERE subject_event_id=?',(prior['subject_event_id'],)).fetchone()
+                if accepted:
+                    # Queue recovery may already acknowledge a committed C cycle.
+                    # Finish its idempotent post-commit work instead of resubmitting
+                    # the DONE envelope forever or generating a second decision.
+                    source_event=SubjectInput.model_validate_json(canonical(self.records.read(prior['record_id'])['payload']['input']))
+                    r.work.after_cycle(r.subject.result(dict(accepted)),source_event)
+                    return None
+            memory=self.records.memory;source=memory.read(source_ids[0]);when=row['updated_at_us']
+            eid=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.world-concern',source_reference=key,source_kind='MODEL_DERIVATION'),text=cue.model_dump_json(),privacy_class=self.records.read(row['record_id'])['privacy_class'],observed_time_us=when,event_time_us=source['event_time_us']))
+            prior=self.store.db.execute('SELECT memory_id FROM memories WHERE source_evidence_id=?',(eid,)).fetchone()
+            mid=prior[0] if prior else memory.add(MemoryCandidate(entity_id=r.config.entity_id,scope=source['scope'],memory_type=MemoryType.PROSPECTIVE,epistemic_kind='INFERENCE',source_evidence_id=eid,text=cue.model_dump_json(),derived_from=tuple(self.records.support(row['record_id'])),predicate_key='concern.'+body['topic'],confidence=.4))
+            from ...presence.contracts import RuntimeEvent,Cause
+            inp=SubjectInput(source_key='synthetic.world.concern.'+key,world_concern_id=row['concern_id'],kind='WAKE',origin='SELF_WAKE',entity_id=r.config.entity_id,scope=source['scope'],source_memory_ids=(mid,),observed_at_us=when,privacy_class=self.records.read(row['record_id'])['privacy_class'],novelty='RELEVANT')
+            return RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=inp,causes=(Cause(kind='MEMORY',reference_id=mid),),due_at_us=when,priority=1)
+        return None
+    def after_cycle(self,cycle,event,result):
+        cid=event.world_concern_id
+        if not cid:return
+        row=self.store.one('open_concerns',cid)
+        if not row:return
+        if event.source_key!='synthetic.world.concern.'+digest([cid,row['revision']]):raise CoreError('STALE_CONCERN_CYCLE')
+        body=self.records.read(row['record_id'])['payload'];goal=result if isinstance(result,str) and self.store.one('goals',result) else row['goal_id']
+        state='ADOPTED' if goal else 'PROPOSED' if cycle.intention.kind not in {'NO_ACTION','WAIT'} and cycle.evaluation and cycle.evaluation.normative=='ENDORSED' else 'DEFERRED'
+        if body['expected_value']=='LOW' and goal:state='DEFERRED'
+        if body['expected_value']=='LOW' and cycle.intention.kind=='NO_ACTION' and cycle.intention.behavior=='IGNORE':
+            if goal:
+                g=self.store.one('goals',goal);cause=next((m for m in body['encounter_sources'] if self.records.memory.read(m)['authority']=='DIRECT'),None)
+                if g['state'] in {'ACTIVE','SUSPENDED','BLOCKED','FAILED'} and cause:self.runtime.work.agency.transition(goal,'ABANDONED',expected_version=g['version'],authority=self.runtime.authority,cause_memory_id=cause)
+            state='ABANDONED'
+        with self.store.transaction('world.concern_judged',{'concern_id':cid,'cycle_id':cycle.cycle_id,'state':state}) as tx:tx.update('open_concerns',cid,state=state,goal_id=goal,next_review_us=self.store.clock.utc_now_us()+self.revisit,revision=row['revision']+1)
+    def view(self,*,scopes=None,privacy_classes=None):
+        scopes=tuple(scopes or self.runtime.config.scopes);privacy=tuple(privacy_classes or self.runtime.config.privacy_classes)
+        out=[]
+        for row in self.store.db.execute('SELECT * FROM open_concerns ORDER BY updated_at_us DESC LIMIT 32'):
+            head=self.store.one('continuity_records',row['record_id'])
+            if head['scope'] not in scopes or head['privacy_class'] not in privacy or head['lifecycle']!='ACTIVE' or not self.records.current_support(row['record_id']):continue
+            b=self.records.read(row['record_id'])['payload'];out.append({'concern_id':row['concern_id'],'topic':b['topic'],'motivation':b['motivation_source'],'state':row['state'],'encounters':row['encounters'],'goal_id':row['goal_id'],'source_record_id':row['record_id']})
+        return tuple(out)

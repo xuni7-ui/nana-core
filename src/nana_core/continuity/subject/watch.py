@@ -34,6 +34,9 @@ def collect_opportunities(loop,*,entity_id,now_us,quiet_since_us,quiet_window_us
         for mid,cue in cues_from(store,ids,scope=scope,privacy_classes=loop.privacy_classes):
             if cue.cue_kind=='CONSTRAINT':continue
             source=store.one('memories',mid)
+            if store.schema_target>=13:
+                evidence=store.one('continuity_evidence',source['source_evidence_id'])
+                if evidence['source_namespace']=='synthetic.world-concern':continue # managed concern has its own deduplicated opportunity
             result.append(AttentionOpportunity(key='memory-'+mid,source_kind='MEMORY',source_id=mid,
                 scope=scope,entity_id=entity_id,due_at_us=max(cue.not_before_us,source['ingested_time_us']+quiet_window_us,quiet_since_us+quiet_window_us),
                 memory_ids=(mid,),event_type='SELF_EVENT',wake_trigger='SELF_TRIGGER',

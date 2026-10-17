@@ -14,6 +14,9 @@ def runtime_projection(runtime,kind,policy,*,scopes,entity_id):
     if not runtime.config.living:raise CoreError('LIVING_RUNTIME_NOT_ENABLED')
     if not set(scopes)<=set(policy.allowed_scopes):raise CoreError('RUNTIME_VIEW_SCOPE_DENIED')
     r=runtime;privacy=policy.readable_privacy;records=RecordService(r.store)
+    if kind=='WORLD_LOOP':
+        if not r.work.world:raise CoreError('WORLD_LOOP_NOT_CONFIGURED')
+        return r.work.world.view(scopes=scopes,privacy_classes=privacy)
     if kind=='OPEN_AUTONOMY':
         from ..continuity.open_agency.projections import project_open
         return project_open(r.store,policy,scopes=scopes).model_dump(mode='json')

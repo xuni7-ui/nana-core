@@ -1398,3 +1398,16 @@ managed provider配置为空。开始显式13开发，不升级生产，不push�
 冲突/显式纠错/无复活投影。真实PNG像素/音频PCM/视频多点解码；FFmpeg在无宿主数据/网络
 namespace里运行，限制资源；不冒充ASR/语义视频理解。9项foundation测试通过（与后续
 dynamic goal/learning合计11 targeted通过），真实provider未配置/NOT_RUN。无生产/push。
+
+## World Loop V1 M2 — open concern selection, independent episodes and skill needs
+[源码/离线实测] 动态Objective只在受限资源描述范围内成为候选，仍由原C采纳；关注/兴趣/
+目标分层持久化、去重、复访、退出，并复用同一LivingWork。transport-backed planner/
+learning/code proposer可替换；模型不接触Store/Grant/Manager。新world输入可来源化地
+提供旧目标replan机会；world belief通过原ContextAssembler隐私过滤进入认知。
+跨episode独立oracle核验、反例暂停/证据比例、未解决反例禁止重启用；两类纯JSON代码
+技能从C capability-gap判断进入生成失败/诊断/修复/隔离测试/review，启用不等于Grant。
+实际SIGKILL发现并修复：C/goal已提交而Concern ACK未提交时，queue已DONE不应反复
+提交旧envelope；现在重放幂等post-commit处理，不生成第二decision/goal/effect。
+同时避免managed concern被通用watch再次驱动；已形成Reflection候选的工作完成后不占
+永久pending槽。Legacy<=12保留。20项新targeted与26既有open tests当前通过；最终soak/
+全量仍待验。真实模型/外部动作0，未push。
