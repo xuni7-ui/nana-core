@@ -1385,3 +1385,8 @@ learning/generated isolated code review-use-retire，接入原B9/B6/B10、Runtim
 acyclic指纹清单排除自身及09，在09留hash锚点。数据源均synthetic，无DB/凭据入库。
 无新依赖/业务表，默认C7/D8不变。生产/main/R045/真实模型/私人数据/真实外部动作0；
 E12 NOT_RUN；本地提交，不push。真实接线阻塞和导出/原始clone边界见报告limitations。
+
+## World Loop V1 M0 — local source and environment anchor（2026-10-17）
+[源码/实测] 新分支继承完整255ac99，无远端替代或旧成果丢失。有限检查既有C/D/E模块、
+privacy/provenance/schema/port边界，记录实现地图；ffmpeg/ffprobe/Pillow/bwrap已存在，
+managed provider配置为空。开始显式13开发，不升级生产，不push。业务代码尚未变更。

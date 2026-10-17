@@ -1126,3 +1126,11 @@ REAL_MEMORY_IMPORT_ENABLED=NO；真实模型/私密数据读取/真实社交投�
 `docs/nana_e1e6_open_autonomy_v1_evidence/`。**NO PUSH / NO PRODUCTION**。
 
 Final E1–E6 delivery manifest anchor: SHA256 `d80ace4091e658a6442e1b5840369640c4d2bf6111e7999b4f71c0163e6456fc` (`manifests/nana_e1e6_open_autonomy_v1.json`).
+
+## Real Cognition & World Loop V1 — CURRENT DEVELOPMENT（2026-10-17）
+[源码/环境实测] 独立分支 dev/nana-core-real-cognition-world-loop-v1-codex，自本地255ac99
+完整继承E1–E6。尚未验收；默认C7/D8不变。现有ffmpeg/ffprobe/Pillow/bwrap可用，环境
+未提供现成模型凭据，因此真实provider执行NOT_RUN；不寻找secret。仅离线开发、本地提交，
+不push、不改生产/main/R045，不读取私人数据。实现地图见docs/nana_real_cognition_world_loop_v1_implementation.md。
+
+World M0 manifest SHA256 55e9e11f391417c3e16a79f3cf47ce0e00bd0e751e74776bdc2cc183ed63b9c1.
