@@ -1,0 +1,12 @@
+{
+  "base": "a4abd5ce230848ae6667e5e5362964636e3ead08",
+  "files": {
+    "src/nana_core/continuity/provider_config.py": "dc9f489759e6f6b94546b60cce28545c3e4a675c6c2d8872e267d568b39a722c",
+    "src/nana_core/continuity/sensors/adapters.py": "b3b8143175a9d335d9fc32566e4402fd30395fedfe2cd9823a803506c8823a9f",
+    "src/nana_core/continuity/sensors/__init__.py": "1825150d999839e825362afb6064f608081771a0a9ac6ef51dc6c063c321683c",
+    "src/nana_core/continuity/sensors/config.py": "9131aa010a2e09a7b9a3a8c44a8519f85daf088176a2ecb3c9bf24681ac8c983",
+    "src/nana_core/continuity/sensors/contracts.py": "d33441c1bca454fa56b3ee5b5fb8e02b3f1582ffee4002900a9e2ac76c53e855",
+    "tests/h2_perception/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/h2_perception/test_config.py": "4712bb1732baf66cbf3bd304ac15807b8fd0a07471a067cc81a2565f26688888"
+  }
+}

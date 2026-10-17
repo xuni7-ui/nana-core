@@ -142,6 +142,7 @@ class ProviderCommand(ConfigDTO):
 
 class ProviderConfigService:
     """A single host JSON document; flock+CAS+atomic replace, no Subject writes."""
+    document_type=ProviderConfiguration
     def __init__(self,path,authority):
         if type(authority) is not ProviderConfigurationAuthority:raise CoreError('PROVIDER_CONFIG_AUTHORITY_REQUIRED')
         self._path=Path(path);self.__authority=authority
@@ -160,7 +161,7 @@ class ProviderConfigService:
             if len(raw)>262144:raise ValueError()
             from .privacy import _json_object
             obj=json.loads(raw,object_pairs_hook=_json_object)
-            return ProviderConfiguration.model_validate_json(canonical(obj))
+            return self.document_type.model_validate_json(canonical(obj))
         except FileNotFoundError:raise CoreError('PROVIDER_CONFIG_UNAVAILABLE') from None
         except CoreError:raise
         except (ValueError,TypeError,OSError):raise CoreError('PROVIDER_CONFIG_INVALID') from None
@@ -186,7 +187,7 @@ class ProviderConfigService:
         self._check(authority);fd=self._lock()
         try:
             if os.path.lexists(self._path):return self._load()
-            c=ProviderConfiguration();self._atomic(c);return c
+            c=self.document_type();self._atomic(c);return c
         finally:os.close(fd)
     def _check(self,authority):
         if authority is not self.__authority:raise CoreError('PROVIDER_CONFIG_AUTHORITY_REQUIRED')
