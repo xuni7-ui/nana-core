@@ -1,0 +1,130 @@
+{
+  "global_stage": "E",
+  "status": "OFFLINE_CANDIDATE_READY",
+  "source_anchor": "55ce08679091ffb0efa0a15b74bc4f8edb025b23",
+  "business_anchor": "07b736a",
+  "evidence_scope": "OFFLINE / SYNTHETIC / ACTUAL_CODECS / ACTUAL_LOCAL_PROCESS_EXECUTION",
+  "tests": {
+    "focused": {
+      "passed": 43,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0,
+      "wall_seconds": 34.352
+    },
+    "focused_source_anchor": "07b736a",
+    "full_repository": {
+      "passed": 1017,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 1,
+      "wall_seconds": 121.108
+    },
+    "full_source_anchor": "55ce08679091ffb0efa0a15b74bc4f8edb025b23"
+  },
+  "virtual_hours": {
+    "main": 26.08,
+    "contrast": 26.069444
+  },
+  "wall_soak": {
+    "seconds": 1800.131,
+    "final_source_smoke_seconds": 30.087,
+    "runtime_source_note": "Long soak began on9e7ce710 plus JSON-object wire fix. Runtime/scheduler source unchanged by subsequent closeout; origin-disproof/summary/deletion-capacity/audio-metadata changes are covered on final source by full regression and current-source smoke. No claim that the old Python process hot-reloaded new code."
+  },
+  "cognition": {
+    "live_model_execution": "NOT_RUN",
+    "real_model_calls": 0,
+    "real_provider": null,
+    "real_provider_model": null,
+    "loopback_http_calls": {
+      "main": 23,
+      "contrast": 21
+    },
+    "transport_semantics": "JSON-object wire; exact local DTO/source/origin/revision validation; no provider-native strict-schema claim"
+  },
+  "perception": {
+    "actual_decoded_files_in_delivered_virtual_worlds": {
+      "IMAGE": 2,
+      "AUDIO": 2,
+      "VIDEO": 2
+    },
+    "content_origin": "SYNTHETIC_GENERATED_PUBLIC_BYTES",
+    "live_capture": "NOT_RUN",
+    "semantic_image_interpretations": 0,
+    "semantic_audio_interpretations": 0,
+    "semantic_video_interpretations": 0,
+    "asr": "NOT_RUN"
+  },
+  "world_and_concerns": {
+    "evidence": [
+      "living_soak.json:checks",
+      "contrast_soak.json:checks",
+      "store_state.json"
+    ],
+    "lifecycle_test": "test_transient_revisit_independent_interest_expiry_and_source_erasure",
+    "source_deletion_capacity_test": "test_deleted_concern_history_does_not_exhaust_hot_attention_capacity"
+  },
+  "subject_goal_formation": {
+    "main_goals": 8,
+    "contrast_goals": 8,
+    "linkage": "details.goal_lineage in each soak: observation/proposal/concern→SELF_WAKE→C cycle→candidate→goal",
+    "all_linkage_gates_pass": true
+  },
+  "learning": {
+    "main_later_reuse": true,
+    "counterexample": true,
+    "contrast": "NO_FAILED_GOAL_LESSON_SELECTED; not falsely credited as learning"
+  },
+  "self_extension": {
+    "main": {
+      "task": "TEXT_CLEAN",
+      "actual_kernel_result": "hello",
+      "expected": "hello",
+      "passed": true,
+      "record_id": "61c0adbe-ebf9-4b41-9b15-b6988237a304",
+      "action_id": "2cb936c9-04ab-4c35-bd4d-5c38fbbe2bf6",
+      "realm": "ISOLATED_PURE_LOCAL",
+      "installation_authority": false
+    },
+    "contrast": {
+      "task": "TOKEN_ANALYSIS",
+      "actual_kernel_result": {
+        "count": 2,
+        "tokens": [
+          "alpha",
+          "zulu"
+        ]
+      },
+      "expected": {
+        "tokens": [
+          "alpha",
+          "zulu"
+        ],
+        "count": 2
+      },
+      "passed": true,
+      "record_id": "18bfa0ff-fbb4-47d6-a5a1-e29710d55d44",
+      "action_id": "3643ef1b-f7b5-4405-823a-78457f00cdb0",
+      "realm": "ISOLATED_PURE_LOCAL",
+      "installation_authority": false
+    },
+    "installation_authority": false
+  },
+  "wall_resources": {
+    "samples": 26,
+    "fd_min": 8,
+    "fd_max": 8,
+    "rss_min_kib": 42700,
+    "rss_max_kib": 42712,
+    "max_pending_intentions": 0
+  },
+  "real_model_calls": 0,
+  "real_external_actions": 0,
+  "real_social_sends": 0,
+  "private_user_data_reads": 0,
+  "production_changes": 0,
+  "main_changes": 0,
+  "r045_changes": 0,
+  "pushes_this_task": 0,
+  "e12": "NOT_RUN"
+}

@@ -614,3 +614,16 @@ strategy transition now commit atomically in the original Store. Restart/replay 
 leave the known-disproved strategy active between two transactions. No new table,
 loop, authority, dependency or live provider. Actual source audio codec/rate/channels
 are retained separately from normalized output PCM metadata.
+
+## D-WORLD-006 — world epistemics and live-attention accounting follow source lifecycle
+[2026-10-17 / GLOBAL E closeout / failing-before-fix regression]
+A genuine Evidence backlink alone cannot certify the text of a derived Memory.
+RAW_OBSERVATION / VERIFIED_RESULT / USER_CLAIM world admission additionally requires
+DIRECT Memory with observation/statement epistemic type. Derived summaries retain
+their interpretation status; the base Memory contract and historical evidence are
+not rewritten. Erased concern records are historical metadata, not current hot
+attention, so they no longer consume that capacity. Their old topic is not revived.
+This is local source/lifecycle closure, no new subsystem/schema/authority and no
+change to C-owned judgment or D-owned scheduling. Deliberately finite descriptive
+realms and fail-closed revision overflow remain explicit limitations, not hidden
+claims of unlimited production scalability.

@@ -1,0 +1,94 @@
+{
+  "source_anchor": "55ce08679091ffb0efa0a15b74bc4f8edb025b23",
+  "evidence_class": "OFFLINE_RUNTIME_VERIFIED",
+  "cuts": [
+    {
+      "test": "tests.open_autonomy.test_recovery.test_actual_sigkill_same_action_and_partial_learning_consolidation[action]",
+      "result": "PASS",
+      "method": "ACTUAL_LOCAL_SUBPROCESS_SIGKILL_AND_REOPEN",
+      "seconds": 0.338
+    },
+    {
+      "test": "tests.open_autonomy.test_recovery.test_actual_sigkill_same_action_and_partial_learning_consolidation[learning]",
+      "result": "PASS",
+      "method": "ACTUAL_LOCAL_SUBPROCESS_SIGKILL_AND_REOPEN",
+      "seconds": 0.315
+    },
+    {
+      "test": "tests.world_loop.test_recovery.test_actual_sigkill_correlation_and_single_adopted_goal[calling]",
+      "result": "PASS",
+      "method": "ACTUAL_LOCAL_SUBPROCESS_SIGKILL_AND_REOPEN",
+      "seconds": 0.308
+    },
+    {
+      "test": "tests.world_loop.test_recovery.test_actual_sigkill_correlation_and_single_adopted_goal[goal]",
+      "result": "PASS",
+      "method": "ACTUAL_LOCAL_SUBPROCESS_SIGKILL_AND_REOPEN",
+      "seconds": 0.371
+    },
+    {
+      "test": "tests.world_loop.test_recovery.test_actual_sigkill_at_committed_world_boundaries[prepared]",
+      "result": "PASS",
+      "method": "ACTUAL_LOCAL_SUBPROCESS_SIGKILL_AND_REOPEN",
+      "seconds": 0.279
+    },
+    {
+      "test": "tests.world_loop.test_recovery.test_actual_sigkill_at_committed_world_boundaries[proposed]",
+      "result": "PASS",
+      "method": "ACTUAL_LOCAL_SUBPROCESS_SIGKILL_AND_REOPEN",
+      "seconds": 0.296
+    },
+    {
+      "test": "tests.world_loop.test_recovery.test_actual_sigkill_at_committed_world_boundaries[concern]",
+      "result": "PASS",
+      "method": "ACTUAL_LOCAL_SUBPROCESS_SIGKILL_AND_REOPEN",
+      "seconds": 0.324
+    },
+    {
+      "test": "tests.world_loop.test_recovery.test_actual_sigkill_at_committed_world_boundaries[cycle]",
+      "result": "PASS",
+      "method": "ACTUAL_LOCAL_SUBPROCESS_SIGKILL_AND_REOPEN",
+      "seconds": 0.344
+    },
+    {
+      "test": "tests.world_loop.test_recovery.test_actual_sigkill_at_committed_world_boundaries[revision]",
+      "result": "PASS",
+      "method": "ACTUAL_LOCAL_SUBPROCESS_SIGKILL_AND_REOPEN",
+      "seconds": 0.307
+    },
+    {
+      "test": "tests.world_loop.test_recovery.test_actual_sigkill_at_committed_world_boundaries[strategy]",
+      "result": "PASS",
+      "method": "ACTUAL_LOCAL_SUBPROCESS_SIGKILL_AND_REOPEN",
+      "seconds": 0.385
+    },
+    {
+      "test": "tests.world_loop.test_recovery.test_actual_sigkill_at_committed_world_boundaries[skill]",
+      "result": "PASS",
+      "method": "ACTUAL_LOCAL_SUBPROCESS_SIGKILL_AND_REOPEN",
+      "seconds": 0.62
+    },
+    {
+      "test": "tests.world_loop.test_recovery.test_actual_sigkill_at_committed_world_boundaries[delete]",
+      "result": "PASS",
+      "method": "ACTUAL_LOCAL_SUBPROCESS_SIGKILL_AND_REOPEN",
+      "seconds": 0.285
+    }
+  ],
+  "boundaries": {
+    "prepared": "durable PREPARED, fresh epoch→UNKNOWN, no provider replay",
+    "calling": "durable CALLING before reply→UNKNOWN, no replay",
+    "proposed": "durable proposal, old epoch→unavailable, no adoption",
+    "concern": "durable concern before C→same concern, one adoption",
+    "cycle": "C commit before post-cycle work→one candidate/goal",
+    "goal": "goal adoption before concern ACK→same goal/effect",
+    "revision": "new world correction durable, not lost or rewritten",
+    "strategy": "counterexample and suspension in one commit",
+    "skill": "GENERATE cursor durable; no restored executable review handle",
+    "delete": "fsynced privacy intent before purge; reopen erases closure",
+    "action": "actual local effect before receipt; verify same effect, no duplicate EXECUTE",
+    "learning": "active Lesson before cursor ACK; same Experience/Lesson on recovery"
+  },
+  "late_reply_privacy_and_stale_fences": "See passing world_loop.test_boundaries and inherited recovery suites",
+  "scope": "No production, external-world or live-provider crash was exercised"
+}

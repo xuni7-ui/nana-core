@@ -1,0 +1,13 @@
+{
+  "actual_wall_seconds": 1800.131,
+  "configured_seconds": 1800,
+  "identity_after_restart": true,
+  "queue_depth": 0,
+  "fd_before": 4,
+  "fd_after": 4,
+  "max_rss_kib": 44212,
+  "provider_calls": 2,
+  "real_model_calls": 0,
+  "real_external_actions": 0,
+  "long_30min_mode": "SUPPORTED --wall-seconds 1800; only claim duration actually executed"
+}

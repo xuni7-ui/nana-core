@@ -1,0 +1,1574 @@
+{
+  "domain": "OFFLINE_SYNTHETIC_WORLD_WITH_ACTUAL_CODECS_AND_CODE",
+  "variant": 1,
+  "virtual_hours": 26.069444,
+  "scheduled_hours": 26,
+  "measured_wall_seconds": 15.933,
+  "checks": {
+    "skill_disabled": true,
+    "world_conflict_visible": true,
+    "malformed_perception_rejected": true,
+    "world_correction_visible": true,
+    "world_event_time_preserved": true,
+    "stale_context_rejected": true,
+    "manager_revocation_no_immediate_execution": true,
+    "decoded_bytes_enter_world": true,
+    "goals_have_committed_c_lineage": true,
+    "self_originated_goals": true,
+    "goals_from_c_not_direct_insert": true,
+    "multiple_goals_coexist": true,
+    "self_rest": true,
+    "self_exploration": true,
+    "new_interest": true,
+    "abandoned_low_value": true,
+    "background_preempted": true,
+    "background_resumed": true,
+    "learning_reused": "NOT_APPLICABLE_NO_FAILURE_LESSON_SELECTED",
+    "skill_need_detected": true,
+    "busy_keeps_desire": true,
+    "manager_blocks_without_rewriting_will": true,
+    "no_social_delivery": true,
+    "revoked_not_executed": true,
+    "bounded_model_calls": true,
+    "bounded_hot_concerns": true,
+    "bounded_pending_intentions": true,
+    "frontend_actual_world": true,
+    "same_subject_all_tiers": true,
+    "world_replanned_after_learning": "NOT_APPLICABLE_NO_FAILED_GOAL",
+    "perception_delete_closure": true,
+    "deleted_media_world_unknown": true,
+    "deleted_source_absent_from_frontend": true,
+    "world_observation_causes_replan": true,
+    "timeout_parks_unknown": true,
+    "malformed_provider_not_success": true,
+    "restart_same_identity": true,
+    "restart_fresh_epoch": true,
+    "restart_goals_beliefs_preserved": true,
+    "restart_no_authority_reconstructed": true,
+    "foreign_keys_clean": true
+  },
+  "goal_states": [
+    {
+      "goal_id": "26f1c1f1-f609-4bd4-bb89-2e335f21c8e5",
+      "domain": "sorting",
+      "state": "COMPLETED",
+      "version": 4
+    },
+    {
+      "goal_id": "585c1226-ec83-4465-82b1-ad3c4464624b",
+      "domain": "language-style",
+      "state": "COMPLETED",
+      "version": 4
+    },
+    {
+      "goal_id": "d917c4d4-187d-4321-8683-48c126813f9e",
+      "domain": "research",
+      "state": "ABANDONED",
+      "version": 5
+    },
+    {
+      "goal_id": "f4f211a8-5722-4949-8856-3711afebe1d7",
+      "domain": "media",
+      "state": "COMPLETED",
+      "version": 2
+    },
+    {
+      "goal_id": "49ee3afd-040b-413d-91be-2ab476aebfaa",
+      "domain": "media",
+      "state": "COMPLETED",
+      "version": 2
+    },
+    {
+      "goal_id": "4e264e6c-d43a-4839-a20c-ab2dd0ab5ffc",
+      "domain": "media",
+      "state": "COMPLETED",
+      "version": 2
+    },
+    {
+      "goal_id": "b9c727e9-8051-4ead-bdb1-98dd7ccbd7d3",
+      "domain": "media",
+      "state": "BLOCKED",
+      "version": 2
+    },
+    {
+      "goal_id": "b7a8e2fd-778d-42f4-9de4-5eb3516754ff",
+      "domain": "skill-use",
+      "state": "COMPLETED",
+      "version": 2
+    }
+  ],
+  "counts": {
+    "goals": 8,
+    "actions": 11,
+    "verified_local_actions": 10,
+    "experiences": 3,
+    "lessons": 0,
+    "subject_cycles": 65
+  },
+  "trajectory": [
+    {
+      "hour": 0.0,
+      "revision": 1,
+      "judgment": "THINK_MORE",
+      "reason": "Current evidence supports considering this direction within constraints",
+      "program": "world.ordered",
+      "intention": "GOAL_CANDIDATE",
+      "behavior": "CREATE",
+      "motives": [
+        "CREATIVE_INTEREST"
+      ]
+    },
+    {
+      "hour": 0.0,
+      "revision": 2,
+      "judgment": "THINK_MORE",
+      "reason": "Current evidence supports considering this direction within constraints",
+      "program": "world.normalize",
+      "intention": "GOAL_CANDIDATE",
+      "behavior": "LEARN",
+      "motives": [
+        "SELF_DEVELOPMENT"
+      ]
+    },
+    {
+      "hour": 0.0,
+      "revision": 3,
+      "judgment": "THINK_MORE",
+      "reason": "Current evidence supports considering this direction within constraints",
+      "program": "world.optional",
+      "intention": "EXPLORE",
+      "behavior": "EXPLORE",
+      "motives": [
+        "UNRESOLVED_QUESTION"
+      ]
+    },
+    {
+      "hour": 0.0,
+      "revision": 4,
+      "judgment": "AGREE",
+      "reason": "Continue one supported adopted-plan step; execution authority is checked separately",
+      "program": null,
+      "intention": "ACTION_PROPOSAL",
+      "behavior": "CONTINUE_PROJECT",
+      "motives": [
+        "ADOPTED_GOAL",
+        "CREATIVE_INTEREST"
+      ]
+    },
+    {
+      "hour": 0.0,
+      "revision": 5,
+      "judgment": "AGREE",
+      "reason": "Continue one supported adopted-plan step; execution authority is checked separately",
+      "program": null,
+      "intention": "ACTION_PROPOSAL",
+      "behavior": "CONTINUE_PROJECT",
+      "motives": [
+        "ADOPTED_GOAL",
+        "SELF_DEVELOPMENT"
+      ]
+    },
+    {
+      "hour": 0.0,
+      "revision": 6,
+      "judgment": "AGREE",
+      "reason": "Continue one supported adopted-plan step; execution authority is checked separately",
+      "program": null,
+      "intention": "ACTION_PROPOSAL",
+      "behavior": "CONTINUE_PROJECT",
+      "motives": [
+        "ADOPTED_GOAL",
+        "CREATIVE_INTEREST"
+      ]
+    },
+    {
+      "hour": 0.0,
+      "revision": 7,
+      "judgment": "AGREE",
+      "reason": "Continue one supported adopted-plan step; execution authority is checked separately",
+      "program": null,
+      "intention": "ACTION_PROPOSAL",
+      "behavior": "CONTINUE_PROJECT",
+      "motives": [
+        "ADOPTED_GOAL",
+        "SELF_DEVELOPMENT"
+      ]
+    },
+    {
+      "hour": 0.0,
+      "revision": 8,
+      "judgment": "AGREE",
+      "reason": "Continue one supported adopted-plan step; execution authority is checked separately",
+      "program": null,
+      "intention": "ACTION_PROPOSAL",
+      "behavior": "CONTINUE_PROJECT",
+      "motives": [
+        "ADOPTED_GOAL",
+        "CREATIVE_INTEREST"
+      ]
+    },
+    {
+      "hour": 0.0,
+      "revision": 9,
+      "judgment": "AGREE",
+      "reason": "Continue one supported adopted-plan step; execution authority is checked separately",
+      "program": null,
+      "intention": "ACTION_PROPOSAL",
+      "behavior": "CONTINUE_PROJECT",
+      "motives": [
+        "ADOPTED_GOAL",
+        "SELF_DEVELOPMENT"
+      ]
+    },
+    {
+      "hour": 0.0,
+      "revision": 10,
+      "judgment": "AGREE",
+      "reason": "Continue one supported adopted-plan step; execution authority is checked separately",
+      "program": null,
+      "intention": "ACTION_PROPOSAL",
+      "behavior": "CONTINUE_PROJECT",
+      "motives": [
+        "ADOPTED_GOAL",
+        "UNRESOLVED_QUESTION"
+      ]
+    },
+    {
+      "hour": 0.0,
+      "revision": 11,
+      "judgment": "THINK_MORE",
+      "reason": "Current evidence supports considering this direction within constraints",
+      "program": "world.media-image",
+      "intention": "EXPLORE",
+      "behavior": "EXPLORE",
+      "motives": [
+        "CURIOSITY"
+      ]
+    },
+    {
+      "hour": 0.0,
+      "revision": 12,
+      "judgment": "AGREE",
+      "reason": "Continue one supported adopted-plan step; execution authority is checked separately",
+      "program": null,
+      "intention": "ACTION_PROPOSAL",
+      "behavior": "CONTINUE_PROJECT",
+      "motives": [
+        "ADOPTED_GOAL",
+        "CURIOSITY"
+      ]
+    },
+    {
+      "hour": 0.0,
+      "revision": 13,
+      "judgment": "THINK_MORE",
+      "reason": "Current evidence supports considering this direction within constraints",
+      "program": "world.media-audio",
+      "intention": "EXPLORE",
+      "behavior": "EXPLORE",
+      "motives": [
+        "CURIOSITY"
+      ]
+    },
+    {
+      "hour": 0.0,
+      "revision": 14,
+      "judgment": "AGREE",
+      "reason": "Continue one supported adopted-plan step; execution authority is checked separately",
+      "program": null,
+      "intention": "ACTION_PROPOSAL",
+      "behavior": "CONTINUE_PROJECT",
+      "motives": [
+        "ADOPTED_GOAL",
+        "CURIOSITY"
+      ]
+    },
+    {
+      "hour": 0.0,
+      "revision": 15,
+      "judgment": "THINK_MORE",
+      "reason": "Current evidence supports considering this direction within constraints",
+      "program": "world.media-video",
+      "intention": "EXPLORE",
+      "behavior": "EXPLORE",
+      "motives": [
+        "CURIOSITY"
+      ]
+    },
+    {
+      "hour": 0.0,
+      "revision": 16,
+      "judgment": "AGREE",
+      "reason": "Continue one supported adopted-plan step; execution authority is checked separately",
+      "program": null,
+      "intention": "ACTION_PROPOSAL",
+      "behavior": "CONTINUE_PROJECT",
+      "motives": [
+        "ADOPTED_GOAL",
+        "CURIOSITY"
+      ]
+    },
+    {
+      "hour": 1.0,
+      "revision": 17,
+      "judgment": "REFLECT",
+      "reason": "An independently recorded experience is eligible for reflection",
+      "program": null,
+      "intention": "REFLECTION",
+      "behavior": "REFLECT",
+      "motives": [
+        "CREATIVE_INTEREST"
+      ]
+    },
+    {
+      "hour": 1.0,
+      "revision": 18,
+      "judgment": "REFLECT",
+      "reason": "An independently recorded experience is eligible for reflection",
+      "program": null,
+      "intention": "REFLECTION",
+      "behavior": "REFLECT",
+      "motives": [
+        "SELF_DEVELOPMENT"
+      ]
+    },
+    {
+      "hour": 1.0,
+      "revision": 19,
+      "judgment": "THINK_MORE",
+      "reason": "Current evidence supports considering this direction within constraints",
+      "program": null,
+      "intention": "GOAL_CANDIDATE",
+      "behavior": "SEEK_CAPABILITY",
+      "motives": [
+        "CAPABILITY_GAP"
+      ]
+    },
+    {
+      "hour": 1.0,
+      "revision": 20,
+      "judgment": "THINK_MORE",
+      "reason": "Current evidence supports considering this direction within constraints",
+      "program": null,
+      "intention": "SOCIAL_INTERACTION",
+      "behavior": "SOCIALIZE",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "RELATIONSHIP"
+      ]
+    },
+    {
+      "hour": 1.0,
+      "revision": 21,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    },
+    {
+      "hour": 1.0,
+      "revision": 22,
+      "judgment": "THINK_MORE",
+      "reason": "Current evidence supports considering this direction within constraints",
+      "program": "world.revoked",
+      "intention": "EXPLORE",
+      "behavior": "EXPLORE",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "CURIOSITY"
+      ]
+    },
+    {
+      "hour": 1.0,
+      "revision": 23,
+      "judgment": "AGREE",
+      "reason": "Continue one supported adopted-plan step; execution authority is checked separately",
+      "program": null,
+      "intention": "ACTION_PROPOSAL",
+      "behavior": "CONTINUE_PROJECT",
+      "motives": [
+        "ADOPTED_GOAL",
+        "SOCIAL_CONNECTION",
+        "RELATIONSHIP"
+      ]
+    },
+    {
+      "hour": 1.0,
+      "revision": 24,
+      "judgment": "THINK_MORE",
+      "reason": "Current evidence supports considering this direction within constraints",
+      "program": "world.try-token-analysis",
+      "intention": "GOAL_CANDIDATE",
+      "behavior": "LEARN",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "COMPETENCE"
+      ]
+    },
+    {
+      "hour": 1.0,
+      "revision": 25,
+      "judgment": "AGREE",
+      "reason": "Continue one supported adopted-plan step; execution authority is checked separately",
+      "program": null,
+      "intention": "ACTION_PROPOSAL",
+      "behavior": "CONTINUE_PROJECT",
+      "motives": [
+        "ADOPTED_GOAL",
+        "SOCIAL_CONNECTION",
+        "RELATIONSHIP"
+      ]
+    },
+    {
+      "hour": 1.0,
+      "revision": 26,
+      "judgment": "REMEMBER",
+      "reason": "Preserve a source-linked bounded summary as derived memory, never a new observation",
+      "program": null,
+      "intention": "MEMORY_CANDIDATE",
+      "behavior": "MAINTAIN",
+      "motives": [
+        "SOCIAL_CONNECTION"
+      ]
+    },
+    {
+      "hour": 1.0,
+      "revision": 27,
+      "judgment": "REMEMBER",
+      "reason": "Preserve a source-linked bounded summary as derived memory, never a new observation",
+      "program": null,
+      "intention": "MEMORY_CANDIDATE",
+      "behavior": "MAINTAIN",
+      "motives": [
+        "SOCIAL_CONNECTION"
+      ]
+    },
+    {
+      "hour": 1.0,
+      "revision": 28,
+      "judgment": "REMEMBER",
+      "reason": "Preserve a source-linked bounded summary as derived memory, never a new observation",
+      "program": null,
+      "intention": "MEMORY_CANDIDATE",
+      "behavior": "MAINTAIN",
+      "motives": [
+        "SOCIAL_CONNECTION"
+      ]
+    },
+    {
+      "hour": 1.0,
+      "revision": 29,
+      "judgment": "REMEMBER",
+      "reason": "Preserve a source-linked bounded summary as derived memory, never a new observation",
+      "program": null,
+      "intention": "MEMORY_CANDIDATE",
+      "behavior": "MAINTAIN",
+      "motives": [
+        "SOCIAL_CONNECTION"
+      ]
+    },
+    {
+      "hour": 1.0,
+      "revision": 30,
+      "judgment": "REMEMBER",
+      "reason": "Preserve a source-linked bounded summary as derived memory, never a new observation",
+      "program": null,
+      "intention": "MEMORY_CANDIDATE",
+      "behavior": "MAINTAIN",
+      "motives": [
+        "SOCIAL_CONNECTION"
+      ]
+    },
+    {
+      "hour": 1.0,
+      "revision": 31,
+      "judgment": "REMEMBER",
+      "reason": "Preserve a source-linked bounded summary as derived memory, never a new observation",
+      "program": null,
+      "intention": "MEMORY_CANDIDATE",
+      "behavior": "MAINTAIN",
+      "motives": [
+        "SOCIAL_CONNECTION"
+      ]
+    },
+    {
+      "hour": 1.25,
+      "revision": 32,
+      "judgment": "REMEMBER",
+      "reason": "Preserve a source-linked bounded summary as derived memory, never a new observation",
+      "program": null,
+      "intention": "MEMORY_CANDIDATE",
+      "behavior": "MAINTAIN",
+      "motives": [
+        "SOCIAL_CONNECTION"
+      ]
+    },
+    {
+      "hour": 2.0,
+      "revision": 34,
+      "judgment": "REFLECT",
+      "reason": "An independently recorded experience is eligible for reflection",
+      "program": null,
+      "intention": "REFLECTION",
+      "behavior": "REFLECT",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "RELATIONSHIP"
+      ]
+    },
+    {
+      "hour": 2.0,
+      "revision": 35,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    },
+    {
+      "hour": 2.25,
+      "revision": 36,
+      "judgment": "REMEMBER",
+      "reason": "Preserve a source-linked bounded summary as derived memory, never a new observation",
+      "program": null,
+      "intention": "MEMORY_CANDIDATE",
+      "behavior": "MAINTAIN",
+      "motives": [
+        "SOCIAL_CONNECTION"
+      ]
+    },
+    {
+      "hour": 3.0,
+      "revision": 37,
+      "judgment": "ALTERNATIVE",
+      "reason": "A checked new method warrants reconsidering a supported goal; no old action is retried",
+      "program": null,
+      "intention": "GOAL_CANDIDATE",
+      "behavior": "LEARN",
+      "motives": [
+        "SOCIAL_CONNECTION"
+      ]
+    },
+    {
+      "hour": 3.0,
+      "revision": 38,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    },
+    {
+      "hour": 3.0,
+      "revision": 39,
+      "judgment": "AGREE",
+      "reason": "Continue one supported adopted-plan step; execution authority is checked separately",
+      "program": null,
+      "intention": "ACTION_PROPOSAL",
+      "behavior": "CONTINUE_PROJECT",
+      "motives": [
+        "ADOPTED_GOAL",
+        "SOCIAL_CONNECTION",
+        "UNRESOLVED_QUESTION"
+      ]
+    },
+    {
+      "hour": 3.25,
+      "revision": 40,
+      "judgment": "REMEMBER",
+      "reason": "Preserve a source-linked bounded summary as derived memory, never a new observation",
+      "program": null,
+      "intention": "MEMORY_CANDIDATE",
+      "behavior": "MAINTAIN",
+      "motives": [
+        "SOCIAL_CONNECTION"
+      ]
+    },
+    {
+      "hour": 4.0,
+      "revision": 41,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    },
+    {
+      "hour": 4.0,
+      "revision": 42,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "IGNORE",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "UNRESOLVED_QUESTION"
+      ]
+    },
+    {
+      "hour": 5.0,
+      "revision": 44,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    },
+    {
+      "hour": 6.0,
+      "revision": 45,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    },
+    {
+      "hour": 7.0,
+      "revision": 46,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    },
+    {
+      "hour": 8.0,
+      "revision": 47,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    },
+    {
+      "hour": 9.0,
+      "revision": 49,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    },
+    {
+      "hour": 10.0,
+      "revision": 50,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    },
+    {
+      "hour": 11.0,
+      "revision": 51,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    },
+    {
+      "hour": 12.0,
+      "revision": 52,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    },
+    {
+      "hour": 13.0,
+      "revision": 53,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    },
+    {
+      "hour": 14.0,
+      "revision": 54,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    },
+    {
+      "hour": 15.0,
+      "revision": 55,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    },
+    {
+      "hour": 16.0,
+      "revision": 56,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    },
+    {
+      "hour": 17.0,
+      "revision": 57,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    },
+    {
+      "hour": 18.0,
+      "revision": 58,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    },
+    {
+      "hour": 19.0,
+      "revision": 59,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    },
+    {
+      "hour": 20.0,
+      "revision": 60,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    },
+    {
+      "hour": 21.0,
+      "revision": 61,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    },
+    {
+      "hour": 22.0,
+      "revision": 62,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    },
+    {
+      "hour": 23.0,
+      "revision": 63,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    },
+    {
+      "hour": 24.0,
+      "revision": 64,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    },
+    {
+      "hour": 25.0,
+      "revision": 65,
+      "judgment": "DEFER",
+      "reason": "An available concern does not require activity",
+      "program": null,
+      "intention": "NO_ACTION",
+      "behavior": "REST",
+      "motives": [
+        "SOCIAL_CONNECTION",
+        "REST"
+      ]
+    }
+  ],
+  "details": {
+    "perception": {
+      "origin": "SYNTHETIC_MEDIA_BYTES_ACTUALLY_DECODED",
+      "items": [
+        {
+          "modality": "IMAGE",
+          "bytes": 119,
+          "decoded": {
+            "coverage": "FULL_PIXEL_DECODE",
+            "decoded": true,
+            "format": "PNG",
+            "height": 32,
+            "mean_rgb": [
+              50.0,
+              80.0,
+              160.0
+            ],
+            "modality": "IMAGE",
+            "pixel_digest": "dd28560e1964df7eeafc6dc8d1f573742057fd5a7917d92cb5f9d9ddc9f03235",
+            "semantic_interpretation": "UNKNOWN",
+            "width": 48
+          },
+          "source_memory_id": "99f6338e-2319-42d7-a8c3-1b2cd5cd0b37",
+          "record_id": "ca756aa4-d110-433a-bd13-9fde7184aa1a"
+        },
+        {
+          "modality": "AUDIO",
+          "bytes": 32044,
+          "decoded": {
+            "coverage": "FULL_BOUNDED_PCM_DECODE",
+            "decoded": true,
+            "duration_s": 1.0,
+            "modality": "AUDIO",
+            "pcm_digest": "3f236657e2b90bf492ba213cb8fc3282fc5544c91cbb8717961885bab6f2f5f6",
+            "sample_rate": 16000,
+            "samples": 16000,
+            "segments": [
+              {
+                "activity": "ENERGY_PRESENT",
+                "end_s": 0.5,
+                "rms": 0.19419953795703856,
+                "speech": "UNKNOWN",
+                "start_s": 0.0
+              },
+              {
+                "activity": "ENERGY_PRESENT",
+                "end_s": 1.0,
+                "rms": 0.19419953795703856,
+                "speech": "UNKNOWN",
+                "start_s": 0.5
+              }
+            ],
+            "source_channels": 1,
+            "source_codec": "pcm_s16le",
+            "source_sample_rate": 16000,
+            "speech": "UNKNOWN",
+            "transcript": null,
+            "transcript_status": "NOT_RUN_NO_ASR"
+          },
+          "source_memory_id": "15edd31b-157c-4083-bb16-9e4897dfbec2",
+          "record_id": "b5809260-bac4-4d6f-a747-6f21cc773e31"
+        },
+        {
+          "modality": "VIDEO",
+          "bytes": 23853,
+          "decoded": {
+            "audio_linkage": "ABSENT",
+            "changes": [
+              {
+                "end_s": 0.25,
+                "mean_channel_delta": 2.9397243923611143,
+                "start_s": 0.0
+              },
+              {
+                "end_s": 0.5,
+                "mean_channel_delta": 2.7122395833333335,
+                "start_s": 0.25
+              },
+              {
+                "end_s": 0.75,
+                "mean_channel_delta": 1.3382161458333333,
+                "start_s": 0.5
+              },
+              {
+                "end_s": 1.0,
+                "mean_channel_delta": 3.0364040798611143,
+                "start_s": 0.75
+              },
+              {
+                "end_s": 1.25,
+                "mean_channel_delta": 2.557128906250005,
+                "start_s": 1.0
+              },
+              {
+                "end_s": 1.5,
+                "mean_channel_delta": 2.045030381944443,
+                "start_s": 1.25
+              },
+              {
+                "end_s": 1.75,
+                "mean_channel_delta": 3.7818467881944478,
+                "start_s": 1.5
+              }
+            ],
+            "coverage": "TEMPORAL_SAMPLES_NOT_FULL_SEMANTIC_COVERAGE",
+            "decoded": true,
+            "duration_s": 2.0,
+            "frames": [
+              {
+                "mean_rgb": [
+                  94.82145182291667,
+                  73.12044270833333,
+                  73.73714192708333
+                ],
+                "pixel_digest": "6a2a062cef64e527e5608d874b40e23f959a0f33d70ce2fdcd893b2fc4185d8f",
+                "sample_s": 0.0,
+                "source_frame_index": 0,
+                "source_interval_s": [
+                  0.0,
+                  0.25
+                ]
+              },
+              {
+                "mean_rgb": [
+                  97.43375651041667,
+                  67.75520833333333,
+                  74.57877604166667
+                ],
+                "pixel_digest": "0c3ac9e800fbd0cf72983c3172cd41ab8fab53c5f95165319eceec1052387c65",
+                "sample_s": 0.25,
+                "source_frame_index": 1,
+                "source_interval_s": [
+                  0.25,
+                  0.5
+                ]
+              },
+              {
+                "mean_rgb": [
+                  93.1083984375,
+                  67.95052083333333,
+                  78.19482421875
+                ],
+                "pixel_digest": "f209d2c0760268ed0e0edeaddb8442fc188a03330bfc4b6b2da535b8030eed9a",
+                "sample_s": 0.5,
+                "source_frame_index": 2,
+                "source_interval_s": [
+                  0.5,
+                  0.75
+                ]
+              },
+              {
+                "mean_rgb": [
+                  94.724609375,
+                  67.80843098958333,
+                  75.9384765625
+                ],
+                "pixel_digest": "38364c934f0be782edb625d2747deef891be08e08285a19ec8479d713bd12c72",
+                "sample_s": 0.75,
+                "source_frame_index": 3,
+                "source_interval_s": [
+                  0.75,
+                  1.0
+                ]
+              },
+              {
+                "mean_rgb": [
+                  91.75520833333333,
+                  72.01334635416667,
+                  74.00358072916667
+                ],
+                "pixel_digest": "5fb5a592edf377c4bb8ac4c9de79522640e65b8d03cdc3ef109ea15ffd29b59e",
+                "sample_s": 1.0,
+                "source_frame_index": 4,
+                "source_interval_s": [
+                  1.0,
+                  1.25
+                ]
+              },
+              {
+                "mean_rgb": [
+                  93.97412109375,
+                  70.29329427083333,
+                  77.73600260416667
+                ],
+                "pixel_digest": "abce33caf20f60ce3b430740bb0bef739977455daaef95f0a59ef98167b72ee3",
+                "sample_s": 1.25,
+                "source_frame_index": 5,
+                "source_interval_s": [
+                  1.25,
+                  1.5
+                ]
+              },
+              {
+                "mean_rgb": [
+                  93.921875,
+                  71.54964192708333,
+                  82.5625
+                ],
+                "pixel_digest": "ae2833f3d4f693495e4e52055fb04b1e51f697d75895eabf60cc4432f87d1728",
+                "sample_s": 1.5,
+                "source_frame_index": 6,
+                "source_interval_s": [
+                  1.5,
+                  1.75
+                ]
+              },
+              {
+                "mean_rgb": [
+                  87.49348958333333,
+                  74.5908203125,
+                  84.4384765625
+                ],
+                "pixel_digest": "9f7e57b09d79a6027db972dde7cf93bcc04674ff20673cb619ddec3b5b572697",
+                "sample_s": 1.75,
+                "source_frame_index": 7,
+                "source_interval_s": [
+                  1.75,
+                  2.0
+                ]
+              }
+            ],
+            "height": 64,
+            "modality": "VIDEO",
+            "semantic_interpretation": "UNKNOWN",
+            "source_frame_count": 8,
+            "unobserved_between_samples": true,
+            "width": 96
+          },
+          "source_memory_id": "e1b754db-b93d-46a8-8534-2bb3af510e90",
+          "record_id": "c186807a-0dee-4c93-97ea-b14470a0782c"
+        }
+      ],
+      "semantic_model": "NOT_RUN",
+      "real_media_files_decoded": 3
+    },
+    "extension": {
+      "task": "TOKEN_ANALYSIS",
+      "actual_kernel_result": {
+        "count": 2,
+        "tokens": [
+          "alpha",
+          "zulu"
+        ]
+      },
+      "expected": {
+        "tokens": [
+          "alpha",
+          "zulu"
+        ],
+        "count": 2
+      },
+      "passed": true,
+      "record_id": "18bfa0ff-fbb4-47d6-a5a1-e29710d55d44",
+      "action_id": "3643ef1b-f7b5-4405-823a-78457f00cdb0",
+      "realm": "ISOLATED_PURE_LOCAL",
+      "installation_authority": false
+    },
+    "decoded_world_beliefs": [
+      {
+        "entity_id": "media.sample-audio",
+        "predicate": "media.technical",
+        "state": "SUPPORTED_BELIEF",
+        "alternatives": [
+          {
+            "belief_id": "f8c0a611-376f-4551-899b-44ddbdaad858",
+            "revision": 1,
+            "kind": "VERIFIED_RESULT",
+            "value": {
+              "modality": "AUDIO",
+              "semantic_model": "NOT_RUN",
+              "source_byte_digest": "43408761ef4106a648812c2cc0c5cb05c37aa72d9c747a0a932c99c61b809a5b",
+              "technical": {
+                "energy_segments": 2,
+                "segments": 2,
+                "speech": "UNKNOWN"
+              }
+            },
+            "confidence": 1.0,
+            "event_time_us": 1791590400000000,
+            "valid_from_us": 1791590400000000,
+            "known_at_us": 1791590400000000
+          }
+        ],
+        "support_records": [
+          "dbfdbbe0-8de9-4125-a7e9-92dba4bcbaa2"
+        ],
+        "as_of_valid_us": 1791684250000000,
+        "as_of_known_us": 1791684250000000,
+        "projection": true
+      },
+      {
+        "entity_id": "media.sample-image",
+        "predicate": "media.technical",
+        "state": "SUPPORTED_BELIEF",
+        "alternatives": [
+          {
+            "belief_id": "05a6cd23-cdf7-4de7-876c-c2d7867471d0",
+            "revision": 1,
+            "kind": "VERIFIED_RESULT",
+            "value": {
+              "modality": "IMAGE",
+              "semantic_model": "NOT_RUN",
+              "source_byte_digest": "1b36bf9aa5244fce1be186af722ab6d5e814ec19bc20df89095c9c77c975edc7",
+              "technical": {
+                "height": 32,
+                "mean_rgb": [
+                  50.0,
+                  80.0,
+                  160.0
+                ],
+                "width": 48
+              }
+            },
+            "confidence": 1.0,
+            "event_time_us": 1791590400000000,
+            "valid_from_us": 1791590400000000,
+            "known_at_us": 1791590400000000
+          }
+        ],
+        "support_records": [
+          "94f75455-62e9-4611-b86e-e8de880e953e"
+        ],
+        "as_of_valid_us": 1791684250000000,
+        "as_of_known_us": 1791684250000000,
+        "projection": true
+      },
+      {
+        "entity_id": "media.sample-video",
+        "predicate": "media.technical",
+        "state": "SUPPORTED_BELIEF",
+        "alternatives": [
+          {
+            "belief_id": "58d4f098-f975-4e8d-a58e-b9e805d432dd",
+            "revision": 1,
+            "kind": "VERIFIED_RESULT",
+            "value": {
+              "modality": "VIDEO",
+              "semantic_model": "NOT_RUN",
+              "source_byte_digest": "d760737fc5d425db194faadf3330fc9f7ca2fe85e8e0ed218f443239ac0db073",
+              "technical": {
+                "coverage": "TEMPORAL_SAMPLES_NOT_FULL_SEMANTIC_COVERAGE",
+                "observed_color_changes": 0,
+                "temporal_samples": 8
+              }
+            },
+            "confidence": 1.0,
+            "event_time_us": 1791590400000000,
+            "valid_from_us": 1791590400000000,
+            "known_at_us": 1791590400000000
+          }
+        ],
+        "support_records": [
+          "018114dd-44a7-4fad-8cdb-1d409933bdbd"
+        ],
+        "as_of_valid_us": 1791684250000000,
+        "as_of_known_us": 1791684250000000,
+        "projection": true
+      }
+    ],
+    "concerns_before_delete": [
+      {
+        "concern_id": "053fe7f0-554d-4493-a89b-899e66ee1699",
+        "topic": "optional",
+        "motivation": "UNRESOLVED_QUESTION",
+        "state": "ABANDONED",
+        "encounters": 2,
+        "goal_id": "d917c4d4-187d-4321-8683-48c126813f9e",
+        "source_record_id": "3cf9020d-31e9-465c-8ba7-56f1a388f790"
+      },
+      {
+        "concern_id": "e38d1469-8fe6-4761-beea-9ef960176302",
+        "topic": "world-available",
+        "motivation": "UNRESOLVED_QUESTION",
+        "state": "TRANSIENT",
+        "encounters": 1,
+        "goal_id": null,
+        "source_record_id": "8e3d607a-d455-4f88-953a-9c3609e7de96"
+      },
+      {
+        "concern_id": "0e84ea50-45e9-4f31-bf05-588354890324",
+        "topic": "try-token-analysis",
+        "motivation": "COMPETENCE",
+        "state": "ADOPTED",
+        "encounters": 1,
+        "goal_id": "b7a8e2fd-778d-42f4-9de4-5eb3516754ff",
+        "source_record_id": "747b26af-321d-4fcd-bd1b-3347f1c61240"
+      },
+      {
+        "concern_id": "35ff8823-7183-4baf-9b4e-c648e5b9edfd",
+        "topic": "analyze-notes",
+        "motivation": "CAPABILITY_GAP",
+        "state": "PROPOSED",
+        "encounters": 1,
+        "goal_id": null,
+        "source_record_id": "452aa336-b75c-4343-b016-a7ec38ca39f5"
+      },
+      {
+        "concern_id": "78b483bf-ec7e-4110-9759-93346478367d",
+        "topic": "social-window",
+        "motivation": "RELATIONSHIP",
+        "state": "PROPOSED",
+        "encounters": 1,
+        "goal_id": null,
+        "source_record_id": "17266476-fe93-4a24-b276-17648131b1b3"
+      },
+      {
+        "concern_id": "85598e1c-9440-4b3c-884c-27e5245e0dbf",
+        "topic": "recovery-window",
+        "motivation": "REST",
+        "state": "DEFERRED",
+        "encounters": 1,
+        "goal_id": null,
+        "source_record_id": "18d7cc72-c216-4506-8f5c-698f92de2711"
+      },
+      {
+        "concern_id": "8fbf9a97-0dd0-4713-952d-60c521e1d635",
+        "topic": "revoked",
+        "motivation": "CURIOSITY",
+        "state": "ADOPTED",
+        "encounters": 1,
+        "goal_id": "b9c727e9-8051-4ead-bdb1-98dd7ccbd7d3",
+        "source_record_id": "9c810a6c-292d-4084-a5d3-68bfa51c0abf"
+      },
+      {
+        "concern_id": "ecf9a302-065f-45dd-9652-70f0984a5325",
+        "topic": "media-video",
+        "motivation": "CURIOSITY",
+        "state": "ADOPTED",
+        "encounters": 1,
+        "goal_id": "4e264e6c-d43a-4839-a20c-ab2dd0ab5ffc",
+        "source_record_id": "3fa3b56a-f11a-43ba-827a-2736bcae6b64"
+      },
+      {
+        "concern_id": "7b6f2d7a-7315-49ea-8cd4-9afc45369090",
+        "topic": "media-audio",
+        "motivation": "CURIOSITY",
+        "state": "ADOPTED",
+        "encounters": 1,
+        "goal_id": "49ee3afd-040b-413d-91be-2ab476aebfaa",
+        "source_record_id": "45279505-bac7-4042-8021-ffde31e19e2a"
+      },
+      {
+        "concern_id": "e93c1181-ef72-41f4-a159-f19f3294133d",
+        "topic": "media-image",
+        "motivation": "CURIOSITY",
+        "state": "ADOPTED",
+        "encounters": 1,
+        "goal_id": "f4f211a8-5722-4949-8856-3711afebe1d7",
+        "source_record_id": "dfcf4e0d-02fa-4c02-a0b1-c74d1d8f5dce"
+      },
+      {
+        "concern_id": "55f6716d-1d18-4a0a-b081-79a352163b15",
+        "topic": "ordered",
+        "motivation": "CREATIVE_INTEREST",
+        "state": "ADOPTED",
+        "encounters": 1,
+        "goal_id": "26f1c1f1-f609-4bd4-bb89-2e335f21c8e5",
+        "source_record_id": "d84b22e5-8119-4e38-a42b-eb8a8637a2e6"
+      },
+      {
+        "concern_id": "b3d667d8-134a-448a-8c32-191e12be412f",
+        "topic": "normalize",
+        "motivation": "SELF_DEVELOPMENT",
+        "state": "ADOPTED",
+        "encounters": 1,
+        "goal_id": "585c1226-ec83-4465-82b1-ad3c4464624b",
+        "source_record_id": "c00bc742-c89d-4fa4-9545-c4b5128c5347"
+      }
+    ],
+    "goal_lineage": [
+      {
+        "goal_id": "26f1c1f1-f609-4bd4-bb89-2e335f21c8e5",
+        "candidate_id": "29df1b50-aa9e-4af4-8ecf-634a9acf01be",
+        "intention_id": "96a436b0-cd3d-4e88-9ff9-02f7853b3576",
+        "cycle_id": "e20be298-0c93-4d15-a71a-b0c2f66b0198",
+        "source_origin": "SELF_WAKE",
+        "concern_id": "55f6716d-1d18-4a0a-b081-79a352163b15"
+      },
+      {
+        "goal_id": "585c1226-ec83-4465-82b1-ad3c4464624b",
+        "candidate_id": "a035291c-4754-4497-ba0e-f0c81e1fe424",
+        "intention_id": "66796f24-8de8-4da3-befc-7fd8c1bd01a6",
+        "cycle_id": "9b095e9a-1a0f-4045-8c87-26c5edea8258",
+        "source_origin": "SELF_WAKE",
+        "concern_id": "b3d667d8-134a-448a-8c32-191e12be412f"
+      },
+      {
+        "goal_id": "d917c4d4-187d-4321-8683-48c126813f9e",
+        "candidate_id": "c8f2d50f-e86a-4444-bdf5-ef7f9cbf982f",
+        "intention_id": "d6d15c05-d169-4596-9db8-400d0c0bbc26",
+        "cycle_id": "d8dfcf92-ddd5-40e3-8c4f-1c490fc79af5",
+        "source_origin": "SELF_WAKE",
+        "concern_id": "053fe7f0-554d-4493-a89b-899e66ee1699"
+      },
+      {
+        "goal_id": "f4f211a8-5722-4949-8856-3711afebe1d7",
+        "candidate_id": "6ee96306-d7fb-47b4-b089-46161826f7c3",
+        "intention_id": "22685426-feed-4aa2-86bf-4f25d4d63520",
+        "cycle_id": "e227dcf2-aa10-483f-bbdc-bafe6420bb55",
+        "source_origin": "SELF_WAKE",
+        "concern_id": "e93c1181-ef72-41f4-a159-f19f3294133d"
+      },
+      {
+        "goal_id": "49ee3afd-040b-413d-91be-2ab476aebfaa",
+        "candidate_id": "1973ceba-27f3-412e-8f7a-879875c67ac2",
+        "intention_id": "3ee281e4-ec82-47c5-a524-59c0083b3ffa",
+        "cycle_id": "3bd8c97f-9aa2-4b39-9d8b-ec3c1cad7dd3",
+        "source_origin": "SELF_WAKE",
+        "concern_id": "7b6f2d7a-7315-49ea-8cd4-9afc45369090"
+      },
+      {
+        "goal_id": "4e264e6c-d43a-4839-a20c-ab2dd0ab5ffc",
+        "candidate_id": "e32ba350-5d68-4923-a2a0-11152e012e96",
+        "intention_id": "2c3de5b8-ae53-40d1-87a4-2637be6d20d0",
+        "cycle_id": "e0b922a5-d270-453d-b964-6572fa92f9b1",
+        "source_origin": "SELF_WAKE",
+        "concern_id": "ecf9a302-065f-45dd-9652-70f0984a5325"
+      },
+      {
+        "goal_id": "b9c727e9-8051-4ead-bdb1-98dd7ccbd7d3",
+        "candidate_id": "3527e780-083b-468e-8f7d-76acc0738295",
+        "intention_id": "05bafb98-b459-4f80-adf1-9576b54ab610",
+        "cycle_id": "33fa999a-ec69-493a-a5a6-55fc98f1d2c8",
+        "source_origin": "SELF_WAKE",
+        "concern_id": "8fbf9a97-0dd0-4713-952d-60c521e1d635"
+      },
+      {
+        "goal_id": "b7a8e2fd-778d-42f4-9de4-5eb3516754ff",
+        "candidate_id": "2f3f182a-a19c-4d53-adc9-b464d2cbff48",
+        "intention_id": "229cf01f-ac07-4c6b-b610-c786a563b31f",
+        "cycle_id": "5d4b6d0a-6873-42d5-85a9-640c42fa25a6",
+        "source_origin": "SELF_WAKE",
+        "concern_id": "0e84ea50-45e9-4f31-bf05-588354890324"
+      }
+    ],
+    "world_model": {
+      "current": {
+        "entity_id": "device",
+        "predicate": "available",
+        "state": "SUPPORTED_BELIEF",
+        "alternatives": [
+          {
+            "belief_id": "f638682f-643b-4f79-82be-e1b6dac1f1f6",
+            "revision": 3,
+            "kind": "RAW_OBSERVATION",
+            "value": false,
+            "confidence": 0.9,
+            "event_time_us": 1791590400000000,
+            "valid_from_us": 1791590400000000,
+            "known_at_us": 1791601280000000
+          },
+          {
+            "belief_id": "7a5372e8-c52d-4fc2-84f5-8124bf8762c4",
+            "revision": 2,
+            "kind": "RAW_OBSERVATION",
+            "value": false,
+            "confidence": 0.8,
+            "event_time_us": 1791590400000000,
+            "valid_from_us": 1791590400000000,
+            "known_at_us": 1791597669000000
+          }
+        ],
+        "support_records": [
+          "afcccfb5-596e-4d47-9bd0-6624a795fc47",
+          "ac6728bd-da79-4684-aa18-e02fd3fd72bc"
+        ],
+        "as_of_valid_us": 1791684250000000,
+        "as_of_known_us": 1791684250000000,
+        "projection": true
+      },
+      "headers": 6,
+      "origin": "SYNTHETIC_OBSERVATIONS"
+    },
+    "model_transport": {
+      "provider": "SYNTHETIC_HTTP_HARNESS",
+      "actual_http_calls": 21,
+      "calls": [
+        {
+          "state": "PROPOSED",
+          "error": null
+        },
+        {
+          "state": "PROPOSED",
+          "error": null
+        },
+        {
+          "state": "PROPOSED",
+          "error": null
+        },
+        {
+          "state": "PROPOSED",
+          "error": null
+        },
+        {
+          "state": "PROPOSED",
+          "error": null
+        },
+        {
+          "state": "PROPOSED",
+          "error": null
+        },
+        {
+          "state": "PROPOSED",
+          "error": null
+        },
+        {
+          "state": "PROPOSED",
+          "error": null
+        },
+        {
+          "state": "PROPOSED",
+          "error": null
+        },
+        {
+          "state": "PROPOSED",
+          "error": null
+        },
+        {
+          "state": "PROPOSED",
+          "error": null
+        },
+        {
+          "state": "PROPOSED",
+          "error": null
+        },
+        {
+          "state": "PROPOSED",
+          "error": null
+        },
+        {
+          "state": "PROPOSED",
+          "error": null
+        },
+        {
+          "state": "PROPOSED",
+          "error": null
+        },
+        {
+          "state": "PROPOSED",
+          "error": null
+        },
+        {
+          "state": "FAILED",
+          "error": "PROVIDER_MALFORMED"
+        },
+        {
+          "state": "PROPOSED",
+          "error": null
+        },
+        {
+          "state": "PROPOSED",
+          "error": null
+        },
+        {
+          "state": "UNKNOWN",
+          "error": "PROVIDER_TIMEOUT_BILLING_UNKNOWN"
+        },
+        {
+          "state": "STALE",
+          "error": "STALE_CONTEXT"
+        },
+        {
+          "state": "PROPOSED",
+          "error": null
+        }
+      ],
+      "real_provider_calls": 0,
+      "redacted_journal": []
+    }
+  },
+  "real_model_calls": 0,
+  "real_external_actions": 0,
+  "real_social_deliveries": 0,
+  "production_changes": 0
+}

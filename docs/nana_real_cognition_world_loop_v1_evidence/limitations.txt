@@ -1,0 +1,32 @@
+GLOBAL_STAGE E / OFFLINE qualification scope
+
+LIVE_MODEL_EXECUTION=NOT_RUN. Real provider/model unset; no credentials searched.
+HTTP harness is SYNTHETIC; JSON-object wire plus local validation is not a claim
+of provider-specific semantic quality, billing enforcement or live API acceptance.
+Actual PNG/WAV/MP4 bytes are generated public synthetic samples. Pixels/PCM/temporal
+samples were decoded; semantic image/audio/video models and ASR were NOT_RUN.
+No live camera/screen/device/social perception or delivery was exercised.
+No private memory import, production migration/deploy, trust-pin change or new Grant
+for production. RealMemoryIngress remains disabled; E12 remains NOT_RUN.
+
+The thirty-minute process began on9e7ce710 plus JSON-object wire fix; unchanged
+Runtime/scheduler code is exercised continuously. Later negative-input/transaction/
+deleted-capacity/audio-metadata fixes were not hot-loaded into that process. Full
+regression and final-source virtual worlds/smoke qualify those changes separately.
+No duration from the earlier interrupted pre-finalization process is counted.
+
+World projection bounds each family to64 revisions; overflow is UNKNOWN, not an
+arbitrary survivor. Temporal compaction and multi-year production scale are unqualified.
+Finite dynamic objective description realm max64; active concern/provider budgets
+fail closed. No claim of unlimited new goals, generic planning or general skill mastery.
+Lineage deletion is conservative and may invalidate broad downstream context.
+Controlled Store/replay/backup deletion cannot erase detached exported artifacts or
+defend against privileged raw whole-filesystem snapshot restoration.
+Pillow image decode is bounded in-process; FFmpeg and generated code use bwrap.
+Trusted application construction classifies exact public input and provides controller
+handles. No claim of defending against arbitrary root/process-memory modification.
+C/D wake envelopes remain development SYNTHETIC_ONLY; recorded/provider provenance
+never promotes a fixture into production authority.
+UNKNOWN/provider-failed work parks without blind retry; fresh reviewed sources or
+explicit recovery policy are needed. Expired old proposals do not regain authority.
+No new subsystem, Store, SubjectLoop, planner, learner-agent or plugin installer.

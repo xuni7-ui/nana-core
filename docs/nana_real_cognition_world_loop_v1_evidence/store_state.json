@@ -1,0 +1,68 @@
+{
+  "main": {
+    "evidence_class": "ACTUAL_DB_STATE_WITH_SYNTHETIC_CONTENT",
+    "schema": 13,
+    "business_tables": 43,
+    "foreign_key_check": [],
+    "counts": {
+      "events": 1217,
+      "subject_cycles": 77,
+      "subject_intentions": 75,
+      "subject_goal_candidates": 12,
+      "goals": 8,
+      "actions": 15,
+      "experiences": 7,
+      "lessons": 2,
+      "cognitive_requests": 24,
+      "world_beliefs": 6,
+      "open_concerns": 12,
+      "strategy_assessments": 2
+    },
+    "goal_states": {
+      "ABANDONED": 1,
+      "BLOCKED": 1,
+      "COMPLETED": 6
+    },
+    "cognition_states": {
+      "FAILED": 1,
+      "PROPOSED": 21,
+      "STALE": 1,
+      "UNKNOWN": 1
+    },
+    "pending_intentions": 2,
+    "erased_memories": 70
+  },
+  "contrast": {
+    "evidence_class": "ACTUAL_DB_STATE_WITH_SYNTHETIC_CONTENT",
+    "schema": 13,
+    "business_tables": 43,
+    "foreign_key_check": [],
+    "counts": {
+      "events": 1016,
+      "subject_cycles": 65,
+      "subject_intentions": 62,
+      "subject_goal_candidates": 10,
+      "goals": 8,
+      "actions": 11,
+      "experiences": 3,
+      "lessons": 0,
+      "cognitive_requests": 22,
+      "world_beliefs": 6,
+      "open_concerns": 12,
+      "strategy_assessments": 0
+    },
+    "goal_states": {
+      "ABANDONED": 1,
+      "BLOCKED": 1,
+      "COMPLETED": 6
+    },
+    "cognition_states": {
+      "FAILED": 1,
+      "PROPOSED": 19,
+      "STALE": 1,
+      "UNKNOWN": 1
+    },
+    "pending_intentions": 2,
+    "erased_memories": 58
+  }
+}

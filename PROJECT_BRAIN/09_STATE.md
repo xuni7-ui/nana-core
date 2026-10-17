@@ -1194,3 +1194,41 @@ world43 PASS; final test tree capture and active wall soak pending. M7 targeted
 count corrected to15. No new source behavior, schema, dependency or authority.
 
 nana_world_loop_m8 manifest SHA256 e23b4a6a017edb0584d88f6b8bf1b872066d259b9d54f2496380b4f065630872.
+
+
+## GLOBAL_STAGE E FINAL — OFFLINE_CANDIDATE_READY（2026-10-17）
+[源码/离线运行实测] This section supersedes pending E M0–M8 closeout descriptions.
+Branch dev/nana-core-real-cognition-world-loop-v1-codex; HEAD_START9e7ce710;
+qualified business07b736a; final test anchor 55ce08679091ffb0efa0a15b74bc4f8edb025b23. Final delivery commit is
+local documentation/evidence only. Existing255ac995/9e7ce710 were separately
+pushed under explicit history-alignment authorization; this finalization PUSHES=0.
+
+E World Model/Real Cognition IMPLEMENTED / TESTED / OFFLINE_RUNTIME_VERIFIED:
+source-backed temporal belief revision/conflict/UNKNOWN, actual public generated
+PNG/WAV/MP4 decoding into same world/provenance, bounded proposal transport,
+concern/interest→ordinary C-owned goal/replan, original F/G/I reuse. No second brain,
+SubjectLoop, Runtime or authoritative Store. Five retained failing regressions fixed:
+wire schema compatibility, origin promotion, counterexample commit gap, summary
+fact escalation, erased-header attention starvation. Original Manager/Grant/Budget/
+Verify, Primary User, independent appetite, voluntary accommodation and privacy remain.
+
+Final repository 1017 PASS /0 FAIL /1 SKIP(E12); World43 PASS.
+Twelve actual local SIGKILL/reopen cuts; populated7/8/12→13 history/FK clean,
+v8 Runtime queues and portable world belief retained, grants revoked on B8 import.
+Schema13 explicit, total43 tables, Stage E4 new headers; default C7/D8 unchanged.
+Two actual >=26h virtual worlds: main8 goals/14 verified local synthetic actions/
+7 Experiences/2 Lessons; contrast8/10/3/0. C/candidate/concern linkage recorded.
+Actual wall Runtime 1800.131s; final-source smoke30s; process identity preserved,
+queue drained and FD returned to baseline. Long process did not hot-reload closeout
+source changes; exact timing/source note in qualification and implementation report.
+
+LIVE_MODEL_EXECUTION=NOT_RUN; provider/model unset, real model calls0. Media semantic
+interpretation/ASR/live capture NOT_RUN. E12=NOT_RUN. Real/private memory ingress
+remains disabled; real external actions/social sends/private data reads0. Production/
+main/R045/production pins unchanged. No production deploy/migration or auto push.
+This upgrades no real AstrBot/dispatcher/one-shot/host-binding state.
+Evidence: docs/nana_real_cognition_world_loop_v1_evidence/qualification.json;
+report and A–J reconciliation in docs/. Residual E semantic-provider and H live-
+adapter gaps need independent authorization; do not restart F or enter production.
+
+GLOBAL E final delivery manifest SHA256 `6e380309d10ec639cec4b3b16c3e2f14fc08870a56df3d161498471f2e2b6ec2` (`manifests/nana_global_stage_e_final.json`); self/09 excluded.

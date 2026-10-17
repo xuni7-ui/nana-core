@@ -1,0 +1,423 @@
+{
+  "kind": "READONLY_FIXTURE_RUNTIME_MONITOR",
+  "cadence_seconds": 60,
+  "note": "Observer starts after runtime; elapsed is monitor elapsed, not whole soak duration. Only counts, no payloads.",
+  "samples": [
+    {
+      "VmRSS": 42700,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 128
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 935,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 0.001
+    },
+    {
+      "VmRSS": 42700,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 158
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 1145,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 60.005
+    },
+    {
+      "VmRSS": 42704,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 188
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 1355,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 120.007
+    },
+    {
+      "VmRSS": 42704,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 218
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 1564,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 180.009
+    },
+    {
+      "VmRSS": 42704,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 248
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 1774,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 240.011
+    },
+    {
+      "VmRSS": 42704,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 278
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 1984,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 300.016
+    },
+    {
+      "VmRSS": 42704,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 308
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 2194,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 360.018
+    },
+    {
+      "VmRSS": 42704,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 338
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 2404,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 420.02
+    },
+    {
+      "VmRSS": 42704,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 368
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 2614,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 480.023
+    },
+    {
+      "VmRSS": 42704,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 398
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 2824,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 540.025
+    },
+    {
+      "VmRSS": 42704,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 427
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 3029,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 600.029
+    },
+    {
+      "VmRSS": 42704,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 457
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 3239,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 660.032
+    },
+    {
+      "VmRSS": 42704,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 487
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 3449,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 720.034
+    },
+    {
+      "VmRSS": 42704,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 517
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 3659,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 780.037
+    },
+    {
+      "VmRSS": 42704,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 547
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 3869,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 840.039
+    },
+    {
+      "VmRSS": 42704,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 577
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 4079,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 900.042
+    },
+    {
+      "VmRSS": 42704,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 607
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 4289,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 960.044
+    },
+    {
+      "VmRSS": 42704,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 637
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 4499,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 1020.047
+    },
+    {
+      "VmRSS": 42704,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 667
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 4709,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 1080.05
+    },
+    {
+      "VmRSS": 42704,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 697
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 4919,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 1140.053
+    },
+    {
+      "VmRSS": 42704,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 727
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 5129,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 1200.055
+    },
+    {
+      "VmRSS": 42704,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 757
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 5339,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 1260.058
+    },
+    {
+      "VmRSS": 42708,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 787
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 5549,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 1320.062
+    },
+    {
+      "VmRSS": 42708,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 817
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 5759,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 1380.065
+    },
+    {
+      "VmRSS": 42708,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 847
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 5969,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 1440.068
+    },
+    {
+      "VmRSS": 42712,
+      "Threads": 2,
+      "queue_states": {
+        "DONE": 877
+      },
+      "cognition_states": {
+        "PROPOSED": 2
+      },
+      "subject_cycles": 3,
+      "events": 6179,
+      "goals": 1,
+      "pending_intentions": 0,
+      "fd": 8,
+      "observer_elapsed_seconds": 1500.07
+    }
+  ]
+}

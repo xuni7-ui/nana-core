@@ -1,0 +1,44 @@
+{
+  "source_anchor": "55ce08679091ffb0efa0a15b74bc4f8edb025b23",
+  "evidence_class": "OFFLINE_RUNTIME_VERIFIED",
+  "checks": [
+    {
+      "test": "tests.world_loop.test_recovery.test_forward_v13_with_old_ids_and_legacy_replay[7]",
+      "result": "PASS"
+    },
+    {
+      "test": "tests.world_loop.test_recovery.test_forward_v13_with_old_ids_and_legacy_replay[8]",
+      "result": "PASS"
+    },
+    {
+      "test": "tests.world_loop.test_recovery.test_forward_v13_with_old_ids_and_legacy_replay[12]",
+      "result": "PASS"
+    },
+    {
+      "test": "tests.world_loop.test_recovery.test_v13_package_world_history_and_pending_call_not_execution_authority",
+      "result": "PASS"
+    }
+  ],
+  "forward": [
+    7,
+    8,
+    12
+  ],
+  "target": 13,
+  "business_tables": 43,
+  "new_stage_e_tables": [
+    "cognitive_requests",
+    "world_beliefs",
+    "open_concerns",
+    "strategy_assessments"
+  ],
+  "default_continuity_schema": 7,
+  "default_runtime_schema": 8,
+  "populated_v8_runtime_queue_and_history": "PRESERVED",
+  "portable_world_belief_id": "PRESERVED",
+  "official_replay": "QUARANTINED",
+  "old_grants": "REVOKED_ON_PORTABLE_IMPORT",
+  "provider_and_sandbox_handles": "NOT_PORTABLE_OR_AUTOMATICALLY_RESTORED",
+  "lossy_downgrade": "NOT_SUPPORTED",
+  "production_migration": "NOT_RUN"
+}

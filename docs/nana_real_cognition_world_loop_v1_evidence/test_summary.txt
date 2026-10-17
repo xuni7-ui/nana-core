@@ -1,0 +1,8 @@
+Source anchor: 55ce08679091ffb0efa0a15b74bc4f8edb025b23
+Focused command: .venv/bin/python -m pytest -q tests/world_loop
+{"passed": 43, "failed": 0, "errors": 0, "skipped": 0, "wall_seconds": 34.352}
+Full command: .venv/bin/python -m pytest -q tests
+{"passed": 1017, "failed": 0, "errors": 0, "skipped": 1, "wall_seconds": 121.108}
+E12 real-model qualification skipped; no live-provider calls.
+12 actual local SIGKILL/reopen cuts (10 World +2 inherited).
+Source audio metadata: actual codec, original rate/channels and normalized PCM remain distinct.

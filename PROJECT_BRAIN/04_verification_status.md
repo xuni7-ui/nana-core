@@ -295,3 +295,17 @@
 未改变真实host binding/FIRST_REAL_ASTRBOT_SHADOW/R045状态；无生产或main修改/无push。
 报告 `docs/nana_e1e6_open_autonomy_v1_implementation.md`；机器验收
 `docs/nana_e1e6_open_autonomy_v1_evidence/qualification.json`。
+
+
+## GLOBAL_STAGE E — World Model / Real Cognition（2026-10-17，离线收口）
+①已实现/②已测试：bounded cognition request/proposal, indexed temporal world
+beliefs, source-backed concerns and original C attention/goals/replan, actual local
+codec pipeline, reused learning/skill lifecycle. Business07b736a/test55ce086.
+③仅离线运行：full1017/0/1(E12), world43 PASS,12 local
+SIGKILL cuts, populated13 migration/transfer/FK, two26h virtual worlds and actual
+1800.131s wall-clock Runtime. Long-run/final-source chronology documented exactly.
+Same Subject/Store/SubjectLoop; schema13 explicit/default7/8 unchanged,43 tables.
+④NOT_RUN：真实semantic provider/image/audio/video/ASR/E12/live device/social/host
+qualification/private memory import/production migration. Actual generated public
+media byte decode is REAL execution with SYNTHETIC content, not live capture or
+semantic understanding. No real host/binding status upgraded; no auto push.

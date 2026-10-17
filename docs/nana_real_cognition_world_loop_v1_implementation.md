@@ -4,8 +4,9 @@
 
 Base: `255ac99593219295b7126725bf6d51e1890051de`.
 Branch: `dev/nana-core-real-cognition-world-loop-v1-codex`.
-Qualified implementation anchor: `bd649eb` (later delivery commits only add
-qualification, evidence, documentation and whitespace cleanup). Final delivery HEAD
+HEAD at finalization start: `9e7ce7101146ee5a7440bba806bdb00eef366df0`.
+Qualified business anchor: `07b736a`; final test anchor: `55ce086`. The final
+delivery commit adds evidence/documentation/fingerprints only. Final delivery HEAD
 is the last local commit on this branch; this document does not embed its own hash.
 The previous task's E1–E6 identifiers are not global stage E. See the current
 [capability reconciliation](nana_global_stage_e_capability_reconciliation.md).
@@ -41,7 +42,7 @@ A role name does not imply every future modality/model provider has been qualifi
 ## Formal cognition transport and lifecycle
 
 `OpenAIJSONTransport(endpoint, model_id, credential=..., harness=False)` implements
-non-streaming structured chat completions with Python stdlib HTTPS, system TLS
+non-streaming JSON-object chat completions with Python stdlib HTTPS, system TLS
 verification, bounded JSON and no redirect/retry. Trusted application construction
 supplies the endpoint, exact returned model ID and optional credential. No credential
 is fetched from environment, placed in the Store, shipped to a model, or logged.
@@ -53,7 +54,11 @@ SELF, RETRIEVE, SUMMARIZE. They share one proposal-only DTO. PLAN uses the origi
 PlannerInput/BoundedPlanner validation; LEARN uses the original LearningSpec and
 independent trials; SKILL uses the original CodeSpec, sandbox and review. Direct
 HTTP-hypothesis qualification runs all original nine learning stages; REFLECT
-returns a proposal and cannot manufacture Experience/Lesson. Other interpretation
+returns a proposal and cannot manufacture Experience/Lesson. Provider-native strict
+JSON Schema is not advertised for extensible operator argument maps. The expected
+schema remains in the frozen request; exact local DTO validation rejects extra
+authority fields. Reply origin must match trusted transport construction, so a
+loopback reply cannot upgrade itself to REAL_PROVIDER. Other interpretation
 roles share the same frozen context/citation/uncertainty contract.
 
 Each durable request binds request key/ID, actual model/provider, identity revision,
@@ -93,7 +98,9 @@ confidence, valid interval, optional exact correction target and affected resour
 Kinds distinguish RAW_OBSERVATION, USER_CLAIM, VERIFIED_RESULT, INTERPRETED,
 MODEL_BELIEF, INFERENCE and HISTORICAL. UNKNOWN is a projection state, not fabricated
 evidence. User statements cannot become raw observations; model-derived inputs cannot
-be promoted to direct verified facts or issue authoritative corrections. Technical
+be promoted to direct verified facts or issue authoritative corrections. A derived
+SUMMARY/INFERENCE cannot claim RAW_OBSERVATION merely by citing genuine original
+Evidence: Memory authority and epistemic type are also checked. Technical
 verification proves a codec result, never the semantic meaning of an image or event.
 
 Event time, valid time and known/recorded time remain separate. Late correction does
@@ -124,7 +131,8 @@ not sent to a remote model by this technical decoder.
 
 - Image: real PNG/JPEG/WEBP pixel decode, dimensions/format/RGB statistics/digest,
   bounded four million pixels. Technical FULL_PIXEL_DECODE ≠ scene understanding.
-- Audio: FFmpeg decodes actual bounded mono 16 kHz PCM, duration/sample count,
+- Audio: FFmpeg preserves source codec/original rate/channels separately from
+  normalized mono 16 kHz PCM, duration/sample count,
   half-second RMS/activity segments and digest. Speech is UNKNOWN, transcript absent,
   NOT_RUN_NO_ASR. Energy is not claimed to be speech.
 - Video: FFprobe reads actual frame PTS; up to eight source-frame indices are sampled
@@ -152,7 +160,8 @@ An accepted proposal can offer a concern only with selected, valid source citati
 scope/privacy and exact finite resource descriptors. A transient low-support concern
 is deferred; high value or a second independent encounter can form persistent interest.
 Topic/entity/scope keys deduplicate/merge; source sets/hot interests/reviews/age are
-bounded. Low value can produce an IGNORE opportunity and original goal abandonment;
+bounded. Erased source records do not occupy live concern capacity; opaque history
+remains without reviving erased topics. Low value can produce an IGNORE opportunity and original goal abandonment;
 a C deferral does not falsely claim abandonment. Source withdrawal invalidates support.
 
 An interest creates an ordinary sourced ConcernCue/RuntimeEvent. Original C appraisal,
@@ -176,7 +185,9 @@ learning opportunities and nine-stage LearningService. Later independent typed
 strategy episodes are recomputed with the existing evaluator; distinct context
 support/counterexamples are indexed. The displayed fraction is labeled support
 fraction, not calibrated confidence. Replayed episodes are not independent evidence.
-A counterexample suspends the original Lesson and fences compiled dependent plans.
+An independently executed counterexample and ACTIVE→SUSPENDED transition commit
+atomically; a crash cannot leave the durable disproof with an ACTIVE strategy.
+The suspended original Lesson fences compiled dependent plans.
 Two unrelated successes cannot erase a still-valid negative case. Revalidation must
 resolve/retest contrary evidence or explicitly withdraw its invalid source.
 
@@ -203,8 +214,11 @@ No-user periods include genuine silence/rest. Foreground ingress preempts mainte
 without losing its cursor. Actions are real executions of the *local synthetic*
 effect port and isolated pure code, not real-world/social actions.
 
-Actual subprocess SIGKILL cuts test CALLING-before-response and C/goal commit before
-concern ACK. Reopen yields UNKNOWN/no call replay or one original goal/decision/effect.
+Twelve actual subprocess SIGKILL/reopen cuts cover PREPARED, CALLING, persisted
+proposal, concern commit, C commit, goal adoption before ACK, world revision, checked
+strategy episode, skill cursor, fsynced deletion intent, inherited effect-before-
+receipt and learning consolidation. Reopen yields UNKNOWN/no call replay or one
+original goal/decision/effect; a durable counterexample remains SUSPENDED.
 A separate post-judgment context-failure test demonstrates parked realization.
 Actual HTTP reply after Subject or world change is rejected. Restart keeps identity,
 world history and goals but requires fresh runtime epoch and trusted controllers.
@@ -213,9 +227,10 @@ Explicit schema13 uses four new indexed header tables in the **existing Store**:
 `cognitive_requests`, `world_beliefs`, `open_concerns`, `strategy_assessments`.
 Total business tables43 (base39). All values/interpretations remain original deletable
 artifacts/records. New kinds are six bounded Record kinds, not snapshot truth stores.
-Forward migration7/8/12→13 preserves populated Memory/Record/C-cycle IDs/history,
+Forward migration7/8/12→13 preserves populated Memory/Record/C-cycle IDs/history
+and actual v8 Runtime queue history,
 FK check is clean, official replay is quarantined. SubjectPackage13 transfer retains
-history, revokes Grants, creates no model/sandbox/controller authority; pending calls
+an actual world belief ID/history, revokes Grants, creates no model/sandbox/controller authority; pending calls
 from the old epoch become UNKNOWN. No lossy downgrade and no production migration.
 Default ContinuityStore7 and Runtime8 are unchanged. No dependency was installed or
 new third-party source copied. The dev environment already has Python3.12.14,
@@ -242,7 +257,7 @@ uses the narrower pre-existing testpaths. One E12 real-model skip must remain.
 
 ## Limitations and next gap
 
-LIVE model quality/cost/provider-specific schema compatibility, ASR, image/video
+LIVE model quality/cost/provider-specific JSON compatibility, ASR, image/video
 semantics and live device/screen/social adapters remain NOT_RUN. Exact model aliases
 must match the returned provider model ID; alternate APIs/streaming need separate
 reviewed transports. Remote execution needs independent approved configuration and
@@ -266,3 +281,74 @@ Next: assess the residual E gaps (approved minimal live-provider qualification a
 reviewed semantic-perception input) against H real-adapter safety. F/G/I are existing
 foundations to reuse; do not restart F from zero. A/B labels are not invented by this
 delivery, and VNext's older Phase A–F labels are a different coordinate system.
+
+
+## Finalization audit and repaired defects
+
+Every listed defect has a retained regression that failed before its repair.
+
+| Defect | Impact | Repair / regression |
+|---|---|---|
+| Open DTO schema advertised as native strict schema | Medium: compatible endpoint could reject a valid request | JSON-object wire, exact local validation; `test_generic_proposals_use_json_object_wire_and_local_schema_validation` also rejects a forged grant over actual HTTP |
+| Loopback origin self-promotion | High evidence-integrity risk; no real authority was created | Reply origin bound to trusted transport; `test_loopback_reply_cannot_promote_itself_to_real_provider_evidence` |
+| Counterexample persisted before suspension | High strategy-integrity risk after crash | Same original transaction commits both; `test_episode_reuse_counterexample_and_independent_revalidation` plus actual strategy SIGKILL cut |
+| Derived summary relabeled as raw world fact | High epistemic-integrity risk; no Grant bypass | Direct Memory/type check; `test_derived_summary_cannot_relabel_direct_evidence_as_raw_world_fact` |
+| Deleted headers exhausted concern capacity | Medium liveness risk | Count only ACTIVE source records; `test_deleted_concern_history_does_not_exhaust_hot_attention_capacity` |
+
+No new subsystem, table or dependency was needed for these repairs. The only new
+media detail retains original audio codec/rate/channels instead of conflating them
+with normalized PCM. Current development schema remains13, total43 business tables,
+Stage E adds4. Default C7/D8 and production schemas remain unchanged.
+
+## Architecture simplification / authority review
+
+The machine-readable authority matrix reviews WorldLoopWork, ConcernService,
+CognitionSession, WorldModel, EpisodeLearning, SelfExtensionWork, OpenAgencyService,
+SubjectLoop and NanaRuntime. Only SubjectLoop produces final normative Judgment /
+Intention. OpenAgencyService mechanically commits an eligible C-endorsed candidate;
+its adoption method is not an independent will. Skill development holds trusted
+application review handles for the bounded realm; model DTOs never receive them.
+Neither activation nor Manager PASS creates a Grant. Synthetic world JSON describes
+external fixture effects, not another Subject database. No meta-agent was added.
+
+## Evidence index and operational limits
+
+`qualification.json` records scoped model/media counts, source anchors and gates;
+`store_state.json` captures counts/FK/state from the two actual fixture Stores;
+`recovery_matrix.json` and `migration_matrix.json` map successful executable tests;
+`architecture_authority_matrix.json` documents the source-level authority review.
+`living_soak.json` / `contrast_soak.json` retain actual goal/cycle/concern lineage,
+technical media, learning, code execution and contrast results. `wall_soak.json`,
+`wall_observations.json` and `wall_final_source_smoke.json` separate long-lived
+Runtime evidence from final-source smoke. `test_summary.txt` and `limitations.txt`
+are concise entry points; no DB is committed.
+
+The long wall-clock process began on9e7ce710 plus the JSON-object wire correction.
+Subsequent closeout fixes do not change Runtime/scheduler code; they address negative
+provenance/summary inputs, counterexample transaction, deleted capacity and audio
+metadata. This process did not hot-reload those changes. Full regression, final
+virtual worlds and a separate final-source wall-clock smoke qualify the final code.
+No old interrupted soak is counted toward this run's duration.
+
+C/D wake envelopes remain development SYNTHETIC_ONLY. Public recorded input and
+provider proposal provenance do not promote an experiment into production authority.
+Real private-memory ingress remains disabled. Descriptor/candidate realms remain
+finite: at most64 dynamic objective descriptions and bounded concern/revision windows;
+this is not a claim of unlimited three-year production operation. Full historical
+compaction and independently approved live semantic provider/media qualification
+remain future work. Primary User influence, independent Social Appetite, voluntary
+accommodation, negative-only Manager, hard data privacy and UNKNOWN semantics are
+inherited and covered by the full regression, not replaced by this audit.
+
+
+## Final measured delivery
+
+GLOBAL_STAGE_E_WORLD_MODEL_REAL_COGNITION = OFFLINE_CANDIDATE_READY.
+Full repository: 1017 passed /0 failed /1 skipped(E12),
+121.108s JUnit suite time. Focused World Loop:43 passed.
+Virtual worlds:26.08h main,26.069444h contrast, all applicable gates PASS.
+Actual wall process:1800.131s; final-source smoke30.087s. Exact resource ranges,
+source chronology and all12 SIGKILL cuts are in machine-readable evidence.
+Live model/semantic perception/E12 remain NOT_RUN; real external actions/social
+sends/private reads/production/main/R045 changes/pushes this task are all0.
+Final local HEAD/parent are obtained from Git; evidence anchor is 55ce08679091ffb0efa0a15b74bc4f8edb025b23.

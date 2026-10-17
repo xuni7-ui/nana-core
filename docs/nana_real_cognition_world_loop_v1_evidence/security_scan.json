@@ -1,0 +1,15 @@
+{
+  "scope": "changed Stage E text plus final public synthetic evidence; no private source was inspected",
+  "result": "PASS",
+  "files_scanned": 72,
+  "checks": [
+    "credential-pattern scan",
+    "JWT/private-key patterns",
+    "evidence canary scan",
+    "no binary/database/WAL/SHM in whitelist",
+    "no finalization drift in ActionKernel/SubjectLoop/Runtime/schema/plugins/dependencies",
+    "main ref unchanged",
+    "preserved unrelated bundle digest unchanged"
+  ],
+  "limits": "Pattern scan does not prove absence of every imaginable secret; all test/runtime source data was generated in this development task. Existing unrelated untracked bundle excluded from commit."
+}

@@ -8,8 +8,8 @@
 
 ## 当前开发入口：GLOBAL_STAGE E — World Model / Real Cognition（2026-10-17）
 
-[用户纠偏/源码] IN DEVELOPMENT。上一任务局部E1–E6不代表总路线E完成；F/G/I已具备
-离线基础，本轮复用，主攻模型transport/持久world/实际媒体decode与关注目标链。现场
+[用户纠偏/源码] OFFLINE_CANDIDATE_READY。上一任务局部E1–E6编号不等于总路线E；F/G/I已具备
+离线基础，本轮复用；模型transport/持久world/实际媒体decode与关注目标链已离线收口。真实semantic provider/ASR仍NOT_RUN。现场
 L1/L2/B5/R045不变，未push/未部署；能力盘点见docs/nana_global_stage_e_capability_reconciliation.md。
 
 ## 历史开发入口：E1–E6 Open Autonomy V1（2026-10-17）

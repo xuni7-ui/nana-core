@@ -1,0 +1,75 @@
+{
+  "source_anchor": "55ce08679091ffb0efa0a15b74bc4f8edb025b23",
+  "evidence_class": "SOURCE_REVIEW_WITH_INTEGRATION_TESTS",
+  "components": {
+    "WorldLoopWork": {
+      "responsibility": "one bounded LivingWork slice; offers current-source C review opportunities",
+      "boundary": "no independent loop or final judgment",
+      "owns_external_authority": false,
+      "autonomous_subject_loop": false
+    },
+    "ConcernService": {
+      "responsibility": "indexed source-backed concern lifecycle and C event proposal",
+      "boundary": "does not adopt final goals or own execution authority",
+      "owns_external_authority": false,
+      "autonomous_subject_loop": false
+    },
+    "CognitionSession": {
+      "responsibility": "frozen request/reply correlation and proposal persistence",
+      "boundary": "no Subject/Kernel handle in provider DTO; no final judgment",
+      "owns_external_authority": false,
+      "autonomous_subject_loop": false
+    },
+    "WorldModel": {
+      "responsibility": "sourced temporal belief revisions and rebuildable projections",
+      "boundary": "beliefs are not self-certified truth; values use original RecordService",
+      "owns_external_authority": false,
+      "autonomous_subject_loop": false
+    },
+    "EpisodeLearning": {
+      "responsibility": "independent checked episode, atomic strategy fence",
+      "boundary": "no goals, desire, external action or new learning loop",
+      "owns_external_authority": false,
+      "autonomous_subject_loop": false
+    },
+    "SelfExtensionWork": {
+      "responsibility": "one C-selected bounded skill-development cursor",
+      "boundary": "holds trusted application review handle; cannot mint Kernel Grant",
+      "owns_external_authority": false,
+      "autonomous_subject_loop": false
+    },
+    "OpenAgencyService": {
+      "responsibility": "mechanically commits C-endorsed candidate/adoption/one approved step",
+      "boundary": "not independent will; Manager/Grant/Budget/Verify still apply",
+      "owns_external_authority": false,
+      "autonomous_subject_loop": false
+    },
+    "SubjectLoop": {
+      "responsibility": "single final appraisal/judgment/intention transition",
+      "boundary": "not an execution-authority issuer",
+      "owns_external_authority": false,
+      "autonomous_subject_loop": true
+    },
+    "NanaRuntime": {
+      "responsibility": "single scheduler, wake, owner epoch and safe work opportunity",
+      "boundary": "WHEN only; no second WHAT/WHY loop",
+      "owns_external_authority": false,
+      "autonomous_subject_loop": false
+    }
+  },
+  "authoritative_store": "original ContinuityStore; four new indexed headers, existing erasable payloads",
+  "fixture_world_json": "synthetic external environment/effect state, not Subject state",
+  "test_fixture_stores": "main/contrast are independent experiments, each one Subject/Store",
+  "assertions": {
+    "ONE_SUBJECT": "PASS",
+    "ONE_AUTHORITATIVE_STORE": "PASS",
+    "ONE_SUBJECT_LOOP": "PASS",
+    "D_WHEN_C_WHAT_WHY": "PASS",
+    "MODEL_HAS_AUTHORITY": false,
+    "PLANNER_HAS_WILL": false,
+    "LEARNING_AGENT_EXISTS": false,
+    "SKILL_ACTIVATION_CREATES_GRANT": false,
+    "PRIMARY_USER_IS_GRANT": false,
+    "MANAGER_REWRITES_DESIRE": false
+  }
+}
