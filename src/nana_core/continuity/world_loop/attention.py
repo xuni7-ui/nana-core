@@ -84,7 +84,14 @@ class ConcernService:
                     # Finish its idempotent post-commit work instead of resubmitting
                     # the DONE envelope forever or generating a second decision.
                     source_event=SubjectInput.model_validate_json(canonical(self.records.read(prior['record_id'])['payload']['input']))
-                    r.work.after_cycle(r.subject.result(dict(accepted)),source_event)
+                    try:r.work.after_cycle(r.subject.result(dict(accepted)),source_event)
+                    except CoreError as exc:
+                        # A committed judgment is not permission to retry a failed
+                        # provider forever. Preserve it and park realization until
+                        # fresh reviewed input, never invent a second C decision.
+                        if exc.code not in {'INSUFFICIENT_CONTEXT_BUDGET','INSUFFICIENT_CONTRADICTION_CONTEXT','COGNITION_SOURCE_OUTSIDE_CONTEXT_BUDGET','COGNITION_DAILY_BUDGET','COGNITION_PROPOSAL_UNAVAILABLE','COGNITION_BYTE_BUDGET','COGNITION_COST_BUDGET','STALE_COGNITION_PROPOSAL'}:raise
+                        with self.store.transaction('world.concern_recovery_parked',{'concern_id':row['concern_id'],'cycle_id':accepted['cycle_id'],'reason':exc.code}) as tx:
+                            tx.update('open_concerns',row['concern_id'],state='PROPOSED',revision=row['revision']+1)
                     return None
             memory=self.records.memory;source=memory.read(source_ids[0]);when=row['updated_at_us']
             eid=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.world-concern',source_reference=key,source_kind='MODEL_DERIVATION'),text=cue.model_dump_json(),privacy_class=self.records.read(row['record_id'])['privacy_class'],observed_time_us=when,event_time_us=source['event_time_us']))

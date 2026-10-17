@@ -59,3 +59,22 @@ def test_v13_package_world_history_and_pending_call_not_execution_authority(tmp_
         assert r.identity_id==identity and r.work.world is None
         configure(r,tmp_path/'new-world',transport,('synthetic://test',),grant=False)
         assert r.store.one('cognitive_requests',cid)['state']=='UNKNOWN' and metrics['calls']==0
+
+
+def test_post_judgment_context_failure_parks_without_repeated_cognition(tmp_path):
+    from nana_core.contracts import CoreError
+    class UnavailablePlanner:
+        def plan(self,request):raise CoreError('INSUFFICIENT_CONTEXT_BUDGET')
+    clock=VirtualClock()
+    with provider_harness() as (transport,metrics),open_runtime(tmp_path/'s'/'self.db',clock) as r:
+        configure(r,tmp_path,transport,('synthetic://recover',),planner=False)
+        r.work.agency.policy.planner=UnavailablePlanner()
+        mid=capture(r,'opportunity',{'opportunities':[{'topic':'recover','resource':'synthetic://recover','value':'HIGH'}]});r.work.world.observe(mid)
+        for _ in range(12):clock.advance(SECOND);r.step()
+        concern=r.store.all('open_concerns')[0]
+        assert concern['state']=='PROPOSED' and not r.store.all('goals')
+        assert len(r.store.all('subject_goal_candidates'))==1
+        before=(len(r.store.all('subject_cycles')),metrics['calls'])
+        for _ in range(8):clock.advance(SECOND);r.step()
+        assert (len(r.store.all('subject_cycles')),metrics['calls'])==before
+        assert r.store.db.execute("SELECT count(*) FROM events WHERE kind='world.concern_recovery_parked'").fetchone()[0]==1

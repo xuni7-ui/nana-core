@@ -54,7 +54,7 @@ class WorldLoopWork:
             key='synthetic.world.replan.'+digest([goal['goal_id'],goal['version'],memory_id])
             ref=GoalReviewRef(goal_id=goal['goal_id'],version=goal['version'],cause_memory_id=memory_id)
             inp=SubjectInput(source_key=key,kind='WAKE',origin='SELF_WAKE',entity_id=self.runtime.config.entity_id,scope=memory['scope'],observed_at_us=memory['observed_time_us'],source_memory_ids=(memory_id,),goal_review=ref,privacy_class=memory['privacy_class'])
-            self.runtime.submit(RuntimeEvent(event_type='GOAL_EVENT',trigger='GOAL_TRIGGER',input=inp,causes=(Cause(kind='MEMORY',reference_id=memory_id),),due_at_us=self.store.clock.utc_now_us(),priority=2))
+            self.runtime.submit(RuntimeEvent(event_type='GOAL_EVENT',trigger='GOAL_TRIGGER',input=inp,causes=(Cause(kind='MEMORY',reference_id=memory_id),),due_at_us=self.store.clock.utc_now_us(),priority=3))
     def opportunity(self):return self.concerns.opportunity()
     def maintenance_slice(self):
         row=self.store.db.execute("SELECT * FROM jobs WHERE work_kind='WORLD_COGNITION' AND state='WAITING' ORDER BY due_at_us LIMIT 1").fetchone()

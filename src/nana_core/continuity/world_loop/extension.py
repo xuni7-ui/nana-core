@@ -51,8 +51,8 @@ class SelfExtensionWork:
                 if stage=='REPAIR':spec=spec.model_copy(update={'revision':2})
                 proposer=self.proposer
                 if self.cognition:
-                    from .ports import CognitionCodeProposer
-                    proposer=CognitionCodeProposer(self.cognition,self.records.support(cycle.record_id)[:16])
+                    from .ports import CognitionCodeProposer,bounded_sources
+                    proposer=CognitionCodeProposer(self.cognition,bounded_sources(self.cognition,self.records.support(cycle.record_id)))
                 b['candidate_record_id']=self.codes.propose(cycle,spec,proposer,diagnostic=b['diagnostic']);b['stage']='TEST'
             elif stage=='TEST':
                 tested=self.codes.test(b['candidate_record_id'],cases);body=self.records.read(tested)['payload'];b['candidate_record_id']=tested

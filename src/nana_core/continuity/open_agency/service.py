@@ -68,6 +68,10 @@ class OpenAgencyService(AgencyService):
         request=PlannerInput(objective=obj,source_record_id=rid,world_revision=world_revision)
         proposal=self.policy.planner.plan(request)
         steps=validate_plan(request,proposal,self.registry)
+        for rid in proposal.source_record_ids:
+            head=self.records.read(rid)
+            if head['record_kind']!='COGNITION_PROPOSAL' or head['scope']!=obj.scope or head['privacy_class'] not in self.subject.privacy_classes or not self.records.current_support(rid) or tuple(head['payload']['reply']['proposal']['plan_operator_ids'])!=proposal.operator_ids:raise CoreError('PLAN_COGNITION_SOURCE_MISMATCH')
+            strategy_ids.append(rid)
         if not steps:raise CoreError('GOAL_ALREADY_SATISFIED')
         for step in steps:
             if step.capability=='world.skill':

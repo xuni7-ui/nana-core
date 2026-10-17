@@ -22,6 +22,7 @@ class CodeSpec(DTO):
     input_limit: int = Field(default=8192,ge=1,le=8192)
     output_limit: int = Field(default=8192,ge=1,le=8192)
 class CodeCandidate(DTO):
+    source_record_ids: tuple[str,...] = Field(default=(),max_length=8)
     provenance: Literal['GENERATED_CODE_NOT_AUTHORITY'] = 'GENERATED_CODE_NOT_AUTHORITY'
     source: str = Field(min_length=1,max_length=8192)
 class CodeProposerPort(Protocol):
@@ -88,11 +89,15 @@ class CodeSkillService:
         candidate=proposer.implement(spec,diagnostic)
         if type(candidate) is not CodeCandidate:raise CoreError('SKILL_PROPOSAL_INVALID')
         candidate=CodeCandidate.model_validate_json(candidate.model_dump_json());sha=static_check(candidate.source)
-        scope=self.records.read(cycle.record_id)['scope'];key=digest([cycle.cycle_id,spec.model_dump(mode='json'),sha])
+        scope=self.records.read(cycle.record_id)['scope']
+        for parent in candidate.source_record_ids:
+            record=self.records.read(parent)
+            if record['record_kind']!='COGNITION_PROPOSAL' or record['scope']!=scope or not self.records.current_support(parent) or record['payload']['reply']['proposal']['skill_source']!=candidate.source:raise CoreError('SKILL_COGNITION_SOURCE_MISMATCH')
+        key=digest([cycle.cycle_id,spec.model_dump(mode='json'),sha])
         old=self.store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='CODE_SKILL' AND target_id=?",(key,)).fetchone()
         if old:return old[0]
         with self.store.transaction('open.code_skill_proposed',{'source_digest':sha}) as tx:
-            rid=self.records.create(tx,kind='CODE_SKILL',scope=scope,payload={'state':'GENERATED','spec':spec.model_dump(mode='json'),'source':candidate.source,'source_digest':sha,'tests':None,'realm':'BWRAP_LOCAL_DATA_ONLY','installed':False},records=(cycle.record_id,),target_id=key)
+            rid=self.records.create(tx,kind='CODE_SKILL',scope=scope,payload={'state':'GENERATED','spec':spec.model_dump(mode='json'),'source':candidate.source,'source_digest':sha,'tests':None,'realm':'BWRAP_LOCAL_DATA_ONLY','installed':False},records=(cycle.record_id,*candidate.source_record_ids),target_id=key)
         return rid
     def test(self,rid,cases):
         row=self.records.read(rid);body=row['payload']

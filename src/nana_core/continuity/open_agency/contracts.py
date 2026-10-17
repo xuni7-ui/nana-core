@@ -44,6 +44,7 @@ class PlannerInput(DTO):
     source_record_id: str
     world_revision: str
 class PlanCandidate(DTO):
+    source_record_ids: tuple[str,...] = Field(default=(),max_length=8)
     provenance: Literal['PROPOSAL_NOT_AUTHORITY'] = 'PROPOSAL_NOT_AUTHORITY'
     operator_ids: tuple[str,...] = Field(min_length=0,max_length=32)
     source_record_id: str

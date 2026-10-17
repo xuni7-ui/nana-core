@@ -62,6 +62,8 @@ class CognitionReply(DTO):
     model_id:str=Field(min_length=1,max_length=96)
     origin:Literal['SYNTHETIC','REAL_PROVIDER']
     proposal:StructuredProposal
+    wire_input_bytes:int|None=Field(default=None,ge=0)
+    wire_output_bytes:int|None=Field(default=None,ge=0)
     usage:dict|None=None
     cost_micro:int|None=Field(default=None,ge=0)
     billing:Literal['REPORTED','UNKNOWN','FIXTURE_ZERO']='UNKNOWN'
@@ -110,8 +112,9 @@ class OpenAIJSONTransport:
         req=urllib.request.Request(self.endpoint,data=data,headers=headers,method='POST');started=time.monotonic()
         try:
             with self.opener.open(req,timeout=request.budget.timeout_ms/1000) as response:
-                raw=response.read(131073)
-                if len(raw)>131072:raise TransportFailure('PROVIDER_RESPONSE_BOUND')
+                response_bound=min(131072,request.budget.output_tokens*4+4096)
+                raw=response.read(response_bound+1)
+                if len(raw)>response_bound:raise TransportFailure('PROVIDER_RESPONSE_BOUND')
                 if time.monotonic()-started>request.budget.timeout_ms/1000:raise TimeoutError('PROVIDER_TIMEOUT')
                 if response.headers.get_content_type()!='application/json':raise TransportFailure('PROVIDER_PARTIAL_OR_UNSUPPORTED_STREAM')
             envelope=strict_json(raw);choice=envelope['choices'][0]
@@ -126,7 +129,7 @@ class OpenAIJSONTransport:
             actual_model=envelope.get('model')
             if type(actual_model)!=str or not 1<=len(actual_model)<=96:raise ValueError('missing model identity')
             return CognitionReply(request_id=request.request_id,request_digest=digest(request.model_dump(mode='json')),provider_id=self.provider_id,model_id=actual_model,
-                origin='SYNTHETIC' if self.harness else 'REAL_PROVIDER',proposal=proposal,usage=usage,cost_micro=0 if self.harness else None,billing='FIXTURE_ZERO' if self.harness else 'UNKNOWN')
+                origin='SYNTHETIC' if self.harness else 'REAL_PROVIDER',proposal=proposal,usage=usage,wire_input_bytes=len(data),wire_output_bytes=len(raw),cost_micro=0 if self.harness else None,billing='FIXTURE_ZERO' if self.harness else 'UNKNOWN')
         except urllib.error.HTTPError as exc:
             code='PROVIDER_RATE_LIMIT' if exc.code==429 else 'PROVIDER_CONTEXT_OVERFLOW' if exc.code==413 else 'PROVIDER_HTTP_ERROR'
             exc.close();raise TransportFailure(code) from None
@@ -190,10 +193,17 @@ class CognitionSession:
             if head and head['scope'] in req.scopes and head['privacy_class'] in allowed and self.records.current_support(head['record_id']):current.append({'goal_id':g['goal_id'],'version':g['version'],'state':g['state']})
         current=tuple(current)
         request=CognitionRequest(request_id=request_id,subject_epoch=r.lease.epoch,subject_revision=r.subject.revision,cognitive_role=role,source_context_refs=refs,context_json=context.model_dump_json(),current_goals=current,available_capabilities=tuple(capabilities),world_stamp=self._world_stamp(req.scopes,allowed),expected_schema=StructuredProposal.model_json_schema(),role_input=role_input,budget=b,created_at_us=now,deadline_us=now+b.timeout_ms*1000)
+        reserved_bytes=len(request.model_dump_json().encode())*2+16384+min(131072,b.output_tokens*4+4096)
+        if r.config.living:
+            from ...presence.resources import resource_state
+            resource=resource_state(self.store,r.config);limits=r.config.living
+            if resource.calls>=r.config.max_calls_per_day:raise CoreError('COGNITION_DAILY_BUDGET')
+            if resource.reserved_bytes+reserved_bytes>limits.max_model_bytes_per_day or (resource.background_reserved_bytes+reserved_bytes)*100>limits.max_model_bytes_per_day*limits.background_fraction_percent:raise CoreError('COGNITION_BYTE_BUDGET')
+            if resource.reserved_estimated_cost_micro+b.cost_ceiling_micro>limits.max_estimated_cost_micro_per_day:raise CoreError('COGNITION_COST_BUDGET')
         self.assembler.validate(context,req,self.policy)
         with self.store.transaction('world.cognition_prepared',{'request_id':request_id}) as tx:
             rid=self.records.create(tx,kind='COGNITION_REQUEST',scope=req.scopes[0],payload={'request':request.model_dump(mode='json'),'provider':self.transport.provider_id,'model':self.transport.model_id},memories=refs,records=tuple(dict.fromkeys((*extra_parents,*(x for block in context.blocks for x in block.source_record_ids)))))
-            tx.put('cognitive_requests',{'request_id':request_id,'request_key':key,'record_id':rid,'subject_revision':r.subject.revision,'owner_epoch':r.lease.epoch,'goal_id':goal_id,'goal_version':goal['version'] if goal else None,'state':'PREPARED','deadline_us':request.deadline_us,'request_digest':digest(request.model_dump(mode='json')),'response_digest':None,'error_code':None,'created_at_us':now})
+            tx.put('cognitive_requests',{'request_id':request_id,'request_key':key,'record_id':rid,'subject_revision':r.subject.revision,'owner_epoch':r.lease.epoch,'goal_id':goal_id,'goal_version':goal['version'] if goal else None,'state':'PREPARED','deadline_us':request.deadline_us,'request_digest':digest(request.model_dump(mode='json')),'response_digest':None,'error_code':None,'created_at_us':now,'reserved_bytes':reserved_bytes,'reserved_cost_micro':b.cost_ceiling_micro,'input_bytes':None,'output_bytes':None,'actual_cost_micro':None,'latency_us':None})
         return request_id
     def _world_stamp(self,scopes,privacy):
         sp=','.join('?' for _ in scopes) or 'NULL';pp=','.join('?' for _ in privacy) or 'NULL'
@@ -255,7 +265,7 @@ class CognitionSession:
         if not set(reply.proposal.source_refs)<=refs or any(not set(i.source_memory_ids)<=refs for i in reply.proposal.interests):return self._finish(row,'REJECTED','UNSUPPORTED_CITATIONS')
         with self.store.transaction('world.cognition_proposed',{'request_id':request_id}) as tx:
             rid=self.records.create(tx,kind='COGNITION_PROPOSAL',scope=self.records.read(row['record_id'])['scope'],payload={'reply':reply.model_dump(mode='json'),'response_digest':digest(reply.model_dump(mode='json')),'latency_us':latency_us,'proposal_not_truth':True},records=(row['record_id'],),target_id=request_id)
-            tx.update('cognitive_requests',request_id,state='PROPOSED',response_digest=digest(reply.model_dump(mode='json')))
+            tx.update('cognitive_requests',request_id,state='PROPOSED',response_digest=digest(reply.model_dump(mode='json')),input_bytes=reply.wire_input_bytes,output_bytes=reply.wire_output_bytes,actual_cost_micro=reply.cost_micro,latency_us=latency_us)
         return {'state':'PROPOSED','request_id':request_id,'record_id':rid}
     def _finish(self,row,state,code):
         with self.store.transaction('world.cognition_terminal',{'request_id':row['request_id'],'state':state,'code':code}) as tx:tx.update('cognitive_requests',row['request_id'],state=state,error_code=code)

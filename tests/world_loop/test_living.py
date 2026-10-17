@@ -43,3 +43,22 @@ def test_dynamic_sourced_goals_and_two_self_detected_skill_kinds(tmp_path):
             assert body['spec']['revision']==2 and body['tests']['isolation']=='BWRAP_NAMESPACES_READONLY_NO_NETWORK'
         assert len([x for x in r.store.all('continuity_records') if x['record_kind']=='CODE_SKILL'])>=8
         assert not r.store.db.execute('PRAGMA foreign_key_check').fetchall()
+
+def test_source_backed_world_revision_replans_without_reusing_old_observation(tmp_path):
+    from nana_core.continuity.world_loop.world import SourcedClaim
+    resources=('synthetic://numbers','synthetic://numbers/compute','synthetic://numbers/report')
+    with fresh(tmp_path/'s'/'self.db') as r,provider_harness() as (transport,metrics):
+        p=configure(r,tmp_path,transport,resources);p.seed_observation(resources[0],[1.5,2])
+        mid=capture(r,'start',{'opportunities':[{'topic':'numbers','resource':resources[0],'method':'NUMERIC_SUM','expected':3.5,'value':'HIGH','domain':'numbers','motive':'CURIOSITY'}]});r.work.world.observe(mid)
+        for _ in range(24):
+            r.clock.source.advance(SECOND);r.step()
+            job=r.store.db.execute("SELECT * FROM jobs WHERE work_kind='GOAL'").fetchone()
+            if job and job['cursor']==1:break
+        assert job and job['cursor']==1;oldplan=job['record_id'];goal=r.store.all('goals')[0]
+        r.clock.source.advance(SECOND);p.seed_observation(resources[0],[1,2.5])
+        fact=capture(r,'world-change',{'world_claim':SourcedClaim(entity_id='device',predicate='input.revision',value='new observed values',kind='RAW_OBSERVATION',valid_from_us=r.clock.utc_now_us(),related_resources=(resources[0],)).model_dump(mode='json')});r.work.world.observe(fact)
+        for _ in range(50):r.clock.source.advance(SECOND);r.step()
+        goal=r.store.one('goals',goal['goal_id']);assert goal['state']=='COMPLETED'
+        current=json.loads(goal['body_json'])['plan_record_id'];assert current!=oldplan
+        outputs=r.work.agency._outputs(goal['goal_id']);observations=[o for o in outputs if o.get('plan_record_id')==current and o['operator_id']=='inspect']
+        assert observations and json.loads(MemoryService(r.store).read(observations[0]['memory_id'])['text'])['data']==[1,2.5]

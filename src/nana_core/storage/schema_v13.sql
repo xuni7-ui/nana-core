@@ -25,7 +25,9 @@ CREATE TABLE cognitive_requests (
  goal_id TEXT REFERENCES goals(goal_id), goal_version INTEGER,
  state TEXT NOT NULL CHECK(state IN ('PREPARED','CALLING','PROPOSED','FAILED','UNKNOWN','STALE','REJECTED')),
  deadline_us INTEGER NOT NULL, request_digest TEXT NOT NULL,
- response_digest TEXT, error_code TEXT, created_at_us INTEGER NOT NULL
+ response_digest TEXT, error_code TEXT, created_at_us INTEGER NOT NULL,
+ reserved_bytes INTEGER NOT NULL, reserved_cost_micro INTEGER NOT NULL,
+ input_bytes INTEGER, output_bytes INTEGER, actual_cost_micro INTEGER, latency_us INTEGER
 );
 CREATE INDEX cognition_pending ON cognitive_requests(state,deadline_us);
 CREATE TABLE world_beliefs (

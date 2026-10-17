@@ -3,7 +3,7 @@
 Technical perception is real local processing. Semantic interpretation/transcription
 remains UNKNOWN unless an independently supplied reviewed adapter provides it.
 """
-import array,hashlib,io,json,math,os,shutil,subprocess,tempfile,warnings
+import array,hashlib,io,json,math,os,shutil,subprocess,tempfile,warnings,stat
 from pathlib import Path
 from typing import Literal
 from pydantic import Field
@@ -72,16 +72,35 @@ class MediaDecoder:
                 return {'modality':'AUDIO','decoded':True,'duration_s':duration,'sample_rate':16000,'samples':len(samples),'pcm_digest':hashlib.sha256(raw).hexdigest(),'segments':segments,'transcript':None,'transcript_status':'NOT_RUN_NO_ASR','speech':'UNKNOWN','coverage':'FULL_BOUNDED_PCM_DECODE'}
             stream=next((s for s in meta['streams'] if s['codec_type']=='video'),None)
             if not stream or int(stream['width'])*int(stream['height'])>8_000_000:raise CoreError('MEDIA_VIDEO_BOUND')
-            rate=min(2,8/duration)
-            raw=self._run(prefix+['-an','-vf',f'fps={rate},scale=96:64','-frames:v','8','-pix_fmt','rgb24','-f','rawvideo','pipe:1'],limit=8*96*64*3,input_root=Path(d))
+            frame_meta=json.loads(self._run(['ffprobe','-v','error','-protocol_whitelist','file,pipe','-select_streams','v:0','-show_frames','-show_entries','frame=best_effort_timestamp_time','-of','json',str(path)],limit=1_000_000,input_root=Path(d)))
+            points=[float(f['best_effort_timestamp_time']) for f in frame_meta['frames']]
+            if not 1<=len(points)<=4096 or any(not math.isfinite(t) or not 0<=t<duration for t in points) or points!=sorted(set(points)):raise CoreError('MEDIA_FRAME_TIME_INVALID')
+            count=min(8,len(points));indices=sorted({int(i*(len(points)-1)/max(1,count-1)) for i in range(count)})
+            expression='+'.join('eq(n,'+str(i)+')' for i in indices)
+            raw=self._run(prefix+['-an','-vf',f"select='{expression}',scale=96:64",'-fps_mode','passthrough','-frames:v',str(count),'-pix_fmt','rgb24','-f','rawvideo','pipe:1'],limit=8*96*64*3,input_root=Path(d))
             size=96*64*3
-            if not raw or len(raw)%size:raise CoreError('MEDIA_FRAME_INVALID')
+            if len(raw)!=len(indices)*size:raise CoreError('MEDIA_FRAME_INVALID')
             frames=[]
-            for i in range(len(raw)//size):
+            for i,index in enumerate(indices):
                 frame=raw[i*size:(i+1)*size];means=[sum(frame[channel::3])/(96*64) for channel in range(3)]
-                frames.append({'sample_s':min(duration,i/rate),'mean_rgb':means,'pixel_digest':hashlib.sha256(frame).hexdigest()})
+                frames.append({'sample_s':points[index],'source_frame_index':index,'source_interval_s':[points[index],points[index+1] if index+1<len(points) else duration],'mean_rgb':means,'pixel_digest':hashlib.sha256(frame).hexdigest()})
             changes=[{'start_s':frames[i-1]['sample_s'],'end_s':frames[i]['sample_s'],'mean_channel_delta':sum(abs(a-b) for a,b in zip(frames[i-1]['mean_rgb'],frames[i]['mean_rgb']))/3} for i in range(1,len(frames))]
-            return {'modality':'VIDEO','decoded':True,'duration_s':duration,'width':int(stream['width']),'height':int(stream['height']),'frames':frames,'changes':changes,'coverage':'TEMPORAL_SAMPLES_NOT_FULL_SEMANTIC_COVERAGE','unobserved_between_samples':True,'audio_linkage':'PRESENT_NOT_DECODED' if any(s['codec_type']=='audio' for s in meta['streams']) else 'ABSENT','semantic_interpretation':'UNKNOWN'}
+            return {'modality':'VIDEO','decoded':True,'duration_s':duration,'width':int(stream['width']),'height':int(stream['height']),'frames':frames,'source_frame_count':len(points),'changes':changes,'coverage':'TEMPORAL_SAMPLES_NOT_FULL_SEMANTIC_COVERAGE','unobserved_between_samples':True,'audio_linkage':'PRESENT_NOT_DECODED' if any(s['codec_type']=='audio' for s in meta['streams']) else 'ABSENT','semantic_interpretation':'UNKNOWN'}
+
+def validate_decoded(decoded,modality):
+    allowed={
+        'IMAGE':{'modality','decoded','width','height','format','mean_rgb','pixel_digest','semantic_interpretation','coverage'},
+        'AUDIO':{'modality','decoded','duration_s','sample_rate','samples','pcm_digest','segments','transcript','transcript_status','speech','coverage'},
+        'VIDEO':{'modality','decoded','duration_s','width','height','frames','source_frame_count','changes','coverage','unobserved_between_samples','audio_linkage','semantic_interpretation'}}
+    if type(decoded)!=dict or set(decoded)!=allowed[modality] or decoded.get('modality')!=modality or decoded.get('decoded') is not True:raise CoreError('PERCEPTION_RESULT_INVALID')
+    if len(canonical(decoded).encode())>16384:raise CoreError('PERCEPTION_RESULT_BOUND')
+    if modality=='VIDEO':
+        frames=decoded['frames'];duration=decoded['duration_s']
+        if not isinstance(frames,list) or not 1<=len(frames)<=8 or not 0<duration<=30 or decoded['unobserved_between_samples'] is not True:raise CoreError('PERCEPTION_COVERAGE_INVALID')
+        times=[f['sample_s'] for f in frames]
+        if times!=sorted(set(times)) or not all(0<=t<duration for t in times):raise CoreError('PERCEPTION_COVERAGE_INVALID')
+    if modality=='AUDIO' and (decoded['sample_rate']!=16000 or decoded['transcript_status']!='NOT_RUN_NO_ASR' or decoded['transcript'] is not None):raise CoreError('PERCEPTION_AUDIO_CONTRACT_INVALID')
+    return decoded
 
 class DecodedMediaProcessor:
     """Exact local statistics processor, no SDK/network/model or mutation handles."""
@@ -102,10 +121,26 @@ class PerceptionService:
     def __init__(self,store,providers,policy,model_id='local.codec-v1',decoder=None):
         self.store,self.records,self.policy=store,RecordService(store),policy
         self.session=MediaSession(store,providers,policy);self.model_id=model_id;self.decoder=decoder or MediaDecoder()
+    def ingest_file(self,path,source,*,public_root,entity_id,scope):
+        root=Path(public_root);path=Path(path)
+        if root.is_symlink() or path.parent.resolve()!=root.resolve() or path.name in {'.','..'}:raise CoreError('MEDIA_PUBLIC_ROOT_REQUIRED')
+        # Exact flat public import directory is trusted application construction,
+        # never a ModelPort-selected path. No symlink traversal or path in logs.
+        directory=os.open(root,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)
+        try:
+            fd=os.open(path.name,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK,dir_fd=directory)
+            with os.fdopen(fd,'rb') as stream:
+                info=os.fstat(stream.fileno())
+                if not stat.S_ISREG(info.st_mode) or info.st_nlink!=1 or info.st_size>16*1024*1024:raise CoreError('MEDIA_FILE_BOUND_OR_LINK_DENIED')
+                data=stream.read(16*1024*1024+1)
+        except OSError:raise CoreError('MEDIA_PUBLIC_FILE_UNAVAILABLE') from None
+        finally:os.close(directory)
+        return self.ingest(data,source,entity_id=entity_id,scope=scope)
+
     def ingest(self,data,source,*,entity_id,scope):
         if self.store.schema_target<13 or scope not in self.policy.allowed_scopes or 'PUBLIC' not in self.policy.readable_privacy:raise CoreError('PERCEPTION_INGRESS_DENIED')
         if source.observed_time_us>self.store.clock.utc_now_us() or source.event_time_us>source.observed_time_us:raise CoreError('PERCEPTION_TIME_INVALID')
-        decoded=self.decoder.decode(data,source.modality)
+        decoded=validate_decoded(self.decoder.decode(data,source.modality),source.modality)
         body={'source':source.model_dump(mode='json'),'source_byte_digest':hashlib.sha256(data).hexdigest(),'decoded':decoded}
         domain='SYNTHETIC_ONLY' if source.origin=='SYNTHETIC' else 'RECORDED_PUBLIC';prefix='synthetic' if source.origin=='SYNTHETIC' else 'recorded'
         memory=self.records.memory
@@ -117,6 +152,21 @@ class PerceptionService:
             self.records.read(prior[0]);return mid,prior[0]
         operation={'IMAGE':'understand_image','AUDIO':'understand_audio','VIDEO':'understand_video'}[source.modality]
         interpreted=getattr(self.session,operation)(self.model_id,(mid,),scopes=(scope,))
+        result=json.loads(interpreted.result_json)
+        if set(result)!={'observations','model_derived','not_a_semantic_truth_claim'} or result['model_derived'] is not False or result['not_a_semantic_truth_claim'] is not True or len(result['observations'])!=1:raise CoreError('PERCEPTION_INTERPRETATION_INVALID')
+        item=result['observations'][0]
+        if set(item)!={'memory_id','technical_observation','semantic_understanding','processor'} or item['memory_id']!=mid or item['semantic_understanding']!='NOT_RUN' or item['processor']!='LOCAL_CODEC_STATISTICS_V1':raise CoreError('PERCEPTION_INTERPRETATION_INVALID')
+        # Verified *technical* media result becomes an independently queryable
+        # world belief. Source-byte and temporal provenance remain attached.
+        from .world import SourcedClaim,WorldModel
+        media_entity='media.'+source.source_id
+        memory.entity(media_entity,'OBJECT')
+        claim=SourcedClaim(entity_id=media_entity,predicate='media.technical',value={'modality':source.modality,'technical':item['technical_observation'],'source_byte_digest':body['source_byte_digest'],'semantic_model':'NOT_RUN'},kind='VERIFIED_RESULT',valid_from_us=source.event_time_us,confidence=1.)
+        claim_text=canonical({'world_claim':claim.model_dump(mode='json')})
+        verified=memory.capture(EvidenceInput(provenance=Provenance(domain=domain,source_namespace=prefix+'.media-processor',source_reference=digest([source.source_id,body['source_byte_digest']]),source_kind='SYSTEM_VERIFICATION'),text=claim_text,privacy_class='PUBLIC',event_time_us=source.event_time_us,observed_time_us=source.observed_time_us))
+        prior_claim=self.store.db.execute('SELECT memory_id FROM memories WHERE source_evidence_id=?',(verified,)).fetchone()
+        claim_mid=prior_claim[0] if prior_claim else memory.add(MemoryCandidate(entity_id=entity_id,scope=scope,memory_type=MemoryType.SEMANTIC,epistemic_kind='OBSERVATION',source_evidence_id=verified,text=claim_text,derived_from=(mid,),confidence=1.))
+        belief_id=WorldModel(self.store,scopes=(scope,),privacy_classes=('PUBLIC',)).ingest(claim_mid)
         with self.store.transaction('world.media_observed',{'source_memory_id':mid,'modality':source.modality}) as tx:
-            rid=self.records.create(tx,kind='MEDIA_OBSERVATION',scope=scope,payload={'source_memory_id':mid,'processor_id':self.model_id,'observation':json.loads(interpreted.result_json),'origin':source.origin,'semantic_interpretation':'NOT_RUN'},memories=(mid,),target_id=mid)
+            rid=self.records.create(tx,kind='MEDIA_OBSERVATION',scope=scope,payload={'source_memory_id':mid,'processor_id':self.model_id,'observation':json.loads(interpreted.result_json),'origin':source.origin,'semantic_interpretation':'NOT_RUN','world_belief_id':belief_id,'world_source_memory_id':claim_mid},memories=(mid,claim_mid),target_id=mid)
         return mid,rid

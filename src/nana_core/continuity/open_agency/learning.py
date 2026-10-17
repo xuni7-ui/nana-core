@@ -119,6 +119,11 @@ class LearningService:
             method=self.proposer.propose_method(spec)
             if method not in spec.hypotheses:raise CoreError('LEARNING_HYPOTHESIS_REJECTED')
             new['selected_method']=method
+            parent=getattr(self.proposer,'last_record_id',None)
+            if parent:
+                record=self.records.read(parent)
+                if record['record_kind']!='COGNITION_PROPOSAL' or record['scope']!=head['scope'] or record['privacy_class'] not in self.privacy or not self.records.current_support(parent) or record['payload']['reply']['proposal']['method']!=method:raise CoreError('LEARNING_COGNITION_SOURCE_MISMATCH')
+                new['hypothesis_source']=parent
         if stage in {'BASELINE','PRACTICE','EVALUATE','TRANSFER'}:
             method=spec.baseline_method if stage=='BASELINE' else body['selected_method']
             cases=spec.evaluation if stage in {'BASELINE','EVALUATE'} else spec.practice if stage=='PRACTICE' else spec.transfer
@@ -166,7 +171,7 @@ class LearningService:
         with self.store.transaction('open.learning_stage_committed',{'work_id':job['job_id'],'stage':stage}) as tx:
             current=self.store.one('jobs',job['job_id'])
             if current['revision']!=job['revision']:raise CoreError('STALE_LEARNING_WORK')
-            newrid=self.records.create(tx,kind='OPEN_LEARNING',scope=head['scope'],payload=new,records=(rid,),supersedes=rid,target_id=spec.learning_key)
+            newrid=self.records.create(tx,kind='OPEN_LEARNING',scope=head['scope'],payload=new,records=(rid,*((new['hypothesis_source'],) if new.get('hypothesis_source') else ())),supersedes=rid,target_id=spec.learning_key)
             tx.update('jobs',job['job_id'],record_id=newrid,cursor=next_cursor,state='DONE' if stage=='MONITOR' else 'WAITING',revision=job['revision']+1,updated_at_us=self.store.clock.utc_now_us())
         return {'work_id':job['job_id'],'stage':stage,'next_stage':new['stage'],'lesson_id':new.get('lesson_id')}
     def _terminal(self,job,state,reason):

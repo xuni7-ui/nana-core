@@ -55,9 +55,12 @@ def test_actual_image_audio_video_decode_spans_and_source_erasure(tmp_path):
         for modality,data in media_samples().items():
             mid,rid=p.ingest(data,PublicMediaSource(source_id=modality.lower(),modality=modality,origin='SYNTHETIC',event_time_us=r.clock.utc_now_us(),observed_time_us=r.clock.utc_now_us()),entity_id='observer',scope='world')
             decoded=json.loads(MemoryService(r.store).read(mid)['text'])['decoded'];reports[modality]=decoded
-            assert decoded['decoded'];MemoryService(r.store,r.authority).forget(mid,r.authority)
+            assert decoded['decoded']
+            assert p.records.read(rid)['payload']['world_belief_id']
+            MemoryService(r.store,r.authority).forget(mid,r.authority)
             with pytest.raises(CoreError):p.records.read(rid)
         assert len(reports['VIDEO']['frames'])>=3 and len(reports['VIDEO']['changes'])>=2
         assert reports['AUDIO']['samples']==16000 and reports['AUDIO']['transcript_status']=='NOT_RUN_NO_ASR'
         assert reports['VIDEO']['unobserved_between_samples']
+        assert all(len(f['source_interval_s'])==2 and f['source_interval_s'][0]<=f['sample_s']<f['source_interval_s'][1] for f in reports['VIDEO']['frames'])
         with pytest.raises(CoreError):p.decoder.decode(b'not a video','VIDEO')

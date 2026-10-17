@@ -31,7 +31,7 @@ def open_runtime(path,clock,*,wall=False):
     with ContinuityStore(path,clock,schema_target=13) as s:
         IdentityService(s,OperatorAuthority())
         for e,k in [('observer','PERSON'),('friend','PERSON'),('device','OBJECT')]:MemoryService(s).entity(e,k)
-    config=RuntimeConfig(schema_target=13,living=LivingRuntimeConfig(maintenance_interval_us=SECOND if wall else HOUR),scopes=('world',),entity_id='observer',privacy_classes=('PUBLIC','PROJECT','PERSONAL'),lease_us=2*HOUR,heartbeat_us=SECOND if wall else 15*60*SECOND,review_interval_us=2*SECOND if wall else HOUR,idle_recall_us=2*SECOND if wall else HOUR)
+    config=RuntimeConfig(schema_target=13,max_calls_per_day=64,living=LivingRuntimeConfig(max_model_bytes_per_day=16_000_000,background_fraction_percent=80,maintenance_interval_us=SECOND if wall else HOUR),scopes=('world',),entity_id='observer',privacy_classes=('PUBLIC','PROJECT','PERSONAL'),lease_us=2*HOUR,heartbeat_us=SECOND if wall else 15*60*SECOND,review_interval_us=2*SECOND if wall else HOUR,idle_recall_us=2*SECOND if wall else HOUR)
     return NanaRuntime(path,config,clock=clock)
 
 def capture(r,key,body,*,privacy='PUBLIC',kind='DIRECT_OBSERVATION',predicate=None,event_time=None,entity='observer'):

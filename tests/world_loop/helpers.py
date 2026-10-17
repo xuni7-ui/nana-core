@@ -15,7 +15,7 @@ def fresh(path,clock=None):
     clock=clock or VirtualClock()
     with ContinuityStore(path,clock,schema_target=13) as s:
         IdentityService(s,OperatorAuthority());MemoryService(s).entity('observer','PERSON');MemoryService(s).entity('device','OBJECT')
-    return NanaRuntime(path,RuntimeConfig(schema_target=13,living=LivingRuntimeConfig(maintenance_interval_us=SECOND),scopes=('world',),entity_id='observer',privacy_classes=('PUBLIC','PROJECT','PERSONAL'),idle_recall_us=HOUR,review_interval_us=HOUR),clock=clock)
+    return NanaRuntime(path,RuntimeConfig(schema_target=13,max_calls_per_day=64,living=LivingRuntimeConfig(max_model_bytes_per_day=16_000_000,background_fraction_percent=80,maintenance_interval_us=SECOND),scopes=('world',),entity_id='observer',privacy_classes=('PUBLIC','PROJECT','PERSONAL'),idle_recall_us=HOUR,review_interval_us=HOUR),clock=clock)
 def capture(r,key,body,*,privacy='PUBLIC',kind='DIRECT_OBSERVATION',event=None):
     memory=MemoryService(r.store);text=canonical(body)
     eid=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.world-test',source_reference=key,source_kind=kind),text=text,privacy_class=privacy,event_time_us=r.clock.utc_now_us() if event is None else event,observed_time_us=r.clock.utc_now_us()))

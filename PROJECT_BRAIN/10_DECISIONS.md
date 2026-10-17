@@ -565,3 +565,26 @@ skill/delivery views. L0/L1/L2 are views, not duplicate selves. Existing39 table
 no new workflow service/framework/provider SDK. Migratable records/history, rebuildable
 projections and machine-local execution are distinct. Main/R045/production untouched;
 real memory ingress remains closed, E12 NOT_RUN, no automatic push.
+
+## D-WORLD-001 — GLOBAL_STAGE E is not the previous task's local E1–E6 numbering
+[用户纠偏/源码] GLOBAL_STAGE=E World Model/Real Cognition。此前E1–E6提前具备F/G/I及
+迁移端口基础，不再新造goal/九阶段学习/code-skill lifecycle。当前新增能力优先为cognition
+transport、持久world beliefs、真实媒体decode及其进入同一C/D链。仅因新输入需要增加
+concern选择、episode反例和skill-need接线。A/B历史路线不被本轮重命名；不机械宣布NEXT=F。
+
+## D-WORLD-002 — indexed headers, erasable sources, no second fact authority
+[源码] 显式development13增加cognitive_requests/world_beliefs/open_concerns/
+strategy_assessments四类可索引header，仍为原Store；内容与来源闭包复用Records/Memory/
+PrivacyJournal，派生projection不是authority。默认C7/D8不变，生产migration未授权。
+world belief显式区分source epistemics、event/valid/known time、revision、conflict/UNKNOWN；
+模型引用不能自证事实，用户claim不能当raw observation。新媒体技术观察由实际解码器
+核验后进入world，不把采样/statistics说成完整语义理解。
+
+## D-WORLD-003 — explicit public media/transport construction and unknown billing
+[源码/环境实测] 环境没有现成provider配置；不找secret，LIVE_MODEL_EXECUTION=NOT_RUN。
+真实HTTPS transport实现完成，本地HTTP harness仍SYNTHETIC。模型只给proposal，先写
+CALLING；超时/中断UNKNOWN不自动重发；epoch/source/subject/goal/world revision共同防陈旧。
+现有ContextAssembler mandatory sources仍过hard privacy/budget；provider/cognition预算
+并入原Runtime resource projection与前台保留份额，未知usage/cost保留未知，不伪造零账单。
+允许development13 PUBLIC非私人录制媒体的typed provenance，RealMemoryIngress仍disabled。
+FFmpeg仅只读系统运行库+单次输入sandbox，无宿主Store/private目录/网络；不新增真实执行权。

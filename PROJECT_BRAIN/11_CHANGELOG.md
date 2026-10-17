@@ -1411,3 +1411,14 @@ learning/code proposer可替换；模型不接触Store/Grant/Manager。新world�
 同时避免managed concern被通用watch再次驱动；已形成Reflection候选的工作完成后不占
 永久pending槽。Legacy<=12保留。20项新targeted与26既有open tests当前通过；最终soak/
 全量仍待验。真实模型/外部动作0，未push。
+
+## GLOBAL_STAGE E M3 — decoded world causality and bounded recovery（2026-10-17）
+[源码/离线实测] 实际PNG/WAV/MP4文件解码的技术结果现在进入同一Store的world belief；
+不是语义模型理解。视频使用真实frame PTS/索引/采样区间，公开导入拒绝link/FIFO。
+补全model proposal→C candidate→plan/code/hypothesis的Record依赖，来源删除可闭包；
+同时修复把全量transitive support强制塞进模型造成预算溢出：只pin有界相关来源，完整
+provenance仍保留，Context预算/完整冲突/隐私不放宽。post-judgment provider/context
+失败park，不无穷重试、不重写判断。统一原Runtime与model transport的调用/字节/成本
+reservation，真实未知billing不伪装0。对用户GLOBAL E纠偏追加能力矩阵/路线口径。
+51 targeted通过（含两个26h世界、两实际SIGKILL/迁移），额外public file边界5/0.76s。
+完整回归与30min实际wall-clock进行中；真实模型/外部动作/生产/push仍0。

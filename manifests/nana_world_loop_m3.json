@@ -1,0 +1,30 @@
+{
+  "scope": "OFFLINE_DEVELOPMENT",
+  "files": {
+    "PROJECT_BRAIN/07_ROADMAP.md": "6b99ee124063c85b24d08255b7bb97f4f6d91e09b5d5909d2e4fb9f14366005d",
+    "PROJECT_BRAIN/10_DECISIONS.md": "804b14f10fe04922e194ff143aa96f1289d37b5801c56ed73521100c1855c402",
+    "PROJECT_BRAIN/11_CHANGELOG.md": "59d94b0b1aceaef206b3330f854497e3afc2b580ecf0c9e1f6d74af0063bef8c",
+    "src/nana_core/continuity/open_agency/code_skills.py": "d5def85294260c401bfe25bf2c6e18dd21c05c02fb59326a266cfb98067bcaf4",
+    "src/nana_core/continuity/open_agency/contracts.py": "43960601805db44d318551f9844048d142031382a3f842a39d0b13b786f58c04",
+    "src/nana_core/continuity/open_agency/learning.py": "31e0604ef6e8f479de27caf317bf93f99c6daede608123d63a51be596c7a5f18",
+    "src/nana_core/continuity/open_agency/service.py": "2761b65403ee3d0eb4f1dc8e15439d1809b68cb6ea1f454d3f23f65b56d6cfdb",
+    "src/nana_core/continuity/subject/loop.py": "4588d656fdfc0a244868bf0e6311312a41a41a3bde8b58cdc4fa1990d8d8e0bd",
+    "src/nana_core/continuity/world_loop/attention.py": "b2d6c49951aace60926bcdd89feb7b6e4c6e084979e8df666e27669d7aa8f474",
+    "src/nana_core/continuity/world_loop/cognition.py": "0a0fb76740d1a051cd23a67afb136113eb931257f99e919013449960a86323b1",
+    "src/nana_core/continuity/world_loop/coordinator.py": "018a3be81b4f945b9f265c39b9af2d8ca4a41e2c6e3269b789021db6070f5b73",
+    "src/nana_core/continuity/world_loop/extension.py": "c9a374c2e972a892817a70ad6b39d74864c12289fdf1e2bd52d1049d960d1cc0",
+    "src/nana_core/continuity/world_loop/perception.py": "b2c677ef268cb207a3fed0242405f2d8f0a65c1240340f17e78e56095095b178",
+    "src/nana_core/continuity/world_loop/ports.py": "c759afdd4ed2ee7f229ca09b0c88b08f60edb7935f81b2dc4188f8011b11859d",
+    "src/nana_core/continuity/world_loop/reference.py": "b2be17b76495593b14c06831c3be6f9c71a170aeca2499a80f853dfa4c9e4ddb",
+    "src/nana_core/presence/resources.py": "c5c24c2d36799dee4e30241a22ac29a1c8a38accf5024d86a3ae45cf9e205a41",
+    "src/nana_core/storage/schema_v13.sql": "fe31c5bcffb94bb1d1b53060d862677c3a267db5f5769e3ac1ae4e0acaee7688",
+    "tests/world_loop/helpers.py": "8fde3b5ce10c6ab901affd29e2f5896e7c290bd82e71850e4cb6462c4680c2c2",
+    "tests/world_loop/test_boundaries.py": "b4103e8c710945eaa3f098eb8494f677d74845e80b9e959849b9357d498e1150",
+    "tests/world_loop/test_foundation.py": "553d43f8e2eec6b2f1e6bd50002d7a28d42eb91a4679e8723c72fb89c13c253e",
+    "tests/world_loop/test_living.py": "9638915ca06c365bcb196f2d94623dc98a2fbd310efcbeac0359d134d20b1b72",
+    "tests/world_loop/test_recovery.py": "26da5d07b14bf88f2bcebcbd375ee82d42306e1eceffb01b53266fc031c5982f",
+    "docs/nana_global_stage_e_capability_reconciliation.md": "5363235e3b28e8b2fa59d7b719ab24d3c58cb1835a6fdbfd90264486083d5b99",
+    "src/nana_core/presence/world_demo.py": "d9f54a724c46a99cd249d711143f7e2fa4796c603cf1b1e5f7f6508deca2f56c",
+    "tests/world_loop/test_system.py": "fc9494ba0d1c743ada214590cfa72c8eca4e408f23fe059c03b418a51c35e7f7"
+  }
+}

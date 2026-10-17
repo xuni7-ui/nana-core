@@ -1144,3 +1144,15 @@ nana_world_loop_m1 manifest SHA256 86361bf0dedf7b15c1c5f21aeba6fbb9750e5f9df8f41
 技能需求已接线。同一Loop/Store；SIGKILL后关联/采纳ACK可恢复。最终长期验收与回归待完成。
 
 nana_world_loop_m2 manifest SHA256 2b3d8a2105640c747a4c7543946c417e22f59b49abce5044a3e55471fb09175a.
+
+## GLOBAL_STAGE E — corrected scope（2026-10-17，开发中）
+[用户纠偏/源码] GLOBAL_STAGE=E World Model/Real Cognition，不等于上一任务局部E1–E6。
+F/G/I V1基础复用；不重造九阶段/skill lifecycle。当前分支仍继承255ac99连续工作，不推倒。
+能力盘点：docs/nana_global_stage_e_capability_reconciliation.md。新增核心验收聚焦：真实媒体
+技术观察→持久世界信念→原Context/Subject关注/目标/replan；LIVE模型仍NOT_RUN。
+
+[离线实测] GLOBAL E M3：两26h主/对照world系统测试、post-judgment恢复与既有open
+能力合计51通过；另public file边界5通过。真实媒体技术结果已形成world belief并影响
+同一C关注/目标；source world revision可replan。最终全量/实际wall soak待完成，不预称READY。
+
+nana_world_loop_m3 manifest SHA256 bd1950dd02a229558426e48ece1b7836af7e9af8173c90f2373262407a36c5e0.
