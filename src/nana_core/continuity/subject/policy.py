@@ -5,9 +5,11 @@ from .opportunities import ConcernCue,directions
 from ..relational.contracts import SocialAppetiteView
 from ..autonomy.contracts import RelationshipInfluenceView,SocialPrivacyExpectation
 from ..agency_contracts import PlanStepView
+from .context_fit import ContextFitAssessment
 
 
 class Situation(DTO):
+    context_fit: ContextFitAssessment | None = None
     scope: str
     memory_ids: tuple[str, ...]
     project_ids: tuple[str, ...]
@@ -52,6 +54,7 @@ def appraise(event: SubjectInput, situation: Situation):
         reasons.append('supported interest remains unresolved')
     if not reasons:
         reasons.append('evaluate input without assuming it is an adopted goal')
+    if situation.context_fit:reasons.append(situation.context_fit.reason)
     if situation.cue:
         reasons.append('a current source-backed concern offers options; it is not an adopted intention')
     return Appraisal(novelty=event.novelty,
@@ -98,6 +101,9 @@ def decide(event, situation, appraisal, motives):
     if event.retention == 'DO_NOT_REMEMBER':
         return ('IGNORE', Judgment(stance='IGNORE', reason='Honor non-retention; do not form a long-term inference', source_ids=()),
             Intention(kind='NO_ACTION', purpose='Let this input pass without retention', slot_key='quiet', source_ids=(), self_generated=self_generated))
+    from .context_fit import choose
+    context_choice=choose(event,situation)
+    if context_choice and (situation.context_fit.mode in {'RESPECT_BOUNDARY','VENT','SHARE','FOCUS','UNCLEAR'}):return context_choice
     if appraisal.risk == 'HIGH' and appraisal.uncertainty in {'RELEVANT','HIGH'}:
         return ('FOCUS_NOW', Judgment(stance='ASK', reason='Risk needs clarification, not unsupported escalation', source_ids=sources),
             Intention(kind='WAIT', purpose='Hold concern without contacting anyone', slot_key='clarify', source_ids=sources, self_generated=self_generated))
@@ -105,6 +111,7 @@ def decide(event, situation, appraisal, motives):
         return ('FOCUS_NOW', Judgment(stance='ALTERNATIVE', reason='Prefer the method consistent with recorded project constraints',
             source_ids=sources, selected_method=situation.allowed_methods[0]),
             Intention(kind='DISAGREE', purpose='Explain a sourced alternative without overriding the user', slot_key='project-alternative', source_ids=sources, self_generated=False,behavior='DISAGREE'))
+    if context_choice:return context_choice
     if situation.due_commitment_ids:
         return ('FOCUS_NOW', Judgment(stance='DEFER', reason='An adopted due commitment takes priority over optional exploration', source_ids=sources),
             Intention(kind='GOAL_CANDIDATE', purpose='Review a due commitment; no execution has been authorized', slot_key='commitment-review', source_ids=sources, self_generated=self_generated))

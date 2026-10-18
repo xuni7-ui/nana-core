@@ -245,8 +245,8 @@ class CognitionSession:
                 if parent['scope'] not in req.scopes or parent['privacy_class'] not in allowed_for_role(self.transport,self.policy) or not self.records.current_support(parsed.source_record_id):raise CoreError('COGNITION_ROLE_SOURCE_DENIED')
                 extra_parents=(parsed.source_record_id,)
             elif role=='LEARN':
-                from ..open_agency.learning import LearningSpec
-                LearningSpec.model_validate_json(canonical(role_input))
+                from ..open_agency.learning import LearningSpec,LearningProblem
+                role_input=(LearningProblem.from_spec(LearningSpec.model_validate_json(canonical(role_input))) if 'evaluation' in role_input or 'transfer' in role_input else LearningProblem.model_validate_json(canonical(role_input))).model_dump(mode='json')
             elif role=='SKILL':
                 from ..open_agency.code_skills import CodeSpec
                 if set(role_input)-{'spec','diagnostic'}:raise CoreError('COGNITION_ROLE_INPUT_REJECTED')

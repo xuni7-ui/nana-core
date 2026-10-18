@@ -1,0 +1,80 @@
+"""Rebuildable opportunities from independently checked capability reuse.
+
+No new fact, preference or adopted goal is written here. A current method lesson
+and a distinct later verified use may become C attention, not mandatory sharing.
+"""
+import json
+from typing import Literal
+from ...contracts import DTO,CoreError
+from ...storage import digest
+from ..records import RecordService
+
+class GrowthChangeView(DTO):
+    derived: Literal[True] = True
+    assessment_id: str
+    lesson_id: str
+    experience_id: str
+    topic: str
+    scope: str
+    method: str
+    source_record_ids: tuple[str,...]
+    source_memory_ids: tuple[str,...]
+    as_of_us: int
+    state_token: str
+
+def project(store,assessment_id,*,scope,privacy_classes):
+    if store.schema_target<13:return None
+    row=store.one('strategy_assessments',assessment_id)
+    if not row or row['verdict']!='SUCCESS':return None
+    lesson=store.one('lessons',row['lesson_id']);records=RecordService(store)
+    if not lesson or lesson['state']!='ACTIVE':return None
+    for rid in (row['record_id'],lesson['record_id']):
+        head=store.one('continuity_records',rid)
+        if not head or head['scope']!=scope or head['privacy_class'] not in privacy_classes or head['lifecycle']!='ACTIVE' or not records.current_support(rid):return None
+    review=records.read(row['record_id'])['payload'];rule=records.read(lesson['record_id'])['payload']['rule']
+    if rule.get('kind')!='METHOD_SELECTION':return None
+    trial=records.read(rule['trial_record_id'])['payload'];case=review['episode']['case']
+    training={x['input_digest'] for stage in trial['results'].values() for x in stage['cases']}
+    if digest(case['data']) in training or not review['result']['all_passed']:return None
+    # The published reuse observation must be independently verified, not a user
+    # or model asserting that something worked. The original assessment recomputes.
+    source_ids=records.support(row['record_id'])
+    verified=[]
+    for mid in source_ids:
+        m=records.memory.read(mid)
+        if m['source_provenance']['source_kind']!='SYSTEM_VERIFICATION' or m['authority']!='DIRECT' or m['epistemic_kind']!='OBSERVATION':continue
+        try:body=json.loads(m['text'])
+        except ValueError:continue
+        if body.get('strategy_episode')==review['episode']:verified.append(mid)
+    if not verified:return None
+    refs=(row['record_id'],lesson['record_id'])
+    mids=tuple(dict.fromkeys(m for r in refs for m in records.support(r)))
+    if len(mids)>32:return None
+    return GrowthChangeView(assessment_id=assessment_id,lesson_id=lesson['lesson_id'],experience_id=lesson['experience_id'],topic='growth.'+digest(lesson['task_class'])[:24],scope=scope,method=rule['method'],source_record_ids=refs,source_memory_ids=mids,as_of_us=store.clock.utc_now_us(),state_token=digest([refs,lesson['revision']]))
+
+def opportunities(store,*,scope,privacy_classes):
+    if store.schema_target<13:return ()
+    rows=store.db.execute("SELECT a.assessment_id FROM strategy_assessments a JOIN lessons l ON l.lesson_id=a.lesson_id WHERE a.verdict='SUCCESS' AND l.state='ACTIVE' ORDER BY a.created_at_us DESC,a.rowid DESC LIMIT 32").fetchall()
+    result=[];lessons=set()
+    for row in rows:
+        view=project(store,row[0],scope=scope,privacy_classes=privacy_classes)
+        if view and view.lesson_id not in lessons:result.append(view);lessons.add(view.lesson_id)
+    return tuple(result)
+
+def availability(store,entity_id,*,scope,privacy_classes):
+    """Use existing recipient observations. Silence is not low social appetite."""
+    from ..open_agency.delivery import RecipientState
+    records=RecordService(store);now=store.clock.utc_now_us();states=[]
+    rows=store.db.execute("SELECT * FROM memories WHERE scope=? AND entity_id=? AND predicate_key LIKE 'recipient.%' AND lifecycle='ACTIVE' AND assessment IN ('CURRENT','UNASSESSED') ORDER BY created_at_us DESC,rowid DESC LIMIT 17",(scope,entity_id)).fetchall()
+    if len(rows)>16:return 'UNKNOWN',()
+    seen=set();support=[]
+    for row in rows:
+        if row['privacy_class'] not in privacy_classes:return 'UNKNOWN',()
+        try:m=records.memory.read(row['memory_id']);state=RecipientState.model_validate_json(m['text'])
+        except (CoreError,ValueError):continue
+        if state.entity_id!=entity_id or m['authority']!='DIRECT' or state.resource in seen:continue
+        seen.add(state.resource)
+        if state.observed_at_us>now or state.expires_at_us<=now:continue
+        states.append(state.availability);support.append(row['memory_id'])
+    value=next(iter(set(states))) if len(set(states))==1 else 'UNKNOWN'
+    return value,tuple(support)

@@ -78,7 +78,7 @@ class AnalyticalFixturePort:
             memories.extend(block["source_memory_ids"])
             if block["kind"] == "LESSON":
                 lesson = json.loads(block["data_json"])
-                if lesson["rule"]["required_output"] == "locator":
+                if lesson["rule"].get("required_output") == "locator":
                     operations = ["READ_SOURCE", "LOCATE_SOURCE", "DRAFT"]
                     lessons.append(lesson["lesson_id"])
         return CognitiveProposal(identity_id=data["manifest"]["identity_id"],
@@ -103,7 +103,7 @@ class CautiousFixturePort:
             operations = ("WAIT",)
         else:
             operations = ("READ_SOURCE", "DRAFT")
-            if any(x["rule"]["capability"] == "reading.source.locate" for x in lessons):
+            if any(x["rule"].get("capability") == "reading.source.locate" for x in lessons):
                 operations = ("READ_SOURCE", "LOCATE_SOURCE", "DRAFT")
         return CognitiveProposal(identity_id=data["manifest"]["identity_id"],
             identity_revision=data["manifest"]["identity_revision"],

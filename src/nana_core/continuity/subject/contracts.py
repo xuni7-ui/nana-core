@@ -10,6 +10,8 @@ from ..agency_contracts import GoalStepRef,GoalReviewRef
 
 from ..relational.contracts import RelationalRequest,RelationalDecision,FacetName
 
+from .context_fit import InteractionSignal,ContextFitAssessment
+
 Key = str
 Level = Literal['NONE', 'LOW', 'RELEVANT', 'HIGH']
 DAY_US = 86_400_000_000
@@ -30,6 +32,8 @@ class PreferenceSignal(DTO):
 
 
 class SubjectInput(DTO):
+    interaction_signal: InteractionSignal | None = None
+    growth_assessment_id: str | None = None
     schema_version: Literal[1] = 1
     domain: Literal['SYNTHETIC_ONLY'] = 'SYNTHETIC_ONLY'
     source_key: str = Field(pattern=r'^synthetic[.:_-][A-Za-z0-9._:-]{1,128}$')
@@ -73,6 +77,10 @@ class SubjectInput(DTO):
 
     @model_validator(mode='after')
     def provenance(self):
+        if self.interaction_signal and (self.kind!='INTERACTION' or self.origin!='USER' or not self.text or self.positive_request or self.relational_request):raise ValueError('interaction context requires a separate sourced user occurrence')
+        if self.interaction_signal and self.topic and self.topic!=self.interaction_signal.topic_key:raise ValueError('context topic mismatch')
+        if self.growth_assessment_id and any((self.world_concern_id,self.goal_step,self.goal_review,self.memory_review_id,self.reflection_experience_id)):raise ValueError('one sourced wake purpose')
+        if self.growth_assessment_id and (self.kind!='WAKE' or self.origin!='SELF_WAKE' or not self.source_memory_ids):raise ValueError('growth review requires a sourced wake')
         if self.world_concern_id and (self.kind!="WAKE" or self.origin!="SELF_WAKE" or not self.source_memory_ids):raise ValueError("world concern requires sourced opportunity")
         if self.goal_review and (self.kind!='WAKE' or self.origin!='SELF_WAKE' or self.goal_step or self.memory_review_id or self.goal_review.cause_memory_id not in self.source_memory_ids):raise ValueError('review requires a separate source-backed opportunity')
         if self.goal_step and (self.kind!='WAKE' or self.origin!='SELF_WAKE' or not self.source_memory_ids):
@@ -167,6 +175,7 @@ class DeliberationTrace(DTO):
 
 
 class CycleResult(DTO):
+    context_fit: ContextFitAssessment | None = None
     cycle_id: str
     event_id: str
     revision: int

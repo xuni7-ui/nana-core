@@ -13,7 +13,7 @@ def admission(event: SubjectInput):
         return 'IGNORE', ('explicit non-retention takes priority',)
     if event.kind == 'WAKE':
         return 'TEMPORARY', ('wake is a condition, not a new lived experience',)
-    if event.preference_signal or event.relationship_kind or event.constraint_memory_ids or event.positive_request or event.relational_request:
+    if event.preference_signal or event.relationship_kind or event.constraint_memory_ids or event.positive_request or event.relational_request or (event.interaction_signal and event.interaction_signal.basis=='EXPLICIT' and event.interaction_signal.kind in {'DECLINE_DEPTH','REOPEN'}):
         return 'KEEP', ('future self/relationship/project relevance',)
     if event.significance in {'RELEVANT', 'HIGH'} or event.novelty == 'HIGH':
         return 'KEEP', ('significant or novel source occurrence',)
@@ -27,6 +27,7 @@ class SubjectIngress:
         self.store, self.memory, self.records = store, MemoryService(store), RecordService(store)
 
     def ingest(self, event: SubjectInput):
+        if event.interaction_signal and self.store.schema_target<9:raise CoreError('CONTEXT_FIT_SCHEMA_REQUIRED')
         now = self.store.clock.utc_now_us()
         if event.surface:
             from ..surfaces import source_key
@@ -55,6 +56,9 @@ class SubjectIngress:
             request_target='relational-request:'+digest([event.scope,event.entity_id,event.relational_request.request_id])
             if self.store.db.execute("SELECT 1 FROM continuity_records WHERE record_kind='SUBJECT_EVENT' AND target_id=? LIMIT 1",(request_target,)).fetchone():
                 raise CoreError('RELATIONAL_REQUEST_ID_REUSED')
+        if event.interaction_signal and event.interaction_signal.basis=='EXPLICIT' and event.interaction_signal.kind in {'DECLINE_DEPTH','REOPEN'}:
+            from .context_fit import boundary_key
+            request_target=boundary_key(event.entity_id,event.scope,event.interaction_signal.topic_key)
         support = tuple(dict.fromkeys((*event.source_memory_ids, *event.constraint_memory_ids)))
         for memory_id in support:
             item = self.memory.read(memory_id)

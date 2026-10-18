@@ -1400,3 +1400,29 @@ brain/Store/Runtime/schema, no H2 feature continuation. ADR-VF2-001 records boun
 audit/contract. This entry is planning/started, not implemented/qualified. Real
 AstrBot/QQ shadow requires later explicit host/privacy authorization; real dialogue,
 production Core adoption, general deep self-modification remain NOT_RUN.
+
+
+## VISION_FIRST_SHARED_GROWTH_V2 — implementation checkpoint
+[源码/定向测试] Original C now owns optional sourced ContextFitAssessment; exact
+entity/scope/topic refusal/reopen uses existing SUBJECT_EVENT target IDs and
+privacy closure. Explicit context never becomes Manager/Grant. Unrelated activity
+survives casual chat; focus yields through original reactive D priority. Temporary
+conversation uses bounded process-local queue ingress envelope, not capture-all
+Memory; metadata strips signal, finish/stop drops it, restart cannot recover body.
+Existing G proposals now see LearningProblem(practice only), not evaluation/
+transfer examples/answers. Old full LEARN input is sanitized before HTTP; accepted
+history stays intact. Original nine stages/Kernel/Experience/EpisodeLearning reused.
+Source-bound ongoing learning pauses on topic refusal; reopen alone does not resume;
+new C endorsement required. Adopted plan steps/reviews follow original C binding
+and recheck current boundary before further work.
+
+Verified novel later reuse can project a current optional growth-life opportunity
+through original D collector/C; existing due work has priority, no second loop or
+new table. Busy/unknown means WATCH; explicit no-interest closes that topic. Missing/
+deleted sources or suspended strategy remove support. Two model fixtures tolerate
+method lessons without reading-specific keys; identity/authority unchanged.
+Development demo actual local result4 vs4.75 before,10.75 vs10.75 later; independently
+checked heldout/transfer, candidate sharing/silence, source-withdrawal arm and true
+float counterexample pass. This is controlled local fixture computation/strategy
+selection, not real dialogue or general algorithm invention.165 earlier related
+tests passed;11 new focused passed. Final frozen-source full regression pending.

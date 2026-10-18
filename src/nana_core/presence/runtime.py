@@ -146,7 +146,7 @@ class NanaRuntime:
                 inp=SubjectInput(source_key='synthetic.runtime.attention-template',kind='WAKE',origin='SELF_WAKE',
                     entity_id=opportunity.entity_id,scope=opportunity.scope,observed_at_us=now,
                     source_memory_ids=opportunity.memory_ids[:32],task_class=opportunity.task_class,
-                    reflection_experience_id=opportunity.reflection_experience_id,commitment_check_id=opportunity.commitment_check_id)
+                    reflection_experience_id=opportunity.reflection_experience_id,growth_assessment_id=opportunity.growth_assessment_id,commitment_check_id=opportunity.commitment_check_id)
                 event=RuntimeEvent(event_type=opportunity.event_type,trigger=opportunity.wake_trigger,input=inp,
                     causes=(Cause(kind=opportunity.source_kind,reference_id=opportunity.source_id,revision=opportunity.source_revision),),
                     due_at_us=opportunity.due_at_us,priority=opportunity.priority)
@@ -279,6 +279,7 @@ class NanaRuntime:
         if self.stopped:return
         self.stopped=True
         self.cadence.close()
+        self.queue.clear_transient()
         try:
             try:self._save_oper()
             except CoreError:pass

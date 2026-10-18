@@ -12,6 +12,7 @@ class EventQueue:
     def __init__(self,store,config,lease):
         self.store,self.config,self.lease=store,config,lease
         self.records,self.ingress=RecordService(store),SubjectIngress(store)
+        self._transient_interactions={}
 
     def depth(self):
         return self.store.db.execute("SELECT count(*) FROM runtime_queue WHERE state IN ('READY','DEFERRED','PROCESSING')").fetchone()[0]
@@ -75,7 +76,7 @@ class EventQueue:
             # No durable body/interpretation for discarded input. Timers can
             # retain typed metadata via existing, erasable memory dependencies.
             retained.update(text=None,topic=None,proposed_method=None,preference_signal=None,relationship_kind=None)
-            retained.update(positive_request=None,relationship_details=None,disclosure_request=None,realization_target=None,goal_step=None,goal_review=None,world_concern_id=None,memory_review_id=None,surface=None)
+            retained.update(interaction_signal=None,growth_assessment_id=None,positive_request=None,relationship_details=None,disclosure_request=None,realization_target=None,goal_step=None,goal_review=None,world_concern_id=None,memory_review_id=None,surface=None)
         safe=SubjectInput.model_validate_json(canonical(retained))
         now=self.store.clock.utc_now_us()
         with self.store.transaction('runtime.event_enqueued') as tx:
@@ -86,7 +87,7 @@ class EventQueue:
             seq=self.store.db.execute('SELECT coalesce(max(sequence_no),0)+1 FROM runtime_queue').fetchone()[0]
             metadata=safe.model_dump(mode='json');metadata['text']=None
             # Structured semantic fields only survive via deletable record.
-            for field in ('topic','proposed_method','preference_signal','relationship_kind','positive_request','relationship_details','disclosure_request','realization_target','relational_request','goal_step','goal_review','memory_review_id','surface'):
+            for field in ('interaction_signal','growth_assessment_id','topic','proposed_method','preference_signal','relationship_kind','positive_request','relationship_details','disclosure_request','realization_target','relational_request','goal_step','goal_review','memory_review_id','surface'):
                 metadata[field]=None
             tx.put('runtime_queue',{'queue_id':queue_id,'source_key':event.input.source_key,'sequence_no':seq,
                 'event_type':event.event_type,'wake_trigger':event.trigger,'subject_event_id':source['subject_event_id'],
@@ -95,9 +96,23 @@ class EventQueue:
                 'due_at_us':event.due_at_us,'expires_at_us':event.expires_at_us,'owner_epoch':None,'cycle_id':None,
                 'outcome_code':None,'stream_key':event.stream_key,'source_sequence':event.source_sequence,
                 'attempts':0,'created_at_us':now,'updated_at_us':now})
+        if not record and event.input.interaction_signal:
+            # Admission remains TEMPORARY: the current process may understand
+            # this input without permanently remembering ordinary conversation.
+            for key in tuple(self._transient_interactions):
+                old=self.store.one('runtime_queue',key)
+                if not old or old['state'] not in {'READY','DEFERRED','PROCESSING'}:self._transient_interactions.pop(key,None)
+            self._transient_interactions[queue_id]=(event.input,now+30_000_000)
         return queue_id
 
+    def clear_transient(self):self._transient_interactions.clear()
+
     def input(self,row):
+        transient=self._transient_interactions.get(row['queue_id'])
+        if transient:
+            if self.store.clock.utc_now_us()<transient[1]:return transient[0]
+            self._transient_interactions.pop(row['queue_id'],None)
+
         if row['record_id']:
             record=self.records.read(row['record_id'])
             if not self.records.current_support(row['record_id']):raise CoreError('RUNTIME_CAUSE_STALE')
@@ -143,6 +158,7 @@ class EventQueue:
 
     def finish(self,row,state,code,cycle_id=None):
         if state not in {'DONE','IGNORED','EXPIRED','DEFERRED'}:raise CoreError('INVALID_RUNTIME_QUEUE_TRANSITION')
+        if state!='DEFERRED':self._transient_interactions.pop(row['queue_id'],None)
         with self.store.transaction('runtime.event_finished') as tx:
             old=self.store.one('runtime_queue',row['queue_id'])
             if old['state']!='PROCESSING' or old['owner_epoch']!=self.lease.epoch:raise CoreError('RUNTIME_QUEUE_OWNER_LOST')

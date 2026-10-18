@@ -8,6 +8,7 @@ def evaluate(event,situation,attention,judgment,intention):
     hard_unavailable=bool(situation.cue and situation.cue.resource_ref and situation.cue.resource_class!='ORDINARY')
     restrained=bool(situation.cue and (set(directions(situation.cue))<=set(situation.prohibited_behaviors)
         or (situation.social_privacy and situation.social_privacy.assessment in {'EXPLICITLY_PRIVATE','EXPLICITLY_FORBIDDEN'} and intention.kind=='NO_ACTION')))
+    restrained=restrained or bool(situation.context_fit and situation.context_fit.mode=='RESPECT_BOUNDARY' and motive and intention.kind=='NO_ACTION')
     restrained=restrained or bool(situation.voluntary_restraints and intention.kind=='NO_ACTION')
     if restrained and not hard_unavailable:
         normative,code='RESTRAINED','SUBJECT_RESTRAINED'

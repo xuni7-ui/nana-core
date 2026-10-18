@@ -21,14 +21,23 @@ class AttentionOpportunity(DTO):
     priority: int = 1
     task_class: str | None = None
     reflection_experience_id: str | None = None
+    growth_assessment_id: str | None = None
     calendar: RecurrenceSpec | None = None
     commitment_check_id: str | None = None
 
 
 def collect_opportunities(loop,*,entity_id,now_us,quiet_since_us,quiet_window_us):
     store,records=loop.store,RecordService(loop.store)
-    result=[]
+    result=[];growth_results=[]
     for scope in loop.scopes:
+        from .growth_life import opportunities,availability
+        recipient,recipient_refs=availability(store,entity_id,scope=scope,privacy_classes=loop.privacy_classes)
+        for change in opportunities(store,scope=scope,privacy_classes=loop.privacy_classes):
+            mids=tuple(dict.fromkeys((*change.source_memory_ids,*recipient_refs)))
+            if len(mids)>32:continue
+            growth_results.append(AttentionOpportunity(key='growth-'+digest([change.lesson_id,change.state_token,recipient,recipient_refs]),source_kind='EXPERIENCE',source_id=change.experience_id,
+                scope=scope,entity_id=entity_id,due_at_us=max(now_us,quiet_since_us+quiet_window_us),memory_ids=mids,event_type='SELF_EVENT',wake_trigger='SELF_TRIGGER',
+                task_class='interaction.shared_discovery',growth_assessment_id=change.assessment_id))
         ids=[r['memory_id'] for r in store.db.execute("SELECT memory_id FROM memories WHERE entity_id IN (?,?) AND scope=? AND predicate_key LIKE 'concern.%' AND lifecycle='ACTIVE' AND assessment IN ('CURRENT','UNASSESSED') ORDER BY created_at_us DESC LIMIT 64",
             (entity_id,store.identity['identity_id'],scope))]
         for mid,cue in cues_from(store,ids,scope=scope,privacy_classes=loop.privacy_classes):
@@ -70,4 +79,4 @@ def collect_opportunities(loop,*,entity_id,now_us,quiet_since_us,quiet_window_us
                 scope=scope,entity_id=entity_id,due_at_us=max(row['created_at_us']+quiet_window_us,quiet_since_us+quiet_window_us),
                 memory_ids=records.support(row['record_id']),event_type='REFLECTION_EVENT',wake_trigger='REFLECTION_TRIGGER',
                 task_class=row['task_class'],reflection_experience_id=row['experience_id'],priority=2))
-    return tuple(result[:64])
+    return tuple((*result,*growth_results)[:64])

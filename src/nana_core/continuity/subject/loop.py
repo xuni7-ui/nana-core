@@ -96,6 +96,16 @@ class SubjectLoop:
             from .opportunities import ConcernCue
             cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='RELATIONSHIP',topic_key=cue.topic_key,
                 possible_behaviors=('SOCIALIZE','WATCH') if relation.get('familiarity')=='FAMILIAR' else ('WATCH',),availability=event.observed_availability or 'UNKNOWN')
+        growth_change=None
+        if event.growth_assessment_id:
+            from .growth_life import project,availability
+            from .opportunities import ConcernCue
+            growth_change=project(self.store,event.growth_assessment_id,scope=event.scope,privacy_classes=self.privacy_classes)
+            if growth_change is None:raise CoreError('GROWTH_CHANGE_SOURCE_RETIRED')
+            records.extend(growth_change.source_record_ids);memories.extend(growth_change.source_memory_ids)
+            available,availability_refs=availability(self.store,event.entity_id,scope=event.scope,privacy_classes=self.privacy_classes)
+            memories.extend(availability_refs)
+            cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='COMPETENCE',topic_key=growth_change.topic,possible_behaviors=('SOCIALIZE','WATCH') if available=='AVAILABLE' else ('WATCH',),availability=available)
         if cue is None and event.kind=='WAKE':
             from .opportunities import ConcernCue
             for pid in projects:
@@ -155,7 +165,15 @@ class SubjectLoop:
                 if body.get('voluntary'):
                     terms=VoluntaryTerms.model_validate_json(canonical(body['voluntary']))
                     if terms.operation=='REFRAIN' and terms.behavior_domain==cue.behavior_domain and terms.start_us<=now<min(terms.end_us,terms.review_at_us):voluntary.append(cid)
-        return Situation(scope=event.scope, memory_ids=tuple(sorted(set(memories))),
+        from .context_fit import assess,plan_binding
+        contextual_event=event
+        if event.goal_step or event.goal_review:
+            binding=plan_binding(self.store,event.goal_step,scope=event.scope,privacy_classes=self.privacy_classes,goal_id=event.goal_review.goal_id if event.goal_review else None)
+            if binding:contextual_event=event.model_copy(update={'topic':binding['topic_key'],'entity_id':binding['entity_id']})
+        context_fit=assess(self.store,contextual_event,source,topic=contextual_event.topic or (cue.topic_key if cue else None),privacy_classes=self.privacy_classes)
+        if context_fit:
+            records.extend(context_fit.source_record_ids);memories.extend(context_fit.source_memory_ids)
+        return Situation(context_fit=context_fit,scope=event.scope, memory_ids=tuple(sorted(set(memories))),
             project_ids=tuple(projects), commitment_ids=tuple(commitments), due_commitment_ids=tuple(due),
             adopted_interests=interests, unresolved_interest=unresolved,
             familiar=relation['familiarity'] == 'FAMILIAR', allowed_methods=tuple(sorted(set(methods))),
@@ -351,6 +369,9 @@ class SubjectLoop:
             social=None
             if request_decision and request_decision.decision=='NEGOTIATE':
                 social=propose_social(topic='commitment.scope',style='RESPECTFUL_EXPLICIT',available=True,source_ids=situation.memory_ids)
+            if situation.context_fit and event.interaction_signal:
+                from .context_fit import social_candidate
+                social=social_candidate(situation.context_fit,style=situation.interaction_style,source_ids=situation.memory_ids,available=event.observed_availability!='BUSY')
             evaluation=disclosure=None
             if self.store.schema_target>=9:
                 from ..autonomy.evaluation import evaluate
@@ -366,6 +387,9 @@ class SubjectLoop:
                 social=propose_social(topic=situation.cue.topic_key,style=situation.interaction_style,
                     available=situation.cue.availability=='AVAILABLE',source_ids=situation.memory_ids,
                     lesson_ids=situation.lesson_ids,last_act=situation.last_social_act)
+            if event.growth_assessment_id and intention.kind=='SOCIAL_INTERACTION' and situation.cue.availability=='AVAILABLE':
+                from .social import SocialInteractionProposal
+                social=SocialInteractionProposal(act='REPORT_DISCOVERY',topic_key=situation.cue.topic_key,approach='CHECK_RECEPTION',source_memory_ids=situation.memory_ids)
             action=None
             if intention.kind=='EXPLORE' and situation.cue and situation.cue.resource_ref:
                 action=SyntheticActionProposal(resource_ref=situation.cue.resource_ref,resource_class=situation.cue.resource_class,source_memory_ids=situation.memory_ids)
@@ -395,7 +419,7 @@ class SubjectLoop:
                             'adopted': False, 'execution_authority': False}, records=(record,))
                     tx.put('subject_goal_candidates', {'candidate_id': candidate_id,
                         'intention_id': intention_id, 'record_id': candidate_record, 'state': 'PROPOSED'})
-            result = CycleResult(cycle_id=cycle_id, event_id=source['subject_event_id'], revision=expected_revision + 1,
+            result = CycleResult(context_fit=situation.context_fit,cycle_id=cycle_id, event_id=source['subject_event_id'], revision=expected_revision + 1,
                 admission=source['admission'], appraisal=appraisal, motivations=motives, attention=attention,
                 judgment=judgment, intention=intention, intention_id=intention_id, goal_candidate_id=candidate_id,
                 barrier='NO_ACTION' if intention.kind == 'NO_ACTION' else 'SHADOW_BLOCKED', record_id=None,social_proposal=social,action_proposal=action,
@@ -478,7 +502,7 @@ class SubjectLoop:
         appraisal = appraise(event, situation)
         motives = motivate(event, situation, appraisal)
         attention = decide(event, situation, appraisal, motives)[0]
-        if attention == 'IGNORE':
+        if attention == 'IGNORE' or (situation.context_fit and not situation.context_fit.allow_deepening):
             return self.run(event, expected_revision=revision)
         from .contracts import DeliberationFrame
         frame = DeliberationFrame(subject_event_id=source['subject_event_id'], scope=event.scope,

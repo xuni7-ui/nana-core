@@ -18,6 +18,16 @@ class LearningCase(DTO):
     context: str = Field(min_length=1,max_length=96)
     data: Any
     expected: Any
+class LearningProblem(DTO):
+    """Candidate-visible practice only. Held-out inputs/answers stay with evaluator."""
+    learning_key: str
+    domain: str
+    baseline_method: str
+    hypotheses: tuple[str,...] = Field(min_length=1,max_length=8)
+    practice: tuple[LearningCase,...] = Field(min_length=1,max_length=8)
+    @classmethod
+    def from_spec(cls,spec):return cls.model_validate(spec.model_dump(include=set(cls.model_fields)))
+
 class LearningSpec(DTO):
     learning_key: str = Field(pattern=r'^[a-z][a-z0-9_-]{0,31}\.[a-z][a-z0-9._-]{0,95}$')
     domain: str = Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
@@ -46,7 +56,7 @@ class MethodStrategyRule(DTO):
     grants_authority: Literal[False] = False
 
 class LearningProposerPort(Protocol):
-    def propose_method(self,spec:LearningSpec) -> str: ...
+    def propose_method(self,spec:LearningProblem) -> str: ...
 class FixtureLearningProposer:
     def propose_method(self,spec):return spec.hypotheses[0]
 
@@ -86,6 +96,16 @@ class LearningService:
         # recreate completed work or indefinitely train on its own outputs.
         previous=self.store.db.execute("SELECT j.* FROM jobs j JOIN continuity_records r ON r.record_id=j.record_id WHERE j.work_kind='LEARNING' AND r.target_id=? AND r.scope=? AND r.lifecycle='ACTIVE' LIMIT 1",(spec.learning_key,event.scope)).fetchone()
         if previous:
+            b=self.records.read(previous['record_id'])['payload']
+            if previous['state']=='BLOCKED' and b.get('context_paused'):
+                binding=b['context_binding']
+                from ..subject.context_fit import depth_boundary
+                closed,_,_=depth_boundary(self.store,binding['entity_id'],event.scope,binding['topic'],self.privacy)
+                if not closed:
+                    with self.store.transaction('open.learning_context_reconsidered',{'work_id':previous['job_id'],'cycle_id':cycle.cycle_id}) as tx:
+                        if self.store.one('jobs',previous['job_id'])['revision']!=previous['revision']:raise CoreError('STALE_LEARNING_WORK')
+                        rid=self.records.create(tx,kind='OPEN_LEARNING',scope=event.scope,payload={**b,'context_paused':False},records=(previous['record_id'],cycle.record_id),supersedes=previous['record_id'],target_id=spec.learning_key)
+                        tx.update('jobs',previous['job_id'],record_id=rid,state='WAITING',revision=previous['revision']+1)
             i=self.store.one('subject_intentions',cycle.intention_id)
             if i and i['state']=='PENDING':
                 with self.store.transaction('open.learning_already_selected',{'work_id':previous['job_id']}) as tx:tx.update('subject_intentions',i['intention_id'],state='COMPLETED',revision=i['revision']+1)
@@ -94,7 +114,7 @@ class LearningService:
         parents=(cycle.record_id,*((experience['record_id'],) if experience else ()))
         now=self.store.clock.utc_now_us();wid=uid()
         with self.store.transaction('open.learning_selected',{'work_id':wid,'cycle_id':cycle.cycle_id}) as tx:
-            rid=self.records.create(tx,kind='OPEN_LEARNING',scope=event.scope,payload={'stage':'OBSERVE','spec':spec.model_dump(mode='json'),'results':{},'cause':'VERIFIED_FAILURE' if experience and experience['outcome']=='FAILURE' else 'SOURCED_INTEREST_OR_GAP','selected_method':None,'trial_record_id':None,'lesson_id':None},records=parents,target_id=spec.learning_key)
+            rid=self.records.create(tx,kind='OPEN_LEARNING',scope=event.scope,payload={'stage':'OBSERVE','spec':spec.model_dump(mode='json'),'results':{},'cause':'VERIFIED_FAILURE' if experience and experience['outcome']=='FAILURE' else 'SOURCED_INTEREST_OR_GAP','context_binding':{'entity_id':event.entity_id,'topic':cycle.context_fit.topic_key} if cycle.context_fit else None,'selected_method':None,'trial_record_id':None,'lesson_id':None},records=parents,target_id=spec.learning_key)
             tx.put('jobs',{'job_id':wid,'occurrence_key':'learning:'+key,'due_at_us':now,'state':'WAITING','body_json':'{}','work_kind':'LEARNING','record_id':rid,'revision':1,'cursor':0,'owner_epoch':None,'updated_at_us':now})
             i=self.store.one('subject_intentions',cycle.intention_id)
             if i and i['state']=='PENDING':tx.update('subject_intentions',i['intention_id'],state='COMPLETED',revision=i['revision']+1)
@@ -111,12 +131,22 @@ class LearningService:
         if not self.records.current_support(rid) or head['lifecycle']!='ACTIVE':return self._terminal(job,'CANCELLED','SOURCE_RETIRED')
         body=self.records.read(rid)['payload'];spec=LearningSpec.model_validate_json(canonical(body['spec']))
         if spec.learning_key not in self.specs or self.specs[spec.learning_key]!=spec:return self._terminal(job,'BLOCKED','LEARNING_POLICY_CHANGED')
+        binding=body.get('context_binding')
+        if binding:
+            from ..subject.context_fit import depth_boundary
+            closed,_,_=depth_boundary(self.store,binding['entity_id'],head['scope'],binding['topic'],self.privacy)
+            if closed:
+                with self.store.transaction('open.learning_context_paused',{'work_id':job['job_id']}) as tx:
+                    if self.store.one('jobs',job['job_id'])['revision']!=job['revision']:raise CoreError('STALE_LEARNING_WORK')
+                    newrid=self.records.create(tx,kind='OPEN_LEARNING',scope=head['scope'],payload={**body,'context_paused':True},records=(rid,),supersedes=rid,target_id=spec.learning_key)
+                    tx.update('jobs',job['job_id'],record_id=newrid,state='BLOCKED',revision=job['revision']+1)
+                return {'work_id':job['job_id'],'reason':'CONTEXT_TOPIC_CLOSED'}
         stage=STAGES[job['cursor']];new=json.loads(canonical(body));next_cursor=job['cursor']+1
         # Computation/validation happens BEFORE advancing cursor. An exception,
         # timeout or killed process leaves this exact stage pending on reopen.
         if stage=='VALUE' and spec.estimated_cost_micro>self.ceiling:return self._terminal(job,'BLOCKED','LEARNING_COST_CEILING')
         if stage=='HYPOTHESIZE':
-            method=self.proposer.propose_method(spec)
+            method=self.proposer.propose_method(LearningProblem.from_spec(spec))
             if method not in spec.hypotheses:raise CoreError('LEARNING_HYPOTHESIS_REJECTED')
             new['selected_method']=method
             parent=getattr(self.proposer,'last_record_id',None)
