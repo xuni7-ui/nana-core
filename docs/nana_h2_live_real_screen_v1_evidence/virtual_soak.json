@@ -1,0 +1,15 @@
+{
+  "virtual_hours": 24.0,
+  "actual_os_captures": 25,
+  "synthetic_http_calls": 25,
+  "queue_max": 3,
+  "hot_requests": 25,
+  "coalesced": 154,
+  "watch_boost": true,
+  "user_preemption": true,
+  "manager_veto_seen": true,
+  "disable_rebind_exercised": true,
+  "identity_stable": true,
+  "raw_pixels_retained": false,
+  "execution": "VIRTUAL_TIME_REAL_OWNED_OS_WINDOW_SYNTHETIC_SEMANTICS"
+}

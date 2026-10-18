@@ -1,0 +1,13 @@
+{
+  "source_commit": "86b7d18e9e54edc6d77c6b868e64c838c0132ba5",
+  "duplicate_capture": "DENIED",
+  "duplicate_semantic_dispatch": "DENIED",
+  "capture_timeout": "UNKNOWN_NO_RETRY",
+  "expired_media_payload": "NO_REPLAY",
+  "topology_change": "LATCHED_STALE_BEFORE_BYTES",
+  "new_session": "NEW_HOST_REVISION_REQUIRED",
+  "six_sigkill_cases": "PASS",
+  "old_pending_requests": "FENCED_BY_SOURCE_REVISION",
+  "lease": "original runtime expiry, no force takeover",
+  "unknown_broader_fallback": false
+}

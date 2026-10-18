@@ -1,0 +1,28 @@
+============================= test session starts ==============================
+platform linux -- Python 3.12.14, pytest-9.1.1, pluggy-1.6.0 -- /workspace/nana-core/.venv/bin/python
+cachedir: .pytest_cache
+rootdir: /workspace/nana-core
+configfile: pyproject.toml
+plugins: anyio-4.14.2
+collecting ... collected 18 items
+
+tests/h2_live_screen/test_contracts.py::test_real_v1_rejects_nonpublic_before_bytes[PROJECT] PASSED [  5%]
+tests/h2_live_screen/test_contracts.py::test_real_v1_rejects_nonpublic_before_bytes[PERSONAL] PASSED [ 11%]
+tests/h2_live_screen/test_contracts.py::test_real_v1_rejects_nonpublic_before_bytes[SECRET] PASSED [ 16%]
+tests/h2_live_screen/test_contracts.py::test_default_deny_explicit_backend_scope_and_receipt PASSED [ 22%]
+tests/h2_live_screen/test_contracts.py::test_session_topology_latch_and_stale_revision_no_bytes PASSED [ 27%]
+tests/h2_live_screen/test_contracts.py::test_backend_timeout_unknown_not_retry PASSED [ 33%]
+tests/h2_live_screen/test_contracts.py::test_same_pixels_different_encoding_debounce_and_route_freshness PASSED [ 38%]
+tests/h2_live_screen/test_live.py::test_ten_real_os_scenes_h1_world_concern_c PASSED [ 44%]
+tests/h2_live_screen/test_live.py::test_live_runtime_preemption_backpressure_disable_remove_and_frontend PASSED [ 50%]
+tests/h2_live_screen/test_live.py::test_real_backend_sigkill_six_cuts[BEFORE_SOURCE_OPEN] PASSED [ 55%]
+tests/h2_live_screen/test_live.py::test_real_backend_sigkill_six_cuts[AFTER_CAPTURE_BEFORE_INGEST] PASSED [ 61%]
+tests/h2_live_screen/test_live.py::test_real_backend_sigkill_six_cuts[AFTER_TECHNICAL_INGEST] PASSED [ 66%]
+tests/h2_live_screen/test_live.py::test_real_backend_sigkill_six_cuts[BEFORE_SEMANTIC_DISPATCH] PASSED [ 72%]
+tests/h2_live_screen/test_live.py::test_real_backend_sigkill_six_cuts[AFTER_SEMANTIC_RESPONSE] PASSED [ 77%]
+tests/h2_live_screen/test_live.py::test_real_backend_sigkill_six_cuts[BEFORE_CONCERN] PASSED [ 83%]
+tests/h2_live_screen/test_live.py::test_live_manager_preserves_watch_and_pixels_never_acquire_authority PASSED [ 88%]
+tests/h2_live_screen/test_live.py::test_real_source_b8_transfer_new_display_and_forget PASSED [ 94%]
+tests/h2_live_screen/test_live.py::test_visual_injection_payload_cannot_propose_authority PASSED [100%]
+
+============================== 18 passed in 8.76s ==============================

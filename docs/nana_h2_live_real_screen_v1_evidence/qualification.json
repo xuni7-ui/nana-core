@@ -1,0 +1,52 @@
+{
+  "source_commit": "86b7d18e9e54edc6d77c6b868e64c838c0132ba5",
+  "global_stage": "H",
+  "workstream": "H2_LIVE_REAL_SCREEN_QUALIFICATION_V1",
+  "status": "REAL_OS_SCREEN_QUALIFIED",
+  "qualification_level": "L1_REAL_OS_CONTROLLED",
+  "backend": "OWNED_X11_DUMMY_XGETIMAGE",
+  "scenes": "ABCDEFGHIJ",
+  "standalone_capture_count": 67,
+  "capture_count_scope": "Standalone final scenes/virtual/wall only; additional focused real captures not aggregated",
+  "real_provider_calls": 0,
+  "physical_or_user_desktop": "NOT_RUN",
+  "H1_semantics": "SYNTHETIC_LOOPBACK_NOT_LIVE",
+  "H1_live_historical_status": "PARTIAL_PROVIDER_QUALIFICATION",
+  "wall_seconds": 300.0457195630006,
+  "virtual_hours": 24.0,
+  "sigkill_cases": 6,
+  "real_backend_sigkill_cases": 6,
+  "schema": 13,
+  "business_tables": 43,
+  "new_business_tables": 0,
+  "new_python_dependencies": 0,
+  "one_subject": true,
+  "one_store": true,
+  "one_runtime": true,
+  "one_subject_loop": true,
+  "D_when_C_what_why": true,
+  "raw_screens_persisted": false,
+  "camera_microphone": "NOT_RUN",
+  "Hands": false,
+  "Iris_read_write_migration": false,
+  "external_actions": 0,
+  "social_sends": 0,
+  "mouse_events": 0,
+  "key_events": 0,
+  "main_R045_production_changed": false,
+  "final_regression": {
+    "passed": 1178,
+    "failed": 0,
+    "skipped": 12,
+    "seconds": 159.68,
+    "skips": {
+      "E12_NOT_RUN": 1,
+      "explicit_live_cases_passed_separately": 11
+    }
+  },
+  "explicit_live_suite": {
+    "passed": 18,
+    "failed": 0,
+    "seconds": 8.76
+  }
+}

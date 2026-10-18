@@ -1,0 +1,16 @@
+{
+  "source_commit": "86b7d18e9e54edc6d77c6b868e64c838c0132ba5",
+  "existing_views": [
+    "PERCEPTION_SETTINGS",
+    "PERCEPTION_STATUS"
+  ],
+  "optional_addition": "screen_backend sanitized descriptor",
+  "existing_commands_reused": true,
+  "config_CAS": "UNCHANGED",
+  "client_has_OS_handle": false,
+  "client_has_resolver": false,
+  "client_has_capture_authority": false,
+  "screen_health_is_personality": false,
+  "privacy_filters_retained": true,
+  "contract": "../nana_h2_live_real_screen_v1_frontend_contract.md"
+}

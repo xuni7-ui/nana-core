@@ -1624,3 +1624,17 @@ B10 PROVIDER_SETTINGS typed application transitions, revision CAS, dependency-sa
 
 ## H2-LIVE P2 — owned display runner/source freeze, 2026-10-18
 [源码/实测] Optional stdlib ctypes X11 host harness creates its own private-auth dummy server/window, renders public test graphics and captures only that drawable using XGetImage. No ambient display/window listing, hardware input or desktop crop. Process parent-death cleanup; serialized harness ownership prevents displayfd startup contention; before-fix combined run171 PASS/1 failure (resume handshake), retained in final limitations. After-fix87 H2+screen PASS,18 focused PASS, final A–J smoke PASS. Runner has mandatory live flag, finite scenes/wall/virtual/crash/resume commands, source/session revision renewals, no provider credential. Source frozen by this commit; final fresh-process qualification, >=300s real wall soak and full regression must follow.
+
+
+## H2-LIVE final source-qualified delivery — 2026-10-18
+[实测/受控 OS] On frozen86b7d18:18 explicit focused PASS including six actual
+SIGKILL real Xorg captures/recovery; full default1178 PASS/0fail/12skip (11 opt-in
+live passed separately +1 E12),159.68s. A–J13 captures,24 virtual hours25 captures,
+300.045719563s actual wall29 captures;FD4→4/threads1→1/RSS growth23176KiB,own server
+cleanly stopped. No raw screenshots/auth cookie in three development Stores or
+text evidence; clean foreign keys, schema13/43tables/new0/dependencies0, Actions/
+Grants0. Actual B8 transfer/new host identity, Manager preserve WATCH, preemption,
+backpressure, stale topology/rebind and pixel/time debounce verified. Docs/evidence/
+manifest added, no business code after freeze. Final statusREAL_OS_SCREEN_QUALIFIED
+only L1; no physical/user desktop, real provider/camera/mic/OCR/Hands/Iris/production.
+H1-LIVE historicalPARTIAL unchanged. Old bundle left untracked and unread.

@@ -1,0 +1,15 @@
+{
+  "source_commit": "86b7d18e9e54edc6d77c6b868e64c838c0132ba5",
+  "real_OS_cases": [
+    "D",
+    "E",
+    "F"
+  ],
+  "text_to_user_event": false,
+  "text_to_primary_user_binding": false,
+  "text_to_manager": false,
+  "text_to_grant": false,
+  "screen_adapter_has_will": false,
+  "semantic_provider": "SYNTHETIC_LOOPBACK_COLOR_ORACLE_NOT_OCR",
+  "command_authority_from_model": false
+}

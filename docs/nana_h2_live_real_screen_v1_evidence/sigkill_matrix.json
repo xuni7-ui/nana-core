@@ -1,0 +1,56 @@
+{
+  "source_commit": "86b7d18e9e54edc6d77c6b868e64c838c0132ba5",
+  "execution": "ACTUAL_LOCAL_PROCESSES_SIGKILL_REAL_OWNED_XORG_BACKEND",
+  "cases": [
+    {
+      "stage": "BEFORE_SOURCE_OPEN",
+      "result": "PASS",
+      "fresh_resume": true,
+      "recapture_calls": 0,
+      "semantic_calls": 0,
+      "host_binding_revision_after_restart": 2
+    },
+    {
+      "stage": "AFTER_CAPTURE_BEFORE_INGEST",
+      "result": "PASS",
+      "fresh_resume": true,
+      "recapture_calls": 0,
+      "semantic_calls": 0,
+      "host_binding_revision_after_restart": 2
+    },
+    {
+      "stage": "AFTER_TECHNICAL_INGEST",
+      "result": "PASS",
+      "fresh_resume": true,
+      "recapture_calls": 0,
+      "semantic_calls": 0,
+      "host_binding_revision_after_restart": 2
+    },
+    {
+      "stage": "BEFORE_SEMANTIC_DISPATCH",
+      "result": "PASS",
+      "fresh_resume": true,
+      "recapture_calls": 0,
+      "semantic_calls": 0,
+      "host_binding_revision_after_restart": 2
+    },
+    {
+      "stage": "AFTER_SEMANTIC_RESPONSE",
+      "result": "PASS",
+      "fresh_resume": true,
+      "recapture_calls": 0,
+      "semantic_calls": 0,
+      "host_binding_revision_after_restart": 2
+    },
+    {
+      "stage": "BEFORE_CONCERN",
+      "result": "PASS",
+      "fresh_resume": true,
+      "recapture_calls": 0,
+      "semantic_calls": 0,
+      "host_binding_revision_after_restart": 2
+    }
+  ],
+  "evidence": "focused_test_summary.txt",
+  "owned_process_cleanup": "parent-death SIGTERM; parent reaps only explicit owned PID and removes only its private temp root"
+}

@@ -1,0 +1,9 @@
+{
+  "os": "Linux",
+  "owned_xorg_binary_available": true,
+  "dummy_driver_available": true,
+  "ambient_display_used": false,
+  "capture_performed": false,
+  "capture_default": "DENY",
+  "live_flag_required": true
+}

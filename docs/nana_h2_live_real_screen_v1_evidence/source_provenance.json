@@ -1,0 +1,22 @@
+{
+  "source_commit": "86b7d18e9e54edc6d77c6b868e64c838c0132ba5",
+  "raw_capture_origin": "REAL_OS_CONTROLLED",
+  "evidence_domain": "RECORDED_PUBLIC",
+  "source_kind": "DIRECT_OBSERVATION",
+  "semantic_source_kind": "MODEL_DERIVATION",
+  "semantic_transport": "SYNTHETIC_LOOPBACK",
+  "historical_synthetic_origin_unchanged": true,
+  "receipt": "ScreenCaptureReceipt",
+  "verified": [
+    "source_revision",
+    "backend_id",
+    "session_binding_digest",
+    "scope",
+    "timestamps",
+    "dimensions",
+    "encoded_sha256",
+    "RGB_pixel_sha256"
+  ],
+  "raw_pixels_persisted": false,
+  "new_business_tables": 0
+}

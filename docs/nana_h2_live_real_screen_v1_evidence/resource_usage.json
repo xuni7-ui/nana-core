@@ -1,0 +1,18 @@
+{
+  "elapsed_seconds": 300.0457195630006,
+  "queue_max": 1,
+  "pending_max": 0,
+  "capture_slice_latency_ms": {
+    "count": 29,
+    "max": 140.3893530005007,
+    "mean": 97.1188873794243
+  },
+  "owned_xorg_running_during_run": true,
+  "fd_before": 4,
+  "fd_after": 4,
+  "threads_before": 1,
+  "threads_after": 1,
+  "maxrss_growth_kib": 23176,
+  "cpu_seconds": 8.836366563,
+  "owned_xorg_stopped": true
+}

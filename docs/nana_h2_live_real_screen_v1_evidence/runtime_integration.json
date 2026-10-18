@@ -1,0 +1,24 @@
+{
+  "source_commit": "86b7d18e9e54edc6d77c6b868e64c838c0132ba5",
+  "path": [
+    "owned_OS_window",
+    "XGetImage",
+    "RealScreenPerceptionPort",
+    "existing_H2",
+    "CapabilityRouter",
+    "OpenAIMediaTransport_SYNTHETIC_LOOPBACK",
+    "MediaSemanticService",
+    "Memory",
+    "WorldModel",
+    "Concern",
+    "original_SubjectLoop"
+  ],
+  "when": "original_D_Runtime",
+  "what_why": "original_C",
+  "raw_or_semantic_text_chooses_action": false,
+  "subject_can_watch_no_external_action": true,
+  "source_screenshots_in_queue": false,
+  "user_preemption": "PASS",
+  "backpressure": "PASS",
+  "periodic_coalescing": "PASS"
+}

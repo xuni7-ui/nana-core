@@ -1,0 +1,11 @@
+Frozen source: 86b7d18e9e54edc6d77c6b868e64c838c0132ba5
+Fresh-process explicit real OS suite: .venv/bin/python -m pytest tests/h2_live_screen --live-screen -v
+18 passed in 8.76s; includes 6 actual SIGKILL cuts using real owned Xorg backend.
+Fresh-process full default offline regression: .venv/bin/python -m pytest tests -q
+1178 passed, 0 failed, 12 skipped in159.68s.
+Skips:11 explicitly opt-in real screen cases (all passed in explicit suite above),1 E12 real-model gate NOT_RUN.
+Full includes H2 ingress, Provider routing, H1 semantics/live offline guards, D Runtime/living, World loop, open autonomy and portable Subject.
+Before-freeze H2+new-screen combined:87 passed. Before-freeze wider combined:171 passed,1 resume display handshake failure under overlapping Xorg starts; corrected by owned harness lock, then18 focused/87 combined passed. Failure was not hidden or relabeled.
+A-J fresh scenes:PASS;13 real OS captures.24h virtual:PASS;25 actual OS captures with injected time.
+Wall:300.045719563s;29 actual OS captures;FD4->4;threads1->1;maxrss growth23176KiB;owned Xorg stopped.
+No real model/provider, private desktop, Hands or external action. H1-LIVE remains PARTIAL.

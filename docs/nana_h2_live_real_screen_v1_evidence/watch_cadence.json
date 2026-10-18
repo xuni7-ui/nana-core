@@ -1,0 +1,10 @@
+{
+  "source_commit": "86b7d18e9e54edc6d77c6b868e64c838c0132ba5",
+  "source_backed_watch": "PASS",
+  "transitive_support": "bounded existing memory_dependencies max128 nodes",
+  "effective_interval_ms": 5000,
+  "host_min_respected": true,
+  "expires_with_cycle_support": true,
+  "source_revision_bound": true,
+  "manager_can_block_without_judgment_rewrite": true
+}

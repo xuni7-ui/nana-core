@@ -1,0 +1,16 @@
+{
+  "source_commit": "86b7d18e9e54edc6d77c6b868e64c838c0132ba5",
+  "backend": "Xorg dummy + libX11 XGetImage",
+  "session_kind": "OWNED_X11_DUMMY",
+  "qualification_level": "L1_REAL_OS_CONTROLLED",
+  "real_os_path": true,
+  "physical_monitor": false,
+  "ambient_DISPLAY_used": false,
+  "scope": "EXPLICIT_WINDOW",
+  "whole_desktop_then_crop": false,
+  "consent": "EXPLICIT_HOST_CONSTRUCTION",
+  "fallback": false,
+  "installed_dependencies": 0,
+  "display_auth": "EPHEMERAL_PRIVATE_OWNED_SESSION_NOT_EXPORTED",
+  "authority": false
+}

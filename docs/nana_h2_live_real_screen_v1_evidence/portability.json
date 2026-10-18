@@ -1,0 +1,11 @@
+{
+  "source_commit": "86b7d18e9e54edc6d77c6b868e64c838c0132ba5",
+  "actual_B8_export_import": "PASS",
+  "same_identity": "PASS",
+  "new_host_explicit_screen_binding": "PASS",
+  "historical_receipt_preserved": "NON_EXECUTABLE_PROVENANCE",
+  "host_config_handles_cookie_pixels_excluded": "PASS",
+  "disable_remove_preserves_history": "PASS",
+  "explicit_forget_source_closed": "PASS",
+  "test": "test_real_source_b8_transfer_new_display_and_forget"
+}

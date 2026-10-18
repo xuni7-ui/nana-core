@@ -1,5 +1,31 @@
 # PROJECT_BRAIN / 07 ROADMAP（主线路线图）
 
+## CURRENT — H2-LIVE Real Screen Qualification V1, 2026-10-18
+
+GLOBAL_STAGE = H; WORKSTREAM = H2_LIVE_REAL_SCREEN_QUALIFICATION_V1.
+STATUS = REAL_OS_SCREEN_QUALIFIED — **L1 owned public OS window only**.
+[实测] Frozen source86b7d18e9e54edc6d77c6b868e64c838c0132ba5; independent
+dev/nana-core-h2-live-real-screen-v1-codex from remote06c80a9. Real Xorg dummy
+window→XGetImage→existing H2/Router/H1 (SYNTHETIC_LOOPBACK)→Memory/World/Concern/C.
+No new Subject/Store/Runtime/loop/schema/table/dependency. Receipt/scope/revision/
+pixel validation, ephemeral raw bytes, typed backend projection, actual transfer
+and six real-backend SIGKILL/recovery tests implemented and tested.
+
+Fresh-process18 focused PASS; full1178 PASS/0 failures/12 skips (11 opt-in live
+cases passed separately,1 E12 NOT_RUN). A–J PASS;24 virtual hours/25 actual OS
+captures PASS;300.045719563s actual wall/29 OS captures PASS,FD4→4/threads1→1/
+RSS growth23176KiB;owned Xorg stopped. Final three standalone workloads67 captures.
+Real provider calls0. H1-LIVE historical PARTIAL unchanged. User desktop/physical
+monitor, live OCR/general semantic quality, camera/mic, Hands, Iris, production
+remain NOT_RUN/unauthorized. No main/R045/production change.
+
+Evidence: docs/nana_h2_live_real_screen_v1_evidence/. Runbook/report:
+docs/nana_h2_live_real_screen_v1_implementation.md; B10 contract in matching
+_frontend_contract.md. Earlier development/pending status blocks below remain
+historical, superseded by this explicitly scoped final result. Stop after dev
+push/remote verification; no automatic next stage.
+
+
 > 创建：2026-10-10 ｜ 状态：**新建（P2）**
 > **纪律**：Codex 是**工具**，不是新主线。规划项**不得**写成已实现。优先级**不因 Codex 接入而改变**。
 > 档位沿用 `04` 的四档：① 已实现 ② 已测试 ③ 已运行验收 ④ 未知 / 规划。

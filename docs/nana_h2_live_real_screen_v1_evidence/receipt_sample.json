@@ -1,0 +1,20 @@
+{
+  "execution": "ACTUAL_WALL_CLOCK_REAL_OS_CONTROLLED",
+  "receipt": {
+    "backend_id": "x11.owned-window",
+    "capture_scope": "EXPLICIT_WINDOW",
+    "completed_at_us": 1792296276941610,
+    "encoded_digest": "10828406c29abda95f6b46aeba1ca90dfb2f1a40ebfe09d51e79d94b0e80add9",
+    "height": 220,
+    "origin": "REAL_OS_CONTROLLED",
+    "pixel_digest": "45425c4a708a1f9925e41590e214842b738a7f0a6a0b78e65fc44522d9964733",
+    "session_binding_digest": "f0b1334722e602d0e08842523b0365060c1eb877ba5d0c604963218fc41f3e24",
+    "source_profile_id": "screen.controlled",
+    "source_revision": 1,
+    "started_at_us": 1792296276855937,
+    "status": "CAPTURED",
+    "width": 320
+  },
+  "decoded_pixel_digest": "45425c4a708a1f9925e41590e214842b738a7f0a6a0b78e65fc44522d9964733",
+  "raw_pixels_in_evidence": false
+}

@@ -1,0 +1,16 @@
+{
+  "source_commit": "86b7d18e9e54edc6d77c6b868e64c838c0132ba5",
+  "public_owned_window": "PASS",
+  "project_personal_secret_real_v1": "DENIED_BEFORE_BYTES",
+  "ambient_desktop": "NOT_READ",
+  "whole_desktop_crop": "NOT_IMPLEMENTED",
+  "unknown_consent_scope": "NO_BACKEND_AVAILABLE_NO_FALLBACK",
+  "retention": "MEMORY_ONLY_EPHEMERAL",
+  "host_allow": true,
+  "primary_user_is_permission": false,
+  "scope_change": "LATCHED_INVALID_REQUIRES_HOST_REBIND",
+  "evidence_test_refs": [
+    "tests/h2_live_screen/test_contracts.py",
+    "tests/h2_live_screen/test_live.py"
+  ]
+}

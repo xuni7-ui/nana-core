@@ -1,5 +1,31 @@
 # PROJECT_BRAIN / 09 STATE（当前状态快照）
 
+## CURRENT — H2-LIVE Real Screen Qualification V1, 2026-10-18
+
+GLOBAL_STAGE = H; WORKSTREAM = H2_LIVE_REAL_SCREEN_QUALIFICATION_V1.
+STATUS = REAL_OS_SCREEN_QUALIFIED — **L1 owned public OS window only**.
+[实测] Frozen source86b7d18e9e54edc6d77c6b868e64c838c0132ba5; independent
+dev/nana-core-h2-live-real-screen-v1-codex from remote06c80a9. Real Xorg dummy
+window→XGetImage→existing H2/Router/H1 (SYNTHETIC_LOOPBACK)→Memory/World/Concern/C.
+No new Subject/Store/Runtime/loop/schema/table/dependency. Receipt/scope/revision/
+pixel validation, ephemeral raw bytes, typed backend projection, actual transfer
+and six real-backend SIGKILL/recovery tests implemented and tested.
+
+Fresh-process18 focused PASS; full1178 PASS/0 failures/12 skips (11 opt-in live
+cases passed separately,1 E12 NOT_RUN). A–J PASS;24 virtual hours/25 actual OS
+captures PASS;300.045719563s actual wall/29 OS captures PASS,FD4→4/threads1→1/
+RSS growth23176KiB;owned Xorg stopped. Final three standalone workloads67 captures.
+Real provider calls0. H1-LIVE historical PARTIAL unchanged. User desktop/physical
+monitor, live OCR/general semantic quality, camera/mic, Hands, Iris, production
+remain NOT_RUN/unauthorized. No main/R045/production change.
+
+Evidence: docs/nana_h2_live_real_screen_v1_evidence/. Runbook/report:
+docs/nana_h2_live_real_screen_v1_implementation.md; B10 contract in matching
+_frontend_contract.md. Earlier development/pending status blocks below remain
+historical, superseded by this explicitly scoped final result. Stop after dev
+push/remote verification; no automatic next stage.
+
+
 > 创建：2026-10-10 ｜ 状态：**新建（P2）**
 > **规则**：这是**状态唯一入口**。动手前先读本文件；**不要**凭聊天记忆判断当前状态。
 > 快照时间：**2026-10-10 02:2x CST** ｜ 快照人：奈奈
@@ -1358,3 +1384,7 @@ H2 delivery manifest SHA256 `a611615b41b91b2716bdc2aebe16e9753d25359cb27b8b25fe2
 ## H2-LIVE Real Screen Qualification V1 — current development, 2026-10-18
 
 [源码/受控 OS 测试] Independent branch dev/nana-core-h2-live-real-screen-v1-codex from verified06c80a9. GLOBAL_STAGE H; workstream H2_LIVE_REAL_SCREEN_QUALIFICATION_V1. Real OS owned Xorg dummy window available (L1), not user desktop/physical display. Existing H2/Router/H1/WorldModel/Concern/C path, explicit scope/receipt, runtime boundaries and recovery implementation present.18 focused tests pass with explicit --live-screen (six actual SIGKILL),87 H2+screen pass;24 virtual hours development scenario pass. Final committed-source fresh-process soak/full regression still PENDING; no final live-qualified status yet. No H3/Hands/Iris/provider/private desktop/production access.
+
+
+H2-LIVE evidence manifest external anchor (self excluded): `cb4b695782b05cf5f7d08e76c87d54bd1426699c3e6c1cb5aeffa45259e68610`.
+Path: docs/nana_h2_live_real_screen_v1_evidence/manifest.json.

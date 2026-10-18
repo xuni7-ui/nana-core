@@ -733,3 +733,16 @@ HTTP measurements preserve old absent-field canonical reply hashes, no migration
 [源码/受控 OS 实测，最终资格待冻结重跑] Reuse PerceptionSourcePort, explicit resolver, original H2 Coordinator/Router/H1/WorldModel/Concern/C. No other loop/Store/table. V1 real screen accepts only PUBLIC pixels from an explicitly host-bound owned X11 dummy window; never ambient DISPLAY, full desktop then crop, physical GPU or input synthesis. Typed receipt records REAL_OS_CONTROLLED, window scope, source revision, session digest, times, geometry, encoded/pixel hashes. Existing SYNTHETIC history retains its origin and serialized shape; real controlled PUBLIC evidence uses existing RECORDED_PUBLIC storage domain with explicit source subtype, not synthetic provenance.
 
 Source session/topology change invalidates the binding; only trusted host rebind creates a new revision. Pending old-revision work is fenced. Capture UNKNOWN is not retried. Exact RGB pixel debounce retains distinct temporal observations, respects route revision and time bounds; no fuzzy similarity. C WATCH can cite raw or semantic/world memory, following bounded existing dependency edges (128 nodes), never model-written source IDs alone. Host-local backend/active binding never enters B8; sanitized historical receipt may travel as evidence. No raw screenshot persistence or source authority from visible text. New API/OS calls do not grant action/Manager/Primary User authority.
+
+
+## 2026-10-18 — H2-LIVE final qualification boundary
+[实测] Source86b7d18 frozen before fresh-process tests/24h virtual/300s real wall.
+REAL_OS_SCREEN_QUALIFIED means only L1 own OS window. H1 synthetic narrow pixel
+oracle cannot qualify general OCR or real-provider semantic quality. Default
+regression keeps capture off; explicit live18 PASS and default full1178 PASS/
+12 skips (11 opt-in live +1 E12) are separate evidence. No widening of capture,
+Privacy, Manager, Grant, Primary User or C authority. Source originREAL_OS_CONTROLLED
+is retained separately from model derivation and old SYNTHETIC history. Future
+user/physical desktops require separate host consent/backend qualification.
+No new migration/dependency. Successful dev handoff grants no production/device/
+Hands authority and does not upgrade historical H1-LIVE PARTIAL.

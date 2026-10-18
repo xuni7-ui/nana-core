@@ -1,0 +1,136 @@
+{
+  "execution": "REAL_OS_CONTROLLED_WINDOW_SYNTHETIC_LOOPBACK_SEMANTICS",
+  "qualification_level": "L1",
+  "scenes": [
+    {
+      "scene": "A",
+      "state": "GROUNDED",
+      "reason": "SEMANTIC_FINISHED",
+      "pixel_digest": "45425c4a708a1f9925e41590e214842b738a7f0a6a0b78e65fc44522d9964733",
+      "event_time_us": 1791590403000000,
+      "origin": "REAL_OS_CONTROLLED",
+      "width": 320,
+      "height": 220
+    },
+    {
+      "scene": "B",
+      "state": "GROUNDED",
+      "reason": "SEMANTIC_FINISHED",
+      "pixel_digest": "ae144e61b91b29657b371b2aa7c197cb24492af40c47dc9653d6265fbf40cb44",
+      "event_time_us": 1791590406000000,
+      "origin": "REAL_OS_CONTROLLED",
+      "width": 320,
+      "height": 220
+    },
+    {
+      "scene": "C",
+      "state": "DECODED",
+      "reason": "EXACT_DIGEST_DEBOUNCE",
+      "pixel_digest": "ae144e61b91b29657b371b2aa7c197cb24492af40c47dc9653d6265fbf40cb44",
+      "event_time_us": 1791590407000000,
+      "origin": "REAL_OS_CONTROLLED",
+      "width": 320,
+      "height": 220
+    },
+    {
+      "scene": "D",
+      "state": "GROUNDED",
+      "reason": "SEMANTIC_FINISHED",
+      "pixel_digest": "dc9381d1cd1f569f2c3a20e39675738d9d82302dd38a15a34cb9db4cc5543374",
+      "event_time_us": 1791590410000000,
+      "origin": "REAL_OS_CONTROLLED",
+      "width": 320,
+      "height": 220
+    },
+    {
+      "scene": "E",
+      "state": "GROUNDED",
+      "reason": "SEMANTIC_FINISHED",
+      "pixel_digest": "534f254f04784f90b7ff78cd7a8759fdc1e9d67a393fac334415f00c1c5900e2",
+      "event_time_us": 1791590413000000,
+      "origin": "REAL_OS_CONTROLLED",
+      "width": 320,
+      "height": 220
+    },
+    {
+      "scene": "F",
+      "state": "GROUNDED",
+      "reason": "SEMANTIC_FINISHED",
+      "pixel_digest": "937fd36cddba28caf4f6396b9a367e710b0d224713884f3aa72a8c96851ac4f0",
+      "event_time_us": 1791590416000000,
+      "origin": "REAL_OS_CONTROLLED",
+      "width": 320,
+      "height": 220
+    },
+    {
+      "scene": "G",
+      "state": "GROUNDED",
+      "reason": "SEMANTIC_FINISHED",
+      "pixel_digest": "aec265e5fbbe94caffe29053067d2c4a24f7bdd417c07b459b23cad081f7a24e",
+      "event_time_us": 1791590419000000,
+      "origin": "REAL_OS_CONTROLLED",
+      "width": 320,
+      "height": 220
+    },
+    {
+      "scene": "H",
+      "state": "GROUNDED",
+      "reason": "SEMANTIC_FINISHED",
+      "pixel_digest": "bcc01a76848d99a0a23858367ea17c97e49d83b86fc27ff4bbf41cc5308d65cd",
+      "event_time_us": 1791590422000000,
+      "origin": "REAL_OS_CONTROLLED",
+      "width": 320,
+      "height": 220
+    },
+    {
+      "scene": "I",
+      "state": "GROUNDED",
+      "reason": "SEMANTIC_FINISHED",
+      "pixel_digest": "ae144e61b91b29657b371b2aa7c197cb24492af40c47dc9653d6265fbf40cb44",
+      "event_time_us": 1791590425000000,
+      "origin": "REAL_OS_CONTROLLED",
+      "width": 320,
+      "height": 220
+    },
+    {
+      "scene": "J",
+      "stale_before_capture": true,
+      "explicit_rebind_revision": 2,
+      "resized_capture": "GROUNDED"
+    }
+  ],
+  "captures": 13,
+  "http_semantic_and_interpretation_calls": 15,
+  "before": {
+    "memories": 0,
+    "cognitive_requests": 0,
+    "subject_cycles": 0,
+    "open_concerns": 0,
+    "actions": 0,
+    "grants": 0,
+    "goals": 0
+  },
+  "after": {
+    "memories": 41,
+    "cognitive_requests": 15,
+    "subject_cycles": 6,
+    "open_concerns": 6,
+    "actions": 0,
+    "grants": 0,
+    "goals": 0
+  },
+  "watch_cadence_ms": 5000,
+  "same_pixels_different_time": true,
+  "exact_pixel_debounce": true,
+  "source_backed_watch": true,
+  "subject_no_external_action": true,
+  "world_concern_original_c": true,
+  "screen_text_has_no_authority": true,
+  "raw_screen_persisted": false,
+  "forget_source_closed": true,
+  "identity_stable": true,
+  "scope": "EXPLICIT_WINDOW",
+  "physical_monitor": false,
+  "user_desktop": false,
+  "ocr_quality": "NOT_RUN_NARROW_PIXEL_ORACLE_ONLY"
+}

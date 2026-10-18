@@ -1,0 +1,36 @@
+{
+  "execution": "READ_ONLY_OWN_QUALIFICATION_STORES",
+  "raw_media_persisted": false,
+  "runs": [
+    {
+      "run": "scenes",
+      "artifact_count": 174,
+      "raw_png_or_base64_png_or_cookie_marker_matches": 0,
+      "schema_version": 13,
+      "business_tables": 43,
+      "foreign_key_check": [],
+      "actions": 0,
+      "grants": 0
+    },
+    {
+      "run": "virtual",
+      "artifact_count": 1299,
+      "raw_png_or_base64_png_or_cookie_marker_matches": 0,
+      "schema_version": 13,
+      "business_tables": 43,
+      "foreign_key_check": [],
+      "actions": 0,
+      "grants": 0
+    },
+    {
+      "run": "wall",
+      "artifact_count": 570,
+      "raw_png_or_base64_png_or_cookie_marker_matches": 0,
+      "schema_version": 13,
+      "business_tables": 43,
+      "foreign_key_check": [],
+      "actions": 0,
+      "grants": 0
+    }
+  ]
+}
