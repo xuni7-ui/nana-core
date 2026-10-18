@@ -54,7 +54,7 @@ class PerceptionCoordinator:
         port=self.resolver.resolve(p)
         try:health=port.health()
         except Exception:raise CoreError('SOURCE_UNAVAILABLE') from None
-        if health not in {'AVAILABLE','DEGRADED'}:raise CoreError('SOURCE_UNAVAILABLE')
+        if health not in {'AVAILABLE','DEGRADED'}:raise CoreError(health if health in {'SCREEN_TOPOLOGY_CHANGED','SCREEN_SESSION_CHANGED','SCREEN_SESSION_UNAVAILABLE','SCREEN_SCOPE_DENIED','SCREEN_PERMISSION_DENIED'} else 'SOURCE_UNAVAILABLE')
         return port
     def _reserve(self,req,p):
         now=self.store.clock.utc_now_us();policy=self.configuration.load().policy
@@ -91,7 +91,7 @@ class PerceptionCoordinator:
         self._reserve(req,p)
         while len(self.state['requests'])>=64:
             oldest=next(iter(self.state['requests']));del self.state['requests'][oldest]
-        self.state['requests'][key]={'request_id':req.request_id,'request_digest':digest(req.model_dump(mode='json')),'source_profile_id':p.source_profile_id,'state':'CAPTURING','semantic':{},'memory_id':None,'record_id':None}
+        self.state['requests'][key]={'request_id':req.request_id,'request_digest':digest(req.model_dump(mode='json')),'source_profile_id':p.source_profile_id,'source_revision':p.revision,'state':'CAPTURING','semantic':{},'memory_id':None,'record_id':None}
         with self.store.transaction('h2.request_reserved',{'target_id':key}):pass
         self._save();self._busy=True
         try:
@@ -103,7 +103,7 @@ class PerceptionCoordinator:
             self._set(key,state='CAPTURED',capture_id=cap.capture_id)
             self._safe_point(req,'AFTER_CAPTURE_BEFORE_INGEST')
             self._allowed(req,self._source(p.source_profile_id))
-            prior=self.store.db.execute("SELECT evidence_id,state FROM continuity_evidence WHERE source_namespace='synthetic.public-media' AND source_reference=?",('capture.'+cap.capture_id,)).fetchone()
+            prior=self.store.db.execute("SELECT evidence_id,state FROM continuity_evidence WHERE source_namespace=? AND source_reference=?",(('synthetic' if cap.origin=='SYNTHETIC' else 'recorded')+'.public-media','capture.'+cap.capture_id,)).fetchone()
             if prior:
                 if prior['state']=='DELETED':raise CoreError('SOURCE_DELETED')
                 old_mid=self.store.db.execute('SELECT memory_id FROM memories WHERE source_evidence_id=?',(prior['evidence_id'],)).fetchone()
@@ -111,12 +111,12 @@ class PerceptionCoordinator:
                     self.records.memory.read(old_mid[0])
                     old_rec=self.store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='MEDIA_OBSERVATION' AND target_id=?",(old_mid[0],)).fetchone()
                     if old_rec:return self._set(key,state='DECODED',reason='CAPTURE_ID_REPLAY',memory_id=old_mid[0],record_id=old_rec[0])
-            source=MediaSourceDescriptor(source_id='capture.'+cap.capture_id,modality=cap.modality,event_time_us=cap.event_time_us,observed_time_us=cap.observed_time_us,privacy=p.privacy_class,source_profile_id=p.source_profile_id,source_revision=p.revision,source_kind=p.source_kind,capture_id=cap.capture_id,adapter_identity=port.describe().adapter_identity,byte_length=cap.byte_length,capture_coverage=cap.coverage,sequence=cap.sequence)
+            source=MediaSourceDescriptor(source_id='capture.'+cap.capture_id,modality=cap.modality,event_time_us=cap.event_time_us,observed_time_us=cap.observed_time_us,privacy=p.privacy_class,source_profile_id=p.source_profile_id,source_revision=p.revision,source_kind=p.source_kind,capture_id=cap.capture_id,adapter_identity=port.describe().adapter_identity,byte_length=cap.byte_length,capture_coverage=cap.coverage,sequence=cap.sequence,origin=cap.origin,screen_receipt=cap.screen_receipt)
             mid,rid=self.perception.ingest(cap.data,source,entity_id=p.entity_id,scope=p.scope)
             previous=self.state['sources'].get(p.source_profile_id,{})
             routing_revision=self.router.config.load().revision if self.router is not None else None
-            same=(previous.get('semantic_route_revision')==routing_revision and previous.get('digest')==cap.byte_digest and cap.observed_time_us-previous.get('last_capture_us',0)<=self.configuration.load().policy.debounce_us)
-            self.state['sources'][p.source_profile_id]={**previous,'digest':cap.byte_digest,'last_capture_us':cap.observed_time_us,'last_memory_id':mid,'last_record_id':rid,'health':'AVAILABLE'}
+            same=(previous.get('semantic_route_revision')==routing_revision and previous.get('pixel_digest' if cap.screen_receipt else 'digest')==(cap.screen_receipt['pixel_digest'] if cap.screen_receipt else cap.byte_digest) and cap.observed_time_us-previous.get('last_capture_us',0)<=self.configuration.load().policy.debounce_us)
+            self.state['sources'][p.source_profile_id]={**previous,'digest':cap.byte_digest,'pixel_digest':cap.screen_receipt['pixel_digest'] if cap.screen_receipt else None,'origin':cap.origin,'last_capture_us':cap.observed_time_us,'last_memory_id':mid,'last_record_id':rid,'health':'AVAILABLE'}
             self._set(key,state='DECODED',memory_id=mid,record_id=rid)
             self._safe_point(req,'AFTER_TECHNICAL_INGEST')
             if not req.semantic_requested or not req.requested_operations:return self._set(key,state='DECODED',reason='TECHNICAL_ONLY')
@@ -155,7 +155,7 @@ class PerceptionCoordinator:
             return self._set(key,state='GROUNDED' if any(isinstance(v,dict) and v['state']=='GROUNDED' for v in value['semantic'].values()) else 'DEFERRED',reason=value.get('reason','SEMANTIC_FINISHED'))
         except CoreError as exc:
             if exc.code=='RUNTIME_LEASE_LOST':raise
-            return self._set(key,state='DEFERRED' if self.state['requests'][key]['memory_id'] else 'FAILED',reason='SEMANTIC_DEFERRED_SOURCE_BYTES_EXPIRED' if exc.code=='PERCEPTION_PREEMPTED' else exc.code)
+            return self._set(key,state='UNKNOWN' if exc.code=='SCREEN_CAPTURE_UNKNOWN' else 'DEFERRED' if self.state['requests'][key]['memory_id'] else 'FAILED',reason='SEMANTIC_DEFERRED_SOURCE_BYTES_EXPIRED' if exc.code=='PERCEPTION_PREEMPTED' else exc.code)
         finally:
             self._busy=False
             # No retained data/capture object is stored in the coordinator.
@@ -164,6 +164,10 @@ class PerceptionCoordinator:
         for value in self.state['requests'].values():
             if value['state'] not in {'CAPTURING','CAPTURED','DECODED','SEMANTIC_PROPOSED','GROUNDED'}:continue
             if value.get('reason') in {'TECHNICAL_ONLY','EXACT_DIGEST_DEBOUNCE','CAPTURE_ID_REPLAY'}:continue
+            try:current_revision=self._source(value['source_profile_id']).revision
+            except CoreError:current_revision=None
+            if value.get('source_revision',current_revision)!=current_revision:
+                value.update(state='STALE',reason='SOURCE_REVISION_STALE');continue
             cid=value.get('current_request_id')
             if cid:
                 row=self.store.one('cognitive_requests',cid)
@@ -190,8 +194,15 @@ class PerceptionCoordinator:
         cycle=self.runtime.subject.result(row)
         if cycle.judgment.stance!='WATCH' or not self.records.current_support(row['record_id']):raise CoreError('WATCH_CYCLE_REQUIRED')
         profile=self._source(source_id);supported=False
-        for mid in self.records.support(row['record_id']):
-            m=self.records.memory.read(mid)
+        # C may cite a semantic/world belief rather than the raw capture. Follow
+        # existing dependency edges (bounded), never model-written source labels.
+        pending=list(self.records.support(row['record_id']));seen=set()
+        while pending and len(seen)<128:
+            mid=pending.pop()
+            if mid in seen:continue
+            seen.add(mid);m=self.records.memory.read(mid)
+            if m['scope']!=profile.scope or m['privacy_class'] not in self.policy.readable_privacy:continue
+            pending.extend(x[0] for x in self.store.db.execute("SELECT parent_id FROM memory_dependencies WHERE memory_id=? AND parent_kind='MEMORY' LIMIT 33",(mid,)).fetchall())
             try:body=json.loads(m['text'])
             except ValueError:continue
             if (body.get('source',{}).get('source_profile_id'),body.get('source',{}).get('source_revision'))==(source_id,profile.revision):supported=True

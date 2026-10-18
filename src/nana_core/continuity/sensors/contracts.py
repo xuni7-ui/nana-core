@@ -93,12 +93,19 @@ class CapturedMedia(DTO):
     coverage:str=Field(min_length=1,max_length=64)
     sequence:int=Field(ge=0)
     privacy_class:Privacy
+    origin:Literal['SYNTHETIC','REAL_OS_CONTROLLED']='SYNTHETIC'
+    screen_receipt:dict|None=None
     data:bytes=Field(exclude=True,repr=False)
     def verify(self,profile,now):
         if (self.source_profile_id,self.source_revision,self.modality,self.privacy_class)!=(profile.source_profile_id,profile.revision,profile.modality,profile.privacy_class):raise CoreError('CAPTURE_SOURCE_MISMATCH')
         if type(self.data)!=bytes or not 1<=len(self.data)<=profile.max_capture_bytes or self.byte_length!=len(self.data) or hashlib.sha256(self.data).hexdigest()!=self.byte_digest:raise CoreError('CAPTURE_INTEGRITY')
         if not self.event_time_us<=self.observed_time_us<=now:raise CoreError('CAPTURE_TIME_INVALID')
         if self.capture_id!=capture_identity(self.source_profile_id,self.source_revision,self.source_event_id,self.event_time_us,self.sequence,self.byte_digest):raise CoreError('CAPTURE_ID_INVALID')
+        if self.origin=='REAL_OS_CONTROLLED':
+            from .screen import ScreenCaptureReceipt
+            r=ScreenCaptureReceipt.model_validate(self.screen_receipt)
+            if (r.source_profile_id,r.source_revision,r.encoded_digest,r.started_at_us,r.completed_at_us)!=(self.source_profile_id,self.source_revision,self.byte_digest,self.event_time_us,self.observed_time_us) or self.privacy_class!='PUBLIC' or self.modality!='IMAGE':raise CoreError('SCREEN_RECEIPT_MISMATCH')
+        elif self.screen_receipt is not None:raise CoreError('SCREEN_RECEIPT_ORIGIN_MISMATCH')
         return self
 
 def capture_identity(profile,revision,event,event_time,sequence,sha):return digest([profile,revision,event,event_time,sequence,sha])

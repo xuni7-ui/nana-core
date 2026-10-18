@@ -726,3 +726,10 @@ HTTP measurements preserve old absent-field canonical reply hashes, no migration
 12. Living/Frontend projections are derived and privacy-filtered, no raw bytes/paths/resource refs/handles. B8 carries identity/history, never host source config or operational runtime health. New host explicitly binds devices.
 13. First full failure was missing ephemeral legacy SQLite launcher. Restoring /tmp launcher to actual system Python3.13.5/SQLite3.46.1 allowed unchanged isolation test; no version spoof/test removal/R045 or production change. Final full1171/0/1.
 14. H2 is OFFLINE/SYNTHETIC foundation. H1-LIVE stays historical PARTIAL; E12, live hardware/provider/ASR, Hands and production perception remain NOT_RUN. No new dependency/table/schema.
+
+
+## 2026-10-18 — H2-LIVE controlled OS screen boundary
+
+[源码/受控 OS 实测，最终资格待冻结重跑] Reuse PerceptionSourcePort, explicit resolver, original H2 Coordinator/Router/H1/WorldModel/Concern/C. No other loop/Store/table. V1 real screen accepts only PUBLIC pixels from an explicitly host-bound owned X11 dummy window; never ambient DISPLAY, full desktop then crop, physical GPU or input synthesis. Typed receipt records REAL_OS_CONTROLLED, window scope, source revision, session digest, times, geometry, encoded/pixel hashes. Existing SYNTHETIC history retains its origin and serialized shape; real controlled PUBLIC evidence uses existing RECORDED_PUBLIC storage domain with explicit source subtype, not synthetic provenance.
+
+Source session/topology change invalidates the binding; only trusted host rebind creates a new revision. Pending old-revision work is fenced. Capture UNKNOWN is not retried. Exact RGB pixel debounce retains distinct temporal observations, respects route revision and time bounds; no fuzzy similarity. C WATCH can cite raw or semantic/world memory, following bounded existing dependency edges (128 nodes), never model-written source IDs alone. Host-local backend/active binding never enters B8; sanitized historical receipt may travel as evidence. No raw screenshot persistence or source authority from visible text. New API/OS calls do not grant action/Manager/Primary User authority.

@@ -26,7 +26,7 @@ class MediaSourceDescriptor(DTO):
     """Sanitized capture provenance; never a host device/path/adapter handle."""
     source_id:str=Field(pattern=r'^[a-z][a-z0-9._:-]{0,95}$')
     modality:Literal['IMAGE','AUDIO','VIDEO']
-    origin:Literal['SYNTHETIC']='SYNTHETIC'
+    origin:Literal['SYNTHETIC','REAL_OS_CONTROLLED']='SYNTHETIC'
     event_time_us:int=Field(ge=0)
     observed_time_us:int=Field(ge=0)
     privacy:Literal['PUBLIC','PROJECT','PERSONAL','SECRET']='PUBLIC'
@@ -38,6 +38,7 @@ class MediaSourceDescriptor(DTO):
     byte_length:int=Field(ge=1,le=16777216)
     capture_coverage:str
     sequence:int=Field(ge=0)
+    screen_receipt:dict|None=None
 
 class MediaDecoder:
     def _run(self,args,*,limit=4*1024*1024,input_root=None):
@@ -173,8 +174,13 @@ class PerceptionService:
     def ingest(self,data,source,*,entity_id,scope):
         if self.store.schema_target<13 or scope not in self.policy.allowed_scopes or source.privacy not in self.policy.readable_privacy:raise CoreError('PERCEPTION_INGRESS_DENIED')
         if source.observed_time_us>self.store.clock.utc_now_us() or source.event_time_us>source.observed_time_us:raise CoreError('PERCEPTION_TIME_INVALID')
+        if source.origin=='REAL_OS_CONTROLLED':
+            from ..sensors.screen import ScreenCaptureReceipt
+            receipt=ScreenCaptureReceipt.model_validate(source.screen_receipt)
+            if source.privacy!='PUBLIC' or source.modality!='IMAGE' or source.source_kind!='SCREEN' or receipt.backend_id!=source.adapter_identity or (receipt.started_at_us,receipt.completed_at_us)!=(source.event_time_us,source.observed_time_us) or receipt.encoded_digest!=hashlib.sha256(data).hexdigest() or (receipt.source_profile_id,receipt.source_revision)!=(source.source_profile_id,source.source_revision):raise CoreError('SCREEN_RECEIPT_MISMATCH')
         decoded=validate_decoded(self.decoder.decode(data,source.modality,**({'memory_only':True} if source.privacy in {'PERSONAL','SECRET'} else {})),source.modality)
-        body={'source':source.model_dump(mode='json'),'source_byte_digest':hashlib.sha256(data).hexdigest(),'decoded':decoded}
+        if source.origin=='REAL_OS_CONTROLLED' and (decoded['pixel_digest'],decoded['width'],decoded['height'])!=(receipt.pixel_digest,receipt.width,receipt.height):raise CoreError('SCREEN_PIXEL_INTEGRITY')
+        body={'source':source.model_dump(mode='json',exclude_none=True),'source_byte_digest':hashlib.sha256(data).hexdigest(),'decoded':decoded}
         domain='SYNTHETIC_ONLY' if source.origin=='SYNTHETIC' else 'RECORDED_PUBLIC';prefix='synthetic' if source.origin=='SYNTHETIC' else 'recorded'
         memory=self.records.memory
         eid=memory.capture(EvidenceInput(provenance=Provenance(domain=domain,source_namespace=prefix+'.public-media',source_reference=source.source_id,source_kind='DIRECT_OBSERVATION'),text=canonical(body),privacy_class=source.privacy,event_time_us=source.event_time_us,observed_time_us=source.observed_time_us))

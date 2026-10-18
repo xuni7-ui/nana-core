@@ -10,6 +10,10 @@ class PerceptionSettingsService:
         for p in c.sources:
             if p.scope not in context.allowed_scopes or p.privacy_class not in context.readable_privacy:continue
             d=p.model_dump(mode='json',exclude={'adapter_ref','resource_ref'})
+            try:
+                port=self.__coordinator.resolver.resolve(p)
+                if callable(getattr(port,'backend_projection',None)):d['screen_backend']=port.backend_projection()
+            except CoreError:d['screen_backend']={'health':'UNAVAILABLE','capture_authority':False}
             d['resource_label']=p.source_kind.lower()+' source';items.append(d)
         return {'schema_version':c.schema_version,'revision':c.revision,'sources':items,'policy':c.policy.model_dump(mode='json'),'storage':'HOST_LOCAL_NOT_SUBJECT_MEMORY','capture_authority':False}
     def command(self,command,context):
