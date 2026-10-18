@@ -298,3 +298,8 @@ GLOBAL_STAGE remains H. PROVIDER_CAPABILITY_ROUTING_V1 = OFFLINE_CANDIDATE_READY
 ## Current GLOBAL_STAGE H workstream — H2 foundation, 2026-10-18
 
 [源码/离线实测] H2_PERCEPTION_INGRESS_SENSOR_RUNTIME_V1 = OFFLINE_CANDIDATE_READY. Source configuration/ports and controlled observation now join original D Runtime + H1 + WorldModel + C, without another brain/Store. This supersedes the previous current Provider-routing caption, not its completed assets. No L1/L2/B5/R045 priority change. H1-LIVE remains PARTIAL_PROVIDER_QUALIFICATION. Real camera/mic/screen, production perception and Hands NOT_RUN; no automatic next-stage authorization.
+
+
+## H2-LIVE Real Screen Qualification V1 — current development, 2026-10-18
+
+[源码/受控 OS 测试] Independent branch dev/nana-core-h2-live-real-screen-v1-codex from verified06c80a9. GLOBAL_STAGE H; workstream H2_LIVE_REAL_SCREEN_QUALIFICATION_V1. Real OS owned Xorg dummy window available (L1), not user desktop/physical display. Existing H2/Router/H1/WorldModel/Concern/C path, explicit scope/receipt, runtime boundaries and recovery implementation present.18 focused tests pass with explicit --live-screen (six actual SIGKILL),87 H2+screen pass;24 virtual hours development scenario pass. Final committed-source fresh-process soak/full regression still PENDING; no final live-qualified status yet. No H3/Hands/Iris/provider/private desktop/production access.

@@ -1353,3 +1353,8 @@ H1_LIVE_HISTORICAL_STATUS=PARTIAL_PROVIDER_QUALIFICATION; REAL_PROVIDER_CALLS=0.
 Reports: docs/nana_h2_perception_ingress_v1_implementation.md and frontend_contract.md. Evidence: docs/nana_h2_perception_ingress_v1_evidence/. Final containing commit is the documentation anchor; core source matches qualified commit. No auto-entry into real devices/Hands/production.
 
 H2 delivery manifest SHA256 `a611615b41b91b2716bdc2aebe16e9753d25359cb27b8b25fe2bde956cfaab8e` (self/09 excluded).
+
+
+## H2-LIVE Real Screen Qualification V1 — current development, 2026-10-18
+
+[源码/受控 OS 测试] Independent branch dev/nana-core-h2-live-real-screen-v1-codex from verified06c80a9. GLOBAL_STAGE H; workstream H2_LIVE_REAL_SCREEN_QUALIFICATION_V1. Real OS owned Xorg dummy window available (L1), not user desktop/physical display. Existing H2/Router/H1/WorldModel/Concern/C path, explicit scope/receipt, runtime boundaries and recovery implementation present.18 focused tests pass with explicit --live-screen (six actual SIGKILL),87 H2+screen pass;24 virtual hours development scenario pass. Final committed-source fresh-process soak/full regression still PENDING; no final live-qualified status yet. No H3/Hands/Iris/provider/private desktop/production access.

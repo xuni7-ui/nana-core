@@ -362,3 +362,8 @@ relay usage已返回部分token/cost字段，实际费用单位/结算未知，A
 ## H2_PERCEPTION_INGRESS_SENSOR_RUNTIME_V1 — completed offline, 2026-10-18
 
 [源码/离线实测] Typed atomic/CAS host source config; explicit resolver; generated File/Screen/Camera/Microphone/App/Platform sources; privacy/host/Manager-before-bytes; raw ephemeral H1 attachment; existing Scheduler, event metadata pull, WATCH bounds, pending-tick coalescing/preemption; B10 settings/status; B8 exclusion/delete closure complete. H2 focused69 PASS; existing rechecks202 PASS; fresh committed-source full1171 PASS/0fail/1skip(E12). Six actual SIGKILL safe points,24h virtual and180.039s actual wall synthetic soak PASS. Schema13/43 tables/new tables0/new dependencies0. Real provider/device/private data/actions0. Remaining real capabilities are NOT_RUN, not failures hidden by fixture success.
+
+
+## H2-LIVE Real Screen Qualification V1 — current development, 2026-10-18
+
+[源码/受控 OS 测试] Independent branch dev/nana-core-h2-live-real-screen-v1-codex from verified06c80a9. GLOBAL_STAGE H; workstream H2_LIVE_REAL_SCREEN_QUALIFICATION_V1. Real OS owned Xorg dummy window available (L1), not user desktop/physical display. Existing H2/Router/H1/WorldModel/Concern/C path, explicit scope/receipt, runtime boundaries and recovery implementation present.18 focused tests pass with explicit --live-screen (six actual SIGKILL),87 H2+screen pass;24 virtual hours development scenario pass. Final committed-source fresh-process soak/full regression still PENDING; no final live-qualified status yet. No H3/Hands/Iris/provider/private desktop/production access.
