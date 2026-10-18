@@ -1388,3 +1388,15 @@ H2 delivery manifest SHA256 `a611615b41b91b2716bdc2aebe16e9753d25359cb27b8b25fe2
 
 H2-LIVE evidence manifest external anchor (self excluded): `cb4b695782b05cf5f7d08e76c87d54bd1426699c3e6c1cb5aeffa45259e68610`.
 Path: docs/nana_h2_live_real_screen_v1_evidence/manifest.json.
+
+
+## VISION_FIRST_SHARED_GROWTH_V2 — implementation started
+[远端/源码核验] Base9faaad5006159c4f69f5c4056f0c6b062cc7770b; current independent
+dev/nana-core-vision-first-shared-growth-v2-codex. C6/C7 and E1–E6 ancestry confirmed.
+Dual durable priorities: Self-Evolution + Shared Life; current B+C causal increment
+with small context-fit A. Existing C/D/F/G/I/J reused. Scoped dialogue assessment,
+heldout separation and verified-reuse-to-life projection are actual gaps; no new
+brain/Store/Runtime/schema, no H2 feature continuation. ADR-VF2-001 records bounded
+audit/contract. This entry is planning/started, not implemented/qualified. Real
+AstrBot/QQ shadow requires later explicit host/privacy authorization; real dialogue,
+production Core adoption, general deep self-modification remain NOT_RUN.

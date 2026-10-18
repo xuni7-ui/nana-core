@@ -393,3 +393,15 @@ relay usage已返回部分token/cost字段，实际费用单位/结算未知，A
 ## H2-LIVE Real Screen Qualification V1 — current development, 2026-10-18
 
 [源码/受控 OS 测试] Independent branch dev/nana-core-h2-live-real-screen-v1-codex from verified06c80a9. GLOBAL_STAGE H; workstream H2_LIVE_REAL_SCREEN_QUALIFICATION_V1. Real OS owned Xorg dummy window available (L1), not user desktop/physical display. Existing H2/Router/H1/WorldModel/Concern/C path, explicit scope/receipt, runtime boundaries and recovery implementation present.18 focused tests pass with explicit --live-screen (six actual SIGKILL),87 H2+screen pass;24 virtual hours development scenario pass. Final committed-source fresh-process soak/full regression still PENDING; no final live-qualified status yet. No H3/Hands/Iris/provider/private desktop/production access.
+
+
+## VISION_FIRST_SHARED_GROWTH_V2 — implementation started
+[远端/源码核验] Base9faaad5006159c4f69f5c4056f0c6b062cc7770b; current independent
+dev/nana-core-vision-first-shared-growth-v2-codex. C6/C7 and E1–E6 ancestry confirmed.
+Dual durable priorities: Self-Evolution + Shared Life; current B+C causal increment
+with small context-fit A. Existing C/D/F/G/I/J reused. Scoped dialogue assessment,
+heldout separation and verified-reuse-to-life projection are actual gaps; no new
+brain/Store/Runtime/schema, no H2 feature continuation. ADR-VF2-001 records bounded
+audit/contract. This entry is planning/started, not implemented/qualified. Real
+AstrBot/QQ shadow requires later explicit host/privacy authorization; real dialogue,
+production Core adoption, general deep self-modification remain NOT_RUN.

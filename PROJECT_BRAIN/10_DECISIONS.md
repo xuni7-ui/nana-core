@@ -746,3 +746,15 @@ is retained separately from model derivation and old SYNTHETIC history. Future
 user/physical desktops require separate host consent/backend qualification.
 No new migration/dependency. Successful dev handoff grants no production/device/
 Hands authority and does not upgrade historical H1-LIVE PARTIAL.
+
+
+## VISION_FIRST_SHARED_GROWTH_V2 — implementation started
+[远端/源码核验] Base9faaad5006159c4f69f5c4056f0c6b062cc7770b; current independent
+dev/nana-core-vision-first-shared-growth-v2-codex. C6/C7 and E1–E6 ancestry confirmed.
+Dual durable priorities: Self-Evolution + Shared Life; current B+C causal increment
+with small context-fit A. Existing C/D/F/G/I/J reused. Scoped dialogue assessment,
+heldout separation and verified-reuse-to-life projection are actual gaps; no new
+brain/Store/Runtime/schema, no H2 feature continuation. ADR-VF2-001 records bounded
+audit/contract. This entry is planning/started, not implemented/qualified. Real
+AstrBot/QQ shadow requires later explicit host/privacy authorization; real dialogue,
+production Core adoption, general deep self-modification remain NOT_RUN.
