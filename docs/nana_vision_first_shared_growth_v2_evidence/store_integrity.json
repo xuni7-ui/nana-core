@@ -1,0 +1,37 @@
+{
+  "scope": "read-only own synthetic demo Stores, no production",
+  "runs": [
+    {
+      "arm": "normal",
+      "schema": 13,
+      "business_tables": 43,
+      "foreign_key_check": [],
+      "counts": {
+        "identities": 1,
+        "identity_revisions": 1,
+        "experiences": 4,
+        "lessons": 1,
+        "actions": 6,
+        "grants": 1,
+        "strategy_assessments": 2
+      }
+    },
+    {
+      "arm": "ablation",
+      "schema": 13,
+      "business_tables": 43,
+      "foreign_key_check": [],
+      "counts": {
+        "identities": 1,
+        "identity_revisions": 1,
+        "experiences": 4,
+        "lessons": 1,
+        "actions": 6,
+        "grants": 1,
+        "strategy_assessments": 1
+      }
+    }
+  ],
+  "new_tables": 0,
+  "new_dependencies": 0
+}

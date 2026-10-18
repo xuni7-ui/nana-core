@@ -1,0 +1,26 @@
+{
+  "source_commit": "adb4b5b673372f78e16481258890e401764b5d95",
+  "claim": "PASS_OFFLINE_CANDIDATE",
+  "available": "REPORT_DISCOVERY",
+  "busy": "NO_ACTION",
+  "no_interest": "NO_ACTION",
+  "without_original_source": {
+    "arm": "SOURCE_WITHDRAWN",
+    "pre_intervention": {
+      "method": "NUMERIC_SUM",
+      "opportunities": 1
+    },
+    "source_withdrawn": true,
+    "capability_after_withdrawal": null,
+    "life_opportunities": 0,
+    "judgment": "WATCH",
+    "intention": "NO_ACTION",
+    "social_proposal": null,
+    "identity_stable": true,
+    "intervention": "actual MemoryService.forget original failure result; closure not a policy flag"
+  },
+  "matched_pre_intervention": true,
+  "matching_scope": "independently initialized synthetic stores, same inputs/spec/clock/role; opaque allocated IDs differ, no policy arm flag",
+  "actual_sharing_sent": false,
+  "natural_dialogue_quality": "NOT_RUN"
+}

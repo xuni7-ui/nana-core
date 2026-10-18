@@ -1,5 +1,54 @@
 # PROJECT_BRAIN / 09 STATE（当前状态快照）
 
+## CURRENT — VISION_FIRST_SHARED_GROWTH_V2
+
+[源码/受控本地实测] Base9faaad5006159c4f69f5c4056f0c6b062cc7770b verified remote.
+Branch dev/nana-core-vision-first-shared-growth-v2-codex; source
+adb4b5b673372f78e16481258890e401764b5d95. GLOBAL_STAGE remains H; this is
+vision-first cross-cutting C/D/F/G work, not another perception stage.
+
+GATE_A = CONTEXT_FIT_OFFLINE_CANDIDATE. Typed sourced context routes vent/help/
+share/uncertainty/refusal/focus inside original C; keeps independent activities;
+scoped refusal fences later learning and already adopted private plan steps/reviews.
+Temporary conversation can reach C without permanent Memory; explicit boundaries
+retain existing deletion/reopen semantics. No NLP naturalness qualification.
+
+LEARNING_CAPABILITY_CHANGE = PASS_CONTROLLED_LOCAL_STRATEGY_SELECTION. Original
+C/F/G/Kernel/Verify/Experience reused:4 vs4.75 baseline failure, independently
+tested method adoption, actual novel later input10.75 vs10.75, six local fixture
+actions. Candidate no longer sees evaluation/transfer cases/answers.
+SHARED_LIFE_CAUSAL_CHANGE = PASS_OFFLINE_CANDIDATE. Verified novel reuse yields
+source-backed attention/sharing candidate; busy/no-interest/source withdrawal/
+independent counterexample alter it. Source deletion removes derived support;
+strategy suspension prevents continued unjustified use. Runtime/Store reopen and
+two fixture model ports preserve identity/history and grant/effect count.
+
+Final new focused11 PASS; full1189 PASS/0fail/12skip in163.16s (11 opt-in historical
+H2 screen cases intentionally not run;1 E12). First full1188 PASS/1 environment
+failure/12skip due missing /tmp legacy launcher; restored only launcher to actual
+system Python3.13.5/SQLite3.46.1, isolated1 PASS, final full above. No source/test/
+R045 change for that environment repair. Failure evidence retained.
+
+No schema/table/dependency change:13/43/new0. One Subject/Store/Runtime/SubjectLoop
+per independent synthetic arm. D WHEN/C WHAT-WHY, Primary User role, social desire,
+negative-only Manager, privacy/Grant/Budget/UNKNOWN boundaries retained. Real
+provider calls/private data/external effects/social sends/capture0. H2 L1 result
+and H1-LIVE historical PARTIAL preserved, not rerun/upgraded. main/R045/production
+unchanged. REAL_DIALOGUE, PRODUCTION_CORE_ADOPTION, GENERAL_DEEP_SELF_MODIFICATION
+remain NOT_RUN; broad REAL_SELF_EVOLUTION_READY is not claimed.
+
+Current resource priority: substantive verified growth + shared-life causality;
+context fit is the small companion increment. Learning is a capability, not a
+mandatory internal goal. Next real dependency: explicitly authorized minimal new
+AstrBot/QQ read-only dialogue shadow and human fit review, then separately approved
+visible delivery. No old private chats/Iris/production replacement. Continue
+controlled real-use growth with narrow outcomes; do not force H2/Windows/Hands.
+
+Report/ADR/evidence: docs/nana_vision_first_shared_growth_v2_implementation.md,
+docs/ADR/ADR-VF2-001-shared-life-and-evolution.md, matching evidence directory.
+Historical H2/current-development blocks below are retained as history.
+
+
 ## CURRENT — H2-LIVE Real Screen Qualification V1, 2026-10-18
 
 GLOBAL_STAGE = H; WORKSTREAM = H2_LIVE_REAL_SCREEN_QUALIFICATION_V1.
@@ -1426,3 +1475,7 @@ checked heldout/transfer, candidate sharing/silence, source-withdrawal arm and t
 float counterexample pass. This is controlled local fixture computation/strategy
 selection, not real dialogue or general algorithm invention.165 earlier related
 tests passed;11 new focused passed. Final frozen-source full regression pending.
+
+
+VISION_FIRST_SHARED_GROWTH_V2 manifest external anchor: `d4e22c1f81aaf050e8ceff6aef619e9978014fcae7710fc125b8e192ecc154f8`.
+Path docs/nana_vision_first_shared_growth_v2_evidence/manifest.json; self excluded.

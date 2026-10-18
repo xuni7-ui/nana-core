@@ -1,0 +1,130 @@
+{
+  "normal": {
+    "baseline_actual": 4,
+    "baseline_expected": 4.75,
+    "baseline_original_failure_experience_retained": true,
+    "training": {
+      "BASELINE": {
+        "all_passed": false,
+        "cases": [
+          {
+            "actual": 5,
+            "case_id": "evaluation",
+            "context": "inventory",
+            "expected_digest": "8ab31b5afaea56114427e1f01b81d001b079a0f59539f6db3f099816ca794055",
+            "input_digest": "4b6ab75b6ce22f49dc6f9e0670faf3aa79f71f671943d65ec850adc9f4266d8f",
+            "passed": false
+          }
+        ],
+        "checked": 1,
+        "passed": 0
+      },
+      "EVALUATE": {
+        "all_passed": true,
+        "cases": [
+          {
+            "actual": 6.0,
+            "case_id": "evaluation",
+            "context": "inventory",
+            "expected_digest": "8ab31b5afaea56114427e1f01b81d001b079a0f59539f6db3f099816ca794055",
+            "input_digest": "4b6ab75b6ce22f49dc6f9e0670faf3aa79f71f671943d65ec850adc9f4266d8f",
+            "passed": true
+          }
+        ],
+        "checked": 1,
+        "passed": 1
+      },
+      "PRACTICE": {
+        "all_passed": true,
+        "cases": [
+          {
+            "actual": 3.25,
+            "case_id": "practice",
+            "context": "inventory",
+            "expected_digest": "930f3f2c94c89e836cd5b64d0f5f8e4979142d8cd768dd5986b161404b2a7c73",
+            "input_digest": "8fa5f23b4382d0964ff7141b914f9b2beebc1976e5ace37d9aa350a717ed9038",
+            "passed": true
+          }
+        ],
+        "checked": 1,
+        "passed": 1
+      },
+      "TRANSFER": {
+        "all_passed": true,
+        "cases": [
+          {
+            "actual": 0.5,
+            "case_id": "transfer",
+            "context": "science",
+            "expected_digest": "d2cbad71ff333de67d07ec676e352ab7f38248eb69c942950157220607c55e84",
+            "input_digest": "988221fc8933d46d621daafe2abe0616bb143516453644dcbc3b650e8c95d422",
+            "passed": true
+          }
+        ],
+        "checked": 1,
+        "passed": 1
+      }
+    },
+    "later_data": [
+      8.25,
+      2.5
+    ],
+    "later_actual": 10.75,
+    "later_expected": 10.75,
+    "later_method": "NUMERIC_SUM",
+    "later_goal_state": "COMPLETED",
+    "actual_later_action_verified": true,
+    "lesson_id": "6692befe-2a96-451b-b939-151c080d96fc",
+    "assessment_id": "5ddbf16e-c75f-4796-9b79-6c278d8cb9ac",
+    "reuse_memory_id": "ff169260-af67-4eff-bfd8-f280d30ceeed",
+    "source_memory_id": "649c736b-1a7b-40bd-beb5-797a591e73c4",
+    "social_available": "REPORT_DISCOVERY",
+    "busy_intention": "NO_ACTION",
+    "no_interest_intention": "NO_ACTION",
+    "pre_intervention": {
+      "method": "NUMERIC_SUM",
+      "opportunities": 1
+    },
+    "rest_was_valid": true,
+    "identity_id": "3e3e1958-bfd7-4465-b8e8-8b05ef89e3d8",
+    "world_model_result": "SUPPORTED_BELIEF",
+    "local_actions": 6,
+    "real_external_actions": 0,
+    "real_provider_calls": 0,
+    "actual_model_cost": 0,
+    "cost_precision": "local CPU/time measured; external billing not applicable",
+    "model_input_tokens": 0,
+    "model_output_tokens": 0,
+    "restart_identity_stable": true,
+    "model_port_swap_identity_stable": true,
+    "new_authorization_on_restart": false,
+    "counterexample_suspended_strategy": true,
+    "counterexample_removed_life_support": true,
+    "elapsed_seconds": 0.4073391710001033,
+    "cpu_seconds": 0.40693662399999997,
+    "execution": "CONTROLLED_LOCAL_FIXTURE_KERNEL_AND_COMPUTATION_NOT_REAL_EXTERNAL_WORLD",
+    "capability_claim": "bounded strategy-selection improvement, not algorithm invention",
+    "real_dialogue": "NOT_RUN"
+  },
+  "ablation": {
+    "arm": "SOURCE_WITHDRAWN",
+    "pre_intervention": {
+      "method": "NUMERIC_SUM",
+      "opportunities": 1
+    },
+    "source_withdrawn": true,
+    "capability_after_withdrawal": null,
+    "life_opportunities": 0,
+    "judgment": "WATCH",
+    "intention": "NO_ACTION",
+    "social_proposal": null,
+    "identity_stable": true,
+    "intervention": "actual MemoryService.forget original failure result; closure not a policy flag"
+  },
+  "counterfactual_matching": "independently initialized synthetic stores, same inputs/spec/clock/role; opaque allocated IDs differ, no policy arm flag",
+  "CAPABILITY_CHANGE": "PASS_CONTROLLED_LOCAL",
+  "LIFE_CAUSAL_CHANGE": "PASS_OFFLINE_CANDIDATE",
+  "REAL_DIALOGUE": "NOT_RUN",
+  "PRODUCTION_CORE_ADOPTION": "NOT_RUN",
+  "GENERAL_DEEP_SELF_MODIFICATION": "NOT_RUN"
+}

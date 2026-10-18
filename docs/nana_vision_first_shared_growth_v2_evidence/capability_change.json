@@ -1,0 +1,83 @@
+{
+  "source_commit": "adb4b5b673372f78e16481258890e401764b5d95",
+  "claim": "PASS_CONTROLLED_LOCAL_STRATEGY_SELECTION",
+  "baseline": {
+    "actual": 4,
+    "expected": 4.75
+  },
+  "independent_trials": {
+    "BASELINE": {
+      "all_passed": false,
+      "cases": [
+        {
+          "actual": 5,
+          "case_id": "evaluation",
+          "context": "inventory",
+          "expected_digest": "8ab31b5afaea56114427e1f01b81d001b079a0f59539f6db3f099816ca794055",
+          "input_digest": "4b6ab75b6ce22f49dc6f9e0670faf3aa79f71f671943d65ec850adc9f4266d8f",
+          "passed": false
+        }
+      ],
+      "checked": 1,
+      "passed": 0
+    },
+    "EVALUATE": {
+      "all_passed": true,
+      "cases": [
+        {
+          "actual": 6.0,
+          "case_id": "evaluation",
+          "context": "inventory",
+          "expected_digest": "8ab31b5afaea56114427e1f01b81d001b079a0f59539f6db3f099816ca794055",
+          "input_digest": "4b6ab75b6ce22f49dc6f9e0670faf3aa79f71f671943d65ec850adc9f4266d8f",
+          "passed": true
+        }
+      ],
+      "checked": 1,
+      "passed": 1
+    },
+    "PRACTICE": {
+      "all_passed": true,
+      "cases": [
+        {
+          "actual": 3.25,
+          "case_id": "practice",
+          "context": "inventory",
+          "expected_digest": "930f3f2c94c89e836cd5b64d0f5f8e4979142d8cd768dd5986b161404b2a7c73",
+          "input_digest": "8fa5f23b4382d0964ff7141b914f9b2beebc1976e5ace37d9aa350a717ed9038",
+          "passed": true
+        }
+      ],
+      "checked": 1,
+      "passed": 1
+    },
+    "TRANSFER": {
+      "all_passed": true,
+      "cases": [
+        {
+          "actual": 0.5,
+          "case_id": "transfer",
+          "context": "science",
+          "expected_digest": "d2cbad71ff333de67d07ec676e352ab7f38248eb69c942950157220607c55e84",
+          "input_digest": "988221fc8933d46d621daafe2abe0616bb143516453644dcbc3b650e8c95d422",
+          "passed": true
+        }
+      ],
+      "checked": 1,
+      "passed": 1
+    }
+  },
+  "later": {
+    "input": [
+      8.25,
+      2.5
+    ],
+    "actual": 10.75,
+    "expected": 10.75,
+    "method": "NUMERIC_SUM",
+    "action_verified": true
+  },
+  "actual_new_algorithm_invented": false,
+  "general_real_self_evolution_ready": false,
+  "counterexample_suspends": true
+}

@@ -1,0 +1,23 @@
+{
+  "source_commit": "adb4b5b673372f78e16481258890e401764b5d95",
+  "local_actions_normal_arm": 6,
+  "wall_seconds_normal_arm": 0.4073391710001033,
+  "cpu_seconds_normal_arm": 0.40693662399999997,
+  "real_provider_calls": 0,
+  "real_model_tokens_in": 0,
+  "real_model_tokens_out": 0,
+  "fixture_continuity_proposals": 2,
+  "real_model_cost": 0,
+  "external_billing": "NOT_APPLICABLE",
+  "isolation": "existing sealed synthetic local effect realm",
+  "data": "public synthetic only",
+  "new_dependencies": 0,
+  "new_subject_tables": 0,
+  "side_effects": "local fixture files/SQLite only, no external actions",
+  "rollback": [
+    "source forget",
+    "lesson suspend/retire",
+    "existing plan fences"
+  ],
+  "heldout_exposed_to_proposer": false
+}

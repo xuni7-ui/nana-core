@@ -1,0 +1,14 @@
+{
+  "source_commit": "adb4b5b673372f78e16481258890e401764b5d95",
+  "runtime_store_close_reopen": true,
+  "two_fixture_model_ports": true,
+  "new_grant_on_restart": false,
+  "real_process_sigkill_added": "NOT_RUN_NOT_REQUIRED",
+  "one_subject_per_arm": true,
+  "one_store_per_arm": true,
+  "one_runtime_per_arm": true,
+  "one_subject_loop": true,
+  "H2_capture_requalification": "NOT_RUN_NOT_REQUIRED",
+  "main_R045_production_changed": false,
+  "old_bundle": "UNTRACKED_UNREAD_UNTOUCHED"
+}

@@ -1,0 +1,19 @@
+{
+  "source_commit": "adb4b5b673372f78e16481258890e401764b5d95",
+  "claim": "CONTEXT_FIT_OFFLINE_CANDIDATE",
+  "signal_source": "EXPLICIT_OR_INTERPRETED_HOST_INPUT_NOT_TRUTH",
+  "ordinary_vent": "CHECK_IN_PROPOSAL_NO_RESEARCH",
+  "explicit_help": "UNADOPTED_CANDIDATE",
+  "uncertain": "ASK",
+  "sourced_project_conflict": "ALTERNATIVE",
+  "relationship_supported_play": "TEASE_OR_VARIATION",
+  "refusal": "EXACT_ENTITY_SCOPE_TOPIC",
+  "reopen": "RECONSIDER_NOT_AUTO_RETRY",
+  "independent_activity_preserved": true,
+  "focus_preemption": true,
+  "transient_context_not_persisted": true,
+  "deletion_rebuild": true,
+  "natural_language_classifier": "NOT_IMPLEMENTED",
+  "renderer": "NOT_IMPLEMENTED",
+  "evidence": "tests/vision_first/test_context_fit.py;test_growth.py"
+}

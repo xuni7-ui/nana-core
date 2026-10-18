@@ -1,0 +1,39 @@
+{
+  "base": "9faaad5006159c4f69f5c4056f0c6b062cc7770b",
+  "source_commit": "adb4b5b673372f78e16481258890e401764b5d95",
+  "global_stage": "H",
+  "workstream": "VISION_FIRST_SHARED_GROWTH_V2",
+  "GATE_A": "CONTEXT_FIT_OFFLINE_CANDIDATE",
+  "LEARNING_CAPABILITY_CHANGE": "PASS_CONTROLLED_LOCAL_STRATEGY_SELECTION",
+  "SHARED_LIFE_CAUSAL_CHANGE": "PASS_OFFLINE_CANDIDATE",
+  "REAL_SELF_EVOLUTION_READY": false,
+  "REAL_DIALOGUE": "NOT_RUN",
+  "PRODUCTION_CORE_ADOPTION": "NOT_RUN",
+  "GENERAL_DEEP_SELF_MODIFICATION": "NOT_RUN",
+  "focused": {
+    "passed": 11,
+    "failed": 0,
+    "seconds": 1.45
+  },
+  "full": {
+    "passed": 1189,
+    "failed": 0,
+    "skipped": 12,
+    "seconds": 163.16,
+    "skip_scope": "11 opt-in H2 screen tests NOT_RUN this task;1 E12 NOT_RUN"
+  },
+  "initial_full_failure": "missing ephemeral legacy launcher; source/tests unchanged; failure retained separately",
+  "schema": 13,
+  "business_tables": 43,
+  "new_tables": 0,
+  "new_dependencies": 0,
+  "real_provider_calls": 0,
+  "private_data_used": false,
+  "real_external_actions": 0,
+  "real_social_sends": 0,
+  "screen_capture_this_task": false,
+  "H1_live_historical_status": "PARTIAL_PROVIDER_QUALIFICATION",
+  "H2_live_historical_level": "L1_REAL_OS_SCREEN_QUALIFIED_UNCHANGED",
+  "one_subject_store_runtime_loop_per_arm": true,
+  "MAIN_R045_PRODUCTION_CHANGED": false
+}

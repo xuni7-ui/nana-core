@@ -1676,3 +1676,18 @@ checked heldout/transfer, candidate sharing/silence, source-withdrawal arm and t
 float counterexample pass. This is controlled local fixture computation/strategy
 selection, not real dialogue or general algorithm invention.165 earlier related
 tests passed;11 new focused passed. Final frozen-source full regression pending.
+
+
+## VISION_FIRST_SHARED_GROWTH_V2 — final scoped delivery
+[实测] Sourceadb4b5b;11 focused PASS; full1189/0/12 intentional skips,163.16s.
+Original controlled local G/F path shows independent capability selection/reuse
+improvement, while new derived C/D projection shows separate life-causality
+change. Actual Memory deletion ablation, busy/refusal, counterexample suspension,
+restart and fixture-model swap verified. No invented algorithm/general Core
+self-edit or real dialogue claim. Context fit is source-bound host interpretation;
+privacy/authority are independent. Practice-only proposer fixes heldout exposure.
+Original due opportunities precede optional growth-sharing checks. No new table,
+schema/dependency/Store/loop. First full missing temporary SQLite launcher failure
+retained; restore used actual system3.46.1, no source/test/R045 modification.
+Report/evidence under docs/nana_vision_first_shared_growth_v2*. Stop after normal
+development push/remote verification; no production/private/live integration.

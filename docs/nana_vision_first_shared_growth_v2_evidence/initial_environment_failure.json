@@ -1,0 +1,13 @@
+{
+  "source_commit": "adb4b5b673372f78e16481258890e401764b5d95",
+  "initial_result": "1 failed, 1188 passed, 12 skipped in159.93s",
+  "test": "tests/nana_shadow/test_r041_client.py::test_forbidden_dependencies_in_actual_old_sqlite_process",
+  "reason": "missing ephemeral /tmp/nana-bootstrap-build/compat-python-old launcher",
+  "raw_log_sha256": "c7d10a795ece86b1b82f52867951e7bb18e85e699173f6a6ef72f20f67ceb110",
+  "fix": "temporary shell exec of existing /usr/bin/python3; actual Python3.13.5/SQLite3.46.1",
+  "test_source_changed": false,
+  "runtime_versions_mocked": false,
+  "installation": false,
+  "isolated_recheck": "1 passed in0.23s",
+  "full_recheck": "1189 passed/0 failures/12 intentional skips in163.16s"
+}
