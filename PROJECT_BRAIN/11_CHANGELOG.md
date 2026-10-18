@@ -1691,3 +1691,12 @@ schema/dependency/Store/loop. First full missing temporary SQLite launcher failu
 retained; restore used actual system3.46.1, no source/test/R045 modification.
 Report/evidence under docs/nana_vision_first_shared_growth_v2*. Stop after normal
 development push/remote verification; no production/private/live integration.
+
+
+## VF2 evidence tracking closure
+[只读Git核验/文档修正] Generic *secret* ignore rule excluded the sanitized
+secret_scan.json result from the first handoff docs commit. Reviewed its fields
+(count0, no credential values) and explicitly whitelisted that text evidence.
+Manifest content/hash and qualified source remain unchanged. All manifest paths
+must now exist in committed Git history. Normal follow-up commit/push, no amend,
+force push or business/source/test change.
