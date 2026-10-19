@@ -123,3 +123,48 @@ build-time authorization labels describe an offline qualifier only; qualificatio
 and provider_authorization.json give the current mission state. Human naturalness
 remains NOT_RUN. Authorized development scope COMPLETE; whole first-life NOT_READY.
 No real models/private history/social sends/capture/Hands/production actions.
+
+
+## 2026-10-19 live cognition continuation (documentation/evidence only)
+
+Current user authorization supplied an ephemeral credential. The no-echo terminal
+FD test used TEST_ONLY_NOT_SECRET before any real input. The actual key was read
+by existing ExplicitFDResolver directly in the child process; no command argument,
+environment file, config, Subject Store, raw-header log or credential file. Core
+dumps disabled; resolver cleared and owning process exited. Audit does not claim
+to delete the user's original chat message or platform records outside this workspace.
+
+The existing completed development home was reopened, with only host-local typed
+PUBLIC/PROJECT provider configuration updated (no key in life.json/providers.json).
+No tasks were rerun, no Grant minted. Exact TianToken/qwen3.8-flash primary has no
+fallback. One approved non-private PROJECT probe entered original LifeApplication
+chat→Router→Factory→CognitionSession→OpenAIJSONTransport. Under3000ms deadline no
+HTTP response arrived (final transport observation3171.186ms); state UNKNOWN with
+PROVIDER_TIMEOUT_BILLING_UNKNOWN. No authentication/model identity/semantic output
+or natural rendering was accepted. C chose ASK/WAIT on uncertainty, not success.
+No retries, fallback, expanded timeout request or extra charge probes. Public price
+ratios/denomination were inspected without credentials but account group/overrides
+and actual billing remain UNKNOWN; conservative reservation is not dollar truth.
+
+Real post-process recovery in the same home preserves identity,16 existing local
+Actions and one Grant. Same message replays ALREADY_REVIEWED_NO_REPLAY; new cognition
+is rejected before router resolution; ordinary Runtime step still runs; foreign
+keys clean. PERSONAL/SECRET are denied before credential access using this exact
+host configuration. Additional live calls0. One existing offline UNKNOWN regression
+passed0.53s; src/tests/tools unchanged since qualified446affc. Prior1230/0/12 full
+regression is retained, not rerun for docs only. M3–M6/M8–M9 remain as qualified.
+
+REAL_PROVIDER_QUALIFIED=NOT_QUALIFIED_TIMEOUT_UNKNOWN; REAL_NATURAL_DIALOGUE_REVIEWED=
+NOT_RUN; M2/M7/M10 PARTIAL; FIRST_LIFE_EXPERIENCE_READY=NOT_READY. Historical H1 live
+PARTIAL is unchanged. Evidence: live_attempt.json/live_recovery.json/live_privacy.json/
+live_budget_preflight.json/live_focused_tests.txt/live_secret_scan.json. HTTP request
+body digest is available; no raw response digest/HTTP status/relay IDs/usage exist
+because no reply arrived. Provider receipt and actual charge are UNKNOWN, not0.
+The unused call allowance is not permission to bypass unresolved-call fencing.
+
+Next real gate: resolve this ambiguous completion/charge using explicit provider or
+operator evidence and a reliable conservative price bound before another dispatch.
+Then human free dialogue must review listening vs unsolicited advice, natural warmth,
+non-sycophantic source-supported disagreement, relevance of actual past work, sharing
+restraint, correction/refusal/reopen and restart continuity. None can be certified by
+this failed probe or by model self-evaluation. No H2/Hands/private history/production.

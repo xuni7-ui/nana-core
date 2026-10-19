@@ -1,0 +1,128 @@
+{
+  "started_at": "2026-10-19T16:37:11.896505+00:00",
+  "head_start": "29b5bdd701bac3760bff270c0fc692c488284a4f",
+  "provider": "TianToken",
+  "base_url": "https://api.tiantoken.com/v1",
+  "model": "qwen3.8-flash",
+  "privacy": [
+    "PUBLIC",
+    "PROJECT"
+  ],
+  "authorized_call_limit": 20,
+  "qualification_initial_dispatch_limit": 1,
+  "usd_ceiling": 1,
+  "timeout_ms": 3000,
+  "calls": [
+    {
+      "request_id": "490da782-f60f-439a-a753-d68d2ff6372d",
+      "role": "INTERPRET",
+      "dispatch_started": true,
+      "requested_model": "qwen3.8-flash",
+      "timeout_ms": 3000,
+      "route": {
+        "operation": "COGNITION",
+        "config_revision": 3,
+        "route_revision": 1,
+        "provider_profile_id": "qualification.tiantoken",
+        "provider_revision": 1,
+        "model_profile_id": "qualification.qwen38",
+        "model_revision": 1,
+        "remote_model_id": "qwen3.8-flash",
+        "model_version": "RELAY_CLAIMED_UNVERIFIED",
+        "provider_id": "qualification.tiantoken",
+        "protocol": "OPENAI_COMPATIBLE_CHAT",
+        "selection": "PRIMARY",
+        "reasons": [],
+        "effective": {
+          "timeout_ms": 3000,
+          "cost_ceiling": 1000,
+          "context_limit": 8192,
+          "output_limit": 1024,
+          "permitted_privacy": [
+            "PUBLIC",
+            "PROJECT"
+          ]
+        }
+      },
+      "completion": "UNKNOWN",
+      "error": "TimeoutError",
+      "http_observation": {
+        "request_body_sha256": "fccd5feaa26e574bc7061ee1858f06f38920314d7c23e926096d94b4494e4fd5",
+        "raw_response_body_sha256": null,
+        "response_http_status": null,
+        "relay_response_id": null,
+        "relay_request_id": null,
+        "request_started_at": "2026-10-19T16:37:15.778208+00:00",
+        "response_received_at": null,
+        "latency_ms": 3171.1858899943763
+      }
+    }
+  ],
+  "actual_cost": "UNKNOWN",
+  "budget_expansion": "DENIED_WITHOUT_RELIABLE_ACCOUNT_COST_MAPPING",
+  "key_storage": "PROCESS_MEMORY_ONLY_EXPLICIT_STDIN_FD_NO_ECHO",
+  "secret_persisted": false,
+  "human_review": "NOT_RUN",
+  "social_sends": 0,
+  "private_data_used": false,
+  "schema_version": 13,
+  "business_tables": 43,
+  "secret_present": true,
+  "before": {
+    "identity": "19807cde-f595-4ecd-96c0-5241ecd5f3a6",
+    "revision": 55,
+    "actions": 16,
+    "grants": 1
+  },
+  "local_response": {
+    "message_id": "authorized-live-project-probe-v1",
+    "message_memory_id": "f87489f6-522e-4dee-9adb-0f3099ffcd5c",
+    "provider_state": "PROVIDER_TIMEOUT_BILLING_UNKNOWN",
+    "render_state": "NOT_RUN",
+    "mode": "UNCLEAR",
+    "judgment": "ASK",
+    "intention": "WAIT",
+    "raw_body_persisted": false,
+    "external_social_send": false
+  },
+  "cognitive_requests": [
+    {
+      "request_id": "490da782-f60f-439a-a753-d68d2ff6372d",
+      "request_key": "life.interpret.authorized-live-project-probe-v1",
+      "state": "UNKNOWN",
+      "error_code": "PROVIDER_TIMEOUT_BILLING_UNKNOWN",
+      "response_digest": null,
+      "reserved_cost_micro": 1000
+    }
+  ],
+  "after": {
+    "identity": "19807cde-f595-4ecd-96c0-5241ecd5f3a6",
+    "revision": 56,
+    "actions": 16,
+    "grants": 1
+  },
+  "foreign_key_check": [],
+  "real_provider_qualified": "NOT_QUALIFIED",
+  "real_provider_calls": 1,
+  "finished_at": "2026-10-19T16:37:18.955351+00:00",
+  "exact_secret_match_count": 0,
+  "secret_scan_scope": "tracked files, dev-home config/DB/WAL/logs, generated result/script, unstaged/staged diff; old bundle excluded",
+  "transport_acceptance": "UNKNOWN_NO_HTTP_RESPONSE",
+  "auth": "UNKNOWN",
+  "model_route_verified": "NOT_VERIFIED_NO_RETURNED_MODEL",
+  "upstream_identity": "RELAY_CLAIMED_UNVERIFIED",
+  "natural_language_render": "NOT_RUN",
+  "semantic_interpretation": "NOT_RUN_NO_ACCEPTED_REPLY",
+  "source_backed_live_independent_judgment": "NOT_RUN",
+  "original_core_fallback": {
+    "judgment": "ASK",
+    "intention": "WAIT",
+    "no_fabricated_semantic_success": true
+  },
+  "historical_h1_live_status": "PARTIAL_PROVIDER_QUALIFICATION_UNCHANGED",
+  "no_blind_retry": true,
+  "automatic_fallback_calls": 0,
+  "model_is_permanent_default": false,
+  "secret_cleanup": "RESOLVER_CLEARED_AND_OWNING_PROCESS_EXITED",
+  "callback_scope": "Existing transport exchange wrapped for counting and sanitized measurement only; no HTTP replacement, no new Subject loop"
+}

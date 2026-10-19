@@ -1877,3 +1877,17 @@ Final07–11/report/guide/ledger/evidence synchronized; code/test/tool tree froz
 Real user permission exists but explicit safe source absent, calls0; whole first-life
 NOT_READY. Final count-only credential scan/manifest and normal dev push verification
 only. Main/production/R045/private history/capture/social unchanged.
+
+
+## LIVED_GROWTH_V2 — one real cognition attempt; truthful scoped handoff
+[2026-10-19，真实relay尝试/本地恢复/文档] 用户补齐本轮临时凭据，关闭回显FD输入；
+沿用原Router/Factory/CognitionSession/ContextAssembler，对TianToken/qwen3.8-flash
+发起1次PROJECT认知请求。3000ms超时，原状态UNKNOWN/PROVIDER_TIMEOUT_BILLING_UNKNOWN；
+无HTTP回复/usage/费用证明，未盲重试/后备/渲染。只补M1/M2/M7/M10当前证据，不重做
+M3–M6/M8–M9。实际重开已有开发home验证同identity/16Actions/1Grant、原message去重、
+新请求在Router前拒绝、正常Runtime step及foreign keys；PUBLIC/PROJECT配置硬拒绝
+PERSONAL/SECRET。既有UNKNOWN离线测试1pass0.53s；无业务源码/测试/schema变化，原
+1230/0/12全量结果仍属446affc冻结源码，不冒称本次回归。07–11/报告/指南/ledger/
+evidence同步实际阻塞；真人自然交流未运行，FIRST_LIFE_EXPERIENCE_READY仍NOT_READY。
+进程凭据已清理/退出，exact leak count0；无生产/main/R045/真实私人正文/QQ/B站/Hands。
+旧bundle保持未跟踪未读取；正常开发提交/push仅同步审查事实，不升级历史H1 PARTIAL。

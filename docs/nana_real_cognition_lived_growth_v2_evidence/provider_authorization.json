@@ -14,18 +14,25 @@
   ],
   "max_real_calls": 20,
   "maximum_cost_usd_equivalent": 1,
-  "actual_currency_mapping": "UNVERIFIED",
+  "actual_currency_mapping": "UNVERIFIED_PUBLIC_RATIOS_ARE_NOT_ACCOUNT_BILLING",
   "timeout_ms": 3000,
-  "timeout_adjustment": "NONE_NO_LIVE_EVIDENCE",
-  "real_provider_calls": 0,
-  "credential_source": "NOT_PROVIDED",
+  "timeout_adjustment": "NONE_NO_RETRY_AFTER_UNKNOWN",
+  "real_provider_calls": 1,
+  "credential_source": "CURRENT_USER_PROVIDED_PROCESS_MEMORY_EXPLICIT_FD_NO_ECHO",
   "cloud_configuration_observations_current": true,
   "configured_secret_bindings": 0,
   "configured_runtime_variable_bindings": 0,
-  "explicit_fd_provided": false,
-  "status": "BLOCKED_NO_SAFE_CREDENTIAL_SOURCE",
+  "explicit_fd_provided": true,
+  "status": "STOPPED_UNKNOWN_COMPLETION_NO_BLIND_RETRY",
   "secret_search_performed": false,
   "previous_trial_key_reused": false,
   "body_or_credential_recorded": false,
-  "next_step": "Host securely configures credential and provides explicit SecretResolver/FD binding, not a key in chat. Then apply exact provider/model, PUBLIC/PROJECT, <=20 calls, conservative cost stop, no retry/fallback after UNKNOWN."
+  "next_step": "Resolve this ambiguous request through explicit provider/operator evidence before another live request; confirm conservative account cost mapping. No raw key required in repository. Human free dialogue review remains separate and unperformed.",
+  "prior_gate": {
+    "head": "29b5bdd701bac3760bff270c0fc692c488284a4f",
+    "credential_source": "NOT_PROVIDED",
+    "real_provider_calls": 0,
+    "status": "BLOCKED_NO_SAFE_CREDENTIAL_SOURCE"
+  },
+  "secret_cleared_after_use": true
 }

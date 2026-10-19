@@ -1,5 +1,29 @@
 # PROJECT_BRAIN / 09 STATE（当前状态快照）
 
+## CURRENT — LIVE COGNITION RESUME / 2026-10-19
+本轮manifest SHA256 `da099e04eca9a0787c11804243527643dfc64554c04fac3f07b7318cbe4148d4`（self/09/旧bundle排除；文件快照不证明生产）。
+[真实开发relay请求尝试/本地恢复实测] Head start29b5bdd701bac3760bff270c0fc692c488284a4f;
+branch dev/nana-core-real-cognition-lived-growth-v2-codex; GLOBAL_STAGE H unchanged.
+用户本轮显式临时凭据经关闭回显的进程 FD→原 ExplicitFDResolver，仅内存使用；
+非命令参数/环境文件/配置/Store/evidence。原持有进程已退出；exact scan0。
+原 Router/Factory/CognitionSession/ContextAssembler 尝试 TianToken
+https://api.tiantoken.com/v1，qwen3.8-flash，PROJECT，仅1次（总授权20次/$1）。
+3000ms deadline；HTTP等待观测3171.186ms，无返回HTTP status/model/body/usage；
+Core UNKNOWN/PROVIDER_TIMEOUT_BILLING_UNKNOWN。AUTH/模型路由/语义质量未能核验，
+实际费用 UNKNOWN，公开价格系数不是账户账单。未重试/fallback/渲染/延长timeout再调用。
+REAL_PROVIDER_QUALIFIED NOT_QUALIFIED_TIMEOUT_UNKNOWN；原C合法ASK/WAIT，不伪造成功。
+实际重启同一已有开发home：identity不变，既有16 Actions/1 Grant不变；UNKNOWN保留；
+同message_id不重放，新认知在 Router 前拒绝（resolve0），普通Runtime step可继续。
+当前配置 PERSONAL/SECRET 在凭据解析前硬拒绝；foreign_key_check clean。
+M2/M7真实语义/措辞及真人自然度 NOT_RUN；M10 PARTIAL；FIRST_LIFE_EXPERIENCE_READY NOT_READY。
+M3–M6/M8–M9保留已PASS证据，不重新施工或重复资格。此次无业务源码/测试/schema变更；
+仅针对 UNKNOWN 的既有离线测试1 PASS0.53s；已冻结源码446affc的全量1230/0/12保留，非本次重跑。
+新证据 live_attempt/live_recovery/live_privacy/live_budget_preflight/live_focused_tests；
+原始私人历史/QQ/B站/Hands/capture/production/main/R045变更0；未跟踪旧bundle未读取未改动。
+下一硬阻塞：这次UNKNOWN完成/扣费需显式核实并建立可解释费用上限后，才另行继续真实请求；
+真人须自由交流观察语气、倾听、就事论事的不同意见、分享克制与纠正/退出后的连续性。
+旧无凭据/0调用段落保留为先前离线交付历史，不再是本轮当前结论。
+
 ## CURRENT — NANA_REAL_COGNITION_LIVED_GROWTH_V2
 [源码/离线及实际独立进程实测] Branch dev/nana-core-real-cognition-lived-growth-v2-codex;
 base5cc5c736e0f7267e8b84ef1f544ffbf846380d61; qualified source

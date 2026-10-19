@@ -1,0 +1,11 @@
+{
+  "PERSONAL": "PRIVACY_DENIED",
+  "SECRET": "PRIVACY_DENIED",
+  "actual_provider_calls": 0,
+  "authorized_request_privacy": "PROJECT",
+  "config_permitted_privacy": [
+    "PUBLIC",
+    "PROJECT"
+  ],
+  "secret_loaded": false
+}

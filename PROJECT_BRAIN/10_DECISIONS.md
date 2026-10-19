@@ -973,3 +973,22 @@ This avoids assistant self-confirmation and deleted-fact resurrection without a
 second transcript authority. Renderer pins at most one current artifact to keep
 bounded context usable after source withdrawal; no budget enlargement or hidden
 provider retry. New actual loopback after-delete conversation test PASS.
+
+
+## LIVED_GROWTH_V2 — authorized transient FD live attempt and UNKNOWN stop
+[用户本轮显式授权/实测，2026-10-19] Supersedes only prior no-source gate: current
+user supplied a one-run credential, admitted through no-echo stdin FD and existing
+ExplicitFDResolver, never source/config/env/file/log persistence or historic key
+search. Python core dumps disabled; resolver cleared, owning process exited.
+No promise to erase an already submitted chat message; audit scope is engineering
+files, diff, dev-home DB/config/WAL and generated logs/evidence, excluding old bundle.
+One PROJECT-only TianToken/qwen3.8-flash request under3000ms deadline yielded UNKNOWN
+without any HTTP response. This is not authentication failure or model semantic
+failure; their truth remains unverified. No new call/timeout enlargement/fallback
+may be disguised as the same request after UNKNOWN. Public model/group price ratios
+are not account billing; estimated reservation1000 does not prove a dollar charge.
+Keep remaining19-call allowance unused while completion/cost are unresolved. Later
+explicit provider/operator evidence, not deleting DB/resetting the budget/new identity,
+is needed before further live dispatch. Existing C ASK/WAIT and runtime continuation
+are valid; neither grants a semantic-quality or human-naturalness PASS. No second
+Subject/loop/Store, source/Grant/Manager/privacy/primary-role change or production access.

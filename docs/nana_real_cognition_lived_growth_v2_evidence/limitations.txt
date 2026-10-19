@@ -1,3 +1,6 @@
+CURRENT 2026-10-19 LIVE RESUME: explicit authorized memory-only FD credential available for one run, then cleared/process exited. One TianToken/qwen3.8-flash PROJECT request timed out3000ms; Core UNKNOWN/PROVIDER_TIMEOUT_BILLING_UNKNOWN. No HTTP response/model identity/usage/cost observed, no retry/fallback/render. REAL_PROVIDER_QUALIFIED NOT_QUALIFIED; human naturalness NOT_RUN; FIRST_LIFE_EXPERIENCE_READY NOT_READY. Recovery and privacy hard gates PASS. Prior full source regression retained, not rerun for docs-only resume.
+Historical offline delivery limitations below remain preserved; credential-source/calls0 descriptions apply to prior29b5bdd delivery only.
+
 REAL_PROVIDER_QUALIFIED BLOCKED_NO_SAFE_CREDENTIAL_SOURCE. User authorized exact TianToken/qwen3.8-flash, PUBLIC/PROJECT,20 calls/$1; current Cloud has no binding/FD. No old secrets searched or used.
 REAL_NATURAL_DIALOGUE_REVIEWED NOT_RUN; local loopback is protocol only. Arbitrary model wording remains unverified.
 FIRST_LIFE_EXPERIENCE_READY NOT_READY. Human free use/quality must not be inferred from fixtures.

@@ -1,0 +1,36 @@
+{
+  "checked_at": "2026-10-19",
+  "public_pricing_url": "https://api.tiantoken.com/api/pricing",
+  "public_status_url": "https://api.tiantoken.com/api/status",
+  "pricing_version": "a42d372ccf0b5dd13ecf71203521f9d2",
+  "requested_model": "qwen3.8-flash",
+  "published_model_ratio": 0.4,
+  "published_completion_ratio": 3.375,
+  "published_enabled_groups": [
+    "国内模型1",
+    "国内模型2",
+    "测试专用",
+    "default"
+  ],
+  "public_status": {
+    "quota_display_type": "USD",
+    "quota_per_unit": 500000,
+    "usd_exchange_rate": 7.3
+  },
+  "pricing_provenance": "Unauthenticated public relay endpoints; never upstream official pricing",
+  "account_effective_group_or_price_override": "UNKNOWN_NOT_QUERIED",
+  "actual_cost_usd": "UNKNOWN",
+  "usage_input_tokens": "UNKNOWN",
+  "usage_output_tokens": "UNKNOWN",
+  "runtime_reserved_cost_micro": 1000,
+  "reservation_is_dollar_charge": false,
+  "authorized_real_calls": 20,
+  "actual_dispatch_attempts": 1,
+  "continuation_denied_after_unknown": true,
+  "budget_rule": "Initial one-request transport/semantic probe only. No paid expansion while account cost mapping is unverified; timeout UNKNOWN independently prohibits retry/fallback.",
+  "http_response_count": 0,
+  "cost_below_one_dollar_proven": false,
+  "actual_charged_zero_claimed": false,
+  "fee_or_auth_queries": 0,
+  "provider_key_sent_only_to": "https://api.tiantoken.com/v1/chat/completions"
+}

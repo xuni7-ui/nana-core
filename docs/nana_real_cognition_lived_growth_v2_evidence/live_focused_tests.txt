@@ -1,0 +1,6 @@
+2026-10-19 | executable tree unchanged from 446affc58f3e1db99e93851d31f0d9ee576ccb22
+.venv/bin/python -m pytest tests/independent_life/test_dialogue.py::test_unknown_after_dispatch_blocks_further_calls_and_survives_restart -q
+1 passed in 0.53s; offline transport stub only; additional real calls0.
+Actual reopened live UNKNOWN dev-home: same identity/actions/grants, same-message dedupe, new cognition denied before router resolution, ordinary runtime step, clean foreign keys PASS; live_recovery.json.
+Actual host-config PUBLIC/PROJECT policy: PERSONAL and SECRET denied before any credential resolution or dispatch; live_privacy.json.
+No M3-M6/M8-M9 rerun; no full regression rerun for documentation-only resumption. Prior exact executable-tree regression:1230 passed/0 failed/12 skipped in247.76s; prior22 focused retained.

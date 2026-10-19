@@ -1,0 +1,16 @@
+{
+  "mode": "ACTUAL_REOPEN_OF_LIVE_UNKNOWN_DEV_HOME_NO_MODEL_CALL",
+  "same_identity": true,
+  "same_16_local_actions": true,
+  "same_one_existing_grant": true,
+  "unknown_request_persists": true,
+  "unresolved_calls": 1,
+  "same_message_replay": "ALREADY_REVIEWED_NO_REPLAY",
+  "new_call_denial": "UNRESOLVED_PROVIDER_CALL_NO_RETRY",
+  "router_resolutions": 0,
+  "additional_provider_calls": 0,
+  "ordinary_runtime_step_continues": true,
+  "private_body_persisted": false,
+  "foreign_key_check": "CLEAN",
+  "credential_available": false
+}
