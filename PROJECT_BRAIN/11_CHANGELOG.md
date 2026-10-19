@@ -1826,3 +1826,12 @@ upstream G lesson. Test now withdraws a known shared raw study source and verifi
 both derived lesson/skill removal. Core deletion semantics unchanged.42 focused
 PASS in44.83s. Intermediate pre-cadence full1227/0/12 completed; final current-source
 regression and second90s process evidence are collected separately.
+
+
+## LIVED_GROWTH_V2 — negative transfer becomes a strategy fence
+[源码/定向实测] Extended original later-use assessment from completed-only to real
+failed novel attempts with independently verified compute evidence. Why: prevent
+unseen-input failure from silently retaining an overgeneralized lesson. Validation:
+new depth-three counterexample fails expected outline, existing EpisodeLearning
+marks COUNTEREXAMPLE/SUSPENDED, no wrong report/retry. Positive-path runtime and
+current-source regression are requalified after this material one-line fix.

@@ -36,7 +36,9 @@ navigation artifacts with independently verified heading text/levels/line positi
 Grammar explicitly excludes full CommonMark/setext/indented-fence claims. Baseline
 level1 misses actual subheadings; this is a real verification failure, not a mocked
 failure injection. Existing C sees it; original G learns a bounded depth recipe.
-Candidate sees practice only. Different real heldout/transfer documents and later
+Candidate sees practice only. Failed novel uses also reach the original independent
+EpisodeLearning counterexample path; a heldout-depth overgeneralization suspends
+the strategy rather than being hidden by a completed-only assessment filter. Different real heldout/transfer documents and later
 previously unseen work are not supplied to the proposer. Later original F computation
 uses the reviewed method; the last document instead uses an I-generated code skill.
 

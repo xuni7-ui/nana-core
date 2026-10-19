@@ -55,3 +55,11 @@ only an order-dependent test source selection afterward; core erasure unchanged.
 Intermediate pre-cadence full1227/0/12 (258.69s) is not the final-source result.
 Current complete regression starts after this test-fix commit. Runtime remaining
 external permission/human gates remain blocked; no credentials read or calls made.
+
+## Negative transfer closeout
+Found completed-only later-use filter could miss a genuinely failed novel use.
+Original EpisodeLearning now receives supported FAILED new-material results too;
+synthetic depth-three counterexample suspends depth-two method and prevents future
+selection/wrong report/retry (targeted PASS4.65s). No general learning claims.
+Final source will include this narrow material correction; new-source full/actual
+journey are collected once more, earlier runs remain intermediate evidence.

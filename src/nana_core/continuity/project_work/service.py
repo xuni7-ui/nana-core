@@ -112,7 +112,7 @@ class ProjectWork:
             if not strategy:continue
             lesson=r.store.db.execute('SELECT * FROM lessons WHERE record_id=?',(strategy[0],)).fetchone()
             goal=self.goal_for(material.material_id)
-            if not goal or goal['state']!='COMPLETED':continue
+            if not goal or goal['state'] not in {'COMPLETED','FAILED'}:continue
             actions=r.store.db.execute("SELECT * FROM actions WHERE resource=? AND capability IN ('world.compute','world.skill') AND state='SUCCEEDED' ORDER BY rowid LIMIT 16",('project://'+material.material_id+'/inventory',)).fetchall()
             results=[]
             for action in actions:

@@ -931,3 +931,20 @@ occurrence identity/history and coalesce missed review time. Source/goal/commitm
 reactive attention still uses original independent wake mechanisms; no personality
 policy change, no slower user ingress, no new grant or schema. Before/after actual
 journeys must be reported distinctly; final source must be requalified.
+
+
+## LIVED_GROWTH_V2 — failed novel use is counterevidence, not invisible learning
+[定向因果测试/修复] ProjectWork later-use assessment previously considered only
+COMPLETED goals. A genuinely new material failing independent verification could
+leave the adopted strategy ACTIVE. Include FAILED goals only when the actual
+SUCCEEDED compute result is source-backed and no baseline exposure occurred.
+Original EpisodeLearning independently recomputes expectation and atomically suspends
+the lesson on COUNTEREXAMPLE. No fake failure/learning grade, new authority or retry.
+Synthetic unseen depth-three document now fails, pauses depth-two lesson, produces
+no erroneous report and no repeated effects. Positive real-source journeys unchanged.
+
+## LIVED_GROWTH_V2 — clarify idle-byte interpretation
+[实测澄清] Before/after filesystem-byte snapshots include SQLite WAL and operational
+lease writes; do not extrapolate their growth into a daily authoritative-history
+rate. Robust actual change: periodic review occurrences109→1 and queue events164→56
+for comparable bounded journeys. These are not controlled CPU benchmarks.

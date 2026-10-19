@@ -51,3 +51,28 @@ def test_document_recipe_and_oracle_boundary():
     data={'filename':'x.md','sha256':'0'*64,'source':'# One\n```\n## Fake\n```\n## Two\n### Three\n####### Not heading\nplain'}
     assert outline('MD_OUTLINE_1',data)!=expected_outline(data)
     assert outline('MD_OUTLINE_3',data)==expected_outline(data)
+
+
+
+def test_unseen_document_counterexample_retires_bad_transfer_before_another_use(tmp_path):
+    # Synthetic depth-three counterexample; useful work proof above uses real
+    # repository documents. Independent oracle, not an injected verdict.
+    import shutil
+    from nana_core.continuity.project_work.port import read_material
+    repo=tmp_path/'approved';repo.mkdir()
+    for name in (*SOURCES[:3],*TRAIN,*DOCS):
+        dest=repo/name;dest.parent.mkdir(parents=True,exist_ok=True);shutil.copyfile(REPO/name,dest)
+    late=repo/'late.md';late.write_text('# Late\n## Sub\n### Previously unseen depth\n')
+    home=tmp_path/'life'
+    config=LifeConfig(project_root=str(repo),materials=tuple(material_for(repo,p) for p in (*SOURCES[:3],'late.md')),practice=material_for(repo,TRAIN[0]),heldout=material_for(repo,TRAIN[1]),transfer=material_for(repo,TRAIN[2]),document_learning=tuple(material_for(repo,p) for p in DOCS),max_autonomous_materials=4,activity_interval_seconds=.5)
+    write_config(home,config)
+    with LifeApplication(home,clock=VirtualClock(),bootstrap_grant=True) as app:
+        advance(app,240)
+        lesson=app.runtime.store.db.execute("SELECT * FROM lessons WHERE task_class='markdown-outline'").fetchone()
+        assert lesson['state']=='SUSPENDED'
+        assert app.runtime.work.open_learning.strategy('markdown-outline','project-work') is None
+        assert app.runtime.store.db.execute("SELECT 1 FROM strategy_assessments WHERE lesson_id=? AND verdict='COUNTEREXAMPLE'",(lesson['lesson_id'],)).fetchone()
+        assert app.work.goal_for(config.materials[-1].material_id)['state']=='FAILED'
+        assert len(list((home/'reports').glob('*.md')))==3
+        before=len(app.runtime.store.all('actions'));advance(app,20)
+        assert len(app.runtime.store.all('actions'))==before
