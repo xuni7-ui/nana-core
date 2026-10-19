@@ -22,9 +22,9 @@ def default_skill_specs():
     }
 
 class SelfExtensionWork:
-    def __init__(self,runtime,*,specs=None,proposer=None,publish_opportunity=True):
+    def __init__(self,runtime,*,specs=None,proposer=None,publish_opportunity=True,test_slice_size=None):
         self.runtime,self.store=runtime,runtime.store;self.records=RecordService(self.store)
-        self.codes=CodeSkillService(self.store,runtime.authority);self.specs=specs or default_skill_specs();self.proposer=proposer or TransformCodeProposer();self.cognition=None;self.publish_opportunity=publish_opportunity
+        self.codes=CodeSkillService(self.store,runtime.authority);self.specs=specs or default_skill_specs();self.proposer=proposer or TransformCodeProposer();self.cognition=None;self.publish_opportunity=publish_opportunity;self.test_slice_size=test_slice_size
     def select(self,cycle,task):
         if task not in self.specs or not cycle.evaluation or cycle.evaluation.normative!='ENDORSED' or cycle.intention.behavior!='SEEK_CAPABILITY':raise CoreError('SUBJECT_SKILL_NEED_REQUIRED')
         key='world-skill:'+digest([cycle.record_id,task]);old=self.store.db.execute('SELECT job_id FROM jobs WHERE occurrence_key=?',(key,)).fetchone()
@@ -33,9 +33,10 @@ class SelfExtensionWork:
         if self.store.db.execute("SELECT 1 FROM jobs j JOIN continuity_records r ON j.record_id=r.record_id WHERE j.work_kind='CODE_DEVELOPMENT' AND r.target_id=?",(task,)).fetchone():return None
         now=self.store.clock.utc_now_us();wid=uid()
         with self.store.transaction('world.skill_need_selected',{'work_id':wid}) as tx:
-            rid=self.records.create(tx,kind='SKILL_PROPOSAL',scope=self.records.read(cycle.record_id)['scope'],payload={'cycle_id':cycle.cycle_id,'task':task,'stage':'GENERATE','candidate_record_id':None,'diagnostic':None},records=(cycle.record_id,),target_id=task)
+            rid=self.records.create(tx,kind='SKILL_PROPOSAL',scope=self.records.read(cycle.record_id)['scope'],payload={'cycle_id':cycle.cycle_id,'source_program_id':cycle.proposed_program_id,'task':task,'stage':'GENERATE','candidate_record_id':None,'diagnostic':None},records=(cycle.record_id,),target_id=task)
             i=self.store.one('subject_intentions',cycle.intention_id)
             if i and i['state']=='PENDING':tx.update('subject_intentions',i['intention_id'],state='COMPLETED',revision=i['revision']+1)
+            if cycle.goal_candidate_id:tx.update('subject_goal_candidates',cycle.goal_candidate_id,state='ADOPTED')
             tx.put('jobs',{'job_id':wid,'occurrence_key':key,'due_at_us':now,'state':'WAITING','body_json':'{}','work_kind':'CODE_DEVELOPMENT','record_id':rid,'revision':1,'cursor':0,'owner_epoch':None,'updated_at_us':now})
         return wid
     def slice(self):
@@ -63,8 +64,9 @@ class SelfExtensionWork:
                     proposer=CognitionCodeProposer(self.cognition,bounded_sources(self.cognition,self.records.support(cycle.record_id)))
                 b['candidate_record_id']=self.codes.propose(cycle,spec,proposer,diagnostic=b['diagnostic']);b['stage']='TEST'
             elif stage=='TEST':
-                tested=self.codes.test(b['candidate_record_id'],cases);body=self.records.read(tested)['payload'];b['candidate_record_id']=tested
-                if body['state']=='REJECTED':
+                tested=self.codes.test(b['candidate_record_id'],cases,max_cases=self.test_slice_size);body=self.records.read(tested)['payload'];b['candidate_record_id']=tested
+                if body['state']=='TESTING':b['stage']='TEST'
+                elif body['state']=='REJECTED':
                     if b['diagnostic']:return self._park(row,'BLOCKED','REPAIR_DID_NOT_PASS')
                     b['diagnostic']='Independent cases failed; preserve contract and repair transformation';b['stage']='REPAIR'
                 else:b['stage']='REVIEW'
@@ -74,9 +76,10 @@ class SelfExtensionWork:
                     self.codes.revalidate(b['candidate_record_id'],cases,authority=self.runtime.authority);b['stage']='ACTIVE'
                 else:
                     if b['candidate_record_id'] not in self.codes._tested:
-                        b['candidate_record_id']=self.codes.test(b['candidate_record_id'],cases)
+                        b['candidate_record_id']=self.codes.test(b['candidate_record_id'],cases,max_cases=self.test_slice_size)
                         body=self.records.read(b['candidate_record_id'])['payload']
-                    b['candidate_record_id']=self.codes.review(b['candidate_record_id'],authority=self.runtime.authority,expected_digest=body['source_digest']);b['stage']='ACTIVE'
+                    if body['state']=='TESTING':b['stage']='TEST'
+                    else:b['candidate_record_id']=self.codes.review(b['candidate_record_id'],authority=self.runtime.authority,expected_digest=body['source_digest']);b['stage']='ACTIVE'
             else:return self._park(row,'BLOCKED','CURRENT_REALM_REVIEW_REQUIRED')
         except CoreError as exc:return self._park(row,'UNKNOWN',exc.code)
         with self.store.transaction('world.skill_development_slice',{'work_id':row['job_id'],'stage':stage}) as tx:

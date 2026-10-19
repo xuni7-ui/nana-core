@@ -64,3 +64,53 @@ def test_missing_grant_and_pause_do_not_become_motivation_erasure(tmp_path):
         before=app.runtime.store.all('jobs');app.pause();advance(app,10)
         assert before==app.runtime.store.all('jobs')
         assert app.runtime.store.db.execute("SELECT 1 FROM subject_cycles").fetchone()
+
+
+def test_explicit_refusal_prevents_model_research_and_future_render(tmp_path):
+    home=tmp_path/'life';initialize(home,skills=False)
+    with relay(home,'CHAT') as (router,requests),LifeApplication(home,clock=VirtualClock(),router=router) as app:
+        app.pause();answer=app.chat('这个话题不要研究',topic='closed')
+        assert answer['mode']=='RESPECT_BOUNDARY' and not requests
+        app.chat('ambiguous follow-up',topic='closed');assert not requests
+        app.chat('可以再讨论',topic='closed');assert requests
+
+
+def test_partial_document_publish_stays_unknown_no_retry(tmp_path,monkeypatch):
+    from nana_core.continuity.project_work.port import ProjectMaterialPort
+    home=tmp_path/'life';initialize(home,skills=False);original=ProjectMaterialPort.execute;calls=[]
+    def partial(self,inv):
+        if inv.capability!='world.publish' or self._result(inv).get('task_type')!='MARKDOWN_OUTLINE':return original(self,inv)
+        calls.append(inv.idempotency_key);result=self._result(inv)
+        (self.output/(result['artifact_stem']+'.json')).write_bytes(self._documents(result)['json'])
+        raise TimeoutError('effect status unknown')
+    monkeypatch.setattr(ProjectMaterialPort,'execute',partial)
+    with LifeApplication(home,clock=VirtualClock(),bootstrap_grant=True) as app:
+        advance(app,200)
+        assert len(calls)==1
+        pending=[a for a in app.runtime.store.all('actions') if a['state']=='UNKNOWN']
+        assert len(pending)==1
+        before=len(app.runtime.store.all('actions'));advance(app,25)
+        assert len(calls)==1 and len(app.runtime.store.all('actions'))==before
+
+
+
+def test_skill_tests_are_sliced_and_foreground_preempts_without_losing_case_cursor(tmp_path):
+    home=tmp_path/'life';initialize(home)
+    with LifeApplication(home,clock=VirtualClock(),bootstrap_grant=True) as app:
+        job=None
+        for _ in range(180):
+            advance(app)
+            row=app.runtime.store.db.execute("SELECT * FROM jobs WHERE work_kind='CODE_DEVELOPMENT' AND state='WAITING'").fetchone()
+            if row:
+                body=RecordService(app.runtime.store).read(row['record_id'])['payload']
+                if body['stage']=='TEST' and row['cursor']>=2:job=dict(row);break
+        assert job is not None
+        candidate=RecordService(app.runtime.store).read(body['candidate_record_id'])['payload']
+        assert candidate['state']=='TESTING' and len(candidate['tests']['cases'])==1
+        answer=app.chat('今天只是吐槽一下')
+        assert answer['mode']=='VENT'
+        current=app.runtime.store.one('jobs',job['job_id'])
+        assert current['cursor']==job['cursor']
+        advance(app,150)
+        assert app.runtime.store.one('jobs',job['job_id'])['state']=='DONE'
+        assert len(app.runtime.store.db.execute("SELECT * FROM actions WHERE capability='world.skill' AND state='SUCCEEDED'").fetchall())==1

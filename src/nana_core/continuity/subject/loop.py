@@ -242,6 +242,14 @@ class SubjectLoop:
                     if rid and self.visible(rid,event.scope):
                         plan=self.records.read(rid)['payload'];adopted.append(plan['program']['program_id'])
                         if self.store.schema_target<12:plan_refs.append(rid)
+                if self.store.schema_target>=13:
+                    # The same C concern can already be represented by adopted
+                    # I work, not only an F goal. It must not manufacture another
+                    # pending desire while the existing work runs or has finished.
+                    for work in self.store.db.execute("SELECT j.record_id FROM jobs j JOIN continuity_records r ON r.record_id=j.record_id WHERE j.work_kind='CODE_DEVELOPMENT' AND j.state!='CANCELLED' AND r.scope=? AND r.lifecycle='ACTIVE' ORDER BY j.rowid DESC LIMIT 16",(event.scope,)):
+                        if self.visible(work['record_id'],event.scope):
+                            program=self.records.read(work['record_id'])['payload'].get('source_program_id')
+                            if program:adopted.append(program)
                 situation=situation.model_copy(update={'separate_delivery':self.store.schema_target>=12,'adopted_program_ids':tuple(adopted),'support_record_ids':tuple(dict.fromkeys((*situation.support_record_ids,*plan_refs)))})
             if event.goal_review:
                 goal=self.store.one('goals',event.goal_review.goal_id)

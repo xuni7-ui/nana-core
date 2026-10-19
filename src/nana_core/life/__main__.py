@@ -43,7 +43,7 @@ def command(app,line):
 
 
 def run(home,seconds,*,headless=False,router=None):
-    config=load_config(home);resource=apply_resource_limits(config);started=time.monotonic();cpu=time.process_time()
+    config=load_config(home);resource=apply_resource_limits(config);started=time.monotonic();cpu=time.process_time();child=__import__('resource').getrusage(__import__('resource').RUSAGE_CHILDREN);child_cpu=child.ru_utime+child.ru_stime
     with LifeApplication(home,router=router) as app:
         emit({'state':'STARTED','identity_id':app.runtime.identity_id,'mode':'OFFLINE_LIMITED' if router is None else 'PROVIDER_CONFIGURED_NOT_QUALIFIED','resources':resource,'commands':'/help; ordinary text; /status','autonomous_materials':len(config.materials[:config.max_autonomous_materials])})
         def stop(*unused):app.runtime.request_stop()
@@ -81,7 +81,7 @@ def run(home,seconds,*,headless=False,router=None):
             value=app.tick()
             if value and ((value.get('cycle') and value['cycle'].intention.kind!='NO_ACTION') or value.get('maintenance')):
                 cycle=value.get('cycle');emit({'activity':value.get('reason'),'judgment':cycle.judgment.stance if cycle else None,'intention':cycle.intention.kind if cycle else None,'social_candidate':cycle.social_proposal.act if cycle and cycle.social_proposal else None,'maintenance_stage':(value.get('maintenance') or {}).get('stage'),'external_send':False})
-        selector.close();emit({'state':'STOPPING','summary':app.status(),'wall_seconds':time.monotonic()-started,'cpu_seconds':time.process_time()-cpu,'max_rss_kib':__import__('resource').getrusage(__import__('resource').RUSAGE_SELF).ru_maxrss})
+        selector.close();emit({'state':'STOPPING','summary':app.status(),'wall_seconds':time.monotonic()-started,'cpu_seconds':time.process_time()-cpu,'max_rss_kib':__import__('resource').getrusage(__import__('resource').RUSAGE_SELF).ru_maxrss,'children_cpu_seconds':sum(__import__('resource').getrusage(__import__('resource').RUSAGE_CHILDREN)[:2])-child_cpu,'children_max_rss_kib':__import__('resource').getrusage(__import__('resource').RUSAGE_CHILDREN).ru_maxrss})
 
 
 def main():

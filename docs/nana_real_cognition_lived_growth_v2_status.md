@@ -31,3 +31,13 @@ regression and real process journey still OPEN). An early test caught next-docum
 adoption before skill review; fixed portfolio pending-work opportunity fence.
 M1 real provider BLOCKED_BY_AUTHORIZATION, no credential access; M2/M7 human natural
 quality NOT_RUN. Parameter synthesis/skill adaptation is not algorithm invention.
+
+## Recovery/usability increment
+Actual30s dev journey killed I after TEST, reopened same identity, completed four
+real materials with one world.skill and16 unique Kernel actions, no Grant recreation.
+This exposed a ghost pending skill concern; fixed by linking existing I adopted
+work into original C's adopted-program view (no second loop). Explicit topic refusal
+now avoids model calls. Added partial-document UNKNOWN/no-retry qualification and
+separate isolated-child resource metrics. Targeted40 PASS; final frozen-source
+90s journey/full regression pending. New quickstart includes operator provider CAS
+commands, real authorization requirements and anonymous human review worksheet.

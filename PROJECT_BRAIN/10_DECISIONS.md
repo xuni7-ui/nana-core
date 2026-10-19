@@ -911,3 +911,12 @@ original D safe points, C alone selects skill need. Offline success is workflow
 adaptation, not model training/Core self-modification/general algorithm invention.
 Bounded volatile conversational turns pass original ContextAssembler/Session source
 and privacy checks; never persist raw turns, model wording, or replay after exit.
+
+
+## LIVED_GROWTH_V2 — adopted I work is not an unresolved duplicate wish
+[实际进程发现/修复] A skill-need cue was recalled after its work was already selected,
+leaving a pending goal candidate despite completed tasks. Original I work now carries
+source_program_id; original C recognizes current supported I work as representing
+that program. Original candidate adoption stays explicit; no runtime suppression of
+Subject judgment and no rewriting wishes. This fixes state continuity rather than
+hiding an incorrect FOCUSED display. Human/live semantic qualification still NOT_RUN.

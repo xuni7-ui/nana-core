@@ -8,7 +8,7 @@ from pathlib import Path
 from typing import Literal,Any,Protocol
 from pydantic import Field
 from ...contracts import DTO,CoreError
-from ...storage import canonical,digest
+from ...storage import canonical,digest,uid
 from ..records import RecordService
 from .world import bounded_data
 
@@ -82,7 +82,7 @@ class IsolatedSkillRunner:
 class CodeSkillService:
     def __init__(self,store,authority,*,runner=None):
         if store.schema_target<12:raise CoreError('OPEN_AGENCY_SCHEMA_REQUIRED')
-        self.store,self.authority=store,authority;self.records=RecordService(store);self.runner=runner or IsolatedSkillRunner();self._tested=set();self._enabled=set()
+        self.store,self.authority=store,authority;self.records=RecordService(store);self.runner=runner or IsolatedSkillRunner();self._tested=set();self._enabled=set();self._test_realm=uid()
     def propose(self,cycle,spec,proposer,*,diagnostic=None):
         if not cycle.evaluation or cycle.evaluation.normative!='ENDORSED' or not cycle.record_id or cycle.intention.behavior not in {'LEARN','SEEK_CAPABILITY','CREATE'}:raise CoreError('SUBJECT_SKILL_NEED_REQUIRED')
         if not self.records.current_support(cycle.record_id):raise CoreError('SKILL_SOURCE_RETIRED')
@@ -99,18 +99,23 @@ class CodeSkillService:
         with self.store.transaction('open.code_skill_proposed',{'source_digest':sha}) as tx:
             rid=self.records.create(tx,kind='CODE_SKILL',scope=scope,payload={'state':'GENERATED','spec':spec.model_dump(mode='json'),'source':candidate.source,'source_digest':sha,'tests':None,'realm':'BWRAP_LOCAL_DATA_ONLY','installed':False},records=(cycle.record_id,*candidate.source_record_ids),target_id=key)
         return rid
-    def test(self,rid,cases):
+    def test(self,rid,cases,*,max_cases=None):
         row=self.records.read(rid);body=row['payload']
-        if row['record_kind']!='CODE_SKILL' or body['state'] not in {'GENERATED','ACTIVE','TESTED'} or not self.records.current_support(rid):raise CoreError('SKILL_NOT_TESTABLE')
+        if row['record_kind']!='CODE_SKILL' or body['state'] not in {'GENERATED','ACTIVE','TESTED','TESTING'} or not self.records.current_support(rid):raise CoreError('SKILL_NOT_TESTABLE')
         if not 1<=len(cases)<=16:raise CoreError('SKILL_TEST_BOUND')
-        results=[];started=time.monotonic_ns()
-        for case in cases:
+        if max_cases is not None and (type(max_cases)!=int or not 1<=max_cases<=16):raise CoreError('SKILL_TEST_BOUND')
+        contract=digest([c.model_dump(mode='json') for c in cases])
+        partial=body.get('tests') or {}
+        continuing=body['state']=='TESTING' and partial.get('realm')==self._test_realm and partial.get('contract')==contract
+        results=list(partial['cases']) if continuing else [];started=time.monotonic_ns()
+        offset=len(results);stop=min(len(cases),offset+(max_cases or len(cases)))
+        for case in cases[offset:stop]:
             actual=self.runner.run(body['source'],case.data)
             results.append({'case_id':case.case_id,'input_digest':digest(case.data),'actual_digest':digest(actual),'expected_digest':digest(case.expected),'passed':digest(actual)==digest(case.expected)})
-        new={**body,'state':'TESTED' if all(x['passed'] for x in results) else 'REJECTED','tests':{'cases':results,'wall_latency_us':(time.monotonic_ns()-started)//1000,'actual_model_cost_micro':0,'isolation':'BWRAP_NAMESPACES_READONLY_NO_NETWORK'}}
+        new={**body,'state':'TESTING' if len(results)<len(cases) else 'TESTED' if all(x['passed'] for x in results) else 'REJECTED','tests':{'cases':results,'contract':contract,'realm':self._test_realm,'wall_latency_us':(partial.get('wall_latency_us',0) if continuing else 0)+(time.monotonic_ns()-started)//1000,'actual_model_cost_micro':0,'isolation':'BWRAP_NAMESPACES_READONLY_NO_NETWORK'}}
         with self.store.transaction('open.code_skill_tested',{'source_digest':body['source_digest'],'passed':new['state']=='TESTED'}) as tx:
             out=self.records.create(tx,kind='CODE_SKILL',scope=row['scope'],payload=new,records=(rid,),supersedes=rid,target_id=row['target_id'])
-        self._tested.add(out)
+        if new['state']=='TESTED':self._tested.add(out)
         return out
     def review(self,rid,*,authority,expected_digest):
         if authority is not self.authority:raise CoreError('UNAUTHENTICATED_OPERATOR')

@@ -25,7 +25,7 @@ class ProjectMaterial(DTO):
 
 
 def read_material_bytes(root, relative_path, *, task_type="PYTHON_API"):
-    """Read one explicit .py file safely before computing manifest digest."""
+    """Read one explicit task-typed .py/.md file before computing manifest digest."""
     rel = PurePosixPath(relative_path)
     if rel.is_absolute() or '..' in rel.parts or not rel.parts or rel.suffix != {'PYTHON_API':'.py','MARKDOWN_OUTLINE':'.md'}.get(task_type):
         raise CoreError('PROJECT_MANIFEST_DENIED')

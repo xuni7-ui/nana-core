@@ -1789,3 +1789,22 @@ source-caused G learning and later real world.skill use. Two end-to-end tests an
 New /life board, ephemeral conversation and explicit offline provider CAS tooling
 are implemented; final wall/recovery/full regression remain OPEN. No real provider,
 private history, schema/dependency/production/main changes.
+
+
+## LIVED_GROWTH_V2 — recovery and usable handoff tooling
+[源码/实际进程/定向实测] Linked I source program to original C adopted-work projection,
+removed ghost pending skill concerns; explicit refusal skips unnecessary model work.
+Added actual I-test SIGKILL/restart qualifier, parent/child resource counters and
+operator quickstart/review guide. Why: real process inspection found inaccurate
+focused state after completion. Validation:40 related tests pass; initial actual
+30s journey passes, final frozen-source run/regression pending. No external API,
+new schema/dependency, production or private data.
+
+
+## LIVED_GROWTH_V2 — interruptible original I test slices
+[源码/定向验证] Existing CodeSkillService supports bounded per-case test revisions;
+application uses one case per original D slice. Current process realm binds partial
+results; restart rechecks rather than trusting another process's ephemeral review.
+Why: avoid batching multiple sandbox timeouts into one foreground blocking interval.
+No new lifecycle table/Store/decision loop. Existing default batch API preserved.
+Final focused and actual-process tests verify cursor preservation and revalidation.

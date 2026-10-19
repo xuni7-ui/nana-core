@@ -36,6 +36,8 @@ def test_two_real_task_domains_failure_learning_generated_skill_unseen_use(tmp_p
         assert skill['state']=='ACTIVE' and skill['installed'] is False
         assert all(x['passed'] for x in skill['tests']['cases'])
         assert app.runtime.store.db.execute("SELECT count(*) FROM cognitive_requests").fetchone()[0]==0
+        assert not app.runtime.store.db.execute("SELECT 1 FROM subject_intentions WHERE state='PENDING' AND slot_key='concern-document-tool-reuse'").fetchone()
+        assert app.status()['view']['living_self']['presence']!='FOCUSED'
         ident=app.runtime.identity_id;clock=app.clock;action_count=len(app.runtime.store.all('actions'));app.close()
         with LifeApplication(home,clock=clock) as other:
             assert other.runtime.identity_id==ident

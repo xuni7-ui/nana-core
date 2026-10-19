@@ -157,6 +157,9 @@ class LifeApplication:
         mid=capture(r,'local-message:'+key,{'local_message_id':key,'body_retained':False})
         literal=LiteralSpanInterpreter().interpret(text);kind=literal.kind if literal.basis=='LITERAL_SPAN' else 'UNCLEAR';basis='EXPLICIT' if literal.basis=='LITERAL_SPAN' else 'INTERPRETED';rid=None;provider_state='LIVE_PROVIDER_NOT_RUN'
         try:
+            from ..continuity.subject.context_fit import depth_boundary
+            closed,_,_=depth_boundary(r.store,'project-user','project-work',topic,r.config.privacy_classes)
+            if (closed and kind!='REOPEN') or kind=='DECLINE_DEPTH':raise CoreError('TOPIC_BOUNDARY_NO_MODEL_CALL')
             session,rid=self._model('life.interpret.'+key,'INTERPRET',mid,text,topic,privacy)
             meaning=session.proposal(rid).proposal.dialogue
             # Literal user boundary beats contradictory model interpretation.
