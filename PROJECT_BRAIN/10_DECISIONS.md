@@ -1129,3 +1129,16 @@ Finite G method search与bounded I workflow模板如实命名；非任意研究/
 源删除不得退化重放；source tombstones保留非正文阻止回生；独立治理来源不随个人记忆撤销。
 实际驻留与最终hardening分开版本记录；最终1248/0/12skip、18focused及60s最终源码实跑。
 下一步只按真实最大缺口选择更广owned应用/自然交流，不自动接用户桌面/设备或重试Provider。
+
+
+## CURRENT — CLOUD DAILY LIFE & SHARED PRESENCE V1 / DEVELOPMENT
+[源码/远端核验2026-10-19T21:28:23.247688+00:00] Base d7886ba9b49cf2fbb52cebcbce9525394c938d3c，
+branch dev/nana-core-cloud-daily-life-shared-presence-v1-codex；GLOBAL_STAGE H。
+继承RAE真实owned app/Verify/G/I资格，不重新施工已有PASS；One Subject/Store/Runtime/Loop，
+C WHAT/WHY、D WHEN，Self-Evolution + Shared Life两主轴。
+本轮补应用运行/操作面、B8迁移恢复、统一surface近期上下文、共享经历和日常任务组合。
+已有ProviderRegistry/Router、SurfaceEnvelope/ContinuityViews、SubjectPackage与Kernel必须复用。
+Provider历史1 UNKNOWN PARKED；环境无安全凭据，新调用0；真实Provider/真人评审/生产canary
+为独立门，不能以离线测试升级Beta/FirstLife。main/R045/production/真实社交/私密数据不授权。
+现阶段已核验基线，新增能力PENDING。以下当前块作为历史保留。
+原因：把CDL登记为原路线延续，不建立第二系统。验证：本地/远端HEAD匹配，仅旧bundle未跟踪。
