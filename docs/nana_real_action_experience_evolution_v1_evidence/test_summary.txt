@@ -1,0 +1,7 @@
+FINAL executable 4f4fa945218eb92185f534bfbc6619bc9132fe69
+Focused18 passed62.48s; includes6 actual process SIGKILL cuts and real file/IPC UNKNOWN.
+Related23 passed8.72s; final full rechecks all existing suites.
+FULL1248 passed/0failed/12skipped309.42s. Skips:11 historical opt-in H2 screen and1 E12 real-model.
+Actual standalone CLI init/run PASS. Final-source real heldout journey60.267953251s/12effects PASS.
+Actual residency1805.221705515s/10effects PASS on selected c2732b0 files; exact-binding final guards added after source sealing.
+No provider/model calls, no secret use, no production tests.

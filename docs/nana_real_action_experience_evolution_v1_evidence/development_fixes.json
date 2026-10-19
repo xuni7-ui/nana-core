@@ -1,0 +1,11 @@
+{
+  "source_withdrawal_incident": "See retained source_withdrawal_incident.json. Failed run02 stopped, never counted qualified. Fix533a1dd uses base/batch durable source identity including tombstones and current-support gap check; revised tick/restart assertion and fresh run03.",
+  "other_fixes": [
+    "Strict JSON DTO roundtrip uses model_validate_json rather than relaxing tuple schema",
+    "Named form retry explicitly clears declared wrong fields; no hidden target reset",
+    "Only strategy-selectable plans bind method lessons; separately tested skill plan must not depend on unrelated suspended method",
+    "Owned /work command rejects replay instead of calling ProjectWork API",
+    "Test fixtures keep required source namespace, separate user occurrence text and existing provenance checks"
+  ],
+  "source_fix_attribution": "Codex development fixes are not counted as Nana Experience-driven learning. Before/after method evidence comes from unchanged source in actual journey."
+}

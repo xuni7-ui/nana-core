@@ -1,0 +1,33 @@
+{
+  "mode": "ACTUAL_WALL_CLOCK_OWNED_PROCESS",
+  "runtime_residency_seconds": 1805.2217055150031,
+  "runtime_cpu_seconds": 17.341583222,
+  "runtime_cpu_one_core_fraction": 0.009608325365138164,
+  "runtime_max_rss_kib": 42488,
+  "runtime_last_rss_kib": 42360,
+  "application_last_rss_kib": 23296,
+  "application_cpu_seconds_at_last_sample": 0.7,
+  "runtime_thread_range": [
+    1,
+    1
+  ],
+  "runtime_fd_range": [
+    3,
+    8
+  ],
+  "sample_count": 77,
+  "samples_reference": "long_runtime.json.samples",
+  "queue_final": 0,
+  "pending_final": 0,
+  "model_calls": 0,
+  "actions_at_work_complete": 30,
+  "actions_at_end": 30,
+  "goals_at_end": 8,
+  "effects": 10,
+  "db_bytes_first": 684183,
+  "db_bytes_last": 8089242,
+  "perception_policy": "Bounded owned task observations; no camera/screen stream, no global input observer",
+  "one_effect_in_flight": true,
+  "monetary_cost": "No external provider call; local cost_micro_units are accounting estimates, not billing",
+  "scope_note": "Actual app and Nana process measured. Per-Act/Verify CPU not separately measured. Historical records may grow; hot pending state is bounded. This is not a production-duration/stability guarantee."
+}

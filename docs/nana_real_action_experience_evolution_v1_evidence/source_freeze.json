@@ -1,0 +1,67 @@
+{
+  "executable_freeze": "c2732b0fd67da74634ac41eba782fcc9011c3a9a",
+  "journey_git_head_at_launch": "b89ede3de68fab108095f73ff5ef630545139f2d",
+  "interpretation": "Launch git HEAD predates dirty hardening edits; exact selected executed bytes, not that launch SHA, match final frozen executable commit. Coverage is listed files only.",
+  "selected_files": {
+    "src/nana_core/continuity/hands/host.py": {
+      "actual_journey_sha256": "8c6fa10651a5a72158cb061b2ec3cceb200e79ff3740f25ba7ccccc64081b15c",
+      "frozen_commit_sha256": "8c6fa10651a5a72158cb061b2ec3cceb200e79ff3740f25ba7ccccc64081b15c",
+      "matches": true
+    },
+    "src/nana_core/continuity/hands/view.py": {
+      "actual_journey_sha256": "44e03124dc644f35c8c5988bd3db7d483fec9ec1007bbacba560a2488227348c",
+      "frozen_commit_sha256": "44e03124dc644f35c8c5988bd3db7d483fec9ec1007bbacba560a2488227348c",
+      "matches": true
+    },
+    "src/nana_core/continuity/hands/service.py": {
+      "actual_journey_sha256": "75b8779a17649e351f55a1109b57e8203d78091f1cbd1a5576e4b6992645b42a",
+      "frozen_commit_sha256": "75b8779a17649e351f55a1109b57e8203d78091f1cbd1a5576e4b6992645b42a",
+      "matches": true
+    },
+    "src/nana_core/continuity/hands/skills.py": {
+      "actual_journey_sha256": "72d53cf12d78e99eb0df2cf0572d4879487f9d849f41cd04e4b56de6954a3313",
+      "frozen_commit_sha256": "72d53cf12d78e99eb0df2cf0572d4879487f9d849f41cd04e4b56de6954a3313",
+      "matches": true
+    },
+    "src/nana_core/continuity/hands/port.py": {
+      "actual_journey_sha256": "021faf9bdef0d20549d12965d0bc68fc3ff82bc5eb2af4500d0f30045f301cd5",
+      "frozen_commit_sha256": "021faf9bdef0d20549d12965d0bc68fc3ff82bc5eb2af4500d0f30045f301cd5",
+      "matches": true
+    },
+    "src/nana_core/continuity/hands/__init__.py": {
+      "actual_journey_sha256": "c292d8887a891e1768497c4ae3f1ad2447315d26be3199ffe4806c150fea2bd5",
+      "frozen_commit_sha256": "c292d8887a891e1768497c4ae3f1ad2447315d26be3199ffe4806c150fea2bd5",
+      "matches": true
+    },
+    "src/nana_core/continuity/hands/server.py": {
+      "actual_journey_sha256": "34e6258ffb81e43e242f5ec5d903d78c7459783f7c48a6c547bd50f8b5f024e0",
+      "frozen_commit_sha256": "34e6258ffb81e43e242f5ec5d903d78c7459783f7c48a6c547bd50f8b5f024e0",
+      "matches": true
+    },
+    "src/nana_core/continuity/hands/contracts.py": {
+      "actual_journey_sha256": "d483f2b4b8df4acfea37d1a61b0cdf33e60b877fd72536a2aea0c139845bbd55",
+      "frozen_commit_sha256": "d483f2b4b8df4acfea37d1a61b0cdf33e60b877fd72536a2aea0c139845bbd55",
+      "matches": true
+    },
+    "src/nana_core/life/application.py": {
+      "actual_journey_sha256": "c3538315405f76228511ad809f14d78228087020382479cff265e6e2d3343c70",
+      "frozen_commit_sha256": "c3538315405f76228511ad809f14d78228087020382479cff265e6e2d3343c70",
+      "matches": true
+    },
+    "src/nana_core/continuity/open_agency/service.py": {
+      "actual_journey_sha256": "a6afb2b2cefe05aa95e7c3dae3a158e0967ba119f7f6218ec1be1c6c6459b78e",
+      "frozen_commit_sha256": "a6afb2b2cefe05aa95e7c3dae3a158e0967ba119f7f6218ec1be1c6c6459b78e",
+      "matches": true
+    }
+  },
+  "CLI_guard": "Added after launch, not exercised by long soak; final full and entry smoke cover it.",
+  "final_executable_commit": "4f4fa945218eb92185f534bfbc6619bc9132fe69",
+  "final_source_real_journey": {
+    "source": "final_source_real_journey.json",
+    "wall_seconds": 60.26795325100102,
+    "effects": 12,
+    "all_selected_files_match_commit": true,
+    "source_unchanged": true
+  },
+  "residency_source_note": "c2732b0 selected bytes; after residency two exact source/task binding guards added in4f4fa94, with18 focused and new final-source real journey. Never claim final guards were present during earlier residency."
+}

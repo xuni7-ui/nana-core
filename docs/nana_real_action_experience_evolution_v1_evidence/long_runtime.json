@@ -1,0 +1,3250 @@
+{
+  "started_at": "2026-10-19T17:43:50.247735+00:00",
+  "mode": "ACTUAL_OWNED_APPLICATION_PROCESS_NOT_GUI_NOT_USER_DESKTOP",
+  "model_calls_new": 0,
+  "provider_old_unknown": "PARKED_UNCHANGED",
+  "source_head_at_start": "b89ede3de68fab108095f73ff5ef630545139f2d",
+  "samples": [
+    {
+      "elapsed_seconds": 8.563001756556332e-06,
+      "runtime": {
+        "VmHWM": "924 kB",
+        "VmRSS": "924 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.0,
+        "fd_count": 3
+      },
+      "application": {
+        "VmHWM": "23080 kB",
+        "VmRSS": "23080 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.15,
+        "fd_count": 7
+      },
+      "actions": 0,
+      "goals": 0,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 684183
+    },
+    {
+      "elapsed_seconds": 2.0049322370032314,
+      "runtime": {
+        "VmHWM": "39176 kB",
+        "VmRSS": "39176 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.45,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23188 kB",
+        "VmRSS": "23188 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.15,
+        "fd_count": 7
+      },
+      "actions": 3,
+      "goals": 1,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 2371471
+    },
+    {
+      "elapsed_seconds": 4.009379620998516,
+      "runtime": {
+        "VmHWM": "39488 kB",
+        "VmRSS": "39488 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.51,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23188 kB",
+        "VmRSS": "23188 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.15,
+        "fd_count": 7
+      },
+      "actions": 3,
+      "goals": 1,
+      "pending_intentions": 0,
+      "queue_depth": 1,
+      "model_calls": 0,
+      "db_bytes": 2432983
+    },
+    {
+      "elapsed_seconds": 6.015932971997245,
+      "runtime": {
+        "VmHWM": "40196 kB",
+        "VmRSS": "39964 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.96,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23200 kB",
+        "VmRSS": "23200 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.16,
+        "fd_count": 7
+      },
+      "actions": 7,
+      "goals": 2,
+      "pending_intentions": 0,
+      "queue_depth": 1,
+      "model_calls": 0,
+      "db_bytes": 3614983
+    },
+    {
+      "elapsed_seconds": 8.030054449998715,
+      "runtime": {
+        "VmHWM": "40380 kB",
+        "VmRSS": "40152 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.48,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23212 kB",
+        "VmRSS": "23212 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.16,
+        "fd_count": 7
+      },
+      "actions": 11,
+      "goals": 3,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 4245767
+    },
+    {
+      "elapsed_seconds": 10.047831411000516,
+      "runtime": {
+        "VmHWM": "40380 kB",
+        "VmRSS": "40224 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.75,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23224 kB",
+        "VmRSS": "23224 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.16,
+        "fd_count": 7
+      },
+      "actions": 12,
+      "goals": 3,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 4495623
+    },
+    {
+      "elapsed_seconds": 12.061525495999376,
+      "runtime": {
+        "VmHWM": "40420 kB",
+        "VmRSS": "40184 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.24,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23240 kB",
+        "VmRSS": "23240 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.16,
+        "fd_count": 7
+      },
+      "actions": 15,
+      "goals": 3,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 5168519
+    },
+    {
+      "elapsed_seconds": 14.073696843996004,
+      "runtime": {
+        "VmHWM": "40424 kB",
+        "VmRSS": "40336 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.78,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23240 kB",
+        "VmRSS": "23240 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.17,
+        "fd_count": 7
+      },
+      "actions": 17,
+      "goals": 4,
+      "pending_intentions": 1,
+      "queue_depth": 1,
+      "model_calls": 0,
+      "db_bytes": 5598599
+    },
+    {
+      "elapsed_seconds": 16.080939781997586,
+      "runtime": {
+        "VmHWM": "40424 kB",
+        "VmRSS": "40192 kB",
+        "Threads": "1",
+        "cpu_seconds": 3.52,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23252 kB",
+        "VmRSS": "23252 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.17,
+        "fd_count": 7
+      },
+      "actions": 21,
+      "goals": 5,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 6278535
+    },
+    {
+      "elapsed_seconds": 18.09595370200259,
+      "runtime": {
+        "VmHWM": "40436 kB",
+        "VmRSS": "40336 kB",
+        "Threads": "1",
+        "cpu_seconds": 3.84,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23252 kB",
+        "VmRSS": "23252 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.17,
+        "fd_count": 7
+      },
+      "actions": 21,
+      "goals": 5,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 6512007
+    },
+    {
+      "elapsed_seconds": 20.10633558200061,
+      "runtime": {
+        "VmHWM": "40436 kB",
+        "VmRSS": "40328 kB",
+        "Threads": "1",
+        "cpu_seconds": 4.14,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23252 kB",
+        "VmRSS": "23252 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.17,
+        "fd_count": 7
+      },
+      "actions": 23,
+      "goals": 6,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 6786439
+    },
+    {
+      "elapsed_seconds": 22.122121059001074,
+      "runtime": {
+        "VmHWM": "40448 kB",
+        "VmRSS": "40348 kB",
+        "Threads": "1",
+        "cpu_seconds": 4.94,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23284 kB",
+        "VmRSS": "23284 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.18,
+        "fd_count": 7
+      },
+      "actions": 27,
+      "goals": 7,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7413127
+    },
+    {
+      "elapsed_seconds": 24.158011403000273,
+      "runtime": {
+        "VmHWM": "40512 kB",
+        "VmRSS": "40456 kB",
+        "Threads": "1",
+        "cpu_seconds": 5.6,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.18,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7867903
+    },
+    {
+      "elapsed_seconds": 26.182908483002393,
+      "runtime": {
+        "VmHWM": "41152 kB",
+        "VmRSS": "40456 kB",
+        "Threads": "1",
+        "cpu_seconds": 5.81,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.18,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7970303
+    },
+    {
+      "elapsed_seconds": 28.19006464099948,
+      "runtime": {
+        "VmHWM": "41152 kB",
+        "VmRSS": "40456 kB",
+        "Threads": "1",
+        "cpu_seconds": 5.83,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.18,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7970303
+    },
+    {
+      "elapsed_seconds": 30.198335592998774,
+      "runtime": {
+        "VmHWM": "41152 kB",
+        "VmRSS": "40456 kB",
+        "Threads": "1",
+        "cpu_seconds": 5.85,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.18,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7970303
+    },
+    {
+      "elapsed_seconds": 32.20882523099863,
+      "runtime": {
+        "VmHWM": "41152 kB",
+        "VmRSS": "40456 kB",
+        "Threads": "1",
+        "cpu_seconds": 5.87,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.18,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7970303
+    },
+    {
+      "elapsed_seconds": 34.22081927899853,
+      "runtime": {
+        "VmHWM": "41152 kB",
+        "VmRSS": "40456 kB",
+        "Threads": "1",
+        "cpu_seconds": 5.89,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.18,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7970303
+    },
+    {
+      "elapsed_seconds": 36.23238471199875,
+      "runtime": {
+        "VmHWM": "41152 kB",
+        "VmRSS": "40460 kB",
+        "Threads": "1",
+        "cpu_seconds": 5.91,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.18,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7970303
+    },
+    {
+      "elapsed_seconds": 66.3207499429991,
+      "runtime": {
+        "VmHWM": "41152 kB",
+        "VmRSS": "40560 kB",
+        "Threads": "1",
+        "cpu_seconds": 7.26,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.19,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 8756735
+    },
+    {
+      "elapsed_seconds": 96.41762343099981,
+      "runtime": {
+        "VmHWM": "41152 kB",
+        "VmRSS": "40476 kB",
+        "Threads": "1",
+        "cpu_seconds": 7.97,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.19,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 9022975
+    },
+    {
+      "elapsed_seconds": 126.48991738999757,
+      "runtime": {
+        "VmHWM": "41152 kB",
+        "VmRSS": "40460 kB",
+        "Threads": "1",
+        "cpu_seconds": 8.23,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.2,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 9043455
+    },
+    {
+      "elapsed_seconds": 156.526038926997,
+      "runtime": {
+        "VmHWM": "41152 kB",
+        "VmRSS": "40476 kB",
+        "Threads": "1",
+        "cpu_seconds": 8.5,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.21,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 9043455
+    },
+    {
+      "elapsed_seconds": 186.5280810089971,
+      "runtime": {
+        "VmHWM": "42408 kB",
+        "VmRSS": "42356 kB",
+        "Threads": "1",
+        "cpu_seconds": 8.85,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.22,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7115274
+    },
+    {
+      "elapsed_seconds": 216.60621366200212,
+      "runtime": {
+        "VmHWM": "42408 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 9.04,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.22,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7275954
+    },
+    {
+      "elapsed_seconds": 246.65222693599935,
+      "runtime": {
+        "VmHWM": "42444 kB",
+        "VmRSS": "42356 kB",
+        "Threads": "1",
+        "cpu_seconds": 9.23,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.22,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7630178
+    },
+    {
+      "elapsed_seconds": 276.68775425799686,
+      "runtime": {
+        "VmHWM": "42444 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 9.38,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.24,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7630178
+    },
+    {
+      "elapsed_seconds": 306.69600585699663,
+      "runtime": {
+        "VmHWM": "42484 kB",
+        "VmRSS": "42356 kB",
+        "Threads": "1",
+        "cpu_seconds": 9.55,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.25,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7654802
+    },
+    {
+      "elapsed_seconds": 336.75992126500205,
+      "runtime": {
+        "VmHWM": "42484 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 9.7,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.25,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7654802
+    },
+    {
+      "elapsed_seconds": 366.8241798550007,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42356 kB",
+        "Threads": "1",
+        "cpu_seconds": 9.85,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.26,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7675282
+    },
+    {
+      "elapsed_seconds": 396.8875415229995,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 10.0,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.26,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7675282
+    },
+    {
+      "elapsed_seconds": 426.9520038339979,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42356 kB",
+        "Threads": "1",
+        "cpu_seconds": 10.16,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.28,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7687570
+    },
+    {
+      "elapsed_seconds": 457.0283699799984,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 10.32,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.28,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7687570
+    },
+    {
+      "elapsed_seconds": 487.09683302399935,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42356 kB",
+        "Threads": "1",
+        "cpu_seconds": 10.52,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.3,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7703954
+    },
+    {
+      "elapsed_seconds": 517.1667787929982,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 10.7,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.31,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7703954
+    },
+    {
+      "elapsed_seconds": 547.2318294959987,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42356 kB",
+        "Threads": "1",
+        "cpu_seconds": 10.85,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.32,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7765658
+    },
+    {
+      "elapsed_seconds": 577.2953145810025,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 10.99,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.33,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7765658
+    },
+    {
+      "elapsed_seconds": 607.3709266309961,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42356 kB",
+        "Threads": "1",
+        "cpu_seconds": 11.14,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.34,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7782042
+    },
+    {
+      "elapsed_seconds": 637.447004898997,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 11.3,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.34,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7782042
+    },
+    {
+      "elapsed_seconds": 667.5425173479962,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42356 kB",
+        "Threads": "1",
+        "cpu_seconds": 11.48,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.35,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7798426
+    },
+    {
+      "elapsed_seconds": 697.5713943090013,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 11.65,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.36,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7798426
+    },
+    {
+      "elapsed_seconds": 727.663829930003,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42356 kB",
+        "Threads": "1",
+        "cpu_seconds": 11.79,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.36,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7814810
+    },
+    {
+      "elapsed_seconds": 757.6653472920007,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 11.94,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.37,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7814810
+    },
+    {
+      "elapsed_seconds": 787.6841896149999,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42356 kB",
+        "Threads": "1",
+        "cpu_seconds": 12.11,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.37,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7827098
+    },
+    {
+      "elapsed_seconds": 817.7082614120009,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 12.25,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.38,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7827098
+    },
+    {
+      "elapsed_seconds": 847.7981783540017,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42356 kB",
+        "Threads": "1",
+        "cpu_seconds": 12.39,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.39,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7859866
+    },
+    {
+      "elapsed_seconds": 877.8561191370027,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 12.6,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.41,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7859866
+    },
+    {
+      "elapsed_seconds": 907.918823824999,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42356 kB",
+        "Threads": "1",
+        "cpu_seconds": 12.75,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.41,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7880346
+    },
+    {
+      "elapsed_seconds": 937.9792441870013,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 12.9,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.42,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7880346
+    },
+    {
+      "elapsed_seconds": 968.0424750210004,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42356 kB",
+        "Threads": "1",
+        "cpu_seconds": 13.07,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.43,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7896730
+    },
+    {
+      "elapsed_seconds": 998.1015279380008,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 13.22,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.44,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7896730
+    },
+    {
+      "elapsed_seconds": 1028.1596222879962,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42356 kB",
+        "Threads": "1",
+        "cpu_seconds": 13.37,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.45,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7913114
+    },
+    {
+      "elapsed_seconds": 1058.2280850129973,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 13.54,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.46,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7913114
+    },
+    {
+      "elapsed_seconds": 1088.2927831519992,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42356 kB",
+        "Threads": "1",
+        "cpu_seconds": 13.7,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.47,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7929498
+    },
+    {
+      "elapsed_seconds": 1118.3606676119962,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 13.86,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.48,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7929498
+    },
+    {
+      "elapsed_seconds": 1148.427292428998,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42356 kB",
+        "Threads": "1",
+        "cpu_seconds": 14.01,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.49,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7941786
+    },
+    {
+      "elapsed_seconds": 1178.4835589680006,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 14.15,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.5,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7941786
+    },
+    {
+      "elapsed_seconds": 1208.5424065190018,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42356 kB",
+        "Threads": "1",
+        "cpu_seconds": 14.28,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.51,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7958170
+    },
+    {
+      "elapsed_seconds": 1238.602615538999,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 14.45,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.52,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7958170
+    },
+    {
+      "elapsed_seconds": 1268.660120296001,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42356 kB",
+        "Threads": "1",
+        "cpu_seconds": 14.62,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.53,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7970458
+    },
+    {
+      "elapsed_seconds": 1298.7275589650017,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 14.77,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.54,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7970458
+    },
+    {
+      "elapsed_seconds": 1328.7863041300006,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 14.95,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.55,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7986842
+    },
+    {
+      "elapsed_seconds": 1358.8472922680012,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 15.08,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.55,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7986842
+    },
+    {
+      "elapsed_seconds": 1388.9198266669991,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 15.26,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.57,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7999130
+    },
+    {
+      "elapsed_seconds": 1418.9807028060022,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 15.4,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.58,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 7999130
+    },
+    {
+      "elapsed_seconds": 1449.041977439003,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 15.55,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.59,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 8015514
+    },
+    {
+      "elapsed_seconds": 1479.100819487001,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 15.7,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.6,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 8015514
+    },
+    {
+      "elapsed_seconds": 1509.159826766001,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 15.87,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.61,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 8031898
+    },
+    {
+      "elapsed_seconds": 1539.237337683,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 16.03,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.61,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 8031898
+    },
+    {
+      "elapsed_seconds": 1569.3061918789972,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 16.2,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.62,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 8048282
+    },
+    {
+      "elapsed_seconds": 1599.370026153003,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 16.35,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.63,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 8048282
+    },
+    {
+      "elapsed_seconds": 1629.4415635240002,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 16.52,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.65,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 8060570
+    },
+    {
+      "elapsed_seconds": 1659.5005015269999,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 16.66,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.66,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 8060570
+    },
+    {
+      "elapsed_seconds": 1689.5700891509987,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 16.84,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.67,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 8076954
+    },
+    {
+      "elapsed_seconds": 1719.645516616998,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 17.0,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.68,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 8076954
+    },
+    {
+      "elapsed_seconds": 1749.713005685,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 17.19,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.69,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 8089242
+    },
+    {
+      "elapsed_seconds": 1779.7883652460005,
+      "runtime": {
+        "VmHWM": "42488 kB",
+        "VmRSS": "42360 kB",
+        "Threads": "1",
+        "cpu_seconds": 17.36,
+        "fd_count": 7
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.7,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 0,
+      "queue_depth": 0,
+      "model_calls": 0,
+      "db_bytes": 8089242
+    }
+  ],
+  "source_fingerprints_at_start": {
+    "src/nana_core/continuity/hands/host.py": "8c6fa10651a5a72158cb061b2ec3cceb200e79ff3740f25ba7ccccc64081b15c",
+    "src/nana_core/continuity/hands/view.py": "44e03124dc644f35c8c5988bd3db7d483fec9ec1007bbacba560a2488227348c",
+    "src/nana_core/continuity/hands/service.py": "75b8779a17649e351f55a1109b57e8203d78091f1cbd1a5576e4b6992645b42a",
+    "src/nana_core/continuity/hands/skills.py": "72d53cf12d78e99eb0df2cf0572d4879487f9d849f41cd04e4b56de6954a3313",
+    "src/nana_core/continuity/hands/port.py": "021faf9bdef0d20549d12965d0bc68fc3ff82bc5eb2af4500d0f30045f301cd5",
+    "src/nana_core/continuity/hands/__init__.py": "c292d8887a891e1768497c4ae3f1ad2447315d26be3199ffe4806c150fea2bd5",
+    "src/nana_core/continuity/hands/server.py": "34e6258ffb81e43e242f5ec5d903d78c7459783f7c48a6c547bd50f8b5f024e0",
+    "src/nana_core/continuity/hands/contracts.py": "d483f2b4b8df4acfea37d1a61b0cdf33e60b877fd72536a2aea0c139845bbd55",
+    "src/nana_core/life/application.py": "c3538315405f76228511ad809f14d78228087020382479cff265e6e2d3343c70",
+    "src/nana_core/continuity/open_agency/service.py": "a6afb2b2cefe05aa95e7c3dae3a158e0967ba119f7f6218ec1be1c6c6459b78e"
+  },
+  "completed_without_user_input": {
+    "identity_id": "f1b15d59-c55b-4454-b4b9-8f4838e55e69",
+    "goals": [
+      {
+        "goal_id": "180b4e7e-6c67-4d62-80f2-2f43099e8df2",
+        "template": "owned-document",
+        "state": "COMPLETED",
+        "version": 8
+      },
+      {
+        "goal_id": "17b15c13-20c7-47b8-bd69-de08f0eb1031",
+        "template": "owned-document",
+        "state": "COMPLETED",
+        "version": 4
+      },
+      {
+        "goal_id": "e5bf24a0-6139-4ae1-b440-93d06ee9fbca",
+        "template": "owned-form",
+        "state": "COMPLETED",
+        "version": 8
+      },
+      {
+        "goal_id": "63f7a516-10ba-4f7e-96b8-57cdacbf17cb",
+        "template": "owned-form",
+        "state": "COMPLETED",
+        "version": 4
+      },
+      {
+        "goal_id": "98f6c0ee-5dab-4187-a9f4-791845f87188",
+        "template": "owned-form",
+        "state": "FAILED",
+        "version": 4
+      },
+      {
+        "goal_id": "5277171e-fead-4238-9c40-5adcced25769",
+        "template": "owned-form",
+        "state": "COMPLETED",
+        "version": 4
+      },
+      {
+        "goal_id": "6656ed88-70a4-4c41-8d2b-5458cc9012f3",
+        "template": "owned-form",
+        "state": "COMPLETED",
+        "version": 4
+      },
+      {
+        "goal_id": "9578cb07-86c3-423e-af15-bc8f19f2cdf4",
+        "template": "owned-document",
+        "state": "FAILED",
+        "version": 4
+      }
+    ],
+    "actions": [
+      {
+        "action_id": "31c940e3-5aaa-4174-bbf0-5451e40a4f98",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "642c49493efc801ef42d2ffaef615b0aca5af8e8e37a4a4214eadabead3d0384"
+      },
+      {
+        "action_id": "b5217ecf-84fc-4b72-8a1d-2b9198b73ee6",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "b2cfb36c5ee1fab6ffef0de95b73541b51d1a5c20ea05f6e6de1e2aaef8e6869"
+      },
+      {
+        "action_id": "be5c0e39-a80d-43cc-bc48-5dec1cc4c628",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "d41872e1a66dee6356b52c9bfae83abb9079c11e215d0f5562553f97f610a38b"
+      },
+      {
+        "action_id": "d36e3fb9-b246-4870-8864-30863bf07738",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "5ed2856be44922e56c98b4108175b238896cf77df0b89278777004ce088d7adf"
+      },
+      {
+        "action_id": "a5989e21-24f8-4f47-87e7-4d6d4a1cdcb0",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "0bc29233f0391cb518e50a7968f15127f610e010462d0eba74a1a2ddbdd0df43"
+      },
+      {
+        "action_id": "a466e927-e65a-4516-b613-8988ae1faac3",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "33ac542708be8e912c4cec88214425464f44ba65146fb74b751a40abec331f98"
+      },
+      {
+        "action_id": "b9df2f65-569f-4e16-a970-08bcd4cd2080",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "a4a2c0ed6d79beb49556aebd12a74f57ed36da9657be670b600377d2bba131ae"
+      },
+      {
+        "action_id": "8f473c85-df08-44a3-be6a-e543dcb69a0b",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "ececd874afe3c888a60790219bd6576e6cbbb4bac79140aec893fa3ed8b00436"
+      },
+      {
+        "action_id": "dd0acc18-5300-4764-bf8b-86c3cca49e1f",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "96fca8422e70ce54d286b89b968b7cf90cc86489331245b2c6cd1334239511a7"
+      },
+      {
+        "action_id": "317a11be-6ac0-4bd1-8e16-544a28b40508",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "f6c5d9b341ebefd397ca78c0c29e789c81cccf914f53530c0d49faeaa813147a"
+      },
+      {
+        "action_id": "c51f27b9-96a8-4bd9-841c-41b3e3a4b43f",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "f4e617b17d17e20eca3ac0eac614526302fc822fb1c9aee6b4ac96ef03b628b1"
+      },
+      {
+        "action_id": "85a97220-07cb-4ecd-a490-187bb4642662",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "3efbbac2b33d8547f34f2b6cf60f181a17ba65f13e587ef68181f2b00575a5dd"
+      },
+      {
+        "action_id": "9f4d4db2-6147-45fe-8881-c5ba39b7f63a",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "bedf6eff19d5f7abd53d77e85fcc439acd1954f85b3fa17fa8d2405fb9203837"
+      },
+      {
+        "action_id": "4625e800-718c-4d85-8788-02e698bf1346",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "c85969143d682b205a2db3e6a88cc0f0e999b3fc4fe9ad549140aa24a8023e35"
+      },
+      {
+        "action_id": "e7f0b65d-13bf-46a4-8b39-8b3a819d2591",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "c8526afb934ff3c89736e2d89fe19e6eecd1116393a35ad739e9b44ed299b119"
+      },
+      {
+        "action_id": "1e4c035b-af46-4101-ac3c-be7b2ce3690d",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "6e7e89ae871dd2f118d7ab67f838eb8114defc3d42f5300beac2618bec1e24df"
+      },
+      {
+        "action_id": "2f679c64-fc2a-4ff9-b92e-328684be2ae7",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "b602eab16cf74ca2aa98aff88d74231564dac19f6f2dae2ab4bc9a488dfdff1e"
+      },
+      {
+        "action_id": "6e2cda47-036e-480c-9fec-38ea88b0fb5a",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "0d069d9a590365738eb4c9c93e3de512caabf9b03043d11bdca864b55fa3cb59"
+      },
+      {
+        "action_id": "38230bf4-53a8-44ac-9427-694e61078a6f",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "56b6dd8a9b8440afd904ddba479dbf6946e1c3cdb3af9f7999235c425bcb86af"
+      },
+      {
+        "action_id": "84471d2b-dc31-4ef0-9727-d1e18867c935",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "7ac8bd6f6ee2698594243d63125da70f2e6b1282703ca8e37dc745433a57f6f4"
+      },
+      {
+        "action_id": "dea2ed34-6260-4ce4-8e48-0f31eb6631df",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "28ec5ddaaa63ea1dd179caf1401849d2979e4fdb0ab0283743c9dd06bb7fe429"
+      },
+      {
+        "action_id": "a4d096a1-877a-478f-9a55-dbf2ef6c93b5",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "751fd4a15f0f40450d57ef2e5f3a06d2d8f142c8b1bd862880e1d061156178a8"
+      },
+      {
+        "action_id": "85ce8fe6-d858-47c1-a3b6-59945c7019c7",
+        "capability": "world.skill",
+        "state": "SUCCEEDED",
+        "idempotency_key": "d660cd1327058592795c5839770ed59c409242ab5aff3f6b6e8df3a2d10700d1"
+      },
+      {
+        "action_id": "c3134df1-2855-4a7f-88bb-d8da6b985bce",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "f6bdec7dd85d210759e1abf7d650ccb53122cbca8fd3574d3757b61e409bb1ad"
+      },
+      {
+        "action_id": "a8a0ef76-5acd-4a4b-b4b9-ceacbb5a6d92",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "6ba0dec8c58fc3a70f1e1f5e5c7881222c008c2637fc872060e1d092967a9489"
+      },
+      {
+        "action_id": "e7279b6d-7dcc-4f0e-9c00-afbf32f6968c",
+        "capability": "world.skill",
+        "state": "SUCCEEDED",
+        "idempotency_key": "df3373fa98487e1114ed8d48109a802e0ecb9f7a7fd82636afb535f74c3dbec0"
+      },
+      {
+        "action_id": "19ecccb3-e733-4a36-a0e8-fd7dc85d1aac",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "327d5ca45278fa5d94de3e93cae317063a51bc6b489c07fb4f1b171c3ef295f2"
+      },
+      {
+        "action_id": "86d1353c-ec89-4f81-b49e-e4fb7bb294a7",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "e54e50f10639f9f3344b82a3d149d6f4866baafad7f0f4a5fa78d47e8e41a1a7"
+      },
+      {
+        "action_id": "fb217ff6-2277-4722-b050-de30f66f5858",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "98408463b63c497d602ea72cacdc9efd50bcf3fd0cdb8c55129d1d9194004bee"
+      },
+      {
+        "action_id": "d182a5ec-989e-4a0f-86bd-686f2d132a9d",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "1d8872a232f3c3ebd8f7c3d637366a3b3d627d1c70a4ffcd71a80a706f83f2a8"
+      }
+    ],
+    "experiences": [
+      {
+        "experience_id": "cf831906-dab7-4233-9f22-6846ada96221",
+        "task_class": "owned-document",
+        "outcome": "FAILURE"
+      },
+      {
+        "experience_id": "a82d7276-a52d-42d8-8436-890b5f6ace86",
+        "task_class": "owned-document",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "e0675add-e8bc-4d33-b0d7-473be30b4281",
+        "task_class": "owned-document",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "efcbb755-a879-46cc-bae9-7132d2b24d00",
+        "task_class": "owned-document",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "573470a1-8777-4ad3-b684-b3b977a34c70",
+        "task_class": "owned-form",
+        "outcome": "FAILURE"
+      },
+      {
+        "experience_id": "54e7b0f0-c4db-43c4-9e12-6189df057075",
+        "task_class": "owned-form",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "ec91878b-14e9-4142-b2f8-a2d4410e0ec0",
+        "task_class": "owned-form",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "0854822b-7e58-48ab-ba47-902ac717a08f",
+        "task_class": "owned-form",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "cdaac916-b518-45bc-b9ae-6a5e478fe420",
+        "task_class": "owned-form",
+        "outcome": "FAILURE"
+      },
+      {
+        "experience_id": "aea6c979-33fd-42d3-99af-34222e81bc4d",
+        "task_class": "owned-form",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "c1fc45c6-19c8-42df-9c51-69e65fc5b01d",
+        "task_class": "owned-form",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "fe01f4c7-2269-46ec-9e0e-5f7f39023a1b",
+        "task_class": "owned-document",
+        "outcome": "FAILURE"
+      }
+    ],
+    "lessons": [
+      {
+        "lesson_id": "8e611310-baa9-4748-a3aa-57ddfad40217",
+        "task_class": "owned-document",
+        "state": "SUSPENDED"
+      },
+      {
+        "lesson_id": "e4692ab6-e218-4735-a8c4-fac4a2f0e5f2",
+        "task_class": "owned-form",
+        "state": "SUSPENDED"
+      }
+    ],
+    "assessments": [
+      {
+        "lesson_id": "8e611310-baa9-4748-a3aa-57ddfad40217",
+        "verdict": "SUCCESS",
+        "episode_key": "owned-bce278863a4e5a4da0d8ff138c49c2137dbbb42e"
+      },
+      {
+        "lesson_id": "e4692ab6-e218-4735-a8c4-fac4a2f0e5f2",
+        "verdict": "SUCCESS",
+        "episode_key": "owned-95d35e9fc77cf7c342d9900dd001748f37f8c24d"
+      },
+      {
+        "lesson_id": "e4692ab6-e218-4735-a8c4-fac4a2f0e5f2",
+        "verdict": "COUNTEREXAMPLE",
+        "episode_key": "owned-4ef5bf7d3415da170619669b6b3169f140a05d39"
+      },
+      {
+        "lesson_id": "8e611310-baa9-4748-a3aa-57ddfad40217",
+        "verdict": "COUNTEREXAMPLE",
+        "episode_key": "owned-aa12069aeba6ccbe44ffc505e85421e3ca08553c"
+      }
+    ],
+    "skill_jobs": [
+      {
+        "job_id": "4eae8077-7527-4cae-9bec-d03957a20d92",
+        "state": "DONE",
+        "cursor": 6,
+        "stage": "ACTIVE"
+      }
+    ],
+    "outcomes": [
+      {
+        "action_id": "be5c0e39-a80d-43cc-bc48-5dec1cc4c628",
+        "cursor": 2,
+        "experience_id": "cf831906-dab7-4233-9f22-6846ada96221",
+        "goal_id": "180b4e7e-6c67-4d62-80f2-2f43099e8df2",
+        "memory_id": "af8405f3-cfcc-46b4-8ed6-23beffbe63af",
+        "operator_id": "apply",
+        "plan_record_id": "df64f7dd-4fc2-40ea-866d-5a62b62c26c4",
+        "quality": false,
+        "work_id": "c068a04a-4ed9-419e-9a36-bbe88df88a39"
+      },
+      {
+        "action_id": "a466e927-e65a-4516-b613-8988ae1faac3",
+        "cursor": 2,
+        "experience_id": "e0675add-e8bc-4d33-b0d7-473be30b4281",
+        "goal_id": "180b4e7e-6c67-4d62-80f2-2f43099e8df2",
+        "memory_id": "5cb4f0f7-39fc-494d-94ee-dad09d9c4f86",
+        "operator_id": "apply",
+        "plan_record_id": "15a4d995-88b2-4324-81be-db4a1ce49108",
+        "quality": true,
+        "work_id": "c068a04a-4ed9-419e-9a36-bbe88df88a39"
+      },
+      {
+        "action_id": "dd0acc18-5300-4764-bf8b-86c3cca49e1f",
+        "cursor": 2,
+        "experience_id": "efcbb755-a879-46cc-bae9-7132d2b24d00",
+        "goal_id": "17b15c13-20c7-47b8-bd69-de08f0eb1031",
+        "memory_id": "2c229a7c-2bbb-4124-8557-49d875ec20ce",
+        "operator_id": "apply",
+        "plan_record_id": "90df4817-3b34-4284-8345-36e0e487a887",
+        "quality": true,
+        "work_id": "56e4513f-1b6d-421a-a2e7-412904cf9f67"
+      },
+      {
+        "action_id": "85a97220-07cb-4ecd-a490-187bb4642662",
+        "cursor": 2,
+        "experience_id": "573470a1-8777-4ad3-b684-b3b977a34c70",
+        "goal_id": "e5bf24a0-6139-4ae1-b440-93d06ee9fbca",
+        "memory_id": "1b7a4193-6f43-4107-8454-21fabdce9a14",
+        "operator_id": "apply",
+        "plan_record_id": "9004d21e-18c9-472c-9beb-b4dad932c1af",
+        "quality": false,
+        "work_id": "5de1b2ad-5c37-4c58-a95b-0740ec7df557"
+      },
+      {
+        "action_id": "e7f0b65d-13bf-46a4-8b39-8b3a819d2591",
+        "cursor": 2,
+        "experience_id": "ec91878b-14e9-4142-b2f8-a2d4410e0ec0",
+        "goal_id": "e5bf24a0-6139-4ae1-b440-93d06ee9fbca",
+        "memory_id": "affe3cf7-ae31-4b3f-9a7f-c7ab7fc3ed91",
+        "operator_id": "apply",
+        "plan_record_id": "150d123c-260c-40a0-800f-cd3e04545403",
+        "quality": true,
+        "work_id": "5de1b2ad-5c37-4c58-a95b-0740ec7df557"
+      },
+      {
+        "action_id": "6e2cda47-036e-480c-9fec-38ea88b0fb5a",
+        "cursor": 2,
+        "experience_id": "0854822b-7e58-48ab-ba47-902ac717a08f",
+        "goal_id": "63f7a516-10ba-4f7e-96b8-57cdacbf17cb",
+        "memory_id": "38e3991b-54f6-4e75-b9b8-a1abe9c0afe1",
+        "operator_id": "apply",
+        "plan_record_id": "4ef9262a-8ad2-49f8-9bcd-d9ba39497bf4",
+        "quality": true,
+        "work_id": "621e2c0c-3926-4a23-93bc-8030f2b761d5"
+      },
+      {
+        "action_id": "dea2ed34-6260-4ce4-8e48-0f31eb6631df",
+        "cursor": 2,
+        "experience_id": "cdaac916-b518-45bc-b9ae-6a5e478fe420",
+        "goal_id": "98f6c0ee-5dab-4187-a9f4-791845f87188",
+        "memory_id": "805c03bc-407a-440f-a816-4c645685af80",
+        "operator_id": "apply",
+        "plan_record_id": "265fced3-ab6e-46ec-8e05-f75639e75ddd",
+        "quality": false,
+        "work_id": "93276180-416c-48de-a04e-e8a645123aeb"
+      },
+      {
+        "action_id": "c3134df1-2855-4a7f-88bb-d8da6b985bce",
+        "cursor": 2,
+        "experience_id": "aea6c979-33fd-42d3-99af-34222e81bc4d",
+        "goal_id": "5277171e-fead-4238-9c40-5adcced25769",
+        "memory_id": "594b3065-931a-445b-9686-8a433269884d",
+        "operator_id": "apply",
+        "plan_record_id": "f807289b-6e8f-4247-854b-66a047e7d8da",
+        "quality": true,
+        "work_id": "d614a74b-15ab-42e2-944a-0b6c8b0de2c9"
+      },
+      {
+        "action_id": "19ecccb3-e733-4a36-a0e8-fd7dc85d1aac",
+        "cursor": 2,
+        "experience_id": "c1fc45c6-19c8-42df-9c51-69e65fc5b01d",
+        "goal_id": "6656ed88-70a4-4c41-8d2b-5458cc9012f3",
+        "memory_id": "eecdd17c-3b66-424f-af2c-dacf27113227",
+        "operator_id": "apply",
+        "plan_record_id": "5bd7869f-57e8-4f82-a7ed-e85a8dc10ed1",
+        "quality": true,
+        "work_id": "fcbd3ff8-7c67-4229-9841-8087ed462012"
+      },
+      {
+        "action_id": "d182a5ec-989e-4a0f-86bd-686f2d132a9d",
+        "cursor": 2,
+        "experience_id": "fe01f4c7-2269-46ec-9e0e-5f7f39023a1b",
+        "goal_id": "9578cb07-86c3-423e-af15-bc8f19f2cdf4",
+        "memory_id": "bf571098-fc78-4ff1-aabc-bbd31232dc6c",
+        "operator_id": "apply",
+        "plan_record_id": "68c4c80f-5c40-4e6e-973d-e782a2b21842",
+        "quality": false,
+        "work_id": "ead2b9db-2233-4662-9f37-677494ae4862"
+      }
+    ],
+    "grants": 1,
+    "pending_intentions": 0,
+    "queue_depth": 0,
+    "no_action": 2,
+    "cognition_calls": 0,
+    "control": {
+      "paused": false,
+      "messages": 0
+    },
+    "fk_violations": []
+  },
+  "work_completed_at_seconds": 24.158011403000273,
+  "pause_resume_no_effect_replay": true,
+  "source_withdrawn": "f592cae2-564c-47f5-8d56-ee883e88a014",
+  "final": {
+    "identity_id": "f1b15d59-c55b-4454-b4b9-8f4838e55e69",
+    "goals": [
+      {
+        "goal_id": "180b4e7e-6c67-4d62-80f2-2f43099e8df2",
+        "template": "owned-document",
+        "state": "COMPLETED",
+        "version": 8
+      },
+      {
+        "goal_id": "17b15c13-20c7-47b8-bd69-de08f0eb1031",
+        "template": "owned-document",
+        "state": "COMPLETED",
+        "version": 4
+      },
+      {
+        "goal_id": "e5bf24a0-6139-4ae1-b440-93d06ee9fbca",
+        "template": "owned-form",
+        "state": "COMPLETED",
+        "version": 8
+      },
+      {
+        "goal_id": "63f7a516-10ba-4f7e-96b8-57cdacbf17cb",
+        "template": "owned-form",
+        "state": "COMPLETED",
+        "version": 4
+      },
+      {
+        "goal_id": "98f6c0ee-5dab-4187-a9f4-791845f87188",
+        "template": "owned-form",
+        "state": "FAILED",
+        "version": 4
+      },
+      {
+        "goal_id": "5277171e-fead-4238-9c40-5adcced25769",
+        "template": "owned-form",
+        "state": "COMPLETED",
+        "version": 4
+      },
+      {
+        "goal_id": "6656ed88-70a4-4c41-8d2b-5458cc9012f3",
+        "template": "owned-form",
+        "state": "COMPLETED",
+        "version": 4
+      },
+      {
+        "goal_id": "9578cb07-86c3-423e-af15-bc8f19f2cdf4",
+        "template": "owned-document",
+        "state": "FAILED",
+        "version": 4
+      }
+    ],
+    "actions": [
+      {
+        "action_id": "31c940e3-5aaa-4174-bbf0-5451e40a4f98",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "642c49493efc801ef42d2ffaef615b0aca5af8e8e37a4a4214eadabead3d0384"
+      },
+      {
+        "action_id": "b5217ecf-84fc-4b72-8a1d-2b9198b73ee6",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "b2cfb36c5ee1fab6ffef0de95b73541b51d1a5c20ea05f6e6de1e2aaef8e6869"
+      },
+      {
+        "action_id": "be5c0e39-a80d-43cc-bc48-5dec1cc4c628",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "d41872e1a66dee6356b52c9bfae83abb9079c11e215d0f5562553f97f610a38b"
+      },
+      {
+        "action_id": "d36e3fb9-b246-4870-8864-30863bf07738",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "5ed2856be44922e56c98b4108175b238896cf77df0b89278777004ce088d7adf"
+      },
+      {
+        "action_id": "a5989e21-24f8-4f47-87e7-4d6d4a1cdcb0",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "0bc29233f0391cb518e50a7968f15127f610e010462d0eba74a1a2ddbdd0df43"
+      },
+      {
+        "action_id": "a466e927-e65a-4516-b613-8988ae1faac3",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "33ac542708be8e912c4cec88214425464f44ba65146fb74b751a40abec331f98"
+      },
+      {
+        "action_id": "b9df2f65-569f-4e16-a970-08bcd4cd2080",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "a4a2c0ed6d79beb49556aebd12a74f57ed36da9657be670b600377d2bba131ae"
+      },
+      {
+        "action_id": "8f473c85-df08-44a3-be6a-e543dcb69a0b",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "ececd874afe3c888a60790219bd6576e6cbbb4bac79140aec893fa3ed8b00436"
+      },
+      {
+        "action_id": "dd0acc18-5300-4764-bf8b-86c3cca49e1f",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "96fca8422e70ce54d286b89b968b7cf90cc86489331245b2c6cd1334239511a7"
+      },
+      {
+        "action_id": "317a11be-6ac0-4bd1-8e16-544a28b40508",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "f6c5d9b341ebefd397ca78c0c29e789c81cccf914f53530c0d49faeaa813147a"
+      },
+      {
+        "action_id": "c51f27b9-96a8-4bd9-841c-41b3e3a4b43f",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "f4e617b17d17e20eca3ac0eac614526302fc822fb1c9aee6b4ac96ef03b628b1"
+      },
+      {
+        "action_id": "85a97220-07cb-4ecd-a490-187bb4642662",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "3efbbac2b33d8547f34f2b6cf60f181a17ba65f13e587ef68181f2b00575a5dd"
+      },
+      {
+        "action_id": "9f4d4db2-6147-45fe-8881-c5ba39b7f63a",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "bedf6eff19d5f7abd53d77e85fcc439acd1954f85b3fa17fa8d2405fb9203837"
+      },
+      {
+        "action_id": "4625e800-718c-4d85-8788-02e698bf1346",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "c85969143d682b205a2db3e6a88cc0f0e999b3fc4fe9ad549140aa24a8023e35"
+      },
+      {
+        "action_id": "e7f0b65d-13bf-46a4-8b39-8b3a819d2591",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "c8526afb934ff3c89736e2d89fe19e6eecd1116393a35ad739e9b44ed299b119"
+      },
+      {
+        "action_id": "1e4c035b-af46-4101-ac3c-be7b2ce3690d",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "6e7e89ae871dd2f118d7ab67f838eb8114defc3d42f5300beac2618bec1e24df"
+      },
+      {
+        "action_id": "2f679c64-fc2a-4ff9-b92e-328684be2ae7",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "b602eab16cf74ca2aa98aff88d74231564dac19f6f2dae2ab4bc9a488dfdff1e"
+      },
+      {
+        "action_id": "6e2cda47-036e-480c-9fec-38ea88b0fb5a",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "0d069d9a590365738eb4c9c93e3de512caabf9b03043d11bdca864b55fa3cb59"
+      },
+      {
+        "action_id": "38230bf4-53a8-44ac-9427-694e61078a6f",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "56b6dd8a9b8440afd904ddba479dbf6946e1c3cdb3af9f7999235c425bcb86af"
+      },
+      {
+        "action_id": "84471d2b-dc31-4ef0-9727-d1e18867c935",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "7ac8bd6f6ee2698594243d63125da70f2e6b1282703ca8e37dc745433a57f6f4"
+      },
+      {
+        "action_id": "dea2ed34-6260-4ce4-8e48-0f31eb6631df",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "28ec5ddaaa63ea1dd179caf1401849d2979e4fdb0ab0283743c9dd06bb7fe429"
+      },
+      {
+        "action_id": "a4d096a1-877a-478f-9a55-dbf2ef6c93b5",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "751fd4a15f0f40450d57ef2e5f3a06d2d8f142c8b1bd862880e1d061156178a8"
+      },
+      {
+        "action_id": "85ce8fe6-d858-47c1-a3b6-59945c7019c7",
+        "capability": "world.skill",
+        "state": "SUCCEEDED",
+        "idempotency_key": "d660cd1327058592795c5839770ed59c409242ab5aff3f6b6e8df3a2d10700d1"
+      },
+      {
+        "action_id": "c3134df1-2855-4a7f-88bb-d8da6b985bce",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "f6bdec7dd85d210759e1abf7d650ccb53122cbca8fd3574d3757b61e409bb1ad"
+      },
+      {
+        "action_id": "a8a0ef76-5acd-4a4b-b4b9-ceacbb5a6d92",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "6ba0dec8c58fc3a70f1e1f5e5c7881222c008c2637fc872060e1d092967a9489"
+      },
+      {
+        "action_id": "e7279b6d-7dcc-4f0e-9c00-afbf32f6968c",
+        "capability": "world.skill",
+        "state": "SUCCEEDED",
+        "idempotency_key": "df3373fa98487e1114ed8d48109a802e0ecb9f7a7fd82636afb535f74c3dbec0"
+      },
+      {
+        "action_id": "19ecccb3-e733-4a36-a0e8-fd7dc85d1aac",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "327d5ca45278fa5d94de3e93cae317063a51bc6b489c07fb4f1b171c3ef295f2"
+      },
+      {
+        "action_id": "86d1353c-ec89-4f81-b49e-e4fb7bb294a7",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "e54e50f10639f9f3344b82a3d149d6f4866baafad7f0f4a5fa78d47e8e41a1a7"
+      },
+      {
+        "action_id": "fb217ff6-2277-4722-b050-de30f66f5858",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "98408463b63c497d602ea72cacdc9efd50bcf3fd0cdb8c55129d1d9194004bee"
+      },
+      {
+        "action_id": "d182a5ec-989e-4a0f-86bd-686f2d132a9d",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "1d8872a232f3c3ebd8f7c3d637366a3b3d627d1c70a4ffcd71a80a706f83f2a8"
+      }
+    ],
+    "experiences": [
+      {
+        "experience_id": "cf831906-dab7-4233-9f22-6846ada96221",
+        "task_class": "owned-document",
+        "outcome": "FAILURE"
+      },
+      {
+        "experience_id": "a82d7276-a52d-42d8-8436-890b5f6ace86",
+        "task_class": "owned-document",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "e0675add-e8bc-4d33-b0d7-473be30b4281",
+        "task_class": "owned-document",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "efcbb755-a879-46cc-bae9-7132d2b24d00",
+        "task_class": "owned-document",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "573470a1-8777-4ad3-b684-b3b977a34c70",
+        "task_class": "owned-form",
+        "outcome": "FAILURE"
+      },
+      {
+        "experience_id": "54e7b0f0-c4db-43c4-9e12-6189df057075",
+        "task_class": "owned-form",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "ec91878b-14e9-4142-b2f8-a2d4410e0ec0",
+        "task_class": "owned-form",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "0854822b-7e58-48ab-ba47-902ac717a08f",
+        "task_class": "owned-form",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "cdaac916-b518-45bc-b9ae-6a5e478fe420",
+        "task_class": "owned-form",
+        "outcome": "FAILURE"
+      },
+      {
+        "experience_id": "aea6c979-33fd-42d3-99af-34222e81bc4d",
+        "task_class": "owned-form",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "c1fc45c6-19c8-42df-9c51-69e65fc5b01d",
+        "task_class": "owned-form",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "fe01f4c7-2269-46ec-9e0e-5f7f39023a1b",
+        "task_class": "owned-document",
+        "outcome": "FAILURE"
+      }
+    ],
+    "lessons": [
+      {
+        "lesson_id": "8e611310-baa9-4748-a3aa-57ddfad40217",
+        "task_class": "owned-document",
+        "state": "SUSPENDED"
+      },
+      {
+        "lesson_id": "e4692ab6-e218-4735-a8c4-fac4a2f0e5f2",
+        "task_class": "owned-form",
+        "state": "SUSPENDED"
+      }
+    ],
+    "assessments": [
+      {
+        "lesson_id": "8e611310-baa9-4748-a3aa-57ddfad40217",
+        "verdict": "SUCCESS",
+        "episode_key": "owned-bce278863a4e5a4da0d8ff138c49c2137dbbb42e"
+      },
+      {
+        "lesson_id": "e4692ab6-e218-4735-a8c4-fac4a2f0e5f2",
+        "verdict": "SUCCESS",
+        "episode_key": "owned-95d35e9fc77cf7c342d9900dd001748f37f8c24d"
+      },
+      {
+        "lesson_id": "e4692ab6-e218-4735-a8c4-fac4a2f0e5f2",
+        "verdict": "COUNTEREXAMPLE",
+        "episode_key": "owned-4ef5bf7d3415da170619669b6b3169f140a05d39"
+      },
+      {
+        "lesson_id": "8e611310-baa9-4748-a3aa-57ddfad40217",
+        "verdict": "COUNTEREXAMPLE",
+        "episode_key": "owned-aa12069aeba6ccbe44ffc505e85421e3ca08553c"
+      }
+    ],
+    "skill_jobs": [
+      {
+        "job_id": "4eae8077-7527-4cae-9bec-d03957a20d92",
+        "state": "DONE",
+        "cursor": 6,
+        "stage": null
+      }
+    ],
+    "outcomes": [
+      {
+        "action_id": "be5c0e39-a80d-43cc-bc48-5dec1cc4c628",
+        "cursor": 2,
+        "experience_id": "cf831906-dab7-4233-9f22-6846ada96221",
+        "goal_id": "180b4e7e-6c67-4d62-80f2-2f43099e8df2",
+        "memory_id": "af8405f3-cfcc-46b4-8ed6-23beffbe63af",
+        "operator_id": "apply",
+        "plan_record_id": "df64f7dd-4fc2-40ea-866d-5a62b62c26c4",
+        "quality": false,
+        "work_id": "c068a04a-4ed9-419e-9a36-bbe88df88a39"
+      },
+      {
+        "action_id": "a466e927-e65a-4516-b613-8988ae1faac3",
+        "cursor": 2,
+        "experience_id": "e0675add-e8bc-4d33-b0d7-473be30b4281",
+        "goal_id": "180b4e7e-6c67-4d62-80f2-2f43099e8df2",
+        "memory_id": "5cb4f0f7-39fc-494d-94ee-dad09d9c4f86",
+        "operator_id": "apply",
+        "plan_record_id": "15a4d995-88b2-4324-81be-db4a1ce49108",
+        "quality": true,
+        "work_id": "c068a04a-4ed9-419e-9a36-bbe88df88a39"
+      },
+      {
+        "action_id": "dd0acc18-5300-4764-bf8b-86c3cca49e1f",
+        "cursor": 2,
+        "experience_id": "efcbb755-a879-46cc-bae9-7132d2b24d00",
+        "goal_id": "17b15c13-20c7-47b8-bd69-de08f0eb1031",
+        "memory_id": "2c229a7c-2bbb-4124-8557-49d875ec20ce",
+        "operator_id": "apply",
+        "plan_record_id": "90df4817-3b34-4284-8345-36e0e487a887",
+        "quality": true,
+        "work_id": "56e4513f-1b6d-421a-a2e7-412904cf9f67"
+      },
+      {
+        "action_id": "85a97220-07cb-4ecd-a490-187bb4642662",
+        "cursor": 2,
+        "experience_id": "573470a1-8777-4ad3-b684-b3b977a34c70",
+        "goal_id": "e5bf24a0-6139-4ae1-b440-93d06ee9fbca",
+        "memory_id": "1b7a4193-6f43-4107-8454-21fabdce9a14",
+        "operator_id": "apply",
+        "plan_record_id": "9004d21e-18c9-472c-9beb-b4dad932c1af",
+        "quality": false,
+        "work_id": "5de1b2ad-5c37-4c58-a95b-0740ec7df557"
+      },
+      {
+        "action_id": "e7f0b65d-13bf-46a4-8b39-8b3a819d2591",
+        "cursor": 2,
+        "experience_id": "ec91878b-14e9-4142-b2f8-a2d4410e0ec0",
+        "goal_id": "e5bf24a0-6139-4ae1-b440-93d06ee9fbca",
+        "memory_id": "affe3cf7-ae31-4b3f-9a7f-c7ab7fc3ed91",
+        "operator_id": "apply",
+        "plan_record_id": "150d123c-260c-40a0-800f-cd3e04545403",
+        "quality": true,
+        "work_id": "5de1b2ad-5c37-4c58-a95b-0740ec7df557"
+      },
+      {
+        "action_id": "6e2cda47-036e-480c-9fec-38ea88b0fb5a",
+        "cursor": 2,
+        "experience_id": "0854822b-7e58-48ab-ba47-902ac717a08f",
+        "goal_id": "63f7a516-10ba-4f7e-96b8-57cdacbf17cb",
+        "memory_id": "38e3991b-54f6-4e75-b9b8-a1abe9c0afe1",
+        "operator_id": "apply",
+        "plan_record_id": "4ef9262a-8ad2-49f8-9bcd-d9ba39497bf4",
+        "quality": true,
+        "work_id": "621e2c0c-3926-4a23-93bc-8030f2b761d5"
+      },
+      {
+        "action_id": "dea2ed34-6260-4ce4-8e48-0f31eb6631df",
+        "cursor": 2,
+        "experience_id": "cdaac916-b518-45bc-b9ae-6a5e478fe420",
+        "goal_id": "98f6c0ee-5dab-4187-a9f4-791845f87188",
+        "memory_id": "805c03bc-407a-440f-a816-4c645685af80",
+        "operator_id": "apply",
+        "plan_record_id": "265fced3-ab6e-46ec-8e05-f75639e75ddd",
+        "quality": false,
+        "work_id": "93276180-416c-48de-a04e-e8a645123aeb"
+      },
+      {
+        "action_id": "c3134df1-2855-4a7f-88bb-d8da6b985bce",
+        "cursor": 2,
+        "experience_id": "aea6c979-33fd-42d3-99af-34222e81bc4d",
+        "goal_id": "5277171e-fead-4238-9c40-5adcced25769",
+        "memory_id": "594b3065-931a-445b-9686-8a433269884d",
+        "operator_id": "apply",
+        "plan_record_id": "f807289b-6e8f-4247-854b-66a047e7d8da",
+        "quality": true,
+        "work_id": "d614a74b-15ab-42e2-944a-0b6c8b0de2c9"
+      },
+      {
+        "action_id": "19ecccb3-e733-4a36-a0e8-fd7dc85d1aac",
+        "cursor": 2,
+        "experience_id": "c1fc45c6-19c8-42df-9c51-69e65fc5b01d",
+        "goal_id": "6656ed88-70a4-4c41-8d2b-5458cc9012f3",
+        "memory_id": "eecdd17c-3b66-424f-af2c-dacf27113227",
+        "operator_id": "apply",
+        "plan_record_id": "5bd7869f-57e8-4f82-a7ed-e85a8dc10ed1",
+        "quality": true,
+        "work_id": "fcbd3ff8-7c67-4229-9841-8087ed462012"
+      },
+      {
+        "action_id": "d182a5ec-989e-4a0f-86bd-686f2d132a9d",
+        "cursor": 2,
+        "experience_id": "fe01f4c7-2269-46ec-9e0e-5f7f39023a1b",
+        "goal_id": "9578cb07-86c3-423e-af15-bc8f19f2cdf4",
+        "memory_id": "bf571098-fc78-4ff1-aabc-bbd31232dc6c",
+        "operator_id": "apply",
+        "plan_record_id": "68c4c80f-5c40-4e6e-973d-e782a2b21842",
+        "quality": false,
+        "work_id": "ead2b9db-2233-4662-9f37-677494ae4862"
+      }
+    ],
+    "grants": 1,
+    "pending_intentions": 0,
+    "queue_depth": 0,
+    "no_action": 2,
+    "cognition_calls": 0,
+    "control": {
+      "messages": 0,
+      "paused": false
+    },
+    "fk_violations": []
+  },
+  "runtime_residency_seconds": 1805.2217055150031,
+  "runtime_exit_metrics": {
+    "wall_seconds": 1804.8497072050013,
+    "cpu_seconds": 17.341583222,
+    "max_rss_kib": 42488,
+    "children_cpu_seconds": 0.016329,
+    "children_max_rss_kib": 40436
+  },
+  "limits": {
+    "affinity_cpus": 3,
+    "memory_address_space_limit_mb": 512,
+    "cgroup_memory_max": "8589934592",
+    "cgroup_cpu_max": "200000 100000",
+    "local_large_model": "DISABLED",
+    "capture": "DISABLED"
+  },
+  "final_life_view": {
+    "derived": true,
+    "identity_id": "f1b15d59-c55b-4454-b4b9-8f4838e55e69",
+    "materials": [
+      {
+        "task_type": "DOCUMENT",
+        "source_path": "hands://459ef61538241ae91dc96a6ba49eb055/document-baseline",
+        "state": "COMPLETED",
+        "source_state": "AVAILABLE",
+        "task_id": "document-baseline"
+      },
+      {
+        "task_type": "DOCUMENT",
+        "source_path": "hands://459ef61538241ae91dc96a6ba49eb055/document-transfer",
+        "state": "COMPLETED",
+        "source_state": "AVAILABLE",
+        "task_id": "document-transfer"
+      },
+      {
+        "task_type": "FORM",
+        "source_path": "hands://459ef61538241ae91dc96a6ba49eb055/form-baseline",
+        "state": "COMPLETED",
+        "source_state": "AVAILABLE",
+        "task_id": "form-baseline"
+      },
+      {
+        "task_type": "FORM",
+        "source_path": "hands://459ef61538241ae91dc96a6ba49eb055/form-transfer",
+        "state": "COMPLETED",
+        "source_state": "AVAILABLE",
+        "task_id": "form-transfer"
+      },
+      {
+        "task_type": "FORM",
+        "source_path": "hands://459ef61538241ae91dc96a6ba49eb055/form-batch-gap",
+        "state": "AVAILABLE_NOT_ADOPTED",
+        "source_state": "AVAILABLE",
+        "task_id": "form-batch-gap"
+      },
+      {
+        "task_type": "FORM",
+        "source_path": "hands://459ef61538241ae91dc96a6ba49eb055/form-batch-transfer",
+        "state": "AVAILABLE_NOT_ADOPTED",
+        "source_state": "AVAILABLE",
+        "task_id": "form-batch-transfer"
+      },
+      {
+        "task_type": "DOCUMENT",
+        "source_path": "hands://459ef61538241ae91dc96a6ba49eb055/document-counterexample",
+        "state": "FAILED",
+        "source_state": "AVAILABLE",
+        "task_id": "document-counterexample"
+      }
+    ],
+    "learning": [
+      {
+        "lesson_id": "e4692ab6-e218-4735-a8c4-fac4a2f0e5f2",
+        "state": "SUSPENDED",
+        "method": "HANDS_NAMED",
+        "evidence_record_id": "b223bc8e-92ca-4d90-9f18-7393b26edd69",
+        "reason": "Real externally verified task failure; practice/evaluation preparation trials plus later actual use"
+      },
+      {
+        "lesson_id": "8e611310-baa9-4748-a3aa-57ddfad40217",
+        "state": "SUSPENDED",
+        "method": "HANDS_REPLACE",
+        "evidence_record_id": "6a72a6ff-decb-45e5-ac67-ec9a44455864",
+        "reason": "Real externally verified task failure; practice/evaluation preparation trials plus later actual use"
+      }
+    ],
+    "skills": [],
+    "shared_context": [],
+    "external_outcomes": [
+      {
+        "action_id": "d182a5ec-989e-4a0f-86bd-686f2d132a9d",
+        "experience_id": "fe01f4c7-2269-46ec-9e0e-5f7f39023a1b",
+        "goal_quality": "FAILURE_VERIFIED",
+        "effect": "VERIFIED_APPLICATION_CHANGE",
+        "verify_paths": [
+          "READ_ONLY_APPLICATION_IPC",
+          "DOCUMENT_FILE"
+        ],
+        "source_memory_id": "bf571098-fc78-4ff1-aabc-bbd31232dc6c",
+        "target_revision": 2
+      },
+      {
+        "action_id": "6e2cda47-036e-480c-9fec-38ea88b0fb5a",
+        "experience_id": "0854822b-7e58-48ab-ba47-902ac717a08f",
+        "goal_quality": "SUCCESS",
+        "effect": "VERIFIED_APPLICATION_CHANGE",
+        "verify_paths": [
+          "READ_ONLY_APPLICATION_IPC",
+          "PERSISTED_APPLICATION_STATE"
+        ],
+        "source_memory_id": "38e3991b-54f6-4e75-b9b8-a1abe9c0afe1",
+        "target_revision": 2
+      },
+      {
+        "action_id": "e7f0b65d-13bf-46a4-8b39-8b3a819d2591",
+        "experience_id": "ec91878b-14e9-4142-b2f8-a2d4410e0ec0",
+        "goal_quality": "SUCCESS",
+        "effect": "VERIFIED_APPLICATION_CHANGE",
+        "verify_paths": [
+          "READ_ONLY_APPLICATION_IPC",
+          "PERSISTED_APPLICATION_STATE"
+        ],
+        "source_memory_id": "affe3cf7-ae31-4b3f-9a7f-c7ab7fc3ed91",
+        "target_revision": 3
+      },
+      {
+        "action_id": "85a97220-07cb-4ecd-a490-187bb4642662",
+        "experience_id": "573470a1-8777-4ad3-b684-b3b977a34c70",
+        "goal_quality": "FAILURE_VERIFIED",
+        "effect": "VERIFIED_APPLICATION_CHANGE",
+        "verify_paths": [
+          "READ_ONLY_APPLICATION_IPC",
+          "PERSISTED_APPLICATION_STATE"
+        ],
+        "source_memory_id": "1b7a4193-6f43-4107-8454-21fabdce9a14",
+        "target_revision": 2
+      },
+      {
+        "action_id": "dd0acc18-5300-4764-bf8b-86c3cca49e1f",
+        "experience_id": "efcbb755-a879-46cc-bae9-7132d2b24d00",
+        "goal_quality": "SUCCESS",
+        "effect": "VERIFIED_APPLICATION_CHANGE",
+        "verify_paths": [
+          "READ_ONLY_APPLICATION_IPC",
+          "DOCUMENT_FILE"
+        ],
+        "source_memory_id": "2c229a7c-2bbb-4124-8557-49d875ec20ce",
+        "target_revision": 2
+      },
+      {
+        "action_id": "a466e927-e65a-4516-b613-8988ae1faac3",
+        "experience_id": "e0675add-e8bc-4d33-b0d7-473be30b4281",
+        "goal_quality": "SUCCESS",
+        "effect": "VERIFIED_APPLICATION_CHANGE",
+        "verify_paths": [
+          "READ_ONLY_APPLICATION_IPC",
+          "DOCUMENT_FILE"
+        ],
+        "source_memory_id": "5cb4f0f7-39fc-494d-94ee-dad09d9c4f86",
+        "target_revision": 3
+      },
+      {
+        "action_id": "be5c0e39-a80d-43cc-bc48-5dec1cc4c628",
+        "experience_id": "cf831906-dab7-4233-9f22-6846ada96221",
+        "goal_quality": "FAILURE_VERIFIED",
+        "effect": "VERIFIED_APPLICATION_CHANGE",
+        "verify_paths": [
+          "READ_ONLY_APPLICATION_IPC",
+          "DOCUMENT_FILE"
+        ],
+        "source_memory_id": "af8405f3-cfcc-46b4-8ed6-23beffbe63af",
+        "target_revision": 2
+      }
+    ],
+    "unknown_actions": [],
+    "journal": {
+      "derived": true,
+      "state_token": "7da832bd667926a3bed2cbc9da8d8327a59544fbaeb821f881f730735ebd7c9b",
+      "entries": [
+        {
+          "entry_id": "377fa0b6-8cd9-42b2-a2d6-30f0cd15f6bf:76100022-5474-4579-bef6-1685f088d71c",
+          "kind": "SUBJECT_CYCLE",
+          "phase": "SUBJECT_ENDORSED",
+          "record_id": "76100022-5474-4579-bef6-1685f088d71c",
+          "occurred_at_us": null,
+          "observed_at_us": 1792431898672974,
+          "recorded_at_us": 1792431898672974,
+          "linkage_ids": [
+            "80e4ccc6-3c84-4bfd-a77a-5904c8a5f36f",
+            "9073a87e-2ab6-48b1-a0ea-ff850de6008e"
+          ],
+          "facts": {
+            "judgment": "REMEMBER",
+            "normative": "ENDORSED",
+            "intention_kind": "MEMORY_CANDIDATE",
+            "self_generated": true,
+            "behavior": "MAINTAIN",
+            "actual_effect": "NOT_ESTABLISHED_BY_INTENTION"
+          }
+        },
+        {
+          "entry_id": "55a27816-1255-4b82-b58c-34a2130033d2:411306a7-4fa8-4c70-b210-d89e7a1b4047",
+          "kind": "MAINTENANCE_CANDIDATE",
+          "phase": "INFERRED_CANDIDATE",
+          "record_id": "411306a7-4fa8-4c70-b210-d89e7a1b4047",
+          "occurred_at_us": null,
+          "observed_at_us": 1792431898414876,
+          "recorded_at_us": 1792431898414876,
+          "linkage_ids": [],
+          "facts": {
+            "coverage": "PARTIAL_EXCERPTS",
+            "authority": "INFERRED_NOT_FACT"
+          }
+        },
+        {
+          "entry_id": "f05d91b8-0735-42b1-af3c-e5485cfb18ad:d7d3f8b3-6e14-455b-8755-f821874f6741",
+          "kind": "SUBJECT_CYCLE",
+          "phase": "SUBJECT_ENDORSED",
+          "record_id": "d7d3f8b3-6e14-455b-8755-f821874f6741",
+          "occurred_at_us": null,
+          "observed_at_us": 1792431898300721,
+          "recorded_at_us": 1792431898300721,
+          "linkage_ids": [
+            "5d9d22ca-ef43-49f1-8715-b325f2cc7356",
+            "a8aad097-743d-4a14-a0ad-e1a95fb96d91"
+          ],
+          "facts": {
+            "judgment": "REMEMBER",
+            "normative": "ENDORSED",
+            "intention_kind": "MEMORY_CANDIDATE",
+            "self_generated": true,
+            "behavior": "MAINTAIN",
+            "actual_effect": "NOT_ESTABLISHED_BY_INTENTION"
+          }
+        },
+        {
+          "entry_id": "15813523-6f70-4c5a-bcf0-c769b6ca7326:77b1f8c6-c486-475e-8cfd-d511bc1498d5",
+          "kind": "MAINTENANCE_CANDIDATE",
+          "phase": "INFERRED_CANDIDATE",
+          "record_id": "77b1f8c6-c486-475e-8cfd-d511bc1498d5",
+          "occurred_at_us": null,
+          "observed_at_us": 1792431898027775,
+          "recorded_at_us": 1792431898027775,
+          "linkage_ids": [],
+          "facts": {
+            "coverage": "PARTIAL_EXCERPTS",
+            "authority": "INFERRED_NOT_FACT"
+          }
+        },
+        {
+          "entry_id": "032a252f-f8e2-4ac8-9593-7f96fca8a97f:d56885f5-8f07-4071-bb39-c3496a8ec085",
+          "kind": "SUBJECT_CYCLE",
+          "phase": "SUBJECT_ENDORSED",
+          "record_id": "d56885f5-8f07-4071-bb39-c3496a8ec085",
+          "occurred_at_us": null,
+          "observed_at_us": 1792431895956698,
+          "recorded_at_us": 1792431895956698,
+          "linkage_ids": [
+            "b6078192-37f8-4a46-b6fd-badd01dd0d6d",
+            "3b0bfa02-7637-4be0-8c64-0f8bd52450dd"
+          ],
+          "facts": {
+            "judgment": "REMEMBER",
+            "normative": "ENDORSED",
+            "intention_kind": "MEMORY_CANDIDATE",
+            "self_generated": true,
+            "behavior": "MAINTAIN",
+            "actual_effect": "NOT_ESTABLISHED_BY_INTENTION"
+          }
+        },
+        {
+          "entry_id": "9093783c-56fb-4c5d-a264-3b31b9c87332:48a70036-e263-4878-9c8f-b5e93f68cc97",
+          "kind": "MAINTENANCE_CANDIDATE",
+          "phase": "INFERRED_CANDIDATE",
+          "record_id": "48a70036-e263-4878-9c8f-b5e93f68cc97",
+          "occurred_at_us": null,
+          "observed_at_us": 1792431895701069,
+          "recorded_at_us": 1792431895701069,
+          "linkage_ids": [],
+          "facts": {
+            "coverage": "PARTIAL_EXCERPTS",
+            "authority": "INFERRED_NOT_FACT"
+          }
+        },
+        {
+          "entry_id": "27f3a9d7-ff57-46da-8d28-fb821780a70e:f31cb574-ae75-40ae-8135-50bd504e50ca",
+          "kind": "SUBJECT_CYCLE",
+          "phase": "SUBJECT_ENDORSED",
+          "record_id": "f31cb574-ae75-40ae-8135-50bd504e50ca",
+          "occurred_at_us": null,
+          "observed_at_us": 1792431895589021,
+          "recorded_at_us": 1792431895589021,
+          "linkage_ids": [
+            "a27a9f06-ec03-44a6-b0a6-b9c46158fed8",
+            "7df1aea7-0356-40eb-a9ea-ad29d6e3875f"
+          ],
+          "facts": {
+            "judgment": "REMEMBER",
+            "normative": "ENDORSED",
+            "intention_kind": "MEMORY_CANDIDATE",
+            "self_generated": true,
+            "behavior": "MAINTAIN",
+            "actual_effect": "NOT_ESTABLISHED_BY_INTENTION"
+          }
+        },
+        {
+          "entry_id": "a5febfb0-4087-4227-8084-88cdfd6d7ccd:0a4ad4b6-0448-4fb4-a38f-1262eeb069ea",
+          "kind": "MAINTENANCE_CANDIDATE",
+          "phase": "INFERRED_CANDIDATE",
+          "record_id": "0a4ad4b6-0448-4fb4-a38f-1262eeb069ea",
+          "occurred_at_us": null,
+          "observed_at_us": 1792431895336250,
+          "recorded_at_us": 1792431895336250,
+          "linkage_ids": [],
+          "facts": {
+            "coverage": "PARTIAL_EXCERPTS",
+            "authority": "INFERRED_NOT_FACT"
+          }
+        },
+        {
+          "entry_id": "3b98edb5-4c30-459d-8019-79484974b1cf:e4b58055-822f-40f6-be1b-6cbeab04e9a4",
+          "kind": "SUBJECT_CYCLE",
+          "phase": "SUBJECT_ENDORSED",
+          "record_id": "e4b58055-822f-40f6-be1b-6cbeab04e9a4",
+          "occurred_at_us": null,
+          "observed_at_us": 1792431895218022,
+          "recorded_at_us": 1792431895218022,
+          "linkage_ids": [
+            "1d773cb7-995e-46cc-b6b5-8a30c60510cc",
+            "07668786-45df-424d-8549-d51e83cc3e74"
+          ],
+          "facts": {
+            "judgment": "REMEMBER",
+            "normative": "ENDORSED",
+            "intention_kind": "MEMORY_CANDIDATE",
+            "self_generated": true,
+            "behavior": "MAINTAIN",
+            "actual_effect": "NOT_ESTABLISHED_BY_INTENTION"
+          }
+        },
+        {
+          "entry_id": "f3d73d16-5707-4dc6-8440-5d407ef9102d:24524cf6-908f-4b19-a675-6c1df9d307b9",
+          "kind": "MAINTENANCE_CANDIDATE",
+          "phase": "INFERRED_CANDIDATE",
+          "record_id": "24524cf6-908f-4b19-a675-6c1df9d307b9",
+          "occurred_at_us": null,
+          "observed_at_us": 1792431894945321,
+          "recorded_at_us": 1792431894945321,
+          "linkage_ids": [],
+          "facts": {
+            "coverage": "PARTIAL_EXCERPTS",
+            "authority": "INFERRED_NOT_FACT"
+          }
+        },
+        {
+          "entry_id": "4e5d7e07-c7cf-4f93-a4c8-3de51b31b174:0389a1c3-d487-4819-a6b8-59bd57762129",
+          "kind": "SUBJECT_CYCLE",
+          "phase": "SUBJECT_ENDORSED",
+          "record_id": "0389a1c3-d487-4819-a6b8-59bd57762129",
+          "occurred_at_us": null,
+          "observed_at_us": 1792431894828512,
+          "recorded_at_us": 1792431894828512,
+          "linkage_ids": [
+            "28b9f57b-6dfa-4e1e-82b5-88b4bd098a2c",
+            "9cff1a2a-4838-4f92-bea7-2ed8f1128e29"
+          ],
+          "facts": {
+            "judgment": "REMEMBER",
+            "normative": "ENDORSED",
+            "intention_kind": "MEMORY_CANDIDATE",
+            "self_generated": true,
+            "behavior": "MAINTAIN",
+            "actual_effect": "NOT_ESTABLISHED_BY_INTENTION"
+          }
+        },
+        {
+          "entry_id": "642ad9d9-2cb7-4e93-bc04-ec745c183be0:1b3bae8f-0d51-4261-a7e0-a41ff95b3067",
+          "kind": "MAINTENANCE_CANDIDATE",
+          "phase": "INFERRED_CANDIDATE",
+          "record_id": "1b3bae8f-0d51-4261-a7e0-a41ff95b3067",
+          "occurred_at_us": null,
+          "observed_at_us": 1792431894555520,
+          "recorded_at_us": 1792431894555520,
+          "linkage_ids": [],
+          "facts": {
+            "coverage": "PARTIAL_EXCERPTS",
+            "authority": "INFERRED_NOT_FACT"
+          }
+        },
+        {
+          "entry_id": "9a44c45a-02c9-4ac3-8fd2-807fc12ffa30:a75c574d-d64c-4b86-8296-2d9f2ae0aca3",
+          "kind": "SUBJECT_CYCLE",
+          "phase": "SUBJECT_ENDORSED",
+          "record_id": "a75c574d-d64c-4b86-8296-2d9f2ae0aca3",
+          "occurred_at_us": null,
+          "observed_at_us": 1792431894439285,
+          "recorded_at_us": 1792431894439285,
+          "linkage_ids": [
+            "11606971-373a-4e93-813b-f4ec631bcf7a",
+            "fb518f55-a821-49c2-824c-a49ea971341c"
+          ],
+          "facts": {
+            "judgment": "REMEMBER",
+            "normative": "ENDORSED",
+            "intention_kind": "MEMORY_CANDIDATE",
+            "self_generated": true,
+            "behavior": "MAINTAIN",
+            "actual_effect": "NOT_ESTABLISHED_BY_INTENTION"
+          }
+        },
+        {
+          "entry_id": "451692f0-ad26-4c16-a410-afbdae3b29ea:c09bb414-8b4e-472d-babb-0d9ce95f80c8",
+          "kind": "MAINTENANCE_CANDIDATE",
+          "phase": "INFERRED_CANDIDATE",
+          "record_id": "c09bb414-8b4e-472d-babb-0d9ce95f80c8",
+          "occurred_at_us": null,
+          "observed_at_us": 1792431894178012,
+          "recorded_at_us": 1792431894178012,
+          "linkage_ids": [],
+          "facts": {
+            "coverage": "PARTIAL_EXCERPTS",
+            "authority": "INFERRED_NOT_FACT"
+          }
+        },
+        {
+          "entry_id": "863b8371-aa4a-4786-b8e2-f90ab0dc1d97:c6493c6d-e697-4c5f-a2ab-a7dc617f2362",
+          "kind": "SUBJECT_CYCLE",
+          "phase": "SUBJECT_ENDORSED",
+          "record_id": "c6493c6d-e697-4c5f-a2ab-a7dc617f2362",
+          "occurred_at_us": null,
+          "observed_at_us": 1792431894062025,
+          "recorded_at_us": 1792431894062025,
+          "linkage_ids": [
+            "3540723d-25dd-4e0c-a19c-7c1fe5d040bb",
+            "1b23b471-455a-4ba9-bcd1-611e2838feec"
+          ],
+          "facts": {
+            "judgment": "REMEMBER",
+            "normative": "ENDORSED",
+            "intention_kind": "MEMORY_CANDIDATE",
+            "self_generated": true,
+            "behavior": "MAINTAIN",
+            "actual_effect": "NOT_ESTABLISHED_BY_INTENTION"
+          }
+        },
+        {
+          "entry_id": "d02c7c29-8241-47fc-941b-1398b36c7957:3c52076e-ce6e-497c-a36f-02c7a2296112",
+          "kind": "MAINTENANCE_CANDIDATE",
+          "phase": "INFERRED_CANDIDATE",
+          "record_id": "3c52076e-ce6e-497c-a36f-02c7a2296112",
+          "occurred_at_us": null,
+          "observed_at_us": 1792431893799333,
+          "recorded_at_us": 1792431893799333,
+          "linkage_ids": [],
+          "facts": {
+            "coverage": "PARTIAL_EXCERPTS",
+            "authority": "INFERRED_NOT_FACT"
+          }
+        }
+      ],
+      "coverage": "BOUNDED_FILTERED_VIEW"
+    },
+    "target_scope": {
+      "binding": "1215f516992e787e6c85fe5deb3e8060342b87b7645e5c400aef40f4dfc8053c",
+      "kind": "OWNED_DEV_APPLICATION_PROCESS",
+      "uid_checked": true,
+      "pid_start_checked": true,
+      "scope": "FINITE_DOC_AND_FORM_ONLY",
+      "health": "AVAILABLE"
+    },
+    "first_life_experience_ready": "NOT_READY_REAL_NATURAL_DIALOGUE_NOT_REVIEWED",
+    "pause": false,
+    "report_directory": "/tmp/nana-rae-long-runtime-03/target/application",
+    "external_delivery": "NO_SOCIAL_SEND",
+    "portable": "IDENTITY_EXPERIENCE_LESSONS",
+    "host_local": "PROCESS_BINDING_GRANTS_APPLICATION_FILES",
+    "rebuildable": "THIS_VIEW",
+    "current_silence_reason": "No forced sharing; bounded owned tasks, C may choose rest/defer/no-action"
+  },
+  "external_effects_count": 10,
+  "external_state_summary": {
+    "document-baseline": {
+      "revision": 3,
+      "submitted": false,
+      "document_digest": "fe66eb903498eec540a98a75d25d791a45c013f617966473c15cc24f95ef1660"
+    },
+    "document-counterexample": {
+      "revision": 2,
+      "submitted": false,
+      "document_digest": "77d4abad2144a667cc5ac6f70ac201e186e7ca791416435a93c762b6ac98020e"
+    },
+    "document-transfer": {
+      "revision": 2,
+      "submitted": false,
+      "document_digest": "07d60ca4be2dd499319b9ed1517339b79c3d61264fcabcfabcbf2e3d539b0ec3"
+    },
+    "form-baseline": {
+      "revision": 3,
+      "submitted": true,
+      "document_digest": null
+    },
+    "form-batch-gap": {
+      "revision": 3,
+      "submitted": true,
+      "document_digest": null
+    },
+    "form-batch-transfer": {
+      "revision": 2,
+      "submitted": true,
+      "document_digest": null
+    },
+    "form-transfer": {
+      "revision": 2,
+      "submitted": true,
+      "document_digest": null
+    }
+  },
+  "finished_at": "2026-10-19T18:13:55.762552+00:00",
+  "total_wall_seconds": 1805.5148347499999,
+  "resource_soak": "PASS_GE_30_MINUTES",
+  "source_fingerprints_at_end": {
+    "src/nana_core/continuity/hands/host.py": "8c6fa10651a5a72158cb061b2ec3cceb200e79ff3740f25ba7ccccc64081b15c",
+    "src/nana_core/continuity/hands/view.py": "44e03124dc644f35c8c5988bd3db7d483fec9ec1007bbacba560a2488227348c",
+    "src/nana_core/continuity/hands/service.py": "75b8779a17649e351f55a1109b57e8203d78091f1cbd1a5576e4b6992645b42a",
+    "src/nana_core/continuity/hands/skills.py": "72d53cf12d78e99eb0df2cf0572d4879487f9d849f41cd04e4b56de6954a3313",
+    "src/nana_core/continuity/hands/port.py": "021faf9bdef0d20549d12965d0bc68fc3ff82bc5eb2af4500d0f30045f301cd5",
+    "src/nana_core/continuity/hands/__init__.py": "c292d8887a891e1768497c4ae3f1ad2447315d26be3199ffe4806c150fea2bd5",
+    "src/nana_core/continuity/hands/server.py": "34e6258ffb81e43e242f5ec5d903d78c7459783f7c48a6c547bd50f8b5f024e0",
+    "src/nana_core/continuity/hands/contracts.py": "d483f2b4b8df4acfea37d1a61b0cdf33e60b877fd72536a2aea0c139845bbd55",
+    "src/nana_core/life/application.py": "c3538315405f76228511ad809f14d78228087020382479cff265e6e2d3343c70",
+    "src/nana_core/continuity/open_agency/service.py": "a6afb2b2cefe05aa95e7c3dae3a158e0967ba119f7f6218ec1be1c6c6459b78e"
+  },
+  "executed_source_files_unchanged": true
+}

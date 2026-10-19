@@ -1,0 +1,14 @@
+{
+  "classification": "DEVELOPER_PROVENANCE_FIX_NOT_SUBJECT_LEARNING",
+  "reproduction": "Tasks doc and doc-next; offer doc-next; actual captured source.task_id incorrectly doc",
+  "initial_regression": "1failed in0.56s; expected assertion failure, no Action dispatched",
+  "fix": "Resolve task from exact inspect resource task segment, not objective-name prefix. Reject manifest task keys that collide with reserved derived -batch objective IDs.",
+  "timing": "Applied only after long-run03 completes and saves unchanged selected-source fingerprints; not during the residency",
+  "tests": [
+    "test_overlapping_task_names_keep_opportunity_source_bound_to_exact_task",
+    "test_target_rejects_reserved_derived_objective_name_collision"
+  ],
+  "final_result": "18 focused passed62.48s including both guards; final-source actual extended journey60.267953251s/12effects PASS",
+  "default_soak_manifest_affected": false,
+  "fix_commit": "4f4fa945218eb92185f534bfbc6619bc9132fe69"
+}

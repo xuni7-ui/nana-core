@@ -1118,3 +1118,14 @@ main/R045/production/私人数据/真实社交/用户桌面变化0，旧bundle�
 封存后应用，最终18 targeted PASS62.48s（仍含六SIGKILL）。最终新full正在运行。
 Selected residency source c2732b0；新exact-binding以本提交为准，不混称同一源码驻留。
 Provider新增0/历史UNKNOWN PARKED；main/R045/production/旧bundle未改，权限未扩大。
+
+
+## RAE final qualification decision [2026-10-19T18:21:07.717528+00:00]
+[实测/设计裁决] RAE00–30在有限owned application范围完成，不等于通用桌面或完整共同生活。
+选择真实独立应用IPC/文档/表单双结构核验，而非安装GUI输入栈：任务明确允许真实进程
+surface，scope/PID/start/inode/peer绑定更有限，真实效果/独立核验/六切点恢复已有证据。
+最终exact task/resource绑定和派生ID碰撞拒绝保护来源一致性，不扩展执行权。
+Finite G method search与bounded I workflow模板如实命名；非任意研究/算法发明/Core自改。
+源删除不得退化重放；source tombstones保留非正文阻止回生；独立治理来源不随个人记忆撤销。
+实际驻留与最终hardening分开版本记录；最终1248/0/12skip、18focused及60s最终源码实跑。
+下一步只按真实最大缺口选择更广owned应用/自然交流，不自动接用户桌面/设备或重试Provider。

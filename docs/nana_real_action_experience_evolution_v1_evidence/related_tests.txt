@@ -1,0 +1,1 @@
+23 passed in 8.72s: open_autonomy/test_planning.py, open_autonomy/test_learning.py, affective_autonomy/test_realization.py, affective_autonomy/test_governance.py, independent_life/test_dialogue.py.

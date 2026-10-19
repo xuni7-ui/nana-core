@@ -1,0 +1,14 @@
+{
+  "suite": "test_real_reuse_changes_share_candidate_busy_refusal_and_delete",
+  "before_real_transfer": "No share opportunity",
+  "after_real_transfer": "Source-backed actual strategy assessment creates candidate",
+  "available": "Original C SOCIAL_INTERACTION + proposal; not sent",
+  "busy": "Original C NO_ACTION, no proposal",
+  "explicit_topic_refusal": "Original C NO_ACTION; not force research/sharing",
+  "source_deleted": "Projection absent; stale direct cycle references rejected",
+  "problem_reframing": "Typed USER proposes repeat HANDS_APPEND; sourced supported safer method -> original C ALTERNATIVE/HANDS_REPLACE; Grant count stays1",
+  "failure_not_compulsory_learning": "Explicit sourced HIGH cognitive load -> original C REST, no learning job",
+  "human_naturalness": "NOT_RUN",
+  "real_social_delivery": 0,
+  "scope_note": "Test controls are typed explicit scenario inputs, not proof of live natural-language semantics. Actual outcome sources come from the owned application."
+}

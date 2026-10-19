@@ -1,3 +1,56 @@
+# Real Action & Experience Evolution V1 — current status
+
+## CURRENT — RAE V1 / REAL_OS_CONTROLLED_HANDS_L1_DEV_QUALIFIED
+[实测/源码，2026-10-19T18:21:07.717528+00:00] Source ca6d8374f222020e1d68574fcfa987f905d10580;
+branch dev/nana-core-real-action-experience-evolution-v1-codex；最终执行提交4f4fa945218eb92185f534bfbc6619bc9132fe69。
+GLOBAL_STAGE H；两条永久主轴Self-Evolution + Companionship保留。
+已实现/已测试/真实自有开发进程验收：有限Hands→独立Verify→真实失败Experience→C选择
+学习或REST→G方法改善/真实留出与迁移→反例暂停；multi-field gap→原I受限workflow
+→sandbox/资格→原Kernel两次真实复用。仅owned app IPC/真实文档和表单状态，非GUI/用户桌面。
+最终扩展实跑60.267953251s，9tasks/10goals/36Actions/12effects，源码指纹未变；
+独立长驻留1805.221705515s（selected c2732b0源码）10effects/30Actions，无来源撤回后重放，
+pending0/queue0/model0，CPU17.341583222s/峰RSS42488KiB；77个实际采样，非生产资格。
+最终18聚焦PASS62.48s；related23 PASS8.72s；full1248 PASS/0fail/12skip309.42s
+（11历史opt-in H2 screen+E12，均NOT_RUN）。6个实际SIGKILL切点及真实file/IPC冲突PASS。
+保留long02源撤回重放developer defect与精确task-source绑定初始失败；修复不算Nana学习。
+最终两项exact binding guard在长驻留封存后应用，18聚焦/全回归及最终实跑另证，不混淆版本。
+Schema13/43业务表/新增0/依赖0/FKclean；One Subject/Store/SubjectLoop/Runtime，
+C WHAT/WHY、D WHEN，Manager/Grant/Budget/Privacy/UNKNOWN、Primary User语义不变。
+Provider历史1 UNKNOWN PARKED，新调用0/无凭据访问；REAL_NATURAL_DIALOGUE_REVIEWED NOT_RUN，
+FIRST_LIFE_EXPERIENCE_READY NOT_READY。main/R045/production/私人数据/社交/用户桌面变更0。
+证据docs/nana_real_action_experience_evolution_v1_evidence/；implementation与quickstart同名前缀。
+以下CURRENT与检查点均保留为历史快照，以本块及证据范围为当前事实。
+
+## Gate matrix
+
+- STRATEGIC_ROUTE_RECONCILED = PASS
+- MINIMUM_CONTROLLED_HANDS = PASS
+- REAL_EXTERNAL_EFFECT = PASS
+- INDEPENDENT_OUTCOME_VERIFY = PASS
+- SUBJECT_DRIVEN_ACTION = PASS
+- REAL_FAILURE_EXPERIENCE = PASS
+- EXPERIENCE_TO_LEARNING = PASS
+- REAL_BEFORE_AFTER_IMPROVEMENT = PASS
+- TRANSFER = PASS
+- NEGATIVE_TRANSFER_HANDLED = PASS
+- CAPABILITY_GAP_CLASSIFICATION = PASS
+- SECOND_REAL_TASK_CLASS = PASS
+- SHARED_LIFE_CAUSAL_EFFECT = PASS
+- USER_PREEMPTION = PASS
+- PAUSE_RESUME = PASS
+- GRANT_REVOKE = PASS
+- SIGKILL_RECOVERY = PASS
+- UNKNOWN_NO_DUPLICATE_EFFECT = PASS
+- SELF_EXTENSION_TRIGGERED = PASS_BOUNDED
+- SKILL_OR_ADAPTER_QUALIFIED = PASS_BOUNDED
+- REAL_REUSE = PASS_BOUNDED
+- RESOURCE_SOAK = PASS_ACTUAL_1805_SECONDS
+- REAL_PROVIDER_QUALIFIED = NOT_QUALIFIED_PARKED_UNKNOWN
+- REAL_NATURAL_DIALOGUE_REVIEWED = NOT_RUN
+- FIRST_LIFE_EXPERIENCE_READY = NOT_READY
+
+## Historical checkpoints (preserved)
+
 # Real Action & Experience Evolution V1 — durable ledger
 
 Base ca6d8374f222020e1d68574fcfa987f905d10580; GLOBAL_STAGE H.

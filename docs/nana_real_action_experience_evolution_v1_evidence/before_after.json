@@ -1,0 +1,458 @@
+{
+  "source": "real_journey.json; read-only join of actual development Store events/actions/attempts, no generated expected outcome used as proof",
+  "episodes": [
+    {
+      "task_id": "document-baseline",
+      "action_id": "9d3d08ef-7edb-4503-b4a6-d29470063ad7",
+      "goal_id": "e3118094-275d-4f2b-acc4-42717687279e",
+      "plan_id": "66a67f57-be4a-42af-a975-e99c002ac3d5",
+      "experience_id": "48859ac7-f64a-4533-96aa-dccda53586a0",
+      "effect_state": "SUCCEEDED",
+      "task_quality": false,
+      "verification_event_id": "b2d12e23-4b85-498e-ad59-19066a66c122",
+      "started_at_us": 1792431957638565,
+      "goal_outcome_event_seq": 85,
+      "source_memory_id": "ff8a65fa-ca98-43e5-9d4a-d4549c78dbfb",
+      "dispatch_to_verify_record_ms": 9.236,
+      "plan_action_count": 6,
+      "accounting_holds": [
+        {
+          "dimension": "cost_micro_units",
+          "amount": 1,
+          "status": "SPENT"
+        },
+        {
+          "dimension": "external_requests",
+          "amount": 1,
+          "status": "SPENT"
+        },
+        {
+          "dimension": "write_attempts",
+          "amount": 1,
+          "status": "SPENT"
+        }
+      ],
+      "independent_verification_succeeded": true,
+      "manual_target_repair": false,
+      "cost_note": "Existing local accounting estimates, not currency/billing. Exact split of execution/verification CPU not separately instrumented; timestamps measure dispatch-to-verification record latency."
+    },
+    {
+      "task_id": "document-baseline",
+      "action_id": "d67972ef-5e52-4f48-9268-7f38478a86f1",
+      "goal_id": "e3118094-275d-4f2b-acc4-42717687279e",
+      "plan_id": "66a67f57-be4a-42af-a975-e99c002ac3d5",
+      "experience_id": "8a225ee0-c68f-4d5e-b568-2feb82ca494f",
+      "effect_state": "SUCCEEDED",
+      "task_quality": true,
+      "verification_event_id": "86a9d76e-234a-4289-b887-49b8529229c4",
+      "started_at_us": 1792431961262425,
+      "goal_outcome_event_seq": 180,
+      "source_memory_id": "fe582f1b-562a-476d-bdd4-f42e4ebfc921",
+      "dispatch_to_verify_record_ms": 7.534,
+      "plan_action_count": 6,
+      "accounting_holds": [
+        {
+          "dimension": "cost_micro_units",
+          "amount": 1,
+          "status": "SPENT"
+        },
+        {
+          "dimension": "external_requests",
+          "amount": 1,
+          "status": "SPENT"
+        },
+        {
+          "dimension": "write_attempts",
+          "amount": 1,
+          "status": "SPENT"
+        }
+      ],
+      "independent_verification_succeeded": true,
+      "manual_target_repair": false,
+      "cost_note": "Existing local accounting estimates, not currency/billing. Exact split of execution/verification CPU not separately instrumented; timestamps measure dispatch-to-verification record latency."
+    },
+    {
+      "task_id": "document-heldout",
+      "action_id": "06ad7ed9-2739-4695-8ac0-c33d3f7552aa",
+      "goal_id": "2203923c-c303-4b46-8ff5-9530617cb68b",
+      "plan_id": "fb2d1e36-a530-4f09-b3d0-1a518b9e2635",
+      "experience_id": "7d90bd8c-1908-4f1b-aa8b-dcaa82bd20de",
+      "effect_state": "SUCCEEDED",
+      "task_quality": true,
+      "verification_event_id": "717e6d27-7313-487c-893b-c3067c05b24f",
+      "started_at_us": 1792431963079913,
+      "goal_outcome_event_seq": 263,
+      "source_memory_id": "b6ac0a68-f83c-4908-8d82-583d3279f5e7",
+      "dispatch_to_verify_record_ms": 8.755,
+      "plan_action_count": 3,
+      "accounting_holds": [
+        {
+          "dimension": "cost_micro_units",
+          "amount": 1,
+          "status": "SPENT"
+        },
+        {
+          "dimension": "external_requests",
+          "amount": 1,
+          "status": "SPENT"
+        },
+        {
+          "dimension": "write_attempts",
+          "amount": 1,
+          "status": "SPENT"
+        }
+      ],
+      "independent_verification_succeeded": true,
+      "manual_target_repair": false,
+      "cost_note": "Existing local accounting estimates, not currency/billing. Exact split of execution/verification CPU not separately instrumented; timestamps measure dispatch-to-verification record latency."
+    },
+    {
+      "task_id": "document-transfer",
+      "action_id": "b8785820-19b5-481f-a8f6-d2ee4a6198c4",
+      "goal_id": "08abd09b-75f3-4c84-aa0b-cd7264486196",
+      "plan_id": "eb504126-38a0-4013-a401-8dfa32d27f5a",
+      "experience_id": "a36929e8-1c60-4ea0-a113-73f91bc805bd",
+      "effect_state": "SUCCEEDED",
+      "task_quality": true,
+      "verification_event_id": "13c1b3d4-ed4b-4ba4-a9e9-eb899628aab1",
+      "started_at_us": 1792431964839715,
+      "goal_outcome_event_seq": 348,
+      "source_memory_id": "0a224b0f-a1ee-4235-ac43-5d2df5dfd0e0",
+      "dispatch_to_verify_record_ms": 9.32,
+      "plan_action_count": 3,
+      "accounting_holds": [
+        {
+          "dimension": "cost_micro_units",
+          "amount": 1,
+          "status": "SPENT"
+        },
+        {
+          "dimension": "external_requests",
+          "amount": 1,
+          "status": "SPENT"
+        },
+        {
+          "dimension": "write_attempts",
+          "amount": 1,
+          "status": "SPENT"
+        }
+      ],
+      "independent_verification_succeeded": true,
+      "manual_target_repair": false,
+      "cost_note": "Existing local accounting estimates, not currency/billing. Exact split of execution/verification CPU not separately instrumented; timestamps measure dispatch-to-verification record latency."
+    },
+    {
+      "task_id": "form-baseline",
+      "action_id": "4d149db8-063f-4064-ab41-0e4c26c00946",
+      "goal_id": "06b628e3-3e0e-495d-b3d8-1ded7aff6272",
+      "plan_id": "80a183db-9a92-41c6-8d03-a49fc1e007b4",
+      "experience_id": "8b436031-ad27-426a-ac5d-2f9e4cb1592e",
+      "effect_state": "SUCCEEDED",
+      "task_quality": false,
+      "verification_event_id": "a0fa32e8-9f7d-4dbb-9d9d-7071f211a24f",
+      "started_at_us": 1792431966644835,
+      "goal_outcome_event_seq": 439,
+      "source_memory_id": "e8093a36-70c4-4a96-836a-ff162454013c",
+      "dispatch_to_verify_record_ms": 8.206,
+      "plan_action_count": 6,
+      "accounting_holds": [
+        {
+          "dimension": "cost_micro_units",
+          "amount": 1,
+          "status": "SPENT"
+        },
+        {
+          "dimension": "external_requests",
+          "amount": 1,
+          "status": "SPENT"
+        },
+        {
+          "dimension": "write_attempts",
+          "amount": 1,
+          "status": "SPENT"
+        }
+      ],
+      "independent_verification_succeeded": true,
+      "manual_target_repair": false,
+      "cost_note": "Existing local accounting estimates, not currency/billing. Exact split of execution/verification CPU not separately instrumented; timestamps measure dispatch-to-verification record latency."
+    },
+    {
+      "task_id": "form-baseline",
+      "action_id": "d18fac7a-a3bc-4a82-bb59-ea2baad0c37d",
+      "goal_id": "06b628e3-3e0e-495d-b3d8-1ded7aff6272",
+      "plan_id": "80a183db-9a92-41c6-8d03-a49fc1e007b4",
+      "experience_id": "2c0034e6-3f72-452e-b52b-a32f4995a97e",
+      "effect_state": "SUCCEEDED",
+      "task_quality": true,
+      "verification_event_id": "cc4f159b-4022-40d9-9907-873579f80b51",
+      "started_at_us": 1792431970599166,
+      "goal_outcome_event_seq": 539,
+      "source_memory_id": "c092af00-04b8-4ed1-8671-8e0c5e5ee782",
+      "dispatch_to_verify_record_ms": 9.398,
+      "plan_action_count": 6,
+      "accounting_holds": [
+        {
+          "dimension": "cost_micro_units",
+          "amount": 1,
+          "status": "SPENT"
+        },
+        {
+          "dimension": "external_requests",
+          "amount": 1,
+          "status": "SPENT"
+        },
+        {
+          "dimension": "write_attempts",
+          "amount": 1,
+          "status": "SPENT"
+        }
+      ],
+      "independent_verification_succeeded": true,
+      "manual_target_repair": false,
+      "cost_note": "Existing local accounting estimates, not currency/billing. Exact split of execution/verification CPU not separately instrumented; timestamps measure dispatch-to-verification record latency."
+    },
+    {
+      "task_id": "form-heldout",
+      "action_id": "f5682317-2cae-45dd-9ee3-b6ea4c595ddc",
+      "goal_id": "409f0d20-d8af-497f-8b57-1c387a2ab93b",
+      "plan_id": "72562696-5f17-4c1d-80d7-4aeb1722dda3",
+      "experience_id": "5cb60163-8270-4e00-810e-5154eae182da",
+      "effect_state": "SUCCEEDED",
+      "task_quality": true,
+      "verification_event_id": "c839466f-d732-4219-b7dd-ae3e5f477c53",
+      "started_at_us": 1792431972739826,
+      "goal_outcome_event_seq": 622,
+      "source_memory_id": "1b713b2e-05a9-4ce8-8800-4b0d1f315496",
+      "dispatch_to_verify_record_ms": 15.409,
+      "plan_action_count": 3,
+      "accounting_holds": [
+        {
+          "dimension": "cost_micro_units",
+          "amount": 1,
+          "status": "SPENT"
+        },
+        {
+          "dimension": "external_requests",
+          "amount": 1,
+          "status": "SPENT"
+        },
+        {
+          "dimension": "write_attempts",
+          "amount": 1,
+          "status": "SPENT"
+        }
+      ],
+      "independent_verification_succeeded": true,
+      "manual_target_repair": false,
+      "cost_note": "Existing local accounting estimates, not currency/billing. Exact split of execution/verification CPU not separately instrumented; timestamps measure dispatch-to-verification record latency."
+    },
+    {
+      "task_id": "form-transfer",
+      "action_id": "0d056001-23d2-4594-9eff-e14a2adcc72c",
+      "goal_id": "88c018d0-b967-4728-9551-364c3ec8fdec",
+      "plan_id": "0929ce09-5d27-4642-9003-550b77c60e46",
+      "experience_id": "297ece42-4350-46b0-9613-d1575df74bb6",
+      "effect_state": "SUCCEEDED",
+      "task_quality": true,
+      "verification_event_id": "ae13d197-4c17-4a71-a9cf-c62d8857612f",
+      "started_at_us": 1792431974670924,
+      "goal_outcome_event_seq": 707,
+      "source_memory_id": "db4c1827-7e92-488f-ab69-fde13e8f5faf",
+      "dispatch_to_verify_record_ms": 12.6,
+      "plan_action_count": 3,
+      "accounting_holds": [
+        {
+          "dimension": "cost_micro_units",
+          "amount": 1,
+          "status": "SPENT"
+        },
+        {
+          "dimension": "external_requests",
+          "amount": 1,
+          "status": "SPENT"
+        },
+        {
+          "dimension": "write_attempts",
+          "amount": 1,
+          "status": "SPENT"
+        }
+      ],
+      "independent_verification_succeeded": true,
+      "manual_target_repair": false,
+      "cost_note": "Existing local accounting estimates, not currency/billing. Exact split of execution/verification CPU not separately instrumented; timestamps measure dispatch-to-verification record latency."
+    },
+    {
+      "task_id": "form-batch-gap",
+      "action_id": "f6092123-f6cf-48fd-a865-bb6f64a7f4f2",
+      "goal_id": "791b1dcc-38f4-464a-b949-19d8496e45b6",
+      "plan_id": "77875ccf-5a32-41d3-ad80-36442cddfe48",
+      "experience_id": "a7c7cf6b-639f-4ece-b8fd-39368d6b3c9c",
+      "effect_state": "SUCCEEDED",
+      "task_quality": false,
+      "verification_event_id": "d52e5dc0-184c-492d-8f7d-4ee3efc88ad6",
+      "started_at_us": 1792431976919696,
+      "goal_outcome_event_seq": 804,
+      "source_memory_id": "5267d8a1-0140-4477-a0d1-03fbde5de2d6",
+      "dispatch_to_verify_record_ms": 14.161,
+      "plan_action_count": 3,
+      "accounting_holds": [
+        {
+          "dimension": "cost_micro_units",
+          "amount": 1,
+          "status": "SPENT"
+        },
+        {
+          "dimension": "external_requests",
+          "amount": 1,
+          "status": "SPENT"
+        },
+        {
+          "dimension": "write_attempts",
+          "amount": 1,
+          "status": "SPENT"
+        }
+      ],
+      "independent_verification_succeeded": true,
+      "manual_target_repair": false,
+      "cost_note": "Existing local accounting estimates, not currency/billing. Exact split of execution/verification CPU not separately instrumented; timestamps measure dispatch-to-verification record latency."
+    },
+    {
+      "task_id": "form-batch-gap",
+      "action_id": "89904b33-368d-4daf-a39c-f9d42624c715",
+      "goal_id": "23fec2f3-97b5-4884-b6b3-aaa4dcd1d8b7",
+      "plan_id": "33613564-4c21-4297-9438-2921b8f047bb",
+      "experience_id": "327259f2-a6d1-422a-b704-1fac9dff4831",
+      "effect_state": "SUCCEEDED",
+      "task_quality": true,
+      "verification_event_id": "23cd3561-13d7-42e0-9b37-92877d7f4aa1",
+      "started_at_us": 1792431981336213,
+      "goal_outcome_event_seq": 914,
+      "source_memory_id": "7affc6db-e7b7-4acd-9363-2862a923826e",
+      "dispatch_to_verify_record_ms": 9.774,
+      "plan_action_count": 3,
+      "accounting_holds": [
+        {
+          "dimension": "cost_micro_units",
+          "amount": 1,
+          "status": "SPENT"
+        },
+        {
+          "dimension": "external_requests",
+          "amount": 1,
+          "status": "SPENT"
+        },
+        {
+          "dimension": "write_attempts",
+          "amount": 1,
+          "status": "SPENT"
+        }
+      ],
+      "independent_verification_succeeded": true,
+      "manual_target_repair": false,
+      "cost_note": "Existing local accounting estimates, not currency/billing. Exact split of execution/verification CPU not separately instrumented; timestamps measure dispatch-to-verification record latency."
+    },
+    {
+      "task_id": "form-batch-transfer",
+      "action_id": "cd88ed54-9b45-4c08-ba4f-3225fe27933b",
+      "goal_id": "468cb332-c2de-47e3-ae5e-5243614ed032",
+      "plan_id": "a5f1bf89-dfb5-4efa-a945-740dab5200ac",
+      "experience_id": "1598b194-1768-425e-9cda-509dec5a9c4a",
+      "effect_state": "SUCCEEDED",
+      "task_quality": true,
+      "verification_event_id": "1c06b324-7c39-4f3e-9374-294fbfa8e7e7",
+      "started_at_us": 1792431982656368,
+      "goal_outcome_event_seq": 998,
+      "source_memory_id": "b1bf0476-6e03-4f66-90d7-a1ad765f07f1",
+      "dispatch_to_verify_record_ms": 11.623,
+      "plan_action_count": 3,
+      "accounting_holds": [
+        {
+          "dimension": "cost_micro_units",
+          "amount": 1,
+          "status": "SPENT"
+        },
+        {
+          "dimension": "external_requests",
+          "amount": 1,
+          "status": "SPENT"
+        },
+        {
+          "dimension": "write_attempts",
+          "amount": 1,
+          "status": "SPENT"
+        }
+      ],
+      "independent_verification_succeeded": true,
+      "manual_target_repair": false,
+      "cost_note": "Existing local accounting estimates, not currency/billing. Exact split of execution/verification CPU not separately instrumented; timestamps measure dispatch-to-verification record latency."
+    },
+    {
+      "task_id": "document-counterexample",
+      "action_id": "fc39ec99-60f6-47ed-9b0c-c98d6d196579",
+      "goal_id": "7b1d4e32-a780-4edf-a712-c90d8f3d8487",
+      "plan_id": "22f270f1-441e-45b6-a67f-4956eaa08297",
+      "experience_id": "ca2f6c5e-1419-41fd-950b-fcb17424a6d6",
+      "effect_state": "SUCCEEDED",
+      "task_quality": false,
+      "verification_event_id": "340a08fe-5658-45a5-a52f-9eca02b7b366",
+      "started_at_us": 1792431984159158,
+      "goal_outcome_event_seq": 1076,
+      "source_memory_id": "add033b0-2b93-4b02-a01a-fe047d1095ba",
+      "dispatch_to_verify_record_ms": 14.733,
+      "plan_action_count": 3,
+      "accounting_holds": [
+        {
+          "dimension": "cost_micro_units",
+          "amount": 1,
+          "status": "SPENT"
+        },
+        {
+          "dimension": "external_requests",
+          "amount": 1,
+          "status": "SPENT"
+        },
+        {
+          "dimension": "write_attempts",
+          "amount": 1,
+          "status": "SPENT"
+        }
+      ],
+      "independent_verification_succeeded": true,
+      "manual_target_repair": false,
+      "cost_note": "Existing local accounting estimates, not currency/billing. Exact split of execution/verification CPU not separately instrumented; timestamps measure dispatch-to-verification record latency."
+    }
+  ],
+  "document_baseline_quality": [
+    false,
+    true
+  ],
+  "form_baseline_quality": [
+    false,
+    true
+  ],
+  "method_learning": "PracticeProposer sees only practice; IndependentEvaluator evaluates distinct preparation cases. Separate later real application heldout/transfer tasks verify actual effect quality. Finite offered hypotheses, not open-ended research.",
+  "counterexamples": "Actual multi-field task falsifies first-field method; exact-space document falsifies stripping method. Both original method lessons SUSPENDED. New batch workflow qualified separately, not a revival of suspended method.",
+  "codex_source_edits_during_journey": false,
+  "source_fingerprints_unchanged": true,
+  "budget_final": [
+    {
+      "dimension": "write_attempts",
+      "limit_value": 64,
+      "held": 0,
+      "spent": 12
+    },
+    {
+      "dimension": "external_requests",
+      "limit_value": 512,
+      "held": 0,
+      "spent": 72
+    },
+    {
+      "dimension": "cost_micro_units",
+      "limit_value": 512,
+      "held": 0,
+      "spent": 72
+    }
+  ],
+  "verification_note": "All12 physical effects independently matched;4 have false task quality. Distinguish task failure from Verify infrastructure failure."
+}

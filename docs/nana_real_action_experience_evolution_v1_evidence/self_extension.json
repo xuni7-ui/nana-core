@@ -1,0 +1,20 @@
+{
+  "scope": "PASS_BOUNDED_WORKFLOW_COMPOSITION",
+  "cause": "Real form-batch-gap partial field submission is physically verified but task FAILURE; current-support Experience -> capability-gap Concern -> original C SEEK_CAPABILITY -> original I SelfExtensionWork",
+  "candidate": "Deterministic pure-data workflow compiler; no LLM, host files, network, shell, arbitrary plugin installation, algorithm invention or Core mutation",
+  "realm": "Existing bwrap local-data-only sandbox; one independent case per D slice; current source/realm revalidation after restart",
+  "test_cases": [
+    "single",
+    "heldout multi-field",
+    "different field-count/context transfer",
+    "injection-looking string remains data"
+  ],
+  "adoption": "Bounded current supported skill record, no new operations/Grant",
+  "real_reuse_count": 2,
+  "real_reuse_tasks": [
+    "form-batch-gap revised/new objective",
+    "form-batch-transfer different task"
+  ],
+  "source_erasure": "Supporting memory deletion withdraws skill and share projection; no base fallback/replay",
+  "counterexample_separation": "Suspend original named single-field method, retain independently qualified batch only while its own evidence is valid."
+}

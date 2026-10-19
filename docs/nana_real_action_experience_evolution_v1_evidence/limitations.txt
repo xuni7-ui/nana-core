@@ -1,0 +1,12 @@
+Owned local application IPC only: no GUI, global keyboard/mouse or user desktop.
+Finite7(default)/9(extended) tasks and finite learning hypotheses; not general autonomous curriculum.
+G heldout/transfer evaluation is pure command preparation; separate real heldout/transfer application tasks prove actual external reuse.
+I uses deterministic bounded workflow composition with original isolated qualification; no arbitrary plugin/algorithm/Core mutation.
+Application PID/start/socket binding must remain valid. Application process restart/new binding requires explicit trusted review, not implicit Grant transfer.
+Erasing Core source support does not undo already performed external effects or delete the separate target files; retired source must not create a fresh degraded task.
+Parent/child CPU and process trend sampled; per-effect execution vs verification CPU not separated. Local budget cost units are estimates, not currency.
+Soak watches selected Hands/LifeApplication/OpenAgency files, not all imports. CLI replay rejection was added after long-run launch, outside executed long-run command set; final full regression covers final CLI.
+Typed availability/refusal/problem-reframe scenarios are not live NLP or human naturalness review.
+Provider historical attempt remains UNKNOWN/billing UNKNOWN and PARKED. New calls0; no key access.
+FIRST_LIFE_EXPERIENCE_READY remains NOT_READY; human natural dialogue review NOT_RUN.
+No user desktop, production, main/R045, private history, social actions, provider or new devices enabled.

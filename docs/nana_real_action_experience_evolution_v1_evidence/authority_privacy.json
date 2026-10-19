@@ -1,0 +1,23 @@
+{
+  "suite": "tests/controlled_hands/test_boundaries.py; test_application.py",
+  "manager_block": "PASS: original Subject ENDORSED remains; no app effect",
+  "grant_missing": "PASS: Kernel BLOCKED; no app effect",
+  "grant_revoked": "PASS: desire retained; no app effect",
+  "budget_zero": "PASS: Kernel BLOCKED; no app effect",
+  "scope_wrong_target": "PASS",
+  "scope_outside_workspace": "PASS",
+  "operation_forbidden": "PASS",
+  "stale_task_revision": "PASS",
+  "process_start_mismatch": "PASS",
+  "exact_target": "Private task-owned directory + PID/start/UID + socket inode/SO_PEERCRED; immediate pre-send check; app effect deadline/revision; pinned directory FD writes",
+  "source_withdrawal": "PASS after correction: active skill/share support withdrawn; continue ticks and reopen do not replay deleted source; durable evidence/tombstones consulted",
+  "independent_manager_provenance": "Original Manager subsystem unchanged; personal memory deletion never revokes independently sourced governance. Existing related/full suites cover closure.",
+  "data": "PUBLIC synthetic task text classified PROJECT in local Store. No private messages or external model context. No new remote privacy permissions.",
+  "one_subject_loop": true,
+  "one_authoritative_store": true,
+  "second_runtime": false,
+  "source_profile_is_grant": false,
+  "real_provider_calls_new": 0,
+  "global_input_calls": 0,
+  "production_changes": 0
+}

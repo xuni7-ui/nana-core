@@ -1,0 +1,52 @@
+{
+  "scope": "Actual owned-process SIGKILL tests, not production or target application restart",
+  "suite": "tests/controlled_hands/test_recovery.py",
+  "cases": [
+    {
+      "cut": "BEFORE_PREPARE",
+      "result": "PASS",
+      "same_identity": true,
+      "new_grant": false,
+      "duplicate_effect": false
+    },
+    {
+      "cut": "BEFORE_EFFECT",
+      "result": "PASS",
+      "same_identity": true,
+      "new_grant": false,
+      "duplicate_effect": false
+    },
+    {
+      "cut": "AFTER_EFFECT",
+      "result": "PASS",
+      "same_identity": true,
+      "new_grant": false,
+      "duplicate_effect": false
+    },
+    {
+      "cut": "DURING_VERIFY",
+      "result": "PASS",
+      "same_identity": true,
+      "new_grant": false,
+      "duplicate_effect": false
+    },
+    {
+      "cut": "DURING_LEARNING",
+      "result": "PASS",
+      "same_identity": true,
+      "new_grant": false,
+      "duplicate_effect": false
+    },
+    {
+      "cut": "DURING_SKILL_TEST",
+      "result": "PASS",
+      "same_identity": true,
+      "new_grant": false,
+      "duplicate_effect": false
+    }
+  ],
+  "before_effect": "Core dispatch state without authoritative effect receipt remains UNKNOWN; absence of a visible effect is insufficient evidence to resend.",
+  "after_effect": "External application stays alive; independent read-only verification can complete original Action without redispatch.",
+  "real_file_ipc_disagreement": "PASS: actual concurrent owned file modification -> UNKNOWN, same Action retained through reopen, one external effect, no blind replay.",
+  "target_application_restart": "NOT_QUALIFIED: new PID/start/inode/binding requires explicit trusted rebinding/review, not automatic authority transfer."
+}

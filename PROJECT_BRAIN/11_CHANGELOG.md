@@ -2002,3 +2002,13 @@ main/R045/production/私人数据/真实社交/用户桌面变化0，旧bundle�
 封存后应用，最终18 targeted PASS62.48s（仍含六SIGKILL）。最终新full正在运行。
 Selected residency source c2732b0；新exact-binding以本提交为准，不混称同一源码驻留。
 Provider新增0/历史UNKNOWN PARKED；main/R045/production/旧bundle未改，权限未扩大。
+
+
+## RAE final evidence and handoff [2026-10-19T18:21:07.717528+00:00]
+改：新建implementation/quickstart及小型文本JSON证据，07–09当前入口更新，10追加范围裁决。
+因：将真实外部动作、失败改善/迁移、反例暂停、受限技能复用、shared-life、权限/恢复与
+30min资源资格落为可审查事实；保留两项开发缺陷初始失败，避免Codex修复冒充Nana成长。
+验：最终执行4f4fa945218eb92185f534bfbc6619bc9132fe69，18focused PASS62.48s，related23 PASS8.72s，
+full1248 PASS/0fail/12skip309.42s；实际驻留1805.2217s，最终源码实跑60.268s。
+敏感扫描/manifest锚点见09；所有新数据公开synthetic，仅自有OS进程效果；Provider新增0。
+普通dev push已授权，最终SHA以Git/远端核验报告，不自指写入本提交。生产/main/R045不变。

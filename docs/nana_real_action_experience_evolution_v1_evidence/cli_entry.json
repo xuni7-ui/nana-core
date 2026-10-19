@@ -1,0 +1,251 @@
+{
+  "mode": "ACTUAL_LOCAL_CLI_NO_PROVIDER",
+  "init_exit": 0,
+  "run_exit": 0,
+  "init": {
+    "state": "INITIALIZED",
+    "identity_id": "f84e10bb-2a3b-417e-8791-b09f75aa66ac",
+    "local_grant_installed": true,
+    "config": "/tmp/nana-rae-quickstart-smoke/life/life.json"
+  },
+  "commands": [
+    "/pause",
+    "/life",
+    "/actions",
+    "/outcomes",
+    "/quit"
+  ],
+  "lines": [
+    {
+      "state": "STARTED",
+      "identity_id": "f84e10bb-2a3b-417e-8791-b09f75aa66ac",
+      "mode": "OFFLINE_LIMITED",
+      "resources": {
+        "affinity_cpus": 3,
+        "memory_address_space_limit_mb": 512,
+        "cgroup_memory_max": "8589934592",
+        "cgroup_cpu_max": "200000 100000",
+        "local_large_model": "DISABLED",
+        "capture": "DISABLED"
+      },
+      "commands": "/help; ordinary text; /status",
+      "autonomous_materials": 2
+    },
+    {
+      "autonomy": "PAUSED"
+    },
+    {
+      "life": {
+        "derived": true,
+        "identity_id": "f84e10bb-2a3b-417e-8791-b09f75aa66ac",
+        "materials": [
+          {
+            "task_type": "DOCUMENT",
+            "source_path": "hands://2b682206aa78c3118235efd78aaca076/document-baseline",
+            "state": "AVAILABLE_NOT_ADOPTED",
+            "source_state": "AVAILABLE",
+            "task_id": "document-baseline"
+          },
+          {
+            "task_type": "DOCUMENT",
+            "source_path": "hands://2b682206aa78c3118235efd78aaca076/document-transfer",
+            "state": "AVAILABLE_NOT_ADOPTED",
+            "source_state": "AVAILABLE",
+            "task_id": "document-transfer"
+          },
+          {
+            "task_type": "FORM",
+            "source_path": "hands://2b682206aa78c3118235efd78aaca076/form-baseline",
+            "state": "AVAILABLE_NOT_ADOPTED",
+            "source_state": "AVAILABLE",
+            "task_id": "form-baseline"
+          },
+          {
+            "task_type": "FORM",
+            "source_path": "hands://2b682206aa78c3118235efd78aaca076/form-transfer",
+            "state": "AVAILABLE_NOT_ADOPTED",
+            "source_state": "AVAILABLE",
+            "task_id": "form-transfer"
+          },
+          {
+            "task_type": "FORM",
+            "source_path": "hands://2b682206aa78c3118235efd78aaca076/form-batch-gap",
+            "state": "AVAILABLE_NOT_ADOPTED",
+            "source_state": "AVAILABLE",
+            "task_id": "form-batch-gap"
+          },
+          {
+            "task_type": "FORM",
+            "source_path": "hands://2b682206aa78c3118235efd78aaca076/form-batch-transfer",
+            "state": "AVAILABLE_NOT_ADOPTED",
+            "source_state": "AVAILABLE",
+            "task_id": "form-batch-transfer"
+          },
+          {
+            "task_type": "DOCUMENT",
+            "source_path": "hands://2b682206aa78c3118235efd78aaca076/document-counterexample",
+            "state": "AVAILABLE_NOT_ADOPTED",
+            "source_state": "AVAILABLE",
+            "task_id": "document-counterexample"
+          }
+        ],
+        "learning": [],
+        "skills": [],
+        "shared_context": [],
+        "external_outcomes": [],
+        "unknown_actions": [],
+        "journal": {
+          "derived": true,
+          "state_token": "203a83af13ae088d893786de90eb5be8bfc88ecbb6832c927e04136d7c248df2",
+          "entries": [],
+          "coverage": "BOUNDED_FILTERED_VIEW"
+        },
+        "target_scope": {
+          "binding": "63a0ee6f83c90f95ee3fb1a68b53f3c5a78d74e526de495d590a8ecc3830bfa8",
+          "kind": "OWNED_DEV_APPLICATION_PROCESS",
+          "uid_checked": true,
+          "pid_start_checked": true,
+          "scope": "FINITE_DOC_AND_FORM_ONLY",
+          "health": "AVAILABLE"
+        },
+        "first_life_experience_ready": "NOT_READY_REAL_NATURAL_DIALOGUE_NOT_REVIEWED",
+        "pause": true,
+        "report_directory": "/tmp/nana-rae-quickstart-smoke/target/application",
+        "external_delivery": "NO_SOCIAL_SEND",
+        "portable": "IDENTITY_EXPERIENCE_LESSONS",
+        "host_local": "PROCESS_BINDING_GRANTS_APPLICATION_FILES",
+        "rebuildable": "THIS_VIEW",
+        "current_silence_reason": "No forced sharing; bounded owned tasks, C may choose rest/defer/no-action"
+      }
+    },
+    {
+      "external_outcomes": [],
+      "unknown_actions": []
+    },
+    {
+      "external_outcomes": [],
+      "unknown_actions": []
+    },
+    {
+      "state": "STOP_REQUESTED"
+    },
+    {
+      "state": "STOPPING",
+      "summary": {
+        "identity_id": "f84e10bb-2a3b-417e-8791-b09f75aa66ac",
+        "autonomy": "PAUSED",
+        "provider": "OFFLINE_NO_PROVIDER",
+        "view": {
+          "derived": true,
+          "living_self": {
+            "schema_version": 1,
+            "derived": true,
+            "identity_id": "f84e10bb-2a3b-417e-8791-b09f75aa66ac",
+            "subject_revision": 0,
+            "state_token": "203a83af13ae088d893786de90eb5be8bfc88ecbb6832c927e04136d7c248df2",
+            "as_of_us": 1792432695209035,
+            "presence": "IDLE",
+            "current_activity": "PRESENT_WITHOUT_ACTION",
+            "attention_focus": null,
+            "secondary_attention": [],
+            "open_loops": [],
+            "internal": {
+              "curiosity": "QUIET",
+              "boredom": "LOW_STIMULATION",
+              "social_drive": "UNKNOWN",
+              "mental_load": "LOW",
+              "confidence": "UNKNOWN",
+              "uncertainty": "KNOWN_LIMITS",
+              "playfulness_activation": "UNESTABLISHED",
+              "exploration_drive": "QUIET"
+            },
+            "intentions": [],
+            "goal_candidates": [],
+            "commitments": [],
+            "projects": [],
+            "pending_reflections": [],
+            "unresolved_topics": [],
+            "environment": {
+              "capabilities": [],
+              "devices": [],
+              "platforms": [],
+              "known_environment": [],
+              "authority": "NONE_IN_C",
+              "cognition_available": true
+            },
+            "confidence": "UNKNOWN",
+            "source_record_ids": [],
+            "source_memory_ids": [],
+            "snapshot_policy": "AUDIT_ONLY_REBUILD_FROM_SOURCES"
+          },
+          "motivation_sources": [],
+          "social_appetite": {
+            "derived": true,
+            "state": "UNKNOWN",
+            "source_record_ids": [],
+            "source_memory_ids": [],
+            "available": true,
+            "as_of_us": 1792432695210964,
+            "state_token": "203a83af13ae088d893786de90eb5be8bfc88ecbb6832c927e04136d7c248df2"
+          },
+          "primary_user": null,
+          "goals": [],
+          "state": "WATCHING",
+          "runtime_health": {
+            "status": "WATCHING",
+            "runtime_instance_id": "37f9889e-ee8a-46e9-a690-acd673bc1718",
+            "epoch": 2,
+            "lease_status": "ACTIVE",
+            "identity_id": "f84e10bb-2a3b-417e-8791-b09f75aa66ac",
+            "last_event": null,
+            "last_wake_us": null,
+            "last_cognition_us": null,
+            "queue_depth": 0,
+            "deferred_count": 0,
+            "model_availability": "UNCONFIGURED",
+            "subject_revision": 0,
+            "last_successful_checkpoint_us": null,
+            "clock_us": 1792432695211093,
+            "time_since_interaction_us": null,
+            "time_since_activity_us": 371135,
+            "derived": true
+          },
+          "resources": {
+            "derived": true,
+            "accounting": "CONSERVATIVE_RESERVATIONS_NOT_PROVIDER_BILLING",
+            "calls": 0,
+            "reserved_bytes": 0,
+            "actual_input_bytes": 0,
+            "actual_output_bytes": 0,
+            "reserved_estimated_cost_micro": 0,
+            "actual_cost_micro": 0,
+            "background_reserved_bytes": 0,
+            "byte_limit": 4000000,
+            "estimated_cost_limit_micro": 1,
+            "pressure": "AVAILABLE",
+            "unresolved_calls": 0,
+            "max_observed_latency_us": null,
+            "unknown_cost_calls": 0,
+            "external_execution_authority": false
+          },
+          "manager_outcomes": [],
+          "maintenance_pending": 0,
+          "execution_authority": "NONE_FROM_VIEW",
+          "personality_is_not_runtime_pressure": true
+        },
+        "learning": [],
+        "reports": [],
+        "pending_authorization": [
+          "REAL_PROVIDER_BUDGET_AND_EXPLICIT_SECRET_RESOLVER"
+        ],
+        "external_social_delivery": "DISABLED"
+      },
+      "wall_seconds": 0.03144167099526385,
+      "cpu_seconds": 0.03137900399999999,
+      "max_rss_kib": 37376,
+      "children_cpu_seconds": 0.0,
+      "children_max_rss_kib": 0
+    }
+  ],
+  "target_process_owned": true
+}
