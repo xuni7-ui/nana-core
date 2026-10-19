@@ -17,7 +17,12 @@ def test_board_erasure_source_and_skill_support_close_together(tmp_path):
         assert len(board['materials'])==4 and len(board['learning'])==2 and len(board['skills'])==1
         assert len(board['shared_context'])==2
         rid=app.work.port.skill_bindings['MD_OUTLINE_2']
-        root=RecordService(app.runtime.store).support(rid)[0]
+        # Select a known shared learning source, not UUID-sorted support[0]:
+        # the skill-need cue is downstream of the lesson and cannot erase it.
+        from nana_core.storage import digest
+        from nana_core.continuity.project_work.port import read_material
+        source=read_material(app.config.project_root,app.config.document_learning[0])
+        root=app.runtime.store.db.execute("SELECT m.memory_id FROM memories m JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE e.source_namespace='recorded.project.material' AND e.source_reference=? AND m.lifecycle='ACTIVE'",('dataset:'+digest(source),)).fetchone()[0]
         app.forget(root)
         with pytest.raises(CoreError):app.work.port.code_skills.require_current(rid)
         assert not app.board()['skills']

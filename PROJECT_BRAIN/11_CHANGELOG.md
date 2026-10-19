@@ -1817,3 +1817,12 @@ actual90s soak exposed disproportionate empty periodic-event writes. Validation:
 new focused test preserves timer identity/occurrence/Subject/no-Grant across restart;
 final source gets fresh actual journey and full regression after this material fix.
 Earlier90s evidence retained explicitly as pre-fix, not relabeled final.
+
+
+## LIVED_GROWTH_V2 — deterministic upstream erasure qualification
+[测试修复/实测] An erasure test selected support[0] by random UUID order; sometimes
+this was a downstream skill-need cue, which correctly did not erase the independent
+upstream G lesson. Test now withdraws a known shared raw study source and verifies
+both derived lesson/skill removal. Core deletion semantics unchanged.42 focused
+PASS in44.83s. Intermediate pre-cadence full1227/0/12 completed; final current-source
+regression and second90s process evidence are collected separately.

@@ -48,3 +48,10 @@ total journey and~2MiB idle growth. Added60s idle review (host-local) and origin
 Scheduler CAS reconciliation of old1s homes. User/source/goal/commitment wake paths
 unchanged. First full regression is pre-fix/in-progress, not final-source evidence.
 New focused test and fresh actual journey/full regression required for final source.
+
+## Current source/test freeze
+Executable source43ef410 includes cadence fix.42 final focused PASS44.83s. Fixed
+only an order-dependent test source selection afterward; core erasure unchanged.
+Intermediate pre-cadence full1227/0/12 (258.69s) is not the final-source result.
+Current complete regression starts after this test-fix commit. Runtime remaining
+external permission/human gates remain blocked; no credentials read or calls made.
