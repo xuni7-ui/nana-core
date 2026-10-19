@@ -17,6 +17,8 @@ class LifeConfig(DTO):
     max_memory_mb:int=Field(default=512,ge=256,le=1024)
     max_cpus:int=Field(default=4,ge=1,le=4)
     activity_interval_seconds:float=Field(default=3,ge=.5,le=3600)
+    document_learning:tuple[ProjectMaterial,...]=Field(default=(),max_length=3)
+    allow_local_skills:bool=False
     max_autonomous_materials:int=Field(default=2,ge=0,le=16)
     active_start_utc:int=Field(default=0,ge=0,le=23)
     active_end_utc:int=Field(default=0,ge=0,le=23)

@@ -64,6 +64,11 @@ class OpenAgencyService(AgencyService):
             if strategy:
                 obj=obj.model_copy(update={'operators':tuple(op.model_copy(update={'args':{**op.args,'method':strategy[1]}}) if op.strategy_selectable and op.capability=='world.compute' else op for op in obj.operators)})
                 strategy_ids.append(strategy[0])
+                lookup=getattr(self.realization.kernel.capability,'skill_for',None)
+                skill=lookup(strategy[1]) if lookup else None
+                if skill:
+                    obj=obj.model_copy(update={'operators':tuple(op.model_copy(update={'capability':'world.skill','args':{k:v for k,v in {**op.args,'skill_record_id':skill}.items() if k!='method'}}) if op.strategy_selectable and op.capability=='world.compute' else op for op in obj.operators)})
+                    strategy_ids.append(skill)
         world_revision=digest(obj.model_dump(mode='json'))
         request=PlannerInput(objective=obj,source_record_id=rid,world_revision=world_revision)
         proposal=self.policy.planner.plan(request)

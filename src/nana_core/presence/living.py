@@ -8,7 +8,7 @@ from .contracts import RuntimeEvent,Cause
 
 class LivingWork:
     def __init__(self,runtime):
-        self.runtime=runtime;self.agency=None;self.learning_policy=None;self.accommodation_policy=None;self.open_learning=None;self.exploration=None;self.world=None;self.paused=False;self.activity_source=None
+        self.runtime=runtime;self.agency=None;self.learning_policy=None;self.accommodation_policy=None;self.open_learning=None;self.exploration=None;self.world=None;self.paused=False;self.activity_source=None;self.skill_development=None
         from ..continuity.maintenance import MaintenanceService
         self.maintenance=MaintenanceService(runtime.store,scopes=runtime.config.scopes,entity_id=runtime.config.entity_id,
             privacy_classes=runtime.config.privacy_classes,slice_items=runtime.config.living.slice_items,interval_us=runtime.config.living.maintenance_interval_us)
@@ -35,6 +35,9 @@ class LivingWork:
         return result
     def _after_cycle(self,cycle,event):
         if not cycle:return None
+        if self.skill_development:
+            selected=self.skill_development.after_cycle(cycle,event)
+            if selected:return selected
         if cycle.relational_decision and self.accommodation_policy:
             self.accommodation_policy.apply(self.runtime,cycle)
         if event.goal_review and self.agency:
@@ -90,6 +93,9 @@ class LivingWork:
     def maintenance_slice(self):
         if self.paused:return None
         r=self.runtime
+        if self.skill_development:
+            activity=self.skill_development.slice()
+            if activity:return activity
         if self.world:
             activity=self.world.maintenance_slice()
             if activity:return activity

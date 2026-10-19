@@ -11,7 +11,7 @@ def main():
     # Static checking is additional hygiene. OS namespaces/read-only mounts,
     # fresh /tmp, empty environment and resource bounds are the isolation fence.
     code=open('/work/skill.py').read()
-    namespace={'__builtins__':{'sum':sum,'len':len,'sorted':sorted,'min':min,'max':max,'isinstance':isinstance,'int':int,'float':float,'str':str,'list':list,'bool':bool}}
+    namespace={'__builtins__':{'sum':sum,'len':len,'sorted':sorted,'min':min,'max':max,'isinstance':isinstance,'int':int,'float':float,'str':str,'list':list,'bool':bool,'enumerate':enumerate}}
     exec(compile(code,'/work/skill.py','exec'),namespace)
     output=namespace['transform'](request['input'])
     raw=json.dumps({'result':output},allow_nan=False,sort_keys=True,separators=(',',':'))

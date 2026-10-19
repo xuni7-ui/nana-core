@@ -12,6 +12,7 @@ from pathlib import Path, PurePosixPath
 from ...contracts import CoreError, DTO, Receipt, Verification
 from ...storage import canonical, digest
 from pydantic import Field
+from typing import Literal
 from .analysis import inventory
 
 
@@ -20,12 +21,13 @@ class ProjectMaterial(DTO):
     relative_path: str = Field(min_length=1, max_length=240)
     sha256: str = Field(pattern=r'^[a-f0-9]{64}$')
     privacy_class: str = 'PROJECT'
+    task_type: Literal['PYTHON_API','MARKDOWN_OUTLINE'] = 'PYTHON_API'
 
 
-def read_material_bytes(root, relative_path):
+def read_material_bytes(root, relative_path, *, task_type="PYTHON_API"):
     """Read one explicit .py file safely before computing manifest digest."""
     rel = PurePosixPath(relative_path)
-    if rel.is_absolute() or '..' in rel.parts or not rel.parts or rel.suffix != '.py':
+    if rel.is_absolute() or '..' in rel.parts or not rel.parts or rel.suffix != {'PYTHON_API':'.py','MARKDOWN_OUTLINE':'.md'}.get(task_type):
         raise CoreError('PROJECT_MANIFEST_DENIED')
     root = Path(root).absolute()
     if root != root.resolve():raise CoreError('PROJECT_ROOT_SYMLINK')
@@ -49,7 +51,7 @@ def read_material_bytes(root, relative_path):
 
 def read_material(root, material):
     if material.privacy_class != 'PROJECT':raise CoreError('PROJECT_MANIFEST_DENIED')
-    raw=read_material_bytes(root, material.relative_path)
+    raw=read_material_bytes(root, material.relative_path,task_type=material.task_type)
     if hashlib.sha256(raw).hexdigest() != material.sha256:raise CoreError('PROJECT_SOURCE_CHANGED')
     return {'filename': material.relative_path, 'sha256': material.sha256, 'source': raw.decode('utf-8')}
 
@@ -69,13 +71,19 @@ class ProjectMaterialPort:
         self.permitted_privacy = ('PROJECT',)
         for m in self.materials.values():read_material(self.root, m)
 
+    def skill_for(self,method):
+        rid=getattr(self,'skill_bindings',{}).get(method)
+        if rid:
+            self.code_skills.require_current(rid)
+        return rid
+
     def _valid(self, inv):
         from ..open_agency.world import LocalWorldRegistry
         args = LocalWorldRegistry().validate(inv.capability, inv.resource, inv.args)
         match = re.fullmatch(r'project://([a-z][a-z0-9_-]{0,47})/(source|inventory|report)', inv.resource)
         if not match or match[1] not in self.materials:raise CoreError('PROJECT_RESOURCE_DENIED')
         operation = {'source': 'world.observe', 'inventory': 'world.compute', 'report': 'world.publish'}[match[2]]
-        if inv.capability != operation:raise CoreError('PROJECT_OPERATION_DENIED')
+        if inv.capability != operation and not (match[2]=='inventory' and inv.capability=='world.skill'):raise CoreError('PROJECT_OPERATION_DENIED')
         if 'PROJECT' not in self.permitted_privacy:raise CoreError('PROJECT_PRIVACY_DENIED')
         return match[1], args
 
@@ -86,18 +94,31 @@ class ProjectMaterialPort:
         if inv.capability == 'world.observe':
             return {'data': source, 'data_privacy': 'PROJECT', 'origin': 'DEVELOPMENT_PROJECT', 'source_digest': material.sha256}
         if args['data_privacy'] != 'PROJECT':raise CoreError('PROJECT_PRIVACY_DOWNGRADE')
-        if inv.capability == 'world.compute':
+        if inv.capability in {'world.compute','world.skill'}:
             if args['data'] != source:raise CoreError('PROJECT_INPUT_SOURCE_MISMATCH')
-            return {'data': inventory(args['method'], source), 'data_privacy': 'PROJECT', 'method': args['method'], 'origin': 'LOCAL_SOURCE_ANALYSIS', 'source_digest': material.sha256}
+            if inv.capability=='world.skill':
+                controller=getattr(self,'code_skills',None)
+                if not controller:raise CoreError('CODE_SKILL_CONTROLLER_UNAVAILABLE')
+                binding=getattr(self,'skill_bindings',{})
+                method=next((m for m,rid in binding.items() if rid==args['skill_record_id']),None)
+                if material.task_type!='MARKDOWN_OUTLINE' or not method:raise CoreError('PROJECT_SKILL_NOT_BOUND')
+                data=controller.invoke(args['skill_record_id'],source)
+            else:method=args['method'];data=analyze_material(material.task_type,method,source)
+            return {'data': data, 'data_privacy': 'PROJECT', 'method': method, **({'skill_record_id':args['skill_record_id']} if inv.capability=='world.skill' else {}), 'origin': 'LOCAL_SOURCE_ANALYSIS', 'source_digest': material.sha256}
         # Publish only a bounded symbol inventory for this exact source. The report
         # cannot contain arbitrary copied source prose or turn into a file writer.
-        from .oracle import expected_inventory
-        if args['data'] != expected_inventory(source):raise CoreError('PROJECT_REPORT_UNVERIFIED')
+        if args['data'] != expected_material(material.task_type,source):raise CoreError('PROJECT_REPORT_UNVERIFIED')
         stem = hashlib.sha256(inv.idempotency_key.encode()).hexdigest()
-        return {'data': args['data'], 'data_privacy': 'PROJECT', 'origin': 'LOCAL_ARTIFACT', 'source_digest': material.sha256, 'source_path': material.relative_path, 'artifact_stem': stem}
+        return {'data': args['data'], 'data_privacy': 'PROJECT', 'origin': 'LOCAL_ARTIFACT', 'source_digest': material.sha256, 'source_path': material.relative_path, 'artifact_stem': stem, **({'task_type':material.task_type} if material.task_type!='PYTHON_API' else {})}
 
     def _documents(self, result):
         rows = result['data']
+        if result.get('task_type')=='MARKDOWN_OUTLINE':
+            text='# Document navigation audit\n\n'+result['source_path']+'\n\nSHA256: '+result['source_digest']+'\n\n'
+            text+='| Level | Title | Source line |\n| --- | --- | --- |\n'
+            text+=''.join(f"| {r['level']} | {r['title'].replace('|', '&#124;')} | {r['line']} |\n" for r in rows)
+            text+='\nChecked independently using an anchored grammar oracle. Column-zero ATX headings outside triple-backtick fences; not a full CommonMark audit. No links fetched or source executed.\n'
+            return {'json':canonical(result).encode(),'md':text.encode()}
         text = '# Source interface inventory\n\n' + result['source_path'] + '\n\nSHA256: ' + result['source_digest'] + '\n\n'
         text += '| Symbol | Kind | Source line |\n| --- | --- | --- |\n'
         text += ''.join(f"| `{r['name']}` | {r['kind']} | {r['line']} |\n" for r in rows)
@@ -140,3 +161,17 @@ class ProjectMaterialPort:
             return Verification(verdict='MATCH', evidence={'result': result, 'digest': digest(result)})
         except (CoreError, OSError, ValueError):
             return Verification(verdict='INCONCLUSIVE', evidence={})
+
+
+def analyze_material(task_type,method,source):
+    if task_type=='PYTHON_API':return inventory(method,source)
+    from .documents import outline
+    return outline(method,source)
+
+
+def expected_material(task_type,source):
+    if task_type=='PYTHON_API':
+        from .oracle import expected_inventory
+        return expected_inventory(source)
+    from .documents import expected_outline
+    return expected_outline(source)

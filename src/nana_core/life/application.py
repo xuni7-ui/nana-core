@@ -46,6 +46,11 @@ class PortfolioOpportunities:
         # Do not bypass an unresolved failure/unknown effect to manufacture activity.
         if r.store.db.execute("SELECT 1 FROM goals WHERE state IN ('FAILED','BLOCKED','ACTIVE','SUSPENDED') LIMIT 1").fetchone():return None
         if r.store.db.execute("SELECT 1 FROM jobs WHERE work_kind='LEARNING' AND state NOT IN ('DONE','CANCELLED') LIMIT 1").fetchone():return None
+        extension=r.work.skill_development
+        if extension:
+            pending=extension.opportunity()
+            if pending:return pending
+            if r.store.db.execute("SELECT 1 FROM jobs WHERE work_kind='CODE_DEVELOPMENT' AND state NOT IN ('DONE','CANCELLED') LIMIT 1").fetchone():return None
         for material in a.config.materials[:a.config.max_autonomous_materials]:
             if a.work.goal_for(material.material_id):continue
             # Source erasure tombstones remain authoritative after process restart.
@@ -58,14 +63,22 @@ class PortfolioOpportunities:
 
 class LifeApplication:
     def __init__(self,home,*,clock=None,router=None,bootstrap_grant=False):
-        self.home=home_path(home);self.config=load_config(home);self.router=router;self.session=None;self._chat={};self.closed=False
+        self.home=home_path(home);self.config=load_config(home);self.router=router;self.session=None;self._chat={};self._recent=[];self.closed=False
         self.clock=clock or Clock()
         with ContinuityStore(self.home/'subject/self.db',self.clock,schema_target=13) as s:
             IdentityService(s,OperatorAuthority());MemoryService(s).entity('project-user','PERSON')
         self.runtime=NanaRuntime(self.home/'subject/self.db',runtime_config(self.config),clock=self.clock)
         try:
             spec=learning_spec(*(read_material(self.config.project_root,m) for m in (self.config.practice,self.config.heldout,self.config.transfer)))
-            self.work=ProjectWork(self.runtime,self.config.project_root,self.config.materials,self.home/'reports',spec,grant=bootstrap_grant,motivation_source='CREATIVE_INTEREST')
+            specs=[spec]
+            if self.config.document_learning:
+                if len(self.config.document_learning)!=3:raise CoreError('DOCUMENT_THREE_SPLITS_REQUIRED')
+                from ..continuity.project_work.documents import document_learning_spec
+                specs.append(document_learning_spec(*(read_material(self.config.project_root,m) for m in self.config.document_learning)))
+            self.work=ProjectWork(self.runtime,self.config.project_root,self.config.materials,self.home/'reports',tuple(specs),grant=bootstrap_grant,allow_skills=self.config.allow_local_skills,motivation_source='CREATIVE_INTEREST')
+            if self.config.allow_local_skills and self.config.document_learning:
+                from .skills import DocumentSkills
+                self.runtime.work.skill_development=DocumentSkills(self, specs[-1])
             self.runtime.work.activity_source=PortfolioOpportunities(self)
             old=self.runtime.store.one('core_meta','runtime.life_control');self.control=json.loads(old['value_json']) if old else {'paused':False,'messages':0}
             self.runtime.work.paused=self.control['paused']
@@ -83,6 +96,9 @@ class LifeApplication:
             row=r.store.db.execute("SELECT m.memory_id,m.lifecycle FROM memories m JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE e.source_namespace='recorded.project.material' AND e.source_reference=? ORDER BY m.rowid DESC LIMIT 1",('input:'+material.material_id,)).fetchone()
             out.append({'filename':material.relative_path,'material_id':material.material_id,'source_memory_id':row[0] if row else None,'support_state':row[1] if row else 'NOT_YET_OFFERED'})
         return {'approved_sources':out}
+    def board(self):
+        from .view import life_board
+        return life_board(self)
     def status(self):
         r=self.runtime
         return {'identity_id':r.identity_id,'autonomy':'PAUSED' if r.work.paused else 'RUNNING','provider':'OFFLINE_NO_PROVIDER' if self.router is None else 'CONFIGURED_NOT_QUALITY_QUALIFIED',
@@ -116,11 +132,18 @@ class LifeApplication:
         return self.session
     def _model(self,key,phase,mid,text,topic,privacy,cycle=None):
         session=self._session(privacy)
-        facts=self._fact_sources() if phase=='RENDER' else ()
+        facts=self._fact_sources() if phase=='RENDER' and cycle.context_fit.mode in {'CHAT','SHARE','HELP'} else ()
+        from ..continuity.memory import PRIVACY_RANK
+        recent=[]
+        for turn in self._recent:
+            if turn.topic!=topic or PRIVACY_RANK[turn.privacy_class]>PRIVACY_RANK[privacy]:continue
+            try:MemoryService(self.runtime.store).read(turn.message_memory_id)
+            except CoreError:continue
+            recent.append(turn)
         descriptor=DialogueContext(message_memory_id=mid,topic=topic,privacy_class=privacy,phase=phase,
             judgment=cycle.judgment.stance if cycle else None,intention=cycle.intention.kind if cycle else None,context_mode=cycle.context_fit.mode if cycle else None,effect_status='VERIFIED_EFFECT' if facts else 'NONE')
-        data={'dialogue':descriptor.model_dump(mode='json')};volatile={'dialogue':descriptor.model_copy(update={'text':text}).model_dump(mode='json')}
-        request=session.prepare(key, 'INTERPRET' if phase=='INTERPRET' else 'SOCIAL',(mid,*facts),role_input=data,volatile_input=volatile,
+        data={'dialogue':descriptor.model_dump(mode='json')};volatile={'dialogue':descriptor.model_copy(update={'text':text,'recent_turns':tuple(recent)}).model_dump(mode='json')}
+        request=session.prepare(key, 'INTERPRET' if phase=='INTERPRET' else 'SOCIAL',tuple(dict.fromkeys((mid,*facts,*(t.message_memory_id for t in recent)))),role_input=data,volatile_input=volatile,
             budget=CognitionBudget(input_tokens=8192,output_tokens=1024,timeout_ms=self.config.provider_timeout_ms,cost_ceiling_micro=self.config.provider_cost_ceiling_micro))
         result=session.execute(request)
         if result['state']!='PROPOSED':raise CoreError(result.get('error_code','DIALOGUE_NOT_PROPOSED'))
@@ -159,11 +182,17 @@ class LifeApplication:
         if cycle.intention_id:
             current=r.store.one('subject_intentions',cycle.intention_id)
             if current['state']=='PENDING':r.subject.transition_intention(cycle.intention_id,expected_revision=current['revision'],state='DROPPED')
+        from .dialogue_contracts import DialogueTurn
+        self._recent.extend((DialogueTurn(message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='USER',text=text[:1024]),DialogueTurn(message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='SUBJECT_DRAFT',text=draft[:1024])))
+        self._recent=self._recent[-6:]
         self.control['messages']+=1;self._save_control();self._chat[key]=True
         if len(self._chat)>64:self._chat.pop(next(iter(self._chat)))
         return {'message_id':key,'message_memory_id':mid,'provider_state':provider_state,'render_state':render_state,'mode':cycle.context_fit.mode,'judgment':cycle.judgment.stance,'intention':cycle.intention.kind,'text':draft,'raw_body_persisted':False,'external_social_send':False}
 
-    def forget(self,mid):MemoryService(self.runtime.store,self.runtime.authority).forget(mid,self.runtime.authority);return {'forgotten':mid}
+    def forget(self,mid):
+        MemoryService(self.runtime.store,self.runtime.authority).forget(mid,self.runtime.authority)
+        self._recent=[t for t in self._recent if t.message_memory_id!=mid]
+        return {'forgotten':mid}
     def revoke(self):
         k=self.runtime.work.agency.realization.kernel
         for row in self.runtime.store.all('grants'):
@@ -171,7 +200,7 @@ class LifeApplication:
         return {'local_execution':'REVOKED_NO_REGRANT_ON_RESTART'}
     def close(self):
         if not self.closed:
-            self.closed=True
+            self.closed=True;self._recent.clear()
             if self.session:
                 self.session._volatile_inputs.clear();self.session._volatile_dialogue.clear()
                 if hasattr(self.session.transport,'_credential'):self.session.transport._credential=None

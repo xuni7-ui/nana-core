@@ -1,5 +1,13 @@
 """Small local display; never authority, delivery or another context builder."""
 def display(value):
+    if 'life' in value:
+        b=value['life'];rows=['生活视图（派生/非第二记忆） '+b['identity_id'],b['first_life_experience_ready']]
+        rows.extend(m['task_type']+' | '+m['source_path']+' | '+m['state']+' | '+m['source_state'] for m in b['materials'])
+        rows.extend('已核验工作法 '+str(x['method'])+' | '+x['state']+' | 来源 '+str(x['evidence_record_id']) for x in b['learning'])
+        rows.extend('隔离技能 '+x['task']+' | '+x['record_id']+' | 未安装外部插件' for x in b['skills'])
+        rows.append('成果目录 '+b['report_directory']);rows.append('可分享经历 '+str(len(b['shared_context']))+'（候选，不自动发送）')
+        rows.extend(x['kind']+' | '+x['phase'] for x in b['journal']['entries'][:6])
+        return '\n'.join(rows)
     if 'dialogue' in value:
         d=value['dialogue']
         if 'text' not in d:return d.get('state','等待处理')

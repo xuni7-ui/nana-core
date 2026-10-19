@@ -22,9 +22,9 @@ def default_skill_specs():
     }
 
 class SelfExtensionWork:
-    def __init__(self,runtime,*,specs=None,proposer=None):
+    def __init__(self,runtime,*,specs=None,proposer=None,publish_opportunity=True):
         self.runtime,self.store=runtime,runtime.store;self.records=RecordService(self.store)
-        self.codes=CodeSkillService(self.store,runtime.authority);self.specs=specs or default_skill_specs();self.proposer=proposer or TransformCodeProposer();self.cognition=None
+        self.codes=CodeSkillService(self.store,runtime.authority);self.specs=specs or default_skill_specs();self.proposer=proposer or TransformCodeProposer();self.cognition=None;self.publish_opportunity=publish_opportunity
     def select(self,cycle,task):
         if task not in self.specs or not cycle.evaluation or cycle.evaluation.normative!='ENDORSED' or cycle.intention.behavior!='SEEK_CAPABILITY':raise CoreError('SUBJECT_SKILL_NEED_REQUIRED')
         key='world-skill:'+digest([cycle.record_id,task]);old=self.store.db.execute('SELECT job_id FROM jobs WHERE occurrence_key=?',(key,)).fetchone()
@@ -47,6 +47,14 @@ class SelfExtensionWork:
         spec,cases=self.specs[b['task']];cycle_row=self.store.one('subject_cycles',b['cycle_id']);cycle=self.runtime.subject.result(cycle_row)
         stage=b['stage']
         try:
+            # A crash between candidate revision and job cursor commit may leave
+            # the exact candidate superseded. Resolve only its own current chain.
+            if b['candidate_record_id']:
+                old=self.store.one('continuity_records',b['candidate_record_id'])
+                if old and old['lifecycle']=='SUPERSEDED':
+                    current=self.store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='CODE_SKILL' AND target_id=? AND lifecycle='ACTIVE' ORDER BY rowid DESC LIMIT 1",(old['target_id'],)).fetchone()
+                    if current:b['candidate_record_id']=current[0]
+
             if stage in {'GENERATE','REPAIR'}:
                 if stage=='REPAIR':spec=spec.model_copy(update={'revision':2})
                 proposer=self.proposer
@@ -61,14 +69,21 @@ class SelfExtensionWork:
                     b['diagnostic']='Independent cases failed; preserve contract and repair transformation';b['stage']='REPAIR'
                 else:b['stage']='REVIEW'
             elif stage=='REVIEW':
-                body=self.records.read(b['candidate_record_id'])['payload'];b['candidate_record_id']=self.codes.review(b['candidate_record_id'],authority=self.runtime.authority,expected_digest=body['source_digest']);b['stage']='ACTIVE'
+                body=self.records.read(b['candidate_record_id'])['payload']
+                if body['state']=='ACTIVE':
+                    self.codes.revalidate(b['candidate_record_id'],cases,authority=self.runtime.authority);b['stage']='ACTIVE'
+                else:
+                    if b['candidate_record_id'] not in self.codes._tested:
+                        b['candidate_record_id']=self.codes.test(b['candidate_record_id'],cases)
+                        body=self.records.read(b['candidate_record_id'])['payload']
+                    b['candidate_record_id']=self.codes.review(b['candidate_record_id'],authority=self.runtime.authority,expected_digest=body['source_digest']);b['stage']='ACTIVE'
             else:return self._park(row,'BLOCKED','CURRENT_REALM_REVIEW_REQUIRED')
         except CoreError as exc:return self._park(row,'UNKNOWN',exc.code)
         with self.store.transaction('world.skill_development_slice',{'work_id':row['job_id'],'stage':stage}) as tx:
             rid=self.records.create(tx,kind='SKILL_PROPOSAL',scope=head['scope'],payload=b,records=(row['record_id'],b['candidate_record_id']),supersedes=row['record_id'],target_id=b['task'])
             tx.update('jobs',row['job_id'],record_id=rid,state='DONE' if b['stage']=='ACTIVE' else 'WAITING',cursor=row['cursor']+1,revision=row['revision']+1)
         observation=None
-        if b['stage']=='ACTIVE':
+        if b['stage']=='ACTIVE' and self.publish_opportunity:
             from ..contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
             case=cases[0];resource='synthetic://skill/data' if spec.skill_kind=='BOUNDED_DATA' else 'synthetic://skill/analysis'
             payload={'opportunities':[{'topic':'try-'+spec.name,'motive':'COMPETENCE','resource':resource,'domain':'skill-use','skill_record_id':b['candidate_record_id'],'data':case.data,'expected':case.expected,'value':'HIGH','scope':head['scope']}], 'fact':'Reviewed pure local skill available; no new capability or Grant'}

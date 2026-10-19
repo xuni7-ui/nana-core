@@ -23,7 +23,7 @@ from ..open_agency.learning import LearningCase, LearningSpec
 from ..autonomy.governance import GovernanceController
 from ...presence.runtime import NanaRuntime
 from ...presence.contracts import RuntimeConfig, LivingRuntimeConfig, RuntimeEvent, Cause, SECOND, HOUR
-from .port import ProjectMaterial, ProjectMaterialPort, read_material, read_material_bytes
+from .port import ProjectMaterial, ProjectMaterialPort, read_material, read_material_bytes,expected_material
 from .oracle import expected_inventory
 
 
@@ -58,29 +58,31 @@ def capture(runtime, key, data, *, kind='DIRECT_OBSERVATION', parents=(), predic
         epistemic_kind='BELIEF' if kind=='MODEL_DERIVATION' else 'STATEMENT' if kind=='USER_STATEMENT' else 'OBSERVATION',source_evidence_id=eid,text=text,derived_from=parents,predicate_key=predicate))
 
 
-def post(runtime, key, mids, **kwargs):
+def post(runtime, key, mids, *, task_class="python-api",**kwargs):
     old=runtime.store.db.execute("SELECT queue_id FROM runtime_queue WHERE source_key=?",('development.project.'+key,)).fetchone()
     if old:return old[0]
     inp=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.project.'+key,kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
-        observed_at_us=runtime.clock.utc_now_us(),source_memory_ids=mids,privacy_class='PROJECT',task_class='python-api',**kwargs)
+        observed_at_us=runtime.clock.utc_now_us(),source_memory_ids=mids,privacy_class='PROJECT',task_class=task_class,**kwargs)
     return runtime.submit(RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=inp,
         causes=(Cause(kind='MEMORY',reference_id=mids[0]),),due_at_us=runtime.clock.utc_now_us()))
 
 
 def source_objective(material, expected, *, suffix='request',motivation_source='PROJECT_COMPLETION'):
     key=material.material_id; program='project.'+key+'-'+suffix
-    return Objective(objective_id=program,scope='project-work',motivation_source=motivation_source,task_domain='python-api',desired=('report',),operators=(
+    domain='python-api' if material.task_type=='PYTHON_API' else 'markdown-outline'
+    baseline='PYTHON_TOP_DEFS' if material.task_type=='PYTHON_API' else 'MD_OUTLINE_1'
+    return Objective(objective_id=program,scope='project-work',motivation_source=motivation_source,task_domain=domain,desired=('report',),operators=(
         Operator(operator_id='inspect',capability='world.observe',resource='project://'+key+'/source',produces=('seen',),args={}),
         Operator(operator_id='inventory',capability='world.compute',resource='project://'+key+'/inventory',requires=('seen',),produces=('indexed',),
-            args={'method':'PYTHON_TOP_DEFS','input_from':'inspect','data_privacy':'PROJECT'},strategy_selectable=True,expected_digest=digest(expected)),
+            args={'method':baseline,'input_from':'inspect','data_privacy':'PROJECT'},strategy_selectable=True,expected_digest=digest(expected)),
         Operator(operator_id='publish',capability='world.publish',resource='project://'+key+'/report',requires=('indexed',),produces=('report',),args={'input_from':'inventory','data_privacy':'PROJECT'},expected_digest=digest(expected))))
 
 
 class ProjectWork:
     """Application-owned facade. Receives explicit manifests and original Runtime."""
-    def __init__(self, runtime, repo, materials, output, spec=None, *, grant=False,motivation_source='PROJECT_COMPLETION'):
+    def __init__(self, runtime, repo, materials, output, spec=None, *, grant=False,allow_skills=False,motivation_source='PROJECT_COMPLETION'):
         self.runtime=runtime; self.port=ProjectMaterialPort(runtime.identity_id,repo,materials,output)
-        self.objects={m.material_id:source_objective(m,expected_inventory(read_material(repo,m)),motivation_source=motivation_source) for m in materials}
+        self.objects={m.material_id:source_objective(m,expected_material(m.task_type,read_material(repo,m)),motivation_source=motivation_source) for m in materials}
         # Recovery descriptions are host configuration. No grants are recreated
         # on reopening; caller must explicitly request local development authority.
         all_objects=tuple(self.objects.values())
@@ -88,26 +90,30 @@ class ProjectWork:
         runtime.work.configure_open_agency(OpenGoalPolicy(all_objects),self.port)
         self.training_sources=()
         if spec:
-            self.training_sources=tuple(capture(runtime,'dataset:'+digest(c.data),{'origin':'DEVELOPMENT_PROJECT','source':c.data}) for group in (spec.practice,spec.evaluation,spec.transfer) for c in group)
-            runtime.work.configure_open_learning((spec,),source_memory_ids=self.training_sources)
+            specs=(spec,) if isinstance(spec,LearningSpec) else tuple(spec)
+            self.training_sources=tuple(dict.fromkeys(capture(runtime,'dataset:'+digest(c.data),{'origin':'DEVELOPMENT_PROJECT','source':c.data}) for s in specs for group in (s.practice,s.evaluation,s.transfer) for c in group))
+            from .documents import PracticeRecipeProposer
+            runtime.work.configure_open_learning(specs,source_memory_ids=self.training_sources,proposer=PracticeRecipeProposer())
         if grant:
             kernel=runtime.work.agency.realization.kernel;now=runtime.clock.utc_now_us()
-            kernel.grant(GrantSpec(capabilities=('world.observe','world.compute','world.publish',kernel.verify_capability),
+            kernel.grant(GrantSpec(capabilities=('world.observe','world.compute','world.publish',kernel.verify_capability,*(('world.skill',) if allow_skills else ())),
                 resources=tuple(op.resource for obj in self.objects.values() for op in obj.operators),not_before_us=now,expires_at_us=now+HOUR),runtime.authority)
             kernel.set_budgets({'write_attempts':32,'external_requests':128,'cost_micro_units':128},runtime.authority)
 
     def assess_later_use(self):
         """One independently verified new material may inform future C attention."""
         if not self.runtime.work.open_learning:return None
-        r=self.runtime;strategy=r.work.open_learning.strategy('python-api','project-work')
-        if not strategy:return None
-        lesson=r.store.db.execute('SELECT * FROM lessons WHERE record_id=?',(strategy[0],)).fetchone()
+        r=self.runtime
         from ..world_loop.learning import EpisodeLearning
         from ..open_agency.learning import LearningCase
         for material in self.port.materials.values():
+            domain='python-api' if material.task_type=='PYTHON_API' else 'markdown-outline'
+            strategy=r.work.open_learning.strategy(domain,'project-work')
+            if not strategy:continue
+            lesson=r.store.db.execute('SELECT * FROM lessons WHERE record_id=?',(strategy[0],)).fetchone()
             goal=self.goal_for(material.material_id)
             if not goal or goal['state']!='COMPLETED':continue
-            actions=r.store.db.execute("SELECT * FROM actions WHERE resource=? AND capability='world.compute' AND state='SUCCEEDED' ORDER BY rowid LIMIT 16",('project://'+material.material_id+'/inventory',)).fetchall()
+            actions=r.store.db.execute("SELECT * FROM actions WHERE resource=? AND capability IN ('world.compute','world.skill') AND state='SUCCEEDED' ORDER BY rowid LIMIT 16",('project://'+material.material_id+'/inventory',)).fetchall()
             results=[]
             for action in actions:
                 try:results.append((action,json.loads(r.work.agency.realization.kernel.payload(action,'result_json'))))
@@ -118,7 +124,7 @@ class ProjectWork:
             action,actual=results[-1];key='later-'+digest([lesson['lesson_id'],material.sha256])[:40]
             if r.store.db.execute('SELECT 1 FROM strategy_assessments WHERE lesson_id=? AND episode_key=?',(lesson['lesson_id'],key)).fetchone():continue
             source=read_material(self.port.root,material)
-            case=LearningCase(case_id='later-material',context='later-project-navigation',data=source,expected=expected_inventory(source))
+            case=LearningCase(case_id='later-material',context='later-project-navigation',data=source,expected=expected_material(material.task_type,source))
             mid=r.store.db.execute("SELECT memory_id FROM memories m JOIN continuity_evidence e ON m.source_evidence_id=e.evidence_id WHERE e.source_namespace='recorded.project.local-action' AND e.source_reference=? AND m.lifecycle='ACTIVE' LIMIT 1",(action['action_id'],)).fetchone()
             if not mid:continue
             episode={'episode_key':key,'lesson_id':lesson['lesson_id'],'case':case.model_dump(mode='json'),'action_id':action['action_id'],'actual_result_digest':digest(actual['data'])}
@@ -139,7 +145,7 @@ class ProjectWork:
         root=capture(r,'input:'+material_id,{'origin':'DEVELOPMENT_PROJECT','source':source})
         cue=ConcernCue(cue_kind='OPEN_LOOP',topic_key=obj.objective_id,motivation_source=obj.motivation_source,program_id=obj.objective_id)
         mid=capture(r,'request:'+obj.objective_id,cue.model_dump(mode='json'),kind='MODEL_DERIVATION',parents=(root,),predicate='concern.'+obj.objective_id)
-        post(r,'request.'+obj.objective_id,(mid,))
+        post(r,'request.'+obj.objective_id,(mid,),task_class=obj.task_domain)
         return root
 
     def run_until(self, predicate, *, max_steps=96):
@@ -176,7 +182,8 @@ class ProjectWork:
 
 def material_for(repo, relative_path):
     # Caller supplies one explicit approved repository file; never auto-discover.
-    raw=read_material_bytes(repo,relative_path)
-    material=ProjectMaterial(material_id='m'+hashlib.sha256(relative_path.encode()+raw).hexdigest()[:20],relative_path=relative_path,sha256=hashlib.sha256(raw).hexdigest())
+    task_type='MARKDOWN_OUTLINE' if Path(relative_path).suffix=='.md' else 'PYTHON_API'
+    raw=read_material_bytes(repo,relative_path,task_type=task_type)
+    material=ProjectMaterial(task_type=task_type,material_id='m'+hashlib.sha256(relative_path.encode()+raw).hexdigest()[:20],relative_path=relative_path,sha256=hashlib.sha256(raw).hexdigest())
     read_material(repo,material)
     return material

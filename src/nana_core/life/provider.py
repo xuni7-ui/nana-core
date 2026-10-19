@@ -27,3 +27,28 @@ def configured_router(home,config,*,resolver,authorized=False):
     service.load()
     factory=RuntimeProviderFactory(ProviderRegistry(),resolver,RoutingPolicy(allow_remote=True,allowed_remote_hosts=config.provider_hosts,timeout_ceiling_ms=config.provider_timeout_ms,cost_ceiling=config.provider_cost_ceiling_micro,context_limit=8192,output_limit=1024))
     return CapabilityRouter(service,factory)
+
+
+def provider_command(home,path):
+    """One explicit typed host-local CAS command; never model/Subject authority."""
+    from pathlib import Path
+    from ..continuity.provider_config import ProviderCommand
+    from ..continuity.privacy import _json_object
+    import json,stat
+    fd=os.open(path,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK)
+    with os.fdopen(fd,'rb') as stream:
+        if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):raise CoreError('PROVIDER_COMMAND_FILE_INVALID')
+        raw=stream.read(65537)
+    if len(raw)>65536:raise CoreError('PROVIDER_COMMAND_BOUND')
+    try:command=ProviderCommand.model_validate_json(json.dumps(json.loads(raw,object_pairs_hook=_json_object)))
+    except (TypeError,ValueError):raise CoreError('PROVIDER_COMMAND_INVALID') from None
+    authority=ProviderConfigurationAuthority();service=ProviderConfigService(home/'providers.json',authority)
+    result=service.update(command,authority)
+    return {'host_configuration_revision':result.revision,'operation':command.operation,'network_calls':0,'subject_history_changed':False,'live_permission_granted':False}
+
+
+def provider_status(home):
+    authority=ProviderConfigurationAuthority();service=ProviderConfigService(home/'providers.json',authority)
+    factory=RuntimeProviderFactory(ProviderRegistry(),None,RoutingPolicy())
+    from ..continuity.provider_routing import ProviderSettingsService
+    return {'provider_settings':ProviderSettingsService(service,authority,factory).projection(),'real_provider_qualified':'NOT_RUN','network_calls':0}

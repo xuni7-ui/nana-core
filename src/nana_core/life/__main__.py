@@ -10,6 +10,8 @@ from .config import LifeConfig,home_path,write_config,load_config,apply_resource
 from .application import LifeApplication
 
 DEMO_SOURCES=('src/nana_core/continuity/recurrence.py','src/nana_core/continuity/extensions.py')
+DOC_SOURCES=('docs/nana_h2_perception_ingress_v1_frontend_contract.md','docs/nana_h2_live_real_screen_v1_frontend_contract.md')
+DOC_TRAIN=('README.md','docs/nana_provider_capability_routing_v1_frontend_contract.md','docs/bridge_node_rebuild.md')
 DEMO_TRAIN=('src/nana_core/continuity/identity.py','src/nana_core/continuity/autonomy/requests.py','src/nana_core/continuity/subject/social.py')
 
 
@@ -23,6 +25,7 @@ def command(app,line):
     if not line.startswith('/'):return {'dialogue':app.chat(line)}
     parts=line.split();name=parts[0]
     if name in {'/status','/activities'}:return app.status()
+    if name in {'/life','/journal'}:return {'life':app.board()}
     if name=='/sources':return app.sources()
     if name=='/pause':return app.pause()
     if name=='/resume':return app.pause(False)
@@ -36,7 +39,7 @@ def command(app,line):
         material=next((m for m in app.config.materials if parts[1] in {m.material_id,m.relative_path,Path(m.relative_path).name}),None)
         if not material:raise CoreError('PROJECT_MATERIAL_NOT_CONFIGURED')
         return {'source_memory_id':app.work.request(material.material_id),'state':'OFFERED_TO_ORIGINAL_C_NOT_FORCED_ADOPTION'}
-    return {'commands':['/status','/activities','/sources','/pause','/resume','/busy','/available','/work <approved filename>','/topic <key> <text>','/forget <memory-id>','/revoke','/quit'],'ordinary_text':'type a normal sentence; provider off by default'}
+    return {'commands':['/status','/life','/journal','/activities','/sources','/pause','/resume','/busy','/available','/work <approved filename>','/topic <key> <text>','/forget <memory-id>','/revoke','/quit'],'ordinary_text':'type a normal sentence; provider off by default'}
 
 
 def run(home,seconds,*,headless=False,router=None):
@@ -83,21 +86,28 @@ def run(home,seconds,*,headless=False,router=None):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);sub=p.add_subparsers(dest='action',required=True)
-    init=sub.add_parser('init');init.add_argument('--home',type=Path,required=True);init.add_argument('--project',type=Path,required=True);init.add_argument('--demo-materials',action='store_true');init.add_argument('--source',action='append');init.add_argument('--practice');init.add_argument('--heldout');init.add_argument('--transfer');init.add_argument('--allow-local-artifacts',action='store_true')
+    init=sub.add_parser('init');init.add_argument('--home',type=Path,required=True);init.add_argument('--project',type=Path,required=True);init.add_argument('--demo-materials',action='store_true');init.add_argument('--source',action='append');init.add_argument('--practice');init.add_argument('--heldout');init.add_argument('--transfer');init.add_argument('--allow-local-artifacts',action='store_true');init.add_argument('--document-work',action='store_true');init.add_argument('--allow-local-skills',action='store_true');init.add_argument('--provider-host',action='append',default=[]);init.add_argument('--remote-privacy',action='append',choices=['PUBLIC','PROJECT','PERSONAL'],default=[]);init.add_argument('--provider-cost-ceiling-micro',type=int,default=0)
     start=sub.add_parser('run');start.add_argument('--home',type=Path,required=True);start.add_argument('--seconds',type=float,default=3600);start.add_argument('--headless',action='store_true');start.add_argument('--live-provider-authorized',action='store_true');start.add_argument('--secret-fd',type=int);start.add_argument('--secret-ref')
     status=sub.add_parser('status');status.add_argument('--home',type=Path,required=True)
-    for parser in (init,start,status):parser.add_argument('--json',action='store_true',help='machine-readable output')
+    provider=sub.add_parser('provider-command');provider.add_argument('--home',type=Path,required=True);provider.add_argument('--document',type=Path,required=True)
+    inspect=sub.add_parser('provider-status');inspect.add_argument('--home',type=Path,required=True)
+    for parser in (init,start,status,provider,inspect):parser.add_argument('--json',action='store_true',help='machine-readable output')
     a=p.parse_args();resolver=None
     global JSON_OUTPUT
     JSON_OUTPUT=a.json
     try:
         home=home_path(a.home)
+        if a.action in {'provider-command','provider-status'}:
+            from .provider import provider_command,provider_status
+            emit(provider_command(home,a.document) if a.action=='provider-command' else provider_status(home));return
         if a.action=='status':emit(runtime_status(home/'subject/self.db'));return
         if a.action=='init':
             sources=a.source or (DEMO_SOURCES if a.demo_materials else ())
             training=DEMO_TRAIN if a.demo_materials else (a.practice,a.heldout,a.transfer)
             if not sources or not all(training):raise CoreError('EXPLICIT_PROJECT_MATERIALS_REQUIRED')
-            config=LifeConfig(project_root=str(a.project.absolute()),materials=tuple(material_for(a.project,x) for x in sources),practice=material_for(a.project,training[0]),heldout=material_for(a.project,training[1]),transfer=material_for(a.project,training[2]))
+            if a.document_work:sources=(*sources,*DOC_SOURCES)
+            if a.allow_local_skills and not a.document_work:raise CoreError('DOCUMENT_WORK_REQUIRED_FOR_LOCAL_SKILLS')
+            config=LifeConfig(document_learning=tuple(material_for(a.project,x) for x in DOC_TRAIN) if a.document_work else (),allow_local_skills=a.allow_local_skills,max_autonomous_materials=len(sources),provider_hosts=tuple(a.provider_host),remote_privacy=tuple(a.remote_privacy),provider_cost_ceiling_micro=a.provider_cost_ceiling_micro,project_root=str(a.project.absolute()),materials=tuple(material_for(a.project,x) for x in sources),practice=material_for(a.project,training[0]),heldout=material_for(a.project,training[1]),transfer=material_for(a.project,training[2]))
             write_config(home,config)
             authority=ProviderConfigurationAuthority();ProviderConfigService(home/'providers.json',authority).initialize(authority)
             with LifeApplication(home,bootstrap_grant=a.allow_local_artifacts) as app:emit({'state':'INITIALIZED','identity_id':app.runtime.identity_id,'local_grant_installed':a.allow_local_artifacts,'config':str(home/'life.json')})
@@ -112,8 +122,8 @@ def main():
             resolver=ExplicitFDResolver(a.secret_fd,a.secret_ref);router=configured_router(home,cfg,resolver=resolver,authorized=True)
         elif a.secret_fd is not None or a.secret_ref is not None:raise CoreError('LIVE_PROVIDER_NOT_AUTHORIZED')
         run(home,a.seconds,headless=a.headless,router=router)
-    except (CoreError,OSError,ValueError):
-        emit({'state':'BLOCKED','code':'LIFE_CONFIGURATION_OR_RUNTIME_REJECTED'});raise SystemExit(2) from None
+    except (CoreError,OSError,ValueError) as exc:
+        emit({'state':'BLOCKED','code':exc.code if isinstance(exc,CoreError) else 'LIFE_CONFIGURATION_OR_RUNTIME_REJECTED'});raise SystemExit(2) from None
     finally:
         if resolver:resolver.clear()
 if __name__=='__main__':main()

@@ -895,3 +895,19 @@ renumber phases. Add sealed Markdown document navigation/audit beside Python API
 work in original ProjectWork/Kernel. Independent checking must trigger learning,
 not host-injected failure. Skill code only via existing isolated CodeSkillService.
 Real provider/human quality remains separately unauthorized/unreviewed; no old keys.
+
+
+## LIVED_GROWTH_V2 — document grammar and skill adaptation boundary
+[源码/定向实测] Reuse exact-manifest ProjectMaterialPort for .md using explicit
+task_type; .py remains the default contract. Column-zero ATX/triple-backtick
+grammar is intentionally bounded, not CommonMark completeness. Independent regex
+oracle computes expectations; G proposer receives practice only and synthesizes
+minimal sufficient depth within a host-reviewed finite recipe family. Existing I
+CodeSkillService compiles that parameter into pure-data code, tests in mandatory
+bwrap realm, then original F/Kernel calls world.skill on a later real material.
+No second engine/Store/table. Fresh realm revalidation preserves exact historical
+skill identity/tests and never creates Grants. Optional I slices participate in
+original D safe points, C alone selects skill need. Offline success is workflow
+adaptation, not model training/Core self-modification/general algorithm invention.
+Bounded volatile conversational turns pass original ContextAssembler/Session source
+and privacy checks; never persist raw turns, model wording, or replay after exit.

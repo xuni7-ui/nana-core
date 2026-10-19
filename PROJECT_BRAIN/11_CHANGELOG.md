@@ -1778,3 +1778,14 @@ secret-literal scan and committed fingerprint/normal dev push verification follo
 [只读/文档] Fetch confirmed base5cc5c736,parent324b80d; new dev branch and durable
 M0–M10 ledger. Why: preserve completed independent application and prevent silent
 rollback. Validation: local/remote exact match, only old bundle untracked.
+
+
+## LIVED_GROWTH_V2 — multi-domain useful work and generated local workflow
+[源码/定向实测] Added document navigation task+independent oracle, practice recipe
+proposer, original I skill adaptation/current realm revalidation and original
+Runtime safe-point hooks. Why: move beyond two Python inventory reports into
+source-caused G learning and later real world.skill use. Two end-to-end tests and
+18 old/new app tests passed;4 extra privacy/config/erasure boundaries passed.
+New /life board, ephemeral conversation and explicit offline provider CAS tooling
+are implemented; final wall/recovery/full regression remain OPEN. No real provider,
+private history, schema/dependency/production/main changes.

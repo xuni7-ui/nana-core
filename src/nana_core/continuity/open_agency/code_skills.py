@@ -40,13 +40,13 @@ def static_check(source):
     try:tree=ast.parse(source)
     except (SyntaxError,ValueError):raise CoreError('SKILL_SYNTAX_REJECTED') from None
     if len(tree.body)!=1 or not isinstance(tree.body[0],ast.FunctionDef) or tree.body[0].name!='transform' or tree.body[0].decorator_list or len(tree.body[0].args.args)!=1 or tree.body[0].args.args[0].arg!='data' or tree.body[0].args.defaults or tree.body[0].args.kwonlyargs or tree.body[0].args.vararg or tree.body[0].args.kwarg:raise CoreError('SKILL_CONTRACT_REJECTED')
-    allowed=(ast.Module,ast.FunctionDef,ast.arguments,ast.arg,ast.Return,ast.Expr,ast.Name,ast.Load,ast.Store,ast.Constant,ast.Call,ast.Attribute,ast.GeneratorExp,ast.ListComp,ast.comprehension,ast.Tuple,ast.List,ast.Dict,ast.IfExp,ast.Compare,ast.Eq,ast.NotEq,ast.Lt,ast.LtE,ast.Gt,ast.GtE,ast.BinOp,ast.Add,ast.Sub,ast.Mult,ast.Div,ast.UnaryOp,ast.USub,ast.BoolOp,ast.And,ast.Or,ast.Subscript,ast.Slice)
-    names={'sum','len','sorted','min','max','isinstance','int','float','str','list','bool'}
+    allowed=(ast.Module,ast.FunctionDef,ast.arguments,ast.arg,ast.Return,ast.Expr,ast.Name,ast.Load,ast.Store,ast.Constant,ast.Call,ast.Attribute,ast.GeneratorExp,ast.ListComp,ast.comprehension,ast.Tuple,ast.List,ast.Dict,ast.IfExp,ast.Compare,ast.Eq,ast.NotEq,ast.Lt,ast.LtE,ast.Gt,ast.GtE,ast.BinOp,ast.Add,ast.Sub,ast.Mult,ast.Div,ast.Mod,ast.UnaryOp,ast.USub,ast.BoolOp,ast.And,ast.Or,ast.Subscript,ast.Slice)
+    names={'sum','len','sorted','min','max','isinstance','int','float','str','list','bool','enumerate'}
     for n in ast.walk(tree):
         if not isinstance(n,allowed):raise CoreError('SKILL_STATIC_REJECTED')
         if isinstance(n,ast.Name) and n.id.startswith('_'):raise CoreError('SKILL_STATIC_REJECTED')
-        if isinstance(n,ast.Attribute) and n.attr not in {'split','casefold','lower','strip'}:raise CoreError('SKILL_STATIC_REJECTED')
-        if isinstance(n,ast.Call) and not ((isinstance(n.func,ast.Name) and n.func.id in names) or (isinstance(n.func,ast.Attribute) and n.func.attr in {'split','casefold','lower','strip'})):raise CoreError('SKILL_STATIC_REJECTED')
+        if isinstance(n,ast.Attribute) and n.attr not in {'split','casefold','lower','strip','lstrip','startswith'}:raise CoreError('SKILL_STATIC_REJECTED')
+        if isinstance(n,ast.Call) and not ((isinstance(n.func,ast.Name) and n.func.id in names) or (isinstance(n.func,ast.Attribute) and n.func.attr in {'split','casefold','lower','strip','lstrip','startswith'})):raise CoreError('SKILL_STATIC_REJECTED')
     compile(tree,'generated-skill','exec') # compilation only; execution is isolated
     return digest(source.encode())
 
@@ -123,6 +123,19 @@ class CodeSkillService:
             active=self.records.create(tx,kind='CODE_SKILL',scope=row['scope'],payload={**b,'state':'ACTIVE'},records=(rid,),supersedes=rid,target_id=row['target_id'])
         self._enabled.add(active)
         return active
+    def revalidate(self,rid,cases,*,authority):
+        """Same reviewed source+test contract in a fresh OS realm; never a Grant."""
+        if authority is not self.authority:raise CoreError('UNAUTHENTICATED_OPERATOR')
+        row=self.records.read(rid);b=row['payload']
+        if row['record_kind']!='CODE_SKILL' or b['state']!='ACTIVE' or not self.records.current_support(rid) or static_check(b['source'])!=b['source_digest']:raise CoreError('SKILL_NOT_ACTIVE')
+        if not 1<=len(cases)<=16:raise CoreError('SKILL_TEST_BOUND')
+        actual=[{'case_id':c.case_id,'input_digest':digest(c.data),'expected_digest':digest(c.expected)} for c in cases]
+        previous=[{k:x[k] for k in ('case_id','input_digest','expected_digest')} for x in b['tests']['cases']]
+        if actual!=previous or any(digest(self.runner.run(b['source'],c.data))!=digest(c.expected) for c in cases):raise CoreError('CURRENT_REALM_REVIEW_REQUIRED')
+        with self.store.transaction('open.code_skill_revalidated',{'record_id':rid,'source_digest':b['source_digest']}):pass
+        self._enabled.add(rid)
+        return rid
+
     def retire(self,rid,*,authority):
         if authority is not self.authority:raise CoreError('UNAUTHENTICATED_OPERATOR')
         row=self.records.read(rid)

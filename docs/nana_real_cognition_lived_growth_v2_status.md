@@ -17,3 +17,17 @@ No new Store/Runtime/SubjectLoop/schema/dependency planned.
 
 Resume: inspect history and this ledger, run smallest relevant focused suite;
 never replay unknown effects or invent credential permission.
+
+## M3–M6 implementation increment (offline, pre-final qualification)
+Real source/docs share original C/F/G/I and Store. Markdown outline workflow family
++ distinct regex oracle; actual baseline misses subheadings→failure/reflection→G
+practice-only minimal-depth synthesis→independent heldout/transfer. C subsequently
+selects an I skill need. Existing CodeSkillService/bwrap validates generated bounded
+pure-data workflow; unseen document uses original world.skill Action. No install
+authority/grant added on restart. Explicit init local-skills permission required.
+New /life board, volatile bounded conversational turns and offline provider CAS
+commands implemented. Focused18 passed +4 boundary passed (development runs; full
+regression and real process journey still OPEN). An early test caught next-document
+adoption before skill review; fixed portfolio pending-work opportunity fence.
+M1 real provider BLOCKED_BY_AUTHORIZATION, no credential access; M2/M7 human natural
+quality NOT_RUN. Parameter synthesis/skill adaptation is not algorithm invention.

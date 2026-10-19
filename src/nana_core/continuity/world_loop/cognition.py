@@ -269,8 +269,11 @@ class CognitionSession:
                 if set(role_input)!={'dialogue'} or volatile_input is None:raise CoreError('DIALOGUE_TRANSIENT_REQUIRED')
                 descriptor=DialogueContext.model_validate_json(canonical(role_input['dialogue']))
                 actual=DialogueContext.model_validate_json(canonical(volatile_input['dialogue']))
-                if set(volatile_input)!={'dialogue'} or descriptor.text is not None or not actual.text or actual.model_copy(update={'text':None})!=descriptor or descriptor.message_memory_id not in source_ids or descriptor.phase!=('INTERPRET' if role=='INTERPRET' else 'RENDER'):raise CoreError('DIALOGUE_SOURCE_BINDING_INVALID')
+                if set(volatile_input)!={'dialogue'} or descriptor.text is not None or descriptor.recent_turns or not actual.text or actual.model_copy(update={'text':None,'recent_turns':()})!=descriptor or descriptor.message_memory_id not in source_ids or descriptor.phase!=('INTERPRET' if role=='INTERPRET' else 'RENDER'):raise CoreError('DIALOGUE_SOURCE_BINDING_INVALID')
                 if actual.privacy_class not in allowed_for_role(self.transport,self.policy):raise CoreError('DIALOGUE_PRIVACY_DENIED')
+                from ..memory import PRIVACY_RANK
+                for turn in actual.recent_turns:
+                    if turn.message_memory_id not in source_ids or turn.topic!=descriptor.topic or PRIVACY_RANK[turn.privacy_class]>PRIVACY_RANK[actual.privacy_class] or turn.privacy_class not in allowed_for_role(self.transport,self.policy):raise CoreError('DIALOGUE_HISTORY_PRIVACY_DENIED')
             elif role=='MEDIA':
                 from .semantics import validate_media_input
                 validate_media_input(self,volatile_input or role_input,source_ids)
