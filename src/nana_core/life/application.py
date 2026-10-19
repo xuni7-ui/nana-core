@@ -29,7 +29,7 @@ from .dialogue_contracts import DialogueContext
 
 def runtime_config(config):
     return RuntimeConfig(schema_target=13,scopes=('project-work',),entity_id='project-user',privacy_classes=('PUBLIC','PROJECT','PERSONAL'),model=None,
-        heartbeat_us=SECOND,lease_us=30*SECOND,review_interval_us=SECOND,idle_recall_us=SECOND,queue_capacity=64,schedule_capacity=128,poll_seconds=.2,
+        heartbeat_us=SECOND,lease_us=30*SECOND,review_interval_us=config.idle_review_seconds*SECOND,idle_recall_us=SECOND,queue_capacity=64,schedule_capacity=128,poll_seconds=.2,
         max_calls_per_day=config.provider_calls_per_day,living=LivingRuntimeConfig(maintenance_interval_us=60*SECOND,step_interval_us=200_000,max_idle_seconds=2,background_fraction_percent=50,max_model_bytes_per_day=4_000_000,max_estimated_cost_micro_per_day=max(1,config.provider_cost_ceiling_micro*config.provider_calls_per_day)))
 
 class PortfolioOpportunities:
@@ -69,6 +69,12 @@ class LifeApplication:
             IdentityService(s,OperatorAuthority());MemoryService(s).entity('project-user','PERSON')
         self.runtime=NanaRuntime(self.home/'subject/self.db',runtime_config(self.config),clock=self.clock)
         try:
+            # Upgrade only this application's machine-local review timer. Source,
+            # goal, commitment and reactive opportunities retain their own cadence.
+            schedule=self.runtime.store.db.execute('SELECT * FROM runtime_schedules WHERE dedupe_key=?',('runtime-review-'+digest('project-work')[:24],)).fetchone()
+            interval=self.config.idle_review_seconds*SECOND
+            if schedule and schedule['interval_us']!=interval:
+                self.runtime.scheduler.reschedule_periodic(schedule['schedule_id'],expected_interval_us=schedule['interval_us'],interval_us=interval)
             spec=learning_spec(*(read_material(self.config.project_root,m) for m in (self.config.practice,self.config.heldout,self.config.transfer)))
             specs=[spec]
             if self.config.document_learning:

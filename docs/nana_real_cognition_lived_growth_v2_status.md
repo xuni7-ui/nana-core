@@ -41,3 +41,10 @@ now avoids model calls. Added partial-document UNKNOWN/no-retry qualification an
 separate isolated-child resource metrics. Targeted40 PASS; final frozen-source
 90s journey/full regression pending. New quickstart includes operator provider CAS
 commands, real authorization requirements and anonymous human review worksheet.
+
+## Material runtime-cost fix after the first90s observation
+First90.1866s run passed core recovery/work but showed128 periodic firings over112s
+total journey and~2MiB idle growth. Added60s idle review (host-local) and original
+Scheduler CAS reconciliation of old1s homes. User/source/goal/commitment wake paths
+unchanged. First full regression is pre-fix/in-progress, not final-source evidence.
+New focused test and fresh actual journey/full regression required for final source.

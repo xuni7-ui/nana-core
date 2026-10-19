@@ -1808,3 +1808,12 @@ results; restart rechecks rather than trusting another process's ephemeral revie
 Why: avoid batching multiple sandbox timeouts into one foreground blocking interval.
 No new lifecycle table/Store/decision loop. Existing default batch API preserved.
 Final focused and actual-process tests verify cursor preservation and revalidation.
+
+
+## LIVED_GROWTH_V2 — lower idle persistence overhead
+[源码/驻留发现] Added host-local60s idle review and original Scheduler CAS cadence
+transition for old1s homes, leaving source/goal/reactive opportunities timely. Why:
+actual90s soak exposed disproportionate empty periodic-event writes. Validation:
+new focused test preserves timer identity/occurrence/Subject/no-Grant across restart;
+final source gets fresh actual journey and full regression after this material fix.
+Earlier90s evidence retained explicitly as pre-fix, not relabeled final.

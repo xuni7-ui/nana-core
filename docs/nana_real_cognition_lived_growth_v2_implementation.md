@@ -58,7 +58,10 @@ files, not current evidence after source withdrawal. No separate skill database.
 
 ## Continuous life and shared context
 
-Original D prioritizes user input and one bounded background slice. Finite explicit
+Original D prioritizes user input and one bounded background slice. Default idle
+review is60s; old1s application homes are reconciled by the same Scheduler CAS
+transition without resetting occurrence/history. Source/goal/commitment and user
+wakes stay independent. Actual before/after idle-write evidence is retained. Finite explicit
 host materials are opportunities, not adopted goals. Original C may remain silent;
 old work/failure/reflection/learned reuse/availability feed the same original attention
 collector. Original I work now represents its source program, so a scheduled recall

@@ -114,3 +114,20 @@ def test_skill_tests_are_sliced_and_foreground_preempts_without_losing_case_curs
         advance(app,150)
         assert app.runtime.store.one('jobs',job['job_id'])['state']=='DONE'
         assert len(app.runtime.store.db.execute("SELECT * FROM actions WHERE capability='world.skill' AND state='SUCCEEDED'").fetchall())==1
+
+
+
+def test_legacy_fast_review_is_reconciled_without_timer_reset_or_permission(tmp_path):
+    from nana_core.storage import digest
+    from nana_core.presence.contracts import SECOND
+    home=tmp_path/'life';initialize(home,skills=False);clock=VirtualClock()
+    with LifeApplication(home,clock=clock) as app:
+        r=app.runtime
+        schedule=r.store.db.execute('SELECT * FROM runtime_schedules WHERE dedupe_key=?',('runtime-review-'+digest('project-work')[:24],)).fetchone()
+        assert schedule['interval_us']==60*SECOND
+        r.scheduler.reschedule_periodic(schedule['schedule_id'],expected_interval_us=60*SECOND,interval_us=SECOND)
+        ident=r.identity_id;sid=schedule['schedule_id'];occurrence=schedule['occurrence']
+    with LifeApplication(home,clock=clock) as app:
+        schedule=app.runtime.store.one('runtime_schedules',sid)
+        assert schedule['interval_us']==60*SECOND and schedule['occurrence']==occurrence
+        assert app.runtime.identity_id==ident and not app.runtime.store.all('grants')

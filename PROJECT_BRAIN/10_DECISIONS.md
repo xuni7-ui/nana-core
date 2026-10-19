@@ -920,3 +920,14 @@ source_program_id; original C recognizes current supported I work as representin
 that program. Original candidate adoption stays explicit; no runtime suppression of
 Subject judgment and no rewriting wishes. This fixes state continuity rather than
 hiding an incorrect FOCUSED display. Human/live semantic qualification still NOT_RUN.
+
+
+## LIVED_GROWTH_V2 — idle review is low-frequency, source attention stays responsive
+[真实驻留证据/修复] Original application one-second periodic review generated128
+scheduled occurrences in112s journey and~2MiB extra idle history. This is avoidable
+operational cost, not autonomy. Default host-local idle_review_seconds=60 (10–3600),
+with existing Scheduler CAS rescheduling for older initialized homes; preserve
+occurrence identity/history and coalesce missed review time. Source/goal/commitment/
+reactive attention still uses original independent wake mechanisms; no personality
+policy change, no slower user ingress, no new grant or schema. Before/after actual
+journeys must be reported distinctly; final source must be requalified.

@@ -16,6 +16,7 @@ class LifeConfig(DTO):
     transfer:ProjectMaterial
     max_memory_mb:int=Field(default=512,ge=256,le=1024)
     max_cpus:int=Field(default=4,ge=1,le=4)
+    idle_review_seconds:int=Field(default=60,ge=10,le=3600)
     activity_interval_seconds:float=Field(default=3,ge=.5,le=3600)
     document_learning:tuple[ProjectMaterial,...]=Field(default=(),max_length=3)
     allow_local_skills:bool=False

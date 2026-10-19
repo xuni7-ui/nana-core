@@ -64,6 +64,15 @@ class Scheduler:
                     due_at_us=calendar.next_after(now) if calendar else now+row['interval_us'] if row['interval_us'] else row['due_at_us'],
                     last_queue_id=qid,occurrence=row['occurrence']+1)
 
+    def reschedule_periodic(self,schedule_id,*,expected_interval_us,interval_us):
+        """Host cadence change, not a Subject motive. Preserve occurrence identity."""
+        if type(interval_us)!=int or not 1_000_000<=interval_us<=86_400_000_000:raise CoreError('RUNTIME_INTERVAL_INVALID')
+        self.queue.lease.assert_current()
+        with self.store.transaction('runtime.periodic_cadence_changed',{'schedule_id':schedule_id,'interval_us':interval_us}) as tx:
+            row=self.store.one('runtime_schedules',schedule_id)
+            if not row or row['state']!='ACTIVE' or row['schedule_kind']!='PERIODIC' or row['interval_us']!=expected_interval_us:raise CoreError('STALE_RUNTIME_SCHEDULE')
+            tx.update('runtime_schedules',schedule_id,interval_us=interval_us,due_at_us=self.store.clock.utc_now_us()+interval_us)
+
     def cancel(self,schedule_id):
         with self.store.transaction('runtime.schedule_cancelled') as tx:
             row=self.store.one('runtime_schedules',schedule_id)
