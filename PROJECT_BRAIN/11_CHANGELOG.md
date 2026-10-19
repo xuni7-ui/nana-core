@@ -2036,3 +2036,5 @@ GOAL/REFLECTION提交后SIGKILL两切点通过；启动旧socket交错以当前l
 验证：cloud+runtime+hands初次46pass/1启动race失败；修复后实际进程/两切点3pass8.41s；
 先前相关45pass、Hands/B8 22pass。完整回归/两小时资格仍PENDING。
 新增业务表/依赖0；历史Provider UNKNOWN不重试，新真实Provider调用0，真人评审/生产NOT_RUN。
+
+CDL checkpoint1 follow-up [源码/实测]：Hands观察窗旧scope标签同步为有限DOCUMENT/FORM/CONTENT/FILES；不扩大执行操作。4个daily/share targeted通过，冻结驻留重新从新源码开始，未计中断运行作为两小时。
