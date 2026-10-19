@@ -799,3 +799,12 @@ schema/dependency/Store/loop. First full missing temporary SQLite launcher failu
 retained; restore used actual system3.46.1, no source/test/R045 modification.
 Report/evidence under docs/nana_vision_first_shared_growth_v2*. Stop after normal
 development push/remote verification; no production/private/live integration.
+
+
+## REAL_LIFE_V1 — exact local project adapter, no second brain
+[决策/未实现] Reuse original C/F/G/Kernel, extend sealed execution construction
+only for exact host-approved no-exec source manifests and bounded dedicated report
+outputs. Local artifact effects do not grant network/arbitrary filesystem/action
+access. Input provenance must say DEVELOPMENT_PROJECT, not synthetic observation.
+Independent compiler symtable oracle stays outside candidate-visible practice;
+method selection is not algorithm invention. S defaults off and has no fetch/send.

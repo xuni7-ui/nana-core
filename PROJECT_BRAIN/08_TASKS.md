@@ -1,5 +1,15 @@
 # PROJECT_BRAIN / 08 TASKS（任务清单）
 
+## CURRENT — REAL_UTILITY_SHARED_LIFE_EVOLUTION_V1 (started)
+[远端/源码核验] Base94016fcbf1f16a7438c7ceba42e22b21de26f3e6 verified identical.
+One ongoing dev mission on dev/nana-core-real-life-growth-and-presence-v1-codex.
+U/L/P/S pending; existing C/D/F/G/I/B assets reused. First target: real project
+source→bounded interface inventory→readable artifact→independent compiler oracle.
+Mission ledger: docs/nana_real_life_growth_mission_status.md. No live QQ/history/
+provider/private data/production authorization inferred. Historical blocks below
+remain history. GLOBAL_STAGE H unchanged; this is cross-cutting real-use work.
+
+
 ## CURRENT — VISION_FIRST_SHARED_GROWTH_V2
 
 [源码/受控本地实测] Base9faaad5006159c4f69f5c4056f0c6b062cc7770b verified remote.

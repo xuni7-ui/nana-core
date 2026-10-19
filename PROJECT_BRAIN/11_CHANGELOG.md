@@ -1700,3 +1700,9 @@ secret_scan.json result from the first handoff docs commit. Reviewed its fields
 Manifest content/hash and qualified source remain unchanged. All manifest paths
 must now exist in committed Git history. Normal follow-up commit/push, no amend,
 force push or business/source/test change.
+
+
+## REAL_LIFE_V1 M0
+[只读核验/文档] Fetch verified94016fcb; clean tracked workspace, old bundle untouched.
+Created one mission ledger/map and current PROJECT_BRAIN entry to drive practical
+U/L/P/S increments. No business implementation/qualification claim yet.
