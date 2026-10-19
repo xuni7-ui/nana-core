@@ -1,7 +1,7 @@
 """Admission is a separate realization consideration, never a social drive."""
 import json
 from typing import Literal
-from pydantic import Field
+from pydantic import Field,model_validator
 from ...contracts import DTO,CoreError
 from ...storage import canonical,digest
 from ..records import RecordService
@@ -21,6 +21,16 @@ class DeliveryPolicy(DTO):
     quiet_start_utc_hour: int = Field(default=23,ge=0,le=23)
     quiet_end_utc_hour: int = Field(default=7,ge=0,le=23)
     admission_us: int = Field(default=30000000,ge=100000,le=60000000)
+    quiet_timezone:str='UTC'
+    quiet_start_local_hour:int|None=Field(default=None,ge=0,le=23)
+    quiet_end_local_hour:int|None=Field(default=None,ge=0,le=23)
+    @model_validator(mode='after')
+    def quiet_spec(self):
+        from zoneinfo import ZoneInfo,ZoneInfoNotFoundError
+        if (self.quiet_start_local_hour is None)!=(self.quiet_end_local_hour is None):raise ValueError('complete quiet window required')
+        try:ZoneInfo(self.quiet_timezone)
+        except (ZoneInfoNotFoundError,ValueError):raise ValueError('IANA timezone required') from None
+        return self
 
 class DeliveryAdmission:
     def __init__(self,store,policy,*,scopes,privacy_classes):
@@ -36,8 +46,10 @@ class DeliveryAdmission:
         return None,None
     def _quiet(self):
         from datetime import datetime,timezone
-        hour=datetime.fromtimestamp(self.store.clock.utc_now_us()/1e6,tz=timezone.utc).hour
-        start,end=self.policy.quiet_start_utc_hour,self.policy.quiet_end_utc_hour
+        from zoneinfo import ZoneInfo
+        local=self.policy.quiet_start_local_hour is not None and self.policy.quiet_end_local_hour is not None
+        hour=datetime.fromtimestamp(self.store.clock.utc_now_us()/1e6,tz=ZoneInfo(self.policy.quiet_timezone) if local else timezone.utc).hour
+        start,end=(self.policy.quiet_start_local_hour,self.policy.quiet_end_local_hour) if local else (self.policy.quiet_start_utc_hour,self.policy.quiet_end_utc_hour)
         return start<=hour<end if start<end else hour>=start or hour<end if start>end else False
     def assess(self,cycle,resource,*,payload=None,source_memory_ids=()):
         if not cycle.intention_id or not cycle.evaluation or cycle.evaluation.normative!='ENDORSED':raise CoreError('ENDORSED_SOCIAL_INTENTION_REQUIRED')

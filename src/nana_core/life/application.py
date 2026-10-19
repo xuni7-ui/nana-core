@@ -93,6 +93,11 @@ class LifeApplication:
             old=self.runtime.store.one('core_meta','runtime.life_control');self.control=json.loads(old['value_json']) if old else {'paused':False,'messages':0}
             self.runtime.work.paused=self.control['paused']
             self.policy=ContextPolicy(policy_id='independent-life',allowed_scopes=('project-work',),readable_privacy=('PUBLIC','PROJECT','PERSONAL'),remote_privacy=self.config.remote_privacy)
+            from .surfaces import SurfaceSession
+            self.surfaces=SurfaceSession(self,self.config.surface_bindings)
+            from .shared import SharedPresence,LifeOpportunities
+            self.shared=SharedPresence(self)
+            if self.config.shared_presence:self.runtime.work.activity_source=LifeOpportunities(self.runtime.work.activity_source,self.shared)
         except BaseException:self.runtime.stop();raise
 
     def _save_control(self):
@@ -111,19 +116,23 @@ class LifeApplication:
         from .view import life_board
         if self.config.owned_application_profile:
             from ..continuity.hands.view import hands_board
-            return hands_board(self)
-        return life_board(self)
+            view=hands_board(self)
+        else:view=life_board(self)
+        view['shared_experiences']=self.shared.candidates()
+        view['surfaces']=[{'binding_id':b.binding_id,'enabled':b.enabled,'mode':b.mode} for b in self.config.surface_bindings]
+        view['human_review']='NOT_RUN'
+        return view
     def status(self):
         r=self.runtime
         return {'identity_id':r.identity_id,'autonomy':'PAUSED' if r.work.paused else 'RUNNING','provider':'OFFLINE_NO_PROVIDER' if self.router is None else 'CONFIGURED_NOT_QUALITY_QUALIFIED',
             'view':runtime_projection(r,'LIVING_RUNTIME',self.policy,scopes=('project-work',),entity_id='project-user'),
             'learning':[{'state':x['state'],'cursor':x['cursor']} for x in r.store.db.execute("SELECT state,cursor FROM jobs WHERE work_kind='LEARNING' ORDER BY rowid DESC LIMIT 4")],
             'reports':[p.name for p in (self.home/'reports').glob('*.md')], 'pending_authorization':['REAL_PROVIDER_BUDGET_AND_EXPLICIT_SECRET_RESOLVER'] if self.router is None else [],'external_social_delivery':'DISABLED'}
-    def presence(self,state):
+    def presence(self,state,*,privacy_classes=('PUBLIC',)):
         from ..continuity.open_agency.delivery import RecipientState
         if state not in {'BUSY','AVAILABLE','UNKNOWN'}:raise CoreError('LOCAL_PRESENCE_INVALID')
         r=self.runtime
-        value=RecipientState(resource='synthetic://recipient/project-user',entity_id='project-user',availability=state,observed_at_us=r.clock.utc_now_us(),expires_at_us=r.clock.utc_now_us()+60*SECOND)
+        value=RecipientState(resource='synthetic://recipient/project-user',entity_id='project-user',availability=state,observed_at_us=r.clock.utc_now_us(),expires_at_us=r.clock.utc_now_us()+60*SECOND,permitted_privacy=privacy_classes)
         mid=capture(r,'local-presence:'+uid(),value.model_dump(mode='json'),kind='USER_STATEMENT',predicate='recipient.'+digest(value.resource)[:32])
         r.refresh_attention();return {'declared_availability':state,'source_memory_id':mid,'not_inferred_from_contact_frequency':True}
     def _fact_sources(self):
@@ -137,6 +146,12 @@ class LifeApplication:
         from ..presence.resources import resource_state
         if resource_state(self.runtime.store,self.runtime.config).unresolved_calls:raise CoreError('UNRESOLVED_PROVIDER_CALL_NO_RETRY')
         target=self.router.resolve(RouteRequest(operation='COGNITION',privacy_class=privacy,timeout_ms=self.config.provider_timeout_ms,cost_ceiling=self.config.provider_cost_ceiling_micro,context_limit=8192,output_limit=1024),self.policy)
+        # Additional host ceilings intersect the original Runtime reservations.
+        # PREPARED/UNKNOWN attempts count too; absence of a bill is not a refund.
+        now=self.runtime.clock.utc_now_us();s=self.runtime.store
+        if s.db.execute('SELECT count(*) FROM cognitive_requests WHERE created_at_us>=?',(now-HOUR,)).fetchone()[0]>=self.config.provider_calls_per_hour:raise CoreError('PROVIDER_HOURLY_BUDGET')
+        count=s.db.execute("SELECT count(*) FROM cognitive_requests c JOIN continuity_records r ON r.record_id=c.record_id JOIN artifacts a ON a.artifact_id=r.payload_artifact_id WHERE c.created_at_us>=? AND json_extract(CAST(a.payload AS TEXT),'$.request.route_snapshot.provider_profile_id')=?",(now-24*HOUR,target.snapshot.provider_profile_id)).fetchone()[0]
+        if count>=self.config.per_provider_calls_per_day:raise CoreError('PROVIDER_PROFILE_DAILY_BUDGET')
         if self.session is None or self.session.route_snapshot!=target.snapshot:
             if self.session and any(w.is_alive() for w in self.session._workers):raise CoreError('PROVIDER_WORKER_UNRESOLVED')
             self.session=target.cognition_session(self.runtime)
@@ -147,6 +162,8 @@ class LifeApplication:
     def _model(self,key,phase,mid,text,topic,privacy,cycle=None):
         session=self._session(privacy)
         facts=self._fact_sources()[:1] if phase=='RENDER' and cycle.context_fit.mode in {'CHAT','SHARE','HELP'} else ()
+        from .surfaces import recent_sources
+        continuity=recent_sources(self,topic,privacy)
         from ..continuity.memory import PRIVACY_RANK
         recent=[]
         for turn in self._recent:
@@ -157,18 +174,25 @@ class LifeApplication:
         descriptor=DialogueContext(message_memory_id=mid,topic=topic,privacy_class=privacy,phase=phase,
             judgment=cycle.judgment.stance if cycle else None,intention=cycle.intention.kind if cycle else None,context_mode=cycle.context_fit.mode if cycle else None,effect_status='VERIFIED_EFFECT' if facts else 'NONE')
         data={'dialogue':descriptor.model_dump(mode='json')};volatile={'dialogue':descriptor.model_copy(update={'text':text,'recent_turns':tuple(recent)}).model_dump(mode='json')}
-        request=session.prepare(key, 'INTERPRET' if phase=='INTERPRET' else 'SOCIAL',tuple(dict.fromkeys((mid,*facts,*(t.message_memory_id for t in recent)))),role_input=data,volatile_input=volatile,
+        request=session.prepare(key, 'INTERPRET' if phase=='INTERPRET' else 'SOCIAL',tuple(dict.fromkeys((mid,*facts,*continuity,*(t.message_memory_id for t in recent)))),role_input=data,volatile_input=volatile,
             budget=CognitionBudget(input_tokens=8192,output_tokens=1024,timeout_ms=self.config.provider_timeout_ms,cost_ceiling_micro=self.config.provider_cost_ceiling_micro))
         result=session.execute(request)
         if result['state']!='PROPOSED':raise CoreError(result.get('error_code','DIALOGUE_NOT_PROPOSED'))
         return session,result['record_id']
 
-    def chat(self,text,*,topic='daily',privacy='PERSONAL',message_id=None):
+    def chat(self,text,*,topic='daily',privacy='PERSONAL',message_id=None,surface=None,support_memory_ids=(),source_key=None):
         if type(text) is not str or not 1<=len(text)<=2048:raise CoreError('LOCAL_MESSAGE_BOUND')
-        r=self.runtime;key=message_id or uid()
+        r=self.runtime;key=message_id or uid();event_key=source_key or 'local.chat.'+key
         if key in self._chat:return {'message_id':key,'state':'ALREADY_REVIEWED_NO_REPLAY'}
-        if r.store.db.execute('SELECT 1 FROM subject_events WHERE source_key=?',('local.chat.'+key,)).fetchone():return {'message_id':key,'state':'ALREADY_REVIEWED_NO_REPLAY'}
-        mid=capture(r,'local-message:'+key,{'local_message_id':key,'body_retained':False})
+        if r.store.db.execute('SELECT 1 FROM subject_events WHERE source_key=?',(event_key,)).fetchone():return {'message_id':key,'state':'ALREADY_REVIEWED_NO_REPLAY'}
+        # Metadata has the same classification as its source, and optional
+        # approved summary parents participate in normal privacy/deletion closure.
+        from ..continuity.contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
+        memory=MemoryService(r.store);reference='message:'+digest(event_key)
+        body='Local input reviewed meaning: UNCLEAR'
+        old=r.store.db.execute("SELECT observed_time_us FROM continuity_evidence WHERE source_namespace='recorded.local.message' AND source_reference=?",(reference,)).fetchone()
+        eid=memory.capture(EvidenceInput(provenance=Provenance(domain='LOCAL_INTERACTION_METADATA',source_namespace='recorded.local.message',source_reference=reference,source_kind='USER_STATEMENT'),text=body,privacy_class=privacy,observed_time_us=old[0] if old else r.clock.utc_now_us()))
+        mid=memory.add(MemoryCandidate(entity_id=r.config.entity_id,scope=r.config.scopes[0],memory_type=MemoryType.EPISODIC,epistemic_kind='STATEMENT',source_evidence_id=eid,text=body,derived_from=tuple(support_memory_ids)))
         literal=LiteralSpanInterpreter().interpret(text);kind=literal.kind if literal.basis=='LITERAL_SPAN' else 'UNCLEAR';basis='EXPLICIT' if literal.basis=='LITERAL_SPAN' else 'INTERPRETED';rid=None;provider_state='LIVE_PROVIDER_NOT_RUN'
         try:
             from ..continuity.subject.context_fit import depth_boundary
@@ -182,7 +206,7 @@ class LifeApplication:
                 basis='MODEL_PROPOSAL' if meaning.confidence in {'RELEVANT','HIGH'} else 'INTERPRETED'
             provider_state='MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED'
         except CoreError as exc:provider_state=exc.code
-        event=SubjectInput(domain='LOCAL_INTERACTION',source_key='local.chat.'+key,kind='INTERACTION',origin='USER',entity_id='project-user',scope='project-work',observed_at_us=r.clock.utc_now_us(),privacy_class=privacy,
+        event=SubjectInput(domain='LOCAL_INTERACTION',source_key=event_key,kind='INTERACTION',origin='USER',entity_id='project-user',scope='project-work',observed_at_us=surface.observed_at_us if surface else r.clock.utc_now_us(),privacy_class=privacy,surface=surface,
             text='Local input reviewed meaning: '+kind,source_memory_ids=(mid,),interaction_signal=InteractionSignal(kind=kind,topic_key=topic,basis=basis,proposal_record_id=rid))
         qid=r.submit(RuntimeEvent(event_type='USER_EVENT',trigger='INCOMING_EVENT',input=event,causes=(Cause(kind='MEMORY',reference_id=mid),),due_at_us=r.clock.utc_now_us(),priority=3))
         outcome=r.step();queue=r.store.one('runtime_queue',qid)

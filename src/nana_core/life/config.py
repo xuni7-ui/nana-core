@@ -2,13 +2,16 @@
 import json,os,tempfile,resource
 from pathlib import Path
 from typing import Literal
-from pydantic import Field
+from pydantic import Field,model_validator
+from zoneinfo import ZoneInfo,ZoneInfoNotFoundError
 from ..contracts import DTO,CoreError
 from ..continuity.project_work.port import ProjectMaterial
 from ..continuity.privacy import _json_object
+from .surfaces import SurfaceBinding
 
 class LifeConfig(DTO):
     schema_version:Literal[1]=1
+    revision:int=Field(default=1,ge=1)
     project_root:str
     materials:tuple[ProjectMaterial,...]=Field(min_length=1,max_length=16)
     practice:ProjectMaterial
@@ -21,13 +24,29 @@ class LifeConfig(DTO):
     document_learning:tuple[ProjectMaterial,...]=Field(default=(),max_length=3)
     allow_local_skills:bool=False
     owned_application_profile:str|None=None
+    timezone:str='UTC'
+    quiet_start_local_hour:int=Field(default=23,ge=0,le=23)
+    quiet_end_local_hour:int=Field(default=7,ge=0,le=23)
+    min_free_disk_mb:int=Field(default=64,ge=1,le=4096)
+    log_max_bytes:int=Field(default=262144,ge=4096,le=1048576)
+    surface_bindings:tuple[SurfaceBinding,...]=Field(default=(),max_length=16)
+    shared_presence:bool=False
+
+    @model_validator(mode='after')
+    def valid_timezone(self):
+        try:ZoneInfo(self.timezone)
+        except (ZoneInfoNotFoundError,ValueError):raise ValueError('IANA timezone required') from None
+        if len({b.binding_id for b in self.surface_bindings})!=len(self.surface_bindings):raise ValueError('duplicate surface binding')
+        return self
     max_autonomous_materials:int=Field(default=2,ge=0,le=16)
     active_start_utc:int=Field(default=0,ge=0,le=23)
     active_end_utc:int=Field(default=0,ge=0,le=23)
     provider_hosts:tuple[str,...]=()
     remote_privacy:tuple[Literal['PUBLIC','PROJECT','PERSONAL'],...]=()
-    provider_timeout_ms:int=Field(default=2000,ge=100,le=3000)
+    provider_timeout_ms:int=Field(default=2000,ge=100,le=15000)
     provider_calls_per_day:int=Field(default=12,ge=0,le=24)
+    provider_calls_per_hour:int=Field(default=24,ge=0,le=24)
+    per_provider_calls_per_day:int=Field(default=24,ge=0,le=24)
     provider_cost_ceiling_micro:int=Field(default=0,ge=0,le=100000)
 
 
@@ -61,6 +80,27 @@ def load_config(home):
         obj=json.loads(raw,object_pairs_hook=_json_object)
         return LifeConfig.model_validate_json(json.dumps(obj))
     except (OSError,ValueError):raise CoreError('LIFE_CONFIG_INVALID') from None
+
+
+def update_config(home,config,*,expected_revision):
+    """Host-local CAS; no Subject/Manager event or execution authorization."""
+    import fcntl
+    home=home_path(home);lock=os.open(home/'.life-settings.lock',os.O_RDWR|os.O_CREAT|os.O_NOFOLLOW,0o600)
+    try:
+        fcntl.flock(lock,fcntl.LOCK_EX)
+        current=load_config(home)
+        if current.revision!=expected_revision or config.revision!=expected_revision+1:raise CoreError('LIFE_CONFIG_REVISION_CONFLICT')
+        config=LifeConfig.model_validate_json(config.model_dump_json())
+        fd,tmp=tempfile.mkstemp(dir=home,prefix='.life-')
+        try:
+            with os.fdopen(fd,'w') as stream:stream.write(config.model_dump_json());stream.flush();os.fsync(stream.fileno())
+            os.replace(tmp,home/'life.json');directory=os.open(home,os.O_RDONLY|os.O_DIRECTORY)
+            try:os.fsync(directory)
+            finally:os.close(directory)
+        finally:
+            if os.path.exists(tmp):os.unlink(tmp)
+        return config
+    finally:os.close(lock)
 
 
 def apply_resource_limits(config):

@@ -85,7 +85,16 @@ class SubjectIngress:
         # deletable and dependency-bound. Wake copies no user text.
         with self.store.transaction('subject.input_ingested') as tx:
             event_id, record = uid(), None
-            if memory_id or (event.kind=='WAKE' and support):
+            # A local surface may retain bounded normalized event metadata in
+            # L1 without promoting an ordinary conversation body into L2.
+            # Its only text is the existing closed meaning vocabulary; source
+            # dependencies still govern deletion, scope and classification.
+            local_surface_metadata=False
+            if event.domain=='LOCAL_INTERACTION' and event.surface and support:
+                import re
+                if not re.fullmatch(r'Local input reviewed meaning: (?:VENT|CHAT|HELP|SHARE|CORRECTION|DECLINE_DEPTH|REOPEN|FOCUS|UNCLEAR|IMPORTANT)',event.text or ''):raise CoreError('LOCAL_METADATA_ONLY')
+                local_surface_metadata=True
+            if memory_id or (event.kind=='WAKE' and support) or local_surface_metadata:
                 record = self.records.create(tx, kind='SUBJECT_EVENT', scope=event.scope,
                     payload={'input': json.loads(event.model_dump_json()), 'admission_reasons': reasons},target_id=request_target,
                     memories=(*support, *((memory_id,) if memory_id else ())))

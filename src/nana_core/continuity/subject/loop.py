@@ -473,7 +473,7 @@ class SubjectLoop:
                 if goal['intention_id'] == intention_id:
                     tx.update('subject_goal_candidates', goal['candidate_id'], state='EXPIRED' if state == 'EXPIRED' else 'WITHDRAWN')
 
-    def reflect(self, experience_id, *, authority, expected_revision=None, apply=False):
+    def reflect(self, experience_id, *, authority, expected_revision=None, apply=False,intention_id=None):
         """Explicit SubjectLoop transition, not an autonomous reflection engine.
 
         Application still requires existing reviewed narrow-rule authority.
@@ -487,6 +487,17 @@ class SubjectLoop:
         row = self.store.one('subject_reflections', reflection_id)
         if apply and row['state'] == 'CANDIDATE':
             service.apply(reflection_id, expected_revision=row['revision'], authority=authority)
+        if intention_id:
+            intention=self.store.one('subject_intentions',intention_id)
+            if not intention or intention['kind']!='REFLECTION':raise CoreError('REFLECTION_INTENTION_MISMATCH')
+            source=self.store.one('subject_events',intention['subject_event_id'])
+            recorded=self.records.read(source['record_id'])['payload']['input']
+            if recorded.get('reflection_experience_id')!=experience_id or not self.records.current_support(row['record_id']):raise CoreError('REFLECTION_INTENTION_MISMATCH')
+            if intention['state']=='PENDING':
+                # Proposing the traceable reflection fulfilled thinking; it did
+                # not adopt the proposed lesson, change identity or learn a rule.
+                with self.store.transaction('subject.reflection_intention_completed',{'intention_id':intention_id,'reflection_id':reflection_id,'experience_id':experience_id}) as tx:
+                    tx.update('subject_intentions',intention_id,state='COMPLETED',revision=intention['revision']+1)
         return reflection_id
 
     def cognize(self, event, *, model, authority, policy, capabilities=(), limitations=()):

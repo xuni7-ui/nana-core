@@ -35,3 +35,11 @@ class OwnedApplication:
         self._log.close()
     def __enter__(self):return self
     def __exit__(self,*unused):self.close()
+
+def daily_tasks():
+    """Explicit host-approved daily work, never an automatic execution grant."""
+    return (*default_tasks(),
+        ApplicationTask(task_id='reading-list',kind='CONTENT',initial='wind\nmap\nwind\n\n',wanted='map\nwind',context='reading'),
+        ApplicationTask(task_id='archive-notes',kind='FILES',initial='public project notes',fields=('draft','raw'),wanted={'draft':'reviewed','raw':'reference'},context='organize'),
+        ApplicationTask(task_id='index-topics',kind='CONTENT',initial=' beta\nalpha\nbeta\n',wanted='alpha\nbeta',context='index'),
+        ApplicationTask(task_id='organize-export',kind='FILES',initial='synthetic export',fields=('incoming',),wanted={'incoming':'processed'},context='export'))

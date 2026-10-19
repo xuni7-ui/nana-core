@@ -14,7 +14,9 @@ from .port import OwnedApplicationPort
 
 
 def expected(task):
-    return task.wanted if task.kind=='DOCUMENT' else {'values':{k:task.wanted.get(k,'') for k in task.fields},'submitted':True}
+    if task.kind in {'DOCUMENT','CONTENT'}:return task.wanted
+    if task.kind=='FILES':return {'values':{dst:task.initial+':'+src for src,dst in task.wanted.items()},'submitted':False}
+    return {'values':{k:task.wanted.get(k,'') for k in task.fields},'submitted':True}
 
 def independent_commands(data):
     """Evaluator-only full desired workflow, not candidate output or effect receipt."""
@@ -66,9 +68,11 @@ class HandsWork:
             allowed_effect=tuple(c['op'] for c in inv.args['data']['commands']),expected_outcome_digest=digest(expected(task)),grant_reference=attempt['grant_id'],budget_reference=holds,created_at_us=attempt['started_at_us'],deadline_us=attempt['started_at_us']+5_000_000,idempotency_key=inv.idempotency_key)
     def objective(self,task,skill=None):
         key=task.task_id;resource='hands://'+self.port.target.instance_id+'/'+key+'/'
-        return Objective(objective_id='hands.'+key+('-batch' if skill else ''),scope='project-work',motivation_source='PROJECT_COMPLETION',task_domain='owned-document' if task.kind=='DOCUMENT' else 'owned-form',desired=('applied',),operators=(
+        domains={'DOCUMENT':'owned-document','FORM':'owned-form','FILES':'owned-files','CONTENT':'owned-content'}
+        methods={'DOCUMENT':'HANDS_APPEND','FORM':'HANDS_POSITIONAL','FILES':'HANDS_MOVE_DECLARED','CONTENT':'HANDS_UNIQUE_LINES'}
+        return Objective(objective_id='hands.'+key+('-batch' if skill else ''),scope='project-work',motivation_source='PROJECT_COMPLETION',task_domain=domains[task.kind],desired=('applied',),operators=(
             Operator(operator_id='inspect',capability='world.observe',resource=resource+'source',produces=('seen',),args={}),
-            Operator(operator_id='prepare',capability='world.skill' if skill else 'world.compute',resource=resource+'commands',requires=('seen',),produces=('prepared',),args={'input_from':'inspect','data_privacy':'PROJECT',**({'skill_record_id':skill} if skill else {'method':'HANDS_APPEND' if task.kind=='DOCUMENT' else 'HANDS_POSITIONAL'})},strategy_selectable=not skill),
+            Operator(operator_id='prepare',capability='world.skill' if skill else 'world.compute',resource=resource+'commands',requires=('seen',),produces=('prepared',),args={'input_from':'inspect','data_privacy':'PROJECT',**({'skill_record_id':skill} if skill else {'method':methods[task.kind]})},strategy_selectable=not skill),
             Operator(operator_id='apply',capability='world.publish',resource=resource+'effect',requires=('prepared',),produces=('applied',),args={'input_from':'prepare','data_privacy':'PROJECT'},expected_digest=digest(expected(task)))))
     def goal_for_object(self,obj):
         row=self.runtime.store.db.execute("SELECT g.* FROM goals g JOIN continuity_records r ON r.record_id=json_extract(g.body_json,'$.record_id') JOIN artifacts a ON a.artifact_id=r.payload_artifact_id WHERE json_extract(CAST(a.payload AS TEXT),'$.objective.objective_id')=? ORDER BY g.rowid DESC LIMIT 1",(obj.objective_id,)).fetchone()

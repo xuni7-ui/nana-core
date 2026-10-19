@@ -57,8 +57,10 @@ class OwnedApplicationPort:
         if type(data)!=dict or data.get('task_id')!=key or type(data.get('revision'))!=int or set(data)!={'task_id','revision','commands'}:raise CoreError('HANDS_PREPARED_COMMANDS_REQUIRED')
         if not 1<=len(data['commands'])<=9:raise CoreError('HANDS_EFFECT_BOUND')
         for c in data['commands']:
-            if task.kind=='DOCUMENT':
+            if task.kind in {'DOCUMENT','CONTENT'}:
                 if set(c)!={'op','value'} or c['op'] not in {'APPEND','REPLACE'} or c['value'] not in {task.wanted,task.wanted.strip()}:raise CoreError('HANDS_EFFECT_SCOPE_DENIED')
+            elif task.kind=='FILES':
+                if set(c)!={'op','source','destination'} or c['op']!='MOVE' or task.wanted.get(c['source'])!=c['destination']:raise CoreError('HANDS_EFFECT_SCOPE_DENIED')
             elif c.get('op')=='SET_FIELD':
                 if set(c)!={'op','field','value'} or c['field'] not in task.fields or c['value'] not in {*task.wanted.values(),''}:raise CoreError('HANDS_EFFECT_SCOPE_DENIED')
             elif c!={'op':'SUBMIT'}:raise CoreError('HANDS_EFFECT_SCOPE_DENIED')
@@ -78,6 +80,10 @@ class OwnedApplicationPort:
     def _pure(self,inv,key,args):
         if inv.capability=='world.observe':
             observed=self.peek(key);value={'task':observed['task'],'revision':observed['state']['revision']}
+            if self.tasks[key].kind=='CONTENT':
+                root=self.assert_owned();fd=os.open(root/(key+'.input.txt'),os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK)
+                with os.fdopen(fd,'rb') as stream:
+                    if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode) or stream.read(2049).decode()!=self.tasks[key].initial:raise CoreError('HANDS_SOURCE_BINDING_MISMATCH')
         else:
             source=args['data']
             if source.get('task')!=self.tasks[key].model_dump(mode='json'):raise CoreError('HANDS_SOURCE_BINDING_MISMATCH')
@@ -102,7 +108,7 @@ class OwnedApplicationPort:
             state=observed['state']
             if state['revision']!=effect['revision'] or digest(state)!=effect['after_digest']:raise CoreError('HANDS_STATE_CHANGED_SINCE_EFFECT')
             task=self.tasks[key]
-            if task.kind=='DOCUMENT':
+            if task.kind in {'DOCUMENT','CONTENT'}:
                 root=self.assert_owned();directory=os.open(root,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)
                 try:
                     fd=os.open(key+'.txt',os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK,dir_fd=directory)
@@ -112,12 +118,25 @@ class OwnedApplicationPort:
                 finally:os.close(directory)
                 if actual!=state['text']:raise CoreError('HANDS_STRUCTURAL_EVIDENCE_DISAGREES')
                 value=actual
+            elif task.kind=='FILES':
+                root=self.assert_owned();directory=os.open(root,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)
+                actual={}
+                try:
+                    for name in (*task.fields,*task.wanted.values()):
+                        try:fd=os.open(key+'--'+name+'.txt',os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK,dir_fd=directory)
+                        except FileNotFoundError:continue
+                        with os.fdopen(fd,'rb') as stream:
+                            if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):raise CoreError('HANDS_DOCUMENT_INVALID')
+                            actual[name]=stream.read(2049).decode()
+                finally:os.close(directory)
+                if actual!=state['values']:raise CoreError('HANDS_STRUCTURAL_EVIDENCE_DISAGREES')
+                value={'values':actual,'submitted':False}
             else:
                 # Independent read-only channel AND persisted application state.
                 root=self.assert_owned();fd=os.open(root/'application-state.json',os.O_RDONLY|os.O_NOFOLLOW)
                 with os.fdopen(fd,'rb') as stream:persisted=json.loads(stream.read(200000))
                 if persisted['instance_id']!=self.target.instance_id or persisted['state'][key]!=state or persisted['effects'].get(inv.idempotency_key)!=effect:raise CoreError('HANDS_STRUCTURAL_EVIDENCE_DISAGREES')
                 value={'values':state['values'],'submitted':state['submitted']}
-            result={'data':value,'data_privacy':'PROJECT','origin':'REAL_OS_CONTROLLED_INDEPENDENT_VERIFICATION','target_binding':self.target.binding,'task_id':key,'revision':state['revision'],'effect':effect,'verify_paths':['READ_ONLY_APPLICATION_IPC','DOCUMENT_FILE' if task.kind=='DOCUMENT' else 'PERSISTED_APPLICATION_STATE']}
+            result={'data':value,'data_privacy':'PROJECT','origin':'REAL_OS_CONTROLLED_INDEPENDENT_VERIFICATION','target_binding':self.target.binding,'task_id':key,'revision':state['revision'],'effect':effect,'verify_paths':['READ_ONLY_APPLICATION_IPC','DOCUMENT_FILE' if task.kind in {'DOCUMENT','CONTENT','FILES'} else 'PERSISTED_APPLICATION_STATE']}
             return Verification(verdict='MATCH',evidence={'result':result,'effect_digest':digest(effect)})
         except (CoreError,OSError,ValueError,KeyError):return Verification(verdict='INCONCLUSIVE',evidence={'reason':'INDEPENDENT_HANDS_VERIFICATION_UNKNOWN'})

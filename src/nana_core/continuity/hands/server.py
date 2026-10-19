@@ -29,7 +29,12 @@ def serve(workspace,tasks):
     sockets=[];selector=selectors.DefaultSelector();running=True
     state={t.task_id:{'revision':1,'text':t.initial,'values':{k:'' for k in t.fields},'submitted':False} for t in tasks};effects={}
     for t in tasks:
-        if t.kind=='DOCUMENT':atomic(root/(t.task_id+'.txt'),t.initial.encode(),directory)
+        if t.kind in {'DOCUMENT','CONTENT'}:atomic(root/(t.task_id+'.txt'),t.initial.encode(),directory)
+        if t.kind=='CONTENT':atomic(root/(t.task_id+'.input.txt'),t.initial.encode(),directory)
+        if t.kind=='FILES':
+            for key in t.fields:
+                text=t.initial+':'+key;state[t.task_id]['values'][key]=text
+                atomic(root/(t.task_id+'--'+key+'.txt'),text.encode(),directory)
     for name in ['control','query']:
         s=socket.socket(socket.AF_UNIX);s.bind(str(root/(name+'.sock')));os.chmod(root/(name+'.sock'),0o600);s.listen(4);selector.register(s,selectors.EVENT_READ,name);sockets.append(s)
     profile=OwnedTarget(workspace=str(root),pid=os.getpid(),uid=os.getuid(),process_start=process_start(os.getpid()),directory_inode=os.fstat(directory).st_ino,control_inode=(root/'control.sock').stat().st_ino,query_inode=(root/'query.sock').stat().st_ino,instance_id=os.urandom(16).hex(),tasks=tasks)
@@ -76,10 +81,13 @@ def serve(workspace,tasks):
                                 if type(commands)!=list or not 1<=len(commands)<=9:raise ValueError('command bound')
                                 new=json.loads(canonical(state[task_id]));before=digest(new)
                                 for command in commands:
-                                    if task.kind=='DOCUMENT':
+                                    if task.kind in {'DOCUMENT','CONTENT'}:
                                         if set(command)!={'op','value'} or command['op'] not in {'REPLACE','APPEND'} or type(command['value'])!=str or len(command['value'])>512:raise ValueError('document command')
                                         new['text']=(new['text'] if command['op']=='APPEND' else '')+command['value']
                                         if len(new['text'])>2048:raise ValueError('document size')
+                                    elif task.kind=='FILES':
+                                        if set(command)!={'op','source','destination'} or command['op']!='MOVE' or task.wanted.get(command['source'])!=command['destination'] or command['source'] not in new['values']:raise ValueError('finite file mapping')
+                                        new['values'][command['destination']]=new['values'].pop(command['source'])
                                     elif command['op']=='SET_FIELD':
                                         if set(command)!={'op','field','value'} or command['field'] not in task.fields or type(command['value'])!=str or len(command['value'])>128:raise ValueError('form field')
                                         new['values'][command['field']]=command['value']
@@ -88,7 +96,14 @@ def serve(workspace,tasks):
                                 new['revision']+=1
                                 # Application persistence, not a claimed expected output. A crash
                                 # across two files is detectable disagreement, never replayed here.
-                                if task.kind=='DOCUMENT':atomic(root/(task_id+'.txt'),new['text'].encode(),directory)
+                                if task.kind in {'DOCUMENT','CONTENT'}:atomic(root/(task_id+'.txt'),new['text'].encode(),directory)
+                                if task.kind=='FILES':
+                                    # Finite owned basenames only. link+unlink never overwrites
+                                    # an existing destination; a partial crash stays observable.
+                                    for command in commands:
+                                        src=task_id+'--'+command['source']+'.txt';dst=task_id+'--'+command['destination']+'.txt'
+                                        if not stat.S_ISREG(os.stat(src,dir_fd=directory,follow_symlinks=False).st_mode):raise ValueError('source file type')
+                                        os.link(src,dst,src_dir_fd=directory,dst_dir_fd=directory,follow_symlinks=False);os.unlink(src,dir_fd=directory);os.fsync(directory)
                                 state[task_id]=new
                                 response={'request_digest':fingerprint,'action_id':request['action_id'],'subject_id':request['subject_id'],'task_id':task_id,'idempotency_key':eid,'before_digest':before,'after_digest':digest(new),'revision':new['revision'],'at_ns':time.time_ns(),'status':'APPLIED','commands':commands}
                                 effects[eid]=response;checkpoint()

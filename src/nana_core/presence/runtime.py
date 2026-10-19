@@ -160,6 +160,9 @@ class NanaRuntime:
     def step(self):
         self.cadence.assert_owner();self.cadence.drain(self.submit)
         self.lease.heartbeat()
+        if not self.queue.has_reactive() and not (self.work and self.work.paused):
+            recovered=self._recover_followup()
+            if recovered:return recovered
         if self.perception:self.perception.poll()
         if not (self.work and self.work.paused):self._watch_sources();self.scheduler.due()
         work_activity=self.work.opportunity() if self.work and not self.queue.has_reactive() else None
@@ -215,10 +218,8 @@ class NanaRuntime:
                     reason='MODEL_FAILED_LIGHT_FALLBACK'
                 self.oper['last_cognition_us']=self.clock.utc_now_us()
             else:result=self.subject.run(event)
-            if result and result.intention.kind=='REFLECTION' and event.reflection_experience_id:
-                self.subject.reflect(event.reflection_experience_id,authority=self.authority,apply=False)
             if result and result.intention.kind!='NO_ACTION':self.oper['last_activity_us']=self.clock.utc_now_us()
-            if self.work and result:self.work.after_cycle(result,event)
+            if result:self._followup(row,event,result)
             self.queue.finish(row,'DONE',reason,result.cycle_id if result else None)
             checkpoint=self.store.db.execute('PRAGMA wal_checkpoint(PASSIVE)').fetchone()
             if checkpoint[0]==0:self.oper['last_successful_checkpoint_us']=self.clock.utc_now_us()
@@ -232,6 +233,33 @@ class NanaRuntime:
             self._save_oper()
             return {'queue_id':row['queue_id'],'mode':'NO_COGNITION','reason':'SOURCE_RETIRED_OR_INVALID','cycle':None}
         finally:self._processing=None
+
+    def _followup(self,row,event,result):
+        key=row['queue_id']
+        if self.store.db.execute("SELECT 1 FROM events WHERE source_namespace='runtime.followup' AND source_key=?",(key,)).fetchone():return
+        if result.intention.kind=='REFLECTION' and event.reflection_experience_id:
+            self.subject.reflect(event.reflection_experience_id,authority=self.authority,apply=False,intention_id=result.intention_id)
+        if self.work:self.work.after_cycle(result,event)
+        with self.store.transaction('runtime.cycle_followup_completed',{'cycle_id':result.cycle_id},source_namespace='runtime.followup',source_key=key):pass
+
+    def _recover_followup(self):
+        # C committed before a process died, but work adoption/settlement may not
+        # have committed. Reuse that decision and the existing idempotent work
+        # services. Never run C/model again or resend an uncertain effect.
+        row=self.store.db.execute("SELECT q.* FROM runtime_queue q WHERE q.outcome_code='RECOVERED_COMMITTED_CYCLE' AND NOT EXISTS (SELECT 1 FROM events e WHERE e.source_namespace='runtime.followup' AND e.source_key=q.queue_id) ORDER BY q.sequence_no LIMIT 1").fetchone()
+        if not row:return None
+        row=dict(row)
+        try:
+            event=self.queue.input(row)
+            cycle=self.subject.result(self.store.one('subject_cycles',row['cycle_id']))
+            self._followup(row,event,cycle)
+            code='RECOVERED_SUBJECT_FOLLOWUP'
+        except CoreError as exc:
+            if exc.code=='RUNTIME_LEASE_LOST':raise
+            code='FOLLOWUP_REQUIRES_SOURCE_OR_PERMISSION_REVIEW'
+            with self.store.transaction('runtime.cycle_followup_review_required',{'queue_id':row['queue_id'],'code':exc.code},source_namespace='runtime.followup',source_key=row['queue_id']):pass
+        self._save_oper()
+        return {'queue_id':row['queue_id'],'mode':'NO_COGNITION','reason':code,'cycle':None}
 
     def drain(self,limit=256):
         results=[]

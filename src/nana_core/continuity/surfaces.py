@@ -17,7 +17,7 @@ from .subject.contracts import SubjectInput
 
 
 def source_key(envelope):
-    return 'synthetic.surface.' + digest([envelope.platform, envelope.adapter,
+    return ('local.surface.' if envelope.domain=='LOCAL_INTERACTION' else 'synthetic.surface.') + digest([envelope.platform, envelope.adapter,
         envelope.surface, envelope.source_event_key])
 
 def surface_input(envelope,event,*,identity_id):

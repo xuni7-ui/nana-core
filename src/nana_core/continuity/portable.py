@@ -54,6 +54,7 @@ class SubjectPackageManifest(DTO):
     epoch_floor: int = Field(ge=0)
     schema_digest: str
     files: dict[str,str]
+    pending_effects: bool = False
     excluded: tuple[str,...] = ('credentials','provider_instances','embedding_cache','runtime_lease','runtime_health','machine_paths','external_execution_authority')
 
 
@@ -116,14 +117,14 @@ class SubjectPackageService:
         self._store,self._authority=store,authority
     def _auth(self,authority):
         if authority is not self._authority:raise CoreError('PORTABLE_CONTROLLER_REQUIRED')
-    def _offline(self):
+    def _offline(self, *, pending_effects=False):
         s=self._store
         if getattr(s,'_runtime_guard',None):raise CoreError('PORTABLE_STOP_RUNTIME_FIRST')
         if s.schema_target>=8:
             lease=s.one('runtime_lease',s.identity['identity_id'])
             if lease and lease['state']=='ACTIVE':raise CoreError('PORTABLE_STOP_RUNTIME_FIRST')
             if s.db.execute("SELECT 1 FROM runtime_queue WHERE state='PROCESSING'").fetchone() or s.db.execute("SELECT 1 FROM runtime_cognition_calls WHERE state='RESERVED'").fetchone():raise CoreError('PORTABLE_UNRESOLVED_COGNITION')
-        if s.db.execute("SELECT 1 FROM actions WHERE state IN ('READY','DISPATCHING','PENDING_VERIFY','UNKNOWN')").fetchone() or s.db.execute("SELECT 1 FROM budgets WHERE held>0").fetchone():
+        if not pending_effects and (s.db.execute("SELECT 1 FROM actions WHERE state IN ('READY','DISPATCHING','PENDING_VERIFY','UNKNOWN')").fetchone() or s.db.execute("SELECT 1 FROM budgets WHERE held>0").fetchone()):
             raise CoreError('PORTABLE_UNRESOLVED_EFFECT')
         unknown={r['key'] for r in s.all('core_meta')}-_META-_TRANSIENT
         if unknown:raise CoreError('PORTABLE_UNSUPPORTED_MACHINE_METADATA')
@@ -135,21 +136,23 @@ class SubjectPackageService:
                     raise CoreError('PORTABLE_UNSUPPORTED_MACHINE_METADATA')
                 if c['table']=='runtime_lease' or (c['table']=='core_meta' and c['row']['key'] in _TRANSIENT):
                     raise CoreError('PORTABLE_HOST_METADATA_IN_HISTORY')
-    def export(self,path,*,destination_id,source_commit,authority):
+    def export(self,path,*,destination_id,source_commit,authority,pending_effects=False):
         self._auth(authority);s=self._store;path=Path(path)
         try:
             if str(UUID(destination_id))!=destination_id or not re.fullmatch('[0-9a-f]{40}',source_commit):raise ValueError()
         except (ValueError,TypeError):raise CoreError('PORTABLE_TRANSFER_SPEC_INVALID') from None
         if path.exists() or path.is_symlink():raise CoreError('DESTINATION_EXISTS')
-        self._offline();s.ensure_privacy_current()
+        if type(pending_effects) is not bool:raise CoreError('PORTABLE_TRANSFER_SPEC_INVALID')
+        self._offline(pending_effects=pending_effects);s.ensure_privacy_current()
         old=s.one('core_meta','portable.retired')
         if old:
             transfer=json.loads(old['value_json'])
-            if (transfer['destination_id'],transfer['source_commit'])!=(destination_id,source_commit):raise CoreError('PORTABLE_SOURCE_ALREADY_RETIRED')
+            if (transfer['destination_id'],transfer['source_commit'],transfer.get('pending_effects',False))!=(destination_id,source_commit,pending_effects):raise CoreError('PORTABLE_SOURCE_ALREADY_RETIRED')
         else:
             lease=s.one('runtime_lease',s.identity['identity_id']) if s.schema_target>=8 else None
             floor=s.one('core_meta','runtime.epoch_floor')
             transfer={'transfer_id':uid(),'destination_id':destination_id,'source_commit':source_commit,
+                'pending_effects':pending_effects,
                 'epoch_floor':max(lease['epoch'] if lease else 0,json.loads(floor['value_json']) if floor else 0),
                 'exported_at_us':s.clock.utc_now_us()}
             # Existing stopped-runtime fence is satisfied by a trusted maintenance
@@ -168,7 +171,7 @@ class SubjectPackageService:
             try:
                 if s.schema_target>=8:db.execute('DELETE FROM runtime_lease')
                 if s.schema_target>=11:db.execute('UPDATE jobs SET owner_epoch=NULL')
-                db.execute("DELETE FROM core_meta WHERE key IN ('runtime.managed','runtime.health')")
+                db.execute("DELETE FROM core_meta WHERE key IN ('runtime.managed','runtime.health','runtime.life_control')")
                 db.execute("INSERT OR REPLACE INTO core_meta VALUES('runtime.epoch_floor',?)",(canonical(transfer['epoch_floor']),))
                 schema_sha=_schema_digest(db)
                 if schema_sha!=_expected_schema(s.schema_target):raise CoreError('PORTABLE_SCHEMA_DRIFT')
@@ -220,11 +223,12 @@ class SubjectPackageService:
             retired=db.execute("SELECT value_json FROM core_meta WHERE key='portable.retired'").fetchone()
             if (not retired or json.loads(retired[0])['transfer_id']!=m.transfer_id
                     or json.loads(retired[0])['destination_id']!=m.destination_id
+                    or json.loads(retired[0]).get('pending_effects',False)!=m.pending_effects
                     or db.execute('SELECT max(seq) FROM events').fetchone()[0]!=m.export_event_cutoff):
                 raise CoreError('PORTABLE_LINEAGE_INVALID')
             db.execute('BEGIN IMMEDIATE')
             db.execute("DELETE FROM core_meta WHERE key='portable.retired'")
-            db.execute("INSERT OR REPLACE INTO core_meta VALUES('portable.received',?)",(canonical({'state':'QUARANTINED','transfer_id':m.transfer_id,'destination_id':m.destination_id,'package_sha256':expected_sha256}),))
+            db.execute("INSERT OR REPLACE INTO core_meta VALUES('portable.received',?)",(canonical({'state':'QUARANTINED','transfer_id':m.transfer_id,'destination_id':m.destination_id,'package_sha256':expected_sha256,'pending_effects':m.pending_effects}),))
             db.execute('COMMIT')
         finally:db.close()
         # Opening applies opaque deletion intents and verifies sidecar semantics.
@@ -233,9 +237,10 @@ class SubjectPackageService:
         return dbpath
 
     def activate(self,*,transfer_id,destination_id,authority):
-        self._auth(authority);s=self._store;self._offline()
+        self._auth(authority);s=self._store
         row=s.one('core_meta','portable.received')
         received=json.loads(row['value_json']) if row else None
+        self._offline(pending_effects=bool(received and received.get('pending_effects')))
         if not received or (received['transfer_id'],received['destination_id'])!=(transfer_id,destination_id):raise CoreError('PORTABLE_ACTIVATION_MISMATCH')
         authority.assert_destination(destination_id,s.path.parent)
         if received['state']=='ACTIVE':raise CoreError('PORTABLE_ALREADY_ACTIVATED')
@@ -248,7 +253,11 @@ class SubjectPackageService:
             MemoryService(s).rebuild_index()
             with s.transaction('portable.destination_activated',{'transfer_id':transfer_id,'destination_id':destination_id}) as tx:
                 for grant in s.all('grants'):tx.update('grants',grant['grant_id'],revoked=1)
-                for budget in s.all('budgets'):tx.update('budgets',budget['dimension'],limit_value=budget['spent'],held=0)
+                # Unknown effects carry their reservations forward conservatively:
+                # account held cost as spent, never refund or mint new headroom.
+                for budget in s.all('budgets'):tx.update('budgets',budget['dimension'],limit_value=budget['spent']+budget['held'],spent=budget['spent']+budget['held'],held=0)
+                for hold in s.all('budget_holds'):
+                    if hold['status']=='HELD':tx.update('budget_holds',hold['hold_id'],status='SPENT')
                 tx.put('core_meta',{'key':'recovery_quarantine','value_json':'false'})
                 tx.put('core_meta',{'key':'portable.received','value_json':canonical({**received,'state':'ACTIVE'})})
         finally:del s._portable_activation_guard

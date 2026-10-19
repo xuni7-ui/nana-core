@@ -8,18 +8,19 @@ from ...storage import digest
 
 class ApplicationTask(DTO):
     task_id:str=Field(pattern=r'^[a-z][a-z0-9_-]{0,31}$')
-    kind:Literal['DOCUMENT','FORM']
+    kind:Literal['DOCUMENT','FORM','CONTENT','FILES']
     initial:str=Field(default='',max_length=1024)
     wanted:str|dict[str,str]
     fields:tuple[str,...]=Field(default=(),max_length=4)
     context:str=Field(default='notes',min_length=1,max_length=64)
     @model_validator(mode='after')
     def valid(self):
-        if self.kind=='DOCUMENT':
+        if self.kind in {'DOCUMENT','CONTENT'}:
             if type(self.wanted)!=str or len(self.wanted)>512 or self.fields:raise ValueError('document contract')
         else:
             if type(self.wanted)!=dict or not 1<=len(self.wanted)<=4 or len(set(self.fields))!=len(self.fields) or not set(self.wanted)<=set(self.fields):raise ValueError('form contract')
             if any(not k.isidentifier() or len(k)>32 for k in self.fields) or any(type(v)!=str or len(v)>128 for v in self.wanted.values()):raise ValueError('form bound')
+            if self.kind=='FILES' and (set(self.wanted)!=set(self.fields) or len(set(self.wanted.values()))!=len(self.wanted) or set(self.wanted.values())&set(self.fields) or any(not v.isidentifier() or len(v)>32 for v in self.wanted.values())):raise ValueError('finite disjoint file mapping required')
         return self
 
 class OwnedTarget(DTO):
@@ -66,7 +67,13 @@ def load_target(path):
 
 def command_plan(method,data):
     task=data['task'];wanted=task['wanted']
-    if task['kind']=='DOCUMENT':
+    if task['kind']=='CONTENT':
+        if method!='HANDS_UNIQUE_LINES':raise CoreError('HANDS_METHOD_TASK_MISMATCH')
+        commands=[{'op':'REPLACE','value':'\n'.join(sorted({line.strip() for line in task['initial'].splitlines() if line.strip()}))}]
+    elif task['kind']=='FILES':
+        if method!='HANDS_MOVE_DECLARED':raise CoreError('HANDS_METHOD_TASK_MISMATCH')
+        commands=[{'op':'MOVE','source':src,'destination':dst} for src,dst in sorted(wanted.items())]
+    elif task['kind']=='DOCUMENT':
         if method not in {'HANDS_APPEND','HANDS_REPLACE'}:raise CoreError('HANDS_METHOD_TASK_MISMATCH')
         commands=[{'op':'APPEND' if method=='HANDS_APPEND' else 'REPLACE','value':wanted.strip()}]
     else:
