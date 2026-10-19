@@ -75,17 +75,21 @@ class LifeApplication:
             interval=self.config.idle_review_seconds*SECOND
             if schedule and schedule['interval_us']!=interval:
                 self.runtime.scheduler.reschedule_periodic(schedule['schedule_id'],expected_interval_us=schedule['interval_us'],interval_us=interval)
-            spec=learning_spec(*(read_material(self.config.project_root,m) for m in (self.config.practice,self.config.heldout,self.config.transfer)))
-            specs=[spec]
-            if self.config.document_learning:
-                if len(self.config.document_learning)!=3:raise CoreError('DOCUMENT_THREE_SPLITS_REQUIRED')
-                from ..continuity.project_work.documents import document_learning_spec
-                specs.append(document_learning_spec(*(read_material(self.config.project_root,m) for m in self.config.document_learning)))
-            self.work=ProjectWork(self.runtime,self.config.project_root,self.config.materials,self.home/'reports',tuple(specs),grant=bootstrap_grant,allow_skills=self.config.allow_local_skills,motivation_source='CREATIVE_INTEREST')
-            if self.config.allow_local_skills and self.config.document_learning:
-                from .skills import DocumentSkills
-                self.runtime.work.skill_development=DocumentSkills(self, specs[-1])
-            self.runtime.work.activity_source=PortfolioOpportunities(self)
+            if self.config.owned_application_profile:
+                from ..continuity.hands.service import HandsWork
+                self.work=HandsWork(self.runtime,self.config.owned_application_profile,grant=bootstrap_grant,allow_skills=self.config.allow_local_skills)
+            else:
+                spec=learning_spec(*(read_material(self.config.project_root,m) for m in (self.config.practice,self.config.heldout,self.config.transfer)))
+                specs=[spec]
+                if self.config.document_learning:
+                    if len(self.config.document_learning)!=3:raise CoreError('DOCUMENT_THREE_SPLITS_REQUIRED')
+                    from ..continuity.project_work.documents import document_learning_spec
+                    specs.append(document_learning_spec(*(read_material(self.config.project_root,m) for m in self.config.document_learning)))
+                self.work=ProjectWork(self.runtime,self.config.project_root,self.config.materials,self.home/'reports',tuple(specs),grant=bootstrap_grant,allow_skills=self.config.allow_local_skills,motivation_source='CREATIVE_INTEREST')
+                if self.config.allow_local_skills and self.config.document_learning:
+                    from .skills import DocumentSkills
+                    self.runtime.work.skill_development=DocumentSkills(self, specs[-1])
+                self.runtime.work.activity_source=PortfolioOpportunities(self)
             old=self.runtime.store.one('core_meta','runtime.life_control');self.control=json.loads(old['value_json']) if old else {'paused':False,'messages':0}
             self.runtime.work.paused=self.control['paused']
             self.policy=ContextPolicy(policy_id='independent-life',allowed_scopes=('project-work',),readable_privacy=('PUBLIC','PROJECT','PERSONAL'),remote_privacy=self.config.remote_privacy)
@@ -98,12 +102,16 @@ class LifeApplication:
     def tick(self):return self.runtime.step()
     def sources(self):
         r=self.runtime;out=[]
+        if self.config.owned_application_profile:return {'owned_target':self.work.port.target.binding,'tasks':list(self.work.port.tasks),'scope':'OWNED_DEV_APPLICATION_ONLY'}
         for material in self.config.materials:
             row=r.store.db.execute("SELECT m.memory_id,m.lifecycle FROM memories m JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE e.source_namespace='recorded.project.material' AND e.source_reference=? ORDER BY m.rowid DESC LIMIT 1",('input:'+material.material_id,)).fetchone()
             out.append({'filename':material.relative_path,'material_id':material.material_id,'source_memory_id':row[0] if row else None,'support_state':row[1] if row else 'NOT_YET_OFFERED'})
         return {'approved_sources':out}
     def board(self):
         from .view import life_board
+        if self.config.owned_application_profile:
+            from ..continuity.hands.view import hands_board
+            return hands_board(self)
         return life_board(self)
     def status(self):
         r=self.runtime
@@ -120,7 +128,7 @@ class LifeApplication:
         r.refresh_attention();return {'declared_availability':state,'source_memory_id':mid,'not_inferred_from_contact_frequency':True}
     def _fact_sources(self):
         r=self.runtime;out=[]
-        for row in r.store.db.execute("SELECT m.memory_id FROM actions a JOIN continuity_evidence e ON e.source_reference=a.action_id JOIN memories m ON m.source_evidence_id=e.evidence_id WHERE a.capability='world.publish' AND a.state='SUCCEEDED' AND e.source_namespace='recorded.project.local-action' AND m.lifecycle='ACTIVE' ORDER BY a.rowid DESC LIMIT 3"):
+        for row in r.store.db.execute("SELECT m.memory_id FROM actions a JOIN continuity_evidence e ON e.source_reference=a.action_id JOIN memories m ON m.source_evidence_id=e.evidence_id WHERE a.capability='world.publish' AND a.state='SUCCEEDED' AND e.source_namespace IN ('recorded.project.local-action','recorded.project.owned-application-action') AND m.lifecycle='ACTIVE' ORDER BY a.rowid DESC LIMIT 3"):
             try:MemoryService(r.store).read(row[0]);out.append(row[0])
             except CoreError:continue
         return tuple(out)

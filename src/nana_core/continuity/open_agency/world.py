@@ -10,10 +10,10 @@ from pydantic import Field
 from ...contracts import DTO,CoreError
 from ...storage import canonical,digest
 
-URI=r'^(?:synthetic|project)://[A-Za-z0-9/._:-]{1,160}$'
+URI=r'^(?:synthetic|project|hands)://[A-Za-z0-9/._:-]{1,160}$'
 class ObserveArgs(DTO): pass
 class ComputeArgs(DTO):
-    method: Literal['IDENTITY','NAIVE_SUM','NUMERIC_SUM','SPLIT_SPACE','UNICODE_WORDS','SORT','JOIN','CASEFOLD','PYTHON_TOP_DEFS','PYTHON_AST_API','MD_OUTLINE_1','MD_OUTLINE_2','MD_OUTLINE_3','MD_OUTLINE_4','MD_OUTLINE_5','MD_OUTLINE_6']
+    method: Literal['IDENTITY','NAIVE_SUM','NUMERIC_SUM','SPLIT_SPACE','UNICODE_WORDS','SORT','JOIN','CASEFOLD','PYTHON_TOP_DEFS','PYTHON_AST_API','MD_OUTLINE_1','MD_OUTLINE_2','MD_OUTLINE_3','MD_OUTLINE_4','MD_OUTLINE_5','MD_OUTLINE_6','HANDS_APPEND','HANDS_REPLACE','HANDS_POSITIONAL','HANDS_NAMED']
     data_privacy: Literal['PUBLIC','PROJECT','PERSONAL','SECRET'] = 'PUBLIC'
     data: Any = None
     input_from: str | None = Field(default=None,pattern=r'^[a-z][a-z0-9._-]{0,63}$')
@@ -64,6 +64,9 @@ class LocalWorldRegistry:
 
 def transform(method,data):
     bounded_data(data)
+    if method.startswith('HANDS_'):
+        from ..hands.contracts import command_plan
+        return command_plan(method,data)
     if method in {'PYTHON_TOP_DEFS','PYTHON_AST_API'}:
         from ..project_work.analysis import inventory
         return inventory(method,data)

@@ -27,6 +27,7 @@ def command(app,line):
     if name in {'/status','/activities'}:return app.status()
     if name in {'/life','/journal'}:return {'life':app.board()}
     if name=='/sources':return app.sources()
+    if name in {'/actions','/outcomes'} and app.config.owned_application_profile:return {'external_outcomes':app.board()['external_outcomes'],'unknown_actions':app.board()['unknown_actions']}
     if name=='/pause':return app.pause()
     if name=='/resume':return app.pause(False)
     if name=='/busy':return app.presence('BUSY')
@@ -86,7 +87,7 @@ def run(home,seconds,*,headless=False,router=None):
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);sub=p.add_subparsers(dest='action',required=True)
-    init=sub.add_parser('init');init.add_argument('--home',type=Path,required=True);init.add_argument('--project',type=Path,required=True);init.add_argument('--demo-materials',action='store_true');init.add_argument('--source',action='append');init.add_argument('--practice');init.add_argument('--heldout');init.add_argument('--transfer');init.add_argument('--allow-local-artifacts',action='store_true');init.add_argument('--document-work',action='store_true');init.add_argument('--allow-local-skills',action='store_true');init.add_argument('--provider-host',action='append',default=[]);init.add_argument('--remote-privacy',action='append',choices=['PUBLIC','PROJECT','PERSONAL'],default=[]);init.add_argument('--provider-cost-ceiling-micro',type=int,default=0)
+    init=sub.add_parser('init');init.add_argument('--home',type=Path,required=True);init.add_argument('--project',type=Path,required=True);init.add_argument('--demo-materials',action='store_true');init.add_argument('--source',action='append');init.add_argument('--practice');init.add_argument('--heldout');init.add_argument('--transfer');init.add_argument('--allow-local-artifacts',action='store_true');init.add_argument('--document-work',action='store_true');init.add_argument('--allow-local-skills',action='store_true');init.add_argument('--owned-application-profile');init.add_argument('--provider-host',action='append',default=[]);init.add_argument('--remote-privacy',action='append',choices=['PUBLIC','PROJECT','PERSONAL'],default=[]);init.add_argument('--provider-cost-ceiling-micro',type=int,default=0)
     start=sub.add_parser('run');start.add_argument('--home',type=Path,required=True);start.add_argument('--seconds',type=float,default=3600);start.add_argument('--headless',action='store_true');start.add_argument('--live-provider-authorized',action='store_true');start.add_argument('--secret-fd',type=int);start.add_argument('--secret-ref')
     status=sub.add_parser('status');status.add_argument('--home',type=Path,required=True)
     provider=sub.add_parser('provider-command');provider.add_argument('--home',type=Path,required=True);provider.add_argument('--document',type=Path,required=True)
@@ -106,8 +107,8 @@ def main():
             training=DEMO_TRAIN if a.demo_materials else (a.practice,a.heldout,a.transfer)
             if not sources or not all(training):raise CoreError('EXPLICIT_PROJECT_MATERIALS_REQUIRED')
             if a.document_work:sources=(*sources,*DOC_SOURCES)
-            if a.allow_local_skills and not a.document_work:raise CoreError('DOCUMENT_WORK_REQUIRED_FOR_LOCAL_SKILLS')
-            config=LifeConfig(document_learning=tuple(material_for(a.project,x) for x in DOC_TRAIN) if a.document_work else (),allow_local_skills=a.allow_local_skills,max_autonomous_materials=len(sources),provider_hosts=tuple(a.provider_host),remote_privacy=tuple(a.remote_privacy),provider_cost_ceiling_micro=a.provider_cost_ceiling_micro,project_root=str(a.project.absolute()),materials=tuple(material_for(a.project,x) for x in sources),practice=material_for(a.project,training[0]),heldout=material_for(a.project,training[1]),transfer=material_for(a.project,training[2]))
+            if a.allow_local_skills and not a.document_work and not a.owned_application_profile:raise CoreError('DOCUMENT_WORK_REQUIRED_FOR_LOCAL_SKILLS')
+            config=LifeConfig(owned_application_profile=a.owned_application_profile,document_learning=tuple(material_for(a.project,x) for x in DOC_TRAIN) if a.document_work else (),allow_local_skills=a.allow_local_skills,max_autonomous_materials=len(sources),provider_hosts=tuple(a.provider_host),remote_privacy=tuple(a.remote_privacy),provider_cost_ceiling_micro=a.provider_cost_ceiling_micro,project_root=str(a.project.absolute()),materials=tuple(material_for(a.project,x) for x in sources),practice=material_for(a.project,training[0]),heldout=material_for(a.project,training[1]),transfer=material_for(a.project,training[2]))
             write_config(home,config)
             authority=ProviderConfigurationAuthority();ProviderConfigService(home/'providers.json',authority).initialize(authority)
             with LifeApplication(home,bootstrap_grant=a.allow_local_artifacts) as app:emit({'state':'INITIALIZED','identity_id':app.runtime.identity_id,'local_grant_installed':a.allow_local_artifacts,'config':str(home/'life.json')})

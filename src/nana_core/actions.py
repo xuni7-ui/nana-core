@@ -68,6 +68,10 @@ class ActionKernel:
             from .continuity.open_agency.world import LocalWorldRegistry
             sealed = sealed or type(self.registry) is LocalWorldRegistry
         from .continuity.project_work.port import ProjectMaterialPort
+        from .continuity.hands.port import OwnedApplicationPort
+        if type(self.capability) is OwnedApplicationPort:
+            self.capability.assert_owned()
+            return self.capability.identity_id==self.store.identity['identity_id'] and sealed
         # Exact no-exec project adapter only; manifest is NOT execution authority.
         return type(self.capability) in {OfflineEffectPort,ProjectMaterialPort} and self.capability.identity_id==self.store.identity['identity_id'] and sealed
 

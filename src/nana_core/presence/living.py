@@ -142,7 +142,7 @@ class LivingWork:
                 goal_id=json.loads(work['body_json'])['goal_id'];goal=r.store.one('goals',goal_id)
                 if goal and goal['state'] in {'ACTIVE','BLOCKED'}:tx.update('goals',goal_id,state='ABANDONED',version=goal['version']+1)
             return None
-        project=view.target.resource.startswith('project://')
+        project=view.target.resource.startswith(('project://','hands://'))
         key=('development.living.step.' if project else 'synthetic.living.step.')+digest(ref.model_dump(mode='json'))
         prior=r.store.db.execute('SELECT * FROM subject_events WHERE source_key=?',(key,)).fetchone()
         if prior:

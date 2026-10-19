@@ -59,7 +59,7 @@ class OpenAgencyService(AgencyService):
     def _plan(self,obj,rid):
         # A reviewed learned strategy changes method choice, not capabilities/Grant.
         strategy_ids=[]
-        if self.learning:
+        if self.learning and any(op.strategy_selectable and op.capability=='world.compute' for op in obj.operators):
             strategy=self.learning.strategy(obj.task_domain,obj.scope)
             if strategy:
                 obj=obj.model_copy(update={'operators':tuple(op.model_copy(update={'args':{**op.args,'method':strategy[1]}}) if op.strategy_selectable and op.capability=='world.compute' else op for op in obj.operators)})
@@ -163,7 +163,7 @@ class OpenAgencyService(AgencyService):
             m=self.records.memory.read(mid);work=self.store.one('jobs',meta['work_id'])
             if m['observed_time_us']<work['updated_at_us']:continue
             if self.store.db.execute("SELECT 1 FROM actions WHERE goal_id=? AND state IN ('READY','DISPATCHING','UNKNOWN','PENDING_VERIFY')",(goal['goal_id'],)).fetchone():continue
-            project=any(op['resource'].startswith('project://') for op in plan['steps'])
+            project=any(op['resource'].startswith(('project://','hands://')) for op in plan['steps'])
             key=('development.open.review.' if project else 'synthetic.open.review.')+digest([goal['goal_id'],goal['version'],strategy[0]])
             if self.store.db.execute('SELECT 1 FROM subject_events WHERE source_key=?',(key,)).fetchone():continue
             ref=GoalReviewRef(goal_id=goal['goal_id'],version=goal['version'],cause_memory_id=mid)

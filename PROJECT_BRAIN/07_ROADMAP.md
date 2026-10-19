@@ -537,3 +537,13 @@ brain/Store/Runtime/schema, no H2 feature continuation. ADR-VF2-001 records boun
 audit/contract. This entry is planning/started, not implemented/qualified. Real
 AstrBot/QQ shadow requires later explicit host/privacy authorization; real dialogue,
 production Core adoption, general deep self-modification remain NOT_RUN.
+
+
+## RAE foundation — IMPLEMENTED / first real-process tests
+[2026-10-19 UTC] Owned application IPC DOCUMENT/FORM effects, independent read-only/file
+Verify, original C/F/Kernel/G/I wiring implemented.2 focused PASS14.96s;23 related
+PASS8.72s. Real failure→practice-only method choice→actual later tasks; multi-field
+failure→bounded bwrap workflow qualification→two real world.skill reuses observed.
+Both method lessons suspended by independent counterexamples; old effect facts retained.
+No claim of GUI/desktop/Human review/general evolution. Full permission/crash/30min
+qualification and final regression PENDING. New model calls0; old Provider UNKNOWN parked.

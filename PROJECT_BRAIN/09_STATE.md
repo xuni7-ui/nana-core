@@ -1635,3 +1635,13 @@ tests passed;11 new focused passed. Final frozen-source full regression pending.
 
 VISION_FIRST_SHARED_GROWTH_V2 manifest external anchor: `d4e22c1f81aaf050e8ceff6aef619e9978014fcae7710fc125b8e192ecc154f8`.
 Path docs/nana_vision_first_shared_growth_v2_evidence/manifest.json; self excluded.
+
+
+## RAE foundation — IMPLEMENTED / first real-process tests
+[2026-10-19 UTC] Owned application IPC DOCUMENT/FORM effects, independent read-only/file
+Verify, original C/F/Kernel/G/I wiring implemented.2 focused PASS14.96s;23 related
+PASS8.72s. Real failure→practice-only method choice→actual later tasks; multi-field
+failure→bounded bwrap workflow qualification→two real world.skill reuses observed.
+Both method lessons suspended by independent counterexamples; old effect facts retained.
+No claim of GUI/desktop/Human review/general evolution. Full permission/crash/30min
+qualification and final regression PENDING. New model calls0; old Provider UNKNOWN parked.
