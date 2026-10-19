@@ -1835,3 +1835,33 @@ unseen-input failure from silently retaining an overgeneralized lesson. Validati
 new depth-three counterexample fails expected outline, existing EpisodeLearning
 marks COUNTEREXAMPLE/SUSPENDED, no wrong report/retry. Positive-path runtime and
 current-source regression are requalified after this material one-line fix.
+
+
+## LIVED_GROWTH_V2 — live permission/source separation
+[用户授权/只读环境实测] Recorded limited exact TianToken/qwen3.8-flash permission,
+PUBLIC/PROJECT,20calls/$1,3s. Rechecked current environment: no configured secret
+source or FD. Why: authorization is not credential availability; no search/reuse.
+Actual calls remain0; only live qualification waits for secure host source, other
+engineering continues. No key/body/provider configuration secrets persisted.
+
+
+## LIVED_GROWTH_V2 — final authorized development handoff
+[实测/文档] Frozen executable sourcea1710ef:11 new focused PASS, full1229/0/12
+237.05s. Actual113.58s journey with90.21s restarted-process soak/I-SIGKILL recovery,
+four real materials,16 unique actions, unseen skill use, no regrant or idle spam.
+Why: close cross-capability development with actual work/negative transfer/resource
+evidence instead of interface-only readiness. Updated07–11/report/guide/ledger and
+small text evidence. Real permission now granted but no safe host credential source;
+real calls0, human dialogue NOT_RUN, first-life NOT_READY. No production/main/R045
+or new schema/dependency. Final manifest/secret-literal whitelist audit and normal
+dev push verification follow; no more feature work in this handoff.
+
+
+## LIVED_GROWTH_V2 — final transient-context privacy closure
+[源码/定向实测] Removed replay of unverified assistant wording, retaining bounded
+source-valid USER turns only; one current fact per renderer avoids oversized pinned
+context after withdrawal. Why: an old model phrase must not carry erased derived
+content back to another call. New loopback after-delete test PASS5.76s, verifies new
+interpret/render requests have no deleted source or replayed model wording. No
+raw transcript persistence or relaxed privacy. Final latest-source regression and
+real-process evidence supersede previous qualified source only after passing.

@@ -948,3 +948,28 @@ no erroneous report and no repeated effects. Positive real-source journeys uncha
 lease writes; do not extrapolate their growth into a daily authoritative-history
 rate. Robust actual change: periodic review occurrences109→1 and queue events164→56
 for comparable bounded journeys. These are not controlled CPU benchmarks.
+
+
+## LIVED_GROWTH_V2 — limited real cognition permission, credential gate remains
+[用户明确授权/环境核验] TianToken https://api.tiantoken.com/v1; exact qwen3.8-flash;
+PUBLIC/PROJECT only (PERSONAL/SECRET denied), <=20 calls/$1 equivalent,3s timeout.
+No old key reuse/ambient environment/file/repository credential discovery. Current
+managed environment reports no secret/runtime variable bindings; no explicit FD was
+provided. Supersedes only earlier M1 BLOCKED_BY_AUTHORIZATION: now authorized but
+BLOCKED_NO_SAFE_CREDENTIAL_SOURCE, actual calls0. Continue other development.
+A model success cannot imply natural human quality or alter historical H1 PARTIAL.
+CLI PERSONAL default must not silently become PROJECT; any future controlled live
+qualification uses explicitly approved content/privacy and original ports/budgets.
+Unknown currency mapping is not billing truth; no blind retry or expansion after
+unknown completion/cost. Secret delivery must use host safe binding, never chat.
+
+
+## LIVED_GROWTH_V2 — no unsupported model-wording replay across source erasure
+[删除闭包审查/实测] A rendered reply can depend on facts later erased; associating
+it only with message metadata would not preserve its full causal support. Minimal
+V1 contract now retains only bounded USER turns in volatile history, never replays
+model wording as conversation evidence. Fresh rendering cites current Core facts.
+This avoids assistant self-confirmation and deleted-fact resurrection without a
+second transcript authority. Renderer pins at most one current artifact to keep
+bounded context usable after source withdrawal; no budget enlargement or hidden
+provider retry. New actual loopback after-delete conversation test PASS.

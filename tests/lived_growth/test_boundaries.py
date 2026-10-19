@@ -136,3 +136,19 @@ def test_legacy_fast_review_is_reconciled_without_timer_reset_or_permission(tmp_
         schedule=app.runtime.store.one('runtime_schedules',sid)
         assert schedule['interval_us']==60*SECOND and schedule['occurrence']==occurrence
         assert app.runtime.identity_id==ident and not app.runtime.store.all('grants')
+
+
+
+def test_deleted_fact_cannot_return_through_replayed_model_wording(tmp_path):
+    home=tmp_path/'life';initialize(home,skills=False)
+    with relay(home,'CHAT') as (router,requests),LifeApplication(home,clock=VirtualClock(),router=router,bootstrap_grant=True) as app:
+        advance(app,240)
+        app.pause();first=app.chat('discuss verified public project results')
+        prior_draft=first['text'];fact=app._fact_sources()[0];previous=len(requests)
+        app.forget(fact);second=app.chat('continue on the same project')
+        assert len(requests)==previous+2,second
+        for request in requests[previous:]:
+            turns=request['role_input']['dialogue']['recent_turns']
+            assert all(t['speaker']=='USER' and t['text']!=prior_draft for t in turns)
+            assert fact not in request['source_context_refs']
+        assert not app.runtime.store.db.execute("SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),'A deliberately synthetic language response')>0").fetchone()

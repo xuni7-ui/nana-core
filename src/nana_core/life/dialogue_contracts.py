@@ -18,7 +18,7 @@ class DialogueTurn(DTO):
     message_memory_id:str
     topic:str=Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
     privacy_class:Literal['PUBLIC','PROJECT','PERSONAL']
-    speaker:Literal['USER','SUBJECT_DRAFT']
+    speaker:Literal['USER']
     text:str=Field(min_length=1,max_length=1024)
 
 class DialogueContext(DTO):

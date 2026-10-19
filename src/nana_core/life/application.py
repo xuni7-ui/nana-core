@@ -138,7 +138,7 @@ class LifeApplication:
         return self.session
     def _model(self,key,phase,mid,text,topic,privacy,cycle=None):
         session=self._session(privacy)
-        facts=self._fact_sources() if phase=='RENDER' and cycle.context_fit.mode in {'CHAT','SHARE','HELP'} else ()
+        facts=self._fact_sources()[:1] if phase=='RENDER' and cycle.context_fit.mode in {'CHAT','SHARE','HELP'} else ()
         from ..continuity.memory import PRIVACY_RANK
         recent=[]
         for turn in self._recent:
@@ -192,7 +192,10 @@ class LifeApplication:
             current=r.store.one('subject_intentions',cycle.intention_id)
             if current['state']=='PENDING':r.subject.transition_intention(cycle.intention_id,expected_revision=current['revision'],state='DROPPED')
         from .dialogue_contracts import DialogueTurn
-        self._recent.extend((DialogueTurn(message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='USER',text=text[:1024]),DialogueTurn(message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='SUBJECT_DRAFT',text=draft[:1024])))
+        # Model wording may have depended on facts later erased. Replaying it
+        # with only the message-metadata source would resurrect derived content.
+        # Keep independent user turns only; fresh wording uses current Core facts.
+        self._recent.append(DialogueTurn(message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='USER',text=text[:1024]))
         self._recent=self._recent[-6:]
         self.control['messages']+=1;self._save_control();self._chat[key]=True
         if len(self._chat)>64:self._chat.pop(next(iter(self._chat)))
