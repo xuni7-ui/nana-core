@@ -59,6 +59,8 @@ def capture(runtime, key, data, *, kind='DIRECT_OBSERVATION', parents=(), predic
 
 
 def post(runtime, key, mids, **kwargs):
+    old=runtime.store.db.execute("SELECT queue_id FROM runtime_queue WHERE source_key=?",('development.project.'+key,)).fetchone()
+    if old:return old[0]
     inp=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.project.'+key,kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',
         observed_at_us=runtime.clock.utc_now_us(),source_memory_ids=mids,privacy_class='PROJECT',task_class='python-api',**kwargs)
     return runtime.submit(RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=inp,
@@ -81,7 +83,7 @@ class ProjectWork:
         self.objects={m.material_id:source_objective(m,expected_inventory(read_material(repo,m))) for m in materials}
         # Recovery descriptions are host configuration. No grants are recreated
         # on reopening; caller must explicitly request local development authority.
-        all_objects=tuple(self.objects.values())+tuple(source_objective(m,expected_inventory(read_material(repo,m)),suffix='reconsidered') for m in materials)
+        all_objects=tuple(self.objects.values())
         GovernanceController(runtime.store,runtime.authority).initialize(runtime.authority)
         runtime.work.configure_open_agency(OpenGoalPolicy(all_objects),self.port)
         self.training_sources=()
@@ -94,9 +96,13 @@ class ProjectWork:
                 resources=tuple(op.resource for obj in self.objects.values() for op in obj.operators),not_before_us=now,expires_at_us=now+HOUR),runtime.authority)
             kernel.set_budgets({'write_attempts':32,'external_requests':128,'cost_micro_units':128},runtime.authority)
 
-    def request(self, material_id, *, reconsider=False):
+    def goal_for(self, material_id):
+        obj=self.objects[material_id]
+        row=self.runtime.store.db.execute("SELECT g.* FROM goals g JOIN continuity_records r ON r.record_id=json_extract(g.body_json,'$.record_id') JOIN artifacts a ON a.artifact_id=r.payload_artifact_id WHERE json_extract(CAST(a.payload AS TEXT),'$.objective.objective_id')=? ORDER BY g.rowid DESC LIMIT 1",(obj.objective_id,)).fetchone()
+        return dict(row) if row else None
+
+    def request(self, material_id):
         r=self.runtime;obj=self.objects[material_id]
-        if reconsider:obj=r.work.agency.policy.get(obj.objective_id.rsplit('-',1)[0]+'-reconsidered')
         material=self.port.materials[material_id];source=read_material(self.port.root,material)
         root=capture(r,'input:'+material_id,{'origin':'DEVELOPMENT_PROJECT','source':source})
         cue=ConcernCue(cue_kind='OPEN_LOOP',topic_key=obj.objective_id,motivation_source='PROJECT_COMPLETION',program_id=obj.objective_id)
@@ -116,6 +122,21 @@ class ProjectWork:
         exp=self.runtime.store.one('experiences',experience_id)
         if not exp or exp['outcome']!='FAILURE' or exp['task_class']!='python-api':raise CoreError('PROJECT_CHECKED_FAILURE_REQUIRED')
         return post(self.runtime,'review.'+experience_id,(exp['result_memory_id'],exp['verification_memory_id'],*self.training_sources),reflection_experience_id=experience_id)
+
+    def lookup(self, material_id, qualified_name):
+        """Read-only view from a still-supported independently verified inventory."""
+        r=self.runtime;material=self.port.materials[material_id]
+        source=read_material(self.port.root,material)
+        rows=r.store.db.execute("SELECT * FROM actions WHERE resource=? AND capability='world.compute' AND state='SUCCEEDED' ORDER BY rowid DESC LIMIT 16",('project://'+material_id+'/inventory',)).fetchall()
+        for action in rows:
+            try:result=json.loads(r.work.agency.realization.kernel.payload(action,'result_json'))
+            except CoreError:continue
+            match=next((x for x in result['data'] if x['name']==qualified_name),None)
+            if not match:continue
+            line=match['line'];excerpt='\n'.join(source['source'].splitlines()[line-1:line+11])
+            return {'source_path':material.relative_path,'source_digest':material.sha256,'symbol':qualified_name,'line':line,'excerpt':excerpt,
+                    'coverage':'AT_MOST_12_SOURCE_LINES_NOT_FULL_FUNCTION','verified_action_id':action['action_id'],'execution':'NO_CODE_EXECUTED'}
+        raise CoreError('PROJECT_SYMBOL_NOT_IN_CURRENT_VERIFIED_INVENTORY')
 
     def artifacts(self):
         return tuple(sorted(str(p) for p in self.port.output.iterdir() if p.suffix in {'.md','.json'}))

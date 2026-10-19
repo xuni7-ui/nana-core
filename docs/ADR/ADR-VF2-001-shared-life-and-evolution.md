@@ -87,3 +87,15 @@ permitted minimal AstrBot/QQ shadow ingress and human review; then separately
 permitted visible replies. Never read old chats/Iris or replace production speaker.
 Controlled local growth here does not establish arbitrary plugin installation,
 Core self-edit, human-like companionship or real lifelong learning.
+
+## Amendment — REAL_UTILITY_SHARED_LIFE_EVOLUTION_V1, 2026-10-19
+Actual useful project artifacts now take priority over extending perception labs.
+One mission U/L/S/P reuses the original chains. Host selects exact nonprivate Python
+source manifests; new DEVELOPMENT_PROJECT evidence preserves real material origin
+under PROJECT hard privacy (not a synthetic world claim, not real private import).
+Exact sealed local no-exec adapter can produce bounded verified report files via
+original Grant/Manager/Budget/Kernel. No network, shell, arbitrary output paths or
+capability creation. Existing synthetic port rejects project resources. No schema
+or dependency additions. Detailed execution/limits live in mission ledger, not a
+new architectural framework. Open-ended algorithm invention and real companionship
+are not claimed from method selection or anonymous shadow examples.

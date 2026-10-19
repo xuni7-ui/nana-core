@@ -158,10 +158,11 @@ class OpenAgencyService(AgencyService):
             m=self.records.memory.read(mid);work=self.store.one('jobs',meta['work_id'])
             if m['observed_time_us']<work['updated_at_us']:continue
             if self.store.db.execute("SELECT 1 FROM actions WHERE goal_id=? AND state IN ('READY','DISPATCHING','UNKNOWN','PENDING_VERIFY')",(goal['goal_id'],)).fetchone():continue
-            key='synthetic.open.review.'+digest([goal['goal_id'],goal['version'],strategy[0]])
+            project=any(op['resource'].startswith('project://') for op in plan['steps'])
+            key=('development.open.review.' if project else 'synthetic.open.review.')+digest([goal['goal_id'],goal['version'],strategy[0]])
             if self.store.db.execute('SELECT 1 FROM subject_events WHERE source_key=?',(key,)).fetchone():continue
             ref=GoalReviewRef(goal_id=goal['goal_id'],version=goal['version'],cause_memory_id=mid)
-            inp=SubjectInput(source_key=key,kind='WAKE',origin='SELF_WAKE',entity_id=entity_id,scope=head['scope'],observed_at_us=self.store.clock.utc_now_us(),source_memory_ids=(mid,),task_class=goal['template'],privacy_class=head['privacy_class'],goal_review=ref)
+            inp=SubjectInput(domain='DEVELOPMENT_MATERIAL' if project else 'SYNTHETIC_ONLY',source_key=key,kind='WAKE',origin='SELF_WAKE',entity_id=entity_id,scope=head['scope'],observed_at_us=self.store.clock.utc_now_us(),source_memory_ids=(mid,),task_class=goal['template'],privacy_class=head['privacy_class'],goal_review=ref)
             return RuntimeEvent(event_type='GOAL_EVENT',trigger='GOAL_TRIGGER',input=inp,causes=(Cause(kind='EXPERIENCE',reference_id=exp['experience_id']),),due_at_us=self.store.clock.utc_now_us(),priority=2)
         return None
 

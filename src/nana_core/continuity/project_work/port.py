@@ -128,11 +128,15 @@ class ProjectMaterialPort:
                 docs = self._documents(result)
                 present = [self.output / (result['artifact_stem'] + '.' + suffix) for suffix in docs]
                 if not any(p.exists() for p in present):return Verification(verdict='FINAL_NO_EFFECT', evidence={})
-                for suffix, raw in docs.items():
-                    path = self.output / (result['artifact_stem'] + '.' + suffix)
-                    fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW)
-                    with os.fdopen(fd, 'rb') as stream:
-                        if stream.read(32769) != raw:return Verification(verdict='EFFECT_MISMATCH', evidence={})
+                directory=os.open(self.output,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)
+                try:
+                    import stat
+                    for suffix,raw in docs.items():
+                        fd=os.open(result['artifact_stem']+'.'+suffix,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK,dir_fd=directory)
+                        with os.fdopen(fd,'rb') as stream:
+                            if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):return Verification(verdict='INCONCLUSIVE',evidence={})
+                            if stream.read(32769)!=raw:return Verification(verdict='EFFECT_MISMATCH',evidence={})
+                finally:os.close(directory)
             return Verification(verdict='MATCH', evidence={'result': result, 'digest': digest(result)})
         except (CoreError, OSError, ValueError):
             return Verification(verdict='INCONCLUSIVE', evidence={})

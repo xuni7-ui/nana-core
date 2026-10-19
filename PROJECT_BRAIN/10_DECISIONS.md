@@ -819,3 +819,15 @@ synthetic port rejects project URIs. Original Grants/Manager/budgets still apply
 Compiler symtable evaluator is independent from AST candidate. Baseline misses
 are real source findings, not arithmetic fixtures. Host installs finite methods;
 Nana's actual improvement is source-supported method selection, not Core rewrite.
+
+
+## REAL_LIFE_V1 — causal controls and shadow boundary
+[源码/实测] Separate real-source withdrawal and strategy retirement interventions;
+never demonstrate erasure only after an already suspended strategy. Source lookup
+reads only current supported Kernel output and exact current file digest. Exported
+reports are user-owned project artifacts, not context authority; source withdrawal
+fences reuse/lookup even if a previously exported file is retained by its recipient.
+Shadow is default-off, host-pushed, bounded32 reviews; no history/send/credentials.
+Literal evidence validates a small anonymous language baseline; model-proposed
+HUMAN_REVIEW never self-certifies. Live host path remains denied pending consent,
+qualification and explicit privacy-domain integration, not silently synthetic.

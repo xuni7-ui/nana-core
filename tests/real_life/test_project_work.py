@@ -77,3 +77,45 @@ def test_no_grant_and_unsupported_port_do_not_gain_authority(tmp_path):
         assert not work.artifacts()
         class Pretend:identity_id=r.identity_id
         with pytest.raises(CoreError,match='OFFLINE_REALIZATION_ONLY'):GovernedRealization(r.store,Pretend(),r.authority)
+
+
+def test_verified_navigation_needs_learned_inventory_and_current_source(tmp_path):
+    from nana_core.continuity.memory import MemoryService
+    with open_project_runtime(tmp_path/'subject/state.db',VirtualClock()) as r:
+        work,materials=setup(r,tmp_path)
+        root=work.request(materials[0].material_id)
+        work.run_until(lambda:bool(r.store.db.execute("SELECT 1 FROM experiences WHERE outcome='FAILURE'").fetchone()))
+        with pytest.raises(CoreError,match='PROJECT_SYMBOL_NOT'):work.lookup(materials[0].material_id,'RecurrenceSpec.next_after')
+        exp=r.store.db.execute("SELECT experience_id FROM experiences WHERE outcome='FAILURE'").fetchone()[0]
+        work.reflect_failure(exp);work.run_until(lambda:len(list(work.port.output.glob('*.md')))==1)
+        result=work.lookup(materials[0].material_id,'RecurrenceSpec.next_after')
+        assert result['line']==43 and 'def next_after' in result['excerpt']
+        MemoryService(r.store,r.authority).forget(root,r.authority)
+        with pytest.raises(CoreError,match='PROJECT_SYMBOL_NOT'):work.lookup(materials[0].material_id,'RecurrenceSpec.next_after')
+
+
+def test_actual_work_life_causality_and_independent_withdrawal_arm(tmp_path):
+    from tools.nana_real_life.qualification import run
+    normal=run(tmp_path/'retirement',REPO)
+    erased=run(tmp_path/'withdrawal',REPO,withdraw=True)
+    assert normal['quality']==erased['quality']
+    assert normal['future_share']=='REPORT_DISCOVERY' and normal['busy']=='NO_ACTION' and normal['no_interest']=='NO_ACTION'
+    assert normal['strategy_retirement'] and not normal['source_withdrawal']
+    assert erased['source_withdrawal'] and not erased['strategy_retirement']
+    assert normal['restart_identity_stable'] and erased['no_resurrection_after_restart']
+
+
+def test_actual_failure_offered_as_concern_can_choose_rest_instead_of_learning(tmp_path):
+    from nana_core.continuity.project_work.service import capture,post
+    from nana_core.continuity.subject.opportunities import ConcernCue
+    with open_project_runtime(tmp_path/'subject/state.db',VirtualClock()) as r:
+        work,materials=setup(r,tmp_path);work.request(materials[0].material_id)
+        work.run_until(lambda:bool(r.store.db.execute("SELECT 1 FROM experiences WHERE outcome='FAILURE'").fetchone()))
+        failure=r.store.db.execute("SELECT * FROM experiences WHERE outcome='FAILURE'").fetchone()
+        # High-load context is an explicit hypothetical control, not claimed to
+        # be actual fatigue or a user relationship observation.
+        cue=ConcernCue(cue_kind='LOAD_STATE',topic_key='project-load',motivation_source='CAPABILITY_GAP',program_id='learn.python-api',possible_behaviors=('LEARN','REST'),cognitive_load='HIGH')
+        mid=capture(r,'hypothetical-load-control',cue.model_dump(mode='json'),kind='MODEL_DERIVATION',parents=(failure['result_memory_id'],),predicate='concern.project-load')
+        post(r,'rest-control',(mid,));result=r.step()['cycle']
+        assert result.intention.behavior=='REST' and not result.goal_candidate_id
+        assert not r.store.db.execute("SELECT 1 FROM jobs WHERE work_kind='LEARNING'").fetchone()

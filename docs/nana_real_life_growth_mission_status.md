@@ -40,3 +40,24 @@ heldout/compiler symtable passed, original F replanned, later extensions.py reus
 PYTHON_AST_API. This is bounded prewritten method selection, NOT algorithm invention.
 19 targeted tests passed (project4 + VF2/learning15). Further P/recovery/host-shadow
 work and final frozen-source validation still pending. No real user data/model.
+
+## M2–M4 implementation checkpoint
+U: real inventory and source-navigation projection usable; two real repository
+materials, independent compiler checker, new input reuse. CLI restart is idempotent.
+L: C REFLECT on an offered checked failure selects existing G stages; heldout and
+new-context transfer pass. New F plan uses the activated method; no candidate edits
+oracle. This is an application-offered failure and finite reviewed method set,
+not an autonomously invented curriculum/algorithm. Separate high-load C control rests.
+P: real later-use assessment causes existing growth_life sharing candidate; busy,
+explicit refusal, separate actual source deletion and strategy retirement remove
+options. Recipient context is synthetic, actual user reaction NOT_RUN.
+M4: source navigation is a distinct practical use of the improved inventory;
+lookup was unavailable under baseline, now points to actual verified source lines.
+S: default-off host-push anonymous shadow review, pluggable semantic contract,
+literal-span baseline, conservative unreviewed output, response drafts and CLI.
+LIVE_HOST_NEW_ONLY is fail-closed pending consent/host qualification and final live
+privacy-domain integration. Not a live QQ adapter installation. No history/send API.
+Targeted70 PASS across new suite, VF2, existing open/living autonomy;11 new at that
+checkpoint (two additional causality/rest tests included in70). SIGKILL after local
+artifact before receipt recovered by verification without rewriting files; partial
+artifact stays UNKNOWN without another execute. Final frozen-source tests pending.

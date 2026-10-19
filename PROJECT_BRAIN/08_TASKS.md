@@ -1,14 +1,19 @@
 # PROJECT_BRAIN / 08 TASKS（任务清单）
 
-## CURRENT — REAL_UTILITY_SHARED_LIFE_EVOLUTION_V1 (started)
-[远端/源码核验] Base94016fcbf1f16a7438c7ceba42e22b21de26f3e6 verified identical.
-One ongoing dev mission on dev/nana-core-real-life-growth-and-presence-v1-codex.
-U/L/P/S pending; existing C/D/F/G/I/B assets reused. First target: real project
-source→bounded interface inventory→readable artifact→independent compiler oracle.
-Mission ledger: docs/nana_real_life_growth_mission_status.md. No live QQ/history/
-provider/private data/production authorization inferred. Historical blocks below
-remain history. GLOBAL_STAGE H unchanged; this is cross-cutting real-use work.
-
+## CURRENT — REAL_UTILITY_SHARED_LIFE_EVOLUTION_V1 (development checkpoint)
+[源码/实际本地材料/合成上下文] Branch dev/nana-core-real-life-growth-and-presence-v1-codex
+from verified94016fcb. U: exact real Python sources→original C/F/Kernel→verified
+Markdown/JSON inventories and source navigation. L: real baseline coverage failure
+→C reflection→original G independent heldout/transfer→later unseen practical reuse;
+bounded prewritten method selection, not algorithm invention. P: same actual source
+lineage alters future C sharing/silence; synthetic availability/refusal, separate
+source deletion/strategy retirement. S: default-off anonymous development shadow
+review ready; real new QQ messages/host/live semantic and human fit NOT_RUN/blocked.
+Original loop/Store/Runtime/authority and privacy retained,13/43/new tables0.
+70 targeted passed; final frozen-source regression pending. Actual live host domain
+integration/qualification requires explicit narrow new-message permission. No raw
+private input/provider/capture/social send/production change. Ledger:
+docs/nana_real_life_growth_mission_status.md. Earlier blocks remain history.
 
 ## CURRENT — VISION_FIRST_SHARED_GROWTH_V2
 

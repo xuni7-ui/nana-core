@@ -134,7 +134,8 @@ class LivingWork:
                 goal_id=json.loads(work['body_json'])['goal_id'];goal=r.store.one('goals',goal_id)
                 if goal and goal['state'] in {'ACTIVE','BLOCKED'}:tx.update('goals',goal_id,state='ABANDONED',version=goal['version']+1)
             return None
-        key='synthetic.living.step.'+digest(ref.model_dump(mode='json'))
+        project=view.target.resource.startswith('project://')
+        key=('development.living.step.' if project else 'synthetic.living.step.')+digest(ref.model_dump(mode='json'))
         prior=r.store.db.execute('SELECT * FROM subject_events WHERE source_key=?',(key,)).fetchone()
         if prior:
             cycle=r.store.db.execute('SELECT * FROM subject_cycles WHERE subject_event_id=?',(prior['subject_event_id'],)).fetchone()
@@ -145,7 +146,7 @@ class LivingWork:
             queued=r.store.db.execute('SELECT state FROM runtime_queue WHERE subject_event_id=?',(prior['subject_event_id'],)).fetchone()
             if queued and queued['state'] in {'IGNORED','EXPIRED'}:
                 return {'blocked':self.agency._park(work,view,'CORE_STEP_DROPPED')}
-        inp=SubjectInput(source_key=key,kind='WAKE',origin='SELF_WAKE',entity_id=r.config.entity_id,
+        inp=SubjectInput(domain='DEVELOPMENT_MATERIAL' if project else 'SYNTHETIC_ONLY',source_key=key,kind='WAKE',origin='SELF_WAKE',entity_id=r.config.entity_id,
             scope=head['scope'],observed_at_us=work['due_at_us'],source_memory_ids=view.source_memory_ids[:32],
             task_class=view.task_class,privacy_class=head['privacy_class'],realization_target=view.target,goal_step=ref)
         event=RuntimeEvent(event_type='GOAL_EVENT',trigger='GOAL_TRIGGER',input=inp,

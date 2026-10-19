@@ -1715,3 +1715,13 @@ source reports, kept original failure, selected tested AST method and reused it.
 Fixed goal-step/review wake privacy to inherit source instead of default PERSONAL.
 19 targeted PASS; no new schema/table/dependency/private/model/external effects.
 P/S and final source qualification pending; original bundle untouched.
+
+
+## REAL_LIFE_V1 M2–M4 — growth causality, navigation, shadow and recovery
+[源码/定向实测] Added actual-source causal qualification, separate withdrawal arm,
+verified source navigation, default-off anonymous shadow bridge/draft review CLI,
+restart dedup and SIGKILL/partial-output tests.13 new tests now written; earlier70
+combined targeted passed. Fixed CLI rerun to reuse committed goals, prevent duplicate
+reports; dev plan/review wake domain now explicit. Hardened output verification to
+regular nofollow files. Final source freeze/regression pending. No real QQ/provider/
+private data/production invocation or expanded social/external authority.
