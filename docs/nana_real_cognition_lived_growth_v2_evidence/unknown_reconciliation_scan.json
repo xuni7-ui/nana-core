@@ -1,0 +1,8 @@
+{
+  "credential_access_this_followup": false,
+  "credential_literals": 0,
+  "prior_exact_key_scan": "live_secret_scan.json (previous authenticated attempt; not falsely rerun)",
+  "old_bundle_read": false,
+  "scope": "tracked repository and current mission evidence",
+  "secrets_in_query": false
+}

@@ -992,3 +992,19 @@ explicit provider/operator evidence, not deleting DB/resetting the budget/new id
 is needed before further live dispatch. Existing C ASK/WAIT and runtime continuation
 are valid; neither grants a semantic-quality or human-naturalness PASS. No second
 Subject/loop/Store, source/Grant/Manager/privacy/primary-role change or production access.
+
+
+## LIVED_GROWTH_V2 — UNKNOWN reconciliation precedes longer-timeout dispatch
+[2026-10-19用户约束/公开Provider接口实测] A confirmed log-list path is not a public
+per-inference status API. Official frontend source uses logged-in account user.token;
+no source establishes inference-key authentication for this API. Bounded unauthenticated
+GET canonical /api/log/self returned401 without data. Do not repurpose a model key as
+account session, log in, fetch broad account history, guess status endpoints or infer
+no charge from an empty/unauthorized search. Preserve original UNKNOWN regardless.
+User explicitly predicates a new10000–15000ms development request on confirmation that
+it will not duplicate unknown billing. Prerequisite unmet: do not change active timeout,
+clear/reset the request, change home/identity/day, retry the old message, or submit a new
+live probe. Current host timeout3000ms; production untouched. The narrow followup uses
+zero model calls and no credential. Need one sanitized operator/provider record with
+correlation/finality/usage/charge currency; absence is not non-dispatch evidence. HTTP401
+for log authentication says nothing about original inference authentication or quality.

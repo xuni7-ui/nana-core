@@ -168,3 +168,37 @@ Then human free dialogue must review listening vs unsolicited advice, natural wa
 non-sycophantic source-supported disagreement, relevance of actual past work, sharing
 restraint, correction/refusal/reopen and restart continuity. None can be certified by
 this failed probe or by model self-evaluation. No H2/Hands/private history/production.
+
+
+## 2026-10-19 followup — verify UNKNOWN before longer timeout
+
+No new model call was made. Original client request490da782-f60f-439a-a753-d68d2ff6372d
+still has no accepted response, usage or known billing. Local Store read-only confirms
+one cognitive request, state UNKNOWN and actual_cost_micro/response_digest NULL.
+No mutation, replay, new identity/home or counter reset was used to remove the fence.
+
+The official public app bundle identifies Log→useUsageLogsData. Its exact bounded
+self-log query accepts request_id,model_name,start/end_timestamp,page_size; the
+frontend uses account login user.token. An unauthenticated canonical /api/log/self
+GET returned401/success=false/no data (trailing-slash URL first301 canonicalized).
+Three status GET attempts total, no Authorization/Cookie/credential, no raw account
+response retained; hashes and allowlisted observations only. No evidence says an
+inference API key authorizes this account endpoint, so no key was tried there.
+This401 is a log-query result, not the old inference's HTTP status or auth failure.
+Client X-Request-ID is not falsely promoted to a provider-native ID. Operator handoff
+contains only the exact scoped correlation/time/digest/required fields, no key or body.
+
+The user made new10000–15000ms development dispatch conditional on confirmed absence
+of duplicate unknown billing. That condition remains unmet. Actual host timeout stays
+3000ms; no source/config/default change, new test NOT_RUN. The current LifeConfig
+maximum is3000ms, while existing transport/router/request contracts already permit
+up to30000ms; any future justified adjustment must explicitly change the development
+config bound and effective provider/route ceilings without touching production or
+removing UNKNOWN fencing. No such change is falsely claimed in this followup.
+
+REAL_PROVIDER_CALLS=1 cumulative/0 new; REAL_PROVIDER_QUALIFIED=NOT_QUALIFIED;
+HTTP/model/usage for the original request unobserved; billing unconfirmed. M2/M7/M10
+PARTIAL, human naturalness NOT_RUN, FIRST_LIFE_EXPERIENCE_READY NOT_READY. Existing
+M3–M6/M8–M9 and qualified executable446affc/full1230/0/12 evidence remain unchanged;
+no repeated regression for docs-only work. Reconciliation requires a correlated
+provider/operator record; a missing entry cannot establish no dispatch or zero fee.

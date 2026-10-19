@@ -1,5 +1,25 @@
 # NANA_REAL_COGNITION_LIVED_GROWTH_V2 — persistent ledger
 
+## CURRENT — UNKNOWN STATUS RECONCILIATION / 2026-10-19
+[Provider公开接口/本地只读核验] Head startb9a14c8246b0bee2dba1e43e2e60b72eaba29716；
+原客户端request490da782-f60f-439a-a753-d68d2ff6372d仍UNKNOWN，无HTTP/model/usage/扣费证明。
+从TianToken公开主bundle→Log组件→useUsageLogsData源码确认其本人日志路径与查询字段；
+原路径301指向canonical /api/log/self，未登录有界查询最终401、success=false/data absent。
+日志使用账户登录token；无已配置账户会话，未证实推理key可查询，未使用/搜索任何凭据。
+此401仅是日志查询，不是旧模型请求的HTTP状态/认证结论。未跟随任何携密钥重定向。
+未获可关联的完成/usage/账单结果；UNKNOWN与费用UNKNOWN保持，不写SUCCESS/FAILURE。
+REAL_PROVIDER_CALLS累计1，本轮新增0；retry0/fallback0；旧message/Subject DB不改写。
+按用户明确前置条件，实际开发timeout仍3000ms，10000–15000ms调整NOT_APPLIED；
+新PROJECT认知测试NOT_RUN，后续最小语义样例NOT_RUN；生产默认与全部权限边界未改。
+需operator仅提供该笔脱敏状态/usage/扣费记录及关联依据；不请求key/Cookie/账户凭据。
+查不到记录不等于未执行/未计费；客户端ID不冒充Provider原生ID。
+M2/M7/M10仍PARTIAL，REAL_NATURAL_DIALOGUE_REVIEWED NOT_RUN；
+FIRST_LIFE_EXPERIENCE_READY NOT_READY。M3–M6/M8–M9未重新施工或验收。
+业务源码/tests/tools/开发host配置均未改；仅文档/evidence一致性与敏感模式扫描，未重复全量回归。
+证据 unknown_reconciliation.json / unknown_reconciliation_handoff.json；原live_attempt保留。
+旧bundle未读取/未跟踪；main/R045/production/私密导入/QQ/B站/Hands变更0。
+以下CURRENT标题为历史快照，当前结论以本块为准。
+
 ## CURRENT — LIVE COGNITION RESUME / 2026-10-19
 [真实开发relay请求尝试/本地恢复实测] Head start29b5bdd701bac3760bff270c0fc692c488284a4f;
 branch dev/nana-core-real-cognition-lived-growth-v2-codex; GLOBAL_STAGE H unchanged.

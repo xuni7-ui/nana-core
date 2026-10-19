@@ -1,0 +1,5 @@
+2026-10-19 UNKNOWN-only followup
+Model calls:0 new/1 cumulative; authenticated status queries0; unauthenticated bounded log GETs3, canonical401.
+Read-only actual dev Store: original UNKNOWN request only; response_digest/usage bytes/actual cost absent; host timeout3000ms unchanged.
+Source/tests/tools/config changes0; prior1230/0/12 full is historical exact executable evidence, not rerun.
+JSON/manifest/source-tree/ref/worktree audits performed. No new unit tests appropriate for docs-only evidence update.

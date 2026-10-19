@@ -45,5 +45,17 @@
     "PROJECT"
   ],
   "actual_cost_usd": "UNKNOWN",
-  "human_naturalness_not_self_certifiable": true
+  "human_naturalness_not_self_certifiable": true,
+  "unknown_reconciliation": "BLOCKED_ACCOUNT_LOG_SESSION_NOT_AVAILABLE_401",
+  "unknown_reconciliation_evidence": "unknown_reconciliation.json",
+  "new_real_calls_this_followup": 0,
+  "current_timeout_ms": 3000,
+  "requested_timeout_range_ms": [
+    10000,
+    15000
+  ],
+  "timeout_adjustment": "NOT_APPLIED_PREREQUISITE_UNMET",
+  "billing_confirmed": false,
+  "new_project_probe": "NOT_RUN",
+  "current_status_head_start": "b9a14c8246b0bee2dba1e43e2e60b72eaba29716"
 }

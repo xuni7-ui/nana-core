@@ -1,0 +1,28 @@
+{
+  "purpose": "Operator supplies only a scoped, non-secret provider record; no account login/Cookie/API key requested",
+  "provider": "TianToken",
+  "console_url": "https://api.tiantoken.com/console/log",
+  "requested_model": "qwen3.8-flash",
+  "client_request_id": "490da782-f60f-439a-a753-d68d2ff6372d",
+  "client_id_is_provider_native_id": "UNVERIFIED",
+  "request_started_at_utc": "2026-10-19T16:37:15.778208+00:00",
+  "request_body_sha256": "fccd5feaa26e574bc7061ee1858f06f38920314d7c23e926096d94b4494e4fd5",
+  "local_state": "UNKNOWN",
+  "needed_fields": [
+    "matching/correlation basis",
+    "provider request/response identifier if exposed",
+    "completed/failed/processing/unknown status",
+    "prompt/completion tokens if known",
+    "charged amount and currency if known",
+    "finality/settlement status and observation time"
+  ],
+  "prohibited_fields": [
+    "API key",
+    "Cookie",
+    "account access token",
+    "raw private prompt or response",
+    "other requests or account history"
+  ],
+  "no_matching_record_means": "NOT_FOUND_NOT_PROOF_OF_NO_DISPATCH_OR_NO_CHARGE",
+  "state_transition_requirement": "Provider evidence must be explicitly correlated; never rewrite original timeout as a received response, infer success from elapsed time, or clear UNKNOWN by resetting DB/changing day/home/identity. No automatic replay."
+}
