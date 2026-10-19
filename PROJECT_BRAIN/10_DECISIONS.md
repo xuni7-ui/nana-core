@@ -887,3 +887,11 @@ not required. Window controls new opportunity admission, not a Manager-style vet
 on adopted work; explicit pause/Grant/Manager still independently fence execution.
 No general autonomous curriculum or algorithm-invention claim. Dev subject identity
 is not imported production Nana. No new schema/dependency or private import.
+
+
+## LIVED_GROWTH_V2 — scope and independent document work
+[授权/施工] Preserve GLOBAL_STAGE H; mission E5/C9/D8/F6/G6/I3 labels do not
+renumber phases. Add sealed Markdown document navigation/audit beside Python API
+work in original ProjectWork/Kernel. Independent checking must trigger learning,
+not host-injected failure. Skill code only via existing isolated CodeSkillService.
+Real provider/human quality remains separately unauthorized/unreviewed; no old keys.

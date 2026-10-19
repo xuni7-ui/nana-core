@@ -1772,3 +1772,9 @@ NOT_RUN live gates.30.0835s wall,1.0891s CPU,40288KiB RSS,512MiB AS cap/host quo
 Prior QQ next-step priority superseded only for current independent milestone.
 No key/provider/private history/real platform/production changes. Final whitelist/
 secret-literal scan and committed fingerprint/normal dev push verification follow.
+
+
+## LIVED_GROWTH_V2 M0 — verified baseline
+[只读/文档] Fetch confirmed base5cc5c736,parent324b80d; new dev branch and durable
+M0–M10 ledger. Why: preserve completed independent application and prevent silent
+rollback. Validation: local/remote exact match, only old bundle untracked.

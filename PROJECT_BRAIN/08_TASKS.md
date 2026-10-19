@@ -1,5 +1,12 @@
 # PROJECT_BRAIN / 08 TASKS（任务清单）
 
+## CURRENT — NANA_REAL_COGNITION_LIVED_GROWTH_V2 (IN_PROGRESS)
+[只读核验/授权开发] Base5cc5c736 verified remote. New branch
+dev/nana-core-real-cognition-lived-growth-v2-codex; GLOBAL_STAGE H retained.
+M0 verified; M1 external provider BLOCKED_BY_AUTHORIZATION; M2 human review NOT_RUN.
+M3–M10 OPEN; docs/nana_real_cognition_lived_growth_v2_status.md is the task ledger.
+Single existing C/D/F/G/I chain; no production/private credentials permitted.
+
 ## CURRENT — A7 independent life / D8 / C9
 [源码/实际开发进程验收] Branch dev/nana-core-independent-life-runtime-a7-d8-c9-v1-codex;
 base32306111; qualified source324b80de52c84a474b15fcdc4be9a502b35cdf89.
