@@ -103,7 +103,7 @@ def decide(event, situation, appraisal, motives):
             Intention(kind='NO_ACTION', purpose='Let this input pass without retention', slot_key='quiet', source_ids=(), self_generated=self_generated))
     from .context_fit import choose
     context_choice=choose(event,situation)
-    if context_choice and (situation.context_fit.mode in {'RESPECT_BOUNDARY','VENT','SHARE','FOCUS','UNCLEAR'}):return context_choice
+    if context_choice and (situation.context_fit.mode in {'RESPECT_BOUNDARY','VENT','SHARE','CHAT','CORRECTION','FOCUS','UNCLEAR'}):return context_choice
     if appraisal.risk == 'HIGH' and appraisal.uncertainty in {'RELEVANT','HIGH'}:
         return ('FOCUS_NOW', Judgment(stance='ASK', reason='Risk needs clarification, not unsupported escalation', source_ids=sources),
             Intention(kind='WAIT', purpose='Hold concern without contacting anyone', slot_key='clarify', source_ids=sources, self_generated=self_generated))

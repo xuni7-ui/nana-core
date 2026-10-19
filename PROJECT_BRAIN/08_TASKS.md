@@ -1,16 +1,20 @@
 # PROJECT_BRAIN / 08 TASKS（任务清单）
 
-## CURRENT — A7 independent life / D8 / C9 (implementation started)
-[远端核验] Base32306111a052811f3b293d36e5d5500787950d8a matches origin.
-Branch dev/nana-core-independent-life-runtime-a7-d8-c9-v1-codex. A7/D8/C9,
-E5/F5/G5 are this mission's goal labels, not reinterpretations of historical
-C7/D8 schema-target shorthand or prior E5 numbering. GLOBAL_STAGE H retained.
-Reuse original Runtime/SubjectLoop/Store, provider Router/CognitionSession and
-project_work. Gap: single usable foreground program, automatic failure/next-task
-opportunities, transient natural text interpretation/rendering and controls.
-Live providers/credentials/paid calls/QQ/production remain NOT_AUTHORIZED/NOT_RUN.
-Ledger: docs/nana_independent_life_mission.md. Implementation/qualification pending.
-
+## CURRENT — A7 independent life / D8 / C9 (implemented checkpoint)
+[源码/开发进程实测] Branch dev/nana-core-independent-life-runtime-a7-d8-c9-v1-codex;
+base32306111 verified remote. Mission labels A7/D8/C9/E5/F5/G5, not historical schema
+or phase renumbering; GLOBAL_STAGE H unchanged. One foreground life application
+wraps original Runtime/Store/SubjectLoop, C judgment and D WHEN retained.
+Autonomous approved-source opportunities→real project Kernel work→failure→C
+reflection→original G stages→later actual unseen input reuse run without user input.
+Local natural-text CLI, pause/resume/source/status/revoke/forget, persistent control,
+privacy-scoped volatile model meaning/render via original Router/CognitionSession.
+New local boundary metadata domain accepts only normalized tokens, not raw private
+memory import. Real provider calls/credentials/private history/platform/production0.
+16 new focused passed;154 earlier related passed.12s wall debug and actual SIGKILL/
+restart15s journey passed. Final frozen-source30s soak/full regression pending.
+Provider semantic quality/human naturalness NOT_RUN; FIRST_LIFE_EXPERIENCE not READY.
+Ledger docs/nana_independent_life_mission.md; previous blocks preserved as history.
 
 ## CURRENT — REAL_UTILITY_SHARED_LIFE_EVOLUTION_V1
 [实际本地源码材料/离线主体实测] Dev branch:

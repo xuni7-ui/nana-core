@@ -40,9 +40,12 @@ class MemoryService:
         if not isinstance(candidate, EvidenceInput):
             raise CoreError("INVALID_EVIDENCE_CONTRACT")
         p = candidate.provenance
+        local=p.domain=='LOCAL_INTERACTION_METADATA'
+        if local:
+            if self.store.schema_target<13 or candidate.privacy_class not in {'PUBLIC','PROJECT','PERSONAL'} or p.source_kind!='USER_STATEMENT' or not re.fullmatch(r'Local input reviewed meaning: (?:VENT|CHAT|HELP|SHARE|CORRECTION|DECLINE_DEPTH|REOPEN|FOCUS|UNCLEAR|IMPORTANT)',candidate.text):raise CoreError('LOCAL_METADATA_ONLY')
         project=p.domain=="DEVELOPMENT_PROJECT" and candidate.privacy_class=="PROJECT" and self.store.schema_target>=13
         if p.domain=="DEVELOPMENT_PROJECT" and not project:raise CoreError("PROJECT_DEVELOPMENT_INGRESS_ONLY")
-        if p.domain!="SYNTHETIC_ONLY" and not project and (self.store.schema_target<13 or candidate.privacy_class!="PUBLIC"):
+        if p.domain!="SYNTHETIC_ONLY" and not project and not local and (self.store.schema_target<13 or candidate.privacy_class!="PUBLIC"):
             raise CoreError("PUBLIC_DEVELOPMENT_INGRESS_ONLY")
         previous = self.store.db.execute("SELECT * FROM continuity_evidence WHERE "
             "source_namespace=? AND source_reference=? AND source_revision=?",

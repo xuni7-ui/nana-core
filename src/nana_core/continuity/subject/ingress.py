@@ -70,7 +70,7 @@ class SubjectIngress:
         memory_id = None
         if outcome == 'KEEP' and event.text:
             source = self.memory.capture(EvidenceInput(provenance=Provenance(
-                source_namespace='synthetic.subject', source_reference=digest(event.source_key.encode()),
+                domain='LOCAL_INTERACTION_METADATA' if event.domain=='LOCAL_INTERACTION' else 'SYNTHETIC_ONLY',source_namespace='recorded.local.subject' if event.domain=='LOCAL_INTERACTION' else 'synthetic.subject', source_reference=digest(event.source_key.encode()),
                 source_kind='USER_STATEMENT' if event.origin == 'USER' else 'DIRECT_OBSERVATION'),
                 text=event.text, privacy_class=event.privacy_class, event_time_us=event.occurred_at_us,
                 observed_time_us=event.observed_at_us))

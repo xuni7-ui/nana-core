@@ -133,7 +133,7 @@ class EventQueue:
                     cycle_id=cycle[0] if cycle else None,owner_epoch=None,updated_at_us=self.store.clock.utc_now_us(),
                     outcome_code='RECOVERED_COMMITTED_CYCLE' if cycle else 'SAFE_RESUME_NO_MODEL_RETRY')
 
-    def claim(self):
+    def claim(self,*,user_only=False):
         self.lease.assert_current()
         now=self.store.clock.utc_now_us()
         if not self.store.db.execute("SELECT 1 FROM runtime_queue WHERE state IN ('READY','DEFERRED') AND (due_at_us<=? OR expires_at_us<=?) LIMIT 1",(now,now)).fetchone():
@@ -145,6 +145,7 @@ class EventQueue:
                 "ORDER BY CASE WHEN event_type='USER_EVENT' THEN 0 ELSE 1 END,priority DESC,due_at_us,sequence_no LIMIT ?",(now,self.config.queue_capacity)).fetchall()
             for raw in candidates:
                 row=dict(raw)
+                if user_only and row['event_type']!='USER_EVENT':continue
                 if row['stream_key']:
                     earlier=self.store.db.execute("SELECT 1 FROM runtime_queue WHERE stream_key=? AND source_sequence<? AND state IN ('READY','DEFERRED','PROCESSING')",(row['stream_key'],row['source_sequence'])).fetchone()
                     if earlier:continue

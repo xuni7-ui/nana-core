@@ -25,7 +25,7 @@ MAX_PACKAGE=64*1024*1024
 _FILES={'subject.sqlite','privacy.json','manifest.json'}
 _META={'recovery_quarantine','cloud.shadow_runtime','self.subject_revision','governance.registry','governance.clock',
        'auth_high_water_us','portable.retired','portable.received','runtime.epoch_floor'}
-_TRANSIENT={'runtime.managed','runtime.health'}
+_TRANSIENT={'runtime.managed','runtime.health','runtime.life_control'}
 
 class PortableTransferAuthority:
     """Trusted offline application construction, not Subject/ModelPort authority."""

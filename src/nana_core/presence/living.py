@@ -8,7 +8,7 @@ from .contracts import RuntimeEvent,Cause
 
 class LivingWork:
     def __init__(self,runtime):
-        self.runtime=runtime;self.agency=None;self.learning_policy=None;self.accommodation_policy=None;self.open_learning=None;self.exploration=None;self.world=None
+        self.runtime=runtime;self.agency=None;self.learning_policy=None;self.accommodation_policy=None;self.open_learning=None;self.exploration=None;self.world=None;self.paused=False;self.activity_source=None
         from ..continuity.maintenance import MaintenanceService
         self.maintenance=MaintenanceService(runtime.store,scopes=runtime.config.scopes,entity_id=runtime.config.entity_id,
             privacy_classes=runtime.config.privacy_classes,slice_items=runtime.config.living.slice_items,interval_us=runtime.config.living.maintenance_interval_us)
@@ -88,6 +88,7 @@ class LivingWork:
         return mid
 
     def maintenance_slice(self):
+        if self.paused:return None
         r=self.runtime
         if self.world:
             activity=self.world.maintenance_slice()
@@ -115,6 +116,7 @@ class LivingWork:
             return {'review_enqueued':head['record_id']}
         return self.maintenance.slice()
     def opportunity(self):
+        if self.paused:return None
         if self.world:
             event=self.world.opportunity()
             if event:return {'queue_id':self.runtime.submit(event),'source':'WORLD_CONCERN'}
@@ -125,7 +127,7 @@ class LivingWork:
             event=provider(r.config.entity_id)
             if event:return {'queue_id':r.submit(event),'learning_reconsideration':True}
         ref=self.agency.next_reference()
-        if not ref:return None
+        if not ref:return self.activity_source.opportunity() if self.activity_source else None
         work=r.store.one('jobs',ref.work_id);head=r.store.one('continuity_records',work['record_id'])
         try:view=step_view(r.store,ref,scope=head['scope'],privacy_classes=r.config.privacy_classes)
         except CoreError:

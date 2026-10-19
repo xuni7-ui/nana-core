@@ -70,11 +70,13 @@ class IndependentEvaluator:
         return {'checked':len(rows),'passed':sum(r['passed'] for r in rows),'cases':rows,'all_passed':all(r['passed'] for r in rows)}
 
 class LearningService:
-    def __init__(self,store,authority,specs,*,privacy_classes,scopes,proposer=None,evaluator=None,max_pending=4,cost_ceiling_micro=10000):
+    def __init__(self,store,authority,specs,*,privacy_classes,scopes,proposer=None,evaluator=None,max_pending=4,cost_ceiling_micro=10000,source_memory_ids=()):
         if store.schema_target<12:raise CoreError('OPEN_AGENCY_SCHEMA_REQUIRED')
         self.store,self.authority=store,authority;self.records=RecordService(store)
         self.specs={s.learning_key:LearningSpec.model_validate_json(s.model_dump_json()) for s in specs}
         if len(self.specs)>16 or not 1<=max_pending<=8:raise CoreError('LEARNING_POLICY_BOUND')
+        self.source_memory_ids=tuple(source_memory_ids)
+        if len(self.source_memory_ids)>32:raise CoreError('LEARNING_SOURCE_BOUND')
         self.proposer=proposer or FixtureLearningProposer();self.evaluator=evaluator or IndependentEvaluator()
         self.scopes=tuple(scopes)
         if not self.scopes:raise CoreError('LEARNING_SCOPE_REQUIRED')
@@ -111,10 +113,13 @@ class LearningService:
                 with self.store.transaction('open.learning_already_selected',{'work_id':previous['job_id']}) as tx:tx.update('subject_intentions',i['intention_id'],state='COMPLETED',revision=i['revision']+1)
             return previous['job_id']
         if self.store.db.execute("SELECT count(*) FROM jobs WHERE work_kind='LEARNING' AND state IN ('WAITING','RUNNING','UNKNOWN')").fetchone()[0]>=self.max_pending:return None
+        for mid in self.source_memory_ids:
+            m=self.records.memory.read(mid)
+            if m['scope']!=event.scope or m['privacy_class'] not in self.privacy:raise CoreError('LEARNING_SOURCE_DENIED')
         parents=(cycle.record_id,*((experience['record_id'],) if experience else ()))
         now=self.store.clock.utc_now_us();wid=uid()
         with self.store.transaction('open.learning_selected',{'work_id':wid,'cycle_id':cycle.cycle_id}) as tx:
-            rid=self.records.create(tx,kind='OPEN_LEARNING',scope=event.scope,payload={'stage':'OBSERVE','spec':spec.model_dump(mode='json'),'results':{},'cause':'VERIFIED_FAILURE' if experience and experience['outcome']=='FAILURE' else 'SOURCED_INTEREST_OR_GAP','context_binding':{'entity_id':event.entity_id,'topic':cycle.context_fit.topic_key} if cycle.context_fit else None,'selected_method':None,'trial_record_id':None,'lesson_id':None},records=parents,target_id=spec.learning_key)
+            rid=self.records.create(tx,kind='OPEN_LEARNING',scope=event.scope,payload={'stage':'OBSERVE','spec':spec.model_dump(mode='json'),'results':{},'cause':'VERIFIED_FAILURE' if experience and experience['outcome']=='FAILURE' else 'SOURCED_INTEREST_OR_GAP','context_binding':{'entity_id':event.entity_id,'topic':cycle.context_fit.topic_key} if cycle.context_fit else None,'selected_method':None,'trial_record_id':None,'lesson_id':None},records=parents,memories=self.source_memory_ids,target_id=spec.learning_key)
             tx.put('jobs',{'job_id':wid,'occurrence_key':'learning:'+key,'due_at_us':now,'state':'WAITING','body_json':'{}','work_kind':'LEARNING','record_id':rid,'revision':1,'cursor':0,'owner_epoch':None,'updated_at_us':now})
             i=self.store.one('subject_intentions',cycle.intention_id)
             if i and i['state']=='PENDING':tx.update('subject_intentions',i['intention_id'],state='COMPLETED',revision=i['revision']+1)

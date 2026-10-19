@@ -10,16 +10,17 @@ from ...storage import digest
 from ..records import RecordService
 
 class InteractionSignal(DTO):
-    kind: Literal['VENT','HELP','SHARE','DECLINE_DEPTH','REOPEN','FOCUS','UNCLEAR','IMPORTANT']
+    kind: Literal['VENT','CHAT','HELP','SHARE','CORRECTION','DECLINE_DEPTH','REOPEN','FOCUS','UNCLEAR','IMPORTANT']
     topic_key: str = Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
-    basis: Literal['EXPLICIT','INTERPRETED'] = 'EXPLICIT'
+    basis: Literal['EXPLICIT','INTERPRETED','MODEL_PROPOSAL'] = 'EXPLICIT'
+    proposal_record_id: str | None = None
     provenance: Literal['HOST_INTERPRETATION_NOT_TRUTH'] = 'HOST_INTERPRETATION_NOT_TRUTH'
 
 class ContextFitAssessment(DTO):
     derived: Literal[True] = True
     entity_id: str
     topic_key: str
-    mode: Literal['VENT','HELP','SHARE','DECLINE_DEPTH','REOPEN','FOCUS','UNCLEAR','IMPORTANT','RESPECT_BOUNDARY','INDEPENDENT']
+    mode: Literal['VENT','CHAT','HELP','SHARE','CORRECTION','DECLINE_DEPTH','REOPEN','FOCUS','UNCLEAR','IMPORTANT','RESPECT_BOUNDARY','INDEPENDENT']
     allow_deepening: bool
     allow_new_work: bool
     preserve_independent_activity: Literal[True] = True
@@ -52,11 +53,25 @@ def assess(store,event,source,*,topic,privacy_classes):
     closed,refs,reason=depth_boundary(store,event.entity_id,event.scope,topic,privacy_classes)
     if signal and signal.kind=='DECLINE_DEPTH' and signal.basis=='EXPLICIT':closed=True
     mode=signal.kind if signal else 'INDEPENDENT'
-    if signal and signal.basis!='EXPLICIT':mode='UNCLEAR'
+    proposal_refs=()
+    if signal and signal.basis=='MODEL_PROPOSAL':
+        # The model can suggest meaning, never install an explicit user boundary.
+        try:
+            records=RecordService(store);head=store.one('continuity_records',signal.proposal_record_id)
+            if not head or head['record_kind']!='COGNITION_PROPOSAL' or head['scope']!=event.scope or head['privacy_class'] not in privacy_classes or not records.current_support(head['record_id']):raise ValueError()
+            reply=records.read(head['record_id'])['payload']['reply'];request=store.one('cognitive_requests',reply['request_id'])
+            body=records.read(request['record_id'])['payload']['request']
+            from .state import revision
+            if request['state']!='PROPOSED' or request['subject_revision']!=revision(store) or body['cognitive_role']!='INTERPRET' or body['role_input']['dialogue']['message_memory_id'] not in event.source_memory_ids or body['role_input']['dialogue']['topic']!=topic or reply['proposal']['dialogue']['kind']!=signal.kind:raise ValueError()
+            if body['subject_epoch']!=store.one('runtime_lease',store.identity['identity_id'])['epoch'] or store.clock.utc_now_us()>request['deadline_us']:raise ValueError()
+            proposal_refs=(head['record_id'],)
+            if signal.kind in {'DECLINE_DEPTH','REOPEN'}:mode='RESPECT_BOUNDARY' if signal.kind=='DECLINE_DEPTH' else 'UNCLEAR'
+        except (ValueError,KeyError,TypeError):mode='UNCLEAR'
+    elif signal and signal.basis!='EXPLICIT':mode='UNCLEAR'
     if closed:mode='RESPECT_BOUNDARY'
     allow=not closed and mode in {'HELP','IMPORTANT','REOPEN','INDEPENDENT'}
     if mode=='IMPORTANT' and not event.source_memory_ids:mode='UNCLEAR';allow=False
-    refs=tuple(dict.fromkeys((*refs,*((source['record_id'],) if source['record_id'] else ()))))
+    refs=tuple(dict.fromkeys((*refs,*proposal_refs,*((source['record_id'],) if source['record_id'] else ()))))
     records=RecordService(store)
     memories=tuple(dict.fromkeys(m for r in refs for m in records.support(r)))
     return ContextFitAssessment(entity_id=event.entity_id,topic_key=topic,mode=mode,allow_deepening=allow,allow_new_work=allow,
@@ -73,9 +88,9 @@ def choose(event,situation):
         return 'DEFER',Judgment(stance='DEFER',reason='Respect the explicit topic refusal; do not privately restart research',source_ids=sources),Intention(kind='NO_ACTION',purpose='Leave this topic closed without deleting independent interests',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='STAY_SILENT')
     if fit.mode=='FOCUS':
         return 'FOCUS_NOW',Judgment(stance='ASK',reason='Attend to the requested focus; preserve unrelated pending activity for later',source_ids=sources),Intention(kind='WAIT',purpose='Clarify the immediate need while background work yields',slot_key='context-focus',source_ids=sources,self_generated=False)
-    if fit.mode in {'VENT','SHARE'}:
+    if fit.mode in {'VENT','SHARE','CHAT'}:
         return 'FOCUS_NOW',Judgment(stance='WATCH',reason='Attend to the interaction without turning it into unsolicited research',source_ids=sources),Intention(kind='SOCIAL_INTERACTION',purpose='Consider a context-appropriate response, not a new project',slot_key='interaction-'+fit.topic_key,source_ids=sources,self_generated=False)
-    if fit.mode in {'UNCLEAR','DECLINE_DEPTH'}:
+    if fit.mode in {'UNCLEAR','DECLINE_DEPTH','CORRECTION'}:
         return 'FOCUS_NOW',Judgment(stance='ASK',reason='Intent is uncertain; clarification is preferable to unsolicited analysis',source_ids=sources),Intention(kind='WAIT',purpose='Ask what kind of response is wanted',slot_key='context-clarify',source_ids=sources,self_generated=self_generated)
     return 'FOCUS_NOW',Judgment(stance='THINK_MORE',reason='Consider explicit help or sourced significance; no goal is adopted by the request',source_ids=sources),Intention(kind='GOAL_CANDIDATE',purpose='Consider a bounded helpful next step',slot_key='help-'+fit.topic_key,source_ids=sources,self_generated=self_generated)
 

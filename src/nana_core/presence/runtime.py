@@ -161,9 +161,9 @@ class NanaRuntime:
         self.cadence.assert_owner();self.cadence.drain(self.submit)
         self.lease.heartbeat()
         if self.perception:self.perception.poll()
-        self._watch_sources();self.scheduler.due()
+        if not (self.work and self.work.paused):self._watch_sources();self.scheduler.due()
         work_activity=self.work.opportunity() if self.work and not self.queue.has_reactive() else None
-        row=self.queue.claim()
+        row=self.queue.claim(user_only=bool(self.work and self.work.paused))
         if row is None:
             if work_activity and ('recovered' in work_activity or 'blocked' in work_activity):
                 self._save_oper()

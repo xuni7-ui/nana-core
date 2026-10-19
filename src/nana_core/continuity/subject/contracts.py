@@ -35,8 +35,8 @@ class SubjectInput(DTO):
     interaction_signal: InteractionSignal | None = None
     growth_assessment_id: str | None = None
     schema_version: Literal[1] = 1
-    domain: Literal['SYNTHETIC_ONLY','DEVELOPMENT_MATERIAL'] = 'SYNTHETIC_ONLY'
-    source_key: str = Field(pattern=r'^(?:synthetic|development)[.:_-][A-Za-z0-9._:-]{1,128}$')
+    domain: Literal['SYNTHETIC_ONLY','DEVELOPMENT_MATERIAL','LOCAL_INTERACTION'] = 'SYNTHETIC_ONLY'
+    source_key: str = Field(pattern=r'^(?:synthetic|development|local)[.:_-][A-Za-z0-9._:-]{1,128}$')
     surface: SurfaceEnvelope | None = None
     goal_step: GoalStepRef | None = None
     goal_review: GoalReviewRef | None = None
@@ -77,6 +77,7 @@ class SubjectInput(DTO):
 
     @model_validator(mode='after')
     def provenance(self):
+        if self.domain=='LOCAL_INTERACTION' and (not self.source_key.startswith('local.') or self.kind!='INTERACTION' or self.origin!='USER' or not self.text or not self.text.startswith('Local input reviewed meaning: ')):raise ValueError('local dialogue only carries normalized metadata')
         if self.domain=='DEVELOPMENT_MATERIAL' and (not self.source_key.startswith('development.') or self.privacy_class not in {'PUBLIC','PROJECT'}):raise ValueError('development sources require explicit nonprivate namespace')
         if self.interaction_signal and (self.kind!='INTERACTION' or self.origin!='USER' or not self.text or self.positive_request or self.relational_request):raise ValueError('interaction context requires a separate sourced user occurrence')
         if self.interaction_signal and self.topic and self.topic!=self.interaction_signal.topic_key:raise ValueError('context topic mismatch')

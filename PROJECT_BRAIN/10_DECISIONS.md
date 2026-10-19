@@ -854,3 +854,17 @@ mission. Ephemeral local dialogue body must not become permanent raw Memory.
 Number labels are mission targets; GLOBAL_STAGE H and historical priorities stay.
 Resource detection: environment cgroup8GiB, CPU quota2; configure <=4-affinity CPUs,
 512MiB process address-space ceiling, one foreground owner, no local model/capture.
+
+
+## A7 — implementation constraints
+[源码/定向实测] Local terminal is an input, not social send authority. Raw input/
+provider free text remain volatile; only normalized LOCAL_INTERACTION_METADATA
+(USER_STATEMENT tokens) may persist under privacy. Model meaning linked to current
+correlated request/revision/epoch; model refusal is temporary, explicit literal
+user refusal retains original scoped boundary. No model-certified goals/relations/
+grants. Original ContextAssembler pinned-only mode carries verified report facts
+and existing filtered relation/self facets; unrelated source corpus excluded.
+Foreground dialogue uses shared total budget, not background subquota; UNKNOWN
+blocks later dispatch and is never rendered/retried automatically. Runtime pause
+is machine-local operational metadata, excluded by existing B8 transfer. Explicit
+startup Grants installed once at init only; resume/restart never grants.

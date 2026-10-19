@@ -1744,3 +1744,13 @@ Register one independent-runtime mission, mapping labels without rewriting histo
 Journey: init→foreground conversation/degraded status→idle real project work→actual
 failure/reflection/learning→new input reuse→status/pause→SIGKILL/reopen. Provider
 semantic quality is a separate NOT_RUN gate, never replaced by loopback evidence.
+
+
+## A7/D8/C9 — usable foreground subject
+[源码/离线及进程实测] Added life CLI/config/presentation/provider slot; original C/D
+pause and reactive safe points; volatile semantic contracts/current proposal checks;
+automatic source work, source-bound G inputs and independently checked later use.
+16 new focused PASS, earlier154 related PASS. Real wall debug12s and SIGKILL/restart
+journey15s passed; actual pipe-read-ahead bug fixed, no silent dropped commands.
+New /sources view supports usable source erasure; no raw message telemetry. Source
+freeze/full qualification next. No schema/table/dependency/production change.

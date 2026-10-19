@@ -55,7 +55,7 @@ def capture(runtime, key, data, *, kind='DIRECT_OBSERVATION', parents=(), predic
         privacy_class='PROJECT', observed_time_us=observed))
     existing=runtime.store.db.execute("SELECT memory_id FROM memories WHERE source_evidence_id=? AND lifecycle='ACTIVE'",(eid,)).fetchone()
     return existing[0] if existing else memory.add(MemoryCandidate(entity_id='project-user',scope='project-work',memory_type=MemoryType.EPISODIC,
-        epistemic_kind='BELIEF' if kind=='MODEL_DERIVATION' else 'OBSERVATION',source_evidence_id=eid,text=text,derived_from=parents,predicate_key=predicate))
+        epistemic_kind='BELIEF' if kind=='MODEL_DERIVATION' else 'STATEMENT' if kind=='USER_STATEMENT' else 'OBSERVATION',source_evidence_id=eid,text=text,derived_from=parents,predicate_key=predicate))
 
 
 def post(runtime, key, mids, **kwargs):
@@ -67,9 +67,9 @@ def post(runtime, key, mids, **kwargs):
         causes=(Cause(kind='MEMORY',reference_id=mids[0]),),due_at_us=runtime.clock.utc_now_us()))
 
 
-def source_objective(material, expected, *, suffix='request'):
+def source_objective(material, expected, *, suffix='request',motivation_source='PROJECT_COMPLETION'):
     key=material.material_id; program='project.'+key+'-'+suffix
-    return Objective(objective_id=program,scope='project-work',motivation_source='PROJECT_COMPLETION',task_domain='python-api',desired=('report',),operators=(
+    return Objective(objective_id=program,scope='project-work',motivation_source=motivation_source,task_domain='python-api',desired=('report',),operators=(
         Operator(operator_id='inspect',capability='world.observe',resource='project://'+key+'/source',produces=('seen',),args={}),
         Operator(operator_id='inventory',capability='world.compute',resource='project://'+key+'/inventory',requires=('seen',),produces=('indexed',),
             args={'method':'PYTHON_TOP_DEFS','input_from':'inspect','data_privacy':'PROJECT'},strategy_selectable=True,expected_digest=digest(expected)),
@@ -78,9 +78,9 @@ def source_objective(material, expected, *, suffix='request'):
 
 class ProjectWork:
     """Application-owned facade. Receives explicit manifests and original Runtime."""
-    def __init__(self, runtime, repo, materials, output, spec=None, *, grant=False):
+    def __init__(self, runtime, repo, materials, output, spec=None, *, grant=False,motivation_source='PROJECT_COMPLETION'):
         self.runtime=runtime; self.port=ProjectMaterialPort(runtime.identity_id,repo,materials,output)
-        self.objects={m.material_id:source_objective(m,expected_inventory(read_material(repo,m))) for m in materials}
+        self.objects={m.material_id:source_objective(m,expected_inventory(read_material(repo,m)),motivation_source=motivation_source) for m in materials}
         # Recovery descriptions are host configuration. No grants are recreated
         # on reopening; caller must explicitly request local development authority.
         all_objects=tuple(self.objects.values())
@@ -89,12 +89,44 @@ class ProjectWork:
         self.training_sources=()
         if spec:
             self.training_sources=tuple(capture(runtime,'dataset:'+digest(c.data),{'origin':'DEVELOPMENT_PROJECT','source':c.data}) for group in (spec.practice,spec.evaluation,spec.transfer) for c in group)
-            runtime.work.configure_open_learning((spec,))
+            runtime.work.configure_open_learning((spec,),source_memory_ids=self.training_sources)
         if grant:
             kernel=runtime.work.agency.realization.kernel;now=runtime.clock.utc_now_us()
             kernel.grant(GrantSpec(capabilities=('world.observe','world.compute','world.publish',kernel.verify_capability),
                 resources=tuple(op.resource for obj in self.objects.values() for op in obj.operators),not_before_us=now,expires_at_us=now+HOUR),runtime.authority)
             kernel.set_budgets({'write_attempts':32,'external_requests':128,'cost_micro_units':128},runtime.authority)
+
+    def assess_later_use(self):
+        """One independently verified new material may inform future C attention."""
+        if not self.runtime.work.open_learning:return None
+        r=self.runtime;strategy=r.work.open_learning.strategy('python-api','project-work')
+        if not strategy:return None
+        lesson=r.store.db.execute('SELECT * FROM lessons WHERE record_id=?',(strategy[0],)).fetchone()
+        from ..world_loop.learning import EpisodeLearning
+        from ..open_agency.learning import LearningCase
+        for material in self.port.materials.values():
+            goal=self.goal_for(material.material_id)
+            if not goal or goal['state']!='COMPLETED':continue
+            actions=r.store.db.execute("SELECT * FROM actions WHERE resource=? AND capability='world.compute' AND state='SUCCEEDED' ORDER BY rowid LIMIT 16",('project://'+material.material_id+'/inventory',)).fetchall()
+            results=[]
+            for action in actions:
+                try:results.append((action,json.loads(r.work.agency.realization.kernel.payload(action,'result_json'))))
+                except CoreError:continue
+            # Exclude the original failure/repaired material, not just training
+            # cases. A genuinely later object must have no baseline exposure.
+            if not results or any(x['method']!=strategy[1] for _,x in results):continue
+            action,actual=results[-1];key='later-'+digest([lesson['lesson_id'],material.sha256])[:40]
+            if r.store.db.execute('SELECT 1 FROM strategy_assessments WHERE lesson_id=? AND episode_key=?',(lesson['lesson_id'],key)).fetchone():continue
+            source=read_material(self.port.root,material)
+            case=LearningCase(case_id='later-material',context='later-project-navigation',data=source,expected=expected_inventory(source))
+            mid=r.store.db.execute("SELECT memory_id FROM memories m JOIN continuity_evidence e ON m.source_evidence_id=e.evidence_id WHERE e.source_namespace='recorded.project.local-action' AND e.source_reference=? AND m.lifecycle='ACTIVE' LIMIT 1",(action['action_id'],)).fetchone()
+            if not mid:continue
+            episode={'episode_key':key,'lesson_id':lesson['lesson_id'],'case':case.model_dump(mode='json'),'action_id':action['action_id'],'actual_result_digest':digest(actual['data'])}
+            reuse=capture(r,key,{'strategy_episode':episode},kind='SYSTEM_VERIFICATION',parents=(mid[0],))
+            assessment=EpisodeLearning(r.store,r.authority,scopes=('project-work',),privacy_classes=r.config.privacy_classes).assess(lesson['lesson_id'],reuse,authority=r.authority)
+            r.refresh_attention()
+            return {'later_use_assessment_id':assessment,'source_memory_id':reuse}
+        return None
 
     def goal_for(self, material_id):
         obj=self.objects[material_id]
@@ -105,7 +137,7 @@ class ProjectWork:
         r=self.runtime;obj=self.objects[material_id]
         material=self.port.materials[material_id];source=read_material(self.port.root,material)
         root=capture(r,'input:'+material_id,{'origin':'DEVELOPMENT_PROJECT','source':source})
-        cue=ConcernCue(cue_kind='OPEN_LOOP',topic_key=obj.objective_id,motivation_source='PROJECT_COMPLETION',program_id=obj.objective_id)
+        cue=ConcernCue(cue_kind='OPEN_LOOP',topic_key=obj.objective_id,motivation_source=obj.motivation_source,program_id=obj.objective_id)
         mid=capture(r,'request:'+obj.objective_id,cue.model_dump(mode='json'),kind='MODEL_DERIVATION',parents=(root,),predicate='concern.'+obj.objective_id)
         post(r,'request.'+obj.objective_id,(mid,))
         return root
