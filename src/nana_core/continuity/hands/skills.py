@@ -47,7 +47,9 @@ class HandsSkills:
             row=r.store.db.execute("SELECT data_json FROM events WHERE kind='living.goal_step_completed' AND json_extract(data_json,'$.data.goal_id')=? AND json_extract(data_json,'$.data.operator_id')='apply' ORDER BY seq DESC LIMIT 1",(goal['goal_id'],)).fetchone()
             if row:
                 result=json.loads(row[0])['data']
-                if result['experience_id'] and result['quality'] is False:return t,result
+                if result['experience_id'] and result['quality'] is False:
+                    experience=r.store.one('experiences',result['experience_id'])
+                    if experience and RecordService(r.store).current_support(experience['record_id']):return t,result
         return None
     def opportunity(self):
         gap=self._gap()

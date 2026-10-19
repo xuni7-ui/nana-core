@@ -34,11 +34,17 @@ def test_real_subject_outcome_learning_transfer_and_bounded_extension(tmp_path):
             assert len({a['idempotency_key'] for a in r.store.all('actions')})==len(r.store.all('actions'))
             # Withdrawal is causal; neither a projection nor source profile restores support.
             skill=app.work.skills.active_skill();parents=RecordService(r.store).support(skill)
-            app.forget(parents[0]);assert app.work.skills.active_skill() is None
+            count=len(r.store.all('actions'));app.forget(parents[0]);assert app.work.skills.active_skill() is None
+            import time
+            for _ in range(30):app.tick();time.sleep(.02)
+            assert len(r.store.all('actions'))==count
             assert not opportunities(r.store,scope='project-work',privacy_classes=r.config.privacy_classes)
         with LifeApplication(home) as reopened:
             assert reopened.runtime.identity_id==identity and len(reopened.runtime.store.all('grants'))==initial_grants
             assert reopened.work.skills.active_skill() is None
+            import time
+            for _ in range(30):reopened.tick();time.sleep(.02)
+            assert len(reopened.runtime.store.all('actions'))==count
 
 
 def test_pause_revoke_and_target_identity_are_real_fences(tmp_path):

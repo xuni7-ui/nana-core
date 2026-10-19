@@ -52,7 +52,7 @@ class OwnedApplicationPort:
         if inv.capability not in {'source':{'world.observe'},'commands':{'world.compute','world.skill'},'effect':{'world.publish'}}[parts[1]]:raise CoreError('HANDS_OPERATION_DENIED')
         if 'PROJECT' not in self.permitted_privacy or args.get('data_privacy','PROJECT')!='PROJECT':raise CoreError('HANDS_PRIVACY_DENIED')
         self.assert_owned();return parts[0],args
-    def _prepared(self,inv,key,args):
+    def _command_data(self,key,args):
         task=self.tasks[key];data=args['data']
         if type(data)!=dict or data.get('task_id')!=key or type(data.get('revision'))!=int or set(data)!={'task_id','revision','commands'}:raise CoreError('HANDS_PREPARED_COMMANDS_REQUIRED')
         if not 1<=len(data['commands'])<=9:raise CoreError('HANDS_EFFECT_BOUND')
@@ -62,6 +62,15 @@ class OwnedApplicationPort:
             elif c.get('op')=='SET_FIELD':
                 if set(c)!={'op','field','value'} or c['field'] not in task.fields or c['value'] not in {*task.wanted.values(),''}:raise CoreError('HANDS_EFFECT_SCOPE_DENIED')
             elif c!={'op':'SUBMIT'}:raise CoreError('HANDS_EFFECT_SCOPE_DENIED')
+        return data
+    def preflight(self,capability,resource,args):
+        from types import SimpleNamespace
+        key,args=self._valid(SimpleNamespace(capability=capability,resource=resource,args=args))
+        if capability=='world.publish':
+            data=self._command_data(key,args)
+            if self.peek(key)['state']['revision']!=data['revision']:raise CoreError('HANDS_STALE_TASK_REVISION')
+    def _prepared(self,inv,key,args):
+        data=self._command_data(key,args)
         if not callable(self.context_provider):raise CoreError('HANDS_AUTHORIZATION_CONTEXT_REQUIRED')
         context=self.context_provider(inv)
         if type(context) is not HandsEffectContext or context.action_id!=inv.action_id or context.subject_id!=self.identity_id or context.target_ownership_evidence!=self.target.binding:raise CoreError('HANDS_CONTEXT_BINDING_MISMATCH')

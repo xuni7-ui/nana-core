@@ -236,6 +236,9 @@ class ActionKernel:
                 if json.loads(self.store.one("core_meta", "recovery_quarantine")["value_json"]):
                     raise CoreError("RESTORE_QUARANTINE")
                 grant = self._grant_for(action["capability"], action["resource"])
+                from .continuity.hands.port import OwnedApplicationPort
+                if type(self.capability) is OwnedApplicationPort:
+                    self.capability.preflight(action["capability"],action["resource"],json.loads(self.payload(action,"args_json")))
                 self._stamp_auth_time(tx)
                 started = [a for a in self.store.all("attempts") if a["action_id"] == action_id
                            and a["kind"] == "EXECUTE" and a["started_at_us"] is not None]

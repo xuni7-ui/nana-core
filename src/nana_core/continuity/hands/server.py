@@ -9,30 +9,33 @@ from pathlib import Path
 from .contracts import ApplicationTask,OwnedTarget,HandsEffectContext,private_directory,process_start
 from ...storage import canonical,digest
 
-def atomic(path,data):
-    fd,tmp=tempfile.mkstemp(dir=path.parent,prefix='.app-')
+def atomic(path,data,directory):
+    # Writes remain beneath the original owned directory inode even if its
+    # pathname is exchanged. No symlink/temp-path escape between check/effect.
+    name='.app-'+os.urandom(12).hex()
+    fd=os.open(name,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW,0o600,dir_fd=directory)
     try:
         with os.fdopen(fd,'wb') as f:f.write(data);f.flush();os.fsync(f.fileno())
-        os.replace(tmp,path);d=os.open(path.parent,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)
-        try:os.fsync(d)
-        finally:os.close(d)
+        os.replace(name,path.name,src_dir_fd=directory,dst_dir_fd=directory);os.fsync(directory)
     finally:
-        if os.path.exists(tmp):os.unlink(tmp)
+        try:os.unlink(name,dir_fd=directory)
+        except FileNotFoundError:pass
 
 def serve(workspace,tasks):
     root=private_directory(workspace)
     if any(root.iterdir()):raise ValueError('fresh owned application directory required')
+    directory=os.open(root,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)
     tasks=tuple(ApplicationTask.model_validate_json(canonical(t)) for t in tasks)
     sockets=[];selector=selectors.DefaultSelector();running=True
     state={t.task_id:{'revision':1,'text':t.initial,'values':{k:'' for k in t.fields},'submitted':False} for t in tasks};effects={}
     for t in tasks:
-        if t.kind=='DOCUMENT':atomic(root/(t.task_id+'.txt'),t.initial.encode())
+        if t.kind=='DOCUMENT':atomic(root/(t.task_id+'.txt'),t.initial.encode(),directory)
     for name in ['control','query']:
         s=socket.socket(socket.AF_UNIX);s.bind(str(root/(name+'.sock')));os.chmod(root/(name+'.sock'),0o600);s.listen(4);selector.register(s,selectors.EVENT_READ,name);sockets.append(s)
-    profile=OwnedTarget(workspace=str(root),pid=os.getpid(),uid=os.getuid(),process_start=process_start(os.getpid()),directory_inode=root.stat().st_ino,control_inode=(root/'control.sock').stat().st_ino,query_inode=(root/'query.sock').stat().st_ino,instance_id=os.urandom(16).hex(),tasks=tasks)
+    profile=OwnedTarget(workspace=str(root),pid=os.getpid(),uid=os.getuid(),process_start=process_start(os.getpid()),directory_inode=os.fstat(directory).st_ino,control_inode=(root/'control.sock').stat().st_ino,query_inode=(root/'query.sock').stat().st_ino,instance_id=os.urandom(16).hex(),tasks=tasks)
     by_id={t.task_id:t for t in tasks}
-    atomic(root/'profile.json',profile.model_dump_json().encode())
-    def checkpoint():atomic(root/'application-state.json',canonical({'instance_id':profile.instance_id,'state':state,'effects':effects}).encode())
+    atomic(root/'profile.json',profile.model_dump_json().encode(),directory)
+    def checkpoint():atomic(root/'application-state.json',canonical({'instance_id':profile.instance_id,'state':state,'effects':effects}).encode(),directory)
     checkpoint()
     def stop(*args):nonlocal running;running=False
     signal.signal(signal.SIGTERM,stop);signal.signal(signal.SIGINT,stop)
@@ -65,6 +68,7 @@ def serve(workspace,tasks):
                                 if effects[eid]['request_digest']!=fingerprint:raise ValueError('idempotency collision')
                                 response=effects[eid]
                             else:
+                                if root.is_symlink() or root.stat().st_ino!=os.fstat(directory).st_ino:raise ValueError('target directory changed')
                                 if time.time_ns()//1000>context.deadline_us:raise ValueError('deadline')
                                 if len(effects)>=256:raise ValueError('effect journal bound')
                                 if request['revision']!=state[task_id]['revision']:raise ValueError('stale task revision')
@@ -84,7 +88,7 @@ def serve(workspace,tasks):
                                 new['revision']+=1
                                 # Application persistence, not a claimed expected output. A crash
                                 # across two files is detectable disagreement, never replayed here.
-                                if task.kind=='DOCUMENT':atomic(root/(task_id+'.txt'),new['text'].encode())
+                                if task.kind=='DOCUMENT':atomic(root/(task_id+'.txt'),new['text'].encode(),directory)
                                 state[task_id]=new
                                 response={'request_digest':fingerprint,'action_id':request['action_id'],'subject_id':request['subject_id'],'task_id':task_id,'idempotency_key':eid,'before_digest':before,'after_digest':digest(new),'revision':new['revision'],'at_ns':time.time_ns(),'status':'APPLIED','commands':commands}
                                 effects[eid]=response;checkpoint()
@@ -95,6 +99,7 @@ def serve(workspace,tasks):
     finally:
         selector.close()
         for s in sockets:s.close()
+        os.close(directory)
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--workspace',type=Path,required=True);p.add_argument('--tasks',type=Path,required=True);a=p.parse_args()

@@ -122,7 +122,10 @@ class HandsWork:
         for t in self.port.tasks.values():
             obj=self.objects[t.task_id]
             if self.goal_for(t.task_id):continue
-            if r.store.db.execute("SELECT 1 FROM continuity_evidence WHERE source_namespace='recorded.project.material' AND source_reference=? AND state='DELETED'",('owned-source:'+obj.objective_id,)).fetchone():continue
+            # Offered/adopted task identity survives erasure and a retired skill.
+            # Never reinterpret an already completed skill-only task as a fresh
+            # unskilled base task. Tombstones, not cached views, close this path.
+            if r.store.db.execute("SELECT 1 FROM continuity_evidence WHERE source_namespace='recorded.project.material' AND source_reference IN (?,?) LIMIT 1",('owned-source:'+obj.objective_id,'owned-source:'+obj.objective_id+'-batch')).fetchone():continue
             if t.kind=='FORM' and len(t.wanted)>1 and self.skills:
                 active=self.skills.active_skill()
                 if active:
