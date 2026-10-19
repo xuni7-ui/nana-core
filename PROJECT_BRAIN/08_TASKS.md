@@ -1,5 +1,17 @@
 # PROJECT_BRAIN / 08 TASKS（任务清单）
 
+## CURRENT — A7 independent life / D8 / C9 (implementation started)
+[远端核验] Base32306111a052811f3b293d36e5d5500787950d8a matches origin.
+Branch dev/nana-core-independent-life-runtime-a7-d8-c9-v1-codex. A7/D8/C9,
+E5/F5/G5 are this mission's goal labels, not reinterpretations of historical
+C7/D8 schema-target shorthand or prior E5 numbering. GLOBAL_STAGE H retained.
+Reuse original Runtime/SubjectLoop/Store, provider Router/CognitionSession and
+project_work. Gap: single usable foreground program, automatic failure/next-task
+opportunities, transient natural text interpretation/rendering and controls.
+Live providers/credentials/paid calls/QQ/production remain NOT_AUTHORIZED/NOT_RUN.
+Ledger: docs/nana_independent_life_mission.md. Implementation/qualification pending.
+
+
 ## CURRENT — REAL_UTILITY_SHARED_LIFE_EVOLUTION_V1
 [实际本地源码材料/离线主体实测] Dev branch:
 dev/nana-core-real-life-growth-and-presence-v1-codex; base94016fcb;

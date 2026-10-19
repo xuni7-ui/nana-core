@@ -1736,3 +1736,11 @@ scope without live claims. Restored only missing /tmp legacy launcher to actual
 system SQLite3.46.1 before regression. No test/R045 modification. Source/privacy/
 Grant/Manager/UNKNOWN continuity retained; old bundle unread/untracked. Final
 sanitized manifest/whitelist audit and normal dev push/remote verification only.
+
+
+## A7/D8/C9 M0 — baseline and executable journey
+[只读核验/文档] Fetch/base32306111 verified; clean tracked state, old bundle unread.
+Register one independent-runtime mission, mapping labels without rewriting history.
+Journey: init→foreground conversation/degraded status→idle real project work→actual
+failure/reflection/learning→new input reuse→status/pause→SIGKILL/reopen. Provider
+semantic quality is a separate NOT_RUN gate, never replaced by loopback evidence.

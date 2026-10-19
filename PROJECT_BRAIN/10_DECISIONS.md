@@ -843,3 +843,14 @@ language/relationship quality evidence. Current live host path deliberately deni
 requires explicit limited consent plus host/privacy-domain qualification, not a
 silent mapping of private live input into synthetic domain. Dev handoff is not
 production/real companion/autonomous installer readiness.
+
+
+## A7/D8/C9 — independent application, not a new subject loop
+[决策/施工] A7 application wraps original single Runtime. Existing D schedules
+source opportunities/real project work; C retains meaning/judgment. Local line
+interface is independent from AstrBot/QQ. Provider slot reuses host-local Registry/
+Router/JSON transport, off by default; no secret discovery or real calls in this
+mission. Ephemeral local dialogue body must not become permanent raw Memory.
+Number labels are mission targets; GLOBAL_STAGE H and historical priorities stay.
+Resource detection: environment cgroup8GiB, CPU quota2; configure <=4-affinity CPUs,
+512MiB process address-space ceiling, one foreground owner, no local model/capture.
