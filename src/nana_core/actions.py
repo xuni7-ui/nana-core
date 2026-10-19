@@ -67,7 +67,9 @@ class ActionKernel:
         if self.store.schema_target>=12:
             from .continuity.open_agency.world import LocalWorldRegistry
             sealed = sealed or type(self.registry) is LocalWorldRegistry
-        return type(self.capability) is OfflineEffectPort and self.capability.identity_id==self.store.identity['identity_id'] and sealed
+        from .continuity.project_work.port import ProjectMaterialPort
+        # Exact no-exec project adapter only; manifest is NOT execution authority.
+        return type(self.capability) in {OfflineEffectPort,ProjectMaterialPort} and self.capability.identity_id==self.store.identity['identity_id'] and sealed
 
     def _execution_fence(self):
         if self.store.one('core_meta','cloud.shadow_runtime') and not self._offline_subject_fixture():

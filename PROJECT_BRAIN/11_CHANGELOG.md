@@ -1706,3 +1706,12 @@ force push or business/source/test change.
 [只读核验/文档] Fetch verified94016fcb; clean tracked workspace, old bundle untouched.
 Created one mission ledger/map and current PROJECT_BRAIN entry to drive practical
 U/L/P/S increments. No business implementation/qualification claim yet.
+
+
+## REAL_LIFE_V1 M1 — practical project work
+[源码/开发实测] Added bounded explicit-source port, no-exec AST inventory/compiler
+oracle, dev CLI and original C/F/G workflow. Produced recurrence/extensions real
+source reports, kept original failure, selected tested AST method and reused it.
+Fixed goal-step/review wake privacy to inherit source instead of default PERSONAL.
+19 targeted PASS; no new schema/table/dependency/private/model/external effects.
+P/S and final source qualification pending; original bundle untouched.

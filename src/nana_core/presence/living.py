@@ -147,7 +147,7 @@ class LivingWork:
                 return {'blocked':self.agency._park(work,view,'CORE_STEP_DROPPED')}
         inp=SubjectInput(source_key=key,kind='WAKE',origin='SELF_WAKE',entity_id=r.config.entity_id,
             scope=head['scope'],observed_at_us=work['due_at_us'],source_memory_ids=view.source_memory_ids[:32],
-            task_class=view.task_class,realization_target=view.target,goal_step=ref)
+            task_class=view.task_class,privacy_class=head['privacy_class'],realization_target=view.target,goal_step=ref)
         event=RuntimeEvent(event_type='GOAL_EVENT',trigger='GOAL_TRIGGER',input=inp,
             causes=tuple(Cause(kind='MEMORY',reference_id=mid) for mid in view.source_memory_ids[:32]),due_at_us=work['due_at_us'],priority=2)
         return {'queue_id':r.submit(event),'work_id':ref.work_id}

@@ -8,7 +8,7 @@ Fact = str
 class Operator(DTO):
     operator_id: str = Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
     capability: Literal['world.observe','world.compute','world.publish','world.contact','world.skill']
-    resource: str = Field(pattern=r'^synthetic://[A-Za-z0-9/._:-]{1,160}$')
+    resource: str = Field(pattern=r'^(?:synthetic|project)://[A-Za-z0-9/._:-]{1,160}$')
     requires: tuple[Fact,...] = Field(default=(),max_length=16)
     produces: tuple[Fact,...] = Field(min_length=1,max_length=16)
     consumes: tuple[Fact,...] = Field(default=(),max_length=16)

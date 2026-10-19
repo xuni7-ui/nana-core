@@ -10,10 +10,10 @@ from pydantic import Field
 from ...contracts import DTO,CoreError
 from ...storage import canonical,digest
 
-URI=r'^synthetic://[A-Za-z0-9/._:-]{1,160}$'
+URI=r'^(?:synthetic|project)://[A-Za-z0-9/._:-]{1,160}$'
 class ObserveArgs(DTO): pass
 class ComputeArgs(DTO):
-    method: Literal['IDENTITY','NAIVE_SUM','NUMERIC_SUM','SPLIT_SPACE','UNICODE_WORDS','SORT','JOIN','CASEFOLD']
+    method: Literal['IDENTITY','NAIVE_SUM','NUMERIC_SUM','SPLIT_SPACE','UNICODE_WORDS','SORT','JOIN','CASEFOLD','PYTHON_TOP_DEFS','PYTHON_AST_API']
     data_privacy: Literal['PUBLIC','PROJECT','PERSONAL','SECRET'] = 'PUBLIC'
     data: Any = None
     input_from: str | None = Field(default=None,pattern=r'^[a-z][a-z0-9._-]{0,63}$')
@@ -64,6 +64,9 @@ class LocalWorldRegistry:
 
 def transform(method,data):
     bounded_data(data)
+    if method in {'PYTHON_TOP_DEFS','PYTHON_AST_API'}:
+        from ..project_work.analysis import inventory
+        return inventory(method,data)
     if method=='IDENTITY':return data
     if method in {'NAIVE_SUM','NUMERIC_SUM'}:
         if not isinstance(data,list):raise CoreError('WORLD_NUMERIC_INPUT_REQUIRED')

@@ -174,7 +174,8 @@ class LearningService:
             # original goal failure remains distinct, not overwritten by success.
             memory=self.records.memory;now=head['created_at_us'];text=canonical({'data':results['TRANSFER']})
             from ..contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
-            eid=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.learning-transfer',source_reference=job['job_id'],source_kind='SYSTEM_VERIFICATION'),text=text,privacy_class=head['privacy_class'],observed_time_us=now))
+            project=any(memory.read(mid)['source_provenance']['domain']=='DEVELOPMENT_PROJECT' for mid in self.records.support(rid))
+            eid=memory.capture(EvidenceInput(provenance=Provenance(domain='DEVELOPMENT_PROJECT' if project else 'SYNTHETIC_ONLY',source_namespace='recorded.project.learning-transfer' if project else 'synthetic.learning-transfer',source_reference=job['job_id'],source_kind='SYSTEM_VERIFICATION'),text=text,privacy_class=head['privacy_class'],observed_time_us=now))
             existing=self.store.db.execute('SELECT memory_id FROM memories WHERE source_evidence_id=? AND lifecycle=\'ACTIVE\' LIMIT 1',(eid,)).fetchone()
             mid=existing[0] if existing else memory.add(MemoryCandidate(entity_id=self.store.identity['identity_id'],scope=head['scope'],memory_type=MemoryType.PROCEDURAL,epistemic_kind='OBSERVATION',source_evidence_id=eid,text=text,derived_from=self.records.support(rid),confidence=1.))
             service=ExperienceService(self.store,self.authority);old=self.store.db.execute('SELECT experience_id FROM experiences WHERE result_memory_id=?',(mid,)).fetchone()

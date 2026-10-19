@@ -808,3 +808,14 @@ outputs. Local artifact effects do not grant network/arbitrary filesystem/action
 access. Input provenance must say DEVELOPMENT_PROJECT, not synthetic observation.
 Independent compiler symtable oracle stays outside candidate-visible practice;
 method selection is not algorithm invention. S defaults off and has no fetch/send.
+
+
+## REAL_LIFE_V1 — implemented local evidence domain
+[源码/定向实测] Explicit DEVELOPMENT_PROJECT provenance uses recorded.project.*,
+PROJECT privacy, schema13 only. RealMemoryIngress remains permanently disabled;
+no PERSONAL/SECRET import widening. Exact ProjectMaterialPort is accepted by
+original governed/kernel offline fence solely for finite no-exec local artifacts;
+synthetic port rejects project URIs. Original Grants/Manager/budgets still apply.
+Compiler symtable evaluator is independent from AST candidate. Baseline misses
+are real source findings, not arithmetic fixtures. Host installs finite methods;
+Nana's actual improvement is source-supported method selection, not Core rewrite.

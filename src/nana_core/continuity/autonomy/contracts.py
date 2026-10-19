@@ -13,7 +13,7 @@ BehaviorPhase = Literal['PLANNED','MANAGER_BLOCKED','ACTION_BLOCKED','ATTEMPTED'
 class RealizationTarget(DTO):
     capability: str = Field(pattern=r'^[a-z][a-z0-9._-]{1,95}$')
     operation: Literal['READ','WRITE','DELETE','CONTACT']
-    resource: str = Field(pattern=r'^synthetic://[A-Za-z0-9/._:-]{1,160}$')
+    resource: str = Field(pattern=r'^(?:synthetic|project)://[A-Za-z0-9/._:-]{1,160}$')
     resource_class: Literal['ORDINARY','PASSWORD','CREDENTIAL','PAYMENT','OTHER_PERSON_SECRET','UNKNOWN'] = 'UNKNOWN'
 
 class DisclosureRequest(DTO):
@@ -48,7 +48,7 @@ class SocialExpectationSpec(DTO):
     domain: str = Field(default='interaction',pattern=r'^[a-z][a-z0-9._-]{0,63}$')
     timing: Literal['BEFORE','AFTER','ON_REQUEST','DEFER_UNTIL'] = 'ON_REQUEST'
     reveal_at_us: int | None = Field(default=None,ge=0)
-    resource_ref: str | None = Field(default=None,pattern=r'^synthetic://[A-Za-z0-9/._:-]{1,160}$')
+    resource_ref: str | None = Field(default=None,pattern=r'^(?:synthetic|project)://[A-Za-z0-9/._:-]{1,160}$')
 
 class DispositionView(DTO):
     record_id: str

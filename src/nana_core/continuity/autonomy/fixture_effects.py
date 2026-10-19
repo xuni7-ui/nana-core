@@ -60,6 +60,7 @@ class OfflineEffectPort:
 
     def _valid(self,inv):
         if inv.capability.startswith('world.'):
+            if not inv.resource.startswith('synthetic://'):raise CoreError('OFFLINE_RESOURCE_DENIED')
             from ..open_agency.world import LocalWorldRegistry
             LocalWorldRegistry().validate(inv.capability,inv.resource,inv.args);return
         if inv.capability not in {'reading.source.read','reading.source.locate','reading.card.create'} or not re.fullmatch(r'synthetic://[A-Za-z0-9/._:-]{1,160}',inv.resource):raise CoreError('OFFLINE_RESOURCE_DENIED')

@@ -8,7 +8,8 @@ from .fixture_effects import OfflineEffectPort
 
 class GovernedRealization:
     def __init__(self,store,port,authority,*,registry=None):
-        if store.schema_target<9 or type(port) is not OfflineEffectPort:raise CoreError('OFFLINE_REALIZATION_ONLY')
+        from ..project_work.port import ProjectMaterialPort
+        if store.schema_target<9 or type(port) not in {OfflineEffectPort,ProjectMaterialPort}:raise CoreError('OFFLINE_REALIZATION_ONLY')
         self.store,self.gate=store,ManagerConstraintGate(store)
         if registry is not None:
             from ..open_agency.world import LocalWorldRegistry

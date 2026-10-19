@@ -161,7 +161,7 @@ class OpenAgencyService(AgencyService):
             key='synthetic.open.review.'+digest([goal['goal_id'],goal['version'],strategy[0]])
             if self.store.db.execute('SELECT 1 FROM subject_events WHERE source_key=?',(key,)).fetchone():continue
             ref=GoalReviewRef(goal_id=goal['goal_id'],version=goal['version'],cause_memory_id=mid)
-            inp=SubjectInput(source_key=key,kind='WAKE',origin='SELF_WAKE',entity_id=entity_id,scope=head['scope'],observed_at_us=self.store.clock.utc_now_us(),source_memory_ids=(mid,),task_class=goal['template'],goal_review=ref)
+            inp=SubjectInput(source_key=key,kind='WAKE',origin='SELF_WAKE',entity_id=entity_id,scope=head['scope'],observed_at_us=self.store.clock.utc_now_us(),source_memory_ids=(mid,),task_class=goal['template'],privacy_class=head['privacy_class'],goal_review=ref)
             return RuntimeEvent(event_type='GOAL_EVENT',trigger='GOAL_TRIGGER',input=inp,causes=(Cause(kind='EXPERIENCE',reference_id=exp['experience_id']),),due_at_us=self.store.clock.utc_now_us(),priority=2)
         return None
 
@@ -219,10 +219,11 @@ class OpenAgencyService(AgencyService):
         # if a crash happens between this observation and progress commit.
         result=self.realization.kernel.payload(action,'result_json');now=self.store.clock.utc_now_us()
         verified_at=self.store.event(json.loads(action['body_json'])['verification_event_id'])['recorded_at_us']
-        existing=self.store.db.execute("SELECT m.memory_id FROM memories m JOIN continuity_evidence e ON m.source_evidence_id=e.evidence_id WHERE e.source_namespace='synthetic.open-action' AND e.source_reference=? AND m.lifecycle='ACTIVE' LIMIT 1",(aid,)).fetchone()
+        namespace=getattr(self.realization.kernel.capability,'evidence_namespace','synthetic.open-action')
+        existing=self.store.db.execute("SELECT m.memory_id FROM memories m JOIN continuity_evidence e ON m.source_evidence_id=e.evidence_id WHERE e.source_namespace=? AND e.source_reference=? AND m.lifecycle='ACTIVE' LIMIT 1",(namespace,aid)).fetchone()
         if existing:mid=existing[0]
         else:
-            eid=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.open-action',source_reference=aid,source_kind='SYSTEM_VERIFICATION'),text=result,privacy_class=max((head['privacy_class'],self.registry.payload_privacy(json.loads(result))),key=PRIVACY_RANK.get),observed_time_us=verified_at))
+            eid=memory.capture(EvidenceInput(provenance=Provenance(domain='DEVELOPMENT_PROJECT' if namespace.startswith('recorded.project.') else 'SYNTHETIC_ONLY',source_namespace=namespace,source_reference=aid,source_kind='SYSTEM_VERIFICATION'),text=result,privacy_class=max((head['privacy_class'],self.registry.payload_privacy(json.loads(result))),key=PRIVACY_RANK.get),observed_time_us=verified_at))
             mid=memory.add(MemoryCandidate(entity_id=source['entity_id'],scope=head['scope'],memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',source_evidence_id=eid,text=result,derived_from=tuple(dict.fromkeys((*view.source_memory_ids,*input_mids))),confidence=1.))
         quality=True;exp=None
         if op.get('expected_digest'):

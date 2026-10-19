@@ -121,9 +121,10 @@ class ExperienceService:
         check=StructuredQualityCheck(result_memory_id=result_memory_id,
             result_artifact_digest=digest(self.store.artifact(result['payload_artifact_id'])),
             expected_digest=expected_digest,passed=digest(actual.get('data'))==expected_digest)
-        previous=self.store.db.execute("SELECT observed_time_us FROM continuity_evidence WHERE source_namespace='synthetic.structured-check' AND source_reference=?",(result_memory_id,)).fetchone()
+        namespace='recorded.project.structured-check' if result['source_provenance']['domain']=='DEVELOPMENT_PROJECT' else 'synthetic.structured-check'
+        previous=self.store.db.execute("SELECT observed_time_us FROM continuity_evidence WHERE source_namespace=? AND source_reference=?",(namespace,result_memory_id)).fetchone()
         now=previous[0] if previous else self.store.clock.utc_now_us()
-        eid=self.records.memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.structured-check',source_reference=result_memory_id,source_kind='SYSTEM_VERIFICATION'),text=check.model_dump_json(),privacy_class=result['privacy_class'],observed_time_us=now))
+        eid=self.records.memory.capture(EvidenceInput(provenance=Provenance(domain='DEVELOPMENT_PROJECT' if namespace.startswith('recorded.project.') else 'SYNTHETIC_ONLY',source_namespace=namespace,source_reference=result_memory_id,source_kind='SYSTEM_VERIFICATION'),text=check.model_dump_json(),privacy_class=result['privacy_class'],observed_time_us=now))
         return self.records.memory.add(MemoryCandidate(entity_id=result['entity_id'],scope=result['scope'],memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',source_evidence_id=eid,text=check.model_dump_json(),derived_from=(result_memory_id,),confidence=1.))
 
     def _interaction_outcome(self,result):
@@ -171,7 +172,7 @@ class ExperienceService:
             if candidate.task_class!='reading_card' or check.passed != passed or check.missing_field != (None if passed else "locator"):
                 raise CoreError("EXPERIENCE_VERIFICATION_MISMATCH")
         elif isinstance(check,StructuredQualityCheck):
-            if self.store.schema_target<12 or source['source_namespace']!='synthetic.structured-check' or check.passed!=(digest(actual.get('data'))==check.expected_digest):raise CoreError('EXPERIENCE_VERIFICATION_MISMATCH')
+            if self.store.schema_target<12 or source['source_namespace'] not in {'synthetic.structured-check','recorded.project.structured-check'} or check.passed!=(digest(actual.get('data'))==check.expected_digest):raise CoreError('EXPERIENCE_VERIFICATION_MISMATCH')
         elif isinstance(check,InteractionQualityCheck):
             outcome=self._interaction_outcome(result)
             if candidate.task_class!='interaction.shared_discovery' or check.proposal_intention_id!=outcome.proposal_intention_id or check.reaction!=outcome.reaction or check.passed!=(outcome.reaction=='POSITIVE_PLAYFUL'):

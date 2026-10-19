@@ -30,3 +30,13 @@ examples and review report. Real QQ/semantic-provider/human-fit NOT_RUN.
 M0 recorded. U/L/P/S implementation pending. Next concrete code: bounded source
 analyzer/manifest port through existing F/Kernel (no second Store/loop).
 Real host observation BLOCKED_BY_EXPLICIT_AUTHORIZATION; no paid model calls.
+
+## M1 usable increment
+Implemented original C/F/G/Kernel project source inventory. Actual local files
+recurrence.py and extensions.py produced two independently checked Markdown/JSON
+artifacts (development run /tmp/nana-real-life-first8). Missing class/method
+coverage caused a real baseline failure; C REFLECT selected original nine stages;
+heldout/compiler symtable passed, original F replanned, later extensions.py reused
+PYTHON_AST_API. This is bounded prewritten method selection, NOT algorithm invention.
+19 targeted tests passed (project4 + VF2/learning15). Further P/recovery/host-shadow
+work and final frozen-source validation still pending. No real user data/model.
