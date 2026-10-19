@@ -1008,3 +1008,22 @@ live probe. Current host timeout3000ms; production untouched. The narrow followu
 zero model calls and no credential. Need one sanitized operator/provider record with
 correlation/finality/usage/charge currency; absence is not non-dispatch evidence. HTTP401
 for log authentication says nothing about original inference authentication or quality.
+
+
+## RAE-00 — strategic lock / controlled application Hands
+[2026-10-19T17:22:20.804339+00:00，用户新长期任务/基线核验] Self-Evolution + Companionship are permanent axes.
+Real outcome→prediction error→should learn/value/cost→baseline/trial/transfer/counterexample→
+adoption/rollback; learning does not replace motivation. Primary User significance remains
+high and configurable, never authority. User intent is influential input, not a cognitive
+ceiling. No second Subject/Store/Runtime/will/planner. C WHAT/WHY; D WHEN; adapters execute;
+Verify checks. Provider UNKNOWN parked unchanged, model calls0 new; no credential searches.
+Minimum target is an explicitly owned independent local application child, typed finite
+operations, PID/start-time/uid/socket-inode/session binding, effect-time recheck, exact
+Kernel resources and Grants, separate read-only/file verification. No generic shell,
+global desktop scope, account login or arbitrary filesystem. GUI is optional; a real
+application process/state is sufficient only when independent real effects are proven.
+Existing closed registry/realization may admit exactly this sealed opted-in development
+port; no general removal of shadow fence or exemptions for production hosts. New methods
+prepare bounded data; only original governed Kernel may commit external effects. Learning
+candidate gets practice only; final heldout/transfer are distinct real process tasks.
+Development authorization is not production readiness. Current implementation PENDING.

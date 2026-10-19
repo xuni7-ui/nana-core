@@ -1904,3 +1904,10 @@ evidence同步实际阻塞；真人自然交流未运行，FIRST_LIFE_EXPERIENCE
 业务源码/tests/tools/host配置无改动，无重复M3–M6/M8–M9/full测试；一致性/凭据模式扫描
 与manifest核对后正常dev提交/push。FIRST_LIFE_EXPERIENCE_READY仍NOT_READY，人类自然度
 NOT_RUN。main/生产/R045/旧bundle/私人历史/社交发送/Hands未动。
+
+
+## RAE-00 — task/base and strategy registered
+[2026-10-19T17:22:20.804339+00:00] 完整读取新任务，remote/local ca6d837匹配，创建独立real-action分支；
+07–11追加当前路线与权限边界，旧历史保留。Provider UNKNOWN明确parked，不再堵主线；
+原实现资产已映射，下一步受控应用进程Hands/独立Verify接原C/F/Kernel/G/I。
+当前仅文档，运行资格PENDING；未读旧bundle/私密数据，未改main/R045/生产。

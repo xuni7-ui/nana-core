@@ -1,5 +1,21 @@
 # PROJECT_BRAIN / 08 TASKS（任务清单）
 
+## CURRENT — REAL ACTION & EXPERIENCE-DRIVEN EVOLUTION V1
+[授权任务/源码基线核验；2026-10-19T17:22:20.804339+00:00] Source/remote ca6d8374f222020e1d68574fcfa987f905d10580;
+dev branch dev/nana-core-real-action-experience-evolution-v1-codex。GLOBAL_STAGE H保持。
+Self-Evolution 与 Companionship/Shared Life 是永久并行主轴；Learning是高权重能力，
+不是强制最高motive；Relationship Importance != Authority；User Intent != Cognitive Boundary；
+Platform/Model/Hands != Nana。当前最大真实缺口是自有开发OS/application surface的有限
+Hands→Outcome→独立Verify→Experience→G学习→改善/迁移→必要时I技能复用；不是聊天或GUI演示。
+现有C/D/F/G/I/Store/Kernel/Manager/Grant/Budget/Privacy继承，不重做已有PASS。
+Provider请求490da782仍UNKNOWN，历史真实调用累计1，retry/fallback0；本任务PARKED_UNKNOWN，
+不查询账号/凭据，不增加付费调用，不作为Hands主线前置。自然语言M2/M7/M10维持PARTIAL；
+FIRST_LIFE_EXPERIENCE_READY未通过，不因Hands成功自动升级。
+执行范围仅本任务拥有的子进程/有限应用状态/批准临时目录；不含用户桌面、全局键鼠、
+生产、main、R045、私人历史、社交账号或真实外发。旧bundle未读取未改动。
+当前RAE-00战略锁已落盘；实现/运行资格仍PENDING，以后续实证推进而非任务书宣称PASS。
+下方此前CURRENT块均保留为历史快照；任务版本2026-10-20，执行日期以实钟记录。
+
 ## CURRENT — UNKNOWN STATUS RECONCILIATION / 2026-10-19
 [Provider公开接口/本地只读核验] Head startb9a14c8246b0bee2dba1e43e2e60b72eaba29716；
 原客户端request490da782-f60f-439a-a753-d68d2ff6372d仍UNKNOWN，无HTTP/model/usage/扣费证明。
