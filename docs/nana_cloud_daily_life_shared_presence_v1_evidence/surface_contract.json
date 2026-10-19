@@ -1,0 +1,22 @@
+{
+  "level": "TESTED_SHADOW_NO_SOCIAL_SEND",
+  "schema": "SurfaceObservation -> existing SurfaceEnvelope -> original LifeApplication.chat -> original C",
+  "platforms": [
+    "cloud.cli",
+    "qq.shadow",
+    "bili.shadow"
+  ],
+  "allowed_data": [
+    "EXPLICIT_SYNTHETIC_PUBLIC",
+    "EXPLICIT_SYNTHETIC_PROJECT"
+  ],
+  "approved_summary": "EXPLICIT_PROJECT_SUMMARY_REQUIRED",
+  "epistemic": "USER_STATEMENT_NOT_WORLD_TRUTH",
+  "raw_body": "VOLATILE_ONLY",
+  "event_id": "CANONICAL_SOURCE_DEDUPE",
+  "legacy_bili_reuse": "bili_event_source.normalize only",
+  "legacy_bili_pump_imported": false,
+  "live_platform_accounts": false,
+  "r045_modified": false,
+  "real_social_sends": 0
+}

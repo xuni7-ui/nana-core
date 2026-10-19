@@ -1,0 +1,27 @@
+{
+  "status": "ACTUAL_SHORT_PROCESS_INTEGRATION_NOT_TWO_HOURS",
+  "source_head": "c464f17",
+  "precise_source_hashes": "Collected by original run; pre-final-freeze smoke only",
+  "measured_seconds": 90.25205007800105,
+  "adopted_or_revised_goals": 12,
+  "kernel_actions": 42,
+  "physical_owned_effects": 14,
+  "task_classes": [
+    "DOCUMENT",
+    "FORM",
+    "CONTENT",
+    "FILES"
+  ],
+  "provider_calls": 0,
+  "social_sends": 0,
+  "fresh_host_same_identity": true,
+  "old_grants_revoked": true,
+  "backup_deletion_propagated": true,
+  "actual_sigkill_restart": true,
+  "first_smoke_failure": {
+    "status": "FAILED_NOT_PASS",
+    "cause": "Completed REFLECTION retained pending slots and deferred final owned task",
+    "repair": "Original C source-backed reflection settlement plus idempotent D follow-up",
+    "not_nana_learning": true
+  }
+}

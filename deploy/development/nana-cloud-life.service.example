@@ -1,0 +1,33 @@
+# DEVELOPMENT/STAGING TEMPLATE ONLY. Never installed or enabled by this task.
+# Configure explicit fresh private home and target binding before starting.
+# Secret injection, paid provider calls and production cutover are separate gates.
+[Unit]
+Description=Nana Core development life (one foreground owner)
+After=local-fs.target
+
+[Service]
+Type=simple
+User=nana-dev
+Group=nana-dev
+WorkingDirectory=/srv/nana-core
+ExecStart=/srv/nana-core/.venv/bin/python -m nana_core.life run --home /var/lib/nana-dev --seconds 86400 --headless --control --json
+Restart=no
+KillSignal=SIGTERM
+TimeoutStopSec=35
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/nana-dev
+# Skill isolation uses the existing bwrap realm; qualify under the actual host
+# policy before enabling skills. A service wrapper must never relax its sandbox.
+MemoryMax=600M
+CPUQuota=100%
+TasksMax=32
+StandardOutput=journal
+StandardError=journal
+# No API credential or automatic environment lookup belongs in this file.
+
+[Install]
+WantedBy=multi-user.target

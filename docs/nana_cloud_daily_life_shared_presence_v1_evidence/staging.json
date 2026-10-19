@@ -1,0 +1,15 @@
+{
+  "level": "DEVELOPMENT_CLOUD_LIKE_PROCESS",
+  "same_package_startup_store_runtime": true,
+  "fake_surfaces_only": true,
+  "real_owned_application_effects": true,
+  "system_service_template": "deploy/development/nana-cloud-life.service.example",
+  "service_installed": false,
+  "production_cloud_deployed": false,
+  "provider_live": "NOT_RUN",
+  "human_review": "NOT_RUN",
+  "24h": "NOT_RUN_REPRODUCIBLE_RUNNER_AVAILABLE",
+  "72h": "NOT_RUN",
+  "cutover_plan": "docs/nana_cloud_daily_life_shared_presence_v1_cutover_plan.md",
+  "production_approval": "REQUIRED_NOT_REQUESTED_FOR_EXECUTION"
+}

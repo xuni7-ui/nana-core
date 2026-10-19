@@ -1,0 +1,17 @@
+{
+  "level": "PROCESS_QUALIFIED_DEV",
+  "independent": true,
+  "astrbot_dependency": false,
+  "one_runtime": true,
+  "private_control_socket": true,
+  "same_uid_peer_pid_epoch": true,
+  "new_loop": false,
+  "health_is_beta_readiness": false,
+  "headless_no_stdin_exit": true,
+  "graceful_stop": true,
+  "actual_sigkill_restart": "PASS_TARGETED",
+  "disk_guard": "TESTED",
+  "log_rotation": "TESTED_TWO_BOUNDED_FILES",
+  "resource_limits": "EXISTING_AFFINITY_RLIMIT_AS_PLUS_D_BUDGET",
+  "long_residency": "RUNNING_SEPARATE_EVIDENCE"
+}

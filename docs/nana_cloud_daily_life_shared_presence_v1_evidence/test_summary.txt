@@ -1,0 +1,6 @@
+CORE CHECKPOINT, final full regression still running
+Focused: tests/cloud_life — 20 passed in16.40s
+Related process/swap/platform/dialogue:13 passed in9.85s
+Related earlier: cloud/independent/lived-growth/B8/surfaces45 passed; controlled-hands/B8 22 passed
+Initial full regression:1266 passed,12 skipped,0 failed in301.83s
+Skip policy:11 explicitly live-screen;1 E12 real-model gate. No real provider or device invoked.

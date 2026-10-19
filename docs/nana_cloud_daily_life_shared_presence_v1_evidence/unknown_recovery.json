@@ -1,0 +1,13 @@
+{
+  "level": "TESTED_DEV_PLUS_INHERITED_RAE",
+  "historical_provider": "UNKNOWN_PARKED_UNCHANGED",
+  "new_provider_calls": 0,
+  "pending_owned_effect_case": "ACTUAL_EFFECT_FILE_QUERY_DISAGREEMENT_STAYS_UNKNOWN",
+  "strict_export": "REJECTS_PENDING_EFFECT",
+  "explicit_pending_transfer": "PRESERVES_UNKNOWN_REVOKES_GRANTS_CONSUMES_HOLDS_NO_HEADROOM",
+  "restart": "NO_ACTION_REPLAY",
+  "control_after_send_disconnect": "UNKNOWN_NO_RETRY",
+  "control_connection_failure": "PRE_DISPATCH_UNAVAILABLE",
+  "surface_delivery": "NOT_IMPLEMENTED_REAL_SEND_DISABLED",
+  "lost_host_automatic_promotion": "NOT_AUTHORIZED_NOT_IMPLEMENTED"
+}

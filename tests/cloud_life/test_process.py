@@ -1,7 +1,8 @@
 import json,os,signal,subprocess,sys,time
 from pathlib import Path
 from nana_core.life.control import request
-from nana_core.life.cloud import health
+from nana_core.life.cloud import health,backup
+from nana_core.continuity import ContinuityStore
 from nana_core.continuity.hands.host import OwnedApplication
 from nana_core.continuity.hands.contracts import ApplicationTask
 from nana_core.life.application import LifeApplication
@@ -33,6 +34,14 @@ def test_headless_control_restart_dedup_and_quarantined_backup(tmp_path):
     assert bk['ok'] and not bk['result']['runnable']
     assert not request(home,{'operation':'backup','name':'../../escape'})['ok']
     os.kill(p.pid,signal.SIGKILL);p.wait(4);assert p.returncode==-signal.SIGKILL
+    # Recover a crash-consistent review snapshot, never activate a duplicate.
+    crash_copy=tmp_path/'crash-copy.db'
+    with ContinuityStore(home/'subject/self.db',schema_target=13) as source:
+     assert not backup(source,crash_copy)['runnable']
+    with ContinuityStore(crash_copy,schema_target=13) as review:
+     assert review.identity['identity_id']==identity
+     assert review.one('core_meta','recovery_quarantine')['value_json']=='true'
+     assert not list(review.db.execute('PRAGMA foreign_key_check'))
     p=subprocess.Popen(args,cwd=REPO,stdout=log,stderr=log);wait_ready(home,p)
     assert request(home,{'operation':'view','view':'status'})['result']['autonomy']=='PAUSED'
     request(home,{'operation':'control','command':'resume'})

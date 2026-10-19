@@ -23,3 +23,14 @@ GOAL/REFLECTION提交后SIGKILL两切点通过；启动旧socket交错以当前l
 验证：cloud+runtime+hands初次46pass/1启动race失败；修复后实际进程/两切点3pass8.41s；
 先前相关45pass、Hands/B8 22pass。完整回归/两小时资格仍PENDING。
 新增业务表/依赖0；历史Provider UNKNOWN不重试，新真实Provider调用0，真人评审/生产NOT_RUN。
+
+## CDL checkpoint 2 — tested / actual residency running, not Beta
+[实测] 冻结Core fc0fa46506a360a81a10e14f9d967a734d338141，7205秒真实驻留已启动；
+未完成前不得写两小时PASS。首轮完整回归1266 passed /12 skipped /0 failed；
+新增focused20 passed16.40s，另13项实际进程/替换模型/平台映射/对话兼容通过。
+模型替换仅SYNTHETIC_LOOPBACK，来源/身份/旧路由provenance保持；错误返回旧model被correlation拒绝。
+Bili仅复用纯normalize，QQ仅显式合成fixture→统一surface，未启动旧agent/pump，真实发送0。
+停机前/实际SIGKILL后的backup均隔离；fresh-host激活仍走原B8源退休与旧Grant撤销，
+无法证明旧host fenced的灾难备份不自动提升writer。新schema/表/依赖0。
+已提供运行quickstart、未安装的development service样例、单一推荐cutover计划与真人空评审表。
+Provider新调用0；历史UNKNOWN parked；真人review/24h staging/production/canary/72h NOT_RUN。

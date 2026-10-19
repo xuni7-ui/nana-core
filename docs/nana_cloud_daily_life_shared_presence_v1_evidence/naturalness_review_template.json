@@ -1,0 +1,120 @@
+{
+  "status": "NOT_RUN",
+  "human_reviewed": false,
+  "reviewer": "USER_ONLY_ANONYMOUS",
+  "provider_qualified": false,
+  "retain_private_text": false,
+  "cases": [
+    {
+      "case": "MEETING",
+      "rating": "NOT_RUN",
+      "source_supported": null,
+      "over_analysis": null,
+      "unwanted_task": null,
+      "boundary_respected": null,
+      "continuity": null,
+      "notes": "NO_PRIVATE_TEXT"
+    },
+    {
+      "case": "VENT",
+      "rating": "NOT_RUN",
+      "source_supported": null,
+      "over_analysis": null,
+      "unwanted_task": null,
+      "boundary_respected": null,
+      "continuity": null,
+      "notes": "NO_PRIVATE_TEXT"
+    },
+    {
+      "case": "BUSY",
+      "rating": "NOT_RUN",
+      "source_supported": null,
+      "over_analysis": null,
+      "unwanted_task": null,
+      "boundary_respected": null,
+      "continuity": null,
+      "notes": "NO_PRIVATE_TEXT"
+    },
+    {
+      "case": "REFUSAL",
+      "rating": "NOT_RUN",
+      "source_supported": null,
+      "over_analysis": null,
+      "unwanted_task": null,
+      "boundary_respected": null,
+      "continuity": null,
+      "notes": "NO_PRIVATE_TEXT"
+    },
+    {
+      "case": "CORRECTION",
+      "rating": "NOT_RUN",
+      "source_supported": null,
+      "over_analysis": null,
+      "unwanted_task": null,
+      "boundary_respected": null,
+      "continuity": null,
+      "notes": "NO_PRIVATE_TEXT"
+    },
+    {
+      "case": "REASONED_DISAGREEMENT",
+      "rating": "NOT_RUN",
+      "source_supported": null,
+      "over_analysis": null,
+      "unwanted_task": null,
+      "boundary_respected": null,
+      "continuity": null,
+      "notes": "NO_PRIVATE_TEXT"
+    },
+    {
+      "case": "GROUNDED_SHARE",
+      "rating": "NOT_RUN",
+      "source_supported": null,
+      "over_analysis": null,
+      "unwanted_task": null,
+      "boundary_respected": null,
+      "continuity": null,
+      "notes": "NO_PRIVATE_TEXT"
+    },
+    {
+      "case": "REST",
+      "rating": "NOT_RUN",
+      "source_supported": null,
+      "over_analysis": null,
+      "unwanted_task": null,
+      "boundary_respected": null,
+      "continuity": null,
+      "notes": "NO_PRIVATE_TEXT"
+    },
+    {
+      "case": "NEXT_DAY",
+      "rating": "NOT_RUN",
+      "source_supported": null,
+      "over_analysis": null,
+      "unwanted_task": null,
+      "boundary_respected": null,
+      "continuity": null,
+      "notes": "NO_PRIVATE_TEXT"
+    },
+    {
+      "case": "RESTART",
+      "rating": "NOT_RUN",
+      "source_supported": null,
+      "over_analysis": null,
+      "unwanted_task": null,
+      "boundary_respected": null,
+      "continuity": null,
+      "notes": "NO_PRIVATE_TEXT"
+    },
+    {
+      "case": "SURFACE_SWITCH",
+      "rating": "NOT_RUN",
+      "source_supported": null,
+      "over_analysis": null,
+      "unwanted_task": null,
+      "boundary_respected": null,
+      "continuity": null,
+      "notes": "NO_PRIVATE_TEXT"
+    }
+  ],
+  "upgrade_policy": "Only actual user observation may set HUMAN_REVIEWED_PASS"
+}

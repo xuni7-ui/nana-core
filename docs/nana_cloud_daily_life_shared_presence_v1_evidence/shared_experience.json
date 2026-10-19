@@ -1,0 +1,27 @@
+{
+  "level": "TESTED_REAL_OWNED_EFFECT_TO_C_SHARE_CANDIDATE_NOT_USER_DELIVERY",
+  "tests": "tests/cloud_life/test_sharing.py",
+  "sources": [
+    "ORIGINAL_EXPERIENCE",
+    "SYSTEM_VERIFICATION",
+    "RESULT_MEMORY",
+    "INDEPENDENT_VERIFICATION_MEMORY"
+  ],
+  "c_decides": true,
+  "helper_has_will": false,
+  "conditions": [
+    "CURRENT_SUPPORT",
+    "PRIVACY",
+    "SCOPE",
+    "EXPLICIT_AVAILABILITY",
+    "TOPIC_BOUNDARY",
+    "LOCAL_QUIET_WINDOW"
+  ],
+  "result": "SHADOW_ONLY_NO_SOCIAL_AUTHORIZATION",
+  "actual_user_shared_experience": "NOT_RUN",
+  "source_deleted": "CANDIDATE_AND_OLD_REVIEW_INVALID",
+  "busy_source_changed": "OLD_RATIONALE_CANNOT_BE_REUSED",
+  "per_day_opportunities_max": 8,
+  "pending_threshold": 4,
+  "per_experience_offer": "AT_MOST_ONCE"
+}

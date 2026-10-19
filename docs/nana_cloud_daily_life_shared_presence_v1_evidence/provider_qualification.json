@@ -1,0 +1,19 @@
+{
+  "status": "BLOCKED_NO_SAFE_CREDENTIAL_SOURCE_AND_NO_NEW_PAID_AUTHORIZATION",
+  "new_real_provider_calls": 0,
+  "historical_provider": "TianToken",
+  "historical_model": "qwen3.8-flash",
+  "historical_requests": 1,
+  "historical_completion": "UNKNOWN_PARKED",
+  "historical_retry": 0,
+  "historical_fallback": 0,
+  "billing": "UNKNOWN",
+  "secret_search": false,
+  "permanent_default": false,
+  "text_slot": "EXISTING_COGNITION_ROUTER",
+  "asr": "NOT_BETA_BLOCKER_NOT_RUN",
+  "embedding": "OPTIONAL",
+  "vision": "EXISTING_H_PATH_PRESERVED",
+  "tts": "NOT_BETA_BLOCKER_NOT_RUN",
+  "loopback_is_real_provider": false
+}

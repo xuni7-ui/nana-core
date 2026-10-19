@@ -1,0 +1,29 @@
+{
+  "repository": "xuni7-ui/nana-core",
+  "base": "d7886ba9b49cf2fbb52cebcbce9525394c938d3c",
+  "branch": "dev/nana-core-cloud-daily-life-shared-presence-v1-codex",
+  "global_stage": "H",
+  "workstream": "CLOUD_DAILY_LIFE_SHARED_PRESENCE_V1",
+  "inherited": [
+    "ONE_SUBJECT_STORE_LOOP_RUNTIME",
+    "C_WHAT_WHY_D_WHEN",
+    "RAE_REAL_OS_CONTROLLED_HANDS_L1_OWNED_DEV_SURFACE_ONLY",
+    "ORIGINAL_F_G_I_KERNEL_VERIFY",
+    "B8_PROVIDER_SURFACE_JOURNAL_CONTRACTS"
+  ],
+  "not_reimplemented": [
+    "RAE_learning_engine",
+    "ProviderRegistry",
+    "WorldModel",
+    "Runtime",
+    "SubjectLoop",
+    "Store",
+    "Planner",
+    "Relationship_authority"
+  ],
+  "new_business_tables": 0,
+  "schema_version": 13,
+  "business_tables": 43,
+  "new_dependencies": 0,
+  "production_authorized": false
+}

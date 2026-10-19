@@ -1,0 +1,15 @@
+{
+  "level": "EXISTING_MANAGER_GRANT_PRIVACY_TESTED_IN_FULL_REGRESSION",
+  "manager": "NEGATIVE_ONLY_UNCHANGED",
+  "original_wish": "NOT_OVERWRITTEN_BY_BLOCK",
+  "control_endpoint_can_grant": false,
+  "surface_input_is_authority": false,
+  "primary_user_is_grant": false,
+  "delivery_assessment_is_authorization": false,
+  "unknown_is_retry_permission": false,
+  "hands_scope": "OWNED_DEV_FINITE_DOCUMENT_FORM_CONTENT_FILES",
+  "user_desktop": "NOT_AUTHORIZED",
+  "production": "NOT_AUTHORIZED",
+  "social_send": "NOT_AUTHORIZED",
+  "new_grant_on_restart_or_transfer": false
+}
