@@ -61,3 +61,25 @@ def test_pause_revoke_and_target_identity_are_real_fences(tmp_path):
             with pytest.raises(CoreError):
                 app.work.port.target=app.work.port.target.model_copy(update={'process_start':'invalid'})
                 app.work.port.assert_owned()
+
+
+def test_overlapping_task_names_keep_opportunity_source_bound_to_exact_task(tmp_path):
+    tasks=(ApplicationTask(task_id='doc',kind='DOCUMENT',wanted='first'),
+           ApplicationTask(task_id='doc-next',kind='DOCUMENT',wanted='second'))
+    with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+        home=tmp_path/'life';initialize(home,host.profile,skills=False)
+        with LifeApplication(home) as app:
+            offered=app.work.offer(app.work.objects['doc-next'])
+            source=RecordService(app.runtime.store).memory.read(offered['source_memory_id'])
+            assert json.loads(source['text'])['task']['task_id']=='doc-next'
+            assert not app.runtime.store.all('actions')
+
+
+def test_target_rejects_reserved_derived_objective_name_collision(tmp_path):
+    task=ApplicationTask(task_id='doc',kind='DOCUMENT',wanted='finite')
+    with OwnedApplication(tmp_path/'target',tasks=(task,)) as host:
+        from nana_core.continuity.hands.contracts import OwnedTarget
+        data=host.target.model_dump(mode='json')
+        data['tasks'].append(ApplicationTask(task_id='doc-batch',kind='DOCUMENT',wanted='other').model_dump(mode='json'))
+        with pytest.raises(ValueError,match='derived objective collision'):
+            OwnedTarget.model_validate_json(json.dumps(data))

@@ -75,7 +75,7 @@ class HandsWork:
         return dict(row) if row else None
     def goal_for(self,key):return self.goal_for_object(self.objects[key])
     def offer(self,obj,*,parents=()):
-        r=self.runtime;task=next(t for t in self.port.tasks.values() if obj.objective_id.startswith('hands.'+t.task_id))
+        r=self.runtime;task=self.port.tasks[obj.operators[0].resource.rsplit('/',2)[-2]]
         observation=self.port.peek(task.task_id)
         root=capture(r,'owned-source:'+obj.objective_id,{'origin':'REAL_OS_CONTROLLED_APPLICATION','binding':self.port.target.binding,'task':observation['task'],'initial_state':observation['state']},parents=parents)
         cue=ConcernCue(cue_kind='OPEN_LOOP',topic_key=obj.objective_id,program_id=obj.objective_id,motivation_source=obj.motivation_source)

@@ -36,6 +36,8 @@ class OwnedTarget(DTO):
     @model_validator(mode='after')
     def unique(self):
         if len({t.task_id for t in self.tasks})!=len(self.tasks):raise ValueError('duplicate task')
+        keys={t.task_id for t in self.tasks}
+        if any(key+'-batch' in keys for key in keys):raise ValueError('derived objective collision')
         return self
     @property
     def binding(self):return digest(self.model_dump(mode='json'))

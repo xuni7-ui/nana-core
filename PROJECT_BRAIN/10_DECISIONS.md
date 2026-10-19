@@ -1088,3 +1088,33 @@ Latest boundary+CLI9 PASS10.08s. Final full regression follows this executable g
 No provider/new permissions. Hands execution files remain frozen533a1dd; current
 30min run03 watches those same bytes (CLI /work rejection is outside commands used
 in that residency). Final source SHA is recorded by git history, not guessed here.
+
+
+## RAE final validation checkpoint [2026-10-19T18:01:43.171802+00:00]
+[实测/开发进程] Executable freeze c2732b0fd67da74634ac41eba782fcc9011c3a9a。
+最终全仓库1246 PASS/0fail/12skip296.88s（11历史opt-in live-screen + E12；均未伪称通过）；
+新focused16 PASS62.48s，最后CLI/typed reframing9 PASS10.08s，related23 PASS8.72s。
+实际CLI init/run及/life /actions /outcomes /pause /quit通过；全程无Provider。
+实际扩展旅程9tasks/10goals/36KernelActions/12真实应用effects：8质量成功、4真实失败保留；
+document/form baseline均0→1，独立real heldout/transfer均成功；multi-field真实失败触发
+原I有限workflow与两次实际复用；两条旧method反例后SUSPENDED。G评估仍明确为纯准备
+试验，实际OS留出/迁移另证。源删除撤掉skill/share支持，不恢复正文/退化重放。
+原C可REST，typed narrow user plan可有来源地ALTERNATIVE；不是live自然语言真人评审。
+6实际SIGKILL切点+1实际file/IPC冲突保持identity/Grant/action/UNKNOWN，无重复效果。
+保留long02源删除重放developer defect失败快照；修复不计作Nana学习。run03仍在计时，
+>=30min资格尚PENDING，不能拿35s旅程替代。Schema实测13/43表/新增0，依赖0，FK干净。
+选定10个执行文件实际hash与最终freeze相同；未冒称覆盖整个import tree。
+证据目录docs/nana_real_action_experience_evolution_v1_evidence/，report/quickstart新建。
+Provider历史1 UNKNOWN PARKED、新增0、不访问凭据；自然聊天NOT_RUN、FIRST_LIFE NOT_READY。
+main/R045/production/私人数据/真实社交/用户桌面变化0，旧bundle未读未动。
+
+
+## RAE exact source identity hardening / actual residency complete
+[实测2026-10-19 UTC] corrected run03实际驻留1805.221705515s，10真实effects/30Actions，
+源撤回后无新增动作，pending/queue0，NanaCPU17.341583222s/峰RSS42488KiB，targetCPU0.70s，
+77真实采样点，选定源码hash全程未变。不是生产或GUI资格。
+随后实际边界断言发现doc/doc-next机会source前缀误关联；按inspect resource精确task绑定，
+拒绝doc/doc-batch派生objective ID碰撞。保留初始失败；非Nana学习。此修复在驻留结束
+封存后应用，最终18 targeted PASS62.48s（仍含六SIGKILL）。最终新full正在运行。
+Selected residency source c2732b0；新exact-binding以本提交为准，不混称同一源码驻留。
+Provider新增0/历史UNKNOWN PARKED；main/R045/production/旧bundle未改，权限未扩大。
