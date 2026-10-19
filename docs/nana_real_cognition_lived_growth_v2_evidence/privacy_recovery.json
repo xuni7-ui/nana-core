@@ -1,0 +1,14 @@
+{
+  "source_erasure_closes_skill_and_projection_support": "TESTED",
+  "ephemeral_turn_body_not_in_artifacts": "TESTED",
+  "deleted_turn_removed_from_future_context": "TESTED",
+  "personal_turn_not_routed_as_project": "TESTED",
+  "explicit_refusal_skips_provider": "TESTED",
+  "offline_provider_CAS_cannot_grant_or_connect": "TESTED",
+  "missing_Grant_blocks_effect_retains_motive": "TESTED",
+  "partial_document_artifact": "UNKNOWN_NO_RETRY_TESTED",
+  "current_realm_review_after_SIGKILL": "PASS_ACTUAL_SIGKILL_SAME_IDENTITY_NO_NEW_GRANT_NO_DUPLICATE_ACTION",
+  "unknown_provider_no_fallback": "EXISTING_INVARIANT_RECHECK_IN_REGRESSION",
+  "real_memory_import_enabled": false,
+  "deleted_fact_not_replayed_through_assistant_draft": "TESTED_ACTUAL_LOOPBACK_AFTER_DELETE"
+}

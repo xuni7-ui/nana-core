@@ -1865,3 +1865,15 @@ content back to another call. New loopback after-delete test PASS5.76s, verifies
 interpret/render requests have no deleted source or replayed model wording. No
 raw transcript persistence or relaxed privacy. Final latest-source regression and
 real-process evidence supersede previous qualified source only after passing.
+
+
+## LIVED_GROWTH_V2 — final privacy-closed qualified handoff
+[实测/文档] Executable source446affc:22 final focused PASS41.21s (12 new cases),
+full1230 PASS/0fail/12skip247.76s. Fresh actual90.1145s restarted-process journey
+passes I-SIGKILL/current-realm recovery/no regrant/16 unique actions/four reports/
+no idle duplicate effects; parent3.8791s CPU/60784KiB kernel peak RSS. Only USER
+turns may be replayed; deleted facts cannot return via unverified assistant wording.
+Final07–11/report/guide/ledger/evidence synchronized; code/test/tool tree frozen.
+Real user permission exists but explicit safe source absent, calls0; whole first-life
+NOT_READY. Final count-only credential scan/manifest and normal dev push verification
+only. Main/production/R045/private history/capture/social unchanged.

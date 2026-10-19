@@ -17,7 +17,7 @@ handoff commit may add evidence only. This report does not self-embed its final 
 | open_agency/service | Active reviewed method can bind an exact current code skill; new document uses world.skill inside original Kernel |
 | world_loop/extension | Original I stage restart handling, current realm revalidation; adopted skill work resolves original C concern |
 | subject/loop | Original single C recognizes existing sourced I work, avoids another pending desire for the same represented program |
-| life/application,dialogue_contracts | At most six volatile turns, topic/privacy/support gating; C refusal prevents unnecessary inference; no raw turn persistence |
+| life/application,dialogue_contracts | At most six volatile user turns, topic/privacy/support gating; C refusal prevents unnecessary inference; no raw turn persistence |
 | life/view,presentation | Derived /life board: source status, activities, learning, isolated skills, Journal, share candidates; no second truth |
 | life/provider,CLI | Explicit offline provider CAS commands/status; no secret discovery or network; exact configuration errors |
 | life CLI metrics | Parent/isolated child CPU/RSS separately; no claim parent RSS is total process-tree peak |
@@ -71,7 +71,9 @@ cannot leave a ghost pending wish after the skill is complete. /life is on-deman
 bounded and source filtered; raw dialogue is neither Journal nor Memory truth.
 
 Conversation continues through the existing Router/Factory/CognitionSession and
-ContextAssembler. Bounded previous turns exist only in RAM, filtered by topic and
+ContextAssembler. Bounded previous USER turns exist only in RAM; unverified model wording is never
+replayed as conversational evidence, preventing deleted-fact resurrection. These
+user turns are filtered by topic and
 privacy; erased sources/exit drop them. Interpreter can suggest meaning, not commit
 truth or permissions. Explicit closed topics skip model work until reopened. Venting
 receives no automatic work-report context. Reply claims can cite current verified
@@ -79,8 +81,9 @@ artifacts, but arbitrary model wording remains UNVERIFIED_MODEL_WORDING. Correct
 asks for clarification; it never silently rewrites historical evidence.
 
 Human naturalness, warmth, joking and truthful arbitrary language are NOT_RUN. Local
-loopback is a protocol/boundary test, not semantic quality. No new live provider
-permission was supplied; calls0. Historical TianToken/Qwen H1 qualification stays
+loopback is a protocol/boundary test, not semantic quality. Limited exact TianToken/qwen3.8-flash permission was granted during this task,
+PUBLIC/PROJECT only,20calls/$1 equivalent. Current Cloud has no safe secret binding
+or explicit FD; live execution remains BLOCKED_NO_SAFE_CREDENTIAL_SOURCE, calls0. Historical TianToken/Qwen H1 qualification stays
 PARTIAL, not upgraded by this task. Operator provider CAS tooling does not authorize
 live inference. Primary User config/relationship significance does not create a Grant.
 
@@ -104,5 +107,19 @@ incomplete even when the authorized development implementation is delivered.
 
 See evidence/qualification.json, process_journey.json, learning.json, test summaries,
 privacy_recovery.json, development_fixes.json, limitations.txt and manifest.json.
-Final focused/full counts and actual source SHA are added after frozen-source runs.
+Frozen source 446affc58f3e1db99e93851d31f0d9ee576ccb22:22 final focused PASS41.21s (12 new cases);
+42 related PASS44.83s before the last negative-transfer case; complete final regression
+1230 PASS/0fail/12skip247.76s. Intermediate1227/1228/1229 runs were earlier sources, not
+substitutes for final evidence. Actual final journey113.8223s total includes a
+90.1145s restarted-process soak:3.8791s parent CPU,0.0156s waited child CPU,
+60784KiB parent kernel peak RSS;1thread/7FD;3 affinity CPUs with quota2,512MiB AS.
+Actual SIGKILL after I tests→new process realm recheck→one later world.skill Action;
+16 unique local Kernel actions,4 reports,2 new-input strategy assessments,0 pending
+intentions/3 NO_ACTION and no further Action while idle. Fixture decline/withdrawal,
+raw-body nonpersistence, privacy downgrade exclusion, partial-output UNKNOWN/no retry,
+reactive interruption of per-case tests and legacy cadence recovery are covered.
+Current live blocker is credential SOURCE, not lack of user permission. Tool raw
+build-time authorization labels describe an offline qualifier only; qualification.json
+and provider_authorization.json give the current mission state. Human naturalness
+remains NOT_RUN. Authorized development scope COMPLETE; whole first-life NOT_READY.
 No real models/private history/social sends/capture/Hands/production actions.

@@ -1,11 +1,40 @@
 # PROJECT_BRAIN / 08 TASKS（任务清单）
 
-## CURRENT — NANA_REAL_COGNITION_LIVED_GROWTH_V2 (IN_PROGRESS)
-[只读核验/授权开发] Base5cc5c736 verified remote. New branch
-dev/nana-core-real-cognition-lived-growth-v2-codex; GLOBAL_STAGE H retained.
-M0 verified; M1 external provider BLOCKED_BY_AUTHORIZATION; M2 human review NOT_RUN.
-M3–M10 OPEN; docs/nana_real_cognition_lived_growth_v2_status.md is the task ledger.
-Single existing C/D/F/G/I chain; no production/private credentials permitted.
+## CURRENT — NANA_REAL_COGNITION_LIVED_GROWTH_V2
+[源码/离线及实际独立进程实测] Branch dev/nana-core-real-cognition-lived-growth-v2-codex;
+base5cc5c736e0f7267e8b84ef1f544ffbf846380d61; qualified source
+ 446affc58f3e1db99e93851d31f0d9ee576ccb22. GLOBAL_STAGE H retained; E5/C9/D8/F6/G6/I3
+are mission tags, not phase renumbering. AUTHORIZED_DEV_SCOPE COMPLETE;
+FIRST_LIFE_EXPERIENCE_READY NOT_READY. Same Subject/Store/Runtime/SubjectLoop.
+M0 PASS; M1 wire/config PARTIAL: real permission GRANTED, but Cloud current safe
+credential bindings0/no explicit FD, so BLOCKED_NO_SAFE_CREDENTIAL_SOURCE (calls0,
+no old-key/environment/history search). Exact TianToken/qwen3.8-flash, PUBLIC/PROJECT
+only, <=20calls/$1 equivalent,3s; PERSONAL/SECRET still denied, billing mapping unknown.
+M2/M7 natural human dialogue NOT_RUN; source-backed context/refusal/withdrawal tested.
+M3 bounded real no-input life PASS; M4 two real task categories PASS (Python API and
+Markdown navigation); M5 finite practice-derived workflow synthesis/heldout/transfer
+and negative-transfer suspension PASS; M6 original isolated I skill adaptation and
+later original Kernel world.skill PASS; M8 usable /life/config/guide PASS; M9 bounded
+actual-process/resource/recovery PASS; M10 whole real shared-life remains PARTIAL.
+Four real materials,16 unique local Kernel actions; actual failure→C reflection→G
+recipe selection→I generation/test/review→unseen document use; no host-injected grade.
+Real SIGKILL after I test, restart same identity/no new Grant/no duplicate effects.
+90.1145s restarted-process soak,3.8791s parent CPU +0.0156s waited child CPU;
+60784KiB parent kernel peak RSS, one thread/7FD observed,512MiB AS limit;
+affinity3, actual cgroup CPU quota2/memory8GiB. Not a four-core/24h production benchmark.
+Idle periodic review109→1/queue events164→56 in comparable journeys; byte snapshots
+include WAL, not a daily-history extrapolation. No forced endless tasks/social spam.
+22 final privacy/application focused PASS41.21s (12 new cases); related42 PASS44.83s before final negative-case addition;
+full1230 PASS/0fail/12skip247.76s (11 opt-in H2,1 E12). Schema13/43tables/new0,
+dependency0. Generated skill is bounded workflow adaptation, not algorithm invention,
+training, plugin install or Core self-modification. Only bounded USER turns volatile; no assistant-wording replay; source
+erasure removes derived lesson/skill/context support. Original Grant/Manager/privacy/
+UNKNOWN/relationship/primary role/portability boundaries retained. H1-LIVE stays PARTIAL.
+Real provider/private history/social/capture/production/main/R045 changes0; old bundle
+unread/untracked. Quickstart/report/ledger/evidence: docs/nana_real_cognition_lived_growth_v2*.
+Next scoped dependency: safe host SecretResolver/FD, then limited actual cognition and
+voluntary human review. No second brain, new platform binding or H2 needed.
+Earlier state blocks below are preserved historical entries.
 
 ## CURRENT — A7 independent life / D8 / C9
 [源码/实际开发进程验收] Branch dev/nana-core-independent-life-runtime-a7-d8-c9-v1-codex;

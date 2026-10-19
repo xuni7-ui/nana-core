@@ -1,0 +1,31 @@
+{
+  "authorization": "USER_GRANTED_DURING_TASK",
+  "provider": "TianToken",
+  "protocol": "OPENAI_COMPATIBLE_CHAT",
+  "confirmed_base_url": "https://api.tiantoken.com/v1",
+  "model": "qwen3.8-flash",
+  "privacy": [
+    "PUBLIC",
+    "PROJECT"
+  ],
+  "denied_privacy": [
+    "PERSONAL",
+    "SECRET"
+  ],
+  "max_real_calls": 20,
+  "maximum_cost_usd_equivalent": 1,
+  "actual_currency_mapping": "UNVERIFIED",
+  "timeout_ms": 3000,
+  "timeout_adjustment": "NONE_NO_LIVE_EVIDENCE",
+  "real_provider_calls": 0,
+  "credential_source": "NOT_PROVIDED",
+  "cloud_configuration_observations_current": true,
+  "configured_secret_bindings": 0,
+  "configured_runtime_variable_bindings": 0,
+  "explicit_fd_provided": false,
+  "status": "BLOCKED_NO_SAFE_CREDENTIAL_SOURCE",
+  "secret_search_performed": false,
+  "previous_trial_key_reused": false,
+  "body_or_credential_recorded": false,
+  "next_step": "Host securely configures credential and provides explicit SecretResolver/FD binding, not a key in chat. Then apply exact provider/model, PUBLIC/PROJECT, <=20 calls, conservative cost stop, no retry/fallback after UNKNOWN."
+}

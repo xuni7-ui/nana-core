@@ -1,0 +1,41 @@
+{
+  "truth": "DEVELOPMENT_FAILURES_FIXED_NOT_SUBJECT_LEARNING",
+  "failures": [
+    {
+      "observed": "new document finished via compute before I review; test required an actual skill Action",
+      "fix": "hold next material opportunity while original CODE_DEVELOPMENT work is pending",
+      "verified": "end-to-end actual world.skill use on a different document"
+    },
+    {
+      "observed": "actual process state remained focused with a recalled already selected skill concern",
+      "fix": "existing I records source_program_id, C adopted-work recognition and explicit candidate adoption",
+      "verified": "final process pending intentions0, three NO_ACTION decisions"
+    },
+    {
+      "observed": "batch isolated test could delay foreground across multiple cases",
+      "fix": "one durable case per original D slice, source/test-contract/realm bound; new realm retests",
+      "verified": "foreground test preserves test cursor; actual SIGKILL after TEST before REVIEW"
+    },
+    {
+      "observed": "erasure test assumed UUID-sorted first skill support was upstream of both skill and lesson",
+      "fix": "select explicit shared raw document study source; downstream cue deletion correctly leaves independent lesson intact",
+      "classification": "TEST_BUG_FIXED_NOT_CORE_HISTORY_REWRITE",
+      "verified": "42 focused passed"
+    },
+    {
+      "observed": "one-second periodic idle reviews produce avoidable persisted events",
+      "fix": "host-local60s review reconciled by original Scheduler CAS, source/user/goal paths unchanged",
+      "verified": "109\u21921 periodic occurrences,164\u219256 queue events in comparable actual journeys; not a controlled CPU benchmark"
+    },
+    {
+      "observed": "completed-only later-use assessment ignored failed novel use",
+      "fix": "original EpisodeLearning independently checks supported failed novel results and suspends contradicted strategy",
+      "verified": "new synthetic depth-three transfer counterexample; no incorrect report/retry"
+    },
+    {
+      "observed": "volatile assistant wording did not carry complete fact-dependency closure after source erasure",
+      "fix": "keep only source-valid USER turns; fresh wording uses one current verified artifact within original context budget",
+      "verified": "after-delete actual loopback interpret/render sends neither old model wording nor deleted source; final22 focused and1230 regression pass"
+    }
+  ]
+}

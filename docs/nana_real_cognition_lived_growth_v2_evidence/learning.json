@@ -1,0 +1,126 @@
+{
+  "mode": "REAL_PUBLIC_REPOSITORY_MATERIALS_LOCAL_KERNEL_NO_LIVE_MODEL",
+  "learning": [
+    {
+      "work_id": "93a7d513-cdb6-4519-808f-0e0e948e1271",
+      "state": "DONE",
+      "cause": "VERIFIED_FAILURE",
+      "domain": "python-api",
+      "candidate_input": "PRACTICE_ONLY",
+      "baseline": "PYTHON_TOP_DEFS",
+      "selected_recipe": "PYTHON_AST_API",
+      "trial_stages": {
+        "BASELINE": {
+          "passed": 0,
+          "checked": 1,
+          "input_digests": [
+            "0b7ff4ee4696cd7803decf4a00c61ca42794cc39d9611086b6ba7f24df3497e8"
+          ]
+        },
+        "EVALUATE": {
+          "passed": 1,
+          "checked": 1,
+          "input_digests": [
+            "0b7ff4ee4696cd7803decf4a00c61ca42794cc39d9611086b6ba7f24df3497e8"
+          ]
+        },
+        "PRACTICE": {
+          "passed": 1,
+          "checked": 1,
+          "input_digests": [
+            "83e70fb0d469fffb74c1b71f66da5449fbb970cc83dad58dd52505027f91d98b"
+          ]
+        },
+        "TRANSFER": {
+          "passed": 1,
+          "checked": 1,
+          "input_digests": [
+            "f4bbedf6717ef77b28a9505330849618d80138cdabfbbe1ce1113da9560ed473"
+          ]
+        }
+      },
+      "lesson_id": "cd7e1f1b-f721-4f8e-a11b-2ade7006ad6e"
+    },
+    {
+      "work_id": "3aa807ad-9e6a-41f6-99b3-10988260dfa7",
+      "state": "DONE",
+      "cause": "VERIFIED_FAILURE",
+      "domain": "markdown-outline",
+      "candidate_input": "PRACTICE_ONLY",
+      "baseline": "MD_OUTLINE_1",
+      "selected_recipe": "MD_OUTLINE_2",
+      "trial_stages": {
+        "BASELINE": {
+          "passed": 0,
+          "checked": 1,
+          "input_digests": [
+            "5319b9f0984047e781b47d37a263b51d4992bf05e988218e8fa5572fc66a91d2"
+          ]
+        },
+        "EVALUATE": {
+          "passed": 1,
+          "checked": 1,
+          "input_digests": [
+            "5319b9f0984047e781b47d37a263b51d4992bf05e988218e8fa5572fc66a91d2"
+          ]
+        },
+        "PRACTICE": {
+          "passed": 1,
+          "checked": 1,
+          "input_digests": [
+            "d7622c87a030b48509dbc19d9e16e6314cee21025bd275f56afb2b7fcc3f440a"
+          ]
+        },
+        "TRANSFER": {
+          "passed": 1,
+          "checked": 1,
+          "input_digests": [
+            "3f094d3cd3b9e03c0c9a4d9f52135b8c8ad97602099cca23da542a111ee880fc"
+          ]
+        }
+      },
+      "lesson_id": "0eedaadc-7dd5-4ea2-995f-ea294b6df70e"
+    }
+  ],
+  "skills": [
+    {
+      "work_id": "97bec3a6-6ab4-40f5-b633-cdc3a91aeb19",
+      "stage": "ACTIVE",
+      "state": "DONE",
+      "source_program_id": "skill.document-outline",
+      "candidate_record_id": "574d5185-9a5c-4441-9227-3112c7c00f8c",
+      "task": "MARKDOWN_OUTLINE_2",
+      "generated_source": "def transform(data):\n    return [{'level': len(line)-len(line.lstrip('#')), 'title': line.lstrip('#').strip(), 'line': n+1} for n,line in enumerate(data['source'].split('\\n')) if line.startswith('#') and 1 <= len(line)-len(line.lstrip('#')) <= 2 and line[len(line)-len(line.lstrip('#')):len(line)-len(line.lstrip('#'))+1]==' ' and sum(1 for x in data['source'].split('\\n')[:n] if x.startswith('```')) % 2 == 0]\n",
+      "source_digest": "a0d138d3c98c4c4b99a5ad3b0ffaa31b98bedade7c3e5e380fc881fb9fd7d6ca",
+      "independent_cases": 5,
+      "all_passed": true,
+      "realm": "BWRAP_LOCAL_DATA_ONLY",
+      "installed": false
+    }
+  ],
+  "later_reuse": [
+    {
+      "assessment_id": "f139a6ab-9864-40d8-8aac-6e6fa38ee70b",
+      "lesson_id": "cd7e1f1b-f721-4f8e-a11b-2ade7006ad6e",
+      "episode_key": "later-d998ba2a31952c9a74bc6558a96cfd651086ab1e",
+      "verdict": "SUCCESS"
+    },
+    {
+      "assessment_id": "d65bfee2-6c97-4639-bd11-07999fbbc138",
+      "lesson_id": "0eedaadc-7dd5-4ea2-995f-ea294b6df70e",
+      "episode_key": "later-93f3bfdc1be87da1c0f4ab3017d1d26d92afd7e5",
+      "verdict": "SUCCESS"
+    }
+  ],
+  "later_skill_actions": [
+    {
+      "action_id": "a8ca6eec-dfca-4912-b065-f475f6ae8474",
+      "state": "SUCCEEDED",
+      "idempotency_key": "f5316a5b91df003dbf92fdf3ea73812f9fd51cf3b2c0290c00d7557a5d2bf646"
+    }
+  ],
+  "causal_claim": "SUBJECT_SELECTS_INSTANTIATES_REVIEWED_FINITE_WORKFLOW_GRAMMAR",
+  "general_algorithm_invention": false,
+  "developer_changes_counted_as_subject_learning": false,
+  "negative_transfer": "SEPARATE_SYNTHETIC_DEPTH_THREE_COUNTEREXAMPLE_TEST_PASSED_SUSPENDS_DEPTH_TWO_LESSON_NO_REPORT_NO_RETRY"
+}
