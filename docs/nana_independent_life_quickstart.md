@@ -77,7 +77,7 @@ JSON effect_status 当成任意自然语言绝对真实的证明。真实质量/
 ## 资源与故障
 
 单 Runtime owner，无本地大模型/持续视频。run 配置默认512MiB地址空间上限、最多4个
-可用 CPU affinity（仍受宿主 cgroup quota 限制），有限队列/材料/时段/调用字节成本预算。
+可用 CPU affinity（仍受宿主 cgroup quota 限制），有限队列/材料/调用字节成本预算。UTC活动时段限制新材料机会，已采用工作可继续；需要立即让后台让路用 /pause。
 四核不是性能宣传；实测报告同时列宿主 quota 和实际 CPU/RSS。成本单位是保守预留，
 不是 provider 实际账单。默认真实调用0。
 

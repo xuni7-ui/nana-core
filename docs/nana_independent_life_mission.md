@@ -1,5 +1,21 @@
 # A7 / D8 / C9 independent life mission
 
+## CURRENT — authorized development scope delivered
+Qualified source324b80de52c84a474b15fcdc4be9a502b35cdf89. OFFLINE_INTEGRATED PASS;
+INDEPENDENT_RUNTIME_SOAK PASS (30.0835s real wall, actual SIGKILL/new process).
+M0 verified; M1 implemented/process-verified; M2 implemented/loopback-tested but
+REAL_PROVIDER_QUALIFIED NOT_RUN; M3 no-input real work verified; M4 actual unseen
+source reuse verified; M5 offline journey only. FIRST_LIFE_EXPERIENCE_READY NOT_READY.
+16 focused PASS; full1218/0/12 intentional skips,214.25s. No provider calls, key,
+private history, real platform or production access. One original subject/store/
+runtime/loop per dev home. Schema13/43tables/new0; dependency0.
+User entry docs/nana_independent_life_quickstart.md. Full evidence/report in
+ docs/nana_independent_life_implementation.md and nana_independent_life_evidence/.
+Next concrete step: after separate provider/secret/budget/privacy authorization,
+qualify actual local dialogue semantics and voluntary human fit. No QQ precondition.
+Older construction/debug entries below are retained as this mission's history.
+
+
 Base32306111a052811f3b293d36e5d5500787950d8a; independent dev branch.
 M0: remote/source/PROJECT_BRAIN checked; no merge/integration required.
 A7/D8/C9/E5/F5/G5 labels describe this task; historical stage H unchanged.

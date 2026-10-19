@@ -1,20 +1,29 @@
 # PROJECT_BRAIN / 08 TASKS（任务清单）
 
-## CURRENT — A7 independent life / D8 / C9 (implemented checkpoint)
-[源码/开发进程实测] Branch dev/nana-core-independent-life-runtime-a7-d8-c9-v1-codex;
-base32306111 verified remote. Mission labels A7/D8/C9/E5/F5/G5, not historical schema
-or phase renumbering; GLOBAL_STAGE H unchanged. One foreground life application
-wraps original Runtime/Store/SubjectLoop, C judgment and D WHEN retained.
-Autonomous approved-source opportunities→real project Kernel work→failure→C
-reflection→original G stages→later actual unseen input reuse run without user input.
-Local natural-text CLI, pause/resume/source/status/revoke/forget, persistent control,
-privacy-scoped volatile model meaning/render via original Router/CognitionSession.
-New local boundary metadata domain accepts only normalized tokens, not raw private
-memory import. Real provider calls/credentials/private history/platform/production0.
-16 new focused passed;154 earlier related passed.12s wall debug and actual SIGKILL/
-restart15s journey passed. Final frozen-source30s soak/full regression pending.
-Provider semantic quality/human naturalness NOT_RUN; FIRST_LIFE_EXPERIENCE not READY.
-Ledger docs/nana_independent_life_mission.md; previous blocks preserved as history.
+## CURRENT — A7 independent life / D8 / C9
+[源码/实际开发进程验收] Branch dev/nana-core-independent-life-runtime-a7-d8-c9-v1-codex;
+base32306111; qualified source324b80de52c84a474b15fcdc4be9a502b35cdf89.
+Mission tags A7/D8/C9/E5/F5/G5 do not renumber historical phases/schema; GLOBAL_STAGE H.
+M0 verified. M1 independent foreground CLI implemented/process-qualified without
+AstrBot/QQ. M2 routed transient natural-text interpretation/rendering implemented
+and synthetic-loopback tested; REAL_PROVIDER_QUALIFIED NOT_RUN. M3 zero user input
+→real source work→failure→C reflection/G learning→second actual source use verified.
+M4 finite reviewed method selection/independent reuse verified, not algorithm or
+curriculum invention. M5 OFFLINE_INTEGRATED PASS; INDEPENDENT_RUNTIME_SOAK PASS;
+FIRST_LIFE_EXPERIENCE_READY NOT_READY pending actual provider and user fit review.
+Actual SIGKILL during G→new process same identity, no new Grant/duplicate effect.
+30.0835s wall/1.0891s CPU/40288KiB peak RSS;512MiB AS ceiling/affinity<=4, actual
+host cgroup CPU quota2 and memory8GiB (not a four-core performance benchmark).
+16 focused PASS; full1218 PASS/0fail/12skip in214.25s (11 historical opt-in H2 off,
+1 E12). Shared budget, Manager/Grant/privacy/UNKNOWN, erasure/B8 boundaries retained.
+Same Subject/Store/Runtime/SubjectLoop; no second planner/brain.13/43 tables/new0;
+dependency0. Raw local dialogue/provider wording transient; normalized boundary
+metadata only. Current private history import remains disabled. Real provider/key/
+private history/social send/capture/production/main/R0450.
+Quickstart docs/nana_independent_life_quickstart.md; implementation/report/mission
+ledger/evidence under docs/nana_independent_life*. Next dependency is separately
+authorized provider/explicit secret reference/privacy+budget and human dialogue
+review, not AstrBot/QQ integration. Earlier blocks remain historical evidence.
 
 ## CURRENT — REAL_UTILITY_SHARED_LIFE_EVOLUTION_V1
 [实际本地源码材料/离线主体实测] Dev branch:

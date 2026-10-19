@@ -1,0 +1,262 @@
+{
+  "initial_identity": "96395df0-b327-491e-848d-bb210f0998dd",
+  "after_restart_identity": "96395df0-b327-491e-848d-bb210f0998dd",
+  "real_sigkill": "PASS_DURING_EXISTING_LEARNING_STAGE",
+  "restart_grants_recreated": false,
+  "no_user_input_until_two_real_tasks_complete": true,
+  "before_kill": {
+    "identity_id": "96395df0-b327-491e-848d-bb210f0998dd",
+    "goals": [
+      {
+        "goal_id": "7e5465ca-a93a-4a3c-916f-01ff77a5018a",
+        "state": "FAILED"
+      }
+    ],
+    "jobs": [
+      {
+        "job_id": "0161bade-2f92-4f1b-b148-bec267545944",
+        "work_kind": "GOAL",
+        "state": "BLOCKED",
+        "cursor": 2
+      },
+      {
+        "job_id": "13debe4c-73e9-4c21-8338-ef164eb9d41d",
+        "work_kind": "LEARNING",
+        "state": "WAITING",
+        "cursor": 1
+      }
+    ],
+    "actions": [
+      {
+        "action_id": "bff89417-9bd4-4dd1-9968-b02dfaa6ebd7",
+        "state": "SUCCEEDED",
+        "idempotency_key": "d50b3ef1923480855ede101d8a013cc3fa5d6af4a2ffa2763b2daa8fa1300ed3"
+      },
+      {
+        "action_id": "5b4feb0e-4257-4103-a714-f4d8e6de01e8",
+        "state": "SUCCEEDED",
+        "idempotency_key": "62970e6d81cf3d88ddde75f8531aeacd500fe498360420c1e313ef7f6758c9ba"
+      }
+    ],
+    "lessons": [],
+    "assessments": [],
+    "grants": 1,
+    "model_requests": 0,
+    "user_events": 0,
+    "control": {
+      "paused": false
+    },
+    "fk_violations": []
+  },
+  "no_input_completed": {
+    "identity_id": "96395df0-b327-491e-848d-bb210f0998dd",
+    "goals": [
+      {
+        "goal_id": "7e5465ca-a93a-4a3c-916f-01ff77a5018a",
+        "state": "COMPLETED"
+      },
+      {
+        "goal_id": "b4733087-b83d-4ede-9af0-f7efd3f3c2d5",
+        "state": "COMPLETED"
+      }
+    ],
+    "jobs": [
+      {
+        "job_id": "0161bade-2f92-4f1b-b148-bec267545944",
+        "work_kind": "GOAL",
+        "state": "DONE",
+        "cursor": 3
+      },
+      {
+        "job_id": "13debe4c-73e9-4c21-8338-ef164eb9d41d",
+        "work_kind": "LEARNING",
+        "state": "DONE",
+        "cursor": 9
+      },
+      {
+        "job_id": "be9a957e-2490-46f1-b8f6-48438215ba2c",
+        "work_kind": "GOAL",
+        "state": "DONE",
+        "cursor": 3
+      }
+    ],
+    "actions": [
+      {
+        "action_id": "bff89417-9bd4-4dd1-9968-b02dfaa6ebd7",
+        "state": "SUCCEEDED",
+        "idempotency_key": "d50b3ef1923480855ede101d8a013cc3fa5d6af4a2ffa2763b2daa8fa1300ed3"
+      },
+      {
+        "action_id": "5b4feb0e-4257-4103-a714-f4d8e6de01e8",
+        "state": "SUCCEEDED",
+        "idempotency_key": "62970e6d81cf3d88ddde75f8531aeacd500fe498360420c1e313ef7f6758c9ba"
+      },
+      {
+        "action_id": "486b7fdd-55ea-4e4e-9787-a8fee01d92e9",
+        "state": "SUCCEEDED",
+        "idempotency_key": "479c640b1dc9974f4447b72f99f9012723f44a249fc44c2ddc6e70440261c352"
+      },
+      {
+        "action_id": "ebe813ad-81f3-4888-8f74-cdd318c2a731",
+        "state": "SUCCEEDED",
+        "idempotency_key": "2fef86cc1b70568520d747d60d868b7a2b28490bc31a4e0d6c83ba08a6147b32"
+      },
+      {
+        "action_id": "430d0b88-8060-466b-ae91-3619705f1484",
+        "state": "SUCCEEDED",
+        "idempotency_key": "91408c3d36aa16f799ef8096413592248f98512e0fcf91346888c660d40584af"
+      },
+      {
+        "action_id": "f009b198-6b11-466c-b060-b3d7cf2ef372",
+        "state": "SUCCEEDED",
+        "idempotency_key": "5db0020febafcd375167f7b8ff9ce71ed813b5bcb9d5805ceb8b7d8cecb139b5"
+      },
+      {
+        "action_id": "3e45b3ca-47c5-4e27-9bc0-2d574de8eaf9",
+        "state": "SUCCEEDED",
+        "idempotency_key": "1e62bd9056ac2e9158d3be2dd90504339f1fd0a356d90ffdfad558c08f7e6b0f"
+      },
+      {
+        "action_id": "12e0a0ca-e573-404f-a8db-2c918e4f6d4c",
+        "state": "SUCCEEDED",
+        "idempotency_key": "fa3e201c5552bb4eeffdba63a88f8e267ee478e8a70a83c329b3580114122229"
+      }
+    ],
+    "lessons": [
+      {
+        "lesson_id": "ca6f41ff-f4d6-4fac-a2fd-55775543baee",
+        "state": "ACTIVE"
+      }
+    ],
+    "assessments": [
+      {
+        "assessment_id": "35b80712-3a64-4dac-b958-21afccab0eff",
+        "verdict": "SUCCESS"
+      }
+    ],
+    "grants": 1,
+    "model_requests": 0,
+    "user_events": 0,
+    "control": {
+      "paused": false
+    },
+    "fk_violations": []
+  },
+  "after_local_interaction": {
+    "identity_id": "96395df0-b327-491e-848d-bb210f0998dd",
+    "goals": [
+      {
+        "goal_id": "7e5465ca-a93a-4a3c-916f-01ff77a5018a",
+        "state": "COMPLETED"
+      },
+      {
+        "goal_id": "b4733087-b83d-4ede-9af0-f7efd3f3c2d5",
+        "state": "COMPLETED"
+      }
+    ],
+    "jobs": [
+      {
+        "job_id": "0161bade-2f92-4f1b-b148-bec267545944",
+        "work_kind": "GOAL",
+        "state": "DONE",
+        "cursor": 3
+      },
+      {
+        "job_id": "13debe4c-73e9-4c21-8338-ef164eb9d41d",
+        "work_kind": "LEARNING",
+        "state": "DONE",
+        "cursor": 9
+      },
+      {
+        "job_id": "be9a957e-2490-46f1-b8f6-48438215ba2c",
+        "work_kind": "GOAL",
+        "state": "DONE",
+        "cursor": 3
+      }
+    ],
+    "actions": [
+      {
+        "action_id": "bff89417-9bd4-4dd1-9968-b02dfaa6ebd7",
+        "state": "SUCCEEDED",
+        "idempotency_key": "d50b3ef1923480855ede101d8a013cc3fa5d6af4a2ffa2763b2daa8fa1300ed3"
+      },
+      {
+        "action_id": "5b4feb0e-4257-4103-a714-f4d8e6de01e8",
+        "state": "SUCCEEDED",
+        "idempotency_key": "62970e6d81cf3d88ddde75f8531aeacd500fe498360420c1e313ef7f6758c9ba"
+      },
+      {
+        "action_id": "486b7fdd-55ea-4e4e-9787-a8fee01d92e9",
+        "state": "SUCCEEDED",
+        "idempotency_key": "479c640b1dc9974f4447b72f99f9012723f44a249fc44c2ddc6e70440261c352"
+      },
+      {
+        "action_id": "ebe813ad-81f3-4888-8f74-cdd318c2a731",
+        "state": "SUCCEEDED",
+        "idempotency_key": "2fef86cc1b70568520d747d60d868b7a2b28490bc31a4e0d6c83ba08a6147b32"
+      },
+      {
+        "action_id": "430d0b88-8060-466b-ae91-3619705f1484",
+        "state": "SUCCEEDED",
+        "idempotency_key": "91408c3d36aa16f799ef8096413592248f98512e0fcf91346888c660d40584af"
+      },
+      {
+        "action_id": "f009b198-6b11-466c-b060-b3d7cf2ef372",
+        "state": "SUCCEEDED",
+        "idempotency_key": "5db0020febafcd375167f7b8ff9ce71ed813b5bcb9d5805ceb8b7d8cecb139b5"
+      },
+      {
+        "action_id": "3e45b3ca-47c5-4e27-9bc0-2d574de8eaf9",
+        "state": "SUCCEEDED",
+        "idempotency_key": "1e62bd9056ac2e9158d3be2dd90504339f1fd0a356d90ffdfad558c08f7e6b0f"
+      },
+      {
+        "action_id": "12e0a0ca-e573-404f-a8db-2c918e4f6d4c",
+        "state": "SUCCEEDED",
+        "idempotency_key": "fa3e201c5552bb4eeffdba63a88f8e267ee478e8a70a83c329b3580114122229"
+      }
+    ],
+    "lessons": [
+      {
+        "lesson_id": "ca6f41ff-f4d6-4fac-a2fd-55775543baee",
+        "state": "ACTIVE"
+      }
+    ],
+    "assessments": [
+      {
+        "assessment_id": "35b80712-3a64-4dac-b958-21afccab0eff",
+        "verdict": "SUCCESS"
+      }
+    ],
+    "grants": 1,
+    "model_requests": 0,
+    "user_events": 1,
+    "control": {
+      "messages": 1,
+      "paused": false
+    },
+    "fk_violations": []
+  },
+  "local_dialogue": "OFFLINE_LITERAL_BASELINE_ONLY",
+  "raw_body_persisted": false,
+  "pause_preserved_jobs": true,
+  "real_provider_calls": 0,
+  "external_social_send": 0,
+  "wall_soak_seconds": 30.08348546200068,
+  "cpu_seconds": 1.089115274,
+  "max_rss_kib": 40288,
+  "resources": {
+    "affinity_cpus": 3,
+    "memory_address_space_limit_mb": 512,
+    "cgroup_memory_max": "8589934592",
+    "cgroup_cpu_max": "200000 100000",
+    "local_large_model": "DISABLED",
+    "capture": "DISABLED"
+  },
+  "reports": [
+    "85f2ba2396f76ff6e3a952ba5ca3a5c80fe293b12316f7db2384c87aff0a5233.md",
+    "c8352f59315ab42f93d80d664f6360a690955b0e9f62f2607ba8f33d46b4f400.md"
+  ],
+  "real_provider_qualified": "NOT_RUN",
+  "first_life_experience_ready": "NOT_READY_PENDING_REAL_SEMANTIC_PROVIDER_AND_USER_REVIEW"
+}

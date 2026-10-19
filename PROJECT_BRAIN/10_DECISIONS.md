@@ -875,3 +875,15 @@ critical path. Earlier mission's QQ shadow next-step remains historical, not an 
 prerequisite. Do not read/modify production or use QQ permission to fake standalone
 readiness. A7 offline integration and independent-process soak may pass while real
 provider/naturalness/first-life gates remain explicitly NOT_RUN/NOT_READY.
+
+
+## A7/D8/C9 — qualification levels remain separate
+[实测] Frozen source324b80d:16 focused PASS; full1218/0/12,214.25s. Actual30.0835s
+process journey with SIGKILL/restart, zero-input real work/finite learning/reuse and
+local controls verified. OFFLINE_INTEGRATED and bounded INDEPENDENT_RUNTIME_SOAK
+PASS do not imply REAL_PROVIDER_QUALIFIED or FIRST_LIFE_EXPERIENCE_READY. Actual
+provider/quality and voluntary human review remain next gated dependency; QQ is
+not required. Window controls new opportunity admission, not a Manager-style veto
+on adopted work; explicit pause/Grant/Manager still independently fence execution.
+No general autonomous curriculum or algorithm-invention claim. Dev subject identity
+is not imported production Nana. No new schema/dependency or private import.

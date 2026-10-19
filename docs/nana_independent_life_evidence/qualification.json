@@ -1,0 +1,54 @@
+{
+  "branch": "dev/nana-core-independent-life-runtime-a7-d8-c9-v1-codex",
+  "base": "32306111a052811f3b293d36e5d5500787950d8a",
+  "qualified_source_commit": "324b80de52c84a474b15fcdc4be9a502b35cdf89",
+  "core_feature_commit": "295ed3166ae7ddf5d9af75b44d1878145bae5fc2",
+  "M0": "VERIFIED_BASE_MAPPING_AND_JOURNEY",
+  "M1": "IMPLEMENTED_OFFLINE_AND_REAL_PROCESS_VERIFIED",
+  "M2": "IMPLEMENTED_LOOPBACK_CONTRACT_TESTED_LIVE_PROVIDER_NOT_RUN",
+  "M3": "NO_INPUT_REAL_PROJECT_ACTIVITY_VERIFIED",
+  "M4": "REAL_SOURCE_WORK_AND_BOUNDED_METHOD_REUSE_VERIFIED",
+  "M5": "OFFLINE_INTEGRATED_PARTIAL_REAL_EXPERIENCE",
+  "OFFLINE_INTEGRATED": "PASS",
+  "REAL_PROVIDER_QUALIFIED": "NOT_RUN",
+  "INDEPENDENT_RUNTIME_SOAK": "PASS",
+  "FIRST_LIFE_EXPERIENCE_READY": "NOT_READY",
+  "focused": {
+    "passed": 16,
+    "failed": 0,
+    "seconds": 11.56
+  },
+  "full": {
+    "passed": 1218,
+    "failed": 0,
+    "skipped": 12,
+    "seconds": 214.25
+  },
+  "skips": {
+    "historical_H2_opt_in": 11,
+    "E12": 1
+  },
+  "schema": 13,
+  "business_tables": 43,
+  "new_tables": 0,
+  "new_dependencies": 0,
+  "real_provider_calls": 0,
+  "real_social_sends": 0,
+  "private_history_reads": 0,
+  "production_changes": 0,
+  "AstrBot_required": false,
+  "QQ_required": false,
+  "unknown_provider_no_retry": "PASS_AFTER_RESTART",
+  "raw_user_input_and_model_wording_persisted": false,
+  "wall_seconds": 30.08348546200068,
+  "cpu_seconds": 1.089115274,
+  "max_rss_kib": 40288,
+  "resources": {
+    "affinity_cpus": 3,
+    "memory_address_space_limit_mb": 512,
+    "cgroup_memory_max": "8589934592",
+    "cgroup_cpu_max": "200000 100000",
+    "local_large_model": "DISABLED",
+    "capture": "DISABLED"
+  }
+}

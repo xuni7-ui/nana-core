@@ -1,0 +1,6 @@
+{
+  "uncommitted_import_scope_bug": "19 failed/5 passed before fixing local-import shadowing; final regression1218/0",
+  "pipe_read_ahead": "initial15s journey resume timeout; fixed bounded FD queue, regression test added, final30s journey passed",
+  "candidate_privacy": "free interpretation and utterance redacted from records; known canary checks passed",
+  "context_facts": "dialogue pinned mode retains explicit verified fact text; media source-only behavior unchanged"
+}

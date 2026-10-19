@@ -1762,3 +1762,13 @@ bounded CPU/RSS observation.15s debug passed after fixing pipe read-ahead. User 
 and root README give independent two-command startup with no platform dependency.
 Core feature source295ed31 frozen; final qualification runs on this tooling commit.
 No new runtime/Store/table/dependency or production/model/secret access.
+
+
+## A7/D8/C9 final frozen-source handoff
+[实测/文档] Source324b80d unchanged during final16 focused PASS/full1218 PASS/0fail/
+12skip,214.25s. Added actual wall-process/SIGKILL/no-input/learning/reuse/resource
+proof, real output reports, development fix record, quickstart/report and explicit
+NOT_RUN live gates.30.0835s wall,1.0891s CPU,40288KiB RSS,512MiB AS cap/host quota2.
+Prior QQ next-step priority superseded only for current independent milestone.
+No key/provider/private history/real platform/production changes. Final whitelist/
+secret-literal scan and committed fingerprint/normal dev push verification follow.

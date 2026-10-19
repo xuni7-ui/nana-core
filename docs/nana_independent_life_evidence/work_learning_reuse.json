@@ -1,0 +1,192 @@
+{
+  "learning_work_id": "13debe4c-73e9-4c21-8338-ef164eb9d41d",
+  "learning_state": "DONE",
+  "cursor": 9,
+  "selected_method": "PYTHON_AST_API",
+  "lesson_id": "ca6f41ff-f4d6-4fac-a2fd-55775543baee",
+  "lesson_state": "ACTIVE",
+  "independently_executed_results": {
+    "BASELINE": {
+      "all_passed": false,
+      "cases": [
+        {
+          "actual": [
+            {
+              "kind": "function",
+              "line": 9,
+              "name": "evaluate_request"
+            }
+          ],
+          "case_id": "heldout",
+          "context": "project-api",
+          "expected_digest": "c9d45824dc8ce1375a22a310b828eb96ccb90e1e05082d27fecbcf545a217b95",
+          "input_digest": "0b7ff4ee4696cd7803decf4a00c61ca42794cc39d9611086b6ba7f24df3497e8",
+          "passed": false
+        }
+      ],
+      "checked": 1,
+      "passed": 0
+    },
+    "EVALUATE": {
+      "all_passed": true,
+      "cases": [
+        {
+          "actual": [
+            {
+              "kind": "function",
+              "line": 9,
+              "name": "evaluate_request"
+            },
+            {
+              "kind": "class",
+              "line": 21,
+              "name": "RequestCommitmentService"
+            },
+            {
+              "kind": "function",
+              "line": 22,
+              "name": "RequestCommitmentService.__init__"
+            },
+            {
+              "kind": "function",
+              "line": 26,
+              "name": "RequestCommitmentService.materialize"
+            }
+          ],
+          "case_id": "heldout",
+          "context": "project-api",
+          "expected_digest": "c9d45824dc8ce1375a22a310b828eb96ccb90e1e05082d27fecbcf545a217b95",
+          "input_digest": "0b7ff4ee4696cd7803decf4a00c61ca42794cc39d9611086b6ba7f24df3497e8",
+          "passed": true
+        }
+      ],
+      "checked": 1,
+      "passed": 1
+    },
+    "PRACTICE": {
+      "all_passed": true,
+      "cases": [
+        {
+          "actual": [
+            {
+              "kind": "class",
+              "line": 16,
+              "name": "IdentityProvenance"
+            },
+            {
+              "kind": "class",
+              "line": 21,
+              "name": "IdentityRevision"
+            },
+            {
+              "kind": "class",
+              "line": 33,
+              "name": "CanonicalIdentity"
+            },
+            {
+              "kind": "class",
+              "line": 48,
+              "name": "IdentityService"
+            },
+            {
+              "kind": "function",
+              "line": 49,
+              "name": "IdentityService.__init__"
+            },
+            {
+              "kind": "function",
+              "line": 71,
+              "name": "IdentityService.current"
+            },
+            {
+              "kind": "function",
+              "line": 83,
+              "name": "IdentityService.revise_expression"
+            }
+          ],
+          "case_id": "practice",
+          "context": "project-api",
+          "expected_digest": "10e67b410243b148576bf034c0b55d88b499d801d4285421d28782c4e1ed520e",
+          "input_digest": "83e70fb0d469fffb74c1b71f66da5449fbb970cc83dad58dd52505027f91d98b",
+          "passed": true
+        }
+      ],
+      "checked": 1,
+      "passed": 1
+    },
+    "TRANSFER": {
+      "all_passed": true,
+      "cases": [
+        {
+          "actual": [
+            {
+              "kind": "class",
+              "line": 7,
+              "name": "SocialInteractionProposal"
+            },
+            {
+              "kind": "class",
+              "line": 17,
+              "name": "InteractionRule"
+            },
+            {
+              "kind": "function",
+              "line": 24,
+              "name": "propose_social"
+            }
+          ],
+          "case_id": "transfer",
+          "context": "onboarding",
+          "expected_digest": "6f643bcdb9f96e731f393ecf445b838e60117053db21d252514c4229a54fd1d9",
+          "input_digest": "f4bbedf6717ef77b28a9505330849618d80138cdabfbbe1ce1113da9560ed473",
+          "passed": true
+        }
+      ],
+      "checked": 1,
+      "passed": 1
+    }
+  },
+  "experience_outcomes": [
+    {
+      "experience_id": "ea705240-d3ab-4bd2-8247-60826d88a560",
+      "outcome": "FAILURE",
+      "task_class": "python-api"
+    },
+    {
+      "experience_id": "5290994f-2d3b-4b96-97f0-299aace30f92",
+      "outcome": "SUCCESS",
+      "task_class": "python-api"
+    },
+    {
+      "experience_id": "969b36a7-00cd-4832-8266-55615ff9a8fc",
+      "outcome": "SUCCESS",
+      "task_class": "python-api"
+    },
+    {
+      "experience_id": "42f13390-6d0a-4431-bba5-95c03f1851b2",
+      "outcome": "SUCCESS",
+      "task_class": "python-api"
+    },
+    {
+      "experience_id": "ed23022d-674c-4ca7-a6a1-65075fe6962a",
+      "outcome": "SUCCESS",
+      "task_class": "python-api"
+    },
+    {
+      "experience_id": "7c022517-c240-4d3a-be75-7a7e7e3ed093",
+      "outcome": "SUCCESS",
+      "task_class": "python-api"
+    }
+  ],
+  "later_use": [
+    {
+      "assessment_id": "35b80712-3a64-4dac-b958-21afccab0eff",
+      "episode_key": "later-6c5fcfa7eb08344f1e6bf8209751c7a2fb592f5b",
+      "verdict": "SUCCESS"
+    }
+  ],
+  "claim": "Finite prewritten method selection on actual project sources; not algorithm invention or autonomous curriculum discovery",
+  "schema": 13,
+  "business_tables": 43,
+  "fk_violations": []
+}
