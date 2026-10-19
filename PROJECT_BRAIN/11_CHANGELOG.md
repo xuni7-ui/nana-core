@@ -1754,3 +1754,11 @@ automatic source work, source-bound G inputs and independently checked later use
 journey15s passed; actual pipe-read-ahead bug fixed, no silent dropped commands.
 New /sources view supports usable source erasure; no raw message telemetry. Source
 freeze/full qualification next. No schema/table/dependency/production change.
+
+## A7 process journey tooling and quickstart
+[源码/文档/开发实测] Added reproducible fresh-home real-process qualifier: kill in G,
+restart, no-input completion/new source reuse, pause/local dialogue/resume/stop and
+bounded CPU/RSS observation.15s debug passed after fixing pipe read-ahead. User guide
+and root README give independent two-command startup with no platform dependency.
+Core feature source295ed31 frozen; final qualification runs on this tooling commit.
+No new runtime/Store/table/dependency or production/model/secret access.

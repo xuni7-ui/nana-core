@@ -75,3 +75,15 @@ nana-core/
 
 # nana-core
 Nana Core — portable AI agent architecture and development workspace
+
+## 独立开发体验（无需 AstrBot / QQ）
+
+```bash
+.venv/bin/python -m nana_core.life init --home /tmp/my-nana-life --project "$PWD" --demo-materials --allow-local-artifacts
+.venv/bin/python -m nana_core.life run --home /tmp/my-nana-life
+```
+
+原单主体 Runtime 可在无人输入时处理批准的真实源码材料、核验报告、从失败选择并
+复用已验证的方法；可直接输入普通文本，或 `/status`、`/pause`、`/resume`、`/quit`。
+默认无真实模型/外网/社交发送；离线语义与真实 provider 资格严格分开。
+新环境安装、配置、删除/撤权与恢复见[最短用户指南](docs/nana_independent_life_quickstart.md)。

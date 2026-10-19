@@ -868,3 +868,10 @@ Foreground dialogue uses shared total budget, not background subquota; UNKNOWN
 blocks later dispatch and is never rendered/retried automatically. Runtime pause
 is machine-local operational metadata, excluded by existing B8 transfer. Explicit
 startup Grants installed once at init only; resume/restart never grants.
+
+## A7 — SUPERSEDES previous next-integration priority only
+[任务边界] Independent local experience and replaceable semantic provider are now
+critical path. Earlier mission's QQ shadow next-step remains historical, not an A7
+prerequisite. Do not read/modify production or use QQ permission to fake standalone
+readiness. A7 offline integration and independent-process soak may pass while real
+provider/naturalness/first-life gates remain explicitly NOT_RUN/NOT_READY.
