@@ -1,5 +1,22 @@
 # Real utility × shared life × growth — mission ledger
 
+## CURRENT — reachable development milestone verified
+Source c39ba5cc0110fa89f09bf31e62940e226d2b4b7f;13 focused PASS; full1202 PASS,
+0fail,12 intentional skips in170.99s. U actual artifacts/new-input reuse and source
+navigation verified. L bounded original-chain method selection verified; P causal
+future choice/withdrawal/retirement verified with explicitly synthetic recipient
+controls. S anonymous default-off shadow dev interface ready; real host/consent/
+privacy-domain integration and human semantic fit remain BLOCKED/NOT_RUN. No live
+provider/private/production/social action. Source frozen before fresh-process
+qualification and final regression. Implementation/evidence and one next approval:
+docs/nana_real_life_growth_implementation.md, docs/nana_new_message_shadow_runbook.md.
+Next concrete work after authorization: qualify specified development host's new-
+message-only hook and constrained live metadata domain; observe <=10 messages over
+30min with no raw persistence/send. Do not bypass current LIVE denial or enable
+production. Broader autonomous skill invention and real companionship NOT_CLAIMED.
+Historical milestone entries below are retained as the same task's recovery log.
+
+
 Base: `94016fcbf1f16a7438c7ceba42e22b21de26f3e6` (remote checked).
 Branch: `dev/nana-core-real-life-growth-and-presence-v1-codex`.
 One ongoing mission; no new top-level stage. Global historical coordinate H.

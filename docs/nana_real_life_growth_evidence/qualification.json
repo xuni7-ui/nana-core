@@ -1,0 +1,38 @@
+{
+  "status": "REACHABLE_DEV_SCOPE_VERIFIED_LIVE_SHADOW_BLOCKED",
+  "qualified_source_commit": "c39ba5cc0110fa89f09bf31e62940e226d2b4b7f",
+  "base": "94016fcbf1f16a7438c7ceba42e22b21de26f3e6",
+  "U": "REAL_PROJECT_ARTIFACTS_AND_LATER_INPUT_REUSE_VERIFIED",
+  "L": "SOURCE_SUPPORTED_BOUNDED_METHOD_SELECTION_VERIFIED_NOT_ALGORITHM_INVENTION",
+  "S": "ANONYMOUS_SHADOW_ADAPTER_DEV_READY_LIVE_DENIED",
+  "P": "SHARED_LIFE_SOURCE_BACKED_DEV_CANDIDATE",
+  "focused_tests": {
+    "passed": 13,
+    "failed": 0,
+    "seconds": 3.8
+  },
+  "full_regression": {
+    "passed": 1202,
+    "failed": 0,
+    "skipped": 12,
+    "seconds": 170.99,
+    "skip_reasons": {
+      "historical_opt_in_real_screen": 11,
+      "E12_real_model_not_run": 1
+    }
+  },
+  "schema": 13,
+  "business_tables": 43,
+  "new_business_tables": 0,
+  "new_dependencies": 0,
+  "real_provider_calls": 0,
+  "real_qq_messages": 0,
+  "real_social_sends": 0,
+  "private_data_read": false,
+  "production_changed": false,
+  "one_subject_store_runtime_loop": "one per independent arm; no second brain or authoritative store",
+  "D_WHEN_C_WHAT_WHY": true,
+  "general_self_evolution": "NOT_CLAIMED",
+  "real_companionship": "NOT_RUN",
+  "real_host_adapter_installation": "NOT_RUN"
+}

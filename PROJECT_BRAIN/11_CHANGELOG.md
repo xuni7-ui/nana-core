@@ -1725,3 +1725,14 @@ combined targeted passed. Fixed CLI rerun to reuse committed goals, prevent dupl
 reports; dev plan/review wake domain now explicit. Hardened output verification to
 regular nofollow files. Final source freeze/regression pending. No real QQ/provider/
 private data/production invocation or expanded social/external authority.
+
+
+## REAL_LIFE_V1 M5 — frozen-source verification and dev handoff
+[实测/文档] Sourcec39ba5c unchanged during final qualification;13 focused PASS and
+full1202 PASS/0fail/12skip in170.99s. Added actual usable artifacts, source navigation,
+causal/withdrawal, shadow review, recovery, cost and limitations evidence; one narrow
+host/new-message permission runbook; PROJECT_BRAIN/mission ledger reflect reached
+scope without live claims. Restored only missing /tmp legacy launcher to actual
+system SQLite3.46.1 before regression. No test/R045 modification. Source/privacy/
+Grant/Manager/UNKNOWN continuity retained; old bundle unread/untracked. Final
+sanitized manifest/whitelist audit and normal dev push/remote verification only.

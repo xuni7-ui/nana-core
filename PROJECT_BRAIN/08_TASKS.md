@@ -1,19 +1,31 @@
 # PROJECT_BRAIN / 08 TASKS（任务清单）
 
-## CURRENT — REAL_UTILITY_SHARED_LIFE_EVOLUTION_V1 (development checkpoint)
-[源码/实际本地材料/合成上下文] Branch dev/nana-core-real-life-growth-and-presence-v1-codex
-from verified94016fcb. U: exact real Python sources→original C/F/Kernel→verified
-Markdown/JSON inventories and source navigation. L: real baseline coverage failure
-→C reflection→original G independent heldout/transfer→later unseen practical reuse;
-bounded prewritten method selection, not algorithm invention. P: same actual source
-lineage alters future C sharing/silence; synthetic availability/refusal, separate
-source deletion/strategy retirement. S: default-off anonymous development shadow
-review ready; real new QQ messages/host/live semantic and human fit NOT_RUN/blocked.
-Original loop/Store/Runtime/authority and privacy retained,13/43/new tables0.
-70 targeted passed; final frozen-source regression pending. Actual live host domain
-integration/qualification requires explicit narrow new-message permission. No raw
-private input/provider/capture/social send/production change. Ledger:
-docs/nana_real_life_growth_mission_status.md. Earlier blocks remain history.
+## CURRENT — REAL_UTILITY_SHARED_LIFE_EVOLUTION_V1
+[实际本地源码材料/离线主体实测] Dev branch:
+dev/nana-core-real-life-growth-and-presence-v1-codex; base94016fcb;
+frozen executable source c39ba5cc0110fa89f09bf31e62940e226d2b4b7f.
+U=REAL_PROJECT_ARTIFACTS_AND_REUSE_VERIFIED: recurrence/extensions actual source
+inventories and checked source navigation via original C/F/Kernel/Verify.
+L=BOUNDED_METHOD_SELECTION_VERIFIED: independently checked baseline failure→C
+reflection→original G heldout/transfer→later unseen source use. Prewritten methods,
+not autonomous algorithm invention or developer changes misattributed to Subject.
+P=SHARED_LIFE_SOURCE_BACKED_DEV_CANDIDATE: actual-use support changes later C
+sharing/silence; synthetic recipient/refusal controls and separate real source
+withdrawal/strategy retirement. No user-visible delivery/real companionship claim.
+S=ANONYMOUS_SHADOW_ADAPTER_DEV_READY; real new QQ host/consent/privacy-domain
+integration/live semantic/human fit NOT_RUN, current LIVE mode fails closed.
+13 focused PASS; full1202 PASS/0 failures/12 skips in170.99s (11 opt-in historical
+H2 cases intentionally off;1 E12). Actual subprocess SIGKILL recovered by verify
+without another effect; partial artifact UNKNOWN no retry. Schema13/43tables/new0,
+new dependency0. Same authoritative subject/Store/Runtime/loop per independent arm;
+D WHEN/C WHAT-WHY, Primary User/Manager/Grant/privacy unchanged. Real provider/private
+messages/external social/capture/production0. GLOBAL_STAGE H unchanged.
+One ongoing mission's reachable dev scope verified, not total live mission DONE.
+Next scoped permission/host qualification and concrete action are in
+ docs/nana_new_message_shadow_runbook.md; no history/Iris/production/send permission.
+Report/ledger/evidence: docs/nana_real_life_growth_implementation.md,
+ docs/nana_real_life_growth_mission_status.md, docs/nana_real_life_growth_evidence/.
+Earlier blocks below are preserved history.
 
 ## CURRENT — VISION_FIRST_SHARED_GROWTH_V2
 

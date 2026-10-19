@@ -1,0 +1,11 @@
+{
+  "elapsed_seconds": 0.8312784330000795,
+  "cpu_seconds": 0.8308660000000001,
+  "later_elapsed_seconds": 0.22497970999984318,
+  "local_kernel_actions": 8,
+  "real_provider_calls": 0,
+  "model_tokens": 0,
+  "paid_external_cost": 0,
+  "kernel_cost_units": "local action reservation accounting; not billing",
+  "scope": "actual repository source files, real local computation and artifact writes; synthetic recipient/model controls only"
+}

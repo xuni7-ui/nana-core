@@ -831,3 +831,15 @@ Shadow is default-off, host-pushed, bounded32 reviews; no history/send/credentia
 Literal evidence validates a small anonymous language baseline; model-proposed
 HUMAN_REVIEW never self-certifies. Live host path remains denied pending consent,
 qualification and explicit privacy-domain integration, not silently synthetic.
+
+
+## REAL_LIFE_V1 — final evidence boundary
+[实测] Frozen sourcec39ba5c; fresh actual project processing, original-chain learning,
+new-input reuse/navigation and separate causal interventions passed.13 focused;
+full1202/0/12,170.99s. No new schema/dependency. Source variation/compile expectations
+are actual repo materials, not toy numeric fixtures; finite method selection remains
+a narrower claim than algorithm invention. Anonymous semantic drafts are not real
+language/relationship quality evidence. Current live host path deliberately denied;
+requires explicit limited consent plus host/privacy-domain qualification, not a
+silent mapping of private live input into synthetic domain. Dev handoff is not
+production/real companion/autonomous installer readiness.

@@ -1,0 +1,265 @@
+{
+  "qualified_source_commit": "c39ba5cc0110fa89f09bf31e62940e226d2b4b7f",
+  "excluded": [
+    "this manifest (no self-reference)",
+    "PROJECT_BRAIN/09_STATE.md (external anchor)",
+    "old untracked bundle (never input)"
+  ],
+  "files": [
+    {
+      "path": "PROJECT_BRAIN/07_ROADMAP.md",
+      "sha256": "d809aa1355ba1c9df074c9015270c15577e705ceea92db9921bfc69831246e28",
+      "bytes": 28256
+    },
+    {
+      "path": "PROJECT_BRAIN/08_TASKS.md",
+      "sha256": "a13b10456f4737c028a5bdf82c8fef3734f4d85265de7778922d09080dab0158",
+      "bytes": 34427
+    },
+    {
+      "path": "PROJECT_BRAIN/10_DECISIONS.md",
+      "sha256": "1fa8bdd2d718b06c1571b5c31272c1eed47a4adf1caa8b88553ba351069d6f3e",
+      "bytes": 76391
+    },
+    {
+      "path": "PROJECT_BRAIN/11_CHANGELOG.md",
+      "sha256": "a40cb27604f4fcbaa5c20b7f7eb2405a4e9f590ae714d73f938eab8baae52bbe",
+      "bytes": 157769
+    },
+    {
+      "path": "docs/ADR/ADR-VF2-001-shared-life-and-evolution.md",
+      "sha256": "77b53b553465289a47b5399e702e40b6d3a9e70c9f5036d2c29bf7cf98580f46",
+      "bytes": 7440
+    },
+    {
+      "path": "docs/nana_new_message_shadow_runbook.md",
+      "sha256": "695a4f1ec1b3be5934553bce2f346cd5f606d722bd93c433efbd46c5e27bae6f",
+      "bytes": 3769
+    },
+    {
+      "path": "docs/nana_real_life_growth_evidence/artifacts/source_extensions.json",
+      "sha256": "c4f6aaf768b3459aa657f70145a0409954bc6d1d26b53db05e8d642df20dda1d",
+      "bytes": 389
+    },
+    {
+      "path": "docs/nana_real_life_growth_evidence/artifacts/source_extensions.md",
+      "sha256": "92d77624e31426c2f4b0f22c145dd8235b9005ea27928af0eb0b1d55fe1b5d66",
+      "bytes": 348
+    },
+    {
+      "path": "docs/nana_real_life_growth_evidence/artifacts/source_navigation.md",
+      "sha256": "b8365db68e077773b31cde07c49afe67c7597e94fb856f49a4e6e87d59661661",
+      "bytes": 782
+    },
+    {
+      "path": "docs/nana_real_life_growth_evidence/artifacts/source_recurrence.json",
+      "sha256": "275572a5396028807fa9ad4eac4a9c0c2055dfb843692fe2a2a3c9b8ebdea174",
+      "bytes": 716
+    },
+    {
+      "path": "docs/nana_real_life_growth_evidence/artifacts/source_recurrence.md",
+      "sha256": "9355aae5d651b587e57b711e33e613f17474bae68f9cf5a667f65ee4dc16859b",
+      "bytes": 590
+    },
+    {
+      "path": "docs/nana_real_life_growth_evidence/causal_work.json",
+      "sha256": "80b43af6c1c93ca45b764a01044cce3bdb6e94c0156719c9c6cc1ff07110b873",
+      "bytes": 15364
+    },
+    {
+      "path": "docs/nana_real_life_growth_evidence/cli_output.json",
+      "sha256": "3fedbfbc3c51ccd90154cb04da6ca46f649f47abfb23b95eda4fa1108f999110",
+      "bytes": 2065
+    },
+    {
+      "path": "docs/nana_real_life_growth_evidence/cost_and_scope.json",
+      "sha256": "98c6dc77e48f022d47e0051802305434faa5b7812bba0005c64ee52f3019d533",
+      "bytes": 439
+    },
+    {
+      "path": "docs/nana_real_life_growth_evidence/dialogue_review.json",
+      "sha256": "fa743691ed7a054d6449b70eaba4921f7f16465ac45d5dd03a0eb8bc878e4a4f",
+      "bytes": 3865
+    },
+    {
+      "path": "docs/nana_real_life_growth_evidence/focused_tests.txt",
+      "sha256": "1cfe30b1f4a023b9c08fe75a89cece378086ec6a02e10ce21afec677816a1582",
+      "bytes": 99
+    },
+    {
+      "path": "docs/nana_real_life_growth_evidence/full_regression.txt",
+      "sha256": "e7cd46d5309ad4b22909b9829da612db0ce8b6f8b6685d6a21231936d38a4f51",
+      "bytes": 2161
+    },
+    {
+      "path": "docs/nana_real_life_growth_evidence/limitations.txt",
+      "sha256": "c8e80077c71be00496202e310c3e787591fd91d350cc63e638222d8022bed34f",
+      "bytes": 1275
+    },
+    {
+      "path": "docs/nana_real_life_growth_evidence/qualification.json",
+      "sha256": "a30e2c0ed0ff3c3f8168126d600a9a345d1f4701e8dc1615540e0565f3ac7c6e",
+      "bytes": 1233
+    },
+    {
+      "path": "docs/nana_real_life_growth_evidence/recovery.json",
+      "sha256": "d34911807710a35b20a9cfff5b76863f9c10d1801ab9496767120e46edc69d76",
+      "bytes": 929
+    },
+    {
+      "path": "docs/nana_real_life_growth_evidence/secret_scan.json",
+      "sha256": "9ae6813cafbf577b52d7c7d945c29e2fdd758246d5d55c67d6c5dbce8d11a8cc",
+      "bytes": 284
+    },
+    {
+      "path": "docs/nana_real_life_growth_implementation.md",
+      "sha256": "68cd898f0f91793b2bb5e2fde268f90ea2dd5363b1d8528b7b4784fc901db02a",
+      "bytes": 8175
+    },
+    {
+      "path": "docs/nana_real_life_growth_mission_status.md",
+      "sha256": "6ca878f0ee49a6189905759e2499e789fb0267813acb0d88710a90d23d877307",
+      "bytes": 5239
+    },
+    {
+      "path": "src/nana_core/actions.py",
+      "sha256": "5a1e17a72fd9799c8754e258606415cd861910a1356b0c4d0376a094a9009ff9",
+      "bytes": 21698
+    },
+    {
+      "path": "src/nana_core/continuity/autonomy/contracts.py",
+      "sha256": "537b847a903127f3186d330bd38e254bb89b22778f00d2aa80d8acdf3664a1a7",
+      "bytes": 4678
+    },
+    {
+      "path": "src/nana_core/continuity/autonomy/fixture_effects.py",
+      "sha256": "7103a080c1d8029e2aa5afec83221fefc7d43af85a1ca3f5a8938b270a89bb44",
+      "bytes": 5914
+    },
+    {
+      "path": "src/nana_core/continuity/autonomy/realization.py",
+      "sha256": "a8b58a5b1e44595180912e8add3bdd182de0eafdc78a6c29018ebdb696748398",
+      "bytes": 4876
+    },
+    {
+      "path": "src/nana_core/continuity/contracts.py",
+      "sha256": "a7ca40c64f3c012509c731704445190f6f92a89ebdc62ec1a156dd0699e1d6d5",
+      "bytes": 3513
+    },
+    {
+      "path": "src/nana_core/continuity/dialogue_shadow/__init__.py",
+      "sha256": "74ab274fc884163c48f0ddda27143b54661b8b954a78aaf3af0d756a99185bea",
+      "bytes": 80
+    },
+    {
+      "path": "src/nana_core/continuity/dialogue_shadow/bridge.py",
+      "sha256": "c81079b94fec1eb986a7b9bf02dbde600f4cd370c7c7fa05f29b89cbce1b513b",
+      "bytes": 7854
+    },
+    {
+      "path": "src/nana_core/continuity/learning.py",
+      "sha256": "34951351e3414a5a05701c99d01cfb46caa7446aa785c9b108ce7659c4d0159f",
+      "bytes": 23224
+    },
+    {
+      "path": "src/nana_core/continuity/memory.py",
+      "sha256": "b2b35dc1d5eb429f767082fc62127182242ab4c9c6e40939f4da9663add97555",
+      "bytes": 17891
+    },
+    {
+      "path": "src/nana_core/continuity/open_agency/contracts.py",
+      "sha256": "cc4d442d7cbcbfd62f07655512adca1b8253d6198dd2ff1f19174a5a889a87dd",
+      "bytes": 2840
+    },
+    {
+      "path": "src/nana_core/continuity/open_agency/learning.py",
+      "sha256": "940f9c51f349ead3ff9cb1eb9b9e7cb758a598046191a2c7b3706135cff92ef5",
+      "bytes": 19932
+    },
+    {
+      "path": "src/nana_core/continuity/open_agency/service.py",
+      "sha256": "ad31d73df94b5e5195cf576c17b75f725c79ddb355e946710c72715fc1b27105",
+      "bytes": 26004
+    },
+    {
+      "path": "src/nana_core/continuity/open_agency/world.py",
+      "sha256": "af6f71384323e018e87ad8259053af1e49fe8dcbeb73cdac24b4d9aa0fd2abd5",
+      "bytes": 5921
+    },
+    {
+      "path": "src/nana_core/continuity/project_work/__init__.py",
+      "sha256": "7a8c78297a437c0c97a8b20bbb57d7de30a060d16bff7b6d466ce02998dfd379",
+      "bytes": 81
+    },
+    {
+      "path": "src/nana_core/continuity/project_work/analysis.py",
+      "sha256": "3082b52e94dd71577e1ec041c7f875d45a65ba4b5ab8b56e0ee4ea48c0f9b936",
+      "bytes": 1447
+    },
+    {
+      "path": "src/nana_core/continuity/project_work/oracle.py",
+      "sha256": "592d4bdbdcbc87694b592c2c9f72ab516edf69dd49b98ce09b647000a896a36a",
+      "bytes": 1177
+    },
+    {
+      "path": "src/nana_core/continuity/project_work/port.py",
+      "sha256": "8bebf896cee31ed126c02b31dd4f75a891cbbf0e379df8527f925cebe9de767d",
+      "bytes": 8201
+    },
+    {
+      "path": "src/nana_core/continuity/project_work/service.py",
+      "sha256": "3dc8905bf0a70ada6d021ad557b9206a35b68605bcd335f72bb7bf00f914a396",
+      "bytes": 10573
+    },
+    {
+      "path": "src/nana_core/continuity/subject/contracts.py",
+      "sha256": "fa54aa02c71885611abc8d241b80caf5f3fdb8547217521c05298ef5f7114436",
+      "bytes": 12659
+    },
+    {
+      "path": "src/nana_core/presence/living.py",
+      "sha256": "51b6ab808aa6bb29760e6f61d8bfd6c6e01b7ef255290c0ad1dfa2c2d94fc6c3",
+      "bytes": 11200
+    },
+    {
+      "path": "tests/real_life/__init__.py",
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+      "bytes": 0
+    },
+    {
+      "path": "tests/real_life/test_project_work.py",
+      "sha256": "04e4d1f6f69349e607fbee1e0d7410b102b1b13127cef887d8f5fcc2eb29962d",
+      "bytes": 7992
+    },
+    {
+      "path": "tests/real_life/test_recovery.py",
+      "sha256": "bcca60b8bb81755ad54be477e2eeb75db485fdd45a01f3980a9ab8d442a868ff",
+      "bytes": 3727
+    },
+    {
+      "path": "tests/real_life/test_shadow.py",
+      "sha256": "2781a99dffc83d7570a5ede140c7777db6988a4c4a8230cc51d2f74d7b347c4b",
+      "bytes": 4215
+    },
+    {
+      "path": "tools/nana_real_life/__init__.py",
+      "sha256": "307cf953bb25c78f0265ee3020b4735b921b01db82656a1ac2fc6565976108ab",
+      "bytes": 67
+    },
+    {
+      "path": "tools/nana_real_life/__main__.py",
+      "sha256": "a49251c746aa24f20b988bd05858eb490aa8b75b9bb5fa1695f7c3b5100a9f31",
+      "bytes": 2725
+    },
+    {
+      "path": "tools/nana_real_life/qualification.py",
+      "sha256": "06b8209465c7110dfe2a5b31e9b18658135f311a2294d1947c6bba35b6de6594",
+      "bytes": 11961
+    },
+    {
+      "path": "tools/nana_real_life/shadow_review.py",
+      "sha256": "35721aba959e4203c518a57b649e3bec7d308871af04142fcdc526ed5fe51040",
+      "bytes": 2164
+    }
+  ]
+}

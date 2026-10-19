@@ -1,0 +1,18 @@
+{
+  "actual_sigkill": "PASS_AFTER_ARTIFACT_BEFORE_RECEIPT",
+  "recovery": "VERIFY_ORIGINAL_ACTION_NO_REEXECUTE",
+  "partial_artifact": "UNKNOWN_NO_BLIND_RETRY",
+  "restart_identity": "PASS",
+  "fixture_model_swap": "PASS",
+  "source_withdrawal_before_suspension": "PASS_SEPARATE_ARM",
+  "strategy_retirement_before_withdrawal": "PASS_SEPARATE_ARM",
+  "source_reimport": "DENIED_SOURCE_DELETED",
+  "source_lookup_after_erasure": "DENIED",
+  "foreign_key_check": [],
+  "migration": "NO_NEW_SCHEMA_MIGRATION; existing repository migrations/portability included in full regression",
+  "test_nodes": [
+    "tests/real_life/test_recovery.py::test_actual_sigkill_after_artifact_before_receipt_recovers_without_reexecute",
+    "tests/real_life/test_recovery.py::test_partial_artifact_stays_unknown_and_does_not_retry",
+    "tests/real_life/test_project_work.py::test_verified_navigation_needs_learned_inventory_and_current_source"
+  ]
+}

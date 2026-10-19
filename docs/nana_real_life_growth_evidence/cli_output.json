@@ -1,0 +1,34 @@
+{
+  "lookup": {
+    "source_path": "src/nana_core/continuity/recurrence.py",
+    "source_digest": "e7f08c9b9666037af49b35b48bee46ae9e780e7b63a322b7f5ee97f4d5b7dc13",
+    "symbol": "RecurrenceSpec.next_after",
+    "line": 43,
+    "excerpt": "    def next_after(self,instant):\n        local=self._local(instant)\n        for offset in range(3):\n            candidate=self._on(local.date()+timedelta(days=offset))\n            if candidate>instant:return candidate\n        raise CoreError('CALENDAR_NEXT_UNAVAILABLE')\n\n    def latest_due(self,instant):\n        local=self._local(instant)\n        for offset in range(3):\n            candidate=self._on(local.date()-timedelta(days=offset))\n            if candidate<=instant:return candidate",
+    "coverage": "AT_MOST_12_SOURCE_LINES_NOT_FULL_FUNCTION",
+    "verified_action_id": "f81b6de8-4c12-47f7-9d23-1b2e2fb1ad97",
+    "execution": "NO_CODE_EXECUTED"
+  },
+  "identity_id": "ed20d2b0-8a17-4599-9624-827d70d356f8",
+  "inputs": [
+    {
+      "source": "src/nana_core/continuity/recurrence.py",
+      "source_digest": "e7f08c9b9666037af49b35b48bee46ae9e780e7b63a322b7f5ee97f4d5b7dc13",
+      "source_memory_id": "e66691b1-fef4-4301-b915-7fae71c65427"
+    },
+    {
+      "source": "src/nana_core/continuity/extensions.py",
+      "source_digest": "88b2ab45f45336211c1f4be264fb5e81ed2c2bc9557e579dcee2051c93f55e60",
+      "source_memory_id": "67a51699-2302-4d0c-8c7c-930232043227"
+    }
+  ],
+  "artifacts": [
+    "/tmp/nana-real-life-final-cli/artifacts/56b8852590e8ec10b0415a0fe32669fa81b377203e19b8209bad50d31c85818b.json",
+    "/tmp/nana-real-life-final-cli/artifacts/56b8852590e8ec10b0415a0fe32669fa81b377203e19b8209bad50d31c85818b.md",
+    "/tmp/nana-real-life-final-cli/artifacts/a447a93b1846386b7b6ff6a73a2293f2a6f1068b15d22fd5fb39e2663e3c2871.json",
+    "/tmp/nana-real-life-final-cli/artifacts/a447a93b1846386b7b6ff6a73a2293f2a6f1068b15d22fd5fb39e2663e3c2871.md"
+  ],
+  "execution": "REAL_LOCAL_PROJECT_FILES_NO_CODE_EXECUTION",
+  "learning": "BOUNDED_EXISTING_METHOD_SELECTION",
+  "provider_calls": 0
+}

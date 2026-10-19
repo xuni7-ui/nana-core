@@ -1,0 +1,417 @@
+{
+  "identity_id": "6e966df7-517f-472c-b7a0-bfbc8611d2f4",
+  "navigation": {
+    "source_path": "src/nana_core/continuity/recurrence.py",
+    "source_digest": "e7f08c9b9666037af49b35b48bee46ae9e780e7b63a322b7f5ee97f4d5b7dc13",
+    "symbol": "RecurrenceSpec.next_after",
+    "line": 43,
+    "excerpt": "    def next_after(self,instant):\n        local=self._local(instant)\n        for offset in range(3):\n            candidate=self._on(local.date()+timedelta(days=offset))\n            if candidate>instant:return candidate\n        raise CoreError('CALENDAR_NEXT_UNAVAILABLE')\n\n    def latest_due(self,instant):\n        local=self._local(instant)\n        for offset in range(3):\n            candidate=self._on(local.date()-timedelta(days=offset))\n            if candidate<=instant:return candidate",
+    "coverage": "AT_MOST_12_SOURCE_LINES_NOT_FULL_FUNCTION",
+    "verified_action_id": "35335ccb-0a77-4937-87e7-6e093b4e35e3",
+    "execution": "NO_CODE_EXECUTED"
+  },
+  "input_sources": [
+    {
+      "material_id": "m7e4f6a3ca24942e372c2",
+      "relative_path": "src/nana_core/continuity/recurrence.py",
+      "sha256": "e7f08c9b9666037af49b35b48bee46ae9e780e7b63a322b7f5ee97f4d5b7dc13",
+      "privacy_class": "PROJECT"
+    },
+    {
+      "material_id": "m13cd613cea0534e7ab19",
+      "relative_path": "src/nana_core/continuity/extensions.py",
+      "sha256": "88b2ab45f45336211c1f4be264fb5e81ed2c2bc9557e579dcee2051c93f55e60",
+      "privacy_class": "PROJECT"
+    }
+  ],
+  "training_sources": [
+    "src/nana_core/continuity/identity.py",
+    "src/nana_core/continuity/autonomy/requests.py",
+    "src/nana_core/continuity/subject/social.py"
+  ],
+  "quality": {
+    "baseline": {
+      "all_passed": false,
+      "cases": [
+        {
+          "actual": [
+            {
+              "kind": "function",
+              "line": 9,
+              "name": "evaluate_request"
+            }
+          ],
+          "case_id": "heldout",
+          "context": "project-api",
+          "expected_digest": "c9d45824dc8ce1375a22a310b828eb96ccb90e1e05082d27fecbcf545a217b95",
+          "input_digest": "0b7ff4ee4696cd7803decf4a00c61ca42794cc39d9611086b6ba7f24df3497e8",
+          "passed": false
+        }
+      ],
+      "checked": 1,
+      "passed": 0
+    },
+    "practice": {
+      "all_passed": true,
+      "cases": [
+        {
+          "actual": [
+            {
+              "kind": "class",
+              "line": 16,
+              "name": "IdentityProvenance"
+            },
+            {
+              "kind": "class",
+              "line": 21,
+              "name": "IdentityRevision"
+            },
+            {
+              "kind": "class",
+              "line": 33,
+              "name": "CanonicalIdentity"
+            },
+            {
+              "kind": "class",
+              "line": 48,
+              "name": "IdentityService"
+            },
+            {
+              "kind": "function",
+              "line": 49,
+              "name": "IdentityService.__init__"
+            },
+            {
+              "kind": "function",
+              "line": 71,
+              "name": "IdentityService.current"
+            },
+            {
+              "kind": "function",
+              "line": 83,
+              "name": "IdentityService.revise_expression"
+            }
+          ],
+          "case_id": "practice",
+          "context": "project-api",
+          "expected_digest": "10e67b410243b148576bf034c0b55d88b499d801d4285421d28782c4e1ed520e",
+          "input_digest": "83e70fb0d469fffb74c1b71f66da5449fbb970cc83dad58dd52505027f91d98b",
+          "passed": true
+        }
+      ],
+      "checked": 1,
+      "passed": 1
+    },
+    "heldout": {
+      "all_passed": true,
+      "cases": [
+        {
+          "actual": [
+            {
+              "kind": "function",
+              "line": 9,
+              "name": "evaluate_request"
+            },
+            {
+              "kind": "class",
+              "line": 21,
+              "name": "RequestCommitmentService"
+            },
+            {
+              "kind": "function",
+              "line": 22,
+              "name": "RequestCommitmentService.__init__"
+            },
+            {
+              "kind": "function",
+              "line": 26,
+              "name": "RequestCommitmentService.materialize"
+            }
+          ],
+          "case_id": "heldout",
+          "context": "project-api",
+          "expected_digest": "c9d45824dc8ce1375a22a310b828eb96ccb90e1e05082d27fecbcf545a217b95",
+          "input_digest": "0b7ff4ee4696cd7803decf4a00c61ca42794cc39d9611086b6ba7f24df3497e8",
+          "passed": true
+        }
+      ],
+      "checked": 1,
+      "passed": 1
+    },
+    "transfer": {
+      "all_passed": true,
+      "cases": [
+        {
+          "actual": [
+            {
+              "kind": "class",
+              "line": 7,
+              "name": "SocialInteractionProposal"
+            },
+            {
+              "kind": "class",
+              "line": 17,
+              "name": "InteractionRule"
+            },
+            {
+              "kind": "function",
+              "line": 24,
+              "name": "propose_social"
+            }
+          ],
+          "case_id": "transfer",
+          "context": "onboarding",
+          "expected_digest": "6f643bcdb9f96e731f393ecf445b838e60117053db21d252514c4229a54fd1d9",
+          "input_digest": "f4bbedf6717ef77b28a9505330849618d80138cdabfbbe1ce1113da9560ed473",
+          "passed": true
+        }
+      ],
+      "checked": 1,
+      "passed": 1
+    },
+    "later_baseline_count": 0,
+    "later_actual_count": 2,
+    "later_oracle_count": 2
+  },
+  "failure_experience_id": "a9b4369e-1fa0-48ee-be13-840a8559b81f",
+  "learning_work_id": "040566d8-a0e0-40a9-92b0-5074b90a5c2f",
+  "lesson_id": "3126136a-5116-43f1-a536-4416260cc3ab",
+  "later_action_id": "b6f6e9ad-3bac-43fa-a04e-62b1f12f7377",
+  "later_source_memory_id": "52b4be52-36be-4263-9216-479e9360147a",
+  "reuse_memory_id": "eacbafbb-68e5-485a-b4a9-6386ad38be18",
+  "assessment_id": "eb9ae7ed-1f2f-49ec-8feb-4b4512addf19",
+  "source_memory_id": "075883a6-8a56-48b3-941d-1c172ceb10be",
+  "artifacts": [
+    "/tmp/nana-real-life-final-run/retirement/reports/3408bc636be636d7d3a242e9e792ad183e9409ff4420940e58d40a1d63e37f4f.json",
+    "/tmp/nana-real-life-final-run/retirement/reports/3408bc636be636d7d3a242e9e792ad183e9409ff4420940e58d40a1d63e37f4f.md",
+    "/tmp/nana-real-life-final-run/retirement/reports/92e63044b8027df49178b23737949a8e6373e919b3e378b28273948abad9b390.json",
+    "/tmp/nana-real-life-final-run/retirement/reports/92e63044b8027df49178b23737949a8e6373e919b3e378b28273948abad9b390.md"
+  ],
+  "future_share": "REPORT_DISCOVERY",
+  "busy": "NO_ACTION",
+  "no_interest": "NO_ACTION",
+  "source_withdrawal": false,
+  "strategy_retirement": true,
+  "model_fixture_swap": true,
+  "local_kernel_actions": 8,
+  "later_elapsed_seconds": 0.22497970999984318,
+  "experience_before_learning": "FAILURE",
+  "actual_external_actions": 0,
+  "provider_calls": 0,
+  "synthetic_context": "recipient availability and anonymous refusal only; not real user reactions",
+  "restart_identity_stable": true,
+  "no_resurrection_after_restart": false,
+  "no_new_actions_or_grants_on_restart": true,
+  "elapsed_seconds": 0.8312784330000795,
+  "cpu_seconds": 0.8308660000000001,
+  "capability_claim": "Source-supported selection among prewritten bounded methods, not autonomous algorithm invention",
+  "withdrawal_arm": {
+    "identity_id": "c556ee00-8227-460e-893a-ba9737fbf228",
+    "navigation": {
+      "source_path": "src/nana_core/continuity/recurrence.py",
+      "source_digest": "e7f08c9b9666037af49b35b48bee46ae9e780e7b63a322b7f5ee97f4d5b7dc13",
+      "symbol": "RecurrenceSpec.next_after",
+      "line": 43,
+      "excerpt": "    def next_after(self,instant):\n        local=self._local(instant)\n        for offset in range(3):\n            candidate=self._on(local.date()+timedelta(days=offset))\n            if candidate>instant:return candidate\n        raise CoreError('CALENDAR_NEXT_UNAVAILABLE')\n\n    def latest_due(self,instant):\n        local=self._local(instant)\n        for offset in range(3):\n            candidate=self._on(local.date()-timedelta(days=offset))\n            if candidate<=instant:return candidate",
+      "coverage": "AT_MOST_12_SOURCE_LINES_NOT_FULL_FUNCTION",
+      "verified_action_id": "a9edb856-6262-4eb2-ba77-89bae0be0021",
+      "execution": "NO_CODE_EXECUTED"
+    },
+    "input_sources": [
+      {
+        "material_id": "m7e4f6a3ca24942e372c2",
+        "relative_path": "src/nana_core/continuity/recurrence.py",
+        "sha256": "e7f08c9b9666037af49b35b48bee46ae9e780e7b63a322b7f5ee97f4d5b7dc13",
+        "privacy_class": "PROJECT"
+      },
+      {
+        "material_id": "m13cd613cea0534e7ab19",
+        "relative_path": "src/nana_core/continuity/extensions.py",
+        "sha256": "88b2ab45f45336211c1f4be264fb5e81ed2c2bc9557e579dcee2051c93f55e60",
+        "privacy_class": "PROJECT"
+      }
+    ],
+    "training_sources": [
+      "src/nana_core/continuity/identity.py",
+      "src/nana_core/continuity/autonomy/requests.py",
+      "src/nana_core/continuity/subject/social.py"
+    ],
+    "quality": {
+      "baseline": {
+        "all_passed": false,
+        "cases": [
+          {
+            "actual": [
+              {
+                "kind": "function",
+                "line": 9,
+                "name": "evaluate_request"
+              }
+            ],
+            "case_id": "heldout",
+            "context": "project-api",
+            "expected_digest": "c9d45824dc8ce1375a22a310b828eb96ccb90e1e05082d27fecbcf545a217b95",
+            "input_digest": "0b7ff4ee4696cd7803decf4a00c61ca42794cc39d9611086b6ba7f24df3497e8",
+            "passed": false
+          }
+        ],
+        "checked": 1,
+        "passed": 0
+      },
+      "practice": {
+        "all_passed": true,
+        "cases": [
+          {
+            "actual": [
+              {
+                "kind": "class",
+                "line": 16,
+                "name": "IdentityProvenance"
+              },
+              {
+                "kind": "class",
+                "line": 21,
+                "name": "IdentityRevision"
+              },
+              {
+                "kind": "class",
+                "line": 33,
+                "name": "CanonicalIdentity"
+              },
+              {
+                "kind": "class",
+                "line": 48,
+                "name": "IdentityService"
+              },
+              {
+                "kind": "function",
+                "line": 49,
+                "name": "IdentityService.__init__"
+              },
+              {
+                "kind": "function",
+                "line": 71,
+                "name": "IdentityService.current"
+              },
+              {
+                "kind": "function",
+                "line": 83,
+                "name": "IdentityService.revise_expression"
+              }
+            ],
+            "case_id": "practice",
+            "context": "project-api",
+            "expected_digest": "10e67b410243b148576bf034c0b55d88b499d801d4285421d28782c4e1ed520e",
+            "input_digest": "83e70fb0d469fffb74c1b71f66da5449fbb970cc83dad58dd52505027f91d98b",
+            "passed": true
+          }
+        ],
+        "checked": 1,
+        "passed": 1
+      },
+      "heldout": {
+        "all_passed": true,
+        "cases": [
+          {
+            "actual": [
+              {
+                "kind": "function",
+                "line": 9,
+                "name": "evaluate_request"
+              },
+              {
+                "kind": "class",
+                "line": 21,
+                "name": "RequestCommitmentService"
+              },
+              {
+                "kind": "function",
+                "line": 22,
+                "name": "RequestCommitmentService.__init__"
+              },
+              {
+                "kind": "function",
+                "line": 26,
+                "name": "RequestCommitmentService.materialize"
+              }
+            ],
+            "case_id": "heldout",
+            "context": "project-api",
+            "expected_digest": "c9d45824dc8ce1375a22a310b828eb96ccb90e1e05082d27fecbcf545a217b95",
+            "input_digest": "0b7ff4ee4696cd7803decf4a00c61ca42794cc39d9611086b6ba7f24df3497e8",
+            "passed": true
+          }
+        ],
+        "checked": 1,
+        "passed": 1
+      },
+      "transfer": {
+        "all_passed": true,
+        "cases": [
+          {
+            "actual": [
+              {
+                "kind": "class",
+                "line": 7,
+                "name": "SocialInteractionProposal"
+              },
+              {
+                "kind": "class",
+                "line": 17,
+                "name": "InteractionRule"
+              },
+              {
+                "kind": "function",
+                "line": 24,
+                "name": "propose_social"
+              }
+            ],
+            "case_id": "transfer",
+            "context": "onboarding",
+            "expected_digest": "6f643bcdb9f96e731f393ecf445b838e60117053db21d252514c4229a54fd1d9",
+            "input_digest": "f4bbedf6717ef77b28a9505330849618d80138cdabfbbe1ce1113da9560ed473",
+            "passed": true
+          }
+        ],
+        "checked": 1,
+        "passed": 1
+      },
+      "later_baseline_count": 0,
+      "later_actual_count": 2,
+      "later_oracle_count": 2
+    },
+    "failure_experience_id": "51652e33-c3dd-4eab-8ce8-f53dc8b4cbc9",
+    "learning_work_id": "9aa81cbf-0530-460e-9b7f-95754d244a83",
+    "lesson_id": "c192bbf9-c770-4c2c-bd7c-47d0e9a6e3e0",
+    "later_action_id": "8057686a-4124-4947-a52d-5e15833b67f0",
+    "later_source_memory_id": "df9abb99-fc35-4f57-8ace-5f7c58c9c69f",
+    "reuse_memory_id": "fe029245-8ad6-4ce9-85b3-7b237cefb1e1",
+    "assessment_id": "862a1c98-cceb-439e-8e5a-c147531ede8c",
+    "source_memory_id": "4915d0ab-97ed-4943-a5cc-0cfd00564ecd",
+    "artifacts": [
+      "/tmp/nana-real-life-final-run/withdrawal/reports/40009c38cc230266b5f5d48ca62d03a1e2a970522c23fc75b74678b43b4c9cd9.json",
+      "/tmp/nana-real-life-final-run/withdrawal/reports/40009c38cc230266b5f5d48ca62d03a1e2a970522c23fc75b74678b43b4c9cd9.md",
+      "/tmp/nana-real-life-final-run/withdrawal/reports/97a8fc67484d698fed5e6786fc6b770878657ee3c5937d95ca357ac3ef2b3ce8.json",
+      "/tmp/nana-real-life-final-run/withdrawal/reports/97a8fc67484d698fed5e6786fc6b770878657ee3c5937d95ca357ac3ef2b3ce8.md"
+    ],
+    "future_share": "REPORT_DISCOVERY",
+    "busy": "NO_ACTION",
+    "no_interest": "NO_ACTION",
+    "source_withdrawal": true,
+    "strategy_retirement": false,
+    "model_fixture_swap": true,
+    "local_kernel_actions": 8,
+    "later_elapsed_seconds": 0.1878261060001023,
+    "experience_before_learning": "FAILURE",
+    "actual_external_actions": 0,
+    "provider_calls": 0,
+    "synthetic_context": "recipient availability and anonymous refusal only; not real user reactions",
+    "restart_identity_stable": true,
+    "no_resurrection_after_restart": true,
+    "no_new_actions_or_grants_on_restart": true,
+    "elapsed_seconds": 0.7408349390002513,
+    "cpu_seconds": 0.7405906039999999,
+    "capability_claim": "Source-supported selection among prewritten bounded methods, not autonomous algorithm invention"
+  },
+  "counterfactual": "same sources/spec and checked pre-intervention results; separate store IDs; only actual withdrawal vs strategy retirement differs"
+}
