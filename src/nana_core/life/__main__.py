@@ -37,6 +37,7 @@ def command(app,line):
     if name=='/forget' and len(parts)==2:return app.forget(parts[1])
     if name=='/topic' and len(parts)>=3:return {'dialogue':app.chat(' '.join(parts[2:]),topic=parts[1])}
     if name=='/work' and len(parts)==2:
+        if app.config.owned_application_profile:raise CoreError('OWNED_TASK_REPLAY_NOT_AUTHORIZED')
         material=next((m for m in app.config.materials if parts[1] in {m.material_id,m.relative_path,Path(m.relative_path).name}),None)
         if not material:raise CoreError('PROJECT_MATERIAL_NOT_CONFIGURED')
         return {'source_memory_id':app.work.request(material.material_id),'state':'OFFERED_TO_ORIGINAL_C_NOT_FORCED_ADOPTION'}

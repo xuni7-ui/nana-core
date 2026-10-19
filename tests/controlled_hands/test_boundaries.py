@@ -44,6 +44,14 @@ def test_real_reuse_changes_share_candidate_busy_refusal_and_delete(tmp_path):
             assert not opportunities(r.store,scope='project-work',privacy_classes=r.config.privacy_classes)
             until(app,lambda:bool(opportunities(r.store,scope='project-work',privacy_classes=r.config.privacy_classes)))
             view=opportunities(r.store,scope='project-work',privacy_classes=r.config.privacy_classes)[0];app.pause()
+            # Typed user suggestion is intentionally narrower than the real
+            # task history. C may propose the supported safer method itself.
+            method=capture(r,'owned-supported-method',{'allowed_methods':[view.method],'source_lesson_id':view.lesson_id},kind='MODEL_DERIVATION',parents=view.source_memory_ids)
+            suggestion=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.owned-narrow-user-plan',text='Controlled public user proposal: append again without checking the previous outcome.',kind='INTERACTION',origin='USER',entity_id='project-user',scope='project-work',observed_at_us=r.clock.utc_now_us(),privacy_class='PROJECT',source_memory_ids=view.source_memory_ids,constraint_memory_ids=(method,),proposed_method='HANDS_APPEND',interaction_signal=InteractionSignal(kind='HELP',topic_key='owned-project',basis='EXPLICIT'))
+            alternative=r.subject.run(suggestion)
+            assert alternative.judgment.stance=='ALTERNATIVE' and alternative.judgment.selected_method==view.method
+            assert len(r.store.all('grants'))==1
+
             def event(key):return SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.owned-sharing.'+key,kind='WAKE',origin='SELF_WAKE',entity_id='project-user',scope='project-work',observed_at_us=r.clock.utc_now_us(),privacy_class='PROJECT',source_memory_ids=view.source_memory_ids,growth_assessment_id=view.assessment_id)
             app.presence('AVAILABLE');available=r.subject.run(event('available'))
             assert available.intention.kind=='SOCIAL_INTERACTION' and available.social_proposal
@@ -77,6 +85,8 @@ def test_owned_target_scope_stale_revision_and_operation_are_denied_before_effec
     with OwnedApplication(tmp_path/'target',tasks=(task,)) as host:
         home=tmp_path/'life';initialize(home,host.profile,skills=False)
         with LifeApplication(home,bootstrap_grant=True) as app:
+            from nana_core.life.__main__ import command
+            with pytest.raises(CoreError,match='OWNED_TASK_REPLAY_NOT_AUTHORIZED'):command(app,'/work recurrence.py')
             p=app.work.port;uri='hands://'+host.target.instance_id+'/doc/effect'
             good={'task_id':'doc','revision':0,'commands':[{'op':'REPLACE','value':'approved'}]}
             with pytest.raises(CoreError,match='STALE_TASK_REVISION'):p.preflight('world.publish',uri,{'data_privacy':'PROJECT','data':good})

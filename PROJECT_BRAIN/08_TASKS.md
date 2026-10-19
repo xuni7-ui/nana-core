@@ -639,3 +639,16 @@ Grant,goal quality counts finalized from actual verification events, not estimat
 heldout remains separate from actual owned document/form heldout + transfer.
 Source withdrawal did not create another action in this corrected short run;
 source_fingerprints start/end equal.30min run03 underway, full regression underway.
+
+
+## RAE final executable guard / typed problem reframing
+[2026-10-19 UTC] First complete regression1246 PASS/0fail/12skip306.12s; then closed
+an owned-mode CLI mismatch: project /work command now explicitly rejects replay,
+rather than calling absent ProjectWork API. Source-backed typed user suggestion
+HANDS_APPEND is independently answered ALTERNATIVE/HANDS_REPLACE after real failure
+and evaluated method, with unchanged Grant. The test keeps the required separate
+user occurrence text; it does not weaken SubjectInput provenance or pretend NLP.
+Latest boundary+CLI9 PASS10.08s. Final full regression follows this executable guard.
+No provider/new permissions. Hands execution files remain frozen533a1dd; current
+30min run03 watches those same bytes (CLI /work rejection is outside commands used
+in that residency). Final source SHA is recorded by git history, not guessed here.
