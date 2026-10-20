@@ -25,6 +25,11 @@ def health(home):
     home=Path(home).absolute()
     config=load_config(home)
     runtime=status(home/'subject/self.db')
+    from .durability import read_window
+    try:
+        monitor=read_window(home/'storage-monitor.json')
+        storage_status=monitor.status if monitor else 'NOT_OBSERVED'
+    except CoreError:storage_status='INVALID_FAIL_CLOSED'
     disk=shutil.disk_usage(home)
     control_ready=None
     control=home/'control.sock'
@@ -36,7 +41,7 @@ def health(home):
                 pid,uid,_=struct.unpack('3i',probe.getsockopt(socket.SOL_SOCKET,socket.SO_PEERCRED,12))
                 control_ready=uid==os.getuid() and pid==runtime.get('lease',{}).get('pid')
         except OSError:pass
-    return {'derived':True,'runtime':runtime,'control_ready':control_ready,'process_ready':runtime.get('runtime_active',False) and control_ready is not False and disk.free>=config.min_free_disk_mb*1024*1024,
+    return {'derived':True,'runtime':runtime,'control_ready':control_ready,'storage_status':storage_status,'process_ready':runtime.get('runtime_active',False) and storage_status in {'OBSERVING','NOT_OBSERVED'} and control_ready is not False and disk.free>=config.min_free_disk_mb*1024*1024,
         'beta_ready':False,'real_provider_qualified':'NOT_QUALIFIED',
         'human_review':'NOT_RUN','disk_free_bytes':disk.free,
         'disk_pressure':'LOW_SPACE' if disk.free<config.min_free_disk_mb*1024*1024 else 'AVAILABLE',

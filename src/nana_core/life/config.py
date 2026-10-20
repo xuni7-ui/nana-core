@@ -31,6 +31,11 @@ class LifeConfig(DTO):
     log_max_bytes:int=Field(default=262144,ge=4096,le=1048576)
     surface_bindings:tuple[SurfaceBinding,...]=Field(default=(),max_length=16)
     shared_presence:bool=False
+    max_state_mb:int=Field(default=256,ge=1,le=4096)
+    max_state_growth_mb_per_hour:int=Field(default=32,ge=1,le=1024)
+    storage_review_seconds:int=Field(default=60,ge=1,le=3600)
+    storage_growth_grace_seconds:int=Field(default=600,ge=0,le=3600)
+    storage_growth_window_seconds:int=Field(default=600,ge=1,le=3600)
 
     @model_validator(mode='after')
     def valid_timezone(self):

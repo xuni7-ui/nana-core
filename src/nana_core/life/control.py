@@ -29,6 +29,9 @@ def dispatch(app,request):
     if op=='view' and set(request)=={'operation','view'}:
         if request['view']=='life':return app.board()
         if request['view']=='status':return app.status()
+        if request['view']=='storage':
+            from .durability import profile
+            return profile(app.runtime.store)
     if op=='continuity' and set(request)=={'operation','binding_id','tier'}:
         return app.surfaces.view(request['binding_id'],tier=request['tier']).model_dump(mode='json')
     if op=='control' and set(request)=={'operation','command'}:

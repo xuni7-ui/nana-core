@@ -1,5 +1,17 @@
 # PROJECT_BRAIN / 09 STATE（当前状态快照）
 
+## CURRENT — CLOUD FIRST-LIFE LAUNCH V1 / DEVELOPMENT
+[源码/远端实测2026-10-20] Base b06e1e72f63a481ba349c23043c4027f137b9876 本地/远端一致；
+新分支dev/nana-core-cloud-first-life-launch-v1-codex。GLOBAL_STAGE H不变，继承CDL/RAE，不重做PASS。
+Phase A先定位增长：post-handoff开发库DB约12.6MB；events约6.8MB，artifacts约1.68MB；
+queue full-row replay audit是可解释增长，不能以删除audit/provenance/UNKNOWN/隐私journal降数字。
+实现host-local size/rate guard + PASSIVE checkpoint + 分类型numeric profile；超限停止writer，不改原愿望；
+host guard窗口跨重启保留，corrupt fail closed，不新增Store/SubjectLoop/schema。资格尚在进行。
+环境当前ready但secret/variable/identity bindings为空；Phase B等待新的安全FD/Resolver与有限付费批准；
+历史Provider UNKNOWN仍PARKED retry0/fallback0。Human review/production inventory/production切换仍未授权/未运行。
+继续可独立的人工评审入口、单writer dev rehearsal与24h隔离staging准备；无真实社交/private data/production。
+旧bundle untracked/untouched/not-input。下方CURRENT为历史保留。
+
 CDL final manifest SHA256 `7f6d596f792229fe52ed45d0fe8bf743e23cf2bd43da0410795ed3b7431ca3f3`（self/09/old bundle/DB/credential排除；非production证明）。
 
 ## CURRENT — CDL V1 / TECHNICAL DEV PROCESS QUALIFIED / BETA NOT_READY

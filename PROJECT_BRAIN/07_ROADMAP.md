@@ -1,5 +1,17 @@
 # PROJECT_BRAIN / 07 ROADMAP（主线路线图）
 
+## CURRENT — CLOUD FIRST-LIFE LAUNCH V1 / DEVELOPMENT
+[源码/远端实测2026-10-20] Base b06e1e72f63a481ba349c23043c4027f137b9876 本地/远端一致；
+新分支dev/nana-core-cloud-first-life-launch-v1-codex。GLOBAL_STAGE H不变，继承CDL/RAE，不重做PASS。
+Phase A先定位增长：post-handoff开发库DB约12.6MB；events约6.8MB，artifacts约1.68MB；
+queue full-row replay audit是可解释增长，不能以删除audit/provenance/UNKNOWN/隐私journal降数字。
+实现host-local size/rate guard + PASSIVE checkpoint + 分类型numeric profile；超限停止writer，不改原愿望；
+host guard窗口跨重启保留，corrupt fail closed，不新增Store/SubjectLoop/schema。资格尚在进行。
+环境当前ready但secret/variable/identity bindings为空；Phase B等待新的安全FD/Resolver与有限付费批准；
+历史Provider UNKNOWN仍PARKED retry0/fallback0。Human review/production inventory/production切换仍未授权/未运行。
+继续可独立的人工评审入口、单writer dev rehearsal与24h隔离staging准备；无真实社交/private data/production。
+旧bundle untracked/untouched/not-input。下方CURRENT为历史保留。
+
 ## CURRENT — CDL V1 / TECHNICAL DEV PROCESS QUALIFIED / BETA NOT_READY
 [实测 2026-10-20T00:01:27.142666+00:00] Branch dev/nana-core-cloud-daily-life-shared-presence-v1-codex；
 base d7886ba9b49cf2fbb52cebcbce9525394c938d3c；GLOBAL_STAGE H。可执行冻结

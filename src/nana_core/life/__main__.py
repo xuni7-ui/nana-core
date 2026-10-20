@@ -50,6 +50,8 @@ def run(home,seconds,*,headless=False,router=None,control_enabled=False):
     from .control import ControlServer
     from .cloud import RotatingJSONLog
     with LifeApplication(home,router=router) as app, (ControlServer(app) if control_enabled else nullcontext()) as control:
+        from .durability import StorageGuard
+        storage=StorageGuard(app);storage.observe(force=True)
         log=RotatingJSONLog(home,config.log_max_bytes);next_log=0
         emit({'state':'STARTED','identity_id':app.runtime.identity_id,'mode':'OFFLINE_LIMITED' if router is None else 'PROVIDER_CONFIGURED_NOT_QUALIFIED','resources':resource,'commands':'/help; ordinary text; /status','autonomous_materials':len(config.materials[:config.max_autonomous_materials])})
         def stop(*unused):app.runtime.request_stop()
@@ -88,6 +90,8 @@ def run(home,seconds,*,headless=False,router=None,control_enabled=False):
                 app.runtime.request_stop();continue
             import shutil
             if shutil.disk_usage(home).free<config.min_free_disk_mb*1024*1024 and not app.runtime.work.paused:app.pause()
+            storage.observe()
+            if app.runtime.stop_requested:break
             value=app.tick()
             if time.monotonic()>=next_log:
                 import shutil
@@ -115,7 +119,9 @@ def main():
     backup=sub.add_parser('backup');backup.add_argument('--home',type=Path,required=True);backup.add_argument('--destination',type=Path,required=True)
     transfer=sub.add_parser('transfer');transfer.add_argument('--home',type=Path,required=True);transfer.add_argument('--package',type=Path,required=True);transfer.add_argument('--destination-id',required=True);transfer.add_argument('--source-commit',required=True);transfer.add_argument('--retire-source',action='store_true');transfer.add_argument('--pending-effects',action='store_true')
     receive=sub.add_parser('receive');receive.add_argument('--home',type=Path,required=True);receive.add_argument('--package',type=Path,required=True);receive.add_argument('--sha256',required=True);receive.add_argument('--destination-id',required=True);receive.add_argument('--host-config',type=Path,required=True)
-    for parser in (init,start,status,provider,inspect,health,control,backup,transfer,receive):parser.add_argument('--json',action='store_true',help='machine-readable output')
+    chat=sub.add_parser('chat');chat.add_argument('--home',type=Path,required=True);chat.add_argument('--binding',default='cloud.cli');chat.add_argument('--topic',default='daily');chat.add_argument('--privacy',choices=['PUBLIC','PROJECT'],required=True)
+    review=sub.add_parser('review');review.add_argument('--home',type=Path,required=True)
+    for parser in (init,start,status,provider,inspect,health,control,backup,transfer,receive,chat,review):parser.add_argument('--json',action='store_true',help='machine-readable output')
     a=p.parse_args();resolver=None
     global JSON_OUTPUT
     JSON_OUTPUT=a.json
@@ -126,6 +132,14 @@ def main():
             config=LifeConfig.model_validate_json(json.dumps(json.loads(a.host_config.read_text(),object_pairs_hook=_json_object)))
             emit(receive(a.package,a.home,sha256=a.sha256,destination_id=a.destination_id,config=config));return
         home=home_path(a.home)
+        if a.action=='chat':
+            from .review import chat
+            chat(home,binding_id=a.binding,topic=a.topic,privacy=a.privacy);return
+        if a.action=='review':
+            from .review import HumanReview,record_review
+            raw=sys.stdin.buffer.read(4097)
+            if len(raw)>4096:raise CoreError('HUMAN_REVIEW_BOUND')
+            emit(record_review(home,HumanReview.model_validate_json(raw)));return
         if a.action=='health':
             from .cloud import health
             emit(health(home));return
