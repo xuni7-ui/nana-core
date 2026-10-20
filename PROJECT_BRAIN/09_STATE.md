@@ -1868,3 +1868,5 @@ Source/staging与live/fix证据分别登记；新Source修复不覆盖固定6458
 Post-live checkpoint manifest SHA256 `cba14f5d96b8924b005f9f32089e92697b6d49e3af6c521891a9c954692a4be0`（supersedes采集锚点；self/09/bundle/DB/credential排除）。
 
 Evidence packaging manifest final SHA256 `2612b7e2ba90c0027056feaee682a5b9e430e9951a02368cc84da237fbe8c732`（显式纳入无凭据scan元数据；排除self/09/bundle）。
+
+Tracked manifest closure SHA256 `8105e3c281f998202114e455c2c10507d1fd6c4205591cb118f8befde89f0df4`；全部成员入Git且hash匹配为最终检查要求。
