@@ -1,0 +1,25 @@
+{
+  "source_commit": "eece7a469a5af8a9df5731367e5b7db046039a23",
+  "scope": "documentation_and_audit_metadata_only",
+  "excluded": [
+    "manifest.json (self)",
+    "PROJECT_BRAIN/09_STATE.md (contains manifest anchor)",
+    "runtime DB/config/credentials/private data",
+    "all unchanged application source/tests"
+  ],
+  "files": {
+    "AGENTS.md": "028e20cc99a7e58ede7dbf481be12567676fb35f39e5290bef5b9e1defb1439f",
+    "PROJECT_BRAIN/00_INDEX.md": "9a32126a042fa56d6a60686dad9179a2f46a24ba8cdc037e6bb67f622e41943d",
+    "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md": "fe6efe121a05145b44178d5ec26b99430a28e873fca8d1b80f16671c65e5133c",
+    "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md": "241333bcf365528639a00db06a2df32a2a9ad2ba3763c07990966a709b61e99b",
+    "PROJECT_BRAIN/07_ROADMAP.md": "c5c09b5cc9cc453a9f9ca8b7f543f6db9fca6a3aa30ddcf0b0967f8c4626a714",
+    "PROJECT_BRAIN/08_TASKS.md": "222458b129435157dc7f058e7bea811171895ac5ce1419dd392998cb707c8647",
+    "PROJECT_BRAIN/10_DECISIONS.md": "04e24fa59c26a0dc459dfd0cf063274b81c29c63b39f6c502c720386e9e62741",
+    "PROJECT_BRAIN/11_CHANGELOG.md": "e87ca322fe3058a9c099955be73d7522277ed7a8be4300a3ceb16a7bab6457db",
+    "README.md": "6d41954c9d1175de387ecfbf549e0b2a0a93e91a8fc974ec469fb913bac51ce6",
+    "docs/nana_cloud_first_life_launch_v1_status.md": "2a66e75df669e8c9aa8967eeb5d09994d8d0d63c257e42353b0def75ff87be1f",
+    "docs/nana_master_framework_foundation_audit_v1_evidence/audit.json": "e17c626040fec381f3729c49fd8adf855f01c45cda97d998da0ffae1f49ef5c2",
+    "docs/nana_master_framework_foundation_audit_v1_evidence/validation.json": "d1defd41863bb3d11b6d6b4e68277ea7e8b63331734a01a5f02e98f33e812ca4",
+    "manifests/upload_whitelist.md": "900c0e141502654d030f2ce633b11c70b2f8636738ed8175738cd5fe56aa4772"
+  }
+}

@@ -7,31 +7,48 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 2,
-  "as_of_us": 1792509543414892,
+  "revision": 3,
+  "as_of_us": 1792511303446579,
   "stage": "H",
-  "workstream": "CLOUD_FIRST_LIFE_LAUNCH_V1",
-  "status": "OFFLINE_CONTEXT_REPAIR_TESTED_AWAITING_NEW_REVIEW_BUDGET",
+  "workstream": "MASTER_FRAMEWORK_FREEZE_AND_FOUNDATION_CAPABILITY_AUDIT_V1",
+  "status": "FRAMEWORK_FROZEN_INITIAL_CAPABILITY_ACCOUNTING_COMPLETE_WITH_EXPLICIT_GAPS",
   "progress": [
-    "当前主线是 Cloud First-Life Launch，正在把持续主体推进到可实际体验的云端生活；不是新开模型基准任务。",
-    "C/D Runtime、受控开发面 Hands、结果核验、学习等已有开发资格证据；这些是工程实现与验收，不等于主体亲身经历。",
-    "DeepSeek deepseek-flash 文本功能路径已验证；本轮累计19次真实调用，保守预算预留0.95美元，真实账单未知；余1次冻结不用。",
-    "第一次真人输入暴露评审上下文与意图分类缺口，因此该样本不能作为自然语言能力或Human Naturalness正式评审结论。",
-    "受控当前状态投影、PROJECT_STATUS分类与中性接收元数据已实现，并经离线/fixture验证；没有消耗剩余真实调用。"
+    "用户已正式冻结十个系统域、三个横向轴及最高原则，新增Master Framework与Capability Matrix作为长期入口。",
+    "首轮核账10域63条固定criteria；S1/S2/S7/S8/S9仅在明示受控开发范围基础合格；不代表整体基础、生产或通用能力完成。",
+    "S3/S4/S5/S6保留必要资格未知；S10深层实现部分完成，非当前First-Life基础前置。UNKNOWN不等于实现不存在。",
+    "S8是跨域成长引擎而不是最高人生目的；独立生活、共同生活与Primary User高关系重要性同时保留。",
+    "已有DeepSeek功能资格保留，累计19次真实调用，最后1次冻结；本轮新调用0，真实账单仍未知。",
+    "本轮仅文档与证据映射；历史测试结果按原范围保留，不冒称本轮运行，也不冒称奈奈个人亲历。"
   ],
   "open_gates": [
-    "Human Naturalness与Shared-Life正式评审未通过，需要链路修复后在新小额预算内重新开始。",
-    "24h staging独立运行，以其实际progress/result资格为准；不得重启、污染或凭启动就写24h PASS。",
-    "FIRST_LIFE_EXPERIENCE_READY=NOT_READY；Beta未就绪；production inventory/cutover/canary未授权或未运行。"
+    "下一有界工作：Matrix FQ-01/S3-C09的动机经历闭环核验，复用既有C/D/Growth，不直接重写情感系统；同时定位FQ-04的问题定义证据差额。",
+    "S4实际24h结果仍待原固定源码run证据；本任务不访问、重启或改动staging。快照不能证明此刻进程存活或24h PASS。",
+    "S5真实源到live语义、世界修正与C的当前整链资格待对齐；先复用历史材料，不新增模型调用。",
+    "Human Naturalness/Shared-Life新评审和新增评审预算请求暂停到Foundation核账后有明确用途再决定；已有输入样本与修复证据保留。",
+    "S1–S9全部Foundation Qualified之前，不升级First-Life/Beta；production inventory/cutover/canary不启动。"
   ],
   "evidence_refs": [
-    "docs/nana_cloud_first_life_launch_v1_status.md",
-    "docs/nana_cloud_first_life_launch_v1_evidence/deepseek_functional_qualification.json",
-    "docs/nana_cloud_first_life_launch_v1_evidence/human_sample_01_metadata.json",
+    "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
+    "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
+    "docs/nana_master_framework_foundation_audit_v1_evidence/audit.json",
+    "docs/nana_cloud_first_life_launch_v1_evidence/context_repair_staging_observation.json",
     "docs/nana_cloud_first_life_launch_v1_evidence/human_review_context_repair.json"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+## CURRENT — MASTER FRAMEWORK FROZEN / FOUNDATION CAPABILITY AUDIT V1
+
+[用户明确冻结指令 + 源码/历史证据核账，2026-10-20] 当前新主任务为 `MASTER_FRAMEWORK_FREEZE_AND_FOUNDATION_CAPABILITY_AUDIT_V1`。
+最高规范见 [00_MASTER_FRAMEWORK.md](00_MASTER_FRAMEWORK.md)，能力账见 [01_CAPABILITY_MATRIX.md](01_CAPABILITY_MATRIX.md)。
+十域/三横轴/Change-Control冻结；S8是跨域成长引擎，不是最高人生目的；Independent Life与Shared Life同时保留。
+本轮首次核账覆盖10域/63条criteria；S1/S2/S7/S8/S9为限定受控开发范围FOUNDATION_QUALIFIED；
+S3/S4/S5/S6为FOUNDATION_TESTED，分别有完整动机因果、24h、真实语义整链、问题定义资格未知；S10 FOUNDATION_PARTIAL，深层实现非当前基础前置。
+下一有界工作是Matrix FQ-01（S3-C09）及复用证据的FQ-04核验，不直接启动情感系统重写；UNKNOWN不等于实现缺失。
+新的DeepSeek真人评审/复评和新增评审预算请求暂停，已有Provider功能资格保留；累计19次/余1冻结，账单UNKNOWN，不新调用。
+24h staging固定645899b继续独立；本轮未访问/重启/修改其宿主，仓库快照36953秒仍RUNNING_NOT_QUALIFIED，不冒充当前live状态或24h PASS。
+Foundation Gate尚未通过；First-Life/Beta不升级；production/main/R045/private/social不变。历史CURRENT保留，未来行动顺序以本块为准。
+本轮只改文档与审计元数据，应用测试未重跑；历史1300 passed/12 skipped按原范围保留，不充当本轮运行。
 
 上方是受控当前状态入口；下方先前CURRENT检查点保留为历史，最新修复与验收见文末。
 
@@ -1966,3 +1983,4 @@ HUMAN_REVIEW_CONTEXT_CURRENT_STATE=PASS；PROJECT_STATUS_INTENT_CLASSIFICATION=P
 真人自然度正式评审NOT_RUN，历史样本因评审链路缺口排除；FIRST_LIFE/BETA不升级。主线修复起点47d77cb3d0fee503564dcf701a444bba8286c9c3；最终commit由Git读取，避免自指。
 
 [实测 context-repair指纹锚点] docs/nana_cloud_first_life_launch_v1_evidence/manifest.json SHA256 88c7a2ff2d4039fd05de10c339f18b8556737e6556315d34e50d5f49fce97c85；不包含自身/09_STATE/DB/旧bundle/凭据，仅证明采集文件，不证明真人自然度或production。
+[本轮文档采集指纹] `docs/nana_master_framework_foundation_audit_v1_evidence/manifest.json` SHA256 `d392724e8ce412ba857262d7d41e6c4a695c156c8515064da6daa8d269a04f94`；排除自身与本09（避免自指），只证明文档文件，不证明运行态。

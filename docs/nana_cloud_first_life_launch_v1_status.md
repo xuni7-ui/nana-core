@@ -1,5 +1,9 @@
 # Cloud First-Life Launch V1
 
+## CURRENT — FOUNDATION AUDIT PRECEDES NEW HUMAN REVIEW
+
+[用户明确指令2026-10-20] 新真人评审及新增评审预算请求暂停；已有Provider/修复/驻留证据保留。当前实施入口改为[Master Framework](../PROJECT_BRAIN/00_MASTER_FRAMEWORK.md)、[Capability Matrix](../PROJECT_BRAIN/01_CAPABILITY_MATRIX.md)和[09_STATE](../PROJECT_BRAIN/09_STATE.md)。24h固定源码run独立继续，本轮不探测或修改。下方历史下一步不再自动执行；First-Life/Beta不升级。
+
 ## CURRENT — CLOUD FIRST-LIFE LAUNCH V1 / DEVELOPMENT
 [源码/远端实测2026-10-20] Base b06e1e72f63a481ba349c23043c4027f137b9876 本地/远端一致；
 新分支dev/nana-core-cloud-first-life-launch-v1-codex。GLOBAL_STAGE H不变，继承CDL/RAE，不重做PASS。

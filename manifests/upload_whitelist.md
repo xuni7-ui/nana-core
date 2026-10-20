@@ -122,3 +122,15 @@ Shadow Bootstrap: tools/nana_host_shadow/*.py, tests/integration/test_bootstrap.
 - `docs/nana_shadow_host_compat.md`, `docs/nana_shadow_host_compat_evidence/*`：脱敏开发版本/测试/来源证据；不含DB/真实宿主数据。
 - `manifests/nana_shadow_host_compat_*.json`：指纹/白名单/逐文件检查清单。
 - `artifacts/shadow-bootstrap/nana-shadow-bootstrap-host3123-*.tar.gz`：仅当前批准Core+审核support+固定licensed runtime的单文件生成交付归档。逐archive entry/hash/license/credential扫描后允许保存私有开发分支，不能包含data/、DB、secret、生产配置或上游源码镜像。不是生产部署或第三方source vendoring目录。
+
+## 2026-10-20 · Master Framework Freeze & Foundation Capability Audit V1
+
+[用户明确要求正式写入仓库] 本次仅允许以下文档与无私人内容的审计元数据；不扩大运行、付费、生产或社交权限。
+
+- `PROJECT_BRAIN/00_MASTER_FRAMEWORK.md`、`PROJECT_BRAIN/01_CAPABILITY_MATRIX.md`
+- `PROJECT_BRAIN/00_INDEX.md`、`07_ROADMAP.md`、`08_TASKS.md`、`09_STATE.md`、`10_DECISIONS.md`、`11_CHANGELOG.md`（均在PROJECT_BRAIN内）
+- `AGENTS.md`、`README.md`、`docs/nana_cloud_first_life_launch_v1_status.md`
+- `docs/nana_master_framework_foundation_audit_v1_evidence/audit.json`、`validation.json`、`manifest.json`（仅源路径/hash、criteria与文档校验结果）
+- `manifests/upload_whitelist.md`（本条）
+
+逐文件检查后提交；不含DB/WAL、运行配置、凭据、聊天原文、第三方源码或二进制。

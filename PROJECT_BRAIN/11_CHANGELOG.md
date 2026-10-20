@@ -2200,3 +2200,12 @@ INTERPRET+RENDER成功，累计19/20、reservation950000/$0.95（非actual bill�
 HUMAN_REVIEW_CONTEXT_CURRENT_STATE=PASS；PROJECT_STATUS_INTENT_CLASSIFICATION=PASS；NO_SECOND_MEMORY_AUTHORITY=PASS（OFFLINE/FIXTURE）。
 本轮新真实调用0，原累计19、余1冻结、budget未提高；准备请求最多4次/新增保守reservation上限0.20USD的重新评审授权，尚未获批也未执行。
 真人自然度正式评审NOT_RUN，历史样本因评审链路缺口排除；FIRST_LIFE/BETA不升级。主线修复起点47d77cb3d0fee503564dcf701a444bba8286c9c3；最终commit由Git读取，避免自指。
+
+## MASTER_FRAMEWORK_FOUNDATION_AUDIT_V1 — 冻结总图与首次能力核账
+
+- 改了什么：新增00_MASTER_FRAMEWORK与01_CAPABILITY_MATRIX；建立10域63项固定criteria和明确资格未知，附可读证据索引/机器账；更新AGENTS、README、00_INDEX、07/08/09和First-Life状态入口，追加本决策/变更；旧CURRENT和原始资格结果保留。
+- 为什么：用户正式冻结持续主体、独立生活+共同生活、跨域成长与Change-Control；解决只见近期任务、不见总体能力状态的问题，避免局部反馈改写总路线或无证据重造S3。
+- 怎么验证：固定远端基线eece7a469a5af8a9df5731367e5b7db046039a23，读取规范和选定源码/测试定义/资格材料；本次检查criteria唯一性、七级状态、证据及链接存在、读取文件blob匹配、09顶部typed header边界、历史内容保留、改动白名单、敏感模式和非业务变更；结果见validation.json，采集指纹见manifest.json。
+- 测试范围：本轮为文档与证据映射校验，未重跑应用测试/未进行LLM调用。既有1300 passed/12 skipped及历史受控实测仅按原版本/范围引用，不冒充本轮执行。
+- 结论：首次核账完成，Foundation Gate仍未齐；FQ-01/02/03/04为有界后续，S10深层项为远期；新真人评审暂停；24h staging不探测、不改动、不凭时间推算PASS。
+- 回滚：本轮提交的parent为eece7a4；可单独revert本范围文档提交，不触及既有可执行冻结源码645899b或任何运行数据库。

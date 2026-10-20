@@ -1,5 +1,18 @@
 # PROJECT_BRAIN / 08 TASKS（任务清单）
 
+## CURRENT — MASTER FRAMEWORK FROZEN / FOUNDATION CAPABILITY AUDIT V1
+
+[用户明确冻结指令 + 源码/历史证据核账，2026-10-20] 当前新主任务为 `MASTER_FRAMEWORK_FREEZE_AND_FOUNDATION_CAPABILITY_AUDIT_V1`。
+最高规范见 [00_MASTER_FRAMEWORK.md](00_MASTER_FRAMEWORK.md)，能力账见 [01_CAPABILITY_MATRIX.md](01_CAPABILITY_MATRIX.md)。
+十域/三横轴/Change-Control冻结；S8是跨域成长引擎，不是最高人生目的；Independent Life与Shared Life同时保留。
+本轮首次核账覆盖10域/63条criteria；S1/S2/S7/S8/S9为限定受控开发范围FOUNDATION_QUALIFIED；
+S3/S4/S5/S6为FOUNDATION_TESTED，分别有完整动机因果、24h、真实语义整链、问题定义资格未知；S10 FOUNDATION_PARTIAL，深层实现非当前基础前置。
+下一有界工作是Matrix FQ-01（S3-C09）及复用证据的FQ-04核验，不直接启动情感系统重写；UNKNOWN不等于实现缺失。
+新的DeepSeek真人评审/复评和新增评审预算请求暂停，已有Provider功能资格保留；累计19次/余1冻结，账单UNKNOWN，不新调用。
+24h staging固定645899b继续独立；本轮未访问/重启/修改其宿主，仓库快照36953秒仍RUNNING_NOT_QUALIFIED，不冒充当前live状态或24h PASS。
+Foundation Gate尚未通过；First-Life/Beta不升级；production/main/R045/private/social不变。历史CURRENT保留，未来行动顺序以本块为准。
+本轮只改文档与审计元数据，应用测试未重跑；历史1300 passed/12 skipped按原范围保留，不充当本轮运行。
+
 ## CURRENT — FIRST-LIFE / DEEPSEEK FUNCTIONAL TEXT QUALIFIED / HUMAN REVIEW PENDING
 [实测2026-10-20] 同一主线/分支，GLOBAL_STAGE H。累计17次DeepSeek / deepseek-flash；独立request IDs17，
 无automatic retry/fallback/UNKNOWN；旧TianToken UNKNOWN PARKED，不重放。14 PROPOSED、1 REJECTED、2 FAILED保留。

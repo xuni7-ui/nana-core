@@ -1,5 +1,10 @@
 # PROJECT_BRAIN / 00 索引
 
+## CURRENT — 冻结总图与能力入口
+
+接手顺序：[00_MASTER_FRAMEWORK](00_MASTER_FRAMEWORK.md) → [01_CAPABILITY_MATRIX](01_CAPABILITY_MATRIX.md) → [09_STATE](09_STATE.md) → 07/08当前块 → 10最新相关决策与具体证据。
+Master是规范，Matrix是证据支持的能力账，09是当前任务快照。S1–S10为Domain ID，不替换历史阶段。下方早期清单保留为历史。
+
 > **创建日期**：2026-10-10（CST）
 > **创建人**：奈奈（Nana）
 > **状态**：**新建**。原始 PROJECT_BRAIN **未找到**，本目录为 2026-10-10 依据现有事实文件与实测证据**重新建立**，**不是**原始文件的恢复或复制。

@@ -1,5 +1,9 @@
 # nana-core
 
+## 工程恢复入口
+
+先读 [Master Framework](PROJECT_BRAIN/00_MASTER_FRAMEWORK.md) 与 [Capability Matrix](PROJECT_BRAIN/01_CAPABILITY_MATRIX.md)，再读 [当前状态](PROJECT_BRAIN/09_STATE.md)。总框架已于2026-10-20冻结；能力进度按固定条件与证据核算。
+
 > 奈奈工程（Nana）的**独立开发副本**与**权威事实源仓库**。
 > 创建：2026-10-10 CST ｜ 维护：奈奈（Nana）
 

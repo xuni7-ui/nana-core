@@ -1,0 +1,1274 @@
+{
+  "schema_version": 1,
+  "audit": "MASTER_FRAMEWORK_FREEZE_AND_FOUNDATION_CAPABILITY_AUDIT_V1",
+  "audit_date": "2026-10-20",
+  "timezone": "Asia/Shanghai",
+  "repository": "xuni7-ui/nana-core",
+  "source_branch": "dev/nana-core-cloud-first-life-launch-v1-codex",
+  "source_commit": "eece7a469a5af8a9df5731367e5b7db046039a23",
+  "method": "Pinned repository source/test-definition review and retained qualification evidence; no application tests, provider calls, live host reads or production actions performed in this audit.",
+  "criteria_version": "1.0",
+  "framework_status": "FROZEN",
+  "matrix_status": "INITIAL_COMPLETE_ACCOUNTING_WITH_EXPLICIT_UNKNOWNS",
+  "references": {
+    "ID": [
+      "src/nana_core/continuity/identity.py",
+      "tests/continuous_self/test_identity.py"
+    ],
+    "PORT": [
+      "tests/portable_subject/test_package.py",
+      "docs/nana_cloud_daily_life_shared_presence_v1_evidence/portability.json"
+    ],
+    "MEM": [
+      "src/nana_core/continuity/memory.py",
+      "src/nana_core/continuity/records.py",
+      "tests/continuous_self/test_memory.py"
+    ],
+    "LOOP": [
+      "src/nana_core/continuity/subject/policy.py",
+      "tests/continuous_self/test_subject_loop.py",
+      "tests/continuous_self/test_subject_life.py"
+    ],
+    "REL": [
+      "src/nana_core/continuity/relational/projections.py",
+      "src/nana_core/continuity/relational/deliberation.py",
+      "tests/portable_subject/test_relational_reuse.py"
+    ],
+    "AFFECT": [
+      "tests/affective_autonomy/test_dispositions.py",
+      "tests/affective_autonomy/test_experience.py",
+      "docs/nana_affective_autonomy_v1_evidence/scenario_matrix.json"
+    ],
+    "OLDREL": [
+      "docs/nana_relational_autonomy_v1_evidence/social_appetite_ablation.json",
+      "docs/nana_relational_autonomy_v1_evidence/recovery_matrix.json",
+      "docs/nana_relational_autonomy_v1_evidence/targeted_tests.xml"
+    ],
+    "LIFE": [
+      "src/nana_core/presence/living.py",
+      "tests/living_autonomy/test_agency.py",
+      "tests/living_autonomy/test_recovery_migration.py"
+    ],
+    "RUNTIME": [
+      "src/nana_core/presence/authority.py",
+      "src/nana_core/presence/cadence.py",
+      "tests/living_autonomy/test_cadence.py",
+      "tests/continuous_runtime/test_system_qualification.py"
+    ],
+    "CDL": [
+      "docs/nana_cloud_daily_life_shared_presence_v1_evidence/qualification.json",
+      "docs/nana_cloud_daily_life_shared_presence_v1_evidence/portability.json"
+    ],
+    "24H": [
+      "docs/nana_cloud_first_life_launch_v1_evidence/context_repair_staging_observation.json"
+    ],
+    "WORLD": [
+      "src/nana_core/continuity/world_loop/world.py",
+      "tests/world_loop/test_foundation.py",
+      "docs/nana_real_cognition_world_loop_v1_evidence/qualification.json"
+    ],
+    "SCREEN": [
+      "docs/nana_h2_live_real_screen_v1_evidence/qualification.json"
+    ],
+    "PROVIDER": [
+      "docs/nana_provider_capability_routing_v1_evidence/qualification.json",
+      "docs/nana_cloud_first_life_launch_v1_evidence/deepseek_functional_qualification.json"
+    ],
+    "CONTEXT": [
+      "docs/nana_cloud_first_life_launch_v1_evidence/human_review_context_repair.json",
+      "src/nana_core/continuity/current_state.py"
+    ],
+    "PLAN": [
+      "src/nana_core/continuity/open_agency/planning.py",
+      "tests/open_autonomy/test_planning.py"
+    ],
+    "HANDS": [
+      "src/nana_core/continuity/hands/contracts.py",
+      "tests/controlled_hands/test_application.py",
+      "tests/controlled_hands/test_boundaries.py",
+      "tests/controlled_hands/test_recovery.py"
+    ],
+    "RAE": [
+      "docs/nana_real_action_experience_evolution_v1_evidence/qualification.json",
+      "docs/nana_real_action_experience_evolution_v1_evidence/self_extension.json"
+    ],
+    "LEARN": [
+      "src/nana_core/continuity/open_agency/learning.py",
+      "tests/open_autonomy/test_learning.py",
+      "tests/vision_first/test_growth.py"
+    ],
+    "SKILL": [
+      "src/nana_core/continuity/open_agency/code_skills.py",
+      "tests/open_autonomy/test_code_skills.py",
+      "docs/nana_e1e6_open_autonomy_v1_evidence/qualification.json"
+    ],
+    "SHARE": [
+      "src/nana_core/continuity/subject/growth_life.py",
+      "tests/controlled_hands/test_boundaries.py",
+      "docs/nana_vision_first_shared_growth_v2_evidence/life_causal_change.json"
+    ],
+    "REGRESSION": [
+      "docs/nana_cloud_first_life_launch_v1_evidence/context_repair_test_summary.txt"
+    ],
+    "MODEL_SWAP": [
+      "tests/cloud_life/test_model_swap.py",
+      "tests/portable_subject/test_providers_frontend.py"
+    ]
+  },
+  "domains": [
+    {
+      "id": "S1",
+      "name": "Subject / Identity",
+      "foundation_status": "FOUNDATION_QUALIFIED",
+      "growth_status": "ADVANCED_GROWTH",
+      "foundation_definition": "同一主体身份与连续状态跨重启、模型资源替换、受控迁移保持；实例权威所有权清楚。",
+      "qualification_scope": "受控开发实例；模型替换含合成端口，不等于所有真实模型/平台迁移。",
+      "advanced_future": "异构宿主广泛适配；深层自改后的身份连续性属S10。",
+      "first_life_blocker": "NO：当前限定基础达标；保留治理门。",
+      "next_upgrade": "改变身份/迁移协议时定向复核，不重做未受影响资格。",
+      "criteria": [
+        {
+          "id": "S1-C01",
+          "criterion": "持久 canonical identity；表达修订有版本和来源",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "ID"
+          ],
+          "boundary": "身份ID不由模型文本决定。"
+        },
+        {
+          "id": "S1-C02",
+          "criterion": "重启、replay、受控fresh-host迁移保持同identity和历史",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "PORT",
+            "ID",
+            "CDL"
+          ],
+          "boundary": "只认受控迁移；副本激活需fencing。"
+        },
+        {
+          "id": "S1-C03",
+          "criterion": "单权威Store/SubjectLoop/Runtime owner，旧writer不能继续",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "RUNTIME",
+            "CDL"
+          ],
+          "boundary": "不声称分布式敌对宿主全局租约合格。"
+        },
+        {
+          "id": "S1-C04",
+          "criterion": "模型资源更换不创建第二Subject或迁移旧执行权限",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "PORT",
+            "PROVIDER",
+            "REGRESSION",
+            "MODEL_SWAP"
+          ],
+          "boundary": "真实不同provider的广泛对照未完成。"
+        },
+        {
+          "id": "S1-C05",
+          "criterion": "来源、关系和权限分离；新宿主撤销旧Grant",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "PORT",
+            "REL"
+          ],
+          "boundary": "迁移包不是宿主凭据备份。"
+        }
+      ],
+      "project_brain_decisions": [
+        "D-051",
+        "D-C6B-001",
+        "D-C6B-002",
+        "D-C6B-003",
+        "MASTER_FRAMEWORK_FREEZE_V1"
+      ]
+    },
+    {
+      "id": "S2",
+      "name": "Memory / Experience",
+      "foundation_status": "FOUNDATION_QUALIFIED",
+      "growth_status": "ADVANCED_GROWTH",
+      "foundation_definition": "可信、持续、可追源和纠错的记忆/经历能进入判断，支持删除与迁移。",
+      "qualification_scope": "合成与受控开发材料；没有把私人历史内容不足当成机制未完成。",
+      "advanced_future": "长期生活史、多模态丰富记忆、更大规模检索；私人Iris迁移单独接线。",
+      "first_life_blocker": "NO：机制限定基础达标；真实数据接入仍独立授权。",
+      "next_upgrade": "改来源、检索、删除或迁移机制时复核相应闭包。",
+      "criteria": [
+        {
+          "id": "S2-C01",
+          "criterion": "记忆类型、来源、事件时间/观察时间和不确定性可区分",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "MEM"
+          ],
+          "boundary": "推断不能冒充原始观察。"
+        },
+        {
+          "id": "S2-C02",
+          "criterion": "去重、冲突、纠正、来源撤回有明确状态",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "MEM",
+            "WORLD"
+          ],
+          "boundary": "新事实不无痕覆盖旧来源。"
+        },
+        {
+          "id": "S2-C03",
+          "criterion": "记忆/经历实际改变后续C判断与规划",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "LOOP",
+            "LEARN",
+            "HANDS"
+          ],
+          "boundary": "有反例/撤回对照；不是仅保存文本。"
+        },
+        {
+          "id": "S2-C04",
+          "criterion": "隐私分类及删除传播到派生记录、技能、context和迁移",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "MEM",
+            "PORT",
+            "HANDS",
+            "CDL"
+          ],
+          "boundary": "本轮不读取私人数据。"
+        },
+        {
+          "id": "S2-C05",
+          "criterion": "跨重启、backup/restore与受控迁移保持连续",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "PORT",
+            "CDL"
+          ],
+          "boundary": "恢复副本不自动取得执行权。"
+        },
+        {
+          "id": "S2-C06",
+          "criterion": "工程状态是有来源的外部事实，不冒充个人经历",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "CONTEXT",
+            "REGRESSION"
+          ],
+          "boundary": "当前状态投影修复仅OFFLINE/FIXTURE资格。"
+        }
+      ],
+      "project_brain_decisions": [
+        "D-052",
+        "D-CS-001",
+        "D-WORLD-002",
+        "MASTER_FRAMEWORK_FREEZE_V1"
+      ]
+    },
+    {
+      "id": "S3",
+      "name": "Motivation / Affect / Relationship",
+      "foundation_status": "FOUNDATION_TESTED",
+      "growth_status": "ADVANCED_GROWTH",
+      "foundation_definition": "持续需要、兴趣和关系参与取舍，经独立C判断形成行动或休息；经历可改变后来动机倾向且跨重启持续。",
+      "qualification_scope": "已有合成因果/实际进程恢复及真实受控任务→分享候选；完整内在倾向的真实持续闭环未核实。",
+      "advanced_future": "复杂情绪、依恋/幽默/梦想细化和开放关系成长；不能全部变成Foundation前置。",
+      "first_life_blocker": "YES：S3-C09证据缺口阻止S3 Foundation资格；不是已确认重写需求。",
+      "next_upgrade": "先复用现有Growth/relational/C/D，补同一lineage的最小非人工偏好注入因果证据；失败再定位实现差额。",
+      "criteria": [
+        {
+          "id": "S3-C01",
+          "criterion": "内部偏好/需要/关系有持续、可追源状态",
+          "status": "FOUNDATION_TESTED",
+          "evidence": [
+            "LOOP",
+            "REL"
+          ],
+          "boundary": "typed qualitative状态；不等于完整人类情绪。"
+        },
+        {
+          "id": "S3-C02",
+          "criterion": "非用户命令可产生自主探索/社交等动机",
+          "status": "FOUNDATION_TESTED",
+          "evidence": [
+            "LOOP",
+            "LIFE",
+            "OLDREL"
+          ],
+          "boundary": "SELF_WAKE不等于无来源随机造欲望。"
+        },
+        {
+          "id": "S3-C03",
+          "criterion": "多种需要可取舍；负荷高可REST，不强制学习",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "REL",
+            "HANDS",
+            "RAE"
+          ],
+          "boundary": "受控实测及测试含真实失败后选择REST。"
+        },
+        {
+          "id": "S3-C04",
+          "criterion": "关系重要性影响选择，Primary User不是唯一兴趣源",
+          "status": "FOUNDATION_TESTED",
+          "evidence": [
+            "REL",
+            "OLDREL"
+          ],
+          "boundary": "anchor消融保留social appetite；自然语言思想开放性未普遍证明。"
+        },
+        {
+          "id": "S3-C05",
+          "criterion": "C拥有判断；Manager/Grant只限制实际动作且保留愿望",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "AFFECT",
+            "HANDS",
+            "RAE"
+          ],
+          "boundary": "blocked与“不想做”分开。"
+        },
+        {
+          "id": "S3-C06",
+          "criterion": "来源支持/反证可改变兴趣及后续SELF_WAKE选择",
+          "status": "FOUNDATION_TESTED",
+          "evidence": [
+            "LOOP",
+            "REL"
+          ],
+          "boundary": "现有测试由typed环境PreferenceSignal输入，不能冒充开放自主体验提炼。"
+        },
+        {
+          "id": "S3-C07",
+          "criterion": "真实受控Outcome/学习复用能改变后续分享或沉默",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "SHARE",
+            "HANDS",
+            "RAE"
+          ],
+          "boundary": "证明source-backed社会候选，不能直接等同基础情感倾向变化。"
+        },
+        {
+          "id": "S3-C08",
+          "criterion": "偏好信号和主体判断可跨重启/真实SIGKILL恢复",
+          "status": "FOUNDATION_TESTED",
+          "evidence": [
+            "LOOP",
+            "OLDREL"
+          ],
+          "boundary": "当前测试支持信号与事务恢复；历史关系专测部分路径已不在当前树。"
+        },
+        {
+          "id": "S3-C09",
+          "criterion": "同一真实受控生活链：经历→后来需要/倾向变化→重启保留→自主再选择，含撤回/反例",
+          "status": "UNKNOWN_AUDIT_REQUIRED",
+          "evidence": [
+            "LOOP",
+            "REL",
+            "HANDS",
+            "24H"
+          ],
+          "boundary": "没有找到覆盖整条链的当前资格证据；不是宣告机制不存在。"
+        }
+      ],
+      "project_brain_decisions": [
+        "D-CV2-001",
+        "D-AFFECT-003",
+        "D-AFFECT-005",
+        "D-AFFECT-006",
+        "D-C6B-001",
+        "MASTER_FRAMEWORK_FREEZE_V1"
+      ]
+    },
+    {
+      "id": "S4",
+      "name": "Runtime / Living Presence",
+      "foundation_status": "FOUNDATION_TESTED",
+      "growth_status": "ADVANCED_GROWTH",
+      "foundation_definition": "无输入也可活动和休息，用户可抢占；单writer持续运行并可恢复、控制资源。",
+      "qualification_scope": "2h真实开发驻留已留证；24h仅有中途快照，非生产常驻资格。",
+      "advanced_future": "长期云端宿主、规模化长期生活、更多Presence接口。",
+      "first_life_blocker": "YES：S4-C06的24h durability资格未完成。",
+      "next_upgrade": "等待原固定源码staging实际result；不新开重复soak，不从快照或时间推算PASS。",
+      "criteria": [
+        {
+          "id": "S4-C01",
+          "criterion": "C WHAT/WHY与D WHEN职责分离，无第二意志loop",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "LIFE",
+            "RUNTIME",
+            "CDL"
+          ],
+          "boundary": "调度只提供机会。"
+        },
+        {
+          "id": "S4-C02",
+          "criterion": "无用户输入的有限活动、任务结束后休息/等待",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "LIFE",
+            "CDL"
+          ],
+          "boundary": "两小时finite workload，不是开放终身生活。"
+        },
+        {
+          "id": "S4-C03",
+          "criterion": "输入抢占、暂停、恢复不丢目标或重复effect",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "RUNTIME",
+            "HANDS",
+            "CDL"
+          ],
+          "boundary": "在明示安全点抢占。"
+        },
+        {
+          "id": "S4-C04",
+          "criterion": "实际进程恢复、epoch fencing、UNKNOWN不盲重试",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "RUNTIME",
+            "HANDS",
+            "PORT"
+          ],
+          "boundary": "恢复与动作重新授权分离。"
+        },
+        {
+          "id": "S4-C05",
+          "criterion": "资源/存储增长有测量、预算和停止边界",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "CDL",
+            "24H",
+            "REGRESSION"
+          ],
+          "boundary": "冷历史仍可增长；guard不是无限存储已解决。"
+        },
+        {
+          "id": "S4-C06",
+          "criterion": "固定源码实际24h durability与最终结果",
+          "status": "UNKNOWN_AUDIT_REQUIRED",
+          "evidence": [
+            "24H"
+          ],
+          "boundary": "仓库快照elapsed36953.176秒、RUNNING_NOT_QUALIFIED；未访问运行宿主，不保证此刻仍存活。"
+        }
+      ],
+      "project_brain_decisions": [
+        "D-DV1-001",
+        "D-D2D7-001",
+        "D-D2D7-004",
+        "MASTER_FRAMEWORK_FREEZE_V1"
+      ]
+    },
+    {
+      "id": "S5",
+      "name": "World / Perception / Cognition",
+      "foundation_status": "FOUNDATION_TESTED",
+      "growth_status": "ADVANCED_GROWTH",
+      "foundation_definition": "来源明确的观察经可替换认知资源形成可修正世界理解，再进入同一C；不把sensor/model当意志。",
+      "qualification_scope": "世界模型和认知协议已有测试；文本provider与受控视觉入口分别留证，组合真实语义资格有缺项。",
+      "advanced_future": "广泛视频/音频语义、camera/mic、用户桌面OCR及开放世界；不要求全部传感器才基础完成。",
+      "first_life_blocker": "YES：S5-C06的真实源→真实语义→世界修正→C组合资格待对齐。",
+      "next_upgrade": "先检查现有H1/文本/owned ingress能否复用到一个当前受控场景；不再横向堆传感器。",
+      "criteria": [
+        {
+          "id": "S5-C01",
+          "criterion": "原始观察/模型推断、来源时间和不确定性区分",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "WORLD",
+            "MEM"
+          ],
+          "boundary": "MODEL_DERIVATION不能升格RAW_OBSERVATION。"
+        },
+        {
+          "id": "S5-C02",
+          "criterion": "世界信念冲突/修正/时间查询/删除因果正确",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "WORLD",
+            "REGRESSION"
+          ],
+          "boundary": "既有测试及结果复用。"
+        },
+        {
+          "id": "S5-C03",
+          "criterion": "可替换Provider slots/routing，模型不授予authority",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "PROVIDER",
+            "WORLD"
+          ],
+          "boundary": "离线路由资格不等于各slot均有live资格。"
+        },
+        {
+          "id": "S5-C04",
+          "criterion": "真实文本INTERPRET+RENDER传输/解析功能成立",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "PROVIDER",
+            "CONTEXT"
+          ],
+          "boundary": "17次功能资格；后续总19次；自然度未评审、账单UNKNOWN。"
+        },
+        {
+          "id": "S5-C05",
+          "criterion": "至少一个真实受控感知入口及源生命周期",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "SCREEN"
+          ],
+          "boundary": "owned Xorg/XGetImage；当时语义为synthetic loopback。"
+        },
+        {
+          "id": "S5-C06",
+          "criterion": "当前lineage真实输入→live语义→World/Concern→C完整组合及纠错",
+          "status": "UNKNOWN_AUDIT_REQUIRED",
+          "evidence": [
+            "WORLD",
+            "SCREEN",
+            "PROVIDER"
+          ],
+          "boundary": "不能把不同版本的分项PASS拼成未实际运行的整链；历史H1 PARTIAL保持。"
+        }
+      ],
+      "project_brain_decisions": [
+        "D-WORLD-006",
+        "D-H1-001",
+        "D-H1-LIVE-003",
+        "MASTER_FRAMEWORK_FREEZE_V1"
+      ]
+    },
+    {
+      "id": "S6",
+      "name": "Independent Judgment / Problem Framing / Goal / Planning",
+      "foundation_status": "FOUNDATION_TESTED",
+      "growth_status": "ADVANCED_GROWTH",
+      "foundation_definition": "C能形成自己的问题判断和目标，区分用户建议、问题与路径；有限规划可验证并按结果调整。",
+      "qualification_scope": "有限目标/方法替代、capability-gap重述与规划已成立；更广问题定义的最小资格待界定核实。",
+      "advanced_future": "开放长期复杂规划、研究发现未知方案；不把用户意图设为认知边界。",
+      "first_life_blocker": "YES：S6-C07的问题定义资格仍不足；不是要求万能planner。",
+      "next_upgrade": "沿原C/World/Goal记录补一例有来源的问题重定义、理由与对照；先查既有RAE gap证据，避免重造。",
+      "criteria": [
+        {
+          "id": "S6-C01",
+          "criterion": "输入/用户建议不直接变成已采纳目标或权限",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "LOOP",
+            "AFFECT",
+            "PLAN"
+          ],
+          "boundary": "候选、adoption、Grant分离。"
+        },
+        {
+          "id": "S6-C02",
+          "criterion": "可提出与用户方法不同的有来源替代方案",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "HANDS",
+            "LOOP"
+          ],
+          "boundary": "真实owned任务历史支持HANDS_REPLACE替代APPEND；限定方法级。"
+        },
+        {
+          "id": "S6-C03",
+          "criterion": "多目标、子目标依赖、有限路径与独立计划验证",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "PLAN"
+          ],
+          "boundary": "有界uniform-cost与typed operators；不是无限开放推理。"
+        },
+        {
+          "id": "S6-C04",
+          "criterion": "实际执行/Verify/失败→Continue/Replan/Stop",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "PLAN",
+            "RAE",
+            "HANDS"
+          ],
+          "boundary": "原失败保留。"
+        },
+        {
+          "id": "S6-C05",
+          "criterion": "世界修正/学习/来源撤回可改变或暂停计划",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "PLAN",
+            "LEARN",
+            "HANDS"
+          ],
+          "boundary": "不能仅换解释而沿用旧输出。"
+        },
+        {
+          "id": "S6-C06",
+          "criterion": "自主目标受Manager/资源约束但不由其生成意志",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "LIFE",
+            "HANDS",
+            "RAE"
+          ],
+          "boundary": "REST/NO_ACTION也是有效选择。"
+        },
+        {
+          "id": "S6-C07",
+          "criterion": "独立Problem Framing的当前最小因果资格",
+          "status": "UNKNOWN_AUDIT_REQUIRED",
+          "evidence": [
+            "HANDS",
+            "RAE",
+            "PLAN"
+          ],
+          "boundary": "方法选择与预定义capability-gap分类已有；尚不能据此宣布问题定义能力完整过门。"
+        }
+      ],
+      "project_brain_decisions": [
+        "D-E1E6-001",
+        "RAE final executable guard / typed problem reframing",
+        "MASTER_FRAMEWORK_FREEZE_V1"
+      ]
+    },
+    {
+      "id": "S7",
+      "name": "Hands / Action / Verification",
+      "foundation_status": "FOUNDATION_QUALIFIED",
+      "growth_status": "ADVANCED_GROWTH",
+      "foundation_definition": "在有限真实环境中，经授权产生可辨认效果，独立验证任务质量并处理失败和未知。",
+      "qualification_scope": "OWNED_DEV_APPLICATION_PROCESS；DOCUMENT/FORM/CONTENT/FILES有限IPC与文件，非GUI/个人设备/生产。",
+      "advanced_future": "浏览器、手机、桌面、游戏、真实平台动作及更复杂环境。",
+      "first_life_blocker": "NO：有限真实动作基础达标；扩环境另验，不扩权限。",
+      "next_upgrade": "新增动作域时增加目标绑定、权限和独立Verify资格。",
+      "criteria": [
+        {
+          "id": "S7-C01",
+          "criterion": "真实目标绑定与有限typed动作，不靠模型自述完成",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "HANDS",
+            "RAE"
+          ],
+          "boundary": "进程身份、scope、revision均受校验。"
+        },
+        {
+          "id": "S7-C02",
+          "criterion": "Manager/Grant/预算/撤权在effect前生效",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "HANDS",
+            "RAE"
+          ],
+          "boundary": "授权不由目标、关系或skill生成。"
+        },
+        {
+          "id": "S7-C03",
+          "criterion": "真实文件/应用状态与只读Verify独立核对",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "HANDS",
+            "RAE"
+          ],
+          "boundary": "物理执行成功与任务质量成功分开。"
+        },
+        {
+          "id": "S7-C04",
+          "criterion": "SIGKILL/并发冲突/UNKNOWN保留，无重复effect",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "HANDS",
+            "RAE"
+          ],
+          "boundary": "六切点及file/IPC不一致反例。"
+        },
+        {
+          "id": "S7-C05",
+          "criterion": "Outcome进入Experience/学习/后续决策",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "HANDS",
+            "RAE",
+            "SHARE"
+          ],
+          "boundary": "有实际失败、迁移任务和来源撤回。"
+        }
+      ],
+      "project_brain_decisions": [
+        "D-AFFECT-006",
+        "RAE-01..13",
+        "RAE final qualification decision",
+        "MASTER_FRAMEWORK_FREEZE_V1"
+      ]
+    },
+    {
+      "id": "S8",
+      "name": "Learning / Self-Evolution — Cross-Domain Growth Engine",
+      "foundation_status": "FOUNDATION_QUALIFIED",
+      "growth_status": "ADVANCED_GROWTH",
+      "foundation_definition": "有来源的经历引发可选择的学习，经过baseline/独立评估/迁移/后来复用/反例暂停，改变未来行为。",
+      "qualification_scope": "受控方法学习与纯数据工作流适配；跨任务域可用的成长合同，不等于已改善S2–S9每一域。",
+      "advanced_future": "长期开放学习、元学习、认知/规划/学习算法改变；深层改变进入S10。",
+      "first_life_blocker": "NO：受限成长引擎基础达标；S3倾向闭环仍由S3-C09独立核验。",
+      "next_upgrade": "按具体域缺口扩展同一G/I，不把学习设为永久最高动机。",
+      "criteria": [
+        {
+          "id": "S8-C01",
+          "criterion": "真实失败/能力缺口经C选择学习，也可选择不学/REST",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "RAE",
+            "HANDS",
+            "LEARN"
+          ],
+          "boundary": "工程优先级不自动成为奈奈内部最高目的。"
+        },
+        {
+          "id": "S8-C02",
+          "criterion": "baseline、学习问题和候选变化有来源",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "LEARN",
+            "RAE"
+          ],
+          "boundary": "有限候选/预写方法，不宣称算法发明。"
+        },
+        {
+          "id": "S8-C03",
+          "criterion": "训练/held-out/transfer分离，提议者看不到独立答案",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "LEARN"
+          ],
+          "boundary": "评测器当前由可信宿主提供；敌对root不在证明范围。"
+        },
+        {
+          "id": "S8-C04",
+          "criterion": "before/after和后来不同任务实际复用可核实",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "HANDS",
+            "RAE"
+          ],
+          "boundary": "开发者修复不计主体学习。"
+        },
+        {
+          "id": "S8-C05",
+          "criterion": "负迁移/反例可停用，并阻止旧计划继续用错策略",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "LEARN",
+            "HANDS",
+            "RAE"
+          ],
+          "boundary": "两方法later-use后遭反例停用；不是只留成功。"
+        },
+        {
+          "id": "S8-C06",
+          "criterion": "来源删除、重启、成本/资源和回滚合同保留",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "LEARN",
+            "HANDS",
+            "CDL"
+          ],
+          "boundary": "观察资源/预算不等于真实provider账单。"
+        },
+        {
+          "id": "S8-C07",
+          "criterion": "成长能够进入其他域的后续行为而不是孤立lesson",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "SHARE",
+            "LEARN",
+            "RAE"
+          ],
+          "boundary": "已覆盖规划/动作/分享；不由此推定全域或深层机制演化合格。"
+        }
+      ],
+      "project_brain_decisions": [
+        "D-E1E6-003",
+        "RAE-00",
+        "LIVED_GROWTH_V2 — failed novel use is counterevidence",
+        "MASTER_FRAMEWORK_FREEZE_V1"
+      ]
+    },
+    {
+      "id": "S9",
+      "name": "Self-Extension",
+      "foundation_status": "FOUNDATION_QUALIFIED",
+      "growth_status": "ADVANCED_GROWTH",
+      "foundation_definition": "能力不足经同一C形成扩展候选，在隔离环境测试、采用、真实复用，并可撤回。",
+      "qualification_scope": "有限确定性纯数据workflow/code skill；实际bwrap和原Kernel复用。",
+      "advanced_future": "开放研究、任意复杂插件/适配器创造与安装、依赖管理。",
+      "first_life_blocker": "NO：受限自扩展基础达标；不授予安装或Core改写权。",
+      "next_upgrade": "确有新能力缺口时沿原I逐步扩大候选空间与环境资格。",
+      "criteria": [
+        {
+          "id": "S9-C01",
+          "criterion": "实际能力缺口→C SEEK_CAPABILITY→原I工作",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "RAE",
+            "SKILL"
+          ],
+          "boundary": "缺口分类有限，不等于开放技术研究。"
+        },
+        {
+          "id": "S9-C02",
+          "criterion": "候选实现/失败修复有版本与来源",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "SKILL",
+            "RAE"
+          ],
+          "boundary": "FixtureCodeProposer/确定性编译器边界明确。"
+        },
+        {
+          "id": "S9-C03",
+          "criterion": "真实sandbox、独立测试与digest-bound review",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "SKILL",
+            "RAE"
+          ],
+          "boundary": "无网络、无任意宿主文件/安装权限。"
+        },
+        {
+          "id": "S9-C04",
+          "criterion": "受限采用不创造新Grant，换realm需重新review",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "SKILL",
+            "PORT"
+          ],
+          "boundary": "portable skill record不等于可执行权限。"
+        },
+        {
+          "id": "S9-C05",
+          "criterion": "原Kernel至少两次真实任务复用",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "RAE",
+            "HANDS"
+          ],
+          "boundary": "批量表单与不同context，非仅测试函数返回值。"
+        },
+        {
+          "id": "S9-C06",
+          "criterion": "退役、来源撤回、恢复后不复活失效技能",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "SKILL",
+            "HANDS",
+            "CDL"
+          ],
+          "boundary": "不能由投影或缓存恢复权限。"
+        }
+      ],
+      "project_brain_decisions": [
+        "D-E1E6-004",
+        "LIVED_GROWTH_V2 — document grammar and skill adaptation boundary",
+        "RAE-01..13",
+        "MASTER_FRAMEWORK_FREEZE_V1"
+      ]
+    },
+    {
+      "id": "S10",
+      "name": "Lineage / Deep Evolution",
+      "foundation_status": "FOUNDATION_PARTIAL",
+      "growth_status": "ADVANCED_GROWTH",
+      "foundation_definition": "深层变化保留谁在改变、如何验证、如何退回的谱系；候选不能控制其唯一裁判。",
+      "qualification_scope": "身份/迁移/受限skill谱系已有；深层Core/评测底座改变尚未资格化。",
+      "advanced_future": "更开放Core/内部算法自修改、候选archive/canary、验证底座自身演化。",
+      "first_life_blocker": "NO：深层实现不阻塞当前First-Life；当前适用连续性/治理约束仍在S1/S7/S8/S9必验。",
+      "next_upgrade": "仅在确有深层变更任务时进入S10专门资格，不为当前封基础而先造大框架。",
+      "criteria": [
+        {
+          "id": "S10-C01",
+          "criterion": "现有identity/策略/技能修订有来源和版本",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "ID",
+            "SKILL",
+            "PORT"
+          ],
+          "boundary": "这是受限谱系，不是所有Core自改的archive。"
+        },
+        {
+          "id": "S10-C02",
+          "criterion": "迁移前退役源、新epoch、旧Grant撤销",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "PORT",
+            "CDL"
+          ],
+          "boundary": "受控单活迁移，不声称敌对多宿主同步。"
+        },
+        {
+          "id": "S10-C03",
+          "criterion": "恢复/回滚不清掉UNKNOWN或复活删除来源",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "PORT",
+            "HANDS",
+            "CDL"
+          ],
+          "boundary": "旧源未fenced时不能自动提升备份writer。"
+        },
+        {
+          "id": "S10-C04",
+          "criterion": "候选学习/技能不接触自己的独立held-out评测答案",
+          "status": "FOUNDATION_QUALIFIED",
+          "evidence": [
+            "LEARN",
+            "SKILL"
+          ],
+          "boundary": "当前可信宿主隔离合同，非通用深层裁判自演化。"
+        },
+        {
+          "id": "S10-C05",
+          "criterion": "深层Core候选Branch Before Replace及独立评测/回滚",
+          "status": "UNKNOWN_AUDIT_REQUIRED",
+          "evidence": [
+            "PORT",
+            "SKILL"
+          ],
+          "boundary": "受限skill机制不能自动证明Core深改；未来触发条件未运行。"
+        },
+        {
+          "id": "S10-C06",
+          "criterion": "验证底座自身演化由旧可信版本验证新版本",
+          "status": "UNKNOWN_AUDIT_REQUIRED",
+          "evidence": [
+            "ID",
+            "PORT"
+          ],
+          "boundary": "规范已冻结，未取得深层实现资格；不冒称已完成。"
+        }
+      ],
+      "project_brain_decisions": [
+        "D-C6B-002",
+        "D-D2D7-006",
+        "D-E1E6-004",
+        "MASTER_FRAMEWORK_FREEZE_V1"
+      ]
+    }
+  ],
+  "confirmed_implementation_missing": [],
+  "confirmed_implementation_missing_note": "No inspected item establishes a rewrite requirement; UNKNOWN is not proof of absence. This is not a claim that all implementations are complete.",
+  "human_review": "PAUSED_BY_USER_PENDING_FOUNDATION_AUDIT",
+  "provider_calls_this_audit": 0,
+  "staging_access_this_audit": false,
+  "first_life": "BLOCKED_FOUNDATION_QUALIFICATION",
+  "production": "UNCHANGED",
+  "reviewed_inputs": [
+    {
+      "path": "docs/nana_affective_autonomy_v1_evidence/scenario_matrix.json",
+      "git_blob_sha": "757bed9e50e0a78e46170e5c6604d51f881461e5"
+    },
+    {
+      "path": "docs/nana_affective_autonomy_v1_evidence/recovery_matrix.json",
+      "git_blob_sha": "c874095e0bb71073e0896973b4fa0e8bc858d15b"
+    },
+    {
+      "path": "docs/nana_affective_autonomy_v1_evidence/soak_matrix.json",
+      "git_blob_sha": "28b2ace3499b12663211e99f94cd38e451c65c24"
+    },
+    {
+      "path": "docs/nana_relational_autonomy_v1_evidence/social_appetite_ablation.json",
+      "git_blob_sha": "a9ba2263807b015782b82d286bdc8f5c600802a8"
+    },
+    {
+      "path": "docs/nana_relational_autonomy_v1_evidence/recovery_matrix.json",
+      "git_blob_sha": "8d19f47a49c2a98c79f834e882d60dda7a34a63c"
+    },
+    {
+      "path": "docs/nana_relational_autonomy_v1_evidence/self_narrative_matrix.json",
+      "git_blob_sha": "2c78e7110d79d6b23f7218636bb66ba63c09e1ac"
+    },
+    {
+      "path": "tests/affective_autonomy/test_experience.py",
+      "git_blob_sha": "c77701a6c7ce0dd8e02710a6a9e2ed5883a1c984"
+    },
+    {
+      "path": "tests/affective_autonomy/test_dispositions.py",
+      "git_blob_sha": "e448f4aa8b359b0890037ddd74d74a65d23df1da"
+    },
+    {
+      "path": "docs/nana_affective_autonomy_v1_evidence/limitations.txt",
+      "git_blob_sha": "892636ebeef8629c76bfc6d1b92d1ee7353663dc"
+    },
+    {
+      "path": "docs/nana_relational_autonomy_v1_evidence/limitations.txt",
+      "git_blob_sha": "9068c9b1d56b9a811ba614b43f3b6a0c75c0e607"
+    },
+    {
+      "path": "docs/nana_cloud_daily_life_shared_presence_v1_evidence/qualification.json",
+      "git_blob_sha": "fec866f14cb905665f4e158e4af9ba246f0e06ca"
+    },
+    {
+      "path": "docs/nana_cloud_daily_life_shared_presence_v1_evidence/portability.json",
+      "git_blob_sha": "8373b1b9b7375c874754f919c77b96735f03caf2"
+    },
+    {
+      "path": "docs/nana_real_action_experience_evolution_v1_evidence/qualification.json",
+      "git_blob_sha": "85192a3e1c6d4762f16164df290ea205f123555f"
+    },
+    {
+      "path": "docs/nana_real_action_experience_evolution_v1_evidence/self_extension.json",
+      "git_blob_sha": "ac70206a845e935cad396039a092a8f80e8623bd"
+    },
+    {
+      "path": "docs/nana_e1e6_open_autonomy_v1_evidence/qualification.json",
+      "git_blob_sha": "dda2b0173ce39c36bb2366b45ac8e19eef5b2d27"
+    },
+    {
+      "path": "docs/nana_real_cognition_world_loop_v1_evidence/qualification.json",
+      "git_blob_sha": "5e23e4db001aaa1f68d9261c32aa4994b53900ae"
+    },
+    {
+      "path": "docs/nana_h2_live_real_screen_v1_evidence/qualification.json",
+      "git_blob_sha": "e4f055602187ec2a5ed5cb34a21383e4a3e3a0ed"
+    },
+    {
+      "path": "docs/nana_provider_capability_routing_v1_evidence/qualification.json",
+      "git_blob_sha": "584fe1da07dfb83c4e194a3cf678b4d0b29905f0"
+    },
+    {
+      "path": "docs/nana_cloud_first_life_launch_v1_evidence/context_repair_staging_observation.json",
+      "git_blob_sha": "ca77e9d4df580eb8ef77528f230d55c570828282"
+    },
+    {
+      "path": "docs/nana_cloud_first_life_launch_v1_evidence/deepseek_functional_qualification.json",
+      "git_blob_sha": "512ea6933b0f8a8d9f9bf8223aff3466d4550b90"
+    },
+    {
+      "path": "docs/nana_cloud_first_life_launch_v1_evidence/human_review_context_repair.json",
+      "git_blob_sha": "0ebac582ff8f29e9ffa65b043c2e0d3978ae491d"
+    },
+    {
+      "path": "docs/nana_cloud_first_life_launch_v1_evidence/context_repair_test_summary.txt",
+      "git_blob_sha": "b9bfec8be9d80b13a49b2d32832595cd26cebf2e"
+    },
+    {
+      "path": "src/nana_core/continuity/relational/projections.py",
+      "git_blob_sha": "0466fa4bc72e2e142548efc9903f91fa0e1017ce"
+    },
+    {
+      "path": "src/nana_core/continuity/relational/deliberation.py",
+      "git_blob_sha": "5926c7f7c6aa2bb2c493598b2f2fb7b947510449"
+    },
+    {
+      "path": "src/nana_core/continuity/subject/growth.py",
+      "git_blob_sha": "9cbb23cd13c4ea0040395e8ce5fba8b2d3d4df40"
+    },
+    {
+      "path": "src/nana_core/continuity/subject/policy.py",
+      "git_blob_sha": "161ee7cff8ef5f5cc435d764f67f59f876f27e06"
+    },
+    {
+      "path": "src/nana_core/continuity/subject/growth_life.py",
+      "git_blob_sha": "a442a3f16ee3d0939d874d1e9756ab2e0caec03a"
+    },
+    {
+      "path": "tests/portable_subject/test_package.py",
+      "git_blob_sha": "61f065a1769263c34643aa5ebf6c118d9396d902"
+    },
+    {
+      "path": "tests/continuous_self/test_identity.py",
+      "git_blob_sha": "4b1b9dbcba96be6ef42c21087306d88ee8603ffc"
+    },
+    {
+      "path": "tests/continuous_self/test_memory.py",
+      "git_blob_sha": "bf121516c6a17eadce6b52316f1b7bbe65955c40"
+    },
+    {
+      "path": "src/nana_core/presence/living.py",
+      "git_blob_sha": "45ccdb68da75e46233193b5a5c3622cb79880e3e"
+    },
+    {
+      "path": "tests/living_autonomy/test_agency.py",
+      "git_blob_sha": "e3188dfe973093514b7c835222c9c9a7194bcdad"
+    },
+    {
+      "path": "tests/living_autonomy/test_recovery_migration.py",
+      "git_blob_sha": "16a42bb9efadd7eecf78dbfc6f7c2621bc402386"
+    },
+    {
+      "path": "docs/nana_d2d7_living_autonomy_v1_evidence/life_demo.json",
+      "git_blob_sha": "249b4310cdf636b96bbf48bb5b594a4345b09b5c"
+    },
+    {
+      "path": "tests/portable_subject/test_relational_reuse.py",
+      "git_blob_sha": "3cfc71d928f1e1eec39810987e41f2fe03d49473"
+    },
+    {
+      "path": "docs/nana_relational_autonomy_v1_evidence/targeted_tests.xml",
+      "git_blob_sha": "e944a71ea3d62d81f8b8209d9d474ec0298cc108"
+    },
+    {
+      "path": "docs/nana_affective_autonomy_v1_evidence/generic_subject_matrix.json",
+      "git_blob_sha": "8e0ec640b59524168f602d5ee2b0450db0f39337"
+    },
+    {
+      "path": "docs/nana_relational_autonomy_v1_evidence/personality_tradeoff_matrix.json",
+      "git_blob_sha": "d9d22c295da8122024c66f9ae4ff51cc18ea59ff"
+    },
+    {
+      "path": "tests/open_autonomy/test_learning.py",
+      "git_blob_sha": "3171a8036d19da0700dac84186908ed8c676a46c"
+    },
+    {
+      "path": "tests/open_autonomy/test_planning.py",
+      "git_blob_sha": "bfec76bf6f22ae6388bb28795d392baa7e176c66"
+    },
+    {
+      "path": "tests/open_autonomy/test_code_skills.py",
+      "git_blob_sha": "316f7594d6e905f1f96c1b668c3675a6c106cc60"
+    },
+    {
+      "path": "tests/world_loop/test_foundation.py",
+      "git_blob_sha": "7590600719328d6397d220a53acefd9cba965e10"
+    },
+    {
+      "path": "tests/vision_first/test_growth.py",
+      "git_blob_sha": "4e81cdbbf61ae3a6343d13ee5d10f00f53d24823"
+    },
+    {
+      "path": "src/nana_core/continuity/open_agency/planning.py",
+      "git_blob_sha": "eff5b95c94ebc983aafb57a1d63a371fb55e4e82"
+    },
+    {
+      "path": "src/nana_core/continuity/hands/contracts.py",
+      "git_blob_sha": "f68e213f907818d311c4459dc618b3f433ca7126"
+    },
+    {
+      "path": "src/nana_core/continuity/identity.py",
+      "git_blob_sha": "b3b71d20afce5efaacb73cd30605eddd4d557f27"
+    },
+    {
+      "path": "src/nana_core/continuity/memory.py",
+      "git_blob_sha": "bbcc27923766cf1e700ec07136a97af4ad8bb33d"
+    },
+    {
+      "path": "src/nana_core/continuity/records.py",
+      "git_blob_sha": "832ab7a894df0d2b5126bd55578b831283f3958b"
+    },
+    {
+      "path": "PROJECT_BRAIN/00_INDEX.md",
+      "git_blob_sha": "f9a65b83ccdda8ab21ab719f82e0e3a6b4afa773"
+    },
+    {
+      "path": "PROJECT_BRAIN/07_ROADMAP.md",
+      "git_blob_sha": "a5a766565fd9a75a35a4aed123ba0e3fd7768d17"
+    },
+    {
+      "path": "PROJECT_BRAIN/08_TASKS.md",
+      "git_blob_sha": "87e134b85cff31e75ed7f54fa39a2a1c7f06bc30"
+    },
+    {
+      "path": "PROJECT_BRAIN/09_STATE.md",
+      "git_blob_sha": "0257b9775e95ca10f12780c13dfcdcbae8f5e141"
+    },
+    {
+      "path": "PROJECT_BRAIN/10_DECISIONS.md",
+      "git_blob_sha": "80a36fb3e66269ad49f5de6f4bb604cf5c1d7ab5"
+    },
+    {
+      "path": "PROJECT_BRAIN/11_CHANGELOG.md",
+      "git_blob_sha": "373a6252cefb9769dd2b9f69a9ca565a6548c147"
+    },
+    {
+      "path": "README.md",
+      "git_blob_sha": "a36f45129654bf764befc9bee095619b662a20c1"
+    },
+    {
+      "path": "docs/nana_cloud_first_life_launch_v1_status.md",
+      "git_blob_sha": "8575b9f4383efcd0c633eb5f20e54f34d8c92957"
+    },
+    {
+      "path": "src/nana_core/presence/authority.py",
+      "git_blob_sha": "42b5606dfb931b16adc3b4557671fc9cd34178a4"
+    },
+    {
+      "path": "src/nana_core/presence/cadence.py",
+      "git_blob_sha": "3ed691ba2c10564217c8f4a09c322061c3cf736b"
+    },
+    {
+      "path": "src/nana_core/continuity/world_loop/world.py",
+      "git_blob_sha": "d97212e8877b31a596eb72ccb974a92116bfd1a6"
+    },
+    {
+      "path": "src/nana_core/continuity/open_agency/learning.py",
+      "git_blob_sha": "d918b0094bda22e8be2f02f5ab8aecd491696672"
+    },
+    {
+      "path": "src/nana_core/continuity/open_agency/code_skills.py",
+      "git_blob_sha": "3b65155c95cdb0b45bd8674fbf04fd0aa98d8c3e"
+    },
+    {
+      "path": "tests/controlled_hands/test_application.py",
+      "git_blob_sha": "6eb99cb7a47651cc76e037fe8a86f62ee3cc0e36"
+    },
+    {
+      "path": "tests/controlled_hands/test_boundaries.py",
+      "git_blob_sha": "c2f65d1bbf7fbe3eba6d5f6860c249d3fcf89b54"
+    },
+    {
+      "path": "tests/controlled_hands/test_recovery.py",
+      "git_blob_sha": "5c78edda24232cb5b7579e7cc4be37a1e4b0fd51"
+    },
+    {
+      "path": "tests/continuous_self/test_subject_loop.py",
+      "git_blob_sha": "597cdbadd24535acb2839569cb50aae97429df6d"
+    },
+    {
+      "path": "tests/continuous_self/test_subject_life.py",
+      "git_blob_sha": "117c934b965a8aaa95caee473fd05ae9cb6d08fc"
+    },
+    {
+      "path": "tests/living_autonomy/test_cadence.py",
+      "git_blob_sha": "d9f2c078eb07010f74e94c29cd7401d5a0bc2f75"
+    },
+    {
+      "path": "tests/continuous_runtime/test_system_qualification.py",
+      "git_blob_sha": "3806cb40ed791073a2388d5c99923c9d9b976530"
+    },
+    {
+      "path": "docs/nana_vision_first_shared_growth_v2_evidence/life_causal_change.json",
+      "git_blob_sha": "b54873e95177543ab80d61366ca315359feffcc1"
+    },
+    {
+      "path": "src/nana_core/continuity/current_state.py",
+      "git_blob_sha": "773b3f30c59d0d27f61fb72029c257ae04928c96"
+    },
+    {
+      "path": "src/nana_core/contracts.py",
+      "git_blob_sha": "83e9a8eaf966dcf84016949ca36b27e9a49023e5"
+    },
+    {
+      "path": "tests/cloud_life/test_model_swap.py",
+      "git_blob_sha": "56caab36237ab645215fdb635e5903e88365ce71"
+    },
+    {
+      "path": "tests/portable_subject/test_providers_frontend.py",
+      "git_blob_sha": "b605c02987aaa1762dd04bc958626b8b0158bcbc"
+    },
+    {
+      "path": "manifests/upload_whitelist.md",
+      "git_blob_sha": "15cb3e92c30f5c7db127384a49f4ba335724afec"
+    }
+  ],
+  "reviewed_file_count": 74,
+  "source_tree": "d3f14be73e9c33d4bdcb125f05671468ddaa0e2a",
+  "historical_test_path_note": "Some tests/relational_autonomy paths referenced by retained historical XML are absent from the pinned current tree; current portable_subject/continuous_self/affective_autonomy definitions inspected separately. Historical pass is not a current rerun."
+}

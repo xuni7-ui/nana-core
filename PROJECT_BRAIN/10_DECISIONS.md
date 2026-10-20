@@ -1300,3 +1300,15 @@ PROJECT_STATUS是原context-fit认知意图，仍由原SubjectLoop决定WATCH/SO
 Neutral receipt仅是“已收输入，解释待定”的DIRECT_OBSERVATION；不能预先宣告UNCLEAR，也不能借此存入任意原文。
 旧记录不反写，缺失/过期/变化/删除源不允许旧context继续采纳；既有privacy/token/权限边界保留。
 新付费评审必须在离线修复与可审查提交后请求新的小额授权；余1次不使用，staging不更改。
+
+## MASTER_FRAMEWORK_FREEZE_V1 — 用户正式冻结总宪法与Foundation核账
+
+- 日期：2026-10-20（Asia/Shanghai）；来源：[用户明确指令]「好，现在正式冻结」「接下来不再改宪法，开始核账」。
+- SUPERSEDES：旧账本中“下一步继续DeepSeek真人评审/新增小额复评预算”的近期任务安排，以及只靠GLOBAL_STAGE描述整体完成度的口径。保留全部既有发生事实、Provider资格与失败/UNKNOWN证据；不推翻历史实现。
+- 冻结：`00_MASTER_FRAMEWORK.md` 的Ultimate Vision、S1–S10正式定义、三横向轴及最高原则；S8工程投入可极高但不是最高人生目的；Independent Life与Shared Life同时成立，Primary User不是认知/学习/思想边界。
+- 总框架仅因逻辑矛盾、已确认终极目标不可表达或真实证据证明不可行而修订；新想法先归域、区分基础/扩展、核证据和Gate。因新建议改变近期实施主线须FOUNDATION_MISSING + CURRENT_GATE_BLOCKER。
+- 首轮criteria版本1.0，10域63项；限定开发范围S1/S2/S7/S8/S9 Qualified，S3/S4/S5/S6 Tested并留关键未知，S10 Partial且深层实现非基础First-Life前置。UNKNOWN不自动等于缺失。
+- 新主任务：`MASTER_FRAMEWORK_FREEZE_AND_FOUNDATION_CAPABILITY_AUDIT_V1`。审计产物为Master+Matrix及机器可读账；核账结束后只关闭Matrix列出的有界资格差额，不无限审计或重写系统。
+- Gate：S1–S9基础资格齐全后再作First-Life Integration Qualification；已有集成试验/驻留/Provider成果保留。24h固定源码run继续独立，本轮未读运行宿主、不重启、不污染；真人评审暂停，付费范围未扩大。
+- 权限：本轮用户已明确要求写入仓库；仅提交文档/审计元数据及入口对齐，不修改业务源码、测试、运行配置、Store、生产、main/R045或真实社交。
+- 证据：[01_CAPABILITY_MATRIX.md](01_CAPABILITY_MATRIX.md) 逐条实现/测试/范围/未知；`docs/nana_master_framework_foundation_audit_v1_evidence/` 为本次阅读清单、校验与指纹。

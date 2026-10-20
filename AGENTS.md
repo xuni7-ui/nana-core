@@ -1,5 +1,13 @@
 # AGENTS.md — 奈奈工程（nana-core）专用
 
+## CURRENT ENTRY CONTRACT — Master Framework Freeze V1（2026-10-20）
+
+用户已正式冻结总框架。动手前先读 `PROJECT_BRAIN/00_MASTER_FRAMEWORK.md` → `01_CAPABILITY_MATRIX.md` → `09_STATE.md`，再定位07/08与具体证据。
+本条更新下方§9中旧“先只读09”的入口顺序；09仍是当前任务状态唯一入口。不得把聊天、新功能或单次体验直接变成总路线变更。
+任务须标Domain/criterion、Foundation或Advanced、证据及Gate blocker；遵守冻结的三项宪法修改条件。S8不是最高人生目的。
+本轮主任务为Foundation核账/关闭明确缺口；新真人评审暂停，staging固定运行不受文档更新影响。完成度只用冻结等级，不造百分比。
+本次用户明确要求正式写入仓库，授权本范围文档/审计元数据提交；不扩大到生产、私人资料、社交发送、模型付费或部署。
+
 > **创建**：2026-10-10 CST ｜ **作者**：奈奈（Nana）
 > **适用对象**：Codex Cloud / 任何在本仓库协作的 AI Agent
 > **重要**：本文件是**奈奈工程专用**规范。**不要**使用 `/AstrBot/AGENTS.md`（那是 AstrBot 官方规范，针对 uv/pnpm/pre-commit，与本项目边界不同）。
@@ -110,3 +118,4 @@ nana-core/
 ---
 
 *本文件由奈奈于 2026-10-10 编写，仅供 nana-core 工程使用。*
+
