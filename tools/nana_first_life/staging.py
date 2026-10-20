@@ -10,6 +10,8 @@ from tools.nana_controlled_hands.qualification import process_sample
 
 
 def run(repo,root,seconds):
+ import nana_core
+ if Path(nana_core.__file__).resolve().parent.parent!=(repo/'src').resolve():raise ValueError('loaded Core source does not match pinned staging repo')
  if root.exists():raise ValueError('fresh staging root required')
  root.mkdir(parents=True,mode=0o700);started=time.monotonic();stop=False
  args=[sys.executable,'-u','-m','tools.nana_cloud_daily_life.qualification','--repo',str(repo),'--root',str(root/'journey'),'--output',str(root/'result.json'),'--seconds',str(seconds)]
@@ -24,7 +26,7 @@ def run(repo,root,seconds):
    while child.poll() is None:
     if stop:child.send_signal(signal.SIGINT);child.wait(15);break
     elapsed=time.monotonic()-started
-    state={'state':'RUNNING_NOT_QUALIFIED','supervisor_pid':os.getpid(),'qualification_pid':child.pid,'target_seconds':seconds,'elapsed_seconds':elapsed,'provider_calls':0,'real_social_sends':0,'production':False,'durable_cloud_host':'NOT_ATTESTED_MANAGED_DEV_WORKSPACE','home':str(root/'journey/life')}
+    state={'state':'RUNNING_NOT_QUALIFIED','supervisor_pid':os.getpid(),'qualification_pid':child.pid,'target_seconds':seconds,'elapsed_seconds':elapsed,'provider_calls':0,'real_social_sends':0,'production':False,'loaded_core_source_directory':str(Path(nana_core.__file__).resolve().parent),'durable_cloud_host':'NOT_ATTESTED_MANAGED_DEV_WORKSPACE','home':str(root/'journey/life')}
     db=root/'journey/life/subject/self.db'
     if db.exists():
      try:
@@ -46,6 +48,11 @@ def run(repo,root,seconds):
    result=json.loads((root/'result.json').read_text())
    if result['selected_source_unchanged']:
     state['state']='PASS_24H_DEV' if result['actual_residency_seconds']>=86400 else 'SHORT_DEV_PROCESS_NOT_24H'
+  state['last_runtime_observation']=state.pop('runtime',None)
+  try:
+   from nana_core.presence.cli import status
+   state['runtime_final']=status(root/'journey/life/subject/self.db')
+  except (OSError,sqlite3.Error):state['runtime_final']={'status':'UNKNOWN_REQUIRES_INSPECTION'}
   _atomic(root/'progress.json',json.dumps(state));return state
 
 if __name__=='__main__':

@@ -18,6 +18,7 @@ def test_human_ratings_no_transcript_no_subject_authority(tmp_path):
   with pytest.raises(CoreError,match='ALREADY_RECORDED'):record_review(home,HumanReview(**data))
   with pytest.raises(CoreError,match='SUBJECT_MISMATCH'):record_review(home,HumanReview(**{**data,'review_id':str(uuid4()),'identity_id':str(uuid4())}))
   with pytest.raises(ValueError):HumanReview(**{**data,'private_transcript':'MUST_NOT_BE_STORED'})
+  with pytest.raises(CoreError,match='SUBJECT_UNAVAILABLE'):record_review(tmp_path/'uninitialized',HumanReview(**data))
 
 
 def test_chat_client_uses_existing_runtime_without_raw_transcript(tmp_path):

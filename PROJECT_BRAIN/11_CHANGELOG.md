@@ -2090,3 +2090,7 @@ First-Life checkpoint [源码/实测]：size/rate guard、restart latch、PASSIV
 同Runtime私有chat client、immutable结构化human-declared review、实际3进程writer交接/回滚工具均已实现。
 新focused6 passed2.54s；相关first-life/cloud25 passed16.64s（该次尚未加入最后client case）；
 真人review NOT_RUN，测试评分不作为human证据，不自动升级readiness。下一步actual bounded soak与24h dev runner。
+
+First-Life error-path hardening：未初始化home的review返回明确SUBJECT_UNAVAILABLE，不输出原异常；staging完成把旧runtime采样标为last observation，并重新只读观测runtime_final，避免终态仍显示旧ACTIVE。90s旧构建组合通过，后续24h从修复后freeze开始。
+
+24h staging source isolation：使用显式PYTHONPATH的detached worktree固定构建，supervisor核验实际导入Core来自该repo；后续开发不污染驻留source hash。共享已有venv，不安装依赖、不复制旧bundle；这不是第二主体Store。

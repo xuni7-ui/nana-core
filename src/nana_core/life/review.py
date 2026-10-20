@@ -37,8 +37,12 @@ def record_review(home,review):
     review=HumanReview.model_validate_json(review.model_dump_json());home=home_path(home)
     import sqlite3
     # Read only; do not acquire an operator token or a second writer lock.
-    with sqlite3.connect('file:'+str(home/'subject/self.db')+'?mode=ro',uri=True) as db:
-        identity=db.execute('SELECT identity_id FROM identities').fetchone()[0]
+    try:
+        with sqlite3.connect('file:'+str(home/'subject/self.db')+'?mode=ro',uri=True) as db:
+            row=db.execute('SELECT identity_id FROM identities').fetchone()
+        if row is None:raise CoreError('HUMAN_REVIEW_SUBJECT_UNAVAILABLE')
+        identity=row[0]
+    except sqlite3.Error:raise CoreError('HUMAN_REVIEW_SUBJECT_UNAVAILABLE') from None
     if review.identity_id!=identity:raise CoreError('HUMAN_REVIEW_SUBJECT_MISMATCH')
     folder=home/'human-reviews'
     if folder.is_symlink():raise CoreError('HUMAN_REVIEW_PATH_DENIED')
