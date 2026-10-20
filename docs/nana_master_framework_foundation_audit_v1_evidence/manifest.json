@@ -1,6 +1,6 @@
 {
   "source_commit": "eece7a469a5af8a9df5731367e5b7db046039a23",
-  "scope": "documentation_and_audit_metadata_only",
+  "scope": "EXISTING_FREEZE_63_CRITERIA_INDEPENDENT_RECHECK_DOCUMENTS_AND_OFFLINE_AUDIT_TOOLS_ONLY",
   "excluded": [
     "manifest.json (self)",
     "PROJECT_BRAIN/09_STATE.md (contains manifest anchor)",
@@ -11,15 +11,30 @@
     "AGENTS.md": "028e20cc99a7e58ede7dbf481be12567676fb35f39e5290bef5b9e1defb1439f",
     "PROJECT_BRAIN/00_INDEX.md": "9a32126a042fa56d6a60686dad9179a2f46a24ba8cdc037e6bb67f622e41943d",
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md": "fe6efe121a05145b44178d5ec26b99430a28e873fca8d1b80f16671c65e5133c",
-    "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md": "241333bcf365528639a00db06a2df32a2a9ad2ba3763c07990966a709b61e99b",
-    "PROJECT_BRAIN/07_ROADMAP.md": "c5c09b5cc9cc453a9f9ca8b7f543f6db9fca6a3aa30ddcf0b0967f8c4626a714",
-    "PROJECT_BRAIN/08_TASKS.md": "222458b129435157dc7f058e7bea811171895ac5ce1419dd392998cb707c8647",
-    "PROJECT_BRAIN/10_DECISIONS.md": "04e24fa59c26a0dc459dfd0cf063274b81c29c63b39f6c502c720386e9e62741",
-    "PROJECT_BRAIN/11_CHANGELOG.md": "e87ca322fe3058a9c099955be73d7522277ed7a8be4300a3ceb16a7bab6457db",
+    "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md": "90e659f36d1ba6d71473fa060c7f9a980c31f0e31a0ad824e8573e7f2bac7a9e",
+    "PROJECT_BRAIN/07_ROADMAP.md": "ef3cecdd0dbe6d1b1fbfd92369ee0c3c6ab117b929193989086347f340aeb07f",
+    "PROJECT_BRAIN/08_TASKS.md": "49e60c7746215bd79aa725739fb2d3b7a4f3aeda4294203aa0a2ad277700cb10",
+    "PROJECT_BRAIN/10_DECISIONS.md": "a01b250b882923d9794885cd8d2b2d1405a2abf6c6baa0d98ccb7dc2e82881c4",
+    "PROJECT_BRAIN/11_CHANGELOG.md": "77608ea67d5cc4301881f7959c0f853d8c59db972691990538a82b229a069c95",
     "README.md": "6d41954c9d1175de387ecfbf549e0b2a0a93e91a8fc974ec469fb913bac51ce6",
-    "docs/nana_cloud_first_life_launch_v1_status.md": "2a66e75df669e8c9aa8967eeb5d09994d8d0d63c257e42353b0def75ff87be1f",
-    "docs/nana_master_framework_foundation_audit_v1_evidence/audit.json": "e17c626040fec381f3729c49fd8adf855f01c45cda97d998da0ffae1f49ef5c2",
+    "docs/nana_cloud_first_life_launch_v1_status.md": "905402b054396eb35515bbc27ef996c73ee4ae5d922fab6f46e2c16e1afd1e9d",
+    "docs/nana_master_framework_foundation_audit_v1_evidence/audit.json": "85da6f8faed17a432a9793cb7f65c2aace331f83dca2680395314932f638da24",
+    "docs/nana_master_framework_foundation_audit_v1_evidence/context_boundary_tests.txt": "29fe33603395be7dd07a4febbd5aa11392a8d6b257cded3e92de8342a7d585f2",
+    "docs/nana_master_framework_foundation_audit_v1_evidence/focused_tests.txt": "91e64a19f56cf9f7ec591aae392d0e97e5bd2d08903f3ae7d40abb28343b3dd7",
+    "docs/nana_master_framework_foundation_audit_v1_evidence/independent_review.json": "ec48f7d43edacf4004188646090579ab69f01a2b35c4dfb7314bccc51885a9d3",
+    "docs/nana_master_framework_foundation_audit_v1_evidence/independent_validation.json": "2fbbbf1a639323ff027729c7fcdbd93d0aa0834f053bfea33cccaf9f52f5fa09",
+    "docs/nana_master_framework_foundation_audit_v1_evidence/relational_current_core_tests.txt": "2a65a122c3e95467ed3d7e6ebd9267c2f1da8d8393d4f05fc89fc0bfe013d348",
+    "docs/nana_master_framework_foundation_audit_v1_evidence/relational_snapshot.json": "3cebf9ef4d1102d4dccfe6c8c72e8bbabd55f72444e1a2b975a8dbb7e4803c4f",
+    "docs/nana_master_framework_foundation_audit_v1_evidence/reproduction.md": "7d5a534fe13a5f2b400124a9990bc447ece1258e06323e6cca694d9e8b04101a",
+    "docs/nana_master_framework_foundation_audit_v1_evidence/source_inspection.json": "9b99a8818a44b90346bc8976b59baa6e5c44f20a369f7e9811de7bb9813c9769",
+    "docs/nana_master_framework_foundation_audit_v1_evidence/staging_observation.json": "799186cec2fdeb4411067f357292078ee0baf55f8827b681a7e6e4cc0fef9d62",
+    "docs/nana_master_framework_foundation_audit_v1_evidence/topic_scope_probe.json": "7e57a8fc1b9934265e2ff9f9862233703e507d4984bb71e8d82363253771428e",
     "docs/nana_master_framework_foundation_audit_v1_evidence/validation.json": "d1defd41863bb3d11b6d6b4e68277ea7e8b63331734a01a5f02e98f33e812ca4",
-    "manifests/upload_whitelist.md": "900c0e141502654d030f2ce633b11c70b2f8636738ed8175738cd5fe56aa4772"
-  }
+    "docs/nana_master_framework_foundation_audit_v1_report.md": "89e3da92a608dc9b4357952b1030d27e679fe96f0a99bfec430b2ccaa98ead14",
+    "manifests/upload_whitelist.md": "dd57e0d5959f5e6a6b873274035702757c9668b6026d12a8631aa40323091834",
+    "tools/nana_foundation_audit/check.py": "d4d7cb43e6b1f33a85c8c9f599529c9d3bc467246cfc709b8b223fefa9b125b7",
+    "tools/nana_foundation_audit/probe_topic_scope.py": "48e41936ed70cdd5be738e0c1194d4eba24074d60eee9842a0a1a1800cfaa794"
+  },
+  "independent_review_parent": "af52371d0201b72ce83b00fdf6e4e1b33cd1d198",
+  "previous_manifest_sha256": "d392724e8ce412ba857262d7d41e6c4a695c156c8515064da6daa8d269a04f94"
 }

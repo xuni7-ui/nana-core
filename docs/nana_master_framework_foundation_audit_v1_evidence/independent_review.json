@@ -1,0 +1,73 @@
+{
+  "scope": "INDEPENDENT_REVIEW_OF_EXISTING_FREEZE_NOT_SECOND_MATRIX",
+  "upstream_commit": "af52371d0201b72ce83b00fdf6e4e1b33cd1d198",
+  "original_local_head": "eece7a469a5af8a9df5731367e5b7db046039a23",
+  "upstream_is_fast_forward": true,
+  "local_draft_preserved": true,
+  "preserved_files": 10,
+  "preservation_hashes_equal": true,
+  "preserved_location": "/workspace/nana-foundation-draft-preserved-l8zjxqi3",
+  "framework_source_sha256": "fe6efe121a05145b44178d5ec26b99430a28e873fca8d1b80f16671c65e5133c",
+  "criteria_denominators": {
+    "S1": 5,
+    "S2": 6,
+    "S3": 9,
+    "S4": 6,
+    "S5": 6,
+    "S6": 7,
+    "S7": 5,
+    "S8": 7,
+    "S9": 6,
+    "S10": 6
+  },
+  "criteria_definition_changed": false,
+  "status_changes": [
+    {
+      "criterion": "S3-C01",
+      "before": "FOUNDATION_TESTED",
+      "after": "FOUNDATION_QUALIFIED",
+      "basis": "CURRENT_CORE_OFFLINE_CAUSAL_AND_ACTUAL_PROCESS_RECHECK; NOT_REAL_NEED_CHANGE_CHAIN"
+    },
+    {
+      "criterion": "S3-C02",
+      "before": "FOUNDATION_TESTED",
+      "after": "FOUNDATION_QUALIFIED",
+      "basis": "CURRENT_CORE_OFFLINE_CAUSAL_AND_ACTUAL_PROCESS_RECHECK; NOT_REAL_NEED_CHANGE_CHAIN"
+    },
+    {
+      "criterion": "S3-C04",
+      "before": "FOUNDATION_TESTED",
+      "after": "FOUNDATION_QUALIFIED",
+      "basis": "CURRENT_CORE_OFFLINE_CAUSAL_AND_ACTUAL_PROCESS_RECHECK; NOT_REAL_NEED_CHANGE_CHAIN"
+    },
+    {
+      "criterion": "S3-C06",
+      "before": "FOUNDATION_TESTED",
+      "after": "FOUNDATION_QUALIFIED",
+      "basis": "CURRENT_CORE_OFFLINE_CAUSAL_AND_ACTUAL_PROCESS_RECHECK; NOT_REAL_NEED_CHANGE_CHAIN"
+    },
+    {
+      "criterion": "S3-C08",
+      "before": "FOUNDATION_TESTED",
+      "after": "FOUNDATION_QUALIFIED",
+      "basis": "CURRENT_CORE_OFFLINE_CAUSAL_AND_ACTUAL_PROCESS_RECHECK; NOT_REAL_NEED_CHANGE_CHAIN"
+    },
+    {
+      "criterion": "S6-C07",
+      "before": "UNKNOWN_AUDIT_REQUIRED",
+      "after": "FOUNDATION_PARTIAL",
+      "basis": "CONFIRMED_CONVERSATION_SCOPE_AND_INTERNAL_RESEARCH_CONFLATION; FRAMING_QUALIFICATION_REMAINS_OPEN"
+    }
+  ],
+  "S3_C09_not_closed_by_synthetic_recheck": true,
+  "S4_C06_not_closed_by_elapsed_snapshot": true,
+  "S5_C06_not_closed_by_combining_separate_passes": true,
+  "human_review_paused": true,
+  "new_provider_calls": 0,
+  "sensitive_scan": {
+    "scope": "changed_documentation_audit_tools_and_git_diff_only",
+    "credential_literal_pattern_matches": 0,
+    "credential_accessed": false,
+    "historical_credentials_searched": false
+  }
+}

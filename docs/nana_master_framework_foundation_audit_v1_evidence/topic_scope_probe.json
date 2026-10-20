@@ -1,0 +1,21 @@
+{
+  "scope": "OFFLINE_SYNTHETIC_CURRENT_CORE_NOT_HUMAN_REVIEW",
+  "literal_kind": "DECLINE_DEPTH",
+  "source_privacy": "PUBLIC",
+  "before": {
+    "behavior": "LEARN",
+    "goal_candidate": true
+  },
+  "after": {
+    "mode": "RESPECT_BOUNDARY",
+    "behavior": "STAY_SILENT",
+    "goal_candidate": false,
+    "allow_internal_new_work": false
+  },
+  "other_topic_behavior": "LEARN",
+  "source_still_visible": true,
+  "manager_outcome_count": 0,
+  "provider_call_count": 0,
+  "action_count": 0,
+  "finding": "Conversation-depth refusal has no distinct type from same-topic internal learning pause; unrelated topics remain independent. This observation does not authorize removing privacy/refusal safeguards."
+}

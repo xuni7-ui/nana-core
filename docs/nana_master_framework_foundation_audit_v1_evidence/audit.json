@@ -6,10 +6,10 @@
   "repository": "xuni7-ui/nana-core",
   "source_branch": "dev/nana-core-cloud-first-life-launch-v1-codex",
   "source_commit": "eece7a469a5af8a9df5731367e5b7db046039a23",
-  "method": "Pinned repository source/test-definition review and retained qualification evidence; no application tests, provider calls, live host reads or production actions performed in this audit.",
+  "method": "Pinned repository source/test-definition review and retained qualification evidence; no application tests, provider calls, live host reads or production actions performed in this audit. Independent review after af52371 fast-forward: current-source focused and historical Git-test snapshots executed; one offline topic-scope probe; operational staging progress read-only. Original no-run/no-host claims apply to the initial review only.",
   "criteria_version": "1.0",
   "framework_status": "FROZEN",
-  "matrix_status": "INITIAL_COMPLETE_ACCOUNTING_WITH_EXPLICIT_UNKNOWNS",
+  "matrix_status": "INDEPENDENTLY_REVIEWED_EXISTING_63_CRITERIA; NO_FRAMEWORK_OR_DENOMINATOR_CHANGE",
   "references": {
     "ID": [
       "src/nana_core/continuity/identity.py",
@@ -113,6 +113,18 @@
     "MODEL_SWAP": [
       "tests/cloud_life/test_model_swap.py",
       "tests/portable_subject/test_providers_frontend.py"
+    ],
+    "RECHECK": [
+      "docs/nana_master_framework_foundation_audit_v1_evidence/focused_tests.txt",
+      "docs/nana_master_framework_foundation_audit_v1_evidence/relational_current_core_tests.txt",
+      "docs/nana_master_framework_foundation_audit_v1_evidence/relational_snapshot.json"
+    ],
+    "SCOPE_PROBE": [
+      "src/nana_core/continuity/subject/context_fit.py",
+      "src/nana_core/continuity/open_agency/learning.py",
+      "tools/nana_foundation_audit/probe_topic_scope.py",
+      "docs/nana_master_framework_foundation_audit_v1_evidence/topic_scope_probe.json",
+      "docs/nana_master_framework_foundation_audit_v1_evidence/context_boundary_tests.txt"
     ]
   },
   "domains": [
@@ -275,7 +287,7 @@
       "foundation_status": "FOUNDATION_TESTED",
       "growth_status": "ADVANCED_GROWTH",
       "foundation_definition": "持续需要、兴趣和关系参与取舍，经独立C判断形成行动或休息；经历可改变后来动机倾向且跨重启持续。",
-      "qualification_scope": "已有合成因果/实际进程恢复及真实受控任务→分享候选；完整内在倾向的真实持续闭环未核实。",
+      "qualification_scope": "基础因果/关系/恢复8项在受限合成与开发范围资格成立；S3-C09要求的真实经历→需要/倾向变化→重启→自主选择整链仍UNKNOWN。",
       "advanced_future": "复杂情绪、依恋/幽默/梦想细化和开放关系成长；不能全部变成Foundation前置。",
       "first_life_blocker": "YES：S3-C09证据缺口阻止S3 Foundation资格；不是已确认重写需求。",
       "next_upgrade": "先复用现有Growth/relational/C/D，补同一lineage的最小非人工偏好注入因果证据；失败再定位实现差额。",
@@ -283,23 +295,25 @@
         {
           "id": "S3-C01",
           "criterion": "内部偏好/需要/关系有持续、可追源状态",
-          "status": "FOUNDATION_TESTED",
+          "status": "FOUNDATION_QUALIFIED",
           "evidence": [
             "LOOP",
-            "REL"
+            "REL",
+            "RECHECK"
           ],
-          "boundary": "typed qualitative状态；不等于完整人类情绪。"
+          "boundary": "typed qualitative状态；不等于完整人类情绪。 独立复核：当前Core对历史Git测试快照18 PASS（含90虚拟天/7实际SIGKILL），另当前tracked因果目标测试21 PASS；仅上述范围，不填S3-C09。"
         },
         {
           "id": "S3-C02",
           "criterion": "非用户命令可产生自主探索/社交等动机",
-          "status": "FOUNDATION_TESTED",
+          "status": "FOUNDATION_QUALIFIED",
           "evidence": [
             "LOOP",
             "LIFE",
-            "OLDREL"
+            "OLDREL",
+            "RECHECK"
           ],
-          "boundary": "SELF_WAKE不等于无来源随机造欲望。"
+          "boundary": "SELF_WAKE不等于无来源随机造欲望。 独立复核：当前Core对历史Git测试快照18 PASS（含90虚拟天/7实际SIGKILL），另当前tracked因果目标测试21 PASS；仅上述范围，不填S3-C09。"
         },
         {
           "id": "S3-C03",
@@ -315,12 +329,13 @@
         {
           "id": "S3-C04",
           "criterion": "关系重要性影响选择，Primary User不是唯一兴趣源",
-          "status": "FOUNDATION_TESTED",
+          "status": "FOUNDATION_QUALIFIED",
           "evidence": [
             "REL",
-            "OLDREL"
+            "OLDREL",
+            "RECHECK"
           ],
-          "boundary": "anchor消融保留social appetite；自然语言思想开放性未普遍证明。"
+          "boundary": "anchor消融保留social appetite；自然语言思想开放性未普遍证明。 独立复核：当前Core对历史Git测试快照18 PASS（含90虚拟天/7实际SIGKILL），另当前tracked因果目标测试21 PASS；仅上述范围，不填S3-C09。"
         },
         {
           "id": "S3-C05",
@@ -336,12 +351,13 @@
         {
           "id": "S3-C06",
           "criterion": "来源支持/反证可改变兴趣及后续SELF_WAKE选择",
-          "status": "FOUNDATION_TESTED",
+          "status": "FOUNDATION_QUALIFIED",
           "evidence": [
             "LOOP",
-            "REL"
+            "REL",
+            "RECHECK"
           ],
-          "boundary": "现有测试由typed环境PreferenceSignal输入，不能冒充开放自主体验提炼。"
+          "boundary": "现有测试由typed环境PreferenceSignal输入，不能冒充开放自主体验提炼。 独立复核：当前Core对历史Git测试快照18 PASS（含90虚拟天/7实际SIGKILL），另当前tracked因果目标测试21 PASS；仅上述范围，不填S3-C09。"
         },
         {
           "id": "S3-C07",
@@ -357,12 +373,13 @@
         {
           "id": "S3-C08",
           "criterion": "偏好信号和主体判断可跨重启/真实SIGKILL恢复",
-          "status": "FOUNDATION_TESTED",
+          "status": "FOUNDATION_QUALIFIED",
           "evidence": [
             "LOOP",
-            "OLDREL"
+            "OLDREL",
+            "RECHECK"
           ],
-          "boundary": "当前测试支持信号与事务恢复；历史关系专测部分路径已不在当前树。"
+          "boundary": "当前测试支持信号与事务恢复；历史关系专测部分路径已不在当前树。 独立复核：当前Core对历史Git测试快照18 PASS（含90虚拟天/7实际SIGKILL），另当前tracked因果目标测试21 PASS；仅上述范围，不填S3-C09。"
         },
         {
           "id": "S3-C09",
@@ -550,13 +567,13 @@
     {
       "id": "S6",
       "name": "Independent Judgment / Problem Framing / Goal / Planning",
-      "foundation_status": "FOUNDATION_TESTED",
+      "foundation_status": "FOUNDATION_PARTIAL",
       "growth_status": "ADVANCED_GROWTH",
       "foundation_definition": "C能形成自己的问题判断和目标，区分用户建议、问题与路径；有限规划可验证并按结果调整。",
-      "qualification_scope": "有限目标/方法替代、capability-gap重述与规划已成立；更广问题定义的最小资格待界定核实。",
+      "qualification_scope": "目标/方法替代和bounded规划已有；同题对话拒绝→内部认知暂停的范围混合已被探针确认，问题定义资格亦未齐。",
       "advanced_future": "开放长期复杂规划、研究发现未知方案；不把用户意图设为认知边界。",
-      "first_life_blocker": "YES：S6-C07的问题定义资格仍不足；不是要求万能planner。",
-      "next_upgrade": "沿原C/World/Goal记录补一例有来源的问题重定义、理由与对照；先查既有RAE gap证据，避免重造。",
+      "first_life_blocker": "YES：S6-C07下已证实的认知范围语义缺口及问题定义资格，直接影响独立WHAT/WHY。",
+      "next_upgrade": "优先在原C中区分不再聊/不打扰、hard privacy/Manager、Subject自愿可复审的暂停；保留原愿望及安全guard。复用现有World/Goal/记录，补有来源的前提质疑/问题重定义与对照，不强制新DTO或第二Planner。",
       "criteria": [
         {
           "id": "S6-C01",
@@ -624,13 +641,14 @@
         {
           "id": "S6-C07",
           "criterion": "独立Problem Framing的当前最小因果资格",
-          "status": "UNKNOWN_AUDIT_REQUIRED",
+          "status": "FOUNDATION_PARTIAL",
           "evidence": [
             "HANDS",
             "RAE",
-            "PLAN"
+            "PLAN",
+            "SCOPE_PROBE"
           ],
-          "boundary": "方法选择与预定义capability-gap分类已有；尚不能据此宣布问题定义能力完整过门。"
+          "boundary": "保留方法级替代和typed规划PASS。独立探针确认：PUBLIC普通“暂时不聊/别分析”被DECLINE_DEPTH持久化，后续同题SELF_WAKE LEARN无Manager仍被禁止形成新work；其他topic不受影响。缺少delivery拒绝与Subject自愿可复审认知暂停的语义区分；不是凭缺少某个DTO断定整个framing机制不存在。问题定义的最小因果资格仍需补齐。"
         }
       ],
       "project_brain_decisions": [
@@ -963,11 +981,19 @@
       ]
     }
   ],
-  "confirmed_implementation_missing": [],
-  "confirmed_implementation_missing_note": "No inspected item establishes a rewrite requirement; UNKNOWN is not proof of absence. This is not a claim that all implementations are complete.",
+  "confirmed_implementation_missing": [
+    {
+      "criterion": "S6-C07",
+      "finding": "CONVERSATION_DELIVERY_REFUSAL_VS_SELF_OWNED_COGNITIVE_PAUSE_NOT_DISTINGUISHED",
+      "scope": "public synthetic same-topic only; does not erase interest or all independent topics",
+      "evidence": "SCOPE_PROBE",
+      "whole_domain_rewrite_required": false
+    }
+  ],
+  "confirmed_implementation_missing_note": "Only the bounded semantic distinction above is confirmed missing. No evidence requires a second affect, memory, planner or subject system. S3-C09/S4-C06/S5-C06 remain qualification unknown/pending, not proof of missing implementation.",
   "human_review": "PAUSED_BY_USER_PENDING_FOUNDATION_AUDIT",
   "provider_calls_this_audit": 0,
-  "staging_access_this_audit": false,
+  "staging_access_this_audit": true,
   "first_life": "BLOCKED_FOUNDATION_QUALIFICATION",
   "production": "UNCHANGED",
   "reviewed_inputs": [
@@ -1270,5 +1296,70 @@
   ],
   "reviewed_file_count": 74,
   "source_tree": "d3f14be73e9c33d4bdcb125f05671468ddaa0e2a",
-  "historical_test_path_note": "Some tests/relational_autonomy paths referenced by retained historical XML are absent from the pinned current tree; current portable_subject/continuous_self/affective_autonomy definitions inspected separately. Historical pass is not a current rerun."
+  "historical_test_path_note": "Some tests/relational_autonomy paths referenced by retained historical XML are absent from the pinned current tree; current portable_subject/continuous_self/affective_autonomy definitions inspected separately. Historical pass is not a current rerun.",
+  "independent_review": {
+    "parent": "af52371d0201b72ce83b00fdf6e4e1b33cd1d198",
+    "initial_local_head": "eece7a469a5af8a9df5731367e5b7db046039a23",
+    "business_source_and_tests_identical": true,
+    "criteria_unchanged": true,
+    "framework_unchanged": true,
+    "local_draft_preserved_outside_repo": true,
+    "alternative_80_criterion_draft_adopted": false,
+    "changed_criteria": [
+      {
+        "criterion": "S3-C01",
+        "before": "FOUNDATION_TESTED",
+        "after": "FOUNDATION_QUALIFIED",
+        "basis": "CURRENT_CORE_OFFLINE_CAUSAL_AND_ACTUAL_PROCESS_RECHECK; NOT_REAL_NEED_CHANGE_CHAIN"
+      },
+      {
+        "criterion": "S3-C02",
+        "before": "FOUNDATION_TESTED",
+        "after": "FOUNDATION_QUALIFIED",
+        "basis": "CURRENT_CORE_OFFLINE_CAUSAL_AND_ACTUAL_PROCESS_RECHECK; NOT_REAL_NEED_CHANGE_CHAIN"
+      },
+      {
+        "criterion": "S3-C04",
+        "before": "FOUNDATION_TESTED",
+        "after": "FOUNDATION_QUALIFIED",
+        "basis": "CURRENT_CORE_OFFLINE_CAUSAL_AND_ACTUAL_PROCESS_RECHECK; NOT_REAL_NEED_CHANGE_CHAIN"
+      },
+      {
+        "criterion": "S3-C06",
+        "before": "FOUNDATION_TESTED",
+        "after": "FOUNDATION_QUALIFIED",
+        "basis": "CURRENT_CORE_OFFLINE_CAUSAL_AND_ACTUAL_PROCESS_RECHECK; NOT_REAL_NEED_CHANGE_CHAIN"
+      },
+      {
+        "criterion": "S3-C08",
+        "before": "FOUNDATION_TESTED",
+        "after": "FOUNDATION_QUALIFIED",
+        "basis": "CURRENT_CORE_OFFLINE_CAUSAL_AND_ACTUAL_PROCESS_RECHECK; NOT_REAL_NEED_CHANGE_CHAIN"
+      },
+      {
+        "criterion": "S6-C07",
+        "before": "UNKNOWN_AUDIT_REQUIRED",
+        "after": "FOUNDATION_PARTIAL",
+        "basis": "CONFIRMED_CONVERSATION_SCOPE_AND_INTERNAL_RESEARCH_CONFLATION; FRAMING_QUALIFICATION_REMAINS_OPEN"
+      }
+    ],
+    "new_provider_calls": 0,
+    "recheck_tests": {
+      "current_tracked": {
+        "passed": 21,
+        "seconds": 30.65
+      },
+      "historical_tests_current_core": {
+        "passed": 18,
+        "seconds": 106.06,
+        "virtual_days": 90,
+        "actual_sigkill_cuts": 7
+      },
+      "scope_boundary": {
+        "passed": 6,
+        "seconds": 0.63
+      }
+    },
+    "next_recommendation": "FQ-04 / S6-C07 independent problem framing and self-owned cognitive scope, bounded in original C; do not start implementation in audit."
+  }
 }

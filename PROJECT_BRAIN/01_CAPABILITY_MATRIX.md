@@ -1,12 +1,12 @@
 # Nana Core · Foundation Capability Matrix
 
-版本：1.0 · 首次完整核账 · 2026-10-20（Asia/Shanghai）  
+版本：1.0 · 证据复核revision 2（固定63条criteria不变） · 首次完整核账 · 2026-10-20（Asia/Shanghai）
 规范：[00_MASTER_FRAMEWORK.md](00_MASTER_FRAMEWORK.md) · 当前任务：[09_STATE.md](09_STATE.md)  
 审计基线：`eece7a469a5af8a9df5731367e5b7db046039a23`，开发分支 `dev/nana-core-cloud-first-life-launch-v1-codex`。
 
 ## 1. 口径与审计边界
 
-[源码核对] 本轮固定远端commit，逐域检查选定实现、测试定义及已提交资格材料；逐条结果可见[机器可读核账记录](../docs/nana_master_framework_foundation_audit_v1_evidence/audit.json)。本轮不重跑应用测试，不调用模型、不读取私人历史、不访问staging运行宿主、不改生产。
+[源码核对] 初次af52371已冻结框架与63条criteria；本次快进继承并独立复核，不另立矩阵、不更改criteria分母。逐条结果可见[机器可读核账记录](../docs/nana_master_framework_foundation_audit_v1_evidence/audit.json)。初审未运行应用测试；独立复核实际执行21项当前tracked、18项历史测试快照对当前Core、6项边界测试及offline probe，并只读staging进度。不调用模型、不读取私人历史、不改运行配置或生产。
 
 [历史实测证据复用] 既有真实进程/受控OS效果与虚拟/fixture资格按原范围保留；最近全仓记录为1300 passed /12 skipped，见REGRESSION。此数字不是本轮运行，不把E12或opt-in screen跳过项写成新通过。
 
@@ -16,20 +16,20 @@
 
 ## 2. 总览
 
-| Domain | Foundation状态 | 是否阻塞基础First-Life | 当前范围/关键缺项 |
-|---|---|---|---|
-| S1 Subject / Identity | FOUNDATION_QUALIFIED | 否 | 受控开发实例；模型替换含合成端口，不等于所有真实模型/平台迁移。 |
-| S2 Memory / Experience | FOUNDATION_QUALIFIED | 否 | 合成与受控开发材料；没有把私人历史内容不足当成机制未完成。 |
-| S3 Motivation / Affect / Relationship | FOUNDATION_TESTED | 是 | 已有合成因果/实际进程恢复及真实受控任务→分享候选；完整内在倾向的真实持续闭环未核实。 |
-| S4 Runtime / Living Presence | FOUNDATION_TESTED | 是 | 2h真实开发驻留已留证；24h仅有中途快照，非生产常驻资格。 |
-| S5 World / Perception / Cognition | FOUNDATION_TESTED | 是 | 世界模型和认知协议已有测试；文本provider与受控视觉入口分别留证，组合真实语义资格有缺项。 |
-| S6 Independent Judgment / Problem Framing / Goal / Planning | FOUNDATION_TESTED | 是 | 有限目标/方法替代、capability-gap重述与规划已成立；更广问题定义的最小资格待界定核实。 |
-| S7 Hands / Action / Verification | FOUNDATION_QUALIFIED | 否 | OWNED_DEV_APPLICATION_PROCESS；DOCUMENT/FORM/CONTENT/FILES有限IPC与文件，非GUI/个人设备/生产。 |
-| S8 Learning / Self-Evolution — Cross-Domain Growth Engine | FOUNDATION_QUALIFIED | 否 | 受控方法学习与纯数据工作流适配；跨任务域可用的成长合同，不等于已改善S2–S9每一域。 |
-| S9 Self-Extension | FOUNDATION_QUALIFIED | 否 | 有限确定性纯数据workflow/code skill；实际bwrap和原Kernel复用。 |
-| S10 Lineage / Deep Evolution | FOUNDATION_PARTIAL | 否 | 身份/迁移/受限skill谱系已有；深层Core/评测底座改变尚未资格化。 |
+| DOMAIN | STATUS | PASSED CRITERIA（资格） | OPEN FOUNDATION CRITERIA | ADVANCED FUTURE | FIRST-LIFE BLOCKER | PRIMARY EVIDENCE |
+|---|---|---|---|---|---|---|
+| S1 Subject / Identity | FOUNDATION_QUALIFIED | 5/5；C01,C02,C03,C04,C05 | 无 | 异构宿主广泛适配；深层自改后的身份连续性属S10。 | NO：当前限定基础达标；保留治理门。 | CDL,ID,MODEL_SWAP,PORT,PROVIDER,REGRESSION,REL,RUNTIME |
+| S2 Memory / Experience | FOUNDATION_QUALIFIED | 6/6；C01,C02,C03,C04,C05,C06 | 无 | 长期生活史、多模态丰富记忆、更大规模检索；私人Iris迁移单独接线。 | NO：机制限定基础达标；真实数据接入仍独立授权。 | CDL,CONTEXT,HANDS,LEARN,LOOP,MEM,PORT,REGRESSION,WORLD |
+| S3 Motivation / Affect / Relationship | FOUNDATION_TESTED | 8/9；C01,C02,C03,C04,C05,C06,C07,C08 | C09:UNKNOWN_AUDIT_REQUIRED | 复杂情绪、依恋/幽默/梦想细化和开放关系成长；不能全部变成Foundation前置。 | YES：S3-C09证据缺口阻止S3 Foundation资格；不是已确认重写需求。 | 24H,AFFECT,HANDS,LIFE,LOOP,OLDREL,RAE,RECHECK,REL,SHARE |
+| S4 Runtime / Living Presence | FOUNDATION_TESTED | 5/6；C01,C02,C03,C04,C05 | C06:UNKNOWN_AUDIT_REQUIRED | 长期云端宿主、规模化长期生活、更多Presence接口。 | YES：S4-C06的24h durability资格未完成。 | 24H,CDL,HANDS,LIFE,PORT,REGRESSION,RUNTIME |
+| S5 World / Perception / Cognition | FOUNDATION_TESTED | 5/6；C01,C02,C03,C04,C05 | C06:UNKNOWN_AUDIT_REQUIRED | 广泛视频/音频语义、camera/mic、用户桌面OCR及开放世界；不要求全部传感器才基础完成。 | YES：S5-C06的真实源→真实语义→世界修正→C组合资格待对齐。 | CONTEXT,MEM,PROVIDER,REGRESSION,SCREEN,WORLD |
+| S6 Independent Judgment / Problem Framing / Goal / Planning | FOUNDATION_PARTIAL | 6/7；C01,C02,C03,C04,C05,C06 | C07:FOUNDATION_PARTIAL | 开放长期复杂规划、研究发现未知方案；不把用户意图设为认知边界。 | YES：S6-C07下已证实的认知范围语义缺口及问题定义资格，直接影响独立WHAT/WHY。 | AFFECT,HANDS,LEARN,LIFE,LOOP,PLAN,RAE,SCOPE_PROBE |
+| S7 Hands / Action / Verification | FOUNDATION_QUALIFIED | 5/5；C01,C02,C03,C04,C05 | 无 | 浏览器、手机、桌面、游戏、真实平台动作及更复杂环境。 | NO：有限真实动作基础达标；扩环境另验，不扩权限。 | HANDS,RAE,SHARE |
+| S8 Learning / Self-Evolution — Cross-Domain Growth Engine | FOUNDATION_QUALIFIED | 7/7；C01,C02,C03,C04,C05,C06,C07 | 无 | 长期开放学习、元学习、认知/规划/学习算法改变；深层改变进入S10。 | NO：受限成长引擎基础达标；S3倾向闭环仍由S3-C09独立核验。 | CDL,HANDS,LEARN,RAE,SHARE |
+| S9 Self-Extension | FOUNDATION_QUALIFIED | 6/6；C01,C02,C03,C04,C05,C06 | 无 | 开放研究、任意复杂插件/适配器创造与安装、依赖管理。 | NO：受限自扩展基础达标；不授予安装或Core改写权。 | CDL,HANDS,PORT,RAE,SKILL |
+| S10 Lineage / Deep Evolution | FOUNDATION_PARTIAL | 4/6；C01,C02,C03,C04 | C05:UNKNOWN_AUDIT_REQUIRED; C06:UNKNOWN_AUDIT_REQUIRED | 更开放Core/内部算法自修改、候选archive/canary、验证底座自身演化。 | NO：深层实现不阻塞当前First-Life；当前适用连续性/治理约束仍在S1/S7/S8/S9必验。 | CDL,HANDS,ID,LEARN,PORT,SKILL |
 
-当前结论：S1/S2/S7/S8/S9在明示受控范围已有基础资格；S3/S4/S5/S6的必要资格尚有未知；S10深层实现部分完成且不作为当前基础Gate前置。**尚不能宣布S1–S9全部Foundation Qualified。**
+当前结论：S1/S2/S7/S8/S9在明示受控范围已有基础资格；S3/S4/S5的必要资格尚有未知，S6另有已证实语义缺口；S10深层实现部分完成且不作为当前基础Gate前置。**尚不能宣布S1–S9全部Foundation Qualified。**
 
 这不是“发现四套系统必须重写”。本轮确认的是资格差额，尚未确认任何一项整体重写需求。代码缺失、资格缺失、范围窄、未来扩展必须分别处理。
 
@@ -48,7 +48,12 @@
 | S1-C04 | 模型资源更换不创建第二Subject或迁移旧执行权限 | FOUNDATION_QUALIFIED | PORT, PROVIDER, REGRESSION, MODEL_SWAP | 真实不同provider的广泛对照未完成。 |
 | S1-C05 | 来源、关系和权限分离；新宿主撤销旧Grant | FOUNDATION_QUALIFIED | PORT, REL | 迁移包不是宿主凭据备份。 |
 
-- **已实现/已测/已运行：**按上表来源和范围；TESTED仅到测试，QUALIFIED仅到所列场景；UNKNOWN项不冒充已通过。
+- **Existing Implementation：**IdentityService / ContinuityStore / SubjectPackageService / RuntimeLease；host config独立。
+- **Tested Evidence：**对应本域criteria索引、同业务源码历史全仓1300/12skip，以及RECHECK/SCOPE_PROBE规定范围；不按总测试数判域状态。
+- **Actually Run / Qualification Evidence：**真实本地顺序owner交接epochs2→3→4、同identity、旧writer拒绝；开发fresh-host transfer，非production迁移。
+- **Missing Foundation：**限定受控身份/迁移Definition内无已确认缺失；分布式恶意clone不在当前资格。
+- **对应源码：**[src/nana_core/continuity/identity.py](../src/nana_core/continuity/identity.py)；[src/nana_core/continuity/store.py](../src/nana_core/continuity/store.py)；[src/nana_core/continuity/portable.py](../src/nana_core/continuity/portable.py)；[src/nana_core/presence/authority.py](../src/nana_core/presence/authority.py)
+- **对应当前tests：**[tests/continuous_self/test_identity.py](../tests/continuous_self/test_identity.py)；[tests/continuous_self/test_candidate.py](../tests/continuous_self/test_candidate.py)；[tests/portable_subject/test_package.py](../tests/portable_subject/test_package.py)；[tests/first_life/test_rehearsal.py](../tests/first_life/test_rehearsal.py)
 - **当前blocker / First-Life：**NO：当前限定基础达标；保留治理门。
 - **下一次升级条件：**改变身份/迁移协议时定向复核，不重做未受影响资格。
 - **Advanced Future：**异构宿主广泛适配；深层自改后的身份连续性属S10。
@@ -68,7 +73,12 @@
 | S2-C05 | 跨重启、backup/restore与受控迁移保持连续 | FOUNDATION_QUALIFIED | PORT, CDL | 恢复副本不自动取得执行权。 |
 | S2-C06 | 工程状态是有来源的外部事实，不冒充个人经历 | FOUNDATION_QUALIFIED | CONTEXT, REGRESSION | 当前状态投影修复仅OFFLINE/FIXTURE资格。 |
 
-- **已实现/已测/已运行：**按上表来源和范围；TESTED仅到测试，QUALIFIED仅到所列场景；UNKNOWN项不冒充已通过。
+- **Existing Implementation：**MemoryService/RecordService/PrivacyJournal/TemporalMemoryService/ExperienceService；Journal/context是派生视图。
+- **Tested Evidence：**对应本域criteria索引、同业务源码历史全仓1300/12skip，以及RECHECK/SCOPE_PROBE规定范围；不按总测试数判域状态。
+- **Actually Run / Qualification Evidence：**合成资料真实本地恢复、隐私journal和受控owned应用的实际Outcome→Experience；未读取Iris私人历史。
+- **Missing Foundation：**限定来源/记忆闭包内无已确认缺失；真实私人历史接入、长期检索质量未资格，不推定机制缺失。
+- **对应源码：**[src/nana_core/continuity/memory.py](../src/nana_core/continuity/memory.py)；[src/nana_core/continuity/records.py](../src/nana_core/continuity/records.py)；[src/nana_core/continuity/privacy.py](../src/nana_core/continuity/privacy.py)；[src/nana_core/continuity/temporal.py](../src/nana_core/continuity/temporal.py)；[src/nana_core/continuity/learning.py](../src/nana_core/continuity/learning.py)；[src/nana_core/continuity/context.py](../src/nana_core/continuity/context.py)
+- **对应当前tests：**[tests/continuous_self/test_memory.py](../tests/continuous_self/test_memory.py)；[tests/continuous_self/test_privacy.py](../tests/continuous_self/test_privacy.py)；[tests/continuous_self/test_learning.py](../tests/continuous_self/test_learning.py)；[tests/living_autonomy/test_maintenance.py](../tests/living_autonomy/test_maintenance.py)；[tests/cloud_life/test_operations.py](../tests/cloud_life/test_operations.py)
 - **当前blocker / First-Life：**NO：机制限定基础达标；真实数据接入仍独立授权。
 - **下一次升级条件：**改来源、检索、删除或迁移机制时复核相应闭包。
 - **Advanced Future：**长期生活史、多模态丰富记忆、更大规模检索；私人Iris迁移单独接线。
@@ -81,17 +91,22 @@
 
 | Criterion | 固定必要条件 | 状态 | 实现/测试/证据索引 | 范围与未证明项 |
 |---|---|---|---|---|
-| S3-C01 | 内部偏好/需要/关系有持续、可追源状态 | FOUNDATION_TESTED | LOOP, REL | typed qualitative状态；不等于完整人类情绪。 |
-| S3-C02 | 非用户命令可产生自主探索/社交等动机 | FOUNDATION_TESTED | LOOP, LIFE, OLDREL | SELF_WAKE不等于无来源随机造欲望。 |
+| S3-C01 | 内部偏好/需要/关系有持续、可追源状态 | FOUNDATION_QUALIFIED | LOOP, REL, RECHECK | typed qualitative状态；不等于完整人类情绪。 独立复核：当前Core对历史Git测试快照18 PASS（含90虚拟天/7实际SIGKILL），另当前tracked因果目标测试21 PASS；仅上述范围，不填S3-C09。 |
+| S3-C02 | 非用户命令可产生自主探索/社交等动机 | FOUNDATION_QUALIFIED | LOOP, LIFE, OLDREL, RECHECK | SELF_WAKE不等于无来源随机造欲望。 独立复核：当前Core对历史Git测试快照18 PASS（含90虚拟天/7实际SIGKILL），另当前tracked因果目标测试21 PASS；仅上述范围，不填S3-C09。 |
 | S3-C03 | 多种需要可取舍；负荷高可REST，不强制学习 | FOUNDATION_QUALIFIED | REL, HANDS, RAE | 受控实测及测试含真实失败后选择REST。 |
-| S3-C04 | 关系重要性影响选择，Primary User不是唯一兴趣源 | FOUNDATION_TESTED | REL, OLDREL | anchor消融保留social appetite；自然语言思想开放性未普遍证明。 |
+| S3-C04 | 关系重要性影响选择，Primary User不是唯一兴趣源 | FOUNDATION_QUALIFIED | REL, OLDREL, RECHECK | anchor消融保留social appetite；自然语言思想开放性未普遍证明。 独立复核：当前Core对历史Git测试快照18 PASS（含90虚拟天/7实际SIGKILL），另当前tracked因果目标测试21 PASS；仅上述范围，不填S3-C09。 |
 | S3-C05 | C拥有判断；Manager/Grant只限制实际动作且保留愿望 | FOUNDATION_QUALIFIED | AFFECT, HANDS, RAE | blocked与“不想做”分开。 |
-| S3-C06 | 来源支持/反证可改变兴趣及后续SELF_WAKE选择 | FOUNDATION_TESTED | LOOP, REL | 现有测试由typed环境PreferenceSignal输入，不能冒充开放自主体验提炼。 |
+| S3-C06 | 来源支持/反证可改变兴趣及后续SELF_WAKE选择 | FOUNDATION_QUALIFIED | LOOP, REL, RECHECK | 现有测试由typed环境PreferenceSignal输入，不能冒充开放自主体验提炼。 独立复核：当前Core对历史Git测试快照18 PASS（含90虚拟天/7实际SIGKILL），另当前tracked因果目标测试21 PASS；仅上述范围，不填S3-C09。 |
 | S3-C07 | 真实受控Outcome/学习复用能改变后续分享或沉默 | FOUNDATION_QUALIFIED | SHARE, HANDS, RAE | 证明source-backed社会候选，不能直接等同基础情感倾向变化。 |
-| S3-C08 | 偏好信号和主体判断可跨重启/真实SIGKILL恢复 | FOUNDATION_TESTED | LOOP, OLDREL | 当前测试支持信号与事务恢复；历史关系专测部分路径已不在当前树。 |
-| S3-C09 | 同一真实受控生活链：经历→后来需要/倾向变化→重启保留→自主再选择，含撤回/反例 | UNKNOWN_AUDIT_REQUIRED | LOOP, REL, HANDS, 24H | 没有找到覆盖整条链的当前资格证据；不是宣告机制不存在。 |
+| S3-C08 | 偏好信号和主体判断可跨重启/真实SIGKILL恢复 | FOUNDATION_QUALIFIED | LOOP, OLDREL, RECHECK | 当前测试支持信号与事务恢复；历史关系专测部分路径已不在当前树。 独立复核：当前Core对历史Git测试快照18 PASS（含90虚拟天/7实际SIGKILL），另当前tracked因果目标测试21 PASS；仅上述范围，不填S3-C09。 |
+| S3-C09 | 同一真实受控生活链：经历→后来需要/倾向变化→重启保留→自主再选择，含撤回/反例 | UNKNOWN_AUDIT_REQUIRED | LOOP, REL, HANDS, 24H | 没有找到覆盖整条真实需要变化链的当前资格证据；新18项合成/进程复核仍不填此项，不宣告机制不存在。 |
 
-- **已实现/已测/已运行：**按上表来源和范围；TESTED仅到测试，QUALIFIED仅到所列场景；UNKNOWN项不冒充已通过。
+- **Existing Implementation：**Appraisal/Motivation/ConcernCue、social_appetite、relationship_influence、Growth、原C lexicographic policy与relational deliberate。motivate输出元组主要为审计描述；实际竞争由相同来源的Situation字段和C分支完成，不冒称通用motive优化器。
+- **Tested Evidence：**对应本域criteria索引、同业务源码历史全仓1300/12skip，以及RECHECK/SCOPE_PROBE规定范围；不按总测试数判域状态。
+- **Actually Run / Qualification Evidence：**当前源码60虚拟天消融、历史测试快照在当前Core的90虚拟天/22场景/7实际SIGKILL复核，以及owned实际经验→后续share/REST；均不是真人情感或真实社交资格。
+- **Missing Foundation：**S3-C09仍缺真实经历→需要/倾向→重启→自主再选择含撤回/反例的整链证据；新18项复核不替代它。
+- **对应源码：**[src/nana_core/continuity/subject/policy.py](../src/nana_core/continuity/subject/policy.py)；[src/nana_core/continuity/subject/loop.py](../src/nana_core/continuity/subject/loop.py)；[src/nana_core/continuity/subject/growth.py](../src/nana_core/continuity/subject/growth.py)；[src/nana_core/continuity/subject/projections.py](../src/nana_core/continuity/subject/projections.py)；[src/nana_core/continuity/relational/projections.py](../src/nana_core/continuity/relational/projections.py)；[src/nana_core/continuity/relational/deliberation.py](../src/nana_core/continuity/relational/deliberation.py)；[src/nana_core/continuity/autonomy/governance.py](../src/nana_core/continuity/autonomy/governance.py)
+- **对应当前tests：**[tests/continuous_self/test_subject_life.py](../tests/continuous_self/test_subject_life.py)；[tests/continuous_runtime/test_generic_subject.py](../tests/continuous_runtime/test_generic_subject.py)；[tests/portable_subject/test_relational_reuse.py](../tests/portable_subject/test_relational_reuse.py)；[tests/affective_autonomy/test_governance.py](../tests/affective_autonomy/test_governance.py)
 - **当前blocker / First-Life：**YES：S3-C09证据缺口阻止S3 Foundation资格；不是已确认重写需求。
 - **下一次升级条件：**先复用现有Growth/relational/C/D，补同一lineage的最小非人工偏好注入因果证据；失败再定位实现差额。
 - **Advanced Future：**复杂情绪、依恋/幽默/梦想细化和开放关系成长；不能全部变成Foundation前置。
@@ -111,7 +126,12 @@
 | S4-C05 | 资源/存储增长有测量、预算和停止边界 | FOUNDATION_QUALIFIED | CDL, 24H, REGRESSION | 冷历史仍可增长；guard不是无限存储已解决。 |
 | S4-C06 | 固定源码实际24h durability与最终结果 | UNKNOWN_AUDIT_REQUIRED | 24H | 仓库快照elapsed36953.176秒、RUNNING_NOT_QUALIFIED；未访问运行宿主，不保证此刻仍存活。 |
 
-- **已实现/已测/已运行：**按上表来源和范围；TESTED仅到测试，QUALIFIED仅到所列场景；UNKNOWN项不冒充已通过。
+- **Existing Implementation：**原NanaRuntime/lease/queue/scheduler/cadence/cognition coordinator，host-local growth guard。
+- **Tested Evidence：**对应本域criteria索引、同业务源码历史全仓1300/12skip，以及RECHECK/SCOPE_PROBE规定范围；不按总测试数判域状态。
+- **Actually Run / Qualification Evidence：**RAE1805秒/CDL7205秒实际开发驻留，当前24h runner继续运行但尚未qualified；固定旧源码不是热加载当前源码。
+- **Missing Foundation：**S4-C06固定源码实际24h最终结果仍未出现；已有2h或运行中快照不能顶替固定criteria。
+- **对应源码：**[src/nana_core/presence/runtime.py](../src/nana_core/presence/runtime.py)；[src/nana_core/presence/authority.py](../src/nana_core/presence/authority.py)；[src/nana_core/presence/queue.py](../src/nana_core/presence/queue.py)；[src/nana_core/presence/scheduler.py](../src/nana_core/presence/scheduler.py)；[src/nana_core/presence/cadence.py](../src/nana_core/presence/cadence.py)；[src/nana_core/presence/resources.py](../src/nana_core/presence/resources.py)；[src/nana_core/life/durability.py](../src/nana_core/life/durability.py)
+- **对应当前tests：**[tests/continuous_runtime/test_storage_runtime.py](../tests/continuous_runtime/test_storage_runtime.py)；[tests/living_autonomy/test_cadence.py](../tests/living_autonomy/test_cadence.py)；[tests/living_autonomy/test_recovery_migration.py](../tests/living_autonomy/test_recovery_migration.py)；[tests/first_life/test_durability.py](../tests/first_life/test_durability.py)
 - **当前blocker / First-Life：**YES：S4-C06的24h durability资格未完成。
 - **下一次升级条件：**等待原固定源码staging实际result；不新开重复soak，不从快照或时间推算PASS。
 - **Advanced Future：**长期云端宿主、规模化长期生活、更多Presence接口。
@@ -131,7 +151,12 @@
 | S5-C05 | 至少一个真实受控感知入口及源生命周期 | FOUNDATION_QUALIFIED | SCREEN | owned Xorg/XGetImage；当时语义为synthetic loopback。 |
 | S5-C06 | 当前lineage真实输入→live语义→World/Concern→C完整组合及纠错 | UNKNOWN_AUDIT_REQUIRED | WORLD, SCREEN, PROVIDER | 不能把不同版本的分项PASS拼成未实际运行的整链；历史H1 PARTIAL保持。 |
 
-- **已实现/已测/已运行：**按上表来源和范围；TESTED仅到测试，QUALIFIED仅到所列场景；UNKNOWN项不冒充已通过。
+- **Existing Implementation：**WorldModel/ConcernService/CognitionSession/MediaSemanticService、B9 router/factory与H2受控ingress；port永不拥有will。
+- **Tested Evidence：**对应本域criteria索引、同业务源码历史全仓1300/12skip，以及RECHECK/SCOPE_PROBE规定范围；不按总测试数判域状态。
+- **Actually Run / Qualification Evidence：**实际codecs、owned X11 screen L1、TianToken image部分和DeepSeek文字功能；不能合称全live多模态语义资格。
+- **Missing Foundation：**S5-C06缺当前lineage真实源→live语义→World/Concern→C及纠错的同一次组合证据，不能拼接分项PASS。
+- **对应源码：**[src/nana_core/continuity/world_loop/world.py](../src/nana_core/continuity/world_loop/world.py)；[src/nana_core/continuity/world_loop/attention.py](../src/nana_core/continuity/world_loop/attention.py)；[src/nana_core/continuity/world_loop/cognition.py](../src/nana_core/continuity/world_loop/cognition.py)；[src/nana_core/continuity/world_loop/semantics.py](../src/nana_core/continuity/world_loop/semantics.py)；[src/nana_core/continuity/sensors/coordinator.py](../src/nana_core/continuity/sensors/coordinator.py)；[src/nana_core/continuity/provider_routing.py](../src/nana_core/continuity/provider_routing.py)
+- **对应当前tests：**[tests/world_loop/test_foundation.py](../tests/world_loop/test_foundation.py)；[tests/world_loop/test_boundaries.py](../tests/world_loop/test_boundaries.py)；[tests/h1_semantics/test_grounding.py](../tests/h1_semantics/test_grounding.py)；[tests/provider_routing/test_router.py](../tests/provider_routing/test_router.py)；[tests/first_life/test_project_status_context.py](../tests/first_life/test_project_status_context.py)
 - **当前blocker / First-Life：**YES：S5-C06的真实源→真实语义→世界修正→C组合资格待对齐。
 - **下一次升级条件：**先检查现有H1/文本/owned ingress能否复用到一个当前受控场景；不再横向堆传感器。
 - **Advanced Future：**广泛视频/音频语义、camera/mic、用户桌面OCR及开放世界；不要求全部传感器才基础完成。
@@ -140,7 +165,7 @@
 ### S6 · Independent Judgment / Problem Framing / Goal / Planning
 
 **Foundation Definition：**C能形成自己的问题判断和目标，区分用户建议、问题与路径；有限规划可验证并按结果调整。
-**STATUS = FOUNDATION_TESTED**；growth_status = ADVANCED_GROWTH。
+**STATUS = FOUNDATION_PARTIAL**；growth_status = ADVANCED_GROWTH。
 
 | Criterion | 固定必要条件 | 状态 | 实现/测试/证据索引 | 范围与未证明项 |
 |---|---|---|---|---|
@@ -150,11 +175,16 @@
 | S6-C04 | 实际执行/Verify/失败→Continue/Replan/Stop | FOUNDATION_QUALIFIED | PLAN, RAE, HANDS | 原失败保留。 |
 | S6-C05 | 世界修正/学习/来源撤回可改变或暂停计划 | FOUNDATION_QUALIFIED | PLAN, LEARN, HANDS | 不能仅换解释而沿用旧输出。 |
 | S6-C06 | 自主目标受Manager/资源约束但不由其生成意志 | FOUNDATION_QUALIFIED | LIFE, HANDS, RAE | REST/NO_ACTION也是有效选择。 |
-| S6-C07 | 独立Problem Framing的当前最小因果资格 | UNKNOWN_AUDIT_REQUIRED | HANDS, RAE, PLAN | 方法选择与预定义capability-gap分类已有；尚不能据此宣布问题定义能力完整过门。 |
+| S6-C07 | 独立Problem Framing的当前最小因果资格 | FOUNDATION_PARTIAL | HANDS, RAE, PLAN, SCOPE_PROBE | 保留方法级替代和typed规划PASS。独立探针确认：PUBLIC普通“暂时不聊/别分析”被DECLINE_DEPTH持久化，后续同题SELF_WAKE LEARN无Manager仍被禁止形成新work；其他topic不受影响。缺少delivery拒绝与Subject自愿可复审认知暂停的语义区分；不是凭缺少某个DTO断定整个framing机制不存在。问题定义的最小因果资格仍需补齐。 |
 
-- **已实现/已测/已运行：**按上表来源和范围；TESTED仅到测试，QUALIFIED仅到所列场景；UNKNOWN项不冒充已通过。
-- **当前blocker / First-Life：**YES：S6-C07的问题定义资格仍不足；不是要求万能planner。
-- **下一次升级条件：**沿原C/World/Goal记录补一例有来源的问题重定义、理由与对照；先查既有RAE gap证据，避免重造。
+- **Existing Implementation：**原C Judgment/ALTERNATIVE、typed Objective、BoundedPlanner与source/cursor-revision replan已在用；本次确认context_fit和学习worker复用同一个对话深度关闭状态，缺少认知范围分流。
+- **Tested Evidence：**对应本域criteria索引、同业务源码历史全仓1300/12skip，以及RECHECK/SCOPE_PROBE规定范围；不按总测试数判域状态。
+- **Actually Run / Qualification Evidence：**实际owned方法HANDS_APPEND→HANDS_REPLACE不同意见保留；当前测试证明旧拒绝会暂停内部同题学习。不能将这些测试PASS解释为新宪法全部满足。
+- **Missing Foundation：**S6-C07：已确认对话拒绝/内部认知暂停语义混合；问题级独立framing因果资格仍缺。通用记录可能承载framing，不能只凭无专用DTO认定实现不存在。
+- **对应源码：**[src/nana_core/continuity/subject/policy.py](../src/nana_core/continuity/subject/policy.py)；[src/nana_core/continuity/subject/context_fit.py](../src/nana_core/continuity/subject/context_fit.py)；[src/nana_core/continuity/open_agency/contracts.py](../src/nana_core/continuity/open_agency/contracts.py)；[src/nana_core/continuity/open_agency/planning.py](../src/nana_core/continuity/open_agency/planning.py)；[src/nana_core/continuity/open_agency/service.py](../src/nana_core/continuity/open_agency/service.py)；[src/nana_core/continuity/open_agency/learning.py](../src/nana_core/continuity/open_agency/learning.py)；[src/nana_core/continuity/world_loop/attention.py](../src/nana_core/continuity/world_loop/attention.py)
+- **对应当前tests：**[tests/open_autonomy/test_planning.py](../tests/open_autonomy/test_planning.py)；[tests/open_autonomy/test_learning.py](../tests/open_autonomy/test_learning.py)；[tests/controlled_hands/test_boundaries.py](../tests/controlled_hands/test_boundaries.py)；[tests/vision_first/test_context_fit.py](../tests/vision_first/test_context_fit.py)
+- **当前blocker / First-Life：**YES：S6-C07下已证实的认知范围语义缺口及问题定义资格，直接影响独立WHAT/WHY。
+- **下一次升级条件：**优先在原C中区分不再聊/不打扰、hard privacy/Manager、Subject自愿可复审的暂停；保留原愿望及安全guard。复用现有World/Goal/记录，补有来源的前提质疑/问题重定义与对照，不强制新DTO或第二Planner。
 - **Advanced Future：**开放长期复杂规划、研究发现未知方案；不把用户意图设为认知边界。
 - **对应PROJECT_BRAIN决策：**`D-E1E6-001`、`RAE final executable guard / typed problem reframing`、`MASTER_FRAMEWORK_FREEZE_V1`，见[10_DECISIONS](10_DECISIONS.md)。按原阶段/范围继承，不将历史READY自动推广。
 
@@ -171,7 +201,12 @@
 | S7-C04 | SIGKILL/并发冲突/UNKNOWN保留，无重复effect | FOUNDATION_QUALIFIED | HANDS, RAE | 六切点及file/IPC不一致反例。 |
 | S7-C05 | Outcome进入Experience/学习/后续决策 | FOUNDATION_QUALIFIED | HANDS, RAE, SHARE | 有实际失败、迁移任务和来源撤回。 |
 
-- **已实现/已测/已运行：**按上表来源和范围；TESTED仅到测试，QUALIFIED仅到所列场景；UNKNOWN项不冒充已通过。
+- **Existing Implementation：**原ActionKernel/RealizationCoordinator与owned finite IPC adapter；document/form/files/content，不是任意OS。
+- **Tested Evidence：**对应本域criteria索引、同业务源码历史全仓1300/12skip，以及RECHECK/SCOPE_PROBE规定范围；不按总测试数判域状态。
+- **Actually Run / Qualification Evidence：**历史9tasks/36Actions/12effects真实owned进程；本审计目标测试有限临时owned应用复核，不接用户设备。
+- **Missing Foundation：**有限owned开发应用Definition内无已确认缺失；通用GUI/用户设备和生产账号未在资格scope。
+- **对应源码：**[src/nana_core/actions.py](../src/nana_core/actions.py)；[src/nana_core/continuity/autonomy/realization.py](../src/nana_core/continuity/autonomy/realization.py)；[src/nana_core/continuity/hands/service.py](../src/nana_core/continuity/hands/service.py)；[src/nana_core/continuity/hands/port.py](../src/nana_core/continuity/hands/port.py)；[src/nana_core/continuity/hands/server.py](../src/nana_core/continuity/hands/server.py)
+- **对应当前tests：**[tests/controlled_hands/test_application.py](../tests/controlled_hands/test_application.py)；[tests/controlled_hands/test_boundaries.py](../tests/controlled_hands/test_boundaries.py)；[tests/controlled_hands/test_recovery.py](../tests/controlled_hands/test_recovery.py)
 - **当前blocker / First-Life：**NO：有限真实动作基础达标；扩环境另验，不扩权限。
 - **下一次升级条件：**新增动作域时增加目标绑定、权限和独立Verify资格。
 - **Advanced Future：**浏览器、手机、桌面、游戏、真实平台动作及更复杂环境。
@@ -192,7 +227,12 @@
 | S8-C06 | 来源删除、重启、成本/资源和回滚合同保留 | FOUNDATION_QUALIFIED | LEARN, HANDS, CDL | 观察资源/预算不等于真实provider账单。 |
 | S8-C07 | 成长能够进入其他域的后续行为而不是孤立lesson | FOUNDATION_QUALIFIED | SHARE, LEARN, RAE | 已覆盖规划/动作/分享；不由此推定全域或深层机制演化合格。 |
 
-- **已实现/已测/已运行：**按上表来源和范围；TESTED仅到测试，QUALIFIED仅到所列场景；UNKNOWN项不冒充已通过。
+- **Existing Implementation：**统一权威Store/Experience→Reflection/typed lesson与LearningService九阶段；多个服务不是多个主体。当前方法/评价器仍有限且按领域审查。
+- **Tested Evidence：**对应本域criteria索引、同业务源码历史全仓1300/12skip，以及RECHECK/SCOPE_PROBE规定范围；不按总测试数判域状态。
+- **Actually Run / Qualification Evidence：**真实owned失败→before/after→heldout/不同任务transfer→counterexample suspension；社会学习和偏好/人格解释由独立来源支持的合成世界资格。
+- **Missing Foundation：**受限跨域成长合同内无已确认缺失；不能由plan/action/share改善推定全部S2–S9算法学习成立，S3倾向整链另验。
+- **对应源码：**[src/nana_core/continuity/learning.py](../src/nana_core/continuity/learning.py)；[src/nana_core/continuity/subject/reflection.py](../src/nana_core/continuity/subject/reflection.py)；[src/nana_core/continuity/subject/growth.py](../src/nana_core/continuity/subject/growth.py)；[src/nana_core/continuity/open_agency/learning.py](../src/nana_core/continuity/open_agency/learning.py)；[src/nana_core/continuity/world_loop/learning.py](../src/nana_core/continuity/world_loop/learning.py)；[src/nana_core/continuity/subject/growth_life.py](../src/nana_core/continuity/subject/growth_life.py)；[src/nana_core/presence/living.py](../src/nana_core/presence/living.py)
+- **对应当前tests：**[tests/continuous_self/test_learning.py](../tests/continuous_self/test_learning.py)；[tests/continuous_runtime/test_generic_subject.py](../tests/continuous_runtime/test_generic_subject.py)；[tests/open_autonomy/test_learning.py](../tests/open_autonomy/test_learning.py)；[tests/world_loop/test_learning.py](../tests/world_loop/test_learning.py)；[tests/controlled_hands/test_application.py](../tests/controlled_hands/test_application.py)
 - **当前blocker / First-Life：**NO：受限成长引擎基础达标；S3倾向闭环仍由S3-C09独立核验。
 - **下一次升级条件：**按具体域缺口扩展同一G/I，不把学习设为永久最高动机。
 - **Advanced Future：**长期开放学习、元学习、认知/规划/学习算法改变；深层改变进入S10。
@@ -212,7 +252,12 @@
 | S9-C05 | 原Kernel至少两次真实任务复用 | FOUNDATION_QUALIFIED | RAE, HANDS | 批量表单与不同context，非仅测试函数返回值。 |
 | S9-C06 | 退役、来源撤回、恢复后不复活失效技能 | FOUNDATION_QUALIFIED | SKILL, HANDS, CDL | 不能由投影或缓存恢复权限。 |
 
-- **已实现/已测/已运行：**按上表来源和范围；TESTED仅到测试，QUALIFIED仅到所列场景；UNKNOWN项不冒充已通过。
+- **Existing Implementation：**CodeSkillService/IsolatedSkillRunner/SelfExtensionWork，当前真实候选是deterministic bounded workflow composition，不是自主发明任意算法。
+- **Tested Evidence：**对应本域criteria索引、同业务源码历史全仓1300/12skip，以及RECHECK/SCOPE_PROBE规定范围；不按总测试数判域状态。
+- **Actually Run / Qualification Evidence：**真实form gap触发、独立bwrap qualification、2次后续Kernel受控实际复用、source删除撤销。
+- **Missing Foundation：**受限纯数据workflow/skill realm内无已确认缺失；任意安装/host权限不是当前已有能力。
+- **对应源码：**[src/nana_core/continuity/open_agency/code_skills.py](../src/nana_core/continuity/open_agency/code_skills.py)；[src/nana_core/continuity/world_loop/extension.py](../src/nana_core/continuity/world_loop/extension.py)；[src/nana_core/continuity/hands/skills.py](../src/nana_core/continuity/hands/skills.py)；[src/nana_core/life/skills.py](../src/nana_core/life/skills.py)
+- **对应当前tests：**[tests/open_autonomy/test_code_skills.py](../tests/open_autonomy/test_code_skills.py)；[tests/world_loop/test_living.py](../tests/world_loop/test_living.py)；[tests/controlled_hands/test_application.py](../tests/controlled_hands/test_application.py)；[tests/cloud_life/test_daily_tasks.py](../tests/cloud_life/test_daily_tasks.py)
 - **当前blocker / First-Life：**NO：受限自扩展基础达标；不授予安装或Core改写权。
 - **下一次升级条件：**确有新能力缺口时沿原I逐步扩大候选空间与环境资格。
 - **Advanced Future：**开放研究、任意复杂插件/适配器创造与安装、依赖管理。
@@ -232,7 +277,12 @@
 | S10-C05 | 深层Core候选Branch Before Replace及独立评测/回滚 | UNKNOWN_AUDIT_REQUIRED | PORT, SKILL | 受限skill机制不能自动证明Core深改；未来触发条件未运行。 |
 | S10-C06 | 验证底座自身演化由旧可信版本验证新版本 | UNKNOWN_AUDIT_REQUIRED | ID, PORT | 规范已冻结，未取得深层实现资格；不冒称已完成。 |
 
-- **已实现/已测/已运行：**按上表来源和范围；TESTED仅到测试，QUALIFIED仅到所列场景；UNKNOWN项不冒充已通过。
+- **Existing Implementation：**已有lineage/受控迁移/版本化skill/禁用任意Core mutation；没有J式deep Core replacement执行系统。
+- **Tested Evidence：**对应本域criteria索引、同业务源码历史全仓1300/12skip，以及RECHECK/SCOPE_PROBE规定范围；不按总测试数判域状态。
+- **Actually Run / Qualification Evidence：**实际B8退役迁移/顺序owner交接和fresh rollback；明确不是deep Core canary/rollback资格。
+- **Missing Foundation：**S10-C05/C06深改和评测底座自演化未取得可执行资格；现有迁移/skill评测不代替它。
+- **对应源码：**[src/nana_core/continuity/portable.py](../src/nana_core/continuity/portable.py)；[src/nana_core/continuity/identity.py](../src/nana_core/continuity/identity.py)；[src/nana_core/continuity/open_agency/code_skills.py](../src/nana_core/continuity/open_agency/code_skills.py)；[src/nana_core/life/cloud.py](../src/nana_core/life/cloud.py)
+- **对应当前tests：**[tests/portable_subject/test_package.py](../tests/portable_subject/test_package.py)；[tests/portable_subject/test_schema_genericity.py](../tests/portable_subject/test_schema_genericity.py)；[tests/open_autonomy/test_code_skills.py](../tests/open_autonomy/test_code_skills.py)；[tests/first_life/test_rehearsal.py](../tests/first_life/test_rehearsal.py)
 - **当前blocker / First-Life：**NO：深层实现不阻塞当前First-Life；当前适用连续性/治理约束仍在S1/S7/S8/S9必验。
 - **下一次升级条件：**仅在确有深层变更任务时进入S10专门资格，不为当前封基础而先造大框架。
 - **Advanced Future：**更开放Core/内部算法自修改、候选archive/canary、验证底座自身演化。
@@ -253,10 +303,10 @@
 | FQ-01 | S3-C09 | QUALIFICATION_GAP | 否；UNKNOWN | 对照现有Growth/relational/C/D与真实Outcome路径，验证同一lineage经历改变后来动机倾向、重启保留、再次自主选择；含撤回/反例。先核现有可用证据，有真实差额才补源码。 |
 | FQ-02 | S4-C06 | DURATION_QUALIFICATION_PENDING | 否 | 等原24h固定源码run实际结果；不重跑/重启，不以36953秒快照或当前时间推算成功。 |
 | FQ-03 | S5-C06 | INTEGRATED_SEMANTIC_EVIDENCE_GAP | 否；UNKNOWN | 先对齐历史H1、当前文本Provider与owned source的版本和路径；满足真实源→语义→世界修正→C的一例最小组合，保留错误/UNKNOWN。若需新增付费，仍按当时授权，不在本任务调用。 |
-| FQ-04 | S6-C07 | PROBLEM_FRAMING_QUALIFICATION_GAP | 否；UNKNOWN | 检查原RAE capability-gap与typed reframe是否已有问题级证据；明确“问题改变”与“选另一个方法”的区别，只补缺失反例/归因。 |
+| FQ-04 | S6-C07 | CONFIRMED_SCOPE_SEMANTICS_GAP + FRAMING_QUALIFICATION | 是：仅对话/认知暂停语义分流；不证明整个framing机制不存在 | 检查原RAE capability-gap与typed reframe是否已有问题级证据；先区分对话拒绝、hard privacy/Manager、Subject自愿可复审暂停；再明确“问题改变”与“选另一个方法”的区别并补有源matched对照；不删guard、不新建brain。 |
 | AG-10 | S10-C05/C06 | ADVANCED_GROWTH | 当前不启动 | 深层自改触发时再做branch/evaluator/lineage专门资格；不阻塞当前基础封顶。 |
 
-下一有界工作以FQ-01为首项；FQ-04复用同一因果证据检查。FQ-02保持原run独立等待；FQ-03先做资料差额对齐。不存在在核账之外新增一套情感引擎、第二记忆系统或大规模框架的授权。
+独立复核后的唯一下一推荐：优先FQ-04 / S6-C07，在原C中补独立问题界定与认知范围分流。原因是已证实的语义缺口+当前Gate blocker，比S3-C09尚未知的资格差额更直接；不否定已有S3基础。FQ-01保留为后续有界资格，不自动实施。FQ-02保持原run独立等待；FQ-03先做资料差额对齐。不存在在核账之外新增一套情感引擎、第二记忆系统或大规模框架的授权。
 
 **审计终点已达到：**十域均有固定criteria、状态、实现/测试/证据映射、未知和升级条件。本轮核账完成，不要求所有未知都在同一审计内变成PASS；后续仅关闭上述具体缺口。只有证实 `FOUNDATION_MISSING + CURRENT_GATE_BLOCKER` 才因新发现改变实施主线。
 
@@ -271,7 +321,7 @@
 
 ## 7. 证据索引（路径均按审计基线检查）
 
-索引中的源码/测试定义均为当前基线阅读对象；资格文件为历史运行结果。本轮执行范围仅文档校验。
+索引中的源码/测试定义均为当前基线阅读对象；资格文件为历史运行结果。初次执行范围仅文档校验；独立复核新增RECHECK/SCOPE_PROBE，Core/test代码与初审同版本。
 
 ### ID
 
@@ -406,3 +456,28 @@
 修改Matrix须列criterion ID、旧→新状态、对应源码/证据commit、环境/时长/数据范围、反例和下一条件。不得为通过Gate临时删criteria，不把一般Advanced功能塞回Foundation。
 
 本表的Foundation criteria版本1.0是首次冻结愿景到可验证条件的操作化；以后若条件本身不合理，显式记录标准修订及原结果，而不是追改旧证据。宪法仍仅按三项Change-Control门槛修订。
+
+## 8. af52371独立复核 amendment（criteria版本1.0不变）
+
+- 先验证本地eece7a4为远端af52371祖先；本地未提交草稿按10个文件的hash保存在仓库外，再fast-forward，无reset/rebase/force。Master文件逐字保留；63个criterion ID/文字/分母均与af52371完全相同。
+- 新证据补足S3-C01/C02/C04/C06/C08受限合成/实际进程资格，8/9已资格；S3-C09真实经历→后来需要/倾向变化→重启→自主再选择仍UNKNOWN，域维持FOUNDATION_TESTED。不把来源typed偏好注入说成真实经历提炼。
+- S6-C07从UNKNOWN改为FOUNDATION_PARTIAL：新PUBLIC probe、原6项测试与LearningService源码确认对话拒绝和同题内部认知暂停混用。普通来源并非Manager，其他topic仍独立、原motive来源未删除；需要有界语义修复，不是宣告整个Judgment/Goal/Planner不存在。缺少专用DTO本身不构成实现缺失证据，允许复用通用记录。
+- S4-C06、S5-C06不升级，S10深层资格未知保留。现有候选/动作/学习/受控扩展PASS不回滚。
+- 新复核：tracked21 PASS30.65s；历史Git测试快照对当前Core18 PASS106.06s，含90虚拟天/7实际SIGKILL；原topic边界6 PASS0.63s，PASS证明旧行为而非新宪法全部符合。历史全仓1300/12skip仍仅复用，未重复运行。
+- 旧relational suite当前树缺失；确切Git来源、sha256与临时提取复核方法见relational_snapshot.json。pycache不算测试源码，历史a97a811不是当前分支祖先。
+- S8仍为跨域成长引擎Foundation Qualified：实际plan/action/share与方法的后续变化可查；未来S2记忆策略、S4 cadence策略、S5认知方法、S6 framing、S3更广affect、S9新realm要分别验证，不能推定全S2–S9算法都会自动改写。学习不能覆盖S1身份与治理，深改进入S10。
+- 独立复核只读staging进度并新增快照，不修改/重启固定源码run；没有新付费调用、human评分、社交或生产动作。
+
+### RECHECK
+
+- [docs/nana_master_framework_foundation_audit_v1_evidence/focused_tests.txt](../docs/nana_master_framework_foundation_audit_v1_evidence/focused_tests.txt)
+- [docs/nana_master_framework_foundation_audit_v1_evidence/relational_current_core_tests.txt](../docs/nana_master_framework_foundation_audit_v1_evidence/relational_current_core_tests.txt)
+- [docs/nana_master_framework_foundation_audit_v1_evidence/relational_snapshot.json](../docs/nana_master_framework_foundation_audit_v1_evidence/relational_snapshot.json)
+
+### SCOPE_PROBE
+
+- [src/nana_core/continuity/subject/context_fit.py](../src/nana_core/continuity/subject/context_fit.py)
+- [src/nana_core/continuity/open_agency/learning.py](../src/nana_core/continuity/open_agency/learning.py)
+- [tools/nana_foundation_audit/probe_topic_scope.py](../tools/nana_foundation_audit/probe_topic_scope.py)
+- [docs/nana_master_framework_foundation_audit_v1_evidence/topic_scope_probe.json](../docs/nana_master_framework_foundation_audit_v1_evidence/topic_scope_probe.json)
+- [docs/nana_master_framework_foundation_audit_v1_evidence/context_boundary_tests.txt](../docs/nana_master_framework_foundation_audit_v1_evidence/context_boundary_tests.txt)

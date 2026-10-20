@@ -1312,3 +1312,13 @@ Neutral receipt仅是“已收输入，解释待定”的DIRECT_OBSERVATION；�
 - Gate：S1–S9基础资格齐全后再作First-Life Integration Qualification；已有集成试验/驻留/Provider成果保留。24h固定源码run继续独立，本轮未读运行宿主、不重启、不污染；真人评审暂停，付费范围未扩大。
 - 权限：本轮用户已明确要求写入仓库；仅提交文档/审计元数据及入口对齐，不修改业务源码、测试、运行配置、Store、生产、main/R045或真实社交。
 - 证据：[01_CAPABILITY_MATRIX.md](01_CAPABILITY_MATRIX.md) 逐条实现/测试/范围/未知；`docs/nana_master_framework_foundation_audit_v1_evidence/` 为本次阅读清单、校验与指纹。
+
+## MASTER_FRAMEWORK_V1 — independent review of af52371, no refreeze
+
+[实测/决定2026-10-20] SUPERSEDES初审近期FQ-01优先排序；不改变总框架或63条criteria。
+先保留本地10个草稿文件及hash，再fast-forward到af52371；拒绝用未提交80条草稿覆盖已冻结标准。Master逐字保留；criterion ID/定义/分母版本1.0逐字比对。
+新18项历史测试快照对当前Core复核只补S3-C01/C02/C04/C06/C08受限资格，不填S3-C09真实倾向整链；S3域仍Tested，S4/S5未知门不提高。
+依据PUBLIC topic_scope_probe、现有6项topic测试与context_fit/LearningService源码，确认对话拒绝和同题内部认知暂停语义混合；映射现有S6-C07，记Partial，并非断言整套Problem Framing不存在。
+这是FOUNDATION_MISSING（仅有界语义区分）+CURRENT_GATE_BLOCKER，故唯一下一主线优先FQ-04：原C独立问题界定与认知范围分流，允许复用通用记录，不强制特定DTO/模块。不在本审计实施；不删guard、不扩权限、不新建脑。
+S3已有主体基础但真实闭环资格仍缺，不能借此启动第二affect系统；S10深改保持禁用。S1–S9全部资格前Human/First-Life/production推进继续暂停。
+本次只读staging进度，不重启或写其目录；原初审“未访问宿主”按初审时点保留，当前新增只读观察另有证据。模型调用0，私有数据0，生产/main/R045不变。

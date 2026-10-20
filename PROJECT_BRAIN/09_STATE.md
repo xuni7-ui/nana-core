@@ -7,35 +7,52 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 3,
-  "as_of_us": 1792511303446579,
+  "revision": 4,
+  "as_of_us": 1792512567095469,
   "stage": "H",
   "workstream": "MASTER_FRAMEWORK_FREEZE_AND_FOUNDATION_CAPABILITY_AUDIT_V1",
-  "status": "FRAMEWORK_FROZEN_INITIAL_CAPABILITY_ACCOUNTING_COMPLETE_WITH_EXPLICIT_GAPS",
+  "status": "EXISTING_63_CRITERIA_INDEPENDENTLY_RECHECKED_FOUNDATION_GAPS_OPEN",
   "progress": [
-    "用户已正式冻结十个系统域、三个横向轴及最高原则，新增Master Framework与Capability Matrix作为长期入口。",
-    "首轮核账10域63条固定criteria；S1/S2/S7/S8/S9仅在明示受控开发范围基础合格；不代表整体基础、生产或通用能力完成。",
-    "S3/S4/S5/S6保留必要资格未知；S10深层实现部分完成，非当前First-Life基础前置。UNKNOWN不等于实现不存在。",
-    "S8是跨域成长引擎而不是最高人生目的；独立生活、共同生活与Primary User高关系重要性同时保留。",
-    "已有DeepSeek功能资格保留，累计19次真实调用，最后1次冻结；本轮新调用0，真实账单仍未知。",
-    "本轮仅文档与证据映射；历史测试结果按原范围保留，不冒称本轮运行，也不冒称奈奈个人亲历。"
+    "已快进继承另一会话af52371框架冻结与首次矩阵；Master逐字不改，63条criteria/ID/定义/分母不变，本地草稿完整保留但不采用另一分母。",
+    "当前Foundation Qualified为S1/S2/S7/S8/S9；S3/S4/S5为Tested且保留明确资格缺口；S6/S10为Partial，不把未过门的能力称完成。",
+    "独立复核当前目标21、历史测试快照对当前Core18、topic边界6均通过；18项含90虚拟天及7实际SIGKILL，不代表真实长期需要成长链。",
+    "S3已有8/9受限资格，C09真实需要/倾向整链仍未知；S4实际24h结果及S5真实语义整链仍待核验。",
+    "确认PUBLIC普通对话拒绝会暂停同题内部学习；S6-C07认知范围语义分流不完整。其他topic仍独立，原目标/规划PASS保留。",
+    "DeepSeek功能资格保留、累计19次、余1冻结、本轮新调用0；真实账单未知；工程核账与测试不是主体个人经历。"
   ],
   "open_gates": [
-    "下一有界工作：Matrix FQ-01/S3-C09的动机经历闭环核验，复用既有C/D/Growth，不直接重写情感系统；同时定位FQ-04的问题定义证据差额。",
-    "S4实际24h结果仍待原固定源码run证据；本任务不访问、重启或改动staging。快照不能证明此刻进程存活或24h PASS。",
-    "S5真实源到live语义、世界修正与C的当前整链资格待对齐；先复用历史材料，不新增模型调用。",
-    "Human Naturalness/Shared-Life新评审和新增评审预算请求暂停到Foundation核账后有明确用途再决定；已有输入样本与修复证据保留。",
-    "S1–S9全部Foundation Qualified之前，不升级First-Life/Beta；production inventory/cutover/canary不启动。"
+    "唯一下一推荐：FQ-04/S6-C07，原C内独立问题界定与认知范围分流；这是已确认基础缺口和当前Gate blocker。审计本身不实现新模块。",
+    "S3-C09真实经历改变需要/倾向、重启保留并自主再选择仍UNKNOWN；不因合成信号复核就升级，不重造情感系统。",
+    "24h staging固定源码独立继续，只读快照不是实际24h结果；S5当前真实源→live语义→World/Concern→C纠错整链仍待资格。",
+    "Human Naturalness/Shared-Life新评审、预算请求和production inventory/cutover/social canary/72h均暂停；First-Life/Beta不升级。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
     "docs/nana_master_framework_foundation_audit_v1_evidence/audit.json",
-    "docs/nana_cloud_first_life_launch_v1_evidence/context_repair_staging_observation.json",
-    "docs/nana_cloud_first_life_launch_v1_evidence/human_review_context_repair.json"
+    "docs/nana_master_framework_foundation_audit_v1_evidence/independent_review.json",
+    "docs/nana_master_framework_foundation_audit_v1_evidence/topic_scope_probe.json",
+    "docs/nana_master_framework_foundation_audit_v1_evidence/staging_observation.json"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+## CURRENT — FOUNDATION AUDIT INDEPENDENT RECHECK / af52371 INHERITED
+
+[源码/离线复核2026-10-20] 已核验eece7a4为远端af52371直接祖先，保护本地10个未提交草稿文件及hash后fast-forward；不覆盖另一会话成果。
+Master Framework逐字不改；criteria版本1.0/63条ID、定义、分母均与af52371一致。原草稿80条口径未采用，保存在仓库外而非第二Matrix。
+独立复核：当前tracked目标21 PASS30.65s；历史a97a811精确Git测试快照对当前Core18 PASS106.06s，含90虚拟天及7实际SIGKILL；现有topic边界6 PASS0.63s。
+S3受限基础8/9条已有资格；真实需要/倾向整链S3-C09仍UNKNOWN，域保留FOUNDATION_TESTED，不新造affect/drive系统。
+S4-C06实际24h结果和S5-C06当前真实源→live语义→World/Concern→C纠错组合仍未知/待资格，不拼接分项PASS。
+PUBLIC离线探针确认“暂时不聊/别分析”关闭同题内部LEARN且无Manager，其他topic仍独立；S6-C07记FOUNDATION_PARTIAL，域由TESTED改PARTIAL，目标/方法替代/规划已有6项资格保留。
+唯一下一推荐优先FQ-04/S6-C07：原C内独立问题界定与认知范围分流；这是明确基础语义缺口+当前Gate blocker，因此优先于S3未知资格差额。此审计不实现下一任务，不删隐私/拒绝guard。
+Qualified域仍S1/S2/S7/S8/S9；Tested域S3/S4/S5；Partial域S6/S10。S10深改保持禁用、非基础First-Life前置。
+DeepSeek累计19/余1冻结、本轮新调用0；human评审/新增评审预算请求/production inventory/cutover/social canary/72h均暂停；历史TianToken UNKNOWN PARKED。
+独立24h staging仅只读进度快照，无重启/写入；RUNNING_NOT_QUALIFIED不是24h通过。Core业务源码/原tests/schema/运行配置/生产/main/R045/private data不变。
+证据见同一nana_master_framework_foundation_audit_v1_evidence；报告见docs/nana_master_framework_foundation_audit_v1_report.md。已有全仓1300/12skip仅按相同业务源码继承，不重复刷数。
+
+以下旧CURRENT与初审结论保留为历史；当前以本块和固定criteria矩阵为准。
+
 
 ## CURRENT — MASTER FRAMEWORK FROZEN / FOUNDATION CAPABILITY AUDIT V1
 
@@ -1984,3 +2001,5 @@ HUMAN_REVIEW_CONTEXT_CURRENT_STATE=PASS；PROJECT_STATUS_INTENT_CLASSIFICATION=P
 
 [实测 context-repair指纹锚点] docs/nana_cloud_first_life_launch_v1_evidence/manifest.json SHA256 88c7a2ff2d4039fd05de10c339f18b8556737e6556315d34e50d5f49fce97c85；不包含自身/09_STATE/DB/旧bundle/凭据，仅证明采集文件，不证明真人自然度或production。
 [本轮文档采集指纹] `docs/nana_master_framework_foundation_audit_v1_evidence/manifest.json` SHA256 `d392724e8ce412ba857262d7d41e6c4a695c156c8515064da6daa8d269a04f94`；排除自身与本09（避免自指），只证明文档文件，不证明运行态。
+
+[实测 af52371独立复核指纹] docs/nana_master_framework_foundation_audit_v1_evidence/manifest.json SHA256 3b1d61e17c0ce5a3260ac2d67df25c1db6f2c788f14f443111802671a4e97ead；保留af初审manifest于Git，不含self/09/DB/config/凭据/旧bundle。Master和63条定义不变，指纹仅证明采集文件，不证明真人/production。

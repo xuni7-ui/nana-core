@@ -1,0 +1,11 @@
+{
+  "result": "PASS",
+  "kind": "FROZEN_DEFINITION_REFERENCE_AND_HASH_VALIDATION_NOT_APPLICATION_QUALIFICATION",
+  "domains": 10,
+  "criteria": 63,
+  "framework_bytes_unchanged": true,
+  "definitions_unchanged": true,
+  "business_source_tests_unchanged": true,
+  "projection_bytes": 2651,
+  "new_provider_calls": 0
+}

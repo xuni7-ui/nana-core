@@ -1,0 +1,33 @@
+{
+  "grade": "READ_ONLY_OWNER_PROGRESS_NOT_INDEPENDENT_PID_LIVENESS_OR_24H_QUALIFICATION",
+  "observed_at_us": 1792512489420181,
+  "staging_modified_or_restarted": false,
+  "result_present": false,
+  "progress": {
+    "state": "RUNNING_NOT_QUALIFIED",
+    "supervisor_pid": 48705,
+    "qualification_pid": 48707,
+    "target_seconds": 86405.0,
+    "elapsed_seconds": 39564.796600834,
+    "provider_calls": 0,
+    "real_social_sends": 0,
+    "production": false,
+    "loaded_core_source_directory": "/workspace/nana-staging/first-life-source-645899b3/src/nana_core",
+    "durable_cloud_host": "NOT_ATTESTED_MANAGED_DEV_WORKSPACE",
+    "home": "/workspace/nana-staging/first-life-24h-01/journey/life",
+    "runtime": {
+      "pid": 52148,
+      "epoch": 3,
+      "state": "ACTIVE"
+    },
+    "actions": 42,
+    "queue": 0,
+    "resources": {
+      "VmHWM": "44716 kB",
+      "VmRSS": "44716 kB",
+      "Threads": "1",
+      "cpu_seconds": 236.62,
+      "fd_count": 8
+    }
+  }
+}

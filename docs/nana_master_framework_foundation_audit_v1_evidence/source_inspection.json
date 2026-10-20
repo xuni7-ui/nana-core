@@ -1,0 +1,914 @@
+{
+  "audited_head": "eece7a469a5af8a9df5731367e5b7db046039a23",
+  "kind": "SOURCE_INSPECTION_WITH_DEFINITION_ANCHORS_NOT_AUTOMATED_SEMANTIC_PROOF",
+  "domains": [
+    {
+      "domain": "S1",
+      "inspection_finding": "IdentityService adopts existing identity, revision needs trusted authority/CAS; B8 retirement/quarantine and runtime lease fence are local/trusted transfer, not distributed anti-clone.",
+      "code": [
+        {
+          "path": "src/nana_core/continuity/identity.py",
+          "sha256": "d0a923e79d98e1eb6526712096ac6c17d0e0eda9b8b2e0a08fa73e8218ad76fb",
+          "definition_anchors": {
+            "IdentityService.current": 71,
+            "IdentityProvenance": 16,
+            "IdentityRevision": 21,
+            "CanonicalIdentity": 33,
+            "IdentityService": 48,
+            "IdentityService.__init__": 49,
+            "IdentityService.revise_expression": 83
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/store.py",
+          "sha256": "11338d727c6fecb6cdd1a14bc31ca3692276dfddf479c554ddd62e8ba7d6dd26",
+          "definition_anchors": {
+            "ContinuityStore": 9,
+            "ContinuityStore._private_path": 11,
+            "ContinuityStore.__init__": 21,
+            "ContinuityStore.ensure_privacy_current": 52,
+            "ContinuityStore.backup": 55,
+            "ContinuityStore.replay": 64
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/portable.py",
+          "sha256": "d841ce0dcb5d0e8484a96457057509252672c43beb7075ea5014c057aebc73dd",
+          "definition_anchors": {
+            "SubjectPackageService.export": 139,
+            "SubjectPackageService.import_quarantined": 201,
+            "SubjectPackageService.activate": 239,
+            "PortableTransferAuthority": 30,
+            "PortableTransferAuthority.__init__": 32,
+            "PortableTransferAuthority.assert_destination": 38,
+            "SubjectPackageManifest": 42,
+            "SubjectForkProposal": 61,
+            "_schema_digest": 69,
+            "_expected_schema": 73,
+            "_manifest": 83,
+            "verify_package": 94
+          }
+        },
+        {
+          "path": "src/nana_core/presence/authority.py",
+          "sha256": "375a64bec44588edd78b713b12739a2371e4f1e6e6f57d51310a26e30925786e",
+          "definition_anchors": {
+            "RuntimeLease.acquire": 52,
+            "process_identity": 8,
+            "RuntimeClock": 17,
+            "RuntimeClock.__init__": 18,
+            "RuntimeClock.utc_now_us": 24,
+            "RuntimeClock.monotonic_ns": 29,
+            "VirtualClock": 33,
+            "VirtualClock.__init__": 34,
+            "VirtualClock.utc_now_us": 37,
+            "VirtualClock.monotonic_ns": 38,
+            "VirtualClock.advance": 39,
+            "RuntimeLease": 44
+          }
+        }
+      ]
+    },
+    {
+      "domain": "S2",
+      "inspection_finding": "MemoryService.capture preserves source kind; add rejects MODEL_DERIVATION->OBSERVATION; RecordService and PrivacyJournal propagate deleted support. TemporalMemoryService distinguishes validity and known time.",
+      "code": [
+        {
+          "path": "src/nana_core/continuity/memory.py",
+          "sha256": "671f55f8a7074b3645a985c0ae0599dfa8b1af8ebbdf49c7c2007191fbe56772",
+          "definition_anchors": {
+            "MemoryService.capture": 38,
+            "MemoryService.add": 102,
+            "MemoryService": 16,
+            "MemoryService.__init__": 17,
+            "MemoryService._fresh": 20,
+            "MemoryService.entity": 23,
+            "MemoryService.evidence": 84,
+            "MemoryService.read": 91,
+            "MemoryService.family": 190,
+            "MemoryService._query_filter": 198,
+            "MemoryService.query_count": 211,
+            "MemoryService.query": 216
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/records.py",
+          "sha256": "b18ad7ce9863c03c96bc733077cf17300748e376bef80e45dd7dd099ecda0ea5",
+          "definition_anchors": {
+            "RecordService": 9,
+            "RecordService.__init__": 10,
+            "RecordService.create": 13,
+            "RecordService.read": 43,
+            "RecordService.support": 53,
+            "RecordService.current_support": 68
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/privacy.py",
+          "sha256": "f7f3aa63ba540a6a2ec724f744dd99ff5deae649a887de9aa72ac08337f8a94b",
+          "definition_anchors": {
+            "_atomic": 20,
+            "_json_object": 41,
+            "_load": 50,
+            "PrivacyJournal": 59,
+            "PrivacyJournal.__init__": 60,
+            "PrivacyJournal.read": 88,
+            "PrivacyJournal._locked": 113,
+            "PrivacyJournal.ensure_current": 124,
+            "PrivacyJournal._erase": 142,
+            "PrivacyJournal.register_copy": 159,
+            "PrivacyJournal.sanitize_backups": 168,
+            "PrivacyJournal._purge": 205
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/temporal.py",
+          "sha256": "5fe9fda6a402c8e6aaa6f337b05acb599394f12379b50024a2e7f8be98c6469b",
+          "definition_anchors": {
+            "TemporalMemoryService.view": 51,
+            "FactValidity": 10,
+            "FactValidity.interval": 16,
+            "TemporalFactView": 20,
+            "TemporalMemoryService": 35,
+            "TemporalMemoryService.__init__": 36,
+            "TemporalMemoryService.declare": 39
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/learning.py",
+          "sha256": "34951351e3414a5a05701c99d01cfb46caa7446aa785c9b108ce7659c4d0159f",
+          "definition_anchors": {
+            "ExperienceService.record": 158,
+            "ExperienceService.activate": 295,
+            "LocalQualityCheck": 23,
+            "InteractionOutcome": 32,
+            "InteractionQualityCheck": 39,
+            "StructuredQualityCheck": 49,
+            "ExperienceInput": 61,
+            "ExperienceRecord": 71,
+            "ExperienceService": 82,
+            "ExperienceService.__init__": 83,
+            "ExperienceService._operator": 88,
+            "ExperienceService.verify_reading_result": 92
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/context.py",
+          "sha256": "6aead3d70a8ed22c0902499bb21883f6e69ce3c83c23936db8aa4c6a9198131c",
+          "definition_anchors": {
+            "ObservationCoverage": 24,
+            "ObservationCoverage.consistent": 33,
+            "record_coverage": 39,
+            "SelfFrame": 45,
+            "ContextPolicy": 58,
+            "ContextRequest": 65,
+            "ContextBlock": 78,
+            "ContextManifest": 88,
+            "ContextPackage": 108,
+            "TokenCounter": 114,
+            "TokenCounter.count": 116,
+            "ConservativeCounter": 119
+          }
+        }
+      ]
+    },
+    {
+      "domain": "S3",
+      "inspection_finding": "policy.motivate builds open source-backed motives; decide uses Situation priorities and does not load the motives tuple. situation selects one nonconstraint cue plus due duty/norm/load/appetite sources. Relational deliberate weighs own desire/relationship/personality/commitment; growth roots and counters persist.",
+      "code": [
+        {
+          "path": "src/nana_core/continuity/subject/policy.py",
+          "sha256": "b00c44fd88abe1464842242cc3e661ef2b64cc207f4e8c60af2bfa2a758fffd4",
+          "definition_anchors": {
+            "appraise": 45,
+            "motivate": 72,
+            "decide": 98,
+            "Situation": 11
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/subject/loop.py",
+          "sha256": "22b11a149664d507d8207b638eef5fa70b8880541d0f9f8f17317c51ddfefd2f",
+          "definition_anchors": {
+            "SubjectLoop.situation": 30,
+            "SubjectLoop.run": 204,
+            "SubjectLoop.reflect": 476,
+            "SubjectLoop": 16,
+            "SubjectLoop.__init__": 17,
+            "SubjectLoop.revision": 24,
+            "SubjectLoop.visible": 27,
+            "SubjectLoop.pending": 187,
+            "SubjectLoop._expire": 190,
+            "SubjectLoop.result": 456,
+            "SubjectLoop.transition_intention": 464,
+            "SubjectLoop.cognize": 503
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/subject/growth.py",
+          "sha256": "8486cb04c7a78547a3d01f2706e56d240d2622ab30374f018306d247d8bf93e4",
+          "definition_anchors": {
+            "Growth.apply": 74,
+            "live_record": 8,
+            "Growth": 13,
+            "Growth.__init__": 14,
+            "Growth.assertion_view": 17,
+            "Growth.assertions": 53,
+            "Growth._roots": 58,
+            "Growth.relationship": 143,
+            "Growth.supersede": 164
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/subject/projections.py",
+          "sha256": "15318cd917f15b6d99a165d6f49d2cf97ccc18a818d1f878470ef77d66dc4ba3",
+          "definition_anchors": {
+            "project_self": 58,
+            "Environment": 12,
+            "PersonalityProfile": 21,
+            "LivingSelfState": 32
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/relational/projections.py",
+          "sha256": "8679135265d8d33f56099b35c65538aca6012fa0a75d1d69d0ca21f182076e04",
+          "definition_anchors": {
+            "personality_tendencies": 12,
+            "social_appetite": 45,
+            "self_narrative": 73
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/relational/deliberation.py",
+          "sha256": "4f6b17e3eff291f2d6b1222e2e7a927056e425bd0c0e09ddf21491925d66ffa1",
+          "definition_anchors": {
+            "deliberate": 31,
+            "willing_deference": 9
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/governance.py",
+          "sha256": "224f76b373d8aa56daf09a2c6d693441900f24ef6e6a34afb02961dd8f8a257f",
+          "definition_anchors": {
+            "ManagerConstraint": 16,
+            "ManagerConstraint.finite": 33,
+            "ConstraintOutcome": 38,
+            "ConstraintDescriptor": 58,
+            "_required": 67,
+            "_event_body": 70,
+            "snapshot": 75,
+            "GovernanceController": 92,
+            "GovernanceController.__init__": 93,
+            "GovernanceController._auth": 99,
+            "GovernanceController.initialize": 102,
+            "GovernanceController.install": 108
+          }
+        }
+      ]
+    },
+    {
+      "domain": "S4",
+      "inspection_finding": "NanaRuntime constructs one ContinuityStore/SubjectLoop; queue, scheduler, clock, cadence and resource allocation offer opportunities. Life durability guard stops rather than pruning provenance.",
+      "code": [
+        {
+          "path": "src/nana_core/presence/runtime.py",
+          "sha256": "79c8717b8976017ed3e6878f4335e8b5bfa5d30a4df1dae995fef4f7f6cadfd9",
+          "definition_anchors": {
+            "NanaRuntime.step": 160,
+            "NanaRuntime.run": 294,
+            "NanaRuntime": 20,
+            "NanaRuntime.__init__": 21,
+            "NanaRuntime._save_oper": 57,
+            "NanaRuntime._install_review": 71,
+            "NanaRuntime.submit": 83,
+            "NanaRuntime.post": 90,
+            "NanaRuntime.post_surface": 94,
+            "NanaRuntime.application": 101,
+            "NanaRuntime.request_stop": 107,
+            "NanaRuntime._model_progress": 110
+          }
+        },
+        {
+          "path": "src/nana_core/presence/authority.py",
+          "sha256": "375a64bec44588edd78b713b12739a2371e4f1e6e6f57d51310a26e30925786e",
+          "definition_anchors": {
+            "RuntimeLease.acquire": 52,
+            "process_identity": 8,
+            "RuntimeClock": 17,
+            "RuntimeClock.__init__": 18,
+            "RuntimeClock.utc_now_us": 24,
+            "RuntimeClock.monotonic_ns": 29,
+            "VirtualClock": 33,
+            "VirtualClock.__init__": 34,
+            "VirtualClock.utc_now_us": 37,
+            "VirtualClock.monotonic_ns": 38,
+            "VirtualClock.advance": 39,
+            "RuntimeLease": 44
+          }
+        },
+        {
+          "path": "src/nana_core/presence/queue.py",
+          "sha256": "109dd2160898d0ab1ba4379de41b1a04f05194ee0c4c7ad550797ce7829a7101",
+          "definition_anchors": {
+            "EventQueue": 11,
+            "EventQueue.__init__": 12,
+            "EventQueue.depth": 17,
+            "EventQueue.has_reactive": 20,
+            "EventQueue.cause_memories": 23,
+            "EventQueue.enqueue": 53,
+            "EventQueue.clear_transient": 108,
+            "EventQueue.input": 110,
+            "EventQueue.recover": 122,
+            "EventQueue.claim": 136,
+            "EventQueue.finish": 160
+          }
+        },
+        {
+          "path": "src/nana_core/presence/scheduler.py",
+          "sha256": "ca1d79abe76747cf16f265a2d0dedef4c7bc918251c02215f3c33a48b7b87dfb",
+          "definition_anchors": {
+            "Scheduler.add": 10,
+            "Scheduler": 7,
+            "Scheduler.__init__": 8,
+            "Scheduler.due": 32,
+            "Scheduler.reschedule_periodic": 67,
+            "Scheduler.cancel": 76
+          }
+        },
+        {
+          "path": "src/nana_core/presence/cadence.py",
+          "sha256": "c69a51af97189c9b4ef5938563e9439107965007d25189ef4f185bdb64dfaa36",
+          "definition_anchors": {
+            "CognitionPreempted": 8,
+            "CognitionPreempted.__init__": 9,
+            "IngressReceipt": 12,
+            "IngressReceipt.wait": 17,
+            "Cadence": 22,
+            "Cadence.__init__": 23,
+            "Cadence.assert_owner": 27,
+            "Cadence.post": 29,
+            "Cadence.drain": 39,
+            "Cadence.notify": 48,
+            "Cadence.stamp": 50,
+            "Cadence.wait": 52
+          }
+        },
+        {
+          "path": "src/nana_core/presence/resources.py",
+          "sha256": "de21c53dfa43d9e178054c2e3a3c8ffd8630ac02343ca1e760ded5bc564d69c3",
+          "definition_anchors": {
+            "ResourceState": 5,
+            "resource_state": 24,
+            "allocation_reason": 41
+          }
+        },
+        {
+          "path": "src/nana_core/life/durability.py",
+          "sha256": "0adc20ed62cc4f7ed6ca8fed06072afd1c8f2d7d56883216eeed2c6830ee0f97",
+          "definition_anchors": {
+            "StorageWindow": 17,
+            "StorageWindow.valid_window": 25,
+            "_atomic": 30,
+            "size_view": 42,
+            "profile": 58,
+            "read_window": 70,
+            "StorageGuard": 80,
+            "StorageGuard.__init__": 81,
+            "StorageGuard.observe": 84
+          }
+        }
+      ]
+    },
+    {
+      "domain": "S5",
+      "inspection_finding": "WorldModel.ingest rejects epistemic escalation/correction by model authority; ConcernService.offer validates sources and objective resources, then ordinary C owns adoption. Real text and synthetic media qualifications are distinct.",
+      "code": [
+        {
+          "path": "src/nana_core/continuity/world_loop/world.py",
+          "sha256": "5e58e5e39fb9fd55d362c7eb393c82403900eb41d29a64b18538a279a3994f3b",
+          "definition_anchors": {
+            "WorldModel.view": 85,
+            "SourcedClaim": 13,
+            "SourcedClaim.bounded": 24,
+            "WorldBeliefView": 30,
+            "WorldModel": 40,
+            "WorldModel.__init__": 41,
+            "WorldModel.ingest": 44,
+            "WorldModel.snapshot": 100
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/attention.py",
+          "sha256": "389e7b6be6c07bb9fbfb7e50516ce2ca8f85fdbfb3e26289474f913e56e7e927",
+          "definition_anchors": {
+            "ConcernService.offer": 18,
+            "ConcernService.after_cycle": 106,
+            "ConcernService.view": 121,
+            "ConcernService": 13,
+            "ConcernService.__init__": 14,
+            "ConcernService.restore_descriptions": 56,
+            "ConcernService.opportunity": 64
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/cognition.py",
+          "sha256": "e7e21ce4e69d6a9ad35e3c473ad4987b0706a068f1548a8d5f7a32c25ea3a9eb",
+          "definition_anchors": {
+            "CognitionSession.prepare": 251,
+            "CognitionBudget": 20,
+            "CognitionRequest": 25,
+            "CognitionRequest.media_input": 27,
+            "CognitionRequest.legacy_route_wire": 47,
+            "InterestProposal": 51,
+            "StructuredProposal": 64,
+            "StructuredProposal.preserve_legacy_dialogue_wire": 68,
+            "HTTPObservation": 82,
+            "CognitionReply": 93,
+            "CognitionReply.legacy_wire": 107,
+            "ModelTransport": 113
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/semantics.py",
+          "sha256": "ef5e00cf0a488f38329b75edcc716780662373daea7d619ae52cd7c9ea5f5fc8",
+          "definition_anchors": {
+            "MediaSemanticService.prepare": 121,
+            "_part": 18,
+            "package_media": 22,
+            "validate_media_input": 57,
+            "validate_semantics": 95,
+            "MediaSemanticService": 118,
+            "MediaSemanticService.__init__": 119,
+            "MediaSemanticService.execute": 141,
+            "MediaSemanticService.ground": 142,
+            "MediaSemanticService.associate_audio": 191,
+            "OpenAIMediaTransport": 214,
+            "OpenAIMediaTransport.__init__": 220
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/sensors/coordinator.py",
+          "sha256": "2fe3e08ffea1a93ca34e05b9523f285bd15960d6932b1f0e25d003ba54079dd3",
+          "definition_anchors": {
+            "PerceptionCoordinator": 11,
+            "PerceptionCoordinator.__init__": 12,
+            "PerceptionCoordinator._save": 20,
+            "PerceptionCoordinator._checkpoint": 21,
+            "PerceptionCoordinator._source": 22,
+            "PerceptionCoordinator._safe_point": 26,
+            "PerceptionCoordinator.request": 31,
+            "PerceptionCoordinator._allowed": 34,
+            "PerceptionCoordinator._reserve": 59,
+            "PerceptionCoordinator._set": 71,
+            "PerceptionCoordinator._visible_result": 73,
+            "PerceptionCoordinator.observe": 79
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/provider_routing.py",
+          "sha256": "996c1a7146d5e8ca18d504bbea7c79c9fcdc3d36002832c5ad553d1c762d0717",
+          "definition_anchors": {
+            "CapabilityRouter.current": 137,
+            "RoutingPolicy": 15,
+            "RouteRequest": 25,
+            "EffectiveLimits": 36,
+            "PreDispatchReason": 43,
+            "RouteSnapshot": 48,
+            "RuntimeProviderFactory": 65,
+            "RuntimeProviderFactory.__init__": 66,
+            "RuntimeProviderFactory.secret_state": 68,
+            "RuntimeProviderFactory.create": 72,
+            "RoutedTarget": 108,
+            "RoutedTarget.__repr__": 113
+          }
+        }
+      ]
+    },
+    {
+      "domain": "S6",
+      "inspection_finding": "BoundedPlanner searches supplied Objective.desired and C can replace proposed_method with sourced allowed_methods. No dedicated DTO is required to prove framing; common records may carry it. However current context_fit and learning worker conflate conversation-depth refusal with same-topic internal cognition pause; PUBLIC offline probe confirms it. Broader problem-level causal qualification remains open.",
+      "code": [
+        {
+          "path": "src/nana_core/continuity/subject/policy.py",
+          "sha256": "b00c44fd88abe1464842242cc3e661ef2b64cc207f4e8c60af2bfa2a758fffd4",
+          "definition_anchors": {
+            "appraise": 45,
+            "motivate": 72,
+            "decide": 98,
+            "Situation": 11
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/subject/context_fit.py",
+          "sha256": "c65b2ba1279e8f40324cb41592170c410c16d428a710e7021434f024ea28006b",
+          "definition_anchors": {
+            "InteractionSignal": 12,
+            "ContextFitAssessment": 19,
+            "boundary_key": 32,
+            "depth_boundary": 34,
+            "assess": 49,
+            "choose": 81,
+            "social_candidate": 99,
+            "plan_binding": 106
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/contracts.py",
+          "sha256": "fba96a673dc1101e1a6189fa5ae0b24f7c4f3253884137659145bfa744f97996",
+          "definition_anchors": {
+            "Operator": 8,
+            "Operator.target": 19,
+            "Objective": 23,
+            "Objective.unique_ops": 37,
+            "PlannerInput": 42,
+            "PlanCandidate": 46,
+            "PlannerPort": 52,
+            "PlannerPort.plan": 53
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/planning.py",
+          "sha256": "c2ed109dbb1cdb1d104cb1be12ffdc40fab3d71ce844c94dc6921b105a1bc331",
+          "definition_anchors": {
+            "BoundedPlanner": 7,
+            "BoundedPlanner.plan": 9,
+            "validate_plan": 25
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/service.py",
+          "sha256": "a6afb2b2cefe05aa95e7c3dae3a158e0967ba119f7f6218ec1be1c6c6459b78e",
+          "definition_anchors": {
+            "OpenGoalPolicy.offer": 25,
+            "OpenAgencyService.adopt": 88,
+            "OpenGoalPolicy": 20,
+            "OpenGoalPolicy.__init__": 21,
+            "OpenGoalPolicy.get": 35,
+            "open_step_view": 40,
+            "OpenAgencyService": 51,
+            "OpenAgencyService.__init__": 52,
+            "OpenAgencyService._plan": 59,
+            "OpenAgencyService._plan_record": 130,
+            "OpenAgencyService._complete": 133,
+            "OpenAgencyService.next_reference": 137
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/learning.py",
+          "sha256": "e7597887e841cafa8108612ff83b36dcf269302bcf922ea472132a445ade8dcf",
+          "definition_anchors": {
+            "LearningService.after_cycle": 84,
+            "LearningService.slice": 132,
+            "LearningService.monitor": 231,
+            "LearningCase": 16,
+            "LearningProblem": 21,
+            "LearningProblem.from_spec": 29,
+            "LearningSpec": 31,
+            "LearningSpec.distinct_splits": 41,
+            "MethodStrategyRule": 51,
+            "LearningProposerPort": 58,
+            "LearningProposerPort.propose_method": 59,
+            "FixtureLearningProposer": 60
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/attention.py",
+          "sha256": "389e7b6be6c07bb9fbfb7e50516ce2ca8f85fdbfb3e26289474f913e56e7e927",
+          "definition_anchors": {
+            "ConcernService.offer": 18,
+            "ConcernService.after_cycle": 106,
+            "ConcernService.view": 121,
+            "ConcernService": 13,
+            "ConcernService.__init__": 14,
+            "ConcernService.restore_descriptions": 56,
+            "ConcernService.opportunity": 64
+          }
+        }
+      ]
+    },
+    {
+      "domain": "S7",
+      "inspection_finding": "ActionKernel.prepare/dispatch recheck grants, quarantine and holds; dispatch ambiguity is UNKNOWN; verify is a separate capability. OwnedApplicationPort target/operation scope is finite.",
+      "code": [
+        {
+          "path": "src/nana_core/actions.py",
+          "sha256": "665c8ed1386998bbfc057d6e5363c2db1d9d35a23f506da48dc828933b7692dc",
+          "definition_anchors": {
+            "ActionKernel.prepare": 229,
+            "ActionKernel.dispatch": 258,
+            "ActionKernel.verify": 297,
+            "ActionKernel.run": 337,
+            "OperatorAuthority": 16,
+            "OperatorAuthority.__init__": 18,
+            "ActionKernel": 22,
+            "ActionKernel._stored_payload": 23,
+            "ActionKernel.payload": 43,
+            "ActionKernel.__init__": 54,
+            "ActionKernel._offline_subject_fixture": 63,
+            "ActionKernel._execution_fence": 78
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/realization.py",
+          "sha256": "d112f773f69c4ff740b155df575ded670dae712004b7af0fab21675f05fc53a1",
+          "definition_anchors": {
+            "GovernedRealization.dispatch": 51,
+            "GovernedRealization": 9,
+            "GovernedRealization.__init__": 10,
+            "GovernedRealization._guard": 22,
+            "GovernedRealization.propose": 34
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/hands/service.py",
+          "sha256": "e4d13082559ad97da9d7e6981b1cd97f2859969eb13d3cf626faf67f15764214",
+          "definition_anchors": {
+            "HandsWork.offer": 81,
+            "expected": 16,
+            "independent_commands": 21,
+            "PracticeProposer": 27,
+            "PracticeProposer.propose_method": 28,
+            "specifications": 34,
+            "HandsWork": 42,
+            "HandsWork.__init__": 43,
+            "HandsWork._effect_context": 62,
+            "HandsWork.objective": 69,
+            "HandsWork.goal_for_object": 77,
+            "HandsWork.goal_for": 80
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/hands/port.py",
+          "sha256": "b8ad6f2f3502061244b5644ab5265a2df2627a7fea9711d98b6c15c21f509139",
+          "definition_anchors": {
+            "OwnedApplicationPort.verify": 101,
+            "OwnedApplicationPort": 9,
+            "OwnedApplicationPort.__init__": 11,
+            "OwnedApplicationPort.assert_owned": 15,
+            "OwnedApplicationPort._request": 25,
+            "OwnedApplicationPort.peek": 43,
+            "OwnedApplicationPort._valid": 46,
+            "OwnedApplicationPort._command_data": 55,
+            "OwnedApplicationPort.preflight": 68,
+            "OwnedApplicationPort._prepared": 74,
+            "OwnedApplicationPort._pure": 80,
+            "OwnedApplicationPort.execute": 95
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/hands/server.py",
+          "sha256": "17182a6c5f8033a21a8944a5453fe5ad73502a3174b1108650485f562078e5b1",
+          "definition_anchors": {
+            "atomic": 12,
+            "serve": 24,
+            "main": 119
+          }
+        }
+      ]
+    },
+    {
+      "domain": "S8",
+      "inspection_finding": "ExperienceService verifies typed outcomes; ReflectionService only derives supported typed lessons. LearningSpec separates baseline/practice/evaluation/transfer; IndependentEvaluator recomputes outcomes. MONITOR/counterexamples suspend strategies. Identity/Grant never created by learning.",
+      "code": [
+        {
+          "path": "src/nana_core/continuity/learning.py",
+          "sha256": "34951351e3414a5a05701c99d01cfb46caa7446aa785c9b108ce7659c4d0159f",
+          "definition_anchors": {
+            "ExperienceService.record": 158,
+            "ExperienceService.activate": 295,
+            "LocalQualityCheck": 23,
+            "InteractionOutcome": 32,
+            "InteractionQualityCheck": 39,
+            "StructuredQualityCheck": 49,
+            "ExperienceInput": 61,
+            "ExperienceRecord": 71,
+            "ExperienceService": 82,
+            "ExperienceService.__init__": 83,
+            "ExperienceService._operator": 88,
+            "ExperienceService.verify_reading_result": 92
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/subject/reflection.py",
+          "sha256": "36f6c6b1f42ff0a1c5ce7ddca93e27b9cc57808876aab5a6a2875430078e1672",
+          "definition_anchors": {
+            "ReflectionService.apply": 33,
+            "ReflectionService": 8,
+            "ReflectionService.__init__": 9,
+            "ReflectionService.propose": 13
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/subject/growth.py",
+          "sha256": "8486cb04c7a78547a3d01f2706e56d240d2622ab30374f018306d247d8bf93e4",
+          "definition_anchors": {
+            "Growth.apply": 74,
+            "live_record": 8,
+            "Growth": 13,
+            "Growth.__init__": 14,
+            "Growth.assertion_view": 17,
+            "Growth.assertions": 53,
+            "Growth._roots": 58,
+            "Growth.relationship": 143,
+            "Growth.supersede": 164
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/learning.py",
+          "sha256": "e7597887e841cafa8108612ff83b36dcf269302bcf922ea472132a445ade8dcf",
+          "definition_anchors": {
+            "LearningService.after_cycle": 84,
+            "LearningService.slice": 132,
+            "LearningService.monitor": 231,
+            "LearningCase": 16,
+            "LearningProblem": 21,
+            "LearningProblem.from_spec": 29,
+            "LearningSpec": 31,
+            "LearningSpec.distinct_splits": 41,
+            "MethodStrategyRule": 51,
+            "LearningProposerPort": 58,
+            "LearningProposerPort.propose_method": 59,
+            "FixtureLearningProposer": 60
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/learning.py",
+          "sha256": "0329b369e3c95c4e46df45184377cc90bd0fb31113da81c6fc71d218719a938f",
+          "definition_anchors": {
+            "EpisodeLearning.view": 40,
+            "EpisodeLearning": 9,
+            "EpisodeLearning.__init__": 10,
+            "EpisodeLearning.assess": 13,
+            "EpisodeLearning.revalidate": 48,
+            "EpisodeLearning.competition": 69
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/subject/growth_life.py",
+          "sha256": "e6fb97b9d9c915ceaf39d6b7e642bce361e66eaba0a76ad86ab8e4c1d2274fa6",
+          "definition_anchors": {
+            "GrowthChangeView": 12,
+            "project": 25,
+            "opportunities": 55,
+            "availability": 64
+          }
+        },
+        {
+          "path": "src/nana_core/presence/living.py",
+          "sha256": "32d57831dd1bf082de2d1841f86e8fe5bca7a032cc17a63d318ed09eb4ded878",
+          "definition_anchors": {
+            "LivingWork.after_cycle": 32,
+            "LivingWork": 9,
+            "LivingWork.__init__": 10,
+            "LivingWork.configure_agency": 15,
+            "LivingWork.configure_open_agency": 18,
+            "LivingWork.configure_open_learning": 24,
+            "LivingWork.configure_world": 29,
+            "LivingWork._after_cycle": 36,
+            "LivingWork._learning_opportunity": 72,
+            "LivingWork.review_memory": 86,
+            "LivingWork.maintenance_slice": 93,
+            "LivingWork.opportunity": 124
+          }
+        }
+      ]
+    },
+    {
+      "domain": "S9",
+      "inspection_finding": "CodeSkillService.propose/test/review/revalidate/retire maintains hash/current realm; bwrap excludes workspace/credentials/network; allowed AST admits pure transform only. SelfExtensionWork selected by same C. No arbitrary installs or Core modification.",
+      "code": [
+        {
+          "path": "src/nana_core/continuity/open_agency/code_skills.py",
+          "sha256": "a3b8b4744b285ae138173f013029a8365ef3d49584b89a6cf6d233fe21debdc3",
+          "definition_anchors": {
+            "IsolatedSkillRunner.run": 66,
+            "CodeSkillService.test": 102,
+            "CodeSpec": 15,
+            "CodeCandidate": 24,
+            "CodeProposerPort": 28,
+            "CodeProposerPort.implement": 29,
+            "FixtureCodeProposer": 30,
+            "FixtureCodeProposer.implement": 31,
+            "static_check": 38,
+            "IsolatedSkillRunner": 53,
+            "IsolatedSkillRunner.__init__": 55,
+            "IsolatedSkillRunner._command": 56
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/extension.py",
+          "sha256": "097854dcd4a4c6658b46c992b6cbb0a01caee0e0e1cab6a18a1bd7410f184d71",
+          "definition_anchors": {
+            "SelfExtensionWork.slice": 42,
+            "TransformCodeProposer": 8,
+            "TransformCodeProposer.implement": 10,
+            "default_skill_specs": 18,
+            "SelfExtensionWork": 24,
+            "SelfExtensionWork.__init__": 25,
+            "SelfExtensionWork.select": 28,
+            "SelfExtensionWork._park": 98,
+            "SelfExtensionWork.active": 101
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/hands/skills.py",
+          "sha256": "72d53cf12d78e99eb0df2cf0572d4879487f9d849f41cd04e4b56de6954a3313",
+          "definition_anchors": {
+            "HandsSkills.after_cycle": 67,
+            "HandsSkills.slice": 71,
+            "BatchProposer": 14,
+            "BatchProposer.implement": 15,
+            "HandsSkills": 20,
+            "HandsSkills.__init__": 21,
+            "HandsSkills.active_skill": 35,
+            "HandsSkills._gap": 41,
+            "HandsSkills.opportunity": 54
+          }
+        },
+        {
+          "path": "src/nana_core/life/skills.py",
+          "sha256": "71a364dbddd2168490778775b7c1c0e99f2f860294ee2cb2e9bdc28dc0915e06",
+          "definition_anchors": {
+            "DocumentSkills.after_cycle": 58,
+            "DocumentSkills.slice": 63,
+            "OutlineCodeProposer": 16,
+            "OutlineCodeProposer.implement": 17,
+            "DocumentSkills": 25,
+            "DocumentSkills.__init__": 26,
+            "DocumentSkills._configure": 29,
+            "DocumentSkills.opportunity": 48
+          }
+        }
+      ]
+    },
+    {
+      "domain": "S10",
+      "inspection_finding": "SubjectForkProposal is descriptor-only. PortableTransferAuthority/B8 and CodeSkillService versioning are present, but no executable deep-Core branch/canary/protected-root replacement pipeline was found in these inspected implementation paths. Do not call migration rollback deep replacement qualification.",
+      "code": [
+        {
+          "path": "src/nana_core/continuity/portable.py",
+          "sha256": "d841ce0dcb5d0e8484a96457057509252672c43beb7075ea5014c057aebc73dd",
+          "definition_anchors": {
+            "SubjectPackageService.export": 139,
+            "SubjectPackageService.import_quarantined": 201,
+            "SubjectPackageService.activate": 239,
+            "PortableTransferAuthority": 30,
+            "PortableTransferAuthority.__init__": 32,
+            "PortableTransferAuthority.assert_destination": 38,
+            "SubjectPackageManifest": 42,
+            "SubjectForkProposal": 61,
+            "_schema_digest": 69,
+            "_expected_schema": 73,
+            "_manifest": 83,
+            "verify_package": 94
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/identity.py",
+          "sha256": "d0a923e79d98e1eb6526712096ac6c17d0e0eda9b8b2e0a08fa73e8218ad76fb",
+          "definition_anchors": {
+            "IdentityService.current": 71,
+            "IdentityProvenance": 16,
+            "IdentityRevision": 21,
+            "CanonicalIdentity": 33,
+            "IdentityService": 48,
+            "IdentityService.__init__": 49,
+            "IdentityService.revise_expression": 83
+          }
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/code_skills.py",
+          "sha256": "a3b8b4744b285ae138173f013029a8365ef3d49584b89a6cf6d233fe21debdc3",
+          "definition_anchors": {
+            "IsolatedSkillRunner.run": 66,
+            "CodeSkillService.test": 102,
+            "CodeSpec": 15,
+            "CodeCandidate": 24,
+            "CodeProposerPort": 28,
+            "CodeProposerPort.implement": 29,
+            "FixtureCodeProposer": 30,
+            "FixtureCodeProposer.implement": 31,
+            "static_check": 38,
+            "IsolatedSkillRunner": 53,
+            "IsolatedSkillRunner.__init__": 55,
+            "IsolatedSkillRunner._command": 56
+          }
+        },
+        {
+          "path": "src/nana_core/life/cloud.py",
+          "sha256": "48b1ef78cc0d4408694b16f2ecb996c7cfe8cfa15d6b0a965baa201208f34573",
+          "definition_anchors": {
+            "health": 24,
+            "backup": 52,
+            "transfer": 64,
+            "receive": 74,
+            "RotatingJSONLog": 100,
+            "RotatingJSONLog.__init__": 102,
+            "RotatingJSONLog.write": 104
+          }
+        }
+      ]
+    }
+  ],
+  "current_source_identical_to_af52371": true
+}

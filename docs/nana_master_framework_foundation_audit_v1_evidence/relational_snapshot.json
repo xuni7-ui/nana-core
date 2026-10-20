@@ -1,0 +1,37 @@
+{
+  "anchor": "a97a8114b7d638d7c9bd1a9895822dbc6efc4e7c",
+  "ancestor_of_current": false,
+  "current_tracked_tests": [],
+  "snapshot_files": {
+    "tests/relational_autonomy/__init__.py": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855",
+    "tests/relational_autonomy/conftest.py": "69cf2bf48eb264844ef6b11045bd6710c2cdf58dc03555cd52902cf072e0ea4e",
+    "tests/relational_autonomy/fixtures.py": "6f8d8e4031a692bd89e5411d93b41554fee099874ead9feb9ffa138143ea386a",
+    "tests/relational_autonomy/migrations.py": "22762f36a7d8e69b943932ecfdffddb464d80ec26d6cfe558cfe4b7dfe84265d",
+    "tests/relational_autonomy/process_case.py": "a50e7c668ecbeb2660ca7086cea9b86bf51477ac5df9006db247d502131f049a",
+    "tests/relational_autonomy/qualification.py": "3c3a7310703cc611d4fc01504b2027838387b265662ae178f79ff34dcf09d733",
+    "tests/relational_autonomy/recovery.py": "a7ee11fcc1a5640bf1298613579fcd17880cfe0d25ee6a934a38962b46c0317c",
+    "tests/relational_autonomy/soak.py": "cf33e3546ac1f7abcb38698911869f2fa58bf9bcebc9bd7516b6c022853dea9c",
+    "tests/relational_autonomy/test_accommodation.py": "524dbe8331e3e9847aa86c2fea068154da4078ee708024c947d9b89dcbaf4074",
+    "tests/relational_autonomy/test_bootstrap.py": "37dd28c197250cd33bb47184a5754f06be4a910b1c32f0c762a7a6c541deb429",
+    "tests/relational_autonomy/test_boundaries.py": "b5c838f1f9ecff3aca7ee1080d0b0a0868c231e139d2a970a4e1935207446c3a",
+    "tests/relational_autonomy/test_migrations.py": "ef00ddf68751c8c1494d03b2417ff512327b0be059206fa5e00e4dcbfc85b7e0",
+    "tests/relational_autonomy/test_projections.py": "3d1e1edcea69ad644d76be80861e2f3348df7511d630c582e12df34eafa6f35f",
+    "tests/relational_autonomy/test_recovery.py": "7eafc3e4f12759a7a15c7c1f12453a7318424a5bb2f3a2dc93470bba80de76a9",
+    "tests/relational_autonomy/test_soak.py": "98e5b600016abeff957cada71b21543b11fbefb6b2ed47cef018ecc04d2c0bc9",
+    "tests/relational_autonomy/test_system.py": "7016c6d8869884f32ded42de6c76af2fbf1612eb73cc3742f272c427736d9bd6",
+    "tests/relational_autonomy/test_tradeoff.py": "e32264201ed67bc58ccc5da192b7bc13fec7ac11e26a2666ee99c68323014db9"
+  },
+  "current_runtime_code": "/workspace/nana-core/src",
+  "suite_is_historical_test_source_not_old_core": true,
+  "test_result": "18 passed in106.06s; current Core,90 virtual days/7 actual SIGKILL cuts",
+  "historical_remote_branch": "dev/nana-core-relational-autonomy-v1-codex",
+  "runtime_core_head": "eece7a469a5af8a9df5731367e5b7db046039a23",
+  "source_module_fingerprints": {
+    "src/nana_core/continuity/relational/accommodation.py": "41e6df5f5a1f117ba5a17d9398134530beaafaf0bfe5da51c4be9849d563b082",
+    "src/nana_core/continuity/relational/bootstrap.py": "5c1745b82f11d43a9f3320f861e71ba3cb8498c7f16ab5e8f5b0d05b023e81f5",
+    "src/nana_core/continuity/relational/__init__.py": "42c354edf2aa26da00f0d4e76c2d8fa3088ba92436ab31613ab1e89eb22875e7",
+    "src/nana_core/continuity/relational/projections.py": "8679135265d8d33f56099b35c65538aca6012fa0a75d1d69d0ca21f182076e04",
+    "src/nana_core/continuity/relational/deliberation.py": "4f6b17e3eff291f2d6b1222e2e7a927056e425bd0c0e09ddf21491925d66ffa1",
+    "src/nana_core/continuity/relational/contracts.py": "b1880edf1b365d3b13e60fcea2c25b23d46efd7246adb1cdb535b64226c6de28"
+  }
+}

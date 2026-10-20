@@ -2209,3 +2209,10 @@ HUMAN_REVIEW_CONTEXT_CURRENT_STATE=PASS；PROJECT_STATUS_INTENT_CLASSIFICATION=P
 - 测试范围：本轮为文档与证据映射校验，未重跑应用测试/未进行LLM调用。既有1300 passed/12 skipped及历史受控实测仅按原版本/范围引用，不冒充本轮执行。
 - 结论：首次核账完成，Foundation Gate仍未齐；FQ-01/02/03/04为有界后续，S10深层项为远期；新真人评审暂停；24h staging不探测、不改动、不凭时间推算PASS。
 - 回滚：本轮提交的parent为eece7a4；可单独revert本范围文档提交，不触及既有可执行冻结源码645899b或任何运行数据库。
+
+## FOUNDATION AUDIT — af52371 integration and independent recheck
+
+- 改了什么：保护本地未提交10文件/hash后fast-forward继承af52371；保持Master和63条标准不变，Matrix/JSON只修证据状态和明确缺口，新增可复现测试快照/源码锚点/无模型topic probe与一致性工具；同步07–11及报告。
+- 为什么：避免双会话覆盖或重复冻结；合成关系测试不能顶替真实倾向整链；typed方法替换不能冒充完整问题定义；对话拒绝/内部暂停范围混合是比未知资格更直接的缺口。
+- 怎么验证：tracked21 PASS30.65s；原Git测试快照对当前Core18 PASS106.06s（90虚拟天/7实际SIGKILL）；topic边界6 PASS0.63s；PUBLIC probe前LEARN/后同题NO_ACTION、其他topic仍LEARN，Manager/cognition/action均0。Source/tests与af52371相同；既有full1300/12skip继承、不重跑。最终文档/标准/hash/敏感扫描结果见independent_validation.json。
+- 范围：不改变Core/原tests/schema/config/运行Store；无付费provider、真实社交、用户设备、私人Iris或生产/main/R045改动；24h staging只读不重启，继续未资格。

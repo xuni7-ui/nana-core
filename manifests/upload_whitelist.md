@@ -134,3 +134,8 @@ Shadow Bootstrap: tools/nana_host_shadow/*.py, tests/integration/test_bootstrap.
 - `manifests/upload_whitelist.md`（本条）
 
 逐文件检查后提交；不含DB/WAL、运行配置、凭据、聊天原文、第三方源码或二进制。
+
+## Foundation audit independent recheck whitelist (parent af52371)
+
+Only PROJECT_BRAIN/01_CAPABILITY_MATRIX.md,07_ROADMAP.md,08_TASKS.md,09_STATE.md,10_DECISIONS.md,11_CHANGELOG.md; docs/nana_cloud_first_life_launch_v1_status.md; docs/nana_master_framework_foundation_audit_v1_report.md; named JSON/txt/md evidence in docs/nana_master_framework_foundation_audit_v1_evidence/; tools/nana_foundation_audit/check.py and probe_topic_scope.py; this whitelist.
+Master Framework, application source/tests, runtime configs/DBs, credentials, outside-repo preserved draft and old bundle are excluded. Exact staged names/hashes checked before commit.

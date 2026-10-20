@@ -1,5 +1,20 @@
 # PROJECT_BRAIN / 08 TASKS（任务清单）
 
+## CURRENT — FOUNDATION AUDIT INDEPENDENT RECHECK / af52371 INHERITED
+
+[源码/离线复核2026-10-20] 已核验eece7a4为远端af52371直接祖先，保护本地10个未提交草稿文件及hash后fast-forward；不覆盖另一会话成果。
+Master Framework逐字不改；criteria版本1.0/63条ID、定义、分母均与af52371一致。原草稿80条口径未采用，保存在仓库外而非第二Matrix。
+独立复核：当前tracked目标21 PASS30.65s；历史a97a811精确Git测试快照对当前Core18 PASS106.06s，含90虚拟天及7实际SIGKILL；现有topic边界6 PASS0.63s。
+S3受限基础8/9条已有资格；真实需要/倾向整链S3-C09仍UNKNOWN，域保留FOUNDATION_TESTED，不新造affect/drive系统。
+S4-C06实际24h结果和S5-C06当前真实源→live语义→World/Concern→C纠错组合仍未知/待资格，不拼接分项PASS。
+PUBLIC离线探针确认“暂时不聊/别分析”关闭同题内部LEARN且无Manager，其他topic仍独立；S6-C07记FOUNDATION_PARTIAL，域由TESTED改PARTIAL，目标/方法替代/规划已有6项资格保留。
+唯一下一推荐优先FQ-04/S6-C07：原C内独立问题界定与认知范围分流；这是明确基础语义缺口+当前Gate blocker，因此优先于S3未知资格差额。此审计不实现下一任务，不删隐私/拒绝guard。
+Qualified域仍S1/S2/S7/S8/S9；Tested域S3/S4/S5；Partial域S6/S10。S10深改保持禁用、非基础First-Life前置。
+DeepSeek累计19/余1冻结、本轮新调用0；human评审/新增评审预算请求/production inventory/cutover/social canary/72h均暂停；历史TianToken UNKNOWN PARKED。
+独立24h staging仅只读进度快照，无重启/写入；RUNNING_NOT_QUALIFIED不是24h通过。Core业务源码/原tests/schema/运行配置/生产/main/R045/private data不变。
+证据见同一nana_master_framework_foundation_audit_v1_evidence；报告见docs/nana_master_framework_foundation_audit_v1_report.md。已有全仓1300/12skip仅按相同业务源码继承，不重复刷数。
+
+
 ## CURRENT — MASTER FRAMEWORK FROZEN / FOUNDATION CAPABILITY AUDIT V1
 
 [用户明确冻结指令 + 源码/历史证据核账，2026-10-20] 当前新主任务为 `MASTER_FRAMEWORK_FREEZE_AND_FOUNDATION_CAPABILITY_AUDIT_V1`。
