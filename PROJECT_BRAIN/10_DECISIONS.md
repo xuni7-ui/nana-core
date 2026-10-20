@@ -1333,3 +1333,7 @@ S3/S6有限Foundation Qualified；S4/S5资格仍开放，S10深改不启动。�
 本轮无新付费调用，S5 live新授权门不使用旧key/冻结余1；S4固定驻留只读，不凭时间推断。First-Life/Human/production不升级。
 
 [本轮压力反例补充] 34次delivery记录曾触发33条horizon fail-closed而暂停内部认知，普通“可以再讨论”也曾复用processing REOPEN；两项测试先真实失败后修复。用原target_id索引分开两条ledger，无新增表；REOPEN_DELIVERY不解除processing，旧REOPEN保留原显式语义，边界转换commit前不发模型请求。反例与最终测试留证。
+
+## FOUNDATION-CLOSURE-002 — one live request authorized; safe binding remains mandatory
+
+[用户明确授权] 允许仅S5-C06最多1次DeepSeek PROJECT请求，15秒、0retry/0fallback、保守预留≤$0.05；不复用旧请求，不扩大真人/生产/私人/社交范围。用户允许此前Key使用，但凭据通道仍必须是安全FD/Resolver，不能把聊天凭据写进工具命令/argv/env/文件或日志来模拟绑定。环境320当前没有绑定；额度未消耗，单项等待安全绑定，不再重复询问调用许可。S4固定run只读继续，不因缺凭据重启或终止；未获最终结果不升级。

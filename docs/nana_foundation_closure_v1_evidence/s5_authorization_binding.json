@@ -1,0 +1,26 @@
+{
+  "scope": "S5-C06_ONLY",
+  "authorization": "GRANTED_ONE_NEW_REQUEST",
+  "provider": "DeepSeek",
+  "model": "deepseek-flash",
+  "privacy": [
+    "PROJECT"
+  ],
+  "max_calls": 1,
+  "timeout_ms": 15000,
+  "retry": 0,
+  "fallback": 0,
+  "conservative_reservation_micro_usd": 50000,
+  "credential_use_authorized": "USER_ALLOWED_PREVIOUS_KEY_BUT_VALUE_NOT_READ_OR_TRANSPORTED",
+  "required_transport": "EXPLICIT_SAFE_FD_RESOLVER_ONLY",
+  "environment_revision": "320",
+  "observations_current": true,
+  "secret_bindings_count": 0,
+  "runtime_variable_bindings_count": 0,
+  "outbound_identities_count": 0,
+  "status": "BLOCKED_NO_SAFE_CREDENTIAL_BINDING",
+  "new_paid_provider_calls": 0,
+  "historical_unknown": "PARKED_UNTOUCHED",
+  "human_review": "NOT_AUTHORIZED",
+  "staging": "READ_ONLY_EXISTING_RUN"
+}

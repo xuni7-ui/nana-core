@@ -2229,3 +2229,9 @@ HUMAN_REVIEW_CONTEXT_CURRENT_STATE=PASS；PROJECT_STATUS_INTENT_CLASSIFICATION=P
 [最终回归] 当前冻结源码显式tests/全仓1321 passed/12 skipped/0failed312.07s；focused54通过及旧reopen严格反例1通过。保留中断SOURCE_DELETED失败、scope压力先失败与旧reopen断言失败；不以旧失败抬高最终状态。S4/S5门继续未关闭，未开展新真实模型/设备/社交/生产资格。
 
 [交付元数据补齐] 首个正常提交因命令未在白名单失败后停止，遗漏了被全局ignore匹配的secret_scan.json，且保留的原失败文本含行尾空格。本后续普通提交仅补入已核验不含凭据的扫描元数据、规范化该文本行尾并重算manifest/09锚点；不amend/rebase、不改业务代码，不以旧47文件提交冒称完整48文件交付。
+
+## Foundation Closure — S5 authorization checkpoint
+
+- 改了什么：仅更新07–11及资格/授权metadata、只读驻留快照和指纹；无业务源码/测试/配置/Store变化。
+- 为什么：用户已批准1次新PROJECT语义请求，不能继续把付费授权记为缺失；环境实际尚无安全FD凭据绑定，不能把授权当成凭据已就绪。
+- 怎么验证：environment_status当前revision320且bindings均空；原staging实际45779.435秒、final不存在、206pin文件匹配、DB quick/FK干净。新调用0、额度未消费，无旧Key读取/传送，三项Foundation/Integration READY仍NO；现有1321/12skip回归继承，纯metadata不重复跑应用回归。

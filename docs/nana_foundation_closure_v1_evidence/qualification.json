@@ -50,7 +50,9 @@
     "credentials": "EXPLICIT_MEMORY_FD_BINDING_REQUIRED_NO_DISCOVERY",
     "retry": 0,
     "fallback": 0,
-    "authorization": "NOT_GRANTED_FOR_THIS_MISSION"
+    "authorization": "GRANTED_ONE_NEW_REQUEST",
+    "credential_binding": "BLOCKED_NO_SAFE_CREDENTIAL_BINDING",
+    "environment_revision": "320"
   },
   "focused": {
     "tests": 54,
@@ -95,5 +97,6 @@
   "foundation_closure_complete": false,
   "master_sha256": "fe6efe121a05145b44178d5ec26b99430a28e873fca8d1b80f16671c65e5133c",
   "source_frozen_after": "Independent delivery/processing ledgers, tombstone training rebind fix and strengthened legacy reopen test",
-  "staging_snapshot": 42942.13029079599
+  "staging_snapshot": 42942.13029079599,
+  "latest_staging_observation": "docs/nana_foundation_closure_v1_evidence/staging_authorization_observation.json"
 }

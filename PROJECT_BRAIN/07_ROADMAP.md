@@ -849,3 +849,5 @@ HUMAN_REVIEW_CONTEXT_CURRENT_STATE=PASS；PROJECT_STATUS_INTENT_CLASSIFICATION=P
 - S3/S6提升FOUNDATION_QUALIFIED；其余资格继承。S4实际24h最终结果与S5当前live语义整链仍未通过；不能进入First-Life。
 - 下一唯一剩余能力门：S5新单次PROJECT语义资格授权/安全凭据绑定；同时只读等待原staging实际24h结果，不增加系统或重启驻留。
 - GLOBAL_STAGE H不改；First-Life是后续Integration Gate，S10高级深改保持不启动。生产/Human新评审仍暂停。
+
+[当前S5授权更新] 1次DeepSeek PROJECT语义资格已获授权，不再请求重复批准；当前缺安全FD/Resolver绑定。S4原24h仍实际计时，两条资格未关闭，First-Life暂停。

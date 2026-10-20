@@ -915,3 +915,5 @@ HUMAN_REVIEW_CONTEXT_CURRENT_STATE=PASS；PROJECT_STATUS_INTENT_CLASSIFICATION=P
 - [BLOCKED_NEW_AUTH_AND_SAFE_BINDING] FQ-03/S5-C06：当前组合synthetic loopback通过，live未运行；最少1个新PROJECT请求，15000ms/no retry/fallback、保守$0.05 ceiling，须新授权/安全FD。旧余1冻结。
 - [DURATION_PENDING] FQ-02/S4-C06：原24h run只读等待actual final result，不重启/重复soak；无final则不升级。
 - [NOT_RUN] Human/First-Life新评审、production inventory/cutover/social/72h。S10-C05/C06延期Advanced。
+
+[当前更新] FQ-03/S5-C06由BLOCKED_NEW_AUTH_AND_SAFE_BINDING收窄为BLOCKED_NO_SAFE_CREDENTIAL_BINDING；授权最多1次/15s/retry0/fallback0/≤$0.05保守reservation。没有凭据绑定则不调用，不通过聊天Key→命令参数降级。原S4只读实际45779.435秒，未达24h。

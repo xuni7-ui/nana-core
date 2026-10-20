@@ -8,10 +8,10 @@
   ],
   "files": {
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md": "b71b01e7410f538351a4de2900f6a61d38b48df7fb9089f9bb4f7ce853e0d8e7",
-    "PROJECT_BRAIN/07_ROADMAP.md": "103b9079fe485f4cabf3fc530e25d842f9cf0d4d29137e9efe37f32c82a6a220",
-    "PROJECT_BRAIN/08_TASKS.md": "09cdf8ee9ff76ea813b36d58b4818291d2136024652d925a4e190bb91129d1c0",
-    "PROJECT_BRAIN/10_DECISIONS.md": "ed9dc294ccfb2d8b0f178c7e35b0e0b5c31d41a04b437d7c65ba330a49e1028c",
-    "PROJECT_BRAIN/11_CHANGELOG.md": "7f7c93066a92f422c828fad7639e9f7ef9d232e2b2e320a5e434cafceb70a643",
+    "PROJECT_BRAIN/07_ROADMAP.md": "8eb4cf91683b8e35770ab9e16d8681002b0c8a240474aaf334a4855c233a99e1",
+    "PROJECT_BRAIN/08_TASKS.md": "26f34a3e91e1d27a1c1abeafa8a1868b7ea5b7853fb257099c2f43a6e5e89b1c",
+    "PROJECT_BRAIN/10_DECISIONS.md": "6c9a67f58d8f43e27d11a3432a129f8b66fecf5108f932b9696f3b82fedd97ee",
+    "PROJECT_BRAIN/11_CHANGELOG.md": "9b59c936577369531f1b7a1b08909ee800764afaaba2a9cfb9a295322528f954",
     "docs/nana_foundation_closure_v1_evidence/experience_need.json": "8700df38bb2851996a4b69139b95b572281b8fff3d3addadd76a93bb00d40b23",
     "docs/nana_foundation_closure_v1_evidence/frozen_definition_check.json": "e1ac7d9c91d5a65587e2b46a9c9538a3e013645a89e1968849a994c3e09c9b56",
     "docs/nana_foundation_closure_v1_evidence/full_regression.txt": "c6384def0a60c82d0c2ada394aa485fae3dbbb416b4ed685cf863197a33cc063",
@@ -19,7 +19,7 @@
     "docs/nana_foundation_closure_v1_evidence/legacy_reopen_expectation_failure.txt": "e35ef58485041b53f7ad22bd07afe6cf7e6d3b34576269568b7233fed5e52db8",
     "docs/nana_foundation_closure_v1_evidence/limitations.txt": "f02747a99af68892cf8d59d027bc82fac5fac1e9f2ee5ad3bd894c80837376ce",
     "docs/nana_foundation_closure_v1_evidence/problem_framing.json": "bbe3a3ce54e614345fe33511311dbc052f58f57f659706711be37805c8cadc6a",
-    "docs/nana_foundation_closure_v1_evidence/qualification.json": "a5040c63cf3258d2a9cf87541e60c9af120ef796cbfbcb4054e68c6167113a3e",
+    "docs/nana_foundation_closure_v1_evidence/qualification.json": "4ee8bcc32240edfc91c7993d130a59ae48dffffbf5a22feb657334d0651c1d33",
     "docs/nana_foundation_closure_v1_evidence/scope_pressure_before_fix.txt": "62047c701ef8cc3d42c4ac0b4797087a0eae2d5dc37fb6f5f05e5c744e915f7f",
     "docs/nana_foundation_closure_v1_evidence/secret_scan.json": "f22fcb0a39b103930cb403ab2bebc3abca54dcb3a37f17b96e14b1936610da54",
     "docs/nana_foundation_closure_v1_evidence/semantic_chain_offline.json": "d0a9060bcedc59f205cb6db9f3ab8e9a3ea60db2542e7960251fcd1e94514269",
@@ -52,6 +52,8 @@
     "tools/nana_foundation_closure/check.py": "a960455cda226e69616718b7733b2c2accc1dd0f8987e4fb56299cf46bebc1e0",
     "tools/nana_foundation_closure/restart_worker.py": "3e8482ff68cbc7757507706090287f34fdfaee2ddc88f1a37c6027f227cf5c22",
     "tools/nana_foundation_closure/semantic_chain.py": "6b9624dd97e5b81eb69d0719d9ef89f9909e5ee39fab932a13fcb7aacccf8f1a",
-    "tools/nana_foundation_closure/staging_observe.py": "d1b9246e44ee4e15e111eadd1f8b8e0a6f95b8b6815a6f0a46cc25a007b896b1"
+    "tools/nana_foundation_closure/staging_observe.py": "d1b9246e44ee4e15e111eadd1f8b8e0a6f95b8b6815a6f0a46cc25a007b896b1",
+    "docs/nana_foundation_closure_v1_evidence/s5_authorization_binding.json": "e2c8d7c207a4141444fe2b9c3f5b8d435d9dc93f2cf3308392e6182df6bc91ea",
+    "docs/nana_foundation_closure_v1_evidence/staging_authorization_observation.json": "40cdee68c74ce5cd355b84baef294f1dc860af0f160d6d81d6441148a932a71c"
   }
 }
