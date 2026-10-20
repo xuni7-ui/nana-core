@@ -2145,3 +2145,5 @@ DeepSeek资格home无transport重新打开：同identity、同1条PROPOSED记录
 低于32MiB/hour configured fence，状态OBSERVING；未裁剪history。仅有界窗口，不冒充24h。
 新Provider总调用1，usage已知、actual billing/cost UNKNOWN，等待可核对费率；真人自然度/Shared-Life NOT_RUN。
 Source/staging与live/fix证据分别登记；新Source修复不覆盖固定645899b驻留进程。
+
+[实测 first-life evidence packaging] live_credential_scan.json仅含scan范围/结果/保护开关元数据，无凭据；宽泛credential忽略规则使其未随目录add纳入，现以逐文件白名单显式纳入。检查manifest所有成员必须Git tracked；不amend历史，不修改忽略规则。
