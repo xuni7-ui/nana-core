@@ -1,0 +1,11 @@
+{
+  "scope": "CHANGED_WHITELIST_FILES_AND_GIT_DIFF_ONLY",
+  "files_scanned": 27,
+  "credential_literal_pattern_matches": 0,
+  "diff_matches": 0,
+  "historical_credentials_accessed": false,
+  "exact_old_secret_scan": "NOT_PERFORMED_NO_CREDENTIAL_ACCESS_THIS_REPAIR",
+  "real_provider_calls_this_repair": 0,
+  "logs": "Offline pytest output contains no provider credential; no live logs produced",
+  "old_bundle_read": false
+}

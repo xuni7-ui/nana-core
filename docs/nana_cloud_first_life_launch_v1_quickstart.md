@@ -171,3 +171,18 @@ The host configuration now supports optional `provider_total_calls_limit` and `p
 Qualification uses bounded context16384 and output2048 with the same ContextAssembler; default8192/1024 is preserved. Optional ProviderProfile `chat_thinking_mode` defaults to `PROVIDER_DEFAULT`; `DISABLED` explicitly emits the compatible vendor extension `thinking.type=disabled` for cognition only. Enable only for a provider with documented support; it is not assumed to work on every OpenAI-compatible service. DeepSeek support was checked at https://api-docs.deepseek.com/guides/thinking_mode/ . Changing host options is CAS/versioned and invalidates old route snapshots, never rewrites old requests or Subject identity.
 
 The separate24h staging process remains pinned to645899b and does not use this provider credential. Check its actual `progress.json`/`result.json` before claiming duration. Beta/First-Life readiness remains blocked by human review and the remaining staging/production gates.
+
+## Corrected review context (current; earlier live-entry notes are historical)
+
+The previous entry is stopped. No live review runs automatically after this repair.
+The existing reference home is now bound by host CAS to `current_project_state`:
+
+```json
+{"relative_path":"PROJECT_BRAIN/09_STATE.md","source_id":"project.mainline.current","scope":"project-work","privacy_class":"PROJECT","max_age_us":86400000000}
+```
+
+The selected file has one `CORE_PROJECT_CURRENT_STATE_V1` JSON header near its top; only that bounded header is projected, not the whole document. Maintain it in the same SSOT: increment revision and set a fresh `as_of_us` when factual mainline state changes. Stage/workstream/progress/open_gates/evidence_refs are bounded typed fields. No secrets, private history, developer logs or personal-experience attribution. Do not duplicate this header or substitute an unsourced cache. A stale/missing/corrupt source blocks the required query path; the result is also checked before dispatch and acceptance. Host binding is configuration, not portable Subject memory or execution permission.
+
+Clear project-status queries now use PROJECT_STATUS inside the original SubjectLoop. Receipt metadata has no preset intent. The original topic-refusal gate still wins. Offline fixtures prove both model phases receive current state and preserve privacy/support/token rules. These tests do not demonstrate live wording or human naturalness.
+
+Cumulative DeepSeek calls remain19/20; the last slot is deliberately unused. New paid review requires a new small authorization, explicit memory-only resolver/FD binding and unchanged PUBLIC/PROJECT scope. Do not run the qualification case runner just to open a review: it would spend calls on old cases. Reopen only the same existing paused reference home with the original bounded runtime entry after that authorization, using fresh message/request IDs and preserved reservations. Do not reset budgets, replay old UNKNOWN, or attach provider credentials to the separate24h staging.

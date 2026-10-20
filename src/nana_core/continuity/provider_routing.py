@@ -112,10 +112,10 @@ class RoutedTarget:
     _router:object=field(repr=False)
     def __repr__(self):return '<RoutedTarget sanitized='+self.snapshot.model_profile_id+'>'
     def _current(self):return self._router.current(self.snapshot)
-    def cognition_session(self,runtime):
+    def cognition_session(self,runtime,*,project_state_source=None):
         if not callable(getattr(self.port,'exchange',None)):raise CoreError('COGNITION_TRANSPORT_REQUIRED')
         from .world_loop.cognition import CognitionSession
-        return CognitionSession(runtime,self.port,self.context_policy,route_snapshot=self.snapshot,route_guard=self._current)
+        return CognitionSession(runtime,self.port,self.context_policy,route_snapshot=self.snapshot,route_guard=self._current,project_state_source=project_state_source)
     def media_session(self,store):
         if not self._current():raise CoreError('ROUTE_CHANGED_BEFORE_DISPATCH')
         return MediaSession(store,self._router.factory.registry,self.context_policy,limits=self.snapshot.effective,route_guard=self._current,route_binding=(self.snapshot.model_profile_id,self.snapshot.operation))

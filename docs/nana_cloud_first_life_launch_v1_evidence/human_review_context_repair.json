@@ -1,0 +1,71 @@
+{
+  "scope": "OFFLINE_FIXTURE_ONLY_NOT_HUMAN_OR_LIVE_QUALIFICATION",
+  "head_start": "47d77cb3d0fee503564dcf701a444bba8286c9c3",
+  "diagnosis": "Review entry omitted current authoritative mainline state and misclassified an explicit project-status query. This is not evidence of user expression failure or provider natural-language quality failure.",
+  "HUMAN_REVIEW_CONTEXT_CURRENT_STATE": "PASS",
+  "PROJECT_STATUS_INTENT_CLASSIFICATION": "PASS",
+  "NO_SECOND_MEMORY_AUTHORITY": "PASS",
+  "source": "PROJECT_BRAIN/09_STATE.md#CORE_PROJECT_CURRENT_STATE_V1",
+  "binding": "Explicit host-local ProjectStateBinding; no automatic directory/document discovery",
+  "selection": {
+    "source_prefix_read_max_bytes": 12288,
+    "state_json_max_bytes": 8192,
+    "max_progress_items": 8,
+    "max_gate_items": 8,
+    "default_max_age_seconds": 86400,
+    "scope_privacy_checked_before_file_open": true,
+    "mandatory_for_explicit_status_query": true,
+    "token_budget_retained": true,
+    "full_brain_or_logs_sent": false
+  },
+  "freshness": [
+    "read each prepare",
+    "revalidate before dispatch",
+    "revalidate response/proposal acceptance",
+    "changed/deleted/expired source -> reject stale result"
+  ],
+  "source_is_personal_experience": false,
+  "source_is_execution_authority": false,
+  "source_inserted_as_subject_memory": false,
+  "metadata": "New receipt states interpretation pending; is not user statement or known UNCLEAR verdict. Old recorded history is preserved.",
+  "offline_proof": [
+    "clear Chinese/English project-status questions",
+    "quoted/hypothetical/non-project counterexamples",
+    "contrary fixture UNCLEAR cannot override explicit request",
+    "both INTERPRET and RENDER use current bounded block",
+    "next turn observes source revision change",
+    "history canary absent",
+    "scope/privacy before opening source",
+    "corrupt/duplicate-key/symlink/class mismatch denied",
+    "withdrawal/change prevents dispatch",
+    "late change rejects response",
+    "projection itself does not mutate Store",
+    "explicit topic refusal remains stronger",
+    "arbitrary raw message ingress remains denied"
+  ],
+  "prior_human_sample": {
+    "id": "human_sample_01",
+    "formal_naturalness_evaluation_eligible": false,
+    "reason": "REVIEW_CHAIN_CONTEXT_AND_INTENT_DEFECT",
+    "observed_original_result_preserved": true,
+    "provider_or_user_language_quality_verdict": "NOT_ASSESSED"
+  },
+  "real_calls_this_repair": 0,
+  "deepseek_cumulative_calls": 19,
+  "last_existing_call_slot": "PARKED_NOT_USED",
+  "budget_increased": false,
+  "historical_tiantoken_unknown": "PARKED_NO_RETRY_NO_FALLBACK",
+  "human_naturalness": "NOT_RUN",
+  "first_life_experience_ready": "NOT_READY",
+  "production_changed": false,
+  "staging_restarted_or_modified": false,
+  "tests": {
+    "new_cases": 21,
+    "related_passed": 54,
+    "legacy_configured_passed": 588,
+    "full_repository_passed": 1300,
+    "full_repository_skipped": 12,
+    "failures": 0,
+    "live_calls": 0
+  }
+}

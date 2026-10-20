@@ -82,3 +82,6 @@ class RealMemoryIngress:
     def import_real(self, qualification: IngressQualification, payload=None):
         from ..contracts import CoreError
         raise CoreError("REAL_MEMORY_IMPORT_DISABLED")
+
+
+PENDING_LOCAL_RECEIPT = "Local conversation receipt metadata; semantic interpretation pending, not a user claim or known intent."

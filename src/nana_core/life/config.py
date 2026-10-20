@@ -8,11 +8,13 @@ from ..contracts import DTO,CoreError
 from ..continuity.project_work.port import ProjectMaterial
 from ..continuity.privacy import _json_object
 from .surfaces import SurfaceBinding
+from ..continuity.current_state import ProjectStateBinding
 
 class LifeConfig(DTO):
     schema_version:Literal[1]=1
     revision:int=Field(default=1,ge=1)
     project_root:str
+    current_project_state:ProjectStateBinding|None=None
     materials:tuple[ProjectMaterial,...]=Field(min_length=1,max_length=16)
     practice:ProjectMaterial
     heldout:ProjectMaterial

@@ -3,7 +3,7 @@ from typing import Literal
 from pydantic import Field
 from ..contracts import DTO
 
-MeaningKind=Literal['VENT','CHAT','HELP','SHARE','DECLINE_DEPTH','REOPEN','FOCUS','CORRECTION','UNCLEAR','IMPORTANT']
+MeaningKind=Literal['VENT','CHAT','HELP','SHARE','DECLINE_DEPTH','REOPEN','FOCUS','CORRECTION','UNCLEAR','IMPORTANT','PROJECT_STATUS']
 
 class DialogueMeaning(DTO):
     kind:MeaningKind
@@ -26,6 +26,7 @@ class DialogueContext(DTO):
     message_memory_id:str
     topic:str=Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
     privacy_class:Literal['PUBLIC','PROJECT','PERSONAL']
+    project_status_query:bool=False
     phase:Literal['INTERPRET','RENDER']
     text:str|None=Field(default=None,max_length=2048)
     judgment:str|None=Field(default=None,max_length=64)

@@ -2193,3 +2193,10 @@ INTERPRET+RENDER成功，累计19/20、reservation950000/$0.95（非actual bill�
 本轮context_mode UNCLEAR、原C ASK/WAIT，候选未获取最新PROJECT_BRAIN主线状态；不把这解释为用户表达有问题。
 诊断线索：初始Local input metadata的UNCLEAR占位也会进context，可能影响解释；尚未验证根因，不改写本轮候选。
 不入库真人原文/候选原文，仅结构化结果元数据。Human verdict PENDING，评分未记录，First-Life/Beta不升级。
+
+[implemented human-review context repair] 用户明确判定首样本为链路无效，不作为用户表达/DeepSeek自然度结论。原ContextAssembler新增显式host-bound、带scope/privacy/as_of/digest且有限的SSOT current-state派生块；不建memory/Store，不把Codex开发当主体经历。明确PROJECT_STATUS信号保留原C判断链，不让UNCLEAR模型候选覆盖可核验状态询问；消息收据改为语义pending的直接观察元数据，去掉伪“已reviewed UNCLEAR”。本轮真实调用0，原余1冻结；24h固定工作树不动。
+
+[实测 review-context修复最终回归] 新增21项纳入focused54 passed19.12s；显式tests/全仓库1300 passed/12 skipped/0 failed326.97s。默认legacy testpaths另588 passed/1 skipped125.37s，不冒充全仓库。
+HUMAN_REVIEW_CONTEXT_CURRENT_STATE=PASS；PROJECT_STATUS_INTENT_CLASSIFICATION=PASS；NO_SECOND_MEMORY_AUTHORITY=PASS（OFFLINE/FIXTURE）。
+本轮新真实调用0，原累计19、余1冻结、budget未提高；准备请求最多4次/新增保守reservation上限0.20USD的重新评审授权，尚未获批也未执行。
+真人自然度正式评审NOT_RUN，历史样本因评审链路缺口排除；FIRST_LIFE/BETA不升级。主线修复起点47d77cb3d0fee503564dcf701a444bba8286c9c3；最终commit由Git读取，避免自指。

@@ -12,5 +12,7 @@
   "qualification_72h": "NOT_RUN",
   "first_life_experience_ready": "NOT_READY",
   "cloud_daily_life_beta_ready": false,
-  "new_real_provider_calls": 17
+  "new_real_provider_calls": 19,
+  "real_calls_this_context_repair": 0,
+  "human_review_chain": "OFFLINE_FIXED_AWAITING_NEW_REVIEW_BUDGET"
 }

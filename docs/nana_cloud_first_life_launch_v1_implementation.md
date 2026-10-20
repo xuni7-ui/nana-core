@@ -177,3 +177,24 @@ One original C/Store/Runtime owner per reference lineage；schema13/43表，新�
 不是“所有进程已清空”；早期资格进程已退出，新入口停止后Resolver clear，无自动credential恢复。
 剩余3次模型调用通常仅1完整轮；未收到真人消息/评审则Human NOT_RUN，不把开发者候选检查当Human通过。
 主线继续门是当前私有开发入口人工体验；24h真实驻留另行等待结果，不提前production inventory/cutover。
+
+## CURRENT — FIRST-LIFE / HUMAN REVIEW CONTEXT REPAIR (OFFLINE)
+[源码/离线实测2026-10-20] 上次真人样本不具备正式自然度评审条件：入口未装载当前主线状态，
+且明确项目状态询问被误分类。问题归属评审链路，不归因为用户表达或DeepSeek自然语言能力。
+原样本与原判断不改写；该样本从正式评审样本排除，不给语言质量分或真人PASS。
+复用原ContextAssembler：显式host-local binding只读取09_STATE顶部typed当前状态header，
+源前缀最多12288bytes/JSON最多8192bytes，scope/privacy先于读取，revision/as_of/hash有来源；
+不扫描整个Brain、不读取开发日志、不新增Memory/Store/SubjectLoop。工程状态标明外部事实，不能称个人经历。
+明确PROJECT_STATUS询问要求该block入选原token预算；缺失、过期、删除、损坏或回复期间变更fail closed。
+原INTERPRET+SubjectLoop+RENDER接入同一projection；中性接收元数据不预判UNCLEAR，模型不能覆盖明确询问。
+原topic拒绝、Privacy/Manager/Grant/预算边界保持；本轮真实调用0，累计DeepSeek19、名义reservation950000。
+余1次冻结不用，未扩预算；真实账单仍UNKNOWN。历史TianToken UNKNOWN PARKED，retry0/fallback0。
+现有评审home仅host config CAS绑定状态源，未开启Runtime、未写Subject状态，预算仍20/1000000。
+三项修复门仅为OFFLINE/FIXTURE PASS；Human Naturalness/Shared-Life正式评审NOT_RUN。
+FIRST_LIFE_EXPERIENCE_READY=NOT_READY；Beta不升级；24h staging固定645899b独立继续，未重启或污染。
+证据human_review_context_repair.json/current_state_host_binding.json；最终回归结果见context_repair_test_summary.txt。
+
+[实测 review-context修复最终回归] 新增21项纳入focused54 passed19.12s；显式tests/全仓库1300 passed/12 skipped/0 failed326.97s。默认legacy testpaths另588 passed/1 skipped125.37s，不冒充全仓库。
+HUMAN_REVIEW_CONTEXT_CURRENT_STATE=PASS；PROJECT_STATUS_INTENT_CLASSIFICATION=PASS；NO_SECOND_MEMORY_AUTHORITY=PASS（OFFLINE/FIXTURE）。
+本轮新真实调用0，原累计19、余1冻结、budget未提高；准备请求最多4次/新增保守reservation上限0.20USD的重新评审授权，尚未获批也未执行。
+真人自然度正式评审NOT_RUN，历史样本因评审链路缺口排除；FIRST_LIFE/BETA不升级。主线修复起点47d77cb3d0fee503564dcf701a444bba8286c9c3；最终commit由Git读取，避免自指。

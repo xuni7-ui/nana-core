@@ -1,0 +1,23 @@
+{
+  "grade": "HOST_BINDING_CONFIG_ONLY_NO_RUNTIME_OR_PROVIDER_CALL",
+  "relative_path": "PROJECT_BRAIN/09_STATE.md",
+  "source_id": "project.mainline.current",
+  "host_revision": 7,
+  "source_revision": 1,
+  "source_digest": "c9bf17d6ec9ec201ed0dfe9608bbe37de13a958a42a569b260ae06225b1b94d7",
+  "projection_bytes": 1975,
+  "attribution": "EXTERNAL_PROJECT_STATUS_NOT_SUBJECT_EXPERIENCE",
+  "authority": "PROJECT_FACTS_ONLY_NOT_EXECUTION_AUTHORITY",
+  "calls_before_after": 19,
+  "memory_count_unchanged": true,
+  "budget_unchanged": true,
+  "current_calls_ceiling": 20,
+  "reserved_budget_ceiling_micro": 1000000,
+  "runtime_started": false,
+  "credential_accessed": false,
+  "staging_modified": false,
+  "final_source_revision": 2,
+  "final_source_digest": "f82ac564aa6751048c32aa26481d4a4b8c59edecafc2405ab59a84e907864ade",
+  "final_projection_bytes": 2083,
+  "source_refreshed_without_host_or_subject_revision_change": true
+}

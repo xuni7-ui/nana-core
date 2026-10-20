@@ -7,7 +7,7 @@
   "unit_test_ratings_are_human_review": false,
   "readiness_automatically_promoted": false,
   "raw_transcript_persisted": false,
-  "entry_state": "BOUNDED_ENTRY_EXPIRED_GRACEFULLY;SAME_HOME_SINGLE_TURN_COMPLETED",
+  "entry_state": "STOPPED;OFFLINE_CONTEXT_REPAIR_TESTED;AWAITING_NEW_SMALL_REVIEW_BUDGET",
   "identity_id": "b5864db1-ecfe-4278-9bc2-76db0e096311",
   "runtime_pid": null,
   "home": "/workspace/nana-staging/first-life-deepseek-01/life",
@@ -17,7 +17,16 @@
   "role": "DEVELOPMENT_REFERENCE_SUBJECT_NOT_PRODUCTION_NANA_IMPORT",
   "autonomy": "PAUSED_NO_NEW_TASKS_FOR_QUALIFICATION",
   "transcript_persisted": false,
-  "human_verdict": "PENDING",
+  "human_verdict": "NOT_RUN_FORMAL_REVIEW",
   "actual_user_samples": 1,
-  "entry_available_for_complete_round": false
+  "entry_available_for_complete_round": false,
+  "formal_eligible_user_samples": 0,
+  "excluded_samples": [
+    {
+      "sample": "human_sample_01",
+      "reason": "REVIEW_CONTEXT_MISSING_AND_EXPLICIT_PROJECT_STATUS_MISCLASSIFIED",
+      "not_a_user_or_provider_naturalness_failure": true
+    }
+  ],
+  "context_repair_evidence": "human_review_context_repair.json"
 }

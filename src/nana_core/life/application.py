@@ -64,6 +64,8 @@ class PortfolioOpportunities:
 class LifeApplication:
     def __init__(self,home,*,clock=None,router=None,bootstrap_grant=False):
         self.home=home_path(home);self.config=load_config(home);self.router=router;self.session=None;self._chat={};self._recent=[];self.closed=False
+        from ..continuity.current_state import ProjectStateSource
+        self.current_project_state=ProjectStateSource(self.config.project_root,self.config.current_project_state) if self.config.current_project_state else None
         self.clock=clock or Clock()
         with ContinuityStore(self.home/'subject/self.db',self.clock,schema_target=13) as s:
             IdentityService(s,OperatorAuthority());MemoryService(s).entity('project-user','PERSON')
@@ -159,7 +161,7 @@ class LifeApplication:
         if count>=self.config.per_provider_calls_per_day:raise CoreError('PROVIDER_PROFILE_DAILY_BUDGET')
         if self.session is None or self.session.route_snapshot!=target.snapshot:
             if self.session and any(w.is_alive() for w in self.session._workers):raise CoreError('PROVIDER_WORKER_UNRESOLVED')
-            self.session=target.cognition_session(self.runtime)
+            self.session=target.cognition_session(self.runtime,project_state_source=self.current_project_state)
             self.session.recover()
         from ..presence.resources import resource_state
         if resource_state(self.runtime.store,self.runtime.config).unresolved_calls:raise CoreError('UNRESOLVED_PROVIDER_CALL_NO_RETRY')
@@ -176,7 +178,7 @@ class LifeApplication:
             try:MemoryService(self.runtime.store).read(turn.message_memory_id)
             except CoreError:continue
             recent.append(turn)
-        descriptor=DialogueContext(message_memory_id=mid,topic=topic,privacy_class=privacy,phase=phase,
+        descriptor=DialogueContext(project_status_query=LiteralSpanInterpreter().interpret(text).kind=='PROJECT_STATUS' or bool(cycle and cycle.context_fit.mode=='PROJECT_STATUS'),message_memory_id=mid,topic=topic,privacy_class=privacy,phase=phase,
             judgment=cycle.judgment.stance if cycle else None,intention=cycle.intention.kind if cycle else None,context_mode=cycle.context_fit.mode if cycle else None,effect_status='VERIFIED_EFFECT' if facts else 'NONE')
         data={'dialogue':descriptor.model_dump(mode='json')};volatile={'dialogue':descriptor.model_copy(update={'text':text,'recent_turns':tuple(recent)}).model_dump(mode='json')}
         request=session.prepare(key, 'INTERPRET' if phase=='INTERPRET' else 'SOCIAL',tuple(dict.fromkeys((mid,*facts,*continuity,*(t.message_memory_id for t in recent)))),role_input=data,volatile_input=volatile,
@@ -194,10 +196,11 @@ class LifeApplication:
         # approved summary parents participate in normal privacy/deletion closure.
         from ..continuity.contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
         memory=MemoryService(r.store);reference='message:'+digest(event_key)
-        body='Local input reviewed meaning: UNCLEAR'
+        from ..continuity.contracts import PENDING_LOCAL_RECEIPT
+        body=PENDING_LOCAL_RECEIPT
         old=r.store.db.execute("SELECT observed_time_us FROM continuity_evidence WHERE source_namespace='recorded.local.message' AND source_reference=?",(reference,)).fetchone()
-        eid=memory.capture(EvidenceInput(provenance=Provenance(domain='LOCAL_INTERACTION_METADATA',source_namespace='recorded.local.message',source_reference=reference,source_kind='USER_STATEMENT'),text=body,privacy_class=privacy,observed_time_us=old[0] if old else r.clock.utc_now_us()))
-        mid=memory.add(MemoryCandidate(entity_id=r.config.entity_id,scope=r.config.scopes[0],memory_type=MemoryType.EPISODIC,epistemic_kind='STATEMENT',source_evidence_id=eid,text=body,derived_from=tuple(support_memory_ids)))
+        eid=memory.capture(EvidenceInput(provenance=Provenance(domain='LOCAL_INTERACTION_METADATA',source_namespace='recorded.local.message',source_reference=reference,source_kind='DIRECT_OBSERVATION'),text=body,privacy_class=privacy,observed_time_us=old[0] if old else r.clock.utc_now_us()))
+        mid=memory.add(MemoryCandidate(entity_id=r.config.entity_id,scope=r.config.scopes[0],memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',source_evidence_id=eid,text=body,derived_from=tuple(support_memory_ids)))
         literal=LiteralSpanInterpreter().interpret(text);kind=literal.kind if literal.basis=='LITERAL_SPAN' else 'UNCLEAR';basis='EXPLICIT' if literal.basis=='LITERAL_SPAN' else 'INTERPRETED';rid=None;provider_state='LIVE_PROVIDER_NOT_RUN'
         try:
             from ..continuity.subject.context_fit import depth_boundary
@@ -206,7 +209,8 @@ class LifeApplication:
             session,rid=self._model('life.interpret.'+key,'INTERPRET',mid,text,topic,privacy)
             meaning=session.proposal(rid).proposal.dialogue
             # Literal user boundary beats contradictory model interpretation.
-            if kind not in {'DECLINE_DEPTH','REOPEN'}:
+            if kind not in {'DECLINE_DEPTH','REOPEN','PROJECT_STATUS'}:
+
                 kind=meaning.kind if meaning.confidence in {'RELEVANT','HIGH'} else 'UNCLEAR'
                 basis='MODEL_PROPOSAL' if meaning.confidence in {'RELEVANT','HIGH'} else 'INTERPRETED'
             provider_state='MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED'
@@ -224,7 +228,7 @@ class LifeApplication:
             except CoreError as exc:render_state=exc.code
         if not draft:
             draft={'VENT':'离线模式：我在听；这次不把倾诉变成研究。','HELP':'离线语义受限：可用 /work 选择已批准的源码材料。','SHARE':'离线模式：收到你的分享；没有另开任务。','CHAT':'离线模式：可以闲聊，真实语言模型尚未配置。',
-                   'RESPECT_BOUNDARY':'这个话题先停在这里。','CORRECTION':'我会先澄清更正的内容，不直接改写历史。'}.get(cycle.context_fit.mode,'离线语义受限：你希望我听你说，还是一起处理具体问题？')
+                   'PROJECT_STATUS':'已识别为项目状态询问；当前未生成模型措辞。','RESPECT_BOUNDARY':'这个话题先停在这里。','CORRECTION':'我会先澄清更正的内容，不直接改写历史。'}.get(cycle.context_fit.mode,'离线语义受限：你希望我听你说，还是一起处理具体问题？')
         if self.router is not None and not render_state=='UNVERIFIED_MODEL_WORDING' and cycle.context_fit.mode!='RESPECT_BOUNDARY':
             # A configured provider can be budget-blocked after valid interpretation.
             # Do not falsely report that no model is configured or pretend this is generated speech.

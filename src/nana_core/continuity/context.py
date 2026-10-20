@@ -155,14 +155,17 @@ def self_frame(store, authority, *, entity_id, scopes, privacy_classes, capabili
 
 
 class ContextAssembler:
-    def __init__(self, store, authority, *, counter=None):
+    def __init__(self, store, authority, *, counter=None, project_state_source=None):
         if not isinstance(authority, OperatorAuthority):
             raise CoreError("OPERATOR_AUTHORITY_REQUIRED")
         self.store, self.authority = store, authority
+        from .current_state import ProjectStateSource
+        if project_state_source is not None and type(project_state_source) is not ProjectStateSource:raise CoreError("PROJECT_STATE_BINDING_REQUIRED")
+        self.project_state_source=project_state_source
         self.counter = counter or ConservativeCounter()
         self._issued = deque(maxlen=64)  # hashes only, never a plaintext context cache
 
-    def assemble(self, request: ContextRequest, policy: ContextPolicy, *, capabilities=(), limitations=(), subject_frame=None, required_memory_ids=(), source_only=False, pinned_only=False):
+    def assemble(self, request: ContextRequest, policy: ContextPolicy, *, capabilities=(), limitations=(), subject_frame=None, required_memory_ids=(), source_only=False, pinned_only=False, require_current_state=False):
         if not set(request.scopes) <= set(policy.allowed_scopes):
             raise CoreError("CONTEXT_SCOPE_DENIED")
         privacy = tuple(p for p in policy.readable_privacy if request.destination == "LOCAL_FIXTURE" or p in policy.remote_privacy)
@@ -191,6 +194,14 @@ class ContextAssembler:
             ContextBlock(block_id="task", kind="TASK_CONSTRAINTS", data_json=canonical({
                 "task": request.task, "task_class": request.task_class, "capabilities": frame.capabilities,
                 "limitations": frame.limitations, "execution_authority": "NONE", "context_is_derived": True}))]
+        current=None
+        if self.project_state_source is not None:
+            current=self.project_state_source.projection(scopes=request.scopes,privacy_classes=privacy,now_us=self.store.clock.utc_now_us())
+        if require_current_state and current is None:raise CoreError('PROJECT_CURRENT_STATE_NOT_BOUND_OR_DENIED')
+        if current is not None:
+            block=ContextBlock(block_id='project-current-state',kind='PROJECT_CURRENT_STATE',data_json=canonical(current))
+            if require_current_state:mandatory.append(block)
+            else:candidates.append((950.0,block))
         if subject_frame is not None:
             from .subject.contracts import DeliberationFrame
             if not isinstance(subject_frame, DeliberationFrame) or subject_frame.scope not in request.scopes:
@@ -404,8 +415,17 @@ class ContextAssembler:
             raise CoreError("CONTEXT_TAMPERED")
         if self.counter.count(package.model_dump_json()) != package.manifest.input_tokens:
             raise CoreError("CONTEXT_TOKEN_MISMATCH")
+        self.validate_project_state(package,request,policy)
         for block in package.blocks:
             for memory_id in block.source_memory_ids:
                 row = self.store.one("memories", memory_id)
                 if not row or row["lifecycle"] == "DELETED":
                     raise CoreError("CONTEXT_SOURCE_DELETED")
+
+    def validate_project_state(self,package,request,policy):
+        blocks=[b for b in package.blocks if b.kind=='PROJECT_CURRENT_STATE']
+        if not blocks:return
+        if len(blocks)!=1 or self.project_state_source is None:raise CoreError('PROJECT_CURRENT_STATE_NOT_BOUND_OR_DENIED')
+        privacy=tuple(p for p in policy.readable_privacy if request.destination=='LOCAL_FIXTURE' or p in policy.remote_privacy)
+        current=self.project_state_source.projection(scopes=request.scopes,privacy_classes=privacy,now_us=self.store.clock.utc_now_us())
+        if current is None or canonical(current)!=blocks[0].data_json:raise CoreError('PROJECT_CURRENT_STATE_CHANGED')

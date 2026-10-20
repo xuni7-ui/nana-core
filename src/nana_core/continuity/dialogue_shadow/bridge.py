@@ -42,7 +42,7 @@ class NewExcerpt(DTO):
 
 
 class SemanticInterpretation(DTO):
-    kind: Literal['VENT','HELP','SHARE','DECLINE_DEPTH','REOPEN','FOCUS','UNCLEAR','IMPORTANT']
+    kind: Literal['VENT','HELP','SHARE','DECLINE_DEPTH','REOPEN','FOCUS','UNCLEAR','IMPORTANT','PROJECT_STATUS']
     basis: Literal['LITERAL_SPAN','HUMAN_REVIEW','UNREVIEWED_PROPOSAL']
     support_start: int = Field(ge=0)
     support_end: int = Field(ge=0)
@@ -64,6 +64,17 @@ class LiteralSpanInterpreter:
         # deliberately uncertain. Never pick refusal out of an adversarial quote.
         if any(x in text for x in ('“','”','"','如果','假如','不是','并非')):
             return SemanticInterpretation(kind='UNCLEAR',basis='UNREVIEWED_PROPOSAL',support_start=0,support_end=0,mechanism='literal-baseline')
+        # Narrow explicit status questions; no subject names/personality branches.
+        # Refusal/reopen spans retain precedence. Quoted/hypothetical text above
+        # is not promoted to a current request by keyword matching.
+        status_spans=('做到哪','当前阶段','目前阶段','现在这个阶段','现在进展','目前进展','当前进度','现在进度','目前状态','current project status','project progress')
+        lower=text.lower();spans=[p for p in status_spans if p in lower]
+        unrelated=any(p in text for p in ('身体','心情','情绪','我们的关系','关系目前状态','饭做到哪','菜做到哪'))
+        refusal=any(p in text for k,ps in LITERALS if k in {'DECLINE_DEPTH','REOPEN'} for p in ps)
+        questioning=any(p in lower for p in ('?','？','吗','么','哪','怎么看','如何','怎样','汇报','报告','告诉我','说说','说下','what','how')) or lower.strip() in status_spans
+        if spans and questioning and not unrelated and not refusal:
+            phrase=spans[0];start=lower.index(phrase)
+            return SemanticInterpretation(kind='PROJECT_STATUS',basis='LITERAL_SPAN',support_start=start,support_end=start+len(phrase),mechanism='explicit-project-status-span')
         matches=[(kind, phrase,text.index(phrase)) for kind,phrases in LITERALS for phrase in phrases if phrase in text]
         if len({k for k,_,_ in matches})!=1:
             return SemanticInterpretation(kind='UNCLEAR',basis='UNREVIEWED_PROPOSAL',support_start=0,support_end=0,mechanism='literal-baseline')
@@ -112,6 +123,9 @@ class NewMessageShadow:
         if interpretation.basis=='LITERAL_SPAN':
             span=item.text[interpretation.support_start:interpretation.support_end]
             trusted=any(kind==interpretation.kind and span in phrases for kind,phrases in LITERALS)
+            if interpretation.kind=='PROJECT_STATUS':
+                checked=LiteralSpanInterpreter().interpret(item.text)
+                trusted=checked.kind=='PROJECT_STATUS' and (checked.support_start,checked.support_end)==(interpretation.support_start,interpretation.support_end)
         kind=interpretation.kind if trusted else 'UNCLEAR'
         # Raw excerpt is used only by the interpreter in memory. C receives a
         # minimal reviewed semantic occurrence, never private raw conversation.

@@ -1,5 +1,40 @@
 # PROJECT_BRAIN / 09 STATE（当前状态快照）
 
+## CURRENT SOURCE CONTRACT（仅工程状态；不是主体个人经历）
+<!-- CORE_PROJECT_CURRENT_STATE_V1 -->
+{
+  "schema_version": 1,
+  "project_id": "nana-core",
+  "scope": "project-work",
+  "privacy_class": "PROJECT",
+  "revision": 2,
+  "as_of_us": 1792509543414892,
+  "stage": "H",
+  "workstream": "CLOUD_FIRST_LIFE_LAUNCH_V1",
+  "status": "OFFLINE_CONTEXT_REPAIR_TESTED_AWAITING_NEW_REVIEW_BUDGET",
+  "progress": [
+    "当前主线是 Cloud First-Life Launch，正在把持续主体推进到可实际体验的云端生活；不是新开模型基准任务。",
+    "C/D Runtime、受控开发面 Hands、结果核验、学习等已有开发资格证据；这些是工程实现与验收，不等于主体亲身经历。",
+    "DeepSeek deepseek-flash 文本功能路径已验证；本轮累计19次真实调用，保守预算预留0.95美元，真实账单未知；余1次冻结不用。",
+    "第一次真人输入暴露评审上下文与意图分类缺口，因此该样本不能作为自然语言能力或Human Naturalness正式评审结论。",
+    "受控当前状态投影、PROJECT_STATUS分类与中性接收元数据已实现，并经离线/fixture验证；没有消耗剩余真实调用。"
+  ],
+  "open_gates": [
+    "Human Naturalness与Shared-Life正式评审未通过，需要链路修复后在新小额预算内重新开始。",
+    "24h staging独立运行，以其实际progress/result资格为准；不得重启、污染或凭启动就写24h PASS。",
+    "FIRST_LIFE_EXPERIENCE_READY=NOT_READY；Beta未就绪；production inventory/cutover/canary未授权或未运行。"
+  ],
+  "evidence_refs": [
+    "docs/nana_cloud_first_life_launch_v1_status.md",
+    "docs/nana_cloud_first_life_launch_v1_evidence/deepseek_functional_qualification.json",
+    "docs/nana_cloud_first_life_launch_v1_evidence/human_sample_01_metadata.json",
+    "docs/nana_cloud_first_life_launch_v1_evidence/human_review_context_repair.json"
+  ]
+}
+<!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+上方是受控当前状态入口；下方先前CURRENT检查点保留为历史，最新修复与验收见文末。
+
 ## CURRENT — FIRST-LIFE / DEEPSEEK FUNCTIONAL TEXT QUALIFIED / HUMAN REVIEW PENDING
 [实测2026-10-20] 同一主线/分支，GLOBAL_STAGE H。累计17次DeepSeek / deepseek-flash；独立request IDs17，
 无automatic retry/fallback/UNKNOWN；旧TianToken UNKNOWN PARKED，不重放。14 PROPOSED、1 REJECTED、2 FAILED保留。
@@ -1908,3 +1943,26 @@ INTERPRET+RENDER成功，累计19/20、reservation950000/$0.95（非actual bill�
 不入库真人原文/候选原文，仅结构化结果元数据。Human verdict PENDING，评分未记录，First-Life/Beta不升级。
 
 Human sample metadata manifest SHA256 `65668ad367d10347d933b7886c746822fcf38674fbaf0c0eb204760b4bfb0589`，self/09/原文/bundle/DB/credential排除。
+
+## CURRENT — FIRST-LIFE / HUMAN REVIEW CONTEXT REPAIR (OFFLINE)
+[源码/离线实测2026-10-20] 上次真人样本不具备正式自然度评审条件：入口未装载当前主线状态，
+且明确项目状态询问被误分类。问题归属评审链路，不归因为用户表达或DeepSeek自然语言能力。
+原样本与原判断不改写；该样本从正式评审样本排除，不给语言质量分或真人PASS。
+复用原ContextAssembler：显式host-local binding只读取09_STATE顶部typed当前状态header，
+源前缀最多12288bytes/JSON最多8192bytes，scope/privacy先于读取，revision/as_of/hash有来源；
+不扫描整个Brain、不读取开发日志、不新增Memory/Store/SubjectLoop。工程状态标明外部事实，不能称个人经历。
+明确PROJECT_STATUS询问要求该block入选原token预算；缺失、过期、删除、损坏或回复期间变更fail closed。
+原INTERPRET+SubjectLoop+RENDER接入同一projection；中性接收元数据不预判UNCLEAR，模型不能覆盖明确询问。
+原topic拒绝、Privacy/Manager/Grant/预算边界保持；本轮真实调用0，累计DeepSeek19、名义reservation950000。
+余1次冻结不用，未扩预算；真实账单仍UNKNOWN。历史TianToken UNKNOWN PARKED，retry0/fallback0。
+现有评审home仅host config CAS绑定状态源，未开启Runtime、未写Subject状态，预算仍20/1000000。
+三项修复门仅为OFFLINE/FIXTURE PASS；Human Naturalness/Shared-Life正式评审NOT_RUN。
+FIRST_LIFE_EXPERIENCE_READY=NOT_READY；Beta不升级；24h staging固定645899b独立继续，未重启或污染。
+证据human_review_context_repair.json/current_state_host_binding.json；最终回归结果见context_repair_test_summary.txt。
+
+[实测 review-context修复最终回归] 新增21项纳入focused54 passed19.12s；显式tests/全仓库1300 passed/12 skipped/0 failed326.97s。默认legacy testpaths另588 passed/1 skipped125.37s，不冒充全仓库。
+HUMAN_REVIEW_CONTEXT_CURRENT_STATE=PASS；PROJECT_STATUS_INTENT_CLASSIFICATION=PASS；NO_SECOND_MEMORY_AUTHORITY=PASS（OFFLINE/FIXTURE）。
+本轮新真实调用0，原累计19、余1冻结、budget未提高；准备请求最多4次/新增保守reservation上限0.20USD的重新评审授权，尚未获批也未执行。
+真人自然度正式评审NOT_RUN，历史样本因评审链路缺口排除；FIRST_LIFE/BETA不升级。主线修复起点47d77cb3d0fee503564dcf701a444bba8286c9c3；最终commit由Git读取，避免自指。
+
+[实测 context-repair指纹锚点] docs/nana_cloud_first_life_launch_v1_evidence/manifest.json SHA256 88c7a2ff2d4039fd05de10c339f18b8556737e6556315d34e50d5f49fce97c85；不包含自身/09_STATE/DB/旧bundle/凭据，仅证明采集文件，不证明真人自然度或production。

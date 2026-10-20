@@ -1290,3 +1290,13 @@ INTERPRET+RENDER成功，累计19/20、reservation950000/$0.95（非actual bill�
 本轮context_mode UNCLEAR、原C ASK/WAIT，候选未获取最新PROJECT_BRAIN主线状态；不把这解释为用户表达有问题。
 诊断线索：初始Local input metadata的UNCLEAR占位也会进context，可能影响解释；尚未验证根因，不改写本轮候选。
 不入库真人原文/候选原文，仅结构化结果元数据。Human verdict PENDING，评分未记录，First-Life/Beta不升级。
+
+## FIRST-LIFE — bounded SSOT context / explicit project inquiry / invalid review sample
+[决策2026-10-20] 用户确认review chain缺口不是语言质量结论。保留原样本输出历史，但不纳入正式Human Naturalness评分。
+不新建评审记忆：唯一当前状态摘要内嵌09_STATE typed header；宿主显式选择源/path/scope，
+通过原ContextAssembler投影，最多12KiB前缀/8KiB JSON、时间有效、有限条目、hash/revision/source。
+来源是external engineering status，不是Subject个人经历、execution authority或开发者日志记忆。
+PROJECT_STATUS是原context-fit认知意图，仍由原SubjectLoop决定WATCH/SOCIAL_INTERACTION，不新建表达循环。
+Neutral receipt仅是“已收输入，解释待定”的DIRECT_OBSERVATION；不能预先宣告UNCLEAR，也不能借此存入任意原文。
+旧记录不反写，缺失/过期/变化/删除源不允许旧context继续采纳；既有privacy/token/权限边界保留。
+新付费评审必须在离线修复与可审查提交后请求新的小额授权；余1次不使用，staging不更改。

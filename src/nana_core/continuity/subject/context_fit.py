@@ -10,7 +10,7 @@ from ...storage import digest
 from ..records import RecordService
 
 class InteractionSignal(DTO):
-    kind: Literal['VENT','CHAT','HELP','SHARE','CORRECTION','DECLINE_DEPTH','REOPEN','FOCUS','UNCLEAR','IMPORTANT']
+    kind: Literal['VENT','CHAT','HELP','SHARE','CORRECTION','DECLINE_DEPTH','REOPEN','FOCUS','UNCLEAR','IMPORTANT','PROJECT_STATUS']
     topic_key: str = Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
     basis: Literal['EXPLICIT','INTERPRETED','MODEL_PROPOSAL'] = 'EXPLICIT'
     proposal_record_id: str | None = None
@@ -20,7 +20,7 @@ class ContextFitAssessment(DTO):
     derived: Literal[True] = True
     entity_id: str
     topic_key: str
-    mode: Literal['VENT','CHAT','HELP','SHARE','CORRECTION','DECLINE_DEPTH','REOPEN','FOCUS','UNCLEAR','IMPORTANT','RESPECT_BOUNDARY','INDEPENDENT']
+    mode: Literal['VENT','CHAT','HELP','SHARE','CORRECTION','DECLINE_DEPTH','REOPEN','FOCUS','UNCLEAR','IMPORTANT','RESPECT_BOUNDARY','INDEPENDENT','PROJECT_STATUS']
     allow_deepening: bool
     allow_new_work: bool
     preserve_independent_activity: Literal[True] = True
@@ -88,6 +88,8 @@ def choose(event,situation):
         return 'DEFER',Judgment(stance='DEFER',reason='Respect the explicit topic refusal; do not privately restart research',source_ids=sources),Intention(kind='NO_ACTION',purpose='Leave this topic closed without deleting independent interests',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='STAY_SILENT')
     if fit.mode=='FOCUS':
         return 'FOCUS_NOW',Judgment(stance='ASK',reason='Attend to the requested focus; preserve unrelated pending activity for later',source_ids=sources),Intention(kind='WAIT',purpose='Clarify the immediate need while background work yields',slot_key='context-focus',source_ids=sources,self_generated=False)
+    if fit.mode=='PROJECT_STATUS':
+        return 'FOCUS_NOW',Judgment(stance='WATCH',reason='Attend to an explicit project-status question using current sourced state, not clarification of an unclear intent',source_ids=sources),Intention(kind='SOCIAL_INTERACTION',purpose='Discuss sourced current project status and a supported assessment, not adopt work or invent personal experiences',slot_key='project-status-'+fit.topic_key,source_ids=sources,self_generated=False)
     if fit.mode in {'VENT','SHARE','CHAT'}:
         return 'FOCUS_NOW',Judgment(stance='WATCH',reason='Attend to the interaction without turning it into unsolicited research',source_ids=sources),Intention(kind='SOCIAL_INTERACTION',purpose='Consider a context-appropriate response, not a new project',slot_key='interaction-'+fit.topic_key,source_ids=sources,self_generated=False)
     if fit.mode in {'UNCLEAR','DECLINE_DEPTH','CORRECTION'}:
@@ -97,6 +99,7 @@ def choose(event,situation):
 def social_candidate(fit,*,style,source_ids,available=True):
     from .social import SocialInteractionProposal,propose_social
     if fit.mode in {'RESPECT_BOUNDARY','FOCUS'} or not available:return SocialInteractionProposal(act='STAY_SILENT',topic_key=fit.topic_key,approach='NO_INTERRUPTION',source_memory_ids=source_ids)
+    if fit.mode=='PROJECT_STATUS':return SocialInteractionProposal(act='EXPRESS_OPINION',topic_key=fit.topic_key,approach='CHECK_RECEPTION',source_memory_ids=source_ids)
     if fit.mode=='SHARE':return propose_social(topic=fit.topic_key,style=style,available=available,source_ids=source_ids)
     return SocialInteractionProposal(act='CHECK_IN' if fit.mode=='VENT' else 'ASK',topic_key=fit.topic_key,approach='CHECK_RECEPTION',source_memory_ids=source_ids)
 

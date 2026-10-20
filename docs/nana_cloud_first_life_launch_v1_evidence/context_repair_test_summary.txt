@@ -1,0 +1,16 @@
+OFFLINE / FIXTURE ONLY; no new real-provider calls
+New project-status/current-state cases: 21 passed (included below).
+Related: .venv/bin/python -m pytest tests/first_life tests/continuous_self/test_context.py tests/independent_life/test_dialogue.py tests/cloud_life/test_provider_budget.py tests/portable_subject/test_providers_frontend.py tests/vision_first/test_context_fit.py -q
+54 passed in 19.12s
+Default configured legacy testpaths recheck: 588 passed, 1 skipped in 125.37s
+Full repository (explicit tests directory, not just legacy testpaths):
+.venv/bin/python -m pytest tests -q
+=========================== short test summary info ============================
+SKIPPED [1] tests/h2_live_screen/test_live.py:16: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:19: explicit --live-screen required
+SKIPPED [6] tests/h2_live_screen/test_live.py:56: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:68: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:85: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:110: explicit --live-screen required
+SKIPPED [1] tests/offline_continuity/test_experiment.py:21: E12 real-model gate requires configured development endpoints via nana-semantic; offline pytest makes no real-model calls
+1300 passed, 12 skipped in 326.97s (0:05:26)

@@ -11,6 +11,7 @@ from nana_core.life.provider import ExplicitFDResolver,configured_router
 from nana_core.life.application import LifeApplication
 from nana_core.life.__main__ import run
 from nana_core.life.surfaces import SurfaceBinding
+from nana_core.continuity.current_state import ProjectStateBinding
 from nana_core.continuity.provider_config import ProviderConfigurationAuthority,ProviderConfigService,ProviderCommand
 from nana_core.continuity.memory import MemoryService
 from nana_core.continuity.contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
@@ -47,7 +48,7 @@ def qualify(home,resolver,output,*,review_seconds=0,skip_completed_natural=False
  if output.exists():raise CoreError('QUALIFICATION_OUTPUT_EXISTS_NO_REPLAY')
  cfg=load_config(home)
  # Explicit application/controller CAS, not a Model/Subject mutation.
- cfg=update_config(home,cfg.model_copy(update=dict(revision=cfg.revision+1,provider_context_tokens=16384,provider_output_tokens=2048,provider_calls_per_hour=20,provider_calls_per_day=20,per_provider_calls_per_day=20,provider_total_calls_limit=20,provider_total_reserved_cost_micro=1000000,surface_bindings=(SurfaceBinding(binding_id='cloud.cli',platform='cloud.cli',surface='chat.direct',adapter='shadow.local'),))),expected_revision=cfg.revision)
+ cfg=update_config(home,cfg.model_copy(update=dict(revision=cfg.revision+1,current_project_state=ProjectStateBinding(relative_path='PROJECT_BRAIN/09_STATE.md',source_id='project.mainline.current',scope='project-work'),provider_context_tokens=16384,provider_output_tokens=2048,provider_calls_per_hour=20,provider_calls_per_day=20,per_provider_calls_per_day=20,provider_total_calls_limit=20,provider_total_reserved_cost_micro=1000000,surface_bindings=(SurfaceBinding(binding_id='cloud.cli',platform='cloud.cli',surface='chat.direct',adapter='shadow.local'),))),expected_revision=cfg.revision)
  assert cfg.provider_hosts==('api.deepseek.com',) and set(cfg.remote_privacy)=={'PUBLIC','PROJECT'} and cfg.provider_cost_ceiling_micro==50000
  authority=ProviderConfigurationAuthority();service=ProviderConfigService(home/'providers.json',authority);config=service.load()
  provider=next(p for p in config.providers if p.provider_profile_id=='deepseek.qualification')
