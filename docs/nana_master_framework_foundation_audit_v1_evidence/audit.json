@@ -138,6 +138,11 @@
       "docs/nana_foundation_closure_v1_evidence/problem_framing.json",
       "docs/nana_foundation_closure_v1_evidence/semantic_chain_offline.json",
       "docs/nana_foundation_closure_v1_evidence/staging_observation.json"
+    ],
+    "S5_LIVE": [
+      "docs/nana_foundation_closure_v1_evidence/semantic_chain_live.json",
+      "tools/nana_foundation_closure/live_once.py",
+      "tests/foundation_closure/test_live_once.py"
     ]
   },
   "domains": [
@@ -503,13 +508,13 @@
     {
       "id": "S5",
       "name": "World / Perception / Cognition",
-      "foundation_status": "FOUNDATION_TESTED",
+      "foundation_status": "FOUNDATION_QUALIFIED",
       "growth_status": "ADVANCED_GROWTH",
       "foundation_definition": "来源明确的观察经可替换认知资源形成可修正世界理解，再进入同一C；不把sensor/model当意志。",
-      "qualification_scope": "世界模型和认知协议已有测试；文本provider与受控视觉入口分别留证，组合真实语义资格有缺项。",
+      "qualification_scope": "Same existing reference lineage: real PROJECT source, one live DeepSeek strict interpretation, World/Concern/original C, actual withdrawal -> UNKNOWN/NO_ACTION; not general multimodal or human naturalness.",
       "advanced_future": "广泛视频/音频语义、camera/mic、用户桌面OCR及开放世界；不要求全部传感器才基础完成。",
-      "first_life_blocker": "YES：S5-C06的真实源→真实语义→世界修正→C组合资格待对齐。",
-      "next_upgrade": "先检查现有H1/文本/owned ingress能否复用到一个当前受控场景；不再横向堆传感器。",
+      "first_life_blocker": "NO：S5基础组合已资格；整体仍等S4-C06。",
+      "next_upgrade": "Advanced modalities and semantic breadth need separate evidence; human naturalness belongs to Integration Gate, not this Foundation call.",
       "criteria": [
         {
           "id": "S5-C01",
@@ -563,14 +568,14 @@
         {
           "id": "S5-C06",
           "criterion": "当前lineage真实输入→live语义→World/Concern→C完整组合及纠错",
-          "status": "UNKNOWN_AUDIT_REQUIRED",
+          "status": "FOUNDATION_QUALIFIED",
           "evidence": [
             "WORLD",
-            "SCREEN",
             "PROVIDER",
-            "CLOSURE"
+            "CLOSURE",
+            "S5_LIVE"
           ],
-          "boundary": "不能把不同版本的分项PASS拼成未实际运行的整链；历史H1 PARTIAL保持。"
+          "boundary": "同一原lineage实际PROJECT文本→live语义→World/Concern→C；实际source撤回令World UNKNOWN、C NO_ACTION；不推广全媒体/真人自然度，H1 PARTIAL保留。"
         }
       ],
       "project_brain_decisions": [
@@ -1378,14 +1383,20 @@
     "criteria_changed": false,
     "closed": [
       "S3-C09",
-      "S6-C07"
-    ],
-    "open": [
-      "S4-C06",
+      "S6-C07",
       "S5-C06"
     ],
-    "new_paid_calls": 0,
+    "open": [
+      "S4-C06"
+    ],
+    "new_paid_calls": 1,
     "first_life": "NOT_READY",
-    "s10": "DEFERRED_ADVANCED_GROWTH"
+    "s10": "DEFERRED_ADVANCED_GROWTH",
+    "s5_live_followup": {
+      "new_paid_calls": 1,
+      "qualified": "S5-C06",
+      "remaining_first_life_prerequisite": "S4-C06",
+      "human_review": "NOT_RUN"
+    }
   }
 }

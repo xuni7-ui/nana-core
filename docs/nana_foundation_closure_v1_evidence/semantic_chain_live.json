@@ -1,0 +1,112 @@
+{
+  "qualification": "CONTROLLED_TEXT_SEMANTIC_CHAIN_PASS",
+  "new_provider_calls": 1,
+  "retry": 0,
+  "fallback": 0,
+  "authorization": "ONE_NEW_S5_C06_PROJECT_REQUEST",
+  "credential_path": "STDIN_MEMORY_RESOLVER_USER_EXPLICITLY_AUTHORIZED",
+  "human_review": "NOT_RUN",
+  "route": {
+    "operation": "COGNITION",
+    "config_revision": 6,
+    "route_revision": 1,
+    "provider_profile_id": "deepseek.qualification",
+    "provider_revision": 2,
+    "model_profile_id": "deepseek.qualification.flash",
+    "model_revision": 3,
+    "remote_model_id": "deepseek-flash",
+    "model_version": "USER_REQUESTED_NOT_INDEPENDENTLY_VERIFIED",
+    "provider_id": "deepseek.qualification",
+    "protocol": "OPENAI_COMPATIBLE_CHAT",
+    "selection": "PRIMARY",
+    "reasons": [],
+    "effective": {
+      "timeout_ms": 15000,
+      "cost_ceiling": 50000,
+      "context_limit": 16384,
+      "output_limit": 2048,
+      "permitted_privacy": [
+        "PUBLIC",
+        "PROJECT"
+      ]
+    }
+  },
+  "identity_id": "b5864db1-ecfe-4278-9bc2-76db0e096311",
+  "prior": {
+    "actions": 0,
+    "grants": 0,
+    "goals": 0,
+    "cognitive_requests": 19
+  },
+  "runtime_epoch": 13,
+  "source_memory_id": "9589e64d-b227-437d-8193-9e138fbc5c4a",
+  "source_digest": "c9a43e4257d5b561e209bfb9e4a00630f834c1600222286a01937c4a18b308cb",
+  "request_id": "024002cc-28ba-4119-8a69-2fd238c57fd7",
+  "state": "PROPOSED",
+  "error_code": null,
+  "provider": "deepseek.qualification",
+  "requested_model": "deepseek-flash",
+  "returned_model": "deepseek-flash",
+  "usage": {
+    "completion_tokens": 290,
+    "prompt_tokens": 6849,
+    "total_tokens": 7139
+  },
+  "billing": "UNKNOWN",
+  "world_before": "SUPPORTED_BELIEF",
+  "semantic_source_kind": "MODEL_DERIVATION",
+  "concern_ids": [
+    "58a88a1f-a49e-467c-9b5f-186819887796"
+  ],
+  "cycle_id": "11f02f09-94cf-4bb2-a02b-09cda5d3a00b",
+  "judgment": "THINK_MORE",
+  "intention": "EXPLORE",
+  "subject_revision": 15,
+  "concern_after_withdrawal": false,
+  "world_after": "UNKNOWN",
+  "after_judgment": "WATCH",
+  "after_intention": "NO_ACTION",
+  "effect_counts_unchanged": true,
+  "http": {
+    "request_body_sha256": "8a41a2da888b87033b3f2663ce826d11964cf718e9083fcc56db03aaf58c4808",
+    "raw_response_body_sha256": "6bc69cc56745cabd0a4d874ac69be7ea027a1da02ccc0790c0f98f9e15e42d66",
+    "response_http_status": 200,
+    "relay_response_id": "d7fe53b6-2f82-44c1-98dc-e6c0a6801bf3",
+    "relay_request_id": null,
+    "request_started_at": "2026-10-20T18:03:12.328756+00:00",
+    "response_received_at": "2026-10-20T18:03:14.892483+00:00",
+    "latency_ms": 2564.7874700080138
+  },
+  "response_metadata": {
+    "finish_reason": "stop",
+    "model_returned": "deepseek-flash",
+    "usage": {
+      "prompt_tokens": 6849,
+      "completion_tokens": 290,
+      "total_tokens": 7139
+    }
+  },
+  "exact_secret_match_count": 0,
+  "evidence_level": "REAL_PROVIDER_CURRENT_LINEAGE_CONTROLLED_PROJECT_SOURCE",
+  "source_commit": "8fec924a10720a76afebd174c493c5850276219c",
+  "qualification_tool_sha256": "44d31e4a87ab665ac9c67f866ba44e019a74f205e9984dc89166994c1872babd",
+  "reservation_usd_micro": 50000,
+  "actual_cost": "UNKNOWN",
+  "secret_persisted": false,
+  "secret_scan_scope": "Exact in-memory scan: tracked files, experiment root, original qualification home (including DB/config/logs); not platform/chat transcripts",
+  "source_lifecycle": "Actual controlled source withdrawal; not a contradictory factual claim invented by model",
+  "qualification_scope": "PROJECT text source -> strict live interpretation -> MODEL_DERIVATION -> World -> Concern -> original C -> withdrawal -> UNKNOWN/NO_ACTION. Not all media, human review, or production.",
+  "reopen": {
+    "mode": "Original LifeApplication reopened without router or tick, then closed; subsequent read-only metadata confirmation",
+    "identity_id": "b5864db1-ecfe-4278-9bc2-76db0e096311",
+    "runtime_epoch": 14,
+    "runtime_state": "STOPPED",
+    "cognitive_requests": 20,
+    "reserved_cost_micro": 1000000,
+    "request_rows_for_this_request": 1,
+    "cycle_rows_for_this_cycle": 1,
+    "foreign_key_violations": 0,
+    "actions": 0,
+    "new_dispatch_after_reopen": 0
+  }
+}

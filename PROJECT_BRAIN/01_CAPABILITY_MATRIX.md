@@ -4,7 +4,7 @@
 规范：[00_MASTER_FRAMEWORK.md](00_MASTER_FRAMEWORK.md) · 当前任务：[09_STATE.md](09_STATE.md)  
 审计基线：`eece7a469a5af8a9df5731367e5b7db046039a23`，开发分支 `dev/nana-core-cloud-first-life-launch-v1-codex`。
 
-本轮当前增量：CLOSURE。S3-C09和S6-C07已资格；当前下一门是S5最小新授权真实请求与原S4实际结果，历史审计排序保留在下文。实现/测试范围详见收口报告，不再将本轮称为文档只读核账。
+本轮当前增量：CLOSURE。S3-C09和S6-C07已资格；S5-C06已完成单次新授权live组合，当前唯一基础资格门是原S4实际24h结果，历史审计排序保留在下文。实现/测试范围详见收口报告，不再将本轮称为文档只读核账。
 
 ## 1. 口径与审计边界
 
@@ -24,14 +24,14 @@
 | S2 Memory / Experience | FOUNDATION_QUALIFIED | 6/6；C01,C02,C03,C04,C05,C06 | 无 | 长期生活史、多模态丰富记忆、更大规模检索；私人Iris迁移单独接线。 | NO：机制限定基础达标；真实数据接入仍独立授权。 | CDL,CONTEXT,HANDS,LEARN,LOOP,MEM,PORT,REGRESSION,WORLD |
 | S3 Motivation / Affect / Relationship | FOUNDATION_QUALIFIED | 9/9；C01,C02,C03,C04,C05,C06,C07,C08,C09 | 无 | 复杂情绪、依恋/幽默/梦想细化和开放关系成长；不能全部变成Foundation前置。 | NO：S3-C09受控真实经历链已资格；更广情感开放成长属Advanced。 | CLOSURE及原证据 |
 | S4 Runtime / Living Presence | FOUNDATION_TESTED | 5/6；C01,C02,C03,C04,C05 | C06:UNKNOWN_AUDIT_REQUIRED | 长期云端宿主、规模化长期生活、更多Presence接口。 | YES：S4-C06的24h durability资格未完成。 | 24H,CDL,HANDS,LIFE,PORT,REGRESSION,RUNTIME |
-| S5 World / Perception / Cognition | FOUNDATION_TESTED | 5/6；C01,C02,C03,C04,C05 | C06:UNKNOWN_AUDIT_REQUIRED | 广泛视频/音频语义、camera/mic、用户桌面OCR及开放世界；不要求全部传感器才基础完成。 | YES：S5-C06的真实源→真实语义→世界修正→C组合资格待对齐。 | CONTEXT,MEM,PROVIDER,REGRESSION,SCREEN,WORLD |
+| S5 World / Perception / Cognition | FOUNDATION_QUALIFIED | 6/6；C01,C02,C03,C04,C05,C06 | 无 | 广泛视频/音频语义、camera/mic、用户桌面OCR及开放世界；不要求全部传感器才基础完成。 | NO：S5基础组合已资格；整体仍等S4-C06。 | CONTEXT,MEM,PROVIDER,REGRESSION,SCREEN,WORLD |
 | S6 Independent Judgment / Problem Framing / Goal / Planning | FOUNDATION_QUALIFIED | 7/7；C01,C02,C03,C04,C05,C06,C07 | 无 | 开放长期复杂规划、研究发现未知方案；不把用户意图设为认知边界。 | NO：S6-C07已在有限有源候选空间受控资格；开放研究与任意问题发现为Advanced。 | CLOSURE及原证据 |
 | S7 Hands / Action / Verification | FOUNDATION_QUALIFIED | 5/5；C01,C02,C03,C04,C05 | 无 | 浏览器、手机、桌面、游戏、真实平台动作及更复杂环境。 | NO：有限真实动作基础达标；扩环境另验，不扩权限。 | HANDS,RAE,SHARE |
 | S8 Learning / Self-Evolution — Cross-Domain Growth Engine | FOUNDATION_QUALIFIED | 7/7；C01,C02,C03,C04,C05,C06,C07 | 无 | 长期开放学习、元学习、认知/规划/学习算法改变；深层改变进入S10。 | NO：受限成长引擎基础达标；S3倾向闭环仍由S3-C09独立核验。 | CDL,HANDS,LEARN,RAE,SHARE |
 | S9 Self-Extension | FOUNDATION_QUALIFIED | 6/6；C01,C02,C03,C04,C05,C06 | 无 | 开放研究、任意复杂插件/适配器创造与安装、依赖管理。 | NO：受限自扩展基础达标；不授予安装或Core改写权。 | CDL,HANDS,PORT,RAE,SKILL |
 | S10 Lineage / Deep Evolution | FOUNDATION_PARTIAL | 4/6；C01,C02,C03,C04 | C05:UNKNOWN_AUDIT_REQUIRED; C06:UNKNOWN_AUDIT_REQUIRED | 更开放Core/内部算法自修改、候选archive/canary、验证底座自身演化。 | NO：深层实现不阻塞当前First-Life；当前适用连续性/治理约束仍在S1/S7/S8/S9必验。 | CDL,HANDS,ID,LEARN,PORT,SKILL |
 
-当前结论：S1/S2/S3/S6/S7/S8/S9在明示受控范围已有基础资格；S4-C06实际24h与S5-C06新真实语义整链仍待资格；S10深层实现部分完成且不作为当前基础Gate前置。**尚不能宣布S1–S9全部Foundation Qualified。**
+当前结论：S1/S2/S3/S5/S6/S7/S8/S9在明示受控范围已有基础资格；只有S4-C06实际24h仍待资格；S10深层实现部分完成且不作为当前基础Gate前置。**尚不能宣布S1–S9全部Foundation Qualified。**
 
 这不是“发现四套系统必须重写”。本轮确认的是资格差额，尚未确认任何一项整体重写需求。代码缺失、资格缺失、范围窄、未来扩展必须分别处理。
 
@@ -141,7 +141,7 @@
 ### S5 · World / Perception / Cognition
 
 **Foundation Definition：**来源明确的观察经可替换认知资源形成可修正世界理解，再进入同一C；不把sensor/model当意志。
-**STATUS = FOUNDATION_TESTED**；growth_status = ADVANCED_GROWTH。
+**STATUS = FOUNDATION_QUALIFIED**；growth_status = ADVANCED_GROWTH。
 
 | Criterion | 固定必要条件 | 状态 | 实现/测试/证据索引 | 范围与未证明项 |
 |---|---|---|---|---|
@@ -150,16 +150,16 @@
 | S5-C03 | 可替换Provider slots/routing，模型不授予authority | FOUNDATION_QUALIFIED | PROVIDER, WORLD | 离线路由资格不等于各slot均有live资格。 |
 | S5-C04 | 真实文本INTERPRET+RENDER传输/解析功能成立 | FOUNDATION_QUALIFIED | PROVIDER, CONTEXT | 17次功能资格；后续总19次；自然度未评审、账单UNKNOWN。 |
 | S5-C05 | 至少一个真实受控感知入口及源生命周期 | FOUNDATION_QUALIFIED | SCREEN | owned Xorg/XGetImage；当时语义为synthetic loopback。 |
-| S5-C06 | 当前lineage真实输入→live语义→World/Concern→C完整组合及纠错 | UNKNOWN_AUDIT_REQUIRED | WORLD, SCREEN, PROVIDER, CLOSURE | 不能把不同版本的分项PASS拼成未实际运行的整链；历史H1 PARTIAL保持。 |
+| S5-C06 | 当前lineage真实输入→live语义→World/Concern→C完整组合及纠错 | FOUNDATION_QUALIFIED | WORLD, PROVIDER, CLOSURE, S5_LIVE | 同一原lineage实际PROJECT文本→live语义→World/Concern→C；实际source撤回令World UNKNOWN、C NO_ACTION；不推广全媒体/真人自然度，H1 PARTIAL保留。 |
 
 - **Existing Implementation：**WorldModel/ConcernService/CognitionSession/MediaSemanticService、B9 router/factory与H2受控ingress；port永不拥有will。
 - **Tested Evidence：**对应本域criteria索引及历史edda全仓1300/12skip；本轮变动以CLOSURE最终回归为准，不把历史同源码声明套到新实现。
-- **Actually Run / Qualification Evidence：**实际codecs、owned X11 screen L1、TianToken image部分和DeepSeek文字功能；不能合称全live多模态语义资格。
-- **Missing Foundation：**S5-C06缺当前lineage真实源→live语义→World/Concern→C及纠错的同一次组合证据，不能拼接分项PASS。
+- **Actually Run / Qualification Evidence：**实际codecs/owned X11 L1与历史TianToken PARTIAL保留；新增S5_LIVE：同一原Subject一次DeepSeek PROJECT请求HTTP200→原C，再实际撤回来源→UNKNOWN/NO_ACTION。不得合称全live多模态。
+- **Missing Foundation：**明示基础范围无已确认缺口；实际同一lineage单请求组合已留证，广泛媒体语义仍属后续。
 - **对应源码：**[src/nana_core/continuity/world_loop/world.py](../src/nana_core/continuity/world_loop/world.py)；[src/nana_core/continuity/world_loop/attention.py](../src/nana_core/continuity/world_loop/attention.py)；[src/nana_core/continuity/world_loop/cognition.py](../src/nana_core/continuity/world_loop/cognition.py)；[src/nana_core/continuity/world_loop/semantics.py](../src/nana_core/continuity/world_loop/semantics.py)；[src/nana_core/continuity/sensors/coordinator.py](../src/nana_core/continuity/sensors/coordinator.py)；[src/nana_core/continuity/provider_routing.py](../src/nana_core/continuity/provider_routing.py)
 - **对应当前tests：**[tests/world_loop/test_foundation.py](../tests/world_loop/test_foundation.py)；[tests/world_loop/test_boundaries.py](../tests/world_loop/test_boundaries.py)；[tests/h1_semantics/test_grounding.py](../tests/h1_semantics/test_grounding.py)；[tests/provider_routing/test_router.py](../tests/provider_routing/test_router.py)；[tests/first_life/test_project_status_context.py](../tests/first_life/test_project_status_context.py)
-- **当前blocker / First-Life：**YES：S5-C06的真实源→真实语义→世界修正→C组合资格待对齐。
-- **下一次升级条件：**先检查现有H1/文本/owned ingress能否复用到一个当前受控场景；不再横向堆传感器。
+- **当前blocker / First-Life：**NO：S5基础组合已资格；整体仍等S4-C06。
+- **下一次升级条件：**本域基础已资格；更广媒体/语义、真人自然度须独立留证，不由一次HTTP成功推定。
 - **Advanced Future：**广泛视频/音频语义、camera/mic、用户桌面OCR及开放世界；不要求全部传感器才基础完成。
 - **对应PROJECT_BRAIN决策：**`D-WORLD-006`、`D-H1-001`、`D-H1-LIVE-003`、`MASTER_FRAMEWORK_FREEZE_V1`，见[10_DECISIONS](10_DECISIONS.md)。按原阶段/范围继承，不将历史READY自动推广。
 
@@ -292,7 +292,7 @@
 
 | 轴 | 已有基础 | 待核验/未来 | 对当前Gate的影响 |
 |---|---|---|---|
-| Shared Life / Companionship | 关系影响、来源绑定分享/沉默、忙碌/拒绝与删除反例（REL/SHARE/HANDS） | 真正长期相处质量未评审；S3受限competence需要闭环已资格，不推广为全人类情感 | S3-C09已关闭；S4/S5基础门未齐，真人评审继续暂停。 |
+| Shared Life / Companionship | 关系影响、来源绑定分享/沉默、忙碌/拒绝与删除反例（REL/SHARE/HANDS） | 真正长期相处质量未评审；S3受限competence需要闭环已资格，不推广为全人类情感 | S3-C09与S5-C06已关闭；S4基础门未齐，真人评审继续暂停。 |
 | Platform / Surface / Embodied Presence | One Subject；Event-First L0/L1/L2与QQ/Bili开发shadow、受控Hands（CDL/PORT） | 实际账号统一接线、phone/desktop/game/voice/avatar等扩展 | 不要求所有设备前置；真实绑定和动作按具体范围另验。 |
 | Manager / Authority / Privacy / Recovery | 愿望与权限分离、Grant撤销、来源删除、UNKNOWN、迁移恢复（AFFECT/HANDS/PORT） | 分布式敌对宿主与深层自改验证底座未合格 | 当前适用治理约束持续必验；S10远期能力不因此被提前宣称完成。 |
 
@@ -302,7 +302,7 @@
 |---|---|---|---|---|
 | FQ-01 | S3-C09 | CLOSED_CONTROLLED_QUALIFICATION | 最小派生需要桥接已实现并资格 | 已完成受控经历/复用/重启/反例/撤回，见CLOSURE；不重做。 |
 | FQ-02 | S4-C06 | DURATION_QUALIFICATION_PENDING | 否 | 等原24h固定源码run实际结果；不重跑/重启，不以36953秒快照或当前时间推算成功。 |
-| FQ-03 | S5-C06 | INTEGRATED_SEMANTIC_EVIDENCE_GAP | 否；UNKNOWN | 先对齐历史H1、当前文本Provider与owned source的版本和路径；满足真实源→语义→世界修正→C的一例最小组合，保留错误/UNKNOWN。若需新增付费，仍按当时授权，不在本任务调用。 |
+| FQ-03 | S5-C06 | FOUNDATION_QUALIFIED | 否 | 单次新授权真实PROJECT组合已完成；source撤回修正已实测；不再调用、不启动真人评审。 |
 | FQ-04 | S6-C07 | CLOSED_CONTROLLED_QUALIFICATION | 有界范围分流与问题重构已实现并资格 | 已完成问题级matched对照、原Planner实际效果及权限反例，见CLOSURE；不重做。 |
 | AG-10 | S10-C05/C06 | ADVANCED_GROWTH | 当前不启动 | 深层自改触发时再做branch/evaluator/lineage专门资格；不阻塞当前基础封顶。 |
 
@@ -498,3 +498,13 @@
 - [问题重构与无Grant对照](../docs/nana_foundation_closure_v1_evidence/problem_framing.json)
 - [当前语义组合，明确为合成](../docs/nana_foundation_closure_v1_evidence/semantic_chain_offline.json)
 - [原staging只读观察](../docs/nana_foundation_closure_v1_evidence/staging_observation.json)
+
+## S5-C06 LIVE FOLLOWUP — current delta
+
+One new explicitly authorized DeepSeek PROJECT call, HTTP200, same original identity, strict MODEL_DERIVATION→World/Concern→C, followed by actual source withdrawal→UNKNOWN/NO_ACTION. 60/63 qualified, 3 unknown (S4-C06 and advanced S10-C05/C06). Only S4 blocks S1–S9 closure. Old current/reconciliation blocks above are historical.
+
+### S5_LIVE
+
+- [Live chain, source lifecycle and reopen metadata](../docs/nana_foundation_closure_v1_evidence/semantic_chain_live.json)
+- [One-dispatch qualification tool](../tools/nana_foundation_closure/live_once.py)
+- [Offline guard and integration tests](../tests/foundation_closure/test_live_once.py)

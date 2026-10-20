@@ -4,7 +4,7 @@ Base: `edda7d08e3ca167f183607572a49283a7b8b067b`; branch: `dev/nana-core-cloud-f
 
 ## Result and scope
 
-S3-C09 and S6-C07 now have controlled qualification. S4-C06 awaits the original 24h run's actual final result; S5-C06 awaits a newly authorized live semantic request and safe credential binding. Foundation closure is **PARTIAL**, not First-Life/Beta READY. Master Framework and all 63 criterion definitions remain frozen. S10 deep replacement remains outside this mission.
+S3-C09 and S6-C07 now have controlled qualification. S5-C06 is now qualified by one newly authorized live PROJECT request in the original reference Subject. S4-C06 still awaits the original 24h run's actual final result. Foundation closure is **PARTIAL**, not First-Life/Beta READY. Master Framework and all 63 criterion definitions remain frozen. S10 deep replacement remains outside this mission.
 
 ## Changes
 
@@ -12,7 +12,7 @@ S3-C09 and S6-C07 now have controlled qualification. S4-C06 awaits the original 
 - `subject/framing.py`, original `SubjectLoop`/policy and `OpenAgencyService`: bounded framing hypotheses cite direct visible observations. C compares premises and an alternative need against evidence, keeps the original problem, asks when uncertain, or proposes another problem. A model-derived assertion cannot refute a fact. A recorded reframing cycle can feed the existing objective registry/planner/adoption path; Grant, Manager, Budget and Verify remain downstream. Alternatives are hypotheses supplied by existing host/proposal construction, not a general open-ended problem-discovery system.
 - `subject/experience_need.py`: qualitative OPEN/SETTLED/UNKNOWN competence needs rebuild from current failure Experiences, independent later reuse assessments and active lessons. Ancestry binds modulation to the actual gap; domain alone is insufficient. A resolved gap can stop repetitive learning; counterevidence or withdrawal removes support. No PreferenceSignal, affect score, personality row or identity update is manufactured. This is a bounded competence tendency, not all human affect or an always-learn motive.
 - `hands/service.py`: full regression exposed a deleted shared training root being recaptured during host construction. Tombstoned training support now retires the shared binding/specs instead of resurrecting it or preventing recovery. The original failed regression is retained. No existing skill is automatically restored or reauthorized.
-- Qualification tools exercise one owned source→strict cognition→MODEL_DERIVATION→World→Concern→original C→withdrawal→restart chain with synthetic HTTP by default. Remote use requires a separate explicit host construction/authorization; no credential discovery or default live CLI exists.
+- Qualification tools exercise one owned source→strict cognition→MODEL_DERIVATION→World→Concern→original C→withdrawal→restart chain with synthetic HTTP by default. Explicit live qualification uses live_once.py with an explicitly supplied FD, exact route, one-dispatch guard and existing budgets; no credential discovery or default live dispatch occurs.
 
 ## Evidence
 
@@ -22,7 +22,7 @@ S6: identical project wording with two actual IPC document states yields REFRAME
 
 S3: actual owned document failure→failure Experience→LEARN; independently verified different-context reuse→SETTLED need→WATCH. A child process commits the sourced autonomous re-selection, receives actual SIGKILL, then recovery replays the same cycle without additional Actions/effects. A controlled evaluator counterexample reopens the need; actual MemoryService withdrawal removes it. The counterexample is a synthetic changed-expectation trial; the failure and later task effects are real owned development application effects. Neither is production or private history.
 
-S5: offline current-lineage combination passes with one synthetic loopback call. After actual owned-file withdrawal, World becomes UNKNOWN, the concern loses support and C selects NO_ACTION. Restart does not dispatch again. Historical DeepSeek functional qualification and H1 PARTIAL remain historical; their separate PASSs do not qualify this new combined live chain.
+S5: offline current-lineage combination passes with one synthetic loopback call. After actual owned-file withdrawal, World becomes UNKNOWN, the concern loses support and C selects NO_ACTION. Restart does not dispatch again. Historical DeepSeek functional qualification and H1 PARTIAL remain historical. The new semantic_chain_live.json separately qualifies this combination in the original reference Subject with one actual DeepSeek request; it does not qualify all media or naturalness.
 
 S4: the original pinned `645899b` run is read only. Current source bytes match the pin, DB quick/FK checks are clean, queue/UNKNOWN/idempotency/resource metadata are recorded. Its missing final result is not inferred from wall time. It is not restarted or hot updated to this mission's source.
 
@@ -39,13 +39,19 @@ The owned-application/SIGKILL tests create isolated temporary subjects and finit
 
 ## Remaining gates
 
-1. S5-C06: minimum **one new PROJECT cognition request**, timeout 15000ms, no retry/fallback, conservative reservation ceiling USD 0.05, with an explicitly authorized provider/model and memory/FD SecretResolver binding. No historical key or frozen remaining call may be reused. HTTP failure, UNKNOWN or absent usable concern stays partial; another call would require explicit decision, never an automatic retry.
+1. S5-C06 is CLOSED: HTTP200, same lineage, strict interpretation, World/Concern/original C and actual source withdrawal correction. One request consumed; no further calls authorized by this completion.
 2. S4-C06: read the original run's actual final artifact once it completes; verify duration, exit, pinned start/end hashes, resource guard, no replay and final DB state. No new soak is started.
 
-S1/S2/S7/S8/S9 evidence is inherited, not redeveloped. One Subject/Store/SubjectLoop/Runtime per lineage; C WHAT/WHY and D WHEN remain. No production/main/R045/private data/social send/user device/paid provider changes. Human review is NOT_RUN and FIRST_LIFE_EXPERIENCE_READY remains NOT_READY. After S4/S5 qualification the next gate is First-Life Integration; this mission does not start it automatically.
+S1/S2/S7/S8/S9 evidence is inherited, not redeveloped. One Subject/Store/SubjectLoop/Runtime per lineage; C WHAT/WHY and D WHEN remain. No production/main/R045/private data/social send/user device changes. One newly authorized paid PROJECT request only, billing UNKNOWN. Human review is NOT_RUN and FIRST_LIFE_EXPERIENCE_READY remains NOT_READY. After S4/S5 qualification the next gate is First-Life Integration; this mission does not start it automatically.
 
 ## Final verification
 
 Focused: 54 passed (21 new cases plus related cases); strengthened legacy reopen recheck: 1 passed. Final full repository: **1321 passed / 0 failed / 12 skipped**, 312.07s. Skips are 11 explicitly opt-in live-screen cases and E12. Earlier failures/interrupted runs remain evidence, not final qualification. Source/criteria/manifest validation is separate from application qualification.
 
-63 criteria reconcile to 59 qualified and 4 unknown: S4-C06/S5-C06 are the only S1–S9 qualification prerequisites left; S10-C05/C06 are deferred advanced deep-evolution conditions. No confirmed additional S1–S9 implementation gap remains in the checked Foundation scope. This is not permission to resume First-Life or human review.
+63 criteria reconcile to 60 qualified and 3 unknown: only S4-C06 remains as an S1–S9 qualification prerequisite; S10-C05/C06 are deferred advanced deep-evolution conditions. No confirmed additional S1–S9 implementation gap remains in the checked Foundation scope. This is not permission to resume First-Life or human review.
+
+## Live followup evidence
+
+Source commit8fec924a; qualification tool/test bytes fingerprinted in manifest. Exactly1 new real DeepSeek/deepseek-flash call, HTTP200/2564.8ms, 6849input/290output. Existing reference identity preserved. Model result→MODEL_DERIVATION→SUPPORTED_BELIEF→Concern→C THINK_MORE/EXPLORE; actual withdrawal→UNKNOWN→WATCH/NO_ACTION. No actions/grants/goals. Application reopened once without router/tick, request/cycle remain unique and cumulative requests20. Reservation50000 USDmicro; cumulative1000000, billingUNKNOWN. No timeout/retry/fallback. No human review. User waived host-vault binding; stdin→memory FD resolver only; exact scan0 of tracked files/experiment/reference home, no credential persistence, process exited. This does not claim chat/platform transcript secrecy. New offline qualification followup:15passed/7.86s; prior full1321passed/12skip retained because Core source unchanged by this followup. Original staging remains isolated.
+
+A finite hourly conditional followup has been created for the original S4 final artifact. It must not restart the run or dispatch any provider, and must report a missing future workspace as a blocker. This is future execution scheduling, not a current24h PASS.

@@ -47,5 +47,12 @@
     "result": "1 passed 1.18s",
     "change": "Strengthened legacy reopen test to preserve hard processing boundary; explicit processing reopen commits before subsequent model dispatch."
   },
-  "related_scope": "Earlier stage compatibility check; final full regression is authoritative for the frozen final source"
+  "related_scope": "Earlier stage compatibility check; final full regression is authoritative for the frozen final source",
+  "live_followup": {
+    "passed": 15,
+    "failed": 0,
+    "seconds": 7.86,
+    "scope": "New one-dispatch guard + original LifeApplication loopback + semantic chain + independent dialogue; default offline only",
+    "full_regression": "Prior1321/12skip retained: no Core src changed in live qualification followup"
+  }
 }

@@ -7,22 +7,22 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 6,
-  "as_of_us": 1792518757671392,
+  "revision": 7,
+  "as_of_us": 1792519631401067,
   "stage": "H",
   "workstream": "FOUNDATION_CLOSURE_MISSION_V1",
-  "status": "PARTIAL_S5_AUTHORIZED_SAFE_BINDING_PENDING_S4_RUNNING",
+  "status": "PARTIAL_S4_ACTUAL_24H_RESULT_PENDING",
   "progress": [
     "已从远端与本地一致edda7d08继续；Master逐字保留、63条criteria定义/ID/分母不变。",
     "S3-C09已实际owned失败/Experience→需要OPEN→独立复用SETTLED→SIGKILL/重启自主再选择，反例/撤回改变支持；不是人工偏好注入。",
     "S6-C07已区分投递/认知处理边界，并完成有源前提检验→问题重定义→原Goal/Plan/核验及无Grant阻断。",
     "已修复共享训练来源删除后重启重新capture的恢复缺陷：保留墓碑、退役绑定，不复活技能。",
-    "S1/S2/S3/S6/S7/S8/S9受限Foundation Qualified；S4/S5仍Tested，S10 Partial/深改不启动。"
+    "S1/S2/S3/S5/S6/S7/S8/S9 FOUNDATION_QUALIFIED；S4仍TESTED，S10 Partial/深改不启动。",
+    "S5-C06同一原Subject新授权1次DeepSeek PROJECT实测HTTP200/2.565秒；strict语义→World/Concern→C EXPLORE；实际source撤回→UNKNOWN/NO_ACTION。累计20次/保守预留$1，billing UNKNOWN，retry0/fallback0。"
   ],
   "open_gates": [
-    "S5-C06已获最多1次DeepSeek PROJECT新调用授权：15秒、retry0/fallback0、保守预留≤$0.05；只缺安全FD/Resolver凭据绑定。当前环境revision320未配置secrets/variables/identity，不读取或经命令传送旧聊天Key。",
-    "S4-C06原固定645899b run实际快照45779.435秒，final result仍不存在；DB快检/FK、206个pin文件核对干净。不重启、不污染、不推算24h。",
-    "新真实调用0，额度未消费；S1–S9/Foundation/First-Life三项READY门均未通过；无真人评审/生产/私人数据/社交扩权。"
+    "S4-C06原固定645899b run实际final result未产生；只读观察不重启、不污染、不推算24h PASS。",
+    "只有S4仍阻塞S1–S9闭合；三项Foundation/First-Life integration readiness均NO。真人评审与生产继续暂停；本次额度已用尽，不再发起真实请求。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
@@ -31,7 +31,8 @@
     "docs/nana_foundation_closure_v1_evidence/experience_need.json",
     "docs/nana_foundation_closure_v1_evidence/problem_framing.json",
     "docs/nana_foundation_closure_v1_evidence/staging_authorization_observation.json",
-    "docs/nana_foundation_closure_v1_evidence/s5_authorization_binding.json"
+    "docs/nana_foundation_closure_v1_evidence/s5_authorization_binding.json",
+    "docs/nana_foundation_closure_v1_evidence/semantic_chain_live.json"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2031,3 +2032,15 @@ Foundation Closure manifest SHA256（不含自身及本状态文件）：`4cc82d
 S4-C06/S5-C06仍未知，其他Foundation资格不重做。S1_TO_S9_FOUNDATION_QUALIFIED=NO；FOUNDATION_CLOSURE_COMPLETE=NO；READY_FOR_FIRST_LIFE_INTEGRATION_QUALIFICATION=NO。
 
 [本次授权metadata指纹锚点] manifest SHA256：`62f48527f4d2e630eeb58cf6cac0ed9522b77533d24cd582e6f7882ba7405556`；自身与09不计入清单。
+
+## S5-C06 LIVE FOLLOWUP — latest current amendment
+
+新授权1次DeepSeek PROJECT调用完成，HTTP200，输入6849/输出290 tokens，timeout15000ms、实际2565ms、retry0/fallback0、保守预留$0.05。原identity b5864db1-ecfe-4278-9bc2-76db0e096311保持，累计20次/保守预留$1；实际billing UNKNOWN。
+真实项目源→strict MODEL_DERIVATION→World SUPPORTED_BELIEF→Concern→原C EXPLORE；真实source撤回→World UNKNOWN→C NO_ACTION；无Action/Grant/Goal新增。重开原home后request20且本次request/cycle各1，无再次dispatch。
+用户明确豁免宿主保险箱绑定，本次仅stdin内存→既有ExplicitFDResolver→Authorization；无argv/env/file凭据，exact-match扫描0，进程已结束。未搜索历史凭据。
+S5-C06/S5升级FOUNDATION_QUALIFIED，固定63项60资格/3未知。S4最终24h仍待实测；S10两项高级门不阻塞First-Life基础。Master/criteria不变。
+S1_TO_S9_FOUNDATION_QUALIFIED=NO；FOUNDATION_CLOSURE_COMPLETE=NO；READY_FOR_FIRST_LIFE_INTEGRATION_QUALIFICATION=NO。真人评审NOT_RUN、First-Life/Beta不升级、main/R045/production/private/social不变。
+
+S4待结果的后续条件任务已成功建立（最多18次小时检查）；只读原run，final合格后才收口，不保证未来会话仍挂载原workspace。不可访问时必须报告阻塞。
+
+S5 live followup manifest SHA256: `270c5c539fbefbb63091b9948a6478934263ea078532023b77809ee5568c9735` (manifest excludes this state anchor and itself).
