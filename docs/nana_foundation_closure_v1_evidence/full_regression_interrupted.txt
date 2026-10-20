@@ -42,8 +42,8 @@ tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-126/test_real_subject_outcome_
 >           with LifeApplication(home) as reopened:
                  ^^^^^^^^^^^^^^^^^^^^^
 
-tests/controlled_hands/test_application.py:42: 
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/controlled_hands/test_application.py:42:
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 src/nana_core/life/application.py:82: in __init__
     self.work=HandsWork(self.runtime,self.config.owned_application_profile,grant=bootstrap_grant,allow_skills=self.config.allow_local_skills)
               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -55,7 +55,7 @@ src/nana_core/continuity/hands/service.py:51: in <genexpr>
                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
 src/nana_core/continuity/project_work/service.py:54: in capture
     eid=memory.capture(EvidenceInput(provenance=Provenance(domain='DEVELOPMENT_PROJECT',source_namespace='recorded.project.material', source_reference=key, source_kind=kind), text=text,
-_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _
 
 self = <nana_core.continuity.memory.MemoryService object at 0x7f94fbe9e2a0>
 candidate = EvidenceInput(schema_version=1, provenance=Provenance(domain='DEVELOPMENT_PROJECT', source_namespace='recorded.project...transfer","wanted":"meeting title"}}}', privacy_class='PROJECT', event_time_us=None, observed_time_us=1792514653131091)

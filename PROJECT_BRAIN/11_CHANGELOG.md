@@ -2227,3 +2227,5 @@ HUMAN_REVIEW_CONTEXT_CURRENT_STATE=PASS；PROJECT_STATUS_INTENT_CLASSIFICATION=P
 [本轮范围压力补充] 新增先失败的34条投递记录/hard-processing窗口及普通reopen越范围测试；修复为独立target-indexed ledger和REOPEN_DELIVERY。旧记录不改写，显式processing禁令不会被“再聊”解除，转换commit前无模型调用。
 
 [最终回归] 当前冻结源码显式tests/全仓1321 passed/12 skipped/0failed312.07s；focused54通过及旧reopen严格反例1通过。保留中断SOURCE_DELETED失败、scope压力先失败与旧reopen断言失败；不以旧失败抬高最终状态。S4/S5门继续未关闭，未开展新真实模型/设备/社交/生产资格。
+
+[交付元数据补齐] 首个正常提交因命令未在白名单失败后停止，遗漏了被全局ignore匹配的secret_scan.json，且保留的原失败文本含行尾空格。本后续普通提交仅补入已核验不含凭据的扫描元数据、规范化该文本行尾并重算manifest/09锚点；不amend/rebase、不改业务代码，不以旧47文件提交冒称完整48文件交付。
