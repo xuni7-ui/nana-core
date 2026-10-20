@@ -1,0 +1,19 @@
+{
+  "status": "IMPLEMENTED_TARGETED_TESTED_BOUNDED_PROCESS",
+  "tests": "tests/first_life/test_durability.py",
+  "default_size_mib": 256,
+  "default_rate_mib_per_hour": 32,
+  "check_seconds": 60,
+  "grace_seconds": 600,
+  "rate_window_seconds": 600,
+  "checkpoint": "PASSIVE_NO_READER_FORCING",
+  "restart": "PERSISTENT_STOP_LATCH",
+  "corruption": "FAIL_CLOSED",
+  "rate_metric": "LOGICAL_DB_PAGES_PLUS_PRIVACY_ANCHOR",
+  "size_metric": "DB_FAMILY_PLUS_PRIVACY_ANCHOR",
+  "events_deleted": 0,
+  "unknown_rewritten": false,
+  "privacy_journal_pruned": false,
+  "archive": "FUTURE_VERIFIED_NOT_IMPLEMENTED",
+  "long_run": "IN_PROGRESS_NOT_QUALIFIED"
+}

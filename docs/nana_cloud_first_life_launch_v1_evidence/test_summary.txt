@@ -1,0 +1,6 @@
+Frozen source645899b32220e66a702e75d59a279a3a9685693f
+Focused tests/first_life:6 passed in2.72s
+Related first-life/cloud:25 passed in16.64s (before final sixth client case).
+Final full:1274 passed,12 skipped,0 failed in280.58s.
+Skipped:11 opt-in real screen and1 E12 real-model gate.
+New real provider calls:0. No fixture counts as human review.

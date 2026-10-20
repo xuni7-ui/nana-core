@@ -1,0 +1,15 @@
+{
+  "status": "PARTIAL_NOT_READY",
+  "durability": "IMPLEMENTED_TESTED_BOUNDED_PROCESS",
+  "real_text_provider": "BLOCKED_SECRET_NOT_BOUND_TO_CURRENT_ENVIRONMENT",
+  "human_naturalness": "NOT_RUN",
+  "shared_life_human_review": "NOT_RUN",
+  "staging_24h": "RUNNING_NOT_QUALIFIED",
+  "production_inventory": "NOT_AUTHORIZED_NOT_RUN",
+  "cutover_rehearsal": "PASS_DEV_SYNTHETIC_LEGACY_ROLES_ACTUAL_PROCESSES",
+  "production_approval": "NOT_REQUESTED_PREREQUISITES_UNMET",
+  "canary": "NOT_RUN",
+  "qualification_72h": "NOT_RUN",
+  "first_life_experience_ready": "NOT_READY",
+  "cloud_daily_life_beta_ready": false
+}

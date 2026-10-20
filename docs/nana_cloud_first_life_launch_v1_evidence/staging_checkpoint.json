@@ -1,0 +1,37 @@
+{
+  "state": "RUNNING_NOT_QUALIFIED",
+  "supervisor_pid": 48705,
+  "qualification_pid": 48707,
+  "target_seconds": 86405.0,
+  "elapsed_seconds": 315.2725053239992,
+  "provider_calls": 0,
+  "real_social_sends": 0,
+  "production": false,
+  "loaded_core_source_directory": "/workspace/nana-staging/first-life-source-645899b3/src/nana_core",
+  "durable_cloud_host": "NOT_ATTESTED_MANAGED_DEV_WORKSPACE",
+  "home": "/workspace/nana-staging/first-life-24h-01/journey/life",
+  "runtime": {
+    "pid": 48710,
+    "epoch": 2,
+    "state": "ACTIVE"
+  },
+  "actions": 42,
+  "queue": 0,
+  "resources": {
+    "VmHWM": "49872 kB",
+    "VmRSS": "47564 kB",
+    "Threads": "1",
+    "cpu_seconds": 13.2,
+    "fd_count": 8
+  },
+  "observed_at_utc": "2026-10-20T05:14:03.438573+00:00",
+  "evidence_grade": "ACTUAL_ONGOING_DEV_PROCESS_NOT_24H_QUALIFIED",
+  "frozen_source_head": "645899b32220e66a702e75d59a279a3a9685693f",
+  "guard_window": {
+    "version": 1,
+    "started_us": 1792472914583883,
+    "window_us": 1792472914583883,
+    "logical_bytes": 651435,
+    "status": "OBSERVING"
+  }
+}

@@ -1,5 +1,24 @@
 # PROJECT_BRAIN / 09 STATE（当前状态快照）
 
+## CURRENT CHECKPOINT — FIRST-LIFE / TECHNICAL DEV QUALIFIED, EXTERNAL GATES PENDING
+[实测2026-10-20] Base b06e1e72f63a481ba349c23043c4027f137b9876；GLOBAL_STAGE H。
+Frozen executable645899b32220e66a702e75d59a279a3a9685693f；branch dev/nana-core-cloud-first-life-launch-v1-codex。
+已实现/测试：host-local DB family/rate guard、跨重启STOP latch、PASSIVE checkpoint、只读numeric storage profile；
+原Runtime私有chat client与不可变human-declared评分入口，测试评分不冒充真人评审。
+Focused6 passed2.72s；最终full1274 passed/12 skipped/0 failed280.58s（11 live-screen+E12保持门）。
+实际三顺序进程交接/新B8回滚epochs2→3→4、同identity、旧writer fence；不是实际production rehearsal。
+90.1745秒有界运行42actions/14owned effects、SIGKILL恢复/backup-delete/B8迁移均通过；短run不是24h。
+独立24h staging已真实启动，固定detached worktree645899b；根/workspace/nana-staging/first-life-24h-01；
+progress.json为实时运维投影；目标86405秒，尚未完成时必须RUNNING_NOT_QUALIFIED，不升级24h或Beta。
+managed dev host长期存续未attest；源码冻结，停止/失败不自动重启，不重复effects。
+Provider新调用0；DeepSeek有限范围已授权，当前环境未绑定保险库Secret/安全FD；历史one UNKNOWN parked retry0/fallback0。
+Human naturalness/shared-life NOT_RUN；production inventory需新授权，cutover approval尚未到请求门；canary/72h NOT_RUN。
+FIRST_LIFE_EXPERIENCE_READY=NOT_READY；CLOUD_DAILY_LIFE_BETA_READY=NO。
+One original Subject/Store/Loop/Runtime owner；schema13/43表，新表0/依赖0；main/R045/production/private data不变。
+下一入口：安全新provider绑定及有限付费批准；继续观察真实24h结果后另行收口，不能把后台启动称任务全完成。
+报告/status/quickstart/production_preparation及小型证据见docs/nana_cloud_first_life_launch_v1_*。
+下方CURRENT为保留历史检查点。
+
 ## CURRENT — CLOUD FIRST-LIFE LAUNCH V1 / DEVELOPMENT
 [源码/远端实测2026-10-20] Base b06e1e72f63a481ba349c23043c4027f137b9876 本地/远端一致；
 新分支dev/nana-core-cloud-first-life-launch-v1-codex。GLOBAL_STAGE H不变，继承CDL/RAE，不重做PASS。
@@ -1809,3 +1828,17 @@ main/R045/production/私人数据/真实社交/用户桌面变化0，旧bundle�
 封存后应用，最终18 targeted PASS62.48s（仍含六SIGKILL）。最终新full正在运行。
 Selected residency source c2732b0；新exact-binding以本提交为准，不混称同一源码驻留。
 Provider新增0/历史UNKNOWN PARKED；main/R045/production/旧bundle未改，权限未扩大。
+
+First-Life checkpoint manifest SHA256 `2647aeb5f926c0e6edf5a4e061b4a78878929bbcd69d7922bd5d4acd7202f980`，排除self/09/bundle/DB/credentials；仅采集时指纹，不证明24h或production。
+
+### Provider authorization update — credential binding still blocked
+[用户显式授权 + 环境实测2026-10-20] 新资格目标DeepSeek / https://api.deepseek.com / deepseek-flash，
+OpenAI-compatible，PUBLIC/PROJECT only，最多20真实调用、$1等值上限；PERSONAL/SECRET不授权。
+用户声明Secret已在个人保险库，名称DEEPSEEK_API_KEY。环境实时observations_current=true/revision281，
+secrets=[]、runtime_variables=[]：尚未绑定到当前任务。工具仅支持environment_status，无配置修改工具。
+因此BLOCKED_NO_CURRENT_ENVIRONMENT_SECRET_BINDING；新真实调用0；模型/endpoint尚未live验证。
+不搜索环境/历史key，不读个人保险库原文，不用明文文件；已请求用户通过环境配置绑定并审核。
+绑定ready后仅从显式宿主安全源→内存pipe/FD→现有ExplicitFDResolver，沿原预算/Privacy/UNKNOWN合同。
+历史TianToken UNKNOWN仍PARKED，禁止重放或fallback。此前“未获付费范围”在本时点被上述有限授权取代。
+
+Superseding First-Life checkpoint manifest SHA256 `381788eb28b4be3d695c334344656c56d6d7bfdca7fc8f33ae7979febf9c031a`（新增DeepSeek有限授权/未绑定事实，excludes self/09/bundle/DB/credentials）。

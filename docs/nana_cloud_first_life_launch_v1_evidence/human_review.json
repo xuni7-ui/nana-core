@@ -1,0 +1,10 @@
+{
+  "naturalness": "NOT_RUN",
+  "shared_life": "NOT_RUN",
+  "entry": "python -m nana_core.life chat --home <existing-home> --privacy PROJECT",
+  "rating_entry": "python -m nana_core.life review --home <existing-home> --json",
+  "evidence_grade": "HUMAN_DECLARED_METADATA_NOT_CRYPTOGRAPHIC_ATTESTATION",
+  "unit_test_ratings_are_human_review": false,
+  "readiness_automatically_promoted": false,
+  "raw_transcript_persisted": false
+}

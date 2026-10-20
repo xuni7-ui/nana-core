@@ -1,0 +1,48 @@
+{
+  "mode": "ACTUAL_OWNED_OS_APPLICATION_AND_SHADOW_SURFACES_NOT_PRODUCTION",
+  "source_head": "80a04c311137d2fc8f6a88ae1d1d0f5545d7a49d",
+  "actual_residency_seconds": 90.1745085260045,
+  "actual_external_effects": 14,
+  "real_task_classes": [
+    "CONTENT",
+    "DOCUMENT",
+    "FILES",
+    "FORM"
+  ],
+  "actual_sigkill_restart": {
+    "same_identity": true,
+    "old_epoch": 2,
+    "new_epoch": 3,
+    "no_new_grant": true,
+    "no_action_replay": true
+  },
+  "backup_delete_propagation": true,
+  "selected_source_unchanged": true,
+  "new_provider_calls": 0,
+  "human_review": "NOT_RUN",
+  "production_changes": 0,
+  "real_social_sends": 0,
+  "actions": 42,
+  "goals": 12,
+  "qualification": "BOUNDED_PROCESS_NOT_24H",
+  "source_hash_count": 205,
+  "source_hash_set_sha256": "ffc751a43ece70940516fbda46c51c7eed743a53ab84bb85d8b61fd29eb80dcf",
+  "raw_result_sha256": "17e9d09a986d7791f7e468d0523ca23421d1314dbedf6a78f373539a53c3e021",
+  "package_excludes": [
+    "credentials",
+    "provider_instances",
+    "embedding_cache",
+    "runtime_lease",
+    "runtime_health",
+    "machine_paths",
+    "external_execution_authority"
+  ],
+  "transfer_identity": "3b88679a-07ab-4c77-a981-cd7747a1fada",
+  "received": {
+    "identity_id": "3b88679a-07ab-4c77-a981-cd7747a1fada",
+    "state": "ACTIVATED_NO_EXECUTION_GRANTS",
+    "provider_config_transferred": false,
+    "host_settings": "EXPLICIT_DESTINATION_ONLY"
+  },
+  "old_short_runner_progress_note": "Old build could retain last ACTIVE sample after termination; this is not current liveness. Hardened at645899b."
+}

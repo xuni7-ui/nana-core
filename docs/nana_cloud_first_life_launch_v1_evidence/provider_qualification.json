@@ -1,0 +1,31 @@
+{
+  "status": "BLOCKED_NO_CURRENT_ENVIRONMENT_SECRET_BINDING",
+  "new_real_provider_calls": 0,
+  "usage": "NONE_NEW",
+  "cost": "NONE_NEW_INCURRED",
+  "historical_unknown": "PARKED_PROVIDER_TIMEOUT_BILLING_UNKNOWN",
+  "retries": 0,
+  "fallbacks": 0,
+  "old_chat_keys_used": false,
+  "configured_cloud_secret_bindings": 0,
+  "credential_search": false,
+  "requested_provider": "DeepSeek",
+  "user_confirmed_base_url": "https://api.deepseek.com",
+  "requested_model": "deepseek-flash",
+  "protocol": "OPENAI_COMPATIBLE_CHAT",
+  "authorized_privacy": [
+    "PUBLIC",
+    "PROJECT"
+  ],
+  "max_new_calls": 20,
+  "authorized_cost_ceiling_usd": 1,
+  "credential_reference": "DEEPSEEK_API_KEY",
+  "credential_value_read": false,
+  "secret_binding_state": "ABSENT",
+  "environment_observations_current": true,
+  "environment_observed_revision": "281",
+  "runtime_variable_bindings": 0,
+  "environment_configuration_mutation_tool_available": false,
+  "model_route_verified": false,
+  "base_endpoint_live_verified": false
+}

@@ -1,0 +1,37 @@
+{
+  "level": "ACTUAL_PROCESS_SYNTHETIC_LEGACY_ROLE_NOT_PRODUCTION",
+  "identity_id": "b8a6b3d5-5d23-43d2-8d5a-79b8b3d82db0",
+  "source_head": "80a04c311137d2fc8f6a88ae1d1d0f5545d7a49d",
+  "epochs": [
+    2,
+    3,
+    4
+  ],
+  "all_owned_pids": [
+    45511,
+    45515,
+    45516
+  ],
+  "source_retired_before_new_owner": true,
+  "old_writer_resume_rejected": true,
+  "active_owner_transfer_rejected": true,
+  "same_identity": true,
+  "rollback": "B8_TRANSFER_TO_FRESH_ROLLBACK_HOME_NOT_STALE_SNAPSHOT_OVERWRITE",
+  "recent_continuity_survives": true,
+  "execution_grants_inherited": false,
+  "real_social_sends": 0,
+  "production_inventory": "NOT_RUN",
+  "production_cutover": false,
+  "new_owner": {
+    "identity_id": "b8a6b3d5-5d23-43d2-8d5a-79b8b3d82db0",
+    "state": "ACTIVATED_NO_EXECUTION_GRANTS",
+    "provider_config_transferred": false,
+    "host_settings": "EXPLICIT_DESTINATION_ONLY"
+  },
+  "rollback_owner": {
+    "identity_id": "b8a6b3d5-5d23-43d2-8d5a-79b8b3d82db0",
+    "state": "ACTIVATED_NO_EXECUTION_GRANTS",
+    "provider_config_transferred": false,
+    "host_settings": "EXPLICIT_DESTINATION_ONLY"
+  }
+}

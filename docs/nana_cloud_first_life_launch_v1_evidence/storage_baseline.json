@@ -1,0 +1,526 @@
+{
+  "derived": true,
+  "logical_database_bytes": 12627968,
+  "reusable_page_bytes": 0,
+  "privacy_anchor_bytes": 466,
+  "physical_file_bytes": {
+    "database": 12627968,
+    "-wal": 28872,
+    "-shm": 32768,
+    ".privacy.json": 466
+  },
+  "family_bytes": 12690074,
+  "history_deleted": false,
+  "tables_and_indexes": [
+    {
+      "name": "events",
+      "allocated_bytes": 6803456,
+      "payload_bytes": 5274600
+    },
+    {
+      "name": "artifacts",
+      "allocated_bytes": 1679360,
+      "payload_bytes": 737640
+    },
+    {
+      "name": "record_dependencies",
+      "allocated_bytes": 618496,
+      "payload_bytes": 569978
+    },
+    {
+      "name": "runtime_queue",
+      "allocated_bytes": 565248,
+      "payload_bytes": 412341
+    },
+    {
+      "name": "sqlite_autoindex_record_dependencies_2",
+      "allocated_bytes": 471040,
+      "payload_bytes": 381352
+    },
+    {
+      "name": "sqlite_autoindex_record_dependencies_1",
+      "allocated_bytes": 221184,
+      "payload_bytes": 183880
+    },
+    {
+      "name": "sqlite_autoindex_memory_terms_1",
+      "allocated_bytes": 180224,
+      "payload_bytes": 116400
+    },
+    {
+      "name": "continuity_records",
+      "allocated_bytes": 176128,
+      "payload_bytes": 160876
+    },
+    {
+      "name": "memory_terms",
+      "allocated_bytes": 139264,
+      "payload_bytes": 109961
+    },
+    {
+      "name": "sqlite_autoindex_events_1",
+      "allocated_bytes": 122880,
+      "payload_bytes": 102290
+    },
+    {
+      "name": "autonomy_event_lookup",
+      "allocated_bytes": 110592,
+      "payload_bytes": 82991
+    },
+    {
+      "name": "memory_dependencies",
+      "allocated_bytes": 90112,
+      "payload_bytes": 77255
+    },
+    {
+      "name": "runtime_schedules",
+      "allocated_bytes": 81920,
+      "payload_bytes": 62912
+    },
+    {
+      "name": "continuity_evidence",
+      "allocated_bytes": 73728,
+      "payload_bytes": 61169
+    },
+    {
+      "name": "sqlite_autoindex_memory_dependencies_2",
+      "allocated_bytes": 65536,
+      "payload_bytes": 55129
+    },
+    {
+      "name": "subject_events",
+      "allocated_bytes": 61440,
+      "payload_bytes": 52767
+    },
+    {
+      "name": "sqlite_autoindex_artifacts_1",
+      "allocated_bytes": 61440,
+      "payload_bytes": 47842
+    },
+    {
+      "name": "sqlite_autoindex_events_2",
+      "allocated_bytes": 53248,
+      "payload_bytes": 32346
+    },
+    {
+      "name": "memories",
+      "allocated_bytes": 53248,
+      "payload_bytes": 37380
+    },
+    {
+      "name": "sqlite_autoindex_continuity_records_1",
+      "allocated_bytes": 49152,
+      "payload_bytes": 37059
+    },
+    {
+      "name": "autonomy_record_target",
+      "allocated_bytes": 49152,
+      "payload_bytes": 36804
+    },
+    {
+      "name": "autonomy_record_lookup",
+      "allocated_bytes": 49152,
+      "payload_bytes": 37510
+    },
+    {
+      "name": "sqlite_schema",
+      "allocated_bytes": 40960,
+      "payload_bytes": 30914
+    },
+    {
+      "name": "sqlite_autoindex_memory_dependencies_1",
+      "allocated_bytes": 36864,
+      "payload_bytes": 26399
+    },
+    {
+      "name": "subject_intentions",
+      "allocated_bytes": 32768,
+      "payload_bytes": 26155
+    },
+    {
+      "name": "actions",
+      "allocated_bytes": 32768,
+      "payload_bytes": 25860
+    },
+    {
+      "name": "subject_cycles",
+      "allocated_bytes": 28672,
+      "payload_bytes": 19662
+    },
+    {
+      "name": "sqlite_autoindex_subject_events_2",
+      "allocated_bytes": 28672,
+      "payload_bytes": 20775
+    },
+    {
+      "name": "sqlite_autoindex_runtime_queue_2",
+      "allocated_bytes": 28672,
+      "payload_bytes": 20775
+    },
+    {
+      "name": "budget_holds",
+      "allocated_bytes": 24576,
+      "payload_bytes": 18074
+    },
+    {
+      "name": "attempts",
+      "allocated_bytes": 24576,
+      "payload_bytes": 16464
+    },
+    {
+      "name": "sqlite_autoindex_subject_events_1",
+      "allocated_bytes": 16384,
+      "payload_bytes": 9958
+    },
+    {
+      "name": "sqlite_autoindex_runtime_queue_1",
+      "allocated_bytes": 16384,
+      "payload_bytes": 9958
+    },
+    {
+      "name": "sqlite_autoindex_continuity_evidence_2",
+      "allocated_bytes": 16384,
+      "payload_bytes": 10339
+    },
+    {
+      "name": "sqlite_autoindex_budget_holds_2",
+      "allocated_bytes": 16384,
+      "payload_bytes": 10484
+    },
+    {
+      "name": "subject_current_intentions",
+      "allocated_bytes": 12288,
+      "payload_bytes": 4353
+    },
+    {
+      "name": "sqlite_autoindex_subject_intentions_1",
+      "allocated_bytes": 12288,
+      "payload_bytes": 4999
+    },
+    {
+      "name": "sqlite_autoindex_subject_cycles_2",
+      "allocated_bytes": 12288,
+      "payload_bytes": 4999
+    },
+    {
+      "name": "sqlite_autoindex_subject_cycles_1",
+      "allocated_bytes": 12288,
+      "payload_bytes": 4999
+    },
+    {
+      "name": "sqlite_autoindex_memories_1",
+      "allocated_bytes": 12288,
+      "payload_bytes": 5243
+    },
+    {
+      "name": "sqlite_autoindex_continuity_evidence_1",
+      "allocated_bytes": 12288,
+      "payload_bytes": 5243
+    },
+    {
+      "name": "sqlite_autoindex_budget_holds_1",
+      "allocated_bytes": 12288,
+      "payload_bytes": 7334
+    },
+    {
+      "name": "runtime_ready",
+      "allocated_bytes": 12288,
+      "payload_bytes": 5221
+    },
+    {
+      "name": "memory_scope_visibility",
+      "allocated_bytes": 12288,
+      "payload_bytes": 7120
+    },
+    {
+      "name": "memory_family",
+      "allocated_bytes": 12288,
+      "payload_bytes": 6887
+    },
+    {
+      "name": "goals",
+      "allocated_bytes": 12288,
+      "payload_bytes": 4130
+    },
+    {
+      "name": "world_current",
+      "allocated_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "world_beliefs",
+      "allocated_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "subject_reflections",
+      "allocated_bytes": 4096,
+      "payload_bytes": 2128
+    },
+    {
+      "name": "subject_intention_live_slot",
+      "allocated_bytes": 4096,
+      "payload_bytes": 240
+    },
+    {
+      "name": "subject_goal_candidates",
+      "allocated_bytes": 4096,
+      "payload_bytes": 3264
+    },
+    {
+      "name": "subject_assertion_roots",
+      "allocated_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "strategy_history",
+      "allocated_bytes": 4096,
+      "payload_bytes": 195
+    },
+    {
+      "name": "strategy_assessments",
+      "allocated_bytes": 4096,
+      "payload_bytes": 982
+    },
+    {
+      "name": "strategies",
+      "allocated_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_sequence",
+      "allocated_bytes": 4096,
+      "payload_bytes": 11
+    },
+    {
+      "name": "sqlite_autoindex_world_beliefs_2",
+      "allocated_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_world_beliefs_1",
+      "allocated_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_subject_reflections_2",
+      "allocated_bytes": 4096,
+      "payload_bytes": 639
+    },
+    {
+      "name": "sqlite_autoindex_subject_reflections_1",
+      "allocated_bytes": 4096,
+      "payload_bytes": 639
+    },
+    {
+      "name": "sqlite_autoindex_subject_goal_candidates_2",
+      "allocated_bytes": 4096,
+      "payload_bytes": 1079
+    },
+    {
+      "name": "sqlite_autoindex_subject_goal_candidates_1",
+      "allocated_bytes": 4096,
+      "payload_bytes": 1079
+    },
+    {
+      "name": "sqlite_autoindex_subject_cycles_3",
+      "allocated_bytes": 4096,
+      "payload_bytes": 623
+    },
+    {
+      "name": "sqlite_autoindex_strategy_assessments_2",
+      "allocated_bytes": 4096,
+      "payload_bytes": 347
+    }
+  ],
+  "event_coverage": "LATEST_4096_NOT_FULL_HISTORY",
+  "event_kinds": [
+    {
+      "kind": "subject.cycle_accepted",
+      "recent_count": 125,
+      "json_bytes": 1021159
+    },
+    {
+      "kind": "runtime.event_finished",
+      "recent_count": 246,
+      "json_bytes": 546888
+    },
+    {
+      "kind": "runtime.queue_checked",
+      "recent_count": 246,
+      "json_bytes": 537865
+    },
+    {
+      "kind": "runtime.event_enqueued",
+      "recent_count": 246,
+      "json_bytes": 537373
+    },
+    {
+      "kind": "subject.input_ingested",
+      "recent_count": 246,
+      "json_bytes": 313456
+    },
+    {
+      "kind": "runtime.schedule_fired",
+      "recent_count": 156,
+      "json_bytes": 295020
+    },
+    {
+      "kind": "privacy.erased",
+      "recent_count": 1,
+      "json_bytes": 271079
+    },
+    {
+      "kind": "memory.committed",
+      "recent_count": 131,
+      "json_bytes": 238653
+    },
+    {
+      "kind": "action.verified",
+      "recent_count": 42,
+      "json_bytes": 144459
+    },
+    {
+      "kind": "memory.evidence_captured",
+      "recent_count": 131,
+      "json_bytes": 105550
+    },
+    {
+      "kind": "action.reserved",
+      "recent_count": 42,
+      "json_bytes": 77374
+    },
+    {
+      "kind": "runtime.schedule_created",
+      "recent_count": 37,
+      "json_bytes": 76015
+    },
+    {
+      "kind": "living.goal_step_completed",
+      "recent_count": 42,
+      "json_bytes": 74108
+    },
+    {
+      "kind": "action.receipt_received",
+      "recent_count": 42,
+      "json_bytes": 72690
+    },
+    {
+      "kind": "action.verification_started",
+      "recent_count": 42,
+      "json_bytes": 69034
+    },
+    {
+      "kind": "living.maintenance_slice",
+      "recent_count": 151,
+      "json_bytes": 67343
+    },
+    {
+      "kind": "action.dispatched",
+      "recent_count": 42,
+      "json_bytes": 66138
+    },
+    {
+      "kind": "governance.outcome",
+      "recent_count": 42,
+      "json_bytes": 61908
+    },
+    {
+      "kind": "action.proposed",
+      "recent_count": 42,
+      "json_bytes": 60216
+    },
+    {
+      "kind": "self.experience_recorded",
+      "recent_count": 16,
+      "json_bytes": 50508
+    },
+    {
+      "kind": "open.goal_adopted",
+      "recent_count": 12,
+      "json_bytes": 38638
+    },
+    {
+      "kind": "living.consolidation_candidate",
+      "recent_count": 26,
+      "json_bytes": 35298
+    },
+    {
+      "kind": "open.action_bound",
+      "recent_count": 42,
+      "json_bytes": 33462
+    },
+    {
+      "kind": "open.learning_stage_committed",
+      "recent_count": 18,
+      "json_bytes": 26062
+    },
+    {
+      "kind": "subject.reflection_proposed",
+      "recent_count": 16,
+      "json_bytes": 14320
+    },
+    {
+      "kind": "living.memory_review_completed",
+      "recent_count": 26,
+      "json_bytes": 11206
+    },
+    {
+      "kind": "world.skill_development_slice",
+      "recent_count": 6,
+      "json_bytes": 10089
+    },
+    {
+      "kind": "subject.reflection_intention_completed",
+      "recent_count": 16,
+      "json_bytes": 9408
+    },
+    {
+      "kind": "runtime.cycle_followup_completed",
+      "recent_count": 125,
+      "json_bytes": 9125
+    },
+    {
+      "kind": "open.concern_already_represented",
+      "recent_count": 12,
+      "json_bytes": 8882
+    },
+    {
+      "kind": "governance.action_linked",
+      "recent_count": 42,
+      "json_bytes": 8820
+    },
+    {
+      "kind": "open.goal_replanned",
+      "recent_count": 2,
+      "json_bytes": 7172
+    }
+  ],
+  "retention": {
+    "permanent": [
+      "provenance",
+      "lineage",
+      "events",
+      "outcome_action_history",
+      "UNKNOWN",
+      "privacy_deletion_journal"
+    ],
+    "rebuildable": [
+      "memory_terms",
+      "derived_context",
+      "life_journal_projection"
+    ],
+    "checkpoint_reusable": [
+      "WAL_pages_without_pinned_readers",
+      "freelist_pages"
+    ],
+    "rotate": [
+      "sanitized_runtime_logs"
+    ],
+    "archive": "FUTURE_EXPLICIT_VERIFIED_ARCHIVE_NOT_AUTOMATIC_PRUNING"
+  },
+  "authority": false,
+  "level": "READ_ONLY_POST_CDL_HANDOFF_SYNTHETIC_REFERENCE_DB",
+  "baseline": "b06e1e72f63a481ba349c23043c4027f137b9876",
+  "interpretation": "Events and their full-row replay snapshots dominate durable growth; WAL alone does not explain main DB. Preserve history; use capacity/rate guard and checkpoint reuse, not history deletion."
+}
