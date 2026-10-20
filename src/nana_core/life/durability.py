@@ -4,7 +4,7 @@ History, outcomes, UNKNOWN and privacy tombstones are retained. PASSIVE checkpoi
 permits WAL reuse without forcing readers out. A hard/rate limit stops the writer,
 not the Subject's original desires. No automatic history deletion or vacuum.
 """
-import json,os,tempfile
+import json,os,stat,tempfile
 from pathlib import Path
 from ..contracts import CoreError,DTO
 from pydantic import Field,model_validator
@@ -70,8 +70,10 @@ def profile(store):
 def read_window(path):
     if not path.exists() and not path.is_symlink():return None
     try:
-        fd=os.open(path,os.O_RDONLY|os.O_NOFOLLOW)
-        with os.fdopen(fd) as f:raw=f.read(4097)
+        fd=os.open(path,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK)
+        with os.fdopen(fd) as f:
+            if not stat.S_ISREG(os.fstat(f.fileno()).st_mode):raise ValueError()
+            raw=f.read(4097)
         if len(raw)>4096:raise ValueError()
         return StorageWindow.model_validate_json(json.dumps(json.loads(raw,object_pairs_hook=_json_object)))
     except (OSError,ValueError):raise CoreError('STORAGE_MONITOR_INVALID') from None

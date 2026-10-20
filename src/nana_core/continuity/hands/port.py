@@ -5,6 +5,7 @@ from ...contracts import CoreError,Receipt,Verification
 from ...storage import canonical,digest
 from ..open_agency.world import LocalWorldRegistry,transform
 from .contracts import OwnedTarget,HandsEffectContext,private_directory,process_start
+from .framing import receive_object
 
 class OwnedApplicationPort:
     evidence_namespace='recorded.project.owned-application-action'
@@ -30,15 +31,11 @@ class OwnedApplicationPort:
             pid,uid,_=struct.unpack('3i',s.getsockopt(socket.SOL_SOCKET,socket.SO_PEERCRED,12))
             if (pid,uid)!=(self.target.pid,self.target.uid):raise CoreError('HANDS_PEER_IDENTITY_CHANGED')
             self.assert_owned() # immediate TOCTOU recheck after connection, before effect
-            s.sendall(raw);reply=b''
-            while b'\n' not in reply and len(reply)<=32768:
-                part=s.recv(4096)
-                if not part:break
-                reply+=part
-            if len(reply)>32768:raise CoreError('HANDS_RESPONSE_BOUND')
-        try:value=json.loads(reply)
-        except ValueError:raise CoreError('HANDS_COMPLETION_UNKNOWN') from None
+            s.sendall(raw)
+            try:value=receive_object(s,limit=32768,seconds=.5)
+            except ValueError:raise CoreError('HANDS_COMPLETION_UNKNOWN') from None
         if not value.get('ok'):raise CoreError('HANDS_APPLICATION_REJECTED')
+        if value.get('ok') is not True or set(value)!={'ok','data'} or type(value['data']) is not dict:raise CoreError('HANDS_COMPLETION_UNKNOWN')
         return value['data']
     def peek(self,key,effect_id=None):
         if key not in self.tasks:raise CoreError('HANDS_TASK_SCOPE_DENIED')

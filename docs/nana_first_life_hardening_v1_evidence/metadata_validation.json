@@ -1,0 +1,6 @@
+{
+  "initial_current_state_validation": "REJECTED_MORE_THAN_8_EVIDENCE_REFS",
+  "repair": "Selected8 current refs; preserved full history below header; no DTO/budget relaxation",
+  "current_header_ref_count": 8,
+  "master_matrix_unchanged": true
+}

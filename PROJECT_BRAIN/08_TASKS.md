@@ -925,3 +925,14 @@ HUMAN_REVIEW_CONTEXT_CURRENT_STATE=PASS；PROJECT_STATUS_INTENT_CLASSIFICATION=P
 用户明确豁免宿主保险箱绑定，本次仅stdin内存→既有ExplicitFDResolver→Authorization；无argv/env/file凭据，exact-match扫描0，进程已结束。未搜索历史凭据。
 S5-C06/S5升级FOUNDATION_QUALIFIED，固定63项60资格/3未知。S4最终24h仍待实测；S10两项高级门不阻塞First-Life基础。Master/criteria不变。
 S1_TO_S9_FOUNDATION_QUALIFIED=NO；FOUNDATION_CLOSURE_COMPLETE=NO；READY_FOR_FIRST_LIFE_INTEGRATION_QUALIFICATION=NO。真人评审NOT_RUN、First-Life/Beta不升级、main/R045/production/private/social不变。
+
+## PARALLEL HARDENING / FIRST-LIFE READINESS V1 — current side-work
+
+[已实现/已测试/owned dev process，2026-10-21任务，UTC实测2026-10-20] 继承14e66be，同一Foundation Closure主线旁路加固；隔离worktree/dev homes，不重做已资格S3/S5/S6、不开始First-Life。
+TYPE B：已复现FIFO storage guard启动卡住；storage/privacy打开FD后regular+NOFOLLOW/NONBLOCK+bounded读取。owned IPC使用单调时钟总frame deadline、拒绝重复JSON key/不完整帧/错误envelope，原PID/UID/inode/Grant/Manager/Verify不变。深嵌套JSON未复现crash，明确仅防御性异常处理，不虚报P1。
+TYPE A：新增独立只读Inspector DTO/CLI，mode=ro/query_only/有界读取，复用既有need/appetite/relationship投影。只输出PUBLIC/PROJECT metadata/WHAT-WHY codes/source refs，不输出purpose/模型文本/治理正文/secret；pending privacy journal fail closed，不修复或初始化Store。SHM read mark为SQLite临时协调状态，不声称逐字节完全无读标记。
+实际2个SIGKILL atomic cut + ENOSPC replace + malformed owned IPC + delete/pending-journal + seeded frame cases；新focused16（纳入FAST61），相关37、组合26通过；最终显式tests/全仓1339 passed /0 failed /12 skipped，323.52s。5个现有JUnit格式warning保留；后续runner仅将报告格式设xunit1，未改业务语义。
+准备只读preflight、First-Life启停/恢复/备份/回滚runbook、21项Failure Matrix、domain→suite映射与验收清单；Private Intent仅设计/disabled，无新C语义或第二脑。pip check通过，CVE联网扫描NOT_RUN。
+原固定645899b staging只读仍RUNNING_NOT_QUALIFIED，无actual final；不重启/写入/推算24h PASS。Master/Matrix固定63条及状态均不变，S4-C06仍唯一S1–S9基础资格门。Foundation/Integration readiness均NO，human NOT_RUN、First-Life/Beta NOT_READY。
+本任务新付费0、private/social/device/production/main/R045改动0；schema13/43表/新依赖0。历史DeepSeek/S5与TianToken UNKNOWN保留；旧bundle不读不动。
+详见docs/nana_first_life_hardening_v1_implementation.md及同名evidence目录。加固不构成生产或真人评审许可。

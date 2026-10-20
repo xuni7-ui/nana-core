@@ -7,6 +7,7 @@ or erase copies outside this application's control. No claim of SSD forensics.
 import fcntl
 import json
 import os
+import stat
 from pathlib import Path
 import sqlite3
 import tempfile
@@ -49,9 +50,13 @@ def _json_object(pairs):
 
 def _load(path):
     try:
-        if path.stat().st_size > 16 * 1024 * 1024:
-            raise ValueError()
-        return json.loads(path.read_text(), object_pairs_hook=_json_object)
+        fd=os.open(path,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK)
+        with os.fdopen(fd) as source:
+            info=os.fstat(source.fileno())
+            if not stat.S_ISREG(info.st_mode) or info.st_size>16*1024*1024:raise ValueError()
+            raw=source.read(16*1024*1024+1)
+            if len(raw)>16*1024*1024:raise ValueError()
+            return json.loads(raw, object_pairs_hook=_json_object)
     except (OSError, ValueError, TypeError):
         raise CoreError("PRIVACY_ANCHOR_INVALID") from None
 

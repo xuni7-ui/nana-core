@@ -1,0 +1,15 @@
+{
+  "observed_exit_code": 2,
+  "source_head": "14e66be0b9562207997d76a68734ddba9ba89235",
+  "derived": true,
+  "foundation_prerequisites": "OPEN",
+  "open_criteria": [
+    "S4-C06"
+  ],
+  "human_review": "NOT_RUN",
+  "first_life_started": false,
+  "first_life_experience_ready": "NOT_READY",
+  "production_authorized": false,
+  "next": "WAIT_FOR_ORIGINAL_S4_FINAL_RESULT",
+  "provider_calls": 0
+}

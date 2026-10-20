@@ -1,0 +1,65 @@
+{
+  "observed_at": "2026-10-20T18:36:48.320297+00:00",
+  "mode": "READ_ONLY_EXISTING_RUN_NO_CONTROL",
+  "progress": {
+    "state": "RUNNING_NOT_QUALIFIED",
+    "supervisor_pid": 48705,
+    "qualification_pid": 48707,
+    "target_seconds": 86405.0,
+    "elapsed_seconds": 48481.066541979,
+    "provider_calls": 0,
+    "real_social_sends": 0,
+    "production": false,
+    "loaded_core_source_directory": "/workspace/nana-staging/first-life-source-645899b3/src/nana_core",
+    "durable_cloud_host": "NOT_ATTESTED_MANAGED_DEV_WORKSPACE",
+    "home": "/workspace/nana-staging/first-life-24h-01/journey/life",
+    "runtime": {
+      "pid": 52148,
+      "epoch": 3,
+      "state": "ACTIVE"
+    },
+    "actions": 42,
+    "queue": 0,
+    "resources": {
+      "VmHWM": "44644 kB",
+      "VmRSS": "44316 kB",
+      "Threads": "1",
+      "cpu_seconds": 294.78,
+      "fd_count": 8
+    }
+  },
+  "pinned_head": "645899b32220e66a702e75d59a279a3a9685693f",
+  "result_exists": false,
+  "qualification": "PENDING_ACTUAL_RESULT",
+  "runtime_restarted_by_this_mission": false,
+  "pinned_files": {
+    "checked": 206,
+    "mismatches": [],
+    "note": "Current on-disk pin; start/end loaded-source attestation still requires final run result"
+  },
+  "database": {
+    "integrity": "ok",
+    "foreign_key_violations": 0,
+    "page_count": 5727,
+    "page_size": 4096,
+    "actions": 42,
+    "goals": 12,
+    "runtime_queue": 934,
+    "subject_cycles": 125,
+    "cognitive_requests": 0,
+    "unknown_actions": 0,
+    "duplicate_idempotency_keys": 0
+  },
+  "storage_guard": {
+    "version": 1,
+    "started_us": 1792472914583883,
+    "window_us": 1792520992930913,
+    "logical_bytes": 23347645,
+    "status": "OBSERVING"
+  },
+  "db_family_bytes": {
+    "db": 23457792,
+    "-wal": 547992,
+    "-shm": 32768
+  }
+}

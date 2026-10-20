@@ -1,0 +1,7 @@
+{
+  "baseline": "REPRODUCED_STARTUP_HANG",
+  "input": "FIFO_storage_monitor",
+  "bounded_probe_seconds": 0.6,
+  "probe_killed": true,
+  "staging_access": false
+}

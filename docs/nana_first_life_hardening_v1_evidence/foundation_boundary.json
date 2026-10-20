@@ -1,0 +1,25 @@
+{
+  "base_head": "14e66be0b9562207997d76a68734ddba9ba89235",
+  "master_sha256": "fe6efe121a05145b44178d5ec26b99430a28e873fca8d1b80f16671c65e5133c",
+  "foundation_criteria_changed": false,
+  "new_paid_provider_calls": 0,
+  "real_social_sends": 0,
+  "private_data_accessed": false,
+  "staging_modified": false,
+  "human_review": "NOT_RUN",
+  "first_life_started": false,
+  "criteria_snapshot_sha256": "9570d84089240f9dea4ea1a2b1e168970925467d5cd79bfb5bcbedb0cdfac429",
+  "criteria_counts": {
+    "S1": 5,
+    "S2": 6,
+    "S3": 9,
+    "S4": 6,
+    "S5": 6,
+    "S6": 7,
+    "S7": 5,
+    "S8": 7,
+    "S9": 6,
+    "S10": 6
+  },
+  "authority_reference": "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md and existing audit.json, unchanged from14e66be; this is a fingerprint, not a second matrix"
+}

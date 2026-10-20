@@ -1,0 +1,8 @@
+S4-C06 original24h final absent; no First-Life launch or human review.
+Inspector local PUBLIC/PROJECT metadata only, bounded horizons; UNKNOWN is not absence.
+Transient SQLite SHM read marks may change; DB/event/history/authority do not.
+Physical host power-loss, production faults, readonly remount and hardware corruption not newly qualified.
+Same-UID host compromise is outside private owned-IPC threat model.
+Nested JSON probe did not reproduce crash; defensive containment is not a confirmed vulnerability.
+pip check is not a CVE database audit.
+No live Provider/device/social/private-data/production qualification in this task.

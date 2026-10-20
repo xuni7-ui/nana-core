@@ -1,0 +1,230 @@
+{
+  "scope": "Engineering contracts; evidence suite references do not assert every failure mode was newly injected",
+  "rows": [
+    {
+      "case": "provider_timeout",
+      "expected_state": "UNKNOWN_COMPLETION",
+      "retry": "NEVER_AUTOMATIC",
+      "unknown_policy": "UNKNOWN",
+      "user_visible": "Stop attempt; keep reservation",
+      "effect_allowed": "No new effect",
+      "rollback": "Independent provider status only",
+      "evidence_suite": "tests/provider_routing/test_router.py"
+    },
+    {
+      "case": "provider_malformed",
+      "expected_state": "DISPATCHED_INVALID_RESPONSE",
+      "retry": "NO_FALLBACK_AFTER_DISPATCH",
+      "unknown_policy": "PRESERVE_ATTEMPT",
+      "user_visible": "Show failed semantic parse",
+      "effect_allowed": "No proposed action authority",
+      "rollback": "Review separate attempt",
+      "evidence_suite": "tests/world_loop/test_boundaries.py"
+    },
+    {
+      "case": "provider_wrong_model",
+      "expected_state": "CORRELATION_REJECTED",
+      "retry": "NO_AUTOMATIC",
+      "unknown_policy": "PRESERVE_ATTEMPT",
+      "user_visible": "Route mismatch",
+      "effect_allowed": "No promoted semantic fact",
+      "rollback": "Separate reviewed configuration",
+      "evidence_suite": "tests/world_loop/test_boundaries.py"
+    },
+    {
+      "case": "source_disappear_or_contradiction",
+      "expected_state": "STALE_OR_UNKNOWN_SUPPORT",
+      "retry": "NO_WAKE_FROM_WITHDRAWN_SOURCE",
+      "unknown_policy": "DO_NOT_INFER_SUCCESS",
+      "user_visible": "Derived support disappears",
+      "effect_allowed": "Existing effects not erased",
+      "rollback": "Re-evaluate from fresh source",
+      "evidence_suite": "tests/first_life_hardening/test_inspector.py"
+    },
+    {
+      "case": "store_readonly",
+      "expected_state": "WRITE_REJECTED",
+      "retry": "NO_EFFECT_RETRY",
+      "unknown_policy": "UNCOMMITTED_WORK_NOT_SUCCESS",
+      "user_visible": "Storage error",
+      "effect_allowed": "No new effect without commit",
+      "rollback": "Restore permissions under controller",
+      "evidence_suite": "tests/cloud_life/test_operations.py"
+    },
+    {
+      "case": "disk_full",
+      "expected_state": "PRESERVE_OLD_ATOMIC_DOCUMENT",
+      "retry": "NO_BLIND_RETRY",
+      "unknown_policy": "CHECK_COMMIT_CUT",
+      "user_visible": "Stop writer on resource pressure",
+      "effect_allowed": "No cleanup of provenance",
+      "rollback": "Trusted disk recovery",
+      "evidence_suite": "tests/first_life_hardening/test_atomic_recovery.py"
+    },
+    {
+      "case": "db_corruption",
+      "expected_state": "FAIL_CLOSED",
+      "retry": "NONE",
+      "unknown_policy": "UNKNOWN",
+      "user_visible": "Inspector unavailable",
+      "effect_allowed": "No authority granted",
+      "rollback": "Verified quarantined backup",
+      "evidence_suite": "tests/first_life_hardening/test_inspector.py"
+    },
+    {
+      "case": "process_crash",
+      "expected_state": "NEW_OWNER_RECOVERS_ORIGINAL_STATE",
+      "retry": "NO_EFFECT_REPLAY",
+      "unknown_policy": "PRESERVE_UNKNOWN",
+      "user_visible": "Recovery metadata",
+      "effect_allowed": "Only verified new decision",
+      "rollback": "Existing recovery protocol",
+      "evidence_suite": "tests/controlled_hands/test_recovery.py"
+    },
+    {
+      "case": "host_restart",
+      "expected_state": "LEASE_EPOCH_RECHECK",
+      "retry": "NO_OLD_AUTHORITY",
+      "unknown_policy": "PRESERVE_PENDING",
+      "user_visible": "Same identity check",
+      "effect_allowed": "No old Grant revival",
+      "rollback": "Existing ownership protocol",
+      "evidence_suite": "tests/continuous_runtime/test_storage_runtime.py"
+    },
+    {
+      "case": "old_writer_returns",
+      "expected_state": "STALE_OWNER_FENCED",
+      "retry": "NONE",
+      "unknown_policy": "NO_NEW_COMMIT",
+      "user_visible": "Fencing reason",
+      "effect_allowed": "DENY",
+      "rollback": "New owner remains",
+      "evidence_suite": "tests/continuous_runtime/test_storage_runtime.py"
+    },
+    {
+      "case": "duplicate_input_or_receipt",
+      "expected_state": "SAME_LOGICAL_IDENTITY",
+      "retry": "NO_DUPLICATE_EFFECT",
+      "unknown_policy": "VERIFY_CONFLICT_IF_MISMATCH",
+      "user_visible": "Dedup/correlation metadata",
+      "effect_allowed": "Original effect only",
+      "rollback": "Keep original history",
+      "evidence_suite": "tests/continuous_runtime/test_storage_runtime.py"
+    },
+    {
+      "case": "grant_revoked",
+      "expected_state": "ACTION_BLOCKED",
+      "retry": "NO_AUTO_REAUTHORIZATION",
+      "unknown_policy": "ORIGINAL_WISH_RETAINED",
+      "user_visible": "Execution blocker distinct from C",
+      "effect_allowed": "DENY",
+      "rollback": "New grant only through controller",
+      "evidence_suite": "tests/controlled_hands/test_application.py"
+    },
+    {
+      "case": "budget_exhausted",
+      "expected_state": "BUDGET_DENIED",
+      "retry": "NONE",
+      "unknown_policy": "UNKNOWN_RESERVATION_RETAINED",
+      "user_visible": "Additional ceiling",
+      "effect_allowed": "DENY",
+      "rollback": "Fresh explicit authorization",
+      "evidence_suite": "tests/cloud_life/test_provider_budget.py"
+    },
+    {
+      "case": "skill_invalidated",
+      "expected_state": "RETIRED_OR_UNSUPPORTED",
+      "retry": "NO_AUTO_REACTIVATION",
+      "unknown_policy": "NO_NEW_EFFECT",
+      "user_visible": "Source/digest/realm missing",
+      "effect_allowed": "DENY",
+      "rollback": "Exact source tests and review",
+      "evidence_suite": "tests/open_autonomy/test_code_skills.py"
+    },
+    {
+      "case": "negative_transfer",
+      "expected_state": "SUSPENDED",
+      "retry": "NO_FORCED_LEARNING",
+      "unknown_policy": "COUNTEREVIDENCE_RETAINED",
+      "user_visible": "Method suspension",
+      "effect_allowed": "Ordinary gates remain",
+      "rollback": "Bounded requalification",
+      "evidence_suite": "tests/open_autonomy/test_learning.py"
+    },
+    {
+      "case": "queue_overload",
+      "expected_state": "BOUNDED_ADMISSION_OR_DEFER",
+      "retry": "NO_RETRY_STORM",
+      "unknown_policy": "NO_DUPLICATE_INTENTION",
+      "user_visible": "Backpressure",
+      "effect_allowed": "No forced action",
+      "rollback": "Existing safe-point scheduler",
+      "evidence_suite": "tests/continuous_runtime/test_storage_runtime.py"
+    },
+    {
+      "case": "ipc_unavailable_or_dribble",
+      "expected_state": "FINITE_TIMEOUT",
+      "retry": "NO_BLIND_RETRY",
+      "unknown_policy": "VERIFY_IF_DISPATCHED",
+      "user_visible": "Known unavailable vs ambiguous",
+      "effect_allowed": "No claimed success",
+      "rollback": "Reconcile independent effect",
+      "evidence_suite": "tests/first_life_hardening/test_boundaries.py"
+    },
+    {
+      "case": "inspector_unavailable",
+      "expected_state": "UNKNOWN_FAIL_CLOSED",
+      "retry": "READ_ONLY_RETRY_OK",
+      "unknown_policy": "NO_SUBJECT_MUTATION",
+      "user_visible": "Explicit diagnostic",
+      "effect_allowed": "Inspector has no effect API",
+      "rollback": "Repair host condition; never fake state",
+      "evidence_suite": "tests/first_life_hardening/test_inspector.py"
+    },
+    {
+      "case": "backup_stale",
+      "expected_state": "QUARANTINED_REVIEW_COPY",
+      "retry": "NO_AUTO_ACTIVATION",
+      "unknown_policy": "PENDING_EFFECTS_PRESERVED",
+      "user_visible": "Digest/lineage check",
+      "effect_allowed": "NO_OLD_EXECUTION_AUTHORITY",
+      "rollback": "Trusted fresh-host protocol",
+      "evidence_suite": "tests/cloud_life/test_operations.py"
+    },
+    {
+      "case": "restore_conflict",
+      "expected_state": "LINEAGE_OR_OWNER_DENIED",
+      "retry": "NONE",
+      "unknown_policy": "UNKNOWN_PRESERVED",
+      "user_visible": "No silent overwrite",
+      "effect_allowed": "DENY",
+      "rollback": "Stop conflicting copy; reviewed recovery",
+      "evidence_suite": "tests/portable_subject/test_package.py"
+    },
+    {
+      "case": "guard_special_file",
+      "expected_state": "INVALID_FAIL_CLOSED",
+      "retry": "NONE",
+      "unknown_policy": "NO_STATE_RESET",
+      "user_visible": "Guard unavailable",
+      "effect_allowed": "Stop startup",
+      "rollback": "Controller replaces invalid dev binding",
+      "evidence_suite": "tests/first_life_hardening/test_boundaries.py"
+    }
+  ],
+  "not_newly_injected": [
+    "Host power-loss/persistent hardware fault",
+    "Physical DB corruption recovery",
+    "Readonly filesystem remount",
+    "Production restart",
+    "Remote provider failures"
+  ],
+  "new_actual_injections": [
+    "FIFO guard",
+    "ENOSPC replace",
+    "SIGKILL before atomic replace",
+    "SIGKILL after replace",
+    "Malformed owned IPC",
+    "Pending privacy journal"
+  ]
+}

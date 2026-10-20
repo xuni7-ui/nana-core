@@ -1,0 +1,104 @@
+{
+  "mission": "PARALLEL_HARDENING_AND_FIRST_LIFE_READINESS_V1",
+  "base_head": "14e66be0b9562207997d76a68734ddba9ba89235",
+  "target_branch": "dev/nana-core-cloud-first-life-launch-v1-codex",
+  "isolation_branch": "dev/nana-core-first-life-hardening-v1-codex",
+  "global_stage": "H",
+  "status": "HARDENING_OFFLINE_PREPARED_S4_PENDING",
+  "termination_condition": "D: high-value hardening + Inspector + runbook + failure matrix + regression preparation completed; no unbounded cleanup",
+  "schema_version": 13,
+  "business_tables": 43,
+  "new_tables": 0,
+  "new_dependencies": 0,
+  "confirmed_p0_findings": 0,
+  "p1_fixed": 2,
+  "p2_fixed_or_closed": 2,
+  "inspector": "IMPLEMENTED_TESTED_READ_ONLY_METADATA",
+  "private_intent": "DESIGN_ONLY_DISABLED_NOT_IMPLEMENTED",
+  "first_life_runbook": "PREPARED_NOT_EXECUTED",
+  "failure_matrix_cases": 21,
+  "regression": {
+    "focused": {
+      "tests": 15,
+      "passed": 15,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 1.272
+    },
+    "p1": {
+      "tests": 26,
+      "passed": 26,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 19.748
+    },
+    "related": {
+      "tests": 37,
+      "passed": 37,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 40.78
+    },
+    "fast": {
+      "tests": 61,
+      "passed": 61,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0,
+      "seconds": 42.651
+    },
+    "full": {
+      "tests": 1351,
+      "passed": 1339,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 12,
+      "seconds": 323.487
+    },
+    "focused_new": {
+      "passed": 16,
+      "failures": 0,
+      "scope": "All new cases included in FAST and final FULL; original focused checkpoint15 predates extra seeded-roundtrip case"
+    },
+    "commands": {
+      "FAST": "PYTHONPATH=src python -m tools.nana_first_life_hardening.regression fast",
+      "FULL": "PYTHONPATH=src python -m tools.nana_first_life_hardening.regression full"
+    },
+    "warnings": {
+      "count": 5,
+      "cause": "Existing record_property with default xunit2 report format, not application failures",
+      "future_runner": "JUnit option now requests xunit1, artifact-format-only change after full; not rerun full for formatting"
+    },
+    "full_skips": {
+      "live_screen": 11,
+      "E12": 1
+    },
+    "full_source_note": "No business code changes after final full run. Only runner JUnit format and metadata/documents finalized afterward."
+  },
+  "staging_elapsed_seconds": 48481.066541979,
+  "staging_state": "RUNNING_NOT_QUALIFIED",
+  "s4_c06": "UNKNOWN_AUDIT_REQUIRED",
+  "staging_modified": false,
+  "foundation_criteria_changed": false,
+  "master_framework_changed": false,
+  "matrix_status_changed": false,
+  "new_paid_provider_calls": 0,
+  "production_changed": false,
+  "main_changed": false,
+  "r045_changed": false,
+  "private_data_accessed": false,
+  "real_social_sends": 0,
+  "real_device_control": false,
+  "human_review": "NOT_RUN",
+  "s1_to_s9_foundation_qualified": false,
+  "foundation_closure_complete": false,
+  "ready_for_first_life_integration_qualification": false,
+  "first_life_experience_ready": "NOT_READY",
+  "cloud_beta": "NOT_READY",
+  "historical_s5": "PRESERVED_QUALIFIED_ONE_NEW_CALL_UNDER_PRIOR_MISSION",
+  "historical_tiantoken_unknown": "PARKED_UNTOUCHED",
+  "old_bundle": "UNREAD_UNTRACKED_UNTOUCHED"
+}

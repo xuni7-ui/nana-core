@@ -8,6 +8,7 @@ import argparse,json,os,selectors,socket,stat,struct,signal,tempfile,time
 from pathlib import Path
 from .contracts import ApplicationTask,OwnedTarget,HandsEffectContext,private_directory,process_start
 from ...storage import canonical,digest
+from .framing import receive_object
 
 def atomic(path,data,directory):
     # Writes remain beneath the original owned directory inode even if its
@@ -53,13 +54,8 @@ def serve(workspace,tasks):
                     try:
                         pid,uid,gid=struct.unpack('3i',conn.getsockopt(socket.SOL_SOCKET,socket.SO_PEERCRED,12))
                         if uid!=profile.uid:raise ValueError('peer owner')
-                        raw=b''
-                        while b'\n' not in raw and len(raw)<=16384:
-                            part=conn.recv(4096)
-                            if not part:break
-                            raw+=part
-                        if len(raw)>16384:raise ValueError('bound')
-                        request=json.loads(raw);task_id=request['task_id'];task=by_id[task_id]
+                        request=receive_object(conn,limit=16384,seconds=1)
+                        task_id=request['task_id'];task=by_id[task_id]
                         if request['binding']!=profile.binding:raise ValueError('binding')
                         if key.data=='query':
                             if set(request)-{'binding','task_id','effect_id'}:raise ValueError('read-only channel')

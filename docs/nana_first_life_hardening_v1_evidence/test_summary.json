@@ -1,0 +1,61 @@
+{
+  "focused": {
+    "tests": 15,
+    "passed": 15,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 1.272
+  },
+  "p1": {
+    "tests": 26,
+    "passed": 26,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 19.748
+  },
+  "related": {
+    "tests": 37,
+    "passed": 37,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 40.78
+  },
+  "fast": {
+    "tests": 61,
+    "passed": 61,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 42.651
+  },
+  "full": {
+    "tests": 1351,
+    "passed": 1339,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 12,
+    "seconds": 323.487
+  },
+  "focused_new": {
+    "passed": 16,
+    "failures": 0,
+    "scope": "All new cases included in FAST and final FULL; original focused checkpoint15 predates extra seeded-roundtrip case"
+  },
+  "commands": {
+    "FAST": "PYTHONPATH=src python -m tools.nana_first_life_hardening.regression fast",
+    "FULL": "PYTHONPATH=src python -m tools.nana_first_life_hardening.regression full"
+  },
+  "warnings": {
+    "count": 5,
+    "cause": "Existing record_property with default xunit2 report format, not application failures",
+    "future_runner": "JUnit option now requests xunit1, artifact-format-only change after full; not rerun full for formatting"
+  },
+  "full_skips": {
+    "live_screen": 11,
+    "E12": 1
+  },
+  "full_source_note": "No business code changes after final full run. Only runner JUnit format and metadata/documents finalized afterward."
+}

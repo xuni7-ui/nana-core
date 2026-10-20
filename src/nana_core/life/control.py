@@ -90,7 +90,7 @@ class ControlServer:
                 req=json.loads(raw,object_pairs_hook=_json_object)
                 result=dispatch(self.app,req)
                 response={'ok':True,'result':result}
-            except (CoreError,ValueError,OSError,TypeError,KeyError) as exc:
+            except (CoreError,ValueError,OSError,TypeError,KeyError,RecursionError) as exc:
                 response={'ok':False,'code':exc.code if isinstance(exc,CoreError) else 'CLOUD_REQUEST_REJECTED'}
             try:conn.sendall((json.dumps(response,ensure_ascii=False)+'\n').encode())
             except OSError:pass # lost response never authorizes replay
@@ -132,4 +132,4 @@ def request(home,data,timeout=None):
         except OSError:raise CoreError('CLOUD_COMPLETION_UNKNOWN_NO_RETRY') from None
     if len(reply)>262144:raise CoreError('CLOUD_RESPONSE_BOUND')
     try:return json.loads(reply,object_pairs_hook=_json_object)
-    except ValueError:raise CoreError('CLOUD_RESPONSE_UNKNOWN_NO_RETRY') from None
+    except (ValueError,RecursionError):raise CoreError('CLOUD_RESPONSE_UNKNOWN_NO_RETRY') from None

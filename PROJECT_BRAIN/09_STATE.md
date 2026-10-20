@@ -7,18 +7,19 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 7,
-  "as_of_us": 1792519631401067,
+  "revision": 8,
+  "as_of_us": 1792521465573799,
   "stage": "H",
   "workstream": "FOUNDATION_CLOSURE_MISSION_V1",
-  "status": "PARTIAL_S4_ACTUAL_24H_RESULT_PENDING",
+  "status": "PARTIAL_S4_PENDING_PARALLEL_HARDENING_PREPARED",
   "progress": [
     "已从远端与本地一致edda7d08继续；Master逐字保留、63条criteria定义/ID/分母不变。",
     "S3-C09已实际owned失败/Experience→需要OPEN→独立复用SETTLED→SIGKILL/重启自主再选择，反例/撤回改变支持；不是人工偏好注入。",
     "S6-C07已区分投递/认知处理边界，并完成有源前提检验→问题重定义→原Goal/Plan/核验及无Grant阻断。",
     "已修复共享训练来源删除后重启重新capture的恢复缺陷：保留墓碑、退役绑定，不复活技能。",
     "S1/S2/S3/S5/S6/S7/S8/S9 FOUNDATION_QUALIFIED；S4仍TESTED，S10 Partial/深改不启动。",
-    "S5-C06同一原Subject新授权1次DeepSeek PROJECT实测HTTP200/2.565秒；strict语义→World/Concern→C EXPLORE；实际source撤回→UNKNOWN/NO_ACTION。累计20次/保守预留$1，billing UNKNOWN，retry0/fallback0。"
+    "S5-C06同一原Subject新授权1次DeepSeek PROJECT实测HTTP200/2.565秒；strict语义→World/Concern→C EXPLORE；实际source撤回→UNKNOWN/NO_ACTION。累计20次/保守预留$1，billing UNKNOWN，retry0/fallback0。",
+    "旁路PARALLEL_HARDENING V1：已修复特殊文件阻塞和IPC总deadline；只读Inspector、2 SIGKILL cut、ENOSPC与来源撤回反例通过。FAST61/全仓1339pass+12skip；新付费0，First-Life不启动。"
   ],
   "open_gates": [
     "S4-C06原固定645899b run实际final result未产生；只读观察不重启、不污染、不推算24h PASS。",
@@ -28,11 +29,11 @@
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
     "docs/nana_foundation_closure_v1_implementation.md",
-    "docs/nana_foundation_closure_v1_evidence/experience_need.json",
-    "docs/nana_foundation_closure_v1_evidence/problem_framing.json",
-    "docs/nana_foundation_closure_v1_evidence/staging_authorization_observation.json",
-    "docs/nana_foundation_closure_v1_evidence/s5_authorization_binding.json",
-    "docs/nana_foundation_closure_v1_evidence/semantic_chain_live.json"
+    "docs/nana_foundation_closure_v1_evidence/semantic_chain_live.json",
+    "docs/nana_foundation_closure_v1_evidence/staging_live_followup_observation.json",
+    "docs/nana_first_life_hardening_v1_implementation.md",
+    "docs/nana_first_life_hardening_v1_evidence/qualification.json",
+    "docs/nana_first_life_hardening_v1_evidence/test_summary.json"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2044,3 +2045,18 @@ S1_TO_S9_FOUNDATION_QUALIFIED=NO；FOUNDATION_CLOSURE_COMPLETE=NO；READY_FOR_FI
 S4待结果的后续条件任务已成功建立（最多18次小时检查）；只读原run，final合格后才收口，不保证未来会话仍挂载原workspace。不可访问时必须报告阻塞。
 
 S5 live followup manifest SHA256: `270c5c539fbefbb63091b9948a6478934263ea078532023b77809ee5568c9735` (manifest excludes this state anchor and itself).
+
+## PARALLEL HARDENING / FIRST-LIFE READINESS V1 — current side-work
+
+[已实现/已测试/owned dev process，2026-10-21任务，UTC实测2026-10-20] 继承14e66be，同一Foundation Closure主线旁路加固；隔离worktree/dev homes，不重做已资格S3/S5/S6、不开始First-Life。
+TYPE B：已复现FIFO storage guard启动卡住；storage/privacy打开FD后regular+NOFOLLOW/NONBLOCK+bounded读取。owned IPC使用单调时钟总frame deadline、拒绝重复JSON key/不完整帧/错误envelope，原PID/UID/inode/Grant/Manager/Verify不变。深嵌套JSON未复现crash，明确仅防御性异常处理，不虚报P1。
+TYPE A：新增独立只读Inspector DTO/CLI，mode=ro/query_only/有界读取，复用既有need/appetite/relationship投影。只输出PUBLIC/PROJECT metadata/WHAT-WHY codes/source refs，不输出purpose/模型文本/治理正文/secret；pending privacy journal fail closed，不修复或初始化Store。SHM read mark为SQLite临时协调状态，不声称逐字节完全无读标记。
+实际2个SIGKILL atomic cut + ENOSPC replace + malformed owned IPC + delete/pending-journal + seeded frame cases；新focused16（纳入FAST61），相关37、组合26通过；最终显式tests/全仓1339 passed /0 failed /12 skipped，323.52s。5个现有JUnit格式warning保留；后续runner仅将报告格式设xunit1，未改业务语义。
+准备只读preflight、First-Life启停/恢复/备份/回滚runbook、21项Failure Matrix、domain→suite映射与验收清单；Private Intent仅设计/disabled，无新C语义或第二脑。pip check通过，CVE联网扫描NOT_RUN。
+原固定645899b staging只读仍RUNNING_NOT_QUALIFIED，无actual final；不重启/写入/推算24h PASS。Master/Matrix固定63条及状态均不变，S4-C06仍唯一S1–S9基础资格门。Foundation/Integration readiness均NO，human NOT_RUN、First-Life/Beta NOT_READY。
+本任务新付费0、private/social/device/production/main/R045改动0；schema13/43表/新依赖0。历史DeepSeek/S5与TianToken UNKNOWN保留；旧bundle不读不动。
+详见docs/nana_first_life_hardening_v1_implementation.md及同名evidence目录。加固不构成生产或真人评审许可。
+
+Rolling closure manifest after side-work metadata: `8113a0360cb7e95290bd48444abf15e1502a2a65345b306eb451389927df3858`; historical live qualification source remains14e66be-parent evidence, no new live claim.
+
+Parallel hardening manifest SHA256: `1c101871e908aac75704868195e7b97393d1797c2ce0c77fe3a53e4ca0023a77` (self and09 anchor excluded).

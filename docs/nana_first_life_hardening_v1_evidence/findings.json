@@ -1,0 +1,49 @@
+{
+  "p0_confirmed": [],
+  "p1": [
+    {
+      "id": "H01",
+      "type": "B",
+      "finding": "Special file can block storage guard startup; same regular-file discipline missing in privacy loader",
+      "evidence": "storage_before.json",
+      "fix": "O_NOFOLLOW/O_NONBLOCK, fstat regular file and bounded read",
+      "status": "FIXED_TESTED"
+    },
+    {
+      "id": "H02",
+      "type": "B",
+      "finding": "Per-recv IPC timeout admits unbounded dribble extension of a bounded logical exchange",
+      "basis": "SOURCE_INSPECTION_AND_DETERMINISTIC_DEADLINE_COUNTEREXAMPLE",
+      "fix": "Total monotonic frame deadline on server/client",
+      "status": "FIXED_TESTED"
+    }
+  ],
+  "p2": [
+    {
+      "id": "H03",
+      "type": "B",
+      "finding": "Ambiguous duplicate keys/EOF and malformed response envelope not strictly framed",
+      "fix": "Single complete JSON object frame, duplicate rejection and exact success envelope",
+      "status": "FIXED_TESTED"
+    },
+    {
+      "id": "H04",
+      "type": "A",
+      "finding": "No independent finite metadata-only Inspector; initializing application can mutate state",
+      "fix": "Standalone mode=ro read adapter reusing original needs/relationship/appetite projectors",
+      "status": "IMPLEMENTED_TESTED"
+    }
+  ],
+  "defensive_not_confirmed_vulnerability": [
+    {
+      "case": "Nested JSON process exit",
+      "probe": "ALIVE in this environment; do not classify as reproduced crash",
+      "action": "Explicit RecursionError containment for implementations that can raise; no source/content echoed"
+    }
+  ],
+  "deferred": [
+    "General adversarial same-UID host compromise is outside owned-private-socket trust model",
+    "Open-world sandbox/device/provider security not qualified by this task",
+    "Pip consistency is not a remote vulnerability database audit"
+  ]
+}
