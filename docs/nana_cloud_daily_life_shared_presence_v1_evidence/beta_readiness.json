@@ -1,16 +1,16 @@
 {
-  "status": "DEVELOPMENT_QUALIFICATION_IN_PROGRESS_NOT_BETA",
+  "status": "TECHNICAL_DEV_PROCESS_QUALIFIED_BETA_NOT_READY",
   "first_life_experience_ready": "NOT_READY",
   "cloud_daily_life_beta_candidate": "NOT_READY",
   "cloud_daily_life_beta_ready": false,
   "hard_missing": [
     "REAL_TEXT_PROVIDER_QUALIFICATION",
     "USER_NATURALNESS_SHARED_LIFE_REVIEW",
-    "COMPLETED_RESOURCE_RESIDENCY",
     "24H_STAGING_QUALIFICATION"
   ],
   "production_canary": "NOT_AUTHORIZED_NOT_RUN",
   "72h": "NOT_RUN",
   "real_social_sends": 0,
-  "private_data_used": false
+  "private_data_used": false,
+  "completed_resource_residency": "7205.177143084002s_ACTUAL_OWNED_DEV"
 }

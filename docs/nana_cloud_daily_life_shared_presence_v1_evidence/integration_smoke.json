@@ -1,6 +1,6 @@
 {
   "status": "ACTUAL_SHORT_PROCESS_INTEGRATION_NOT_TWO_HOURS",
-  "source_head": "c464f17",
+  "source_head": "c464f1783819678e6eea750d6b6a0a3ef4e64ecd",
   "precise_source_hashes": "Collected by original run; pre-final-freeze smoke only",
   "measured_seconds": 90.25205007800105,
   "adopted_or_revised_goals": 12,
@@ -23,5 +23,14 @@
     "cause": "Completed REFLECTION retained pending slots and deferred final owned task",
     "repair": "Original C source-backed reflection settlement plus idempotent D follow-up",
     "not_nana_learning": true
-  }
+  },
+  "selected_source_unchanged": true,
+  "actual_sigkill_restart_details": {
+    "same_identity": true,
+    "old_epoch": 2,
+    "new_epoch": 3,
+    "no_new_grant": true,
+    "no_action_replay": true
+  },
+  "backup_delete_propagation": true
 }

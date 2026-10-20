@@ -198,3 +198,29 @@ The recommended next gate is a separately authorized fresh provider qualificatio
 using an explicit safe credential source and bounded budget, followed by the user's
 own dialogue/shared-life review. Production cutover has its own prepared plan and
 requires a final explicit approval; it is not implied by this development work.
+
+## Final measured results
+
+Final Core executable is fc0fa46506a360a81a10e14f9d967a734d338141; all203
+captured Core/residency-driver Python files remain byte-identical during actual
+7205.177143084002s residency. Peak RSS49988KiB,1 thread,11 FD peak/8 steady;
+postrestart idle CPU observed0.525% of one core. Queue peak2/final0, pending peak5/final4.
+The whole self.db* family grows688331→13382261 bytes, including startup work,
+WAL and privacy sidecars; after approximately651s growth is1967568 bytes.
+This is measured bounded developer residency, not a production-scale benchmark.
+
+Actual SIGKILL changes epoch2→3 without changing identity, Grant count or actions.
+Backup reflects source deletion. Original B8 retires the source and activates the
+fresh host with the same identity/history and every old Grant revoked. The final
+42 actions have independent physical success; task-quality failures remain explicit.
+Ten of12 goals complete; two counterexample goals remain FAILED and two learned
+methods SUSPENDED. Four new content/file tasks complete. Two qualified workflow
+uses occur before supporting source withdrawal invalidates further skill support.
+
+Focused20 passed16.40s. Related process/swap/platform/dialogue13 passed9.85s.
+Final full regression1268 passed,12 skipped,0 failed in298.46s; skips are11
+explicit live-screen tests and E12. No rerun is necessary after evidence-only edits.
+New real provider calls0; human review/24h staging/72h/production NOT_RUN.
+Technical independent work is qualified in the stated dev scope; the overall
+mission ends PARTIAL at external qualification gates. Cloud Daily-Life Beta
+Candidate, Beta Ready and FirstLife remain NOT_READY.

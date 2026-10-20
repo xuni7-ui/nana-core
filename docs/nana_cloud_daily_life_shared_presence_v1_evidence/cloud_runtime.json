@@ -13,5 +13,13 @@
   "disk_guard": "TESTED",
   "log_rotation": "TESTED_TWO_BOUNDED_FILES",
   "resource_limits": "EXISTING_AFFINITY_RLIMIT_AS_PLUS_D_BUDGET",
-  "long_residency": "RUNNING_SEPARATE_EVIDENCE"
+  "long_residency": "PASS_GE_TWO_HOURS_ACTUAL",
+  "peak_rss_kib": 49988,
+  "cli_daily_life_init": {
+    "state": "INITIALIZED",
+    "surface_bindings": 3,
+    "timezone": "Asia/Shanghai",
+    "default_grant": false,
+    "offline_readiness": false
+  }
 }

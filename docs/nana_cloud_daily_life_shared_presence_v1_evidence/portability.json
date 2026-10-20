@@ -1,0 +1,114 @@
+{
+  "level": "PROCESS_QUALIFIED_CONTROLLED_B8_TRANSFER",
+  "source_head": "fc0fa46506a360a81a10e14f9d967a734d338141",
+  "package_manifest": {
+    "format": "SUBJECT_PACKAGE_V1",
+    "operation": "OFFLINE_TRANSFER_NOT_FORK",
+    "domain": "SYNTHETIC_ONLY",
+    "transfer_id": "eb6b94a2-e725-4857-a539-069e7e209504",
+    "destination_id": "b5ffd09f-b6d6-45bd-9213-613ea44ababc",
+    "identity_id": "45b894f6-b969-4f62-9f3b-17116bc7492c",
+    "identity_revision": 1,
+    "source_commit": "fc0fa46506a360a81a10e14f9d967a734d338141",
+    "source_schema": 13,
+    "export_event_cutoff": 2498,
+    "exported_at_us": 1792454334962640,
+    "epoch_floor": 3,
+    "schema_digest": "3f0fe363cc7989bd86b5fb665a2e9d0d0cc13d7b049682f618d94e73bf91ca38",
+    "files": {
+      "subject.sqlite": "7e570703c679d164d45ed02abd7e18aeee7816b3e041e10aa596e65bb7488ecd",
+      "privacy.json": "cf1ba0f359b2bea831d244c91eacfdd685a7028756feb0dbf1c951da69b2b884"
+    },
+    "pending_effects": false,
+    "excluded": [
+      "credentials",
+      "provider_instances",
+      "embedding_cache",
+      "runtime_lease",
+      "runtime_health",
+      "machine_paths",
+      "external_execution_authority"
+    ]
+  },
+  "package_sha256": "228c3479be15df83bb7bc4dce14a67b06815b793897394e5e6db4ce3ec654c11",
+  "received": {
+    "identity_id": "45b894f6-b969-4f62-9f3b-17116bc7492c",
+    "state": "ACTIVATED_NO_EXECUTION_GRANTS",
+    "provider_config_transferred": false,
+    "host_settings": "EXPLICIT_DESTINATION_ONLY"
+  },
+  "restored_subject": {
+    "identity_id": "45b894f6-b969-4f62-9f3b-17116bc7492c",
+    "grants_all_revoked": true,
+    "same_history": true,
+    "host_profiles_separately_supplied": true,
+    "provider_configuration_transferred": false
+  },
+  "restored_recent_continuity": {
+    "derived": true,
+    "tier": "L1_RECENT",
+    "subject_id": "45b894f6-b969-4f62-9f3b-17116bc7492c",
+    "entity_id": "project-user",
+    "as_of_us": 1792454335596085,
+    "state_token": "3dcaf6b09fb4eb74a03e99b2ca5efb727ecf099b4d40ea894f5d00652c4650ab",
+    "source_event_ids": [
+      "fc39b44c-b5b2-4db9-8151-73b2f85c9c22",
+      "f3e55f4c-7d1c-4ad0-9f8e-25e5bf03d85b"
+    ],
+    "source_record_ids": [
+      "b3eaebaa-4f50-4532-9279-1abfe1e09c1b",
+      "d85b8ee7-a70a-4258-90a7-b988e62c06b6",
+      "c94974ec-6fef-4967-adef-f81c46a4631e",
+      "3562e60f-8f83-446c-8d8f-8f8f63ea10a7"
+    ],
+    "source_memory_ids": [
+      "2c0e0f63-c487-4468-8aec-d3aa421ea1cc",
+      "082dd212-52f6-4b00-a5a9-9742cd7e0c73",
+      "8627baff-b3ff-4f68-a65d-8d2ca9645338",
+      "f2e592ab-1103-480f-a80c-a78f191a1e3d",
+      "2f0b4078-da24-427a-a9b1-199d70d196c8",
+      "4b2ec606-281c-432b-ac95-46721f70ebd0",
+      "ba536122-f0df-420a-b5ad-a60e7fc22c24",
+      "44573873-e980-438c-a248-579ee33427af",
+      "6076676c-9081-49d4-a64e-1349c9146f9e",
+      "0369b923-1692-4427-944c-8b7c51e3b7f9",
+      "ff94ec66-8ba5-4dfd-883a-6f6a99d8b2aa",
+      "8651d70e-3ed6-4830-b668-b195a849b7cd",
+      "5d2a979c-c864-40af-9a6c-15cb51e10c1f",
+      "cbd13c08-0a02-4cd6-bc52-ded9fa59b653",
+      "a98fc016-356b-4dd5-a191-57e39dcd9aa8",
+      "e82cb5e3-bae1-4eb5-9032-fcfff27c4a9d"
+    ],
+    "commitment_ids": [],
+    "project_ids": [],
+    "intention_ids": [
+      "a0810657-73ce-4a9e-b801-da4a1d500ec6",
+      "e10c4f6d-6df7-4915-8217-fa752f631db7"
+    ],
+    "goal_candidate_ids": [],
+    "latest_cycle_record_ids": [
+      "ba8475df-016a-4ee4-9844-4e7c1ea338bd",
+      "89c5f012-d0ce-47f7-977c-429f7b4032d8"
+    ],
+    "adopted_goal_ids": [
+      "2ce6e65b-c1bc-452c-a86a-a516a92365f1",
+      "2272c716-ace8-4050-801a-e6608b50c892",
+      "f5236f29-2c64-41b4-8b1c-27bf38fba667",
+      "0e451bf6-9aef-44d3-96f5-50cc94cba237"
+    ],
+    "learning_work_ids": [
+      "7d550269-3074-43a4-ab91-882a4a82cc42",
+      "a24b4565-b006-4f61-87a2-fc5af77da94c"
+    ],
+    "skill_record_ids": [],
+    "surfaces": [],
+    "recorded_at_us": [],
+    "coverage": "BOUNDED_PROJECTION_NOT_FULL_HISTORY"
+  },
+  "source_retired": true,
+  "secrets_transferred": false,
+  "host_config_transferred": false,
+  "old_grants_revoked": true,
+  "stale_backup_promotion": "NOT_ALLOWED_WITHOUT_FENCING",
+  "distributed_multi_host_lease": "NOT_QUALIFIED"
+}

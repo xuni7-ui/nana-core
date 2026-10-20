@@ -1,0 +1,199 @@
+{
+  "level": "ORIGINAL_G_REAL_EFFECT_AND_OUTCOME_REUSE",
+  "developer_edits_are_learning": false,
+  "source_frozen": true,
+  "before_after_outcomes": [
+    {
+      "action_id": "928bbb3b-df19-4edb-80c5-7d74050f2396",
+      "cursor": 2,
+      "experience_id": "0066d3c0-ff44-463d-9fd7-ed0329eff608",
+      "goal_id": "0e451bf6-9aef-44d3-96f5-50cc94cba237",
+      "memory_id": "0369b923-1692-4427-944c-8b7c51e3b7f9",
+      "operator_id": "apply",
+      "plan_record_id": "49e7ac47-746d-4120-a395-fadb232b05b3",
+      "quality": false,
+      "work_id": "ad561e74-3510-4889-95ea-466f234651c8"
+    },
+    {
+      "action_id": "02f23a3e-2dc6-4d38-9470-c197f2ca7356",
+      "cursor": 2,
+      "experience_id": "825b753d-43b9-4c6b-b6f3-459e6c8e6567",
+      "goal_id": "0e451bf6-9aef-44d3-96f5-50cc94cba237",
+      "memory_id": "e82cb5e3-bae1-4eb5-9032-fcfff27c4a9d",
+      "operator_id": "apply",
+      "plan_record_id": "4515ac74-e8ea-4dc5-84a8-20967cf0d777",
+      "quality": true,
+      "work_id": "ad561e74-3510-4889-95ea-466f234651c8"
+    },
+    {
+      "action_id": "a3b8fb23-a553-4f5a-b9dc-5b44f065323c",
+      "cursor": 2,
+      "experience_id": "3ff6de54-296e-4865-9eb8-79987756c9c2",
+      "goal_id": "f5236f29-2c64-41b4-8b1c-27bf38fba667",
+      "memory_id": "0bf7d735-9acd-4153-a12f-5ad58856deea",
+      "operator_id": "apply",
+      "plan_record_id": "a037fb27-190a-4146-b51f-d29009ef6997",
+      "quality": true,
+      "work_id": "1ee4bb41-76cd-48ea-84b0-94efabc26316"
+    },
+    {
+      "action_id": "2ea0677f-40b6-4b08-9f23-e806698befa4",
+      "cursor": 2,
+      "experience_id": "8271020d-8d21-4335-b1d8-58e943f35313",
+      "goal_id": "2272c716-ace8-4050-801a-e6608b50c892",
+      "memory_id": "c93290df-c1a1-45f9-a16f-18623bd353e4",
+      "operator_id": "apply",
+      "plan_record_id": "97a14f48-0f78-499e-9717-68364a1a98ec",
+      "quality": false,
+      "work_id": "d5ed3209-d212-4bcc-a0db-c58a40f4fc6b"
+    },
+    {
+      "action_id": "a1471202-79be-4938-8bd5-ece156810bcf",
+      "cursor": 2,
+      "experience_id": "3bb21eb7-0979-4de6-9b8e-8bf8fdf7a560",
+      "goal_id": "2272c716-ace8-4050-801a-e6608b50c892",
+      "memory_id": "1b28b365-ea3a-4d6c-a9b7-49f0e221a78f",
+      "operator_id": "apply",
+      "plan_record_id": "58007705-9469-4f3a-bbf8-69d11cf24667",
+      "quality": true,
+      "work_id": "d5ed3209-d212-4bcc-a0db-c58a40f4fc6b"
+    },
+    {
+      "action_id": "7f91e692-7473-470f-a363-b61dbbc221fd",
+      "cursor": 2,
+      "experience_id": "a2a577cb-c67a-46ee-96a2-9eb6d37b031b",
+      "goal_id": "2ce6e65b-c1bc-452c-a86a-a516a92365f1",
+      "memory_id": "6ac7f9eb-ebe0-4564-94a9-e121af412a44",
+      "operator_id": "apply",
+      "plan_record_id": "d31b8eed-6ebc-4271-8ff3-5a0688df0b6d",
+      "quality": true,
+      "work_id": "22139378-1d03-4d09-beb7-59e501973a46"
+    },
+    {
+      "action_id": "efefae90-f641-4c4a-a63f-df5b2916aaf7",
+      "cursor": 2,
+      "experience_id": "452c9cfd-bee0-4e36-a8ca-f9c22bad3e6a",
+      "goal_id": "615d281c-62f4-44ae-8da3-611c5d8825b3",
+      "memory_id": "1b0e221d-9e60-4601-af11-efe785fcf389",
+      "operator_id": "apply",
+      "plan_record_id": "0cce4dc3-278a-44ce-8551-87b19202fc60",
+      "quality": false,
+      "work_id": "48ce59c0-4043-44dd-8361-335bb6c419de"
+    },
+    {
+      "action_id": "9096f1b0-8783-4853-b16a-55202ead288c",
+      "cursor": 2,
+      "experience_id": "60667de5-0329-4c7c-80f0-2d18926dd304",
+      "goal_id": "5c7c7a6a-c697-4e76-afd6-677183d98632",
+      "memory_id": "5d4959d2-9864-408a-ac01-5c03ca49ae8f",
+      "operator_id": "apply",
+      "plan_record_id": "bc525876-ded8-4586-bc40-d8bd4cbde32d",
+      "quality": true,
+      "work_id": "ba92d94d-2111-46b2-9a86-7f77b0c039c2"
+    },
+    {
+      "action_id": "e7914d0f-5f69-4898-aaad-b995a7739cb9",
+      "cursor": 2,
+      "experience_id": "970170c8-270c-4c21-9d70-28e0b9498d91",
+      "goal_id": "71104980-4bd3-4b36-963c-9f7ce82eca4b",
+      "memory_id": "de6ac3f2-d795-4541-8a87-e8cf9bc12269",
+      "operator_id": "apply",
+      "plan_record_id": "4172b2b6-e1da-46bb-bb54-3a5585e79aea",
+      "quality": true,
+      "work_id": "a3d31bdf-b20d-4af5-b293-7060f061efa3"
+    },
+    {
+      "action_id": "095693d8-bf75-4d20-9795-989e38e84919",
+      "cursor": 2,
+      "experience_id": "eaeb074d-d380-41de-81be-b344e65012b9",
+      "goal_id": "2e6ec698-477c-4b5d-bce0-fbfe2a97127f",
+      "memory_id": "06352dc9-6565-4ae2-9cd8-89a979a64d06",
+      "operator_id": "apply",
+      "plan_record_id": "67cd6a78-330c-4621-bc62-53d4691ab044",
+      "quality": false,
+      "work_id": "977e2e33-03cf-4289-9f8d-d4a1364d05ac"
+    },
+    {
+      "action_id": "99f172d8-d874-4728-81a5-bb086770f7f6",
+      "cursor": 2,
+      "experience_id": "cd8bfba7-fbd6-4a1a-8cf5-6cd191c811ac",
+      "goal_id": "cc662cb5-d07a-4a98-a272-2e53060aa5c6",
+      "memory_id": "0318f181-31b3-4036-8e2b-182eca62573d",
+      "operator_id": "apply",
+      "plan_record_id": "59280f70-e5ad-4e96-b1db-0a5e7c94b084",
+      "quality": true,
+      "work_id": "809d92dd-0191-4256-a0f8-caa5535063bb"
+    },
+    {
+      "action_id": "fc74f637-7aff-4918-b3fe-386a3bdfac60",
+      "cursor": 2,
+      "experience_id": "37b81f81-58c1-4aa9-9cf4-a5ad1c4fcedb",
+      "goal_id": "12271f34-642b-4b70-8c82-11ca9b112fde",
+      "memory_id": "3080db57-f023-410e-9a7c-cbfed73f2f7f",
+      "operator_id": "apply",
+      "plan_record_id": "dbf515bc-36be-4883-8959-08e4eef99a95",
+      "quality": true,
+      "work_id": "46826cb1-0031-41d2-aeb7-7c1c8e869311"
+    },
+    {
+      "action_id": "a4effc7b-9b86-45f3-b3f2-a320c76dd5a1",
+      "cursor": 2,
+      "experience_id": "788b00f5-1b32-402a-88d0-1842254da5cb",
+      "goal_id": "a8e0cc37-3c42-4a8f-bbdf-6c5f95674f93",
+      "memory_id": "5b2b6d1d-84c7-41b8-a4e1-a556accfb431",
+      "operator_id": "apply",
+      "plan_record_id": "12ac57fb-1c1f-4819-854a-141d7611a1c8",
+      "quality": true,
+      "work_id": "d68354ea-7b10-4e58-aacc-256c9df7cb8d"
+    },
+    {
+      "action_id": "cd0000d3-6391-4a9a-a076-22f06d1ef437",
+      "cursor": 2,
+      "experience_id": "4f5ccb04-3d94-468e-a709-41685ff37fcf",
+      "goal_id": "754a96b8-ef48-45bd-a1f4-ecd80e874f28",
+      "memory_id": "f2430546-437e-4826-9660-bad6b95f7d52",
+      "operator_id": "apply",
+      "plan_record_id": "1419ccd5-1605-41ec-9f36-b161a468c84b",
+      "quality": true,
+      "work_id": "8c1551ff-0d2f-411b-9778-50c65cadf68a"
+    }
+  ],
+  "later_use_assessments": [
+    {
+      "lesson_id": "a1133f1e-93ef-4631-8afc-4f43737132c4",
+      "verdict": "SUCCESS",
+      "episode_key": "owned-c7a7f88c9b8a7df63d66003c363f618c990acef3"
+    },
+    {
+      "lesson_id": "a8059b78-08e3-4422-80ab-159c19f8c95d",
+      "verdict": "SUCCESS",
+      "episode_key": "owned-411ddc13b0d13943f51055225372a73ba1ac4dc2"
+    },
+    {
+      "lesson_id": "a8059b78-08e3-4422-80ab-159c19f8c95d",
+      "verdict": "COUNTEREXAMPLE",
+      "episode_key": "owned-555afc91d5db46c15adc6559efcc98c7ee3eaf4a"
+    },
+    {
+      "lesson_id": "a1133f1e-93ef-4631-8afc-4f43737132c4",
+      "verdict": "COUNTEREXAMPLE",
+      "episode_key": "owned-019dafb8a258e9e10cc842a970c07b1d3326e8d7"
+    }
+  ],
+  "final_lessons": [
+    {
+      "lesson_id": "a1133f1e-93ef-4631-8afc-4f43737132c4",
+      "task_class": "owned-document",
+      "state": "SUSPENDED"
+    },
+    {
+      "lesson_id": "a8059b78-08e3-4422-80ab-159c19f8c95d",
+      "task_class": "owned-form",
+      "state": "SUSPENDED"
+    }
+  ],
+  "preparation_heldout": "Original independent pure-method G trial; do not label as live-user task",
+  "transfer": "Later different owned document/form tasks",
+  "negative_transfer": "Two distinct counterexamples suspend respective methods",
+  "all_failures_force_learning": false
+}

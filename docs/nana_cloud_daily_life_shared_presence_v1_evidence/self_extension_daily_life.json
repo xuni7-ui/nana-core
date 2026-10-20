@@ -1,0 +1,23 @@
+{
+  "level": "ORIGINAL_I_BWRAP_BOUNDED_WORKFLOW_QUALIFICATION_AND_REAL_REUSE",
+  "job_at_work_complete": [
+    {
+      "job_id": "d2e2c6cd-e2e2-4670-a8df-36f27dd1c353",
+      "state": "DONE",
+      "cursor": 6,
+      "stage": "ACTIVE"
+    }
+  ],
+  "real_skill_kernel_calls": 2,
+  "later_source_withdrawal": "Original supporting source deleted; derived skill support retired, not resurrected on restart/transfer",
+  "job_final_historical_state": [
+    {
+      "job_id": "d2e2c6cd-e2e2-4670-a8df-36f27dd1c353",
+      "state": "DONE",
+      "cursor": 6,
+      "stage": null
+    }
+  ],
+  "arbitrary_installation": false,
+  "core_self_modification": false
+}

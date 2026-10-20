@@ -11,5 +11,7 @@
   "24h": "NOT_RUN_REPRODUCIBLE_RUNNER_AVAILABLE",
   "72h": "NOT_RUN",
   "cutover_plan": "docs/nana_cloud_daily_life_shared_presence_v1_cutover_plan.md",
-  "production_approval": "REQUIRED_NOT_REQUESTED_FOR_EXECUTION"
+  "production_approval": "REQUIRED_NOT_REQUESTED_FOR_EXECUTION",
+  "measured_dev_residency_seconds": 7205.177143084002,
+  "dev_residency": "PASS_GE_TWO_HOURS"
 }

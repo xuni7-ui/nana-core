@@ -1,0 +1,5799 @@
+{
+  "level": "ACTUAL_PROC_AND_DB_FAMILY_SAMPLES",
+  "sample_count": 145,
+  "peak_runtime_rss_kib": 49988,
+  "peak_application_rss_kib": 23356,
+  "peak_runtime_threads": 1,
+  "peak_runtime_fds": 11,
+  "queue_peak": 2,
+  "queue_final": 0,
+  "pending_peak": 5,
+  "pending_final": 4,
+  "idle_cpu_percent_of_one_core_observed_post_restart": 0.525,
+  "cpu_accounting": "/proc cumulative process CPU; resets on SIGKILL; no fabricated total across PIDs",
+  "db_family_bytes_first": 688331,
+  "db_family_bytes_last": 13382261,
+  "db_family_growth_bytes": 12693930,
+  "settled_interval_start_seconds": 651.4442902199953,
+  "settled_db_family_growth_bytes": 1967568,
+  "db_family_definition": "self.db* includes SQLite/WAL/privacy/sidecar files; history may grow linearly",
+  "samples": [
+    {
+      "elapsed_seconds": 0.49448905199824367,
+      "runtime": {
+        "VmHWM": "38316 kB",
+        "VmRSS": "38316 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.27,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23136 kB",
+        "VmRSS": "23136 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.1,
+        "fd_count": 7
+      },
+      "actions": 0,
+      "goals": 0,
+      "pending_intentions": 0,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 688331
+    },
+    {
+      "elapsed_seconds": 2.5057538599940017,
+      "runtime": {
+        "VmHWM": "40164 kB",
+        "VmRSS": "40164 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.42,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23224 kB",
+        "VmRSS": "23224 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.11,
+        "fd_count": 7
+      },
+      "actions": 3,
+      "goals": 1,
+      "pending_intentions": 1,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 2531307
+    },
+    {
+      "elapsed_seconds": 4.527211968001211,
+      "runtime": {
+        "VmHWM": "40668 kB",
+        "VmRSS": "40668 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.54,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23224 kB",
+        "VmRSS": "23224 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.11,
+        "fd_count": 7
+      },
+      "actions": 4,
+      "goals": 1,
+      "pending_intentions": 1,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 3250675
+    },
+    {
+      "elapsed_seconds": 6.577464871996199,
+      "runtime": {
+        "VmHWM": "41668 kB",
+        "VmRSS": "41668 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.05,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23232 kB",
+        "VmRSS": "23232 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.11,
+        "fd_count": 7
+      },
+      "actions": 8,
+      "goals": 2,
+      "pending_intentions": 1,
+      "queue": 1,
+      "model_calls": 0,
+      "db_bytes": 4000243
+    },
+    {
+      "elapsed_seconds": 8.589475870998285,
+      "runtime": {
+        "VmHWM": "41684 kB",
+        "VmRSS": "41684 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.51,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23244 kB",
+        "VmRSS": "23244 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.11,
+        "fd_count": 7
+      },
+      "actions": 11,
+      "goals": 3,
+      "pending_intentions": 2,
+      "queue": 1,
+      "model_calls": 0,
+      "db_bytes": 4651507
+    },
+    {
+      "elapsed_seconds": 10.679070676997071,
+      "runtime": {
+        "VmHWM": "41792 kB",
+        "VmRSS": "41792 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.76,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23252 kB",
+        "VmRSS": "23252 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.12,
+        "fd_count": 7
+      },
+      "actions": 12,
+      "goals": 3,
+      "pending_intentions": 2,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 4884979
+    },
+    {
+      "elapsed_seconds": 12.701126972999191,
+      "runtime": {
+        "VmHWM": "41548 kB",
+        "VmRSS": "41548 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.39,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23260 kB",
+        "VmRSS": "23260 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.12,
+        "fd_count": 7
+      },
+      "actions": 15,
+      "goals": 3,
+      "pending_intentions": 3,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 5639315
+    },
+    {
+      "elapsed_seconds": 14.710008617999847,
+      "runtime": {
+        "VmHWM": "41580 kB",
+        "VmRSS": "41568 kB",
+        "Threads": "1",
+        "cpu_seconds": 3.06,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23276 kB",
+        "VmRSS": "23276 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.12,
+        "fd_count": 7
+      },
+      "actions": 18,
+      "goals": 4,
+      "pending_intentions": 3,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 6266003
+    },
+    {
+      "elapsed_seconds": 16.72050450700044,
+      "runtime": {
+        "VmHWM": "41716 kB",
+        "VmRSS": "41576 kB",
+        "Threads": "1",
+        "cpu_seconds": 3.72,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23284 kB",
+        "VmRSS": "23284 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.12,
+        "fd_count": 7
+      },
+      "actions": 21,
+      "goals": 5,
+      "pending_intentions": 3,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 6913171
+    },
+    {
+      "elapsed_seconds": 18.728706845999113,
+      "runtime": {
+        "VmHWM": "41844 kB",
+        "VmRSS": "41740 kB",
+        "Threads": "1",
+        "cpu_seconds": 4.09,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23284 kB",
+        "VmRSS": "23284 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.12,
+        "fd_count": 7
+      },
+      "actions": 21,
+      "goals": 5,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 7187603
+    },
+    {
+      "elapsed_seconds": 20.739260832000582,
+      "runtime": {
+        "VmHWM": "41852 kB",
+        "VmRSS": "41708 kB",
+        "Threads": "1",
+        "cpu_seconds": 4.48,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23284 kB",
+        "VmRSS": "23284 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.12,
+        "fd_count": 7
+      },
+      "actions": 22,
+      "goals": 6,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 7425171
+    },
+    {
+      "elapsed_seconds": 22.75562644599995,
+      "runtime": {
+        "VmHWM": "41880 kB",
+        "VmRSS": "41876 kB",
+        "Threads": "1",
+        "cpu_seconds": 5.46,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23296 kB",
+        "VmRSS": "23296 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.13,
+        "fd_count": 7
+      },
+      "actions": 27,
+      "goals": 7,
+      "pending_intentions": 5,
+      "queue": 2,
+      "model_calls": 0,
+      "db_bytes": 8023187
+    },
+    {
+      "elapsed_seconds": 24.76342391399521,
+      "runtime": {
+        "VmHWM": "41988 kB",
+        "VmRSS": "41912 kB",
+        "Threads": "1",
+        "cpu_seconds": 6.34,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23324 kB",
+        "VmRSS": "23324 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.13,
+        "fd_count": 7
+      },
+      "actions": 30,
+      "goals": 8,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 8966275
+    },
+    {
+      "elapsed_seconds": 26.783059741996112,
+      "runtime": {
+        "VmHWM": "41988 kB",
+        "VmRSS": "41832 kB",
+        "Threads": "1",
+        "cpu_seconds": 7.03,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23332 kB",
+        "VmRSS": "23332 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.13,
+        "fd_count": 7
+      },
+      "actions": 33,
+      "goals": 9,
+      "pending_intentions": 4,
+      "queue": 2,
+      "model_calls": 0,
+      "db_bytes": 9437315
+    },
+    {
+      "elapsed_seconds": 28.82295249199524,
+      "runtime": {
+        "VmHWM": "42008 kB",
+        "VmRSS": "41812 kB",
+        "Threads": "1",
+        "cpu_seconds": 7.88,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23344 kB",
+        "VmRSS": "23344 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.14,
+        "fd_count": 7
+      },
+      "actions": 37,
+      "goals": 11,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 10133635
+    },
+    {
+      "elapsed_seconds": 30.843065807996027,
+      "runtime": {
+        "VmHWM": "42808 kB",
+        "VmRSS": "42808 kB",
+        "Threads": "1",
+        "cpu_seconds": 8.77,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.14,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 10903683
+    },
+    {
+      "elapsed_seconds": 32.93166254699463,
+      "runtime": {
+        "VmHWM": "43084 kB",
+        "VmRSS": "42812 kB",
+        "Threads": "1",
+        "cpu_seconds": 8.94,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.14,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11047043
+    },
+    {
+      "elapsed_seconds": 34.93984234499658,
+      "runtime": {
+        "VmHWM": "43084 kB",
+        "VmRSS": "42812 kB",
+        "Threads": "1",
+        "cpu_seconds": 8.96,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.14,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11047043
+    },
+    {
+      "elapsed_seconds": 36.94894643999578,
+      "runtime": {
+        "VmHWM": "43084 kB",
+        "VmRSS": "42812 kB",
+        "Threads": "1",
+        "cpu_seconds": 8.98,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.14,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11047043
+    },
+    {
+      "elapsed_seconds": 38.95935403299518,
+      "runtime": {
+        "VmHWM": "43084 kB",
+        "VmRSS": "42812 kB",
+        "Threads": "1",
+        "cpu_seconds": 9.0,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.14,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11047043
+    },
+    {
+      "elapsed_seconds": 40.96774373600056,
+      "runtime": {
+        "VmHWM": "43084 kB",
+        "VmRSS": "42812 kB",
+        "Threads": "1",
+        "cpu_seconds": 9.02,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.14,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11047043
+    },
+    {
+      "elapsed_seconds": 42.978798573996755,
+      "runtime": {
+        "VmHWM": "43084 kB",
+        "VmRSS": "42812 kB",
+        "Threads": "1",
+        "cpu_seconds": 9.04,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.14,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11047043
+    },
+    {
+      "elapsed_seconds": 44.98730829700071,
+      "runtime": {
+        "VmHWM": "43084 kB",
+        "VmRSS": "42812 kB",
+        "Threads": "1",
+        "cpu_seconds": 9.06,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.14,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11047043
+    },
+    {
+      "elapsed_seconds": 47.002952042996185,
+      "runtime": {
+        "VmHWM": "43084 kB",
+        "VmRSS": "42812 kB",
+        "Threads": "1",
+        "cpu_seconds": 9.08,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.14,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11047043
+    },
+    {
+      "elapsed_seconds": 49.021146384999156,
+      "runtime": {
+        "VmHWM": "43084 kB",
+        "VmRSS": "42812 kB",
+        "Threads": "1",
+        "cpu_seconds": 9.12,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.14,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11047043
+    },
+    {
+      "elapsed_seconds": 51.03976431499905,
+      "runtime": {
+        "VmHWM": "43084 kB",
+        "VmRSS": "42812 kB",
+        "Threads": "1",
+        "cpu_seconds": 9.14,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.14,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11047043
+    },
+    {
+      "elapsed_seconds": 111.08254308100004,
+      "runtime": {
+        "VmHWM": "44844 kB",
+        "VmRSS": "44844 kB",
+        "Threads": "1",
+        "cpu_seconds": 12.69,
+        "fd_count": 11
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.15,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12832954
+    },
+    {
+      "elapsed_seconds": 171.11258213899418,
+      "runtime": {
+        "VmHWM": "45228 kB",
+        "VmRSS": "45228 kB",
+        "Threads": "1",
+        "cpu_seconds": 13.42,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.17,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12853434
+    },
+    {
+      "elapsed_seconds": 231.19600131699553,
+      "runtime": {
+        "VmHWM": "49988 kB",
+        "VmRSS": "48668 kB",
+        "Threads": "1",
+        "cpu_seconds": 14.02,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.18,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11608861
+    },
+    {
+      "elapsed_seconds": 291.21679806099564,
+      "runtime": {
+        "VmHWM": "49988 kB",
+        "VmRSS": "48668 kB",
+        "Threads": "1",
+        "cpu_seconds": 14.37,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.2,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11625245
+    },
+    {
+      "elapsed_seconds": 351.2309504829973,
+      "runtime": {
+        "VmHWM": "49988 kB",
+        "VmRSS": "48668 kB",
+        "Threads": "1",
+        "cpu_seconds": 14.71,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.21,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11637533
+    },
+    {
+      "elapsed_seconds": 411.25945384999795,
+      "runtime": {
+        "VmHWM": "49988 kB",
+        "VmRSS": "48668 kB",
+        "Threads": "1",
+        "cpu_seconds": 15.01,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.22,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11658013
+    },
+    {
+      "elapsed_seconds": 471.2975867529967,
+      "runtime": {
+        "VmHWM": "49988 kB",
+        "VmRSS": "48668 kB",
+        "Threads": "1",
+        "cpu_seconds": 15.29,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.24,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11670301
+    },
+    {
+      "elapsed_seconds": 531.3718853449973,
+      "runtime": {
+        "VmHWM": "49988 kB",
+        "VmRSS": "48668 kB",
+        "Threads": "1",
+        "cpu_seconds": 15.59,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.25,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11686685
+    },
+    {
+      "elapsed_seconds": 591.4363153890008,
+      "runtime": {
+        "VmHWM": "49988 kB",
+        "VmRSS": "48668 kB",
+        "Threads": "1",
+        "cpu_seconds": 15.91,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.27,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11698973
+    },
+    {
+      "elapsed_seconds": 651.4442902199953,
+      "runtime": {
+        "VmHWM": "45236 kB",
+        "VmRSS": "45236 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.61,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.28,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11414693
+    },
+    {
+      "elapsed_seconds": 711.4543822209962,
+      "runtime": {
+        "VmHWM": "45236 kB",
+        "VmRSS": "45236 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.89,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.3,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11698805
+    },
+    {
+      "elapsed_seconds": 771.4820988369975,
+      "runtime": {
+        "VmHWM": "45236 kB",
+        "VmRSS": "45236 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.23,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.32,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11715189
+    },
+    {
+      "elapsed_seconds": 831.5056769859948,
+      "runtime": {
+        "VmHWM": "45236 kB",
+        "VmRSS": "45236 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.56,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.33,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11727477
+    },
+    {
+      "elapsed_seconds": 891.5195664540006,
+      "runtime": {
+        "VmHWM": "45236 kB",
+        "VmRSS": "45236 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.87,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.35,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11743861
+    },
+    {
+      "elapsed_seconds": 951.5513061249949,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.25,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.39,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11760245
+    },
+    {
+      "elapsed_seconds": 1011.567058916,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.57,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.4,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11780725
+    },
+    {
+      "elapsed_seconds": 1071.5832225169943,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.86,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.42,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11797109
+    },
+    {
+      "elapsed_seconds": 1131.6095105149943,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 3.18,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.44,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11813493
+    },
+    {
+      "elapsed_seconds": 1191.6274214669975,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 3.54,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.46,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11825781
+    },
+    {
+      "elapsed_seconds": 1251.6510254919995,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 3.87,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.47,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11854453
+    },
+    {
+      "elapsed_seconds": 1311.6632486809976,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 4.15,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.49,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11866741
+    },
+    {
+      "elapsed_seconds": 1371.6932369819988,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 4.49,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.51,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11887221
+    },
+    {
+      "elapsed_seconds": 1431.7077037209965,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 4.8,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.53,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11899509
+    },
+    {
+      "elapsed_seconds": 1491.7207247839979,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 5.1,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.54,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11915893
+    },
+    {
+      "elapsed_seconds": 1551.7332127429981,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 5.43,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.56,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11928181
+    },
+    {
+      "elapsed_seconds": 1611.7434730309978,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 5.72,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.58,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11944565
+    },
+    {
+      "elapsed_seconds": 1671.7538294859987,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 6.0,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.6,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11956853
+    },
+    {
+      "elapsed_seconds": 1731.7681685290008,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 6.3,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.62,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11977333
+    },
+    {
+      "elapsed_seconds": 1791.782398069001,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 6.65,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.64,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 11989621
+    },
+    {
+      "elapsed_seconds": 1851.8016392349964,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 6.97,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.66,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12006005
+    },
+    {
+      "elapsed_seconds": 1911.8187702239957,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 7.24,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.68,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12018293
+    },
+    {
+      "elapsed_seconds": 1971.824989183995,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 7.52,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.69,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12034677
+    },
+    {
+      "elapsed_seconds": 2031.8385697049962,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 7.81,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.71,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12046965
+    },
+    {
+      "elapsed_seconds": 2091.8620650359953,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 8.11,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.72,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12067445
+    },
+    {
+      "elapsed_seconds": 2151.8762160729966,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 8.4,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.74,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12083829
+    },
+    {
+      "elapsed_seconds": 2211.890738409995,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 8.75,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.76,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12100213
+    },
+    {
+      "elapsed_seconds": 2271.9109871929977,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 9.08,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.78,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12112501
+    },
+    {
+      "elapsed_seconds": 2331.9214086629945,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 9.4,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.8,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12128885
+    },
+    {
+      "elapsed_seconds": 2391.932639212995,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 9.7,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.81,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12141173
+    },
+    {
+      "elapsed_seconds": 2451.945399999997,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 10.01,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.83,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12157557
+    },
+    {
+      "elapsed_seconds": 2511.968825633994,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 10.31,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.85,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12169845
+    },
+    {
+      "elapsed_seconds": 2571.995400836997,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 10.62,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.87,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12190325
+    },
+    {
+      "elapsed_seconds": 2632.014845063997,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 10.95,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.89,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12202613
+    },
+    {
+      "elapsed_seconds": 2692.0326525079945,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 11.26,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.91,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12218997
+    },
+    {
+      "elapsed_seconds": 2752.043330292996,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 11.58,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.93,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12239477
+    },
+    {
+      "elapsed_seconds": 2812.0673503029975,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 11.87,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.95,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12255861
+    },
+    {
+      "elapsed_seconds": 2872.0953100769984,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 12.24,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.98,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12268149
+    },
+    {
+      "elapsed_seconds": 2932.1267413339956,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 12.54,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.0,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12288629
+    },
+    {
+      "elapsed_seconds": 2992.1495222369995,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 12.85,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.02,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12300917
+    },
+    {
+      "elapsed_seconds": 3052.163407340995,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 13.17,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.04,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12317301
+    },
+    {
+      "elapsed_seconds": 3112.1831227029907,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 13.5,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.05,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12333685
+    },
+    {
+      "elapsed_seconds": 3172.2032341759914,
+      "runtime": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 13.87,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.07,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12350069
+    },
+    {
+      "elapsed_seconds": 3232.2240475569997,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 14.19,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.09,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12366453
+    },
+    {
+      "elapsed_seconds": 3292.232502172992,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 14.49,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.11,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12382837
+    },
+    {
+      "elapsed_seconds": 3352.2436155360047,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 14.77,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.13,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12395125
+    },
+    {
+      "elapsed_seconds": 3412.2641273710033,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 15.09,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.14,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12411509
+    },
+    {
+      "elapsed_seconds": 3472.279063009002,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 15.38,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.16,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12423797
+    },
+    {
+      "elapsed_seconds": 3532.2886318849924,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 15.73,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.18,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12440181
+    },
+    {
+      "elapsed_seconds": 3592.3035358009947,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 16.04,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.2,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12452469
+    },
+    {
+      "elapsed_seconds": 3652.326253389998,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 16.36,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.21,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12468853
+    },
+    {
+      "elapsed_seconds": 3712.3429364490003,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 16.68,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.23,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12481141
+    },
+    {
+      "elapsed_seconds": 3772.3578413639916,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 16.99,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.25,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12509813
+    },
+    {
+      "elapsed_seconds": 3832.393261735997,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 17.33,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.26,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12522101
+    },
+    {
+      "elapsed_seconds": 3892.4132108399936,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 17.66,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.28,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12546677
+    },
+    {
+      "elapsed_seconds": 3952.4466677829914,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 18.01,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.31,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12558965
+    },
+    {
+      "elapsed_seconds": 4012.4545412669977,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 18.29,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.32,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12575349
+    },
+    {
+      "elapsed_seconds": 4072.472541807001,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 18.61,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.34,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12587637
+    },
+    {
+      "elapsed_seconds": 4132.485315946993,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 18.93,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.35,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12604021
+    },
+    {
+      "elapsed_seconds": 4192.509215942991,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 19.23,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.37,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12616309
+    },
+    {
+      "elapsed_seconds": 4252.532755658001,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 19.56,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.39,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12632693
+    },
+    {
+      "elapsed_seconds": 4312.555404561004,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 19.88,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.41,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12644981
+    },
+    {
+      "elapsed_seconds": 4372.568092122994,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 20.19,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.42,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12665461
+    },
+    {
+      "elapsed_seconds": 4432.582344669005,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 20.51,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.44,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12677749
+    },
+    {
+      "elapsed_seconds": 4492.600653250003,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 20.83,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.47,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12694133
+    },
+    {
+      "elapsed_seconds": 4552.607378474,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 21.13,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.48,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12706421
+    },
+    {
+      "elapsed_seconds": 4612.616581776994,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 21.47,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.51,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12722805
+    },
+    {
+      "elapsed_seconds": 4672.646223253003,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 21.79,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.52,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12735093
+    },
+    {
+      "elapsed_seconds": 4732.674610403003,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 22.12,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.54,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12755573
+    },
+    {
+      "elapsed_seconds": 4792.695360129001,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 22.47,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.56,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12767861
+    },
+    {
+      "elapsed_seconds": 4852.705689492999,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 22.78,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.58,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12784245
+    },
+    {
+      "elapsed_seconds": 4912.720851167993,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 23.11,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.6,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12796533
+    },
+    {
+      "elapsed_seconds": 4972.7374703800015,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 23.49,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.61,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12817013
+    },
+    {
+      "elapsed_seconds": 5032.763640393998,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 23.85,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.64,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12829301
+    },
+    {
+      "elapsed_seconds": 5092.785122475005,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 24.15,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.66,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12845685
+    },
+    {
+      "elapsed_seconds": 5152.799612458999,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 24.49,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.67,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12857973
+    },
+    {
+      "elapsed_seconds": 5212.815124045999,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 24.81,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.69,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12878453
+    },
+    {
+      "elapsed_seconds": 5272.836569035004,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 25.13,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.71,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12890741
+    },
+    {
+      "elapsed_seconds": 5332.854241533001,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 25.45,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.73,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12907125
+    },
+    {
+      "elapsed_seconds": 5392.869064867991,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 25.76,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.75,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12919413
+    },
+    {
+      "elapsed_seconds": 5452.884418813992,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 26.09,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.77,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12935797
+    },
+    {
+      "elapsed_seconds": 5512.894601243999,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 26.39,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.78,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12952181
+    },
+    {
+      "elapsed_seconds": 5572.908066670992,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 26.72,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.8,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12968565
+    },
+    {
+      "elapsed_seconds": 5632.927608712998,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 27.03,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.82,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12980853
+    },
+    {
+      "elapsed_seconds": 5692.946132429992,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 27.32,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.84,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 12997237
+    },
+    {
+      "elapsed_seconds": 5752.956306965993,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 27.61,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.85,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13009525
+    },
+    {
+      "elapsed_seconds": 5812.972162485996,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 27.9,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.87,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13025909
+    },
+    {
+      "elapsed_seconds": 5872.995634856998,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 28.23,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.89,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13038197
+    },
+    {
+      "elapsed_seconds": 5933.004344182991,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 28.5,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.9,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13054581
+    },
+    {
+      "elapsed_seconds": 5993.017974247996,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 28.82,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.92,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13066869
+    },
+    {
+      "elapsed_seconds": 6053.025119073995,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 29.12,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.94,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13083253
+    },
+    {
+      "elapsed_seconds": 6113.035989611992,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 29.42,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.96,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13099637
+    },
+    {
+      "elapsed_seconds": 6173.062732489998,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 29.74,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.98,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13116021
+    },
+    {
+      "elapsed_seconds": 6233.072201222996,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 30.08,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.99,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13128309
+    },
+    {
+      "elapsed_seconds": 6293.082605949996,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 30.36,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.0,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13144693
+    },
+    {
+      "elapsed_seconds": 6353.096180667999,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 30.66,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.03,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13161077
+    },
+    {
+      "elapsed_seconds": 6413.101123635992,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 30.97,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.05,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13177461
+    },
+    {
+      "elapsed_seconds": 6473.118022465002,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 31.27,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.07,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13189749
+    },
+    {
+      "elapsed_seconds": 6533.1389011489955,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 31.57,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.08,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13206133
+    },
+    {
+      "elapsed_seconds": 6593.151461290996,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 31.85,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.1,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13230709
+    },
+    {
+      "elapsed_seconds": 6653.160297672002,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 32.15,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.12,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13251189
+    },
+    {
+      "elapsed_seconds": 6713.169130137001,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 32.47,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.13,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13263477
+    },
+    {
+      "elapsed_seconds": 6773.178047092995,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 32.78,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.14,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13279861
+    },
+    {
+      "elapsed_seconds": 6833.1926249919925,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 33.08,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.16,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13296245
+    },
+    {
+      "elapsed_seconds": 6893.202171772995,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 33.39,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.18,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13312629
+    },
+    {
+      "elapsed_seconds": 6953.231603801993,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 33.71,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.19,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13324917
+    },
+    {
+      "elapsed_seconds": 7013.2435692309955,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 34.02,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.22,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13341301
+    },
+    {
+      "elapsed_seconds": 7073.266111778998,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 34.33,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.24,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13353589
+    },
+    {
+      "elapsed_seconds": 7133.280866247995,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 34.67,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.25,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13369973
+    },
+    {
+      "elapsed_seconds": 7193.288821323993,
+      "runtime": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 34.97,
+        "fd_count": 8
+      },
+      "application": {
+        "VmHWM": "23356 kB",
+        "VmRSS": "23356 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.27,
+        "fd_count": 7
+      },
+      "actions": 42,
+      "goals": 12,
+      "pending_intentions": 4,
+      "queue": 0,
+      "model_calls": 0,
+      "db_bytes": 13382261
+    }
+  ],
+  "independent_per_pid_observations": [
+    {
+      "elapsed_observer_seconds": 0.0,
+      "unix_time": 1792447644.8298273,
+      "pid": 37649,
+      "epoch": 2,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 11686685,
+      "resources": {
+        "VmHWM": "49988 kB",
+        "VmRSS": "48668 kB",
+        "Threads": "1",
+        "cpu_seconds": 15.52,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 55.0,
+      "unix_time": 1792447699.8314354,
+      "pid": 37649,
+      "epoch": 2,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 11698973,
+      "resources": {
+        "VmHWM": "49988 kB",
+        "VmRSS": "48668 kB",
+        "Threads": "1",
+        "cpu_seconds": 15.79,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 110.0,
+      "unix_time": 1792447754.8330724,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 11307573,
+      "resources": {
+        "VmHWM": "45236 kB",
+        "VmRSS": "45236 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.47,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 165.01,
+      "unix_time": 1792447809.8349464,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 11698805,
+      "resources": {
+        "VmHWM": "45236 kB",
+        "VmRSS": "45236 kB",
+        "Threads": "1",
+        "cpu_seconds": 0.75,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 220.01,
+      "unix_time": 1792447864.8364573,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 11715189,
+      "resources": {
+        "VmHWM": "45236 kB",
+        "VmRSS": "45236 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.01,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 275.01,
+      "unix_time": 1792447919.8379633,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 11727477,
+      "resources": {
+        "VmHWM": "45236 kB",
+        "VmRSS": "45236 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.33,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 330.01,
+      "unix_time": 1792447974.8394573,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 11743861,
+      "resources": {
+        "VmHWM": "45236 kB",
+        "VmRSS": "45236 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.63,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 385.01,
+      "unix_time": 1792448029.8412547,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 11743861,
+      "resources": {
+        "VmHWM": "45236 kB",
+        "VmRSS": "45236 kB",
+        "Threads": "1",
+        "cpu_seconds": 1.9,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 440.01,
+      "unix_time": 1792448084.842928,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 11760245,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.27,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 495.02,
+      "unix_time": 1792448139.8445325,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 11780725,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.56,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 550.02,
+      "unix_time": 1792448194.8461444,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 11797109,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 2.83,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 605.02,
+      "unix_time": 1792448249.8478968,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 11813493,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 3.12,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 660.02,
+      "unix_time": 1792448304.8497155,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 11825781,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 3.42,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 715.02,
+      "unix_time": 1792448359.8513033,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 11854453,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 3.75,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 770.02,
+      "unix_time": 1792448414.8528814,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 11866741,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 4.03,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 825.03,
+      "unix_time": 1792448469.855313,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 11887221,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 4.34,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 880.03,
+      "unix_time": 1792448524.857536,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 11899509,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 4.62,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 935.03,
+      "unix_time": 1792448579.859193,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 11915893,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 4.9,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 990.03,
+      "unix_time": 1792448634.8611035,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 11928181,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 5.16,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 1045.03,
+      "unix_time": 1792448689.86303,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 11928181,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 5.46,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 1100.04,
+      "unix_time": 1792448744.8646874,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 11944565,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 5.73,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 1155.04,
+      "unix_time": 1792448799.8672497,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 11956853,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 5.99,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 1210.05,
+      "unix_time": 1792448854.8798974,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 11977333,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 6.27,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 1265.05,
+      "unix_time": 1792448909.881778,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 11989621,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 6.56,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 1320.05,
+      "unix_time": 1792448964.8833876,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12006005,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 6.89,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 1375.06,
+      "unix_time": 1792449019.8854258,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12018293,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 7.15,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 1430.06,
+      "unix_time": 1792449074.8869243,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12034677,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 7.39,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 1485.06,
+      "unix_time": 1792449129.888494,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12046965,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 7.67,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 1540.06,
+      "unix_time": 1792449184.8898993,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12067445,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 7.93,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 1595.06,
+      "unix_time": 1792449239.8913212,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12083829,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 8.2,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 1650.06,
+      "unix_time": 1792449294.8932087,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12100213,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 8.48,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 1705.07,
+      "unix_time": 1792449349.8947377,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12100213,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 8.79,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 1760.07,
+      "unix_time": 1792449404.8965492,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12112501,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 9.09,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 1815.07,
+      "unix_time": 1792449459.9029393,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12128885,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 9.39,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 1870.08,
+      "unix_time": 1792449514.90439,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12141173,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 9.67,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 1925.08,
+      "unix_time": 1792449569.9058635,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12157557,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 9.96,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 1980.08,
+      "unix_time": 1792449624.9072797,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12169845,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 10.23,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 2035.08,
+      "unix_time": 1792449679.9088519,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12190325,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 10.52,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 2090.08,
+      "unix_time": 1792449734.910305,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12202613,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 10.79,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 2145.08,
+      "unix_time": 1792449789.9119167,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12218997,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 11.1,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 2200.08,
+      "unix_time": 1792449844.913317,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12239477,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 11.39,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 2255.09,
+      "unix_time": 1792449899.914657,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12255861,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 11.68,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 2310.09,
+      "unix_time": 1792449954.9160218,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12268149,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 11.94,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 2365.09,
+      "unix_time": 1792450009.9177268,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12268149,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 12.28,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 2420.09,
+      "unix_time": 1792450064.9190784,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12288629,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 12.56,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 2475.09,
+      "unix_time": 1792450119.9204075,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12300917,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 12.84,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 2530.09,
+      "unix_time": 1792450174.9217057,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12317301,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 13.14,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 2585.09,
+      "unix_time": 1792450229.9230027,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12333685,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 13.44,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 2640.1,
+      "unix_time": 1792450284.924353,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12350069,
+      "resources": {
+        "VmHWM": "45244 kB",
+        "VmRSS": "45244 kB",
+        "Threads": "1",
+        "cpu_seconds": 13.78,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 2695.1,
+      "unix_time": 1792450339.9257004,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12366453,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 14.08,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 2750.1,
+      "unix_time": 1792450394.9270325,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12382837,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 14.35,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 2805.1,
+      "unix_time": 1792450449.9287515,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12395125,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 14.63,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 2860.1,
+      "unix_time": 1792450504.9300568,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12411509,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 14.89,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 2915.1,
+      "unix_time": 1792450559.9314182,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12423797,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 15.17,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 2970.1,
+      "unix_time": 1792450614.9328387,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12440181,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 15.45,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 3025.11,
+      "unix_time": 1792450669.934173,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12440181,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 15.76,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 3080.11,
+      "unix_time": 1792450724.9359872,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12452469,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 16.06,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 3135.11,
+      "unix_time": 1792450779.9373195,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12468853,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 16.35,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 3190.11,
+      "unix_time": 1792450834.9387016,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12481141,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 16.65,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 3245.11,
+      "unix_time": 1792450889.9401586,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12509813,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 16.93,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 3300.11,
+      "unix_time": 1792450944.9418375,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12522101,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 17.24,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 3355.11,
+      "unix_time": 1792450999.9431865,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12546677,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 17.55,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 3410.12,
+      "unix_time": 1792451054.9445164,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12558965,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 17.83,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 3465.12,
+      "unix_time": 1792451109.9460013,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12575349,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 18.15,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 3520.12,
+      "unix_time": 1792451164.9476714,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12587637,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 18.42,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 3575.12,
+      "unix_time": 1792451219.9494083,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12604021,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 18.7,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 3630.12,
+      "unix_time": 1792451274.950882,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12616309,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 19.0,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 3685.12,
+      "unix_time": 1792451329.952359,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12616309,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 19.27,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 3740.13,
+      "unix_time": 1792451384.95397,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12632693,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 19.56,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 3795.13,
+      "unix_time": 1792451439.95982,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12644981,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 19.87,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 3850.13,
+      "unix_time": 1792451494.9611664,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12665461,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 20.16,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 3905.13,
+      "unix_time": 1792451549.9626932,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12677749,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 20.46,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 3960.14,
+      "unix_time": 1792451604.9641964,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12694133,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 20.76,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 4015.14,
+      "unix_time": 1792451659.9657378,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12706421,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 21.03,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 4070.14,
+      "unix_time": 1792451714.9671865,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12722805,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 21.32,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 4125.14,
+      "unix_time": 1792451769.9687395,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12735093,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 21.61,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 4180.14,
+      "unix_time": 1792451824.970268,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12755573,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 21.91,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 4235.14,
+      "unix_time": 1792451879.9716024,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12767861,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 22.23,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 4290.14,
+      "unix_time": 1792451934.9731212,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12784245,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 22.55,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 4345.15,
+      "unix_time": 1792451989.9743729,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12784245,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 22.81,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 4400.15,
+      "unix_time": 1792452044.976178,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12796533,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 23.11,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 4455.15,
+      "unix_time": 1792452099.977717,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12817013,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 23.47,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 4510.15,
+      "unix_time": 1792452154.9833546,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12829301,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 23.81,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 4565.16,
+      "unix_time": 1792452209.9852438,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12845685,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 24.08,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 4620.16,
+      "unix_time": 1792452264.9865313,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12857973,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 24.38,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 4675.16,
+      "unix_time": 1792452319.9879608,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12878453,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 24.69,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 4730.16,
+      "unix_time": 1792452374.989269,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12890741,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 24.99,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 4785.16,
+      "unix_time": 1792452429.9906807,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12907125,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 25.27,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 4840.16,
+      "unix_time": 1792452484.9920564,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12919413,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 25.57,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 4895.16,
+      "unix_time": 1792452539.993251,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12935797,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 25.87,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 4950.17,
+      "unix_time": 1792452594.9945045,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12952181,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 26.16,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 5005.17,
+      "unix_time": 1792452649.995887,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12952181,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 26.43,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 5060.17,
+      "unix_time": 1792452704.9972472,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12968565,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 26.73,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 5115.17,
+      "unix_time": 1792452759.9986632,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12980853,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 27.01,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 5170.17,
+      "unix_time": 1792452815.0001993,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 12997237,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 27.28,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 5225.17,
+      "unix_time": 1792452870.0015733,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13009525,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 27.55,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 5280.17,
+      "unix_time": 1792452925.0029368,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13025909,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 27.82,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 5335.18,
+      "unix_time": 1792452980.00479,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13038197,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 28.12,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 5390.18,
+      "unix_time": 1792453035.0063074,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13054581,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 28.38,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 5445.18,
+      "unix_time": 1792453090.008824,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13066869,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 28.66,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 5500.18,
+      "unix_time": 1792453145.0107248,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13083253,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 28.93,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 5555.18,
+      "unix_time": 1792453200.0120788,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13099637,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 29.21,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 5610.18,
+      "unix_time": 1792453255.0136325,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13116021,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 29.48,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 5665.19,
+      "unix_time": 1792453310.015213,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13116021,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 29.77,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 5720.19,
+      "unix_time": 1792453365.016728,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13128309,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 30.09,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 5775.19,
+      "unix_time": 1792453420.0233128,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13144693,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 30.35,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 5830.2,
+      "unix_time": 1792453475.0247145,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13161077,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 30.63,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 5885.2,
+      "unix_time": 1792453530.0262473,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13177461,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 30.91,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 5940.2,
+      "unix_time": 1792453585.0278635,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13189749,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 31.18,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 5995.2,
+      "unix_time": 1792453640.0291612,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13206133,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 31.46,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 6050.2,
+      "unix_time": 1792453695.0305026,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13230709,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 31.73,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 6105.2,
+      "unix_time": 1792453750.0326607,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13251189,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 32.0,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 6160.21,
+      "unix_time": 1792453805.0340557,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13263477,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 32.28,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 6215.21,
+      "unix_time": 1792453860.0362947,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13279861,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 32.56,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 6270.21,
+      "unix_time": 1792453915.038384,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13296245,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 32.84,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 6325.21,
+      "unix_time": 1792453970.0398893,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13296245,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 33.12,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 6380.21,
+      "unix_time": 1792454025.04118,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13312629,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 33.4,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 6435.21,
+      "unix_time": 1792454080.0426044,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13324917,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 33.69,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 6490.22,
+      "unix_time": 1792454135.044178,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13341301,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 33.98,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 6545.22,
+      "unix_time": 1792454190.0458002,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13353589,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 34.26,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 6600.22,
+      "unix_time": 1792454245.0484338,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13369973,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 34.56,
+        "fd_count": 8
+      }
+    },
+    {
+      "elapsed_observer_seconds": 6655.22,
+      "unix_time": 1792454300.050057,
+      "pid": 43566,
+      "epoch": 3,
+      "lease": "ACTIVE",
+      "actions": 42,
+      "goals": 12,
+      "queue": 0,
+      "pending": 4,
+      "cognition_calls": 0,
+      "db_wal_bytes": 13382261,
+      "resources": {
+        "VmHWM": "45248 kB",
+        "VmRSS": "45248 kB",
+        "Threads": "1",
+        "cpu_seconds": 34.85,
+        "fd_count": 8
+      }
+    }
+  ]
+}

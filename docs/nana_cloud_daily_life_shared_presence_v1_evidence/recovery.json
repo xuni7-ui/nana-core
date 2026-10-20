@@ -2,28 +2,36 @@
   "level": "PROCESS_QUALIFIED_AND_TESTED_DEV",
   "cases": [
     {
-      "cut": "C_GOAL_COMMITTED_BEFORE_D_FOLLOWUP",
+      "cut": "C_GOAL_COMMIT_BEFORE_FOLLOWUP",
       "result": "PASS_ACTUAL_SIGKILL"
     },
     {
-      "cut": "C_REFLECTION_COMMITTED_BEFORE_D_FOLLOWUP",
+      "cut": "C_REFLECTION_COMMIT_BEFORE_FOLLOWUP",
       "result": "PASS_ACTUAL_SIGKILL"
     },
     {
-      "cut": "HEADLESS_RUNTIME_PAUSED_THEN_SIGKILL",
+      "cut": "PAUSED_HEADLESS_RUNTIME",
       "result": "PASS_ACTUAL_SIGKILL"
     },
     {
-      "cut": "AFTER_SIGKILL_BEFORE_RESTART_BACKUP",
-      "result": "PASS_CONSISTENT_QUARANTINED_COPY"
+      "cut": "POST_SIGKILL_BACKUP",
+      "result": "PASS_CONSISTENT_QUARANTINE"
     },
     {
-      "cut": "COMBINED_RESIDENCY_RESTART",
-      "result": "RUNNING"
+      "cut": "TWO_HOUR_COMBINED_RESIDENCY",
+      "result": "PASS_ACTUAL_SIGKILL_RESTART_SAME_SUBJECT_NO_REPLAY"
     }
   ],
   "old_grants_renewed": false,
   "old_c_judgment_rerun": false,
   "new_subject": false,
-  "unknown_blind_retry": false
+  "unknown_blind_retry": false,
+  "combined_residency_restart": {
+    "same_identity": true,
+    "old_epoch": 2,
+    "new_epoch": 3,
+    "no_new_grant": true,
+    "no_action_replay": true
+  },
+  "residency_completed": true
 }

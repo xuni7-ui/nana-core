@@ -160,3 +160,10 @@ naturalness worksheet in the evidence directory. Retain structured ratings only;
 do not save private dialogue or let an empty worksheet imply HUMAN_REVIEWED_PASS.
 Provider alone, Hands alone, or shadow integration alone cannot upgrade FirstLife
 or Cloud Daily-Life Beta.
+
+Measured on the frozen Core in this task:7205.18s actual residency,42 Kernel
+actions/14 owned effect receipts, actual SIGKILL recovery and fresh-host B8 transfer;
+peak RSS49988KiB. Focused20 and full1268 passed/12 skipped. This is developer
+qualification, not a live provider, human naturalness or Beta claim. Use a durable
+host volume for a future real home; `/tmp` here is deliberately disposable test
+storage and is not a promised production persistence volume.

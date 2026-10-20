@@ -1,5 +1,29 @@
 # PROJECT_BRAIN / 07 ROADMAP（主线路线图）
 
+## CURRENT — CDL V1 / TECHNICAL DEV PROCESS QUALIFIED / BETA NOT_READY
+[实测 2026-10-20T00:01:27.142666+00:00] Branch dev/nana-core-cloud-daily-life-shared-presence-v1-codex；
+base d7886ba9b49cf2fbb52cebcbce9525394c938d3c；GLOBAL_STAGE H。可执行冻结
+fc0fa46506a360a81a10e14f9d967a734d338141，203个Core/驻留driver Python文件起止SHA256一致。
+真实驻留7205.177143084002秒（2h00m05s，非虚拟）；11个finite任务/12个goals（10完成、2反例失败保留）、
+42 Kernel actions/14 owned physical effect receipts；4类DOCUMENT/FORM/CONTENT/FILES。
+原G两条方法later-use SUCCESS后各被COUNTEREXAMPLE停用；原I 4独立测试、2次真实world.skill复用，
+随后source withdrawal使技能支持失效；Codex代码修复不算主体学习。
+实际SIGKILL恢复epoch2→3，同identity、Grant数1且无重放；fresh-host原B8源退休→同identity恢复，旧Grant全撤。
+在线及crash-consistent backup隔离、delete传播通过；UNKNOWN显式迁移保留且无预算返还/重新授权。
+RSS峰值49988KiB，steady约45248KiB；postrestart观测idle CPU约0.525%单核；
+线程峰值1，FD峰值11/steady8；queue峰值2/final0，pending峰值5/final4。
+self.db* family从688331→13382261 bytes（含WAL/privacy sidecars）；约651s后growth1967568 bytes，历史可线性增长。
+新focused20 passed；最终full1268 passed /12 skipped /0 failed（298.46s）；11 live-screen+E12门保留NOT_RUN。
+One Subject/Store/Loop/Runtime；C WHAT/WHY、D WHEN；schema13/43表，新表0/新依赖0。
+QQ/Bili/CLI统一Event-First L0/L1/L2仅DEV SHADOW；Bili复用纯normalize，不运行旧Agent/pump。
+真实Provider新调用0，历史1 UNKNOWN PARKED retry0/fallback0；无安全新凭据/付费资格，真人自然度NOT_RUN。
+2h dev rehearsal不冒充24h staging/72h；生产inventory/cutover/canary、真实社交/private history NOT_RUN。
+FIRST_LIFE_EXPERIENCE_READY=NOT_READY；CLOUD_DAILY_LIFE_BETA_CANDIDATE=NOT_READY；BETA_READY=NO。
+main/R045/production/legacy live系统不变；旧bundle保持untracked/untouched/not-input。
+报告/quickstart/cutover计划与小型文本证据见docs/nana_cloud_daily_life_shared_presence_v1_*。
+下一最小门：显式安全FD/Resolver的新Provider有限付费资格，其后用户本人自然交流/shared-life评审；不搜索旧key。
+下方CURRENT块均为保留的历史检查点，不覆盖本块。
+
 ## CDL checkpoint 2 — tested / actual residency running, not Beta
 [实测] 冻结Core fc0fa46506a360a81a10e14f9d967a734d338141，7205秒真实驻留已启动；
 未完成前不得写两小时PASS。首轮完整回归1266 passed /12 skipped /0 failed；

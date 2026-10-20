@@ -1,6 +1,13 @@
-CORE CHECKPOINT, final full regression still running
+HISTORICAL CORE CHECKPOINT: final full regression was still running at that checkpoint
 Focused: tests/cloud_life — 20 passed in16.40s
 Related process/swap/platform/dialogue:13 passed in9.85s
 Related earlier: cloud/independent/lived-growth/B8/surfaces45 passed; controlled-hands/B8 22 passed
 Initial full regression:1266 passed,12 skipped,0 failed in301.83s
 Skip policy:11 explicitly live-screen;1 E12 real-model gate. No real provider or device invoked.
+
+FINAL EXECUTABLE REGRESSION (Core unchanged after fc0fa46):
+.venv/bin/python -m pytest tests -q
+1268 passed,12 skipped in298.46s;0 failures
+.venv/bin/python -m pytest tests/cloud_life -q
+20 passed in16.40s
+No real provider calls; H2 live-screen and E12 remain skipped by explicit gate.

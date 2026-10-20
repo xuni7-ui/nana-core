@@ -3,7 +3,7 @@
   "running_backup": "CONSISTENT_QUARANTINED",
   "post_sigkill_backup": "CONSISTENT_QUARANTINED",
   "integrity": "QUICK_CHECK_AND_FOREIGN_KEYS",
-  "delete_propagation": "ORIGINAL_PRIVACY_JOURNAL",
+  "delete_propagation": true,
   "fresh_host_running_restore": "ORIGINAL_B8_RETIRE_IMPORT_ACTIVATE",
   "source_retirement": "PERMANENT_FENCE",
   "old_grants": "ALL_REVOKED",
@@ -11,5 +11,6 @@
   "host_config_and_provider_config": "EXPLICIT_DESTINATION_ONLY_NOT_TRANSFERRED",
   "lost_host_unproven_fence": "QUARANTINE_REVIEW_ONLY",
   "stale_snapshot_overwrite": "FRESH_DESTINATION_REQUIRED",
-  "combined_residency_transfer": "RUNNING"
+  "combined_residency_transfer": "PASS_ACTUAL_FRESH_HOST_SAME_SUBJECT",
+  "old_grants_revoked": true
 }

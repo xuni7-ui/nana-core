@@ -1,0 +1,36 @@
+{
+  "level": "PROCESS_QUALIFIED_OWNED_DEV",
+  "status": "PASS_GE_TWO_HOURS",
+  "actual_residency_seconds": 7205.177143084002,
+  "virtual_clock": false,
+  "source_head": "fc0fa46506a360a81a10e14f9d967a734d338141",
+  "source_unchanged": true,
+  "actual_sigkill_restart": {
+    "same_identity": true,
+    "old_epoch": 2,
+    "new_epoch": 3,
+    "no_new_grant": true,
+    "no_action_replay": true
+  },
+  "goals": 12,
+  "completed_goals": 10,
+  "deliberate_counterexample_failed_goals": 2,
+  "kernel_actions": 42,
+  "physical_owned_effect_receipts": 14,
+  "work_complete_at_seconds": 30.843065807996027,
+  "no_action_intentions": 7,
+  "pending_final": 4,
+  "queue_final": 0,
+  "new_provider_calls": 0,
+  "social_sends": 0,
+  "foreign_key_violations": [],
+  "restored_subject": {
+    "identity_id": "45b894f6-b969-4f62-9f3b-17116bc7492c",
+    "grants_all_revoked": true,
+    "same_history": true,
+    "host_profiles_separately_supplied": true,
+    "provider_configuration_transferred": false
+  },
+  "24h_staging": "NOT_RUN",
+  "72h": "NOT_RUN"
+}

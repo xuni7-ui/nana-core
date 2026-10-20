@@ -1,0 +1,85 @@
+{
+  "level": "PROCESS_QUALIFIED_REAL_OWNED_EFFECTS",
+  "source": "Finite explicitly approved owned application manifest -> original C judgment -> F/Kernel -> independent Verify",
+  "goals": [
+    {
+      "goal_id": "0e451bf6-9aef-44d3-96f5-50cc94cba237",
+      "template": "owned-document",
+      "state": "COMPLETED",
+      "version": 8
+    },
+    {
+      "goal_id": "f5236f29-2c64-41b4-8b1c-27bf38fba667",
+      "template": "owned-document",
+      "state": "COMPLETED",
+      "version": 4
+    },
+    {
+      "goal_id": "2272c716-ace8-4050-801a-e6608b50c892",
+      "template": "owned-form",
+      "state": "COMPLETED",
+      "version": 8
+    },
+    {
+      "goal_id": "2ce6e65b-c1bc-452c-a86a-a516a92365f1",
+      "template": "owned-form",
+      "state": "COMPLETED",
+      "version": 4
+    },
+    {
+      "goal_id": "615d281c-62f4-44ae-8da3-611c5d8825b3",
+      "template": "owned-form",
+      "state": "FAILED",
+      "version": 4
+    },
+    {
+      "goal_id": "5c7c7a6a-c697-4e76-afd6-677183d98632",
+      "template": "owned-form",
+      "state": "COMPLETED",
+      "version": 4
+    },
+    {
+      "goal_id": "71104980-4bd3-4b36-963c-9f7ce82eca4b",
+      "template": "owned-form",
+      "state": "COMPLETED",
+      "version": 4
+    },
+    {
+      "goal_id": "2e6ec698-477c-4b5d-bce0-fbfe2a97127f",
+      "template": "owned-document",
+      "state": "FAILED",
+      "version": 4
+    },
+    {
+      "goal_id": "cc662cb5-d07a-4a98-a272-2e53060aa5c6",
+      "template": "owned-content",
+      "state": "COMPLETED",
+      "version": 4
+    },
+    {
+      "goal_id": "12271f34-642b-4b70-8c82-11ca9b112fde",
+      "template": "owned-files",
+      "state": "COMPLETED",
+      "version": 4
+    },
+    {
+      "goal_id": "a8e0cc37-3c42-4a8f-bbdf-6c5f95674f93",
+      "template": "owned-content",
+      "state": "COMPLETED",
+      "version": 4
+    },
+    {
+      "goal_id": "754a96b8-ef48-45bd-a1f4-ecd80e874f28",
+      "template": "owned-files",
+      "state": "COMPLETED",
+      "version": 4
+    }
+  ],
+  "actions": 42,
+  "effects": 14,
+  "no_action": 7,
+  "pending_final": 4,
+  "queue_final": 0,
+  "subject_will_in_runtime": false,
+  "forced_continuous_learning": false
+}
