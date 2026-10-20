@@ -2149,3 +2149,40 @@ Source/staging与live/fix证据分别登记；新Source修复不覆盖固定6458
 [实测 first-life evidence packaging] live_credential_scan.json仅含scan范围/结果/保护开关元数据，无凭据；宽泛credential忽略规则使其未随目录add纳入，现以逐文件白名单显式纳入。检查manifest所有成员必须Git tracked；不amend历史，不修改忽略规则。
 
 [实测 manifest closure] 最终tracked/hash验证发现初始credential_scan.json也被宽泛忽略；同样仅scan元数据，显式白名单纳入并再次检查全部41成员，不改历史commit。
+
+[First-Life continued / implemented] 用户接受首笔DeepSeek并授权累计20次/$1保守预留；新增可选host-local lifetime call/reserved-cost ceilings，查询原cognitive_requests，不新增Store/表/预算账本，restart/day rollover不返还。仅资格home CAS提高hour/day到20，生产默认不变；24h固定工作树不动。实际费用仍UNKNOWN，不能把reservation当billing证明。验证total restart/day/cost tests与真实INTERPRET+RENDER后记录。
+
+[实测 live follow-up] 累计第2次返回可解析，但Core拒绝DIALOGUE_CANNOT_PROPOSE_AUTHORITY，不放宽gate、不退款、不称通过。收窄同一OpenAI transport对话wire schema到INTERPRET/dialogue或SOCIAL/draft，只优化请求角色边界，原StructuredProposal与reject不变。新output/message IDs用于修复后新资格，旧拒绝结果保留。来源capture复用已存observed time避免重入重复。
+
+[实测 live v3] natural INTERPRET+RENDER通过；source-grounded INTERPRET HTTP200非完整输出，未盲重试，累计5次。增加可配置有限provider_output_tokens（默认1024保持；资格2048与现有ModelProfile CAS求交），并为非完整输出保留allowlisted finish_reason/model/usage的ephemeral观测，不弱化strict schema。后续跳过已通过natural，仅新消息验证其余项。
+
+[实测 v4与有限兼容修复] source-grounded/correction真实通过；disagreement RENDER HTTP200 finish_reason=length且completion_tokens2048，FAILED保留，累计11次。官方https://api-docs.deepseek.com/guides/thinking_mode/公开说明支持thinking.type enabled/disabled；新增显式host-local chat_thinking_mode opt-in（默认PROVIDER_DEFAULT不变）传原transport，资格profile经CAS选DISABLED；不写死provider/model，不删gate、不退款。对话wire同时去除无关planner/media $defs。只继续剩余disagreement/unknown/shared/refusal/restart，新IDs，不重做已PASS。
+
+[实测 v5] disagreement与unknown真实INTERPRET+RENDER通过；shared在ContextAssembler准备时INSUFFICIENT_CONTEXT_BUDGET，dispatch0，累计15次。新增host-local provider_context_tokens默认8192保持；资格16384和2048输出/ModelProfile/Router/Runtime继续求交，不删assembler/privacy/support规则。仅新shared消息+零调用refusal/restart继续；前述已PASS结果逐一引用，余额不返还。
+
+## CURRENT — FIRST-LIFE / DEEPSEEK FUNCTIONAL TEXT QUALIFIED / HUMAN REVIEW PENDING
+[实测2026-10-20] 同一主线/分支，GLOBAL_STAGE H。累计17次DeepSeek / deepseek-flash；独立request IDs17，
+无automatic retry/fallback/UNKNOWN；旧TianToken UNKNOWN PARKED，不重放。14 PROPOSED、1 REJECTED、2 FAILED保留。
+真实功能场景：natural(v3)、source-grounded/correction(v4)、disagreement wording/unknown(v5)、shared(v6)
+均INTERPRET+RENDER；拒绝topic与重启后仍关闭均0模型调用。原C judgment逐项保留，不把模型“不同意”措辞伪装Core DISAGREE。
+Shared引用的是实际开发资格HTTP200及源码观察，不是私人共同历史/production经历，不能冒充真人Shared-Life评审。
+累计保守reservation850000 nominal USD micro/$0.85，上限1000000/$1；累计calls硬限20，余3；
+小时/日20，仅资格home CAS；跨重启/跨日期累计限制复用原cognitive_requests，失败/拒绝/UNKNOWN不退款。
+实际billing UNKNOWN，16/17次可见usage总计80350 input/12320 output（非完整总量），provider-side硬扣费cap未attest。
+修复对话wire schema角色范围与无关$defs，不弱化Core authority/schema gate；保留partial finish_reason/model/usage观测。
+可选host profile chat_thinking_mode=DISABLED（官方公开文档已核实；默认PROVIDER_DEFAULT不变），
+资格context16384/output2048/timeout15000ms继续与Model/Route/Runtime求交；生产默认8192/1024不变。
+私有IPC评审入口已实际启动，same reference identity b5864db1-ecfe-4278-9bc2-76db0e096311、PID59982，
+/workspace/nana-staging/first-life-deepseek-01/life；最多7200秒，当前余3calls通常仅1完整轮；不持久化真人对话原文。
+Human naturalness/Shared-Life review NOT_RUN；FIRST_LIFE_EXPERIENCE_READY=NOT_READY，BETA_READY=NO。
+24h staging根/workspace/nana-staging/first-life-24h-01固定645899b独立继续，约1h时ACTIVE/epoch3/q0/RSS44708KiB，
+该进程provider calls0，未重启/污染，不冒充24h PASS。生产inventory/cutover/canary/72h仍NOT_RUN。
+One original C/Store/Runtime owner per reference lineage；schema13/43表，新表0/新依赖0；main/R045/production/private/social不变。
+下方CURRENT是保留历史；DeepSeek新functional qualification不把历史H1 TianToken/Qwen PARTIAL改成FULL。
+
+[实测 continuation final checkpoint] focused70 passed13.81s；最终full1279 passed/12 skipped/0 failed294.18s。
+当前凭据exact-match审计：1520个受控文件约49.7MB+git diff，matches0/oversized skip0，包含tracked/evidence/资格home+logs；
+不搜索历史凭据、不读取旧bundle，不声称审计平台工具日志或所有宿主存储。当前人工入口凭据仅在有界进程内存持有，
+不是“所有进程已清空”；早期资格进程已退出，新入口停止后Resolver clear，无自动credential恢复。
+剩余3次模型调用通常仅1完整轮；未收到真人消息/评审则Human NOT_RUN，不把开发者候选检查当Human通过。
+主线继续门是当前私有开发入口人工体验；24h真实驻留另行等待结果，不提前production inventory/cutover。

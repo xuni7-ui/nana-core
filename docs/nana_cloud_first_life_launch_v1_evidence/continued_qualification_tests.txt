@@ -1,0 +1,4 @@
+Final frozen working code full regression:1279 passed,12 skipped,0 failed in294.18s.
+Focused budget/dialogue/H1 wire/provider-routing:70 passed in13.81s.
+12 skips remain11 explicit live-screen plusE12; default offline regression no real-model calls.
+Real DeepSeek functional qualification:17 calls including failures;6 functional cases plus zero-call refusal/restart; human review NOT_RUN.

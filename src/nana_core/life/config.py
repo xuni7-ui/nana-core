@@ -49,10 +49,14 @@ class LifeConfig(DTO):
     provider_hosts:tuple[str,...]=()
     remote_privacy:tuple[Literal['PUBLIC','PROJECT','PERSONAL'],...]=()
     provider_timeout_ms:int=Field(default=2000,ge=100,le=15000)
+    provider_output_tokens:int=Field(default=1024,ge=64,le=4096)
+    provider_context_tokens:int=Field(default=8192,ge=1024,le=65536)
     provider_calls_per_day:int=Field(default=12,ge=0,le=24)
     provider_calls_per_hour:int=Field(default=24,ge=0,le=24)
     per_provider_calls_per_day:int=Field(default=24,ge=0,le=24)
     provider_cost_ceiling_micro:int=Field(default=0,ge=0,le=100000)
+    provider_total_calls_limit:int|None=Field(default=None,ge=0,le=100000)
+    provider_total_reserved_cost_micro:int|None=Field(default=None,ge=0,le=1000000000)
 
 
 def home_path(home):

@@ -2,7 +2,7 @@
   "requested_provider": "DeepSeek",
   "model": "deepseek-flash",
   "authorized_calls_max": 20,
-  "observed_calls": 1,
+  "observed_calls": 17,
   "authorized_total_usd_max": 1,
   "call_usage": {
     "input_tokens": 5790,
@@ -15,6 +15,10 @@
   "configured_cost_ceiling_micro": 50000,
   "configured_ceiling_is_actual_billing_truth": false,
   "automatic_expansion_of_paid_calls": false,
-  "next_requirement": "Verified applicable model pricing/cost bound before further paid qualification",
-  "credentials_used_in_public_doc_requests": false
+  "next_requirement": "Human review within existing remaining slots; further calls after20 require new authorization",
+  "credentials_used_in_public_doc_requests": false,
+  "host_nominal_reserved_usd": 0.85,
+  "remaining_call_slots": 3,
+  "estimated_reservation_per_call_usd": 0.05,
+  "latest_user_authorization": "Continue with conservative hard host-reserved budget even if precise tariff unavailable"
 }

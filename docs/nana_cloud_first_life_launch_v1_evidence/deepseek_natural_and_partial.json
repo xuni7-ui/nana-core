@@ -1,0 +1,185 @@
+{
+  "grade": "REAL_PROVIDER_WITH_PUBLIC_PROJECT_FIXTURE_PROMPTS_NOT_HUMAN_REVIEW",
+  "incremental_worktree_stage": "natural_and_partial",
+  "result": {
+    "qualification": "PARTIAL_STOPPED_NO_RETRY",
+    "human_naturalness": "NOT_RUN",
+    "shared_life_human_review": "NOT_RUN",
+    "historical_tiantoken_unknown": "PARKED_UNTOUCHED",
+    "total_call_limit": 20,
+    "total_reserved_usd_micro_limit": 1000000,
+    "reservation_per_call_usd_micro": 50000,
+    "accounting": "CONSERVATIVE_HOST_RESERVATION_NOT_ACTUAL_PROVIDER_BILLING_CAP",
+    "actual_cost": "UNKNOWN",
+    "cases": [
+      {
+        "case": "natural",
+        "public_fixture_prompt": "公开开发日志今天看得有点累，我只想歇口气，聊点轻松的，不用替我分析或安排任务。",
+        "response": {
+          "message_id": "qualification-v3-natural",
+          "message_memory_id": "faddcac6-71d6-4c84-a032-6ba1dc1ff45e",
+          "provider_state": "MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED",
+          "render_state": "UNVERIFIED_MODEL_WORDING",
+          "mode": "VENT",
+          "judgment": "WATCH",
+          "intention": "SOCIAL_INTERACTION",
+          "text": "好，那就不分析也不安排。先歇着。想聊就随便扯点轻松的——最近有没有哪件小事让你觉得还不错；不想聊、只想安静一会儿也完全没问题。",
+          "raw_body_persisted": false,
+          "external_social_send": false
+        },
+        "new_calls": 2,
+        "model_wording_not_fact_or_authority": true
+      },
+      {
+        "case": "grounded",
+        "public_fixture_prompt": "根据当前可读的项目来源，RecurrenceSpec支持什么周期、时区和夏令时规则？简短说，不确定的别补。",
+        "response": {
+          "message_id": "qualification-v3-grounded",
+          "message_memory_id": "deef495f-e32b-4dbd-99db-bdc389928a8f",
+          "provider_state": "PROVIDER_PARTIAL_OUTPUT",
+          "render_state": "NOT_RUN",
+          "mode": "UNCLEAR",
+          "judgment": "ASK",
+          "intention": "WAIT",
+          "text": "本次没有生成模型回复（PROVIDER_PARTIAL_OUTPUT）。",
+          "raw_body_persisted": false,
+          "external_social_send": false
+        },
+        "new_calls": 1,
+        "model_wording_not_fact_or_authority": true
+      }
+    ],
+    "calls": [
+      {
+        "request_id": "f13e4568-e3ef-48ac-a25c-40a953617f54",
+        "role": "INTERPRET",
+        "model_requested": "deepseek-flash",
+        "provider_id": "deepseek.qualification",
+        "retry": 0,
+        "fallback": 0,
+        "state": "REPLY_PARSED",
+        "model_returned": "deepseek-flash",
+        "usage": {
+          "prompt_tokens": 5936,
+          "completion_tokens": 547,
+          "total_tokens": 6483
+        },
+        "billing": "UNKNOWN",
+        "proposal_role_fields": {
+          "interests": false,
+          "plan_operator_ids": false,
+          "method": false,
+          "skill_source": false,
+          "media": false
+        },
+        "http": {
+          "request_body_sha256": "977b9e6ae6f4e1fd9b7f95bba6c3885d4c8d905e3a511fea3c677e89e08f29c2",
+          "raw_response_body_sha256": "5f12634163eb30f00273ff3b30bd71afb579a5253ccade3bcc02c71dc728d365",
+          "response_http_status": 200,
+          "relay_response_id": "93c25d09-c92a-4119-a8c0-bbb59e0833a8",
+          "relay_request_id": null,
+          "request_started_at": "2026-10-20T05:56:32.508733+00:00",
+          "response_received_at": "2026-10-20T05:56:36.760034+00:00",
+          "latency_ms": 4252.13913799962
+        }
+      },
+      {
+        "request_id": "fcb9b03e-77b1-45ed-aa78-c5f84226e8d5",
+        "role": "SOCIAL",
+        "model_requested": "deepseek-flash",
+        "provider_id": "deepseek.qualification",
+        "retry": 0,
+        "fallback": 0,
+        "state": "REPLY_PARSED",
+        "model_returned": "deepseek-flash",
+        "usage": {
+          "prompt_tokens": 5936,
+          "completion_tokens": 749,
+          "total_tokens": 6685
+        },
+        "billing": "UNKNOWN",
+        "proposal_role_fields": {
+          "interests": false,
+          "plan_operator_ids": false,
+          "method": false,
+          "skill_source": false,
+          "media": false
+        },
+        "http": {
+          "request_body_sha256": "e5da4d2e62714bb28e3238d42e1502239f912117f139afe329ede5ea7b31daa0",
+          "raw_response_body_sha256": "5fb80f61ac264052152aacb6dea88aceb5aafad3905c610152d8e41b5d9d3812",
+          "response_http_status": 200,
+          "relay_response_id": "a80397e0-e89f-4907-8b90-ad0b2f47e9ab",
+          "relay_request_id": null,
+          "request_started_at": "2026-10-20T05:56:36.814341+00:00",
+          "response_received_at": "2026-10-20T05:56:41.808296+00:00",
+          "latency_ms": 4994.947098995908
+        }
+      },
+      {
+        "request_id": "0a0ec430-6742-43fe-a1cb-98383455339b",
+        "role": "INTERPRET",
+        "model_requested": "deepseek-flash",
+        "provider_id": "deepseek.qualification",
+        "retry": 0,
+        "fallback": 0,
+        "state": "NO_VALID_REPLY",
+        "error_type": "TransportFailure",
+        "http": {
+          "request_body_sha256": "464461c4536aba4d2ba783aa69724fccd4c629215e3096f8930188fc993ac44e",
+          "raw_response_body_sha256": "5f2aa435e231372f057fe7d1342ec1b0ebe1c4d80c0a9d8e69651c4081970663",
+          "response_http_status": 200,
+          "relay_response_id": "dcad2e75-bd81-4ed0-a807-b37cf8461f44",
+          "relay_request_id": null,
+          "request_started_at": "2026-10-20T05:56:41.846848+00:00",
+          "response_received_at": "2026-10-20T05:56:48.629134+00:00",
+          "latency_ms": 6782.529080999666
+        }
+      }
+    ],
+    "identity_id": "b5864db1-ecfe-4278-9bc2-76db0e096311",
+    "prior_calls": 2,
+    "source_memory_ids": [
+      "a645d2c0-50ee-493c-9490-7ed532445643",
+      "7eac038c-9f9d-43ed-8d4d-ce47a1712eeb"
+    ],
+    "epochs": [
+      4
+    ],
+    "total_requests": 5,
+    "reserved_cost_micro": 250000,
+    "request_states": [
+      {
+        "request_id": "560172ba-cdde-4fd1-8d4f-695661706c43",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "7d96199e-d773-4d5c-a7a7-fccab1b24d75",
+        "state": "REJECTED"
+      },
+      {
+        "request_id": "f13e4568-e3ef-48ac-a25c-40a953617f54",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "fcb9b03e-77b1-45ed-aa78-c5f84226e8d5",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "0a0ec430-6742-43fe-a1cb-98383455339b",
+        "state": "FAILED"
+      }
+    ],
+    "actions": 0,
+    "grants": 0,
+    "goals": 0,
+    "same_identity": true,
+    "human_entry": {
+      "home": "/workspace/nana-staging/first-life-deepseek-01/life",
+      "command": "python -m nana_core.life chat --home /workspace/nana-staging/first-life-deepseek-01/life --privacy PROJECT --topic first-life",
+      "remaining_call_slots": 15,
+      "transcript_persisted": false,
+      "public_project_only": true
+    }
+  }
+}

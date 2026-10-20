@@ -98,3 +98,16 @@ def test_reply_context_contains_actual_verified_work_not_unrelated_raw_corpus(tm
         assert any('LOCAL_ARTIFACT' in m.get('text','') for m in memories)
         assert not any('def known_zone' in m.get('text','') for m in memories)
         assert app.status()['view']['resources']['background_reserved_bytes']==0
+
+
+def test_dialogue_wire_schema_excludes_non_dialogue_authority_fields(tmp_path):
+ home=tmp_path/'home';initialize(home,active=0)
+ with relay(home,'CHAT') as (router,requests),LifeApplication(home,clock=VirtualClock(),router=router) as app:
+  app.pause();answer=app.chat('SYNTHETIC_PROJECT',privacy='PROJECT')
+  assert answer['render_state']=='UNVERIFIED_MODEL_WORDING'
+  for body in requests:
+   fields=set(body['expected_schema']['properties'])
+   assert not fields & {'interests','plan_operator_ids','method','skill_source','media'}
+   assert ('dialogue' in fields) == (body['cognitive_role']=='INTERPRET')
+   assert ('draft' in fields) == (body['cognitive_role']=='SOCIAL')
+   assert set(body['expected_schema']['$defs'])==({'DialogueMeaning'} if body['cognitive_role']=='INTERPRET' else {'DialogueDraft'})

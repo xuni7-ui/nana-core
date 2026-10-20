@@ -95,7 +95,7 @@ class RuntimeProviderFactory:
             from .world_loop.semantic_contracts import SemanticDescriptor
             endpoint=provider.base_url+'/chat/completions'
             kw=dict(provider_id=provider.provider_profile_id,credential=credential,harness=harness)
-            if operation=='COGNITION':return OpenAIJSONTransport(endpoint,model.remote_model_id,**kw)
+            if operation=='COGNITION':return OpenAIJSONTransport(endpoint,model.remote_model_id,thinking_mode=provider.chat_thinking_mode,**kw)
             modality={'VISION':'IMAGE','AUDIO_UNDERSTAND':'AUDIO','VIDEO_UNDERSTAND':'VIDEO'}[operation]
             # ASR is a separate configured port; no implicit ASR claim here.
             descriptor=SemanticDescriptor(provider_id=provider.provider_profile_id,model_id=model.remote_model_id,modalities=(modality,),asr=False,max_input_bytes=98304)

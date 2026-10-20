@@ -1,10 +1,20 @@
 {
   "naturalness": "NOT_RUN",
   "shared_life": "NOT_RUN",
-  "entry": "python -m nana_core.life chat --home <existing-home> --privacy PROJECT",
+  "entry": "python -m nana_core.life chat --home /workspace/nana-staging/first-life-deepseek-01/life --privacy PROJECT --topic first-life",
   "rating_entry": "python -m nana_core.life review --home <existing-home> --json",
   "evidence_grade": "HUMAN_DECLARED_METADATA_NOT_CRYPTOGRAPHIC_ATTESTATION",
   "unit_test_ratings_are_human_review": false,
   "readiness_automatically_promoted": false,
-  "raw_transcript_persisted": false
+  "raw_transcript_persisted": false,
+  "entry_state": "ACTUAL_PRIVATE_IPC_READY_VERIFIED_NO_MODEL_CALL",
+  "identity_id": "b5864db1-ecfe-4278-9bc2-76db0e096311",
+  "runtime_pid": 59982,
+  "home": "/workspace/nana-staging/first-life-deepseek-01/life",
+  "remaining_calls_at_checkpoint": 3,
+  "typical_calls_per_complete_turn": 2,
+  "duration_bound_seconds": 7200,
+  "role": "DEVELOPMENT_REFERENCE_SUBJECT_NOT_PRODUCTION_NANA_IMPORT",
+  "autonomy": "PAUSED_NO_NEW_TASKS_FOR_QUALIFICATION",
+  "transcript_persisted": false
 }

@@ -67,3 +67,12 @@ def test_all_existing_media_ports_and_embedding_route_rebuild(tmp_path):
         changed=router.resolve(RouteRequest(operation='EMBED'),policy())
         with pytest.raises(CoreError,match='REBUILD_REQUIRED'):changed.embedding_lookup(cache,r.store,dimension=3)
         assert r.store.snapshot()==before
+
+
+def test_explicit_chat_thinking_option_reuses_factory_without_dispatch():
+    p=ProviderProfile(provider_profile_id='test.remote',display_name='Fixture constructor only',protocol='OPENAI_COMPATIBLE_CHAT',locality='REMOTE',base_url='https://provider.example',secret_ref='test.ref')
+    m=model('test.text',p.provider_profile_id)
+    factory=RuntimeProviderFactory(ProviderRegistry(),Resolver(('test.ref',)),RoutingPolicy(allow_remote=True,allowed_remote_hosts=('provider.example',)))
+    default=factory.create(p,m,'COGNITION');assert default.thinking_mode=='PROVIDER_DEFAULT'
+    explicit=factory.create(p.model_copy(update={'chat_thinking_mode':'DISABLED'}),m,'COGNITION')
+    assert explicit.thinking_mode=='DISABLED' and explicit.model_id==default.model_id

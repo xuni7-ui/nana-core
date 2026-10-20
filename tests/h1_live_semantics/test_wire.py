@@ -37,6 +37,7 @@ def test_wire_measurements_real_bytes_digest_ids_no_headers_and_legacy_digest(tm
         envelope=canonical({'id':'relay-response','model':'qwen3.8-flash','choices':[{'message':{'content':canonical(content)},'finish_reason':'stop'}],'usage':{'prompt_tokens':12,'completion_tokens':9}}).encode()
         t.opener=Opener(Response(envelope));rep=t.exchange(request);obs=rep.http_observation
         assert obs.request_body_sha256==hashlib.sha256(t.opener.requests[0].data).hexdigest()
+        assert 'thinking' not in json.loads(t.opener.requests[0].data)
         assert obs.raw_response_body_sha256==hashlib.sha256(envelope).hexdigest()
         assert (obs.relay_request_id,obs.relay_response_id,obs.response_http_status)==('relay-request','relay-response',200)
         assert obs.request_started_at.endswith('+00:00') and obs.response_received_at.endswith('+00:00')
@@ -103,3 +104,22 @@ def test_unknown_new_call_cannot_inherit_previous_completed_response_metadata():
     assert completed_response(opener,before) is None
     opener.responses.append({'id':'new','model':'requested','usage':{'prompt_tokens':2}})
     assert completed_response(opener,before)['id']=='new'
+
+
+def test_incomplete_response_keeps_allowlisted_usage_and_resets_on_timeout(tmp_path):
+    from nana_core.continuity.world_loop.cognition import CognitionBudget,TransportFailure
+    with fresh(tmp_path/'s/self.db') as r:
+        t=remote();s=setup(r,t);raw=media_samples()['IMAGE'];mid=ingest(r,'IMAGE',raw)
+        cid=s.prepare('partial-metadata',mid,raw,budget=CognitionBudget(cost_ceiling_micro=1000))
+        req=CognitionRequest.model_validate_json(canonical(s.records.read(r.store.one('cognitive_requests',cid)['record_id'])['payload']['request']))
+        payload=canonical({'id':'partial-id','model':'qwen3.8-flash','choices':[{'message':{'content':'{'},'finish_reason':'length'}],'usage':{'prompt_tokens':12,'completion_tokens':1024,'credential':'FAKE_TEST_SENTINEL'}}).encode()
+        t.opener=Opener(Response(payload));t.thinking_mode='DISABLED'
+        with pytest.raises(TransportFailure,match='PROVIDER_PARTIAL_OUTPUT'):t.exchange(req)
+        assert json.loads(t.opener.requests[0].data)['thinking']=={'type':'disabled'}
+        assert t.last_response_metadata=={'finish_reason':'length','model_returned':'qwen3.8-flash','usage':{'prompt_tokens':12,'completion_tokens':1024}}
+        assert 'FAKE_TEST_SENTINEL' not in canonical(t.last_response_metadata)
+        class Timeout:
+            def open(self,*args,**kwargs):raise TimeoutError()
+        t.opener=Timeout()
+        with pytest.raises(TimeoutError):t.exchange(req)
+        assert t.last_response_metadata is None

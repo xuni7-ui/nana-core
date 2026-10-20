@@ -145,10 +145,15 @@ class LifeApplication:
         if self.router is None:raise CoreError('LIVE_PROVIDER_NOT_RUN_OFFLINE_MODE')
         from ..presence.resources import resource_state
         if resource_state(self.runtime.store,self.runtime.config).unresolved_calls:raise CoreError('UNRESOLVED_PROVIDER_CALL_NO_RETRY')
-        target=self.router.resolve(RouteRequest(operation='COGNITION',privacy_class=privacy,timeout_ms=self.config.provider_timeout_ms,cost_ceiling=self.config.provider_cost_ceiling_micro,context_limit=8192,output_limit=1024),self.policy)
+        target=self.router.resolve(RouteRequest(operation='COGNITION',privacy_class=privacy,timeout_ms=self.config.provider_timeout_ms,cost_ceiling=self.config.provider_cost_ceiling_micro,context_limit=self.config.provider_context_tokens,output_limit=self.config.provider_output_tokens),self.policy)
         # Additional host ceilings intersect the original Runtime reservations.
         # PREPARED/UNKNOWN attempts count too; absence of a bill is not a refund.
         now=self.runtime.clock.utc_now_us();s=self.runtime.store
+        # Optional mission-wide ceilings reuse original immutable reservations,
+        # across dates/restarts/providers. UNKNOWN/failure never refunds a slot.
+        calls,cost=s.db.execute('SELECT count(*),coalesce(sum(reserved_cost_micro),0) FROM cognitive_requests').fetchone()
+        if self.config.provider_total_calls_limit is not None and calls>=self.config.provider_total_calls_limit:raise CoreError('PROVIDER_TOTAL_CALL_BUDGET')
+        if self.config.provider_total_reserved_cost_micro is not None and cost+self.config.provider_cost_ceiling_micro>self.config.provider_total_reserved_cost_micro:raise CoreError('PROVIDER_TOTAL_RESERVED_COST_BUDGET')
         if s.db.execute('SELECT count(*) FROM cognitive_requests WHERE created_at_us>=?',(now-HOUR,)).fetchone()[0]>=self.config.provider_calls_per_hour:raise CoreError('PROVIDER_HOURLY_BUDGET')
         count=s.db.execute("SELECT count(*) FROM cognitive_requests c JOIN continuity_records r ON r.record_id=c.record_id JOIN artifacts a ON a.artifact_id=r.payload_artifact_id WHERE c.created_at_us>=? AND json_extract(CAST(a.payload AS TEXT),'$.request.route_snapshot.provider_profile_id')=?",(now-24*HOUR,target.snapshot.provider_profile_id)).fetchone()[0]
         if count>=self.config.per_provider_calls_per_day:raise CoreError('PROVIDER_PROFILE_DAILY_BUDGET')
@@ -175,7 +180,7 @@ class LifeApplication:
             judgment=cycle.judgment.stance if cycle else None,intention=cycle.intention.kind if cycle else None,context_mode=cycle.context_fit.mode if cycle else None,effect_status='VERIFIED_EFFECT' if facts else 'NONE')
         data={'dialogue':descriptor.model_dump(mode='json')};volatile={'dialogue':descriptor.model_copy(update={'text':text,'recent_turns':tuple(recent)}).model_dump(mode='json')}
         request=session.prepare(key, 'INTERPRET' if phase=='INTERPRET' else 'SOCIAL',tuple(dict.fromkeys((mid,*facts,*continuity,*(t.message_memory_id for t in recent)))),role_input=data,volatile_input=volatile,
-            budget=CognitionBudget(input_tokens=8192,output_tokens=1024,timeout_ms=self.config.provider_timeout_ms,cost_ceiling_micro=self.config.provider_cost_ceiling_micro))
+            budget=CognitionBudget(input_tokens=self.config.provider_context_tokens,output_tokens=self.config.provider_output_tokens,timeout_ms=self.config.provider_timeout_ms,cost_ceiling_micro=self.config.provider_cost_ceiling_micro))
         result=session.execute(request)
         if result['state']!='PROPOSED':raise CoreError(result.get('error_code','DIALOGUE_NOT_PROPOSED'))
         return session,result['record_id']

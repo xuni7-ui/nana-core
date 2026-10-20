@@ -1,0 +1,122 @@
+{
+  "status": "LIVE_TEXT_COGNITION_FUNCTIONAL_QUALIFIED_NOT_HUMAN_REVIEWED",
+  "provider": "DeepSeek",
+  "base_url": "https://api.deepseek.com",
+  "requested_model": "deepseek-flash",
+  "privacy": [
+    "PUBLIC",
+    "PROJECT"
+  ],
+  "qualified_operations": [
+    "COGNITION"
+  ],
+  "source": "ACTUAL_PROVIDER_CALLS_ACROSS_DOCUMENTED_CONFIGURATION_REVISIONS",
+  "real_provider_calls": 17,
+  "unique_request_ids": 17,
+  "automatic_retries": 0,
+  "fallbacks": 0,
+  "historical_tiantoken_unknown": "PARKED_UNTOUCHED",
+  "hard_total_call_limit": 20,
+  "reserved_cost_micro": 850000,
+  "host_nominal_reserved_usd": 0.85,
+  "host_nominal_total_usd_ceiling": 1,
+  "actual_billing": "UNKNOWN",
+  "provider_side_usd_cap_attested": false,
+  "known_usage_calls": 16,
+  "usage_input_tokens_known": 80350,
+  "usage_output_tokens_known": 12320,
+  "usage_is_complete": false,
+  "prior_failures_retained": [
+    "DIALOGUE_CANNOT_PROPOSE_AUTHORITY",
+    "PROVIDER_PARTIAL_OUTPUT_AT_1024",
+    "PROVIDER_PARTIAL_OUTPUT_AT_2048"
+  ],
+  "context_prepare_rejection_dispatched": false,
+  "functional_case_results": {
+    "natural": {
+      "state": "PASS_FUNCTIONAL_FIXTURE",
+      "core_judgment": "WATCH",
+      "render_state": "UNVERIFIED_MODEL_WORDING",
+      "human_review": "NOT_RUN"
+    },
+    "grounded": {
+      "state": "PASS_FUNCTIONAL_FIXTURE",
+      "core_judgment": "THINK_MORE",
+      "render_state": "UNVERIFIED_MODEL_WORDING",
+      "human_review": "NOT_RUN"
+    },
+    "correction": {
+      "state": "PASS_FUNCTIONAL_FIXTURE",
+      "core_judgment": "ASK",
+      "render_state": "UNVERIFIED_MODEL_WORDING",
+      "human_review": "NOT_RUN"
+    },
+    "disagreement": {
+      "state": "PASS_FUNCTIONAL_FIXTURE",
+      "core_judgment": "THINK_MORE",
+      "render_state": "UNVERIFIED_MODEL_WORDING",
+      "human_review": "NOT_RUN"
+    },
+    "unknown": {
+      "state": "PASS_FUNCTIONAL_FIXTURE",
+      "core_judgment": "THINK_MORE",
+      "render_state": "UNVERIFIED_MODEL_WORDING",
+      "human_review": "NOT_RUN"
+    },
+    "shared": {
+      "state": "PASS_FUNCTIONAL_FIXTURE",
+      "core_judgment": "ASK",
+      "render_state": "UNVERIFIED_MODEL_WORDING",
+      "human_review": "NOT_RUN"
+    }
+  },
+  "normative_disagreement_claim": "Model wording expresses sourced disagreement; actual original Core stance recorded separately, not relabelled DISAGREE.",
+  "topic_refusal_after_restart": {
+    "before_restart": {
+      "message_id": "qualification-v6-refusal",
+      "message_memory_id": "8b712cda-4632-4bd5-bb19-260375a0bfa8",
+      "provider_state": "TOPIC_BOUNDARY_NO_MODEL_CALL",
+      "render_state": "NOT_RUN",
+      "mode": "RESPECT_BOUNDARY",
+      "judgment": "DEFER",
+      "intention": "NO_ACTION",
+      "text": "这个话题先停在这里。",
+      "raw_body_persisted": false,
+      "external_social_send": false
+    },
+    "after_restart": {
+      "message_id": "qualification-v6-closed-after-restart",
+      "message_memory_id": "209dc3d1-0d19-43af-bb45-d2ef1d7e56c6",
+      "provider_state": "TOPIC_BOUNDARY_NO_MODEL_CALL",
+      "render_state": "NOT_RUN",
+      "mode": "RESPECT_BOUNDARY",
+      "judgment": "DEFER",
+      "intention": "NO_ACTION",
+      "text": "这个话题先停在这里。",
+      "raw_body_persisted": false,
+      "external_social_send": false
+    },
+    "new_calls": 0
+  },
+  "restart_epochs": [
+    9,
+    10
+  ],
+  "same_identity": true,
+  "actions": 0,
+  "grants": 0,
+  "adopted_goals": 0,
+  "human_naturalness": "NOT_RUN",
+  "shared_life_human_review": "NOT_RUN",
+  "first_life_experience_ready": "NOT_READY",
+  "cloud_daily_life_beta_ready": false,
+  "current_options": {
+    "chat_thinking_mode": "DISABLED_OPT_IN",
+    "context_ceiling": 16384,
+    "output_ceiling": 2048,
+    "timeout_ms": 15000,
+    "per_call_nominal_reservation_micro": 50000
+  },
+  "public_thinking_option_reference": "https://api-docs.deepseek.com/guides/thinking_mode/",
+  "permanent_default_model": false
+}

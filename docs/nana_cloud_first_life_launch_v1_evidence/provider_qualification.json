@@ -1,10 +1,11 @@
 {
-  "status": "PARTIAL_TRANSPORT_AND_INTERPRETATION_PASS",
-  "new_real_provider_calls": 1,
+  "status": "LIVE_TEXT_FUNCTIONAL_QUALIFIED_HUMAN_REVIEW_PENDING",
+  "new_real_provider_calls": 17,
   "usage": {
-    "prompt_tokens": 5790,
-    "completion_tokens": 565,
-    "total_tokens": 6355
+    "known_calls": 16,
+    "input_tokens_known": 80350,
+    "output_tokens_known": 12320,
+    "complete": false
   },
   "cost": "NONE_NEW_INCURRED",
   "historical_unknown": "PARKED_PROVIDER_TIMEOUT_BILLING_UNKNOWN",
@@ -34,8 +35,11 @@
   "base_endpoint_live_verified": true,
   "actual_cost": "UNKNOWN",
   "billing_confirmed": false,
-  "estimated_fee": "UNAVAILABLE_VERIFIED_RATE_NEEDED",
-  "further_calls": "PAUSED_NO_COST_BOUND",
+  "estimated_fee": "CONSERVATIVE_RESERVATIONS_NOT_A_VERIFIED_TARIFF",
+  "further_calls": "PRIVATE_REVIEW_WITHIN_REMAINING_3_SLOTS_ONLY",
   "exact_secret_match_count": 0,
-  "secret_persisted": false
+  "secret_persisted": false,
+  "real_text_provider": "PASS_FUNCTIONAL_TEXT_NOT_HUMAN_REVIEWED",
+  "remaining_call_slots": 3,
+  "credential_disposed": "EARLIER_PROBES_EXITED; BOUNDED_REVIEW_PROCESS_MEMORY_ONLY_ACTIVE"
 }

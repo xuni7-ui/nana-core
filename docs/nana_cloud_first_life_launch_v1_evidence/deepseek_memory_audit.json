@@ -1,0 +1,13 @@
+{
+  "scope": "CURRENT_KEY_EXACT_MATCH_ONLY;TRACKED_FILES_DIFF_NEW_TOOL_WORKSTREAM_EVIDENCE_OWNED_QUALIFICATION_FILES_LOGS",
+  "exact_matches": 0,
+  "files_scanned": 1520,
+  "bytes_scanned": 49661652,
+  "oversized_files_skipped": 0,
+  "historical_credentials_searched": false,
+  "bundle_read": false,
+  "credential_in_argv": false,
+  "credential_in_environment": false,
+  "credential_file_created": false,
+  "all_tooling_or_host_storage_attested": false
+}

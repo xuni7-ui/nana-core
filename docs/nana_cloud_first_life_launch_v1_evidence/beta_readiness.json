@@ -1,7 +1,7 @@
 {
   "status": "PARTIAL_NOT_READY",
   "durability": "IMPLEMENTED_TESTED_BOUNDED_PROCESS",
-  "real_text_provider": "PARTIAL_TRANSPORT_INTERPRET_PASS_RENDER_NOT_RUN",
+  "real_text_provider": "PASS_FUNCTIONAL_TEXT_NOT_HUMAN_REVIEWED",
   "human_naturalness": "NOT_RUN",
   "shared_life_human_review": "NOT_RUN",
   "staging_24h": "RUNNING_NOT_QUALIFIED",
@@ -11,5 +11,6 @@
   "canary": "NOT_RUN",
   "qualification_72h": "NOT_RUN",
   "first_life_experience_ready": "NOT_READY",
-  "cloud_daily_life_beta_ready": false
+  "cloud_daily_life_beta_ready": false,
+  "new_real_provider_calls": 17
 }

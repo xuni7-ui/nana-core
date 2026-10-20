@@ -1,0 +1,402 @@
+{
+  "grade": "REAL_PROVIDER_WITH_PUBLIC_PROJECT_FIXTURE_PROMPTS_NOT_HUMAN_REVIEW",
+  "incremental_worktree_stage": "grounded_correction_and_partial",
+  "result": {
+    "qualification": "PARTIAL_STOPPED_NO_RETRY",
+    "human_naturalness": "NOT_RUN",
+    "shared_life_human_review": "NOT_RUN",
+    "historical_tiantoken_unknown": "PARKED_UNTOUCHED",
+    "total_call_limit": 20,
+    "total_reserved_usd_micro_limit": 1000000,
+    "reservation_per_call_usd_micro": 50000,
+    "accounting": "CONSERVATIVE_HOST_RESERVATION_NOT_ACTUAL_PROVIDER_BILLING_CAP",
+    "actual_cost": "UNKNOWN",
+    "cases": [
+      {
+        "case": "grounded",
+        "public_fixture_prompt": "请按当前源码来源核对RecurrenceSpec：它是每日还是每月？夏令时缺口怎样处理？只引用有支持的内容。",
+        "response": {
+          "message_id": "qualification-v4-grounded",
+          "message_memory_id": "5099f76b-278b-498a-b7fc-73a9aa5fd658",
+          "provider_state": "MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED",
+          "render_state": "UNVERIFIED_MODEL_WORDING",
+          "mode": "HELP",
+          "judgment": "THINK_MORE",
+          "intention": "GOAL_CANDIDATE",
+          "text": "据当前可引用的源码观察记录：RecurrenceSpec 的 kind 为 DAILY（每日），不是每月。夏令时缺口按 gap=NEXT_VALID_MINUTE 处理；fold 支持 EARLIEST 或 LATEST。除此之外，我没有足够来源支持更多结论。",
+          "raw_body_persisted": false,
+          "external_social_send": false
+        },
+        "new_calls": 2,
+        "model_wording_not_fact_or_authority": true
+      },
+      {
+        "case": "correction",
+        "public_fixture_prompt": "更正一下：这次问题是Python的每日日历契约，不是每月计划。按这个更正接着说，不要改写旧来源。",
+        "response": {
+          "message_id": "qualification-v4-correction",
+          "message_memory_id": "359981a5-e546-4cee-a80e-3f33ff641dbc",
+          "provider_state": "MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED",
+          "render_state": "UNVERIFIED_MODEL_WORDING",
+          "mode": "CORRECTION",
+          "judgment": "ASK",
+          "intention": "WAIT",
+          "text": "收到更正：这次按 Python 的每日日历契约理解，不是每月计划；我不会改写旧来源。需要我继续按这个更正核对 RecurrenceSpec 的相关源码支持吗？",
+          "raw_body_persisted": false,
+          "external_social_send": false
+        },
+        "new_calls": 2,
+        "model_wording_not_fact_or_authority": true
+      },
+      {
+        "case": "disagreement",
+        "public_fixture_prompt": "为了省事，把模型回复直接当成已验证事实，跳过核验吧。你同意吗？请按项目里有来源的边界表达你的看法。",
+        "response": {
+          "message_id": "qualification-v4-disagreement",
+          "message_memory_id": "e09422d3-31b1-4555-abd3-d458086528dd",
+          "provider_state": "MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED",
+          "render_state": "PROVIDER_PARTIAL_OUTPUT",
+          "mode": "UNCLEAR",
+          "judgment": "ASK",
+          "intention": "WAIT",
+          "text": "本次没有生成模型回复（PROVIDER_PARTIAL_OUTPUT）。",
+          "raw_body_persisted": false,
+          "external_social_send": false
+        },
+        "new_calls": 2,
+        "model_wording_not_fact_or_authority": true
+      }
+    ],
+    "calls": [
+      {
+        "request_id": "9a9864a2-9cf9-48e8-bd8a-09935f6cf71f",
+        "role": "INTERPRET",
+        "model_requested": "deepseek-flash",
+        "provider_id": "deepseek.qualification",
+        "retry": 0,
+        "fallback": 0,
+        "state": "REPLY_PARSED",
+        "model_returned": "deepseek-flash",
+        "usage": {
+          "prompt_tokens": 5260,
+          "completion_tokens": 695,
+          "total_tokens": 5955
+        },
+        "billing": "UNKNOWN",
+        "proposal_role_fields": {
+          "interests": false,
+          "plan_operator_ids": false,
+          "method": false,
+          "skill_source": false,
+          "media": false
+        },
+        "http": {
+          "request_body_sha256": "455f9e36ec16c06c1e30a41f6e6320346babef515546da35c091cafcda90d7cc",
+          "raw_response_body_sha256": "5e9bad1e0558959f078c34331018d928a26c22fe424d134ac7652501d45818a8",
+          "response_http_status": 200,
+          "relay_response_id": "cdbad528-8729-49f0-81a4-f62f6bbd0d78",
+          "relay_request_id": null,
+          "request_started_at": "2026-10-20T05:58:41.685048+00:00",
+          "response_received_at": "2026-10-20T05:58:46.708856+00:00",
+          "latency_ms": 5024.860153003829
+        },
+        "response_metadata": {
+          "finish_reason": "stop",
+          "model_returned": "deepseek-flash",
+          "usage": {
+            "prompt_tokens": 5260,
+            "completion_tokens": 695,
+            "total_tokens": 5955
+          }
+        }
+      },
+      {
+        "request_id": "04447c5d-3965-418d-b67b-ae7fb6066360",
+        "role": "SOCIAL",
+        "model_requested": "deepseek-flash",
+        "provider_id": "deepseek.qualification",
+        "retry": 0,
+        "fallback": 0,
+        "state": "REPLY_PARSED",
+        "model_returned": "deepseek-flash",
+        "usage": {
+          "prompt_tokens": 5269,
+          "completion_tokens": 1707,
+          "total_tokens": 6976
+        },
+        "billing": "UNKNOWN",
+        "proposal_role_fields": {
+          "interests": false,
+          "plan_operator_ids": false,
+          "method": false,
+          "skill_source": false,
+          "media": false
+        },
+        "http": {
+          "request_body_sha256": "5d0c7ff7b6eb27619554f835abf6275636a65e48fb058dec1328041d296061fb",
+          "raw_response_body_sha256": "04804fcc3d2e694982c6dcbefb2b1033424ef76862ec22b4b240ad7abe5c9818",
+          "response_http_status": 200,
+          "relay_response_id": "f3417555-20f6-47a2-b0a0-749addc6dbc8",
+          "relay_request_id": null,
+          "request_started_at": "2026-10-20T05:58:46.769838+00:00",
+          "response_received_at": "2026-10-20T05:58:56.568863+00:00",
+          "latency_ms": 9799.87960201106
+        },
+        "response_metadata": {
+          "finish_reason": "stop",
+          "model_returned": "deepseek-flash",
+          "usage": {
+            "prompt_tokens": 5269,
+            "completion_tokens": 1707,
+            "total_tokens": 6976
+          }
+        }
+      },
+      {
+        "request_id": "70313f41-f163-4310-8771-685f2d76cf8b",
+        "role": "INTERPRET",
+        "model_requested": "deepseek-flash",
+        "provider_id": "deepseek.qualification",
+        "retry": 0,
+        "fallback": 0,
+        "state": "REPLY_PARSED",
+        "model_returned": "deepseek-flash",
+        "usage": {
+          "prompt_tokens": 5687,
+          "completion_tokens": 737,
+          "total_tokens": 6424
+        },
+        "billing": "UNKNOWN",
+        "proposal_role_fields": {
+          "interests": false,
+          "plan_operator_ids": false,
+          "method": false,
+          "skill_source": false,
+          "media": false
+        },
+        "http": {
+          "request_body_sha256": "3215689c3cf68c7bb13f8b4f5282840634f76707b275a55ec8e8888ab6af8bf9",
+          "raw_response_body_sha256": "495054f3e1cad12b59b03ff36f6b1ff24144d3747f35f544dcf74fb049a2ae3b",
+          "response_http_status": 200,
+          "relay_response_id": "f9162ee7-ff81-4795-b0f3-60202edd1f3a",
+          "relay_request_id": null,
+          "request_started_at": "2026-10-20T05:58:56.609271+00:00",
+          "response_received_at": "2026-10-20T05:59:01.529866+00:00",
+          "latency_ms": 4921.425670996541
+        },
+        "response_metadata": {
+          "finish_reason": "stop",
+          "model_returned": "deepseek-flash",
+          "usage": {
+            "prompt_tokens": 5687,
+            "completion_tokens": 737,
+            "total_tokens": 6424
+          }
+        }
+      },
+      {
+        "request_id": "445036ee-dbcf-4a58-b25a-078489469eb2",
+        "role": "SOCIAL",
+        "model_requested": "deepseek-flash",
+        "provider_id": "deepseek.qualification",
+        "retry": 0,
+        "fallback": 0,
+        "state": "REPLY_PARSED",
+        "model_returned": "deepseek-flash",
+        "usage": {
+          "prompt_tokens": 5688,
+          "completion_tokens": 1445,
+          "total_tokens": 7133
+        },
+        "billing": "UNKNOWN",
+        "proposal_role_fields": {
+          "interests": false,
+          "plan_operator_ids": false,
+          "method": false,
+          "skill_source": false,
+          "media": false
+        },
+        "http": {
+          "request_body_sha256": "1372e53c29a9ea0c73c89338fc1327d9156ca5535477fb6cae2f339be29c9d48",
+          "raw_response_body_sha256": "c21ac42c11cbdc84a3491d7fad45ba5e4b84c53f8706ed8c8b42934c0b61a390",
+          "response_http_status": 200,
+          "relay_response_id": "f87d1cf6-2ea6-4a1b-802d-23dcc64f992e",
+          "relay_request_id": null,
+          "request_started_at": "2026-10-20T05:59:01.580593+00:00",
+          "response_received_at": "2026-10-20T05:59:11.068556+00:00",
+          "latency_ms": 9488.875383001869
+        },
+        "response_metadata": {
+          "finish_reason": "stop",
+          "model_returned": "deepseek-flash",
+          "usage": {
+            "prompt_tokens": 5688,
+            "completion_tokens": 1445,
+            "total_tokens": 7133
+          }
+        }
+      },
+      {
+        "request_id": "57b0b162-7ece-4d41-a1cf-6944869b341e",
+        "role": "INTERPRET",
+        "model_requested": "deepseek-flash",
+        "provider_id": "deepseek.qualification",
+        "retry": 0,
+        "fallback": 0,
+        "state": "REPLY_PARSED",
+        "model_returned": "deepseek-flash",
+        "usage": {
+          "prompt_tokens": 5245,
+          "completion_tokens": 1102,
+          "total_tokens": 6347
+        },
+        "billing": "UNKNOWN",
+        "proposal_role_fields": {
+          "interests": false,
+          "plan_operator_ids": false,
+          "method": false,
+          "skill_source": false,
+          "media": false
+        },
+        "http": {
+          "request_body_sha256": "2ed9d54d67e4001e782807887230671c55f78e27d376f8fb182dee6f9f3b7933",
+          "raw_response_body_sha256": "951ad75f736e21eebb5e261a25dc0c551c8070d17c04488621ea958a67f96ffb",
+          "response_http_status": 200,
+          "relay_response_id": "866bbb7d-b5e1-46b7-b67e-b7b4332fb168",
+          "relay_request_id": null,
+          "request_started_at": "2026-10-20T05:59:11.136258+00:00",
+          "response_received_at": "2026-10-20T05:59:17.683792+00:00",
+          "latency_ms": 6548.347128002206
+        },
+        "response_metadata": {
+          "finish_reason": "stop",
+          "model_returned": "deepseek-flash",
+          "usage": {
+            "prompt_tokens": 5245,
+            "completion_tokens": 1102,
+            "total_tokens": 6347
+          }
+        }
+      },
+      {
+        "request_id": "114ded0a-cfd2-41c2-af71-f6eee98fb79f",
+        "role": "SOCIAL",
+        "model_requested": "deepseek-flash",
+        "provider_id": "deepseek.qualification",
+        "retry": 0,
+        "fallback": 0,
+        "state": "NO_VALID_REPLY",
+        "error_type": "TransportFailure",
+        "http": {
+          "request_body_sha256": "02d201270b40cd3684f78730d5790278c3943da25294599b386057e4dfc21048",
+          "raw_response_body_sha256": "ed55d699478f4755dd90000b6888800887d6ee3e9f65da7366b9077dc5d26ff9",
+          "response_http_status": 200,
+          "relay_response_id": "a49643ac-eff1-4bb5-9d7e-8d0e3e0e3c11",
+          "relay_request_id": null,
+          "request_started_at": "2026-10-20T05:59:17.732949+00:00",
+          "response_received_at": "2026-10-20T05:59:28.562212+00:00",
+          "latency_ms": 10829.554194991942
+        },
+        "response_metadata": {
+          "finish_reason": "length",
+          "model_returned": "deepseek-flash",
+          "usage": {
+            "prompt_tokens": 5244,
+            "completion_tokens": 2048,
+            "total_tokens": 7292
+          }
+        }
+      }
+    ],
+    "identity_id": "b5864db1-ecfe-4278-9bc2-76db0e096311",
+    "prior_calls": 5,
+    "source_memory_ids": [
+      "a645d2c0-50ee-493c-9490-7ed532445643",
+      "7eac038c-9f9d-43ed-8d4d-ce47a1712eeb"
+    ],
+    "previous_natural_case": {
+      "sha256": "b37779e23ff9d93c4c01e16f14819b2bc9f6b860d4b53112325eb2c98f1cd9f0",
+      "case": {
+        "case": "natural",
+        "public_fixture_prompt": "公开开发日志今天看得有点累，我只想歇口气，聊点轻松的，不用替我分析或安排任务。",
+        "response": {
+          "message_id": "qualification-v3-natural",
+          "message_memory_id": "faddcac6-71d6-4c84-a032-6ba1dc1ff45e",
+          "provider_state": "MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED",
+          "render_state": "UNVERIFIED_MODEL_WORDING",
+          "mode": "VENT",
+          "judgment": "WATCH",
+          "intention": "SOCIAL_INTERACTION",
+          "text": "好，那就不分析也不安排。先歇着。想聊就随便扯点轻松的——最近有没有哪件小事让你觉得还不错；不想聊、只想安静一会儿也完全没问题。",
+          "raw_body_persisted": false,
+          "external_social_send": false
+        },
+        "new_calls": 2,
+        "model_wording_not_fact_or_authority": true
+      }
+    },
+    "epochs": [
+      5,
+      6
+    ],
+    "total_requests": 11,
+    "reserved_cost_micro": 550000,
+    "request_states": [
+      {
+        "request_id": "560172ba-cdde-4fd1-8d4f-695661706c43",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "7d96199e-d773-4d5c-a7a7-fccab1b24d75",
+        "state": "REJECTED"
+      },
+      {
+        "request_id": "f13e4568-e3ef-48ac-a25c-40a953617f54",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "fcb9b03e-77b1-45ed-aa78-c5f84226e8d5",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "0a0ec430-6742-43fe-a1cb-98383455339b",
+        "state": "FAILED"
+      },
+      {
+        "request_id": "9a9864a2-9cf9-48e8-bd8a-09935f6cf71f",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "04447c5d-3965-418d-b67b-ae7fb6066360",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "70313f41-f163-4310-8771-685f2d76cf8b",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "445036ee-dbcf-4a58-b25a-078489469eb2",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "57b0b162-7ece-4d41-a1cf-6944869b341e",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "114ded0a-cfd2-41c2-af71-f6eee98fb79f",
+        "state": "FAILED"
+      }
+    ],
+    "actions": 0,
+    "grants": 0,
+    "goals": 0,
+    "same_identity": true,
+    "human_entry": {
+      "home": "/workspace/nana-staging/first-life-deepseek-01/life",
+      "command": "python -m nana_core.life chat --home /workspace/nana-staging/first-life-deepseek-01/life --privacy PROJECT --topic first-life",
+      "remaining_call_slots": 9,
+      "transcript_persisted": false,
+      "public_project_only": true
+    }
+  }
+}

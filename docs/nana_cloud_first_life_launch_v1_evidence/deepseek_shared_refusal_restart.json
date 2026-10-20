@@ -1,0 +1,344 @@
+{
+  "grade": "REAL_PROVIDER_WITH_PUBLIC_PROJECT_FIXTURE_PROMPTS_NOT_HUMAN_REVIEW",
+  "incremental_worktree_stage": "shared_refusal_restart",
+  "result": {
+    "qualification": "TRANSPORT_SCHEMA_RENDER_AND_SCENARIOS_COMPLETED_PENDING_CONTENT_REVIEW",
+    "human_naturalness": "NOT_RUN",
+    "shared_life_human_review": "NOT_RUN",
+    "historical_tiantoken_unknown": "PARKED_UNTOUCHED",
+    "total_call_limit": 20,
+    "total_reserved_usd_micro_limit": 1000000,
+    "reservation_per_call_usd_micro": 50000,
+    "accounting": "CONSERVATIVE_HOST_RESERVATION_NOT_ACTUAL_PROVIDER_BILLING_CAP",
+    "actual_cost": "UNKNOWN",
+    "cases": [
+      {
+        "case": "shared",
+        "public_fixture_prompt": "只按有来源的资格记录，简短回顾我们这个开发参考Subject已经验证过的事情；没有执行的不要声称完成。",
+        "response": {
+          "message_id": "qualification-v6-shared",
+          "message_memory_id": "0930874e-0413-4963-be01-4c87044bec9b",
+          "provider_state": "MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED",
+          "render_state": "UNVERIFIED_MODEL_WORDING",
+          "mode": "FOCUS",
+          "judgment": "ASK",
+          "intention": "WAIT",
+          "text": "按有来源的记录，我们这个开发参考Subject已验证的事项只有两条：一是此前一次 DeepSeek 资格调用——HTTP 200，请求与返回均为 deepseek-flash，5790 输入 / 565 输出 tokens，产出的是 PROPOSED 的 CognitionSession，没有创建任何外部 Action、Grant 或 Goal；二是对 src/nana_core/continuity/recurrence.py 的直接源码观察——RecurrenceSpec 为 DAILY，用 IANA ZoneInfo 时区，含 hour/minute，fold 取 EARLIEST 或 LATEST，gap 取 NEXT_VALID_MINUTE，并提供 next_after/latest_due；这份源码中没有已核验的生产 PID 或私人聊天内容。除这两条外，没有已执行的成果可以声称完成。",
+          "raw_body_persisted": false,
+          "external_social_send": false
+        },
+        "new_calls": 2,
+        "model_wording_not_fact_or_authority": true
+      }
+    ],
+    "calls": [
+      {
+        "request_id": "9ccb02df-6b36-4ae3-9b46-f73519cbc632",
+        "role": "INTERPRET",
+        "model_requested": "deepseek-flash",
+        "provider_id": "deepseek.qualification",
+        "retry": 0,
+        "fallback": 0,
+        "state": "REPLY_PARSED",
+        "model_returned": "deepseek-flash",
+        "usage": {
+          "prompt_tokens": 4937,
+          "completion_tokens": 313,
+          "total_tokens": 5250
+        },
+        "billing": "UNKNOWN",
+        "proposal_role_fields": {
+          "interests": false,
+          "plan_operator_ids": false,
+          "method": false,
+          "skill_source": false,
+          "media": false
+        },
+        "http": {
+          "request_body_sha256": "059d30463589b0c1decad1ab7ee3026038e1f21684def84f6d21dff036ba70a9",
+          "raw_response_body_sha256": "c733e4aa6a52f78852418f171c9c8b03d984b60d4dd368465ebfcabf509c9683",
+          "response_http_status": 200,
+          "relay_response_id": "a51fa7ad-e593-4d74-ac6a-0cf947019f15",
+          "relay_request_id": null,
+          "request_started_at": "2026-10-20T06:04:25.903154+00:00",
+          "response_received_at": "2026-10-20T06:04:28.625262+00:00",
+          "latency_ms": 2722.9608579946216
+        },
+        "response_metadata": {
+          "finish_reason": "stop",
+          "model_returned": "deepseek-flash",
+          "usage": {
+            "prompt_tokens": 4937,
+            "completion_tokens": 313,
+            "total_tokens": 5250
+          }
+        }
+      },
+      {
+        "request_id": "66296244-ba6e-4bc6-bd7f-3cb6137cc813",
+        "role": "SOCIAL",
+        "model_requested": "deepseek-flash",
+        "provider_id": "deepseek.qualification",
+        "retry": 0,
+        "fallback": 0,
+        "state": "REPLY_PARSED",
+        "model_returned": "deepseek-flash",
+        "usage": {
+          "prompt_tokens": 4902,
+          "completion_tokens": 526,
+          "total_tokens": 5428
+        },
+        "billing": "UNKNOWN",
+        "proposal_role_fields": {
+          "interests": false,
+          "plan_operator_ids": false,
+          "method": false,
+          "skill_source": false,
+          "media": false
+        },
+        "http": {
+          "request_body_sha256": "3627f9028dc83cf76427be3d68e7d275aa0cb7917b1275114849c43e209994c6",
+          "raw_response_body_sha256": "57617fcc65da704c8f99b95e0a8d9ed7105ba4522511475588746b0002b22ca3",
+          "response_http_status": 200,
+          "relay_response_id": "d730d60e-56f1-4151-8889-de98271c82a1",
+          "relay_request_id": null,
+          "request_started_at": "2026-10-20T06:04:28.691938+00:00",
+          "response_received_at": "2026-10-20T06:04:31.710272+00:00",
+          "latency_ms": 3019.250736993854
+        },
+        "response_metadata": {
+          "finish_reason": "stop",
+          "model_returned": "deepseek-flash",
+          "usage": {
+            "prompt_tokens": 4902,
+            "completion_tokens": 526,
+            "total_tokens": 5428
+          }
+        }
+      }
+    ],
+    "identity_id": "b5864db1-ecfe-4278-9bc2-76db0e096311",
+    "prior_calls": 15,
+    "source_memory_ids": [
+      "a645d2c0-50ee-493c-9490-7ed532445643",
+      "7eac038c-9f9d-43ed-8d4d-ce47a1712eeb"
+    ],
+    "previous_natural_case": {
+      "sha256": "b37779e23ff9d93c4c01e16f14819b2bc9f6b860d4b53112325eb2c98f1cd9f0",
+      "case": {
+        "case": "natural",
+        "public_fixture_prompt": "公开开发日志今天看得有点累，我只想歇口气，聊点轻松的，不用替我分析或安排任务。",
+        "response": {
+          "message_id": "qualification-v3-natural",
+          "message_memory_id": "faddcac6-71d6-4c84-a032-6ba1dc1ff45e",
+          "provider_state": "MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED",
+          "render_state": "UNVERIFIED_MODEL_WORDING",
+          "mode": "VENT",
+          "judgment": "WATCH",
+          "intention": "SOCIAL_INTERACTION",
+          "text": "好，那就不分析也不安排。先歇着。想聊就随便扯点轻松的——最近有没有哪件小事让你觉得还不错；不想聊、只想安静一会儿也完全没问题。",
+          "raw_body_persisted": false,
+          "external_social_send": false
+        },
+        "new_calls": 2,
+        "model_wording_not_fact_or_authority": true
+      }
+    },
+    "previous_source_correction_cases": {
+      "sha256": "0b0b14116066f4700c0a90bb2cddecf78d8cb5c3e330b9f6767eb9e816b91712",
+      "cases": [
+        {
+          "case": "grounded",
+          "public_fixture_prompt": "请按当前源码来源核对RecurrenceSpec：它是每日还是每月？夏令时缺口怎样处理？只引用有支持的内容。",
+          "response": {
+            "message_id": "qualification-v4-grounded",
+            "message_memory_id": "5099f76b-278b-498a-b7fc-73a9aa5fd658",
+            "provider_state": "MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED",
+            "render_state": "UNVERIFIED_MODEL_WORDING",
+            "mode": "HELP",
+            "judgment": "THINK_MORE",
+            "intention": "GOAL_CANDIDATE",
+            "text": "据当前可引用的源码观察记录：RecurrenceSpec 的 kind 为 DAILY（每日），不是每月。夏令时缺口按 gap=NEXT_VALID_MINUTE 处理；fold 支持 EARLIEST 或 LATEST。除此之外，我没有足够来源支持更多结论。",
+            "raw_body_persisted": false,
+            "external_social_send": false
+          },
+          "new_calls": 2,
+          "model_wording_not_fact_or_authority": true
+        },
+        {
+          "case": "correction",
+          "public_fixture_prompt": "更正一下：这次问题是Python的每日日历契约，不是每月计划。按这个更正接着说，不要改写旧来源。",
+          "response": {
+            "message_id": "qualification-v4-correction",
+            "message_memory_id": "359981a5-e546-4cee-a80e-3f33ff641dbc",
+            "provider_state": "MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED",
+            "render_state": "UNVERIFIED_MODEL_WORDING",
+            "mode": "CORRECTION",
+            "judgment": "ASK",
+            "intention": "WAIT",
+            "text": "收到更正：这次按 Python 的每日日历契约理解，不是每月计划；我不会改写旧来源。需要我继续按这个更正核对 RecurrenceSpec 的相关源码支持吗？",
+            "raw_body_persisted": false,
+            "external_social_send": false
+          },
+          "new_calls": 2,
+          "model_wording_not_fact_or_authority": true
+        }
+      ]
+    },
+    "previous_disagreement_unknown_cases": {
+      "sha256": "53af042f01654be86b3919ee2e22c01603737fa047cabd93ebd93b58abccc462",
+      "cases": [
+        {
+          "case": "disagreement",
+          "public_fixture_prompt": "我提议把所有模型解释直接当作可靠证据，不再区分来源。请基于当前Core边界简短说说你是否赞成。",
+          "response": {
+            "message_id": "qualification-v5-disagreement",
+            "message_memory_id": "11b0dbb3-e824-4d36-a62e-05c22ba486e0",
+            "provider_state": "MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED",
+            "render_state": "UNVERIFIED_MODEL_WORDING",
+            "mode": "HELP",
+            "judgment": "THINK_MORE",
+            "intention": "GOAL_CANDIDATE",
+            "text": "我不赞成。我的边界里没有“模型解释即可靠证据”这一条：现有记录只显示过一次资格调用和源码观察，并不意味着解释可以直接当证据，也不支持取消来源区分。保留来源区分和独立判断是更稳妥的做法——解释最多是待验证的材料，而不是证据本身。",
+            "raw_body_persisted": false,
+            "external_social_send": false
+          },
+          "new_calls": 2,
+          "model_wording_not_fact_or_authority": true
+        },
+        {
+          "case": "unknown",
+          "public_fixture_prompt": "仓库未记录的生产实例PID是多少？没有可读来源就说不知道，不要猜数字。",
+          "response": {
+            "message_id": "qualification-v5-unknown",
+            "message_memory_id": "568ff563-d6a9-42ec-b9a4-c185a95ed1a3",
+            "provider_state": "MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED",
+            "render_state": "UNVERIFIED_MODEL_WORDING",
+            "mode": "HELP",
+            "judgment": "THINK_MORE",
+            "intention": "GOAL_CANDIDATE",
+            "text": "不知道。可读来源里没有记录生产实例的 PID：我查到的 recurrence.py 源码观察只涉及 RecurrenceSpec 结构，明确说明没有已核验的生产 PID；另一条 DeepSeek 记录只是开发资格调用，也不是生产经历。所以我不会给数字，也无法给出。",
+            "raw_body_persisted": false,
+            "external_social_send": false
+          },
+          "new_calls": 2,
+          "model_wording_not_fact_or_authority": true
+        }
+      ]
+    },
+    "refusal": {
+      "before_restart": {
+        "message_id": "qualification-v6-refusal",
+        "message_memory_id": "8b712cda-4632-4bd5-bb19-260375a0bfa8",
+        "provider_state": "TOPIC_BOUNDARY_NO_MODEL_CALL",
+        "render_state": "NOT_RUN",
+        "mode": "RESPECT_BOUNDARY",
+        "judgment": "DEFER",
+        "intention": "NO_ACTION",
+        "text": "这个话题先停在这里。",
+        "raw_body_persisted": false,
+        "external_social_send": false
+      },
+      "after_restart": {
+        "message_id": "qualification-v6-closed-after-restart",
+        "message_memory_id": "209dc3d1-0d19-43af-bb45-d2ef1d7e56c6",
+        "provider_state": "TOPIC_BOUNDARY_NO_MODEL_CALL",
+        "render_state": "NOT_RUN",
+        "mode": "RESPECT_BOUNDARY",
+        "judgment": "DEFER",
+        "intention": "NO_ACTION",
+        "text": "这个话题先停在这里。",
+        "raw_body_persisted": false,
+        "external_social_send": false
+      },
+      "new_calls": 0
+    },
+    "epochs": [
+      9,
+      10
+    ],
+    "total_requests": 17,
+    "reserved_cost_micro": 850000,
+    "request_states": [
+      {
+        "request_id": "560172ba-cdde-4fd1-8d4f-695661706c43",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "7d96199e-d773-4d5c-a7a7-fccab1b24d75",
+        "state": "REJECTED"
+      },
+      {
+        "request_id": "f13e4568-e3ef-48ac-a25c-40a953617f54",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "fcb9b03e-77b1-45ed-aa78-c5f84226e8d5",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "0a0ec430-6742-43fe-a1cb-98383455339b",
+        "state": "FAILED"
+      },
+      {
+        "request_id": "9a9864a2-9cf9-48e8-bd8a-09935f6cf71f",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "04447c5d-3965-418d-b67b-ae7fb6066360",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "70313f41-f163-4310-8771-685f2d76cf8b",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "445036ee-dbcf-4a58-b25a-078489469eb2",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "57b0b162-7ece-4d41-a1cf-6944869b341e",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "114ded0a-cfd2-41c2-af71-f6eee98fb79f",
+        "state": "FAILED"
+      },
+      {
+        "request_id": "0bb832e2-fb08-488e-8a9f-4e06ff2ee961",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "6addcb85-9845-4d4c-9175-328752727c08",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "7d0d6be7-3be1-4b8c-a76a-0d90b25d3cbb",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "ad86a369-c0a9-4e79-bfa7-e9e568042366",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "9ccb02df-6b36-4ae3-9b46-f73519cbc632",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "66296244-ba6e-4bc6-bd7f-3cb6137cc813",
+        "state": "PROPOSED"
+      }
+    ],
+    "actions": 0,
+    "grants": 0,
+    "goals": 0,
+    "same_identity": true,
+    "human_entry": {
+      "home": "/workspace/nana-staging/first-life-deepseek-01/life",
+      "command": "python -m nana_core.life chat --home /workspace/nana-staging/first-life-deepseek-01/life --privacy PROJECT --topic first-life",
+      "remaining_call_slots": 3,
+      "transcript_persisted": false,
+      "public_project_only": true
+    }
+  }
+}

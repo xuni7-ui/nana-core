@@ -153,3 +153,21 @@ must be deliberately rebound/requalified before real use.
 User authorized DeepSeek, `https://api.deepseek.com`, requested `deepseek-flash`, OpenAI-compatible, PUBLIC/PROJECT only, at most20 calls/$1 equivalent. These are requested settings, not verified model/endpoint qualification. Historical TianToken UNKNOWN is independent and remains parked.
 
 A personal-vault entry named `DEEPSEEK_API_KEY` is not yet a binding: current managed environment revision281 reports no secrets or runtime variables. This task exposes a status-only tool, no environment configuration mutation tool. Apply the secret binding using the Cloud environment configuration workflow and its user review; recheck current readiness before access. Do not paste the value or create a plaintext credential file. Once the host supplies the explicitly bound credential, pass it only through an in-memory pipe/FD to the existing `ExplicitFDResolver`; do not put its value in process arguments, JSON, logs or Subject data. No automatic credential discovery, no old-key reuse. Until bound, new live calls stay0 and human dialogue review remains NOT_RUN.
+
+## Live functional qualification / private human entry (current checkpoint)
+
+DeepSeek text path completed the six public/project fixture cases, with17 cumulative real calls including rejected/partial attempts. These are developer-observed functional results across documented configuration revisions, not human naturalness acceptance. The failed attempts remain failures and retain budget reservations. The old TianToken UNKNOWN is unrelated and parked.
+
+The same development reference Subject as the first accepted DeepSeek probe is currently serving the original private IPC control entry (not production Nana or imported private history):
+
+```sh
+python -m nana_core.life chat --home /workspace/nana-staging/first-life-deepseek-01/life --privacy PROJECT --topic first-life
+```
+
+Only PUBLIC/PROJECT input is authorized. No private history, credentials or SECRET input. The client shows candidate wording directly and saves no transcript. There is no public URL/UI. The current memory-only credential process is bounded to7200 seconds and managed-workspace survival is not attested; if stopped, health fails and there is no automatic credential recovery/restart. There are3 remaining model-call slots, usually one complete2-call interpretation/render turn. Do not reset the configuration or create a new home to evade the20-call mission limit. A wider human conversation needs new budget permission after that limit; human review stays NOT_RUN until actually performed.
+
+The host configuration now supports optional `provider_total_calls_limit` and `provider_total_reserved_cost_micro`, reusing original CognitionSession reservation records for lifetime limits. Qualification values are20 and1000000 nominal USD micro, with50000 reserved per attempt (including failures). This is conservative host accounting, not a verified provider bill or provider-side spend cap. Actual charge is UNKNOWN. Daily/hourly ceilings still intersect Runtime policy.
+
+Qualification uses bounded context16384 and output2048 with the same ContextAssembler; default8192/1024 is preserved. Optional ProviderProfile `chat_thinking_mode` defaults to `PROVIDER_DEFAULT`; `DISABLED` explicitly emits the compatible vendor extension `thinking.type=disabled` for cognition only. Enable only for a provider with documented support; it is not assumed to work on every OpenAI-compatible service. DeepSeek support was checked at https://api-docs.deepseek.com/guides/thinking_mode/ . Changing host options is CAS/versioned and invalidates old route snapshots, never rewrites old requests or Subject identity.
+
+The separate24h staging process remains pinned to645899b and does not use this provider credential. Check its actual `progress.json`/`result.json` before claiming duration. Beta/First-Life readiness remains blocked by human review and the remaining staging/production gates.

@@ -25,7 +25,7 @@ def configured_router(home,config,*,resolver,authorized=False):
     if not authorized or not config.provider_hosts or not config.remote_privacy or config.provider_cost_ceiling_micro<=0 or config.provider_calls_per_day<=0:raise CoreError('LIVE_PROVIDER_NOT_AUTHORIZED_OR_BUDGETED')
     authority=ProviderConfigurationAuthority();service=ProviderConfigService(home/'providers.json',authority)
     service.load()
-    factory=RuntimeProviderFactory(ProviderRegistry(),resolver,RoutingPolicy(allow_remote=True,allowed_remote_hosts=config.provider_hosts,timeout_ceiling_ms=config.provider_timeout_ms,cost_ceiling=config.provider_cost_ceiling_micro,context_limit=8192,output_limit=1024))
+    factory=RuntimeProviderFactory(ProviderRegistry(),resolver,RoutingPolicy(allow_remote=True,allowed_remote_hosts=config.provider_hosts,timeout_ceiling_ms=config.provider_timeout_ms,cost_ceiling=config.provider_cost_ceiling_micro,context_limit=config.provider_context_tokens,output_limit=config.provider_output_tokens))
     return CapabilityRouter(service,factory)
 
 

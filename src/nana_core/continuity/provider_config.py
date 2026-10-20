@@ -44,6 +44,7 @@ class ProviderProfile(ConfigDTO):
     provider_profile_id:str=Field(pattern=NAME_PATTERN)
     display_name:str=Field(min_length=1,max_length=96)
     protocol:ProtocolKind
+    chat_thinking_mode:Literal['PROVIDER_DEFAULT','DISABLED']='PROVIDER_DEFAULT'
     base_url:str|None=None
     locality:Literal['LOCAL_FIXTURE','LOCAL','REMOTE']
     secret_ref:str|None=Field(default=None,pattern=r'^[a-z][a-z0-9._-]{0,95}$')

@@ -1,0 +1,95 @@
+{
+  "grade": "REAL_PROVIDER_WITH_PUBLIC_PROJECT_FIXTURE_PROMPTS_NOT_HUMAN_REVIEW",
+  "incremental_worktree_stage": "rejected_role",
+  "result": {
+    "qualification": "PARTIAL_STOPPED_NO_RETRY",
+    "human_naturalness": "NOT_RUN",
+    "shared_life_human_review": "NOT_RUN",
+    "historical_tiantoken_unknown": "PARKED_UNTOUCHED",
+    "total_call_limit": 20,
+    "total_reserved_usd_micro_limit": 1000000,
+    "reservation_per_call_usd_micro": 50000,
+    "accounting": "CONSERVATIVE_HOST_RESERVATION_NOT_ACTUAL_PROVIDER_BILLING_CAP",
+    "actual_cost": "UNKNOWN",
+    "cases": [
+      {
+        "case": "natural",
+        "public_fixture_prompt": "今天这段公开测试把我绕晕了，我只是吐槽两句。简短陪我聊聊，不要把它变成研究任务。",
+        "response": {
+          "message_id": "deepseek-qualification-v2-natural",
+          "message_memory_id": "44f63509-9be6-4b94-838e-7ac32605c7ce",
+          "provider_state": "DIALOGUE_CANNOT_PROPOSE_AUTHORITY",
+          "render_state": "NOT_RUN",
+          "mode": "VENT",
+          "judgment": "WATCH",
+          "intention": "SOCIAL_INTERACTION",
+          "text": "本次没有生成模型回复（DIALOGUE_CANNOT_PROPOSE_AUTHORITY）。",
+          "raw_body_persisted": false,
+          "external_social_send": false
+        },
+        "new_calls": 1,
+        "model_wording_not_fact_or_authority": true
+      }
+    ],
+    "calls": [
+      {
+        "request_id": "7d96199e-d773-4d5c-a7a7-fccab1b24d75",
+        "role": "INTERPRET",
+        "model_requested": "deepseek-flash",
+        "provider_id": "deepseek.qualification",
+        "retry": 0,
+        "fallback": 0,
+        "state": "REPLY_PARSED",
+        "model_returned": "deepseek-flash",
+        "usage": {
+          "prompt_tokens": 6061,
+          "completion_tokens": 726,
+          "total_tokens": 6787
+        },
+        "billing": "UNKNOWN",
+        "http": {
+          "request_body_sha256": "9e6bfab587ecbed6ef0eba50afe1323f78d646f2560c3f8d7d6e78233a62ed08",
+          "raw_response_body_sha256": "03efa6169849455f0bb5caaea19528334acf983f517e49dfd5d4bbc70d4148e7",
+          "response_http_status": 200,
+          "relay_response_id": "4d7adaea-2b35-486b-b9ba-5fa58551da52",
+          "relay_request_id": null,
+          "request_started_at": "2026-10-20T05:55:05.567176+00:00",
+          "response_received_at": "2026-10-20T05:55:11.093291+00:00",
+          "latency_ms": 5526.973340995028
+        }
+      }
+    ],
+    "identity_id": "b5864db1-ecfe-4278-9bc2-76db0e096311",
+    "prior_calls": 1,
+    "source_memory_ids": [
+      "a645d2c0-50ee-493c-9490-7ed532445643",
+      "7eac038c-9f9d-43ed-8d4d-ce47a1712eeb"
+    ],
+    "epochs": [
+      3
+    ],
+    "total_requests": 2,
+    "reserved_cost_micro": 100000,
+    "request_states": [
+      {
+        "request_id": "560172ba-cdde-4fd1-8d4f-695661706c43",
+        "state": "PROPOSED"
+      },
+      {
+        "request_id": "7d96199e-d773-4d5c-a7a7-fccab1b24d75",
+        "state": "REJECTED"
+      }
+    ],
+    "actions": 0,
+    "grants": 0,
+    "goals": 0,
+    "same_identity": true,
+    "human_entry": {
+      "home": "/workspace/nana-staging/first-life-deepseek-01/life",
+      "command": "python -m nana_core.life chat --home /workspace/nana-staging/first-life-deepseek-01/life --privacy PROJECT --topic first-life",
+      "remaining_call_slots": 18,
+      "transcript_persisted": false,
+      "public_project_only": true
+    }
+  }
+}
