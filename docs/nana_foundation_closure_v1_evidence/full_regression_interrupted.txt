@@ -1,0 +1,99 @@
+........................................................................ [  5%]
+................F....................................................... [ 10%]
+........................................................................ [ 16%]
+........................................................................ [ 21%]
+..............sssssssssss............................................... [ 27%]
+.......
+=================================== FAILURES ===================================
+______ test_real_subject_outcome_learning_transfer_and_bounded_extension _______
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-126/test_real_subject_outcome_lear0')
+
+    def test_real_subject_outcome_learning_transfer_and_bounded_extension(tmp_path):
+        with OwnedApplication(tmp_path/'target') as host:
+            home=tmp_path/'life';initialize(home,host.profile)
+            with LifeApplication(home,bootstrap_grant=True) as app:
+                r=app.runtime;identity=r.identity_id;initial_grants=len(r.store.all('grants'))
+                until(app,lambda:len(r.store.all('goals'))==8 and all(g['state'] in {'COMPLETED','FAILED'} for g in r.store.all('goals')))
+                until(app,lambda:len(r.store.all('strategy_assessments'))>=4)
+                events=[json.loads(x[0])['data'] for x in r.store.db.execute("SELECT data_json FROM events WHERE kind='living.goal_step_completed' AND json_extract(data_json,'$.data.operator_id')='apply' ORDER BY seq")]
+                assert sum(x['quality'] for x in events)>=6 and sum(not x['quality'] for x in events)>=4
+                assert any(e['outcome']=='FAILURE' for e in r.store.all('experiences'))
+                assert all(x['state']=='DONE' for x in r.store.db.execute("SELECT state FROM jobs WHERE work_kind='LEARNING'"))
+                assert len(r.store.db.execute("SELECT * FROM actions WHERE capability='world.skill' AND state='SUCCEEDED'").fetchall())==2
+                assert all(x['state']=='SUSPENDED' for x in r.store.all('lessons'))
+                assert (Path(host.target.workspace)/'document-baseline.txt').read_text()=='A verified note'
+                assert (Path(host.target.workspace)/'document-transfer.txt').read_text()=='Meeting agenda'
+                for key in ['form-baseline','form-transfer','form-batch-gap','form-batch-transfer']:
+                    state=app.work.port.peek(key)['state'];t=app.work.port.tasks[key]
+                    assert state['submitted'] and all(state['values'][k]==v for k,v in t.wanted.items())
+                assert len(r.store.all('grants'))==initial_grants and r.identity_id==identity
+                assert not r.store.all('cognitive_requests') and not list(r.store.db.execute('PRAGMA foreign_key_check'))
+                board=app.board();assert board['derived'] and board['external_outcomes'] and board['skills']
+                assert board['target_scope']['kind']=='OWNED_DEV_APPLICATION_PROCESS'
+                assert len({a['idempotency_key'] for a in r.store.all('actions')})==len(r.store.all('actions'))
+                # Withdrawal is causal; neither a projection nor source profile restores support.
+                skill=app.work.skills.active_skill();parents=RecordService(r.store).support(skill)
+                count=len(r.store.all('actions'));app.forget(parents[0]);assert app.work.skills.active_skill() is None
+                import time
+                for _ in range(30):app.tick();time.sleep(.02)
+                assert len(r.store.all('actions'))==count
+                assert not opportunities(r.store,scope='project-work',privacy_classes=r.config.privacy_classes)
+>           with LifeApplication(home) as reopened:
+                 ^^^^^^^^^^^^^^^^^^^^^
+
+tests/controlled_hands/test_application.py:42: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/life/application.py:82: in __init__
+    self.work=HandsWork(self.runtime,self.config.owned_application_profile,grant=bootstrap_grant,allow_skills=self.config.allow_local_skills)
+              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/hands/service.py:51: in __init__
+    self.training_sources=tuple(capture(runtime,'owned-learning-input:'+digest(c.data),{'origin':'DEVELOPMENT_PROJECT','prepared_command_trial':c.data}) for s in specs for group in (s.practice,s.evaluation,s.transfer) for c in group)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/hands/service.py:51: in <genexpr>
+    self.training_sources=tuple(capture(runtime,'owned-learning-input:'+digest(c.data),{'origin':'DEVELOPMENT_PROJECT','prepared_command_trial':c.data}) for s in specs for group in (s.practice,s.evaluation,s.transfer) for c in group)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/project_work/service.py:54: in capture
+    eid=memory.capture(EvidenceInput(provenance=Provenance(domain='DEVELOPMENT_PROJECT',source_namespace='recorded.project.material', source_reference=key, source_kind=kind), text=text,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.memory.MemoryService object at 0x7f94fbe9e2a0>
+candidate = EvidenceInput(schema_version=1, provenance=Provenance(domain='DEVELOPMENT_PROJECT', source_namespace='recorded.project...transfer","wanted":"meeting title"}}}', privacy_class='PROJECT', event_time_us=None, observed_time_us=1792514653131091)
+
+    def capture(self, candidate: EvidenceInput):
+        self._fresh()
+        if not isinstance(candidate, EvidenceInput):
+            raise CoreError("INVALID_EVIDENCE_CONTRACT")
+        p = candidate.provenance
+        local=p.domain=='LOCAL_INTERACTION_METADATA'
+        if local:
+            from .contracts import PENDING_LOCAL_RECEIPT
+            legacy=p.source_kind=='USER_STATEMENT' and re.fullmatch(r'Local input reviewed meaning: (?:VENT|CHAT|HELP|SHARE|CORRECTION|DECLINE_DEPTH|DECLINE_DELIVERY|REOPEN|FOCUS|UNCLEAR|IMPORTANT)',candidate.text)
+            pending=p.source_kind=='DIRECT_OBSERVATION' and candidate.text==PENDING_LOCAL_RECEIPT
+            if self.store.schema_target<13 or candidate.privacy_class not in {'PUBLIC','PROJECT','PERSONAL'} or not (legacy or pending):raise CoreError('LOCAL_METADATA_ONLY')
+        project=p.domain=="DEVELOPMENT_PROJECT" and candidate.privacy_class=="PROJECT" and self.store.schema_target>=13
+        if p.domain=="DEVELOPMENT_PROJECT" and not project:raise CoreError("PROJECT_DEVELOPMENT_INGRESS_ONLY")
+        if p.domain!="SYNTHETIC_ONLY" and not project and not local and (self.store.schema_target<13 or candidate.privacy_class!="PUBLIC"):
+            raise CoreError("PUBLIC_DEVELOPMENT_INGRESS_ONLY")
+        previous = self.store.db.execute("SELECT * FROM continuity_evidence WHERE "
+            "source_namespace=? AND source_reference=? AND source_revision=?",
+            (p.source_namespace, p.source_reference, p.source_revision)).fetchone()
+        # Stable keys stay tombstoned; never create a new payload for deleted input.
+        if previous:
+            if previous["state"] == "DELETED":
+>               raise CoreError("SOURCE_DELETED")
+E               nana_core.contracts.CoreError: SOURCE_DELETED
+
+src/nana_core/continuity/memory.py:59: CoreError
+=========================== short test summary info ============================
+SKIPPED [1] tests/h2_live_screen/test_live.py:16: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:19: explicit --live-screen required
+SKIPPED [6] tests/h2_live_screen/test_live.py:56: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:68: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:85: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:110: explicit --live-screen required
+FAILED tests/controlled_hands/test_application.py::test_real_subject_outcome_learning_transfer_and_bounded_extension
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! KeyboardInterrupt !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/selectors.py:415: KeyboardInterrupt
+(to show a full traceback on KeyboardInterrupt use --full-trace)
+1 failed, 355 passed, 11 skipped in 167.10s (0:02:47)

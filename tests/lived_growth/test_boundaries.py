@@ -77,7 +77,15 @@ def test_explicit_refusal_prevents_model_research_and_future_render(tmp_path):
         app.pause();answer=app.chat('这个话题不要研究',topic='closed')
         assert answer['mode']=='RESPECT_BOUNDARY' and not requests
         app.chat('ambiguous follow-up',topic='closed');assert not requests
-        app.chat('可以再讨论',topic='closed');assert requests
+        # Conversation reopening cannot lift the separate processing boundary.
+        app.chat('可以再讨论',topic='closed');assert not requests
+        from nana_core.continuity.subject.context_fit import depth_boundary
+        assert depth_boundary(app.runtime.store,'project-user','project-work','closed',app.policy.readable_privacy,purpose='COGNITION')[0]
+        # Processing permission changes commit first; never call the model while
+        # the old restriction is still authoritative in the same interaction.
+        app.chat('允许研究',topic='closed');assert not requests
+        assert not depth_boundary(app.runtime.store,'project-user','project-work','closed',app.policy.readable_privacy,purpose='COGNITION')[0]
+        app.chat('new follow-up after explicit reopen',topic='closed');assert requests
 
 
 def test_partial_document_publish_stays_unknown_no_retry(tmp_path,monkeypatch):

@@ -3,7 +3,7 @@ from typing import Literal
 from pydantic import Field
 from ..contracts import DTO
 
-MeaningKind=Literal['VENT','CHAT','HELP','SHARE','DECLINE_DEPTH','REOPEN','FOCUS','CORRECTION','UNCLEAR','IMPORTANT','PROJECT_STATUS']
+MeaningKind=Literal['VENT','CHAT','HELP','SHARE','DECLINE_DEPTH','DECLINE_DELIVERY','REOPEN','REOPEN_DELIVERY','FOCUS','CORRECTION','UNCLEAR','IMPORTANT','PROJECT_STATUS']
 
 class DialogueMeaning(DTO):
     kind:MeaningKind

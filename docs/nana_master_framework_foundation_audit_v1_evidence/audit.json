@@ -6,10 +6,10 @@
   "repository": "xuni7-ui/nana-core",
   "source_branch": "dev/nana-core-cloud-first-life-launch-v1-codex",
   "source_commit": "eece7a469a5af8a9df5731367e5b7db046039a23",
-  "method": "Pinned repository source/test-definition review and retained qualification evidence; no application tests, provider calls, live host reads or production actions performed in this audit. Independent review after af52371 fast-forward: current-source focused and historical Git-test snapshots executed; one offline topic-scope probe; operational staging progress read-only. Original no-run/no-host claims apply to the initial review only.",
+  "method": "Pinned repository source/test-definition review and retained qualification evidence; no application tests, provider calls, live host reads or production actions performed in this audit. Independent review after af52371 fast-forward: current-source focused and historical Git-test snapshots executed; one offline topic-scope probe; operational staging progress read-only. Original no-run/no-host claims apply to the initial review only. Closure mission: bounded source implementation, owned controlled effect/Experience/restart/SIGKILL qualification and final regression; original audit metadata remains historical.",
   "criteria_version": "1.0",
   "framework_status": "FROZEN",
-  "matrix_status": "INDEPENDENTLY_REVIEWED_EXISTING_63_CRITERIA; NO_FRAMEWORK_OR_DENOMINATOR_CHANGE",
+  "matrix_status": "CLOSURE_REVISION_3; FIXED_63_DEFINITIONS_UNCHANGED",
   "references": {
     "ID": [
       "src/nana_core/continuity/identity.py",
@@ -125,6 +125,19 @@
       "tools/nana_foundation_audit/probe_topic_scope.py",
       "docs/nana_master_framework_foundation_audit_v1_evidence/topic_scope_probe.json",
       "docs/nana_master_framework_foundation_audit_v1_evidence/context_boundary_tests.txt"
+    ],
+    "CLOSURE": [
+      "docs/nana_foundation_closure_v1_implementation.md",
+      "src/nana_core/continuity/subject/framing.py",
+      "src/nana_core/continuity/subject/experience_need.py",
+      "tests/foundation_closure/test_scope.py",
+      "tests/foundation_closure/test_framing.py",
+      "tests/foundation_closure/test_experience_need.py",
+      "tests/foundation_closure/test_semantic_chain.py",
+      "docs/nana_foundation_closure_v1_evidence/experience_need.json",
+      "docs/nana_foundation_closure_v1_evidence/problem_framing.json",
+      "docs/nana_foundation_closure_v1_evidence/semantic_chain_offline.json",
+      "docs/nana_foundation_closure_v1_evidence/staging_observation.json"
     ]
   },
   "domains": [
@@ -284,13 +297,13 @@
     {
       "id": "S3",
       "name": "Motivation / Affect / Relationship",
-      "foundation_status": "FOUNDATION_TESTED",
+      "foundation_status": "FOUNDATION_QUALIFIED",
       "growth_status": "ADVANCED_GROWTH",
       "foundation_definition": "持续需要、兴趣和关系参与取舍，经独立C判断形成行动或休息；经历可改变后来动机倾向且跨重启持续。",
-      "qualification_scope": "基础因果/关系/恢复8项在受限合成与开发范围资格成立；S3-C09要求的真实经历→需要/倾向变化→重启→自主选择整链仍UNKNOWN。",
+      "qualification_scope": "受限competence need由实际失败Experience和独立后续复用派生，跨实际SIGKILL后再选择；反例/撤回改变未来需要，不人工注入偏好。",
       "advanced_future": "复杂情绪、依恋/幽默/梦想细化和开放关系成长；不能全部变成Foundation前置。",
-      "first_life_blocker": "YES：S3-C09证据缺口阻止S3 Foundation资格；不是已确认重写需求。",
-      "next_upgrade": "先复用现有Growth/relational/C/D，补同一lineage的最小非人工偏好注入因果证据；失败再定位实现差额。",
+      "first_life_blocker": "NO：S3-C09受控真实经历链已资格；更广情感开放成长属Advanced。",
+      "next_upgrade": "按真实新增经历扩展需要类型；不新造第二affect系统。",
       "criteria": [
         {
           "id": "S3-C01",
@@ -384,14 +397,15 @@
         {
           "id": "S3-C09",
           "criterion": "同一真实受控生活链：经历→后来需要/倾向变化→重启保留→自主再选择，含撤回/反例",
-          "status": "UNKNOWN_AUDIT_REQUIRED",
+          "status": "FOUNDATION_QUALIFIED",
           "evidence": [
             "LOOP",
             "REL",
             "HANDS",
-            "24H"
+            "24H",
+            "CLOSURE"
           ],
-          "boundary": "没有找到覆盖整条链的当前资格证据；不是宣告机制不存在。"
+          "boundary": "实际owned app失败→Experience→OPEN/LEARN→独立真实复用→SETTLED/WATCH→SIGKILL/replay/再选择；受控反例→OPEN，实际来源撤回→UNKNOWN。无PreferenceSignal/affect分数/identity改写。"
         }
       ],
       "project_brain_decisions": [
@@ -473,9 +487,10 @@
           "criterion": "固定源码实际24h durability与最终结果",
           "status": "UNKNOWN_AUDIT_REQUIRED",
           "evidence": [
-            "24H"
+            "24H",
+            "CLOSURE"
           ],
-          "boundary": "仓库快照elapsed36953.176秒、RUNNING_NOT_QUALIFIED；未访问运行宿主，不保证此刻仍存活。"
+          "boundary": "原固定645899b实际run仍RUNNING_NOT_QUALIFIED，当前只读快照和完整结果门见CLOSURE；不推算24h通过。"
         }
       ],
       "project_brain_decisions": [
@@ -552,7 +567,8 @@
           "evidence": [
             "WORLD",
             "SCREEN",
-            "PROVIDER"
+            "PROVIDER",
+            "CLOSURE"
           ],
           "boundary": "不能把不同版本的分项PASS拼成未实际运行的整链；历史H1 PARTIAL保持。"
         }
@@ -567,13 +583,13 @@
     {
       "id": "S6",
       "name": "Independent Judgment / Problem Framing / Goal / Planning",
-      "foundation_status": "FOUNDATION_PARTIAL",
+      "foundation_status": "FOUNDATION_QUALIFIED",
       "growth_status": "ADVANCED_GROWTH",
       "foundation_definition": "C能形成自己的问题判断和目标，区分用户建议、问题与路径；有限规划可验证并按结果调整。",
-      "qualification_scope": "目标/方法替代和bounded规划已有；同题对话拒绝→内部认知暂停的范围混合已被探针确认，问题定义资格亦未齐。",
+      "qualification_scope": "对话投递、显式处理禁令、Subject自选休息及资源/权限分离；有源前提检验和问题级重定义、matched对照、原planner实际执行/无Grant阻断。",
       "advanced_future": "开放长期复杂规划、研究发现未知方案；不把用户意图设为认知边界。",
-      "first_life_blocker": "YES：S6-C07下已证实的认知范围语义缺口及问题定义资格，直接影响独立WHAT/WHY。",
-      "next_upgrade": "优先在原C中区分不再聊/不打扰、hard privacy/Manager、Subject自愿可复审的暂停；保留原愿望及安全guard。复用现有World/Goal/记录，补有来源的前提质疑/问题重定义与对照，不强制新DTO或第二Planner。",
+      "first_life_blocker": "NO：S6-C07已在有限有源候选空间受控资格；开放研究与任意问题发现为Advanced。",
+      "next_upgrade": "新problem类型/更开放候选按实际证据扩展，沿原C/Goal/Planner；不另建brain。",
       "criteria": [
         {
           "id": "S6-C01",
@@ -641,14 +657,15 @@
         {
           "id": "S6-C07",
           "criterion": "独立Problem Framing的当前最小因果资格",
-          "status": "FOUNDATION_PARTIAL",
+          "status": "FOUNDATION_QUALIFIED",
           "evidence": [
             "HANDS",
             "RAE",
             "PLAN",
-            "SCOPE_PROBE"
+            "SCOPE_PROBE",
+            "CLOSURE"
           ],
-          "boundary": "保留方法级替代和typed规划PASS。独立探针确认：PUBLIC普通“暂时不聊/别分析”被DECLINE_DEPTH持久化，后续同题SELF_WAKE LEARN无Manager仍被禁止形成新work；其他topic不受影响。缺少delivery拒绝与Subject自愿可复审认知暂停的语义区分；不是凭缺少某个DTO断定整个framing机制不存在。问题定义的最小因果资格仍需补齐。"
+          "boundary": "普通DECLINE_DELIVERY不阻同题内部LEARN；旧DECLINE_DEPTH保守处理禁令保持。C自身pending负荷可选择REST并重启后复审。同问题/不同实际IPC状态→保留原题或新问题→原Goal/Plan；无Grant为BLOCKED，不是仅替换方法。"
         }
       ],
       "project_brain_decisions": [
@@ -981,16 +998,8 @@
       ]
     }
   ],
-  "confirmed_implementation_missing": [
-    {
-      "criterion": "S6-C07",
-      "finding": "CONVERSATION_DELIVERY_REFUSAL_VS_SELF_OWNED_COGNITIVE_PAUSE_NOT_DISTINGUISHED",
-      "scope": "public synthetic same-topic only; does not erase interest or all independent topics",
-      "evidence": "SCOPE_PROBE",
-      "whole_domain_rewrite_required": false
-    }
-  ],
-  "confirmed_implementation_missing_note": "Only the bounded semantic distinction above is confirmed missing. No evidence requires a second affect, memory, planner or subject system. S3-C09/S4-C06/S5-C06 remain qualification unknown/pending, not proof of missing implementation.",
+  "confirmed_implementation_missing": [],
+  "confirmed_implementation_missing_note": "FQ-04 bounded scope distinction implemented and controlled-qualified in this mission. No confirmed missing mechanism remains in S1-S9; S4-C06/S5-C06 remain uncompleted qualification gates.",
   "human_review": "PAUSED_BY_USER_PENDING_FOUNDATION_AUDIT",
   "provider_calls_this_audit": 0,
   "staging_access_this_audit": true,
@@ -1361,5 +1370,22 @@
       }
     },
     "next_recommendation": "FQ-04 / S6-C07 independent problem framing and self-owned cognitive scope, bounded in original C; do not start implementation in audit."
+  },
+  "closure_revision": {
+    "mission": "FOUNDATION_CLOSURE_MISSION_V1",
+    "base": "edda7d08e3ca167f183607572a49283a7b8b067b",
+    "master_modified": false,
+    "criteria_changed": false,
+    "closed": [
+      "S3-C09",
+      "S6-C07"
+    ],
+    "open": [
+      "S4-C06",
+      "S5-C06"
+    ],
+    "new_paid_calls": 0,
+    "first_life": "NOT_READY",
+    "s10": "DEFERRED_ADVANCED_GROWTH"
   }
 }

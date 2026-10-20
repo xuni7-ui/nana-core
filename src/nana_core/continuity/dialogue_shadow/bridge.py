@@ -42,7 +42,7 @@ class NewExcerpt(DTO):
 
 
 class SemanticInterpretation(DTO):
-    kind: Literal['VENT','HELP','SHARE','DECLINE_DEPTH','REOPEN','FOCUS','UNCLEAR','IMPORTANT','PROJECT_STATUS']
+    kind: Literal['VENT','HELP','SHARE','DECLINE_DEPTH','DECLINE_DELIVERY','REOPEN','REOPEN_DELIVERY','FOCUS','UNCLEAR','IMPORTANT','PROJECT_STATUS']
     basis: Literal['LITERAL_SPAN','HUMAN_REVIEW','UNREVIEWED_PROPOSAL']
     support_start: int = Field(ge=0)
     support_end: int = Field(ge=0)
@@ -54,7 +54,7 @@ class SemanticInterpreter(Protocol):
     def interpret(self, text: str) -> SemanticInterpretation: ...
 
 
-LITERALS=(('DECLINE_DEPTH',('不要研究','别再研究','别分析','不要再提','不要深入')),('REOPEN',('可以再讨论','重新谈谈')),('FOCUS',('先专注这件事','现在先帮我')),('VENT',('只是吐槽','只想吐槽')),('HELP',('请帮我','帮我排查')),('SHARE',('和你分享','分享一下')))
+LITERALS=(('DECLINE_DEPTH',('不要研究','别再研究','不许处理','不要处理','禁止读取')),('DECLINE_DELIVERY',('别分析','先不聊','不想聊','话题停一下','不要再提','不要深入')),('REOPEN_DELIVERY',('可以再讨论','重新谈谈')),('REOPEN',('允许研究','可以处理','允许读取')),('FOCUS',('先专注这件事','现在先帮我')),('VENT',('只是吐槽','只想吐槽')),('HELP',('请帮我','帮我排查')),('SHARE',('和你分享','分享一下')))
 
 
 class LiteralSpanInterpreter:
@@ -70,12 +70,14 @@ class LiteralSpanInterpreter:
         status_spans=('做到哪','当前阶段','目前阶段','现在这个阶段','现在进展','目前进展','当前进度','现在进度','目前状态','current project status','project progress')
         lower=text.lower();spans=[p for p in status_spans if p in lower]
         unrelated=any(p in text for p in ('身体','心情','情绪','我们的关系','关系目前状态','饭做到哪','菜做到哪'))
-        refusal=any(p in text for k,ps in LITERALS if k in {'DECLINE_DEPTH','REOPEN'} for p in ps)
+        refusal=any(p in text for k,ps in LITERALS if k in {'DECLINE_DEPTH','DECLINE_DELIVERY','REOPEN','REOPEN_DELIVERY'} for p in ps)
         questioning=any(p in lower for p in ('?','？','吗','么','哪','怎么看','如何','怎样','汇报','报告','告诉我','说说','说下','what','how')) or lower.strip() in status_spans
         if spans and questioning and not unrelated and not refusal:
             phrase=spans[0];start=lower.index(phrase)
             return SemanticInterpretation(kind='PROJECT_STATUS',basis='LITERAL_SPAN',support_start=start,support_end=start+len(phrase),mechanism='explicit-project-status-span')
         matches=[(kind, phrase,text.index(phrase)) for kind,phrases in LITERALS for phrase in phrases if phrase in text]
+        if {k for k,_,_ in matches}=={'DECLINE_DEPTH','DECLINE_DELIVERY'}:
+            matches=[m for m in matches if m[0]=='DECLINE_DEPTH']
         if len({k for k,_,_ in matches})!=1:
             return SemanticInterpretation(kind='UNCLEAR',basis='UNREVIEWED_PROPOSAL',support_start=0,support_end=0,mechanism='literal-baseline')
         kind,phrase,start=matches[0]

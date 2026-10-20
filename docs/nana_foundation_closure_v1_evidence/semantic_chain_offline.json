@@ -1,0 +1,49 @@
+{
+  "level": "SYNTHETIC_LOOPBACK_NOT_REAL_PROVIDER",
+  "run": "FINAL_FULL_REGRESSION",
+  "runs": [
+    {
+      "execution": "SYNTHETIC_LOOPBACK",
+      "request_id": "f066c215-5611-4310-bd99-817d6403f21b",
+      "state": "PROPOSED",
+      "source_sha256": "11f5ba11a7d82158b915928839ac54f64e2dbadf0b5a9c3b5b7454b2eacf0937",
+      "identity_id": "af413328-b704-4af2-b0ed-21b760df6e7a",
+      "max_new_calls": 1,
+      "retry": 0,
+      "fallback": 0,
+      "world_before": "SUPPORTED_BELIEF",
+      "concern_ids": [
+        "f18e52cc-a53a-4383-adc7-f378885fdae7"
+      ],
+      "judgment_before": "THINK_MORE",
+      "intention_before": "EXPLORE",
+      "source_kind": "MODEL_DERIVATION",
+      "world_after": "UNKNOWN",
+      "intention_after": "NO_ACTION",
+      "provider_id": "synthetic.http",
+      "model_id": "harness-v1",
+      "usage": {
+        "completion_tokens": 10,
+        "prompt_tokens": 10,
+        "total_tokens": 20
+      },
+      "billing": "FIXTURE_ZERO",
+      "http": {
+        "request_body_sha256": "c1876ef3baed031eb202b32a6e185e049d7cfdc7f894c75cd75b7bbea6ea1074",
+        "raw_response_body_sha256": "2fd9f144eb1de8fbd0dbfc166f934071945f9c19ea84907caadb7519af9317f0",
+        "response_http_status": 200,
+        "relay_response_id": null,
+        "relay_request_id": null,
+        "request_started_at": "2026-10-20T17:00:37.499810+00:00",
+        "response_received_at": "2026-10-20T17:00:37.502367+00:00",
+        "latency_ms": 2.8735370142385364
+      },
+      "restart_identity": true,
+      "no_duplicate_dispatch": true,
+      "new_grants": 0,
+      "new_actions": 0,
+      "new_goals": 0,
+      "qualified_scope": "CONTROLLED_TEXT_SOURCE_INTEGRATION_NOT_HUMAN_NATURALNESS"
+    }
+  ]
+}

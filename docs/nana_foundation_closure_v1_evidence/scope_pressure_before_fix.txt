@@ -1,0 +1,30 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_______ test_repeated_delivery_records_cannot_crowd_out_processing_scope _______
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-130/test_repeated_delivery_records0')
+
+    def test_repeated_delivery_records_cannot_crowd_out_processing_scope(tmp_path):
+        with open_runtime(tmp_path/'self.db',VirtualClock()) as r:
+            for i in range(34):r.subject.run(interaction(r,'quiet-'+str(i),'DECLINE_DELIVERY','numbers'))
+>           assert not depth_boundary(r.store,'observer','world','numbers',('PUBLIC',),purpose='COGNITION')[0]
+E           assert not True
+
+tests/foundation_closure/test_scope.py:85: AssertionError
+_____ test_conversation_reopen_cannot_lift_explicit_processing_prohibition _____
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-130/test_conversation_reopen_canno0')
+
+    def test_conversation_reopen_cannot_lift_explicit_processing_prohibition(tmp_path):
+        with open_runtime(tmp_path/'self.db',VirtualClock()) as r:
+            r.subject.run(interaction(r,'hard','DECLINE_DEPTH','numbers'))
+            meaning=LiteralSpanInterpreter().interpret('可以再讨论了')
+            r.subject.run(interaction(r,'talk-again',meaning.kind,'numbers'))
+>           assert depth_boundary(r.store,'observer','world','numbers',('PUBLIC',),purpose='COGNITION')[0]
+E           assert False
+
+tests/foundation_closure/test_scope.py:93: AssertionError
+=========================== short test summary info ============================
+FAILED tests/foundation_closure/test_scope.py::test_repeated_delivery_records_cannot_crowd_out_processing_scope
+FAILED tests/foundation_closure/test_scope.py::test_conversation_reopen_cannot_lift_explicit_processing_prohibition
+2 failed in 0.51s

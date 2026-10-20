@@ -906,3 +906,12 @@ FIRST_LIFE_EXPERIENCE_READY=NOT_READY；Beta不升级；24h staging固定645899b
 HUMAN_REVIEW_CONTEXT_CURRENT_STATE=PASS；PROJECT_STATUS_INTENT_CLASSIFICATION=PASS；NO_SECOND_MEMORY_AUTHORITY=PASS（OFFLINE/FIXTURE）。
 本轮新真实调用0，原累计19、余1冻结、budget未提高；准备请求最多4次/新增保守reservation上限0.20USD的重新评审授权，尚未获批也未执行。
 真人自然度正式评审NOT_RUN，历史样本因评审链路缺口排除；FIRST_LIFE/BETA不升级。主线修复起点47d77cb3d0fee503564dcf701a444bba8286c9c3；最终commit由Git读取，避免自指。
+
+## CURRENT — FOUNDATION CLOSURE V1
+
+- [已实现/已测试/受控进程资格] FQ-04/S6-C07：delivery拒绝与hard processing分离；自有负荷REST/复审；源事实前提检验→不同问题→原Goal/Plan/受控核验，无Grant阻断。
+- [已实现/已测试/受控真实owned effect资格] FQ-01/S3-C09：实际失败Experience→OPEN/LEARN→独立复用SETTLED/WATCH→实际SIGKILL/重放/再选择；反例、撤回失去支持，无人工PreferenceSignal。
+- [受控恢复修复] 删除共享训练支持后宿主不再capture墓碑源，不复活技能。
+- [BLOCKED_NEW_AUTH_AND_SAFE_BINDING] FQ-03/S5-C06：当前组合synthetic loopback通过，live未运行；最少1个新PROJECT请求，15000ms/no retry/fallback、保守$0.05 ceiling，须新授权/安全FD。旧余1冻结。
+- [DURATION_PENDING] FQ-02/S4-C06：原24h run只读等待actual final result，不重启/重复soak；无final则不升级。
+- [NOT_RUN] Human/First-Life新评审、production inventory/cutover/social/72h。S10-C05/C06延期Advanced。

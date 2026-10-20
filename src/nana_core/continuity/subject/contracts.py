@@ -11,6 +11,8 @@ from ..agency_contracts import GoalStepRef,GoalReviewRef
 from ..relational.contracts import RelationalRequest,RelationalDecision,FacetName
 
 from .context_fit import InteractionSignal,ContextFitAssessment
+from .framing import ProblemFrame,FrameAssessment
+from .experience_need import ExperienceNeed
 
 Key = str
 Level = Literal['NONE', 'LOW', 'RELEVANT', 'HIGH']
@@ -32,6 +34,7 @@ class PreferenceSignal(DTO):
 
 
 class SubjectInput(DTO):
+    problem_frame: ProblemFrame | None = None
     interaction_signal: InteractionSignal | None = None
     growth_assessment_id: str | None = None
     schema_version: Literal[1] = 1
@@ -77,6 +80,7 @@ class SubjectInput(DTO):
 
     @model_validator(mode='after')
     def provenance(self):
+        if self.problem_frame and not {c.memory_id for c in (*self.problem_frame.assumed,*self.problem_frame.required)} <= set(self.source_memory_ids):raise ValueError("framing requires explicit visible sources")
         if self.domain=='LOCAL_INTERACTION' and (not self.source_key.startswith('local.') or self.kind!='INTERACTION' or self.origin!='USER' or not self.text or not self.text.startswith('Local input reviewed meaning: ')):raise ValueError('local dialogue only carries normalized metadata')
         if self.domain=='DEVELOPMENT_MATERIAL' and (not self.source_key.startswith('development.') or self.privacy_class not in {'PUBLIC','PROJECT'}):raise ValueError('development sources require explicit nonprivate namespace')
         if self.interaction_signal and (self.kind!='INTERACTION' or self.origin!='USER' or not self.text or self.positive_request or self.relational_request):raise ValueError('interaction context requires a separate sourced user occurrence')
@@ -177,6 +181,8 @@ class DeliberationTrace(DTO):
 
 
 class CycleResult(DTO):
+    experience_need: ExperienceNeed | None = None
+    problem_frame: FrameAssessment | None = None
     context_fit: ContextFitAssessment | None = None
     cycle_id: str
     event_id: str

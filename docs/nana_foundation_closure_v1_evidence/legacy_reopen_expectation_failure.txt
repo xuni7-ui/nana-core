@@ -1,0 +1,45 @@
+........................................................................ [  5%]
+........................................................................ [ 10%]
+........................................................................ [ 16%]
+........................................................................ [ 21%]
+.................sssssssssss............................................ [ 27%]
+........................................................................ [ 32%]
+........................................................................ [ 37%]
+...........F............................................................ [ 43%]
+........................................................................ [ 48%]
+........................................................................ [ 54%]
+........................................................................ [ 59%]
+........................................................................ [ 64%]
+........................................................................ [ 70%]
+........................................................................ [ 75%]
+............................................................s........... [ 81%]
+........................................................................ [ 86%]
+........................................................................ [ 91%]
+........................................................................ [ 97%]
+.....................................                                    [100%]
+=================================== FAILURES ===================================
+_______ test_explicit_refusal_prevents_model_research_and_future_render ________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-132/test_explicit_refusal_prevents0')
+
+    def test_explicit_refusal_prevents_model_research_and_future_render(tmp_path):
+        home=tmp_path/'life';initialize(home,skills=False)
+        with relay(home,'CHAT') as (router,requests),LifeApplication(home,clock=VirtualClock(),router=router) as app:
+            app.pause();answer=app.chat('这个话题不要研究',topic='closed')
+            assert answer['mode']=='RESPECT_BOUNDARY' and not requests
+            app.chat('ambiguous follow-up',topic='closed');assert not requests
+>           app.chat('可以再讨论',topic='closed');assert requests
+                                             ^^^^^^^^^^^^^^^
+E           assert []
+
+tests/lived_growth/test_boundaries.py:80: AssertionError
+=========================== short test summary info ============================
+SKIPPED [1] tests/h2_live_screen/test_live.py:16: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:19: explicit --live-screen required
+SKIPPED [6] tests/h2_live_screen/test_live.py:56: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:68: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:85: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:110: explicit --live-screen required
+SKIPPED [1] tests/offline_continuity/test_experiment.py:21: E12 real-model gate requires configured development endpoints via nana-semantic; offline pytest makes no real-model calls
+FAILED tests/lived_growth/test_boundaries.py::test_explicit_refusal_prevents_model_research_and_future_render
+1 failed, 1320 passed, 12 skipped in 324.55s (0:05:24)

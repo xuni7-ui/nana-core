@@ -1,0 +1,18 @@
+{
+  "level": "CONTROLLED_OWNED_PROCESS",
+  "run": "FINAL_FULL_REGRESSION",
+  "runs": [
+    {
+      "before": "OPEN",
+      "after_verified_reuse": "SETTLED",
+      "restart": "SETTLED",
+      "counterexample": "OPEN",
+      "withdrawal": "UNKNOWN",
+      "identity": "98c208e0-d2c5-425e-bb1f-5210997b79ee",
+      "actual_owned_effects": 3,
+      "provider_calls": 0,
+      "actual_sigkill": true,
+      "replay_same_cycle": true
+    }
+  ]
+}

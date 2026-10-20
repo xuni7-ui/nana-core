@@ -173,7 +173,19 @@ class SubjectLoop:
         context_fit=assess(self.store,contextual_event,source,topic=contextual_event.topic or (cue.topic_key if cue else None),privacy_classes=self.privacy_classes)
         if context_fit:
             records.extend(context_fit.source_record_ids);memories.extend(context_fit.source_memory_ids)
-        return Situation(context_fit=context_fit,scope=event.scope, memory_ids=tuple(sorted(set(memories))),
+        need=None
+        if self.store.schema_target>=13 and event.task_class and cue and cue.motivation_source=='CAPABILITY_GAP':
+            from .experience_need import project_need
+            need=project_need(self.store,event.task_class,scope=event.scope,privacy_classes=self.privacy_classes,source_memory_ids=event.source_memory_ids)
+            records.extend(need.source_record_ids)
+            for rid in need.source_record_ids:memories.extend(self.records.support(rid))
+            if need.state=='SETTLED':
+                cue=cue.model_copy(update={'possible_behaviors':('WATCH',)})
+        frame=None
+        if event.problem_frame:
+            from .framing import evaluate
+            frame=evaluate(event.problem_frame,self.records,scope=event.scope,privacy_classes=self.privacy_classes)
+        return Situation(experience_need=need,problem_frame=frame,context_fit=context_fit,scope=event.scope, memory_ids=tuple(sorted(set(memories))),
             project_ids=tuple(projects), commitment_ids=tuple(commitments), due_commitment_ids=tuple(due),
             adopted_interests=interests, unresolved_interest=unresolved,
             familiar=relation['familiarity'] == 'FAMILIAR', allowed_methods=tuple(sorted(set(methods))),
@@ -398,6 +410,9 @@ class SubjectLoop:
             if event.growth_assessment_id and intention.kind=='SOCIAL_INTERACTION' and situation.cue.availability=='AVAILABLE':
                 from .social import SocialInteractionProposal
                 social=SocialInteractionProposal(act='REPORT_DISCOVERY',topic_key=situation.cue.topic_key,approach='CHECK_RECEPTION',source_memory_ids=situation.memory_ids)
+            if social and situation.context_fit and not situation.context_fit.allow_delivery:
+                from .social import SocialInteractionProposal
+                social=SocialInteractionProposal(act='STAY_SILENT',topic_key=situation.context_fit.topic_key,approach='NO_INTERRUPTION',source_memory_ids=situation.memory_ids)
             action=None
             if intention.kind=='EXPLORE' and situation.cue and situation.cue.resource_ref:
                 action=SyntheticActionProposal(resource_ref=situation.cue.resource_ref,resource_class=situation.cue.resource_class,source_memory_ids=situation.memory_ids)
@@ -433,7 +448,9 @@ class SubjectLoop:
                 barrier='NO_ACTION' if intention.kind == 'NO_ACTION' else 'SHADOW_BLOCKED', record_id=None,social_proposal=social,action_proposal=action,
                 evaluation=evaluation,disclosure=disclosure,request_decision=request_decision,selected_disposition_id=event.disposition_reflection_id,
                 realization_target=target,relational_decision=relational,
-                proposed_program_id=situation.cue.program_id if candidate_id and situation.cue else None,
+                proposed_program_id=(situation.problem_frame.program_id if situation.problem_frame and judgment.stance=='ALTERNATIVE' and intention.purpose==situation.problem_frame.considered_problem else situation.cue.program_id if situation.cue else None) if candidate_id else None,
+                problem_frame=situation.problem_frame,
+                experience_need=situation.experience_need,
                 selected_memory_candidate_id=event.memory_review_id,
                 deliberation=None if _deliberation is None else {
                     'model_descriptor': _deliberation.model_descriptor,

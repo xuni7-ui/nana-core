@@ -99,6 +99,10 @@ class OpenAgencyService(AgencyService):
         from ..subject.opportunities import cues_from
         cues=cues_from(self.store,self.records.support(candidate['record_id']),scope=obj.scope,privacy_classes=self.subject.privacy_classes)
         cause_ids=tuple(sorted(mid for mid,c in cues if c.program_id==obj.objective_id))
+        if not cause_ids and cycle.problem_frame and cycle.problem_frame.state=='REFRAME' and cycle.problem_frame.program_id==obj.objective_id:
+            recorded=self.subject.result(self.store.one('subject_cycles',cycle.cycle_id))
+            if recorded.problem_frame!=cycle.problem_frame or recorded.proposed_program_id!=obj.objective_id:raise CoreError('FRAMING_CYCLE_MISMATCH')
+            cause_ids=tuple(sorted(cycle.problem_frame.source_memory_ids))
         if not cause_ids:raise CoreError('GOAL_PROGRAM_SOURCE_REQUIRED')
         goal_key='open:'+digest([obj.objective_id,cause_ids])
         represented=self.store.db.execute('SELECT goal_id FROM goals WHERE goal_key=?',(goal_key,)).fetchone()

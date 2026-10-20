@@ -1,0 +1,99 @@
+{
+  "mission": "NANA_CORE_FOUNDATION_CLOSURE_MISSION_V1",
+  "base_head": "edda7d08e3ca167f183607572a49283a7b8b067b",
+  "branch": "dev/nana-core-cloud-first-life-launch-v1-codex",
+  "global_stage": "H",
+  "status": "PARTIAL_TWO_QUALIFICATION_GATES_OPEN",
+  "criteria_version": "1.0",
+  "criteria_total": 63,
+  "criterion_definition_changes": 0,
+  "master_changed": false,
+  "criteria_results": {
+    "S3-C09": "FOUNDATION_QUALIFIED",
+    "S6-C07": "FOUNDATION_QUALIFIED",
+    "S4-C06": "UNKNOWN_AUDIT_REQUIRED",
+    "S5-C06": "UNKNOWN_AUDIT_REQUIRED",
+    "S10-C05": "UNKNOWN_AUDIT_REQUIRED",
+    "S10-C06": "UNKNOWN_AUDIT_REQUIRED"
+  },
+  "remaining_first_life_prerequisites": [
+    "S4-C06 actual pinned 24h final result",
+    "S5-C06 newly authorized live semantics chain with safe binding"
+  ],
+  "confirmed_implementation_gaps_remaining_in_s1_s9": [],
+  "remaining_gap_type": "QUALIFICATION_ONLY_NOT_PROOF_OF_ALL_ADVANCED_CAPABILITIES",
+  "first_life_integration_resume_allowed": false,
+  "first_life_experience_ready": "NOT_READY",
+  "s10_deep_evolution": "DEFERRED_NOT_FIRST_LIFE_PREREQUISITE",
+  "schema_version": 13,
+  "business_tables": 43,
+  "new_business_tables": 0,
+  "new_dependencies": 0,
+  "new_paid_provider_calls": 0,
+  "historical_deepseek_calls": 19,
+  "historical_frozen_remaining_slot": "UNUSED",
+  "historical_tiantoken_unknown": "PARKED_UNTOUCHED",
+  "external_service_effects": 0,
+  "effect_scope": "OWNED_CONTROLLED_DEV_APPLICATION_ONLY",
+  "main_changed": false,
+  "r045_changed": false,
+  "production_changed": false,
+  "private_data_access": false,
+  "human_review": "NOT_RUN",
+  "new_paid_request_gate": {
+    "minimum_calls": 1,
+    "privacy": [
+      "PROJECT"
+    ],
+    "timeout_ms": 15000,
+    "conservative_reservation_ceiling_usd": 0.05,
+    "credentials": "EXPLICIT_MEMORY_FD_BINDING_REQUIRED_NO_DISCOVERY",
+    "retry": 0,
+    "fallback": 0,
+    "authorization": "NOT_GRANTED_FOR_THIS_MISSION"
+  },
+  "focused": {
+    "tests": 54,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0
+  },
+  "full_regression": {
+    "tests": 1333,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 12,
+    "passed": 1321,
+    "seconds": 312.032,
+    "command": ".venv/bin/python -m pytest tests -q -o junit_family=xunit1 --junitxml=/tmp/nana-foundation-final-clean.xml"
+  },
+  "changed_business_source_files": [
+    "src/nana_core/continuity/dialogue_shadow/bridge.py",
+    "src/nana_core/continuity/hands/service.py",
+    "src/nana_core/continuity/memory.py",
+    "src/nana_core/continuity/open_agency/learning.py",
+    "src/nana_core/continuity/open_agency/service.py",
+    "src/nana_core/continuity/subject/context_fit.py",
+    "src/nana_core/continuity/subject/contracts.py",
+    "src/nana_core/continuity/subject/experience_need.py",
+    "src/nana_core/continuity/subject/framing.py",
+    "src/nana_core/continuity/subject/ingress.py",
+    "src/nana_core/continuity/subject/loop.py",
+    "src/nana_core/continuity/subject/policy.py",
+    "src/nana_core/life/application.py",
+    "src/nana_core/life/dialogue_contracts.py"
+  ],
+  "changed_tests": [
+    "tests/foundation_closure/test_experience_need.py",
+    "tests/foundation_closure/test_framing.py",
+    "tests/foundation_closure/test_scope.py",
+    "tests/foundation_closure/test_semantic_chain.py",
+    "tests/lived_growth/test_boundaries.py"
+  ],
+  "report": "docs/nana_foundation_closure_v1_implementation.md",
+  "s1_to_s9_foundation_qualified": false,
+  "foundation_closure_complete": false,
+  "master_sha256": "fe6efe121a05145b44178d5ec26b99430a28e873fca8d1b80f16671c65e5133c",
+  "source_frozen_after": "Independent delivery/processing ledgers, tombstone training rebind fix and strengthened legacy reopen test",
+  "staging_snapshot": 42942.13029079599
+}

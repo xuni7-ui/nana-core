@@ -6,9 +6,13 @@ from ..relational.contracts import SocialAppetiteView
 from ..autonomy.contracts import RelationshipInfluenceView,SocialPrivacyExpectation
 from ..agency_contracts import PlanStepView
 from .context_fit import ContextFitAssessment
+from .framing import FrameAssessment
+from .experience_need import ExperienceNeed
 
 
 class Situation(DTO):
+    experience_need: ExperienceNeed | None = None
+    problem_frame: FrameAssessment | None = None
     context_fit: ContextFitAssessment | None = None
     scope: str
     memory_ids: tuple[str, ...]
@@ -90,6 +94,8 @@ def motivate(event, situation, appraisal):
     if situation.cue:
         motives.append(Motivation(source=situation.cue.motivation_source,strength='RELEVANT',source_ids=situation.memory_ids,
             inhibited_by=('COMMITMENT',) if situation.due_commitment_ids else ()))
+    if situation.problem_frame and situation.problem_frame.state=='REFRAME':
+        motives.append(Motivation(source='UNRESOLVED_QUESTION',strength='RELEVANT',source_ids=situation.problem_frame.source_memory_ids))
     if not motives:
         motives.append(Motivation(source='REST', strength='AVAILABLE', source_ids=()))
     return tuple(motives)
@@ -111,6 +117,14 @@ def decide(event, situation, appraisal, motives):
         return ('FOCUS_NOW', Judgment(stance='ALTERNATIVE', reason='Prefer the method consistent with recorded project constraints',
             source_ids=sources, selected_method=situation.allowed_methods[0]),
             Intention(kind='DISAGREE', purpose='Explain a sourced alternative without overriding the user', slot_key='project-alternative', source_ids=sources, self_generated=False,behavior='DISAGREE'))
+    if situation.problem_frame and not situation.due_commitment_ids and not (situation.cue and situation.cue.cognitive_load=='HIGH') and 'CONTINUE_PROJECT' not in situation.prohibited_behaviors and (not situation.context_fit or situation.context_fit.allow_new_work):
+        frame=situation.problem_frame
+        if frame.state=='REFRAME':
+            return ('FOCUS_NOW',Judgment(stance='ALTERNATIVE',reason=frame.reason,source_ids=sources),
+                Intention(kind='GOAL_CANDIDATE',purpose=frame.considered_problem,slot_key='frame-'+frame.program_id,source_ids=sources,self_generated=self_generated,behavior='CONTINUE_PROJECT'))
+        if frame.state=='INSUFFICIENT_EVIDENCE':
+            return ('FOCUS_NOW',Judgment(stance='ASK',reason=frame.reason,source_ids=sources),
+                Intention(kind='WAIT',purpose='Clarify the premise before choosing a different problem',slot_key='frame-clarify',source_ids=sources,self_generated=self_generated))
     if context_choice:return context_choice
     if situation.due_commitment_ids:
         return ('FOCUS_NOW', Judgment(stance='DEFER', reason='An adopted due commitment takes priority over optional exploration', source_ids=sources),

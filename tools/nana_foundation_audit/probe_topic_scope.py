@@ -1,4 +1,8 @@
-"""Offline audit probe of existing topic scope; never repairs policy or calls a model."""
+"""Historical edda topic-scope incident probe; run only in that pinned revision.
+
+Current delivery/processing semantics intentionally invalidate the old assertion.
+Use tests/foundation_closure/test_scope.py for the current contract. No model.
+"""
 import json,tempfile
 from pathlib import Path
 from nana_core.presence.authority import VirtualClock
@@ -31,4 +35,6 @@ def probe():
    assert other.intention.behavior=='LEARN' and out['manager_outcome_count']==out['provider_call_count']==out['action_count']==0
    return out
 
-if __name__=='__main__':print(json.dumps(probe(),ensure_ascii=False,indent=2))
+if __name__=='__main__':
+ if LiteralSpanInterpreter().interpret('先不聊，别分析了').kind!='DECLINE_DEPTH':raise SystemExit('HISTORICAL_PROBE_REQUIRES_EDDA7D08_SOURCE; current contract: tests/foundation_closure/test_scope.py')
+ print(json.dumps(probe(),ensure_ascii=False,indent=2))

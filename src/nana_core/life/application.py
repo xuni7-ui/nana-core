@@ -205,11 +205,11 @@ class LifeApplication:
         try:
             from ..continuity.subject.context_fit import depth_boundary
             closed,_,_=depth_boundary(r.store,'project-user','project-work',topic,r.config.privacy_classes)
-            if (closed and kind!='REOPEN') or kind=='DECLINE_DEPTH':raise CoreError('TOPIC_BOUNDARY_NO_MODEL_CALL')
+            if closed or kind in {'DECLINE_DEPTH','DECLINE_DELIVERY','REOPEN','REOPEN_DELIVERY'}:raise CoreError('TOPIC_BOUNDARY_NO_MODEL_CALL')
             session,rid=self._model('life.interpret.'+key,'INTERPRET',mid,text,topic,privacy)
             meaning=session.proposal(rid).proposal.dialogue
             # Literal user boundary beats contradictory model interpretation.
-            if kind not in {'DECLINE_DEPTH','REOPEN','PROJECT_STATUS'}:
+            if kind not in {'DECLINE_DEPTH','DECLINE_DELIVERY','REOPEN','REOPEN_DELIVERY','PROJECT_STATUS'}:
 
                 kind=meaning.kind if meaning.confidence in {'RELEVANT','HIGH'} else 'UNCLEAR'
                 basis='MODEL_PROPOSAL' if meaning.confidence in {'RELEVANT','HIGH'} else 'INTERPRETED'

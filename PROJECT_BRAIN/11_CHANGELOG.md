@@ -2216,3 +2216,14 @@ HUMAN_REVIEW_CONTEXT_CURRENT_STATE=PASS；PROJECT_STATUS_INTENT_CLASSIFICATION=P
 - 为什么：避免双会话覆盖或重复冻结；合成关系测试不能顶替真实倾向整链；typed方法替换不能冒充完整问题定义；对话拒绝/内部暂停范围混合是比未知资格更直接的缺口。
 - 怎么验证：tracked21 PASS30.65s；原Git测试快照对当前Core18 PASS106.06s（90虚拟天/7实际SIGKILL）；topic边界6 PASS0.63s；PUBLIC probe前LEARN/后同题NO_ACTION、其他topic仍LEARN，Manager/cognition/action均0。Source/tests与af52371相同；既有full1300/12skip继承、不重跑。最终文档/标准/hash/敏感扫描结果见independent_validation.json。
 - 范围：不改变Core/原tests/schema/config/运行Store；无付费provider、真实社交、用户设备、私人Iris或生产/main/R045改动；24h staging只读不重启，继续未资格。
+
+## FOUNDATION CLOSURE V1 — scope/framing and lived competence needs
+
+- 改了什么：原C新增有界问题前提核查/重构；普通投递拒绝独立于processing限制；独立验证Experience/reuse重建competence need并调节重复learning；删除training bundle后恢复不recapture墓碑。无第二脑/Store/Runtime，schema13/43表/新依赖0。
+- 为什么：关闭S6-C07与S3-C09明确缺口，不能把对话边界当思想边界，也不能把人工typed偏好当真实成长。恢复缺陷在全仓真实失败后最小修复，原证据保留。
+- 怎么验证：当前owned IPC文档、无Grant对照、actual failure/reuse/Experience、SIGKILL/同cycle重放、source withdrawal；当前语义整链仅SYNTHETIC_LOOPBACK。最终focused/related/full结果见docs/nana_foundation_closure_v1_evidence/test_summary.json；中断失败与最终结果分开保留。
+- 状态：S3-C09/S6-C07 Qualified；S4-C06实际24h和S5-C06 live仍未资格。Master字节/63条定义不变，其他充分资格继承。main/R045/production/private/social/paid0，旧bundle不读不动。
+
+[本轮范围压力补充] 新增先失败的34条投递记录/hard-processing窗口及普通reopen越范围测试；修复为独立target-indexed ledger和REOPEN_DELIVERY。旧记录不改写，显式processing禁令不会被“再聊”解除，转换commit前无模型调用。
+
+[最终回归] 当前冻结源码显式tests/全仓1321 passed/12 skipped/0failed312.07s；focused54通过及旧reopen严格反例1通过。保留中断SOURCE_DELETED失败、scope压力先失败与旧reopen断言失败；不以旧失败抬高最终状态。S4/S5门继续未关闭，未开展新真实模型/设备/社交/生产资格。

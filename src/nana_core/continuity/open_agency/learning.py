@@ -102,7 +102,7 @@ class LearningService:
             if previous['state']=='BLOCKED' and b.get('context_paused'):
                 binding=b['context_binding']
                 from ..subject.context_fit import depth_boundary
-                closed,_,_=depth_boundary(self.store,binding['entity_id'],event.scope,binding['topic'],self.privacy)
+                closed,_,_=depth_boundary(self.store,binding['entity_id'],event.scope,binding['topic'],self.privacy,purpose='COGNITION')
                 if not closed:
                     with self.store.transaction('open.learning_context_reconsidered',{'work_id':previous['job_id'],'cycle_id':cycle.cycle_id}) as tx:
                         if self.store.one('jobs',previous['job_id'])['revision']!=previous['revision']:raise CoreError('STALE_LEARNING_WORK')
@@ -139,7 +139,7 @@ class LearningService:
         binding=body.get('context_binding')
         if binding:
             from ..subject.context_fit import depth_boundary
-            closed,_,_=depth_boundary(self.store,binding['entity_id'],head['scope'],binding['topic'],self.privacy)
+            closed,_,_=depth_boundary(self.store,binding['entity_id'],head['scope'],binding['topic'],self.privacy,purpose='COGNITION')
             if closed:
                 with self.store.transaction('open.learning_context_paused',{'work_id':job['job_id']}) as tx:
                     if self.store.one('jobs',job['job_id'])['revision']!=job['revision']:raise CoreError('STALE_LEARNING_WORK')

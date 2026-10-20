@@ -48,6 +48,10 @@ class HandsWork:
         runtime.work.configure_open_agency(self.policy,self.port)
         self.port.context_provider=self._effect_context
         specs=specifications()
+        # Training cases share one support bundle. An erased root retires that
+        # host binding; construction must not recapture it or resurrect a skill.
+        keys=tuple('owned-learning-input:'+digest(c.data) for s in specs for group in (s.practice,s.evaluation,s.transfer) for c in group)
+        if any(runtime.store.db.execute("SELECT 1 FROM continuity_evidence WHERE source_namespace='recorded.project.material' AND source_reference=? AND state='DELETED'",(key,)).fetchone() for key in keys):specs=()
         self.training_sources=tuple(capture(runtime,'owned-learning-input:'+digest(c.data),{'origin':'DEVELOPMENT_PROJECT','prepared_command_trial':c.data}) for s in specs for group in (s.practice,s.evaluation,s.transfer) for c in group)
         runtime.work.configure_open_learning(specs,source_memory_ids=self.training_sources,proposer=PracticeProposer())
         runtime.work.activity_source=self

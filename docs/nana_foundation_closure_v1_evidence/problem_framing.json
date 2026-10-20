@@ -1,0 +1,26 @@
+{
+  "level": "CONTROLLED_OWNED_PROCESS",
+  "run": "FINAL_FULL_REGRESSION",
+  "runs": [
+    {
+      "same_question": "Append the supposedly missing note",
+      "observation": "stale prefix ",
+      "state": "REFRAME",
+      "new_problem": "Replace stale contents to obtain the requested exact document",
+      "method_substitution": false,
+      "goal": "ef03d8fb-208a-43e6-abef-67d2c64e289d",
+      "grant": true,
+      "goal_state": "COMPLETED"
+    },
+    {
+      "same_question": "Append the supposedly missing note",
+      "observation": "stale prefix ",
+      "state": "REFRAME",
+      "new_problem": "Replace stale contents to obtain the requested exact document",
+      "method_substitution": false,
+      "goal": "25956dc0-203b-4098-84c5-b98929c513c8",
+      "grant": false,
+      "goal_state": "BLOCKED"
+    }
+  ]
+}

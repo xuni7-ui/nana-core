@@ -10,7 +10,7 @@ from ...storage import digest
 from ..records import RecordService
 
 class InteractionSignal(DTO):
-    kind: Literal['VENT','CHAT','HELP','SHARE','CORRECTION','DECLINE_DEPTH','REOPEN','FOCUS','UNCLEAR','IMPORTANT','PROJECT_STATUS']
+    kind: Literal['VENT','CHAT','HELP','SHARE','CORRECTION','DECLINE_DEPTH','DECLINE_DELIVERY','REOPEN','REOPEN_DELIVERY','FOCUS','UNCLEAR','IMPORTANT','PROJECT_STATUS']
     topic_key: str = Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
     basis: Literal['EXPLICIT','INTERPRETED','MODEL_PROPOSAL'] = 'EXPLICIT'
     proposal_record_id: str | None = None
@@ -20,7 +20,8 @@ class ContextFitAssessment(DTO):
     derived: Literal[True] = True
     entity_id: str
     topic_key: str
-    mode: Literal['VENT','CHAT','HELP','SHARE','CORRECTION','DECLINE_DEPTH','REOPEN','FOCUS','UNCLEAR','IMPORTANT','RESPECT_BOUNDARY','INDEPENDENT','PROJECT_STATUS']
+    mode: Literal['VENT','CHAT','HELP','SHARE','CORRECTION','DECLINE_DEPTH','DECLINE_DELIVERY','REOPEN','REOPEN_DELIVERY','FOCUS','UNCLEAR','IMPORTANT','RESPECT_BOUNDARY','INDEPENDENT','PROJECT_STATUS']
+    allow_delivery: bool = True
     allow_deepening: bool
     allow_new_work: bool
     preserve_independent_activity: Literal[True] = True
@@ -29,29 +30,42 @@ class ContextFitAssessment(DTO):
     reason: str
     state_token: str
 
-def boundary_key(entity_id,scope,topic):return 'context-topic:'+digest([entity_id,scope,topic])
+def boundary_key(entity_id,scope,topic,*,purpose='COGNITION'):
+    key='context-topic:'+digest([entity_id,scope,topic])
+    return key if purpose=='COGNITION' else key+':delivery'
 
-def depth_boundary(store,entity_id,scope,topic,privacy_classes):
+def depth_boundary(store,entity_id,scope,topic,privacy_classes,*,purpose="DELIVERY"):
+    """Separate indexed ledgers: delivery traffic cannot hide processing limits.
+
+    Legacy DECLINE_DEPTH/REOPEN retain their processing meaning. New ordinary
+    conversation reopen affects only the delivery ledger, never processing.
+    """
+    if purpose not in {"DELIVERY","COGNITION"}:raise ValueError("unknown boundary purpose")
     if store.schema_target<9:return False,(),'CONTEXT_BOUNDARY_SCHEMA_NOT_AVAILABLE'
     records=RecordService(store)
-    rows=store.db.execute("SELECT * FROM continuity_records WHERE record_kind='SUBJECT_EVENT' AND target_id=? ORDER BY rowid DESC LIMIT 33",(boundary_key(entity_id,scope,topic),)).fetchall()
-    for row in rows:
-        if row['lifecycle']!='ACTIVE':continue
-        if row['scope']!=scope or row['privacy_class'] not in privacy_classes:return True,(),'BOUNDARY_COVERAGE_UNKNOWN'
-        if not records.current_support(row['record_id']):continue
-        value=records.read(row['record_id'])['payload']['input'];signal=value.get('interaction_signal')
-        if not signal or signal['basis']!='EXPLICIT' or value['origin']!='USER' or value['entity_id']!=entity_id:continue
-        if signal['kind'] in {'DECLINE_DEPTH','REOPEN'}:
-            return signal['kind']=='DECLINE_DEPTH',(row['record_id'],),'EXPLICIT_TOPIC_'+signal['kind']
-    # The bounded horizon cannot establish absence if all33 candidates are stale.
-    return len(rows)>32,(),'BOUNDARY_COVERAGE_UNKNOWN' if len(rows)>32 else 'NO_EXPLICIT_REFUSAL'
+    def ledger(axis):
+        rows=store.db.execute("SELECT * FROM continuity_records WHERE record_kind='SUBJECT_EVENT' AND target_id=? ORDER BY rowid DESC LIMIT 33",(boundary_key(entity_id,scope,topic,purpose=axis),)).fetchall()
+        for row in rows:
+            if row['lifecycle']!='ACTIVE':continue
+            if row['scope']!=scope or row['privacy_class'] not in privacy_classes:return True,(),'BOUNDARY_COVERAGE_UNKNOWN'
+            if not records.current_support(row['record_id']):continue
+            value=records.read(row['record_id'])['payload']['input'];signal=value.get('interaction_signal')
+            if not signal or signal['basis']!='EXPLICIT' or value['origin']!='USER' or value['entity_id']!=entity_id:continue
+            kinds={'DECLINE_DEPTH','REOPEN'} if axis=='COGNITION' else {'DECLINE_DELIVERY','REOPEN_DELIVERY'}
+            if signal['kind'] in kinds:
+                return signal['kind'].startswith('DECLINE'),(row['record_id'],),'EXPLICIT_TOPIC_'+signal['kind']
+        return len(rows)>32,(),'BOUNDARY_COVERAGE_UNKNOWN' if len(rows)>32 else 'NO_EXPLICIT_REFUSAL'
+    hard,refs,reason=ledger('COGNITION')
+    if purpose=='COGNITION':return hard,refs,reason
+    delivery,drefs,dreason=ledger('DELIVERY')
+    return hard or delivery,tuple(dict.fromkeys((*refs,*drefs))),reason if hard else dreason
 
 def assess(store,event,source,*,topic,privacy_classes):
     signal=event.interaction_signal
     topic=signal.topic_key if signal else topic
     if not topic:return None
-    closed,refs,reason=depth_boundary(store,event.entity_id,event.scope,topic,privacy_classes)
-    if signal and signal.kind=='DECLINE_DEPTH' and signal.basis=='EXPLICIT':closed=True
+    closed,refs,reason=depth_boundary(store,event.entity_id,event.scope,topic,privacy_classes,purpose='COGNITION' if event.origin=='SELF_WAKE' else 'DELIVERY')
+    if signal and signal.kind in {'DECLINE_DEPTH','DECLINE_DELIVERY'} and signal.basis=='EXPLICIT':closed=True
     mode=signal.kind if signal else 'INDEPENDENT'
     proposal_refs=()
     if signal and signal.basis=='MODEL_PROPOSAL':
@@ -65,27 +79,29 @@ def assess(store,event,source,*,topic,privacy_classes):
             if request['state']!='PROPOSED' or request['subject_revision']!=revision(store) or body['cognitive_role']!='INTERPRET' or body['role_input']['dialogue']['message_memory_id'] not in event.source_memory_ids or body['role_input']['dialogue']['topic']!=topic or reply['proposal']['dialogue']['kind']!=signal.kind:raise ValueError()
             if body['subject_epoch']!=store.one('runtime_lease',store.identity['identity_id'])['epoch'] or store.clock.utc_now_us()>request['deadline_us']:raise ValueError()
             proposal_refs=(head['record_id'],)
-            if signal.kind in {'DECLINE_DEPTH','REOPEN'}:mode='RESPECT_BOUNDARY' if signal.kind=='DECLINE_DEPTH' else 'UNCLEAR'
+            if signal.kind in {'DECLINE_DEPTH','DECLINE_DELIVERY','REOPEN','REOPEN_DELIVERY'}:mode='RESPECT_BOUNDARY' if signal.kind.startswith('DECLINE') else 'UNCLEAR'
         except (ValueError,KeyError,TypeError):mode='UNCLEAR'
     elif signal and signal.basis!='EXPLICIT':mode='UNCLEAR'
+    delivery_closed,delivery_refs,_=depth_boundary(store,event.entity_id,event.scope,topic,privacy_classes)
+    refs=tuple(dict.fromkeys((*refs,*delivery_refs)))
     if closed:mode='RESPECT_BOUNDARY'
-    allow=not closed and mode in {'HELP','IMPORTANT','REOPEN','INDEPENDENT'}
+    allow=not closed and mode in {'HELP','IMPORTANT','REOPEN','REOPEN_DELIVERY','INDEPENDENT'}
     if mode=='IMPORTANT' and not event.source_memory_ids:mode='UNCLEAR';allow=False
     refs=tuple(dict.fromkeys((*refs,*proposal_refs,*((source['record_id'],) if source['record_id'] else ()))))
     records=RecordService(store)
     memories=tuple(dict.fromkeys(m for r in refs for m in records.support(r)))
-    return ContextFitAssessment(entity_id=event.entity_id,topic_key=topic,mode=mode,allow_deepening=allow,allow_new_work=allow,
+    return ContextFitAssessment(entity_id=event.entity_id,topic_key=topic,mode=mode,allow_delivery=not delivery_closed and not (signal and signal.kind in {'DECLINE_DEPTH','DECLINE_DELIVERY'}),allow_deepening=allow,allow_new_work=allow,
         source_record_ids=refs,source_memory_ids=memories,reason=reason if closed else 'C interprets a sourced '+mode.lower()+' context without automatic task adoption',
         state_token=digest([mode,refs,topic,event.entity_id]))
 
 def choose(event,situation):
     """Optional phase of the existing C judgment, never execution authorization."""
     fit=situation.context_fit
-    if fit is None or fit.mode in {'INDEPENDENT','REOPEN'}:return None
+    if fit is None or fit.mode in {'INDEPENDENT','REOPEN','REOPEN_DELIVERY'}:return None
     from .contracts import Judgment,Intention
     sources=situation.memory_ids;self_generated=event.origin=='SELF_WAKE'
     if fit.mode=='RESPECT_BOUNDARY':
-        return 'DEFER',Judgment(stance='DEFER',reason='Respect the explicit topic refusal; do not privately restart research',source_ids=sources),Intention(kind='NO_ACTION',purpose='Leave this topic closed without deleting independent interests',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='STAY_SILENT')
+        return 'DEFER',Judgment(stance='DEFER',reason='Respect the sourced boundary at its declared scope',source_ids=sources),Intention(kind='NO_ACTION',purpose='Withhold this interaction; preserve desires and independent cognition unless processing is forbidden',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='STAY_SILENT')
     if fit.mode=='FOCUS':
         return 'FOCUS_NOW',Judgment(stance='ASK',reason='Attend to the requested focus; preserve unrelated pending activity for later',source_ids=sources),Intention(kind='WAIT',purpose='Clarify the immediate need while background work yields',slot_key='context-focus',source_ids=sources,self_generated=False)
     if fit.mode=='PROJECT_STATUS':
@@ -98,7 +114,7 @@ def choose(event,situation):
 
 def social_candidate(fit,*,style,source_ids,available=True):
     from .social import SocialInteractionProposal,propose_social
-    if fit.mode in {'RESPECT_BOUNDARY','FOCUS'} or not available:return SocialInteractionProposal(act='STAY_SILENT',topic_key=fit.topic_key,approach='NO_INTERRUPTION',source_memory_ids=source_ids)
+    if not fit.allow_delivery or fit.mode in {'RESPECT_BOUNDARY','FOCUS'} or not available:return SocialInteractionProposal(act='STAY_SILENT',topic_key=fit.topic_key,approach='NO_INTERRUPTION',source_memory_ids=source_ids)
     if fit.mode=='PROJECT_STATUS':return SocialInteractionProposal(act='EXPRESS_OPINION',topic_key=fit.topic_key,approach='CHECK_RECEPTION',source_memory_ids=source_ids)
     if fit.mode=='SHARE':return propose_social(topic=fit.topic_key,style=style,available=available,source_ids=source_ids)
     return SocialInteractionProposal(act='CHECK_IN' if fit.mode=='VENT' else 'ASK',topic_key=fit.topic_key,approach='CHECK_RECEPTION',source_memory_ids=source_ids)

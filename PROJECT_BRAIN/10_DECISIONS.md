@@ -1322,3 +1322,14 @@ Neutral receipt仅是“已收输入，解释待定”的DIRECT_OBSERVATION；�
 这是FOUNDATION_MISSING（仅有界语义区分）+CURRENT_GATE_BLOCKER，故唯一下一主线优先FQ-04：原C独立问题界定与认知范围分流，允许复用通用记录，不强制特定DTO/模块。不在本审计实施；不删guard、不扩权限、不新建脑。
 S3已有主体基础但真实闭环资格仍缺，不能借此启动第二affect系统；S10深改保持禁用。S1–S9全部资格前Human/First-Life/production推进继续暂停。
 本次只读staging进度，不重启或写其目录；原初审“未访问宿主”按初审时点保留，当前新增只读观察另有证据。模型调用0，私有数据0，生产/main/R045不变。
+
+## FOUNDATION-CLOSURE-001 — bounded scope, framing and experiential need in original C
+
+[用户任务授权+实现证据] 本轮在原分支关闭明确S6/S3差额，不修订Master或63定义。普通DECLINE_DELIVERY仅停止对外深入/投递，不能自动阻断同题内部认知；旧DECLINE_DEPTH保留processing限制，无法从旧规范化记录猜测新含义。显式hard privacy、Manager、资源和Grant继续独立。
+选择最小typed framing hypothesis/evaluator：C从有源可见direct observation核查前提与alternative need，原Goal registry/planner做后续；不是第二自主planner，不宣称开放任意问题发现。相同问题/不同实际状态的对照和无Grant BLOCK证明收益及权限保留。
+复用原Experience/lesson/independent reuse assessment派生competence need OPEN/SETTLED/UNKNOWN，不新增人格表或人工PreferenceSignal；匹配来源祖先而非仅domain标签，已满足的gap可不再重复学习，反例/撤回撤去支持。
+全仓暴露旧共享training source删除后的重绑capture缺陷，选择退役整个共同支持bundle/specs，避免SOURCE_DELETED阻断恢复或重新构造被删来源；不以删guard修复。
+S3/S6有限Foundation Qualified；S4/S5资格仍开放，S10深改不启动。旧审计source hash是edda历史快照，不再要求当前业务源码永久不动；校验器保留冻结标准逐字检查及历史快照完整性，新实现由本轮manifest和应用测试检验。
+本轮无新付费调用，S5 live新授权门不使用旧key/冻结余1；S4固定驻留只读，不凭时间推断。First-Life/Human/production不升级。
+
+[本轮压力反例补充] 34次delivery记录曾触发33条horizon fail-closed而暂停内部认知，普通“可以再讨论”也曾复用processing REOPEN；两项测试先真实失败后修复。用原target_id索引分开两条ledger，无新增表；REOPEN_DELIVERY不解除processing，旧REOPEN保留原显式语义，边界转换commit前不发模型请求。反例与最终测试留证。

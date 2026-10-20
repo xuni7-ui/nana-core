@@ -7,35 +7,47 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 4,
-  "as_of_us": 1792512567095469,
+  "revision": 5,
+  "as_of_us": 1792514954761137,
   "stage": "H",
-  "workstream": "MASTER_FRAMEWORK_FREEZE_AND_FOUNDATION_CAPABILITY_AUDIT_V1",
-  "status": "EXISTING_63_CRITERIA_INDEPENDENTLY_RECHECKED_FOUNDATION_GAPS_OPEN",
+  "workstream": "FOUNDATION_CLOSURE_MISSION_V1",
+  "status": "PARTIAL_S3_S6_CLOSED_S4_DURATION_S5_LIVE_GATE_PENDING",
   "progress": [
-    "已快进继承另一会话af52371框架冻结与首次矩阵；Master逐字不改，63条criteria/ID/定义/分母不变，本地草稿完整保留但不采用另一分母。",
-    "当前Foundation Qualified为S1/S2/S7/S8/S9；S3/S4/S5为Tested且保留明确资格缺口；S6/S10为Partial，不把未过门的能力称完成。",
-    "独立复核当前目标21、历史测试快照对当前Core18、topic边界6均通过；18项含90虚拟天及7实际SIGKILL，不代表真实长期需要成长链。",
-    "S3已有8/9受限资格，C09真实需要/倾向整链仍未知；S4实际24h结果及S5真实语义整链仍待核验。",
-    "确认PUBLIC普通对话拒绝会暂停同题内部学习；S6-C07认知范围语义分流不完整。其他topic仍独立，原目标/规划PASS保留。",
-    "DeepSeek功能资格保留、累计19次、余1冻结、本轮新调用0；真实账单未知；工程核账与测试不是主体个人经历。"
+    "已从远端与本地一致edda7d08继续；Master逐字保留、63条criteria定义/ID/分母不变。",
+    "S3-C09已实际owned失败/Experience→需要OPEN→独立复用SETTLED→SIGKILL/重启自主再选择，反例/撤回改变支持；不是人工偏好注入。",
+    "S6-C07已区分投递/认知处理边界，并完成有源前提检验→问题重定义→原Goal/Plan/核验及无Grant阻断。",
+    "已修复共享训练来源删除后重启重新capture的恢复缺陷：保留墓碑、退役绑定，不复活技能。",
+    "S1/S2/S3/S6/S7/S8/S9受限Foundation Qualified；S4/S5仍Tested，S10 Partial/深改不启动。"
   ],
   "open_gates": [
-    "唯一下一推荐：FQ-04/S6-C07，原C内独立问题界定与认知范围分流；这是已确认基础缺口和当前Gate blocker。审计本身不实现新模块。",
-    "S3-C09真实经历改变需要/倾向、重启保留并自主再选择仍UNKNOWN；不因合成信号复核就升级，不重造情感系统。",
-    "24h staging固定源码独立继续，只读快照不是实际24h结果；S5当前真实源→live语义→World/Concern→C纠错整链仍待资格。",
-    "Human Naturalness/Shared-Life新评审、预算请求和production inventory/cutover/social canary/72h均暂停；First-Life/Beta不升级。"
+    "S5-C06当前整链仅SYNTHETIC_LOOPBACK通过；需新授权最少1次PROJECT真实语义请求与安全FD/Resolver，不能使用冻结余1或历史key。",
+    "S4-C06原固定645899b实际24h run尚无最终结果，仅只读观察；不重启、不热更新、不另开soak。",
+    "First-Life/Beta/Human评审与production/social推进继续暂停；本轮新付费调用0。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
-    "docs/nana_master_framework_foundation_audit_v1_evidence/audit.json",
-    "docs/nana_master_framework_foundation_audit_v1_evidence/independent_review.json",
-    "docs/nana_master_framework_foundation_audit_v1_evidence/topic_scope_probe.json",
-    "docs/nana_master_framework_foundation_audit_v1_evidence/staging_observation.json"
+    "docs/nana_foundation_closure_v1_implementation.md",
+    "docs/nana_foundation_closure_v1_evidence/experience_need.json",
+    "docs/nana_foundation_closure_v1_evidence/problem_framing.json",
+    "docs/nana_foundation_closure_v1_evidence/staging_observation.json"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
+
+## CURRENT — FOUNDATION CLOSURE V1 / S3 AND S6 QUALIFIED / TWO GATES OPEN
+
+[源码/受控真实owned进程资格，2026-10-21任务] 起点edda7d08，本地/远端一致后实施；Master/63条固定标准不变。
+S6-C07认知范围分流、可复审自主REST、源事实前提检验和问题级替代已资格；原planner/Grant/Manager/Privacy不变。
+S3-C09实际失败→Experience→需要OPEN/LEARN，独立后续受控复用→SETTLED/WATCH，实际SIGKILL后同cycle重放/再选择，反例及来源撤回撤掉支持。
+这是有限competence tendency闭环；未发明情绪总分、第二Store/SubjectLoop或人格写入。
+回归暴露共享训练来源删除后重启recapture，已最小修复为墓碑退役绑定，保留原失败证据，不复活数据。
+当前Qualified域S1/S2/S3/S6/S7/S8/S9；S4/S5 Tested，两条资格未齐；S10 Partial，深改不在本轮。
+S5仅当前SYNTHETIC_LOOPBACK组合资格，新付费调用0；需要最小1次新的PROJECT语义调用授权/安全resolver，不动历史UNKNOWN或冻结余1。
+S4原固定run仍实际计时，206个pin文件核对无差异、DB快检/FK/queue/UNKNOWN元数据可查；最终24h artifact未生成，不推算PASS。
+真人评审NOT_RUN、First-Life NOT_READY/Beta NO；main/R045/production/private/social不变。源码/测试/范围与最终回归见收口报告及evidence。
+
+以下CURRENT块和原审计优先顺序保留为历史，本块与顶部typed header为当前入口。
 
 ## CURRENT — FOUNDATION AUDIT INDEPENDENT RECHECK / af52371 INHERITED
 
@@ -2003,3 +2015,7 @@ HUMAN_REVIEW_CONTEXT_CURRENT_STATE=PASS；PROJECT_STATUS_INTENT_CLASSIFICATION=P
 [本轮文档采集指纹] `docs/nana_master_framework_foundation_audit_v1_evidence/manifest.json` SHA256 `d392724e8ce412ba857262d7d41e6c4a695c156c8515064da6daa8d269a04f94`；排除自身与本09（避免自指），只证明文档文件，不证明运行态。
 
 [实测 af52371独立复核指纹] docs/nana_master_framework_foundation_audit_v1_evidence/manifest.json SHA256 3b1d61e17c0ce5a3260ac2d67df25c1db6f2c788f14f443111802671a4e97ead；保留af初审manifest于Git，不含self/09/DB/config/凭据/旧bundle。Master和63条定义不变，指纹仅证明采集文件，不证明真人/production。
+
+[Foundation Closure最终实测] focused54 PASS（21新增+相关），旧reopen严格反例单项1 PASS；最终显式tests/全仓1321 passed/12 skipped/0failed312.07s。11项opt-in live screen及E12未运行，不称为通过。新paid/provider0，实际owned应用效果资格见新闭环证据；外部服务/社交/用户设备/生产0。S3/S6已关闭；S4/S5资格开放，First-Life继续NOT_READY。
+
+Foundation Closure manifest SHA256（不含自身及本状态文件）：`4cc82dac4b70c2fc889f7bef0736435ebac63efdd70f027192767d975f50a17e`。

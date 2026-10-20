@@ -1,0 +1,51 @@
+{
+  "focused": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "54",
+    "time": "29.733",
+    "timestamp": "2026-10-20T16:52:01.124074+00:00",
+    "hostname": "2a56469fcca7"
+  },
+  "related": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "74",
+    "time": "79.469",
+    "timestamp": "2026-10-20T16:41:11.671980+00:00",
+    "hostname": "2a56469fcca7"
+  },
+  "commands": [
+    ".venv/bin/python -m pytest tests/foundation_closure tests/controlled_hands/test_application.py::test_real_subject_outcome_learning_transfer_and_bounded_extension tests/vision_first/test_context_fit.py tests/vision_first/test_growth.py tests/first_life/test_project_status_context.py -q -o junit_family=xunit1 --junitxml=/tmp/nana-foundation-closure.xml",
+    ".venv/bin/python -m pytest tests/foundation_closure tests/vision_first tests/controlled_hands tests/first_life -q -o junit_family=xunit1 --junitxml=/tmp/nana-foundation-related.xml"
+  ],
+  "scope_followup": "11 passed 0.90s after strengthening self-pause test; included again in final full suite",
+  "development_failures": [
+    "Related command initially referenced nonexistent tests/dialogue_shadow; no tests ran, corrected paths.",
+    "First integration exposed missing DECLINE_DELIVERY local metadata allowlist; fixed without allowing free-form bodies.",
+    "First experience fixture used str as Path; fixed test path conversion.",
+    "Initial full interrupted after reproducible SOURCE_DELETED recovery failure: 355 passed / 1 failed / 11 skipped, 167.10s. Deterministic tombstone-rebind test added; shared binding retired, delete guard preserved.",
+    "Two new scope pressure tests first failed: 34 delivery entries crowded cognition horizon; conversation reopen lifted processing restriction. Separate ledgers + REOPEN_DELIVERY fix both. Intermediate regression interrupted at 1317 pass /12 skip before scope hardening, not claimed full.",
+    "Completed pre-test-update regression: 1320 passed / 1 failed /12 skipped, 324.55s. Sole failure was obsolete conversation-reopen assertion; replaced with stronger hard-boundary assertions and passed separately. Final current-suite regression rerun required."
+  ],
+  "full": {
+    "tests": 1333,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 12,
+    "passed": 1321,
+    "seconds": 312.032,
+    "command": ".venv/bin/python -m pytest tests -q -o junit_family=xunit1 --junitxml=/tmp/nana-foundation-final-clean.xml"
+  },
+  "focused_scope": "21 new closure tests + 33 related regression cases, final ledger semantics",
+  "additional_recheck": {
+    "case": "tests/lived_growth/test_boundaries.py::test_explicit_refusal_prevents_model_research_and_future_render",
+    "result": "1 passed 1.18s",
+    "change": "Strengthened legacy reopen test to preserve hard processing boundary; explicit processing reopen commits before subsequent model dispatch."
+  },
+  "related_scope": "Earlier stage compatibility check; final full regression is authoritative for the frozen final source"
+}
