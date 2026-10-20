@@ -1,0 +1,23 @@
+{
+  "grade": "ACTUAL_USER_INPUT_PROCESSED_REPLY_CANDIDATE_NOT_HUMAN_ACCEPTANCE",
+  "identity_id": "b5864db1-ecfe-4278-9bc2-76db0e096311",
+  "initial_private_socket": "ABSENT_PRE_DISPATCH_NO_CALL",
+  "recovery": "SAME_HOME_STOPPED_LEASE_NO_UNKNOWN_NEW_EPOCH_NOT_NEW_SUBJECT",
+  "total_provider_calls": 19,
+  "reserved_cost_micro": 950000,
+  "remaining_calls": 1,
+  "provider_state": "MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED",
+  "render_state": "UNVERIFIED_MODEL_WORDING",
+  "context_mode": "UNCLEAR",
+  "core_judgment": "ASK",
+  "core_intention": "WAIT",
+  "user_raw_input_saved": false,
+  "candidate_raw_wording_saved": false,
+  "human_verdict": "PENDING",
+  "human_ratings_recorded": false,
+  "observed_gap": "Latest PROJECT_BRAIN stage not present in selected source context; candidate did not provide current mainline state. Initial UNCLEAR metadata placeholder is a diagnostic lead, not a verified cause.",
+  "further_full_turns_within_remaining_budget": 0,
+  "private_state_exact_secret_matches": 0,
+  "first_life_experience_ready": "NOT_READY",
+  "beta_ready": false
+}

@@ -1899,3 +1899,12 @@ Tracked manifest closure SHA256 `8105e3c281f998202114e455c2c10507d1fd6c4205591cb
 主线继续门是当前私有开发入口人工体验；24h真实驻留另行等待结果，不提前production inventory/cutover。
 
 Functional qualification manifest SHA256 `78abe973a8f0f01a4a886b401d47504e4ad8af3ba779fd9e91384aa56103a442`（supersedes采集锚点；排除self/09/bundle/DB/凭据；不是Human/24h/production证明）。
+
+[实测 First-Life真人输入样本1，尚非真人评审通过] 原7200秒私有入口已graceful STOP/socket移除，首次IPC失败在dispatch前0调用。
+确认same home17条请求均terminal、无CALLING/UNKNOWN后，同identity新epoch内存FD恢复，仅处理本轮真实用户PROJECT输入。
+INTERPRET+RENDER成功，累计19/20、reservation950000/$0.95（非actual bill），余1不足完整下一轮，不扩额度/不盲重试。
+本轮context_mode UNCLEAR、原C ASK/WAIT，候选未获取最新PROJECT_BRAIN主线状态；不把这解释为用户表达有问题。
+诊断线索：初始Local input metadata的UNCLEAR占位也会进context，可能影响解释；尚未验证根因，不改写本轮候选。
+不入库真人原文/候选原文，仅结构化结果元数据。Human verdict PENDING，评分未记录，First-Life/Beta不升级。
+
+Human sample metadata manifest SHA256 `65668ad367d10347d933b7886c746822fcf38674fbaf0c0eb204760b4bfb0589`，self/09/原文/bundle/DB/credential排除。

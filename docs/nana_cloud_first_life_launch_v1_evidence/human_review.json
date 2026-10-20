@@ -7,14 +7,17 @@
   "unit_test_ratings_are_human_review": false,
   "readiness_automatically_promoted": false,
   "raw_transcript_persisted": false,
-  "entry_state": "ACTUAL_PRIVATE_IPC_READY_VERIFIED_NO_MODEL_CALL",
+  "entry_state": "BOUNDED_ENTRY_EXPIRED_GRACEFULLY;SAME_HOME_SINGLE_TURN_COMPLETED",
   "identity_id": "b5864db1-ecfe-4278-9bc2-76db0e096311",
-  "runtime_pid": 59982,
+  "runtime_pid": null,
   "home": "/workspace/nana-staging/first-life-deepseek-01/life",
-  "remaining_calls_at_checkpoint": 3,
+  "remaining_calls_at_checkpoint": 1,
   "typical_calls_per_complete_turn": 2,
   "duration_bound_seconds": 7200,
   "role": "DEVELOPMENT_REFERENCE_SUBJECT_NOT_PRODUCTION_NANA_IMPORT",
   "autonomy": "PAUSED_NO_NEW_TASKS_FOR_QUALIFICATION",
-  "transcript_persisted": false
+  "transcript_persisted": false,
+  "human_verdict": "PENDING",
+  "actual_user_samples": 1,
+  "entry_available_for_complete_round": false
 }

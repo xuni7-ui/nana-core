@@ -1283,3 +1283,10 @@ One original C/Store/Runtime owner per reference lineage；schema13/43表，新�
 不是“所有进程已清空”；早期资格进程已退出，新入口停止后Resolver clear，无自动credential恢复。
 剩余3次模型调用通常仅1完整轮；未收到真人消息/评审则Human NOT_RUN，不把开发者候选检查当Human通过。
 主线继续门是当前私有开发入口人工体验；24h真实驻留另行等待结果，不提前production inventory/cutover。
+
+[实测 First-Life真人输入样本1，尚非真人评审通过] 原7200秒私有入口已graceful STOP/socket移除，首次IPC失败在dispatch前0调用。
+确认same home17条请求均terminal、无CALLING/UNKNOWN后，同identity新epoch内存FD恢复，仅处理本轮真实用户PROJECT输入。
+INTERPRET+RENDER成功，累计19/20、reservation950000/$0.95（非actual bill），余1不足完整下一轮，不扩额度/不盲重试。
+本轮context_mode UNCLEAR、原C ASK/WAIT，候选未获取最新PROJECT_BRAIN主线状态；不把这解释为用户表达有问题。
+诊断线索：初始Local input metadata的UNCLEAR占位也会进context，可能影响解释；尚未验证根因，不改写本轮候选。
+不入库真人原文/候选原文，仅结构化结果元数据。Human verdict PENDING，评分未记录，First-Life/Beta不升级。
