@@ -1,7 +1,7 @@
 {
   "status": "PARTIAL_NOT_READY",
   "durability": "IMPLEMENTED_TESTED_BOUNDED_PROCESS",
-  "real_text_provider": "BLOCKED_SECRET_NOT_BOUND_TO_CURRENT_ENVIRONMENT",
+  "real_text_provider": "PARTIAL_TRANSPORT_INTERPRET_PASS_RENDER_NOT_RUN",
   "human_naturalness": "NOT_RUN",
   "shared_life_human_review": "NOT_RUN",
   "staging_24h": "RUNNING_NOT_QUALIFIED",

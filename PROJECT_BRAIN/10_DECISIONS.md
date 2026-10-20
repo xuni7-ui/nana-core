@@ -1234,3 +1234,25 @@ secrets=[]、runtime_variables=[]：尚未绑定到当前任务。工具仅支�
 不搜索环境/历史key，不读个人保险库原文，不用明文文件；已请求用户通过环境配置绑定并审核。
 绑定ready后仅从显式宿主安全源→内存pipe/FD→现有ExplicitFDResolver，沿原预算/Privacy/UNKNOWN合同。
 历史TianToken UNKNOWN仍PARKED，禁止重放或fallback。此前“未获付费范围”在本时点被上述有限授权取代。
+
+## CURRENT — FIRST-LIFE / DEEPSEEK FIRST LIVE REQUEST / PARTIAL
+[实测2026-10-20] 当前开发分支dev/nana-core-cloud-first-life-launch-v1-codex；GLOBAL_STAGE H。
+用户本轮显式提供新凭据并要求执行，走关闭echo的进程stdin→内存pipe→原ExplicitFDResolver；非保险库绑定成功。
+凭据不入argv/env/config/evidence/Store，resolver已清理、临时调用进程结束；资格home/result exact scan0。
+DeepSeek https://api.deepseek.com / requested+returned deepseek-flash；新真实调用1，HTTP200，3688.587ms，
+usage5790 input/565 output/6355 total；严格解析、CognitionSession PROPOSED、原C WATCH/SOCIAL_INTERACTION。
+未创建Actions/Grants/Goals；retry0/fallback0；历史TianToken UNKNOWN仍PARKED，不重放。
+首batch硬限1次，RENDER被PROVIDER_HOURLY_BUDGET挡住：语义传输成功不等于自然对话通过。
+真实费用UNKNOWN，公开文档当前未取得可核对适用费率；扩大调用暂停在cost-bound门（总授权20次/$1）。
+REAL_TEXT_PROVIDER=PARTIAL_TRANSPORT_INTERPRET_PASS；human naturalness/shared-life NOT_RUN；FIRST_LIFE/BETA不升级。
+修复“已配置provider却因render预算阻断显示未配置”的误导fallback，保留原测量结果，targeted12 passed8.01s。
+24h staging独立固定645899b持续运行，已实际恢复epoch2→3，仍RUNNING_NOT_QUALIFIED；不接本次凭据。
+生产盘点/切换/canary/72h仍NOT_RUN，main/R045/production/private data/real social不变。
+下方CURRENT为保留历史；前述“新调用0/当前完全无凭据”的事实由此本轮显式输入与实测更新，不改历史UNKNOWN。
+
+[实测 post-live final] provider-budget/dialogue targeted12 passed8.01s；最终full1274 passed/12 skipped/0 failed286.16s。
+DeepSeek资格home无transport重新打开：同identity、同1条PROPOSED记录，无自动发送/重放、新调用0。
+24h dev growth guard真实window600.914192s，logical growth167936bytes（约0.96MiB/hour观测速率），
+低于32MiB/hour configured fence，状态OBSERVING；未裁剪history。仅有界窗口，不冒充24h。
+新Provider总调用1，usage已知、actual billing/cost UNKNOWN，等待可核对费率；真人自然度/Shared-Life NOT_RUN。
+Source/staging与live/fix证据分别登记；新Source修复不覆盖固定645899b驻留进程。

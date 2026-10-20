@@ -16,4 +16,5 @@ def test_per_provider_budget_does_not_add_global_capacity(tmp_path):
  with relay(home,'CHAT') as (router,calls),LifeApplication(home,router=router) as app:
   app.pause();a=app.chat('SYNTHETIC_PUBLIC_PROJECT',privacy='PROJECT',message_id='a')
   assert len(calls)==1 and a['render_state']=='PROVIDER_PROFILE_DAILY_BUDGET'
+  assert 'PROVIDER_PROFILE_DAILY_BUDGET' in a['text'] and '尚未配置' not in a['text']
   assert not app.runtime.store.all('grants')

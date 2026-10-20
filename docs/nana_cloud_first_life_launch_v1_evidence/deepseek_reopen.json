@@ -1,0 +1,14 @@
+{
+  "mode": "ACTUAL_LOCAL_REOPEN_WITHOUT_NETWORK_TRANSPORT",
+  "identity_unchanged": true,
+  "request_count": 1,
+  "request_states": [
+    "PROPOSED"
+  ],
+  "new_provider_calls": 0,
+  "old_request_replayed": false,
+  "actions": 0,
+  "grants": 0,
+  "original_loop": true,
+  "automatic_dispatch_on_reopen": false
+}

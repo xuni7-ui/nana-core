@@ -1,0 +1,3 @@
+Targeted provider-budget/dialogue suite:12 passed in8.01s.
+Final post-live full regression:1274 passed,12 skipped,0 failed in286.16s.
+11 opt-in live-screen skips and1 E12 gate; default regression makes no real Provider calls.

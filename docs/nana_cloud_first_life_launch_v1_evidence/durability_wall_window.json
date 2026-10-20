@@ -1,0 +1,25 @@
+{
+  "grade": "ACTUAL_BOUNDED_WALL_CLOCK_WINDOW_NOT_24H",
+  "source_head": "645899b32220e66a702e75d59a279a3a9685693f",
+  "from": {
+    "version": 1,
+    "started_us": 1792472914583883,
+    "window_us": 1792473574421655,
+    "logical_bytes": 10953149,
+    "status": "OBSERVING"
+  },
+  "to": {
+    "version": 1,
+    "started_us": 1792472914583883,
+    "window_us": 1792474175335847,
+    "logical_bytes": 11121085,
+    "status": "OBSERVING"
+  },
+  "observed_seconds": 600.914192,
+  "logical_growth_bytes": 167936,
+  "observed_bytes_per_hour": 1006083.0781643447,
+  "configured_limit_mib_per_hour": 32,
+  "guard_status": "OBSERVING",
+  "rows_pruned_for_size": 0,
+  "runtime_restarted_after_sigkill": true
+}

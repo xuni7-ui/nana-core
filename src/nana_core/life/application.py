@@ -220,6 +220,10 @@ class LifeApplication:
         if not draft:
             draft={'VENT':'离线模式：我在听；这次不把倾诉变成研究。','HELP':'离线语义受限：可用 /work 选择已批准的源码材料。','SHARE':'离线模式：收到你的分享；没有另开任务。','CHAT':'离线模式：可以闲聊，真实语言模型尚未配置。',
                    'RESPECT_BOUNDARY':'这个话题先停在这里。','CORRECTION':'我会先澄清更正的内容，不直接改写历史。'}.get(cycle.context_fit.mode,'离线语义受限：你希望我听你说，还是一起处理具体问题？')
+        if self.router is not None and not render_state=='UNVERIFIED_MODEL_WORDING' and cycle.context_fit.mode!='RESPECT_BOUNDARY':
+            # A configured provider can be budget-blocked after valid interpretation.
+            # Do not falsely report that no model is configured or pretend this is generated speech.
+            draft='本次没有生成模型回复（'+(render_state if render_state!='NOT_RUN' else provider_state)+'）。'
         if cycle.intention_id:
             current=r.store.one('subject_intentions',cycle.intention_id)
             if current['state']=='PENDING':r.subject.transition_intention(cycle.intention_id,expected_revision=current['revision'],state='DROPPED')

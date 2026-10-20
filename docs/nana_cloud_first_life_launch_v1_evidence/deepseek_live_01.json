@@ -1,0 +1,82 @@
+{
+  "provider": "DeepSeek",
+  "base_url": "https://api.deepseek.com",
+  "requested_model": "deepseek-flash",
+  "privacy": [
+    "PUBLIC",
+    "PROJECT"
+  ],
+  "authorized_calls_max": 20,
+  "this_batch_hard_calls_max": 1,
+  "authorized_cost_max_usd": 1,
+  "actual_cost": "UNKNOWN_UNTIL_PROVIDER_BILLING",
+  "historical_tiantoken_unknown": "PARKED_UNTOUCHED",
+  "human_naturalness": "NOT_RUN",
+  "shared_life_human_review": "NOT_RUN",
+  "credential_persisted": false,
+  "identity_id": "b5864db1-ecfe-4278-9bc2-76db0e096311",
+  "dialogue_result": {
+    "message_id": "deepseek-new-qualification-01",
+    "message_memory_id": "ea5c9143-0dfb-444a-ad7c-eb1dfbabf573",
+    "provider_state": "MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED",
+    "render_state": "PROVIDER_HOURLY_BUDGET",
+    "mode": "CHAT",
+    "judgment": "WATCH",
+    "intention": "SOCIAL_INTERACTION",
+    "text": "离线模式：可以闲聊，真实语言模型尚未配置。",
+    "raw_body_persisted": false,
+    "external_social_send": false
+  },
+  "cognition_requests": [
+    {
+      "request_id": "560172ba-cdde-4fd1-8d4f-695661706c43",
+      "state": "PROPOSED"
+    }
+  ],
+  "actions": 0,
+  "grants": 0,
+  "goals": 0,
+  "calls": [
+    {
+      "request_id": "560172ba-cdde-4fd1-8d4f-695661706c43",
+      "requested_model": "deepseek-flash",
+      "provider_id": "deepseek.qualification",
+      "privacy": "PROJECT",
+      "completion": "REPLY_PARSED",
+      "retry": 0,
+      "fallback": 0,
+      "returned_model": "deepseek-flash",
+      "usage": {
+        "prompt_tokens": 5790,
+        "completion_tokens": 565,
+        "total_tokens": 6355
+      },
+      "billing": "UNKNOWN",
+      "http": {
+        "request_body_sha256": "4810b0640220e4b93370e9b19518c022d717b267739898fdfd4815fa14296d53",
+        "raw_response_body_sha256": "c50501b2f4729d6a3379235a31de29b8104b0f21371a8d9b906cdac610865843",
+        "response_http_status": 200,
+        "relay_response_id": "cd82a7b2-4b46-4f2e-afd5-63573d694afd",
+        "relay_request_id": null,
+        "request_started_at": "2026-10-20T05:24:26.384633+00:00",
+        "response_received_at": "2026-10-20T05:24:30.072309+00:00",
+        "latency_ms": 3688.587027005269
+      }
+    }
+  ],
+  "real_provider_calls": 1,
+  "retries": 0,
+  "fallbacks": 0,
+  "exact_secret_match_count": 0,
+  "status": "PARTIAL_TRANSPORT_AND_INTERPRETATION_PASS",
+  "reply_render": "NOT_RUN_FIRST_BATCH_ONE_CALL_BUDGET",
+  "actual_billing_confirmed": false,
+  "estimated_fee": "NOT_ESTIMATED_NO_VERIFIED_APPLICABLE_RATE",
+  "further_calls": "PAUSED_FOR_COST_BOUND_NOT_PROVIDER_FAILURE",
+  "source_head": "6feef5d38db44784ab5f17c25c230e259f48795a",
+  "credential_path": "USER_SUPPLIED_THIS_TASK_TO_NO_ECHO_PROCESS_STDIN_TO_MEMORY_PIPE_TO_EXPLICIT_FD_RESOLVER; NOT_VAULT_BINDING",
+  "exact_scan_scope": "QUALIFICATION_HOME_FILES_AND_RESULT_PAYLOAD_IN_MEMORY",
+  "credential_disposed": "RESOLVER_CLEARED_PROCESS_EXITED",
+  "legacy_offline_text_note": "Original observed fallback falsely said model not configured despite valid interpretation and render budget fence; preserved as measured, corrected in subsequent source/test. Not counted as model speech or human acceptance.",
+  "upstream_verification": "USER_CONFIRMED_DIRECT_HOST_TLS_AND_MATCHING_RESPONSE_MODEL_NOT_WEIGHT_ATTESTATION"
+}
