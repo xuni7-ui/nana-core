@@ -2,6 +2,8 @@
 import hashlib,json,os,platform,sqlite3,subprocess,sys,venv
 from pathlib import Path,PurePosixPath
 ROOT=Path(__file__).resolve().parent
+# Runtime imports must not mutate the checksummed source tree with .pyc files.
+sys.dont_write_bytecode=True
 
 def verify(root):
     if root.stat().st_uid!=os.getuid() or root.stat().st_mode&0o022:raise ValueError()

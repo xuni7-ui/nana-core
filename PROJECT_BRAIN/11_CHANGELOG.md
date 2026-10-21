@@ -2328,3 +2328,14 @@ no shared Runtime/Store semantics changed. Targeted synthetic tests cover explic
 fresh, package transfer/privacy, fail-closed config/FD/archive/permissions. Final
 installed-bundle and full regression pending. No paid/provider/private/production
 or actual current Subject migration; old unread bundle untouched.
+
+### Portable installed-bundle hardening
+
+Actual first clean offline install succeeded; its second preflight correctly
+caught generated source __pycache__ as an unlisted mutation. Bootstrap now disables
+runtime bytecode generation; immutable checksummed sources remain unchanged.
+Current-route checker accepts this legitimate cross-cutting workstream without
+changing Master/criteria. Added installed A→B process runner including duplicate
+start, restart, actual SIGKILL/stale socket, synthetic UNKNOWN preservation,
+read-only Inspector, private intent and backup deletion closure; final rehearsal
+still pending. No real calls or real current-Subject writes.
