@@ -2095,3 +2095,5 @@ ONE_SHOT selected-live handoff manifest SHA256: `a02467af6aa0f7fa010dc8e6a463c7b
 Portable runtime handoff manifest SHA256: `a985fccd69176944522127ca14edfc046cb2e2e411bb320824545dfe300bfe62` (self/09 excluded; runtime source4bc4c05, no production).
 
 Final portable runtime release manifest SHA256: `006511161ace7950406f2aa820345adb5cc7bf610a3ef7505539ff5d3423d965` (self/09 excluded; runtime sourcebfea92c).
+
+Portable complete audit manifest SHA256: `46f8808ad6520d6855f72210ce65eee85bf27ddbb3a0b663b670674a9af4f555` (includes synthetic binding proof, self/09 excluded).

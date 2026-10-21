@@ -2379,3 +2379,7 @@ Total decompression ceiling includes hidden tar metadata; final artifact clean-i
 A→B process-qualified and deterministic rebuild equal. Focused28, full1407/0fail/12skip;
 post-collection changes are unpacker-only, no shipped Core delta. NewProvider0, no actual
 current Subject migration, private history or production; same declared dev scope. STOP.
+
+### Portable handoff metadata inclusion
+
+Renamed the synthetic credential-binding/package-contract proof to binding_and_package_contracts.json so the existing *secret* ignore rule does not omit safe audit metadata. No real credential is in the file, ignore policy unchanged. Included proof in the final fingerprint/consistency check before remote handoff.

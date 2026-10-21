@@ -6,7 +6,7 @@ R=Path(__file__).resolve().parents[2];E=R/'docs/nana_portable_cloud_runtime_v1_e
 BASE='024e22649365560ef57e0f3fa82e41383d95d315'
 
 def check(archive=None):
-    f=foundation();q=json.loads((E/'qualification.json').read_text());b=json.loads((E/'bundle.json').read_text());m=json.loads((E/'migration_rehearsal.json').read_text());s=json.loads((E/'security.json').read_text());c=json.loads((E/'secret_and_package_contracts.json').read_text())
+    f=foundation();q=json.loads((E/'qualification.json').read_text());b=json.loads((E/'bundle.json').read_text());m=json.loads((E/'migration_rehearsal.json').read_text());s=json.loads((E/'security.json').read_text());c=json.loads((E/'binding_and_package_contracts.json').read_text())
     assert q['base_head']==BASE and q['NEW_PROVIDER_CALLS']==0 and q['PORTABLE_CLOUD_BUNDLE_READY']=='YES'
     assert q['NEW_BUSINESS_TABLES']==q['NEW_DEPENDENCIES']==0 and q['SCHEMA_VERSION']==13
     assert q['runtime_source_commit']==b['source_commit']==b['rehearsed_runtime_source']

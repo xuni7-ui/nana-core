@@ -1,0 +1,9 @@
+{
+  "schema12_rejected_before_destination_creation": true,
+  "corruption_rejected_with_matching_outer_digest": true,
+  "fixture_live_stale_owner_blocked": true,
+  "portable_tty_echo_disabled": true,
+  "resolver_cleared": true,
+  "new_provider_calls": 0,
+  "real_keys_accessed": false
+}
