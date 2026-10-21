@@ -1,0 +1,20 @@
+{
+  "execution": "OFFLINE_SYNTHETIC_RESPONSE_OR_LOOPBACK_ONLY",
+  "canonical": "ACCEPT",
+  "deepseek_like_with_reasoning_and_cache_metadata": "ACCEPT_CONTENT_ONLY_NO_REASONING_PERSISTENCE",
+  "vendor_extensions": "ACCEPT_METADATA_NOT_AUTHORITY",
+  "missing_optional_id_object_created_role": "ACCEPT_LEGACY_COMPATIBLE",
+  "usage_absent_or_null": "ACCEPT_COST_UNKNOWN",
+  "all_text_content_blocks": "ACCEPT_BOUNDED_THEN_SAME_STRICT_SEMANTIC_VALIDATOR",
+  "malformed_top_level_choices_message": "REJECT_SAFE_STAGE_AND_PATH",
+  "invalid_role_content": "REJECT",
+  "duplicate_truncated_JSON": "REJECT",
+  "semantic_missing_required_enum_numeric_string_authority_extra": "REJECT",
+  "unusual_valid_nonstop_finish": "RECOGNIZED_BUT_PARTIAL_NO_TOOL_CALL_OR_FALLBACK",
+  "model_mismatch": "REJECT_ORIGINAL_CORE_CORRELATION",
+  "UNKNOWN": "NO_REPLAY_AND_NO_STALE_DIAGNOSTIC_REUSE",
+  "new_attempt_same_topic": "NEW_REQUEST_NO_REPLAY_BUT_NO_FORCED_DUPLICATE_CONCERN",
+  "disk_credential_FD": "DENY_BEFORE_READ",
+  "memory_pipe_FD": "ACCEPT_AND_CLEAR",
+  "historical_live_body_reconstructed": false
+}

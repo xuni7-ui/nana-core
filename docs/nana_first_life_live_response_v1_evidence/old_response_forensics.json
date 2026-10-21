@@ -1,0 +1,15 @@
+{
+  "historical_request_id": "23f972a4-ccd2-45a5-abe2-09da362c6c9d",
+  "historical_response_sha256": "004f5a61b50838980e53fc24a74fee6bfbbb819145d493213710c18f4e6aa626",
+  "transport_valid": "HTTP200_AND_JSON_CONTENT_TYPE_CONFIRMED",
+  "json_valid": true,
+  "openai_compat_shape_valid": "PARTIAL_CHOICES0_DICTIONARY_FINISH_STOP_MODEL_AND_USAGE_CONFIRMED_MESSAGE_CONTENT_UNKNOWN",
+  "strict_schema_failure_field": "UNKNOWN_NOT_CAPTURED",
+  "actual_semantic_payload_type": "UNKNOWN_NOT_CAPTURED",
+  "body_retained": false,
+  "raw_body_reconstructed": false,
+  "exact_old_response_fixture_available": false,
+  "confirmed_root_cause_of_diagnostic_loss": "Broad KeyError/IndexError/TypeError/ValueError/UnicodeError catch collapsed structural and semantic failures to PROVIDER_MALFORMED; no field/stage retained.",
+  "independently_reproduced_compatibility_defect": "Bounded all-text content array previously passed directly to json.loads -> TypeError. Synthetic fixture only; not claimed as old live response.",
+  "permission_for_new_hypothesis": "Latest ONE_SHOT section4.1 permits an explicit tested compatibility hypothesis; no false claim of reconstructing old field."
+}

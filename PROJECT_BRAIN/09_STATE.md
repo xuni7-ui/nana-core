@@ -7,31 +7,32 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 13,
-  "as_of_us": 1792563476513931,
+  "revision": 14,
+  "as_of_us": 1792584381302544,
   "stage": "H",
   "workstream": "FIRST_LIFE_INTEGRATION_QUALIFICATION_V1",
-  "status": "FIRST_LIFE_PARTIAL_LIVE_SCHEMA_REJECTED_HUMAN_NOT_RUN",
+  "status": "FIRST_LIFE_OFFLINE_REPAIR_VERIFIED_CURRENT_CREDENTIAL_GATE",
   "progress": [
-    "Master/同一Matrix/固定63条criteria字节保持；S1–S9基础资格继承，不因本次Provider集成失败否定已通过基础。",
-    "同一开发主体实际驻留1800.36秒，42独立Verify actions/14 owned effects；实际SIGKILL、备份删除、旧writer退休与同身份迁移通过。",
-    "原C私人创意、有限披露、负向Manager后置veto与拒绝分流已组合；高PRIMARY_USER关系重要性不授予Grant；无第二脑/Store/Runtime。",
-    "真实DeepSeek新调用1：HTTP200/3289ms、deepseek-flash、usage6200/469，但strict schema拒绝PROVIDER_MALFORMED，未进入World/Concern/C、未发送真人开场。",
-    "新宿主已显式绑定有限工程状态摘要；Inspector typed结果/方法停用/来源撤回和Provider失败元数据可观察；进程停止、resolver清理。",
-    "最终全仓1361 passed/0failed/12skip，focused40 passed；exact凭据审计0，不落盘；原24h staging、Master/Matrix、main/生产均不变。"
+    "继承0c6bb445与同一30min主体；Master、Matrix和固定63标准不变，S1–S9基础资格保留。",
+    "原OpenAIJSONTransport已分层诊断外层JSON/消息/content/语义schema/usage/model；未知字段名与错误原文不落库，只保留安全路径/类型/摘要。",
+    "有界all-text content数组经原strict JSON/StructuredProposal校验；不补造必填字段、不放宽enum/数值类型/authority；六个原DTO类AST未变。",
+    "离线新增fixture验证格式兼容、malformed拒绝、model correlation、UNKNOWN不重放；只读Inspector/私人意图/Manager/Provider边界相关回归通过。",
+    "原主体identity37281abf保持，请求记录仍2、reservation50000USDmicro、42旧Action、旧Grant全撤；本轮真实调用0/余7槽位未消耗。",
+    "最终全仓1388 passed/0failed/12skip，related125 passed；初次缺失临时SQLite launcher已按既有配方恢复并保留失败证据；无R045源码/断言变更。"
   ],
   "open_gates": [
-    "First-Life组合资格PARTIAL；当前live response/schema兼容缺口待离线定位，不重试本次请求；新8次授权已用1/余7不自动消耗，reservation$0.05，实际账单UNKNOWN。",
-    "Human naturalness/Shared-Life评审NOT_RUN；用户问句未发送，不能评价自然度；First-Life experience/integration/Beta均NO。",
-    "历史TianToken UNKNOWN继续parked；旧Provider20次不重放；生产/社交/私人历史/用户设备/S10均不启动。"
+    "当前无安全FD/Resolver绑定，前轮进程与resolver已清理；不搜索历史key/env/密钥文件。已请求宿主提供显式内存绑定，未伪称Provider故障或预算耗尽。",
+    "新ONE_SHOT允许最多7个剩余槽位，按已测修复/明确假设分轮各1次新请求；不复用旧failed请求、retry0/fallback0，原总预算不重置。",
+    "旧响应正文未保存，具体旧失败字段仍UNKNOWN；已确认并修复诊断信息丢失及独立text-array兼容缺陷，不把synthetic fixture冒充旧响应。",
+    "live route未重新资格，真人开场未发送/评审NOT_RUN；技术可体验门与真人Integration门分离，但当前EXPERIENCE_READY/qualified/Beta仍NO。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
-    "docs/nana_first_life_integration_v1_implementation.md",
-    "docs/nana_first_life_integration_v1_evidence/qualification.json",
-    "docs/nana_first_life_integration_v1_evidence/process_journey.json",
-    "docs/nana_first_life_integration_v1_evidence/live_cognition.json"
+    "docs/nana_first_life_live_response_v1_implementation.md",
+    "docs/nana_first_life_live_response_v1_evidence/qualification.json",
+    "docs/nana_first_life_live_response_v1_evidence/old_response_forensics.json",
+    "docs/nana_first_life_live_response_v1_evidence/subject_checkpoint.json"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2082,3 +2083,8 @@ S1_TO_S9_FOUNDATION_QUALIFIED=YES；FOUNDATION_CLOSURE_COMPLETE=YES；READY_FOR_
 First-Life integration rolling manifest SHA256 `8d89821743477fa257cd6b182d3c3d9e7a4885a32266de79d43c4a16e117f3e9` (self/09/bundle/DB/credentials excluded).
 nana_foundation_closure_v1_evidence rolling shared-SSOT manifest SHA256 `1a22eeaaee1103bf8c3acff2778e49eea9ce0aecb35cb744ccfca0d447bc75e5` (historical qualification scope unchanged).
 nana_first_life_hardening_v1_evidence rolling shared-SSOT manifest SHA256 `c1c7e7edb18045a360f248e37a06d044a91d4607bdd2d00a0fe3767e9dcce9d2` (historical qualification scope unchanged).
+
+First-Life ONE_SHOT offline response checkpoint manifest SHA256 `159fb2551fc2edf1945fecfa9789b65e7be7c0c9ff34af4b8fd8306ddc755e7a` (self/09/bundle/DB/credential excluded).
+nana_foundation_closure_v1_evidence shared-source rolling manifest SHA256 `b2f8881418125812301a589651611d4dc0b4f4cda24745c3fce72d7ae78b0775` (historical qualification scope unchanged).
+nana_first_life_hardening_v1_evidence shared-source rolling manifest SHA256 `54f5862bfe54b9eb46767e1a313c47adde8131000a35651761d0e2ba01b8ec11` (historical qualification scope unchanged).
+nana_first_life_integration_v1_evidence shared-source rolling manifest SHA256 `087ef455dc1372aff8ee7d8d96034a5170ab5e7f3d940d4193ab6f3d67110a54` (historical qualification scope unchanged).

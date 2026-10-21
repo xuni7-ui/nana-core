@@ -1395,3 +1395,7 @@ S1_TO_S9_FOUNDATION_QUALIFIED=YES；FOUNDATION_CLOSURE_COMPLETE=YES；READY_FOR_
 7. HTTP200/model/usage is not semantic or human quality qualification. Current
    live malformed reply root cause transport-vs-model unconfirmed; user opener
    not sent, so no adverse human naturalness conclusion. First-Life PARTIAL/NO.
+
+## 2026-10-21 — First-Life ONE_SHOT live response closure checkpoint
+
+Latest ONE_SHOT user instruction supersedes prior one-new-call/old-specific-root gate: up to7 unspent original slots may verify a fixed/reproduced/explicit compatibility hypothesis, at most1 new validation per iteration, no retry/fallback, no budget reset. Unknown old field stays UNKNOWN: safe diagnostic loss is proven, synthetic text-array mismatch independently reproduced, not claimed as old body. Reasoning/vendor metadata stays infrastructure-only; bounded text blocks still pass original strict semantic contract. Latest task defines EXPERIENCE_READY as a technically usable live entry; real HumanReview is separately necessary for INTEGRATION_QUALIFIED. This delivery-state distinction changes no Master/criteria. Missing current memory-only credential is an external binding gate; do not retrieve historical chat keys or weaken credential persistence policy.

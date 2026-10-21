@@ -39,22 +39,28 @@ def configure(home):
     return cfg
 
 
-def semantic(app,*,resume_before_dispatch=False):
+def semantic(app,*,resume_before_dispatch=False,attempt_id=None):
     """Exactly one new source/request; failure or ambiguity stops this process."""
-    r=app.runtime;s=r.store;path=app.home/'review-project-note.json'
+    r=app.runtime;s=r.store
+    if attempt_id is not None:
+        from uuid import UUID
+        if str(UUID(attempt_id))!=attempt_id:raise CoreError('QUALIFICATION_ATTEMPT_ID_REQUIRED')
+    path=app.home/('qualification-'+attempt_id+'.json' if attempt_id else 'review-project-note.json')
+    source_reference='first-life.live-source'+('.'+attempt_id if attempt_id else '')
+    request_key='first-life.live-response.'+attempt_id if attempt_id else 'first-life.one-new-live-semantic'
     note={'origin':'DEVELOPER_CONTROLLED_PROJECT_SOURCE_NOT_NANA_EXPERIENCE','resource_state':'A public project note about verified owned development work needs review','opportunities':[{'topic':'first-life-note','motive':'CURIOSITY','value':'HIGH','possible_behaviors':['EXPLORE','WATCH','REST']}]}
     if path.exists():
-        if not resume_before_dispatch or json.loads(path.read_text())!=note or s.db.execute('SELECT 1 FROM cognitive_requests WHERE request_key=?',('first-life.one-new-live-semantic',)).fetchone():raise CoreError('FIRST_LIFE_SOURCE_ALREADY_EXISTS_NO_REPLAY')
+        if not resume_before_dispatch or json.loads(path.read_text())!=note or s.db.execute('SELECT 1 FROM cognitive_requests WHERE request_key=?',(request_key,)).fetchone():raise CoreError('FIRST_LIFE_SOURCE_ALREADY_EXISTS_NO_REPLAY')
     else:path.write_text(canonical(note));path.chmod(0o600)
-    mid=capture(r,'first-life.live-source',json.loads(path.read_text()))
+    mid=capture(r,source_reference,json.loads(path.read_text()))
     session=app._session('PROJECT')
-    cid=session.prepare('first-life.one-new-live-semantic','INTERPRET',(mid,),budget=CognitionBudget(input_tokens=32768,output_tokens=2048,timeout_ms=15000,cost_ceiling_micro=50000),pinned_only=True)
+    cid=session.prepare(request_key,'INTERPRET',(mid,),budget=CognitionBudget(input_tokens=32768,output_tokens=2048,timeout_ms=15000,cost_ceiling_micro=50000),pinned_only=True)
     result=session.execute(cid)
     out={'execution':'REAL_PROVIDER' if session.transport.remote else 'SYNTHETIC_LOOPBACK','request_id':cid,'state':result['state'],'error_code':result.get('error_code'),'identity_id':r.identity_id,'source_memory_id':mid,'source_sha256':digest(path.read_bytes()),'retry':0,'fallback':0}
     if result['state']!='PROPOSED':return out
     reply=session.proposal(result['record_id']);out.update(provider=reply.provider_id,model=reply.model_id,usage=reply.usage,billing=reply.billing,http=reply.http_observation.model_dump(mode='json') if reply.http_observation else None)
     claim=SourcedClaim(entity_id=r.config.entity_id,predicate='first-life.semantic',kind='MODEL_BELIEF',value=reply.proposal.interpretation,confidence=reply.proposal.confidence,valid_from_us=r.clock.utc_now_us())
-    derived=capture(r,'first-life.live-derivation',{'world_claim':claim.model_dump(mode='json'),'request_id':cid,'request_digest':reply.request_digest,'provider_id':reply.provider_id,'model_id':reply.model_id},kind='MODEL_DERIVATION',parents=(mid,))
+    derived=capture(r,'first-life.live-derivation'+('.'+attempt_id if attempt_id else ''),{'world_claim':claim.model_dump(mode='json'),'request_id':cid,'request_digest':reply.request_digest,'provider_id':reply.provider_id,'model_id':reply.model_id},kind='MODEL_DERIVATION',parents=(mid,))
     world=WorldModel(s,scopes=r.config.scopes,privacy_classes=('PUBLIC','PROJECT'));belief=world.ingest(derived)
     service=ConcernService(r,resources=('synthetic://first-life/note',));concerns=service.offer(result['record_id']);event=service.opportunity()
     out.update(world_before=world.view(r.config.entity_id,'first-life.semantic').state,belief_id=belief,concern_ids=concerns,source_kind='MODEL_DERIVATION')
@@ -67,15 +73,15 @@ def semantic(app,*,resume_before_dispatch=False):
         if row['state']=='PENDING':r.subject.transition_intention(row['intention_id'],expected_revision=row['revision'],state='DEFERRED')
     contrary=SourcedClaim(entity_id=r.config.entity_id,predicate=claim.predicate,kind='RAW_OBSERVATION',value='The owned note was corrected by its controller',valid_from_us=r.clock.utc_now_us())
     path.write_text(canonical({'origin':'DEVELOPER_CONTROLLED_SOURCE_CORRECTION','resource_state':contrary.value}))
-    counter=capture(r,'first-life.live-counter-source',{'world_claim':contrary.model_dump(mode='json')});world.ingest(counter)
+    counter=capture(r,'first-life.live-counter-source'+('.'+attempt_id if attempt_id else ''),{'world_claim':contrary.model_dump(mode='json')});world.ingest(counter)
     out['world_conflict']=world.view(r.config.entity_id,claim.predicate).state
     corrected=contrary.model_copy(update={'corrects':belief})
-    correction=capture(r,'first-life.live-corrected-source',{'world_claim':corrected.model_dump(mode='json')});world.ingest(correction)
+    correction=capture(r,'first-life.live-corrected-source'+('.'+attempt_id if attempt_id else ''),{'world_claim':corrected.model_dump(mode='json')});world.ingest(correction)
     out['world_corrected']=world.view(r.config.entity_id,claim.predicate).state
     path.write_text(canonical({'resource_state':'source withdrawn by the controlled owner'}))
     for key in (mid,counter,correction):app.forget(key)
     assert service.opportunity() is None
-    after=r.subject.run(SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.first-life.live-withdrawn',kind='WAKE',origin='SELF_WAKE',entity_id=r.config.entity_id,scope='project-work',privacy_class='PROJECT',observed_at_us=r.clock.utc_now_us()))
+    after=r.subject.run(SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.first-life.live-withdrawn'+('.'+attempt_id if attempt_id else ''),kind='WAKE',origin='SELF_WAKE',entity_id=r.config.entity_id,scope='project-work',privacy_class='PROJECT',observed_at_us=r.clock.utc_now_us()))
     out.update(world_withdrawn=world.view(r.config.entity_id,claim.predicate).state,after_choice=after.intention.kind,after_cycle_id=after.cycle_id,qualification='LIVE_CURRENT_SUBJECT_SEMANTIC_INTEGRATION_PASS' if session.transport.remote else 'SYNTHETIC_SEMANTIC_INTEGRATION_PASS')
     assert out['world_conflict']=='CONFLICT' and out['world_corrected']=='SUPPORTED_BELIEF' and out['world_withdrawn']=='UNKNOWN' and after.intention.kind=='NO_ACTION'
     return out
@@ -110,7 +116,7 @@ def scan_and_save(home,output,data,resolver):
         # Explicit mission roots only; never inspect the old unread bundle or
         # arbitrary untracked user files. Include pending source/evidence too.
         pending=subprocess.check_output(['git','ls-files','--others','--exclude-standard','-z'],cwd=repo).decode().split('\0')
-        paths.extend(repo/n for n in pending if n.startswith(('src/','tests/first_life_integration/','tools/nana_first_life_integration/','docs/nana_first_life_integration_v1','PROJECT_BRAIN/')))
+        paths.extend(repo/n for n in pending if n.startswith(('src/','tests/first_life_integration/','tools/nana_first_life_integration/','tools/nana_first_life_live_response/','tests/live_response/','docs/nana_first_life_live_response_v1','docs/nana_first_life_integration_v1','PROJECT_BRAIN/')))
         paths.extend(Path(home).glob('subject/self.db*'))
         paths.extend(Path(home).rglob('*.json'))
         paths.extend(Path('/tmp').glob('nana-first-life-*.log'))

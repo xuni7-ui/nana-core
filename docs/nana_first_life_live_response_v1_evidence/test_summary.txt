@@ -1,0 +1,7 @@
+Final full pytest tests -q: {'tests': 1400, 'failures': 0, 'errors': 0, 'skipped': 12, 'passed': 1388, 'failed': 0, 'seconds': 331.57}
+Final related/focused: {'tests': 125, 'failures': 0, 'errors': 0, 'skipped': 0, 'passed': 125, 'failed': 0, 'seconds': 12.75}
+Two extra tests added after full collection are included in focused125: same-Subject fresh iteration/no duplicate retired-topic motive, and pipe allowed/disk FD denied before read. No Core changes after final full start.
+First completed full:1387passed/1failed/12skipped328.54s; missing historical temporary compat-python-old, restored existing launcher to actual systemPython3.13.5/SQLite3.46.1. Original isolated test1passed0.18s. No R045/source/assertion/version spoof.
+An early full was interrupted for diagnostic type accuracy before completion, not reported PASS.
+A new fixture originally incorrectly expected a second Concern for a retired duplicate topic; adjusted to assert valid PROPOSED response but PARTIAL_NO_ELIGIBLE_CONCERN. No Subject policy weakened.
+Final skipped11opt-in live-screen +E12. All new compatibility tests are offline fake responses or loopback, real provider calls0.

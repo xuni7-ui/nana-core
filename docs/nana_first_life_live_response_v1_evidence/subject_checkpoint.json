@@ -1,0 +1,14 @@
+{
+  "identity_id": "37281abf-18c0-4460-b1de-566d3e0734b7",
+  "inspector_read_only": true,
+  "db_wal_privacy_hashes_unchanged": true,
+  "private_activity": "PRESENT_CONTENT_WITHHELD",
+  "raw_content_displayed": false,
+  "request_records": 2,
+  "reserved_usd_micro": 50000,
+  "goals": 12,
+  "actions": 42,
+  "installed_grants": 0,
+  "quick_check": "ok",
+  "foreign_key_violations": 0
+}

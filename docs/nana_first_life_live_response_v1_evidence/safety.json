@@ -1,0 +1,14 @@
+{
+  "credential_read_this_mission": false,
+  "historical_key_search": false,
+  "credentials_persisted": false,
+  "pattern_scan": "PASS_CHANGED_AND_PENDING_MISSION_FILES",
+  "credential_literal_matches": 0,
+  "current_credential_exact_match_scan": "NOT_APPLICABLE_NO_CURRENT_CREDENTIAL_BOUND",
+  "prior_real_key_exact_audit": "INHERITED_PRIOR_SCOPE0_MATCHES_NO_NEW_CREDENTIAL_USE",
+  "private_transcript_saved": false,
+  "master_matrix_and_63_definitions_changed": false,
+  "old_bundle_read_or_changed": false,
+  "production_private_social_user_devices": false,
+  "temporary_legacy_sqlite_launcher": "ONLY_RESTORED_OWNED_DEV_TEST_FIXTURE_EXISTING_RECIPE"
+}

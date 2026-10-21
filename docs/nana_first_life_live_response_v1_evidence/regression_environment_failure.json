@@ -1,0 +1,24 @@
+{
+  "result": "FAILED_MISSING_DEVELOPMENT_LAUNCHER",
+  "regression": {
+    "tests": 1400,
+    "failures": 1,
+    "errors": 0,
+    "skipped": 12,
+    "passed": 1387,
+    "failed": 1,
+    "seconds": 328.5
+  },
+  "test": "tests/nana_shadow/test_r041_client.py::test_forbidden_dependencies_in_actual_old_sqlite_process",
+  "failure": "FileNotFoundError /tmp/nana-bootstrap-build/compat-python-old",
+  "fix": "Restored temporary0700 stdlib launcher exec /usr/bin/python3; actualPython3.13.5/SQLite3.46.1, existing repository recipe; no version spoof/source/test/R045 change",
+  "isolated_recheck": {
+    "tests": 1,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 0,
+    "passed": 1,
+    "failed": 0,
+    "seconds": 0.18
+  }
+}

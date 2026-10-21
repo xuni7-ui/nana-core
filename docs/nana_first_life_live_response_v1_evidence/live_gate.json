@@ -1,0 +1,16 @@
+{
+  "task": "ONE_SHOT section4.1",
+  "remaining_authorized_slots": 7,
+  "hypothesis": "BOUNDED_TEXT_BLOCK_CONTENT_COMPATIBILITY",
+  "hypothesis_fixture_reproduced_before_fix": true,
+  "same_semantic_DTOs_unchanged": true,
+  "focused_pass": true,
+  "full_regression_pass": true,
+  "same_identity": true,
+  "safe_current_credential_binding": false,
+  "dispatch_permitted_now": false,
+  "calls_used_this_mission": 0,
+  "old_request_replayed": false,
+  "retry": 0,
+  "fallback": 0
+}

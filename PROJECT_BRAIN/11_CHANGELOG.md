@@ -2296,3 +2296,7 @@ Level: implemented+tested+owned-process-qualified; real selected semantic attemp
 FAILED_NOT_QUALIFIED. First-Life integrationPARTIAL, experience/integration/BetaNO.
 Master/Matrix/63criteria/schema13/43tables/deps unchanged; main/R045/production,
 original24h staging, private history, real social sends and user devices untouched.
+
+## 2026-10-21 — First-Life ONE_SHOT live response closure checkpoint
+
+Changed original OpenAIJSONTransport and added typed structural ResponseDiagnostic, append-only failure event metadata, offline compatibility/negative fixtures, and one-request-per-iteration continuation tool. Why: PROVIDER_MALFORMED erased stages/fields; bounded all-text content arrays reproduce an independent old-parser TypeError. StructuredProposal and five other DTO class ASTs unchanged; no authority/data-privacy/schema relaxation. Verified canonical/DeepSeek-like/vendor/null/missing/array cases; malformed/duplicate/truncated JSON, explicit wrong role, wrong enums/types/authority, model mismatch and UNKNOWN/replay guards. Same original Subject metadata/Inspector read-only,42old actions/zero live Grants, no new real calls. Historical exact failing field remains UNKNOWN. Full regression/current final totals in evidence; initial environmental missing launcher failure retained, restored actual stdlib launcher only. Main/R045/production/private/social/device/original24h untouched; Master/Matrix/63/schema13/43tables/deps unchanged. Credential binding gate remains; not falsely READY.

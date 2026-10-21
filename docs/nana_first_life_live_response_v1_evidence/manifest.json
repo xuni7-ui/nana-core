@@ -1,0 +1,35 @@
+{
+  "base": "0c6bb44580563976b066671a34e3689d386da023",
+  "source_identity": "Normal Git commit containing this checkpoint; not a live qualification claim",
+  "excluded": [
+    "self",
+    "PROJECT_BRAIN/09_STATE.md anchor",
+    "old unread bundle",
+    "DBs/raw transcript/credential/temporary JUnit"
+  ],
+  "files": {
+    "PROJECT_BRAIN/07_ROADMAP.md": "083774bc8cbdd9ee4c20c6ecf9440c8b98d58e0fe5b6ce397dc567ddd931e339",
+    "PROJECT_BRAIN/08_TASKS.md": "aec1ab166b76d7cebfb75bef8d441bf0611fb8829ac02c7c43b1a0c2d0a77e92",
+    "PROJECT_BRAIN/10_DECISIONS.md": "82877ec5e29fbc8f580b65a2ccda946ea4e23215e060b969d2fdf4d33bba63fd",
+    "PROJECT_BRAIN/11_CHANGELOG.md": "16cf23a5e157d49c948d2afd6a7afe6be03b3cf7b24b3321b27d2b4add84067b",
+    "docs/nana_first_life_hardening_v1_evidence/manifest.json": "54f5862bfe54b9eb46767e1a313c47adde8131000a35651761d0e2ba01b8ec11",
+    "docs/nana_first_life_integration_v1_evidence/manifest.json": "087ef455dc1372aff8ee7d8d96034a5170ab5e7f3d940d4193ab6f3d67110a54",
+    "docs/nana_first_life_live_response_v1_evidence/fixture_matrix.json": "17dd9e1141f8132e80c61edec8580705757ea0a780cf413f470bbd27febd0e3d",
+    "docs/nana_first_life_live_response_v1_evidence/live_gate.json": "6d4e7edf588b0c59d6fc4c6cded7faf2492fdb83977f7d24704019ffa9cde632",
+    "docs/nana_first_life_live_response_v1_evidence/old_response_forensics.json": "24619ef3ffce300e9f4e666c99d05150bb3104dfa28def0dd464eb677a642b66",
+    "docs/nana_first_life_live_response_v1_evidence/qualification.json": "3818cb12827bf2354a4b50d4dfdc6d99d12427c7a734854159bb1a83e58db1b7",
+    "docs/nana_first_life_live_response_v1_evidence/regression_environment_failure.json": "e90c918a54acf9c4d60fe0c772f7eb7fca5d0ecc909063852a67464475862898",
+    "docs/nana_first_life_live_response_v1_evidence/safety.json": "5e05713ae25914d966ee7206274911836f38c6e4c218847326b809ecdb378cc0",
+    "docs/nana_first_life_live_response_v1_evidence/subject_checkpoint.json": "62127532b51b09a7ab1582b0168d45e07d78583b3d98a89a01bbb23167f31bbe",
+    "docs/nana_first_life_live_response_v1_evidence/test_summary.txt": "25a76ef38b0d4d56e81fc28843a59e9dfde2126630c0aab049944bc408a0ae5a",
+    "docs/nana_first_life_live_response_v1_implementation.md": "191ebf1b995283974f2d1383f32504880691d5d245e96c60633d12108a40ab47",
+    "docs/nana_foundation_closure_v1_evidence/manifest.json": "b2f8881418125812301a589651611d4dc0b4f4cda24745c3fce72d7ae78b0775",
+    "src/nana_core/continuity/world_loop/cognition.py": "8d4d70ae8c5ff03bb81e1596be46c7fb65045257525cce945b2137752507f36e",
+    "src/nana_core/continuity/world_loop/response_diagnostics.py": "0460c10138f36a18362903006bd888884feb336214391eaa783df44df61326d1",
+    "tests/live_response/test_response_contract.py": "20f0d55f43bfd493313202c634c314264cab43a153de3fa881abc3e0c91d691c",
+    "tools/nana_first_life_integration/live_review.py": "02c3f651a97e3e58f16d673b9631c467abb105d7dbd95311f3c030adaff3af86",
+    "tools/nana_first_life_live_response/__init__.py": "aea99bb69a41cbb0124e051edf5176d20d925ae2285375e5bb0967c2d8a8344b",
+    "tools/nana_first_life_live_response/attempt.py": "2ae75e5942de4980200180e4c9011f70ddf81ba46ec782793140c983b0ffeacf",
+    "tools/nana_first_life_live_response/check.py": "2ea55c3b559dcc0d7fc21ccced8912201b2b59feeb342101728ea7f2911154b3"
+  }
+}
