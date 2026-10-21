@@ -2300,3 +2300,20 @@ original24h staging, private history, real social sends and user devices untouch
 ## 2026-10-21 — First-Life ONE_SHOT live response closure checkpoint
 
 Changed original OpenAIJSONTransport and added typed structural ResponseDiagnostic, append-only failure event metadata, offline compatibility/negative fixtures, and one-request-per-iteration continuation tool. Why: PROVIDER_MALFORMED erased stages/fields; bounded all-text content arrays reproduce an independent old-parser TypeError. StructuredProposal and five other DTO class ASTs unchanged; no authority/data-privacy/schema relaxation. Verified canonical/DeepSeek-like/vendor/null/missing/array cases; malformed/duplicate/truncated JSON, explicit wrong role, wrong enums/types/authority, model mismatch and UNKNOWN/replay guards. Same original Subject metadata/Inspector read-only,42old actions/zero live Grants, no new real calls. Historical exact failing field remains UNKNOWN. Full regression/current final totals in evidence; initial environmental missing launcher failure retained, restored actual stdlib launcher only. Main/R045/production/private/social/device/original24h untouched; Master/Matrix/63/schema13/43tables/deps unchanged. Credential binding gate remains; not falsely READY.
+
+## 2026-10-21 — First-Life ONE_SHOT selected live closure and user handoff
+
+Changed finite PROJECT_STATUS ingress/KEEP metadata, per-request dialogue citation
+schema, safe original-Runtime entry and one-call existing-C rendering verifier.
+Why: actual INTERPRET passed then Surface local metadata rejected; later strict
+valid SOCIAL cited outside allowed memory refs. Reproduced/tested Surface and
+unbound-citation failure, retained rejection/privacy/authority semantics. Actual
+new5calls: source chain PASS, one local Surface failure, repaired C PASS + rejected
+SOCIAL, fresh SOCIAL PASS using supported old C without reinterpreting/rejudging.
+Reserved300000USDmicro, prior+new6/8 consumed,2remain, billingUNKNOWN, retry/fallback0.
+Same identity/restart/Inspector/private state, zero old Grant resurrection. Current
+secret exact audits0; raw question/wording not persisted. Final tests/evidence in
+nana_first_life_live_response_v1_evidence. Technical EXPERIENCE_READY YES; human
+NOT_RUN, integration qualified/Beta NO. Stop feature development, hand user entry.
+Master/63criteria/schema13/43tables/deps/main/R045/production/private/social/devices,
+original24h staging and unread old bundle unchanged.

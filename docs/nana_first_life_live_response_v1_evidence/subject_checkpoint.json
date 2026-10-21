@@ -4,11 +4,16 @@
   "db_wal_privacy_hashes_unchanged": true,
   "private_activity": "PRESENT_CONTENT_WITHHELD",
   "raw_content_displayed": false,
-  "request_records": 2,
-  "reserved_usd_micro": 50000,
+  "request_records": 7,
+  "reserved_usd_micro": 300000,
   "goals": 12,
   "actions": 42,
   "installed_grants": 0,
   "quick_check": "ok",
-  "foreign_key_violations": 0
+  "foreign_key_violations": 0,
+  "calls_by_state": {
+    "FAILED": 1,
+    "PROPOSED": 5,
+    "REJECTED": 1
+  }
 }

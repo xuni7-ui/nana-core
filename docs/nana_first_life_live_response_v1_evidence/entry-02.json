@@ -1,0 +1,86 @@
+{
+  "identity_id": "37281abf-18c0-4460-b1de-566d3e0734b7",
+  "calls": [
+    {
+      "request_id": "60a5f510-ae47-4407-9d1a-35bb545a292d",
+      "role": "INTERPRET",
+      "model_requested": "deepseek-flash",
+      "parser": {
+        "version": 1,
+        "stage": "COMPLETE",
+        "json_valid": true,
+        "openai_shape_valid": true,
+        "semantic_json_valid": true,
+        "strict_schema_valid": true,
+        "model_matches_request": true,
+        "issues": []
+      },
+      "http": {
+        "request_body_sha256": "b30a4ceba859fa635f832aa24802df42aaf9378c161935f32399cd65f89fd29e",
+        "raw_response_body_sha256": "384249a459c24d387a9442456d4259a5b535367fe087371481ce21194a901ee4",
+        "response_http_status": 200,
+        "relay_response_id": "d2aae61a-b177-4b3e-b66d-24e93ed681ca",
+        "relay_request_id": null,
+        "request_started_at": "2026-10-21T14:34:32.298260+00:00",
+        "response_received_at": "2026-10-21T14:34:34.919036+00:00",
+        "latency_ms": 2622.2755160015367
+      },
+      "provider_metadata": {
+        "finish_reason": "stop",
+        "model_returned": "deepseek-flash",
+        "usage": {
+          "prompt_tokens": 5224,
+          "completion_tokens": 317,
+          "total_tokens": 5541
+        }
+      }
+    },
+    {
+      "request_id": "813f0b24-6117-47d5-b8e6-96d23a6550cc",
+      "role": "SOCIAL",
+      "model_requested": "deepseek-flash",
+      "parser": {
+        "version": 1,
+        "stage": "COMPLETE",
+        "json_valid": true,
+        "openai_shape_valid": true,
+        "semantic_json_valid": true,
+        "strict_schema_valid": true,
+        "model_matches_request": true,
+        "issues": []
+      },
+      "http": {
+        "request_body_sha256": "94fe4ba93e999887fd1d53115a2867eb3cacd9a887ebcd0dc7cbcc112befffc9",
+        "raw_response_body_sha256": "0466bf28ec909369b5f277331014160bb07b99b71896381ac165540093227a31",
+        "response_http_status": 200,
+        "relay_response_id": "654b70a5-c095-44d0-9642-2d380823b86f",
+        "relay_request_id": null,
+        "request_started_at": "2026-10-21T14:34:35.309408+00:00",
+        "response_received_at": "2026-10-21T14:34:39.310484+00:00",
+        "latency_ms": 4002.310240000952
+      },
+      "provider_metadata": {
+        "finish_reason": "stop",
+        "model_returned": "deepseek-flash",
+        "usage": {
+          "prompt_tokens": 5205,
+          "completion_tokens": 561,
+          "total_tokens": 5766
+        }
+      }
+    }
+  ],
+  "retry": 0,
+  "fallback": 0,
+  "human_review": "NOT_RUN",
+  "actual_billing": "UNKNOWN",
+  "transcript_saved": false,
+  "status": "ORIGINAL_RUNTIME_STOPPED_NO_AUTOMATIC_REPLAY",
+  "secret_audit": {
+    "present": true,
+    "persisted": false,
+    "exact_matches": 0,
+    "scope": "TRACKED_DIFF_PENDING_MISSION_SOURCE_EVIDENCE_HOME_DB_JSON_TASK_LOGS_XML_BUNDLE_EXCLUDED",
+    "binding": "CURRENT_TURN_EXPLICIT_STDIN_MEMORY_PIPE_EXISTING_FD_RESOLVER_NO_ARGV_ENV_FILE"
+  }
+}

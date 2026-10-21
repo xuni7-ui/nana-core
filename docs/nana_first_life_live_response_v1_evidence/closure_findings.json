@@ -1,0 +1,21 @@
+{
+  "old_exact_schema_field": "UNKNOWN_RAW_BODY_NOT_RETAINED",
+  "confirmed_defects": [
+    {
+      "area": "parser",
+      "finding": "Broad malformed collapse erased stage/type; bounded text-array incompatibility independently reproduced, not claimed as old live content."
+    },
+    {
+      "area": "surface",
+      "finding": "PROJECT_STATUS supported by classifier/C but absent from finite ingress/KEEP metadata regexes; actual INTERPRET completed then LOCAL_METADATA_ONLY before C. Both closed vocabularies updated, arbitrary prose still denied."
+    },
+    {
+      "area": "render",
+      "finding": "Actual strict-valid SOCIAL had source_refs outside source_context_refs and was correctly rejected. Exact bad reference was not retained. Advertised request schema previously allowed arbitrary strings; dynamic finite enums now mirror unchanged Core acceptance. No aliasing/dropping/normalization of bad references."
+    }
+  ],
+  "live_fixed_render": "REAL_PROVIDER_PROPOSED",
+  "wording_quality": "UNVERIFIED_MODEL_WORDING_HUMAN_NOT_RUN",
+  "human_question_or_reply_saved": false,
+  "master_or_semantic_DTO_or_authority_relaxation": false
+}

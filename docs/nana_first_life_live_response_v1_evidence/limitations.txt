@@ -1,0 +1,12 @@
+TECHNICAL_EXPERIENCE_READY is the latest ONE_SHOT delivery gate, not human acceptance.
+Human naturalness/Shared-Life review NOT_RUN; INTEGRATION_QUALIFIED=NO, BETA_READY=NO.
+Live wording is UNVERIFIED_MODEL_WORDING. The observed candidate was engineering-heavy and can contain inaccurate phrasing; it does not write truth or readiness. No raw opener/reply transcript is retained.
+Current chain is composed: actual INTERPRET+C in epoch12, first SOCIAL rejected for citations, fresh SOCIAL in epoch13 from the still-supported idempotent C view passed. A complete second new post-fix human turn was not claimed; two remaining slots permit at most one ordinary INTERPRET+RENDER turn.
+Original eight-call allowance consumed6, remaining2. Failed/rejected calls consume reservations. 300000 USDmicro reserved, 400000 ceiling; actual billing/rate UNKNOWN. No automatic retry/fallback or refund.
+Old malformed response exact field UNKNOWN; raw body cannot be reconstructed from a digest. Text-array compatibility is independently reproduced, not asserted as the old live response format.
+The exact unsupported citation value was not retained. New outgoing finite enums constrain expected references; Core rejects any returned unbound ref without normalization/dropping.
+Same generic reference Subject and synthetic PRIMARY_USER role; no real Nana/private relationship history imported. PUBLIC/PROJECT model context does not declassify PERSONAL role evidence.
+Inherited30min residency pin629d2da/211files and original24h pin645899b are not qualifications of the later parser/Surface/prompt delta. No new soak run.
+Entry is private local CLI/IPC, not a public website, production daemon or QQ/Bili account. 3600-second bounded process by default; resolver dies with it, later startup needs explicit safe input again.
+No production/main/R045/private Iris/social sends/user devices/live capture/Hands expansion/S10. No new Subject/Store/Runtime/SubjectLoop, tables or dependencies.
+Current final test counts describe offline tests; E12 and opt-in real capture tests are skipped/NOT_RUN, not live qualifications.

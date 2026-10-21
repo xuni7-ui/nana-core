@@ -1,0 +1,60 @@
+{
+  "hypothesis": "FINITE_MEMORY_CITATION_VOCABULARY",
+  "attempt_id": "631e6729-20dc-4a4b-983f-45fab2c6e197",
+  "calls": [
+    {
+      "request_id": "8da1cd72-5b1a-43fb-95e4-688a694a3e60",
+      "model_requested": "deepseek-flash",
+      "role": "SOCIAL",
+      "parser": {
+        "version": 1,
+        "stage": "COMPLETE",
+        "json_valid": true,
+        "openai_shape_valid": true,
+        "semantic_json_valid": true,
+        "strict_schema_valid": true,
+        "model_matches_request": true,
+        "issues": []
+      },
+      "http": {
+        "request_body_sha256": "5bc9d3c3bfe155cbfc239cf912b9633f983d639f3024a214fc7c05bec75807ca",
+        "raw_response_body_sha256": "1b0a57667eb7ceb71d9415172ea3ce0fbca8b6fbd4310d1ddce6e6b2f81cca30",
+        "response_http_status": 200,
+        "relay_response_id": "8773274c-1a2a-4d06-8d7d-f315cdc2159c",
+        "relay_request_id": null,
+        "request_started_at": "2026-10-21T14:37:36.395865+00:00",
+        "response_received_at": "2026-10-21T14:37:39.991847+00:00",
+        "latency_ms": 3597.3770059972594
+      },
+      "provider_metadata": {
+        "finish_reason": "stop",
+        "model_returned": "deepseek-flash",
+        "usage": {
+          "prompt_tokens": 5466,
+          "completion_tokens": 491,
+          "total_tokens": 5957
+        }
+      }
+    }
+  ],
+  "retry": 0,
+  "fallback": 0,
+  "actual_billing": "UNKNOWN",
+  "human_review": "NOT_RUN",
+  "render": {
+    "record_id": "949d944b-0a99-4d01-bedd-a419967c5793",
+    "cycle_id": "746354ef-99f0-4e8e-a3da-4a5bf3b715d1",
+    "original_C_replayed_without_new_judgment": true,
+    "render_state": "UNVERIFIED_MODEL_WORDING",
+    "raw_body_persisted": false
+  },
+  "identity_id": "37281abf-18c0-4460-b1de-566d3e0734b7",
+  "status": "LIVE_RENDER_PASS",
+  "secret_audit": {
+    "present": true,
+    "persisted": false,
+    "exact_matches": 0,
+    "scope": "TRACKED_DIFF_PENDING_MISSION_SOURCE_EVIDENCE_HOME_DB_JSON_TASK_LOGS_XML_BUNDLE_EXCLUDED",
+    "binding": "CURRENT_TURN_EXPLICIT_STDIN_MEMORY_PIPE_EXISTING_FD_RESOLVER_NO_ARGV_ENV_FILE"
+  }
+}

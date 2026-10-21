@@ -1,14 +1,18 @@
 {
-  "credential_read_this_mission": false,
+  "credential_read_this_mission": true,
   "historical_key_search": false,
   "credentials_persisted": false,
-  "pattern_scan": "PASS_CHANGED_AND_PENDING_MISSION_FILES",
-  "credential_literal_matches": 0,
-  "current_credential_exact_match_scan": "NOT_APPLICABLE_NO_CURRENT_CREDENTIAL_BOUND",
-  "prior_real_key_exact_audit": "INHERITED_PRIOR_SCOPE0_MATCHES_NO_NEW_CREDENTIAL_USE",
+  "credential_lifetime": "EXPLICIT_PROCESS_MEMORY_ONLY_CLEARED_ON_EXIT",
+  "credential_literal_pattern_matches": 0,
   "private_transcript_saved": false,
   "master_matrix_and_63_definitions_changed": false,
   "old_bundle_read_or_changed": false,
   "production_private_social_user_devices": false,
-  "temporary_legacy_sqlite_launcher": "ONLY_RESTORED_OWNED_DEV_TEST_FIXTURE_EXISTING_RECIPE"
+  "secret_audit": {
+    "present": true,
+    "persisted": false,
+    "exact_matches": 0,
+    "scope": "TRACKED_DIFF_PENDING_MISSION_SOURCE_EVIDENCE_HOME_DB_JSON_TASK_LOGS_XML_BUNDLE_EXCLUDED",
+    "binding": "CURRENT_TURN_EXPLICIT_STDIN_MEMORY_PIPE_EXISTING_FD_RESOLVER_NO_ARGV_ENV_FILE"
+  }
 }

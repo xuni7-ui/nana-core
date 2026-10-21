@@ -1,0 +1,19 @@
+{
+  "provider": "DeepSeek",
+  "requested_model": "deepseek-flash",
+  "new_calls_this_mission": 5,
+  "prior_call_in_this_authorization": 1,
+  "calls_consumed": 6,
+  "remaining_calls": 2,
+  "conservative_reserved_usd_micro": 300000,
+  "conservative_limit_usd_micro": 400000,
+  "actual_billing": "UNKNOWN",
+  "billing_rate_not_inferred": true,
+  "new_usage_input_tokens": 27283,
+  "new_usage_output_tokens": 2150,
+  "authorized_six_usage_input_tokens": 33483,
+  "authorized_six_usage_output_tokens": 2619,
+  "retry": 0,
+  "fallback": 0,
+  "timeout_ceiling_ms": 15000
+}

@@ -1,16 +1,19 @@
 {
-  "task": "ONE_SHOT section4.1",
-  "remaining_authorized_slots": 7,
-  "hypothesis": "BOUNDED_TEXT_BLOCK_CONTENT_COMPATIBILITY",
-  "hypothesis_fixture_reproduced_before_fix": true,
-  "same_semantic_DTOs_unchanged": true,
-  "focused_pass": true,
-  "full_regression_pass": true,
-  "same_identity": true,
-  "safe_current_credential_binding": false,
-  "dispatch_permitted_now": false,
-  "calls_used_this_mission": 0,
+  "task": "ONE_SHOT_CURRENT_USER_AUTHORIZATION",
+  "remaining_authorized_slots": 2,
+  "calls_used_this_mission": 5,
+  "authorization_consumed": 6,
+  "hypotheses": [
+    "BOUNDED_TEXT_BLOCK_CONTENT_COMPATIBILITY",
+    "SURFACE_PROJECT_STATUS_FINITE_METADATA",
+    "FINITE_MEMORY_CITATION_VOCABULARY"
+  ],
+  "safe_current_credential_binding_proved": true,
   "old_request_replayed": false,
   "retry": 0,
-  "fallback": 0
+  "fallback": 0,
+  "budget_reset": false,
+  "human_review": "NOT_RUN",
+  "technical_experience_ready": true,
+  "dispatch_permitted_for_remaining_PUBLIC_PROJECT_human_turn_only": true
 }

@@ -1,0 +1,24 @@
+{
+  "event_id": "a77061db-709a-4d20-a805-4d52e421d05b",
+  "ok": true,
+  "result": {
+    "message_id": "189b9e2846433d0a152e6f0a8c5eb79bfdbe134d6ffbf6bd4213a339adb0c7d5",
+    "message_memory_id": "e57dabd4-996c-46df-b0fc-b3194ccab512",
+    "provider_state": "MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED",
+    "render_state": "UNSUPPORTED_CITATIONS",
+    "mode": "PROJECT_STATUS",
+    "judgment": "WATCH",
+    "intention": "SOCIAL_INTERACTION",
+    "raw_body_persisted": false,
+    "external_social_send": false,
+    "binding_id": "cloud.cli",
+    "source_key": "local.surface.a04c249f9b27e26c91e79895ed3d63b2dcc88dac88ee11b88541f9d45bdfc81e",
+    "summary_memory_ids": [],
+    "state": "SHADOW_REPLY_CANDIDATE",
+    "delivered": false,
+    "execution_authority": false
+  },
+  "code": null,
+  "human_review": "NOT_RUN",
+  "transcript_saved": false
+}

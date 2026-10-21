@@ -1,7 +1,11 @@
-Final full pytest tests -q: {'tests': 1400, 'failures': 0, 'errors': 0, 'skipped': 12, 'passed': 1388, 'failed': 0, 'seconds': 331.57}
-Final related/focused: {'tests': 125, 'failures': 0, 'errors': 0, 'skipped': 0, 'passed': 125, 'failed': 0, 'seconds': 12.75}
-Two extra tests added after full collection are included in focused125: same-Subject fresh iteration/no duplicate retired-topic motive, and pipe allowed/disk FD denied before read. No Core changes after final full start.
-First completed full:1387passed/1failed/12skipped328.54s; missing historical temporary compat-python-old, restored existing launcher to actual systemPython3.13.5/SQLite3.46.1. Original isolated test1passed0.18s. No R045/source/assertion/version spoof.
-An early full was interrupted for diagnostic type accuracy before completion, not reported PASS.
-A new fixture originally incorrectly expected a second Concern for a retired duplicate topic; adjusted to assert valid PROPOSED response but PARTIAL_NO_ELIGIBLE_CONCERN. No Subject policy weakened.
-Final skipped11opt-in live-screen +E12. All new compatibility tests are offline fake responses or loopback, real provider calls0.
+EXECUTED OFFLINE / NO REAL CALLS FROM PYTEST
+Focused: 130 passed / 0 failed / 0 skipped; JUnit seconds 13.89.
+Legacy configured default testpaths: 588 passed / 0 failed / 1 skipped; JUnit seconds 136.68.
+Explicit full tests directory: 1395 passed / 0 failed / 12 skipped; JUnit seconds 357.19.
+Focused scopes: live_response, first_life_integration, project_status_context, read-only Inspector, negative-only governance, H1 live-wire contracts, provider routing.
+One extra unbound-citation negative assertion added after full collection to existing Surface test; that exact test separately passed in1.33s. No later Core change.
+Initial entry test setup errors (missing binding, then invalid fixture platform name) corrected in fixture only; no weakened production schema. Initial direct pytest launcher lacked repo import path; corrected to python -m pytest.
+Default testpaths intentionally cover only historical selected domains; the separate explicit tests directory run is the repository full regression.
+Inherited45a4 full1388/0/12 and initial missing old-SQLite-launcher failure remain historical, not substituted for this final explicit full run.
+E12 and opt-in live screen/provider cases remain NOT_RUN; real calls are separately recorded in attempt/entry/render evidence. No human naturalness score assigned.
+Full-run5 warnings were existing record_property/xunit2 JUnit compatibility warnings, not failed Core assertions.

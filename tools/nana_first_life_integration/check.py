@@ -1,4 +1,8 @@
-"""Qualification evidence consistency; never upgrades a gate from test counts."""
+"""Historical 0c6 checkpoint consistency, not the current readiness decision.
+
+Current ONE_SHOT handoff: tools.nana_first_life_live_response.check. Historical
+failure payloads stay unchanged; a later successful call cannot rewrite them.
+"""
 import hashlib,json,subprocess
 from pathlib import Path
 from tools.nana_foundation_audit.check import check as framework_check
@@ -46,6 +50,6 @@ def check():
     m=json.loads((E/'manifest.json').read_text())
     assert 'PROJECT_BRAIN/09_STATE.md' not in m['files'] and str((E/'manifest.json').relative_to(R)) not in m['files']
     for name,sha in m['files'].items():assert hashlib.sha256((R/name).read_bytes()).hexdigest()==sha,name
-    return {'result':'PASS','master_and_63_definitions_unchanged':framework['definitions_unchanged'],'offline_process_scope':'PASS','human_review':'NOT_RUN','live_current_subject_semantic':'FAILED_STRICT_SCHEMA_NO_PROMOTION','first_life_integration_qualified':False,'first_life_experience_ready':False,'beta_ready':False,'new_provider_calls':1}
+    return {'result':'PASS','scope':'HISTORICAL_0C6_CHECKPOINT_NOT_CURRENT_READINESS','master_and_63_definitions_unchanged':framework['definitions_unchanged'],'offline_process_scope':'PASS','human_review':'NOT_RUN','live_current_subject_semantic':'FAILED_STRICT_SCHEMA_NO_PROMOTION','first_life_integration_qualified':False,'first_life_experience_ready':False,'beta_ready':False,'new_provider_calls':1}
 
 if __name__=='__main__':print(json.dumps(check(),indent=2))

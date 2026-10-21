@@ -1,0 +1,52 @@
+{
+  "identity_id": "37281abf-18c0-4460-b1de-566d3e0734b7",
+  "calls": [
+    {
+      "request_id": "43f66e4f-6a5b-49ee-bb75-af99a5de1dad",
+      "role": "INTERPRET",
+      "model_requested": "deepseek-flash",
+      "parser": {
+        "version": 1,
+        "stage": "COMPLETE",
+        "json_valid": true,
+        "openai_shape_valid": true,
+        "semantic_json_valid": true,
+        "strict_schema_valid": true,
+        "model_matches_request": true,
+        "issues": []
+      },
+      "http": {
+        "request_body_sha256": "0cda8c7259a8d9e9060870f2b4d0a1f77dbd0a051231e2647a9d03d58fd602bb",
+        "raw_response_body_sha256": "ce10436003fa81baee2727dd64513ac42f99a39263e13535245ba2310896d8da",
+        "response_http_status": 200,
+        "relay_response_id": "bb2c87d9-cfa2-4784-8ef5-6728265ccdf1",
+        "relay_request_id": null,
+        "request_started_at": "2026-10-21T14:31:09.698713+00:00",
+        "response_received_at": "2026-10-21T14:31:13.039024+00:00",
+        "latency_ms": 3341.5534979976655
+      },
+      "provider_metadata": {
+        "finish_reason": "stop",
+        "model_returned": "deepseek-flash",
+        "usage": {
+          "prompt_tokens": 5206,
+          "completion_tokens": 335,
+          "total_tokens": 5541
+        }
+      }
+    }
+  ],
+  "retry": 0,
+  "fallback": 0,
+  "human_review": "NOT_RUN",
+  "actual_billing": "UNKNOWN",
+  "transcript_saved": false,
+  "status": "ORIGINAL_RUNTIME_STOPPED_NO_AUTOMATIC_REPLAY",
+  "secret_audit": {
+    "present": true,
+    "persisted": false,
+    "exact_matches": 0,
+    "scope": "TRACKED_DIFF_PENDING_MISSION_SOURCE_EVIDENCE_HOME_DB_JSON_TASK_LOGS_XML_BUNDLE_EXCLUDED",
+    "binding": "CURRENT_TURN_EXPLICIT_STDIN_MEMORY_PIPE_EXISTING_FD_RESOLVER_NO_ARGV_ENV_FILE"
+  }
+}

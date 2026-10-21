@@ -970,3 +970,12 @@ Existing Foundation and old24h qualification preserved; no new audit/soak.
 ## 2026-10-21 — First-Life ONE_SHOT live response closure checkpoint
 
 [implemented/tested] layered parser diagnostics, safe paths/types, text-block compatibility and negative fixtures; same original ContextAssembler/Store/C. [prepared] single-new-request iteration tool, exact same received Subject, original budget ledger unchanged; explicit memory pipe/socket FD or protected terminal only. [external gate] host has no current credential binding; new Provider0, remaining7. [running] final full regression; initial missing old-SQLite launcher restored using actual system Python3.13.5/SQLite3.46.1, no R045/test/version spoof. Human opener NOT_SENT, review NOT_RUN, First-Life technical/integration/Beta NO.
+
+## CURRENT — ONE_SHOT closure technical entry delivered
+
+[实测/implemented+tested+selected live] Source/strict parse/World/Concern/original C,
+actual Surface classification and fresh rendering from supported C passed. Same
+identity epochs10–13;42old actions,0live grants, Inspector read-only/private content
+withheld. Prior local and citation failures preserved, no retry/fallback/refund.
+Only remaining gate is user experience review via original private entry; stop
+feature work. Do not consume remaining2 slots automatically. Integration/Beta NO.

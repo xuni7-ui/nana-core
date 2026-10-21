@@ -92,7 +92,7 @@ class SubjectIngress:
             local_surface_metadata=False
             if event.domain=='LOCAL_INTERACTION' and event.surface and support:
                 import re
-                if not re.fullmatch(r'Local input reviewed meaning: (?:VENT|CHAT|HELP|SHARE|CORRECTION|DECLINE_DEPTH|DECLINE_DELIVERY|REOPEN|REOPEN_DELIVERY|FOCUS|UNCLEAR|IMPORTANT)',event.text or ''):raise CoreError('LOCAL_METADATA_ONLY')
+                if not re.fullmatch(r'Local input reviewed meaning: (?:VENT|CHAT|HELP|SHARE|CORRECTION|DECLINE_DEPTH|DECLINE_DELIVERY|REOPEN|REOPEN_DELIVERY|FOCUS|UNCLEAR|IMPORTANT|PROJECT_STATUS)',event.text or ''):raise CoreError('LOCAL_METADATA_ONLY')
                 local_surface_metadata=True
             if memory_id or (event.kind=='WAKE' and support) or local_surface_metadata:
                 record = self.records.create(tx, kind='SUBJECT_EVENT', scope=event.scope,

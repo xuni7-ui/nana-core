@@ -1399,3 +1399,17 @@ S1_TO_S9_FOUNDATION_QUALIFIED=YES；FOUNDATION_CLOSURE_COMPLETE=YES；READY_FOR_
 ## 2026-10-21 — First-Life ONE_SHOT live response closure checkpoint
 
 Latest ONE_SHOT user instruction supersedes prior one-new-call/old-specific-root gate: up to7 unspent original slots may verify a fixed/reproduced/explicit compatibility hypothesis, at most1 new validation per iteration, no retry/fallback, no budget reset. Unknown old field stays UNKNOWN: safe diagnostic loss is proven, synthetic text-array mismatch independently reproduced, not claimed as old body. Reasoning/vendor metadata stays infrastructure-only; bounded text blocks still pass original strict semantic contract. Latest task defines EXPERIENCE_READY as a technically usable live entry; real HumanReview is separately necessary for INTEGRATION_QUALIFIED. This delivery-state distinction changes no Master/criteria. Missing current memory-only credential is an external binding gate; do not retrieve historical chat keys or weaken credential persistence policy.
+
+## 2026-10-21 — ONE_SHOT technical handoff / explicit citations and C continuity
+
+Current explicit user credential input may feed echo-disabled TTY→memory pipe→FD
+resolver; this is not authority to discover unrelated secrets or expand provider,
+privacy or budget. No persistent key, env/argv credential or vault success claim.
+Actual C already supported PROJECT_STATUS; add it only to finite metadata ingress
+allowlists, preserving raw-text exclusion. Dialogue wire citation enums mirror
+existing Core source_context_refs: never normalize/drop an unsupported returned
+citation. A fresh rendering qualification may use a still-supported existing
+committed C via its idempotent result without re-INTERPRET, new judgment or reissue
+of rejected provider requests. Current typed project state is external engineering
+provenance, never personal Nana experience. EXPERIENCE_READY is technical delivery;
+HUMAN_REVIEW/INTEGRATION_QUALIFIED remain actual-user gates. Stop feature work now.

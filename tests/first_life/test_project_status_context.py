@@ -59,6 +59,9 @@ def test_original_loop_and_assembler_get_current_bounded_state_not_episodes(tmp_
   assert answer['mode']=='PROJECT_STATUS' and answer['judgment']=='WATCH' and answer['intention']=='SOCIAL_INTERACTION'
   assert answer['render_state']=='UNVERIFIED_MODEL_WORDING' and len(requests)==2
   for request in requests:
+   assert request['expected_schema']['properties']['source_refs']['items']['enum']==request['source_context_refs']
+   if request['cognitive_role']=='SOCIAL':
+    assert request['expected_schema']['$defs']['DialogueDraft']['properties']['claim_memory_ids']['items']['enum']==request['source_context_refs']
    data=json.loads(request['context_json']);blocks=[b for b in data['blocks'] if b['kind']=='PROJECT_CURRENT_STATE']
    assert len(blocks)==1
    projected=json.loads(blocks[0]['data_json'])
@@ -148,3 +151,53 @@ def test_neutral_receipt_does_not_allow_raw_message_ingress(tmp_path):
  with LifeApplication(home,clock=clock) as app:
   with pytest.raises(CoreError,match='LOCAL_METADATA_ONLY'):
    MemoryService(app.runtime.store).capture(EvidenceInput(provenance=Provenance(domain='LOCAL_INTERACTION_METADATA',source_namespace='recorded.local.message',source_reference='test.raw',source_kind='DIRECT_OBSERVATION'),text='This is an arbitrary raw user message, not receipt metadata.',privacy_class='PROJECT',observed_time_us=clock.utc_now_us()))
+
+
+def test_project_status_through_actual_surface_retains_only_closed_metadata(tmp_path):
+ from nana_core.life.surfaces import SurfaceObservation,SurfaceBinding
+ from nana_core.life.config import load_config,update_config
+ clock=VirtualClock();home,path=initialize(tmp_path,clock)
+ cfg=load_config(home)
+ update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'surface_bindings':(SurfaceBinding(binding_id='cloud.cli',platform='cloud.cli',surface='chat.direct',adapter='shadow.local'),)}),expected_revision=cfg.revision)
+ text='这个工程现在进展怎样？' # synthetic project query; not the human opener
+ with relay(home,'UNCLEAR') as (router,requests),LifeApplication(home,clock=clock,router=router) as app:
+  app.pause();before={t:len(app.runtime.store.all(t)) for t in ('actions','goals','grants')}
+  result=app.surfaces.receive(SurfaceObservation(binding_id='cloud.cli',event_id='synthetic-status-surface',topic='first-life',privacy_class='PROJECT',text=text))
+  assert result['mode']=='PROJECT_STATUS' and result['render_state']=='UNVERIFIED_MODEL_WORDING'
+  assert len(requests)==2 and not result['delivered'] and not result['execution_authority']
+  assert before=={t:len(app.runtime.store.all(t)) for t in before}
+  record=app.runtime.store.db.execute('SELECT record_id FROM subject_events WHERE source_key=?',(result['source_key'],)).fetchone()[0]
+  from nana_core.continuity.records import RecordService
+  payload=RecordService(app.runtime.store).read(record)['payload']['input']
+  assert payload['text']=='Local input reviewed meaning: PROJECT_STATUS'
+  assert text not in str(app.runtime.store.snapshot())
+  again=app.surfaces.receive(SurfaceObservation(binding_id='cloud.cli',event_id='synthetic-status-surface',topic='first-life',privacy_class='PROJECT',text=text))
+  assert again['state']=='ALREADY_REVIEWED_NO_REPLAY' and len(requests)==2
+  # The separate KEEP admission path uses the same finite vocabulary.
+  from nana_core.continuity.contracts import EvidenceInput,Provenance
+  from nana_core.continuity.memory import MemoryService
+  service=MemoryService(app.runtime.store)
+  p=Provenance(domain='LOCAL_INTERACTION_METADATA',source_namespace='recorded.local.subject',source_reference='synthetic-kept-status',source_kind='USER_STATEMENT')
+  service.capture(EvidenceInput(provenance=p,text=payload['text'],privacy_class='PROJECT',observed_time_us=clock.utc_now_us()))
+  with pytest.raises(CoreError,match='LOCAL_METADATA_ONLY'):
+   service.capture(EvidenceInput(provenance=p.model_copy(update={'source_reference':'unsafe-suffix'}),text=payload['text']+' arbitrary prose',privacy_class='PROJECT',observed_time_us=clock.utc_now_us()))
+  # A fresh rendering verification can reuse the already committed C judgment
+  # without repeating INTERPRET or replaying its old RENDER request.
+  from tools.nana_first_life_live_response.attempt import render_existing
+  from uuid import uuid4
+  counts={t:len(app.runtime.store.all(t)) for t in ('subject_cycles','actions','goals','grants')}
+  info,wording=render_existing(app,result['source_key'],text,str(uuid4()))
+  assert info['original_C_replayed_without_new_judgment'] and wording
+  assert len(requests)==3 and requests[-1]['cognitive_role']=='SOCIAL'
+  assert counts=={t:len(app.runtime.store.all(t)) for t in counts}
+  assert text not in str(app.runtime.store.snapshot())
+  # A provider can ignore the advertised enum. Core must still reject its
+  # unbound reference, without dropping/normalizing it or calling again.
+  session=app._session('PROJECT');original=session.transport.exchange
+  def unbound(request):
+   reply=original(request)
+   return reply.model_copy(update={'proposal':reply.proposal.model_copy(update={'source_refs':('synthetic.unbound.project-state-label',)})})
+  session.transport.exchange=unbound
+  with pytest.raises(CoreError,match='UNSUPPORTED_CITATIONS'):
+   render_existing(app,result['source_key'],text,str(uuid4()))
+  assert len(requests)==4 and counts=={t:len(app.runtime.store.all(t)) for t in counts}

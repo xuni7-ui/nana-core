@@ -1,0 +1,33 @@
+{
+  "identity_id": "37281abf-18c0-4460-b1de-566d3e0734b7",
+  "received_home": "/workspace/nana-first-life/integration-30m-01/fresh-host",
+  "actual_owner_epochs": [
+    10,
+    11,
+    12,
+    13
+  ],
+  "roles": {
+    "10": [
+      "source_INTERPRET"
+    ],
+    "11": [
+      "dialogue_INTERPRET"
+    ],
+    "12": [
+      "dialogue_INTERPRET",
+      "rejected_SOCIAL"
+    ],
+    "13": [
+      "fresh_SOCIAL"
+    ]
+  },
+  "same_existing_C_cycle_id": "746354ef-99f0-4e8e-a3da-4a5bf3b715d1",
+  "new_judgment_on_render_continuation": false,
+  "old_request_reissued": false,
+  "automatic_call_on_reopen": false,
+  "no_second_subject_store_runtime": true,
+  "old_grants_live": 0,
+  "inherited_actual_SIGKILL_30min_not_rerun": true,
+  "new_30min_or_24h_claim": false
+}

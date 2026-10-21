@@ -3,25 +3,25 @@
   "workstream": "FIRST_LIFE_INTEGRATION_QUALIFICATION_V1",
   "subtask": "FIRST_LIFE_ONE_SHOT_CLOSURE_V1",
   "stage": "H",
-  "status": "OFFLINE_REPAIR_VERIFIED_BLOCKED_NO_CURRENT_SAFE_CREDENTIAL_SOURCE",
-  "strict_response_compatibility": "PASS_OFFLINE_SUPPORTED_VARIANTS",
-  "live_semantic_route": "PARTIAL_NOT_REQUALIFIED",
+  "status": "TECHNICAL_EXPERIENCE_READY_HANDOFF_TO_HUMAN",
+  "strict_response_compatibility": "PASS_OFFLINE_AND_SELECTED_LIVE",
+  "live_semantic_route": "PASS_CURRENT_SUBJECT_SOURCE_WORLD_CONCERN_C",
   "first_life_runtime_assembled": true,
-  "first_life_core_integration": "PARTIAL",
+  "first_life_core_integration": "PASS_TECHNICAL_COMPOSED_CHAIN_HUMAN_PENDING",
   "inspector_ready": true,
   "private_intent": "READY_BOUNDED_V1",
   "human_review": "NOT_RUN",
-  "human_question_sent": false,
-  "first_life_experience_ready": false,
+  "human_question_sent": true,
+  "first_life_experience_ready": true,
   "first_life_integration_qualified": false,
   "beta_ready": false,
-  "new_provider_calls_this_mission": 0,
+  "new_provider_calls_this_mission": 5,
   "previous_authorized_calls_consumed": 1,
-  "remaining_authorized_call_slots": 7,
+  "remaining_authorized_call_slots": 2,
   "authorization_total_reserved_usd_micro": 400000,
-  "existing_reservation_usd_micro": 50000,
+  "existing_reservation_usd_micro": 300000,
   "actual_billing": "UNKNOWN",
-  "safe_credential_binding": "MISSING_NO_CURRENT_FD_OR_RESOLVER",
+  "safe_credential_binding": "CURRENT_USER_EXPLICIT_INPUT_ECHO_DISABLED_TTY_MEMORY_PIPE_FD_RESOLVER",
   "historical_key_search": false,
   "retry": 0,
   "fallback": 0,
@@ -34,23 +34,76 @@
   "social_sends": 0,
   "user_devices": false,
   "full_regression": {
-    "tests": 1400,
+    "tests": 1407,
     "failures": 0,
     "errors": 0,
     "skipped": 12,
-    "passed": 1388,
+    "passed": 1395,
     "failed": 0,
-    "seconds": 331.57
+    "seconds": 357.193
   },
   "focused": {
-    "tests": 125,
+    "tests": 130,
     "failures": 0,
     "errors": 0,
     "skipped": 0,
-    "passed": 125,
+    "passed": 130,
     "failed": 0,
-    "seconds": 12.75
+    "seconds": 13.888
   },
   "source_core_frozen_during_final_regression": true,
-  "post_collection_extra_tests": "two new iteration/disk-FD tests passed within final focused125; no later Core change"
+  "post_collection_extra_tests": "One additional unbound-citation rejection assertion added to existing surface test after full collection; that exact test separately passed. No Core change after final full started.",
+  "unresolved_P0_P1": [],
+  "live_render": "PASS_NEW_SOCIAL_REQUEST_EXISTING_COMMITTED_C_NO_NEW_JUDGMENT",
+  "restart_continuity": "PASS_EPOCHS10_11_12_13_SAME_IDENTITY_NO_AUTOMATIC_PROVIDER_REPLAY",
+  "conservative_reservation_is_actual_bill": false,
+  "total_calls_in_original_eight_call_authorization": 6,
+  "validation_stages": [
+    {
+      "stage": "STRICT_SOURCE",
+      "new_calls": 1,
+      "result": "LIVE_SEMANTIC_PASS",
+      "retry": 0,
+      "fallback": 0
+    },
+    {
+      "stage": "PROJECT_STATUS_INTERPRET",
+      "new_calls": 1,
+      "result": "PROPOSED_THEN_LOCAL_SURFACE_METADATA_REJECT",
+      "retry": 0,
+      "fallback": 0
+    },
+    {
+      "stage": "REPAIRED_SURFACE_INTERPRET",
+      "new_calls": 1,
+      "result": "PROPOSED_ORIGINAL_C_PROJECT_STATUS_WATCH",
+      "retry": 0,
+      "fallback": 0
+    },
+    {
+      "stage": "FIRST_RENDER",
+      "new_calls": 1,
+      "result": "REJECTED_UNSUPPORTED_CITATIONS",
+      "retry": 0,
+      "fallback": 0
+    },
+    {
+      "stage": "FINITE_CITATION_RENDER_VALIDATION",
+      "new_calls": 1,
+      "result": "PROPOSED_USABLE_WORDING",
+      "retry": 0,
+      "fallback": 0
+    }
+  ],
+  "chat_chain_evidence_scope": "Real INTERPRET and C in epoch12; rejected first SOCIAL retained. After wire citation fix, fresh SOCIAL in epoch13 uses still-supported original C idempotently; no re-INTERPRET/reissue/rejudgment. No claim of a second complete post-fix human turn.",
+  "related_default_testpaths": {
+    "tests": 589,
+    "failures": 0,
+    "errors": 0,
+    "skipped": 1,
+    "passed": 588,
+    "failed": 0,
+    "seconds": 136.679
+  },
+  "current_tree_all_core_changes_in_final_full": true
 }

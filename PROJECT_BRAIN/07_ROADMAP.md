@@ -902,3 +902,12 @@ Report: docs/nana_first_life_integration_v1_implementation.md.
 ## 2026-10-21 — First-Life ONE_SHOT live response closure checkpoint
 
 First-Life ONE_SHOT closure continues on the same branch/Subject, not new Foundation. Original transport now has typed safe diagnostics and bounded text-block compatibility with unchanged semantic DTOs. Latest user permits up to7 remaining slots, one new call per repair hypothesis; old exact payload remains unrecoverable. Offline fixtures/authority/Inspector tests pass. Live remains blocked by absent current safe FD/Resolver, not call authorization; no historical key search. Technical EXPERIENCE_READY only after actual usable live entry; HumanReview still required for Integration Qualified. No automatic Beta/production transition.
+
+## CURRENT — First-Life ONE_SHOT technical handoff, 2026-10-21
+
+Domain S4/S5/S6 integration qualification; no Framework/Foundation change. Same
+received Subject live source→World→Concern→C and fresh SOCIAL after committed C
+now work. Surface PROJECT_STATUS metadata and dialogue citation schema repaired
+without lowering authority/privacy. Stop feature development; technical
+EXPERIENCE_READY YES, real HumanReview NOT_RUN, integration qualified/Beta NO.
+Remaining2 authorized PUBLIC/PROJECT calls permit at most1 ordinary rendered turn.

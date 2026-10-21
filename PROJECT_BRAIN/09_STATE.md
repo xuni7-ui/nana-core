@@ -7,24 +7,26 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 14,
-  "as_of_us": 1792584381302544,
+  "revision": 17,
+  "as_of_us": 1792594103605015,
   "stage": "H",
   "workstream": "FIRST_LIFE_INTEGRATION_QUALIFICATION_V1",
-  "status": "FIRST_LIFE_OFFLINE_REPAIR_VERIFIED_CURRENT_CREDENTIAL_GATE",
+  "status": "FIRST_LIFE_TECHNICAL_EXPERIENCE_READY_HUMAN_HANDOFF",
   "progress": [
-    "继承0c6bb445与同一30min主体；Master、Matrix和固定63标准不变，S1–S9基础资格保留。",
-    "原OpenAIJSONTransport已分层诊断外层JSON/消息/content/语义schema/usage/model；未知字段名与错误原文不落库，只保留安全路径/类型/摘要。",
-    "有界all-text content数组经原strict JSON/StructuredProposal校验；不补造必填字段、不放宽enum/数值类型/authority；六个原DTO类AST未变。",
-    "离线新增fixture验证格式兼容、malformed拒绝、model correlation、UNKNOWN不重放；只读Inspector/私人意图/Manager/Provider边界相关回归通过。",
-    "原主体identity37281abf保持，请求记录仍2、reservation50000USDmicro、42旧Action、旧Grant全撤；本轮真实调用0/余7槽位未消耗。",
-    "最终全仓1388 passed/0failed/12skip，related125 passed；初次缺失临时SQLite launcher已按既有配方恢复并保留失败证据；无R045源码/断言变更。"
+    "继承同一30min received主体37281abf；Master/Matrix固定63标准与S1–S9基础资格不变；旧24h/旧bundle未触碰。",
+    "原Provider strict parser修复后，真实PROJECT源→MODEL_DERIVATION→World→Concern→原C EXPLORE通过；纠错CONFLICT/来源撤回UNKNOWN→C NO_ACTION实际成立。",
+    "实际Surface暴露PROJECT_STATUS白名单缺项；已补有限元数据及负例测试，未允许用户原文入库；原C实际WATCH/SOCIAL_INTERACTION。",
+    "首个SOCIAL因许可集合外引用被Core拒绝；发送schema改为有限Memory ID枚举，拒绝器不放宽。新SOCIAL经原已提交C重放视图通过，未重跑解释/改判。",
+    "本任务新增真实调用5；原8次授权累计用6余2，总reservation300000/400000USDmicro，timeout15s、retry0/fallback0；费用UNKNOWN。",
+    "Inspector只读，私人活动内容隐藏，42旧Action/12旧Goal不增，旧Grant全撤；epoch10–13同identity，重启不自动模型重发。",
+    "技术EXPERIENCE_READY=YES，立即停止功能开发交真人入口；HumanReview NOT_RUN、INTEGRATION_QUALIFIED/Beta NO。模型措辞仍未验证，不能当事实。",
+    "最终显式tests全目录1395 passed/0failed/12skip，目标130 passed；默认旧testpaths另588 passed/1skip；E12/live capture未运行，不作真人或新驻留资格。"
   ],
   "open_gates": [
-    "当前无安全FD/Resolver绑定，前轮进程与resolver已清理；不搜索历史key/env/密钥文件。已请求宿主提供显式内存绑定，未伪称Provider故障或预算耗尽。",
-    "新ONE_SHOT允许最多7个剩余槽位，按已测修复/明确假设分轮各1次新请求；不复用旧failed请求、retry0/fallback0，原总预算不重置。",
-    "旧响应正文未保存，具体旧失败字段仍UNKNOWN；已确认并修复诊断信息丢失及独立text-array兼容缺陷，不把synthetic fixture冒充旧响应。",
-    "live route未重新资格，真人开场未发送/评审NOT_RUN；技术可体验门与真人Integration门分离，但当前EXPERIENCE_READY/qualified/Beta仍NO。"
+    "余2次足够最多1个普通INTERPRET+RENDER新轮次；不自动消费或重试。凭据仅当前显式输入经关闭回显TTY/内存FD，非保险库配置；退出清理。",
+    "真人自然度/Shared-Life评审未完成，不能由Codex打PASS；真实措辞偏工程陈述，交用户判断，不继续任意优化。",
+    "原失败响应具体字段及费用仍UNKNOWN，历史TianToken UNKNOWN PARKED；新live成功不改历史，未扩为所有媒体/生产资格。",
+    "生产、社交发送、私人历史、用户设备、H2/S10未授权未运行；本资格仅隔离开发态，First-Life集成资格与Beta仍NO。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
@@ -2088,3 +2090,5 @@ First-Life ONE_SHOT offline response checkpoint manifest SHA256 `159fb2551fc2edf
 nana_foundation_closure_v1_evidence shared-source rolling manifest SHA256 `b2f8881418125812301a589651611d4dc0b4f4cda24745c3fce72d7ae78b0775` (historical qualification scope unchanged).
 nana_first_life_hardening_v1_evidence shared-source rolling manifest SHA256 `54f5862bfe54b9eb46767e1a313c47adde8131000a35651761d0e2ba01b8ec11` (historical qualification scope unchanged).
 nana_first_life_integration_v1_evidence shared-source rolling manifest SHA256 `087ef455dc1372aff8ee7d8d96034a5170ab5e7f3d940d4193ab6f3d67110a54` (historical qualification scope unchanged).
+
+ONE_SHOT selected-live handoff manifest SHA256: `a02467af6aa0f7fa010dc8e6a463c7b404bada75b132b97aa8470eb68e5db8b8` (self/09 excluded; human NOT_RUN).

@@ -84,3 +84,37 @@ explicit memory-only FD binding. Do not rerun the one-shot `live_review` script 
 replay the failed request. It intentionally rejects reuse/config reset. The seven
 unspent authorized call slots are not an automatic retry policy. Repair/validate
 strict-response compatibility before opening a new bounded review attempt.
+
+## CURRENT — ONE_SHOT technical live entry (supersedes old failure gate above)
+
+Same received Subject, no new init/restore and no budget renewal. Live source,
+C and fresh RENDER have now passed; human naturalness is NOT_RUN. Source and
+strict-invalid historical requests remain as recorded. Two paid slots remain,
+enough for at most one ordinary INTERPRET+RENDER turn, not an open-ended session.
+No automatic retry/fallback after a failure or UNKNOWN. PUBLIC/PROJECT only.
+
+From `/workspace/nana-core`:
+
+```bash
+# Inspect without starting a writer or triggering a provider.
+.venv/bin/python -m tools.nana_first_life_integration.dev inspect --home /workspace/nana-first-life/integration-30m-01/fresh-host
+
+# Only if not already running. Terminal1: paste the explicitly supplied current
+# credential ONLY after CREDENTIAL_INPUT_READY_ECHO_DISABLED. No key in command,
+# config, environment, file or chat. Choose a new unused operational output path.
+.venv/bin/python -m tools.nana_first_life_live_response.entry --private-terminal-binding --seconds 3600 --output /tmp/nana-live-response-human-entry-02.json
+
+# Terminal2: chat with that same original Runtime, candidate delivery only.
+.venv/bin/python -m tools.nana_first_life_integration.dev chat --home /workspace/nana-first-life/integration-30m-01/fresh-host
+
+# Stop gracefully; resolver is cleared when Terminal1 exits.
+.venv/bin/python -m tools.nana_first_life_integration.dev stop --home /workspace/nana-first-life/integration-30m-01/fresh-host
+```
+
+An explicitly host-inherited **memory pipe/socket** is alternatively accepted with
+`--secret-fd 3` instead of terminal binding; a disk file FD is rejected. No secret
+searching, hidden background service, new grant or provider config reset occurs.
+Private IPC has current-owner/PID/inode checks. Start refuses an active second
+writer. Restart keeps Subject state and reservations, never replays old text or
+reissues a rejected/UNKNOWN call. Human ratings remain user-authored; no automated
+PASS, final integration acceptance or Beta upgrade accompanies technical readiness.
