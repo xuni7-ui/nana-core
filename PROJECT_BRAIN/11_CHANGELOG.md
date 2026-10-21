@@ -2317,3 +2317,14 @@ nana_first_life_live_response_v1_evidence. Technical EXPERIENCE_READY YES; human
 NOT_RUN, integration qualified/Beta NO. Stop feature development, hand user entry.
 Master/63criteria/schema13/43tables/deps/main/R045/production/private/social/devices,
 original24h staging and unread old bundle unchanged.
+
+## 2026-10-21 — portable runtime P1
+
+Added thin host-independent CLI, stdlib offline bootstrap, five exact existing
+runtime dependency wheels/lock generation, allowlisted committed-source build,
+safe unpacker and cloud runbooks. Reused original lifecycle/B8/Inspector/FD resolver.
+Fixed new wrapper's stopped-lease vs live-PID distinction found by targeted tests;
+no shared Runtime/Store semantics changed. Targeted synthetic tests cover explicit
+fresh, package transfer/privacy, fail-closed config/FD/archive/permissions. Final
+installed-bundle and full regression pending. No paid/provider/private/production
+or actual current Subject migration; old unread bundle untouched.

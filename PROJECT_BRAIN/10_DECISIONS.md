@@ -1413,3 +1413,15 @@ committed C via its idempotent result without re-INTERPRET, new judgment or reis
 of rejected provider requests. Current typed project state is external engineering
 provenance, never personal Nana experience. EXPERIENCE_READY is technical delivery;
 HUMAN_REVIEW/INTEGRATION_QUALIFIED remain actual-user gates. Stop feature work now.
+
+## 2026-10-21 — Portable Cloud Runtime V1 host boundary
+
+The runtime distribution is code+hashed dependency wheels, not Subject data. Fresh
+init is explicit/new identity. Same-Subject migration only uses existing lawful B8
+retirement/import/activation and revokes old Grants. Ordinary backups remain
+quarantined; they never become a second writer. Host config/provider credentials
+are separately bound, runtime starts paused, no copied old socket/owned-app Grant.
+Private remote entry is authenticated SSH to the original CLI/Unix IPC; no new
+HTTP service, public listener or second brain. Standard-library packaging and
+original services preferred; no new dependency or business table. Supported V1 is
+CPython3.12 Linux x86_64; other platforms require explicit future qualification.

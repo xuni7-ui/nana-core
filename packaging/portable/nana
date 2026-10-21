@@ -1,0 +1,7 @@
+#!/bin/sh
+set -eu
+NANA_BUNDLE_ROOT=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd -P)
+if [ -x "$NANA_BUNDLE_ROOT/.venv/bin/python" ]; then
+    exec "$NANA_BUNDLE_ROOT/.venv/bin/python" "$NANA_BUNDLE_ROOT/bootstrap.py" "$@"
+fi
+exec python3 "$NANA_BUNDLE_ROOT/bootstrap.py" "$@"

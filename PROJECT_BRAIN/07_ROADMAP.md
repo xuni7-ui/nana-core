@@ -911,3 +911,10 @@ now work. Surface PROJECT_STATUS metadata and dialogue citation schema repaired
 without lowering authority/privacy. Stop feature development; technical
 EXPERIENCE_READY YES, real HumanReview NOT_RUN, integration qualified/Beta NO.
 Remaining2 authorized PUBLIC/PROJECT calls permit at most1 ordinary rendered turn.
+
+## CURRENT — PORTABLE_CLOUD_RUNTIME_SUBJECT_MIGRATION_V1
+
+S1/S4 integration and Surface/Governance axes, not new Foundation. Build a standalone
+Linux runtime and lawful Fresh/Transfer modes using original Core. No actual
+current Subject migration, new paid calls or production. Package qualification
+must use clean install and owned synthetic Host A→B, not a database copy.

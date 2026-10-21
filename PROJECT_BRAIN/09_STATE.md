@@ -7,34 +7,26 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 17,
-  "as_of_us": 1792594103605015,
+  "revision": 18,
+  "as_of_us": 1792596965345650,
   "stage": "H",
-  "workstream": "FIRST_LIFE_INTEGRATION_QUALIFICATION_V1",
-  "status": "FIRST_LIFE_TECHNICAL_EXPERIENCE_READY_HUMAN_HANDOFF",
+  "workstream": "PORTABLE_CLOUD_RUNTIME_SUBJECT_MIGRATION_V1",
+  "status": "IMPLEMENTED_TARGETED_TESTED_PACKAGE_QUALIFICATION_PENDING",
   "progress": [
-    "继承同一30min received主体37281abf；Master/Matrix固定63标准与S1–S9基础资格不变；旧24h/旧bundle未触碰。",
-    "原Provider strict parser修复后，真实PROJECT源→MODEL_DERIVATION→World→Concern→原C EXPLORE通过；纠错CONFLICT/来源撤回UNKNOWN→C NO_ACTION实际成立。",
-    "实际Surface暴露PROJECT_STATUS白名单缺项；已补有限元数据及负例测试，未允许用户原文入库；原C实际WATCH/SOCIAL_INTERACTION。",
-    "首个SOCIAL因许可集合外引用被Core拒绝；发送schema改为有限Memory ID枚举，拒绝器不放宽。新SOCIAL经原已提交C重放视图通过，未重跑解释/改判。",
-    "本任务新增真实调用5；原8次授权累计用6余2，总reservation300000/400000USDmicro，timeout15s、retry0/fallback0；费用UNKNOWN。",
-    "Inspector只读，私人活动内容隐藏，42旧Action/12旧Goal不增，旧Grant全撤；epoch10–13同identity，重启不自动模型重发。",
-    "技术EXPERIENCE_READY=YES，立即停止功能开发交真人入口；HumanReview NOT_RUN、INTEGRATION_QUALIFIED/Beta NO。模型措辞仍未验证，不能当事实。",
-    "最终显式tests全目录1395 passed/0failed/12skip，目标130 passed；默认旧testpaths另588 passed/1skip；E12/live capture未运行，不作真人或新驻留资格。"
+    "继承024e226；S1–S9/Foundation/First-Life技术资格保留，HumanReview NOT_RUN、integration qualified/Beta NO。",
+    "新增独立portable CLI及仅stdlib安装/打包入口，复用原LifeApplication/Runtime/Store/SubjectLoop、B8转移、Inspector与内存FDResolver。",
+    "Fresh必须显式创建新identity；迁移必须retire旧writer→官方包→clean目标恢复→撤旧Grant；默认暂停，不自动恢复旧动作。",
+    "已通过新wrapper与旧B8/Inspector相关targeted测试；下一步实际独立安装、进程迁移演练和全仓回归。"
   ],
   "open_gates": [
-    "余2次足够最多1个普通INTERPRET+RENDER新轮次；不自动消费或重试。凭据仅当前显式输入经关闭回显TTY/内存FD，非保险库配置；退出清理。",
-    "真人自然度/Shared-Life评审未完成，不能由Codex打PASS；真实措辞偏工程陈述，交用户判断，不继续任意优化。",
-    "原失败响应具体字段及费用仍UNKNOWN，历史TianToken UNKNOWN PARKED；新live成功不改历史，未扩为所有媒体/生产资格。",
-    "生产、社交发送、私人历史、用户设备、H2/S10未授权未运行；本资格仅隔离开发态，First-Life集成资格与Beta仍NO。"
+    "最终bundle/checksum/干净安装及owned HostA→B过程证据尚待完成；不以多个脚本或单元测试替代资格。",
+    "本轮NEW_PROVIDER_CALLS=0，不使用剩余2个First-Life live槽位或历史Key；不自动迁移当前真实Subject。",
+    "真实目标云端、生产、私人历史、QQ/Bili发送、用户设备不在本轮；真人自然度仍未评审。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
-    "docs/nana_first_life_live_response_v1_implementation.md",
-    "docs/nana_first_life_live_response_v1_evidence/qualification.json",
-    "docs/nana_first_life_live_response_v1_evidence/old_response_forensics.json",
-    "docs/nana_first_life_live_response_v1_evidence/subject_checkpoint.json"
+    "docs/nana_portable_cloud_runtime_v1_implementation.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

@@ -979,3 +979,10 @@ identity epochs10–13;42old actions,0live grants, Inspector read-only/private c
 withheld. Prior local and citation failures preserved, no retry/fallback/refund.
 Only remaining gate is user experience review via original private entry; stop
 feature work. Do not consume remaining2 slots automatically. Integration/Beta NO.
+
+## CURRENT — portable runtime P1 implementation
+
+[implemented/targeted-tested] thin standalone CLI, host preflight, offline installer,
+allowlisted committed-source builder, safe unpacker, existing B8/Inspector/private
+intent wiring. [pending] installed-bundle process/migration rehearsal, final full
+regression, distributable hashes and handoff. No First-Life live slots consumed.
