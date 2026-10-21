@@ -7,26 +7,33 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 18,
-  "as_of_us": 1792596965345650,
+  "revision": 20,
+  "as_of_us": 1792598249402677,
   "stage": "H",
   "workstream": "PORTABLE_CLOUD_RUNTIME_SUBJECT_MIGRATION_V1",
-  "status": "IMPLEMENTED_TARGETED_TESTED_PACKAGE_QUALIFICATION_PENDING",
+  "status": "PORTABLE_DEVELOPMENT_BUNDLE_READY_HANDOFF",
   "progress": [
-    "继承024e226；S1–S9/Foundation/First-Life技术资格保留，HumanReview NOT_RUN、integration qualified/Beta NO。",
-    "新增独立portable CLI及仅stdlib安装/打包入口，复用原LifeApplication/Runtime/Store/SubjectLoop、B8转移、Inspector与内存FDResolver。",
-    "Fresh必须显式创建新identity；迁移必须retire旧writer→官方包→clean目标恢复→撤旧Grant；默认暂停，不自动恢复旧动作。",
-    "已通过新wrapper与旧B8/Inspector相关targeted测试；下一步实际独立安装、进程迁移演练和全仓回归。"
+    "继承024e226；Master/63标准和S1–S9资格不变；First-Life技术门保留，HumanReview NOT_RUN、integration qualified/Beta NO。",
+    "portable CLI复用原Runtime/Store/SubjectLoop、B8/Inspector/FD；Fresh显式新identity，迁移源retire后官方包恢复，撤旧Grant、暂停复审。",
+    "最终运行包源bfea92c，214文件/约3MB，哈希在portable evidence；重复构建相同，含原5依赖的精确hash lock，安装完全离线。",
+    "实际两个clean venv/独立cwd安装及owned HostA→B通过；same identity/private、旧owner拒绝、duplicate防护、epoch4→5→6及SIGKILL/stale socket恢复。",
+    "Inspector只读，私人内容隐藏，source撤回和managed backup删除闭环通过；UNKNOWN沿原ledger保留不重试，未自动恢复任何旧动作权限。",
+    "目标28 passed；全目录1407 passed/0failed/12skip。增量有界解包及4097头/总解压负例在目标套件覆盖，全仓运行期间shipped Core未变化。",
+    "本任务真实Provider0；原实际Subject37身份/request7/reservation300000/余2槽位不变，无实际导出/启动/迁移。"
   ],
   "open_gates": [
-    "最终bundle/checksum/干净安装及owned HostA→B过程证据尚待完成；不以多个脚本或单元测试替代资格。",
-    "本轮NEW_PROVIDER_CALLS=0，不使用剩余2个First-Life live槽位或历史Key；不自动迁移当前真实Subject。",
-    "真实目标云端、生产、私人历史、QQ/Bili发送、用户设备不在本轮；真人自然度仍未评审。"
+    "运行包是dev portable candidate；测试Debian13/x86_64/CPython3.12；ARM64、真实目标服务器部署、生产均NOT_RUN。",
+    "远程入口为既有认证SSH上的原CLI/Unix IPC，无新公网HTTP；新host需要重新配置Provider/安全凭据/预算及资源权限。",
+    "旧backup是quarantined review copy，不自动激活副本；可运行恢复走lawful SubjectPackage，不能暗示分布式防复制或lost-source attestation已实现。",
+    "真人自然度/Shared-Life、真实生产/社交/private history/设备均未运行；停止开发交付，不自动迁移当前Nana。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
-    "docs/nana_portable_cloud_runtime_v1_implementation.md"
+    "docs/nana_portable_cloud_runtime_v1_implementation.md",
+    "docs/nana_portable_cloud_runtime_v1_quickstart.md",
+    "docs/nana_portable_cloud_runtime_v1_evidence/qualification.json",
+    "docs/nana_portable_cloud_runtime_v1_evidence/bundle.json"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2084,3 +2091,7 @@ nana_first_life_hardening_v1_evidence shared-source rolling manifest SHA256 `54f
 nana_first_life_integration_v1_evidence shared-source rolling manifest SHA256 `087ef455dc1372aff8ee7d8d96034a5170ab5e7f3d940d4193ab6f3d67110a54` (historical qualification scope unchanged).
 
 ONE_SHOT selected-live handoff manifest SHA256: `a02467af6aa0f7fa010dc8e6a463c7b404bada75b132b97aa8470eb68e5db8b8` (self/09 excluded; human NOT_RUN).
+
+Portable runtime handoff manifest SHA256: `a985fccd69176944522127ca14edfc046cb2e2e411bb320824545dfe300bfe62` (self/09 excluded; runtime source4bc4c05, no production).
+
+Final portable runtime release manifest SHA256: `006511161ace7950406f2aa820345adb5cc7bf610a3ef7505539ff5d3423d965` (self/09 excluded; runtime sourcebfea92c).

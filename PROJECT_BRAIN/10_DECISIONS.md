@@ -1425,3 +1425,24 @@ Private remote entry is authenticated SSH to the original CLI/Unix IPC; no new
 HTTP service, public listener or second brain. Standard-library packaging and
 original services preferred; no new dependency or business table. Supported V1 is
 CPython3.12 Linux x86_64; other platforms require explicit future qualification.
+
+## 2026-10-21 — Portable qualification scope and stop
+
+Ship only exact committed runtime families+owned public materials+hashed existing
+dependency wheels, not repository/private snapshots or current Subject package.
+Archive source4bc4c05 is distinct from later evidence handoff commit. Reproducible
+archive uses source commit timestamp; actual clean installs/processes qualify it.
+Source retirement/B8/local lock are trusted offline single-operator fencing, not
+new distributed anti-copy authority. Ordinary backups stay quarantined; executable
+restore uses lawful SubjectPackage. Remote experience is existing authenticated
+SSH/CLI, not a new HTTP listener or automatic server login. Platform result is
+Debian13/x86_64/CPython3.12, other actual cloud hosts remain NOT_RUN. No live calls,
+credential reuse, current Subject retirement or First-Life human/Beta upgrade.
+
+## CURRENT — portable release final pin / supersedes candidate4bc4c05
+
+Final runtime source `bfea92cc205b91ad7a3ca8dca4eb7c955b6d57a0`, archive SHA256 `228ef80e53ef961a409a651746a207a11a8bc72affe1940998e5c108fec9119a`.
+Total decompression ceiling includes hidden tar metadata; final artifact clean-installed/
+A→B process-qualified and deterministic rebuild equal. Focused28, full1407/0fail/12skip;
+post-collection changes are unpacker-only, no shipped Core delta. NewProvider0, no actual
+current Subject migration, private history or production; same declared dev scope. STOP.

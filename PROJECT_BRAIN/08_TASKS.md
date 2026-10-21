@@ -986,3 +986,21 @@ feature work. Do not consume remaining2 slots automatically. Integration/Beta NO
 allowlisted committed-source builder, safe unpacker, existing B8/Inspector/private
 intent wiring. [pending] installed-bundle process/migration rehearsal, final full
 regression, distributable hashes and handoff. No First-Life live slots consumed.
+
+## CURRENT — portable runtime delivery complete
+
+[implemented/tested/owned-installed-process-qualified] archive/source pin/checksum,
+hashed offline install, Fresh mode, lawful same-Subject transfer, original writer
+fence, lifecycle, private SSH CLI/Inspector, safe FD/TTY, managed quarantined backup
+and lawful package restore. Focused27; full1407/0fail/12skip; installed two-host-like
+process proof in portable evidence. New Provider calls0; real original Subject and
+remaining2slots untouched. [NOT_RUN] real external cloud, ARM64, production,
+new provider, human review/social/device. Technical delivery STOP; no automatic move.
+
+## CURRENT — portable release final pin / supersedes candidate4bc4c05
+
+Final runtime source `bfea92cc205b91ad7a3ca8dca4eb7c955b6d57a0`, archive SHA256 `228ef80e53ef961a409a651746a207a11a8bc72affe1940998e5c108fec9119a`.
+Total decompression ceiling includes hidden tar metadata; final artifact clean-installed/
+A→B process-qualified and deterministic rebuild equal. Focused28, full1407/0fail/12skip;
+post-collection changes are unpacker-only, no shipped Core delta. NewProvider0, no actual
+current Subject migration, private history or production; same declared dev scope. STOP.

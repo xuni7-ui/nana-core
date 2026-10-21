@@ -1,0 +1,15 @@
+{
+  "secret_literal_matches": 0,
+  "private_files": [],
+  "operational_codex_absolute_path_literals": [],
+  "archive_members": 214,
+  "symlink_members": 0,
+  "unselected_subject_DBs": 0,
+  "historical_key_read": false,
+  "current_subject_migrated": false,
+  "old_bundle_read": false,
+  "new_provider_calls": 0,
+  "wheel_dependency_files_hashed": 5,
+  "artifact_scan_scope": "ALL_TAR_MEMBERS_PLUS_WHEEL_TEXT_MEMBERS_NO_SOURCE_USER_SECRET_ACCESSED",
+  "private_surface": "AUTHENTICATED_HOST_SSH_PLUS_PRIVATE_UNIX_IPC_NO_NEW_PUBLIC_HTTP"
+}

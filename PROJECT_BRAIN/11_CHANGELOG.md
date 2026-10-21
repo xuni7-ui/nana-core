@@ -2371,3 +2371,11 @@ Bound total gzip output before tar parsing, including hidden PAX/GNU headers; re
 file/member/traversal/symlink checks and add a compressed zero-stream negative case.
 This changes only the stdlib unpacker, no shipped Core. New final artifact/source
 pin and corresponding qualification will supersede candidate4bc4c05 metadata.
+
+## CURRENT — portable release final pin / supersedes candidate4bc4c05
+
+Final runtime source `bfea92cc205b91ad7a3ca8dca4eb7c955b6d57a0`, archive SHA256 `228ef80e53ef961a409a651746a207a11a8bc72affe1940998e5c108fec9119a`.
+Total decompression ceiling includes hidden tar metadata; final artifact clean-installed/
+A→B process-qualified and deterministic rebuild equal. Focused28, full1407/0fail/12skip;
+post-collection changes are unpacker-only, no shipped Core delta. NewProvider0, no actual
+current Subject migration, private history or production; same declared dev scope. STOP.

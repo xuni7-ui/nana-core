@@ -1,0 +1,45 @@
+{
+  "execution": "OWNED_LOCAL_INSTALLED_BUNDLE_NOT_REAL_CLOUD",
+  "source_archive_sha256": "228ef80e53ef961a409a651746a207a11a8bc72affe1940998e5c108fec9119a",
+  "new_provider_calls": 0,
+  "fresh_subject_mode": "PASS_EXPLICIT_DISTINCT_NO_OVERWRITE",
+  "transfer": {
+    "same_identity": true,
+    "identity_id": "1ec9bdc9-7439-45bb-81f6-9608e17468c1",
+    "transfer_id": "6c46e093-726d-45d7-99a8-f8bbf08f3206",
+    "source_retired": true,
+    "old_start_rejected": true,
+    "old_grants_revoked": true,
+    "provider_config_transferred": false,
+    "private_intent_continuity": true,
+    "private_content_displayed": false
+  },
+  "missing_dependency_fail_closed": true,
+  "process": {
+    "duplicate_start_blocked": true,
+    "restart_same_identity": true,
+    "epochs": [
+      4,
+      5,
+      6
+    ],
+    "real_sigkill": true,
+    "dead_owner_fenced": true,
+    "stale_socket_recovered": true,
+    "same_event_no_replay": true,
+    "emergency_stop_confirmed": true,
+    "offline_chat": true
+  },
+  "closure": {
+    "no_real_calls": true,
+    "synthetic_unknown_preserved_no_retry": true,
+    "no_effects": true,
+    "inspector_read_only": true,
+    "source_withdrawal": true,
+    "backup_deletion_propagation": true,
+    "backup_quarantined": true
+  },
+  "offline_install": "PASS_TWO_INDEPENDENT_VENVS",
+  "supported_platform": "Linux x86_64 / Python3.12",
+  "rehearsal_root": "/tmp/nana-portable-release-rehearsal"
+}

@@ -1,0 +1,8 @@
+{
+  "fresh_wrapper_unit_issue": "stopped lease PID alive in in-process test was misclassified as active owner; wrapper now requires ACTIVE lease",
+  "installed_candidate1": "first command passed, second failed checksum after automatic pycache generation; bootstrap now disables bytecode writes",
+  "rehearsal_candidate2": "restart probe returned old still-healthy PID before new process owned lease; runner now requires health PID equals launched PID",
+  "initial_full_collection": "new test_runtime filename collided with legacy module; added package marker, no tests deleted or assertion relaxed",
+  "delivery_path": "/mnt/data is not writable in this environment; artifacts delivered under authorized /workspace/nana-deliverables",
+  "rerun": "same committed runtime bundle PASS in final rehearsal; no failed result relabeled as PASS"
+}

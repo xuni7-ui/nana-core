@@ -8,11 +8,11 @@
     "DBs/raw transcripts/credentials/temporary process outputs"
   ],
   "files": {
-    "PROJECT_BRAIN/07_ROADMAP.md": "a6676c8c1f859f7aa77374d86a508d6c03e5cf6a579063684a547af71063d6de",
-    "PROJECT_BRAIN/08_TASKS.md": "6e71410324c7627ccdd6c253a5a90cc68a436cab28bab8c61ae0308647717944",
-    "PROJECT_BRAIN/10_DECISIONS.md": "97ac5279bef95f6270d96f95c42dc75d06471d1bff03c276d00b09177a0be4f7",
-    "PROJECT_BRAIN/11_CHANGELOG.md": "0f723e286eadaf1787c9133bfb8610831c2a4a9e18dc2de7e2cb7bc7608520c2",
-    "docs/nana_first_life_hardening_v1_evidence/manifest.json": "b0ee0fbfdce0c38421a93a0a1d4a995a6fc1c7027dc9ceff5933f4dff43182e9",
+    "PROJECT_BRAIN/07_ROADMAP.md": "fc96c4ad294a1f35df5ce9015650c5a17163b68b41533a2a89a79278d5540bc0",
+    "PROJECT_BRAIN/08_TASKS.md": "42dc7ad0ab8388bf439e749f8133a9853ad2068fc76c5a3a252a82108c03b28d",
+    "PROJECT_BRAIN/10_DECISIONS.md": "983e5dd3e08480febe37b4a4cbd2c613843a81decc134ec9b30b0509ae47c8f5",
+    "PROJECT_BRAIN/11_CHANGELOG.md": "0236076d7d5f331bb92b87804c974583204b9c6246136ed656efaad6a31f416d",
+    "docs/nana_first_life_hardening_v1_evidence/manifest.json": "42f84f8e694145065e4bb3ada6e5d416b684ba657b9101401791044137cc0528",
     "docs/nana_first_life_integration_v1_evidence/human_review_template.json": "674da4355d8080eddb20e4a471ae59cba313a014d3e3323c74f56901cb2141ef",
     "docs/nana_first_life_integration_v1_evidence/inspector.json": "7a363179a120d1c4a4b38e357b65118b1d83abfa60b4fc8f8f9ef9abf011178d",
     "docs/nana_first_life_integration_v1_evidence/limitations.txt": "62424271c52b867f0a276ba6f749815081886345d1d37b1276ce0f908146559f",
@@ -27,7 +27,7 @@
     "docs/nana_first_life_integration_v1_evidence/test_summary.txt": "9c4bafe8bfe8fda0ce26906d3aecd6fe69af3e1e8537c155628c6c9ae2cb4542",
     "docs/nana_first_life_integration_v1_implementation.md": "95ee13836492bc051c3cc42cfa3ce0d84d06545b88b6e461a90c19f5960dc684",
     "docs/nana_first_life_integration_v1_quickstart.md": "49f1398563c34f3e422b3dac79018a52dee0a3c9f662e59c44858cf69eab0ef3",
-    "docs/nana_foundation_closure_v1_evidence/manifest.json": "eb4ab53bf95202ab23725d12d5144fa6e51458ef491be14ae32531f28d1dfb45",
+    "docs/nana_foundation_closure_v1_evidence/manifest.json": "85af077c539610ac0c625ed80c2b7783f6e9fff8712df33d9b0eb0fe24199e45",
     "src/nana_core/continuity/autonomy/private_intent.py": "fe42fffe191ac270b14bf0594b2bb3d8d3f69ec43e29a6c848db4203b888fe83",
     "src/nana_core/continuity/context.py": "83072a7df7e079ec21c69343369003be233ac7cd0228d1bdd2bbe7d654fcf9c8",
     "src/nana_core/continuity/dialogue_shadow/bridge.py": "b5031b2826f3cf59d9d9665c921560e7685fd09904b6c26abf59c33ab34c9759",
@@ -46,7 +46,7 @@
     "tools/nana_first_life_integration/evidence.py": "d74a3d80401b3d7a0edc9360052f27f954821377dea65c3b01b2e8651a9f2c9d",
     "tools/nana_first_life_integration/journey.py": "8438f9b291affd14f8ed22d209e54112516c616ef7791a248b987b4e943aff55",
     "tools/nana_first_life_integration/live_review.py": "be345cd9c7516576e8487fdd67615db649dd2ba8da213d5da909d1096c1c58de",
-    "tools/nana_first_life_integration/review_prepare.py": "cf6e7534d4b18b926e17a3e93f8f0b5213d00b3e65dc2135d2e42cb018a632b5",
-    "tools/nana_foundation_audit/check.py": "96fe91274861b6166c78a8fa56af64b4dfa8a388b5508050fcb1eaf3d5921e41"
+    "tools/nana_first_life_integration/review_prepare.py": "3c026fa6a71138e8803f340c2dc9f086cc359037679ad32308e76c87c10bf2ef",
+    "tools/nana_foundation_audit/check.py": "920093becbb2c81f7ebe746d2ed2cef7183a099ed3a81786102bb772811fc868"
   }
 }

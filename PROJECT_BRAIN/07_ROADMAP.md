@@ -918,3 +918,20 @@ S1/S4 integration and Surface/Governance axes, not new Foundation. Build a stand
 Linux runtime and lawful Fresh/Transfer modes using original Core. No actual
 current Subject migration, new paid calls or production. Package qualification
 must use clean install and owned synthetic Host A→B, not a database copy.
+
+## CURRENT — portable development bundle qualified / STOP
+
+Actual Linux x86_64/CPython3.12 offline installed archive, Fresh and known-source
+lawful A→B transfer, retained private state/UNKNOWN, new owner, duplicate reject,
+actual SIGKILL/stale socket, Inspector and managed backup/deletion qualification
+passed. Code-only portable distribution READY; no real current Nana migration or
+new cloud deployment. Next optional step is user-chosen target-host installation,
+not Foundation rewrite, extra model tests, UI, production or social expansion.
+
+## CURRENT — portable release final pin / supersedes candidate4bc4c05
+
+Final runtime source `bfea92cc205b91ad7a3ca8dca4eb7c955b6d57a0`, archive SHA256 `228ef80e53ef961a409a651746a207a11a8bc72affe1940998e5c108fec9119a`.
+Total decompression ceiling includes hidden tar metadata; final artifact clean-installed/
+A→B process-qualified and deterministic rebuild equal. Focused28, full1407/0fail/12skip;
+post-collection changes are unpacker-only, no shipped Core delta. NewProvider0, no actual
+current Subject migration, private history or production; same declared dev scope. STOP.

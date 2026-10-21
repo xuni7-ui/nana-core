@@ -1,0 +1,7 @@
+OFFLINE TARGETED: {"tests": 28, "failures": 0, "errors": 0, "skipped": 0, "passed": 28, "failed": 0, "seconds": 3.896}
+EXPLICIT FULL tests/: {"tests": 1419, "failures": 0, "errors": 0, "skipped": 12, "passed": 1407, "failed": 0, "seconds": 367.681}
+Actual two isolated offline installs and HostA→B process qualification: PASS; real SIGKILL, new PID-correlated health, duplicate owner reject, retained synthetic UNKNOWN, no automatic retry.
+Additional installed-process contracts: echo-disabled PTY canary/resolver clear, schema12 rejection, corruption with matching outer digest, simulated live-but-stale owner reject.
+No live paid model, private data, production/social/device/real remote deployment. E12/opt-in live capture remain NOT_RUN.
+Initial full collection namespace collision fixed with a test package marker; no deleted tests or weakened assertions.
+Two unpacker-only post-collection boundary cases (4097 members and total gzip/PAX metadata decompression ceiling) passed in final focused28. Shipped Core unchanged; final archive reinstalled/rehearsed twice-build hash equal.

@@ -1,0 +1,12 @@
+{
+  "archive": "/workspace/nana-deliverables/portable-cloud-v1/nana-first-life-portable-v1.tar.gz",
+  "sha256": "228ef80e53ef961a409a651746a207a11a8bc72affe1940998e5c108fec9119a",
+  "source_commit": "bfea92cc205b91ad7a3ca8dca4eb7c955b6d57a0",
+  "bundle_files": 214,
+  "new_provider_calls": 0,
+  "bytes": 3000155,
+  "deterministic_second_build_equal": true,
+  "same_committed_runtime_source": true,
+  "rehearsed_runtime_source": "bfea92cc205b91ad7a3ca8dca4eb7c955b6d57a0",
+  "rehearsal_tool_note": "PID-correlated health fix is orchestration-only, not a shipped runtime delta"
+}
