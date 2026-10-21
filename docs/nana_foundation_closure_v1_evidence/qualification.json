@@ -3,7 +3,7 @@
   "base_head": "edda7d08e3ca167f183607572a49283a7b8b067b",
   "branch": "dev/nana-core-cloud-first-life-launch-v1-codex",
   "global_stage": "H",
-  "status": "PARTIAL_S4_QUALIFICATION_GATE_OPEN",
+  "status": "FOUNDATION_CLOSURE_COMPLETE",
   "criteria_version": "1.0",
   "criteria_total": 63,
   "criterion_definition_changes": 0,
@@ -11,17 +11,15 @@
   "criteria_results": {
     "S3-C09": "FOUNDATION_QUALIFIED",
     "S6-C07": "FOUNDATION_QUALIFIED",
-    "S4-C06": "UNKNOWN_AUDIT_REQUIRED",
+    "S4-C06": "FOUNDATION_QUALIFIED",
     "S5-C06": "FOUNDATION_QUALIFIED",
     "S10-C05": "UNKNOWN_AUDIT_REQUIRED",
     "S10-C06": "UNKNOWN_AUDIT_REQUIRED"
   },
-  "remaining_first_life_prerequisites": [
-    "S4-C06 actual pinned 24h final result"
-  ],
+  "remaining_first_life_prerequisites": [],
   "confirmed_implementation_gaps_remaining_in_s1_s9": [],
-  "remaining_gap_type": "QUALIFICATION_ONLY_NOT_PROOF_OF_ALL_ADVANCED_CAPABILITIES",
-  "first_life_integration_resume_allowed": false,
+  "remaining_gap_type": "FOUNDATION_CLOSED_IN_DECLARED_SCOPE_INTEGRATION_NOT_RUN",
+  "first_life_integration_resume_allowed": true,
   "first_life_experience_ready": "NOT_READY",
   "s10_deep_evolution": "DEFERRED_NOT_FIRST_LIFE_PREREQUISITE",
   "schema_version": 13,
@@ -93,12 +91,12 @@
     "tests/lived_growth/test_boundaries.py"
   ],
   "report": "docs/nana_foundation_closure_v1_implementation.md",
-  "s1_to_s9_foundation_qualified": false,
-  "foundation_closure_complete": false,
+  "s1_to_s9_foundation_qualified": true,
+  "foundation_closure_complete": true,
   "master_sha256": "fe6efe121a05145b44178d5ec26b99430a28e873fca8d1b80f16671c65e5133c",
   "source_frozen_after": "Independent delivery/processing ledgers, tombstone training rebind fix and strengthened legacy reopen test",
   "staging_snapshot": 46724.99648124701,
-  "latest_staging_observation": "docs/nana_foundation_closure_v1_evidence/staging_live_followup_observation.json",
+  "latest_staging_observation": "docs/nana_foundation_closure_v1_evidence/staging_final_verification.json",
   "deepseek_total_requests": 20,
   "conservative_total_reservation_usd_micro": 1000000,
   "live_semantic_evidence": "docs/nana_foundation_closure_v1_evidence/semantic_chain_live.json",
@@ -140,6 +138,17 @@
     "created": true,
     "mode": "Hourly condition watch, maximum18 checks",
     "scope": "Only actual original final result; no restart or provider call",
-    "future_environment_availability": "NOT_GUARANTEED_REPORT_BLOCKER_IF_MISSING"
+    "future_environment_availability": "NOT_GUARANTEED_REPORT_BLOCKER_IF_MISSING",
+    "condition": "FINAL_VERIFIED_NO_FURTHER_CHECK_NEEDED",
+    "paused_after_final_verification": true
+  },
+  "ready_for_first_life_integration_qualification": true,
+  "new_paid_provider_calls_this_followup": 0,
+  "staging_snapshot_kind": "HISTORICAL_RUNNING_OBSERVATION_NOT_CURRENT",
+  "s4_final": {
+    "result": "PASS_S4_C06_FROZEN_DEV_24H",
+    "duration_seconds": 86405.272172368,
+    "source_pin": "645899b32220e66a702e75d59a279a3a9685693f",
+    "new_provider_calls": 0
   }
 }

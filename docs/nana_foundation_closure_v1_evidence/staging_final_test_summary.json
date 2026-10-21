@@ -1,0 +1,19 @@
+{
+  "scope": "Tool/document-only final closure; no Core source edits",
+  "command": ".venv/bin/python -m pytest tests/foundation_closure -q",
+  "passed": 31,
+  "failed": 0,
+  "seconds": 8.04,
+  "new_final_artifact_tests": 8,
+  "original_staging_verification": "PASS_S4_C06_FROZEN_DEV_24H",
+  "fixed_definition_audit": "PASS_63_UNCHANGED",
+  "historical_latest_full_regression": {
+    "passed": 1339,
+    "skipped": 12,
+    "failures": 0,
+    "rerun_this_followup": false
+  },
+  "new_provider_calls": 0,
+  "automation_condition_watch": "PAUSED_AFTER_FINAL_VERIFICATION",
+  "scope_limit": "Original frozen645899b run only; human naturalness NOT_RUN and First-Life/Beta NOT_READY"
+}

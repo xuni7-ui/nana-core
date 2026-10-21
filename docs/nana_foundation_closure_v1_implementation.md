@@ -4,7 +4,7 @@ Base: `edda7d08e3ca167f183607572a49283a7b8b067b`; branch: `dev/nana-core-cloud-f
 
 ## Result and scope
 
-S3-C09 and S6-C07 now have controlled qualification. S5-C06 is now qualified by one newly authorized live PROJECT request in the original reference Subject. S4-C06 still awaits the original 24h run's actual final result. Foundation closure is **PARTIAL**, not First-Life/Beta READY. Master Framework and all 63 criterion definitions remain frozen. S10 deep replacement remains outside this mission.
+S3-C09 and S6-C07 now have controlled qualification. S5-C06 is now qualified by one newly authorized live PROJECT request in the original reference Subject. S4-C06 now has the original frozen run's independently verified final result. Foundation closure is **COMPLETE_IN_DECLARED_SCOPE**, not First-Life/Beta READY. Master Framework and all 63 criterion definitions remain frozen. S10 deep replacement remains outside this mission.
 
 ## Changes
 
@@ -24,7 +24,7 @@ S3: actual owned document failure→failure Experience→LEARN; independently ve
 
 S5: offline current-lineage combination passes with one synthetic loopback call. After actual owned-file withdrawal, World becomes UNKNOWN, the concern loses support and C selects NO_ACTION. Restart does not dispatch again. Historical DeepSeek functional qualification and H1 PARTIAL remain historical. The new semantic_chain_live.json separately qualifies this combination in the original reference Subject with one actual DeepSeek request; it does not qualify all media or naturalness.
 
-S4: the original pinned `645899b` run is read only. Current source bytes match the pin, DB quick/FK checks are clean, queue/UNKNOWN/idempotency/resource metadata are recorded. Its missing final result is not inferred from wall time. It is not restarted or hot updated to this mission's source.
+S4: the original pinned `645899b` run is read only. Current source bytes match the pin, DB quick/FK checks are clean, queue/UNKNOWN/idempotency/resource metadata are recorded. Its final result now records86405.272 seconds and exit0; full final evidence is independently checked, not inferred from wall time. It is not restarted or hot updated to this mission's source.
 
 ## Reproduce
 
@@ -40,7 +40,7 @@ The owned-application/SIGKILL tests create isolated temporary subjects and finit
 ## Remaining gates
 
 1. S5-C06 is CLOSED: HTTP200, same lineage, strict interpretation, World/Concern/original C and actual source withdrawal correction. One request consumed; no further calls authorized by this completion.
-2. S4-C06: read the original run's actual final artifact once it completes; verify duration, exit, pinned start/end hashes, resource guard, no replay and final DB state. No new soak is started.
+2. S4-C06: CLOSED. Original final duration/exit/source/resource/replay/DB evidence passed; no replacement soak or staging mutation.
 
 S1/S2/S7/S8/S9 evidence is inherited, not redeveloped. One Subject/Store/SubjectLoop/Runtime per lineage; C WHAT/WHY and D WHEN remain. No production/main/R045/private data/social send/user device changes. One newly authorized paid PROJECT request only, billing UNKNOWN. Human review is NOT_RUN and FIRST_LIFE_EXPERIENCE_READY remains NOT_READY. After S4/S5 qualification the next gate is First-Life Integration; this mission does not start it automatically.
 
@@ -48,10 +48,18 @@ S1/S2/S7/S8/S9 evidence is inherited, not redeveloped. One Subject/Store/Subject
 
 Focused: 54 passed (21 new cases plus related cases); strengthened legacy reopen recheck: 1 passed. Final full repository: **1321 passed / 0 failed / 12 skipped**, 312.07s. Skips are 11 explicitly opt-in live-screen cases and E12. Earlier failures/interrupted runs remain evidence, not final qualification. Source/criteria/manifest validation is separate from application qualification.
 
-63 criteria reconcile to 60 qualified and 3 unknown: only S4-C06 remains as an S1–S9 qualification prerequisite; S10-C05/C06 are deferred advanced deep-evolution conditions. No confirmed additional S1–S9 implementation gap remains in the checked Foundation scope. This is not permission to resume First-Life or human review.
+63 criteria reconcile to61 qualified and2 unknown: S1–S9 Foundation prerequisites are qualified; S10-C05/C06 are deferred advanced deep-evolution conditions. No confirmed additional S1–S9 implementation gap remains in the checked Foundation scope. This is not permission to resume First-Life or human review.
 
 ## Live followup evidence
 
 Source commit8fec924a; qualification tool/test bytes fingerprinted in manifest. Exactly1 new real DeepSeek/deepseek-flash call, HTTP200/2564.8ms, 6849input/290output. Existing reference identity preserved. Model result→MODEL_DERIVATION→SUPPORTED_BELIEF→Concern→C THINK_MORE/EXPLORE; actual withdrawal→UNKNOWN→WATCH/NO_ACTION. No actions/grants/goals. Application reopened once without router/tick, request/cycle remain unique and cumulative requests20. Reservation50000 USDmicro; cumulative1000000, billingUNKNOWN. No timeout/retry/fallback. No human review. User waived host-vault binding; stdin→memory FD resolver only; exact scan0 of tracked files/experiment/reference home, no credential persistence, process exited. This does not claim chat/platform transcript secrecy. New offline qualification followup:15passed/7.86s; prior full1321passed/12skip retained because Core source unchanged by this followup. Original staging remains isolated.
 
 A finite hourly conditional followup has been created for the original S4 final artifact. It must not restart the run or dispatch any provider, and must report a missing future workspace as a blocker. This is future execution scheduling, not a current24h PASS.
+
+## Original S4 final handoff
+
+Read-only audit of original result/progress,205 pinned source files plus supervisor and source/restored/quarantined-backup DB metadata passed. Actual86405.272172368 seconds, exit0;1464 samples;42 unique actions unchanged after workload completion;14 independently correlated owned-dev application effects. Final queue0/UNKNOWN0; RSS max47564KiB, threads1, FDs11; sampled DB family688355→33951317 bytes, storage guard OBSERVING. SIGKILL preserved identity with epoch2→3 and no action replay/new Grant. Transfer retired old writer; restored grants revoked; backup is quarantined, not a runnable authority.
+
+`staging_final_verification.json` fingerprints the original raw artifact; it is not a copied DB or second state authority. Reproduce explicitly with `.venv/bin/python -m tools.nana_foundation_closure.staging_verify` while the original paths exist. Generic raw PASS_GE_TWO_HOURS is a lower bound; actual duration plus full checks establish24h. This qualifies the frozen645899b owned-dev run, not latest hardening code for24h or production hosting. New provider calls0; human reviewNOT_RUN; First-Life/BetaNOT_READY.
+
+The rolling closure and hardening manifests refresh shared PROJECT_BRAIN fingerprints; previous checkpoint manifests remain in Git history. Prior full regression1339 passed/12 skipped is retained as historical, not rerun for this tool/document-only closure. No Core business source/schema/dependency changes.

@@ -9,7 +9,7 @@
   "method": "Pinned repository source/test-definition review and retained qualification evidence; no application tests, provider calls, live host reads or production actions performed in this audit. Independent review after af52371 fast-forward: current-source focused and historical Git-test snapshots executed; one offline topic-scope probe; operational staging progress read-only. Original no-run/no-host claims apply to the initial review only. Closure mission: bounded source implementation, owned controlled effect/Experience/restart/SIGKILL qualification and final regression; original audit metadata remains historical.",
   "criteria_version": "1.0",
   "framework_status": "FROZEN",
-  "matrix_status": "CLOSURE_REVISION_3; FIXED_63_DEFINITIONS_UNCHANGED",
+  "matrix_status": "CLOSURE_REVISION_4; FIXED_63_DEFINITIONS_UNCHANGED",
   "references": {
     "ID": [
       "src/nana_core/continuity/identity.py",
@@ -143,6 +143,11 @@
       "docs/nana_foundation_closure_v1_evidence/semantic_chain_live.json",
       "tools/nana_foundation_closure/live_once.py",
       "tests/foundation_closure/test_live_once.py"
+    ],
+    "S4_FINAL": [
+      "docs/nana_foundation_closure_v1_evidence/staging_final_verification.json",
+      "tools/nana_foundation_closure/staging_verify.py",
+      "tests/foundation_closure/test_staging_verification.py"
     ]
   },
   "domains": [
@@ -425,13 +430,13 @@
     {
       "id": "S4",
       "name": "Runtime / Living Presence",
-      "foundation_status": "FOUNDATION_TESTED",
+      "foundation_status": "FOUNDATION_QUALIFIED",
       "growth_status": "ADVANCED_GROWTH",
       "foundation_definition": "无输入也可活动和休息，用户可抢占；单writer持续运行并可恢复、控制资源。",
-      "qualification_scope": "2h真实开发驻留已留证；24h仅有中途快照，非生产常驻资格。",
+      "qualification_scope": "原固定645899b实际86405.272秒开发驻留；最终退出0、源码/资源/DB/恢复/迁移与effect独立只读核验通过；非生产或当前最新源码24h资格。",
       "advanced_future": "长期云端宿主、规模化长期生活、更多Presence接口。",
-      "first_life_blocker": "YES：S4-C06的24h durability资格未完成。",
-      "next_upgrade": "等待原固定源码staging实际result；不新开重复soak，不从快照或时间推算PASS。",
+      "first_life_blocker": "NO：原固定源码24h最终结果已完整核验；真人评审与First-Life组合资格另行完成。",
+      "next_upgrade": "Foundation已资格；长期真实云宿主与真人Shared Life属于后续独立集成/高级资格。",
       "criteria": [
         {
           "id": "S4-C01",
@@ -490,12 +495,13 @@
         {
           "id": "S4-C06",
           "criterion": "固定源码实际24h durability与最终结果",
-          "status": "UNKNOWN_AUDIT_REQUIRED",
+          "status": "FOUNDATION_QUALIFIED",
           "evidence": [
             "24H",
-            "CLOSURE"
+            "CLOSURE",
+            "S4_FINAL"
           ],
-          "boundary": "原固定645899b实际run仍RUNNING_NOT_QUALIFIED，当前只读快照和完整结果门见CLOSURE；不推算24h通过。"
+          "boundary": "原固定645899b实际86405.272秒/exit0；源码205文件+supervisor、DB/FK、单owner、队列、幂等及SIGKILL恢复通过；不是当前代码24h或生产资格。"
         }
       ],
       "project_brain_decisions": [
@@ -1004,11 +1010,11 @@
     }
   ],
   "confirmed_implementation_missing": [],
-  "confirmed_implementation_missing_note": "FQ-04 bounded scope distinction implemented and controlled-qualified in this mission. No confirmed missing mechanism remains in S1-S9; S4-C06/S5-C06 remain uncompleted qualification gates.",
+  "confirmed_implementation_missing_note": "No confirmed missing Foundation mechanism remains in S1-S9 declared scope; S4-C06 and S5-C06 now independently qualified. Advanced ceilings and human integration are not implied.",
   "human_review": "PAUSED_BY_USER_PENDING_FOUNDATION_AUDIT",
   "provider_calls_this_audit": 0,
   "staging_access_this_audit": true,
-  "first_life": "BLOCKED_FOUNDATION_QUALIFICATION",
+  "first_life": "FOUNDATION_PREREQUISITES_QUALIFIED_INTEGRATION_NOT_RUN",
   "production": "UNCHANGED",
   "reviewed_inputs": [
     {
@@ -1384,19 +1390,23 @@
     "closed": [
       "S3-C09",
       "S6-C07",
-      "S5-C06"
-    ],
-    "open": [
+      "S5-C06",
       "S4-C06"
     ],
+    "open": [],
     "new_paid_calls": 1,
     "first_life": "NOT_READY",
     "s10": "DEFERRED_ADVANCED_GROWTH",
     "s5_live_followup": {
       "new_paid_calls": 1,
       "qualified": "S5-C06",
-      "remaining_first_life_prerequisite": "S4-C06",
+      "remaining_first_life_prerequisite": "NONE_FOUNDATION_ONLY",
       "human_review": "NOT_RUN"
-    }
+    },
+    "s1_to_s9_foundation_qualified": true,
+    "foundation_closure_complete": true,
+    "ready_for_first_life_integration_qualification": true,
+    "s4_final": "S4_FINAL",
+    "new_paid_calls_this_followup": 0
   }
 }

@@ -1356,3 +1356,11 @@ TYPE A：新增独立只读Inspector DTO/CLI，mode=ro/query_only/有界读取�
 原固定645899b staging只读仍RUNNING_NOT_QUALIFIED，无actual final；不重启/写入/推算24h PASS。Master/Matrix固定63条及状态均不变，S4-C06仍唯一S1–S9基础资格门。Foundation/Integration readiness均NO，human NOT_RUN、First-Life/Beta NOT_READY。
 本任务新付费0、private/social/device/production/main/R045改动0；schema13/43表/新依赖0。历史DeepSeek/S5与TianToken UNKNOWN保留；旧bundle不读不动。
 详见docs/nana_first_life_hardening_v1_implementation.md及同名evidence目录。加固不构成生产或真人评审许可。
+
+## CURRENT — S4-C06 ORIGINAL FINAL / FOUNDATION CLOSURE COMPLETE
+
+原固定645899b实际86405.272秒，exit0；源码205文件+supervisor、1464资源采样、42唯一Action/14 owned-dev effects、SIGKILL、DB/FK/queue及迁移权限完整核验PASS。原run未被重启/停止/修改；raw结果低界标签不代替实际时长。
+S4-C06/S4 FOUNDATION_QUALIFIED；S1–S9逐项已资格，固定63项61 qualified/2 advanced unknown；Master/criteria定义/ID/分母不变。
+S1_TO_S9_FOUNDATION_QUALIFIED=YES；FOUNDATION_CLOSURE_COMPLETE=YES；READY_FOR_FIRST_LIFE_INTEGRATION_QUALIFICATION=YES。S10高级项非基础前置。
+这是原冻结owned-dev进程资格，不是最新代码24h/生产云宿主/真人体验资格。Human naturalness NOT_RUN；FIRST_LIFE_EXPERIENCE_READY/Beta NOT_READY；不自动启动First-Life或新任务。本次Provider0、私人/社交/生产/main/R045改动0。
+证据：docs/nana_foundation_closure_v1_evidence/staging_final_verification.json；独立只读工具tools/nana_foundation_closure/staging_verify.py。历史运行中CURRENT块不再代表当前状态。

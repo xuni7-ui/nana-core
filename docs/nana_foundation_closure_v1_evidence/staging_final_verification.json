@@ -1,0 +1,78 @@
+{
+  "duration_seconds": 86405.272172368,
+  "identity_id": "2c8a1c72-3ac4-4403-b06c-a9de0bc98ded",
+  "samples": 1464,
+  "max_sample_gap_seconds": 60.100646122999024,
+  "actions": 42,
+  "owned_dev_effects": 14,
+  "final_queue": 0,
+  "unknown_effects": 0,
+  "actual_sigkill_restart": {
+    "same_identity": true,
+    "old_epoch": 2,
+    "new_epoch": 3,
+    "no_new_grant": true,
+    "no_action_replay": true
+  },
+  "source_pin": {
+    "head": "645899b32220e66a702e75d59a279a3a9685693f",
+    "start_end_current_git_matches": true,
+    "attested_files": 205,
+    "supervisor_checked_separately": true
+  },
+  "resources": {
+    "rss_max_kib": 47564,
+    "threads_max": 1,
+    "fds_max": 11,
+    "queue_max": 1,
+    "pending_intentions_max": 4,
+    "db_family_first_bytes": 688355,
+    "db_family_last_bytes": 33951317,
+    "storage_guard_status": "OBSERVING"
+  },
+  "result": "PASS_S4_C06_FROZEN_DEV_24H",
+  "database": {
+    "source": {
+      "quick_check": "ok",
+      "foreign_key_violations": 0,
+      "actions": 42,
+      "active_grants": 0,
+      "quarantined_review_copy": false,
+      "pages": 8147,
+      "page_bytes": 4096
+    },
+    "restored": {
+      "quick_check": "ok",
+      "foreign_key_violations": 0,
+      "actions": 42,
+      "active_grants": 0,
+      "quarantined_review_copy": false,
+      "pages": 7859,
+      "page_bytes": 4096
+    },
+    "backup": {
+      "quick_check": "ok",
+      "foreign_key_violations": 0,
+      "actions": 42,
+      "active_grants": 1,
+      "quarantined_review_copy": true,
+      "pages": 2620,
+      "page_bytes": 4096
+    }
+  },
+  "source_retired": true,
+  "restored_grants_revoked": true,
+  "backup_delete_propagation": true,
+  "exit_code": 0,
+  "progress_sha256": "5dd84c703353f0985f8bae7dd58a61f33e74037fd43757fd17690335e8797dc0",
+  "raw_result_sha256": "e080bbab7e03121261dca30ed53f15aaf1cf7945642a735765a16a5974d8ea85",
+  "raw_result_bytes": 945119,
+  "raw_result_path": "/workspace/nana-staging/first-life-24h-01/result.json",
+  "staging_modified": false,
+  "new_provider_calls": 0,
+  "human_review": "NOT_RUN",
+  "production": false,
+  "scope": "Original frozen owned-development process qualification; not current-code24h/live/provider/human/production qualification",
+  "legacy_result_label": "PASS_GE_TWO_HOURS",
+  "legacy_label_note": "PASS_GE_TWO_HOURS is a generic lower bound;24h is checked independently from actual duration and final evidence."
+}

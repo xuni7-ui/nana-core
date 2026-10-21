@@ -7,30 +7,31 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 8,
-  "as_of_us": 1792521465573799,
+  "revision": 9,
+  "as_of_us": 1792559655061106,
   "stage": "H",
   "workstream": "FOUNDATION_CLOSURE_MISSION_V1",
-  "status": "PARTIAL_S4_PENDING_PARALLEL_HARDENING_PREPARED",
+  "status": "FOUNDATION_CLOSURE_COMPLETE_FIRST_LIFE_NOT_RUN",
   "progress": [
     "已从远端与本地一致edda7d08继续；Master逐字保留、63条criteria定义/ID/分母不变。",
     "S3-C09已实际owned失败/Experience→需要OPEN→独立复用SETTLED→SIGKILL/重启自主再选择，反例/撤回改变支持；不是人工偏好注入。",
     "S6-C07已区分投递/认知处理边界，并完成有源前提检验→问题重定义→原Goal/Plan/核验及无Grant阻断。",
     "已修复共享训练来源删除后重启重新capture的恢复缺陷：保留墓碑、退役绑定，不复活技能。",
-    "S1/S2/S3/S5/S6/S7/S8/S9 FOUNDATION_QUALIFIED；S4仍TESTED，S10 Partial/深改不启动。",
+    "S1–S9逐项Foundation Qualified；S4原固定645899b实际24h final完整核验PASS，S10高级深改不启动。",
     "S5-C06同一原Subject新授权1次DeepSeek PROJECT实测HTTP200/2.565秒；strict语义→World/Concern→C EXPLORE；实际source撤回→UNKNOWN/NO_ACTION。累计20次/保守预留$1，billing UNKNOWN，retry0/fallback0。",
-    "旁路PARALLEL_HARDENING V1：已修复特殊文件阻塞和IPC总deadline；只读Inspector、2 SIGKILL cut、ENOSPC与来源撤回反例通过。FAST61/全仓1339pass+12skip；新付费0，First-Life不启动。"
+    "旁路PARALLEL_HARDENING V1：已修复特殊文件阻塞和IPC总deadline；只读Inspector、2 SIGKILL cut、ENOSPC与来源撤回反例通过。FAST61/全仓1339pass+12skip；新付费0，First-Life不启动。",
+    "S4实际86405.272秒/exit0；1464采样、42唯一Action/14owned-dev effects、源码/DB/FK/恢复/迁移权限核验通过；原staging未修改。"
   ],
   "open_gates": [
-    "S4-C06原固定645899b run实际final result未产生；只读观察不重启、不污染、不推算24h PASS。",
-    "只有S4仍阻塞S1–S9闭合；三项Foundation/First-Life integration readiness均NO。真人评审与生产继续暂停；本次额度已用尽，不再发起真实请求。"
+    "Foundation prerequisites已闭合；仅具备进入First-Life Integration资格，未自动启动。",
+    "真人自然度NOT_RUN、First-Life/Beta NOT_READY；生产/真实社交/新付费调用未获本轮授权，继续暂停。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
     "docs/nana_foundation_closure_v1_implementation.md",
     "docs/nana_foundation_closure_v1_evidence/semantic_chain_live.json",
-    "docs/nana_foundation_closure_v1_evidence/staging_live_followup_observation.json",
+    "docs/nana_foundation_closure_v1_evidence/staging_final_verification.json",
     "docs/nana_first_life_hardening_v1_implementation.md",
     "docs/nana_first_life_hardening_v1_evidence/qualification.json",
     "docs/nana_first_life_hardening_v1_evidence/test_summary.json"
@@ -2060,3 +2061,15 @@ TYPE A：新增独立只读Inspector DTO/CLI，mode=ro/query_only/有界读取�
 Rolling closure manifest after side-work metadata: `8113a0360cb7e95290bd48444abf15e1502a2a65345b306eb451389927df3858`; historical live qualification source remains14e66be-parent evidence, no new live claim.
 
 Parallel hardening manifest SHA256: `1c101871e908aac75704868195e7b97393d1797c2ce0c77fe3a53e4ca0023a77` (self and09 anchor excluded).
+
+## CURRENT — S4-C06 ORIGINAL FINAL / FOUNDATION CLOSURE COMPLETE
+
+原固定645899b实际86405.272秒，exit0；源码205文件+supervisor、1464资源采样、42唯一Action/14 owned-dev effects、SIGKILL、DB/FK/queue及迁移权限完整核验PASS。原run未被重启/停止/修改；raw结果低界标签不代替实际时长。
+S4-C06/S4 FOUNDATION_QUALIFIED；S1–S9逐项已资格，固定63项61 qualified/2 advanced unknown；Master/criteria定义/ID/分母不变。
+S1_TO_S9_FOUNDATION_QUALIFIED=YES；FOUNDATION_CLOSURE_COMPLETE=YES；READY_FOR_FIRST_LIFE_INTEGRATION_QUALIFICATION=YES。S10高级项非基础前置。
+这是原冻结owned-dev进程资格，不是最新代码24h/生产云宿主/真人体验资格。Human naturalness NOT_RUN；FIRST_LIFE_EXPERIENCE_READY/Beta NOT_READY；不自动启动First-Life或新任务。本次Provider0、私人/社交/生产/main/R045改动0。
+证据：docs/nana_foundation_closure_v1_evidence/staging_final_verification.json；独立只读工具tools/nana_foundation_closure/staging_verify.py。历史运行中CURRENT块不再代表当前状态。
+
+[原S4最终收口当前指纹] docs/nana_foundation_closure_v1_evidence/manifest.json SHA256 `4400a4fc2ac91ea99c83da0582eda692fd288c67c8eace632736530f1e103e9d`；rolling shared SSOT更新，旧checkpoint保留Git历史；不含self/09/DB/旧bundle。
+
+[原S4最终收口当前指纹] docs/nana_first_life_hardening_v1_evidence/manifest.json SHA256 `2a07fcd25d7d0b222a4f6a4378d4dfd55f8ed8526f8b5ed2ccf594fd1f20bea1`；rolling shared SSOT更新，旧checkpoint保留Git历史；不含self/09/DB/旧bundle。
