@@ -321,6 +321,15 @@ class ContextAssembler:
             records=RecordService(self.store)
             for view in WorldModel(self.store,scopes=request.scopes,privacy_classes=privacy).snapshot(limit=16):
                 candidates.append((945.0,ContextBlock(block_id='world:'+digest([view.entity_id,view.predicate]),kind='WORLD_BELIEF',data_json=view.model_dump_json(),source_record_ids=view.support_records,source_memory_ids=tuple(sorted({m for rid in view.support_records for m in records.support(rid)})))))
+        if self.store.schema_target>=13:
+            from .autonomy.private_intent import metadata as private_metadata
+            for scope in request.scopes:
+                values=private_metadata(self.store,scope,privacy)[:2]
+                if values:
+                    # Recipient expression may know a private activity exists,
+                    # never its purpose/content, even when data privacy is PUBLIC.
+                    safe=[{k:v[k] for k in ('category','status','disclosure_policy','risk_class','authority_need','external_effect','execution_authority')} for v in values]
+                    candidates.append((936.0,ContextBlock(block_id='private-intent-state:'+scope,kind='PRIVATE_INTENT_STATE',data_json=canonical({'activities':safe,'content_withheld':True,'delivery_authority':False}),source_record_ids=tuple(v['record_id'] for v in values),source_memory_ids=tuple(sorted({m for v in values for m in v['source_memory_ids']})))))
         candidates.extend(self._lessons(request, privacy))
         if required_memory_ids:
             required=[block for _,block in candidates if block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&set(required_memory_ids)]
@@ -329,7 +338,7 @@ class ContextAssembler:
         if pinned_only:
             # Dialogue gets explicit verified facts plus existing filtered self/
             # relation projections; never the whole unrelated source corpus.
-            candidates=[(score,block) for score,block in candidates if (block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&set(required_memory_ids)) or block.kind in {'RELATIONSHIP_LINKS','SUBJECT_INFLUENCE','RELATIONAL_SUBJECT'}]
+            candidates=[(score,block) for score,block in candidates if (block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&set(required_memory_ids)) or block.kind in {'RELATIONSHIP_LINKS','SUBJECT_INFLUENCE','RELATIONAL_SUBJECT','PRIVATE_INTENT_STATE'}]
         if source_only:
             # Media processors receive only the pinned, policy-filtered source,
             # never unrelated relationship, project or memory context.

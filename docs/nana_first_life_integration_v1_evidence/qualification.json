@@ -1,0 +1,24 @@
+{
+  "mission": "FIRST_LIFE_INTEGRATION_QUALIFICATION_V1",
+  "base": "8a1e2cfba3c71d7f397ac8486e4565a915959cb5",
+  "status": "IMPLEMENTED_OFFLINE_QUALIFICATION_IN_PROGRESS",
+  "new_provider_calls": 0,
+  "human_review": "NOT_RUN",
+  "first_life_experience_ready": false,
+  "first_life_integration_qualified": false,
+  "beta_ready": false,
+  "schema_version": 13,
+  "business_tables": 43,
+  "new_tables": 0,
+  "new_dependencies": 0,
+  "targeted_source_freeze_check": {
+    "passed": 46,
+    "failed": 0,
+    "seconds": 6.08
+  },
+  "regression": "EARLY_RUN_INTERRUPTED_FOR_SOURCE_FREEZE_NOT_PASS",
+  "historical_provider_budget": "PRIOR20_CONSUMED_NEW_AUTHORIZATION_AND_BINDING_PENDING",
+  "historical_tiantoken": "PARKED_UNKNOWN_NO_RETRY",
+  "production": false,
+  "private_data_accessed": false
+}

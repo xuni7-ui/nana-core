@@ -37,7 +37,7 @@ class InspectorSnapshot(DTO):
     coverage:Literal['BOUNDED_METADATA_ONLY']='BOUNDED_METADATA_ONLY'
     sections:dict[str,tuple[InspectorItem,...]]
     resources:dict[str,int]|None=None
-    private_activity:Literal['UNKNOWN_CONTENT_NOT_EXPOSED']='UNKNOWN_CONTENT_NOT_EXPOSED'
+    private_activity:Literal['UNKNOWN_CONTENT_NOT_EXPOSED','PRESENT_CONTENT_WITHHELD','NONE_IN_BOUNDED_VIEW']='UNKNOWN_CONTENT_NOT_EXPOSED'
     governance_visibility:Literal['LOCAL_METADATA_NOT_RECIPIENT_DISCLOSURE']='LOCAL_METADATA_NOT_RECIPIENT_DISCLOSURE'
     execution_authority:Literal[False]=False
 
@@ -113,7 +113,7 @@ def inspect(home,*,scope,entity_id,privacy=('PUBLIC','PROJECT'),limit=16):
     try:
         db.execute('PRAGMA query_only=ON');db.execute('BEGIN')
         view=_ReadView(db,path,scope,tuple(privacy));records=RecordService(view)
-        sections={name:[] for name in ('runtime','goals','activities','concerns','needs','affect','relationship','interests','suppressed_deferred','decisions','experience','provenance','authority','unknown','provider','queue','source_lifecycle','health')}
+        sections={name:[] for name in ('runtime','goals','activities','concerns','needs','affect','relationship','interests','suppressed_deferred','decisions','experience','provenance','authority','unknown','provider','queue','source_lifecycle','health','private_intents','skills','world')}
         def item(section,category,reference,state,record=None,as_of=None,refs=()):
             if len(sections[section])<limit:sections[section].append(InspectorItem(category=category,reference=reference,state=_token(state),record_id=record,as_of_us=as_of,source_memory_ids=tuple(refs)[:32]))
         def visible(rid):
@@ -169,6 +169,21 @@ def inspect(home,*,scope,entity_id,privacy=('PUBLIC','PROJECT'),limit=16):
         for name in ('familiarity','care_salience','boundary_salience','repair_tension','interaction_latitude','shared_commitment_relevance'):
             facet=getattr(relation,name);item('relationship',name,'derived',facet.assessment,facet.support_refs[0] if facet.support_refs else None,relation.as_of_us)
         for facet in relation.trust:item('relationship','trust',digest(facet.domain)[:16],facet.assessment,facet.support_refs[0] if facet.support_refs else None,relation.as_of_us)
+        from ..continuity.autonomy.private_intent import metadata
+        private=metadata(view,scope,privacy)
+        for value in private:
+            item('private_intents',value['category'],value['intent_id'],value['status'],value['record_id'])
+            item('private_intents','DISCLOSURE_POLICY',value['intent_id'],value['disclosure_policy'],value['record_id'])
+            item('private_intents','RISK',value['intent_id'],value['risk_class'],value['record_id'])
+            item('private_intents','AUTHORITY_REQUIRED',value['intent_id'],value['authority_need'],value['record_id'])
+        for row in db.execute('SELECT b.* FROM world_beliefs b JOIN continuity_records r ON b.record_id=r.record_id WHERE r.scope=? AND r.privacy_class IN ('+marks+') ORDER BY b.known_at_us DESC LIMIT ?',(scope,*privacy,limit)):
+            if visible(row['record_id']):item('world','WORLD_BELIEF',row['belief_id'],row['state'],row['record_id'],row['known_at_us'])
+        for row in db.execute("SELECT record_id FROM continuity_records WHERE scope=? AND record_kind='CODE_SKILL' AND lifecycle='ACTIVE' ORDER BY created_at_us DESC LIMIT ?",(scope,limit)):
+            if visible(row['record_id']):item('skills','CODE_SKILL',row['record_id'],'CURRENT_SUPPORT',row['record_id'])
+        for row in db.execute('SELECT action_id,state FROM actions ORDER BY rowid DESC LIMIT ?',(limit,)):
+            item('authority','ACTION',row['action_id'],row['state'])
+        for row in db.execute('SELECT grant_id,revoked FROM grants ORDER BY rowid DESC LIMIT ?',(limit,)):
+            item('authority','GRANT',row['grant_id'],'REVOKED' if row['revoked'] else 'INSTALLED_SCOPE_NOT_SHOWN')
         for row in db.execute('SELECT memory_id,lifecycle,updated_at_us FROM memories WHERE scope=? AND privacy_class IN ('+marks+') ORDER BY updated_at_us DESC LIMIT ?',(scope,*privacy,limit)):
             item('source_lifecycle','MEMORY',row['memory_id'],row['lifecycle'],as_of=row['updated_at_us'])
         # Operational counts only. Never query arguments, grant bodies or reasons.
@@ -180,7 +195,7 @@ def inspect(home,*,scope,entity_id,privacy=('PUBLIC','PROJECT'),limit=16):
         view.ensure_privacy_current()
         for name,values in sections.items():
             if not values:item(name,'COVERAGE','none','UNKNOWN')
-        return InspectorSnapshot(identity_id=view.identity['identity_id'],as_of_us=view.clock.utc_now_us(),sections={k:tuple(v) for k,v in sections.items()},resources=resources)
+        return InspectorSnapshot(identity_id=view.identity['identity_id'],as_of_us=view.clock.utc_now_us(),sections={k:tuple(v) for k,v in sections.items()},resources=resources,private_activity='PRESENT_CONTENT_WITHHELD' if private else 'UNKNOWN_CONTENT_NOT_EXPOSED')
     except (sqlite3.Error,OSError,ValueError,TypeError,KeyError):raise CoreError('INSPECTOR_UNAVAILABLE_FAIL_CLOSED') from None
     finally:db.close()
 

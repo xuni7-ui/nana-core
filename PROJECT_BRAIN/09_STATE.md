@@ -7,34 +7,29 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 9,
-  "as_of_us": 1792559655061106,
+  "revision": 10,
+  "as_of_us": 1792560804217371,
   "stage": "H",
-  "workstream": "FOUNDATION_CLOSURE_MISSION_V1",
-  "status": "FOUNDATION_CLOSURE_COMPLETE_FIRST_LIFE_NOT_RUN",
+  "workstream": "FIRST_LIFE_INTEGRATION_QUALIFICATION_V1",
+  "status": "IMPLEMENTED_OFFLINE_QUALIFICATION_IN_PROGRESS",
   "progress": [
-    "已从远端与本地一致edda7d08继续；Master逐字保留、63条criteria定义/ID/分母不变。",
-    "S3-C09已实际owned失败/Experience→需要OPEN→独立复用SETTLED→SIGKILL/重启自主再选择，反例/撤回改变支持；不是人工偏好注入。",
-    "S6-C07已区分投递/认知处理边界，并完成有源前提检验→问题重定义→原Goal/Plan/核验及无Grant阻断。",
-    "已修复共享训练来源删除后重启重新capture的恢复缺陷：保留墓碑、退役绑定，不复活技能。",
-    "S1–S9逐项Foundation Qualified；S4原固定645899b实际24h final完整核验PASS，S10高级深改不启动。",
-    "S5-C06同一原Subject新授权1次DeepSeek PROJECT实测HTTP200/2.565秒；strict语义→World/Concern→C EXPLORE；实际source撤回→UNKNOWN/NO_ACTION。累计20次/保守预留$1，billing UNKNOWN，retry0/fallback0。",
-    "旁路PARALLEL_HARDENING V1：已修复特殊文件阻塞和IPC总deadline；只读Inspector、2 SIGKILL cut、ENOSPC与来源撤回反例通过。FAST61/全仓1339pass+12skip；新付费0，First-Life不启动。",
-    "S4实际86405.272秒/exit0；1464采样、42唯一Action/14owned-dev effects、源码/DB/FK/恢复/迁移权限核验通过；原staging未修改。"
+    "Master和固定63 criteria不变；S1–S9 Foundation资格继承8a1e2cf，S10高级深改不启动。",
+    "复用原LifeApplication/Runtime/Store/SubjectLoop，增加结构化私人意图与只读Inspector元数据；原意图负荷/生命周期不改。",
+    "受控开发入口和fail-closed preflight已实现；PRIVATE_INTENT_V1复用INTENTION记录/来源删除，不新建table/Store。",
+    "原同一Subject组合探针已执行source→loopback语义→World/Concern→C→纠错/撤回、private idea、Manager与拒绝；固定版本驻留/完整回归待收集。"
   ],
   "open_gates": [
-    "Foundation prerequisites已闭合；仅具备进入First-Life Integration资格，未自动启动。",
-    "真人自然度NOT_RUN、First-Life/Beta NOT_READY；生产/真实社交/新付费调用未获本轮授权，继续暂停。"
+    "First-Life组合资格正在验证；未将Foundation PASS当成整体体验PASS。",
+    "真人自然度NOT_RUN；新付费额度与安全FD绑定门待用户确认，本任务真实调用0，历史20次已用尽/TianToken UNKNOWN不重试。",
+    "生产、真实社交、私人数据、用户设备和Beta均未授权/不启动。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
-    "docs/nana_foundation_closure_v1_implementation.md",
-    "docs/nana_foundation_closure_v1_evidence/semantic_chain_live.json",
+    "docs/nana_first_life_integration_v1_implementation.md",
+    "docs/nana_first_life_integration_v1_quickstart.md",
     "docs/nana_foundation_closure_v1_evidence/staging_final_verification.json",
-    "docs/nana_first_life_hardening_v1_implementation.md",
-    "docs/nana_first_life_hardening_v1_evidence/qualification.json",
-    "docs/nana_first_life_hardening_v1_evidence/test_summary.json"
+    "docs/nana_foundation_closure_v1_evidence/semantic_chain_live.json"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2073,3 +2068,11 @@ S1_TO_S9_FOUNDATION_QUALIFIED=YES；FOUNDATION_CLOSURE_COMPLETE=YES；READY_FOR_
 [原S4最终收口当前指纹] docs/nana_foundation_closure_v1_evidence/manifest.json SHA256 `4400a4fc2ac91ea99c83da0582eda692fd288c67c8eace632736530f1e103e9d`；rolling shared SSOT更新，旧checkpoint保留Git历史；不含self/09/DB/旧bundle。
 
 [原S4最终收口当前指纹] docs/nana_first_life_hardening_v1_evidence/manifest.json SHA256 `2a07fcd25d7d0b222a4f6a4378d4dfd55f8ed8526f8b5ed2ccf594fd1f20bea1`；rolling shared SSOT更新，旧checkpoint保留Git历史；不含self/09/DB/旧bundle。
+
+## CURRENT — FIRST_LIFE_INTEGRATION_QUALIFICATION_V1
+
+用户授权从8a1e2cf继续原分支做集成资格；Foundation闭合资格保留，先前暂停First-Life任务状态由本授权取代。原单C/Store/Runtime装配、typed私人意图和Inspector接线已实现；离线组合/进程资格正在进行，真人评审NOT_RUN，First-Life/Beta仍NO。新Provider0，无安全绑定不调用；历史UNKNOWN不重试。
+
+[First-Life接线后rolling指纹] docs/nana_foundation_closure_v1_evidence/manifest.json SHA256 0b4f32e4521fbea6037bdd6f346e5d4cbde0958e49e2643b329486a178d9037b；旧source checkpoint保留Git历史；不含self/09。
+
+[First-Life接线后rolling指纹] docs/nana_first_life_hardening_v1_evidence/manifest.json SHA256 ab93e05dd8fc9cf7c40a6e134006f2d63bd44ec41fde9d41d58bd1f425422e22；旧source checkpoint保留Git历史；不含self/09。

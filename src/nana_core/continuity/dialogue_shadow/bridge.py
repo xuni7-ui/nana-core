@@ -54,7 +54,7 @@ class SemanticInterpreter(Protocol):
     def interpret(self, text: str) -> SemanticInterpretation: ...
 
 
-LITERALS=(('DECLINE_DEPTH',('不要研究','别再研究','不许处理','不要处理','禁止读取')),('DECLINE_DELIVERY',('别分析','先不聊','不想聊','话题停一下','不要再提','不要深入')),('REOPEN_DELIVERY',('可以再讨论','重新谈谈')),('REOPEN',('允许研究','可以处理','允许读取')),('FOCUS',('先专注这件事','现在先帮我')),('VENT',('只是吐槽','只想吐槽')),('HELP',('请帮我','帮我排查')),('SHARE',('和你分享','分享一下')))
+LITERALS=(('DECLINE_DEPTH',('不要研究','别再研究','不许处理','不要处理','禁止读取','禁止再处理')),('DECLINE_DELIVERY',('先别聊','别分析','先不聊','不想聊','话题停一下','不要再提','不要深入')),('REOPEN_DELIVERY',('可以再讨论','重新谈谈')),('REOPEN',('允许研究','可以处理','允许读取')),('FOCUS',('先专注这件事','现在先帮我')),('VENT',('只是吐槽','只想吐槽')),('HELP',('请帮我','帮我排查')),('SHARE',('和你分享','分享一下')))
 
 
 class LiteralSpanInterpreter:

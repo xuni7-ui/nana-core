@@ -21,7 +21,7 @@ def configuration(repo,profile=None):
  return LifeConfig(project_root=str(repo),materials=(material_for(repo,'src/nana_core/continuity/recurrence.py'),),practice=material_for(repo,'src/nana_core/continuity/identity.py'),heldout=material_for(repo,'src/nana_core/continuity/autonomy/requests.py'),transfer=material_for(repo,'src/nana_core/continuity/subject/social.py'),owned_application_profile=str(profile) if profile else None,allow_local_skills=bool(profile),max_autonomous_materials=0,shared_presence=True,timezone='Asia/Shanghai',surface_bindings=tuple(SurfaceBinding(binding_id=k,platform=k,surface='chat.direct',adapter='shadow.local') for k in ('cloud.cli','qq.shadow','bili.shadow')))
 
 
-def run(root,repo,seconds):
+def run(root,repo,seconds,*,integration_setup=None):
  if root.exists():raise ValueError('fresh development qualification root required')
  root.mkdir(parents=True,mode=0o700);home=root/'life';started=time.monotonic();result={'mode':'ACTUAL_OWNED_OS_APPLICATION_AND_SHADOW_SURFACES_NOT_PRODUCTION','new_provider_calls':0,'human_review':'NOT_RUN','source_head':subprocess.check_output(['git','rev-parse','HEAD'],cwd=repo,text=True).strip(),'samples':[],'controls':[]}
  files=sorted((repo/'src/nana_core').rglob('*.py'))+sorted((repo/'tools/nana_cloud_daily_life').glob('*.py'))
@@ -29,7 +29,10 @@ def run(root,repo,seconds):
  result['source_hashes_start']=hashes()
  with OwnedApplication(root/'target',tasks=daily_tasks()) as target:
   config=configuration(repo,target.profile);write_config(home,config)
-  with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id
+  with LifeApplication(home,bootstrap_grant=True) as app:
+   identity=app.runtime.identity_id
+   if integration_setup:result['integration_setup']=integration_setup(app,root)
+   baseline_cognition=app.runtime.store.db.execute('SELECT count(*) FROM cognitive_requests').fetchone()[0]
   log=(root/'process.jsonl').open('w');args=[sys.executable,'-m','nana_core.life','run','--home',str(home),'--seconds',str(seconds+120),'--headless','--control','--json'];p=None
   def launch():
    child=subprocess.Popen(args,cwd=repo,stdout=log,stderr=log)
@@ -79,7 +82,7 @@ def run(root,repo,seconds):
    log.close()
   result['actual_residency_seconds']=time.monotonic()-started;final=snapshot(home);result['final']=final
   assert complete and len(final['actions'])==len(complete['actions'])==42 and len(final['goals'])==12
-  assert final['identity_id']==identity and final['grants']==1 and not final['cognition_calls'] and not final['fk_violations']
+  assert final['identity_id']==identity and final['grants']==1 and final['cognition_calls']==baseline_cognition and not final['fk_violations']
   external=json.loads((Path(target.target.workspace)/'application-state.json').read_text());assert len(external['effects'])==14
   result['actual_external_effects']=14;result['real_task_classes']=sorted({x.kind for x in daily_tasks()})
   with ContinuityStore(home/'backups/checkpoint.db',schema_target=13) as copy:

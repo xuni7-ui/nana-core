@@ -878,3 +878,10 @@ S4-C06/S4 FOUNDATION_QUALIFIED；S1–S9逐项已资格，固定63项61 qualifie
 S1_TO_S9_FOUNDATION_QUALIFIED=YES；FOUNDATION_CLOSURE_COMPLETE=YES；READY_FOR_FIRST_LIFE_INTEGRATION_QUALIFICATION=YES。S10高级项非基础前置。
 这是原冻结owned-dev进程资格，不是最新代码24h/生产云宿主/真人体验资格。Human naturalness NOT_RUN；FIRST_LIFE_EXPERIENCE_READY/Beta NOT_READY；不自动启动First-Life或新任务。本次Provider0、私人/社交/生产/main/R045改动0。
 证据：docs/nana_foundation_closure_v1_evidence/staging_final_verification.json；独立只读工具tools/nana_foundation_closure/staging_verify.py。历史运行中CURRENT块不再代表当前状态。
+
+## CURRENT — FIRST_LIFE_INTEGRATION_QUALIFICATION_V1 / IMPLEMENTATION
+
+用户已授权本次First-Life组合资格，SUPERSEDES先前“Foundation未齐/不得启动First-Life”的任务暂停；不修改Master或63条Foundation标准。继承8a1e2cf与全部S1–S9资格，S10高级项不重开。
+复用原LifeApplication/Runtime/Store/C/World/Concern/Hands/Growth/skill路径；新增源支持、原C事务内结构化私人意图与metadata-only Inspector，复用INTENTION typed envelope，schema13/43表不变。普通chat不自动取得私人内容；私人≠隐瞒Action/Grant/预算。
+开发入口与预检已实现，真实同一Subject组合与进程资格进行中。真人评审NOT_RUN；First-Life Integration尚未资格、First-Life Experience/Beta不升级。历史Provider额度已用尽，本任务新调用0，安全FD/Resolver及新小额授权门独立等待；不使用历史key。原24h staging与bundle不读写/重启。
+实现/复现入口：docs/nana_first_life_integration_v1_implementation.md、docs/nana_first_life_integration_v1_quickstart.md。生产/main/R045/真实社交/私人数据/用户设备不触碰。

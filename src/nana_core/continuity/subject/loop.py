@@ -468,6 +468,9 @@ class SubjectLoop:
                 'revision': expected_revision + 1, 'record_id': record, 'judgment': judgment.stance,
                 'attention': attention, 'barrier': result.barrier, 'created_at_us': self.store.clock.utc_now_us()})
             tx.put('core_meta', {'key': 'self.subject_revision', 'value_json': canonical(expected_revision + 1)})
+            if self.store.schema_target>=13:
+                from ..autonomy.private_intent import after_choice
+                after_choice(self.store,tx,event,result.model_copy(update={'record_id':record}),privacy_classes=self.privacy_classes)
         return result.model_copy(update={'record_id': record})
 
     def result(self, row, *, replayed=False):
