@@ -1,0 +1,36 @@
+{
+  "result": "FAILED_RETAINED",
+  "passed": 1354,
+  "failed": 1,
+  "skipped": 12,
+  "seconds": 309.04,
+  "failure": {
+    "test": "tests/world_loop/test_system.py::test_integrated_world_life_and_distinct_contrast[0]",
+    "code": "MEDIA_MALFORMED_OR_UNSUPPORTED",
+    "stage": "Existing bwrap/ffmpeg audio decoder",
+    "isolated_recheck": {
+      "passed": 1,
+      "seconds": 10.05
+    },
+    "root_cause": "NOT_CONFIRMED_NOT_REPRODUCED_IN_ISOLATION",
+    "decoder_guards_changed": false
+  },
+  "subsequent_full_regression": {
+    "first_clean_recheck": {
+      "passed": 1356,
+      "failed": 0,
+      "skipped": 12,
+      "seconds": 304.57
+    },
+    "final_after_core_deltas": {
+      "tests": 1373,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 12,
+      "passed": 1361,
+      "failed": 0,
+      "seconds": 302.14
+    }
+  },
+  "real_provider_calls": 0
+}

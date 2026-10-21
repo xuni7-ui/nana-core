@@ -83,7 +83,7 @@ def initialize(home,*,owned_work=False):
 
 
 def render_inspector(snapshot):
-    labels={'runtime':'运行','activities':'活动','goals':'目标','concerns':'关注','needs':'需要','affect':'社交倾向','relationship':'关系影响','interests':'兴趣','decisions':'WHAT / WHY（来源支持的代码）','suppressed_deferred':'克制 / 延后','experience':'经历与学习','skills':'受限技能','world':'世界信念','authority':'权限与阻断','unknown':'未确定结果','provider':'Provider','queue':'待办','health':'健康'}
+    labels={'runtime':'运行','activities':'活动','goals':'目标','concerns':'关注','needs':'需要','affect':'社交倾向','relationship':'关系影响','interests':'兴趣','decisions':'WHAT / WHY（来源支持的代码）','suppressed_deferred':'克制 / 延后','experience':'有来源的实际结果','learning':'学习影响 / 方法状态','skills':'受限技能','world':'世界信念','authority':'权限与阻断','unknown':'未确定结果','provider':'Provider','queue':'待办','health':'健康'}
     lines=['Nana Core Inspector · 只读派生视图','主体 '+snapshot.identity_id,'私人活动 '+snapshot.private_activity+'（内容默认不展示）']
     for key,label in labels.items():
         values=snapshot.sections[key]

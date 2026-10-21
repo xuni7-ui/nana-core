@@ -1,0 +1,32 @@
+{
+  "status": "NOT_RUN",
+  "reviewer": "REQUIRES_ACTUAL_HUMAN",
+  "transcript_retention": "NONE",
+  "private_data": "DO_NOT_SUBMIT",
+  "categories": [
+    "NATURALNESS",
+    "SHARED_LIFE"
+  ],
+  "observe": [
+    "light conversation without forced analysis",
+    "grounded own experience references",
+    "correction and disagreement",
+    "busy/refusal/silence",
+    "restart continuity",
+    "private activity withheld without false claims"
+  ],
+  "classify_findings": [
+    "UI_LANGUAGE",
+    "PROVIDER_CONTEXT",
+    "S3_S6_INTEGRATION",
+    "MEMORY_CONTINUITY",
+    "CORE_LOGIC"
+  ],
+  "rating_contract": "nana_core.life.review.HumanReview",
+  "automatic_acceptance": false,
+  "live_budget": "NEW8_AUTHORIZED_1_USED_7_UNSPENT_NO_RETRY_AFTER_INVALID_RESPONSE",
+  "no_scores_filled_by_codex": true,
+  "entry_state": "NOT_STARTED_BLOCKED_BY_LIVE_STRICT_SCHEMA_REJECTION",
+  "chosen_question": "USER_SELECTED_PREVIOUS_PROJECT_STATUS_QUESTION_RAW_TEXT_NOT_RETAINED",
+  "question_sent": false
+}

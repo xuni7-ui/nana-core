@@ -1,0 +1,85 @@
+{
+  "scope": "SAME_SYNTHETIC_REFERENCE_SUBJECT_WITH_REAL_OWNED_EFFECTS_NOT_REAL_USER_HISTORY",
+  "identity_id": "37281abf-18c0-4460-b1de-566d3e0734b7",
+  "scenarios": {
+    "A": {
+      "status": "PROCESS_QUALIFIED",
+      "evidence": "process_journey.json",
+      "same_identity": true,
+      "sigkill": true,
+      "backup_restore": true,
+      "natural_dialogue_restart": "NOT_RUN"
+    },
+    "B": {
+      "status": "PROCESS_QUALIFIED",
+      "evidence": "process_journey.json",
+      "no_action_cycles": 10,
+      "finite_goals": 12,
+      "forced_model_wakes": false
+    },
+    "C": {
+      "status": "PROCESS_QUALIFIED",
+      "evidence": "process_journey.json",
+      "user_shadow_events_during_work": true,
+      "pause_busy_resume": true,
+      "duplicate_effects": 0
+    },
+    "D": {
+      "status": "TESTED_AND_PARTIAL_COMBINED",
+      "delivery_refusal": "same original C retained internal cognition eligibility",
+      "manager_veto": "same Subject post-ENDORSED BLOCK then authenticated revoke/no replay",
+      "explicit_processing_literal": "test_preflight.py; existing topic hard-boundary tests",
+      "complete_live_conversation": "NOT_RUN"
+    },
+    "E": {
+      "status": "PROCESS_QUALIFIED",
+      "evidence": "review_entry.json",
+      "c_decision": "ALTERNATIVE",
+      "frame": "REFRAME",
+      "auto_adopt_or_grant": false
+    },
+    "F": {
+      "status": "PARTIAL",
+      "loopback": "PASS_same_Subject_source_World_Concern_C_correction_withdrawal",
+      "live": "HTTP200_PROVIDER_MALFORMED_NO_SEMANTIC_PROMOTION",
+      "evidence": "live_cognition.json"
+    },
+    "G": {
+      "status": "REAL_EFFECT_QUALIFIED_OWNED_DEV_ONLY",
+      "actions": 42,
+      "independent_verified": 42,
+      "owned_effects": 14,
+      "experience_outcomes": {
+        "FAILURE": 4,
+        "SUCCESS": 12
+      },
+      "unknown_effects": 0
+    },
+    "H": {
+      "status": "PROCESS_QUALIFIED_OWNED_DEV",
+      "lessons": {
+        "SUSPENDED": 2
+      },
+      "later_success_assessments": 2,
+      "counterexamples": 2,
+      "after_restart_same_history": true,
+      "human_shared_life": "NOT_RUN"
+    },
+    "I": {
+      "status": "REAL_EFFECT_QUALIFIED_OWNED_DATA_ONLY_SKILL",
+      "qualification_job_completed": true,
+      "skill_support_withdrawal": true,
+      "global_install_or_Core_edit": false,
+      "world_skill_succeeded_actions": 2,
+      "all_six_skill_revision_payloads_deleted_after_withdrawal": true
+    },
+    "J": {
+      "status": "PROCESS_QUALIFIED_AND_TARGETED_TESTED",
+      "original_C_private_idea": true,
+      "withheld_in_chat_inspector": true,
+      "trigger_in_ordinary_C": "test_private_intent.py",
+      "model_roleplay": false,
+      "external_send": false
+    }
+  }
+}

@@ -7,29 +7,31 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 10,
-  "as_of_us": 1792560804217371,
+  "revision": 13,
+  "as_of_us": 1792563476513931,
   "stage": "H",
   "workstream": "FIRST_LIFE_INTEGRATION_QUALIFICATION_V1",
-  "status": "IMPLEMENTED_OFFLINE_QUALIFICATION_IN_PROGRESS",
+  "status": "FIRST_LIFE_PARTIAL_LIVE_SCHEMA_REJECTED_HUMAN_NOT_RUN",
   "progress": [
-    "Master和固定63 criteria不变；S1–S9 Foundation资格继承8a1e2cf，S10高级深改不启动。",
-    "复用原LifeApplication/Runtime/Store/SubjectLoop，增加结构化私人意图与只读Inspector元数据；原意图负荷/生命周期不改。",
-    "受控开发入口和fail-closed preflight已实现；PRIVATE_INTENT_V1复用INTENTION记录/来源删除，不新建table/Store。",
-    "原同一Subject组合探针已执行source→loopback语义→World/Concern→C→纠错/撤回、private idea、Manager与拒绝；固定版本驻留/完整回归待收集。"
+    "Master/同一Matrix/固定63条criteria字节保持；S1–S9基础资格继承，不因本次Provider集成失败否定已通过基础。",
+    "同一开发主体实际驻留1800.36秒，42独立Verify actions/14 owned effects；实际SIGKILL、备份删除、旧writer退休与同身份迁移通过。",
+    "原C私人创意、有限披露、负向Manager后置veto与拒绝分流已组合；高PRIMARY_USER关系重要性不授予Grant；无第二脑/Store/Runtime。",
+    "真实DeepSeek新调用1：HTTP200/3289ms、deepseek-flash、usage6200/469，但strict schema拒绝PROVIDER_MALFORMED，未进入World/Concern/C、未发送真人开场。",
+    "新宿主已显式绑定有限工程状态摘要；Inspector typed结果/方法停用/来源撤回和Provider失败元数据可观察；进程停止、resolver清理。",
+    "最终全仓1361 passed/0failed/12skip，focused40 passed；exact凭据审计0，不落盘；原24h staging、Master/Matrix、main/生产均不变。"
   ],
   "open_gates": [
-    "First-Life组合资格正在验证；未将Foundation PASS当成整体体验PASS。",
-    "真人自然度NOT_RUN；新付费额度与安全FD绑定门待用户确认，本任务真实调用0，历史20次已用尽/TianToken UNKNOWN不重试。",
-    "生产、真实社交、私人数据、用户设备和Beta均未授权/不启动。"
+    "First-Life组合资格PARTIAL；当前live response/schema兼容缺口待离线定位，不重试本次请求；新8次授权已用1/余7不自动消耗，reservation$0.05，实际账单UNKNOWN。",
+    "Human naturalness/Shared-Life评审NOT_RUN；用户问句未发送，不能评价自然度；First-Life experience/integration/Beta均NO。",
+    "历史TianToken UNKNOWN继续parked；旧Provider20次不重放；生产/社交/私人历史/用户设备/S10均不启动。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
     "docs/nana_first_life_integration_v1_implementation.md",
-    "docs/nana_first_life_integration_v1_quickstart.md",
-    "docs/nana_foundation_closure_v1_evidence/staging_final_verification.json",
-    "docs/nana_foundation_closure_v1_evidence/semantic_chain_live.json"
+    "docs/nana_first_life_integration_v1_evidence/qualification.json",
+    "docs/nana_first_life_integration_v1_evidence/process_journey.json",
+    "docs/nana_first_life_integration_v1_evidence/live_cognition.json"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2076,3 +2078,7 @@ S1_TO_S9_FOUNDATION_QUALIFIED=YES；FOUNDATION_CLOSURE_COMPLETE=YES；READY_FOR_
 [First-Life接线后rolling指纹] docs/nana_foundation_closure_v1_evidence/manifest.json SHA256 0b4f32e4521fbea6037bdd6f346e5d4cbde0958e49e2643b329486a178d9037b；旧source checkpoint保留Git历史；不含self/09。
 
 [First-Life接线后rolling指纹] docs/nana_first_life_hardening_v1_evidence/manifest.json SHA256 ab93e05dd8fc9cf7c40a6e134006f2d63bd44ec41fde9d41d58bd1f425422e22；旧source checkpoint保留Git历史；不含self/09。
+
+First-Life integration rolling manifest SHA256 `8d89821743477fa257cd6b182d3c3d9e7a4885a32266de79d43c4a16e117f3e9` (self/09/bundle/DB/credentials excluded).
+nana_foundation_closure_v1_evidence rolling shared-SSOT manifest SHA256 `1a22eeaaee1103bf8c3acff2778e49eea9ce0aecb35cb744ccfca0d447bc75e5` (historical qualification scope unchanged).
+nana_first_life_hardening_v1_evidence rolling shared-SSOT manifest SHA256 `c1c7e7edb18045a360f248e37a06d044a91d4607bdd2d00a0fe3767e9dcce9d2` (historical qualification scope unchanged).

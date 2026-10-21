@@ -1,0 +1,19 @@
+{
+  "scope": "CURRENT_FIRST_LIFE_PROJECT_ONLY",
+  "authorized_new_calls": 8,
+  "conservative_reserved_limit_usd_micro": 400000,
+  "actual_billing": "UNKNOWN",
+  "retry": 0,
+  "fallback": 0,
+  "calls": [],
+  "human_review": "NOT_RUN",
+  "status": "BLOCKED_OR_UNKNOWN_NO_RETRY",
+  "code": "MEMORY_NOT_CURRENT",
+  "secret_audit": {
+    "present": true,
+    "persisted": false,
+    "exact_matches": 0,
+    "binding": "CURRENT_TURN_EXPLICIT_STDIN_MEMORY_PIPE_EXISTING_FD_RESOLVER_NO_ARGV_ENV_FILE"
+  },
+  "dispatch_absent_proven_by": "zero transport observer calls AND unchanged sole fixture request/reservation ledger; no old dispatched request existed"
+}

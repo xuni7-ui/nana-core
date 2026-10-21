@@ -1,0 +1,37 @@
+{
+  "state": "PRIVATE_REVIEW_ENTRY_PREPARED_OFFLINE",
+  "current_state_projection": {
+    "revision": 10,
+    "source": {
+      "source_id": "project.mainline.current",
+      "relative_path": "PROJECT_BRAIN/09_STATE.md",
+      "projection_version": 1,
+      "sha256": "ac9f48f6fdf35cce7f96688a3116dc1ec61299ebb6bf398708cb1651cfc4dc6b"
+    },
+    "attribution": "EXTERNAL_PROJECT_STATUS_NOT_SUBJECT_EXPERIENCE"
+  },
+  "identity_id": "37281abf-18c0-4460-b1de-566d3e0734b7",
+  "primary_user_role": "EXPLICIT_SYNTHETIC_REFERENCE_ROLE_NOT_REAL_ACCOUNT",
+  "primary_user_salience": "HIGH",
+  "role_grants_authority": false,
+  "framing": {
+    "state": "REFRAME",
+    "judgment": "ALTERNATIVE",
+    "original_problem": "Fill the supposedly empty project source",
+    "alternative_problem": "Inspect the existing source API instead of overwriting it",
+    "source_memory_id": "553c471e-16c3-49ba-b485-5408d9c16994",
+    "cycle_id": "9d364798-721f-47af-b74d-5486da250696",
+    "suggestion_auto_adopted": false
+  },
+  "counts_unchanged": {
+    "identities": 1,
+    "grants": 1,
+    "actions": 42,
+    "goals": 12,
+    "cognitive_requests": 1
+  },
+  "inspector_read_only": true,
+  "provider_calls": 0,
+  "human_review": "NOT_RUN",
+  "transcript_saved": false
+}

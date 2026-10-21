@@ -1,0 +1,100 @@
+{
+  "level": "ACTUAL_OWNED_DEV_PROCESS_WITH_SYNTHETIC_SEMANTIC_PROVIDER",
+  "source_head": "629d2da203ae58286dce06302f8c204ac7ae5872",
+  "source_hashes_unchanged_and_match_commit": true,
+  "source_files_attested": 211,
+  "raw_result_sha256": "23016b8c9592a54ee90d8119afd77aca55f87b5fe747f91e5580e1357bd752a0",
+  "raw_result_bytes": 222614,
+  "identity_id": "37281abf-18c0-4460-b1de-566d3e0734b7",
+  "same_identity_through_all_stages": true,
+  "duration_seconds": 1800.3639599779854,
+  "samples": 55,
+  "resources": {
+    "rss_max_kib": 50240,
+    "threads_max": 1,
+    "fds_max": 11,
+    "queue_max": 2,
+    "pending_intentions_max": 5,
+    "db_bytes_first": 910122,
+    "db_bytes_last": 12221201
+  },
+  "fixture_semantic": {
+    "execution": "SYNTHETIC_LOOPBACK_NOT_LIVE",
+    "identity_id": "37281abf-18c0-4460-b1de-566d3e0734b7",
+    "request_id": "c5947753-1990-497f-8703-d7cc309f36d6",
+    "source_to_world_to_concern_to_c": true,
+    "before": "SUPPORTED_BELIEF",
+    "conflict": "CONFLICT",
+    "corrected": "SUPPORTED_BELIEF",
+    "withdrawn": "UNKNOWN",
+    "after_choice": "NO_ACTION",
+    "fixture_calls": 1,
+    "real_provider_calls": 0,
+    "no_duplicate_dispatch": true
+  },
+  "private_intent": {
+    "cycle_id": "26656413-a364-4d24-85c0-3be7e10b4a8d",
+    "intent_id": "b880a0a7-4950-45c3-8207-0f34bcabde98",
+    "record_id": "b6e62805-7378-4211-a267-acc7e01cb377",
+    "policy": "PRIVATE_FOR_NOW",
+    "withheld": true,
+    "inspector_read_only": true,
+    "no_action_or_grant_created": true
+  },
+  "manager": {
+    "original_normative": "ENDORSED",
+    "result": "BLOCK",
+    "no_action": true,
+    "revocation_no_old_replay": true
+  },
+  "conversation_refusal_not_cognitive_boundary": true,
+  "actions": 42,
+  "verified_actions": 42,
+  "owned_dev_effects": 14,
+  "no_duplicate_effect": true,
+  "actual_sigkill_restart": {
+    "same_identity": true,
+    "old_epoch": 2,
+    "new_epoch": 3,
+    "no_new_grant": true,
+    "no_action_replay": true
+  },
+  "backup_delete_propagation": true,
+  "restored_subject": {
+    "identity_id": "37281abf-18c0-4460-b1de-566d3e0734b7",
+    "grants_all_revoked": true,
+    "same_history": true,
+    "host_profiles_separately_supplied": true,
+    "provider_configuration_transferred": false
+  },
+  "database_counts": {
+    "identities": 1,
+    "actions": 42,
+    "experiences": 16,
+    "lessons": 2,
+    "strategy_assessments": 4,
+    "cognitive_requests": 1,
+    "open_concerns": 1
+  },
+  "experience_outcomes": {
+    "FAILURE": 4,
+    "SUCCESS": 12
+  },
+  "lesson_states": {
+    "SUSPENDED": 2
+  },
+  "strategy_assessments": {
+    "COUNTEREXAMPLE": 2,
+    "SUCCESS": 2
+  },
+  "code_skill_records": 6,
+  "private_record_lifecycles": {
+    "ACTIVE": 1
+  },
+  "real_provider_calls": 0,
+  "human_review": "NOT_RUN",
+  "live_semantic_combination_this_subject": "NOT_RUN",
+  "production": false,
+  "social_send": false,
+  "user_device": false
+}

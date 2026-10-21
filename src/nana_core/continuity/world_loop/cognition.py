@@ -248,7 +248,8 @@ class CognitionSession:
         if route_snapshot is not None and type(route_snapshot) is not RouteSnapshot:raise CoreError('ROUTE_SNAPSHOT_REQUIRED')
         self.route_snapshot,self._route_guard=route_snapshot,route_guard
         if not 1<=max_calls_per_day<=128:raise CoreError("COGNITION_QUOTA_BOUND")
-    def prepare(self,key,role,source_ids,*,budget=None,goal_id=None,capabilities=(),role_input=None,volatile_input=None):
+    def prepare(self,key,role,source_ids,*,budget=None,goal_id=None,capabilities=(),role_input=None,volatile_input=None,pinned_only=False):
+        if type(pinned_only) is not bool:raise CoreError('COGNITION_CONTEXT_SELECTION_INVALID')
         old=self.store.db.execute('SELECT * FROM cognitive_requests WHERE request_key=?',(key,)).fetchone()
         if old:return old['request_id']
         r=self.runtime;r.lease.assert_current();b=budget or CognitionBudget()
@@ -263,7 +264,7 @@ class CognitionSession:
         if count>=self.max_calls:raise CoreError('COGNITION_DAILY_BUDGET')
         if self.transport.remote and b.cost_ceiling_micro==0:raise CoreError('REMOTE_COST_RESERVATION_REQUIRED')
         req=ContextRequest(entity_id=r.config.entity_id,scopes=r.config.scopes,task_class='world.'+role.lower(),task='Interpret sourced context; proposals only; silence is valid.',task_privacy_class='PUBLIC',destination='DEVELOPMENT_REMOTE' if self.transport.remote else 'LOCAL_FIXTURE',max_input_tokens=b.input_tokens,output_reserve_tokens=b.output_tokens)
-        context=self.assembler.assemble(req,self.policy,capabilities=capabilities,limitations=('NO_AUTHORITY_IN_MODEL_OUTPUT',),required_memory_ids=source_ids,source_only=role=='MEDIA',pinned_only=bool(role_input and role_input.get('dialogue')),require_current_state=bool(role_input and role_input.get('dialogue',{}).get('project_status_query')))
+        context=self.assembler.assemble(req,self.policy,capabilities=capabilities,limitations=('NO_AUTHORITY_IN_MODEL_OUTPUT',),required_memory_ids=source_ids,source_only=role=='MEDIA',pinned_only=pinned_only or bool(role_input and role_input.get('dialogue')),require_current_state=bool(role_input and role_input.get('dialogue',{}).get('project_status_query')))
         selected={m for block in context.blocks for m in block.source_memory_ids}
         if not set(source_ids)<=selected:raise CoreError('COGNITION_SOURCE_OUTSIDE_CONTEXT_BUDGET')
         refs=tuple(dict.fromkeys((*source_ids,*(m for block in context.blocks for m in block.source_memory_ids))))

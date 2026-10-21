@@ -1,0 +1,78 @@
+{
+  "scope": "CURRENT_FIRST_LIFE_PROJECT_ONLY",
+  "authorized_new_calls": 8,
+  "conservative_reserved_limit_usd_micro": 400000,
+  "actual_billing": "UNKNOWN",
+  "retry": 0,
+  "fallback": 0,
+  "calls": [
+    {
+      "request_id": "23f972a4-ccd2-45a5-abe2-09da362c6c9d",
+      "role": "INTERPRET",
+      "provider_id": "first-life.deepseek",
+      "requested_model": "deepseek-flash",
+      "retry": 0,
+      "fallback": 0,
+      "state": "NO_VALID_REPLY",
+      "http": {
+        "request_body_sha256": "8e10a25ac1ac4a4e052dd00bb3c1e2d3a3167feb20dde822c8440f479a406363",
+        "raw_response_body_sha256": "004f5a61b50838980e53fc24a74fee6bfbbb819145d493213710c18f4e6aa626",
+        "response_http_status": 200,
+        "relay_response_id": "0e30bdde-fefc-4eb8-a22f-d5924d734e81",
+        "relay_request_id": null,
+        "request_started_at": "2026-10-21T06:08:50.403613+00:00",
+        "response_received_at": "2026-10-21T06:08:53.692175+00:00",
+        "latency_ms": 3288.995472015813
+      },
+      "allowlisted_metadata": {
+        "finish_reason": "stop",
+        "model_returned": "deepseek-flash",
+        "usage": {
+          "prompt_tokens": 6200,
+          "completion_tokens": 469,
+          "total_tokens": 6669
+        }
+      }
+    }
+  ],
+  "human_review": "NOT_RUN",
+  "semantic": {
+    "execution": "REAL_PROVIDER",
+    "request_id": "23f972a4-ccd2-45a5-abe2-09da362c6c9d",
+    "state": "FAILED",
+    "identity_id": "37281abf-18c0-4460-b1de-566d3e0734b7",
+    "source_memory_id": "f13933bc-4aed-4d16-bf10-1333110791c4",
+    "source_sha256": "fc9284adcb7237f3d20fe70ffee44cdf633771ed4180758fe4853d608b266818",
+    "retry": 0,
+    "fallback": 0,
+    "error_code": "PROVIDER_MALFORMED",
+    "qualification": "NOT_QUALIFIED_STRICT_RESPONSE_SCHEMA_REJECTED"
+  },
+  "identity_id": "37281abf-18c0-4460-b1de-566d3e0734b7",
+  "status": "PARTIAL_OR_UNKNOWN_STOPPED_NO_RETRY",
+  "secret_audit": {
+    "present": true,
+    "persisted": false,
+    "exact_matches": 0,
+    "binding": "CURRENT_TURN_EXPLICIT_STDIN_MEMORY_PIPE_EXISTING_FD_RESOLVER_NO_ARGV_ENV_FILE"
+  },
+  "provider": "DeepSeek",
+  "base_url": "https://api.deepseek.com",
+  "model": "deepseek-flash",
+  "timeout_ms": 15000,
+  "actual_new_calls": 1,
+  "retained_reservation_usd_micro": 50000,
+  "human_question_sent": false,
+  "upstream_identity": "PROVIDER_REPORTED_MODEL_NOT_INDEPENDENT_ATTESTATION",
+  "raw_response_retention": "DIGEST_AND_ALLOWLIST_ONLY_NO_RESPONSE_BODY",
+  "failure_attribution": "RESPONSE_PARSE_OR_SCHEMA_REJECTED_TRANSPORT_VS_MODEL_ROOT_CAUSE_NOT_CONFIRMED",
+  "new_authorization_remaining_calls_unspent": 7,
+  "post_process": {
+    "identity_id": "37281abf-18c0-4460-b1de-566d3e0734b7",
+    "requests": 2,
+    "source_request_state": "FAILED",
+    "new_goal_action_grant_counts_unchanged": true,
+    "foreign_key_violations": 0,
+    "quick_check": "ok"
+  }
+}

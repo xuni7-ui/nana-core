@@ -951,3 +951,18 @@ S1_TO_S9_FOUNDATION_QUALIFIED=YES；FOUNDATION_CLOSURE_COMPLETE=YES；READY_FOR_
 复用原LifeApplication/Runtime/Store/C/World/Concern/Hands/Growth/skill路径；新增源支持、原C事务内结构化私人意图与metadata-only Inspector，复用INTENTION typed envelope，schema13/43表不变。普通chat不自动取得私人内容；私人≠隐瞒Action/Grant/预算。
 开发入口与预检已实现，真实同一Subject组合与进程资格进行中。真人评审NOT_RUN；First-Life Integration尚未资格、First-Life Experience/Beta不升级。历史Provider额度已用尽，本任务新调用0，安全FD/Resolver及新小额授权门独立等待；不使用历史key。原24h staging与bundle不读写/重启。
 实现/复现入口：docs/nana_first_life_integration_v1_implementation.md、docs/nana_first_life_integration_v1_quickstart.md。生产/main/R045/真实社交/私人数据/用户设备不触碰。
+
+## FIRST-LIFE INTEGRATION V1 — completed offline work / open live-human gates
+
+- [implemented/tested] private dev entry+preflight and original-C private intent;
+  bounded metadata Inspector, explicit host-local current-state binding afterB8.
+- [actual owned process qualified]1800.36396sec same identity;42 verified Actions,
+ 14effects,16Experiences,2later SUCCESS+2COUNTEREXAMPLE assessments,2skill uses;
+  SIGKILL/backup/withdrawal/transfer all without duplicated effects/regrant.
+- [real provider attempted, NOT QUALIFIED]1new DeepSeek/deepseek-flash call;
+  HTTP200/usage visible, strict PROVIDER_MALFORMED; no retry/fallback/secondcall.
+- [NOT_RUN] selected human opener, naturalness/shared-life scoring, live dialogue
+  restart. Remaining7new call slots unspent; no automatic reuse/retry.
+- [open gate] diagnose compatibility offline before a new explicitly bounded
+  review attempt; current integration PARTIAL, First-Life/Beta NO.
+Existing Foundation and old24h qualification preserved; no new audit/soak.

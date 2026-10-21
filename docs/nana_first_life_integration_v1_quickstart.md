@@ -56,3 +56,31 @@ backup and fresh-host transfer. It does not qualify real naturalness. Inspect th
 Use that received home to resume the **same** Subject with host bindings separate.
 Human ratings use the existing `nana_core.life review` contract; only a real user
 can submit acceptance. No private transcript or automated PASS rating is generated.
+
+Before a formal review, `tools.nana_first_life_integration.review_prepare --home
+<received-home>` prepares that SAME restored Subject, not a fresh personality. It
+explicitly installs a synthetic reference PRIMARY_USER role through the existing
+trusted bootstrap service, tests independent source-grounded reframing, and pauses
+autonomous work. This is a typed reference binding, not a real platform account or
+imported personal relationship. Role source retains its existing PERSONAL data
+classification; PUBLIC/PROJECT model context does not silently declassify it.
+High relationship salience is demonstrated within C, without creating a Grant.
+
+The completed30min Subject is now at:
+`/workspace/nana-first-life/integration-30m-01/fresh-host`.
+Old `integration-30m-01/life` is retired; do not start it or copy its DB.
+
+```bash
+.venv/bin/python -m tools.nana_first_life_integration.dev inspect --home /workspace/nana-first-life/integration-30m-01/fresh-host
+.venv/bin/python -m tools.nana_first_life_integration.dev start --home /workspace/nana-first-life/integration-30m-01/fresh-host
+# Another terminal: PROJECT-only private chat, currently offline/limited.
+.venv/bin/python -m tools.nana_first_life_integration.dev chat --home /workspace/nana-first-life/integration-30m-01/fresh-host
+```
+
+Current instance is safely STOPPED/paused with old execution Grants revoked. Live
+strict semantic qualification failed despite HTTP200; do not count offline replies
+as human-naturalness PASS. Current key is not retained; later live startup requires
+explicit memory-only FD binding. Do not rerun the one-shot `live_review` script to
+replay the failed request. It intentionally rejects reuse/config reset. The seven
+unspent authorized call slots are not an automatic retry policy. Repair/validate
+strict-response compatibility before opening a new bounded review attempt.

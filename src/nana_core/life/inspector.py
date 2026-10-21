@@ -113,7 +113,7 @@ def inspect(home,*,scope,entity_id,privacy=('PUBLIC','PROJECT'),limit=16):
     try:
         db.execute('PRAGMA query_only=ON');db.execute('BEGIN')
         view=_ReadView(db,path,scope,tuple(privacy));records=RecordService(view)
-        sections={name:[] for name in ('runtime','goals','activities','concerns','needs','affect','relationship','interests','suppressed_deferred','decisions','experience','provenance','authority','unknown','provider','queue','source_lifecycle','health','private_intents','skills','world')}
+        sections={name:[] for name in ('runtime','goals','activities','concerns','needs','affect','relationship','interests','suppressed_deferred','decisions','experience','provenance','authority','unknown','provider','queue','source_lifecycle','health','private_intents','skills','world','learning')}
         def item(section,category,reference,state,record=None,as_of=None,refs=()):
             if len(sections[section])<limit:sections[section].append(InspectorItem(category=category,reference=reference,state=_token(state),record_id=record,as_of_us=as_of,source_memory_ids=tuple(refs)[:32]))
         def visible(rid):
@@ -132,7 +132,7 @@ def inspect(home,*,scope,entity_id,privacy=('PUBLIC','PROJECT'),limit=16):
                     if process_identity(lease['pid'])==(lease['process_start'],lease['boot_id']):resources=values
             except (OSError,ValueError):pass
         # Indexed finite record candidates; only typed state fields leave process.
-        kinds={'INTENTION':'activities','OPEN_CONCERN':'concerns','INTENTION_DISPOSITION':'suppressed_deferred','CONSTRAINT_OUTCOME':'authority','EXPERIENCE':'experience','LESSON':'experience','ASSERTION':'interests','CODE_SKILL':'authority','DISCLOSURE_DECISION':'activities'}
+        kinds={'INTENTION':'activities','OPEN_CONCERN':'concerns','INTENTION_DISPOSITION':'suppressed_deferred','CONSTRAINT_OUTCOME':'authority','ASSERTION':'interests','CODE_SKILL':'authority','DISCLOSURE_DECISION':'activities'}
         marks=','.join('?' for _ in privacy)
         for kind,section in kinds.items():
             rows=db.execute('SELECT record_id,created_at_us FROM continuity_records WHERE record_kind=? AND scope=? AND privacy_class IN ('+marks+") AND lifecycle='ACTIVE' ORDER BY created_at_us DESC LIMIT ?",(kind,scope,*privacy,limit)).fetchall()
@@ -155,11 +155,17 @@ def inspect(home,*,scope,entity_id,privacy=('PUBLIC','PROJECT'),limit=16):
                     value=body.get(block)
                     if type(value) is dict:item('decisions',block.upper(),row['cycle_id'],value.get(key),rid,row['created_at_us'],refs)
         for row in db.execute('SELECT c.request_id,c.state,c.record_id,c.created_at_us FROM cognitive_requests c JOIN continuity_records r ON c.record_id=r.record_id WHERE r.scope=? AND r.privacy_class IN ('+marks+') ORDER BY c.created_at_us DESC LIMIT ?',(scope,*privacy,limit)):
-            if visible(row['record_id']):item('provider','COGNITION_REQUEST',row['request_id'],row['state'],row['record_id'],row['created_at_us'])
+            # Operational attempt state survives source erasure; no proposal/body
+            # is revived and this is never a claim of current semantic support.
+            item('provider','COGNITION_ATTEMPT',row['request_id'],row['state'],row['record_id'],row['created_at_us'])
         # Goals carry no privacy column: expose only IDs/state linked by a visible
         # current adopted-goal record. Never render body_json/objective/surprise.
         for row in db.execute("SELECT g.goal_id,g.state,r.record_id FROM goals g JOIN continuity_records r ON r.record_id=json_extract(g.body_json,'$.record_id') AND r.record_kind='ADOPTED_GOAL' WHERE r.scope=? ORDER BY g.rowid DESC LIMIT ?",(scope,limit)):
             if visible(row['record_id']):item('goals','GOAL',row['goal_id'],row['state'],row['record_id'])
+        for row in db.execute('SELECT e.experience_id,e.record_id,e.outcome,e.created_at_us FROM experiences e JOIN continuity_records r ON r.record_id=e.record_id WHERE r.scope=? AND r.privacy_class IN ('+marks+') ORDER BY e.created_at_us DESC LIMIT ?',(scope,*privacy,limit)):
+            if visible(row['record_id']):item('experience','VERIFIED_OUTCOME',row['experience_id'],row['outcome'],row['record_id'],row['created_at_us'])
+        for row in db.execute('SELECT l.lesson_id,l.record_id,l.state FROM lessons l JOIN continuity_records r ON r.record_id=l.record_id WHERE r.scope=? AND r.privacy_class IN ('+marks+') ORDER BY l.rowid DESC LIMIT ?',(scope,*privacy,limit)):
+            if visible(row['record_id']):item('learning','METHOD_LESSON',row['lesson_id'],row['state'],row['record_id'])
         for row in db.execute('SELECT DISTINCT task_class FROM experiences ORDER BY created_at_us DESC LIMIT 8'):
             need=project_need(view,row[0],scope=scope,privacy_classes=privacy)
             item('needs','EXPERIENCE_NEED',digest(row[0])[:16],need.state,need.source_record_ids[0] if need.source_record_ids else None)
@@ -177,9 +183,10 @@ def inspect(home,*,scope,entity_id,privacy=('PUBLIC','PROJECT'),limit=16):
             item('private_intents','RISK',value['intent_id'],value['risk_class'],value['record_id'])
             item('private_intents','AUTHORITY_REQUIRED',value['intent_id'],value['authority_need'],value['record_id'])
         for row in db.execute('SELECT b.* FROM world_beliefs b JOIN continuity_records r ON b.record_id=r.record_id WHERE r.scope=? AND r.privacy_class IN ('+marks+') ORDER BY b.known_at_us DESC LIMIT ?',(scope,*privacy,limit)):
-            if visible(row['record_id']):item('world','WORLD_BELIEF',row['belief_id'],row['state'],row['record_id'],row['known_at_us'])
+            item('world','WORLD_BELIEF',row['belief_id'],row['state'] if visible(row['record_id']) else 'UNKNOWN_SUPPORT_WITHDRAWN',row['record_id'],row['known_at_us'])
         for row in db.execute("SELECT record_id FROM continuity_records WHERE scope=? AND record_kind='CODE_SKILL' AND lifecycle='ACTIVE' ORDER BY created_at_us DESC LIMIT ?",(scope,limit)):
-            if visible(row['record_id']):item('skills','CODE_SKILL',row['record_id'],'CURRENT_SUPPORT',row['record_id'])
+            head=view.one('continuity_records',row['record_id'])
+            if head:item('skills','CODE_SKILL',row['record_id'],'CURRENT_SUPPORT' if visible(row['record_id']) else 'UNAVAILABLE_OR_RETIRED',row['record_id'])
         for row in db.execute('SELECT action_id,state FROM actions ORDER BY rowid DESC LIMIT ?',(limit,)):
             item('authority','ACTION',row['action_id'],row['state'])
         for row in db.execute('SELECT grant_id,revoked FROM grants ORDER BY rowid DESC LIMIT ?',(limit,)):

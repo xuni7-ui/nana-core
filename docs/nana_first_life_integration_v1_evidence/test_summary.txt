@@ -1,0 +1,9 @@
+FINAL FULL REPOSITORY: pytest tests -q: {'tests': 1373, 'failures': 0, 'errors': 0, 'skipped': 12, 'passed': 1361, 'failed': 0, 'seconds': 302.14}
+FOCUSED: first_life_integration + readonly Inspector + current project context: {'tests': 40, 'failures': 0, 'errors': 0, 'skipped': 0, 'passed': 40, 'failed': 0, 'seconds': 6.67}
+Final full1361 contains all latest Core changes. Extra audit helper test added after collection passed in final focused40; it does not modify Core/runtime semantics.
+Default pytest selection is an explicitly smaller subset (588 passed/1 skipped114.79s), not reported as full.
+Earlier full retained1354 pass/1 ffmpeg MEDIA_MALFORMED_OR_UNSUPPORTED fail/12skip309.04s; isolated recheck1 pass10.05s, subsequent full1356 pass/12skip304.57s. Root cause of transient media failure unconfirmed, guards unchanged.
+Final skips11 opt-in live-screen + E12; no actual provider in regression.
+New explicit live qualification1 call HTTP200, strict PROVIDER_MALFORMED, no retry/fallback. Human review NOT_RUN.
+Framework/master/63-criteria consistency and manifests checked separately; application test success does not elevate human/First-Life/Beta status.
+Five final warnings are existing record_property/JUnit xunit2 compatibility notices; no failed application checks. Pytest wall302.17s, JUnit suite302.14s.

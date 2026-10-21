@@ -1371,3 +1371,27 @@ S1_TO_S9_FOUNDATION_QUALIFIED=YES；FOUNDATION_CLOSURE_COMPLETE=YES；READY_FOR_
 复用原LifeApplication/Runtime/Store/C/World/Concern/Hands/Growth/skill路径；新增源支持、原C事务内结构化私人意图与metadata-only Inspector，复用INTENTION typed envelope，schema13/43表不变。普通chat不自动取得私人内容；私人≠隐瞒Action/Grant/预算。
 开发入口与预检已实现，真实同一Subject组合与进程资格进行中。真人评审NOT_RUN；First-Life Integration尚未资格、First-Life Experience/Beta不升级。历史Provider额度已用尽，本任务新调用0，安全FD/Resolver及新小额授权门独立等待；不使用历史key。原24h staging与bundle不读写/重启。
 实现/复现入口：docs/nana_first_life_integration_v1_implementation.md、docs/nana_first_life_integration_v1_quickstart.md。生产/main/R045/真实社交/私人数据/用户设备不触碰。
+
+## 2026-10-21 — First-Life integration observations / no constitutional change
+
+1. B8 correctly excludes host current-state bindings; review host explicitly
+   rebinds the approved bounded PROJECT header. No second memory, no full brain
+   document injection, no Codex logs as Subject personal experience.
+2. Scope-specific semantic interpretation may pin sources through original
+   ContextAssembler. Backward-compatible prepare(pinned_only=True) excludes
+   unrelated conflicts; required disputed/deleted/private sources retain all
+   rejection/complete-conflict/privacy guards. Defaults unchanged. This fixes a
+   proven before-dispatch integration block, not model/authority semantics.
+3. Before-dispatch continuation requires observer0 and unchanged original
+   reservation ledger; no reset/replay/renewal. After the one actual HTTP200
+   strict-invalid reply, stop; retain failure/budget, no fallback.
+4. Operational provider failure metadata may survive source deletion; it is not
+   semantic evidence or permission to resurrect content. Typed outcome/lesson
+   projections replace misleading generic UNKNOWN, still read-only.
+5. Synthetic PRIMARY_USER role expresses high relation importance in C without
+   Grant. PERSONAL anchor is not declassified for PUBLIC/PROJECT model use.
+6.30min pin is629d2da/211files; subsequent Inspector/context-selection deltas have
+   their own targeted/regression evidence. Do not call the final delta30min-qualified.
+7. HTTP200/model/usage is not semantic or human quality qualification. Current
+   live malformed reply root cause transport-vs-model unconfirmed; user opener
+   not sent, so no adverse human naturalness conclusion. First-Life PARTIAL/NO.

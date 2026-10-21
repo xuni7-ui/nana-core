@@ -1,0 +1,267 @@
+{
+  "read_only": true,
+  "db_and_privacy_hashes_unchanged": true,
+  "identity_id": "37281abf-18c0-4460-b1de-566d3e0734b7",
+  "coverage": "BOUNDED_METADATA_ONLY",
+  "sections": {
+    "runtime": {
+      "items_in_bounded_snapshot": 1,
+      "states": {
+        "STOPPED": 1
+      },
+      "example": {
+        "category": "LEASE_EPOCH",
+        "state": "STOPPED",
+        "reference": "9"
+      }
+    },
+    "goals": {
+      "items_in_bounded_snapshot": 9,
+      "states": {
+        "COMPLETED": 8,
+        "FAILED": 1
+      },
+      "example": {
+        "category": "GOAL",
+        "state": "COMPLETED",
+        "reference": "37a53ba3-5a00-4aa2-bcaf-f7b93c7fa1cb"
+      }
+    },
+    "activities": {
+      "items_in_bounded_snapshot": 16,
+      "states": {
+        "GOAL_CANDIDATE": 1,
+        "MEMORY_CANDIDATE": 15
+      },
+      "example": {
+        "category": "INTENTION",
+        "state": "GOAL_CANDIDATE",
+        "reference": "99f86f7b-ca72-4a54-865c-7101f3fa77de"
+      }
+    },
+    "concerns": {
+      "items_in_bounded_snapshot": 1,
+      "states": {
+        "UNKNOWN": 1
+      },
+      "example": {
+        "category": "COVERAGE",
+        "state": "UNKNOWN",
+        "reference": "none"
+      }
+    },
+    "needs": {
+      "items_in_bounded_snapshot": 4,
+      "states": {
+        "UNKNOWN": 2,
+        "OPEN": 2
+      },
+      "example": {
+        "category": "EXPERIENCE_NEED",
+        "state": "UNKNOWN",
+        "reference": "751d3ae147862fc0"
+      }
+    },
+    "affect": {
+      "items_in_bounded_snapshot": 1,
+      "states": {
+        "OPEN": 1
+      },
+      "example": {
+        "category": "SOCIAL_APPETITE",
+        "state": "OPEN",
+        "reference": "derived"
+      }
+    },
+    "relationship": {
+      "items_in_bounded_snapshot": 6,
+      "states": {
+        "UNKNOWN": 6
+      },
+      "example": {
+        "category": "familiarity",
+        "state": "UNKNOWN",
+        "reference": "derived"
+      }
+    },
+    "interests": {
+      "items_in_bounded_snapshot": 1,
+      "states": {
+        "UNKNOWN": 1
+      },
+      "example": {
+        "category": "COVERAGE",
+        "state": "UNKNOWN",
+        "reference": "none"
+      }
+    },
+    "suppressed_deferred": {
+      "items_in_bounded_snapshot": 16,
+      "states": {
+        "SUBJECT_ENDORSED": 16
+      },
+      "example": {
+        "category": "INTENTION_DISPOSITION",
+        "state": "SUBJECT_ENDORSED",
+        "reference": "8ae3bdc6-f5bb-47e8-a10c-49ba6a03b69e"
+      }
+    },
+    "decisions": {
+      "items_in_bounded_snapshot": 16,
+      "states": {
+        "ALTERNATIVE": 1,
+        "CONTINUE_PROJECT": 1,
+        "ENDORSED": 5,
+        "REMEMBER": 5,
+        "MAINTAIN": 4
+      },
+      "example": {
+        "category": "JUDGMENT",
+        "state": "ALTERNATIVE",
+        "reference": "9d364798-721f-47af-b74d-5486da250696"
+      }
+    },
+    "experience": {
+      "items_in_bounded_snapshot": 13,
+      "states": {
+        "SUCCESS": 10,
+        "FAILURE": 3
+      },
+      "example": {
+        "category": "VERIFIED_OUTCOME",
+        "state": "SUCCESS",
+        "reference": "993ffe18-2095-4c33-b473-c3bf9f485f9d"
+      }
+    },
+    "provenance": {
+      "items_in_bounded_snapshot": 16,
+      "states": {
+        "CURRENT_SUPPORT": 16
+      },
+      "example": {
+        "category": "INTENTION",
+        "state": "CURRENT_SUPPORT",
+        "reference": "99f86f7b-ca72-4a54-865c-7101f3fa77de"
+      }
+    },
+    "authority": {
+      "items_in_bounded_snapshot": 16,
+      "states": {
+        "PASS": 16
+      },
+      "example": {
+        "category": "CONSTRAINT_OUTCOME",
+        "state": "PASS",
+        "reference": "b598e6b4-03d3-4b31-9c32-e91605928ea2"
+      }
+    },
+    "unknown": {
+      "items_in_bounded_snapshot": 1,
+      "states": {
+        "UNKNOWN": 1
+      },
+      "example": {
+        "category": "COVERAGE",
+        "state": "UNKNOWN",
+        "reference": "none"
+      }
+    },
+    "provider": {
+      "items_in_bounded_snapshot": 2,
+      "states": {
+        "FAILED": 1,
+        "PROPOSED": 1
+      },
+      "example": {
+        "category": "COGNITION_ATTEMPT",
+        "state": "FAILED",
+        "reference": "23f972a4-ccd2-45a5-abe2-09da362c6c9d"
+      }
+    },
+    "queue": {
+      "items_in_bounded_snapshot": 1,
+      "states": {
+        "DONE": 1
+      },
+      "example": {
+        "category": "STATE_COUNT",
+        "state": "DONE",
+        "reference": "152"
+      }
+    },
+    "source_lifecycle": {
+      "items_in_bounded_snapshot": 16,
+      "states": {
+        "ACTIVE": 5,
+        "DELETED": 11
+      },
+      "example": {
+        "category": "MEMORY",
+        "state": "ACTIVE",
+        "reference": "f13933bc-4aed-4d16-bf10-1333110791c4"
+      }
+    },
+    "health": {
+      "items_in_bounded_snapshot": 1,
+      "states": {
+        "READ_ONLY": 1
+      },
+      "example": {
+        "category": "INSPECTOR_READ",
+        "state": "READ_ONLY",
+        "reference": "snapshot"
+      }
+    },
+    "private_intents": {
+      "items_in_bounded_snapshot": 4,
+      "states": {
+        "CONSIDERED": 1,
+        "PRIVATE_FOR_NOW": 1,
+        "NONE": 1,
+        "FRESH_REALIZATION_GATES": 1
+      },
+      "example": {
+        "category": "CREATIVE_IDEA",
+        "state": "CONSIDERED",
+        "reference": "b880a0a7-4950-45c3-8207-0f34bcabde98"
+      }
+    },
+    "skills": {
+      "items_in_bounded_snapshot": 1,
+      "states": {
+        "UNKNOWN": 1
+      },
+      "example": {
+        "category": "COVERAGE",
+        "state": "UNKNOWN",
+        "reference": "none"
+      }
+    },
+    "world": {
+      "items_in_bounded_snapshot": 3,
+      "states": {
+        "UNKNOWN_SUPPORT_WITHDRAWN": 3
+      },
+      "example": {
+        "category": "WORLD_BELIEF",
+        "state": "UNKNOWN_SUPPORT_WITHDRAWN",
+        "reference": "71d9bf07-e5f0-490e-97f9-2c25d92db645"
+      }
+    },
+    "learning": {
+      "items_in_bounded_snapshot": 2,
+      "states": {
+        "SUSPENDED": 2
+      },
+      "example": {
+        "category": "METHOD_LESSON",
+        "state": "SUSPENDED",
+        "reference": "29849ac3-1002-4cba-b3ae-316d6cb8b33e"
+      }
+    }
+  },
+  "private_activity": "PRESENT_CONTENT_WITHHELD",
+  "raw_content_exposed": false,
+  "live_runtime_active": false,
+  "schema": 13
+}

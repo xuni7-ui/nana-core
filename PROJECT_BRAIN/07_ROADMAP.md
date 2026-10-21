@@ -885,3 +885,16 @@ S1_TO_S9_FOUNDATION_QUALIFIED=YES；FOUNDATION_CLOSURE_COMPLETE=YES；READY_FOR_
 复用原LifeApplication/Runtime/Store/C/World/Concern/Hands/Growth/skill路径；新增源支持、原C事务内结构化私人意图与metadata-only Inspector，复用INTENTION typed envelope，schema13/43表不变。普通chat不自动取得私人内容；私人≠隐瞒Action/Grant/预算。
 开发入口与预检已实现，真实同一Subject组合与进程资格进行中。真人评审NOT_RUN；First-Life Integration尚未资格、First-Life Experience/Beta不升级。历史Provider额度已用尽，本任务新调用0，安全FD/Resolver及新小额授权门独立等待；不使用历史key。原24h staging与bundle不读写/重启。
 实现/复现入口：docs/nana_first_life_integration_v1_implementation.md、docs/nana_first_life_integration_v1_quickstart.md。生产/main/R045/真实社交/私人数据/用户设备不触碰。
+
+## FIRST-LIFE INTEGRATION V1 — controlled development PARTIAL (2026-10-21)
+
+S1–S9 Foundation remains qualified; Master/63 definitions/Matrix unchanged. Same
+reference Subject completed30min integration: own work/rest, private intent,
+Manager wall, real owned Verify/Experience, later learning/skill use, actual
+SIGKILL, backup/delete and lawful same-identity transfer. No new Domain/Stage.
+GLOBAL_STAGE H; First-Life is the integration gate, not new Foundation. New live
+DeepSeek request HTTP200 failed strict schema, no World/Concern/C promotion and
+no human opener sent. Gate PARTIAL, human NOT_RUN, experience/Beta not READY.
+Next bounded gap: offline strict-response compatibility diagnostics then actual
+human review, not S3/S6 reconstruction. No automatic new call/production stage.
+Report: docs/nana_first_life_integration_v1_implementation.md.

@@ -1,0 +1,11 @@
+{
+  "purpose": "FINAL_EXACT_LEAK_AUDIT_ONLY",
+  "provider_calls": 0,
+  "secret_audit": {
+    "present": true,
+    "persisted": false,
+    "exact_matches": 0,
+    "scope": "TRACKED_DIFF_PENDING_MISSION_SOURCE_EVIDENCE_HOME_DB_JSON_TASK_LOGS_XML_BUNDLE_EXCLUDED",
+    "binding": "CURRENT_TURN_EXPLICIT_STDIN_MEMORY_PIPE_EXISTING_FD_RESOLVER_NO_ARGV_ENV_FILE"
+  }
+}

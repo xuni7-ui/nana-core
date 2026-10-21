@@ -2269,3 +2269,30 @@ S1_TO_S9_FOUNDATION_QUALIFIED=YES；FOUNDATION_CLOSURE_COMPLETE=YES；READY_FOR_
 复用原LifeApplication/Runtime/Store/C/World/Concern/Hands/Growth/skill路径；新增源支持、原C事务内结构化私人意图与metadata-only Inspector，复用INTENTION typed envelope，schema13/43表不变。普通chat不自动取得私人内容；私人≠隐瞒Action/Grant/预算。
 开发入口与预检已实现，真实同一Subject组合与进程资格进行中。真人评审NOT_RUN；First-Life Integration尚未资格、First-Life Experience/Beta不升级。历史Provider额度已用尽，本任务新调用0，安全FD/Resolver及新小额授权门独立等待；不使用历史key。原24h staging与bundle不读写/重启。
 实现/复现入口：docs/nana_first_life_integration_v1_implementation.md、docs/nana_first_life_integration_v1_quickstart.md。生产/main/R045/真实社交/私人数据/用户设备不触碰。
+
+## 2026-10-21 — First-Life V1 same-Subject process evidence / live gate PARTIAL
+
+Changed: bounded review preparation/live FD execution/evidence tools; same original
+CognitionSession source pinning; Inspector typed Experience/Lesson, operational
+provider and withdrawn-world metadata. Rebound host-only current-state header
+afterB8; no second memory or authority. Normal dev branch checkpoint629d2da
+retained; no reset/amend/rebase/force; old bundle remains unread/untracked.
+
+Why: combination exposed lost host binding, unrelated disputed ambient context
+before dispatch, and generic Inspector payload fields returning UNKNOWN. Minimum
+wiring fixes preserve required-source conflict/privacy/Grant/Manager boundaries.
+
+Verified: same reference identity37281abf actual1800.36sec,42verified Actions/14
+owned effects,4failure/12success Experiences,2later-method SUCCESS then2counterexamples,
+2bounded skill uses then source retirement, actual SIGKILL/backup/delete/B8 transfer.
+211run source files matched629d2da atstart/end; later metadata/context changes tested
+separately. Focused/final offline totals in evidence/test_summary.txt. Initial full
+media failure/recheck retained. User-approved new live request1 HTTP200/3289ms,
+usage6200/469/model deepseek-flash; strict PROVIDER_MALFORMED, no promotion, no
+retry/fallback; reservation50000USDmicro, billingUNKNOWN. Secret exact audit0,
+resolver process exited. Human opener not sent; human reviewNOT_RUN.
+
+Level: implemented+tested+owned-process-qualified; real selected semantic attempt
+FAILED_NOT_QUALIFIED. First-Life integrationPARTIAL, experience/integration/BetaNO.
+Master/Matrix/63criteria/schema13/43tables/deps unchanged; main/R045/production,
+original24h staging, private history, real social sends and user devices untouched.
