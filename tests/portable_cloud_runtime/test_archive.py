@@ -40,3 +40,12 @@ def test_bootstrap_manifest_detects_file_and_symlink_tamper(tmp_path):
  with pytest.raises(ValueError):m.verify(tmp_path)
  p.unlink();p.symlink_to(source)
  with pytest.raises(ValueError):m.verify(tmp_path)
+
+
+def test_member_count_rejected_before_destination_creation(tmp_path):
+ p=tmp_path/'headers.tar.gz'
+ with tarfile.open(p,'w:gz') as tar:
+  for i in range(4097):tar.addfile(tarfile.TarInfo('nana-first-life-portable-v1/file-'+str(i)))
+ dest=tmp_path/'dest'
+ with pytest.raises(ValueError,match='ARCHIVE_MEMBERS_DENIED'):unpack(p,dest,hashlib.sha256(p.read_bytes()).hexdigest())
+ assert not dest.exists()

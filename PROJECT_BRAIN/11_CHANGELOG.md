@@ -2339,3 +2339,14 @@ changing Master/criteria. Added installed A→B process runner including duplica
 start, restart, actual SIGKILL/stale socket, synthetic UNKNOWN preservation,
 read-only Inspector, private intent and backup deletion closure; final rehearsal
 still pending. No real calls or real current-Subject writes.
+
+### Portable final extraction and route compatibility
+
+Safe unpacker now validates tar members incrementally before destination creation,
+so compressed oversized/member-count attacks cannot allocate an unbounded header
+list. Added a4097-member negative case. Targeted portable/B8/Inspector/review tests
+pass; no shared runtime delta. Rehearsal health now correlates the launched PID,
+and existing First-Life review preparation accepts a valid project-state source
+under a later workstream rather than freezing the old task label. Added test package
+marker after full-collection filename collision; no test was deleted. Final full
+Core run remains in progress; publish only after it passes. No paid calls.

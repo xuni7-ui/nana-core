@@ -76,7 +76,7 @@ with LifeApplication(Path(sys.argv[1]),bootstrap_grant=True) as app:
             if p.poll() is not None:raise RuntimeError('installed runtime exited')
             if (b/'var/subject/control.sock').exists():
                 h=value(b,'health')
-                if h['process_ready']:return p,h
+                if h['process_ready'] and h['runtime']['lease']['pid']==p.pid:return p,h
             time.sleep(.08)
         raise RuntimeError('installed runtime not ready')
     try:

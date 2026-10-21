@@ -30,7 +30,9 @@ def prepare(home):
     with LifeApplication(home) as app:
         app.pause();r=app.runtime;s=r.store;before={t:len(s.all(t)) for t in ('identities','grants','actions','goals','cognitive_requests')}
         current=ProjectStateSource(cfg.project_root,cfg.current_project_state).projection(scopes=('project-work',),privacy_classes=('PUBLIC','PROJECT'),now_us=r.clock.utc_now_us())
-        assert current and current['state']['workstream']=='FIRST_LIFE_INTEGRATION_QUALIFICATION_V1'
+        # A later legitimate workstream does not invalidate the same Subject's
+        # host-bound project projection or force the old First-Life route label.
+        assert current and current['attribution']=='EXTERNAL_PROJECT_STATUS_NOT_SUBJECT_EXPERIENCE'
         anchor=primary_user_view(s,scope='project-work',privacy_classes=r.config.privacy_classes)
         if anchor is None:
             authority=SubjectBootstrapAuthority()

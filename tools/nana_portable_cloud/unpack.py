@@ -8,12 +8,14 @@ def unpack(archive,destination,expected):
     if archive.is_symlink() or archive.stat().st_size>MAX or hashlib.sha256(archive.read_bytes()).hexdigest()!=expected:raise ValueError('ARCHIVE_INTEGRITY')
     if destination.exists() or destination.resolve()!=destination or not destination.parent.is_dir():raise ValueError('CLEAN_DESTINATION_REQUIRED')
     with tarfile.open(archive,'r:gz') as tar:
-        items=tar.getmembers();seen=set();total=0
-        for member in items:
+        items=[];seen=set();total=0
+        # Validate incrementally: getmembers() could allocate an unbounded
+        # decompressed header list before enforcing the member/size ceilings.
+        for member in tar:
             p=PurePosixPath(member.name);total+=member.size
             if (not p.parts or p.parts[0]!='nana-first-life-portable-v1' or p.is_absolute() or '..' in p.parts or '\\' in member.name
-                or member.name in seen or not (member.isfile() or member.isdir()) or member.size>MAX or total>MAX or len(items)>4096):raise ValueError('ARCHIVE_MEMBERS_DENIED')
-            seen.add(member.name)
+                or member.name in seen or not (member.isfile() or member.isdir()) or member.size>MAX or total>MAX or len(items)>=4096):raise ValueError('ARCHIVE_MEMBERS_DENIED')
+            seen.add(member.name);items.append(member)
         destination.mkdir(mode=0o700)
         for member in items:
             rel=PurePosixPath(member.name).parts[1:]
