@@ -49,3 +49,13 @@ def test_member_count_rejected_before_destination_creation(tmp_path):
  dest=tmp_path/'dest'
  with pytest.raises(ValueError,match='ARCHIVE_MEMBERS_DENIED'):unpack(p,dest,hashlib.sha256(p.read_bytes()).hexdigest())
  assert not dest.exists()
+
+
+def test_total_decompression_bound_covers_hidden_metadata(tmp_path):
+ import gzip
+ p=tmp_path/'bomb.tar.gz'
+ with gzip.open(p,'wb') as f:
+  for _ in range(69):f.write(b'\0'*(1024*1024))
+ dest=tmp_path/'dest'
+ with pytest.raises(ValueError,match='ARCHIVE_DECOMPRESSION_BOUND'):unpack(p,dest,hashlib.sha256(p.read_bytes()).hexdigest())
+ assert not dest.exists()

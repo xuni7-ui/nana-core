@@ -1,5 +1,5 @@
 """Trusted stdlib unpacker. Supply the independently verified archive SHA256."""
-import argparse,hashlib,os,tarfile
+import argparse,hashlib,os,tarfile,gzip,io
 from pathlib import Path,PurePosixPath
 MAX=64*1024*1024
 
@@ -7,7 +7,11 @@ def unpack(archive,destination,expected):
     archive=Path(archive);destination=Path(destination).absolute()
     if archive.is_symlink() or archive.stat().st_size>MAX or hashlib.sha256(archive.read_bytes()).hexdigest()!=expected:raise ValueError('ARCHIVE_INTEGRITY')
     if destination.exists() or destination.resolve()!=destination or not destination.parent.is_dir():raise ValueError('CLEAN_DESTINATION_REQUIRED')
-    with tarfile.open(archive,'r:gz') as tar:
+    # Bound the entire decompressed stream, including hidden PAX/GNU metadata
+    # parsed by tarfile before it yields an ordinary member.
+    with gzip.open(archive,'rb') as stream:raw=stream.read(MAX+4*1024*1024+1)
+    if len(raw)>MAX+4*1024*1024:raise ValueError('ARCHIVE_DECOMPRESSION_BOUND')
+    with tarfile.open(fileobj=io.BytesIO(raw),mode='r:') as tar:
         items=[];seen=set();total=0
         # Validate incrementally: getmembers() could allocate an unbounded
         # decompressed header list before enforcing the member/size ceilings.

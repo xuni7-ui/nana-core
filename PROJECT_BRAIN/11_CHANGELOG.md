@@ -2350,3 +2350,24 @@ and existing First-Life review preparation accepts a valid project-state source
 under a later workstream rather than freezing the old task label. Added test package
 marker after full-collection filename collision; no test was deleted. Final full
 Core run remains in progress; publish only after it passes. No paid calls.
+
+## 2026-10-21 — portable cloud runtime final delivery
+
+Published reproducible code-only214-member archive (~3MB), runtime source4bc4c05,
+SHA256 in evidence. Two clean offline venv installs and actual installed HostA→B
+B8 migration passed, same identity/private intent, old start rejected/Grants revoked,
+retained synthetic UNKNOWN, duplicate start/event, new PID/epoch4→5→6, real SIGKILL,
+stale socket recovery, emergency stop, read-only Inspector and backup deletion
+closure. Additional installed PTY/schema/corruption/stale-owner contracts passed.
+Focused27/full1407passed0fail12skip; new member-count guard tested in focused after
+full collection, no shipped Core delta. Retained initial failure summaries, no test
+weakened/deleted. Artifact credential/private/Codex-path scan0. Current actual Nana
+not exported/started/modified, old two live slots intact. Master/63/schema13/43tables,
+main/R045/production/private history/real social/devices/old bundle untouched.
+
+### Final distribution decompression ceiling
+
+Bound total gzip output before tar parsing, including hidden PAX/GNU headers; retain
+file/member/traversal/symlink checks and add a compressed zero-stream negative case.
+This changes only the stdlib unpacker, no shipped Core. New final artifact/source
+pin and corresponding qualification will supersede candidate4bc4c05 metadata.
