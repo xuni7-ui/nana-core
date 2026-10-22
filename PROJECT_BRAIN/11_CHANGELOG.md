@@ -2430,3 +2430,14 @@ transfer (withdrawn opportunities remain hidden, not incorrectly expected visibl
 HTTP attempts now use original WORLD_INTAKE jobs, including UNKNOWN/cross-poll and
 B8 export coverage; no new core_meta namespace or Subject table. Goal lifecycle
 and configured idle intake tests PASS. Final source pin/regression/portable follow.
+
+### Open Life initial full failure — atomic SIGKILL cut publication
+
+Initial exact-source full:1461passed/1failed/12skipped. Failure was an empty cut
+marker in existing cloud REFLECTION recovery qualification: parent observed file
+creation and killed writer before the cycle ID was written. Three isolated
+repeats passed; full traceback identifies the marker publication race, not loss
+of a committed Subject cycle. Fixed the developer crash worker to write+fsync a
+temporary marker then atomic replace+directory fsync. Original C/runtime and all
+recovery assertions unchanged. Keep initial failure evidence; final full rerun
+required. Runtime/portable source remains0504050 byte-for-byte.

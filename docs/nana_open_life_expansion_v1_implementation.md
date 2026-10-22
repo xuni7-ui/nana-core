@@ -90,3 +90,16 @@ provider, human experience, external cloud or real social qualification.
 The 60-virtual-day run is new finite attention growth qualification, distinct from
 old Foundation24h. Its actual wall runtime was about8.5 seconds, not60 days.
 Final pinned-source full regression, portable install and evidence are pending.
+
+## Initial full-regression failure retained
+
+Initial clean-source full:1461passed /1failed /12skipped,405.88s. Existing
+cloud-life REFLECTION cut test read an empty marker: worker directly created
+its marker before writing cycle_id, allowing the parent to kill it too early.
+The traceback explicitly shows `one('subject_cycles', '')`; this is not evidence
+that a committed nonempty cycle ID disappeared. Three isolated repeats passed.
+The developer-only worker now writes/fsyncs a temp marker, atomically publishes
+it and fsyncs the directory. No C transaction, Core invariant, test assertion,
+timeout or R045 implementation was weakened. Final full rerun must be green.
+The runtime source/artifact0504050 stays identical; the later harness commit
+qualifies test-protocol hardening and does not change shipped business code.
