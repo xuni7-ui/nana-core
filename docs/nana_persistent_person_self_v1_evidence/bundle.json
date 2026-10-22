@@ -1,0 +1,9 @@
+{
+  "archive": "/workspace/nana-deliverables/person-self-v1-qualified/nana-first-life-portable-v1.tar.gz",
+  "sha256": "b501cd7f73eb9471073275ce1fd64bb9a5bd9d2e8c535044bee24a06df9268d5",
+  "source_commit": "e74f46a9a14c002b405444e11d1f2a562a096174",
+  "bundle_files": 218,
+  "new_provider_calls": 0,
+  "bytes": 3015486,
+  "deterministic_rebuild_equal": true
+}

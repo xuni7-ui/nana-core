@@ -1,0 +1,15 @@
+{
+  "scope": "All mission changed/new source, tests, tools, Brain and evidence; packaged text scanned during build",
+  "credential_literal_matches": 0,
+  "real_credentials_read_or_used": 0,
+  "no_secret_environment_search": true,
+  "old_untracked_bundle_not_input": true,
+  "old_untracked_bundle_staged": false,
+  "private_history_import": false,
+  "actual_received_subject_changed": false,
+  "production_operations": 0,
+  "main_unchanged": true,
+  "R045_files_changed": false,
+  "new_provider_calls": 0,
+  "scope_does_not_claim_audit_of_unknown_production_or_arbitrary_old_logs": true
+}

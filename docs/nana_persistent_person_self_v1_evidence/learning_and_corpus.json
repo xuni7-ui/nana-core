@@ -1,0 +1,23 @@
+{
+  "initial_user_provided_rejected_reports": 2,
+  "independent_initial_review_episodes": 1,
+  "real_accepted_samples": 0,
+  "initial_reports_automatically_imported_into_received_subject": false,
+  "source": "Explicit mission section16 and user-provided mobile excerpts; original timestamp/build/Subject unverified",
+  "schema_storage_retrieval": "PASS",
+  "original_Experience_Lesson_path": "PASS",
+  "single_turn_personality_overwrite": false,
+  "synthetic_pads_human_threshold": false,
+  "two_distinct_occurrence_threshold": "PASS",
+  "restart_later_unrelated_render": "PASS_SYNTHETIC_LOOPBACK_WIRING_NOT_HUMAN_QUALITY",
+  "counterexample_inhibition": "PASS",
+  "suspension_rollback": "PASS_ORIGINAL_LESSON_TRANSITIONS",
+  "feedback_source_selection": "EXACT_CURRENT_REPORT_NOT_FIRST_ANCESTOR",
+  "bound_review_privacy": "INHERITED_BEFORE_CAPTURE",
+  "copied_body_crash_safety": "BODY_ONLY_IN_ATOMIC_PARENT_DEPENDENT_RECORD",
+  "fake_memory_measured_in_human_use": "NOT_RUN",
+  "heldout_cases": 20,
+  "heldout_human_reviews": "NOT_RUN",
+  "fine_tune_or_training_job": "NOT_RUN",
+  "new_paid_calls": 0
+}

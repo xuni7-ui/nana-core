@@ -1,0 +1,7 @@
+Final runtime source: e74f46a9a14c002b405444e11d1f2a562a096174
+Focused new suite: {'passed': 26, 'failed': 0, 'skipped': 0, 'seconds': 9.568}
+Related subset of same full execution (not additive): {'passed': 102, 'failed': 0, 'skipped': 0, 'execution': 'SUBSET_OF_FINAL_FULL_RUN_NOT_ADDITIONAL_EXECUTION'}
+Full repository: {'passed': 1435, 'failed': 0, 'skipped': 12, 'seconds': 332.029}
+12 opt-in skips: 11 live-screen + 1 E12.
+Earlier full:1432 pass/1 missing environmental launcher/12 skip, repaired using actual system Python/SQLite. Next full1433/0/12 covered 7a62478. Final full covers source e74f46a after observed ancestry/privacy hardening.
+Human/live qualification: NOT_RUN. Real provider calls:0.

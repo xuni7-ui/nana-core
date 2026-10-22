@@ -2398,3 +2398,8 @@ Connected the already-tested finite unfinished-topic opportunity into the existi
 A new 80-turn retained-speech test actually reproduced PERSON_SELF_SUPPORT_BOUND: full source ancestry accumulated despite a small recent-turn window. Fixed by selecting optional speech/episode ancestry within 32 roots, preserving stable adopted facts and all existing deletion edges; omitted detail is explicit. Transient recent speech has an additional 16-root selection bound. No privacy dependency is severed.
 
 Bound feedback now selects its exact current report, inherits source privacy, and stores copied transcript/note text only in the atomic parent-dependent record; an injected interruption after evidence capture cannot strand copied wording. Unbound project-supplied review cases are not projected as the Subject's own lived episodes. 41 affected tests and the two dangerous-boundary checks PASS. Earlier full1433/12skip qualified the preceding source; final full regression/package pins must be refreshed for this source.
+
+
+## HANDOFF — Persistent Person-Self / Lived Language V1 · 2026-10-22
+
+Final source e74f46a9a14c002b405444e11d1f2a562a096174; new focused 26, final full 1435/0fail/12skip; related subset 102. Final portable SHA b501cd7f73eb9471073275ce1fd64bb9a5bd9d2e8c535044bee24a06df9268d5; two offline installs, official transfer, actual SIGKILL and installed Self/S8 restart PASS. Preserved initial environmental failure and actual long-history/privacy regressions with their fixes. Provider0, no old credentials, current actual Subject/old UI/main/R045/production/private history/social untouched. Human review remains NOT_RUN; no First-Life/Beta upgrade.

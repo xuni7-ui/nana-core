@@ -1,0 +1,12 @@
+{
+  "scope": "ACTUAL_INSTALLED_CODE_OWNED_SYNTHETIC_SUBJECT",
+  "canonical_name_revision": "PASS_GENERIC_MIRA",
+  "C_adoption": "PASS",
+  "same_identity_restart": "PASS",
+  "original_S8_policy_restart": "PASS",
+  "provider_calls": 0,
+  "grants_created": 0,
+  "foreign_keys": "CLEAN",
+  "repo_needed_at_runtime": false,
+  "human_review": "NOT_RUN"
+}

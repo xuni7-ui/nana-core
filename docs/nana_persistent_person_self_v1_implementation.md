@@ -53,3 +53,15 @@ Semantic interpretation and C adoption remain bounded contracts; this does not i
 Current actual Nana/old mobile web runtime is not restarted, migrated or silently upgraded. Live review requires a separately configured safe credential and new bounded paid-call authorization. Human First-Life/Beta status is not upgraded. Phase H is a technical human-review entry, followed by STOP DEVELOPMENT for user review.
 
 Final test, package, source pins and handoff status are recorded in the adjacent evidence and status files.
+
+## Post-integration hardening
+
+An additional 80-turn retained conversation reproduced the old 64-root ancestry failure. Optional speech/episode context is now selected within 32 support roots and transient history within 16, with explicit omission metadata. All stored privacy/deletion edges remain intact; omitted optional wording is not rewritten into independent truth. Stable identity/role selection is separate from ordinary recency. A genuinely oversized stable support set fails for explicit review rather than silently losing authority. This is bounded contextual recall, not full historical transcript recall.
+
+A bound review can depend on older reviews already present in its reply context. Verification now binds the exact current report source_reference, not the first feedback ancestor. Bound review memory/evidence contains rating metadata and body placeholders; full copied wording/notes are committed only inside the atomic dependency-bound sample record. Source privacy is inherited before capture. A fault injected between capture and memory linking demonstrates that no copied transcript remains after source withdrawal. External/unbound review reports are usable study material but excluded from own-lived episodes.
+
+The compact Self `primary_user` boolean reports whether a PRIMARY_USER binding is visible in that filtered projection. False must not be presented as proof that the user is unimportant or that no private binding exists. The full anchor/recall/coverage metadata must be used; private relationship history is never relabelled PROJECT to satisfy a remote review route.
+
+## Final qualification
+
+Final code source `e74f46a9a14c002b405444e11d1f2a562a096174`. New focused26 PASS; full1435 PASS/0failed/12skipped; related102 are a subset of that same full run. Historical missing-launcher failure and reproduced long-conversation failure are preserved in evidence. Final archive SHA256 `b501cd7f73eb9471073275ce1fd64bb9a5bd9d2e8c535044bee24a06df9268d5`, 3015486 bytes,218files; deterministic rebuild equal. Two fresh installed venvs, official migration/SIGKILL and independent installed Self/S8 restart checks PASS. Current human/live status and required fields: [status](nana_persistent_person_self_v1_status.md).

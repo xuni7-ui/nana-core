@@ -1,0 +1,34 @@
+{
+  "evidence": "SOURCE_INSPECTION_AND_REPRODUCIBLE_OWNED_FIXTURE",
+  "actual_mobile_web_build": "NOT_IDENTIFIED",
+  "actual_mobile_web_subject": "NOT_IDENTIFIED",
+  "actual_mobile_web_database_inspected": false,
+  "chain": [
+    {
+      "stage": "storage",
+      "finding": "Default receipts plus transient user-only history did not retain assistant speech or adopted role transitions",
+      "source": "src/nana_core/life/application.py"
+    },
+    {
+      "stage": "retrieval",
+      "finding": "Raw capture-all intentionally absent; high-stability role needed separate source-backed indexed retrieval",
+      "source": "src/nana_core/continuity/person_self.py"
+    },
+    {
+      "stage": "context",
+      "finding": "Pinned dialogue omitted the existing PERSISTENT_SELF; large optional projections could be wholly omitted",
+      "source": "src/nana_core/continuity/context.py"
+    },
+    {
+      "stage": "C",
+      "finding": "CHAT ordinarily maps to WATCH/SOCIAL_INTERACTION; now distinct quoted conventions are evaluated/committed by the same C",
+      "source": "src/nana_core/continuity/subject/loop.py"
+    },
+    {
+      "stage": "render",
+      "finding": "No fabricated relationship facts lacked a corresponding adopted convention; current source-backed convention and C decision are now separate from biology/authority",
+      "source": "src/nana_core/continuity/world_loop/cognition.py"
+    }
+  ],
+  "not_concluded": "Cannot infer why a particular old server lost a particular historical statement without its sanitized binding/selection trace"
+}

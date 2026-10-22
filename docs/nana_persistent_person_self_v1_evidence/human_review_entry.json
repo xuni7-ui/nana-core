@@ -1,0 +1,25 @@
+{
+  "entry": "Original private Unix IPC / CLI; ./nana chat --retain-shared-life",
+  "implemented": true,
+  "technical_fixture_contract": "PASS",
+  "actual_mobile_web_build": "NOT_IDENTIFIED",
+  "actual_mobile_web_subject": "NOT_IDENTIFIED",
+  "clarification_requested_without_blocking_offline_work": true,
+  "current_received_subject_modified": false,
+  "live_review_ready": false,
+  "live_review_blockers": [
+    "Identify intended actual surface/Subject binding",
+    "New bounded paid-review allowance",
+    "Explicit safe FD/Resolver credential binding"
+  ],
+  "current_build_human_review": "NOT_RUN",
+  "historical_user_feedback": "USER_PROVIDED_REJECTED_EXCERPTS_PRESERVED",
+  "automatic_First_Life_or_Beta_upgrade": false,
+  "allowed_review_privacy": [
+    "PUBLIC",
+    "PROJECT"
+  ],
+  "PERSONAL_remote_authorized": false,
+  "social_send": false,
+  "production_deployment": false
+}

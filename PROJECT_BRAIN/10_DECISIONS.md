@@ -1451,3 +1451,8 @@ current Subject migration, private history or production; same declared dev scop
 ## CURRENT — Persistent Person-Self / Lived Language V1 · 2026-10-22
 
 Explicit social convention is not biological fact or execution authority. Retention is opt-in per turn; reported assistant speech is not truth. Source-aware context must include stable self or fail before paid dispatch. Use existing record kinds/tables and original Experience/Lesson, no schema migration. Human reports and project synthetic contrasts cannot manufacture each other’s qualification. Additional work selected from the observed contradictions: trusted generic instance profile, context-budget visibility, and finite unfinished-topic opportunity; not a second emotional brain.
+
+
+## HANDOFF — Persistent Person-Self / Lived Language V1 · 2026-10-22
+
+Optional speech ancestry is bounded without severing stored privacy edges; stable Self stays separate. Bound feedback inherits privacy and stores copied text atomically with dependencies; current report source must be exact. External review study material is not own lived history. Historical release manifests are checked at their committed release, while the new manifest attests this workstream.

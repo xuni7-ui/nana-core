@@ -1,0 +1,22 @@
+{
+  "schema_version": 13,
+  "physical_business_tables_including_events_artifacts_memory_terms": 43,
+  "keyed_row_tables": 40,
+  "new_tables": 0,
+  "schema_migration": false,
+  "new_dependencies": 0,
+  "foreign_key_check": "CLEAN_IN_FRESH_RESTORED_AND_INSTALLED_TESTS",
+  "master_sha256": "fe6efe121a05145b44178d5ec26b99430a28e873fca8d1b80f16671c65e5133c",
+  "foundation_criteria": 63,
+  "foundation_definition_changed": false,
+  "one_subject_per_lineage": true,
+  "one_store": true,
+  "one_subject_loop": true,
+  "one_runtime_owner": true,
+  "model_is_resource_not_identity": true,
+  "relationship_creates_authority": false,
+  "manager_overwrites_subject_desire": false,
+  "real_provider_calls": 0,
+  "private_history_import": false,
+  "production_changed": false
+}

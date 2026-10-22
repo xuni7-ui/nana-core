@@ -1,0 +1,25 @@
+{
+  "scope": "OWNED_SYNTHETIC_CORE_AND_INSTALLED_BUNDLE",
+  "immediate": "PASS",
+  "restart": "PASS",
+  "T_plus_1h": "PASS_VIRTUAL_TIME",
+  "T_plus_1d": "PASS_VIRTUAL_TIME",
+  "actual_human_day_later": "NOT_RUN",
+  "official_SubjectPackage_transfer": "PASS",
+  "two_cognition_configurations": "PASS_SYNTHETIC_LOOPBACK",
+  "unrelated_topic": "PASS",
+  "source_correction": "PASS",
+  "source_withdrawal": "PASS_NO_OLD_ROLE_REVIVAL",
+  "assistant_turn_retention": "PASS_EXPLICIT_OPT_IN_ONLY",
+  "eighty_turn_source_horizon": "PASS_BOUNDED_SELECTION_ALL_PRIVACY_EDGES_RETAINED",
+  "actual_new_SIGKILL": "PASS",
+  "no_duplicate_experience": "PASS",
+  "UNKNOWN_no_retry": "PASS",
+  "test_sources": [
+    "tests/person_self/test_continuity.py",
+    "tests/person_self/test_dialogue_integration.py",
+    "tests/person_self/test_history_bound.py",
+    "tests/person_self/test_process_recovery.py",
+    "tests/person_self/test_portability.py"
+  ]
+}

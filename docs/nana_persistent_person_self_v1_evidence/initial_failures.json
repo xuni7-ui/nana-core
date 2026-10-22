@@ -1,0 +1,24 @@
+{
+  "full_regression_initial": {
+    "passed": 1432,
+    "failed": 1,
+    "skipped": 12
+  },
+  "failure_kind": "ENVIRONMENT_MISSING_HISTORICAL_TEMPORARY_LAUNCHER",
+  "node": "tests/nana_shadow/test_r041_client.py::test_forbidden_dependencies_in_actual_old_sqlite_process",
+  "evidence": "FileNotFoundError: [Errno 2] No such file or directory: '/tmp/nana-bootstrap-build/compat-python-old'",
+  "repair": "Restored /tmp/nana-bootstrap-build/compat-python-old symlink to actual /usr/bin/python3; actual Python3.13.5/SQLite3.46.1 measured, no spoof/no test modification",
+  "targeted_recheck": ".                                                                        [100%]\n1 passed in 0.19s",
+  "new_feature_initial_failures": [
+    "Identity source fixture exceeded its 6144-byte bound; moved profile revision implementation into separate small generic module",
+    "New logical record kinds are not allowed by frozen v13; reused existing record kinds with typed person_kind and target IDs instead of changing schema",
+    "Accept reloads a serialized request without transient text; quote checking now binds to the explicitly retained current user memory",
+    "Full self block could be omitted under conservative byte budget; stable-core fallback now marks omitted detail and missing minimum self blocks dispatch"
+  ],
+  "no_known_core_invariant_failure_waived": true,
+  "additional_observed_hard_failure": "F                                                                        [100%]\n=================================== FAILURES ===================================\n____ test_eighty_retained_turns_do_not_exhaust_source_horizon_or_lose_role _____\ntests/person_self/test_history_bound.py:17: in test_eighty_retained_turns_do_not_exhaust_source_horizon_or_lose_role\n    before=project(r.store,entity_id='project-user',scope='project-work',privacy=('PROJECT',),topic='daily')\n           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^\nsrc/nana_core/continuity/person_self.py:191: in project\n    raise CoreError('PERSON_SELF_SUPPORT_BOUND')\nE   nana_core.contracts.CoreError: PERSON_SELF_SUPPORT_BOUND\n==========================",
+  "additional_fix": "Preserve all privacy edges; bound optional replay ancestry and transient history while keeping stable conventions",
+  "source_before_ancestry_hardening": "7a624781395c0fa58e1df14612b9cb0696ddf780",
+  "source_after_hardening": "e74f46a9a14c002b405444e11d1f2a562a096174",
+  "final_core_failures_waived": 0
+}
