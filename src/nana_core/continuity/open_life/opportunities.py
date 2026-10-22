@@ -69,6 +69,10 @@ class OpportunityQueue:
     def opportunity(self):
         r=self.runtime;s=self.store;now=r.clock.utc_now_us()
         if r.work.paused:return None
+        retired=s.db.execute("SELECT j.job_id,j.revision FROM jobs j JOIN continuity_records c ON c.record_id=j.record_id WHERE j.work_kind='LIFE_OPPORTUNITY' AND j.state='WAITING' AND c.lifecycle!='ACTIVE' LIMIT 32").fetchall()
+        if retired:
+            with s.transaction('life.retired_opportunity_closed',{'count':len(retired)}) as tx:
+                for item in retired:tx.update('jobs',item['job_id'],state='CANCELLED',revision=item['revision']+1,updated_at_us=now)
         rows=s.db.execute("SELECT j.* FROM jobs j JOIN continuity_records c ON c.record_id=j.record_id WHERE j.work_kind='LIFE_OPPORTUNITY' AND j.state='WAITING' AND c.lifecycle='ACTIVE' ORDER BY j.due_at_us,j.rowid LIMIT 32").fetchall()
         viable=[]
         for row in rows:

@@ -1,6 +1,6 @@
 """Open, source-backed attention cues. Data, not Nana's will or authority."""
 from typing import Literal
-from pydantic import Field
+from pydantic import Field,model_serializer
 from ...contracts import DTO,CoreError
 from ..memory import MemoryService
 from ..records import RecordService
@@ -37,6 +37,11 @@ class ConcernCue(DTO):
     not_before_us: int = Field(default=0,ge=0)
     valid_until_us: int | None = Field(default=None,ge=0)
     learning_value: LearningValue | None = None
+    @model_serializer(mode='wrap')
+    def compatible_wire(self,handler):
+        value=handler(self)
+        if self.learning_value is None:value.pop('learning_value',None)
+        return value
 
 
 def cues_from(store,memory_ids,*,scope,privacy_classes):

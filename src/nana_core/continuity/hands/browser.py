@@ -4,7 +4,7 @@ HTML navigation is read-only. Form submission is only world.publish through the
 existing Kernel/HandsEffectContext. Verify uses original Unix query + disk, not
 the HTTP acknowledgement. No arbitrary URL, login, JavaScript or browser agent.
 """
-import argparse,html,json,os,socket,struct,urllib.parse,urllib.request
+import argparse,html,json,os,urllib.request,subprocess,sys,selectors
 from http.server import BaseHTTPRequestHandler,HTTPServer
 from pathlib import Path
 from ...contracts import DTO,CoreError
@@ -18,6 +18,28 @@ class BrowserEndpoint(DTO):
     port:int
     pid:int
     start:str
+
+
+class OwnedBrowser:
+    """Trusted development host constructor; owns only its new bridge child."""
+    def __init__(self,profile):
+        boot="import runpy,sys;sys.path.insert(0,sys.argv.pop(1));runpy.run_module('nana_core.continuity.hands.browser',run_name='__main__')"
+        self.proc=subprocess.Popen([sys.executable,'-I','-c',boot,str(Path(__file__).resolve().parents[3]),'--profile',str(profile)],stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,env={'PATH':os.defpath,'LANG':'C.UTF-8','TZ':'UTC'})
+        try:
+            with selectors.DefaultSelector() as selector:
+                selector.register(self.proc.stdout,selectors.EVENT_READ)
+                if not selector.select(5):raise CoreError('BROWSER_START_TIMEOUT')
+                self.endpoint=BrowserEndpoint.model_validate_json(self.proc.stdout.readline(1024))
+                if self.endpoint.pid!=self.proc.pid:raise CoreError('BROWSER_OWNER_CHANGED')
+        except BaseException:self.close();raise
+    def close(self):
+        if self.proc.poll() is None:
+            self.proc.terminate()
+            try:self.proc.wait(2)
+            except subprocess.TimeoutExpired:self.proc.kill();self.proc.wait(2)
+        if self.proc.stdout:self.proc.stdout.close()
+    def __enter__(self):return self
+    def __exit__(self,*args):self.close()
 
 
 class OwnedBrowserPort(OwnedApplicationPort):

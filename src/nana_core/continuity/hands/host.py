@@ -19,7 +19,8 @@ class OwnedApplication:
         self.root=Path(root).absolute();self.root.mkdir(mode=0o700,parents=True,exist_ok=False)
         workspace=self.root/'application';workspace.mkdir(mode=0o700)
         manifest=self.root/'tasks.json';manifest.write_text(json.dumps([t.model_dump(mode='json') for t in (tasks or default_tasks())]));manifest.chmod(0o600)
-        self._log=(self.root/'application.log').open('w');self.proc=subprocess.Popen([sys.executable,'-m','nana_core.continuity.hands.server','--workspace',str(workspace),'--tasks',str(manifest)],stdin=subprocess.DEVNULL,stdout=self._log,stderr=self._log)
+        boot="import runpy,sys;sys.path.insert(0,sys.argv.pop(1));runpy.run_module('nana_core.continuity.hands.server',run_name='__main__')"
+        self._log=(self.root/'application.log').open('w');self.proc=subprocess.Popen([sys.executable,'-I','-c',boot,str(Path(__file__).resolve().parents[3]),'--workspace',str(workspace),'--tasks',str(manifest)],stdin=subprocess.DEVNULL,stdout=self._log,stderr=self._log,env={'PATH':os.defpath,'LANG':'C.UTF-8','TZ':'UTC'})
         self.profile=workspace/'profile.json'
         start=time.monotonic()
         while not self.profile.exists():

@@ -35,7 +35,7 @@ class ResearchService:
         job=self.runtime.store.one('jobs',opportunity_id)
         if not job or job['state']!='DONE':raise CoreError('RESEARCH_C_JUDGMENT_REQUIRED')
         head=self.records.read(job['record_id']);b=head['payload']
-        if b.get('behavior')!='EXPLORE' or b.get('normative')!='ENDORSED':raise CoreError('RESEARCH_NOT_ENDORSED')
+        if b.get('behavior')!='EXPLORE' or b.get('normative')!='ENDORSED' or not self.records.current_support(head['record_id']):raise CoreError('RESEARCH_NOT_ENDORSED')
         if not 1<=len(semantic_memory_ids)<=4:raise CoreError('RESEARCH_SOURCE_BUDGET')
         independent=set()
         for mid in semantic_memory_ids:
@@ -45,7 +45,7 @@ class ResearchService:
             if (claim.get('entity_id'),claim.get('predicate'))!=(entity,predicate):raise CoreError('RESEARCH_CORRELATION_DENIED')
             for parent in self.runtime.store.db.execute("SELECT parent_id FROM memory_dependencies WHERE memory_id=? AND parent_kind='MEMORY'",(mid,)):
                 source=self.records.memory.read(parent[0]);body=json.loads(source['text'])
-                if body.get('source_id') in self.intake.sources:independent.add(body['source_id'])
+                if body.get('source_id') in self.intake.sources and source['authority']=='DIRECT' and source['source_provenance']['source_kind']=='DIRECT_OBSERVATION':independent.add(body.get('source_digest'))
         world=WorldModel(self.runtime.store,scopes=(head['scope'],),privacy_classes=self.runtime.config.privacy_classes).view(entity,predicate)
         state='CONTRADICTION' if world.state=='CONFLICT' else 'ENOUGH_FOR_BOUNDED_BELIEF' if world.state=='SUPPORTED_BELIEF' and len(independent)>=2 else 'INSUFFICIENT_EVIDENCE'
         key='research-result:'+digest([opportunity_id,sorted(semantic_memory_ids)])

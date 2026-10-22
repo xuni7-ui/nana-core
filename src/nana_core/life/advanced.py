@@ -6,11 +6,35 @@ from ..continuity.open_life.opportunities import OpportunityQueue,LifeOpportunit
 from ..continuity.subject.opportunities import ConcernCue
 from ..continuity.world_loop.world import WorldModel
 from ..presence.contracts import DAY,SECOND
+from ..continuity.open_life.sources import WorldIntake
+from ..continuity.world_loop.world import SourcedClaim
+import json
 
 
 class AdvancedLife:
     def __init__(self,app,previous):
         self.app,self.previous=app,previous;self.queue=OpportunityQueue(app.runtime);self.next_at=0
+        self.intake=WorldIntake(app.runtime,app.config.world_source_root or app.config.project_root,app.config.world_sources,scope=app.runtime.config.scopes[0])
+        self.next_source_at=0;self.source_health={}
+
+    def intake_slice(self):
+        r=self.app.runtime;now=r.clock.utc_now_us()
+        if now<self.next_source_at:return
+        self.next_source_at=now+self.app.config.world_source_interval_seconds*SECOND
+        for source in self.app.config.world_sources:
+            try:
+                mid=self.intake.read(source.source_id,observation_id=str(now//(self.app.config.world_source_interval_seconds*SECOND)))
+                if source.semantic_format=='SOURCED_CLAIM_JSON':
+                    raw=json.loads(RecordService(r.store).memory.read(mid)['text'])
+                    claim=SourcedClaim.model_validate_json(json.dumps(json.loads(raw['content'])['world_claim']))
+                    self.intake.interpret(mid,claim)
+                else:
+                    topic='source.'+digest(source.source_id)[:24]
+                    self.queue.offer(LifeOpportunity(kind='WORLD_CHANGE',topic=topic,source_memory_ids=(mid,),cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='CURIOSITY',topic_key=topic,possible_behaviors=('EXPLORE','WATCH','REST'),resource_class='ORDINARY'),expires_at_us=now+DAY))
+                self.source_health[source.source_id]='SOURCE_READ_NOT_TRUTH_QUALIFICATION'
+            except (CoreError,ValueError,KeyError) as exc:
+                if isinstance(exc,CoreError) and exc.code in {'RUNTIME_LEASE_LOST','PRIVACY_ANCHOR_INVALID','PRIVACY_ANCHOR_UNAVAILABLE'}:raise
+                self.source_health[source.source_id]=exc.code if isinstance(exc,CoreError) else 'SEMANTIC_FEED_INVALID'
 
     def collect(self):
         r=self.app.runtime;s=r.store;records=RecordService(s);now=r.clock.utc_now_us()
@@ -41,7 +65,7 @@ class AdvancedLife:
         r=self.app.runtime;now=r.clock.utc_now_us()
         if r.work.paused:return None
         if now>=self.next_at:
-            self.next_at=now+60*SECOND;self.collect()
+            self.next_at=now+60*SECOND;self.intake_slice();self.collect()
         # First settle a previous original judgment. Existing goal steps retain
         # priority in LivingWork; this service is reached only at its idle point.
         activity=self.queue.opportunity()
@@ -50,4 +74,4 @@ class AdvancedLife:
     def view(self):
         from ..continuity.open_life.projections import advanced_view
         r=self.app.runtime
-        return {**advanced_view(r.store,scope=r.config.scopes[0],privacy=r.config.privacy_classes),'opportunities':self.queue.view()}
+        return {**advanced_view(r.store,scope=r.config.scopes[0],privacy=r.config.privacy_classes),'opportunities':self.queue.view(),'world_source_health':dict(self.source_health)}

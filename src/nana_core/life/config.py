@@ -10,6 +10,7 @@ from ..continuity.privacy import _json_object
 from .surfaces import SurfaceBinding
 from ..continuity.current_state import ProjectStateBinding
 from ..continuity.hands.browser import BrowserEndpoint
+from ..continuity.open_life.sources import IntakeSource
 
 class LifeConfig(DTO):
     schema_version:Literal[1]=1
@@ -36,6 +37,9 @@ class LifeConfig(DTO):
     surface_bindings:tuple[SurfaceBinding,...]=Field(default=(),max_length=16)
     shared_presence:bool=False
     advanced_life:bool=False
+    world_sources:tuple[IntakeSource,...]=Field(default=(),max_length=16)
+    world_source_root:str|None=None
+    world_source_interval_seconds:int=Field(default=300,ge=30,le=86400)
     max_state_mb:int=Field(default=256,ge=1,le=4096)
     max_state_growth_mb_per_hour:int=Field(default=32,ge=1,le=1024)
     storage_review_seconds:int=Field(default=60,ge=1,le=3600)

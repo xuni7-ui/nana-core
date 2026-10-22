@@ -133,6 +133,10 @@ def decide(event, situation, appraisal, motives):
         return ('FOCUS_NOW',Judgment(stance='REFLECT',reason='An independently recorded experience is eligible for reflection',source_ids=sources),
             Intention(kind='REFLECTION',purpose='Examine the recorded outcome without inventing new history',slot_key='reflect-'+situation.reflection_experience_id,
                 source_ids=sources,self_generated=self_generated,behavior='REFLECT'))
+    if situation.goal_review_id and event.goal_review and event.goal_review.purpose=='LIFECYCLE':
+        behavior='REST' if situation.cue and situation.cue.cognitive_load=='HIGH' else 'WITHDRAW' if situation.cue and 'WITHDRAW' in directions(situation.cue) else 'CONTINUE_PROJECT'
+        return ('DEFER' if behavior=='REST' else 'FOCUS_NOW',Judgment(stance='DEFER' if behavior=='REST' else 'AGREE',reason='Review continued ownership of a sourced goal; pause, continue or abandon without replaying its plan',source_ids=sources),
+            Intention(kind='NO_ACTION' if behavior in {'REST','WITHDRAW'} else 'GOAL_CANDIDATE',purpose='Review the existing goal lifecycle without creating a new goal or permission',slot_key='lifecycle-'+situation.goal_review_id,source_ids=sources,self_generated=self_generated,behavior=behavior))
     if situation.goal_review_id and not (situation.cue and situation.cue.cognitive_load=='HIGH'):
         return ('FOCUS_NOW',Judgment(stance='ALTERNATIVE',reason='A checked new method warrants reconsidering a supported goal; no old action is retried',source_ids=sources,lesson_ids=situation.lesson_ids),Intention(kind='GOAL_CANDIDATE',purpose='Reconsider the plan using independently checked learning',slot_key='revise-'+situation.goal_review_id,source_ids=sources,self_generated=self_generated,behavior='LEARN'))
     if situation.memory_review_id:

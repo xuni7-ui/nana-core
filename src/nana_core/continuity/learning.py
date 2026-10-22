@@ -270,7 +270,10 @@ class ExperienceService:
         rule = self._rule(row)
         compiler_version=PlanCompiler.version
         from .open_agency.learning import MethodStrategyRule
-        if isinstance(rule,MethodStrategyRule):
+        from .open_life.meta_learning import LearningStrategyLesson,checks as meta_checks
+        if isinstance(rule,LearningStrategyLesson):
+            checks=meta_checks(self.records,rule);compiler_version='PRACTICE_ONLY_HYPOTHESIS_SELECTION_V1'
+        elif isinstance(rule,MethodStrategyRule):
             trial=self.records.read(rule.trial_record_id)
             data=trial['payload'];results=data.get('results',{})
             checks={'source_backed_trial':trial['record_kind']=='LEARNING_TRIAL' and self.records.current_support(rule.trial_record_id),
@@ -344,6 +347,9 @@ class ExperienceService:
 
     def _rule(self, row):
         payload=self.records.read(row['record_id'])['payload']['rule']
+        if payload.get('kind')=='LEARNING_STRATEGY':
+            from .open_life.meta_learning import LearningStrategyLesson
+            return LearningStrategyLesson.model_validate_json(canonical(payload))
         if payload.get('kind')=='CONTEXTUAL_EXPRESSION':return ExpressionRule.model_validate_json(canonical(payload))
         if payload.get('kind')=='METHOD_SELECTION':
             from .open_agency.learning import MethodStrategyRule

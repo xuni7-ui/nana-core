@@ -2408,3 +2408,25 @@ Final source e74f46a9a14c002b405444e11d1f2a562a096174; new focused 26, final ful
 ## CURRENT — Open Life Expansion V1 · 2026-10-22
 
 Advanced Growth S2–S9; construction continues independently of Track B Human Review. Reuse original C/D/World/Hands/G/I; add finite opportunities, explicit owned intake/research and sealed Browser transport. Initial targeted13/related75 PASS; final integrated/recovery/portable qualification pending. No paid calls, old credential, production/private/social/device effect. See docs/nana_open_life_expansion_v1_implementation.md.
+
+### Open Life recovery and original G/lifecycle checkpoint
+
+Implemented durable HTTP occurrence/no-retry fencing, configured owned source
+intake at original idle safe point, same-C goal lifecycle review, original G
+practice-selection meta lesson with separate verified experiment, source-aware
+Inspector projections and backward-compatible default wire fields. Reason:
+continuous life must remain finite, recoverable and sourced; one Experience may
+not be reused as a second independent learning occurrence. Tested: targeted35 at
+prior checkpoint, new goal lifecycle and runtime intake independently PASS;
+concentrated affected suite now running. Actual owned lifecycle debug complete,
+final clean-source evidence pending; paid/social/private/production0.
+
+### Open Life stage2 source checkpoint
+
+New targeted26 PASS before final Browser UNKNOWN injection; original affected156
+PASS as a development checkpoint. Actual owned debug lifecycle includes the
+separate G strategy experiment, skill retirement and source-withdrawal/official
+transfer (withdrawn opportunities remain hidden, not incorrectly expected visible).
+HTTP attempts now use original WORLD_INTAKE jobs, including UNKNOWN/cross-poll and
+B8 export coverage; no new core_meta namespace or Subject table. Goal lifecycle
+and configured idle intake tests PASS. Final source pin/regression/portable follow.

@@ -512,3 +512,14 @@ One new explicitly authorized DeepSeek PROJECT call, HTTP200, same original iden
 ## CURRENT — 原S4-C06最终资格收口
 
 原645899b开发run实际86405.272秒/exit0。1464资源采样、42唯一Action、14真实owned-dev effects、SIGKILL epoch2→3、独立DB quick/FK与fresh-host迁移均通过；原writer退役，恢复端Grant撤销，backup仅quarantine review。见S4_FINAL。S1–S9全部Foundation Qualified，63项61 qualified/2高级unknown。Master字节、criterion文字/ID/分母不变。上文历史CURRENT和运行中快照保留为历史；First-Life/Human/Beta未升级，未启动新任务。
+
+## Advanced Growth evidence — Open Life Expansion V1 (2026-10-22)
+
+No Foundation definition, criterion ID, denominator or status is changed.
+S2/S3/S4/S5/S6/S7/S8/S9 + Shared Life/Surface/Governance gain an opt-in bounded
+attention queue, explicit owned source intake/research, sealed browser/form Hand,
+original C goal lifecycle review and original G practice-selection strategy.
+See [implementation](../docs/nana_open_life_expansion_v1_implementation.md).
+Current evidence is owned/dev + synthetic semantic interpretation; final growth
+qualification is separate from Foundation and Human Review. S10 deep changes,
+real cloud/social/devices and human First-Life/Beta remain outside this evidence.

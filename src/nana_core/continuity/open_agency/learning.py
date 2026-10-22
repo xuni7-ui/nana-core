@@ -135,6 +135,9 @@ class LearningService:
         rid=job['record_id'];head=self.store.one('continuity_records',rid)
         if not self.records.current_support(rid) or head['lifecycle']!='ACTIVE':return self._terminal(job,'CANCELLED','SOURCE_RETIRED')
         body=self.records.read(rid)['payload'];spec=LearningSpec.model_validate_json(canonical(body['spec']))
+        if body.get('learning_strategy_record_id'):
+            meta=self.store.db.execute("SELECT state FROM lessons WHERE record_id=?",(body['learning_strategy_record_id'],)).fetchone()
+            if not meta or meta['state']!='ACTIVE':return self._terminal(job,'BLOCKED','LEARNING_STRATEGY_SUSPENDED')
         if spec.learning_key not in self.specs or self.specs[spec.learning_key]!=spec:return self._terminal(job,'BLOCKED','LEARNING_POLICY_CHANGED')
         binding=body.get('context_binding')
         if binding:
@@ -151,7 +154,11 @@ class LearningService:
         # timeout or killed process leaves this exact stage pending on reopen.
         if stage=='VALUE' and spec.estimated_cost_micro>self.ceiling:return self._terminal(job,'BLOCKED','LEARNING_COST_CEILING')
         if stage=='HYPOTHESIZE':
-            method=self.proposer.propose_method(LearningProblem.from_spec(spec))
+            from ..open_life.meta_learning import select
+            problem=LearningProblem.from_spec(spec)
+            method,strategy_record=select(self.store,problem,scope=head['scope'],privacy=self.privacy)
+            if method is None:method=self.proposer.propose_method(problem)
+            else:new['learning_strategy_record_id']=strategy_record
             if method not in spec.hypotheses:raise CoreError('LEARNING_HYPOTHESIS_REJECTED')
             new['selected_method']=method
             parent=getattr(self.proposer,'last_record_id',None)
@@ -207,7 +214,7 @@ class LearningService:
         with self.store.transaction('open.learning_stage_committed',{'work_id':job['job_id'],'stage':stage}) as tx:
             current=self.store.one('jobs',job['job_id'])
             if current['revision']!=job['revision']:raise CoreError('STALE_LEARNING_WORK')
-            newrid=self.records.create(tx,kind='OPEN_LEARNING',scope=head['scope'],payload=new,records=(rid,*((new['hypothesis_source'],) if new.get('hypothesis_source') else ())),supersedes=rid,target_id=spec.learning_key)
+            newrid=self.records.create(tx,kind='OPEN_LEARNING',scope=head['scope'],payload=new,records=(rid,*((new['hypothesis_source'],) if new.get('hypothesis_source') else ()),*((new['learning_strategy_record_id'],) if new.get('learning_strategy_record_id') else ())),supersedes=rid,target_id=spec.learning_key)
             tx.update('jobs',job['job_id'],record_id=newrid,cursor=next_cursor,state='DONE' if stage=='MONITOR' else 'WAITING',revision=job['revision']+1,updated_at_us=self.store.clock.utc_now_us())
         return {'work_id':job['job_id'],'stage':stage,'next_stage':new['stage'],'lesson_id':new.get('lesson_id')}
     def _terminal(self,job,state,reason):

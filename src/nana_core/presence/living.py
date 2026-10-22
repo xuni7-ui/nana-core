@@ -41,6 +41,16 @@ class LivingWork:
         if cycle.relational_decision and self.accommodation_policy:
             self.accommodation_policy.apply(self.runtime,cycle)
         if event.goal_review and self.agency:
+            if event.goal_review.purpose=='LIFECYCLE':
+                ref=event.goal_review;goal=self.runtime.store.one('goals',ref.goal_id)
+                selected={'REST':'SUSPENDED','WITHDRAW':'ABANDONED','CONTINUE_PROJECT':'ACTIVE'}.get(cycle.intention.behavior)
+                allowed={'ACTIVE':{'SUSPENDED','ABANDONED'},'SUSPENDED':{'ACTIVE','ABANDONED'},'BLOCKED':{'ABANDONED'},'FAILED':{'ABANDONED'}}
+                if selected and goal and selected in allowed.get(goal['state'],set()):
+                    self.agency.transition(ref.goal_id,selected,expected_version=ref.version,authority=self.runtime.authority,cause_memory_id=ref.cause_memory_id)
+                if cycle.intention_id:
+                    current=self.runtime.store.one('subject_intentions',cycle.intention_id)
+                    if current and current['state']=='PENDING':self.runtime.subject.transition_intention(cycle.intention_id,expected_revision=current['revision'],state='COMPLETED')
+                return {'goal_id':ref.goal_id,'lifecycle_review':selected,'not_plan_replay':True}
             if cycle.evaluation and cycle.evaluation.normative=='ENDORSED' and cycle.intention.kind=='GOAL_CANDIDATE':
                 ref=event.goal_review
                 self.agency.revise(ref.goal_id,expected_version=ref.version,cause_memory_id=ref.cause_memory_id,authority=self.runtime.authority)

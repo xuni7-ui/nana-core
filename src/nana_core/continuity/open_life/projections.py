@@ -43,8 +43,16 @@ def advanced_view(store,*,scope,privacy):
                 'changes_evaluator':False,'automatically_adopted':False})
     active=sum(g['state']=='ACTIVE' for g in goals)
     appetite=social_appetite(store,scope=scope,privacy_classes=privacy)
+    from .opportunities import projection
+    opportunities=projection(store,(scope,),privacy)
+    explored=[o for o in opportunities if o.get('behavior')=='EXPLORE']
+    rested=[o for o in opportunities if o.get('behavior')=='REST']
+    suppressed=[o for o in opportunities if o['state']=='SUPPRESSED']
     return {'derived':True,'problem_candidates':problems[:16],'goals':goals,'learning_cycles':learning,
-        'learning_strategy_candidates':meta,'rhythm':{'rest_need':'PRESENT' if active>=4 else 'NOT_ESTABLISHED',
-        'unfinished_task_pull':'PRESENT' if active else 'NOT_ESTABLISHED','curiosity':'SOURCE_REQUIRED',
-        'low_stimulation':'NOT_ESTABLISHED','exploration_desire':'SOURCE_REQUIRED','social_appetite':appetite.state},
+        'learning_strategy_candidates':meta,'rhythm':{'rest_need':'PRESENT' if active>=4 or rested else 'NOT_ESTABLISHED',
+        'unfinished_task_pull':'PRESENT' if active else 'NOT_ESTABLISHED','curiosity':'SOURCE_BACKED_INTEREST' if explored else 'NOT_ESTABLISHED',
+        'low_stimulation':'REPEATED_LOW_VALUE_OPPORTUNITIES' if len(suppressed)>=3 else 'NOT_ESTABLISHED',
+        'exploration_desire':'PREVIOUSLY_ENDORSED' if explored else 'NOT_ESTABLISHED','social_appetite':appetite.state,
+        'source_record_ids':tuple(o['record_id'] for o in (*explored[:2],*rested[:2],*suppressed[:3])),
+        'semantics':'QUALITATIVE_BOUNDED_INFERENCE_NOT_SUBJECTIVE_FEELING_MEASUREMENT'},
         'execution_authority':False,'coverage':'BOUNDED_CURRENT_SUPPORT'}

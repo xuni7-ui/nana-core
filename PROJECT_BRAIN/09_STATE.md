@@ -7,16 +7,18 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 23,
-  "as_of_us": 1792682589858038,
+  "revision": 24,
+  "as_of_us": 1792683869970459,
   "stage": "H",
   "workstream": "OPEN_LIFE_EXPANSION_AUTONOMOUS_GROWTH_V1",
-  "status": "IMPLEMENTING_ADVANCED_GROWTH",
+  "status": "QUALIFYING_ADVANCED_GROWTH",
   "progress": [
-    "新用户任务将建设与真人体验拆为双轨；既有Self/Foundation资格保留，不改Master/63标准。",
-    "基线1fd40c9本地/远端一致；旧bundle保持未跟踪且未读取。",
-    "原jobs中的有限机会队列、owned来源摄取/研究、受控Browser适配器正在实现和验收；无第二C/Store/Runtime。",
-    "第一段13项针对测试PASS；关联75 PASS为阶段源码，最终回归待执行。"
+    "Advanced Growth双轨：Track A持续建设，Track B真人评审独立；Master/63标准保留。",
+    "原队列/World/研究/C/Hands/G/I已接通；owned Browser与form gestures不是用户设备。",
+    "原G新增有限practice筛选策略；不同实验经原Experience门；原C可暂停/恢复/放弃同一目标，不重放计划。",
+    "开发态同Subject闭环8goals/30actions、2后续Kernel skill use、负迁移、retirement/source withdrawal/restart/B8迁移通过；最终干净源码资格待执行。",
+    "当前targeted26及阶段related156 PASS；最终回归与portable bundle待刷新。",
+    "新付费Provider0，历史Key未读取；actual旧网页/用户Subject/production/main/R045不变；HumanReview NOT_RUN，First-Life/Beta不升级。"
   ],
   "open_gates": [
     "Human review是独立Track B，不阻塞本轮开发；付费/私人数据/真实社交/设备/生产不在范围。",

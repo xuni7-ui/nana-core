@@ -1,6 +1,6 @@
 """Typed data proposals; no Grant, Store, callable or authority in planner input."""
 from typing import Literal, Protocol
-from pydantic import Field, model_validator
+from pydantic import Field, model_validator,model_serializer
 from ...contracts import DTO
 from ..autonomy.contracts import RealizationTarget
 
@@ -35,6 +35,12 @@ class Objective(DTO):
     max_steps: int = Field(default=12,ge=1,le=32)
     horizon: Literal['IMMEDIATE','SHORT','ONGOING']='SHORT'
     review_after_us: int | None = Field(default=None,ge=0)
+    @model_serializer(mode='wrap')
+    def compatible_wire(self,handler):
+        value=handler(self)
+        if self.horizon=='SHORT':value.pop('horizon',None)
+        if self.review_after_us is None:value.pop('review_after_us',None)
+        return value
     @model_validator(mode='after')
     def unique_ops(self):
         if len(set(x.operator_id for x in self.operators))!=len(self.operators):raise ValueError('duplicate operator')

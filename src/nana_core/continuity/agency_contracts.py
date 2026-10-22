@@ -1,6 +1,6 @@
 """Finite offline procedure data. Adoption, desire and execution remain distinct."""
 from typing import Literal
-from pydantic import Field,model_validator
+from pydantic import Field,model_validator,model_serializer
 from ..contracts import DTO
 from .autonomy.contracts import RealizationTarget
 
@@ -35,3 +35,9 @@ class GoalReviewRef(DTO):
     goal_id: str
     version: int = Field(ge=1)
     cause_memory_id: str
+    purpose: Literal['REPLAN','LIFECYCLE']='REPLAN'
+    @model_serializer(mode='wrap')
+    def compatible_wire(self,handler):
+        value=handler(self)
+        if self.purpose=='REPLAN':value.pop('purpose',None)
+        return value

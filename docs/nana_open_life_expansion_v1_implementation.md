@@ -48,3 +48,45 @@ is Track B and no longer blocks Track A construction under this new mission.
 Schema13 / 43 physical business tables remain unchanged; new tables0, deps0.
 No paid calls, historical key use, social send, production change or user device.
 Qualification and portable artifact will be appended after actual execution.
+
+## Recovery / growth hardening checkpoint
+
+Owned HTTP intake reserves an occurrence before dispatch in original operational
+metadata. CALLING after crash or UNKNOWN blocks subsequent observations from that
+source; a new poll bucket cannot become a blind retry. Same successful occurrence
+returns its existing current Memory. Source bodies and credentials never enter
+this operational cache. Source configuration remains host-local.
+
+Explicit `LifeConfig.world_sources` now reaches WorldIntake and the original
+WorldModel at the existing idle safe point when advanced_life is enabled.
+`SOURCED_CLAIM_JSON` is an explicit deterministic owned-feed semantic adapter,
+not a claim of real model understanding. It cannot assert RAW_OBSERVATION or
+correct another belief by authority. Opaque inputs only offer sourced attention.
+
+Original G now recognizes one narrowly typed LearningStrategyLesson: select a
+hypothesis by practice before committing it. A separate actually executed
+selection experiment goes through original Experience verification and normal
+candidate/test/activate; the original one-Experience/one-Lesson invariant is
+preserved. Practice only enters selection; heldout/transfer/evaluator remain
+unchanged. Suspension fences future and unfinished selection work. This is a
+finite strategy improvement, not S10 algorithm replacement or general meta-learning.
+
+Existing GoalReviewRef has a backwards-compatible LIFECYCLE review purpose.
+Original C may pause/resume/abandon the existing goal through original agency
+transitions, without rebuilding its plan or creating new Grants. Ongoing horizon
+and review descriptors do not imply an unlimited autonomous project planner.
+Default new fields are omitted from old wire contracts to preserve source and
+replay digests from the prior release.
+
+Actual checkpoint: one owned Subject completed World→research→C reframe→8 goals,
+30 Kernel actions,12 original action/learning Experiences (13 with the separate
+meta experiment),2 finite learning jobs,2 later Kernel skill uses, counterexample
+suspension, busy share deferral, restart, quarantined backup and lawful A→B
+transfer. Later checkpoint also retires the skill and withdraws original source;
+withdrawn opportunity content must stay unavailable after migration. These are
+owned local process effects with deterministic semantic interpretation, not live
+provider, human experience, external cloud or real social qualification.
+
+The 60-virtual-day run is new finite attention growth qualification, distinct from
+old Foundation24h. Its actual wall runtime was about8.5 seconds, not60 days.
+Final pinned-source full regression, portable install and evidence are pending.
