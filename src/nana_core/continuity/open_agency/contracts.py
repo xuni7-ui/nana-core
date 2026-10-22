@@ -33,6 +33,8 @@ class Objective(DTO):
     depends_on: tuple[str,...] = Field(default=(),max_length=8)
     parent_id: str | None = None
     max_steps: int = Field(default=12,ge=1,le=32)
+    horizon: Literal['IMMEDIATE','SHORT','ONGOING']='SHORT'
+    review_after_us: int | None = Field(default=None,ge=0)
     @model_validator(mode='after')
     def unique_ops(self):
         if len(set(x.operator_id for x in self.operators))!=len(self.operators):raise ValueError('duplicate operator')

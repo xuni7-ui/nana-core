@@ -69,7 +69,8 @@ class ActionKernel:
             sealed = sealed or type(self.registry) is LocalWorldRegistry
         from .continuity.project_work.port import ProjectMaterialPort
         from .continuity.hands.port import OwnedApplicationPort
-        if type(self.capability) is OwnedApplicationPort:
+        from .continuity.hands.browser import OwnedBrowserPort
+        if type(self.capability) in {OwnedApplicationPort,OwnedBrowserPort}:
             self.capability.assert_owned()
             return self.capability.identity_id==self.store.identity['identity_id'] and sealed
         # Exact no-exec project adapter only; manifest is NOT execution authority.
@@ -237,7 +238,8 @@ class ActionKernel:
                     raise CoreError("RESTORE_QUARANTINE")
                 grant = self._grant_for(action["capability"], action["resource"])
                 from .continuity.hands.port import OwnedApplicationPort
-                if type(self.capability) is OwnedApplicationPort:
+                from .continuity.hands.browser import OwnedBrowserPort
+                if type(self.capability) in {OwnedApplicationPort,OwnedBrowserPort}:
                     self.capability.preflight(action["capability"],action["resource"],json.loads(self.payload(action,"args_json")))
                 self._stamp_auth_time(tx)
                 started = [a for a in self.store.all("attempts") if a["action_id"] == action_id

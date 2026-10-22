@@ -7,32 +7,25 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 22,
-  "as_of_us": 1792651901482172,
+  "revision": 23,
+  "as_of_us": 1792682589858038,
   "stage": "H",
-  "workstream": "PERSISTENT_PERSON_SELF_LIVED_LANGUAGE_V1",
-  "status": "TECHNICAL_HANDOFF_LIVE_REVIEW_BLOCKED",
+  "workstream": "OPEN_LIFE_EXPANSION_AUTONOMOUS_GROWTH_V1",
+  "status": "IMPLEMENTING_ADVANCED_GROWTH",
   "progress": [
-    "Advanced Growth S1/S2/S3/S6/S8：Master/63标准/S1–S9受限资格不变；单Subject/Store/C/Runtime。",
-    "同一C采用有源关系约定；双方近期对话和显式逐轮留存；身份/关系/经历/表达策略接入原ContextAssembler及Render。",
-    "原Experience/Lesson处理真人报告；候选/阈值/反例/撤销，初始真人拒绝2条同一episode，接受样本0，不冒充已学习成功。",
-    "80轮复现并修复来源祖先累积；保留删除边，有界选择可选历史；反馈正文只在原子依赖记录存储，故障注入和删除闭环通过。",
-    "最终新目标26 PASS；全仓1435 PASS/0fail/12skip；关联102为同一全仓子集。",
-    "最终包source e74f46a9、218文件/约3MB；重复构建相同，两个离线安装、迁移/SIGKILL及独立安装Self/S8重启通过。",
-    "真实Provider0、旧Key未使用；当前实际Subject/旧网页未改动，HumanReview NOT_RUN，First-Life/Beta不升级。"
+    "新用户任务将建设与真人体验拆为双轨；既有Self/Foundation资格保留，不改Master/63标准。",
+    "基线1fd40c9本地/远端一致；旧bundle保持未跟踪且未读取。",
+    "原jobs中的有限机会队列、owned来源摄取/研究、受控Browser适配器正在实现和验收；无第二C/Store/Runtime。",
+    "第一段13项针对测试PASS；关联75 PASS为阶段源码，最终回归待执行。"
   ],
   "open_gates": [
-    "截图网页build/Subject绑定未确认；已请求非敏感启动/版本信息，不能虚构根因或声称网页已升级。",
-    "真人复评需新的有限付费额度与显式安全FD/Resolver；当前无安全绑定，不搜索历史Key。",
-    "技术入口完成后停止开发；人类自然度、真实双模型语义与新build长期真人体验仍NOT_RUN。"
+    "Human review是独立Track B，不阻塞本轮开发；付费/私人数据/真实社交/设备/生产不在范围。",
+    "开放世界范围本轮仅owned/dev，真实通用设备、任意插件和S10深改不启用。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
-    "docs/nana_persistent_person_self_v1_implementation.md",
-    "docs/nana_persistent_person_self_v1_status.md",
-    "docs/nana_persistent_person_self_v1_quickstart.md",
-    "docs/nana_persistent_person_self_v1_evidence/qualification.json"
+    "docs/nana_open_life_expansion_v1_implementation.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

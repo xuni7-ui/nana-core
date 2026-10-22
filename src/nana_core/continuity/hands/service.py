@@ -40,8 +40,11 @@ def specifications():
             LearningSpec(learning_key='learn.owned-form',domain='owned-form',baseline_method='HANDS_POSITIONAL',hypotheses=('HANDS_NAMED',),practice=(case('form-practice','FORM','settings',{'label':'blue'}),),evaluation=(case('form-heldout','FORM','settings',{'label':'green'}),),transfer=(case('form-transfer','FORM','search',{'label':'amber'}),)))
 
 class HandsWork:
-    def __init__(self,runtime,profile,*,grant=False,allow_skills=False):
+    def __init__(self,runtime,profile,*,grant=False,allow_skills=False,browser_endpoint=None):
         self.runtime=runtime;self.port=OwnedApplicationPort(runtime.identity_id,load_target(profile),host_enabled=True);self.next_at=0;self.interval=500_000
+        if browser_endpoint is not None:
+            from .browser import OwnedBrowserPort
+            self.port=OwnedBrowserPort(runtime.identity_id,self.port.target,browser_endpoint,host_enabled=True)
         self.objects={t.task_id:self.objective(t) for t in self.port.tasks.values()}
         self.policy=OpenGoalPolicy(tuple(self.objects.values()),dynamic_resources=tuple(op.resource for o in self.objects.values() for op in o.operators))
         GovernanceController(runtime.store,runtime.authority).initialize(runtime.authority)

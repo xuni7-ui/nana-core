@@ -79,7 +79,7 @@ class LifeApplication:
                 self.runtime.scheduler.reschedule_periodic(schedule['schedule_id'],expected_interval_us=schedule['interval_us'],interval_us=interval)
             if self.config.owned_application_profile:
                 from ..continuity.hands.service import HandsWork
-                self.work=HandsWork(self.runtime,self.config.owned_application_profile,grant=bootstrap_grant,allow_skills=self.config.allow_local_skills)
+                self.work=HandsWork(self.runtime,self.config.owned_application_profile,grant=bootstrap_grant,allow_skills=self.config.allow_local_skills,browser_endpoint=self.config.owned_browser_endpoint)
             else:
                 spec=learning_spec(*(read_material(self.config.project_root,m) for m in (self.config.practice,self.config.heldout,self.config.transfer)))
                 specs=[spec]
@@ -100,6 +100,11 @@ class LifeApplication:
             from .shared import SharedPresence,LifeOpportunities
             self.shared=SharedPresence(self)
             if self.config.shared_presence:self.runtime.work.activity_source=LifeOpportunities(self.runtime.work.activity_source,self.shared)
+            self.advanced=None
+            if self.config.advanced_life:
+                from .advanced import AdvancedLife
+                self.advanced=AdvancedLife(self,self.runtime.work.activity_source)
+                self.runtime.work.activity_source=self.advanced
         except BaseException:self.runtime.stop();raise
 
     def _save_control(self):
@@ -123,6 +128,7 @@ class LifeApplication:
         view['shared_experiences']=self.shared.candidates()
         view['surfaces']=[{'binding_id':b.binding_id,'enabled':b.enabled,'mode':b.mode} for b in self.config.surface_bindings]
         view['human_review']='NOT_RUN'
+        if self.advanced:view['advanced_life']=self.advanced.view()
         return view
     def status(self):
         r=self.runtime

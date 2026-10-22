@@ -41,6 +41,7 @@ class InspectorSnapshot(DTO):
     governance_visibility:Literal['LOCAL_METADATA_NOT_RECIPIENT_DISCLOSURE']='LOCAL_METADATA_NOT_RECIPIENT_DISCLOSURE'
     execution_authority:Literal[False]=False
     self_view:dict|None=None
+    advanced_life:dict|None=None
 
 
 def _regular(path):
@@ -210,7 +211,10 @@ def inspect(home,*,scope,entity_id,privacy=('PUBLIC','PROJECT'),limit=16):
         summary['recent_exchanges']=[]  # Inspector never becomes a transcript reader.
         summary['learned_expression']=expression_policy(view,scope=scope,privacy=privacy,mode='CASUAL')
         summary['source_record_ids']=personal['source_record_ids']
-        return InspectorSnapshot(identity_id=view.identity['identity_id'],as_of_us=view.clock.utc_now_us(),sections={k:tuple(v) for k,v in sections.items()},resources=resources,private_activity='PRESENT_CONTENT_WITHHELD' if private else 'UNKNOWN_CONTENT_NOT_EXPOSED',self_view=summary)
+        from ..continuity.open_life.projections import advanced_view
+        from ..continuity.open_life.opportunities import projection
+        advanced={**advanced_view(view,scope=scope,privacy=privacy),'opportunities':projection(view,(scope,),privacy)}
+        return InspectorSnapshot(identity_id=view.identity['identity_id'],as_of_us=view.clock.utc_now_us(),sections={k:tuple(v) for k,v in sections.items()},resources=resources,private_activity='PRESENT_CONTENT_WITHHELD' if private else 'UNKNOWN_CONTENT_NOT_EXPOSED',self_view=summary,advanced_life=advanced)
     except (sqlite3.Error,OSError,ValueError,TypeError,KeyError):raise CoreError('INSPECTOR_UNAVAILABLE_FAIL_CLOSED') from None
     finally:db.close()
 

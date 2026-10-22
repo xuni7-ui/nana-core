@@ -156,6 +156,15 @@ def decide(event, situation, appraisal, motives):
         if cue.cognitive_load=='HIGH' and cue.urgency!='HIGH':
             return ('DEFER',Judgment(stance='DEFER',reason='Current load and lack of urgent duty make rest appropriate',source_ids=sources),
                 Intention(kind='NO_ACTION',purpose='Rest instead of creating meaningless work',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='REST'))
+        value=cue.learning_value
+        if value and set(options)&{'LEARN','SEEK_CAPABILITY'}:
+            low_value=value.goal_value=='LOW' and value.future_reuse=='LOW' and value.interest=='LOW' and value.relationship_relevance=='LOW'
+            if low_value or value.alternative=='AVAILABLE':
+                return ('BACKGROUND_WATCH',Judgment(stance='WATCH',reason='NOT_WORTH_LEARNING: limited reuse/value or an available existing capability makes new learning unnecessary',source_ids=sources),
+                    Intention(kind='NO_ACTION',purpose='Keep the gap visible without compulsory learning or creating a redundant plugin',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='WATCH'))
+            if value.risk=='HIGH' or (value.time_compute_cost=='HEAVY' and cue.urgency!='HIGH'):
+                return ('DEFER',Judgment(stance='DEFER',reason='Learning value does not currently justify its cost or risk',source_ids=sources),
+                    Intention(kind='NO_ACTION',purpose='Defer learning while retaining the original interest',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='REST'))
         behavior=options[0]
         if behavior in {'REST','WITHDRAW','IGNORE','WATCH','STAY_SILENT','DO_NOTHING','DEFER'}:
             return ('BACKGROUND_WATCH' if behavior=='WATCH' else 'DEFER',Judgment(stance='WATCH' if behavior=='WATCH' else 'DEFER',reason='An available concern does not require activity',source_ids=sources),

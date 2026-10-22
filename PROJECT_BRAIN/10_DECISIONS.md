@@ -1456,3 +1456,8 @@ Explicit social convention is not biological fact or execution authority. Retent
 ## HANDOFF — Persistent Person-Self / Lived Language V1 · 2026-10-22
 
 Optional speech ancestry is bounded without severing stored privacy edges; stable Self stays separate. Bound feedback inherits privacy and stores copied text atomically with dependencies; current report source must be exact. External review study material is not own lived history. Historical release manifests are checked at their committed release, while the new manifest attests this workstream.
+
+
+## Open Life V1 — construction/experience separation and owned growth boundary
+
+New user mission explicitly continues Track A while Track B awaits actual human review. This supersedes previous task-specific developer STOP, not Master/criteria or human PASS requirements. Add attention as original jobs and C cues; research is evidence comparison, not learning; exact owned Browser port joins sealed development allowlist, without accepting arbitrary subclasses/network. Form gestures are simulator proposals, not user-device permission. Meta-strategy projections do not modify the evaluator.

@@ -9,6 +9,7 @@ from ..continuity.project_work.port import ProjectMaterial
 from ..continuity.privacy import _json_object
 from .surfaces import SurfaceBinding
 from ..continuity.current_state import ProjectStateBinding
+from ..continuity.hands.browser import BrowserEndpoint
 
 class LifeConfig(DTO):
     schema_version:Literal[1]=1
@@ -26,6 +27,7 @@ class LifeConfig(DTO):
     document_learning:tuple[ProjectMaterial,...]=Field(default=(),max_length=3)
     allow_local_skills:bool=False
     owned_application_profile:str|None=None
+    owned_browser_endpoint:BrowserEndpoint|None=None
     timezone:str='UTC'
     quiet_start_local_hour:int=Field(default=23,ge=0,le=23)
     quiet_end_local_hour:int=Field(default=7,ge=0,le=23)
@@ -33,6 +35,7 @@ class LifeConfig(DTO):
     log_max_bytes:int=Field(default=262144,ge=4096,le=1048576)
     surface_bindings:tuple[SurfaceBinding,...]=Field(default=(),max_length=16)
     shared_presence:bool=False
+    advanced_life:bool=False
     max_state_mb:int=Field(default=256,ge=1,le=4096)
     max_state_growth_mb_per_hour:int=Field(default=32,ge=1,le=1024)
     storage_review_seconds:int=Field(default=60,ge=1,le=3600)

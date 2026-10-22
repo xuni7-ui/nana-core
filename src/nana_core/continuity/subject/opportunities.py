@@ -8,6 +8,17 @@ from ..records import RecordService
 Behavior = Literal['ACT','DEFER','WATCH','REFLECT','LEARN','EXPLORE','CREATE','MAINTAIN','CONTINUE_PROJECT','HONOR_COMMITMENT','SEEK_CAPABILITY','EXPRESS_OPINION','DISAGREE','SOCIALIZE','REST','WITHDRAW','IGNORE','STAY_SILENT','DO_NOTHING']
 
 
+class LearningValue(DTO):
+    """Sourced assessment factors, not a command or numeric reward."""
+    goal_value: Literal['LOW','RELEVANT','HIGH']
+    future_reuse: Literal['LOW','RELEVANT','HIGH']
+    interest: Literal['LOW','RELEVANT','HIGH']='LOW'
+    relationship_relevance: Literal['LOW','RELEVANT','HIGH']='LOW'
+    alternative: Literal['AVAILABLE','UNAVAILABLE','UNKNOWN']='UNKNOWN'
+    time_compute_cost: Literal['LIGHT','HEAVY']='LIGHT'
+    risk: Literal['LOW','HIGH']='LOW'
+
+
 class ConcernCue(DTO):
     schema_version: Literal[1] = 1
     cue_kind: Literal['OPEN_LOOP','OPPORTUNITY','DISCOVERY','CONSTRAINT','LOAD_STATE']
@@ -25,6 +36,7 @@ class ConcernCue(DTO):
     urgency: Literal['NONE','LOW','RELEVANT','HIGH'] = 'LOW'
     not_before_us: int = Field(default=0,ge=0)
     valid_until_us: int | None = Field(default=None,ge=0)
+    learning_value: LearningValue | None = None
 
 
 def cues_from(store,memory_ids,*,scope,privacy_classes):
