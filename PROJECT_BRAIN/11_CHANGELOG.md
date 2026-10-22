@@ -2388,3 +2388,7 @@ Renamed the synthetic credential-binding/package-contract proof to binding_and_p
 ## CURRENT — Persistent Person-Self / Lived Language V1 · 2026-10-22
 
 Implemented Advanced Person-Self, quoted C conventions, explicit retained exchanges including assistant side, language feedback corpus and original S8 expression hypotheses, private IPC/Inspector/review extensions. Reason: observed relationship/continuity/expression gaps despite bounded Foundation qualification. Validation: targeted fixtures, restart/virtual time, official package transfer, two cognition configs and actual SIGKILL; concentrated regression pending. RealProvider0; actual received Subject/old web/staging/production/main/R045 untouched.
+
+### Presence integration checkpoint
+
+Connected the already-tested finite unfinished-topic opportunity into the existing SharedPresence safe point. Busy/refusal/dedup tests PASS; concentrated affected-domain regression 100 passed. This checkpoint preserves the exact worktree source used by the full regression currently running; no new runtime or paid calls.

@@ -59,7 +59,8 @@ class SharedPresence:
             event=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key=prefix+digest(c['experience_id']),kind='WAKE',origin='SELF_WAKE',entity_id=r.config.entity_id,scope=c['scope'],privacy_class='PROJECT',observed_at_us=now,source_memory_ids=(mid,))
             qid=r.submit(RuntimeEvent(event_type='RELATIONSHIP_EVENT',trigger='RELATIONSHIP_TRIGGER',input=event,causes=(Cause(kind='MEMORY',reference_id=mid),),due_at_us=now))
             return {'shared_experience_opportunity':c['experience_id'],'queue_id':qid,'not_delivery':True}
-        return None
+        from .conversation_opportunity import opportunity
+        return opportunity(app)
     def review(self,cycle_id,binding_id):
         app=self.app;r=app.runtime;s=r.store;b=app.surfaces._binding(binding_id)
         raw=s.one('subject_cycles',cycle_id)
