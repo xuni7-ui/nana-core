@@ -1,0 +1,333 @@
+{
+  "scope": "OWNED_DEV_PROCESSES_AND_SYNTHETIC_SEMANTICS",
+  "new_paid_provider_calls": 0,
+  "real_social_send": 0,
+  "private_data_accessed": false,
+  "human_review": "NOT_RUN",
+  "runtime_driven_research": {
+    "job_id": "e5d6ac3d-4c1f-4b30-a098-87c1fa432b4e",
+    "cursor": 2,
+    "result": "ENOUGH_FOR_BOUNDED_BELIEF",
+    "driver_did_not_call_notice_gather_compare": true
+  },
+  "problem_framing": {
+    "actual_nonempty_source": true,
+    "original_cycle_count": 2,
+    "goal_horizon": "SHORT"
+  },
+  "meta_learning": {
+    "lesson_id": "14a90754-4372-4b18-b909-fec2c5bafd86",
+    "state": "ACTIVE",
+    "separate_executed_selection_experiment": true,
+    "evaluator_unchanged": true,
+    "later_changed_hypothesis_selection": "QUALIFIED_SEPARATELY_IN_TARGETED_TEST_NOT_CLAIMED_FROM_THIS_EPISODE"
+  },
+  "lifecycle": {
+    "identity_id": "7a0544eb-228b-44c9-b038-efad828470e8",
+    "raw_source_memory_id": "ed107c27-c654-48f0-be73-5a1ba1003aa7",
+    "semantic_memory_id": "805116f4-a00b-41f9-a30f-575bde382352",
+    "world_belief_id": "652711bc-3f26-4498-9d20-074bd804883d",
+    "research_opportunity_id": "4107352e-2495-4dcb-b041-d5f586b4850d",
+    "research_comparison_record": "23607386-6431-4ece-87f3-6efec59de658",
+    "goal_ids": [
+      "13d2ace0-d0e5-4ad4-9d70-8a47ae021673",
+      "786c460f-3393-4b36-9a15-205296e01a13",
+      "5a9f5b67-2fa2-44a8-a373-859a3d505ed7",
+      "3bd87259-8b15-4358-baf2-0420be907f40",
+      "7271c2c0-2dbf-4fb6-b24d-cfb639467230",
+      "9cb5c162-3a07-4dd1-8031-2264bbac6351",
+      "e1c8b820-70eb-4ada-bb9e-5a36523fc1e7",
+      "c7c43b69-a926-4150-a680-71c894bd2fb4"
+    ],
+    "experience_outcomes": [
+      "FAILURE",
+      "SUCCESS",
+      "SUCCESS",
+      "SUCCESS",
+      "SUCCESS",
+      "FAILURE",
+      "SUCCESS",
+      "SUCCESS",
+      "SUCCESS",
+      "FAILURE",
+      "SUCCESS",
+      "SUCCESS",
+      "FAILURE"
+    ],
+    "learning_jobs": 2,
+    "strategy_verdicts": [
+      "SUCCESS",
+      "SUCCESS",
+      "COUNTEREXAMPLE",
+      "COUNTEREXAMPLE"
+    ],
+    "isolated_skill_record": "493ea01e-b2df-4b1a-ba20-6b3ce7f3b133",
+    "later_kernel_skill_uses": 2
+  },
+  "shared_presence": {
+    "candidate_count": 10,
+    "busy_result": "DEFER_BUSY",
+    "delivered": false
+  },
+  "capability_retirement": {
+    "retired_record_id": "753f4c85-babd-4038-a843-11c9be98fc5d",
+    "not_recreated": true
+  },
+  "source_withdrawal": {
+    "world_state": "UNKNOWN",
+    "historical_action_count_preserved": true,
+    "no_physical_effect_rewrite": true
+  },
+  "wall_residency": {
+    "duration_seconds": 120.16758855100034,
+    "samples": [
+      {
+        "elapsed_seconds": 0.01269624799988378,
+        "rss_kib": 49072,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 9131195,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 5.0160280790005345,
+        "rss_kib": 49072,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 9274555,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 10.024088639000183,
+        "rss_kib": 49072,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 9274555,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 15.097974975999932,
+        "rss_kib": 49200,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 9274555,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 20.14356833200054,
+        "rss_kib": 49200,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 9274555,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 25.14991086900045,
+        "rss_kib": 49200,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 9274555,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 30.23226173400053,
+        "rss_kib": 49200,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 9274555,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 35.28628079000009,
+        "rss_kib": 49200,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 9274555,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 40.307393656000386,
+        "rss_kib": 49328,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 9274555,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 45.42540742300025,
+        "rss_kib": 49456,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 9970875,
+        "queue": 1,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 50.50754387899997,
+        "rss_kib": 49456,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 10790075,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 55.573832951999975,
+        "rss_kib": 49456,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11363515,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 60.577032285000314,
+        "rss_kib": 49584,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11363515,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 65.66817024500051,
+        "rss_kib": 49584,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11363515,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 70.76486794599987,
+        "rss_kib": 49584,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11363515,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 75.86202519400013,
+        "rss_kib": 49584,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11363515,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 80.96183016800023,
+        "rss_kib": 49584,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11363515,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 86.05312339600005,
+        "rss_kib": 49584,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11363515,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 91.12282646099993,
+        "rss_kib": 49712,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11363515,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 96.15465096400021,
+        "rss_kib": 49712,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11363515,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 101.21852871400006,
+        "rss_kib": 49712,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11363515,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 106.24153798099996,
+        "rss_kib": 49712,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11388091,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 111.2509763550006,
+        "rss_kib": 49840,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11388091,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 116.26483131999976,
+        "rss_kib": 49840,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11388091,
+        "queue": 0,
+        "actions": 30
+      }
+    ],
+    "cpu_seconds": 17.738283402999997,
+    "action_replay": 0,
+    "rss_semantics": "PROCESS_MAX_RSS_NOT_CURRENT_RSS"
+  },
+  "backup": {
+    "backup": "/tmp/nana-open-life-final/review-copy.db",
+    "identity_id": "7a0544eb-228b-44c9-b038-efad828470e8",
+    "state": "QUARANTINED_REVIEW_COPY",
+    "bytes": 9076736,
+    "runnable": false
+  },
+  "inspector_has_advanced": true,
+  "restart_same_identity": true,
+  "migration": {
+    "same_identity": true,
+    "old_grants_revoked": true,
+    "goals_preserved": true,
+    "lessons_preserved": true,
+    "opportunity_headers_preserved": true,
+    "withdrawn_content_not_revived": true
+  },
+  "snapshot": {
+    "goals": 8,
+    "actions": 30,
+    "experiences": 13,
+    "lessons": 3,
+    "jobs": 23,
+    "opportunity_jobs": 10
+  },
+  "total_wall_seconds": 139.26357906799967,
+  "source_commit": "c4791d03edcabaf043118141ef20109bc0f28fda",
+  "source_was_clean": true
+}

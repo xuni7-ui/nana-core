@@ -1,0 +1,26 @@
+{
+  "same_subject_restart": true,
+  "lawful_transfer": {
+    "same_identity": true,
+    "old_grants_revoked": true,
+    "goals_preserved": true,
+    "lessons_preserved": true,
+    "opportunity_headers_preserved": true,
+    "withdrawn_content_not_revived": true
+  },
+  "backup": {
+    "backup": "/tmp/nana-open-life-final/review-copy.db",
+    "identity_id": "7a0544eb-228b-44c9-b038-efad828470e8",
+    "state": "QUARANTINED_REVIEW_COPY",
+    "bytes": 9076736,
+    "runnable": false
+  },
+  "actual_sigkill_cuts": [
+    "C_COMMIT_BEFORE_ATTENTION_ACK",
+    "C_ACK_BEFORE_RESEARCH_SCHEDULE",
+    "AFTER_RESEARCH_GATHER"
+  ],
+  "http_source_unknown": "NO_RETRY_INCLUDING_NEW_POLL_ID",
+  "http_effect_ack_loss": "UNKNOWN_THEN_INDEPENDENT_VERIFY_WITHOUT_RESEND",
+  "tests": "tests/open_life/test_recovery.py;tests/open_life/test_browser.py;tests/open_life/test_attention_research.py"
+}

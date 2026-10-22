@@ -1,0 +1,26 @@
+{
+  "scope": "OWNED_DEV_PROCESSES_AND_SYNTHETIC_SEMANTICS",
+  "runtime_driven_research": {
+    "job_id": "e5d6ac3d-4c1f-4b30-a098-87c1fa432b4e",
+    "cursor": 2,
+    "result": "ENOUGH_FOR_BOUNDED_BELIEF",
+    "driver_did_not_call_notice_gather_compare": true
+  },
+  "problem_framing": {
+    "actual_nonempty_source": true,
+    "original_cycle_count": 2,
+    "goal_horizon": "SHORT"
+  },
+  "source_withdrawal": {
+    "world_state": "UNKNOWN",
+    "historical_action_count_preserved": true,
+    "no_physical_effect_rewrite": true
+  },
+  "proof_tests": [
+    "tests/open_life/test_attention_research.py",
+    "tests/open_life/test_runtime_intake.py",
+    "tests/open_life/test_recovery.py"
+  ],
+  "semantics": "DETERMINISTIC_TYPED_DERIVATION_NOT_REAL_MODEL_QUALITY",
+  "unrestricted_external_research": "NOT_RUN"
+}

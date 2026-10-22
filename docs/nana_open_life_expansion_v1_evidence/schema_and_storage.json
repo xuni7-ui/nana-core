@@ -1,0 +1,31 @@
+{
+  "copies": [
+    {
+      "copy": "life/subject/self.db",
+      "schema": 13,
+      "business_tables": 43,
+      "foreign_key_violations": 0,
+      "quick_check": "ok",
+      "identity_count": 1
+    },
+    {
+      "copy": "host-b/subject/self.db",
+      "schema": 13,
+      "business_tables": 43,
+      "foreign_key_violations": 0,
+      "quick_check": "ok",
+      "identity_count": 1
+    },
+    {
+      "copy": "review-copy.db",
+      "schema": 13,
+      "business_tables": 43,
+      "foreign_key_violations": 0,
+      "quick_check": "ok",
+      "identity_count": 1
+    }
+  ],
+  "new_tables": 0,
+  "new_dependencies": 0,
+  "subject_stores": "ONE_AUTHORITY_PLUS_QUARANTINED_BACKUP_AND_LAWFUL_TRANSFER"
+}

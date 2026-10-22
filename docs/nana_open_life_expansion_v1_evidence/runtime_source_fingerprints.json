@@ -1,0 +1,29 @@
+{
+  "runtime_source_commit": "c4791d03edcabaf043118141ef20109bc0f28fda",
+  "files": {
+    "src/nana_core/actions.py": "6a79eb456290667a76f2ac429ca770b85cf4ff640f2f794b455e876b6b9bb29b",
+    "src/nana_core/continuity/agency_contracts.py": "714c8aec7268e2972c4fce3cfcce94c42974297ea1f601c2939c65901e13f463",
+    "src/nana_core/continuity/autonomy/realization.py": "1435e16b361b44619fcedea60c1ca7f889e5e89fc0fd961c8591781774721f84",
+    "src/nana_core/continuity/hands/browser.py": "dfecaeb77225f6a4818fbc09d789dcdce18a388135477c33a0f5a92d0a4913db",
+    "src/nana_core/continuity/hands/host.py": "940763297b2d9147fea811f4e58a49adf94bcfba298de4e77bc92d5dc522efcf",
+    "src/nana_core/continuity/hands/service.py": "62a569303618f63e6534f2fdc0747c0a19dee0723abb6f05aa54d53ce3befbaa",
+    "src/nana_core/continuity/learning.py": "16f57112e047c0796a35ee5c347b12032b9aa585df6dd2c696becc61b6ea21cf",
+    "src/nana_core/continuity/open_agency/contracts.py": "66f586acf781ac0899d04f71091d96e5fe2148d0ec9565c8809c0016e10dbe81",
+    "src/nana_core/continuity/open_agency/learning.py": "df8d61727bfd38b85f6fea10aba8b8b62414118e1d06581522b444155be3153f",
+    "src/nana_core/continuity/open_life/__init__.py": "fa3612dde364c26905e688369bf1150569618e9e0accecdab31c2397c75936c0",
+    "src/nana_core/continuity/open_life/capabilities.py": "6aa9effbee1ce5dfe2a151386a4e370c27b1326641a11853d5c3ee4042497071",
+    "src/nana_core/continuity/open_life/meta_learning.py": "c87a260d3e3781ddb3a6276275ec2f0dd5d55f8daf94bcbf52d8017d0f1fe710",
+    "src/nana_core/continuity/open_life/opportunities.py": "8c809ac9b89aa42bd49cdd1f2015528ca7380f61e73450f306130a1755179ae9",
+    "src/nana_core/continuity/open_life/projections.py": "e28ea1d363ff3337e6f716482b2b6f94b08e70ae45785575e5b8cba20223b3b9",
+    "src/nana_core/continuity/open_life/research.py": "4a9c99f87f1ac93de202c506dc184eec4c6b70df2315e2fe7eeb702db842ad46",
+    "src/nana_core/continuity/open_life/research_work.py": "989af757353d2d526b0ed0b2546f0ac2fc761ac5c5b256f05c92d52aaf300ed6",
+    "src/nana_core/continuity/open_life/sources.py": "fefcba5c48ed5d12bfbfbb71cd13a4d5ef3a9af12dd7516c94d04e3da580ff92",
+    "src/nana_core/continuity/subject/opportunities.py": "9de0c05b12b045556ae11a6ec2b637ee8ce2565d4ff16efbb9f18076a679fb68",
+    "src/nana_core/continuity/subject/policy.py": "dab344991b5b35e4969dfd141b917b544f46813d179973433937b968bd97bc54",
+    "src/nana_core/life/advanced.py": "970dbb3e6a3ed90136b8b3721e5f290a00a576358a1e229b00a500f912ab37fe",
+    "src/nana_core/life/application.py": "bca4a7229a670802d061598ea652dd8d1c67dc804c8e35796efd569276884b3f",
+    "src/nana_core/life/config.py": "006099b7d271e307a108db558d1bdaf5b9eebd5458b9746e5b5f235c70bcd55a",
+    "src/nana_core/life/inspector.py": "09f49598d3701df7ead4edf032d88ca3d92bb0555a85b94e9e914398b09195ff",
+    "src/nana_core/presence/living.py": "4fb5868b281129fa98ba782cc5e6407981381011d02141ddcfac7c61cd8d8847"
+  }
+}

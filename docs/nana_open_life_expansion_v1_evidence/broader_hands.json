@@ -1,0 +1,22 @@
+{
+  "scope": "OWNED_DEV_ONLY",
+  "browser": "ACTUAL_LOOPBACK_HTTP_FORM_THROUGH_ORIGINAL_KERNEL",
+  "verification": "INDEPENDENT_READ_ONLY_IPC_AND_DISK",
+  "integrated_kernel_actions": 30,
+  "installed_kernel_actions": 3,
+  "http_ack_loss": "UNKNOWN_THEN_VERIFY_NO_RESEND",
+  "contract_families": [
+    "FILES",
+    "HTTP_API",
+    "BROWSER",
+    "APP_IPC",
+    "CONTROLLED_PROCESS",
+    "DESKTOP",
+    "MOBILE",
+    "GAME"
+  ],
+  "simulated_families": "GENERIC_FINITE_FORM_GESTURES_ONLY",
+  "real_desktop_mobile_gameplay": "NOT_RUN_NOT_AUTHORIZED",
+  "general_browser": "NOT_QUALIFIED",
+  "authority": "ORIGINAL_MANAGER_GRANT_BUDGET_PRIVACY"
+}

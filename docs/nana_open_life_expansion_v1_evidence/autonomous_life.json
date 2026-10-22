@@ -1,0 +1,1108 @@
+{
+  "finite_attention_virtual_soak": {
+    "scope": "VIRTUAL_TIME_SYNTHETIC_FINITE_ATTENTION_NOT_REAL_60_DAY_RESIDENCY",
+    "days": 60,
+    "wall_seconds": 11.24065831400003,
+    "peaks": {
+      "pending": 2,
+      "runtime_queue": 1,
+      "opportunity_waiting": 2
+    },
+    "daily_samples": [
+      {
+        "virtual_day": 1,
+        "cycles": 8,
+        "events": 226,
+        "jobs": 5,
+        "db_bytes": 1421312
+      },
+      {
+        "virtual_day": 2,
+        "cycles": 8,
+        "events": 370,
+        "jobs": 5,
+        "db_bytes": 1896448
+      },
+      {
+        "virtual_day": 3,
+        "cycles": 8,
+        "events": 514,
+        "jobs": 5,
+        "db_bytes": 2371584
+      },
+      {
+        "virtual_day": 4,
+        "cycles": 8,
+        "events": 658,
+        "jobs": 5,
+        "db_bytes": 2854912
+      },
+      {
+        "virtual_day": 5,
+        "cycles": 8,
+        "events": 802,
+        "jobs": 5,
+        "db_bytes": 3321856
+      },
+      {
+        "virtual_day": 6,
+        "cycles": 8,
+        "events": 946,
+        "jobs": 5,
+        "db_bytes": 3788800
+      },
+      {
+        "virtual_day": 7,
+        "cycles": 8,
+        "events": 1090,
+        "jobs": 5,
+        "db_bytes": 4255744
+      },
+      {
+        "virtual_day": 8,
+        "cycles": 8,
+        "events": 1236,
+        "jobs": 5,
+        "db_bytes": 4734976
+      },
+      {
+        "virtual_day": 9,
+        "cycles": 8,
+        "events": 1380,
+        "jobs": 5,
+        "db_bytes": 5210112
+      },
+      {
+        "virtual_day": 10,
+        "cycles": 8,
+        "events": 1524,
+        "jobs": 5,
+        "db_bytes": 5681152
+      },
+      {
+        "virtual_day": 11,
+        "cycles": 8,
+        "events": 1668,
+        "jobs": 5,
+        "db_bytes": 6139904
+      },
+      {
+        "virtual_day": 12,
+        "cycles": 8,
+        "events": 1812,
+        "jobs": 5,
+        "db_bytes": 6606848
+      },
+      {
+        "virtual_day": 13,
+        "cycles": 8,
+        "events": 1956,
+        "jobs": 5,
+        "db_bytes": 7081984
+      },
+      {
+        "virtual_day": 14,
+        "cycles": 8,
+        "events": 2100,
+        "jobs": 5,
+        "db_bytes": 7544832
+      },
+      {
+        "virtual_day": 15,
+        "cycles": 8,
+        "events": 2244,
+        "jobs": 5,
+        "db_bytes": 8032256
+      },
+      {
+        "virtual_day": 16,
+        "cycles": 8,
+        "events": 2388,
+        "jobs": 5,
+        "db_bytes": 8503296
+      },
+      {
+        "virtual_day": 17,
+        "cycles": 8,
+        "events": 2532,
+        "jobs": 5,
+        "db_bytes": 8970240
+      },
+      {
+        "virtual_day": 18,
+        "cycles": 8,
+        "events": 2676,
+        "jobs": 5,
+        "db_bytes": 9453568
+      },
+      {
+        "virtual_day": 19,
+        "cycles": 8,
+        "events": 2820,
+        "jobs": 5,
+        "db_bytes": 9920512
+      },
+      {
+        "virtual_day": 20,
+        "cycles": 8,
+        "events": 2964,
+        "jobs": 5,
+        "db_bytes": 10403840
+      },
+      {
+        "virtual_day": 21,
+        "cycles": 8,
+        "events": 3108,
+        "jobs": 5,
+        "db_bytes": 10887168
+      },
+      {
+        "virtual_day": 22,
+        "cycles": 8,
+        "events": 3252,
+        "jobs": 5,
+        "db_bytes": 11354112
+      },
+      {
+        "virtual_day": 23,
+        "cycles": 8,
+        "events": 3396,
+        "jobs": 5,
+        "db_bytes": 11825152
+      },
+      {
+        "virtual_day": 24,
+        "cycles": 8,
+        "events": 3540,
+        "jobs": 5,
+        "db_bytes": 12304384
+      },
+      {
+        "virtual_day": 25,
+        "cycles": 8,
+        "events": 3684,
+        "jobs": 5,
+        "db_bytes": 12767232
+      },
+      {
+        "virtual_day": 26,
+        "cycles": 8,
+        "events": 3828,
+        "jobs": 5,
+        "db_bytes": 13254656
+      },
+      {
+        "virtual_day": 27,
+        "cycles": 8,
+        "events": 3972,
+        "jobs": 5,
+        "db_bytes": 13725696
+      },
+      {
+        "virtual_day": 28,
+        "cycles": 8,
+        "events": 4116,
+        "jobs": 5,
+        "db_bytes": 14192640
+      },
+      {
+        "virtual_day": 29,
+        "cycles": 8,
+        "events": 4260,
+        "jobs": 5,
+        "db_bytes": 14667776
+      },
+      {
+        "virtual_day": 30,
+        "cycles": 8,
+        "events": 4404,
+        "jobs": 5,
+        "db_bytes": 15151104
+      },
+      {
+        "virtual_day": 31,
+        "cycles": 8,
+        "events": 4548,
+        "jobs": 5,
+        "db_bytes": 15618048
+      },
+      {
+        "virtual_day": 32,
+        "cycles": 8,
+        "events": 4692,
+        "jobs": 5,
+        "db_bytes": 16097280
+      },
+      {
+        "virtual_day": 33,
+        "cycles": 8,
+        "events": 4836,
+        "jobs": 5,
+        "db_bytes": 16568320
+      },
+      {
+        "virtual_day": 34,
+        "cycles": 8,
+        "events": 4980,
+        "jobs": 5,
+        "db_bytes": 17039360
+      },
+      {
+        "virtual_day": 35,
+        "cycles": 8,
+        "events": 5124,
+        "jobs": 5,
+        "db_bytes": 17522688
+      },
+      {
+        "virtual_day": 36,
+        "cycles": 8,
+        "events": 5268,
+        "jobs": 5,
+        "db_bytes": 17997824
+      },
+      {
+        "virtual_day": 37,
+        "cycles": 8,
+        "events": 5412,
+        "jobs": 5,
+        "db_bytes": 18485248
+      },
+      {
+        "virtual_day": 38,
+        "cycles": 8,
+        "events": 5556,
+        "jobs": 5,
+        "db_bytes": 18956288
+      },
+      {
+        "virtual_day": 39,
+        "cycles": 8,
+        "events": 5700,
+        "jobs": 5,
+        "db_bytes": 19431424
+      },
+      {
+        "virtual_day": 40,
+        "cycles": 8,
+        "events": 5844,
+        "jobs": 5,
+        "db_bytes": 19902464
+      },
+      {
+        "virtual_day": 41,
+        "cycles": 8,
+        "events": 5988,
+        "jobs": 5,
+        "db_bytes": 20373504
+      },
+      {
+        "virtual_day": 42,
+        "cycles": 8,
+        "events": 6132,
+        "jobs": 5,
+        "db_bytes": 20840448
+      },
+      {
+        "virtual_day": 43,
+        "cycles": 8,
+        "events": 6276,
+        "jobs": 5,
+        "db_bytes": 21323776
+      },
+      {
+        "virtual_day": 44,
+        "cycles": 8,
+        "events": 6420,
+        "jobs": 5,
+        "db_bytes": 21803008
+      },
+      {
+        "virtual_day": 45,
+        "cycles": 8,
+        "events": 6564,
+        "jobs": 5,
+        "db_bytes": 22286336
+      },
+      {
+        "virtual_day": 46,
+        "cycles": 8,
+        "events": 6708,
+        "jobs": 5,
+        "db_bytes": 22757376
+      },
+      {
+        "virtual_day": 47,
+        "cycles": 8,
+        "events": 6852,
+        "jobs": 5,
+        "db_bytes": 23236608
+      },
+      {
+        "virtual_day": 48,
+        "cycles": 8,
+        "events": 6996,
+        "jobs": 5,
+        "db_bytes": 23715840
+      },
+      {
+        "virtual_day": 49,
+        "cycles": 8,
+        "events": 7140,
+        "jobs": 5,
+        "db_bytes": 24190976
+      },
+      {
+        "virtual_day": 50,
+        "cycles": 8,
+        "events": 7284,
+        "jobs": 5,
+        "db_bytes": 24666112
+      },
+      {
+        "virtual_day": 51,
+        "cycles": 8,
+        "events": 7428,
+        "jobs": 5,
+        "db_bytes": 25133056
+      },
+      {
+        "virtual_day": 52,
+        "cycles": 8,
+        "events": 7572,
+        "jobs": 5,
+        "db_bytes": 25616384
+      },
+      {
+        "virtual_day": 53,
+        "cycles": 8,
+        "events": 7716,
+        "jobs": 5,
+        "db_bytes": 26107904
+      },
+      {
+        "virtual_day": 54,
+        "cycles": 8,
+        "events": 7860,
+        "jobs": 5,
+        "db_bytes": 26566656
+      },
+      {
+        "virtual_day": 55,
+        "cycles": 8,
+        "events": 8004,
+        "jobs": 5,
+        "db_bytes": 27033600
+      },
+      {
+        "virtual_day": 56,
+        "cycles": 8,
+        "events": 8148,
+        "jobs": 5,
+        "db_bytes": 27512832
+      },
+      {
+        "virtual_day": 57,
+        "cycles": 8,
+        "events": 8292,
+        "jobs": 5,
+        "db_bytes": 27983872
+      },
+      {
+        "virtual_day": 58,
+        "cycles": 8,
+        "events": 8436,
+        "jobs": 5,
+        "db_bytes": 28479488
+      },
+      {
+        "virtual_day": 59,
+        "cycles": 8,
+        "events": 8580,
+        "jobs": 5,
+        "db_bytes": 28962816
+      },
+      {
+        "virtual_day": 60,
+        "cycles": 8,
+        "events": 8724,
+        "jobs": 5,
+        "db_bytes": 29450240
+      }
+    ],
+    "opportunity_jobs": 4,
+    "new_paid_provider_calls": 0,
+    "actions": 0,
+    "decisions": [
+      "REST",
+      "EXPLORE",
+      "REST",
+      null,
+      "WATCH",
+      "WATCH",
+      "SOCIALIZE",
+      null
+    ],
+    "unchanged_fact_regeneration": 0,
+    "history_growth": "RECORDED_LINEAR_RUNTIME_AUDIT",
+    "one_subject": true
+  },
+  "automatic_runtime_sources_virtual_soak": {
+    "scope": "VIRTUAL_TIME_ORIGINAL_RUNTIME_AUTOMATIC_OWNED_SOURCE_RESEARCH",
+    "days": 60,
+    "wall_seconds": 22.57275008399938,
+    "research_jobs": 2,
+    "max_pending": 1,
+    "source_expiry_to_unknown": true,
+    "unchanged_source_no_repeat": true,
+    "actual_source_revision_new_research": true,
+    "paid_provider_calls": 0,
+    "daily": [
+      {
+        "day": 1,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 2,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 3,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 4,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 5,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 6,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 7,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 8,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 9,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 10,
+        "world": "UNKNOWN",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 11,
+        "world": "UNKNOWN",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 12,
+        "world": "UNKNOWN",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 13,
+        "world": "UNKNOWN",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 14,
+        "world": "UNKNOWN",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 15,
+        "world": "UNKNOWN",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 16,
+        "world": "UNKNOWN",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 17,
+        "world": "UNKNOWN",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 18,
+        "world": "UNKNOWN",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 19,
+        "world": "UNKNOWN",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 20,
+        "world": "UNKNOWN",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 21,
+        "world": "UNKNOWN",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 22,
+        "world": "UNKNOWN",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 23,
+        "world": "UNKNOWN",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 24,
+        "world": "UNKNOWN",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 25,
+        "world": "UNKNOWN",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 26,
+        "world": "UNKNOWN",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 27,
+        "world": "UNKNOWN",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 28,
+        "world": "UNKNOWN",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 29,
+        "world": "UNKNOWN",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 30,
+        "world": "UNKNOWN",
+        "research_jobs": 1,
+        "opportunity_jobs": 1,
+        "pending": 1
+      },
+      {
+        "day": 31,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 32,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 33,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 34,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 35,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 36,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 37,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 38,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 39,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 40,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 41,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 42,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 43,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 44,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 45,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 46,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 47,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 48,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 49,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 50,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 51,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 52,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 53,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 54,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 55,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 56,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 57,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 58,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 59,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      },
+      {
+        "day": 60,
+        "world": "SUPPORTED_BELIEF",
+        "research_jobs": 2,
+        "opportunity_jobs": 2,
+        "pending": 1
+      }
+    ]
+  },
+  "actual_wall_residency": {
+    "duration_seconds": 120.16758855100034,
+    "samples": [
+      {
+        "elapsed_seconds": 0.01269624799988378,
+        "rss_kib": 49072,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 9131195,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 5.0160280790005345,
+        "rss_kib": 49072,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 9274555,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 10.024088639000183,
+        "rss_kib": 49072,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 9274555,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 15.097974975999932,
+        "rss_kib": 49200,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 9274555,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 20.14356833200054,
+        "rss_kib": 49200,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 9274555,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 25.14991086900045,
+        "rss_kib": 49200,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 9274555,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 30.23226173400053,
+        "rss_kib": 49200,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 9274555,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 35.28628079000009,
+        "rss_kib": 49200,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 9274555,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 40.307393656000386,
+        "rss_kib": 49328,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 9274555,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 45.42540742300025,
+        "rss_kib": 49456,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 9970875,
+        "queue": 1,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 50.50754387899997,
+        "rss_kib": 49456,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 10790075,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 55.573832951999975,
+        "rss_kib": 49456,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11363515,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 60.577032285000314,
+        "rss_kib": 49584,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11363515,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 65.66817024500051,
+        "rss_kib": 49584,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11363515,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 70.76486794599987,
+        "rss_kib": 49584,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11363515,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 75.86202519400013,
+        "rss_kib": 49584,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11363515,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 80.96183016800023,
+        "rss_kib": 49584,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11363515,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 86.05312339600005,
+        "rss_kib": 49584,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11363515,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 91.12282646099993,
+        "rss_kib": 49712,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11363515,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 96.15465096400021,
+        "rss_kib": 49712,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11363515,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 101.21852871400006,
+        "rss_kib": 49712,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11363515,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 106.24153798099996,
+        "rss_kib": 49712,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11388091,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 111.2509763550006,
+        "rss_kib": 49840,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11388091,
+        "queue": 0,
+        "actions": 30
+      },
+      {
+        "elapsed_seconds": 116.26483131999976,
+        "rss_kib": 49840,
+        "fds": 10,
+        "threads": 1,
+        "db_family_bytes": 11388091,
+        "queue": 0,
+        "actions": 30
+      }
+    ],
+    "cpu_seconds": 17.738283402999997,
+    "action_replay": 0,
+    "rss_semantics": "PROCESS_MAX_RSS_NOT_CURRENT_RSS"
+  },
+  "virtual_time_is_not_real_residency": true
+}

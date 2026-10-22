@@ -1,0 +1,41 @@
+{
+  "initial_full": {
+    "passed": 1461,
+    "failed": 1,
+    "skipped": 12,
+    "seconds": 405.88,
+    "failure": "tests/cloud_life/test_followup_recovery.py::REFLECTION read empty cut marker",
+    "cause": "file creation visible before cycle ID write; parent SIGKILL raced marker publication",
+    "fix": "temporary file write + fsync + atomic replace + directory fsync",
+    "core_cycle_loss_proven": false
+  },
+  "isolated_before_fix_repeats": [
+    {
+      "run": 1,
+      "exit": 0,
+      "summary": "1 passed in 3.43s"
+    },
+    {
+      "run": 2,
+      "exit": 0,
+      "summary": "1 passed in 3.43s"
+    },
+    {
+      "run": 3,
+      "exit": 0,
+      "summary": "1 passed in 3.41s"
+    }
+  ],
+  "post_marker_pre_automatic_full": {
+    "passed": 1462,
+    "failed": 0,
+    "skipped": 12,
+    "seconds": 406.08
+  },
+  "implementation_findings_preserved": [
+    "initial integration driver supplied invalid SurfaceBinding names and short/non-UUID transfer identifiers; fixed harness, no Core weakening",
+    "meta lesson attempted to reuse one Experience for two Lessons; retained unique constraint and introduced separately verified selection experiment",
+    "research ran from driver only; integrated original runtime slices before final qualification",
+    "opportunity value inhibition moved into C; queue retains only source/privacy/expiry/idempotency bounds"
+  ]
+}

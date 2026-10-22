@@ -7,18 +7,18 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 25,
-  "as_of_us": 1792685840913757,
+  "revision": 26,
+  "as_of_us": 1792687202466580,
   "stage": "H",
   "workstream": "OPEN_LIFE_EXPANSION_AUTONOMOUS_GROWTH_V1",
-  "status": "QUALIFYING_RUNTIME_DRIVEN_RESEARCH",
+  "status": "OFFLINE_CANDIDATE_READY",
   "progress": [
-    "Advanced Growth双轨不变，Master/63基础criteria不变；原C/Store/Runtime。",
-    "原D后台切片实际推进C选择后的research；状态跨提交/调度/读取切点，UNKNOWN/source撤回不重试。",
-    "自动运行60虚拟天只产生初始/后续真实owned source revision两次research，过期UNKNOWN，pending峰1。",
-    "同Subject Runtime驱动research→原C重构→8goals/30actions/13Experiences/3Lessons/2skill use→busy defer/retire/withdraw/backup/restart/B8 debug通过。",
-    "上一源码full1462/0fail/12skip；原始1个空cut marker失败及原子修复保留，最终新源码回归/portable刷新待执行。",
-    "新paid/provider0，旧key未使用；真实用户Subject/旧web/生产/main/R045/私人历史/社交不变；HumanReview NOT_RUN，First-Life/Beta不升级。"
+    "Advanced Growth双轨不变；Master逐字/固定63条Foundation不变；原C/D/Store/Runtime。",
+    "原Runtime自动驱动来源摄取与C选择后的研究；LOW/repeated由原C自主IGNORE；UNKNOWN/source撤回不重试。",
+    "同Subject实际8 goals/30 Kernel actions/13 Experiences/3 Lessons/2 later skill uses；busy defer/retire/withdraw/backup/restart/B8通过。",
+    "固定运行源码c4791d0：full1464 passed/0failed/12skip，focused29/related159为同次子集；实际驻留120.168秒，另有60虚拟天，不冒充24h。",
+    "228文件portable可重复构建；两独立离线安装与安装版自动research/Browser/重启通过；schema13/43 tables/FK0/new dependencies0。",
+    "新paid/provider0，历史key未使用；真实用户Subject/旧web/生产/main/R045/private/social不变；HumanReview NOT_RUN，First-Life NOT_READY/Beta NO。"
   ],
   "open_gates": [
     "Human review是独立Track B，不阻塞本轮开发；付费/私人数据/真实社交/设备/生产不在范围。",
@@ -27,7 +27,10 @@
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
-    "docs/nana_open_life_expansion_v1_implementation.md"
+    "docs/nana_open_life_expansion_v1_implementation.md",
+    "docs/nana_open_life_expansion_v1_status.md",
+    "docs/nana_open_life_expansion_v1_evidence/qualification.json",
+    "docs/nana_open_life_expansion_v1_evidence/manifest.json"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2091,3 +2094,23 @@ Portable runtime handoff manifest SHA256: `a985fccd69176944522127ca14edfc046cb2e
 Final portable runtime release manifest SHA256: `006511161ace7950406f2aa820345adb5cc7bf610a3ef7505539ff5d3423d965` (self/09 excluded; runtime sourcebfea92c).
 
 Portable complete audit manifest SHA256: `46f8808ad6520d6855f72210ce65eee85bf27ddbb3a0b663b670674a9af4f555` (includes synthetic binding proof, self/09 excluded).
+
+
+## Final qualification / handoff — 2026-10-22
+
+Current result: OFFLINE_CANDIDATE_READY within OWNED_DEV_ONLY Advanced Growth.
+Runtime source c4791d03edcabaf043118141ef20109bc0f28fda; final full1464/0fail/12skip
+(409.31s), focused29/related159 from that same run. Actual120.168s residency and
+60 virtual-day scenarios are distinct; no new24h/72h claim. Integrated evidence
+records8 goals,30 Kernel actions,13 Experiences,3 Lessons,2 later skill uses;
+automatic original Runtime research, busy deferral, retirement, withdrawal UNKNOWN,
+quarantined backup and lawful same-identity transfer. All copies13/43/FK0.
+Portable228-file release SHA256119a574ca4b2ee60673b6e054be51e3ffcb526f98b0f6bfe09a94fc7d214a636;
+rebuild equal; clean offline installation and new features run without repository
+or inherited PYTHONPATH. See status, quickstart and evidence manifest for exact scope.
+
+One C/D/Store authority preserved; Master/63 criteria unchanged; no production,
+main/R045, old web/current user Subject, private history or paid provider operation.
+Human Review NOT_RUN, First-Life NOT_READY, Beta NO. FORM gestures do not qualify
+real desktop/mobile/gameplay; fixed source/schema/method adapters do not qualify
+general world comprehension/meta-learning. Track A no longer waits for Track B.

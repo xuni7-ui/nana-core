@@ -1,0 +1,4 @@
+Final pinned offline full: 1464 passed / 0 failed / 12 skipped.
+New focused: 29 PASS; related 159 PASS (subsets of same final full).
+Initial failed marker race retained in initial_failures.json; assertions not weakened.
+Original Foundation63 unchanged; no real provider, human, external device, social, production qualification.

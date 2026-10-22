@@ -1,0 +1,10 @@
+{
+  "historical_credentials_read_or_used": false,
+  "paid_provider_calls": 0,
+  "new_changed_files_credential_pattern_matches": 0,
+  "portable_text_credential_pattern_matches": 0,
+  "exact_private_key_scan": "NOT_APPLICABLE_NO_PRIVATE_KEY_READ",
+  "legacy_whole_tracked_pattern_scan": "24 pre-existing occurrences, all same intentional sanitizer test fixture and historical JUnit copies; not altered",
+  "credential_or_authorization_output": false,
+  "scope": "EXPLICIT_CHANGED_PATHS_AND_ARCHIVE_TEXT; OLD_UNTRACKED_BUNDLE_NEVER_INPUT"
+}

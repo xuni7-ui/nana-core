@@ -1,0 +1,28 @@
+{
+  "runtime_source_commit": "c4791d03edcabaf043118141ef20109bc0f28fda",
+  "files": {
+    "docs/nana_open_life_expansion_v1_evidence/autonomous_life.json": "ad17139c1ad6b23e0df1c6b984522ebe8d1998b9883c4f18edf7547188a95db4",
+    "docs/nana_open_life_expansion_v1_evidence/broader_hands.json": "33a75df9bbc483b942816d2209e95a443728648bdfd7e3ebe7248a0072092494",
+    "docs/nana_open_life_expansion_v1_evidence/bundle.json": "7676f8b267c0c664828053e9b217806f46d26384424869054b9a32810366010e",
+    "docs/nana_open_life_expansion_v1_evidence/initial_failures.json": "ba7205a3b85b7467edcd528c0ccb92a98b84eb9ec7db3999d172726fa705a63a",
+    "docs/nana_open_life_expansion_v1_evidence/integrated_lifecycle.json": "dbc593123ac38afece5c474f581ef4b6108ac0d0ce53ca5d9cdad871e62d2be7",
+    "docs/nana_open_life_expansion_v1_evidence/limitations.txt": "ccffe8024f9e3e9733cb31bb05a6b1d4198684400ec54b5dc2991e8007d88219",
+    "docs/nana_open_life_expansion_v1_evidence/portability.json": "7676f8b267c0c664828053e9b217806f46d26384424869054b9a32810366010e",
+    "docs/nana_open_life_expansion_v1_evidence/qualification.json": "805b06c47d9477931c9ef86e07399a488693ec1380effa16a0579cf05ce5497e",
+    "docs/nana_open_life_expansion_v1_evidence/recovery.json": "5913b463a236329d1f1ee551a794e885f1ad5ddce085a07af1db2a519758a936",
+    "docs/nana_open_life_expansion_v1_evidence/runtime_source_fingerprints.json": "0aebf62999d45459adc40d63737b9cfe67dd7af18551fa1ed6f8e1faa58dfbaf",
+    "docs/nana_open_life_expansion_v1_evidence/schema_and_storage.json": "bf19e389408c4d86d8041b619216286ca3f946fe42cada641bf25f53e0e4f9c1",
+    "docs/nana_open_life_expansion_v1_evidence/self_evolution.json": "a797d646cd9a9b6fbc0c491afd57f578a4b9e422cb9de4744a94bbb7f501278f",
+    "docs/nana_open_life_expansion_v1_evidence/self_extension.json": "eb054af23958fc87ca387ab5b4c05bb74cfea8d50fe81825c2e6b21a1e20f88f",
+    "docs/nana_open_life_expansion_v1_evidence/shared_presence.json": "350e5470116060d7be1cd9a4601aa0f6d534ea9c2276039ac784db796c78bee4",
+    "docs/nana_open_life_expansion_v1_evidence/test_summary.txt": "3df11ac1856a66caa3cac6086bf821d1807caeb224e895c2ca6fd02c835c4726",
+    "docs/nana_open_life_expansion_v1_evidence/world_research.json": "44d0906111e9989bc3a863c612d956554cfd4fe0c90c31d41b37854e8952282e",
+    "docs/nana_open_life_expansion_v1_implementation.md": "5a92ebee915aac65bdd8282ba0d77d3518e315ee5f394ff72d8f0b260ab58a43",
+    "docs/nana_open_life_expansion_v1_quickstart.md": "c32268567db4ea7fe1a014db76e6d22bfc16db345d9d373d6305838ced06f9a4",
+    "docs/nana_open_life_expansion_v1_status.md": "a1e1a0c5a69963178a417083ed75cff954a4b778791e1d94f11f7e432845c4bc",
+    "tools/nana_open_life/check.py": "5d03b742e8c8b5c7a013b5532fd52682d2e22ebfb11aaeb405128500143ee0f3",
+    "docs/nana_open_life_expansion_v1_evidence/data_boundary.json": "2a9cafa491ed33105a175346782d185190b864f4767ac6f617f74820caa9421b"
+  },
+  "self_excluded": true,
+  "final_git_commit": "NORMAL_DOCUMENTATION_COMMIT_AFTER_RUNTIME_PIN"
+}

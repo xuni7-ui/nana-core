@@ -1,0 +1,14 @@
+{
+  "later_kernel_skill_uses": 2,
+  "retirement": {
+    "retired_record_id": "753f4c85-babd-4038-a843-11c9be98fc5d",
+    "not_recreated": true
+  },
+  "sandbox": "ORIGINAL_BWRAP_PURE_DATA_NO_NETWORK_NO_HOST_FILES",
+  "actual_general_plugin_install": false,
+  "source_withdrawal": {
+    "world_state": "UNKNOWN",
+    "historical_action_count_preserved": true,
+    "no_physical_effect_rewrite": true
+  }
+}

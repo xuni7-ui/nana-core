@@ -1,0 +1,9 @@
+{
+  "candidate_count": 10,
+  "busy_result": "DEFER_BUSY",
+  "delivered": false,
+  "no_send_authorization_created": true,
+  "human_review": "NOT_RUN",
+  "existing_cross_surface_contracts_preserved": true,
+  "real_social_sends": 0
+}

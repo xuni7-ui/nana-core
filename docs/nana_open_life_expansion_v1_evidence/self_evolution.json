@@ -1,0 +1,35 @@
+{
+  "meta_learning": {
+    "lesson_id": "14a90754-4372-4b18-b909-fec2c5bafd86",
+    "state": "ACTIVE",
+    "separate_executed_selection_experiment": true,
+    "evaluator_unchanged": true,
+    "later_changed_hypothesis_selection": "QUALIFIED_SEPARATELY_IN_TARGETED_TEST_NOT_CLAIMED_FROM_THIS_EPISODE"
+  },
+  "learning_jobs": 2,
+  "experience_outcomes": [
+    "FAILURE",
+    "SUCCESS",
+    "SUCCESS",
+    "SUCCESS",
+    "SUCCESS",
+    "FAILURE",
+    "SUCCESS",
+    "SUCCESS",
+    "SUCCESS",
+    "FAILURE",
+    "SUCCESS",
+    "SUCCESS",
+    "FAILURE"
+  ],
+  "strategy_verdicts": [
+    "SUCCESS",
+    "SUCCESS",
+    "COUNTEREXAMPLE",
+    "COUNTEREXAMPLE"
+  ],
+  "source": "ORIGINAL_EXPERIENCE_LESSON_AND_G_STAGES",
+  "bounded_methods_only": true,
+  "evaluator_replaced": false,
+  "future_meta_selection_proof": "tests/open_life/test_meta_learning.py"
+}

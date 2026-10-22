@@ -1471,3 +1471,15 @@ wish each wake. Unknown intake forbids later poll-bucket retries. Research remai
 belief comparison, not skill acquisition, independent world truth or authority.
 Historical release manifests bind their historical code; new growth is separately
 attested. No frozen Master/criterion definitions or S10 verifier rules change.
+
+
+## Open Life final scope and release separation — 2026-10-22
+
+Runtime/research/learning remain within original C/D/Store/G/I. LOW/repeated
+value inhibition belongs to original C, while queue admission only handles
+privacy/current source/expiry/idempotency. Automatic research has bounded durable
+slices and original C endorsement; HTTP dispatch UNKNOWN cannot become a new-poll
+retry. Meta lessons select practice hypotheses, never replace heldout/evaluation.
+The portable archive pins clean runtime c4791d0; final documentation commit records
+its hash rather than rebuilding business code for a self-referential commit.
+Scope-qualified dev PASS does not promote human/First-Life/Beta or device authority.
