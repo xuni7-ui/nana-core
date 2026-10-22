@@ -118,6 +118,10 @@ class LivingWork:
                 with r.store.transaction('open.learning_unknown',{'work_id':job['job_id'],'error_type':type(exc).__name__}) as tx:tx.update('jobs',job['job_id'],state='UNKNOWN',revision=job['revision']+1)
                 return {'work_id':job['job_id'],'reason':'LEARNING_UNKNOWN_REVIEW_REQUIRED'}
             if activity:return activity
+        background=getattr(self.activity_source,'maintenance_slice',None)
+        if background:
+            activity=background()
+            if activity:return activity
         for head in r.store.db.execute("SELECT * FROM continuity_records c WHERE record_kind='MAINTENANCE_CANDIDATE' AND lifecycle='ACTIVE' AND NOT EXISTS (SELECT 1 FROM events e WHERE e.source_namespace='living.review' AND e.source_key=c.record_id) ORDER BY created_at_us LIMIT 16"):
             try:_,body=self.maintenance.candidate(head['record_id'])
             except CoreError:continue

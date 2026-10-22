@@ -7,18 +7,18 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 24,
-  "as_of_us": 1792683869970459,
+  "revision": 25,
+  "as_of_us": 1792685840913757,
   "stage": "H",
   "workstream": "OPEN_LIFE_EXPANSION_AUTONOMOUS_GROWTH_V1",
-  "status": "QUALIFYING_ADVANCED_GROWTH",
+  "status": "QUALIFYING_RUNTIME_DRIVEN_RESEARCH",
   "progress": [
-    "Advanced Growth双轨：Track A持续建设，Track B真人评审独立；Master/63标准保留。",
-    "原队列/World/研究/C/Hands/G/I已接通；owned Browser与form gestures不是用户设备。",
-    "原G新增有限practice筛选策略；不同实验经原Experience门；原C可暂停/恢复/放弃同一目标，不重放计划。",
-    "开发态同Subject闭环8goals/30actions、2后续Kernel skill use、负迁移、retirement/source withdrawal/restart/B8迁移通过；最终干净源码资格待执行。",
-    "当前targeted26及阶段related156 PASS；最终回归与portable bundle待刷新。",
-    "新付费Provider0，历史Key未读取；actual旧网页/用户Subject/production/main/R045不变；HumanReview NOT_RUN，First-Life/Beta不升级。"
+    "Advanced Growth双轨不变，Master/63基础criteria不变；原C/Store/Runtime。",
+    "原D后台切片实际推进C选择后的research；状态跨提交/调度/读取切点，UNKNOWN/source撤回不重试。",
+    "自动运行60虚拟天只产生初始/后续真实owned source revision两次research，过期UNKNOWN，pending峰1。",
+    "同Subject Runtime驱动research→原C重构→8goals/30actions/13Experiences/3Lessons/2skill use→busy defer/retire/withdraw/backup/restart/B8 debug通过。",
+    "上一源码full1462/0fail/12skip；原始1个空cut marker失败及原子修复保留，最终新源码回归/portable刷新待执行。",
+    "新paid/provider0，旧key未使用；真实用户Subject/旧web/生产/main/R045/私人历史/社交不变；HumanReview NOT_RUN，First-Life/Beta不升级。"
   ],
   "open_gates": [
     "Human review是独立Track B，不阻塞本轮开发；付费/私人数据/真实社交/设备/生产不在范围。",

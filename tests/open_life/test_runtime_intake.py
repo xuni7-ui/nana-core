@@ -23,6 +23,11 @@ def test_configured_source_runs_in_original_idle_runtime_and_withdraws(tmp_path)
         assert world.view('project-user','source.status').state=='SUPPORTED_BELIEF'
         original=app.advanced.intake.read('feed')
         assert any(c['behavior']=='EXPLORE' for c in app.advanced.queue.view())
+        jobs=r.store.db.execute("SELECT * FROM jobs WHERE work_kind='LIFE_RESEARCH'").fetchall()
+        assert jobs and all(j['state']=='DONE' for j in jobs)
+        from nana_core.continuity.records import RecordService
+        assert RecordService(r.store).read(jobs[0]['record_id'])['payload']['state']=='INSUFFICIENT_EVIDENCE'
+        assert not r.store.all('experiences') and not r.store.all('lessons')
         feed.write_text(json.dumps(value('closed')))
         for _ in range(8):clock.advance(10*SECOND);app.tick()
         assert world.view('project-user','source.status').state=='CONFLICT'
@@ -30,3 +35,8 @@ def test_configured_source_runs_in_original_idle_runtime_and_withdraws(tmp_path)
         assert world.view('project-user','source.status').state=='UNKNOWN'
         assert not r.store.all('actions') and not r.store.all('cognitive_requests')
         assert app.board()['advanced_life']['world_source_health']
+        count=r.store.db.execute("SELECT count(*) FROM jobs WHERE work_kind='LIFE_RESEARCH'").fetchone()[0]
+    with LifeApplication(home,clock=clock) as reopened:
+        for _ in range(5):clock.advance(SECOND);reopened.tick()
+        assert reopened.runtime.store.db.execute("SELECT count(*) FROM jobs WHERE work_kind='LIFE_RESEARCH'").fetchone()[0]==count
+        assert not reopened.runtime.store.all('actions') and not reopened.runtime.store.all('cognitive_requests')

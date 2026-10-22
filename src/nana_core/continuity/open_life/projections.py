@@ -12,7 +12,7 @@ def advanced_view(store,*,scope,privacy):
     def visible(rid):
         h=store.one('continuity_records',rid)
         return bool(h and h['scope']==scope and h['privacy_class'] in privacy and h['lifecycle']=='ACTIVE' and records.current_support(rid))
-    problems=[];failures=defaultdict(list);goals=[];learning=[];meta=[]
+    problems=[];failures=defaultdict(list);goals=[];learning=[];meta=[];research=[]
     for row in store.db.execute('SELECT * FROM experiences ORDER BY created_at_us DESC LIMIT 32'):
         if row['outcome']=='FAILURE' and visible(row['record_id']):failures[row['task_class']].append(row)
     for domain,rows in failures.items():
@@ -42,13 +42,17 @@ def advanced_view(store,*,scope,privacy):
                 'transfer_passed':results['TRANSFER']['all_passed'],'source_record_id':row['record_id'],
                 'changes_evaluator':False,'automatically_adopted':False})
     active=sum(g['state']=='ACTIVE' for g in goals)
+    for row in store.db.execute("SELECT * FROM jobs WHERE work_kind='LIFE_RESEARCH' ORDER BY rowid DESC LIMIT 16"):
+        if not row['record_id'] or not visible(row['record_id']):continue
+        b=records.read(row['record_id'])['payload']
+        research.append({'work_id':row['job_id'],'state':row['state'],'result_state':b['state'],'cursor':row['cursor'],'source_count':len(b['sources']),'cycle_id':b['cycle_id'],'source_record_id':row['record_id'],'not_learning':True})
     appetite=social_appetite(store,scope=scope,privacy_classes=privacy)
     from .opportunities import projection
     opportunities=projection(store,(scope,),privacy)
     explored=[o for o in opportunities if o.get('behavior')=='EXPLORE']
     rested=[o for o in opportunities if o.get('behavior')=='REST']
     suppressed=[o for o in opportunities if o['state']=='SUPPRESSED']
-    return {'derived':True,'problem_candidates':problems[:16],'goals':goals,'learning_cycles':learning,
+    return {'derived':True,'problem_candidates':problems[:16],'goals':goals,'learning_cycles':learning,'research_episodes':research,
         'learning_strategy_candidates':meta,'rhythm':{'rest_need':'PRESENT' if active>=4 or rested else 'NOT_ESTABLISHED',
         'unfinished_task_pull':'PRESENT' if active else 'NOT_ESTABLISHED','curiosity':'SOURCE_BACKED_INTEREST' if explored else 'NOT_ESTABLISHED',
         'low_stimulation':'REPEATED_LOW_VALUE_OPPORTUNITIES' if len(suppressed)>=3 else 'NOT_ESTABLISHED',

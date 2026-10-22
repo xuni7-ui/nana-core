@@ -35,23 +35,25 @@ def run(root,*,wall_seconds=60):
     root=Path(root).absolute()
     if root.exists():raise ValueError('FRESH_OWNED_ROOT_REQUIRED')
     root.mkdir(mode=0o700,parents=True);started=time.monotonic();result={'scope':'OWNED_DEV_PROCESSES_AND_SYNTHETIC_SEMANTICS','new_paid_provider_calls':0,'real_social_send':0,'private_data_accessed':False,'human_review':'NOT_RUN'}
-    sources=root/'sources';sources.mkdir();(sources/'feed.json').write_text(json.dumps({'source':'owned project feed','need':'review unfinished application tasks'}));(sources/'guide.json').write_text(json.dumps({'source':'independent owned tutorial','need':'review unfinished application tasks'}))
+    sources=root/'sources';sources.mkdir()
+    for name in ('feed','guide'):
+        (sources/(name+'.json')).write_text(json.dumps({'source':name,'world_claim':{'entity_id':'project-user','predicate':'work.review-needed','kind':'INTERPRETED','value':True,'valid_from_us':time.time_ns()//1000,'confidence':.6}}))
     with OwnedApplication(root/'target') as host,OwnedBrowser(host.profile) as browser:
         material=lambda p:material_for(REPO,'src/nana_core/continuity/'+p)
-        cfg=LifeConfig(project_root=str(REPO),materials=(material('recurrence.py'),),practice=material('identity.py'),heldout=material('autonomy/requests.py'),transfer=material('subject/social.py'),owned_application_profile=str(host.profile),owned_browser_endpoint=browser.endpoint,allow_local_skills=True,max_autonomous_materials=0,shared_presence=False,quiet_start_local_hour=0,quiet_end_local_hour=0,surface_bindings=(SurfaceBinding(binding_id='surface.cli',platform='platform.cloud',surface='surface.cli',adapter='adapter.local'),))
+        cfg=LifeConfig(project_root=str(REPO),materials=(material('recurrence.py'),),practice=material('identity.py'),heldout=material('autonomy/requests.py'),transfer=material('subject/social.py'),owned_application_profile=str(host.profile),owned_browser_endpoint=browser.endpoint,allow_local_skills=True,max_autonomous_materials=0,advanced_life=True,world_source_root=str(sources),world_sources=tuple(IntakeSource(source_id=n,channel='STRUCTURED_FEED',location=n+'.json',semantic_format='SOURCED_CLAIM_JSON') for n in ('feed','guide')),shared_presence=False,quiet_start_local_hour=0,quiet_end_local_hour=0,surface_bindings=(SurfaceBinding(binding_id='surface.cli',platform='platform.cloud',surface='surface.cli',adapter='adapter.local'),))
         home=root/'life';write_config(home,cfg)
         with LifeApplication(home,bootstrap_grant=True) as app:
             r=app.runtime;identity=r.identity_id;records=RecordService(r.store)
-            original_source=r.work.activity_source;q=OpportunityQueue(r);r.work.activity_source=q
-            intake=WorldIntake(r,sources,tuple(IntakeSource(source_id=n,channel='STRUCTURED_FEED',location=n+'.json') for n in ('feed','guide')),scope='project-work')
-            first=intake.read('feed')
-            m,bid=intake.interpret(first,SourcedClaim(entity_id='project-user',predicate='work.review-needed',kind='INTERPRETED',value=True,valid_from_us=r.clock.utc_now_us(),confidence=.6))
-            research=ResearchService(r,q,intake);j=research.notice('research.owned-work',(m,))
-            until(app,lambda:r.store.one('jobs',j)['state']=='DONE')
-            assert records.read(r.store.one('jobs',j)['record_id'])['payload']['behavior']=='EXPLORE'
-            other=research.gather(j,'guide');m2,_=intake.interpret(other,SourcedClaim(entity_id='project-user',predicate='work.review-needed',kind='INTERPRETED',value=True,valid_from_us=r.clock.utc_now_us(),confidence=.6))
-            comparison=research.compare(j,'project-user','work.review-needed',(m,m2))
-            assert records.read(comparison)['payload']['state']=='ENOUGH_FOR_BOUNDED_BELIEF'
+            original_previous=app.advanced.previous;app.advanced.previous=None
+            q=app.advanced.queue;intake=app.advanced.intake
+            until(app,lambda:bool(r.store.db.execute("SELECT 1 FROM jobs WHERE work_kind='LIFE_RESEARCH' AND state='DONE'").fetchone()))
+            research_job=r.store.db.execute("SELECT * FROM jobs WHERE work_kind='LIFE_RESEARCH' AND state='DONE'").fetchone()
+            research_body=records.read(research_job['record_id'])['payload']
+            assert research_body['state']=='ENOUGH_FOR_BOUNDED_BELIEF'
+            j=research_body['opportunity_id'];comparison=research_body['comparison_record_id']
+            first=intake.read('feed');m,m2=research_body['semantic_memory_ids']
+            bid=WorldModel(r.store,scopes=('project-work',),privacy_classes=('PROJECT',)).view('project-user','work.review-needed').alternatives[0]['belief_id']
+            result['runtime_driven_research']={'job_id':research_job['job_id'],'cursor':research_job['cursor'],'result':research_body['state'],'driver_did_not_call_notice_gather_compare':True}
             # Actual owned application observation refutes an empty-document
             # premise; original C chooses a different problem before adoption.
             obs=app.work.port.peek('document-baseline')
@@ -66,7 +68,7 @@ def run(root,*,wall_seconds=60):
             frames=[records.read(c['record_id'])['payload'].get('problem_frame') for c in r.store.all('subject_cycles')]
             assert any(f and f['state']=='REFRAME' for f in frames)
             result['problem_framing']={'actual_nonempty_source':True,'original_cycle_count':len(frames),'goal_horizon':obj.horizon}
-            r.work.activity_source=original_source
+            app.advanced.previous=original_previous;r.work.activity_source=app.advanced
             until(app,lambda:bool(r.store.db.execute("SELECT 1 FROM lessons WHERE state='ACTIVE' AND task_class='owned-document'").fetchone()))
             from nana_core.continuity.open_life.meta_learning import propose as meta_propose
             from nana_core.continuity.learning import ExperienceService
@@ -94,7 +96,7 @@ def run(root,*,wall_seconds=60):
             decision=app.shared.review(sharebody['cycle_id'],'surface.cli');assert decision['decision']['result']=='DEFER_BUSY' and not decision['delivered']
             result['shared_presence']={'candidate_count':len(shared),'busy_result':decision['decision']['result'],'delivered':False}
             # Actual wall residency: no forced new activity or provider use.
-            r.work.activity_source=q;before=len(r.store.all('actions'));samples=[];wall_start=time.monotonic();cpu_start=time.process_time()
+            r.work.activity_source=app.advanced;before=len(r.store.all('actions'));samples=[];wall_start=time.monotonic();cpu_start=time.process_time()
             while time.monotonic()-wall_start<wall_seconds:
                 app.tick()
                 if not samples or time.monotonic()-samples[-1]['elapsed_seconds']-wall_start>=5:
@@ -129,7 +131,8 @@ def run(root,*,wall_seconds=60):
             assert app.runtime.identity_id==identity and all(g['revoked'] for g in app.runtime.store.all('grants'))
             assert len(app.runtime.store.all('actions'))==snapshot['actions']
             assert app.runtime.store.db.execute("SELECT count(*) FROM jobs WHERE work_kind='LIFE_OPPORTUNITY'").fetchone()[0]==snapshot['opportunity_jobs']
-            assert not OpportunityQueue(app.runtime).view() # withdrawn source stays unavailable after transfer
+            visible={o['job_id'] for o in OpportunityQueue(app.runtime).view()}
+            assert j not in visible and share not in visible # withdrawn source stays unavailable after transfer
             result['migration']={'same_identity':True,'old_grants_revoked':True,'goals_preserved':len(app.runtime.store.all('goals'))==snapshot['goals'],'lessons_preserved':len(app.runtime.store.all('lessons'))==snapshot['lessons'],'opportunity_headers_preserved':True,'withdrawn_content_not_revived':True}
         result['snapshot']=snapshot
     result['total_wall_seconds']=time.monotonic()-started

@@ -2441,3 +2441,16 @@ of a committed Subject cycle. Fixed the developer crash worker to write+fsync a
 temporary marker then atomic replace+directory fsync. Original C/runtime and all
 recovery assertions unchanged. Keep initial failure evidence; final full rerun
 required. Runtime/portable source remains0504050 byte-for-byte.
+
+### Open Life — automatic research on original background slices
+
+Pre-automatic capability full rerun1462passed/0failed/12skipped,406.08s after
+atomic marker fix. Construction reconciliation then found driver-only research
+advancement; implemented original D ResearchWork, scoped durable jobs, C-endorsement
+requirement, bounded source selection, source-withdrawal/UNKNOWN parking and
+idempotent terminal acknowledgment. No new loop/store. Driver now uses actual
+Runtime-driven research before the owned life/action/growth chain. Actual SIGKILL
+before schedule/after gather PASS;60virtual days yield two research episodes for
+original/later source, expiry UNKNOWN, max pending1, no action/provider calls.
+Final source pin/full/portable refresh follow; previous source0504050 remains
+historical qualified evidence, not silently relabeled current code.

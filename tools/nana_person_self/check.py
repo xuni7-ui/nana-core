@@ -4,6 +4,9 @@ from pathlib import Path
 from tools.nana_foundation_audit.check import check as foundation
 ROOT=Path(__file__).resolve().parents[2]
 E=ROOT/'docs/nana_persistent_person_self_v1_evidence'
+RELEASE='1fd40c9cbd12a56a4ec1e3f11d37aaffeea69cf7'
+
+def released(name):return subprocess.check_output(['git','show',RELEASE+':'+name],cwd=ROOT)
 
 def check(archive=None):
     assert foundation()['criteria']==63
@@ -15,15 +18,16 @@ def check(archive=None):
     assert q['full_regression']['failed']==0 and q['focused']['failed']==0 and q['related']['failed']==0
     for name,sha in m['files'].items():
         assert name!='docs/nana_persistent_person_self_v1_evidence/manifest.json'
-        assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==sha,name
+        assert hashlib.sha256(released(name)).hexdigest()==sha,name
+        if name.startswith('docs/nana_persistent_person_self_v1_evidence/'):
+            assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==sha,name
     for name,sha in m['runtime_source_files'].items():
         assert hashlib.sha256(subprocess.check_output(['git','show',m['runtime_source_commit']+':'+name],cwd=ROOT)).hexdigest()==sha
-        assert hashlib.sha256((ROOT/name).read_bytes()).hexdigest()==sha,name
     assert len(json.loads((E/'heldout_conversations.json').read_text())['cases'])==20
     corpus=json.loads((E/'initial_corpus.json').read_text())
     assert corpus['accepted_real_samples']==0 and corpus['same_episode_not_independent_support']
     if archive:assert hashlib.sha256(Path(archive).read_bytes()).hexdigest()==q['bundle']['sha256']
-    return {'result':'PASS_BOUNDED_TECHNICAL_HANDOFF','human_review':'NOT_RUN','new_provider_calls':0,'actual_mobile_web_binding':'NOT_IDENTIFIED','first_life_beta_upgraded':False,'archive_verified':archive is not None}
+    return {'result':'PASS_HISTORICAL_BOUNDED_TECHNICAL_HANDOFF','release_commit':RELEASE,'current_runtime_attested':False,'human_review':'NOT_RUN','new_provider_calls':0,'actual_mobile_web_binding':'NOT_IDENTIFIED','first_life_beta_upgraded':False,'archive_verified':archive is not None}
 
 def main():
     p=argparse.ArgumentParser(description=__doc__);p.add_argument('--archive',type=Path);a=p.parse_args();print(json.dumps(check(a.archive),indent=2))

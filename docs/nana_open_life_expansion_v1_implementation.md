@@ -103,3 +103,33 @@ it and fsyncs the directory. No C transaction, Core invariant, test assertion,
 timeout or R045 implementation was weakened. Final full rerun must be green.
 The runtime source/artifact0504050 stays identical; the later harness commit
 qualifies test-protocol hardening and does not change shipped business code.
+
+## Automatic research integration (final capability delta)
+
+A reconciliation check found that the first scenario advanced ResearchService
+from the development driver. That was a useful component proof, not sufficient
+for continuous autonomous research. Added ResearchWork on original LIFE_RESEARCH
+jobs and the original D maintenance safe point. It only starts after original C
+has committed EXPLORE/ENDORSED. Each background slice gathers at most one explicitly
+configured source, derives typed semantics, then compares evidence. Research is
+not automatically an Experience, lesson, adopted external goal or authorization.
+Opaque sources remain insufficient rather than inventing semantic conclusions.
+
+Reconciliation covers C-ack→schedule and gather→cursor crash gaps. A completed
+research job settles its original intention idempotently, including after a crash
+between result commit and acknowledgment. Privacy/scope is filtered before bodies;
+withdrawal cancels pending work; source rebinding and UNKNOWN park instead of retry.
+Inspector projects research state/cursor/source count without transcript/thought.
+
+The revised integrated driver does not call notice/gather/compare: the actual
+Runtime drives the original C/source/research path before the same owned Hand /
+Verify / original learning / skill-use / share / recovery sequence. Added actual
+SIGKILL qualification before scheduling and after a gather. The new automatic
+source60-virtual-day run sees exactly two research episodes: original source,
+then a later actual owned-file revision; expiry yields UNKNOWN in between. This
+is separate from actual wall residency and from the historical Foundation24h.
+
+Historical Person-Self release verification is now checked at its committed
+1fd40c9 release, retaining original evidence bytes; it does not falsely attest
+new business code or prevent authorized later changes. Current growth has its
+own manifest, source pin, regression and installed-package qualification.

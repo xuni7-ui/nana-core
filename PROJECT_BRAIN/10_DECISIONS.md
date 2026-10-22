@@ -1461,3 +1461,13 @@ Optional speech ancestry is bounded without severing stored privacy edges; stabl
 ## Open Life V1 — construction/experience separation and owned growth boundary
 
 New user mission explicitly continues Track A while Track B awaits actual human review. This supersedes previous task-specific developer STOP, not Master/criteria or human PASS requirements. Add attention as original jobs and C cues; research is evidence comparison, not learning; exact owned Browser port joins sealed development allowlist, without accepting arbitrary subclasses/network. Form gestures are simulator proposals, not user-device permission. Meta-strategy projections do not modify the evaluator.
+
+### Open Life — research is original D work after original C, not a demo controller
+
+ResearchService is advanced by original maintenance slices only after a committed
+C EXPLORE/ENDORSED. Existing jobs/records retain state; bounded reconciliation
+closes acknowledgment/scheduling gaps. Same source cannot generate a new research
+wish each wake. Unknown intake forbids later poll-bucket retries. Research remains
+belief comparison, not skill acquisition, independent world truth or authority.
+Historical release manifests bind their historical code; new growth is separately
+attested. No frozen Master/criterion definitions or S10 verifier rules change.

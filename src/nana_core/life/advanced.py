@@ -16,6 +16,10 @@ class AdvancedLife:
         self.app,self.previous=app,previous;self.queue=OpportunityQueue(app.runtime);self.next_at=0
         self.intake=WorldIntake(app.runtime,app.config.world_source_root or app.config.project_root,app.config.world_sources,scope=app.runtime.config.scopes[0])
         self.next_source_at=0;self.source_health={}
+        from ..continuity.open_life.research_work import ResearchWork
+        self.research_work=ResearchWork(app.runtime,self.queue,self.intake)
+
+    def maintenance_slice(self):return self.research_work.slice()
 
     def intake_slice(self):
         r=self.app.runtime;now=r.clock.utc_now_us()

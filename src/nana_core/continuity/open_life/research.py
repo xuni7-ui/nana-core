@@ -25,9 +25,9 @@ class ResearchService:
             if old['lifecycle']!='ACTIVE' or not self.records.current_support(old['record_id']):raise CoreError('RESEARCH_SOURCE_RETIRED')
             return self.records.read(old['record_id'])['payload']['source_memory_id']
         # Per episode bound is explicit, independent of a model's request count.
-        existing=s.db.execute("SELECT count(*) FROM record_dependencies d JOIN continuity_records r ON d.record_id=r.record_id WHERE d.parent_id=? AND d.parent_kind='RECORD' AND r.record_kind='RUNTIME_WORK'",(head['record_id'],)).fetchone()[0]
+        existing=s.db.execute("SELECT count(*) FROM record_dependencies d JOIN continuity_records r ON d.record_id=r.record_id JOIN artifacts a ON a.artifact_id=r.payload_artifact_id WHERE d.parent_id=? AND d.parent_kind='RECORD' AND r.record_kind='RUNTIME_WORK' AND json_extract(CAST(a.payload AS TEXT),'$.kind')='RESEARCH_EPISODE'",(head['record_id'],)).fetchone()[0]
         if existing>=4:raise CoreError('RESEARCH_SOURCE_BUDGET')
-        mid=self.intake.read(source_id)
+        mid=self.intake.read(source_id,observation_id=opportunity_id)
         with s.transaction('life.research_source_gathered',{'opportunity_id':opportunity_id}) as tx:
             self.records.create(tx,kind='RUNTIME_WORK',scope=head['scope'],payload={'kind':'RESEARCH_EPISODE','state':'GATHERED_NOT_CONCLUDED','source_memory_id':mid,'cycle_id':body['cycle_id'],'not_learning':True},memories=(mid,),records=(head['record_id'],),target_id=key)
         return mid
