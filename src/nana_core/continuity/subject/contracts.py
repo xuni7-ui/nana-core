@@ -33,12 +33,15 @@ class PreferenceSignal(DTO):
         return self
 
 
+from ..person_self import ConversationProposal, ConversationDecision
+
 class SubjectInput(DTO):
+    conversation_proposal: ConversationProposal | None = None
     problem_frame: ProblemFrame | None = None
     interaction_signal: InteractionSignal | None = None
     growth_assessment_id: str | None = None
     schema_version: Literal[1] = 1
-    domain: Literal['SYNTHETIC_ONLY','DEVELOPMENT_MATERIAL','LOCAL_INTERACTION'] = 'SYNTHETIC_ONLY'
+    domain: Literal['SYNTHETIC_ONLY','DEVELOPMENT_MATERIAL','LOCAL_INTERACTION','SOURCED_LIFE'] = 'SYNTHETIC_ONLY'
     source_key: str = Field(pattern=r'^(?:synthetic|development|local)[.:_-][A-Za-z0-9._:-]{1,128}$')
     surface: SurfaceEnvelope | None = None
     goal_step: GoalStepRef | None = None
@@ -80,6 +83,7 @@ class SubjectInput(DTO):
 
     @model_validator(mode='after')
     def provenance(self):
+        if self.domain=='SOURCED_LIFE' and (self.origin!='SELF_WAKE' or self.kind!='WAKE' or not self.source_key.startswith('local.') or not self.source_memory_ids or self.text is not None):raise ValueError('sourced life wake requires retained sources, not a new user instruction')
         if self.problem_frame and not {c.memory_id for c in (*self.problem_frame.assumed,*self.problem_frame.required)} <= set(self.source_memory_ids):raise ValueError("framing requires explicit visible sources")
         if self.domain=='LOCAL_INTERACTION' and (not self.source_key.startswith('local.') or self.kind!='INTERACTION' or self.origin!='USER' or not self.text or not self.text.startswith('Local input reviewed meaning: ')):raise ValueError('local dialogue only carries normalized metadata')
         if self.domain=='DEVELOPMENT_MATERIAL' and (not self.source_key.startswith('development.') or self.privacy_class not in {'PUBLIC','PROJECT'}):raise ValueError('development sources require explicit nonprivate namespace')
@@ -181,6 +185,7 @@ class DeliberationTrace(DTO):
 
 
 class CycleResult(DTO):
+    conversation_decision: ConversationDecision | None = None
     experience_need: ExperienceNeed | None = None
     problem_frame: FrameAssessment | None = None
     context_fit: ContextFitAssessment | None = None

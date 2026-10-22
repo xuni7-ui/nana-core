@@ -165,7 +165,7 @@ class ContextAssembler:
         self.counter = counter or ConservativeCounter()
         self._issued = deque(maxlen=64)  # hashes only, never a plaintext context cache
 
-    def assemble(self, request: ContextRequest, policy: ContextPolicy, *, capabilities=(), limitations=(), subject_frame=None, required_memory_ids=(), source_only=False, pinned_only=False, require_current_state=False):
+    def assemble(self, request: ContextRequest, policy: ContextPolicy, *, capabilities=(), limitations=(), subject_frame=None, required_memory_ids=(), source_only=False, pinned_only=False, require_current_state=False, conversation_topic=None):
         if not set(request.scopes) <= set(policy.allowed_scopes):
             raise CoreError("CONTEXT_SCOPE_DENIED")
         privacy = tuple(p for p in policy.readable_privacy if request.destination == "LOCAL_FIXTURE" or p in policy.remote_privacy)
@@ -188,6 +188,7 @@ class ContextAssembler:
         self._retrieval = (len(memories), retrieval_total)
         coverage = self._coverage(request.scopes)
         candidates = []
+        self_fallbacks = {}
         mandatory = [ContextBlock(block_id="identity", kind="IDENTITY",
             data_json=frame.identity.model_dump_json(),
             source_event_ids=(self.store.all("identity_revisions")[-1]["event_id"],)),
@@ -330,6 +331,24 @@ class ContextAssembler:
                     # never its purpose/content, even when data privacy is PUBLIC.
                     safe=[{k:v[k] for k in ('category','status','disclosure_policy','risk_class','authority_need','external_effect','execution_authority')} for v in values]
                     candidates.append((936.0,ContextBlock(block_id='private-intent-state:'+scope,kind='PRIVATE_INTENT_STATE',data_json=canonical({'activities':safe,'content_withheld':True,'delivery_authority':False}),source_record_ids=tuple(v['record_id'] for v in values),source_memory_ids=tuple(sorted({m for v in values for m in v['source_memory_ids']})))))
+        if conversation_topic is not None and self.store.schema_target>=13:
+            from .person_self import project, compact, stable_core
+            for scope in request.scopes:
+                person=project(self.store,entity_id=request.entity_id,scope=scope,privacy=privacy,topic=conversation_topic)
+                candidates.append((980.0,ContextBlock(block_id='person-self:'+scope,kind='PERSON_SELF',
+                    data_json=canonical(compact(person)),source_record_ids=person['source_record_ids'],source_memory_ids=person['source_memory_ids'])))
+                refs=person['stable_source_record_ids']
+                self_fallbacks['person-self:'+scope]=ContextBlock(block_id='person-self:'+scope,kind='PERSON_SELF',data_json=canonical(stable_core(person)),source_record_ids=refs,source_memory_ids=tuple(sorted({m for rid in refs for m in RecordService(self.store).support(rid)})))
+        if conversation_topic is not None and self.store.schema_target>=13:
+            from .lived_language import context as language_context
+            for scope in request.scopes:
+                language=language_context(self.store,scope=scope,privacy=privacy,mode='PROJECT' if require_current_state or conversation_topic in {'project','technical'} else 'CASUAL')
+                refs=language['policy']['source_record_ids']
+                if refs:
+                    candidates.append((979.0,ContextBlock(block_id='lived-language:'+scope,kind='LIVED_LANGUAGE',data_json=canonical({'policy':language['policy'],'examples_are_not_autobiography':True}),source_record_ids=refs,source_memory_ids=tuple(sorted({m for rid in refs for m in RecordService(self.store).support(rid)})))))
+                if language['examples']:
+                    refs=language['source_record_ids']
+                    candidates.append((500.0,ContextBlock(block_id='language-examples:'+scope,kind='LANGUAGE_EXAMPLES',data_json=canonical({'examples':language['examples'],'examples_are_not_autobiography':True}),source_record_ids=refs,source_memory_ids=tuple(sorted({m for rid in refs for m in RecordService(self.store).support(rid)})))))
         candidates.extend(self._lessons(request, privacy))
         if required_memory_ids:
             required=[block for _,block in candidates if block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&set(required_memory_ids)]
@@ -338,7 +357,7 @@ class ContextAssembler:
         if pinned_only:
             # Dialogue gets explicit verified facts plus existing filtered self/
             # relation projections; never the whole unrelated source corpus.
-            candidates=[(score,block) for score,block in candidates if (block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&set(required_memory_ids)) or block.kind in {'RELATIONSHIP_LINKS','SUBJECT_INFLUENCE','RELATIONAL_SUBJECT','PRIVATE_INTENT_STATE'}]
+            candidates=[(score,block) for score,block in candidates if (block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&set(required_memory_ids)) or block.kind in {'RELATIONSHIP_LINKS','SUBJECT_INFLUENCE','RELATIONAL_SUBJECT','PRIVATE_INTENT_STATE','PERSON_SELF','LIVED_LANGUAGE','LANGUAGE_EXAMPLES'}]
         if source_only:
             # Media processors receive only the pinned, policy-filtered source,
             # never unrelated relationship, project or memory context.
@@ -364,6 +383,13 @@ class ContextAssembler:
             proposed = self._package(frame, request, policy, coverage, selected + [block], omitted, conflict_ids)
             if proposed.manifest.input_tokens <= proposed.manifest.input_limit:
                 selected.append(block)
+            elif block.block_id in self_fallbacks:
+                fallback=self_fallbacks[block.block_id]
+                partial_omission=omitted+[block.block_id+':CURRENT_AND_LIVED_DETAIL']
+                proposed=self._package(frame,request,policy,coverage,selected+[fallback],partial_omission,conflict_ids)
+                if proposed.manifest.input_tokens<=proposed.manifest.input_limit:
+                    selected.append(fallback);omitted=partial_omission
+                else:omitted.append(block.block_id)
             else:
                 omitted.append(block.block_id)
         package = self._package(frame, request, policy, coverage, selected, omitted, conflict_ids)

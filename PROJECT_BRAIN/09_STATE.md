@@ -7,33 +7,27 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 20,
-  "as_of_us": 1792598249402677,
+  "revision": 21,
+  "as_of_us": 1792650057137679,
   "stage": "H",
-  "workstream": "PORTABLE_CLOUD_RUNTIME_SUBJECT_MIGRATION_V1",
-  "status": "PORTABLE_DEVELOPMENT_BUNDLE_READY_HANDOFF",
+  "workstream": "PERSISTENT_PERSON_SELF_LIVED_LANGUAGE_V1",
+  "status": "IMPLEMENTATION_TARGETED_QUALIFICATION",
   "progress": [
-    "继承024e226；Master/63标准和S1–S9资格不变；First-Life技术门保留，HumanReview NOT_RUN、integration qualified/Beta NO。",
-    "portable CLI复用原Runtime/Store/SubjectLoop、B8/Inspector/FD；Fresh显式新identity，迁移源retire后官方包恢复，撤旧Grant、暂停复审。",
-    "最终运行包源bfea92c，214文件/约3MB，哈希在portable evidence；重复构建相同，含原5依赖的精确hash lock，安装完全离线。",
-    "实际两个clean venv/独立cwd安装及owned HostA→B通过；same identity/private、旧owner拒绝、duplicate防护、epoch4→5→6及SIGKILL/stale socket恢复。",
-    "Inspector只读，私人内容隐藏，source撤回和managed backup删除闭环通过；UNKNOWN沿原ledger保留不重试，未自动恢复任何旧动作权限。",
-    "目标28 passed；全目录1407 passed/0failed/12skip。增量有界解包及4097头/总解压负例在目标套件覆盖，全仓运行期间shipped Core未变化。",
-    "本任务真实Provider0；原实际Subject37身份/request7/reservation300000/余2槽位不变，无实际导出/启动/迁移。"
+    "Advanced Growth S1/S2/S3/S6/S8；同一Subject/Store/C/Runtime，Master字节与63标准不变。",
+    "新增有源Self投影与显著关系约定；原C采用/保留/澄清/临时扮演/撤回，关系不产生Grant。",
+    "显式逐轮同意后才保存双方交流；默认仍临时；原Experience/Lesson接入真人报告与受限表达假设。",
+    "当前受控重启、官方包迁移、两fixture认知配置及实际SIGKILL已通过；集中回归进行中。"
   ],
   "open_gates": [
-    "运行包是dev portable candidate；测试Debian13/x86_64/CPython3.12；ARM64、真实目标服务器部署、生产均NOT_RUN。",
-    "远程入口为既有认证SSH上的原CLI/Unix IPC，无新公网HTTP；新host需要重新配置Provider/安全凭据/预算及资源权限。",
-    "旧backup是quarantined review copy，不自动激活副本；可运行恢复走lawful SubjectPackage，不能暗示分布式防复制或lost-source attestation已实现。",
-    "真人自然度/Shared-Life、真实生产/社交/private history/设备均未运行；停止开发交付，不自动迁移当前Nana。"
+    "截图网页实际build/Subject绑定未确认；不读取私人库、不操作当前实际Nana/生产。",
+    "新真实模型调用0；真人复评需新的有限预算和安全resolver；不搜索历史Key。",
+    "技术测试不替代真人自然度，HumanReview NOT_RUN，First-Life/Beta不升级。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
-    "docs/nana_portable_cloud_runtime_v1_implementation.md",
-    "docs/nana_portable_cloud_runtime_v1_quickstart.md",
-    "docs/nana_portable_cloud_runtime_v1_evidence/qualification.json",
-    "docs/nana_portable_cloud_runtime_v1_evidence/bundle.json"
+    "docs/nana_persistent_person_self_v1_implementation.md",
+    "tests/person_self/"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

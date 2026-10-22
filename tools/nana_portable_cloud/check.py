@@ -4,6 +4,7 @@ from pathlib import Path
 from tools.nana_foundation_audit.check import check as foundation
 R=Path(__file__).resolve().parents[2];E=R/'docs/nana_portable_cloud_runtime_v1_evidence'
 BASE='024e22649365560ef57e0f3fa82e41383d95d315'
+RELEASE='ae3cb34d478caa62861d2a6b85ddf4ed2cc8f11e'
 
 def check(archive=None):
     f=foundation();q=json.loads((E/'qualification.json').read_text());b=json.loads((E/'bundle.json').read_text());m=json.loads((E/'migration_rehearsal.json').read_text());s=json.loads((E/'security.json').read_text());c=json.loads((E/'binding_and_package_contracts.json').read_text())
@@ -22,7 +23,7 @@ def check(archive=None):
     manifest=json.loads((E/'manifest.json').read_text())
     assert manifest['runtime_source_commit']==b['source_commit']
     assert 'PROJECT_BRAIN/09_STATE.md' not in manifest['files']
-    for name,sha in manifest['files'].items():assert name!='docs/nana_portable_cloud_runtime_v1_evidence/manifest.json' and hashlib.sha256((R/name).read_bytes()).hexdigest()==sha,name
+    for name,sha in manifest['files'].items():assert name!='docs/nana_portable_cloud_runtime_v1_evidence/manifest.json' and hashlib.sha256(subprocess.check_output(['git','show',RELEASE+':'+name],cwd=R)).hexdigest()==sha,name
     if archive is not None:assert hashlib.sha256(Path(archive).read_bytes()).hexdigest()==b['sha256']
     return {'result':'PASS_PORTABLE_DEVELOPMENT_CANDIDATE','frozen_framework_and_63criteria':f['definitions_unchanged'],'new_provider_calls':0,'actual_target_cloud':'NOT_RUN','human_review':'NOT_RUN','artifact_verified':archive is not None}
 

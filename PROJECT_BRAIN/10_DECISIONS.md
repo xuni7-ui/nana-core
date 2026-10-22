@@ -1446,3 +1446,8 @@ Total decompression ceiling includes hidden tar metadata; final artifact clean-i
 A→B process-qualified and deterministic rebuild equal. Focused28, full1407/0fail/12skip;
 post-collection changes are unpacker-only, no shipped Core delta. NewProvider0, no actual
 current Subject migration, private history or production; same declared dev scope. STOP.
+
+
+## CURRENT — Persistent Person-Self / Lived Language V1 · 2026-10-22
+
+Explicit social convention is not biological fact or execution authority. Retention is opt-in per turn; reported assistant speech is not truth. Source-aware context must include stable self or fail before paid dispatch. Use existing record kinds/tables and original Experience/Lesson, no schema migration. Human reports and project synthetic contrasts cannot manufacture each other’s qualification. Additional work selected from the observed contradictions: trusted generic instance profile, context-budget visibility, and finite unfinished-topic opportunity; not a second emotional brain.

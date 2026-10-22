@@ -346,6 +346,15 @@ class SubjectLoop:
                         reason='Subject-owned relational tradeoff; retained desire is not rewritten and no authority is created',source_ids=situation.memory_ids)
                     intention=Intention(kind='GOAL_CANDIDATE' if choice=='ACCEPT' else 'SOCIAL_INTERACTION' if choice=='NEGOTIATE' else 'NO_ACTION',
                         purpose='Consider bounded accommodation or discuss its scope',slot_key='relational-'+digest(event.source_key)[:24],source_ids=situation.memory_ids,self_generated=False)
+            conversation=None
+            if event.conversation_proposal:
+                from ..person_self import consider
+                from .contracts import Intention, Judgment
+                conversation=consider(self.store,event,situation,self.privacy_classes)
+                choice=conversation.choice
+                attention='FOCUS_NOW'
+                judgment=Judgment(stance='AGREE' if choice in {'ADOPT','WITHDRAW','PLAY_ONLY'} else 'DISAGREE' if choice=='DECLINE' else 'ASK' if choice=='ASK' else 'WATCH',reason=conversation.reason,source_ids=situation.memory_ids)
+                intention=Intention(kind='NO_ACTION' if choice=='DECLINE' else 'SOCIAL_INTERACTION',purpose=conversation.reason,slot_key='conversation-'+digest(event.source_key)[:24],source_ids=situation.memory_ids,self_generated=False)
             review_event=event
             if self.store.schema_target>=10 and event.kind=='WAKE' and not event.commitment_check_id and not situation.cue:
                 # A deferred due review can be reconsidered on an ordinary later
@@ -442,7 +451,7 @@ class SubjectLoop:
                             'adopted': False, 'execution_authority': False}, records=(record,))
                     tx.put('subject_goal_candidates', {'candidate_id': candidate_id,
                         'intention_id': intention_id, 'record_id': candidate_record, 'state': 'PROPOSED'})
-            result = CycleResult(context_fit=situation.context_fit,cycle_id=cycle_id, event_id=source['subject_event_id'], revision=expected_revision + 1,
+            result = CycleResult(conversation_decision=conversation,context_fit=situation.context_fit,cycle_id=cycle_id, event_id=source['subject_event_id'], revision=expected_revision + 1,
                 admission=source['admission'], appraisal=appraisal, motivations=motives, attention=attention,
                 judgment=judgment, intention=intention, intention_id=intention_id, goal_candidate_id=candidate_id,
                 barrier='NO_ACTION' if intention.kind == 'NO_ACTION' else 'SHADOW_BLOCKED', record_id=None,social_proposal=social,action_proposal=action,
@@ -464,6 +473,9 @@ class SubjectLoop:
                     record_disposition(self.store,tx,cycle_id=cycle_id,intention_id=intention_id,intention_revision=1,
                         scope=event.scope,parent_record=record,stage='SUBJECT',code=evaluation.disposition,
                         normative=evaluation.normative,wanted=evaluation.wanted,reason_refs=evaluation.reason_refs)
+            if conversation and record:
+                from ..person_self import commit
+                commit(self.store,tx,event,conversation,record)
             tx.put('subject_cycles', {'cycle_id': cycle_id, 'subject_event_id': source['subject_event_id'],
                 'revision': expected_revision + 1, 'record_id': record, 'judgment': judgment.stance,
                 'attention': attention, 'barrier': result.barrier, 'created_at_us': self.store.clock.utc_now_us()})

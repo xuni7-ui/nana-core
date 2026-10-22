@@ -2,7 +2,7 @@
 from enum import StrEnum
 from typing import Literal
 
-from pydantic import Field, model_validator
+from pydantic import Field, model_validator, model_serializer
 
 from ..contracts import DTO
 
@@ -18,7 +18,7 @@ class MemoryType(StrEnum):
 
 
 class Provenance(DTO):
-    domain: Literal["SYNTHETIC_ONLY", "RECORDED_PUBLIC", "REAL_PROVIDER", "DEVELOPMENT_PROJECT", "LOCAL_INTERACTION_METADATA"] = "SYNTHETIC_ONLY"
+    domain: Literal["SYNTHETIC_ONLY", "RECORDED_PUBLIC", "REAL_PROVIDER", "DEVELOPMENT_PROJECT", "LOCAL_INTERACTION_METADATA", "CONSENTED_INTERACTION"] = "SYNTHETIC_ONLY"
     source_namespace: str = Field(pattern=r"^(?:synthetic|recorded|provider)[.:_-][A-Za-z0-9._:-]{1,96}$")
     source_reference: str = Field(pattern=r"^[A-Za-z0-9._:-]{1,128}$")
     source_revision: str = Field(default="1", pattern=r"^[A-Za-z0-9._:-]{1,32}$")
@@ -27,19 +27,26 @@ class Provenance(DTO):
 
     @model_validator(mode="after")
     def namespace_matches_domain(self):
-        prefix={"SYNTHETIC_ONLY":"synthetic", "RECORDED_PUBLIC":"recorded", "REAL_PROVIDER":"provider", "DEVELOPMENT_PROJECT":"recorded.project", "LOCAL_INTERACTION_METADATA":"recorded.local"}[self.domain]
+        prefix={"SYNTHETIC_ONLY":"synthetic", "RECORDED_PUBLIC":"recorded", "REAL_PROVIDER":"provider", "DEVELOPMENT_PROJECT":"recorded.project", "LOCAL_INTERACTION_METADATA":"recorded.local", "CONSENTED_INTERACTION":"recorded.conversation"}[self.domain]
         if not self.source_namespace.startswith(prefix):raise ValueError("provenance domain mismatch")
         if self.domain=="REAL_PROVIDER" and self.source_kind!="MODEL_DERIVATION":raise ValueError("provider proposal is not direct evidence")
         return self
 
 
 class EvidenceInput(DTO):
+    retention_consent_ref: str | None = Field(default=None,pattern=r'^[A-Za-z0-9._:-]{1,128}$')
     schema_version: Literal[1] = 1
     provenance: Provenance
     text: str = Field(min_length=1, max_length=65536)
     privacy_class: Literal["PUBLIC", "PROJECT", "PERSONAL", "SECRET"]
     event_time_us: int | None = Field(default=None, ge=0)
     observed_time_us: int = Field(ge=0)
+
+    @model_serializer(mode='wrap')
+    def preserve_existing_evidence(self, handler):
+        body=handler(self)
+        if self.retention_consent_ref is None:body.pop('retention_consent_ref',None)
+        return body
 
 
 class MemoryCandidate(DTO):

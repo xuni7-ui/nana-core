@@ -11,7 +11,7 @@ from nana_core.presence.authority import VirtualClock
 from .conftest import initialize
 
 @contextmanager
-def relay(home,kind='VENT',*,mode='normal'):
+def relay(home,kind='VENT',*,mode='normal',conversation_proposal=None,renderer=None,profile_id='fixture.provider',model_profile_id='fixture.text',remote_model_id='same-text-model'):
     requests=[]
     class Handler(BaseHTTPRequestHandler):
         def log_message(self,*args):pass
@@ -19,16 +19,18 @@ def relay(home,kind='VENT',*,mode='normal'):
             body=json.loads(self.rfile.read(int(self.headers['Content-Length'])));request=json.loads(body['messages'][1]['content']);requests.append(request)
             role=request['cognitive_role'];descriptor=request['role_input']['dialogue']
             proposal={'interpretation':descriptor['text'],'source_refs':request['source_context_refs'],'uncertainty':'LOW','confidence':.9}
-            if role=='INTERPRET':proposal['dialogue']={'kind':kind,'confidence':'HIGH'}
-            else:proposal['draft']={'text':'A deliberately synthetic language response','claim_memory_ids':[],'effect_status':descriptor['effect_status']}
+            if role=='INTERPRET':
+                proposal['dialogue']={'kind':kind,'confidence':'HIGH'}
+                if conversation_proposal:proposal['dialogue']['conversation_proposal']=conversation_proposal
+            else:proposal['draft']={'text':renderer(request) if renderer else 'A deliberately synthetic language response','claim_memory_ids':[],'effect_status':descriptor['effect_status']}
             if mode=='attack':proposal['interests']=[{'topic':'attack','motivation_source':'CURIOSITY','source_memory_ids':request['source_context_refs'],'interpretation':'model tries to create an adopted goal'}]
             raw=json.dumps({'id':'synthetic-dialogue','model':body['model'],'usage':{'prompt_tokens':10,'completion_tokens':10},'choices':[{'finish_reason':'stop','message':{'content':json.dumps(proposal)}}]}).encode()
             self.send_response(200);self.send_header('Content-Type','application/json');self.send_header('Content-Length',str(len(raw)));self.end_headers();self.wfile.write(raw)
     server=ThreadingHTTPServer(('127.0.0.1',0),Handler);thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
     try:
         authority=ProviderConfigurationAuthority();service=ProviderConfigService(home/'test-providers.json',authority);service.initialize(authority)
-        p=ProviderProfile(provider_profile_id='fixture.provider',display_name='SYNTHETIC_LOOPBACK',protocol='SYNTHETIC_LOOPBACK',locality='LOCAL_FIXTURE',base_url=f'http://127.0.0.1:{server.server_port}/v1',permitted_privacy=('PUBLIC','PROJECT','PERSONAL'))
-        m=ModelProfile(model_profile_id='fixture.text',provider_profile_id=p.provider_profile_id,remote_model_id='same-text-model',model_version='1',operations=('COGNITION',),input_modalities=('TEXT',),output_modalities=('TEXT',),context_limit=8192,output_limit=2048)
+        p=ProviderProfile(provider_profile_id=profile_id,display_name='SYNTHETIC_LOOPBACK',protocol='SYNTHETIC_LOOPBACK',locality='LOCAL_FIXTURE',base_url=f'http://127.0.0.1:{server.server_port}/v1',permitted_privacy=('PUBLIC','PROJECT','PERSONAL'))
+        m=ModelProfile(model_profile_id=model_profile_id,provider_profile_id=p.provider_profile_id,remote_model_id=remote_model_id,model_version='1',operations=('COGNITION',),input_modalities=('TEXT',),output_modalities=('TEXT',),context_limit=8192,output_limit=2048)
         service.update(ProviderCommand(operation='UPSERT_PROVIDER',expected_revision=0,provider=p),authority)
         service.update(ProviderCommand(operation='UPSERT_MODEL',expected_revision=1,model=m),authority)
         service.update(ProviderCommand(operation='SET_CAPABILITY_ROUTE',expected_revision=2,route=CapabilityRoute(operation='COGNITION',primary_model_profile_id=m.model_profile_id,permitted_privacy=('PUBLIC','PROJECT','PERSONAL'))),authority)
@@ -110,4 +112,4 @@ def test_dialogue_wire_schema_excludes_non_dialogue_authority_fields(tmp_path):
    assert not fields & {'interests','plan_operator_ids','method','skill_source','media'}
    assert ('dialogue' in fields) == (body['cognitive_role']=='INTERPRET')
    assert ('draft' in fields) == (body['cognitive_role']=='SOCIAL')
-   assert set(body['expected_schema']['$defs'])==({'DialogueMeaning'} if body['cognitive_role']=='INTERPRET' else {'DialogueDraft'})
+   assert set(body['expected_schema']['$defs'])==({'DialogueMeaning','ConversationProposal'} if body['cognitive_role']=='INTERPRET' else {'DialogueDraft'})

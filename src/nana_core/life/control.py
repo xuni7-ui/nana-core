@@ -22,7 +22,7 @@ LIMIT=16384
 def dispatch(app,request):
     if type(request) is not dict:raise CoreError('CLOUD_TYPED_REQUEST_REQUIRED')
     op=request.get('operation')
-    mutating=op in {'surface','backup'} or (op=='control' and request.get('command')=='resume')
+    mutating=op in {'surface','backup','self-profile','language-feedback','review-expression-learning'} or (op=='control' and request.get('command')=='resume')
     if mutating and shutil.disk_usage(app.home).free<app.config.min_free_disk_mb*1024*1024:raise CoreError('CLOUD_DISK_GUARD')
     if op=='surface' and set(request)=={'operation','observation'}:
         return app.surfaces.receive(SurfaceObservation.model_validate_json(json.dumps(request['observation'])))
@@ -32,6 +32,35 @@ def dispatch(app,request):
         if request['view']=='storage':
             from .durability import profile
             return profile(app.runtime.store)
+        if request['view']=='self':
+            from ..continuity.person_self import project
+            return project(app.runtime.store,entity_id=app.runtime.config.entity_id,scope=app.runtime.config.scopes[0],privacy=('PUBLIC','PROJECT'),topic='daily')
+    if op=='self-profile' and set(request)=={'operation','name','aliases','expected_revision','reason'}:
+        from ..continuity.identity import IdentityService
+        if type(request['aliases']) is not list:raise CoreError('INVALID_IDENTITY_PROFILE')
+        service=IdentityService(app.runtime.store,app.runtime.authority)
+        return service.revise_profile(expected_revision=request['expected_revision'],name=request['name'],aliases=tuple(request['aliases']),reason=request['reason'],authority=app.runtime.authority).model_dump(mode='json')
+    if op=='language-feedback' and set(request)=={'operation','sample','exchange_record_id'}:
+        from ..continuity.lived_language import LanguageService,LanguageSample
+        from ..continuity.learning import ExperienceService
+        sample=LanguageSample.model_validate_json(json.dumps(request['sample']))
+        if sample.provenance!='USER_PROVIDED_REVIEW':raise CoreError('HUMAN_REVIEW_PROVENANCE_REQUIRED')
+        service=LanguageService(app.runtime.store,app.runtime.authority)
+        head=service.records.read(request['exchange_record_id'])
+        rid=service.record(sample,scope=app.runtime.config.scopes[0],entity_id=app.runtime.config.entity_id,privacy=head['privacy_class'],authority=app.runtime.authority,exchange_record_id=request['exchange_record_id'])
+        eid=service.experience(rid,app.runtime.authority);lesson=None
+        try:lesson=ExperienceService(app.runtime.store,app.runtime.authority).derive_lesson(eid)
+        except CoreError as exc:
+            if exc.code!='NO_SUPPORTED_LESSON':raise
+        return {'sample_record_id':rid,'experience_id':eid,'candidate_lesson_id':lesson,'human_naturalness_qualified':False,'personality_overwritten':False}
+    if op=='review-expression-learning' and set(request)=={'operation','lesson_id'}:
+        from ..continuity.learning import ExperienceService
+        service=ExperienceService(app.runtime.store,app.runtime.authority)
+        row=app.runtime.store.one('lessons',request['lesson_id'])
+        if not row or row['task_class']!='interaction.expression':raise CoreError('EXPRESSION_LESSON_REQUIRED')
+        checks=service.test_lesson(request['lesson_id'])
+        if all(checks.values()):service.activate(request['lesson_id'],app.runtime.authority)
+        return {'checks':checks,'state':app.runtime.store.one('lessons',request['lesson_id'])['state'],'human_naturalness_qualified':False}
     if op=='continuity' and set(request)=={'operation','binding_id','tier'}:
         return app.surfaces.view(request['binding_id'],tier=request['tier']).model_dump(mode='json')
     if op=='control' and set(request)=={'operation','command'}:

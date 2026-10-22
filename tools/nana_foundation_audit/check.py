@@ -37,7 +37,7 @@ def check(*,verify_manifest=True):
  assert not re.search(r'\d+(?:\.\d+)?\s*%',matrix)
  source=ProjectStateSource(ROOT,ProjectStateBinding(relative_path='PROJECT_BRAIN/09_STATE.md',source_id='project.audit.current',scope='project-work'))
  state=source.projection(scopes=('project-work',),privacy_classes=('PROJECT',),now_us=Clock().utc_now_us())
- assert state['state']['workstream'] in {'MASTER_FRAMEWORK_FREEZE_AND_FOUNDATION_CAPABILITY_AUDIT_V1','FOUNDATION_CLOSURE_MISSION_V1','FIRST_LIFE_INTEGRATION_QUALIFICATION_V1','PORTABLE_CLOUD_RUNTIME_SUBJECT_MIGRATION_V1'}
+ assert state['state']['workstream'] in {'MASTER_FRAMEWORK_FREEZE_AND_FOUNDATION_CAPABILITY_AUDIT_V1','FOUNDATION_CLOSURE_MISSION_V1','FIRST_LIFE_INTEGRATION_QUALIFICATION_V1','PORTABLE_CLOUD_RUNTIME_SUBJECT_MIGRATION_V1','PERSISTENT_PERSON_SELF_LIVED_LANGUAGE_V1'}
  assert state['state']['revision']>=4
  if verify_manifest:
   m=json.loads(blob(str((E/'manifest.json').relative_to(ROOT)),HISTORICAL_SOURCE))

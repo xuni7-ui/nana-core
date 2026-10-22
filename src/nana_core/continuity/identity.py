@@ -35,6 +35,7 @@ class CanonicalIdentity(DTO):
     schema_version: Literal[1] = 1
     revision: int
     name: str
+    aliases: tuple[str, ...] = ()
     charter: tuple[str, ...]
     expression_defaults: dict[str, str]
     created_at_us: int
@@ -73,6 +74,7 @@ class IdentityService:
         body = json.loads(row["body_json"])
         return CanonicalIdentity(identity_id=row["identity_id"], revision=row["revision"],
             name=body["name"], charter=tuple(body["charter"]),
+            aliases=tuple(body.get('aliases', ())),
             expression_defaults=body["expression_defaults"],
             created_at_us=self.store.all("identity_revisions")[0]["created_at_us"],
             updated_at_us=row["created_at_us"],
@@ -103,3 +105,6 @@ class IdentityService:
                       body_json=canonical(body))
         return self.current()
 
+    def revise_profile(self, **kwargs):
+        from .person_profile import revise_profile
+        return revise_profile(self, **kwargs)

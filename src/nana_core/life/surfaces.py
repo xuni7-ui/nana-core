@@ -34,6 +34,7 @@ class SurfaceObservation(DTO):
     topic:str=Field(default='daily',pattern=r'^[a-z][a-z0-9._-]{0,63}$')
     text:str=Field(min_length=1,max_length=2048)
     privacy_class:Literal['PUBLIC','PROJECT']='PROJECT'
+    retain_shared_life:bool=False
     approved_summary:str|None=Field(default=None,min_length=1,max_length=512)
     summary_authorization:Literal['NONE','EXPLICIT_PROJECT_SUMMARY']='NONE'
 
@@ -96,6 +97,6 @@ class SurfaceSession:
             summary=(memory.add(MemoryCandidate(entity_id=b.entity_id,scope=b.scope,memory_type=MemoryType.EPISODIC,
                 epistemic_kind='STATEMENT',source_evidence_id=eid,text=body,confidence=.8)),)
         result=app.chat(o.text,topic=o.topic,privacy=o.privacy_class,message_id=key,
-            surface=envelope,support_memory_ids=summary,source_key=canonical_key)
+            surface=envelope,support_memory_ids=summary,source_key=canonical_key,retain_shared_life=o.retain_shared_life)
         return {**result,'binding_id':b.binding_id,'source_key':canonical_key,'summary_memory_ids':summary,
             'state':'SHADOW_REPLY_CANDIDATE','delivered':False,'execution_authority':False}

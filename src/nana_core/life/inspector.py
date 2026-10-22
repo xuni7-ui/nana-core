@@ -40,6 +40,7 @@ class InspectorSnapshot(DTO):
     private_activity:Literal['UNKNOWN_CONTENT_NOT_EXPOSED','PRESENT_CONTENT_WITHHELD','NONE_IN_BOUNDED_VIEW']='UNKNOWN_CONTENT_NOT_EXPOSED'
     governance_visibility:Literal['LOCAL_METADATA_NOT_RECIPIENT_DISCLOSURE']='LOCAL_METADATA_NOT_RECIPIENT_DISCLOSURE'
     execution_authority:Literal[False]=False
+    self_view:dict|None=None
 
 
 def _regular(path):
@@ -202,7 +203,14 @@ def inspect(home,*,scope,entity_id,privacy=('PUBLIC','PROJECT'),limit=16):
         view.ensure_privacy_current()
         for name,values in sections.items():
             if not values:item(name,'COVERAGE','none','UNKNOWN')
-        return InspectorSnapshot(identity_id=view.identity['identity_id'],as_of_us=view.clock.utc_now_us(),sections={k:tuple(v) for k,v in sections.items()},resources=resources,private_activity='PRESENT_CONTENT_WITHHELD' if private else 'UNKNOWN_CONTENT_NOT_EXPOSED')
+        from ..continuity.person_self import project,compact
+        from ..continuity.lived_language import expression_policy
+        personal=project(view,entity_id=entity_id,scope=scope,privacy=privacy)
+        summary=compact(personal)
+        summary['recent_exchanges']=[]  # Inspector never becomes a transcript reader.
+        summary['learned_expression']=expression_policy(view,scope=scope,privacy=privacy,mode='CASUAL')
+        summary['source_record_ids']=personal['source_record_ids']
+        return InspectorSnapshot(identity_id=view.identity['identity_id'],as_of_us=view.clock.utc_now_us(),sections={k:tuple(v) for k,v in sections.items()},resources=resources,private_activity='PRESENT_CONTENT_WITHHELD' if private else 'UNKNOWN_CONTENT_NOT_EXPOSED',self_view=summary)
     except (sqlite3.Error,OSError,ValueError,TypeError,KeyError):raise CoreError('INSPECTOR_UNAVAILABLE_FAIL_CLOSED') from None
     finally:db.close()
 

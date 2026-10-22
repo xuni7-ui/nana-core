@@ -2383,3 +2383,8 @@ current Subject migration, private history or production; same declared dev scop
 ### Portable handoff metadata inclusion
 
 Renamed the synthetic credential-binding/package-contract proof to binding_and_package_contracts.json so the existing *secret* ignore rule does not omit safe audit metadata. No real credential is in the file, ignore policy unchanged. Included proof in the final fingerprint/consistency check before remote handoff.
+
+
+## CURRENT — Persistent Person-Self / Lived Language V1 · 2026-10-22
+
+Implemented Advanced Person-Self, quoted C conventions, explicit retained exchanges including assistant side, language feedback corpus and original S8 expression hypotheses, private IPC/Inspector/review extensions. Reason: observed relationship/continuity/expression gaps despite bounded Foundation qualification. Validation: targeted fixtures, restart/virtual time, official package transfer, two cognition configs and actual SIGKILL; concentrated regression pending. RealProvider0; actual received Subject/old web/staging/production/main/R045 untouched.

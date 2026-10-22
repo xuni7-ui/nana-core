@@ -13,7 +13,7 @@ def admission(event: SubjectInput):
         return 'IGNORE', ('explicit non-retention takes priority',)
     if event.kind == 'WAKE':
         return 'TEMPORARY', ('wake is a condition, not a new lived experience',)
-    if event.preference_signal or event.relationship_kind or event.constraint_memory_ids or event.positive_request or event.relational_request or (event.interaction_signal and event.interaction_signal.basis=='EXPLICIT' and event.interaction_signal.kind in {'DECLINE_DEPTH','DECLINE_DELIVERY','REOPEN','REOPEN_DELIVERY'}):
+    if event.conversation_proposal or event.preference_signal or event.relationship_kind or event.constraint_memory_ids or event.positive_request or event.relational_request or (event.interaction_signal and event.interaction_signal.basis=='EXPLICIT' and event.interaction_signal.kind in {'DECLINE_DEPTH','DECLINE_DELIVERY','REOPEN','REOPEN_DELIVERY'}):
         return 'KEEP', ('future self/relationship/project relevance',)
     if event.significance in {'RELEVANT', 'HIGH'} or event.novelty == 'HIGH':
         return 'KEEP', ('significant or novel source occurrence',)

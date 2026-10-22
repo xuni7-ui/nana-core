@@ -17,6 +17,7 @@ from ..storage import canonical, digest, uid
 from .contracts import EvidenceInput, MemoryCandidate, MemoryType, Provenance
 from .records import RecordService
 from .subject.social import InteractionRule,propose_social
+from .lived_language import ExpressionFeedbackCheck, ExpressionRule, sample_from_memory, learnable
 from .autonomy.experience import DispositionQualityCheck,DispositionRule,disposition_fact,lesson_method,ConsequenceObservation
 
 
@@ -54,7 +55,7 @@ class StructuredQualityCheck(DTO):
     passed: bool
 
 
-Verification = Annotated[LocalQualityCheck | InteractionQualityCheck | DispositionQualityCheck | StructuredQualityCheck,Field(discriminator='check')]
+Verification = Annotated[LocalQualityCheck | InteractionQualityCheck | DispositionQualityCheck | StructuredQualityCheck | ExpressionFeedbackCheck,Field(discriminator='check')]
 CHECKS = TypeAdapter(Verification)
 
 
@@ -155,6 +156,16 @@ class ExperienceService:
         return memory.add(MemoryCandidate(entity_id=result['entity_id'],scope=result['scope'],memory_type=MemoryType.EPISODIC,
             epistemic_kind='OBSERVATION',source_evidence_id=eid,text=check.model_dump_json(),confidence=1.,derived_from=(result_memory_id,)))
 
+    def verify_expression_result(self, result_memory_id, sample_record_id, authority):
+        self._operator(authority)
+        memory=self.records.memory;result=memory.read(result_memory_id)
+        sample=sample_from_memory(self.store,result)
+        row=self.records.read(sample_record_id)
+        if row['payload'].get('person_kind')!='LIVED_LANGUAGE_SAMPLE' or row['scope']!=result['scope'] or row['payload']['sample']!=sample.model_dump(mode='json') or result_memory_id not in self.records.support(sample_record_id) or not self.records.current_support(sample_record_id):raise CoreError('LANGUAGE_FEEDBACK_BINDING_INVALID')
+        check=ExpressionFeedbackCheck(result_memory_id=result_memory_id,result_artifact_digest=digest(self.store.artifact(result['payload_artifact_id'])),sample_record_id=sample_record_id,passed=sample.human_judgment=='ACCEPTED')
+        eid=memory.capture(EvidenceInput(provenance=Provenance(domain='CONSENTED_INTERACTION',source_namespace='recorded.conversation.feedback-check',source_reference=sample_record_id,source_kind='SYSTEM_VERIFICATION'),text=check.model_dump_json(),privacy_class=result['privacy_class'],retention_consent_ref=sample_record_id,observed_time_us=row['created_at_us']))
+        return memory.add(MemoryCandidate(entity_id=result['entity_id'],scope=result['scope'],memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',source_evidence_id=eid,text=check.model_dump_json(),derived_from=(result_memory_id,)))
+
     def record(self, candidate: ExperienceInput):
         memory = self.records.memory
         result = memory.read(candidate.result_memory_id)
@@ -173,6 +184,10 @@ class ExperienceService:
                 raise CoreError("EXPERIENCE_VERIFICATION_MISMATCH")
         elif isinstance(check,StructuredQualityCheck):
             if self.store.schema_target<12 or source['source_namespace'] not in {'synthetic.structured-check','recorded.project.structured-check'} or check.passed!=(digest(actual.get('data'))==check.expected_digest):raise CoreError('EXPERIENCE_VERIFICATION_MISMATCH')
+        elif isinstance(check,ExpressionFeedbackCheck):
+            sample=sample_from_memory(self.store,result)
+            parent=self.records.read(check.sample_record_id)
+            if candidate.task_class!='interaction.expression' or source['source_namespace']!='recorded.conversation.feedback-check' or parent['payload'].get('person_kind')!='LIVED_LANGUAGE_SAMPLE' or parent['scope']!=candidate.scope or parent['payload']['sample']!=sample.model_dump(mode='json') or not self.records.current_support(check.sample_record_id) or check.passed!=(sample.human_judgment=='ACCEPTED'):raise CoreError('EXPERIENCE_VERIFICATION_MISMATCH')
         elif isinstance(check,InteractionQualityCheck):
             outcome=self._interaction_outcome(result)
             if candidate.task_class!='interaction.shared_discovery' or check.proposal_intention_id!=outcome.proposal_intention_id or check.reaction!=outcome.reaction or check.passed!=(outcome.reaction=='POSITIVE_PLAYFUL'):
@@ -228,6 +243,10 @@ class ExperienceService:
             rule=InteractionRule()
         elif experience.task_class=='disposition.review' and isinstance(experience.verification,DispositionQualityCheck) and experience.verification.reasoning_assessment!='UNASSESSED':
             rule=DispositionRule(assessment=experience.verification.reasoning_assessment)
+        elif experience.task_class=='interaction.expression' and isinstance(experience.verification,ExpressionFeedbackCheck) and experience.outcome=='FAILURE':
+            sample=sample_from_memory(self.store,self.records.memory.read(self.store.one('experiences',experience_id)['result_memory_id']))
+            if sample.mode!='CASUAL' or not set(sample.reason_tags)&{'TOO_VERBOSE','META_SUMMARIZING','OVER_DISCLAIMER'}:raise CoreError('NO_SUPPORTED_LESSON')
+            rule=ExpressionRule()
         else:raise CoreError('NO_SUPPORTED_LESSON')
         previous = self.store.db.execute("SELECT lesson_id FROM lessons WHERE experience_id=?", (experience_id,)).fetchone()
         if previous:
@@ -264,6 +283,11 @@ class ExperienceService:
             checks={'source_assessment_required':rule.assessment in {'HELPFUL','HARMFUL'},'changes_review_method':lesson_method(rule)!=lesson_method(),
                 'no_authority':rule.grants_authority is False,'scope_limited':rule.scope=='disposition.review'}
             compiler_version='C_DISPOSITION_REVIEW_v1'
+        elif isinstance(rule,ExpressionRule):
+            head=self.records.read(row['record_id'])
+            q=learnable(self.store,head['scope'],('PUBLIC','PROJECT','PERSONAL','SECRET'))
+            checks={'two_distinct_review_occurrences':q['eligible'],'no_counterexample':not q['counter_records'],'context_limited':rule.mode=='CASUAL','no_fixed_utterance':rule.fixed_utterance is None,'judgment_unchanged':not rule.changes_judgment,'no_authority':not rule.grants_authority}
+            compiler_version='CONTEXTUAL_EXPRESSION_HYPOTHESIS_V1'
         elif isinstance(rule,InteractionRule):
             baseline=propose_social(topic='trial',style='WARM_PLAYFUL',available=True,source_ids=('source',),last_act='TEASE')
             learned=propose_social(topic='trial',style='WARM_PLAYFUL',available=True,source_ids=('source',),lesson_ids=(lesson_id,),last_act='TEASE')
@@ -288,6 +312,9 @@ class ExperienceService:
                 "no_authority_fields": set(rule.model_dump()) == {"kind", "capability", "scope", "required_output"}}
         with self.store.transaction("self.lesson_tested", {"lesson_id": lesson_id, "checks": checks,
                 "rule_hash": digest(rule.model_dump()), "compiler_version": compiler_version}) as tx:
+            if isinstance(rule,ExpressionRule) and all(checks.values()):
+                supported=self.records.create(tx,kind='LESSON',scope=head['scope'],payload={'rule':rule.model_dump(mode='json')},records=(row['record_id'],*q['support_records']))
+                tx.update('lessons',lesson_id,record_id=supported)
             tx.update("lessons", lesson_id, state="TESTED" if all(checks.values()) else "REJECTED",
                 revision=row["revision"] + 1, tested_rule_hash=digest(rule.model_dump()), test_event_id=tx.event_id)
         return checks
@@ -301,6 +328,7 @@ class ExperienceService:
             raise CoreError("LESSON_SUPPORT_REQUIRES_REVIEW")
         rule = self._rule(row)
         test = json.loads(self.store.event(row["test_event_id"])["data_json"])["data"]
+        if isinstance(rule,ExpressionRule) and not learnable(self.store,self.records.read(row['record_id'])['scope'],('PUBLIC','PROJECT','PERSONAL','SECRET'))['eligible']:raise CoreError('EXPRESSION_LESSON_REQUIRES_REVIEW')
         if row["tested_rule_hash"] != digest(rule.model_dump()) or not all(test["checks"].values()):
             raise CoreError("STALE_LESSON_EVALUATION")
         with self.store.transaction("self.lesson_activated") as tx:
@@ -316,6 +344,7 @@ class ExperienceService:
 
     def _rule(self, row):
         payload=self.records.read(row['record_id'])['payload']['rule']
+        if payload.get('kind')=='CONTEXTUAL_EXPRESSION':return ExpressionRule.model_validate_json(canonical(payload))
         if payload.get('kind')=='METHOD_SELECTION':
             from .open_agency.learning import MethodStrategyRule
             return MethodStrategyRule.model_validate_json(canonical(payload))

@@ -166,7 +166,11 @@ class LifeApplication:
         from ..presence.resources import resource_state
         if resource_state(self.runtime.store,self.runtime.config).unresolved_calls:raise CoreError('UNRESOLVED_PROVIDER_CALL_NO_RETRY')
         return self.session
-    def _model(self,key,phase,mid,text,topic,privacy,cycle=None):
+    def _model(self,key,phase,mid,text,topic,privacy,cycle=None,retain_shared_life=False):
+        if cycle and cycle.record_id:
+            from ..continuity.memory import PRIVACY_RANK
+            classification=self.runtime.store.one('continuity_records',cycle.record_id)['privacy_class']
+            if PRIVACY_RANK[classification]>PRIVACY_RANK[privacy]:raise CoreError('DIALOGUE_JUDGMENT_PRIVACY_DENIED')
         session=self._session(privacy)
         facts=self._fact_sources()[:1] if phase=='RENDER' and cycle.context_fit.mode in {'CHAT','SHARE','HELP'} else ()
         from .surfaces import recent_sources
@@ -175,10 +179,13 @@ class LifeApplication:
         recent=[]
         for turn in self._recent:
             if turn.topic!=topic or PRIVACY_RANK[turn.privacy_class]>PRIVACY_RANK[privacy]:continue
-            try:MemoryService(self.runtime.store).read(turn.message_memory_id)
+            try:
+                for source in (turn.message_memory_id,*turn.support_memory_ids):
+                    row=MemoryService(self.runtime.store).read(source)
+                    if PRIVACY_RANK[row['privacy_class']]>PRIVACY_RANK[privacy]:raise CoreError('DIALOGUE_HISTORY_PRIVACY_DENIED')
             except CoreError:continue
             recent.append(turn)
-        descriptor=DialogueContext(project_status_query=LiteralSpanInterpreter().interpret(text).kind=='PROJECT_STATUS' or bool(cycle and cycle.context_fit.mode=='PROJECT_STATUS'),message_memory_id=mid,topic=topic,privacy_class=privacy,phase=phase,
+        descriptor=DialogueContext(retain_shared_life=retain_shared_life,conversation_decision=cycle.conversation_decision if cycle else None,project_status_query=LiteralSpanInterpreter().interpret(text).kind=='PROJECT_STATUS' or bool(cycle and cycle.context_fit.mode=='PROJECT_STATUS'),message_memory_id=mid,topic=topic,privacy_class=privacy,phase=phase,
             judgment=cycle.judgment.stance if cycle else None,intention=cycle.intention.kind if cycle else None,context_mode=cycle.context_fit.mode if cycle else None,effect_status='VERIFIED_EFFECT' if facts else 'NONE')
         data={'dialogue':descriptor.model_dump(mode='json')};volatile={'dialogue':descriptor.model_copy(update={'text':text,'recent_turns':tuple(recent)}).model_dump(mode='json')}
         request=session.prepare(key, 'INTERPRET' if phase=='INTERPRET' else 'SOCIAL',tuple(dict.fromkeys((mid,*facts,*continuity,*(t.message_memory_id for t in recent)))),role_input=data,volatile_input=volatile,
@@ -187,8 +194,9 @@ class LifeApplication:
         if result['state']!='PROPOSED':raise CoreError(result.get('error_code','DIALOGUE_NOT_PROPOSED'))
         return session,result['record_id']
 
-    def chat(self,text,*,topic='daily',privacy='PERSONAL',message_id=None,surface=None,support_memory_ids=(),source_key=None):
+    def chat(self,text,*,topic='daily',privacy='PERSONAL',message_id=None,surface=None,support_memory_ids=(),source_key=None,retain_shared_life=False):
         if type(text) is not str or not 1<=len(text)<=2048:raise CoreError('LOCAL_MESSAGE_BOUND')
+        if type(retain_shared_life) is not bool:raise CoreError('CONVERSATION_RETENTION_INVALID')
         r=self.runtime;key=message_id or uid();event_key=source_key or 'local.chat.'+key
         if key in self._chat:return {'message_id':key,'state':'ALREADY_REVIEWED_NO_REPLAY'}
         if r.store.db.execute('SELECT 1 FROM subject_events WHERE source_key=?',(event_key,)).fetchone():return {'message_id':key,'state':'ALREADY_REVIEWED_NO_REPLAY'}
@@ -201,13 +209,18 @@ class LifeApplication:
         old=r.store.db.execute("SELECT observed_time_us FROM continuity_evidence WHERE source_namespace='recorded.local.message' AND source_reference=?",(reference,)).fetchone()
         eid=memory.capture(EvidenceInput(provenance=Provenance(domain='LOCAL_INTERACTION_METADATA',source_namespace='recorded.local.message',source_reference=reference,source_kind='DIRECT_OBSERVATION'),text=body,privacy_class=privacy,observed_time_us=old[0] if old else r.clock.utc_now_us()))
         mid=memory.add(MemoryCandidate(entity_id=r.config.entity_id,scope=r.config.scopes[0],memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',source_evidence_id=eid,text=body,derived_from=tuple(support_memory_ids)))
+        if retain_shared_life:
+            from ..continuity.person_self import retain_input
+            mid=retain_input(r.store,entity_id=r.config.entity_id,scope=r.config.scopes[0],text=text,privacy=privacy,message_id=event_key)
+        proposal=None
         literal=LiteralSpanInterpreter().interpret(text);kind=literal.kind if literal.basis=='LITERAL_SPAN' else 'UNCLEAR';basis='EXPLICIT' if literal.basis=='LITERAL_SPAN' else 'INTERPRETED';rid=None;provider_state='LIVE_PROVIDER_NOT_RUN'
         try:
             from ..continuity.subject.context_fit import depth_boundary
             closed,_,_=depth_boundary(r.store,'project-user','project-work',topic,r.config.privacy_classes)
             if closed or kind in {'DECLINE_DEPTH','DECLINE_DELIVERY','REOPEN','REOPEN_DELIVERY'}:raise CoreError('TOPIC_BOUNDARY_NO_MODEL_CALL')
-            session,rid=self._model('life.interpret.'+key,'INTERPRET',mid,text,topic,privacy)
+            session,rid=self._model('life.interpret.'+key,'INTERPRET',mid,text,topic,privacy,retain_shared_life=retain_shared_life)
             meaning=session.proposal(rid).proposal.dialogue
+            proposal=meaning.conversation_proposal if retain_shared_life else None
             # Literal user boundary beats contradictory model interpretation.
             if kind not in {'DECLINE_DEPTH','DECLINE_DELIVERY','REOPEN','REOPEN_DELIVERY','PROJECT_STATUS'}:
 
@@ -215,15 +228,15 @@ class LifeApplication:
                 basis='MODEL_PROPOSAL' if meaning.confidence in {'RELEVANT','HIGH'} else 'INTERPRETED'
             provider_state='MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED'
         except CoreError as exc:provider_state=exc.code
-        event=SubjectInput(domain='LOCAL_INTERACTION',source_key=event_key,kind='INTERACTION',origin='USER',entity_id='project-user',scope='project-work',observed_at_us=surface.observed_at_us if surface else r.clock.utc_now_us(),privacy_class=privacy,surface=surface,
+        event=SubjectInput(conversation_proposal=proposal,domain='LOCAL_INTERACTION',source_key=event_key,kind='INTERACTION',origin='USER',entity_id='project-user',scope='project-work',observed_at_us=surface.observed_at_us if surface else r.clock.utc_now_us(),privacy_class=privacy,surface=surface,
             text='Local input reviewed meaning: '+kind,source_memory_ids=(mid,),interaction_signal=InteractionSignal(kind=kind,topic_key=topic,basis=basis,proposal_record_id=rid))
         qid=r.submit(RuntimeEvent(event_type='USER_EVENT',trigger='INCOMING_EVENT',input=event,causes=(Cause(kind='MEMORY',reference_id=mid),),due_at_us=r.clock.utc_now_us(),priority=3))
         outcome=r.step();queue=r.store.one('runtime_queue',qid)
         if not outcome or not outcome.get('cycle') or queue['state']!='DONE':raise CoreError('LOCAL_INTERACTION_PENDING')
-        cycle=outcome['cycle'];draft=None;render_state='NOT_RUN'
+        cycle=outcome['cycle'];draft=None;render_state='NOT_RUN';render_rid=None
         if cycle.context_fit.mode!='RESPECT_BOUNDARY' and self.router is not None and provider_state=='MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED':
             try:
-                session,render_rid=self._model('life.render.'+key,'RENDER',mid,text,topic,privacy,cycle)
+                session,render_rid=self._model('life.render.'+key,'RENDER',mid,text,topic,privacy,cycle,retain_shared_life=retain_shared_life)
                 draft=session.take_dialogue_draft(render_rid);render_state='UNVERIFIED_MODEL_WORDING'
             except CoreError as exc:render_state=exc.code
         if not draft:
@@ -237,14 +250,20 @@ class LifeApplication:
             current=r.store.one('subject_intentions',cycle.intention_id)
             if current['state']=='PENDING':r.subject.transition_intention(cycle.intention_id,expected_revision=current['revision'],state='DROPPED')
         from .dialogue_contracts import DialogueTurn
-        # Model wording may have depended on facts later erased. Replaying it
-        # with only the message-metadata source would resurrect derived content.
-        # Keep independent user turns only; fresh wording uses current Core facts.
-        self._recent.append(DialogueTurn(message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='USER',text=text[:1024]))
-        self._recent=self._recent[-6:]
+        # Both sides are transient by default, and every assistant turn retains
+        # all source dependencies so forgetting cannot resurrect old wording.
+        supports=RecordService(r.store).support(render_rid) if render_rid else ()
+        exchange_id=None
+        if render_state=='UNVERIFIED_MODEL_WORDING' and len(supports)<=64:
+            self._recent.append(DialogueTurn(message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='USER',text=text[:1024]))
+            self._recent.append(DialogueTurn(message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='ASSISTANT',text=draft[:1024],support_memory_ids=supports))
+            self._recent=self._recent[-6:]
+            if retain_shared_life:
+                from ..continuity.person_self import retain_exchange
+                exchange_id=retain_exchange(r.store,entity_id=r.config.entity_id,scope=r.config.scopes[0],topic=topic,user_memory_id=mid,text=draft,cycle=cycle,source_memory_ids=supports)
         self.control['messages']+=1;self._save_control();self._chat[key]=True
         if len(self._chat)>64:self._chat.pop(next(iter(self._chat)))
-        return {'message_id':key,'message_memory_id':mid,'provider_state':provider_state,'render_state':render_state,'mode':cycle.context_fit.mode,'judgment':cycle.judgment.stance,'intention':cycle.intention.kind,'text':draft,'raw_body_persisted':False,'external_social_send':False}
+        return {'message_id':key,'message_memory_id':mid,'provider_state':provider_state,'render_state':render_state,'mode':cycle.context_fit.mode,'judgment':cycle.judgment.stance,'intention':cycle.intention.kind,'text':draft,'raw_body_persisted':retain_shared_life,'exchange_record_id':exchange_id,'conversation_decision':cycle.conversation_decision.model_dump(mode='json') if cycle.conversation_decision else None,'external_social_send':False}
 
     def forget(self,mid):
         MemoryService(self.runtime.store,self.runtime.authority).forget(mid,self.runtime.authority)

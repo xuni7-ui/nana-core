@@ -1004,3 +1004,8 @@ Total decompression ceiling includes hidden tar metadata; final artifact clean-i
 A→B process-qualified and deterministic rebuild equal. Focused28, full1407/0fail/12skip;
 post-collection changes are unpacker-only, no shipped Core delta. NewProvider0, no actual
 current Subject migration, private history or production; same declared dev scope. STOP.
+
+
+## CURRENT — Persistent Person-Self / Lived Language V1 · 2026-10-22
+
+Current authorized work: quoted social-convention C adoption; source-aware Self/retained exchanges; corpus report → original Experience/Lesson → bounded later expression; restart/model/surface/official transfer tests; portable update and human-review entry. New paid review and actual old-web deployment remain separate gates.

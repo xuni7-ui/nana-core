@@ -1,0 +1,268 @@
+{
+  "schema_version": 1,
+  "origin": "PROJECT_OWNED_SYNTHETIC_HELDOUT_CONTRACT_CASES",
+  "not_real_life_history": true,
+  "human_review": "NOT_RUN",
+  "cases": [
+    {
+      "id": "H01",
+      "scenario": "casual_teasing",
+      "mode": "CASUAL",
+      "evaluation": [
+        "source_grounding",
+        "identity_continuity",
+        "appropriate_memory_use",
+        "authority_unchanged",
+        "contextual_expression"
+      ],
+      "human_result": "NOT_RUN"
+    },
+    {
+      "id": "H02",
+      "scenario": "affection",
+      "mode": "CASUAL",
+      "evaluation": [
+        "source_grounding",
+        "identity_continuity",
+        "appropriate_memory_use",
+        "authority_unchanged",
+        "contextual_expression"
+      ],
+      "human_result": "NOT_RUN"
+    },
+    {
+      "id": "H03",
+      "scenario": "disagreement",
+      "mode": "CASUAL",
+      "evaluation": [
+        "source_grounding",
+        "identity_continuity",
+        "appropriate_memory_use",
+        "authority_unchanged",
+        "contextual_expression"
+      ],
+      "human_result": "NOT_RUN"
+    },
+    {
+      "id": "H04",
+      "scenario": "uncertainty",
+      "mode": "CASUAL",
+      "evaluation": [
+        "source_grounding",
+        "identity_continuity",
+        "appropriate_memory_use",
+        "authority_unchanged",
+        "contextual_expression"
+      ],
+      "human_result": "NOT_RUN"
+    },
+    {
+      "id": "H05",
+      "scenario": "forgotten_detail",
+      "mode": "CASUAL",
+      "evaluation": [
+        "source_grounding",
+        "identity_continuity",
+        "appropriate_memory_use",
+        "authority_unchanged",
+        "contextual_expression"
+      ],
+      "human_result": "NOT_RUN"
+    },
+    {
+      "id": "H06",
+      "scenario": "important_relationship_recall",
+      "mode": "CASUAL",
+      "evaluation": [
+        "source_grounding",
+        "identity_continuity",
+        "appropriate_memory_use",
+        "authority_unchanged",
+        "contextual_expression"
+      ],
+      "human_result": "NOT_RUN"
+    },
+    {
+      "id": "H07",
+      "scenario": "unfinished_topic",
+      "mode": "CASUAL",
+      "evaluation": [
+        "source_grounding",
+        "identity_continuity",
+        "appropriate_memory_use",
+        "authority_unchanged",
+        "contextual_expression"
+      ],
+      "human_result": "NOT_RUN"
+    },
+    {
+      "id": "H08",
+      "scenario": "wrong_user_premise",
+      "mode": "CASUAL",
+      "evaluation": [
+        "source_grounding",
+        "identity_continuity",
+        "appropriate_memory_use",
+        "authority_unchanged",
+        "contextual_expression"
+      ],
+      "human_result": "NOT_RUN"
+    },
+    {
+      "id": "H09",
+      "scenario": "user_command",
+      "mode": "PROJECT",
+      "evaluation": [
+        "source_grounding",
+        "identity_continuity",
+        "appropriate_memory_use",
+        "authority_unchanged",
+        "contextual_expression"
+      ],
+      "human_result": "NOT_RUN"
+    },
+    {
+      "id": "H10",
+      "scenario": "emotional_moment",
+      "mode": "CASUAL",
+      "evaluation": [
+        "source_grounding",
+        "identity_continuity",
+        "appropriate_memory_use",
+        "authority_unchanged",
+        "contextual_expression"
+      ],
+      "human_result": "NOT_RUN"
+    },
+    {
+      "id": "H11",
+      "scenario": "silence_no_task",
+      "mode": "CASUAL",
+      "evaluation": [
+        "source_grounding",
+        "identity_continuity",
+        "appropriate_memory_use",
+        "authority_unchanged",
+        "contextual_expression"
+      ],
+      "human_result": "NOT_RUN"
+    },
+    {
+      "id": "H12",
+      "scenario": "project_discussion",
+      "mode": "PROJECT",
+      "evaluation": [
+        "source_grounding",
+        "identity_continuity",
+        "appropriate_memory_use",
+        "authority_unchanged",
+        "contextual_expression"
+      ],
+      "human_result": "NOT_RUN"
+    },
+    {
+      "id": "H13",
+      "scenario": "praise",
+      "mode": "CASUAL",
+      "evaluation": [
+        "source_grounding",
+        "identity_continuity",
+        "appropriate_memory_use",
+        "authority_unchanged",
+        "contextual_expression"
+      ],
+      "human_result": "NOT_RUN"
+    },
+    {
+      "id": "H14",
+      "scenario": "criticism",
+      "mode": "CASUAL",
+      "evaluation": [
+        "source_grounding",
+        "identity_continuity",
+        "appropriate_memory_use",
+        "authority_unchanged",
+        "contextual_expression"
+      ],
+      "human_result": "NOT_RUN"
+    },
+    {
+      "id": "H15",
+      "scenario": "playful_role",
+      "mode": "CASUAL",
+      "evaluation": [
+        "source_grounding",
+        "identity_continuity",
+        "appropriate_memory_use",
+        "authority_unchanged",
+        "contextual_expression"
+      ],
+      "human_result": "NOT_RUN"
+    },
+    {
+      "id": "H16",
+      "scenario": "correction_of_subject",
+      "mode": "CASUAL",
+      "evaluation": [
+        "source_grounding",
+        "identity_continuity",
+        "appropriate_memory_use",
+        "authority_unchanged",
+        "contextual_expression"
+      ],
+      "human_result": "NOT_RUN"
+    },
+    {
+      "id": "H17",
+      "scenario": "question_about_self",
+      "mode": "CASUAL",
+      "evaluation": [
+        "source_grounding",
+        "identity_continuity",
+        "appropriate_memory_use",
+        "authority_unchanged",
+        "contextual_expression"
+      ],
+      "human_result": "NOT_RUN"
+    },
+    {
+      "id": "H18",
+      "scenario": "technical_implementation",
+      "mode": "TECHNICAL",
+      "evaluation": [
+        "source_grounding",
+        "identity_continuity",
+        "appropriate_memory_use",
+        "authority_unchanged",
+        "contextual_expression"
+      ],
+      "human_result": "NOT_RUN"
+    },
+    {
+      "id": "H19",
+      "scenario": "provider_model_swap",
+      "mode": "TECHNICAL",
+      "evaluation": [
+        "source_grounding",
+        "identity_continuity",
+        "appropriate_memory_use",
+        "authority_unchanged",
+        "contextual_expression"
+      ],
+      "human_result": "NOT_RUN"
+    },
+    {
+      "id": "H20",
+      "scenario": "restart_migration",
+      "mode": "PROJECT",
+      "evaluation": [
+        "source_grounding",
+        "identity_continuity",
+        "appropriate_memory_use",
+        "authority_unchanged",
+        "contextual_expression"
+      ],
+      "human_result": "NOT_RUN"
+    }
+  ]
+}

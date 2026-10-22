@@ -189,7 +189,11 @@ def execute(root,a):
     if name in {'pause','resume'}:return request(home,{'operation':'control','command':name})
     if name=='chat':
         from .review import chat
-        chat(home,privacy='PROJECT');return {'state':'CHAT_CLIENT_EXITED'}
+        chat(home,privacy='PROJECT',retain_shared_life=getattr(a,'retain_shared_life',False));return {'state':'CHAT_CLIENT_EXITED'}
+    if name=='self-profile':
+        return request(home,{'operation':'self-profile','name':a.name,'aliases':a.alias,'expected_revision':a.expected_revision,'reason':'Explicit host-owner instance profile'})
+    if name=='review-expression-learning':
+        return request(home,{'operation':'review-expression-learning','lesson_id':a.lesson_id})
     if name=='provider-command':
         from .provider import provider_command
         return provider_command(home,a.document)
@@ -227,8 +231,11 @@ def execute(root,a):
 def main(root=None):
     root=Path(root or Path(__file__).resolve().parents[3]).absolute()
     p=argparse.ArgumentParser(description=__doc__);subs=p.add_subparsers(dest='command',required=True)
-    for name in ('preflight','init','restore','start','restart','inspect','status','health','stop','emergency-stop','chat','backup','export','pause','resume','provider-command','config'):
+    for name in ('preflight','init','restore','start','restart','inspect','status','health','stop','emergency-stop','chat','backup','export','pause','resume','provider-command','config','self-profile','review-expression-learning'):
         s=subs.add_parser(name);s.add_argument('--home',type=Path,default=root/'var/subject')
+        if name=='chat':s.add_argument('--retain-shared-life',action='store_true')
+        if name=='self-profile':s.add_argument('--name',required=True);s.add_argument('--alias',action='append',default=[]);s.add_argument('--expected-revision',type=int,required=True)
+        if name=='review-expression-learning':s.add_argument('--lesson-id',required=True)
         if name=='init':s.add_argument('--fresh',action='store_true')
         if name in {'start','restart'}:
             s.add_argument('--seconds',type=int,default=3600);s.add_argument('--live',action='store_true');s.add_argument('--secret-fd',type=int);s.add_argument('--secret-ref')

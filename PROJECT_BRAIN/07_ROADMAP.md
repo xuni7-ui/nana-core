@@ -935,3 +935,8 @@ Total decompression ceiling includes hidden tar metadata; final artifact clean-i
 A→B process-qualified and deterministic rebuild equal. Focused28, full1407/0fail/12skip;
 post-collection changes are unpacker-only, no shipped Core delta. NewProvider0, no actual
 current Subject migration, private history or production; same declared dev scope. STOP.
+
+
+## CURRENT — Persistent Person-Self / Lived Language V1 · 2026-10-22
+
+Current Advanced Growth: Persistent Person-Self / Lived Language V1. Repairs the shared-life conversational integration across existing S1/S2/S3/S6/S8. No new Domain/Stage, no Foundation requalification or production expansion. Human review follows technical handoff.

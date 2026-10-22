@@ -2,12 +2,14 @@
 from typing import Literal
 from pydantic import Field
 from ..contracts import DTO
+from ..continuity.person_self import ConversationProposal, ConversationDecision
 
 MeaningKind=Literal['VENT','CHAT','HELP','SHARE','DECLINE_DEPTH','DECLINE_DELIVERY','REOPEN','REOPEN_DELIVERY','FOCUS','CORRECTION','UNCLEAR','IMPORTANT','PROJECT_STATUS']
 
 class DialogueMeaning(DTO):
     kind:MeaningKind
     confidence:Literal['LOW','RELEVANT','HIGH']='LOW'
+    conversation_proposal:ConversationProposal|None=None
 
 class DialogueDraft(DTO):
     text:str|None=Field(default=None,max_length=2048)
@@ -18,11 +20,14 @@ class DialogueTurn(DTO):
     message_memory_id:str
     topic:str=Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
     privacy_class:Literal['PUBLIC','PROJECT','PERSONAL']
-    speaker:Literal['USER']
+    speaker:Literal['USER','ASSISTANT']
+    support_memory_ids:tuple[str,...]=Field(default=(),max_length=64)
     text:str=Field(min_length=1,max_length=1024)
 
 class DialogueContext(DTO):
-    recent_turns:tuple[DialogueTurn,...]=Field(default=(),max_length=6)
+    retain_shared_life:bool=False
+    conversation_decision:ConversationDecision|None=None
+    recent_turns:tuple[DialogueTurn,...]=Field(default=(),max_length=12)
     message_memory_id:str
     topic:str=Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
     privacy_class:Literal['PUBLIC','PROJECT','PERSONAL']
