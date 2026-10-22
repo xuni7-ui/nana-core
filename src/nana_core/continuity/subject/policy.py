@@ -61,14 +61,15 @@ def appraise(event: SubjectInput, situation: Situation):
     if situation.context_fit:reasons.append(situation.context_fit.reason)
     if situation.cue:
         reasons.append('a current source-backed concern offers options; it is not an adopted intention')
-    return Appraisal(novelty=event.novelty,
+    assessment=situation.cue.opportunity_assessment if situation.cue else None
+    return Appraisal(novelty='LOW' if assessment and assessment.novelty=='REPEATED' else event.novelty,
         goal_relevance='RELEVANT' if situation.project_ids or situation.plan_step or situation.adopted_program_ids else 'NONE',
         relationship_relevance='RELEVANT' if situation.familiar or event.relationship_kind else 'LOW',
         self_relevance='RELEVANT' if event.preference_signal else 'LOW',
         unfinished_tension='HIGH' if situation.due_commitment_ids else 'RELEVANT' if situation.unresolved_interest else 'NONE',
         interest_relevance='HIGH' if situation.unresolved_interest else 'LOW', risk=event.risk,
         conflict='HIGH' if conflict or norm_conflict else 'NONE', urgency='HIGH' if situation.due_commitment_ids else event.urgency,
-        expected_value='RELEVANT' if situation.unresolved_interest or situation.project_ids else 'LOW',
+        expected_value=assessment.value if assessment else 'RELEVANT' if situation.unresolved_interest or situation.project_ids else 'LOW',
         uncertainty=event.uncertainty, privacy_relevance='HIGH' if event.privacy_class in {'PERSONAL','SECRET'} else 'LOW',
         source_ids=situation.memory_ids, reasons=tuple(reasons))
 
@@ -160,6 +161,10 @@ def decide(event, situation, appraisal, motives):
         if cue.cognitive_load=='HIGH' and cue.urgency!='HIGH':
             return ('DEFER',Judgment(stance='DEFER',reason='Current load and lack of urgent duty make rest appropriate',source_ids=sources),
                 Intention(kind='NO_ACTION',purpose='Rest instead of creating meaningless work',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='REST'))
+        assessment=cue.opportunity_assessment
+        if assessment and (assessment.value=='LOW' or assessment.novelty=='REPEATED'):
+            return ('BACKGROUND_WATCH',Judgment(stance='IGNORE',reason='Current low value or repeated low-stimulation evidence does not warrant another activity; this is the Subject decision, not a Runtime veto',source_ids=sources),
+                Intention(kind='NO_ACTION',purpose='Consider the motive and choose not to act on this opportunity',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='IGNORE'))
         value=cue.learning_value
         if value and set(options)&{'LEARN','SEEK_CAPABILITY'}:
             low_value=value.goal_value=='LOW' and value.future_reuse=='LOW' and value.interest=='LOW' and value.relationship_relevance=='LOW'

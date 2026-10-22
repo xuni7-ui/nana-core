@@ -51,7 +51,7 @@ def advanced_view(store,*,scope,privacy):
     opportunities=projection(store,(scope,),privacy)
     explored=[o for o in opportunities if o.get('behavior')=='EXPLORE']
     rested=[o for o in opportunities if o.get('behavior')=='REST']
-    suppressed=[o for o in opportunities if o['state']=='SUPPRESSED']
+    suppressed=[o for o in opportunities if o.get('behavior')=='IGNORE' and (o.get('value')=='LOW' or o.get('novelty')=='REPEATED')]
     return {'derived':True,'problem_candidates':problems[:16],'goals':goals,'learning_cycles':learning,'research_episodes':research,
         'learning_strategy_candidates':meta,'rhythm':{'rest_need':'PRESENT' if active>=4 or rested else 'NOT_ESTABLISHED',
         'unfinished_task_pull':'PRESENT' if active else 'NOT_ESTABLISHED','curiosity':'SOURCE_BACKED_INTEREST' if explored else 'NOT_ESTABLISHED',

@@ -133,3 +133,15 @@ Historical Person-Self release verification is now checked at its committed
 1fd40c9 release, retaining original evidence bytes; it does not falsely attest
 new business code or prevent authorized later changes. Current growth has its
 own manifest, source pin, regression and installed-package qualification.
+
+## Final C/D boundary reconciliation
+
+The first queue version filtered explicit LOW/repeated assessments before C.
+Moved those assessments into a typed optional ConcernCue factor and original C
+appraisal/decision. Only expiry/current-source/privacy/idempotency stay in queue
+admission. C may IGNORE a low-value/repeated opportunity while retaining its
+considered/wanted motive in the immutable cycle. Default wire fields remain
+omitted for old sources. This prevents D attention infrastructure from deciding
+WHY an opportunity is not worth doing. Targeted checks prove actual C judgment,
+not merely a cancelled queue row. Final release pins this correction separately
+from the preceding c72c1be full1464/0fail/12skip checkpoint.

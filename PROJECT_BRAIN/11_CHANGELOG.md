@@ -2454,3 +2454,12 @@ before schedule/after gather PASS;60virtual days yield two research episodes for
 original/later source, expiry UNKNOWN, max pending1, no action/provider calls.
 Final source pin/full/portable refresh follow; previous source0504050 remains
 historical qualified evidence, not silently relabeled current code.
+
+### Open Life — value inhibition belongs to C
+
+Runtime-driven source c72c1be full1464passed/0failed/12skipped,412.29s. Final
+boundary review moved LOW/repeated opportunity inhibition out of queue filtering
+and into original C appraisal/decision. Queue still enforces privacy/current
+source/expiry/idempotency; ordered attention is not normative adoption. The
+committed cycle now retains considered/wanted motive and Subject IGNORE/no action,
+instead of a pre-C low-value cancellation. No permission or Manager change.

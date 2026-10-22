@@ -9,7 +9,7 @@ from pydantic import Field
 from ...contracts import DTO, CoreError
 from ...storage import digest, uid
 from ..records import RecordService
-from ..subject.opportunities import ConcernCue
+from ..subject.opportunities import ConcernCue,OpportunityAssessment
 from ..subject.contracts import SubjectInput
 from ...presence.contracts import RuntimeEvent, Cause, DAY
 
@@ -46,7 +46,7 @@ class OpportunityQueue:
         pending=s.db.execute("SELECT count(*) FROM jobs j JOIN continuity_records r ON j.record_id=r.record_id WHERE j.work_kind='LIFE_OPPORTUNITY' AND j.state='WAITING' AND r.lifecycle='ACTIVE'").fetchone()[0]
         if pending>=self.capacity:raise CoreError('LIFE_QUEUE_BACKPRESSURE')
         now=r.clock.utc_now_us()
-        reason='LOW_VALUE' if c.value=='LOW' else 'REPEATED_WITHOUT_NEW_EVIDENCE' if c.novelty=='REPEATED' else 'EXPIRED' if c.expires_at_us<=now else None
+        reason='EXPIRED' if c.expires_at_us<=now else None
         jid=uid()
         with s.transaction('life.opportunity_offered',{'job_id':jid,'suppression':reason}) as tx:
             rid=self.records.create(tx,kind='RUNTIME_WORK',scope=sources[0]['scope'],
@@ -88,7 +88,7 @@ class OpportunityQueue:
         if s.db.execute("SELECT count(*) FROM subject_events WHERE source_key LIKE 'development.life.%' AND observed_at_us>=?",(day,)).fetchone()[0]>=self.daily_limit:return None
         # Attention ordering is finite; these are options, not pre-adopted goals.
         row,head,c=max(viable,key=lambda x:({'LOW':0,'RELEVANT':1,'HIGH':2}[x[2].value],x[2].kind=='REST',-x[0]['due_at_us']))
-        cue=c.cue
+        cue=c.cue.model_copy(update={'opportunity_assessment':OpportunityAssessment(value=c.value,novelty=c.novelty)})
         load=s.db.execute("SELECT count(*) FROM subject_intentions WHERE state='PENDING'").fetchone()[0]
         if load>=4:cue=cue.model_copy(update={'cognitive_load':'HIGH'})
         # A heavy learning candidate is still shown to C as a costly option;
@@ -114,5 +114,5 @@ def projection(store,scopes,privacy):
         if not head or head['lifecycle']!='ACTIVE' or head['scope'] not in scopes or head['privacy_class'] not in privacy:continue
         if not records.current_support(head['record_id']):continue
         b=records.read(head['record_id'])['payload'];c=b['candidate']
-        out.append({'job_id':row['job_id'],'kind':c['kind'],'state':b['state'],'behavior':b.get('behavior'),'cycle_id':b.get('cycle_id'),'record_id':head['record_id']})
+        out.append({'job_id':row['job_id'],'kind':c['kind'],'value':c['value'],'novelty':c['novelty'],'state':b['state'],'behavior':b.get('behavior'),'cycle_id':b.get('cycle_id'),'record_id':head['record_id']})
     return tuple(out)

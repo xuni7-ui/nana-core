@@ -39,8 +39,15 @@ def test_queue_original_c_restart_idempotency_and_suppression(runtime):
     assert not r.store.all('actions') and not r.store.all('grants')
     m2=capture(r,'irrelevant',{'unimportant':True})
     low=q.offer(candidate(r,m2,value='LOW'))
-    assert r.store.one('jobs',low)['state']=='CANCELLED'
-    assert q.view()[0]['state']=='SUPPRESSED'
+    assert r.store.one('jobs',low)['state']=='WAITING'
+    low_result=judge(r,q,low)
+    assert low_result['behavior']=='IGNORE'
+    low_cycle=r.subject.result(r.store.one('subject_cycles',low_result['cycle_id']))
+    assert low_cycle.evaluation.considered and low_cycle.evaluation.wanted
+    m3=capture(r,'already-seen',{'repeated':True})
+    repeated=q.offer(candidate(r,m3,novelty='REPEATED'))
+    assert r.store.one('jobs',repeated)['state']=='WAITING'
+    assert judge(r,q,repeated)['behavior']=='IGNORE'
 
 
 def test_load_and_expensive_learning_allow_rest(runtime):
