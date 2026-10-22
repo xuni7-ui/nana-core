@@ -17,7 +17,7 @@ from ..storage import canonical, digest, uid
 from .contracts import EvidenceInput, MemoryCandidate, MemoryType, Provenance
 from .records import RecordService
 from .subject.social import InteractionRule,propose_social
-from .lived_language import ExpressionFeedbackCheck, ExpressionRule, sample_from_memory, learnable
+from .lived_language import ExpressionFeedbackCheck, ExpressionRule, sample_from_memory, learnable, report_matches
 from .autonomy.experience import DispositionQualityCheck,DispositionRule,disposition_fact,lesson_method,ConsequenceObservation
 
 
@@ -161,7 +161,7 @@ class ExperienceService:
         memory=self.records.memory;result=memory.read(result_memory_id)
         sample=sample_from_memory(self.store,result)
         row=self.records.read(sample_record_id)
-        if row['payload'].get('person_kind')!='LIVED_LANGUAGE_SAMPLE' or row['scope']!=result['scope'] or row['payload']['sample']!=sample.model_dump(mode='json') or result_memory_id not in self.records.support(sample_record_id) or not self.records.current_support(sample_record_id):raise CoreError('LANGUAGE_FEEDBACK_BINDING_INVALID')
+        if row['payload'].get('person_kind')!='LIVED_LANGUAGE_SAMPLE' or row['scope']!=result['scope'] or not report_matches(row['payload']['sample'],sample) or result_memory_id not in self.records.support(sample_record_id) or not self.records.current_support(sample_record_id):raise CoreError('LANGUAGE_FEEDBACK_BINDING_INVALID')
         check=ExpressionFeedbackCheck(result_memory_id=result_memory_id,result_artifact_digest=digest(self.store.artifact(result['payload_artifact_id'])),sample_record_id=sample_record_id,passed=sample.human_judgment=='ACCEPTED')
         eid=memory.capture(EvidenceInput(provenance=Provenance(domain='CONSENTED_INTERACTION',source_namespace='recorded.conversation.feedback-check',source_reference=sample_record_id,source_kind='SYSTEM_VERIFICATION'),text=check.model_dump_json(),privacy_class=result['privacy_class'],retention_consent_ref=sample_record_id,observed_time_us=row['created_at_us']))
         return memory.add(MemoryCandidate(entity_id=result['entity_id'],scope=result['scope'],memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',source_evidence_id=eid,text=check.model_dump_json(),derived_from=(result_memory_id,)))
@@ -187,7 +187,7 @@ class ExperienceService:
         elif isinstance(check,ExpressionFeedbackCheck):
             sample=sample_from_memory(self.store,result)
             parent=self.records.read(check.sample_record_id)
-            if candidate.task_class!='interaction.expression' or source['source_namespace']!='recorded.conversation.feedback-check' or parent['payload'].get('person_kind')!='LIVED_LANGUAGE_SAMPLE' or parent['scope']!=candidate.scope or parent['payload']['sample']!=sample.model_dump(mode='json') or not self.records.current_support(check.sample_record_id) or check.passed!=(sample.human_judgment=='ACCEPTED'):raise CoreError('EXPERIENCE_VERIFICATION_MISMATCH')
+            if candidate.task_class!='interaction.expression' or source['source_namespace']!='recorded.conversation.feedback-check' or parent['payload'].get('person_kind')!='LIVED_LANGUAGE_SAMPLE' or parent['scope']!=candidate.scope or not report_matches(parent['payload']['sample'],sample) or not self.records.current_support(check.sample_record_id) or check.passed!=(sample.human_judgment=='ACCEPTED'):raise CoreError('EXPERIENCE_VERIFICATION_MISMATCH')
         elif isinstance(check,InteractionQualityCheck):
             outcome=self._interaction_outcome(result)
             if candidate.task_class!='interaction.shared_discovery' or check.proposal_intention_id!=outcome.proposal_intention_id or check.reaction!=outcome.reaction or check.passed!=(outcome.reaction=='POSITIVE_PLAYFUL'):

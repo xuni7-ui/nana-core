@@ -171,6 +171,7 @@ def project(store, *, entity_id, scope, privacy, topic=None):
         try:body=json.loads(source['text'])
         except ValueError:body={}
         if body.get('provenance')=='PROJECT_SYNTHETIC':continue
+        if source['source_provenance']['source_namespace']=='recorded.conversation.feedback' and body.get('body_storage')!='DEPENDENT_RECORD':continue
         episodes.append({'task_class':raw['task_class'],'outcome':raw['outcome'],'record_id':raw['record_id'],
                          'meaning':'VERIFIED_RECORD_NOT_UNIVERSAL_CAPABILITY','as_of_us':raw['created_at_us']})
     recall={}
@@ -184,21 +185,47 @@ def project(store, *, entity_id, scope, privacy, topic=None):
                 decision=RecordService(store).read(latest['record_id'])['payload']['decision']['choice']
                 status='REMEMBERED_ADOPTED_CONVENTION' if decision=='ADOPT' else 'EXPLICITLY_WITHDRAWN'
         recall[kind]=status
-    refs = tuple(dict.fromkeys((*living.source_record_ids, *(r['record_id'] for r in adoption),
-        *(r['record_id'] for r in exchanges),*(r['record_id'] for r in episodes), *((anchor.source_record_id,) if anchor else ()))))
-    mids = tuple(sorted({*living.source_memory_ids, *(m for rid in refs for m in RecordService(store).support(rid))}))
-    if len(mids) > 64:
-        raise CoreError('PERSON_SELF_SUPPORT_BOUND')
+    records=RecordService(store)
+    stable=tuple(dict.fromkeys((*(r['record_id'] for r in adoption),*((anchor.source_record_id,) if anchor else ()))))
+    refs=list(stable);mids={m for rid in stable for m in records.support(rid)};omitted=[]
+    if len(mids)>32:raise CoreError('STABLE_SELF_SUPPORT_REQUIRES_REVIEW')
+    # Retained wording depends on all sources which could have informed it.
+    # Never cut those privacy dependencies to make it fit. Stop replaying an
+    # optional ancestral speech report before its lineage exhausts hot context.
+    current_support={*living.source_memory_ids,*(m for rid in living.source_record_ids for m in records.support(rid))}
+    keep_current=len(mids|current_support)<=32
+    if keep_current:refs.extend(living.source_record_ids);mids.update(current_support)
+    else:omitted.append('CURRENT_SELF_PERSONALITY_NARRATIVE_SOURCE_HORIZON')
+    kept_episodes=[]
+    for episode in episodes:
+        support=set(records.support(episode['record_id']))
+        if len(mids|support)>32:
+            omitted.append('LIVED_EPISODE_SOURCE_HORIZON');continue
+        refs.append(episode['record_id']);mids.update(support);kept_episodes.append(episode)
+    kept_exchanges=[]
+    for exchange in exchanges:
+        support=set(records.support(exchange['record_id']))
+        if len(mids|support)>32:
+            omitted.append('RECENT_EXCHANGE_SOURCE_HORIZON');continue
+        refs.append(exchange['record_id']);mids.update(support);kept_exchanges.append(exchange)
+    episodes=kept_episodes;exchanges=tuple(kept_exchanges)
+    living_body=living.model_dump(mode='json');personality_body=personality.model_dump(mode='json');narrative_body=narrative.model_dump(mode='json')
+    if not keep_current:
+        living_body={'presence':'DEGRADED','current_activity':'SOURCE_HORIZON_OMITTED','internal':{'confidence':'UNKNOWN'}}
+        personality_body={'expression_tendencies':{}}
+        relationship={'familiarity':'UNKNOWN','interaction_style':'SOURCE_HORIZON_OMITTED'}
+        narrative_body={'entries':[],'coverage':'SOURCE_HORIZON_OMITTED'}
+    refs=tuple(dict.fromkeys(refs));mids=tuple(sorted(mids))
     if state_token(store) != token:
         raise CoreError('STALE_PERSON_SELF')
     return {'identity_id': store.identity['identity_id'], 'identity': json.loads(store.identity['body_json']),
-            'model_is_resource_not_self': True, 'living': living.model_dump(mode='json'),
-            'personality': personality.model_dump(mode='json'), 'relationship': relationship,
+            'model_is_resource_not_self': True, 'living': living_body,
+            'personality': personality_body, 'relationship': relationship,
             'relationship_anchor': anchor.model_dump(mode='json') if anchor else None,
             'adopted_conventions': [r['payload'] for r in adoption],
             'recent_exchanges': [r['payload'] for r in reversed(exchanges)],
-            'narrative': narrative.model_dump(mode='json'), 'source_record_ids': refs, 'source_memory_ids': mids,
-            'stable_source_record_ids':tuple(dict.fromkeys((*(r['record_id'] for r in adoption),*((anchor.source_record_id,) if anchor else ())))),
+            'narrative': narrative_body, 'source_record_ids': refs, 'source_memory_ids': mids,
+            'stable_source_record_ids':stable,'omitted_sections':tuple(dict.fromkeys(omitted)),
             'recall_status':recall,
             'lived_episodes':episodes,
             'learning_capability':{'mechanism':'BOUNDED_EXPERIENCE_LEARNING','basis':'INSTALLED_SERVICE_NOT_PERSONAL_ACHIEVEMENT','execution_permission':False},
@@ -220,6 +247,7 @@ def compact(view):
             'recent_exchanges':[{k:r[k][:384] if k in {'user_statement','assistant_utterance'} else r[k] for k in ('user_statement','assistant_utterance','epistemic_status','as_of_us')} for r in view['recent_exchanges'][-2:]],
             'memory_access':view['memory_access'],'absence_is_not_proof_of_forgetting':True,
             'recall_status':view['recall_status'],
+            'omitted_sections':view['omitted_sections'],
             'learning_capability':view['learning_capability'],
             'lived_episodes':view['lived_episodes'][:2],
             'as_of_us':view['as_of_us'],'execution_authority':False}

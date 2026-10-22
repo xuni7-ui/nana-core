@@ -176,16 +176,20 @@ class LifeApplication:
         from .surfaces import recent_sources
         continuity=recent_sources(self,topic,privacy)
         from ..continuity.memory import PRIVACY_RANK
-        recent=[]
-        for turn in self._recent:
+        recent=[];history_sources=set()
+        for turn in reversed(self._recent):
             if turn.topic!=topic or PRIVACY_RANK[turn.privacy_class]>PRIVACY_RANK[privacy]:continue
             try:
                 for source in (turn.message_memory_id,*turn.support_memory_ids):
                     row=MemoryService(self.runtime.store).read(source)
                     if PRIVACY_RANK[row['privacy_class']]>PRIVACY_RANK[privacy]:raise CoreError('DIALOGUE_HISTORY_PRIVACY_DENIED')
             except CoreError:continue
+            sources={turn.message_memory_id,*turn.support_memory_ids}
+            if len(history_sources|sources)>16:continue
+            history_sources.update(sources)
             recent.append(turn)
-        descriptor=DialogueContext(retain_shared_life=retain_shared_life,conversation_decision=cycle.conversation_decision if cycle else None,project_status_query=LiteralSpanInterpreter().interpret(text).kind=='PROJECT_STATUS' or bool(cycle and cycle.context_fit.mode=='PROJECT_STATUS'),message_memory_id=mid,topic=topic,privacy_class=privacy,phase=phase,
+        recent.reverse()
+        descriptor=DialogueContext(recent_history_truncated=len(recent)<len(self._recent),retain_shared_life=retain_shared_life,conversation_decision=cycle.conversation_decision if cycle else None,project_status_query=LiteralSpanInterpreter().interpret(text).kind=='PROJECT_STATUS' or bool(cycle and cycle.context_fit.mode=='PROJECT_STATUS'),message_memory_id=mid,topic=topic,privacy_class=privacy,phase=phase,
             judgment=cycle.judgment.stance if cycle else None,intention=cycle.intention.kind if cycle else None,context_mode=cycle.context_fit.mode if cycle else None,effect_status='VERIFIED_EFFECT' if facts else 'NONE')
         data={'dialogue':descriptor.model_dump(mode='json')};volatile={'dialogue':descriptor.model_copy(update={'text':text,'recent_turns':tuple(recent)}).model_dump(mode='json')}
         request=session.prepare(key, 'INTERPRET' if phase=='INTERPRET' else 'SOCIAL',tuple(dict.fromkeys((mid,*facts,*continuity,*(t.message_memory_id for t in recent)))),role_input=data,volatile_input=volatile,

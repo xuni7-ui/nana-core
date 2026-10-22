@@ -2392,3 +2392,9 @@ Implemented Advanced Person-Self, quoted C conventions, explicit retained exchan
 ### Presence integration checkpoint
 
 Connected the already-tested finite unfinished-topic opportunity into the existing SharedPresence safe point. Busy/refusal/dedup tests PASS; concentrated affected-domain regression 100 passed. This checkpoint preserves the exact worktree source used by the full regression currently running; no new runtime or paid calls.
+
+### Long-conversation and feedback privacy hardening
+
+A new 80-turn retained-speech test actually reproduced PERSON_SELF_SUPPORT_BOUND: full source ancestry accumulated despite a small recent-turn window. Fixed by selecting optional speech/episode ancestry within 32 roots, preserving stable adopted facts and all existing deletion edges; omitted detail is explicit. Transient recent speech has an additional 16-root selection bound. No privacy dependency is severed.
+
+Bound feedback now selects its exact current report, inherits source privacy, and stores copied transcript/note text only in the atomic parent-dependent record; an injected interruption after evidence capture cannot strand copied wording. Unbound project-supplied review cases are not projected as the Subject's own lived episodes. 41 affected tests and the two dangerous-boundary checks PASS. Earlier full1433/12skip qualified the preceding source; final full regression/package pins must be refreshed for this source.

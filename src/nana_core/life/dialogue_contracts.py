@@ -25,6 +25,7 @@ class DialogueTurn(DTO):
     text:str=Field(min_length=1,max_length=1024)
 
 class DialogueContext(DTO):
+    recent_history_truncated:bool=False
     retain_shared_life:bool=False
     conversation_decision:ConversationDecision|None=None
     recent_turns:tuple[DialogueTurn,...]=Field(default=(),max_length=12)

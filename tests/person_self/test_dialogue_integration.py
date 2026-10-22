@@ -85,3 +85,37 @@ def test_learned_policy_changes_later_unrelated_render_after_restart(tmp_path):
             assert 'concise contextual' in after['text']
             assert before['text']!=after['text']
             assert len(requests)==4  # loopback only, never a real provider
+
+
+def test_feedback_on_later_learned_reply_binds_current_report_and_erases_copied_wording(tmp_path,monkeypatch):
+    from .test_learning import record,activate
+    from nana_core.continuity.lived_language import LanguageSample,LanguageService
+    from nana_core.continuity.records import RecordService
+    from nana_core.life.control import dispatch
+    from nana_core.contracts import CoreError
+    import pytest
+    home=tmp_path/'home';initialize(home);clock=VirtualClock()
+    with relay(home,'CHAT') as (router,_),LifeApplication(home,clock=clock,router=router) as app:
+        app.pause();record(app,1);_,eid=record(app,2);activate(app,eid)
+        turn=app.chat('FEEDBACK_SOURCE_CANARY',privacy='PROJECT',retain_shared_life=True)
+        assert turn['render_state']=='UNVERIFIED_MODEL_WORDING',turn
+        sample=LanguageSample(sample_id='later-human',review_target=turn['exchange_record_id'],mode='CASUAL',context='FEEDBACK_SOURCE_CANARY',candidate_response=turn['text'],human_judgment='REJECTED',reason_tags=('TOO_TERSE',),provenance='USER_PROVIDED_REVIEW',observed_at_us=clock.utc_now_us())
+        response=dispatch(app,{'operation':'language-feedback','exchange_record_id':turn['exchange_record_id'],'sample':sample.model_dump(mode='json')})
+        experience=app.runtime.store.one('experiences',response['experience_id'])
+        result=RecordService(app.runtime.store).memory.read(experience['result_memory_id'])
+        assert result['source_provenance']['source_reference']=='later-human'
+        from nana_core.continuity.memory import MemoryService
+        original=MemoryService.add
+        def interrupted(memory,candidate):
+            if memory.evidence(candidate.source_evidence_id)['source_reference']=='interrupted-review':raise CoreError('INJECTED_BEFORE_SAMPLE_LINK')
+            return original(memory,candidate)
+        monkeypatch.setattr(MemoryService,'add',interrupted)
+        service=LanguageService(app.runtime.store,app.runtime.authority)
+        with pytest.raises(CoreError,match='INJECTED_BEFORE_SAMPLE_LINK'):
+            service.record(sample.model_copy(update={'sample_id':'interrupted-review'}),scope='project-work',entity_id='project-user',privacy='PUBLIC',authority=app.runtime.authority,exchange_record_id=turn['exchange_record_id'])
+        orphan=app.runtime.store.db.execute("SELECT * FROM continuity_evidence WHERE source_namespace='recorded.conversation.feedback' AND source_reference='interrupted-review'").fetchone()
+        assert orphan['privacy_class']=='PROJECT'
+        assert b'FEEDBACK_SOURCE_CANARY' not in app.runtime.store.artifact(orphan['payload_artifact_id'])
+        app.forget(turn['message_memory_id'])
+        with pytest.raises(CoreError):RecordService(app.runtime.store).memory.read(experience['result_memory_id'])
+        assert not app.runtime.store.db.execute("SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),'FEEDBACK_SOURCE_CANARY')>0").fetchone()

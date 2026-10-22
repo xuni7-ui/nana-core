@@ -19,6 +19,7 @@ Tag = Literal['TOO_FORMAL','TOO_VERBOSE','META_SUMMARIZING','ASSISTANT_VOICE',
 
 
 class LanguageSample(DTO):
+    body_storage: Literal['SOURCE_REPORT','DEPENDENT_RECORD'] = 'SOURCE_REPORT'
     sample_id: str = Field(pattern=r'^[A-Za-z0-9._:-]{1,96}$')
     review_target: str = Field(min_length=1, max_length=128)
     mode: Literal['CASUAL','PROJECT','TECHNICAL']
@@ -64,6 +65,18 @@ def sample_from_memory(store, result):
     return LanguageSample.model_validate_json(result['text'])
 
 
+def source_report(sample):
+    if sample.body_storage!='DEPENDENT_RECORD':return sample
+    # A crash between evidence capture and linking a Memory must not strand a
+    # copied private transcript in an independent source. Full review wording is
+    # written only in the atomic dependency-bound sample record transaction.
+    return sample.model_copy(update={k:'DEPENDENT_RECORD_BODY' for k in ('context','relationship_context','current_self_state','candidate_response','exact_feedback')})
+
+
+def report_matches(sample, report):
+    return source_report(LanguageSample.model_validate_json(canonical(sample)))==report
+
+
 def learnable(store, scope, privacy):
     records = RecordService(store)
     samples = rows(store, 'LIVED_LANGUAGE_SAMPLE', scope, privacy, target='CASUAL')
@@ -76,7 +89,7 @@ def learnable(store, scope, privacy):
         if 'TOO_TERSE' in sample.reason_tags:
             counters.append((sample.review_target, row['record_id']))
         elif sample.human_judgment == 'REJECTED' and set(sample.reason_tags) & {'TOO_VERBOSE','META_SUMMARIZING','OVER_DISCLAIMER'}:
-            mid = next(m for m in records.support(row['record_id']) if records.memory.read(m)['source_provenance']['source_namespace']=='recorded.conversation.feedback')
+            mid = next(m for m in records.support(row['record_id']) if records.memory.read(m)['source_provenance']['source_namespace']=='recorded.conversation.feedback' and records.memory.read(m)['source_provenance']['source_reference']==sample.sample_id)
             support[sample.review_target] = (row['record_id'], mid, sample.provenance)
     # Synthetic contrast pairs do not combine with actual human observations to
     # manufacture a threshold. Both kinds can qualify only within their scope.
@@ -100,6 +113,8 @@ class LanguageService:
             raise CoreError('LANGUAGE_REVIEW_AUTHORITY_REQUIRED')
         if sample.observed_at_us > self.store.clock.utc_now_us():
             raise CoreError('LANGUAGE_REVIEW_TIME_INVALID')
+        if not exchange_record_id and sample.body_storage!='SOURCE_REPORT':raise CoreError('LANGUAGE_REVIEW_BINDING_REQUIRED')
+        if exchange_record_id:sample=sample.model_copy(update={'body_storage':'DEPENDENT_RECORD'})
         old = self.store.db.execute("SELECT data_json FROM events WHERE source_namespace='language.review' AND source_key=?", (sample.sample_id,)).fetchone()
         if old:
             rid = json.loads(old[0])['data']['record_id']
@@ -115,9 +130,14 @@ class LanguageService:
             if exchange['payload'].get('person_kind') != 'CONVERSATION_EXCHANGE' or exchange['scope'] != scope or exchange['payload']['entity_id'] != entity_id or sample.review_target != exchange_record_id or sample.candidate_response != exchange['payload']['assistant_utterance']:
                 raise CoreError('LANGUAGE_REVIEW_TURN_MISMATCH')
             parents = (exchange_record_id,)
+            from .memory import PRIVACY_RANK
+            privacy=max((privacy,exchange['privacy_class']),key=PRIVACY_RANK.get)
         memory = self.records.memory
-        eid = memory.capture(EvidenceInput(provenance=Provenance(domain='CONSENTED_INTERACTION',source_namespace='recorded.conversation.feedback', source_reference=sample.sample_id, source_kind='USER_STATEMENT'), text=sample.model_dump_json(), privacy_class=privacy, retention_consent_ref=sample.sample_id, observed_time_us=sample.observed_at_us))
-        mid = memory.add(MemoryCandidate(entity_id=entity_id, scope=scope, memory_type=MemoryType.EPISODIC, epistemic_kind='STATEMENT', source_evidence_id=eid, text=sample.model_dump_json()))
+        inherited=tuple(dict.fromkeys(m for rid in parents for m in self.records.support(rid)))
+        if len(inherited)>64:raise CoreError('LANGUAGE_REVIEW_SOURCE_BOUND')
+        report=source_report(sample)
+        eid = memory.capture(EvidenceInput(provenance=Provenance(domain='CONSENTED_INTERACTION',source_namespace='recorded.conversation.feedback', source_reference=sample.sample_id, source_kind='USER_STATEMENT'), text=report.model_dump_json(), privacy_class=privacy, retention_consent_ref=sample.sample_id, observed_time_us=sample.observed_at_us))
+        mid = memory.add(MemoryCandidate(entity_id=entity_id, scope=scope, memory_type=MemoryType.EPISODIC, epistemic_kind='STATEMENT', source_evidence_id=eid, text=report.model_dump_json(),derived_from=inherited))
         data = {}
         with self.store.transaction('subject.language_review_recorded', data, source_namespace='language.review', source_key=sample.sample_id) as tx:
             rid = self.records.create(tx, kind='EXPERIENCE_CANDIDATE', scope=scope, target_id=sample.mode, payload={'person_kind':'LIVED_LANGUAGE_SAMPLE','sample': sample.model_dump(mode='json'), 'not_subject_experience': sample.provenance == 'PROJECT_SYNTHETIC'}, memories=(mid,), records=parents)
@@ -131,7 +151,7 @@ class LanguageService:
         if row['payload'].get('person_kind') != 'LIVED_LANGUAGE_SAMPLE' or not self.records.current_support(record_id):
             raise CoreError('LANGUAGE_FEEDBACK_UNAVAILABLE')
         mids = self.records.support(record_id)
-        result = next((m for m in mids if self.records.memory.read(m)['source_provenance']['source_namespace'] == 'recorded.conversation.feedback'), None)
+        result = next((m for m in mids if self.records.memory.read(m)['source_provenance']['source_namespace'] == 'recorded.conversation.feedback' and self.records.memory.read(m)['source_provenance']['source_reference']==row['payload']['sample']['sample_id']), None)
         if not result:
             raise CoreError('LANGUAGE_FEEDBACK_UNAVAILABLE')
         from .learning import ExperienceService, ExperienceInput
