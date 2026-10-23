@@ -2512,3 +2512,10 @@ P5补充：ActivityCost仅来源关联的host结构估计（compute/time/externa
 ## Controlled World P6 — explicit adversarial/recovery metadata
 
 [实测] 最终runtime pin768ca39完整回归1508/0fail/12skip；新补source声称user wants与本人拒绝相反、文件名/revision新但valid time已过期，两负例及强化12实际切点原Goal/Lesson ID连续性14通过。新增只读/proc数值observer按原ACTIVE lease PID/start绑定7个owned进程（5服务+backend+Core），不读env/argv/私人内容、不改原run；首个cwd假定诊断拒绝，改为正确lease绑定，未放松pid/start验证。最终checker只核验manifest/原始5h结果及发布runtime字节，不把运行中快照或以后source变化冒充旧资格。Master/63不变；不新开外部门。
+
+
+## Controlled World P7 — contradiction in the actual combined life
+
+Independent evidence review found the previous combined research compared three consistent timed sources. Conflicts were covered only by separate tests. The lab now accepts explicit bounded per-source seeds (default behavior unchanged), and the combined/installed scenarios use feed7/document8/api9/social10. Actual original Runtime research must reach CONTRADICTION with three sources before the9-step project qualifies. No research answer enters the driver.
+
+The first richer scenario exposed two harness assumptions, retained in logs: a follow-up could finish before the late pause, and withdrawal of a later source sample need not retire an unrelated earlier goal. Now a one-time sourced scenario load observation is offered immediately on follow-up adoption; original C chooses REST, with no direct state edit. Migration checks actual current support: retired support rejects, while valid support permits C continuation but revoked old Grants block action. Both preserve physical effects and unrelated evidence. Diagnostic23.466s passes complete contradiction→project→G/I→surface→withdrawal→migration; thirteen browser/project/adversarial targets pass. Final clean pin/portable/regression follow. No original residency hot update.

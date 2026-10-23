@@ -27,9 +27,10 @@ from nana_core.contracts import CoreError
 from nana_core.storage import digest
 ROOT=Path(__file__).resolve().parents[2]
 
-def until(app,condition,seconds=80):
+def until(app,condition,seconds=80,between=None):
     start=time.monotonic()
     while time.monotonic()-start<seconds:
+        if between:between()
         if condition():return
         app.tick();time.sleep(.02)
     raise RuntimeError('CONTROLLED_LIFECYCLE_BOUND '+str([(g['template'],g['state']) for g in app.runtime.store.all('goals')]))
@@ -66,7 +67,7 @@ def run(root):
     if root.exists():raise ValueError('FRESH_OWNED_ROOT_REQUIRED')
     root.mkdir(mode=0o700,parents=True);started=time.monotonic();pin=subprocess.check_output(['git','rev-parse','HEAD'],cwd=ROOT,text=True).strip()
     result={'scope':'FIVE_OWNED_SERVICES_AND_DETERMINISTIC_SEMANTICS','source_commit':pin,'new_paid_calls':0,'real_social_send':0,'private_data_accessed':False,'human_review':'NOT_RUN'}
-    with ControlledWorld(root/'world',interval=15) as world:
+    with ControlledWorld(root/'world',interval=15,source_seeds={'feed':7,'documents':8,'api':9,'social':10}) as world:
         material=lambda p:material_for(ROOT,'src/nana_core/continuity/'+p)
         bindings=tuple(SurfaceBinding(binding_id='surface.'+n,platform='platform.local',surface='surface.'+n,adapter='adapter.owned') for n in ('cli','web','social'))
         projects=(ControlledProject(project_id='maintenance',trigger_entity='project-user',trigger_predicate='lab.project-status',trigger_value='review-needed',require_research=True,task_ids=('document-transfer','archive-notes','form-transfer')),ControlledProject(project_id='followup',trigger_entity='project-user',trigger_predicate='lab.project-status',trigger_value='inconsistent',task_ids=('reading-list','index-topics')))
@@ -75,17 +76,27 @@ def run(root):
         with LifeApplication(home,bootstrap_grant=True) as app:
             r=app.runtime;s=r.store;identity=r.identity_id;records=RecordService(s)
             def goal(name):return app.work.goal_for_object(app.advanced.projects.objects[name])
-            until(app,lambda:goal('maintenance') is not None)
+            observed_dormant=set()
+            def load_observation():
+                follow=goal('followup')
+                if follow and follow['state']=='ACTIVE' and follow['goal_id'] not in observed_dormant:
+                    # One explicit scenario load observation, not a prescribed
+                    # project answer or direct lifecycle edit. Original C chooses.
+                    cycle=review(app,follow,'REST','followup-load')
+                    assert cycle.intention.behavior=='REST'
+                    observed_dormant.add(follow['goal_id'])
+            def wait_for(condition,seconds=80):return until(app,condition,seconds,between=load_observation)
+            wait_for(lambda:goal('maintenance') is not None)
             first=goal('maintenance');main=first['goal_id'];plan=json.loads(first['body_json'])['plan_record_id']
             assert review(app,first,'REST','main-pause').intention.behavior=='REST'
             assert s.one('goals',main)['state']=='SUSPENDED'
             assert review(app,s.one('goals',main),'CONTINUE_PROJECT','main-resume').intention.behavior=='CONTINUE_PROJECT'
-            until(app,lambda:s.one('goals',main)['state']=='COMPLETED')
+            wait_for(lambda:s.one('goals',main)['state']=='COMPLETED')
             actions=s.db.execute('SELECT * FROM actions WHERE goal_id=?',(main,)).fetchall();assert len(actions)==9 and all(a['state']=='SUCCEEDED' for a in actions)
             assert json.loads(s.one('goals',main)['body_json'])['plan_record_id']==plan
             result['project']={'goal_id':main,'adopted_from_world_by_original_c':True,'hand_families':['BROWSER_HTTP_FORM','FILES_LINK_UNLINK_REOPEN','APPLICATION_IPC_DOCUMENT'],'original_plan_steps':9,'pause_resume_same_plan':True,'independent_verify':True,'all_actions_succeeded':True}
-            until(app,lambda:s.db.execute("SELECT count(*) FROM actions WHERE capability='world.skill' AND state='SUCCEEDED'").fetchone()[0]>=2)
-            until(app,lambda:s.db.execute('SELECT count(*) FROM strategy_assessments').fetchone()[0]>=4)
+            wait_for(lambda:s.db.execute("SELECT count(*) FROM actions WHERE capability='world.skill' AND state='SUCCEEDED'").fetchone()[0]>=2)
+            wait_for(lambda:s.db.execute('SELECT count(*) FROM strategy_assessments').fetchone()[0]>=4)
             skill=app.work.skills.active_skill();assert skill
             result['growth']={'learning_jobs':s.db.execute("SELECT count(*) FROM jobs WHERE work_kind='LEARNING'").fetchone()[0],'later_kernel_skill_uses':s.db.execute("SELECT count(*) FROM actions WHERE capability='world.skill' AND state='SUCCEEDED'").fetchone()[0],'strategy_assessments':[x['verdict'] for x in s.all('strategy_assessments')]}
             result['noisy_learning']=noisy_learning(app)
@@ -98,8 +109,10 @@ def run(root):
             retired=app.work.skills.engine.codes.retire(suspended,authority=r.authority)
             assert app.work.skills.active_skill() is None
             result['skill_lifecycle']={'created_qualified_used_reused':True,'counterexample_isolated_trial':True,'suspended_then_retired':True,'retired_record_id':retired}
-            until(app,lambda:bool(s.db.execute("SELECT 1 FROM experiences WHERE task_class='research.comparison'").fetchone()))
-            result['research']={'automatic_runtime_job':True,'experience_records':[x['experience_id'] for x in s.db.execute("SELECT experience_id FROM experiences WHERE task_class='research.comparison'")],'research_is_not_learning':True,'world_truth_verified':False}
+            wait_for(lambda:bool(s.db.execute("SELECT 1 FROM experiences WHERE task_class='research.comparison'").fetchone()))
+            episode=s.db.execute("SELECT * FROM jobs WHERE work_kind='LIFE_RESEARCH' AND state='DONE' ORDER BY rowid LIMIT 1").fetchone()
+            comparison=records.read(episode['record_id'])['payload'];assert comparison['state']=='CONTRADICTION' and len(comparison['sources'])==3
+            result['research']={'automatic_runtime_job':True,'comparison_state':comparison['state'],'independent_sources':len(comparison['sources']),'experience_records':[x['experience_id'] for x in s.db.execute("SELECT experience_id FROM experiences WHERE task_class='research.comparison'")],'research_is_not_learning':True,'world_truth_verified':False}
             # Actual timeout in an independent source, no resend under a new ID.
             slow=WorldIntake(r,root,(IntakeSource(source_id='slow',channel='OWNED_HTTP',location=world.services['api'].url+'/fault/delay'),),scope='project-work')
             try:slow.read('slow');raise AssertionError('timeout expected')
@@ -124,7 +137,7 @@ def run(root):
             from nana_core.life.surfaces import recent_sources
             assert recent_sources(app,'lab-life','PROJECT')
             result['surfaces']={'same_identity':True,'bindings':3,'transports':['ORIGINAL_CLI_OWNER','LOCALHOST_HTTP','ACTUAL_OWNED_SOCIAL_SERVICE_TO_HTTP'],'http_accepted_is_not_judged':True,'source_backed_recent_context':True,'topic_boundary_recorded':True,'no_send':True}
-            until(app,lambda:goal('followup') is not None,seconds=100)
+            wait_for(lambda:goal('followup') is not None,seconds=100)
             g=goal('followup')
             if g['state']=='ACTIVE':review(app,g,'REST','followup-dormant')
             assert s.one('goals',g['goal_id'])['state']=='SUSPENDED'
@@ -146,15 +159,22 @@ def run(root):
             result['migration']={'same_identity':True,'dormant_goal_preserved':True,'history_counts_preserved':True,'old_grants_revoked':True,'unknown_preserved':True,'retired_skill_not_revived':True,'no_duplicate_effect':True}
             effects_before=json.loads((Path(world.host.target.workspace)/'application-state.json').read_text())['effects']
             g=s.one('goals',result['active_life']['dormant_goal_id'])
-            # Withdrawal before export deliberately retired this goal's source.
-            # Restoring history is not permission to revive unsupported plans.
-            try:review(app,g,'CONTINUE_PROJECT','new-host-review');raise AssertionError('retired support must reject')
-            except CoreError as exc:assert exc.code=='RECORD_UNAVAILABLE'
-            assert s.one('goals',g['goal_id'])['state']=='SUSPENDED'
+            # Withdrawal is source-specific. With heterogeneous timed sources,
+            # the later withdrawn sample need not support this earlier goal.
+            supported=RecordService(s).current_support(json.loads(g['body_json'])['record_id'])
+            if supported:
+                resumed=review(app,g,'CONTINUE_PROJECT','new-host-review')
+                assert resumed.intention.behavior=='CONTINUE_PROJECT'
+                until(app,lambda:bool(s.db.execute("SELECT 1 FROM actions WHERE goal_id=? AND state='BLOCKED'",(g['goal_id'],)).fetchone()))
+                result['migration']['supported_goal_resumes_but_old_grants_cannot_execute']=True
+            else:
+                try:review(app,g,'CONTINUE_PROJECT','new-host-review');raise AssertionError('retired support must reject')
+                except CoreError as exc:assert exc.code=='RECORD_UNAVAILABLE'
+                assert s.one('goals',g['goal_id'])['state']=='SUSPENDED'
             reply=app.surfaces.receive(SurfaceObservation(binding_id='surface.web',event_id='new-host-status',topic='migration',text='现在项目进展怎样？'))
             assert reply['state']=='SHADOW_REPLY_CANDIDATE' and reply['execution_authority'] is False
             assert json.loads((Path(world.host.target.workspace)/'application-state.json').read_text())['effects']==effects_before
-            result['migration']['life_continues_with_source_retired_goal_inhibited']=True
+            result['migration']['life_continues_with_current_support_and_authority_checks']=True
         try:LifeApplication(home);raise AssertionError('old writer must be fenced')
         except CoreError:result['migration']['old_writer_fenced']=True
     result['duration_seconds']=time.monotonic()-started;result['source_clean']=not subprocess.check_output(['git','diff','HEAD','--','src','tools'],cwd=ROOT)

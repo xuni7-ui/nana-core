@@ -48,14 +48,16 @@ class LabService:
     def __exit__(self,*args):self.close()
 
 class ControlledWorld:
-    def __init__(self,root,*,seed=7,interval=30):
+    def __init__(self,root,*,seed=7,interval=30,source_seeds=None):
+        source_seeds=dict(source_seeds or {})
+        if set(source_seeds)-set(KINDS) or any(type(v) is not int or not 0<=v<=999 for v in source_seeds.values()):raise CoreError('LAB_SOURCE_SEED_INVALID')
         self.root=Path(root).absolute();self.root.mkdir(mode=0o700,parents=True,exist_ok=False);self.stack=ExitStack()
         try:
             tasks=list(daily_tasks());tasks[4:4]=[ApplicationTask(task_id='document-new-transfer',kind='DOCUMENT',initial='Prior note: ',wanted='A bounded revised project note',context='handoff'),ApplicationTask(task_id='form-new-transfer',kind='FORM',wanted={'label':'reviewed'},fields=('other','label'),context='project-review')]
             self.host=self.stack.enter_context(OwnedApplication(self.root/'app',tasks=tuple(tasks)))
             self.browser=self.stack.enter_context(OwnedBrowser(self.host.profile,dynamic=True))
-            self.services={k:self.stack.enter_context(LabService(self.root/k,k,seed=seed,interval=interval)) for k in KINDS}
-            self.manifest={'scope':'OWNED_LOCALHOST_ONLY','website':self.browser.endpoint.model_dump(mode='json'),'services':{k:s.endpoint for k,s in self.services.items()},'backend_pid':self.host.proc.pid,'independent_service_processes':5,'subject_in_lab':False,'seed':seed,'change_interval_seconds':interval}
+            self.services={k:self.stack.enter_context(LabService(self.root/k,k,seed=source_seeds.get(k,seed),interval=interval)) for k in KINDS}
+            self.manifest={'scope':'OWNED_LOCALHOST_ONLY','website':self.browser.endpoint.model_dump(mode='json'),'services':{k:s.endpoint for k,s in self.services.items()},'backend_pid':self.host.proc.pid,'independent_service_processes':5,'subject_in_lab':False,'seed':seed,'source_seeds':{k:source_seeds.get(k,seed) for k in KINDS},'change_interval_seconds':interval}
             _atomic(self.root/'lab-manifest.json',self.manifest)
         except BaseException:self.stack.close();raise
     def close(self):self.stack.close()

@@ -17,7 +17,7 @@ def run(bundle,root):
     assert Path(application.__file__).resolve().is_relative_to(bundle/'src')
     if root.exists():raise ValueError('FRESH_OWNED_PROBE_ROOT_REQUIRED')
     root.mkdir(mode=0o700,parents=True)
-    with ControlledWorld(root/'world',interval=120) as world:
+    with ControlledWorld(root/'world',interval=120,source_seeds={'feed':7,'documents':8,'api':9,'social':10}) as world:
         m=lambda p:material_for(bundle,'src/nana_core/continuity/'+p)
         bindings=tuple(SurfaceBinding(binding_id='surface.'+n,platform='platform.local',surface='surface.'+n,adapter='adapter.owned') for n in ('web','social'))
         config=LifeConfig(project_root=str(bundle),materials=(m('recurrence.py'),),practice=m('identity.py'),heldout=m('autonomy/requests.py'),transfer=m('subject/social.py'),owned_application_profile=str(world.host.profile),owned_browser_endpoint=world.browser.endpoint,advanced_life=True,record_research_outcomes=True,max_autonomous_materials=0,surface_bindings=bindings,controlled_projects=(ControlledProject(project_id='maintenance',trigger_entity='project-user',trigger_predicate='lab.project-status',trigger_value='review-needed',require_research=True,task_ids=('document-transfer','archive-notes','form-transfer')),),world_sources=tuple(IntakeSource(source_id=k,channel='OWNED_HTTP',location=world.services[k].url+'/source',semantic_format='SOURCED_CLAIM_JSON') for k in ('feed','documents','api')))

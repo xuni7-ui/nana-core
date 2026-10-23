@@ -181,3 +181,10 @@ RECORD_UNAVAILABLE in the diagnostic. Qualification now explicitly verifies that
 retired support inhibits that suspended goal, and a new sourced status input
 continues through original C on the destination with no effect or inherited
 execution authority. The failure was not fixed by resurrecting support.
+
+
+## Controlled World P7 — contradiction in the actual combined life
+
+Independent evidence review found the previous combined research compared three consistent timed sources. Conflicts were covered only by separate tests. The lab now accepts explicit bounded per-source seeds (default behavior unchanged), and the combined/installed scenarios use feed7/document8/api9/social10. Actual original Runtime research must reach CONTRADICTION with three sources before the9-step project qualifies. No research answer enters the driver.
+
+The first richer scenario exposed two harness assumptions, retained in logs: a follow-up could finish before the late pause, and withdrawal of a later source sample need not retire an unrelated earlier goal. Now a one-time sourced scenario load observation is offered immediately on follow-up adoption; original C chooses REST, with no direct state edit. Migration checks actual current support: retired support rejects, while valid support permits C continuation but revoked old Grants block action. Both preserve physical effects and unrelated evidence. Diagnostic23.466s passes complete contradiction→project→G/I→surface→withdrawal→migration; thirteen browser/project/adversarial targets pass. Final clean pin/portable/regression follow. No original residency hot update.
