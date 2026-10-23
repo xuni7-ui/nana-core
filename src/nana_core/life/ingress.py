@@ -32,7 +32,15 @@ class SurfaceIngress:
             if not self._queue:return None
             _,sequence,o=heapq.heappop(self._queue);self._keys.pop((o.binding_id,o.event_id))
         self._delivering=True
-        try:return {'sequence':sequence,'binding_id':o.binding_id,'event_id':o.event_id,'result':self.app.surfaces.receive(o)}
+        try:
+            try:result=self.app.surfaces.receive(o)
+            except CoreError as exc:
+                # These checks precede C/capture. Reject invalid admitted input
+                # without killing the owner. Lease/privacy/integrity failures
+                # deliberately propagate and cannot be relabelled as user error.
+                if exc.code not in {'SURFACE_EVENT_COLLISION','SURFACE_SUMMARY_NOT_AUTHORIZED','SURFACE_DISABLED_OR_UNBOUND'}:raise
+                result={'state':'REJECTED_INPUT','error':exc.code,'judged':False,'external_delivery':False,'execution_authority':False}
+            return {'sequence':sequence,'binding_id':o.binding_id,'event_id':o.event_id,'result':result}
         finally:self._delivering=False
     def pending(self):
         with self._lock:return len(self._queue)
