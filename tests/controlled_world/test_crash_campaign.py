@@ -28,7 +28,7 @@ def test_actual_process_cut_same_subject_no_duplicate_effect_or_authority(owned_
                 else:process.kill();process.wait(4);assert process.returncode==-signal.SIGKILL
             finally:
                 if process.poll() is None:process.kill();process.wait(4)
-        assert json.loads(marker.read_text())['identity_id']==identity
+        snapshot=json.loads(marker.read_text());assert snapshot['identity_id']==identity
         before=json.loads((Path(world.host.target.workspace)/'application-state.json').read_text())['effects']
         with LifeApplication(home) as app:
             r=app.runtime;assert r.identity_id==identity and len(r.store.all('grants'))==grants
@@ -42,3 +42,9 @@ def test_actual_process_cut_same_subject_no_duplicate_effect_or_authority(owned_
             assert all(effects[k]==v for k,v in before.items())
             assert not r.store.db.execute('PRAGMA foreign_key_check').fetchall()
             assert len(r.store.all('grants'))==grants
+            for gid,state in snapshot.get('goal_states',{}).items():
+                assert r.store.one('goals',gid) # exact adopted lineage, not a replacement goal
+                if state in {'COMPLETED','ABANDONED'}:assert r.store.one('goals',gid)['state']==state
+            for lid,state in snapshot.get('lesson_states',{}).items():
+                lesson=r.store.one('lessons',lid);assert lesson
+                if state=='SUSPENDED':assert lesson['state']=='SUSPENDED'

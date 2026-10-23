@@ -2508,3 +2508,7 @@ general world comprehension/meta-learning. Track A no longer waits for Track B.
 [实现/实测] 新增显式owned localhost输入桥：独立social service HTTP→bounded HTTP admission→原owner ingress/C；Web输入与CLI共享原Subject/L1，202仅volatile入队。会话nonce只在内存/header，不进Store/日志；固定binding优先级、PUBLIC/PROJECT、4 handlers/32 inbox、关闭后拒绝，无HTTP线程SQLite/C。真实测试暴露source occurred时间未透传，修复canonical字段传递而非放宽校验。Browser拒绝截断后的identity/field/URL，DOM revision须匹配独立读取。20相关通过；未重启/热更b6450e1驻留，release新增防线将分别安装/整链/全仓验证。
 
 P5补充：ActivityCost仅来源关联的host结构估计（compute/time/external/storage/interruption），同价值候选先廉价后成本高，C仍可REST/DEFER，真实Kernel预算独立；无价格/扣费伪精度。迁移整链新增source撤回后目标恢复受抑制、新host同主体新输入继续，无Grant继承；初始诊断强行恢复已撤回目标触发RECORD_UNAVAILABLE，保留失败并改为明确验证正确拒绝，未放宽Core。
+
+## Controlled World P6 — explicit adversarial/recovery metadata
+
+[实测] 最终runtime pin768ca39完整回归1508/0fail/12skip；新补source声称user wants与本人拒绝相反、文件名/revision新但valid time已过期，两负例及强化12实际切点原Goal/Lesson ID连续性14通过。新增只读/proc数值observer按原ACTIVE lease PID/start绑定7个owned进程（5服务+backend+Core），不读env/argv/私人内容、不改原run；首个cwd假定诊断拒绝，改为正确lease绑定，未放松pid/start验证。最终checker只核验manifest/原始5h结果及发布runtime字节，不把运行中快照或以后source变化冒充旧资格。Master/63不变；不新开外部门。

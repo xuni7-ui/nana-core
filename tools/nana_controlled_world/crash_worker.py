@@ -16,7 +16,8 @@ def main():
             running=False
         signal.signal(signal.SIGTERM,stop)
         def cut():
-            _atomic(a.marker,{'cut':a.cut,'identity_id':r.identity_id,'actions':s.db.execute('SELECT count(*) FROM actions').fetchone()[0],'effects':len(json.loads((Path(app.work.port.target.workspace)/'application-state.json').read_text())['effects']),'goals':s.db.execute('SELECT count(*) FROM goals').fetchone()[0]})
+            _atomic(a.marker,{'cut':a.cut,'identity_id':r.identity_id,'actions':s.db.execute('SELECT count(*) FROM actions').fetchone()[0],'effects':len(json.loads((Path(app.work.port.target.workspace)/'application-state.json').read_text())['effects']),'goals':s.db.execute('SELECT count(*) FROM goals').fetchone()[0],
+                'goal_states':{x['goal_id']:x['state'] for x in s.all('goals')},'lesson_states':{x['lesson_id']:x['state'] for x in s.all('lessons')}})
             if a.cut=='IDLE_TERM':
                 while running:time.sleep(.02)
             else:os.kill(os.getpid(),signal.SIGSTOP)
