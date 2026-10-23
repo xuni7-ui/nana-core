@@ -141,10 +141,25 @@ class CodeSkillService:
         self._enabled.add(rid)
         return rid
 
+    def monitor(self,rid,cases,*,authority):
+        """Independent later counterexample suspends use; never self-certifies repair."""
+        if authority is not self.authority:raise CoreError('UNAUTHENTICATED_OPERATOR')
+        body=self.require_current(rid);row=self.records.read(rid)
+        if not 1<=len(cases)<=8:raise CoreError('SKILL_TEST_BOUND')
+        results=[]
+        for case in cases:
+            actual=self.runner.run(body['source'],case.data)
+            results.append({'case_id':case.case_id,'input_digest':digest(case.data),'actual_digest':digest(actual),'expected_digest':digest(case.expected),'passed':digest(actual)==digest(case.expected)})
+        state='ACTIVE' if all(x['passed'] for x in results) else 'SUSPENDED'
+        with self.store.transaction('open.code_skill_monitored',{'record_id':rid,'state':state}) as tx:
+            checked=self.records.create(tx,kind='CODE_SKILL',scope=row['scope'],payload={**body,'state':state,'later_counterexamples':results},records=(rid,),supersedes=rid,target_id=row['target_id'])
+        if state=='ACTIVE':self._enabled.add(checked)
+        return checked
+
     def retire(self,rid,*,authority):
         if authority is not self.authority:raise CoreError('UNAUTHENTICATED_OPERATOR')
         row=self.records.read(rid)
-        if row['record_kind']!='CODE_SKILL' or row['payload']['state']!='ACTIVE':raise CoreError('ACTIVE_SKILL_REQUIRED')
+        if row['record_kind']!='CODE_SKILL' or row['payload']['state'] not in {'ACTIVE','SUSPENDED'}:raise CoreError('ACTIVE_OR_SUSPENDED_SKILL_REQUIRED')
         with self.store.transaction('open.code_skill_retired',{'record_id':rid}) as tx:
             return self.records.create(tx,kind='CODE_SKILL',scope=row['scope'],payload={**row['payload'],'state':'RETIRED'},records=(rid,),supersedes=rid,target_id=row['target_id'])
     def require_current(self,rid):

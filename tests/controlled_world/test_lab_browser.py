@@ -59,3 +59,23 @@ def test_browser_request_cap_and_original_kernel(owned_root):
             port=OwnedBrowserPort(app.runtime.identity_id,load_target(world.host.profile),world.browser.endpoint.model_copy(update={'request_cap':1}),host_enabled=True)
             port.page('/')
             with pytest.raises(CoreError,match='REQUEST_CAP'):port.page('/')
+
+
+def test_owned_task_api_cru_duplicate_collision_partial_and_drop(owned_root):
+    with LabService(owned_root/'api','api',interval=120) as api:
+        def post(path,body):
+            request=urllib.request.Request(api.url+path,data=json.dumps(body).encode(),headers={'Content-Type':'application/json'})
+            with urllib.request.build_opener(urllib.request.ProxyHandler({})).open(request,timeout=1) as response:return json.loads(response.read())
+        revision=get(api.url+'/status')['revision'];create={'operation_id':'create-one','task_id':'note','revision':revision,'value':'first'}
+        one=post('/task',create);assert post('/task',create)==one
+        with pytest.raises(urllib.error.HTTPError) as collision:post('/task',{**create,'value':'different'})
+        assert collision.value.code==409
+        revision=get(api.url+'/status')['revision'];updated=post('/task',{'operation_id':'update-one','operation':'UPDATE','task_id':'note','expected_task_revision':1,'revision':revision,'value':'second'})
+        assert get(api.url+'/tasks/note')['value']=='second' and updated['task']['revision']==2
+        revision=get(api.url+'/status')['revision'];part=post('/task/partial',{'operation_id':'partial-one','task_id':'partial','revision':revision,'value':'abcdefgh'})
+        assert part['partial'] and get(api.url+'/tasks/partial')['value']=='abcd'
+        revision=get(api.url+'/status')['revision']
+        import http.client
+        with pytest.raises((OSError,http.client.RemoteDisconnected)):post('/task/drop',{'operation_id':'drop-one','task_id':'lost','revision':revision,'value':'applied'})
+        assert get(api.url+'/tasks/lost')['value']=='applied'
+        assert get(api.url+'/status')['effect_count']==4

@@ -131,6 +131,7 @@ class HandsWork:
             if not r.store.db.execute("SELECT 1 FROM jobs j JOIN continuity_records c ON c.record_id=j.record_id WHERE j.work_kind='LEARNING' AND c.target_id=? LIMIT 1",('learn.'+goal['template'],)).fetchone():return None
         if r.store.db.execute("SELECT 1 FROM jobs WHERE work_kind IN ('LEARNING','CODE_DEVELOPMENT') AND state IN ('WAITING','RUNNING') LIMIT 1").fetchone():return None
         for t in self.port.tasks.values():
+            if t.task_id in getattr(self,'reserved_task_ids',()):continue
             obj=self.objects[t.task_id]
             if self.goal_for(t.task_id):continue
             # Offered/adopted task identity survives erasure and a retired skill.

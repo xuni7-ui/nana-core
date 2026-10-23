@@ -40,3 +40,65 @@ Raw source and parsed page are distinct; parser output is MODEL_DERIVATION.
 Initial parser tests exposed strict DTO tuple/list validation: page parser was
 returning Python lists into tuple fields. Fixed construction; unchanged old
 browser assertions and original UNKNOWN/Verify contracts remain in force.
+
+## P2: active projects, uncertainty, noisy growth and surface ownership
+
+World-sourced finite project descriptors compile existing reviewed operators into
+one original ongoing Goal/Plan. The planner uses its ordinary cost/precondition
+search; no Hand or Goal authority is created. An optional research prerequisite
+waits for a current C-endorsed completed study before offering that project. A
+separate explicitly configured routine follow-up may act on a low-risk observation.
+C pause/resume keeps the same plan; physical results use original independent Verify.
+
+Source lifecycle is explicit host opt-in and scoped to that source binding. Revision
+rollback/collision is rejected; correction/withdrawal suppresses only its own old
+support. It does not mint a direct world fact or erase action history; conservative
+World UNKNOWN remains possible until independent current support/temporal closure.
+Checked research-operation Experiences are also opt-in; they verify comparison
+work, NOT the truth of a model's interpretation and NOT a learned skill.
+
+Unconfigured-learning-path reflection now records a bounded source-linked review
+and completes the review intention without manufacturing a Lesson. Internal shared
+candidate completion is distinct from sending; busy/no-surface candidates retain
+original desire/judgment without occupying global attention forever. C receives
+qualitative sharing relevance/novelty/affect/urgency/interruption/frequency/preference
+factors; low-value/redundant wishes may remain private. No feelings percentage or
+social permission follows from those factors.
+
+Concurrent ingress is a bounded volatile producer queue. Only the original owner
+thread drains it into the original SurfaceSession/C. User priority then host arrival
+sequence is deterministic; source timestamps cannot grant authority. Durable dedup
+is still the original subject event key. An uncommitted volatile input after crash
+is UNKNOWN/lost-to-reconcile, never falsely acknowledged as judged or replayed.
+
+Noisy original G trials retain partial practice success, heldout/transfer failure,
+a revised sourced problem with transfer success, and later negative-transfer
+suspension. Original I generated skill can be independently monitored and suspended,
+then retired; it cannot certify its own repair or replace the evaluator.
+
+Scale challenge exposed two real context defects: the omission-ID list itself
+could exhaust a small context; generic optional relationship projections could
+crowd out explicit relevant facts. Manifest now keeps first16 omitted IDs plus
+full count/tail digest; task-matching evidence ranks above optional generic blocks.
+Identity/required sources remain mandatory, disputes atomic, privacy unchanged.
+2000 recorded PROJECT events selected old high-salience/recent relevant/corrected
+support; withdrawn descendants excluded; index rebuild stable; corruption rejected.
+These are actual Core events from owned test inputs, not imported human history.
+
+Additional integrity fixes: original safe dirfd atomic writer used for lab files;
+Browser listener inode must belong to its exact declared PID; request/path bounds
+and redirect restrictions remain. API idempotency collisions fail; partial effects
+and dropped acknowledgments remain independently observable through read state.
+
+Two initial integrated-driver runs lacked independent later form-transfer evidence:
+composite tasks consumed the old transfer tasks, and a later form arrived only
+after a genuine counterexample suspended the method. The suspension was correct.
+Added separate later tasks before the counterexample; did not weaken Core or the
+required two SUCCESS/two COUNTEREXAMPLE assessments. Initial traces retained.
+
+Evidence so far: initial related106 PASS +1 scale-budget failure retained; repaired
+memory/context/browser7 PASS; new/current affected44 PASS; real12-cut process campaign
+PASS (idle/graceful/SIGTERM/SIGKILL, research, action, verify, Experience, learning,
+skill qualification, share candidate, quarantined backup). These are scoped owned
+checks, not a full regression or5h completion. Original pinned run ec76460 remains
+untouched; later-source qualifications are tracked separately.

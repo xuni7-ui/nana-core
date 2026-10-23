@@ -97,6 +97,8 @@ class LifeApplication:
             self.policy=ContextPolicy(policy_id='independent-life',allowed_scopes=('project-work',),readable_privacy=('PUBLIC','PROJECT','PERSONAL'),remote_privacy=self.config.remote_privacy)
             from .surfaces import SurfaceSession
             self.surfaces=SurfaceSession(self,self.config.surface_bindings)
+            from .ingress import SurfaceIngress
+            self.ingress=SurfaceIngress(self)
             from .shared import SharedPresence,LifeOpportunities
             self.shared=SharedPresence(self)
             if self.config.shared_presence:self.runtime.work.activity_source=LifeOpportunities(self.runtime.work.activity_source,self.shared)
@@ -111,7 +113,9 @@ class LifeApplication:
         r=self.runtime;r.lease.assert_current();r.store._put('core_meta',{'key':'runtime.life_control','value_json':canonical(self.control)})
     def pause(self,paused=True):
         self.control['paused']=paused;self.runtime.work.paused=paused;self._save_control();return {'autonomy':'PAUSED' if paused else 'RUNNING'}
-    def tick(self):return self.runtime.step()
+    def tick(self):
+        incoming=self.ingress.drain()
+        return {'surface_ingress':incoming} if incoming else self.runtime.step()
     def sources(self):
         r=self.runtime;out=[]
         if self.config.owned_application_profile:return {'owned_target':self.work.port.target.binding,'tasks':list(self.work.port.tasks),'scope':'OWNED_DEV_APPLICATION_ONLY'}
@@ -286,7 +290,7 @@ class LifeApplication:
         return {'local_execution':'REVOKED_NO_REGRANT_ON_RESTART'}
     def close(self):
         if not self.closed:
-            self.closed=True;self._recent.clear()
+            self.closed=True;self._recent.clear();self.ingress.close()
             if self.session:
                 self.session._volatile_inputs.clear();self.session._volatile_dialogue.clear()
                 if hasattr(self.session.transport,'_credential'):self.session.transport._credential=None

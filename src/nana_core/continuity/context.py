@@ -97,6 +97,8 @@ class ContextManifest(DTO):
     coverage: tuple[ObservationCoverage, ...]
     selected_ids: tuple[str, ...]
     omitted_ids: tuple[str, ...]
+    omitted_total:int=0
+    omitted_tail_digest:str|None=None
     conflicts: tuple[str, ...]
     counter: str
     input_tokens: int
@@ -256,6 +258,10 @@ class ContextAssembler:
             age_days = max(0, now - occurrence) / 86_400_000_000
             score = (100 if row["authority"] == "DIRECT" else 10) + 200 * relevance
             score += 100 * row["importance"] + 50 * row["significance"] + 20 / (1 + age_days)
+            # Explicit task-relevant evidence must survive optional generic
+            # projections at scale. Identity/required sources remain mandatory;
+            # retrieval rank never changes memory truth or execution authority.
+            if relevance:score += 1000
             if row["memory_type"] == "SELF":
                 score += 50
             block = ContextBlock(block_id="memory:" + row["memory_id"], kind="MEMORY",
@@ -426,7 +432,8 @@ class ContextAssembler:
             event_cutoff=self.store.db.execute("SELECT coalesce(max(seq),0) FROM events").fetchone()[0],
             as_of_us=self.store.clock.utc_now_us(), policy_digest=digest(policy.model_dump(mode="json")),
             request_digest=digest(request.model_dump(mode="json")), coverage=coverage,
-            selected_ids=tuple(b.block_id for b in selected), omitted_ids=tuple(omitted), conflicts=conflicts,
+            selected_ids=tuple(b.block_id for b in selected), omitted_ids=tuple(omitted[:16]),
+            omitted_total=len(omitted),omitted_tail_digest=digest(omitted[16:]) if len(omitted)>16 else None,conflicts=conflicts,
             counter=self.counter.descriptor, input_tokens=0,
             input_limit=request.max_input_tokens - request.output_reserve_tokens,
             retrieval_candidate_count=self._retrieval[0], retrieval_total_visible=self._retrieval[1])

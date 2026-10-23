@@ -11,6 +11,7 @@ from .surfaces import SurfaceBinding
 from ..continuity.current_state import ProjectStateBinding
 from ..continuity.hands.browser import BrowserEndpoint
 from ..continuity.open_life.sources import IntakeSource
+from ..continuity.controlled_world.projects import ControlledProject
 
 class LifeConfig(DTO):
     schema_version:Literal[1]=1
@@ -37,7 +38,9 @@ class LifeConfig(DTO):
     surface_bindings:tuple[SurfaceBinding,...]=Field(default=(),max_length=16)
     shared_presence:bool=False
     advanced_life:bool=False
+    record_research_outcomes:bool=False
     world_sources:tuple[IntakeSource,...]=Field(default=(),max_length=16)
+    controlled_projects:tuple[ControlledProject,...]=Field(default=(),max_length=4)
     world_source_root:str|None=None
     world_source_interval_seconds:int=Field(default=300,ge=30,le=86400)
     max_state_mb:int=Field(default=256,ge=1,le=4096)

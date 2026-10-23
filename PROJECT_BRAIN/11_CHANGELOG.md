@@ -2488,3 +2488,8 @@ general world comprehension/meta-learning. Track A no longer waits for Track B.
 ## CURRENT — Real-World Controlled Expansion V1 / 2026-10-23
 
 [实现/离线实测] 继承f8a41d3，Advanced Growth S2–S9/三横轴。五独立服务与结构化Browser接原C/D/Kernel，不引入第二主体/Store/Runtime。P1 targeted5通过；初始strict tuple parser失败与修复保留。多Hand、噪声学习、长期驻留、恢复和安装迁移继续；未推算5h或Human/First-Life/Beta。见新implementation。
+
+## Controlled World P2 — sourced long projects / bounded growth / ingress
+
+[实现/离线及真实owned进程实测] 原C/Goal/Kernel组合多Hand并暂停续接；来源自撤回与revision；研究操作Experience（非world truth/learning）；分享内部候选与送达分离；无适用learning的原反思收口；原I反例暂停/退休；三surface单owner输入排序。
+规模挑战发现omission元数据挤占预算/通用投影挤掉相关证据，修复后2000 PROJECT events检索、纠错/删除/索引重建/损坏拒绝通过。初始失败保留；新/current affected44与实际12切点campaign通过，完整回归/最终pin资格继续。Master/63不动，真实Provider/private/social/production/main/R045无变动。固定ec76460驻留未热更新，尚RUNNING_NOT_QUALIFIED。

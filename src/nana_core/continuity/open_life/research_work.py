@@ -12,8 +12,8 @@ from .research import ResearchService
 
 
 class ResearchWork:
-    def __init__(self,runtime,queue,intake):
-        self.runtime,self.queue,self.intake=runtime,queue,intake
+    def __init__(self,runtime,queue,intake,*,record_outcomes=False):
+        self.runtime,self.queue,self.intake=runtime,queue,intake;self.record_outcomes=record_outcomes
         self.records=RecordService(runtime.store);self.research=ResearchService(runtime,queue,intake)
 
     def reconcile(self):
@@ -68,10 +68,11 @@ class ResearchWork:
                 if not source or digest(source.model_dump(mode='json'))!=b['source_bindings'][source_id]:raise CoreError('RESEARCH_HOST_SOURCE_REBIND_REQUIRED')
                 raw=self.research.gather(b['opportunity_id'],source_id);memories.append(raw)
                 if source.semantic_format=='SOURCED_CLAIM_JSON':
-                    body=json.loads(self.records.memory.read(raw)['text'])
-                    claim=SourcedClaim.model_validate_json(json.dumps(json.loads(body['content'])['world_claim']))
-                    mid,_=self.intake.interpret(raw,claim)
-                    if b['query'] and (claim.entity_id,claim.predicate)==(b['query']['entity_id'],b['query']['predicate']):new['semantic_memory_ids']=list(dict.fromkeys((*b['semantic_memory_ids'],mid)));memories.append(mid)
+                    interpreted=self.intake.process(raw)
+                    if interpreted:
+                        mid,_=interpreted
+                        claim=json.loads(self.records.memory.read(mid)['text'])['world_claim']
+                        if b['query'] and (claim['entity_id'],claim['predicate'])==(b['query']['entity_id'],b['query']['predicate']):new['semantic_memory_ids']=list(dict.fromkeys((*b['semantic_memory_ids'],mid)));memories.append(mid)
                 cursor=row['cursor']+1;state='WAITING'
             else:
                 mids=tuple(b['semantic_memory_ids']);query=b['query']
@@ -79,6 +80,9 @@ class ResearchWork:
                     comparison=self.research.compare(b['opportunity_id'],query['entity_id'],query['predicate'],mids);parents.append(comparison)
                     new['comparison_record_id']=comparison
                     new['state']=self.records.read(comparison)['payload']['state']
+                    if self.record_outcomes:
+                        from .research_outcome import record_outcome
+                        new['experience_id']=record_outcome(r,comparison,b['opportunity_id'],query,mids)
                 else:new['state']='GATHERED_ONLY_INSUFFICIENT_SEMANTICS'
                 cursor=row['cursor'];state='DONE'
         except (CoreError,ValueError,KeyError) as exc:

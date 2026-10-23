@@ -24,6 +24,17 @@ class OpportunityAssessment(DTO):
     novelty: Literal['REPEATED','NEW']
 
 
+class ShareAssessment(DTO):
+    relational_relevance:Literal['LOW','RELEVANT','HIGH']='LOW'
+    novelty:Literal['NEW','REPEATED']='NEW'
+    affect_relevance:Literal['LOW','RELEVANT']='LOW'
+    urgency:Literal['LOW','HIGH']='LOW'
+    interruption_cost:Literal['LIGHT','HEAVY']='LIGHT'
+    recent_delivery_frequency:Literal['LOW','HIGH','UNKNOWN']='UNKNOWN'
+    user_preference:Literal['ALLOW','DECLINED','UNKNOWN']='UNKNOWN'
+    desire:Literal['PRESENT']='PRESENT'
+
+
 class ConcernCue(DTO):
     schema_version: Literal[1] = 1
     cue_kind: Literal['OPEN_LOOP','OPPORTUNITY','DISCOVERY','CONSTRAINT','LOAD_STATE']
@@ -42,11 +53,13 @@ class ConcernCue(DTO):
     not_before_us: int = Field(default=0,ge=0)
     valid_until_us: int | None = Field(default=None,ge=0)
     learning_value: LearningValue | None = None
+    share_assessment: ShareAssessment | None = None
     opportunity_assessment: OpportunityAssessment | None = None
     @model_serializer(mode='wrap')
     def compatible_wire(self,handler):
         value=handler(self)
         if self.learning_value is None:value.pop('learning_value',None)
+        if self.share_assessment is None:value.pop('share_assessment',None)
         if self.opportunity_assessment is None:value.pop('opportunity_assessment',None)
         return value
 

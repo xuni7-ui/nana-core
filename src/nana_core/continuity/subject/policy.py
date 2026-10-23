@@ -174,6 +174,12 @@ def decide(event, situation, appraisal, motives):
             if value.risk=='HIGH' or (value.time_compute_cost=='HEAVY' and cue.urgency!='HIGH'):
                 return ('DEFER',Judgment(stance='DEFER',reason='Learning value does not currently justify its cost or risk',source_ids=sources),
                     Intention(kind='NO_ACTION',purpose='Defer learning while retaining the original interest',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='REST'))
+        share=cue.share_assessment
+        if share and 'SOCIALIZE' in options:
+            low=share.relational_relevance=='LOW' and share.affect_relevance=='LOW' and share.urgency=='LOW'
+            redundant=share.novelty=='REPEATED' and share.recent_delivery_frequency=='HIGH' and share.urgency!='HIGH'
+            if share.user_preference=='DECLINED' or low or redundant:
+                return ('BACKGROUND_WATCH',Judgment(stance='WATCH',reason='A real wish to share can remain private: limited relevance, declined topic or repeated interruption does not warrant expression',source_ids=sources),Intention(kind='NO_ACTION',purpose='Keep the sourced experience without manufacturing a notification',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='STAY_SILENT'))
         behavior=options[0]
         if behavior in {'REST','WITHDRAW','IGNORE','WATCH','STAY_SILENT','DO_NOTHING','DEFER'}:
             return ('BACKGROUND_WATCH' if behavior=='WATCH' else 'DEFER',Judgment(stance='WATCH' if behavior=='WATCH' else 'DEFER',reason='An available concern does not require activity',source_ids=sources),

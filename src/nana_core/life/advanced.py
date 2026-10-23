@@ -16,10 +16,17 @@ class AdvancedLife:
         self.app,self.previous=app,previous;self.queue=OpportunityQueue(app.runtime);self.next_at=0
         self.intake=WorldIntake(app.runtime,app.config.world_source_root or app.config.project_root,app.config.world_sources,scope=app.runtime.config.scopes[0])
         self.next_source_at=0;self.source_health={}
+        from ..continuity.controlled_world.projects import ProjectPortfolio
+        self.projects=ProjectPortfolio(app,app.config.controlled_projects) if app.config.controlled_projects else None
         from ..continuity.open_life.research_work import ResearchWork
-        self.research_work=ResearchWork(app.runtime,self.queue,self.intake)
+        self.research_work=ResearchWork(app.runtime,self.queue,self.intake,record_outcomes=app.config.record_research_outcomes)
 
-    def maintenance_slice(self):return self.research_work.slice()
+    def maintenance_slice(self):
+        shared=self.app.shared.reconcile()
+        if shared:return shared
+        result=self.research_work.slice()
+        if result and result.get('state') in {'ENOUGH_FOR_BOUNDED_BELIEF','CONTRADICTION'}:self.next_at=0
+        return result
 
     def intake_slice(self):
         r=self.app.runtime;now=r.clock.utc_now_us()
@@ -29,9 +36,7 @@ class AdvancedLife:
             try:
                 mid=self.intake.read(source.source_id,observation_id=str(now//(self.app.config.world_source_interval_seconds*SECOND)))
                 if source.semantic_format=='SOURCED_CLAIM_JSON':
-                    raw=json.loads(RecordService(r.store).memory.read(mid)['text'])
-                    claim=SourcedClaim.model_validate_json(json.dumps(json.loads(raw['content'])['world_claim']))
-                    self.intake.interpret(mid,claim)
+                    self.intake.process(mid)
                 else:
                     topic='source.'+digest(source.source_id)[:24]
                     self.queue.offer(LifeOpportunity(kind='WORLD_CHANGE',topic=topic,source_memory_ids=(mid,),cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='CURIOSITY',topic_key=topic,possible_behaviors=('EXPLORE','WATCH','REST'),resource_class='ORDINARY'),expires_at_us=now+DAY))
@@ -58,6 +63,7 @@ class AdvancedLife:
             topic='world.'+digest([belief.entity_id,belief.predicate])[:24]
             candidates.append(LifeOpportunity(kind='WORLD_CHANGE',topic=topic,source_memory_ids=sources,
                 cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='CURIOSITY',topic_key=topic,possible_behaviors=('EXPLORE','WATCH','REST'),resource_class='ORDINARY',behavior_domain='CREATIVE'),expires_at_us=now+DAY))
+        if self.projects:self.projects.offer(self.queue)
         for c in candidates[:16]:
             try:self.queue.offer(c)
             except CoreError as exc:
@@ -68,8 +74,9 @@ class AdvancedLife:
     def opportunity(self):
         r=self.app.runtime;now=r.clock.utc_now_us()
         if r.work.paused:return None
+        self.intake_slice()
         if now>=self.next_at:
-            self.next_at=now+60*SECOND;self.intake_slice();self.collect()
+            self.next_at=now+min(60,self.app.config.world_source_interval_seconds)*SECOND;self.collect()
         # First settle a previous original judgment. Existing goal steps retain
         # priority in LivingWork; this service is reached only at its idle point.
         activity=self.queue.opportunity()
@@ -78,4 +85,4 @@ class AdvancedLife:
     def view(self):
         from ..continuity.open_life.projections import advanced_view
         r=self.app.runtime
-        return {**advanced_view(r.store,scope=r.config.scopes[0],privacy=r.config.privacy_classes),'opportunities':self.queue.view(),'world_source_health':dict(self.source_health)}
+        return {**advanced_view(r.store,scope=r.config.scopes[0],privacy=r.config.privacy_classes),'opportunities':self.queue.view(),'world_source_health':dict(self.source_health),'controlled_projects':self.projects.view() if self.projects else []}

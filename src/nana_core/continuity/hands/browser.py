@@ -19,16 +19,16 @@ class BrowserEndpoint(DTO):
     port:int
     pid:int
     start:str
-    paths:tuple[str,...]=()
+    paths:tuple[str,...]=Field(default=(),max_length=16)
     timeout_ms:int=Field(default=500,ge=50,le=1500)
     request_cap:int=Field(default=128,ge=1,le=512)
 
 
 class OwnedBrowser:
     """Trusted development host constructor; owns only its new bridge child."""
-    def __init__(self,profile,*,dynamic=False):
+    def __init__(self,profile,*,dynamic=False,drop_ack_tasks=()):
         boot="import runpy,sys;sys.path.insert(0,sys.argv.pop(1));runpy.run_module('nana_core.continuity.hands.browser',run_name='__main__')"
-        self.proc=subprocess.Popen([sys.executable,'-I','-c',boot,str(Path(__file__).resolve().parents[3]),'--profile',str(profile),*(['--dynamic'] if dynamic else [])],stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,env={'PATH':os.defpath,'LANG':'C.UTF-8','TZ':'UTC'})
+        self.proc=subprocess.Popen([sys.executable,'-I','-c',boot,str(Path(__file__).resolve().parents[3]),'--profile',str(profile),*(['--dynamic'] if dynamic else []),*sum((['--drop-ack',k] for k in drop_ack_tasks),[])],stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,env={'PATH':os.defpath,'LANG':'C.UTF-8','TZ':'UTC'})
         try:
             with selectors.DefaultSelector() as selector:
                 selector.register(self.proc.stdout,selectors.EVENT_READ)
@@ -55,6 +55,19 @@ class OwnedBrowserPort(OwnedApplicationPort):
     def _assert_browser(self):
         e=self.endpoint
         if process_start(e.pid)!=e.start or Path('/proc/'+str(e.pid)).stat().st_uid!=os.getuid():raise CoreError('BROWSER_OWNER_CHANGED')
+        # Bind the listening socket to this exact owned PID, not merely to an
+        # arbitrary other localhost service paired with a legitimate PID value.
+        try:
+            owned=set()
+            for fd in list(Path('/proc/'+str(e.pid)+'/fd').iterdir())[:64]:
+                try:owned.add(os.readlink(fd))
+                except OSError:pass
+            match=False
+            for line in Path('/proc/'+str(e.pid)+'/net/tcp').read_text().splitlines()[1:]:
+                fields=line.split()
+                if fields[1]=='0100007F:'+format(e.port,'04X') and fields[3]=='0A' and 'socket:['+fields[9]+']' in owned:match=True
+            if not match:raise CoreError('BROWSER_LISTENER_OWNER_MISMATCH')
+        except OSError:raise CoreError('BROWSER_OWNER_CHANGED') from None
         self.assert_owned()
     def _allowed_path(self,path):
         if not isinstance(path,str) or not path.startswith('/') or len(path)>256 or any(x in path for x in ('%','\\','?','#','..','//')):raise CoreError('BROWSER_NAVIGATION_DENIED')
@@ -131,10 +144,11 @@ class OwnedBrowserPort(OwnedApplicationPort):
         return result
 
 
-def serve(profile,*,dynamic=False):
+def serve(profile,*,dynamic=False,drop_ack_tasks=()):
     target=load_target(profile)
     # A transport bridge, no Subject/Store/Runtime/decisions in this process.
     port=OwnedApplicationPort('transport-no-subject-authority',target,host_enabled=True)
+    if any(k not in port.tasks for k in drop_ack_tasks):raise CoreError('FAULT_TASK_NOT_OWNED')
     class Handler(BaseHTTPRequestHandler):
         def log_message(self,*args):pass
         def respond(self,status,body,content='application/json'):
@@ -170,6 +184,9 @@ def serve(profile,*,dynamic=False):
                 req=json.loads(self.rfile.read(n))
                 if req.pop('binding',None)!=target.binding:raise ValueError('binding')
                 value=port._request('control',req)
+                if req['task_id'] in drop_ack_tasks:
+                    import socket
+                    self.connection.shutdown(socket.SHUT_RDWR);return
                 self.respond(200,canonical({'ok':True,'data':value}).encode())
             except (CoreError,ValueError,OSError,KeyError,TypeError):self.respond(400,b'{"ok":false}')
     server=HTTPServer(('127.0.0.1',0),Handler);server.timeout=.5
@@ -180,6 +197,6 @@ def serve(profile,*,dynamic=False):
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--profile',type=Path,required=True)
-    parser.add_argument('--dynamic',action='store_true');a=parser.parse_args()
-    serve(a.profile,dynamic=a.dynamic)
+    parser.add_argument('--dynamic',action='store_true');parser.add_argument('--drop-ack',action='append',default=[]);a=parser.parse_args()
+    serve(a.profile,dynamic=a.dynamic,drop_ack_tasks=tuple(a.drop_ack))
 if __name__=='__main__':main()

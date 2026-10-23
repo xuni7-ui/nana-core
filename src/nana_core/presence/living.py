@@ -67,6 +67,20 @@ class LivingWork:
             self._learning_opportunity(event.reflection_experience_id)
             intention=self.runtime.store.one('subject_intentions',cycle.intention_id) if cycle.intention_id else None
             if intention and intention['state']=='PENDING':self.runtime.subject.transition_intention(cycle.intention_id,expected_revision=intention['revision'],state='COMPLETED')
+        if event.reflection_experience_id and cycle.intention.kind=='REFLECTION' and not self.learning_policy:
+            # Original C chose review; absence of a configured learning path is
+            # not an unfinished job forever, nor permission to invent a Lesson.
+            from ..continuity.records import RecordService
+            records=RecordService(self.runtime.store);experience=self.runtime.store.one('experiences',event.reflection_experience_id)
+            if experience and records.current_support(experience['record_id']):
+                key='bounded-experience-review:'+cycle.cycle_id
+                if not self.runtime.store.db.execute("SELECT 1 FROM continuity_records WHERE record_kind='RUNTIME_WORK' AND target_id=?",(key,)).fetchone():
+                    with self.runtime.store.transaction('living.experience_review_no_lesson',{'cycle_id':cycle.cycle_id}) as tx:
+                        records.create(tx,kind='RUNTIME_WORK',scope=event.scope,payload={'kind':'EXPERIENCE_REVIEW','experience_id':event.reflection_experience_id,'cycle_id':cycle.cycle_id,'result':'NO_APPLICABLE_LEARNING_PATH','lesson_created':False,'outcome_not_rewritten':True},records=(cycle.record_id,experience['record_id']),target_id=key)
+                if cycle.intention_id:
+                    intention=self.runtime.store.one('subject_intentions',cycle.intention_id)
+                    if intention and intention['state']=='PENDING':self.runtime.subject.transition_intention(cycle.intention_id,expected_revision=intention['revision'],state='COMPLETED')
+                return {'experience_id':event.reflection_experience_id,'reviewed':True,'lesson_created':False}
         if not self.agency:return None
         if event.goal_step:
             result=self.agency.advance(event.goal_step,cycle)

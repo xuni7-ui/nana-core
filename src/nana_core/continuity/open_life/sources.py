@@ -27,6 +27,7 @@ class IntakeSource(DTO):
     privacy:Literal['PUBLIC','PROJECT']='PROJECT'
     max_bytes:int=Field(default=8192,ge=1,le=32768)
     semantic_format:Literal['OPAQUE','SOURCED_CLAIM_JSON']='OPAQUE'
+    accept_lifecycle:bool=False
     @model_validator(mode='after')
     def safe_location(self):
         if self.channel=='OWNED_HTTP':
@@ -99,6 +100,18 @@ class WorldIntake:
             with store.transaction('life.intake_completed',{'occurrence':digest(attempt)}) as tx:tx.update('jobs',jid,state='DONE',revision=2,owner_epoch=None,body_json=canonical({'source_group':group,'memory_id':mid}))
         return mid
 
+    def process(self,memory_id):
+        from ..records import RecordService
+        m=RecordService(self.runtime.store).memory.read(memory_id);source=json.loads(m['text'])
+        descriptor=self.sources.get(source.get('source_id'))
+        if not descriptor or source.get('channel')!=descriptor.channel or m['scope']!=self.scope or m['authority']!='DIRECT' or m['source_provenance']['source_reference']!='open-life:intake:'+digest([source['source_id'],source]):raise CoreError('INTAKE_CORRELATION_DENIED')
+        if descriptor.accept_lifecycle:
+            from .lifecycle import apply_lifecycle
+            if apply_lifecycle(self,memory_id)=='WITHDRAWN':return None
+        if descriptor.semantic_format!='SOURCED_CLAIM_JSON':return None
+        claim=SourcedClaim.model_validate_json(json.dumps(json.loads(source['content'])['world_claim']))
+        return self.interpret(memory_id,claim)
+
     def interpret(self,memory_id,claim):
         # Caller is an explicit semantic adapter; output is always derivation,
         # never a raw observation, regardless of parser/model confidence.
@@ -107,6 +120,9 @@ class WorldIntake:
         source=json.loads(m['text'])
         provenance=m['source_provenance']
         if source.get('source_id') not in self.sources or m['scope']!=self.scope or source.get('channel')!=self.sources[source['source_id']].channel or provenance['source_kind']!='DIRECT_OBSERVATION' or m['authority']!='DIRECT' or provenance['source_namespace']!='recorded.project.material' or provenance['source_reference']!='open-life:intake:'+digest([source['source_id'],source]):raise CoreError('INTAKE_CORRELATION_DENIED')
+        if self.sources[source['source_id']].accept_lifecycle:
+            from .lifecycle import apply_lifecycle
+            if apply_lifecycle(self,memory_id)=='WITHDRAWN':raise CoreError('INTAKE_SOURCE_WITHDRAWN')
         c=SourcedClaim.model_validate_json(claim.model_dump_json())
         if c.kind not in {'INTERPRETED','INFERENCE','MODEL_BELIEF'} or c.corrects:raise CoreError('INTAKE_SEMANTIC_ESCALATION')
         mid=remember(self.runtime,'semantic:'+digest([memory_id,c.model_dump(mode='json')]),{'world_claim':c.model_dump(mode='json'),'source_digest':source['source_digest'],'derivation_type':'MODEL_DERIVATION'},scope=m['scope'],privacy=m['privacy_class'],kind='MODEL_DERIVATION',parents=(memory_id,))
