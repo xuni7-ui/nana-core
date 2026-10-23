@@ -64,3 +64,48 @@ def test_expired_world_history_does_not_permanently_hide_current_belief(owned_ro
         assert r.store.db.execute('PRAGMA user_version').fetchone()[0]==13
         assert r.store.db.execute("SELECT 1 FROM sqlite_master WHERE name='world_replaced_lookup'").fetchone()
         assert not r.store.db.execute('PRAGMA foreign_key_check').fetchall()
+
+
+def test_parked_research_defers_lifecycle_without_rewriting_c_or_holding_load(owned_root):
+    from nana_core.continuity.controlled_world.lab import ControlledWorld
+    from nana_core.life.application import LifeApplication
+    from nana_core.life.config import update_config
+    from controlled_hands.conftest import initialize,until
+    from nana_core.continuity.records import RecordService
+    with ControlledWorld(owned_root/'world',interval=120) as world:
+        home=owned_root/'life';cfg=initialize(home,world.host.profile,skills=False)
+        sources=(IntakeSource(source_id='good',channel='OWNED_HTTP',location=world.services['feed'].url+'/source',semantic_format='SOURCED_CLAIM_JSON'),IntakeSource(source_id='bad',channel='OWNED_HTTP',location=world.services['api'].url+'/fault/malformed',semantic_format='SOURCED_CLAIM_JSON'))
+        update_config(home,cfg.model_copy(update={'revision':2,'advanced_life':True,'world_sources':sources}),expected_revision=1)
+        with LifeApplication(home) as app:
+            app.advanced.previous=None;r=app.runtime
+            until(app,lambda:bool(r.store.db.execute("SELECT 1 FROM jobs WHERE work_kind='LIFE_RESEARCH' AND state='BLOCKED'").fetchone()))
+            job=r.store.db.execute("SELECT * FROM jobs WHERE work_kind='LIFE_RESEARCH' AND state='BLOCKED'").fetchone();body=RecordService(r.store).read(job['record_id'])['payload']
+            assert body['state']=='PARKED_NO_RETRY' and body['desire_preserved']
+            cycle=r.subject.result(r.store.one('subject_cycles',body['cycle_id']))
+            assert cycle.evaluation.normative=='ENDORSED' and cycle.intention.behavior=='EXPLORE'
+            assert r.store.one('subject_intentions',cycle.intention_id)['state']=='DEFERRED'
+            before=r.store.db.execute("SELECT count(*) FROM jobs WHERE work_kind IN ('WORLD_INTAKE','LIFE_RESEARCH')").fetchone()[0]
+            revision=job['revision']
+            for _ in range(4):app.tick()
+            assert r.store.db.execute("SELECT count(*) FROM jobs WHERE work_kind IN ('WORLD_INTAKE','LIFE_RESEARCH')").fetchone()[0]==before
+            assert r.store.one('jobs',job['job_id'])['revision']==revision and not r.store.all('actions')
+
+
+def test_noisy_burst_backpressure_daily_bound_and_unchanged_source_dedup(owned_root):
+    from nana_core.continuity.world_loop.reference import capture
+    from nana_core.continuity.open_life.opportunities import OpportunityQueue
+    from tests.open_life.test_attention_research import candidate,judge
+    clock=VirtualClock()
+    with open_runtime(owned_root/'self.db',clock) as r:
+        q=OpportunityQueue(r,capacity=4,daily_limit=2);offered=[]
+        for i in range(10):
+            mid=capture(r,'burst-'+str(i),{'noise_index':i})
+            try:offered.append((q.offer(candidate(r,mid)),mid))
+            except CoreError as exc:assert exc.code=='LIFE_QUEUE_BACKPRESSURE'
+        assert len(offered)==4
+        for _ in range(25):assert q.offer(candidate(r,offered[0][1]))==offered[0][0]
+        for job,_ in offered[:2]:judge(r,q,job)
+        for _ in range(20):q.opportunity()
+        assert r.store.db.execute("SELECT count(*) FROM jobs WHERE work_kind='LIFE_OPPORTUNITY' AND state='WAITING'").fetchone()[0]==2
+        assert r.store.db.execute("SELECT count(*) FROM jobs WHERE work_kind='LIFE_OPPORTUNITY'").fetchone()[0]==4
+        assert not r.store.all('actions') and not r.store.all('cognitive_requests')

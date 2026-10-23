@@ -25,7 +25,9 @@ def advanced_view(store,*,scope,privacy):
         b=json.loads(row['body_json']);rid=b.get('record_id')
         if not rid or not visible(rid):continue
         obj=records.read(rid)['payload'].get('objective',{})
-        goals.append({'goal_id':row['goal_id'],'state':row['state'],'horizon':'DORMANT' if row['state']=='SUSPENDED' else 'ABANDONED' if row['state']=='ABANDONED' else obj.get('horizon','SHORT'),
+        supersession=store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='RUNTIME_WORK' AND target_id=? ORDER BY rowid DESC LIMIT 1",('goal-supersession:'+row['goal_id'],)).fetchone()
+        replaced=records.read(supersession[0])['payload']['new_goal_id'] if supersession and visible(supersession[0]) else None
+        goals.append({'goal_id':row['goal_id'],'state':row['state'],'superseded_by':replaced,'horizon':'DORMANT' if row['state']=='SUSPENDED' else 'ABANDONED' if row['state']=='ABANDONED' else obj.get('horizon','SHORT'),
             'parent_id':obj.get('parent_id'),'depends_on':obj.get('depends_on',[]),'deadline_us':obj.get('deadline_us'),
             'why_source_record_id':rid,'review_after_us':obj.get('review_after_us'),'review_condition':'SOURCE_CHANGE_OR_VERIFIED_OUTCOME','not_new_goal_authority':True})
         if row['state']=='BLOCKED':problems.append({'problem_id':'blocked.'+row['goal_id'],'kind':'GOAL_PATH_BLOCKED','state':'CANDIDATE_NOT_ADOPTED','source_record_ids':[rid]})

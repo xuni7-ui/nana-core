@@ -18,9 +18,9 @@ class ResearchWork:
 
     def reconcile(self):
         s=self.runtime.store
-        for row in s.db.execute("SELECT * FROM jobs WHERE work_kind='LIFE_RESEARCH' AND state='DONE' ORDER BY updated_at_us DESC LIMIT 16"):
+        for row in s.db.execute("SELECT * FROM jobs WHERE work_kind='LIFE_RESEARCH' AND state IN ('DONE','UNKNOWN','BLOCKED') ORDER BY updated_at_us DESC LIMIT 16"):
             h=s.one('continuity_records',row['record_id'])
-            if h and h['lifecycle']=='ACTIVE' and h['scope'] in self.runtime.config.scopes and h['privacy_class'] in self.runtime.config.privacy_classes and self.records.current_support(h['record_id']):self._ack(self.records.read(h['record_id'])['payload'])
+            if h and h['lifecycle']=='ACTIVE' and h['scope'] in self.runtime.config.scopes and h['privacy_class'] in self.runtime.config.privacy_classes and self.records.current_support(h['record_id']):self._ack(self.records.read(h['record_id'])['payload'],state='COMPLETED' if row['state']=='DONE' else 'DEFERRED')
         # Also closes the crash gap between C acknowledgment and scheduling.
         for row in s.db.execute("SELECT * FROM jobs WHERE work_kind='LIFE_OPPORTUNITY' AND state='DONE' ORDER BY updated_at_us DESC LIMIT 16"):
             key='life-research:'+digest(row['job_id'])
@@ -44,11 +44,12 @@ class ResearchWork:
             return jid
         return None
 
-    def _ack(self,body):
+    def _ack(self,body,*,state='COMPLETED'):
         s=self.runtime.store;cycle=s.one('subject_cycles',body['cycle_id'])
-        iid=self.runtime.subject.result(cycle).intention_id if cycle else None
-        intention=s.one('subject_intentions',iid) if iid else None
-        if intention and intention['state']=='PENDING':self.runtime.subject.transition_intention(iid,expected_revision=intention['revision'],state='COMPLETED')
+        # Opaque event correlation is enough; never reopen erased rationale text
+        # merely to settle a resource/UNKNOWN lifecycle boundary.
+        intention=s.db.execute("SELECT * FROM subject_intentions WHERE subject_event_id=? AND state='PENDING' LIMIT 1",(cycle['subject_event_id'],)).fetchone() if cycle else None
+        if intention:self.runtime.subject.transition_intention(intention['intention_id'],expected_revision=intention['revision'],state=state)
 
     def slice(self):
         r=self.runtime;s=r.store
@@ -87,7 +88,11 @@ class ResearchWork:
                 cursor=row['cursor'];state='DONE'
         except (CoreError,ValueError,KeyError) as exc:
             if isinstance(exc,CoreError) and exc.code in {'RUNTIME_LEASE_LOST','PRIVACY_ANCHOR_INVALID','PRIVACY_ANCHOR_UNAVAILABLE'}:raise
-            with s.transaction('life.research_parked',{'job_id':row['job_id'],'reason':exc.code if isinstance(exc,CoreError) else 'INVALID_SEMANTIC_FEED'}) as tx:tx.update('jobs',row['job_id'],state='UNKNOWN' if isinstance(exc,CoreError) and 'UNKNOWN' in exc.code else 'BLOCKED',revision=row['revision']+1)
+            reason=exc.code if isinstance(exc,CoreError) else 'INVALID_SEMANTIC_FEED'
+            with s.transaction('life.research_parked',{'job_id':row['job_id'],'reason':reason}) as tx:
+                rid=self.records.create(tx,kind='RUNTIME_WORK',scope=head['scope'],payload={**b,'state':'PARKED_NO_RETRY','reason':reason,'desire_preserved':True,'requires_new_review':True},records=(row['record_id'],),supersedes=row['record_id'],target_id=head['target_id'])
+                tx.update('jobs',row['job_id'],record_id=rid,state='UNKNOWN' if isinstance(exc,CoreError) and 'UNKNOWN' in exc.code else 'BLOCKED',revision=row['revision']+1)
+            self._ack(b,state='DEFERRED')
             return {'research_job_id':row['job_id'],'state':'PARKED_NO_RETRY'}
         with s.transaction('life.research_slice',{'job_id':row['job_id'],'state':new['state']}) as tx:
             rid=self.records.create(tx,kind='RUNTIME_WORK',scope=head['scope'],payload=new,records=(row['record_id'],*parents),memories=memories,supersedes=row['record_id'],target_id=head['target_id'])

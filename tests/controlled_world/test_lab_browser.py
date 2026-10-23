@@ -79,3 +79,20 @@ def test_owned_task_api_cru_duplicate_collision_partial_and_drop(owned_root):
         with pytest.raises((OSError,http.client.RemoteDisconnected)):post('/task/drop',{'operation_id':'drop-one','task_id':'lost','revision':revision,'value':'applied'})
         assert get(api.url+'/tasks/lost')['value']=='applied'
         assert get(api.url+'/status')['effect_count']==4
+
+
+def test_browser_pid_cannot_be_paired_with_another_local_listener(owned_root):
+    with ControlledWorld(owned_root/'world',interval=120) as world:
+        endpoint=world.browser.endpoint.model_copy(update={'port':world.services['api'].endpoint['port']})
+        with pytest.raises(CoreError,match='LISTENER_OWNER_MISMATCH'):OwnedBrowserPort('subject',load_target(world.host.profile),endpoint,host_enabled=True)
+        assert json.loads((world.services['api'].root/'environment.json').read_text())['requests']==0
+
+
+def test_lab_atomic_replace_does_not_follow_existing_symlink(owned_root):
+    from nana_core.continuity.controlled_world.lab import _atomic
+    root=owned_root/'private';root.mkdir(mode=0o700)
+    outside=owned_root/'guard.txt';outside.write_text('unchanged owned guard')
+    target=root/'state.json';target.symlink_to(outside)
+    _atomic(target,{'safe':True})
+    assert outside.read_text()=='unchanged owned guard' and not target.is_symlink()
+    assert json.loads(target.read_text())=={'safe':True}

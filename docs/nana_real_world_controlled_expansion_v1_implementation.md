@@ -128,3 +128,38 @@ The repository pytest default listed only older stage folders. The observed588
 pass/1skip command is a DEFAULT SUBSET, not whole-repository regression. Default
 collection now points to tests, including current growth/recovery/surface suites;
 final full run is separately recorded at the final runtime source pin.
+
+## P4: regression closure and lifecycle detail
+
+First actual all-tests run:1490 PASS /1 FAIL /12 SKIP,481.86s. Retained failure:
+existing cloud sharing test proved a verified success with a configured recipient
+was incorrectly silenced by the new low-relevance default. Fixed by using explicit
+same-entity/scope enabled surface context and visible relationship support. Private
+relationship support is filtered before projection and every used support is a
+Memory dependency; configured recipient still gives no sending permission. Original
+assertion unchanged. Targeted sharing/lifecycle/model10 PASS; security6 PASS;
+priority/burst/parked-research9 PASS. A new model test initially expected REJECTED,
+but existing transport correctly returns FAILED/PROVIDER_MALFORMED; corrected the
+new test to assert the exact existing failure contract and six calls/no fallback.
+
+A parked malformed/UNKNOWN research episode now preserves its source-backed
+ENDORSED/EXPLORE judgment and records the realization reason, while moving the
+original intention lifecycle to DEFERRED. It is not a successful study, not
+RESTRAINED, not Manager veto, and not an automatic retry. Reconciliation covers
+the park-commit→lifecycle-settlement crash gap; no cognitive-load slot stays pending
+forever merely because a source is unavailable. The associated new test initially
+forbade an unrelated maintenance SCAN job; narrowed its assertion to the actual
+research/intake retry and unchanged parked episode, allowing independent life.
+
+Goal supersession is an append-only derived link after original C has withdrawn
+one goal and adopted the replacement. The old lifecycle remains ABANDONED; the
+link records SUPERSEDED/new_goal_id. Exact withdrawal cycle/cause, current support,
+scope and absence of pending unknown effects are required. It cannot abandon or
+adopt for C or grant permission. Age STALE is a virtual projection test; actual
+pause/restart/resume/abandon/replacement transitions retain source lineage.
+
+User input arriving during a real local effect is queued by the transport thread;
+the original owner finishes the effect/Verify safe point then handles the user
+before another autonomous step. No physical effect is deleted or resent. A noisy
+burst exercises capacity/daily bounds and source dedup, rather than inflating
+thousands of identical autonomy tests.

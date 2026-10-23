@@ -254,6 +254,25 @@ class OpenAgencyService(AgencyService):
             self._complete(tx,cycle.intention_id)
         return data
 
+    def link_supersession(self,old_goal_id,new_goal_id,cycle_id,*,cause_memory_id,authority):
+        """Describe a C-chosen replacement; never abandon/adopt on behalf of C."""
+        if authority is not self._authority:raise CoreError('UNAUTHENTICATED_OPERATOR')
+        old=self.store.one('goals',old_goal_id);new=self.store.one('goals',new_goal_id);raw=self.store.one('subject_cycles',cycle_id)
+        if not old or not new or old_goal_id==new_goal_id or old['state']!='ABANDONED' or new['state'] not in {'ACTIVE','SUSPENDED','COMPLETED'} or not raw:raise CoreError('GOAL_SUPERSESSION_REQUIRES_SUBJECT_TRANSITIONS')
+        cycle=self.subject.result(raw);event=self.store.one('subject_events',raw['subject_event_id'])
+        original=self.records.read(event['record_id'])['payload']['input'];review=original.get('goal_review')
+        if cycle.intention.behavior!='WITHDRAW' or not review or review['goal_id']!=old_goal_id or review['purpose']!='LIFECYCLE' or review['cause_memory_id']!=cause_memory_id:raise CoreError('GOAL_SUPERSESSION_SUBJECT_WITHDRAWAL_REQUIRED')
+        old_rid=json.loads(old['body_json'])['record_id'];new_rid=json.loads(new['body_json'])['record_id'];a=self.records.read(old_rid);b=self.records.read(new_rid);cause=self.records.memory.read(cause_memory_id)
+        if a['scope']!=b['scope'] or cause['scope']!=a['scope'] or cause['authority']!='DIRECT' or not all(self.records.current_support(x) for x in (old_rid,new_rid,cycle.record_id)):raise CoreError('GOAL_SUPERSESSION_SOURCE_REQUIRED')
+        if self.store.db.execute("SELECT 1 FROM actions WHERE goal_id=? AND state IN ('READY','DISPATCHING','UNKNOWN','PENDING_VERIFY')",(old_goal_id,)).fetchone():raise CoreError('VERIFY_UNKNOWN_EFFECT_FIRST')
+        key='goal-supersession:'+old_goal_id
+        prior=self.store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='RUNTIME_WORK' AND target_id=?",(key,)).fetchone()
+        if prior:
+            if self.records.read(prior[0])['payload']['new_goal_id']!=new_goal_id:raise CoreError('GOAL_ALREADY_SUPERSEDED')
+            return prior[0]
+        with self.store.transaction('open.goal_supersession_linked',{'old_goal_id':old_goal_id,'new_goal_id':new_goal_id}) as tx:
+            return self.records.create(tx,kind='RUNTIME_WORK',scope=a['scope'],payload={'kind':'GOAL_SUPERSESSION','old_goal_id':old_goal_id,'new_goal_id':new_goal_id,'withdrawal_cycle_id':cycle_id,'old_lifecycle':'ABANDONED','derived_display':'SUPERSEDED','creates_goal':False,'grants_authority':False},records=(old_rid,new_rid,cycle.record_id),memories=(cause_memory_id,),target_id=key)
+
     def transition(self,goal_id,state,*,expected_version,authority,cause_memory_id):
         if authority is not self._authority:raise CoreError('UNAUTHENTICATED_OPERATOR')
         goal=self.store.one('goals',goal_id)

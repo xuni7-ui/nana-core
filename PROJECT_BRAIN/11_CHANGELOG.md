@@ -2497,3 +2497,7 @@ general world comprehension/meta-learning. Track A no longer waits for Track B.
 ## Controlled World P3 — long-life attention/temporal fixes
 
 [实测] ec76460 owned诊断驻留1667.382秒、主动停止、exit1/duration false，不计5h。4443e78隔离run继续诊断，发现managed cue被generic watcher二次投递及Experience缺原ID，已修复并保留原欲望。另修过期world历史65条后永久UNKNOWN，80过期+当前claim和原world/attention相关47通过；业务table43/schema13不变，仅2 query indexes。默认pytest旧目录只测588，改为tests全目录，最终完整回归另记。无凭据/paid/private/social/用户设备/生产/main/R045操作。
+
+## Controlled World P4 — actual full failure fixed, no evidence inflation
+
+[实测] 全tests1490 pass/1fail/12skip，原sharing断言暴露新relevance默认值退化；按显式recipient/scope与可见关系支持修复，原测试不减弱。分享值引用关系时先privacy过滤并保留来源依赖；无grant/发送权限扩大。研究BLOCKED/UNKNOWN原ENDORSED判断保留、intention lifecycle DEFERRED并可崩溃恢复收口，无自动retry。新增源绑定C撤回/新采用后的goal supersession派生link（旧ABANDONED不改写）；新增model交换/真正effect中用户输入/噪声burst/监听PID与symlink负例。targeted sharing/lifecycle/model10、security6、priority/burst9通过；最终源码全仓/portable/固定5h收口继续。旧失败与早期诊断run分别保留。

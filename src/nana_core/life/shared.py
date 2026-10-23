@@ -91,11 +91,17 @@ class SharedPresence:
             # permanent sentiment score or delivery authority. Quiet/busy remains
             # an independent delivery condition; C may still want to share.
             from ..continuity.autonomy.relationships import relationship_influence
-            influence=relationship_influence(s,r.config.entity_id,scope=c['scope'],privacy_classes=r.config.privacy_classes)
-            share=ShareAssessment(relational_relevance='RELEVANT' if influence.source_record_ids else 'LOW',affect_relevance='RELEVANT' if c['outcome']=='FAILURE' else 'LOW',interruption_cost='HEAVY' if state=='BUSY' else 'LIGHT')
+            from ..continuity.memory import PRIVACY_RANK
+            visible=tuple(p for p in r.config.privacy_classes if PRIVACY_RANK[p]<=PRIVACY_RANK[c['privacy_class']])
+            influence=relationship_influence(s,r.config.entity_id,scope=c['scope'],privacy_classes=visible)
+            relationship_sources=tuple(m for rid in influence.source_record_ids for m in RecordService(s).support(rid))
+            support=tuple(dict.fromkeys((*c['source_memory_ids'],*parents,*relationship_sources)))
+            if len(support)>32:continue
+            designated=any(b.enabled and b.entity_id==r.config.entity_id and b.scope==c['scope'] for b in app.config.surface_bindings)
+            share=ShareAssessment(relational_relevance='RELEVANT' if influence.source_record_ids or designated else 'LOW',affect_relevance='RELEVANT' if c['outcome']=='FAILURE' else 'LOW',interruption_cost='HEAVY' if state=='BUSY' else 'LIGHT')
             cue=cue.model_copy(update={'share_assessment':share})
             mid=capture(r,ref,cue.model_dump(mode='json'),kind='MODEL_DERIVATION',
-                parents=tuple(dict.fromkeys((*c['source_memory_ids'],*parents))),predicate='concern.'+c['topic'])
+                parents=support,predicate='concern.'+c['topic'])
             event=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key=prefix+digest(c['experience_id']),kind='WAKE',origin='SELF_WAKE',entity_id=r.config.entity_id,scope=c['scope'],privacy_class='PROJECT',observed_at_us=now,source_memory_ids=(mid,))
             qid=r.submit(RuntimeEvent(event_type='RELATIONSHIP_EVENT',trigger='RELATIONSHIP_TRIGGER',input=event,causes=(Cause(kind='MEMORY',reference_id=mid),),due_at_us=now))
             return {'shared_experience_opportunity':c['experience_id'],'queue_id':qid,'not_delivery':True}

@@ -82,3 +82,26 @@ def test_concurrent_three_surfaces_owner_order_dedup_l1_and_preemption(owned_roo
             assert len(app.runtime.store.all('subject_cycles'))==before
             from nana_core.life.surfaces import recent_sources
             assert recent_sources(app,'shared-project','PROJECT')
+
+
+def test_user_input_during_actual_effect_waits_for_safe_point_then_preempts(owned_root,monkeypatch):
+    tasks=(ApplicationTask(task_id='form',kind='FORM',wanted={'label':'blue'},fields=('label',)),)
+    with OwnedApplication(owned_root/'app',tasks=tasks) as host,OwnedBrowser(host.profile) as browser:
+        home=owned_root/'life';cfg=initialize(home,host.profile,skills=False)
+        binding=SurfaceBinding(binding_id='surface.web',platform='platform.local',surface='surface.web',adapter='adapter.owned')
+        update_config(home,cfg.model_copy(update={'revision':2,'owned_browser_endpoint':browser.endpoint,'surface_bindings':(binding,)}),expected_revision=1)
+        with LifeApplication(home,bootstrap_grant=True) as app:
+            original=app.work.port.execute;observed=[]
+            def execute(inv):
+                receipt=original(inv)
+                if inv.capability=='world.publish':
+                    incoming=SurfaceObservation(binding_id='surface.web',event_id='during-effect',topic='project',text='这个话题不要深入了')
+                    thread=threading.Thread(target=lambda:observed.append(app.ingress.offer(incoming)));thread.start();thread.join(1);assert not thread.is_alive()
+                return receipt
+            monkeypatch.setattr(app.work.port,'execute',execute)
+            until(app,lambda:bool(observed))
+            assert len(json.loads((Path(host.target.workspace)/'application-state.json').read_text())['effects'])==1
+            before=len(app.runtime.store.all('actions'));reply=app.tick()['surface_ingress']
+            assert reply['event_id']=='during-effect' and reply['result']['mode']=='RESPECT_BOUNDARY'
+            assert len(app.runtime.store.all('actions'))==before
+            assert app.runtime.store.db.execute("SELECT count(*) FROM actions WHERE capability='world.publish'").fetchone()[0]==1
