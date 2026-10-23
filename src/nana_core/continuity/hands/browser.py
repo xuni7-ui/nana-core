@@ -4,7 +4,8 @@ HTML navigation is read-only. Form submission is only world.publish through the
 existing Kernel/HandsEffectContext. Verify uses original Unix query + disk, not
 the HTTP acknowledgement. No arbitrary URL, login, JavaScript or browser agent.
 """
-import argparse,html,json,os,urllib.request,subprocess,sys,selectors
+import argparse,html,json,os,urllib.request,urllib.parse,urllib.error,subprocess,sys,selectors
+from pydantic import Field
 from http.server import BaseHTTPRequestHandler,HTTPServer
 from pathlib import Path
 from ...contracts import DTO,CoreError
@@ -18,13 +19,16 @@ class BrowserEndpoint(DTO):
     port:int
     pid:int
     start:str
+    paths:tuple[str,...]=()
+    timeout_ms:int=Field(default=500,ge=50,le=1500)
+    request_cap:int=Field(default=128,ge=1,le=512)
 
 
 class OwnedBrowser:
     """Trusted development host constructor; owns only its new bridge child."""
-    def __init__(self,profile):
+    def __init__(self,profile,*,dynamic=False):
         boot="import runpy,sys;sys.path.insert(0,sys.argv.pop(1));runpy.run_module('nana_core.continuity.hands.browser',run_name='__main__')"
-        self.proc=subprocess.Popen([sys.executable,'-I','-c',boot,str(Path(__file__).resolve().parents[3]),'--profile',str(profile)],stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,env={'PATH':os.defpath,'LANG':'C.UTF-8','TZ':'UTC'})
+        self.proc=subprocess.Popen([sys.executable,'-I','-c',boot,str(Path(__file__).resolve().parents[3]),'--profile',str(profile),*(['--dynamic'] if dynamic else [])],stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,env={'PATH':os.defpath,'LANG':'C.UTF-8','TZ':'UTC'})
         try:
             with selectors.DefaultSelector() as selector:
                 selector.register(self.proc.stdout,selectors.EVENT_READ)
@@ -45,40 +49,72 @@ class OwnedBrowser:
 class OwnedBrowserPort(OwnedApplicationPort):
     def __init__(self,identity_id,target,endpoint,*,host_enabled=False):
         super().__init__(identity_id,target,host_enabled=host_enabled)
-        self.endpoint=endpoint
+        self.endpoint=endpoint;self.requests=0
         if not 1024<=endpoint.port<=65535:raise CoreError('BROWSER_ENDPOINT_DENIED')
         self._assert_browser()
     def _assert_browser(self):
         e=self.endpoint
         if process_start(e.pid)!=e.start or Path('/proc/'+str(e.pid)).stat().st_uid!=os.getuid():raise CoreError('BROWSER_OWNER_CHANGED')
         self.assert_owned()
+    def _allowed_path(self,path):
+        if not isinstance(path,str) or not path.startswith('/') or len(path)>256 or any(x in path for x in ('%','\\','?','#','..','//')):raise CoreError('BROWSER_NAVIGATION_DENIED')
+        allowed=('/', '/api/control',*('/tasks/'+key for key in self.tasks),*self.endpoint.paths)
+        if path not in allowed:raise CoreError('BROWSER_NAVIGATION_DENIED')
+        return path
     def _http(self,path,body=None):
-        self._assert_browser()
-        if path!='/' and not path.startswith(('/tasks/','/api/')):raise CoreError('BROWSER_NAVIGATION_DENIED')
+        self._assert_browser();self._allowed_path(path)
         raw=canonical(body).encode() if body is not None else None
-        if raw and len(raw)>16384:raise CoreError('HANDS_REQUEST_BOUND')
-        request=urllib.request.Request('http://127.0.0.1:'+str(self.endpoint.port)+path,data=raw,headers={'Content-Type':'application/json'})
+        if raw and (len(raw)>16384 or path!='/api/control'):raise CoreError('HANDS_REQUEST_BOUND')
         from ..open_life.sources import NoRedirect
         opener=urllib.request.build_opener(urllib.request.ProxyHandler({}),NoRedirect())
-        try:
-            with opener.open(request,timeout=.5) as response:
-                result=response.read(32769)
-                if response.status!=200 or len(result)>32768:raise CoreError('BROWSER_COMPLETION_UNKNOWN')
-        except OSError:raise CoreError('BROWSER_COMPLETION_UNKNOWN') from None
-        return result
+        for hop in range(4):
+            if self.requests>=self.endpoint.request_cap:raise CoreError('BROWSER_REQUEST_CAP')
+            self.requests+=1;url='http://127.0.0.1:'+str(self.endpoint.port)+path
+            request=urllib.request.Request(url,data=raw,headers={'Content-Type':'application/json'})
+            try:
+                with opener.open(request,timeout=self.endpoint.timeout_ms/1000) as response:
+                    result=response.read(32769)
+                    if response.status!=200 or len(result)>32768:raise CoreError('BROWSER_COMPLETION_UNKNOWN')
+                    return result
+            except urllib.error.HTTPError as exc:
+                if raw is None and exc.code in {301,302,303,307,308} and hop<3:
+                    target=urllib.parse.urlsplit(urllib.parse.urljoin(url,exc.headers.get('Location','')))
+                    if target.scheme!='http' or target.hostname!='127.0.0.1' or target.port!=self.endpoint.port or target.username or target.password or target.query or target.fragment:raise CoreError('BROWSER_REDIRECT_DENIED') from None
+                    path=self._allowed_path(target.path);continue
+                raise CoreError('BROWSER_HTTP_'+str(exc.code) if raw is None else 'BROWSER_COMPLETION_UNKNOWN') from None
+            except OSError:raise CoreError('BROWSER_COMPLETION_UNKNOWN') from None
+        raise CoreError('BROWSER_REDIRECT_BOUND')
+    def open_url(self,url):
+        target=urllib.parse.urlsplit(url)
+        if target.scheme!='http' or target.hostname!='127.0.0.1' or target.port!=self.endpoint.port or target.username or target.password or target.query or target.fragment:raise CoreError('BROWSER_NAVIGATION_DENIED')
+        return self.page(target.path or '/')
+    def page(self,path='/'):
+        from .page import parse_page
+        return parse_page(path,self._http(path))
+    def follow(self,page,href):
+        from .page import PageState
+        if type(page) is not PageState or href not in {link.href for link in page.links}:raise CoreError('BROWSER_LINK_NOT_OBSERVED')
+        # The new read is another observation; a link or success-shaped text is
+        # never an action outcome. Stale forms are fenced again by Kernel revision.
+        base='http://127.0.0.1:'+str(self.endpoint.port)+page.path
+        return self.open_url(urllib.parse.urljoin(base,href))
     def open(self):return self._http('/').decode()
     def navigate(self,task_id):
         if task_id not in self.tasks:raise CoreError('BROWSER_NAVIGATION_DENIED')
         return self._http('/tasks/'+task_id).decode()
     def _request(self,channel,body):
         if channel=='query':return super()._request(channel,body)
+        # Distinct reviewed Hand transport: files/documents retain original
+        # owned IPC and file reopen Verify; forms use the browser HTTP bridge.
+        if self.endpoint.paths and self.tasks[body['task_id']].kind!='FORM':return super()._request(channel,body)
         value=json.loads(self._http('/api/control',{'binding':self.target.binding,**body}))
         if value.get('ok') is not True or set(value)!={'ok','data'} or type(value['data']) is not dict:raise CoreError('BROWSER_COMPLETION_UNKNOWN')
         return value['data']
     def _pure(self,inv,key,args):
         if inv.capability=='world.observe':
-            page=self.navigate(key)
-            if 'data-task="'+key+'"' not in page or '<form' not in page:raise CoreError('BROWSER_PAGE_BINDING_CHANGED')
+            page=self.page('/tasks/'+key)
+            if page.task_id!=key or page.error or not page.forms:raise CoreError('BROWSER_PAGE_BINDING_CHANGED')
+            if self.tasks[key].kind=='FORM' and not set(self.tasks[key].fields)<=set(page.forms[0].fields):raise CoreError('BROWSER_FORM_STATE_CHANGED')
         result=super()._pure(inv,key,args)
         if inv.capability in {'world.compute','world.skill'} and self.tasks[key].kind=='FORM':
             from ..open_life.capabilities import EmbodiedGesture,EmbodiedProposal,compile_simulated_form
@@ -95,7 +131,7 @@ class OwnedBrowserPort(OwnedApplicationPort):
         return result
 
 
-def serve(profile):
+def serve(profile,*,dynamic=False):
     target=load_target(profile)
     # A transport bridge, no Subject/Store/Runtime/decisions in this process.
     port=OwnedApplicationPort('transport-no-subject-authority',target,host_enabled=True)
@@ -104,6 +140,16 @@ def serve(profile):
         def respond(self,status,body,content='application/json'):
             self.send_response(status);self.send_header('Content-Type',content);self.send_header('Content-Length',str(len(body)));self.end_headers();self.wfile.write(body)
         def do_GET(self):
+            if dynamic and self.path=='/welcome':
+                self.send_response(302);self.send_header('Location','/page/1');self.end_headers();return
+            if dynamic and self.path=='/outside':
+                self.send_response(302);self.send_header('Location','http://example.invalid/');self.end_headers();return
+            if dynamic and self.path=='/error':return self.respond(200,b'<html><p role="alert">Temporary failure</p></html>','text/html')
+            if dynamic and self.path=='/malformed':return self.respond(200,b'<html><form>success</html>','text/html')
+            if dynamic and self.path in {'/page/1','/page/2'}:
+                keys=list(port.tasks);n=0 if self.path.endswith('1') else 1
+                page='<html><title>Owned project workspace</title><body>'+''.join('<a href="/tasks/'+k+'">Review '+html.escape(k)+'</a>' for k in keys[n::2])+'<a href="/page/'+('2' if n==0 else '1')+'">Next page</a></body></html>'
+                return self.respond(200,page.encode(),'text/html')
             if self.path=='/':
                 page='<html><body>'+''.join('<a href="/tasks/'+t+'">'+html.escape(t)+'</a>' for t in port.tasks)+'</body></html>'
                 return self.respond(200,page.encode(),'text/html')
@@ -111,8 +157,8 @@ def serve(profile):
                 key=self.path.removeprefix('/tasks/')
                 if key not in port.tasks:return self.respond(404,b'{}')
                 data=port.peek(key);state=data['state']
-                page='<html><body data-task="'+key+'"><form method="post" action="/api/control">'
-                page+=''.join('<input name="'+html.escape(k)+'" value="'+html.escape(v,quote=True)+'">' for k,v in state['values'].items())
+                page='<html><title>Review '+html.escape(key)+'</title><body data-task="'+key+'" data-revision="'+str(state['revision'])+'"><form method="post" action="/api/control">'
+                page+=''.join('<input name="'+html.escape(k)+'" value="'+html.escape(v,quote=True)+'">' for k,v in (reversed(list(state['values'].items())) if dynamic and state['revision']%2 else state['values'].items()))
                 page+='<textarea>'+html.escape(state['text'])+'</textarea><button>Apply</button></form></body></html>'
                 return self.respond(200,page.encode(),'text/html')
             self.respond(404,b'{}')
@@ -127,12 +173,13 @@ def serve(profile):
                 self.respond(200,canonical({'ok':True,'data':value}).encode())
             except (CoreError,ValueError,OSError,KeyError,TypeError):self.respond(400,b'{"ok":false}')
     server=HTTPServer(('127.0.0.1',0),Handler);server.timeout=.5
-    print(canonical(BrowserEndpoint(port=server.server_port,pid=os.getpid(),start=process_start(os.getpid())).model_dump(mode='json')),flush=True)
+    print(canonical(BrowserEndpoint(port=server.server_port,pid=os.getpid(),start=process_start(os.getpid()),paths=('/page/1','/page/2','/welcome','/outside','/error','/malformed') if dynamic else (),request_cap=512 if dynamic else 128).model_dump(mode='json')),flush=True)
     try:server.serve_forever(poll_interval=.2)
     finally:server.server_close()
 
 
 def main():
     parser=argparse.ArgumentParser(description=__doc__);parser.add_argument('--profile',type=Path,required=True)
-    serve(parser.parse_args().profile)
+    parser.add_argument('--dynamic',action='store_true');a=parser.parse_args()
+    serve(a.profile,dynamic=a.dynamic)
 if __name__=='__main__':main()

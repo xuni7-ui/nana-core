@@ -7,18 +7,16 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 26,
-  "as_of_us": 1792687202466580,
+  "revision": 27,
+  "as_of_us": 1792767291750181,
   "stage": "H",
-  "workstream": "OPEN_LIFE_EXPANSION_AUTONOMOUS_GROWTH_V1",
-  "status": "OFFLINE_CANDIDATE_READY",
+  "workstream": "REAL_WORLD_CONTROLLED_EXPANSION_LONG_LIVED_AUTONOMY_V1",
+  "status": "IMPLEMENTING_CONTROLLED_WORLD",
   "progress": [
-    "Advanced Growth双轨不变；Master逐字/固定63条Foundation不变；原C/D/Store/Runtime。",
-    "原Runtime自动驱动来源摄取与C选择后的研究；LOW/repeated由原C自主IGNORE；UNKNOWN/source撤回不重试。",
-    "同Subject实际8 goals/30 Kernel actions/13 Experiences/3 Lessons/2 later skill uses；busy defer/retire/withdraw/backup/restart/B8通过。",
-    "固定运行源码c4791d0：full1464 passed/0failed/12skip，focused29/related159为同次子集；实际驻留120.168秒，另有60虚拟天，不冒充24h。",
-    "228文件portable可重复构建；两独立离线安装与安装版自动research/Browser/重启通过；schema13/43 tables/FK0/new dependencies0。",
-    "新paid/provider0，历史key未使用；真实用户Subject/旧web/生产/main/R045/private/social不变；HumanReview NOT_RUN，First-Life NOT_READY/Beta NO。"
+    "继承f8a41d3真实代码与证据；原C/D/Store/Runtime，Master/fixed63不变。",
+    "扩展五独立服务、结构化受控Browser、长期多Hand/噪声学习/恢复/迁移/portable。",
+    "新paid/provider0、历史key不读取、private/social/user device/production/main/R045不变。",
+    "目标5h新build驻留，实际结果与运行中状态严格区分；Human/First-Life/Beta不升级。"
   ],
   "open_gates": [
     "Human review是独立Track B，不阻塞本轮开发；付费/私人数据/真实社交/设备/生产不在范围。",
@@ -27,10 +25,7 @@
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
-    "docs/nana_open_life_expansion_v1_implementation.md",
-    "docs/nana_open_life_expansion_v1_status.md",
-    "docs/nana_open_life_expansion_v1_evidence/qualification.json",
-    "docs/nana_open_life_expansion_v1_evidence/manifest.json"
+    "docs/nana_real_world_controlled_expansion_v1_implementation.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
