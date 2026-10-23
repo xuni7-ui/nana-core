@@ -242,7 +242,7 @@ class LifeApplication:
                 basis='MODEL_PROPOSAL' if meaning.confidence in {'RELEVANT','HIGH'} else 'INTERPRETED'
             provider_state='MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED'
         except CoreError as exc:provider_state=exc.code
-        event=SubjectInput(conversation_proposal=proposal,domain='LOCAL_INTERACTION',source_key=event_key,kind='INTERACTION',origin='USER',entity_id='project-user',scope='project-work',observed_at_us=surface.observed_at_us if surface else r.clock.utc_now_us(),privacy_class=privacy,surface=surface,
+        event=SubjectInput(conversation_proposal=proposal,domain='LOCAL_INTERACTION',source_key=event_key,kind='INTERACTION',origin='USER',entity_id='project-user',scope='project-work',observed_at_us=surface.observed_at_us if surface else r.clock.utc_now_us(),occurred_at_us=surface.occurred_at_us if surface else None,privacy_class=privacy,surface=surface,
             text='Local input reviewed meaning: '+kind,source_memory_ids=(mid,),interaction_signal=InteractionSignal(kind=kind,topic_key=topic,basis=basis,proposal_record_id=rid))
         qid=r.submit(RuntimeEvent(event_type='USER_EVENT',trigger='INCOMING_EVENT',input=event,causes=(Cause(kind='MEMORY',reference_id=mid),),due_at_us=r.clock.utc_now_us(),priority=3))
         outcome=r.step();queue=r.store.one('runtime_queue',qid)

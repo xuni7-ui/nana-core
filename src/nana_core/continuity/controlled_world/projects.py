@@ -4,7 +4,7 @@ from pydantic import Field
 from ...contracts import DTO,CoreError
 from ...storage import digest
 from ..open_agency.contracts import Objective
-from ..open_life.opportunities import LifeOpportunity
+from ..open_life.opportunities import LifeOpportunity,ActivityCost
 from ..subject.opportunities import ConcernCue
 from ..world_loop.world import WorldModel
 
@@ -63,7 +63,10 @@ class ProjectPortfolio:
                 if not research:continue
             mids=tuple(dict.fromkeys(m for rid in (*view.support_records,*research) for m in records.support(rid)))[:16]
             if not mids:continue
-            return queue.offer(LifeOpportunity(kind='GOAL',topic='project.'+spec.project_id,source_memory_ids=mids,cue=ConcernCue(cue_kind='OPEN_LOOP',topic_key='project.'+spec.project_id,program_id=obj.objective_id,motivation_source='PROJECT_COMPLETION',possible_behaviors=('CONTINUE_PROJECT','WATCH','REST'),resource_class='ORDINARY'),expires_at_us=r.clock.utc_now_us()+86400_000_000))
+            # Finite reviewed local operators, no provider/network money. This
+            # estimate influences appraisal; actual Kernel budgets stay separate.
+            estimate=ActivityCost(compute='HEAVY' if sum(o.cost for o in obj.operators)>24 else 'LIGHT')
+            return queue.offer(LifeOpportunity(kind='GOAL',topic='project.'+spec.project_id,source_memory_ids=mids,resource_estimate=estimate,cue=ConcernCue(cue_kind='OPEN_LOOP',topic_key='project.'+spec.project_id,program_id=obj.objective_id,motivation_source='PROJECT_COMPLETION',possible_behaviors=('CONTINUE_PROJECT','WATCH','REST'),resource_class='ORDINARY'),expires_at_us=r.clock.utc_now_us()+86400_000_000))
         return None
 
     def view(self):

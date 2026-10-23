@@ -163,3 +163,21 @@ the original owner finishes the effect/Verify safe point then handles the user
 before another autonomous step. No physical effect is deleted or resent. A noisy
 burst exercises capacity/daily bounds and source dedup, rather than inflating
 thousands of identical autonomy tests.
+
+
+## Controlled World P5 — actual input transport and strict DOM binding
+
+[实现/实测] 新增显式owned localhost输入桥：独立social service HTTP→bounded HTTP admission→原owner ingress/C；Web输入与CLI共享原Subject/L1，202仅volatile入队。会话nonce只在内存/header，不进Store/日志；固定binding优先级、PUBLIC/PROJECT、4 handlers/32 inbox、关闭后拒绝，无HTTP线程SQLite/C。真实测试暴露source occurred时间未透传，修复canonical字段传递而非放宽校验。Browser拒绝截断后的identity/field/URL，DOM revision须匹配独立读取。20相关通过；未重启/热更b6450e1驻留，release新增防线将分别安装/整链/全仓验证。
+
+Resource estimates are qualitative, source-associated host structural estimates
+for compute, time, external cost, storage and interruption. Equal-value finite
+attention options prefer cheaper estimates, then original C judges; expensive
+options may rest/defer. These estimates never reserve money or override actual
+Kernel/Runtime budgets. Multi-Hand projects estimate their reviewed local
+operator cost; they are not live billing measurements.
+
+Post-migration attempt to resume a source-withdrawn goal correctly raised
+RECORD_UNAVAILABLE in the diagnostic. Qualification now explicitly verifies that
+retired support inhibits that suspended goal, and a new sourced status input
+continues through original C on the destination with no effect or inherited
+execution authority. The failure was not fixed by resurrecting support.

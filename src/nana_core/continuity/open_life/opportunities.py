@@ -14,6 +14,20 @@ from ..subject.contracts import SubjectInput
 from ...presence.contracts import RuntimeEvent, Cause, DAY
 
 
+class ActivityCost(DTO):
+    """Sourced host estimate, never billing truth or budget/Grant authority."""
+    basis:Literal['HOST_STRUCTURAL_ESTIMATE']='HOST_STRUCTURAL_ESTIMATE'
+    compute:Literal['LIGHT','HEAVY']='LIGHT'
+    time:Literal['SHORT','LONG']='SHORT'
+    external:Literal['NONE','REQUIRES_RESERVATION','UNKNOWN']='NONE'
+    storage:Literal['SMALL','LARGE']='SMALL'
+    interruption:Literal['LIGHT','HEAVY']='LIGHT'
+
+    @property
+    def pressure(self):
+        return sum((self.compute=='HEAVY',self.time=='LONG',self.external!='NONE',self.storage=='LARGE',self.interruption=='HEAVY'))
+
+
 class LifeOpportunity(DTO):
     kind: Literal['CONCERN','EXPERIENCE','CURIOSITY','RELATIONSHIP','GOAL',
                   'CAPABILITY_GAP','WORLD_CHANGE','MAINTENANCE','REST']
@@ -23,6 +37,7 @@ class LifeOpportunity(DTO):
     value: Literal['LOW','RELEVANT','HIGH'] = 'RELEVANT'
     novelty: Literal['REPEATED','NEW'] = 'NEW'
     cost: Literal['LIGHT','HEAVY'] = 'LIGHT'
+    resource_estimate:ActivityCost|None=None
     expires_at_us: int = Field(ge=0)
     reflection_experience_id:str|None=None
 
@@ -91,13 +106,13 @@ class OpportunityQueue:
         day=now//DAY*DAY
         if s.db.execute("SELECT count(*) FROM subject_events WHERE source_key LIKE 'development.life.%' AND observed_at_us>=?",(day,)).fetchone()[0]>=self.daily_limit:return None
         # Attention ordering is finite; these are options, not pre-adopted goals.
-        row,head,c=max(viable,key=lambda x:({'LOW':0,'RELEVANT':1,'HIGH':2}[x[2].value],x[2].kind=='REST',-x[0]['due_at_us']))
+        row,head,c=max(viable,key=lambda x:({'LOW':0,'RELEVANT':1,'HIGH':2}[x[2].value],x[2].kind=='REST',-(x[2].resource_estimate.pressure if x[2].resource_estimate else int(x[2].cost=='HEAVY')),-x[0]['due_at_us']))
         cue=c.cue.model_copy(update={'opportunity_assessment':OpportunityAssessment(value=c.value,novelty=c.novelty)})
         load=s.db.execute("SELECT count(*) FROM subject_intentions WHERE state='PENDING'").fetchone()[0]
         if load>=4:cue=cue.model_copy(update={'cognitive_load':'HIGH'})
         # A heavy learning candidate is still shown to C as a costly option;
         # the existing inhibition/appraisal owns the resulting REST/DEFER.
-        if c.cost=='HEAVY':cue=cue.model_copy(update={'cognitive_load':'HIGH'})
+        if c.cost=='HEAVY' or (c.resource_estimate and c.resource_estimate.pressure):cue=cue.model_copy(update={'cognitive_load':'HIGH'})
         from .sources import remember
         prior=s.db.execute("SELECT m.memory_id FROM memories m JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE e.source_namespace='recorded.project.material' AND e.source_reference=?",('open-life:cue:'+row['job_id'],)).fetchone()
         if prior:
@@ -118,5 +133,5 @@ def projection(store,scopes,privacy):
         if not head or head['lifecycle']!='ACTIVE' or head['scope'] not in scopes or head['privacy_class'] not in privacy:continue
         if not records.current_support(head['record_id']):continue
         b=records.read(head['record_id'])['payload'];c=b['candidate']
-        out.append({'job_id':row['job_id'],'kind':c['kind'],'value':c['value'],'novelty':c['novelty'],'state':b['state'],'behavior':b.get('behavior'),'cycle_id':b.get('cycle_id'),'record_id':head['record_id']})
+        out.append({'job_id':row['job_id'],'kind':c['kind'],'value':c['value'],'novelty':c['novelty'],'resource_estimate':c.get('resource_estimate'),'state':b['state'],'behavior':b.get('behavior'),'cycle_id':b.get('cycle_id'),'record_id':head['record_id']})
     return tuple(out)

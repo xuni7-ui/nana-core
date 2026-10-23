@@ -1,5 +1,6 @@
 import json,time,urllib.request,urllib.error,os
 import pytest
+from pathlib import Path
 from nana_core.continuity.controlled_world.lab import ControlledWorld,LabService
 from nana_core.continuity.hands.page import parse_page
 from nana_core.continuity.hands.browser import OwnedBrowserPort
@@ -96,3 +97,18 @@ def test_lab_atomic_replace_does_not_follow_existing_symlink(owned_root):
     _atomic(target,{'safe':True})
     assert outside.read_text()=='unchanged owned guard' and not target.is_symlink()
     assert json.loads(target.read_text())=={'safe':True}
+
+
+def test_html_identifiers_not_truncated_into_valid_binding():
+    with pytest.raises(CoreError,match='MALFORMED'):parse_page('/x',('<body data-task="'+'a'*32+'evil"><form></form></body>').encode())
+    with pytest.raises(CoreError,match='MALFORMED'):parse_page('/x',('<form><input name="'+'a'*32+'evil"></form>').encode())
+
+
+def test_stale_dom_revision_cannot_become_current_observation(owned_root,monkeypatch):
+    from types import SimpleNamespace
+    with ControlledWorld(owned_root/'world',interval=120) as world:
+        port=OwnedBrowserPort('subject',load_target(world.host.profile),world.browser.endpoint,host_enabled=True)
+        state=port.page('/tasks/form-baseline')
+        monkeypatch.setattr(port,'page',lambda path:state.model_copy(update={'revision':0}))
+        with pytest.raises(CoreError,match='STALE_PAGE'):port._pure(SimpleNamespace(capability='world.observe'),'form-baseline',{})
+        assert not json.loads((Path(world.host.target.workspace)/'application-state.json').read_text())['effects']

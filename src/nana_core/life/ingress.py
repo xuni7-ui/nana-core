@@ -12,12 +12,13 @@ from .surfaces import SurfaceObservation
 class SurfaceIngress:
     def __init__(self,app,*,capacity=32):
         if not 1<=capacity<=64:raise CoreError('SURFACE_INGRESS_BOUND')
-        self.app=app;self.capacity=capacity;self._owner=threading.get_ident();self._lock=threading.Lock();self._queue=[];self._keys={};self._serial=0;self._delivering=False
+        self.app=app;self.capacity=capacity;self._owner=threading.get_ident();self._lock=threading.Lock();self._queue=[];self._keys={};self._serial=0;self._delivering=False;self._closed=False
     def offer(self,observation,*,urgency='USER'):
         if type(observation) is not SurfaceObservation or urgency not in {'USER','BACKGROUND'}:raise CoreError('SURFACE_TYPED_INPUT_REQUIRED')
         o=SurfaceObservation.model_validate_json(observation.model_dump_json());self.app.surfaces._binding(o.binding_id)
         key=(o.binding_id,o.event_id);sha=digest(o.model_dump(mode='json'))
         with self._lock:
+            if self._closed:raise CoreError('SURFACE_INGRESS_CLOSED')
             if key in self._keys:
                 if self._keys[key]!=sha:raise CoreError('SURFACE_EVENT_COLLISION')
                 return {'state':'ALREADY_QUEUED','not_delivered':True}
@@ -36,4 +37,4 @@ class SurfaceIngress:
     def pending(self):
         with self._lock:return len(self._queue)
     def close(self):
-        with self._lock:self._queue.clear();self._keys.clear()
+        with self._lock:self._closed=True;self._queue.clear();self._keys.clear()

@@ -129,6 +129,7 @@ class OwnedBrowserPort(OwnedApplicationPort):
             if page.task_id!=key or page.error or not page.forms:raise CoreError('BROWSER_PAGE_BINDING_CHANGED')
             if self.tasks[key].kind=='FORM' and not set(self.tasks[key].fields)<=set(page.forms[0].fields):raise CoreError('BROWSER_FORM_STATE_CHANGED')
         result=super()._pure(inv,key,args)
+        if inv.capability=='world.observe' and page.revision!=result['data']['revision']:raise CoreError('BROWSER_STALE_PAGE')
         if inv.capability in {'world.compute','world.skill'} and self.tasks[key].kind=='FORM':
             from ..open_life.capabilities import EmbodiedGesture,EmbodiedProposal,compile_simulated_form
             from ...storage import digest

@@ -1,5 +1,6 @@
 """Bounded semantic HTML state: data proposals, never success or permission."""
 from html.parser import HTMLParser
+import re
 from typing import Literal
 from pydantic import Field
 from ...contracts import DTO,CoreError
@@ -36,18 +37,25 @@ class _Page(HTMLParser):
         a=dict(attrs)
         if tag in {'script','style','template'}:self.hidden+=1
         if self.hidden:return
-        if a.get('data-task'):self.task=a['data-task'][:32]
+        if a.get('data-task'):
+            if not re.fullmatch(r'[a-z][a-z0-9_-]{0,31}',a['data-task']):raise CoreError('BROWSER_MALFORMED_PAGE')
+            self.task=a['data-task']
         if a.get('data-revision','').isdigit():self.revision=int(a['data-revision'])
         if a.get('role')=='alert' or a.get('data-error')=='true':self.error=True
         if tag=='title':self.in_title=True
-        if tag=='a':self.link={'href':a.get('href','')[:256],'label':''}
+        if tag=='a':
+            if len(a.get('href',''))>256:raise CoreError('BROWSER_MALFORMED_PAGE')
+            self.link={'href':a.get('href',''),'label':''}
         if tag=='form':
             if self.form is not None:raise CoreError('BROWSER_MALFORMED_PAGE')
             method=a.get('method','GET').upper()
             if method not in {'GET','POST'}:raise CoreError('BROWSER_FORM_METHOD_DENIED')
-            self.form={'action':a.get('action','')[:256],'method':method,'fields':[],'buttons':[]}
+            if len(a.get('action',''))>256:raise CoreError('BROWSER_MALFORMED_PAGE')
+            self.form={'action':a.get('action',''),'method':method,'fields':[],'buttons':[]}
         if self.form is not None:
-            if tag in {'input','textarea','select'} and a.get('name'):self.form['fields'].append(a['name'][:32])
+            if tag in {'input','textarea','select'} and a.get('name'):
+                if len(a['name'])>32:raise CoreError('BROWSER_MALFORMED_PAGE')
+                self.form['fields'].append(a['name'])
             if tag=='button':self.form['buttons'].append(a.get('name') or a.get('aria-label') or a.get('type','submit'))
     def handle_endtag(self,tag):
         if tag in {'script','style','template'}:

@@ -4,6 +4,7 @@ Controller supplies descriptors/faults, not solved research answers. Determinist
 semantics and bounded generated workflows, never live-model or human qualification.
 """
 import argparse,json,time,subprocess
+from urllib.request import urlopen
 from pathlib import Path
 from uuid import uuid4
 from nana_core.continuity.controlled_world.lab import ControlledWorld
@@ -21,6 +22,7 @@ from nana_core.life.application import LifeApplication
 from nana_core.life.config import LifeConfig,write_config
 from nana_core.life.cloud import backup,transfer,receive
 from nana_core.life.surfaces import SurfaceBinding,SurfaceObservation
+from nana_core.life.owned_surface import OwnedSurfaceBridge,social_observations
 from nana_core.contracts import CoreError
 from nana_core.storage import digest
 ROOT=Path(__file__).resolve().parents[2]
@@ -109,12 +111,19 @@ def run(root):
             # separately. Here actual source-backed cross-surface continuity.
             summary='Owned maintenance completed with '+str(len(actions))+' independently verified steps.'
             app.surfaces.receive(SurfaceObservation(binding_id='surface.cli',event_id='main-done',topic='lab-life',text='项目维护完成了。',approved_summary=summary,summary_authorization='EXPLICIT_PROJECT_SUMMARY'))
-            app.surfaces.receive(SurfaceObservation(binding_id='surface.web',event_id='continue',topic='lab-life',text='现在项目进展怎样？'))
-            app.surfaces.receive(SurfaceObservation(binding_id='surface.social',event_id='busy',topic='lab-life',text='这个话题不要深入了'))
+            with OwnedSurfaceBridge(app,bindings={'surface.web':'USER','surface.social':'BACKGROUND'}) as bridge:
+                bridge.post(SurfaceObservation(binding_id='surface.web',event_id='continue',topic='lab-life',text='现在项目进展怎样？'))
+                with urlopen(world.services['social'].url+'/events',timeout=2) as response:payload=json.load(response)
+                message=social_observations(payload,binding_id='surface.social')[0]
+                bridge.post(message)
+                assert app.tick()['surface_ingress']['binding_id']=='surface.web'
+                assert app.tick()['surface_ingress']['binding_id']=='surface.social'
+                bridge.post(SurfaceObservation(binding_id='surface.web',event_id='busy',topic='lab-life',text='这个话题不要深入了'))
+                assert app.tick()['surface_ingress']['result']['mode']=='RESPECT_BOUNDARY'
             app.presence('BUSY',privacy_classes=('PUBLIC','PROJECT'))
             from nana_core.life.surfaces import recent_sources
             assert recent_sources(app,'lab-life','PROJECT')
-            result['surfaces']={'same_identity':True,'bindings':3,'source_backed_recent_context':True,'topic_boundary_recorded':True,'no_send':True}
+            result['surfaces']={'same_identity':True,'bindings':3,'transports':['ORIGINAL_CLI_OWNER','LOCALHOST_HTTP','ACTUAL_OWNED_SOCIAL_SERVICE_TO_HTTP'],'http_accepted_is_not_judged':True,'source_backed_recent_context':True,'topic_boundary_recorded':True,'no_send':True}
             until(app,lambda:goal('followup') is not None,seconds=100)
             g=goal('followup')
             if g['state']=='ACTIVE':review(app,g,'REST','followup-dormant')
@@ -135,6 +144,17 @@ def run(root):
             assert app.work.skills.active_skill() is None
             assert s.db.execute("SELECT count(*) FROM jobs WHERE work_kind='WORLD_INTAKE' AND state='UNKNOWN'").fetchone()[0]==result['unknown']['persisted_jobs']
             result['migration']={'same_identity':True,'dormant_goal_preserved':True,'history_counts_preserved':True,'old_grants_revoked':True,'unknown_preserved':True,'retired_skill_not_revived':True,'no_duplicate_effect':True}
+            effects_before=json.loads((Path(world.host.target.workspace)/'application-state.json').read_text())['effects']
+            g=s.one('goals',result['active_life']['dormant_goal_id'])
+            # Withdrawal before export deliberately retired this goal's source.
+            # Restoring history is not permission to revive unsupported plans.
+            try:review(app,g,'CONTINUE_PROJECT','new-host-review');raise AssertionError('retired support must reject')
+            except CoreError as exc:assert exc.code=='RECORD_UNAVAILABLE'
+            assert s.one('goals',g['goal_id'])['state']=='SUSPENDED'
+            reply=app.surfaces.receive(SurfaceObservation(binding_id='surface.web',event_id='new-host-status',topic='migration',text='现在项目进展怎样？'))
+            assert reply['state']=='SHADOW_REPLY_CANDIDATE' and reply['execution_authority'] is False
+            assert json.loads((Path(world.host.target.workspace)/'application-state.json').read_text())['effects']==effects_before
+            result['migration']['life_continues_with_source_retired_goal_inhibited']=True
         try:LifeApplication(home);raise AssertionError('old writer must be fenced')
         except CoreError:result['migration']['old_writer_fenced']=True
     result['duration_seconds']=time.monotonic()-started;result['source_clean']=not subprocess.check_output(['git','diff','HEAD','--','src','tools'],cwd=ROOT)

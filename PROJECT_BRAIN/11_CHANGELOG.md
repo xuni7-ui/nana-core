@@ -2501,3 +2501,10 @@ general world comprehension/meta-learning. Track A no longer waits for Track B.
 ## Controlled World P4 — actual full failure fixed, no evidence inflation
 
 [实测] 全tests1490 pass/1fail/12skip，原sharing断言暴露新relevance默认值退化；按显式recipient/scope与可见关系支持修复，原测试不减弱。分享值引用关系时先privacy过滤并保留来源依赖；无grant/发送权限扩大。研究BLOCKED/UNKNOWN原ENDORSED判断保留、intention lifecycle DEFERRED并可崩溃恢复收口，无自动retry。新增源绑定C撤回/新采用后的goal supersession派生link（旧ABANDONED不改写）；新增model交换/真正effect中用户输入/噪声burst/监听PID与symlink负例。targeted sharing/lifecycle/model10、security6、priority/burst9通过；最终源码全仓/portable/固定5h收口继续。旧失败与早期诊断run分别保留。
+
+
+## Controlled World P5 — actual input transport and strict DOM binding
+
+[实现/实测] 新增显式owned localhost输入桥：独立social service HTTP→bounded HTTP admission→原owner ingress/C；Web输入与CLI共享原Subject/L1，202仅volatile入队。会话nonce只在内存/header，不进Store/日志；固定binding优先级、PUBLIC/PROJECT、4 handlers/32 inbox、关闭后拒绝，无HTTP线程SQLite/C。真实测试暴露source occurred时间未透传，修复canonical字段传递而非放宽校验。Browser拒绝截断后的identity/field/URL，DOM revision须匹配独立读取。20相关通过；未重启/热更b6450e1驻留，release新增防线将分别安装/整链/全仓验证。
+
+P5补充：ActivityCost仅来源关联的host结构估计（compute/time/external/storage/interruption），同价值候选先廉价后成本高，C仍可REST/DEFER，真实Kernel预算独立；无价格/扣费伪精度。迁移整链新增source撤回后目标恢复受抑制、新host同主体新输入继续，无Grant继承；初始诊断强行恢复已撤回目标触发RECORD_UNAVAILABLE，保留失败并改为明确验证正确拒绝，未放宽Core。

@@ -34,6 +34,7 @@ class SurfaceObservation(DTO):
     topic:str=Field(default='daily',pattern=r'^[a-z][a-z0-9._-]{0,63}$')
     text:str=Field(min_length=1,max_length=2048)
     privacy_class:Literal['PUBLIC','PROJECT']='PROJECT'
+    occurred_at_us:int|None=Field(default=None,ge=0)
     retain_shared_life:bool=False
     approved_summary:str|None=Field(default=None,min_length=1,max_length=512)
     summary_authorization:Literal['NONE','EXPLICIT_PROJECT_SUMMARY']='NONE'
@@ -73,7 +74,7 @@ class SurfaceSession:
         envelope=SurfaceEnvelope(domain='LOCAL_INTERACTION',subject_id=r.identity_id,
             platform=b.platform,surface=b.surface,adapter=b.adapter,entity_id=b.entity_id,
             conversation_id=o.thread_id,session_id=b.binding_id,event_kind='conversation.message',
-            observed_at_us=now,correlation_id=o.event_id,privacy_class=o.privacy_class,
+            occurred_at_us=o.occurred_at_us,observed_at_us=now,correlation_id=o.event_id,privacy_class=o.privacy_class,
             source_reference='local:shadow:'+key[:40],source_event_key=key)
         canonical_key=source_key(envelope)
         prior=r.store.db.execute('SELECT * FROM subject_events WHERE source_key=?',(canonical_key,)).fetchone()
