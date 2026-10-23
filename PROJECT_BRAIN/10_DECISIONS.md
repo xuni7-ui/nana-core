@@ -1483,3 +1483,7 @@ retry. Meta lessons select practice hypotheses, never replace heldout/evaluation
 The portable archive pins clean runtime c4791d0; final documentation commit records
 its hash rather than rebuilding business code for a self-referential commit.
 Scope-qualified dev PASS does not promote human/First-Life/Beta or device authority.
+
+## Controlled World — one delivery owner and active temporal bounds / 2026-10-23
+
+[源码及owned运行证据] 专用opportunity/shared cue不能再被generic watcher重复投递；这是source delivery dedup，不删除愿望/原判断。Experience attention必须链接原Experience走原reflection/G，无适用学习的review不制造Lesson。World候选64上限作用于当前有效候选，不能因过期历史增长永久UNKNOWN；correction仍挡旧claim复活，withdraw保守性保持。两个可重建索引只服务查询，不新增业务表/schema/authority。默认pytest覆盖整个tests，旧588子集不冒充全仓。原Master/63定义不变。

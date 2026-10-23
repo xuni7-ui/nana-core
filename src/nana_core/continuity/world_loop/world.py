@@ -85,7 +85,15 @@ class WorldModel:
     def view(self,entity_id,predicate,*,valid_at_us=None,known_at_us=None):
         now=self.store.clock.utc_now_us();valid=now if valid_at_us is None else valid_at_us;known=now if known_at_us is None else known_at_us
         sp=','.join('?' for _ in self.scopes) or 'NULL'
-        rows=self.store.db.execute(f'SELECT * FROM world_beliefs WHERE scope IN ({sp}) AND entity_id=? AND predicate_key=? AND known_at_us<=? ORDER BY revision DESC LIMIT 65',(*self.scopes,entity_id,predicate,known)).fetchall()
+        # Bound currently relevant alternatives, not all historical revisions.
+        # Otherwise the65th expired update makes this predicate UNKNOWN forever.
+        # Correction headers still exclude old beliefs even when the correcting
+        # value's valid-time interval does not contain this query time.
+        rows=self.store.db.execute(f'''SELECT b.* FROM world_beliefs b
+            WHERE b.scope IN ({sp}) AND b.entity_id=? AND b.predicate_key=? AND b.known_at_us<=?
+            AND b.valid_from_us<=? AND (b.valid_until_us IS NULL OR b.valid_until_us>?)
+            AND NOT EXISTS (SELECT 1 FROM world_beliefs c WHERE c.replaces=b.belief_id AND c.known_at_us<=? AND c.scope=b.scope)
+            ORDER BY b.revision DESC LIMIT 65''',(*self.scopes,entity_id,predicate,known,valid,valid,known)).fetchall()
         alternatives=[];supports=[];unknown=len(rows)>64
         replaced={r['replaces'] for r in rows if r['replaces']}
         for row in rows:

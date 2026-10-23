@@ -102,3 +102,29 @@ PASS (idle/graceful/SIGTERM/SIGKILL, research, action, verify, Experience, learn
 skill qualification, share candidate, quarantined backup). These are scoped owned
 checks, not a full regression or5h completion. Original pinned run ec76460 remains
 untouched; later-source qualifications are tracked separately.
+
+## P3: long-life findings, fixed before final qualification
+
+Pinned ec76460 was deliberately stopped after1667.382 actual seconds when the
+unconsumed sharing attention defect was diagnosed; final exit1/duration-false is
+retained, never labeled an external platform limit or5h PASS. New pin4443e78
+revealed the remaining duplicate generic-watcher path: managed queue/share cues
+were also emitted as generic synthetic-runtime concerns. Added exact namespace/
+reference ownership dedup, while retaining original cue/cycle/motive support.
+Experience opportunities now carry and validate the original Experience ID so C
+uses original REFLECTION/G rather than an unresolvable generic GoalCandidate.
+
+A second long-history defect was identified: WorldModel limited all historical
+revisions to65 and permanently returned UNKNOWN after enough expired updates.
+Now temporal validity and correction exclusion apply before the bounded64 active
+alternatives. Correction headers still prevent old claims from reappearing at
+older valid times; withdrawn current support remains UNKNOWN. Two rebuildable
+query indexes are added to explicitly opened development v13, with no new table,
+no schema14 or authority. Test80 expired revisions + fresh current belief passes;
+existing world/attention related47 pass. These fixes require a new pinned run,
+not hot updating or stitching old durations.
+
+The repository pytest default listed only older stage folders. The observed588
+pass/1skip command is a DEFAULT SUBSET, not whole-repository regression. Default
+collection now points to tests, including current growth/recovery/surface suites;
+final full run is separately recorded at the final runtime source pin.

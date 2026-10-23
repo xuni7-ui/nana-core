@@ -7,16 +7,19 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 27,
-  "as_of_us": 1792767291750181,
+  "revision": 28,
+  "as_of_us": 1792769403798790,
   "stage": "H",
   "workstream": "REAL_WORLD_CONTROLLED_EXPANSION_LONG_LIVED_AUTONOMY_V1",
-  "status": "IMPLEMENTING_CONTROLLED_WORLD",
+  "status": "QUALIFYING_CONTROLLED_WORLD_AND_LONG_RESIDENCY",
   "progress": [
-    "继承f8a41d3真实代码与证据；原C/D/Store/Runtime，Master/fixed63不变。",
-    "扩展五独立服务、结构化受控Browser、长期多Hand/噪声学习/恢复/迁移/portable。",
-    "新paid/provider0、历史key不读取、private/social/user device/production/main/R045不变。",
-    "目标5h新build驻留，实际结果与运行中状态严格区分；Human/First-Life/Beta不升级。"
+    "Advanced Growth原C/D/Store/Kernel/G/I；Master/fixed63不变。",
+    "5独立服务、结构化Browser、多Hand ongoing Goal、研究操作Experience、源lifecycle与三surface单owner输入已实现/targeted。",
+    "原G噪声heldout失败→修订问题→transfer通过→负迁移暂停；原I技能实际使用复用→反例暂停/退休。",
+    "真实12进程切点/2类UNKNOWN不重发/2000 PROJECT event检索与损坏拒绝已有证据；最终整链/portable/全仓/5h独立pin继续。",
+    "ec76460诊断驻留1667.382秒后主动停止，duration false；后续计时不拼接、不热更新旧run。",
+    "修复managed cue重复投递、Experience attention关联、过期world历史永久UNKNOWN；47相关通过；默认pytest改为tests全目录。",
+    "本轮provider/paid/private/social/user-device/production/main/R045均0；Human NOT_RUN，First-Life/Beta不升级。"
   ],
   "open_gates": [
     "Human review是独立Track B，不阻塞本轮开发；付费/私人数据/真实社交/设备/生产不在范围。",

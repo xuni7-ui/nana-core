@@ -53,7 +53,7 @@ class AdvancedLife:
             head=s.one('continuity_records',row['record_id'])
             if not head or head['lifecycle']!='ACTIVE' or head['privacy_class'] not in {'PUBLIC','PROJECT'} or head['scope'] not in r.config.scopes or not records.current_support(head['record_id']):continue
             topic='experience.'+digest(row['experience_id'])[:24]
-            candidates.append(LifeOpportunity(kind='EXPERIENCE',topic=topic,source_memory_ids=(row['result_memory_id'],row['verification_memory_id']),
+            candidates.append(LifeOpportunity(kind='EXPERIENCE',topic=topic,reflection_experience_id=row['experience_id'],source_memory_ids=(row['result_memory_id'],row['verification_memory_id']),
                 cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='EXPERIENCE_REVIEW',topic_key=topic,possible_behaviors=('REFLECT','WATCH','REST'),resource_class='ORDINARY',behavior_domain='PROJECT'),expires_at_us=row['created_at_us']+3*DAY))
         model=WorldModel(s,scopes=r.config.scopes,privacy_classes=('PUBLIC','PROJECT'))
         for belief in model.snapshot(limit=8):

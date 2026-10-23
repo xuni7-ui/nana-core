@@ -101,3 +101,9 @@ def install(db, current, target):
         else:
             db.executescript("BEGIN IMMEDIATE;\n" + sql + "\nCOMMIT;")
 
+
+    if target>=13:
+        # Rebuildable query indexes only. No new table, authority or schema14;
+        # both fresh and existing explicitly opened development v13 are covered.
+        db.execute("CREATE INDEX IF NOT EXISTS world_valid_candidates ON world_beliefs(scope,entity_id,predicate_key,valid_from_us DESC,valid_until_us,known_at_us)")
+        db.execute("CREATE INDEX IF NOT EXISTS world_replaced_lookup ON world_beliefs(replaces,scope,known_at_us) WHERE replaces IS NOT NULL")

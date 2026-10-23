@@ -24,6 +24,7 @@ class LifeOpportunity(DTO):
     novelty: Literal['REPEATED','NEW'] = 'NEW'
     cost: Literal['LIGHT','HEAVY'] = 'LIGHT'
     expires_at_us: int = Field(ge=0)
+    reflection_experience_id:str|None=None
 
 
 class OpportunityQueue:
@@ -36,6 +37,9 @@ class OpportunityQueue:
         c=LifeOpportunity.model_validate_json(candidate.model_dump_json())
         r=self.runtime;s=self.store
         if c.topic!=c.cue.topic_key:raise CoreError('LIFE_TOPIC_MISMATCH')
+        if c.reflection_experience_id:
+            exp=s.one('experiences',c.reflection_experience_id)
+            if c.kind!='EXPERIENCE' or not exp or not self.records.current_support(exp['record_id']) or not set((exp['result_memory_id'],exp['verification_memory_id']))<=set(c.source_memory_ids):raise CoreError('LIFE_EXPERIENCE_CORRELATION_REQUIRED')
         sources=[self.records.memory.read(m) for m in c.source_memory_ids]
         if any(m['scope'] not in r.config.scopes or m['privacy_class'] not in r.config.privacy_classes or m['privacy_class'] not in {'PUBLIC','PROJECT'} for m in sources):raise CoreError('LIFE_SOURCE_DENIED')
         if len({m['scope'] for m in sources})!=1:raise CoreError('CROSS_SCOPE_DERIVATION')
@@ -99,7 +103,7 @@ class OpportunityQueue:
         if prior:
             self.records.memory.read(prior[0]);mid=prior[0]
         else:mid=remember(r,'cue:'+row['job_id'],cue.model_dump(mode='json'),scope=head['scope'],privacy=head['privacy_class'],kind='MODEL_DERIVATION',parents=c.source_memory_ids,predicate='concern.'+c.topic)
-        inp=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.life.'+digest(row['occurrence_key']),kind='WAKE',origin='SELF_WAKE',entity_id=r.config.entity_id,scope=head['scope'],privacy_class=head['privacy_class'],observed_at_us=row['due_at_us'],source_memory_ids=(mid,),novelty='RELEVANT')
+        inp=SubjectInput(domain='DEVELOPMENT_MATERIAL',source_key='development.life.'+digest(row['occurrence_key']),kind='WAKE',origin='SELF_WAKE',entity_id=r.config.entity_id,scope=head['scope'],privacy_class=head['privacy_class'],observed_at_us=row['due_at_us'],source_memory_ids=(mid,),novelty='RELEVANT',reflection_experience_id=c.reflection_experience_id)
         qid=r.submit(RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=inp,causes=(Cause(kind='MEMORY',reference_id=mid),),due_at_us=now,priority=0))
         return {'opportunity_id':row['job_id'],'queue_id':qid,'not_execution':True}
 

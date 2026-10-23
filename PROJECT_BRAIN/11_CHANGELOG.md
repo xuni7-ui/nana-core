@@ -2493,3 +2493,7 @@ general world comprehension/meta-learning. Track A no longer waits for Track B.
 
 [实现/离线及真实owned进程实测] 原C/Goal/Kernel组合多Hand并暂停续接；来源自撤回与revision；研究操作Experience（非world truth/learning）；分享内部候选与送达分离；无适用learning的原反思收口；原I反例暂停/退休；三surface单owner输入排序。
 规模挑战发现omission元数据挤占预算/通用投影挤掉相关证据，修复后2000 PROJECT events检索、纠错/删除/索引重建/损坏拒绝通过。初始失败保留；新/current affected44与实际12切点campaign通过，完整回归/最终pin资格继续。Master/63不动，真实Provider/private/social/production/main/R045无变动。固定ec76460驻留未热更新，尚RUNNING_NOT_QUALIFIED。
+
+## Controlled World P3 — long-life attention/temporal fixes
+
+[实测] ec76460 owned诊断驻留1667.382秒、主动停止、exit1/duration false，不计5h。4443e78隔离run继续诊断，发现managed cue被generic watcher二次投递及Experience缺原ID，已修复并保留原欲望。另修过期world历史65条后永久UNKNOWN，80过期+当前claim和原world/attention相关47通过；业务table43/schema13不变，仅2 query indexes。默认pytest旧目录只测588，改为tests全目录，最终完整回归另记。无凭据/paid/private/social/用户设备/生产/main/R045操作。
