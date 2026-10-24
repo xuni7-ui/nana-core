@@ -1,0 +1,43 @@
+{
+  "source_commit": "0a509a8650735b57f540720f310d480fb2ccd9aa",
+  "base": "d695ed7d47a33cb3df62a144908df30b7d7c693d",
+  "files": {
+    "src/nana_core/actions.py": "8d86d3ef1c130304d3f329f900530b88825b9f2f0b09181a1eea99381f307f52",
+    "src/nana_core/continuity/agency_contracts.py": "c402f61a0654ac248c8ac4dca32f9fe6ecd96a31a8c509d951c4efbf37a628bf",
+    "src/nana_core/continuity/controlled_world/projects.py": "2345d6d5de4e8b73b8ac307630ba54dfcc5d36f9b71565820a5a4ee47f8670ba",
+    "src/nana_core/continuity/hands/host.py": "33017e0d0e3c07c59f8eb29b5d65a269a14f617bd3c09a6452870016aa0b51f5",
+    "src/nana_core/continuity/open_agency/checkpoints.py": "55c4be40749ad01f2b58332b082328ae32b9648bda0178cd41626e1e1f45ce7e",
+    "src/nana_core/continuity/open_agency/contracts.py": "156ecbe4576cd323799b92fb4d010ea0a3cfcfd23a98de43950ccd835eece343",
+    "src/nana_core/continuity/open_agency/learning.py": "cdeec6d9aed16c5a65aa82da7ac0e67d816f4774f519a2dbf3aa4e7a65c30bab",
+    "src/nana_core/continuity/open_agency/planning.py": "4a2ce71c87e46a66bd68a8357cd268ebe5de8f6209b7cf7066f2fa61166669a4",
+    "src/nana_core/continuity/open_agency/practice.py": "2bd1a1eaa31514ffdff1cae2270f5a87d879fe5de8ea90a6dd0e796a271f605a",
+    "src/nana_core/continuity/open_agency/service.py": "d26ad0d31d2945dc02c44ea925fe6d19cf51886340fc209705458a540a912c57",
+    "src/nana_core/continuity/open_agency/state.py": "4dfa5b2ff2b6a5945680fafb6d77fc16877ba267bb5b1cc0b09d8ee3540a385f",
+    "src/nana_core/continuity/open_agency/task_graph.py": "a5b8b4e99683e1d4c8278ca6c81922ea43f1e448302f13578ea8ca10ccdbefb8",
+    "src/nana_core/continuity/privacy.py": "0161908a53bc3bb4616fb754c2733450fcf718322e193eb584a376f3fb0cf29c",
+    "src/nana_core/continuity/world_loop/cognition.py": "694b9aa1b335ddaedeed80668f7df76ed49a7916607f8212f8f8c0350c8c04e7",
+    "src/nana_core/presence/living.py": "83d1d0094476cefcc2d7fb87703cfa9994314b37e2fb4e4d23021303460b976d"
+  },
+  "new_runtime_processes": 0,
+  "schema_version": 13,
+  "business_tables": 43,
+  "new_tables": 0,
+  "new_dependencies": 0,
+  "runtime_diff_numstat": [
+    "29\t0\tsrc/nana_core/actions.py",
+    "1\t1\tsrc/nana_core/continuity/agency_contracts.py",
+    "9\t6\tsrc/nana_core/continuity/controlled_world/projects.py",
+    "17\t3\tsrc/nana_core/continuity/hands/host.py",
+    "53\t0\tsrc/nana_core/continuity/open_agency/checkpoints.py",
+    "73\t3\tsrc/nana_core/continuity/open_agency/contracts.py",
+    "15\t2\tsrc/nana_core/continuity/open_agency/learning.py",
+    "133\t36\tsrc/nana_core/continuity/open_agency/planning.py",
+    "22\t0\tsrc/nana_core/continuity/open_agency/practice.py",
+    "75\t15\tsrc/nana_core/continuity/open_agency/service.py",
+    "40\t0\tsrc/nana_core/continuity/open_agency/state.py",
+    "71\t0\tsrc/nana_core/continuity/open_agency/task_graph.py",
+    "19\t1\tsrc/nana_core/continuity/privacy.py",
+    "1\t1\tsrc/nana_core/continuity/world_loop/cognition.py",
+    "10\t1\tsrc/nana_core/presence/living.py"
+  ]
+}

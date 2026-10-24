@@ -1,0 +1,44 @@
+{
+  "scope": "SYMBOLIC_ARCHITECTURE_ONLY",
+  "comparisons": {
+    "development": {
+      "seed": 24102026,
+      "total": 24,
+      "feasible": 20,
+      "before_verified_completion": 9,
+      "after_verified_completion": 20,
+      "before_invalid_proposal": 4,
+      "after_invalid_proposal": 0,
+      "accepted_false_success_before": 0,
+      "accepted_false_success_after": 0,
+      "same_request_digests": true
+    },
+    "heldout_parameters": {
+      "seed": 1546276916,
+      "total": 24,
+      "feasible": 20,
+      "before_verified_completion": 6,
+      "after_verified_completion": 20,
+      "before_invalid_proposal": 4,
+      "after_invalid_proposal": 0,
+      "accepted_false_success_before": 0,
+      "accepted_false_success_after": 0,
+      "same_request_digests": true
+    },
+    "heldout_transition_graphs": {
+      "seed": 1546276916,
+      "total": 18,
+      "feasible": 13,
+      "before_verified_completion": 9,
+      "after_verified_completion": 13,
+      "before_invalid_proposal": 5,
+      "after_invalid_proposal": 0,
+      "accepted_false_success_before": 0,
+      "accepted_false_success_after": 0,
+      "same_request_digests": true
+    }
+  },
+  "accepted_false_success_change": "UNCHANGED",
+  "model_ablation": "MODEL_ABLATION_NOT_RUN",
+  "heldout_does_not_establish_semantic_generalization": true
+}

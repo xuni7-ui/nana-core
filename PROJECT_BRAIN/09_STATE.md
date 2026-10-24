@@ -7,29 +7,31 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 30,
-  "as_of_us": 1792841350875917,
+  "revision": 31,
+  "as_of_us": 1792860948880848,
   "stage": "H",
   "workstream": "PRECISION_ARCHITECTURE_OPEN_WORLD_INTELLIGENCE_UPGRADE_V2",
-  "status": "IMPLEMENTED_TARGETED_TESTED_FINAL_QUALIFICATION_PENDING",
+  "status": "SCOPED_ENGINEERING_UPGRADE_QUALIFIED_EXTERNAL_GATES_PENDING",
   "progress": [
-    "Advanced Growth S2–S9/三横轴，GLOBAL_STAGE H；继承d695ed7，本地远端匹配，Master/fixed63不变。",
-    "冻结独立符号baseline24例：9/20可解完成，4个无效提案被原validator拒绝，0接受假成功。",
-    "原Planner因果搜索/有界分层128steps；来源时效guard、Kernel预算/Grant下独立重观测、已完成group checkpoint局部重规划。",
-    "原G可选practice-only竞争，heldout不参与选择；异构project逐算子domain保留真实失败并迁移所学方法。",
-    "23 targeted PASS；同主体实际owned文档/文件/表单失败→G→C→剩余3步修复，文件移动仅1次；2真实SIGKILL切点PASS。",
-    "最终heldout/full/portable尚待执行；新paid0，真实模型对照MODEL_ABLATION_NOT_RUN，human/First-Life/Beta不升级。"
+    "Advanced Growth S2–S9/三横轴，GLOBAL_STAGE H；Master/fixed63不变，原C/D/F/Kernel/G内升级。",
+    "Frozen dev9/20→20/20；final unseen6/20→20/20；novel9/13→13/13；acceptedfalse0→0，非真实模型语义泛化。",
+    "实际owned文档/文件/表单失败→原G→C→独立Verify保留6步prefix、仅3步修复；文件移动1次，UNKNOWN不重试。",
+    "Full1528pass/0fail/12skip；18new focused allpass；旧失败/中断receipt保留，有限dev启动等待单独显式配置。",
+    "Portable双构建240files SHA256 bcb3560c831014e014b8ff05121f96418b5d0003ba434f47220809db45ba7497；双离线venv/实际SIGKILL/同主体迁移/安装包checkpoint闭环通过。",
+    "Schema13/43表，新表/依赖/runtime0；paid/private/social/userdevice/production/main/R045/S10=0。"
   ],
   "open_gates": [
-    "V2候选源码冻结后独立未见图/同基准比较、全仓和portable资格待执行。",
-    "旧5h驻留证据保持PARTIAL_EXTERNAL_LIMIT；后续资格PENDING_EXTERNAL_STABLE_ENV，不拼接/替代。",
-    "Semantic generalization/live LLM ablation/human/真实设备和生产另门，不以确定性结果冒充。"
+    "SEMANTIC_GENERALIZATION NOT_RUN；MODEL_ABLATION_NOT_RUN；未用符号或fixture替代真实模型泛化。",
+    "旧5h保持PARTIAL_EXTERNAL_LIMIT；新长期资格PENDING_EXTERNAL_STABLE_ENV，不拼接、不改写历史。",
+    "真人自然度NOT_RUN；FIRST_LIFE_EXPERIENCE_READY NOT_READY，Beta NO；真实设备/生产另授权。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
+    "docs/nana_precision_v2_status.md",
     "docs/nana_precision_v2_implementation.md",
-    "docs/nana_precision_v2_evidence/baseline.json"
+    "docs/nana_precision_v2_evidence/qualification.json",
+    "docs/nana_precision_v2_evidence/manifest.json"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2199,3 +2201,59 @@ Historical current-source revision before resumption (not current):
   ]
 }
 ```
+
+
+## HISTORICAL TYPED STATE revision30 — implementation pending qualification
+
+```json
+{
+  "schema_version": 1,
+  "project_id": "nana-core",
+  "scope": "project-work",
+  "privacy_class": "PROJECT",
+  "revision": 30,
+  "as_of_us": 1792841350875917,
+  "stage": "H",
+  "workstream": "PRECISION_ARCHITECTURE_OPEN_WORLD_INTELLIGENCE_UPGRADE_V2",
+  "status": "IMPLEMENTED_TARGETED_TESTED_FINAL_QUALIFICATION_PENDING",
+  "progress": [
+    "Advanced Growth S2–S9/三横轴，GLOBAL_STAGE H；继承d695ed7，本地远端匹配，Master/fixed63不变。",
+    "冻结独立符号baseline24例：9/20可解完成，4个无效提案被原validator拒绝，0接受假成功。",
+    "原Planner因果搜索/有界分层128steps；来源时效guard、Kernel预算/Grant下独立重观测、已完成group checkpoint局部重规划。",
+    "原G可选practice-only竞争，heldout不参与选择；异构project逐算子domain保留真实失败并迁移所学方法。",
+    "23 targeted PASS；同主体实际owned文档/文件/表单失败→G→C→剩余3步修复，文件移动仅1次；2真实SIGKILL切点PASS。",
+    "最终heldout/full/portable尚待执行；新paid0，真实模型对照MODEL_ABLATION_NOT_RUN，human/First-Life/Beta不升级。"
+  ],
+  "open_gates": [
+    "V2候选源码冻结后独立未见图/同基准比较、全仓和portable资格待执行。",
+    "旧5h驻留证据保持PARTIAL_EXTERNAL_LIMIT；后续资格PENDING_EXTERNAL_STABLE_ENV，不拼接/替代。",
+    "Semantic generalization/live LLM ablation/human/真实设备和生产另门，不以确定性结果冒充。"
+  ],
+  "evidence_refs": [
+    "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
+    "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
+    "docs/nana_precision_v2_implementation.md",
+    "docs/nana_precision_v2_evidence/baseline.json"
+  ]
+}
+```
+
+
+## Precision V2 FINAL — scoped engineering qualification / 2026-10-24
+
+Advanced Growth S2/S4/S5/S6/S7/S8/S9 +three axes; GLOBAL_STAGE H/current original branch.
+Source 0a509a8650735b57f540720f310d480fb2ccd9aa; baseline d695ed7. Original C/D/F/Kernel/G evolved, no second
+Subject/Store/Runtime/planner/will. Actual owned9-step failure→G→C→6 checked-prefix
+operators retained→3-step completion, file move once; two actual SIGKILL cuts plus
+installed restart/official transfer preserve identity/checkpoint and fence old grants.
+Frozen dev9/20→20/20,finalunseen6/20→20/20,novelgraph9/13→13/13; acceptedfalse0→0.
+Full1528pass/0fail/12skip862.499s,18new allpass; prior failure receipts retained.
+Schema13/43tables/newtables0/deps0/runtimeprocesses0; Master/fixed63 unchanged.
+Portable240 files,doublebuild SHA256 bcb3560c831014e014b8ff05121f96418b5d0003ba434f47220809db45ba7497; two offline installs +new probepass.
+SCOPED_ENGINEERING_UPGRADE_QUALIFIED_EXTERNAL_GATES_PENDING. Semantic/LLM ablation/human
+NOT_RUN; historical5h PARTIAL_EXTERNAL_LIMIT unchanged,new longresidency pending.
+First-Life NOT_READY/Beta NO; newpaid/private/social/userdevice/production/main/R045/S10=0.
+Report docs/nana_precision_v2_status.md; manifest SHA256 4f6c2a5ec0a41b495268dc2f90527f8009bc67d858c112c56cd83d02d1d539e6.
+
+此前CURRENT与revision30为历史快照；顶部revision31与本FINAL块是当前工程事实。
+最终Git handoff HEAD由当前dev branch正常commit/push得到，runtime pin与报告commit分开，避免manifest自指。

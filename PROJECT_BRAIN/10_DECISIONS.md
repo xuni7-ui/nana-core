@@ -1509,3 +1509,34 @@ P2 code review: a changed checkpoint is an expected boundary, so original Living
 ## Precision V2 P3 — measured redundant anchor reads / 2026-10-24
 
 Profile of the actual eight-task owned life found69641 anchor JSON loads and13.725s in ensure_current. A volatile validated-file signature cache still lstat-checks inode/dev/size/mtime/ctime/mode/uid/gid every read, reloads/revalidates on any change, and fails closed under replacement race. Same-size corruption with restored mtime and another trusted publisher durable delete both invalidate; original backup/delete/SIGKILL/privacy related12 PASS. Profile after:618 loads/2.052s in ensure_current; overall wall32.17→34.77s under different concurrent load, so NO end-to-end speedup claim and no invented lease-failure root cause. Bound actual planner heap as well as unique state keys at8192. Two old process failures isolated unchanged:2 PASS25.61s; earlier1170.94s diagnostic full1521pass/2fail/12skip retained, final full must rerun at frozen new bytes. Foundation checker only adds this authorized workstream to its entry allowlist; Master/fixed63 definitions unchanged. No protected staging/credentials/production/main operation.
+
+
+## Precision V2 FINAL — scoped engineering qualification / 2026-10-24
+
+Advanced Growth S2/S4/S5/S6/S7/S8/S9 +three axes; GLOBAL_STAGE H/current original branch.
+Source 0a509a8650735b57f540720f310d480fb2ccd9aa; baseline d695ed7. Original C/D/F/Kernel/G evolved, no second
+Subject/Store/Runtime/planner/will. Actual owned9-step failure→G→C→6 checked-prefix
+operators retained→3-step completion, file move once; two actual SIGKILL cuts plus
+installed restart/official transfer preserve identity/checkpoint and fence old grants.
+Frozen dev9/20→20/20,finalunseen6/20→20/20,novelgraph9/13→13/13; acceptedfalse0→0.
+Full1528pass/0fail/12skip862.499s,18new allpass; prior failure receipts retained.
+Schema13/43tables/newtables0/deps0/runtimeprocesses0; Master/fixed63 unchanged.
+Portable240 files,doublebuild SHA256 bcb3560c831014e014b8ff05121f96418b5d0003ba434f47220809db45ba7497; two offline installs +new probepass.
+SCOPED_ENGINEERING_UPGRADE_QUALIFIED_EXTERNAL_GATES_PENDING. Semantic/LLM ablation/human
+NOT_RUN; historical5h PARTIAL_EXTERNAL_LIMIT unchanged,new longresidency pending.
+First-Life NOT_READY/Beta NO; newpaid/private/social/userdevice/production/main/R045/S10=0.
+Report docs/nana_precision_v2_status.md; manifest SHA256 4f6c2a5ec0a41b495268dc2f90527f8009bc67d858c112c56cd83d02d1d539e6.
+
+Selected bounded causal/history search over adding a new planning framework; finite
+AND groups and primitive OR alternatives,not arbitrary recursive HTN. Original
+independent validator retained. Partial work reuse requires original Kernel
+fresh Verify authority/budget and matching expected effect; symbolic fact alone
+cannot certify old writes. Current uncertainty parks C review without changing
+judgment or retrying UNKNOWN. Optional practice competition sees only practice;
+evaluation/transfer remain independent. Host cold-start readiness15/max30 is
+explicit and separate from unchanged execution/lease/stop-reap invariants.
+Privacy cache is volatile file-signature validation with lstat every access,
+not a memory/authority cache; no end-to-end speedup inferred from parse counters.
+No architecture change required for already-tested original Manager/Grant,
+typed owned ports or runtime ownership; this is scoped reuse,not a claim all
+future capability/semantic cases are solved.

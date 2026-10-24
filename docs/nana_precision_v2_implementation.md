@@ -1,5 +1,8 @@
 # Precision V2 — implementation and qualification
 
+Current outcome: [final status](nana_precision_v2_status.md). P0–P4 below are retained
+stage checkpoints; their pending statements describe those times, not the final state.
+
 Advanced Growth S2/S4/S5/S6/S7/S8/S9 and three axes, GLOBAL_STAGE H.
 Base d695ed7d47a33cb3df62a144908df30b7d7c693d on the existing development branch.
 Master and the fixed63 Foundation definitions are unchanged. Historical controlled
@@ -215,3 +218,35 @@ tests verify short-deadline rejection/reaping, bounded success, early exit and
 invalid/infinite configuration rejection before spawning. Targeted5pass38.62s.
 This changes an arbitrary test startup allowance explicitly, rather than hiding
 the two historical failures or weakening runtime invariants.
+
+
+## Precision V2 FINAL — scoped engineering qualification / 2026-10-24
+
+[Final status](nana_precision_v2_status.md) contains before/after, unseen comparisons,
+precision00–10, complexity and explicit external gates. Source 0a509a8650735b57f540720f310d480fb2ccd9aa; full1528
+pass/0fail/12skip,862.499s; focused18 all pass in that same run.
+Both offline installs/official transfer/actual SIGKILL and installed precision
+repair+checkpoint migration pass. Archive SHA256 bcb3560c831014e014b8ff05121f96418b5d0003ba434f47220809db45ba7497,240 files, two identical
+builds. See portable.json and source_fingerprints.json for reproducible exact pins.
+
+## Module map: evolved original code, not a parallel framework
+
+| Existing location | Before → resulting behavior |
+|---|---|
+| open_agency/planning.py |Fact-only UCS32 → bounded causal/history heuristic128 and independent validator |
+| open_agency/contracts.py,task_graph.py |Optional strict nested groups,guard and checkpoint DTOs; legacy wire defaults omitted |
+| open_agency/state.py |Source-scoped verified operation data/age/digest projection; not permanent truth |
+| actions.py |Existing Kernel Verify authority/budget used for append-only current reobservation |
+| open_agency/checkpoints.py |Completed whole groups require independent current effect checks before reuse |
+| open_agency/service.py,presence/living.py |Original C revision source-key dedup,obsolete intention deferral,typed uncertain-review parking |
+| controlled_world/projects.py |Existing project descriptor compiles task groups,optional per-domain learning |
+| open_agency/learning.py,practice.py |Optional practice-only finite method competition inside original G stages |
+| agency_contracts.py,world_loop/cognition.py |Cursor/proposal bounds match finite128 contract; model remains proposer |
+| continuity/privacy.py |Volatile validated anchor-signature cache,external-delete/corruption invalidation |
+| continuity/hands/host.py |Bounded owned child readiness,distinct early-exit/timeout diagnostics; no effect permission |
+
+No new single point replacing existing authority: validation/current-proof failure
+parks work, never grants execution or creates a second owner. Independent effect
+and heldout checks retain their original roots. No universal problem discovery,
+optimal planner,unlisted method synthesis,live semantic generalization or real
+phone/desktop capability is claimed.

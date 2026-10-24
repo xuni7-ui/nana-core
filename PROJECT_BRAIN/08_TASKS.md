@@ -1066,3 +1066,27 @@ Portable236 files，两次保留build byte-identical，SHA256 f4e5bcfa3999f159aa
 ## Precision V2 P1 — source candidate / 2026-10-24
 
 PRECISION-00 baseline已冻结；01分层因果search、02重观测检查点、03有源状态时效、05异构任务domain、06practice竞争已实现/targeted tested。04/07/08/09/10实际集成和资格收口继续；23 targeted通过，heldout/full/release仍待，不提前DONE。
+
+
+## Precision V2 FINAL — scoped engineering qualification / 2026-10-24
+
+Advanced Growth S2/S4/S5/S6/S7/S8/S9 +three axes; GLOBAL_STAGE H/current original branch.
+Source 0a509a8650735b57f540720f310d480fb2ccd9aa; baseline d695ed7. Original C/D/F/Kernel/G evolved, no second
+Subject/Store/Runtime/planner/will. Actual owned9-step failure→G→C→6 checked-prefix
+operators retained→3-step completion, file move once; two actual SIGKILL cuts plus
+installed restart/official transfer preserve identity/checkpoint and fence old grants.
+Frozen dev9/20→20/20,finalunseen6/20→20/20,novelgraph9/13→13/13; acceptedfalse0→0.
+Full1528pass/0fail/12skip862.499s,18new allpass; prior failure receipts retained.
+Schema13/43tables/newtables0/deps0/runtimeprocesses0; Master/fixed63 unchanged.
+Portable240 files,doublebuild SHA256 bcb3560c831014e014b8ff05121f96418b5d0003ba434f47220809db45ba7497; two offline installs +new probepass.
+SCOPED_ENGINEERING_UPGRADE_QUALIFIED_EXTERNAL_GATES_PENDING. Semantic/LLM ablation/human
+NOT_RUN; historical5h PARTIAL_EXTERNAL_LIMIT unchanged,new longresidency pending.
+First-Life NOT_READY/Beta NO; newpaid/private/social/userdevice/production/main/R045/S10=0.
+Report docs/nana_precision_v2_status.md; manifest SHA256 4f6c2a5ec0a41b495268dc2f90527f8009bc67d858c112c56cd83d02d1d539e6.
+
+PRECISION-00/01/02/05/06/09/10 scoped implementation/qualification complete.
+PRECISION-03 task-state sub-contract tested/owned-qualified; general external state remains partial.
+PRECISION-04 existing framing/context regression preserved,live semantic expansion NOT_RUN.
+PRECISION-07 existing typed capability construction retained/tested; real devices NOT_RUN.
+PRECISION-08 technical Shared Life continuity preserved; human naturalness NOT_RUN.
+Do not relabel unresolved external qualifications DONE or rerun old PASS mechanisms.

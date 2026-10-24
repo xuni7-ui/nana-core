@@ -1,0 +1,600 @@
+{
+  "scope": "ARCHITECTURE_PRECISION_SYNTHETIC_SYMBOLIC",
+  "model_ablation": "MODEL_ABLATION_NOT_RUN",
+  "real_model_calls": 0,
+  "seed": 24102026,
+  "count": 24,
+  "correct": 13,
+  "verified_completions": 9,
+  "feasible_count": 20,
+  "invalid_proposals": 4,
+  "false_success": 0,
+  "duplicate_effects": 0,
+  "source": "/workspace/nana-staging/precision-baseline-d695ed7",
+  "evaluator_sha256": "e21dfa47ba26190063e84d56cd018eff37a5804734bf8a79c72604598248cebb",
+  "cases": [
+    {
+      "case_id": "precision.case0",
+      "family": 0,
+      "request_sha256": "f247dd18d095a1e75dc8ceeaa356d340fa755aada7d4b9dd7fe8939fdfe5023d",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f586977573.1.0",
+            "f586977573.2.0",
+            "f586977573.2.1",
+            "f586977573.0.0",
+            "f586977573.0.1",
+            "f586977573.3.0",
+            "f586977573.3.1",
+            "f586977573.4.0",
+            "f586977573.4.1",
+            "f586977573.1.1"
+          ],
+          "source_record_id": "public-source-0",
+          "world_revision": "adc4c860230b36d9766f61709fcb652c475438d99d27f63c4cb8cc4f35dc5452"
+        },
+        "validator_accepted": true,
+        "planner_seconds": 0.005886869999812916,
+        "process_peak_rss_kib": 24832
+      }
+    },
+    {
+      "case_id": "precision.case1",
+      "family": 1,
+      "request_sha256": "8d9e411f85a474b946b287c38adc4c434491ee18793128e6e93a43ccf4731838",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f173302676.4.0",
+            "f173302676.4.1",
+            "f173302676.3.0",
+            "f173302676.3.1",
+            "f173302676.5.0",
+            "f173302676.5.1",
+            "f173302676.shortcut"
+          ],
+          "source_record_id": "public-source-1",
+          "world_revision": "ebffcac60457fae7538721de3d0ef2a2b7e8cfab6a8afc8a2d51a70ba679adb8"
+        },
+        "validator_accepted": true,
+        "planner_seconds": 0.018383250000624685,
+        "process_peak_rss_kib": 25344
+      }
+    },
+    {
+      "case_id": "precision.case2",
+      "family": 2,
+      "request_sha256": "f65384783c38430c399ddd5c16d5b9eb843831fc9fb2ea0df11df2dcbba39b1e",
+      "feasible": true,
+      "correct": false,
+      "verified_completion": false,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "UNAVAILABLE",
+        "reason": "NO_BOUNDED_PLAN",
+        "planner_seconds": 0.12887288899946725,
+        "process_peak_rss_kib": 27264
+      }
+    },
+    {
+      "case_id": "precision.case3",
+      "family": 3,
+      "request_sha256": "cafb7940e38258dcc50d2acdea5d6df8d7d7868bf68ba1ac9c97e7576397f537",
+      "feasible": true,
+      "correct": false,
+      "verified_completion": false,
+      "invalid_proposal": true,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f634007054.cheap",
+            "f634007054.write"
+          ],
+          "source_record_id": "public-source-3",
+          "world_revision": "8c77e3e54839e074494c09a2cbdc6b8c324fe25423841451fbff1ae4393d61a6"
+        },
+        "validator_accepted": false,
+        "validation_reason": "PLAN_DATAFLOW_UNSATISFIED",
+        "planner_seconds": 0.008151788999384735,
+        "process_peak_rss_kib": 24704
+      }
+    },
+    {
+      "case_id": "precision.case4",
+      "family": 4,
+      "request_sha256": "21b961666a4fe5c0b792e898a3d5d60dc40ec56a666985f4180a59cde68dc1b6",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f136919521.route",
+            "f136919521.finish"
+          ],
+          "source_record_id": "public-source-4",
+          "world_revision": "016b8a60ecf15a17dacdf2ed22e799cd659ca10da500dadc6f432a5cd0414047"
+        },
+        "validator_accepted": true,
+        "planner_seconds": 0.0015244480018736795,
+        "process_peak_rss_kib": 24704
+      }
+    },
+    {
+      "case_id": "precision.case5",
+      "family": 5,
+      "request_sha256": "582e4ab599ca05882e21b9d1a1ae5d81f06be73e36522996486521bd3b3dd15b",
+      "feasible": false,
+      "correct": true,
+      "verified_completion": false,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "UNAVAILABLE",
+        "reason": "NO_BOUNDED_PLAN",
+        "planner_seconds": 0.0004092479975952301,
+        "process_peak_rss_kib": 24576
+      }
+    },
+    {
+      "case_id": "precision.case6",
+      "family": 0,
+      "request_sha256": "e08190647f2da58077262ffc79abec50eaa9c3bb6201d3863ea18a2273db89f5",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f138795300.2.0",
+            "f138795300.5.0",
+            "f138795300.3.0",
+            "f138795300.3.1",
+            "f138795300.1.0",
+            "f138795300.1.1",
+            "f138795300.2.1",
+            "f138795300.5.1",
+            "f138795300.4.0",
+            "f138795300.4.1",
+            "f138795300.0.0",
+            "f138795300.0.1"
+          ],
+          "source_record_id": "public-source-6",
+          "world_revision": "3545f50d186e98de2392c4ec8355ab306a08aff84567e669a5f3a85348a81376"
+        },
+        "validator_accepted": true,
+        "planner_seconds": 0.02842562599835219,
+        "process_peak_rss_kib": 25212
+      }
+    },
+    {
+      "case_id": "precision.case7",
+      "family": 1,
+      "request_sha256": "8331f339394582d08d463c0de0e492db5febb2e750d31a3e39cc436fb2b3fcc6",
+      "feasible": true,
+      "correct": false,
+      "verified_completion": false,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "UNAVAILABLE",
+        "reason": "NO_BOUNDED_PLAN",
+        "planner_seconds": 0.03765707999991719,
+        "process_peak_rss_kib": 26588
+      }
+    },
+    {
+      "case_id": "precision.case8",
+      "family": 2,
+      "request_sha256": "49a6c5b525db2c5f55d844d0535b94df2e60ab39242ab496b3f7c176ad734bdc",
+      "feasible": true,
+      "correct": false,
+      "verified_completion": false,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "UNAVAILABLE",
+        "reason": "NO_BOUNDED_PLAN",
+        "planner_seconds": 0.03427621199807618,
+        "process_peak_rss_kib": 27520
+      }
+    },
+    {
+      "case_id": "precision.case9",
+      "family": 3,
+      "request_sha256": "8dd4b3209af518177e83d64a7b564a3e84ea5e60565b0208869c6e879889dfd9",
+      "feasible": true,
+      "correct": false,
+      "verified_completion": false,
+      "invalid_proposal": true,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f571575618.cheap",
+            "f571575618.write"
+          ],
+          "source_record_id": "public-source-9",
+          "world_revision": "591c3779885b95673ff713cb43f33085912da5587934e4cd9fd3ef7b58cae88b"
+        },
+        "validator_accepted": false,
+        "validation_reason": "PLAN_DATAFLOW_UNSATISFIED",
+        "planner_seconds": 0.004531691000011051,
+        "process_peak_rss_kib": 24704
+      }
+    },
+    {
+      "case_id": "precision.case10",
+      "family": 4,
+      "request_sha256": "9d3f012818aef5e5169eedf0d3de619fef35fe00c8a0e5621f64f5c684922565",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f31823860.route",
+            "f31823860.finish"
+          ],
+          "source_record_id": "public-source-10",
+          "world_revision": "53a359b75d5b0eecde61fc1ca1d894c92b2ed4fa998ed5d6a5be58f8733689d7"
+        },
+        "validator_accepted": true,
+        "planner_seconds": 0.0031940280023263767,
+        "process_peak_rss_kib": 24700
+      }
+    },
+    {
+      "case_id": "precision.case11",
+      "family": 5,
+      "request_sha256": "186cb2dbaed1bdf5b853b8367ea0eab1324b95848f1b67ebc53f67b588a55684",
+      "feasible": false,
+      "correct": true,
+      "verified_completion": false,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "UNAVAILABLE",
+        "reason": "NO_BOUNDED_PLAN",
+        "planner_seconds": 0.00076800700117019,
+        "process_peak_rss_kib": 24576
+      }
+    },
+    {
+      "case_id": "precision.case12",
+      "family": 0,
+      "request_sha256": "8ab921142e3c84ed2c6355e0a9b8ef6a305d8df5501f4fd206210cb4fbe9729e",
+      "feasible": true,
+      "correct": false,
+      "verified_completion": false,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "UNAVAILABLE",
+        "reason": "NO_BOUNDED_PLAN",
+        "planner_seconds": 0.018896032001066487,
+        "process_peak_rss_kib": 26108
+      }
+    },
+    {
+      "case_id": "precision.case13",
+      "family": 1,
+      "request_sha256": "67b87901346e8f962b50186b0cf37e82a760c5d6cc17b55c97dab5a43fbae191",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f11411787.4.0",
+            "f11411787.4.1",
+            "f11411787.3.0",
+            "f11411787.3.1",
+            "f11411787.4.2",
+            "f11411787.3.2",
+            "f11411787.shortcut"
+          ],
+          "source_record_id": "public-source-13",
+          "world_revision": "637723c2d45c7a92946bd245a149c30e933a812222b15157589eed82447cb00c"
+        },
+        "validator_accepted": true,
+        "planner_seconds": 0.019951181999203982,
+        "process_peak_rss_kib": 25472
+      }
+    },
+    {
+      "case_id": "precision.case14",
+      "family": 2,
+      "request_sha256": "2f601eb8210196edb46f4c842bfe1852914ade5fae70a5152eeff73156f528fe",
+      "feasible": true,
+      "correct": false,
+      "verified_completion": false,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "UNAVAILABLE",
+        "reason": "NO_BOUNDED_PLAN",
+        "planner_seconds": 0.03333797600134858,
+        "process_peak_rss_kib": 27516
+      }
+    },
+    {
+      "case_id": "precision.case15",
+      "family": 3,
+      "request_sha256": "062a7e91557713a151352e2d4ec00e5cc94bb9b76fe23cf68b45f5e54ab9c3e0",
+      "feasible": true,
+      "correct": false,
+      "verified_completion": false,
+      "invalid_proposal": true,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f591527495.cheap",
+            "f591527495.write"
+          ],
+          "source_record_id": "public-source-15",
+          "world_revision": "f8c0cfe8872466fc352e1c5115eb5536f5b0c7432d56c66a4a74371d7b646dfa"
+        },
+        "validator_accepted": false,
+        "validation_reason": "PLAN_DATAFLOW_UNSATISFIED",
+        "planner_seconds": 0.0010916289975284599,
+        "process_peak_rss_kib": 24704
+      }
+    },
+    {
+      "case_id": "precision.case16",
+      "family": 4,
+      "request_sha256": "e83edee9feebb94e5997a47f94c4a16e7753fe53ee61166f16cf9f0357de0c86",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f769465274.route",
+            "f769465274.finish"
+          ],
+          "source_record_id": "public-source-16",
+          "world_revision": "e6f1a2e36507eb32076b9e8181c7ec3444f8c603e2fa0265f34be072b7946816"
+        },
+        "validator_accepted": true,
+        "planner_seconds": 0.0007453550024365541,
+        "process_peak_rss_kib": 24704
+      }
+    },
+    {
+      "case_id": "precision.case17",
+      "family": 5,
+      "request_sha256": "c0bcdf6d34cd920c15aaafebbe7a7b8f81599e22f5cc15d87417e93695822d96",
+      "feasible": false,
+      "correct": true,
+      "verified_completion": false,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "UNAVAILABLE",
+        "reason": "NO_BOUNDED_PLAN",
+        "planner_seconds": 0.0008321919995069038,
+        "process_peak_rss_kib": 24576
+      }
+    },
+    {
+      "case_id": "precision.case18",
+      "family": 0,
+      "request_sha256": "cf4ef694b40566eb542ce45a23e03014339dfa76a46ad135955f7aea10ef49e1",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f687797653.1.0",
+            "f687797653.0.0",
+            "f687797653.0.1",
+            "f687797653.3.0",
+            "f687797653.1.1",
+            "f687797653.2.0",
+            "f687797653.2.1",
+            "f687797653.2.2",
+            "f687797653.3.1",
+            "f687797653.3.2",
+            "f687797653.4.0",
+            "f687797653.4.1",
+            "f687797653.0.2",
+            "f687797653.1.2",
+            "f687797653.4.2"
+          ],
+          "source_record_id": "public-source-18",
+          "world_revision": "bfd08609d90f6a3069a03546d1db44d9566bef1bc6a61b10867060bc082e36ee"
+        },
+        "validator_accepted": true,
+        "planner_seconds": 0.01846130199919571,
+        "process_peak_rss_kib": 25472
+      }
+    },
+    {
+      "case_id": "precision.case19",
+      "family": 1,
+      "request_sha256": "d8791794f4c0f3b6d164732d097612188c9cadc6dc3a702f6df6853adc6c60ca",
+      "feasible": true,
+      "correct": false,
+      "verified_completion": false,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "UNAVAILABLE",
+        "reason": "NO_BOUNDED_PLAN",
+        "planner_seconds": 0.02122630099984235,
+        "process_peak_rss_kib": 25856
+      }
+    },
+    {
+      "case_id": "precision.case20",
+      "family": 2,
+      "request_sha256": "e75b928fab8ecd4561e83aaf8d17af28e70f6ce0c680b3230e7f2300a5b214ac",
+      "feasible": true,
+      "correct": false,
+      "verified_completion": false,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "UNAVAILABLE",
+        "reason": "NO_BOUNDED_PLAN",
+        "planner_seconds": 0.03029184699698817,
+        "process_peak_rss_kib": 27504
+      }
+    },
+    {
+      "case_id": "precision.case21",
+      "family": 3,
+      "request_sha256": "0e215363ab45d2085381011c28f4d075f578247d4bad76ea4e0dbc7e4bd58fcf",
+      "feasible": true,
+      "correct": false,
+      "verified_completion": false,
+      "invalid_proposal": true,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f19422273.cheap",
+            "f19422273.write"
+          ],
+          "source_record_id": "public-source-21",
+          "world_revision": "c448ca231d998d113419fc3f38dcfd5cde3e32f356063a69447e46f4b19a131e"
+        },
+        "validator_accepted": false,
+        "validation_reason": "PLAN_DATAFLOW_UNSATISFIED",
+        "planner_seconds": 0.0008502919990860391,
+        "process_peak_rss_kib": 24704
+      }
+    },
+    {
+      "case_id": "precision.case22",
+      "family": 4,
+      "request_sha256": "7d62a078c1bbcf2b7435a479380005b6edbe41434e321961247d4c914e4ee5c7",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f697116430.route",
+            "f697116430.finish"
+          ],
+          "source_record_id": "public-source-22",
+          "world_revision": "c9431b5d99931daa7afbbe9b91023b6ab5af43e6c48b52179cc63c889569e913"
+        },
+        "validator_accepted": true,
+        "planner_seconds": 0.0023437130003003404,
+        "process_peak_rss_kib": 24704
+      }
+    },
+    {
+      "case_id": "precision.case23",
+      "family": 5,
+      "request_sha256": "45a5ad2ced166093b499b5ca58552c26ef26296576899ee789a40b0c3ef4b996",
+      "feasible": false,
+      "correct": true,
+      "verified_completion": false,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "UNAVAILABLE",
+        "reason": "NO_BOUNDED_PLAN",
+        "planner_seconds": 0.001300230000197189,
+        "process_peak_rss_kib": 24576
+      }
+    }
+  ]
+}

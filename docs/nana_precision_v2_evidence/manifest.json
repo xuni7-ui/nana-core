@@ -1,0 +1,29 @@
+{
+  "format": "SHA256_FILES_V1_NO_SELF_REFERENCE",
+  "runtime_source": "0a509a8650735b57f540720f310d480fb2ccd9aa",
+  "files": {
+    "after.json": "da4b23538e60f1041dbbfa4ae95716d9920f90916834cf064ada10f9ff67e46d",
+    "baseline-final.json": "6f7a61be65aafb16a00360dcd8c598fddbca64a091bc2dc6d5238210af625500",
+    "baseline.json": "8a9aa93379fba19773039254723020187e0c70fd729f8ddd9b1f2eba3a88ee4d",
+    "benchmark_freeze.json": "68741854ef1d69ba5966656ed144073a64fbe0bcb0a678e7856a508da7527124",
+    "comparison.json": "7f93589ccb88a9341d32497143376fb8ed3cb4e4d3eb896f45804158e36edf36",
+    "compatibility.json": "e18267057c148d63548cf4c6b606860d3274743b95b05898338726a5bb341a44",
+    "heldout-after.json": "85e0adba1602e2096a25c86b5ad910656cfae5d0bd7a88ab94c2e9c1f6199e05",
+    "heldout-before.json": "182a96436ff1a16ca4c8e3e609b03687fb5114833199f921629ffeeaec57a98f",
+    "integration.json": "dbf2142e41c32d4e1ebc2194a4e7d2b1a669e322187aebfdf72459e13afaa1e7",
+    "learning-after.json": "0e6fb3cb9f3d401badf5b45272a92e13ba46058d3de915c11a59831252981fc1",
+    "learning-before.json": "fcd7ae086216cfec06ded070fe4069f221c5b17b6e50c42ad76ab0a5d7033aa7",
+    "limitations.txt": "b1e155e597fac1b8cfb3c9ec775d84b9324f9b183417c13301deac46dd5db0e8",
+    "novel-after.json": "aa97b4772b5da604b881b91ce8f7981460de31bfe056d6f7cb99dc3c07238626",
+    "novel-before.json": "e285c00557ebdb3b1f3b2286f3cf4bd338debc16761425e944b6dcecdabdd87e",
+    "performance.json": "54b277ed5793a1b725b2b2c336261ab551294e5966f6e455cdea18e69069e18c",
+    "portable.json": "6a565dba541b0a6f456b9821c8ebe44b251c3a6ca695a0d0f37d963ccf5c6e62",
+    "qualification.json": "6691511235ea4d97128c1f8dfcb077951eea4e6d5b71253a42b5ece018125aa6",
+    "recovery.json": "e50be21b23ad029500abd8a930ae973300294966137e5f6bf5c3f88df5ae4b58",
+    "regression.json": "fd42e8c3a686ced598f1f4940859782f005db974de72a0aed6683a2e12f0e98b",
+    "safety.json": "c3e29e78363aaeac95319cf1cab04c2b5cd1d044ea643cd4c3f98fce79da13d4",
+    "scenario_matrix.json": "a39b5fac7dd3cd9ae5660966e562040326d2acfaf6336ede33c6776e8a4c11f8",
+    "source_fingerprints.json": "7f9b51cc4b192c77b50b4148cda6088cd9fd094adc50e3a33410405cb8e944c2",
+    "test_summary.txt": "aa19e7d2c238c54ea3226024a78aaca76886f6b753b64b866189a3fb123c53cc"
+  }
+}

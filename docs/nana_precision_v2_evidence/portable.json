@@ -1,0 +1,90 @@
+{
+  "release": {
+    "archive": "/workspace/nana-deliverables/precision-v2-0a509a8/nana-first-life-portable-v1.tar.gz",
+    "sha256": "bcb3560c831014e014b8ff05121f96418b5d0003ba434f47220809db45ba7497",
+    "source_commit": "0a509a8650735b57f540720f310d480fb2ccd9aa",
+    "bundle_files": 240,
+    "new_provider_calls": 0
+  },
+  "rebuild": {
+    "archive": "/workspace/nana-deliverables/precision-v2-0a509a8-rebuild/nana-first-life-portable-v1.tar.gz",
+    "sha256": "bcb3560c831014e014b8ff05121f96418b5d0003ba434f47220809db45ba7497",
+    "source_commit": "0a509a8650735b57f540720f310d480fb2ccd9aa",
+    "bundle_files": 240,
+    "new_provider_calls": 0
+  },
+  "byte_identical": true,
+  "installed_rehearsal": {
+    "execution": "OWNED_LOCAL_INSTALLED_BUNDLE_NOT_REAL_CLOUD",
+    "source_archive_sha256": "bcb3560c831014e014b8ff05121f96418b5d0003ba434f47220809db45ba7497",
+    "new_provider_calls": 0,
+    "fresh_subject_mode": "PASS_EXPLICIT_DISTINCT_NO_OVERWRITE",
+    "transfer": {
+      "same_identity": true,
+      "identity_id": "25ab6ad6-b5b9-4341-82f8-66df077308c8",
+      "transfer_id": "46514e71-092f-4a83-a083-5c3e0782c492",
+      "source_retired": true,
+      "old_start_rejected": true,
+      "old_grants_revoked": true,
+      "provider_config_transferred": false,
+      "private_intent_continuity": true,
+      "private_content_displayed": false
+    },
+    "missing_dependency_fail_closed": true,
+    "process": {
+      "duplicate_start_blocked": true,
+      "restart_same_identity": true,
+      "epochs": [
+        4,
+        5,
+        6
+      ],
+      "real_sigkill": true,
+      "dead_owner_fenced": true,
+      "stale_socket_recovered": true,
+      "same_event_no_replay": true,
+      "emergency_stop_confirmed": true,
+      "offline_chat": true
+    },
+    "closure": {
+      "no_real_calls": true,
+      "synthetic_unknown_preserved_no_retry": true,
+      "no_effects": true,
+      "inspector_read_only": true,
+      "source_withdrawal": true,
+      "backup_deletion_propagation": true,
+      "backup_quarantined": true
+    },
+    "offline_install": "PASS_TWO_INDEPENDENT_VENVS",
+    "supported_platform": "Linux x86_64 / Python3.12",
+    "rehearsal_root": "/workspace/nana-staging/precision-v2-20261024/installed-closure"
+  },
+  "installed_precision_probe": {
+    "execution": "FRESH_INSTALLED_BUNDLE_PYTHON_ISOLATED",
+    "source_commit": "0a509a8650735b57f540720f310d480fb2ccd9aa",
+    "same_subject": true,
+    "real_owned_failures_preserved": true,
+    "original_g_per_domain_learning": true,
+    "independent_current_verification": true,
+    "checkpoint_operators": 6,
+    "remaining_steps": 3,
+    "file_move_count": 1,
+    "same_identity_restart": true,
+    "official_checkpoint_backup_transfer": true,
+    "old_grants_revoked": true,
+    "old_writer_fenced": true,
+    "repository_runtime_imports": false,
+    "new_provider_calls": 0
+  },
+  "new_network_dependencies": 0,
+  "scope": "LINUX_X86_64_PYTHON_3_12_FRESH_OWNED_HOSTS_NOT_PRODUCTION",
+  "host_credentials_or_grants_transferred": false,
+  "initial_installed_probe_failure": {
+    "status": "FAILED_BEFORE_SUBJECT_START",
+    "cause": "OWNED_AF_UNIX_SOCKET_PATH_TOO_LONG",
+    "raw_sha256": "bcaa6bef6550f7c82f7d67e54a88d213e8de725ecde0affce74cf6398c7f32e3",
+    "child_log_sha256": "660fbfd3159d86c175ce1d329f49bce523d7ff17897127003947de1fab3487af",
+    "resolution": "FRESH_SHORT_OWNED_ROOT; NO_CORE_CHANGE; NO_REUSED_STATE",
+    "root": "/workspace/nana-staging/pv2-probe-0a509a8"
+  }
+}

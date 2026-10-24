@@ -1,0 +1,194 @@
+{
+  "final_source": "0a509a8650735b57f540720f310d480fb2ccd9aa",
+  "final": {
+    "tests": 1540,
+    "passed": 1528,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 12,
+    "seconds": 862.499,
+    "raw_receipt": "/workspace/nana-staging/precision-v2-20261024/full-startup-final.xml",
+    "raw_sha256": "48b96e5d79876ac6bb42263cee06b7661dd632cde0386073610e3064e8235068",
+    "failures": []
+  },
+  "focused": {
+    "passed": 18,
+    "failed": 0,
+    "errors": 0,
+    "source": "EXTRACTED_FROM_FINAL_FULL_SAME_RUN",
+    "tests": [
+      "test_practice_competition_improves_wrong_nominee_then_independent_transfer_and_use",
+      "test_practice_port_has_no_heldout_answers_and_cannot_self_qualify",
+      "test_multihand_hierarchy_learns_per_task_domain_and_replans_same_goal",
+      "test_dataflow_producer_and_irrelevant_permutations_are_not_fact_equivalent",
+      "test_hierarchical_37_steps_original_c_kernel_and_same_owner_restart",
+      "test_group_barriers_cycle_and_duplicated_members_fail_closed",
+      "test_input_guard_stales_before_write_and_fresh_c_replan_reobserves",
+      "test_replan_cannot_duplicate_verified_effect_before_progress_commit",
+      "test_revision_guard_does_not_convert_wrong_observation_to_permission",
+      "test_legacy_wire_and_bounds_no_group_injection",
+      "test_external_durable_erasure_invalidates_warmed_anchor",
+      "test_same_size_corruption_with_restored_mtime_cannot_use_validity_cache",
+      "test_actual_sigkill_checkpoint_commit_replays_without_duplicate_prefix[BEFORE_PLAN_COMMIT]",
+      "test_actual_sigkill_checkpoint_commit_replays_without_duplicate_prefix[AFTER_PLAN_COMMIT]",
+      "test_changed_checkpoint_is_not_reused_and_old_success_is_not_rewritten",
+      "test_delayed_child_is_bounded_and_reaped[0.05-False]",
+      "test_delayed_child_is_bounded_and_reaped[10-True]",
+      "test_early_exit_is_distinct_and_invalid_deadline_starts_nothing"
+    ]
+  },
+  "related_process_sequence": {
+    "tests": 8,
+    "passed": 8,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 60.626,
+    "raw_receipt": "/workspace/nana-staging/precision-v2-20261024/process-sequence.xml",
+    "raw_sha256": "02f5def43933dd1f3ea4792d607a36e0f417a6365013f8b7df34c9c386026f45",
+    "failures": []
+  },
+  "startup_qualification": {
+    "tests": 5,
+    "passed": 5,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 38.619,
+    "raw_receipt": "/workspace/nana-staging/precision-v2-20261024/startup-targeted-venv.xml",
+    "raw_sha256": "bf531972b8ef75fc1f59576e02174cbb61ddafb74a7e6310cc00d5440ea388c3",
+    "failures": []
+  },
+  "privacy_related": {
+    "tests": 12,
+    "passed": 12,
+    "failed": 0,
+    "errors": 0,
+    "skipped": 0,
+    "seconds": 2.204,
+    "raw_receipt": "/workspace/nana-staging/precision-v2-20261024/privacy-target.xml",
+    "raw_sha256": "51c7c41fd2947ed6ca810816523b6eb836eccc8c7c2fdac391f3486fca802251",
+    "failures": []
+  },
+  "previous_attempts_preserved": [
+    {
+      "tests": 1,
+      "passed": 0,
+      "failed": 0,
+      "errors": 1,
+      "skipped": 0,
+      "seconds": 9.603,
+      "raw_receipt": "/workspace/nana-staging/precision-v2-20261024/full-collection-error.xml",
+      "raw_sha256": "7b635b6240e30bac8ba0e537783e460d6c84e86daaa482ca8fe57c507b585222",
+      "failures": [
+        {
+          "test": "::tests.precision.test_learning",
+          "message": "collection failure"
+        }
+      ]
+    },
+    {
+      "tests": 1535,
+      "passed": 1521,
+      "failed": 2,
+      "errors": 0,
+      "skipped": 12,
+      "seconds": 1170.875,
+      "raw_receipt": "/workspace/nana-staging/precision-v2-20261024/full-diagnostic-two-process-failures.xml",
+      "raw_sha256": "0baf056552790b1f7c8ceeac53f670d9605ef2680e2cd878117f4b67dd53e4c3",
+      "failures": [
+        {
+          "test": "tests.controlled_hands.test_recovery::test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[DURING_SKILL_TEST]",
+          "message": "AssertionError: cut not reached\nassert (25682.857933876 - 25642.708692719) < 40\n +  where 25682.857933876 = <built-in function monotonic>()\n +    where <built-in function monotonic> = time.monotonic"
+        },
+        {
+          "test": "tests.living_autonomy.test_complete_life::test_bounded_real_process_run_heartbeats_and_shutdown",
+          "message": "subprocess.CalledProcessError: Command '['/workspace/nana-core/.venv/bin/python', '-m', 'nana_core.presence.cli', 'run', '--db', '/tmp/pytest-of-agent/pytest-30/test_bounded_real_process_run_0/subject/self.db', '--config', '/tmp/pytest-of-agent/pytest-30/test_bounded_real_process_run_0/config.json', '--max-seconds', '0.35']' returned non-zero exit status 2."
+        }
+      ]
+    },
+    {
+      "tests": 1537,
+      "passed": 1523,
+      "failed": 2,
+      "errors": 0,
+      "skipped": 12,
+      "seconds": 979.782,
+      "raw_receipt": "/workspace/nana-staging/precision-v2-20261024/full.xml",
+      "raw_sha256": "ff939180abdb2d3912005d1f1a57998e74f84be4f348276c512100e0e97e80de",
+      "failures": [
+        {
+          "test": "tests.controlled_world.test_crash_campaign::test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[RESEARCH]",
+          "message": "nana_core.contracts.CoreError: OWNED_APPLICATION_START_FAILED"
+        },
+        {
+          "test": "tests.nana_shadow.test_r044_recovery::test_50_actual_worker_processes_stop_reap_and_release_lease",
+          "message": "AssertionError: assert False\n +  where False = exists()\n +    where exists = PosixPath('/tmp/pytest-of-agent/pytest-36/test_50_actual_worker_processe0/c11/ipc/client.json').exists"
+        }
+      ]
+    }
+  ],
+  "quota_interrupted_full": {
+    "status": "INTERRUPTED_NO_FINAL_XML_NOT_PASS",
+    "raw_receipt": "/workspace/nana-staging/precision-v2-20261024/full-quota-interrupted.txt",
+    "sha256": "f10a1c350a72f70140167beb0af20c2a50aad7a5cb40f6e40a0dd911d153fb72"
+  },
+  "developer_interrupted_full": {
+    "status": "INTERRUPTED_DIAGNOSTIC_NOT_PASS",
+    "raw_receipt": "/workspace/nana-staging/precision-v2-20261024/full-developer-interrupted.txt",
+    "sha256": "3472c4e0d8237e123e27f8bae8f2b55e08a626122329b653915cb8f5f2fed8ba"
+  },
+  "skipped_tests": [
+    {
+      "test": "tests.h2_live_screen.test_live::test_ten_real_os_scenes_h1_world_concern_c",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live::test_live_runtime_preemption_backpressure_disable_remove_and_frontend",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live::test_real_backend_sigkill_six_cuts[BEFORE_SOURCE_OPEN]",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live::test_real_backend_sigkill_six_cuts[AFTER_CAPTURE_BEFORE_INGEST]",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live::test_real_backend_sigkill_six_cuts[AFTER_TECHNICAL_INGEST]",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live::test_real_backend_sigkill_six_cuts[BEFORE_SEMANTIC_DISPATCH]",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live::test_real_backend_sigkill_six_cuts[AFTER_SEMANTIC_RESPONSE]",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live::test_real_backend_sigkill_six_cuts[BEFORE_CONCERN]",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live::test_live_manager_preserves_watch_and_pixels_never_acquire_authority",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live::test_real_source_b8_transfer_new_display_and_forget",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live::test_visual_injection_payload_cannot_propose_authority",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.offline_continuity.test_experiment::test_E12_real_model_migration",
+      "reason": "E12 real-model gate requires configured development endpoints via nana-semantic; offline pytest makes no real-model calls"
+    }
+  ],
+  "new_skips": 0,
+  "action_lease_verify_invariants_relaxed": false,
+  "host_startup_policy_changed": "OWNED_DEV_15_SECONDS_MAX_CONFIGURABLE_30; LEGACY_50_WORKER_STARTUP_15; STOP_REAP_5_UNCHANGED"
+}

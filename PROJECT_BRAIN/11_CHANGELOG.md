@@ -2565,3 +2565,30 @@ Profile of the actual eight-task owned life found69641 anchor JSON loads and13.7
 ## Precision V2 P4 — bounded host startup diagnostics / 2026-10-24
 
 Quiet frozen897a full1523pass/2fail/12skip979.89s retained, not relabeled PASS. Failures were pre-Subject owned-service startup and50-process IPC readiness; first fixture log removed so early-exit vs deadline cause UNKNOWN. Host-only startup now explicit finite<=30s/default15, distinct EXITED/TIMED_OUT numeric diagnostics, single child reaped/no retry.50-worker cold readiness15s; unchanged50processes/5s stop-reap/zero lease-use-residue assertions, otherIPC5s default retained.3 new actual delayed-child/early-exit/invalid-bound tests plus both previously failing cases5 PASS38.62s. This is an explicit startup-policy adjustment, not action/lease/Grant relaxation. Final full/installed artifact still pending. Initial shell Python lackedpytest; retained that invocation error and used existing.venv, no dependency install.
+
+
+## Precision V2 FINAL — scoped engineering qualification / 2026-10-24
+
+Advanced Growth S2/S4/S5/S6/S7/S8/S9 +three axes; GLOBAL_STAGE H/current original branch.
+Source 0a509a8650735b57f540720f310d480fb2ccd9aa; baseline d695ed7. Original C/D/F/Kernel/G evolved, no second
+Subject/Store/Runtime/planner/will. Actual owned9-step failure→G→C→6 checked-prefix
+operators retained→3-step completion, file move once; two actual SIGKILL cuts plus
+installed restart/official transfer preserve identity/checkpoint and fence old grants.
+Frozen dev9/20→20/20,finalunseen6/20→20/20,novelgraph9/13→13/13; acceptedfalse0→0.
+Full1528pass/0fail/12skip862.499s,18new allpass; prior failure receipts retained.
+Schema13/43tables/newtables0/deps0/runtimeprocesses0; Master/fixed63 unchanged.
+Portable240 files,doublebuild SHA256 bcb3560c831014e014b8ff05121f96418b5d0003ba434f47220809db45ba7497; two offline installs +new probepass.
+SCOPED_ENGINEERING_UPGRADE_QUALIFIED_EXTERNAL_GATES_PENDING. Semantic/LLM ablation/human
+NOT_RUN; historical5h PARTIAL_EXTERNAL_LIMIT unchanged,new longresidency pending.
+First-Life NOT_READY/Beta NO; newpaid/private/social/userdevice/production/main/R045/S10=0.
+Report docs/nana_precision_v2_status.md; manifest SHA256 4f6c2a5ec0a41b495268dc2f90527f8009bc67d858c112c56cd83d02d1d539e6.
+
+What: precise original-Core planning/checkpoint/current-state/learning-path upgrade,
+actual resource parsing fix,finite startup diagnostics and final evidence/checker.
+Why: independently reproduced search/dataflow limitation,unsafe prefix repetition,
+heterogeneous lesson misattribution and missing durable revision acknowledgement.
+Validation: fixed-before-code evaluation,unseen exact request digest pairs,
+independent actual effects,18 focused/full/installed migration qualification.
+Previous 19/20 representative partial,collection error,full process failures,
+portable timeout,quota interruption and audit indentation correction are retained.
+No failure erased by final pass; no new skip or paid model consumed.

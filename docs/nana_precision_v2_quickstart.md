@@ -89,3 +89,27 @@ checkpoint repair, independent file moves and same-identity restart. It is an
 external qualification driver, not shipped runtime or a second brain.
 
 No deployment, provider call, automation or user-surface cutover is implied.
+
+
+## Precision V2 FINAL — scoped engineering qualification / 2026-10-24
+
+Final runtime pin `0a509a8650735b57f540720f310d480fb2ccd9aa`; complete results in `nana_precision_v2_status.md`.
+Final heldout seed1546276916 is now public regression material, not future unseen
+evaluation. Measured897a planner/learning bytes match this runtime; later host
+readiness-only change is explicitly fingerprinted.
+
+```sh
+.venv/bin/python -m tools.nana_precision.check --archive /workspace/nana-deliverables/precision-v2-0a509a8/nana-first-life-portable-v1.tar.gz
+sha256sum /workspace/nana-deliverables/precision-v2-0a509a8/nana-first-life-portable-v1.tar.gz
+```
+
+Expected archive SHA256 `bcb3560c831014e014b8ff05121f96418b5d0003ba434f47220809db45ba7497`. Fresh destinations are mandatory; existing
+failed artifacts are evidence, not scratch roots to overwrite. New manual host
+construction can set `OwnedApplication(...,startup_timeout_seconds=15)`; values
+must be finite and<=30. This is owned development readiness, not an execution
+timeout/lease override. The final installed probe runs with installed Python `-I`
+and explicit bundle/src, never repository runtime imports.
+
+Use a fresh short probe root (for example `/workspace/nana-staging/pv2-new-probe`);
+the complete Unix socket pathname must fit Linux `sun_path`. The first overlong
+root failed before Subject startup and remains recorded in `portable.json`.

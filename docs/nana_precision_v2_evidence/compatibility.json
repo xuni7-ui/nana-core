@@ -1,0 +1,15 @@
+{
+  "schema_version": 13,
+  "business_tables": 43,
+  "new_business_tables": 0,
+  "new_dependencies": 0,
+  "migration": "NO_SCHEMA_MIGRATION_NEW_STRICT_OPTIONAL_PLAN_METADATA_ONLY",
+  "legacy_wire_defaults": "UNCHANGED_OPTIONAL_FIELDS_OMITTED",
+  "restore_checkpoint": true,
+  "old_writer_fenced": true,
+  "old_host_grants_revoked": true,
+  "downgrade": "DO_NOT_HOT_DOWNGRADE_EXTENDED_PLAN; USE_MATCHING_PIN_OR_QUIESCENT_COMPATIBLE_CHECKPOINT",
+  "master_sha256": "fe6efe121a05145b44178d5ec26b99430a28e873fca8d1b80f16671c65e5133c",
+  "fixed_63": "UNCHANGED",
+  "old_5h_evidence_diff_bytes": 0
+}

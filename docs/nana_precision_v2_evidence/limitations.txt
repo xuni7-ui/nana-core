@@ -1,0 +1,12 @@
+No live LLM/tools ablation, semantic generalization, human naturalness or open-world user-device qualification. MODEL_ABLATION_NOT_RUN.
+Independent oracle/replay means separate from candidate planner/learning access and observed effects, not external third-party blind certification. Generator was developer-maintained; final instances were generated after source freeze, with no planner/learning tuning afterward.
+Symbolic unseen graphs are independently solved; they are not natural-language unseen tasks. Bounded satisficing search can reject feasible problems; no optimality guarantee.
+Hierarchical AND decomposition with primitive OR alternatives is finite, not arbitrary recursive HTN. State guard is a sourced observation digest/age, not a universal external atomic CAS.
+Checkpoint reuse requires fresh independent matching effects and existing Verify authority/budget. Unknown/changed effects park, never replay. Read/evaluate cost grows with checked completed groups.
+Practice comparison chooses finite declared methods using practice only. Existing Hands/meta proposers already filtered; this is not the first-ever learning mechanism or universal algorithm discovery.
+No end-to-end performance speedup proved by the privacy parsing profile. Novel graph planner cost may increase.
+Five-hour historical run remains PARTIAL_EXTERNAL_LIMIT; final artifact missing. No new long-residency PASS, no concatenated elapsed time. PENDING_EXTERNAL_STABLE_ENV.
+Previous collection/process/readiness/portable timeout failures and quota interruption retained; final PASS cannot erase them. Explicit finite dev startup readiness changed; runtime lease/action/Verify bounds were not relaxed.
+Portable archive is Linux x86_64/CPython3.12 owned-host qualified; real cloud production cutover and human experience remain separate gates.
+Owned AF_UNIX socket paths must fit Linux sun_path; a too-long first installed-probe root failed before Subject startup. The receipt is preserved; a fresh short root is used, without changing runtime or reusing failed state.
+Master/fixed63 and Foundation status unchanged. First-Life NOT_READY, Beta NOT_READY. No private history, keys, provider calls, social sends or production/user-device effects.

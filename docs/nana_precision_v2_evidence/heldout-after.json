@@ -1,0 +1,901 @@
+{
+  "scope": "ARCHITECTURE_PRECISION_SYNTHETIC_SYMBOLIC",
+  "model_ablation": "MODEL_ABLATION_NOT_RUN",
+  "real_model_calls": 0,
+  "seed": 1546276916,
+  "count": 24,
+  "correct": 24,
+  "verified_completions": 20,
+  "feasible_count": 20,
+  "invalid_proposals": 0,
+  "false_success": 0,
+  "duplicate_effects": 0,
+  "source": "/workspace/nana-core",
+  "evaluator_sha256": "e21dfa47ba26190063e84d56cd018eff37a5804734bf8a79c72604598248cebb",
+  "cases": [
+    {
+      "case_id": "precision.case0",
+      "family": 0,
+      "request_sha256": "59e55ae7cdbb74780ecceb75d8234483f9a4efd5b3f41a46809506871826a5fb",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f12592452.6.0",
+            "f12592452.6.1",
+            "f12592452.4.0",
+            "f12592452.4.1",
+            "f12592452.0.0",
+            "f12592452.5.0",
+            "f12592452.4.2",
+            "f12592452.1.0",
+            "f12592452.0.1",
+            "f12592452.0.2",
+            "f12592452.6.2",
+            "f12592452.1.1",
+            "f12592452.1.2",
+            "f12592452.3.0",
+            "f12592452.3.1",
+            "f12592452.3.2",
+            "f12592452.2.0",
+            "f12592452.2.1",
+            "f12592452.2.2",
+            "f12592452.5.1",
+            "f12592452.5.2"
+          ],
+          "source_record_id": "public-source-0",
+          "world_revision": "5b3c2210293640bce6e3c4568d85a937f822cf1f24925219c117d75a4d0cee76"
+        },
+        "validator_accepted": true,
+        "search": {
+          "expanded": 22,
+          "generated": 98,
+          "relevant_operators": 21,
+          "frontier_bound": 8192,
+          "expansion_bound": 1024,
+          "optimality": "NOT_CLAIMED"
+        },
+        "planner_seconds": 0.009862388000328792,
+        "process_peak_rss_kib": 25340
+      }
+    },
+    {
+      "case_id": "precision.case1",
+      "family": 1,
+      "request_sha256": "15400293b999707435981fd7d3764ed5dbb7a1e5a928fd1e1cea1ade0aeac28f",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f749800693.shortcut",
+            "f749800693.4.0",
+            "f749800693.4.1",
+            "f749800693.3.0",
+            "f749800693.3.1",
+            "f749800693.4.2",
+            "f749800693.3.2"
+          ],
+          "source_record_id": "public-source-1",
+          "world_revision": "5003c9c5ee643082e9020a873dce14c1f711746df700e3162d46bb664667a8e4"
+        },
+        "validator_accepted": true,
+        "search": {
+          "expanded": 8,
+          "generated": 36,
+          "relevant_operators": 16,
+          "frontier_bound": 8192,
+          "expansion_bound": 1024,
+          "optimality": "NOT_CLAIMED"
+        },
+        "planner_seconds": 0.003698754000652116,
+        "process_peak_rss_kib": 25216
+      }
+    },
+    {
+      "case_id": "precision.case2",
+      "family": 2,
+      "request_sha256": "0e8aa78c91bd8141f9b81e9f2c1710c83047277e6e5c9ebeaeb036b80d493fe4",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f723004429.path.0",
+            "f723004429.path.1",
+            "f723004429.path.2",
+            "f723004429.path.3",
+            "f723004429.path.4"
+          ],
+          "source_record_id": "public-source-2",
+          "world_revision": "118ce4bbc8324986f64ccf198c1d4f6ef101d576dc81b133f0751376422acdea"
+        },
+        "validator_accepted": true,
+        "search": {
+          "expanded": 6,
+          "generated": 6,
+          "relevant_operators": 5,
+          "frontier_bound": 8192,
+          "expansion_bound": 1024,
+          "optimality": "NOT_CLAIMED"
+        },
+        "planner_seconds": 0.004121638998185517,
+        "process_peak_rss_kib": 25216
+      }
+    },
+    {
+      "case_id": "precision.case3",
+      "family": 3,
+      "request_sha256": "1e33ec2a1a3fb5c43baf7d02bd541c945905a88ee5e376321e5a444be3c3b1ce",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f365292316.read",
+            "f365292316.write"
+          ],
+          "source_record_id": "public-source-3",
+          "world_revision": "ab166aad82e18b2009e9d117c211b1405ea308a4347b0165d82255ebb5835d10"
+        },
+        "validator_accepted": true,
+        "search": {
+          "expanded": 3,
+          "generated": 5,
+          "relevant_operators": 3,
+          "frontier_bound": 8192,
+          "expansion_bound": 1024,
+          "optimality": "NOT_CLAIMED"
+        },
+        "planner_seconds": 0.0013378709991229698,
+        "process_peak_rss_kib": 24812
+      }
+    },
+    {
+      "case_id": "precision.case4",
+      "family": 4,
+      "request_sha256": "f3c05eccb1f6e138412df63013b75188b8fdd25746c604cc4639255756ee1f96",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f995014326.route",
+            "f995014326.finish"
+          ],
+          "source_record_id": "public-source-4",
+          "world_revision": "0ae96499670ae71d1c8a5109ac915e034f2abf9381c815d4715cbad0d0edeae6"
+        },
+        "validator_accepted": true,
+        "search": {
+          "expanded": 3,
+          "generated": 3,
+          "relevant_operators": 2,
+          "frontier_bound": 8192,
+          "expansion_bound": 1024,
+          "optimality": "NOT_CLAIMED"
+        },
+        "planner_seconds": 0.001460036997741554,
+        "process_peak_rss_kib": 25088
+      }
+    },
+    {
+      "case_id": "precision.case5",
+      "family": 5,
+      "request_sha256": "b0a793a5f22378c8f1a57f820c54663afcf0e0d36bd8f3b1849c09377b49cefb",
+      "feasible": false,
+      "correct": true,
+      "verified_completion": false,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "UNAVAILABLE",
+        "reason": "NO_BOUNDED_PLAN",
+        "planner_seconds": 0.0014369540003826842,
+        "process_peak_rss_kib": 24960
+      }
+    },
+    {
+      "case_id": "precision.case6",
+      "family": 0,
+      "request_sha256": "37c28888b9c083bfba4d002c183cb875cf5d89c4dc192d055134e54ed6257364",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f685505597.1.0",
+            "f685505597.6.0",
+            "f685505597.4.0",
+            "f685505597.4.1",
+            "f685505597.3.0",
+            "f685505597.6.1",
+            "f685505597.7.0",
+            "f685505597.7.1",
+            "f685505597.2.0",
+            "f685505597.2.1",
+            "f685505597.5.0",
+            "f685505597.3.1",
+            "f685505597.0.0",
+            "f685505597.0.1",
+            "f685505597.1.1",
+            "f685505597.5.1"
+          ],
+          "source_record_id": "public-source-6",
+          "world_revision": "5a9bb46abfc75cb23254b21f5f92386d138dfe2b0b84e59e368b1e6ffbef665d"
+        },
+        "validator_accepted": true,
+        "search": {
+          "expanded": 17,
+          "generated": 86,
+          "relevant_operators": 16,
+          "frontier_bound": 8192,
+          "expansion_bound": 1024,
+          "optimality": "NOT_CLAIMED"
+        },
+        "planner_seconds": 0.006798973001423292,
+        "process_peak_rss_kib": 25084
+      }
+    },
+    {
+      "case_id": "precision.case7",
+      "family": 1,
+      "request_sha256": "d9dbf99a80748e654448042f59200c7525cac9f2c31e0dbd41f376e7d6d6d7a1",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f782745524.shortcut",
+            "f782745524.6.0",
+            "f782745524.6.1",
+            "f782745524.5.0",
+            "f782745524.5.1",
+            "f782745524.5.2",
+            "f782745524.4.0",
+            "f782745524.4.1",
+            "f782745524.4.2",
+            "f782745524.6.2",
+            "f782745524.3.0",
+            "f782745524.3.1",
+            "f782745524.3.2"
+          ],
+          "source_record_id": "public-source-7",
+          "world_revision": "34bc2694e39b5c55cb35589d1a053e304448f5ca3927bc83a7ff64e0c6cd0bda"
+        },
+        "validator_accepted": true,
+        "search": {
+          "expanded": 14,
+          "generated": 79,
+          "relevant_operators": 22,
+          "frontier_bound": 8192,
+          "expansion_bound": 1024,
+          "optimality": "NOT_CLAIMED"
+        },
+        "planner_seconds": 0.0070082410020404495,
+        "process_peak_rss_kib": 25216
+      }
+    },
+    {
+      "case_id": "precision.case8",
+      "family": 2,
+      "request_sha256": "e3f8d8f0983bd5dbb8da365582ef575b5ed46530494c64185719f9f9be0f035c",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f377918961.path.0",
+            "f377918961.path.1",
+            "f377918961.path.2",
+            "f377918961.path.3",
+            "f377918961.path.4",
+            "f377918961.path.5"
+          ],
+          "source_record_id": "public-source-8",
+          "world_revision": "c444c984d7f7116007429a6dfac6ce1fae6195d89b2568902a35d7fe977df913"
+        },
+        "validator_accepted": true,
+        "search": {
+          "expanded": 7,
+          "generated": 7,
+          "relevant_operators": 6,
+          "frontier_bound": 8192,
+          "expansion_bound": 1024,
+          "optimality": "NOT_CLAIMED"
+        },
+        "planner_seconds": 0.0037336109999159817,
+        "process_peak_rss_kib": 25044
+      }
+    },
+    {
+      "case_id": "precision.case9",
+      "family": 3,
+      "request_sha256": "d3ab20dd4d7635898b46d4e5f7ac31ab2a6c8d3944fd7a5752b7d1b8029be445",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f364812897.read",
+            "f364812897.write"
+          ],
+          "source_record_id": "public-source-9",
+          "world_revision": "a93529712da7208756a3eb4e485dd9ac3e0bfbce2391d6d7ae3c38bb6e63b391"
+        },
+        "validator_accepted": true,
+        "search": {
+          "expanded": 3,
+          "generated": 5,
+          "relevant_operators": 3,
+          "frontier_bound": 8192,
+          "expansion_bound": 1024,
+          "optimality": "NOT_CLAIMED"
+        },
+        "planner_seconds": 0.001477226000133669,
+        "process_peak_rss_kib": 24932
+      }
+    },
+    {
+      "case_id": "precision.case10",
+      "family": 4,
+      "request_sha256": "402deff5027fb72f83b8f7bf6e04007d22d744a8ca8a6821a41def070973b462",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f315427511.route",
+            "f315427511.finish"
+          ],
+          "source_record_id": "public-source-10",
+          "world_revision": "398e4444cea4d8a548aad95f3e2d48a39855d8534dc6b01b99de9f8c570202a4"
+        },
+        "validator_accepted": true,
+        "search": {
+          "expanded": 3,
+          "generated": 3,
+          "relevant_operators": 2,
+          "frontier_bound": 8192,
+          "expansion_bound": 1024,
+          "optimality": "NOT_CLAIMED"
+        },
+        "planner_seconds": 0.0016702209977665916,
+        "process_peak_rss_kib": 25084
+      }
+    },
+    {
+      "case_id": "precision.case11",
+      "family": 5,
+      "request_sha256": "25f59077a4e9c90fd46425ab576fc8a8725f77a7f042fc480ac77ee0b550f28e",
+      "feasible": false,
+      "correct": true,
+      "verified_completion": false,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "UNAVAILABLE",
+        "reason": "NO_BOUNDED_PLAN",
+        "planner_seconds": 0.0009158299981208984,
+        "process_peak_rss_kib": 24956
+      }
+    },
+    {
+      "case_id": "precision.case12",
+      "family": 0,
+      "request_sha256": "7bfc265c63101e754ee25521d6031143d3de5a9dc0cf2cb0e932ab7e2a3ae971",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f386804707.2.0",
+            "f386804707.2.1",
+            "f386804707.2.2",
+            "f386804707.0.0",
+            "f386804707.0.1",
+            "f386804707.0.2",
+            "f386804707.1.0",
+            "f386804707.1.1",
+            "f386804707.1.2",
+            "f386804707.4.0",
+            "f386804707.4.1",
+            "f386804707.4.2",
+            "f386804707.3.0",
+            "f386804707.3.1",
+            "f386804707.3.2",
+            "f386804707.5.0",
+            "f386804707.5.1",
+            "f386804707.5.2"
+          ],
+          "source_record_id": "public-source-12",
+          "world_revision": "dbdbe17ba72cee0669be02632a30f9daf23f8608fcdf76fba0a006691be4b7b3"
+        },
+        "validator_accepted": true,
+        "search": {
+          "expanded": 19,
+          "generated": 64,
+          "relevant_operators": 18,
+          "frontier_bound": 8192,
+          "expansion_bound": 1024,
+          "optimality": "NOT_CLAIMED"
+        },
+        "planner_seconds": 0.010445955998875434,
+        "process_peak_rss_kib": 25216
+      }
+    },
+    {
+      "case_id": "precision.case13",
+      "family": 1,
+      "request_sha256": "d54f695e718013dd0a453a46190bb92c72941e0194317124ca763b238efa618d",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f330057078.shortcut",
+            "f330057078.3.0",
+            "f330057078.4.0",
+            "f330057078.5.0",
+            "f330057078.5.1",
+            "f330057078.7.0",
+            "f330057078.5.2",
+            "f330057078.7.1",
+            "f330057078.7.2",
+            "f330057078.4.1",
+            "f330057078.4.2",
+            "f330057078.6.0",
+            "f330057078.6.1",
+            "f330057078.6.2",
+            "f330057078.3.1",
+            "f330057078.3.2"
+          ],
+          "source_record_id": "public-source-13",
+          "world_revision": "e57d9f7690aa0bbbc7e05bfcfd15d5890b244143259881b58bccbc29849aa470"
+        },
+        "validator_accepted": true,
+        "search": {
+          "expanded": 17,
+          "generated": 107,
+          "relevant_operators": 25,
+          "frontier_bound": 8192,
+          "expansion_bound": 1024,
+          "optimality": "NOT_CLAIMED"
+        },
+        "planner_seconds": 0.011926584000320872,
+        "process_peak_rss_kib": 25344
+      }
+    },
+    {
+      "case_id": "precision.case14",
+      "family": 2,
+      "request_sha256": "94b76f8366e7634a139e17994caebbf11b06b2297e6a9e407a5dabf93f8f662d",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f781564718.path.0",
+            "f781564718.path.1",
+            "f781564718.path.2",
+            "f781564718.path.3",
+            "f781564718.path.4"
+          ],
+          "source_record_id": "public-source-14",
+          "world_revision": "3545739fa3ae55b4ae4e8cbc3d18903a26710a0734eca9ef75ec0036aa6d7a7a"
+        },
+        "validator_accepted": true,
+        "search": {
+          "expanded": 6,
+          "generated": 6,
+          "relevant_operators": 5,
+          "frontier_bound": 8192,
+          "expansion_bound": 1024,
+          "optimality": "NOT_CLAIMED"
+        },
+        "planner_seconds": 0.0026577409989840817,
+        "process_peak_rss_kib": 25216
+      }
+    },
+    {
+      "case_id": "precision.case15",
+      "family": 3,
+      "request_sha256": "2bd866cfe44c6ee949ea7978fea0d9aa34066ce59c64fe5193d483d0c9411586",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f651781416.read",
+            "f651781416.write"
+          ],
+          "source_record_id": "public-source-15",
+          "world_revision": "b6d7f8caa61f3230d34b6173373653922ec2e42a6353c99c7171dfba5b0e47c2"
+        },
+        "validator_accepted": true,
+        "search": {
+          "expanded": 3,
+          "generated": 5,
+          "relevant_operators": 3,
+          "frontier_bound": 8192,
+          "expansion_bound": 1024,
+          "optimality": "NOT_CLAIMED"
+        },
+        "planner_seconds": 0.00211060599758639,
+        "process_peak_rss_kib": 25088
+      }
+    },
+    {
+      "case_id": "precision.case16",
+      "family": 4,
+      "request_sha256": "775215b5fe5b486a501841aa199fbbc7728cc87422d092ec4632d85b81ce0b78",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f343396253.route",
+            "f343396253.finish"
+          ],
+          "source_record_id": "public-source-16",
+          "world_revision": "38b8db6f6e39cebef8348edcafbb2cabe3c39e24eac21ab3f133cf02a85e0611"
+        },
+        "validator_accepted": true,
+        "search": {
+          "expanded": 3,
+          "generated": 3,
+          "relevant_operators": 2,
+          "frontier_bound": 8192,
+          "expansion_bound": 1024,
+          "optimality": "NOT_CLAIMED"
+        },
+        "planner_seconds": 0.0024733050013310276,
+        "process_peak_rss_kib": 25088
+      }
+    },
+    {
+      "case_id": "precision.case17",
+      "family": 5,
+      "request_sha256": "13b9a257cc0bcee8a03891bcf6f82aac68d4782ce3d9dca939fc50184b624a89",
+      "feasible": false,
+      "correct": true,
+      "verified_completion": false,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "UNAVAILABLE",
+        "reason": "NO_BOUNDED_PLAN",
+        "planner_seconds": 0.0012339620006969199,
+        "process_peak_rss_kib": 24960
+      }
+    },
+    {
+      "case_id": "precision.case18",
+      "family": 0,
+      "request_sha256": "56024cf028a7846309be0ecb6ec6aba78719f4240dd7094837467a41d57945a4",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f910360029.1.0",
+            "f910360029.6.0",
+            "f910360029.1.1",
+            "f910360029.1.2",
+            "f910360029.3.0",
+            "f910360029.3.1",
+            "f910360029.6.1",
+            "f910360029.4.0",
+            "f910360029.3.2",
+            "f910360029.2.0",
+            "f910360029.2.1",
+            "f910360029.2.2",
+            "f910360029.0.0",
+            "f910360029.0.1",
+            "f910360029.0.2",
+            "f910360029.4.1",
+            "f910360029.4.2",
+            "f910360029.6.2",
+            "f910360029.5.0",
+            "f910360029.5.1",
+            "f910360029.5.2"
+          ],
+          "source_record_id": "public-source-18",
+          "world_revision": "2da7ec5fc433728240b6a133e534276b1fa80bbb3cd96760372c8aec23e60531"
+        },
+        "validator_accepted": true,
+        "search": {
+          "expanded": 22,
+          "generated": 97,
+          "relevant_operators": 21,
+          "frontier_bound": 8192,
+          "expansion_bound": 1024,
+          "optimality": "NOT_CLAIMED"
+        },
+        "planner_seconds": 0.00957152399860206,
+        "process_peak_rss_kib": 25344
+      }
+    },
+    {
+      "case_id": "precision.case19",
+      "family": 1,
+      "request_sha256": "7a148a156ec2525f3be288d7bb537030ac9f0c58a97b9ebd0cb9d0fd3bc9d68a",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f626578524.shortcut",
+            "f626578524.3.0",
+            "f626578524.3.1",
+            "f626578524.4.0",
+            "f626578524.4.1",
+            "f626578524.5.0",
+            "f626578524.5.1"
+          ],
+          "source_record_id": "public-source-19",
+          "world_revision": "165c1ebf353945a6db7e189a684ed6af4b5c589f3baead670dd3aa93dfd1a0dd"
+        },
+        "validator_accepted": true,
+        "search": {
+          "expanded": 8,
+          "generated": 38,
+          "relevant_operators": 13,
+          "frontier_bound": 8192,
+          "expansion_bound": 1024,
+          "optimality": "NOT_CLAIMED"
+        },
+        "planner_seconds": 0.004585039001540281,
+        "process_peak_rss_kib": 25212
+      }
+    },
+    {
+      "case_id": "precision.case20",
+      "family": 2,
+      "request_sha256": "817dac035dab33ff51426cea974eae3ee04c23418227700ca9e03aae0f0f0772",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f392104080.path.0",
+            "f392104080.path.1",
+            "f392104080.path.2",
+            "f392104080.path.3",
+            "f392104080.path.4"
+          ],
+          "source_record_id": "public-source-20",
+          "world_revision": "1a6181f1e324f7ce6ca6209f8595fb649a3eca1b0b06a251dba5cc4e8d76e40f"
+        },
+        "validator_accepted": true,
+        "search": {
+          "expanded": 6,
+          "generated": 6,
+          "relevant_operators": 5,
+          "frontier_bound": 8192,
+          "expansion_bound": 1024,
+          "optimality": "NOT_CLAIMED"
+        },
+        "planner_seconds": 0.0024368669983232394,
+        "process_peak_rss_kib": 25216
+      }
+    },
+    {
+      "case_id": "precision.case21",
+      "family": 3,
+      "request_sha256": "bb3c913ff870b622adcaeb0e6aca1944fb66fc945a5f22c78cf9225ce22e44be",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f918542265.read",
+            "f918542265.write"
+          ],
+          "source_record_id": "public-source-21",
+          "world_revision": "5b45a046e95cb2d790e31efdf08eab80fd2f916587636f980f95312db088411e"
+        },
+        "validator_accepted": true,
+        "search": {
+          "expanded": 3,
+          "generated": 5,
+          "relevant_operators": 3,
+          "frontier_bound": 8192,
+          "expansion_bound": 1024,
+          "optimality": "NOT_CLAIMED"
+        },
+        "planner_seconds": 0.002394180999544915,
+        "process_peak_rss_kib": 25088
+      }
+    },
+    {
+      "case_id": "precision.case22",
+      "family": 4,
+      "request_sha256": "fb854cb83b732b652a630d85e489e4285319e53b03f114977060e79bba5efc98",
+      "feasible": true,
+      "correct": true,
+      "verified_completion": true,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "PROPOSED",
+        "proposal": {
+          "source_record_ids": [],
+          "provenance": "PROPOSAL_NOT_AUTHORITY",
+          "operator_ids": [
+            "f802077294.route",
+            "f802077294.finish"
+          ],
+          "source_record_id": "public-source-22",
+          "world_revision": "3e8f636ba66f4c34732646fbe29247726f877447c152c3c955fb507459bebf13"
+        },
+        "validator_accepted": true,
+        "search": {
+          "expanded": 3,
+          "generated": 3,
+          "relevant_operators": 2,
+          "frontier_bound": 8192,
+          "expansion_bound": 1024,
+          "optimality": "NOT_CLAIMED"
+        },
+        "planner_seconds": 0.0031264270000974648,
+        "process_peak_rss_kib": 25088
+      }
+    },
+    {
+      "case_id": "precision.case23",
+      "family": 5,
+      "request_sha256": "863404385983e4c05d93909162eebf3990982eaf8f7ea65e45de2c8b5e5acd47",
+      "feasible": false,
+      "correct": true,
+      "verified_completion": false,
+      "invalid_proposal": false,
+      "false_success": false,
+      "duplicate_effects": 0,
+      "result": {
+        "state": "UNAVAILABLE",
+        "reason": "NO_BOUNDED_PLAN",
+        "planner_seconds": 0.0007685670025239233,
+        "process_peak_rss_kib": 24960
+      }
+    }
+  ]
+}

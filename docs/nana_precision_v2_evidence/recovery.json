@@ -1,0 +1,50 @@
+{
+  "source": "0a509a8650735b57f540720f310d480fb2ccd9aa",
+  "real_sigkill_checkpoint_cuts": [
+    "BEFORE_PLAN_COMMIT",
+    "AFTER_PLAN_COMMIT"
+  ],
+  "verified_final_full": true,
+  "changed_current_effect": "REJECT_REUSE_PARK_ORIGINAL_C_REVIEW_NO_REPEAT_VERIFICATION",
+  "historical_success_rewritten": false,
+  "verified_effect_before_progress": "RECONCILE_NOT_REDISPATCH",
+  "portable_process": {
+    "duplicate_start_blocked": true,
+    "restart_same_identity": true,
+    "epochs": [
+      4,
+      5,
+      6
+    ],
+    "real_sigkill": true,
+    "dead_owner_fenced": true,
+    "stale_socket_recovered": true,
+    "same_event_no_replay": true,
+    "emergency_stop_confirmed": true,
+    "offline_chat": true
+  },
+  "checkpoint_transfer": {
+    "execution": "FRESH_INSTALLED_BUNDLE_PYTHON_ISOLATED",
+    "source_commit": "0a509a8650735b57f540720f310d480fb2ccd9aa",
+    "same_subject": true,
+    "real_owned_failures_preserved": true,
+    "original_g_per_domain_learning": true,
+    "independent_current_verification": true,
+    "checkpoint_operators": 6,
+    "remaining_steps": 3,
+    "file_move_count": 1,
+    "same_identity_restart": true,
+    "official_checkpoint_backup_transfer": true,
+    "old_grants_revoked": true,
+    "old_writer_fenced": true,
+    "repository_runtime_imports": false,
+    "new_provider_calls": 0
+  },
+  "initial_portable_failure": {
+    "source": "e1679b2010c2d49148c9b99b096b9947dfdba8ff",
+    "status": "TIMEOUT_30_SECONDS_INSPECT_FORGET_BACKUP_SUBPROCESS",
+    "cause": "UNKNOWN",
+    "retained_receipt_sha256": "299f5fb7db6e9690cb1a0612bd9b79ef29bb4276e626267f36c2f5820916244e"
+  },
+  "startup_diagnostics": "EXITED_DISTINCT_FROM_TIMED_OUT; ONE_CHILD_REAPED; NO_RETRY"
+}

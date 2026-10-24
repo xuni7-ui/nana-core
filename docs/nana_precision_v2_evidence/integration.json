@@ -1,0 +1,41 @@
+{
+  "scope": "ACTUAL_OWNED_DEV_LOCAL_EFFECTS_ORIGINAL_C_D_F_G_KERNEL",
+  "test": "tests/precision/test_lifecycle.py",
+  "source": "0a509a8650735b57f540720f310d480fb2ccd9aa",
+  "verified_final_full": true,
+  "goal_count_for_project": 1,
+  "original_plan_steps": 9,
+  "checkpoint_completed_operator_ids": 6,
+  "remaining_replan_steps": 3,
+  "file_move_effect_count": 1,
+  "natural_quality_failure_domains": [
+    "owned-document",
+    "owned-form"
+  ],
+  "original_failures_preserved": true,
+  "later_goal_completion_independently_checked": [
+    "actual_document_file",
+    "owned_form_receipt_and_IPC",
+    "file_move_effect_count"
+  ],
+  "actual_local_http_timeout": "UNKNOWN_DIFFERENT_POLL_RETRY_DENIED",
+  "new_provider_calls": 0,
+  "driver_supplied_correct_plan": false,
+  "portable_probe": {
+    "execution": "FRESH_INSTALLED_BUNDLE_PYTHON_ISOLATED",
+    "source_commit": "0a509a8650735b57f540720f310d480fb2ccd9aa",
+    "same_subject": true,
+    "real_owned_failures_preserved": true,
+    "original_g_per_domain_learning": true,
+    "independent_current_verification": true,
+    "checkpoint_operators": 6,
+    "remaining_steps": 3,
+    "file_move_count": 1,
+    "same_identity_restart": true,
+    "official_checkpoint_backup_transfer": true,
+    "old_grants_revoked": true,
+    "old_writer_fenced": true,
+    "repository_runtime_imports": false,
+    "new_provider_calls": 0
+  }
+}

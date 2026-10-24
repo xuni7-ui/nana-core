@@ -550,3 +550,23 @@ general world comprehension/meta-learning. Track A no longer waits for Track B.
 固定63条criteria、ID、定义和Foundation状态不变。S2–S9/三横轴增加五服务、结构化Browser、三源矛盾研究与9步多Hand项目、噪声G/I/技能退休、三surface与12实际进程切点、2000事件检索、官方B8迁移和更新便携包的受控证据。
 
 本轮整体PARTIAL_EXTERNAL_LIMIT：原b6450e1只有3939.795642475秒最后健康快照，环境boot更换/owner消失且无final；不宣称5h。当前a47b672全仓与安装结果见[status](../docs/nana_real_world_controlled_expansion_v1_status.md)及[机器资格](../docs/nana_real_world_controlled_expansion_v1_evidence/qualification.json)。这是Advanced资格差额，不推翻既有S4原24h Foundation资格，不把S10高级项变成First-Life前置。Human/First-Life/Beta未升级。
+
+
+## Precision V2 FINAL — scoped engineering qualification / 2026-10-24
+
+Advanced Growth evidence only; Foundation version1.0/fixed63 IDs,definitions,
+denominator and S1–S9 qualification are unchanged. No Master edit or S10 deep change.
+
+| Domain / axis | New scoped evidence | Unproved / separate gate |
+|---|---|---|
+| S6,F |Original planner causal/history search128,nested groups; dev9/20→20/20,unseen6/20→20/20,novel9/13→13/13; 37-step original C/Kernel synthetic-world restart |No arbitrary recursive HTN,cost optimality or live semantic generalization |
+| S5,S2 |Source-scoped age/digest guard,independent current output support |No universal external CAS or comprehensive world model |
+| S7,Governance |Existing Grant/Budget/Manager/Verify; current checked-prefix9→3 repair,file move once |OWNED_DEV only,no user device/production action |
+| S8,S9 |Finite practice-only competition,independent heldout/transfer,later actual reuse; per-primitive lesson attribution |Existing practice/meta filtering retained; not universal discovery or deep self-change |
+| S4,S1,Governance |Actual commit-cut SIGKILL,review parking,portable fresh-host checkpoint transfer and old writer/Grant fence |Historical5h remains PARTIAL_EXTERNAL_LIMIT,new LONG_REAL_RESIDENCY pending |
+| Shared Life,S3 |Existing rest/casual/correction/refusal/model-swap continuity tests pass |Human review and First-Life/Beta not upgraded |
+
+Full1528/0fail/12skip; new18 focused allpass. See docs/nana_precision_v2_status.md,
+evidence/regression/comparison/portable/source fingerprints. ARCHITECTURE_PRECISION
+scopedPASS; INTEGRATED_AUTONOMY OWNED_DEV PASS; SEMANTIC_GENERALIZATION NOT_RUN,
+MODEL_ABLATION_NOT_RUN. No new Foundation prerequisite or domain was invented.

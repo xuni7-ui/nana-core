@@ -1,0 +1,112 @@
+{
+  "scope": "ORIGINAL_CORE_REPRESENTATIVE_TESTS",
+  "cases": {
+    "simple_explicit": {
+      "selector": "tests/open_autonomy/test_planning.py::test_plan_proposals_do_not_invent_capability_or_satisfy_missing_conditions",
+      "result": "PASS_FINAL_FULL",
+      "seconds": 0.002
+    },
+    "multistep_files": {
+      "selector": "tests/controlled_hands/test_application.py::test_real_subject_outcome_learning_transfer_and_bounded_extension",
+      "result": "PASS_FINAL_FULL",
+      "seconds": 17.928
+    },
+    "document_code_research": {
+      "selector": "tests/controlled_world/test_sources_research.py::test_expired_world_history_does_not_permanently_hide_current_belief",
+      "result": "PASS_FINAL_FULL",
+      "seconds": 0.581
+    },
+    "multigoal_dependencies": {
+      "selector": "tests/open_autonomy/test_planning.py::test_subgoal_dependency_suspend_resume_and_completed_cause_dedup",
+      "result": "PASS_FINAL_FULL",
+      "seconds": 0.392
+    },
+    "goal_change": {
+      "selector": "tests/controlled_world/test_project_presence.py::test_supersession_only_links_original_c_withdrawal_and_adoption",
+      "result": "PASS_FINAL_FULL",
+      "seconds": 0.639
+    },
+    "source_disappears": {
+      "selector": "tests/open_life/test_runtime_intake.py::test_configured_source_runs_in_original_idle_runtime_and_withdraws",
+      "result": "PASS_FINAL_FULL",
+      "seconds": 0.264
+    },
+    "stale_environment": {
+      "selector": "tests/controlled_world/test_lab_browser.py::test_stale_dom_revision_cannot_become_current_observation",
+      "result": "PASS_FINAL_FULL",
+      "seconds": 2.796
+    },
+    "tool_failure": {
+      "selector": "tests/controlled_hands/test_recovery.py::test_real_file_ipc_disagreement_remains_unknown_without_retry",
+      "result": "PASS_FINAL_FULL",
+      "seconds": 1.784
+    },
+    "partial_effect": {
+      "selector": "tests/controlled_world/test_lab_browser.py::test_owned_task_api_cru_duplicate_collision_partial_and_drop",
+      "result": "PASS_FINAL_FULL",
+      "seconds": 0.526
+    },
+    "unknown": {
+      "selector": "tests/controlled_world/test_failures_ingress.py::test_real_http_drop_plus_verifier_socket_unavailable_unknown_no_resend",
+      "result": "PASS_FINAL_FULL",
+      "seconds": 2.083
+    },
+    "crash_recovery": {
+      "selector": "tests/open_life/test_recovery.py::test_actual_sigkill_after_c_commit_before_attention_ack",
+      "result": "PASS_FINAL_FULL",
+      "seconds": 0.835
+    },
+    "model_swap": {
+      "selector": "tests/controlled_world/test_model_resource.py::test_wording_latency_model_swap_and_malformed_same_subject",
+      "result": "PASS_FINAL_FULL",
+      "seconds": 1.236
+    },
+    "new_task_type": {
+      "selector": "tests/world_loop/test_living.py::test_dynamic_sourced_goals_and_two_self_detected_skill_kinds",
+      "result": "PASS_FINAL_FULL",
+      "seconds": 4.685
+    },
+    "negative_transfer": {
+      "selector": "tests/controlled_world/test_noisy_growth.py::test_actual_noisy_heldout_failure_revised_problem_transfer_and_counterexample",
+      "result": "PASS_FINAL_FULL",
+      "seconds": 0.208
+    },
+    "correction": {
+      "selector": "tests/world_loop/test_foundation.py::test_world_temporal_conflict_correction_and_no_resurrection",
+      "result": "PASS_FINAL_FULL",
+      "seconds": 0.199
+    },
+    "casual_talk": {
+      "selector": "tests/vision_first/test_context_fit.py::test_vent_help_share_unclear_and_busy_are_semantic_proposals_not_tasks",
+      "result": "PASS_FINAL_FULL",
+      "seconds": 0.11
+    },
+    "self_opportunity": {
+      "selector": "tests/open_life/test_attention_research.py::test_queue_original_c_restart_idempotency_and_suppression",
+      "result": "PASS_FINAL_FULL",
+      "seconds": 0.165
+    },
+    "rest_conflict": {
+      "selector": "tests/open_life/test_attention_research.py::test_load_and_expensive_learning_allow_rest",
+      "result": "PASS_FINAL_FULL",
+      "seconds": 0.104
+    },
+    "mobile_ui_simulation": {
+      "selector": "tests/open_life/test_embodied.py::test_simulator_gestures_compile_only_not_authority",
+      "result": "PASS_FINAL_FULL",
+      "seconds": 0.002
+    },
+    "browser_state_task": {
+      "selector": "tests/controlled_world/test_lab_browser.py::test_five_process_lab_timer_and_structural_navigation",
+      "result": "PASS_FINAL_FULL",
+      "seconds": 2.85
+    }
+  },
+  "before_representative_20": "20_PASS_41.78s",
+  "early_candidate_representative_20": "19_PASS_1_FAIL_121.16s; retained bounded progress failure, not success",
+  "limitations": [
+    "Document/code research row is temporal-source representative coverage, not large-document semantic comprehension.",
+    "Mobile UI is compile-only simulation, not real device control.",
+    "No LLM/tools ablation; no human naturalness."
+  ]
+}

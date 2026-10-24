@@ -1,0 +1,16 @@
+{
+  "scope": "CHANGED_FILES_AND_NEW_EVIDENCE_NOT_CREDENTIAL_DISCOVERY",
+  "real_looking_secret_literals": 0,
+  "credentials_read_or_used": false,
+  "main_pin": "18bc736d5e37fe3325e514a0e975403df2f97c9f",
+  "main_expected": "18bc736d5e37fe3325e514a0e975403df2f97c9f",
+  "main_changed": false,
+  "r045_changed_files": [],
+  "old_bundle": "UNTRACKED_UNREAD_UNTOUCHED_NOT_COMMITTED",
+  "paid_provider_calls": 0,
+  "social_sends": 0,
+  "private_data": false,
+  "owned_local_effects": true,
+  "user_devices": false,
+  "production": false
+}

@@ -1,0 +1,4 @@
+Final full at 0a509a8650735b57f540720f310d480fb2ccd9aa: 1528 passed / 0 failed / 12 skipped / 862.499s.
+New focused18 all pass, extracted from same full run. Targeted startup5 pass; related privacy12 pass; original recovery/CLI8 pass.
+Live model/LLM ablation/human/real user devices/production NOT_RUN.
+Previous failed attempts retained in regression.json; no erased or relabeled failure.

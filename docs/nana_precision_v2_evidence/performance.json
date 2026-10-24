@@ -1,0 +1,82 @@
+{
+  "planner": {
+    "development": {
+      "before": {
+        "median_planner_ms": 7.019329499598825,
+        "maximum_worker_peak_rss_kib": 27520
+      },
+      "after": {
+        "median_planner_ms": 3.864723499646061,
+        "maximum_worker_peak_rss_kib": 25344
+      }
+    },
+    "heldout_parameters": {
+      "before": {
+        "median_planner_ms": 9.404398000697256,
+        "maximum_worker_peak_rss_kib": 27520
+      },
+      "after": {
+        "median_planner_ms": 2.5655230001575546,
+        "maximum_worker_peak_rss_kib": 25344
+      }
+    },
+    "heldout_graphs": {
+      "before": {
+        "median_planner_ms": 2.1648895017278846,
+        "maximum_worker_peak_rss_kib": 25296
+      },
+      "after": {
+        "median_planner_ms": 2.5088025013246806,
+        "maximum_worker_peak_rss_kib": 25216
+      }
+    }
+  },
+  "privacy_profile": {
+    "profile-after": {
+      "_load": {
+        "calls": 69641,
+        "self_seconds": 0.6630296280000001,
+        "cumulative_seconds": 6.742963704
+      },
+      "ensure_current": {
+        "calls": 69015,
+        "self_seconds": 0.14325915,
+        "cumulative_seconds": 13.725486271000001
+      },
+      "read": {
+        "calls": 69641,
+        "self_seconds": 0.816438607,
+        "cumulative_seconds": 11.998122536
+      }
+    },
+    "profile-cache": {
+      "_load": {
+        "calls": 618,
+        "self_seconds": 0.019793642,
+        "cumulative_seconds": 0.29626338900000004
+      },
+      "read": {
+        "calls": 618,
+        "self_seconds": 0.071777638,
+        "cumulative_seconds": 0.546698632
+      },
+      "ensure_current": {
+        "calls": 68352,
+        "self_seconds": 0.24982583000000003,
+        "cumulative_seconds": 2.0520712480000003
+      }
+    }
+  },
+  "privacy_profile_wall_seconds": {
+    "before": 32.1717,
+    "after": 34.7728
+  },
+  "end_to_end_speedup": "NOT_PROVEN_DIFFERENT_CONCURRENT_LOAD",
+  "search_expansion_bound": 1024,
+  "search_heap_and_unique_state_bound": 8192,
+  "max_operators_steps": 128,
+  "max_groups": 32,
+  "max_group_depth": 8,
+  "cost_optimality": "NOT_CLAIMED",
+  "long_residency": "PENDING_EXTERNAL_STABLE_ENV"
+}
