@@ -2541,3 +2541,8 @@ Portable236 files，两次保留build byte-identical，SHA256 f4e5bcfa3999f159aa
 整体STATUS=PARTIAL_EXTERNAL_LIMIT；其余26项受控工程门PASS，剩余仅稳定执行环境中真实连续>=5h最终artifact。Human NOT_RUN；FIRST_LIFE NOT_READY/Beta NO。付费Provider/private/social/device/production/main/R045/S10变更0。没有因human review或历史provider UNKNOWN重开主路线。Manifest SHA256 3ac8eb15764790cfa151d3b5f9e249d9c23a17bcce81e250a5246e258d2b3282（manifest不自指）。
 
 本次收口无业务源码修改；新增小型文本证据/status，更新只读checker以验证真实partial且拒绝伪ready。未改原run/原Foundation24h/生产/用户Subject。正常提交并push当前dev分支，旧untracked bundle不读不改不入库。
+
+
+## Precision V2 P0 — frozen benchmark before runtime upgrade / 2026-10-24
+
+Advanced Growth S6/S7 and S2/S4/S5/S8/S9 integration; GLOBAL_STAGE H. User mission supersedes prior task STOP, not Master/fixed63. Reconciled origin/local d695ed7, only old bundle untracked. Frozen24-case symbolic evaluator:9/20 valid completions,4 invalid proposals rejected by original validator,0 accepted false success. Baseline dataflow/search explosion motivates evolving original planner; no runtime changes yet. Model ablation NOT_RUN, provider0. Prior5h PARTIAL_EXTERNAL_LIMIT preserved; new qualification PENDING_EXTERNAL_STABLE_ENV. See docs/nana_precision_v2_implementation.md.
