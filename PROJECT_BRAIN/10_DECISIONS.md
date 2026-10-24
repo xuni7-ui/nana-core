@@ -1499,3 +1499,8 @@ Scope-qualified dev PASS does not promote human/First-Life/Beta or device author
 ## Precision V2 P1 — source candidate / 2026-10-24
 
 采用有限AND group + 原operator替代路径/显式dataflow/1024 expansions与8192 frontier，不建第二planner。原1024 UCS组合爆炸及fact-only来源混淆由frozen baseline复现。独立Kernel reobserve是有Grant/预算的读，不改旧Action成功，不等于dispatch；仅当前MATCH且expected digest吻合的完整group前缀可复用，UNKNOWN/未对账成功禁止重规划。修复旧pending step占槽和replan commit→ack幂等gap。每个op携带可选task_domain，让真实失败进入适用G方法，不全局跨Hand套用同一lesson。practice竞争只看public practice，heldout/evaluator/authoritative Core无自改。
+
+
+## Precision V2 P2 — bounded current-state recovery / 2026-10-24
+
+P2 code review: a changed checkpoint is an expected boundary, so original LivingWork records exact CURRENT_STATE_REVIEW_REQUIRED and defers only that review; replay cannot repeatedly reserve/check it, and lease/privacy/unrecognized failures still propagate. TaskCheckpoint/Output/Check DTOs version/correlate new persistent metadata. Kernel reobservation never mutates historical Action outcome. Benchmark selection/planning/learning bytes remain frozen in0092cae; final wrapper guard does not use heldout answers.

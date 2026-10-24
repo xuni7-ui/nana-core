@@ -2551,3 +2551,8 @@ Advanced Growth S6/S7 and S2/S4/S5/S8/S9 integration; GLOBAL_STAGE H. User missi
 ## Precision V2 P1 — source candidate / 2026-10-24
 
 原C/D/F/Kernel/G内升级；37步分层经重启原C/Kernel完成；state stale/revision guard阻断新动作；实际三Hand先自然失败，方法按op domain转入G并保留FAILURE，独立重观测后9→3剩余步骤，文件移动1次。两个检查点commit切点实际SIGKILL后同主体完成，23 targeted PASS。诊断记录保留：旧intent slot、跨Hand错误domain和重复FILES导致UNKNOWN均实测；修复非降低验证。新crash harness首次重捕同source key被正确拒绝，改为复用原source；8实际Actions而非错误预期9（bad compute从未publish），断言按明确链修正。Runtime/Store/Owner新增0，schema13/43，依赖0，bundle untouched。
+
+
+## Precision V2 P2 — bounded current-state recovery / 2026-10-24
+
+P2 qualification hardening: new precision test directory lacked __init__, full collection correctly failed on legacy duplicate module name; added package marker, did not remove/skip old tests. One concurrent20-category pass had existing35s owned progress failure with4 active/completed goals rather than8; retained receipt and unchanged isolated/full recheck, no timeout weakening or invented root cause. Replan current-state rejection now parks only four explicit checkpoint codes and preserves C judgment/replay dedup. Final source/full/portable qualification follows. Earlier exploratory8vs9 action assertion corrected: failed compute never published; actual no-duplicate invariant unchanged.

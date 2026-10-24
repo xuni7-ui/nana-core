@@ -53,7 +53,16 @@ class LivingWork:
                 return {'goal_id':ref.goal_id,'lifecycle_review':selected,'not_plan_replay':True}
             if cycle.evaluation and cycle.evaluation.normative=='ENDORSED' and cycle.intention.kind=='GOAL_CANDIDATE':
                 ref=event.goal_review
-                self.agency.revise(ref.goal_id,expected_version=ref.version,cause_memory_id=ref.cause_memory_id,authority=self.runtime.authority)
+                if self.runtime.store.db.execute("SELECT 1 FROM events WHERE source_namespace='open.plan-review-deferred' AND source_key=?",(cycle.cycle_id,)).fetchone():return {'goal_id':ref.goal_id,'replan':'CURRENT_STATE_REVIEW_REQUIRED'}
+                try:self.agency.revise(ref.goal_id,expected_version=ref.version,cause_memory_id=ref.cause_memory_id,authority=self.runtime.authority)
+                except CoreError as exc:
+                    if exc.code not in {'CHECKPOINT_CURRENT_EFFECT_UNCERTAIN','CHECKPOINT_DESCRIPTION_CHANGED','CHECKPOINT_EFFECT_REVIEW_REQUIRED','CHECKPOINT_SUPPORT_UNAVAILABLE'}:raise
+                    # A changed independent check is an expected plan boundary,
+                    # not an owner crash or permission to repeat old effects.
+                    with self.runtime.store.transaction('open.plan_review_deferred',{'goal_id':ref.goal_id,'cycle_id':cycle.cycle_id,'reason':exc.code,'judgment_unchanged':True},source_namespace='open.plan-review-deferred',source_key=cycle.cycle_id) as tx:
+                        current=self.runtime.store.one('subject_intentions',cycle.intention_id)
+                        if current and current['state']=='PENDING':tx.update('subject_intentions',current['intention_id'],state='DEFERRED',revision=current['revision']+1)
+                    return {'goal_id':ref.goal_id,'replan':'CURRENT_STATE_REVIEW_REQUIRED','reason':exc.code}
                 with self.runtime.store.transaction('open.plan_review_adopted',{'goal_id':ref.goal_id}) as tx:
                     self.agency._complete(tx,cycle.intention_id)
                     if cycle.goal_candidate_id:tx.update('subject_goal_candidates',cycle.goal_candidate_id,state='ADOPTED')

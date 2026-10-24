@@ -18,6 +18,41 @@ class InputStateGuard(DTO):
     max_age_us: int = Field(ge=1,le=86400_000_000)
     expected_revision: str | None = Field(default=None,pattern=r'^[a-f0-9]{64}$')
 
+class CheckpointOutput(DTO):
+    goal_id:str
+    work_id:str
+    plan_record_id:str
+    operator_id:str
+    cursor:int=Field(ge=0,le=128)
+    action_id:str
+    memory_id:str
+    experience_id:str|None
+    quality:Literal[True]
+
+class CheckpointCheck(DTO):
+    operator_id:str
+    action_id:str
+    record_id:str
+    event_id:str
+    verdict:Literal['MATCH']
+
+class TaskCheckpoint(DTO):
+    format:Literal['VERIFIED_TASK_PREFIX_V1']='VERIFIED_TASK_PREFIX_V1'
+    completed_operator_ids:tuple[str,...]=Field(min_length=1,max_length=128)
+    facts:tuple[str,...]=Field(max_length=2048)
+    outputs:tuple[CheckpointOutput,...]=Field(min_length=1,max_length=128)
+    checks:tuple[CheckpointCheck,...]=Field(min_length=1,max_length=128)
+    grants_authority:Literal[False]=False
+    @model_validator(mode='after')
+    def correlated(self):
+        ids=set(self.completed_operator_ids)
+        outputs={row.operator_id:row for row in self.outputs}
+        if len(ids)!=len(self.completed_operator_ids) or len(outputs)!=len(self.outputs) or ids!=outputs.keys():raise ValueError('checkpoint output correlation')
+        if len({(row.goal_id,row.work_id) for row in self.outputs})!=1:raise ValueError('checkpoint goal lineage')
+        for check in self.checks:
+            if check.operator_id not in outputs or outputs[check.operator_id].action_id!=check.action_id:raise ValueError('checkpoint independent check correlation')
+        return self
+
 class Operator(DTO):
     operator_id: str = Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
     capability: Literal['world.observe','world.compute','world.publish','world.contact','world.skill']

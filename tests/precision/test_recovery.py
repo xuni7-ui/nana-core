@@ -55,3 +55,15 @@ def test_changed_checkpoint_is_not_reused_and_old_success_is_not_rewritten(tmp_p
         assert len(r.store.all('actions'))==before
         with pytest.raises(CoreError,match='UNAUTHENTICATED_OPERATOR'):
             r.work.agency.realization.kernel.reobserve(prefix['action_id'],object())
+        # Actual original C review must park the uncertain checkpoint without
+        # crashing its owner or changing the committed judgment.
+        from nana_core.continuity.agency_contracts import GoalReviewRef
+        from nana_core.continuity.subject import SubjectInput
+        event=SubjectInput(source_key='synthetic.precision.changed-review',kind='WAKE',origin='SELF_WAKE',entity_id='synthetic-person',scope='lab',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(cause,),goal_review=GoalReviewRef(goal_id=goal['goal_id'],version=goal['version'],cause_memory_id=cause))
+        cycle=r.subject.run(event);assert cycle.evaluation.normative=='ENDORSED'
+        assert r.work.after_cycle(cycle,event)['replan']=='CURRENT_STATE_REVIEW_REQUIRED'
+        observed=r.store.db.execute("SELECT count(*) FROM events WHERE kind='action.reobserved'").fetchone()[0]
+        assert r.work.after_cycle(cycle,event)['replan']=='CURRENT_STATE_REVIEW_REQUIRED'
+        assert r.store.db.execute("SELECT count(*) FROM events WHERE kind='action.reobserved'").fetchone()[0]==observed
+        assert r.store.one('subject_intentions',cycle.intention_id)['state']=='DEFERRED'
+        assert r.subject.result(r.store.one('subject_cycles',cycle.cycle_id)).evaluation.normative=='ENDORSED'

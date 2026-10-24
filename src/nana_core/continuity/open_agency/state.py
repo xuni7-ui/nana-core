@@ -2,6 +2,7 @@
 import json
 from typing import Literal
 from ...contracts import DTO, CoreError
+from ...storage import digest
 
 
 class TaskStateFact(DTO):
@@ -31,6 +32,9 @@ def observation_state(service, output, guard):
         raise CoreError('TASK_STATE_RESULT_MISMATCH')
     now = service.store.clock.utc_now_us()
     age = now - memory['observed_time_us']
-    revision = payload.get('revision')
+    # The shared contract is the digest of independently observed data. Some
+    # ports expose a native integer revision inside data, others an outer digest.
+    # Never pretend a missing outer field is a current native resource CAS token.
+    revision = digest(payload.get('data'))
     freshness = 'STALE' if age < 0 or age > guard.max_age_us else 'REVISION_MISMATCH' if guard.expected_revision is not None and revision != guard.expected_revision else 'CURRENT'
     return TaskStateFact(operator_id=output['operator_id'], resource=action['resource'], action_id=action['action_id'], memory_id=memory['memory_id'], observed_at_us=memory['observed_time_us'], environment_revision=revision, freshness=freshness)

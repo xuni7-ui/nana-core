@@ -138,6 +138,9 @@ class OpenAgencyService(AgencyService):
         return gid
 
     def _plan_record(self,tx,gid,pid,obj,steps,parent,strategies=(),supersedes=None,checkpoint=None):
+        if checkpoint:
+            from .contracts import TaskCheckpoint
+            checkpoint=TaskCheckpoint.model_validate_json(canonical(checkpoint)).model_dump(mode='json')
         parents=(parent,*strategies,*tuple(check['record_id'] for check in checkpoint['checks'])) if checkpoint else (parent,*strategies)
         return self.records.create(tx,kind='AUTONOMOUS_PLAN',scope=obj.scope,payload={'format':'OPEN_PLAN_V1','goal_id':gid,'plan_id':pid,'program':{'program_id':obj.objective_id},'objective':obj.model_dump(mode='json'),
             'steps':[s.model_dump(mode='json') for s in steps],'task_class':obj.task_domain,'strategy_ids':strategies,'policy_digest':digest(self.policy.get(obj.objective_id).model_dump(mode='json')),**({'checkpoint':checkpoint} if checkpoint else {})},records=parents,supersedes=supersedes)
@@ -292,7 +295,11 @@ class OpenAgencyService(AgencyService):
         values=[json.loads(row[0])['data'] for row in rows]
         current=list(reversed([row for row in values if row.get('plan_record_id')==work['record_id']]))
         plan=self.records.read(work['record_id'])['payload']
-        return [*plan.get('checkpoint',{}).get('outputs',()),*current]
+        carried=[]
+        if plan.get('checkpoint'):
+            from .contracts import TaskCheckpoint
+            carried=TaskCheckpoint.model_validate_json(canonical(plan['checkpoint'])).model_dump(mode='json')['outputs']
+        return [*carried,*current]
 
     def link_supersession(self,old_goal_id,new_goal_id,cycle_id,*,cause_memory_id,authority):
         """Describe a C-chosen replacement; never abandon/adopt on behalf of C."""
