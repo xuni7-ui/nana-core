@@ -42,3 +42,40 @@ No alternate will/planner/store/daemon. No schema change needed for typed plan d
 Pending: implementation, targeted/development comparison, candidate freeze,
 unseen heldout comparison, original-runtime integrated lifecycle, compatibility,
 recovery, portable install, full regression and layer-qualified final report.
+
+
+## P1 — substantive implemented change
+
+Causal relevance and explicit producer history replace combinatorial UCS enumeration
+in the existing planner; 1024 expansions,8192 frontier,128 operators/steps,32 AND
+groups/depth8. Primitive OR alternatives remain ordinary competing producers.
+No claim of optimality, arbitrary recursive HTN or universal planning. Legacy
+objectives omit new default fields byte-for-byte. Original C approves every step.
+
+InputStateGuard binds a declared independent observation with finite age/revision;
+it inhibits a new dispatch, never prevents reconciliation of an existing UNKNOWN.
+Kernel.reobserve uses an existing Verify Grant, attempt, budget hold and independent
+port. It appends current evidence without rewriting historical Action outcome.
+Only fully completed typed groups with current independently matching checked
+write effects are reused. Dataflow/predicate facts come from these checked groups;
+remaining operators replan in the same Goal and plan lineage. If current effect
+is inconclusive/changed, reuse fails closed. No network or Grant is created.
+
+Fresh source/C review remains required. A verified effect without step progress
+forces reconciliation first. C-endorsed plan revision atomically defers obsolete
+step intentions, retains their original judgments, and has a durable source key
+for commit-before-ack recovery. Two actual SIGKILL cuts pass.
+
+An optional per-operator domain prevents document lessons being applied to Files
+or Forms; actual quality failures remain original Experiences. Optional
+LearningSpec.hypothesis_policy=PRACTICE_COMPARE compares finite reviewed methods
+on public practice only, after original C chose learning. Original independent
+BASELINE/EVALUATE/TRANSFER/activation/monitoring remain authoritative. This exposes
+practice competition beyond the old first-nominee fixture; it does not replace
+original meta-learning or claim autonomous discovery of unlisted algorithms.
+
+23 targeted PASS. Actual owned integrated9-step hierarchy had natural document
+and form failures, original G learned two methods, original C revised the same
+Goal; current Kernel evidence retained the completed6-step prefix and only3
+steps executed. Actual file move executed once. A real local HTTP timeout remains
+UNKNOWN with different-poll retry denied. Full/heldout/install still pending.

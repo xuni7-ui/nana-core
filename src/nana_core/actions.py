@@ -296,6 +296,35 @@ class ActionKernel:
             self._change(tx, self.store.one("actions", action_id), "PENDING_VERIFY")
         return "PENDING_VERIFY"
 
+    def reobserve(self, action_id, authority):
+        """Fresh read-only effect evidence; never rewrite an old Action outcome.
+
+        Explicit trusted construction, existing Verify Grant/reservation/port.
+        This is not dispatch/retry, and inconclusive evidence permits no reuse.
+        """
+        self._operator(authority)
+        if self.store.schema_target<12:raise CoreError('REOBSERVATION_SCHEMA_REQUIRED')
+        action=self.store.one('actions',action_id)
+        if not action or action['state']!='SUCCEEDED':raise CoreError('REOBSERVE_VERIFIED_ACTION_REQUIRED')
+        invocation=self._invocation(action)
+        with self.store.transaction('action.reobservation_started',{'action_id':action_id}) as tx:
+            grant=self._grant_for(self.verify_capability,action['resource'])
+            self._stamp_auth_time(tx)
+            attempt=self._attempt(tx,action,grant,'VERIFY')
+            self._reserve(tx,attempt,{'external_requests':1,'cost_micro_units':1})
+            self._holds(tx,attempt,{'external_requests'})
+            tx.update('attempts',attempt,started_at_us=self.store.clock.utc_now_us())
+        try:result=self.capability.verify(invocation)
+        except Exception:
+            from .contracts import Verification
+            result=Verification(verdict='INCONCLUSIVE',evidence={})
+        with self.store.transaction('action.reobserved',{'action_id':action_id,'verdict':result.verdict,'historical_outcome_unchanged':True}) as tx:
+            rid,payload_id=self._stored_payload(tx,result.model_dump(mode='json'),action=action)
+            tx.payload_id=payload_id
+            tx.update('attempts',attempt,outcome='SUCCEEDED' if result.verdict=='MATCH' else 'UNKNOWN',verification_event_id=tx.event_id)
+            self._holds(tx,attempt,{'cost_micro_units'})
+            return {'action_id':action_id,'verdict':result.verdict,'record_id':rid,'event_id':tx.event_id,'result':result.evidence.get('result')}
+
     def verify(self, action_id):
         if self.store.one('core_meta','cloud.shadow_runtime') and not self._offline_subject_fixture():raise CoreError('SHADOW_BLOCKED')
         action = self.store.one("actions", action_id)

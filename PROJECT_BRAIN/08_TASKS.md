@@ -1061,3 +1061,8 @@ Portable236 files，两次保留build byte-identical，SHA256 f4e5bcfa3999f159aa
 整体STATUS=PARTIAL_EXTERNAL_LIMIT；其余26项受控工程门PASS，剩余仅稳定执行环境中真实连续>=5h最终artifact。Human NOT_RUN；FIRST_LIFE NOT_READY/Beta NO。付费Provider/private/social/device/production/main/R045/S10变更0。没有因human review或历史provider UNKNOWN重开主路线。Manifest SHA256 3ac8eb15764790cfa151d3b5f9e249d9c23a17bcce81e250a5246e258d2b3282（manifest不自指）。
 
 已完成：实现、定向/相关/全仓、安装与迁移、安全/manifest/SSOT交接。未完成：LONG_REAL_RESIDENCY>=5h qualification；其余外部门NOT_RUN，非本轮新任务。
+
+
+## Precision V2 P1 — source candidate / 2026-10-24
+
+PRECISION-00 baseline已冻结；01分层因果search、02重观测检查点、03有源状态时效、05异构任务domain、06practice竞争已实现/targeted tested。04/07/08/09/10实际集成和资格收口继续；23 targeted通过，heldout/full/release仍待，不提前DONE。

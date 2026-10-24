@@ -5,7 +5,7 @@ No model response or summary counts as a successful trial.
 """
 import json
 from typing import Literal,Any,Protocol
-from pydantic import Field,model_validator
+from pydantic import Field,model_validator,model_serializer
 from ...contracts import DTO,CoreError
 from ...storage import canonical,digest,uid
 from ..records import RecordService
@@ -37,6 +37,12 @@ class LearningSpec(DTO):
     evaluation: tuple[LearningCase,...] = Field(min_length=1,max_length=8)
     transfer: tuple[LearningCase,...] = Field(min_length=1,max_length=8)
     estimated_cost_micro: int = Field(default=0,ge=0,le=10000)
+    hypothesis_policy: Literal['PROPOSER_ONLY','PRACTICE_COMPARE'] = 'PROPOSER_ONLY'
+    @model_serializer(mode='wrap')
+    def compatible_wire(self,handler):
+        value=handler(self)
+        if self.hypothesis_policy=='PROPOSER_ONLY':value.pop('hypothesis_policy',None)
+        return value
     @model_validator(mode='after')
     def distinct_splits(self):
         cases=(*self.practice,*self.evaluation,*self.transfer)
@@ -160,11 +166,18 @@ class LearningService:
             if method is None:method=self.proposer.propose_method(problem)
             else:new['learning_strategy_record_id']=strategy_record
             if method not in spec.hypotheses:raise CoreError('LEARNING_HYPOTHESIS_REJECTED')
+            nominated_method=method
+            if spec.hypothesis_policy=='PRACTICE_COMPARE':
+                # Only public practice crosses this boundary. Final evaluation
+                # and transfer remain untouched application-owned holdouts.
+                from .practice import compare_practice
+                method,trials=compare_practice(problem,preferred=method)
+                new['practice_competition']={'nominee':nominated_method,'selected':method,'trials':trials,'selection_scope':'PRACTICE_ONLY_NOT_QUALIFICATION'}
             new['selected_method']=method
             parent=getattr(self.proposer,'last_record_id',None)
             if parent:
                 record=self.records.read(parent)
-                if record['record_kind']!='COGNITION_PROPOSAL' or record['scope']!=head['scope'] or record['privacy_class'] not in self.privacy or not self.records.current_support(parent) or record['payload']['reply']['proposal']['method']!=method:raise CoreError('LEARNING_COGNITION_SOURCE_MISMATCH')
+                if record['record_kind']!='COGNITION_PROPOSAL' or record['scope']!=head['scope'] or record['privacy_class'] not in self.privacy or not self.records.current_support(parent) or record['payload']['reply']['proposal']['method']!=nominated_method:raise CoreError('LEARNING_COGNITION_SOURCE_MISMATCH')
                 new['hypothesis_source']=parent
         if stage in {'BASELINE','PRACTICE','EVALUATE','TRANSFER'}:
             method=spec.baseline_method if stage=='BASELINE' else body['selected_method']

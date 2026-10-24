@@ -56,21 +56,27 @@ class OpenAgencyService(AgencyService):
         self.realization=GovernedRealization(store,port,authority,registry=self.registry);self.interval=step_interval_us
         self.learning=None;self.delivery=None
 
-    def _plan(self,obj,rid):
+    def _plan(self,obj,rid,*,completed=(),checkpoint_facts=()):
         # A reviewed learned strategy changes method choice, not capabilities/Grant.
         strategy_ids=[]
         if self.learning and any(op.strategy_selectable and op.capability=='world.compute' for op in obj.operators):
-            strategy=self.learning.strategy(obj.task_domain,obj.scope)
-            if strategy:
-                obj=obj.model_copy(update={'operators':tuple(op.model_copy(update={'args':{**op.args,'method':strategy[1]}}) if op.strategy_selectable and op.capability=='world.compute' else op for op in obj.operators)})
+            operators=[]
+            for op in obj.operators:
+                strategy=self.learning.strategy(op.task_domain or obj.task_domain,obj.scope) if op.strategy_selectable and op.capability=='world.compute' else None
+                if not strategy:
+                    operators.append(op);continue
+                op=op.model_copy(update={'args':{**op.args,'method':strategy[1]}})
                 strategy_ids.append(strategy[0])
                 lookup=getattr(self.realization.kernel.capability,'skill_for',None)
                 skill=lookup(strategy[1]) if lookup else None
                 if skill:
-                    obj=obj.model_copy(update={'operators':tuple(op.model_copy(update={'capability':'world.skill','args':{k:v for k,v in {**op.args,'skill_record_id':skill}.items() if k!='method'}}) if op.strategy_selectable and op.capability=='world.compute' else op for op in obj.operators)})
+                    op=op.model_copy(update={'capability':'world.skill','args':{k:v for k,v in {**op.args,'skill_record_id':skill}.items() if k!='method'}})
                     strategy_ids.append(skill)
+                operators.append(op)
+            obj=obj.model_copy(update={'operators':tuple(operators)})
         world_revision=digest(obj.model_dump(mode='json'))
-        request=PlannerInput(objective=obj,source_record_id=rid,world_revision=world_revision)
+        if completed:world_revision=digest([world_revision,completed,checkpoint_facts])
+        request=PlannerInput(objective=obj,source_record_id=rid,world_revision=world_revision,completed_operator_ids=completed,checkpoint_facts=checkpoint_facts)
         proposal=self.policy.planner.plan(request)
         steps=validate_plan(request,proposal,self.registry)
         for rid in proposal.source_record_ids:
@@ -131,9 +137,10 @@ class OpenAgencyService(AgencyService):
             tx.update('subject_goal_candidates',cycle.goal_candidate_id,state='ADOPTED');self._complete(tx,cycle.intention_id)
         return gid
 
-    def _plan_record(self,tx,gid,pid,obj,steps,parent,strategies=(),supersedes=None):
+    def _plan_record(self,tx,gid,pid,obj,steps,parent,strategies=(),supersedes=None,checkpoint=None):
+        parents=(parent,*strategies,*tuple(check['record_id'] for check in checkpoint['checks'])) if checkpoint else (parent,*strategies)
         return self.records.create(tx,kind='AUTONOMOUS_PLAN',scope=obj.scope,payload={'format':'OPEN_PLAN_V1','goal_id':gid,'plan_id':pid,'program':{'program_id':obj.objective_id},'objective':obj.model_dump(mode='json'),
-            'steps':[s.model_dump(mode='json') for s in steps],'task_class':obj.task_domain,'strategy_ids':strategies,'policy_digest':digest(self.policy.get(obj.objective_id).model_dump(mode='json'))},records=(parent,*strategies),supersedes=supersedes)
+            'steps':[s.model_dump(mode='json') for s in steps],'task_class':obj.task_domain,'strategy_ids':strategies,'policy_digest':digest(self.policy.get(obj.objective_id).model_dump(mode='json')),**({'checkpoint':checkpoint} if checkpoint else {})},records=parents,supersedes=supersedes)
     def _complete(self,tx,iid):
         i=self.store.one('subject_intentions',iid) if iid else None
         if i and i['state']=='PENDING':tx.update('subject_intentions',iid,state='COMPLETED',revision=i['revision']+1)
@@ -158,9 +165,16 @@ class OpenAgencyService(AgencyService):
         for goal in self.store.db.execute("SELECT * FROM goals WHERE state IN ('FAILED','BLOCKED') ORDER BY priority DESC,last_served_us LIMIT 16"):
             meta=json.loads(goal['body_json']);head=self.store.one('continuity_records',meta.get('plan_record_id'))
             if not head or head['scope'] not in self.subject.scopes or not self.subject.visible(head['record_id'],head['scope']):continue
-            strategy=self.learning.strategy(goal['template'],head['scope'])
-            if not strategy:continue
             plan=self.records.read(head['record_id'])['payload']
+            work=self.store.one('jobs',meta['work_id'])
+            if plan.get('format')!='OPEN_PLAN_V1':continue
+            # Failed quality is recorded after cursor advancement. Select the
+            # failing primitive, not the next unrelated Hand's domain.
+            cursor=max(0,work['cursor']-1) if goal['state']=='FAILED' else work['cursor']
+            failed=plan['steps'][min(cursor,len(plan['steps'])-1)]
+            domain=failed.get('task_domain') or goal['template']
+            strategy=self.learning.strategy(domain,head['scope'])
+            if not strategy:continue
             if plan.get('format')!='OPEN_PLAN_V1' or strategy[0] in plan['strategy_ids']:continue
             lesson=self.store.db.execute('SELECT * FROM lessons WHERE record_id=?',(strategy[0],)).fetchone()
             exp=self.store.one('experiences',lesson['experience_id']);mid=exp['result_memory_id']
@@ -200,8 +214,20 @@ class OpenAgencyService(AgencyService):
                     controller.require_current(rid)
                 except CoreError:return self._park(work,view,'CODE_REALM_REVIEW_REQUIRED')
         op=plan['steps'][reference.cursor];args=dict(op['args']);input_mids=()
+        current_outputs=self._current_outputs(work)
+        # Check only a new dispatch. An existing ambiguous effect must still go
+        # through original independent Verify, even when its old state is stale.
+        pending_action=self.store.db.execute('SELECT action_id FROM actions WHERE effect_slot=?',('subject:'+cycle.intention_id,)).fetchone()
+        if op.get('input_guard') and not pending_action:
+            from .contracts import InputStateGuard
+            from .state import observation_state
+            guard=InputStateGuard.model_validate_json(canonical(op['input_guard']))
+            match=next((o for o in reversed(current_outputs) if o.get('operator_id')==guard.observation_operator_id),None)
+            if not match:return self._park(work,view,'STATE_DEPENDENCY_MISSING')
+            state=observation_state(self,match,guard)
+            if state.freshness!='CURRENT':return self._park(work,view,'STATE_DEPENDENCY_'+state.freshness)
         if args.get('input_from'):
-            prior=[o for o in self._outputs(view.goal_id) if o.get('plan_record_id')==work['record_id']]
+            prior=current_outputs
             match=next((o for o in reversed(prior) if o.get('operator_id')==args['input_from']),None)
             if not match:return self._park(work,view,'VERIFIED_INPUT_REQUIRED')
             observed=self.records.memory.read(match['memory_id'])
@@ -243,7 +269,7 @@ class OpenAgencyService(AgencyService):
             if prior:exp=prior[0]
             else:
                 checked=service.verify_structured_result(mid,op['expected_digest'],self._authority)
-                exp=service.record(ExperienceInput(context_memory_ids=view.source_memory_ids[:32],scope=head['scope'],task_class=plan['task_class'],decision=cycle.judgment.reason,result_memory_id=mid,verification_memory_id=checked))
+                exp=service.record(ExperienceInput(context_memory_ids=view.source_memory_ids[:32],scope=head['scope'],task_class=op.get('task_domain') or plan['task_class'],decision=cycle.judgment.reason,result_memory_id=mid,verification_memory_id=checked))
         final=reference.cursor+1==len(plan['steps']);data={'goal_id':view.goal_id,'work_id':work['job_id'],'plan_record_id':work['record_id'],'operator_id':op['operator_id'],'cursor':reference.cursor,'action_id':aid,'memory_id':mid,'experience_id':exp,'quality':quality}
         with self.store.transaction('living.goal_step_completed',data,source_namespace='living.goal-step',source_key=work['job_id']+':'+str(reference.revision)+':'+str(reference.cursor)) as tx:
             fresh=self.store.one('jobs',work['job_id'])
@@ -253,6 +279,20 @@ class OpenAgencyService(AgencyService):
             tx.update('goals',view.goal_id,state='FAILED' if not quality else 'COMPLETED' if final else 'ACTIVE',version=goal['version']+1,last_served_us=now)
             self._complete(tx,cycle.intention_id)
         return data
+
+    def _current_outputs(self,work):
+        """Indexed exact occurrence lookups; bounded by current typed plan size.
+
+        Avoid scanning all historical revisions on every dataflow transition.
+        A completed step increments revision once; other revision changes (pause,
+        park) mean source keys cannot be inferred, so use a bounded indexed range.
+        """
+        prefix=work['job_id']+':'
+        rows=self.store.db.execute("SELECT data_json FROM events WHERE source_namespace='living.goal-step' AND source_key>=? AND source_key<? ORDER BY seq DESC LIMIT 128",(prefix,prefix+'\uffff')).fetchall()
+        values=[json.loads(row[0])['data'] for row in rows]
+        current=list(reversed([row for row in values if row.get('plan_record_id')==work['record_id']]))
+        plan=self.records.read(work['record_id'])['payload']
+        return [*plan.get('checkpoint',{}).get('outputs',()),*current]
 
     def link_supersession(self,old_goal_id,new_goal_id,cycle_id,*,cause_memory_id,authority):
         """Describe a C-chosen replacement; never abandon/adopt on behalf of C."""
@@ -289,16 +329,29 @@ class OpenAgencyService(AgencyService):
     def revise(self,goal_id,*,expected_version,cause_memory_id,authority):
         """Fresh supported world/strategy change: new plan, never a retry of UNKNOWN."""
         if authority is not self._authority:raise CoreError('UNAUTHENTICATED_OPERATOR')
+        revision_key=goal_id+':'+str(expected_version)+':'+cause_memory_id
+        if self.store.db.execute("SELECT 1 FROM events WHERE source_namespace='open.goal-replan' AND source_key=?",(revision_key,)).fetchone():return goal_id
         goal=self.store.one('goals',goal_id)
         if not goal or goal['version']!=expected_version or goal['state'] not in {'FAILED','BLOCKED','ACTIVE','SUSPENDED'}:raise CoreError('STALE_GOAL_TRANSITION')
         if self.store.db.execute("SELECT 1 FROM actions WHERE goal_id=? AND state IN ('READY','DISPATCHING','UNKNOWN','PENDING_VERIFY')",(goal_id,)).fetchone():raise CoreError('VERIFY_UNKNOWN_EFFECT_FIRST')
         meta=json.loads(goal['body_json']);work=self.store.one('jobs',meta['work_id']);old=self.records.read(work['record_id']);cause=self.records.memory.read(cause_memory_id)
+        # A crash after verified effect but before step progress must reconcile
+        # that exact effect first. Fresh planning cannot silently duplicate it.
+        if self.store.db.execute("SELECT 1 FROM actions a WHERE a.goal_id=? AND a.state='SUCCEEDED' AND NOT EXISTS (SELECT 1 FROM events e WHERE e.source_namespace='living.goal-step' AND json_extract(e.data_json,'$.data.action_id')=a.action_id) LIMIT 1",(goal_id,)).fetchone():raise CoreError('RECONCILE_COMPLETED_EFFECT_FIRST')
         if cause['scope']!=old['scope'] or cause['authority']!='DIRECT' or cause['observed_time_us']<work['updated_at_us']:raise CoreError('FRESH_RECONSIDERATION_SOURCE_REQUIRED')
-        obj=self.policy.get(old['payload']['program']['program_id']);obj,steps,strategies=self._plan(obj,work['record_id'])
-        with self.store.transaction('open.goal_replanned',{'goal_id':goal_id,'cause_memory_id':cause_memory_id}) as tx:
+        obj=self.policy.get(old['payload']['program']['program_id'])
+        from .checkpoints import checked_prefix
+        completed,facts,outputs,checks=checked_prefix(self,work,old['payload'],obj)
+        checkpoint={'completed_operator_ids':completed,'facts':facts,'outputs':outputs,'checks':checks,'grants_authority':False} if completed else None
+        obj,steps,strategies=self._plan(obj,work['record_id'],completed=completed,checkpoint_facts=facts if completed else ())
+        prefix='step-'+work['job_id']+'-'
+        superseded=self.store.db.execute("SELECT * FROM subject_intentions WHERE scope=? AND kind='ACTION_PROPOSAL' AND state='PENDING' AND slot_key>=? AND slot_key<?",(old['scope'],prefix,prefix+'\uffff')).fetchall()
+        with self.store.transaction('open.goal_replanned',{'goal_id':goal_id,'cause_memory_id':cause_memory_id,'superseded_step_intentions':[row['intention_id'] for row in superseded],'non_execution_reason':'PLAN_SUPERSEDED_NOT_SUBJECT_RESTRAINED'},source_namespace='open.goal-replan',source_key=revision_key) as tx:
             cause_rid=self.records.create(tx,kind='AUTONOMOUS_PLAN',scope=obj.scope,payload={'cause':cause_memory_id},records=(meta['record_id'],),memories=(cause_memory_id,))
-            rid=self._plan_record(tx,goal_id,old['payload']['plan_id'],obj,steps,cause_rid,strategies,supersedes=work['record_id'])
+            rid=self._plan_record(tx,goal_id,old['payload']['plan_id'],obj,steps,cause_rid,strategies,supersedes=work['record_id'],checkpoint=checkpoint)
             tx.update('goals',goal_id,state='ACTIVE',version=goal['version']+1,body_json=canonical({**meta,'plan_record_id':rid}))
             tx.update('plans',old['payload']['plan_id'],body_json=canonical({'record_id':rid}))
             tx.update('jobs',work['job_id'],record_id=rid,cursor=0,state='WAITING',revision=work['revision']+1,due_at_us=self.store.clock.utc_now_us(),updated_at_us=self.store.clock.utc_now_us(),body_json=canonical({'goal_id':goal_id,'plan_id':old['payload']['plan_id']}))
+            for intention in superseded:
+                tx.update('subject_intentions',intention['intention_id'],state='DEFERRED',revision=intention['revision']+1)
         return goal_id

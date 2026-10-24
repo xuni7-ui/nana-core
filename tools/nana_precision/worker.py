@@ -2,6 +2,7 @@
 import json
 import sys
 import time
+import resource
 
 
 def main():
@@ -30,6 +31,7 @@ def main():
     except Exception as exc:
         out = {'state': 'INVALID', 'reason': type(exc).__name__}
     out['planner_seconds'] = time.perf_counter() - start
+    out['process_peak_rss_kib'] = resource.getrusage(resource.RUSAGE_SELF).ru_maxrss
     print(json.dumps(out))
 
 

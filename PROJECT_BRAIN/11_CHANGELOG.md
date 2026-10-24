@@ -2546,3 +2546,8 @@ Portable236 files，两次保留build byte-identical，SHA256 f4e5bcfa3999f159aa
 ## Precision V2 P0 — frozen benchmark before runtime upgrade / 2026-10-24
 
 Advanced Growth S6/S7 and S2/S4/S5/S8/S9 integration; GLOBAL_STAGE H. User mission supersedes prior task STOP, not Master/fixed63. Reconciled origin/local d695ed7, only old bundle untracked. Frozen24-case symbolic evaluator:9/20 valid completions,4 invalid proposals rejected by original validator,0 accepted false success. Baseline dataflow/search explosion motivates evolving original planner; no runtime changes yet. Model ablation NOT_RUN, provider0. Prior5h PARTIAL_EXTERNAL_LIMIT preserved; new qualification PENDING_EXTERNAL_STABLE_ENV. See docs/nana_precision_v2_implementation.md.
+
+
+## Precision V2 P1 — source candidate / 2026-10-24
+
+原C/D/F/Kernel/G内升级；37步分层经重启原C/Kernel完成；state stale/revision guard阻断新动作；实际三Hand先自然失败，方法按op domain转入G并保留FAILURE，独立重观测后9→3剩余步骤，文件移动1次。两个检查点commit切点实际SIGKILL后同主体完成，23 targeted PASS。诊断记录保留：旧intent slot、跨Hand错误domain和重复FILES导致UNKNOWN均实测；修复非降低验证。新crash harness首次重捕同source key被正确拒绝，改为复用原source；8实际Actions而非错误预期9（bad compute从未publish），断言按明确链修正。Runtime/Store/Owner新增0，schema13/43，依赖0，bundle untouched。

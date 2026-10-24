@@ -3,7 +3,7 @@ import json
 from pydantic import Field
 from ...contracts import DTO,CoreError
 from ...storage import digest
-from ..open_agency.contracts import Objective
+from ..open_agency.contracts import Objective,TaskGroup
 from ..open_life.opportunities import LifeOpportunity,ActivityCost
 from ..subject.opportunities import ConcernCue
 from ..world_loop.world import WorldModel
@@ -14,9 +14,10 @@ class ControlledProject(DTO):
     trigger_predicate:str=Field(pattern=r'^[a-z][a-z0-9._:-]{0,95}$')
     trigger_value:str|None=Field(default=None,max_length=128)
     require_research:bool=False
-    task_ids:tuple[str,...]=Field(min_length=2,max_length=5)
+    task_ids:tuple[str,...]=Field(min_length=2,max_length=24)
     review_seconds:int=Field(default=3600,ge=30,le=86400)
     max_cost:int=Field(default=32,ge=1,le=100)
+    learn_methods:bool=False
 
 class ProjectPortfolio:
     def __init__(self,app,specs):
@@ -25,7 +26,7 @@ class ProjectPortfolio:
         work=app.work
         for spec in specs:
             if len(set(spec.task_ids))!=len(spec.task_ids) or any(k not in work.port.tasks for k in spec.task_ids):raise CoreError('PROJECT_TASK_NOT_DECLARED')
-            ops=[];last=None
+            ops=[];last=None;groups=[]
             for i,key in enumerate(spec.task_ids):
                 obj=work.objects[key];prefix='p'+str(i)+'.'
                 for op in obj.operators:
@@ -33,13 +34,15 @@ class ProjectPortfolio:
                     if args.get('input_from'):args['input_from']=prefix+args['input_from']
                     # Reviewed existing correct primitive, not a generated final
                     # answer: named forms and replace docs instead of bad demos.
-                    if op.capability=='world.compute':
+                    if op.capability=='world.compute' and not spec.learn_methods:
                         if args.get('method')=='HANDS_APPEND':args['method']='HANDS_REPLACE'
                         if args.get('method')=='HANDS_POSITIONAL':args['method']='HANDS_NAMED'
                     requires=tuple(prefix+x for x in op.requires)+((last,) if not op.requires and last else ())
-                    ops.append(op.model_copy(update={'operator_id':prefix+op.operator_id,'requires':requires,'produces':tuple(prefix+x for x in op.produces),'consumes':tuple(prefix+x for x in op.consumes),'args':args,'strategy_selectable':False}))
+                    ops.append(op.model_copy(update={'operator_id':prefix+op.operator_id,'requires':requires,'produces':tuple(prefix+x for x in op.produces),'consumes':tuple(prefix+x for x in op.consumes),'args':args,'strategy_selectable':op.strategy_selectable if spec.learn_methods else False,'task_domain':obj.task_domain if spec.learn_methods else None}))
                 last=prefix+'applied'
-            obj=Objective(objective_id='project.'+spec.project_id,scope='project-work',motivation_source='PROJECT_COMPLETION',task_domain='owned-maintenance',desired=(last,),operators=tuple(ops),horizon='ONGOING',max_steps=len(ops))
+                groups.append(TaskGroup(group_id='group.task'+str(i),members=tuple(op.operator_id for op in ops if op.operator_id.startswith(prefix))))
+            groups.append(TaskGroup(group_id='group.project',members=tuple(group.group_id for group in groups)))
+            obj=Objective(objective_id='project.'+spec.project_id,scope='project-work',motivation_source='PROJECT_COMPLETION',task_domain='owned-maintenance',desired=(last,),operators=tuple(ops),task_groups=tuple(groups),horizon='ONGOING',max_steps=len(ops))
             if sum(o.cost for o in obj.operators)>spec.max_cost:raise CoreError('PROJECT_COST_CEILING')
             work.policy.offer(obj);self.objects[spec.project_id]=obj
         work.reserved_task_ids=frozenset(k for x in specs for k in x.task_ids)

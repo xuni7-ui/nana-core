@@ -1494,3 +1494,8 @@ Scope-qualified dev PASS does not promote human/First-Life/Beta or device author
 采用独立per-source seed让真正combined life形成三源CONTRADICTION，不向driver写研究答案。HTTP202仅volatile admission；仅三个输入前置拒绝可收口为REJECTED_INPUT，lease/privacy/integrity仍传播。资源成本为host estimate，绝不提权或伪造账单。
 
 实际boot更换且原final缺失时只能PARTIAL_EXTERNAL_LIMIT；保留旧run/unknown exit，不以日历时间、重建run或进度文件代替>=5h原始结果。只读checker的partial一致性PASS不表示驻留PASS，固定27个task gate不能省略；Master/63不改变。新验证receipt保存在/workspace而非依赖/tmp。
+
+
+## Precision V2 P1 — source candidate / 2026-10-24
+
+采用有限AND group + 原operator替代路径/显式dataflow/1024 expansions与8192 frontier，不建第二planner。原1024 UCS组合爆炸及fact-only来源混淆由frozen baseline复现。独立Kernel reobserve是有Grant/预算的读，不改旧Action成功，不等于dispatch；仅当前MATCH且expected digest吻合的完整group前缀可复用，UNKNOWN/未对账成功禁止重规划。修复旧pending step占槽和replan commit→ack幂等gap。每个op携带可选task_domain，让真实失败进入适用G方法，不全局跨Hand套用同一lesson。practice竞争只看public practice，heldout/evaluator/authoritative Core无自改。

@@ -992,3 +992,8 @@ Portable236 files，两次保留build byte-identical，SHA256 f4e5bcfa3999f159aa
 整体STATUS=PARTIAL_EXTERNAL_LIMIT；其余26项受控工程门PASS，剩余仅稳定执行环境中真实连续>=5h最终artifact。Human NOT_RUN；FIRST_LIFE NOT_READY/Beta NO。付费Provider/private/social/device/production/main/R045/S10变更0。没有因human review或历史provider UNKNOWN重开主路线。Manifest SHA256 3ac8eb15764790cfa151d3b5f9e249d9c23a17bcce81e250a5246e258d2b3282（manifest不自指）。
 
 当前下一步保持同一workstream：稳定dev executor的5h资格；不新造Domain/Stage，不改变Foundation或主线优先级。
+
+
+## Precision V2 P1 — source candidate / 2026-10-24
+
+Precision V2服务S6/S7/S8及S2/S4/S5/S9和三横轴，非新Stage。Benchmark-first完成后深化原F/G与Kernel，不重做Foundation；旧5h是并行遗留门，不阻塞本主线。

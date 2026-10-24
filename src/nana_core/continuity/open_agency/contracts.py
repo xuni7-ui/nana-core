@@ -5,6 +5,19 @@ from ...contracts import DTO
 from ..autonomy.contracts import RealizationTarget
 
 Fact = str
+
+class TaskGroup(DTO):
+    """Finite AND decomposition over operators/nested groups; never authority."""
+    group_id: str = Field(pattern=r'^group\.[a-z][a-z0-9._-]{0,57}$')
+    members: tuple[str,...] = Field(min_length=1,max_length=128)
+    depends_on: tuple[str,...] = Field(default=(),max_length=32)
+
+class InputStateGuard(DTO):
+    """Required recent independently verified observation, not a model claim."""
+    observation_operator_id: str = Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
+    max_age_us: int = Field(ge=1,le=86400_000_000)
+    expected_revision: str | None = Field(default=None,pattern=r'^[a-f0-9]{64}$')
+
 class Operator(DTO):
     operator_id: str = Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
     capability: Literal['world.observe','world.compute','world.publish','world.contact','world.skill']
@@ -16,6 +29,14 @@ class Operator(DTO):
     args: dict
     expected_digest: str | None = Field(default=None,pattern=r'^[a-f0-9]{64}$')
     strategy_selectable: bool = False
+    input_guard: InputStateGuard | None = None
+    task_domain: str | None = Field(default=None,pattern=r'^[a-z][a-z0-9._-]{0,63}$')
+    @model_serializer(mode='wrap')
+    def compatible_wire(self,handler):
+        value=handler(self)
+        if self.input_guard is None:value.pop('input_guard',None)
+        if self.task_domain is None:value.pop('task_domain',None)
+        return value
     def target(self):
         return RealizationTarget(capability=self.capability,resource=self.resource,resource_class='ORDINARY',
             operation='READ' if self.capability in {'world.observe','world.compute','world.skill'} else 'CONTACT' if self.capability=='world.contact' else 'WRITE')
@@ -27,12 +48,13 @@ class Objective(DTO):
     task_domain: str = Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
     desired: tuple[Fact,...] = Field(min_length=1,max_length=8)
     initial: tuple[Fact,...] = Field(default=(),max_length=32)
-    operators: tuple[Operator,...] = Field(min_length=1,max_length=32)
+    operators: tuple[Operator,...] = Field(min_length=1,max_length=128)
+    task_groups: tuple[TaskGroup,...] = Field(default=(),max_length=32)
     priority: int = Field(default=1,ge=0,le=3)
     deadline_us: int | None = Field(default=None,ge=0)
     depends_on: tuple[str,...] = Field(default=(),max_length=8)
     parent_id: str | None = None
-    max_steps: int = Field(default=12,ge=1,le=32)
+    max_steps: int = Field(default=12,ge=1,le=128)
     horizon: Literal['IMMEDIATE','SHORT','ONGOING']='SHORT'
     review_after_us: int | None = Field(default=None,ge=0)
     @model_serializer(mode='wrap')
@@ -40,21 +62,34 @@ class Objective(DTO):
         value=handler(self)
         if self.horizon=='SHORT':value.pop('horizon',None)
         if self.review_after_us is None:value.pop('review_after_us',None)
+        if not self.task_groups:value.pop('task_groups',None)
         return value
     @model_validator(mode='after')
     def unique_ops(self):
         if len(set(x.operator_id for x in self.operators))!=len(self.operators):raise ValueError('duplicate operator')
         if any(not 1<=len(f)<=96 for f in (*self.initial,*self.desired,*(f for op in self.operators for f in (*op.requires,*op.produces,*op.consumes)))):raise ValueError('bounded facts required')
+        if self.task_groups or any(op.input_guard for op in self.operators):
+            from .task_graph import predecessors
+            predecessors(self)
         return self
 
 class PlannerInput(DTO):
     objective: Objective
     source_record_id: str
     world_revision: str
+    completed_operator_ids: tuple[str,...] = Field(default=(),max_length=128)
+    checkpoint_facts: tuple[str,...] = Field(default=(),max_length=2048)
+    @model_validator(mode='after')
+    def checked_shape(self):
+        known={op.operator_id for op in self.objective.operators}
+        if len(set(self.completed_operator_ids))!=len(self.completed_operator_ids) or not set(self.completed_operator_ids)<=known:raise ValueError('unknown or duplicate checkpoint operator')
+        if self.checkpoint_facts and not self.completed_operator_ids:raise ValueError('checkpoint facts need completed work')
+        if any(not 1<=len(f)<=96 for f in self.checkpoint_facts):raise ValueError('bounded checkpoint fact required')
+        return self
 class PlanCandidate(DTO):
     source_record_ids: tuple[str,...] = Field(default=(),max_length=8)
     provenance: Literal['PROPOSAL_NOT_AUTHORITY'] = 'PROPOSAL_NOT_AUTHORITY'
-    operator_ids: tuple[str,...] = Field(min_length=0,max_length=32)
+    operator_ids: tuple[str,...] = Field(min_length=0,max_length=128)
     source_record_id: str
     world_revision: str
 class PlannerPort(Protocol):

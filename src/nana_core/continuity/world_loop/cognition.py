@@ -75,7 +75,7 @@ class StructuredProposal(DTO):
     interpretation:str=Field(min_length=1,max_length=2048)
     source_refs:tuple[str,...]=Field(default=(),max_length=64)
     interests:tuple[InterestProposal,...]=Field(default=(),max_length=4)
-    plan_operator_ids:tuple[str,...]=Field(default=(),max_length=32)
+    plan_operator_ids:tuple[str,...]=Field(default=(),max_length=128)
     skill_source:str|None=Field(default=None,max_length=8192)
     method:str|None=Field(default=None,max_length=64)
     uncertainty:Literal['LOW','RELEVANT','HIGH','UNKNOWN']='UNKNOWN'

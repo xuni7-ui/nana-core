@@ -7,30 +7,29 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 29,
-  "as_of_us": 1792819839633857,
+  "revision": 30,
+  "as_of_us": 1792841350875917,
   "stage": "H",
-  "workstream": "REAL_WORLD_CONTROLLED_EXPANSION_LONG_LIVED_AUTONOMY_V1",
-  "status": "PARTIAL_EXTERNAL_LIMIT",
+  "workstream": "PRECISION_ARCHITECTURE_OPEN_WORLD_INTELLIGENCE_UPGRADE_V2",
+  "status": "IMPLEMENTED_TARGETED_TESTED_FINAL_QUALIFICATION_PENDING",
   "progress": [
-    "Advanced Growth S2–S9/三横轴；原C/D/Store/Kernel/G/I，Master/fixed63不变。",
-    "8个实现提交保留；五服务/结构化Browser/三源矛盾研究→9步三Hand→G/I复用与退休→shared candidate→原B8迁移已复核。",
-    "当前源码a47b672：focused 46、targeted 52、全仓1510 passed/0fail/12skip；E12/live screen未运行。",
-    "原b6450e1最后健康快照3939.796s，无final；boot更换/owner消失，准确exit/duration UNKNOWN；5h资格PARTIAL。",
-    "原run只读保留、旧Hand目标拒绝，无重启/替代soak/时长拼接。热状态有界、库quick/FK正常，物理effect历史未抹除。",
-    "两份确定性portable archive相同；新环境双安装/迁移/已安装新能力通过；schema13/43，新表/依赖0。",
-    "本轮paid/provider/private/social/device/production/main/R045均0；Human NOT_RUN，First-Life NOT_READY/Beta NO。"
+    "Advanced Growth S2–S9/三横轴，GLOBAL_STAGE H；继承d695ed7，本地远端匹配，Master/fixed63不变。",
+    "冻结独立符号baseline24例：9/20可解完成，4个无效提案被原validator拒绝，0接受假成功。",
+    "原Planner因果搜索/有界分层128steps；来源时效guard、Kernel预算/Grant下独立重观测、已完成group checkpoint局部重规划。",
+    "原G可选practice-only竞争，heldout不参与选择；异构project逐算子domain保留真实失败并迁移所学方法。",
+    "23 targeted PASS；同主体实际owned文档/文件/表单失败→G→C→剩余3步修复，文件移动仅1次；2真实SIGKILL切点PASS。",
+    "最终heldout/full/portable尚待执行；新paid0，真实模型对照MODEL_ABLATION_NOT_RUN，human/First-Life/Beta不升级。"
   ],
   "open_gates": [
-    "当前工程唯一未关闭：稳定执行环境中连续>=5h的原始最终结果与全套完整性/资源/恢复证明；现有中断run不升级。",
-    "Human/真实provider/真实社交/设备/生产仍属独立授权与资格，不阻塞已授权构建，也不自动宣称First-Life/Beta。"
+    "V2候选源码冻结后独立未见图/同基准比较、全仓和portable资格待执行。",
+    "旧5h驻留证据保持PARTIAL_EXTERNAL_LIMIT；后续资格PENDING_EXTERNAL_STABLE_ENV，不拼接/替代。",
+    "Semantic generalization/live LLM ablation/human/真实设备和生产另门，不以确定性结果冒充。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
-    "docs/nana_real_world_controlled_expansion_v1_implementation.md",
-    "docs/nana_real_world_controlled_expansion_v1_status.md",
-    "docs/nana_real_world_controlled_expansion_v1_evidence/manifest.json"
+    "docs/nana_precision_v2_implementation.md",
+    "docs/nana_precision_v2_evidence/baseline.json"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2160,6 +2159,43 @@ Historical current-source revision before resumption (not current):
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
     "docs/nana_real_world_controlled_expansion_v1_implementation.md"
+  ]
+}
+```
+
+
+## HISTORICAL TYPED HEADER — Controlled World V1 revision29
+
+```json
+{
+  "schema_version": 1,
+  "project_id": "nana-core",
+  "scope": "project-work",
+  "privacy_class": "PROJECT",
+  "revision": 29,
+  "as_of_us": 1792819839633857,
+  "stage": "H",
+  "workstream": "REAL_WORLD_CONTROLLED_EXPANSION_LONG_LIVED_AUTONOMY_V1",
+  "status": "PARTIAL_EXTERNAL_LIMIT",
+  "progress": [
+    "Advanced Growth S2–S9/三横轴；原C/D/Store/Kernel/G/I，Master/fixed63不变。",
+    "8个实现提交保留；五服务/结构化Browser/三源矛盾研究→9步三Hand→G/I复用与退休→shared candidate→原B8迁移已复核。",
+    "当前源码a47b672：focused 46、targeted 52、全仓1510 passed/0fail/12skip；E12/live screen未运行。",
+    "原b6450e1最后健康快照3939.796s，无final；boot更换/owner消失，准确exit/duration UNKNOWN；5h资格PARTIAL。",
+    "原run只读保留、旧Hand目标拒绝，无重启/替代soak/时长拼接。热状态有界、库quick/FK正常，物理effect历史未抹除。",
+    "两份确定性portable archive相同；新环境双安装/迁移/已安装新能力通过；schema13/43，新表/依赖0。",
+    "本轮paid/provider/private/social/device/production/main/R045均0；Human NOT_RUN，First-Life NOT_READY/Beta NO。"
+  ],
+  "open_gates": [
+    "当前工程唯一未关闭：稳定执行环境中连续>=5h的原始最终结果与全套完整性/资源/恢复证明；现有中断run不升级。",
+    "Human/真实provider/真实社交/设备/生产仍属独立授权与资格，不阻塞已授权构建，也不自动宣称First-Life/Beta。"
+  ],
+  "evidence_refs": [
+    "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
+    "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
+    "docs/nana_real_world_controlled_expansion_v1_implementation.md",
+    "docs/nana_real_world_controlled_expansion_v1_status.md",
+    "docs/nana_real_world_controlled_expansion_v1_evidence/manifest.json"
   ]
 }
 ```
