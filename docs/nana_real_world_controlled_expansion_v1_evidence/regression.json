@@ -1,0 +1,438 @@
+{
+  "focused_cases": [
+    {
+      "node": "tests.controlled_world.test_adversarial_life.test_source_claiming_user_wants_research_cannot_override_explicit_refusal",
+      "seconds": 0.133,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_adversarial_life.test_newest_filename_and_revision_do_not_revive_stale_fact",
+      "seconds": 0.113,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[IDLE]",
+      "seconds": 4.437,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[IDLE_TERM]",
+      "seconds": 3.317,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[IDLE_GRACEFUL]",
+      "seconds": 3.272,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[RESEARCH]",
+      "seconds": 3.311,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[BEFORE_ACTION]",
+      "seconds": 3.207,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[AFTER_ACTION_BEFORE_VERIFY]",
+      "seconds": 3.867,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[DURING_VERIFY]",
+      "seconds": 3.852,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[AFTER_EXPERIENCE]",
+      "seconds": 6.725,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[LEARNING]",
+      "seconds": 5.554,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[SKILL_QUALIFICATION]",
+      "seconds": 21.428,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[AFTER_DELIVERY_CANDIDATE]",
+      "seconds": 62.71,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[BACKUP]",
+      "seconds": 3.899,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_failures_ingress.test_real_http_drop_plus_verifier_socket_unavailable_unknown_no_resend",
+      "seconds": 1.793,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_failures_ingress.test_second_real_unknown_intake_timeout_and_restart_no_retry",
+      "seconds": 1.401,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_failures_ingress.test_concurrent_three_surfaces_owner_order_dedup_l1_and_preemption",
+      "seconds": 0.608,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_failures_ingress.test_user_input_during_actual_effect_waits_for_safe_point_then_preempts",
+      "seconds": 1.648,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_lab_browser.test_five_process_lab_timer_and_structural_navigation",
+      "seconds": 2.351,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_lab_browser.test_semantic_page_reordering_and_fake_success",
+      "seconds": 0.003,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_lab_browser.test_browser_request_cap_and_original_kernel",
+      "seconds": 11.47,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_lab_browser.test_owned_task_api_cru_duplicate_collision_partial_and_drop",
+      "seconds": 0.871,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_lab_browser.test_browser_pid_cannot_be_paired_with_another_local_listener",
+      "seconds": 3.341,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_lab_browser.test_lab_atomic_replace_does_not_follow_existing_symlink",
+      "seconds": 0.002,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_lab_browser.test_html_identifiers_not_truncated_into_valid_binding",
+      "seconds": 0.0,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_lab_browser.test_stale_dom_revision_cannot_become_current_observation",
+      "seconds": 2.363,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_memory_scale.test_bounded_context_important_old_corrected_withdrawn_and_corrupt",
+      "seconds": 3.032,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_model_resource.test_wording_latency_model_swap_and_malformed_same_subject",
+      "seconds": 1.213,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_noisy_growth.test_actual_noisy_heldout_failure_revised_problem_transfer_and_counterexample",
+      "seconds": 0.172,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_noisy_growth.test_skill_created_qualified_used_reused_counterexample_suspended_retired",
+      "seconds": 0.54,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_project_presence.test_automatic_multihand_project_c_pause_restart_resume",
+      "seconds": 4.848,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_project_presence.test_shared_internal_candidate_completes_without_claiming_send",
+      "seconds": 5.94,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_project_presence.test_supersession_only_links_original_c_withdrawal_and_adoption",
+      "seconds": 0.532,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_resource_choice.test_c_can_choose_cheaper_then_rest_without_magic_authority[cost0]",
+      "seconds": 0.17,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_resource_choice.test_c_can_choose_cheaper_then_rest_without_magic_authority[cost1]",
+      "seconds": 0.187,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_resource_choice.test_c_can_choose_cheaper_then_rest_without_magic_authority[cost2]",
+      "seconds": 0.176,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_resource_choice.test_c_can_choose_cheaper_then_rest_without_magic_authority[cost3]",
+      "seconds": 0.165,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_resource_choice.test_c_can_choose_cheaper_then_rest_without_magic_authority[cost4]",
+      "seconds": 0.148,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_resource_choice.test_c_can_choose_cheaper_then_rest_without_magic_authority[cost5]",
+      "seconds": 0.165,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_sources_research.test_explicit_source_lifecycle_revision_collision_and_no_cross_source",
+      "seconds": 0.126,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_sources_research.test_managed_cue_not_redelivered_by_generic_watch",
+      "seconds": 0.118,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_sources_research.test_expired_world_history_does_not_permanently_hide_current_belief",
+      "seconds": 0.951,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_sources_research.test_parked_research_defers_lifecycle_without_rewriting_c_or_holding_load",
+      "seconds": 2.067,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_sources_research.test_noisy_burst_backpressure_daily_bound_and_unchanged_source_dedup",
+      "seconds": 0.186,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_surface_http.test_actual_web_social_cli_transport_one_owner_nonce_not_persisted",
+      "seconds": 1.048,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_surface_http.test_bridge_fail_closed_payload_priority_authority_and_closed_owner",
+      "seconds": 0.558,
+      "state": "PASS"
+    }
+  ],
+  "focused_subset_of_full_not_added": true,
+  "full": {
+    "case_count": 1522,
+    "errors": 0,
+    "failed": 0,
+    "passed": 1510,
+    "skipped": 12
+  },
+  "full_duration_seconds": 900.147,
+  "full_junit_sha256": "b20cb24bd41f859a578d1c7b5cec19a5e4092ab09c69573dcc37c7a2a4949af4",
+  "full_log_sha256": "c879a5c4b38b28baf6e5a62e6b77b33e646e18481847114cccd20173bd419237",
+  "initial_resumed_full": {
+    "case_count": 1522,
+    "errors": 0,
+    "failed": 1,
+    "passed": 1509,
+    "skipped": 12
+  },
+  "initial_resumed_full_log_sha256": "ff03a34ea17e49e4efab5e419f4b4b9de68d06e1937a3d2dbafccc9391643df9",
+  "isolated_case_recheck": "1 PASS_UNCHANGED_CODE_AND_LIMITS",
+  "native_decoder_transient_root_cause": "UNKNOWN_NOT_TIMEOUT_ASSERTION_OR_SANDBOX_WEAKENING",
+  "new_focused": {
+    "case_count": 46,
+    "errors": 0,
+    "failed": 0,
+    "passed": 46,
+    "skipped": 0
+  },
+  "prior_failure_summaries": "See committed implementation P1-P8. Earlier /tmp raw logs were lost across managed environment replacement; they are not recreated or claimed to be currently readable.",
+  "related_groups": {
+    "cloud_life": {
+      "case_count": 22,
+      "errors": 0,
+      "failed": 0,
+      "passed": 22,
+      "skipped": 0
+    },
+    "controlled_hands": {
+      "case_count": 18,
+      "errors": 0,
+      "failed": 0,
+      "passed": 18,
+      "skipped": 0
+    },
+    "foundation_closure": {
+      "case_count": 31,
+      "errors": 0,
+      "failed": 0,
+      "passed": 31,
+      "skipped": 0
+    },
+    "h1_semantics": {
+      "case_count": 32,
+      "errors": 0,
+      "failed": 0,
+      "passed": 32,
+      "skipped": 0
+    },
+    "open_autonomy": {
+      "case_count": 26,
+      "errors": 0,
+      "failed": 0,
+      "passed": 26,
+      "skipped": 0
+    },
+    "open_life": {
+      "case_count": 29,
+      "errors": 0,
+      "failed": 0,
+      "passed": 29,
+      "skipped": 0
+    },
+    "person_self": {
+      "case_count": 26,
+      "errors": 0,
+      "failed": 0,
+      "passed": 26,
+      "skipped": 0
+    },
+    "portable_subject": {
+      "case_count": 17,
+      "errors": 0,
+      "failed": 0,
+      "passed": 17,
+      "skipped": 0
+    },
+    "provider_routing": {
+      "case_count": 43,
+      "errors": 0,
+      "failed": 0,
+      "passed": 43,
+      "skipped": 0
+    }
+  },
+  "resumed_evidence_root": "/workspace/nana-staging/cw-resume-20261024",
+  "runtime_source_commit": "a47b672b1ac24dff43c611f05998ce3b057ad3d0",
+  "same_failed_input_native_decode": {
+    "failed_subprocess_diagnostics": [],
+    "limits_changed": false,
+    "provider_calls": 0,
+    "results": [
+      {
+        "duration_seconds": 0.7553437240001131,
+        "kind": "VIDEO",
+        "samples_or_frames": 8,
+        "source_codec": null,
+        "state": "DECODED"
+      },
+      {
+        "duration_seconds": 0.3393849850001516,
+        "kind": "AUDIO",
+        "samples_or_frames": 48128,
+        "source_codec": "aac",
+        "state": "DECODED"
+      }
+    ],
+    "same_failed_fixture_sha256": "eaddb59c5f18824fcb6a80b9f8c197fb96569402b040c23c84d59bbcae91a29b",
+    "timeouts_changed": false
+  },
+  "second_resumed_full": {
+    "case_count": 1522,
+    "errors": 0,
+    "failed": 1,
+    "passed": 1509,
+    "skipped": 12
+  },
+  "second_resumed_full_log_sha256": "d1a6d2898a3c8bd9e1cf10776ceb39c8bcf06091f4e4d239055f03cd9889c4b5",
+  "sharing_recheck": {
+    "case_count": 6,
+    "errors": 0,
+    "failed": 0,
+    "passed": 6,
+    "skipped": 0
+  },
+  "sharing_test_precondition_fix": "SINGLE_VERIFIED_OUTCOME_AND_EXPLICIT_SHADOW_RECIPIENT_NO_CORE_TIMEOUT_OR_ASSERTION_WEAKENING",
+  "skips": [
+    {
+      "node": "tests.h2_live_screen.test_live.test_ten_real_os_scenes_h1_world_concern_c",
+      "seconds": 0.004,
+      "state": "SKIP"
+    },
+    {
+      "node": "tests.h2_live_screen.test_live.test_live_runtime_preemption_backpressure_disable_remove_and_frontend",
+      "seconds": 0.002,
+      "state": "SKIP"
+    },
+    {
+      "node": "tests.h2_live_screen.test_live.test_real_backend_sigkill_six_cuts[BEFORE_SOURCE_OPEN]",
+      "seconds": 0.002,
+      "state": "SKIP"
+    },
+    {
+      "node": "tests.h2_live_screen.test_live.test_real_backend_sigkill_six_cuts[AFTER_CAPTURE_BEFORE_INGEST]",
+      "seconds": 0.001,
+      "state": "SKIP"
+    },
+    {
+      "node": "tests.h2_live_screen.test_live.test_real_backend_sigkill_six_cuts[AFTER_TECHNICAL_INGEST]",
+      "seconds": 0.001,
+      "state": "SKIP"
+    },
+    {
+      "node": "tests.h2_live_screen.test_live.test_real_backend_sigkill_six_cuts[BEFORE_SEMANTIC_DISPATCH]",
+      "seconds": 0.002,
+      "state": "SKIP"
+    },
+    {
+      "node": "tests.h2_live_screen.test_live.test_real_backend_sigkill_six_cuts[AFTER_SEMANTIC_RESPONSE]",
+      "seconds": 0.002,
+      "state": "SKIP"
+    },
+    {
+      "node": "tests.h2_live_screen.test_live.test_real_backend_sigkill_six_cuts[BEFORE_CONCERN]",
+      "seconds": 0.002,
+      "state": "SKIP"
+    },
+    {
+      "node": "tests.h2_live_screen.test_live.test_live_manager_preserves_watch_and_pixels_never_acquire_authority",
+      "seconds": 0.003,
+      "state": "SKIP"
+    },
+    {
+      "node": "tests.h2_live_screen.test_live.test_real_source_b8_transfer_new_display_and_forget",
+      "seconds": 0.001,
+      "state": "SKIP"
+    },
+    {
+      "node": "tests.h2_live_screen.test_live.test_visual_injection_payload_cannot_propose_authority",
+      "seconds": 0.001,
+      "state": "SKIP"
+    },
+    {
+      "node": "tests.offline_continuity.test_experiment.test_E12_real_model_migration",
+      "seconds": 0.0,
+      "state": "SKIP"
+    }
+  ],
+  "targeted_invocation": {
+    "case_count": 52,
+    "errors": 0,
+    "failed": 0,
+    "passed": 52,
+    "skipped": 0
+  }
+}

@@ -1,0 +1,11 @@
+OWNED DEV / deterministic sourced semantics only, not general public-world cognition or live provider/human qualification.
+The old b6450e1 run has only a last healthy observation at3939.795642475 seconds. Managed environment boot changed, owner disappeared, result.json is absent. Exact exit/duration UNKNOWN. Original root is preserved, not restarted. LONG_REAL_RESIDENCY PARTIAL_EXTERNAL_LIMIT; no stitched time or replacement soak.
+The current runtime a47b672 was independently requalified, installed and regressed after the reset. Exact current-release5h residency NOT_RUN. Human review NOT_RUN; First-Life NOT_READY; Beta NO.
+Whole-lab resource readings cover only the late-started observer span and seven persistent processes. Core high-water RSS/cumulative CPU are from the last snapshot; full Core sampling series was in process memory and was lost. No production cost or five-hour resource claim.
+Browser is bounded allowlisted localhost HTML structure, no JavaScript/public login/arbitrary browser/phone/desktop/game control. Task/API CRUD faults are lab protocol tests, not a generalized public API Hand.
+Research verifies comparison work, not world truth. Long project is finite9-step persistent lifecycle; not unrestricted weeks-long planning. Skills are deterministic bounded pure-data composition, not arbitrary installation/Core modification.
+Memory retrieval is bounded lexical/salience, not universal semantic memory. Context size is a byte estimate. Activity cost is host structural estimation, not billing or execution authority.
+HTTP202 is volatile admission, not durable judgment/delivery; uncommitted input after crash is UNKNOWN. The nonce is an owned-development admission boundary, not Internet/multi-tenant authentication.
+Migration uses source-retired A→B-like fresh owned Linux homes, not actual production/cloud-host transfer. Source withdrawal is scoped to matching support; restoring valid goals never restores old execution grants.
+Earlier diagnostics/failures remain in committed P1-P8 history. Raw /tmp logs and prior completed receipt JSONs were lost at environment replacement; resumed receipts are under /workspace. No false recreation of old logs.
+No paid provider, private user data, real social send, user device, production, main/R045 or S10 operation.

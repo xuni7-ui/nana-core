@@ -1,0 +1,63 @@
+{
+  "bounds": {
+    "paths": [
+      "/page/1",
+      "/page/2",
+      "/welcome",
+      "/outside",
+      "/error",
+      "/malformed"
+    ],
+    "pid": 637,
+    "port": 40813,
+    "request_cap": 512,
+    "start": "16130",
+    "timeout_ms": 500
+  },
+  "independent_verify": "ORIGINAL_READ_ONLY_IPC_AND_PERSISTED_FILES_NOT_HTML_OR_HTTP_ACK",
+  "javascript": false,
+  "public_accounts": false,
+  "scope": "ALLOWLISTED_OWNED_HTTP_HTML_STRUCTURAL_STATE",
+  "tests": [
+    {
+      "node": "tests.controlled_world.test_lab_browser.test_five_process_lab_timer_and_structural_navigation",
+      "seconds": 2.351,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_lab_browser.test_semantic_page_reordering_and_fake_success",
+      "seconds": 0.003,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_lab_browser.test_browser_request_cap_and_original_kernel",
+      "seconds": 11.47,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_lab_browser.test_owned_task_api_cru_duplicate_collision_partial_and_drop",
+      "seconds": 0.871,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_lab_browser.test_browser_pid_cannot_be_paired_with_another_local_listener",
+      "seconds": 3.341,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_lab_browser.test_lab_atomic_replace_does_not_follow_existing_symlink",
+      "seconds": 0.002,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_lab_browser.test_html_identifiers_not_truncated_into_valid_binding",
+      "seconds": 0.0,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_lab_browser.test_stale_dom_revision_cannot_become_current_observation",
+      "seconds": 2.363,
+      "state": "PASS"
+    }
+  ]
+}

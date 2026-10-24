@@ -1,0 +1,27 @@
+{
+  "database": {
+    "fk_violations": 0,
+    "quick_check": "ok",
+    "tables": 43
+  },
+  "failed_task_goals": 2,
+  "independent_channels": [
+    "BROWSER_HTTP_WRITE_TO_READ_ONLY_IPC_AND_FILE",
+    "FILE_OPERATIONS_TO_REOPEN_AND_CONTENT",
+    "LAB_API_WRITE_TO_STATUS_GET"
+  ],
+  "mechanical_action_success_equals_task_success": false,
+  "project": {
+    "adopted_from_world_by_original_c": true,
+    "all_actions_succeeded": true,
+    "goal_id": "8a24cf1f-8cc5-47bd-b40e-e7a6380bb9e1",
+    "hand_families": [
+      "BROWSER_HTTP_FORM",
+      "FILES_LINK_UNLINK_REOPEN",
+      "APPLICATION_IPC_DOCUMENT"
+    ],
+    "independent_verify": true,
+    "original_plan_steps": 9,
+    "pause_resume_same_plan": true
+  }
+}

@@ -1,0 +1,56 @@
+{
+  "post_migration_states": [
+    [
+      "BLOCKED",
+      1
+    ],
+    [
+      "COMPLETED",
+      8
+    ],
+    [
+      "FAILED",
+      2
+    ]
+  ],
+  "pre_migration_life": {
+    "dormant_goal_id": "2fc23aaf-f175-4b44-9354-375d6d4bb85d",
+    "experiences": 18,
+    "goals": 11,
+    "lessons": 3,
+    "share_candidates": 14,
+    "unknown_intake_jobs": 1
+  },
+  "project": {
+    "adopted_from_world_by_original_c": true,
+    "all_actions_succeeded": true,
+    "goal_id": "8a24cf1f-8cc5-47bd-b40e-e7a6380bb9e1",
+    "hand_families": [
+      "BROWSER_HTTP_FORM",
+      "FILES_LINK_UNLINK_REOPEN",
+      "APPLICATION_IPC_DOCUMENT"
+    ],
+    "independent_verify": true,
+    "original_plan_steps": 9,
+    "pause_resume_same_plan": true
+  },
+  "stale_age_test": "VIRTUAL_PROJECTION_ONLY",
+  "supersession": "APPEND_ONLY_LINK_AFTER_ORIGINAL_C_WITHDRAWAL_AND_ADOPTION",
+  "tests": [
+    {
+      "node": "tests.controlled_world.test_project_presence.test_automatic_multihand_project_c_pause_restart_resume",
+      "seconds": 4.848,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_project_presence.test_shared_internal_candidate_completes_without_claiming_send",
+      "seconds": 5.94,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_project_presence.test_supersession_only_links_original_c_withdrawal_and_adoption",
+      "seconds": 0.532,
+      "state": "PASS"
+    }
+  ]
+}

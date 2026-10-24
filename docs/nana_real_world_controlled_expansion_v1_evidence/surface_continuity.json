@@ -1,0 +1,49 @@
+{
+  "bindings": 3,
+  "http202": "VOLATILE_ADMISSION_NOT_DURABLE_JUDGMENT",
+  "http_accepted_is_not_judged": true,
+  "no_send": true,
+  "nonce_persisted": false,
+  "ordering": "TRUSTED_USER_PRIORITY_THEN_HOST_ARRIVAL_SEQUENCE",
+  "same_identity": true,
+  "scope": "THREE_OWNED_DEV_SURFACES_NOT_REAL_QQ_BILIBILI",
+  "source_backed_recent_context": true,
+  "tests": [
+    {
+      "node": "tests.controlled_world.test_failures_ingress.test_real_http_drop_plus_verifier_socket_unavailable_unknown_no_resend",
+      "seconds": 1.793,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_failures_ingress.test_second_real_unknown_intake_timeout_and_restart_no_retry",
+      "seconds": 1.401,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_failures_ingress.test_concurrent_three_surfaces_owner_order_dedup_l1_and_preemption",
+      "seconds": 0.608,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_failures_ingress.test_user_input_during_actual_effect_waits_for_safe_point_then_preempts",
+      "seconds": 1.648,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_surface_http.test_actual_web_social_cli_transport_one_owner_nonce_not_persisted",
+      "seconds": 1.048,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_surface_http.test_bridge_fail_closed_payload_priority_authority_and_closed_owner",
+      "seconds": 0.558,
+      "state": "PASS"
+    }
+  ],
+  "topic_boundary_recorded": true,
+  "transports": [
+    "ORIGINAL_CLI_OWNER",
+    "LOCALHOST_HTTP",
+    "ACTUAL_OWNED_SOCIAL_SERVICE_TO_HTTP"
+  ]
+}

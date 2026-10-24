@@ -1,0 +1,88 @@
+{
+  "combined_life": {
+    "dormant_goal_preserved": true,
+    "history_counts_preserved": true,
+    "life_continues_with_current_support_and_authority_checks": true,
+    "no_duplicate_effect": true,
+    "old_grants_revoked": true,
+    "old_writer_fenced": true,
+    "retired_skill_not_revived": true,
+    "same_identity": true,
+    "supported_goal_resumes_but_old_grants_cannot_execute": true,
+    "unknown_preserved": true
+  },
+  "database": {
+    "business_tables": 43,
+    "fk_violations": 0,
+    "quick_check": "ok"
+  },
+  "installed_new_features": {
+    "actual_localhost_ingress": true,
+    "configured_three_source_research": true,
+    "execution": "FRESH_INSTALLED_BUNDLE_ISOLATED_PYTHON",
+    "five_services": true,
+    "independent_verify": true,
+    "inherited_pythonpath_required": false,
+    "new_provider_calls": 0,
+    "original_nine_step_multihand_project": true,
+    "repository_required": false,
+    "research_operation_experience": true,
+    "same_identity_restart": true,
+    "source_commit": "a47b672b1ac24dff43c611f05998ce3b057ad3d0",
+    "structural_browser": true
+  },
+  "installed_rehearsal": {
+    "closure": {
+      "backup_deletion_propagation": true,
+      "backup_quarantined": true,
+      "inspector_read_only": true,
+      "no_effects": true,
+      "no_real_calls": true,
+      "source_withdrawal": true,
+      "synthetic_unknown_preserved_no_retry": true
+    },
+    "execution": "OWNED_LOCAL_INSTALLED_BUNDLE_NOT_REAL_CLOUD",
+    "fresh_subject_mode": "PASS_EXPLICIT_DISTINCT_NO_OVERWRITE",
+    "missing_dependency_fail_closed": true,
+    "new_provider_calls": 0,
+    "offline_install": "PASS_TWO_INDEPENDENT_VENVS",
+    "process": {
+      "dead_owner_fenced": true,
+      "duplicate_start_blocked": true,
+      "emergency_stop_confirmed": true,
+      "epochs": [
+        4,
+        5,
+        6
+      ],
+      "offline_chat": true,
+      "real_sigkill": true,
+      "restart_same_identity": true,
+      "same_event_no_replay": true,
+      "stale_socket_recovered": true
+    },
+    "rehearsal_root": "/workspace/nana-staging/cw-resume-20261024/installed",
+    "source_archive_sha256": "f4e5bcfa3999f159aa2d77e8fd496bf450a2fe12e207207f5134105f8596a4c9",
+    "supported_platform": "Linux x86_64 / Python3.12",
+    "transfer": {
+      "identity_id": "8bf7a832-70aa-4738-b73e-26e3ea915c23",
+      "old_grants_revoked": true,
+      "old_start_rejected": true,
+      "private_content_displayed": false,
+      "private_intent_continuity": true,
+      "provider_config_transferred": false,
+      "same_identity": true,
+      "source_retired": true,
+      "transfer_id": "8cd5913d-66b4-4d01-8a22-0a2bf5294166"
+    }
+  },
+  "physical_cloud_host_transfer": false,
+  "schema_version": 13,
+  "unknown_effect_transfer_tests": [
+    {
+      "node": "tests.cloud_life.test_operations.test_pending_effect_transfer_preserves_unknown_and_consumes_reservation",
+      "seconds": 1.526,
+      "state": "PASS"
+    }
+  ]
+}

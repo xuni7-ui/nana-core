@@ -54,9 +54,16 @@ def test_automatic_multihand_project_c_pause_restart_resume(owned_root,monkeypat
 
 
 def test_shared_internal_candidate_completes_without_claiming_send(owned_root):
-    with ControlledWorld(owned_root/'world',interval=120) as world:
-        home=owned_root/'life';cfg=initialize(home,world.host.profile,skills=False)
-        update_config(home,cfg.model_copy(update={'revision':2,'advanced_life':True,'shared_presence':True}),expected_revision=1)
+    from nana_core.continuity.hands.host import OwnedApplication
+    from nana_core.continuity.hands.contracts import ApplicationTask
+    from nana_core.life.surfaces import SurfaceBinding
+    # This tests completion of a contextually eligible internal wish, not a
+    # requirement to share without a recipient or finish an unrelated portfolio.
+    task=ApplicationTask(task_id='note',kind='DOCUMENT',wanted='finite')
+    binding=SurfaceBinding(binding_id='surface.shared',platform='platform.local',surface='surface.shared',adapter='adapter.owned')
+    with OwnedApplication(owned_root/'app',tasks=(task,)) as host:
+        home=owned_root/'life';cfg=initialize(home,host.profile,skills=False)
+        update_config(home,cfg.model_copy(update={'revision':2,'advanced_life':True,'shared_presence':True,'surface_bindings':(binding,)}),expected_revision=1)
         with LifeApplication(home,bootstrap_grant=True) as app:
             r=app.runtime
             until(app,lambda:bool(r.store.db.execute("SELECT 1 FROM events WHERE kind='life.share_candidate_formed'").fetchone()))

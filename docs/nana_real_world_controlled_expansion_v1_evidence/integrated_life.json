@@ -1,0 +1,157 @@
+{
+  "active_life": {
+    "dormant_goal_id": "2fc23aaf-f175-4b44-9354-375d6d4bb85d",
+    "experiences": 18,
+    "goals": 11,
+    "lessons": 3,
+    "share_candidates": 14,
+    "unknown_intake_jobs": 1
+  },
+  "backup": {
+    "backup": "/workspace/nana-staging/cw-resume-20261024/integrated-life/review-copy.db",
+    "bytes": 10428416,
+    "identity_id": "8cf67243-e0dc-44cc-a2cd-e059fa9c0933",
+    "runnable": false,
+    "state": "QUARANTINED_REVIEW_COPY"
+  },
+  "duration_seconds": 103.50586103900002,
+  "growth": {
+    "later_kernel_skill_uses": 2,
+    "learning_jobs": 2,
+    "strategy_assessments": [
+      "SUCCESS",
+      "SUCCESS",
+      "COUNTEREXAMPLE",
+      "COUNTEREXAMPLE"
+    ]
+  },
+  "human_review": "NOT_RUN",
+  "migration": {
+    "dormant_goal_preserved": true,
+    "history_counts_preserved": true,
+    "life_continues_with_current_support_and_authority_checks": true,
+    "no_duplicate_effect": true,
+    "old_grants_revoked": true,
+    "old_writer_fenced": true,
+    "retired_skill_not_revived": true,
+    "same_identity": true,
+    "supported_goal_resumes_but_old_grants_cannot_execute": true,
+    "unknown_preserved": true
+  },
+  "new_paid_calls": 0,
+  "noisy_learning": {
+    "lesson_id": "f2f70feb-c12a-4081-88d7-b1ceb1a45fdc",
+    "negative_transfer_suspended": true,
+    "not_a_developer_code_change": true,
+    "trials": [
+      {
+        "key": "learn.noisy-first",
+        "results": {
+          "BASELINE": {
+            "all_passed": false,
+            "checked": 2,
+            "passed": 0
+          },
+          "EVALUATE": {
+            "all_passed": false,
+            "checked": 2,
+            "passed": 1
+          },
+          "PRACTICE": {
+            "all_passed": true,
+            "checked": 1,
+            "passed": 1
+          },
+          "TRANSFER": {
+            "all_passed": false,
+            "checked": 1,
+            "passed": 0
+          }
+        },
+        "state": "BLOCKED"
+      },
+      {
+        "key": "learn.noisy-revised",
+        "results": {
+          "BASELINE": {
+            "all_passed": false,
+            "checked": 1,
+            "passed": 0
+          },
+          "EVALUATE": {
+            "all_passed": true,
+            "checked": 1,
+            "passed": 1
+          },
+          "PRACTICE": {
+            "all_passed": true,
+            "checked": 1,
+            "passed": 1
+          },
+          "TRANSFER": {
+            "all_passed": true,
+            "checked": 1,
+            "passed": 1
+          }
+        },
+        "state": "DONE"
+      }
+    ]
+  },
+  "private_data_accessed": false,
+  "project": {
+    "adopted_from_world_by_original_c": true,
+    "all_actions_succeeded": true,
+    "goal_id": "8a24cf1f-8cc5-47bd-b40e-e7a6380bb9e1",
+    "hand_families": [
+      "BROWSER_HTTP_FORM",
+      "FILES_LINK_UNLINK_REOPEN",
+      "APPLICATION_IPC_DOCUMENT"
+    ],
+    "independent_verify": true,
+    "original_plan_steps": 9,
+    "pause_resume_same_plan": true
+  },
+  "real_social_send": 0,
+  "research": {
+    "automatic_runtime_job": true,
+    "comparison_state": "CONTRADICTION",
+    "experience_records": [
+      "74b8a0f9-eae0-46b3-895d-a32d4fd3b083"
+    ],
+    "independent_sources": 3,
+    "research_is_not_learning": true,
+    "world_truth_verified": false
+  },
+  "scope": "FIVE_OWNED_SERVICES_AND_DETERMINISTIC_SEMANTICS",
+  "skill_lifecycle": {
+    "counterexample_isolated_trial": true,
+    "created_qualified_used_reused": true,
+    "retired_record_id": "a2abed65-82c0-48be-97f2-e9cf028ecd71",
+    "suspended_then_retired": true
+  },
+  "source_clean": true,
+  "source_commit": "a47b672b1ac24dff43c611f05998ce3b057ad3d0",
+  "surfaces": {
+    "bindings": 3,
+    "http_accepted_is_not_judged": true,
+    "no_send": true,
+    "same_identity": true,
+    "source_backed_recent_context": true,
+    "topic_boundary_recorded": true,
+    "transports": [
+      "ORIGINAL_CLI_OWNER",
+      "LOCALHOST_HTTP",
+      "ACTUAL_OWNED_SOCIAL_SERVICE_TO_HTTP"
+    ]
+  },
+  "unknown": {
+    "actual_source_timeout": true,
+    "different_poll_id_retry_denied": true,
+    "persisted_jobs": 1
+  },
+  "withdrawal": {
+    "physical_action_history_preserved": true,
+    "raw_source_deleted": true
+  }
+}

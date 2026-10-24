@@ -543,3 +543,10 @@ main/R045, old web/current user Subject, private history or paid provider operat
 Human Review NOT_RUN, First-Life NOT_READY, Beta NO. FORM gestures do not qualify
 real desktop/mobile/gameplay; fixed source/schema/method adapters do not qualify
 general world comprehension/meta-learning. Track A no longer waits for Track B.
+
+
+## Advanced Growth — Controlled World V1 / 2026-10-24
+
+固定63条criteria、ID、定义和Foundation状态不变。S2–S9/三横轴增加五服务、结构化Browser、三源矛盾研究与9步多Hand项目、噪声G/I/技能退休、三surface与12实际进程切点、2000事件检索、官方B8迁移和更新便携包的受控证据。
+
+本轮整体PARTIAL_EXTERNAL_LIMIT：原b6450e1只有3939.795642475秒最后健康快照，环境boot更换/owner消失且无final；不宣称5h。当前a47b672全仓与安装结果见[status](../docs/nana_real_world_controlled_expansion_v1_status.md)及[机器资格](../docs/nana_real_world_controlled_expansion_v1_evidence/qualification.json)。这是Advanced资格差额，不推翻既有S4原24h Foundation资格，不把S10高级项变成First-Life前置。Human/First-Life/Beta未升级。

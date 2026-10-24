@@ -1,0 +1,62 @@
+{
+  "environment_is_subject_store": false,
+  "kind": "PROCESS_QUALIFIED_OWNED_LOCALHOST",
+  "manifest": {
+    "backend_pid": 632,
+    "change_interval_seconds": 15,
+    "independent_service_processes": 5,
+    "scope": "OWNED_LOCALHOST_ONLY",
+    "seed": 7,
+    "services": {
+      "api": {
+        "kind": "api",
+        "pid": 645,
+        "port": 38431,
+        "start": "16344"
+      },
+      "documents": {
+        "kind": "documents",
+        "pid": 641,
+        "port": 38051,
+        "start": "16207"
+      },
+      "feed": {
+        "kind": "feed",
+        "pid": 644,
+        "port": 38327,
+        "start": "16285"
+      },
+      "social": {
+        "kind": "social",
+        "pid": 646,
+        "port": 33137,
+        "start": "16419"
+      }
+    },
+    "source_seeds": {
+      "api": 9,
+      "documents": 8,
+      "feed": 7,
+      "social": 10
+    },
+    "subject_in_lab": false,
+    "website": {
+      "paths": [
+        "/page/1",
+        "/page/2",
+        "/welcome",
+        "/outside",
+        "/error",
+        "/malformed"
+      ],
+      "pid": 637,
+      "port": 40813,
+      "request_cap": 512,
+      "start": "16130",
+      "timeout_ms": 500
+    }
+  },
+  "semantics": "DETERMINISTIC_SOURCED_JSON_NOT_GENERAL_WORLD_COMPREHENSION",
+  "source_changes": "INDEPENDENT_MONOTONIC_TIMERS_AND_EXPLICIT_PER_SOURCE_SEEDS",
+  "source_commit": "a47b672b1ac24dff43c611f05998ce3b057ad3d0"
+}

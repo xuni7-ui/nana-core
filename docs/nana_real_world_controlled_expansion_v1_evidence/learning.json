@@ -1,0 +1,135 @@
+{
+  "developer_code_change_is_subject_learning": false,
+  "growth": {
+    "later_kernel_skill_uses": 2,
+    "learning_jobs": 2,
+    "strategy_assessments": [
+      "SUCCESS",
+      "SUCCESS",
+      "COUNTEREXAMPLE",
+      "COUNTEREXAMPLE"
+    ]
+  },
+  "noisy_learning": {
+    "lesson_id": "f2f70feb-c12a-4081-88d7-b1ceb1a45fdc",
+    "negative_transfer_suspended": true,
+    "not_a_developer_code_change": true,
+    "trials": [
+      {
+        "key": "learn.noisy-first",
+        "results": {
+          "BASELINE": {
+            "all_passed": false,
+            "checked": 2,
+            "passed": 0
+          },
+          "EVALUATE": {
+            "all_passed": false,
+            "checked": 2,
+            "passed": 1
+          },
+          "PRACTICE": {
+            "all_passed": true,
+            "checked": 1,
+            "passed": 1
+          },
+          "TRANSFER": {
+            "all_passed": false,
+            "checked": 1,
+            "passed": 0
+          }
+        },
+        "state": "BLOCKED"
+      },
+      {
+        "key": "learn.noisy-revised",
+        "results": {
+          "BASELINE": {
+            "all_passed": false,
+            "checked": 1,
+            "passed": 0
+          },
+          "EVALUATE": {
+            "all_passed": true,
+            "checked": 1,
+            "passed": 1
+          },
+          "PRACTICE": {
+            "all_passed": true,
+            "checked": 1,
+            "passed": 1
+          },
+          "TRANSFER": {
+            "all_passed": true,
+            "checked": 1,
+            "passed": 1
+          }
+        },
+        "state": "DONE"
+      }
+    ]
+  },
+  "post_migration_lesson_states": [
+    [
+      "SUSPENDED",
+      3
+    ]
+  ],
+  "value_selection_tests": [
+    {
+      "node": "tests.controlled_world.test_resource_choice.test_c_can_choose_cheaper_then_rest_without_magic_authority[cost0]",
+      "seconds": 0.17,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_resource_choice.test_c_can_choose_cheaper_then_rest_without_magic_authority[cost1]",
+      "seconds": 0.187,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_resource_choice.test_c_can_choose_cheaper_then_rest_without_magic_authority[cost2]",
+      "seconds": 0.176,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_resource_choice.test_c_can_choose_cheaper_then_rest_without_magic_authority[cost3]",
+      "seconds": 0.165,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_resource_choice.test_c_can_choose_cheaper_then_rest_without_magic_authority[cost4]",
+      "seconds": 0.148,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_resource_choice.test_c_can_choose_cheaper_then_rest_without_magic_authority[cost5]",
+      "seconds": 0.165,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.open_life.test_attention_research.test_original_c_learning_value_optional[factors0-WATCH]",
+      "seconds": 0.109,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.open_life.test_attention_research.test_original_c_learning_value_optional[factors1-WATCH]",
+      "seconds": 0.116,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.open_life.test_attention_research.test_original_c_learning_value_optional[factors2-REST]",
+      "seconds": 0.115,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.open_life.test_attention_research.test_original_c_learning_value_optional[factors3-REST]",
+      "seconds": 0.142,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.open_life.test_attention_research.test_original_c_learning_value_optional[factors4-LEARN]",
+      "seconds": 0.108,
+      "state": "PASS"
+    }
+  ]
+}

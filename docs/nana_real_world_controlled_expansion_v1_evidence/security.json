@@ -1,0 +1,82 @@
+{
+  "admission_nonce_store_and_repr": "PASS_TARGETED_TEST_MEMORY_ONLY",
+  "admission_scope": "OWNED_LOCALHOST_NOT_INTERNET_MULTITENANT_AUTHENTICATION",
+  "archive_and_installed_manifest_verified": true,
+  "boundary_tests": [
+    {
+      "node": "tests.controlled_world.test_lab_browser.test_browser_pid_cannot_be_paired_with_another_local_listener",
+      "seconds": 3.341,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_lab_browser.test_lab_atomic_replace_does_not_follow_existing_symlink",
+      "seconds": 0.002,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_surface_http.test_bridge_fail_closed_payload_priority_authority_and_closed_owner",
+      "seconds": 0.558,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.open_autonomy.test_code_skills.test_generated_python_fails_repairs_sandbox_tests_reviews_packages_and_retires",
+      "seconds": 0.38,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.open_life.test_attention_research.test_source_path_escape_denied[../outside]",
+      "seconds": 0.076,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.open_life.test_attention_research.test_source_path_escape_denied[/etc/passwd]",
+      "seconds": 0.08,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.open_life.test_attention_research.test_source_path_escape_denied[link/secret]",
+      "seconds": 0.072,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.open_life.test_attention_research.test_source_path_escape_denied[link.txt]",
+      "seconds": 0.075,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.open_life.test_attention_research.test_no_arbitrary_network[https://example.com/]",
+      "seconds": 0.001,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.open_life.test_attention_research.test_no_arbitrary_network[http://localhost:80/x]",
+      "seconds": 0.0,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.open_life.test_attention_research.test_no_arbitrary_network[http://127.0.0.1:80/x#f]",
+      "seconds": 0.001,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.open_life.test_attention_research.test_no_arbitrary_network[http://u:p@127.0.0.1:80/x]",
+      "seconds": 0.001,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.open_life.test_attention_research.test_no_arbitrary_network[file:///etc/passwd]",
+      "seconds": 0.001,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.portable_subject.test_package.test_package_tamper_unknown_machine_metadata_and_target_rejected",
+      "seconds": 0.149,
+      "state": "PASS"
+    }
+  ],
+  "changed_committed_files_scanned": 58,
+  "credential_read_or_reuse": false,
+  "evidence_plaintext_secret_scan": "PASS_ZERO_NEW_LITERAL_MATCHES",
+  "new_credential_literal_matches": 0,
+  "new_provider_calls": 0
+}

@@ -1,0 +1,60 @@
+{
+  "automatic_runtime_job": true,
+  "comparison_state": "CONTRADICTION",
+  "experience_records": [
+    "74b8a0f9-eae0-46b3-895d-a32d4fd3b083"
+  ],
+  "independent_sources": 3,
+  "lifecycle_and_stale_tests": [
+    {
+      "node": "tests.controlled_world.test_adversarial_life.test_source_claiming_user_wants_research_cannot_override_explicit_refusal",
+      "seconds": 0.133,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_adversarial_life.test_newest_filename_and_revision_do_not_revive_stale_fact",
+      "seconds": 0.113,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_sources_research.test_explicit_source_lifecycle_revision_collision_and_no_cross_source",
+      "seconds": 0.126,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_sources_research.test_managed_cue_not_redelivered_by_generic_watch",
+      "seconds": 0.118,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_sources_research.test_expired_world_history_does_not_permanently_hide_current_belief",
+      "seconds": 0.951,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_sources_research.test_parked_research_defers_lifecycle_without_rewriting_c_or_holding_load",
+      "seconds": 2.067,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_sources_research.test_noisy_burst_backpressure_daily_bound_and_unchanged_source_dedup",
+      "seconds": 0.186,
+      "state": "PASS"
+    }
+  ],
+  "research_experience_means": "COMPARISON_OPERATION_VERIFIED_NOT_WORLD_TRUTH_OR_SKILL_LEARNED",
+  "research_is_not_learning": true,
+  "source_commit": "a47b672b1ac24dff43c611f05998ce3b057ad3d0",
+  "source_kinds": [
+    "feed",
+    "documents",
+    "api"
+  ],
+  "source_seeds": {
+    "api": 9,
+    "documents": 8,
+    "feed": 7,
+    "social": 10
+  },
+  "world_truth_verified": false
+}

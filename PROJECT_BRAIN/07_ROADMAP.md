@@ -975,3 +975,20 @@ general world comprehension/meta-learning. Track A no longer waits for Track B.
 ## CURRENT — Real-World Controlled Expansion V1 / 2026-10-23
 
 [实现/离线实测] 继承f8a41d3，Advanced Growth S2–S9/三横轴。五独立服务与结构化Browser接原C/D/Kernel，不引入第二主体/Store/Runtime。P1 targeted5通过；初始strict tuple parser失败与修复保留。多Hand、噪声学习、长期驻留、恢复和安装迁移继续；未推算5h或Human/First-Life/Beta。见新implementation。
+
+
+## CURRENT — Controlled World V1 / interrupted residency evidence sealed / 2026-10-24
+
+Advanced Growth，GLOBAL_STAGE H；继承f8a41d3，功能源码固定a47b672b1ac24dff43c611f05998ce3b057ad3d0，8个既有实现提交完整保留，最后交付提交只收口证据/文档与只读checker。One original C/D/F/Kernel/G/I/Store；Master/fixed63 definitions逐字不改。
+
+已实现并重新核验：五独立服务、结构化Browser、三来源CONTRADICTION→原C→9步三Hand长期Goal、原G噪声heldout失败/修订/transfer/反例暂停、原I生成受限组合并真实复用两次/暂停/退休、三dev入口原owner排序/去重、来源撤回、实际12进程切点与合法B8迁移。Source退役只撤匹配支持；有效Goal恢复不恢复旧Grant。实际数据与限制见同一evidence。
+
+原b6450e1独立run在3939.796秒最后健康快照之后失去owner；当前boot ID不同，result.json不存在，准确exit/duration UNKNOWN。原Store quick/FK正常、14个effect幂等键唯一、旧Hand绑定被拒绝；原目录未重启/改写，未补final、未新建替代soak、未拼接时长。LONG_REAL_RESIDENCY=PARTIAL，原因PARTIAL_EXTERNAL_LIMIT；不能把隔夜时间写成5h PASS。Core最后高水位RSS 50708KiB、q0/pending-intention0/opportunity16有界。七常驻进程只有后启动observer的实际采样区间，不是全5h资源资格。
+
+恢复环境后：new focused 46 PASS；targeted invocation 52 PASS；完整回归1510 passed/0 failed/12 skipped。首轮1509/1fail的原生音频解码非零退出、隔离同测试通过及同一输入VIDEO/AUDIO成功都保留；未改Core/时间/内存上限/断言或skip，第二轮H1通过，但新增sharing测试缺recipient却要求分享；补明确shadow recipient与单一实际任务，保留全部断言/35s超时；6相关通过，最终full另存。之前/tmp原始日志/receipt因环境重建丢失，未伪造还原；新receipt保存在/workspace。
+
+Portable236 files，两次保留build byte-identical，SHA256 f4e5bcfa3999f159aa2d77e8fd496bf450a2fe12e207207f5134105f8596a4c9；恢复后双独立venv安装、same-Subject迁移、安装包新能力探针通过。Schema13/43表，新表0/依赖0；两derived query indexes非第二authority。
+
+整体STATUS=PARTIAL_EXTERNAL_LIMIT；其余26项受控工程门PASS，剩余仅稳定执行环境中真实连续>=5h最终artifact。Human NOT_RUN；FIRST_LIFE NOT_READY/Beta NO。付费Provider/private/social/device/production/main/R045/S10变更0。没有因human review或历史provider UNKNOWN重开主路线。Manifest SHA256 3ac8eb15764790cfa151d3b5f9e249d9c23a17bcce81e250a5246e258d2b3282（manifest不自指）。
+
+当前下一步保持同一workstream：稳定dev executor的5h资格；不新造Domain/Stage，不改变Foundation或主线优先级。

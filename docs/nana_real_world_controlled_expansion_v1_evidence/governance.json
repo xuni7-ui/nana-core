@@ -1,0 +1,93 @@
+{
+  "cases": {
+    "expired_grant": [
+      {
+        "node": "tests.offline_continuity.test_actions.test_expired_write_can_be_verified_with_separate_read_grant",
+        "seconds": 0.019,
+        "state": "PASS"
+      }
+    ],
+    "manager": [
+      {
+        "node": "tests.affective_autonomy.test_governance.test_post_judgment_block_transparency_revoke_and_no_auto_retry",
+        "seconds": 0.091,
+        "state": "PASS"
+      }
+    ],
+    "no_grant_and_budget": [
+      {
+        "node": "tests.controlled_hands.test_boundaries.test_exact_governance_authorization_and_budget_do_not_change_desire[manager]",
+        "seconds": 1.638,
+        "state": "PASS"
+      },
+      {
+        "node": "tests.controlled_hands.test_boundaries.test_exact_governance_authorization_and_budget_do_not_change_desire[no-grant]",
+        "seconds": 0.734,
+        "state": "PASS"
+      },
+      {
+        "node": "tests.controlled_hands.test_boundaries.test_exact_governance_authorization_and_budget_do_not_change_desire[budget]",
+        "seconds": 1.354,
+        "state": "PASS"
+      }
+    ],
+    "privacy": [
+      {
+        "node": "tests.open_autonomy.test_privacy_views.test_secret_content_never_enters_core_even_with_fixture_grant_and_high_interest",
+        "seconds": 0.159,
+        "state": "PASS"
+      }
+    ],
+    "quiet_hours": [
+      {
+        "node": "tests.cloud_life.test_sharing.test_quiet_hours_use_iana_local_time_and_no_half_window",
+        "seconds": 0.003,
+        "state": "PASS"
+      }
+    ],
+    "rate_limit": [
+      {
+        "node": "tests.controlled_world.test_sources_research.test_noisy_burst_backpressure_daily_bound_and_unchanged_source_dedup",
+        "seconds": 0.186,
+        "state": "PASS"
+      }
+    ],
+    "source_permission": [
+      {
+        "node": "tests.development.test_file_source.test_denied_attempt_never_reads_source[no_grant]",
+        "seconds": 0.011,
+        "state": "PASS"
+      },
+      {
+        "node": "tests.development.test_file_source.test_denied_attempt_never_reads_source[expired]",
+        "seconds": 0.008,
+        "state": "PASS"
+      },
+      {
+        "node": "tests.development.test_file_source.test_denied_attempt_never_reads_source[revoked]",
+        "seconds": 0.009,
+        "state": "PASS"
+      },
+      {
+        "node": "tests.development.test_file_source.test_denied_attempt_never_reads_source[empty_budget]",
+        "seconds": 0.009,
+        "state": "PASS"
+      },
+      {
+        "node": "tests.development.test_file_source.test_denied_attempt_never_reads_source[wrong_owner]",
+        "seconds": 0.011,
+        "state": "PASS"
+      }
+    ],
+    "wrong_scope": [
+      {
+        "node": "tests.controlled_hands.test_boundaries.test_owned_target_scope_stale_revision_and_operation_are_denied_before_effect",
+        "seconds": 0.698,
+        "state": "PASS"
+      }
+    ]
+  },
+  "manager_rewrites_desire": false,
+  "model_has_authority": false,
+  "relationship_is_grant": false
+}

@@ -1,0 +1,49 @@
+{
+  "permissions": "ORIGINAL_KERNEL_GRANT_BUDGET_MANAGER_PER_STEP",
+  "post_migration_action_counts": [
+    [
+      "world.compute",
+      "SUCCEEDED",
+      12
+    ],
+    [
+      "world.observe",
+      "BLOCKED",
+      1
+    ],
+    [
+      "world.observe",
+      "SUCCEEDED",
+      14
+    ],
+    [
+      "world.publish",
+      "SUCCEEDED",
+      14
+    ],
+    [
+      "world.skill",
+      "SUCCEEDED",
+      2
+    ]
+  ],
+  "project": {
+    "adopted_from_world_by_original_c": true,
+    "all_actions_succeeded": true,
+    "goal_id": "8a24cf1f-8cc5-47bd-b40e-e7a6380bb9e1",
+    "hand_families": [
+      "BROWSER_HTTP_FORM",
+      "FILES_LINK_UNLINK_REOPEN",
+      "APPLICATION_IPC_DOCUMENT"
+    ],
+    "independent_verify": true,
+    "original_plan_steps": 9,
+    "pause_resume_same_plan": true
+  },
+  "task_api_crud": "OWNED_LAB_PROTOCOL_TESTS_NOT_GENERAL_PUBLIC_API_HAND",
+  "three_families": [
+    "BROWSER_HTTP_FORM",
+    "FILES_LINK_UNLINK_REOPEN",
+    "APPLICATION_IPC_DOCUMENT"
+  ]
+}

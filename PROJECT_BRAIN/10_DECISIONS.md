@@ -1487,3 +1487,10 @@ Scope-qualified dev PASS does not promote human/First-Life/Beta or device author
 ## Controlled World — one delivery owner and active temporal bounds / 2026-10-23
 
 [源码及owned运行证据] 专用opportunity/shared cue不能再被generic watcher重复投递；这是source delivery dedup，不删除愿望/原判断。Experience attention必须链接原Experience走原reflection/G，无适用学习的review不制造Lesson。World候选64上限作用于当前有效候选，不能因过期历史增长永久UNKNOWN；correction仍挡旧claim复活，withdraw保守性保持。两个可重建索引只服务查询，不新增业务表/schema/authority。默认pytest覆盖整个tests，旧588子集不冒充全仓。原Master/63定义不变。
+
+
+## Decision — Controlled World V1 / explicit evidence scope after host replacement
+
+采用独立per-source seed让真正combined life形成三源CONTRADICTION，不向driver写研究答案。HTTP202仅volatile admission；仅三个输入前置拒绝可收口为REJECTED_INPUT，lease/privacy/integrity仍传播。资源成本为host estimate，绝不提权或伪造账单。
+
+实际boot更换且原final缺失时只能PARTIAL_EXTERNAL_LIMIT；保留旧run/unknown exit，不以日历时间、重建run或进度文件代替>=5h原始结果。只读checker的partial一致性PASS不表示驻留PASS，固定27个task gate不能省略；Master/63不改变。新验证receipt保存在/workspace而非依赖/tmp。

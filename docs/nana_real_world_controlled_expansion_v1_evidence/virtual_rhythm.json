@@ -1,0 +1,433 @@
+{
+  "actual_source_revision_new_research": true,
+  "daily": [
+    {
+      "day": 1,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 2,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 3,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 4,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 5,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 6,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 7,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 8,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 9,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 10,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "UNKNOWN"
+    },
+    {
+      "day": 11,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "UNKNOWN"
+    },
+    {
+      "day": 12,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "UNKNOWN"
+    },
+    {
+      "day": 13,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "UNKNOWN"
+    },
+    {
+      "day": 14,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "UNKNOWN"
+    },
+    {
+      "day": 15,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "UNKNOWN"
+    },
+    {
+      "day": 16,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "UNKNOWN"
+    },
+    {
+      "day": 17,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "UNKNOWN"
+    },
+    {
+      "day": 18,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "UNKNOWN"
+    },
+    {
+      "day": 19,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "UNKNOWN"
+    },
+    {
+      "day": 20,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "UNKNOWN"
+    },
+    {
+      "day": 21,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "UNKNOWN"
+    },
+    {
+      "day": 22,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "UNKNOWN"
+    },
+    {
+      "day": 23,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "UNKNOWN"
+    },
+    {
+      "day": 24,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "UNKNOWN"
+    },
+    {
+      "day": 25,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "UNKNOWN"
+    },
+    {
+      "day": 26,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "UNKNOWN"
+    },
+    {
+      "day": 27,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "UNKNOWN"
+    },
+    {
+      "day": 28,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "UNKNOWN"
+    },
+    {
+      "day": 29,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "UNKNOWN"
+    },
+    {
+      "day": 30,
+      "opportunity_jobs": 1,
+      "pending": 0,
+      "research_jobs": 1,
+      "world": "UNKNOWN"
+    },
+    {
+      "day": 31,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 32,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 33,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 34,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 35,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 36,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 37,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 38,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 39,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 40,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 41,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 42,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 43,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 44,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 45,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 46,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 47,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 48,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 49,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 50,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 51,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 52,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 53,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 54,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 55,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 56,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 57,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 58,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 59,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    },
+    {
+      "day": 60,
+      "opportunity_jobs": 2,
+      "pending": 0,
+      "research_jobs": 2,
+      "world": "SUPPORTED_BELIEF"
+    }
+  ],
+  "days": 60,
+  "max_pending": 0,
+  "paid_provider_calls": 0,
+  "research_jobs": 2,
+  "scope": "VIRTUAL_TIME_ORIGINAL_RUNTIME_AUTOMATIC_OWNED_SOURCE_RESEARCH",
+  "source_expiry_to_unknown": true,
+  "unchanged_source_no_repeat": true,
+  "wall_seconds": 60.846635925000044
+}

@@ -1,0 +1,42 @@
+{
+  "candidate_is_send": false,
+  "desire_factors": [
+    "relational_relevance",
+    "novelty",
+    "affect_relevance",
+    "urgency",
+    "interruption_cost",
+    "recent_delivery_frequency",
+    "user_preference",
+    "desire"
+  ],
+  "human_review": "NOT_RUN",
+  "pre_migration_candidates": 14,
+  "tests": [
+    {
+      "node": "tests.cloud_life.test_sharing.test_verified_experience_can_reach_original_c_and_shadow_delivery_gate",
+      "seconds": 1.314,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.cloud_life.test_sharing.test_quiet_hours_use_iana_local_time_and_no_half_window",
+      "seconds": 0.003,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_hands.test_boundaries.test_real_reuse_changes_share_candidate_busy_refusal_and_delete",
+      "seconds": 5.493,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_project_presence.test_shared_internal_candidate_completes_without_claiming_send",
+      "seconds": 5.94,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.person_self.test_initiative.test_busy_and_declined_topic_prevent_spontaneous_candidate",
+      "seconds": 0.144,
+      "state": "PASS"
+    }
+  ]
+}

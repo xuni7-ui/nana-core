@@ -1,0 +1,70 @@
+{
+  "actual_process_signals": true,
+  "cases": [
+    {
+      "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[IDLE]",
+      "seconds": 4.437,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[IDLE_TERM]",
+      "seconds": 3.317,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[IDLE_GRACEFUL]",
+      "seconds": 3.272,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[RESEARCH]",
+      "seconds": 3.311,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[BEFORE_ACTION]",
+      "seconds": 3.207,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[AFTER_ACTION_BEFORE_VERIFY]",
+      "seconds": 3.867,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[DURING_VERIFY]",
+      "seconds": 3.852,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[AFTER_EXPERIENCE]",
+      "seconds": 6.725,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[LEARNING]",
+      "seconds": 5.554,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[SKILL_QUALIFICATION]",
+      "seconds": 21.428,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[AFTER_DELIVERY_CANDIDATE]",
+      "seconds": 62.71,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[BACKUP]",
+      "seconds": 3.899,
+      "state": "PASS"
+    }
+  ],
+  "environment_interruption_is_a_separate_incomplete_residency": true,
+  "goals_lessons_checked_by_exact_ids": true,
+  "new_authority_on_recovery": false,
+  "per_case_isolated_synthetic_subject": true,
+  "same_identity_old_effect_ids_and_grant_count_preserved": true
+}

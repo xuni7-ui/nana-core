@@ -78,3 +78,27 @@ QUEUED_NOT_JUDGED, and the original owner calls app.tick() to enter C. USER vs
 BACKGROUND priority is fixed by trusted binding, not JSON. No outward sending,
 new Grant, second owner or durable delivery promise. Uncommitted input lost on
 crash remains unknown; committed event keys use original restart dedup.
+
+
+## Resumed qualified runtime / explicit partial residency
+
+Runtime pin `a47b672b1ac24dff43c611f05998ce3b057ad3d0`. Current deterministic archive:
+`/workspace/nana-deliverables/controlled-world-v1-a47b672/nana-first-life-portable-v1.tar.gz`
+SHA256 `f4e5bcfa3999f159aa2d77e8fd496bf450a2fe12e207207f5134105f8596a4c9`. See status for full/targeted/installed results.
+
+The old run ended without a final artifact after managed environment replacement.
+Its progress file remains RUNNING_NOT_QUALIFIED as a historical snapshot; current
+operational status is PARTIAL_EXTERNAL_LIMIT, not a currently running process.
+Do not restart it or add elapsed calendar time. A new future5h qualification must
+be independent and retain its own manifest/result, never replace the old evidence.
+
+Read-only evidence check (partial proof does not qualify residency):
+
+```bash
+.venv/bin/python -m tools.nana_controlled_world.check \
+  --raw-progress /workspace/nana-staging/cw-life-20261023-04/progress.json \
+  --archive /workspace/nana-deliverables/controlled-world-v1-a47b672/nana-first-life-portable-v1.tar.gz
+```
+
+Current verification receipts are under `/workspace/nana-staging/cw-resume-20261024`.
+The old `/tmp` raw reports did not survive replacement and are not recreated.

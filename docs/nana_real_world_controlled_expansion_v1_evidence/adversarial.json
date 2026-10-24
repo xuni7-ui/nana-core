@@ -1,0 +1,170 @@
+{
+  "cases": [
+    {
+      "id": "SOURCE_CLAIM_VS_USER_REFUSAL",
+      "status": "PASS",
+      "tests": [
+        {
+          "node": "tests.controlled_world.test_adversarial_life.test_source_claiming_user_wants_research_cannot_override_explicit_refusal",
+          "seconds": 0.133,
+          "state": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "STALE_NEWEST_FILENAME",
+      "status": "PASS",
+      "tests": [
+        {
+          "node": "tests.controlled_world.test_adversarial_life.test_newest_filename_and_revision_do_not_revive_stale_fact",
+          "seconds": 0.113,
+          "state": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "MALFORMED_PAGE_SUCCESS",
+      "status": "PASS",
+      "tests": [
+        {
+          "node": "tests.controlled_world.test_lab_browser.test_semantic_page_reordering_and_fake_success",
+          "seconds": 0.003,
+          "state": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "DUPLICATE_RECEIPT",
+      "status": "PASS",
+      "tests": [
+        {
+          "node": "tests.controlled_world.test_lab_browser.test_owned_task_api_cru_duplicate_collision_partial_and_drop",
+          "seconds": 0.871,
+          "state": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "UNSUPPORTED_SKILL_CAPABILITY",
+      "status": "PASS",
+      "tests": [
+        {
+          "node": "tests.open_autonomy.test_planning.test_plan_proposals_do_not_invent_capability_or_satisfy_missing_conditions",
+          "seconds": 0.002,
+          "state": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "MODEL_AUTHORITY_INJECTION",
+      "status": "PASS",
+      "tests": [
+        {
+          "node": "tests.controlled_world.test_model_resource.test_wording_latency_model_swap_and_malformed_same_subject",
+          "seconds": 1.213,
+          "state": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "CORRUPT_MEMORY",
+      "status": "PASS",
+      "tests": [
+        {
+          "node": "tests.controlled_world.test_memory_scale.test_bounded_context_important_old_corrected_withdrawn_and_corrupt",
+          "seconds": 3.032,
+          "state": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "WITHDRAW_LEARNED_SOURCE",
+      "status": "PASS",
+      "tests": [
+        {
+          "node": "tests.lived_growth.test_boundaries.test_board_erasure_source_and_skill_support_close_together",
+          "seconds": 12.753,
+          "state": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "UNSOURCED_RELATIONSHIP",
+      "status": "PASS",
+      "tests": [
+        {
+          "node": "tests.person_self.test_continuity.test_unretained_receipt_or_model_quote_cannot_create_relationship",
+          "seconds": 0.126,
+          "state": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "USER_DURING_REAL_EFFECT",
+      "status": "PASS",
+      "tests": [
+        {
+          "node": "tests.controlled_world.test_failures_ingress.test_user_input_during_actual_effect_waits_for_safe_point_then_preempts",
+          "seconds": 1.648,
+          "state": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "NOISY_BURST",
+      "status": "PASS",
+      "tests": [
+        {
+          "node": "tests.controlled_world.test_sources_research.test_noisy_burst_backpressure_daily_bound_and_unchanged_source_dedup",
+          "seconds": 0.186,
+          "state": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "ENDLESS_RESEARCH",
+      "status": "PASS",
+      "tests": [
+        {
+          "node": "tests.controlled_world.test_sources_research.test_parked_research_defers_lifecycle_without_rewriting_c_or_holding_load",
+          "seconds": 2.067,
+          "state": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "REPEATED_SOCIAL_CANDIDATE",
+      "status": "PASS",
+      "tests": [
+        {
+          "node": "tests.controlled_world.test_project_presence.test_shared_internal_candidate_completes_without_claiming_send",
+          "seconds": 5.94,
+          "state": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "CRASH_AFTER_EFFECT",
+      "status": "PASS",
+      "tests": [
+        {
+          "node": "tests.controlled_world.test_crash_campaign.test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[AFTER_ACTION_BEFORE_VERIFY]",
+          "seconds": 3.867,
+          "state": "PASS"
+        }
+      ]
+    },
+    {
+      "id": "MIGRATE_UNKNOWN",
+      "status": "PASS",
+      "tests": [
+        {
+          "node": "tests.cloud_life.test_operations.test_pending_effect_transfer_preserves_unknown_and_consumes_reservation",
+          "seconds": 1.526,
+          "state": "PASS"
+        }
+      ]
+    }
+  ],
+  "scope": "MINIMAL_OWNED_ADVERSARIAL_CASES_NO_LARGE_RED_TEAM_FRAMEWORK"
+}

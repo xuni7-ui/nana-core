@@ -1,0 +1,17 @@
+{
+  "arbitrary_install_or_core_modification": false,
+  "counterexample_isolated_trial": true,
+  "created_qualified_used_reused": true,
+  "later_kernel_skill_uses": 2,
+  "proposer": "BOUNDED_DETERMINISTIC_WORKFLOW_COMPILER",
+  "qualified_kind": "PURE_DATA_COMPOSITION_OF_REVIEWED_PRIMITIVES",
+  "retired_record_id": "a2abed65-82c0-48be-97f2-e9cf028ecd71",
+  "suspended_then_retired": true,
+  "tests": [
+    {
+      "node": "tests.controlled_world.test_noisy_growth.test_skill_created_qualified_used_reused_counterexample_suspended_retired",
+      "seconds": 0.54,
+      "state": "PASS"
+    }
+  ]
+}

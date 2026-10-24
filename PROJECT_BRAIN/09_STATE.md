@@ -7,28 +7,30 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 28,
-  "as_of_us": 1792769403798790,
+  "revision": 29,
+  "as_of_us": 1792819839633857,
   "stage": "H",
   "workstream": "REAL_WORLD_CONTROLLED_EXPANSION_LONG_LIVED_AUTONOMY_V1",
-  "status": "QUALIFYING_CONTROLLED_WORLD_AND_LONG_RESIDENCY",
+  "status": "PARTIAL_EXTERNAL_LIMIT",
   "progress": [
-    "Advanced Growth原C/D/Store/Kernel/G/I；Master/fixed63不变。",
-    "5独立服务、结构化Browser、多Hand ongoing Goal、研究操作Experience、源lifecycle与三surface单owner输入已实现/targeted。",
-    "原G噪声heldout失败→修订问题→transfer通过→负迁移暂停；原I技能实际使用复用→反例暂停/退休。",
-    "真实12进程切点/2类UNKNOWN不重发/2000 PROJECT event检索与损坏拒绝已有证据；最终整链/portable/全仓/5h独立pin继续。",
-    "ec76460诊断驻留1667.382秒后主动停止，duration false；后续计时不拼接、不热更新旧run。",
-    "修复managed cue重复投递、Experience attention关联、过期world历史永久UNKNOWN；47相关通过；默认pytest改为tests全目录。",
-    "本轮provider/paid/private/social/user-device/production/main/R045均0；Human NOT_RUN，First-Life/Beta不升级。"
+    "Advanced Growth S2–S9/三横轴；原C/D/Store/Kernel/G/I，Master/fixed63不变。",
+    "8个实现提交保留；五服务/结构化Browser/三源矛盾研究→9步三Hand→G/I复用与退休→shared candidate→原B8迁移已复核。",
+    "当前源码a47b672：focused 46、targeted 52、全仓1510 passed/0fail/12skip；E12/live screen未运行。",
+    "原b6450e1最后健康快照3939.796s，无final；boot更换/owner消失，准确exit/duration UNKNOWN；5h资格PARTIAL。",
+    "原run只读保留、旧Hand目标拒绝，无重启/替代soak/时长拼接。热状态有界、库quick/FK正常，物理effect历史未抹除。",
+    "两份确定性portable archive相同；新环境双安装/迁移/已安装新能力通过；schema13/43，新表/依赖0。",
+    "本轮paid/provider/private/social/device/production/main/R045均0；Human NOT_RUN，First-Life NOT_READY/Beta NO。"
   ],
   "open_gates": [
-    "Human review是独立Track B，不阻塞本轮开发；付费/私人数据/真实社交/设备/生产不在范围。",
-    "开放世界范围本轮仅owned/dev，真实通用设备、任意插件和S10深改不启用。"
+    "当前工程唯一未关闭：稳定执行环境中连续>=5h的原始最终结果与全套完整性/资源/恢复证明；现有中断run不升级。",
+    "Human/真实provider/真实社交/设备/生产仍属独立授权与资格，不阻塞已授权构建，也不自动宣称First-Life/Beta。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
-    "docs/nana_real_world_controlled_expansion_v1_implementation.md"
+    "docs/nana_real_world_controlled_expansion_v1_implementation.md",
+    "docs/nana_real_world_controlled_expansion_v1_status.md",
+    "docs/nana_real_world_controlled_expansion_v1_evidence/manifest.json"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2112,3 +2114,52 @@ main/R045, old web/current user Subject, private history or paid provider operat
 Human Review NOT_RUN, First-Life NOT_READY, Beta NO. FORM gestures do not qualify
 real desktop/mobile/gameplay; fixed source/schema/method adapters do not qualify
 general world comprehension/meta-learning. Track A no longer waits for Track B.
+
+
+## CURRENT — Controlled World V1 / interrupted residency evidence sealed / 2026-10-24
+
+Advanced Growth，GLOBAL_STAGE H；继承f8a41d3，功能源码固定a47b672b1ac24dff43c611f05998ce3b057ad3d0，8个既有实现提交完整保留，最后交付提交只收口证据/文档与只读checker。One original C/D/F/Kernel/G/I/Store；Master/fixed63 definitions逐字不改。
+
+已实现并重新核验：五独立服务、结构化Browser、三来源CONTRADICTION→原C→9步三Hand长期Goal、原G噪声heldout失败/修订/transfer/反例暂停、原I生成受限组合并真实复用两次/暂停/退休、三dev入口原owner排序/去重、来源撤回、实际12进程切点与合法B8迁移。Source退役只撤匹配支持；有效Goal恢复不恢复旧Grant。实际数据与限制见同一evidence。
+
+原b6450e1独立run在3939.796秒最后健康快照之后失去owner；当前boot ID不同，result.json不存在，准确exit/duration UNKNOWN。原Store quick/FK正常、14个effect幂等键唯一、旧Hand绑定被拒绝；原目录未重启/改写，未补final、未新建替代soak、未拼接时长。LONG_REAL_RESIDENCY=PARTIAL，原因PARTIAL_EXTERNAL_LIMIT；不能把隔夜时间写成5h PASS。Core最后高水位RSS 50708KiB、q0/pending-intention0/opportunity16有界。七常驻进程只有后启动observer的实际采样区间，不是全5h资源资格。
+
+恢复环境后：new focused 46 PASS；targeted invocation 52 PASS；完整回归1510 passed/0 failed/12 skipped。首轮1509/1fail的原生音频解码非零退出、隔离同测试通过及同一输入VIDEO/AUDIO成功都保留；未改Core/时间/内存上限/断言或skip，第二轮H1通过，但新增sharing测试缺recipient却要求分享；补明确shadow recipient与单一实际任务，保留全部断言/35s超时；6相关通过，最终full另存。之前/tmp原始日志/receipt因环境重建丢失，未伪造还原；新receipt保存在/workspace。
+
+Portable236 files，两次保留build byte-identical，SHA256 f4e5bcfa3999f159aa2d77e8fd496bf450a2fe12e207207f5134105f8596a4c9；恢复后双独立venv安装、same-Subject迁移、安装包新能力探针通过。Schema13/43表，新表0/依赖0；两derived query indexes非第二authority。
+
+整体STATUS=PARTIAL_EXTERNAL_LIMIT；其余26项受控工程门PASS，剩余仅稳定执行环境中真实连续>=5h最终artifact。Human NOT_RUN；FIRST_LIFE NOT_READY/Beta NO。付费Provider/private/social/device/production/main/R045/S10变更0。没有因human review或历史provider UNKNOWN重开主路线。Manifest SHA256 3ac8eb15764790cfa151d3b5f9e249d9c23a17bcce81e250a5246e258d2b3282（manifest不自指）。
+
+Historical current-source revision before resumption (not current):
+
+```json
+{
+  "schema_version": 1,
+  "project_id": "nana-core",
+  "scope": "project-work",
+  "privacy_class": "PROJECT",
+  "revision": 28,
+  "as_of_us": 1792769403798790,
+  "stage": "H",
+  "workstream": "REAL_WORLD_CONTROLLED_EXPANSION_LONG_LIVED_AUTONOMY_V1",
+  "status": "QUALIFYING_CONTROLLED_WORLD_AND_LONG_RESIDENCY",
+  "progress": [
+    "Advanced Growth原C/D/Store/Kernel/G/I；Master/fixed63不变。",
+    "5独立服务、结构化Browser、多Hand ongoing Goal、研究操作Experience、源lifecycle与三surface单owner输入已实现/targeted。",
+    "原G噪声heldout失败→修订问题→transfer通过→负迁移暂停；原I技能实际使用复用→反例暂停/退休。",
+    "真实12进程切点/2类UNKNOWN不重发/2000 PROJECT event检索与损坏拒绝已有证据；最终整链/portable/全仓/5h独立pin继续。",
+    "ec76460诊断驻留1667.382秒后主动停止，duration false；后续计时不拼接、不热更新旧run。",
+    "修复managed cue重复投递、Experience attention关联、过期world历史永久UNKNOWN；47相关通过；默认pytest改为tests全目录。",
+    "本轮provider/paid/private/social/user-device/production/main/R045均0；Human NOT_RUN，First-Life/Beta不升级。"
+  ],
+  "open_gates": [
+    "Human review是独立Track B，不阻塞本轮开发；付费/私人数据/真实社交/设备/生产不在范围。",
+    "开放世界范围本轮仅owned/dev，真实通用设备、任意插件和S10深改不启用。"
+  ],
+  "evidence_refs": [
+    "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
+    "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
+    "docs/nana_real_world_controlled_expansion_v1_implementation.md"
+  ]
+}
+```

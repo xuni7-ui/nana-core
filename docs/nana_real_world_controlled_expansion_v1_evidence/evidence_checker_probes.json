@@ -1,0 +1,12 @@
+{
+  "partial_cannot_pass_five_hour_validation": true,
+  "positive_interruption_validation": true,
+  "residency_qualified": false,
+  "tampered_interruption_rejected": [
+    "final_result_exists",
+    "current_boot_id",
+    "source_pin_unchanged",
+    "original_final_fabricated",
+    "time_stitched"
+  ]
+}

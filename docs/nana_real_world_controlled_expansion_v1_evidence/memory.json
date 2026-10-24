@@ -1,0 +1,33 @@
+{
+  "candidate_count": 128,
+  "context_input_byte_estimate": 7341,
+  "corrected_only_selected": true,
+  "corruption_rejected": true,
+  "counts": {
+    "artifacts": 4013,
+    "events": 4021,
+    "memories": 2006,
+    "memory_terms": 10004,
+    "record_dependencies": 0
+  },
+  "db_family_bytes": 14873015,
+  "index_rebuild_stable": true,
+  "modified_corruption_copy": "DISPOSABLE_NOT_PORTABLE_SOURCE",
+  "noise_events": 2000,
+  "old_high_salience_selected": true,
+  "provider_calls": 0,
+  "recent_relevant_selected": true,
+  "retrieval_median_ms": 165.8214130000033,
+  "retrieval_ms": [
+    181.1157789999811,
+    162.74373900000683,
+    165.8214130000033,
+    164.9002529999848,
+    177.46453000000884
+  ],
+  "scope": "FINITE_OWNED_PROJECT_EVENTS_NOT_HUMAN_HISTORY",
+  "total_visible": 2003,
+  "trivial_candidates_bounded": true,
+  "wall_seconds": 28.182948040999975,
+  "withdrawn_and_descendants_excluded": true
+}

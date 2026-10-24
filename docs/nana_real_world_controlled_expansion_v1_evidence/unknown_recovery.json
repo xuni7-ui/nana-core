@@ -1,0 +1,33 @@
+{
+  "automatic_fallback": false,
+  "blind_retry": false,
+  "desire_erased": false,
+  "integrated": {
+    "actual_source_timeout": true,
+    "different_poll_id_retry_denied": true,
+    "persisted_jobs": 1
+  },
+  "old_tiantoken_unknown": "UNTOUCHED",
+  "tests": [
+    {
+      "node": "tests.controlled_world.test_failures_ingress.test_real_http_drop_plus_verifier_socket_unavailable_unknown_no_resend",
+      "seconds": 1.793,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_failures_ingress.test_second_real_unknown_intake_timeout_and_restart_no_retry",
+      "seconds": 1.401,
+      "state": "PASS"
+    },
+    {
+      "node": "tests.controlled_world.test_sources_research.test_parked_research_defers_lifecycle_without_rewriting_c_or_holding_load",
+      "seconds": 2.067,
+      "state": "PASS"
+    }
+  ],
+  "two_real_unknown_categories": [
+    "HTTP_EFFECT_PERSISTED_ACK_DROP_PLUS_VERIFIER_SOCKET_UNAVAILABLE",
+    "SEPARATE_SOURCE_REQUEST_RECEIVED_THEN_TIMEOUT"
+  ],
+  "unknown_is_failure": false
+}
