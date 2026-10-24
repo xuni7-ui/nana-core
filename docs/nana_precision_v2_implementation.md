@@ -166,3 +166,31 @@ is PENDING_EXTERNAL_STABLE_ENV; neither this task's short actual integration nor
 virtual cases are hours of continuous life. Real model/tool ablation and semantic
 comprehension are NOT_RUN. Scope is owned/dev with deterministic finite semantic
 contracts and independently observed local effects, not general open-world AGI.
+
+
+## P3 — bounded resource work, retained failures
+
+Profiled actual eight-task life exposed69641 repeated privacy-anchor JSON loads
+(13.725s ensure_current). Cache only the validated filesystem identity/metadata,
+checking lstat every call; any inode/size/mtime/ctime/mode/owner change forces full
+strict validation and deletion application. Startup/import cache is empty; three
+replacement races fail closed. No memory payload/authority cache, no persisted
+new state, no change to hard privacy or lease semantics. External durable delete
+and same-size corruption with restored mtime tests plus original privacy cases
+pass12. New profile618 loads/2.052s in ensure_current; overall wall32.17→34.77s
+under differing concurrent load, so end-to-end performance gain is NOT PROVEN.
+Heap and unique search-key bounds both8192; expansion bound remains1024.
+
+The diagnostic full run retained1521pass/2fail/12skip,1170.94s: existing skill
+cut worker lost its lease before the intended cut and existing200ms-lease CLI
+run returned2. Neither failure is relabeled a success. Both unchanged isolated
+cases pass25.61s after hardening; cause not independently established. A prior
+portable inspection/deletion subprocess hit its30s bound, also retained. Final
+qualification must rerun full and portable at the frozen final source; no test
+timeouts, lease bounds, skip markers or old assertions were weakened.
+
+Practice-competition gain is specifically the default first-nominee service path.
+Existing Hands/Project practice proposers and qualified meta selection already
+have filtering; this does not claim the Core first acquired all method comparison.
+New cross-Hand lesson attribution and independently checked residual planning are
+the substantive real-task change. No model or provider ablation is invented.

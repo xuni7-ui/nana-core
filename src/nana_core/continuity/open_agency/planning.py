@@ -93,7 +93,7 @@ class BoundedPlanner:
                 score = estimate(new, new_used)
                 if score >= infinity:
                     continue
-                if len(seen) >= 8192:
+                if len(seen) >= 8192 or len(queue) >= 8192:
                     raise CoreError('NO_BOUNDED_PLAN')
                 seen[key] = new_cost
                 serial += 1

@@ -1,5 +1,6 @@
 """Run with installed Python -I and explicit bundle/src, never repository runtime."""
 import argparse,json,time
+from uuid import uuid4
 from pathlib import Path
 from nana_core.life.application import LifeApplication
 from nana_core.life.config import LifeConfig,write_config
@@ -38,7 +39,26 @@ def run(bundle,root):
             assert not runtime.store.db.execute('PRAGMA foreign_key_check').fetchall()
         with LifeApplication(home) as app:
             assert app.runtime.identity_id==identity and app.runtime.store.one('goals',gid)['state']=='COMPLETED'
-    return {'execution':'FRESH_INSTALLED_BUNDLE_PYTHON_ISOLATED','source_commit':json.loads((bundle/'runtime.json').read_text())['source_commit'],'same_subject':True,'real_owned_failures_preserved':True,'original_g_per_domain_learning':True,'independent_current_verification':True,'checkpoint_operators':6,'remaining_steps':3,'file_move_count':1,'same_identity_restart':True,'repository_runtime_imports':False,'new_provider_calls':0}
+            from nana_core.life.cloud import backup
+            backup(app.runtime.store,root/'checkpoint-backup.db')
+            before=len(app.runtime.store.all('actions'))
+        from nana_core.life.cloud import transfer,receive
+        from nana_core.contracts import CoreError
+        destination=str(uuid4());pin=json.loads((bundle/'runtime.json').read_text())['source_commit']
+        sent=transfer(home,root/'checkpoint.nana',destination_id=destination,source_commit=pin)
+        received=receive(root/'checkpoint.nana',root/'host-b',sha256=sent['sha256'],destination_id=destination,config=cfg)
+        assert received['identity_id']==identity and not received['provider_config_transferred']
+        with LifeApplication(root/'host-b') as app:
+            runtime=app.runtime;goal=runtime.store.one('goals',gid)
+            checkpoint=RecordService(runtime.store).read(json.loads(goal['body_json'])['plan_record_id'])['payload']['checkpoint']
+            assert checkpoint['format']=='VERIFIED_TASK_PREFIX_V1' and len(checkpoint['completed_operator_ids'])==6
+            assert runtime.identity_id==identity and len(runtime.store.all('actions'))==before
+            assert all(grant['revoked'] for grant in runtime.store.all('grants'))
+            assert not runtime.store.db.execute('PRAGMA foreign_key_check').fetchall()
+        try:LifeApplication(home)
+        except CoreError:pass
+        else:raise AssertionError('RETIRED_SOURCE_WRITER_NOT_FENCED')
+    return {'execution':'FRESH_INSTALLED_BUNDLE_PYTHON_ISOLATED','source_commit':json.loads((bundle/'runtime.json').read_text())['source_commit'],'same_subject':True,'real_owned_failures_preserved':True,'original_g_per_domain_learning':True,'independent_current_verification':True,'checkpoint_operators':6,'remaining_steps':3,'file_move_count':1,'same_identity_restart':True,'official_checkpoint_backup_transfer':True,'old_grants_revoked':True,'old_writer_fenced':True,'repository_runtime_imports':False,'new_provider_calls':0}
 
 
 if __name__=='__main__':

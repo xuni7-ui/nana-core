@@ -85,6 +85,7 @@ class PrivacyJournal:
         else:
             raise CoreError("PRIVACY_ANCHOR_MISSING")
         self.applied = None
+        self._checked_signature = None
         self._applying = False
         self.read()
         self.ensure_current()
@@ -129,9 +130,25 @@ class PrivacyJournal:
     def ensure_current(self):
         if self._applying:
             return
-        body = self.read()
+        # Trusted writers replace the anchor atomically. Recheck filesystem
+        # identity/metadata on EVERY call, but do not reopen/reparse unchanged
+        # opaque metadata tens of thousands of times within one C slice.
+        # This is a rebuildable validity cache, never deletion authority.
+        def signature():
+            try:info=self.path.lstat()
+            except OSError:raise CoreError('PRIVACY_ANCHOR_UNAVAILABLE') from None
+            if not stat.S_ISREG(info.st_mode):raise CoreError('PRIVACY_ANCHOR_UNAVAILABLE')
+            return (info.st_dev,info.st_ino,info.st_size,info.st_mtime_ns,info.st_ctime_ns,info.st_mode,info.st_uid,info.st_gid)
+        current=signature()
+        if self.applied is not None and current==self._checked_signature:return
+        for _ in range(3):
+            body=self.read();after=signature()
+            if after==current:break
+            current=after
+        else:raise CoreError('PRIVACY_ANCHOR_CHANGED_DURING_READ')
         fingerprint = digest(body["intents"])
         if fingerprint == self.applied:
+            self._checked_signature=current
             return
         self._applying = True
         try:
@@ -141,6 +158,7 @@ class PrivacyJournal:
             if result[0] != 0:
                 raise CoreError("PURGE_CHECKPOINT_PENDING")
             self.applied = fingerprint
+            self._checked_signature=current
         finally:
             self._applying = False
 

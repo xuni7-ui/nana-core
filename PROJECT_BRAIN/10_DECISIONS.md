@@ -1504,3 +1504,8 @@ Scope-qualified dev PASS does not promote human/First-Life/Beta or device author
 ## Precision V2 P2 — bounded current-state recovery / 2026-10-24
 
 P2 code review: a changed checkpoint is an expected boundary, so original LivingWork records exact CURRENT_STATE_REVIEW_REQUIRED and defers only that review; replay cannot repeatedly reserve/check it, and lease/privacy/unrecognized failures still propagate. TaskCheckpoint/Output/Check DTOs version/correlate new persistent metadata. Kernel reobservation never mutates historical Action outcome. Benchmark selection/planning/learning bytes remain frozen in0092cae; final wrapper guard does not use heldout answers.
+
+
+## Precision V2 P3 — measured redundant anchor reads / 2026-10-24
+
+Profile of the actual eight-task owned life found69641 anchor JSON loads and13.725s in ensure_current. A volatile validated-file signature cache still lstat-checks inode/dev/size/mtime/ctime/mode/uid/gid every read, reloads/revalidates on any change, and fails closed under replacement race. Same-size corruption with restored mtime and another trusted publisher durable delete both invalidate; original backup/delete/SIGKILL/privacy related12 PASS. Profile after:618 loads/2.052s in ensure_current; overall wall32.17→34.77s under different concurrent load, so NO end-to-end speedup claim and no invented lease-failure root cause. Bound actual planner heap as well as unique state keys at8192. Two old process failures isolated unchanged:2 PASS25.61s; earlier1170.94s diagnostic full1521pass/2fail/12skip retained, final full must rerun at frozen new bytes. Foundation checker only adds this authorized workstream to its entry allowlist; Master/fixed63 definitions unchanged. No protected staging/credentials/production/main operation.
