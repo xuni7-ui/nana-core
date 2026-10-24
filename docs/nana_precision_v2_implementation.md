@@ -187,10 +187,31 @@ run returned2. Neither failure is relabeled a success. Both unchanged isolated
 cases pass25.61s after hardening; cause not independently established. A prior
 portable inspection/deletion subprocess hit its30s bound, also retained. Final
 qualification must rerun full and portable at the frozen final source; no test
-timeouts, lease bounds, skip markers or old assertions were weakened.
+action/lease timeouts, skip markers or effect/recovery assertions were weakened
+at that checkpoint. The later host-startup change below is explicitly separate.
 
 Practice-competition gain is specifically the default first-nominee service path.
 Existing Hands/Project practice proposers and qualified meta selection already
 have filtering; this does not claim the Core first acquired all method comparison.
 New cross-Hand lesson attribution and independently checked residual planning are
 the substantive real-task change. No model or provider ablation is invented.
+
+## P4 — distinguish cold startup from action/recovery deadlines
+
+The retained quiet final attempt recorded1523pass/2fail/12skip in979.89s.
+RESEARCH failed before a Subject existed while starting the owned service;
+the legacy50-worker test failed waiting for IPC readiness. Both used fixed5s
+cold-start bounds. The first receipt does not distinguish timeout from early
+exit because the fixture removed its log; that root cause remains UNKNOWN.
+
+OwnedApplication now has explicit host-only startup_timeout_seconds, default15,
+strictly finite and<=30. Exit and timeout produce distinct codes and bounded
+numeric diagnostics, never arbitrary child logs. Deadline failure terminates and
+reaps the sole child; no retry. This is not a production default, Grant, action
+timeout, runtime lease or authority expansion. The50-worker test explicitly uses
+15s for readiness; all50 starts,5s stop/reap,zero use/lease/socket/residue assertions
+remain. Other legacy IPC tests keep their5s default. New actual delayed-child
+tests verify short-deadline rejection/reaping, bounded success, early exit and
+invalid/infinite configuration rejection before spawning. Targeted5pass38.62s.
+This changes an arbitrary test startup allowance explicitly, rather than hiding
+the two historical failures or weakening runtime invariants.

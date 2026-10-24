@@ -51,7 +51,9 @@ def test_50_actual_worker_processes_stop_reap_and_release_lease(tmp_path,monkeyp
         case=tmp_path/('c'+str(i));root,ipc,r,raw=fixture(case)
         p=launch(root,ipc,r.receipt_id,'never',case/'unused')
         try:
-            wait_file(p,ipc/'client.json')
+            # Import/IPC readiness is separate from the unchanged five-second
+            # stop/reap deadline. Fifty sequential cold starts remain required.
+            wait_file(p,ipc/'client.json',startup_timeout=15)
             result=cli.stop(root,ipc);assert result['status']=='STOP_REQUESTED'
             assert p.wait(5)==0
             out,err=p.communicate(timeout=5);assert out==err==b''

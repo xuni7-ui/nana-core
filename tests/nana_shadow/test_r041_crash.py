@@ -34,10 +34,10 @@ def launch(root,ipc,rid,point,marker):
     env=dict(os.environ);env['PYTHONPATH']=str(Path('.').resolve())+os.pathsep+str(Path('src').resolve())
     return subprocess.Popen([sys.executable,'-c',CODE,str(root),str(ipc),rid,str(os.getpid()),point,str(marker)],env=env,stdout=subprocess.PIPE,stderr=subprocess.PIPE)
 
-def wait_file(p,path):
-    end=time.monotonic()+5
+def wait_file(p,path,*,startup_timeout=5):
+    end=time.monotonic()+startup_timeout
     while not path.exists() and p.poll() is None and time.monotonic()<end:time.sleep(.01)
-    assert path.exists()
+    assert path.exists(),{'stage':'IPC_STARTUP','exit_code':p.poll(),'startup_timeout':startup_timeout}
 
 @pytest.mark.parametrize('point,uses',[('before_consume',0),('after_consume_commit',1),('after_evidence',1)])
 def test_real_worker_sigkill_no_reconnect_replay_or_permission_revive(tmp_path,point,uses):

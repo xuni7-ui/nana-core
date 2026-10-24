@@ -1,5 +1,5 @@
 """Trusted developer lifecycle for an explicitly owned application child."""
-import json,os,subprocess,sys,time
+import json,math,os,subprocess,sys,time
 from pathlib import Path
 from .contracts import ApplicationTask,load_target
 from ...contracts import CoreError
@@ -15,7 +15,11 @@ def default_tasks():
         ApplicationTask(task_id='document-counterexample',kind='DOCUMENT',initial='draft',wanted='  preserve deliberate spacing  ',context='literal-template'))
 
 class OwnedApplication:
-    def __init__(self,root,*,tasks=None):
+    def __init__(self,root,*,tasks=None,startup_timeout_seconds=15.0):
+        # Host-only process readiness, before any Subject or action exists. This
+        # is neither an action timeout nor a lease/Grant extension.
+        if isinstance(startup_timeout_seconds,bool) or not isinstance(startup_timeout_seconds,(int,float)) or not math.isfinite(startup_timeout_seconds) or not 0 < startup_timeout_seconds <= 30:
+            raise CoreError('OWNED_APPLICATION_START_TIMEOUT_INVALID')
         self.root=Path(root).absolute();self.root.mkdir(mode=0o700,parents=True,exist_ok=False)
         workspace=self.root/'application';workspace.mkdir(mode=0o700)
         manifest=self.root/'tasks.json';manifest.write_text(json.dumps([t.model_dump(mode='json') for t in (tasks or default_tasks())]));manifest.chmod(0o600)
@@ -24,8 +28,18 @@ class OwnedApplication:
         self.profile=workspace/'profile.json'
         start=time.monotonic()
         while not self.profile.exists():
-            if self.proc.poll() is not None or time.monotonic()-start>5:self.close();raise CoreError('OWNED_APPLICATION_START_FAILED')
+            exit_code=self.proc.poll()
+            elapsed=time.monotonic()-start
+            if exit_code is not None or elapsed>=startup_timeout_seconds:
+                self.startup_diagnostics={'status':'EXITED' if exit_code is not None else 'TIMED_OUT','exit_code':exit_code,'elapsed_seconds':elapsed,'timeout_seconds':startup_timeout_seconds}
+                self.close()
+                # Keep bounded numeric diagnostics even when a fixture removes
+                # its workspace. Never copy arbitrary child output into errors.
+                error=CoreError('OWNED_APPLICATION_START_EXITED' if exit_code is not None else 'OWNED_APPLICATION_START_TIMED_OUT')
+                error.startup_diagnostics=self.startup_diagnostics
+                raise error
             time.sleep(.02)
+        self.startup_diagnostics={'status':'READY','elapsed_seconds':time.monotonic()-start,'timeout_seconds':startup_timeout_seconds}
         self.target=load_target(self.profile)
         if self.target.pid!=self.proc.pid:self.close();raise CoreError('OWNED_CHILD_PID_MISMATCH')
     def close(self):
