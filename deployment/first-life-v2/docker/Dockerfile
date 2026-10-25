@@ -32,7 +32,7 @@ COPY runtime.tar.gz core.tar.gz web.tar.gz /tmp/nana-input/
 COPY --chmod=0644 extract_runtime.py /usr/local/lib/nana/extract_runtime.py
 COPY --chmod=0644 extract_web.py /usr/local/lib/nana/extract_web.py
 RUN python3 -I /usr/local/lib/nana/extract_runtime.py /tmp/nana-input/runtime.tar.gz "$RUNTIME_SHA256" \
- && /opt/nana-core/runtime/bin/python3 -I /usr/local/lib/nana/container_entry.py verify \
+ && /opt/nana-core/runtime/bin/python3 -I -B /usr/local/lib/nana/container_entry.py verify \
  && python3 -I /usr/local/lib/nana/extract_web.py /tmp/nana-input/web.tar.gz "$WEB_SHA256"
 COPY unpack_core.py /tmp/nana-input/unpack_core.py
 RUN mkdir -p /opt/nana-core/runtime/core-releases \
@@ -41,7 +41,7 @@ RUN mkdir -p /opt/nana-core/runtime/core-releases \
  && chown -R 999:999 /opt/nana-core/runtime/core-releases \
  && rm -rf /tmp/nana-input
 USER 999:999
-RUN /opt/nana-core/runtime/bin/python3 -I "/opt/nana-core/runtime/core-releases/$CORE_SOURCE_COMMIT/bootstrap.py" install
+RUN /opt/nana-core/runtime/bin/python3 -I -B "/opt/nana-core/runtime/core-releases/$CORE_SOURCE_COMMIT/bootstrap.py" install
 ENV NANA_CORE_RELEASE=/opt/nana-core/runtime/core-releases/${CORE_SOURCE_COMMIT}
 # Production command is explicitly 'serve' AFTER independent approval/activation.
 CMD ["verify"]

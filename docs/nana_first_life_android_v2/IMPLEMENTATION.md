@@ -85,3 +85,7 @@ the developer SDK, now passed isolated Debian13/nonroot TLS and lifecycle checks
 See [runtime qualification and reproducible deployment preparation](CLOUD_RUNTIME_VALIDATION.md).
 Core/frontend business bytes and contracts remain unchanged; no canonical cloud
 Subject or production cutover was created. All earlier failures remain historical.
+
+
+### First-Life Android V2 — final supplied-runtime seal and regression
+[实测2026-10-26，Advanced] 完整固定源码4ec0dfc回归1581 PASS/0 FAIL/12 SKIP，368.62s；11 live screen＋E12未运行，5 JUnit metadata warnings保留。后续只修部署提取mtime/构建-B，避免原SDK 61个pyc重写；并加强WAL返回及精确PORTABLE_SOURCE_RETIRED断言。最终39 focused和实际新镜像再次通过，安装/导出后4766文件＋10软链与原包全等；Core/API/Web/Native业务字节不变，不冒称后续又全仓重跑。最终镜像0d8426762cef4bc19b12a7930361fbc9a9c4096628ffb0ee4024407ec5a1a5ee；PID杀/自动重启1、重建同ID epoch2→3→4、B8恢复/旧源fence通过。genesis计划/切换回滚材料已准备但没有批准或执行。所有失败原证据保留；bwrap云端BLOCKED，Provider0/private NO/social0/production NO，First-Life NOT_READY/Beta NO。

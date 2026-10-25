@@ -79,3 +79,11 @@ source/privacy checks and same home. No automatic active-plan downgrade.
 bwrap remains BLOCKED on cloud. No direct exec fallback, no extra old-container
 privileges. S9 and other autonomous capacities are retained. bz2/lzma/readline
 are not introduced as mandatory dependencies or new compilation work.
+
+
+Final supplied-SDK qualification and reproducible build commands are in
+`docs/nana_first_life_android_v2/CLOUD_RUNTIME_VALIDATION.md` at repository root.
+Preserve archive mtimes; private Python build probes use -I -B so the original
+sealed .pyc files are not regenerated. After offline install/export all4766
+original hashes and10 targets were reverified. Actual final image digest:
+sha256:0d8426762cef4bc19b12a7930361fbc9a9c4096628ffb0ee4024407ec5a1a5ee.

@@ -25,5 +25,6 @@
   "foreign_key_errors": 0,
   "identities": 1,
   "provider_requests": 0,
-  "production_changed": false
+  "production_changed": false,
+  "image_id": "sha256:0d8426762cef4bc19b12a7930361fbc9a9c4096628ffb0ee4024407ec5a1a5ee"
 }

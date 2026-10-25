@@ -2701,3 +2701,7 @@ FL-A完整原报告收到并读取，脱敏source SHA登记，不复制平台个
 
 ### Supplied cloud SDK / isolated Docker closure — 2026-10-26
 [实测，S1/S4/S5＋Platform/Governance，Advanced] 四分片/整包SHA/CRC/13封条/4766文件＋10软链通过；先读CODEX_HANDOFF，原脚本隔离执行7PASS。实际云端SDK在独立Debian13 UID999验证Python3.12.14/SQLite3.51.3/OpenSSL3.5.7、固定prefix、TLS证书校验HTTP200。修复umask权限、BFF发布端口不可达、首次密码stdin FD、Core unpack父目录并将同APK LIVE Web入镜像。实际四卷/只读、十页/原C离线对话/备份、杀BFF自动恢复、容器重建同ID epochs2→3→4、B8恢复及旧源fence/Grant撤销通过；39 focused PASS。新全仓回归在稳定源码检查点后执行，不能复制旧数字。原失败证据保留。正式cloud部署/genesis/private import/旧写者/QQ/生产尚未执行，无Provider调用；bwrap仍BLOCKED，Master/Matrix/fixed63不变。原始材料与复现见docs/nana_first_life_android_v2/CLOUD_RUNTIME_VALIDATION.md。
+
+
+### First-Life Android V2 — final supplied-runtime seal and regression
+[实测2026-10-26，Advanced] 完整固定源码4ec0dfc回归1581 PASS/0 FAIL/12 SKIP，368.62s；11 live screen＋E12未运行，5 JUnit metadata warnings保留。后续只修部署提取mtime/构建-B，避免原SDK 61个pyc重写；并加强WAL返回及精确PORTABLE_SOURCE_RETIRED断言。最终39 focused和实际新镜像再次通过，安装/导出后4766文件＋10软链与原包全等；Core/API/Web/Native业务字节不变，不冒称后续又全仓重跑。最终镜像0d8426762cef4bc19b12a7930361fbc9a9c4096628ffb0ee4024407ec5a1a5ee；PID杀/自动重启1、重建同ID epoch2→3→4、B8恢复/旧源fence通过。genesis计划/切换回滚材料已准备但没有批准或执行。所有失败原证据保留；bwrap云端BLOCKED，Provider0/private NO/social0/production NO，First-Life NOT_READY/Beta NO。

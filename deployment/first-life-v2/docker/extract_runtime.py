@@ -112,6 +112,9 @@ def extract(archive, expected, root=Path("/opt/nana-core")):
             with os.fdopen(fd, "wb") as out:
                 os.fchmod(out.fileno(), 0o755 if m.mode & 0o111 else 0o644)
                 out.write(raw)
+            # Timestamp-based CPython caches must retain their source mtimes.
+            # Qualifying a supplied SDK must not regenerate its sealed .pyc.
+            os.utime(p, (m.mtime, m.mtime), follow_symlinks=False)
         for name, target in links:
             p = root / name
             p.parent.mkdir(mode=0o755, parents=True, exist_ok=True)

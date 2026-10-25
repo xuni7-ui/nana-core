@@ -30,7 +30,9 @@ def probe(tls=False):
         raise RuntimeError("TLS_VERIFICATION_REQUIRED")
     with tempfile.TemporaryDirectory(prefix="nana-abi-") as temporary:
         with sqlite3.connect(Path(temporary) / "probe.db") as connection:
-            connection.execute("pragma journal_mode=wal")
+            mode = connection.execute("pragma journal_mode=wal").fetchone()[0]
+            if mode != "wal":
+                raise RuntimeError("ACTUAL_WAL_MODE_REQUIRED")
             connection.execute("create virtual table words using fts5(body)")
             connection.execute("insert into words values ('PUBLIC runtime probe')")
             connection.commit()

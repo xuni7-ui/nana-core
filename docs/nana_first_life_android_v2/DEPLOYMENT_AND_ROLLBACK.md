@@ -155,3 +155,15 @@ belongs to independent Core or dedicated skill executor. Other capabilities do
 not inherit this block. bz2/lzma are not in current REQUIRED_PYTHON_MODULES;
 no build or dependency installation is requested without an actual failure.
 Existing verified runtime and nonroot preparation are not reimplemented.
+
+
+## Actual supplied runtime qualified — 2026-10-26
+
+The four-part transfer and exact SDK are now verified in isolated Debian13
+Docker. See CLOUD_RUNTIME_VALIDATION.md for image digest, actual host-published
+loopback path, cache-preserving offline installation, same-ID crash/recreate
+and original B8 restore. New canonical-plan.json and activation-preparation.json
+are review material only: approved=false is never fabricated, no Subject UUID
+has been allocated for production. Safe cloud access remains absent. Before
+any future approved genesis, reconfirm no real canonical home already exists.
+No existing AstrBot/QQ/Iris or root6199 route was touched.

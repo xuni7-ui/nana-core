@@ -1,0 +1,11 @@
+{
+  "application_full_regression_source": "4ec0dfc137832f0cf42f56f35cc888215b92b381",
+  "core_runtime_artifact_source": "dbfb37ebe5c82edcfba6d50ba4f41a02ab8f358e",
+  "core_api_portable_web_android_business_bytes_unchanged": true,
+  "master_matrix_bytes_unchanged": true,
+  "foundation_definitions": 63,
+  "frontend_contract_changed": false,
+  "main_ref": "18bc736d5e37fe3325e514a0e975403df2f97c9f",
+  "production_changed": false,
+  "provider_calls": 0
+}

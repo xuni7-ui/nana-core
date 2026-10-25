@@ -64,13 +64,15 @@ exported=transfer(home,package,destination_id=destination,source_commit=sys.argv
 old_rejected=False
 try:
     with LifeApplication(home):pass
-except CoreError:old_rejected=True
+except CoreError as exc:
+    if exc.code!='PORTABLE_SOURCE_RETIRED':raise
+    old_rejected=True
 if not old_rejected:raise RuntimeError('SOURCE_NOT_FENCED')
 restored=receive(package,target,sha256=exported['sha256'],destination_id=destination,config=load_config(home))
 with LifeApplication(target,bootstrap_grant=False) as app:
     if app.runtime.identity_id!=before:raise RuntimeError('RESTORE_IDENTITY_CHANGED')
     if any(not row['revoked'] for row in app.runtime.store.all('grants')):raise RuntimeError('OLD_GRANT_SURVIVED')
-print(json.dumps({'identity_id':before,'backup':b['state'],'restore':restored['state'],'old_source_fenced':old_rejected,'provider_config_transferred':restored['provider_config_transferred'],'old_grants':0,'same_subject':'PASS','single_active_lineage':'PASS'}))
+print(json.dumps({'identity_id':before,'backup':b['state'],'restore':restored['state'],'old_source_fenced':old_rejected,'old_source_error_code':'PORTABLE_SOURCE_RETIRED','provider_config_transferred':restored['provider_config_transferred'],'old_grants':0,'same_subject':'PASS','single_active_lineage':'PASS'}))
 '''
 
 

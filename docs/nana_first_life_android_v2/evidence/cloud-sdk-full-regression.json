@@ -1,0 +1,67 @@
+{
+  "source_commit": "4ec0dfc137832f0cf42f56f35cc888215b92b381",
+  "passed": 1581,
+  "failed": 0,
+  "errors": 0,
+  "skipped": 12,
+  "pytest_duration_seconds": 368.62,
+  "junit_duration_seconds": 368.596,
+  "warning_count": 5,
+  "warnings": "existing record_property/xunit2 metadata compatibility; not runtime failures",
+  "command": "PYTHONPATH=src /workspace/nana-core/.venv/bin/python -m pytest -q tests --old-sqlite-python=/usr/bin/python3 --junitxml=<owned-dev-output>",
+  "environment": "managed Linux x86_64 CPython3.12.14; application regression is separate from actual supplied SDK qualification",
+  "live_provider_calls": 0,
+  "production_changed": false,
+  "skipped_tests": [
+    {
+      "test": "tests.h2_live_screen.test_live::test_ten_real_os_scenes_h1_world_concern_c",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live::test_live_runtime_preemption_backpressure_disable_remove_and_frontend",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live::test_real_backend_sigkill_six_cuts[BEFORE_SOURCE_OPEN]",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live::test_real_backend_sigkill_six_cuts[AFTER_CAPTURE_BEFORE_INGEST]",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live::test_real_backend_sigkill_six_cuts[AFTER_TECHNICAL_INGEST]",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live::test_real_backend_sigkill_six_cuts[BEFORE_SEMANTIC_DISPATCH]",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live::test_real_backend_sigkill_six_cuts[AFTER_SEMANTIC_RESPONSE]",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live::test_real_backend_sigkill_six_cuts[BEFORE_CONCERN]",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live::test_live_manager_preserves_watch_and_pixels_never_acquire_authority",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live::test_real_source_b8_transfer_new_display_and_forget",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.h2_live_screen.test_live::test_visual_injection_payload_cannot_propose_authority",
+      "reason": "explicit --live-screen required"
+    },
+    {
+      "test": "tests.offline_continuity.test_experiment::test_E12_real_model_migration",
+      "reason": "E12 real-model gate requires configured development endpoints via nana-semantic; offline pytest makes no real-model calls"
+    }
+  ],
+  "core_runtime_source": "dbfb37ebe5c82edcfba6d50ba4f41a02ab8f358e",
+  "post_full_changes": "Only deployment extractor preserves SDK mtimes, Docker build flags -B, one existing mode test also checks mtime, and developer probes assert actual WAL/exact retired error. Core/API/Web/Native business bytes unchanged; final focused39 and actual final-image lifecycle reverified."
+}

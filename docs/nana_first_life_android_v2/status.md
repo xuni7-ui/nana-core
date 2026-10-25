@@ -1,42 +1,51 @@
-# First-Life Android V2 — development checkpoint
+# First-Life Android V2 — isolated cloud-runtime handoff qualified
 
-GLOBAL_STAGE H / Advanced Growth; FIRST_LIFE_STABLE=NOT_READY; BETA=NO.
-One original SubjectLoop/Store/Runtime, frozen Master and63criteria unchanged.
+GLOBAL_STAGE H / Advanced Growth. FIRST_LIFE=NOT_READY; BETA=NO.
+Master/Matrix/fixed63, original One Subject/Store/SubjectLoop/Runtime unchanged.
 
-| Work | Actual result |
+| Item | Actual result |
 |---|---|
-| Runtime source | dbfb37ebe5c82edcfba6d50ba4f41a02ab8f358e |
-| Full repository regression |1560 passed/0failed/12skipped,701.85s on exact runtime source |
-| Additional current focused |24 passed, includes6 new container archive cases |
-| TypeScript |18 passed |
-| Original UI / original v1 real-Core browser |80 /16 passed, unchanged assertions |
-| New v2 browser |3 device layouts against real owned Core; latest result in evidence |
-| Core package |243files, repeated SHA d7e541df39dcc4bc969eb73bf2b29936d3f6900c6438e0f87b174d6a5324118c |
-| Independent installs |two real offline CPython3.12.14 /SQLite3.51.3 installs, -I BFF/chat/backup/same ID restart |
-| Isolated Docker |nonroot/read-only/cap-drop/network-none actual developer Core flows; daemon restart1, same ID, epoch6→7 |
-| Cloud's exact runtime |ZIP upload received, transfer blocked32MiB; contents/scripts NOT_READ/NOT_RUN |
-| APK |debug signature verified; unsigned release built; strict offline build/unit/lint passed |
-| Android installation/native instrumentation |BLOCKED software emulator system providers not ready; physical NOT_RUN |
-| Official release signer/background push/human review |NOT_RUN /NOT_QUALIFIED /NOT_RUN |
-| Actual cloud provisioning/genesis/private import/legacy fencing/QQ cutover |NOT_RUN, no production change |
+| Supplied runtime transfer |4/4 parts, whole ZIP SHA256/CRC,13 seals,4766 files+10 symlinks PASS |
+| Actual SDK |Python3.12.14/SQLite3.51.3/OpenSSL3.5.7, fixed /opt prefix, UID999, verified real PyPI TLS PASS |
+| Final installed SDK integrity |All4766 original file hashes+10 link targets unchanged after offline install/export PASS |
+| Image |sha256:0d8426762cef4bc19b12a7930361fbc9a9c4096628ffb0ee4024407ec5a1a5ee |
+| Host publication / LIVE Web / ten pages / original C |Actual isolated nonroot Docker PASS, offline PROJECT turn, not model/naturalness qualification |
+| Crash / recreate / backup / B8 restore |Automatic restart1, same ID/lineage epochs2→3→4, old source precisely retired, inherited grants0 PASS |
+| Volumes |Four final container paths, SDK write denied EROFS, private999 data/logs/backups writable PASS |
+| Full repository |1581 passed/0failed/12skipped,368.62s at4ec0dfc |
+| Final targeted |39 passed after deployment -B/mtime and stronger qualification assertions; actual final-image lifecycle rerun |
+| Core source / portable |dbfb37e;243files; SHA d7e541df39dcc4bc969eb73bf2b29936d3f6900c6438e0f87b174d6a5324118c unchanged |
+| Web / native contract |Unchanged LIVE assets/API; prior TS18, original UI80, v1 real-Core16, v2 browser3 evidence preserved |
+| APK |Existing signed debug and unsigned release generated; native assets equal LIVE Web |
+| Android install / Keystore / phone |Software-emulator providers did not boot; instrumentation/physical NOT_RUN |
+| Formal cloud service / identity / legacy / QQ |NOT_RUN; canonical plan and rollback preparation only |
+| Provider / private / social / production changes |0 /NO /0 /NO |
 
-Docker is the selected host plan: /srv/nana-core four subdirectories → /opt/nana-core,
-UID/GID999; preserve /opt/nana-core/runtime. /opt in old AstrBot and old/root backups
-are overlay, not persistent. Later report retracts host-systemd proof; no need to
-ask for its selection again. Cloud bwrap namespace qualification stays BLOCKED,
-no privilege expansion/exec fallback; no bz2/lzma recompilation requested.
+Full regression ran on a clean4ec0dfc. Later changes only preserve SDK timestamps,
+use -B in Docker build probes, strengthen one existing extractor test plus the
+WAL/source-fence diagnostic assertions, and update review artifacts. Core/API/Web/
+Android business bytes are unchanged. Actual final image and targeted39 passed;
+the full count is not mislabeled as another whole-suite run after those checks.
+12 skips are11 opt-in real screens plus E12.5 warnings are existing JUnit2
+record_property metadata compatibility, retained in the raw summary.
 
-Docker tests use a SEPARATE development SDK at its original developer path and
-explicit synthetic home. They do not stand in for the cloud's archive, final999
-volume provisioning, old writers or actual canary. Runtime's persistent identity
-and memories are never created by an APK, image build or default verify command.
+The earlier32MiB transfer block, mount permissions, missing unpack parent, copied
+release owner, LIVE-root303 harness expectation and regenerated cache detection
+remain in failure history. No failure was deleted or converted into success.
 
-Current remaining input: chunks<=30MiB plus original ZIP SHA256. No new approval
-needed for merge/read/isolated verification. After the actual archive is readable,
-read CODEX_HANDOFF first, review existing scripts, then execute compatible checks
-without a formal Subject, private body, old service restart or paid model call.
+Selected production plan remains independent Debian13 nonroot Docker, fixed host
+/srv/nana-core/{runtime,data,logs,backups} to /opt/nana-core same paths. There is
+no safe cloud access binding here; no host /srv preparation/deployment is claimed.
+Default verify opens no Store. Approval profile is inactive. bwrap remains
+BLOCKED, no old-container privilege changes/exec fallback/bz2/lzma recompilation.
 
-Known staging limits: host receipt document capacity256 then explicit archival
-required; private conversation/history import not enabled by this public/project
-qualification; real AstrBot transport/sends not connected; production secrets and
-new model budget need explicit binding. No claims of72h or human naturalness.
+Remaining: approved cloud access/provisioning, one canonical genesis and actual
+legacy-writer fencing, separately authorized private migration/real QQ, private
+HTTPS connection, daily Provider credential/budget, release signer, physical
+Android/notifications and human review/canary. Receipt capacity256 and
+PUBLIC/PROJECT-only qualification remain stated staging limitations before
+extended daily use. No consciousness, production or First-Life readiness claim.
+
+See [actual runtime validation and reproduction](CLOUD_RUNTIME_VALIDATION.md),
+[cutover/rollback](DEPLOYMENT_AND_ROLLBACK.md), the evidence manifest and the
+prepared deployment canonical-plan/activation-preparation JSON.

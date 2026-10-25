@@ -26,9 +26,14 @@
       "stage": "second lifecycle harness",
       "result": "harness expected200 at / but actual secure LIVE route intentionally303",
       "fix": "assert exact303 Location /index.html?source=live, then assert200 actualHTML; no server assertion or route weakened"
+    },
+    {
+      "stage": "post-install SDK manifest",
+      "result": "61 stdlib .pyc caches regenerated during root build validation; .py and .so bytes unchanged",
+      "fix": "preserve original file mtimes and run SDK build validation/bootstrap with -B; final image all4766+10 original hashes/targets equal"
     }
   ],
-  "final_lifecycle": "PASS_VOLUMES_03",
+  "final_lifecycle": "PASS_VOLUMES_05_SEALED_IMAGE",
   "real_provider_calls": 0,
   "production_changed": false
 }

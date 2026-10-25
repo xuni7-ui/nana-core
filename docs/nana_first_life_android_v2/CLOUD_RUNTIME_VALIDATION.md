@@ -29,9 +29,13 @@ read-only root/SDK,512MiB,1CPU,64PIDs:
   repository PYTHONPATH, new dependency, alternative sqlite binding or model key.
 
 Actual qualified local image:
-`sha256:84396a934f15351fc60fd47e9e02e6d89f34c7fbfe989ef125df906a0a067950`.
+`sha256:0d8426762cef4bc19b12a7930361fbc9a9c4096628ffb0ee4024407ec5a1a5ee`.
 Core source is `dbfb37ebe5c82edcfba6d50ba4f41a02ab8f358e`; image infrastructure is
-the new development commit. Core/Web/APK business bytes are unchanged from the
+the new development commit. The final SDK seal was rechecked after offline installation/export: all4766
+file hashes and10 symlink targets still match. An intermediate image had61
+regenerated .pyc caches; original mtimes and explicit -B build probes fixed this.
+Its functional run is retained separately, never used as final seal proof.
+Core/Web/APK business bytes are unchanged from the
 previous qualified delivery. Docker builds use the pinned Debian base plus
 recorded OS packages; the image ID, not a mutable tag, identifies this result.
 
@@ -125,3 +129,16 @@ Release signing, physical Android/Keystore/notifications, daily Provider budget,
 human naturalness and production canary/72h remain separate gates. Existing debug
 APK and unsigned release are delivered; the software-emulator installation failure
 remains recorded. FIRST_LIFE=NOT_READY and BETA=NO.
+
+## Final regression scope
+
+Actual full repository run on stable commit4ec0dfc:1581 passed/0 failed/12 skipped
+in368.62s.11 opt-in live screen and E12 were not run;5 warnings concern existing
+record_property/JUnit2 metadata. Afterward only deployment cache-preservation and
+qualification assertions changed; final focused39 and the actual final-image
+lifecycle were rerun. Core/API/Web/native business bytes stayed identical.
+Prepared canonical-plan.json and activation-preparation.json are non-executing
+review material, not approvals, receipts or a new Subject. Recheck the real host
+before any future one-time genesis; preserve the selected paths/UID and existing
+6199 route. Public/project-only qualification and the256-receipt staging ceiling
+are retained limitations; no claim of unrestricted daily production readiness.

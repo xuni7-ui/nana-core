@@ -1,0 +1,6 @@
+{
+  "old_source_error_code": "PORTABLE_SOURCE_RETIRED",
+  "actual_sqlite_journal_mode": "wal",
+  "provider_calls": 0,
+  "production_changed": false
+}

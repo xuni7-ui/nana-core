@@ -193,6 +193,7 @@ def test_extractor_explicit_sdk_modes_survive_private_umask(tmp_path):
         for path, mode in [('runtime/bin/python3.12', 0o755), ('runtime/lib/public.py', 0o644)]:
             member = tarfile.TarInfo(path)
             member.mode, member.size = mode, len(b'PUBLIC_SYNTHETIC_RUNTIME')
+            member.mtime = 1700000000
             tar.addfile(member, io.BytesIO(b'PUBLIC_SYNTHETIC_RUNTIME'))
     target = tmp_path / 'new-target'
     target.mkdir()
@@ -208,6 +209,7 @@ def test_extractor_explicit_sdk_modes_survive_private_umask(tmp_path):
     assert (target / 'runtime/bin').stat().st_mode & 0o777 == 0o755
     assert (target / 'runtime/bin/python3.12').stat().st_mode & 0o777 == 0o755
     assert (target / 'runtime/lib/public.py').stat().st_mode & 0o777 == 0o644
+    assert (target / 'runtime/lib/public.py').stat().st_mtime == 1700000000
     assert private.stat().st_mode & 0o777 == 0o700
 
 

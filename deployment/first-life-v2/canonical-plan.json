@@ -1,0 +1,21 @@
+{
+  "operation": "CANONICAL_GENESIS_WITH_LEGACY_SOURCE_LINK",
+  "predecessor": "NO_CANONICAL_CORE_ON_HOST",
+  "inventory_digest": "a9fcbf253b53da624e6041afab5ea0a1652982610ec9196c033bb9af9e4069c6",
+  "legacy_source_ids": [
+    "iris.0.3.0",
+    "astrbot.platform-history",
+    "livingmemory.legacy"
+  ],
+  "known_gaps": [
+    "L1_EARLY_TEXT_TRIMMED",
+    "L2_FRESHNESS_GAP",
+    "LEDGER_ROTATION_NOT_RECONCILED",
+    "PRIVATE_EXPORT_NOT_AUTHORIZED",
+    "NO_OLD_CORE_LINEAGE"
+  ],
+  "state": "PLANNED_REQUIRES_PRODUCTION_APPROVAL",
+  "legacy_core_uuid_inherited": false,
+  "shadow_identity_promoted": false,
+  "history_imported": false
+}

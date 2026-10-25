@@ -37,5 +37,7 @@
       "sha256": "43cae88c58ea6db1e5e5226807ae00f6ab06281f0a801ef4a0832e1b2428cdf7"
     }
   },
-  "cloud_runtime_qualification": "PASS_ACTUAL_SDK_IN_ISOLATED_DEBIAN13_NONROOT_DOCKER_NOT_CLOUD_DEPLOYMENT"
+  "cloud_runtime_qualification": "PASS_ACTUAL_SDK_IN_ISOLATED_DEBIAN13_NONROOT_DOCKER_NOT_CLOUD_DEPLOYMENT",
+  "qualified_local_docker_image": "sha256:0d8426762cef4bc19b12a7930361fbc9a9c4096628ffb0ee4024407ec5a1a5ee",
+  "cloud_deployment": "NOT_RUN"
 }
