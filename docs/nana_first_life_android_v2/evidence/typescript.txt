@@ -1,0 +1,17 @@
+
+> @nana/space@1.0.0 test
+> vitest run --config vitest.config.ts
+
+
+ RUN  v3.2.7 /workspace/nana-first-life-android-v2/apps/nana-space
+
+ ✓ tests/adapters.test.ts (12 tests) 1648ms
+   ✓ fictional Demo data and transitions > has explicit failure and UNKNOWN semantics without retries  444ms
+   ✓ fictional Demo data and transitions > streams cumulative local text and cancels mid-stream  829ms
+ ✓ tests/live.test.ts (4 tests) 16ms
+ ✓ tests/v2-client.test.ts (2 tests) 12ms
+
+ Test Files  3 passed (3)
+      Tests  18 passed (18)
+   Start at  12:20:36
+   Duration  3.29s (transform 242ms, setup 0ms, collect 288ms, tests 1.68s, environment 1ms, prepare 288ms)

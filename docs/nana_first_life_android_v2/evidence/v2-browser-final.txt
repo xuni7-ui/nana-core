@@ -1,0 +1,4 @@
+  ✓  1 [desktop] › tests/v2.spec.ts:4:1 › v2 actual same Core ten pages, scoped dialogue, cookies, revoke and host lifecycle (4.7s)
+  ✓  2 [android-web] › tests/v2.spec.ts:4:1 › v2 actual same Core ten pages, scoped dialogue, cookies, revoke and host lifecycle (4.3s)
+  ✓  3 [small-phone-web] › tests/v2.spec.ts:4:1 › v2 actual same Core ten pages, scoped dialogue, cookies, revoke and host lifecycle (4.6s)
+  3 passed (18.4s)

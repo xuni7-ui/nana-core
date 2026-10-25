@@ -2690,3 +2690,10 @@ FL-A完整原报告收到并读取，脱敏source SHA登记，不复制平台个
 
 ### First-Life v2 — actual portable service entry correction
 [源码/针对性资格] 发现src-layout便携包不能直接靠系统python -m导入，新增受SHA完整性约束的-I host_gateway入口，systemd模板对应修正；初次缺口令不持久化损坏auth、停止无界child stdout，保留原Core有界脱敏运行日志/实际exit code。此前空JSON Schema测试误拒已正常后续提交修复，保留失败/中止记录、不amend。上述新入口需实际独立安装核验，不能仅文档宣称云端部署。
+
+
+### FL-A storage/hosting final user selection (2026-10-25)
+[用户决定＋两份只读审计，S4/S1/Governance横轴Advanced] 固定host /srv/nana-core/{runtime,data,logs,backups} →container /opt/nana-core同四目录，独立nonroot Debian13 Docker，UID/GID999；不再等待systemd选型。后份证据撤回host PID1推断；旧/opt和/root备份仍在overlay，不能放行持久化。既有private runtime prefix=/opt/nana-core/runtime，Debian OpenSSL3.5.7依赖不能直接搬Ubuntu3.0.13。已有SDK通过不重做，待实际非敏感runtime归档在独立容器验证；镜像基础准备不冒充该资格。handoff=/AstrBot/data/_nana_core_handoff仅运行时/说明/哈希/结果，禁止Subject/identity/私人DB/密钥/生产备份。当前无云端安全访问，未假称复制或创建/srv。genesis/私人导入/旧写者关停/真实QQ/生产切流仍未批准。bwrap二进制已装但namespace拒绝，保持BLOCKED、不扩旧容器cap/seccomp、不重启QQ；S9不删除，bz2/lzma不补装。Master/fixed63/原主体机制不变。
+
+### First-Life Android V2 — bounded status and development delivery checkpoint
+[实际开发资格] Core固定dbfb37e全仓1560/0/12；额外当前focused24、TS18、原UI80、旧v1真实Core浏览器16、新v2浏览器3通过。严格离线Android构建/签名/单元/lint通过；原生安装因无KVM软件模拟器系统provider未就绪而BLOCKED，未标原生仪器或真机PASS。Docker开发SDK实际受限容器对话/备份/重启、真实杀BFF触发daemon自动重启1次并同主体epoch6→7通过；精确云端SDK不由此替代。用户交接ZIP已上传但download_file32MiB限制拒绝，尚未读CODEX_HANDOFF/执行包内脚本；只需可读分片不需新选型或下载批准。CURRENT摘要已压缩到既有8项上限，未扩张Context契约；Master/矩阵逐字不变。保留全部失败原记录，原untracked bundle不读取/不改动，不碰production/main/R045/私人/真实社交/付费。

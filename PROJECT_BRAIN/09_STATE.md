@@ -7,25 +7,26 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 36,
-  "as_of_us": 1792930163210934,
+  "revision": 38,
+  "as_of_us": 1792939817439456,
   "stage": "H",
   "workstream": "FIRST_LIFE_ANDROID_APK_INTEGRATION_V2",
-  "status": "DEVELOPMENT_INTEGRATION_IMPLEMENTED_QUALIFICATION_IN_PROGRESS",
+  "status": "DEV_QUALIFIED_CLOUD_HANDOFF_BLOCKED_BY_32MIB_TRANSFER_LIMIT",
   "progress": [
-    "质量d207与Nana Space b899基于共同87f显式合并，独立集成工作树；原分支/bundle保护。",
-    "任务包8份全文已读取且SHA核对；同一开发者承担Core/Android/前端，不创建第二Subject。",
-    "v2 Schema/Python DTO、Web Cookie+CSRF、Native Keystore HTTPS契约施工；v1 guard不放宽。",
-    "Capacitor7.6.9/SDK35/JDK21独立开发构建；真实生产、私人/社交/付费未触碰。",
-    "已完整读取云端FL-A原报告；无canonical Core，正式接入是genesis+LegacyLink；6199双namespace不复用。",
-    "v2实际HTTP→原Core十页/对话/幂等/CSRF/设备撤销/Host停止与SIGKILL恢复通过；无模型/私人/社交。",
-    "原生Keystore固定HTTPS桥APK实际构建+lint通过；桌面/390px/320px真实Core Web联合3通过，Android模拟器另验。",
-    "canonical新生+LegacyLink及离线激活门、QQ来源/截止/幂等、Iris哈希dry-run已实现；测试批准为合成，不是云端切换。"
+    "质量d207＋Nana Space b899合法合并；统一开发分支，原工作树/bundle保留；Single Subject/Store/Loop不变。",
+    "v2认证、设备配对/撤销、原Core十页/对话/Host启停/SIGKILL/UNKNOWN/来源撤回已实现并开发验证；旧v1 guard保留。",
+    "运行时dbfb37e全仓1560通过/12跳过，701.85s；新归档边界6通过；原UI80、v1真实Core浏览器16通过。",
+    "243文件Core包两次重建SHA一致；两套private3.12.14/SQLite3.51.3的-I离线安装，对话/备份/同身份重启通过。",
+    "Debian13非root受限容器开发SDK实际Core链通过；杀BFF后容器自动重启1次、同主体epoch6→7；不是云端SDK资格。",
+    "Android debug签名核验、unsigned release及严格离线构建/lint通过；软件模拟器系统provider未就绪，安装/原生仪器未资格，真机未运行。",
+    "两份后续FL-A审计已全文读；固定独立Docker、/srv/nana-core→/opt/nana-core四目录、UID999；不再等待systemd。",
+    "已收到nana_core_handoff_20261025.zip上传引用，但工具因超过32MiB拒绝下载；尚未读包内CODEX_HANDOFF或执行其脚本。"
   ],
   "open_gates": [
-    "已收真实inventory报告；安全部署绑定/非root provision/实际旧writer fence/canonical激活与生产批准尚缺。",
-    "PRIVATE Iris/模型预算凭据/真实QQ投递/物理手机/正式release密钥/后台push/72h分别未授权或未验。",
-    "历史Quality1542/0/12只为原固定源码；本轮需新回归；First-Life/Beta不升级。"
+    "仅需可读取的≤30MiB分片＋整包SHA；路径/托管/准备授权已定。云端当前SDK精确兼容仍待实际工件，不能用开发SDK或报告代替。",
+    "正式genesis、私人导入、旧写者关停、真实QQ投递/生产切流仍独立确认，全部未执行。",
+    "bwrap云端namespace BLOCKED，不扩旧AstrBot权限、不exec降级、不补bz2/lzma；S9与其余合法自主能力保留。",
+    "新日常Provider安全绑定/额度、human review、正式签名、真机/后台push/72h仍未完成；First-Life/Beta不升级。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",

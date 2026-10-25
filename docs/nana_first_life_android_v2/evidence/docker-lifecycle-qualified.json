@@ -1,0 +1,22 @@
+{
+  "evidence": "ACTUAL_OWNED_DOCKER_NOT_CLOUD",
+  "cloud_runtime_archive_qualified": false,
+  "sdk_scope": "SEPARATE_DEVELOPMENT_SDK_ORIGINAL_PREFIX_NOT_CLOUD_INPUT",
+  "source_commit": "dbfb37ebe5c82edcfba6d50ba4f41a02ab8f358e",
+  "image_id": "sha256:8f614a79efc8c729f31462908401206dc88063fdcbba6597ae2da29346c5953c",
+  "subject_id": "cbd4bf6b-4a0b-4092-b90c-b95b96fbdcd7",
+  "lineage_binding": "2e013dc1589050f848b92993bc51bc9851d905332eeea8f5efe9f3150360a11f",
+  "owned_target_selection": "EXACT_ARGV_NOT_PID1_CHILD_ACCESS",
+  "kill_helper_exit": 0,
+  "before_epoch": 6,
+  "after_epoch": 7,
+  "automatic_restart_count": 1,
+  "same_subject": "PASS",
+  "same_store": "PASS",
+  "single_original_runtime": "PASS",
+  "hardening": "PASS",
+  "intentional_stop_latch": "PASS",
+  "provider_calls": 0,
+  "production_changed": false,
+  "private_data_used": false
+}

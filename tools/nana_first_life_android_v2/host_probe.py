@@ -74,11 +74,8 @@ def probe(a):
             output["systemd_state"] = "UNAVAILABLE"
     else:
         output["systemd_state"] = "NOT_HOST_SYSTEMD"
-    output["recommended_supervision"] = (
-        "INDEPENDENT_NONROOT_SYSTEMD"
-        if output["systemd_state"] in {"running", "degraded"}
-        else "HOST_SYSTEMD_NOT_CONFIRMED_CONTAINER_FALLBACK_REQUIRES_APPROVAL"
-    )
+    output["recommended_supervision"] = "INDEPENDENT_NONROOT_DOCKER_USER_SELECTED"
+    output["host_systemd_is_gate"] = False
     for name, path in [("subject_directory", a.subject), ("backup_directory", a.backups)]:
         if path:
             output[name] = directory(path)

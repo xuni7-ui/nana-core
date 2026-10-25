@@ -1,0 +1,42 @@
+{
+  "runtime_source_commit": "dbfb37ebe5c82edcfba6d50ba4f41a02ab8f358e",
+  "full": {
+    "passed": 1560,
+    "failed": 0,
+    "skipped": 12,
+    "seconds": 701.85
+  },
+  "additional_container_artifact_tests": {
+    "passed": 6,
+    "failed": 0
+  },
+  "focused_current": {
+    "passed": 24,
+    "failed": 0
+  },
+  "typescript": {
+    "passed": 18
+  },
+  "legacy_ui_browser": {
+    "passed": 80,
+    "seconds_approx": 540
+  },
+  "v1_core_browser": {
+    "passed": 16
+  },
+  "v2_browser_previous": {
+    "passed": 3,
+    "scope": "desktop_390_320_actual_Core"
+  },
+  "skip_reasons": [
+    "11 opt-in real screen capture",
+    "1 E12 real model gate"
+  ],
+  "real_provider_calls": 0,
+  "human_naturalness": "NOT_RUN",
+  "v2_browser_final": {
+    "passed": 3,
+    "seconds": 18.4,
+    "scope": "latest live Web + actual original Core, desktop/390/320; TLS test-only self-signed fixture"
+  }
+}

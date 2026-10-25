@@ -1,0 +1,11 @@
+{
+  "file_name": "nana_core_handoff_20261025.zip",
+  "upload_reference_received": true,
+  "download": "BLOCKED_TOOL_TRANSFER_LIMIT_32_MIB",
+  "file_contents_read": false,
+  "codex_handoff_read": false,
+  "supplied_verification_scripts_run": false,
+  "required_input": "chunks_at_most_30_MiB_and_whole_archive_SHA256",
+  "new_production_authorization_required_for_unpack_or_dev_checks": false,
+  "cloud_source_modified": false
+}

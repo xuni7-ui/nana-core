@@ -1,0 +1,8 @@
+{
+  "runtime_source_commit": "dbfb37ebe5c82edcfba6d50ba4f41a02ab8f358e",
+  "runtime_and_frontend_business_bytes_unchanged_since_full_regression": true,
+  "changed_files_scanned": 57,
+  "credential_pattern_matches": 0,
+  "historical_chat_keys_searched": false,
+  "new_provider_calls": 0
+}

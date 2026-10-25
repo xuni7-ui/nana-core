@@ -1,0 +1,40 @@
+{
+  "runtime_source_commit": "dbfb37ebe5c82edcfba6d50ba4f41a02ab8f358e",
+  "scope": "DEVELOPMENT_HANDOFF_NOT_PRODUCTION_OR_FORMAL_SUBJECT",
+  "core_files": 243,
+  "debug_signing": "VERIFIED_INTERNAL_ANDROID_DEBUG",
+  "release_signing": "UNSIGNED_USER_KEY_NOT_PROVIDED",
+  "web_mode": "LIVE_NO_DEMO_FALLBACK",
+  "native_web_asset_equality": true,
+  "android_physical": "NOT_RUN",
+  "cloud_runtime_included": false,
+  "cloud_runtime_transfer": "BLOCKED_32_MIB_DOWNLOAD_LIMIT",
+  "subject_database_included": false,
+  "credential_included": false,
+  "files": {
+    "README.md": {
+      "bytes": 659,
+      "sha256": "0555fdd7153dcd8a02f50f0ac8fbef4cef95477f2bc93fe3ffd7dfa877f6bb5c"
+    },
+    "nana-core-dbfb37e.tar.gz": {
+      "bytes": 3057078,
+      "sha256": "d7e541df39dcc4bc969eb73bf2b29936d3f6900c6438e0f87b174d6a5324118c"
+    },
+    "nana-space-2.0.0-debug.apk": {
+      "bytes": 4958975,
+      "sha256": "75e7576c63e129b6f30739ca090718069a6c58fc3dd65092c56014ace32183d0"
+    },
+    "nana-space-2.0.0-release-unsigned.apk": {
+      "bytes": 3690666,
+      "sha256": "c679dc78448f99d8fe311082c9e8bbaffb2d736c5288081561044dae57ccc9f9"
+    },
+    "nana-space-live-web.tar.gz": {
+      "bytes": 568969,
+      "sha256": "8d55d97d59b6cefef74fe18651092960ac3fd5b3399606ee19b07f098a0fc90c"
+    },
+    "nana-unpack.py": {
+      "bytes": 2579,
+      "sha256": "43cae88c58ea6db1e5e5226807ae00f6ab06281f0a801ef4a0832e1b2428cdf7"
+    }
+  }
+}

@@ -1,0 +1,25 @@
+{
+  "source_commit": "dbfb37ebe5c82edcfba6d50ba4f41a02ab8f358e",
+  "self_excluded": true,
+  "sha256": {
+    "android-installation-limit.json": "9cef921a9f7809e195829330e29fa7c0e4e5d18522a07937086d0347b1756884",
+    "android-strict-build.txt": "2bdea1665b9b2e623818aea4829109767cf6a782ac7d12281b27ca99a137aa94",
+    "archive-tests.txt": "32474846ae4372c596eb55783e16b294e33c945a8fe0076ae5634338fd1acc37",
+    "artifacts.json": "2207d1015a198de4d9afd1e1cf628101cf0fa5899fb761065f0288a4d552c9b6",
+    "core-rebuild.json": "1fb1ad9d0b4331aca050c0efceb374cf9c07a0737be4fb3b89b17e61f4c3ccda",
+    "core-release.json": "41301a85770a7b324287ccc9acb8a7043a493a01d93f6632a43733d70684ed01",
+    "docker-lifecycle-qualified.json": "a324ed65746709ef4ab739e2b82005707c3748f9eb6f1a00982fb7b7456ae9e0",
+    "failure_history.json": "20394cefc25aa575eec21f21ddfa9a234d0aaf4e62753273039d02eac9c619d1",
+    "focused.txt": "7718d8f2c24c0ee7f52e1328b748492a1bf43666f78ab0fa590470b763f61be0",
+    "full-regression.txt": "760985331b934d98c475a91bce7af9fd4c88650e86ca988c3490dbb9f50c48bf",
+    "handoff_transfer.json": "0300cca59b167c3ca5c29cda92b80bbcf88b38d80587ca2d62b344f5ae177da3",
+    "installed-gateway-a.json": "d90a4fe2345abc9dc5a0fb74871427544d8edce49be19312895d34df35e4dbeb",
+    "installed-gateway-b.json": "9790d10c5569f529dbcdce643d4485e85dfea643218cfbf7646bade03a627739",
+    "legacy-core-browser-serial.txt": "ceafd2c09fb801baa7f890b46307d832a82340cd73eb313d1cfe1ecf2d4b7668",
+    "legacy-ui-e2e-fixed.txt": "9dec0c18f95ae973878944d971f1428dcb39cfaabf6a4b140a6a7f45790f0e25",
+    "regression.json": "839ea94122a9055cffb7fafabdb0d1334ed2f75b2dc6ba0bac9fffc9408b8ab1",
+    "source_consistency.json": "f89949a40935492d4631d18c451631052fbe7c78759302c61103dfd7da19e168",
+    "typescript.txt": "da8deffd8ff5968bf5193c792bd5604705c1381781a56a0de8b5d3b58c1a5798",
+    "v2-browser-final.txt": "63c4d08ce879bc66ec48b84af8091221fbb925a72e3edea34749421f4f71411f"
+  }
+}

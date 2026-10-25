@@ -1,0 +1,7 @@
+*
+!Dockerfile
+!container_entry.py
+!extract_runtime.py
+!runtime.tar.gz
+!core.tar.gz
+!unpack_core.py

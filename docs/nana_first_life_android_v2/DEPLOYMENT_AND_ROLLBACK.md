@@ -5,25 +5,22 @@ inventory is operator supplied; its private paths/identifiers are not copied.
 The old cloud has **NO_CANONICAL_CORE_ON_HOST**. Developer subjects and shadow
 UUIDs are not its existing identity. No private records were read here.
 
-## One recommended topology
+## Current selected topology — supersedes earlier systemd proposal
 
-A nonroot Core account, private standard CPython3.12.14 + SQLite>=3.51.3 +libffi,
-one original life Runtime/home, one v2 BFF/Supervisor at127.0.0.1:18765; separate
-operator-approved Tailnet HTTPS8443 to that BFF, with the exact configured Host
-and Origin preserved. Keep the current Tailnet root6199 route unchanged. Host6199
-NapCat and container6199 cmdserver are different namespaces. No Funnel, public
-Core/UDS, SSL bypass, docker.sock or host-root mount. Recheck actual Serve version,
-ACL, certificate and available8443 before approving any network write.
+User fixed independent nonroot **Debian13 Docker**, UID/GID999, host
+/srv/nana-core/{runtime,data,logs,backups} mapped to /opt/nana-core same four paths.
+Preserve existing private SDK prefix /opt/nana-core/runtime. The later actual
+read-only report retracts the claimed host-systemd check; it is not a gate now.
+Old /opt and old /root backups are overlay and NOT persistent. Container-built
+OpenSSL3.5.7 dependencies cannot be directly executed against Ubuntu3.0.13.
+Reuse the existing SDK archive and qualify its actual imports inside the separate
+image; do not repeat cloud compilation or add bz2/lzma. See docker/README and
+cloud_followup_reconciliation.json for final source levels and preparation scope.
 
-Use `tools/nana_quality/build_private_python.py` against independently hashed
-CPython3.12.14 / SQLite3.51.3 /libffi3.4.6 source archives. That tool has a real
-nonroot source-build qualification in Quality V2. **Its Debian build binary is
-not a relocatable Ubuntu artifact**. Rebuild at final nonroot Ubuntu prefix and
-run actual binding/native/preflight/install checks there. System Python and
-AstrBot's Python remain unchanged. No pysqlite3, LD_PRELOAD or sqlite monkeypatch.
-Cloud bwrap is missing: basic Runtime and generated-code sandbox readiness are
-separate; generated code remains unavailable until genuine bwrap qualification.
-This does not disable other authorized goals, learning, tools or autonomy.
+BFF stays independent at127.0.0.1:18765 and proposed private HTTPS8443 only after
+network approval. Existing6199 routes/namespaces remain unchanged. No Funnel,
+public Core/UDS, SSL bypass, docker.sock, host-root mount or old container restart.
+The old systemd unit is retained only as a superseded development artifact.
 
 ## Build and inspect independently
 

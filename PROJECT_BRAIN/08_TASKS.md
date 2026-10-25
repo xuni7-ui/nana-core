@@ -1128,3 +1128,7 @@ main/R045/production/private/device/social/paidProvider0。报告与证据：doc
 
 ### FL-A follow-up — independent hosting and durable storage (2026-10-25)
 [用户确认/待最终host只读核验] 容器内private Python3.12.14/SQLite3.51.3与nonroot准备接受，不重做；/opt/nana-core宿主Mount持久化、最终环境ABI及systemd仍待真实证据。优先独立Ubuntu非root systemd，不可用才独立非rootDocker；不能依赖AstrBot/nohup/旧cron。正式Store/身份/备份不能只在容器可写层。bwrap保持BLOCKED，不改AstrBot cap/seccomp、不重启QQ、不退化exec；S9保留，其余合法自主能力继续。bz2/lzma当前非必要，不新增编译。只读host_probe已提供，无生产操作。genesis/私人导入/旧写者关停/QQ投递/生产流量仍独立批准。
+
+
+### FL-A storage/hosting final user selection (2026-10-25)
+[用户决定＋两份只读审计，S4/S1/Governance横轴Advanced] 固定host /srv/nana-core/{runtime,data,logs,backups} →container /opt/nana-core同四目录，独立nonroot Debian13 Docker，UID/GID999；不再等待systemd选型。后份证据撤回host PID1推断；旧/opt和/root备份仍在overlay，不能放行持久化。既有private runtime prefix=/opt/nana-core/runtime，Debian OpenSSL3.5.7依赖不能直接搬Ubuntu3.0.13。已有SDK通过不重做，待实际非敏感runtime归档在独立容器验证；镜像基础准备不冒充该资格。handoff=/AstrBot/data/_nana_core_handoff仅运行时/说明/哈希/结果，禁止Subject/identity/私人DB/密钥/生产备份。当前无云端安全访问，未假称复制或创建/srv。genesis/私人导入/旧写者关停/真实QQ/生产切流仍未批准。bwrap二进制已装但namespace拒绝，保持BLOCKED、不扩旧容器cap/seccomp、不重启QQ；S9不删除，bz2/lzma不补装。Master/fixed63/原主体机制不变。

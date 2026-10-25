@@ -1,3 +1,4 @@
+# SUPERSEDED BY USER SELECTION: independent nonroot Docker; do not install this unit.
 # STAGING TEMPLATE ONLY. Approved nonroot account/private CPython/paths and
 # credentials must exist first. Never install into production without approval.
 [Unit]

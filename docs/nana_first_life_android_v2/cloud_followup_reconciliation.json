@@ -1,0 +1,51 @@
+{
+  "evidence_level": "OPERATOR_SUPPLIED_READ_ONLY_REPORTS_NOT_DIRECT_SSH",
+  "reports": [
+    {
+      "name": "FL_A_PERSISTENCE_HOSTING_AUDIT.md",
+      "sha256": "983a994893a7b842b185e435f40c083154bf5df0fdc34f7e0b6b14eead5182ef",
+      "fully_read": true
+    },
+    {
+      "name": "FL_A_READONLY_EVIDENCE.md",
+      "sha256": "a7970060e589c784c7d7dd9f3e69a75de74d3fbe08ca5fd433266b70a98f250c",
+      "fully_read": true
+    }
+  ],
+  "storage_selection": {
+    "host": "/srv/nana-core/",
+    "container": "/opt/nana-core/",
+    "subdirectories": [
+      "runtime",
+      "data",
+      "logs",
+      "backups"
+    ]
+  },
+  "handoff": "/AstrBot/data/_nana_core_handoff/",
+  "handoff_scope": "NON_SENSITIVE_RUNTIME_AND_INSTRUCTIONS_ONLY",
+  "old_runtime_prefix": "/opt/nana-core/runtime",
+  "old_runtime_persistent": false,
+  "old_backups_in_overlay": "NOT_DURABLE",
+  "runtime_reported": {
+    "python": "3.12.14",
+    "sqlite": "3.51.3",
+    "openssl": "3.5.7",
+    "build_os": "Debian13",
+    "uid": 999,
+    "gid": 999
+  },
+  "direct_ubuntu_execution": "INCOMPATIBLE_SSL_HASHLIB_SYMBOLS",
+  "host_systemd": "RETRACTED_UNVERIFIED_NOT_A_GATE",
+  "hosting_selection": "INDEPENDENT_NONROOT_DEBIAN13_DOCKER",
+  "actual_cloud_runtime_archive": "NOT_YET_READABLE_IN_THIS_WORKSPACE",
+  "bwrap": "PRESENT_0.12.0_NAMESPACE_TEST_FAILED_BLOCKED",
+  "bwrap_privilege_expansion": false,
+  "bz2_lzma_install_requested": false,
+  "canonical_genesis": "NOT_AUTHORIZED",
+  "private_import": "NOT_AUTHORIZED",
+  "old_writer_shutdown": "NOT_AUTHORIZED",
+  "real_qq_delivery": "NOT_AUTHORIZED",
+  "production_cutover": "NOT_AUTHORIZED",
+  "production_modified": false
+}

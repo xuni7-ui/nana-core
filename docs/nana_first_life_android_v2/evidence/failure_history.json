@@ -1,0 +1,60 @@
+{
+  "raw_logs_retained_in_workspace": "/workspace/nana-staging/first-life-android-v2",
+  "failures": [
+    {
+      "area": "initial UI TS build",
+      "reason": "component props mismatch",
+      "resolution": "adapted to existing Avatar/Panel/preferences interfaces"
+    },
+    {
+      "area": "JDK build",
+      "reason": "runtime lacked compiler",
+      "resolution": "verified private Temurin JDK21"
+    },
+    {
+      "area": "Core stop",
+      "reason": "lease released before process fully exited",
+      "resolution": "wait original owned process cleanup before VERIFIED stop"
+    },
+    {
+      "area": "full attempt1",
+      "reason": "old bounded cognition failed during heavy parallel build; run interrupted",
+      "resolution": "isolated coordinator recheck and final single-resource full run passed"
+    },
+    {
+      "area": "full attempt2",
+      "reason": "interrupted before qualification to finish actual installed entry correction",
+      "resolution": "final actual full run 1560/0/12"
+    },
+    {
+      "area": "OpenAPI consumer test",
+      "reason": "test incorrectly rejected valid empty JSON schema",
+      "resolution": "normal follow-up commit, no amend"
+    },
+    {
+      "area": "old browser startup",
+      "reason": "cold build exceeded 30s while parallel work",
+      "resolution": "serial unchanged cases passed; no assertion/deadline widening"
+    },
+    {
+      "area": "Docker base script",
+      "reason": "COPY created non-traversable parent for nonroot",
+      "resolution": "explicit parent0755 and script0644; default now rejects missing runtime without opening Subject"
+    },
+    {
+      "area": "Docker recovery harness",
+      "reason": "PID1 children read/selection did not identify owned target; no qualified restart",
+      "resolution": "exact BFF argv selection, actual daemon restart count1 and same lineage qualified"
+    },
+    {
+      "area": "software emulator",
+      "reason": "settings system provider not installed/boot not completed without KVM",
+      "resolution": "kept BLOCKED/NOT_RUN; no fake install or weakened check"
+    },
+    {
+      "area": "uploaded runtime ZIP",
+      "reason": "download tool hard limit32MiB",
+      "resolution": "awaiting bounded chunks, contents not audited"
+    }
+  ]
+}
