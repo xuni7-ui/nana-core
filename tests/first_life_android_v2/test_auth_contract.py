@@ -87,3 +87,27 @@ def test_corrupt_auth_never_silently_resets(tmp_path):
     with pytest.raises(ApiError, match="HOST_METADATA_CORRUPT"):
         AuthService(path, password=PASSWORD)
     assert path.read_text() == "{invalid json"
+
+
+def test_openapi_consumer_can_resolve_every_schema_reference():
+    import json
+    from pathlib import Path
+
+    doc = json.loads((Path(__file__).resolve().parents[2] / "contracts/nana-space-live-v2/openapi.json").read_text())
+
+    def visit(value):
+        if isinstance(value, dict):
+            if "$ref" in value:
+                target = doc
+                for part in value["$ref"].removeprefix("#/").split("/"):
+                    target = target[part]
+                assert target
+            for child in value.values():
+                visit(child)
+        elif isinstance(value, list):
+            for child in value:
+                visit(child)
+
+    visit(doc)
+    assert "/api/nana-space/v2/session/native" in doc["paths"]
+    assert doc["paths"]["/api/nana-space/v2/messages"]["post"]["requestBody"]["required"]

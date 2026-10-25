@@ -232,3 +232,33 @@ def test_bound_qq_shadow_no_impersonation_and_same_subject(running):
         connector.receive({**event, "occurred_at_us": 99}, authenticated_sender_reference=binding.sender_reference)
     with pytest.raises(ApiError, match="REAL_SOCIAL_DELIVERY_NOT_AUTHORIZED"):
         connector.deliver()
+
+
+def test_revoked_inflight_native_session_cannot_receive_late_body(running, monkeypatch):
+    server, service = running
+    from nana_core.life.live_api.contracts import PairOffer
+
+    admin_token, _ = service.auth.login(PW)
+    admin = service.auth.authorize(admin_token, "WEB")
+    code = service.auth.offer(admin, PairOffer(device_name="TEST_ONLY_NOT_SECRET_late", roles=(Role.READER,)))
+    device, refresh = service.auth.pair(code, "TEST_ONLY_NOT_SECRET_late")
+    token = service.auth.native_session(device, refresh)
+    entered = threading.Event()
+    release = threading.Event()
+    results = []
+
+    def slow(*args):
+        entered.set()
+        release.wait(5)
+        return service.envelope({"late_body": "TEST_ONLY_NOT_SECRET_MUST_BE_WITHHELD"})
+
+    monkeypatch.setattr(service, "snapshot", slow)
+    worker = threading.Thread(
+        target=lambda: results.append(http(server, "views/home", headers={"Authorization": "Bearer " + token}))
+    )
+    worker.start()
+    assert entered.wait(3)
+    service.auth.revoke(admin, device)
+    release.set()
+    worker.join(timeout=4)
+    assert results[0][0] == 401 and "late_body" not in json.dumps(results[0][1])

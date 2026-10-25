@@ -2680,3 +2680,10 @@ FL-A完整原报告收到并读取，脱敏source SHA登记，不复制平台个
 
 ### First-Life Android V2 — original Core integration checkpoint (2026-10-25)
 [开发实测，S1/S2/S4/S5/S7＋Surface/Governance横轴；Advanced] 同一v2 BFF连接原Runtime/Store/SubjectLoop，认证角色不来自关系或消息声明。Host stop latch、固定release/同home重启与SIGKILL、source-aware投影/撤回、UNKNOWN不重发。真实Core Web三尺寸联合通过；原生APK构建/lint通过，模拟器/真机分别报告。Cloud inventory已收，未做生产/私人/真实模型/QQ发送。保留旧v1 guard、Master字节、固定63标准和历史资格；No second authority。后续按部署门收口，不把工程实现冒充First-Life/云端72h资格。证据见docs/nana_first_life_android_v2/。
+
+
+### FL-A follow-up — independent hosting and durable storage (2026-10-25)
+[用户确认/待最终host只读核验] 容器内private Python3.12.14/SQLite3.51.3与nonroot准备接受，不重做；/opt/nana-core宿主Mount持久化、最终环境ABI及systemd仍待真实证据。优先独立Ubuntu非root systemd，不可用才独立非rootDocker；不能依赖AstrBot/nohup/旧cron。正式Store/身份/备份不能只在容器可写层。bwrap保持BLOCKED，不改AstrBot cap/seccomp、不重启QQ、不退化exec；S9保留，其余合法自主能力继续。bz2/lzma当前非必要，不新增编译。只读host_probe已提供，无生产操作。genesis/私人导入/旧写者关停/QQ投递/生产流量仍独立批准。
+
+### First-Life v2 — late-response boundary qualification
+[开发实测] 新增会话退出/设备撤销后的迟到正文拒收、原生realm+lineage绑定和只读最终host持久化探针；没有关闭既有自主能力。新边界16项通过、含旧BFF相关23项通过、TS18项通过；初次并发全仓出现旧有界认知时限失败，保留记录，已单独复核coordinator并暂停自有软件模拟器以进行最终独立全仓。删除本次刚生成的Capacitor样例测试（固定com.getcapacitor.app与2+2），保留原仓库测试和真实原生资格测试，未以样例数冒充能力。

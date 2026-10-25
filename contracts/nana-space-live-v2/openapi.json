@@ -9,68 +9,190 @@
       "post": {
         "responses": {
           "200": {
-            "description": "Typed sanitized envelope"
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
           },
           "400": {
             "description": "Fail closed typed error"
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Login"
+              }
+            }
           }
         }
       },
       "delete": {
         "responses": {
           "200": {
-            "description": "Typed sanitized envelope"
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
           },
           "400": {
             "description": "Fail closed typed error"
           }
-        }
+        },
+        "security": [
+          {
+            "webCookie": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ]
       }
     },
     "/api/nana-space/v2/bootstrap": {
       "get": {
         "responses": {
           "200": {
-            "description": "Typed sanitized envelope"
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
           },
           "400": {
             "description": "Fail closed typed error"
           }
-        }
+        },
+        "security": [
+          {
+            "webCookie": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ]
       }
     },
     "/api/nana-space/v2/views/{domain}": {
       "get": {
         "responses": {
           "200": {
-            "description": "Typed sanitized envelope"
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
           },
           "400": {
             "description": "Fail closed typed error"
           }
-        }
+        },
+        "security": [
+          {
+            "webCookie": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "domain",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
       }
     },
     "/api/nana-space/v2/events": {
       "get": {
         "responses": {
           "200": {
-            "description": "Typed sanitized envelope"
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
           },
           "400": {
             "description": "Fail closed typed error"
           }
-        }
+        },
+        "security": [
+          {
+            "webCookie": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "cursor",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
       }
     },
     "/api/nana-space/v2/messages": {
       "post": {
         "responses": {
           "200": {
-            "description": "Typed sanitized envelope"
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
           },
           "400": {
             "description": "Fail closed typed error"
+          }
+        },
+        "security": [
+          {
+            "webCookie": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/MessageRequest"
+              }
+            }
           }
         }
       }
@@ -79,22 +201,72 @@
       "get": {
         "responses": {
           "200": {
-            "description": "Typed sanitized envelope"
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
           },
           "400": {
             "description": "Fail closed typed error"
           }
-        }
+        },
+        "security": [
+          {
+            "webCookie": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
       }
     },
     "/api/nana-space/v2/commands": {
       "post": {
         "responses": {
           "200": {
-            "description": "Typed sanitized envelope"
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
           },
           "400": {
             "description": "Fail closed typed error"
+          }
+        },
+        "security": [
+          {
+            "webCookie": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommandRequest"
+              }
+            }
           }
         }
       }
@@ -103,10 +275,35 @@
       "post": {
         "responses": {
           "200": {
-            "description": "Typed sanitized envelope"
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
           },
           "400": {
             "description": "Fail closed typed error"
+          }
+        },
+        "security": [
+          {
+            "webCookie": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HostConfirmation"
+              }
+            }
           }
         }
       }
@@ -115,20 +312,60 @@
       "get": {
         "responses": {
           "200": {
-            "description": "Typed sanitized envelope"
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
           },
           "400": {
             "description": "Fail closed typed error"
           }
-        }
+        },
+        "security": [
+          {
+            "webCookie": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ]
       },
       "post": {
         "responses": {
           "200": {
-            "description": "Typed sanitized envelope"
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
           },
           "400": {
             "description": "Fail closed typed error"
+          }
+        },
+        "security": [
+          {
+            "webCookie": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/HostRequest"
+              }
+            }
           }
         }
       }
@@ -137,10 +374,57 @@
       "post": {
         "responses": {
           "200": {
-            "description": "Typed sanitized envelope"
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "contract",
+                    "subject_id",
+                    "lineage_binding",
+                    "realm",
+                    "device_id",
+                    "refresh_token"
+                  ],
+                  "properties": {
+                    "contract": {
+                      "type": "string"
+                    },
+                    "subject_id": {
+                      "type": "string"
+                    },
+                    "lineage_binding": {
+                      "type": "string"
+                    },
+                    "realm": {
+                      "type": "string"
+                    },
+                    "device_id": {
+                      "type": "string"
+                    },
+                    "refresh_token": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "Native-only credential exchange; never forwarded to WebView JS"
+                }
+              }
+            }
           },
           "400": {
             "description": "Fail closed typed error"
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PairRequest"
+              }
+            }
           }
         }
       }
@@ -149,10 +433,62 @@
       "post": {
         "responses": {
           "200": {
-            "description": "Typed sanitized envelope"
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "properties": {
+                    "contract": {
+                      "type": "string"
+                    },
+                    "access_token": {
+                      "type": "string"
+                    },
+                    "expires_in": {
+                      "type": "integer"
+                    }
+                  },
+                  "required": [
+                    "contract",
+                    "access_token",
+                    "expires_in"
+                  ],
+                  "description": "Native-only memory access session"
+                }
+              }
+            }
           },
           "400": {
             "description": "Fail closed typed error"
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                  "device_id",
+                  "subject_id",
+                  "refresh_token"
+                ],
+                "properties": {
+                  "device_id": {
+                    "type": "string"
+                  },
+                  "subject_id": {
+                    "type": "string"
+                  },
+                  "refresh_token": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -161,10 +497,35 @@
       "post": {
         "responses": {
           "200": {
-            "description": "Typed sanitized envelope"
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
           },
           "400": {
             "description": "Fail closed typed error"
+          }
+        },
+        "security": [
+          {
+            "webCookie": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/PairOffer"
+              }
+            }
           }
         }
       }
@@ -173,58 +534,153 @@
       "get": {
         "responses": {
           "200": {
-            "description": "Typed sanitized envelope"
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
           },
           "400": {
             "description": "Fail closed typed error"
           }
-        }
+        },
+        "security": [
+          {
+            "webCookie": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ]
       }
     },
     "/api/nana-space/v2/devices/{id}": {
       "delete": {
         "responses": {
           "200": {
-            "description": "Typed sanitized envelope"
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
           },
           "400": {
             "description": "Fail closed typed error"
           }
-        }
+        },
+        "security": [
+          {
+            "webCookie": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ],
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
       }
     },
     "/api/nana-space/v2/notifications": {
       "get": {
         "responses": {
           "200": {
-            "description": "Typed sanitized envelope"
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
           },
           "400": {
             "description": "Fail closed typed error"
           }
-        }
+        },
+        "security": [
+          {
+            "webCookie": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ]
       }
     },
     "/api/nana-space/v2/providers/status": {
       "get": {
         "responses": {
           "200": {
-            "description": "Typed sanitized envelope"
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
           },
           "400": {
             "description": "Fail closed typed error"
           }
-        }
+        },
+        "security": [
+          {
+            "webCookie": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ]
       }
     },
     "/api/nana-space/v2/privacy/withdrawal": {
       "post": {
         "responses": {
           "200": {
-            "description": "Typed sanitized envelope"
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
           },
           "400": {
             "description": "Fail closed typed error"
+          }
+        },
+        "security": [
+          {
+            "webCookie": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CommandRequest"
+              }
+            }
           }
         }
       }
@@ -247,7 +703,7 @@
             "type": "string"
           },
           "realm": {
-            "$ref": "#/$defs/Realm",
+            "$ref": "#/components/schemas/Realm",
             "default": "OWNED_DEVELOPMENT_ONLY"
           },
           "scope": {
@@ -409,7 +865,7 @@
             "type": "string"
           },
           "realm": {
-            "$ref": "#/$defs/Realm"
+            "$ref": "#/components/schemas/Realm"
           },
           "subject_id": {
             "title": "Subject Id",
@@ -497,7 +953,7 @@
           },
           "data": {
             "additionalProperties": {
-              "$ref": "#/$defs/JsonValue"
+              "$ref": "#/components/schemas/JsonValue"
             },
             "title": "Data",
             "type": "object"
@@ -739,7 +1195,7 @@
               "CONVERSATION"
             ],
             "items": {
-              "$ref": "#/$defs/Role"
+              "$ref": "#/components/schemas/Role"
             },
             "title": "Roles",
             "type": "array"
@@ -812,7 +1268,7 @@
             "type": "string"
           },
           "state": {
-            "$ref": "#/$defs/Completion"
+            "$ref": "#/components/schemas/Completion"
           },
           "dispatch_happened": {
             "title": "Dispatch Happened",
@@ -826,7 +1282,7 @@
           },
           "result": {
             "additionalProperties": {
-              "$ref": "#/$defs/JsonValue"
+              "$ref": "#/components/schemas/JsonValue"
             },
             "title": "Result",
             "type": "object"
@@ -863,6 +1319,17 @@
         ],
         "title": "Role",
         "type": "string"
+      }
+    },
+    "securitySchemes": {
+      "webCookie": {
+        "type": "apiKey",
+        "in": "cookie",
+        "name": "__Host-nana_v2"
+      },
+      "nativeBearer": {
+        "type": "http",
+        "scheme": "bearer"
       }
     }
   }

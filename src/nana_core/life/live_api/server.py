@@ -268,6 +268,7 @@ class Handler(BaseHTTPRequestHandler):
                 {
                     "device_id": device,
                     "refresh_token": refresh,
+                    "realm": service.binding.realm.value,
                     "subject_id": service.binding.subject_id,
                     "lineage_binding": service.binding.lineage_binding,
                     "contract": "nana-space-live/v2",
@@ -339,6 +340,7 @@ class Handler(BaseHTTPRequestHandler):
                 )
             else:
                 raise ApiError("NOT_FOUND", 404)
+            self._auth()  # Revocation during a long projection withholds its body.
             self._json(200, value)
             return
         if self.command == "DELETE" and route.startswith("devices/"):
@@ -370,6 +372,7 @@ class Handler(BaseHTTPRequestHandler):
             value = service.host_operation(principal, self._model(HostRequest, body))
         else:
             raise ApiError("NOT_FOUND", 404)
+        self._auth()  # Admission is not a perpetual authorization after dispatch.
         self._json(200, value)
 
     def _static(self, path, query):

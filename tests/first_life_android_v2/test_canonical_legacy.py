@@ -86,3 +86,21 @@ def test_legacy_hash_only_dryrun_conflicts_and_no_authority():
         reconcile_legacy([{**a, "total_records": 0}])
     with pytest.raises(ApiError, match="HASH_ONLY_BOUNDED_EXPORT_REQUIRED"):
         reconcile_legacy([bundle(records, "TEST_ONLY_NOT_SECRET_iris", mode="include")])
+
+
+def test_container_writable_layer_never_qualifies_persistent_subject_storage():
+    from tools.nana_first_life_android_v2.host_probe import mount_for
+
+    assert mount_for([], "/opt/nana-core")["persistent"] is False
+    rows = [
+        {"Type": "bind", "Source": "/srv/nana-runtime", "Destination": "/opt/nana-core", "RW": False},
+        {
+            "Type": "volume",
+            "Source": "/var/lib/docker/volumes/example",
+            "Destination": "/var/lib/nana-core",
+            "RW": True,
+        },
+    ]
+    assert mount_for(rows, "/opt/nana-core/python")["persistent"] is True
+    assert mount_for(rows, "/var/lib/nana-core/subject")["persistent"] is True
+    assert mount_for(rows, "/opt/nana-core-other")["persistent"] is False

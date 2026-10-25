@@ -149,6 +149,7 @@ export function LiveSpace() {
   const [draft, setDraft] = useState("");
   const [turns, setTurns] = useState<Turn[]>([]);
   const [pairOffer, setPairOffer] = useState("");
+  const [pairManagement, setPairManagement] = useState(false);
   const [devices, setDevices] = useState<Record<string, unknown>[]>([]);
   const [receipt, setReceipt] = useState<Record<string, unknown> | null>(null);
   const [notifications, setNotifications] =
@@ -784,18 +785,41 @@ export function LiveSpace() {
                             onChange={(e) => setDeviceName(e.target.value)}
                           />
                         </label>
+                        <label>
+                          <input
+                            type="checkbox"
+                            checked={pairManagement}
+                            onChange={(e) => {
+                              setPairManagement(e.target.checked);
+                              setPairOffer("");
+                            }}
+                          />
+                          明确授权这台设备管理云端运行（Manager / Host Admin）
+                        </label>
                         <button
                           className="button"
                           onClick={() =>
                             void client.current
-                              .offer(deviceName, ["READER", "CONVERSATION"])
+                              .offer(
+                                deviceName,
+                                pairManagement
+                                  ? [
+                                      "READER",
+                                      "CONVERSATION",
+                                      "MANAGER",
+                                      "HOST_ADMIN",
+                                    ]
+                                  : ["READER", "CONVERSATION"],
+                              )
                               .then((r) =>
                                 setPairOffer(text(object(r.data).pairing_code)),
                               )
                               .catch((e) => setError(explain(e)))
                           }
                         >
-                          生成最小权限一次性配对码
+                          {pairManagement
+                            ? "生成明确管理权限配对码"
+                            : "生成最小权限一次性配对码"}
                         </button>
                         {pairOffer && (
                           <output className="live-pair-code">

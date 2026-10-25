@@ -185,7 +185,11 @@ public class NanaHostPlugin extends Plugin {
                 JSONObject request = new JSONObject();request.put("subject_id", subject);request.put("code", code);request.put("device_name", name);
                 JSONObject reply = http(base, "device/pairing", "POST", request, null);
                 if (!subject.equals(reply.getString("subject_id"))) throw new Exception("INVALID_IDENTITY");
-                reply.put("base", base);reply.remove("contract");save(reply);
+                String realm=reply.getString("realm");
+                if (!"OWNED_DEVELOPMENT_ONLY".equals(realm) && !"PRODUCTION_SINGLE_SUBJECT".equals(realm)) throw new Exception("INVALID_IDENTITY");
+                JSONObject stored=new JSONObject();
+                for(String k:new String[]{"device_id","refresh_token","subject_id","lineage_binding","realm"}) stored.put(k,reply.getString(k));
+                stored.put("base",base);save(stored);
                 JSONObject b = binding();
                 JSONObject current = http(base, "bootstrap", "GET", null, session(b));
                 validateIdentity(current, b);call.resolve(JSObject.fromJSONObject(current));
@@ -194,7 +198,8 @@ public class NanaHostPlugin extends Plugin {
     }
     private void validateIdentity(JSONObject reply, JSONObject b) throws Exception {
         if (!b.getString("subject_id").equals(reply.optString("subject_id"))
-            || !b.getString("lineage_binding").equals(reply.optString("lineage_binding"))) {
+            || !b.getString("lineage_binding").equals(reply.optString("lineage_binding"))
+            || !b.getString("realm").equals(reply.optString("realm"))) {
             clearBinding();throw new Exception("INVALID_IDENTITY");
         }
     }

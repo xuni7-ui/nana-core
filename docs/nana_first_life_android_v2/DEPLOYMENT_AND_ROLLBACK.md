@@ -132,3 +132,29 @@ payment or social sends. Its exact shell/service/network diff should be reviewed
 with the operator before execution. Rollback removes only that staging service/
 listener and leaves existing AstrBot/QQ/root6199 untouched. Do not ask the user to
 repeat FL-A inventory or send keys in chat.
+
+## FL-A follow-up decision — 2026-10-25
+
+User confirms the cloud operator prepared private CPython3.12.14/SQLite3.51.3
+and a dedicated nonroot user **inside the current container**. This is accepted
+as operator-supplied preparation evidence, not repeated or claimed as our direct
+host execution. It does not establish persistence of /opt/nana-core, host ABI or
+an independent service. `host_probe.py` provides a bounded read-only host check
+(systemd PID1/state, explicitly selected Docker Mounts only, selected directory
+ownership, actual isolated Python/SQLite/native import). No Store/private body or
+Docker Env is read. Exact mounts/final-host execution remain pending evidence.
+
+Recommendation stays **independent nonroot Ubuntu systemd**, not AstrBot/plugin,
+nohup, temporary shell or old cron. If actual host systemd is unavailable, use a
+separate nonroot Docker service with explicit persistent host binds for Subject,
+host metadata and backups, read-only image/root, cap_drop ALL, no docker.sock,
+no privileged mode, no host-root mount; qualify runtime INSIDE that final image.
+Do not reuse AstrBot's writable layer or change its seccomp/CAP_SYS_ADMIN/restart.
+Both choices still require explicit provisioning/network approval before install.
+
+bwrap stays disabled/unqualified on that cloud environment; **Code Skills
+BLOCKED**, never direct exec fallback. S9 route is preserved; future qualification
+belongs to independent Core or dedicated skill executor. Other capabilities do
+not inherit this block. bz2/lzma are not in current REQUIRED_PYTHON_MODULES;
+no build or dependency installation is requested without an actual failure.
+Existing verified runtime and nonroot preparation are not reimplemented.

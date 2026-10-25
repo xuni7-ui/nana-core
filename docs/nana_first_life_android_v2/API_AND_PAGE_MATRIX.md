@@ -52,3 +52,9 @@ Foreground notification permission/native channel/deep-link code exists. True
 background delivery has no provider configured and is NOT_QUALIFIED, not a push
 success. Physical notification permission/delivery must be reviewed on the user's
 phone later. The internal debug signing key is not a production identity/key.
+
+Device pairing defaults to Reader+Conversation. An already authenticated Host Admin
+can explicitly select Manager+HostAdmin for its own phone; backend enforces role
+subset, one-time expiry/name and revocation. Relationship significance does not
+supply any of these roles. The same APK can manage Core only after that explicit
+controller grant; no high-privilege shared server secret is embedded in it.

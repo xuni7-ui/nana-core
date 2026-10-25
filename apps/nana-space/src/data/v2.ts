@@ -136,15 +136,18 @@ export function envelope(
 }
 
 export class V2Client {
+  private incarnation = 0;
   private csrf = "";
   private subject = "";
   private lineage = "";
+  private realm = "";
   private generation = "";
   private async request(
     path: string,
     method = "GET",
     body?: unknown,
   ): Promise<unknown> {
+    const incarnation = this.incarnation;
     let response: Response;
     try {
       response = await fetch("/api/nana-space/v2/" + path, {
@@ -166,6 +169,7 @@ export class V2Client {
       );
     }
     const text = await response.text();
+    if (incarnation !== this.incarnation) throw new V2Error("SESSION_REVOKED");
     if (text.length > 524288) throw new V2Error("RESPONSE_BOUND");
     let parsed: unknown;
     try {
@@ -183,12 +187,24 @@ export class V2Client {
     }
     return parsed;
   }
+  private async nativeCall(options: {
+    operation: string;
+    data: Record<string, unknown>;
+  }): Promise<unknown> {
+    const incarnation = this.incarnation;
+    const result = await nativePort.call(options);
+    if (incarnation !== this.incarnation) throw new V2Error("SESSION_REVOKED");
+    return result;
+  }
   private accept(value: unknown): Envelope {
     const result = envelope(
       value,
       this.subject || undefined,
       this.lineage || undefined,
     );
+    if (this.realm && this.realm !== result.realm)
+      throw new V2Error("INVALID_IDENTITY");
+    this.realm = result.realm;
     this.subject = result.subject_id;
     this.lineage = result.lineage_binding;
     // A changed gateway/session requires UI reconciliation. No write is replayed.
@@ -220,33 +236,34 @@ export class V2Client {
   ): Promise<Envelope> {
     this.clear();
     this.subject = subject;
-    return this.accept(
-      await nativePort.pair({
-        base,
-        code,
-        subject_id: subject,
-        device_name: deviceName,
-      }),
-    );
+    const incarnation = this.incarnation;
+    const value = await nativePort.pair({
+      base,
+      code,
+      subject_id: subject,
+      device_name: deviceName,
+    });
+    if (incarnation !== this.incarnation) throw new V2Error("SESSION_REVOKED");
+    return this.accept(value);
   }
   async bootstrap(): Promise<Envelope> {
     return this.accept(
       isNative()
-        ? await nativePort.call({ operation: "bootstrap", data: {} })
+        ? await this.nativeCall({ operation: "bootstrap", data: {} })
         : await this.request("bootstrap"),
     );
   }
   async view(page: LivePage): Promise<Envelope> {
     return this.accept(
       isNative()
-        ? await nativePort.call({ operation: "view", data: { page } })
+        ? await this.nativeCall({ operation: "view", data: { page } })
         : await this.request("views/" + page),
     );
   }
   async events(cursor?: string): Promise<Envelope> {
     return this.accept(
       isNative()
-        ? await nativePort.call({
+        ? await this.nativeCall({
             operation: "events",
             data: { cursor: cursor || "" },
           })
@@ -267,7 +284,7 @@ export class V2Client {
       "host.operation": "host/operations",
     }[kind];
     const result = isNative()
-      ? await nativePort.call({
+      ? await this.nativeCall({
           operation: kind,
           data: body as unknown as Record<string, unknown>,
         })
@@ -278,14 +295,14 @@ export class V2Client {
     if (!/^[A-Za-z0-9._:-]{1,96}$/.test(id)) throw new V2Error("INVALID_ID");
     return this.accept(
       isNative()
-        ? await nativePort.call({ operation: "receipt", data: { id } })
+        ? await this.nativeCall({ operation: "receipt", data: { id } })
         : await this.request("receipts/" + id),
     );
   }
   async confirm(body: HostConfirmation): Promise<string> {
     const result = this.accept(
       isNative()
-        ? await nativePort.call({
+        ? await this.nativeCall({
             operation: "host.confirm",
             data: body as unknown as Record<string, unknown>,
           })
@@ -299,7 +316,7 @@ export class V2Client {
   async devices(): Promise<Envelope> {
     return this.accept(
       isNative()
-        ? await nativePort.call({ operation: "devices", data: {} })
+        ? await this.nativeCall({ operation: "devices", data: {} })
         : await this.request("devices"),
     );
   }
@@ -307,7 +324,7 @@ export class V2Client {
     const body = { device_name: deviceName, roles, lifetime_seconds: 120 };
     return this.accept(
       isNative()
-        ? await nativePort.call({ operation: "pair.offer", data: body })
+        ? await this.nativeCall({ operation: "pair.offer", data: body })
         : await this.request("devices/offers", "POST", body),
     );
   }
@@ -315,7 +332,7 @@ export class V2Client {
     if (!/^[a-f0-9]{32}$/.test(deviceId)) throw new V2Error("INVALID_ID");
     return this.accept(
       isNative()
-        ? await nativePort.call({
+        ? await this.nativeCall({
             operation: "device.revoke",
             data: { device_id: deviceId },
           })
@@ -331,9 +348,11 @@ export class V2Client {
     }
   }
   clear() {
+    this.incarnation++;
     this.csrf = "";
     this.subject = "";
     this.lineage = "";
+    this.realm = "";
     this.generation = "";
   }
 }
