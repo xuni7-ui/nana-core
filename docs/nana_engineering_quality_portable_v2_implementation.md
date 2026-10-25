@@ -122,3 +122,8 @@ explicit. No completed planning/growth behavior was changed to satisfy a counter
 ## Engineering Quality V2 — indirect review-preflight fixture bound
 
 第三次full324pass/1fail300.00s还定位review_prepare间接调用同一原branch preflight；上一批漏列该测试。本次仅此第三个unit显式使用同一exact开发分支fixture，所有原assert AST不变，真实入口BRANCH与Core/包不变。整个first_life_integration组16 PASS4.32s；保留本次首败，下一full完整收集而非maxfail提前截断。
+
+
+## Engineering Quality V2 — remove hidden temporary interpreter prerequisite
+
+第四次完整执行1541pass/1fail/12skip725.73s：唯一失败是旧R041客户端测试硬编码不存在的/tmp/nana-bootstrap-build/compat-python-old。不是Store/Core失败，不能伪造临时解释器或跳过断言。测试改为显式--old-sqlite-python，当前真实/usr/bin/python3+SQLite3.46.1；不足/不存在明确fail不skip。保留全部原assert AST、精确3.46.1前后相等与禁止private Core/pydantic imports；-I/显式repo路径+最小env替代继承全宿主环境。10 targeted PASS1.07s；不修改R041/R045生产插件，只修改测试。完整失败XML/日志保留，后续final full需重新实际执行。

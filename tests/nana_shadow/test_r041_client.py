@@ -77,8 +77,9 @@ def test_client_refuses_fixture_tag_stale_socket_and_wrong_process(tmp_path):
     asyncio.run(run())
 
 
-def test_forbidden_dependencies_in_actual_old_sqlite_process(tmp_path):
+def test_forbidden_dependencies_in_actual_old_sqlite_process(tmp_path,old_sqlite_python):
     code='''import sys,json,sqlite3,importlib.abc
+sys.path.insert(0,sys.argv[1])
 before=sqlite3.sqlite_version
 class Guard(importlib.abc.MetaPathFinder):
  def find_spec(self,name,*args):
@@ -88,8 +89,8 @@ from src.plugins.astrbot_plugin_nana_shadow_observer.bridge_client import OneSho
 from src.plugins.astrbot_plugin_nana_shadow_observer.message_hook_adapter import extract_scalar_metadata
 print(json.dumps({'before':before,'after':sqlite3.sqlite_version,'private_imports':[n for n in sys.modules if n.startswith(('nana_core','pydantic','tools.nana_astrbot_shadow'))]}))
 '''
-    env=dict(os.environ);env['PYTHONPATH']=str(Path('.').resolve())
-    p=subprocess.run(['/tmp/nana-bootstrap-build/compat-python-old','-c',code],env=env,capture_output=True,text=True,check=True)
+    env={'PATH':'/usr/bin:/bin','LANG':'C.UTF-8','TZ':'UTC'}
+    p=subprocess.run([old_sqlite_python,'-I','-c',code,str(Path('.').resolve())],env=env,capture_output=True,text=True,check=True,timeout=5)
     report=json.loads(p.stdout)
     assert report=={'before':'3.46.1','after':'3.46.1','private_imports':[]}
 
