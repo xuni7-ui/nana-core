@@ -157,7 +157,7 @@ function newMessageId() {
     `demo-message-${Date.now()}-${++localMessageSequence}`
   );
 }
-export function App() {
+function DemoApp({ onCore }: { onCore: () => void }) {
   const [route, setRoute] = useState<Route>(readRoute);
   const [scenario, setScenario] = useState<Scenario>("evening");
   const [data, setData] = useState<SpaceSnapshot | null>(null);
@@ -460,6 +460,9 @@ export function App() {
             <span>{activeLabel}</span>
           </div>
           <div className="topbar-right">
+            <button className="button secondary" onClick={onCore}>
+              接入 Core
+            </button>
             <button
               className="search-launch"
               onClick={() => {
@@ -778,5 +781,30 @@ export function App() {
         </div>
       )}
     </div>
+  );
+}
+
+const CoreApp = lazy(() =>
+  import("../features/CoreApp").then((m) => ({ default: m.CoreApp })),
+);
+export function App() {
+  const [source, setSource] = useState<"demo" | "core">(() =>
+    new URLSearchParams(location.search).get("source") === "core"
+      ? "core"
+      : "demo",
+  );
+  const select = (value: "demo" | "core") => {
+    const url = new URL(location.href);
+    if (value === "core") url.searchParams.set("source", "core");
+    else url.searchParams.delete("source");
+    history.replaceState(null, "", url);
+    setSource(value);
+  };
+  return source === "core" ? (
+    <Suspense fallback={<Loading />}>
+      <CoreApp onDemo={() => select("demo")} />
+    </Suspense>
+  ) : (
+    <DemoApp onCore={() => select("core")} />
   );
 }

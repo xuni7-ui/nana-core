@@ -1,3 +1,7 @@
+# 当前交接：真实开发 Core 接入
+
+当前分支 `dev/nana-space-core-integration-v1-codex`，基线主线87f73d2与前端b403f60。已实现宿主网关、Core view/Inspector 投影、PROJECT 对话与不重发的 UNKNOWN 核验，具体操作和资格见 [LIVE_INTEGRATION](LIVE_INTEGRATION.md) 与 [STATUS](STATUS.md)。旧 V1 分支完整保留；以下为其交接历史。
+
 # Nana Space V1 — 独立前端交接
 
 当前：原续作计划中的前端修复和模拟验收已完成，80 项浏览器检查与 12 项单元测试通过。下一阶段若接真实 Core，应先读 STATUS.md 与 CORE_INTEGRATION.md；下方 WIP 是历史检查点。

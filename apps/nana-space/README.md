@@ -1,8 +1,10 @@
-# Nana Space V1
+# Nana Space V1 + 真实开发 Core 接入
 
-> 源码独立保存在 `dev/nana-space-v1-codex`。获取方式、开发历史与交接边界见 [HANDOFF](docs/HANDOFF.md)，实际验收范围见 [STATUS](docs/STATUS.md)。
+> V1 基线独立保存在 `dev/nana-space-v1-codex`；本轮开发接入交付位于 `dev/nana-space-core-integration-v1-codex`。获取方式、开发历史与交接边界见 [HANDOFF](docs/HANDOFF.md)，实际验收范围见 [STATUS](docs/STATUS.md)。
 
 奈奈的数字生活空间：以生活主页、交流、共同记忆和探索为中心的独立前端。深蓝与紫色玻璃界面、柔粉点缀、桌面多栏和手机底部导航延续用户原型的气质。
+
+当前集成分支为 `dev/nana-space-core-integration-v1-codex`。真实开发 Core 的启动、会话和联调边界见 [LIVE_INTEGRATION](docs/LIVE_INTEGRATION.md)。
 
 本应用默认使用明确标记的 **DEMO** 数据。它没有连接生产奈奈，不创建 Subject、权威记忆、SubjectLoop 或设备权限。当前实际完成与验证状态见 [STATUS](docs/STATUS.md)。
 

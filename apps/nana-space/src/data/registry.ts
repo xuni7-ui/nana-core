@@ -11,6 +11,17 @@ export interface ContractRegistration {
 }
 export const contractRegistry: ContractRegistration[] = [
   {
+    id: "development-gateway",
+    title: "隔离开发 Core 网关",
+    maturity: "BACKEND_AVAILABLE",
+    version: "nana-space-live/v1",
+    transport: "Loopback HTTP session → original owner IPC + Inspector V1",
+    source: "gateway/server.py",
+    description:
+      "已实施并测试。需显式启动开发 owner 与网关，身份固定、PROJECT 消息、无模型或真实设备权限；连接时在独立 Core 视图标记 CONNECTED。",
+    executionAuthority: false,
+  },
+  {
     id: "demo",
     title: "Nana Space 产品演示",
     maturity: "DEMO",

@@ -1,0 +1,12 @@
+{
+  "scope": "V1 Demo regression on integration baseline",
+  "stats": {
+    "startTime": "2026-10-25T05:05:58.106Z",
+    "duration": 208424.85199999998,
+    "expected": 80,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  },
+  "command": "npm run test:e2e"
+}

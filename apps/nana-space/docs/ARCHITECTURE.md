@@ -1,3 +1,9 @@
+# 开发接入层补充
+
+当前在原 V1 层次之外新增 gateway/（宿主 Python 标准库 HTTP、会话与固定 IPC 白名单）、src/data/live.ts（严格版本/身份/权限映射）、CoreApp（与 Demo 分离的真实投影/对话）。Gateway 不创建 Store/Runtime；开发启动器显式建立新隔离 home 并启动原 LifeApplication。新在线协议为 nana-space-live/v1，生产通用网关仍未资格。详见 [LIVE_INTEGRATION](LIVE_INTEGRATION.md)。
+
+以下保留 V1 架构。
+
 # Nana Space V1 架构
 
 本目录是可独立安装、构建和静态托管的 Surface。Core 的权威状态、运行进程、数据库和凭据不属于浏览器工程。

@@ -1,3 +1,7 @@
+# 当前接入更新
+
+已在 `87f73d2` 上实现隔离开发网关 `nana-space-live/v1`，复用原 owner IPC 与 Inspector。操作与限制见 [LIVE_INTEGRATION](LIVE_INTEGRATION.md)。下文为 V1 契约核对历史；其中通用生产 Gateway、认证和流式订阅仍为 PLANNED，不代表本次开发会话已具备生产资格。
+
 # Nana Core 接入契约
 
 本轮默认 Demo；只读 Inspector JSON 导入是离线快照检查。**未连接真实 Core，也未新增 HTTP 执行接口。** 本文区分现有 Python/CLI 契约与未来浏览器网关。

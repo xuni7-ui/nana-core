@@ -1,3 +1,7 @@
+# 当前集成基线
+
+本轮独立集成基线为 `87f73d235d593a0d852bca409b0e73e0ef67cc5e`，09 typed header revision31，Precision V2 限定工程升级资格通过，外部门仍待完成。前端从 b403f60 移植，未改 Core/PROJECT_BRAIN/主线。下面保留 V1 初次对齐记录。
+
 # 冻结框架与当前状态对齐
 
 本次阅读对象为独立 checkout 的 `e1679b2010c2d49148c9b99b096b9947dfdba8ff`。它在用户给出的 `d695ed7d47a33cb3df62a144908df30b7d7c693d` 之后有三个提交：Precision baseline、因果任务图/局部重规划、未知检查点恢复加固。

@@ -1,50 +1,47 @@
-# Nana Space V1 产品与验证状态
+# Nana Space — V1 与真实开发 Core 接入状态
 
-本表仅针对独立前端，不改变 Nana Core 的能力资格。当前交付是可独立运行的 Demo 应用及只读快照观察窗；真实在线 Core 接入仍为后续工作。
+当前集成分支 dev/nana-space-core-integration-v1-codex，Core 固定 87f73d235d593a0d852bca409b0e73e0ef67cc5e / Precision revision31；原 V1 b403f60 / dev/nana-space-v1-codex 保留。所有本轮源码、记录与资源仅在 apps/nana-space。
 
-| 项目 | 状态 | 准确范围 |
+| 项目 | 当前状态 | 范围 |
 | --- | --- | --- |
-| UI_COMPLETE | YES — V1 独立前端范围 | 十页、搜索/筛选、主题/缩放、状态与错误语义、桌面及手机布局 |
-| DEMO_WORKING | YES | 全部 Demo 场景；聊天流式、附件元数据、失败重试与 UNKNOWN |
-| CORE_ADAPTER_READY | PARTIAL | 已有 Inspector V1 JSON 白名单导入及边界测试；在线 Gateway 仅规划与版本校验，未实现 transport/auth |
-| REAL_CORE_CONNECTED | NO | 没有真实 Core 会话、网关、消息流或生产连接 |
-| MOBILE_QUALIFIED | SIMULATION_PASS / PHYSICAL_NOT_RUN | Chromium 移动视口与触摸模拟通过；没有真实 Android OS / Chrome 设备资格 |
-| AVATAR_SUPPORTED | YES — STATIC + DRIVER INTERFACE | 九张静态差分、本地图片预览、显示开关与 display-only driver 类型；不推测内在情绪 |
-| LIVE2D_CONNECTED | NO | 未提供或驱动真实 Live2D 模型，口型与真实语音未接入 |
-| PRODUCTION_DEPLOYED | NO | 仅本地运行、可静态托管产物及独立源码分支 |
+| UI_COMPLETE | YES — V1 + 开发接入界面 | 十页 Demo 及独立 Core 视图；授权、身份、断线和 UNKNOWN 反馈 |
+| DEMO_WORKING | YES | 原 V1 回归 80 PASS，不与 Core 数据混合 |
+| CORE_ADAPTER_READY | DEVELOPMENT_WORKING / PRODUCTION_PARTIAL | 本机同源会话网关、原 owner IPC、Inspector V1、PROJECT 输入与回执；生产网关/认证/事件流未资格 |
+| REAL_CORE_CONNECTED | QUALIFIED_OWNED_DEV_ONLY | 已实际连接原 Core 开发进程，非 fixture 回复冒充；不是生产奈奈，也不是持续在线部署 |
+| MOBILE_QUALIFIED | SIMULATION_PASS / PHYSICAL_NOT_RUN | V1 五视口；Core 视图 desktop/android-style/320px/landscape 模拟；真实 Android OS 未测 |
+| AVATAR_SUPPORTED | STATIC + DRIVER_INTERFACE | 静态图与本地预览；Core 视图不推测情绪 |
+| LIVE2D_CONNECTED | NO | 无真实 Live2D 或口型/语音驱动 |
+| PRODUCTION_DEPLOYED | NO | 仅开发实例、loopback、无生产或真实设备权限 |
 
-## 可复现检查
+## 本轮结果
 
-在 apps/nana-space 中运行：
+- TypeScript / production build PASS。
+- Vitest 16 PASS：原 12 项数据边界及 4 项 live 契约/身份/失联不重试/原始正文保留拒绝。
+- Python 新网关与真实 owner 集成 4 PASS；加现存 Inspector/Surface 兼容用例共 12 PASS。真实进程、原消息元数据引用、一次 dispatch、SIGKILL 后同 Subject 恢复均检查；未运行 Core 全仓资格。
+- V1 生产构建浏览器回归 80 PASS / 0 fail / 0 skip，见 validation/development-demo-regression.json。
+- Core 浏览器 16 PASS / 0 fail / 0 skip：四视口 × 四组，登录/身份、十页来源一致、真实 Core 对话、断线清除、实际 dispatch 后回包丢失→只核验、错误 generation 拒绝且有可见反馈。最后执行结果见 validation/development-core-results.json。
+- 已实际查看手机真实 Core 聊天、桌面 Inspector 截图，文件在 previews/live/。其中随机 ID 属于该次临时开发实例，不是生产实例 ID。
+
+V1 的 validation/results.json 和原截图保留为历史依据；本次的新范围以 development-* 记录为准。测试 home 在仓库外由测试创建，临时 home/owner 结束后清理；不会把 DB、日志、会话 Cookie、口令或模型凭据提交入库。
+
+## 数据可用性
+
+Core 接入只展示正式有界 metadata：身份、lease 状态、目标/判断/经历/来源/学习等 section。未提供完整标题、正文或摘要的部分显式保持有限或 UNKNOWN，不拿 Demo 的观星、共同经历或情绪补齐。当前无 Provider，Core 的离线表达明确标注 NOT_RUN/OFFLINE_NO_PROVIDER。
+
+用户 PROJECT 文本进入原 Core 后会产生真实开发主体输入元数据和判断记录，正文不启用长期保留。浏览器聊天仅当前页面有界内存，网关回执有界且不成为第二记忆权威。执行成功、真实模型自然度和长期共同生活资格均不由这次接通自动成立。
+
+## 运行与复现
+
+读 LIVE_INTEGRATION.md。完整仓库 + Python 3.12/Linux；网关仅 loopback，使用本机会话口令和预期 Subject ID。npm run dev/preview 不会自行启动 Core。开发 owner 与网关均显式启动，不接管生产 home。
 
 ```bash
 npm ci
 npm test
 npm run build
+python3 -m pytest gateway_tests -q
+NANA_PYTHON=YOUR_VENV_PYTHON npm run test:live
 npm run test:e2e
-npm run preview
 python3 scripts/verify-source.py
 ```
 
-Playwright 会构建生产资源，启动 4173 preview，再以单 worker 运行 16 组交互 × 5 个视口。可通过 NANA_BROWSER_PATH 指定 Chromium；无系统 Chromium 时使用 Playwright 安装的浏览器。
-
-## 实测结果
-
-- 干净目录锁文件安装、TypeScript 与 production build、12 项 Vitest 单元测试通过。
-- 最终生产构建：80 项 Playwright PASS，0 failed / 0 skipped / 0 retries；实际结果、时长、版本和受测文件 SHA256 见 [validation/results.json](validation/results.json)。
-- 视口：desktop 1440×1000；android-style 390×844；small-phone 320×740；tablet 768×1024；landscape 844×390。
-- 覆盖十页路由、无横向溢出、记忆搜索/纠正/撤回、目标暂停/恢复与意愿/权限区分、证据分歧、设备限制、Markdown/流式、8000 字、附件预览与 URL 释放、失败重试、UNKNOWN 不重发、场景取消、快照版本/权限/身份拒绝和清除后迟到导入。
-- 覆盖键盘焦点、Tab/ESC、主题与本地偏好恢复、减少动画、120% 缩放；浅色标题对背景的对比度至少 4.5:1。局域网 HTTP 缺少 randomUUID 的能力情形通过模拟验证，不冒充手机实测。
-- 已实际查看桌面主页、聊天、手机聊天、桌面和手机浅色 120% 截图；关键预览随源码保存在 previews/。全页截图中的固定底栏出现在截取时的视口底部，不代表页面中部存在另一条导航。
-
-历史问题如实保留：最初桌面 6/9 PASS、默认 npm test 误收 Playwright；收尾已修复。视觉审查发现浅色标题对比不足后中断一次中途矩阵，修复并重跑；另独立复现缺少 randomUUID 时发送失败后修复。当前表仅以最后完整 80 项结果作为通过依据。
-
-## 交付与边界
-
-分支 dev/nana-space-v1-codex；所有新增/变更仅位于 apps/nana-space/。初始可恢复检查点 b4cda18；最终提交 SHA 从 Git/分支获取，避免在自身内容内自指。只使用非强制 push，未合并 main 或 Precision 分支。
-
-按用户最新隔离要求，变更记录与指纹留在本目录 docs 和 Git，不占用 PROJECT_BRAIN 的主线状态或账本。敏感内容模式扫描、源码白名单与依赖许可证核对在提交前完成；SOURCE_MANIFEST.json 排除自身，指纹只证明文件，不证明运行态。
-
-Android 实机软键盘、低端设备功耗/内存/长期驻留、不同厂商 WebView 与真实音视频权限未验证。当前不注册 Service Worker，不承诺 PWA 离线首启。
-
-本轮没有运行 Core 全仓测试；没有修改 Core、读取私人数据库或操作真实 QQ/B站、用户设备、生产、真实 Core Provider 或主体记忆。真实网关/认证、事件流、设备动作、Core 权威设置、备份恢复执行、Live2D、语音/摄像头仍未接入。
+实际 Android 软键盘、功耗/低内存、真实音视频、语言模型、Provider 配置写入、设备/社交动作、生产认证部署、SSE 流与长期驻留均不在已通过范围。不创建第二 SubjectLoop/权威 Store，不重写冻结框架、PROJECT_BRAIN、主线或其他会话 staging。
