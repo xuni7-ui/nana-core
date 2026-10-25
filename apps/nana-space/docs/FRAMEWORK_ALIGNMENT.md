@@ -41,7 +41,7 @@ UNKNOWN ≠ Failure；MODEL_DERIVATION ≠ RAW_OBSERVATION
 
 ## 与 Precision V2 并行
 
-源码只在 `apps/nana-space/` 实施；工程记录仅追加 changelog。未修改 SubjectLoop、Store、Runtime、Kernel、Planner、Learning Core、Master、Matrix 或 09 当前状态；未访问另一会话 staging，未运行生产或私人数据库。
+源码只在 `apps/nana-space/` 实施；按用户最新隔离要求，前端变更记录和交接说明仅保存在本目录 docs 与 Git 提交中，不追加或覆盖共享 PROJECT_BRAIN 账本。未修改 SubjectLoop、Store、Runtime、Kernel、Planner、Learning Core、Master、Matrix 或 09 当前状态；未访问另一会话 staging，未运行生产或私人数据库。
 
 正式接入时重新读取 Precision 最终交付版本，更新版本化映射并定向测试。当前 `VERIFIED_TASK_PREFIX_V1` checkpoint 是有时效的独立证据，不是永恒世界事实或执行授权。机械动作成功与任务质量 Experience 分开呈现；补偿也必须是新授权动作，不能伪装世界已回滚。
 

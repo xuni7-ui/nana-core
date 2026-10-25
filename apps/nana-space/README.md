@@ -1,6 +1,6 @@
 # Nana Space V1
 
-> 开发检查点，尚未完成最终验收。跨会话获取与完整续作计划见 [HANDOFF](docs/HANDOFF.md)。
+> 源码独立保存在 `dev/nana-space-v1-codex`。获取方式、开发历史与交接边界见 [HANDOFF](docs/HANDOFF.md)，实际验收范围见 [STATUS](docs/STATUS.md)。
 
 奈奈的数字生活空间：以生活主页、交流、共同记忆和探索为中心的独立前端。深蓝与紫色玻璃界面、柔粉点缀、桌面多栏和手机底部导航延续用户原型的气质。
 
@@ -25,7 +25,7 @@ npm test
 npm run test:e2e
 ```
 
-`build` 先检查 TypeScript，再生成 `dist/`；`preview` 仅预览构建产物。首次在自己的机器运行浏览器测试时，按 Playwright 提示安装所需浏览器，例如 `npx playwright install chromium`。安装可复现依赖时可用 `npm ci`。
+`build` 先检查 TypeScript，再生成 `dist/`；`preview` 仅预览构建产物。首次在自己的机器运行浏览器测试时，按 Playwright 提示安装所需浏览器，例如 `npx playwright install chromium`。安装可复现依赖时可用 `npm ci`。浏览器测试会先构建并启动 production preview；优先使用 `NANA_BROWSER_PATH` 指定的浏览器，其次使用系统 Chromium，最后使用 Playwright 安装的 Chromium。
 
 ## 可以体验什么
 
@@ -40,7 +40,7 @@ npm run test:e2e
 
 ## 外观与角色
 
-设置中的主题、字号、缩放、动效、通知展示和角色布局属于此浏览器的本地偏好。它们不修改奈奈的性格、情绪、长期记忆、Core 通知策略或 Manager 配置。
+设置中的主题、字号、缩放、动效、提示展示和角色显示属于此浏览器的本地偏好。它们不修改奈奈的性格、情绪、长期记忆、Core 通知策略或 Manager 配置。
 
 内置角色来自用户上传原型中的静态差分，已转为 WebP。角色图层与未来 driver 接口分离；静态图、布局与媒体容器支持不等于 Live2D 驱动完成。合法模型仍需资源格式、运行库、生命周期和授权接线。资源来源与替换方式见 [ASSETS](docs/ASSETS.md)。
 

@@ -1,843 +1,1105 @@
-.settings-page,.runtime-page{
-  display:grid;
-  gap:24px;
-  min-width:0}
-  .settings-layout{
-    display:grid;
-    grid-template-columns:minmax(0,1.4fr) minmax(270px,.8fr);
-    gap:22px;
-    align-items:start}
-    .settings-stack{
-      display:grid;
-      gap:22px;
-      min-width:0}
-      .settings-card,.settings-avatar-card,.settings-core-note,.runtime-demo-panel,.runtime-import-panel,.runtime-inspector-panel,.runtime-contract-panel{
-        padding:25px;
-        min-width:0}
-        .settings-local-note,.runtime-source-notice{
-          display:flex;
-          align-items:center;
-          gap:12px;
-          border:1px solid var(--line,#34364e);
-          border-radius:16px;
-          padding:14px 18px;
-          background:color-mix(in srgb,var(--purple,#b3a1ff) 6%,transparent);
-          font-size:.82rem}
-          .settings-local-note>svg,.runtime-source-notice>svg{
-            flex:none;
-            color:var(--purple,#b3a1ff)}
-            .settings-local-note p,.runtime-source-notice p{
-              margin:0;
-              flex:1;
-              line-height:1.7}
-              .settings-local-note p span,.runtime-source-notice p span{
-                color:var(--muted,#a3a3c0)}
-                .settings-local-note>.badge,.runtime-source-notice>.badge{
-                  flex:none;
-                  white-space:nowrap}
-                  .settings-row{
-                    display:flex;
-                    align-items:center;
-                    justify-content:space-between;
-                    gap:24px;
-                    padding:20px 0;
-                    border-bottom:1px solid var(--line,#34364e)}
-                    .settings-row:last-child{
-                      border-bottom:0;
-                      padding-bottom:0}
-                      .settings-row>div:first-child{
-                        min-width:0}
-                        .settings-row strong{
-                          font-size:.88rem;
-                          font-weight:550}
-                          .settings-row p{
-                            font-size:.76rem;
-                            line-height:1.8;
-                            color:var(--muted,#a3a3c0);
-                            margin:5px 0 0;
-                            max-width:440px}
-                            .settings-switch{
-                              position:relative;
-                              border:1px solid var(--line,#34364e);
-                              background:var(--soft,#25263b);
-                              width:46px;
-                              height:28px;
-                              border-radius:18px;
-                              flex:none;
-                              min-height:28px;
-                              transition:background .2s;
-                              box-shadow:0 0 0 8px transparent}
-                              .settings-switch::before{
-                                content:'';
-                                position:absolute;
-                                inset:-8px}
-                                .settings-switch span{
-                                  display:block;
-                                  width:19px;
-                                  height:19px;
-                                  position:absolute;
-                                  left:4px;
-                                  top:3px;
-                                  border-radius:50%;
-                                  background:var(--muted,#a3a3c0);
-                                  transition:transform .2s,background .2s}
-                                  .settings-switch.is-on{
-                                    background:var(--purple,#b3a1ff);
-                                    border-color:transparent}
-                                    .settings-switch.is-on span{
-                                      background:#fff;
-                                      transform:translateX(17px)}
-                                      .settings-switch:focus-visible{
-                                        outline:2px solid var(--purple,#b3a1ff);
-                                        outline-offset:7px}
-                                        .settings-themes{
-                                          display:grid;
-                                          grid-template-columns:repeat(3,minmax(0,1fr));
-                                          gap:11px;
-                                          margin:22px 0 4px}
-                                          .settings-theme{
-                                            display:grid;
-                                            gap:7px;
-                                            text-align:left;
-                                            padding:0 0 10px;
-                                            border-radius:14px;
-                                            min-width:0;
-                                            background:transparent;
-                                            border:1px solid transparent}
-                                            .settings-theme.selected{
-                                              border-color:color-mix(in srgb,var(--purple,#b3a1ff) 75%,transparent);
-                                              background:color-mix(in srgb,var(--purple,#b3a1ff) 8%,transparent)}
-                                              .settings-theme>strong,.settings-theme>small{
-                                                padding:0 10px}
-                                                .settings-theme>strong{
-                                                  font-size:.8rem;
-                                                  font-weight:550}
-                                                  .settings-theme>small{
-                                                    font-size:.64rem;
-                                                    color:var(--muted,#a3a3c0);
-                                                    letter-spacing:.05em}
-                                                    .settings-theme-preview{
-                                                      height:80px;
-                                                      border-radius:13px;
-                                                      display:flex;
-                                                      align-items:center;
-                                                      position:relative;
-                                                      overflow:hidden;
-                                                      padding:14px;
-                                                      gap:8px;
-                                                      border:1px solid color-mix(in srgb,var(--purple,#b3a1ff) 12%,transparent);
-                                                      background:radial-gradient(ellipse at 90% 10%,#61538166,transparent 80%),#17172c;
-                                                      color:#c1adff}
-                                                      .settings-theme-preview>svg:first-child{
-                                                        align-self:flex-start;
-                                                        flex:none}
-                                                        .settings-theme-preview i{
-                                                          display:block;
-                                                          height:26px;
-                                                          width:35%;
-                                                          border-radius:6px;
-                                                          background:#ffffff12;
-                                                          border:1px solid #ffffff12;
-                                                          margin-top:12px}
-                                                          .settings-theme-preview i:nth-of-type(2){
-                                                            width:18%;
-                                                            height:41px;
-                                                            background:#c8b4ff1f}
-                                                            .settings-theme-light .settings-theme-preview{
-                                                              background:radial-gradient(ellipse at 90% 10%,#dfc4e3,transparent 80%),#f0edf9;
-                                                              color:#7c63a1}
-                                                              .settings-theme-light .settings-theme-preview i{
-                                                                background:#ffffffa8;
-                                                                border-color:#b2a1ce36}
-                                                                .settings-theme-system .settings-theme-preview{
-                                                                  background:linear-gradient(125deg,#222137 50%,#e8e2f4 50%);
-                                                                  color:#dac8fc}
-                                                                  .settings-theme-check{
-                                                                    position:absolute;
-                                                                    right:7px;
-                                                                    top:7px;
-                                                                    background:#b3a1ff;
-                                                                    color:#1a1535;
-                                                                    border-radius:50%;
-                                                                    padding:2px;
-                                                                    box-sizing:content-box}
-                                                                    .settings-select-wrap{
-                                                                      position:relative;
-                                                                      display:flex;
-                                                                      align-items:center;
-                                                                      flex:none;
-                                                                      max-width:100%}
-                                                                      .settings-select-wrap select{
-                                                                        appearance:none;
-                                                                        min-height:44px;
-                                                                        border:1px solid var(--line,#34364e);
-                                                                        border-radius:11px;
-                                                                        background:var(--soft,#25263b);
-                                                                        color:var(--text,#ecebf6);
-                                                                        padding:9px 35px 9px 13px;
-                                                                        font:inherit;
-                                                                        font-size:.8rem;
-                                                                        width:100%;
-                                                                        cursor:pointer}
-                                                                        .settings-select-wrap>svg{
-                                                                          position:absolute;
-                                                                          right:12px;
-                                                                          pointer-events:none;
-                                                                          color:var(--muted,#a3a3c0)}
-                                                                          .settings-select-wrap select:focus-visible{
-                                                                            outline:2px solid var(--purple,#b3a1ff);
-                                                                            outline-offset:3px}
-                                                                            .settings-language{
-                                                                              display:flex;
-                                                                              align-items:center;
-                                                                              gap:7px;
-                                                                              white-space:nowrap;
-                                                                              font-size:.78rem;
-                                                                              color:var(--muted,#a3a3c0)}
-                                                                              .settings-description{
-                                                                                font-size:.82rem;
-                                                                                line-height:1.9;
-                                                                                color:var(--muted,#a3a3c0);
-                                                                                margin:14px 0 18px}
-                                                                                .settings-scenario-label{
-                                                                                  font-size:.75rem;
-                                                                                  display:block;
-                                                                                  margin-bottom:8px;
-                                                                                  color:var(--muted,#a3a3c0)}
-                                                                                  .settings-scenario-select{
-                                                                                    width:100%}
-                                                                                    .settings-demo-foot{
-                                                                                      display:flex;
-                                                                                      gap:8px;
-                                                                                      align-items:flex-start;
-                                                                                      margin-top:14px;
-                                                                                      font-size:.71rem;
-                                                                                      color:var(--muted,#a3a3c0);
-                                                                                      line-height:1.8}
-                                                                                      .settings-demo-foot svg{
-                                                                                        margin-top:3px;
-                                                                                        flex:none;
-                                                                                        color:var(--purple,#b3a1ff)}
-                                                                                        .settings-avatar-card{
-                                                                                          background:radial-gradient(ellipse at 50% 42%,color-mix(in srgb,var(--purple,#b3a1ff) 12%,transparent),transparent 62%)}
-                                                                                          .settings-avatar-card .avatar-studio{
-                                                                                            display:flex;
-                                                                                            flex-direction:column;
-                                                                                            align-items:center;
-                                                                                            text-align:center;
-                                                                                            gap:10px;
-                                                                                            padding:24px 0 12px}
-                                                                                            .settings-avatar-card .avatar-orbit{
-                                                                                              height:200px;
-                                                                                              width:200px;
-                                                                                              position:relative;
-                                                                                              border-radius:50%;
-                                                                                              display:grid;
-                                                                                              place-items:center;
-                                                                                              margin:0 auto 14px;
-                                                                                              border:1px solid color-mix(in srgb,var(--purple,#b3a1ff) 25%,transparent);
-                                                                                              box-shadow:0 0 0 17px color-mix(in srgb,var(--purple,#b3a1ff) 3%,transparent),inset 0 0 45px color-mix(in srgb,var(--pink,#f2a1c7) 6%,transparent)}
-                                                                                              .settings-avatar-card .avatar-orbit .avatar{
-                                                                                                border-radius:50%;
-                                                                                                box-shadow:0 0 35px #dcb0ff22}
-                                                                                                .settings-avatar-card .custom-avatar{
-                                                                                                  width:150px;
-                                                                                                  height:150px;
-                                                                                                  object-fit:contain;
-                                                                                                  border-radius:20px}
-                                                                                                  .settings-avatar-card .orbit-spark{
-                                                                                                    position:absolute;
-                                                                                                    right:0;
-                                                                                                    top:17%;
-                                                                                                    font-size:30px;
-                                                                                                    color:var(--pink,#f2a1c7);
-                                                                                                    background:var(--panel,#1a1a2d);
-                                                                                                    line-height:1}
-                                                                                                    .settings-avatar-card .avatar-studio h3{
-                                                                                                      font-size:.98rem;
-                                                                                                      font-weight:500;
-                                                                                                      margin:2px 0}
-                                                                                                      .settings-avatar-card .avatar-studio p{
-                                                                                                        font-size:.78rem;
-                                                                                                        line-height:1.9;
-                                                                                                        color:var(--muted,#a3a3c0);
-                                                                                                        margin:0 0 8px}
-                                                                                                        .settings-avatar-card .avatar-studio small{
-                                                                                                          font-size:.66rem;
-                                                                                                          color:var(--muted,#a3a3c0);
-                                                                                                          line-height:1.7}
-                                                                                                          .settings-avatar-card .avatar-studio .badge{
-                                                                                                            margin-top:7px}
-                                                                                                            .settings-avatar-note{
-                                                                                                              font-size:.7rem;
-                                                                                                              line-height:1.9;
-                                                                                                              color:var(--muted,#a3a3c0);
-                                                                                                              text-align:center;
-                                                                                                              border-top:1px solid var(--line,#34364e);
-                                                                                                              padding-top:15px;
-                                                                                                              margin:10px 0 0}
-                                                                                                              .settings-core-note{
-                                                                                                                display:flex;
-                                                                                                                flex-direction:column;
-                                                                                                                align-items:flex-start;
-                                                                                                                gap:13px;
-                                                                                                                background:color-mix(in srgb,var(--purple,#b3a1ff) 4%,transparent)}
-                                                                                                                .settings-core-note>svg{
-                                                                                                                  color:var(--purple,#b3a1ff)}
-                                                                                                                  .settings-core-note h3{
-                                                                                                                    font-size:.93rem;
-                                                                                                                    font-weight:550;
-                                                                                                                    margin:0}
-                                                                                                                    .settings-core-note p{
-                                                                                                                      font-family:ui-monospace,monospace;
-                                                                                                                      font-size:.73rem;
-                                                                                                                      color:var(--purple,#b3a1ff);
-                                                                                                                      line-height:1.8;
-                                                                                                                      margin:0}
-                                                                                                                      .settings-core-note small{
-                                                                                                                        font-size:.72rem;
-                                                                                                                        color:var(--muted,#a3a3c0);
-                                                                                                                        line-height:1.8}
-                                                                                                                        .settings-core-grid{
-                                                                                                                          display:grid;
-                                                                                                                          grid-template-columns:repeat(2,minmax(0,1fr));
-                                                                                                                          gap:12px;
-                                                                                                                          margin-top:20px}
-                                                                                                                          .settings-contract{
-                                                                                                                            border:1px solid var(--line,#34364e);
-                                                                                                                            border-radius:14px;
-                                                                                                                            padding:16px;
-                                                                                                                            min-width:0}
-                                                                                                                            .settings-contract summary{
-                                                                                                                              display:flex;
-                                                                                                                              align-items:flex-start;
-                                                                                                                              gap:10px;
-                                                                                                                              justify-content:space-between;
-                                                                                                                              cursor:pointer;
-                                                                                                                              list-style:none}
-                                                                                                                              .settings-contract summary>span:first-child{
-                                                                                                                                display:grid;
-                                                                                                                                gap:8px;
-                                                                                                                                min-width:0}
-                                                                                                                                .settings-contract summary strong{
-                                                                                                                                  font-size:.83rem;
-                                                                                                                                  font-weight:550}
-                                                                                                                                  .settings-contract summary small{
-                                                                                                                                    font-size:.73rem;
-                                                                                                                                    line-height:1.8;
-                                                                                                                                    color:var(--muted,#a3a3c0)}
-                                                                                                                                    .settings-contract summary>.badge{
-                                                                                                                                      font-size:.55rem;
-                                                                                                                                      white-space:nowrap;
-                                                                                                                                      flex:none}
-                                                                                                                                      .settings-contract>p{
-                                                                                                                                        font-size:.74rem;
-                                                                                                                                        line-height:1.9;
-                                                                                                                                        color:var(--muted,#a3a3c0);
-                                                                                                                                        margin:15px 0 0;
-                                                                                                                                        padding-top:14px;
-                                                                                                                                        border-top:1px solid var(--line,#34364e)}
-                                                                                                                                        .settings-contract[open]{
-                                                                                                                                          background:color-mix(in srgb,var(--purple,#b3a1ff) 4%,transparent)}
-                                                                                                                                          .runtime-source-notice{
-                                                                                                                                            background:color-mix(in srgb,var(--pink,#f2a1c7) 5%,transparent)}
-                                                                                                                                            .runtime-overview-grid{
-                                                                                                                                              display:grid;
-                                                                                                                                              grid-template-columns:repeat(3,minmax(0,1fr));
-                                                                                                                                              gap:17px}
-                                                                                                                                              .runtime-overview-card{
-                                                                                                                                                padding:24px;
-                                                                                                                                                display:flex;
-                                                                                                                                                flex-direction:column;
-                                                                                                                                                align-items:flex-start;
-                                                                                                                                                gap:11px;
-                                                                                                                                                min-width:0}
-                                                                                                                                                .runtime-stat-icon{
-                                                                                                                                                  display:grid;
-                                                                                                                                                  place-items:center;
-                                                                                                                                                  width:42px;
-                                                                                                                                                  height:42px;
-                                                                                                                                                  border-radius:13px;
-                                                                                                                                                  color:var(--purple,#b3a1ff);
-                                                                                                                                                  background:color-mix(in srgb,var(--purple,#b3a1ff) 10%,transparent);
-                                                                                                                                                  margin-bottom:4px}
-                                                                                                                                                  .runtime-stat-icon.pink{
-                                                                                                                                                    color:var(--pink,#f2a1c7);
-                                                                                                                                                    background:color-mix(in srgb,var(--pink,#f2a1c7) 10%,transparent)}
-                                                                                                                                                    .runtime-stat-icon.cyan{
-                                                                                                                                                      color:var(--cyan,#80d9d6);
-                                                                                                                                                      background:color-mix(in srgb,var(--cyan,#80d9d6) 10%,transparent)}
-                                                                                                                                                      .runtime-overview-card>small{
-                                                                                                                                                        font-size:.73rem;
-                                                                                                                                                        color:var(--muted,#a3a3c0)}
-                                                                                                                                                        .runtime-overview-card>strong{
-                                                                                                                                                          font-size:1.3rem;
-                                                                                                                                                          letter-spacing:-.04em;
-                                                                                                                                                          overflow-wrap:anywhere;
-                                                                                                                                                          line-height:1.5;
-                                                                                                                                                          font-weight:550}
-                                                                                                                                                          .runtime-overview-card>strong em{
-                                                                                                                                                            font-size:.75rem;
-                                                                                                                                                            letter-spacing:normal;
-                                                                                                                                                            font-style:normal;
-                                                                                                                                                            color:var(--muted,#a3a3c0);
-                                                                                                                                                            font-weight:400}
-                                                                                                                                                            .runtime-overview-card>span:last-child{
-                                                                                                                                                              font-size:.7rem;
-                                                                                                                                                              color:var(--muted,#a3a3c0);
-                                                                                                                                                              line-height:1.8}
-                                                                                                                                                              .runtime-overview-card .runtime-stat-text{
-                                                                                                                                                                font-size:.95rem;
-                                                                                                                                                                letter-spacing:normal}
-                                                                                                                                                                .runtime-main-grid{
-                                                                                                                                                                  display:grid;
-                                                                                                                                                                  grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);
-                                                                                                                                                                  gap:22px;
-                                                                                                                                                                  align-items:start}
-                                                                                                                                                                  .runtime-focus{
-                                                                                                                                                                    display:flex;
-                                                                                                                                                                    align-items:flex-start;
-                                                                                                                                                                    gap:13px;
-                                                                                                                                                                    margin:22px 0;
-                                                                                                                                                                    padding:16px;
-                                                                                                                                                                    border:1px solid color-mix(in srgb,var(--purple,#b3a1ff) 18%,transparent);
-                                                                                                                                                                    border-radius:14px;
-                                                                                                                                                                    background:color-mix(in srgb,var(--purple,#b3a1ff) 5%,transparent)}
-                                                                                                                                                                    .runtime-focus>span{
-                                                                                                                                                                      color:var(--purple,#b3a1ff);
-                                                                                                                                                                      margin-top:3px;
-                                                                                                                                                                      flex:none}
-                                                                                                                                                                      .runtime-focus strong{
-                                                                                                                                                                        font-size:.88rem;
-                                                                                                                                                                        font-weight:500}
-                                                                                                                                                                        .runtime-focus p{
-                                                                                                                                                                          font-size:.76rem;
-                                                                                                                                                                          line-height:1.85;
-                                                                                                                                                                          color:var(--muted,#a3a3c0);
-                                                                                                                                                                          margin:7px 0 0}
-                                                                                                                                                                          .runtime-key-values{
-                                                                                                                                                                            margin:16px 0 0;
-                                                                                                                                                                            display:grid;
-                                                                                                                                                                            gap:0}
-                                                                                                                                                                            .runtime-key-values>div{
-                                                                                                                                                                              display:grid;
-                                                                                                                                                                              grid-template-columns:minmax(105px,.7fr) minmax(0,1.3fr);
-                                                                                                                                                                              gap:15px;
-                                                                                                                                                                              padding:12px 0;
-                                                                                                                                                                              border-bottom:1px solid var(--line,#34364e);
-                                                                                                                                                                              font-size:.76rem;
-                                                                                                                                                                              line-height:1.8}
-                                                                                                                                                                              .runtime-key-values>div:last-child{
-                                                                                                                                                                                border-bottom:0}
-                                                                                                                                                                                .runtime-key-values dt{
-                                                                                                                                                                                  color:var(--muted,#a3a3c0)}
-                                                                                                                                                                                  .runtime-key-values dd{
-                                                                                                                                                                                    margin:0;
-                                                                                                                                                                                    overflow-wrap:anywhere}
-                                                                                                                                                                                    .runtime-blockers,.runtime-partial{
-                                                                                                                                                                                      margin-top:20px;
-                                                                                                                                                                                      padding:16px;
-                                                                                                                                                                                      border:1px solid color-mix(in srgb,#e9bb87 20%,transparent);
-                                                                                                                                                                                      background:color-mix(in srgb,#e9bb87 5%,transparent);
-                                                                                                                                                                                      border-radius:14px}
-                                                                                                                                                                                      .runtime-blockers h3{
-                                                                                                                                                                                        display:flex;
-                                                                                                                                                                                        gap:8px;
-                                                                                                                                                                                        align-items:center;
-                                                                                                                                                                                        font-size:.78rem;
-                                                                                                                                                                                        font-weight:500;
-                                                                                                                                                                                        color:#d0ab7c;
-                                                                                                                                                                                        margin:0 0 15px}
-                                                                                                                                                                                        .runtime-blockers>div+div{
-                                                                                                                                                                                          margin-top:14px}
-                                                                                                                                                                                          .runtime-blockers strong,.runtime-partial strong{
-                                                                                                                                                                                            font-size:.78rem;
-                                                                                                                                                                                            font-weight:500}
-                                                                                                                                                                                            .runtime-blockers p,.runtime-partial p{
-                                                                                                                                                                                              font-size:.73rem;
-                                                                                                                                                                                              line-height:1.85;
-                                                                                                                                                                                              color:var(--muted,#a3a3c0);
-                                                                                                                                                                                              margin:7px 0 0}
-                                                                                                                                                                                              .runtime-partial small{
-                                                                                                                                                                                                display:block;
-                                                                                                                                                                                                font-size:.67rem;
-                                                                                                                                                                                                color:var(--muted,#a3a3c0);
-                                                                                                                                                                                                margin-top:9px}
-                                                                                                                                                                                                .runtime-advanced{
-                                                                                                                                                                                                  margin-top:20px;
-                                                                                                                                                                                                  border-top:1px solid var(--line,#34364e);
-                                                                                                                                                                                                  padding-top:16px}
-                                                                                                                                                                                                  .runtime-advanced summary{
-                                                                                                                                                                                                    display:flex;
-                                                                                                                                                                                                    align-items:center;
-                                                                                                                                                                                                    gap:9px;
-                                                                                                                                                                                                    font-size:.74rem;
-                                                                                                                                                                                                    color:var(--purple,#b3a1ff);
-                                                                                                                                                                                                    cursor:pointer;
-                                                                                                                                                                                                    min-height:30px}
-                                                                                                                                                                                                    .runtime-advanced>p{
-                                                                                                                                                                                                      font-size:.71rem;
-                                                                                                                                                                                                      line-height:1.9;
-                                                                                                                                                                                                      color:var(--muted,#a3a3c0)}
-                                                                                                                                                                                                      .runtime-code{
-                                                                                                                                                                                                        font-family:ui-monospace,SFMono-Regular,monospace;
-                                                                                                                                                                                                        font-size:.72rem;
-                                                                                                                                                                                                        overflow-wrap:anywhere}
-                                                                                                                                                                                                        .runtime-import-panel>h3{
-                                                                                                                                                                                                          font-size:.98rem;
-                                                                                                                                                                                                          font-weight:500;
-                                                                                                                                                                                                          text-align:center;
-                                                                                                                                                                                                          margin:16px 0 12px}
-                                                                                                                                                                                                          .runtime-import-panel>p{
-                                                                                                                                                                                                            font-size:.78rem;
-                                                                                                                                                                                                            line-height:1.95;
-                                                                                                                                                                                                            color:var(--muted,#a3a3c0);
-                                                                                                                                                                                                            margin:0 0 20px}
-                                                                                                                                                                                                            .runtime-import-illustration{
-                                                                                                                                                                                                              display:flex;
-                                                                                                                                                                                                              align-items:center;
-                                                                                                                                                                                                              justify-content:center;
-                                                                                                                                                                                                              gap:23px;
-                                                                                                                                                                                                              height:115px;
-                                                                                                                                                                                                              margin-top:14px;
-                                                                                                                                                                                                              color:var(--purple,#b3a1ff);
-                                                                                                                                                                                                              background:radial-gradient(ellipse at center,color-mix(in srgb,var(--purple,#b3a1ff) 9%,transparent),transparent 66%)}
-                                                                                                                                                                                                              .runtime-import-illustration>span{
-                                                                                                                                                                                                                font-size:23px;
-                                                                                                                                                                                                                font-weight:300;
-                                                                                                                                                                                                                color:var(--muted,#a3a3c0)}
-                                                                                                                                                                                                                .runtime-import-button{
-                                                                                                                                                                                                                  display:flex;
-                                                                                                                                                                                                                  width:100%;
-                                                                                                                                                                                                                  justify-content:center;
-                                                                                                                                                                                                                  gap:8px;
-                                                                                                                                                                                                                  align-items:center;
-                                                                                                                                                                                                                  cursor:pointer}
-                                                                                                                                                                                                                  .runtime-import-button.is-loading{
-                                                                                                                                                                                                                    opacity:.65;
-                                                                                                                                                                                                                    cursor:wait}
-                                                                                                                                                                                                                    .runtime-import-panel>small{
-                                                                                                                                                                                                                      display:block;
-                                                                                                                                                                                                                      text-align:center;
-                                                                                                                                                                                                                      font-size:.64rem;
-                                                                                                                                                                                                                      color:var(--muted,#a3a3c0);
-                                                                                                                                                                                                                      line-height:1.8;
-                                                                                                                                                                                                                      margin-top:11px}
-                                                                                                                                                                                                                      .runtime-privacy-note{
-                                                                                                                                                                                                                        display:flex;
-                                                                                                                                                                                                                        align-items:flex-start;
-                                                                                                                                                                                                                        gap:8px;
-                                                                                                                                                                                                                        padding-top:17px;
-                                                                                                                                                                                                                        margin-top:18px;
-                                                                                                                                                                                                                        border-top:1px solid var(--line,#34364e);
-                                                                                                                                                                                                                        font-size:.68rem;
-                                                                                                                                                                                                                        line-height:1.85;
-                                                                                                                                                                                                                        color:var(--muted,#a3a3c0)}
-                                                                                                                                                                                                                        .runtime-privacy-note>svg{
-                                                                                                                                                                                                                          flex:none;
-                                                                                                                                                                                                                          color:var(--purple,#b3a1ff);
-                                                                                                                                                                                                                          margin-top:3px}
-                                                                                                                                                                                                                          .runtime-import-error{
-                                                                                                                                                                                                                            border:1px solid #d78c8c44;
-                                                                                                                                                                                                                            border-radius:12px;
-                                                                                                                                                                                                                            padding:13px;
-                                                                                                                                                                                                                            background:#d78c8c0a;
-                                                                                                                                                                                                                            margin-top:15px;
-                                                                                                                                                                                                                            color:var(--text,#ecebf6)}
-                                                                                                                                                                                                                            .runtime-import-error strong{
-                                                                                                                                                                                                                              font-size:.76rem;
-                                                                                                                                                                                                                              color:#e79d9d}
-                                                                                                                                                                                                                              .runtime-import-error p{
-                                                                                                                                                                                                                                margin:6px 0 0;
-                                                                                                                                                                                                                                font-size:.72rem;
-                                                                                                                                                                                                                                line-height:1.8;
-                                                                                                                                                                                                                                overflow-wrap:anywhere}
-                                                                                                                                                                                                                                .runtime-snapshot-heading{
-                                                                                                                                                                                                                                  display:flex;
-                                                                                                                                                                                                                                  align-items:center;
-                                                                                                                                                                                                                                  gap:13px;
-                                                                                                                                                                                                                                  margin-top:22px;
-                                                                                                                                                                                                                                  border-top:1px solid var(--line,#34364e);
-                                                                                                                                                                                                                                  padding-top:23px}
-                                                                                                                                                                                                                                  .runtime-snapshot-heading>svg{
-                                                                                                                                                                                                                                    flex:none;
-                                                                                                                                                                                                                                    color:var(--purple,#b3a1ff)}
-                                                                                                                                                                                                                                    .runtime-snapshot-heading>div{
-                                                                                                                                                                                                                                      flex:1;
-                                                                                                                                                                                                                                      min-width:0;
-                                                                                                                                                                                                                                      display:grid;
-                                                                                                                                                                                                                                      gap:7px}
-                                                                                                                                                                                                                                      .runtime-snapshot-heading small{
-                                                                                                                                                                                                                                        font-size:.71rem;
-                                                                                                                                                                                                                                        color:var(--muted,#a3a3c0);
-                                                                                                                                                                                                                                        line-height:1.8}
-                                                                                                                                                                                                                                        .runtime-snapshot-facts{
-                                                                                                                                                                                                                                          display:flex;
-                                                                                                                                                                                                                                          align-items:center;
-                                                                                                                                                                                                                                          gap:18px;
-                                                                                                                                                                                                                                          flex-wrap:wrap;
-                                                                                                                                                                                                                                          font-size:.65rem;
-                                                                                                                                                                                                                                          color:var(--muted,#a3a3c0);
-                                                                                                                                                                                                                                          margin:20px 0}
-                                                                                                                                                                                                                                          .runtime-snapshot-facts>span:first-child{
-                                                                                                                                                                                                                                            display:flex;
-                                                                                                                                                                                                                                            align-items:center;
-                                                                                                                                                                                                                                            gap:5px;
-                                                                                                                                                                                                                                            color:var(--cyan,#80d9d6)}
-                                                                                                                                                                                                                                            .runtime-section-grid{
-                                                                                                                                                                                                                                              display:grid;
-                                                                                                                                                                                                                                              grid-template-columns:repeat(2,minmax(0,1fr));
-                                                                                                                                                                                                                                              gap:10px}
-                                                                                                                                                                                                                                              .runtime-section{
-                                                                                                                                                                                                                                                border:1px solid var(--line,#34364e);
-                                                                                                                                                                                                                                                border-radius:12px;
-                                                                                                                                                                                                                                                min-width:0}
-                                                                                                                                                                                                                                                .runtime-section summary{
-                                                                                                                                                                                                                                                  display:flex;
-                                                                                                                                                                                                                                                  justify-content:space-between;
-                                                                                                                                                                                                                                                  align-items:center;
-                                                                                                                                                                                                                                                  gap:12px;
-                                                                                                                                                                                                                                                  padding:15px;
-                                                                                                                                                                                                                                                  cursor:pointer;
-                                                                                                                                                                                                                                                  font-size:.77rem}
-                                                                                                                                                                                                                                                  .runtime-section summary strong{
-                                                                                                                                                                                                                                                    font-weight:500}
-                                                                                                                                                                                                                                                    .runtime-section summary>span{
-                                                                                                                                                                                                                                                      color:var(--muted,#a3a3c0);
-                                                                                                                                                                                                                                                      font-size:.67rem}
-                                                                                                                                                                                                                                                      .runtime-items{
-                                                                                                                                                                                                                                                        padding:0 15px;
-                                                                                                                                                                                                                                                        max-height:400px;
-                                                                                                                                                                                                                                                        overflow:auto}
-                                                                                                                                                                                                                                                        .runtime-items>article{
-                                                                                                                                                                                                                                                          padding:14px 0;
-                                                                                                                                                                                                                                                          border-top:1px solid var(--line,#34364e)}
-                                                                                                                                                                                                                                                          .runtime-items>article>div{
-                                                                                                                                                                                                                                                            display:flex;
-                                                                                                                                                                                                                                                            align-items:center;
-                                                                                                                                                                                                                                                            justify-content:space-between;
-                                                                                                                                                                                                                                                            gap:12px}
-                                                                                                                                                                                                                                                            .runtime-items>article>div>strong{
-                                                                                                                                                                                                                                                              font-size:.7rem;
-                                                                                                                                                                                                                                                              overflow-wrap:anywhere;
-                                                                                                                                                                                                                                                              font-weight:500}
-                                                                                                                                                                                                                                                              .runtime-items .badge{
-                                                                                                                                                                                                                                                                font-size:.6rem}
-                                                                                                                                                                                                                                                                .runtime-items dl{
-                                                                                                                                                                                                                                                                  display:grid;
-                                                                                                                                                                                                                                                                  grid-template-columns:85px minmax(0,1fr);
-                                                                                                                                                                                                                                                                  gap:8px 10px;
-                                                                                                                                                                                                                                                                  font-size:.67rem;
-                                                                                                                                                                                                                                                                  margin:15px 0 0;
-                                                                                                                                                                                                                                                                  line-height:1.8}
-                                                                                                                                                                                                                                                                  .runtime-items dt{
-                                                                                                                                                                                                                                                                    color:var(--muted,#a3a3c0)}
-                                                                                                                                                                                                                                                                    .runtime-items dd{
-                                                                                                                                                                                                                                                                      margin:0;
-                                                                                                                                                                                                                                                                      overflow-wrap:anywhere}
-                                                                                                                                                                                                                                                                      .runtime-snapshot-foot{
-                                                                                                                                                                                                                                                                        font-size:.7rem;
-                                                                                                                                                                                                                                                                        color:var(--muted,#a3a3c0);
-                                                                                                                                                                                                                                                                        line-height:1.9;
-                                                                                                                                                                                                                                                                        margin:20px 0 0}
-                                                                                                                                                                                                                                                                        .runtime-contract-grid{
-                                                                                                                                                                                                                                                                          display:grid;
-                                                                                                                                                                                                                                                                          grid-template-columns:repeat(2,minmax(0,1fr));
-                                                                                                                                                                                                                                                                          gap:14px;
-                                                                                                                                                                                                                                                                          margin-top:20px}
-                                                                                                                                                                                                                                                                          .runtime-contract-grid>article{
-                                                                                                                                                                                                                                                                            border:1px solid var(--line,#34364e);
-                                                                                                                                                                                                                                                                            border-radius:14px;
-                                                                                                                                                                                                                                                                            padding:18px;
-                                                                                                                                                                                                                                                                            min-width:0}
-                                                                                                                                                                                                                                                                            .runtime-contract-grid>article>div{
-                                                                                                                                                                                                                                                                              display:flex;
-                                                                                                                                                                                                                                                                              justify-content:space-between;
-                                                                                                                                                                                                                                                                              align-items:flex-start;
-                                                                                                                                                                                                                                                                              gap:10px}
-                                                                                                                                                                                                                                                                              .runtime-contract-grid h3{
-                                                                                                                                                                                                                                                                                font-size:.82rem;
-                                                                                                                                                                                                                                                                                font-weight:500;
-                                                                                                                                                                                                                                                                                line-height:1.7;
-                                                                                                                                                                                                                                                                                margin:0}
-                                                                                                                                                                                                                                                                                .runtime-contract-grid .badge{
-                                                                                                                                                                                                                                                                                  font-size:.55rem;
-                                                                                                                                                                                                                                                                                  flex:none;
-                                                                                                                                                                                                                                                                                  white-space:nowrap}
-                                                                                                                                                                                                                                                                                  .runtime-contract-grid p{
-                                                                                                                                                                                                                                                                                    font-size:.74rem;
-                                                                                                                                                                                                                                                                                    line-height:1.9;
-                                                                                                                                                                                                                                                                                    color:var(--muted,#a3a3c0);
-                                                                                                                                                                                                                                                                                    margin:12px 0}
-                                                                                                                                                                                                                                                                                    .runtime-contract-grid code{
-                                                                                                                                                                                                                                                                                      font-size:.61rem;
-                                                                                                                                                                                                                                                                                      color:var(--purple,#b3a1ff);
-                                                                                                                                                                                                                                                                                      overflow-wrap:anywhere;
-                                                                                                                                                                                                                                                                                      line-height:1.8}
-                                                                                                                                                                                                                                                                                      @media(max-width:1100px){
-                                                                                                                                                                                                                                                                                        .settings-layout{
-                                                                                                                                                                                                                                                                                          grid-template-columns:minmax(0,1.2fr) minmax(250px,.8fr)}
-                                                                                                                                                                                                                                                                                          .settings-card,.settings-avatar-card,.settings-core-note,.runtime-demo-panel,.runtime-import-panel,.runtime-inspector-panel,.runtime-contract-panel{
-                                                                                                                                                                                                                                                                                            padding:20px}
-                                                                                                                                                                                                                                                                                            .settings-core-grid,.runtime-contract-grid{
-                                                                                                                                                                                                                                                                                              grid-template-columns:1fr}
-                                                                                                                                                                                                                                                                                              .runtime-main-grid{
-                                                                                                                                                                                                                                                                                                grid-template-columns:minmax(0,1fr) minmax(260px,.8fr)}
-                                                                                                                                                                                                                                                                                                .runtime-overview-card{
-                                                                                                                                                                                                                                                                                                  padding:19px}
-                                                                                                                                                                                                                                                                                                  .runtime-overview-card>strong{
-                                                                                                                                                                                                                                                                                                    font-size:1.1rem}
-                                                                                                                                                                                                                                                                                                  }
-                                                                                                                                                                                                                                                                                                  @media(max-width:800px){
-                                                                                                                                                                                                                                                                                                    .settings-layout,.runtime-main-grid{
-                                                                                                                                                                                                                                                                                                      grid-template-columns:1fr}
-                                                                                                                                                                                                                                                                                                      .settings-layout>.settings-stack:nth-child(2){
-                                                                                                                                                                                                                                                                                                        grid-template-columns:1fr 1fr;
-                                                                                                                                                                                                                                                                                                        align-items:start}
-                                                                                                                                                                                                                                                                                                        .settings-avatar-card .avatar-orbit{
-                                                                                                                                                                                                                                                                                                          height:160px;
-                                                                                                                                                                                                                                                                                                          width:160px}
-                                                                                                                                                                                                                                                                                                          .settings-avatar-card .avatar-orbit .avatar{
-                                                                                                                                                                                                                                                                                                            width:115px;
-                                                                                                                                                                                                                                                                                                            height:115px}
-                                                                                                                                                                                                                                                                                                            .settings-local-note,.runtime-source-notice{
-                                                                                                                                                                                                                                                                                                              align-items:flex-start;
-                                                                                                                                                                                                                                                                                                              flex-wrap:wrap}
-                                                                                                                                                                                                                                                                                                              .settings-local-note>svg,.runtime-source-notice>svg{
-                                                                                                                                                                                                                                                                                                                margin-top:4px}
-                                                                                                                                                                                                                                                                                                                .settings-local-note>.badge,.runtime-source-notice>.badge{
-                                                                                                                                                                                                                                                                                                                  margin-left:30px}
-                                                                                                                                                                                                                                                                                                                  .settings-local-note p,.runtime-source-notice p{
-                                                                                                                                                                                                                                                                                                                    min-width:70%}
-                                                                                                                                                                                                                                                                                                                    .runtime-overview-grid{
-                                                                                                                                                                                                                                                                                                                      gap:11px}
-                                                                                                                                                                                                                                                                                                                      .runtime-overview-card{
-                                                                                                                                                                                                                                                                                                                        padding:17px}
-                                                                                                                                                                                                                                                                                                                        .runtime-overview-card>span:last-child{
-                                                                                                                                                                                                                                                                                                                          font-size:.65rem}
-                                                                                                                                                                                                                                                                                                                          .runtime-section-grid{
-                                                                                                                                                                                                                                                                                                                            grid-template-columns:1fr}
-                                                                                                                                                                                                                                                                                                                            .runtime-import-illustration{
-                                                                                                                                                                                                                                                                                                                              height:85px}
-                                                                                                                                                                                                                                                                                                                              .runtime-import-panel>p{
-                                                                                                                                                                                                                                                                                                                                max-width:650px}
-                                                                                                                                                                                                                                                                                                                                .runtime-import-button{
-                                                                                                                                                                                                                                                                                                                                  max-width:330px;
-                                                                                                                                                                                                                                                                                                                                  margin:0 auto}
-                                                                                                                                                                                                                                                                                                                                  .runtime-privacy-note{
-                                                                                                                                                                                                                                                                                                                                    justify-content:center}
-                                                                                                                                                                                                                                                                                                                                    .runtime-contract-grid{
-                                                                                                                                                                                                                                                                                                                                      grid-template-columns:repeat(2,minmax(0,1fr))}
-                                                                                                                                                                                                                                                                                                                                      .runtime-contract-grid>article>div{
-                                                                                                                                                                                                                                                                                                                                        flex-direction:column;
-                                                                                                                                                                                                                                                                                                                                        gap:9px}
-                                                                                                                                                                                                                                                                                                                                      }
-                                                                                                                                                                                                                                                                                                                                      @media(max-width:560px){
-                                                                                                                                                                                                                                                                                                                                        .settings-page,.runtime-page{
-                                                                                                                                                                                                                                                                                                                                          gap:18px}
-                                                                                                                                                                                                                                                                                                                                          .settings-layout,.settings-stack{
-                                                                                                                                                                                                                                                                                                                                            gap:17px}
-                                                                                                                                                                                                                                                                                                                                            .settings-layout>.settings-stack:nth-child(2){
-                                                                                                                                                                                                                                                                                                                                              grid-template-columns:1fr}
-                                                                                                                                                                                                                                                                                                                                              .settings-core-grid,.runtime-contract-grid{
-                                                                                                                                                                                                                                                                                                                                                grid-template-columns:1fr}
-                                                                                                                                                                                                                                                                                                                                                .settings-card,.settings-avatar-card,.settings-core-note,.runtime-demo-panel,.runtime-import-panel,.runtime-inspector-panel,.runtime-contract-panel{
-                                                                                                                                                                                                                                                                                                                                                  padding:19px}
-                                                                                                                                                                                                                                                                                                                                                  .settings-themes{
-                                                                                                                                                                                                                                                                                                                                                    gap:7px}
-                                                                                                                                                                                                                                                                                                                                                    .settings-theme-preview{
-                                                                                                                                                                                                                                                                                                                                                      height:70px;
-                                                                                                                                                                                                                                                                                                                                                      padding:10px}
-                                                                                                                                                                                                                                                                                                                                                      .settings-theme-preview>svg:first-child{
-                                                                                                                                                                                                                                                                                                                                                        width:17px}
-                                                                                                                                                                                                                                                                                                                                                        .settings-theme>strong{
-                                                                                                                                                                                                                                                                                                                                                          font-size:.7rem;
-                                                                                                                                                                                                                                                                                                                                                          padding:0 8px}
-                                                                                                                                                                                                                                                                                                                                                          .settings-theme>small{
-                                                                                                                                                                                                                                                                                                                                                            font-size:.58rem;
-                                                                                                                                                                                                                                                                                                                                                            padding:0 8px}
-                                                                                                                                                                                                                                                                                                                                                            .settings-theme-preview i{
-                                                                                                                                                                                                                                                                                                                                                              width:25%}
-                                                                                                                                                                                                                                                                                                                                                              .settings-theme-preview i:nth-of-type(2){
-                                                                                                                                                                                                                                                                                                                                                                display:none}
-                                                                                                                                                                                                                                                                                                                                                                .settings-row{
-                                                                                                                                                                                                                                                                                                                                                                  gap:15px;
-                                                                                                                                                                                                                                                                                                                                                                  padding:18px 0}
-                                                                                                                                                                                                                                                                                                                                                                  .settings-row strong{
-                                                                                                                                                                                                                                                                                                                                                                    font-size:.81rem}
-                                                                                                                                                                                                                                                                                                                                                                    .settings-row p{
-                                                                                                                                                                                                                                                                                                                                                                      font-size:.71rem}
-                                                                                                                                                                                                                                                                                                                                                                      .settings-row .settings-select-wrap{
-                                                                                                                                                                                                                                                                                                                                                                        max-width:100px}
-                                                                                                                                                                                                                                                                                                                                                                        .settings-language{
-                                                                                                                                                                                                                                                                                                                                                                          font-size:.71rem}
-                                                                                                                                                                                                                                                                                                                                                                          .settings-contract summary{
-                                                                                                                                                                                                                                                                                                                                                                            flex-direction:column;
-                                                                                                                                                                                                                                                                                                                                                                            gap:10px}
-                                                                                                                                                                                                                                                                                                                                                                            .settings-contract summary>.badge{
-                                                                                                                                                                                                                                                                                                                                                                              font-size:.59rem}
-                                                                                                                                                                                                                                                                                                                                                                              .settings-local-note,.runtime-source-notice{
-                                                                                                                                                                                                                                                                                                                                                                                padding:13px;
-                                                                                                                                                                                                                                                                                                                                                                                font-size:.73rem}
-                                                                                                                                                                                                                                                                                                                                                                                .settings-local-note p span,.runtime-source-notice p span{
-                                                                                                                                                                                                                                                                                                                                                                                  display:block;
-                                                                                                                                                                                                                                                                                                                                                                                  margin-top:4px}
-                                                                                                                                                                                                                                                                                                                                                                                  .settings-local-note>.badge,.runtime-source-notice>.badge{
-                                                                                                                                                                                                                                                                                                                                                                                    margin-left:30px;
-                                                                                                                                                                                                                                                                                                                                                                                    margin-top:-3px}
-                                                                                                                                                                                                                                                                                                                                                                                    .runtime-overview-grid{
-                                                                                                                                                                                                                                                                                                                                                                                      grid-template-columns:1fr;
-                                                                                                                                                                                                                                                                                                                                                                                      gap:10px}
-                                                                                                                                                                                                                                                                                                                                                                                      .runtime-overview-card{
-                                                                                                                                                                                                                                                                                                                                                                                        display:grid;
-                                                                                                                                                                                                                                                                                                                                                                                        grid-template-columns:42px minmax(0,1fr);
-                                                                                                                                                                                                                                                                                                                                                                                        gap:5px 14px;
-                                                                                                                                                                                                                                                                                                                                                                                        padding:15px}
-                                                                                                                                                                                                                                                                                                                                                                                        .runtime-stat-icon{
-                                                                                                                                                                                                                                                                                                                                                                                          grid-row:1/4;
-                                                                                                                                                                                                                                                                                                                                                                                          margin:0}
-                                                                                                                                                                                                                                                                                                                                                                                          .runtime-overview-card>small,.runtime-overview-card>strong,.runtime-overview-card>span:last-child{
-                                                                                                                                                                                                                                                                                                                                                                                            grid-column:2}
-                                                                                                                                                                                                                                                                                                                                                                                            .runtime-overview-card>small{
-                                                                                                                                                                                                                                                                                                                                                                                              font-size:.68rem}
-                                                                                                                                                                                                                                                                                                                                                                                              .runtime-overview-card>strong{
-                                                                                                                                                                                                                                                                                                                                                                                                font-size:1rem}
-                                                                                                                                                                                                                                                                                                                                                                                                .runtime-snapshot-heading{
-                                                                                                                                                                                                                                                                                                                                                                                                  align-items:flex-start;
-                                                                                                                                                                                                                                                                                                                                                                                                  flex-wrap:wrap}
-                                                                                                                                                                                                                                                                                                                                                                                                  .runtime-snapshot-heading>div{
-                                                                                                                                                                                                                                                                                                                                                                                                    min-width:75%}
-                                                                                                                                                                                                                                                                                                                                                                                                    .runtime-snapshot-heading>.badge{
-                                                                                                                                                                                                                                                                                                                                                                                                      margin-left:35px}
-                                                                                                                                                                                                                                                                                                                                                                                                      .runtime-snapshot-facts{
-                                                                                                                                                                                                                                                                                                                                                                                                        gap:10px;
-                                                                                                                                                                                                                                                                                                                                                                                                        font-size:.61rem}
-                                                                                                                                                                                                                                                                                                                                                                                                        .runtime-key-values>div{
-                                                                                                                                                                                                                                                                                                                                                                                                          grid-template-columns:minmax(90px,.8fr) minmax(0,1.2fr);
-                                                                                                                                                                                                                                                                                                                                                                                                          font-size:.71rem}
-                                                                                                                                                                                                                                                                                                                                                                                                          .runtime-demo-panel .section-heading,.runtime-inspector-panel .section-heading{
-                                                                                                                                                                                                                                                                                                                                                                                                            gap:12px;
-                                                                                                                                                                                                                                                                                                                                                                                                            flex-wrap:wrap}
-                                                                                                                                                                                                                                                                                                                                                                                                            .runtime-contract-grid>article>div{
-                                                                                                                                                                                                                                                                                                                                                                                                              flex-direction:row}
-                                                                                                                                                                                                                                                                                                                                                                                                              .runtime-contract-grid .badge{
-                                                                                                                                                                                                                                                                                                                                                                                                                font-size:.52rem}
-                                                                                                                                                                                                                                                                                                                                                                                                                .runtime-contract-grid h3{
-                                                                                                                                                                                                                                                                                                                                                                                                                  font-size:.76rem}
-                                                                                                                                                                                                                                                                                                                                                                                                                  .runtime-code{
-                                                                                                                                                                                                                                                                                                                                                                                                                    font-size:.67rem}
-                                                                                                                                                                                                                                                                                                                                                                                                                  }
-                                                                                                                                                                                                                                                                                                                                                                                                                  .runtime-contract-transport{
-                                                                                                                                                                                                                                                                                                                                                                                                                    display:block;
-                                                                                                                                                                                                                                                                                                                                                                                                                    font-size:.63rem;
-                                                                                                                                                                                                                                                                                                                                                                                                                    line-height:1.8;
-                                                                                                                                                                                                                                                                                                                                                                                                                    color:var(--muted,#a3a3c0);
-                                                                                                                                                                                                                                                                                                                                                                                                                    margin:0 0 10px}
-                                                                                                                                                                                                                                                                                                                                                                                                                    .runtime-contract-grid .badge{
-                                                                                                                                                                                                                                                                                                                                                                                                                      max-width:100%;
-                                                                                                                                                                                                                                                                                                                                                                                                                      overflow-wrap:anywhere;
-                                                                                                                                                                                                                                                                                                                                                                                                                      white-space:normal}
-                                                                                                                                                                                                                                                                                                                                                                                                                      .runtime-page summary:focus-visible,.settings-page summary:focus-visible{
-                                                                                                                                                                                                                                                                                                                                                                                                                        outline:2px solid var(--purple,#b3a1ff);
-                                                                                                                                                                                                                                                                                                                                                                                                                        outline-offset:5px;
-                                                                                                                                                                                                                                                                                                                                                                                                                        border-radius:5px}
+.settings-page,
+.runtime-page {
+  display: grid;
+  gap: 24px;
+  min-width: 0;
+}
+.settings-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(270px, 0.8fr);
+  gap: 22px;
+  align-items: start;
+}
+.settings-stack {
+  display: grid;
+  gap: 22px;
+  min-width: 0;
+}
+.settings-card,
+.settings-avatar-card,
+.settings-core-note,
+.runtime-demo-panel,
+.runtime-import-panel,
+.runtime-inspector-panel,
+.runtime-contract-panel {
+  padding: 25px;
+  min-width: 0;
+}
+.settings-local-note,
+.runtime-source-notice {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  border: 1px solid var(--line, #34364e);
+  border-radius: 16px;
+  padding: 14px 18px;
+  background: color-mix(in srgb, var(--purple, #b3a1ff) 6%, transparent);
+  font-size: 0.82rem;
+}
+.settings-local-note > svg,
+.runtime-source-notice > svg {
+  flex: none;
+  color: var(--purple, #b3a1ff);
+}
+.settings-local-note p,
+.runtime-source-notice p {
+  margin: 0;
+  flex: 1;
+  line-height: 1.7;
+}
+.settings-local-note p span,
+.runtime-source-notice p span {
+  color: var(--muted, #a3a3c0);
+}
+.settings-local-note > .badge,
+.runtime-source-notice > .badge {
+  flex: none;
+  white-space: nowrap;
+}
+.settings-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+  padding: 20px 0;
+  border-bottom: 1px solid var(--line, #34364e);
+}
+.settings-row:last-child {
+  border-bottom: 0;
+  padding-bottom: 0;
+}
+.settings-row > div:first-child {
+  min-width: 0;
+}
+.settings-row strong {
+  font-size: 0.88rem;
+  font-weight: 550;
+}
+.settings-row p {
+  font-size: 0.76rem;
+  line-height: 1.8;
+  color: var(--muted, #a3a3c0);
+  margin: 5px 0 0;
+  max-width: 440px;
+}
+.settings-switch {
+  position: relative;
+  border: 1px solid var(--line, #34364e);
+  background: var(--soft, #25263b);
+  width: 46px;
+  height: 28px;
+  border-radius: 18px;
+  flex: none;
+  min-height: 28px;
+  transition: background 0.2s;
+  box-shadow: 0 0 0 8px transparent;
+}
+.settings-switch::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+}
+.settings-switch span {
+  display: block;
+  width: 19px;
+  height: 19px;
+  position: absolute;
+  left: 4px;
+  top: 3px;
+  border-radius: 50%;
+  background: var(--muted, #a3a3c0);
+  transition:
+    transform 0.2s,
+    background 0.2s;
+}
+.settings-switch.is-on {
+  background: var(--purple, #b3a1ff);
+  border-color: transparent;
+}
+.settings-switch.is-on span {
+  background: #fff;
+  transform: translateX(17px);
+}
+.settings-switch:focus-visible {
+  outline: 2px solid var(--purple, #b3a1ff);
+  outline-offset: 7px;
+}
+.settings-themes {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 11px;
+  margin: 22px 0 4px;
+}
+.settings-theme {
+  display: grid;
+  gap: 7px;
+  text-align: left;
+  padding: 0 0 10px;
+  border-radius: 14px;
+  min-width: 0;
+  background: transparent;
+  border: 1px solid transparent;
+}
+.settings-theme.selected {
+  border-color: color-mix(in srgb, var(--purple, #b3a1ff) 75%, transparent);
+  background: color-mix(in srgb, var(--purple, #b3a1ff) 8%, transparent);
+}
+.settings-theme > strong,
+.settings-theme > small {
+  padding: 0 10px;
+}
+.settings-theme > strong {
+  font-size: 0.8rem;
+  font-weight: 550;
+}
+.settings-theme > small {
+  font-size: 0.64rem;
+  color: var(--muted, #a3a3c0);
+  letter-spacing: 0.05em;
+}
+.settings-theme-preview {
+  height: 80px;
+  border-radius: 13px;
+  display: flex;
+  align-items: center;
+  position: relative;
+  overflow: hidden;
+  padding: 14px;
+  gap: 8px;
+  border: 1px solid color-mix(in srgb, var(--purple, #b3a1ff) 12%, transparent);
+  background:
+    radial-gradient(ellipse at 90% 10%, #61538166, transparent 80%), #17172c;
+  color: #c1adff;
+}
+.settings-theme-preview > svg:first-child {
+  align-self: flex-start;
+  flex: none;
+}
+.settings-theme-preview i {
+  display: block;
+  height: 26px;
+  width: 35%;
+  border-radius: 6px;
+  background: #ffffff12;
+  border: 1px solid #ffffff12;
+  margin-top: 12px;
+}
+.settings-theme-preview i:nth-of-type(2) {
+  width: 18%;
+  height: 41px;
+  background: #c8b4ff1f;
+}
+.settings-theme-light .settings-theme-preview {
+  background:
+    radial-gradient(ellipse at 90% 10%, #dfc4e3, transparent 80%), #f0edf9;
+  color: #7c63a1;
+}
+.settings-theme-light .settings-theme-preview i {
+  background: #ffffffa8;
+  border-color: #b2a1ce36;
+}
+.settings-theme-system .settings-theme-preview {
+  background: linear-gradient(125deg, #222137 50%, #e8e2f4 50%);
+  color: #dac8fc;
+}
+.settings-theme-check {
+  position: absolute;
+  right: 7px;
+  top: 7px;
+  background: #b3a1ff;
+  color: #1a1535;
+  border-radius: 50%;
+  padding: 2px;
+  box-sizing: content-box;
+}
+.settings-select-wrap {
+  position: relative;
+  display: flex;
+  align-items: center;
+  flex: none;
+  max-width: 100%;
+}
+.settings-select-wrap select {
+  appearance: none;
+  min-height: 44px;
+  border: 1px solid var(--line, #34364e);
+  border-radius: 11px;
+  background: var(--soft, #25263b);
+  color: var(--text, #ecebf6);
+  padding: 9px 35px 9px 13px;
+  font: inherit;
+  font-size: 0.8rem;
+  width: 100%;
+  cursor: pointer;
+}
+.settings-select-wrap > svg {
+  position: absolute;
+  right: 12px;
+  pointer-events: none;
+  color: var(--muted, #a3a3c0);
+}
+.settings-select-wrap select:focus-visible {
+  outline: 2px solid var(--purple, #b3a1ff);
+  outline-offset: 3px;
+}
+.settings-language {
+  display: flex;
+  align-items: center;
+  gap: 7px;
+  white-space: nowrap;
+  font-size: 0.78rem;
+  color: var(--muted, #a3a3c0);
+}
+.settings-description {
+  font-size: 0.82rem;
+  line-height: 1.9;
+  color: var(--muted, #a3a3c0);
+  margin: 14px 0 18px;
+}
+.settings-scenario-label {
+  font-size: 0.75rem;
+  display: block;
+  margin-bottom: 8px;
+  color: var(--muted, #a3a3c0);
+}
+.settings-scenario-select {
+  width: 100%;
+}
+.settings-demo-foot {
+  display: flex;
+  gap: 8px;
+  align-items: flex-start;
+  margin-top: 14px;
+  font-size: 0.71rem;
+  color: var(--muted, #a3a3c0);
+  line-height: 1.8;
+}
+.settings-demo-foot svg {
+  margin-top: 3px;
+  flex: none;
+  color: var(--purple, #b3a1ff);
+}
+.settings-avatar-card {
+  background: radial-gradient(
+    ellipse at 50% 42%,
+    color-mix(in srgb, var(--purple, #b3a1ff) 12%, transparent),
+    transparent 62%
+  );
+}
+.settings-avatar-card .avatar-studio {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  gap: 10px;
+  padding: 24px 0 12px;
+}
+.settings-avatar-card .avatar-orbit {
+  height: 200px;
+  width: 200px;
+  position: relative;
+  border-radius: 50%;
+  display: grid;
+  place-items: center;
+  margin: 0 auto 14px;
+  border: 1px solid color-mix(in srgb, var(--purple, #b3a1ff) 25%, transparent);
+  box-shadow:
+    0 0 0 17px color-mix(in srgb, var(--purple, #b3a1ff) 3%, transparent),
+    inset 0 0 45px color-mix(in srgb, var(--pink, #f2a1c7) 6%, transparent);
+}
+.settings-avatar-card .avatar-orbit .avatar {
+  border-radius: 50%;
+  box-shadow: 0 0 35px #dcb0ff22;
+}
+.settings-avatar-card .custom-avatar {
+  width: 150px;
+  height: 150px;
+  object-fit: contain;
+  border-radius: 20px;
+}
+.settings-avatar-card .orbit-spark {
+  position: absolute;
+  right: 0;
+  top: 17%;
+  font-size: 30px;
+  color: var(--pink, #f2a1c7);
+  background: var(--panel, #1a1a2d);
+  line-height: 1;
+}
+.settings-avatar-card .avatar-studio h3 {
+  font-size: 0.98rem;
+  font-weight: 500;
+  margin: 2px 0;
+}
+.settings-avatar-card .avatar-studio p {
+  font-size: 0.78rem;
+  line-height: 1.9;
+  color: var(--muted, #a3a3c0);
+  margin: 0 0 8px;
+}
+.settings-avatar-card .avatar-studio small {
+  font-size: 0.66rem;
+  color: var(--muted, #a3a3c0);
+  line-height: 1.7;
+}
+.settings-avatar-card .avatar-studio .badge {
+  margin-top: 7px;
+}
+.settings-avatar-note {
+  font-size: 0.7rem;
+  line-height: 1.9;
+  color: var(--muted, #a3a3c0);
+  text-align: center;
+  border-top: 1px solid var(--line, #34364e);
+  padding-top: 15px;
+  margin: 10px 0 0;
+}
+.settings-core-note {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 13px;
+  background: color-mix(in srgb, var(--purple, #b3a1ff) 4%, transparent);
+}
+.settings-core-note > svg {
+  color: var(--purple, #b3a1ff);
+}
+.settings-core-note h3 {
+  font-size: 0.93rem;
+  font-weight: 550;
+  margin: 0;
+}
+.settings-core-note p {
+  font-family: ui-monospace, monospace;
+  font-size: 0.73rem;
+  color: var(--purple, #b3a1ff);
+  line-height: 1.8;
+  margin: 0;
+}
+.settings-core-note small {
+  font-size: 0.72rem;
+  color: var(--muted, #a3a3c0);
+  line-height: 1.8;
+}
+.settings-core-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 20px;
+}
+.settings-contract {
+  border: 1px solid var(--line, #34364e);
+  border-radius: 14px;
+  padding: 16px;
+  min-width: 0;
+}
+.settings-contract summary {
+  display: flex;
+  align-items: flex-start;
+  gap: 10px;
+  justify-content: space-between;
+  cursor: pointer;
+  list-style: none;
+}
+.settings-contract summary > span:first-child {
+  display: grid;
+  gap: 8px;
+  min-width: 0;
+}
+.settings-contract summary strong {
+  font-size: 0.83rem;
+  font-weight: 550;
+}
+.settings-contract summary small {
+  font-size: 0.73rem;
+  line-height: 1.8;
+  color: var(--muted, #a3a3c0);
+}
+.settings-contract summary > .badge {
+  font-size: 0.55rem;
+  white-space: nowrap;
+  flex: none;
+}
+.settings-contract > p {
+  font-size: 0.74rem;
+  line-height: 1.9;
+  color: var(--muted, #a3a3c0);
+  margin: 15px 0 0;
+  padding-top: 14px;
+  border-top: 1px solid var(--line, #34364e);
+}
+.settings-contract[open] {
+  background: color-mix(in srgb, var(--purple, #b3a1ff) 4%, transparent);
+}
+.runtime-source-notice {
+  background: color-mix(in srgb, var(--pink, #f2a1c7) 5%, transparent);
+}
+.runtime-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 17px;
+}
+.runtime-overview-card {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 11px;
+  min-width: 0;
+}
+.runtime-stat-icon {
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border-radius: 13px;
+  color: var(--purple, #b3a1ff);
+  background: color-mix(in srgb, var(--purple, #b3a1ff) 10%, transparent);
+  margin-bottom: 4px;
+}
+.runtime-stat-icon.pink {
+  color: var(--pink, #f2a1c7);
+  background: color-mix(in srgb, var(--pink, #f2a1c7) 10%, transparent);
+}
+.runtime-stat-icon.cyan {
+  color: var(--cyan, #80d9d6);
+  background: color-mix(in srgb, var(--cyan, #80d9d6) 10%, transparent);
+}
+.runtime-overview-card > small {
+  font-size: 0.73rem;
+  color: var(--muted, #a3a3c0);
+}
+.runtime-overview-card > strong {
+  font-size: 1.3rem;
+  letter-spacing: -0.04em;
+  overflow-wrap: anywhere;
+  line-height: 1.5;
+  font-weight: 550;
+}
+.runtime-overview-card > strong em {
+  font-size: 0.75rem;
+  letter-spacing: normal;
+  font-style: normal;
+  color: var(--muted, #a3a3c0);
+  font-weight: 400;
+}
+.runtime-overview-card > span:last-child {
+  font-size: 0.7rem;
+  color: var(--muted, #a3a3c0);
+  line-height: 1.8;
+}
+.runtime-overview-card .runtime-stat-text {
+  font-size: 0.95rem;
+  letter-spacing: normal;
+}
+.runtime-main-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.2fr) minmax(300px, 0.8fr);
+  gap: 22px;
+  align-items: start;
+}
+.runtime-focus {
+  display: flex;
+  align-items: flex-start;
+  gap: 13px;
+  margin: 22px 0;
+  padding: 16px;
+  border: 1px solid color-mix(in srgb, var(--purple, #b3a1ff) 18%, transparent);
+  border-radius: 14px;
+  background: color-mix(in srgb, var(--purple, #b3a1ff) 5%, transparent);
+}
+.runtime-focus > span {
+  color: var(--purple, #b3a1ff);
+  margin-top: 3px;
+  flex: none;
+}
+.runtime-focus strong {
+  font-size: 0.88rem;
+  font-weight: 500;
+}
+.runtime-focus p {
+  font-size: 0.76rem;
+  line-height: 1.85;
+  color: var(--muted, #a3a3c0);
+  margin: 7px 0 0;
+}
+.runtime-key-values {
+  margin: 16px 0 0;
+  display: grid;
+  gap: 0;
+}
+.runtime-key-values > div {
+  display: grid;
+  grid-template-columns: minmax(105px, 0.7fr) minmax(0, 1.3fr);
+  gap: 15px;
+  padding: 12px 0;
+  border-bottom: 1px solid var(--line, #34364e);
+  font-size: 0.76rem;
+  line-height: 1.8;
+}
+.runtime-key-values > div:last-child {
+  border-bottom: 0;
+}
+.runtime-key-values dt {
+  color: var(--muted, #a3a3c0);
+}
+.runtime-key-values dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.runtime-blockers,
+.runtime-partial {
+  margin-top: 20px;
+  padding: 16px;
+  border: 1px solid color-mix(in srgb, #e9bb87 20%, transparent);
+  background: color-mix(in srgb, #e9bb87 5%, transparent);
+  border-radius: 14px;
+}
+.runtime-blockers h3 {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: #d0ab7c;
+  margin: 0 0 15px;
+}
+.runtime-blockers > div + div {
+  margin-top: 14px;
+}
+.runtime-blockers strong,
+.runtime-partial strong {
+  font-size: 0.78rem;
+  font-weight: 500;
+}
+.runtime-blockers p,
+.runtime-partial p {
+  font-size: 0.73rem;
+  line-height: 1.85;
+  color: var(--muted, #a3a3c0);
+  margin: 7px 0 0;
+}
+.runtime-partial small {
+  display: block;
+  font-size: 0.67rem;
+  color: var(--muted, #a3a3c0);
+  margin-top: 9px;
+}
+.runtime-advanced {
+  margin-top: 20px;
+  border-top: 1px solid var(--line, #34364e);
+  padding-top: 16px;
+}
+.runtime-advanced summary {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  font-size: 0.74rem;
+  color: var(--purple, #b3a1ff);
+  cursor: pointer;
+  min-height: 30px;
+}
+.runtime-advanced > p {
+  font-size: 0.71rem;
+  line-height: 1.9;
+  color: var(--muted, #a3a3c0);
+}
+.runtime-code {
+  font-family: ui-monospace, SFMono-Regular, monospace;
+  font-size: 0.72rem;
+  overflow-wrap: anywhere;
+}
+.runtime-import-panel > h3 {
+  font-size: 0.98rem;
+  font-weight: 500;
+  text-align: center;
+  margin: 16px 0 12px;
+}
+.runtime-import-panel > p {
+  font-size: 0.78rem;
+  line-height: 1.95;
+  color: var(--muted, #a3a3c0);
+  margin: 0 0 20px;
+}
+.runtime-import-illustration {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 23px;
+  height: 115px;
+  margin-top: 14px;
+  color: var(--purple, #b3a1ff);
+  background: radial-gradient(
+    ellipse at center,
+    color-mix(in srgb, var(--purple, #b3a1ff) 9%, transparent),
+    transparent 66%
+  );
+}
+.runtime-import-illustration > span {
+  font-size: 23px;
+  font-weight: 300;
+  color: var(--muted, #a3a3c0);
+}
+.runtime-import-button {
+  display: flex;
+  width: 100%;
+  justify-content: center;
+  gap: 8px;
+  align-items: center;
+  cursor: pointer;
+}
+.runtime-import-button.is-loading {
+  opacity: 0.65;
+  cursor: wait;
+}
+.runtime-import-panel > small {
+  display: block;
+  text-align: center;
+  font-size: 0.64rem;
+  color: var(--muted, #a3a3c0);
+  line-height: 1.8;
+  margin-top: 11px;
+}
+.runtime-privacy-note {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  padding-top: 17px;
+  margin-top: 18px;
+  border-top: 1px solid var(--line, #34364e);
+  font-size: 0.68rem;
+  line-height: 1.85;
+  color: var(--muted, #a3a3c0);
+}
+.runtime-privacy-note > svg {
+  flex: none;
+  color: var(--purple, #b3a1ff);
+  margin-top: 3px;
+}
+.runtime-import-error {
+  border: 1px solid #d78c8c44;
+  border-radius: 12px;
+  padding: 13px;
+  background: #d78c8c0a;
+  margin-top: 15px;
+  color: var(--text, #ecebf6);
+}
+.runtime-import-error strong {
+  font-size: 0.76rem;
+  color: #e79d9d;
+}
+.runtime-import-error p {
+  margin: 6px 0 0;
+  font-size: 0.72rem;
+  line-height: 1.8;
+  overflow-wrap: anywhere;
+}
+.runtime-snapshot-heading {
+  display: flex;
+  align-items: center;
+  gap: 13px;
+  margin-top: 22px;
+  border-top: 1px solid var(--line, #34364e);
+  padding-top: 23px;
+}
+.runtime-snapshot-heading > svg {
+  flex: none;
+  color: var(--purple, #b3a1ff);
+}
+.runtime-snapshot-heading > div {
+  flex: 1;
+  min-width: 0;
+  display: grid;
+  gap: 7px;
+}
+.runtime-snapshot-heading small {
+  font-size: 0.71rem;
+  color: var(--muted, #a3a3c0);
+  line-height: 1.8;
+}
+.runtime-snapshot-facts {
+  display: flex;
+  align-items: center;
+  gap: 18px;
+  flex-wrap: wrap;
+  font-size: 0.65rem;
+  color: var(--muted, #a3a3c0);
+  margin: 20px 0;
+}
+.runtime-snapshot-facts > span:first-child {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  color: var(--cyan, #80d9d6);
+}
+.runtime-section-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 10px;
+}
+.runtime-section {
+  border: 1px solid var(--line, #34364e);
+  border-radius: 12px;
+  min-width: 0;
+}
+.runtime-section summary {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 12px;
+  padding: 15px;
+  cursor: pointer;
+  font-size: 0.77rem;
+}
+.runtime-section summary strong {
+  font-weight: 500;
+}
+.runtime-section summary > span {
+  color: var(--muted, #a3a3c0);
+  font-size: 0.67rem;
+}
+.runtime-items {
+  padding: 0 15px;
+  max-height: 400px;
+  overflow: auto;
+}
+.runtime-items > article {
+  padding: 14px 0;
+  border-top: 1px solid var(--line, #34364e);
+}
+.runtime-items > article > div {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+}
+.runtime-items > article > div > strong {
+  font-size: 0.7rem;
+  overflow-wrap: anywhere;
+  font-weight: 500;
+}
+.runtime-items .badge {
+  font-size: 0.6rem;
+}
+.runtime-items dl {
+  display: grid;
+  grid-template-columns: 85px minmax(0, 1fr);
+  gap: 8px 10px;
+  font-size: 0.67rem;
+  margin: 15px 0 0;
+  line-height: 1.8;
+}
+.runtime-items dt {
+  color: var(--muted, #a3a3c0);
+}
+.runtime-items dd {
+  margin: 0;
+  overflow-wrap: anywhere;
+}
+.runtime-snapshot-foot {
+  font-size: 0.7rem;
+  color: var(--muted, #a3a3c0);
+  line-height: 1.9;
+  margin: 20px 0 0;
+}
+.runtime-contract-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+  margin-top: 20px;
+}
+.runtime-contract-grid > article {
+  border: 1px solid var(--line, #34364e);
+  border-radius: 14px;
+  padding: 18px;
+  min-width: 0;
+}
+.runtime-contract-grid > article > div {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-start;
+  gap: 10px;
+}
+.runtime-contract-grid h3 {
+  font-size: 0.82rem;
+  font-weight: 500;
+  line-height: 1.7;
+  margin: 0;
+}
+.runtime-contract-grid .badge {
+  font-size: 0.55rem;
+  flex: none;
+  white-space: nowrap;
+}
+.runtime-contract-grid p {
+  font-size: 0.74rem;
+  line-height: 1.9;
+  color: var(--muted, #a3a3c0);
+  margin: 12px 0;
+}
+.runtime-contract-grid code {
+  font-size: 0.61rem;
+  color: var(--purple, #b3a1ff);
+  overflow-wrap: anywhere;
+  line-height: 1.8;
+}
+@media (max-width: 1100px) {
+  .settings-layout {
+    grid-template-columns: minmax(0, 1.2fr) minmax(250px, 0.8fr);
+  }
+  .settings-card,
+  .settings-avatar-card,
+  .settings-core-note,
+  .runtime-demo-panel,
+  .runtime-import-panel,
+  .runtime-inspector-panel,
+  .runtime-contract-panel {
+    padding: 20px;
+  }
+  .settings-core-grid,
+  .runtime-contract-grid {
+    grid-template-columns: 1fr;
+  }
+  .runtime-main-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(260px, 0.8fr);
+  }
+  .runtime-overview-card {
+    padding: 19px;
+  }
+  .runtime-overview-card > strong {
+    font-size: 1.1rem;
+  }
+}
+@media (max-width: 800px) {
+  .settings-layout,
+  .runtime-main-grid {
+    grid-template-columns: 1fr;
+  }
+  .settings-layout > .settings-stack:nth-child(2) {
+    grid-template-columns: 1fr 1fr;
+    align-items: start;
+  }
+  .settings-avatar-card .avatar-orbit {
+    height: 160px;
+    width: 160px;
+  }
+  .settings-avatar-card .avatar-orbit .avatar {
+    width: 115px;
+    height: 115px;
+  }
+  .settings-local-note,
+  .runtime-source-notice {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .settings-local-note > svg,
+  .runtime-source-notice > svg {
+    margin-top: 4px;
+  }
+  .settings-local-note > .badge,
+  .runtime-source-notice > .badge {
+    margin-left: 30px;
+  }
+  .settings-local-note p,
+  .runtime-source-notice p {
+    min-width: 70%;
+  }
+  .runtime-overview-grid {
+    gap: 11px;
+  }
+  .runtime-overview-card {
+    padding: 17px;
+  }
+  .runtime-overview-card > span:last-child {
+    font-size: 0.65rem;
+  }
+  .runtime-section-grid {
+    grid-template-columns: 1fr;
+  }
+  .runtime-import-illustration {
+    height: 85px;
+  }
+  .runtime-import-panel > p {
+    max-width: 650px;
+  }
+  .runtime-import-button {
+    max-width: 330px;
+    margin: 0 auto;
+  }
+  .runtime-privacy-note {
+    justify-content: center;
+  }
+  .runtime-contract-grid {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+  .runtime-contract-grid > article > div {
+    flex-direction: column;
+    gap: 9px;
+  }
+}
+@media (max-width: 560px) {
+  .settings-page,
+  .runtime-page {
+    gap: 18px;
+  }
+  .settings-layout,
+  .settings-stack {
+    gap: 17px;
+  }
+  .settings-layout > .settings-stack:nth-child(2) {
+    grid-template-columns: 1fr;
+  }
+  .settings-core-grid,
+  .runtime-contract-grid {
+    grid-template-columns: 1fr;
+  }
+  .settings-card,
+  .settings-avatar-card,
+  .settings-core-note,
+  .runtime-demo-panel,
+  .runtime-import-panel,
+  .runtime-inspector-panel,
+  .runtime-contract-panel {
+    padding: 19px;
+  }
+  .settings-themes {
+    gap: 7px;
+  }
+  .settings-theme-preview {
+    height: 70px;
+    padding: 10px;
+  }
+  .settings-theme-preview > svg:first-child {
+    width: 17px;
+  }
+  .settings-theme > strong {
+    font-size: 0.7rem;
+    padding: 0 8px;
+  }
+  .settings-theme > small {
+    font-size: 0.58rem;
+    padding: 0 8px;
+  }
+  .settings-theme-preview i {
+    width: 25%;
+  }
+  .settings-theme-preview i:nth-of-type(2) {
+    display: none;
+  }
+  .settings-row {
+    gap: 15px;
+    padding: 18px 0;
+  }
+  .settings-row strong {
+    font-size: 0.81rem;
+  }
+  .settings-row p {
+    font-size: 0.71rem;
+  }
+  .settings-row .settings-select-wrap {
+    max-width: 100px;
+  }
+  .settings-language {
+    font-size: 0.71rem;
+  }
+  .settings-contract summary {
+    flex-direction: column;
+    gap: 10px;
+  }
+  .settings-contract summary > .badge {
+    font-size: 0.59rem;
+  }
+  .settings-local-note,
+  .runtime-source-notice {
+    padding: 13px;
+    font-size: 0.73rem;
+  }
+  .settings-local-note p span,
+  .runtime-source-notice p span {
+    display: block;
+    margin-top: 4px;
+  }
+  .settings-local-note > .badge,
+  .runtime-source-notice > .badge {
+    margin-left: 30px;
+    margin-top: -3px;
+  }
+  .runtime-overview-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+  .runtime-overview-card {
+    display: grid;
+    grid-template-columns: 42px minmax(0, 1fr);
+    gap: 5px 14px;
+    padding: 15px;
+  }
+  .runtime-stat-icon {
+    grid-row: 1/4;
+    margin: 0;
+  }
+  .runtime-overview-card > small,
+  .runtime-overview-card > strong,
+  .runtime-overview-card > span:last-child {
+    grid-column: 2;
+  }
+  .runtime-overview-card > small {
+    font-size: 0.68rem;
+  }
+  .runtime-overview-card > strong {
+    font-size: 1rem;
+  }
+  .runtime-snapshot-heading {
+    align-items: flex-start;
+    flex-wrap: wrap;
+  }
+  .runtime-snapshot-heading > div {
+    min-width: 75%;
+  }
+  .runtime-snapshot-heading > .badge {
+    margin-left: 35px;
+  }
+  .runtime-snapshot-facts {
+    gap: 10px;
+    font-size: 0.61rem;
+  }
+  .runtime-key-values > div {
+    grid-template-columns: minmax(90px, 0.8fr) minmax(0, 1.2fr);
+    font-size: 0.71rem;
+  }
+  .runtime-demo-panel .section-heading,
+  .runtime-inspector-panel .section-heading {
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .runtime-contract-grid > article > div {
+    flex-direction: row;
+  }
+  .runtime-contract-grid .badge {
+    font-size: 0.52rem;
+  }
+  .runtime-contract-grid h3 {
+    font-size: 0.76rem;
+  }
+  .runtime-code {
+    font-size: 0.67rem;
+  }
+}
+.runtime-contract-transport {
+  display: block;
+  font-size: 0.63rem;
+  line-height: 1.8;
+  color: var(--muted, #a3a3c0);
+  margin: 0 0 10px;
+}
+.runtime-contract-grid .badge {
+  max-width: 100%;
+  overflow-wrap: anywhere;
+  white-space: normal;
+}
+.runtime-page summary:focus-visible,
+.settings-page summary:focus-visible {
+  outline: 2px solid var(--purple, #b3a1ff);
+  outline-offset: 5px;
+  border-radius: 5px;
+}
