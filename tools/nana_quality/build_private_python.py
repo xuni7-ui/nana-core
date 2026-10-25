@@ -30,7 +30,7 @@ def extract(source, expected_sha256, destination):
     return dirs[0]
 
 
-def build(root, sqlite_source, sqlite_sha256, python_source, python_sha256, jobs=2):
+def build(root, sqlite_source, sqlite_sha256, python_source, python_sha256, ffi_source, ffi_sha256, jobs=2):
     root = Path(root).absolute()
     if not re.fullmatch(r"[A-Za-z0-9/_.-]+", str(root)):
         raise ValueError("BUILD_PREFIX_CHARACTERS_UNSUPPORTED")
@@ -41,7 +41,9 @@ def build(root, sqlite_source, sqlite_sha256, python_source, python_sha256, jobs
     root.mkdir(mode=0o700, parents=True)
     sqlite = extract(Path(sqlite_source), sqlite_sha256, root / "sqlite-source")
     python = extract(Path(python_source), python_sha256, root / "python-source")
+    ffi = extract(Path(ffi_source), ffi_sha256, root / "ffi-source")
     sqlprefix = root / "sqlite"
+    ffiprefix = root / "libffi"
     pyprefix = root / "python"
     env = {"PATH": os.defpath, "LANG": "C.UTF-8", "LC_ALL": "C.UTF-8"}
 
@@ -51,10 +53,22 @@ def build(root, sqlite_source, sqlite_sha256, python_source, python_sha256, jobs
     run(["./configure", "--prefix=" + str(sqlprefix), "--enable-fts5", "--disable-static"], sqlite)
     run(["make", "-j" + str(jobs)], sqlite)
     run(["make", "install"], sqlite)
+    run(["./configure", "--prefix=" + str(ffiprefix), "--libdir=" + str(ffiprefix / "lib"), "--disable-static"], ffi)
+    run(["make", "-j" + str(jobs)], ffi)
+    run(["make", "install"], ffi)
     flags = {
-        "CPPFLAGS": "-I" + str(sqlprefix / "include"),
-        "LDFLAGS": "-L" + str(sqlprefix / "lib") + " -Wl,-rpath," + str(sqlprefix / "lib"),
-        "PKG_CONFIG_PATH": str(sqlprefix / "lib/pkgconfig"),
+        "CPPFLAGS": "-I" + str(sqlprefix / "include") + " -I" + str(ffiprefix / "include"),
+        "LDFLAGS": "-L"
+        + str(sqlprefix / "lib")
+        + " -Wl,-rpath,"
+        + str(sqlprefix / "lib")
+        + " -L"
+        + str(ffiprefix / "lib")
+        + " -Wl,-rpath,"
+        + str(ffiprefix / "lib"),
+        "PKG_CONFIG_PATH": str(sqlprefix / "lib/pkgconfig") + ":" + str(ffiprefix / "lib/pkgconfig"),
+        "LIBFFI_CFLAGS": "-I" + str(ffiprefix / "include"),
+        "LIBFFI_LIBS": "-L" + str(ffiprefix / "lib") + " -Wl,-rpath," + str(ffiprefix / "lib") + " -lffi",
         "LIBSQLITE3_CFLAGS": "-I" + str(sqlprefix / "include"),
         "LIBSQLITE3_LIBS": "-L" + str(sqlprefix / "lib") + " -Wl,-rpath," + str(sqlprefix / "lib") + " -lsqlite3",
     }
@@ -72,15 +86,19 @@ def build(root, sqlite_source, sqlite_sha256, python_source, python_sha256, jobs
     run(["make", "-j" + str(jobs)], python, flags)
     run(["make", "install"], python, flags)
     interpreter = pyprefix / "bin/python3.12"
-    probe = "import sys,sqlite3,json;print(json.dumps({'python':list(sys.version_info[:3]),'sqlite':sqlite3.sqlite_version,'sqlite_supported':sqlite3.sqlite_version_info>=(3,51,3),'json':sqlite3.connect(':memory:').execute(\"select json_valid('{}')\").fetchone()[0]}))"
-    observed = json.loads(subprocess.check_output([str(interpreter), "-I", "-c", probe], env=env, text=True))
-    if observed["python"][:2] != [3, 12] or not observed["sqlite_supported"]:
+    probe = "import sys,json;sys.path.insert(0,sys.argv[1]);from nana_core.host_requirements import sqlite_runtime_report,python_runtime_report;print(json.dumps({'python':list(sys.version_info[:3]),'sqlite':sqlite_runtime_report(),'native':python_runtime_report()}))"
+    source_root = str(Path(__file__).resolve().parents[2] / "src")
+    observed = json.loads(
+        subprocess.check_output([str(interpreter), "-I", "-c", probe, source_root], env=env, text=True)
+    )
+    if observed["python"][:2] != [3, 12] or not observed["sqlite"]["supported"] or not observed["native"]["supported"]:
         raise ValueError("PRIVATE_BINDING_UNQUALIFIED")
     receipt = {
         "execution": "REAL_NONROOT_SOURCE_BUILD_NOT_SYSTEM_INSTALL",
         "interpreter": str(interpreter),
         "sqlite_prefix": str(sqlprefix),
-        "source_sha256": {"sqlite": sqlite_sha256, "python": python_sha256},
+        "libffi_prefix": str(ffiprefix),
+        "source_sha256": {"sqlite": sqlite_sha256, "python": python_sha256, "libffi": ffi_sha256},
         "observed": observed,
         "system_python_changed": False,
         "runtime_monkeypatch": False,
@@ -98,5 +116,14 @@ if __name__ == "__main__":
     p.add_argument("--sqlite-sha256", required=True)
     p.add_argument("--python-source", type=Path, required=True)
     p.add_argument("--python-sha256", required=True)
+    p.add_argument("--ffi-source", type=Path, required=True)
+    p.add_argument("--ffi-sha256", required=True)
     a = p.parse_args()
-    print(json.dumps(build(a.root, a.sqlite_source, a.sqlite_sha256, a.python_source, a.python_sha256), indent=2))
+    print(
+        json.dumps(
+            build(
+                a.root, a.sqlite_source, a.sqlite_sha256, a.python_source, a.python_sha256, a.ffi_source, a.ffi_sha256
+            ),
+            indent=2,
+        )
+    )

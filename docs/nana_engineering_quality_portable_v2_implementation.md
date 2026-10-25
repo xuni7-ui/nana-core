@@ -75,3 +75,17 @@ Store. Source origin is official HTTPS, content pinned, not independently signed
 release verification. Build is host-local, not a relocatable Python binary or
 identity payload. Minimum binding JSON/FTS5 passes; actual full install/run/restore
 qualification follows at the frozen source, not inferred from compile success.
+
+
+## Installed import closure discovered a real native dependency gap
+
+The first338eaca minimum-SQLite install/process/transfer and actual9→3 probe pass
+were component proofs only: importing every shipped module then failed at
+presence.model_worker because the custom Python lacked _ctypes/libffi headers.
+Original first-host prefix,partial archive and traceback remain unchanged. New
+preflight checks mandatory native modules in both installer and actual venv, and
+the source-build recipe builds private libffi. No dependent capability is deleted.
+A fresh complete host prefix is used, not an in-place repair that would change
+the failed environment. Optional bz2/lzma/Tk are not runtime requirements.
+Native-fix targeted12 PASS10.70s; actual rebuilt host and final new package/full
+qualification remain to execute. New read-only check tool opens no Store/network.

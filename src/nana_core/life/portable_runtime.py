@@ -16,7 +16,7 @@ from pathlib import Path
 from uuid import uuid4
 
 from ..contracts import CoreError
-from ..host_requirements import sqlite_runtime_report, unix_socket_path
+from ..host_requirements import sqlite_runtime_report, unix_socket_path, python_runtime_report
 from ..continuity import ContinuityStore
 from ..continuity.provider_config import ProviderConfigService, ProviderConfigurationAuthority
 from ..continuity.project_work.service import material_for
@@ -161,6 +161,8 @@ def preflight(root, home, *, starting=False):
     checks["platform"] = sys.platform == "linux" and platform.machine() == "x86_64"
     checks["python"] = sys.version_info[:2] == (3, 12)
     checks["venv"] = sys.prefix != sys.base_prefix
+    native = python_runtime_report()
+    checks["python_native"] = native["supported"]
     sqlite_report = sqlite_runtime_report()
     checks["sqlite"] = sqlite_report["supported"]
     try:
@@ -169,12 +171,17 @@ def preflight(root, home, *, starting=False):
     except ValueError:
         checks["socket_path_length"] = False
     # Do not inspect/create Subject state with an unsupported interpreter/path.
-    if not checks["sqlite"] or not checks["socket_path_length"]:
+    if not checks["sqlite"] or not checks["socket_path_length"] or not checks["python_native"]:
         return {
             "state": "START_BLOCKED",
             "checks": checks,
             "sqlite_runtime": sqlite_report,
-            "code": sqlite_report["code"] if not checks["sqlite"] else "UNIX_SOCKET_PATH_TOO_LONG",
+            "code": sqlite_report["code"]
+            if not checks["sqlite"]
+            else native["code"]
+            if not checks["python_native"]
+            else "UNIX_SOCKET_PATH_TOO_LONG",
+            "python_native": native,
             "subject_present": (home / "life.json").is_file(),
             "execution_authority": False,
         }
@@ -190,6 +197,7 @@ def preflight(root, home, *, starting=False):
         "state": "PREFLIGHT_PASS" if all(checks.values()) else "START_BLOCKED",
         "checks": checks,
         "sqlite_runtime": sqlite_report,
+        "python_native": native,
         "optional_capabilities": {"generated_python_skill": IsolatedSkillRunner().qualify()},
         "identity_id": identity,
         "subject_present": exists,

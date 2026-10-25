@@ -19,7 +19,13 @@ def test_real_supported_and_unsupported_interpreters(tmp_path):
     code="import sys,json;sys.path.insert(0,sys.argv[1]);from nana_core.host_requirements import sqlite_runtime_report;print(json.dumps(sqlite_runtime_report()))"
     old=subprocess.run(['/usr/bin/python3','-I','-c',code,str(Path('src').resolve())],text=True,capture_output=True,check=True)
     result=json.loads(old.stdout)
-    assert result['code']=='SQLITE_VERSION_UNSUPPORTED' and result['reason']=='WAL_RESET_CORRUPTION_FIX_REQUIRED'
+    # Other developers may have a newer system Python; assert the contract,
+    # not a hardcoded distro version. The current real old-host refusal is also
+    # independently qualified through the built installer.
+    if tuple(map(int,result['version'].split('.')))<(3,51,3):
+        assert result['code']=='SQLITE_VERSION_UNSUPPORTED' and result['reason']=='WAL_RESET_CORRUPTION_FIX_REQUIRED'
+    else:
+        assert result['supported']==all(result['checks'].values())
 
 
 def test_store_rejects_before_creating_files(tmp_path,monkeypatch):

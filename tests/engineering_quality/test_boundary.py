@@ -35,3 +35,8 @@ def test_missing_optional_sandbox_does_not_falsely_block_base_runtime(tmp_path,m
     view=preflight(tmp_path,home)
     assert view['state']=='PREFLIGHT_PASS' and view['optional_capabilities']['generated_python_skill']['state']=='UNAVAILABLE'
     assert not home.exists()
+    import nana_core.life.portable_runtime as portable
+    monkeypatch.setattr(portable,'python_runtime_report',lambda:{'supported':False,'missing':['ctypes'],'code':'PYTHON_NATIVE_MODULES_MISSING'})
+    denied=preflight(tmp_path,home)
+    assert denied['state']=='START_BLOCKED' and denied['code']=='PYTHON_NATIVE_MODULES_MISSING'
+    assert not home.exists()

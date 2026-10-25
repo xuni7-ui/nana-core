@@ -34,11 +34,15 @@ def verify(root):
 def main():
     verify(ROOT)
     sys.path.insert(0, str(ROOT / "src"))
-    from nana_core.host_requirements import sqlite_runtime_report
+    from nana_core.host_requirements import sqlite_runtime_report, python_runtime_report
 
     sqlite_report = sqlite_runtime_report()
     if not sqlite_report["supported"]:
         print(json.dumps({"state": "START_BLOCKED", "code": sqlite_report["code"], "sqlite_runtime": sqlite_report}))
+        raise SystemExit(2)
+    native = python_runtime_report()
+    if not native["supported"]:
+        print(json.dumps({"state": "START_BLOCKED", "code": native["code"], "python_native": native}))
         raise SystemExit(2)
     if sys.argv[1:2] == ["install"]:
         if sys.version_info[:2] != (3, 12) or sys.platform != "linux" or platform.machine() != "x86_64":
@@ -51,9 +55,9 @@ def main():
         python = path / "bin/python"
         # An existing venv may point at another interpreter. Inspect that binding
         # before pip or any Subject operation; never trust installer Python alone.
-        probe = "import sys,json;sys.dont_write_bytecode=True;sys.path.insert(0,sys.argv[1]);from nana_core.host_requirements import sqlite_runtime_report;print(json.dumps({'python':list(sys.version_info[:2]),'sqlite':sqlite_runtime_report()}))"
+        probe = "import sys,json;sys.dont_write_bytecode=True;sys.path.insert(0,sys.argv[1]);from nana_core.host_requirements import sqlite_runtime_report,python_runtime_report;print(json.dumps({'python':list(sys.version_info[:2]),'sqlite':sqlite_runtime_report(),'native':python_runtime_report()}))"
         actual = json.loads(subprocess.check_output([str(python), "-I", "-c", probe, str(ROOT / "src")], text=True))
-        if actual["python"] != [3, 12] or not actual["sqlite"]["supported"]:
+        if actual["python"] != [3, 12] or not actual["sqlite"]["supported"] or not actual["native"]["supported"]:
             print(json.dumps({"state": "START_BLOCKED", "code": "INSTALLED_INTERPRETER_UNSUPPORTED", "actual": actual}))
             raise SystemExit(2)
         subprocess.run(

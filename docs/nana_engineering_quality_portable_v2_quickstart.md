@@ -22,11 +22,17 @@ python3.12 -m tools.nana_quality.build_private_python \
   --sqlite-source /approved/sqlite-autoconf-3510300.tar.gz \
   --sqlite-sha256 81f5be397049b0cae1b167f2225af7646fc0f82e4a9b3c48c9ea3a533e21d77a \
   --python-source /approved/Python-3.12.14.tar.xz \
-  --python-sha256 5c8462af5790baf43a321a1559dbe0db06d1be4300fb85fb53c40060668e548a
+  --python-sha256 5c8462af5790baf43a321a1559dbe0db06d1be4300fb85fb53c40060668e548a \
+  --ffi-source /approved/libffi-3.4.6.tar.gz \
+  --ffi-sha256 b0dea9df23c863a7a50e825440f3ebffabd65df1497108e5d437747843895a4e
 ```
 
 Official sources: https://sqlite.org/2026/sqlite-autoconf-3510300.tar.gz and
-https://www.python.org/ftp/python/3.12.14/Python-3.12.14.tar.xz . Build needs the
+https://www.python.org/ftp/python/3.12.14/Python-3.12.14.tar.xz and the
+libffi release https://github.com/libffi/libffi/releases/download/v3.4.6/libffi-3.4.6.tar.gz .
+The recipe builds private libffi so `_ctypes` is not silently omitted. Both
+installer and target venv must have ctypes/ssl/zlib/sqlite3/resource/termios/venv.
+Compiler success alone is insufficient; all runtime imports must close. Build needs the
 host C toolchain and standard Python build headers (OpenSSL,zlib,libffi,etc),
 provided by the host operator. The tool never installs apt packages/uses root or
 network. Jobs<=2. Use a fresh prefix without spaces/shell metacharacters. The real

@@ -6,6 +6,7 @@ Backported older SQLite builds require separate qualification, not a silent pass
 """
 
 import os
+import importlib
 from pathlib import Path
 import sqlite3
 from typing import TypedDict
@@ -13,6 +14,30 @@ from typing import TypedDict
 MIN_SQLITE = (3, 51, 3)
 SQLITE_REASON = "WAL_RESET_CORRUPTION_FIX_REQUIRED"
 UNIX_SOCKET_MAX_BYTES = 107  # Linux sockaddr_un.sun_path, excluding trailing NUL.
+
+REQUIRED_PYTHON_MODULES = ("ctypes", "ssl", "zlib", "sqlite3", "resource", "termios", "venv")
+
+
+class PythonReport(TypedDict):
+    """Native/stdlib prerequisites needed by shipped process and transport code."""
+
+    supported: bool
+    missing: list[str]
+    code: str
+
+
+def python_runtime_report() -> PythonReport:
+    missing = []
+    for name in REQUIRED_PYTHON_MODULES:
+        try:
+            importlib.import_module(name)
+        except ImportError:
+            missing.append(name)
+    return {
+        "supported": not missing,
+        "missing": missing,
+        "code": "PYTHON_NATIVE_MODULES_MISSING" if missing else "SUPPORTED",
+    }
 
 
 class SQLiteChecks(TypedDict):

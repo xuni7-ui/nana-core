@@ -4,6 +4,12 @@ Ubuntu/Debian-like x86_64 Linux, CPython **3.12**, glibc>=2.17, SQLite>=**3.51.3
 with JSON and FTS5 in that Python's actual binding. This preserves Store's WAL-reset
 corruption-fix requirement. The installer checks both itself and the target venv;
 preflight never passes an older SQLite merely because JSON/FTS5 work.
+Required stdlib/native modules also include ctypes,ssl,zlib,sqlite3,resource,
+termios and venv. A partially built Python can initialize a Store yet lack the
+ctypes process-isolation primitive; this is now refused before install/identity.
+The private-source recipe builds libffi explicitly. Optional bz2/lzma/curses/Tk
+are not required by this runtime; the source-build host must support its input
+archive compression and provide OpenSSL/zlib/toolchain headers.
 Use a non-root account, >=512MiB memory, >=128 FDs and >=64MiB
 free runtime space (additional install space required). Python and python3.12-venv
 must already be installed by the host operator. No apt/root/systemd install occurs.

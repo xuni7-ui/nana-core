@@ -2617,3 +2617,8 @@ Ruff0.14.1对29个Storage/Privacy/Runtime/Kernel/Planner/Checkpoint/G/Sandbox/Po
 ## Engineering Quality V2 — runtime source freeze preparation
 
 官方TLS来源固定SHA的SQLite3.51.3与CPython3.12.14在非root私有prefix真实构建成功；_sqlite3真实加载3.51.3/JSON/FTS5，系统3.46.1未变，无LD_PRELOAD/monkeypatch/系统替换。提供离线源码构建脚本及依赖/权限/路径说明；主机依赖不是SubjectPackage。47个qualification assert改为显式校验，两个嵌入子脚本也转换；普通runtime清单内Assert=0，正常/-O系统调用和备份拒绝保持。46相关PASS46.93s（含实际process资格）；新的安装包、minimum SQLite双安装、未见参数/图保留和最终全仓仍待。宿主报告新TypedDict通过mypy --strict；不代表全库typed或lint债务已消失。
+
+
+## Engineering Quality V2 — native module gap found by installed import closure
+
+338eaca的SQLite最低版本双安装/Start/Chat/SIGKILL/迁移及9→3安装探针通过，但完整runtime导入实测缺_ctypes（宿主缺libffi headers）；未将其解释为整体安装资格PASS。原partial私有host/归档/日志保持；新host在独立prefix重建private libffi+SQLite+CPython。installer与实际venv、portable preflight增加同一stdlib/native模块资格检查，ctypes/ssl/zlib/sqlite3/resource/termios/venv缺失提前拒绝。不能删model_worker或降隔离来过测。bz2/lzma/Tk等不在runtime依赖闭包内，不强加无必要依赖。12针对性PASS10.70s，shared contract mypy strict通过；增加只读交付checker。测试的system SQLite假定改为按真实版本验证同一合同，当前真实3.46.1拒绝另有CLI证据，非为修失败而放宽。最终新宿主/归档/全仓资格继续。
