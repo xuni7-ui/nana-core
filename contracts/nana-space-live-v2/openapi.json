@@ -145,6 +145,30 @@
         }
       }
     },
+    "/api/nana-space/v2/session/native": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope"
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        }
+      }
+    },
+    "/api/nana-space/v2/devices/offers": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope"
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        }
+      }
+    },
     "/api/nana-space/v2/devices": {
       "get": {
         "responses": {

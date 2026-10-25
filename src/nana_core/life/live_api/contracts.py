@@ -3,78 +3,79 @@
 Host-bound policy chooses a single existing Subject and its lineage. Production
 activation is separate from this protocol's implementation and from dev fixtures.
 """
+
 from enum import StrEnum
 from typing import Literal
 from pydantic import Field, JsonValue, model_validator
 from ...contracts import DTO
 
-CONTRACT = 'nana-space-live/v2'
+CONTRACT = "nana-space-live/v2"
 
 
 class Realm(StrEnum):
-    DEVELOPMENT = 'OWNED_DEVELOPMENT_ONLY'
-    PRODUCTION = 'PRODUCTION_SINGLE_SUBJECT'
+    DEVELOPMENT = "OWNED_DEVELOPMENT_ONLY"
+    PRODUCTION = "PRODUCTION_SINGLE_SUBJECT"
 
 
 class Role(StrEnum):
-    READER = 'READER'
-    CONVERSATION = 'CONVERSATION'
-    MANAGER = 'MANAGER'
-    HOST_ADMIN = 'HOST_ADMIN'
+    READER = "READER"
+    CONVERSATION = "CONVERSATION"
+    MANAGER = "MANAGER"
+    HOST_ADMIN = "HOST_ADMIN"
 
 
 class Page(StrEnum):
-    HOME = 'home'
-    CHAT = 'chat'
-    MEMORIES = 'memories'
-    GOALS = 'goals'
-    JOURNAL = 'journal'
-    WORLD = 'world'
-    GROWTH = 'growth'
-    DEVICES = 'devices'
-    RUNTIME = 'runtime'
-    SETTINGS = 'settings'
+    HOME = "home"
+    CHAT = "chat"
+    MEMORIES = "memories"
+    GOALS = "goals"
+    JOURNAL = "journal"
+    WORLD = "world"
+    GROWTH = "growth"
+    DEVICES = "devices"
+    RUNTIME = "runtime"
+    SETTINGS = "settings"
 
 
 class Completion(StrEnum):
-    REQUESTED = 'REQUESTED'
-    ADMITTED = 'ADMITTED'
-    REJECTED = 'REJECTED'
-    RUNNING = 'RUNNING'
-    UNKNOWN = 'UNKNOWN'
-    VERIFIED = 'VERIFIED'
-    FAILED = 'FAILED'
-    REVOKED = 'REVOKED'
+    REQUESTED = "REQUESTED"
+    ADMITTED = "ADMITTED"
+    REJECTED = "REJECTED"
+    RUNNING = "RUNNING"
+    UNKNOWN = "UNKNOWN"
+    VERIFIED = "VERIFIED"
+    FAILED = "FAILED"
+    REVOKED = "REVOKED"
 
 
 class Binding(DTO):
     subject_id: str = Field(min_length=1, max_length=96)
-    lineage_binding: str = Field(pattern=r'^[a-f0-9]{64}$')
+    lineage_binding: str = Field(pattern=r"^[a-f0-9]{64}$")
     realm: Realm = Realm.DEVELOPMENT
-    scope: str = Field(default='project-work', min_length=1, max_length=96)
-    entity_id: str = Field(default='project-user', min_length=1, max_length=96)
-    privacy: tuple[Literal['PUBLIC', 'PROJECT'], ...] = ('PUBLIC', 'PROJECT')
-    surface_binding_id: str = Field(default='nana.space', min_length=1, max_length=96)
+    scope: str = Field(default="project-work", min_length=1, max_length=96)
+    entity_id: str = Field(default="project-user", min_length=1, max_length=96)
+    privacy: tuple[Literal["PUBLIC", "PROJECT"], ...] = ("PUBLIC", "PROJECT")
+    surface_binding_id: str = Field(default="nana.space", min_length=1, max_length=96)
 
-    @model_validator(mode='after')
+    @model_validator(mode="after")
     def nonempty(self):
         if not self.privacy or len(self.privacy) != len(set(self.privacy)):
-            raise ValueError('EXPLICIT_PRIVACY_REQUIRED')
+            raise ValueError("EXPLICIT_PRIVACY_REQUIRED")
         return self
 
 
 class Envelope(DTO):
-    contract: Literal['nana-space-live/v2'] = CONTRACT
+    contract: Literal["nana-space-live/v2"] = CONTRACT
     realm: Realm
     subject_id: str
     lineage_binding: str
     owner_epoch: int = Field(ge=0)
-    run_generation: str = Field(pattern=r'^[a-f0-9]{32}$')
+    run_generation: str = Field(pattern=r"^[a-f0-9]{32}$")
     session_generation: int = Field(ge=1)
     as_of_us: int = Field(ge=0)
     revision: int = Field(ge=0)
-    coverage: Literal['CURRENT', 'NO_DATA', 'BLOCKED_SCOPE', 'UNKNOWN', 'UNAVAILABLE', 'STALE']
-    privacy_scope: tuple[Literal['PUBLIC', 'PROJECT'], ...]
+    coverage: Literal["CURRENT", "NO_DATA", "BLOCKED_SCOPE", "UNKNOWN", "UNAVAILABLE", "STALE"]
+    privacy_scope: tuple[Literal["PUBLIC", "PROJECT"], ...]
     source_refs: tuple[str, ...] = ()
     capabilities: dict[str, bool | str]
     execution_authority: Literal[False] = False
@@ -99,37 +100,37 @@ class PairOffer(DTO):
 
 
 class WriteRequest(DTO):
-    client_request_id: str = Field(pattern=r'^[A-Za-z0-9._:-]{1,96}$')
-    idempotency_key: str = Field(pattern=r'^[A-Za-z0-9._:-]{1,96}$')
+    client_request_id: str = Field(pattern=r"^[A-Za-z0-9._:-]{1,96}$")
+    idempotency_key: str = Field(pattern=r"^[A-Za-z0-9._:-]{1,96}$")
     expected_revision: int = Field(ge=0)
-    run_generation: str = Field(pattern=r'^[a-f0-9]{32}$')
+    run_generation: str = Field(pattern=r"^[a-f0-9]{32}$")
     owner_epoch: int = Field(ge=0)
 
 
 class MessageRequest(WriteRequest):
     text: str = Field(min_length=1, max_length=2048, repr=False)
-    topic: str = Field(default='daily', pattern=r'^[a-z][a-z0-9._-]{0,63}$')
-    thread_id: str = Field(default='daily', pattern=r'^[A-Za-z0-9._:-]{1,96}$')
-    privacy_class: Literal['PUBLIC', 'PROJECT'] = 'PROJECT'
+    topic: str = Field(default="daily", pattern=r"^[a-z][a-z0-9._-]{0,63}$")
+    thread_id: str = Field(default="daily", pattern=r"^[A-Za-z0-9._:-]{1,96}$")
+    privacy_class: Literal["PUBLIC", "PROJECT"] = "PROJECT"
 
 
 class CommandRequest(WriteRequest):
-    operation: Literal['PAUSE', 'RESUME', 'BUSY', 'AVAILABLE', 'REVOKE', 'WITHDRAW', 'SET_SURFACE']
+    operation: Literal["PAUSE", "RESUME", "BUSY", "AVAILABLE", "REVOKE", "WITHDRAW", "SET_SURFACE"]
     target_id: str | None = Field(default=None, max_length=96)
     enabled: bool | None = None
     target_revision: int | None = Field(default=None, ge=1)
 
 
 class HostRequest(WriteRequest):
-    operation: Literal['START', 'STOP', 'RESTART', 'BACKUP', 'UPGRADE', 'ROLLBACK']
+    operation: Literal["START", "STOP", "RESTART", "BACKUP", "UPGRADE", "ROLLBACK"]
     confirmation_id: str = Field(min_length=24, max_length=128, repr=False)
-    release_id: str | None = Field(default=None, pattern=r'^[a-z0-9][a-z0-9._-]{0,63}$')
+    release_id: str | None = Field(default=None, pattern=r"^[a-z0-9][a-z0-9._-]{0,63}$")
 
 
 class HostConfirmation(DTO):
-    operation: Literal['START', 'STOP', 'RESTART', 'BACKUP', 'UPGRADE', 'ROLLBACK']
+    operation: Literal["START", "STOP", "RESTART", "BACKUP", "UPGRADE", "ROLLBACK"]
     expected_revision: int = Field(ge=0)
-    release_id: str | None = Field(default=None, pattern=r'^[a-z0-9][a-z0-9._-]{0,63}$')
+    release_id: str | None = Field(default=None, pattern=r"^[a-z0-9][a-z0-9._-]{0,63}$")
 
 
 class Receipt(DTO):

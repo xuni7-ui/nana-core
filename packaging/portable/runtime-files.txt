@@ -197,3 +197,16 @@ src/nana_core/storage/schema_v7.sql
 src/nana_core/storage/schema_v8.sql
 src/nana_core/storage/schema_v9.sql
 src/nana_core/storage/sqlite_store.py
+
+# Versioned host application boundary; not another Subject
+src/nana_core/life/live_api/__init__.py
+src/nana_core/life/live_api/__main__.py
+src/nana_core/life/live_api/adapters.py
+src/nana_core/life/live_api/auth.py
+src/nana_core/life/live_api/bridge.py
+src/nana_core/life/live_api/canonical.py
+src/nana_core/life/live_api/contracts.py
+src/nana_core/life/live_api/ledger.py
+src/nana_core/life/live_api/server.py
+src/nana_core/life/live_api/state.py
+src/nana_core/life/live_api/supervisor.py

@@ -1,0 +1,35 @@
+# STAGING TEMPLATE ONLY. Approved nonroot account/private CPython/paths and
+# credentials must exist first. Never install into production without approval.
+[Unit]
+Description=Nana Space v2 host controller for one existing Core
+After=network-online.target
+Wants=network-online.target
+StartLimitIntervalSec=3600
+StartLimitBurst=3
+[Service]
+Type=simple
+User=nana-core
+Group=nana-core
+UMask=0077
+WorkingDirectory=/opt/nana/current
+ExecStart=/opt/nana/python/bin/python3.12 -B -m nana_core.life.live_api --config /var/lib/nana-host/host.json
+Restart=on-failure
+RestartSec=15
+# Core is an independently fenced child. Stopping/restarting this gateway must
+# not silently kill or recreate it. Explicit host STOP controls Core separately.
+KillMode=process
+TimeoutStopSec=15
+NoNewPrivileges=true
+CapabilityBoundingSet=
+AmbientCapabilities=
+ProtectSystem=strict
+ProtectHome=true
+PrivateTmp=true
+ReadWritePaths=/var/lib/nana-core /var/lib/nana-host
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+MemoryMax=512M
+TasksMax=64
+LimitNOFILE=256
+# No docker.sock, host-root mount, root user, camera/mic or public listener.
+[Install]
+WantedBy=multi-user.target

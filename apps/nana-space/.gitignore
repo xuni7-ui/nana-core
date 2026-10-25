@@ -5,6 +5,7 @@ playwright-report/
 *.tsbuildinfo
 .env*
 !.env.example
+!.env.live
 __pycache__/
 .pytest_cache/
 *.pyc

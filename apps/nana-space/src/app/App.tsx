@@ -787,7 +787,29 @@ function DemoApp({ onCore }: { onCore: () => void }) {
 const CoreApp = lazy(() =>
   import("../features/CoreApp").then((m) => ({ default: m.CoreApp })),
 );
+const LiveSpace = lazy(() =>
+  import("../features/LiveSpace").then((m) => ({ default: m.LiveSpace })),
+);
 export function App() {
+  const live =
+    import.meta.env.VITE_NANA_DELIVERY === "live" ||
+    new URLSearchParams(location.search).get("source") === "live" ||
+    Boolean(
+      (
+        window as unknown as {
+          Capacitor?: { isNativePlatform?: () => boolean };
+        }
+      ).Capacitor?.isNativePlatform?.(),
+    );
+  if (live)
+    return (
+      <Suspense fallback={<Loading />}>
+        <LiveSpace />
+      </Suspense>
+    );
+  return <LegacyEntry />;
+}
+function LegacyEntry() {
   const [source, setSource] = useState<"demo" | "core">(() =>
     new URLSearchParams(location.search).get("source") === "core"
       ? "core"

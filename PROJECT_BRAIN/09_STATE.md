@@ -7,17 +7,20 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 35,
-  "as_of_us": 1792926879970576,
+  "revision": 36,
+  "as_of_us": 1792930163210934,
   "stage": "H",
   "workstream": "FIRST_LIFE_ANDROID_APK_INTEGRATION_V2",
-  "status": "IMPLEMENTING_V2_AUTH_SUPERVISOR_NATIVE_AND_UNIFIED_SURFACES",
+  "status": "DEVELOPMENT_INTEGRATION_IMPLEMENTED_QUALIFICATION_IN_PROGRESS",
   "progress": [
     "质量d207与Nana Space b899基于共同87f显式合并，独立集成工作树；原分支/bundle保护。",
     "任务包8份全文已读取且SHA核对；同一开发者承担Core/Android/前端，不创建第二Subject。",
     "v2 Schema/Python DTO、Web Cookie+CSRF、Native Keystore HTTPS契约施工；v1 guard不放宽。",
     "Capacitor7.6.9/SDK35/JDK21独立开发构建；真实生产、私人/社交/付费未触碰。",
-    "已完整读取云端FL-A原报告；无canonical Core，正式接入是genesis+LegacyLink；6199双namespace不复用。"
+    "已完整读取云端FL-A原报告；无canonical Core，正式接入是genesis+LegacyLink；6199双namespace不复用。",
+    "v2实际HTTP→原Core十页/对话/幂等/CSRF/设备撤销/Host停止与SIGKILL恢复通过；无模型/私人/社交。",
+    "原生Keystore固定HTTPS桥APK实际构建+lint通过；桌面/390px/320px真实Core Web联合3通过，Android模拟器另验。",
+    "canonical新生+LegacyLink及离线激活门、QQ来源/截止/幂等、Iris哈希dry-run已实现；测试批准为合成，不是云端切换。"
   ],
   "open_gates": [
     "已收真实inventory报告；安全部署绑定/非root provision/实际旧writer fence/canonical激活与生产批准尚缺。",

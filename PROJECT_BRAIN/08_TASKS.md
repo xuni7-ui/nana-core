@@ -1115,3 +1115,12 @@ main/R045/production/private/device/social/paidProvider0。报告与证据：doc
 ## First-Life Android APK Integration V2 — active / 2026-10-25
 
 用户授权一个开发者统一Core/Android/前端职责；GLOBAL_STAGE H/Advanced Growth，Master/fixed63不变。d207质量线与b899UI线共同base87f，显式合并仅apps新增，旧v1开发guard保持。新v2契约/认证/Host Supervisor/React十页/原生Keystore HTTPS/APK在独立分支施工；云端inventory/生产canonical、真实私人Iris/QQ/模型费用/实机/release key/后台push/72h仍分别BLOCKED/NOT_RUN，不冒称已上线。SDK/构建位于独立开发宿主，无生产系统修改。依据附件8正文已完整读取并核SHA。详见docs/nana_first_life_android_v2/IMPLEMENTATION.md。
+
+
+## First-Life V2 — injection compatibility / user addendum
+
+外部网页/B站/AI内容不能仅凭文本成为system/Manager/Primary User/Grant；复用原Provenance/epistemic/privacy/Memory source lifecycle/Capability/Manager/Grant/Verify边界，不新增防护Brain或改变Single Subject/Store/Loop。v2认证角色由可信宿主绑定，消息只是SurfaceObservation，APK无Core/高权限服务端密钥或DB handle。仅修当前接入可复现的接口/权限绕过；未来开放自主网页、社交、自主安装技能前另做专项攻击资格。不得借防护关闭已有自主目标/兴趣/长期学习/主动交流/工具/合格自扩展，不把每步判断交Primary User审批；区分主体自愿目标、外部信息建议和正式执行授权。终极愿景/fixed63不变，优先首次真实长期使用。
+
+
+### First-Life Android V2 — original Core integration checkpoint (2026-10-25)
+[开发实测，S1/S2/S4/S5/S7＋Surface/Governance横轴；Advanced] 同一v2 BFF连接原Runtime/Store/SubjectLoop，认证角色不来自关系或消息声明。Host stop latch、固定release/同home重启与SIGKILL、source-aware投影/撤回、UNKNOWN不重发。真实Core Web三尺寸联合通过；原生APK构建/lint通过，模拟器/真机分别报告。Cloud inventory已收，未做生产/私人/真实模型/QQ发送。保留旧v1 guard、Master字节、固定63标准和历史资格；No second authority。后续按部署门收口，不把工程实现冒充First-Life/云端72h资格。证据见docs/nana_first_life_android_v2/。
