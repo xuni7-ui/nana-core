@@ -2622,3 +2622,8 @@ Ruff0.14.1对29个Storage/Privacy/Runtime/Kernel/Planner/Checkpoint/G/Sandbox/Po
 ## Engineering Quality V2 — native module gap found by installed import closure
 
 338eaca的SQLite最低版本双安装/Start/Chat/SIGKILL/迁移及9→3安装探针通过，但完整runtime导入实测缺_ctypes（宿主缺libffi headers）；未将其解释为整体安装资格PASS。原partial私有host/归档/日志保持；新host在独立prefix重建private libffi+SQLite+CPython。installer与实际venv、portable preflight增加同一stdlib/native模块资格检查，ctypes/ssl/zlib/sqlite3/resource/termios/venv缺失提前拒绝。不能删model_worker或降隔离来过测。bz2/lzma/Tk等不在runtime依赖闭包内，不强加无必要依赖。12针对性PASS10.70s，shared contract mypy strict通过；增加只读交付checker。测试的system SQLite假定改为按真实版本验证同一合同，当前真实3.46.1拒绝另有CLI证据，非为修失败而放宽。最终新宿主/归档/全仓资格继续。
+
+
+## Engineering Quality V2 — bind installer writes to its actual venv
+
+安装器目标解释器检查进一步要求sys.prefix!=sys.base_prefix且prefix精确为当前bundle/.venv，防止已有伪venv指向全局解释器后pip意外改宿主。此检查位于pip前，不扩执行权限/不改Runtime默认。私有libffi+SQLite+CPython完整host已构建，实际Native profile通过；接下来的最终归档/负向现有venv/完整安装/全仓只使用新冻结源。原338基础流程通过但import缺ctypes的结果保持partial历史，不作为新完整PASS。

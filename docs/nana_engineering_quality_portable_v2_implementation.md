@@ -89,3 +89,10 @@ A fresh complete host prefix is used, not an in-place repair that would change
 the failed environment. Optional bz2/lzma/Tk are not runtime requirements.
 Native-fix targeted12 PASS10.70s; actual rebuilt host and final new package/full
 qualification remain to execute. New read-only check tool opens no Store/network.
+
+
+Installer additionally pins actual target sys.prefix to bundle/.venv and requires
+a real venv before invoking pip, so an existing directory/symlink to a global
+Python cannot redirect installation into the host interpreter. This is a write
+boundary, not just a version check; final qualification includes an actual
+misbound target rejection without pip/Subject mutation.

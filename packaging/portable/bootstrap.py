@@ -55,9 +55,15 @@ def main():
         python = path / "bin/python"
         # An existing venv may point at another interpreter. Inspect that binding
         # before pip or any Subject operation; never trust installer Python alone.
-        probe = "import sys,json;sys.dont_write_bytecode=True;sys.path.insert(0,sys.argv[1]);from nana_core.host_requirements import sqlite_runtime_report,python_runtime_report;print(json.dumps({'python':list(sys.version_info[:2]),'sqlite':sqlite_runtime_report(),'native':python_runtime_report()}))"
+        probe = "import sys,json;sys.dont_write_bytecode=True;sys.path.insert(0,sys.argv[1]);from nana_core.host_requirements import sqlite_runtime_report,python_runtime_report;print(json.dumps({'python':list(sys.version_info[:2]),'sqlite':sqlite_runtime_report(),'native':python_runtime_report(),'venv':sys.prefix!=sys.base_prefix,'prefix':sys.prefix}))"
         actual = json.loads(subprocess.check_output([str(python), "-I", "-c", probe, str(ROOT / "src")], text=True))
-        if actual["python"] != [3, 12] or not actual["sqlite"]["supported"] or not actual["native"]["supported"]:
+        if (
+            actual["python"] != [3, 12]
+            or not actual["sqlite"]["supported"]
+            or not actual["native"]["supported"]
+            or not actual["venv"]
+            or Path(actual["prefix"]).resolve() != path.resolve()
+        ):
             print(json.dumps({"state": "START_BLOCKED", "code": "INSTALLED_INTERPRETER_UNSUPPORTED", "actual": actual}))
             raise SystemExit(2)
         subprocess.run(
