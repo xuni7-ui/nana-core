@@ -1,0 +1,265 @@
+{
+  "test_source": "9e67c837dde708128e9051d4bcbc0d20114521d8",
+  "runtime_source": "e322f017900c060a5739347a76c7e63545773d1a",
+  "base_source": "87f73d235d593a0d852bca409b0e73e0ef67cc5e",
+  "command": "/workspace/nana-core/.venv/bin/python -m pytest -q tests --old-sqlite-python=/usr/bin/python3 --junitxml=<fresh-output.xml>",
+  "final": {
+    "tests": 1554,
+    "errors": 0,
+    "skipped": 12,
+    "failed": 0,
+    "passed": 1542,
+    "duration_seconds": 656.233,
+    "skips": [
+      {
+        "test": "tests.h2_live_screen.test_live.test_ten_real_os_scenes_h1_world_concern_c",
+        "reason": "explicit --live-screen required"
+      },
+      {
+        "test": "tests.h2_live_screen.test_live.test_live_runtime_preemption_backpressure_disable_remove_and_frontend",
+        "reason": "explicit --live-screen required"
+      },
+      {
+        "test": "tests.h2_live_screen.test_live.test_real_backend_sigkill_six_cuts[BEFORE_SOURCE_OPEN]",
+        "reason": "explicit --live-screen required"
+      },
+      {
+        "test": "tests.h2_live_screen.test_live.test_real_backend_sigkill_six_cuts[AFTER_CAPTURE_BEFORE_INGEST]",
+        "reason": "explicit --live-screen required"
+      },
+      {
+        "test": "tests.h2_live_screen.test_live.test_real_backend_sigkill_six_cuts[AFTER_TECHNICAL_INGEST]",
+        "reason": "explicit --live-screen required"
+      },
+      {
+        "test": "tests.h2_live_screen.test_live.test_real_backend_sigkill_six_cuts[BEFORE_SEMANTIC_DISPATCH]",
+        "reason": "explicit --live-screen required"
+      },
+      {
+        "test": "tests.h2_live_screen.test_live.test_real_backend_sigkill_six_cuts[AFTER_SEMANTIC_RESPONSE]",
+        "reason": "explicit --live-screen required"
+      },
+      {
+        "test": "tests.h2_live_screen.test_live.test_real_backend_sigkill_six_cuts[BEFORE_CONCERN]",
+        "reason": "explicit --live-screen required"
+      },
+      {
+        "test": "tests.h2_live_screen.test_live.test_live_manager_preserves_watch_and_pixels_never_acquire_authority",
+        "reason": "explicit --live-screen required"
+      },
+      {
+        "test": "tests.h2_live_screen.test_live.test_real_source_b8_transfer_new_display_and_forget",
+        "reason": "explicit --live-screen required"
+      },
+      {
+        "test": "tests.h2_live_screen.test_live.test_visual_injection_payload_cannot_propose_authority",
+        "reason": "explicit --live-screen required"
+      },
+      {
+        "test": "tests.offline_continuity.test_experiment.test_E12_real_model_migration",
+        "reason": "E12 real-model gate requires configured development endpoints via nana-semantic; offline pytest makes no real-model calls"
+      }
+    ]
+  },
+  "focused_and_related_prior_runs": {
+    "q1-fixed": {
+      "tests": 42,
+      "errors": 0,
+      "skipped": 0,
+      "failed": 0,
+      "passed": 42,
+      "duration_seconds": 21.76,
+      "skips": []
+    },
+    "q3-source-freeze": {
+      "tests": 46,
+      "errors": 0,
+      "skipped": 0,
+      "failed": 0,
+      "passed": 46,
+      "duration_seconds": 46.93,
+      "skips": []
+    },
+    "native-fix-targeted": {
+      "tests": 12,
+      "errors": 0,
+      "skipped": 0,
+      "failed": 0,
+      "passed": 12,
+      "duration_seconds": 10.704,
+      "skips": []
+    },
+    "recovery-cadence-fixed": {
+      "tests": 3,
+      "errors": 0,
+      "skipped": 0,
+      "failed": 0,
+      "passed": 3,
+      "duration_seconds": 40.633,
+      "skips": []
+    },
+    "branch-fixture-fixed": {
+      "tests": 11,
+      "errors": 0,
+      "skipped": 0,
+      "failed": 0,
+      "passed": 11,
+      "duration_seconds": 3.194,
+      "skips": []
+    },
+    "branch-suite-fixed": {
+      "tests": 16,
+      "errors": 0,
+      "skipped": 0,
+      "failed": 0,
+      "passed": 16,
+      "duration_seconds": 4.283,
+      "skips": []
+    },
+    "old-sqlite-fixture-fixed": {
+      "tests": 10,
+      "errors": 0,
+      "skipped": 0,
+      "failed": 0,
+      "passed": 10,
+      "duration_seconds": 1.023,
+      "skips": []
+    }
+  },
+  "first_partial_full": {
+    "tests": 117,
+    "errors": 0,
+    "skipped": 0,
+    "failed": 1,
+    "passed": 116,
+    "duration_seconds": 193.049,
+    "skips": []
+  },
+  "first_partial_full_interrupted_by_developer": true,
+  "second_incomplete_full": {
+    "tests": 310,
+    "errors": 0,
+    "skipped": 0,
+    "failed": 1,
+    "passed": 309,
+    "duration_seconds": 313.012,
+    "skips": []
+  },
+  "second_incomplete_reason": "STOPPED_AT_FIRST_FAILURE_ONLY_BRANCH_FACT_MISMATCH_IN_OLD_UNIT_FIXTURE",
+  "third_incomplete_full": {
+    "tests": 325,
+    "errors": 0,
+    "skipped": 0,
+    "failed": 1,
+    "passed": 324,
+    "duration_seconds": 299.973,
+    "skips": []
+  },
+  "third_incomplete_reason": "SAME_BRANCH_POLICY_IN_INDIRECT_REVIEW_PREPARE_TEST",
+  "fourth_complete_failed_full": {
+    "tests": 1554,
+    "errors": 0,
+    "skipped": 12,
+    "failed": 1,
+    "passed": 1541,
+    "duration_seconds": 725.67,
+    "skips": [
+      {
+        "test": "tests.h2_live_screen.test_live.test_ten_real_os_scenes_h1_world_concern_c",
+        "reason": "explicit --live-screen required"
+      },
+      {
+        "test": "tests.h2_live_screen.test_live.test_live_runtime_preemption_backpressure_disable_remove_and_frontend",
+        "reason": "explicit --live-screen required"
+      },
+      {
+        "test": "tests.h2_live_screen.test_live.test_real_backend_sigkill_six_cuts[BEFORE_SOURCE_OPEN]",
+        "reason": "explicit --live-screen required"
+      },
+      {
+        "test": "tests.h2_live_screen.test_live.test_real_backend_sigkill_six_cuts[AFTER_CAPTURE_BEFORE_INGEST]",
+        "reason": "explicit --live-screen required"
+      },
+      {
+        "test": "tests.h2_live_screen.test_live.test_real_backend_sigkill_six_cuts[AFTER_TECHNICAL_INGEST]",
+        "reason": "explicit --live-screen required"
+      },
+      {
+        "test": "tests.h2_live_screen.test_live.test_real_backend_sigkill_six_cuts[BEFORE_SEMANTIC_DISPATCH]",
+        "reason": "explicit --live-screen required"
+      },
+      {
+        "test": "tests.h2_live_screen.test_live.test_real_backend_sigkill_six_cuts[AFTER_SEMANTIC_RESPONSE]",
+        "reason": "explicit --live-screen required"
+      },
+      {
+        "test": "tests.h2_live_screen.test_live.test_real_backend_sigkill_six_cuts[BEFORE_CONCERN]",
+        "reason": "explicit --live-screen required"
+      },
+      {
+        "test": "tests.h2_live_screen.test_live.test_live_manager_preserves_watch_and_pixels_never_acquire_authority",
+        "reason": "explicit --live-screen required"
+      },
+      {
+        "test": "tests.h2_live_screen.test_live.test_real_source_b8_transfer_new_display_and_forget",
+        "reason": "explicit --live-screen required"
+      },
+      {
+        "test": "tests.h2_live_screen.test_live.test_visual_injection_payload_cannot_propose_authority",
+        "reason": "explicit --live-screen required"
+      },
+      {
+        "test": "tests.offline_continuity.test_experiment.test_E12_real_model_migration",
+        "reason": "E12 real-model gate requires configured development endpoints via nana-semantic; offline pytest makes no real-model calls"
+      }
+    ]
+  },
+  "fourth_failure_reason": "VANISHED_HARDCODED_TEMP_INTERPRETER_NOT_CORE_FAILURE",
+  "final_test_source": "9e67c837dde708128e9051d4bcbc0d20114521d8",
+  "failures_preserved": true,
+  "interpretation": "Targeted run counts overlap; not summed. Final suite is complete; old full run is a retained interrupted failure, not a successful regression.",
+  "final_groups": {
+    "new_quality": {
+      "tests": 12,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "precision": {
+      "tests": 18,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "portable": {
+      "tests": 14,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "b9_b10": {
+      "tests": 17,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "h1": {
+      "tests": 44,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "provider_routing": {
+      "tests": 43,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "controlled_hands": {
+      "tests": 19,
+      "failed": 0,
+      "errors": 0,
+      "skipped": 0
+    }
+  }
+}

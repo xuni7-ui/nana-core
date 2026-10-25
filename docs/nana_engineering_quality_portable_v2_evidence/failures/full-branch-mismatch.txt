@@ -1,0 +1,33 @@
+........................................................................ [  4%]
+........................................................................ [  9%]
+........................................................................ [ 13%]
+........................................................................ [ 18%]
+.....................F
+=================================== FAILURES ===================================
+_____ test_eight_call_envelope_requires_known_fixture_baseline_no_dispatch _____
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-10/test_eight_call_envelope_requi0')
+
+    def test_eight_call_envelope_requires_known_fixture_baseline_no_dispatch(tmp_path):
+        home=tmp_path/'life';initialize(home)
+        with pytest.raises(CoreError,match='BUDGET_BASE_MISMATCH'):configure(home)
+        with LifeApplication(home) as app:
+            outcome=setup(app,tmp_path)
+            assert outcome['semantic']['fixture_calls']==1
+        cfg=configure(home)
+        assert cfg.provider_total_calls_limit==9 and cfg.provider_total_reserved_cost_micro==400000
+        assert cfg.provider_timeout_ms==15000 and cfg.remote_privacy==('PUBLIC','PROJECT')
+        class ExplicitSyntheticResolver:
+            def available(self,reference):return reference==REF
+            def resolve(self,reference):return ResolvedSecret('TEST_ONLY_NOT_SECRET')
+>       assert preflight(home,live=True,resolver=ExplicitSyntheticResolver())['state']=='PREFLIGHT_PASS'
+E       AssertionError: assert 'FIRST_LIFE_START_BLOCKED' == 'PREFLIGHT_PASS'
+E         
+E         - PREFLIGHT_PASS
+E         + FIRST_LIFE_START_BLOCKED
+
+tests/first_life_integration/test_live_gate.py:24: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_live_gate.py::test_eight_call_envelope_requires_known_fixture_baseline_no_dispatch
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 309 passed in 313.05s (0:05:13)

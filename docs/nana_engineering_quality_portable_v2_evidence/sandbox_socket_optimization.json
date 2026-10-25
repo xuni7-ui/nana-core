@@ -1,0 +1,34 @@
+{
+  "sandbox_actual_installed": {
+    "state": "AVAILABLE",
+    "code": "BWRAP_ISOLATION_VERIFIED",
+    "checks": {
+      "ipc_namespace": true,
+      "mnt_namespace": true,
+      "net_namespace": true,
+      "pid_namespace": true,
+      "user_namespace": true,
+      "uts_namespace": true,
+      "host_paths_absent": true,
+      "host_env_absent": true,
+      "no_new_privs": true,
+      "no_capabilities": true,
+      "readonly_work": true
+    },
+    "execution_authority": false
+  },
+  "actual_skill_result": 3.75,
+  "arbitrary_file_read_ast_rejected": true,
+  "missing_and_namespace_denied": "tests/engineering_quality/test_host.py::test_bwrap_unavailable_never_falls_back",
+  "base_runtime_separate": "tests/engineering_quality/test_boundary.py::test_missing_optional_sandbox_does_not_falsely_block_base_runtime",
+  "socket_limit_encoded_bytes": 107,
+  "socket_test": "tests/engineering_quality/test_host.py::test_final_socket_bytes_and_no_subject_or_child_on_rejection",
+  "assert_tests": [
+    "test_subreaper_syscalls_execute_and_fail_in_both_modes",
+    "test_backup_quarantine_check_survives_optimization"
+  ],
+  "installed_optimized_mode": 1,
+  "qualification_assertion_guards_retained": 47,
+  "runtime_assert_count": 0,
+  "authority_granted_by_probe": false
+}

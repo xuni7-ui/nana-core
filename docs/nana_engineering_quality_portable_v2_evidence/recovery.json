@@ -1,0 +1,55 @@
+{
+  "installed_rehearsal": {
+    "duplicate_start_blocked": true,
+    "restart_same_identity": true,
+    "epochs": [
+      4,
+      5,
+      6
+    ],
+    "real_sigkill": true,
+    "dead_owner_fenced": true,
+    "stale_socket_recovered": true,
+    "same_event_no_replay": true,
+    "emergency_stop_confirmed": true,
+    "offline_chat": true
+  },
+  "installed_checkpoint_transfer": {
+    "execution": "FRESH_INSTALLED_BUNDLE_PYTHON_ISOLATED",
+    "source_commit": "e322f017900c060a5739347a76c7e63545773d1a",
+    "same_subject": true,
+    "real_owned_failures_preserved": true,
+    "original_g_per_domain_learning": true,
+    "independent_current_verification": true,
+    "checkpoint_operators": 6,
+    "remaining_steps": 3,
+    "file_move_count": 1,
+    "same_identity_restart": true,
+    "official_checkpoint_backup_transfer": true,
+    "old_grants_revoked": true,
+    "old_writer_fenced": true,
+    "repository_runtime_imports": false,
+    "new_provider_calls": 0
+  },
+  "fixture_assertions": {
+    "assertions_unchanged": true,
+    "count": 12,
+    "original_effect_count": 10,
+    "original_goal_count": 8,
+    "original_progress_seconds": 40,
+    "original_cut_seconds": 40,
+    "production_cadence_changed": false,
+    "fixture_cadence_us": 1000000
+  },
+  "recovery_targeted": {
+    "tests": 3,
+    "errors": 0,
+    "skipped": 0,
+    "failed": 0,
+    "passed": 3,
+    "duration_seconds": 40.633,
+    "skips": []
+  },
+  "first_failure_metadata": "failures/recovery-first-failure.json",
+  "interpretation": "Concurrent pre-learning form preparation creates legitimate distinct quality failures and repairs. Core cadence is unchanged; qualification fixture declares bounded input availability. New concurrent test independently replays actual commands. Twelve original recovery assertions and 40s cut/progress bars are unchanged."
+}

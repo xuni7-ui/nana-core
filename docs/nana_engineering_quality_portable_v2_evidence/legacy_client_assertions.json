@@ -1,0 +1,10 @@
+{
+  "all_original_assertions_unchanged": true,
+  "fixture_sqlite_exact": "3.46.1",
+  "historical_temp_dependency_removed": true,
+  "actual_interpreter": "/usr/bin/python3",
+  "isolated_mode": true,
+  "inherited_env": false,
+  "private_runtime_imports_allowed": false,
+  "new_skip": false
+}

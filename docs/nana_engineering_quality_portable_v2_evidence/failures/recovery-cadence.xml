@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?><testsuites name="pytest tests"><testsuite name="pytest" errors="0" failures="2" skipped="0" tests="3" time="76.004" timestamp="2026-10-25T05:58:28.254972+00:00" hostname="c833c699f747"><testcase classname="tests.controlled_hands.test_recovery" name="test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[DURING_LEARNING]" time="43.183"><failure message="AssertionError: bounded owned-application progress incomplete: [('owned-document', 'COMPLETED'), ('owned-document', 'COMPLETED'), ('owned-form', 'COMPLETED'), ('owned-form', 'COMPLETED'), ('owned-form', 'FAILED'), ('owned-form', 'COMPLETED'), ('owned-form', 'ACTIVE')]">tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-8/test_actual_process_sigkill_pr0')
+mode = 'DURING_LEARNING'
+
+    @pytest.mark.parametrize('mode',['BEFORE_PREPARE','BEFORE_EFFECT','AFTER_EFFECT','DURING_VERIFY','DURING_LEARNING','DURING_SKILL_TEST'])
+    def test_actual_process_sigkill_preserves_identity_effects_and_original_cursor(tmp_path,mode):
+        # This oracle tests baseline -&gt; learned transfer. Concurrently preplanning
+        # both forms legitimately needs one more quality-repair write (covered below).
+        # Control only fixture input cadence; keep all original effect/count/time bars.
+        interval=2_000_000 if mode in {'DURING_LEARNING','DURING_SKILL_TEST'} else None
+        tasks=None if mode in {'DURING_LEARNING','DURING_SKILL_TEST'} else (ApplicationTask(task_id='doc',kind='DOCUMENT',wanted='safe content'),)
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+            home=tmp_path/'life';initialize(home,host.profile)
+            with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id
+            marker=tmp_path/'cut';log=tmp_path/'worker.log'
+            with log.open('w') as stream:
+                p=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_hands.crash_worker','--home',str(home),'--mode',mode,'--marker',str(marker),*(['--opportunity-interval-us',str(interval)] if interval else [])],cwd=REPO,stdout=stream,stderr=stream)
+                try:
+                    start=time.monotonic()
+                    while not marker.exists():
+                        assert p.poll() is None,log.read_text()
+                        assert time.monotonic()-start&lt;40,'cut not reached'
+                        time.sleep(.02)
+                    before=snapshot(home);external=json.loads((Path(host.target.workspace)/'application-state.json').read_text())
+                    os.kill(p.pid,signal.SIGKILL);p.wait(timeout=4);assert p.returncode==-signal.SIGKILL
+                finally:
+                    if p.poll() is None:p.kill();p.wait(timeout=4)
+            with LifeApplication(home) as app:
+                if interval:app.work.interval=interval
+                r=app.runtime;assert r.identity_id==identity and len(r.store.all('grants'))==1
+                if mode=='BEFORE_EFFECT':
+                    for _ in range(15):app.tick();time.sleep(.025)
+                    effects=json.loads((Path(host.target.workspace)/'application-state.json').read_text())['effects']
+                    assert not effects and not external['effects']
+                    assert r.store.one('actions',marker.read_text())['state']=='UNKNOWN'
+                elif mode in {'AFTER_EFFECT','DURING_VERIFY','BEFORE_PREPARE'}:
+                    until(app,lambda:bool(r.store.db.execute("SELECT 1 FROM goals WHERE state='COMPLETED'").fetchone()))
+                    effects=json.loads((Path(host.target.workspace)/'application-state.json').read_text())['effects']
+                    assert len(effects)==1
+                    assert r.store.one('actions',marker.read_text())['state']=='SUCCEEDED'
+                    assert len(r.store.all('actions'))==len(before['actions'])
+                else:
+&gt;                   until(app,lambda:len(r.store.all('goals'))==8 and all(g['state'] in {'COMPLETED','FAILED'} for g in r.store.all('goals')),seconds=40)
+
+tests/controlled_hands/test_recovery.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+app = &lt;nana_core.life.application.LifeApplication object at 0x7f76d59249b0&gt;
+predicate = &lt;function test_actual_process_sigkill_preserves_identity_effects_and_original_cursor.&lt;locals&gt;.&lt;lambda&gt; at 0x7f76d57f3100&gt;
+seconds = 40
+
+    def until(app,predicate,seconds=35):
+        start=time.monotonic()
+        while time.monotonic()-start&lt;seconds:
+            if predicate():return
+            app.tick();time.sleep(.015)
+&gt;       raise AssertionError('bounded owned-application progress incomplete: '+str([(g['template'],g['state']) for g in app.runtime.store.all('goals')]))
+E       AssertionError: bounded owned-application progress incomplete: [('owned-document', 'COMPLETED'), ('owned-document', 'COMPLETED'), ('owned-form', 'COMPLETED'), ('owned-form', 'COMPLETED'), ('owned-form', 'FAILED'), ('owned-form', 'COMPLETED'), ('owned-form', 'ACTIVE')]
+
+tests/controlled_hands/conftest.py:16: AssertionError</failure></testcase><testcase classname="tests.controlled_hands.test_recovery" name="test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[DURING_SKILL_TEST]" time="28.821" /><testcase classname="tests.controlled_hands.test_recovery" name="test_concurrent_prelearning_forms_have_distinct_authorized_repairs" time="3.886"><failure message="AssertionError: assert 3 == 4&#10; +  where 3 = len({'0b50118de9947408dc88d93115ebfe5795779b5b032d1f49970a239073e150eb': {'action_id': '73dbcfe2-6467-4dce-8ca5-4756feb8d7...at_ns': 1792907981287563334, 'before_digest': 'f3eb3a297133027e9ac2e6971a6b3ccc51077e7f2e8555d350d10e271be62ea7', ...}})">tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-8/test_concurrent_prelearning_fo0')
+
+    def test_concurrent_prelearning_forms_have_distinct_authorized_repairs(tmp_path):
+        tasks=(ApplicationTask(task_id='form-baseline',kind='FORM',fields=('wrong','color'),wanted={'color':'blue'}),
+               ApplicationTask(task_id='form-transfer',kind='FORM',fields=('wrong','query'),wanted={'query':'wind'}))
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+            home=tmp_path/'life';initialize(home,host.profile,skills=False)
+            with LifeApplication(home,bootstrap_grant=True) as app:
+                app.work.interval=50_000
+                r=app.runtime
+                until(app,lambda:len(r.store.all('goals'))==2 and all(g['state']=='COMPLETED' for g in r.store.all('goals')))
+                effects=json.loads((Path(host.target.workspace)/'application-state.json').read_text())['effects']
+&gt;               assert len(effects)==4
+E               AssertionError: assert 3 == 4
+E                +  where 3 = len({'0b50118de9947408dc88d93115ebfe5795779b5b032d1f49970a239073e150eb': {'action_id': '73dbcfe2-6467-4dce-8ca5-4756feb8d7...at_ns': 1792907981287563334, 'before_digest': 'f3eb3a297133027e9ac2e6971a6b3ccc51077e7f2e8555d350d10e271be62ea7', ...}})
+
+tests/controlled_hands/test_recovery.py:65: AssertionError</failure></testcase></testsuite></testsuites>

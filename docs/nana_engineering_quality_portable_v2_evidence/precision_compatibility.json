@@ -1,0 +1,41 @@
+{
+  "source_commit": "e322f017900c060a5739347a76c7e63545773d1a",
+  "scope": "SYMBOLIC_PRESERVATION_NOT_NEW_SEMANTIC_OR_MODEL_QUALIFICATION",
+  "fresh_seed": 2425685341,
+  "comparisons": [
+    {
+      "set": "published-parameters",
+      "total": 24,
+      "before": 20,
+      "after": 20,
+      "false_success": 0,
+      "same_tasks": true
+    },
+    {
+      "set": "published-graphs",
+      "total": 18,
+      "before": 13,
+      "after": 13,
+      "false_success": 0,
+      "same_tasks": true
+    },
+    {
+      "set": "fresh-parameters",
+      "total": 24,
+      "before": 20,
+      "after": 20,
+      "false_success": 0,
+      "same_tasks": true
+    },
+    {
+      "set": "fresh-graphs",
+      "total": 18,
+      "before": 12,
+      "after": 12,
+      "false_success": 0,
+      "same_tasks": true
+    }
+  ],
+  "new_provider_calls": 0,
+  "model_ablation": "MODEL_ABLATION_NOT_RUN"
+}

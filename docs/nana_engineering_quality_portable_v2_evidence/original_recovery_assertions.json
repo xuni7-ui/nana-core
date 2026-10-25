@@ -1,0 +1,10 @@
+{
+  "assertions_unchanged": true,
+  "count": 12,
+  "original_effect_count": 10,
+  "original_goal_count": 8,
+  "original_progress_seconds": 40,
+  "original_cut_seconds": 40,
+  "production_cadence_changed": false,
+  "fixture_cadence_us": 1000000
+}

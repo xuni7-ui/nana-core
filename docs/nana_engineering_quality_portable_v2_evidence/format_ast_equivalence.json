@@ -1,0 +1,121 @@
+{
+  "files": {
+    "src/nana_core/actions.py": {
+      "before_ast_sha256": "c5713d8c7c73b6f828314c4ce6b96f7c53bc862c8244ad7c2718b8e614998458",
+      "after_ast_sha256": "c5713d8c7c73b6f828314c4ce6b96f7c53bc862c8244ad7c2718b8e614998458"
+    },
+    "src/nana_core/storage/sqlite_store.py": {
+      "before_ast_sha256": "57c820deb991eb368be9f9beec431efe971ce7436c36d57bf2ca5ed5d3a06f37",
+      "after_ast_sha256": "57c820deb991eb368be9f9beec431efe971ce7436c36d57bf2ca5ed5d3a06f37"
+    },
+    "src/nana_core/continuity/store.py": {
+      "before_ast_sha256": "8bdbad2b932df6e955ce4745a28ea9503a17049ebca9ebe586305f283112a3d3",
+      "after_ast_sha256": "8bdbad2b932df6e955ce4745a28ea9503a17049ebca9ebe586305f283112a3d3"
+    },
+    "src/nana_core/continuity/privacy.py": {
+      "before_ast_sha256": "fd3faf40c4a2eb15ae01b607406dfba710a8817d94c7a825705e8e6b48ce4bcf",
+      "after_ast_sha256": "fd3faf40c4a2eb15ae01b607406dfba710a8817d94c7a825705e8e6b48ce4bcf"
+    },
+    "src/nana_core/presence/runtime.py": {
+      "before_ast_sha256": "48fe0d045a79f6ed87bb12883d061918b3a1980e6000459106249ea6e3888e25",
+      "after_ast_sha256": "48fe0d045a79f6ed87bb12883d061918b3a1980e6000459106249ea6e3888e25"
+    },
+    "src/nana_core/presence/authority.py": {
+      "before_ast_sha256": "7d761ebd14b320e21d70ff7e813c294a5d4ae1220eecf795f55de4f8f5a74e6e",
+      "after_ast_sha256": "7d761ebd14b320e21d70ff7e813c294a5d4ae1220eecf795f55de4f8f5a74e6e"
+    },
+    "src/nana_core/continuity/open_agency/planning.py": {
+      "before_ast_sha256": "bffc361621cce9ab32918e2a095c3ec4a552b76ef56d3c2120d448ae024fb03b",
+      "after_ast_sha256": "bffc361621cce9ab32918e2a095c3ec4a552b76ef56d3c2120d448ae024fb03b"
+    },
+    "src/nana_core/continuity/open_agency/task_graph.py": {
+      "before_ast_sha256": "9de9f055ef4363ccc327da4166826fc5db2443e501efb22f3a24b2bfd9eb73d5",
+      "after_ast_sha256": "9de9f055ef4363ccc327da4166826fc5db2443e501efb22f3a24b2bfd9eb73d5"
+    },
+    "src/nana_core/continuity/open_agency/checkpoints.py": {
+      "before_ast_sha256": "5507b00ae6767b8ced3ccb7967912052aebe0201291ea8e6a3cf3c3cca10b757",
+      "after_ast_sha256": "5507b00ae6767b8ced3ccb7967912052aebe0201291ea8e6a3cf3c3cca10b757"
+    },
+    "src/nana_core/continuity/open_agency/learning.py": {
+      "before_ast_sha256": "173efc8c822d5a8c4c8b18637f5debae0af6c1a9cbac67199b2aaffb415b3cf3",
+      "after_ast_sha256": "173efc8c822d5a8c4c8b18637f5debae0af6c1a9cbac67199b2aaffb415b3cf3"
+    },
+    "src/nana_core/continuity/open_agency/practice.py": {
+      "before_ast_sha256": "3577a94899d59fdb5aa9be0a5aad1ff65c165ec894f98ece3c6b509ba0950f81",
+      "after_ast_sha256": "3577a94899d59fdb5aa9be0a5aad1ff65c165ec894f98ece3c6b509ba0950f81"
+    },
+    "src/nana_core/continuity/open_agency/code_skills.py": {
+      "before_ast_sha256": "dd20747edfbbfaa4092345989b9837c136f5368be3b21d4d3530ad500a3c6a18",
+      "after_ast_sha256": "dd20747edfbbfaa4092345989b9837c136f5368be3b21d4d3530ad500a3c6a18"
+    },
+    "src/nana_core/continuity/open_agency/skill_runner.py": {
+      "before_ast_sha256": "d74e4b19de925626941bb343641ef400a94aa02cd26e69c2e77a543876285479",
+      "after_ast_sha256": "d74e4b19de925626941bb343641ef400a94aa02cd26e69c2e77a543876285479"
+    },
+    "src/nana_core/continuity/open_agency/state.py": {
+      "before_ast_sha256": "fbebcdfe126a92df15facfeadc5f1da371103a907fd011491bdf72259cc469b6",
+      "after_ast_sha256": "fbebcdfe126a92df15facfeadc5f1da371103a907fd011491bdf72259cc469b6"
+    },
+    "src/nana_core/continuity/hands/host.py": {
+      "before_ast_sha256": "ba566e9a6e7f5d9a1fe58497c1fe4a643ba49f4b9fb37ebdd8a36c0d694db802",
+      "after_ast_sha256": "ba566e9a6e7f5d9a1fe58497c1fe4a643ba49f4b9fb37ebdd8a36c0d694db802"
+    },
+    "src/nana_core/continuity/hands/server.py": {
+      "before_ast_sha256": "ba53308648ebc20b158dc712ca869ebc421ccfc8fd5e81ca4fe1f4b157dc1225",
+      "after_ast_sha256": "ba53308648ebc20b158dc712ca869ebc421ccfc8fd5e81ca4fe1f4b157dc1225"
+    },
+    "src/nana_core/continuity/provider_routing.py": {
+      "before_ast_sha256": "b2df213ecafa2b637aaee9217080a94329c9098c6cd15ca1310d700ba7ea8573",
+      "after_ast_sha256": "b2df213ecafa2b637aaee9217080a94329c9098c6cd15ca1310d700ba7ea8573"
+    },
+    "src/nana_core/continuity/provider_config.py": {
+      "before_ast_sha256": "4712e0cb7c4696e9ee252f7e51b61e21765086aec0e353df90ff948c05d577b8",
+      "after_ast_sha256": "4712e0cb7c4696e9ee252f7e51b61e21765086aec0e353df90ff948c05d577b8"
+    },
+    "src/nana_core/life/portable_runtime.py": {
+      "before_ast_sha256": "1747a7630fefc76ec21e010abc8d5f9b57c7abe8258412a3603a169b7845f552",
+      "after_ast_sha256": "1747a7630fefc76ec21e010abc8d5f9b57c7abe8258412a3603a169b7845f552"
+    },
+    "src/nana_core/life/control.py": {
+      "before_ast_sha256": "4981b4e7e6c80597585ec399307f5aa761778a0d6acf2f3068e6b73089b74352",
+      "after_ast_sha256": "4981b4e7e6c80597585ec399307f5aa761778a0d6acf2f3068e6b73089b74352"
+    },
+    "src/nana_core/life/cloud.py": {
+      "before_ast_sha256": "91047594ab1aa4cdd042a17ebbe769b86846b4a5425ce913aab1ef2e72df7eee",
+      "after_ast_sha256": "91047594ab1aa4cdd042a17ebbe769b86846b4a5425ce913aab1ef2e72df7eee"
+    },
+    "src/nana_core/life/__main__.py": {
+      "before_ast_sha256": "31f8d7a3c4b910b98424dadc47768162983f8c1ebe224566b5a87ecf72348d7e",
+      "after_ast_sha256": "31f8d7a3c4b910b98424dadc47768162983f8c1ebe224566b5a87ecf72348d7e"
+    },
+    "src/nana_core/host_requirements.py": {
+      "before_ast_sha256": "a47bcab8547969a381b7a4dc06bc97b72339866071aa1e00c3c3d9ac87f545a4",
+      "after_ast_sha256": "a47bcab8547969a381b7a4dc06bc97b72339866071aa1e00c3c3d9ac87f545a4"
+    },
+    "src/nana_core/presence/process_qualification.py": {
+      "before_ast_sha256": "78663be49c442b4f95b981d93252b8e2da3da2c681fb3e974efea810db6ea69b",
+      "after_ast_sha256": "78663be49c442b4f95b981d93252b8e2da3da2c681fb3e974efea810db6ea69b"
+    },
+    "packaging/portable/bootstrap.py": {
+      "before_ast_sha256": "9e5d224a4e297ae96c65077038a78f66c3d2ba50b7c89925bc789798e094c963",
+      "after_ast_sha256": "9e5d224a4e297ae96c65077038a78f66c3d2ba50b7c89925bc789798e094c963"
+    },
+    "tools/nana_portable_cloud/build.py": {
+      "before_ast_sha256": "25569b78b4926952e109565aa0d1ef44e38fbefba02a4b6d32c102daddbe782a",
+      "after_ast_sha256": "25569b78b4926952e109565aa0d1ef44e38fbefba02a4b6d32c102daddbe782a"
+    },
+    "tools/nana_quality/metrics.py": {
+      "before_ast_sha256": "42bdcbb21514e9535036082c9c02f9f68533e14eb312f6117ec2b883a0d662cd",
+      "after_ast_sha256": "42bdcbb21514e9535036082c9c02f9f68533e14eb312f6117ec2b883a0d662cd"
+    },
+    "tools/nana_quality/qualification_package.py": {
+      "before_ast_sha256": "7ab9f2e4fe17338cfa87e3f70c81cc30805aae090fbcad5430c5d3246bba93d1",
+      "after_ast_sha256": "7ab9f2e4fe17338cfa87e3f70c81cc30805aae090fbcad5430c5d3246bba93d1"
+    },
+    "tools/nana_precision/installed_probe.py": {
+      "before_ast_sha256": "68b9a30d54cb07bc8773fe02a4c3c6067565ae28b7d6ff9810cb1e3dd3413f68",
+      "after_ast_sha256": "68b9a30d54cb07bc8773fe02a4c3c6067565ae28b7d6ff9810cb1e3dd3413f68"
+    }
+  },
+  "all_ast_equal": true
+}

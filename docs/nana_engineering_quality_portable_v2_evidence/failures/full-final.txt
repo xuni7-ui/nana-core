@@ -1,0 +1,56 @@
+........................................................................ [  4%]
+................................F............
+=================================== FAILURES ===================================
+_ test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[DURING_SKILL_TEST] _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-7/test_actual_process_sigkill_pr5')
+mode = 'DURING_SKILL_TEST'
+
+    @pytest.mark.parametrize('mode',['BEFORE_PREPARE','BEFORE_EFFECT','AFTER_EFFECT','DURING_VERIFY','DURING_LEARNING','DURING_SKILL_TEST'])
+    def test_actual_process_sigkill_preserves_identity_effects_and_original_cursor(tmp_path,mode):
+        tasks=None if mode in {'DURING_LEARNING','DURING_SKILL_TEST'} else (ApplicationTask(task_id='doc',kind='DOCUMENT',wanted='safe content'),)
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+            home=tmp_path/'life';initialize(home,host.profile)
+            with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id
+            marker=tmp_path/'cut';log=tmp_path/'worker.log'
+            with log.open('w') as stream:
+                p=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_hands.crash_worker','--home',str(home),'--mode',mode,'--marker',str(marker)],cwd=REPO,stdout=stream,stderr=stream)
+                try:
+                    start=time.monotonic()
+                    while not marker.exists():
+                        assert p.poll() is None,log.read_text()
+                        assert time.monotonic()-start<40,'cut not reached'
+                        time.sleep(.02)
+                    before=snapshot(home);external=json.loads((Path(host.target.workspace)/'application-state.json').read_text())
+                    os.kill(p.pid,signal.SIGKILL);p.wait(timeout=4);assert p.returncode==-signal.SIGKILL
+                finally:
+                    if p.poll() is None:p.kill();p.wait(timeout=4)
+            with LifeApplication(home) as app:
+                r=app.runtime;assert r.identity_id==identity and len(r.store.all('grants'))==1
+                if mode=='BEFORE_EFFECT':
+                    for _ in range(15):app.tick();time.sleep(.025)
+                    effects=json.loads((Path(host.target.workspace)/'application-state.json').read_text())['effects']
+                    assert not effects and not external['effects']
+                    assert r.store.one('actions',marker.read_text())['state']=='UNKNOWN'
+                elif mode in {'AFTER_EFFECT','DURING_VERIFY','BEFORE_PREPARE'}:
+                    until(app,lambda:bool(r.store.db.execute("SELECT 1 FROM goals WHERE state='COMPLETED'").fetchone()))
+                    effects=json.loads((Path(host.target.workspace)/'application-state.json').read_text())['effects']
+                    assert len(effects)==1
+                    assert r.store.one('actions',marker.read_text())['state']=='SUCCEEDED'
+                    assert len(r.store.all('actions'))==len(before['actions'])
+                else:
+                    until(app,lambda:len(r.store.all('goals'))==8 and all(g['state'] in {'COMPLETED','FAILED'} for g in r.store.all('goals')),seconds=40)
+                    after=json.loads((Path(host.target.workspace)/'application-state.json').read_text())['effects']
+>                   assert set(external['effects'])<=set(after) and len(after)==10
+E                   AssertionError: assert ({'1b5fb996d2bf06b1a2fb4faada8705f7d58d1889de38b7664bb305fd8cdbfacf', '2e115b5a4cd7c7a8d02e068cd86c9e788a25bb3536478f6d...658c4983930e13859a0c5e99a4f2336230947d3622c6', 'be8289837a3eeac9cbae6ae5194f86fe5240f89d4b1443bfb55e1beb5352f1a5', ...} <= {'1b5fb996d2bf06b1a2fb4faada8705f7d58d1889de38b7664bb305fd8cdbfacf', '2e115b5a4cd7c7a8d02e068cd86c9e788a25bb3536478f6d...591acfd01a8fe3c78da4ca50cc2a79d3d2807758078b', 'af09071988e961433b5396f2f8c5daf46a8b8522fead5d3b9ca1b31d129c34c4', ...} and 11 == 10)
+E                    +  where {'1b5fb996d2bf06b1a2fb4faada8705f7d58d1889de38b7664bb305fd8cdbfacf', '2e115b5a4cd7c7a8d02e068cd86c9e788a25bb3536478f6d...658c4983930e13859a0c5e99a4f2336230947d3622c6', 'be8289837a3eeac9cbae6ae5194f86fe5240f89d4b1443bfb55e1beb5352f1a5', ...} = set({'1b5fb996d2bf06b1a2fb4faada8705f7d58d1889de38b7664bb305fd8cdbfacf': {'action_id': '3395ca19-c831-4b1c-ac52-14c160d6ba...': 1792907445628066362, 'before_digest': '1512629d85963b9e7cdf30874cc534e4f6182e71b5da82564d6a3b920320b05f', ...}, ...})
+E                    +  and   {'1b5fb996d2bf06b1a2fb4faada8705f7d58d1889de38b7664bb305fd8cdbfacf', '2e115b5a4cd7c7a8d02e068cd86c9e788a25bb3536478f6d...591acfd01a8fe3c78da4ca50cc2a79d3d2807758078b', 'af09071988e961433b5396f2f8c5daf46a8b8522fead5d3b9ca1b31d129c34c4', ...} = set({'1b5fb996d2bf06b1a2fb4faada8705f7d58d1889de38b7664bb305fd8cdbfacf': {'action_id': '3395ca19-c831-4b1c-ac52-14c160d6ba...': 1792907461635412917, 'before_digest': 'cb9d97788be4fa96e52d0c519db411f0202c5226681f277c105a521d02148cfe', ...}, ...})
+E                    +  and   11 = len({'1b5fb996d2bf06b1a2fb4faada8705f7d58d1889de38b7664bb305fd8cdbfacf': {'action_id': '3395ca19-c831-4b1c-ac52-14c160d6ba...': 1792907461635412917, 'before_digest': 'cb9d97788be4fa96e52d0c519db411f0202c5226681f277c105a521d02148cfe', ...}, ...})
+
+tests/controlled_hands/test_recovery.py:45: AssertionError
+=========================== short test summary info ============================
+FAILED tests/controlled_hands/test_recovery.py::test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[DURING_SKILL_TEST]
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! KeyboardInterrupt !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+/workspace/nana-quality-v2/tests/controlled_world/test_crash_campaign.py:25: KeyboardInterrupt
+(to show a full traceback on KeyboardInterrupt use --full-trace)
+1 failed, 116 passed in 193.08s (0:03:13)

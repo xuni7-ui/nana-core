@@ -1,7 +1,11 @@
 # Engineering Quality & Portable Runtime V2
 
 GLOBAL_STAGE H / Advanced Growth, S1/S2/S4/S7/S8/S9 and Governance/Platform axes.
-Base87f73d235d593a0d852bca409b0e73e0ef67cc5e. Independent worktree/branch;
+Base87f73d235d593a0d852bca409b0e73e0ef67cc5e.
+Current final result: see [status](nana_engineering_quality_portable_v2_status.md)
+and [qualification](nana_engineering_quality_portable_v2_evidence/qualification.json).
+Sections below retain implementation chronology, including earlier pending/failed
+checkpoints; the final section and status identify the actual final qualification. Independent worktree/branch;
 old workspace and untracked bundle preserved. Master/fixed63 unchanged. Historical
 Precision1528/0/12 and240-file archive are baseline evidence, not this qualification.
 
@@ -24,7 +28,7 @@ do not reinterpret it as an arbitrary minimum or accept backports without qualif
 WAL/FULL/FK/backup/privacy semantics stay. JSON/FTS5 are capability checks in addition
 to version, not substitutes for the corruption fix.
 
-Current status: Q0 implemented; Q1–Q6 pending. No model/private/social/production
+Historical Q0 checkpoint: Q0 implemented; Q1–Q6 were pending. No model/private/social/production
 operation. Previous five-hour PARTIAL_EXTERNAL_LIMIT and long-residency pending,
 human NOT_RUN/First-Life NOT_READY/Beta NO remain.
 
@@ -63,7 +67,7 @@ fencing,Grant,timeouts,privacy or UNKNOWN condition is weakened.
 ## Q3 source readiness
 
 29-file pure-format checkpoint5fbefd5 is AST-identical to its parent; later behavior
-changes remain separate. Coded preflight helpers remove its monolithic C901 hotspot.
+changes remain separate. Preflight helpers reduce its AST decision estimate28 to10 by extracting responsibilities; this is not removal of a Ruff C901 finding.
 46 targeted PASS46.93s, including original actual process qualification. The
 ordinary runtime manifest has no assert.47 developer qualification assertions
 and two embedded child scripts now use explicit checks, retaining optimization
@@ -127,3 +131,35 @@ explicit. No completed planning/growth behavior was changed to satisfy a counter
 ## Engineering Quality V2 — remove hidden temporary interpreter prerequisite
 
 第四次完整执行1541pass/1fail/12skip725.73s：唯一失败是旧R041客户端测试硬编码不存在的/tmp/nana-bootstrap-build/compat-python-old。不是Store/Core失败，不能伪造临时解释器或跳过断言。测试改为显式--old-sqlite-python，当前真实/usr/bin/python3+SQLite3.46.1；不足/不存在明确fail不skip。保留全部原assert AST、精确3.46.1前后相等与禁止private Core/pydantic imports；-I/显式repo路径+最小env替代继承全宿主环境。10 targeted PASS1.07s；不修改R041/R045生产插件，只修改测试。完整失败XML/日志保留，后续final full需重新实际执行。
+
+
+## Q4–Q6 final engineering qualification / 2026-10-25
+
+Runtime/build sourcee322f017900c060a5739347a76c7e63545773d1a; final full test source
+9e67c837dde708128e9051d4bcbc0d20114521d8. Core/packaging/builder/addon bytes
+match exactly; later test-only cadence correction is explicit, not hidden.
+Actual minimum SQLite3.51.3/private libffi/CPython3.12.14 host installed the new
+package in two fresh offline venvs; original lifecycle, actual SIGKILL, source
+retirement/B8 restore and original9→6 checkpoint+3 repair pass under-O/-I.184
+shipped runtime modules import independently; actual sandbox11checks and pure
+skill execute; no repo PYTHONPATH/default demo. First failed_ctypes host and
+all earlier failure receipts remain under evidence/failures, not overwritten.
+Actual system3.46.1/missing-native/misbound-venv install refusals occur before
+pip/Subject mutation. Runtime231files/doublebuild hash25ad9723cc9d4ac31eea6b67f8661b332fc53fb6bff298d540c038fb5ada10de; separate
+addon5files/hashbb572d22159966c95b206aba783162b1556bd185bf890161b293d5f73af622c4.
+
+Final full regression: 1542 passed / 0 failed / 0 errors / 12 skipped / 656.233s. See regression.json/XML for
+actual skipped reasons, environment, source and overlapping targeted counts. No
+test removed or new skip introduced. Published/fresh independent symbolic
+parameter/graph results match baseline with0false acceptance; actual installed
+checkpoint/learning/transfer qualified separately. This is preservation, not
+new semantic generalization, live provider or model ablation.
+
+Metrics, static debt and safety cost are disclosed in status/maintainability/
+performance:29-file pure-format AST proof, narrower preflight responsibilities,
+strict typed shared host contract only. C901 global debt remains146; Store-open
+median3.669→4.693ms, not a speedup. Master/63definitions and Foundation statuses
+unchanged; no schema/business table/runtime dependency added. B10/versioned DTO
+unchanged, only host preflight additive diagnostics. Human/semantic/ablation
+NOT_RUN; old5h PARTIAL_EXTERNAL_LIMIT, future residency pending, First-Life
+NOT_READY/Beta NO. main/R045/production/private/social/device/paid-provider0.

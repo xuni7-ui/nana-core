@@ -2647,3 +2647,20 @@ Ruff0.14.1对29个Storage/Privacy/Runtime/Kernel/Planner/Checkpoint/G/Sandbox/Po
 ## Engineering Quality V2 — remove hidden temporary interpreter prerequisite
 
 第四次完整执行1541pass/1fail/12skip725.73s：唯一失败是旧R041客户端测试硬编码不存在的/tmp/nana-bootstrap-build/compat-python-old。不是Store/Core失败，不能伪造临时解释器或跳过断言。测试改为显式--old-sqlite-python，当前真实/usr/bin/python3+SQLite3.46.1；不足/不存在明确fail不skip。保留全部原assert AST、精确3.46.1前后相等与禁止private Core/pydantic imports；-I/显式repo路径+最小env替代继承全宿主环境。10 targeted PASS1.07s；不修改R041/R045生产插件，只修改测试。完整失败XML/日志保留，后续final full需重新实际执行。
+
+
+## Engineering Quality Portable Runtime V2 FINAL / 2026-10-25
+
+GLOBAL_STAGE H / Advanced Growth; 原Master字节/固定63/61qualified/S1–S9Qualified、S10Partial不变。
+独立dev/nana-core-engineering-quality-portable-v2-codex，base87f73d2；runtimee322f01、full源码9e67c83，Core/打包/Builder/Addon字节一致。
+共享SQLite>=3.51.3 WAL修复门槛+JSON/FTS5/native实际绑定；installer与实际venv均检查，伪venv在pip前拒绝。
+实际非root private libffi+SQLite3.51.3+CPython3.12.14双独立离线安装、完整运行/Chat/Inspect/Stop/Restart、SIGKILL、官方B8迁移/旧owner与Grant fence通过。
+exact197源码assets/231归档files，184 installed imports闭包；demo/lab/qualification独立5文件addon，G/I/Hands/checkpoint保留。
+bwrap实际11隔离checks与可选能力拒绝、最终107字节Socket前置、prctl/backup/47资格guard在-O保持。29热点纯format AST一致；全库复杂度债务仍在，新增检查有实测开销，不称加速。
+当前实际full 1542 passed / 0 failed / 0 errors / 12 skipped / 656.233s；旧初败/中断/缺ctypes/夹具试验保留，不删测试/不新skip。Precision published/fresh oracle零false，原9→6保留+3repair/moveonce实际安装通过。
+归档SHA25625ad9723cc9d4ac31eea6b67f8661b332fc53fb6bff298d540c038fb5ada10de；addonbb572d22159966c95b206aba783162b1556bd185bf890161b293d5f73af622c4，两者各自双构建一致。
+范围为OWNED_DEV Linuxx86_64工程资格，非生产/跨平台全资格。B10/versioned frontend contract不变；host preflight增加诊断字段。
+旧5h PARTIAL_EXTERNAL_LIMIT、新long PENDING_EXTERNAL_STABLE_ENV、human/semantic/ablation NOT_RUN、First-Life NOT_READY/Beta NO保持。
+main/R045/production/private/device/social/paidProvider0。报告与证据：docs/nana_engineering_quality_portable_v2_status.md、implementation/quickstart及同名前缀evidence/manifest。
+
+Quality V2 evidence manifest SHA256 `3d6258d67adad77e4d484717b5c11a7652ac9d3d3323e2a1d0f9e5c8106eacac`；manifest不自指，09 current-state header不纳入manifest。

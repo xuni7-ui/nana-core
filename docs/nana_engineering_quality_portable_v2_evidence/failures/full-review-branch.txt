@@ -1,0 +1,24 @@
+........................................................................ [  4%]
+........................................................................ [  9%]
+........................................................................ [ 13%]
+........................................................................ [ 18%]
+....................................F
+=================================== FAILURES ===================================
+_ test_high_primary_significance_preserves_independent_framing_and_no_authority _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-12/test_high_primary_significance0')
+
+    def test_high_primary_significance_preserves_independent_framing_and_no_authority(tmp_path):
+        home=tmp_path/'life';initial=initialize(home)
+        from nana_core.life.config import load_config,update_config
+        cfg=load_config(home);update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'current_project_state':None}),expected_revision=cfg.revision)
+        first=prepare(home)
+>       assert first['current_state_projection']['attribution']=='EXTERNAL_PROJECT_STATUS_NOT_SUBJECT_EXPERIENCE'
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'current_state_projection'
+
+tests/first_life_integration/test_review_prepare.py:10: KeyError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_review_prepare.py::test_high_primary_significance_preserves_independent_framing_and_no_authority
+!!!!!!!!!!!!!!!!!!!!!!!!!! stopping after 1 failures !!!!!!!!!!!!!!!!!!!!!!!!!!!
+1 failed, 324 passed in 300.00s (0:04:59)

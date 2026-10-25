@@ -33,8 +33,8 @@ libffi release https://github.com/libffi/libffi/releases/download/v3.4.6/libffi-
 The recipe builds private libffi so `_ctypes` is not silently omitted. Both
 installer and target venv must have ctypes/ssl/zlib/sqlite3/resource/termios/venv.
 Compiler success alone is insufficient; all runtime imports must close. Build needs the
-host C toolchain and standard Python build headers (OpenSSL,zlib,libffi,etc),
-provided by the host operator. The tool never installs apt packages/uses root or
+host C toolchain and Python build headers (notably OpenSSL/zlib),
+provided by the host operator; the recipe supplies private libffi headers. The tool never installs apt packages/uses root or
 network. Jobs<=2. Use a fresh prefix without spaces/shell metacharacters. The real
 _sqlite3 links private SQLite through RUNPATH; no LD_PRELOAD or system replacement.
 The prefix is **host-specific**, not a portable identity or relocatable Python
@@ -109,3 +109,35 @@ workflow and full source-pinned regression results belong to this task's final
 evidence. Historical1528/0/12 and bcb archive remain baseline evidence only.
 Human/semantic/model-ablation NOT_RUN, old5h PARTIAL_EXTERNAL_LIMIT, new residency
 pending, First-Life NOT_READY/Beta NO remain separate qualifications.
+
+
+## Qualified release anchors
+
+Current archive source is `e322f017900c060a5739347a76c7e63545773d1a`, runtime
+231files/hash`25ad9723cc9d4ac31eea6b67f8661b332fc53fb6bff298d540c038fb5ada10de`.
+Separate five-file addon hash`bb572d22159966c95b206aba783162b1556bd185bf890161b293d5f73af622c4`.
+Full regression source9e67c837dde708128e9051d4bcbc0d20114521d8; runtime/build
+bytes unchanged. Status/evidence give exact commands and retained first failures.
+
+Read-only recorded-delivery verification from this checkout:
+
+```sh
+python -m tools.nana_quality.check --archive /approved/nana-first-life-portable-v1.tar.gz
+python -m tools.nana_foundation_audit.check
+```
+
+Actual repeat installation/qualification is separate from checking recorded JSON.
+After installing the runtime and unpacking the independent addon, follow its
+README `-I` command. To repeat all imports and actual sandbox capability without
+creating a Subject:
+
+```sh
+<installed>/.venv/bin/python -O -I docs/nana_engineering_quality_portable_v2_evidence/installed_optional_probe.py --bundle <installed> --output <fresh-receipt.json>
+```
+
+Keep output outside the checksummed installed tree. The probe imports only the
+explicit installed bundle; it does not search credentials, contact providers,
+read existing personal state or run a default demo. A missing sandbox fails
+this optional qualification; it does not silently become ordinary subprocess.
+
+Full regression requires the explicit legacy isolation fixture: `python -m pytest -q tests --old-sqlite-python=/absolute/python-linked-to-3.46.1`. This is not the Runtime interpreter. Missing/wrong binding fails clearly; there is no automatic skip or private-interpreter discovery.

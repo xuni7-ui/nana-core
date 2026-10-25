@@ -1,0 +1,5 @@
+ERROR: usage: python -m pytest [options] [file_or_dir] [file_or_dir] [...]
+python -m pytest: error: unrecognized arguments: --old-sqlite-python
+  inifile: None
+  rootdir: /usr/bin
+

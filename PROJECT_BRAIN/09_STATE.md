@@ -7,28 +7,29 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 32,
-  "as_of_us": 1792904925671696,
+  "revision": 33,
+  "as_of_us": 1792921037742817,
   "stage": "H",
   "workstream": "ENGINEERING_QUALITY_PORTABLE_RUNTIME_V2",
-  "status": "Q1_Q2_IMPLEMENTED_TARGETED_TESTED_FINAL_QUALIFICATION_PENDING",
+  "status": "SCOPED_ENGINEERING_QUALITY_PORTABLE_RUNTIME_QUALIFIED_EXTERNAL_GATES_PENDING",
   "progress": [
-    "独立dev/nana-core-engineering-quality-portable-v2-codex worktree从87f73d2继承；原workspace/旧bundle保留。",
-    "共享SQLite>=3.51.3/JSON/FTS5检查；实际Python绑定检查，Store/Continuity提前拒绝，WAL/FULL/隐私不降。",
-    "真实bwrap六namespace/clearenv/readonly/NoNewPrivs资格，与基础Runtime就绪分开。",
-    "显式prctl与备份quarantine检查支持-O；最终Unix socket字节长度前置。",
-    "精确runtime source清单/导入闭包，lab/demo/qualification独立交付；42相关通过，边界初败及修复证据保留。",
-    "格式化/新安装包/独立运行/最终全仓尚待，不能继承旧1528/0/12作为新资格。"
+    "独立质量dev分支；runtime e322f01，full source9e67c83；Core/打包/Builder/Addon字节一致。",
+    "共享SQLite>=3.51.3 WAL修复/JSON/FTS5/native actual binding；实际目标venv在pip前检查，伪venv拒绝。",
+    "非root private libffi+SQLite3.51.3+Python3.12.14双离线安装/完整生命周期/-O/-I/SIGKILL/B8迁移通过。",
+    "197精确源码assets/231归档files/184模块闭包；资格addon5文件；bwrap实际隔离与Socket107字节前置。",
+    "29热点纯格式AST一致；显式prctl/backup/47资格guards；全库lint债务和安全检查开销如实保留。",
+    "实际full 1542 passed / 0 failed / 0 errors / 12 skipped / 656.233s；保留所有首败；Precision独立oracle及实际6保留+3修复/moveonce保持。"
   ],
   "open_gates": [
-    "新便携包双构建/双安装/隔离运行/precision/迁移/full待资格。",
-    "旧5h PARTIAL_EXTERNAL_LIMIT保持，新驻留PENDING_EXTERNAL_STABLE_ENV。",
-    "Human/semantic ablation NOT_RUN；First-Life NOT_READY/Beta NO，production/private/social/model0。"
+    "工程资格限定Linuxx86_64开发宿主；private Python需新宿主重建，非生产或通用桌面控制。",
+    "旧5h PARTIAL_EXTERNAL_LIMIT、新驻留PENDING_EXTERNAL_STABLE_ENV保持；human/semantic/ablation NOT_RUN。",
+    "First-Life NOT_READY/Beta NO；production/private/social/paidProvider/main/R045不变。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
-    "docs/nana_engineering_quality_portable_v2_implementation.md"
+    "docs/nana_engineering_quality_portable_v2_status.md",
+    "docs/nana_engineering_quality_portable_v2_evidence/qualification.json"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2292,3 +2293,54 @@ Report docs/nana_precision_v2_status.md; manifest SHA256 4f6c2a5ec0a41b495268dc2
   ]
 }
 ```
+
+
+## Engineering Quality Portable Runtime V2 FINAL / 2026-10-25
+
+GLOBAL_STAGE H / Advanced Growth; 原Master字节/固定63/61qualified/S1–S9Qualified、S10Partial不变。
+独立dev/nana-core-engineering-quality-portable-v2-codex，base87f73d2；runtimee322f01、full源码9e67c83，Core/打包/Builder/Addon字节一致。
+共享SQLite>=3.51.3 WAL修复门槛+JSON/FTS5/native实际绑定；installer与实际venv均检查，伪venv在pip前拒绝。
+实际非root private libffi+SQLite3.51.3+CPython3.12.14双独立离线安装、完整运行/Chat/Inspect/Stop/Restart、SIGKILL、官方B8迁移/旧owner与Grant fence通过。
+exact197源码assets/231归档files，184 installed imports闭包；demo/lab/qualification独立5文件addon，G/I/Hands/checkpoint保留。
+bwrap实际11隔离checks与可选能力拒绝、最终107字节Socket前置、prctl/backup/47资格guard在-O保持。29热点纯format AST一致；全库复杂度债务仍在，新增检查有实测开销，不称加速。
+当前实际full 1542 passed / 0 failed / 0 errors / 12 skipped / 656.233s；旧初败/中断/缺ctypes/夹具试验保留，不删测试/不新skip。Precision published/fresh oracle零false，原9→6保留+3repair/moveonce实际安装通过。
+归档SHA25625ad9723cc9d4ac31eea6b67f8661b332fc53fb6bff298d540c038fb5ada10de；addonbb572d22159966c95b206aba783162b1556bd185bf890161b293d5f73af622c4，两者各自双构建一致。
+范围为OWNED_DEV Linuxx86_64工程资格，非生产/跨平台全资格。B10/versioned frontend contract不变；host preflight增加诊断字段。
+旧5h PARTIAL_EXTERNAL_LIMIT、新long PENDING_EXTERNAL_STABLE_ENV、human/semantic/ablation NOT_RUN、First-Life NOT_READY/Beta NO保持。
+main/R045/production/private/device/social/paidProvider0。报告与证据：docs/nana_engineering_quality_portable_v2_status.md、implementation/quickstart及同名前缀evidence/manifest。
+
+### Prior typed current-state revision32 retained as historical JSON
+
+```json
+{
+  "schema_version": 1,
+  "project_id": "nana-core",
+  "scope": "project-work",
+  "privacy_class": "PROJECT",
+  "revision": 32,
+  "as_of_us": 1792904925671696,
+  "stage": "H",
+  "workstream": "ENGINEERING_QUALITY_PORTABLE_RUNTIME_V2",
+  "status": "Q1_Q2_IMPLEMENTED_TARGETED_TESTED_FINAL_QUALIFICATION_PENDING",
+  "progress": [
+    "独立dev/nana-core-engineering-quality-portable-v2-codex worktree从87f73d2继承；原workspace/旧bundle保留。",
+    "共享SQLite>=3.51.3/JSON/FTS5检查；实际Python绑定检查，Store/Continuity提前拒绝，WAL/FULL/隐私不降。",
+    "真实bwrap六namespace/clearenv/readonly/NoNewPrivs资格，与基础Runtime就绪分开。",
+    "显式prctl与备份quarantine检查支持-O；最终Unix socket字节长度前置。",
+    "精确runtime source清单/导入闭包，lab/demo/qualification独立交付；42相关通过，边界初败及修复证据保留。",
+    "格式化/新安装包/独立运行/最终全仓尚待，不能继承旧1528/0/12作为新资格。"
+  ],
+  "open_gates": [
+    "新便携包双构建/双安装/隔离运行/precision/迁移/full待资格。",
+    "旧5h PARTIAL_EXTERNAL_LIMIT保持，新驻留PENDING_EXTERNAL_STABLE_ENV。",
+    "Human/semantic ablation NOT_RUN；First-Life NOT_READY/Beta NO，production/private/social/model0。"
+  ],
+  "evidence_refs": [
+    "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
+    "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
+    "docs/nana_engineering_quality_portable_v2_implementation.md"
+  ]
+}
+```
+
+Quality V2 evidence manifest SHA256 `3d6258d67adad77e4d484717b5c11a7652ac9d3d3323e2a1d0f9e5c8106eacac`；manifest不自指，09 current-state header不纳入manifest。

@@ -1,0 +1,140 @@
+{
+  "release": {
+    "archive": "/workspace/nana-deliverables/quality-v2-e322f01/nana-first-life-portable-v1.tar.gz",
+    "sha256": "25ad9723cc9d4ac31eea6b67f8661b332fc53fb6bff298d540c038fb5ada10de",
+    "source_commit": "e322f017900c060a5739347a76c7e63545773d1a",
+    "bundle_files": 231,
+    "new_provider_calls": 0
+  },
+  "rebuild": {
+    "archive": "/workspace/nana-deliverables/quality-v2-e322f01-rebuild/nana-first-life-portable-v1.tar.gz",
+    "sha256": "25ad9723cc9d4ac31eea6b67f8661b332fc53fb6bff298d540c038fb5ada10de",
+    "source_commit": "e322f017900c060a5739347a76c7e63545773d1a",
+    "bundle_files": 231,
+    "new_provider_calls": 0
+  },
+  "qualification_release": {
+    "source_commit": "e322f017900c060a5739347a76c7e63545773d1a",
+    "archive": "/workspace/nana-deliverables/quality-v2-qualification-e322f01/nana-quality-qualification-v2.tar.gz",
+    "sha256": "bb572d22159966c95b206aba783162b1556bd185bf890161b293d5f73af622c4",
+    "files": 5,
+    "ordinary_runtime": false
+  },
+  "qualification_rebuild": {
+    "source_commit": "e322f017900c060a5739347a76c7e63545773d1a",
+    "archive": "/workspace/nana-deliverables/quality-v2-qualification-e322f01-rebuild/nana-quality-qualification-v2.tar.gz",
+    "sha256": "bb572d22159966c95b206aba783162b1556bd185bf890161b293d5f73af622c4",
+    "files": 5,
+    "ordinary_runtime": false
+  },
+  "installed_rehearsal": {
+    "execution": "OWNED_LOCAL_INSTALLED_BUNDLE_NOT_REAL_CLOUD",
+    "source_archive_sha256": "25ad9723cc9d4ac31eea6b67f8661b332fc53fb6bff298d540c038fb5ada10de",
+    "new_provider_calls": 0,
+    "fresh_subject_mode": "PASS_EXPLICIT_DISTINCT_NO_OVERWRITE",
+    "transfer": {
+      "same_identity": true,
+      "identity_id": "3bbad063-251b-40fa-b3d3-10b1e70607f9",
+      "transfer_id": "f1e31d8b-d32e-4fba-8fd3-5544d76e8270",
+      "source_retired": true,
+      "old_start_rejected": true,
+      "old_grants_revoked": true,
+      "provider_config_transferred": false,
+      "private_intent_continuity": true,
+      "private_content_displayed": false
+    },
+    "missing_dependency_fail_closed": true,
+    "process": {
+      "duplicate_start_blocked": true,
+      "restart_same_identity": true,
+      "epochs": [
+        4,
+        5,
+        6
+      ],
+      "real_sigkill": true,
+      "dead_owner_fenced": true,
+      "stale_socket_recovered": true,
+      "same_event_no_replay": true,
+      "emergency_stop_confirmed": true,
+      "offline_chat": true
+    },
+    "closure": {
+      "no_real_calls": true,
+      "synthetic_unknown_preserved_no_retry": true,
+      "no_effects": true,
+      "inspector_read_only": true,
+      "source_withdrawal": true,
+      "backup_deletion_propagation": true,
+      "backup_quarantined": true
+    },
+    "offline_install": "PASS_TWO_INDEPENDENT_VENVS",
+    "supported_platform": "Linux x86_64 / Python3.12",
+    "rehearsal_root": "/workspace/nana-staging/qv2-final-install"
+  },
+  "installed_precision": {
+    "execution": "FRESH_INSTALLED_BUNDLE_PYTHON_ISOLATED",
+    "source_commit": "e322f017900c060a5739347a76c7e63545773d1a",
+    "same_subject": true,
+    "real_owned_failures_preserved": true,
+    "original_g_per_domain_learning": true,
+    "independent_current_verification": true,
+    "checkpoint_operators": 6,
+    "remaining_steps": 3,
+    "file_move_count": 1,
+    "same_identity_restart": true,
+    "official_checkpoint_backup_transfer": true,
+    "old_grants_revoked": true,
+    "old_writer_fenced": true,
+    "repository_runtime_imports": false,
+    "new_provider_calls": 0
+  },
+  "installed_optional": {
+    "execution": "ACTUAL_INSTALLED_MINIMUM_BINDING_OPTIMIZED_ISOLATED",
+    "python": "3.12.14",
+    "sqlite": "3.51.3",
+    "optimize": 1,
+    "runtime_imports": 184,
+    "all_runtime_imports_closed": true,
+    "excluded_modules_unavailable": [
+      "nana_core.fake_world",
+      "nana_core.presence.semantic_demo",
+      "nana_core.presence.process_qualification",
+      "nana_core.continuity.controlled_world.lab"
+    ],
+    "default_demo_started": false,
+    "subject_created_by_probe": false,
+    "sandbox": {
+      "state": "AVAILABLE",
+      "code": "BWRAP_ISOLATION_VERIFIED",
+      "checks": {
+        "ipc_namespace": true,
+        "mnt_namespace": true,
+        "net_namespace": true,
+        "pid_namespace": true,
+        "user_namespace": true,
+        "uts_namespace": true,
+        "host_paths_absent": true,
+        "host_env_absent": true,
+        "no_new_privs": true,
+        "no_capabilities": true,
+        "readonly_work": true
+      },
+      "execution_authority": false
+    },
+    "actual_pure_skill_result": 3.75,
+    "arbitrary_read_rejected": true,
+    "new_provider_calls": 0,
+    "repository_runtime_imports": false
+  },
+  "full_test_source": "9e67c837dde708128e9051d4bcbc0d20114521d8",
+  "runtime_and_build_bytes_equal": true,
+  "equality_paths": [
+    "src",
+    "packaging",
+    "tools/nana_portable_cloud",
+    "tools/nana_quality/qualification_package.py",
+    "tools/nana_precision/installed_probe.py"
+  ],
+  "scope": "OWNED_LOCAL_INSTALLED_BUNDLE_NOT_PRODUCTION_OR_REAL_PROVIDER"
+}

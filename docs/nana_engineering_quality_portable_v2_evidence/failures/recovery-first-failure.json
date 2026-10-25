@@ -1,0 +1,880 @@
+{
+  "goals": [
+    {
+      "goal_id": "2c912ae2-c9dc-4d11-ab1d-79a7fc5e9e92",
+      "template": "owned-document",
+      "state": "COMPLETED",
+      "body_json": "{\"plan_record_id\":\"fb5dcc69-0bd7-4192-8363-0c004950dfa9\",\"record_id\":\"96352e28-dd4e-468b-a305-11085a2fca37\",\"work_id\":\"15deb598-371a-4054-b696-995df32acf26\"}"
+    },
+    {
+      "goal_id": "b318918b-835a-4e1c-a548-49959a1a04b5",
+      "template": "owned-document",
+      "state": "COMPLETED",
+      "body_json": "{\"plan_record_id\":\"d6109ef2-c74e-4714-8018-174e7151dddc\",\"record_id\":\"d06cfb6a-7436-46a9-b5c8-8775fbd60eac\",\"work_id\":\"fb5a988d-e314-4260-8176-66ada32b3bcb\"}"
+    },
+    {
+      "goal_id": "da0b1b2e-02f7-425b-a114-e31d8b005457",
+      "template": "owned-form",
+      "state": "COMPLETED",
+      "body_json": "{\"plan_record_id\":\"b45891ea-7393-4abc-a3b1-d2fa741a64dd\",\"record_id\":\"68defff7-1a37-4134-a5a7-8969d8b61e67\",\"work_id\":\"acb75b6b-7cb0-4fb4-9864-f418e1dccda9\"}"
+    },
+    {
+      "goal_id": "ff0d29a1-bd2b-4ad5-befa-dcb721972a5f",
+      "template": "owned-form",
+      "state": "COMPLETED",
+      "body_json": "{\"plan_record_id\":\"d685aaad-29c7-4881-8b8c-71c7f56385dc\",\"record_id\":\"6ad09014-c7af-497b-899c-aa848c72b953\",\"work_id\":\"33732c23-1bee-4b28-b97d-ac7ebd0ee85a\"}"
+    },
+    {
+      "goal_id": "bab1312a-6adc-4c2d-9f0b-f323a7acc265",
+      "template": "owned-form",
+      "state": "FAILED",
+      "body_json": "{\"plan_record_id\":\"f7217b28-20d8-41d8-bb82-dc751d4a3a26\",\"record_id\":\"67b719f1-edf9-451a-99a6-f36db4576543\",\"work_id\":\"260b2e43-4955-41cd-b976-eca42f528917\"}"
+    },
+    {
+      "goal_id": "d15c77c8-63c5-4bf7-a94f-992f4624b79d",
+      "template": "owned-form",
+      "state": "COMPLETED",
+      "body_json": "{\"plan_record_id\":\"c55360ff-485c-4b7a-bc32-e155fd510a76\",\"record_id\":\"d2f11c04-d651-4310-910d-8fe7549e08f7\",\"work_id\":\"310dfe39-0b18-4aa0-aa25-29744159a6fe\"}"
+    },
+    {
+      "goal_id": "d7f828d6-3ca9-4896-8096-0c78c35c6dbe",
+      "template": "owned-form",
+      "state": "COMPLETED",
+      "body_json": "{\"plan_record_id\":\"eb61df53-9b29-4ab6-bc8e-9f482b75502f\",\"record_id\":\"dca07cd5-6b05-411d-ad60-c0e3863e0ae2\",\"work_id\":\"cbe5b0cc-f4cb-4ef8-9083-627df2bf3ef9\"}"
+    },
+    {
+      "goal_id": "98579391-9862-45ae-be27-2b37ee4bfded",
+      "template": "owned-document",
+      "state": "FAILED",
+      "body_json": "{\"plan_record_id\":\"80f521f5-b702-48f7-a34c-101b5d372248\",\"record_id\":\"7b63713f-7549-4a4d-ae42-6d15a708aa91\",\"work_id\":\"48dedcec-04c3-42cf-b702-812171ac647c\"}"
+    }
+  ],
+  "actions": [
+    {
+      "action_id": "0d7664ef-ecb4-4e2a-a8dc-6d501ce94de9",
+      "goal_id": "2c912ae2-c9dc-4d11-ab1d-79a7fc5e9e92",
+      "plan_id": "2ca74434-2c8c-4a26-8496-1c8c16e2137b",
+      "effect_slot": "subject:e628fba0-e328-4434-ba06-42934e0dcd8c",
+      "idempotency_key": "f1f8e090de6ed56a30675d2c58a1072e8abdb904f911d7c6d3106da4638c272e",
+      "capability": "world.observe",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/document-baseline/source",
+      "args_json": "{\"action_payload_record\":\"62c2724f-a3f6-4cc5-8904-1a8e2964272a\"}",
+      "args_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "7aa44a20-995e-402d-98be-128c36c1ce99",
+      "result_json": "{\"action_payload_record\":\"1c76ebfe-8816-4f8d-a5a8-714a47303fad\"}",
+      "body_json": "{\"verification_event_id\":\"fe2c1da7-257c-43b3-8109-4c4a3b4cad77\"}"
+    },
+    {
+      "action_id": "e0454c43-df06-44d7-9b4f-18434b1d2b87",
+      "goal_id": "2c912ae2-c9dc-4d11-ab1d-79a7fc5e9e92",
+      "plan_id": "2ca74434-2c8c-4a26-8496-1c8c16e2137b",
+      "effect_slot": "subject:a99da385-c302-4c84-842e-f2f60ada74e4",
+      "idempotency_key": "dbd299d80ffda238111c98c2ad3c8b55fb22f05e0c951358873802f9fd970efa",
+      "capability": "world.compute",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/document-baseline/commands",
+      "args_json": "{\"action_payload_record\":\"8747d151-30bb-4558-aa7a-5f15712bcd64\"}",
+      "args_hash": "d769f5c918e7ebb0ffb27feca08c46e1c8ec98f23ae3dd4c3e5dd093e323313d",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "9e939d1c-553b-4647-bfe0-4ae25519311f",
+      "result_json": "{\"action_payload_record\":\"feea7f7b-2ce1-41ed-89c8-20d94bec257e\"}",
+      "body_json": "{\"verification_event_id\":\"9bfae6a1-c63f-4735-b7bc-345e77e5b1ce\"}"
+    },
+    {
+      "action_id": "bac711ee-c598-44db-b7e1-aaa916f44e55",
+      "goal_id": "2c912ae2-c9dc-4d11-ab1d-79a7fc5e9e92",
+      "plan_id": "2ca74434-2c8c-4a26-8496-1c8c16e2137b",
+      "effect_slot": "subject:ec660104-82bb-4661-9005-70ded242dc72",
+      "idempotency_key": "fe462a4d43f683506f7ad2bb6ed1e1fffe4702be423bc5aa6f0e5fe4baaedac7",
+      "capability": "world.publish",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/document-baseline/effect",
+      "args_json": "{\"action_payload_record\":\"48a29558-a80d-4416-b2bb-dd202f1ee1d5\"}",
+      "args_hash": "f3c6891a63059d25ba55455db649e6b5e0614aa76e0ece748bf89bdb6213865c",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "5f19b80c-0c58-453c-a854-480bbd97fab4",
+      "result_json": "{\"action_payload_record\":\"80fbafd2-4200-4ee3-9a72-b394321cacfb\"}",
+      "body_json": "{\"verification_event_id\":\"30894bdd-fcc4-4c6a-96e2-54193986079f\"}"
+    },
+    {
+      "action_id": "a6b13d74-eddf-4dd8-9439-c2472da01528",
+      "goal_id": "2c912ae2-c9dc-4d11-ab1d-79a7fc5e9e92",
+      "plan_id": "2ca74434-2c8c-4a26-8496-1c8c16e2137b",
+      "effect_slot": "subject:d04a7c3e-475b-4456-bdb3-ffb267c6d2ca",
+      "idempotency_key": "79dc0ce5d792df72b12428550290de9f0e16a32c3f68344b86388dcd306e8f90",
+      "capability": "world.observe",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/document-baseline/source",
+      "args_json": "{\"action_payload_record\":\"e9ea7caa-4adf-4011-b7b2-cc5c8a7de72d\"}",
+      "args_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "fe0edce4-f980-4aa5-9e1c-ae80959118c7",
+      "result_json": "{\"action_payload_record\":\"39eead96-f46e-4d56-a8a0-e8c51aefcbe4\"}",
+      "body_json": "{\"verification_event_id\":\"4dd26289-4116-46f0-829a-88bebd701de5\"}"
+    },
+    {
+      "action_id": "88c68895-2d84-407e-af6c-a4aa14e5bf70",
+      "goal_id": "2c912ae2-c9dc-4d11-ab1d-79a7fc5e9e92",
+      "plan_id": "2ca74434-2c8c-4a26-8496-1c8c16e2137b",
+      "effect_slot": "subject:33016d5b-23ff-4b82-ab18-03d6972afd2e",
+      "idempotency_key": "195459d57cba81075cf09d904f5ff7b7ab50a1ffa44caa902af0385ab4566e97",
+      "capability": "world.compute",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/document-baseline/commands",
+      "args_json": "{\"action_payload_record\":\"1ce0724a-34da-4f1e-b580-8d2f3cd76cfe\"}",
+      "args_hash": "b2fc959c7c85dcf708bb8e30a01ca980ff59a8cbe548d5580cca777b05ff815e",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "25aae8c3-065e-4a1b-b02e-476c9423d517",
+      "result_json": "{\"action_payload_record\":\"c79b0bc1-42ba-43ca-8191-a76726c143a7\"}",
+      "body_json": "{\"verification_event_id\":\"4c02fb95-90e9-49e8-8b24-814ad7e012db\"}"
+    },
+    {
+      "action_id": "f82dc238-b1aa-4afb-a756-3ec97a664464",
+      "goal_id": "2c912ae2-c9dc-4d11-ab1d-79a7fc5e9e92",
+      "plan_id": "2ca74434-2c8c-4a26-8496-1c8c16e2137b",
+      "effect_slot": "subject:fffed77b-59a4-4761-af4f-4c7a310509b8",
+      "idempotency_key": "42395d048c62f8bfaae93528eff33c94ca5144ee144a8a05bcaaf2724b6bed8b",
+      "capability": "world.publish",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/document-baseline/effect",
+      "args_json": "{\"action_payload_record\":\"540623f7-88f0-4348-be82-e7cf8038b494\"}",
+      "args_hash": "8a1762a9c88f0af9cc0b0b1cced05bfafda645325094688323520e3251ba211e",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "c60ad9d5-7535-4b4c-b221-9fa2e379817b",
+      "result_json": "{\"action_payload_record\":\"33534312-0a74-40e0-8965-8be9de10ae23\"}",
+      "body_json": "{\"verification_event_id\":\"6e67253e-0833-47e7-9968-b1d49f2e7881\"}"
+    },
+    {
+      "action_id": "c3e165f1-4176-41ac-83c2-ac0520ede1c5",
+      "goal_id": "b318918b-835a-4e1c-a548-49959a1a04b5",
+      "plan_id": "730c15af-3e1e-4ecb-9b8a-f2190c76e6ef",
+      "effect_slot": "subject:3202cb15-685b-4201-a2e0-8d801916d96c",
+      "idempotency_key": "cf6bebfcc07d200b2ba1bc7ccc87190c483a07fc6a91724e25c3c3c2976c0db1",
+      "capability": "world.observe",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/document-transfer/source",
+      "args_json": "{\"action_payload_record\":\"84a0a203-7bad-4f19-b426-6fb99700e2e0\"}",
+      "args_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "64075db7-4e93-41d0-a128-c1cf784758c9",
+      "result_json": "{\"action_payload_record\":\"808bf29f-50d6-488f-9233-b54648a7f79f\"}",
+      "body_json": "{\"verification_event_id\":\"a65dbca6-63f1-47eb-bac2-2f5cefa8740b\"}"
+    },
+    {
+      "action_id": "23c0a631-2291-4600-9b09-f0fe8973129b",
+      "goal_id": "b318918b-835a-4e1c-a548-49959a1a04b5",
+      "plan_id": "730c15af-3e1e-4ecb-9b8a-f2190c76e6ef",
+      "effect_slot": "subject:d6059cd8-e29b-4568-a1ab-290e6b89fce3",
+      "idempotency_key": "8c595664310a953070286191d4f2dceb722f4d94ed7ff7ad375409c46dd0e91b",
+      "capability": "world.compute",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/document-transfer/commands",
+      "args_json": "{\"action_payload_record\":\"c9ae75e8-d69d-4864-939d-a4bd2023d3c7\"}",
+      "args_hash": "2e18842e111f43554f33cda9a36601df9c6bd171acfa988bccb6c4216b9207b1",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "355977e4-bb7c-4f50-a8a7-16ef03b3bab2",
+      "result_json": "{\"action_payload_record\":\"94aef8a1-f1eb-44fb-8cbd-c21a4cbb7c49\"}",
+      "body_json": "{\"verification_event_id\":\"37d0187c-9002-44fc-987a-bec1a9b9d551\"}"
+    },
+    {
+      "action_id": "af6cad44-edf0-409a-9b78-f3197236fedc",
+      "goal_id": "b318918b-835a-4e1c-a548-49959a1a04b5",
+      "plan_id": "730c15af-3e1e-4ecb-9b8a-f2190c76e6ef",
+      "effect_slot": "subject:5462e4f8-210f-47e8-aa0b-4d75c16df3a1",
+      "idempotency_key": "8896996c94aeb85e7b0e591acfd01a8fe3c78da4ca50cc2a79d3d2807758078b",
+      "capability": "world.publish",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/document-transfer/effect",
+      "args_json": "{\"action_payload_record\":\"5d67517e-a886-4cb5-a4b9-f235f61306b0\"}",
+      "args_hash": "d55de5d645bf8b61bdb26b892b0647e512ab565922a8ca0a74d16faafcafa5bd",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "1adabaf0-a4a7-467d-81a2-6795f38517ff",
+      "result_json": "{\"action_payload_record\":\"84e0bbf9-a1f1-4acb-9cea-817b3ba222f5\"}",
+      "body_json": "{\"verification_event_id\":\"ed32bd5d-8746-4711-91f1-674be58eaba7\"}"
+    },
+    {
+      "action_id": "c4daac0b-c1e7-45c9-ad13-7fe241caf97b",
+      "goal_id": "da0b1b2e-02f7-425b-a114-e31d8b005457",
+      "plan_id": "74235ac0-08d4-46b7-94ab-0b15c816e713",
+      "effect_slot": "subject:9ae8d504-650e-4201-aea3-71aac3820d34",
+      "idempotency_key": "238bfdfc34f49d842a088a232e6cca611d6a0e57cc2d2d783cb3600b0c3269f7",
+      "capability": "world.observe",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/form-baseline/source",
+      "args_json": "{\"action_payload_record\":\"dce8414b-f2c5-4dff-a53d-7c59aed5db54\"}",
+      "args_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "2fb8aeb3-8091-4a2b-94cf-136623077732",
+      "result_json": "{\"action_payload_record\":\"1d2d8860-4775-4567-82a4-e3bee14d6550\"}",
+      "body_json": "{\"verification_event_id\":\"eb447e97-a211-4aa8-8805-808022d61e26\"}"
+    },
+    {
+      "action_id": "07a2a79d-f564-4032-84b8-5cc497a1527a",
+      "goal_id": "ff0d29a1-bd2b-4ad5-befa-dcb721972a5f",
+      "plan_id": "a4e891c1-7832-401d-9b9b-0a127af34946",
+      "effect_slot": "subject:c09e6a6c-dc51-49ec-8d98-b42e7a4bbe8b",
+      "idempotency_key": "ff7bb30ba5a441cdeb01e6a138bf1dc07585bc88560767c3e1d7250dad232e0a",
+      "capability": "world.observe",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/form-transfer/source",
+      "args_json": "{\"action_payload_record\":\"6beb32bf-98b8-4498-b4af-b8ca10645d71\"}",
+      "args_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "2b1c9b6f-96f7-4fd8-aac1-d0cd112ccee0",
+      "result_json": "{\"action_payload_record\":\"d755ffa1-7ed7-4da0-bd90-d9776ce61a1b\"}",
+      "body_json": "{\"verification_event_id\":\"fa38a71e-f5c3-490e-a427-1bd074bd3e51\"}"
+    },
+    {
+      "action_id": "3e0016f8-aa34-45f0-9a53-510b2f8c1fe3",
+      "goal_id": "da0b1b2e-02f7-425b-a114-e31d8b005457",
+      "plan_id": "74235ac0-08d4-46b7-94ab-0b15c816e713",
+      "effect_slot": "subject:1c0021c0-db66-4943-846c-f5a1ac304d95",
+      "idempotency_key": "84ac7cacf6f7bf246a20088ebc83ce3cd17614ee59d861fbef00bdd80f7ad9f7",
+      "capability": "world.compute",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/form-baseline/commands",
+      "args_json": "{\"action_payload_record\":\"bd1d3d03-3f32-45d7-aea4-e70e0a935eb9\"}",
+      "args_hash": "951df9867f250cbc97a1815076bccf0303b0cb10ac2064ed04522d7e26208dd0",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "b1136062-042d-42f9-88ca-ee5f99354ad9",
+      "result_json": "{\"action_payload_record\":\"e5d3fb28-2b1b-457a-8aab-ca0fcfaa3ab0\"}",
+      "body_json": "{\"verification_event_id\":\"faf01b81-0eeb-4092-b5b9-79f37c3bed93\"}"
+    },
+    {
+      "action_id": "d46276b6-518d-44bd-a992-990b7dae02ce",
+      "goal_id": "ff0d29a1-bd2b-4ad5-befa-dcb721972a5f",
+      "plan_id": "a4e891c1-7832-401d-9b9b-0a127af34946",
+      "effect_slot": "subject:12dd08dd-2212-4f87-896b-627a1a8bf77f",
+      "idempotency_key": "65ffa1056450e88634192da69160bc1045f1677d7503e727a051afeee6c0a4ed",
+      "capability": "world.compute",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/form-transfer/commands",
+      "args_json": "{\"action_payload_record\":\"bcbce0a0-4d1f-40e5-9753-149eb4852e37\"}",
+      "args_hash": "522afb0b76fe4c4d0c82f8cb7750fa750f3128dc3326426bc0ab6d2774d871e4",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "8ed90fa3-2d69-4eab-9cea-db090e51fa91",
+      "result_json": "{\"action_payload_record\":\"37b0bd92-a140-468e-b152-d8a9241b1f15\"}",
+      "body_json": "{\"verification_event_id\":\"7587170a-ddf1-49ea-9f95-c41040a2a232\"}"
+    },
+    {
+      "action_id": "fcb8864c-488b-4eef-9a69-dd9e8512ee83",
+      "goal_id": "da0b1b2e-02f7-425b-a114-e31d8b005457",
+      "plan_id": "74235ac0-08d4-46b7-94ab-0b15c816e713",
+      "effect_slot": "subject:a4f62b0e-4305-4968-bf32-247c6ae882e1",
+      "idempotency_key": "be8289837a3eeac9cbae6ae5194f86fe5240f89d4b1443bfb55e1beb5352f1a5",
+      "capability": "world.publish",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/form-baseline/effect",
+      "args_json": "{\"action_payload_record\":\"bcd36dfd-f698-4eef-8fb9-6b870b67ad1a\"}",
+      "args_hash": "7fc8a8949e841e0ccc96f67cf42a48d0ee8a0239e89b894bbcaba2fa4a369d1e",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "78bd9902-295f-467b-945f-abc333d70037",
+      "result_json": "{\"action_payload_record\":\"2b7c35cb-982d-4780-acd0-bcad33443354\"}",
+      "body_json": "{\"verification_event_id\":\"e6fa8c61-6664-4cdf-8856-c2e4353c72e5\"}"
+    },
+    {
+      "action_id": "d1041c23-1222-4a03-9f96-b4be38fb82ac",
+      "goal_id": "ff0d29a1-bd2b-4ad5-befa-dcb721972a5f",
+      "plan_id": "a4e891c1-7832-401d-9b9b-0a127af34946",
+      "effect_slot": "subject:3dba1bb8-ae44-4fc9-b6e9-a019483b8351",
+      "idempotency_key": "b54c74bf31f8193556e0658c4983930e13859a0c5e99a4f2336230947d3622c6",
+      "capability": "world.publish",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/form-transfer/effect",
+      "args_json": "{\"action_payload_record\":\"32eafc36-3c91-4f76-8443-4abc412d21d1\"}",
+      "args_hash": "ceac21740fbcd78eadefe63664eb732496b840a73311e8096eb2d6857f1f3ca0",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "d9cb24d9-6fa0-45dd-99bd-38de8dd62bf3",
+      "result_json": "{\"action_payload_record\":\"24b7df84-093c-4ecb-aaf7-67b0d6c93f0a\"}",
+      "body_json": "{\"verification_event_id\":\"464381d8-5a10-44f4-a3ed-78c4dd550551\"}"
+    },
+    {
+      "action_id": "022b91d2-17ff-43b1-ba51-af5bdb42bfeb",
+      "goal_id": "da0b1b2e-02f7-425b-a114-e31d8b005457",
+      "plan_id": "74235ac0-08d4-46b7-94ab-0b15c816e713",
+      "effect_slot": "subject:5f84515d-722d-4ae4-ab26-b8ab6265abf0",
+      "idempotency_key": "17dab8e92bac69c6e80d8dabb1d0c3a2d87fd262517c9f311bb6da859bbaf259",
+      "capability": "world.observe",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/form-baseline/source",
+      "args_json": "{\"action_payload_record\":\"5de14dfb-e54d-4583-ad46-ecf4e37a33b2\"}",
+      "args_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "8310741b-12c1-4778-b8a8-d6db7e1435ec",
+      "result_json": "{\"action_payload_record\":\"bc27b71e-feb8-4b0f-a600-5f1886ecf054\"}",
+      "body_json": "{\"verification_event_id\":\"f35a4fb3-30f5-4801-bf95-ee2d13005d4e\"}"
+    },
+    {
+      "action_id": "b9b8c2d3-4529-4056-8524-5bf95b715198",
+      "goal_id": "ff0d29a1-bd2b-4ad5-befa-dcb721972a5f",
+      "plan_id": "a4e891c1-7832-401d-9b9b-0a127af34946",
+      "effect_slot": "subject:6b1217a3-5f33-475d-ac6f-985edd4a616b",
+      "idempotency_key": "4b4ae81488ed2f451f3cb08861d4322c620809e45730ac402d6b6bc238c16750",
+      "capability": "world.observe",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/form-transfer/source",
+      "args_json": "{\"action_payload_record\":\"db8b74e9-1ead-4362-aa4d-b9af87efd6f3\"}",
+      "args_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "25713aa1-5b16-43e7-85ee-aa35aa26f819",
+      "result_json": "{\"action_payload_record\":\"001e86dd-5bbb-4323-bee7-de360f4562e8\"}",
+      "body_json": "{\"verification_event_id\":\"c6715797-525d-4c47-b1ea-4cafbe569a9d\"}"
+    },
+    {
+      "action_id": "dc9d6af0-5621-4d2c-af7d-28d8f4e5b278",
+      "goal_id": "da0b1b2e-02f7-425b-a114-e31d8b005457",
+      "plan_id": "74235ac0-08d4-46b7-94ab-0b15c816e713",
+      "effect_slot": "subject:2b527dfb-41b2-4d1a-8671-7b24ee7efe3a",
+      "idempotency_key": "b3016d277c24857cb5b73c14b46adfb6e8a54d89c1697705c5fadc59dfee2d75",
+      "capability": "world.compute",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/form-baseline/commands",
+      "args_json": "{\"action_payload_record\":\"22a59a1b-3749-43c1-875b-8dac7fc4a419\"}",
+      "args_hash": "1522d32cd57ed5941b98ac57a1eeaf0ab503f5caf2a06961a533516fcc81c457",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "74480462-db42-449c-bb37-9b800e501c25",
+      "result_json": "{\"action_payload_record\":\"00781a14-0c5c-4fb2-bbf3-9548b95f4413\"}",
+      "body_json": "{\"verification_event_id\":\"948caca5-72d3-44c6-a9cc-5dcd8235139c\"}"
+    },
+    {
+      "action_id": "6307955c-2d00-4d11-8af2-a66aa5b6cdd3",
+      "goal_id": "ff0d29a1-bd2b-4ad5-befa-dcb721972a5f",
+      "plan_id": "a4e891c1-7832-401d-9b9b-0a127af34946",
+      "effect_slot": "subject:c1c8b6da-e299-4734-8b77-fec7dbfe1f08",
+      "idempotency_key": "f40a1e386746340042ab4836e858ca4a5480f9dca5b26240260337f85c433960",
+      "capability": "world.compute",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/form-transfer/commands",
+      "args_json": "{\"action_payload_record\":\"919a7362-a94c-465b-8a3b-66f970841e90\"}",
+      "args_hash": "eb05b11a78eeadf0a8a52ac020c685a6689dcb8d6f6a7941ad723f26b9d01fc3",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "9b000024-a6e5-4b25-aba8-60d1c3f86e56",
+      "result_json": "{\"action_payload_record\":\"3dec0615-141b-4d45-a952-bf28ae12a62b\"}",
+      "body_json": "{\"verification_event_id\":\"9e4509cb-c235-44b4-b619-4f12f02b1fe3\"}"
+    },
+    {
+      "action_id": "3395ca19-c831-4b1c-ac52-14c160d6ba5c",
+      "goal_id": "da0b1b2e-02f7-425b-a114-e31d8b005457",
+      "plan_id": "74235ac0-08d4-46b7-94ab-0b15c816e713",
+      "effect_slot": "subject:3964c9fd-3e87-41ff-a72f-75cbb2e785af",
+      "idempotency_key": "1b5fb996d2bf06b1a2fb4faada8705f7d58d1889de38b7664bb305fd8cdbfacf",
+      "capability": "world.publish",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/form-baseline/effect",
+      "args_json": "{\"action_payload_record\":\"c906ff98-2633-4bbe-b4ff-040cc8f7d743\"}",
+      "args_hash": "4ad8a71a0ba481b8de30d5837f6bfdb517a000929333b0fad3285bb94b9c5a31",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "88483a9e-a575-4485-a424-acfa6e15eeef",
+      "result_json": "{\"action_payload_record\":\"ee53caea-2bbe-4e92-ad6b-6864a913a3f0\"}",
+      "body_json": "{\"verification_event_id\":\"2663e99b-9551-4dbc-b29f-dbe47e4e826e\"}"
+    },
+    {
+      "action_id": "39f659a5-7fe1-4e0d-8623-3921ae7ba426",
+      "goal_id": "ff0d29a1-bd2b-4ad5-befa-dcb721972a5f",
+      "plan_id": "a4e891c1-7832-401d-9b9b-0a127af34946",
+      "effect_slot": "subject:89654f7f-ac20-4f21-9355-127046fcfc33",
+      "idempotency_key": "d1ff14e3b70a063c2babaeee91fba9f28b172d36cccad3b99031c75cae46f77b",
+      "capability": "world.publish",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/form-transfer/effect",
+      "args_json": "{\"action_payload_record\":\"bbbb1c95-917b-48e1-bfbe-e0d0dbc7ee40\"}",
+      "args_hash": "0cd2f1c8ccb9b80069cc7caf7ed1b47a6f38818484b5a367dd3ad5c69510aff1",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "f6760843-8670-42a4-bca8-71e6b0ad1a06",
+      "result_json": "{\"action_payload_record\":\"f8e30725-ee5c-4355-adcd-446f2c9b67b9\"}",
+      "body_json": "{\"verification_event_id\":\"6a506b05-44ef-4c44-b541-9896c6b6ff5b\"}"
+    },
+    {
+      "action_id": "4d2e1d8b-0687-4cb0-b342-0cfccfd8fa4d",
+      "goal_id": "bab1312a-6adc-4c2d-9f0b-f323a7acc265",
+      "plan_id": "1e74954d-3ec1-453d-9ef2-e8793714f89b",
+      "effect_slot": "subject:2f9af930-170d-4788-952d-64467154df4b",
+      "idempotency_key": "aae3f56d46a0570bfdcaa5f9ef29f041f3f3670938dce4766e463d3aa38a8b82",
+      "capability": "world.observe",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/form-batch-gap/source",
+      "args_json": "{\"action_payload_record\":\"96d4ba60-7632-4bfc-9424-75a48cc5d629\"}",
+      "args_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "4916c50f-cd26-4fe4-8f5e-5e30cae444b0",
+      "result_json": "{\"action_payload_record\":\"6f9b5f55-e978-44fd-94a0-51673ecace96\"}",
+      "body_json": "{\"verification_event_id\":\"4561f197-978b-46c5-bad8-ad7e163cd49c\"}"
+    },
+    {
+      "action_id": "213e6d2b-f519-4b2d-97a6-f4079f8b14f1",
+      "goal_id": "bab1312a-6adc-4c2d-9f0b-f323a7acc265",
+      "plan_id": "1e74954d-3ec1-453d-9ef2-e8793714f89b",
+      "effect_slot": "subject:ba0b4a36-4eb9-4583-a77e-d5b092cf6658",
+      "idempotency_key": "e2ebaef75100426799d528791f53b44d16821fb2386fe97471efa8596271ebf1",
+      "capability": "world.compute",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/form-batch-gap/commands",
+      "args_json": "{\"action_payload_record\":\"dbf2c0dd-1ead-4552-8d73-3b9226184113\"}",
+      "args_hash": "3429d9ea96b787491a83f6065b1c6b7a9e3e332a3dac2c9ba9a6e9ae330e460c",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "eebe0bcf-165e-45f3-84e5-89eedc34d276",
+      "result_json": "{\"action_payload_record\":\"149eb455-b4be-4467-a763-4beee7696f40\"}",
+      "body_json": "{\"verification_event_id\":\"77201aff-dd7e-4c57-83f3-8cd37af2c63f\"}"
+    },
+    {
+      "action_id": "af02889c-a6c7-46dc-9884-06def346e86d",
+      "goal_id": "bab1312a-6adc-4c2d-9f0b-f323a7acc265",
+      "plan_id": "1e74954d-3ec1-453d-9ef2-e8793714f89b",
+      "effect_slot": "subject:a200455d-ffbe-4c3a-a048-13731931c430",
+      "idempotency_key": "2e115b5a4cd7c7a8d02e068cd86c9e788a25bb3536478f6d78dc6062f8635c72",
+      "capability": "world.publish",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/form-batch-gap/effect",
+      "args_json": "{\"action_payload_record\":\"0a26b13f-227e-4484-b492-ce776e9ed701\"}",
+      "args_hash": "02dc5c2a905f60d5d5d19861c6f9fcd7d94714cb6ccee2746e169d3d11e22290",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "1868e4aa-37f4-46c4-882b-42b15cf5bf09",
+      "result_json": "{\"action_payload_record\":\"e8b17c1b-95d8-49d5-bd93-ed33d4cbbb87\"}",
+      "body_json": "{\"verification_event_id\":\"e6d34f23-fc67-4632-bb91-931f47c0ee51\"}"
+    },
+    {
+      "action_id": "555a0cd4-6a80-4c0e-938c-547192994fe1",
+      "goal_id": "d15c77c8-63c5-4bf7-a94f-992f4624b79d",
+      "plan_id": "f83515c4-e779-47be-b2b9-c62306fbcb2c",
+      "effect_slot": "subject:b610f07a-c86d-4b13-bdb4-39a639865295",
+      "idempotency_key": "d7a4ff6dda77b24bd53fa8c58ec7fa8f246ef973b5fa7d82c7ad3d8f4626dcd9",
+      "capability": "world.observe",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/form-batch-gap/source",
+      "args_json": "{\"action_payload_record\":\"2112d7ed-51d9-46a3-a8f4-c99c3cac7e84\"}",
+      "args_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "7e23dd6c-20c0-48af-b23a-1fc9df627002",
+      "result_json": "{\"action_payload_record\":\"5d064c91-0533-42e3-8469-3c84af5a33da\"}",
+      "body_json": "{\"verification_event_id\":\"206a15d1-fe9c-4f71-90d8-72cc8e137cae\"}"
+    },
+    {
+      "action_id": "c98b6f50-099b-48d6-8d9d-ee269987a06d",
+      "goal_id": "d15c77c8-63c5-4bf7-a94f-992f4624b79d",
+      "plan_id": "f83515c4-e779-47be-b2b9-c62306fbcb2c",
+      "effect_slot": "subject:37d52053-5d1e-473e-abb7-3dbcba8fd7e5",
+      "idempotency_key": "f0058aadf7eccef4eec8bae409649390d7327de172467272fb776bde0c973dec",
+      "capability": "world.skill",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/form-batch-gap/commands",
+      "args_json": "{\"action_payload_record\":\"bf0e80f8-e96a-4e80-94cf-40b43a8f7ac6\"}",
+      "args_hash": "353d1a5d3df1b6fb6bebbac90c0d76534bfed74a925240d8e271b69fe0a9affb",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "48015d95-55c5-4efc-82b8-e86048e8caa4",
+      "result_json": "{\"action_payload_record\":\"06a554b3-1c81-403f-9c35-02bde39f0d71\"}",
+      "body_json": "{\"verification_event_id\":\"f6b845ef-3bde-4893-97c5-ed154db498f0\"}"
+    },
+    {
+      "action_id": "4bec1858-f669-4f78-807f-5afbcadaf644",
+      "goal_id": "d15c77c8-63c5-4bf7-a94f-992f4624b79d",
+      "plan_id": "f83515c4-e779-47be-b2b9-c62306fbcb2c",
+      "effect_slot": "subject:9ce5da1b-2908-4c8e-8525-ed17d15986ee",
+      "idempotency_key": "5765ffb7b5ad2775bcaed0ec2731f31d8e5d58be19e89a0173de6a0639840d16",
+      "capability": "world.publish",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/form-batch-gap/effect",
+      "args_json": "{\"action_payload_record\":\"df91ac59-8b05-4216-b8f1-48ece8e57c9c\"}",
+      "args_hash": "eb345b42dd0547474e610369c87a798c5c04d699fe394625315d9230da457458",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "c0882a17-3982-4926-9ef3-f50503f004ac",
+      "result_json": "{\"action_payload_record\":\"7844e190-fdb2-42d0-a12f-72efa14b3ca6\"}",
+      "body_json": "{\"verification_event_id\":\"a3d0d9a1-525a-4d1a-81a9-6b13fdb41b6d\"}"
+    },
+    {
+      "action_id": "49736897-3191-428c-bb89-9c603b375376",
+      "goal_id": "d7f828d6-3ca9-4896-8096-0c78c35c6dbe",
+      "plan_id": "49071693-4db8-4e9d-9353-3de9ea4cba1c",
+      "effect_slot": "subject:f4d93930-eeae-4703-8c3c-dd848f6f9e27",
+      "idempotency_key": "36594fb90b51a20bca315a51823cdae3a11e6ec140b991976019349f3020717d",
+      "capability": "world.observe",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/form-batch-transfer/source",
+      "args_json": "{\"action_payload_record\":\"934757be-a659-447c-9fe7-946b0de6be72\"}",
+      "args_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "a0bf7366-caaa-4451-b49d-fc0a63d0de8e",
+      "result_json": "{\"action_payload_record\":\"048f7f12-81b1-4ba3-bce3-bb1a17bc03b7\"}",
+      "body_json": "{\"verification_event_id\":\"062a6154-db02-441c-875c-acbc90997343\"}"
+    },
+    {
+      "action_id": "a7c6334e-0d92-4f86-a779-de461bf758c8",
+      "goal_id": "d7f828d6-3ca9-4896-8096-0c78c35c6dbe",
+      "plan_id": "49071693-4db8-4e9d-9353-3de9ea4cba1c",
+      "effect_slot": "subject:9d54b48f-0083-406f-9211-99a123cc1d71",
+      "idempotency_key": "fac2cac6c7738def6a2c0e2287d1f76fc279ea22622946b54bf8cfc463c0637a",
+      "capability": "world.skill",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/form-batch-transfer/commands",
+      "args_json": "{\"action_payload_record\":\"bb23acee-a4c8-4994-a135-c040a9faac76\"}",
+      "args_hash": "5f0ab56e0217ce3011d8828efa47ab196e0cd6a2d095f70969b7b1f1eb69e07d",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "5088d44c-67c2-47bb-8e4e-fb165694cb33",
+      "result_json": "{\"action_payload_record\":\"a459e5e7-ee82-4ba9-9b9f-aeaa3a81f597\"}",
+      "body_json": "{\"verification_event_id\":\"47c1161d-0daa-4653-9bad-96e5bb344ec7\"}"
+    },
+    {
+      "action_id": "7a0f1218-5130-4fc5-b808-a3fddc2e7763",
+      "goal_id": "d7f828d6-3ca9-4896-8096-0c78c35c6dbe",
+      "plan_id": "49071693-4db8-4e9d-9353-3de9ea4cba1c",
+      "effect_slot": "subject:e4c9049e-b920-4611-a4e6-e267de301d78",
+      "idempotency_key": "af09071988e961433b5396f2f8c5daf46a8b8522fead5d3b9ca1b31d129c34c4",
+      "capability": "world.publish",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/form-batch-transfer/effect",
+      "args_json": "{\"action_payload_record\":\"2b0bcaf6-7c7d-4af2-95d3-d17ce1d860d1\"}",
+      "args_hash": "96c825d9c9f65aa46d93c480479491d40ef6f91c2cb2245883cfb58eac6c0ff5",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "1598a05b-88a4-4782-9248-2ca85d60c661",
+      "result_json": "{\"action_payload_record\":\"3c220b4b-8484-46bd-9af8-1516b2e58700\"}",
+      "body_json": "{\"verification_event_id\":\"0d9acf63-b2ab-46b4-b144-6563116bc04a\"}"
+    },
+    {
+      "action_id": "ac8732a5-4689-4bb1-b42a-a7d9cc33d0d0",
+      "goal_id": "98579391-9862-45ae-be27-2b37ee4bfded",
+      "plan_id": "48cf3189-9aea-4267-b4f4-02cf5feaa14a",
+      "effect_slot": "subject:cfb4df93-9547-4eec-85ad-c352f1aca730",
+      "idempotency_key": "ec03b628a04b682e5ead29e2685141ac9f80433f51eb3d6b7702326288df379c",
+      "capability": "world.observe",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/document-counterexample/source",
+      "args_json": "{\"action_payload_record\":\"244ee418-660a-4be2-ae78-91fcb59ee48a\"}",
+      "args_hash": "44136fa355b3678a1146ad16f7e8649e94fb4fc21fe77e8310c060f61caaff8a",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "84629a3f-e285-4697-87b8-cdf16ce58a27",
+      "result_json": "{\"action_payload_record\":\"5ffc95fc-bf77-46e2-b0eb-39b4e7eb841c\"}",
+      "body_json": "{\"verification_event_id\":\"b2c1111b-50c3-45e5-9af3-d1ec14575555\"}"
+    },
+    {
+      "action_id": "618abbe3-f9be-4ea0-bfaa-905f3a01f703",
+      "goal_id": "98579391-9862-45ae-be27-2b37ee4bfded",
+      "plan_id": "48cf3189-9aea-4267-b4f4-02cf5feaa14a",
+      "effect_slot": "subject:fb0ac69a-95e7-4d10-8f56-3526a7490a4b",
+      "idempotency_key": "4b18f63496fc3614d5b396cad5d770cebab7b8f503800393dae25a4069f10617",
+      "capability": "world.compute",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/document-counterexample/commands",
+      "args_json": "{\"action_payload_record\":\"c887a77d-eea4-4216-81a9-84ac6f2496c6\"}",
+      "args_hash": "a44a5d28ce843dc77f74bd9783a484b34ec4141329bb7d352e917e09c444bd71",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "ac783991-0c5b-4b26-8b8c-adda5df5f415",
+      "result_json": "{\"action_payload_record\":\"96de4281-a28a-41f3-9493-a81428c3562c\"}",
+      "body_json": "{\"verification_event_id\":\"a97b2fe7-0677-49cd-a683-eb9ba7630da2\"}"
+    },
+    {
+      "action_id": "ac502a99-38a3-4b87-9357-f8172657dfd0",
+      "goal_id": "98579391-9862-45ae-be27-2b37ee4bfded",
+      "plan_id": "48cf3189-9aea-4267-b4f4-02cf5feaa14a",
+      "effect_slot": "subject:1785b8ba-0dfd-4c18-b240-32c817ae9fa7",
+      "idempotency_key": "c21452c76a6ce659fcbc169a4b785c222527b278258dc1f9c9150b8bc9ae93a3",
+      "capability": "world.publish",
+      "resource": "hands://8e1853e961798c8ebdac671ee280366c/document-counterexample/effect",
+      "args_json": "{\"action_payload_record\":\"5db95233-59af-4f6b-9894-4c1539028cab\"}",
+      "args_hash": "69eeda9600abbf2f2ff366a0677badf45841b61df9fb974135accd98f369b215",
+      "state": "SUCCEEDED",
+      "version": 5,
+      "attempt_id": "e8b30a52-3de6-4975-a019-cc9b69dc7f6d",
+      "result_json": "{\"action_payload_record\":\"e3f3efb7-4d33-46d6-b0d7-87c7a88d4926\"}",
+      "body_json": "{\"verification_event_id\":\"c01a75d3-d06d-46e3-b2c9-ed78910a0b1b\"}"
+    }
+  ],
+  "effects": {
+    "1b5fb996d2bf06b1a2fb4faada8705f7d58d1889de38b7664bb305fd8cdbfacf": {
+      "action_id": "3395ca19-c831-4b1c-ac52-14c160d6ba5c",
+      "after_digest": "8636cebbd4f65c9f8310ea2fe09ad46817a513ac13e98e9ae27c6a27a632dcb8",
+      "at_ns": 1792907457056680793,
+      "before_digest": "5f6ef232d05cc6050e862d76576571480108375e5f986573ac8fe84287c034be",
+      "commands": [
+        {
+          "field": "size",
+          "op": "SET_FIELD",
+          "value": ""
+        },
+        {
+          "field": "color",
+          "op": "SET_FIELD",
+          "value": ""
+        },
+        {
+          "field": "color",
+          "op": "SET_FIELD",
+          "value": "blue"
+        },
+        {
+          "op": "SUBMIT"
+        }
+      ],
+      "idempotency_key": "1b5fb996d2bf06b1a2fb4faada8705f7d58d1889de38b7664bb305fd8cdbfacf",
+      "request_digest": "340b3ba2171638089455cd6f3808e82368988f4faff2a2e717ac6522e2e3d21f",
+      "revision": 3,
+      "status": "APPLIED",
+      "subject_id": "37fb748d-434c-4be5-9406-1ce27053d604",
+      "task_id": "form-baseline"
+    },
+    "2e115b5a4cd7c7a8d02e068cd86c9e788a25bb3536478f6d78dc6062f8635c72": {
+      "action_id": "af02889c-a6c7-46dc-9884-06def346e86d",
+      "after_digest": "cb9d97788be4fa96e52d0c519db411f0202c5226681f277c105a521d02148cfe",
+      "at_ns": 1792907458461904099,
+      "before_digest": "d38fd83a2665ca5d8fdf6a6c99c674d3fb304779ae6d8f543270332ec403a968",
+      "commands": [
+        {
+          "field": "category",
+          "op": "SET_FIELD",
+          "value": ""
+        },
+        {
+          "field": "title",
+          "op": "SET_FIELD",
+          "value": ""
+        },
+        {
+          "field": "category",
+          "op": "SET_FIELD",
+          "value": "reference"
+        },
+        {
+          "op": "SUBMIT"
+        }
+      ],
+      "idempotency_key": "2e115b5a4cd7c7a8d02e068cd86c9e788a25bb3536478f6d78dc6062f8635c72",
+      "request_digest": "1f530e837288d3a3bda361df736640b3ea716f26de29c5ae956c3df81a3db54f",
+      "revision": 2,
+      "status": "APPLIED",
+      "subject_id": "37fb748d-434c-4be5-9406-1ce27053d604",
+      "task_id": "form-batch-gap"
+    },
+    "42395d048c62f8bfaae93528eff33c94ca5144ee144a8a05bcaaf2724b6bed8b": {
+      "action_id": "f82dc238-b1aa-4afb-a756-3ec97a664464",
+      "after_digest": "22fa19aaa026b656ccde2ba8f4ea88690caf4b5f5952f8aa77c1aaf2e146eb68",
+      "at_ns": 1792907444837923496,
+      "before_digest": "7870ee30b4c9484b8e060b6d3c75fcea97e2c3e23832c0d50f510dbece3fded1",
+      "commands": [
+        {
+          "op": "REPLACE",
+          "value": "A verified note"
+        }
+      ],
+      "idempotency_key": "42395d048c62f8bfaae93528eff33c94ca5144ee144a8a05bcaaf2724b6bed8b",
+      "request_digest": "0ba68013927312dfc71db8b71a92967ac4980792c62dd69621a36cd41d2b9b91",
+      "revision": 3,
+      "status": "APPLIED",
+      "subject_id": "37fb748d-434c-4be5-9406-1ce27053d604",
+      "task_id": "document-baseline"
+    },
+    "5765ffb7b5ad2775bcaed0ec2731f31d8e5d58be19e89a0173de6a0639840d16": {
+      "action_id": "4bec1858-f669-4f78-807f-5afbcadaf644",
+      "after_digest": "a24cee890cd1630789b590179323d6a540221135ac534e90ab3bd7aaa5e10280",
+      "at_ns": 1792907461635412917,
+      "before_digest": "cb9d97788be4fa96e52d0c519db411f0202c5226681f277c105a521d02148cfe",
+      "commands": [
+        {
+          "field": "category",
+          "op": "SET_FIELD",
+          "value": ""
+        },
+        {
+          "field": "title",
+          "op": "SET_FIELD",
+          "value": ""
+        },
+        {
+          "field": "category",
+          "op": "SET_FIELD",
+          "value": "reference"
+        },
+        {
+          "field": "title",
+          "op": "SET_FIELD",
+          "value": "Map"
+        },
+        {
+          "op": "SUBMIT"
+        }
+      ],
+      "idempotency_key": "5765ffb7b5ad2775bcaed0ec2731f31d8e5d58be19e89a0173de6a0639840d16",
+      "request_digest": "195a82ca21b63aa5e2d0737fe0078806fccac01db53f89c502067a3035fd8976",
+      "revision": 3,
+      "status": "APPLIED",
+      "subject_id": "37fb748d-434c-4be5-9406-1ce27053d604",
+      "task_id": "form-batch-gap"
+    },
+    "8896996c94aeb85e7b0e591acfd01a8fe3c78da4ca50cc2a79d3d2807758078b": {
+      "action_id": "af6cad44-edf0-409a-9b78-f3197236fedc",
+      "after_digest": "cf0127c5331a16ed25b01a8a254358ccf12cd02d247ad2b28abecc358ae626c6",
+      "at_ns": 1792907445628066362,
+      "before_digest": "1512629d85963b9e7cdf30874cc534e4f6182e71b5da82564d6a3b920320b05f",
+      "commands": [
+        {
+          "op": "REPLACE",
+          "value": "Meeting agenda"
+        }
+      ],
+      "idempotency_key": "8896996c94aeb85e7b0e591acfd01a8fe3c78da4ca50cc2a79d3d2807758078b",
+      "request_digest": "988d36598350aba1d57faf6372313152f3b9e33682f4b023395873d3a9ae61c5",
+      "revision": 2,
+      "status": "APPLIED",
+      "subject_id": "37fb748d-434c-4be5-9406-1ce27053d604",
+      "task_id": "document-transfer"
+    },
+    "af09071988e961433b5396f2f8c5daf46a8b8522fead5d3b9ca1b31d129c34c4": {
+      "action_id": "7a0f1218-5130-4fc5-b808-a3fddc2e7763",
+      "after_digest": "2b22b113484dbf943390a02c9b10e4354d840dd0aa3a9d0edb43fea8b5f65357",
+      "at_ns": 1792907462851948002,
+      "before_digest": "eb94d0ecf3d3369111460dd483cbea4dc02291a2eb248d6695dcdb2a97b9c749",
+      "commands": [
+        {
+          "field": "format",
+          "op": "SET_FIELD",
+          "value": ""
+        },
+        {
+          "field": "folder",
+          "op": "SET_FIELD",
+          "value": ""
+        },
+        {
+          "field": "name",
+          "op": "SET_FIELD",
+          "value": ""
+        },
+        {
+          "field": "folder",
+          "op": "SET_FIELD",
+          "value": "notes"
+        },
+        {
+          "field": "format",
+          "op": "SET_FIELD",
+          "value": "text"
+        },
+        {
+          "field": "name",
+          "op": "SET_FIELD",
+          "value": "Archive"
+        },
+        {
+          "op": "SUBMIT"
+        }
+      ],
+      "idempotency_key": "af09071988e961433b5396f2f8c5daf46a8b8522fead5d3b9ca1b31d129c34c4",
+      "request_digest": "2f91de3f6ebdd7e2d649b2f1831124a2a03202ef89332c0b710fc8994503fa4b",
+      "revision": 2,
+      "status": "APPLIED",
+      "subject_id": "37fb748d-434c-4be5-9406-1ce27053d604",
+      "task_id": "form-batch-transfer"
+    },
+    "b54c74bf31f8193556e0658c4983930e13859a0c5e99a4f2336230947d3622c6": {
+      "action_id": "d1041c23-1222-4a03-9f96-b4be38fb82ac",
+      "after_digest": "78521c23dd408791438bb8f77859cd85d1bebe6bd2338831d5d989eaf01a3fac",
+      "at_ns": 1792907454900371013,
+      "before_digest": "cebdf6df348daa496e447db692deab318f98ef8a01aacaad8d2b6191fa7e4e1c",
+      "commands": [
+        {
+          "field": "sort",
+          "op": "SET_FIELD",
+          "value": "wind"
+        },
+        {
+          "op": "SUBMIT"
+        }
+      ],
+      "idempotency_key": "b54c74bf31f8193556e0658c4983930e13859a0c5e99a4f2336230947d3622c6",
+      "request_digest": "b5e1fed31205e3581f27ac4042536d2222093e50cf43427db544027aeb565748",
+      "revision": 2,
+      "status": "APPLIED",
+      "subject_id": "37fb748d-434c-4be5-9406-1ce27053d604",
+      "task_id": "form-transfer"
+    },
+    "be8289837a3eeac9cbae6ae5194f86fe5240f89d4b1443bfb55e1beb5352f1a5": {
+      "action_id": "fcb8864c-488b-4eef-9a69-dd9e8512ee83",
+      "after_digest": "5f6ef232d05cc6050e862d76576571480108375e5f986573ac8fe84287c034be",
+      "at_ns": 1792907454728564685,
+      "before_digest": "46b5967fa3e6f5f06938b6f914e400402a5da614af9e0aa45983e3dbb3f6b42c",
+      "commands": [
+        {
+          "field": "size",
+          "op": "SET_FIELD",
+          "value": "blue"
+        },
+        {
+          "op": "SUBMIT"
+        }
+      ],
+      "idempotency_key": "be8289837a3eeac9cbae6ae5194f86fe5240f89d4b1443bfb55e1beb5352f1a5",
+      "request_digest": "f168d0afaa40ac2ca30e1064be668ac732f85dbc76a9b0bbbf7a109da4bf2bb5",
+      "revision": 2,
+      "status": "APPLIED",
+      "subject_id": "37fb748d-434c-4be5-9406-1ce27053d604",
+      "task_id": "form-baseline"
+    },
+    "c21452c76a6ce659fcbc169a4b785c222527b278258dc1f9c9150b8bc9ae93a3": {
+      "action_id": "ac502a99-38a3-4b87-9357-f8172657dfd0",
+      "after_digest": "804e02ef6c0aa761350cef951b7d3b399d8af0445c88531bc5269164925e20b0",
+      "at_ns": 1792907463878683157,
+      "before_digest": "a1d7d39b742a1f5b2d30124a9da97c644e41d11584bcddd14c34185a0efd87bd",
+      "commands": [
+        {
+          "op": "REPLACE",
+          "value": "preserve deliberate spacing"
+        }
+      ],
+      "idempotency_key": "c21452c76a6ce659fcbc169a4b785c222527b278258dc1f9c9150b8bc9ae93a3",
+      "request_digest": "85d390c7728a74279856304525e32212c18bd753bca2f6041343615100eea7c2",
+      "revision": 2,
+      "status": "APPLIED",
+      "subject_id": "37fb748d-434c-4be5-9406-1ce27053d604",
+      "task_id": "document-counterexample"
+    },
+    "d1ff14e3b70a063c2babaeee91fba9f28b172d36cccad3b99031c75cae46f77b": {
+      "action_id": "39f659a5-7fe1-4e0d-8623-3921ae7ba426",
+      "after_digest": "8cd2641c63bd76500778962086837ee2ff4dd8bd8e5c140e0420d6a941878e1c",
+      "at_ns": 1792907457225495054,
+      "before_digest": "78521c23dd408791438bb8f77859cd85d1bebe6bd2338831d5d989eaf01a3fac",
+      "commands": [
+        {
+          "field": "sort",
+          "op": "SET_FIELD",
+          "value": ""
+        },
+        {
+          "field": "query",
+          "op": "SET_FIELD",
+          "value": ""
+        },
+        {
+          "field": "query",
+          "op": "SET_FIELD",
+          "value": "wind"
+        },
+        {
+          "op": "SUBMIT"
+        }
+      ],
+      "idempotency_key": "d1ff14e3b70a063c2babaeee91fba9f28b172d36cccad3b99031c75cae46f77b",
+      "request_digest": "a6d3445bb3f42dd05aafc4a2d7ea71066d449f1f59725e45e8d7dfb4923c2bb7",
+      "revision": 3,
+      "status": "APPLIED",
+      "subject_id": "37fb748d-434c-4be5-9406-1ce27053d604",
+      "task_id": "form-transfer"
+    },
+    "fe462a4d43f683506f7ad2bb6ed1e1fffe4702be423bc5aa6f0e5fe4baaedac7": {
+      "action_id": "bac711ee-c598-44db-b7e1-aaa916f44e55",
+      "after_digest": "7870ee30b4c9484b8e060b6d3c75fcea97e2c3e23832c0d50f510dbece3fded1",
+      "at_ns": 1792907442824064605,
+      "before_digest": "cbb1012a1816b49fb8ebfe1e5cfca10e771cbdf3d65ea2b899f15bbe190e5e0a",
+      "commands": [
+        {
+          "op": "APPEND",
+          "value": "A verified note"
+        }
+      ],
+      "idempotency_key": "fe462a4d43f683506f7ad2bb6ed1e1fffe4702be423bc5aa6f0e5fe4baaedac7",
+      "request_digest": "68cf0788821b262c6808c9d2d0d2dc6bc7d4b8d5be88840b3c3122b02a72e8e8",
+      "revision": 2,
+      "status": "APPLIED",
+      "subject_id": "37fb748d-434c-4be5-9406-1ce27053d604",
+      "task_id": "document-baseline"
+    }
+  }
+}

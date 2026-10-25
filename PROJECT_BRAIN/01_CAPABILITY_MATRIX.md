@@ -570,3 +570,18 @@ Full1528/0fail/12skip; new18 focused allpass. See docs/nana_precision_v2_status.
 evidence/regression/comparison/portable/source fingerprints. ARCHITECTURE_PRECISION
 scopedPASS; INTEGRATED_AUTONOMY OWNED_DEV PASS; SEMANTIC_GENERALIZATION NOT_RUN,
 MODEL_ABLATION_NOT_RUN. No new Foundation prerequisite or domain was invented.
+
+
+## Engineering Quality Portable Runtime V2 — Advanced evidence / 2026-10-25
+
+This does not modify any Foundation criterion/ID/status/denominator or S10 scope.
+S1/S2/S4/Governance: actual supported/unsupported binding, installer/venv boundary,
+minimum3.51.3 offline double install, optimized SIGKILL/backup/B8 fence qualify.
+S6/S7/S8/S9: published/fresh independent symbolic preservation and actual installed
+9-step/6 checked+3 repair/one move, original learning and sandbox retained.
+29 hotspots format AST unchanged; shipping runtime excludes developer harness.
+Runtime sourcee322f01, full source9e67c83, 1542 passed / 0 failed / 0 errors / 12 skipped / 656.233s; code
+metrics/performance and first failures disclosed in quality status/evidence.
+Host-only native/optional readiness is not Subject state or execution authority.
+Historical Foundation61/63,S10Partial,old5hPARTIAL_EXTERNAL_LIMIT,newlongpending,
+human/semantic/ablationNOT_RUN,First-LifeNOT_READY/BetaNO remain unchanged.

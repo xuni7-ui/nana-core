@@ -1,0 +1,111 @@
+{
+  "before": {
+    "source": "/workspace/nana-core",
+    "commit": "87f73d235d593a0d852bca409b0e73e0ef67cc5e",
+    "python": "3.12.14",
+    "sqlite": "3.53.1",
+    "scope": "FRESH_SYNTHETIC_HOST_COST_NOT_FULL_LIFE_SPEEDUP",
+    "store_reopen_samples": 15,
+    "store_reopen_median_ms": 3.6687259998871014,
+    "store_wall_seconds": 0.05666203000055248,
+    "store_cpu_seconds": 0.05661490400000002,
+    "privacy_1000_checks_ms": 2.8536199997688527,
+    "sandbox_calls": 7,
+    "sandbox_median_ms": 66.29010800043034,
+    "optional_qualification_ms": null,
+    "process_peak_rss_kib": 26208,
+    "new_provider_calls": 0
+  },
+  "after": {
+    "source": "/workspace/nana-quality-v2",
+    "commit": "e322f017900c060a5739347a76c7e63545773d1a",
+    "python": "3.12.14",
+    "sqlite": "3.53.1",
+    "scope": "FRESH_SYNTHETIC_HOST_COST_NOT_FULL_LIFE_SPEEDUP",
+    "store_reopen_samples": 15,
+    "store_reopen_median_ms": 4.693335000411025,
+    "store_wall_seconds": 0.06958255799963808,
+    "store_cpu_seconds": 0.06958676800000002,
+    "privacy_1000_checks_ms": 3.18157599940605,
+    "sandbox_calls": 7,
+    "sandbox_median_ms": 66.19130199942447,
+    "optional_qualification_ms": 37.48315200027719,
+    "process_peak_rss_kib": 28416,
+    "new_provider_calls": 0
+  },
+  "installed_startup": {
+    "execution": "ACTUAL_TWO_ARCHIVES_FRESH_SYNTHETIC_SUBJECTS",
+    "scope": "THREE_FRESH_PROCESS_LAUNCHES_INCLUDING_HEALTH_PROBE_NOT_COLD_DISK_CACHE_OR_LONG_LIFE",
+    "python": "/workspace/nana-staging/quality-v2-20261025/private-host-complete/python/bin/python3.12",
+    "new_provider_calls": 0,
+    "poll_seconds": 0.08,
+    "samples_per_archive": 3,
+    "results": {
+      "before": {
+        "archive_sha256": "bcb3560c831014e014b8ff05121f96418b5d0003ba434f47220809db45ba7497",
+        "preflight_ms": [
+          1034.6018980017107,
+          1404.9735570006305,
+          1200.5146079973201
+        ],
+        "preflight_median_ms": 1200.5146079973201,
+        "launch_to_observed_health_median_ms": 2820.5593040001986,
+        "rows": [
+          {
+            "launch_to_observed_health_ms": 2820.5593040001986,
+            "runtime_rss_kib": 50880,
+            "exit_code": 0,
+            "epoch": 2
+          },
+          {
+            "launch_to_observed_health_ms": 3375.323773998389,
+            "runtime_rss_kib": 50868,
+            "exit_code": 0,
+            "epoch": 3
+          },
+          {
+            "launch_to_observed_health_ms": 2498.3154969995667,
+            "runtime_rss_kib": 50864,
+            "exit_code": 0,
+            "epoch": 4
+          }
+        ],
+        "same_identity_through_restarts": true,
+        "repository_runtime_imports": false
+      },
+      "after": {
+        "archive_sha256": "25ad9723cc9d4ac31eea6b67f8661b332fc53fb6bff298d540c038fb5ada10de",
+        "preflight_ms": [
+          2253.0479810011457,
+          1724.244604996784,
+          1854.5050129978335
+        ],
+        "preflight_median_ms": 1854.5050129978335,
+        "launch_to_observed_health_median_ms": 2373.640544999944,
+        "rows": [
+          {
+            "launch_to_observed_health_ms": 2403.0492230012896,
+            "runtime_rss_kib": 51972,
+            "exit_code": 0,
+            "epoch": 2
+          },
+          {
+            "launch_to_observed_health_ms": 2373.640544999944,
+            "runtime_rss_kib": 51504,
+            "exit_code": 0,
+            "epoch": 3
+          },
+          {
+            "launch_to_observed_health_ms": 2243.56870200063,
+            "runtime_rss_kib": 51660,
+            "exit_code": 0,
+            "epoch": 4
+          }
+        ],
+        "same_identity_through_restarts": true,
+        "repository_runtime_imports": false
+      }
+    }
+  },
+  "interpretation": "Safety checks add Store-open overhead; no whole-system speedup claim. Independent host-local samples, not a deployment benchmark."
+}

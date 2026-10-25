@@ -1,0 +1,25 @@
+{
+  "scope": "Only new exported evidence XML names. Original raw files remain unchanged outside Git. No real credential was loaded.",
+  "copies": [
+    {
+      "evidence_path": "full-qualified.xml",
+      "raw_sha256": "de81a622392be67aab1101d0bc95e9593ae0aff28425e509f282f816cc44cb78",
+      "sanitized_sha256": "241536a1c3b885dcaa85417dcc4a2a3c43a485976ba61127623aea0fb3284109",
+      "replacements": 1,
+      "classification": "LEGACY_SYNTHETIC_INVALID_INPUT_IN_JUNIT_TEST_NAME_NOT_REAL_CREDENTIAL",
+      "fixture_source": "tests/integration/test_astrbot_sanitizer.py",
+      "counts_timing_and_outcomes_unchanged": true,
+      "raw_retained_outside_git": "/workspace/nana-staging/quality-v2-20261025/full-qualified.xml"
+    },
+    {
+      "evidence_path": "failures/full-missing-fixture.xml",
+      "raw_sha256": "e3af7fcfe0f1d7548b9158d5a753ad96672647e709ecb2b0821f516b7a39e5d1",
+      "sanitized_sha256": "f0df0b598d16f592d2c8f7b4136391fc9a824c597412041c009bf0fb46975da4",
+      "replacements": 1,
+      "classification": "LEGACY_SYNTHETIC_INVALID_INPUT_IN_JUNIT_TEST_NAME_NOT_REAL_CREDENTIAL",
+      "fixture_source": "tests/integration/test_astrbot_sanitizer.py",
+      "counts_timing_and_outcomes_unchanged": true,
+      "raw_retained_outside_git": "/workspace/nana-staging/quality-v2-20261025/full-missing-fixture.xml"
+    }
+  ]
+}

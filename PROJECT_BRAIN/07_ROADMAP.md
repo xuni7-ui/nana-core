@@ -1023,3 +1023,18 @@ planner/brain rewrite or automatic production/human qualification.
 ## Engineering Quality Portable Runtime V2 — active / 2026-10-25
 
 GLOBAL_STAGE H / Advanced Growth S1/S2/S4/S7/S8/S9、三横轴；非Foundation新Stage。87f73d2独立worktree/branch，不改另一AI Nana Space分支。Q1/Q2修复与定向证据见implementation：SQLite官方WAL修复门槛不降低，共享实际绑定检查；沙箱真实资格不是which；明确字节Socket路径与-O关键检查；精确发行清单及独立资格工具。静态/可读性、便携新包和全仓仍待，旧1528和bcb包仅历史基线。原Master/fixed63/S1–S9资格与S10 Partial不变。新paid/private/social/production/main/R045=0。
+
+
+## Engineering Quality Portable Runtime V2 FINAL / 2026-10-25
+
+GLOBAL_STAGE H / Advanced Growth; 原Master字节/固定63/61qualified/S1–S9Qualified、S10Partial不变。
+独立dev/nana-core-engineering-quality-portable-v2-codex，base87f73d2；runtimee322f01、full源码9e67c83，Core/打包/Builder/Addon字节一致。
+共享SQLite>=3.51.3 WAL修复门槛+JSON/FTS5/native实际绑定；installer与实际venv均检查，伪venv在pip前拒绝。
+实际非root private libffi+SQLite3.51.3+CPython3.12.14双独立离线安装、完整运行/Chat/Inspect/Stop/Restart、SIGKILL、官方B8迁移/旧owner与Grant fence通过。
+exact197源码assets/231归档files，184 installed imports闭包；demo/lab/qualification独立5文件addon，G/I/Hands/checkpoint保留。
+bwrap实际11隔离checks与可选能力拒绝、最终107字节Socket前置、prctl/backup/47资格guard在-O保持。29热点纯format AST一致；全库复杂度债务仍在，新增检查有实测开销，不称加速。
+当前实际full 1542 passed / 0 failed / 0 errors / 12 skipped / 656.233s；旧初败/中断/缺ctypes/夹具试验保留，不删测试/不新skip。Precision published/fresh oracle零false，原9→6保留+3repair/moveonce实际安装通过。
+归档SHA25625ad9723cc9d4ac31eea6b67f8661b332fc53fb6bff298d540c038fb5ada10de；addonbb572d22159966c95b206aba783162b1556bd185bf890161b293d5f73af622c4，两者各自双构建一致。
+范围为OWNED_DEV Linuxx86_64工程资格，非生产/跨平台全资格。B10/versioned frontend contract不变；host preflight增加诊断字段。
+旧5h PARTIAL_EXTERNAL_LIMIT、新long PENDING_EXTERNAL_STABLE_ENV、human/semantic/ablation NOT_RUN、First-Life NOT_READY/Beta NO保持。
+main/R045/production/private/device/social/paidProvider0。报告与证据：docs/nana_engineering_quality_portable_v2_status.md、implementation/quickstart及同名前缀evidence/manifest。

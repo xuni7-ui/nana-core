@@ -1,0 +1,4102 @@
+{
+  "before": {
+    "source": "87f73d235d593a0d852bca409b0e73e0ef67cc5e",
+    "method": "AST_DECISION_ESTIMATE_NOT_EXACT_MCCABE; token lines include docstrings; function counts include nested/private",
+    "files": 236,
+    "totals": {
+      "physical_lines": 26195,
+      "token_lines_including_docstrings": 23367,
+      "over120": 3089,
+      "over200": 755,
+      "semicolons": 1603,
+      "functions": 1406,
+      "documented_functions": 74,
+      "return_annotated_functions": 39
+    },
+    "largest_functions": [
+      {
+        "path": "src/nana_core/continuity/subject/loop.py",
+        "name": "run",
+        "line": 216,
+        "span": 271,
+        "decision_estimate": 153
+      },
+      {
+        "path": "src/nana_core/continuity/context.py",
+        "name": "assemble",
+        "line": 170,
+        "span": 245,
+        "decision_estimate": 128
+      },
+      {
+        "path": "src/nana_core/continuity/subject/loop.py",
+        "name": "situation",
+        "line": 30,
+        "span": 168,
+        "decision_estimate": 120
+      },
+      {
+        "path": "src/nana_core/presence/world_demo.py",
+        "name": "run_world",
+        "line": 35,
+        "span": 168,
+        "decision_estimate": 100
+      },
+      {
+        "path": "src/nana_core/presence/open_demo.py",
+        "name": "run_demo",
+        "line": 40,
+        "span": 151,
+        "decision_estimate": 48
+      },
+      {
+        "path": "src/nana_core/development/public_http.py",
+        "name": "fetch",
+        "line": 131,
+        "span": 133,
+        "decision_estimate": 43
+      },
+      {
+        "path": "src/nana_core/life/inspector.py",
+        "name": "inspect",
+        "line": 99,
+        "span": 121,
+        "decision_estimate": 64
+      },
+      {
+        "path": "src/nana_core/development/lab.py",
+        "name": "run",
+        "line": 29,
+        "span": 111,
+        "decision_estimate": 32
+      },
+      {
+        "path": "src/nana_core/continuity/subject/policy.py",
+        "name": "decide",
+        "line": 105,
+        "span": 108,
+        "decision_estimate": 92
+      },
+      {
+        "path": "src/nana_core/presence/qualification.py",
+        "name": "matrix",
+        "line": 57,
+        "span": 108,
+        "decision_estimate": 18
+      },
+      {
+        "path": "src/nana_core/presence/living_demo.py",
+        "name": "run_demo",
+        "line": 31,
+        "span": 107,
+        "decision_estimate": 27
+      },
+      {
+        "path": "src/nana_core/continuity/open_agency/learning.py",
+        "name": "slice",
+        "line": 138,
+        "span": 95,
+        "decision_estimate": 58
+      },
+      {
+        "path": "src/nana_core/continuity/controlled_world/lab.py",
+        "name": "serve",
+        "line": 68,
+        "span": 90,
+        "decision_estimate": 51
+      },
+      {
+        "path": "src/nana_core/continuity/open_agency/service.py",
+        "name": "advance",
+        "line": 195,
+        "span": 90,
+        "decision_estimate": 46
+      },
+      {
+        "path": "src/nana_core/continuity/world_loop/cognition.py",
+        "name": "prepare",
+        "line": 303,
+        "span": 90,
+        "decision_estimate": 102
+      },
+      {
+        "path": "src/nana_core/continuity/hands/server.py",
+        "name": "serve",
+        "line": 25,
+        "span": 89,
+        "decision_estimate": 59
+      },
+      {
+        "path": "src/nana_core/continuity/memory.py",
+        "name": "add",
+        "line": 104,
+        "span": 87,
+        "decision_estimate": 43
+      },
+      {
+        "path": "src/nana_core/continuity/open_agency/planning.py",
+        "name": "plan",
+        "line": 16,
+        "span": 87,
+        "decision_estimate": 46
+      },
+      {
+        "path": "src/nana_core/presence/semantic_demo.py",
+        "name": "semantic_world",
+        "line": 42,
+        "span": 86,
+        "decision_estimate": 54
+      },
+      {
+        "path": "src/nana_core/life/__main__.py",
+        "name": "main",
+        "line": 108,
+        "span": 85,
+        "decision_estimate": 43
+      },
+      {
+        "path": "src/nana_core/continuity/person_self.py",
+        "name": "project",
+        "line": 151,
+        "span": 83,
+        "decision_estimate": 36
+      },
+      {
+        "path": "src/nana_core/continuity/subject/projections.py",
+        "name": "project_self",
+        "line": 58,
+        "span": 83,
+        "decision_estimate": 67
+      },
+      {
+        "path": "src/nana_core/continuity/sensors/coordinator.py",
+        "name": "observe",
+        "line": 79,
+        "span": 82,
+        "decision_estimate": 40
+      },
+      {
+        "path": "src/nana_core/continuity/subject/ingress.py",
+        "name": "ingest",
+        "line": 29,
+        "span": 77,
+        "decision_estimate": 47
+      },
+      {
+        "path": "src/nana_core/presence/runtime.py",
+        "name": "step",
+        "line": 160,
+        "span": 76,
+        "decision_estimate": 37
+      }
+    ],
+    "highest_decisions": [
+      {
+        "path": "src/nana_core/continuity/subject/loop.py",
+        "name": "run",
+        "line": 216,
+        "span": 271,
+        "decision_estimate": 153
+      },
+      {
+        "path": "src/nana_core/continuity/context.py",
+        "name": "assemble",
+        "line": 170,
+        "span": 245,
+        "decision_estimate": 128
+      },
+      {
+        "path": "src/nana_core/continuity/subject/loop.py",
+        "name": "situation",
+        "line": 30,
+        "span": 168,
+        "decision_estimate": 120
+      },
+      {
+        "path": "src/nana_core/continuity/world_loop/cognition.py",
+        "name": "prepare",
+        "line": 303,
+        "span": 90,
+        "decision_estimate": 102
+      },
+      {
+        "path": "src/nana_core/presence/world_demo.py",
+        "name": "run_world",
+        "line": 35,
+        "span": 168,
+        "decision_estimate": 100
+      },
+      {
+        "path": "src/nana_core/continuity/relational/deliberation.py",
+        "name": "deliberate",
+        "line": 31,
+        "span": 63,
+        "decision_estimate": 92
+      },
+      {
+        "path": "src/nana_core/continuity/subject/policy.py",
+        "name": "decide",
+        "line": 105,
+        "span": 108,
+        "decision_estimate": 92
+      },
+      {
+        "path": "src/nana_core/continuity/subject/contracts.py",
+        "name": "provenance",
+        "line": 85,
+        "span": 40,
+        "decision_estimate": 91
+      },
+      {
+        "path": "src/nana_core/continuity/autonomy/relationships.py",
+        "name": "relationship_influence",
+        "line": 9,
+        "span": 56,
+        "decision_estimate": 76
+      },
+      {
+        "path": "src/nana_core/continuity/subject/projections.py",
+        "name": "project_self",
+        "line": 58,
+        "span": 83,
+        "decision_estimate": 67
+      },
+      {
+        "path": "src/nana_core/life/inspector.py",
+        "name": "inspect",
+        "line": 99,
+        "span": 121,
+        "decision_estimate": 64
+      },
+      {
+        "path": "src/nana_core/continuity/hands/server.py",
+        "name": "serve",
+        "line": 25,
+        "span": 89,
+        "decision_estimate": 59
+      },
+      {
+        "path": "src/nana_core/continuity/open_agency/learning.py",
+        "name": "slice",
+        "line": 138,
+        "span": 95,
+        "decision_estimate": 58
+      },
+      {
+        "path": "src/nana_core/migration/iris.py",
+        "name": "map_record",
+        "line": 83,
+        "span": 65,
+        "decision_estimate": 54
+      },
+      {
+        "path": "src/nana_core/presence/semantic_demo.py",
+        "name": "semantic_world",
+        "line": 42,
+        "span": 86,
+        "decision_estimate": 54
+      },
+      {
+        "path": "src/nana_core/continuity/controlled_world/lab.py",
+        "name": "serve",
+        "line": 68,
+        "span": 90,
+        "decision_estimate": 51
+      },
+      {
+        "path": "src/nana_core/life/control.py",
+        "name": "dispatch",
+        "line": 22,
+        "span": 68,
+        "decision_estimate": 51
+      },
+      {
+        "path": "src/nana_core/presence/living.py",
+        "name": "_after_cycle",
+        "line": 36,
+        "span": 68,
+        "decision_estimate": 50
+      },
+      {
+        "path": "src/nana_core/continuity/autonomy/disclosure.py",
+        "name": "decide_disclosure",
+        "line": 45,
+        "span": 59,
+        "decision_estimate": 49
+      },
+      {
+        "path": "src/nana_core/presence/open_demo.py",
+        "name": "run_demo",
+        "line": 40,
+        "span": 151,
+        "decision_estimate": 48
+      },
+      {
+        "path": "src/nana_core/continuity/subject/ingress.py",
+        "name": "ingest",
+        "line": 29,
+        "span": 77,
+        "decision_estimate": 47
+      },
+      {
+        "path": "src/nana_core/continuity/open_agency/planning.py",
+        "name": "plan",
+        "line": 16,
+        "span": 87,
+        "decision_estimate": 46
+      },
+      {
+        "path": "src/nana_core/continuity/open_agency/service.py",
+        "name": "advance",
+        "line": 195,
+        "span": 90,
+        "decision_estimate": 46
+      },
+      {
+        "path": "src/nana_core/continuity/subject/growth.py",
+        "name": "apply",
+        "line": 74,
+        "span": 68,
+        "decision_estimate": 45
+      },
+      {
+        "path": "src/nana_core/continuity/surfaces.py",
+        "name": "project",
+        "line": 63,
+        "span": 65,
+        "decision_estimate": 45
+      }
+    ]
+  },
+  "after": {
+    "source": "e322f017900c060a5739347a76c7e63545773d1a",
+    "method": "AST_DECISION_ESTIMATE_NOT_EXACT_MCCABE; token lines include docstrings; function counts include nested/private",
+    "files": 237,
+    "totals": {
+      "physical_lines": 29525,
+      "token_lines_including_docstrings": 26423,
+      "over120": 2720,
+      "over200": 692,
+      "semicolons": 1326,
+      "functions": 1416,
+      "documented_functions": 82,
+      "return_annotated_functions": 43
+    },
+    "largest_functions": [
+      {
+        "path": "src/nana_core/presence/qualification.py",
+        "name": "matrix",
+        "line": 86,
+        "span": 308,
+        "decision_estimate": 19
+      },
+      {
+        "path": "src/nana_core/continuity/subject/loop.py",
+        "name": "run",
+        "line": 216,
+        "span": 271,
+        "decision_estimate": 153
+      },
+      {
+        "path": "src/nana_core/continuity/open_agency/learning.py",
+        "name": "slice",
+        "line": 280,
+        "span": 269,
+        "decision_estimate": 58
+      },
+      {
+        "path": "src/nana_core/continuity/context.py",
+        "name": "assemble",
+        "line": 170,
+        "span": 245,
+        "decision_estimate": 128
+      },
+      {
+        "path": "src/nana_core/life/__main__.py",
+        "name": "main",
+        "line": 266,
+        "span": 218,
+        "decision_estimate": 43
+      },
+      {
+        "path": "src/nana_core/continuity/hands/server.py",
+        "name": "serve",
+        "line": 35,
+        "span": 211,
+        "decision_estimate": 59
+      },
+      {
+        "path": "src/nana_core/continuity/subject/loop.py",
+        "name": "situation",
+        "line": 30,
+        "span": 168,
+        "decision_estimate": 120
+      },
+      {
+        "path": "src/nana_core/presence/world_demo.py",
+        "name": "run_world",
+        "line": 35,
+        "span": 168,
+        "decision_estimate": 100
+      },
+      {
+        "path": "src/nana_core/life/__main__.py",
+        "name": "run",
+        "line": 111,
+        "span": 153,
+        "decision_estimate": 43
+      },
+      {
+        "path": "src/nana_core/presence/open_demo.py",
+        "name": "run_demo",
+        "line": 40,
+        "span": 151,
+        "decision_estimate": 48
+      },
+      {
+        "path": "src/nana_core/life/portable_runtime.py",
+        "name": "execute",
+        "line": 275,
+        "span": 137,
+        "decision_estimate": 43
+      },
+      {
+        "path": "src/nana_core/development/public_http.py",
+        "name": "fetch",
+        "line": 131,
+        "span": 133,
+        "decision_estimate": 43
+      },
+      {
+        "path": "src/nana_core/life/control.py",
+        "name": "dispatch",
+        "line": 25,
+        "span": 132,
+        "decision_estimate": 51
+      },
+      {
+        "path": "src/nana_core/presence/process_qualification.py",
+        "name": "wall_soak",
+        "line": 74,
+        "span": 127,
+        "decision_estimate": 19
+      },
+      {
+        "path": "src/nana_core/presence/runtime.py",
+        "name": "step",
+        "line": 265,
+        "span": 127,
+        "decision_estimate": 37
+      },
+      {
+        "path": "src/nana_core/life/inspector.py",
+        "name": "inspect",
+        "line": 99,
+        "span": 121,
+        "decision_estimate": 64
+      },
+      {
+        "path": "src/nana_core/continuity/open_agency/learning.py",
+        "name": "after_cycle",
+        "line": 152,
+        "span": 119,
+        "decision_estimate": 28
+      },
+      {
+        "path": "src/nana_core/development/lab.py",
+        "name": "run",
+        "line": 29,
+        "span": 113,
+        "decision_estimate": 33
+      },
+      {
+        "path": "src/nana_core/continuity/subject/policy.py",
+        "name": "decide",
+        "line": 105,
+        "span": 108,
+        "decision_estimate": 92
+      },
+      {
+        "path": "src/nana_core/presence/process_qualification.py",
+        "name": "crash_matrix",
+        "line": 240,
+        "span": 108,
+        "decision_estimate": 21
+      },
+      {
+        "path": "src/nana_core/continuity/open_agency/planning.py",
+        "name": "plan",
+        "line": 18,
+        "span": 107,
+        "decision_estimate": 46
+      },
+      {
+        "path": "src/nana_core/presence/living_demo.py",
+        "name": "run_demo",
+        "line": 31,
+        "span": 107,
+        "decision_estimate": 27
+      },
+      {
+        "path": "src/nana_core/continuity/provider_routing.py",
+        "name": "resolve",
+        "line": 233,
+        "span": 103,
+        "decision_estimate": 42
+      },
+      {
+        "path": "src/nana_core/continuity/controlled_world/lab.py",
+        "name": "serve",
+        "line": 72,
+        "span": 90,
+        "decision_estimate": 51
+      },
+      {
+        "path": "src/nana_core/continuity/open_agency/service.py",
+        "name": "advance",
+        "line": 195,
+        "span": 90,
+        "decision_estimate": 46
+      }
+    ],
+    "highest_decisions": [
+      {
+        "path": "src/nana_core/continuity/subject/loop.py",
+        "name": "run",
+        "line": 216,
+        "span": 271,
+        "decision_estimate": 153
+      },
+      {
+        "path": "src/nana_core/continuity/context.py",
+        "name": "assemble",
+        "line": 170,
+        "span": 245,
+        "decision_estimate": 128
+      },
+      {
+        "path": "src/nana_core/continuity/subject/loop.py",
+        "name": "situation",
+        "line": 30,
+        "span": 168,
+        "decision_estimate": 120
+      },
+      {
+        "path": "src/nana_core/continuity/world_loop/cognition.py",
+        "name": "prepare",
+        "line": 303,
+        "span": 90,
+        "decision_estimate": 102
+      },
+      {
+        "path": "src/nana_core/presence/world_demo.py",
+        "name": "run_world",
+        "line": 35,
+        "span": 168,
+        "decision_estimate": 100
+      },
+      {
+        "path": "src/nana_core/continuity/relational/deliberation.py",
+        "name": "deliberate",
+        "line": 31,
+        "span": 63,
+        "decision_estimate": 92
+      },
+      {
+        "path": "src/nana_core/continuity/subject/policy.py",
+        "name": "decide",
+        "line": 105,
+        "span": 108,
+        "decision_estimate": 92
+      },
+      {
+        "path": "src/nana_core/continuity/subject/contracts.py",
+        "name": "provenance",
+        "line": 85,
+        "span": 40,
+        "decision_estimate": 91
+      },
+      {
+        "path": "src/nana_core/continuity/autonomy/relationships.py",
+        "name": "relationship_influence",
+        "line": 9,
+        "span": 56,
+        "decision_estimate": 76
+      },
+      {
+        "path": "src/nana_core/continuity/subject/projections.py",
+        "name": "project_self",
+        "line": 58,
+        "span": 83,
+        "decision_estimate": 67
+      },
+      {
+        "path": "src/nana_core/life/inspector.py",
+        "name": "inspect",
+        "line": 99,
+        "span": 121,
+        "decision_estimate": 64
+      },
+      {
+        "path": "src/nana_core/continuity/hands/server.py",
+        "name": "serve",
+        "line": 35,
+        "span": 211,
+        "decision_estimate": 59
+      },
+      {
+        "path": "src/nana_core/continuity/open_agency/learning.py",
+        "name": "slice",
+        "line": 280,
+        "span": 269,
+        "decision_estimate": 58
+      },
+      {
+        "path": "src/nana_core/migration/iris.py",
+        "name": "map_record",
+        "line": 83,
+        "span": 65,
+        "decision_estimate": 54
+      },
+      {
+        "path": "src/nana_core/presence/semantic_demo.py",
+        "name": "semantic_world",
+        "line": 42,
+        "span": 86,
+        "decision_estimate": 54
+      },
+      {
+        "path": "src/nana_core/continuity/controlled_world/lab.py",
+        "name": "serve",
+        "line": 72,
+        "span": 90,
+        "decision_estimate": 51
+      },
+      {
+        "path": "src/nana_core/life/control.py",
+        "name": "dispatch",
+        "line": 25,
+        "span": 132,
+        "decision_estimate": 51
+      },
+      {
+        "path": "src/nana_core/presence/living.py",
+        "name": "_after_cycle",
+        "line": 36,
+        "span": 68,
+        "decision_estimate": 50
+      },
+      {
+        "path": "src/nana_core/continuity/autonomy/disclosure.py",
+        "name": "decide_disclosure",
+        "line": 45,
+        "span": 59,
+        "decision_estimate": 49
+      },
+      {
+        "path": "src/nana_core/presence/open_demo.py",
+        "name": "run_demo",
+        "line": 40,
+        "span": 151,
+        "decision_estimate": 48
+      },
+      {
+        "path": "src/nana_core/continuity/subject/ingress.py",
+        "name": "ingest",
+        "line": 29,
+        "span": 77,
+        "decision_estimate": 47
+      },
+      {
+        "path": "src/nana_core/continuity/open_agency/planning.py",
+        "name": "plan",
+        "line": 18,
+        "span": 107,
+        "decision_estimate": 46
+      },
+      {
+        "path": "src/nana_core/continuity/open_agency/service.py",
+        "name": "advance",
+        "line": 195,
+        "span": 90,
+        "decision_estimate": 46
+      },
+      {
+        "path": "src/nana_core/continuity/subject/growth.py",
+        "name": "apply",
+        "line": 74,
+        "span": 68,
+        "decision_estimate": 45
+      },
+      {
+        "path": "src/nana_core/continuity/surfaces.py",
+        "name": "project",
+        "line": 63,
+        "span": 65,
+        "decision_estimate": 45
+      }
+    ]
+  },
+  "scope": "src/nana_core tracked Python files; AST/token counts include nested/private functions and docstrings; decision estimates are not exact McCabe",
+  "ruff": {
+    "before": {
+      "C901": 145,
+      "F401": 75,
+      "F841": 10,
+      "F403": 3,
+      "F405": 15
+    },
+    "after": {
+      "C901": 146,
+      "F401": 75,
+      "F841": 10,
+      "F403": 3,
+      "F405": 15
+    }
+  },
+  "public_contracts": {
+    "definition": "Public-named top-level classes/functions and methods: name does not start underscore. This is a static naming proxy, not a declaration all such symbols are supported public API. Docstring presence does not prove adequate contract quality.",
+    "before": {
+      "counts": {
+        "public_named_top_level": 813,
+        "public_named_top_level_documented": 102,
+        "public_named_methods": 654,
+        "public_named_methods_documented": 23
+      },
+      "rows": [
+        {
+          "path": "src/nana_core/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/actions.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 12,
+          "public_named_methods_documented": 1
+        },
+        {
+          "path": "src/nana_core/clock.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/agency.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 6,
+          "public_named_methods_documented": 1
+        },
+        {
+          "path": "src/nana_core/continuity/agency_contracts.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/application.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 12,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/contracts.py",
+          "public_named_top_level": 12,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/disclosure.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/evaluation.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/experience.py",
+          "public_named_top_level": 6,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/fixture_effects.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/governance.py",
+          "public_named_top_level": 7,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 7,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/history.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/private_intent.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/realization.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/relationships.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/requests.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/cognition.py",
+          "public_named_top_level": 7,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/commitments.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/context.py",
+          "public_named_top_level": 12,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 6,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/contracts.py",
+          "public_named_top_level": 6,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/controlled_world/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/controlled_world/lab.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/controlled_world/projects.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/current_state.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/dialogue_shadow/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/dialogue_shadow/bridge.py",
+          "public_named_top_level": 7,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/extensions.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/hands/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/hands/browser.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 6,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/hands/contracts.py",
+          "public_named_top_level": 7,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/hands/framing.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/hands/host.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/hands/page.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/hands/port.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 5,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/hands/server.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/hands/service.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 7,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/hands/skills.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 5,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/hands/view.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/identity.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/journal.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/learning.py",
+          "public_named_top_level": 7,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 11,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/lived_language.py",
+          "public_named_top_level": 10,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/maintenance.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/memory.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 13,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/checkpoints.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/code_skills.py",
+          "public_named_top_level": 7,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 12,
+          "public_named_methods_documented": 2
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/contracts.py",
+          "public_named_top_level": 10,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 7,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/delivery.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/exploration.py",
+          "public_named_top_level": 6,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/fixtures.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/learning.py",
+          "public_named_top_level": 8,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 12,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/planning.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/practice.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/projections.py",
+          "public_named_top_level": 6,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/service.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 9,
+          "public_named_methods_documented": 2
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/skill_runner.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/state.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/task_graph.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/world.py",
+          "public_named_top_level": 9,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_life/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_life/capabilities.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_life/lifecycle.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_life/meta_learning.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_life/opportunities.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_life/projections.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_life/research.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_life/research_outcome.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_life/research_work.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_life/sources.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 5,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/person_profile.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/person_self.py",
+          "public_named_top_level": 12,
+          "public_named_top_level_documented": 6,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/portable.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/privacy.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/project_work/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/project_work/analysis.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/project_work/documents.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/project_work/oracle.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/project_work/port.py",
+          "public_named_top_level": 6,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/project_work/service.py",
+          "public_named_top_level": 7,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 7,
+          "public_named_methods_documented": 3
+        },
+        {
+          "path": "src/nana_core/continuity/projects.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/provider_config.py",
+          "public_named_top_level": 11,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 12,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/provider_routing.py",
+          "public_named_top_level": 9,
+          "public_named_top_level_documented": 3,
+          "public_named_methods": 11,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/providers.py",
+          "public_named_top_level": 18,
+          "public_named_top_level_documented": 3,
+          "public_named_methods": 32,
+          "public_named_methods_documented": 1
+        },
+        {
+          "path": "src/nana_core/continuity/records.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/recurrence.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/relational/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/relational/accommodation.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/relational/bootstrap.py",
+          "public_named_top_level": 6,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/relational/contracts.py",
+          "public_named_top_level": 15,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/relational/deliberation.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/relational/projections.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/relationships.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/revision.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/sensors/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/sensors/adapters.py",
+          "public_named_top_level": 6,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 7,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/sensors/application.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/sensors/config.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/sensors/contracts.py",
+          "public_named_top_level": 10,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 10,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/sensors/coordinator.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 11,
+          "public_named_methods_documented": 1
+        },
+        {
+          "path": "src/nana_core/continuity/sensors/screen.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 7,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/skills.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/store.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/context_fit.py",
+          "public_named_top_level": 8,
+          "public_named_top_level_documented": 3,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/contracts.py",
+          "public_named_top_level": 11,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/experience_need.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/framing.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/growth.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 5,
+          "public_named_methods_documented": 1
+        },
+        {
+          "path": "src/nana_core/continuity/subject/growth_life.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/ingress.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/loop.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 11,
+          "public_named_methods_documented": 3
+        },
+        {
+          "path": "src/nana_core/continuity/subject/opportunities.py",
+          "public_named_top_level": 7,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/policy.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/projections.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/reflection.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/simulation.py",
+          "public_named_top_level": 11,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/social.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/state.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/watch.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/surfaces.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/temporal.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/attention.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 5,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/cognition.py",
+          "public_named_top_level": 12,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 15,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/coordinator.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 5,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/extension.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/harness.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/learning.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/perception.py",
+          "public_named_top_level": 6,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 6,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/ports.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/reference.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/response_diagnostics.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/samples.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/semantic_contracts.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/semantic_harness.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/semantics.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 5,
+          "public_named_methods_documented": 2
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/world.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/contracts.py",
+          "public_named_top_level": 16,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/development/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/development/controlled_web.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/development/file_source.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/development/lab.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/development/public_http.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/development/web_lab.py",
+          "public_named_top_level": 8,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/development/web_source.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 5,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/experience.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 8,
+          "public_named_methods_documented": 1
+        },
+        {
+          "path": "src/nana_core/experiment.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/fake_world.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 6,
+          "public_named_methods_documented": 1
+        },
+        {
+          "path": "src/nana_core/initiative.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/authority.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/capabilities.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/contracts.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/engineering.py",
+          "public_named_top_level": 7,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 6,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/engineering_lab.py",
+          "public_named_top_level": 6,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/engineering_test_runner.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/exporter.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/host_observation.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/initiative.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/preflight.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/rehearsal.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/session.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/shadow.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/__main__.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/advanced.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 5,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/application.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 11,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/cloud.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 3,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/config.py",
+          "public_named_top_level": 6,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/control.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/conversation_opportunity.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/dialogue_contracts.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/durability.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/ingress.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/inspector.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/owned_surface.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/portable_runtime.py",
+          "public_named_top_level": 9,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/presentation.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/provider.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/review.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/shared.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 5,
+          "public_named_methods_documented": 1
+        },
+        {
+          "path": "src/nana_core/life/skills.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/surfaces.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/view.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/memory.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/migration/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/migration/experiment.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/migration/iris.py",
+          "public_named_top_level": 7,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/migration/iris_fixtures.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/migration/legacy.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/migration/routing.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 7,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/migration/shadow.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/phase3/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/phase3/engineering.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/phase3/initiative_cases.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/phase3/memory_rehearsal.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/phase3/public_probe.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/planning.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 5,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/ports.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/adapters.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/authority.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 9,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/cadence.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 8,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/cli.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/cognition.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 6,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/contracts.py",
+          "public_named_top_level": 7,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/fixtures.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/living.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 8,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/living_demo.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/model_worker.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/open_demo.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/process_qualification.py",
+          "public_named_top_level": 6,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/projections.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/qualification.py",
+          "public_named_top_level": 10,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/queue.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 9,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/resources.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/runtime.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 13,
+          "public_named_methods_documented": 1
+        },
+        {
+          "path": "src/nana_core/presence/scheduler.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 1
+        },
+        {
+          "path": "src/nana_core/presence/semantic_demo.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/world_demo.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/runtime.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 5,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/semantic/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/semantic/contracts.py",
+          "public_named_top_level": 8,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/semantic/evaluation.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/semantic/model_port.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 9,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/semantic/runner.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/semantic/selection.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/semantic/snapshot.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/storage/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/storage/bootstrap.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/storage/development_schema.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/storage/sqlite_store.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 14,
+          "public_named_methods_documented": 1
+        }
+      ]
+    },
+    "after": {
+      "counts": {
+        "public_named_top_level": 821,
+        "public_named_top_level_documented": 108,
+        "public_named_methods": 656,
+        "public_named_methods_documented": 25
+      },
+      "rows": [
+        {
+          "path": "src/nana_core/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/actions.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 12,
+          "public_named_methods_documented": 1
+        },
+        {
+          "path": "src/nana_core/clock.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/agency.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 6,
+          "public_named_methods_documented": 1
+        },
+        {
+          "path": "src/nana_core/continuity/agency_contracts.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/application.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 12,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/contracts.py",
+          "public_named_top_level": 12,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/disclosure.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/evaluation.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/experience.py",
+          "public_named_top_level": 6,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/fixture_effects.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/governance.py",
+          "public_named_top_level": 7,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 7,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/history.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/private_intent.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/realization.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/relationships.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/autonomy/requests.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/cognition.py",
+          "public_named_top_level": 7,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/commitments.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/context.py",
+          "public_named_top_level": 12,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 6,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/contracts.py",
+          "public_named_top_level": 6,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/controlled_world/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/controlled_world/lab.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/controlled_world/projects.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/current_state.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/dialogue_shadow/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/dialogue_shadow/bridge.py",
+          "public_named_top_level": 7,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/extensions.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/hands/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/hands/browser.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 6,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/hands/contracts.py",
+          "public_named_top_level": 7,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/hands/framing.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/hands/host.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/hands/page.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/hands/port.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 5,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/hands/server.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/hands/service.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 7,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/hands/skills.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 5,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/hands/view.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/identity.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/journal.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/learning.py",
+          "public_named_top_level": 7,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 11,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/lived_language.py",
+          "public_named_top_level": 10,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/maintenance.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/memory.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 13,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/checkpoints.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/code_skills.py",
+          "public_named_top_level": 7,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 13,
+          "public_named_methods_documented": 3
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/contracts.py",
+          "public_named_top_level": 10,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 7,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/delivery.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/exploration.py",
+          "public_named_top_level": 6,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/fixtures.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/learning.py",
+          "public_named_top_level": 8,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 12,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/planning.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/practice.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/projections.py",
+          "public_named_top_level": 6,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/service.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 9,
+          "public_named_methods_documented": 2
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/skill_runner.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/state.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/task_graph.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_agency/world.py",
+          "public_named_top_level": 9,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_life/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_life/capabilities.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_life/lifecycle.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_life/meta_learning.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_life/opportunities.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_life/projections.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_life/research.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_life/research_outcome.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_life/research_work.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/open_life/sources.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 5,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/person_profile.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/person_self.py",
+          "public_named_top_level": 12,
+          "public_named_top_level_documented": 6,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/portable.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/privacy.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/project_work/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/project_work/analysis.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/project_work/documents.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/project_work/oracle.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/project_work/port.py",
+          "public_named_top_level": 6,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/project_work/service.py",
+          "public_named_top_level": 7,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 7,
+          "public_named_methods_documented": 3
+        },
+        {
+          "path": "src/nana_core/continuity/projects.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/provider_config.py",
+          "public_named_top_level": 11,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 12,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/provider_routing.py",
+          "public_named_top_level": 9,
+          "public_named_top_level_documented": 3,
+          "public_named_methods": 11,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/providers.py",
+          "public_named_top_level": 18,
+          "public_named_top_level_documented": 3,
+          "public_named_methods": 32,
+          "public_named_methods_documented": 1
+        },
+        {
+          "path": "src/nana_core/continuity/records.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/recurrence.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/relational/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/relational/accommodation.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/relational/bootstrap.py",
+          "public_named_top_level": 6,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/relational/contracts.py",
+          "public_named_top_level": 15,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/relational/deliberation.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/relational/projections.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/relationships.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/revision.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/sensors/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/sensors/adapters.py",
+          "public_named_top_level": 6,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 7,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/sensors/application.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/sensors/config.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/sensors/contracts.py",
+          "public_named_top_level": 10,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 10,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/sensors/coordinator.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 11,
+          "public_named_methods_documented": 1
+        },
+        {
+          "path": "src/nana_core/continuity/sensors/screen.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 7,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/skills.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/store.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/context_fit.py",
+          "public_named_top_level": 8,
+          "public_named_top_level_documented": 3,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/contracts.py",
+          "public_named_top_level": 11,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/experience_need.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/framing.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/growth.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 5,
+          "public_named_methods_documented": 1
+        },
+        {
+          "path": "src/nana_core/continuity/subject/growth_life.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/ingress.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/loop.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 11,
+          "public_named_methods_documented": 3
+        },
+        {
+          "path": "src/nana_core/continuity/subject/opportunities.py",
+          "public_named_top_level": 7,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/policy.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/projections.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/reflection.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/simulation.py",
+          "public_named_top_level": 11,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/social.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/state.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/subject/watch.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/surfaces.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/temporal.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/attention.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 5,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/cognition.py",
+          "public_named_top_level": 12,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 15,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/coordinator.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 5,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/extension.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/harness.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/learning.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/perception.py",
+          "public_named_top_level": 6,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 6,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/ports.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/reference.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/response_diagnostics.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/samples.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/semantic_contracts.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/semantic_harness.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/semantics.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 5,
+          "public_named_methods_documented": 2
+        },
+        {
+          "path": "src/nana_core/continuity/world_loop/world.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/contracts.py",
+          "public_named_top_level": 16,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/development/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/development/controlled_web.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/development/file_source.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/development/lab.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/development/public_http.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/development/web_lab.py",
+          "public_named_top_level": 8,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/development/web_source.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 5,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/experience.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 8,
+          "public_named_methods_documented": 1
+        },
+        {
+          "path": "src/nana_core/experiment.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/fake_world.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 6,
+          "public_named_methods_documented": 1
+        },
+        {
+          "path": "src/nana_core/host_requirements.py",
+          "public_named_top_level": 7,
+          "public_named_top_level_documented": 5,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/initiative.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/authority.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/capabilities.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/contracts.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/engineering.py",
+          "public_named_top_level": 7,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 6,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/engineering_lab.py",
+          "public_named_top_level": 6,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/engineering_test_runner.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/exporter.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/host_observation.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/initiative.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/preflight.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/rehearsal.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/session.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/integration/shadow.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/__main__.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/advanced.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 5,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/application.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 11,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/cloud.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 3,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/config.py",
+          "public_named_top_level": 6,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/control.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/conversation_opportunity.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/dialogue_contracts.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/durability.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/ingress.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/inspector.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/owned_surface.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/portable_runtime.py",
+          "public_named_top_level": 9,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/presentation.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/provider.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/review.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/shared.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 5,
+          "public_named_methods_documented": 1
+        },
+        {
+          "path": "src/nana_core/life/skills.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/surfaces.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/life/view.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/memory.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/migration/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/migration/experiment.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/migration/iris.py",
+          "public_named_top_level": 7,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/migration/iris_fixtures.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/migration/legacy.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/migration/routing.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 7,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/migration/shadow.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/phase3/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/phase3/engineering.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/phase3/initiative_cases.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/phase3/memory_rehearsal.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/phase3/public_probe.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/planning.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 5,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/ports.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/adapters.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/authority.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 9,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/cadence.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 8,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/cli.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/cognition.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 6,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/contracts.py",
+          "public_named_top_level": 7,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 3,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/fixtures.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/living.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 8,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/living_demo.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/model_worker.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/open_demo.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/process_qualification.py",
+          "public_named_top_level": 7,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/projections.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/qualification.py",
+          "public_named_top_level": 10,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/queue.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 9,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/resources.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/runtime.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 13,
+          "public_named_methods_documented": 1
+        },
+        {
+          "path": "src/nana_core/presence/scheduler.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 4,
+          "public_named_methods_documented": 1
+        },
+        {
+          "path": "src/nana_core/presence/semantic_demo.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/presence/world_demo.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/runtime.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 5,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/semantic/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/semantic/contracts.py",
+          "public_named_top_level": 8,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 2,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/semantic/evaluation.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/semantic/model_port.py",
+          "public_named_top_level": 4,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 9,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/semantic/runner.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 1,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/semantic/selection.py",
+          "public_named_top_level": 3,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 1,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/semantic/snapshot.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 2,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/storage/__init__.py",
+          "public_named_top_level": 0,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/storage/bootstrap.py",
+          "public_named_top_level": 1,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/storage/development_schema.py",
+          "public_named_top_level": 2,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 0,
+          "public_named_methods_documented": 0
+        },
+        {
+          "path": "src/nana_core/storage/sqlite_store.py",
+          "public_named_top_level": 5,
+          "public_named_top_level_documented": 0,
+          "public_named_methods": 15,
+          "public_named_methods_documented": 2
+        }
+      ]
+    }
+  },
+  "preflight": {
+    "method": "AST_DECISION_ESTIMATE_NOT_EXACT_MCCABE",
+    "before_source": "87f73d235d593a0d852bca409b0e73e0ef67cc5e",
+    "after_source": "e322f017900c060a5739347a76c7e63545773d1a",
+    "function": "life.portable_runtime.preflight",
+    "before_decisions": 28,
+    "after_decisions": 10,
+    "note": "Responsibility extraction; global Ruff C901 count does not decrease. Not a claim a specific Ruff finding was removed."
+  },
+  "global_static_debt_remains": true,
+  "strict_mypy_scope": "src/nana_core/host_requirements.py only; --strict --follow-imports=skip --no-incremental"
+}

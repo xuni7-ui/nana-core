@@ -1,0 +1,129 @@
+{
+  "minimum": "3.51.3",
+  "rationale": "WAL_RESET_CORRUPTION_FIX_REQUIRED",
+  "official_references": [
+    "https://sqlite.org/releaselog/3_51_3.html",
+    "https://sqlite.org/wal.html#walresetbug"
+  ],
+  "unsupported": {
+    "execution": "ACTUAL_INTERPRETER_NOT_MOCKED",
+    "returncode": 2,
+    "report": {
+      "state": "START_BLOCKED",
+      "code": "SQLITE_VERSION_UNSUPPORTED",
+      "sqlite_runtime": {
+        "supported": false,
+        "version": "3.46.1",
+        "minimum": "3.51.3",
+        "checks": {
+          "version": false,
+          "json": true,
+          "fts5": true
+        },
+        "code": "SQLITE_VERSION_UNSUPPORTED",
+        "reason": "WAL_RESET_CORRUPTION_FIX_REQUIRED"
+      }
+    },
+    "subject_created": false,
+    "store_files_created": false,
+    "pip_called": false,
+    "test_venv_precreated": false
+  },
+  "missing_native": {
+    "execution": "ACTUAL_INTERPRETER_NOT_MOCKED",
+    "returncode": 2,
+    "report": {
+      "state": "START_BLOCKED",
+      "code": "PYTHON_NATIVE_MODULES_MISSING",
+      "python_native": {
+        "supported": false,
+        "missing": [
+          "ctypes"
+        ],
+        "code": "PYTHON_NATIVE_MODULES_MISSING"
+      }
+    },
+    "subject_created": false,
+    "store_files_created": false,
+    "pip_called": false,
+    "test_venv_precreated": false
+  },
+  "misbound_venv": {
+    "execution": "ACTUAL_INTERPRETER_NOT_MOCKED",
+    "returncode": 2,
+    "report": {
+      "state": "START_BLOCKED",
+      "code": "INSTALLED_INTERPRETER_UNSUPPORTED",
+      "actual": {
+        "python": [
+          3,
+          12
+        ],
+        "sqlite": {
+          "supported": true,
+          "version": "3.53.1",
+          "minimum": "3.51.3",
+          "checks": {
+            "version": true,
+            "json": true,
+            "fts5": true
+          },
+          "code": "SUPPORTED",
+          "reason": null
+        },
+        "native": {
+          "supported": true,
+          "missing": [],
+          "code": "SUPPORTED"
+        },
+        "venv": false,
+        "prefix": "/opt/codex/runtimes/codex-primary-runtime/dependencies/python"
+      }
+    },
+    "subject_created": false,
+    "store_files_created": false,
+    "pip_called": false,
+    "test_venv_precreated": true
+  },
+  "private_build": {
+    "execution": "REAL_NONROOT_SOURCE_BUILD_NOT_SYSTEM_INSTALL",
+    "interpreter": "/workspace/nana-staging/quality-v2-20261025/private-host-complete/python/bin/python3.12",
+    "sqlite_prefix": "/workspace/nana-staging/quality-v2-20261025/private-host-complete/sqlite",
+    "libffi_prefix": "/workspace/nana-staging/quality-v2-20261025/private-host-complete/libffi",
+    "source_sha256": {
+      "sqlite": "81f5be397049b0cae1b167f2225af7646fc0f82e4a9b3c48c9ea3a533e21d77a",
+      "python": "5c8462af5790baf43a321a1559dbe0db06d1be4300fb85fb53c40060668e548a",
+      "libffi": "b0dea9df23c863a7a50e825440f3ebffabd65df1497108e5d437747843895a4e"
+    },
+    "observed": {
+      "python": [
+        3,
+        12,
+        14
+      ],
+      "sqlite": {
+        "supported": true,
+        "version": "3.51.3",
+        "minimum": "3.51.3",
+        "checks": {
+          "version": true,
+          "json": true,
+          "fts5": true
+        },
+        "code": "SUPPORTED",
+        "reason": null
+      },
+      "native": {
+        "supported": true,
+        "missing": [],
+        "code": "SUPPORTED"
+      }
+    },
+    "system_python_changed": false,
+    "runtime_monkeypatch": false,
+    "network_in_build": false,
+    "LD_PRELOAD": false
+  },
+  "source_authenticity": "OFFICIAL_HTTPS_ORIGIN_CONTENT_PINNED_NOT_INDEPENDENT_SIGNATURE_VERIFICATION",
+  "first_native_import_failure_retained": "failures/installed-optional.txt"
+}

@@ -1,0 +1,12 @@
+{
+  "result": "PASS",
+  "kind": "CURRENT_FROZEN_DEFINITION_AND_HISTORICAL_AUDIT_VALIDATION_NOT_APPLICATION_QUALIFICATION",
+  "domains": 10,
+  "criteria": 63,
+  "framework_bytes_unchanged": true,
+  "definitions_unchanged": true,
+  "historical_source_commit": "edda7d08e3ca167f183607572a49283a7b8b067b",
+  "historical_business_source_tests_unchanged": true,
+  "projection_bytes": 1971,
+  "new_provider_calls": 0
+}

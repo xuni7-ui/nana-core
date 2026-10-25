@@ -1,0 +1,14 @@
+{
+  "tests/first_life_integration/test_live_gate.py": {
+    "all_original_assertions_unchanged": true,
+    "count": 24
+  },
+  "tests/first_life_integration/test_preflight.py": {
+    "all_original_assertions_unchanged": true,
+    "count": 6
+  },
+  "tests/first_life_integration/test_review_prepare.py": {
+    "all_original_assertions_unchanged": true,
+    "count": 7
+  }
+}
