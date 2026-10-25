@@ -2,7 +2,7 @@ from tools.nana_first_life_integration.dev import initialize
 from tools.nana_first_life_integration.review_prepare import prepare
 
 
-def test_high_primary_significance_preserves_independent_framing_and_no_authority(tmp_path):
+def test_high_primary_significance_preserves_independent_framing_and_no_authority(tmp_path,approved_dev_branch):
     home=tmp_path/'life';initial=initialize(home)
     from nana_core.life.config import load_config,update_config
     cfg=load_config(home);update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'current_project_state':None}),expected_revision=cfg.revision)

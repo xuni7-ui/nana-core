@@ -117,3 +117,8 @@ explicit. No completed planning/growth behavior was changed to satisfy a counter
 ## Engineering Quality V2 — isolated-worktree test branch fixture
 
 最终full第二次实跑309pass/1fail/313.05s，停于First-Life预算fixture的preflight：独立quality分支不等于旧入口固定First-Life分支，唯一false check为branch；工具拒绝正确。没有放宽真实tools入口BRANCH或任何Core权限。仅两个单元测试显式使用当前精确dev branch作为fixture policy（不得main），新负例要求错branch唯一阻断、其他检查全部true。原两个文件所有已有assert AST均相同。11 targeted PASS3.20s，无请求/凭据读取；Core/包/e322资格不变，下一full必须重新实际执行。旧失败XML/日志保持。
+
+
+## Engineering Quality V2 — indirect review-preflight fixture bound
+
+第三次full324pass/1fail300.00s还定位review_prepare间接调用同一原branch preflight；上一批漏列该测试。本次仅此第三个unit显式使用同一exact开发分支fixture，所有原assert AST不变，真实入口BRANCH与Core/包不变。整个first_life_integration组16 PASS4.32s；保留本次首败，下一full完整收集而非maxfail提前截断。
