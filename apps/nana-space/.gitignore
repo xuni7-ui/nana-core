@@ -1,0 +1,15 @@
+node_modules/
+dist/
+test-results/
+playwright-report/
+*.tsbuildinfo
+.env*
+!.env.example
+__pycache__/
+.pytest_cache/
+*.pyc
+.venv/
+
+/node_modules
+
+.live-target.json

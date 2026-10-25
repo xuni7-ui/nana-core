@@ -1,0 +1,231 @@
+.core-boundary {
+  display: flex;
+  align-items: center;
+  gap: 9px;
+  padding: 10px 28px;
+  border-bottom: 1px solid var(--line);
+  font-size: 0.7rem;
+  color: var(--cyan);
+}
+.core-identity {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px 24px;
+  font-size: 0.66rem;
+  color: var(--muted);
+  border-bottom: 1px solid var(--line);
+  padding: 10px 0 20px;
+  margin-bottom: 23px;
+  overflow-wrap: anywhere;
+}
+.core-login {
+  max-width: 660px;
+  margin: 30px auto;
+}
+.core-login .panel {
+  display: grid;
+  gap: 20px;
+}
+.core-login label,
+.core-settings label {
+  display: grid;
+  gap: 8px;
+  color: var(--text);
+  font-size: 0.8rem;
+}
+.core-login input,
+.core-settings select {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid var(--line);
+  border-radius: 9px;
+  background: var(--soft);
+  min-width: 0;
+}
+.core-login p {
+  font-size: 0.75rem;
+  line-height: 1.9;
+}
+.core-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+  margin-bottom: 24px;
+}
+.core-records {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.core-records h2 {
+  display: flex;
+  gap: 12px;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+.core-records article {
+  padding: 14px 0;
+  border-top: 1px solid var(--line);
+  font-size: 0.75rem;
+}
+.core-records article > div {
+  display: flex;
+  gap: 10px;
+  justify-content: space-between;
+  align-items: center;
+}
+.core-records p {
+  font-family: ui-monospace, monospace;
+  font-size: 0.7rem;
+  margin-top: 7px;
+}
+.core-records small {
+  display: block;
+  font-size: 0.6rem;
+}
+.core-back {
+  margin-top: auto;
+}
+.core-presence {
+  display: flex;
+  gap: 18px;
+  align-items: center;
+  margin-bottom: 22px;
+}
+.core-presence > div {
+  flex: 1;
+}
+.core-presence p {
+  font-size: 0.75rem;
+}
+.core-mobile-menu {
+  display: flex;
+  gap: 6px;
+  flex-wrap: wrap;
+  padding: 15px;
+  border-bottom: 1px solid var(--line);
+}
+.core-mobile-menu button {
+  min-height: 44px;
+  padding: 8px;
+  color: var(--purple);
+}
+.core-demo-mobile {
+  display: none;
+}
+.core-settings {
+  display: grid;
+  gap: 20px;
+  max-width: 850px;
+}
+.core-settings .button {
+  margin: 10px 10px 10px 0;
+}
+.core-settings p {
+  font-size: 0.8rem;
+  line-height: 1.9;
+}
+.core-settings .panel {
+  min-width: 0;
+}
+.core-chat-thread {
+  overflow: auto;
+  min-height: 0;
+  flex: 1;
+  padding: 12px 5px;
+}
+.core-chat-notice {
+  font-size: 0.68rem;
+  line-height: 1.9;
+  margin-bottom: 20px;
+  color: var(--muted);
+}
+.core-reply-meta {
+  display: grid;
+  gap: 5px;
+  margin: 8px 0 18px;
+  font-size: 0.62rem;
+  color: var(--muted);
+  overflow-wrap: anywhere;
+}
+.core-app .page-content.is-chat {
+  height: calc(100dvh - 120px);
+}
+.core-app .page-content.is-chat > .chat-page {
+  height: calc(100% - 70px);
+}
+@media (max-width: 1000px) {
+  .core-grid {
+    grid-template-columns: 1fr;
+  }
+  .core-presence {
+    flex-wrap: wrap;
+  }
+}
+@media (max-width: 760px) {
+  .core-boundary {
+    padding: 10px 16px;
+    font-size: 0.61rem;
+  }
+  .core-identity {
+    font-size: 0.58rem;
+    margin-bottom: 15px;
+    padding-bottom: 12px;
+  }
+  .core-login {
+    margin: 12px 0;
+  }
+  .core-demo-mobile {
+    display: block;
+    min-height: 44px;
+  }
+  .core-app .page-content.is-chat {
+    height: calc(100dvh - 175px - env(safe-area-inset-bottom, 0px));
+  }
+  .core-app .page-content.is-chat > .chat-page {
+    height: calc(100% - 95px);
+  }
+  .core-app .chat-heading {
+    height: 80px;
+  }
+  .core-app .chat-heading h1 {
+    font-size: 0.9rem;
+  }
+  .core-app .chat-heading .badge {
+    font-size: 0.46rem;
+  }
+  .core-app .chat-heading p {
+    font-size: 0.5rem;
+  }
+  .core-reply-meta .badge {
+    white-space: normal;
+  }
+  .core-presence {
+    gap: 12px;
+  }
+  .core-settings .panel {
+    padding: 17px;
+  }
+}
+@media (max-height: 500px) {
+  .core-app .core-boundary {
+    display: none;
+  }
+  .core-app .core-identity {
+    padding: 5px;
+    margin-bottom: 3px;
+    font-size: 0.5rem;
+  }
+  .core-app .chat-heading {
+    height: 48px;
+  }
+  .core-app .chat-heading p {
+    display: none;
+  }
+  .core-app .page-content.is-chat {
+    height: calc(100dvh - 76px);
+  }
+  .core-app .page-content.is-chat > .chat-page {
+    height: calc(100% - 45px);
+  }
+}

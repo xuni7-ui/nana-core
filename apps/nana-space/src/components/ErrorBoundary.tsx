@@ -1,0 +1,24 @@
+import { Component, type ReactNode } from "react";
+export class ErrorBoundary extends Component<
+  { children: ReactNode },
+  { failed: boolean }
+> {
+  state = { failed: false };
+  static getDerivedStateFromError() {
+    return { failed: true };
+  }
+  render() {
+    if (this.state.failed)
+      return (
+        <main className="fatal-error">
+          <span>✧</span>
+          <h1>小房间遇到一点问题</h1>
+          <p>刷新可以重新加载界面。Core 主体状态不由浏览器管理。</p>
+          <button className="button primary" onClick={() => location.reload()}>
+            重新加载
+          </button>
+        </main>
+      );
+    return this.props.children;
+  }
+}

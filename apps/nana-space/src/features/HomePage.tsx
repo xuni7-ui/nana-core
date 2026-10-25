@@ -1,0 +1,312 @@
+import {
+  ArrowUpRight,
+  ArrowRight,
+  MessageCircle,
+  Orbit,
+  Sparkles,
+  Moon,
+  Bookmark,
+  Heart,
+  ChevronRight,
+  Leaf,
+  Clock3,
+  Star,
+} from "lucide-react";
+import type { SpaceSnapshot, Route } from "../data/contracts";
+import {
+  Badge,
+  Panel,
+  SectionHeading,
+  TextLink,
+  Progress,
+} from "../components/ui";
+import { Avatar } from "../avatar/Avatar";
+export function HomePage({
+  data,
+  navigate,
+  onChat,
+  avatar,
+}: {
+  data: SpaceSnapshot;
+  navigate: (r: Route) => void;
+  onChat: (topic: string) => void;
+  avatar: boolean;
+}) {
+  const sharedMessage = data.messages.find((m) => m.proactive);
+  const active = data.goals.filter(
+    (g) => g.state === "ACTIVE" || g.state === "BLOCKED",
+  );
+  return (
+    <div className="home-page">
+      <div className="home-welcome">
+        <div>
+          <span className="eyebrow">OUR LITTLE UNIVERSE</span>
+          <h1>
+            欢迎回到，奈奈的空间<span> ✧</span>
+          </h1>
+          <p>一起生活，也各自闪耀。</p>
+        </div>
+        <div className="day-mark">
+          <Moon size={18} />
+          <span>
+            月光正好
+            <small>
+              演示空间 ·{" "}
+              {new Date(data.asOf).toLocaleDateString("zh-CN", {
+                timeZone: "Asia/Shanghai",
+              })}
+            </small>
+          </span>
+        </div>
+      </div>
+      <section
+        className={`room-hero ${avatar ? "" : "no-character"}`}
+        aria-label="月光下的奈奈小房间"
+      >
+        <img
+          className="room-art"
+          src="/assets/moonlit-room.webp"
+          alt="月光窗边、书本与小猫相伴的奈奈空间概念插画"
+          fetchPriority="high"
+        />
+        <div className="room-overlay" />
+        <span className="room-corner">
+          <span className="status-dot" /> {data.presence.label}
+          <span className="corner-divider" />
+          场景演示
+        </span>
+        <div className="hero-copy">
+          <span className="hero-eyebrow">
+            <Sparkles size={15} /> A LITTLE MOMENT WITH NANA
+          </span>
+          <h2>
+            宇宙很大，
+            <br />
+            这里有一盏<span>为你留的灯。</span>
+          </h2>
+          <p>{data.presence.share}</p>
+          <button className="button primary" onClick={() => onChat("")}>
+            <MessageCircle size={17} />
+            和奈奈聊聊
+            <ArrowUpRight size={16} />
+          </button>
+          <button className="hero-sub-link" onClick={() => navigate("journal")}>
+            看看她的今天
+            <ArrowRight size={15} />
+          </button>
+        </div>
+        <div className="room-footer">
+          <span>
+            <span className="tiny-star">✦</span> Moonlight atelier · 月光书房
+          </span>
+          <span>概念插画 · 非实时场景</span>
+        </div>
+      </section>
+      <div className="home-columns">
+        <div className="home-main-column">
+          <section>
+            <SectionHeading eyebrow="IN HER ORBIT" title="此刻的小世界">
+              <TextLink onClick={() => navigate("world")}>走近一点</TextLink>
+            </SectionHeading>
+            <div className="orbit-cards">
+              <button
+                className="orbit-card lavender"
+                onClick={() => navigate("world")}
+              >
+                <span className="orbit-card-icon">
+                  <Orbit size={21} />
+                </span>
+                <span className="mini-label">正在好奇</span>
+                <h3>{data.research[0]?.title || "等待新的世界投影"}</h3>
+                <p>{data.presence.focus}</p>
+                <ArrowUpRight size={17} className="card-arrow" />
+              </button>
+              <button
+                className="orbit-card blush"
+                onClick={() => navigate("goals")}
+              >
+                <span className="orbit-card-icon">
+                  <Leaf size={21} />
+                </span>
+                <span className="mini-label">慢慢生长的计划</span>
+                <h3>{active[0]?.title || "给生活留一点空白"}</h3>
+                <p>{active[0]?.next || "没有可展示的新计划"}</p>
+                <ArrowUpRight size={17} className="card-arrow" />
+              </button>
+              <button
+                className="orbit-card blue"
+                onClick={() => onChat("继续聊聊我们的小小观星计划")}
+              >
+                <span className="orbit-card-icon">
+                  <MessageCircle size={21} />
+                </span>
+                <span className="mini-label">我们还没聊完</span>
+                <h3>下次一起，看一场流星雨</h3>
+                <p>一个未完的话题，等你有空再继续。</p>
+                <ArrowUpRight size={17} className="card-arrow" />
+              </button>
+            </div>
+          </section>
+          <Panel className="life-panel">
+            <SectionHeading
+              eyebrow="LIFE, IN LITTLE THINGS"
+              title="奈奈的生活手记"
+            >
+              <TextLink onClick={() => navigate("journal")}>全部手记</TextLink>
+            </SectionHeading>
+            <div className="mini-timeline">
+              {data.activities.slice(0, 3).map((a, i) => (
+                <button
+                  key={a.id}
+                  className="timeline-row"
+                  onClick={() => navigate("journal")}
+                >
+                  <span className="timeline-time">{a.time}</span>
+                  <span className={`timeline-symbol symbol-${i}`}>
+                    {i === 0 ? (
+                      <Sparkles size={17} />
+                    ) : i === 1 ? (
+                      <Bookmark size={17} />
+                    ) : (
+                      <Moon size={17} />
+                    )}
+                  </span>
+                  <span className="timeline-text">
+                    <strong>{a.title}</strong>
+                    <small>{a.summary}</small>
+                  </span>
+                  <ChevronRight size={16} />
+                </button>
+              ))}
+            </div>
+            {data.activities.length === 0 && (
+              <p className="muted">
+                最近没有新的活动投影。安静也是生活的一部分。
+              </p>
+            )}
+          </Panel>
+          <section>
+            <SectionHeading
+              eyebrow="OUR SHARED CONSTELLATION"
+              title="值得收藏的共同片刻"
+            >
+              <TextLink onClick={() => navigate("memories")}>翻翻回忆</TextLink>
+            </SectionHeading>
+            <div className="moment-grid">
+              {data.memories.length === 0 && (
+                <p className="muted">共同记忆投影暂时不可用，请稍后再看。</p>
+              )}
+              {data.memories
+                .filter((m) => m.state !== "WITHDRAWN")
+                .slice(0, 2)
+                .map((m, i) => (
+                  <button
+                    className={`moment-card moment-${i}`}
+                    key={m.id}
+                    onClick={() => navigate("memories")}
+                  >
+                    <span className="moment-art">
+                      {i === 0 ? (
+                        <Moon size={34} strokeWidth={1} />
+                      ) : (
+                        <Star size={34} strokeWidth={1} />
+                      )}
+                      <i />
+                      <b>✦</b>
+                    </span>
+                    <span className="moment-body">
+                      <small>
+                        {m.date} · {m.kind}
+                      </small>
+                      <strong>{m.title}</strong>
+                      <span>{m.summary}</span>
+                    </span>
+                    <Heart className="moment-heart" size={15} />
+                  </button>
+                ))}
+            </div>
+          </section>
+        </div>
+        <aside className="home-right-column">
+          <Panel className="nana-note">
+            <div className="note-heading">
+              <span className="note-icon">
+                <Sparkles size={18} />
+              </span>
+              <span>
+                {sharedMessage ? "有件小事想分享" : "留一点安静的空白"}
+              </span>
+              <Badge tone="pink">演示</Badge>
+            </div>
+            <div className="note-message">
+              <span className="quote-mark">“</span>
+              <p>{sharedMessage?.text || data.presence.share}</p>
+            </div>
+            <div className="note-signature">
+              <Avatar size={30} />
+              <span>
+                {sharedMessage ? "奈奈的小小发现" : "安静也是生活的一部分"}
+                <small>
+                  {sharedMessage
+                    ? `${sharedMessage.time} · 示例分享，非真实主动消息`
+                    : "没有新消息，也不需要凑出一条分享"}
+                </small>
+              </span>
+            </div>
+            <button
+              className="button subtle full-width"
+              onClick={() => onChat(sharedMessage ? "继续聊聊这则分享" : "")}
+            >
+              {sharedMessage ? "听她慢慢说" : "打开对话"}
+              <ArrowUpRight size={15} />
+            </button>
+          </Panel>
+          <Panel className="growing-panel">
+            <SectionHeading title="一起慢慢完成">
+              <span className="small-spark">✧</span>
+            </SectionHeading>
+            {active.slice(0, 2).map((g) => (
+              <button
+                className="little-goal"
+                key={g.id}
+                onClick={() => navigate("goals")}
+              >
+                <div>
+                  <span className="goal-dot" />
+                  <strong>{g.title}</strong>
+                  <ArrowUpRight size={14} />
+                </div>
+                <Progress value={g.progress} />
+                <small>
+                  {g.state === "BLOCKED" ? "想做 · 等待条件" : "一步一步来"}
+                  <span>{g.progress}%</span>
+                </small>
+              </button>
+            ))}
+            <TextLink onClick={() => navigate("goals")}>打开计划簿</TextLink>
+          </Panel>
+          <button
+            className="quiet-card"
+            onClick={() => onChat("我想安静地待一会儿")}
+          >
+            <Moon size={22} strokeWidth={1.3} />
+            <span>
+              <strong>不用说话，也可以一起待着。</strong>
+              <small>给忙碌的日常，留一小片安静。</small>
+            </span>
+            <ArrowUpRight size={16} />
+          </button>
+          <div className="space-footnote">
+            <Heart size={12} /> 这里的每个片刻都只是演示。
+            <br />
+            真实的故事，留给同一个 Nana Core。
+          </div>
+        </aside>
+      </div>
+      <footer className="home-footer">
+        <span>✦</span> A space to be, a place to belong.
+        <span>奈奈的世界，正在慢慢展开。</span>
+      </footer>
+    </div>
+  );
+}

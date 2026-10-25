@@ -1,0 +1,2 @@
+# Same dependency/version as the pinned Core; no additional runtime framework.
+pydantic==2.13.5

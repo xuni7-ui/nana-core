@@ -1,0 +1,582 @@
+{
+  "scope": "Standalone Demo frontend only; no Core or Android physical qualification",
+  "recorded_at": "2026-10-25T04:38:16.971955+00:00",
+  "build": "PASS (Playwright webServer builds production assets before tests)",
+  "clean_install": "PASS (separate /tmp/nana-space-clean-validation, npm ci/build/test)",
+  "unit": {
+    "passed": 12,
+    "failed": 0,
+    "command": "npm test"
+  },
+  "e2e": {
+    "stats": {
+      "startTime": "2026-10-25T04:34:03.650Z",
+      "duration": 207554.482,
+      "expected": 80,
+      "skipped": 0,
+      "unexpected": 0,
+      "flaky": 0
+    },
+    "projects": [
+      {
+        "name": "desktop",
+        "viewport": {
+          "width": 1440,
+          "height": 1000
+        }
+      },
+      {
+        "name": "android",
+        "viewport": {
+          "width": 390,
+          "height": 844
+        }
+      },
+      {
+        "name": "small-phone",
+        "viewport": {
+          "width": 320,
+          "height": 740
+        }
+      },
+      {
+        "name": "tablet",
+        "viewport": {
+          "width": 768,
+          "height": 1024
+        }
+      },
+      {
+        "name": "landscape",
+        "viewport": {
+          "width": 844,
+          "height": 390
+        }
+      }
+    ],
+    "cases": [
+      {
+        "project": "desktop",
+        "test": "all product routes render meaningful content without errors or horizontal overflow",
+        "status": "passed",
+        "duration_ms": 5447
+      },
+      {
+        "project": "desktop",
+        "test": "shared memories support search, correction and withdrawal provenance",
+        "status": "passed",
+        "duration_ms": 1613
+      },
+      {
+        "project": "desktop",
+        "test": "goal controls remain local demo and UNKNOWN never exposes retry",
+        "status": "passed",
+        "duration_ms": 1381
+      },
+      {
+        "project": "desktop",
+        "test": "demo chat streams and preserves message boundaries",
+        "status": "passed",
+        "duration_ms": 2356
+      },
+      {
+        "project": "desktop",
+        "test": "local theme, motion and scale survive refresh",
+        "status": "passed",
+        "duration_ms": 2545
+      },
+      {
+        "project": "desktop",
+        "test": "research uncertainty and device limits remain inspectable",
+        "status": "passed",
+        "duration_ms": 2001
+      },
+      {
+        "project": "desktop",
+        "test": "search dialog supports keyboard focus, navigation and escape",
+        "status": "passed",
+        "duration_ms": 1469
+      },
+      {
+        "project": "desktop",
+        "test": "Inspector import rejects malformed, privileged and mismatched snapshots",
+        "status": "passed",
+        "duration_ms": 1699
+      },
+      {
+        "project": "desktop",
+        "test": "error, offline, partial and recovery scenarios communicate their limits",
+        "status": "passed",
+        "duration_ms": 4041
+      },
+      {
+        "project": "desktop",
+        "test": "attachments survive additions, release on removal and remain local metadata after sending",
+        "status": "passed",
+        "duration_ms": 1884
+      },
+      {
+        "project": "desktop",
+        "test": "input length, failed retry and UNKNOWN preserve clear message semantics",
+        "status": "passed",
+        "duration_ms": 3345
+      },
+      {
+        "project": "desktop",
+        "test": "quiet days have no fabricated sharing and quiet preference suppresses optional notices",
+        "status": "passed",
+        "duration_ms": 2174
+      },
+      {
+        "project": "desktop",
+        "test": "light theme, 120 percent zoom and reduced motion keep key pages readable",
+        "status": "passed",
+        "duration_ms": 3319
+      },
+      {
+        "project": "desktop",
+        "test": "switching scenes cancels pending streams and delayed projections",
+        "status": "passed",
+        "duration_ms": 2599
+      },
+      {
+        "project": "desktop",
+        "test": "clearing a snapshot cancels an in-flight import without restoring old authority",
+        "status": "passed",
+        "duration_ms": 2385
+      },
+      {
+        "project": "desktop",
+        "test": "demo chat works on non-secure LAN origins without randomUUID support",
+        "status": "passed",
+        "duration_ms": 2288
+      },
+      {
+        "project": "android",
+        "test": "all product routes render meaningful content without errors or horizontal overflow",
+        "status": "passed",
+        "duration_ms": 4652
+      },
+      {
+        "project": "android",
+        "test": "shared memories support search, correction and withdrawal provenance",
+        "status": "passed",
+        "duration_ms": 1484
+      },
+      {
+        "project": "android",
+        "test": "goal controls remain local demo and UNKNOWN never exposes retry",
+        "status": "passed",
+        "duration_ms": 1692
+      },
+      {
+        "project": "android",
+        "test": "demo chat streams and preserves message boundaries",
+        "status": "passed",
+        "duration_ms": 2197
+      },
+      {
+        "project": "android",
+        "test": "local theme, motion and scale survive refresh",
+        "status": "passed",
+        "duration_ms": 2361
+      },
+      {
+        "project": "android",
+        "test": "research uncertainty and device limits remain inspectable",
+        "status": "passed",
+        "duration_ms": 1944
+      },
+      {
+        "project": "android",
+        "test": "search dialog supports keyboard focus, navigation and escape",
+        "status": "passed",
+        "duration_ms": 1265
+      },
+      {
+        "project": "android",
+        "test": "Inspector import rejects malformed, privileged and mismatched snapshots",
+        "status": "passed",
+        "duration_ms": 1663
+      },
+      {
+        "project": "android",
+        "test": "error, offline, partial and recovery scenarios communicate their limits",
+        "status": "passed",
+        "duration_ms": 3903
+      },
+      {
+        "project": "android",
+        "test": "attachments survive additions, release on removal and remain local metadata after sending",
+        "status": "passed",
+        "duration_ms": 1737
+      },
+      {
+        "project": "android",
+        "test": "input length, failed retry and UNKNOWN preserve clear message semantics",
+        "status": "passed",
+        "duration_ms": 3145
+      },
+      {
+        "project": "android",
+        "test": "quiet days have no fabricated sharing and quiet preference suppresses optional notices",
+        "status": "passed",
+        "duration_ms": 1966
+      },
+      {
+        "project": "android",
+        "test": "light theme, 120 percent zoom and reduced motion keep key pages readable",
+        "status": "passed",
+        "duration_ms": 2988
+      },
+      {
+        "project": "android",
+        "test": "switching scenes cancels pending streams and delayed projections",
+        "status": "passed",
+        "duration_ms": 2448
+      },
+      {
+        "project": "android",
+        "test": "clearing a snapshot cancels an in-flight import without restoring old authority",
+        "status": "passed",
+        "duration_ms": 2325
+      },
+      {
+        "project": "android",
+        "test": "demo chat works on non-secure LAN origins without randomUUID support",
+        "status": "passed",
+        "duration_ms": 2189
+      },
+      {
+        "project": "small-phone",
+        "test": "all product routes render meaningful content without errors or horizontal overflow",
+        "status": "passed",
+        "duration_ms": 4465
+      },
+      {
+        "project": "small-phone",
+        "test": "shared memories support search, correction and withdrawal provenance",
+        "status": "passed",
+        "duration_ms": 1424
+      },
+      {
+        "project": "small-phone",
+        "test": "goal controls remain local demo and UNKNOWN never exposes retry",
+        "status": "passed",
+        "duration_ms": 1578
+      },
+      {
+        "project": "small-phone",
+        "test": "demo chat streams and preserves message boundaries",
+        "status": "passed",
+        "duration_ms": 2195
+      },
+      {
+        "project": "small-phone",
+        "test": "local theme, motion and scale survive refresh",
+        "status": "passed",
+        "duration_ms": 2445
+      },
+      {
+        "project": "small-phone",
+        "test": "research uncertainty and device limits remain inspectable",
+        "status": "passed",
+        "duration_ms": 1855
+      },
+      {
+        "project": "small-phone",
+        "test": "search dialog supports keyboard focus, navigation and escape",
+        "status": "passed",
+        "duration_ms": 1185
+      },
+      {
+        "project": "small-phone",
+        "test": "Inspector import rejects malformed, privileged and mismatched snapshots",
+        "status": "passed",
+        "duration_ms": 1569
+      },
+      {
+        "project": "small-phone",
+        "test": "error, offline, partial and recovery scenarios communicate their limits",
+        "status": "passed",
+        "duration_ms": 8947
+      },
+      {
+        "project": "small-phone",
+        "test": "attachments survive additions, release on removal and remain local metadata after sending",
+        "status": "passed",
+        "duration_ms": 1643
+      },
+      {
+        "project": "small-phone",
+        "test": "input length, failed retry and UNKNOWN preserve clear message semantics",
+        "status": "passed",
+        "duration_ms": 3140
+      },
+      {
+        "project": "small-phone",
+        "test": "quiet days have no fabricated sharing and quiet preference suppresses optional notices",
+        "status": "passed",
+        "duration_ms": 1972
+      },
+      {
+        "project": "small-phone",
+        "test": "light theme, 120 percent zoom and reduced motion keep key pages readable",
+        "status": "passed",
+        "duration_ms": 2702
+      },
+      {
+        "project": "small-phone",
+        "test": "switching scenes cancels pending streams and delayed projections",
+        "status": "passed",
+        "duration_ms": 2399
+      },
+      {
+        "project": "small-phone",
+        "test": "clearing a snapshot cancels an in-flight import without restoring old authority",
+        "status": "passed",
+        "duration_ms": 2288
+      },
+      {
+        "project": "small-phone",
+        "test": "demo chat works on non-secure LAN origins without randomUUID support",
+        "status": "passed",
+        "duration_ms": 2244
+      },
+      {
+        "project": "tablet",
+        "test": "all product routes render meaningful content without errors or horizontal overflow",
+        "status": "passed",
+        "duration_ms": 4758
+      },
+      {
+        "project": "tablet",
+        "test": "shared memories support search, correction and withdrawal provenance",
+        "status": "passed",
+        "duration_ms": 1648
+      },
+      {
+        "project": "tablet",
+        "test": "goal controls remain local demo and UNKNOWN never exposes retry",
+        "status": "passed",
+        "duration_ms": 1818
+      },
+      {
+        "project": "tablet",
+        "test": "demo chat streams and preserves message boundaries",
+        "status": "passed",
+        "duration_ms": 2318
+      },
+      {
+        "project": "tablet",
+        "test": "local theme, motion and scale survive refresh",
+        "status": "passed",
+        "duration_ms": 2538
+      },
+      {
+        "project": "tablet",
+        "test": "research uncertainty and device limits remain inspectable",
+        "status": "passed",
+        "duration_ms": 1980
+      },
+      {
+        "project": "tablet",
+        "test": "search dialog supports keyboard focus, navigation and escape",
+        "status": "passed",
+        "duration_ms": 1211
+      },
+      {
+        "project": "tablet",
+        "test": "Inspector import rejects malformed, privileged and mismatched snapshots",
+        "status": "passed",
+        "duration_ms": 1625
+      },
+      {
+        "project": "tablet",
+        "test": "error, offline, partial and recovery scenarios communicate their limits",
+        "status": "passed",
+        "duration_ms": 4112
+      },
+      {
+        "project": "tablet",
+        "test": "attachments survive additions, release on removal and remain local metadata after sending",
+        "status": "passed",
+        "duration_ms": 1903
+      },
+      {
+        "project": "tablet",
+        "test": "input length, failed retry and UNKNOWN preserve clear message semantics",
+        "status": "passed",
+        "duration_ms": 3408
+      },
+      {
+        "project": "tablet",
+        "test": "quiet days have no fabricated sharing and quiet preference suppresses optional notices",
+        "status": "passed",
+        "duration_ms": 2133
+      },
+      {
+        "project": "tablet",
+        "test": "light theme, 120 percent zoom and reduced motion keep key pages readable",
+        "status": "passed",
+        "duration_ms": 3052
+      },
+      {
+        "project": "tablet",
+        "test": "switching scenes cancels pending streams and delayed projections",
+        "status": "passed",
+        "duration_ms": 2655
+      },
+      {
+        "project": "tablet",
+        "test": "clearing a snapshot cancels an in-flight import without restoring old authority",
+        "status": "passed",
+        "duration_ms": 2385
+      },
+      {
+        "project": "tablet",
+        "test": "demo chat works on non-secure LAN origins without randomUUID support",
+        "status": "passed",
+        "duration_ms": 2293
+      },
+      {
+        "project": "landscape",
+        "test": "all product routes render meaningful content without errors or horizontal overflow",
+        "status": "passed",
+        "duration_ms": 4578
+      },
+      {
+        "project": "landscape",
+        "test": "shared memories support search, correction and withdrawal provenance",
+        "status": "passed",
+        "duration_ms": 1510
+      },
+      {
+        "project": "landscape",
+        "test": "goal controls remain local demo and UNKNOWN never exposes retry",
+        "status": "passed",
+        "duration_ms": 1608
+      },
+      {
+        "project": "landscape",
+        "test": "demo chat streams and preserves message boundaries",
+        "status": "passed",
+        "duration_ms": 2230
+      },
+      {
+        "project": "landscape",
+        "test": "local theme, motion and scale survive refresh",
+        "status": "passed",
+        "duration_ms": 2502
+      },
+      {
+        "project": "landscape",
+        "test": "research uncertainty and device limits remain inspectable",
+        "status": "passed",
+        "duration_ms": 1953
+      },
+      {
+        "project": "landscape",
+        "test": "search dialog supports keyboard focus, navigation and escape",
+        "status": "passed",
+        "duration_ms": 1165
+      },
+      {
+        "project": "landscape",
+        "test": "Inspector import rejects malformed, privileged and mismatched snapshots",
+        "status": "passed",
+        "duration_ms": 1626
+      },
+      {
+        "project": "landscape",
+        "test": "error, offline, partial and recovery scenarios communicate their limits",
+        "status": "passed",
+        "duration_ms": 3922
+      },
+      {
+        "project": "landscape",
+        "test": "attachments survive additions, release on removal and remain local metadata after sending",
+        "status": "passed",
+        "duration_ms": 1868
+      },
+      {
+        "project": "landscape",
+        "test": "input length, failed retry and UNKNOWN preserve clear message semantics",
+        "status": "passed",
+        "duration_ms": 3186
+      },
+      {
+        "project": "landscape",
+        "test": "quiet days have no fabricated sharing and quiet preference suppresses optional notices",
+        "status": "passed",
+        "duration_ms": 2005
+      },
+      {
+        "project": "landscape",
+        "test": "light theme, 120 percent zoom and reduced motion keep key pages readable",
+        "status": "passed",
+        "duration_ms": 2834
+      },
+      {
+        "project": "landscape",
+        "test": "switching scenes cancels pending streams and delayed projections",
+        "status": "passed",
+        "duration_ms": 2427
+      },
+      {
+        "project": "landscape",
+        "test": "clearing a snapshot cancels an in-flight import without restoring old authority",
+        "status": "passed",
+        "duration_ms": 2370
+      },
+      {
+        "project": "landscape",
+        "test": "demo chat works on non-secure LAN origins without randomUUID support",
+        "status": "passed",
+        "duration_ms": 2172
+      }
+    ]
+  },
+  "versions": {
+    "node": "v24.19.0",
+    "chromium": "Chromium 154.0.8037.57 built on Debian GNU/Linux 13 (trixie)"
+  },
+  "tested_source_sha256": {
+    "index.html": "cdcafcabdcf00e8e8eb93ea4cbac09865176c8c4498eed44e0f908043c0c4218",
+    "package-lock.json": "276c1e636dc31ac9964610e6df6be5dd9eb04c5590e44974f031aab61a7011e5",
+    "package.json": "c48dec46e162038d34adddb2e8eb445cc0b8a33784111faef789a610fd37296e",
+    "playwright.config.ts": "0f629d094c905e6d011f057f14a842facbb2d5cd321380295242ee1d3a1b51cf",
+    "src/app/App.tsx": "ccaca5c8b9a53338cb8c2f82de76e16285ebb547f7d3406e7534a795de958607",
+    "src/app/preferences.ts": "7b3a3b7c93f875a35c134d068479c05fe56ad781da4a04ef5844b10abfab2b5b",
+    "src/avatar/Avatar.tsx": "cd98888cfdf3b8328520bfa79187b7da12327e998013c92fd3525633374a1672",
+    "src/components/ErrorBoundary.tsx": "21dd50b55e9f874e1015c38a9396ab3e3814f32433ddf5c8f26d2316c0723747",
+    "src/components/ui.tsx": "550be1d2d1765ac783deacdea9e07cfb278aacb797ad18f76ffcf19944432e2b",
+    "src/data/contracts.ts": "06805f14e119599044632379203ef4b611e0af662c7e2ce8d98280cabea48f25",
+    "src/data/demo.ts": "e6e85aa8d7fd88b98b0d80d70d013aee4eeaafe03804caf63f926e8da1886d61",
+    "src/data/errors.ts": "74326077e590bcf6d8f7d991eb47c88606e6f1e81c4abb62c477dd243fb91d8f",
+    "src/data/fixtures.ts": "828a3d3789655ae0b0c5853838c1297019cfeee30d0e1a8ea76beef8038cd291",
+    "src/data/gateway.ts": "97a616ab34e60da3528c01d9762fad27cd3eb395eaee9d5db127a74dcdb198c3",
+    "src/data/inspector.ts": "207138824da6625c03f09a7f66f274747a574c6e268096c7e48f433ee6e010be",
+    "src/data/registry.ts": "e66d33020c265db69ca530778008d960e703385410bc62c9d881721f915683af",
+    "src/features/ChatPage.tsx": "4f556e8ea91eac9b189fc0fa679ce8fe2809a1108e291a1d57a58bc57b7d9186",
+    "src/features/ExplorePages.tsx": "72ce9f144dbd7e9c1081c318541754e8ebf6afa5e88de36546c94b07946bd531",
+    "src/features/HomePage.tsx": "e84516cbc6d7859e6fda105be07052e0dd0c08816cb28dae5a52a43d96ca4a66",
+    "src/features/RuntimePage.tsx": "551d7664c5e45693b10d1f2fdc32b50bd973e3734dc80dfeb45c28b6238a7ae8",
+    "src/features/SettingsPage.tsx": "df32649d5060b37722535387cda5caa1c6b3b5d90d08e9cd8dcad5b4a40d1dd1",
+    "src/features/explore.css": "ff8cf6565af88a20faf61221114bcb8bbc05f0ce2ee75d824b245be54a05af70",
+    "src/features/settings.css": "e1f6b6f7b1ae00ba5f1934050c9b10bd3f44940b14c3ddbe6508596d7dfa1a37",
+    "src/main.tsx": "4322ccb38428be639a46884f9a25a1e5b821f3f91fbe96db23f84a74a8984422",
+    "src/styles.css": "3bbceca997e1019b0faa0ea9a1d53ea1f71406f32656c21897a3099761578517",
+    "tests/adapters.test.ts": "a42b495acfc4f2b6c2c56b203bd2be249639bcad671d3bf27dcfff0667226b62",
+    "tests/space.spec.ts": "656f78c91a084dc894eff8d4a9a5a0b65db7e1f45f78f6ca7666cc1609d8ee92",
+    "tsconfig.json": "0f46f5756dd1cf85748088c7b82f78e7ae50db49c3a0a7c3902a69aeb299bddd",
+    "vite.config.ts": "4ebeb3bd4a327cbfb3ea76a4abc6d685ae6286d2b015104a871752f5446a6649",
+    "vitest.config.ts": "7675cae1a1c373510d29f55b887f631d70d47210ae710ca44902a0c6cc300248"
+  },
+  "limits": [
+    "Physical Android NOT_RUN",
+    "REAL_CORE_CONNECTED NO",
+    "LIVE2D_CONNECTED NO",
+    "PRODUCTION_DEPLOYED NO"
+  ]
+}
