@@ -1,7 +1,10 @@
 *
 !Dockerfile
 !container_entry.py
+!loopback_relay.py
 !extract_runtime.py
 !runtime.tar.gz
 !core.tar.gz
 !unpack_core.py
+!web.tar.gz
+!extract_web.py

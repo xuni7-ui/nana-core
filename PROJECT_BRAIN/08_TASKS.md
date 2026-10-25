@@ -1132,3 +1132,7 @@ main/R045/production/private/device/social/paidProvider0。报告与证据：doc
 
 ### FL-A storage/hosting final user selection (2026-10-25)
 [用户决定＋两份只读审计，S4/S1/Governance横轴Advanced] 固定host /srv/nana-core/{runtime,data,logs,backups} →container /opt/nana-core同四目录，独立nonroot Debian13 Docker，UID/GID999；不再等待systemd选型。后份证据撤回host PID1推断；旧/opt和/root备份仍在overlay，不能放行持久化。既有private runtime prefix=/opt/nana-core/runtime，Debian OpenSSL3.5.7依赖不能直接搬Ubuntu3.0.13。已有SDK通过不重做，待实际非敏感runtime归档在独立容器验证；镜像基础准备不冒充该资格。handoff=/AstrBot/data/_nana_core_handoff仅运行时/说明/哈希/结果，禁止Subject/identity/私人DB/密钥/生产备份。当前无云端安全访问，未假称复制或创建/srv。genesis/私人导入/旧写者关停/真实QQ/生产切流仍未批准。bwrap二进制已装但namespace拒绝，保持BLOCKED、不扩旧容器cap/seccomp、不重启QQ；S9不删除，bz2/lzma不补装。Master/fixed63/原主体机制不变。
+
+
+### Supplied cloud SDK / isolated Docker closure — 2026-10-26
+[实测，S1/S4/S5＋Platform/Governance，Advanced] 四分片/整包SHA/CRC/13封条/4766文件＋10软链通过；先读CODEX_HANDOFF，原脚本隔离执行7PASS。实际云端SDK在独立Debian13 UID999验证Python3.12.14/SQLite3.51.3/OpenSSL3.5.7、固定prefix、TLS证书校验HTTP200。修复umask权限、BFF发布端口不可达、首次密码stdin FD、Core unpack父目录并将同APK LIVE Web入镜像。实际四卷/只读、十页/原C离线对话/备份、杀BFF自动恢复、容器重建同ID epochs2→3→4、B8恢复及旧源fence/Grant撤销通过；39 focused PASS。新全仓回归在稳定源码检查点后执行，不能复制旧数字。原失败证据保留。正式cloud部署/genesis/private import/旧写者/QQ/生产尚未执行，无Provider调用；bwrap仍BLOCKED，Master/Matrix/fixed63不变。原始材料与复现见docs/nana_first_life_android_v2/CLOUD_RUNTIME_VALIDATION.md。

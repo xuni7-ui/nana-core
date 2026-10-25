@@ -21,9 +21,11 @@ Do not claim to have copied there without actual access.
 Both supplied audits were read. The later read-only evidence explicitly retracts
 host-systemd verification; it is UNKNOWN and no longer a gate because Docker is
 selected. Debian runtime uses OpenSSL3.5.7 from its old container; Ubuntu3.0.13 is
-not a compatible direct host runtime. Candidate independent Debian13 must verify
-actual ssl/hashlib/sqlite imports and loaded dependencies. Matching an OS name
-alone is insufficient. Actual supplied cloud runtime archive is still required.
+not a compatible direct host runtime. The exact supplied archive has now passed isolated Debian13 ssl/hashlib/sqlite,
+loaded-library, validated TLS, nonroot four-volume and original Core lifecycle
+qualification. Matching an OS name alone remains insufficient; see
+../../../docs/nana_first_life_android_v2/CLOUD_RUNTIME_VALIDATION.md. Actual cloud
+production deployment is NOT_RUN.
 
 Build context must be the exact .dockerignore allowlist. `runtime.tar.gz` must
 contain only relative runtime/... members from /opt/nana-core/runtime, with an
@@ -51,6 +53,23 @@ an inactive approval profile and `create_host_path:false`; it does not create
 production folders or start a formal Subject merely by being delivered.
 
 Restart policy restarts the infrastructure container, not semantic requests.
+The original BFF keeps its loopback-only listener at container TCP18765. A
+fixed infrastructure-only relay forwards container TCP18766 to that loopback
+port; Docker publishes **host 127.0.0.1:18765 -> container 18766**. It copies
+bytes without changing Host/Origin/authentication, has at most eight connections,
+bounded buffers and idle/lifetime deadlines, and exits with the original BFF.
+It is not a second Core/SubjectLoop. Container-local health alone does not
+qualify host published-port reachability; qualify the published path separately.
+
+For an already approved first login initialization, the sole optional entry is
+`serve --password-fd 0`: provide only that password through an anonymous pipe
+into `docker run -i` with the same approved image, mounts and restrictions.
+Do not put plaintext in argv, environment, Compose, files or logs, and do not
+attach a TTY. The original gateway consumes its existing bounded input; the relay
+never reads it. Reopen after initialization with plain `serve`, which reuses the
+existing credential hash. This delivery does not authorize first activation,
+genesis, a real password or production changes.
+
 Original owner/lease/epoch, stop latch, UNKNOWN reservation, no replay/fallback,
 identity/lineage and old-writer fencing remain authoritative. Healthcheck is
 liveness only; authenticated Supervisor status provides actual Core readiness.

@@ -1,0 +1,26 @@
+{
+  "scope": "ACTUAL_SUPPLIED_CLOUD_SDK_IN_ISOLATED_DEBIAN13",
+  "python": "3.12.14",
+  "prefix": "/opt/nana-core/runtime",
+  "sqlite": "3.51.3",
+  "openssl": "OpenSSL 3.5.7 9 Jun 2026",
+  "uid": 999,
+  "groups": [
+    999
+  ],
+  "isolated": true,
+  "bytecode_disabled": true,
+  "loaded_libraries": [
+    "/opt/nana-core/runtime/lib/libsqlite3.so.3.51.3",
+    "/usr/lib/x86_64-linux-gnu/libcrypto.so.3",
+    "/usr/lib/x86_64-linux-gnu/libssl.so.3"
+  ],
+  "native_ctypes": true,
+  "sha256": "d629408c2e888d321b59061a82af0c8c700e7b65ecbb56a9df99ce60b809ca70",
+  "sqlite_wal_fts5_json_transaction_integrity": "PASS",
+  "tls": "PASS_CERTIFICATE_AND_HOSTNAME_VERIFIED_HTTP_200",
+  "subject_opened": false,
+  "provider_calls": 0,
+  "private_data_used": false,
+  "production_changed": false
+}

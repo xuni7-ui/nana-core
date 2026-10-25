@@ -19,7 +19,7 @@ def verify():
     python = RUNTIME / "bin/python3"
     if not python.is_file():
         return {"state": "BLOCKED_RUNTIME_ARTIFACT_MISSING", "subject_opened": False}
-    code = "import sys,ssl,hashlib,sqlite3,ctypes,json;print(json.dumps({'python':list(sys.version_info[:3]),'prefix':sys.prefix,'sqlite':sqlite3.sqlite_version,'openssl':ssl.OPENSSL_VERSION,'ca_count':len(ssl.create_default_context().get_ca_certs()),'sha256':hashlib.sha256(b'PUBLIC_RUNTIME_PROBE').hexdigest(),'native_modules':'IMPORTED','supported':sys.version_info[:3]==(3,12,14) and sqlite3.sqlite_version_info>=(3,51,3) and sys.prefix=='/opt/nana-core/runtime' and len(ssl.create_default_context().get_ca_certs())>0}))"
+    code = "import sys,ssl,hashlib,sqlite3,ctypes,json;print(json.dumps({'python':list(sys.version_info[:3]),'prefix':sys.prefix,'sqlite':sqlite3.sqlite_version,'openssl':ssl.OPENSSL_VERSION,'ca_count':len(ssl.create_default_context().get_ca_certs()),'sha256':hashlib.sha256(b'PUBLIC_RUNTIME_PROBE').hexdigest(),'native_modules':'IMPORTED','supported':sys.version_info[:3]==(3,12,14) and sqlite3.sqlite_version=='3.51.3' and sys.prefix=='/opt/nana-core/runtime' and len(ssl.create_default_context().get_ca_certs())>0}))"
     try:
         p = subprocess.run(
             [str(python), "-I", "-B", "-c", code],
@@ -82,8 +82,12 @@ def main():
     if operation == ["verify"]:
         print(json.dumps(value))
         return 0 if value["state"] == "PRIVATE_RUNTIME_COMPATIBLE" else 2
-    if operation != ["serve"]:
+    password_stdin = operation == ["serve", "--password-fd", "0"]
+    if operation != ["serve"] and not password_stdin:
         print(json.dumps({"state": "OPERATION_DENIED"}))
+        return 2
+    if password_stdin and os.isatty(0):
+        print(json.dumps({"state": "BLOCKED_PASSWORD_PIPE_REQUIRED"}))
         return 2
     if value["state"] != "PRIVATE_RUNTIME_COMPATIBLE" or os.geteuid() == 0:
         print(json.dumps({"state": "BLOCKED_PRIVATE_NONROOT_RUNTIME_REQUIRED"}))
@@ -99,10 +103,14 @@ def main():
         return 2
     # Main BFF/Supervisor independently validates canonical receipts and binding.
     # No init, credential lookup, old writer shutdown, network change or QQ send.
-    os.execv(
-        str(root / ".venv/bin/python"),
-        [str(root / ".venv/bin/python"), "-I", str(root / "host_gateway.py"), "--config", str(config)],
-    )
+    # Only infrastructure forwarding: one original BFF/Supervisor remains the
+    # sole owner. Verify/health never start the relay or any child process.
+    command = [str(root / ".venv/bin/python"), "-I", str(root / "host_gateway.py"), "--config", str(config)]
+    if password_stdin:
+        # The original gateway alone reads its bounded password from stdin.
+        # The infrastructure relay never reads or persists credential bytes.
+        command.extend(["--password-fd", "0"])
+    os.execv(sys.executable, [sys.executable, "-I", str(Path(__file__).with_name("loopback_relay.py")), *command])
 
 
 if __name__ == "__main__":

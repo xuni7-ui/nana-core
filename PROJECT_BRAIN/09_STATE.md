@@ -7,26 +7,26 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 38,
-  "as_of_us": 1792939817439456,
+  "revision": 39,
+  "as_of_us": 1792970091852388,
   "stage": "H",
   "workstream": "FIRST_LIFE_ANDROID_APK_INTEGRATION_V2",
-  "status": "DEV_QUALIFIED_CLOUD_HANDOFF_BLOCKED_BY_32MIB_TRANSFER_LIMIT",
+  "status": "SUPPLIED_CLOUD_RUNTIME_DOCKER_QUALIFIED_PRODUCTION_GATES_PENDING",
   "progress": [
-    "质量d207＋Nana Space b899合法合并；统一开发分支，原工作树/bundle保留；Single Subject/Store/Loop不变。",
-    "v2认证、设备配对/撤销、原Core十页/对话/Host启停/SIGKILL/UNKNOWN/来源撤回已实现并开发验证；旧v1 guard保留。",
-    "运行时dbfb37e全仓1560通过/12跳过，701.85s；新归档边界6通过；原UI80、v1真实Core浏览器16通过。",
-    "243文件Core包两次重建SHA一致；两套private3.12.14/SQLite3.51.3的-I离线安装，对话/备份/同身份重启通过。",
-    "Debian13非root受限容器开发SDK实际Core链通过；杀BFF后容器自动重启1次、同主体epoch6→7；不是云端SDK资格。",
-    "Android debug签名核验、unsigned release及严格离线构建/lint通过；软件模拟器系统provider未就绪，安装/原生仪器未资格，真机未运行。",
-    "两份后续FL-A审计已全文读；固定独立Docker、/srv/nana-core→/opt/nana-core四目录、UID999；不再等待systemd。",
-    "已收到nana_core_handoff_20261025.zip上传引用，但工具因超过32MiB拒绝下载；尚未读包内CODEX_HANDOFF或执行其脚本。"
+    "质量d207＋Nana Space b899合法合并；独立开发分支；原工作树/bundle、Single Subject/Store/Loop、Master/fixed63不变。",
+    "运行时Core仍dbfb37e；历史全仓1560/0/12、243文件包可重复；API/前端契约未改，本轮聚焦实际SDK容器接线。",
+    "四分片/整ZIP/CRC/13封条/4766文件＋10软链全过；实际读取CODEX_HANDOFF并在隔离tmpfs执行原脚本7PASS。",
+    "云端原SDK实际Debian13 UID999：Python3.12.14/SQLite3.51.3/OpenSSL3.5.7、原prefix、原生库与真实验证TLS握手PASS。",
+    "修复SDK umask权限、首次密码stdin FD和容器loopback接线；镜像含离线Core＋同APK的LIVE Web，非第二Runtime。",
+    "实际四卷映射/只读SDK，发布端口→十页/离线原C/备份PASS；强杀自动恢复1次、重建同ID epochs2→3→4。",
+    "原B8恢复同开发主体，旧源fenced/Grant撤销；39 focused通过；新完整回归待本检查点后运行，失败原证据保留。",
+    "现有debug APK/unsigned release已生成；安装仍因软件模拟器provider未就绪BLOCKED，真机/真人/正式云端未执行。"
   ],
   "open_gates": [
-    "仅需可读取的≤30MiB分片＋整包SHA；路径/托管/准备授权已定。云端当前SDK精确兼容仍待实际工件，不能用开发SDK或报告代替。",
-    "正式genesis、私人导入、旧写者关停、真实QQ投递/生产切流仍独立确认，全部未执行。",
-    "bwrap云端namespace BLOCKED，不扩旧AstrBot权限、不exec降级、不补bz2/lzma；S9与其余合法自主能力保留。",
-    "新日常Provider安全绑定/额度、human review、正式签名、真机/后台push/72h仍未完成；First-Life/Beta不升级。"
+    "正式云端安全访问尚未绑定；不声称已在/srv部署。选型固定Docker、/srv四目录→/opt、UID999，无需重问。",
+    "正式genesis、私人导入、旧写者关停、真实QQ投递/生产切流均只准备未执行，仍需最后明确批准。",
+    "bwrap namespace BLOCKED，不扩旧AstrBot权限、不exec降级、不补bz2/lzma；S9和其他合法自主能力保留。",
+    "新日常Provider安全绑定/额度、human review、正式签名/真机/后台push/72h未完成；First-Life NOT_READY/Beta NO。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",

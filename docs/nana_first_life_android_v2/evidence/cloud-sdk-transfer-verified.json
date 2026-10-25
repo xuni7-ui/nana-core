@@ -1,0 +1,20 @@
+{
+  "whole_zip_sha256": "95617d43deb9678f2dbd7b307df81ff77c849305793b94035523f86ae76428a5",
+  "whole_bytes": 113321598,
+  "parts_verified": 4,
+  "zip_crc": "PASS",
+  "zip_entries": 15,
+  "handoff_seals_verified": 13,
+  "runtime_regular_hashes_verified": 4766,
+  "runtime_symlink_targets_verified": 10,
+  "runtime_archive_sha256": "1dbbcf46f6a16ab41deac96657a43a8fcecbba6ab7dea1d0113a84b2c8285b27",
+  "codex_handoff_read": true,
+  "provided_script_run": "PASS_7_FAIL_0_FRESH_EPHEMERAL_CONTAINER_ONLY",
+  "script_limits": [
+    "writes unique-isolated /tmp test file under fresh tmpfs, not production read-only",
+    "prefix not asserted by supplied script; independent -I -B probe asserts it",
+    "provided ldd checks supplemented by exact loaded-library maps and real TLS"
+  ],
+  "old_failed_full_zip_transfer": "PRESERVED_IN_handoff_transfer.json",
+  "production_changed": false
+}

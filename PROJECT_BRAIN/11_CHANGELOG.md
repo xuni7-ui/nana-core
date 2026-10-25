@@ -2697,3 +2697,7 @@ FL-A完整原报告收到并读取，脱敏source SHA登记，不复制平台个
 
 ### First-Life Android V2 — bounded status and development delivery checkpoint
 [实际开发资格] Core固定dbfb37e全仓1560/0/12；额外当前focused24、TS18、原UI80、旧v1真实Core浏览器16、新v2浏览器3通过。严格离线Android构建/签名/单元/lint通过；原生安装因无KVM软件模拟器系统provider未就绪而BLOCKED，未标原生仪器或真机PASS。Docker开发SDK实际受限容器对话/备份/重启、真实杀BFF触发daemon自动重启1次并同主体epoch6→7通过；精确云端SDK不由此替代。用户交接ZIP已上传但download_file32MiB限制拒绝，尚未读CODEX_HANDOFF/执行包内脚本；只需可读分片不需新选型或下载批准。CURRENT摘要已压缩到既有8项上限，未扩张Context契约；Master/矩阵逐字不变。保留全部失败原记录，原untracked bundle不读取/不改动，不碰production/main/R045/私人/真实社交/付费。
+
+
+### Supplied cloud SDK / isolated Docker closure — 2026-10-26
+[实测，S1/S4/S5＋Platform/Governance，Advanced] 四分片/整包SHA/CRC/13封条/4766文件＋10软链通过；先读CODEX_HANDOFF，原脚本隔离执行7PASS。实际云端SDK在独立Debian13 UID999验证Python3.12.14/SQLite3.51.3/OpenSSL3.5.7、固定prefix、TLS证书校验HTTP200。修复umask权限、BFF发布端口不可达、首次密码stdin FD、Core unpack父目录并将同APK LIVE Web入镜像。实际四卷/只读、十页/原C离线对话/备份、杀BFF自动恢复、容器重建同ID epochs2→3→4、B8恢复及旧源fence/Grant撤销通过；39 focused PASS。新全仓回归在稳定源码检查点后执行，不能复制旧数字。原失败证据保留。正式cloud部署/genesis/private import/旧写者/QQ/生产尚未执行，无Provider调用；bwrap仍BLOCKED，Master/Matrix/fixed63不变。原始材料与复现见docs/nana_first_life_android_v2/CLOUD_RUNTIME_VALIDATION.md。

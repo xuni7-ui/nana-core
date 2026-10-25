@@ -12,6 +12,7 @@ RUN --mount=type=secret,id=system_ca,required=true \
  && chown 999:999 /opt/nana-core/data /opt/nana-core/logs /opt/nana-core/backups \
  && chmod 0700 /opt/nana-core/data /opt/nana-core/logs /opt/nana-core/backups
 COPY --chmod=0644 container_entry.py /usr/local/lib/nana/container_entry.py
+COPY --chmod=0644 loopback_relay.py /usr/local/lib/nana/loopback_relay.py
 RUN chmod 0755 /usr/local/lib/nana && chmod 0644 /usr/local/lib/nana/container_entry.py
 USER 999:999
 WORKDIR /opt/nana-core
@@ -26,12 +27,16 @@ USER root
 ARG RUNTIME_SHA256
 ARG CORE_SHA256
 ARG CORE_SOURCE_COMMIT
-COPY runtime.tar.gz core.tar.gz /tmp/nana-input/
+ARG WEB_SHA256
+COPY runtime.tar.gz core.tar.gz web.tar.gz /tmp/nana-input/
 COPY --chmod=0644 extract_runtime.py /usr/local/lib/nana/extract_runtime.py
+COPY --chmod=0644 extract_web.py /usr/local/lib/nana/extract_web.py
 RUN python3 -I /usr/local/lib/nana/extract_runtime.py /tmp/nana-input/runtime.tar.gz "$RUNTIME_SHA256" \
- && /opt/nana-core/runtime/bin/python3 -I /usr/local/lib/nana/container_entry.py verify
+ && /opt/nana-core/runtime/bin/python3 -I /usr/local/lib/nana/container_entry.py verify \
+ && python3 -I /usr/local/lib/nana/extract_web.py /tmp/nana-input/web.tar.gz "$WEB_SHA256"
 COPY unpack_core.py /tmp/nana-input/unpack_core.py
-RUN python3 -I /tmp/nana-input/unpack_core.py /tmp/nana-input/core.tar.gz \
+RUN mkdir -p /opt/nana-core/runtime/core-releases \
+ && python3 -I /tmp/nana-input/unpack_core.py /tmp/nana-input/core.tar.gz \
       --destination "/opt/nana-core/runtime/core-releases/$CORE_SOURCE_COMMIT" --sha256 "$CORE_SHA256" \
  && chown -R 999:999 /opt/nana-core/runtime/core-releases \
  && rm -rf /tmp/nana-input

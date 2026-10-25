@@ -1,0 +1,29 @@
+{
+  "uid": 999,
+  "groups": [
+    999
+  ],
+  "runtime_write_denied_EROFS": true,
+  "volumes": {
+    "data": {
+      "uid": 999,
+      "mode": "0o700",
+      "writable": true
+    },
+    "logs": {
+      "uid": 999,
+      "mode": "0o700",
+      "writable": true
+    },
+    "backups": {
+      "uid": 999,
+      "mode": "0o700",
+      "writable": true
+    }
+  },
+  "restored_integrity": "ok",
+  "foreign_key_errors": 0,
+  "identities": 1,
+  "provider_requests": 0,
+  "production_changed": false
+}

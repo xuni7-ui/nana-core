@@ -76,3 +76,12 @@ First OpenAPI consumer test incorrectly rejected a valid empty JSON schema;
 the normal follow-up commit fixes that test (no amend). Initial full attempts and
 interruptions remain recorded; final full regression must refer to its exact
 source. No previous test total is copied as a new result.
+
+
+## Supplied runtime continuation — 2026-10-26
+
+The 32MiB transfer gate is resolved by four verified parts. Actual cloud SDK, not
+the developer SDK, now passed isolated Debian13/nonroot TLS and lifecycle checks.
+See [runtime qualification and reproducible deployment preparation](CLOUD_RUNTIME_VALIDATION.md).
+Core/frontend business bytes and contracts remain unchanged; no canonical cloud
+Subject or production cutover was created. All earlier failures remain historical.

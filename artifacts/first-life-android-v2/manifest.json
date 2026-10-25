@@ -8,7 +8,7 @@
   "native_web_asset_equality": true,
   "android_physical": "NOT_RUN",
   "cloud_runtime_included": false,
-  "cloud_runtime_transfer": "BLOCKED_32_MIB_DOWNLOAD_LIMIT",
+  "cloud_runtime_transfer": "RESOLVED_4_PARTS_SHA256_CRC_FILE_MANIFEST_VERIFIED",
   "subject_database_included": false,
   "credential_included": false,
   "files": {
@@ -36,5 +36,6 @@
       "bytes": 2579,
       "sha256": "43cae88c58ea6db1e5e5226807ae00f6ab06281f0a801ef4a0832e1b2428cdf7"
     }
-  }
+  },
+  "cloud_runtime_qualification": "PASS_ACTUAL_SDK_IN_ISOLATED_DEBIAN13_NONROOT_DOCKER_NOT_CLOUD_DEPLOYMENT"
 }

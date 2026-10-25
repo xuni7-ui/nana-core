@@ -41,6 +41,8 @@ def extract(archive, expected, root=Path("/opt/nana-core")):
     runtime = root / "runtime"
     if runtime.is_symlink() or (runtime.exists() and any(runtime.iterdir())):
         raise ValueError("EMPTY_RUNTIME_DESTINATION_REQUIRED")
+    runtime.mkdir(mode=0o755, parents=True, exist_ok=True)
+    runtime.chmod(0o755)
     total = 0
     seen = set()
     members = []
@@ -87,10 +89,19 @@ def extract(archive, expected, root=Path("/opt/nana-core")):
             raise ValueError("RUNTIME_SYMLINK_PARENT_DENIED")
         for m in members:
             p = root / m.name
+            # Only this new, validated runtime tree. Explicit modes must not
+            # inherit a caller's private umask (e.g. 0077), which would make a
+            # root-built read-only SDK inaccessible to runtime UID999.
+            for directory in reversed((p if m.isdir() else p.parent).parents):
+                if directory.is_relative_to(runtime) and not directory.exists():
+                    directory.mkdir(mode=0o755)
+                    directory.chmod(0o755)
             if m.isdir():
                 p.mkdir(mode=0o755, parents=True, exist_ok=True)
+                p.chmod(0o755)
                 continue
             p.parent.mkdir(mode=0o755, parents=True, exist_ok=True)
+            p.parent.chmod(0o755)
             with tar.extractfile(m) as stream:
                 raw = stream.read()
             if re.search(rb"(?m)^-----BEGIN (?:RSA |EC |OPENSSH )?PRIVATE KEY-----", raw) or re.search(
@@ -99,10 +110,12 @@ def extract(archive, expected, root=Path("/opt/nana-core")):
                 raise ValueError("RUNTIME_CREDENTIAL_PATTERN_DENIED")
             fd = os.open(p, os.O_CREAT | os.O_EXCL | os.O_WRONLY | os.O_NOFOLLOW, 0o755 if m.mode & 0o111 else 0o644)
             with os.fdopen(fd, "wb") as out:
+                os.fchmod(out.fileno(), 0o755 if m.mode & 0o111 else 0o644)
                 out.write(raw)
         for name, target in links:
             p = root / name
             p.parent.mkdir(mode=0o755, parents=True, exist_ok=True)
+            p.parent.chmod(0o755)
             p.symlink_to(target)
         # Resolve the COMPLETE link graph before any candidate interpreter runs.
         # File writes precede links and link-parents are rejected above.

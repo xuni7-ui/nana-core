@@ -1,0 +1,32 @@
+=== 0. 环境 ===
+  [INFO] runtime root : /opt/nana-core/runtime
+  [INFO] glibc        : ldd (Debian GLIBC 2.41-12+deb13u4) 2.41
+  [INFO] os           : Debian GNU/Linux 13 (trixie)
+
+=== 1. Python ===
+  [PASS] Python 版本 Python 3.12.14
+  [INFO] sys.prefix   : /opt/nana-core/runtime
+
+=== 2. SQLite（私有库，硬断言）===
+  [PASS] sqlite3 版本 3.51.3（私有库生效）
+  [INFO] RUNPATH      : /opt/nana-core/runtime/lib
+  [PASS] RUNPATH 指向本运行时 lib
+  [PASS] SQLite 读写事务正常
+
+=== 3. OpenSSL ===
+  [PASS] OpenSSL 3.5.7 9 Jun 2026
+  [INFO] _ssl 链接    : 	libssl.so.3 => /lib/x86_64-linux-gnu/libssl.so.3 (0x00007fa14e11c000) 	libcrypto.so.3 => /lib/x86_64-linux-gnu/libcrypto.so.3 (0x00007fa14dae1000) 
+  [PASS] libssl.so.3 可解析
+
+=== 4. 外部硬依赖齐备性 ===
+  [PASS] 所有 NEEDED 均可解析
+
+=== 5. 目录权限（只读探针）===
+  [INFO] drwxr-xr-x 1000:1000 /opt/nana-core/runtime
+  [INFO] /opt/nana-core/runtime/data 不存在（按需创建）
+  [INFO] /opt/nana-core/runtime/logs 不存在（按需创建）
+  [INFO] /opt/nana-core/runtime/backups 不存在（按需创建）
+
+=== 结果 ===
+  PASS=7  FAIL=0
+  => 兼容性验证通过 ✅

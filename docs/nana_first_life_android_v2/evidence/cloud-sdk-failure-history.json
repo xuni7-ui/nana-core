@@ -1,0 +1,34 @@
+{
+  "scope": "CURRENT_NONPRODUCTION_QUALIFICATION_FAILURE_HISTORY",
+  "retained_raw_directory": "/workspace/nana-staging/first-life-android-v2/cloud-runtime-20261026",
+  "failures": [
+    {
+      "stage": "initial SDK mounted verify",
+      "result": "PermissionError UID999 cannot traverse umask0077 extracted SDK",
+      "fix": "explicit 755/644 modes only within newly validated non-sensitive SDK tree"
+    },
+    {
+      "stage": "provided script mount",
+      "result": "source file mode0600 denied UID999",
+      "fix": "public validation-script copy0644; original upload untouched"
+    },
+    {
+      "stage": "first image build",
+      "result": "ARCHIVE_REJECTED because core-releases parent absent",
+      "fix": "create private release parent before trusted unpacker; no relaxing digest checks"
+    },
+    {
+      "stage": "first lifecycle seed",
+      "result": "docker cp changed release owner to caller1000, UID999 could not execute700 release",
+      "fix": "restore documented owner999 only on exported core-releases in fresh DEV volume"
+    },
+    {
+      "stage": "second lifecycle harness",
+      "result": "harness expected200 at / but actual secure LIVE route intentionally303",
+      "fix": "assert exact303 Location /index.html?source=live, then assert200 actualHTML; no server assertion or route weakened"
+    }
+  ],
+  "final_lifecycle": "PASS_VOLUMES_03",
+  "real_provider_calls": 0,
+  "production_changed": false
+}
