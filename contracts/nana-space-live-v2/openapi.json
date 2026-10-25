@@ -1,0 +1,845 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "nana-space-live/v2",
+    "version": "2.0.0"
+  },
+  "paths": {
+    "/api/nana-space/v2/session": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope"
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        }
+      },
+      "delete": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope"
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        }
+      }
+    },
+    "/api/nana-space/v2/bootstrap": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope"
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        }
+      }
+    },
+    "/api/nana-space/v2/views/{domain}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope"
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        }
+      }
+    },
+    "/api/nana-space/v2/events": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope"
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        }
+      }
+    },
+    "/api/nana-space/v2/messages": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope"
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        }
+      }
+    },
+    "/api/nana-space/v2/receipts/{id}": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope"
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        }
+      }
+    },
+    "/api/nana-space/v2/commands": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope"
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        }
+      }
+    },
+    "/api/nana-space/v2/host/confirmations": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope"
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        }
+      }
+    },
+    "/api/nana-space/v2/host/operations": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope"
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        }
+      },
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope"
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        }
+      }
+    },
+    "/api/nana-space/v2/device/pairing": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope"
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        }
+      }
+    },
+    "/api/nana-space/v2/devices": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope"
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        }
+      }
+    },
+    "/api/nana-space/v2/devices/{id}": {
+      "delete": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope"
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        }
+      }
+    },
+    "/api/nana-space/v2/notifications": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope"
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        }
+      }
+    },
+    "/api/nana-space/v2/providers/status": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope"
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        }
+      }
+    },
+    "/api/nana-space/v2/privacy/withdrawal": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope"
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Binding": {
+        "additionalProperties": false,
+        "properties": {
+          "subject_id": {
+            "maxLength": 96,
+            "minLength": 1,
+            "title": "Subject Id",
+            "type": "string"
+          },
+          "lineage_binding": {
+            "pattern": "^[a-f0-9]{64}$",
+            "title": "Lineage Binding",
+            "type": "string"
+          },
+          "realm": {
+            "$ref": "#/$defs/Realm",
+            "default": "OWNED_DEVELOPMENT_ONLY"
+          },
+          "scope": {
+            "default": "project-work",
+            "maxLength": 96,
+            "minLength": 1,
+            "title": "Scope",
+            "type": "string"
+          },
+          "entity_id": {
+            "default": "project-user",
+            "maxLength": 96,
+            "minLength": 1,
+            "title": "Entity Id",
+            "type": "string"
+          },
+          "privacy": {
+            "default": [
+              "PUBLIC",
+              "PROJECT"
+            ],
+            "items": {
+              "enum": [
+                "PUBLIC",
+                "PROJECT"
+              ],
+              "type": "string"
+            },
+            "title": "Privacy",
+            "type": "array"
+          },
+          "surface_binding_id": {
+            "default": "nana.space",
+            "maxLength": 96,
+            "minLength": 1,
+            "title": "Surface Binding Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "subject_id",
+          "lineage_binding"
+        ],
+        "title": "Binding",
+        "type": "object"
+      },
+      "CommandRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "client_request_id": {
+            "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+            "title": "Client Request Id",
+            "type": "string"
+          },
+          "idempotency_key": {
+            "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+            "title": "Idempotency Key",
+            "type": "string"
+          },
+          "expected_revision": {
+            "minimum": 0,
+            "title": "Expected Revision",
+            "type": "integer"
+          },
+          "run_generation": {
+            "pattern": "^[a-f0-9]{32}$",
+            "title": "Run Generation",
+            "type": "string"
+          },
+          "owner_epoch": {
+            "minimum": 0,
+            "title": "Owner Epoch",
+            "type": "integer"
+          },
+          "operation": {
+            "enum": [
+              "PAUSE",
+              "RESUME",
+              "BUSY",
+              "AVAILABLE",
+              "REVOKE",
+              "WITHDRAW",
+              "SET_SURFACE"
+            ],
+            "title": "Operation",
+            "type": "string"
+          },
+          "target_id": {
+            "anyOf": [
+              {
+                "maxLength": 96,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Target Id"
+          },
+          "enabled": {
+            "anyOf": [
+              {
+                "type": "boolean"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Enabled"
+          },
+          "target_revision": {
+            "anyOf": [
+              {
+                "minimum": 1,
+                "type": "integer"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Target Revision"
+          }
+        },
+        "required": [
+          "client_request_id",
+          "idempotency_key",
+          "expected_revision",
+          "run_generation",
+          "owner_epoch",
+          "operation"
+        ],
+        "title": "CommandRequest",
+        "type": "object"
+      },
+      "Completion": {
+        "enum": [
+          "REQUESTED",
+          "ADMITTED",
+          "REJECTED",
+          "RUNNING",
+          "UNKNOWN",
+          "VERIFIED",
+          "FAILED",
+          "REVOKED"
+        ],
+        "title": "Completion",
+        "type": "string"
+      },
+      "Envelope": {
+        "additionalProperties": false,
+        "properties": {
+          "contract": {
+            "const": "nana-space-live/v2",
+            "default": "nana-space-live/v2",
+            "title": "Contract",
+            "type": "string"
+          },
+          "realm": {
+            "$ref": "#/$defs/Realm"
+          },
+          "subject_id": {
+            "title": "Subject Id",
+            "type": "string"
+          },
+          "lineage_binding": {
+            "title": "Lineage Binding",
+            "type": "string"
+          },
+          "owner_epoch": {
+            "minimum": 0,
+            "title": "Owner Epoch",
+            "type": "integer"
+          },
+          "run_generation": {
+            "pattern": "^[a-f0-9]{32}$",
+            "title": "Run Generation",
+            "type": "string"
+          },
+          "session_generation": {
+            "minimum": 1,
+            "title": "Session Generation",
+            "type": "integer"
+          },
+          "as_of_us": {
+            "minimum": 0,
+            "title": "As Of Us",
+            "type": "integer"
+          },
+          "revision": {
+            "minimum": 0,
+            "title": "Revision",
+            "type": "integer"
+          },
+          "coverage": {
+            "enum": [
+              "CURRENT",
+              "NO_DATA",
+              "BLOCKED_SCOPE",
+              "UNKNOWN",
+              "UNAVAILABLE",
+              "STALE"
+            ],
+            "title": "Coverage",
+            "type": "string"
+          },
+          "privacy_scope": {
+            "items": {
+              "enum": [
+                "PUBLIC",
+                "PROJECT"
+              ],
+              "type": "string"
+            },
+            "title": "Privacy Scope",
+            "type": "array"
+          },
+          "source_refs": {
+            "default": [],
+            "items": {
+              "type": "string"
+            },
+            "title": "Source Refs",
+            "type": "array"
+          },
+          "capabilities": {
+            "additionalProperties": {
+              "anyOf": [
+                {
+                  "type": "boolean"
+                },
+                {
+                  "type": "string"
+                }
+              ]
+            },
+            "title": "Capabilities",
+            "type": "object"
+          },
+          "execution_authority": {
+            "const": false,
+            "default": false,
+            "title": "Execution Authority",
+            "type": "boolean"
+          },
+          "data": {
+            "additionalProperties": {
+              "$ref": "#/$defs/JsonValue"
+            },
+            "title": "Data",
+            "type": "object"
+          }
+        },
+        "required": [
+          "realm",
+          "subject_id",
+          "lineage_binding",
+          "owner_epoch",
+          "run_generation",
+          "session_generation",
+          "as_of_us",
+          "revision",
+          "coverage",
+          "privacy_scope",
+          "capabilities",
+          "data"
+        ],
+        "title": "Envelope",
+        "type": "object"
+      },
+      "HostConfirmation": {
+        "additionalProperties": false,
+        "properties": {
+          "operation": {
+            "enum": [
+              "START",
+              "STOP",
+              "RESTART",
+              "BACKUP",
+              "UPGRADE",
+              "ROLLBACK"
+            ],
+            "title": "Operation",
+            "type": "string"
+          },
+          "expected_revision": {
+            "minimum": 0,
+            "title": "Expected Revision",
+            "type": "integer"
+          },
+          "release_id": {
+            "anyOf": [
+              {
+                "pattern": "^[a-z0-9][a-z0-9._-]{0,63}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Release Id"
+          }
+        },
+        "required": [
+          "operation",
+          "expected_revision"
+        ],
+        "title": "HostConfirmation",
+        "type": "object"
+      },
+      "HostRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "client_request_id": {
+            "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+            "title": "Client Request Id",
+            "type": "string"
+          },
+          "idempotency_key": {
+            "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+            "title": "Idempotency Key",
+            "type": "string"
+          },
+          "expected_revision": {
+            "minimum": 0,
+            "title": "Expected Revision",
+            "type": "integer"
+          },
+          "run_generation": {
+            "pattern": "^[a-f0-9]{32}$",
+            "title": "Run Generation",
+            "type": "string"
+          },
+          "owner_epoch": {
+            "minimum": 0,
+            "title": "Owner Epoch",
+            "type": "integer"
+          },
+          "operation": {
+            "enum": [
+              "START",
+              "STOP",
+              "RESTART",
+              "BACKUP",
+              "UPGRADE",
+              "ROLLBACK"
+            ],
+            "title": "Operation",
+            "type": "string"
+          },
+          "confirmation_id": {
+            "maxLength": 128,
+            "minLength": 24,
+            "title": "Confirmation Id",
+            "type": "string"
+          },
+          "release_id": {
+            "anyOf": [
+              {
+                "pattern": "^[a-z0-9][a-z0-9._-]{0,63}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Release Id"
+          }
+        },
+        "required": [
+          "client_request_id",
+          "idempotency_key",
+          "expected_revision",
+          "run_generation",
+          "owner_epoch",
+          "operation",
+          "confirmation_id"
+        ],
+        "title": "HostRequest",
+        "type": "object"
+      },
+      "JsonValue": {},
+      "Login": {
+        "additionalProperties": false,
+        "properties": {
+          "password": {
+            "maxLength": 128,
+            "minLength": 12,
+            "title": "Password",
+            "type": "string"
+          },
+          "subject_id": {
+            "maxLength": 96,
+            "minLength": 1,
+            "title": "Subject Id",
+            "type": "string"
+          }
+        },
+        "required": [
+          "password",
+          "subject_id"
+        ],
+        "title": "Login",
+        "type": "object"
+      },
+      "MessageRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "client_request_id": {
+            "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+            "title": "Client Request Id",
+            "type": "string"
+          },
+          "idempotency_key": {
+            "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+            "title": "Idempotency Key",
+            "type": "string"
+          },
+          "expected_revision": {
+            "minimum": 0,
+            "title": "Expected Revision",
+            "type": "integer"
+          },
+          "run_generation": {
+            "pattern": "^[a-f0-9]{32}$",
+            "title": "Run Generation",
+            "type": "string"
+          },
+          "owner_epoch": {
+            "minimum": 0,
+            "title": "Owner Epoch",
+            "type": "integer"
+          },
+          "text": {
+            "maxLength": 2048,
+            "minLength": 1,
+            "title": "Text",
+            "type": "string"
+          },
+          "topic": {
+            "default": "daily",
+            "pattern": "^[a-z][a-z0-9._-]{0,63}$",
+            "title": "Topic",
+            "type": "string"
+          },
+          "thread_id": {
+            "default": "daily",
+            "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+            "title": "Thread Id",
+            "type": "string"
+          },
+          "privacy_class": {
+            "default": "PROJECT",
+            "enum": [
+              "PUBLIC",
+              "PROJECT"
+            ],
+            "title": "Privacy Class",
+            "type": "string"
+          }
+        },
+        "required": [
+          "client_request_id",
+          "idempotency_key",
+          "expected_revision",
+          "run_generation",
+          "owner_epoch",
+          "text"
+        ],
+        "title": "MessageRequest",
+        "type": "object"
+      },
+      "PairOffer": {
+        "additionalProperties": false,
+        "properties": {
+          "device_name": {
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Device Name",
+            "type": "string"
+          },
+          "roles": {
+            "default": [
+              "READER",
+              "CONVERSATION"
+            ],
+            "items": {
+              "$ref": "#/$defs/Role"
+            },
+            "title": "Roles",
+            "type": "array"
+          },
+          "lifetime_seconds": {
+            "default": 120,
+            "maximum": 300,
+            "minimum": 30,
+            "title": "Lifetime Seconds",
+            "type": "integer"
+          }
+        },
+        "required": [
+          "device_name"
+        ],
+        "title": "PairOffer",
+        "type": "object"
+      },
+      "PairRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "code": {
+            "maxLength": 128,
+            "minLength": 24,
+            "title": "Code",
+            "type": "string"
+          },
+          "subject_id": {
+            "maxLength": 96,
+            "minLength": 1,
+            "title": "Subject Id",
+            "type": "string"
+          },
+          "device_name": {
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Device Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "code",
+          "subject_id",
+          "device_name"
+        ],
+        "title": "PairRequest",
+        "type": "object"
+      },
+      "Realm": {
+        "enum": [
+          "OWNED_DEVELOPMENT_ONLY",
+          "PRODUCTION_SINGLE_SUBJECT"
+        ],
+        "title": "Realm",
+        "type": "string"
+      },
+      "Receipt": {
+        "additionalProperties": false,
+        "properties": {
+          "receipt_id": {
+            "title": "Receipt Id",
+            "type": "string"
+          },
+          "client_request_id": {
+            "title": "Client Request Id",
+            "type": "string"
+          },
+          "operation": {
+            "title": "Operation",
+            "type": "string"
+          },
+          "state": {
+            "$ref": "#/$defs/Completion"
+          },
+          "dispatch_happened": {
+            "title": "Dispatch Happened",
+            "type": "boolean"
+          },
+          "no_retry": {
+            "const": true,
+            "default": true,
+            "title": "No Retry",
+            "type": "boolean"
+          },
+          "result": {
+            "additionalProperties": {
+              "$ref": "#/$defs/JsonValue"
+            },
+            "title": "Result",
+            "type": "object"
+          },
+          "error": {
+            "anyOf": [
+              {
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Error"
+          }
+        },
+        "required": [
+          "receipt_id",
+          "client_request_id",
+          "operation",
+          "state",
+          "dispatch_happened"
+        ],
+        "title": "Receipt",
+        "type": "object"
+      },
+      "Role": {
+        "enum": [
+          "READER",
+          "CONVERSATION",
+          "MANAGER",
+          "HOST_ADMIN"
+        ],
+        "title": "Role",
+        "type": "string"
+      }
+    }
+  }
+}

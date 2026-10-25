@@ -1,0 +1,9 @@
+{
+  "document_name": "CLOUD_NANA_REAL_HOST_INVENTORY_V2.md",
+  "sha256": "a9fcbf253b53da624e6041afab5ea0a1652982610ec9196c033bb9af9e4069c6",
+  "evidence_level": "OPERATOR_SUPPLIED_ACTUAL_CLOUD_READ_ONLY_NOT_DIRECT_DEVELOPER_SSH",
+  "fully_read": true,
+  "canonical_core": "NO_CANONICAL_CORE_ON_HOST",
+  "sensitive_ids_and_paths_not_copied": true,
+  "production_changes": 0
+}

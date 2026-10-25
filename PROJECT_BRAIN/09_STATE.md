@@ -7,29 +7,28 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 33,
-  "as_of_us": 1792921037742817,
+  "revision": 35,
+  "as_of_us": 1792926879970576,
   "stage": "H",
-  "workstream": "ENGINEERING_QUALITY_PORTABLE_RUNTIME_V2",
-  "status": "SCOPED_ENGINEERING_QUALITY_PORTABLE_RUNTIME_QUALIFIED_EXTERNAL_GATES_PENDING",
+  "workstream": "FIRST_LIFE_ANDROID_APK_INTEGRATION_V2",
+  "status": "IMPLEMENTING_V2_AUTH_SUPERVISOR_NATIVE_AND_UNIFIED_SURFACES",
   "progress": [
-    "独立质量dev分支；runtime e322f01，full source9e67c83；Core/打包/Builder/Addon字节一致。",
-    "共享SQLite>=3.51.3 WAL修复/JSON/FTS5/native actual binding；实际目标venv在pip前检查，伪venv拒绝。",
-    "非root private libffi+SQLite3.51.3+Python3.12.14双离线安装/完整生命周期/-O/-I/SIGKILL/B8迁移通过。",
-    "197精确源码assets/231归档files/184模块闭包；资格addon5文件；bwrap实际隔离与Socket107字节前置。",
-    "29热点纯格式AST一致；显式prctl/backup/47资格guards；全库lint债务和安全检查开销如实保留。",
-    "实际full 1542 passed / 0 failed / 0 errors / 12 skipped / 656.233s；保留所有首败；Precision独立oracle及实际6保留+3修复/moveonce保持。"
+    "质量d207与Nana Space b899基于共同87f显式合并，独立集成工作树；原分支/bundle保护。",
+    "任务包8份全文已读取且SHA核对；同一开发者承担Core/Android/前端，不创建第二Subject。",
+    "v2 Schema/Python DTO、Web Cookie+CSRF、Native Keystore HTTPS契约施工；v1 guard不放宽。",
+    "Capacitor7.6.9/SDK35/JDK21独立开发构建；真实生产、私人/社交/付费未触碰。",
+    "已完整读取云端FL-A原报告；无canonical Core，正式接入是genesis+LegacyLink；6199双namespace不复用。"
   ],
   "open_gates": [
-    "工程资格限定Linuxx86_64开发宿主；private Python需新宿主重建，非生产或通用桌面控制。",
-    "旧5h PARTIAL_EXTERNAL_LIMIT、新驻留PENDING_EXTERNAL_STABLE_ENV保持；human/semantic/ablation NOT_RUN。",
-    "First-Life NOT_READY/Beta NO；production/private/social/paidProvider/main/R045不变。"
+    "已收真实inventory报告；安全部署绑定/非root provision/实际旧writer fence/canonical激活与生产批准尚缺。",
+    "PRIVATE Iris/模型预算凭据/真实QQ投递/物理手机/正式release密钥/后台push/72h分别未授权或未验。",
+    "历史Quality1542/0/12只为原固定源码；本轮需新回归；First-Life/Beta不升级。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
-    "docs/nana_engineering_quality_portable_v2_status.md",
-    "docs/nana_engineering_quality_portable_v2_evidence/qualification.json"
+    "docs/nana_first_life_android_v2/IMPLEMENTATION.md",
+    "contracts/nana-space-live-v2/api-v2.schema.json"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2344,3 +2343,39 @@ main/R045/production/private/device/social/paidProvider0。报告与证据：doc
 ```
 
 Quality V2 evidence manifest SHA256 `3d6258d67adad77e4d484717b5c11a7652ac9d3d3323e2a1d0f9e5c8106eacac`；manifest不自指，09 current-state header不纳入manifest。
+
+
+### Historical typed revision33 / Quality V2
+
+```json
+{
+  "schema_version": 1,
+  "project_id": "nana-core",
+  "scope": "project-work",
+  "privacy_class": "PROJECT",
+  "revision": 33,
+  "as_of_us": 1792921037742817,
+  "stage": "H",
+  "workstream": "ENGINEERING_QUALITY_PORTABLE_RUNTIME_V2",
+  "status": "SCOPED_ENGINEERING_QUALITY_PORTABLE_RUNTIME_QUALIFIED_EXTERNAL_GATES_PENDING",
+  "progress": [
+    "独立质量dev分支；runtime e322f01，full source9e67c83；Core/打包/Builder/Addon字节一致。",
+    "共享SQLite>=3.51.3 WAL修复/JSON/FTS5/native actual binding；实际目标venv在pip前检查，伪venv拒绝。",
+    "非root private libffi+SQLite3.51.3+Python3.12.14双离线安装/完整生命周期/-O/-I/SIGKILL/B8迁移通过。",
+    "197精确源码assets/231归档files/184模块闭包；资格addon5文件；bwrap实际隔离与Socket107字节前置。",
+    "29热点纯格式AST一致；显式prctl/backup/47资格guards；全库lint债务和安全检查开销如实保留。",
+    "实际full 1542 passed / 0 failed / 0 errors / 12 skipped / 656.233s；保留所有首败；Precision独立oracle及实际6保留+3修复/moveonce保持。"
+  ],
+  "open_gates": [
+    "工程资格限定Linuxx86_64开发宿主；private Python需新宿主重建，非生产或通用桌面控制。",
+    "旧5h PARTIAL_EXTERNAL_LIMIT、新驻留PENDING_EXTERNAL_STABLE_ENV保持；human/semantic/ablation NOT_RUN。",
+    "First-Life NOT_READY/Beta NO；production/private/social/paidProvider/main/R045不变。"
+  ],
+  "evidence_refs": [
+    "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
+    "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
+    "docs/nana_engineering_quality_portable_v2_status.md",
+    "docs/nana_engineering_quality_portable_v2_evidence/qualification.json"
+  ]
+}
+```

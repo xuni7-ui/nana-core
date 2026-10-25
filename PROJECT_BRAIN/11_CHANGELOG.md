@@ -2664,3 +2664,10 @@ bwrap实际11隔离checks与可选能力拒绝、最终107字节Socket前置、p
 main/R045/production/private/device/social/paidProvider0。报告与证据：docs/nana_engineering_quality_portable_v2_status.md、implementation/quickstart及同名前缀evidence/manifest。
 
 Quality V2 evidence manifest SHA256 `3d6258d67adad77e4d484717b5c11a7652ac9d3d3323e2a1d0f9e5c8106eacac`；manifest不自指，09 current-state header不纳入manifest。
+
+
+## First-Life Android APK Integration V2 — active / 2026-10-25
+
+用户授权一个开发者统一Core/Android/前端职责；GLOBAL_STAGE H/Advanced Growth，Master/fixed63不变。d207质量线与b899UI线共同base87f，显式合并仅apps新增，旧v1开发guard保持。新v2契约/认证/Host Supervisor/React十页/原生Keystore HTTPS/APK在独立分支施工；云端inventory/生产canonical、真实私人Iris/QQ/模型费用/实机/release key/后台push/72h仍分别BLOCKED/NOT_RUN，不冒称已上线。SDK/构建位于独立开发宿主，无生产系统修改。依据附件8正文已完整读取并核SHA。详见docs/nana_first_life_android_v2/IMPLEMENTATION.md。
+
+FL-A完整原报告收到并读取，脱敏source SHA登记，不复制平台个人ID；私有CPython标准绑定、非root、独立BFF18765/拟HTTPS8443、旧写者反复活和per-source一致快照方案已核账。P1 auth4 tests通过，旧UI16 unit通过；Capacitor7.6.9/SDK35工具到位，APK尚未资格。

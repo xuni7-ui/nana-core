@@ -1,0 +1,16 @@
+{
+  "task": "Nana First-Life Android APK Integration V2",
+  "all_eight_task_documents_read": true,
+  "roles": "ONE_DEVELOPER_MULTIPLE_RESPONSIBILITIES",
+  "inputs": {
+    "05_联合验收_上线切换_回滚.md": "fb49cfacb66698fe54a58c4d9dcfbf3a4be67a3b09ba3ddf521ace81fe5fdda9",
+    "02_CoreCodex_唯一主体QQ_Iris_BFF_Runtime.md": "628ad006adcfd6bda5a013f525eb699f1b46af3ae32106acc0d4787601e982d0",
+    "07_分工交付_阻塞与完结标准.md": "bb2fa42b99f7119dfcfc8433fa5104772085f8b5be28200928c5a7181cb3782e",
+    "04_API合同_功能矩阵_权限状态机.md": "5e2e4a1f81ec680dd3bf7fd231c19fc3a32f29d2d178ad2fb6b8dbaed022bacc",
+    "SHA256SUMS.txt": "4ee40d732666025185ac654b98b5a86331221a2a522d26ea73685dd004f04173",
+    "03_AndroidCodex_安卓APK与NanaSpace.md": "193c19a27094ff3fd892fa5e97a27652db5702d628eb79968c10885630e5c8f7",
+    "06_安装签名_手机使用与更新.md": "7e968d3758caa77b81be9096427a86564e5206a55cc442dbf0835e9f52f8dde0",
+    "00_总任务书_执行说明.md": "0dc4775d76593b4b54f4bc57169a0cfa24fab87110ca92a29391ff24068856a9",
+    "01_云端奈奈_只读盘点与准备.md": "295ed503910fe52e02a0b760261558564f91f42e6ca4d5b26a19d375602c6c21"
+  }
+}
