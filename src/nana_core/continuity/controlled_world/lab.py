@@ -27,8 +27,12 @@ def _atomic(path,value):
 class LabService:
     def __init__(self,root,kind,*,seed=7,interval=30):
         self.root=Path(root).absolute();self.root.mkdir(mode=0o700,parents=True,exist_ok=False)
-        boot="import runpy,sys;sys.path.insert(0,sys.argv.pop(1));runpy.run_module('nana_core.continuity.controlled_world.lab',run_name='__main__')"
-        self.proc=subprocess.Popen([sys.executable,'-I','-c',boot,str(Path(__file__).resolve().parents[3]),'--root',str(self.root),'--kind',kind,'--seed',str(seed),'--interval',str(interval)],stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,env={'PATH':os.defpath,'LANG':'C.UTF-8','TZ':'UTC'})
+        # This harness can live outside the runtime archive. Child imports only
+        # the installed runtime plus this explicitly selected qualification file.
+        import nana_core
+        runtime_src=str(Path(nana_core.__file__).resolve().parent.parent)
+        boot="import runpy,sys;sys.path.insert(0,sys.argv.pop(1));runpy.run_path(sys.argv.pop(1),run_name='nana_core.continuity.controlled_world.lab')['main']()"
+        self.proc=subprocess.Popen([sys.executable,'-I','-c',boot,runtime_src,str(Path(__file__).resolve()),'--root',str(self.root),'--kind',kind,'--seed',str(seed),'--interval',str(interval)],stdin=subprocess.DEVNULL,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL,env={'PATH':os.defpath,'LANG':'C.UTF-8','TZ':'UTC'})
         try:
             with selectors.DefaultSelector() as s:
                 s.register(self.proc.stdout,selectors.EVENT_READ)

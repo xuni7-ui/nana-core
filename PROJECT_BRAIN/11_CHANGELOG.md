@@ -2597,3 +2597,8 @@ No failure erased by final pass; no new skip or paid model consumed.
 ## Engineering Quality Portable V2 / Q1 — 2026-10-25
 
 独立worktree/branch从87f73d2继承，原workspace/bundle未动。统一stdlib host contract3.51.3/JSON/FTS5；官方WAL-reset修复依据保留，检查实际venv解释器，Store/Continuity在创建路径前拒绝。原先wrapper先mkdir导致新负向测试失败，保留41pass/1fail日志并在wrapper前补同一检查；修复后42相关PASS21.76s。显式前置Unix socket字节长度；正常/-O下prctl真实执行、失败拒绝和备份quarantine检查通过。真实bwrap六namespace、空环境、无host目录/cap、NoNewPrivs与只读work探针通过；基础Runtime与技能可选资格分开，不降隔离、不扩Grant。初次targeted目录名错误保留，未删测/改宽断言。Schema13/43、Master/fixed63、paid/private/social/production/main/R045均不变；发行/格式化/全仓尚待。
+
+
+## Engineering Quality Portable V2 / Q2 — reviewed runtime boundary
+
+将旧bcb归档成员实际逐个核验：semantic_demo、controlled_world.lab和根fake_world都在旧包；修正Q0原先误以为fake_world已排除的推断，不修改旧证据。精确manifest排除12个纯demo/fixture/qualification模块，静态import closure与动态skill_runner/hands worker保留。开发lab和installed probe作为独立pinned资格工具；服务子进程导入installed runtime而非仓库。preflight按依赖/资源/既有Subject读取拆分；失效socket symlink提前拒绝。新边界负测最初捕获manifest误留fake_world，保留失败并更正清单；非删测/宽化。运行新包/可选能力、纯格式化及最终回归继续。

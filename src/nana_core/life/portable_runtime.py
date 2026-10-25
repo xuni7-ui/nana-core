@@ -51,30 +51,20 @@ def owner_alive(report):
     return bool(report.get('process_alive') and report.get('lease',{}).get('state')=='ACTIVE')
 
 
-def preflight(root,home,*,starting=False):
-    """Read existing state only. Never repair/start/create a Subject here."""
-    home=private_path(home);checks={}
-    checks['platform']=sys.platform=='linux' and platform.machine()=='x86_64'
-    checks['python']=sys.version_info[:2]==(3,12)
-    checks['venv']=sys.prefix!=sys.base_prefix
-    sqlite_report=sqlite_runtime_report()
-    checks['sqlite']=sqlite_report['supported']
-    try:
-        unix_socket_path(home/'control.sock');checks['socket_path_length']=True
-    except ValueError:
-        checks['socket_path_length']=False
-    # Do not inspect/create Subject state with an unsupported interpreter/path.
-    if not checks['sqlite'] or not checks['socket_path_length']:
-        return {'state':'START_BLOCKED','checks':checks,'sqlite_runtime':sqlite_report,
-                'code':sqlite_report['code'] if not checks['sqlite'] else 'UNIX_SOCKET_PATH_TOO_LONG',
-                'subject_present':(home/'life.json').is_file(),'execution_authority':False}
+def _dependency_check(root):
+    """Read the pinned installed dependency metadata, never resolve/install it."""
+    checks={}
     try:
         import importlib.metadata as md
         lock=json.loads((Path(root)/'runtime.json').read_text())['dependencies']
         checks['dependencies']=all(md.version(k)==v for k,v in lock.items())
     except (OSError,ValueError,KeyError,md.PackageNotFoundError):checks['dependencies']=False
-    checks['sqlite_json']=sqlite_report['checks']['json']
-    checks['sqlite_fts5']=sqlite_report['checks']['fts5']
+    return checks['dependencies']
+
+
+def _resource_checks(home):
+    """Host-local resource ceilings only; no authority or Subject mutation."""
+    checks={}
     parent=home
     while not parent.exists() and parent!=parent.parent:parent=parent.parent
     checks['writable_path']=os.access(parent,os.W_OK|os.X_OK)
@@ -86,6 +76,12 @@ def preflight(root,home,*,starting=False):
         checks['memory']=checks['memory'] and (ceiling=='max' or int(ceiling)>=512*1024*1024)
     except (OSError,ValueError):pass
     checks['secret_binding']=hasattr(os,'pipe') and hasattr(termios,'tcsetattr')
+    return checks
+
+
+def _subject_checks(home,*,starting):
+    """Read-only Store/lease/privacy projection; never remove a stale socket."""
+    checks={}
     exists=(home/'life.json').is_file()
     if starting and not exists:checks['existing_subject']=False
     if exists:
@@ -95,7 +91,7 @@ def preflight(root,home,*,starting=False):
         checks['remote_privacy']=set(cfg.remote_privacy)<={'PUBLIC','PROJECT'}
         checks['owner_fence']=not owner_alive(current) if starting else True
         socket=home/'control.sock'
-        checks['socket_path']=not socket.exists() or (stat.S_ISSOCK(socket.lstat().st_mode) and socket.lstat().st_uid==os.getuid() and socket.lstat().st_mode&0o077==0)
+        checks['socket_path']=not (socket.exists() or socket.is_symlink()) or (stat.S_ISSOCK(socket.lstat().st_mode) and socket.lstat().st_uid==os.getuid() and socket.lstat().st_mode&0o077==0)
         if owner_alive(current) and not current.get('runtime_active'):checks['owner_fence']=False
         from .inspector import _regular, _ReadView
         _regular(p)
@@ -115,10 +111,37 @@ def preflight(root,home,*,starting=False):
             ProviderConfigService(home/'providers.json',ProviderConfigurationAuthority()).load()
         identity=inspect(home,scope='project-work',entity_id='project-user').identity_id
     else:identity=None;unresolved=0
+    return checks,exists,identity,unresolved
+
+
+def preflight(root,home,*,starting=False):
+    """Read existing state only. Never repair/start/create a Subject here."""
+    home=private_path(home);checks={}
+    checks['platform']=sys.platform=='linux' and platform.machine()=='x86_64'
+    checks['python']=sys.version_info[:2]==(3,12)
+    checks['venv']=sys.prefix!=sys.base_prefix
+    sqlite_report=sqlite_runtime_report()
+    checks['sqlite']=sqlite_report['supported']
+    try:
+        unix_socket_path(home/'control.sock');checks['socket_path_length']=True
+    except ValueError:
+        checks['socket_path_length']=False
+    # Do not inspect/create Subject state with an unsupported interpreter/path.
+    if not checks['sqlite'] or not checks['socket_path_length']:
+        return {'state':'START_BLOCKED','checks':checks,'sqlite_runtime':sqlite_report,
+                'code':sqlite_report['code'] if not checks['sqlite'] else 'UNIX_SOCKET_PATH_TOO_LONG',
+                'subject_present':(home/'life.json').is_file(),'execution_authority':False}
+    checks['dependencies']=_dependency_check(root)
+    checks['sqlite_json']=sqlite_report['checks']['json']
+    checks['sqlite_fts5']=sqlite_report['checks']['fts5']
+    checks.update(_resource_checks(home))
+    subject_checks,exists,identity,unresolved=_subject_checks(home,starting=starting)
+    checks.update(subject_checks)
     from ..continuity.open_agency.code_skills import IsolatedSkillRunner
     return {'state':'PREFLIGHT_PASS' if all(checks.values()) else 'START_BLOCKED','checks':checks,
         'sqlite_runtime':sqlite_report,'optional_capabilities':{'generated_python_skill':IsolatedSkillRunner().qualify()},
         'identity_id':identity,'subject_present':exists,'unknown_provider_requests':unresolved,
+        'failed_checks':[key for key,value in checks.items() if not value],
         'live_provider':'EXPLICIT_BINDING_REQUIRED','real_social_send':False,'private_history_connector':False}
 
 

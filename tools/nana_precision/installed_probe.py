@@ -5,14 +5,20 @@ from pathlib import Path
 from nana_core.life.application import LifeApplication
 from nana_core.life.config import LifeConfig,write_config
 from nana_core.continuity.project_work.service import material_for
-from nana_core.continuity.controlled_world.lab import ControlledWorld
 from nana_core.continuity.controlled_world.projects import ControlledProject
 from nana_core.continuity.open_life.sources import IntakeSource
 from nana_core.continuity.records import RecordService
 from nana_core import actions
 
 
-def run(bundle,root):
+def run(bundle,root,lab_source=None):
+    if lab_source is None:
+        from nana_core.continuity.controlled_world.lab import ControlledWorld
+    else:
+        import importlib.util,sys
+        spec=importlib.util.spec_from_file_location('nana_core.continuity.controlled_world.lab',lab_source)
+        module=importlib.util.module_from_spec(spec);sys.modules[spec.name]=module;spec.loader.exec_module(module)
+        ControlledWorld=module.ControlledWorld
     bundle=Path(bundle).resolve();root=Path(root).absolute()
     assert Path(actions.__file__).resolve().is_relative_to(bundle/'src')
     if root.exists():raise ValueError('FRESH_INSTALLED_PROBE_REQUIRED')
@@ -62,4 +68,4 @@ def run(bundle,root):
 
 
 if __name__=='__main__':
-    p=argparse.ArgumentParser();p.add_argument('--bundle',type=Path,required=True);p.add_argument('--root',type=Path,required=True);p.add_argument('--output',type=Path,required=True);a=p.parse_args();a.output.write_text(json.dumps(run(a.bundle,a.root),indent=2)+'\n')
+    p=argparse.ArgumentParser();p.add_argument('--bundle',type=Path,required=True);p.add_argument('--root',type=Path,required=True);p.add_argument('--output',type=Path,required=True);p.add_argument('--lab-source',type=Path);a=p.parse_args();a.output.write_text(json.dumps(run(a.bundle,a.root,a.lab_source),indent=2)+'\n')

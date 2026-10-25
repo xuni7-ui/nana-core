@@ -11,7 +11,7 @@ Precision1528/0/12 and240-file archive are baseline evidence, not this qualifica
 |---|---|---|---|
 | storage/sqlite_store.py>=3.51.3; life/portable_runtime.py and bootstrap>=3.35 | False successful preflight before Store rejection | Shared stdlib host contract; retain3.51.3 gate, check actual venv interpreter | Actual old/new linked SQLite, install→identity→runtime→backup/restore |
 | open_agency/code_skills.py only checks which(bwrap) at dispatch | Existence does not prove namespaces work; no optional-capability readiness | Probe exact isolated runner and expose separate sanitized optional readiness | Missing/denied/actual isolated run, no host mounts/env leakage |
-| build.py broad directory families include semantic_demo,lab,qualification | Unnecessary developer harness in normal archive; fake_world already excluded | Exact reviewed runtime manifest, static dependency closure, separate qualification addon | Actual file list/import closure and isolated install/optional-feature execution |
+| build.py broad directory families include semantic_demo,lab,qualification | Unnecessary developer harness in normal archive; actual old archive also contains root fake_world | Exact reviewed runtime manifest, static dependency closure, separate qualification addon | Actual file list/import closure and isolated install/optional-feature execution |
 | presence/process_qualification.py assert libc.prctl; life/cloud.py assert backup quarantine | -O skips syscall/critical verification | Explicit calls and fail-closed checks | Actual normal/optimized subreaper, simulated failure, backup rejection |
 | control.py/hands/server.py bind final socket without byte-length guard | Observed AF_UNIX path too long before useful diagnosis | Shared byte-path bound before directories/Subject mutations | ASCII/multibyte long paths, valid socket/old owner/recovery |
 | Real AST/token baseline | Long compound hot code difficult to audit | Pinned dev-only formatter/static tools; targeted modules, separate formatting commit and AST equivalence | Same metrics before/after, static results plus behavioral regression |
@@ -43,3 +43,18 @@ development replay calls were also removed from assert expressions.
 42 targeted PASS21.76s. Retained first run41pass/1fail (Continuity wrapper created
 parent before base Store check), then fixed wrapper; initial wrong suite-path
 invocation retained. No historical test result copied to qualify this source.
+
+
+## Q2 boundary and maintainability design
+
+Actual old bcb archive includes all three specifically audited modules, including
+root fake_world.py: initial exclusion assumption was incorrect and is corrected
+here without altering historical archives/reports. Exact198-before-root-exclusion
+asset draft is now197 runtime source assets; pure harnesses are separate. Static
+internal imports and explicit dynamic worker assets must close or build fails.
+Controlled lab is a separate pinned qualification addon, not ordinary startup.
+Installed precision probe accepts its explicit lab file; child imports still
+come from the installed runtime. Existing optional skill/Hands/media/provider/
+learning/checkpoint modules remain. No new Store/loop/dependency/framework.
+Preflight splits host dependencies/resources/read-only Subject state; no owner
+fencing,Grant,timeouts,privacy or UNKNOWN condition is weakened.
