@@ -1,4 +1,5 @@
 """Authorized, budgeted actions. Unknown is a recoverable uncertainty, never a retry signal."""
+
 import json
 from .contracts import CAPABILITIES, VERIFY_CAPABILITY, CardArgs, CoreError, GrantSpec, Invocation, SourceArgs
 from .storage import canonical, digest, uid
@@ -15,40 +16,59 @@ LEGAL = {
 
 class OperatorAuthority:
     """Local operator boundary. Runtime keeps this object away from ModelPort."""
+
     def __init__(self, principal="offline-operator"):
         self.principal = principal
 
 
 class ActionKernel:
-    def _stored_payload(self,tx,payload,*,action=None):
+    def _stored_payload(self, tx, payload, *, action=None):
         """Explicit v11 payloads inherit C provenance/erasure, not immutable prose."""
         from .continuity.records import RecordService
-        support=getattr(self.store,'_governed_payload_support',None)
-        if action and self.store.schema_target>=12:
-            support=json.loads(action['args_json']).get('action_payload_record') or support
+
+        support = getattr(self.store, "_governed_payload_support", None)
+        if action and self.store.schema_target >= 12:
+            support = json.loads(action["args_json"]).get("action_payload_record") or support
         if not support and action:
-            support=json.loads(action['args_json']).get('action_payload_record')
+            support = json.loads(action["args_json"]).get("action_payload_record")
             if not support:
                 # A governed v9/v10 action may already need verification at an
                 # explicit dev upgrade. Reuse its exact pre-existing provenance.
-                link=self.store.db.execute("SELECT data_json FROM events WHERE kind='governance.action_linked' AND json_extract(data_json,'$.data.target_id')=? ORDER BY seq DESC LIMIT 1",(action['action_id'],)).fetchone()
-                if link:support=json.loads(link[0])['data']['outcome_record_id']
-        if not support:raise CoreError('ACTION_PAYLOAD_SUPPORT_REQUIRED')
-        records=RecordService(self.store);parent=records.read(support)
-        floor=self.registry.payload_privacy(payload) if self.store.schema_target>=12 and self.registry else None
-        inputs=getattr(self.store,'_governed_input_memories',()) if action is None else ()
-        rid=records.create(tx,kind='ACTION_PAYLOAD',scope=parent['scope'],payload=payload,records=(support,),memories=inputs,privacy_floor=floor)
-        return rid,self.store.one('continuity_records',rid)['payload_artifact_id']
+                link = self.store.db.execute(
+                    "SELECT data_json FROM events WHERE kind='governance.action_linked' AND json_extract(data_json,'$.data.target_id')=? ORDER BY seq DESC LIMIT 1",
+                    (action["action_id"],),
+                ).fetchone()
+                if link:
+                    support = json.loads(link[0])["data"]["outcome_record_id"]
+        if not support:
+            raise CoreError("ACTION_PAYLOAD_SUPPORT_REQUIRED")
+        records = RecordService(self.store)
+        parent = records.read(support)
+        floor = self.registry.payload_privacy(payload) if self.store.schema_target >= 12 and self.registry else None
+        inputs = getattr(self.store, "_governed_input_memories", ()) if action is None else ()
+        rid = records.create(
+            tx,
+            kind="ACTION_PAYLOAD",
+            scope=parent["scope"],
+            payload=payload,
+            records=(support,),
+            memories=inputs,
+            privacy_floor=floor,
+        )
+        return rid, self.store.one("continuity_records", rid)["payload_artifact_id"]
 
-    def payload(self,action,field):
-        raw=action[field]
-        if raw is None:return None
-        value=json.loads(raw)
-        if self.store.schema_target>=11 and type(value) is dict and set(value)=={'action_payload_record'}:
+    def payload(self, action, field):
+        raw = action[field]
+        if raw is None:
+            return None
+        value = json.loads(raw)
+        if self.store.schema_target >= 11 and type(value) is dict and set(value) == {"action_payload_record"}:
             from .continuity.records import RecordService
-            records=RecordService(self.store)
-            if self.store.schema_target>=12 and not records.current_support(value['action_payload_record']):raise CoreError('ACTION_PAYLOAD_SOURCE_NOT_CURRENT')
-            return canonical(records.read(value['action_payload_record'])['payload'])
+
+            records = RecordService(self.store)
+            if self.store.schema_target >= 12 and not records.current_support(value["action_payload_record"]):
+                raise CoreError("ACTION_PAYLOAD_SOURCE_NOT_CURRENT")
+            return canonical(records.read(value["action_payload_record"])["payload"])
         return raw
 
     def __init__(self, store, capability, authority: OperatorAuthority, *, registry=None):
@@ -61,37 +81,52 @@ class ActionKernel:
             raise CoreError("EXTERNAL_WORLD_MUST_BE_SEPARATE")
 
     def _offline_subject_fixture(self):
-        if self.store.schema_target<9:return False
+        if self.store.schema_target < 9:
+            return False
         from .continuity.autonomy.fixture_effects import OfflineEffectPort
+
         sealed = self.registry is None
-        if self.store.schema_target>=12:
+        if self.store.schema_target >= 12:
             from .continuity.open_agency.world import LocalWorldRegistry
+
             sealed = sealed or type(self.registry) is LocalWorldRegistry
         from .continuity.project_work.port import ProjectMaterialPort
         from .continuity.hands.port import OwnedApplicationPort
         from .continuity.hands.browser import OwnedBrowserPort
-        if type(self.capability) in {OwnedApplicationPort,OwnedBrowserPort}:
+
+        if type(self.capability) in {OwnedApplicationPort, OwnedBrowserPort}:
             self.capability.assert_owned()
-            return self.capability.identity_id==self.store.identity['identity_id'] and sealed
+            return self.capability.identity_id == self.store.identity["identity_id"] and sealed
         # Exact no-exec project adapter only; manifest is NOT execution authority.
-        return type(self.capability) in {OfflineEffectPort,ProjectMaterialPort} and self.capability.identity_id==self.store.identity['identity_id'] and sealed
+        return (
+            type(self.capability) in {OfflineEffectPort, ProjectMaterialPort}
+            and self.capability.identity_id == self.store.identity["identity_id"]
+            and sealed
+        )
 
     def _execution_fence(self):
-        if self.store.one('core_meta','cloud.shadow_runtime') and not self._offline_subject_fixture():
-            raise CoreError('SHADOW_BLOCKED')
-        if self.store.schema_target>=9:
-            guard=getattr(self.store,'_governed_action_guard',None)
-            if guard is None:raise CoreError('GOVERNANCE_FENCE_REQUIRED')
+        if self.store.one("core_meta", "cloud.shadow_runtime") and not self._offline_subject_fixture():
+            raise CoreError("SHADOW_BLOCKED")
+        if self.store.schema_target >= 9:
+            guard = getattr(self.store, "_governed_action_guard", None)
+            if guard is None:
+                raise CoreError("GOVERNANCE_FENCE_REQUIRED")
             guard()
-        protocol=self.store.one('core_meta','cloud.execution_protocol')
+        protocol = self.store.one("core_meta", "cloud.execution_protocol")
         if protocol:
-            phase=json.loads(protocol['value_json'])
-            owner=self.store.one('core_meta','migration.execution_owner')
-            owner=json.loads(owner['value_json']) if owner else None
-            if not owner or owner['epoch']!=phase['epoch']:raise CoreError('HANDOFF_EPOCH_UNRECONCILED')
-            actor=getattr(self.capability,'_actor',owner['actor'])
-            allowed={'CORE_ACTIVE'} if actor=='core_simulator' else {'LEGACY_ACTIVE','SHADOW_CORE','CORE_READY','LEGACY_RESTORED'}
-            if phase['state'] not in allowed:raise CoreError('HANDOFF_EXECUTION_FENCED')
+            phase = json.loads(protocol["value_json"])
+            owner = self.store.one("core_meta", "migration.execution_owner")
+            owner = json.loads(owner["value_json"]) if owner else None
+            if not owner or owner["epoch"] != phase["epoch"]:
+                raise CoreError("HANDOFF_EPOCH_UNRECONCILED")
+            actor = getattr(self.capability, "_actor", owner["actor"])
+            allowed = (
+                {"CORE_ACTIVE"}
+                if actor == "core_simulator"
+                else {"LEGACY_ACTIVE", "SHADOW_CORE", "CORE_READY", "LEGACY_RESTORED"}
+            )
+            if phase["state"] not in allowed:
+                raise CoreError("HANDOFF_EXECUTION_FENCED")
 
     def _operator(self, authority):
         if authority is not self._authority:
@@ -99,7 +134,8 @@ class ActionKernel:
 
     def set_budgets(self, values: dict, authority):
         self._operator(authority)
-        if self.store.one('core_meta','cloud.shadow_runtime') and not self._offline_subject_fixture():raise CoreError('SHADOW_BLOCKED')
+        if self.store.one("core_meta", "cloud.shadow_runtime") and not self._offline_subject_fixture():
+            raise CoreError("SHADOW_BLOCKED")
         if set(values) != {"write_attempts", "external_requests", "cost_micro_units"}:
             raise CoreError("INVALID_BUDGET_DIMENSIONS")
         with self.store.transaction("budget.configured", {"issuer": authority.principal}) as tx:
@@ -107,21 +143,38 @@ class ActionKernel:
                 if type(limit) is not int or limit < 0:
                     raise CoreError("INVALID_BUDGET")
                 existing = self.store.one("budgets", dimension)
-                tx.put("budgets", {"dimension": dimension, "limit_value": limit,
-                    "held": existing["held"] if existing else 0, "spent": existing["spent"] if existing else 0})
+                tx.put(
+                    "budgets",
+                    {
+                        "dimension": dimension,
+                        "limit_value": limit,
+                        "held": existing["held"] if existing else 0,
+                        "spent": existing["spent"] if existing else 0,
+                    },
+                )
 
     def grant(self, spec: GrantSpec, authority):
         self._operator(authority)
-        if self.store.one('core_meta','cloud.shadow_runtime') and not self._offline_subject_fixture():raise CoreError('SHADOW_BLOCKED')
+        if self.store.one("core_meta", "cloud.shadow_runtime") and not self._offline_subject_fixture():
+            raise CoreError("SHADOW_BLOCKED")
         if not set(spec.capabilities) <= self.capabilities | {self.verify_capability}:
             raise CoreError("UNKNOWN_CAPABILITY")
         if spec.expires_at_us <= spec.not_before_us:
             raise CoreError("INVALID_GRANT_TIME")
         grant_id = uid()
         with self.store.transaction("authorization.granted", {"issuer": authority.principal}) as tx:
-            tx.put("grants", {"grant_id": grant_id, "issuer": authority.principal,
-                "identity_id": self.store.identity["identity_id"], "not_before_us": spec.not_before_us,
-                "expires_at_us": spec.expires_at_us, "revoked": 0, "body_json": spec.model_dump_json()})
+            tx.put(
+                "grants",
+                {
+                    "grant_id": grant_id,
+                    "issuer": authority.principal,
+                    "identity_id": self.store.identity["identity_id"],
+                    "not_before_us": spec.not_before_us,
+                    "expires_at_us": spec.expires_at_us,
+                    "revoked": 0,
+                    "body_json": spec.model_dump_json(),
+                },
+            )
         return grant_id
 
     def revoke(self, grant_id, authority):
@@ -158,8 +211,7 @@ class ActionKernel:
     def _change(self, tx, action, state, **fields):
         if state not in LEGAL.get(action["state"], set()):
             raise CoreError("ILLEGAL_ACTION_TRANSITION")
-        return tx.update("actions", action["action_id"], state=state,
-                         version=action["version"] + 1, **fields)
+        return tx.update("actions", action["action_id"], state=state, version=action["version"] + 1, **fields)
 
     def _valid_args(self, capability, resource, args):
         if capability not in self.capabilities:
@@ -176,22 +228,38 @@ class ActionKernel:
         self._execution_fence()
         args = self._valid_args(capability, resource, args)
         if effect_slot:
-            old = self.store.db.execute("SELECT * FROM actions WHERE effect_slot=? AND state NOT IN ('CANCELLED','NOT_APPLIED')", (effect_slot,)).fetchone()
+            old = self.store.db.execute(
+                "SELECT * FROM actions WHERE effect_slot=? AND state NOT IN ('CANCELLED','NOT_APPLIED')", (effect_slot,)
+            ).fetchone()
             if old:
                 if (old["capability"], old["resource"], old["args_hash"]) != (capability, resource, digest(args)):
                     raise CoreError("EFFECT_SLOT_COLLISION")
                 return old["action_id"]
         action_id = uid()
         with self.store.transaction("action.proposed", {"action_id": action_id}) as tx:
-            stored_args=canonical(args)
-            if self.store.schema_target>=11:
-                rid,_=self._stored_payload(tx,args)
-                stored_args=canonical({'action_payload_record':rid})
-            tx.put("actions", {"action_id": action_id, "goal_id": goal_id, "plan_id": plan_id,
-                "effect_slot": effect_slot, "idempotency_key": digest([self.store.identity["identity_id"], action_id]),
-                "capability": capability, "resource": resource, "args_json": stored_args,
-                "args_hash": digest(args), "state": "PROPOSED", "version": 1, "attempt_id": None,
-                "result_json": None, "body_json": "{}"})
+            stored_args = canonical(args)
+            if self.store.schema_target >= 11:
+                rid, _ = self._stored_payload(tx, args)
+                stored_args = canonical({"action_payload_record": rid})
+            tx.put(
+                "actions",
+                {
+                    "action_id": action_id,
+                    "goal_id": goal_id,
+                    "plan_id": plan_id,
+                    "effect_slot": effect_slot,
+                    "idempotency_key": digest([self.store.identity["identity_id"], action_id]),
+                    "capability": capability,
+                    "resource": resource,
+                    "args_json": stored_args,
+                    "args_hash": digest(args),
+                    "state": "PROPOSED",
+                    "version": 1,
+                    "attempt_id": None,
+                    "result_json": None,
+                    "body_json": "{}",
+                },
+            )
         return action_id
 
     def _reserve(self, tx, attempt_id, requirements):
@@ -200,32 +268,55 @@ class ActionKernel:
             if not budget or budget["spent"] + budget["held"] + amount > budget["limit_value"]:
                 raise CoreError("BUDGET_EXHAUSTED")
             tx.update("budgets", dimension, held=budget["held"] + amount)
-            tx.put("budget_holds", {"hold_id": uid(), "owner_id": attempt_id,
-                "dimension": dimension, "amount": amount, "status": "HELD"})
+            tx.put(
+                "budget_holds",
+                {"hold_id": uid(), "owner_id": attempt_id, "dimension": dimension, "amount": amount, "status": "HELD"},
+            )
 
     def _holds(self, tx, attempt_id, dimensions, release=False):
         for hold in self.store.all("budget_holds"):
             if hold["owner_id"] == attempt_id and hold["status"] == "HELD" and hold["dimension"] in dimensions:
                 budget = self.store.one("budgets", hold["dimension"])
-                tx.update("budgets", hold["dimension"], held=budget["held"] - hold["amount"],
-                    spent=budget["spent"] + (0 if release else hold["amount"]))
+                tx.update(
+                    "budgets",
+                    hold["dimension"],
+                    held=budget["held"] - hold["amount"],
+                    spent=budget["spent"] + (0 if release else hold["amount"]),
+                )
                 tx.update("budget_holds", hold["hold_id"], status="RELEASED" if release else "SPENT")
 
     def _attempt(self, tx, action, grant, kind):
         attempt_id = uid()
         count = sum(a["action_id"] == action["action_id"] for a in self.store.all("attempts"))
-        tx.put("attempts", {"attempt_id": attempt_id, "action_id": action["action_id"],
-            "grant_id": grant["grant_id"], "kind": kind, "attempt_no": count + 1,
-            "started_at_us": None, "outcome": None, "receipt_event_id": None, "verification_event_id": None})
+        tx.put(
+            "attempts",
+            {
+                "attempt_id": attempt_id,
+                "action_id": action["action_id"],
+                "grant_id": grant["grant_id"],
+                "kind": kind,
+                "attempt_no": count + 1,
+                "started_at_us": None,
+                "outcome": None,
+                "receipt_event_id": None,
+                "verification_event_id": None,
+            },
+        )
         return attempt_id
 
     def _invocation(self, action):
-        args = json.loads(self.payload(action,'args_json'))
+        args = json.loads(self.payload(action, "args_json"))
         if digest(args) != action["args_hash"]:
             raise CoreError("ACTION_ARGS_CORRUPT")
-        return Invocation(action_id=action["action_id"], attempt_id=action["attempt_id"],
-            capability=action["capability"], resource=action["resource"], args=args,
-            args_hash=action["args_hash"], idempotency_key=action["idempotency_key"])
+        return Invocation(
+            action_id=action["action_id"],
+            attempt_id=action["attempt_id"],
+            capability=action["capability"],
+            resource=action["resource"],
+            args=args,
+            args_hash=action["args_hash"],
+            idempotency_key=action["idempotency_key"],
+        )
 
     def prepare(self, action_id):
         self._execution_fence()
@@ -239,16 +330,26 @@ class ActionKernel:
                 grant = self._grant_for(action["capability"], action["resource"])
                 from .continuity.hands.port import OwnedApplicationPort
                 from .continuity.hands.browser import OwnedBrowserPort
-                if type(self.capability) in {OwnedApplicationPort,OwnedBrowserPort}:
-                    self.capability.preflight(action["capability"],action["resource"],json.loads(self.payload(action,"args_json")))
+
+                if type(self.capability) in {OwnedApplicationPort, OwnedBrowserPort}:
+                    self.capability.preflight(
+                        action["capability"], action["resource"], json.loads(self.payload(action, "args_json"))
+                    )
                 self._stamp_auth_time(tx)
-                started = [a for a in self.store.all("attempts") if a["action_id"] == action_id
-                           and a["kind"] == "EXECUTE" and a["started_at_us"] is not None]
+                started = [
+                    a
+                    for a in self.store.all("attempts")
+                    if a["action_id"] == action_id and a["kind"] == "EXECUTE" and a["started_at_us"] is not None
+                ]
                 if len(started) >= json.loads(grant["body_json"])["max_attempts"]:
                     raise CoreError("ATTEMPTS_EXHAUSTED")
                 attempt_id = self._attempt(tx, action, grant, "EXECUTE")
                 requirements = {"external_requests": 1, "cost_micro_units": 1}
-                if (self.registry.is_write(action["capability"]) if self.registry else action["capability"] == "reading.card.create"):
+                if (
+                    self.registry.is_write(action["capability"])
+                    if self.registry
+                    else action["capability"] == "reading.card.create"
+                ):
                     requirements["write_attempts"] = 1
                 self._reserve(tx, attempt_id, requirements)
                 self._change(tx, action, "READY", attempt_id=attempt_id, body_json="{}")
@@ -275,7 +376,9 @@ class ActionKernel:
                 self._change(tx, action, "DISPATCHING")
         except CoreError as exc:
             with self.store.transaction("action.blocked", {"reason": exc.code}) as tx:
-                self._holds(tx, action["attempt_id"], {"external_requests", "write_attempts", "cost_micro_units"}, release=True)
+                self._holds(
+                    tx, action["attempt_id"], {"external_requests", "write_attempts", "cost_micro_units"}, release=True
+                )
                 self._change(tx, action, "BLOCKED", body_json=canonical({"blocked_reason": exc.code}))
             raise
         if fault:
@@ -285,13 +388,18 @@ class ActionKernel:
             if fault:
                 fault("after_effect")
         except Exception as exc:
-            with self.store.transaction("action.unresolved", {"action_id": action_id, "error_type": type(exc).__name__}) as tx:
+            with self.store.transaction(
+                "action.unresolved", {"action_id": action_id, "error_type": type(exc).__name__}
+            ) as tx:
                 self._change(tx, self.store.one("actions", action_id), "UNKNOWN")
             return "UNKNOWN"
         with self.store.transaction("action.receipt_received", {"action_id": action_id}) as tx:
-            if self.store.schema_target>=11:
-                _,tx.payload_id=self._stored_payload(tx,receipt.model_dump(mode='json'),action=self.store.one('actions',action_id))
-            else:tx.payload_id = tx.artifact(receipt.model_dump_json().encode())
+            if self.store.schema_target >= 11:
+                _, tx.payload_id = self._stored_payload(
+                    tx, receipt.model_dump(mode="json"), action=self.store.one("actions", action_id)
+                )
+            else:
+                tx.payload_id = tx.artifact(receipt.model_dump_json().encode())
             tx.update("attempts", action["attempt_id"], receipt_event_id=tx.event_id)
             self._change(tx, self.store.one("actions", action_id), "PENDING_VERIFY")
         return "PENDING_VERIFY"
@@ -303,30 +411,49 @@ class ActionKernel:
         This is not dispatch/retry, and inconclusive evidence permits no reuse.
         """
         self._operator(authority)
-        if self.store.schema_target<12:raise CoreError('REOBSERVATION_SCHEMA_REQUIRED')
-        action=self.store.one('actions',action_id)
-        if not action or action['state']!='SUCCEEDED':raise CoreError('REOBSERVE_VERIFIED_ACTION_REQUIRED')
-        invocation=self._invocation(action)
-        with self.store.transaction('action.reobservation_started',{'action_id':action_id}) as tx:
-            grant=self._grant_for(self.verify_capability,action['resource'])
+        if self.store.schema_target < 12:
+            raise CoreError("REOBSERVATION_SCHEMA_REQUIRED")
+        action = self.store.one("actions", action_id)
+        if not action or action["state"] != "SUCCEEDED":
+            raise CoreError("REOBSERVE_VERIFIED_ACTION_REQUIRED")
+        invocation = self._invocation(action)
+        with self.store.transaction("action.reobservation_started", {"action_id": action_id}) as tx:
+            grant = self._grant_for(self.verify_capability, action["resource"])
             self._stamp_auth_time(tx)
-            attempt=self._attempt(tx,action,grant,'VERIFY')
-            self._reserve(tx,attempt,{'external_requests':1,'cost_micro_units':1})
-            self._holds(tx,attempt,{'external_requests'})
-            tx.update('attempts',attempt,started_at_us=self.store.clock.utc_now_us())
-        try:result=self.capability.verify(invocation)
+            attempt = self._attempt(tx, action, grant, "VERIFY")
+            self._reserve(tx, attempt, {"external_requests": 1, "cost_micro_units": 1})
+            self._holds(tx, attempt, {"external_requests"})
+            tx.update("attempts", attempt, started_at_us=self.store.clock.utc_now_us())
+        try:
+            result = self.capability.verify(invocation)
         except Exception:
             from .contracts import Verification
-            result=Verification(verdict='INCONCLUSIVE',evidence={})
-        with self.store.transaction('action.reobserved',{'action_id':action_id,'verdict':result.verdict,'historical_outcome_unchanged':True}) as tx:
-            rid,payload_id=self._stored_payload(tx,result.model_dump(mode='json'),action=action)
-            tx.payload_id=payload_id
-            tx.update('attempts',attempt,outcome='SUCCEEDED' if result.verdict=='MATCH' else 'UNKNOWN',verification_event_id=tx.event_id)
-            self._holds(tx,attempt,{'cost_micro_units'})
-            return {'action_id':action_id,'verdict':result.verdict,'record_id':rid,'event_id':tx.event_id,'result':result.evidence.get('result')}
+
+            result = Verification(verdict="INCONCLUSIVE", evidence={})
+        with self.store.transaction(
+            "action.reobserved",
+            {"action_id": action_id, "verdict": result.verdict, "historical_outcome_unchanged": True},
+        ) as tx:
+            rid, payload_id = self._stored_payload(tx, result.model_dump(mode="json"), action=action)
+            tx.payload_id = payload_id
+            tx.update(
+                "attempts",
+                attempt,
+                outcome="SUCCEEDED" if result.verdict == "MATCH" else "UNKNOWN",
+                verification_event_id=tx.event_id,
+            )
+            self._holds(tx, attempt, {"cost_micro_units"})
+            return {
+                "action_id": action_id,
+                "verdict": result.verdict,
+                "record_id": rid,
+                "event_id": tx.event_id,
+                "result": result.evidence.get("result"),
+            }
 
     def verify(self, action_id):
-        if self.store.one('core_meta','cloud.shadow_runtime') and not self._offline_subject_fixture():raise CoreError('SHADOW_BLOCKED')
+        if self.store.one("core_meta", "cloud.shadow_runtime") and not self._offline_subject_fixture():
+            raise CoreError("SHADOW_BLOCKED")
         action = self.store.one("actions", action_id)
         if action["state"] in {"SUCCEEDED", "NOT_APPLIED", "FAILED_EFFECT"}:
             return action["state"]
@@ -343,26 +470,38 @@ class ActionKernel:
         try:
             result = self.capability.verify(invocation)
         except Exception as exc:
-            with self.store.transaction("action.unresolved", {"action_id": action_id, "error_type": type(exc).__name__}) as tx:
+            with self.store.transaction(
+                "action.unresolved", {"action_id": action_id, "error_type": type(exc).__name__}
+            ) as tx:
                 tx.update("attempts", verification_attempt, outcome="UNKNOWN")
                 self._change(tx, action, "UNKNOWN")
             return "UNKNOWN"
-        state = {"MATCH": "SUCCEEDED", "FINAL_NO_EFFECT": "NOT_APPLIED", "EFFECT_MISMATCH": "FAILED_EFFECT", "INCONCLUSIVE": "UNKNOWN"}[result.verdict]
+        state = {
+            "MATCH": "SUCCEEDED",
+            "FINAL_NO_EFFECT": "NOT_APPLIED",
+            "EFFECT_MISMATCH": "FAILED_EFFECT",
+            "INCONCLUSIVE": "UNKNOWN",
+        }[result.verdict]
         with self.store.transaction("action.verified", {"action_id": action_id, "verdict": result.verdict}) as tx:
-            if self.store.schema_target>=11:
-                _,tx.payload_id=self._stored_payload(tx,result.model_dump(mode='json'),action=action)
-                rid,_=self._stored_payload(tx,result.evidence.get('result'),action=action)
-                stored_result=canonical({'action_payload_record':rid})
+            if self.store.schema_target >= 11:
+                _, tx.payload_id = self._stored_payload(tx, result.model_dump(mode="json"), action=action)
+                rid, _ = self._stored_payload(tx, result.evidence.get("result"), action=action)
+                stored_result = canonical({"action_payload_record": rid})
             else:
                 tx.payload_id = tx.artifact(result.model_dump_json().encode())
-                stored_result=canonical(result.evidence.get('result'))
+                stored_result = canonical(result.evidence.get("result"))
             tx.update("attempts", verification_attempt, outcome=state, verification_event_id=tx.event_id)
             if state != "UNKNOWN":
                 tx.update("attempts", action["attempt_id"], outcome=state, verification_event_id=tx.event_id)
                 self._holds(tx, action["attempt_id"], {"cost_micro_units"})
             self._holds(tx, verification_attempt, {"cost_micro_units"})
-            self._change(tx, action, state, result_json=stored_result,
-                body_json=canonical({"verification_event_id": tx.event_id}))
+            self._change(
+                tx,
+                action,
+                state,
+                result_json=stored_result,
+                body_json=canonical({"verification_event_id": tx.event_id}),
+            )
         return state
 
     def run(self, action_id, fault=None):
@@ -396,4 +535,6 @@ class ActionKernel:
         with self.store.transaction("action.cancelled", {"action_id": action_id}) as tx:
             self._change(tx, action, "CANCELLED")
             if action["attempt_id"]:
-                self._holds(tx, action["attempt_id"], {"external_requests", "write_attempts", "cost_micro_units"}, release=True)
+                self._holds(
+                    tx, action["attempt_id"], {"external_requests", "write_attempts", "cost_micro_units"}, release=True
+                )

@@ -1,4 +1,5 @@
 """Same Store, writer lock, artifact store, transactions and identity authority."""
+
 from ..storage.development_schema import LATEST
 from ..storage.sqlite_store import Store
 from ..contracts import CoreError
@@ -27,6 +28,7 @@ class ContinuityStore(Store):
         # An identity-only v1 upgrade has no private payloads or old privacy state.
         if not new_database:
             import sqlite3
+
             db = sqlite3.connect(f"file:{Path(path).resolve()}?mode=ro", uri=True)
             try:
                 new_database = db.execute("PRAGMA user_version").fetchone()[0] == 1
@@ -40,12 +42,21 @@ class ContinuityStore(Store):
                 if owned.exists():
                     owned.chmod(0o600)
             from .privacy import PrivacyJournal
+
             self.privacy = PrivacyJournal(self, new_database=new_database)
             if not self.one("core_meta", "cloud.shadow_runtime"):
                 from ..storage import canonical
+
                 with self.transaction("self.offline_execution_fenced") as tx:
-                    tx.put("core_meta", {"key": "cloud.shadow_runtime", "value_json": canonical({
-                        "mode": "CONTINUOUS_SELF_OFFLINE", "external_execute": "DISABLED"})})
+                    tx.put(
+                        "core_meta",
+                        {
+                            "key": "cloud.shadow_runtime",
+                            "value_json": canonical(
+                                {"mode": "CONTINUOUS_SELF_OFFLINE", "external_execute": "DISABLED"}
+                            ),
+                        },
+                    )
         except BaseException:
             self.close()
             raise
@@ -71,5 +82,5 @@ class ContinuityStore(Store):
         super().replay(destination)
         with ContinuityStore(destination, self.clock, schema_target=self.schema_target) as replay:
             from .memory import MemoryService
-            MemoryService(replay).rebuild_index()
 
+            MemoryService(replay).rebuild_index()

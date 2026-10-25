@@ -4,6 +4,7 @@ The fsynced external journal contains opaque IDs only. It must survive a restore
 and accompanies managed backups. It cannot defeat a privileged whole-disk clone
 or erase copies outside this application's control. No claim of SSD forensics.
 """
+
 import fcntl
 import json
 import os
@@ -50,12 +51,14 @@ def _json_object(pairs):
 
 def _load(path):
     try:
-        fd=os.open(path,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK)
+        fd = os.open(path, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
         with os.fdopen(fd) as source:
-            info=os.fstat(source.fileno())
-            if not stat.S_ISREG(info.st_mode) or info.st_size>16*1024*1024:raise ValueError()
-            raw=source.read(16*1024*1024+1)
-            if len(raw)>16*1024*1024:raise ValueError()
+            info = os.fstat(source.fileno())
+            if not stat.S_ISREG(info.st_mode) or info.st_size > 16 * 1024 * 1024:
+                raise ValueError()
+            raw = source.read(16 * 1024 * 1024 + 1)
+            if len(raw) > 16 * 1024 * 1024:
+                raise ValueError()
             return json.loads(raw, object_pairs_hook=_json_object)
     except (OSError, ValueError, TypeError):
         raise CoreError("PRIVACY_ANCHOR_INVALID") from None
@@ -72,16 +75,26 @@ class PrivacyJournal:
             if type(link) is not dict:
                 raise CoreError("PRIVACY_ANCHOR_INVALID")
             if "anchor_path" in link:
-                if set(link) != {"anchor_path"} or type(link["anchor_path"]) is not str or not Path(link["anchor_path"]).is_absolute():
+                if (
+                    set(link) != {"anchor_path"}
+                    or type(link["anchor_path"]) is not str
+                    or not Path(link["anchor_path"]).is_absolute()
+                ):
                     raise CoreError("PRIVACY_ANCHOR_INVALID")
                 self.path = Path(link["anchor_path"])
             else:
                 self.path = self.sidecar
         elif new_database:
             self.path = self.sidecar
-            _atomic(self.path, {"schema_version": 1,
-                "identity_id": store.identity["identity_id"], "intents": [],
-                "backups": [str(store.path.resolve())]})
+            _atomic(
+                self.path,
+                {
+                    "schema_version": 1,
+                    "identity_id": store.identity["identity_id"],
+                    "intents": [],
+                    "backups": [str(store.path.resolve())],
+                },
+            )
         else:
             raise CoreError("PRIVACY_ANCHOR_MISSING")
         self.applied = None
@@ -96,17 +109,27 @@ class PrivacyJournal:
             raise CoreError("PRIVACY_ANCHOR_UNAVAILABLE")
         try:
             body = _load(self.path)
-            if (type(body) is not dict or set(body) != {"schema_version", "identity_id", "intents", "backups"} or
-                    type(body["schema_version"]) is not int or body["schema_version"] != 1
-                    or body["identity_id"] != self.store.identity["identity_id"]
-                    or type(body["intents"]) is not list or type(body["backups"]) is not list):
+            if (
+                type(body) is not dict
+                or set(body) != {"schema_version", "identity_id", "intents", "backups"}
+                or type(body["schema_version"]) is not int
+                or body["schema_version"] != 1
+                or body["identity_id"] != self.store.identity["identity_id"]
+                or type(body["intents"]) is not list
+                or type(body["backups"]) is not list
+            ):
                 raise ValueError()
             if any(type(x) is not str or not Path(x).is_absolute() for x in body["backups"]):
                 raise ValueError()
             for item in body["intents"]:
-                if (type(item) is not dict or set(item) != {"intent_id", "memory_ids", "evidence_ids", "created_at_us"}
-                        or type(item["memory_ids"]) is not list or type(item["evidence_ids"]) is not list
-                        or type(item["created_at_us"]) is not int or item["created_at_us"] < 0):
+                if (
+                    type(item) is not dict
+                    or set(item) != {"intent_id", "memory_ids", "evidence_ids", "created_at_us"}
+                    or type(item["memory_ids"]) is not list
+                    or type(item["evidence_ids"]) is not list
+                    or type(item["created_at_us"]) is not int
+                    or item["created_at_us"] < 0
+                ):
                     raise ValueError()
                 for value in [item["intent_id"], *item["memory_ids"], *item["evidence_ids"]]:
                     if type(value) is not str or str(UUID(value)) != value:
@@ -130,25 +153,43 @@ class PrivacyJournal:
     def ensure_current(self):
         if self._applying:
             return
+
         # Trusted writers replace the anchor atomically. Recheck filesystem
         # identity/metadata on EVERY call, but do not reopen/reparse unchanged
         # opaque metadata tens of thousands of times within one C slice.
         # This is a rebuildable validity cache, never deletion authority.
         def signature():
-            try:info=self.path.lstat()
-            except OSError:raise CoreError('PRIVACY_ANCHOR_UNAVAILABLE') from None
-            if not stat.S_ISREG(info.st_mode):raise CoreError('PRIVACY_ANCHOR_UNAVAILABLE')
-            return (info.st_dev,info.st_ino,info.st_size,info.st_mtime_ns,info.st_ctime_ns,info.st_mode,info.st_uid,info.st_gid)
-        current=signature()
-        if self.applied is not None and current==self._checked_signature:return
+            try:
+                info = self.path.lstat()
+            except OSError:
+                raise CoreError("PRIVACY_ANCHOR_UNAVAILABLE") from None
+            if not stat.S_ISREG(info.st_mode):
+                raise CoreError("PRIVACY_ANCHOR_UNAVAILABLE")
+            return (
+                info.st_dev,
+                info.st_ino,
+                info.st_size,
+                info.st_mtime_ns,
+                info.st_ctime_ns,
+                info.st_mode,
+                info.st_uid,
+                info.st_gid,
+            )
+
+        current = signature()
+        if self.applied is not None and current == self._checked_signature:
+            return
         for _ in range(3):
-            body=self.read();after=signature()
-            if after==current:break
-            current=after
-        else:raise CoreError('PRIVACY_ANCHOR_CHANGED_DURING_READ')
+            body = self.read()
+            after = signature()
+            if after == current:
+                break
+            current = after
+        else:
+            raise CoreError("PRIVACY_ANCHOR_CHANGED_DURING_READ")
         fingerprint = digest(body["intents"])
         if fingerprint == self.applied:
-            self._checked_signature=current
+            self._checked_signature = current
             return
         self._applying = True
         try:
@@ -158,7 +199,7 @@ class PrivacyJournal:
             if result[0] != 0:
                 raise CoreError("PURGE_CHECKPOINT_PENDING")
             self.applied = fingerprint
-            self._checked_signature=current
+            self._checked_signature = current
         finally:
             self._applying = False
 
@@ -167,17 +208,23 @@ class PrivacyJournal:
         row = self.store.one("memories", memory_id)
         if not row:
             raise CoreError("MEMORY_UNAVAILABLE")
-        intent = {"intent_id": uid(), "memory_ids": [memory_id],
+        intent = {
+            "intent_id": uid(),
+            "memory_ids": [memory_id],
             "evidence_ids": [row["source_evidence_id"]],
-            "created_at_us": self.store.clock.utc_now_us()}
+            "created_at_us": self.store.clock.utc_now_us(),
+        }
         with self._locked():
             body = self.read()
             body["intents"].append(intent)
             _atomic(self.path, body)  # privacy intent durable BEFORE destructive work
         self.ensure_current()
         pending = self.sanitize_backups()
-        return {"intent_id": intent["intent_id"], "state": "COMPLETE" if not pending else "PENDING_BACKUP_PURGE",
-                "pending_backup_count": len(pending)}
+        return {
+            "intent_id": intent["intent_id"],
+            "state": "COMPLETE" if not pending else "PENDING_BACKUP_PURGE",
+            "pending_backup_count": len(pending),
+        }
 
     def register_copy(self, destination):
         destination = Path(destination).resolve()
@@ -251,8 +298,11 @@ class PrivacyJournal:
                     artifacts.add(row["payload_artifact_id"])
                     if row["lifecycle"] != "DELETED":
                         row.update(lifecycle="DELETED", assessment="WITHDRAWN", updated_at_us=intent["created_at_us"])
-                        db.execute("UPDATE memories SET lifecycle='DELETED',assessment='WITHDRAWN',updated_at_us=? "
-                            "WHERE memory_id=?", (row["updated_at_us"], row["memory_id"]))
+                        db.execute(
+                            "UPDATE memories SET lifecycle='DELETED',assessment='WITHDRAWN',updated_at_us=? "
+                            "WHERE memory_id=?",
+                            (row["updated_at_us"], row["memory_id"]),
+                        )
                         changes.append({"table": "memories", "row": row})
                     db.execute("DELETE FROM memory_terms WHERE memory_id=?", (row["memory_id"],))
             for raw in db.execute("SELECT * FROM continuity_evidence").fetchall():
@@ -261,7 +311,9 @@ class PrivacyJournal:
                     artifacts.add(row["payload_artifact_id"])
                     if row["state"] != "DELETED":
                         row["state"] = "DELETED"
-                        db.execute("UPDATE continuity_evidence SET state='DELETED' WHERE evidence_id=?", (row["evidence_id"],))
+                        db.execute(
+                            "UPDATE continuity_evidence SET state='DELETED' WHERE evidence_id=?", (row["evidence_id"],)
+                        )
                         changes.append({"table": "continuity_evidence", "row": row})
             # Other permanent cognitive records use the same payload/dependency discipline.
             tables = {r[0] for r in db.execute("SELECT name FROM sqlite_master WHERE type='table'")}
@@ -281,15 +333,31 @@ class PrivacyJournal:
                         artifacts.add(row["payload_artifact_id"])
                         if row["lifecycle"] != "DELETED":
                             row["lifecycle"] = "DELETED"
-                            db.execute("UPDATE continuity_records SET lifecycle='DELETED' WHERE record_id=?", (row["record_id"],))
+                            db.execute(
+                                "UPDATE continuity_records SET lifecycle='DELETED' WHERE record_id=?",
+                                (row["record_id"],),
+                            )
                             changes.append({"table": "continuity_records", "row": row})
             for artifact in artifacts:
-                db.execute("UPDATE artifacts SET payload=NULL,sha256='',completeness='UNAVAILABLE' WHERE artifact_id=?", (artifact,))
+                db.execute(
+                    "UPDATE artifacts SET payload=NULL,sha256='',completeness='UNAVAILABLE' WHERE artifact_id=?",
+                    (artifact,),
+                )
             if changes:
                 now = self.store.clock.utc_now_us()
-                db.execute("INSERT INTO events(event_id,kind,schema_version,identity_id,observed_at_us,recorded_at_us,data_json) "
-                    "VALUES(?,?,?,?,?,?,?)", (uid(), "privacy.erased", 1, self.store.identity["identity_id"], now, now,
-                    canonical({"data": {"intent_id": intent["intent_id"]}, "changes": changes})))
+                db.execute(
+                    "INSERT INTO events(event_id,kind,schema_version,identity_id,observed_at_us,recorded_at_us,data_json) "
+                    "VALUES(?,?,?,?,?,?,?)",
+                    (
+                        uid(),
+                        "privacy.erased",
+                        1,
+                        self.store.identity["identity_id"],
+                        now,
+                        now,
+                        canonical({"data": {"intent_id": intent["intent_id"]}, "changes": changes}),
+                    ),
+                )
             db.execute("COMMIT")
         except BaseException:
             db.execute("ROLLBACK")

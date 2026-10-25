@@ -1,4 +1,5 @@
 """Single writer, short transactions, append-only evidence and replayable projections."""
+
 from contextlib import contextmanager
 import fcntl
 import hashlib
@@ -24,10 +25,19 @@ def digest(value) -> str:
 
 
 KEYS = {
-    "core_meta": "key", "identities": "identity_id", "memory_items": "memory_id",
-    "goals": "goal_id", "plans": "plan_id", "decisions": "decision_id", "grants": "grant_id",
-    "budgets": "dimension", "actions": "action_id", "attempts": "attempt_id",
-    "budget_holds": "hold_id", "strategies": "strategy_id", "jobs": "job_id",
+    "core_meta": "key",
+    "identities": "identity_id",
+    "memory_items": "memory_id",
+    "goals": "goal_id",
+    "plans": "plan_id",
+    "decisions": "decision_id",
+    "grants": "grant_id",
+    "budgets": "dimension",
+    "actions": "action_id",
+    "attempts": "attempt_id",
+    "budget_holds": "hold_id",
+    "strategies": "strategy_id",
+    "jobs": "job_id",
 }
 
 
@@ -53,8 +63,10 @@ class Transaction:
         if len(payload) > 8 * 1024 * 1024:
             raise CoreError("PAYLOAD_TOO_LARGE")
         artifact_id = uid()
-        self.store.db.execute("INSERT INTO artifacts VALUES(?,?,?,?,?)", (
-            artifact_id, digest(payload), payload, "COMPLETE", self.event_id))
+        self.store.db.execute(
+            "INSERT INTO artifacts VALUES(?,?,?,?,?)",
+            (artifact_id, digest(payload), payload, "COMPLETE", self.event_id),
+        )
         return artifact_id
 
 
@@ -63,6 +75,7 @@ class Store:
     def check_host():
         """Reject the actual SQLite binding before creating paths or identity."""
         from ..host_requirements import require_sqlite_runtime
+
         try:
             require_sqlite_runtime()
         except ValueError as exc:
@@ -71,6 +84,7 @@ class Store:
     def __init__(self, path, clock: Clock | None = None, *, schema_target=1, identity_bootstrap=None):
         Store.check_host()
         from .development_schema import keys_for
+
         self.schema_target = schema_target
         self.keys = {**KEYS, **keys_for(schema_target)}
         self.path = Path(path)
@@ -99,6 +113,7 @@ class Store:
                 raise CoreError("SCHEMA_VERSION_UNSUPPORTED")
             if schema_target > 1:
                 from .development_schema import install
+
                 install(self.db, version or 1, schema_target)
             if self.db.execute("PRAGMA quick_check").fetchone()[0] != "ok":
                 raise CoreError("STORAGE_CORRUPT")
@@ -106,20 +121,43 @@ class Store:
                 raise CoreError("BROKEN_FOREIGN_KEYS")
             if identity_bootstrap is not None:
                 from .bootstrap import IdentityBootstrap
+
                 if type(identity_bootstrap) is not IdentityBootstrap:
-                    raise CoreError('TYPED_IDENTITY_BOOTSTRAP_REQUIRED')
-                identity_bootstrap=IdentityBootstrap.model_validate_json(identity_bootstrap.model_dump_json())
-                if self.all('identities'):
-                    raise CoreError('IDENTITY_ALREADY_BOOTSTRAPPED')
+                    raise CoreError("TYPED_IDENTITY_BOOTSTRAP_REQUIRED")
+                identity_bootstrap = IdentityBootstrap.model_validate_json(identity_bootstrap.model_dump_json())
+                if self.all("identities"):
+                    raise CoreError("IDENTITY_ALREADY_BOOTSTRAPPED")
             if not self.all("identities"):
                 if self.all("events"):
                     raise CoreError("IDENTITY_MISSING")
-                with self.transaction("identity.created", {'bootstrap_source':identity_bootstrap.source_reference} if identity_bootstrap else None) as tx:
-                    tx.put("identities", {"identity_id": uid(), "revision": 1,
-                        "body_json": canonical({"name": identity_bootstrap.name if identity_bootstrap else "Subject", "charter": [
-                            "retain independent judgement", "evidence before success", "learning cannot expand permissions"],
-                            "self_preferences": [], "expression_defaults": {"style": identity_bootstrap.expression_style if identity_bootstrap else "unspecified"}}),
-                        "created_event_id": tx.event_id})
+                with self.transaction(
+                    "identity.created",
+                    {"bootstrap_source": identity_bootstrap.source_reference} if identity_bootstrap else None,
+                ) as tx:
+                    tx.put(
+                        "identities",
+                        {
+                            "identity_id": uid(),
+                            "revision": 1,
+                            "body_json": canonical(
+                                {
+                                    "name": identity_bootstrap.name if identity_bootstrap else "Subject",
+                                    "charter": [
+                                        "retain independent judgement",
+                                        "evidence before success",
+                                        "learning cannot expand permissions",
+                                    ],
+                                    "self_preferences": [],
+                                    "expression_defaults": {
+                                        "style": identity_bootstrap.expression_style
+                                        if identity_bootstrap
+                                        else "unspecified"
+                                    },
+                                }
+                            ),
+                            "created_event_id": tx.event_id,
+                        },
+                    )
                     tx.put("core_meta", {"key": "recovery_quarantine", "value_json": "false"})
         except BaseException:
             if hasattr(self, "db"):
@@ -178,22 +216,31 @@ class Store:
         columns = list(row)
         key = self.keys[table]
         assignments = ",".join(f"{c}=excluded.{c}" for c in columns if c != key)
-        self.db.execute(f"INSERT INTO {table} ({','.join(columns)}) VALUES ({','.join('?' for _ in columns)}) "
-                        f"ON CONFLICT({key}) DO UPDATE SET {assignments}", list(row.values()))
+        self.db.execute(
+            f"INSERT INTO {table} ({','.join(columns)}) VALUES ({','.join('?' for _ in columns)}) "
+            f"ON CONFLICT({key}) DO UPDATE SET {assignments}",
+            list(row.values()),
+        )
 
     @contextmanager
-    def transaction(self, kind, data=None, source_namespace=None, source_key=None,
-                    occurred_at_us=None, artifact_id=None):
-        if self.one('core_meta', 'portable.retired'):
-            raise CoreError('PORTABLE_SOURCE_RETIRED')
-        received = self.one('core_meta', 'portable.received')
-        if received and json.loads(received['value_json'])['state'] != 'ACTIVE':
-            transfer_guard = getattr(self, '_portable_activation_guard', None)
+    def transaction(
+        self, kind, data=None, source_namespace=None, source_key=None, occurred_at_us=None, artifact_id=None
+    ):
+        if self.one("core_meta", "portable.retired"):
+            raise CoreError("PORTABLE_SOURCE_RETIRED")
+        received = self.one("core_meta", "portable.received")
+        if received and json.loads(received["value_json"])["state"] != "ACTIVE":
+            transfer_guard = getattr(self, "_portable_activation_guard", None)
             if not transfer_guard:
-                raise CoreError('PORTABLE_IMPORT_QUARANTINED')
+                raise CoreError("PORTABLE_IMPORT_QUARANTINED")
             transfer_guard()
-        action_guard=getattr(self,'_governed_action_guard',None) if kind in {'action.proposed','action.reserved','action.dispatched'} else None
-        if action_guard:action_guard()
+        action_guard = (
+            getattr(self, "_governed_action_guard", None)
+            if kind in {"action.proposed", "action.reserved", "action.dispatched"}
+            else None
+        )
+        if action_guard:
+            action_guard()
         guard = getattr(self, "_runtime_guard", None)
         if guard:
             guard()
@@ -206,14 +253,27 @@ class Store:
             now = self.clock.utc_now_us()
             identities = self.all("identities")
             body = {"data": data or {}, "changes": tx.changes}
-            self.db.execute("INSERT INTO events(event_id,kind,schema_version,identity_id,source_namespace,source_key,"
-                            "occurred_at_us,observed_at_us,recorded_at_us,data_json,artifact_id) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
-                            (tx.event_id, kind, 1, identities[0]["identity_id"] if identities else None,
-                             source_namespace, source_key, occurred_at_us, now, now, canonical(body),
-                             artifact_id or getattr(tx, "payload_id", None)))
+            self.db.execute(
+                "INSERT INTO events(event_id,kind,schema_version,identity_id,source_namespace,source_key,"
+                "occurred_at_us,observed_at_us,recorded_at_us,data_json,artifact_id) VALUES(?,?,?,?,?,?,?,?,?,?,?)",
+                (
+                    tx.event_id,
+                    kind,
+                    1,
+                    identities[0]["identity_id"] if identities else None,
+                    source_namespace,
+                    source_key,
+                    occurred_at_us,
+                    now,
+                    now,
+                    canonical(body),
+                    artifact_id or getattr(tx, "payload_id", None),
+                ),
+            )
             if guard:
                 guard()  # expired ownership rolls back the entire C transition
-            if action_guard:action_guard()
+            if action_guard:
+                action_guard()
             self.db.execute("COMMIT")
         except BaseException:
             self.db.execute("ROLLBACK")
@@ -223,22 +283,46 @@ class Store:
         if self.schema_target != 1:
             raise CoreError("USE_CONTINUITY_EVIDENCE_INGRESS")
         key = canonical([observation.kind, observation.object_id, observation.revision])
-        previous = self.db.execute("SELECT * FROM events WHERE source_namespace=? AND source_key=?",
-                                   (observation.source_namespace, key)).fetchone()
+        previous = self.db.execute(
+            "SELECT * FROM events WHERE source_namespace=? AND source_key=?", (observation.source_namespace, key)
+        ).fetchone()
         raw = observation.raw_text.encode()
         stable = observation.model_dump(exclude={"channel"})
         if previous:
             if json.loads(previous["data_json"])["data"]["observation"] != stable:
                 raise CoreError("SOURCE_KEY_COLLISION")
             return previous["event_id"]
-        with self.transaction("observation.received", {"observation": stable,
-                "channel": observation.channel, "time_quality": "SOURCE" if parse_utc(observation.occurred_at) is not None else "UNKNOWN"},
-                observation.source_namespace, key, parse_utc(observation.occurred_at)) as tx:
+        with self.transaction(
+            "observation.received",
+            {
+                "observation": stable,
+                "channel": observation.channel,
+                "time_quality": "SOURCE" if parse_utc(observation.occurred_at) is not None else "UNKNOWN",
+            },
+            observation.source_namespace,
+            key,
+            parse_utc(observation.occurred_at),
+        ) as tx:
             tx.payload_id = tx.artifact(raw)
-            tx.put("memory_items", {"memory_id": uid(), "kind": "CLAIM", "status": "ACTIVE",
-                "body_json": canonical({"epistemic_kind": "OBSERVATION", "assessment": "UNASSESSED",
-                    "source_refs": [{"event_id": tx.event_id, "artifact_id": tx.payload_id, "coverage": "FULL"}],
-                    "content": observation.raw_text}), "created_event_id": tx.event_id})
+            tx.put(
+                "memory_items",
+                {
+                    "memory_id": uid(),
+                    "kind": "CLAIM",
+                    "status": "ACTIVE",
+                    "body_json": canonical(
+                        {
+                            "epistemic_kind": "OBSERVATION",
+                            "assessment": "UNASSESSED",
+                            "source_refs": [
+                                {"event_id": tx.event_id, "artifact_id": tx.payload_id, "coverage": "FULL"}
+                            ],
+                            "content": observation.raw_text,
+                        }
+                    ),
+                    "created_event_id": tx.event_id,
+                },
+            )
         return tx.event_id
 
     def replay(self, destination):
@@ -250,12 +334,16 @@ class Store:
             target.executescript(Path(__file__).with_name("schema_v1.sql").read_text())
             if self.schema_target > 1:
                 from .development_schema import install
+
                 install(target, 1, self.schema_target)
             target.execute("PRAGMA foreign_keys=ON")
             target.execute("BEGIN IMMEDIATE")
             for row in self.all("events"):
                 columns = list(row)
-                target.execute(f"INSERT INTO events({','.join(columns)}) VALUES({','.join('?' for _ in columns)})", list(row.values()))
+                target.execute(
+                    f"INSERT INTO events({','.join(columns)}) VALUES({','.join('?' for _ in columns)})",
+                    list(row.values()),
+                )
             for row in self.all("artifacts"):
                 target.execute("INSERT INTO artifacts VALUES(?,?,?,?,?)", list(row.values()))
             for event in self.all("events"):
@@ -265,8 +353,11 @@ class Store:
                         raise CoreError("INVALID_REPLAY_TABLE")
                     columns = list(row)
                     assignments = ",".join(f"{c}=excluded.{c}" for c in columns if c != self.keys[table])
-                    target.execute(f"INSERT INTO {table}({','.join(columns)}) VALUES({','.join('?' for _ in columns)}) "
-                        f"ON CONFLICT({self.keys[table]}) DO UPDATE SET {assignments}", list(row.values()))
+                    target.execute(
+                        f"INSERT INTO {table}({','.join(columns)}) VALUES({','.join('?' for _ in columns)}) "
+                        f"ON CONFLICT({self.keys[table]}) DO UPDATE SET {assignments}",
+                        list(row.values()),
+                    )
             # Rebuilt state is reviewable state, not permission to replay external effects.
             # This is local restoration metadata, intentionally separate from domain replay.
             target.execute("UPDATE core_meta SET value_json='true' WHERE key='recovery_quarantine'")

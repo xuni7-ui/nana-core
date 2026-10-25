@@ -2607,3 +2607,8 @@ No failure erased by final pass; no new skip or paid model consumed.
 ## Engineering Quality Portable Runtime V2 — active / 2026-10-25
 
 GLOBAL_STAGE H / Advanced Growth S1/S2/S4/S7/S8/S9、三横轴；非Foundation新Stage。87f73d2独立worktree/branch，不改另一AI Nana Space分支。Q1/Q2修复与定向证据见implementation：SQLite官方WAL修复门槛不降低，共享实际绑定检查；沙箱真实资格不是which；明确字节Socket路径与-O关键检查；精确发行清单及独立资格工具。静态/可读性、便携新包和全仓仍待，旧1528和bcb包仅历史基线。原Master/fixed63/S1–S9资格与S10 Partial不变。新paid/private/social/production/main/R045=0。
+
+
+## Engineering Quality V2 — pure formatting checkpoint
+
+Ruff0.14.1对29个Storage/Privacy/Runtime/Kernel/Planner/Checkpoint/G/Sandbox/Portable热点作纯格式化；逐文件ast.dump(before)==ast.dump(after)，29/29一致，指纹证据保存在开发资格目录。格式提交不包含行为修改或公开wire变化。44 targeted PASS28.61s；全仓与安装资格仍待新源码冻结后执行。Dev-only mypy1.18.2检查共享stdlib host contract通过；全库lint/复杂度债务如实计数，不临时ignore或宣称全库typed。
