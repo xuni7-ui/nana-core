@@ -85,7 +85,9 @@ def run(output, config_path=None):
                 runtime = Runtime(store, kernel, model)
                 goal = runtime.process(observation)
                 for _ in range(5):
-                    assert runtime.process(observation) == goal
+                    repeated_goal = runtime.process(observation)
+                    if repeated_goal != goal:
+                        raise AssertionError('DEVELOPMENT_REPLAY_GOAL_CHANGED')
                 plan = next(p for p in store.all("plans") if p["goal_id"] == goal)
                 compiled = json.loads(plan["body_json"])
                 semantic = None

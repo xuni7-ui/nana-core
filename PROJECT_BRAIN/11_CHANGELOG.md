@@ -2592,3 +2592,8 @@ independent actual effects,18 focused/full/installed migration qualification.
 Previous 19/20 representative partial,collection error,full process failures,
 portable timeout,quota interruption and audit indentation correction are retained.
 No failure erased by final pass; no new skip or paid model consumed.
+
+
+## Engineering Quality Portable V2 / Q1 — 2026-10-25
+
+独立worktree/branch从87f73d2继承，原workspace/bundle未动。统一stdlib host contract3.51.3/JSON/FTS5；官方WAL-reset修复依据保留，检查实际venv解释器，Store/Continuity在创建路径前拒绝。原先wrapper先mkdir导致新负向测试失败，保留41pass/1fail日志并在wrapper前补同一检查；修复后42相关PASS21.76s。显式前置Unix socket字节长度；正常/-O下prctl真实执行、失败拒绝和备份quarantine检查通过。真实bwrap六namespace、空环境、无host目录/cap、NoNewPrivs与只读work探针通过；基础Runtime与技能可选资格分开，不降隔离、不扩Grant。初次targeted目录名错误保留，未删测/改宽断言。Schema13/43、Master/fixed63、paid/private/social/production/main/R045均不变；发行/格式化/全仓尚待。

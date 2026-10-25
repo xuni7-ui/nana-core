@@ -27,3 +27,19 @@ to version, not substitutes for the corruption fix.
 Current status: Q0 implemented; Q1–Q6 pending. No model/private/social/production
 operation. Previous five-hour PARTIAL_EXTERNAL_LIMIT and long-residency pending,
 human NOT_RUN/First-Life NOT_READY/Beta NO remain.
+
+
+## Q1 implementation / targeted proof
+
+Shared host_requirements is stdlib-only and read-only. Store and Continuity enforce
+requirements before filesystem creation; install probes both its Python and target
+venv Python. Ordinary runtime is not gated on optional skills. Exact-policy bwrap
+probe verifies six namespace identities, no workspace/home/root/host-only marker,
+clear environment,zero capabilities,NoNewPrivs and read-only work. No fallback.
+Byte-length validation runs before control-enabled Runtime/owned-child startup.
+Explicit prctl calls and backup quarantine checks survive python -O. Two legacy
+development replay calls were also removed from assert expressions.
+
+42 targeted PASS21.76s. Retained first run41pass/1fail (Continuity wrapper created
+parent before base Store check), then fixed wrapper; initial wrong suite-path
+invocation retained. No historical test result copied to qualify this source.

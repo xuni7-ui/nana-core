@@ -21,6 +21,7 @@ class ContinuityStore(Store):
     def __init__(self, path, clock=None, *, schema_target=7, identity_bootstrap=None):
         if type(schema_target) is not int or not 7 <= schema_target <= LATEST:
             raise CoreError("CONTINUITY_SCHEMA_UNSUPPORTED")
+        Store.check_host()
         path = self._private_path(path)
         new_database = not Path(path).exists()
         # An identity-only v1 upgrade has no private payloads or old privacy state.

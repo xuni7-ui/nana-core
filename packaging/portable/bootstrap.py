@@ -21,15 +21,26 @@ def verify(root):
 
 def main():
     verify(ROOT)
+    sys.path.insert(0,str(ROOT/'src'))
+    from nana_core.host_requirements import sqlite_runtime_report
+    sqlite_report=sqlite_runtime_report()
+    if not sqlite_report['supported']:
+        print(json.dumps({'state':'START_BLOCKED','code':sqlite_report['code'],'sqlite_runtime':sqlite_report}));raise SystemExit(2)
     if sys.argv[1:2]==['install']:
-        if sys.version_info[:2]!=(3,12) or sys.platform!='linux' or platform.machine()!='x86_64' or sqlite3.sqlite_version_info<(3,35):raise ValueError()
+        if sys.version_info[:2]!=(3,12) or sys.platform!='linux' or platform.machine()!='x86_64':raise ValueError()
         path=ROOT/'.venv'
         if path.is_symlink():raise ValueError()
         if not path.exists():venv.EnvBuilder(with_pip=True).create(path)
         python=path/'bin/python'
+        # An existing venv may point at another interpreter. Inspect that binding
+        # before pip or any Subject operation; never trust installer Python alone.
+        probe="import sys,json;sys.dont_write_bytecode=True;sys.path.insert(0,sys.argv[1]);from nana_core.host_requirements import sqlite_runtime_report;print(json.dumps({'python':list(sys.version_info[:2]),'sqlite':sqlite_runtime_report()}))"
+        actual=json.loads(subprocess.check_output([str(python),'-I','-c',probe,str(ROOT/'src')],text=True))
+        if actual['python']!=[3,12] or not actual['sqlite']['supported']:
+            print(json.dumps({'state':'START_BLOCKED','code':'INSTALLED_INTERPRETER_UNSUPPORTED','actual':actual}));raise SystemExit(2)
         subprocess.run([str(python),'-m','pip','--isolated','install','--no-index','--find-links',str(ROOT/'wheelhouse'),'--require-hashes','-r',str(ROOT/'requirements.lock')],check=True)
         subprocess.run([str(python),'-m','pip','--isolated','check'],check=True)
-        print(json.dumps({'state':'INSTALLED_OFFLINE','network_requests':0}));return
+        print(json.dumps({'state':'INSTALLED_OFFLINE','network_requests':0,'actual_interpreter':actual}));return
     if sys.prefix==sys.base_prefix:
         print(json.dumps({'state':'START_BLOCKED','code':'INSTALL_REQUIRED','python_supported':sys.version_info[:2]==(3,12)}));raise SystemExit(2)
     sys.path.insert(0,str(ROOT/'src'))

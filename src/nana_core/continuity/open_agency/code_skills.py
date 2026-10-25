@@ -53,6 +53,31 @@ def static_check(source):
 class IsolatedSkillRunner:
     """No host workspace mounts; runtime data/controller never enter the child."""
     def __init__(self):self.available=None
+    def qualify(self):
+        """Actual same-policy namespace probe; optional readiness, never a Grant."""
+        if not shutil.which('bwrap'):
+            return {'state':'UNAVAILABLE','code':'BWRAP_NOT_FOUND','execution_authority':False}
+        try:
+            with tempfile.TemporaryDirectory(prefix='skill-probe-') as directory:
+                parent=Path(directory);root=parent/'work';root.mkdir(mode=0o700)
+                marker=parent/'host-only';marker.write_text('TEST_ONLY_NOT_SECRET')
+                namespaces={name:os.readlink('/proc/self/ns/'+name) for name in ('user','mnt','pid','net','ipc','uts')}
+                (root/'request.json').write_text(canonical({'namespaces':namespaces,'host_marker':str(marker)}))
+                (root/'runner.py').write_bytes(Path(__file__).with_name('skill_runner.py').read_bytes())
+                command=self._command(root)+['--qualify']
+                proc=subprocess.run(command,stdin=subprocess.DEVNULL,capture_output=True,env={'PATH':os.defpath,'NANA_SANDBOX_PROBE':'HOST_ONLY_TEST_MARKER'},timeout=3,check=False)
+                if proc.returncode:
+                    return {'state':'UNAVAILABLE','code':'BWRAP_NAMESPACE_OR_RUNTIME_DENIED','execution_authority':False}
+                if len(proc.stdout)>8192:raise ValueError('PROBE_OUTPUT_BOUND')
+                checks=json.loads(proc.stdout)
+                expected={name+'_namespace' for name in namespaces}|{'host_paths_absent','host_env_absent','no_new_privs','no_capabilities','readonly_work'}
+                if type(checks) is not dict or set(checks)!=expected or any(value is not True for value in checks.values()):
+                    return {'state':'BLOCKED','code':'SKILL_ISOLATION_PROBE_FAILED','execution_authority':False}
+                return {'state':'AVAILABLE','code':'BWRAP_ISOLATION_VERIFIED','checks':checks,'execution_authority':False}
+        except subprocess.TimeoutExpired:
+            return {'state':'UNAVAILABLE','code':'PROBE_UNKNOWN_NO_RETRY','execution_authority':False}
+        except (OSError,ValueError,CoreError):
+            return {'state':'UNAVAILABLE','code':'BWRAP_PROBE_FAILED','execution_authority':False}
     def _command(self,root):
         bwrap=shutil.which('bwrap')
         if not bwrap:raise CoreError('SKILL_SANDBOX_UNAVAILABLE')

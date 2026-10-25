@@ -46,6 +46,10 @@ def command(app,line):
 
 
 def run(home,seconds,*,headless=False,router=None,control_enabled=False):
+    if control_enabled:
+        from ..host_requirements import unix_socket_path
+        try:unix_socket_path(Path(home)/'control.sock')
+        except ValueError as exc:raise CoreError(str(exc)) from None
     config=load_config(home);resource=apply_resource_limits(config);started=time.monotonic();cpu=time.process_time();child=__import__('resource').getrusage(__import__('resource').RUSAGE_CHILDREN);child_cpu=child.ru_utime+child.ru_stime
     from .control import ControlServer
     from .cloud import RotatingJSONLog

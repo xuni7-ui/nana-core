@@ -19,6 +19,13 @@ from .fixtures import concern
 from .cli import status
 
 
+def checked_prctl(libc,option,*args):
+    """Always execute the syscall, including under python -O; fail explicitly."""
+    result=libc.prctl(option,*args)
+    if result!=0:
+        raise OSError(ctypes.get_errno(),'PROCESS_SUBREAPER_CONTROL_FAILED')
+
+
 def wait_until(test,seconds=10,process=None):
     end=time.monotonic()+seconds
     while time.monotonic()<end:
@@ -158,10 +165,10 @@ def crash_matrix(directory):
             qid=rt.submit(RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=inp,
                 causes=(Cause(kind='MEMORY',reference_id=mid),),due_at_us=rt.clock.utc_now_us(),priority=3))
             identity=rt.store.identity['identity_id']
-        libc=ctypes.CDLL(None);old_reaper=ctypes.c_int()
+        libc=ctypes.CDLL(None,use_errno=True);old_reaper=ctypes.c_int()
         if cut=='during_model':
-            assert libc.prctl(37,ctypes.byref(old_reaper),0,0,0)==0
-            assert libc.prctl(36,1,0,0,0)==0  # fixture process adopts/reaps only its tracked orphan
+            checked_prctl(libc,37,ctypes.byref(old_reaper),0,0,0)
+            checked_prctl(libc,36,1,0,0,0)  # fixture adopts only its tracked orphan
         child=subprocess.Popen([sys.executable,'-c',CRASH_SCRIPT,str(path),str(conf),str(marker),cut],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
         try:
             wait_until(marker.exists,process=child)
@@ -177,7 +184,7 @@ def crash_matrix(directory):
                 assert os.WIFSIGNALED(reaped[0]) or os.WIFEXITED(reaped[0])
         finally:
             if child.poll() is None:stop_owned(child,kill=True)
-            if cut=='during_model':assert libc.prctl(36,old_reaper.value,0,0,0)==0
+            if cut=='during_model':checked_prctl(libc,36,old_reaper.value,0,0,0)
         with NanaRuntime(path,config) as restored:
             restored.drain()
             queue=restored.store.one('runtime_queue',qid)

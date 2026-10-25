@@ -1,5 +1,5 @@
 """Trusted isolated worker. Receives no Store, authority, network or host data."""
-import json,resource,sys
+import json,os,resource,sys
 
 def main():
     resource.setrlimit(resource.RLIMIT_CPU,(1,1))
@@ -8,6 +8,16 @@ def main():
     resource.setrlimit(resource.RLIMIT_NOFILE,(32,32))
     resource.setrlimit(resource.RLIMIT_NPROC,(8,8))
     request=json.load(open('/work/request.json'))
+    if sys.argv[1:]==['--qualify']:
+        checks={name+'_namespace':os.readlink('/proc/self/ns/'+name)!=old for name,old in request['namespaces'].items()}
+        checks.update(host_paths_absent=not any(os.path.exists(p) for p in ('/workspace','/home','/root',request['host_marker'])),
+                      host_env_absent='NANA_SANDBOX_PROBE' not in os.environ,
+                      no_new_privs='NoNewPrivs:\t1' in open('/proc/self/status').read(),
+                      no_capabilities=int(next(x.split()[1] for x in open('/proc/self/status') if x.startswith('CapEff:')),16)==0)
+        # bwrap binds /work read-only. An attempted write must fail.
+        try:open('/work/should-not-write','w').close();checks['readonly_work']=False
+        except OSError:checks['readonly_work']=True
+        sys.stdout.write(json.dumps(checks));return
     # Static checking is additional hygiene. OS namespaces/read-only mounts,
     # fresh /tmp, empty environment and resource bounds are the isolation fence.
     code=open('/work/skill.py').read()

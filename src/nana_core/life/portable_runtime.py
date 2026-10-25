@@ -15,6 +15,7 @@ from pathlib import Path
 from uuid import uuid4
 
 from ..contracts import CoreError
+from ..host_requirements import sqlite_runtime_report, unix_socket_path
 from ..continuity import ContinuityStore
 from ..continuity.provider_config import ProviderConfigService, ProviderConfigurationAuthority
 from ..continuity.project_work.service import material_for
@@ -56,16 +57,24 @@ def preflight(root,home,*,starting=False):
     checks['platform']=sys.platform=='linux' and platform.machine()=='x86_64'
     checks['python']=sys.version_info[:2]==(3,12)
     checks['venv']=sys.prefix!=sys.base_prefix
+    sqlite_report=sqlite_runtime_report()
+    checks['sqlite']=sqlite_report['supported']
+    try:
+        unix_socket_path(home/'control.sock');checks['socket_path_length']=True
+    except ValueError:
+        checks['socket_path_length']=False
+    # Do not inspect/create Subject state with an unsupported interpreter/path.
+    if not checks['sqlite'] or not checks['socket_path_length']:
+        return {'state':'START_BLOCKED','checks':checks,'sqlite_runtime':sqlite_report,
+                'code':sqlite_report['code'] if not checks['sqlite'] else 'UNIX_SOCKET_PATH_TOO_LONG',
+                'subject_present':(home/'life.json').is_file(),'execution_authority':False}
     try:
         import importlib.metadata as md
         lock=json.loads((Path(root)/'runtime.json').read_text())['dependencies']
         checks['dependencies']=all(md.version(k)==v for k,v in lock.items())
     except (OSError,ValueError,KeyError,md.PackageNotFoundError):checks['dependencies']=False
-    checks['sqlite']=sqlite3.sqlite_version_info>=(3,35,0)
-    with sqlite3.connect(':memory:') as db:
-        checks['sqlite_json']=db.execute("select json_valid('{}')").fetchone()[0]==1
-        try:db.execute('create virtual table check_fts using fts5(text)');checks['sqlite_fts5']=True
-        except sqlite3.Error:checks['sqlite_fts5']=False
+    checks['sqlite_json']=sqlite_report['checks']['json']
+    checks['sqlite_fts5']=sqlite_report['checks']['fts5']
     parent=home
     while not parent.exists() and parent!=parent.parent:parent=parent.parent
     checks['writable_path']=os.access(parent,os.W_OK|os.X_OK)
@@ -106,7 +115,9 @@ def preflight(root,home,*,starting=False):
             ProviderConfigService(home/'providers.json',ProviderConfigurationAuthority()).load()
         identity=inspect(home,scope='project-work',entity_id='project-user').identity_id
     else:identity=None;unresolved=0
+    from ..continuity.open_agency.code_skills import IsolatedSkillRunner
     return {'state':'PREFLIGHT_PASS' if all(checks.values()) else 'START_BLOCKED','checks':checks,
+        'sqlite_runtime':sqlite_report,'optional_capabilities':{'generated_python_skill':IsolatedSkillRunner().qualify()},
         'identity_id':identity,'subject_present':exists,'unknown_provider_requests':unresolved,
         'live_provider':'EXPLICIT_BINDING_REQUIRED','real_social_send':False,'private_history_connector':False}
 
@@ -132,6 +143,8 @@ def secret(reference,fd=None):
 def initialize(root,home):
     home=private_path(home)
     if home.exists():raise CoreError('FRESH_SUBJECT_DESTINATION_EXISTS')
+    ready=preflight(root,home)
+    if ready['state']!='PREFLIGHT_PASS':raise CoreError(ready.get('code','HOST_PREFLIGHT_REQUIRED'))
     write_config(home,configuration(root));authority=ProviderConfigurationAuthority();ProviderConfigService(home/'providers.json',authority).initialize(authority)
     with LifeApplication(home) as app:app.pause();identity=app.runtime.identity_id
     return {'state':'NEW SUBJECT CREATED','identity_id':identity,'history_inherited':False,'execution_grants':0}
@@ -158,6 +171,8 @@ def execute(root,a):
         if not a.fresh:raise CoreError('EXPLICIT_FRESH_MODE_REQUIRED')
         return initialize(root,home)
     if name=='restore':
+        ready=preflight(root,home)
+        if ready['state']!='PREFLIGHT_PASS':raise CoreError(ready.get('code','HOST_PREFLIGHT_REQUIRED'))
         # Verify before creating destination; never guess init on a missing home.
         m,_=verify_package(a.package,expected_sha256=a.sha256)
         if m.source_schema!=13:raise CoreError('PORTABLE_RUNTIME_SCHEMA_MISMATCH')

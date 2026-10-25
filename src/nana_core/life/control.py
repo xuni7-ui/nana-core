@@ -14,6 +14,7 @@ import time
 import shutil
 from pathlib import Path
 from ..contracts import CoreError
+from ..host_requirements import unix_socket_path
 from ..continuity.privacy import _json_object
 from .surfaces import SurfaceObservation
 
@@ -91,7 +92,9 @@ def dispatch(app,request):
 
 class ControlServer:
     def __init__(self,app):
-        self.app=app;self.path=app.home/'control.sock'
+        try:path=unix_socket_path(app.home/'control.sock')
+        except ValueError as exc:raise CoreError(str(exc)) from None
+        self.app=app;self.path=path
         if self.path.exists() or self.path.is_symlink():
             s=self.path.lstat()
             if not stat.S_ISSOCK(s.st_mode) or s.st_uid!=os.getuid():raise CoreError('CLOUD_CONTROL_PATH_DENIED')

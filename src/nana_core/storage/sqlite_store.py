@@ -59,7 +59,17 @@ class Transaction:
 
 
 class Store:
+    @staticmethod
+    def check_host():
+        """Reject the actual SQLite binding before creating paths or identity."""
+        from ..host_requirements import require_sqlite_runtime
+        try:
+            require_sqlite_runtime()
+        except ValueError as exc:
+            raise CoreError(str(exc)) from None
+
     def __init__(self, path, clock: Clock | None = None, *, schema_target=1, identity_bootstrap=None):
+        Store.check_host()
         from .development_schema import keys_for
         self.schema_target = schema_target
         self.keys = {**KEYS, **keys_for(schema_target)}
@@ -77,8 +87,6 @@ class Store:
             self.db.row_factory = sqlite3.Row
             self.db.execute("PRAGMA foreign_keys=ON")
             self.db.execute("PRAGMA busy_timeout=5000")
-            if sqlite3.sqlite_version_info < (3, 51, 3):
-                raise CoreError("SQLITE_VERSION_UNSUPPORTED")
             self.db.execute("PRAGMA journal_mode=WAL")
             self.db.execute("PRAGMA synchronous=FULL")
             version = self.db.execute("PRAGMA user_version").fetchone()[0]

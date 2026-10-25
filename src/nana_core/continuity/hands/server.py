@@ -8,6 +8,7 @@ import argparse,json,os,selectors,socket,stat,struct,signal,tempfile,time
 from pathlib import Path
 from .contracts import ApplicationTask,OwnedTarget,HandsEffectContext,private_directory,process_start
 from ...storage import canonical,digest
+from ...host_requirements import unix_socket_path
 from .framing import receive_object
 
 def atomic(path,data,directory):
@@ -23,6 +24,8 @@ def atomic(path,data,directory):
         except FileNotFoundError:pass
 
 def serve(workspace,tasks):
+    unix_socket_path(Path(workspace)/'control.sock')
+    unix_socket_path(Path(workspace)/'query.sock')
     root=private_directory(workspace)
     if any(root.iterdir()):raise ValueError('fresh owned application directory required')
     directory=os.open(root,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW)

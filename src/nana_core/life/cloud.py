@@ -56,7 +56,9 @@ def backup(store,destination):
     with sqlite3.connect('file:'+str(destination)+'?mode=ro',uri=True) as db:
         if db.execute('PRAGMA quick_check').fetchone()[0]!='ok' or db.execute('PRAGMA foreign_key_check').fetchone():
             raise CoreError('CLOUD_BACKUP_INTEGRITY')
-        assert db.execute("SELECT value_json FROM core_meta WHERE key='recovery_quarantine'").fetchone()[0]=='true'
+        quarantine=db.execute("SELECT value_json FROM core_meta WHERE key='recovery_quarantine'").fetchone()
+        if quarantine is None or quarantine[0]!='true':
+            raise CoreError('CLOUD_BACKUP_NOT_QUARANTINED')
     return {'backup':str(destination),'identity_id':store.identity['identity_id'],
         'state':'QUARANTINED_REVIEW_COPY','bytes':destination.stat().st_size,'runnable':False}
 

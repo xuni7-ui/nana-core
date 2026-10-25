@@ -3,6 +3,7 @@ import json,math,os,subprocess,sys,time
 from pathlib import Path
 from .contracts import ApplicationTask,load_target
 from ...contracts import CoreError
+from ...host_requirements import unix_socket_path
 
 def default_tasks():
     return (
@@ -16,6 +17,11 @@ def default_tasks():
 
 class OwnedApplication:
     def __init__(self,root,*,tasks=None,startup_timeout_seconds=15.0):
+        try:
+            unix_socket_path(Path(root)/'application/control.sock')
+            unix_socket_path(Path(root)/'application/query.sock')
+        except ValueError as exc:
+            raise CoreError(str(exc)) from None
         # Host-only process readiness, before any Subject or action exists. This
         # is neither an action timeout nor a lease/Grant extension.
         if isinstance(startup_timeout_seconds,bool) or not isinstance(startup_timeout_seconds,(int,float)) or not math.isfinite(startup_timeout_seconds) or not 0 < startup_timeout_seconds <= 30:

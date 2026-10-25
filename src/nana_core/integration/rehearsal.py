@@ -27,7 +27,9 @@ def run(directory):
         reconciliation=reconcile(result['observation_event_id'],d,d,important_evidence=(source,))
         assert s.snapshot()==before
     with Store(p/'shadow.db') as s:
-        b=ShadowBridge(s,ctx);assert s.identity==identity and b.observe(event,d)==result and b.capture_export(export)==source
+        b=ShadowBridge(s,ctx)
+        observed=b.observe(event,d);captured=b.capture_export(export)
+        if s.identity!=identity or observed!=result or captured!=source:raise AssertionError('SHADOW_REPLAY_MISMATCH')
         invariant={t:len(s.all(t)) for t in ('actions','attempts','budgets','grants','strategies','goals','plans')}
     assert all(n==0 for n in invariant.values())
     report={'status':'PASS','scope':'synthetic host event and hash-only Iris export; fixture decision; not cloud integration',
