@@ -1,6 +1,6 @@
 """Stdlib-only integrity and offline installation bootstrap."""
 
-import hashlib, json, os, platform, sqlite3, subprocess, sys, venv
+import hashlib, json, os, platform, subprocess, sys, venv
 from pathlib import Path, PurePosixPath
 
 ROOT = Path(__file__).resolve().parent

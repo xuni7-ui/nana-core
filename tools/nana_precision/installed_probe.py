@@ -25,7 +25,8 @@ def run(bundle, root, lab_source=None):
         ControlledWorld = module.ControlledWorld
     bundle = Path(bundle).resolve()
     root = Path(root).absolute()
-    assert Path(actions.__file__).resolve().is_relative_to(bundle / "src")
+    if not (Path(actions.__file__).resolve().is_relative_to(bundle / "src")):
+        raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
     if root.exists():
         raise ValueError("FRESH_INSTALLED_PROBE_REQUIRED")
     root.mkdir(parents=True, mode=0o700)
@@ -71,25 +72,35 @@ def run(bundle, root, lab_source=None):
                     break
                 app.tick()
                 time.sleep(0.02)
-            assert goal and goal["state"] == "COMPLETED"
+            if not (goal and goal["state"] == "COMPLETED"):
+                raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
             gid = goal["goal_id"]
             plan = RecordService(runtime.store).read(json.loads(goal["body_json"])["plan_record_id"])["payload"]
-            assert len(plan["steps"]) == 3 and len(plan["checkpoint"]["completed_operator_ids"]) == 6
-            assert (
+            if not (len(plan["steps"]) == 3 and len(plan["checkpoint"]["completed_operator_ids"]) == 6):
+                raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
+            if not (
                 runtime.store.db.execute(
                     "SELECT count(*) FROM actions WHERE goal_id=? AND capability='world.publish' AND resource LIKE '%/archive-notes/effect'",
                     (gid,),
                 ).fetchone()[0]
                 == 1
-            )
-            assert (Path(world.host.target.workspace) / "document-transfer.txt").read_text() == "Meeting agenda"
-            assert app.work.port.peek("form-transfer")["state"]["submitted"]
-            assert (
+            ):
+                raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
+            if not ((Path(world.host.target.workspace) / "document-transfer.txt").read_text() == "Meeting agenda"):
+                raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
+            if not (app.work.port.peek("form-transfer")["state"]["submitted"]):
+                raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
+            if not (
                 runtime.store.db.execute("SELECT count(*) FROM experiences WHERE outcome='FAILURE'").fetchone()[0] >= 2
-            )
-            assert not runtime.store.db.execute("PRAGMA foreign_key_check").fetchall()
+            ):
+                raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
+            if not (not runtime.store.db.execute("PRAGMA foreign_key_check").fetchall()):
+                raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
         with LifeApplication(home) as app:
-            assert app.runtime.identity_id == identity and app.runtime.store.one("goals", gid)["state"] == "COMPLETED"
+            if not (
+                app.runtime.identity_id == identity and app.runtime.store.one("goals", gid)["state"] == "COMPLETED"
+            ):
+                raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
             from nana_core.life.cloud import backup
 
             backup(app.runtime.store, root / "checkpoint-backup.db")
@@ -103,17 +114,24 @@ def run(bundle, root, lab_source=None):
         received = receive(
             root / "checkpoint.nana", root / "host-b", sha256=sent["sha256"], destination_id=destination, config=cfg
         )
-        assert received["identity_id"] == identity and not received["provider_config_transferred"]
+        if not (received["identity_id"] == identity and (not received["provider_config_transferred"])):
+            raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
         with LifeApplication(root / "host-b") as app:
             runtime = app.runtime
             goal = runtime.store.one("goals", gid)
             checkpoint = RecordService(runtime.store).read(json.loads(goal["body_json"])["plan_record_id"])["payload"][
                 "checkpoint"
             ]
-            assert checkpoint["format"] == "VERIFIED_TASK_PREFIX_V1" and len(checkpoint["completed_operator_ids"]) == 6
-            assert runtime.identity_id == identity and len(runtime.store.all("actions")) == before
-            assert all(grant["revoked"] for grant in runtime.store.all("grants"))
-            assert not runtime.store.db.execute("PRAGMA foreign_key_check").fetchall()
+            if not (
+                checkpoint["format"] == "VERIFIED_TASK_PREFIX_V1" and len(checkpoint["completed_operator_ids"]) == 6
+            ):
+                raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
+            if not (runtime.identity_id == identity and len(runtime.store.all("actions")) == before):
+                raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
+            if not (all((grant["revoked"] for grant in runtime.store.all("grants")))):
+                raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
+            if not (not runtime.store.db.execute("PRAGMA foreign_key_check").fetchall()):
+                raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
         try:
             LifeApplication(home)
         except CoreError:

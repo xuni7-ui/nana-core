@@ -8,15 +8,35 @@ Backported older SQLite builds require separate qualification, not a silent pass
 import os
 from pathlib import Path
 import sqlite3
+from typing import TypedDict
 
 MIN_SQLITE = (3, 51, 3)
 SQLITE_REASON = "WAL_RESET_CORRUPTION_FIX_REQUIRED"
 UNIX_SOCKET_MAX_BYTES = 107  # Linux sockaddr_un.sun_path, excluding trailing NUL.
 
 
-def sqlite_runtime_report() -> dict:
+class SQLiteChecks(TypedDict):
+    """Actual in-memory capability checks, not permissions or version claims."""
+
+    version: bool
+    json: bool
+    fts5: bool
+
+
+class SQLiteReport(TypedDict):
+    """Sanitized host-only readiness metadata; never authoritative Subject data."""
+
+    supported: bool
+    version: str
+    minimum: str
+    checks: SQLiteChecks
+    code: str
+    reason: str | None
+
+
+def sqlite_runtime_report() -> SQLiteReport:
     """Inspect the binding loaded by this exact interpreter, in memory only."""
-    checks = {"version": sqlite3.sqlite_version_info >= MIN_SQLITE, "json": False, "fts5": False}
+    checks: SQLiteChecks = {"version": sqlite3.sqlite_version_info >= MIN_SQLITE, "json": False, "fts5": False}
     try:
         with sqlite3.connect(":memory:") as db:
             checks["json"] = db.execute("SELECT json_valid('{}')").fetchone()[0] == 1

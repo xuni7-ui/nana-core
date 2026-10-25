@@ -2612,3 +2612,8 @@ GLOBAL_STAGE H / Advanced Growth S1/S2/S4/S7/S8/S9、三横轴；非Foundation�
 ## Engineering Quality V2 — pure formatting checkpoint
 
 Ruff0.14.1对29个Storage/Privacy/Runtime/Kernel/Planner/Checkpoint/G/Sandbox/Portable热点作纯格式化；逐文件ast.dump(before)==ast.dump(after)，29/29一致，指纹证据保存在开发资格目录。格式提交不包含行为修改或公开wire变化。44 targeted PASS28.61s；全仓与安装资格仍待新源码冻结后执行。Dev-only mypy1.18.2检查共享stdlib host contract通过；全库lint/复杂度债务如实计数，不临时ignore或宣称全库typed。
+
+
+## Engineering Quality V2 — runtime source freeze preparation
+
+官方TLS来源固定SHA的SQLite3.51.3与CPython3.12.14在非root私有prefix真实构建成功；_sqlite3真实加载3.51.3/JSON/FTS5，系统3.46.1未变，无LD_PRELOAD/monkeypatch/系统替换。提供离线源码构建脚本及依赖/权限/路径说明；主机依赖不是SubjectPackage。47个qualification assert改为显式校验，两个嵌入子脚本也转换；普通runtime清单内Assert=0，正常/-O系统调用和备份拒绝保持。46相关PASS46.93s（含实际process资格）；新的安装包、minimum SQLite双安装、未见参数/图保留和最终全仓仍待。宿主报告新TypedDict通过mypy --strict；不代表全库typed或lint债务已消失。

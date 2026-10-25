@@ -1,5 +1,6 @@
 """Exact runtime packaging and optional readiness, not new behavior authority."""
 from pathlib import Path
+import ast
 import json
 import pytest
 from tools.nana_portable_cloud.build import verify_runtime_closure
@@ -11,6 +12,9 @@ def test_reviewed_manifest_closes_imports_and_keeps_dynamic_assets():
     names=[n for n in (ROOT/'packaging/portable/runtime-files.txt').read_text().splitlines() if n and not n.startswith('#')]
     all_names=[p.relative_to(ROOT).as_posix() for p in (ROOT/'src/nana_core').rglob('*.py')]
     read=lambda name:(ROOT/name).read_text()
+    for name in names:
+        if name.endswith('.py'):
+            assert not any(isinstance(n,ast.Assert) for n in ast.walk(ast.parse(read(name))))
     verify_runtime_closure(names,all_names,read)
     for name in ('src/nana_core/presence/semantic_demo.py','src/nana_core/continuity/controlled_world/lab.py','src/nana_core/fake_world.py'):
         assert name not in names

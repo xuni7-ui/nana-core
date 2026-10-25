@@ -58,3 +58,20 @@ come from the installed runtime. Existing optional skill/Hands/media/provider/
 learning/checkpoint modules remain. No new Store/loop/dependency/framework.
 Preflight splits host dependencies/resources/read-only Subject state; no owner
 fencing,Grant,timeouts,privacy or UNKNOWN condition is weakened.
+
+
+## Q3 source readiness
+
+29-file pure-format checkpoint5fbefd5 is AST-identical to its parent; later behavior
+changes remain separate. Coded preflight helpers remove its monolithic C901 hotspot.
+46 targeted PASS46.93s, including original actual process qualification. The
+ordinary runtime manifest has no assert.47 developer qualification assertions
+and two embedded child scripts now use explicit checks, retaining optimization
+behavior rather than only documenting an -O caveat.
+
+Actual nonroot CPython3.12.14 +SQLite3.51.3 source build completed with private
+RUNPATH; original systemSQLite3.46.1 unchanged. No monkeypatch/LD_PRELOAD/alternate
+Store. Source origin is official HTTPS, content pinned, not independently signed
+release verification. Build is host-local, not a relocatable Python binary or
+identity payload. Minimum binding JSON/FTS5 passes; actual full install/run/restore
+qualification follows at the frozen source, not inferred from compile success.

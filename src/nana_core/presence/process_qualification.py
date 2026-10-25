@@ -104,7 +104,8 @@ def wall_soak(directory, *, sample_count=8):
         while not rt.subject.pending(config.scopes[0]) and time.monotonic() < end:
             rt.drain()
             time.sleep(0.03)
-        assert len(rt.subject.pending(config.scopes[0])) == 1
+        if not (len(rt.subject.pending(config.scopes[0])) == 1):
+            raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
         inp = SubjectInput(
             source_key="synthetic.wall.deferred",
             kind="WAKE",
@@ -149,17 +150,21 @@ def wall_soak(directory, *, sample_count=8):
         # A second process must be blocked, never increment authority.
         duplicate = start(path, config_path, 0.1)
         dup_out, dup_err = duplicate.communicate(timeout=5)
-        assert duplicate.returncode == 2
+        if not (duplicate.returncode == 2):
+            raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
         first_exit = stop_owned(process, kill=True)
-        assert first_exit["returncode"] == -signal.SIGKILL
+        if not (first_exit["returncode"] == -signal.SIGKILL):
+            raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
         restarted = start(path, config_path)
         try:
             wait_until(lambda: status(path).get("lease", {}).get("pid") == restarted.pid, process=restarted)
             restored = status(path)
-            assert restored["lease"]["epoch"] == epoch + 1
+            if not (restored["lease"]["epoch"] == epoch + 1):
+                raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
             time.sleep(0.3)
             final_exit = stop_owned(restarted)
-            assert final_exit["returncode"] == 0
+            if not (final_exit["returncode"] == 0):
+                raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
         finally:
             if restarted.poll() is None:
                 stop_owned(restarted, kill=True)
@@ -293,7 +298,8 @@ def crash_matrix(directory):
             wait_until(marker.exists, process=child)
             resource_pid = int(marker.read_text()) if cut == "during_model" else None
             killed = stop_owned(child, kill=True)
-            assert killed["returncode"] == -signal.SIGKILL
+            if not (killed["returncode"] == -signal.SIGKILL):
+                raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
             if resource_pid:
                 reaped = []
 
@@ -304,7 +310,8 @@ def crash_matrix(directory):
                     return bool(pid)
 
                 wait_until(reap, seconds=5)
-                assert os.WIFSIGNALED(reaped[0]) or os.WIFEXITED(reaped[0])
+                if not (os.WIFSIGNALED(reaped[0]) or os.WIFEXITED(reaped[0])):
+                    raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
         finally:
             if child.poll() is None:
                 stop_owned(child, kill=True)
@@ -324,12 +331,17 @@ def crash_matrix(directory):
                 "integrity": restored.store.db.execute("PRAGMA integrity_check").fetchone()[0],
                 "zero_actions": not any(restored.store.all(t) for t in ("actions", "attempts", "grants", "budgets")),
             }
-            assert facts["cycles"] == facts["intentions"] == facts["candidates"] == 1 and facts["queue_state"] == "DONE"
+            if not (
+                facts["cycles"] == facts["intentions"] == facts["candidates"] == 1 and facts["queue_state"] == "DONE"
+            ):
+                raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
             if cut in {"after_reservation", "during_model"}:
-                assert facts["call_states"] == ["UNKNOWN"]
+                if not (facts["call_states"] == ["UNKNOWN"]):
+                    raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
             if cut == "during_model":
                 facts["resource_child_reaped"] = True
             restored.drain()
-            assert len(restored.store.all("subject_cycles")) == 1
+            if not (len(restored.store.all("subject_cycles")) == 1):
+                raise AssertionError("QUALIFICATION_INVARIANT_FAILED")
             reports.append(facts)
     return reports
