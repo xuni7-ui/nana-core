@@ -1,0 +1,361 @@
+import { useEffect, useRef, useState, type FormEvent } from "react";
+import Markdown from "react-markdown";
+import {
+  ArrowUp,
+  Plus,
+  Mic,
+  FileText,
+  X,
+  RotateCcw,
+  MessageCircle,
+  ChevronDown,
+  Sparkles,
+  Clock3,
+} from "lucide-react";
+import { Avatar } from "../avatar/Avatar";
+import { Badge } from "../components/ui";
+import type {
+  Message,
+  MessageAttachment,
+  SpaceSnapshot,
+} from "../data/contracts";
+export function ChatPage({
+  data,
+  messages,
+  sending,
+  onSend,
+  onRetry,
+  topic,
+  notify,
+  avatar,
+}: {
+  data: SpaceSnapshot;
+  messages: Message[];
+  sending: boolean;
+  onSend: (text: string, attachments: MessageAttachment[]) => void;
+  onRetry: (id: string) => void;
+  topic: string;
+  notify: (s: string) => void;
+  avatar: boolean;
+}) {
+  const [draft, setDraft] = useState(topic);
+  const [files, setFiles] = useState<MessageAttachment[]>([]);
+  const [bottom, setBottom] = useState(true);
+  const scroll = useRef<HTMLDivElement>(null);
+  const fileRef = useRef<HTMLInputElement>(null);
+  const objectUrls = useRef(new Set<string>());
+  const release = (url?: string) => {
+    if (url) {
+      URL.revokeObjectURL(url);
+      objectUrls.current.delete(url);
+    }
+  };
+  useEffect(() => {
+    if (topic) setDraft(topic);
+  }, [topic]);
+  useEffect(() => {
+    if (bottom)
+      scroll.current?.scrollTo({
+        top: scroll.current.scrollHeight,
+        behavior: "instant",
+      });
+  }, [messages, bottom]);
+  useEffect(
+    () => () => {
+      objectUrls.current.forEach((url) => URL.revokeObjectURL(url));
+      objectUrls.current.clear();
+    },
+    [],
+  );
+  function submit(e?: FormEvent) {
+    e?.preventDefault();
+    if (sending || (!draft.trim() && !files.length)) return;
+    onSend(
+      draft.trim() || "分享一个附件",
+      files.map(({ url, ...f }) => f),
+    );
+    files.forEach((f) => release(f.url));
+    setDraft("");
+    setFiles([]);
+    setBottom(true);
+  }
+  return (
+    <div className="chat-page">
+      <header className="chat-heading">
+        <div className="chat-person">
+          <Avatar size={42} expression={data.presence.expression} />
+          <div>
+            <h1>
+              和奈奈聊聊 <span>✧</span>
+            </h1>
+            <p>
+              <span className="status-dot" />
+              {data.presence.label} · 演示对话
+            </p>
+          </div>
+        </div>
+        <Badge tone="muted">仅本次页面 · 刷新清空</Badge>
+      </header>
+      <div className="chat-layout">
+        <div className="chat-main">
+          <div
+            className="chat-scroll"
+            ref={scroll}
+            onScroll={(e) => {
+              const t = e.currentTarget;
+              setBottom(t.scrollHeight - t.scrollTop - t.clientHeight < 90);
+            }}
+          >
+            <div className="chat-date">
+              <span />
+              {new Date(data.asOf).toLocaleDateString("zh-CN", {
+                timeZone: "Asia/Shanghai",
+              })}{" "}
+              · 示例话题
+              <span />
+            </div>
+            <p className="chat-boundary">
+              这里可以体验对话与流式展示。演示回复不会写入 Core 记忆。
+            </p>
+            {messages.map((m) => (
+              <article key={m.id} className={`message message-${m.role}`}>
+                {m.role === "nana" && <Avatar size={32} />}
+                <div className="message-content">
+                  <div className="message-byline">
+                    {m.role === "nana"
+                      ? "奈奈"
+                      : m.role === "user"
+                        ? "你"
+                        : "空间提示"}
+                    <time>{m.time}</time>
+                    {m.proactive && <Badge tone="pink">分享示例</Badge>}
+                  </div>
+                  <div className="message-bubble">
+                    <Markdown
+                      skipHtml
+                      components={{
+                        a: ({ href, children }) => (
+                          <a
+                            href={href}
+                            target="_blank"
+                            rel="noreferrer noopener"
+                          >
+                            {children}
+                          </a>
+                        ),
+                      }}
+                    >
+                      {m.text || "正在准备演示回复…"}
+                    </Markdown>
+                    {m.attachments?.map((f, i) => (
+                      <div className="attachment-card" key={i}>
+                        <FileText size={22} />
+                        <span>
+                          {f.name}
+                          <small>
+                            {(f.size / 1024).toFixed(1)} KB ·
+                            本地演示附件，未上传
+                          </small>
+                        </span>
+                      </div>
+                    ))}
+                  </div>
+                  <div className="message-status">
+                    {m.status === "SENDING" && m.role === "nana" && (
+                      <span className="typing-dots">
+                        <i />
+                        <i />
+                        <i /> 流式演示中
+                      </span>
+                    )}
+                    {m.status === "FAILED" && (
+                      <span className="error-text">
+                        发送失败{" "}
+                        <button
+                          className="text-link"
+                          onClick={() => onRetry(m.id)}
+                        >
+                          <RotateCcw size={13} />
+                          重试演示消息
+                        </button>
+                      </span>
+                    )}
+                    {m.status === "UNKNOWN" && (
+                      <span className="warning-text">
+                        送达状态未知 · 不自动重试，请先核验结果
+                      </span>
+                    )}
+                    {m.status === "SENDING" && m.role === "user"
+                      ? "正在发送到演示适配器"
+                      : m.status === "SENT" && m.role === "user"
+                        ? "已送达演示适配器"
+                        : null}
+                  </div>
+                </div>
+              </article>
+            ))}
+            <div className="chat-end-marker">✧</div>
+          </div>
+          {!bottom && (
+            <button
+              className="jump-bottom button secondary"
+              onClick={() => {
+                setBottom(true);
+                scroll.current?.scrollTo({ top: scroll.current.scrollHeight });
+              }}
+            >
+              <ChevronDown size={16} />
+              回到最新消息
+            </button>
+          )}
+          <form className="chat-composer" onSubmit={submit}>
+            <div className="topic-pills">
+              {["聊聊今天的新发现", "继续观星计划", "安静地待一会儿"].map(
+                (t) => (
+                  <button type="button" key={t} onClick={() => setDraft(t)}>
+                    {t}
+                  </button>
+                ),
+              )}
+            </div>
+            {files.length > 0 && (
+              <div className="attachment-preview">
+                {files.map((f, i) => (
+                  <div key={i}>
+                    {f.url && f.type.startsWith("image/") ? (
+                      <img src={f.url} alt={f.name} />
+                    ) : (
+                      <FileText size={25} />
+                    )}
+                    <span>{f.name}</span>
+                    <button
+                      type="button"
+                      aria-label={`移除 ${f.name}`}
+                      onClick={() => {
+                        release(f.url);
+                        setFiles((old) => old.filter((_, j) => j !== i));
+                      }}
+                    >
+                      <X size={14} />
+                    </button>
+                  </div>
+                ))}
+              </div>
+            )}
+            <div className="composer-box">
+              <textarea
+                value={draft}
+                maxLength={8000}
+                rows={2}
+                aria-label="给奈奈的消息"
+                placeholder="今天，有什么想和奈奈分享的？"
+                onChange={(e) => setDraft(e.target.value)}
+                onKeyDown={(e) => {
+                  if (
+                    e.key === "Enter" &&
+                    (e.ctrlKey || e.metaKey) &&
+                    !e.nativeEvent.isComposing
+                  ) {
+                    e.preventDefault();
+                    submit();
+                  }
+                }}
+              />
+              <div className="composer-tools">
+                <div>
+                  <button
+                    className="icon-button"
+                    type="button"
+                    aria-label="添加本地演示附件"
+                    onClick={() => fileRef.current?.click()}
+                  >
+                    <Plus size={19} />
+                  </button>
+                  <input
+                    hidden
+                    ref={fileRef}
+                    type="file"
+                    accept="image/png,image/jpeg,image/webp,audio/*,video/*,.txt,.md,.pdf"
+                    onChange={(e) => {
+                      const f = e.target.files?.[0];
+                      e.target.value = "";
+                      if (!f) return;
+                      if (f.size > 5 * 1024 * 1024)
+                        return notify("附件需小于 5 MB；未上传任何内容。");
+                      if (files.length >= 3)
+                        return notify("每条演示消息最多添加 3 个附件。");
+                      const url = URL.createObjectURL(f);
+                      objectUrls.current.add(url);
+                      setFiles((old) => [
+                        ...old,
+                        { name: f.name, type: f.type, size: f.size, url },
+                      ]);
+                    }}
+                  />
+                  <button
+                    className="icon-button"
+                    type="button"
+                    aria-label="查看语音接入状态"
+                    onClick={() =>
+                      notify("语音入口已预留。STT / TTS 和麦克风授权尚未接入。")
+                    }
+                  >
+                    <Mic size={18} />
+                  </button>
+                  <span className="composer-hint">
+                    附件仅展示 · Ctrl / ⌘ Enter 发送
+                  </span>
+                </div>
+                <button
+                  className="send-button"
+                  aria-label="发送消息"
+                  type="submit"
+                  disabled={sending || (!draft.trim() && !files.length)}
+                >
+                  <ArrowUp size={20} />
+                </button>
+              </div>
+            </div>
+            <p className="composer-disclaimer">
+              DEMO · 内容保留在当前页面内存中，不生成真实记忆或动作。
+            </p>
+          </form>
+        </div>
+        {avatar && (
+          <aside className="chat-companion">
+            <div className="companion-scene">
+              <img src="/assets/moonlit-room.webp" alt="奈奈月光书房概念插画" />
+              <Badge tone="purple">月光书房 · 概念场景</Badge>
+            </div>
+            <div className="companion-caption">
+              <Sparkles size={16} />
+              <p>
+                话题可以慢慢聊，
+                <br />
+                生活也不必总有答案。
+              </p>
+            </div>
+            <div className="companion-topic">
+              <span className="eyebrow">STILL ON OUR MIND</span>
+              <h3>还没聊完的那些小事</h3>
+              {[
+                "窗边的星空观察笔记",
+                "给小房间添一株植物",
+                "我们的小小共同约定",
+              ].map((t) => (
+                <button key={t} onClick={() => setDraft(t)}>
+                  <MessageCircle size={15} />
+                  {t}
+                  <ChevronDown size={13} />
+                </button>
+              ))}
+            </div>
+            <small className="chat-side-note">
+              <Clock3 size={13} /> 不催促回复，也不设每日消息配额。
+            </small>
+          </aside>
+        )}
+      </div>
+    </div>
+  );
+}
