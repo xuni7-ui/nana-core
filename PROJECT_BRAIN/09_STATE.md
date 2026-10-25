@@ -7,31 +7,28 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 31,
-  "as_of_us": 1792860948880848,
+  "revision": 32,
+  "as_of_us": 1792904925671696,
   "stage": "H",
-  "workstream": "PRECISION_ARCHITECTURE_OPEN_WORLD_INTELLIGENCE_UPGRADE_V2",
-  "status": "SCOPED_ENGINEERING_UPGRADE_QUALIFIED_EXTERNAL_GATES_PENDING",
+  "workstream": "ENGINEERING_QUALITY_PORTABLE_RUNTIME_V2",
+  "status": "Q1_Q2_IMPLEMENTED_TARGETED_TESTED_FINAL_QUALIFICATION_PENDING",
   "progress": [
-    "Advanced Growth S2–S9/三横轴，GLOBAL_STAGE H；Master/fixed63不变，原C/D/F/Kernel/G内升级。",
-    "Frozen dev9/20→20/20；final unseen6/20→20/20；novel9/13→13/13；acceptedfalse0→0，非真实模型语义泛化。",
-    "实际owned文档/文件/表单失败→原G→C→独立Verify保留6步prefix、仅3步修复；文件移动1次，UNKNOWN不重试。",
-    "Full1528pass/0fail/12skip；18new focused allpass；旧失败/中断receipt保留，有限dev启动等待单独显式配置。",
-    "Portable双构建240files SHA256 bcb3560c831014e014b8ff05121f96418b5d0003ba434f47220809db45ba7497；双离线venv/实际SIGKILL/同主体迁移/安装包checkpoint闭环通过。",
-    "Schema13/43表，新表/依赖/runtime0；paid/private/social/userdevice/production/main/R045/S10=0。"
+    "独立dev/nana-core-engineering-quality-portable-v2-codex worktree从87f73d2继承；原workspace/旧bundle保留。",
+    "共享SQLite>=3.51.3/JSON/FTS5检查；实际Python绑定检查，Store/Continuity提前拒绝，WAL/FULL/隐私不降。",
+    "真实bwrap六namespace/clearenv/readonly/NoNewPrivs资格，与基础Runtime就绪分开。",
+    "显式prctl与备份quarantine检查支持-O；最终Unix socket字节长度前置。",
+    "精确runtime source清单/导入闭包，lab/demo/qualification独立交付；42相关通过，边界初败及修复证据保留。",
+    "格式化/新安装包/独立运行/最终全仓尚待，不能继承旧1528/0/12作为新资格。"
   ],
   "open_gates": [
-    "SEMANTIC_GENERALIZATION NOT_RUN；MODEL_ABLATION_NOT_RUN；未用符号或fixture替代真实模型泛化。",
-    "旧5h保持PARTIAL_EXTERNAL_LIMIT；新长期资格PENDING_EXTERNAL_STABLE_ENV，不拼接、不改写历史。",
-    "真人自然度NOT_RUN；FIRST_LIFE_EXPERIENCE_READY NOT_READY，Beta NO；真实设备/生产另授权。"
+    "新便携包双构建/双安装/隔离运行/precision/迁移/full待资格。",
+    "旧5h PARTIAL_EXTERNAL_LIMIT保持，新驻留PENDING_EXTERNAL_STABLE_ENV。",
+    "Human/semantic ablation NOT_RUN；First-Life NOT_READY/Beta NO，production/private/social/model0。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
-    "docs/nana_precision_v2_status.md",
-    "docs/nana_precision_v2_implementation.md",
-    "docs/nana_precision_v2_evidence/qualification.json",
-    "docs/nana_precision_v2_evidence/manifest.json"
+    "docs/nana_engineering_quality_portable_v2_implementation.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2257,3 +2254,41 @@ Report docs/nana_precision_v2_status.md; manifest SHA256 4f6c2a5ec0a41b495268dc2
 
 此前CURRENT与revision30为历史快照；顶部revision31与本FINAL块是当前工程事实。
 最终Git handoff HEAD由当前dev branch正常commit/push得到，runtime pin与报告commit分开，避免manifest自指。
+
+
+## HISTORICAL typed state revision31 — Precision final (preserved)
+
+```json
+{
+  "schema_version": 1,
+  "project_id": "nana-core",
+  "scope": "project-work",
+  "privacy_class": "PROJECT",
+  "revision": 31,
+  "as_of_us": 1792860948880848,
+  "stage": "H",
+  "workstream": "PRECISION_ARCHITECTURE_OPEN_WORLD_INTELLIGENCE_UPGRADE_V2",
+  "status": "SCOPED_ENGINEERING_UPGRADE_QUALIFIED_EXTERNAL_GATES_PENDING",
+  "progress": [
+    "Advanced Growth S2–S9/三横轴，GLOBAL_STAGE H；Master/fixed63不变，原C/D/F/Kernel/G内升级。",
+    "Frozen dev9/20→20/20；final unseen6/20→20/20；novel9/13→13/13；acceptedfalse0→0，非真实模型语义泛化。",
+    "实际owned文档/文件/表单失败→原G→C→独立Verify保留6步prefix、仅3步修复；文件移动1次，UNKNOWN不重试。",
+    "Full1528pass/0fail/12skip；18new focused allpass；旧失败/中断receipt保留，有限dev启动等待单独显式配置。",
+    "Portable双构建240files SHA256 bcb3560c831014e014b8ff05121f96418b5d0003ba434f47220809db45ba7497；双离线venv/实际SIGKILL/同主体迁移/安装包checkpoint闭环通过。",
+    "Schema13/43表，新表/依赖/runtime0；paid/private/social/userdevice/production/main/R045/S10=0。"
+  ],
+  "open_gates": [
+    "SEMANTIC_GENERALIZATION NOT_RUN；MODEL_ABLATION_NOT_RUN；未用符号或fixture替代真实模型泛化。",
+    "旧5h保持PARTIAL_EXTERNAL_LIMIT；新长期资格PENDING_EXTERNAL_STABLE_ENV，不拼接、不改写历史。",
+    "真人自然度NOT_RUN；FIRST_LIFE_EXPERIENCE_READY NOT_READY，Beta NO；真实设备/生产另授权。"
+  ],
+  "evidence_refs": [
+    "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
+    "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
+    "docs/nana_precision_v2_status.md",
+    "docs/nana_precision_v2_implementation.md",
+    "docs/nana_precision_v2_evidence/qualification.json",
+    "docs/nana_precision_v2_evidence/manifest.json"
+  ]
+}
+```

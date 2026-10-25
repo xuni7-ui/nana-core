@@ -1090,3 +1090,8 @@ PRECISION-04 existing framing/context regression preserved,live semantic expansi
 PRECISION-07 existing typed capability construction retained/tested; real devices NOT_RUN.
 PRECISION-08 technical Shared Life continuity preserved; human naturalness NOT_RUN.
 Do not relabel unresolved external qualifications DONE or rerun old PASS mechanisms.
+
+
+## Engineering Quality Portable Runtime V2 — active / 2026-10-25
+
+GLOBAL_STAGE H / Advanced Growth S1/S2/S4/S7/S8/S9、三横轴；非Foundation新Stage。87f73d2独立worktree/branch，不改另一AI Nana Space分支。Q1/Q2修复与定向证据见implementation：SQLite官方WAL修复门槛不降低，共享实际绑定检查；沙箱真实资格不是which；明确字节Socket路径与-O关键检查；精确发行清单及独立资格工具。静态/可读性、便携新包和全仓仍待，旧1528和bcb包仅历史基线。原Master/fixed63/S1–S9资格与S10 Partial不变。新paid/private/social/production/main/R045=0。

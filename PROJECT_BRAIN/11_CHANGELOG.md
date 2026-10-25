@@ -2602,3 +2602,8 @@ No failure erased by final pass; no new skip or paid model consumed.
 ## Engineering Quality Portable V2 / Q2 — reviewed runtime boundary
 
 将旧bcb归档成员实际逐个核验：semantic_demo、controlled_world.lab和根fake_world都在旧包；修正Q0原先误以为fake_world已排除的推断，不修改旧证据。精确manifest排除12个纯demo/fixture/qualification模块，静态import closure与动态skill_runner/hands worker保留。开发lab和installed probe作为独立pinned资格工具；服务子进程导入installed runtime而非仓库。preflight按依赖/资源/既有Subject读取拆分；失效socket symlink提前拒绝。新边界负测最初捕获manifest误留fake_world，保留失败并更正清单；非删测/宽化。运行新包/可选能力、纯格式化及最终回归继续。
+
+
+## Engineering Quality Portable Runtime V2 — active / 2026-10-25
+
+GLOBAL_STAGE H / Advanced Growth S1/S2/S4/S7/S8/S9、三横轴；非Foundation新Stage。87f73d2独立worktree/branch，不改另一AI Nana Space分支。Q1/Q2修复与定向证据见implementation：SQLite官方WAL修复门槛不降低，共享实际绑定检查；沙箱真实资格不是which；明确字节Socket路径与-O关键检查；精确发行清单及独立资格工具。静态/可读性、便携新包和全仓仍待，旧1528和bcb包仅历史基线。原Master/fixed63/S1–S9资格与S10 Partial不变。新paid/private/social/production/main/R045=0。

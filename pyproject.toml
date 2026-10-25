@@ -11,6 +11,7 @@ dependencies = ["pydantic>=2.13.4,<=2.13.5"]
 
 [project.optional-dependencies]
 test = ["pytest==9.1.1"]
+quality = ["ruff==0.14.1", "mypy==1.18.2"]
 
 [project.scripts]
 nana-presence = "nana_core.presence.cli:main"
@@ -36,3 +37,10 @@ testpaths = ["tests"]
 pythonpath = ["src"]
 addopts = "-ra --strict-markers"
 markers = ["s0: contracts", "s1: storage and identity", "s2: action kernel", "s3: goal loop", "s4: constrained experience", "s5: model adapter and semantic evaluation engineering", "s6: synthetic migration preparation", "acceptance: Architecture V1 E01-E20"]
+
+[tool.ruff]
+target-version = "py312"
+line-length = 120
+
+[tool.ruff.lint]
+select = ["E9", "F", "C901"]
