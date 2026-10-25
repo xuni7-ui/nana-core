@@ -113,7 +113,6 @@ class Supervisor:
         self.readiness_seconds = readiness_seconds
         self.lock = threading.RLock()
         self.child = None
-        self.child_log = None
         self.provider_binding = provider_binding
         self.state = AtomicDocument(
             Path(state_root) / "supervisor.json",
@@ -208,6 +207,7 @@ class Supervisor:
             "release_id": state["active_release"],
             "source_commit": self.releases[state["active_release"]].source_commit,
             "storage_status": raw["storage_status"],
+            "last_exit_code": state.get("last_exit_code"),
             "disk_pressure": raw["disk_pressure"],
             "unknown_requests": self.verify_binding(),
             "subject_id": self.binding.subject_id,
@@ -238,12 +238,8 @@ class Supervisor:
             release = self.releases[state["active_release"]]
             release.validate_local(qualified=self.binding.realm == Realm.PRODUCTION)
             self._record(stop_latch=False, last_state="START_REQUESTED")
-            logdir = self.home / "logs"
-            logdir.mkdir(mode=0o700, exist_ok=True)
-            logpath = logdir / "supervisor-child.log"
-            if logpath.exists() and logpath.stat().st_size > 262144:
-                os.replace(logpath, logdir / "supervisor-child.previous.log")
-            self.child_log = logpath.open("ab")
+            # Core already writes its original bounded sanitized runtime.log.
+            # Do not retain an unbounded stdout/stderr stream or error payloads.
             # Original entry point with explicit finite residency, not a second
             # daemon/loop. Its current single-writer lock/epoch fence remains final.
             argv = [
@@ -277,35 +273,29 @@ class Supervisor:
                     cwd=release.root,
                     env=env,
                     stdin=subprocess.DEVNULL,
-                    stdout=self.child_log,
-                    stderr=self.child_log,
+                    stdout=subprocess.DEVNULL,
+                    stderr=subprocess.DEVNULL,
                     start_new_session=True,
                     pass_fds=() if fd is None else (fd,),
                 )
             finally:
                 if fd is not None:
                     os.close(fd)
-            try:
-                start, boot = process_identity(self.child.pid)
-                self._record(
-                    owner={"pid": self.child.pid, "process_start": start, "boot_id": boot}, last_state="STARTING"
-                )
-                deadline = time.monotonic() + self.readiness_seconds
-                while time.monotonic() < deadline:
-                    if self.child.poll() is not None:
-                        self._record(last_state="START_EXITED", stop_latch=True)
-                        raise ApiError("CORE_START_EXITED", 503)
-                    if self.status()["process_ready"]:
-                        self._record(last_state="RUNNING")
-                        return self.status()
-                    time.sleep(0.08)
-                self._record(last_state="START_TIMEOUT_UNKNOWN", stop_latch=True)
-                # Do not launch another process. The owned attempt may still be
-                # starting; subsequent status reconciles it without replay.
-                raise ApiError("CORE_START_TIMEOUT_UNKNOWN", 504)
-            finally:
+            start, boot = process_identity(self.child.pid)
+            self._record(owner={"pid": self.child.pid, "process_start": start, "boot_id": boot}, last_state="STARTING")
+            deadline = time.monotonic() + self.readiness_seconds
+            while time.monotonic() < deadline:
                 if self.child.poll() is not None:
-                    self.child_log.close()
+                    self._record(last_state="START_EXITED", stop_latch=True, last_exit_code=self.child.returncode)
+                    raise ApiError("CORE_START_EXITED", 503)
+                if self.status()["process_ready"]:
+                    self._record(last_state="RUNNING")
+                    return self.status()
+                time.sleep(0.08)
+            self._record(last_state="START_TIMEOUT_UNKNOWN", stop_latch=True)
+            # Do not launch another process. The owned attempt may still be
+            # starting; subsequent status reconciles it without replay.
+            raise ApiError("CORE_START_TIMEOUT_UNKNOWN", 504)
 
     def _prestart(self):
         """Original privacy closure and schema in a query-only transaction."""
@@ -352,8 +342,6 @@ class Supervisor:
                     if not current["runtime_active"]:
                         self._wait_owned_exit()
                         self._record(last_state="STOP_LATCHED")
-                        if self.child_log:
-                            self.child_log.close()
                         return self.status()
                     time.sleep(0.08)
             except (OSError, CoreError):
@@ -440,5 +428,3 @@ class Supervisor:
         # Closing gateway/Supervisor never silently stops the independently living
         # Core or resets identity. A later controller revalidates the owner receipt.
         os.close(self.lock_fd)
-        if self.child_log:
-            self.child_log.close()

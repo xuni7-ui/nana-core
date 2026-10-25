@@ -12,7 +12,7 @@ User=nana-core
 Group=nana-core
 UMask=0077
 WorkingDirectory=/opt/nana/current
-ExecStart=/opt/nana/python/bin/python3.12 -B -m nana_core.life.live_api --config /var/lib/nana-host/host.json
+ExecStart=/opt/nana/current/.venv/bin/python -I /opt/nana/current/host_gateway.py --config /var/lib/nana-host/host.json
 Restart=on-failure
 RestartSec=15
 # Core is an independently fenced child. Stopping/restarting this gateway must

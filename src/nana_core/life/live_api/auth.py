@@ -40,6 +40,10 @@ class AuthService:
         self.roles = tuple(Role(r) for r in roles)
         if password is not None and (type(password) is not str or not 12 <= len(password) <= 128):
             raise ApiError("OPERATOR_PASSWORD_REQUIRED")
+        from pathlib import Path
+
+        if password is None and not Path(path).exists():
+            raise ApiError("OPERATOR_PASSWORD_REQUIRED")
         salt = secrets.token_hex(16)
         digest = (
             hashlib.scrypt(password.encode(), salt=bytes.fromhex(salt), n=16384, r=8, p=1).hex()

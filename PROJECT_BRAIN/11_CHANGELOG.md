@@ -2687,3 +2687,6 @@ FL-A完整原报告收到并读取，脱敏source SHA登记，不复制平台个
 
 ### First-Life v2 — late-response boundary qualification
 [开发实测] 新增会话退出/设备撤销后的迟到正文拒收、原生realm+lineage绑定和只读最终host持久化探针；没有关闭既有自主能力。新边界16项通过、含旧BFF相关23项通过、TS18项通过；初次并发全仓出现旧有界认知时限失败，保留记录，已单独复核coordinator并暂停自有软件模拟器以进行最终独立全仓。删除本次刚生成的Capacitor样例测试（固定com.getcapacitor.app与2+2），保留原仓库测试和真实原生资格测试，未以样例数冒充能力。
+
+### First-Life v2 — actual portable service entry correction
+[源码/针对性资格] 发现src-layout便携包不能直接靠系统python -m导入，新增受SHA完整性约束的-I host_gateway入口，systemd模板对应修正；初次缺口令不持久化损坏auth、停止无界child stdout，保留原Core有界脱敏运行日志/实际exit code。此前空JSON Schema测试误拒已正常后续提交修复，保留失败/中止记录、不amend。上述新入口需实际独立安装核验，不能仅文档宣称云端部署。

@@ -111,3 +111,17 @@ def test_openapi_consumer_can_resolve_every_schema_reference():
     visit(doc)
     assert "/api/nana-space/v2/session/native" in doc["paths"]
     assert doc["paths"]["/api/nana-space/v2/messages"]["post"]["requestBody"]["required"]
+
+
+def test_missing_initial_password_does_not_persist_an_unusable_auth_document(tmp_path):
+    from nana_core.life.live_api.auth import AuthService
+    from nana_core.life.live_api.contracts import ApiError
+    import pytest
+
+    path = tmp_path / "uninitialized.json"
+    with pytest.raises(ApiError, match="OPERATOR_PASSWORD_REQUIRED"):
+        AuthService(path)
+    assert not path.exists()
+    service = AuthService(path, password="TEST_ONLY_NOT_SECRET_initial")
+    token, _ = service.login("TEST_ONLY_NOT_SECRET_initial")
+    assert service.authorize(token, "WEB")

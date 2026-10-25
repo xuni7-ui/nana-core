@@ -61,3 +61,18 @@ refresh/access to JS. Live Web uses original visual assets and current Core sour
 projections. APK build/lint completed; actual emulator/physical qualifications are
 reported separately. See deployment plan and API/page matrix for actual boundaries.
 No Provider calls, real social sends, private bodies or production writes.
+
+## Installed-host entry / final boundary correction
+
+A real deployment review found `python -m ...` alone is insufficient for the
+portable src-layout bundle. New checksummed `host_gateway.py`, invoked by its
+installed .venv Python with -I, verifies bundle integrity and actual Python/SQLite
+before importing the v2 BFF. systemd template now uses that entry. Missing first
+password binding fails before persisting a broken auth document. Unbounded child
+stdout retention is removed; original Core bounded sanitized runtime.log and
+Supervisor's durable state/exit code remain the operational evidence.
+
+First OpenAPI consumer test incorrectly rejected a valid empty JSON schema;
+the normal follow-up commit fixes that test (no amend). Initial full attempts and
+interruptions remain recorded; final full regression must refer to its exact
+source. No previous test total is copied as a new result.
