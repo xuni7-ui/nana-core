@@ -9,13 +9,17 @@ from .conftest import initialize,until,REPO
 
 @pytest.mark.parametrize('mode',['BEFORE_PREPARE','BEFORE_EFFECT','AFTER_EFFECT','DURING_VERIFY','DURING_LEARNING','DURING_SKILL_TEST'])
 def test_actual_process_sigkill_preserves_identity_effects_and_original_cursor(tmp_path,mode):
+    # This oracle tests baseline -> learned transfer. Concurrently preplanning
+    # both forms legitimately needs one more quality-repair write (covered below).
+    # Control only fixture input cadence; keep all original effect/count/time bars.
+    interval=1_000_000 if mode in {'DURING_LEARNING','DURING_SKILL_TEST'} else None
     tasks=None if mode in {'DURING_LEARNING','DURING_SKILL_TEST'} else (ApplicationTask(task_id='doc',kind='DOCUMENT',wanted='safe content'),)
     with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
         home=tmp_path/'life';initialize(home,host.profile)
         with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id
         marker=tmp_path/'cut';log=tmp_path/'worker.log'
         with log.open('w') as stream:
-            p=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_hands.crash_worker','--home',str(home),'--mode',mode,'--marker',str(marker)],cwd=REPO,stdout=stream,stderr=stream)
+            p=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_hands.crash_worker','--home',str(home),'--mode',mode,'--marker',str(marker),*(['--opportunity-interval-us',str(interval)] if interval else [])],cwd=REPO,stdout=stream,stderr=stream)
             try:
                 start=time.monotonic()
                 while not marker.exists():
@@ -27,6 +31,7 @@ def test_actual_process_sigkill_preserves_identity_effects_and_original_cursor(t
             finally:
                 if p.poll() is None:p.kill();p.wait(timeout=4)
         with LifeApplication(home) as app:
+            if interval:app.work.interval=interval
             r=app.runtime;assert r.identity_id==identity and len(r.store.all('grants'))==1
             if mode=='BEFORE_EFFECT':
                 for _ in range(15):app.tick();time.sleep(.025)
@@ -43,6 +48,44 @@ def test_actual_process_sigkill_preserves_identity_effects_and_original_cursor(t
                 until(app,lambda:len(r.store.all('goals'))==8 and all(g['state'] in {'COMPLETED','FAILED'} for g in r.store.all('goals')),seconds=40)
                 after=json.loads((Path(host.target.workspace)/'application-state.json').read_text())['effects']
                 assert set(external['effects'])<=set(after) and len(after)==10
+            assert len({a['idempotency_key'] for a in r.store.all('actions')})==len(r.store.all('actions'))
+            assert not list(r.store.db.execute('PRAGMA foreign_key_check'))
+
+
+def test_concurrent_prelearning_forms_have_distinct_authorized_repairs(tmp_path):
+    tasks=(ApplicationTask(task_id='form-baseline',kind='FORM',fields=('wrong','color'),wanted={'color':'blue'}),
+           ApplicationTask(task_id='form-transfer',kind='FORM',fields=('wrong','query'),wanted={'query':'wind'}))
+    with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+        home=tmp_path/'life';initialize(home,host.profile,skills=False)
+        with LifeApplication(home,bootstrap_grant=True) as app:
+            app.work.interval=50_000
+            r=app.runtime
+            until(app,lambda:len(r.store.all('goals'))==2 and all(g['state']=='COMPLETED' for g in r.store.all('goals')))
+            effects=json.loads((Path(host.target.workspace)/'application-state.json').read_text())['effects']
+            # Both legitimate schedules are supported: a transfer may prepare
+            # before learning (one failed write + repair) or after it (one write).
+            # Independently replay actual commands; no duplicate successful
+            # write can be excused merely by a fresh Action/idempotency key.
+            for task in tasks:
+                records=sorted((e for e in effects.values() if e['task_id']==task.task_id),key=lambda e:e['revision'])
+                assert 1<=len(records)<=2 and [e['revision'] for e in records]==list(range(2,2+len(records)))
+                values=dict.fromkeys(task.fields,'');submitted=False
+                for index,effect in enumerate(records):
+                    action=r.store.one('actions',effect['action_id'])
+                    assert action['state']=='SUCCEEDED' and action['idempotency_key']==effect['idempotency_key']
+                    for command in effect['commands']:
+                        if command['op']=='SET_FIELD':
+                            assert command['field'] in values
+                            values[command['field']]=command['value']
+                        else:
+                            assert command['op']=='SUBMIT';submitted=True
+                    matches=submitted and values=={key:task.wanted.get(key,'') for key in task.fields}
+                    assert matches==(index==len(records)-1)
+                observed=app.work.port.peek(task.task_id)['state']
+                assert observed['submitted'] and observed['values']==values
+            assert len({e['action_id'] for e in effects.values()})==len(effects)
+            for _ in range(10):app.tick();time.sleep(.02)
+            assert json.loads((Path(host.target.workspace)/'application-state.json').read_text())['effects']==effects
             assert len({a['idempotency_key'] for a in r.store.all('actions')})==len(r.store.all('actions'))
             assert not list(r.store.db.execute('PRAGMA foreign_key_check'))
 

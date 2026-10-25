@@ -96,3 +96,19 @@ a real venv before invoking pip, so an existing directory/symlink to a global
 Python cannot redirect installation into the host interpreter. This is a write
 boundary, not just a version check; final qualification includes an actual
 misbound target rejection without pip/Subject mutation.
+
+
+## Recovery fixture timing, not a Core autonomy restriction
+
+The first full attempt was intentionally interrupted after116pass/1fail to diagnose
+DURING_SKILL_TEST:11 legitimate writes rather than its fixed10 oracle. Independent
+effect/Action records show concurrent pre-learning form preparation caused one
+additional quality failure and authorized repair, not a repeated idempotency key.
+The fixture now specifies1s input availability for its intended baseline→transfer
+sequence; production cadence is unchanged. All12 original assertion ASTs,8Goals,
+10effects and40s cut/progress bars are identical. A separate concurrent test replays
+actual commands independently and rejects duplicate successful writes. Initial2s
+fixture timeout and the new test's incorrect4-write assumption are retained;
+corrected3 targeted PASS40.64s. Runtime/Builder/Addon bytes equal e322; final full
+qualification is performed at the later committed test source with this equality
+explicit. No completed planning/growth behavior was changed to satisfy a counter.

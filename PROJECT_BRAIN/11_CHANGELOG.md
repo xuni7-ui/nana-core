@@ -2627,3 +2627,8 @@ Ruff0.14.1对29个Storage/Privacy/Runtime/Kernel/Planner/Checkpoint/G/Sandbox/Po
 ## Engineering Quality V2 — bind installer writes to its actual venv
 
 安装器目标解释器检查进一步要求sys.prefix!=sys.base_prefix且prefix精确为当前bundle/.venv，防止已有伪venv指向全局解释器后pip意外改宿主。此检查位于pip前，不扩执行权限/不改Runtime默认。私有libffi+SQLite+CPython完整host已构建，实际Native profile通过；接下来的最终归档/负向现有venv/完整安装/全仓只使用新冻结源。原338基础流程通过但import缺ctypes的结果保持partial历史，不作为新完整PASS。
+
+
+## Engineering Quality V2 — recovery fixture interleaving diagnosis
+
+第一次full在116pass/1fail时开发者主动SIGINT保留XML/日志：DURING_SKILL_TEST观察11个合法效果而旧oracle固定10。只读保存失败Store/effects元数据，定位为form-baseline与form-transfer在学习前并发prepare，额外一次真正质量失败/新Goal修复；action/key均唯一，不是重复效果。不能为凑10改变Core调度/学习/权限。测试专用worker新增有界输入cadence参数，标准baseline→transfer场景1s机会间隔；原12条断言AST完全相同（8Goal、10effect、40s cut/progress及幂等/FK不变）。新增并发场景通过独立实际命令重放验证每个修复前确有失败、只有一次正确结果、无成功后重发。探索2s夹具过慢/新增用例最初错误预期4均保留；最终3 targeted PASS40.64s。仅tools/tests变化，已资格e322 Runtime/包/Builder/Addon字节不变。下一最终full必须重新实际执行，不能把中断partial当PASS。
