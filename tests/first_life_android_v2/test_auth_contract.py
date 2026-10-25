@@ -101,7 +101,7 @@ def test_openapi_consumer_can_resolve_every_schema_reference():
                 target = doc
                 for part in value["$ref"].removeprefix("#/").split("/"):
                     target = target[part]
-                assert target
+                assert isinstance(target, (dict, bool))  # Empty JSON Schema is valid.
             for child in value.values():
                 visit(child)
         elif isinstance(value, list):
