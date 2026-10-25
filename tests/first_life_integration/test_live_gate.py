@@ -9,7 +9,7 @@ from tools.nana_first_life_integration.journey import setup
 from tools.nana_first_life_integration.live_review import configure,REF
 
 
-def test_eight_call_envelope_requires_known_fixture_baseline_no_dispatch(tmp_path):
+def test_eight_call_envelope_requires_known_fixture_baseline_no_dispatch(tmp_path,approved_dev_branch):
     home=tmp_path/'life';initialize(home)
     with pytest.raises(CoreError,match='BUDGET_BASE_MISMATCH'):configure(home)
     with LifeApplication(home) as app:

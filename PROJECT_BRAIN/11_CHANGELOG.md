@@ -2632,3 +2632,8 @@ Ruff0.14.1对29个Storage/Privacy/Runtime/Kernel/Planner/Checkpoint/G/Sandbox/Po
 ## Engineering Quality V2 — recovery fixture interleaving diagnosis
 
 第一次full在116pass/1fail时开发者主动SIGINT保留XML/日志：DURING_SKILL_TEST观察11个合法效果而旧oracle固定10。只读保存失败Store/effects元数据，定位为form-baseline与form-transfer在学习前并发prepare，额外一次真正质量失败/新Goal修复；action/key均唯一，不是重复效果。不能为凑10改变Core调度/学习/权限。测试专用worker新增有界输入cadence参数，标准baseline→transfer场景1s机会间隔；原12条断言AST完全相同（8Goal、10effect、40s cut/progress及幂等/FK不变）。新增并发场景通过独立实际命令重放验证每个修复前确有失败、只有一次正确结果、无成功后重发。探索2s夹具过慢/新增用例最初错误预期4均保留；最终3 targeted PASS40.64s。仅tools/tests变化，已资格e322 Runtime/包/Builder/Addon字节不变。下一最终full必须重新实际执行，不能把中断partial当PASS。
+
+
+## Engineering Quality V2 — isolated-worktree test branch fixture
+
+最终full第二次实跑309pass/1fail/313.05s，停于First-Life预算fixture的preflight：独立quality分支不等于旧入口固定First-Life分支，唯一false check为branch；工具拒绝正确。没有放宽真实tools入口BRANCH或任何Core权限。仅两个单元测试显式使用当前精确dev branch作为fixture policy（不得main），新负例要求错branch唯一阻断、其他检查全部true。原两个文件所有已有assert AST均相同。11 targeted PASS3.20s，无请求/凭据读取；Core/包/e322资格不变，下一full必须重新实际执行。旧失败XML/日志保持。
