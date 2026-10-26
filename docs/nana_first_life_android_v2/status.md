@@ -49,3 +49,9 @@ extended daily use. No consciousness, production or First-Life readiness claim.
 See [actual runtime validation and reproduction](CLOUD_RUNTIME_VALIDATION.md),
 [cutover/rollback](DEPLOYMENT_AND_ROLLBACK.md), the evidence manifest and the
 prepared deployment canonical-plan/activation-preparation JSON.
+
+
+### First-Life V2 — APK delivery and single cloud approval draft (2026-10-26)
+[用户确认99b93d4后，仅交付/准备；S4＋Platform/Governance Advanced] 已核现有debug APK SHA75e7576c...、固定私有GitHub直链；当前无二进制聊天附件上传接口，不冒称已上传附件。生成非敏感operator ZIP（含原APK/Web/Core与部署材料；不含SDK重复包/身份/私人DB/凭据），两次构建相同、CRC/清单/原APK字节/敏感模式检查通过。单一PRODUCTION_APPROVAL_V1草案覆盖/srv四目录、独立UID999 Docker、拟tailnet8443、genesis/fence/切换影响/回滚与拒绝门；实际宿主安全通道、Serve精确差异及旧writer恢复命令仍需宿主元数据补齐，不能称已具备生产执行条件。当前不请求逐项审批、不执行genesis/私人迁移/旧服务更改/QQ切流/付费。正式D阶段会造成旧QQ回复空窗须最终审批知情；bwrap仍BLOCKED。继承所有已验收结果，不重跑旧环境或业务测试。First-Life NOT_READY/Beta NO，main/R045/生产不变。
+
+Current review entry: PRODUCTION_APPROVAL_V1.md; operator_delivery.json records delivery hashes.

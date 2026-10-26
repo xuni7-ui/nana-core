@@ -7,8 +7,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 40,
-  "as_of_us": 1792970928662393,
+  "revision": 41,
+  "as_of_us": 1792988769674193,
   "stage": "H",
   "workstream": "FIRST_LIFE_ANDROID_APK_INTEGRATION_V2",
   "status": "SUPPLIED_CLOUD_RUNTIME_DOCKER_QUALIFIED_PRODUCTION_GATES_PENDING",
@@ -20,7 +20,7 @@
     "修复SDK umask/mtime、构建-B保留原缓存、首次密码stdin FD和容器发布接线；镜像离线Core＋同APK LIVE Web；保留失败证据。",
     "实际四卷映射/只读SDK，发布端口→十页/离线原C/备份PASS；强杀自动恢复1次、重建同ID epochs2→3→4。",
     "原B8恢复同开发主体、旧源精确PORTABLE_SOURCE_RETIRED/Grant撤销；全仓4ec0dfc实跑1581/0/12，368.62s；最终focused39/实际镜像复核。",
-    "现有debug APK/unsigned release已生成；安装仍因软件模拟器provider未就绪BLOCKED，真机/真人/正式云端未执行。"
+    "99b93d4已获用户确认；原APK固定私有下载直链＋非敏感operator包完成，双构建/CRC/清单通过；一次云端审批草案已准备，不重复旧验收。"
   ],
   "open_gates": [
     "正式云端安全访问尚未绑定；不声称已在/srv部署。选型固定Docker、/srv四目录→/opt、UID999，无需重问。",

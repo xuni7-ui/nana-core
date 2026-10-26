@@ -1,0 +1,17 @@
+{
+  "operator_pack_sha256": "fe07a5a0eb7642d7550164a77acbad7902fe3e4d81a567a2adaab0fe4b0985f7",
+  "bytes": 11346178,
+  "repeat_build_equal": true,
+  "zip_crc": "PASS",
+  "member_hashes": "PASS",
+  "apk_byte_equal_to_accepted_99b93d4": true,
+  "binary_chat_attachment_upload_tool_available": false,
+  "delivery_fallback": "fixed-private-GitHub-raw-link-requires-user-login",
+  "cloud_access_configured": false,
+  "cloud_execution": false,
+  "production_changed": false,
+  "new_provider_calls": 0,
+  "application_tests_rerun": false,
+  "inherited_qualification": "99b93d4 accepted by user; no changes to runtime/frontend/APK/docker sources",
+  "current_checks": "new archive two builds/CRC/member SHA/APK equality/sensitive-pattern scan; no repeat of accepted environment tests"
+}

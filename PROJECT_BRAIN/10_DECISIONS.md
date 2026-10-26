@@ -1590,3 +1590,7 @@ main/R045/production/private/device/social/paidProvider0。报告与证据：doc
 
 ### First-Life Android V2 — final supplied-runtime seal and regression
 [实测2026-10-26，Advanced] 完整固定源码4ec0dfc回归1581 PASS/0 FAIL/12 SKIP，368.62s；11 live screen＋E12未运行，5 JUnit metadata warnings保留。后续只修部署提取mtime/构建-B，避免原SDK 61个pyc重写；并加强WAL返回及精确PORTABLE_SOURCE_RETIRED断言。最终39 focused和实际新镜像再次通过，安装/导出后4766文件＋10软链与原包全等；Core/API/Web/Native业务字节不变，不冒称后续又全仓重跑。最终镜像0d8426762cef4bc19b12a7930361fbc9a9c4096628ffb0ee4024407ec5a1a5ee；PID杀/自动重启1、重建同ID epoch2→3→4、B8恢复/旧源fence通过。genesis计划/切换回滚材料已准备但没有批准或执行。所有失败原证据保留；bwrap云端BLOCKED，Provider0/private NO/social0/production NO，First-Life NOT_READY/Beta NO。
+
+
+### First-Life V2 — APK delivery and single cloud approval draft (2026-10-26)
+[用户确认99b93d4后，仅交付/准备；S4＋Platform/Governance Advanced] 已核现有debug APK SHA75e7576c...、固定私有GitHub直链；当前无二进制聊天附件上传接口，不冒称已上传附件。生成非敏感operator ZIP（含原APK/Web/Core与部署材料；不含SDK重复包/身份/私人DB/凭据），两次构建相同、CRC/清单/原APK字节/敏感模式检查通过。单一PRODUCTION_APPROVAL_V1草案覆盖/srv四目录、独立UID999 Docker、拟tailnet8443、genesis/fence/切换影响/回滚与拒绝门；实际宿主安全通道、Serve精确差异及旧writer恢复命令仍需宿主元数据补齐，不能称已具备生产执行条件。当前不请求逐项审批、不执行genesis/私人迁移/旧服务更改/QQ切流/付费。正式D阶段会造成旧QQ回复空窗须最终审批知情；bwrap仍BLOCKED。继承所有已验收结果，不重跑旧环境或业务测试。First-Life NOT_READY/Beta NO，main/R045/生产不变。
