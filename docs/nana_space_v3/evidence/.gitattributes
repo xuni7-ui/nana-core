@@ -1,0 +1,2 @@
+# Preserve captured tool streams byte-for-byte; whitespace is evidence, not code.
+*.txt -text -whitespace
