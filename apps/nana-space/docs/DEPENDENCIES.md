@@ -246,3 +246,7 @@
 ## Python 宿主适配器
 
 复用 Core 已有的 pydantic 2.13.5（MIT）。资格测试使用 pytest 9.1.1（MIT）；不新增 Core 运行依赖或 HTTP 框架，网关使用 Python 标准库。格式化工具仅开发会话使用，不作为应用运行依赖。
+
+## V3 开发工具增量
+
+Prettier 3.6.2 / MIT，仅 devDependency；原 runtime dependencies 不变，实际版本以 package-lock.json 为准。

@@ -1598,3 +1598,7 @@ main/R045/production/private/device/social/paidProvider0。报告与证据：doc
 
 ### First-Life rev3 — A/B preparation, C/D/E deferred (2026-10-26)
 [实际文件/本地新增部署验证＋云端操作者四报告；S4/Platform/Governance Advanced] 65c49aa本地远端一致、干净起点，4份rev3已全文读并登记哈希，不复制QQ账户ID/私人正文。原合格镜像0d842676通过docker save导出，原tar589073920bytes/SHA4ef8918a75db986c5c4dd63b8e9c9fc585308be9a8414159aaa8f92c855dae17，linux/amd64/999:999；gzip9片≤28MiB，重组及docker load同ID通过，未build。空runtime0555遮挡重现、完整6565条文件树安全提取/权限修复/只读挂载UID999通过，非空重装拒绝；只属新增本地落地测试，云端尚无安全访问绑定，未假称/srv已填。原plan文件SHA41c343...为字节摘要；Core DTO摘要e3e2...e7ae5...另名绑定，保留原语义、不执行genesis。B1脚本用公钥OpenPGP、显式SSH agent/host key及独立宿主tailscaled socket，合成加解密/隔离恢复/离线UNKNOWN测试通过；真实PC未绑定，异机DR未资格，PC私钥不出PC。9项新工具测试通过，不重复旧SDK/全仓资格。明确新版无/ws/SSE、entry无genesis CLI；新宿主AuthURL只能由云端针对实际独立daemon生成，不碰nanadocker。C仅准备、D/E继续暂缓，Provider0/production NO/private NO/social0，bwrap BLOCKED、Master/63/原主体不变。
+
+
+### Nana Space V3 · independent frontend extension / 2026-10-26
+[实测/Advanced，S2/S3/S4/S5展示＋Platform/Shared Life/Governance横轴] 最新First-Life a07e906本地远端一致后创建独立dev/nana-space-v3-cotex；不覆盖部署分支。真实V2 surface重做为生活首页/小房间、聊天、模型和记忆中心、设备/备份/设置；复用原投影/Memory WITHDRAW/Manager/Host/配对撤销，不新Subject/Store/Loop。11预设≠协议资格，模型编辑/偏好/纠错导入仅内存草稿，B1无PC回执不称DR。修异步路由/配对码/注销/隐私晚回包；UNKNOWN仅原receipt GET。41单测/36合成浏览器及4视口120%字号、实际Core浏览器三尺寸和39相关回归通过，原始失败保留。APK同包名/原debug签名升级300，最终交付收口；无production/paid/private/social/genesis，bwrap BLOCKED，Master/63/First-Life NOT_READY/Beta NO不变。见docs/nana_space_v3/。

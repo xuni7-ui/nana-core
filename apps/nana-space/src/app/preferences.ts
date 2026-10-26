@@ -8,7 +8,7 @@ export interface Preferences {
   language: "zh-CN";
 }
 const defaults: Preferences = {
-  theme: "dark",
+  theme: "system",
   motion: true,
   avatar: true,
   fontScale: 1,
@@ -48,6 +48,10 @@ export function usePreferences() {
         ? "full"
         : "reduced";
       document.documentElement.style.fontSize = `${16 * preferences.fontScale}px`;
+      document.documentElement.style.setProperty(
+        "--v3-font-scale",
+        String(preferences.fontScale),
+      );
     };
     apply();
     media.addEventListener("change", apply);

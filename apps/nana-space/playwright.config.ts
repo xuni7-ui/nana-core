@@ -29,7 +29,8 @@ export default defineConfig({
     timezoneId: "Asia/Shanghai",
   },
   webServer: {
-    command: "npm run build && npm run preview -- --port 4173 --strictPort",
+    command:
+      "npm run build:demo && npm run preview -- --port 4173 --strictPort",
     url: "http://127.0.0.1:4173",
     reuseExistingServer: !process.env.CI,
     timeout: 30_000,
