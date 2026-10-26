@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 41,
-  "as_of_us": 1792988769674193,
+  "revision": 42,
+  "as_of_us": 1793016798702130,
   "stage": "H",
   "workstream": "FIRST_LIFE_ANDROID_APK_INTEGRATION_V2",
-  "status": "SUPPLIED_CLOUD_RUNTIME_DOCKER_QUALIFIED_PRODUCTION_GATES_PENDING",
+  "status": "REV3_ORIGINAL_IMAGE_EXPORTED_A_B_PREPARATION_C_D_E_DEFERRED",
   "progress": [
     "质量d207＋Nana Space b899合法合并；独立开发分支；原工作树/bundle、Single Subject/Store/Loop、Master/fixed63不变。",
     "运行时Core仍dbfb37e；历史全仓1560/0/12、243文件包可重复；API/前端契约未改，本轮聚焦实际SDK容器接线。",
@@ -20,13 +20,13 @@
     "修复SDK umask/mtime、构建-B保留原缓存、首次密码stdin FD和容器发布接线；镜像离线Core＋同APK LIVE Web；保留失败证据。",
     "实际四卷映射/只读SDK，发布端口→十页/离线原C/备份PASS；强杀自动恢复1次、重建同ID epochs2→3→4。",
     "原B8恢复同开发主体、旧源精确PORTABLE_SOURCE_RETIRED/Grant撤销；全仓4ec0dfc实跑1581/0/12，368.62s；最终focused39/实际镜像复核。",
-    "99b93d4已获用户确认；原APK固定私有下载直链＋非敏感operator包完成，双构建/CRC/清单通过；一次云端审批草案已准备，不重复旧验收。"
+    "rev3四报告已核；原镜像save/9分片/重组load同ID通过；空runtime新增落地验证及双plan摘要绑定、B1加密工具9测试通过；云端未访问。"
   ],
   "open_gates": [
-    "正式云端安全访问尚未绑定；不声称已在/srv部署。选型固定Docker、/srv四目录→/opt、UID999，无需重问。",
-    "正式genesis、私人导入、旧写者关停、真实QQ投递/生产切流均只准备未执行，仍需最后明确批准。",
-    "bwrap namespace BLOCKED，不扩旧AstrBot权限、不exec降级、不补bz2/lzma；S9和其他合法自主能力保留。",
-    "新日常Provider安全绑定/额度、human review、正式签名/真机/后台push/72h未完成；First-Life NOT_READY/Beta NO。"
+    "云端A/B已授权但本会话安全通道未绑定：原镜像宿主load、runtime实际落盘及host tailnet登录/手机HTTPS仍待真实回执。",
+    "C正式genesis仅准备，D/E暂缓；不关闭旧AstrBot/QQ/Iris、不导私史/真实发送。A/B就绪后再一次C-only审批，不扩成激活。",
+    "B1已选，真实PC目标/公钥/SSH绑定未提供，异机备份未完成；genesis后首次真实备份恢复通过前不得生产激活。",
+    "bwrap保持BLOCKED；不查旧key/不付费调用；原Master/fixed63不变，真人/实机/First-Life NOT_READY/Beta NO。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",

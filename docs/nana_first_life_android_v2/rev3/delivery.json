@@ -1,0 +1,14 @@
+{
+  "tools_zip_sha256": "23a833d2d5a739e895d7cc550f0a17149b4e4ec0f37f77645a9a100eb60134b5",
+  "bytes": 297168,
+  "two_builds_equal": true,
+  "crc_and_member_hashes": "PASS",
+  "original_image_parts": 9,
+  "cloud_deployment": "NOT_EXECUTED_NO_SAFE_ACCESS",
+  "phone_https": "NOT_RUN_HOST_LOGIN_PENDING",
+  "real_b1_pc_restore": "NOT_RUN_PC_NOT_BOUND",
+  "genesis": "DEFERRED_NOT_EXECUTED",
+  "new_tests_passed": 9,
+  "old_qualified_suites_rerun": false,
+  "image_rebuilt": false
+}

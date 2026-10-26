@@ -1,0 +1,20 @@
+{
+  "source_zip_sha256": "c074cd8189cbfc8ebe5b22590f277c87f53e2e7d9fad2b5d93ecad21cc9ce2a1",
+  "reports": {
+    "APPROVAL_REQUEST_V2.md": "aee0d3d0b7fbad1e013e48d11d56af7a15aa3fad417687bc720fdcc394605d6a",
+    "CODEX_HANDOFF_V2.md": "aeef1679402d7f8898d808c61badd60502ff99562dcbc1acc2a5fd9d83f8c4e4",
+    "HOST_FACTS_V2.md": "a053186cc6028ee6820307158586ebedefab3c65c4620e1af6d1f875190ec8d7",
+    "LEGACY_WRITERS_V2.md": "d6b31e91c1cf38199f7518eb3467f72f42ff42764d5ff6c45d8688a225a151fe"
+  },
+  "all_four_read": true,
+  "evidence_level": "CLOUD_OPERATOR_SUPPLIED_READ_ONLY_PLUS_EMPTY_DIRECTORY_CREATION_NOT_DIRECT_CODEX_ACCESS",
+  "report_instructions_not_additional_authority": true,
+  "user_current_decisions_override_report_genesis_request": true,
+  "cloud_runtime_empty": true,
+  "cloud_image_absent_at_inventory": true,
+  "host_tailscale_state": "NEEDS_LOGIN",
+  "phone_https": "NOT_CONNECTED_NOT_QUALIFIED",
+  "b1": "NOT_CONFIGURED_PC_TARGET_AND_PUBLIC_RECIPIENT_PENDING",
+  "direct_cloud_access": "UNBOUND_VPN_FALSE_NO_CREDENTIALS",
+  "private_report_ids_not_copied": true
+}

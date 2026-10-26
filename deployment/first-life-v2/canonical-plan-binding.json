@@ -1,0 +1,12 @@
+{
+  "schema_version": 1,
+  "plan_file_sha256": "41c343bc4423606a48a52da5fa10c8ccb1a6d31af5931d56ebbe9c5771567304",
+  "plan_dto_sha256": "e3e2a1fd51b9473d7982980aa1f3d78a498a2f7878e7ae5c3051451a8b5d1527",
+  "file_hash_format": "EXACT_UTF8_FILE_BYTES_INCLUDING_WHITESPACE_AND_FINAL_NEWLINE",
+  "dto_hash_format": "EXISTING_CORE_CanonicalPlan.model_dump_json_UTF8_V1",
+  "genesis_approval_plan_digest_uses": "plan_dto_sha256",
+  "inventory_digest": "a9fcbf253b53da624e6041afab5ea0a1652982610ec9196c033bb9af9e4069c6",
+  "state": "PREPARED_ONLY_GENESIS_DEFERRED",
+  "approved": false,
+  "subject_created": false
+}

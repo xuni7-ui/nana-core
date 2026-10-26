@@ -1,0 +1,64 @@
+{
+  "image_id": "sha256:0d8426762cef4bc19b12a7930361fbc9a9c4096628ffb0ee4024407ec5a1a5ee",
+  "platform": "linux/amd64",
+  "user": "999:999",
+  "unpacked_image_size": 580164955,
+  "tar_bytes": 589073920,
+  "tar_sha256": "4ef8918a75db986c5c4dd63b8e9c9fc585308be9a8414159aaa8f92c855dae17",
+  "tar_filename": "nana-firstlife-0d842676.tar",
+  "origin": "DOCKER_SAVE_EXISTING_QUALIFIED_IMAGE_BY_ID_NO_REBUILD",
+  "source_base": "65c49aabae86a7d2f9037f548f7433552850e220",
+  "subject_included": false,
+  "credentials_included": false,
+  "production_changed": false,
+  "layers": 13,
+  "gzip_bytes": 255800659,
+  "gzip_sha256": "037f35096574079c29eb378be8528b682e8c99b68000fee5f63dd8ef1defee24",
+  "parts": [
+    {
+      "file": "nana-firstlife-0d842676.tar.gz.part001",
+      "bytes": 29360128,
+      "sha256": "d0729977f2d03e5641705c30fba440606f39781a6225ff87f9c217b8521b3baa"
+    },
+    {
+      "file": "nana-firstlife-0d842676.tar.gz.part002",
+      "bytes": 29360128,
+      "sha256": "94aeea3bef2adb85cb2e6a0a2a05174c66513ec31c4f55d363ce7d97d2bab88d"
+    },
+    {
+      "file": "nana-firstlife-0d842676.tar.gz.part003",
+      "bytes": 29360128,
+      "sha256": "8910c1689550e8dc61abc985a8f04320a772078ff52ae1d60025563b52eed5c1"
+    },
+    {
+      "file": "nana-firstlife-0d842676.tar.gz.part004",
+      "bytes": 29360128,
+      "sha256": "c4245eea6a8f463702062a79b92f5e3b76bc5cf5f2d6d18cb9302822cf3c7291"
+    },
+    {
+      "file": "nana-firstlife-0d842676.tar.gz.part005",
+      "bytes": 29360128,
+      "sha256": "e8d633695e9ff41893731c52275bdc66a776f1f1e01083c9286c6ed33d7b54f2"
+    },
+    {
+      "file": "nana-firstlife-0d842676.tar.gz.part006",
+      "bytes": 29360128,
+      "sha256": "48a05e04a1bc4e99a486c1b080f488eaa4893abb8a2f01d298768efadf94b4b9"
+    },
+    {
+      "file": "nana-firstlife-0d842676.tar.gz.part007",
+      "bytes": 29360128,
+      "sha256": "33c222a110b3a3994563875673d54cee987cc6697c3f3b1b700af0fe06fac9c6"
+    },
+    {
+      "file": "nana-firstlife-0d842676.tar.gz.part008",
+      "bytes": 29360128,
+      "sha256": "165f3017e8446c5a7855bcede8fde005b927f9116dd6469a5ee2ec84d1b69ebb"
+    },
+    {
+      "file": "nana-firstlife-0d842676.tar.gz.part009",
+      "bytes": 20919635,
+      "sha256": "6c4aea2bae0e23674062bcdc02166b4a95a508b3db108e6bac312efc6c2fa2c9"
+    }
+  ]
+}

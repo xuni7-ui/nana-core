@@ -1,0 +1,28 @@
+{
+  "original_image_tar_sha256": "4ef8918a75db986c5c4dd63b8e9c9fc585308be9a8414159aaa8f92c855dae17",
+  "original_image_tar_bytes": 589073920,
+  "platform": "linux/amd64",
+  "image_id": "sha256:0d8426762cef4bc19b12a7930361fbc9a9c4096628ffb0ee4024407ec5a1a5ee",
+  "config_user": "999:999",
+  "image_export_reassembly_load": "PASS_SAME_ID_NO_REBUILD",
+  "new_operator_tests": {
+    "passed": 9,
+    "failed": 0,
+    "scope": "NEW_TOOLS_ONLY_SYNTHETIC_B1_KEYS_DB_NO_REAL_PC"
+  },
+  "empty_runtime_blocked": true,
+  "full_runtime_staged_install": "PASS_6565_MEMBERS",
+  "reencoded_tar_same_tree": "PASS_EXPLICIT_REFERENCE_TREE_HASHES",
+  "readonly_mount_uid999": "PASS",
+  "nonempty_overwrite": "DENIED",
+  "actual_cloud_execution": false,
+  "phone_https": "NOT_RUN",
+  "b1_real_pc_backup_restore": "NOT_RUN",
+  "genesis": "DEFERRED_NOT_EXECUTED",
+  "paid_provider_calls": 0,
+  "social_sends": 0,
+  "production_changed": false,
+  "bwrap": "BLOCKED_UNCHANGED",
+  "core_api_apk_and_original_image_bytes_unchanged": true,
+  "full_regression_rerun": false
+}

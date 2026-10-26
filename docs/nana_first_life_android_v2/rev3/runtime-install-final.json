@@ -1,0 +1,10 @@
+{
+  "state": "RUNTIME_INSTALLED_NOT_STARTED",
+  "image_id": "sha256:0d8426762cef4bc19b12a7930361fbc9a9c4096628ffb0ee4024407ec5a1a5ee",
+  "members": 6565,
+  "root_mode": "0555",
+  "subject_created": false,
+  "runtime_tree_matches_trusted_manifest": true,
+  "observed_runtime_tar_sha256": "7ef85071ec6965efe23a9e907c6a2797b4ed0a37e55f59b379b2e6c908a7f6a1",
+  "runtime_tar_encoding_matches_reference": false
+}

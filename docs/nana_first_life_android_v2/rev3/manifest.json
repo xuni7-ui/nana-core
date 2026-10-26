@@ -1,0 +1,23 @@
+{
+  "self_excluded": true,
+  "source_base": "65c49aabae86a7d2f9037f548f7433552850e220",
+  "sha256": {
+    "delivery.json": "0285c8975f7b70f0273a1b60d5297341a986184c81582ca9503f0220271da78a",
+    "empty-runtime.json": "9b5a8a36a99e6457444fa11abeb3d2bdb6f798eb8d5c6586e361b80d3b5e6483",
+    "failure-history.json": "126490db989a648d4b2c1aa195ea8d5d28745353f333190527595e23d33e81ac",
+    "hostpack-reconciliation.json": "ef91506bed59c9b27fe45b2484f16cfda5d6a0a3c89277a5bc551c3d6c407b18",
+    "image-receive-load.txt": "fcf133ef237abcd6e1960426bf7358afd3af9f7341ac54f2ef6bd9b1b46841dd",
+    "image-transfer.json": "a81d5e1f6b69a3397bc7b9029aa0ebd6a494c9c80b64f3d0df3f3c4676a18dc9",
+    "new-tools-tests-final.txt": "b73855785213f79cdebbb47c6fed6c928d2b187ede1a405c26fa36cf696d01af",
+    "new-tools-tests.txt": "6cfb81cd439929e4e749485a362722144a59599ffda343ffee29b7b0f55e2467",
+    "nonempty-runtime-refusal.json": "aac036d35fda4dacf8b6ce687e251c47081a1e92efee9f66d5a8260f7b3ef9fc",
+    "plan-binding.json": "4400a4d0b5568debb192d7f06c81b140cf985a4f595a38a3f73512653cb7e36a",
+    "populated-runtime-final.json": "51e3ab55e4e2521c45735ffb684605c0b4af7af53d263e9bbcd2d28639d5320e",
+    "populated-runtime.json": "51e3ab55e4e2521c45735ffb684605c0b4af7af53d263e9bbcd2d28639d5320e",
+    "qualification.json": "c0a41b62606ff649771f9046ed7f75ae9fbb53161e0f13c41fbce325828db479",
+    "runtime-install-final.json": "ba77e59f49f643df8ebee6b2d9bbd6844dfa96ecd809202d0b6b78d513c7a134",
+    "runtime-mount-guard.json": "0f2b49defde17a0bd2bd4e08b4c0e1a4e2da829f0ca8256abb2e4534a8c5e55d",
+    "runtime-tree-manifest.json": "dfcd9c13c45029df8c33f08787300ec65ff2abd5ef6cb5d6823de27d36303e42",
+    "secret-scan.json": "4fac5e09ae8ffb0086f7f26e35956bd580b2f27e54d3c820d1009d07b37ae0bd"
+  }
+}

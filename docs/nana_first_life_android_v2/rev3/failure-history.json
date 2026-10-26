@@ -1,0 +1,18 @@
+{
+  "failures": [
+    {
+      "stage": "local empty-mount test setup",
+      "cause": "temporary directory initially0700 owned by developer; unlike actual host0555",
+      "fix": "set same0555 as reported host; actual missing-runtime rejection recorded"
+    },
+    {
+      "stage": "first new B1 crypto test",
+      "cause": "GPG default output writes sibling file; stdout ciphertext was empty",
+      "fix": "explicit --output -; authenticated decrypt roundtrip and original bundle equality now pass"
+    }
+  ],
+  "cloud_operations_attempted": false,
+  "b1_actual_pc_attempted": false,
+  "raw_logs": "/workspace/nana-staging/first-life-rev3",
+  "previous_passes_rerun": false
+}

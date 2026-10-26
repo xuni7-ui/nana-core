@@ -61,3 +61,7 @@ D阶段会暂停旧QQ自动决策、回复及主动行为；新Core的真实QQ�
 目前只交付非敏感运行时部署材料/哈希/API与APK。可以在既有`/AstrBot/data/_nana_core_handoff/`保管这些材料；**不得**在那里创建Store/身份/私人DB/生产备份。宿主实际操作等最终批准及安全通道，不依赖旧奈奈nohup/cron托管新Core。
 
 审批完成后的证据至少记录：批准包指纹、操作者、宿主/镜像/挂载元数据、genesis及激活收据、fence及复活路径验证、单owner、私有HTTPS、停止/恢复、备份引用与所有UNKNOWN。只保留脱敏证据，不收集私人正文或密钥。
+
+
+## rev3 supersession / 2026-10-26
+用户最新决定：A/B继续、C只准备、D/E暂缓；B1加密备份到PC已选；先交接原镜像save/load。以REV3_DEPLOYMENT_RUNBOOK.md和B1_BACKUP.md为当前入口。本文件中的旧拟议执行范围不是当前授权，不请求或执行genesis。
