@@ -1,0 +1,44 @@
+{
+  "scope": "OWNED_DEVELOPMENT_BFF_LOCAL_CHROMIUM_NOT_PHONE_BENCHMARK",
+  "real_provider_calls": 0,
+  "samples": [
+    {
+      "width": 390,
+      "paint": [
+        {
+          "name": "first-paint",
+          "ms": 176
+        },
+        {
+          "name": "first-contentful-paint",
+          "ms": 332
+        }
+      ],
+      "long_tasks_ms": [
+        51
+      ],
+      "resource_bytes": 794057,
+      "dom_nodes": 358,
+      "horizontal_overflow": false,
+      "blur_count": 0
+    },
+    {
+      "width": 1440,
+      "paint": [
+        {
+          "name": "first-paint",
+          "ms": 200
+        },
+        {
+          "name": "first-contentful-paint",
+          "ms": 272
+        }
+      ],
+      "long_tasks_ms": [],
+      "resource_bytes": 794057,
+      "dom_nodes": 358,
+      "horizontal_overflow": false,
+      "blur_count": 0
+    }
+  ]
+}

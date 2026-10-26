@@ -1,0 +1,332 @@
+{
+  "config": {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "/workspace/nana-space-v3/apps/nana-space/node_modules/.bin/playwright",
+      "test",
+      "--config",
+      "playwright.v2.config.ts"
+    ],
+    "configFile": "/workspace/nana-space-v3/apps/nana-space/playwright.v2.config.ts",
+    "rootDir": "/workspace/nana-space-v3/apps/nana-space/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/workspace/nana-space-v3/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "/workspace/nana-space-v3/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "v2.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/workspace/nana-space-v3/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "android-web",
+        "name": "android-web",
+        "testDir": "/workspace/nana-space-v3/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "v2.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/workspace/nana-space-v3/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "small-phone-web",
+        "name": "small-phone-web",
+        "testDir": "/workspace/nana-space-v3/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "v2.spec.ts"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/workspace/nana-space-v3/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "desktop",
+        "testDir": "/workspace/nana-space-v3/apps/nana-space/tests",
+        "snapshotDir": "/workspace/nana-space-v3/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": "v2.spec.ts",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "https://127.0.0.1:18445",
+          "ignoreHTTPSErrors": true,
+          "headless": true,
+          "launchOptions": {
+            "executablePath": "/usr/bin/chromium",
+            "args": [
+              "--no-sandbox",
+              "--disable-dev-shm-usage"
+            ]
+          },
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "desktop"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/workspace/nana-space-v3/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "android-web",
+        "testDir": "/workspace/nana-space-v3/apps/nana-space/tests",
+        "snapshotDir": "/workspace/nana-space-v3/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": "v2.spec.ts",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "https://127.0.0.1:18445",
+          "ignoreHTTPSErrors": true,
+          "headless": true,
+          "launchOptions": {
+            "executablePath": "/usr/bin/chromium",
+            "args": [
+              "--no-sandbox",
+              "--disable-dev-shm-usage"
+            ]
+          },
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "android-web"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/workspace/nana-space-v3/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "small-phone-web",
+        "testDir": "/workspace/nana-space-v3/apps/nana-space/tests",
+        "snapshotDir": "/workspace/nana-space-v3/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": "v2.spec.ts",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "https://127.0.0.1:18445",
+          "ignoreHTTPSErrors": true,
+          "headless": true,
+          "launchOptions": {
+            "executablePath": "/usr/bin/chromium",
+            "args": [
+              "--no-sandbox",
+              "--disable-dev-shm-usage"
+            ]
+          },
+          "viewport": {
+            "width": 320,
+            "height": 740
+          },
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "small-phone-web"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/v2-report.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "v2.spec.ts",
+      "file": "v2.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "v2 actual same Core ten pages, scoped dialogue, cookies, revoke and host lifecycle",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 5013,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T15:55:59.266Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9f5cea1cd63f4d778102-63ec5381cce7e6adbe2f",
+          "file": "v2.spec.ts",
+          "line": 4,
+          "column": 1
+        },
+        {
+          "title": "v2 actual same Core ten pages, scoped dialogue, cookies, revoke and host lifecycle",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "android-web",
+              "projectName": "android-web",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4826,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T15:56:05.408Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9f5cea1cd63f4d778102-9346daf01e48140c67cd",
+          "file": "v2.spec.ts",
+          "line": 4,
+          "column": 1
+        },
+        {
+          "title": "v2 actual same Core ten pages, scoped dialogue, cookies, revoke and host lifecycle",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "small-phone-web",
+              "projectName": "small-phone-web",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4326,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-26T15:56:11.506Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "9f5cea1cd63f4d778102-e7263c6ef37869ba10c2",
+          "file": "v2.spec.ts",
+          "line": 4,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-26T15:55:58.373Z",
+    "duration": 18106.871,
+    "expected": 3,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

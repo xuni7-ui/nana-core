@@ -1,0 +1,5 @@
+Observed tool execution in /workspace/nana-space-v3, original Core business bytes unchanged from a07e906:
+PYTHONPATH=src /workspace/nana-core/.venv/bin/python -m pytest tests/first_life_android_v2 -q --ignore=tests/first_life_android_v2/test_rev3_operator.py
+39 passed in 14.81s
+Separate initial auth+HTTP subset: 11 passed in 7.90s (included scope, not additive).
+No real Provider calls, private data, social sends or production instance used.

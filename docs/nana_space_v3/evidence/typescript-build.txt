@@ -1,0 +1,40 @@
+
+> @nana/space@3.0.0 build
+> tsc -b && vite build --mode live
+
+vite v6.4.5 building for live...
+transforming...
+✓ 1774 modules transformed.
+rendering chunks...
+computing gzip size...
+dist/index.html                          0.74 kB │ gzip:  0.47 kB
+dist/assets/CoreApp-DlTee8Ns.css         3.31 kB │ gzip:  0.99 kB
+dist/assets/ExplorePages-S7BqOZCt.css   12.93 kB │ gzip:  2.95 kB
+dist/assets/settings-s7FLzCO4.css       19.37 kB │ gzip:  3.76 kB
+dist/assets/index-CBiVU63E.css          39.56 kB │ gzip:  9.18 kB
+dist/assets/LiveSpace-BE5B3hbB.css      44.66 kB │ gzip:  8.74 kB
+dist/assets/clock-3--ft_Pwa7.js          0.35 kB │ gzip:  0.27 kB
+dist/assets/eye-BD9k-vki.js              0.42 kB │ gzip:  0.30 kB
+dist/assets/lock-keyhole-DuA0gtCn.js     0.42 kB │ gzip:  0.32 kB
+dist/assets/shield-check-CqEfr89r.js     0.48 kB │ gzip:  0.35 kB
+dist/assets/radio-Bp9C7_xc.js            0.83 kB │ gzip:  0.40 kB
+dist/assets/refresh-cw-qCACfQYN.js       0.84 kB │ gzip:  0.42 kB
+dist/assets/sparkles-DjVx7bGW.js         0.92 kB │ gzip:  0.44 kB
+dist/assets/smartphone-BLzRACA9.js       1.08 kB │ gzip:  0.46 kB
+dist/assets/plus-Bafa0eZq.js             1.16 kB │ gzip:  0.46 kB
+dist/assets/upload-DtJhQiVR.js           1.69 kB │ gzip:  0.67 kB
+dist/assets/ui-D6Rm_mBu.js               1.69 kB │ gzip:  0.64 kB
+dist/assets/Avatar-1UGN2Wn_.js           1.70 kB │ gzip:  0.99 kB
+dist/assets/sun-BrahDMtD.js              1.85 kB │ gzip:  0.59 kB
+dist/assets/monitor-CFsEOgqU.js          1.94 kB │ gzip:  0.70 kB
+dist/assets/x-BAcbxI-Z.js                2.42 kB │ gzip:  0.83 kB
+dist/assets/preferences-qLa4sRUy.js      3.23 kB │ gzip:  1.22 kB
+dist/assets/ChatPage-RqnjiQ_n.js         7.31 kB │ gzip:  3.42 kB
+dist/assets/SettingsPage-DY7KMzhQ.js    10.20 kB │ gzip:  4.67 kB
+dist/assets/RuntimePage-CSzwkYJa.js     16.46 kB │ gzip:  6.42 kB
+dist/assets/CoreApp-p58bKtdw.js         19.67 kB │ gzip:  8.37 kB
+dist/assets/ExplorePages-BcPzJ5py.js    27.19 kB │ gzip:  8.98 kB
+dist/assets/LiveSpace--vvB9lyi.js       97.41 kB │ gzip: 33.46 kB
+dist/assets/index-D41p3qev.js          120.23 kB │ gzip: 37.21 kB
+dist/assets/index-YLeaU-rx.js          228.04 kB │ gzip: 71.41 kB
+✓ built in 2.33s

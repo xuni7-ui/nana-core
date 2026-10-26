@@ -1,0 +1,99 @@
+{
+  "source_commit": "fde9074c30c81854fc1a8786433014079e28b94d",
+  "base_head": "a07e906fa59798c6bfc7a00c2281a924f979c55d",
+  "branch": "dev/nana-space-v3-cotex",
+  "global_stage": "H",
+  "workstream": "NANA_SPACE_V3_COMPANION_EXPERIENCE_CONTROL_CENTER",
+  "status": "OFFLINE_CLIENT_QUALIFIED_BACKEND_AND_PHYSICAL_GATES_PENDING",
+  "artifacts": {
+    "nana-space-3.0.0-debug.apk": {
+      "bytes": 4790932,
+      "sha256": "02d85e568195d478de2b515ac45bf6278b3a399c262bf80841091ff30d8d0160"
+    },
+    "nana-space-3.0.0-web.zip": {
+      "bytes": 608679,
+      "sha256": "60a15bb9e27e5288991666ce3e31adb037c1bc594ccc59998d6e287453917ca8"
+    }
+  },
+  "web_files": 41,
+  "web_rebuild": "TWO_ARCHIVE_BUILDS_BYTE_IDENTICAL",
+  "apk_web_assets_equal_dist": true,
+  "android": {
+    "application_id": "life.nana.space.dev",
+    "version_code": 300,
+    "version_name": "3.0.0-debug",
+    "min_sdk": 23,
+    "target_sdk": 35,
+    "debug_certificate_sha256": "b2fec5a02e6f32e69fb8ef8bce44391a6a4ba5ab8ce6dc7284cb57663016ec41",
+    "v2_certificate_equal": true,
+    "signature_v1": "PASS",
+    "signature_v2": "PASS",
+    "unit": {
+      "tests": "1",
+      "failures": "0",
+      "errors": "0",
+      "skipped": "0",
+      "time": "0.044"
+    },
+    "lint_errors": 0,
+    "lint_warnings": 15,
+    "physical_install_upgrade_keyboard_notifications": "NOT_RUN"
+  },
+  "tests": {
+    "typescript_build": "PASS",
+    "frontend_unit": {
+      "passed": 41,
+      "failed": 0,
+      "duration_seconds": 2.38
+    },
+    "v3_browser": {
+      "passed": 36,
+      "failed": 0,
+      "skipped": 0,
+      "duration_seconds": 46.797,
+      "scope": "SYNTHETIC_HTTP_FIXTURE",
+      "viewports": [
+        1440,
+        360,
+        390,
+        412
+      ]
+    },
+    "actual_core_browser": {
+      "passed": 3,
+      "failed": 0,
+      "duration_seconds": 18.1,
+      "scope": "OWNED_DEVELOPMENT_ONLY_ORIGINAL_CORE_NO_PAID_PROVIDER",
+      "core_source_pin": "a07e906fa59798c6bfc7a00c2281a924f979c55d",
+      "core_business_bytes_equal_implementation_source": true
+    },
+    "related_v2_python": {
+      "passed": 39,
+      "failed": 0,
+      "duration_seconds": 14.81,
+      "command": "PYTHONPATH=src python -m pytest tests/first_life_android_v2 -q --ignore=tests/first_life_android_v2/test_rev3_operator.py"
+    },
+    "full_core_repository": "NOT_RERUN_UNCHANGED_CORE_SOURCE"
+  },
+  "asset_bytes": {
+    ".js": 547524,
+    ".css": 119821,
+    ".webp": 392688
+  },
+  "asset_gzip_bytes": {
+    ".js": 181167,
+    ".css": 25464
+  },
+  "real_provider_calls": 0,
+  "real_social_sends": 0,
+  "private_data_used": false,
+  "production_changed": false,
+  "original_image_changed": false,
+  "genesis_executed": false,
+  "core_wire_contract_changed": false,
+  "native_security_plugin_changed": false,
+  "master_matrix_changed": false,
+  "first_life_experience_ready": "NOT_READY",
+  "beta": "NO",
+  "human_naturalness": "NOT_RUN"
+}

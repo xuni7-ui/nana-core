@@ -1,0 +1,26 @@
+To honour the JVM settings for this build a single-use Daemon process will be forked. For more on this, please refer to https://docs.gradle.org/8.11.1/userguide/gradle_daemon.html#sec:disabling_the_daemon in the Gradle documentation.
+Daemon will be stopped at the end of the build 
+
+FAILURE: Build failed with an exception.
+
+* What went wrong:
+A problem occurred configuring root project 'android'.
+> Could not resolve all artifacts for configuration 'classpath'.
+   > Could not resolve com.android.tools.build:gradle:8.7.2.
+     Required by:
+         root project :
+      > No cached version of com.android.tools.build:gradle:8.7.2 available for offline mode.
+      > No cached version of com.android.tools.build:gradle:8.7.2 available for offline mode.
+   > Could not resolve com.google.gms:google-services:4.4.2.
+     Required by:
+         root project :
+      > No cached version of com.google.gms:google-services:4.4.2 available for offline mode.
+      > No cached version of com.google.gms:google-services:4.4.2 available for offline mode.
+
+* Try:
+> Run with --stacktrace option to get the stack trace.
+> Run with --info or --debug option to get more log output.
+> Run with --scan to get full insights.
+> Get more help at https://help.gradle.org.
+
+BUILD FAILED in 6s

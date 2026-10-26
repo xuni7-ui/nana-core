@@ -1,0 +1,16 @@
+SYNTHETIC_HTTP_FIXTURE browser development history, not real cloud/provider qualification.
+This is a factual summary of tool outputs; it is not a reconstructed raw log.
+
+First desktop invocation: 4 passed / 2 failed (about 1.2 minutes).
+- provider/memory test waited on getByLabel('供应商预设', exact=true).
+  The implicit select label includes its option text. Role-based combobox name
+  matching is the appropriate selector; no product behavior was changed.
+- theme test used a regex with no spaces between button text nodes. Browser
+  accessible names contain whitespace. The test now matches the actual name.
+Second desktop invocation: 5 passed / 1 failed (10.1 seconds).
+- overly broad /晨雾/ matched the header toggle and the theme option.
+  Anchored theme names resolve the ambiguity without reducing an assertion.
+Subsequent complete six-test/four-viewport invocation: 24 passed / 0 failed,
+36.1 seconds; original JSON retained as browser-initial-24.json.
+No auto-retries (Playwright retries=0), paid model calls, real cloud use or
+production changes. Expanded final suite is reported separately.

@@ -1,0 +1,17 @@
+{
+  "base_head": "a07e906fa59798c6bfc7a00c2281a924f979c55d",
+  "master_matrix_bytes_equal": true,
+  "fixed_criteria_definitions_changed": false,
+  "core_business_changed": false,
+  "core_api_contract_changed": false,
+  "native_security_plugin_changed": false,
+  "protected_files": {
+    "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md": "fe6efe121a05145b44178d5ec26b99430a28e873fca8d1b80f16671c65e5133c",
+    "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md": "e8a197e28bde7605d0bd590e6d5f425af99f545d7df924caf22064dbad811552",
+    "apps/nana-space/src/data/v2.ts": "01b08326d01513fe72e592f51f1bd2010d473de3f7f45b2edb72a3c7c4c19976",
+    "apps/nana-space/src/data/v2.generated.ts": "04033b4981381088c65268cd80d20d1fc5290b88aa43aee8e4076d4a566be23d",
+    "apps/nana-space/android/app/src/main/java/life/nana/space/NanaHostPlugin.java": "55368c864c186d9b31de25f6d86ef064d29c3d2788e002f6a1651bf782c32782"
+  },
+  "original_deployment_worktree_head": "a07e906fa59798c6bfc7a00c2281a924f979c55d",
+  "original_deployment_dirty": false
+}

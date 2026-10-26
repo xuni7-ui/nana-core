@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 43,
-  "as_of_us": 1793030210652249,
+  "revision": 44,
+  "as_of_us": 1793030402981359,
   "stage": "H",
   "workstream": "NANA_SPACE_V3_COMPANION_EXPERIENCE_CONTROL_CENTER",
-  "status": "FRONTEND_IMPLEMENTED_TESTED_ARTIFACT_FINALIZATION",
+  "status": "OFFLINE_CLIENT_QUALIFIED_BACKEND_AND_PHYSICAL_GATES_PENDING",
   "progress": [
     "独立dev/nana-space-v3-cotex从最新First-Life a07e906；原部署分支/worktree/合格镜像未改，GLOBAL_STAGE H/Advanced，Master/fixed63不变。",
     "V3真实v2前端：首页/小房间/月光晨雾系统主题/字号/reduced-motion/手机导航；不编造情绪或生活史。",
@@ -19,7 +19,7 @@
     "记忆来源时间线/搜索/日期/可信度，Manager WITHDRAW实际接线；备注纠错/文件预览只USER_PROVIDED草稿，隐私类不扩张。",
     "聊天/设备/Manager/Host沿用原认证/CSRF/Keystore/单次确认，修异步串页/晚配对/注销/隐私正文复活；UNKNOWN只核验不重发。",
     "最新41单测、36合成HTTP浏览器/4视口与120%字号通过；原实际Core三视口与39相关回归通过；不冒充真人/实机或全仓新资格。",
-    "Android同applicationId/原debug证书，versionCode300；Web默认live，旧Demo显式模式；最终APK/哈希/交付证据收口中。"
+    "源码fde9074，APK3.0.0/4790932bytes/SHA02d85e56、Web608679bytes双构建相同，41文件与APK全等；同包名/原debug证书/300升级，原生1测试、lint0errors15warnings；实机待核。"
   ],
   "open_gates": [
     "原部署A/B宿主load/runtime/Tailscale/手机HTTPS仍需真实回执；C仅准备、D/E暂缓；当前前端分支不部署或创建正式主体。",
@@ -31,7 +31,8 @@
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
     "docs/nana_space_v3/IMPLEMENTATION.md",
     "docs/nana_space_v3/STATUS.md",
-    "docs/nana_space_v3/BACKEND_INTEGRATION.md"
+    "docs/nana_space_v3/BACKEND_INTEGRATION.md",
+    "docs/nana_space_v3/evidence/qualification.json"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

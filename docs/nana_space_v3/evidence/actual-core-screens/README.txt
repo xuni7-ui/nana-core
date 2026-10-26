@@ -1,0 +1,1 @@
+OWNED_DEVELOPMENT_ONLY, original Core / no paid Provider. These include three legacy v2 browser-test positions captured with the new UI, plus three moonlight-theme browser captures. All are local Chromium browser screenshots, not Android device screenshots or live cloud proof. Historical V2 screenshots were restored unchanged.
