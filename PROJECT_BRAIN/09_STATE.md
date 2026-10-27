@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 47,
-  "as_of_us": 1793129971705846,
+  "revision": 48,
+  "as_of_us": 1793130779899202,
   "stage": "H",
   "workstream": "FIRST_LIFE_UNIFIED_RELEASE",
-  "status": "ISOLATED_UNIFIED_RELEASE_QUALIFIED_PRODUCTION_NOT_RUN",
+  "status": "UNIFIED_RELEASE_CORE_IMAGE_QUALIFIED_V3_AND_OPERATOR_ABI_PENDING",
   "progress": [
     "延续First-Life Android V2/rev3发行交付；已核无重复release分支，从9217e3f完整继承7a1bce9及Execution Context。",
     "同原合格镜像/私有CPython3.12.14/SQLite3.51.3/OpenSSL3.5.7/Debian13，离线安装source9217新Core249files；不另造Runtime或主体。",
@@ -19,19 +19,20 @@
     "实际杀BFF自动恢复1次、重建同Subject epoch2→3→4，B8恢复/旧source fencing/撤Grant通过。",
     "真实SDK新ProviderSettings与ExecutionContext import/metadata通过；默认TLS CERT_REQUIRED；未进行新外部TLS或模型调用。",
     "实际统一image导出11片，总306311957bytes/gzip SHA80286d89549901e3fef6c1dbf7cdfabdb3aa112e27023aab24cd7f9b913e6648；全部分片、gzip CRC/tarSHA通过，普通/-O校验负例拒绝通过；Core双构建同hash。",
-    "Master/63/schema13/43表/CotEX/云生产/QQ/Iris不改；真实HOST/phone/human待原门，First-Life NOT_READY。"
+    "用户扩展同一任务：合入ea1e225完整V3并接config/backup native契约；优先修Host Operator宿主OpenSSL误用与dry-run参数互斥；现有Core-only image非最终V3交付。"
   ],
   "open_gates": [
-    "真实Host Operator/SSH需要既有可信认证绑定；本轮无安全通道、无host部署或宿主修复资格。",
-    "正式Genesis/手机与First-Life主线独立继续，此增强不新增Genesis门；原模型/private/social/生产授权边界保留。",
-    "通用decorator须宿主显式接线；原C继续原Hands，不宽化GovernedRealization白名单。",
-    "Master/63不改；Human NOT_RUN、First-Life NOT_READY、Beta NO。"
+    "云端报告12/13 qualified_interpreter缺OPENSSL_3.3.0；本地镜像SDK通过不等于真实Operator入口已修复。",
+    "ea1e225尚未整合进此release，V3新API/native接线、Web/APK及最终统一CLOUD_DEPLOY_HANDOFF待完成。",
+    "正式Genesis/生产激活/私人迁移/旧writer切换/付费仍按原授权门；不使用聊天历史密钥。",
+    "按北京时间2026-10-28 07:00复盘并在同分支继续施工；若环境缺失真实报告，不仅发送提醒。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
     "docs/nana_first_life_unified_release/DEPLOY.md",
-    "docs/nana_first_life_unified_release/evidence/qualification.json"
+    "docs/nana_first_life_unified_release/evidence/qualification.json",
+    "docs/nana_first_life_unified_release/UNIFIED_MISSION.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

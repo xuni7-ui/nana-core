@@ -1171,3 +1171,7 @@ main/R045/production/private/device/social/paidProvider0。报告与证据：doc
 
 ### First-Life Unified Release (2026-10-27)
 [H Advanced/既有First-Life发行延续，不新造Core] 核对无已开始的重复release后，从9217e3f完整继承RealLiving7a1bce9、ExecutionContext；不重复开发业务。原合格Debian13 image上离线安装新Core，实际SQLite3.51.3/Python3.12.14/OpenSSL3.5.7 UID999验证；新统一image de899852...。实际四卷、只读SDK、API十页/原C离线chat、杀BFF自动恢复、容器重建同ID epochs2→3→4、backup/B8restore/旧source fence通过。不是正式Genesis/生产部署；新Provider与context import通过，不访问模型/私史/旧QQ。完整镜像导出交接及部署说明见docs/nana_first_life_unified_release；初次磁盘不足失败保留，不降低门槛。原1645/12skip按相同runtime源码继承，不冒称新全仓运行；Master/63不改。
+
+
+### Unified Release expanded user mission / checkpoint (2026-10-28 CST)
+[同一First-Life Unified Release，不新开竞争版本] Core-only afb24ba实际推送完成，已有image/SDK/恢复资格保留；用户现明确将ea1e225完整V3、Provider/backup native API及Host Operator OpenSSL/Genesis入口修复合入唯一交付目标。云端12/13、OPENSSL_3.3.0错误与PID/CapEff为用户报告，尚未本地核验，不能将镜像导入PASS冒充真实Operator13/13。当前Core-only+V2Web不是最终V3产物。详细用户任务及未完成项见docs/nana_first_life_unified_release/UNIFIED_MISSION.md；计划北京时间10月28日07:00回顾后继续同分支独立开发，实际automation创建结果以工具确认为准。Master/63不变，正式C-only Genesis授权不扩张，本会话不执行生产/私史/旧writer/付费。
