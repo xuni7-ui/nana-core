@@ -293,11 +293,13 @@ export function HomeView({
 }
 export function BackupView({
   host,
+  status,
   canBackup,
   busy,
   backup,
 }: {
   host: Record<string, unknown>;
+  status?: Record<string, unknown> | null;
   canBackup: boolean;
   busy: boolean;
   backup: () => void;
@@ -342,6 +344,25 @@ export function BackupView({
           <HardDrive size={17} />
           请求 Core 一致性备份
         </button>
+        {status && (
+          <div className="v3-inline-note">
+            服务端回执投影：{label(status.scope)} · PC{" "}
+            {label(status.pc_delivery)} · 恢复 {label(status.restore_check)}
+            <ul>
+              {Array.isArray(status.local_receipts) &&
+                status.local_receipts.map((row, i) => {
+                  const r = (
+                    row && typeof row === "object" ? row : {}
+                  ) as Record<string, unknown>;
+                  return (
+                    <li key={i}>
+                      {label(r.receipt_id)} · {label(r.state)}
+                    </li>
+                  );
+                })}
+            </ul>
+          </div>
+        )}
         <p className="v3-muted">
           需要 Host Admin
           单次确认。手机不会打包数据库，也不会创建或恢复另一个奈奈。

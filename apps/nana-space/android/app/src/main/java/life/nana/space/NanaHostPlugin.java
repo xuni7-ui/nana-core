@@ -218,6 +218,8 @@ public class NanaHostPlugin extends Plugin {
                 else if ("devices".equals(op)) route = "devices";
                 else if ("notifications".equals(op)) route = "notifications";
                 else if ("providers".equals(op)) route = "providers/status";
+                else if ("backup.status".equals(op)) route = "backup/status";
+                else if ("providers.command".equals(op)) { route = "providers/commands";method = "POST"; }
                 else if ("host.status".equals(op)) route = "host/operations";
                 else if ("message".equals(op)) { route = "messages";method = "POST"; }
                 else if ("command".equals(op)) { route = "commands";method = "POST"; }

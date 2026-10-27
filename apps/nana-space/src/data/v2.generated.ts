@@ -9,6 +9,19 @@ export type Binding = {
   "surface_binding_id"?: string;
 };
 
+export type CapabilityRoute = {
+  "operation": "COGNITION" | "EMBED" | "VISION" | "IMAGE_GENERATE" | "STT" | "TTS" | "AUDIO_UNDERSTAND" | "AUDIO_GENERATE" | "VIDEO_UNDERSTAND";
+  "primary_model_profile_id": string;
+  "fallback_model_profile_ids"?: Array<string>;
+  "enabled"?: boolean;
+  "timeout_ceiling_ms"?: number;
+  "cost_ceiling"?: number;
+  "context_ceiling"?: number;
+  "output_ceiling"?: number;
+  "permitted_privacy"?: Array<"PUBLIC" | "PROJECT" | "PERSONAL" | "SECRET">;
+  "revision"?: number;
+};
+
 export type CommandRequest = {
   "client_request_id": string;
   "idempotency_key": string;
@@ -77,6 +90,24 @@ export type MessageRequest = {
   "privacy_class"?: "PUBLIC" | "PROJECT";
 };
 
+export type ModelProfile = {
+  "model_profile_id": string;
+  "provider_profile_id": string;
+  "remote_model_id": string;
+  "model_version": string;
+  "operations": Array<"COGNITION" | "EMBED" | "VISION" | "IMAGE_GENERATE" | "STT" | "TTS" | "AUDIO_UNDERSTAND" | "AUDIO_GENERATE" | "VIDEO_UNDERSTAND">;
+  "input_modalities": Array<"TEXT" | "EMBEDDING" | "IMAGE" | "AUDIO" | "VIDEO">;
+  "output_modalities": Array<"TEXT" | "EMBEDDING" | "IMAGE" | "AUDIO" | "VIDEO">;
+  "context_limit": number;
+  "output_limit": number;
+  "tool_proposals"?: boolean;
+  "latency_class"?: "LOW" | "MEDIUM" | "HIGH" | "UNKNOWN";
+  "cost_class"?: "FIXTURE" | "LOW" | "MEDIUM" | "HIGH" | "UNKNOWN";
+  "enabled"?: boolean;
+  "tags"?: Array<string>;
+  "revision"?: number;
+};
+
 export type PairOffer = {
   "device_name": string;
   "roles"?: Array<Role>;
@@ -87,6 +118,40 @@ export type PairRequest = {
   "code": string;
   "subject_id": string;
   "device_name": string;
+};
+
+export type ProviderCommand = {
+  "operation": "UPSERT_PROVIDER" | "REMOVE_PROVIDER" | "UPSERT_MODEL" | "REMOVE_MODEL" | "SET_CAPABILITY_ROUTE" | "REMOVE_CAPABILITY_ROUTE" | "ENABLE_PROVIDER" | "DISABLE_PROVIDER";
+  "expected_revision": number;
+  "target_id"?: (string | null);
+  "provider"?: (ProviderProfile | null);
+  "model"?: (ModelProfile | null);
+  "route"?: (CapabilityRoute | null);
+};
+
+export type ProviderConfigurationRequest = {
+  "client_request_id": string;
+  "idempotency_key": string;
+  "expected_revision": number;
+  "run_generation": string;
+  "owner_epoch": number;
+  "command": ProviderCommand;
+};
+
+export type ProviderProfile = {
+  "provider_profile_id": string;
+  "display_name": string;
+  "protocol": "OPENAI_COMPATIBLE_CHAT" | "LOCAL" | "SYNTHETIC_LOOPBACK" | "OPENAI_RESPONSES" | "ANTHROPIC" | "GEMINI_NATIVE" | "QWEN_NATIVE" | "CUSTOM";
+  "chat_thinking_mode"?: "PROVIDER_DEFAULT" | "DISABLED";
+  "base_url"?: (string | null);
+  "locality": "LOCAL_FIXTURE" | "LOCAL" | "REMOTE";
+  "secret_ref"?: (string | null);
+  "enabled"?: boolean;
+  "permitted_privacy"?: Array<"PUBLIC" | "PROJECT" | "PERSONAL" | "SECRET">;
+  "default_timeout_ms"?: number;
+  "default_cost_ceiling"?: number;
+  "tags"?: Array<string>;
+  "revision"?: number;
 };
 
 export type Realm = "OWNED_DEVELOPMENT_ONLY" | "PRODUCTION_SINGLE_SUBJECT";

@@ -173,10 +173,10 @@ class GatewayService:
                 "privacy_watermark": privacy_after,
             }
             if page == Page.SETTINGS:
-                from ..provider import provider_status
+                from .provider_settings import projection
 
                 try:
-                    data["provider_settings"] = provider_status(self.supervisor.home)["provider_settings"]
+                    data["provider_settings"] = projection(self.supervisor.home)
                 except (CoreError, OSError, ValueError):
                     data["provider_settings"] = {"state": "UNAVAILABLE", "no_default_provider_selected": True}
             if page == Page.MEMORIES:

@@ -4,6 +4,7 @@ import json
 from pathlib import Path
 from pydantic.json_schema import models_json_schema
 from nana_core.life.live_api import contracts as c
+from nana_core.life.live_api.provider_settings import ProviderConfigurationRequest
 
 ROOT = Path(__file__).resolve().parents[2]
 MODELS = [
@@ -17,6 +18,7 @@ MODELS = [
     c.HostRequest,
     c.HostConfirmation,
     c.Receipt,
+    ProviderConfigurationRequest,
 ]
 
 
@@ -82,6 +84,8 @@ def generate():
         "/devices/{id}": ["delete"],
         "/notifications": ["get"],
         "/providers/status": ["get"],
+        "/providers/commands": ["post"],
+        "/backup/status": ["get"],
         "/privacy/withdrawal": ["post"],
     }.items():
         paths["/api/nana-space/v2" + path] = {
@@ -99,6 +103,7 @@ def generate():
         "/devices/offers": "PairOffer",
         "/messages": "MessageRequest",
         "/commands": "CommandRequest",
+        "/providers/commands": "ProviderConfigurationRequest",
         "/privacy/withdrawal": "CommandRequest",
         "/host/confirmations": "HostConfirmation",
         "/host/operations": "HostRequest",

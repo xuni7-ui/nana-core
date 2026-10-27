@@ -45,3 +45,15 @@ def configure(service, principal, body):
     return service._call(
         principal, body, "PROVIDER_CONFIGURATION", Role.HOST_ADMIN, call, lambda row: isinstance(row, dict), before
     )
+
+
+def projection(home):
+    """Missing host config is explicit revision0, never initialize on a read."""
+    from ..provider import provider_status
+    path = home / "providers.json"
+    try:
+        path.lstat()
+    except FileNotFoundError:
+        return {"schema_version": 1, "revision": 0, "providers": [], "models": [], "routes": [],
+                "configured": False, "storage_class": "HOST_LOCAL_NOT_SUBJECT_MEMORY", "execution_authority": False}
+    return provider_status(home)["provider_settings"]

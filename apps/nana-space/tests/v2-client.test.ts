@@ -45,3 +45,37 @@ test("authority injection, invalid scope and foreign subject fail envelope check
   );
   expect(() => envelope(sample(), "other")).toThrow("INVALID_IDENTITY");
 });
+
+test("new finite provider and backup routes use original session and unknown writes never retry", async () => {
+  const request = vi.fn(async (_url: unknown, options?: RequestInit) => {
+    if (options?.method === "POST")
+      throw new TypeError("synthetic connection reset");
+    return new Response(JSON.stringify(sample()), { status: 200 });
+  });
+  vi.stubGlobal("fetch", request);
+  const client = new V2Client();
+  await client.bootstrap();
+  await client.backupStatus();
+  expect(String(request.mock.calls.at(-1)?.[0])).toBe(
+    "/api/nana-space/v2/backup/status",
+  );
+  await expect(
+    client.write("providers.command", {
+      client_request_id: "new",
+      idempotency_key: "new",
+      expected_revision: 0,
+      run_generation: "b".repeat(32),
+      owner_epoch: 1,
+      command: {
+        operation: "DISABLE_PROVIDER",
+        target_id: "provider.a",
+        expected_revision: 5,
+      },
+    }),
+  ).rejects.toMatchObject({ code: "UNKNOWN_VERIFY_ONLY" });
+  expect(
+    request.mock.calls.filter((x) =>
+      String(x[0]).includes("providers/commands"),
+    ),
+  ).toHaveLength(1);
+});

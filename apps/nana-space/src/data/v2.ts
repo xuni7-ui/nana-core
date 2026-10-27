@@ -5,6 +5,7 @@ import type {
   CommandRequest,
   HostRequest,
   HostConfirmation,
+  ProviderConfigurationRequest,
 } from "./v2.generated";
 
 export type LivePage =
@@ -273,8 +274,12 @@ export class V2Client {
     );
   }
   async write(
-    kind: "message" | "command" | "host.operation",
-    body: MessageRequest | CommandRequest | HostRequest,
+    kind: "message" | "command" | "host.operation" | "providers.command",
+    body:
+      | MessageRequest
+      | CommandRequest
+      | HostRequest
+      | ProviderConfigurationRequest,
   ): Promise<Envelope> {
     if (body.run_generation !== this.generation)
       throw new V2Error("STALE_RUN_NO_REPLAY");
@@ -282,6 +287,7 @@ export class V2Client {
       message: "messages",
       command: "commands",
       "host.operation": "host/operations",
+      "providers.command": "providers/commands",
     }[kind];
     const result = isNative()
       ? await this.nativeCall({
@@ -312,6 +318,13 @@ export class V2Client {
     if (typeof token !== "string" || token.length < 24)
       throw new V2Error("CONFIRMATION_REQUIRED");
     return token;
+  }
+  async backupStatus(): Promise<Envelope> {
+    return this.accept(
+      isNative()
+        ? await this.nativeCall({ operation: "backup.status", data: {} })
+        : await this.request("backup/status"),
+    );
   }
   async devices(): Promise<Envelope> {
     return this.accept(

@@ -31,6 +31,7 @@ import type {
   Envelope,
   CommandRequest,
   HostRequest,
+  ProviderCommand,
 } from "../data/v2.generated";
 import {
   V2Client,
@@ -158,6 +159,10 @@ export function LiveSpace() {
   const [offerBusy, setOfferBusy] = useState(false);
   const [pairManagement, setPairManagement] = useState(false);
   const [devices, setDevices] = useState<Record<string, unknown>[]>([]);
+  const [backupStatus, setBackupStatus] = useState<Record<
+    string,
+    unknown
+  > | null>(null);
   const [receipt, setReceipt] = useState<Record<string, unknown> | null>(null);
   const [notifications, setNotifications] =
     useState("未请求系统通知权限；后台推送未资格");
@@ -185,11 +190,13 @@ export function LiveSpace() {
     bodyGeneration.current++;
     setDraft("");
     setReceipt(null);
+    setBackupStatus(null);
   }, []);
   const accept = useCallback((b: Envelope) => {
     if (previousRun.current && previousRun.current !== b.run_generation) {
       setTurns([]);
       setReceipt(null);
+      setBackupStatus(null);
     }
     previousRun.current = b.run_generation;
     current.current = b;
@@ -227,6 +234,16 @@ export function LiveSpace() {
         }
         privacy.current = watermark;
       }
+      if (requestedPage === "backup" && b.capabilities.backup_status === true) {
+        const backup = await client.current.backupStatus();
+        if (
+          version !== sessionVersion.current ||
+          pageVersion !== routeVersion.current ||
+          seq !== readVersion.current
+        )
+          return;
+        setBackupStatus(object(backup.data));
+      } else setBackupStatus(null);
       current.current = view;
       setSnapshot(view);
       setLatency(Math.round(performance.now() - started));
@@ -250,6 +267,7 @@ export function LiveSpace() {
         routeVersion.current++;
         setPage(next);
         setSnapshot(null);
+        setBackupStatus(null);
         setPairOffer("");
       }
     };
@@ -527,6 +545,65 @@ export function LiveSpace() {
       if (version === sessionVersion.current) setBusy(false);
     }
   };
+  const applyProvider = async (command: ProviderCommand) => {
+    if (busy) throw new V2Error("REQUEST_BUSY");
+    const id = crypto.randomUUID(),
+      version = sessionVersion.current;
+    setBusy(true);
+    try {
+      const b = await fresh();
+      const r = await client.current.write("providers.command", {
+        ...writeBase(b, id),
+        command,
+      });
+      if (version !== sessionVersion.current)
+        throw new V2Error("SESSION_REVOKED");
+      const d = object(r.data);
+      setReceipt(d);
+      if (d.state !== "VERIFIED")
+        throw new V2Error(
+          typeof d.error === "string" ? d.error : "UNKNOWN_VERIFY_ONLY",
+        );
+      const result = object(d.result);
+      setNotice(
+        `云端配置已保存 · revision ${String(result.configuration_revision)}；不代表模型调用授权或实时生效。`,
+      );
+      await refresh();
+    } catch (e) {
+      if (version === sessionVersion.current) {
+        const code = e instanceof V2Error ? e.code : "UNKNOWN_VERIFY_ONLY";
+        if (code === "UNKNOWN_VERIFY_ONLY")
+          setReceipt({
+            receipt_id: id,
+            state: "UNKNOWN",
+            dispatch_happened: "UNKNOWN",
+            error: code,
+          });
+        setNotice(
+          code === "PROVIDER_CONFIG_REVISION_CONFLICT"
+            ? "配置版本已变化，请刷新后重新选择；旧请求不会自动重发。"
+            : code,
+        );
+      }
+      throw e;
+    } finally {
+      if (version === sessionVersion.current) setBusy(false);
+    }
+  };
+  const verifyLatestReceipt = async () => {
+    const id = text(receipt?.receipt_id),
+      version = sessionVersion.current;
+    if (!id || busy) return;
+    try {
+      const r = await client.current.receipt(id);
+      if (version === sessionVersion.current) {
+        setReceipt(object(r.data));
+        await refresh();
+      }
+    } catch (e) {
+      if (version === sessionVersion.current) setNotice(explain(e));
+    }
+  };
   const logout = async () => {
     sessionVersion.current++;
     offerVersion.current++;
@@ -541,6 +618,7 @@ export function LiveSpace() {
     setPairOffer("");
     setDraft("");
     setReceipt(null);
+    setBackupStatus(null);
     setBrowsing(false);
     setStyleDraft([]);
     setNotice("");
@@ -631,6 +709,7 @@ export function LiveSpace() {
     setPage(p);
     setNav(false);
     setSnapshot(null);
+    setBackupStatus(null);
     setPairOffer("");
     setNotice("");
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -1047,11 +1126,19 @@ export function LiveSpace() {
                 settings={data.provider_settings}
                 available={healthy}
                 onNotice={notify}
+                canConfigure={
+                  admin &&
+                  healthy &&
+                  bootstrap?.capabilities.provider_configuration_write === true
+                }
+                busy={busy}
+                onApply={applyProvider}
               />
             )}
             {page === "backup" && (
               <BackupView
                 host={hostState}
+                status={backupStatus}
                 canBackup={admin && healthy}
                 busy={busy}
                 backup={() => void host("BACKUP")}
@@ -1557,6 +1644,13 @@ export function LiveSpace() {
             {receipt && (
               <details className="live-receipt v3-technical">
                 <summary>最近请求回执 · {text(receipt.state)}</summary>
+                <button
+                  className="button"
+                  disabled={busy}
+                  onClick={() => void verifyLatestReceipt()}
+                >
+                  核验当前回执
+                </button>
                 <dl className="v3-facts">
                   <div>
                     <dt>请求</dt>

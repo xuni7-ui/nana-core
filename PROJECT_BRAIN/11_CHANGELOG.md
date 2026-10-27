@@ -2752,3 +2752,7 @@ FL-A完整原报告收到并读取，脱敏source SHA登记，不复制平台个
 
 ### Nana Space V3 · delivery sealed / 2026-10-26
 [实测/Advanced frontend，非生产] source fde9074；APK4790932bytes/SHA02d85e568195d478de2b515ac45bf6278b3a399c262bf80841091ff30d8d0160、life.nana.space.dev/300，原V2证书完全一致，v1/v2签名与41份Web assets逐字核对通过；Web608679bytes/SHA60a15bb9e27e5288991666ce3e31adb037c1bc594ccc59998d6e287453917ca8双构建相同。最终41unit/36synthetic-browser/3actual-Core-browser/39related/1native-unit全过，lint0error15warnings，首次失败记录保留、不称新全仓。32截图区分synthetic与原Core，source manifest109文件。云端部署分支a07e906不变，Master/Matrix/原Core/API/Keystore字节不变；模型/记忆写入与B1状态待接线，实机/human/正式Cloud未升级，genesis/C-D-E边界原样保留。交付与最小集成见docs/nana_space_v3/HANDOFF.md；无新授权请求或生产操作。
+
+
+### Unified V3 integration / ABI entry checkpoint
+[Advanced H，续c883e14] 合并ea1e225完整前端及历史，07/08/10/11追加V3段落，09保留新主线typed header并将旧V3 header收为历史，不覆盖Core状态。新增原Operator只读容器check适配入口、互斥flag归一和原脚本digest绑定；实际原SDK ABI与合成checker/readonly通过，原13/13仍未验证。原V2 Client/native有限新增provider config/backup routes，UI接原HOST_ADMIN/opt-in/CAS/receipt，空配置只读revision0不初始化；无模型请求。新增13项相关Python与44项TS通过（最终构建证据继续收口），不是生产或手机资格。

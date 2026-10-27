@@ -28,6 +28,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--work", type=Path, required=True)
     parser.add_argument("--port", type=int, default=18445)
+    parser.add_argument("--allow-provider-configuration", action="store_true", help="Explicit synthetic development-only config test opt-in")
     a = parser.parse_args()
     work = a.work.absolute()
     if work.exists():
@@ -45,7 +46,7 @@ def main():
     supervisor = Supervisor(home, work / "host", binding, [release], active_release="owned-dev")
     supervisor.start()
     auth = AuthService(work / "auth.json", password=PW, roles=tuple(Role))
-    service = GatewayService(supervisor, auth, work / "host")
+    service = GatewayService(supervisor, auth, work / "host", allow_provider_configuration=a.allow_provider_configuration)
     subprocess.run(
         [
             "openssl",

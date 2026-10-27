@@ -25,10 +25,20 @@ import {
   type ProviderDraft,
 } from "../../data/provider-center";
 
+import type { ProviderCommand } from "../../data/v2.generated";
+import {
+  providerCommand,
+  modelCommand,
+  routeCommand,
+} from "../../data/provider-commands";
+
 interface Props {
   settings: unknown;
   available: boolean;
   onNotice: (text: string) => void;
+  canConfigure?: boolean;
+  busy?: boolean;
+  onApply?: (command: ProviderCommand) => Promise<void>;
 }
 const secretLabels = {
   AVAILABLE: "安全凭据可用",
@@ -36,7 +46,14 @@ const secretLabels = {
   UNCONFIGURED: "未绑定凭据",
   UNKNOWN: "凭据状态未知",
 };
-export function ModelCenter({ settings, available, onNotice }: Props) {
+export function ModelCenter({
+  settings,
+  available,
+  onNotice,
+  canConfigure = false,
+  busy = false,
+  onApply,
+}: Props) {
   const view = useMemo(
     () => readProviderSettings(available ? settings : undefined),
     [settings, available],
@@ -46,6 +63,19 @@ export function ModelCenter({ settings, available, onNotice }: Props) {
   const [editor, setEditor] = useState(false);
   const [draft, setDraft] = useState<ProviderDraft>(newProviderDraft);
   const [proposal, setProposal] = useState("");
+  const [providerId, setProviderId] = useState("");
+  const [modelId, setModelId] = useState("");
+  const apply = async (make: () => ProviderCommand) => {
+    if (!canConfigure || busy || !onApply) return;
+    try {
+      await onApply(make());
+      setValidation([]);
+    } catch (error) {
+      setValidation([
+        error instanceof Error ? error.message : "配置未确认，请查看回执。",
+      ]);
+    }
+  };
   const [validation, setValidation] = useState<string[]>([]);
   const [routeDraft, setRouteDraft] = useState<
     Record<string, { revision?: number; primary: string; fallbacks: string[] }>
@@ -88,7 +118,10 @@ export function ModelCenter({ settings, available, onNotice }: Props) {
       <div className="v3-inline-note">
         <ShieldCheck size={17} />
         <span>
-          {source}。当前 V2 接口只读；草稿只在本页内存中，尚未应用到云端。
+          {source}。
+          {canConfigure
+            ? "宿主已开放配置，提交结果以真实回执为准；配置不会授权模型调用。"
+            : "当前连接未开放配置写入；草稿只在本页内存中。"}
         </span>
       </div>
       <div className="v3-model-toolbar">
@@ -148,6 +181,24 @@ export function ModelCenter({ settings, available, onNotice }: Props) {
             绑定；预设仅帮助填写协议意向。
           </p>
           <div className="v3-form-grid">
+            <label>
+              供应商配置 ID
+              <input
+                aria-label="供应商配置 ID"
+                value={providerId}
+                placeholder="provider.example"
+                onChange={(e) => setProviderId(e.target.value)}
+              />
+            </label>
+            <label>
+              模型配置 ID
+              <input
+                aria-label="模型配置 ID"
+                value={modelId}
+                placeholder="model.example"
+                onChange={(e) => setModelId(e.target.value)}
+              />
+            </label>
             <label>
               供应商预设
               <select
@@ -296,6 +347,40 @@ export function ModelCenter({ settings, available, onNotice }: Props) {
             >
               <Check size={16} />
               整理配置草稿
+            </button>
+            <button
+              className="button"
+              disabled={
+                !canConfigure ||
+                busy ||
+                !providerId ||
+                view.revision === undefined ||
+                view.providers.some((p) => p.id === providerId)
+              }
+              onClick={() =>
+                void apply(() =>
+                  providerCommand(draft, providerId, view.revision!),
+                )
+              }
+            >
+              应用新供应商
+            </button>
+            <button
+              className="button"
+              disabled={
+                !canConfigure ||
+                busy ||
+                !modelId ||
+                !view.providers.some((p) => p.id === providerId) ||
+                view.revision === undefined
+              }
+              onClick={() =>
+                void apply(() =>
+                  modelCommand(draft, providerId, modelId, view.revision!),
+                )
+              }
+            >
+              注册模型配置
             </button>
             <button
               className="button"
@@ -513,7 +598,7 @@ export function ModelCenter({ settings, available, onNotice }: Props) {
                         )}
                         <p className="v3-muted">
                           {candidates.length
-                            ? "选择只保存在本页，V2 尚无路由写入端点。备用仅可在未 dispatch 前选择。"
+                            ? "选择先留作草稿；仅显式提交后以云端回执为准。备用只在未 dispatch 前选择。"
                             : "当前没有符合此能力的已启用模型，不能凭供应商品牌推断支持。"}
                         </p>
                         {edited && (
@@ -521,6 +606,28 @@ export function ModelCenter({ settings, available, onNotice }: Props) {
                             <span className="v3-tag">
                               本地草稿 · 未应用{stale ? " · 已过时" : ""}
                             </span>
+                            <button
+                              className="button primary"
+                              disabled={
+                                !canConfigure ||
+                                busy ||
+                                stale ||
+                                !edited.primary ||
+                                view.revision === undefined
+                              }
+                              onClick={() =>
+                                void apply(() =>
+                                  routeCommand(
+                                    op,
+                                    edited.primary,
+                                    edited.fallbacks,
+                                    view.revision!,
+                                  ),
+                                )
+                              }
+                            >
+                              应用此路由
+                            </button>
                             <button
                               className="button"
                               onClick={() =>
@@ -588,6 +695,23 @@ export function ModelCenter({ settings, available, onNotice }: Props) {
                     </span>
                   ))}
                 </div>
+                <button
+                  className="button"
+                  disabled={
+                    !canConfigure || busy || view.revision === undefined
+                  }
+                  onClick={() =>
+                    void apply(() => ({
+                      operation: provider.enabled
+                        ? "DISABLE_PROVIDER"
+                        : "ENABLE_PROVIDER",
+                      target_id: provider.id,
+                      expected_revision: view.revision!,
+                    }))
+                  }
+                >
+                  {provider.enabled ? "停用供应商" : "启用供应商"}
+                </button>
                 <div className="v3-route-meta">
                   <span>超时上限 {provider.timeoutMs ?? "未知"} ms</span>
                   <span>
