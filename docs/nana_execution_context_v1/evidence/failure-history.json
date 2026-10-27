@@ -24,6 +24,12 @@
       "result": "compatibility defect found before final qualification",
       "cause": "SUCCEEDED action rejected by new decorator during original Kernel reobserve",
       "fix": "allow verification-only SUCCEEDED with original VERIFY attempt/Grant/budget proof; no execution retry"
+    },
+    {
+      "stage": "reobserve adapter test fixture",
+      "result": "two failed development tests; raw outputs preserved",
+      "cause": "initial call omitted operator argument, then incorrectly used schema1 fixture for schema12-only reobserve",
+      "fix": "exercise original VERIFY reservation/adapter on SUCCEEDED in isolated schema1; existing precision suite independently covers schema13 reobserve; no gate weakened"
     }
   ]
 }

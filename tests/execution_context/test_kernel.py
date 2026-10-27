@@ -279,7 +279,22 @@ def test_successful_effect_can_be_reobserved_without_dispatch(tmp_path):
         grant(kernel, authority, clock)
         action = kernel.propose("reading.card.create", RESOURCE, ARGS)
         assert kernel.run(action) == "SUCCEEDED"
-        observation = kernel.reobserve(action, authority)
-        assert observation["verdict"] == "MATCH"
+        # This isolated Kernel fixture is schema1, which intentionally cannot
+        # call schema12 reobserve. Exercise its adapter-side contract with the
+        # identical original authorized VERIFY reservation; existing Precision
+        # tests cover the schema13 reobserve/record/checkpoint path separately.
+        historical = store.one("actions", action)
+        invocation = kernel._invocation(historical)
+        with store.transaction("test.reobservation_started", {"action_id": action}) as tx:
+            authorization = kernel._grant_for(kernel.verify_capability, RESOURCE)
+            attempt = kernel._attempt(tx, historical, authorization, "VERIFY")
+            kernel._reserve(tx, attempt, {"external_requests": 1, "cost_micro_units": 1})
+            kernel._holds(tx, attempt, {"external_requests"})
+            tx.update("attempts", attempt, started_at_us=clock.utc_now_us())
+        observation = kernel.capability.verify(invocation)
+        assert observation.verdict == "MATCH"
         assert backend.calls == 1 and backend.verifies == 2
         assert store.one("actions", action)["state"] == "SUCCEEDED"
+        with store.transaction("test.reobservation_closed", {"action_id": action}) as tx:
+            tx.update("attempts", attempt, outcome="SUCCEEDED")
+            kernel._holds(tx, attempt, {"cost_micro_units"})
