@@ -1,3 +1,11 @@
+# 当前 V3 状态入口
+
+请以 [V3 STATUS](../../../docs/nana_space_v3/STATUS.md) 与其 evidence 为准。
+当前分支 dev/nana-space-v3-cotex，原 V2 部署分支不变；First-Life NOT_READY / Beta NO。
+以下内容是保留的 V1 历史资格，不能当成本轮重新运行结果。
+
+---
+
 # Nana Space — V1 与真实开发 Core 接入状态
 
 当前集成分支 dev/nana-space-core-integration-v1-codex，Core 固定 87f73d235d593a0d852bca409b0e73e0ef67cc5e / Precision revision31；原 V1 b403f60 / dev/nana-space-v1-codex 保留。所有本轮源码、记录与资源仅在 apps/nana-space。

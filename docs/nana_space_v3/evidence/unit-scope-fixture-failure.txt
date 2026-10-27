@@ -1,0 +1,51 @@
+
+> @nana/space@3.0.0 test
+> vitest run --config vitest.config.ts
+
+
+ RUN  v3.2.7 /workspace/nana-space-v3/apps/nana-space
+
+ ❯ tests/memory-center.test.ts (8 tests | 1 failed) 14ms
+   ✓ Memory center projection > preserves original evidence semantics without inventing topic or relationship 2ms
+   ✓ Memory center projection > searches only provided data and intersects source/type/topic filters 1ms
+   × Memory center projection > bounds and deduplicates records, rejects invalid timestamps 6ms
+     → expected [] to have a length of 32 but got +0
+   ✓ Memory import preview, never a memory write > marks user-provided text and detects current-projection and intra-file duplicates 1ms
+   ✓ Memory import preview, never a memory write > keeps injected markup as inert plain text and ignores asserted authority 0ms
+   ✓ Memory import preview, never a memory write > parses text paragraphs but fails closed on unsupported or malformed input 1ms
+   ✓ Memory import preview, never a memory write > bounds byte size, entry count and per-entry text without uploading 1ms
+   ✓ an out-of-scope memory body is never projected by a PUBLIC/PROJECT client 0ms
+ ✓ tests/adapters.test.ts (12 tests) 1452ms
+   ✓ fictional Demo data and transitions > has explicit failure and UNKNOWN semantics without retries  442ms
+   ✓ fictional Demo data and transitions > streams cumulative local text and cancels mid-stream  815ms
+ ✓ tests/live.test.ts (4 tests) 8ms
+ ✓ tests/v2-client.test.ts (2 tests) 6ms
+ ✓ tests/provider-center.test.ts (15 tests) 7ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/memory-center.test.ts > Memory center projection > bounds and deduplicates records, rejects invalid timestamps
+AssertionError: expected [] to have a length of 32 but got +0
+
+- Expected
++ Received
+
+- 32
++ 0
+
+ ❯ tests/memory-center.test.ts:71:31
+     69|       created_at_us: -1,
+     70|     }));
+     71|     expect(memoryCards(many)).toHaveLength(32);
+       |                               ^
+     72|     expect(memoryCards([rows[0], rows[0]])).toHaveLength(1);
+     73|     expect(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 4 passed (5)
+      Tests  1 failed | 40 passed (41)
+   Start at  15:50:50
+   Duration  2.46s (transform 203ms, setup 0ms, collect 255ms, tests 1.49s, environment 1ms, prepare 231ms)
+

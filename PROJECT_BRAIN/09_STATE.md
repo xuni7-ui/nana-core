@@ -2383,3 +2383,44 @@ Quality V2 evidence manifest SHA256 `3d6258d67adad77e4d484717b5c11a7652ac9d3d332
   ]
 }
 ```
+
+
+## Historical V3 branch current-state snapshot (ea1e225, imported during unified release)
+
+This records the frontend branch at merge time; it does not supersede the unified current header.
+
+```json
+{
+  "schema_version": 1,
+  "project_id": "nana-core",
+  "scope": "project-work",
+  "privacy_class": "PROJECT",
+  "revision": 44,
+  "as_of_us": 1793030402981359,
+  "stage": "H",
+  "workstream": "NANA_SPACE_V3_COMPANION_EXPERIENCE_CONTROL_CENTER",
+  "status": "OFFLINE_CLIENT_QUALIFIED_BACKEND_AND_PHYSICAL_GATES_PENDING",
+  "progress": [
+    "独立dev/nana-space-v3-cotex从最新First-Life a07e906；原部署分支/worktree/合格镜像未改，GLOBAL_STAGE H/Advanced，Master/fixed63不变。",
+    "V3真实v2前端：首页/小房间/月光晨雾系统主题/字号/reduced-motion/手机导航；不编造情绪或生活史。",
+    "模型中心复用ProviderSettings只读投影，11品牌预设/9原operation＋扩展位；配置/alias/primary-fallback仅内存草稿，无Key入口。",
+    "记忆来源时间线/搜索/日期/可信度，Manager WITHDRAW实际接线；备注纠错/文件预览只USER_PROVIDED草稿，隐私类不扩张。",
+    "聊天/设备/Manager/Host沿用原认证/CSRF/Keystore/单次确认，修异步串页/晚配对/注销/隐私正文复活；UNKNOWN只核验不重发。",
+    "最新41单测、36合成HTTP浏览器/4视口与120%字号通过；原实际Core三视口与39相关回归通过；不冒充真人/实机或全仓新资格。",
+    "源码fde9074，APK3.0.0/4790932bytes/SHA02d85e56、Web608679bytes双构建相同，41文件与APK全等；同包名/原debug证书/300升级，原生1测试、lint0errors15warnings；实机待核。"
+  ],
+  "open_gates": [
+    "原部署A/B宿主load/runtime/Tailscale/手机HTTPS仍需真实回执；C仅准备、D/E暂缓；当前前端分支不部署或创建正式主体。",
+    "模型写入/secret绑定/付费测试、实际returned model/usage、记忆纠错导入/关系索引与B1 PC状态缺v2端点，最小接线规格已给；没有假写成功。",
+    "实机安装/升级/键盘/通知和Human Naturalness仍NOT_RUN；First-Life NOT_READY/Beta NO，bwrap BLOCKED，真实Provider/private/social/production0。"
+  ],
+  "evidence_refs": [
+    "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
+    "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
+    "docs/nana_space_v3/IMPLEMENTATION.md",
+    "docs/nana_space_v3/STATUS.md",
+    "docs/nana_space_v3/BACKEND_INTEGRATION.md",
+    "docs/nana_space_v3/evidence/qualification.json"
+  ]
+}
+```

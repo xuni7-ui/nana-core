@@ -1,0 +1,73 @@
+/workspace/nana-space-v3/apps/nana-space/android/app/src/main/res/layout/activity_main.xml:2: Warning: The resource R.layout.activity_main appears to be unused [UnusedResources]
+<androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
+^
+/workspace/nana-space-v3/apps/nana-space/android/app/src/main/res/xml/config.xml:2: Warning: The resource R.xml.config appears to be unused [UnusedResources]
+<widget version="1.0.0" xmlns="http://www.w3.org/ns/widgets" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+^
+/workspace/nana-space-v3/apps/nana-space/android/app/src/main/res/xml/file_paths.xml:2: Warning: The resource R.xml.file_paths appears to be unused [UnusedResources]
+<paths xmlns:android="http://schemas.android.com/apk/res/android">
+^
+/workspace/nana-space-v3/apps/nana-space/android/app/src/main/res/mipmap-hdpi/ic_launcher.png: Warning: The resource R.mipmap.ic_launcher appears to be unused [UnusedResources]
+/workspace/nana-space-v3/apps/nana-space/android/app/src/main/res/drawable/ic_launcher_background.xml:2: Warning: The resource R.drawable.ic_launcher_background appears to be unused [UnusedResources]
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+^
+/workspace/nana-space-v3/apps/nana-space/android/app/src/main/res/values/ic_launcher_background.xml:3: Warning: The resource R.color.ic_launcher_background appears to be unused [UnusedResources]
+    <color name="ic_launcher_background">#FFFFFF</color>
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/nana-space-v3/apps/nana-space/android/app/src/main/res/mipmap-hdpi/ic_launcher_foreground.png: Warning: The resource R.mipmap.ic_launcher_foreground appears to be unused [UnusedResources]
+/workspace/nana-space-v3/apps/nana-space/android/app/src/main/res/drawable-v24/ic_launcher_foreground.xml:1: Warning: The resource R.drawable.ic_launcher_foreground appears to be unused [UnusedResources]
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+^
+/workspace/nana-space-v3/apps/nana-space/android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png: Warning: The resource R.mipmap.ic_launcher_round appears to be unused [UnusedResources]
+/workspace/nana-space-v3/apps/nana-space/android/app/src/main/res/values/strings.xml:5: Warning: The resource R.string.package_name appears to be unused [UnusedResources]
+    <string name="package_name">life.nana.space</string>
+            ~~~~~~~~~~~~~~~~~~~
+/workspace/nana-space-v3/apps/nana-space/android/app/src/main/res/values/strings.xml:6: Warning: The resource R.string.custom_url_scheme appears to be unused [UnusedResources]
+    <string name="custom_url_scheme">life.nana.space</string>
+            ~~~~~~~~~~~~~~~~~~~~~~~~
+/workspace/nana-space-v3/apps/nana-space/android/app/src/main/res/values/styles.xml:12: Warning: The resource R.style.AppTheme_NoActionBar appears to be unused [UnusedResources]
+    <style name="AppTheme.NoActionBar" parent="Theme.AppCompat.DayNight.NoActionBar">
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~
+
+   Explanation for issues of type "UnusedResources":
+   Unused resources make applications larger and slow down builds.
+
+
+   The unused resource check can ignore tests. If you want to include
+   resources that are only referenced from tests, consider packaging them in a
+   test source set instead.
+
+   You can include test sources in the unused resource check by setting the
+   system property lint.unused-resources.include-tests =true, and to exclude
+   them (usually for performance reasons), use
+   lint.unused-resources.exclude-tests =true.
+   ,
+
+/workspace/nana-space-v3/apps/nana-space/android/app/src/main/res/drawable-land-xxxhdpi/splash.png: Warning: The image splash.png varies significantly in its density-independent (dip) size across the various density versions: drawable-land-hdpi/splash.png: 533x320 dp (800x480 px), drawable-land-mdpi/splash.png: 480x320 dp (480x320 px), drawable-land-xhdpi/splash.png: 640x360 dp (1280x720 px), drawable-land-xxhdpi/splash.png: 533x320 dp (1600x960 px), drawable-land-xxxhdpi/splash.png: 480x320 dp (1920x1280 px) [IconDipSize]
+
+   Explanation for issues of type "IconDipSize":
+   Checks the all icons which are provided in multiple densities, all compute
+   to roughly the same density-independent pixel (dip) size. This catches
+   errors where images are either placed in the wrong folder, or icons are
+   changed to new sizes but some folders are forgotten.
+
+/workspace/nana-space-v3/apps/nana-space/android/app/src/main/res/drawable/splash.png: Warning: The splash.png icon has identical contents in the following configuration folders: drawable-land-mdpi, drawable [IconDuplicatesConfig]
+
+   Explanation for issues of type "IconDuplicatesConfig":
+   If an icon is provided under different configuration parameters such as
+   drawable-hdpi or -v11, they should typically be different. This detector
+   catches cases where the same icon is provided in different configuration
+   folder which is usually not intentional.
+
+/workspace/nana-space-v3/apps/nana-space/android/app/src/main/res/drawable/splash.png: Warning: Found bitmap drawable res/drawable/splash.png in densityless folder [IconLocation]
+
+   Explanation for issues of type "IconLocation":
+   The res/drawable folder is intended for density-independent graphics such
+   as shapes defined in XML. For bitmaps, move it to drawable-mdpi and
+   consider providing higher and lower resolution versions in drawable-ldpi,
+   drawable-hdpi and drawable-xhdpi. If the icon really is density independent
+   (for example a solid color) you can place it in drawable-nodpi.
+
+   https://developer.android.com/guide/practices/screens_support.html
+
+0 errors, 15 warnings

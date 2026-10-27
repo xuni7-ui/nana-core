@@ -1,3 +1,26 @@
+# Nana Space V3 · Companion Experience & Control Center
+
+当前开发分支 `dev/nana-space-v3-cotex`，继承 First-Life V2 的 a07e906。
+默认 `npm run dev` / `npm run build` 使用真实 v2 客户端；没有连接时可以明确离线浏览，不编造生活记录。
+安装和状态详见 [V3 implementation](../../docs/nana_space_v3/IMPLEMENTATION.md)、[功能状态表](../../docs/nana_space_v3/STATUS.md)、[后端最小接线](../../docs/nana_space_v3/BACKEND_INTEGRATION.md)。
+
+```bash
+npm ci
+npm test
+npm run build
+npm run preview
+npm run test:v3
+npm run android:debug
+```
+
+真实 Core 回归使用 `test:v2` 和原 owned DEV BFF；需要合格 Python/SQLite。
+Android applicationId 保持 `life.nana.space.dev`，versionCode300，复用原调试签名。
+模型配置/记忆纠错导入目前只有本页内存草稿；不接收 Provider Key，不假称写入。
+
+---
+
+## 以下为 V1 原交付历史（不作为 V3 当前状态）
+
 # Nana Space V1 + 真实开发 Core 接入
 
 > V1 基线独立保存在 `dev/nana-space-v1-codex`；本轮开发接入交付位于 `dev/nana-space-core-integration-v1-codex`。获取方式、开发历史与交接边界见 [HANDOFF](docs/HANDOFF.md)，实际验收范围见 [STATUS](docs/STATUS.md)。

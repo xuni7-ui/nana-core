@@ -1,0 +1,20 @@
+
+> @nana/space@3.0.0 test
+> vitest run --config vitest.config.ts
+
+
+ RUN  v3.2.7 /workspace/nana-space-v3/apps/nana-space
+
+ ✓ tests/memory-center.test.ts (8 tests) 7ms
+ ✓ tests/adapters.test.ts (12 tests) 1454ms
+   ✓ fictional Demo data and transitions > has explicit failure and UNKNOWN semantics without retries  442ms
+   ✓ fictional Demo data and transitions > streams cumulative local text and cancels mid-stream  816ms
+ ✓ tests/live.test.ts (4 tests) 8ms
+ ✓ tests/provider-center.test.ts (15 tests) 6ms
+ ✓ tests/v2-client.test.ts (2 tests) 6ms
+
+ Test Files  5 passed (5)
+      Tests  41 passed (41)
+   Start at  15:52:27
+   Duration  2.38s (transform 153ms, setup 0ms, collect 212ms, tests 1.48s, environment 1ms, prepare 221ms)
+

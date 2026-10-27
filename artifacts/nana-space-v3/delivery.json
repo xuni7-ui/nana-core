@@ -1,0 +1,15 @@
+{
+  "source_commit": "fde9074c30c81854fc1a8786433014079e28b94d",
+  "artifacts": {
+    "nana-space-3.0.0-debug.apk": {
+      "bytes": 4790932,
+      "sha256": "02d85e568195d478de2b515ac45bf6278b3a399c262bf80841091ff30d8d0160"
+    },
+    "nana-space-3.0.0-web.zip": {
+      "bytes": 608679,
+      "sha256": "60a15bb9e27e5288991666ce3e31adb037c1bc594ccc59998d6e287453917ca8"
+    }
+  },
+  "application_id": "life.nana.space.dev",
+  "upgrade_from_v2_certificate_match": true
+}
