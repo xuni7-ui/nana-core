@@ -25,7 +25,7 @@
     "云端报告12/13 qualified_interpreter缺OPENSSL_3.3.0；本地镜像SDK通过不等于真实Operator入口已修复。",
     "ea1e225尚未整合进此release，V3新API/native接线、Web/APK及最终统一CLOUD_DEPLOY_HANDOFF待完成。",
     "正式Genesis/生产激活/私人迁移/旧writer切换/付费仍按原授权门；不使用聊天历史密钥。",
-    "按北京时间2026-10-28 07:00复盘并在同分支继续施工；若环境缺失真实报告，不仅发送提醒。"
+    "一次性执行任务已由automation工具创建并启用：北京时间2026-10-28 07:00复盘并续做同一主线；若环境缺失真实报告，不仅发送提醒。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
