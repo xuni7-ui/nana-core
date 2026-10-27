@@ -1,0 +1,63 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 863B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/nana-first-life/cloud-qualified:20261026-final
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/4] FROM docker.io/nana-first-life/cloud-qualified:20261026-final
+#4 DONE 0.0s
+
+#5 [internal] load build context
+#5 transferring context: 64B done
+#5 DONE 0.0s
+
+#6 [2/4] COPY core.tar.gz unpack.py /tmp/unified/
+#6 CACHED
+
+#7 [3/4] RUN mkdir -p /opt/nana-core/runtime/core-releases  && python3 -I /tmp/unified/unpack.py /tmp/unified/core.tar.gz --destination /opt/nana-core/runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2 --sha256 "7890948395be428d4d67cf1a8e0c7b98b0c15bb80ec1182e5fa4664fd593a0ab"  && chown -R 999:999 /opt/nana-core/runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2  && rm -rf /tmp/unified
+#7 CACHED
+
+#8 [4/4] RUN /opt/nana-core/runtime/bin/python3 -I -B -c "import runpy,sys;sys.argv=['/opt/nana-core/runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2/bootstrap.py','install'];runpy.run_path(sys.argv[0])['main']()"
+#8 1.567 Traceback (most recent call last):
+#8 1.567   File "<string>", line 1, in <module>
+#8 1.567   File "/opt/nana-core/runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2/bootstrap.py", line 54, in main
+#8 1.568     venv.EnvBuilder(with_pip=True).create(path)
+#8 1.568   File "/opt/nana-core/runtime/lib/python3.12/venv/__init__.py", line 69, in create
+#8 1.568     context = self.ensure_directories(env_dir)
+#8 1.568               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#8 1.568   File "/opt/nana-core/runtime/lib/python3.12/venv/__init__.py", line 157, in ensure_directories
+#8 1.568     create_if_needed(env_dir)
+#8 1.568   File "/opt/nana-core/runtime/lib/python3.12/venv/__init__.py", line 143, in create_if_needed
+#8 1.568     os.makedirs(d)
+#8 1.568   File "<frozen os>", line 225, in makedirs
+#8 1.568 OSError: [Errno 28] No space left on device: '/opt/nana-core/runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2/.venv'
+#8 ERROR: process "/bin/sh -c /opt/nana-core/runtime/bin/python3 -I -B -c \"import runpy,sys;sys.argv=['/opt/nana-core/runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2/bootstrap.py','install'];runpy.run_path(sys.argv[0])['main']()\"" did not complete successfully: exit code: 1
+------
+ > [4/4] RUN /opt/nana-core/runtime/bin/python3 -I -B -c "import runpy,sys;sys.argv=['/opt/nana-core/runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2/bootstrap.py','install'];runpy.run_path(sys.argv[0])['main']()":
+1.568     venv.EnvBuilder(with_pip=True).create(path)
+1.568   File "/opt/nana-core/runtime/lib/python3.12/venv/__init__.py", line 69, in create
+1.568     context = self.ensure_directories(env_dir)
+1.568               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+1.568   File "/opt/nana-core/runtime/lib/python3.12/venv/__init__.py", line 157, in ensure_directories
+1.568     create_if_needed(env_dir)
+1.568   File "/opt/nana-core/runtime/lib/python3.12/venv/__init__.py", line 143, in create_if_needed
+1.568     os.makedirs(d)
+1.568   File "<frozen os>", line 225, in makedirs
+1.568 OSError: [Errno 28] No space left on device: '/opt/nana-core/runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2/.venv'
+------
+Dockerfile:10
+--------------------
+   8 |      && rm -rf /tmp/unified
+   9 |     USER 999:999
+  10 | >>> RUN /opt/nana-core/runtime/bin/python3 -I -B -c "import runpy,sys;sys.argv=['/opt/nana-core/runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2/bootstrap.py','install'];runpy.run_path(sys.argv[0])['main']()"
+  11 |     ENV NANA_CORE_RELEASE=/opt/nana-core/runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2
+  12 |     CMD ["verify"]
+--------------------
+ERROR: failed to build: failed to solve: process "/bin/sh -c /opt/nana-core/runtime/bin/python3 -I -B -c \"import runpy,sys;sys.argv=['/opt/nana-core/runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2/bootstrap.py','install'];runpy.run_path(sys.argv[0])['main']()\"" did not complete successfully: exit code: 1

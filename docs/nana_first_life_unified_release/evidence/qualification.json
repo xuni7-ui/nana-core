@@ -1,0 +1,145 @@
+{
+  "status": "ISOLATED_UNIFIED_IMAGE_QUALIFIED",
+  "continuation": "First-Life Android V2/rev3 delivery + Real Living + Execution Context; no parallel Core release",
+  "core_source": "9217e3f3550dc5a875c42ac6de53035dd73deae2",
+  "inherited": [
+    "7a1bce9",
+    "9217e3f"
+  ],
+  "image_id": "sha256:de89985296bff22fb3a4882120a71a0af43b7758fef9a5b4c9cf99fb31d13270",
+  "abi": {
+    "python": "3.12.14",
+    "sqlite": "3.51.3",
+    "openssl": "OpenSSL 3.5.7 9 Jun 2026",
+    "uid": 999,
+    "context_unknown_fields": [],
+    "provider_settings_import": "PASS",
+    "tls_default_verify": true,
+    "host_verified": false
+  },
+  "lifecycle": {
+    "scope": "ACTUAL_SUPPLIED_CLOUD_SDK_ISOLATED_DEV_NOT_PRODUCTION",
+    "runtime_source_commit": "9217e3f3550dc5a875c42ac6de53035dd73deae2",
+    "sdk_sha256": "1dbbcf46f6a16ab41deac96657a43a8fcecbba6ab7dea1d0113a84b2c8285b27",
+    "subject_id": "9138ee78-8df7-44bd-93bc-9ce500315bf9",
+    "lineage_binding": "673ea9f528fa40e48860094a9263882ab950221ac7c2b48f83647c8a094ebe84",
+    "realm": "OWNED_DEVELOPMENT_ONLY",
+    "provider_calls": 0,
+    "real_social_sends": 0,
+    "private_data_used": false,
+    "production_changed": false,
+    "image_id": "sha256:de89985296bff22fb3a4882120a71a0af43b7758fef9a5b4c9cf99fb31d13270",
+    "published_host_loopback": "PASS",
+    "first_password_pipe": "PASS",
+    "original_ten_pages": "PASS",
+    "live_web": "PASS",
+    "original_c_offline_chat": "PASS_NOT_NATURALNESS",
+    "backup": "QUARANTINED_REVIEW_COPY",
+    "automatic_container_restart": "PASS",
+    "restart_count": 1,
+    "before_epoch": 2,
+    "after_crash_epoch": 3,
+    "after_recreate_epoch": 4,
+    "container_recreation": "PASS",
+    "intentional_stop_latch": "PASS",
+    "uid": 999,
+    "four_volume_mapping": "PASS",
+    "runtime_readonly": "PASS",
+    "restoration": {
+      "identity_id": "9138ee78-8df7-44bd-93bc-9ce500315bf9",
+      "backup": "QUARANTINED_REVIEW_COPY",
+      "restore": "ACTIVATED_NO_EXECUTION_GRANTS",
+      "old_source_fenced": true,
+      "old_source_error_code": "PORTABLE_SOURCE_RETIRED",
+      "provider_config_transferred": false,
+      "old_grants": 0,
+      "same_subject": "PASS",
+      "single_active_lineage": "PASS"
+    },
+    "formal_genesis": "NOT_RUN",
+    "cloud_deployment": "NOT_RUN",
+    "naturalness": "NOT_RUN"
+  },
+  "full_regression": "inherited1645passed/12skipped from runtime-identical9bc301c; not rerun or relabeled as a new run",
+  "source_runtime_unchanged": true,
+  "host_deployed": "NOT_RUN",
+  "physical_android": "NOT_RUN",
+  "formal_genesis": "NOT_RUN",
+  "first_life": "NOT_READY",
+  "beta": false,
+  "production_changed": false,
+  "image_export": {
+    "image_id": "sha256:de89985296bff22fb3a4882120a71a0af43b7758fef9a5b4c9cf99fb31d13270",
+    "architecture": "linux/amd64",
+    "core_source": "9217e3f3550dc5a875c42ac6de53035dd73deae2",
+    "gzip_bytes": 306311957,
+    "gzip_sha256": "80286d89549901e3fef6c1dbf7cdfabdb3aa112e27023aab24cd7f9b913e6648",
+    "tar_bytes": 714134528,
+    "tar_sha256": "4b8f60b83b17bd1e51bacbee44cdd04c08f5846f14f495f292c36061b0ea4c99",
+    "parts": [
+      {
+        "file": "image.tar.gz.part001",
+        "bytes": 29360128,
+        "sha256": "10ad88d41536df3a6eecea0e4424e09faac0b26a1ed161df224cbe6a73cdb18f"
+      },
+      {
+        "file": "image.tar.gz.part002",
+        "bytes": 29360128,
+        "sha256": "81e66b5a8309836aaeaac23f5500be58618158fcff1d5b77ed7427324ab893cd"
+      },
+      {
+        "file": "image.tar.gz.part003",
+        "bytes": 29360128,
+        "sha256": "252a0c247690889e34e6d0c819f6a041a586577bcf80b6e2a6790aa8e399dfac"
+      },
+      {
+        "file": "image.tar.gz.part004",
+        "bytes": 29360128,
+        "sha256": "d0d97827f354263886a12767023c723dbc217bb395460e4c7ce93699ca384cf9"
+      },
+      {
+        "file": "image.tar.gz.part005",
+        "bytes": 29360128,
+        "sha256": "72ec7b66170418a315333b466142af9ecfe4347790904b73d24d352b8b62af15"
+      },
+      {
+        "file": "image.tar.gz.part006",
+        "bytes": 29360128,
+        "sha256": "0243a0082084b5b81d397c566d50ab20ff955cf27959e2efe4c9375fed713e1d"
+      },
+      {
+        "file": "image.tar.gz.part007",
+        "bytes": 29360128,
+        "sha256": "49ed529995ce0e733bfdaf3e24d4bb8736852e6d613c7488bee6c7bc481e60ba"
+      },
+      {
+        "file": "image.tar.gz.part008",
+        "bytes": 29360128,
+        "sha256": "dcf7ac422592f3e6bfc7336f14cfa513059bb91e946d68e8ac2b319aa2f4516f"
+      },
+      {
+        "file": "image.tar.gz.part009",
+        "bytes": 29360128,
+        "sha256": "ef884e40bda6ea2b8dbb878a897a5cff64fa8b9cab4a1996d6e25aa9faa8dea8"
+      },
+      {
+        "file": "image.tar.gz.part010",
+        "bytes": 29360128,
+        "sha256": "61f5ecd00521d22561f08aba047305d044e5837858bea9b6b337b4eff1f62a6c"
+      },
+      {
+        "file": "image.tar.gz.part011",
+        "bytes": 12710677,
+        "sha256": "b3b1a24b95e64003b96c42d57d5b7a0213b21e48a58ecc55d9b8c1a227eaa58e"
+      }
+    ]
+  },
+  "core_archive": {
+    "archive": "/workspace/nana-deliverables/unified-9217e3f/nana-first-life-portable-v1.tar.gz",
+    "sha256": "7890948395be428d4d67cf1a8e0c7b98b0c15bb80ec1182e5fa4664fd593a0ab",
+    "source_commit": "9217e3f3550dc5a875c42ac6de53035dd73deae2",
+    "bundle_files": 249,
+    "new_provider_calls": 0
+  },
+  "byte_identical_core_rebuild": true
+}

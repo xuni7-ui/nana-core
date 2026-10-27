@@ -1,0 +1,171 @@
+{
+  "self_excluded": true,
+  "core_source": "9217e3f3550dc5a875c42ac6de53035dd73deae2",
+  "files": [
+    {
+      "path": "artifacts/first-life-unified-release/README.md",
+      "bytes": 629,
+      "sha256": "85a82659d20a6a9f96c40ed986c6df1be68acc37ac8c68b64715162d866a279b"
+    },
+    {
+      "path": "artifacts/first-life-unified-release/core.tar.gz",
+      "bytes": 3070139,
+      "sha256": "7890948395be428d4d67cf1a8e0c7b98b0c15bb80ec1182e5fa4664fd593a0ab"
+    },
+    {
+      "path": "artifacts/first-life-unified-release/image.json",
+      "bytes": 2174,
+      "sha256": "1536eb60fa064e378fae88339a5bfce542a83b5325d41c03bfc35f4b349e52e2"
+    },
+    {
+      "path": "artifacts/first-life-unified-release/image.tar.gz.part001",
+      "bytes": 29360128,
+      "sha256": "10ad88d41536df3a6eecea0e4424e09faac0b26a1ed161df224cbe6a73cdb18f"
+    },
+    {
+      "path": "artifacts/first-life-unified-release/image.tar.gz.part002",
+      "bytes": 29360128,
+      "sha256": "81e66b5a8309836aaeaac23f5500be58618158fcff1d5b77ed7427324ab893cd"
+    },
+    {
+      "path": "artifacts/first-life-unified-release/image.tar.gz.part003",
+      "bytes": 29360128,
+      "sha256": "252a0c247690889e34e6d0c819f6a041a586577bcf80b6e2a6790aa8e399dfac"
+    },
+    {
+      "path": "artifacts/first-life-unified-release/image.tar.gz.part004",
+      "bytes": 29360128,
+      "sha256": "d0d97827f354263886a12767023c723dbc217bb395460e4c7ce93699ca384cf9"
+    },
+    {
+      "path": "artifacts/first-life-unified-release/image.tar.gz.part005",
+      "bytes": 29360128,
+      "sha256": "72ec7b66170418a315333b466142af9ecfe4347790904b73d24d352b8b62af15"
+    },
+    {
+      "path": "artifacts/first-life-unified-release/image.tar.gz.part006",
+      "bytes": 29360128,
+      "sha256": "0243a0082084b5b81d397c566d50ab20ff955cf27959e2efe4c9375fed713e1d"
+    },
+    {
+      "path": "artifacts/first-life-unified-release/image.tar.gz.part007",
+      "bytes": 29360128,
+      "sha256": "49ed529995ce0e733bfdaf3e24d4bb8736852e6d613c7488bee6c7bc481e60ba"
+    },
+    {
+      "path": "artifacts/first-life-unified-release/image.tar.gz.part008",
+      "bytes": 29360128,
+      "sha256": "dcf7ac422592f3e6bfc7336f14cfa513059bb91e946d68e8ac2b319aa2f4516f"
+    },
+    {
+      "path": "artifacts/first-life-unified-release/image.tar.gz.part009",
+      "bytes": 29360128,
+      "sha256": "ef884e40bda6ea2b8dbb878a897a5cff64fa8b9cab4a1996d6e25aa9faa8dea8"
+    },
+    {
+      "path": "artifacts/first-life-unified-release/image.tar.gz.part010",
+      "bytes": 29360128,
+      "sha256": "61f5ecd00521d22561f08aba047305d044e5837858bea9b6b337b4eff1f62a6c"
+    },
+    {
+      "path": "artifacts/first-life-unified-release/image.tar.gz.part011",
+      "bytes": 12710677,
+      "sha256": "b3b1a24b95e64003b96c42d57d5b7a0213b21e48a58ecc55d9b8c1a227eaa58e"
+    },
+    {
+      "path": "docs/nana_first_life_unified_release/DEPLOY.md",
+      "bytes": 4397,
+      "sha256": "cda6667d88f22a5df10b873949dfecba2097b71d5ec83578a4ca55c32cee29e6"
+    },
+    {
+      "path": "docs/nana_first_life_unified_release/evidence/abi.json",
+      "bytes": 211,
+      "sha256": "b364fa3d34dfe331a74cef00d3646cae2263ddacf24d5db7fe5eb7c54c3fc0e8"
+    },
+    {
+      "path": "docs/nana_first_life_unified_release/evidence/build-debug.txt",
+      "bytes": 4216,
+      "sha256": "ffc22a474ab5fca27aa345a4d6af89b2df9b51bfbd954263b2ca1236b2313532"
+    },
+    {
+      "path": "docs/nana_first_life_unified_release/evidence/build-repeat.json",
+      "bytes": 299,
+      "sha256": "8acc63fd6807216d9adfb09073ef2ff87ccd239ca454a10668b7df3d6cc6027d"
+    },
+    {
+      "path": "docs/nana_first_life_unified_release/evidence/build.json",
+      "bytes": 292,
+      "sha256": "1d584c1e79378b3a75f3bcab9173de01a6aba9544bdd5cbf472f2377bdbeeb1d"
+    },
+    {
+      "path": "docs/nana_first_life_unified_release/evidence/cache-cleanup.txt",
+      "bytes": 275,
+      "sha256": "6090becc2c790d977bcc5e1f098e84e962b4b683918d816084e188e262ee1a37"
+    },
+    {
+      "path": "docs/nana_first_life_unified_release/evidence/export-verification.json",
+      "bytes": 189,
+      "sha256": "05a8ea49cda48aa86ec45a0b5bfe4c33a102f7cf5c3f362d833430afc5c8844b"
+    },
+    {
+      "path": "docs/nana_first_life_unified_release/evidence/image-build-final.txt",
+      "bytes": 4208,
+      "sha256": "fd96a67d6b99bdc268d2e3dbbeb6b262707f79ea3940c88e94bb161c99734c02"
+    },
+    {
+      "path": "docs/nana_first_life_unified_release/evidence/image-build-first.txt",
+      "bytes": 2446,
+      "sha256": "f28500298190ab5ff09c016087f26ab28287dc6651e8d0f5fddc90f68e92e71f"
+    },
+    {
+      "path": "docs/nana_first_life_unified_release/evidence/image-build.txt",
+      "bytes": 2400,
+      "sha256": "f1f8e0abf4dd5e2c93f5b4be24d3d851bc92739ff7192ae6c1d08db7a8c6f300"
+    },
+    {
+      "path": "docs/nana_first_life_unified_release/evidence/lifecycle.json",
+      "bytes": 1587,
+      "sha256": "d0df9b3888db32825db85e47dd9f5cda7a917961a0ecc9a313e474a94c4a8e56"
+    },
+    {
+      "path": "docs/nana_first_life_unified_release/evidence/lifecycle.txt",
+      "bytes": 1587,
+      "sha256": "d0df9b3888db32825db85e47dd9f5cda7a917961a0ecc9a313e474a94c4a8e56"
+    },
+    {
+      "path": "docs/nana_first_life_unified_release/evidence/lint.txt",
+      "bytes": 19,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "path": "docs/nana_first_life_unified_release/evidence/qualification.json",
+      "bytes": 5326,
+      "sha256": "aa264c05131c0183ee08de034f1f93e6649f5a5d0311b0e050b928d663b8ff87"
+    },
+    {
+      "path": "docs/nana_first_life_unified_release/evidence/verifier-negative.json",
+      "bytes": 108,
+      "sha256": "92c98e5217442ff02d09b014e3922ca449085268c0fa35c4f71e1345b4545f79"
+    },
+    {
+      "path": "tools/nana_first_life_unified_release/Dockerfile",
+      "bytes": 749,
+      "sha256": "d877b3ce663249f30ae9a8bbd4f360a7092d10b739b4cdcd22eeb9906923533a"
+    },
+    {
+      "path": "tools/nana_first_life_unified_release/export_image.py",
+      "bytes": 2603,
+      "sha256": "d3200bd68ab3b4c83c560a4986edaa41a16b2a64156d275f7530e953ef2a8105"
+    },
+    {
+      "path": "tools/nana_first_life_unified_release/qualify.py",
+      "bytes": 1113,
+      "sha256": "6c485a3d483c08f7973ac9ed6f6eae138f70fb8f6afc36ff4d389ddc0061eb76"
+    },
+    {
+      "path": "tools/nana_first_life_unified_release/verify.py",
+      "bytes": 1076,
+      "sha256": "faed1cfc7c56a61293493115ddae3eb483004ad56a78da232b7856ef9acea564"
+    }
+  ]
+}

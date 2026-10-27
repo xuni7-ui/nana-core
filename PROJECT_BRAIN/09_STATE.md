@@ -7,19 +7,19 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 46,
-  "as_of_us": 1793128320014163,
+  "revision": 47,
+  "as_of_us": 1793129971705846,
   "stage": "H",
-  "workstream": "EXECUTION_CONTEXT_AWARENESS_HOST_TARGET_ROUTING",
-  "status": "OFFLINE_COMPONENT_QUALIFIED_REAL_HOST_BINDING_NOT_RUN",
+  "workstream": "FIRST_LIFE_UNIFIED_RELEASE",
+  "status": "ISOLATED_UNIFIED_RELEASE_QUALIFIED_PRODUCTION_NOT_RUN",
   "progress": [
-    "从7a1bce9创建独立dev/nana-core-execution-context-routing-v1-codex，不改Host Operator部署或CotEX。",
-    "受信任Linux metadata绑定user/mount/pid namespace、数字UID/GID/map、mount table、root dev/inode；无容器信号不证明HOST。",
-    "明确target/resource/path/channel pin，host通道缺失不退回容器；HOST_OPERATOR优先SSH，当前真实远端未绑定。",
-    "原Kernel原子prepare固定route，dispatch前检查且claim持久化；UNKNOWN只Verify，不重发/换通道，保留reobserve。",
-    "原Hands默认检查本地namespace/dev与IPC peer，证据标明本地context；Manager/Grant/C/D和sealed白名单不变。",
-    "host_probe纠正root/systemd/path来源，新增只读diagnose工具；portable精确清单包含5个新模块。",
-    "运行源码9bc301c：50focused、118相关、全仓1645pass/0fail/12skip(378.07s)；随后7c842f4仅CLI拒绝metadata，1项实际subprocess再验证。249files Core双构建同SHA9bf5e443...，独立-I安装导入通过，未创建Subject/更新云端镜像。"
+    "延续First-Life Android V2/rev3发行交付；已核无重复release分支，从9217e3f完整继承7a1bce9及Execution Context。",
+    "同原合格镜像/私有CPython3.12.14/SQLite3.51.3/OpenSSL3.5.7/Debian13，离线安装source9217新Core249files；不另造Runtime或主体。",
+    "新统一image de899852实际UID999、四卷/只读runtime、十页API/原C离线聊天通过。",
+    "实际杀BFF自动恢复1次、重建同Subject epoch2→3→4，B8恢复/旧source fencing/撤Grant通过。",
+    "真实SDK新ProviderSettings与ExecutionContext import/metadata通过；默认TLS CERT_REQUIRED；未进行新外部TLS或模型调用。",
+    "实际统一image导出11片，总306311957bytes/gzip SHA80286d89549901e3fef6c1dbf7cdfabdb3aa112e27023aab24cd7f9b913e6648；全部分片、gzip CRC/tarSHA通过，普通/-O校验负例拒绝通过；Core双构建同hash。",
+    "Master/63/schema13/43表/CotEX/云生产/QQ/Iris不改；真实HOST/phone/human待原门，First-Life NOT_READY。"
   ],
   "open_gates": [
     "真实Host Operator/SSH需要既有可信认证绑定；本轮无安全通道、无host部署或宿主修复资格。",
@@ -30,9 +30,8 @@
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
-    "docs/nana_execution_context_v1/IMPLEMENTATION.md",
-    "docs/nana_execution_context_v1/INTEGRATION.md",
-    "docs/nana_execution_context_v1/evidence/qualification.json"
+    "docs/nana_first_life_unified_release/DEPLOY.md",
+    "docs/nana_first_life_unified_release/evidence/qualification.json"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

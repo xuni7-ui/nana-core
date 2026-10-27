@@ -2729,3 +2729,7 @@ FL-A完整原报告收到并读取，脱敏source SHA登记，不复制平台个
 
 ### Execution Context V1 · offline qualification final (2026-10-27)
 [实测，runtime9bc301c/operator CLI7c842f4] 原Kernel/Hands/Manager/First-Life/Precision保留；50focused、118相关通过，完整1645passed/0failed/12skipped、378.07s（11live screen＋E12）；full后仅CLI拒绝来源metadata补齐，实际subprocess1PASS0.26s，运行时源码不变。249files包双构建相同SHA9bf5e4433c957fbf055b546cc1d4500c879a208b6629665bfdd480b6b97f3740；实际离线安装/隔离-I导入/本地metadata通过，无身份创建。仅OFFLINE_COMPONENT资格，跨namespace/host通道为合成fixture，实际宿主通道/部署未运行，unbound请求明确NO_TARGET_CHECK_PERFORMED，不冒充宿主文件缺失。失败记录保留；Master/Matrix/fixed63逐字不变，schema13/43表、前端不变，production/provider/private/social0。First-Life原主线继续，非新增Genesis/手机前置门。见docs/nana_execution_context_v1及artifacts/execution-context-v1。
+
+
+### First-Life Unified Release (2026-10-27)
+[H Advanced/既有First-Life发行延续，不新造Core] 核对无已开始的重复release后，从9217e3f完整继承RealLiving7a1bce9、ExecutionContext；不重复开发业务。原合格Debian13 image上离线安装新Core，实际SQLite3.51.3/Python3.12.14/OpenSSL3.5.7 UID999验证；新统一image de899852...。实际四卷、只读SDK、API十页/原C离线chat、杀BFF自动恢复、容器重建同ID epochs2→3→4、backup/B8restore/旧source fence通过。不是正式Genesis/生产部署；新Provider与context import通过，不访问模型/私史/旧QQ。完整镜像导出交接及部署说明见docs/nana_first_life_unified_release；初次磁盘不足失败保留，不降低门槛。原1645/12skip按相同runtime源码继承，不冒称新全仓运行；Master/63不改。

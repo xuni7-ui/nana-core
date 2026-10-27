@@ -1,0 +1,48 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 788B done
+#1 DONE 0.0s
+
+#2 [internal] load metadata for docker.io/nana-first-life/cloud-qualified:20261026-final
+#2 DONE 0.0s
+
+#3 [internal] load .dockerignore
+#3 transferring context: 2B done
+#3 DONE 0.0s
+
+#4 [1/4] FROM docker.io/nana-first-life/cloud-qualified:20261026-final
+#4 CACHED
+
+#5 [internal] load build context
+#5 transferring context: 3.07MB 0.0s done
+#5 DONE 0.0s
+
+#6 [2/4] COPY core.tar.gz unpack.py /tmp/unified/
+#6 DONE 1.7s
+
+#7 [3/4] RUN mkdir -p /opt/nana-core/runtime/core-releases  && python3 -I /tmp/unified/unpack.py /tmp/unified/core.tar.gz --destination /opt/nana-core/runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2 --sha256 "7890948395be428d4d67cf1a8e0c7b98b0c15bb80ec1182e5fa4664fd593a0ab"  && chown -R 999:999 /opt/nana-core/runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2  && rm -rf /tmp/unified
+#7 1.731 /opt/nana-core/runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2
+#7 DONE 1.7s
+
+#8 [4/4] RUN /opt/nana-core/runtime/bin/python3 -I -B /opt/nana-core/runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2/bootstrap.py install
+#8 3.672 WARNING: The directory '/home/nana-core/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+#8 3.708 Looking in links: /opt/nana-core/runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2/wheelhouse
+#8 3.715 Processing ./runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2/wheelhouse/pydantic-2.13.4-py3-none-any.whl (from -r /opt/nana-core/runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2/requirements.lock (line 1))
+#8 3.721 Processing ./runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2/wheelhouse/pydantic_core-2.46.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (from -r /opt/nana-core/runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2/requirements.lock (line 2))
+#8 3.727 Processing ./runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2/wheelhouse/annotated_types-0.8.0-py3-none-any.whl (from -r /opt/nana-core/runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2/requirements.lock (line 3))
+#8 3.729 Processing ./runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2/wheelhouse/typing_extensions-4.16.0-py3-none-any.whl (from -r /opt/nana-core/runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2/requirements.lock (line 4))
+#8 3.731 Processing ./runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2/wheelhouse/typing_inspection-0.4.3-py3-none-any.whl (from -r /opt/nana-core/runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2/requirements.lock (line 5))
+#8 3.745 Installing collected packages: typing-extensions, annotated-types, typing-inspection, pydantic-core, pydantic
+#8 4.056 Successfully installed annotated-types-0.8.0 pydantic-2.13.4 pydantic-core-2.46.4 typing-extensions-4.16.0 typing-inspection-0.4.3
+#8 4.239 WARNING: The directory '/home/nana-core/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+#8 4.257 No broken requirements found.
+#8 4.281 {"state": "INSTALLED_OFFLINE", "network_requests": 0, "actual_interpreter": {"python": [3, 12], "sqlite": {"supported": true, "version": "3.51.3", "minimum": "3.51.3", "checks": {"version": true, "json": true, "fts5": true}, "code": "SUPPORTED", "reason": null}, "native": {"supported": true, "missing": [], "code": "SUPPORTED"}, "venv": true, "prefix": "/opt/nana-core/runtime/core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2/.venv"}}
+#8 DONE 4.3s
+
+#9 exporting to image
+#9 exporting layers
+#9 exporting layers 0.9s done
+#9 writing image sha256:de89985296bff22fb3a4882120a71a0af43b7758fef9a5b4c9cf99fb31d13270 done
+#9 naming to docker.io/nana-first-life/unified:9217e3f done
+#9 DONE 0.9s
