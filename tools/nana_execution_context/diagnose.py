@@ -7,6 +7,7 @@ A different requested target has no channel unless the application binds one.
 
 import argparse
 import json
+import time
 
 from nana_core.contracts import CoreError
 from nana_core.execution_context.contracts import ContextBinding
@@ -20,6 +21,7 @@ def main():
     parser.add_argument("--target", default=None)
     parser.add_argument("--path", required=True)
     args = parser.parse_args()
+    context = None
     try:
         probe = LocalContextProbe(ContextBinding(target_id=args.local_target, binding_id="operator.metadata"))
         context = probe.capture()
@@ -30,7 +32,12 @@ def main():
         result = router.diagnose(args.target or args.local_target, args.path)
     except (CoreError, ValueError) as exc:
         result = {"status": "BLOCKED", "code": exc.code if isinstance(exc, CoreError) else "EXECUTION_INPUT_INVALID",
-                  "host_verified": False, "files_written": 0, "credentials_read": False}
+                  "host_verified": False, "files_written": 0, "credentials_read": False,
+                  "source_context": context.model_dump(mode="json") if context else "UNKNOWN",
+                  "target_id": (args.target or args.local_target)[:64],
+                  "requested_path": args.path if len(args.path) <= 4096 and not any(ord(c) < 32 for c in args.path) else None,
+                  "actual_path": None, "target_context_id": None, "channel_id": None,
+                  "observed_at_us": time.time_ns() // 1000, "result": "NO_TARGET_CHECK_PERFORMED"}
         print(json.dumps(result, ensure_ascii=False))
         return 2
     print(json.dumps(result, ensure_ascii=False, indent=2))

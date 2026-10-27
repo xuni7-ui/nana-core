@@ -18,5 +18,10 @@ def test_explicit_local_cli_and_unbound_host_never_write(tmp_path):
     assert result["source_context"]["scope"] == "UNKNOWN" and result["execution_authority"] is False
     host = subprocess.run([*command, "--target", "host"], env=env, capture_output=True, text=True, timeout=5)
     assert host.returncode == 2
-    assert json.loads(host.stdout)["code"] == "EXECUTION_TARGET_UNBOUND"
+    rejected = json.loads(host.stdout)
+    assert rejected["code"] == "EXECUTION_TARGET_UNBOUND"
+    assert rejected["source_context"]["target_id"] == "core-container"
+    assert rejected["target_id"] == "host" and rejected["requested_path"] == str(tmp_path)
+    assert rejected["actual_path"] is rejected["target_context_id"] is rejected["channel_id"] is None
+    assert rejected["result"] == "NO_TARGET_CHECK_PERFORMED" and rejected["observed_at_us"] > 0
     assert not list(tmp_path.iterdir())
