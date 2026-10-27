@@ -325,6 +325,8 @@ class Handler(BaseHTTPRequestHandler):
             elif route == "host/operations":
                 principal.require(Role.HOST_ADMIN)
                 value = service.envelope({"host": service.supervisor.status()})
+            elif route == "backup/status":
+                value = service.backup_status(principal)
             elif route == "providers/status":
                 principal.require(Role.READER)
                 value = service.envelope(service.provider_status())
@@ -350,7 +352,10 @@ class Handler(BaseHTTPRequestHandler):
         if self.command != "POST":
             raise ApiError("METHOD_DENIED", 405)
         body = self._body()
-        if route == "messages":
+        if route == "providers/commands":
+            from .provider_settings import ProviderConfigurationRequest, configure
+            value = configure(service, principal, self._model(ProviderConfigurationRequest, body))
+        elif route == "messages":
             value = service.send(principal, self._model(MessageRequest, body))
         elif route in {"commands", "privacy/withdrawal"}:
             request = self._model(CommandRequest, body)

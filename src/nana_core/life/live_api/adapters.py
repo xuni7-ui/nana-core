@@ -8,7 +8,7 @@ must be qualified before a future sender may consume a candidate.
 
 from pydantic import Field
 from ...contracts import DTO
-from ...storage import digest
+from ...storage import digest, canonical
 from .contracts import ApiError, MessageRequest, Role
 from .auth import Principal
 
@@ -119,7 +119,7 @@ def reconcile_legacy(bundles):
         for row in bundle["records"]:
             if row["payload"] is not None:
                 raise ApiError("PRIVATE_BODY_NOT_AUTHORIZED", 403)
-            key = row["stable_legacy_id"]
+            key = canonical([source, row["stable_legacy_id"]])
             value = row["payload_hash"]
             if key in seen:
                 if seen[key] != value:

@@ -33,6 +33,7 @@ class HostConfiguration(DTO):
     port: int = Field(default=18765, ge=1024, le=65535)
     roles: tuple[Role, ...] = (Role.READER, Role.CONVERSATION)
     activation: dict[str, str] | None = None
+    allow_provider_configuration: bool = False
 
 
 def read_private(path):
@@ -97,7 +98,7 @@ def main():
             activation=cfg.activation,
             provider_binding=binding,
         )
-        service = GatewayService(supervisor, auth, cfg.host_state)
+        service = GatewayService(supervisor, auth, cfg.host_state, allow_provider_configuration=cfg.allow_provider_configuration)
         server = ApiServer(("127.0.0.1", cfg.port), service, public_origin=cfg.public_origin, web_root=cfg.web_root)
         stopping = threading.Event()
 

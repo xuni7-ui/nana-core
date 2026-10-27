@@ -1,0 +1,501 @@
+{
+  "$defs": {
+    "CapabilityRoute": {
+      "additionalProperties": false,
+      "properties": {
+        "operation": {
+          "enum": [
+            "COGNITION",
+            "EMBED",
+            "VISION",
+            "IMAGE_GENERATE",
+            "STT",
+            "TTS",
+            "AUDIO_UNDERSTAND",
+            "AUDIO_GENERATE",
+            "VIDEO_UNDERSTAND"
+          ],
+          "title": "Operation",
+          "type": "string"
+        },
+        "primary_model_profile_id": {
+          "pattern": "^[a-z][a-z0-9_-]{0,31}\\.[a-z][a-z0-9._-]{0,95}$",
+          "title": "Primary Model Profile Id",
+          "type": "string"
+        },
+        "fallback_model_profile_ids": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 8,
+          "title": "Fallback Model Profile Ids",
+          "type": "array"
+        },
+        "enabled": {
+          "default": true,
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "timeout_ceiling_ms": {
+          "default": 3000,
+          "maximum": 30000,
+          "minimum": 50,
+          "title": "Timeout Ceiling Ms",
+          "type": "integer"
+        },
+        "cost_ceiling": {
+          "default": 1000,
+          "maximum": 1000000,
+          "minimum": 0,
+          "title": "Cost Ceiling",
+          "type": "integer"
+        },
+        "context_ceiling": {
+          "default": 2000000,
+          "maximum": 2000000,
+          "minimum": 256,
+          "title": "Context Ceiling",
+          "type": "integer"
+        },
+        "output_ceiling": {
+          "default": 131072,
+          "maximum": 131072,
+          "minimum": 1,
+          "title": "Output Ceiling",
+          "type": "integer"
+        },
+        "permitted_privacy": {
+          "default": [
+            "PUBLIC"
+          ],
+          "items": {
+            "enum": [
+              "PUBLIC",
+              "PROJECT",
+              "PERSONAL",
+              "SECRET"
+            ],
+            "type": "string"
+          },
+          "maxItems": 4,
+          "minItems": 1,
+          "title": "Permitted Privacy",
+          "type": "array"
+        },
+        "revision": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Revision",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "operation",
+        "primary_model_profile_id"
+      ],
+      "title": "CapabilityRoute",
+      "type": "object"
+    },
+    "ModelProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "model_profile_id": {
+          "pattern": "^[a-z][a-z0-9_-]{0,31}\\.[a-z][a-z0-9._-]{0,95}$",
+          "title": "Model Profile Id",
+          "type": "string"
+        },
+        "provider_profile_id": {
+          "pattern": "^[a-z][a-z0-9_-]{0,31}\\.[a-z][a-z0-9._-]{0,95}$",
+          "title": "Provider Profile Id",
+          "type": "string"
+        },
+        "remote_model_id": {
+          "pattern": "^[A-Za-z0-9][A-Za-z0-9._:/-]{0,95}$",
+          "title": "Remote Model Id",
+          "type": "string"
+        },
+        "model_version": {
+          "maxLength": 96,
+          "minLength": 1,
+          "title": "Model Version",
+          "type": "string"
+        },
+        "operations": {
+          "items": {
+            "enum": [
+              "COGNITION",
+              "EMBED",
+              "VISION",
+              "IMAGE_GENERATE",
+              "STT",
+              "TTS",
+              "AUDIO_UNDERSTAND",
+              "AUDIO_GENERATE",
+              "VIDEO_UNDERSTAND"
+            ],
+            "type": "string"
+          },
+          "maxItems": 9,
+          "minItems": 1,
+          "title": "Operations",
+          "type": "array"
+        },
+        "input_modalities": {
+          "items": {
+            "enum": [
+              "TEXT",
+              "EMBEDDING",
+              "IMAGE",
+              "AUDIO",
+              "VIDEO"
+            ],
+            "type": "string"
+          },
+          "maxItems": 5,
+          "minItems": 1,
+          "title": "Input Modalities",
+          "type": "array"
+        },
+        "output_modalities": {
+          "items": {
+            "enum": [
+              "TEXT",
+              "EMBEDDING",
+              "IMAGE",
+              "AUDIO",
+              "VIDEO"
+            ],
+            "type": "string"
+          },
+          "maxItems": 5,
+          "minItems": 1,
+          "title": "Output Modalities",
+          "type": "array"
+        },
+        "context_limit": {
+          "maximum": 2000000,
+          "minimum": 256,
+          "title": "Context Limit",
+          "type": "integer"
+        },
+        "output_limit": {
+          "maximum": 131072,
+          "minimum": 1,
+          "title": "Output Limit",
+          "type": "integer"
+        },
+        "tool_proposals": {
+          "default": false,
+          "title": "Tool Proposals",
+          "type": "boolean"
+        },
+        "latency_class": {
+          "default": "UNKNOWN",
+          "enum": [
+            "LOW",
+            "MEDIUM",
+            "HIGH",
+            "UNKNOWN"
+          ],
+          "title": "Latency Class",
+          "type": "string"
+        },
+        "cost_class": {
+          "default": "UNKNOWN",
+          "enum": [
+            "FIXTURE",
+            "LOW",
+            "MEDIUM",
+            "HIGH",
+            "UNKNOWN"
+          ],
+          "title": "Cost Class",
+          "type": "string"
+        },
+        "enabled": {
+          "default": true,
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 16,
+          "title": "Tags",
+          "type": "array"
+        },
+        "revision": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Revision",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "model_profile_id",
+        "provider_profile_id",
+        "remote_model_id",
+        "model_version",
+        "operations",
+        "input_modalities",
+        "output_modalities",
+        "context_limit",
+        "output_limit"
+      ],
+      "title": "ModelProfile",
+      "type": "object"
+    },
+    "ProviderCommand": {
+      "additionalProperties": false,
+      "properties": {
+        "operation": {
+          "enum": [
+            "UPSERT_PROVIDER",
+            "REMOVE_PROVIDER",
+            "UPSERT_MODEL",
+            "REMOVE_MODEL",
+            "SET_CAPABILITY_ROUTE",
+            "REMOVE_CAPABILITY_ROUTE",
+            "ENABLE_PROVIDER",
+            "DISABLE_PROVIDER"
+          ],
+          "title": "Operation",
+          "type": "string"
+        },
+        "expected_revision": {
+          "minimum": 0,
+          "title": "Expected Revision",
+          "type": "integer"
+        },
+        "target_id": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Target Id"
+        },
+        "provider": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ProviderProfile"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "model": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/ModelProfile"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        },
+        "route": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/CapabilityRoute"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "operation",
+        "expected_revision"
+      ],
+      "title": "ProviderCommand",
+      "type": "object"
+    },
+    "ProviderProfile": {
+      "additionalProperties": false,
+      "properties": {
+        "provider_profile_id": {
+          "pattern": "^[a-z][a-z0-9_-]{0,31}\\.[a-z][a-z0-9._-]{0,95}$",
+          "title": "Provider Profile Id",
+          "type": "string"
+        },
+        "display_name": {
+          "maxLength": 96,
+          "minLength": 1,
+          "title": "Display Name",
+          "type": "string"
+        },
+        "protocol": {
+          "enum": [
+            "OPENAI_COMPATIBLE_CHAT",
+            "LOCAL",
+            "SYNTHETIC_LOOPBACK",
+            "OPENAI_RESPONSES",
+            "ANTHROPIC",
+            "GEMINI_NATIVE",
+            "QWEN_NATIVE",
+            "CUSTOM"
+          ],
+          "title": "Protocol",
+          "type": "string"
+        },
+        "chat_thinking_mode": {
+          "default": "PROVIDER_DEFAULT",
+          "enum": [
+            "PROVIDER_DEFAULT",
+            "DISABLED"
+          ],
+          "title": "Chat Thinking Mode",
+          "type": "string"
+        },
+        "base_url": {
+          "anyOf": [
+            {
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Base Url"
+        },
+        "locality": {
+          "enum": [
+            "LOCAL_FIXTURE",
+            "LOCAL",
+            "REMOTE"
+          ],
+          "title": "Locality",
+          "type": "string"
+        },
+        "secret_ref": {
+          "anyOf": [
+            {
+              "pattern": "^[a-z][a-z0-9._-]{0,95}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Secret Ref"
+        },
+        "enabled": {
+          "default": true,
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "permitted_privacy": {
+          "default": [
+            "PUBLIC"
+          ],
+          "items": {
+            "enum": [
+              "PUBLIC",
+              "PROJECT",
+              "PERSONAL",
+              "SECRET"
+            ],
+            "type": "string"
+          },
+          "maxItems": 4,
+          "minItems": 1,
+          "title": "Permitted Privacy",
+          "type": "array"
+        },
+        "default_timeout_ms": {
+          "default": 3000,
+          "maximum": 30000,
+          "minimum": 50,
+          "title": "Default Timeout Ms",
+          "type": "integer"
+        },
+        "default_cost_ceiling": {
+          "default": 1000,
+          "maximum": 1000000,
+          "minimum": 0,
+          "title": "Default Cost Ceiling",
+          "type": "integer"
+        },
+        "tags": {
+          "default": [],
+          "items": {
+            "type": "string"
+          },
+          "maxItems": 16,
+          "title": "Tags",
+          "type": "array"
+        },
+        "revision": {
+          "default": 1,
+          "minimum": 1,
+          "title": "Revision",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "provider_profile_id",
+        "display_name",
+        "protocol",
+        "locality"
+      ],
+      "title": "ProviderProfile",
+      "type": "object"
+    }
+  },
+  "additionalProperties": false,
+  "properties": {
+    "client_request_id": {
+      "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+      "title": "Client Request Id",
+      "type": "string"
+    },
+    "idempotency_key": {
+      "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+      "title": "Idempotency Key",
+      "type": "string"
+    },
+    "expected_revision": {
+      "minimum": 0,
+      "title": "Expected Revision",
+      "type": "integer"
+    },
+    "run_generation": {
+      "pattern": "^[a-f0-9]{32}$",
+      "title": "Run Generation",
+      "type": "string"
+    },
+    "owner_epoch": {
+      "minimum": 0,
+      "title": "Owner Epoch",
+      "type": "integer"
+    },
+    "command": {
+      "$ref": "#/$defs/ProviderCommand"
+    }
+  },
+  "required": [
+    "client_request_id",
+    "idempotency_key",
+    "expected_revision",
+    "run_generation",
+    "owner_epoch",
+    "command"
+  ],
+  "title": "ProviderConfigurationRequest",
+  "type": "object"
+}

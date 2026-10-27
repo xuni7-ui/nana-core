@@ -210,3 +210,5 @@ src/nana_core/life/live_api/ledger.py
 src/nana_core/life/live_api/server.py
 src/nana_core/life/live_api/state.py
 src/nana_core/life/live_api/supervisor.py
+
+src/nana_core/life/live_api/provider_settings.py

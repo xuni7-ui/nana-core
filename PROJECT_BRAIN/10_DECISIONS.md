@@ -1598,3 +1598,7 @@ main/R045/production/private/device/social/paidProvider0。报告与证据：doc
 
 ### First-Life rev3 — A/B preparation, C/D/E deferred (2026-10-26)
 [实际文件/本地新增部署验证＋云端操作者四报告；S4/Platform/Governance Advanced] 65c49aa本地远端一致、干净起点，4份rev3已全文读并登记哈希，不复制QQ账户ID/私人正文。原合格镜像0d842676通过docker save导出，原tar589073920bytes/SHA4ef8918a75db986c5c4dd63b8e9c9fc585308be9a8414159aaa8f92c855dae17，linux/amd64/999:999；gzip9片≤28MiB，重组及docker load同ID通过，未build。空runtime0555遮挡重现、完整6565条文件树安全提取/权限修复/只读挂载UID999通过，非空重装拒绝；只属新增本地落地测试，云端尚无安全访问绑定，未假称/srv已填。原plan文件SHA41c343...为字节摘要；Core DTO摘要e3e2...e7ae5...另名绑定，保留原语义、不执行genesis。B1脚本用公钥OpenPGP、显式SSH agent/host key及独立宿主tailscaled socket，合成加解密/隔离恢复/离线UNKNOWN测试通过；真实PC未绑定，异机DR未资格，PC私钥不出PC。9项新工具测试通过，不重复旧SDK/全仓资格。明确新版无/ws/SSE、entry无genesis CLI；新宿主AuthURL只能由云端针对实际独立daemon生成，不碰nanadocker。C仅准备、D/E继续暂缓，Provider0/production NO/private NO/social0，bwrap BLOCKED、Master/63/原主体不变。
+
+
+### H / First-Life Real Living Integration / 2026-10-27
+[Advanced S1/S2/S3/S4/S5/S7/S8及Surface/Shared Life/Governance；实现+离线实测] 独立a07e906后继分支，不改CotEX apps或Host Operator。复用Supervisor/原C/D/G/I/V2/B1；新现有身份只读schema/完整性预检，显式host opt-in＋HOST_ADMIN ProviderCommand HTTP/CAS/idempotency接线，默认关且零模型调用；缺provider config不冒充主体缺失。Home沿用affect来源元数据，backup/status只投影调用者原回执，不伪造PC资格。新hash-only历史计划绑定身份/lineage/输入摘要，去重以source隔离；私人正文/旧Grant/实际事件不导入。5新/134相关离线通过，完整回归进行中；原Master/63不改，正式genesis/production/model/private/social0，First-Life/Beta不升级。见docs/nana_real_living_integration。

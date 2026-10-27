@@ -7,32 +7,32 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 42,
-  "as_of_us": 1793016798702130,
+  "revision": 43,
+  "as_of_us": 1793124733766712,
   "stage": "H",
-  "workstream": "FIRST_LIFE_ANDROID_APK_INTEGRATION_V2",
-  "status": "REV3_ORIGINAL_IMAGE_EXPORTED_A_B_PREPARATION_C_D_E_DEFERRED",
+  "workstream": "FIRST_LIFE_REAL_LIVING_INTEGRATION",
+  "status": "SERVER_INTEGRATION_TESTED_FINAL_REGRESSION_RUNNING",
   "progress": [
-    "质量d207＋Nana Space b899合法合并；独立开发分支；原工作树/bundle、Single Subject/Store/Loop、Master/fixed63不变。",
-    "运行时Core仍dbfb37e；历史全仓1560/0/12、243文件包可重复；API/前端契约未改，本轮聚焦实际SDK容器接线。",
-    "四分片/整包SHA/CRC/13封条/4766文件＋10软链全过；先读交接并原脚本隔离7PASS；最终安装后原SDK指纹再核全等。",
-    "云端原SDK实际Debian13 UID999：Python3.12.14/SQLite3.51.3/OpenSSL3.5.7、原prefix、原生库与真实验证TLS握手PASS。",
-    "修复SDK umask/mtime、构建-B保留原缓存、首次密码stdin FD和容器发布接线；镜像离线Core＋同APK LIVE Web；保留失败证据。",
-    "实际四卷映射/只读SDK，发布端口→十页/离线原C/备份PASS；强杀自动恢复1次、重建同ID epochs2→3→4。",
-    "原B8恢复同开发主体、旧源精确PORTABLE_SOURCE_RETIRED/Grant撤销；全仓4ec0dfc实跑1581/0/12，368.62s；最终focused39/实际镜像复核。",
-    "rev3四报告已核；原镜像save/9分片/重组load同ID通过；空runtime新增落地验证及双plan摘要绑定、B1加密工具9测试通过；云端未访问。"
+    "独立dev/nana-core-real-living-integration-v1-codex从远端a07e906；不改CotEX V3/apps或云端Host Operator/Docker/genesis。",
+    "原Supervisor/V2配对/身份/CSRF/Manager/UNKNOWN继续复用；新增现有home只读绑定/schema13/完整性预检，无自动创建。",
+    "providers/commands宿主显式opt-in默认关闭，HOST_ADMIN＋严格ProviderCommand＋双revision/CAS/原idempotency回执；只配置，不调用或授权模型。",
+    "首次配置可创建host providers.json，不创建Subject；Home接原Inspector affect元数据，不伪造心情。",
+    "原exporter接有界hash-only legacy计划，绑定subject/lineage/manifest，来源namespace去重；不导入私人经历/Grant。",
+    "新增backup/status仅调用者既有BACKUP回执，PC/restore不可观测不称DR；原B1工具不重复建设。",
+    "新增5项离线整合测试通过，相关134通过；完整回归执行中，旧1581不算本轮新资格。"
   ],
   "open_gates": [
-    "云端A/B已授权但本会话安全通道未绑定：原镜像宿主load、runtime实际落盘及host tailnet登录/手机HTTPS仍待真实回执。",
-    "C正式genesis仅准备，D/E暂缓；不关闭旧AstrBot/QQ/Iris、不导私史/真实发送。A/B就绪后再一次C-only审批，不扩成激活。",
-    "B1已选，真实PC目标/公钥/SSH绑定未提供，异机备份未完成；genesis后首次真实备份恢复通过前不得生产激活。",
-    "bwrap保持BLOCKED；不查旧key/不付费调用；原Master/fixed63不变，真人/实机/First-Life NOT_READY/Beta NO。"
+    "正式Genesis/宿主实际部署由另一操作者执行，本会话没有真实成功回执；不推断未提供的外部状态。",
+    "真实Provider/手机/私人记忆/旧writer切流分别待授权与实测；不重用历史key，不付费，不操作生产。",
+    "V3现有native allowlist未包含新config/backup读写，需CotEX按最小契约接线；原十页聊天兼容保持。",
+    "Master/fixed63不变；bwrap BLOCKED，human NOT_RUN，First-Life NO/Beta NO。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
-    "docs/nana_first_life_android_v2/IMPLEMENTATION.md",
-    "contracts/nana-space-live-v2/api-v2.schema.json"
+    "docs/nana_real_living_integration/IMPLEMENTATION.md",
+    "docs/nana_real_living_integration/ACCEPTANCE.md",
+    "docs/nana_real_living_integration/STATUS.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

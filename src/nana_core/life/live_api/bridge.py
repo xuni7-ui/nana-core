@@ -17,7 +17,7 @@ from .contracts import ApiError, Completion, Envelope, Page, Role
 from .ledger import OperationLedger, fingerprint
 
 PAGE_SECTIONS = {
-    Page.HOME: ("activities", "concerns", "needs", "interests", "relationship", "goals"),
+    Page.HOME: ("activities", "concerns", "needs", "affect", "interests", "relationship", "goals"),
     Page.CHAT: ("decisions", "experience", "source_lifecycle"),
     Page.MEMORIES: ("experience", "provenance", "source_lifecycle"),
     Page.GOALS: ("goals", "suppressed_deferred", "unknown"),
@@ -31,8 +31,9 @@ PAGE_SECTIONS = {
 
 
 class GatewayService:
-    def __init__(self, supervisor, auth, state_root):
+    def __init__(self, supervisor, auth, state_root, *, allow_provider_configuration=False):
         self.supervisor, self.auth = supervisor, auth
+        self.allow_provider_configuration = allow_provider_configuration
         self.binding = supervisor.binding
         self.generation = secrets.token_hex(16)
         self.ledger = OperationLedger(Path(state_root) / "operations.json")
@@ -66,11 +67,13 @@ class GatewayService:
             source_refs=tuple(refs)[:32],
             capabilities={
                 "memory_metadata": True,
+                "backup_status": True,
                 "body_cache": False,
                 "background_push": "UNAVAILABLE",
                 "device_control": False,
                 "social_delivery": "NOT_AUTHORIZED",
                 "provider_authority": False,
+                "provider_configuration_write": self.allow_provider_configuration,
             },
             data=data,
         ).model_dump(mode="json")
@@ -89,6 +92,24 @@ class GatewayService:
                 "identity_provenance": "EXISTING_BOUND_SUBJECT_NOT_AUTOMATIC_GENESIS",
             }
         )
+
+    def backup_status(self, principal):
+        """Derived existing receipt metadata; never opens a snapshot or PC path."""
+        principal.require(Role.READER)
+        self.supervisor.verify_binding()
+        rows = self.ledger.document.read()["receipts"].values()
+        # A caller only sees receipts it owns. No backup body or host path.
+        local = [{"receipt_id": r["receipt"]["receipt_id"],
+                  "state": r["receipt"]["state"],
+                  "dispatch_happened": r["receipt"]["dispatch_happened"],
+                  "created_at_us": r["created_at_us"]}
+                 for r in rows if r["principal"] == principal.principal_id
+                 and r["receipt"]["operation"] == "BACKUP"][-16:]
+        return self.envelope({"local_receipts": local, "scope": "OWN_CALLER_METADATA_ONLY",
+                              "offsite_state": "STATUS_NOT_EXPOSED",
+                              "disaster_recovery": "NOT_QUALIFIED_BY_THIS_PROJECTION",
+                              "pc_delivery": "NOT_OBSERVED", "restore_check": "NOT_OBSERVED",
+                              "backup_schedule": "NOT_EXPOSED", "runnable_clone": False})
 
     def provider_status(self):
         status = self.supervisor.status()
