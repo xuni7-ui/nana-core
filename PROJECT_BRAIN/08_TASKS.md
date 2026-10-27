@@ -1156,3 +1156,10 @@ main/R045/production/private/device/social/paidProvider0。报告与证据：doc
 
 ### First-Life Real Living Integration · OFFLINE final / 2026-10-27
 源码995731b；实际全仓1595 passed/0failed/12skipped(11live screen＋E12)371.63s，5新/134相关通过，首次provider config缺失两处失败保留并安全修复。新Core244files/209sourceassets双构建一致SHA a9b750c09350b1b9857a62d071677d331a059e09939cd28454fccdca863f4b5d，qualified本地Python3.12.14/SQLite3.53.1隔离安装新模块导入通过；不重编或冒充旧Docker镜像。独立工具包含预检/hash计划/原B1；新API/native接线说明与真实体验清单齐。仅OFFLINE_PASS，REAL_PROVIDER/HOST/ANDROID/FIRST_LIFE不升级，正式genesis/私人导入/社交/生产0，CotEX/apps和HostOperator保持独立。下一主线依真实operator回执与明确激活授权，用同一canonical home完成手机＋一次PROJECT模型＋真人连续体验；不再重造架构。
+
+
+### H Execution Context / explicit target integration
+- 已实现：受限只读local probe；namespace-qualified数字身份与文件metadata；target/resource/channel pin；原Kernel atomic prepare/dispatch claim/Verify；原Hands本地namespace/dev hardening；host_probe来源修复。
+- 验证中：新路由/误环境/UID999/overlay/subtree/路径缺失/证据陈旧/UNKNOWN/原子文件替换/reobserve；原Hands/First-Life相关与全仓回归；portable精确闭包。
+- 未运行：真实Host Operator/SSH、生产修复、云宿主部署、paid provider、private/social；不阻塞原Genesis/手机主线。
+- 集成说明与scope：docs/nana_execution_context_v1/IMPLEMENTATION.md、INTEGRATION.md；普通诊断不创建身份，不新增批准门。

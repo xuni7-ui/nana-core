@@ -331,6 +331,12 @@ class ActionKernel:
                 from .continuity.hands.port import OwnedApplicationPort
                 from .continuity.hands.browser import OwnedBrowserPort
 
+                from .execution_context.port import ContextBoundPort
+
+                if type(self.capability) is ContextBoundPort:
+                    self.capability.reserve_context(
+                        tx, action, json.loads(self.payload(action, "args_json"))
+                    )
                 if type(self.capability) in {OwnedApplicationPort, OwnedBrowserPort}:
                     self.capability.preflight(
                         action["capability"], action["resource"], json.loads(self.payload(action, "args_json"))

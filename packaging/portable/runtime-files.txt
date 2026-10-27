@@ -212,3 +212,10 @@ src/nana_core/life/live_api/state.py
 src/nana_core/life/live_api/supervisor.py
 
 src/nana_core/life/live_api/provider_settings.py
+
+# Execution context metadata and explicitly bound existing CapabilityPorts
+src/nana_core/execution_context/__init__.py
+src/nana_core/execution_context/contracts.py
+src/nana_core/execution_context/probe.py
+src/nana_core/execution_context/routing.py
+src/nana_core/execution_context/port.py

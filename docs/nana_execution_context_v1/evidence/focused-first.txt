@@ -1,0 +1,23 @@
+...............F..................................                       [100%]
+=================================== FAILURES ===================================
+__________ test_successful_effect_can_be_reobserved_without_dispatch ___________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-26/test_successful_effect_can_be_0')
+
+    def test_successful_effect_can_be_reobserved_without_dispatch(tmp_path):
+        directory = tmp_path / "owned"
+        directory.mkdir()
+        clock, authority = ManualClock(), OperatorAuthority()
+        with Store(tmp_path / "subject.db", clock) as store:
+            kernel, _, backend = construct(store, authority, directory)
+            grant(kernel, authority, clock)
+            action = kernel.propose("reading.card.create", RESOURCE, ARGS)
+            assert kernel.run(action) == "SUCCEEDED"
+>           observation = kernel.reobserve(action)
+                          ^^^^^^^^^^^^^^^^^^^^^^^^
+E           TypeError: ActionKernel.reobserve() missing 1 required positional argument: 'authority'
+
+tests/execution_context/test_kernel.py:282: TypeError
+=========================== short test summary info ============================
+FAILED tests/execution_context/test_kernel.py::test_successful_effect_can_be_reobserved_without_dispatch
+1 failed, 49 passed in 1.34s

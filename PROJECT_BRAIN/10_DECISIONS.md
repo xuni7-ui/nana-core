@@ -1606,3 +1606,9 @@ main/R045/production/private/device/social/paidProvider0。报告与证据：doc
 
 ### First-Life Real Living Integration · OFFLINE final / 2026-10-27
 源码995731b；实际全仓1595 passed/0failed/12skipped(11live screen＋E12)371.63s，5新/134相关通过，首次provider config缺失两处失败保留并安全修复。新Core244files/209sourceassets双构建一致SHA a9b750c09350b1b9857a62d071677d331a059e09939cd28454fccdca863f4b5d，qualified本地Python3.12.14/SQLite3.53.1隔离安装新模块导入通过；不重编或冒充旧Docker镜像。独立工具包含预检/hash计划/原B1；新API/native接线说明与真实体验清单齐。仅OFFLINE_PASS，REAL_PROVIDER/HOST/ANDROID/FIRST_LIFE不升级，正式genesis/私人导入/社交/生产0，CotEX/apps和HostOperator保持独立。下一主线依真实operator回执与明确激活授权，用同一canonical home完成手机＋一次PROJECT模型＋真人连续体验；不再重造架构。
+
+
+### EXECUTION_CONTEXT_V1 — paths, UIDs and authority are namespace-scoped (2026-10-27)
+[用户任务＋实际源码缺口，S4/S5/S7 Advanced] 明确ExecutionContext来自受信任执行层的内核metadata，TargetBinding为可信宿主显式配置，标签/UID0/用户名不构成HOST或执行权限。相同路径必须以context/dev/inode与时间区分；UID999只在其user namespace内解释，父层map不自动等于物理host。mountinfo不证明跨容器持久化或自动路径翻译。
+复用原Kernel/Store/Grant/Manager/Verify，prepare原子绑定action目标，dispatch先claim再效果；UNKNOWN不换channel/不重发。只有已授权且尚未dispatch的通道选择可按HOST_OPERATOR→SSH；不建通用shell/第二planner/权限系统。原C继续原Hands，增强其namespace/dev与peer检查；不放宽sealed realization。Host Operator/SSH由已有可信认证adapter显式注入，本轮无真实绑定不虚称可用。source metadata新鲜度5s，不扩Action/Grant/Lease时限。
+First-Life继续优先，不改Master/63、既有合法自主能力或现有生产。新host_probe需要同版安装Core，旧镜像不自动热更。

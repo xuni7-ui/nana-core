@@ -1,0 +1,117 @@
+{
+  "source_context": {
+    "target_id": "core-container",
+    "binding_id": "operator.metadata",
+    "scope": "UNKNOWN",
+    "context_id": "d33491d74efcb1c0bd4aa2be17501d91352bcc0a4c2f8010d966a8d065fa0309",
+    "observed_at_us": 1793127619016679,
+    "uid": 1000,
+    "gid": 1000,
+    "euid": 1000,
+    "egid": 1000,
+    "supplementary_gids": [],
+    "user_namespace": "user:[4026531837]",
+    "mount_namespace": "mnt:[4026532201]",
+    "pid_namespace": "pid:[4026532200]",
+    "root_device": 27,
+    "root_inode": 524289,
+    "mount_table_digest": "41ccbf5aaf1f039104ab8f627821289fa8afdb97dfcedb1c231e661bc4d74e39",
+    "uid_map": [
+      {
+        "inside_id": 0,
+        "outside_id": 0,
+        "count": 4294967295
+      }
+    ],
+    "gid_map": [
+      {
+        "inside_id": 0,
+        "outside_id": 0,
+        "count": 4294967295
+      }
+    ],
+    "container_signals": [],
+    "cap_effective": "0000000000000000",
+    "no_new_privs": false,
+    "seccomp_mode": 0,
+    "observed_kind": "UNKNOWN",
+    "unknown_fields": [],
+    "grants_authority": false
+  },
+  "target_id": "core-container",
+  "target_context_id": "d33491d74efcb1c0bd4aa2be17501d91352bcc0a4c2f8010d966a8d065fa0309",
+  "requested_path": "/workspace/nana-execution-context",
+  "channel_id": "local.metadata",
+  "transport": "LOCAL",
+  "observed_at_us": 1793127619017644,
+  "observation": {
+    "context": {
+      "target_id": "core-container",
+      "binding_id": "operator.metadata",
+      "scope": "UNKNOWN",
+      "context_id": "d33491d74efcb1c0bd4aa2be17501d91352bcc0a4c2f8010d966a8d065fa0309",
+      "observed_at_us": 1793127619017002,
+      "uid": 1000,
+      "gid": 1000,
+      "euid": 1000,
+      "egid": 1000,
+      "supplementary_gids": [],
+      "user_namespace": "user:[4026531837]",
+      "mount_namespace": "mnt:[4026532201]",
+      "pid_namespace": "pid:[4026532200]",
+      "root_device": 27,
+      "root_inode": 524289,
+      "mount_table_digest": "41ccbf5aaf1f039104ab8f627821289fa8afdb97dfcedb1c231e661bc4d74e39",
+      "uid_map": [
+        {
+          "inside_id": 0,
+          "outside_id": 0,
+          "count": 4294967295
+        }
+      ],
+      "gid_map": [
+        {
+          "inside_id": 0,
+          "outside_id": 0,
+          "count": 4294967295
+        }
+      ],
+      "container_signals": [],
+      "cap_effective": "0000000000000000",
+      "no_new_privs": false,
+      "seccomp_mode": 0,
+      "observed_kind": "UNKNOWN",
+      "unknown_fields": [],
+      "grants_authority": false
+    },
+    "requested_path": "/workspace/nana-execution-context",
+    "actual_path": "/workspace/nana-execution-context",
+    "observed_at_us": 1793127619017232,
+    "status": "PRESENT",
+    "device": 27,
+    "inode": 322849,
+    "uid": 1000,
+    "gid": 1000,
+    "mode": 448,
+    "mtime_ns": 1793127275418393325,
+    "size": 4096,
+    "file_kind": "DIRECTORY",
+    "mount": {
+      "mount_id": 52,
+      "parent_id": 37,
+      "device": "0:27",
+      "mount_point": "/",
+      "filesystem_root": "/",
+      "filesystem_root_digest": "df7e940f72aa93cbcb6d70cc35124b0767c7a0e353043c7c24b660ea9be7b952",
+      "fs_type": "overlay",
+      "source_kind": "NAMED",
+      "source_digest": "65dd31ba17c2c0e99a75065c01c082ad215e59f056f710c3c641398ca6476afb",
+      "backing_kind": "OVERLAY",
+      "read_only": false
+    },
+    "code": "EXECUTION_METADATA_OBSERVED",
+    "grants_authority": false
+  },
+  "execution_authority": false,
+  "host_path_equivalence": "UNKNOWN"
+}

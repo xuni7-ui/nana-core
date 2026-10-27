@@ -1,0 +1,29 @@
+{
+  "evidence_level": "OBSERVED_DEVELOPMENT_FAILURE_SUMMARY_NOT_RAW_TRANSCRIPT",
+  "failures": [
+    {
+      "stage": "routing-first",
+      "result": "13 passed / 1 failed",
+      "cause": "test +1us future timestamp raced wall clock",
+      "fix": "freeze now_us; retain strict future rejection"
+    },
+    {
+      "stage": "independent-negative-test",
+      "result": "16 passed / 1 failed",
+      "cause": "outer requested_path could be changed without require_fresh rejecting",
+      "fix": "bind requested/actual/expected path and source/target timestamps"
+    },
+    {
+      "stage": "operator-cli-first",
+      "result": "ImportError, both CLI attempts failed before probing",
+      "cause": "filename inspect.py shadowed Python stdlib inspect during pydantic import",
+      "fix": "rename diagnose.py; actual subprocess test; no host operation"
+    },
+    {
+      "stage": "independent-code-review",
+      "result": "compatibility defect found before final qualification",
+      "cause": "SUCCEEDED action rejected by new decorator during original Kernel reobserve",
+      "fix": "allow verification-only SUCCEEDED with original VERIFY attempt/Grant/budget proof; no execution retry"
+    }
+  ]
+}

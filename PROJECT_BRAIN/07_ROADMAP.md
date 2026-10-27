@@ -1084,3 +1084,7 @@ main/R045/production/private/device/social/paidProvider0。报告与证据：doc
 
 ### First-Life Real Living Integration · OFFLINE final / 2026-10-27
 源码995731b；实际全仓1595 passed/0failed/12skipped(11live screen＋E12)371.63s，5新/134相关通过，首次provider config缺失两处失败保留并安全修复。新Core244files/209sourceassets双构建一致SHA a9b750c09350b1b9857a62d071677d331a059e09939cd28454fccdca863f4b5d，qualified本地Python3.12.14/SQLite3.53.1隔离安装新模块导入通过；不重编或冒充旧Docker镜像。独立工具包含预检/hash计划/原B1；新API/native接线说明与真实体验清单齐。仅OFFLINE_PASS，REAL_PROVIDER/HOST/ANDROID/FIRST_LIFE不升级，正式genesis/私人导入/社交/生产0，CotEX/apps和HostOperator保持独立。下一主线依真实operator回执与明确激活授权，用同一canonical home完成手机＋一次PROJECT模型＋真人连续体验；不再重造架构。
+
+
+### H · Execution Context Awareness & Host Target Routing (2026-10-27)
+[Advanced S4/S5/S7＋Governance/Surface] First-Life现有主线上的执行正确性增强，不改冻结域/criteria、不新增Genesis或手机部署前置门。继承Real Living 7a1bce9，独立分支实现真实本地namespace/UID/mount/path元数据、明确target/channel路由与Kernel证据；宿主通道未绑定保持UNKNOWN/BLOCKED。原C/Hands/Grant/Manager/独立Verify复用；只做隔离开发，不重复Host Operator或CotEX界面。真实host接线由已有可信operator提供，新组件不搜索SSH/keys/docker.sock。

@@ -2721,3 +2721,7 @@ FL-A完整原报告收到并读取，脱敏source SHA登记，不复制平台个
 
 ### First-Life Real Living Integration · OFFLINE final / 2026-10-27
 源码995731b；实际全仓1595 passed/0failed/12skipped(11live screen＋E12)371.63s，5新/134相关通过，首次provider config缺失两处失败保留并安全修复。新Core244files/209sourceassets双构建一致SHA a9b750c09350b1b9857a62d071677d331a059e09939cd28454fccdca863f4b5d，qualified本地Python3.12.14/SQLite3.53.1隔离安装新模块导入通过；不重编或冒充旧Docker镜像。独立工具包含预检/hash计划/原B1；新API/native接线说明与真实体验清单齐。仅OFFLINE_PASS，REAL_PROVIDER/HOST/ANDROID/FIRST_LIFE不升级，正式genesis/私人导入/社交/生产0，CotEX/apps和HostOperator保持独立。下一主线依真实operator回执与明确激活授权，用同一canonical home完成手机＋一次PROJECT模型＋真人连续体验；不再重造架构。
+
+
+### Execution context / target routing implementation checkpoint (2026-10-27)
+[Advanced，7a1bce9合法后继] 新执行环境metadata/显式路由/原Kernel decorator与本地Hands pin，修复host_probe将当前namespace误读为host的表达缺口。使用原Store事件/core_meta保存action来源，schema13/43表不变；没有第二主体/记忆/Planner或Grant authority。独立fixture跨环境与实际owned file、原Hands相关验证，完整回归/portable验收进行中。CLI初版inspect.py遮蔽stdlib实际执行失败已重命名diagnose.py并加真实subprocess测试；证据path重贴与reobserve兼容缺口已修复，保留失败记录。无production/host/provider/private/social操作。

@@ -7,33 +7,32 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 44,
-  "as_of_us": 1793124999429126,
+  "revision": 45,
+  "as_of_us": 1793127778499243,
   "stage": "H",
-  "workstream": "FIRST_LIFE_REAL_LIVING_INTEGRATION",
-  "status": "OFFLINE_INTEGRATION_QUALIFIED_REAL_LIVING_GATES_PENDING",
+  "workstream": "EXECUTION_CONTEXT_AWARENESS_HOST_TARGET_ROUTING",
+  "status": "IMPLEMENTED_OFFLINE_QUALIFICATION_IN_PROGRESS",
   "progress": [
-    "独立dev/nana-core-real-living-integration-v1-codex从远端a07e906；不改CotEX V3/apps或云端Host Operator/Docker/genesis。",
-    "原Supervisor/V2配对/身份/CSRF/Manager/UNKNOWN继续复用；新增现有home只读绑定/schema13/完整性预检，无自动创建。",
-    "providers/commands宿主显式opt-in默认关闭，HOST_ADMIN＋严格ProviderCommand＋双revision/CAS/原idempotency回执；只配置，不调用或授权模型。",
-    "首次配置可创建host providers.json，不创建Subject；Home接原Inspector affect元数据，不伪造心情。",
-    "原exporter接有界hash-only legacy计划，绑定subject/lineage/manifest，来源namespace去重；不导入私人经历/Grant。",
-    "新增backup/status仅调用者既有BACKUP回执，PC/restore不可观测不称DR；原B1工具不重复建设。",
-    "源码995731b：5新增/134相关通过；全仓1595pass/0fail/12skip，371.63s。244files新Core归档双构建相同，隔离安装/新模块导入通过；非Cloud部署/实机/live模型资格。"
+    "从7a1bce9创建独立dev/nana-core-execution-context-routing-v1-codex，不改Host Operator部署或CotEX。",
+    "受信任Linux metadata绑定user/mount/pid namespace、数字UID/GID/map、mount table、root dev/inode；无容器信号不证明HOST。",
+    "明确target/resource/path/channel pin，host通道缺失不退回容器；HOST_OPERATOR优先SSH，当前真实远端未绑定。",
+    "原Kernel原子prepare固定route，dispatch前检查且claim持久化；UNKNOWN只Verify，不重发/换通道，保留reobserve。",
+    "原Hands默认检查本地namespace/dev与IPC peer，证据标明本地context；Manager/Grant/C/D和sealed白名单不变。",
+    "host_probe纠正root/systemd/path来源，新增只读diagnose工具；portable精确清单包含5个新模块。",
+    "独立离线资格、完整回归及新版归档验证进行中；真实宿主/provider/phone/生产没有执行。"
   ],
   "open_gates": [
-    "正式Genesis/宿主实际部署由另一操作者执行，本会话没有真实成功回执；不推断未提供的外部状态。",
-    "真实Provider/手机/私人记忆/旧writer切流分别待授权与实测；不重用历史key，不付费，不操作生产。",
-    "V3现有native allowlist未包含新config/backup读写，需CotEX按最小契约接线；原十页聊天兼容保持。",
-    "Master/fixed63不变；bwrap BLOCKED，human NOT_RUN，First-Life NO/Beta NO。"
+    "真实Host Operator/SSH需要既有可信认证绑定；本轮无安全通道、无host部署或宿主修复资格。",
+    "正式Genesis/手机与First-Life主线独立继续，此增强不新增Genesis门；原模型/private/social/生产授权边界保留。",
+    "通用decorator须宿主显式接线；原C继续原Hands，不宽化GovernedRealization白名单。",
+    "Master/63不改；Human NOT_RUN、First-Life NOT_READY、Beta NO。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
-    "docs/nana_real_living_integration/IMPLEMENTATION.md",
-    "docs/nana_real_living_integration/ACCEPTANCE.md",
-    "docs/nana_real_living_integration/STATUS.md",
-    "docs/nana_real_living_integration/evidence/qualification.json"
+    "docs/nana_execution_context_v1/IMPLEMENTATION.md",
+    "docs/nana_execution_context_v1/INTEGRATION.md",
+    "docs/nana_execution_context_v1/evidence/qualification.json"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

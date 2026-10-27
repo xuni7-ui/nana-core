@@ -12,9 +12,26 @@ class OwnedApplicationPort:
     def __init__(self,identity_id,target,*,host_enabled=False):
         if type(target) is not OwnedTarget or host_enabled is not True:raise CoreError('OWNED_APPLICATION_OPT_IN_REQUIRED')
         self.identity_id,self.target=identity_id,target;self.permitted_privacy=('PROJECT',);self.code_skills=None
-        self.tasks={t.task_id:t for t in target.tasks};self.context_provider=None;self.assert_owned()
+        self.tasks={t.task_id:t for t in target.tasks};self.context_provider=None
+        from ...execution_context.contracts import ContextBinding
+        from ...execution_context.probe import LocalContextProbe
+        from ...execution_context.routing import require_identity
+        self._execution_probe=LocalContextProbe(ContextBinding(target_id='owned-application',binding_id='hands.local'))
+        context=self._execution_probe.capture();require_identity(context)
+        self._execution_context_id=context.context_id
+        self._directory_device=private_directory(target.workspace).stat().st_dev
+        self.assert_owned()
     def assert_owned(self):
         t=self.target;root=private_directory(t.workspace)
+        from ...execution_context.routing import require_identity
+        context=self._execution_probe.capture();require_identity(context)
+        if context.context_id!=self._execution_context_id or root.stat().st_dev!=self._directory_device:
+            raise CoreError('HANDS_EXECUTION_CONTEXT_CHANGED')
+        try:
+            for namespace in ('user','mnt'):
+                if os.readlink(f'/proc/{t.pid}/ns/{namespace}')!=os.readlink(f'/proc/self/ns/{namespace}'):
+                    raise CoreError('HANDS_TARGET_NAMESPACE_MISMATCH')
+        except OSError:raise CoreError('HANDS_TARGET_CONTEXT_UNAVAILABLE') from None
         if root.stat().st_ino!=t.directory_inode or t.uid!=os.getuid() or process_start(t.pid)!=t.process_start:raise CoreError('HANDS_OWNERSHIP_CHANGED')
         try:
             if Path(f'/proc/{t.pid}').stat().st_uid!=t.uid:raise CoreError('HANDS_OWNERSHIP_CHANGED')
@@ -23,6 +40,15 @@ class OwnedApplicationPort:
                 if not stat.S_ISSOCK(s.st_mode) or s.st_ino!=inode or s.st_uid!=t.uid or s.st_mode&0o077:raise CoreError('HANDS_SOCKET_CHANGED')
         except OSError:raise CoreError('HANDS_TARGET_UNAVAILABLE') from None
         return root
+    def execution_evidence(self):
+        """Current local IPC realm; numeric UID and path never imply host access."""
+        root=self.assert_owned();context=self._execution_probe.capture()
+        return {'source_context_id':context.context_id,'target_context_id':context.context_id,
+                'target_id':'owned-application','actual_path':str(root),'transport':'LOCAL_OWNED_IPC',
+                'observed_at_us':context.observed_at_us,'directory_device':root.stat().st_dev,
+                'directory_inode':root.stat().st_ino,'uid':context.euid,
+                'user_namespace':context.user_namespace,'mount_namespace':context.mount_namespace,
+                'host_identity':'UNKNOWN','execution_authority':False}
     def _request(self,channel,body):
         root=self.assert_owned();body={'binding':self.target.binding,**body};raw=canonical(body).encode()+b'\n'
         if len(raw)>16384:raise CoreError('HANDS_REQUEST_BOUND')
@@ -88,13 +114,13 @@ class OwnedApplicationPort:
             else:
                 if self.code_skills is None:raise CoreError('HANDS_SKILL_REALM_REQUIRED')
                 value=self.code_skills.invoke(args['skill_record_id'],source)
-        return {'data':value,'data_privacy':'PROJECT','origin':'REAL_OS_CONTROLLED_APPLICATION' if inv.capability=='world.observe' else 'LOCAL_COMMAND_PREPARATION',**({'method':args['method']} if 'method' in args else {}),'target_binding':self.target.binding}
+        return {'data':value,'data_privacy':'PROJECT','origin':'REAL_OS_CONTROLLED_APPLICATION' if inv.capability=='world.observe' else 'LOCAL_COMMAND_PREPARATION',**({'method':args['method']} if 'method' in args else {}),'target_binding':self.target.binding,'execution_context':self.execution_evidence()}
     def execute(self,inv):
         key,args=self._valid(inv)
         if inv.capability!='world.publish':return Receipt(external_id=inv.idempotency_key,result=self._pure(inv,key,args))
         request=self._prepared(inv,key,args)
         self._request('control',request)
-        return Receipt(external_id=inv.idempotency_key,result={'application_acknowledged':True,'not_independently_verified':True})
+        return Receipt(external_id=inv.idempotency_key,result={'application_acknowledged':True,'not_independently_verified':True,'execution_context':self.execution_evidence()})
     def verify(self,inv):
         try:
             key,args=self._valid(inv)
@@ -134,6 +160,6 @@ class OwnedApplicationPort:
                 with os.fdopen(fd,'rb') as stream:persisted=json.loads(stream.read(200000))
                 if persisted['instance_id']!=self.target.instance_id or persisted['state'][key]!=state or persisted['effects'].get(inv.idempotency_key)!=effect:raise CoreError('HANDS_STRUCTURAL_EVIDENCE_DISAGREES')
                 value={'values':state['values'],'submitted':state['submitted']}
-            result={'data':value,'data_privacy':'PROJECT','origin':'REAL_OS_CONTROLLED_INDEPENDENT_VERIFICATION','target_binding':self.target.binding,'task_id':key,'revision':state['revision'],'effect':effect,'verify_paths':['READ_ONLY_APPLICATION_IPC','DOCUMENT_FILE' if task.kind in {'DOCUMENT','CONTENT','FILES'} else 'PERSISTED_APPLICATION_STATE']}
+            result={'data':value,'data_privacy':'PROJECT','origin':'REAL_OS_CONTROLLED_INDEPENDENT_VERIFICATION','target_binding':self.target.binding,'execution_context':self.execution_evidence(),'task_id':key,'revision':state['revision'],'effect':effect,'verify_paths':['READ_ONLY_APPLICATION_IPC','DOCUMENT_FILE' if task.kind in {'DOCUMENT','CONTENT','FILES'} else 'PERSISTED_APPLICATION_STATE']}
             return Verification(verdict='MATCH',evidence={'result':result,'effect_digest':digest(effect)})
         except (CoreError,OSError,ValueError,KeyError):return Verification(verdict='INCONCLUSIVE',evidence={'reason':'INDEPENDENT_HANDS_VERIFICATION_UNKNOWN'})

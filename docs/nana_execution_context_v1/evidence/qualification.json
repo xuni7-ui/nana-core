@@ -1,0 +1,11 @@
+{
+  "status": "IMPLEMENTED_QUALIFICATION_PENDING",
+  "base_head": "7a1bce994d7640389b48202e8de27be7c715eb97",
+  "scope": "OFFLINE_DEVELOPMENT_ONLY",
+  "real_provider_calls": 0,
+  "production_changed": false,
+  "private_data_used": false,
+  "real_host_routing": "NOT_RUN",
+  "host_deployed": "NOT_RUN",
+  "first_life_ready": false
+}

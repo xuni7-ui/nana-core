@@ -1,16 +1,27 @@
-"""Read-only final-host persistence/supervision probe. No credentials or bodies.
+"""Read-only process-context persistence/supervision probe. No credentials or bodies.
 
-Run explicitly on the Ubuntu HOST, not merely inside AstrBot. No restart,
+Run explicitly through an approved host channel for host evidence. Merely running
+this tool, even as UID 0, does not establish that channel or prove host identity.
+No restart,
 installation, account creation, Docker config/Env read, Store open or private
 history. An optional Docker inspect selects ONLY Mounts, never the full config.
 """
 
 import argparse
 import json
-import os
 import platform
 import subprocess
 from pathlib import Path
+
+from nana_core.execution_context.contracts import ContextBinding
+from nana_core.execution_context.probe import LocalContextProbe
+
+
+def local_probe():
+    """Unknown endpoint until a trusted application binds its actual channel."""
+    return LocalContextProbe(
+        ContextBinding(target_id="local-process", scope="UNKNOWN", binding_id="operator-local-probe")
+    )
 
 
 def mount_for(mounts, path):
@@ -29,32 +40,79 @@ def mount_for(mounts, path):
     }
 
 
-def directory(path):
-    p = Path(path).absolute()
-    if p.is_symlink():
-        return {"state": "SYMLINK_REVIEW_REQUIRED"}
-    if not p.exists():
-        return {"state": "NOT_PRESENT"}
-    info = p.stat()
-    return {
-        "state": "PRESENT_NOT_DURABILITY_QUALIFIED",
-        "uid": info.st_uid,
-        "gid": info.st_gid,
-        "mode": oct(info.st_mode & 0o777),
-        "directory": p.is_dir(),
-        "is_mount": p.is_mount(),
+def directory(path, *, observer=None):
+    """Metadata in this namespace; a missing path says nothing about the host."""
+    evidence = (observer or local_probe()).observe(str(Path(path).absolute()))
+    output = {
+        "state": {
+            "MISSING": "NOT_PRESENT_IN_EXECUTION_CONTEXT",
+            "DENIED": "PERMISSION_DENIED_IN_EXECUTION_CONTEXT",
+            "SYMLINK": "SYMLINK_REVIEW_REQUIRED",
+            "UNKNOWN": "UNKNOWN",
+        }.get(evidence.status, "PRESENT_NOT_DURABILITY_QUALIFIED"),
+        "path_observation": evidence.model_dump(mode="json"),
+        "host_verification": "UNKNOWN",
     }
+    if evidence.status != "PRESENT":
+        return output
+    output.update({
+        "state": "PRESENT_NOT_DURABILITY_QUALIFIED",
+        "uid": evidence.uid,
+        "gid": evidence.gid,
+        "mode": oct(evidence.mode),
+        "directory": evidence.file_kind == "DIRECTORY",
+        "is_mount": evidence.mount.mount_point == evidence.actual_path if evidence.mount else None,
+    })
+    return output
+
+
+def docker_mount_metadata(container, runtime_path, context):
+    """The selected Docker daemon may itself be remote or nested."""
+    try:
+        process = subprocess.run(
+            ["docker", "inspect", "--format", "{{json .Mounts}}", container],
+            capture_output=True,
+            text=True,
+            timeout=5,
+        )
+        if process.returncode:
+            raise ValueError("MOUNT_METADATA_UNAVAILABLE")
+        result = mount_for(json.loads(process.stdout), runtime_path)
+    except (OSError, ValueError, KeyError, TypeError, subprocess.TimeoutExpired):
+        result = {"state": "MOUNT_METADATA_UNAVAILABLE"}
+    result.update({
+        "observation_context_id": context.context_id,
+        "execution_channel": "EXPLICIT_LOCAL_DOCKER_CLIENT",
+        "docker_endpoint_scope": "UNKNOWN",
+        "supplied_container_label": container,
+        "source_path_scope": "DOCKER_DAEMON_METADATA_NOT_LOCAL_FILESYSTEM_PROOF",
+        "host_verification": "UNKNOWN",
+    })
+    return result
 
 
 def probe(a):
-    pid1 = Path("/proc/1/comm").read_text().strip()
+    observer = local_probe()
+    context = observer.capture()
+    try:
+        pid1 = Path("/proc/1/comm").read_text()[:128].strip()
+    except OSError:
+        pid1 = "UNKNOWN"
     output = {
-        "evidence": "ACTUAL_READ_ONLY_ON_EXECUTING_MACHINE",
+        "evidence": "ACTUAL_READ_ONLY_IN_CURRENT_EXECUTION_CONTEXT",
+        "execution_context": context.model_dump(mode="json"),
+        "host_verification": "UNKNOWN",
+        "host_root_authority": "UNKNOWN",
         "machine": platform.machine(),
         "kernel": platform.release(),
         "pid1": pid1,
-        "running_as_root": os.geteuid() == 0,
+        "process_euid_is_zero": context.euid == 0,
+        # Compatibility field; deliberately scoped, never host authority.
+        "running_as_root": context.euid == 0,
+        "running_as_root_deprecated": True,
+        "root_identity_scope": "CURRENT_USER_NAMESPACE_ONLY",
         "systemd_runtime_present": Path("/run/systemd/system").is_dir(),
+        "systemd_observation_scope": "CURRENT_EXECUTION_CONTEXT_ONLY",
         "production_modified": False,
         "store_opened": False,
         "private_content_read": False,
@@ -73,23 +131,14 @@ def probe(a):
         except (OSError, subprocess.TimeoutExpired):
             output["systemd_state"] = "UNAVAILABLE"
     else:
-        output["systemd_state"] = "NOT_HOST_SYSTEMD"
+        output["systemd_state"] = "NOT_OBSERVED_IN_EXECUTION_CONTEXT"
     output["recommended_supervision"] = "INDEPENDENT_NONROOT_DOCKER_USER_SELECTED"
     output["host_systemd_is_gate"] = False
     for name, path in [("subject_directory", a.subject), ("backup_directory", a.backups)]:
         if path:
-            output[name] = directory(path)
+            output[name] = directory(path, observer=observer)
     if a.container:
-        process = subprocess.run(
-            ["docker", "inspect", "--format", "{{json .Mounts}}", a.container],
-            capture_output=True,
-            text=True,
-            timeout=5,
-        )
-        if process.returncode:
-            output["runtime_persistence"] = {"state": "MOUNT_METADATA_UNAVAILABLE"}
-        else:
-            output["runtime_persistence"] = mount_for(json.loads(process.stdout), a.container_runtime)
+        output["runtime_persistence"] = docker_mount_metadata(a.container, a.container_runtime, context)
     if a.python:
         # Explicit known runtime path, isolated import probe, no ambient secret
         # discovery and no file write/import of Nana or user data.
@@ -105,10 +154,12 @@ def probe(a):
             output["runtime_binding"] = (
                 json.loads(process.stdout)
                 if process.returncode == 0
-                else {"state": "FINAL_HOST_EXECUTION_FAILED", "returncode": process.returncode}
+                else {"state": "EXPLICIT_PYTHON_EXECUTION_FAILED", "returncode": process.returncode}
             )
         except (OSError, ValueError, subprocess.TimeoutExpired):
-            output["runtime_binding"] = {"state": "FINAL_HOST_EXECUTION_UNAVAILABLE"}
+            output["runtime_binding"] = {"state": "EXPLICIT_PYTHON_EXECUTION_UNAVAILABLE"}
+        output["runtime_binding"]["launch_context_id"] = context.context_id
+        output["runtime_binding"]["host_verification"] = "UNKNOWN"
     output["bz2_lzma"] = "NOT_REQUIRED_BY_CURRENT_CORE_HOST_CONTRACT_NO_INSTALL_REQUESTED"
     output["code_skills_sandbox"] = "BLOCKED_NO_ASTRBOT_PRIVILEGE_CHANGE_AUTHORIZED"
     output["account_service_network_genesis_cutover"] = "SEPARATE_APPROVAL_REQUIRED"
