@@ -1,1 +1,53 @@
-{"status": "BLOCKED", "code": "EXECUTION_TARGET_UNBOUND", "host_verified": false, "files_written": 0, "credentials_read": false}
+{
+  "status": "BLOCKED",
+  "code": "EXECUTION_TARGET_UNBOUND",
+  "host_verified": false,
+  "files_written": 0,
+  "credentials_read": false,
+  "source_context": {
+    "target_id": "core-container",
+    "binding_id": "operator.metadata",
+    "scope": "UNKNOWN",
+    "context_id": "d33491d74efcb1c0bd4aa2be17501d91352bcc0a4c2f8010d966a8d065fa0309",
+    "observed_at_us": 1793128319995088,
+    "uid": 1000,
+    "gid": 1000,
+    "euid": 1000,
+    "egid": 1000,
+    "supplementary_gids": [],
+    "user_namespace": "user:[4026531837]",
+    "mount_namespace": "mnt:[4026532201]",
+    "pid_namespace": "pid:[4026532200]",
+    "root_device": 27,
+    "root_inode": 524289,
+    "mount_table_digest": "41ccbf5aaf1f039104ab8f627821289fa8afdb97dfcedb1c231e661bc4d74e39",
+    "uid_map": [
+      {
+        "inside_id": 0,
+        "outside_id": 0,
+        "count": 4294967295
+      }
+    ],
+    "gid_map": [
+      {
+        "inside_id": 0,
+        "outside_id": 0,
+        "count": 4294967295
+      }
+    ],
+    "container_signals": [],
+    "cap_effective": "0000000000000000",
+    "no_new_privs": false,
+    "seccomp_mode": 0,
+    "observed_kind": "UNKNOWN",
+    "unknown_fields": [],
+    "grants_authority": false
+  },
+  "target_id": "host",
+  "requested_path": "/srv/nana-core",
+  "actual_path": null,
+  "target_context_id": null,
+  "channel_id": null,
+  "observed_at_us": 1793128319996174,
+  "result": "NO_TARGET_CHECK_PERFORMED"
+}

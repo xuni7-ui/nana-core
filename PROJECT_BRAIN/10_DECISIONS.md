@@ -1612,3 +1612,7 @@ main/R045/production/private/device/social/paidProvider0。报告与证据：doc
 [用户任务＋实际源码缺口，S4/S5/S7 Advanced] 明确ExecutionContext来自受信任执行层的内核metadata，TargetBinding为可信宿主显式配置，标签/UID0/用户名不构成HOST或执行权限。相同路径必须以context/dev/inode与时间区分；UID999只在其user namespace内解释，父层map不自动等于物理host。mountinfo不证明跨容器持久化或自动路径翻译。
 复用原Kernel/Store/Grant/Manager/Verify，prepare原子绑定action目标，dispatch先claim再效果；UNKNOWN不换channel/不重发。只有已授权且尚未dispatch的通道选择可按HOST_OPERATOR→SSH；不建通用shell/第二planner/权限系统。原C继续原Hands，增强其namespace/dev与peer检查；不放宽sealed realization。Host Operator/SSH由已有可信认证adapter显式注入，本轮无真实绑定不虚称可用。source metadata新鲜度5s，不扩Action/Grant/Lease时限。
 First-Life继续优先，不改Master/63、既有合法自主能力或现有生产。新host_probe需要同版安装Core，旧镜像不自动热更。
+
+
+### Execution Context V1 · offline qualification final (2026-10-27)
+[实测，runtime9bc301c/operator CLI7c842f4] 原Kernel/Hands/Manager/First-Life/Precision保留；50focused、118相关通过，完整1645passed/0failed/12skipped、378.07s（11live screen＋E12）；full后仅CLI拒绝来源metadata补齐，实际subprocess1PASS0.26s，运行时源码不变。249files包双构建相同SHA9bf5e4433c957fbf055b546cc1d4500c879a208b6629665bfdd480b6b97f3740；实际离线安装/隔离-I导入/本地metadata通过，无身份创建。仅OFFLINE_COMPONENT资格，跨namespace/host通道为合成fixture，实际宿主通道/部署未运行，unbound请求明确NO_TARGET_CHECK_PERFORMED，不冒充宿主文件缺失。失败记录保留；Master/Matrix/fixed63逐字不变，schema13/43表、前端不变，production/provider/private/social0。First-Life原主线继续，非新增Genesis/手机前置门。见docs/nana_execution_context_v1及artifacts/execution-context-v1。

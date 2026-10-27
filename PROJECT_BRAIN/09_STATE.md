@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 45,
-  "as_of_us": 1793127778499243,
+  "revision": 46,
+  "as_of_us": 1793128320014163,
   "stage": "H",
   "workstream": "EXECUTION_CONTEXT_AWARENESS_HOST_TARGET_ROUTING",
-  "status": "IMPLEMENTED_OFFLINE_QUALIFICATION_IN_PROGRESS",
+  "status": "OFFLINE_COMPONENT_QUALIFIED_REAL_HOST_BINDING_NOT_RUN",
   "progress": [
     "从7a1bce9创建独立dev/nana-core-execution-context-routing-v1-codex，不改Host Operator部署或CotEX。",
     "受信任Linux metadata绑定user/mount/pid namespace、数字UID/GID/map、mount table、root dev/inode；无容器信号不证明HOST。",
@@ -19,7 +19,7 @@
     "原Kernel原子prepare固定route，dispatch前检查且claim持久化；UNKNOWN只Verify，不重发/换通道，保留reobserve。",
     "原Hands默认检查本地namespace/dev与IPC peer，证据标明本地context；Manager/Grant/C/D和sealed白名单不变。",
     "host_probe纠正root/systemd/path来源，新增只读diagnose工具；portable精确清单包含5个新模块。",
-    "独立离线资格、完整回归及新版归档验证进行中；真实宿主/provider/phone/生产没有执行。"
+    "运行源码9bc301c：50focused、118相关、全仓1645pass/0fail/12skip(378.07s)；随后7c842f4仅CLI拒绝metadata，1项实际subprocess再验证。249files Core双构建同SHA9bf5e443...，独立-I安装导入通过，未创建Subject/更新云端镜像。"
   ],
   "open_gates": [
     "真实Host Operator/SSH需要既有可信认证绑定；本轮无安全通道、无host部署或宿主修复资格。",

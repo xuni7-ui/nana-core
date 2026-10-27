@@ -1,0 +1,7 @@
+{
+  "archive": "/workspace/nana-deliverables/execution-context-01/nana-first-life-portable-v1.tar.gz",
+  "sha256": "9bf5e4433c957fbf055b546cc1d4500c879a208b6629665bfdd480b6b97f3740",
+  "source_commit": "9bc301c9fa3a06721cf9d143e0a19819ea6acfcd",
+  "bundle_files": 249,
+  "new_provider_calls": 0
+}

@@ -30,6 +30,12 @@
       "result": "two failed development tests; raw outputs preserved",
       "cause": "initial call omitted operator argument, then incorrectly used schema1 fixture for schema12-only reobserve",
       "fix": "exercise original VERIFY reservation/adapter on SUCCEEDED in isolated schema1; existing precision suite independently covers schema13 reobserve; no gate weakened"
+    },
+    {
+      "stage": "isolated installed probe command",
+      "result": "shell exit127 before invoking Python",
+      "cause": "used venv instead of original bootstrap .venv prefix",
+      "fix": "use actual bootstrap-reported .venv interpreter; -I probe then passed; installation itself had succeeded"
     }
   ]
 }

@@ -1,0 +1,147 @@
+{
+  "manifest_self_excluded": true,
+  "runtime_source_commit": "9bc301c9fa3a06721cf9d143e0a19819ea6acfcd",
+  "operator_source_commit": "7c842f4d089e1fcb93ff81b6eb4c8fd4af74a0f3",
+  "files": [
+    {
+      "path": "docs/nana_execution_context_v1/IMPLEMENTATION.md",
+      "bytes": 6289,
+      "sha256": "81b33298c9595f9242b43a86115b1e61e89aadbfd860be8f1e22207246d5eeca"
+    },
+    {
+      "path": "docs/nana_execution_context_v1/INTEGRATION.md",
+      "bytes": 3635,
+      "sha256": "8c4ee0eb7fd41861b22ec9f425ec954406b9f78919f9c8f8a897807207eac040"
+    },
+    {
+      "path": "docs/nana_execution_context_v1/STATUS.md",
+      "bytes": 3692,
+      "sha256": "55e02ffe9fc684ebbc82feb47550e92ae7486ae9f33698d8e19cb6a7366ed91a"
+    },
+    {
+      "path": "docs/nana_execution_context_v1/evidence/.gitattributes",
+      "bytes": 24,
+      "sha256": "bcded5feb953ebe264f03dfe849be2f6a01f7421dc8c64d5e4d382f095a2b5df"
+    },
+    {
+      "path": "docs/nana_execution_context_v1/evidence/build-repeat.json",
+      "bytes": 304,
+      "sha256": "c805ea1ce7f0511b4619488835900d1efbc7860bbc12044de7a093e4c16a79c4"
+    },
+    {
+      "path": "docs/nana_execution_context_v1/evidence/build.json",
+      "bytes": 297,
+      "sha256": "fb2b918db85f606c3ac87979663dc384c84595b3a612181da1b641539fad525f"
+    },
+    {
+      "path": "docs/nana_execution_context_v1/evidence/cli-final.txt",
+      "bytes": 98,
+      "sha256": "364fae48cbe8f4ef8e995f8fb3224d43792e784eb9919ceefea2fe0106918edf"
+    },
+    {
+      "path": "docs/nana_execution_context_v1/evidence/failure-history.json",
+      "bytes": 1950,
+      "sha256": "a3ac9839dddbe67b258372d8a32a4f2422dea2856f53433c2cb4f3f48252d438"
+    },
+    {
+      "path": "docs/nana_execution_context_v1/evidence/focused-first.txt",
+      "bytes": 1312,
+      "sha256": "9909dcc8d38141f91ea1eb38415b6641e9985138c185b776593f16c607323ec2"
+    },
+    {
+      "path": "docs/nana_execution_context_v1/evidence/focused-reobserve-fixture.txt",
+      "bytes": 2054,
+      "sha256": "c01faf3c8b9da72c622b93278d21b09077827f62f4e8b43f0438b3eebc6d47fc"
+    },
+    {
+      "path": "docs/nana_execution_context_v1/evidence/focused.txt",
+      "bytes": 99,
+      "sha256": "4759baf22ae42fe9669a7448de8418ca96bf87eb496f9f32412f05382b792b95"
+    },
+    {
+      "path": "docs/nana_execution_context_v1/evidence/full.txt",
+      "bytes": 2721,
+      "sha256": "7f7db3d269b48b0e6da4881bb7bfae4dd32e87671c367acd2d46d7907b379274"
+    },
+    {
+      "path": "docs/nana_execution_context_v1/evidence/host-unavailable.json",
+      "bytes": 1418,
+      "sha256": "4c9aa91f7377be0c621160c4c5bbcbe29c09548571aa5ec76f8b0a6b81490ef1"
+    },
+    {
+      "path": "docs/nana_execution_context_v1/evidence/install.txt",
+      "bytes": 2130,
+      "sha256": "7c5b5d6a083d7c0ba5ef0c632c772304a4a9b08e9704d51bc9dbebc6f62e8946"
+    },
+    {
+      "path": "docs/nana_execution_context_v1/evidence/installed-probe.json",
+      "bytes": 273,
+      "sha256": "50283ba552645c016c7046e7227be03193f12dad295aa2b2ecbad86a49db46db"
+    },
+    {
+      "path": "docs/nana_execution_context_v1/evidence/lint.txt",
+      "bytes": 19,
+      "sha256": "82b3e6a6c090a57601d22943bd23fca9218d1031dbe5a7b754092f9a156b4f18"
+    },
+    {
+      "path": "docs/nana_execution_context_v1/evidence/local-inspection.json",
+      "bytes": 3453,
+      "sha256": "671565dfd54100728673684e9a290029d7ef4b4d3190622bf73ec0d0b77ea2fc"
+    },
+    {
+      "path": "docs/nana_execution_context_v1/evidence/package.json",
+      "bytes": 548,
+      "sha256": "bad531b0c99c340e77c77d1e6b019fa139af0e5ff8a769c5b23ccd00fbbc952f"
+    },
+    {
+      "path": "docs/nana_execution_context_v1/evidence/qualification.json",
+      "bytes": 2885,
+      "sha256": "388c542b6da3c17e138243cf5be5d8d6b23789a85c67310afd52c2a746aeceed"
+    },
+    {
+      "path": "docs/nana_execution_context_v1/evidence/related.txt",
+      "bytes": 191,
+      "sha256": "890b00af42fa2a6183f448c48aa98c00688df87b38fcb0a99ac7a3e52e36ee0c"
+    },
+    {
+      "path": "docs/nana_execution_context_v1/evidence/review.json",
+      "bytes": 1280,
+      "sha256": "1c509dabe19856ffa4bb2f39583a8062c2f37a6cef1e87b4ec4f28c4b91fe391"
+    },
+    {
+      "path": "docs/nana_execution_context_v1/evidence/security.json",
+      "bytes": 446,
+      "sha256": "9eeab2f2b35871faae5633ad4bc80841dcbca3eca7536316ff730b6a92082571"
+    },
+    {
+      "path": "docs/nana_execution_context_v1/evidence/tested-source.json",
+      "bytes": 36464,
+      "sha256": "b827c6cc857b60785380b0d83f0b46e6b3da61d3755accc5e3f76d171e5e914f"
+    },
+    {
+      "path": "artifacts/execution-context-v1/README.md",
+      "bytes": 654,
+      "sha256": "c1bc797f363f958a8297272556df0d86bf1b47c846befe212c5b73ecc1ddbe66"
+    },
+    {
+      "path": "artifacts/execution-context-v1/delivery.json",
+      "bytes": 813,
+      "sha256": "cc6feada59c19a426e3440ce768b2806a359bf26094d3b3ac5c0f2bb32f07440"
+    },
+    {
+      "path": "artifacts/execution-context-v1/nana-execution-context-core.tar.gz",
+      "bytes": 3070149,
+      "sha256": "9bf5e4433c957fbf055b546cc1d4500c879a208b6629665bfdd480b6b97f3740"
+    },
+    {
+      "path": "artifacts/execution-context-v1/nana-execution-context-tools.zip",
+      "bytes": 10368,
+      "sha256": "36097e8c3f7e6985e4d1bbdf425f1db5c3551cc1d4c766f707dd2ab915848c27"
+    },
+    {
+      "path": "artifacts/execution-context-v1/nana-unpack.py",
+      "bytes": 2579,
+      "sha256": "43cae88c58ea6db1e5e5226807ae00f6ab06281f0a801ef4a0832e1b2428cdf7"
+    }
+  ]
+}

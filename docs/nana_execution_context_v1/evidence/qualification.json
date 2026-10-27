@@ -1,11 +1,77 @@
 {
-  "status": "IMPLEMENTED_QUALIFICATION_PENDING",
+  "status": "OFFLINE_COMPONENT_QUALIFIED_REAL_HOST_BINDING_NOT_RUN",
+  "scope": "GLOBAL_STAGE_H_ADVANCED_GROWTH_FIRST_LIFE_EXTENSION",
   "base_head": "7a1bce994d7640389b48202e8de27be7c715eb97",
-  "scope": "OFFLINE_DEVELOPMENT_ONLY",
+  "runtime_source_commit": "9bc301c9fa3a06721cf9d143e0a19819ea6acfcd",
+  "operator_tool_commit": "7c842f4d089e1fcb93ff81b6eb4c8fd4af74a0f3",
+  "execution_context": "PROCESS_QUALIFIED_LOCAL_KERNEL_METADATA",
+  "explicit_target_routing": "OFFLINE_PASS_SYNTHETIC_CROSS_NAMESPACE",
+  "local_low_risk_effect": "PASS_ORIGINAL_KERNEL_GRANT_BUDGET_INDEPENDENT_VERIFY",
+  "original_c_path": "ORIGINAL_HANDS_NAMESPACE_DEVICE_HARDENING_RECHECKED",
+  "host_channel": "NOT_CONNECTED_NO_IMPLICIT_CONTAINER_FALLBACK",
+  "readonly_diagnostic": "PASS_LOCAL_PROCESS_QUALIFIED",
+  "uid_identity_mapping": "OFFLINE_PASS_NUMERIC_AND_NAMESPACE_SCOPED",
+  "unknown_recovery": "PASS_NO_REDISPATCH_NO_CHANNEL_SWITCH",
+  "manager_grant_privacy": "ORIGINAL_CHECKS_PRESERVED_RELATED_REGRESSION_PASS",
+  "runtime_schema_version": 13,
+  "business_tables": 43,
+  "new_business_tables": 0,
+  "new_dependencies": 0,
+  "focused": {
+    "passed": 50,
+    "failed": 0,
+    "seconds": 1.37
+  },
+  "related_before_final_two_cases": {
+    "passed": 118,
+    "failed": 0,
+    "seconds": 82.59,
+    "note": "working-tree qualification before final adapter reobservation fixture; final full includes all"
+  },
+  "full_regression": {
+    "passed": 1645,
+    "failed": 0,
+    "skipped": 12,
+    "seconds": 378.07,
+    "source_commit": "9bc301c9fa3a06721cf9d143e0a19819ea6acfcd",
+    "skips": "11 opt-in live screen; 1 E12 real-model gate"
+  },
+  "post_full_cli_only": {
+    "passed": 1,
+    "failed": 0,
+    "seconds": 0.26,
+    "source_commit": "7c842f4d089e1fcb93ff81b6eb4c8fd4af74a0f3",
+    "runtime_changed": false
+  },
+  "package": {
+    "source_commit": "9bc301c9fa3a06721cf9d143e0a19819ea6acfcd",
+    "archive_sha256": "9bf5e4433c957fbf055b546cc1d4500c879a208b6629665bfdd480b6b97f3740",
+    "archive_bytes": 3070149,
+    "archive_files": 249,
+    "byte_identical_rebuild": true,
+    "all_five_modules_in_archive": true,
+    "actual_isolated_install": "PASS",
+    "subject_created": false,
+    "local_capture_ms": {
+      "samples": 30,
+      "median": 0.19802799999999998,
+      "max": 1.032455
+    },
+    "performance_scope": "local kernel metadata only; not full Core speed or real host qualification"
+  },
+  "host_deployed": "NOT_RUN",
+  "real_host_routing": "NOT_RUN",
+  "android_connected": "NOT_RUN_THIS_WORKSTREAM",
   "real_provider_calls": 0,
+  "formal_genesis_executed": false,
   "production_changed": false,
   "private_data_used": false,
-  "real_host_routing": "NOT_RUN",
-  "host_deployed": "NOT_RUN",
-  "first_life_ready": false
+  "real_social_sends": 0,
+  "frontend_contract_changed": false,
+  "frozen_framework_changed": false,
+  "foundation_criteria_changed": false,
+  "human_naturalness": "NOT_RUN",
+  "first_life_ready": false,
+  "beta_ready": false,
+  "existing_legitimate_autonomy_disabled": false
 }

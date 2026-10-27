@@ -1163,3 +1163,7 @@ main/R045/production/private/device/social/paidProvider0。报告与证据：doc
 - 验证中：新路由/误环境/UID999/overlay/subtree/路径缺失/证据陈旧/UNKNOWN/原子文件替换/reobserve；原Hands/First-Life相关与全仓回归；portable精确闭包。
 - 未运行：真实Host Operator/SSH、生产修复、云宿主部署、paid provider、private/social；不阻塞原Genesis/手机主线。
 - 集成说明与scope：docs/nana_execution_context_v1/IMPLEMENTATION.md、INTEGRATION.md；普通诊断不创建身份，不新增批准门。
+
+
+### Execution Context V1 · offline qualification final (2026-10-27)
+[实测，runtime9bc301c/operator CLI7c842f4] 原Kernel/Hands/Manager/First-Life/Precision保留；50focused、118相关通过，完整1645passed/0failed/12skipped、378.07s（11live screen＋E12）；full后仅CLI拒绝来源metadata补齐，实际subprocess1PASS0.26s，运行时源码不变。249files包双构建相同SHA9bf5e4433c957fbf055b546cc1d4500c879a208b6629665bfdd480b6b97f3740；实际离线安装/隔离-I导入/本地metadata通过，无身份创建。仅OFFLINE_COMPONENT资格，跨namespace/host通道为合成fixture，实际宿主通道/部署未运行，unbound请求明确NO_TARGET_CHECK_PERFORMED，不冒充宿主文件缺失。失败记录保留；Master/Matrix/fixed63逐字不变，schema13/43表、前端不变，production/provider/private/social0。First-Life原主线继续，非新增Genesis/手机前置门。见docs/nana_execution_context_v1及artifacts/execution-context-v1。

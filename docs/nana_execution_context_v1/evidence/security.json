@@ -1,0 +1,13 @@
+{
+  "scope": "new/changed files, raw diff and own archive members; generic literal scan, no historical credential search",
+  "file_count": 48,
+  "archive_member_count": 249,
+  "credential_literal_matches": 0,
+  "plaintext_credentials_used": false,
+  "real_provider_calls": 0,
+  "new_dependencies": 0,
+  "master_matrix_unchanged": true,
+  "runtime_unchanged_after_full": true,
+  "frontend_contract_changed": false,
+  "production_changed": false
+}

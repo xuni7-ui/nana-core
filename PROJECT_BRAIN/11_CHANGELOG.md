@@ -2725,3 +2725,7 @@ FL-A完整原报告收到并读取，脱敏source SHA登记，不复制平台个
 
 ### Execution context / target routing implementation checkpoint (2026-10-27)
 [Advanced，7a1bce9合法后继] 新执行环境metadata/显式路由/原Kernel decorator与本地Hands pin，修复host_probe将当前namespace误读为host的表达缺口。使用原Store事件/core_meta保存action来源，schema13/43表不变；没有第二主体/记忆/Planner或Grant authority。独立fixture跨环境与实际owned file、原Hands相关验证，完整回归/portable验收进行中。CLI初版inspect.py遮蔽stdlib实际执行失败已重命名diagnose.py并加真实subprocess测试；证据path重贴与reobserve兼容缺口已修复，保留失败记录。无production/host/provider/private/social操作。
+
+
+### Execution Context V1 · offline qualification final (2026-10-27)
+[实测，runtime9bc301c/operator CLI7c842f4] 原Kernel/Hands/Manager/First-Life/Precision保留；50focused、118相关通过，完整1645passed/0failed/12skipped、378.07s（11live screen＋E12）；full后仅CLI拒绝来源metadata补齐，实际subprocess1PASS0.26s，运行时源码不变。249files包双构建相同SHA9bf5e4433c957fbf055b546cc1d4500c879a208b6629665bfdd480b6b97f3740；实际离线安装/隔离-I导入/本地metadata通过，无身份创建。仅OFFLINE_COMPONENT资格，跨namespace/host通道为合成fixture，实际宿主通道/部署未运行，unbound请求明确NO_TARGET_CHECK_PERFORMED，不冒充宿主文件缺失。失败记录保留；Master/Matrix/fixed63逐字不变，schema13/43表、前端不变，production/provider/private/social0。First-Life原主线继续，非新增Genesis/手机前置门。见docs/nana_execution_context_v1及artifacts/execution-context-v1。

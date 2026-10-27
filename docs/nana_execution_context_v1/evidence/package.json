@@ -1,0 +1,16 @@
+{
+  "source_commit": "9bc301c9fa3a06721cf9d143e0a19819ea6acfcd",
+  "archive_sha256": "9bf5e4433c957fbf055b546cc1d4500c879a208b6629665bfdd480b6b97f3740",
+  "archive_bytes": 3070149,
+  "archive_files": 249,
+  "byte_identical_rebuild": true,
+  "all_five_modules_in_archive": true,
+  "actual_isolated_install": "PASS",
+  "subject_created": false,
+  "local_capture_ms": {
+    "samples": 30,
+    "median": 0.19802799999999998,
+    "max": 1.032455
+  },
+  "performance_scope": "local kernel metadata only; not full Core speed or real host qualification"
+}

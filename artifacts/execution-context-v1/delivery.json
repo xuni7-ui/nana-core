@@ -1,0 +1,25 @@
+{
+  "core_source_commit": "9bc301c9fa3a06721cf9d143e0a19819ea6acfcd",
+  "operator_source_commit": "7c842f4d089e1fcb93ff81b6eb4c8fd4af74a0f3",
+  "scope": "OFFLINE_COMPONENT_NOT_CLOUD_IMAGE",
+  "files": [
+    {
+      "name": "nana-execution-context-core.tar.gz",
+      "bytes": 3070149,
+      "sha256": "9bf5e4433c957fbf055b546cc1d4500c879a208b6629665bfdd480b6b97f3740"
+    },
+    {
+      "name": "nana-execution-context-tools.zip",
+      "bytes": 10368,
+      "sha256": "36097e8c3f7e6985e4d1bbdf425f1db5c3551cc1d4c766f707dd2ab915848c27"
+    },
+    {
+      "name": "nana-unpack.py",
+      "bytes": 2579,
+      "sha256": "43cae88c58ea6db1e5e5226807ae00f6ab06281f0a801ef4a0832e1b2428cdf7"
+    }
+  ],
+  "existing_cloud_image_changed": false,
+  "subject_included": false,
+  "requires_new_matching_core_release": true
+}
