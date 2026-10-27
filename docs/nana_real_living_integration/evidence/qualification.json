@@ -1,0 +1,49 @@
+{
+  "source_commit": "995731bacbda3f4a8deedc10bdfecd8ce3df0e56",
+  "full_test_context": "base a07e906 + explicit working tree hashes in tested-source.json; committed implementation bytes unchanged",
+  "focused": {
+    "passed": 5,
+    "failed": 0,
+    "seconds": 3.55
+  },
+  "related": {
+    "passed": 134,
+    "failed": 0,
+    "seconds": 40.04
+  },
+  "full": {
+    "passed": 1595,
+    "failed": 0,
+    "skipped": 12,
+    "seconds": 371.63
+  },
+  "skip_reasons": {
+    "live_screen": 11,
+    "E12_real_model": 1
+  },
+  "python": "3.12.14",
+  "sqlite": "3.53.1",
+  "runtime_bundle": {
+    "source_assets": 209,
+    "files": 244,
+    "two_builds_equal": true,
+    "sha256": "a9b750c09350b1b9857a62d071677d331a059e09939cd28454fccdca863f4b5d",
+    "installed_isolated_import": "PASS",
+    "no_subject_created_by_installed_probe": true
+  },
+  "new_dependencies": 0,
+  "schema_version": 13,
+  "business_tables": 43,
+  "new_business_tables": 0,
+  "OFFLINE_PASS": true,
+  "REAL_PROVIDER_PASS": "NOT_RUN",
+  "HOST_DEPLOYED": "NOT_VERIFIED",
+  "ANDROID_CONNECTED": "NOT_RUN",
+  "FIRST_LIFE_READY": false,
+  "PRIVATE_HISTORY_IMPORTED": false,
+  "FORMAL_GENESIS_EXECUTED": false,
+  "NEW_PROVIDER_CALLS": 0,
+  "REAL_SOCIAL_SENDS": 0,
+  "PRODUCTION_CHANGED": false,
+  "UI_OR_HOST_OPERATOR_CHANGED": false
+}

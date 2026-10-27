@@ -1,0 +1,9 @@
+{
+  "scope": "SYNTHETIC_ONLY_NO_SUBJECT_CREATED",
+  "legacy_plan_created": true,
+  "duplicate_rows": 1,
+  "output_mode": "0o600",
+  "repeat_output_refused": true,
+  "missing_home_not_created": true,
+  "provider_calls": 0
+}

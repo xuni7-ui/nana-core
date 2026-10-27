@@ -23,3 +23,18 @@ Next single mainline: after operator receipts and separately approved activation
 connect the same existing canonical home to one phone over private HTTPS, then
 perform a separately budgeted PROJECT model + user-observed dialogue/continuity
 journey. Do not start a new planner/personality architecture or generic benchmark.
+
+## Final offline qualification
+
+Implementation source995731bacbda3f4a8deedc10bdfecd8ce3df0e56; full1595pass,
+0fail,12skip/371.63s (11 live screen + E12). New5 and related134 passed; these are
+not additive claims of unique tests. First two provider-config-absence failures
+remain in evidence/focused-first.txt. No test was removed or skipped to pass.
+
+Core archive244 files /209 selected source assets, two byte-identical builds;
+SHA a9b750c09350b1b9857a62d071677d331a059e09939cd28454fccdca863f4b5d.
+Actual local offline install and Python-I new-module import passed on3.12.14/
+SQLite3.53.1. This does not replace previous Debian13/SQLite3.51.3 cloud-SDK or
+Docker qualification. Original image untouched. tools ZIP contains scripts/docs;
+operator uses the installed release src via explicit PYTHONPATH, not discovery.
+Delivery: artifacts/real-living-integration/delivery.json. No production execution.

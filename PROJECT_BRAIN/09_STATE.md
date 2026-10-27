@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 43,
-  "as_of_us": 1793124733766712,
+  "revision": 44,
+  "as_of_us": 1793124999429126,
   "stage": "H",
   "workstream": "FIRST_LIFE_REAL_LIVING_INTEGRATION",
-  "status": "SERVER_INTEGRATION_TESTED_FINAL_REGRESSION_RUNNING",
+  "status": "OFFLINE_INTEGRATION_QUALIFIED_REAL_LIVING_GATES_PENDING",
   "progress": [
     "独立dev/nana-core-real-living-integration-v1-codex从远端a07e906；不改CotEX V3/apps或云端Host Operator/Docker/genesis。",
     "原Supervisor/V2配对/身份/CSRF/Manager/UNKNOWN继续复用；新增现有home只读绑定/schema13/完整性预检，无自动创建。",
@@ -19,7 +19,7 @@
     "首次配置可创建host providers.json，不创建Subject；Home接原Inspector affect元数据，不伪造心情。",
     "原exporter接有界hash-only legacy计划，绑定subject/lineage/manifest，来源namespace去重；不导入私人经历/Grant。",
     "新增backup/status仅调用者既有BACKUP回执，PC/restore不可观测不称DR；原B1工具不重复建设。",
-    "新增5项离线整合测试通过，相关134通过；完整回归执行中，旧1581不算本轮新资格。"
+    "源码995731b：5新增/134相关通过；全仓1595pass/0fail/12skip，371.63s。244files新Core归档双构建相同，隔离安装/新模块导入通过；非Cloud部署/实机/live模型资格。"
   ],
   "open_gates": [
     "正式Genesis/宿主实际部署由另一操作者执行，本会话没有真实成功回执；不推断未提供的外部状态。",
@@ -32,7 +32,8 @@
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
     "docs/nana_real_living_integration/IMPLEMENTATION.md",
     "docs/nana_real_living_integration/ACCEPTANCE.md",
-    "docs/nana_real_living_integration/STATUS.md"
+    "docs/nana_real_living_integration/STATUS.md",
+    "docs/nana_real_living_integration/evidence/qualification.json"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

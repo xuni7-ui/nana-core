@@ -1,0 +1,25 @@
+{
+  "implementation_source": "995731bacbda3f4a8deedc10bdfecd8ce3df0e56",
+  "self_excluded": true,
+  "files": {
+    "artifacts/real-living-integration/delivery.json": "48f9de3a5f42d2ffe0c37325701f548a622f7d30a26efbfe2027f01fa6f5310a",
+    "artifacts/real-living-integration/nana-real-living-core.tar.gz": "a9b750c09350b1b9857a62d071677d331a059e09939cd28454fccdca863f4b5d",
+    "artifacts/real-living-integration/nana-real-living-tools.zip": "cc1b0aacba01f1c2686bd426d0e6c81c916f187fada7699e4d64727c5054c2e2",
+    "artifacts/real-living-integration/nana-unpack.py": "43cae88c58ea6db1e5e5226807ae00f6ab06281f0a801ef4a0832e1b2428cdf7",
+    "docs/nana_real_living_integration/ACCEPTANCE.md": "ddb9dd8da94b288835de9525fcdfb4d6536991510af4ba594a219546e6e996f4",
+    "docs/nana_real_living_integration/B1_RUNBOOK.md": "60e44dd994c18dfec91661f1045071aa33c74a1ce5e9aae544b0b1983ff13134",
+    "docs/nana_real_living_integration/IMPLEMENTATION.md": "a0c6c011cf316b2cc213fbefbc923ef13d56a3e979ce35a18b9da0bbc9968906",
+    "docs/nana_real_living_integration/STATUS.md": "3394fe1a0a78ac86bbddde3df99eead6fc6f8a4d2ee28b99ddeadc4b982101a4",
+    "docs/nana_real_living_integration/evidence/.gitattributes": "4178363ac75c607ba0e8a59c7d0ea9f2d0c8a854efd60d6d40d2ad94982f2a85",
+    "docs/nana_real_living_integration/evidence/cli.json": "5bdc93313d9826b24f7527271850f43c2325ebc58c9224840c37575171da6032",
+    "docs/nana_real_living_integration/evidence/focused-final.txt": "78bedbd1f6e3e3948a62286a37328aa89c12f73fca2205b79aed8e3353b8a0f7",
+    "docs/nana_real_living_integration/evidence/focused-first.txt": "d25e98a3c813a26071a245f374c7a998f45c907eb1545ed6b069e46d18aac433",
+    "docs/nana_real_living_integration/evidence/full.txt": "66da8d5e65954a9945aa7581833128aba1c6560358e911fa99d193574b76f9e2",
+    "docs/nana_real_living_integration/evidence/installed.txt": "c6973e3244b8553adb73e98a31df93da1b1aec1be1d04758697228d2ae4b9936",
+    "docs/nana_real_living_integration/evidence/qualification.json": "5dff4ecb677efa60f2d4ef31fc1b385eab3afef591e9cdd9283a453657bae26a",
+    "docs/nana_real_living_integration/evidence/related.txt": "e59feb72a52a9e3f2f52cb94f556c4392101b57c052c2a1742d41b94bdc94e2e",
+    "docs/nana_real_living_integration/evidence/security.json": "e97df5cb4ba3f6790602d740ddcbce0dc30af2242cd1875f365641bc57802cb1",
+    "docs/nana_real_living_integration/evidence/tested-source.json": "a30032e930627b7ed64fb6626934170ea66d347fa368eb89384488a79e348c9b",
+    "docs/nana_real_living_integration/provider-command.schema.json": "b80dfea883b5c97ac6ee286b4947a3f647c7bb4972a5f9d56a5290f3586fa89f"
+  }
+}

@@ -1,0 +1,73 @@
+F.F.                                                                     [100%]
+=================================== FAILURES ===================================
+_________ test_real_http_host_opt_in_cas_no_network_no_subject_events __________
+
+running = (<nana_core.life.live_api.server.ApiServer object at 0x7f292ec5d0a0>, <nana_core.life.live_api.bridge.GatewayService object at 0x7f292ebe5be0>)
+
+    def test_real_http_host_opt_in_cas_no_network_no_subject_events(running):
+        server,service=running
+        headers=login(server,service)
+        body=config_body(service,"provider-1")
+        assert http(server,"providers/commands","POST",body,headers)[0]==403
+        service.allow_provider_configuration=True
+        before=existing_identity(service.supervisor.home)
+        code,response,_=http(server,"providers/commands","POST",body,headers)
+>       assert code==200 and response['data']['state']=='VERIFIED',response
+E       AssertionError: {'contract': 'nana-space-live/v2', 'realm': 'OWNED_DEVELOPMENT_ONLY', 'subject_id': '9329a036-018b-49e2-bb5b-b0b6e03be9c5', 'lineage_binding': '6bcb2f47b397980c46915eefd31053b702adc2a846f47acdf9afa3e8ea9870cd', ...}
+E       assert (200 == 200 and 'REJECTED' == 'VERIFIED'
+E         
+E         - VERIFIED
+E         + REJECTED)
+
+tests/real_living_integration/test_integration.py:31: AssertionError
+__________________ test_existing_home_preflight_never_genesis __________________
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-0/test_existing_home_preflight_n0')
+
+    def test_existing_home_preflight_never_genesis(tmp_path):
+        missing=tmp_path/'missing'
+        with pytest.raises(ApiError):inspect_existing(missing,subject_id='none',lineage_binding='a'*64)
+        assert not missing.exists()
+        home,binding,release=owned(tmp_path)
+        before=hashlib.sha256((home/'subject/self.db').read_bytes()).hexdigest()
+>       report=inspect_existing(home,subject_id=binding.subject_id,lineage_binding=binding.lineage_binding)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/real_living_integration/test_integration.py:63: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tools/nana_first_life_android_v2/living_preflight.py:30: in inspect_existing
+    providers = provider_status(home)["provider_settings"]
+                ^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/life/provider.py:54: in provider_status
+    return {'provider_settings':ProviderSettingsService(service,authority,factory).projection(),'real_provider_qualified':'NOT_RUN','network_calls':0}
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/provider_routing.py:346: in projection
+    c = self._configuration.load()
+        ^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/provider_config.py:288: in load
+    return self._load()
+           ^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.provider_config.ProviderConfigService object at 0x7f292ec7b320>
+
+    def _load(self):
+        try:
+            fd = self._file(self._path, os.O_RDONLY)
+            with os.fdopen(fd, "rb") as f:
+                raw = f.read(262145)
+            if len(raw) > 262144:
+                raise ValueError()
+            from .privacy import _json_object
+    
+            obj = json.loads(raw, object_pairs_hook=_json_object)
+            return self.document_type.model_validate_json(canonical(obj))
+        except FileNotFoundError:
+>           raise CoreError("PROVIDER_CONFIG_UNAVAILABLE") from None
+E           nana_core.contracts.CoreError: PROVIDER_CONFIG_UNAVAILABLE
+
+src/nana_core/continuity/provider_config.py:281: CoreError
+=========================== short test summary info ============================
+FAILED tests/real_living_integration/test_integration.py::test_real_http_host_opt_in_cas_no_network_no_subject_events
+FAILED tests/real_living_integration/test_integration.py::test_existing_home_preflight_never_genesis
+2 failed, 2 passed in 2.71s
