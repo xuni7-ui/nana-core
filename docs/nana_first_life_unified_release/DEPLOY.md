@@ -1,66 +1,28 @@
-# Unified First-Life release — continuation, not a second Core
+# Unified First-Life Release · 最终 V3 交接
 
-This extends First-Life Android V2/rev3 release delivery with the complete
-9217e3f descendant of Real Living 7a1bce9. No duplicate release was found locally
-or in fetched remote refs. Host Operator and CotEX branches remain independent.
+此文件取代本目录先前 Core-only/de899/V2 Web 部署指引；其历史证据和镜像保留。
+继续同一个任务及分支，不另建 Release。完整可执行交接位于仓库根
+[CLOUD_DEPLOY_HANDOFF/README.md](../../CLOUD_DEPLOY_HANDOFF/README.md)，包含全部镜像
+分片、Core、V3 Web、APK、新封条、原plan引用及独立安装工具，不要求宿主先有源码分支。
 
-The image derives from the previously qualified exact image
-`sha256:0d8426762cef4bc19b12a7930361fbc9a9c4096628ffb0ee4024407ec5a1a5ee`.
-It preserves Debian13, private CPython3.12.14 at `/opt/nana-core/runtime`, SQLite
-3.51.3, OpenSSL3.5.7 and the original Web. Adds the hash-bound Core9217e3f release,
-installed offline as UID999. ENV selects only the new release. Old release files
-in inherited layers are inert; there is no automatic fallback or second Runtime.
-This is not CotEX V3 UI integration or a newly authorized production activation.
+Core运行源码3665d39完整继承9217e3f/7a1bce9/a07e906与ea1e225完整前端。最终镜像
+sha256:6581d9e0cb7e686511aa704f77546cae508fc2911792753ed3a9bd3bf3cdb18b；
+Debian13/CPython3.12.14/SQLite3.51.3/OpenSSL3.5.7/UID999。镜像gzip SHA256
+6974cec541039290d6ddf100be1834b6a51d3dec5299adc52331a33a1de80923，11片307509301bytes。
 
-## Handoff checks (safe preparation only)
+新版先进入 /srv/nana-core/slots/<source>/runtime，容器内仍是
+/opt/nana-core/runtime；旧/srv/runtime与旧6565封条不替换。新完整封条8149项。
+默认Compose无启用服务、verify/no-restart；不执行Genesis/激活。受控安装器已实际
+完成独立提取、树核验、数字所有权/权限恢复及只读挂载后验证。
 
-1. Download all image parts and `image.json` from artifacts/first-life-unified-release.
-   Run `python tools/nana_first_life_unified_release/verify.py <directory>`.
-2. Concatenate parts in manifest order and pipe to `docker load` (gzip accepted).
-   Inspect loaded image ID against image.json, architecture linux/amd64, User999:999.
-   Default `docker run --rm --network none --read-only --cap-drop ALL <image-id>`
-   verifies SDK only; it does not create/open a Subject. Do not invoke serve yet.
-3. Use existing rev3 safe runtime export/install workflow: extract the complete
-   non-sensitive `/opt/nana-core/runtime` from this exact image into a fresh staging
-   tree; verify hashes/links, restore private release UID999 ownership and permissions.
-   Runtime includes new `core-releases/9217e3f3550dc5a875c42ac6de53035dd73deae2`.
-   An old or empty `/srv/nana-core/runtime` bind will hide the new release and must
-   not be accepted. No system Python modification, LD_PRELOAD or SQLite substitution.
-4. Keep host `/srv/nana-core/{runtime,data,logs,backups}` mappings to the same
-   `/opt/nana-core/` directories, runtime read-only, writable data999:999/0700.
-   Keep original compose profile inactive, host publication127.0.0.1:18765→18766,
-   private HTTPS only, no Funnel, hostroot, Docker socket or AstrBot mounts.
-5. Before any later approved activation, preserve existing canonical plan binding,
-   stop/owner/lineage fences, backup and exact existing identity. Update approved
-   host release entries to new root/Python/source pin, not a new Subject. Existing
-   production home must never be initialized by this developer qualification tool.
-   Keep old verified runtime/image for rollback; no active-plan hot downgrade.
+Host Operator 修复工具在同一最终镜像/提取runtime执行私有.venv Python；检查
+实际_ssl/loader/RUNPATH、libssl/libcrypto与pydantic。宿主Python仅运行标准库适配器，
+不加载不匹配的私有_ssl；不改宿主OpenSSL，不用LD_PRELOAD，不修改旧sealed SDK。
+互斥模式只保留dry-run或verify-only之一。真实原checker/源码目前未提供，因此
+原13/13为NOT_RUN；合成解析器及ABI实测不能替代该结果。见OPERATOR_ENTRY.md。
 
-Formal Genesis, existing canonical service activation, private history, old-writer
-switch, QQ delivery and real model allowance still require their existing gates.
-The isolated lifecycle creates an explicitly DEV fixture only. Do not run it on
-`/srv`, existing identities or production data. Bwrap remains BLOCKED.
-
-## Reproduce
-
-Build exact portable Core with existing build.py --revision9217e3f(fullSHA in manifest)
-and pinned wheelhouse. In a clean Docker context place core.tar.gz, trusted original
-unpack.py and the checked-in unified Dockerfile. Verify original base image ID first.
-Build with --network none --pull=false --build-arg CORE_SHA256=<build.json digest>.
-No public CA/credentials are baked in; this overlay build performs no network access.
-
-Run qualify.py --source <fullSHA> --image <built-image> --work <fresh-owned-dev-dir>
---web-sha2568d55d97d59b6cefef74fe18651092960ac3fd5b3399606ee19b07f098a0fc90c
-(with a space between flag and value). It reuses the original harness and tests
-published HTTP, login, ten pages, original C offline chat, crash/recreation/backup/
-B8 same-identity recovery and old-source fencing. It performs zero provider calls.
-
-## Actual scope and limits
-
-See evidence/lifecycle.json and abi.json. Real cloud host deployment and physical
-Android/private HTTPS pairing are NOT_RUN here, not inferred from isolated Docker.
-TLS CERT_REQUIRED is checked locally; the unchanged SDK's earlier live TLS evidence
-is inherited, not described as a new external TLS test. Human naturalness NOT_RUN,
-First-Life NOT_READY/BetaNO. Master/63criteria/schema13/43tables/Manager unchanged.
-First image attempts failed on development disk exhaustion; raw logs retained.
-Only rebuildable local cache and this run's temporary copied SDK were cleaned.
+最终镜像实际通过隔离DEV安装/十页API/V3 Web/原C离线chat/自动重启/重建同ID/
+备份/B8恢复/旧源fence/撤Grant。新Web真实Core配置回执、revision冲突、角色及
+backup/status已验证；Android3.0.1实际构建/签名/原生单元通过，保持原appId。
+来源、命令、失败历史和等级见evidence/final与FINAL_STATUS.md。没有真实模型、
+实体手机/私有HTTPS、真实宿主部署或生产资格。First-Life NOT_READY、Beta NO。

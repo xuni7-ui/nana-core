@@ -1,0 +1,58 @@
+{
+  "state": "REV3_A_B_PREPARATION_ONLY_C_D_E_DEFERRED",
+  "canonical_plan_digest": "e3e2a1fd51b9473d7982980aa1f3d78a498a2f7878e7ae5c3051451a8b5d1527",
+  "inventory_digest": "a9fcbf253b53da624e6041afab5ea0a1652982610ec9196c033bb9af9e4069c6",
+  "authoritative_core_on_host": "NO_CANONICAL_CORE_ON_HOST_AT_INVENTORY_MUST_RECHECK_BEFORE_GENESIS",
+  "host_layout": {
+    "runtime": "/srv/nana-core/runtime",
+    "data": "/srv/nana-core/data",
+    "logs": "/srv/nana-core/logs",
+    "backups": "/srv/nana-core/backups"
+  },
+  "container_prefix": "/opt/nana-core/",
+  "uid": 999,
+  "runtime_qualification": "ACTUAL_SUPPLIED_SDK_ISOLATED_DEBIAN13_PASS",
+  "separate_approval_required": [
+    "CREATE_ONE_CANONICAL_GENESIS_ONLY",
+    "CANONICAL_ACTIVATION_AFTER_REAL_OLD_WRITER_FENCE",
+    "PRIVATE_HISTORY_EXPORT_IMPORT",
+    "PRIVATE_HTTPS_NETWORK_CHANGE",
+    "REAL_QQ_DELIVERY_AND_TRAFFIC",
+    "DAILY_PAID_PROVIDER_BUDGET"
+  ],
+  "currently_not_executed": [
+    "formal_subject_genesis",
+    "private_import",
+    "old_writer_shutdown",
+    "real_qq_delivery",
+    "production_cutover"
+  ],
+  "legacy_writers_must_be_fenced": [
+    "astrbot.agent",
+    "iris.writer",
+    "livingmemory.writer",
+    "proactive.social",
+    "bili.act-pump",
+    "selfevolution.cron",
+    "legacy.command-control"
+  ],
+  "must_preserve_existing_services_until_approved": true,
+  "rollback": [
+    "stop_and_fence_new_canonical_owner_before_any_legacy_reactivation",
+    "retain_unknown_and_outbound_receipts_do_not_replay",
+    "restore_only_operator_verified_legacy_configuration_backup",
+    "remove_only_new_approved_private_route_keep_original_6199_unchanged"
+  ],
+  "safe_cloud_access_binding": "MISSING_NOT_GUESSED",
+  "runtime_dto_contract": "nana-space-live/v2_UNCHANGED",
+  "provider_calls": 0,
+  "subject_created": false,
+  "canonical_plan_file_sha256": "41c343bc4423606a48a52da5fa10c8ccb1a6d31af5931d56ebbe9c5771567304",
+  "canonical_plan_dto_sha256": "e3e2a1fd51b9473d7982980aa1f3d78a498a2f7878e7ae5c3051451a8b5d1527",
+  "canonical_plan_digest_format": "EXISTING_CORE_CanonicalPlan.model_dump_json_UTF8_V1",
+  "genesis_current_decision": "PREPARE_ONLY_DO_NOT_EXECUTE",
+  "backup_choice": "B1_ENCRYPTED_TO_USER_PC_OVER_PRIVATE_TAILSCALE",
+  "b1_real_pc_qualified": false,
+  "tailscale_login_operator": "CLOUD_NANA_GENERATES_NEW_HOST_DAEMON_LINK_USER_AUTHORIZES",
+  "image_delivery": "ORIGINAL_QUALIFIED_IMAGE_DOCKER_SAVE_9_PARTS_NO_REBUILD"
+}

@@ -1,0 +1,12 @@
+{
+  "scope": "MANAGED_LOCAL_DOCKER_NOT_REMOTE_CLOUD_HOST",
+  "docker_server": "28.4.0",
+  "storage_driver": "vfs",
+  "architecture": "x86_64",
+  "os": "linux",
+  "cpus": 3,
+  "remote_host_access": false,
+  "target_host": "USER_REPORTED_Ubuntu24.04_Docker29_linux-amd64",
+  "private_runtime": "SOURCE_SUPPLIED_DEBIAN13_SDK_UNMODIFIED",
+  "production_changed": false
+}

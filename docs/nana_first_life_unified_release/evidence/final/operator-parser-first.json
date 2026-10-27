@@ -1,0 +1,1 @@
+{"state": "FAILED_CLOSED", "cause": "Own synthetic script parent was 0700 under umask077 and unreadable to UID999", "fix": "Only synthetic fixture directory changed to0755; script0644; actual cloud private permissions not changed", "genesis_created": false}

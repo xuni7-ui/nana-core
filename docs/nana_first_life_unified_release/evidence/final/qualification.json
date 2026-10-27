@@ -1,0 +1,142 @@
+{
+  "schema_version": 1,
+  "workstream": "FIRST_LIFE_UNIFIED_RELEASE",
+  "global_stage": "H",
+  "status": "UNIFIED_DEPLOYABLE_DELIVERY_EXTERNAL_HOST_GATES_PENDING",
+  "scope": "FINAL_ARTIFACTS_OWNED_DEV_DOCKER_AND_ACTUAL_CORE_BFF_NOT_PRODUCTION",
+  "base": "9217e3f3550dc5a875c42ac6de53035dd73deae2",
+  "runtime_source": "3665d39fe0aeff9831721d4bfd1bfba0b8386a2b",
+  "merged_frontend": "ea1e2255adc66a4248f2729be2be99de09cae794",
+  "image": {
+    "image_id": "sha256:6581d9e0cb7e686511aa704f77546cae508fc2911792753ed3a9bd3bf3cdb18b",
+    "architecture": "linux/amd64",
+    "core_source": "3665d39fe0aeff9831721d4bfd1bfba0b8386a2b",
+    "image_bytes": 705744702,
+    "user": "999:999",
+    "gzip_bytes": 307509301,
+    "gzip_sha256": "6974cec541039290d6ddf100be1834b6a51d3dec5299adc52331a33a1de80923",
+    "tar_bytes": 715832832,
+    "tar_sha256": "6f4554b8325f9b1f81e51dda62ef042960075b539fed60ec49e9870fb4f75f0b",
+    "parts": [
+      {
+        "file": "image.tar.gz.part001",
+        "bytes": 29360128,
+        "sha256": "11ed9f60158cbace05142759ad3ccfbd6158caa5b2406823283defa142cf068f"
+      },
+      {
+        "file": "image.tar.gz.part002",
+        "bytes": 29360128,
+        "sha256": "ac14b74c5a880a8a100d36e200106331ca4edfc2dc773c1c79e37c79f2fc5314"
+      },
+      {
+        "file": "image.tar.gz.part003",
+        "bytes": 29360128,
+        "sha256": "ba18a09fff4ce91d693048523cf86c42029f6e88f81be9d8d06d157f476678fa"
+      },
+      {
+        "file": "image.tar.gz.part004",
+        "bytes": 29360128,
+        "sha256": "06a9beb393c8b879e18bc69e0fcccbd58c8ded2babd5ab5c7afa0bc88a167190"
+      },
+      {
+        "file": "image.tar.gz.part005",
+        "bytes": 29360128,
+        "sha256": "b15417354dae2011be095602cb14e60f02a931a74be91270cd3ec68a65fc415f"
+      },
+      {
+        "file": "image.tar.gz.part006",
+        "bytes": 29360128,
+        "sha256": "69a4061f465940210fa3b6d83b04986327ea1d2b7187c43a56ae9b76268902db"
+      },
+      {
+        "file": "image.tar.gz.part007",
+        "bytes": 29360128,
+        "sha256": "5d5135e23f1cc68e0acfcbec9707d60ddaac0baba70b85c014355e410805edcb"
+      },
+      {
+        "file": "image.tar.gz.part008",
+        "bytes": 29360128,
+        "sha256": "615714727017adda86a60745e9a574abd9f26d182b2f832faaff1badab1921e4"
+      },
+      {
+        "file": "image.tar.gz.part009",
+        "bytes": 29360128,
+        "sha256": "9c641765b75f297c6edc25d71d3435b03f9cf5cb2242fbc83609252f1e884fea"
+      },
+      {
+        "file": "image.tar.gz.part010",
+        "bytes": 29360128,
+        "sha256": "fd6198bc9bdcd2ef26c8725f82fd641b159a9c60f65cf3f51813d8d31ebac51d"
+      },
+      {
+        "file": "image.tar.gz.part011",
+        "bytes": 13908021,
+        "sha256": "04ba0aabaa747c4a581f9fcffe9a753ebae453c08cf45046633dcd27a3da615b"
+      }
+    ]
+  },
+  "artifacts": {
+    "core.tar.gz": {
+      "sha256": "f87c461f84804272f670bd8a675e8f93c9dde85af73e39f9118fc33a2f706b58",
+      "bytes": 3070268
+    },
+    "nana-space-3.0.1-debug.apk": {
+      "sha256": "e1c250b9ebb4e84092b56641c6ab71dbd248697b1e52ebd7a16c94a1831b90b4",
+      "bytes": 4709981
+    },
+    "nana-space-v3-web.tar.gz": {
+      "sha256": "7b2d9cc713928edcff8e20486c3c951124dc698c2c7e057788c5a3c360e4f008",
+      "bytes": 598286
+    }
+  },
+  "handoff_manifest_sha256": "46d009c14f82f23b9448c9d26bc48f71dfd90363007e8c9a469f1c38e6b6b41b",
+  "runtime_members": 8149,
+  "old_6565_seal_modified": false,
+  "abi_final_image": "PASS",
+  "abi_extracted_readonly_runtime": "PASS",
+  "original_cloud_genesis_dry_run": "NOT_RUN_ORIGINAL_CHECKER_UNAVAILABLE",
+  "original_cloud_gate_names_invented": false,
+  "mutually_exclusive_flags": "PASS_SYNTHETIC_ORIGINAL_PARSER",
+  "core_lifecycle": "PASS_OWNED_DEV",
+  "same_subject_recovery": "PASS_OWNED_DEV",
+  "v3_provider_configuration": "PASS_ACTUAL_HTTP_ZERO_PROVIDER_CALLS",
+  "backup_status": "PASS_RECEIPT_PROJECTION_NOT_B1_DR",
+  "frontend_unit": "44 passed",
+  "python_related": "62 passed in14.73s",
+  "deployment_recheck": "21 passed in 1.52s (overlaps related tests)",
+  "v3_browser": "4 passed in11.9s; desktop/360/390/412",
+  "v2_boundary_browser": "3 passed in10.2s",
+  "android": "BUILD_SUCCESSFUL; native1test0failure; same appId/debug signer; version301",
+  "full_repository": "NOT_RERUN_UNRELATED_FULL_REGRESSION; prior full evidence retained at its source, not relabelled",
+  "core_double_build": "PASS_IDENTICAL_SHA256",
+  "image_saved_parts_reloaded": "PASS_EXACT_IMAGE_ID",
+  "host_docker29": "NOT_RUN_TARGET_USER_REPORTED; managedDocker28.4 actual",
+  "real_cloud_deployment": "NOT_RUN",
+  "physical_android_https": "NOT_RUN",
+  "real_provider_calls": 0,
+  "private_data_used": false,
+  "real_social_sends": 0,
+  "production_changed": false,
+  "formal_genesis": "NOT_RUN",
+  "human_naturalness": "NOT_RUN",
+  "first_life": "NOT_READY",
+  "beta": "NO",
+  "code_skills": "BLOCKED_UNQUALIFIED_BWRAP_NO_FALLBACK",
+  "schema_version_subject": 13,
+  "business_tables": 43,
+  "new_subject_tables": 0,
+  "master_and_matrix": "BYTE_UNCHANGED_FROM_CORE_BASE",
+  "failures_retained": [
+    "image-build-first.txt",
+    "image-lifecycle-disk-failure.txt",
+    "android-first.txt",
+    "host-proposal-first.json",
+    "operator-parser-first.json"
+  ],
+  "next_real_host_actions": [
+    "Load exact image; stage new slot; final-entry ABI verification",
+    "Bind actual original checker source+SHA+unchanged arguments and obtain its real13-gate result",
+    "Verify existing approved identity/activation/fences and B1 before any separately approved activation",
+    "Verify real tailnet HTTPS8443 and physical Android pairing"
+  ]
+}

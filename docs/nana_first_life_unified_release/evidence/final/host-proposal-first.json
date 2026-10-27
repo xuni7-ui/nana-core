@@ -1,0 +1,1 @@
+{"state":"FAILED_CLOSED","cause":"Strict existing DTO requires model_validate_json for serialized tuple fields; model_validate rejects JSON arrays","subject_opened":false,"config_output_created":false,"fix":"Use unchanged original JSON validation entry"}

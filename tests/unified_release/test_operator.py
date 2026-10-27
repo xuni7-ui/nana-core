@@ -46,3 +46,14 @@ def test_host_command_uses_private_container_python_and_read_only_original(tmp_p
         load("operator_check").command("latest", "b" * 40, "abi", [])
     with pytest.raises(ValueError):
         load("operator_check").command("sha256:" + "a" * 64, "b" * 40, "abi", ["/"])
+
+
+def test_literal_operator_patch_is_digest_bound_and_keeps_original_approval_arguments():
+    module = load("patch_operator_flags")
+    source = b'cmd = [python, script, "--plan", plan, "--approval", approval, "--dry-run", "--verify-only"]\n'
+    result = module.patch(source, hashlib.sha256(source).hexdigest())
+    assert b"--verify-only" not in result and b"--dry-run" in result and b"approval" in result and b"--plan" in result
+    with pytest.raises(ValueError):
+        module.patch(source, "0" * 64)
+    with pytest.raises(ValueError):
+        module.patch(b"cmd=[]", hashlib.sha256(b"cmd=[]").hexdigest())

@@ -1,6 +1,11 @@
 """Stream the explicitly pinned local image into bounded gzip parts; no secrets."""
 
-import gzip, hashlib, json, subprocess
+import argparse
+import gzip
+import hashlib
+import json
+import re
+import subprocess
 from pathlib import Path
 
 D = [
@@ -49,9 +54,27 @@ class Parts:
 
 
 def main():
-    root = Path("artifacts/first-life-unified-release")
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--image", default=IMAGE)
+    parser.add_argument("--source", default="9217e3f3550dc5a875c42ac6de53035dd73deae2")
+    parser.add_argument("--destination", type=Path, default=Path("artifacts/first-life-unified-release"))
+    args = parser.parse_args()
+    if not re.fullmatch(r"sha256:[a-f0-9]{64}", args.image) or not re.fullmatch(r"[a-f0-9]{40}", args.source):
+        raise ValueError("PINNED_IMAGE_AND_SOURCE_REQUIRED")
+    observed = json.loads(subprocess.check_output(D + ["image", "inspect", args.image], text=True))[0]
+    if (observed["Id"], observed["Os"], observed["Architecture"], observed["Config"]["User"]) != (
+        args.image,
+        "linux",
+        "amd64",
+        "999:999",
+    ):
+        raise ValueError("QUALIFIED_IMAGE_PLATFORM_OR_USER_MISMATCH")
+    root = args.destination.absolute()
+    root.mkdir(parents=True, exist_ok=True)
+    if root.resolve() != root or (root / "image.json").exists() or any(root.glob("image.tar.gz.part*")):
+        raise ValueError("FRESH_EXPORT_DESTINATION_REQUIRED")
     writer = Parts(root)
-    process = subprocess.Popen(D + ["save", IMAGE], stdout=subprocess.PIPE)
+    process = subprocess.Popen(D + ["save", args.image], stdout=subprocess.PIPE)
     raw = hashlib.sha256()
     size = 0
     with gzip.GzipFile(filename="", mode="wb", fileobj=writer, mtime=0) as compressed:
@@ -70,9 +93,11 @@ def main():
     (root / "image.json").write_text(
         json.dumps(
             {
-                "image_id": IMAGE,
+                "image_id": args.image,
                 "architecture": "linux/amd64",
-                "core_source": "9217e3f3550dc5a875c42ac6de53035dd73deae2",
+                "core_source": args.source,
+                "image_bytes": observed["Size"],
+                "user": observed["Config"]["User"],
                 "gzip_bytes": writer.total,
                 "gzip_sha256": writer.sha.hexdigest(),
                 "tar_bytes": size,

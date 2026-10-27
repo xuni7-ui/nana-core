@@ -1,0 +1,17 @@
+# Caller must verify local base ID against release build-inputs; no remote pull.
+FROM nana-first-life/cloud-qualified:20261026-final
+USER root
+ARG CORE_SHA256
+ARG WEB_SHA256
+ARG CORE_SOURCE_COMMIT
+COPY --chmod=0644 core.tar.gz web.tar.gz unpack.py extract_web.py /tmp/nana-v3/
+RUN umask 022 \
+ && mkdir -p /opt/nana-core/runtime/core-releases \
+ && python3 -I /tmp/nana-v3/unpack.py /tmp/nana-v3/core.tar.gz --destination "/opt/nana-core/runtime/core-releases/$CORE_SOURCE_COMMIT" --sha256 "$CORE_SHA256" \
+ && python3 -I /tmp/nana-v3/extract_web.py /tmp/nana-v3/web.tar.gz "$WEB_SHA256" \
+ && chown -R 999:999 "/opt/nana-core/runtime/core-releases/$CORE_SOURCE_COMMIT" \
+ && rm -rf /tmp/nana-v3 \
+ && python3 -c "import os,subprocess;os.setgid(999);os.setuid(999);subprocess.run(['/opt/nana-core/runtime/bin/python3','-I','-B','/opt/nana-core/runtime/core-releases/$CORE_SOURCE_COMMIT/bootstrap.py','install'],check=True)"
+ENV NANA_CORE_RELEASE=/opt/nana-core/runtime/core-releases/${CORE_SOURCE_COMMIT}
+USER 999:999
+CMD ["verify"]

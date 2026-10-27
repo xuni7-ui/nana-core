@@ -11,6 +11,7 @@ import hashlib
 import json
 import os
 import posixpath
+import re
 import stat
 import tarfile
 import tempfile
@@ -76,14 +77,16 @@ def describe(tar):
     return rows, members
 
 
-def manifest(archive):
+def manifest(archive, *, image_id=IMAGE):
+    if not re.fullmatch(r"sha256:[a-f0-9]{64}", image_id):
+        raise ValueError("PINNED_IMAGE_REQUIRED")
     if Path(archive).stat().st_size > 1024**3:
         raise ValueError("RUNTIME_ARCHIVE_BOUND")
     with tarfile.open(archive, "r:") as t:
         rows, _ = describe(t)
     return {
         "schema_version": 1,
-        "image_id": IMAGE,
+        "image_id": image_id,
         "archive_sha256": sha(archive),
         "archive_bytes": Path(archive).stat().st_size,
         "virtual_prefix": PREFIX,
@@ -93,14 +96,16 @@ def manifest(archive):
     }
 
 
-def install(archive, manifest_file, expected, destination):
+def install(archive, manifest_file, expected, destination, *, image_id=IMAGE):
+    if not re.fullmatch(r"sha256:[a-f0-9]{64}", image_id):
+        raise ValueError("PINNED_IMAGE_REQUIRED")
     if os.geteuid() != 0:
         raise ValueError("ROOT_OPERATOR_REQUIRED_FOR_NUMERIC_OWNERSHIP")
     manifest_file, destination = Path(manifest_file), Path(destination).absolute()
     if manifest_file.stat().st_size > 8 * 1024**2 or sha(manifest_file) != expected:
         raise ValueError("RUNTIME_MANIFEST_DIGEST_MISMATCH")
     value = json.loads(manifest_file.read_bytes())
-    if value["image_id"] != IMAGE or value["virtual_prefix"] != PREFIX:
+    if value["image_id"] != image_id or value["virtual_prefix"] != PREFIX:
         raise ValueError("ORIGINAL_IMAGE_REQUIRED")
     if Path(archive).stat().st_size > 1024**3:
         raise ValueError("RUNTIME_ARCHIVE_BOUND")
@@ -170,7 +175,7 @@ def install(archive, manifest_file, expected, destination):
             os.close(directory)
         return {
             "state": "RUNTIME_INSTALLED_NOT_STARTED",
-            "image_id": IMAGE,
+            "image_id": image_id,
             "members": len(rows),
             "root_mode": "0555",
             "subject_created": False,

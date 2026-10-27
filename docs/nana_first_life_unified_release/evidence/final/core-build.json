@@ -1,0 +1,7 @@
+{
+  "archive": "/workspace/nana-deliverables/unified-v3-core-3665/nana-first-life-portable-v1.tar.gz",
+  "sha256": "f87c461f84804272f670bd8a675e8f93c9dde85af73e39f9118fc33a2f706b58",
+  "source_commit": "3665d39fe0aeff9831721d4bfd1bfba0b8386a2b",
+  "bundle_files": 249,
+  "new_provider_calls": 0
+}

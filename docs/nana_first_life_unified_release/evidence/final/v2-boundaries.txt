@@ -1,0 +1,14 @@
+
+Running 3 tests using 1 worker
+
+(node:19937) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [desktop] › apps/nana-space/tests/v2.spec.ts:4:1 › v2 actual same Core ten pages, scoped dialogue, cookies, revoke and host lifecycle (2.7s)
+(node:20078) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [android-web] › apps/nana-space/tests/v2.spec.ts:4:1 › v2 actual same Core ten pages, scoped dialogue, cookies, revoke and host lifecycle (3.1s)
+(node:20216) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [small-phone-web] › apps/nana-space/tests/v2.spec.ts:4:1 › v2 actual same Core ten pages, scoped dialogue, cookies, revoke and host lifecycle (2.6s)
+
+  3 passed (10.2s)

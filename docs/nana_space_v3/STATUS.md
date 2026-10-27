@@ -36,3 +36,8 @@ privacy, UNKNOWN and all frozen domain/criterion definitions remain unchanged.
 The old full repository1581/0/12 remains historical source4ec0dfc evidence. This
 frontend branch does not relabel it as a newly-run full Core regression. No real
 Provider, cloud, private data, social send or production operation was executed.
+
+
+## Unified Release integration supersession · 2026-10-28 CST
+
+上表为ea1e225前端分支历史交付状态。当前Unified Release已完整merge，新增真实providers/commands与backup/status的Web/native接线及Android3.0.1；旧行中的“无config command”由此取代。原UI和安全边界保留，未实现媒体/真实模型/PC备份仍不伪造。当前以../nana_first_life_unified_release/FRONTEND_INTEGRATION.md、FINAL_STATUS.md及CLOUD_DEPLOY_HANDOFF为准。

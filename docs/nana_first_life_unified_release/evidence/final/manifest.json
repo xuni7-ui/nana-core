@@ -1,0 +1,154 @@
+{
+  "schema_version": 1,
+  "scope": "final release evidence, self excluded",
+  "files": {
+    ".gitattributes": {
+      "bytes": 24,
+      "sha256": "bcded5feb953ebe264f03dfe849be2f6a01f7421dc8c64d5e4d382f095a2b5df"
+    },
+    "android-first.txt": {
+      "bytes": 1273,
+      "sha256": "bde9e945250c8372a8d4666120bcd781f728b930c054b2d3b99c3d7c5936f606"
+    },
+    "android.txt": {
+      "bytes": 7790,
+      "sha256": "289b9ce168c5ad203fa68fa29c4b7f4f57b5482f3872e314618908c5f2eb70bc"
+    },
+    "apk-signature.txt": {
+      "bytes": 7813,
+      "sha256": "f533e65c3693fad1944adced504dd251a7d63ada33286462e908e8ef67648929"
+    },
+    "browser.txt": {
+      "bytes": 1271,
+      "sha256": "df076b5cc4c9b0963bf1d665feb559b2a625aefc01997a6adbacde9fb9f50b8f"
+    },
+    "build-inputs.json": {
+      "bytes": 233,
+      "sha256": "034675308252bac2b8f3f2a1f58cf98e70089fe682973d58c7ca88295a6e03f0"
+    },
+    "compose-rendered.yaml": {
+      "bytes": 1623,
+      "sha256": "1044f0add4539475f30eed5394a61201b7bcbb79cf789fc153088ce707de1dbe"
+    },
+    "core-build.json": {
+      "bytes": 297,
+      "sha256": "95b9f5673b4a59799098222cfbc79f313a0117b84207875552c5b7f8ac1c97c9"
+    },
+    "delivered-image-load.txt": {
+      "bytes": 340,
+      "sha256": "3eef13d789c4c405f2cdffc0cd7859212ba467d94bc1c5fbc578134c1d779352"
+    },
+    "deployment-tests.txt": {
+      "bytes": 99,
+      "sha256": "30e0ab45c66dc544aac6cfd9444cbdced28536a9e3d5ce4b2918f470d1c9c22a"
+    },
+    "environment.json": {
+      "bytes": 367,
+      "sha256": "ee15d1527075824bab51183a2addfb41a227fd87c860e20ddb0554037aff6b37"
+    },
+    "frontend-build.txt": {
+      "bytes": 2244,
+      "sha256": "9465fde1ad49d28f09e059cf776d4c88eb6db3de5b7a145e7aa46045eb5ddd06"
+    },
+    "frontend-unit.txt": {
+      "bytes": 806,
+      "sha256": "522377b5237d5cd41f333c533900e0d05794e9fdf9afacf8f188b53376cac74b"
+    },
+    "frozen-framework.json": {
+      "bytes": 406,
+      "sha256": "968d87c3897c6cb64a53e075ad645f1aea600268ca88854e88d60b3638c08665"
+    },
+    "host-proposal-first.json": {
+      "bytes": 255,
+      "sha256": "1568f950a6afcd343e496afec0b86dc7ecbaf70d39b6bac50394681ae7bbedd7"
+    },
+    "host-proposal.json": {
+      "bytes": 305,
+      "sha256": "0344b1a754e811e72a24ba255e6fb6e97d184dc10376491d97959149bef97468"
+    },
+    "image-build-first.txt": {
+      "bytes": 5664,
+      "sha256": "d7ce2485f50877476813f41c61386729a415c2cd7b3db2ecd8de440cbae7eb30"
+    },
+    "image-build.txt": {
+      "bytes": 4708,
+      "sha256": "71b0cd31f65f6a0075d19149855057bb02c6f876ce20cf55b9eeffd0026988df"
+    },
+    "image-lifecycle-disk-failure.txt": {
+      "bytes": 923,
+      "sha256": "64d7be08f43b8dad7811c80421a60af9d5ee4a69f1ff6925dc5a057f7038dcc5"
+    },
+    "image-lifecycle.json": {
+      "bytes": 1587,
+      "sha256": "55b0c007b3ead597b267549b336de8bc33116e55bb3e05cb19060530da192e61"
+    },
+    "image-lifecycle.txt": {
+      "bytes": 1587,
+      "sha256": "55b0c007b3ead597b267549b336de8bc33116e55bb3e05cb19060530da192e61"
+    },
+    "loader-inspection.json": {
+      "bytes": 4072,
+      "sha256": "3c87c66ce4e404e1faa60cfd935462f9f91ac7afbc378c7b49fd135fc22e3931"
+    },
+    "merge-unit.txt": {
+      "bytes": 755,
+      "sha256": "528bfd38bab6ab0de8b51ea8970f606fe189af524313ba053ed435d7b7923a64"
+    },
+    "native-unit.xml": {
+      "bytes": 434,
+      "sha256": "fd16a5db78048527aafd57712dbbb5cdbed9827bc276f68b76afa16ce0fd50dc"
+    },
+    "operator-abi.json": {
+      "bytes": 995,
+      "sha256": "287d6847a64cb180bc6c069e9ef0914706b7d703fa6feff1884a37db53906dcb"
+    },
+    "operator-parser-first.json": {
+      "bytes": 258,
+      "sha256": "1f0120ba4a85c0cd395cbb1bc76f6b166de6af057b3d97de380289c0030f41b3"
+    },
+    "operator-parser.json": {
+      "bytes": 150,
+      "sha256": "f113629b26a9b0fd46bcc4ed865a1f3fbbcfe9aa5ba884b86904019f56847d36"
+    },
+    "operator-staged-abi.json": {
+      "bytes": 995,
+      "sha256": "3e39c4840a32d015dfddcc8ca8ac70157fc7e8021afcd81c5b69c5054717bfe7"
+    },
+    "qualification.json": {
+      "bytes": 5588,
+      "sha256": "147be7c98ccdc028b5df1513f414d62ad32cd53b4e4f05b6972432888fbd74f1"
+    },
+    "rebuildable-sdk-cache-cleanup.json": {
+      "bytes": 960,
+      "sha256": "5086476aeb91747793c22e6ff1fee2ec0bb591838b8e6e7fd9b5aa50e776a8f4"
+    },
+    "related.txt": {
+      "bytes": 100,
+      "sha256": "c15cf94cd955e08ab5ed9e9ca3fbb7b22ff52b1495072037ca54835aa51605e1"
+    },
+    "reproducibility.json": {
+      "bytes": 321,
+      "sha256": "5a5f3ea96d14e8bc40b6c4fd8bda37f9a1da5801bee4ef84aefe4ec62366a1b3"
+    },
+    "runtime-install.txt": {
+      "bytes": 388,
+      "sha256": "3d1d0a90da9a77fffd868473e243b555f20f42d9699fabb9f44a4705d88c3262"
+    },
+    "secret-scan.json": {
+      "bytes": 383,
+      "sha256": "ad28564e838e40bd55f50de67dd156e687877830c34db0f19d704e4bc19182a2"
+    },
+    "staged-runtime-verify.json": {
+      "bytes": 448,
+      "sha256": "51e3ab55e4e2521c45735ffb684605c0b4af7af53d263e9bbcd2d28639d5320e"
+    },
+    "typescript-first.txt": {
+      "bytes": 2244,
+      "sha256": "a11f810512099349691458934987fbb0a21c5debd89716ee4f8f859e438c5f7b"
+    },
+    "v2-boundaries.txt": {
+      "bytes": 1019,
+      "sha256": "098e22b91d8da327e38d9924796c6ec1ff8179145f62c5b9d22496706138fee1"
+    }
+  }
+}

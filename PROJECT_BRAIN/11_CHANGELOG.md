@@ -2756,3 +2756,10 @@ FL-A完整原报告收到并读取，脱敏source SHA登记，不复制平台个
 
 ### Unified V3 integration / ABI entry checkpoint
 [Advanced H，续c883e14] 合并ea1e225完整前端及历史，07/08/10/11追加V3段落，09保留新主线typed header并将旧V3 header收为历史，不覆盖Core状态。新增原Operator只读容器check适配入口、互斥flag归一和原脚本digest绑定；实际原SDK ABI与合成checker/readonly通过，原13/13仍未验证。原V2 Client/native有限新增provider config/backup routes，UI接原HOST_ADMIN/opt-in/CAS/receipt，空配置只读revision0不初始化；无模型请求。新增13项相关Python与44项TS通过（最终构建证据继续收口），不是生产或手机资格。
+
+
+### Unified First-Life V3 final deploy handoff · 2026-10-28 CST
+
+改动：合入ea1e225完整前端；接原配置命令/备份投影与有限native；补容器ABI检查/原Operator最小argv评审补丁、新槽位原子安装/host config提案/完整交接与APK。原因：消除宿主OpenSSL3.0误加载Debian_ssl、新旧runtime遮挡及V3真实接口缺口。验证：最终镜像/提取runtime ABI；DEV同ID crash/recreate/备份B8/fence/撤Grant；62相关+21部署复核（重叠），44前端单元、4实际Core视口、3原V2边界、APK原生1与签名。保留磁盘/归档前缀/离线Gradle/严格DTO JSON/夹具权限首次失败，无弱化断言。全仓未重复；13门/手机/production/模型/真人未运行。
+
+证据：docs/nana_first_life_unified_release/evidence/final/qualification.json；交接：CLOUD_DEPLOY_HANDOFF/README.md。

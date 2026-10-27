@@ -1,0 +1,68 @@
+name: nana-core-independent
+services:
+  core:
+    profiles:
+      - after-explicit-activation-approval
+    cap_drop:
+      - ALL
+    cpus: 1.5
+    command:
+      - verify
+    healthcheck:
+      test:
+        - CMD
+        - /usr/bin/python3
+        - -I
+        - /usr/local/lib/nana/container_entry.py
+        - health
+      timeout: 4s
+      interval: 30s
+      retries: 3
+      start_period: 20s
+    image: sha256:6581d9e0cb7e686511aa704f77546cae508fc2911792753ed3a9bd3bf3cdb18b
+    init: true
+    logging:
+      driver: json-file
+      options:
+        max-file: "3"
+        max-size: 2m
+    mem_limit: "536870912"
+    networks:
+      default: null
+    pids_limit: 64
+    ports:
+      - mode: ingress
+        host_ip: 127.0.0.1
+        target: 18766
+        published: "18765"
+        protocol: tcp
+    pull_policy: never
+    read_only: true
+    restart: "no"
+    security_opt:
+      - no-new-privileges:true
+    stop_grace_period: 20s
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,size=32m,uid=999,gid=999,mode=1770
+    user: 999:999
+    volumes:
+      - type: bind
+        source: /srv/nana-core/slots/3665d39fe0aeff9831721d4bfd1bfba0b8386a2b/runtime
+        target: /opt/nana-core/runtime
+        read_only: true
+        bind: {}
+      - type: bind
+        source: /srv/nana-core/data
+        target: /opt/nana-core/data
+        bind: {}
+      - type: bind
+        source: /srv/nana-core/logs
+        target: /opt/nana-core/logs
+        bind: {}
+      - type: bind
+        source: /srv/nana-core/backups
+        target: /opt/nana-core/backups
+        bind: {}
+networks:
+  default:
+    name: nana-core-independent_default

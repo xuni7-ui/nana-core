@@ -1,0 +1,18 @@
+{
+  "reason": "32GiB managed dev executor disk exhaustion; APK/signature/unit/browser evidence preserved; installed build-tools/platform/JDK/Gradle/dependency cache retained",
+  "items": [
+    {
+      "path": "system-images/android-35/default/x86_64/source.properties",
+      "properties": "Pkg.Desc=Android SDK System Image\nPkg.UserSrc=false\nPkg.Revision=2\nPkg.Dependencies=emulator#29.1.11\nAndroidVersion.ApiLevel=35\nAndroidVersion.ExtensionLevel=13\nAndroidVersion.IsBaseSdk=true\nSystemImage.Abi=x86_64\nSystemImage.GpuSupport=true\nSystemImage.TagId=default\nSystemImage.TagDisplay=Default Android System Image\n"
+    },
+    {
+      "path": "emulator/source.properties",
+      "properties": "Pkg.UserSrc=false\nPkg.Revision=37.2.12\nPkg.Path=emulator\nPkg.Desc=Android Emulator\nPkg.BuildId=16428233"
+    }
+  ],
+  "private_user_data": false,
+  "reinstallable_sdk_components": [
+    "emulator",
+    "system-images;android-35;google_apis;x86_64"
+  ]
+}

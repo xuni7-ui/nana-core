@@ -7,32 +7,35 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 48,
-  "as_of_us": 1793130779899202,
+  "revision": 49,
+  "as_of_us": 1793144825352472,
   "stage": "H",
   "workstream": "FIRST_LIFE_UNIFIED_RELEASE",
-  "status": "UNIFIED_RELEASE_CORE_IMAGE_QUALIFIED_V3_AND_OPERATOR_ABI_PENDING",
+  "status": "UNIFIED_DEPLOYABLE_DELIVERY_EXTERNAL_HOST_GATES_PENDING",
   "progress": [
-    "延续First-Life Android V2/rev3发行交付；已核无重复release分支，从9217e3f完整继承7a1bce9及Execution Context。",
-    "同原合格镜像/私有CPython3.12.14/SQLite3.51.3/OpenSSL3.5.7/Debian13，离线安装source9217新Core249files；不另造Runtime或主体。",
-    "新统一image de899852实际UID999、四卷/只读runtime、十页API/原C离线聊天通过。",
-    "实际杀BFF自动恢复1次、重建同Subject epoch2→3→4，B8恢复/旧source fencing/撤Grant通过。",
-    "真实SDK新ProviderSettings与ExecutionContext import/metadata通过；默认TLS CERT_REQUIRED；未进行新外部TLS或模型调用。",
-    "实际统一image导出11片，总306311957bytes/gzip SHA80286d89549901e3fef6c1dbf7cdfabdb3aa112e27023aab24cd7f9b913e6648；全部分片、gzip CRC/tarSHA通过，普通/-O校验负例拒绝通过；Core双构建同hash。",
-    "用户扩展同一任务：合入ea1e225完整V3并接config/backup native契约；优先修Host Operator宿主OpenSSL误用与dry-run参数互斥；现有Core-only image非最终V3交付。"
+    "同一dev/nana-core-first-life-unified-release-v1-codex续做，已真实merge ea1e225完整V3；9217/RealLiving/ExecutionContext完整祖先保留。",
+    "固定Core运行源码3665d39：原ProviderSettings/BFF接providers/commands与backup/status，复用typed DTO/角色/CAS/回执；配置不授予付费/数据权限，UNKNOWN只查询不重发。",
+    "最终Debian13镜像6581d9e0：实际Python3.12.14/SQLite3.51.3/OpenSSL3.5.7/pydantic2.13.4/UID999，最终镜像及独立提取只读runtime均完成ABI核验。",
+    "最终镜像DEV同Subject实际十页API/V3Web/原C离线chat、杀BFF自动恢复、重建epoch2→3→4及B8恢复/旧源fence/撤Grant通过；非生产或真人资格。",
+    "V3 Web与Android3.0.1 version301已构建，原appId/调试签名/Keystore升级路径保留；前端44、实际Core浏览器4视口、原V2边界3通过。",
+    "Core249文件双构建同SHAf87c461f；最终镜像11分片307509301bytes/gzipSHA6974cec5，实际校验并docker load同ID；新8149封条，旧6565封条不改。",
+    "CLOUD_DEPLOY_HANDOFF完整自含镜像/Core/Web/APK/新槽位安装/Operator修复/typed host config提案/默认不激活Compose/回退说明；清单anchor 46d009c14f82f23b9448c9d26bc48f71dfd90363007e8c9a469f1c38e6b6b41b",
+    "相关Python62通过，新增工具/部署复核21通过（有重叠）；未刷无关全仓；首次失败记录保留。"
   ],
   "open_gates": [
-    "云端报告12/13 qualified_interpreter缺OPENSSL_3.3.0；本地镜像SDK通过不等于真实Operator入口已修复。",
-    "ea1e225尚未整合进此release，V3新API/native接线、Web/APK及最终统一CLOUD_DEPLOY_HANDOFF待完成。",
-    "正式Genesis/生产激活/私人迁移/旧writer切换/付费仍按原授权门；不使用聊天历史密钥。",
-    "一次性执行任务已由automation工具创建并启用：北京时间2026-10-28 07:00复盘并续做同一主线；若环境缺失真实报告，不仅发送提醒。"
+    "真实云端原Operator checker/13项名称与实际入口未取得；修正匹配容器ABI/互斥参数已实测，但原dry-run13/13仍NOT_RUN，不能以合成解析器或ABI代替。",
+    "本会话无真实宿主访问；Ubuntu24.04/Docker29现场安装、新槽位/原输入/UID可读性及原checker最终结果由真实host按交接复核。",
+    "实体手机tailnet私有HTTPS8443配对、真实Provider/FD绑定、B1真实异机首备/恢复及原单次Genesis/生产激活门仍按原权限，未执行。",
+    "Human Naturalness NOT_RUN，First-Life NOT_READY/BetaNO，私史/旧QQ-Iris-Bili writer切换/生产/设备/社交/新付费0，bwrap仍BLOCKED。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
-    "docs/nana_first_life_unified_release/DEPLOY.md",
-    "docs/nana_first_life_unified_release/evidence/qualification.json",
-    "docs/nana_first_life_unified_release/UNIFIED_MISSION.md"
+    "docs/nana_first_life_unified_release/UNIFIED_MISSION.md",
+    "docs/nana_first_life_unified_release/FINAL_STATUS.md",
+    "docs/nana_first_life_unified_release/evidence/final/qualification.json",
+    "CLOUD_DEPLOY_HANDOFF/README.md",
+    "CLOUD_DEPLOY_HANDOFF/SHA256SUMS"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2424,3 +2427,10 @@ This records the frontend branch at merge time; it does not supersede the unifie
   ]
 }
 ```
+
+
+### CURRENT — Unified First-Life final V3 handoff (2026-10-28 CST)
+
+以上旧CURRENT块均保留历史；当前以顶部typed header revision49为准。Master/63criteria不变，GLOBAL_STAGE H。新版交接可独立安装，真实host13门/实体手机及原生产门尚待完成；不称First-Life/Beta READY。
+
+Final evidence manifest anchor（self excluded）：3ccdbb58fa6a071594b20b6648defefb3b06e308e68c09beef06a7da967d6997。交接SHA256SUMS anchor46d009c14f82f23b9448c9d26bc48f71dfd90363007e8c9a469f1c38e6b6b41b。

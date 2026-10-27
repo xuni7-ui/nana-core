@@ -1,0 +1,37 @@
+{
+  "schema_version": 1,
+  "core_source": "3665d39fe0aeff9831721d4bfd1bfba0b8386a2b",
+  "core_integrity_sha256": "c32012ac881fb82f76bac211bbe43773346ffbb52626401d7d95aa97451395df",
+  "image_id": "sha256:6581d9e0cb7e686511aa704f77546cae508fc2911792753ed3a9bd3bf3cdb18b",
+  "architecture": "linux/amd64",
+  "runtime_manifest_sha256": "463148f85fa68b177dba5cb57bd175ff8d38497164cb2d24bcd64bc085c931d9",
+  "web_sha256": "7b2d9cc713928edcff8e20486c3c951124dc698c2c7e057788c5a3c360e4f008",
+  "artifacts": {
+    "core.tar.gz": {
+      "sha256": "f87c461f84804272f670bd8a675e8f93c9dde85af73e39f9118fc33a2f706b58",
+      "bytes": 3070268
+    },
+    "nana-space-3.0.1-debug.apk": {
+      "sha256": "e1c250b9ebb4e84092b56641c6ab71dbd248697b1e52ebd7a16c94a1831b90b4",
+      "bytes": 4709981
+    },
+    "nana-space-v3-web.tar.gz": {
+      "sha256": "7b2d9cc713928edcff8e20486c3c951124dc698c2c7e057788c5a3c360e4f008",
+      "bytes": 598286
+    }
+  },
+  "apk": {
+    "application_id": "life.nana.space.dev",
+    "version_code": 301,
+    "version_name": "3.0.1",
+    "signer_sha256": "b2fec5a02e6f32e69fb8ef8bce44391a6a4ba5ab8ce6dc7284cb57663016ec41"
+  },
+  "formal_genesis": "NOT_RUN",
+  "original_cloud_13_gates": "NOT_RUN_ORIGINAL_CHECKER_UNAVAILABLE",
+  "provider_calls": 0,
+  "cloud_host_deployment": "NOT_RUN",
+  "physical_android_connection": "NOT_RUN",
+  "production_changed": false,
+  "image_manifest_sha256": "7990962842ac7614d458d0b627b3f77b58b0b58939f301e7eb5b0023f08e0fe3",
+  "runtime_members": 8149
+}

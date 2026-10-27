@@ -1,0 +1,6 @@
+# NOT AUTHORIZATION. Use only after separate production activation approval,
+# actual genesis/old-writer fence/B1/identity/readiness checks, and safe shutdown.
+services:
+  core:
+    command: [serve]
+    restart: unless-stopped

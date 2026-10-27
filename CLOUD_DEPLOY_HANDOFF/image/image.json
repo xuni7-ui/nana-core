@@ -1,0 +1,68 @@
+{
+  "image_id": "sha256:6581d9e0cb7e686511aa704f77546cae508fc2911792753ed3a9bd3bf3cdb18b",
+  "architecture": "linux/amd64",
+  "core_source": "3665d39fe0aeff9831721d4bfd1bfba0b8386a2b",
+  "image_bytes": 705744702,
+  "user": "999:999",
+  "gzip_bytes": 307509301,
+  "gzip_sha256": "6974cec541039290d6ddf100be1834b6a51d3dec5299adc52331a33a1de80923",
+  "tar_bytes": 715832832,
+  "tar_sha256": "6f4554b8325f9b1f81e51dda62ef042960075b539fed60ec49e9870fb4f75f0b",
+  "parts": [
+    {
+      "file": "image.tar.gz.part001",
+      "bytes": 29360128,
+      "sha256": "11ed9f60158cbace05142759ad3ccfbd6158caa5b2406823283defa142cf068f"
+    },
+    {
+      "file": "image.tar.gz.part002",
+      "bytes": 29360128,
+      "sha256": "ac14b74c5a880a8a100d36e200106331ca4edfc2dc773c1c79e37c79f2fc5314"
+    },
+    {
+      "file": "image.tar.gz.part003",
+      "bytes": 29360128,
+      "sha256": "ba18a09fff4ce91d693048523cf86c42029f6e88f81be9d8d06d157f476678fa"
+    },
+    {
+      "file": "image.tar.gz.part004",
+      "bytes": 29360128,
+      "sha256": "06a9beb393c8b879e18bc69e0fcccbd58c8ded2babd5ab5c7afa0bc88a167190"
+    },
+    {
+      "file": "image.tar.gz.part005",
+      "bytes": 29360128,
+      "sha256": "b15417354dae2011be095602cb14e60f02a931a74be91270cd3ec68a65fc415f"
+    },
+    {
+      "file": "image.tar.gz.part006",
+      "bytes": 29360128,
+      "sha256": "69a4061f465940210fa3b6d83b04986327ea1d2b7187c43a56ae9b76268902db"
+    },
+    {
+      "file": "image.tar.gz.part007",
+      "bytes": 29360128,
+      "sha256": "5d5135e23f1cc68e0acfcbec9707d60ddaac0baba70b85c014355e410805edcb"
+    },
+    {
+      "file": "image.tar.gz.part008",
+      "bytes": 29360128,
+      "sha256": "615714727017adda86a60745e9a574abd9f26d182b2f832faaff1badab1921e4"
+    },
+    {
+      "file": "image.tar.gz.part009",
+      "bytes": 29360128,
+      "sha256": "9c641765b75f297c6edc25d71d3435b03f9cf5cb2242fbc83609252f1e884fea"
+    },
+    {
+      "file": "image.tar.gz.part010",
+      "bytes": 29360128,
+      "sha256": "fd6198bc9bdcd2ef26c8725f82fd641b159a9c60f65cf3f51813d8d31ebac51d"
+    },
+    {
+      "file": "image.tar.gz.part011",
+      "bytes": 13908021,
+      "sha256": "04ba0aabaa747c4a581f9fcffe9a753ebae453c08cf45046633dcd27a3da615b"
+    }
+  ]
+}

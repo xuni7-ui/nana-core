@@ -29,7 +29,23 @@ DOCKER = [
 ]
 
 
-def command(image, source, mode, roots, script=None, script_sha=None, original=()):
+def runtime_mount(runtime):
+    """Only mount the public prefix here; UID999 validates its private release."""
+    if runtime is None:
+        return []
+    path = Path(runtime)
+    if (
+        not path.is_absolute()
+        or path.resolve() != path
+        or not (path / "bin/python3").is_file()
+        or "," in str(path)
+        or any(ord(x) < 32 for x in str(path))
+    ):
+        raise ValueError("COMPLETE_NEW_SLOT_RUNTIME_REQUIRED")
+    return ["--mount", f"type=bind,src={path},dst=/opt/nana-core/runtime,readonly"]
+
+
+def command(image, source, mode, roots, script=None, script_sha=None, original=(), *, runtime=None):
     if not re.fullmatch(r"sha256:[a-f0-9]{64}", image) or not re.fullmatch(r"[a-f0-9]{40}", source):
         raise ValueError("PINNED_IMAGE_AND_SOURCE_REQUIRED")
     if mode not in {"abi", "dry-run", "verify-only"} or len(roots) > 4:
@@ -79,6 +95,7 @@ def command(image, source, mode, roots, script=None, script_sha=None, original=(
         "--mount",
         f"type=bind,src={helper},dst=/nana-container-check.py,readonly",
     ]
+    args += runtime_mount(runtime)
     for path in approved:
         args += ["--mount", f"type=bind,src={path},dst={path},readonly"]
     args += ["--entrypoint", python, image, "-I", "-B", "/nana-container-check.py", "--source", source, "--mode", mode]
@@ -93,13 +110,15 @@ def main():
     p.add_argument("--source", required=True)
     p.add_argument("--mode", required=True, choices=["abi", "dry-run", "verify-only"])
     p.add_argument("--read-root", action="append", default=[])
+    p.add_argument("--runtime", help="explicit verified version-slot runtime, mounted at the original absolute prefix")
     p.add_argument("--script")
     p.add_argument("--script-sha256")
     p.add_argument("args", nargs=argparse.REMAINDER)
     a = p.parse_args()
     original = a.args[1:] if a.args[:1] == ["--"] else a.args
     result = subprocess.run(
-        command(a.image, a.source, a.mode, a.read_root, a.script, a.script_sha256, original), timeout=60
+        command(a.image, a.source, a.mode, a.read_root, a.script, a.script_sha256, original, runtime=a.runtime),
+        timeout=60,
     )
     raise SystemExit(result.returncode)
 

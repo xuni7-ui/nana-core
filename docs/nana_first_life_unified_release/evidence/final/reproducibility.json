@@ -1,0 +1,9 @@
+{
+  "source": "3665d39fe0aeff9831721d4bfd1bfba0b8386a2b",
+  "core_sha256": "f87c461f84804272f670bd8a675e8f93c9dde85af73e39f9118fc33a2f706b58",
+  "core_independent_rebuild_matches": true,
+  "bundle_files": 249,
+  "image_export_identity_verified": true,
+  "image_bitwise_rebuild_claimed": false,
+  "web_archive_mtime": 0
+}
