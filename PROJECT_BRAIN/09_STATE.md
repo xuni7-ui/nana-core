@@ -7,8 +7,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 50,
-  "as_of_us": 1793162767342222,
+  "revision": 51,
+  "as_of_us": 1793210033291039,
   "stage": "H",
   "workstream": "FIRST_LIFE_UNIFIED_RELEASE",
   "status": "UNIFIED_DEPLOYABLE_DELIVERY_EXTERNAL_HOST_GATES_PENDING",
@@ -21,14 +21,16 @@
     "Core249文件双构建同SHAf87c461f；最终镜像11分片307509301bytes/gzipSHA6974cec5，实际校验并docker load同ID；新8149封条，旧6565封条不改。",
     "CLOUD_DEPLOY_HANDOFF完整自含镜像/Core/Web/APK/新槽位安装/Operator修复/typed host config提案/默认不激活Compose/回退说明；清单anchor 46d009c14f82f23b9448c9d26bc48f71dfd90363007e8c9a469f1c38e6b6b41b",
     "相关Python62通过，新增工具/部署复核21通过（有重叠）；未刷无关全仓；首次失败记录保留。",
-    "S2长期保持度并入原First-Life：复用MemoryService/ContextAssembler/Person-Self/StorageGuard；新增只读owner IPC数字采样工具及保存/检索/准确回忆/无法回忆分层验收，12针对测试通过。原37e6948发行包/镜像/封条未修改。"
+    "S2长期保持度并入原First-Life：复用MemoryService/ContextAssembler/Person-Self/StorageGuard；新增只读owner IPC数字采样工具及保存/检索/准确回忆/无法回忆分层验收，12针对测试通过。原37e6948发行包/镜像/封条未修改。",
+    "Android配对按钮补丁3.0.2/302：静默code<24禁用改为点击后四字段明确校验，busy期间才禁用；保持原配对协议/Keystore/身份/角色；模拟native触摸提交/错误/成功进聊天通过，44单元/TS/实际APK构建及原签名通过。"
   ],
   "open_gates": [
     "真实云端原Operator checker/13项名称与实际入口未取得；修正匹配容器ABI/互斥参数已实测，但原dry-run13/13仍NOT_RUN，不能以合成解析器或ABI代替。",
     "本会话无真实宿主访问；Ubuntu24.04/Docker29现场安装、新槽位/原输入/UID可读性及原checker最终结果由真实host按交接复核。",
     "实体手机tailnet私有HTTPS8443配对、真实Provider/FD绑定、B1真实异机首备/恢复及原单次Genesis/生产激活门仍按原权限，未执行。",
     "Human Naturalness NOT_RUN，First-Life NOT_READY/BetaNO，私史/旧QQ-Iris-Bili writer切换/生产/设备/社交/新付费0，bwrap仍BLOCKED。",
-    "S2真实宿主容量增长与真实共同经历跨日/周准确回忆NOT_RUN；DEV合成持久化/检索/虚拟时间和实际SIGKILL机制测试不等于长期陪伴通过。"
+    "S2真实宿主容量增长与真实共同经历跨日/周准确回忆NOT_RUN；DEV合成持久化/检索/虚拟时间和实际SIGKILL机制测试不等于长期陪伴通过。",
+    "[用户报告] 正式host已Genesis并进入激活切换；本会话未独立操作/核验host，也未使用手机配对码。修复客户端已交付，真实手机配对/HTTPS结果仍待用户现场验证，不重做Genesis。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
@@ -38,7 +40,8 @@
     "docs/nana_first_life_unified_release/evidence/final/qualification.json",
     "CLOUD_DEPLOY_HANDOFF/README.md",
     "CLOUD_DEPLOY_HANDOFF/SHA256SUMS",
-    "docs/nana_first_life_unified_release/s2/ACCEPTANCE.md"
+    "docs/nana_first_life_unified_release/s2/ACCEPTANCE.md",
+    "docs/nana_first_life_unified_release/pairing-fix/qualification.json"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

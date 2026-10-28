@@ -1124,3 +1124,9 @@ main/R045/production/private/device/social/paidProvider0。报告与证据：doc
 
 S2长期保持度作为现有First-Life部署/体验项，复用四个既有组件，不开第二记忆或独立主线，不改63criteria。随实际重启/跨日回访分层核已保存、已检索、准确回忆、无法回忆，真实生活证据未齐不升级First-Life。
 证据：docs/nana_first_life_unified_release/s2/；工具：tools/nana_first_life_unified_release/memory_retention.py。
+
+
+### Android 配对按钮修复 · 2026-10-28
+
+First-Life优先收口真实Android连接：客户端配对按钮补丁302，复用原后端/配对/身份，不重做Genesis、不重建Core镜像。
+证据：docs/nana_first_life_unified_release/pairing-fix/qualification.json。

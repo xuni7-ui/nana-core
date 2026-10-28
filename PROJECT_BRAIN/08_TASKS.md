@@ -1199,3 +1199,9 @@ main/R045/production/private/device/social/paidProvider0。报告与证据：doc
 
 已实现：原owner IPC storage数字采样及同identity/lineage双样本净增长，输出host-local元数据；容量保护/停止跨重启/Person-Self/SIGKILL/检索针对12项已测。待真实host：实际占用/增长/guard、重要共同经历持久化及真实跨日/周回忆/人工核验；本会话无host访问/新增付费或私史授权，相关项NOT_RUN。
 证据：docs/nana_first_life_unified_release/s2/；工具：tools/nana_first_life_unified_release/memory_retention.py。
+
+
+### Android 配对按钮修复 · 2026-10-28
+
+Android3.0.2已构建并保持原签名；手机视口native bridge fixture完成合法提交、输入不足提示、网络失败提示、配对成功进入聊天。真实手机/host配对未执行；不收集用户配对码。
+证据：docs/nana_first_life_unified_release/pairing-fix/qualification.json。

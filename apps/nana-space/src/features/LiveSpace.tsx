@@ -105,6 +105,14 @@ const reasons: Record<string, string> = {
   CAPABILITY_UNAVAILABLE: "此能力尚不可用。",
   AUTH_RATE_LIMIT: "尝试过于频繁，请稍后再试。",
   PAIRING_REQUIRED: "请先为这台手机配对。",
+  NETWORK_OR_EXECUTION_UNKNOWN:
+    "无法确认连接结果。请检查手机 Tailscale 与私有 HTTPS 是否可达；若已提交配对，请先在管理端核验设备状态，不要重复提交旧码。",
+  HTTPS_ORIGIN_REQUIRED:
+    "请输入完整 HTTPS 地址（域名和端口，不含路径、账号或参数）。",
+  PAIRING_INPUT_INVALID:
+    "请检查四个字段，并使用宿主生成的完整一次性设备配对码。",
+  PAIRING_DENIED:
+    "配对码无效、过期或已使用。请在管理端核验设备状态，必要时生成新码。",
 };
 function explain(e: unknown) {
   const code =
@@ -392,14 +400,59 @@ export function LiveSpace() {
   }, []);
   const login = async () => {
     if (busy) return;
-    setBusy(true);
     setError("");
+    const subject = identity.trim();
+    if (!subject || subject.length > 96) {
+      setError("请填写已有奈奈的 Subject ID（最多 96 个字符）。");
+      return;
+    }
+    const address = base.trim(),
+      pairingCode = code.trim(),
+      name = deviceName.trim();
+    if (isNative()) {
+      try {
+        const url = new URL(address);
+        if (
+          url.protocol !== "https:" ||
+          !url.hostname ||
+          url.username ||
+          url.password ||
+          url.search ||
+          url.hash ||
+          url.pathname !== "/" ||
+          address.includes("\\") ||
+          address.length > 256 ||
+          url.port === "0"
+        )
+          throw new Error();
+      } catch {
+        setError(reasons.HTTPS_ORIGIN_REQUIRED);
+        return;
+      }
+      if (!name || name.length > 64) {
+        setError("请填写手机名称（最多 64 个字符）。");
+        return;
+      }
+      if (pairingCode.length < 24 || pairingCode.length > 128) {
+        setError(
+          "请粘贴完整的一次性设备配对码（24–128 个字符），不是短数字码、登录口令或 Provider API Key。",
+        );
+        return;
+      }
+    } else if (password.length < 12) {
+      setError("请输入宿主提供的完整会话口令（至少 12 个字符）。");
+      return;
+    }
+    setBusy(true);
     const version = sessionVersion.current;
     try {
       const b = isNative()
-        ? await client.current.pair(base, code, identity, deviceName)
-        : await client.current.login(password, identity);
-      if (version === sessionVersion.current) accept(b);
+        ? await client.current.pair(address, pairingCode, subject, name)
+        : await client.current.login(password, subject);
+      if (version === sessionVersion.current) {
+        accept(b);
+        if (isNative()) go("chat");
+      }
     } catch (e) {
       fail(e);
     } finally {
@@ -964,6 +1017,9 @@ export function LiveSpace() {
                       value={base}
                       onChange={(e) => setBase(e.target.value)}
                       placeholder="https://私有地址:8443"
+                      inputMode="url"
+                      autoCapitalize="none"
+                      spellCheck={false}
                       autoComplete="off"
                     />
                   </label>
@@ -998,8 +1054,15 @@ export function LiveSpace() {
                         value={code}
                         onChange={(e) => setCode(e.target.value)}
                         maxLength={128}
+                        autoCapitalize="none"
+                        spellCheck={false}
                         autoComplete="off"
+                        aria-describedby="pair-code-help"
                       />
+                      <small id="pair-code-help">
+                        请粘贴宿主生成的完整设备配对码，仅在手机本地使用。当前{" "}
+                        {code.trim().length} 个字符。
+                      </small>
                     </label>
                   </>
                 ) : (
@@ -1018,11 +1081,8 @@ export function LiveSpace() {
                 )}
                 <button
                   className="v3-button primary v3-full"
-                  disabled={
-                    busy ||
-                    !identity ||
-                    (isNative() ? code.length < 24 : password.length < 12)
-                  }
+                  type="submit"
+                  disabled={busy}
                 >
                   {busy ? "正在核验身份…" : "安全连接"}
                   <ArrowUpRight size={17} />

@@ -2769,3 +2769,9 @@ FL-A完整原报告收到并读取，脱敏source SHA登记，不复制平台个
 
 补S2验收流程/只读容量采样工具（原control.sock storage/profile、StorageGuard窗口、原identity metadata），不变更Core运行代码。12针对测试3.06s通过；独立DEV重开/虚拟24h保存、候选检索、最终context入选、已采用Person-Self约定保持；真实跨日/模型措辞/真人回忆NOT_RUN。首个开发探针因继承旧repo PYTHONPATH在取样前失败，明确绑定当前源码后使用新DEV目录验证，保留失败记录。无Provider/private/social/production操作，原镜像/APK/SHA不变。
 证据：docs/nana_first_life_unified_release/s2/；工具：tools/nana_first_life_unified_release/memory_retention.py。
+
+
+### Android 配对按钮修复 · 2026-10-28
+
+修LiveSpace配对disabled/UI反馈、URL输入与码长提示、成功进入聊天；版本301→302保留appId/debug signer。TS/44前端单元、1触摸native bridge fixture、实际Android构建及签名核验通过；未修改native/backend安全机制或生产。合法原输入未复现永久不可点；具体手机输入未知，不伪称已复现其服务器故障。源码编辑首次命令cwd错误在修改前失败，修正后构建；lock仅改根版本，未升级依赖。
+证据：docs/nana_first_life_unified_release/pairing-fix/qualification.json。

@@ -1648,3 +1648,9 @@ SUPERSEDES仅此前Core-only部署指引，不覆写历史资格：发布唯一�
 
 保存≠检索≠准确回忆；未开展评审≠无法回忆。重要共同经历需原合法保留路径的真实来源及以后实际影响。采样不读正文、不checkpoint/修剪/建Store/开第二Runtime；物理WAL收缩不等于遗忘。虚拟时间/离线测试不冒充长期陪伴，原固定发行物不为本验收增项重建。
 证据：docs/nana_first_life_unified_release/s2/；工具：tools/nana_first_life_unified_release/memory_retention.py。
+
+
+### Android 配对按钮修复 · 2026-10-28
+
+配对协议的24–128长度及原生/服务端检查不放宽。去掉按钮的无提示内容禁用，改为点击后的明确四字段错误；trim边界空白，提交中禁用防重复，保留UNKNOWN不重放/Keystore/身份检查。
+证据：docs/nana_first_life_unified_release/pairing-fix/qualification.json。
