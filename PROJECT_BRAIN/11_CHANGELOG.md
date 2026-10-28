@@ -2775,3 +2775,5 @@ FL-A完整原报告收到并读取，脱敏source SHA登记，不复制平台个
 
 修LiveSpace配对disabled/UI反馈、URL输入与码长提示、成功进入聊天；版本301→302保留appId/debug signer。TS/44前端单元、1触摸native bridge fixture、实际Android构建及签名核验通过；未修改native/backend安全机制或生产。合法原输入未复现永久不可点；具体手机输入未知，不伪称已复现其服务器故障。源码编辑首次命令cwd错误在修改前失败，修正后构建；lock仅改根版本，未升级依赖。
 证据：docs/nana_first_life_unified_release/pairing-fix/qualification.json。
+
+配对补丁交付跟进：稀疏工作树排除了artifacts目录；显式--sparse纳入已构建同SHA APK，不改二进制/协议/版本；编译日志仅清理行尾空格。
