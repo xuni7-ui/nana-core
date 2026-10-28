@@ -1,5 +1,30 @@
 import { test, expect } from "@playwright/test";
 import { readFile, mkdir } from "node:fs/promises";
+test("V4 real connection rejects undispatched model calls and respects a topic boundary", async ({ page }, info) => {
+  const target = JSON.parse(await readFile(process.env.NANA_V2_TARGET!, "utf8"));
+  await page.goto("/index.html?source=live#chat");
+  await page.getByLabel("Subject ID", { exact: true }).fill(target.subject_id);
+  await page.getByLabel("会话口令", { exact: true }).fill("TEST_ONLY_NOT_SECRET_web_password");
+  await page.getByRole("button", { name: "安全连接", exact: true }).click();
+  const remember = page.getByLabel("记住这次共同经历", { exact: false });
+  await expect(remember).not.toBeChecked();
+  await page.getByLabel("和奈奈说点什么", { exact: true }).fill("PROJECT: source-backed current progress please");
+  const receipt = page.waitForResponse(r => r.url().endsWith("/messages") && r.request().method() === "POST");
+  await page.getByRole("button", { name: "发送", exact: true }).click();
+  const rejected = await (await receipt).json();
+  expect(rejected.data.state).toBe("REJECTED");
+  expect(rejected.data.dispatch_happened).toBe(false);
+  await expect(page.getByText("这次未提交", { exact: false })).toBeVisible();
+  await page.getByLabel("和奈奈说点什么", { exact: true }).fill("先不聊这个话题");
+  const boundary = page.waitForResponse(r => r.url().endsWith("/messages") && r.request().method() === "POST");
+  await page.getByRole("button", { name: "发送", exact: true }).click();
+  const respected = await (await boundary).json();
+  expect(respected.data.state).toBe("VERIFIED");
+  expect(respected.data.result.mode).toBe("RESPECT_BOUNDARY");
+  await mkdir("test-results/unified-screens", { recursive: true });
+  await page.screenshot({ path: `test-results/unified-screens/${info.project.name}-v4-chat.png`, fullPage: true });
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+});
 test("V3 real Core provider configuration, model route and backup receipt projection", async ({
   page,
 }, info) => {

@@ -11,6 +11,10 @@ import json
 import re
 import socket
 import stat
+import io
+import struct
+import tarfile
+from uuid import uuid4
 from pathlib import Path
 from urllib.parse import urlencode
 
@@ -45,13 +49,16 @@ class Docker:
             connection.request(method, path, body=body, headers=headers, encode_chunked=chunks)
             response = connection.getresponse()
             if not 200 <= response.status < 300:
+                message = response.read(4097)
+                if b"bind source path does not exist" in message:
+                    raise DockerError("DOCKER_BIND_SOURCE_MISSING")
                 raise DockerError("DOCKER_HTTP_" + str(response.status))
             yield response
         finally:
             connection.close()
 
-    def json(self, method, path, body=None, *, bound=2 * 1024 * 1024):
-        with self.response(method, path, json.dumps(body).encode() if body is not None else None) as response:
+    def json(self, method, path, body=None, *, bound=2 * 1024 * 1024, timeout=60):
+        with self.response(method, path, json.dumps(body).encode() if body is not None else None, timeout=timeout) as response:
             raw = response.read(bound + 1)
         if len(raw) > bound:
             raise DockerError("DOCKER_METADATA_BOUND")
@@ -85,15 +92,18 @@ class Docker:
                 "mounts": [{k: m.get(k) for k in ("Type", "Source", "Destination", "RW")} for m in row.get("Mounts", [])],
                 "ports": row.get("NetworkSettings", {}).get("Ports", {})}
 
-    def create_check(self, image):
+    def create_check(self, image, *, runtime=None):
         metadata = self.image(image)
         if metadata["user"] != "999:999" or metadata["architecture"] != "amd64" or metadata["os"] != "linux":
             raise DockerError("IMAGE_RUNTIME_CONTRACT_MISMATCH")
+        host = {"NetworkMode": "none", "ReadonlyRootfs": True, "CapDrop": ["ALL"],
+                "SecurityOpt": ["no-new-privileges"], "PidsLimit": 32,
+                "Memory": 256 * 1024 * 1024, "NanoCpus": 1000000000}
+        if runtime is not None:
+            host["Mounts"] = [{"Type": "bind", "Source": str(runtime), "Target": "/opt/nana-core/runtime", "ReadOnly": True}]
         row = self.json("POST", "/containers/create", {
             "Image": image, "Cmd": ["verify"], "User": "999:999", "NetworkDisabled": True,
-            "HostConfig": {"NetworkMode": "none", "ReadonlyRootfs": True, "CapDrop": ["ALL"],
-                           "SecurityOpt": ["no-new-privileges"], "PidsLimit": 32,
-                           "Memory": 256 * 1024 * 1024, "NanoCpus": 1000000000},
+            "HostConfig": host,
         })
         container = row["Id"]
         self.__temporary.add(container)
@@ -125,6 +135,64 @@ class Docker:
                     raise DockerError("RUNTIME_ARCHIVE_BOUND")
                 target.write(raw)
         return size
+
+    def operator(self, image, root, mode, files, arguments):
+        """Disposable, isolated staging controller; no Docker socket in child."""
+        self.image(image)
+        if mode not in {"check", "dry-run", "install", "rollback", "commit"} or not Path(root).is_absolute():
+            raise DockerError("EXPLICIT_OPERATOR_TARGET_REQUIRED")
+        work = "/run/nana-operator"
+        volume = "nana-operator-" + uuid4().hex
+        self.json("POST", "/volumes/create", {"Name": volume, "Labels": {"life.nana.operator.scratch": "v4"}})
+        config = {
+            "Image": image, "User": "0:0", "NetworkDisabled": True,
+            "Entrypoint": ["/usr/bin/python3", "-I", "-B", work + "/operator_stage.py"],
+            "Cmd": [mode, "--root", str(root), *arguments],
+            "HostConfig": {"NetworkMode": "none", "ReadonlyRootfs": True, "CapDrop": ["ALL"],
+                           "CapAdd": ["CHOWN", "FOWNER", "DAC_OVERRIDE"], "SecurityOpt": ["no-new-privileges"],
+                           "PidsLimit": 32, "Memory": 1536 * 1024 * 1024, "NanoCpus": 1000000000,
+                           "Tmpfs": {"/tmp": "rw,nosuid,nodev,noexec,size=16m"},
+                           "Mounts": [{"Type": "volume", "Source": volume, "Target": work},
+                                      {"Type": "bind", "Source": str(root), "Target": str(root), "ReadOnly": mode not in {"install", "commit"}}]},
+        }
+        try:
+            row = self.json("POST", "/containers/create", config)
+        except BaseException:
+            self.json("DELETE", "/volumes/" + volume)
+            raise
+        container = row["Id"]
+        self.__temporary.add(container)
+        try:
+            payload = io.BytesIO()
+            with tarfile.open(fileobj=payload, mode="w") as archive:
+                for name, raw in files.items():
+                    if name in {".", ".."} or not re.fullmatch(r"[a-zA-Z0-9_.-]{1,96}", name) or len(raw) > 8 * 1024 * 1024:
+                        raise DockerError("OPERATOR_INPUT_DENIED")
+                    entry = tarfile.TarInfo(name)
+                    entry.mode, entry.size = 0o600, len(raw)
+                    archive.addfile(entry, io.BytesIO(raw))
+            # A unique volume survives the Engine's stopped->started transition;
+            # a pre-start tmpfs upload would disappear when that tmpfs is mounted.
+            with self.response("PUT", "/containers/" + container + "/archive?path=/run/nana-operator", iter([payload.getvalue()]), chunks=True):
+                pass
+            self.json("POST", "/containers/" + container + "/start")
+            waited = self.json("POST", "/containers/" + container + "/wait?condition=not-running", timeout=180)
+            with self.response("GET", "/containers/" + container + "/logs?stdout=1&stderr=0") as response:
+                raw = response.read(262145)
+            body = bytearray()
+            while raw:
+                if len(raw) < 8:
+                    raise DockerError("OPERATOR_RECEIPT_INVALID")
+                size = struct.unpack(">I", raw[4:8])[0]
+                body.extend(raw[8:8 + size]); raw = raw[8 + size:]
+                if len(body) > 262144:
+                    raise DockerError("OPERATOR_RECEIPT_BOUND")
+            result = json.loads(body)
+            result["operator_exit_code"] = waited["StatusCode"]
+            return result
+        finally:
+            self.remove_check(container)
+            self.json("DELETE", "/volumes/" + volume)
 
     def load(self, chunks):
         with self.response("POST", "/images/load?quiet=true", chunks, chunks=True, timeout=180) as response:

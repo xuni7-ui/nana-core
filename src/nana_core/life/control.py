@@ -30,11 +30,22 @@ def dispatch(app, request):
         if request["privacy"] not in {"PUBLIC", "PROJECT"}:
             raise CoreError("PRIVACY_DENIED")
         return app.provider_readiness(privacy=request["privacy"])
-    mutating = op in {"surface", "backup", "self-profile", "language-feedback", "review-expression-learning"} or (
+    mutating = op in {"surface", "backup", "self-profile", "language-feedback", "review-expression-learning", "bilibili-ingest", "bilibili-interpret"} or (
         op == "control" and request.get("command") == "resume"
     )
     if mutating and shutil.disk_usage(app.home).free < app.config.min_free_disk_mb * 1024 * 1024:
         raise CoreError("CLOUD_DISK_GUARD")
+    if op == "bilibili-ingest" and set(request) == {"operation", "reading"}:
+        from .bilibili import BilibiliSourceAdapter, PublicReading
+        value = request["reading"]
+        if type(value) is not dict or set(value) != {"reference", "kind", "observed_at_us", "payload", "origin"}:
+            raise CoreError("BILIBILI_TYPED_RECEIPT_REQUIRED")
+        if type(value["observed_at_us"]) is not int or value["observed_at_us"] < 0:
+            raise CoreError("BILIBILI_SOURCE_TIME_REQUIRED")
+        return {"source_memory_id": BilibiliSourceAdapter(app).ingest(PublicReading(**value)), "social_delivery": False}
+    if op == "bilibili-interpret" and set(request) == {"operation", "source_memory_id"}:
+        from .bilibili import BilibiliSourceAdapter
+        return BilibiliSourceAdapter(app).interpret(request["source_memory_id"])
     if op == "surface" and set(request) == {"operation", "observation"}:
         return app.surfaces.receive(SurfaceObservation.model_validate_json(json.dumps(request["observation"])))
     if op == "view" and set(request) == {"operation", "view"}:

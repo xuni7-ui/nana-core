@@ -82,7 +82,7 @@ def main():
     if operation == ["verify"]:
         print(json.dumps(value))
         return 0 if value["state"] == "PRIVATE_RUNTIME_COMPATIBLE" else 2
-    allowed = {("serve",), ("serve", "--password-fd", "0"),
+    allowed = {("serve",), ("preflight",), ("serve", "--password-fd", "0"),
                ("serve", "--live-provider-authorized"),
                ("serve", "--password-fd", "0", "--live-provider-authorized")}
     password_stdin = "--password-fd" in operation
@@ -108,7 +108,10 @@ def main():
     # No init, credential lookup, old writer shutdown, network change or QQ send.
     # Only infrastructure forwarding: one original BFF/Supervisor remains the
     # sole owner. Verify/health never start the relay or any child process.
-    command = [str(root / ".venv/bin/python"), "-I", str(root / "host_gateway.py"), "--config", str(config)]
+    command = [str(root / ".venv/bin/python"), "-I", "-B", str(root / "host_gateway.py"), "--config", str(config)]
+    if operation == ["preflight"]:
+        command.append("--check-only")
+        os.execv(command[0], command)  # No relay, authentication or lifecycle change.
     if password_stdin:
         # The original gateway alone reads its bounded password from stdin.
         # The infrastructure relay never reads or persists credential bytes.
@@ -117,7 +120,7 @@ def main():
         # Separate operator opt-in; credentials arrive later via the explicit
         # native/admin memory resolver. LifeConfig/route/budget remain binding.
         command.append("--live-provider-authorized")
-    os.execv(sys.executable, [sys.executable, "-I", str(Path(__file__).with_name("loopback_relay.py")), *command])
+    os.execv(sys.executable, [sys.executable, "-I", "-B", str(Path(__file__).with_name("loopback_relay.py")), *command])
 
 
 if __name__ == "__main__":

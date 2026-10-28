@@ -33,7 +33,10 @@ def issue(call, subject, name):
 
 
 class Portal:
-    def __init__(self, base):
+    def __init__(self, base, *, timeout=15):
+        if not 1 <= timeout <= 45:
+            raise ValueError("BOUNDED_REQUEST_TIMEOUT_REQUIRED")
+        self.timeout = timeout
         url = urllib.parse.urlsplit(base)
         if (
             url.scheme != "https"
@@ -81,7 +84,7 @@ class Portal:
             data=json.dumps(body).encode() if body is not None else None,
         )
         # Each operation sent once. An ambiguous offer completion is never replayed.
-        with self.opener.open(request, timeout=15) as response:
+        with self.opener.open(request, timeout=self.timeout) as response:
             raw = response.read(262145)
         if len(raw) > 262144:
             raise ValueError("RESPONSE_BOUND")

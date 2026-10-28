@@ -347,6 +347,7 @@ class GatewayService:
                     "intention",
                     "message_memory_id",
                     "raw_body_persisted",
+                    "route",
                 )
                 if k in row
             }
@@ -356,6 +357,10 @@ class GatewayService:
         def before():
             if not body.require_model:
                 return
+            from ...continuity.dialogue_shadow.bridge import LiteralSpanInterpreter
+            meaning = LiteralSpanInterpreter().interpret(body.text)
+            if meaning.kind in {"DECLINE_DEPTH", "DECLINE_DELIVERY", "REOPEN", "REOPEN_DELIVERY"} and meaning.basis == "LITERAL_SPAN":
+                return  # Original C still reviews the boundary, without a model bill.
             try:
                 ready = core_request(self.supervisor.home, {"operation": "provider-readiness", "privacy": body.privacy_class}, timeout=2)
             except (CoreError, OSError):

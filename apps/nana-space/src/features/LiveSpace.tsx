@@ -61,7 +61,7 @@ import {
   BackupView,
   ConnectionView,
 } from "./v3/LifeViews";
-import { ChatPane } from "./v3/ChatPane";
+import { ChatPane, type Turn } from "./v3/ChatPane";
 import { ModelCenter } from "./v3/ModelCenter";
 import { MemoryCenter } from "./v3/MemoryCenter";
 const v3Icons = {
@@ -136,13 +136,6 @@ function text(v: unknown) {
       ? String(v)
       : "UNKNOWN";
 }
-interface Turn {
-  id: string;
-  input: string;
-  state: string;
-  reply?: string;
-  provider?: string;
-}
 export function LiveSpace() {
   const client = useRef(new V2Client());
   const sessionVersion = useRef(0);
@@ -159,6 +152,8 @@ export function LiveSpace() {
   const [deviceName, setDeviceName] = useState("这台安卓手机");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const writePending = useRef(false);
+  useEffect(() => { writePending.current = busy; }, [busy]);
   const [nav, setNav] = useState(false);
   const [draft, setDraft] = useState("");
   const [turns, setTurns] = useState<Turn[]>([]);
@@ -286,7 +281,7 @@ export function LiveSpace() {
     if (!bootstrap) return;
     let active = true;
     const poll = () => {
-      if (active && !document.hidden) void refresh().catch(() => {});
+      if (active && !document.hidden && !writePending.current) void refresh().catch(() => {});
     };
     poll();
     const timer = setInterval(poll, 10000);
@@ -480,6 +475,7 @@ export function LiveSpace() {
               state: text(d.state),
               error: typeof d.error === "string" ? d.error : undefined,
               remembered: result.raw_body_persisted === true,
+              model: result.route && typeof result.route === "object" ? text(object(result.route).returned_model_id) || text(object(result.route).remote_model_id) : undefined,
               reply: typeof result.text === "string" ? result.text : undefined,
               provider:
                 typeof result.provider_state === "string"
@@ -497,18 +493,20 @@ export function LiveSpace() {
     const version = sessionVersion.current,
       bodyVersion = bodyGeneration.current;
     const id = crypto.randomUUID();
+    let dispatched = false;
     setBusy(true);
     setDraft("");
     setTurns((xs) => [...xs.slice(-31), { id, input, state: "REQUESTED" }]);
     try {
       const b = await fresh();
+      dispatched = true;
       const r = await client.current.write("message", {
         ...writeBase(b, id),
         text: input,
         topic: "daily",
         thread_id: "nana-space",
         privacy_class: "PROJECT",
-        require_model: b.capabilities.provider_readiness === true,
+        ...(b.capabilities.provider_readiness === true ? { require_model: true } : {}),
         ...(b.capabilities.shared_life_retention === true ? { retain_shared_life: retain } : {}),
       });
       if (
@@ -522,7 +520,7 @@ export function LiveSpace() {
       if (version !== sessionVersion.current) return;
       fail(e);
       // Keep only the original receipt ID. Never retain/replay uncertain bodies.
-      setTurns([{ id, input: "", state: "UNKNOWN" }]);
+      setTurns([{ id, input: "", state: dispatched ? "UNKNOWN" : "REJECTED" }]);
     } finally {
       if (version === sessionVersion.current) setBusy(false);
     }
@@ -776,6 +774,9 @@ export function LiveSpace() {
     : [];
   const healthy = Boolean(snapshot) && !error;
   const conversation = roles.includes("CONVERSATION") && healthy;
+  const providerData = bootstrap ? object(object(bootstrap.data).provider || {}) : {};
+  const rawReadiness = providerData.readiness;
+  const providerReadyCode = rawReadiness && typeof rawReadiness === "object" && !Array.isArray(rawReadiness) && typeof object(rawReadiness).state === "string" ? String(object(rawReadiness).state) : undefined;
   const go = (p: Destination) => {
     if (p !== pageName.current) {
       pageName.current = p;
@@ -1188,7 +1189,7 @@ export function LiveSpace() {
                 busy={busy}
                 allowed={conversation}
                 send={(retain) => void send(retain)}
-                readiness={bootstrap ? text(object(object(bootstrap.data).provider || {}).readiness && object(object(object(bootstrap.data).provider).readiness).state) : undefined}
+                readiness={providerReadyCode}
                 configure={() => go("models")}
                 canRemember={bootstrap?.capabilities.shared_life_retention === true}
                 verify={(id) => void verify(id)}

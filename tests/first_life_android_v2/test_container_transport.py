@@ -178,8 +178,8 @@ def test_entry_only_forwards_explicit_non_tty_stdin_password(tmp_path, monkeypat
     assert bool(execs) == allowed
     if allowed:
         command = execs[0][1]
-        assert command[:3] == [sys.executable, '-I', str(DOCKER / 'loopback_relay.py')]
-        assert command[3:7] == [str(release / '.venv/bin/python'), '-I', str(release / 'host_gateway.py'), '--config']
+        assert command[:4] == [sys.executable, '-I', '-B', str(DOCKER / 'loopback_relay.py')]
+        assert command[4:9] == [str(release / '.venv/bin/python'), '-I', '-B', str(release / 'host_gateway.py'), '--config']
         assert ('--password-fd' in command) == ('--password-fd' in operation)
         if '--password-fd' in command:
             assert command[-2:] == ['--password-fd', '0']

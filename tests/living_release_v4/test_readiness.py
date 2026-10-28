@@ -75,3 +75,13 @@ def test_budget_two_phase_check_uses_original_reservations(tmp_path):
         with pytest.raises(CoreError, match="PROVIDER_TOTAL_CALL_BUDGET"):
             budget(app, snapshot, calls=2)
         assert not life.runtime.store.all("cognitive_requests")
+
+
+def test_model_readiness_does_not_block_original_topic_boundary(running):  # noqa: F811
+    server, service = running
+    headers = login(server, service)
+    row = http(server, "messages", "POST", {
+        **base(service, "boundary"), "text": "先不聊这个话题", "require_model": True,
+    }, headers)[1]
+    assert row["data"]["state"] == "VERIFIED"
+    assert row["data"]["result"]["mode"] == "RESPECT_BOUNDARY"

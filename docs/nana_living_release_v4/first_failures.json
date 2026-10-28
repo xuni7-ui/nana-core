@@ -24,6 +24,27 @@
         "test accessed non-public config path with wrong name"
       ],
       "fix": "Use stable Linux uapi seal constants; correct explicit test path."
+    },
+    {
+      "phase": "public-source-integration",
+      "cause": "Synthetic route lacked PUBLIC permission; original CognitionSession correctly rejects unversioned role_input fields.",
+      "fix": "Correct explicit fixture privacy; carry metadata coverage in the sourced body and preserve the existing proposal contract."
+    },
+    {
+      "phase": "operator-install-first",
+      "cause": "Docker create does not materialize a bind source before start; first local setup path was absent.",
+      "fix": "Materialize only the owned DEV root, then use strict Mounts. Production root is never auto-created."
+    },
+    {
+      "phase": "read-only-preflight",
+      "result": "fixture returned Binding/Release, not identity strings; missing provider document reported configuration unavailable",
+      "fix": "Use original fixture binding; distinguish an absent provider document without creating it."
+    },
+    {
+      "phase": "related-regression",
+      "result": "2 failed / 138 passed / 34.49s",
+      "cause": "Old infrastructure test expected command offsets before explicit -B on both interpreters.",
+      "fix": "Update exact argv contract to require -I and -B; isolation and stdin rules unchanged."
     }
   ],
   "final_related": {

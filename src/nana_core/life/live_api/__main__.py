@@ -9,6 +9,7 @@ import argparse
 import json
 import os
 import signal
+import re
 import threading
 from pathlib import Path
 from pydantic import Field
@@ -51,12 +52,20 @@ def main():
     p.add_argument("--live-provider-authorized", action="store_true")
     p.add_argument("--secret-fd", type=int)
     p.add_argument("--secret-ref")
+    p.add_argument("--check-only", action="store_true")
     a = p.parse_args()
     resolver = MemorySecretResolver()
     supervisor = None
     server = None
     try:
         cfg = read_private(a.config)
+        if a.check_only:
+            if any((a.password_fd is not None, a.live_provider_authorized, a.secret_fd is not None, a.secret_ref is not None)):
+                raise ApiError("READ_ONLY_PREFLIGHT_CREDENTIALS_DENIED")
+            from .preflight import check
+            result = check(cfg)
+            print(json.dumps(result), flush=True)
+            raise SystemExit(0 if result["state"] == "READ_ONLY_BINDING_CHECKED" else 2)
         password = None
         if a.password_fd is not None:
             raw = os.read(a.password_fd, 513)
@@ -132,8 +141,9 @@ def main():
         finally:
             stopping.set()
             thread.join(timeout=2)
-    except (ApiError, CoreError, OSError, ValueError):
-        print(json.dumps({"state": "BLOCKED", "code": "HOST_BINDING_OR_CONFIGURATION_UNAVAILABLE"}), flush=True)
+    except (ApiError, CoreError, OSError, ValueError) as exc:
+        code = exc.code if isinstance(exc, (ApiError, CoreError)) and re.fullmatch(r"[A-Z0-9_]{1,96}", exc.code) else "HOST_BINDING_OR_CONFIGURATION_UNAVAILABLE"
+        print(json.dumps({"state": "BLOCKED", "code": code}), flush=True)
         raise SystemExit(2) from None
     finally:
         if server:

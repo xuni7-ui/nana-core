@@ -193,7 +193,7 @@ export function HomeView({
             {connected
               ? ready
                 ? "这个窗口连接着同一个奈奈。她此刻的生活与关心，都有来处。"
-                : "已经绑定这个主体，正在等待 Runtime 的当前状态。"
+                : "已经连接奈奈，正在等待她的最新近况。"
               : "这是通向奈奈的窗口。连接之后，真实的生活、记忆和共同经历会在这里慢慢出现。"}
           </p>
           <div className="v3-inline">
@@ -212,7 +212,7 @@ export function HomeView({
             <span className={`v3-dot ${ready ? "online" : ""}`} />
             {connected
               ? ready
-                ? "Core 当前就绪 · 生活仍由她自己决定"
+                ? "入口在线 · 生活仍由她自己决定"
                 : "已绑定 · 状态待确认"
               : "离线浏览 · 没有虚构的生活数据"}
           </span>
@@ -239,7 +239,7 @@ export function HomeView({
         <div>
           <span className="v3-eyebrow">HER OWN PACE</span>
           <h2>{tone ? tone.text : "此刻，不替她定义心情。"}</h2>
-          <p>交流意愿来自 Core 的经历与评价；角色表情只是表达提示，不代表主观感受已被证明。</p>
+          <p>{tone ? "从她已有的经历与判断里，看看最近的交流节奏。" : "没有明确近况时，就留一点安静。"}</p>
         </div>
         {appetite && <details><summary>看看这份近况的来源</summary>
           <small>{appetite.as_of_us ? new Date(Number(appetite.as_of_us) / 1000).toLocaleString() : "时间尚未提供"}</small>

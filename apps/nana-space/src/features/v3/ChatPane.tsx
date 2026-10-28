@@ -24,6 +24,7 @@ export interface Turn {
   provider?: string;
   error?: string;
   remembered?: boolean;
+  model?: string;
 }
 /** Body text stays in React memory. Attachments are previews, never uploaded as text. */
 export function ChatPane({
@@ -218,8 +219,8 @@ export function ChatPane({
                 )}
                 <div className="v3-reply-meta">
                   <span>
-                    <Check size={12} /> {t.state}
-                    {t.provider ? ` · ${t.provider}` : ""}
+                    <Check size={12} /> {({VERIFIED: "已收到", REQUESTED: "等待回复", REJECTED: "这次未提交", UNKNOWN: "等待核验"} as Record<string, string>)[t.state] || t.state}
+                    {t.model ? ` · ${t.model}` : ""}
                   </span>
                   {t.reply && (
                     <button aria-label="朗读这条回复" onClick={() => void voice(t.reply)}><Volume2 size={14} /></button>

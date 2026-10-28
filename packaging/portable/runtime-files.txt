@@ -158,6 +158,7 @@ src/nana_core/life/portable_runtime.py
 src/nana_core/life/presentation.py
 src/nana_core/life/provider.py
 src/nana_core/life/readiness.py
+src/nana_core/life/bilibili.py
 src/nana_core/life/secret_binding.py
 src/nana_core/life/review.py
 src/nana_core/life/shared.py
@@ -214,6 +215,7 @@ src/nana_core/life/live_api/state.py
 src/nana_core/life/live_api/supervisor.py
 
 src/nana_core/life/live_api/provider_settings.py
+src/nana_core/life/live_api/preflight.py
 
 # Execution context metadata and explicitly bound existing CapabilityPorts
 src/nana_core/execution_context/__init__.py

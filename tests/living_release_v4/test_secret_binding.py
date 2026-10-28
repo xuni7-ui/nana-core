@@ -102,3 +102,47 @@ def test_explicit_retention_reaches_existing_person_self_and_withdrawal(running)
     assert withdrawn["data"]["state"] == "VERIFIED"
     after = http(server, "views/memories", headers=headers)[1]["data"]["memories"]
     assert all(m["memory_id"] != memory_id for m in after)
+
+
+def test_real_child_fd_binding_readiness_without_network_dispatch(tmp_path):
+    from nana_core.life.config import load_config, update_config
+    from nana_core.life.control import request
+    from nana_core.life.live_api.supervisor import Supervisor
+    from nana_core.continuity.provider_config import ModelProfile, CapabilityRoute
+    from tests.first_life_android_v2.test_supervisor import owned, cleanup
+
+    home, binding, release = owned(tmp_path)
+    cfg = load_config(home)
+    update_config(home, cfg.model_copy(update={"revision": cfg.revision + 1,
+        "provider_hosts": ("example.test",), "remote_privacy": ("PUBLIC", "PROJECT"),
+        "provider_calls_per_day": 2, "provider_calls_per_hour": 2, "per_provider_calls_per_day": 2,
+        "provider_total_calls_limit": 2, "provider_total_reserved_cost_micro": 2,
+        "provider_cost_ceiling_micro": 1}), expected_revision=cfg.revision)
+    config, authority = config_service(home / "providers.json")
+    update(config, authority, "UPSERT_PROVIDER", provider=ProviderProfile(
+        provider_profile_id="test.primary", display_name="Test", protocol="OPENAI_COMPATIBLE_CHAT",
+        base_url="https://example.test/v1", locality="REMOTE", secret_ref="test.primary", permitted_privacy=("PUBLIC", "PROJECT")))
+    update(config, authority, "UPSERT_MODEL", model=ModelProfile(model_profile_id="test.text", provider_profile_id="test.primary",
+        remote_model_id="test", model_version="1", operations=("COGNITION",), input_modalities=("TEXT",),
+        output_modalities=("TEXT",), context_limit=8192, output_limit=1024))
+    update(config, authority, "SET_CAPABILITY_ROUTE", route=CapabilityRoute(operation="COGNITION", primary_model_profile_id="test.text",
+        permitted_privacy=("PUBLIC", "PROJECT")))
+    resolver = MemorySecretResolver()
+    value = "TEST_ONLY_NOT_SECRET_" + secrets.token_hex(16)
+    resolver.bind("test.primary", value)
+    supervisor = Supervisor(home, tmp_path / "host", binding, [release], active_release=release.release_id,
+                            provider_binding=resolver.inherited_fd)
+    try:
+        supervisor.start()
+        result = request(home, {"operation": "view", "view": "status"})["result"]
+        assert result["provider_readiness"]["state"] == "READY_LOCAL_GATES"
+        assert result["provider_readiness"]["network_calls"] == 0
+        from pathlib import Path
+        assert value.encode() not in Path(f"/proc/{supervisor.child.pid}/cmdline").read_bytes()
+        for path in home.rglob("*"):
+            if path.is_file() and not path.is_symlink():
+                assert value.encode() not in path.read_bytes()
+        assert supervisor.status()["subject_id"] == binding.subject_id
+    finally:
+        cleanup(supervisor)
+        resolver.clear()

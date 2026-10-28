@@ -1670,3 +1670,8 @@ SUPERSEDES仅此前Core-only部署指引，不覆写历史资格：发布唯一�
 ### Living V4 — actual integration checkpoint
 
 修复：原Router无dispatch inspect/当前运行Resolver readiness；双阶段原预算前检与精确REJECTED；手机显式共同经历保存直通原Person-Self；原生安全凭据输入→host内存Resolver→sealed memfd→原child，独立角色/配置/付费边界保留。补本地设备语音入口及可见来源节奏，原appId/Keystore不改。117相关Python实际通过21.81s；44前端单元通过，最终Web/APK及新镜像继续构建，手机/模型/生产未验收。只读Docker API工具实际可用，无Docker CLI也可核既有服务；本地旧镜像受限verify exit0，非云端。保留首次夹具/绑定常量失败。无新Provider调用/私人导入/生产切换；不以此升级First-Life。
+
+
+### 2026-10-28 — Living Release V4 integration checkpoint
+
+V4: distinguish absent config, bound credentials, local readiness and real model qualification. Bilibili metadata is not watched experience. Operator ABI verification is a second phase; no staged tree may falsely become READY_FOR_SWITCH.

@@ -1,0 +1,15 @@
+{
+  "qualification": "PUBLIC_READ_TRANSPORT_ONLY",
+  "public_http_request_limit": 1,
+  "real_provider_calls": 0,
+  "account_credentials_used": false,
+  "formal_subject_used": false,
+  "watched_video": false,
+  "social_sends": 0,
+  "state": "PUBLIC_METADATA_RECEIVED",
+  "payload_sha256": "9af64965ccf31a7b5e097ec2ec02fa7c393e308a1e1e816b10168a804884d6b8",
+  "coverage": "METADATA_ONLY_NOT_WATCHED",
+  "public_requests": 1,
+  "http_status": 200,
+  "elapsed_seconds": 1.3499146579997614
+}

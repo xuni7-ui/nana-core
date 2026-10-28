@@ -274,7 +274,11 @@ class LifeApplication:
                 exchange_id=retain_exchange(r.store,entity_id=r.config.entity_id,scope=r.config.scopes[0],topic=topic,user_memory_id=mid,text=draft,cycle=cycle,source_memory_ids=supports)
         self.control['messages']+=1;self._save_control();self._chat[key]=True
         if len(self._chat)>64:self._chat.pop(next(iter(self._chat)))
-        return {'message_id':key,'message_memory_id':mid,'provider_state':provider_state,'render_state':render_state,'mode':cycle.context_fit.mode,'judgment':cycle.judgment.stance,'intention':cycle.intention.kind,'text':draft,'raw_body_persisted':retain_shared_life,'exchange_record_id':exchange_id,'conversation_decision':cycle.conversation_decision.model_dump(mode='json') if cycle.conversation_decision else None,'external_social_send':False}
+        route=None
+        if render_rid and render_state=='UNVERIFIED_MODEL_WORDING' and self.session.route_snapshot:
+            route=self.session.route_snapshot.model_dump(mode='json')
+            route['returned_model_id']=self.session.proposal(render_rid).model_id
+        return {'message_id':key,'message_memory_id':mid,'provider_state':provider_state,'render_state':render_state,'route':route,'mode':cycle.context_fit.mode,'judgment':cycle.judgment.stance,'intention':cycle.intention.kind,'text':draft,'raw_body_persisted':retain_shared_life,'exchange_record_id':exchange_id,'conversation_decision':cycle.conversation_decision.model_dump(mode='json') if cycle.conversation_decision else None,'external_social_send':False}
 
     def forget(self,mid):
         MemoryService(self.runtime.store,self.runtime.authority).forget(mid,self.runtime.authority)
