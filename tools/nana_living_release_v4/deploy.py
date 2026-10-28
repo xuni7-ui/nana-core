@@ -154,6 +154,8 @@ def main():
     parser.add_argument("--subject-id")
     parser.add_argument("--release-id")
     parser.add_argument("--password-fd", type=int)
+    parser.add_argument("--local-dev-vfs-headroom-mib", type=int, default=0,
+                        help="Only for a managed DEV vfs daemon sharing this filesystem; bounded pre-create wait, never retry")
     args = parser.parse_args()
     try:
         if not re.fullmatch(r"/[A-Za-z0-9/._-]+", args.root) or ".." in Path(args.root).parts:
@@ -164,7 +166,8 @@ def main():
         elif args.mode == "rollback":
             result = rollback(args)
         else:
-            result = prepare(Docker(), args.handoff.resolve(), manifest, args.root, args.mode)
+            result = prepare(Docker(local_vfs_headroom_mib=args.local_dev_vfs_headroom_mib),
+                             args.handoff.resolve(), manifest, args.root, args.mode)
     except (ValueError, KeyError, OSError, DockerError) as exc:
         code = str(exc) if isinstance(exc, (ValueError, DockerError)) and re.fullmatch(r"[A-Z0-9_]+", str(exc)) else "DEPLOYMENT_CONTEXT_UNAVAILABLE"
         result = {"state": "BLOCKED", "code": code, "services_changed": False}

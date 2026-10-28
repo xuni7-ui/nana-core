@@ -63,12 +63,18 @@
       "fix": "Verified no active container and no layerdb reference, then cleared only these four timestamp-bound failed clones. Existing images/evidence/data preserved. Qualify serially; compact byte-identical copied interpreter aliases in the new image under an independent seal, retaining all old releases."
     }
   ],
-  "final_related": {
+  "real_provider_calls": 0,
+  "initial_related": {
     "passed": 117,
     "failed": 0,
     "seconds": 21.81,
     "full_repository": "NOT_REPEATED",
     "scope": "living_release_v4/provider_routing/first_life_android_v2/real_living_integration/unified_release"
   },
-  "real_provider_calls": 0
+  "final_targeted": {
+    "passed": 148,
+    "failed": 0,
+    "seconds": 36.25,
+    "record": "final-targeted.xml"
+  }
 }

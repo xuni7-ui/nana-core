@@ -7,36 +7,37 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 53,
-  "as_of_us": 1793219641113115,
+  "revision": 54,
+  "as_of_us": 1793226367208441,
   "stage": "H",
   "workstream": "LIVING_RELEASE_V4",
-  "status": "IN_PROGRESS_INTEGRATION_AND_DELIVERY",
+  "status": "DEVELOPMENT_RELEASE_DELIVERED_V4_QUALIFICATION_PARTIAL",
   "progress": [
-    "V4完整任务已读并归档；从77a09e2合法后继独立分支继续，保留V3/RealLiving/ExecutionContext祖先及全部旧交付。",
-    "本地/远端77a09e2一致且起点干净；Master/Matrix SHA已固定，无新Foundation或第二Subject。",
-    "已定位Provider readiness、错误回执、显式凭据接线、B站旧宿主依赖和部署幂等缺口；正在实际修复。"
+    "V4开发发行：Core253文件双离线构建一致；运行源码13ddd484，Master/Matrix字节不变。",
+    "原Router/Policy/预算接入readiness；未dispatch拒绝不误报UNKNOWN，原拒绝话题无需模型；真实模型调用0。",
+    "单次经历保留接原Person-Self/Memory与撤回；实际render路由可查；不是第二记忆。",
+    "Android4.0.0/400与Web已构建，旧签名/appId不变；原生内存凭据与本地语音接线，未作实机资格。",
+    "完整自有Debian13镜像实际安装，重复install零变更，破坏文件精确拒绝；未切换任何生产服务。",
+    "实际DEV同Subject SIGKILL自动恢复epoch2→3→4、重建及B8迁移/旧源fence/撤Grant通过。",
+    "148项定向、4项发布补充、10项对话记忆恢复、44前端、8真实Core浏览器、1原生单测通过。"
   ],
   "open_gates": [
-    "当前环境无安全host/VPN/credential绑定，30845fb源码现场热修复未取得；不覆盖未知差异。",
-    "正式Subject/Genesis/旧writer状态为用户报告，须云端只读工具现场核验；不重做Genesis。",
-    "本轮真实Provider调用/真实社交/私人历史导入/生产切换未授权；真人自然度/跨日陪伴/正式24h仍未验收。",
-    "bwrap保持BLOCKED，其他合法自主能力继续；First-Life NOT_READY/Beta NO。"
+    "无安全host/VPN绑定；云端30845fb热修复及正式8acff4fb主体为用户报告，待只读对账与批准切换。",
+    "真实Provider/费用、真人自然度、手机私有HTTPS/语音/通知、正式24h及跨日记忆仍NOT_RUN。",
+    "Provider凭据仅内存，BFF/容器重启须重绑；持久安全vault未实现，不冒称无人值守资格。",
+    "B站仅公共元数据和原C语义接线；兴趣驱动看视频/账号评论私信仍缺适配及授权。",
+    "旧QQ/Iris/Bili不切换、私人历史不导入、B1实际PC备份未做；bwrap保持BLOCKED。",
+    "First-Life NOT_READY/Beta NO；旧5h PARTIAL_EXTERNAL_LIMIT不改，长期资格PENDING_EXTERNAL_STABLE_ENV。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
-    "docs/nana_first_life_unified_release/UNIFIED_MISSION.md",
-    "docs/nana_first_life_unified_release/FINAL_STATUS.md",
-    "docs/nana_first_life_unified_release/evidence/final/qualification.json",
-    "CLOUD_DEPLOY_HANDOFF/README.md",
-    "CLOUD_DEPLOY_HANDOFF/SHA256SUMS",
-    "docs/nana_first_life_unified_release/s2/ACCEPTANCE.md",
-    "docs/nana_first_life_unified_release/pairing-fix/qualification.json",
-    "docs/nana_first_life_unified_release/pairing-protocol/FIX.md",
     "docs/nana_living_release_v4/MISSION.md",
-    "docs/nana_living_release_v4/baseline.json",
-    "docs/nana_living_release_v4/IMPLEMENTATION.md"
+    "docs/nana_living_release_v4/IMPLEMENTATION.md",
+    "docs/nana_living_release_v4/qualification.json",
+    "docs/nana_living_release_v4/STATUS.md",
+    "docs/nana_living_release_v4/DEPLOY.md",
+    "docs/nana_living_release_v4/evidence/install-final.json"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

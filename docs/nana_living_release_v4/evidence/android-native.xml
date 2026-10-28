@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="life.nana.space.NanaHostPluginTest" tests="1" skipped="0" failures="0" errors="0" timestamp="2026-10-28T21:48:27" hostname="6219c71f4551" time="0.051">
+  <properties/>
+  <testcase name="httpsOriginIsFixedAndCredentialFree" classname="life.nana.space.NanaHostPluginTest" time="0.051"/>
+  <system-out><![CDATA[]]></system-out>
+  <system-err><![CDATA[]]></system-err>
+</testsuite>

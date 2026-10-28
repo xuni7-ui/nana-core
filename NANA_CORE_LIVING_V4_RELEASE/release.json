@@ -1,0 +1,11 @@
+{
+  "core_source": "13ddd484156f8216dabd1d339f0bba696f801dab",
+  "core_sha256": "728ef440fc34ab5c1b821814fae93408ee0b7384c5bad6959d274cb9ec5e5347",
+  "core_integrity_sha256": "defbd929e087de383a77323767f5066222d9006afe43644df0216d57e56c9ecc",
+  "web_sha256": "3e6b5c1b3904132dd7b9374fa89128d9c82e177823da973a9c9256577d4f6751",
+  "image_id": "sha256:b5e55b2988135a991c3d9ac46b50e7c5fe9b75ce66335eb38e1429895b5fa54c",
+  "runtime_manifest_sha256": "29560fd048b26b60d470be7c30cd944482efc7dd31208019f0daa835aa12217b",
+  "schema_version": 13,
+  "plan_contract": "PRECISION_V2",
+  "real_provider_calls": 0
+}

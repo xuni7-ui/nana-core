@@ -14,6 +14,8 @@ import stat
 import io
 import struct
 import tarfile
+import time
+import shutil
 from uuid import uuid4
 from pathlib import Path
 from urllib.parse import urlencode
@@ -35,11 +37,23 @@ class UnixConnection(http.client.HTTPConnection):
 
 
 class Docker:
-    def __init__(self, path="/var/run/docker.sock"):
+    def __init__(self, path="/var/run/docker.sock", *, local_vfs_headroom_mib=0):
         self.path = Path(path).absolute()
         if not stat.S_ISSOCK(self.path.stat().st_mode):
             raise DockerError("LOCAL_DOCKER_SOCKET_REQUIRED")
         self.__temporary = set()
+        self.__headroom = max(local_vfs_headroom_mib, 0) * 1024 * 1024
+        if self.__headroom and self.json("GET", "/info")["Driver"] != "vfs":
+            raise DockerError("LOCAL_DEV_VFS_GUARD_CONTEXT_MISMATCH")
+
+    def before_create(self):
+        # Explicit DEV-only flag: this daemon shares the caller's root filesystem.
+        # Wait for asynchronous deletion BEFORE dispatch, never retry a create.
+        deadline = time.monotonic() + 30
+        while self.__headroom and shutil.disk_usage("/").free < self.__headroom:
+            if time.monotonic() >= deadline:
+                raise DockerError("LOCAL_DEV_VFS_DISK_GUARD_NO_CREATE")
+            time.sleep(.25)
 
     @contextlib.contextmanager
     def response(self, method, path, body=None, *, chunks=False, timeout=60):
@@ -52,6 +66,8 @@ class Docker:
                 message = response.read(4097)
                 if b"bind source path does not exist" in message:
                     raise DockerError("DOCKER_BIND_SOURCE_MISSING")
+                if b"no space left on device" in message:
+                    raise DockerError("DOCKER_STORAGE_FULL")
                 raise DockerError("DOCKER_HTTP_" + str(response.status))
             yield response
         finally:
@@ -93,6 +109,7 @@ class Docker:
                 "ports": row.get("NetworkSettings", {}).get("Ports", {})}
 
     def create_check(self, image, *, runtime=None, core_source=None):
+        self.before_create()
         metadata = self.image(image)
         if metadata["user"] != "999:999" or metadata["architecture"] != "amd64" or metadata["os"] != "linux":
             raise DockerError("IMAGE_RUNTIME_CONTRACT_MISMATCH")
@@ -152,6 +169,7 @@ class Docker:
 
     def operator(self, image, root, mode, files, arguments):
         """Disposable, isolated staging controller; no Docker socket in child."""
+        self.before_create()
         self.image(image)
         if mode not in {"check", "dry-run", "install", "rollback", "commit"} or not Path(root).is_absolute():
             raise DockerError("EXPLICIT_OPERATOR_TARGET_REQUIRED")

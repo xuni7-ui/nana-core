@@ -12,6 +12,7 @@ def main():
     p.add_argument("--image", required=True)
     p.add_argument("--work", type=Path, required=True)
     p.add_argument("--web-sha256", required=True)
+    p.add_argument("--dev-copy-headroom-mib", type=int, default=0)
     a = p.parse_args()
     if not re.fullmatch("[a-f0-9]{40}", a.source):
         raise ValueError("EXACT_COMMIT_REQUIRED")
@@ -22,6 +23,7 @@ def main():
     module.SOURCE = a.source
     module.BUNDLE = "/opt/nana-core/runtime/core-releases/" + a.source
     module.PYTHON = module.BUNDLE + "/.venv/bin/python"
+    module.DEV_COPY_HEADROOM_BYTES = max(a.dev_copy_headroom_mib, 0) * 1024 * 1024
     import json
 
     print(json.dumps(module.run(a.image, a.work, a.web_sha256), indent=2))

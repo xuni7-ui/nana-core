@@ -9,6 +9,7 @@ import argparse
 import hashlib
 import json
 import shutil
+import shlex
 import subprocess
 import sys
 from pathlib import Path
@@ -27,10 +28,7 @@ def sha(path):
     return result.hexdigest()
 
 
-WRAPPER = '''#!/bin/sh
-set -eu
-release_root=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)
-exec python3 -I -B - "$release_root" __DIGEST__ "$@" <<'PY'
+VERIFY_ENTRY = '''
 import hashlib,json,os,sys
 from pathlib import Path
 root=Path(sys.argv[1]);expected=sys.argv[2]
@@ -47,8 +45,9 @@ for name,row in value['files'].items():
  if Path(name).is_absolute() or '..' in Path(name).parts or p.resolve()!=p or not p.is_file():raise SystemExit('RELEASE_FILE_INVALID: '+name)
  if sha(p)!=row['sha256']:raise SystemExit('RELEASE_FILE_DIGEST_MISMATCH: '+name)
 os.execv(sys.executable,[sys.executable,'-I','-B',str(root/'tools/deploy.py'),'--handoff',str(root),'--manifest-sha256',expected,*sys.argv[3:]])
-PY
 '''
+WRAPPER = ('#!/bin/sh\nset -eu\nrelease_root=$(CDPATH= cd -- "$(dirname -- "$0")" && pwd)\n'
+           'exec python3 -I -B -c ' + shlex.quote(VERIFY_ENTRY) + ' "$release_root" __DIGEST__ "$@"\n')
 
 
 def copy_inputs(root, build, work):
@@ -102,10 +101,17 @@ def main():
     subprocess.run([sys.executable, "-m", "tools.nana_first_life_unified_release.export_image",
                     "--image", build["image_id"], "--source", build["source_commit"],
                     "--destination", str(root / "image")], cwd=ROOT, check=True)
+    print(json.dumps(seal(root), indent=2))
+
+
+def seal(root):
+    """Seal our unreleased public bundle; never update an installed runtime seal."""
+    release = json.loads((root / "release.json").read_bytes())
+    tree = json.loads((root / "runtime-tree.json").read_bytes())
     image = json.loads((root / "image/image.json").read_bytes())
     files = {p.relative_to(root).as_posix(): {"bytes": p.stat().st_size, "sha256": sha(p)}
-             for p in sorted(root.rglob("*")) if p.is_file()}
-    manifest = {"contract": "nana-living-release/v4", "source_commit": build["source_commit"],
+             for p in sorted(root.rglob("*")) if p.is_file() and p.name not in {"MANIFEST.json", "SHA256SUMS", "deploy.sh"}}
+    manifest = {"contract": "nana-living-release/v4", "source_commit": release["core_source"],
                 "schema_version": 13, "plan_contract": "PRECISION_V2", "runtime_manifest_sha256": release["runtime_manifest_sha256"],
                 "image": {"id": image["image_id"], "gzip_sha256": image["gzip_sha256"],
                           "parts": ["image/" + row["file"] for row in image["parts"]]},
@@ -115,11 +121,11 @@ def main():
     digest = sha(root / "MANIFEST.json")
     (root / "deploy.sh").write_text(WRAPPER.replace("__DIGEST__", digest))
     (root / "deploy.sh").chmod(0o755)
-    paths = sorted(p for p in root.rglob("*") if p.is_file())
+    paths = sorted(p for p in root.rglob("*") if p.is_file() and p.name != "SHA256SUMS")
     (root / "SHA256SUMS").write_text("".join(sha(p) + "  " + p.relative_to(root).as_posix() + "\n" for p in paths))
-    print(json.dumps({"path": str(root), "manifest_sha256": digest, "files": len(paths) + 1,
+    return {"path": str(root), "manifest_sha256": digest, "files": len(paths) + 1,
                       "image_id": image["image_id"], "gzip_sha256": image["gzip_sha256"],
-                      "gzip_bytes": image["gzip_bytes"], "runtime_entries": len(tree["entries"])}, indent=2))
+            "gzip_bytes": image["gzip_bytes"], "runtime_entries": len(tree["entries"])}
 
 
 if __name__ == "__main__":

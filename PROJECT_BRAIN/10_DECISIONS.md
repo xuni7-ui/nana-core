@@ -1675,3 +1675,8 @@ SUPERSEDES仅此前Core-only部署指引，不覆写历史资格：发布唯一�
 ### 2026-10-28 — Living Release V4 integration checkpoint
 
 V4: distinguish absent config, bound credentials, local readiness and real model qualification. Bilibili metadata is not watched experience. Operator ABI verification is a second phase; no staged tree may falsely become READY_FOR_SWITCH.
+
+
+### 2026-10-28 — Living V4 verified development delivery
+
+V4发行与产品资格分开。独立9737条新封条；新镜像SHA相同Python别名改为同venv符号链接，实测全部三版本ABI/prefix，旧镜像/封条不改。内存凭据不冒称vault；公共视频元数据不冒称观看；readiness不冒称真实认知。

@@ -1,0 +1,41 @@
+{
+  "state": "READY_FOR_SWITCH",
+  "image_id": "sha256:b5e55b2988135a991c3d9ac46b50e7c5fe9b75ce66335eb38e1429895b5fa54c",
+  "members": 9737,
+  "root_mode": "0555",
+  "subject_created": false,
+  "runtime_tree_matches_trusted_manifest": true,
+  "observed_runtime_tar_sha256": "171568815c8b47573b15cb3fa87a92fa942f0244feb20e98426703e241efc34e",
+  "runtime_tar_encoding_matches_reference": false,
+  "source_commit": "13ddd484156f8216dabd1d339f0bba696f801dab",
+  "target": "/dev/shm/nana-v4-install-qualified/slots/13ddd484156f8216dabd1d339f0bba696f801dab/runtime",
+  "target_context": "DOCKER_DAEMON_HOST_BIND",
+  "free_bytes": 2412343296,
+  "subject_opened": false,
+  "canonical_home_changed": false,
+  "services_changed": false,
+  "idempotent": false,
+  "persistent_changes": 1,
+  "host_configuration_proposal": {
+    "state": "TYPED_PROPOSAL_ONLY",
+    "source_config_sha256": "f95199e698b154f34e6705570f40586e330370f323a7394065c217bf4666618b",
+    "proposal_sha256": "24f45d5681072e2524e45bd796d4300c18f3de3054d6ca660c0006a3d6e137a8",
+    "registered_candidate": "living-v4-13ddd484156f",
+    "active_release_changed": false,
+    "roles_changed": false,
+    "installed": false
+  },
+  "operator_exit_code": 0,
+  "daemon": {
+    "Version": "28.4.0",
+    "ApiVersion": "1.51",
+    "Os": "linux",
+    "Arch": "amd64"
+  },
+  "paid_provider_calls": 0,
+  "runtime_abi": {
+    "state": "RUNTIME_ENTRY_VERIFIED",
+    "exit_code": 0,
+    "subject_opened": false
+  }
+}

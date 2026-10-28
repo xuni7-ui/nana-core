@@ -1,0 +1,12 @@
+{
+  "scope": "CHANGED_TEXT_AND_DELIVERED_CORE_WEB_APK_ENTRIES",
+  "changed_text_files": 35,
+  "archive_entries": 774,
+  "credential_literal_matches": 0,
+  "private_key_blocks": 0,
+  "real_provider_calls": 0,
+  "historical_credentials_searched": false,
+  "whole_git_history_scan": "NOT_RUN",
+  "image_base": "PINNED_PREVIOUSLY_QUALIFIED_NON_SENSITIVE_RUNTIME",
+  "external_secrets_injected": false
+}

@@ -1,0 +1,178 @@
+{
+  "contract": "nana-living-release/v4",
+  "source_commit": "13ddd484156f8216dabd1d339f0bba696f801dab",
+  "schema_version": 13,
+  "plan_contract": "PRECISION_V2",
+  "runtime_manifest_sha256": "29560fd048b26b60d470be7c30cd944482efc7dd31208019f0daa835aa12217b",
+  "image": {
+    "id": "sha256:b5e55b2988135a991c3d9ac46b50e7c5fe9b75ce66335eb38e1429895b5fa54c",
+    "gzip_sha256": "87866ddc44424276298724bee902ed079e9438035fe81c071d13310c8e2ab9e0",
+    "parts": [
+      "image/image.tar.gz.part001",
+      "image/image.tar.gz.part002",
+      "image/image.tar.gz.part003",
+      "image/image.tar.gz.part004",
+      "image/image.tar.gz.part005",
+      "image/image.tar.gz.part006",
+      "image/image.tar.gz.part007",
+      "image/image.tar.gz.part008",
+      "image/image.tar.gz.part009",
+      "image/image.tar.gz.part010",
+      "image/image.tar.gz.part011",
+      "image/image.tar.gz.part012"
+    ]
+  },
+  "files": {
+    "README.md": {
+      "bytes": 6577,
+      "sha256": "05eea4195480d2160b69f97d11ee20df80a22ff70db571ad886ffe10e02e4f5a"
+    },
+    "build/Dockerfile": {
+      "bytes": 1303,
+      "sha256": "1b3b5a849730dc8e31b15a233b11ce80c05422100c8171cbe934a49883803dce"
+    },
+    "build/compact_venv.py": {
+      "bytes": 1408,
+      "sha256": "b7ad664fb0cdab14b84ac3eef6caa4f6bb94208696bb33e7efa0d76e09752852"
+    },
+    "build/container_entry.py": {
+      "bytes": 5885,
+      "sha256": "9caa2f5806a7047f4ff63c3d76cf6e75a62e8ab7773583d4dfe0567891cd36e9"
+    },
+    "build/extract_web.py": {
+      "bytes": 3076,
+      "sha256": "ba9fa56cf58c49a97dfb4297a13b9b35d9a3139b72af67bd6f9dc6065bd08193"
+    },
+    "build/loopback_relay.py": {
+      "bytes": 5640,
+      "sha256": "054834caab63976a0e9b1f3e570bf24f3ce84f49f7c607f74e4f0ae287418165"
+    },
+    "build/unpack.py": {
+      "bytes": 2579,
+      "sha256": "43cae88c58ea6db1e5e5226807ae00f6ab06281f0a801ef4a0832e1b2428cdf7"
+    },
+    "core.tar.gz": {
+      "bytes": 3078235,
+      "sha256": "728ef440fc34ab5c1b821814fae93408ee0b7384c5bad6959d274cb9ec5e5347"
+    },
+    "image/image.json": {
+      "bytes": 2381,
+      "sha256": "238f044f9d7cae018ea1f855dbe02ac01c5541b0cb74d80e578938bb1cc7cac8"
+    },
+    "image/image.tar.gz.part001": {
+      "bytes": 29360128,
+      "sha256": "6ce8c3f37eaabb5f093449442b02138f2516d8ad47df5cdc4f0a64de5abff6a8"
+    },
+    "image/image.tar.gz.part002": {
+      "bytes": 29360128,
+      "sha256": "31ecf11d55cadc7fce93a93ed835d2395d6c63973d455dc2145577a442c0d169"
+    },
+    "image/image.tar.gz.part003": {
+      "bytes": 29360128,
+      "sha256": "3035b3e9c13074ecfcc24564940c1e0adeb29bfb30326f0b722a916c79d7b745"
+    },
+    "image/image.tar.gz.part004": {
+      "bytes": 29360128,
+      "sha256": "5abfc09bdd09105e7603641a8a45dcaffd69efed709e35b1946b59faf350c6b3"
+    },
+    "image/image.tar.gz.part005": {
+      "bytes": 29360128,
+      "sha256": "18dff735af502bd3bdcee4a4349ed30f24f261ef8eebe4a317bdfe5e791ca531"
+    },
+    "image/image.tar.gz.part006": {
+      "bytes": 29360128,
+      "sha256": "2d05e159f56472e87427942bf8988fe1658fee878ca1ca7b70668184f7676849"
+    },
+    "image/image.tar.gz.part007": {
+      "bytes": 29360128,
+      "sha256": "1dd294ffd433e1d05b1464faaa6f2f06131a5783c5fce307c787a265e171982e"
+    },
+    "image/image.tar.gz.part008": {
+      "bytes": 29360128,
+      "sha256": "e0b488cf471f7e0812c98bbff0db1903e232545aa9cd4fd97d6fdec45d8df0b3"
+    },
+    "image/image.tar.gz.part009": {
+      "bytes": 29360128,
+      "sha256": "98bea7a965aa2b9e544500a6ef90ee021da3f617446eca1726c63676b32204f3"
+    },
+    "image/image.tar.gz.part010": {
+      "bytes": 29360128,
+      "sha256": "40f16d407bb6830929ece729a941a639e94a4f6d675878871d94c72e80be3842"
+    },
+    "image/image.tar.gz.part011": {
+      "bytes": 29360128,
+      "sha256": "5d4ffb406a7e75aa31d891b11dfe1ecdf6fcdb713c6ee5e72bec49bfbb41f749"
+    },
+    "image/image.tar.gz.part012": {
+      "bytes": 8192618,
+      "sha256": "9275bd8b5f4844b1123de303be93c1be1a001be4f2f6fdc6bbd10413beaa84e3"
+    },
+    "nana-space-4.0.0-debug.apk": {
+      "bytes": 4722261,
+      "sha256": "2e93d66138ec11f637fd2094fd291352ada0ddf225d4df6d0d8091fbc07751cc"
+    },
+    "release.json": {
+      "bytes": 601,
+      "sha256": "a04f3a9a1a428d1681989e259f79931c4ea6cc0aff819f0933f32676d0ff6c1f"
+    },
+    "runtime-tree.json": {
+      "bytes": 2740013,
+      "sha256": "29560fd048b26b60d470be7c30cd944482efc7dd31208019f0daa835aa12217b"
+    },
+    "tools/container_check.py": {
+      "bytes": 3344,
+      "sha256": "ef85235ce2332c35d8deadb103aecffdcde8e764e4664103fde5940c3b3d61e3"
+    },
+    "tools/deploy.py": {
+      "bytes": 7954,
+      "sha256": "52a2278bdeff204fcadf53e380f76b5ae97be82d3c24f96274bd7e75bd009add"
+    },
+    "tools/docker_api.py": {
+      "bytes": 12407,
+      "sha256": "188963fcd22d0c89f48e165a36d97d3f743e65171aaabf9d98548436b8cb08c4"
+    },
+    "tools/host_facts.py": {
+      "bytes": 1796,
+      "sha256": "663078a9cc151d21eaa5f1435cb2f7671a14e338113f088b01cc3e4b13f4b94e"
+    },
+    "tools/install_runtime_tree.py": {
+      "bytes": 9109,
+      "sha256": "ec7a92d0553599ac52a4f92b9adc6c0abad7d8b0b17329f5ad1b9409005f7dc4"
+    },
+    "tools/integrity.py": {
+      "bytes": 2847,
+      "sha256": "19fd8f70b8a300d8eb53fd6f02a8a17087e3e7b4ab80d004e001cc5accb125b9"
+    },
+    "tools/issue_pairing.py": {
+      "bytes": 6159,
+      "sha256": "04643a79940ff8d2d78df30321a1269470c0cf2a51fa99597512699107881749"
+    },
+    "tools/operator_check.py": {
+      "bytes": 4661,
+      "sha256": "069afb26f3c556f28c3082bdf6be6b193aee30d63942028b033c471a925d6ac8"
+    },
+    "tools/operator_stage.py": {
+      "bytes": 6667,
+      "sha256": "f9c0d1f4d905d1639123c21ee478864a77e9d756b7631c86aa2179dea0d97683"
+    },
+    "tools/patch_operator_flags.py": {
+      "bytes": 2416,
+      "sha256": "4cf8192c10f99f289f2145ba9a075b3a3facb5cfa2a767d1d099103ca6ae6af7"
+    },
+    "tools/proposal.py": {
+      "bytes": 3190,
+      "sha256": "ea8d8658d734ae0d5ac79d9c1839387313283b99a2d0f1f0c731db41f72d716a"
+    },
+    "tools/switch_release.py": {
+      "bytes": 4424,
+      "sha256": "940eea4b1572b792cb2f8865ab66206a6ab7ea1f9cfa1f0cd762b44ca1325a00"
+    },
+    "web.tar.gz": {
+      "bytes": 603620,
+      "sha256": "3e6b5c1b3904132dd7b9374fa89128d9c82e177823da973a9c9256577d4f6751"
+    }
+  },
+  "subject_data_included": false,
+  "credentials_included": false,
+  "activation": "SEPARATE_ORIGINAL_APPROVAL_REQUIRED"
+}

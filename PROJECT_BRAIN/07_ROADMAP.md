@@ -1151,3 +1151,8 @@ First-Life优先收口真实Android连接：客户端配对按钮补丁302，复
 ### 2026-10-28 — Living Release V4 integration checkpoint
 
 V4 source integration: original Memory/World/Concern/C public-source adapter, local readiness/budget gates, per-turn retained experience and native local speech; final image/APK/handoff in progress. Real host, model and human gates remain separate.
+
+
+### 2026-10-28 — Living V4 verified development delivery
+
+V4开发发行已交付完整镜像/Core/Web/APK及四模式Operator；First-Life仍需现场热修复对账、批准切换、合法模型与手机真人评审。继续跨日记忆/自主生活，不以离线通过替代正式生活。

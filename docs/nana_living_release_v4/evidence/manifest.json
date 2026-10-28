@@ -1,0 +1,135 @@
+{
+  "scope": "LIVING_V4_EVIDENCE",
+  "runtime_source": "13ddd484156f8216dabd1d339f0bba696f801dab",
+  "files": {
+    "corrected-targets.xml": {
+      "bytes": 3619,
+      "sha256": "834d0f1196b226e2e746387bad12606f9213e07edbfe5a3c680503cfffc66802"
+    },
+    "dialogue-memory-recovery.xml": {
+      "bytes": 1709,
+      "sha256": "37528e6105cebd486a19b30d2fce161691e8830dccd9e72b6cf27a22f6d1a97b"
+    },
+    "evidence/android-native.xml": {
+      "bytes": 434,
+      "sha256": "be54d9c6ff5d5bdab99f205162e5eb6689b544e51c99dd70ce7c815ff1d06625"
+    },
+    "evidence/apk.json": {
+      "bytes": 475,
+      "sha256": "b3ebd099430dd4a994eca8e042e992a3a44ac8410c134f561a214bcabab99c4a"
+    },
+    "evidence/browser-summary.json": {
+      "bytes": 215,
+      "sha256": "bda2f212a7feafa43d684d873a41c2cdd57e7ccff6cedad500122f4dca3fb544"
+    },
+    "evidence/build.json": {
+      "bytes": 888,
+      "sha256": "b428838755d58a087f7e19e05557b00a3ae11532d5bea27867e6e461e086af25"
+    },
+    "evidence/development-disk-recovery.json": {
+      "bytes": 410,
+      "sha256": "659b483f535e4a7da0e1174e0bb3c7fa51a8cd01c1d7148c24c1b3eecc4423ec"
+    },
+    "evidence/final-installed-abi.json": {
+      "bytes": 1090,
+      "sha256": "abee28a7530820e80c94a858bec93bc39f0c48f80c52e157ab09548675208158"
+    },
+    "evidence/final-lifecycle-error.txt": {
+      "bytes": 883,
+      "sha256": "ca292c96fa6f68014805e527c2cd68748cbae24fdf5b4a10a84fb8963825d1f5"
+    },
+    "evidence/final-lifecycle-verified-error.txt": {
+      "bytes": 1022,
+      "sha256": "d20d9543f488dc39e040d20d0411b3df224b64f64c5c78a11b35fa38122179e1"
+    },
+    "evidence/install-check.json": {
+      "bytes": 956,
+      "sha256": "a070efe22828230b6a5a622cfaefce4e6dc24415c208a3fbb14b1c2536268863"
+    },
+    "evidence/install-corruption-final.json": {
+      "bytes": 988,
+      "sha256": "93b687ed48e6882c183d9a98721c7a8453cdfbf5384269cacd5279ba0ec39ecd"
+    },
+    "evidence/install-dry-run.json": {
+      "bytes": 956,
+      "sha256": "a070efe22828230b6a5a622cfaefce4e6dc24415c208a3fbb14b1c2536268863"
+    },
+    "evidence/install-final.json": {
+      "bytes": 1458,
+      "sha256": "3a4b674a67769275f7a28b2fefa2243df0b8cf3011eb603a2c7e2b324f547592"
+    },
+    "evidence/install-repeat-final.json": {
+      "bytes": 713,
+      "sha256": "a65417c25b737550cc874295fbcce0bfb35043fdb75d4c4c1908fd9be30f14eb"
+    },
+    "evidence/qualified-final-lifecycle-error.txt": {
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    "evidence/qualified-final-lifecycle.json": {
+      "bytes": 1587,
+      "sha256": "0495a0b3784de08ad68a74126459605ca1d9742d04e17e921fea9ece095d99c2"
+    },
+    "evidence/retention-storage.json": {
+      "bytes": 537,
+      "sha256": "3af30d68681090e5b2ff8946a8eb0f48cfbfac1ce734f055eae6c70fc52fd928"
+    },
+    "evidence/safety-scan.json": {
+      "bytes": 399,
+      "sha256": "9ff404c415735820e26ba17a296032f9819af0d19d07af550c6e3584d6329d84"
+    },
+    "evidence/sealed-package.json": {
+      "bytes": 385,
+      "sha256": "6bc0d09a64462fd102f19cba0aa25b21418cf4195a7cef4b8d20648a00487089"
+    },
+    "final-targeted.xml": {
+      "bytes": 22201,
+      "sha256": "8087575be8095291b74a4b5bf45c8fb6852f32aee237af425f0d5d7a6c5ef101"
+    },
+    "first_failures.json": {
+      "bytes": 3970,
+      "sha256": "305c377d83224a9cd1443eb9d052f581214aaa59c9c400fc39f5e4e3142909f1"
+    },
+    "packaging-guards.xml": {
+      "bytes": 848,
+      "sha256": "6574a809384e0ad7ae662d5b511a80549485e68926f240a78aa8468a25c0435b"
+    },
+    "screenshots/desktop-models.png": {
+      "bytes": 353464,
+      "sha256": "c8d31c9e6ce0553e4ffb94dad4af09022a371308505e1ccf24fdb4f78cdd346a"
+    },
+    "screenshots/desktop-v4-chat.png": {
+      "bytes": 134175,
+      "sha256": "1d8a410b22df28d7fb9ab2230a90f76879437642fb8fd38e80691d372a96642c"
+    },
+    "screenshots/phone-360-models.png": {
+      "bytes": 287093,
+      "sha256": "f4c24cdcca6b11390e65a4630d5a894b7adcd47019c08aec66340938bd04bfa8"
+    },
+    "screenshots/phone-360-v4-chat.png": {
+      "bytes": 60113,
+      "sha256": "c5d89c50fa245960b676037a91c1ec7f7f1a5a914067c3880b2b86a2e3ea1f39"
+    },
+    "screenshots/phone-390-models.png": {
+      "bytes": 288037,
+      "sha256": "d799b2971f25397810a84ff0d4813af73eb32bd062d34ebebe51327accfdac63"
+    },
+    "screenshots/phone-390-v4-chat.png": {
+      "bytes": 60290,
+      "sha256": "dbcded28c55bc98389a9fe8200ea6951eb60f28bff523a3f13ea830402fb0121"
+    },
+    "screenshots/phone-412-models.png": {
+      "bytes": 289799,
+      "sha256": "162740fa223b1c65760f9087a504568c9f0f1b80d827e552cc7f3f558408e956"
+    },
+    "screenshots/phone-412-v4-chat.png": {
+      "bytes": 60449,
+      "sha256": "90b875fdb3e0535ae59c0b176cf567c95400085f83b6db95c8505416d0a56660"
+    },
+    "targeted.xml": {
+      "bytes": 22499,
+      "sha256": "42ee8d5cac588aed93692d3bf17f5cc6d66c01769070dbe378c790b11fac8e11"
+    }
+  },
+  "self_included": false
+}

@@ -2802,3 +2802,10 @@ V4 integration checkpoint: fixed actual render provenance, pre-dispatch errors, 
 V4 build correction: first BuildKit FROM used a config digest as a repository reference. Exact local tag is now checked against the same qualified image ID before offline build; no SDK/base substitution. First failure retained.
 
 V4 actual resource correction: failed vfs creates exposed duplicated interpreter copies in each venv. Fresh-image packaging converts only SHA-identical python/python3 aliases to same-venv python3.12 symlinks, saving 191,579,184 file bytes for three releases. New independent seal and actual prefix/ABI tests required; old images/host seals remain unchanged. Only four unreferenced partial DEV clones from this run were cleared.
+
+
+### 2026-10-28 — Living V4 verified development delivery
+
+V4综合交付：148定向/4补充/10对话记忆恢复/44前端/8实际Core浏览器/1原生单测通过。双离线构建相同；Docker安装/重复零变更/刻意缺文件fail closed；DEV实际SIGKILL及B8同ID恢复。保留全部失败。CURRENT摘要修复原DTO引用上限，限定8条，不新增记忆权威。
+
+V4 final operator guard: dispatched version-operation timeout/malformed receipt stays UNKNOWN with original client_request_id and no retry; unverified backup prevents switch. Wrapper preserves password FD0 rather than consuming it as script input. Four targeted packaging guards pass.

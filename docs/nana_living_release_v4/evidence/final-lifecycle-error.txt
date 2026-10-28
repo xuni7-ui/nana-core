@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/nana-unified-release/tools/nana_first_life_unified_release/qualify.py", line 31, in <module>
+    main()
+  File "/workspace/nana-unified-release/tools/nana_first_life_unified_release/qualify.py", line 27, in main
+    print(json.dumps(module.run(a.image, a.work, a.web_sha256), indent=2))
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/nana-unified-release/tools/nana_first_life_android_v2/cloud_docker_probe.py", line 202, in run
+    require(response.status == 200 and b"<html" in html, "LIVE_WEB_NOT_SERVED")
+  File "/workspace/nana-unified-release/tools/nana_first_life_android_v2/cloud_docker_probe.py", line 81, in require
+    raise RuntimeError(code)
+RuntimeError: LIVE_WEB_NOT_SERVED

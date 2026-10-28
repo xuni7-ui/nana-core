@@ -11,6 +11,7 @@ import http.client
 import json
 import socket
 import subprocess
+import shutil
 import time
 from pathlib import Path
 
@@ -20,6 +21,7 @@ SOURCE = "dbfb37ebe5c82edcfba6d50ba4f41a02ab8f358e"
 BUNDLE = "/opt/nana-core/runtime/core-releases/" + SOURCE
 PYTHON = BUNDLE + "/.venv/bin/python"
 PASSWORD = "TEST_ONLY_NOT_SECRET_cloud_docker_probe"
+DEV_COPY_HEADROOM_BYTES = 0
 ORIGIN = "https://space.test"
 SEED = r'''
 import hashlib,json,sys
@@ -82,6 +84,14 @@ def require(value, code):
 
 
 def docker(*args, input=None, check=True, timeout=90):
+    # Some managed DEV daemons use vfs and delete copies asynchronously. Wait
+    # BEFORE create/run, never retry an already dispatched operation or message.
+    if args[0] in {"create", "run"} and DEV_COPY_HEADROOM_BYTES:
+        deadline = time.monotonic() + 30
+        while shutil.disk_usage("/").free < DEV_COPY_HEADROOM_BYTES:
+            if time.monotonic() >= deadline:
+                raise RuntimeError("DEV_VFS_DISK_GUARD_NO_CREATE")
+            time.sleep(.25)
     p = subprocess.run([*DOCKER, *args], input=input, text=True, capture_output=True, timeout=timeout)
     if check and p.returncode:
         raise RuntimeError("DOCKER_" + args[0].upper() + "_FAILED: " + p.stderr[-1000:])
@@ -213,7 +223,7 @@ def run(image, work, web_sha):
         until = time.monotonic() + 11
         while time.monotonic() < until:
             time.sleep(.5)
-        kill_code = "import os,signal;from pathlib import Path;matches=[]\nfor p in Path('/proc').iterdir():\n if not p.name.isdigit() or p.name==str(os.getpid()):continue\n try:a=(p/'cmdline').read_bytes().split(bytes([0]))\n except OSError:continue\n if len(a)>2 and a[2]==b'" + (BUNDLE + "/host_gateway.py") + "':matches.append(int(p.name))\nif len(matches)!=1:raise RuntimeError('OWNED_BFF_NOT_UNIQUE')\nos.kill(matches[0],signal.SIGKILL)"
+        kill_code = "import os,signal;from pathlib import Path;matches=[]\nfor p in Path('/proc').iterdir():\n if not p.name.isdigit() or p.name==str(os.getpid()):continue\n try:a=(p/'cmdline').read_bytes().split(bytes([0]))\n except OSError:continue\n if len(a)>3 and a[1:3]==[b'-I',b'-B'] and a[3]==b'" + (BUNDLE + "/host_gateway.py") + "':matches.append(int(p.name))\nif len(matches)!=1:raise RuntimeError('OWNED_BFF_NOT_UNIQUE')\nos.kill(matches[0],signal.SIGKILL)"
         killed = docker("exec", name, PYTHON, "-I", "-B", "-c", kill_code, check=False)
         require(killed.returncode == 0, "OWNED_BFF_KILL_NOT_CONFIRMED")
         deadline = time.monotonic() + 40

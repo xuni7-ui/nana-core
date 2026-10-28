@@ -1,0 +1,30 @@
+{
+  "source_commit": "13ddd484156f8216dabd1d339f0bba696f801dab",
+  "image_id": "sha256:b5e55b2988135a991c3d9ac46b50e7c5fe9b75ce66335eb38e1429895b5fa54c",
+  "target": "/dev/shm/nana-v4-install-qualified/slots/13ddd484156f8216dabd1d339f0bba696f801dab/runtime",
+  "target_context": "DOCKER_DAEMON_HOST_BIND",
+  "free_bytes": 1962901504,
+  "subject_opened": false,
+  "canonical_home_changed": false,
+  "services_changed": false,
+  "state": "SEALED_SLOT_CONFLICT",
+  "persistent_changes": 0,
+  "idempotent": false,
+  "mismatch_count": 1,
+  "mismatches": [
+    {
+      "path": "core-releases/13ddd484156f8216dabd1d339f0bba696f801dab/src/nana_core/life/presentation.py",
+      "reason": "MISSING",
+      "expected_sha256": "0448f394ea1e82cf93b6fbd35cc978af35d59b7df4b63b73ac1b1c567c153db8",
+      "actual_sha256": null
+    }
+  ],
+  "operator_exit_code": 2,
+  "daemon": {
+    "Version": "28.4.0",
+    "ApiVersion": "1.51",
+    "Os": "linux",
+    "Arch": "amd64"
+  },
+  "paid_provider_calls": 0
+}

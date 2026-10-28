@@ -1,0 +1,18 @@
+{
+  "scope": "OWNED_DEV_NUMERIC_METADATA_ONLY",
+  "subject_id": "63a83dc0-107d-4ae7-8007-81c164008dc7",
+  "measured_at_us": 1793226102001381,
+  "schema_version": 13,
+  "db_bytes": 1081344,
+  "wal_bytes": 795192,
+  "memories": 14,
+  "artifacts": 56,
+  "subject_cycles": 7,
+  "cognitive_requests": 0,
+  "quick_check": "ok",
+  "foreign_key_violations": 0,
+  "formal_subject_storage": "NOT_OBSERVED_NO_SAFE_HOST_BINDING",
+  "growth_rate": "NOT_MEASURED",
+  "cross_days_weeks_real_recall": "NOT_RUN",
+  "private_source_content_read": false
+}

@@ -1,0 +1,14 @@
+{
+  "expected": 8,
+  "unexpected": 0,
+  "flaky": 0,
+  "skipped": 0,
+  "duration_ms": 18346.929,
+  "viewports": [
+    1440,
+    360,
+    390,
+    412
+  ],
+  "source": "ACTUAL_OWNED_DEV_TLS_BFF_CORE_NO_MODEL_CALLS"
+}
