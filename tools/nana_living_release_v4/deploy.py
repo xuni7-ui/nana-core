@@ -117,7 +117,7 @@ def prepare(docker, root, manifest, host_root, mode):
     result["daemon"] = docker.version()
     result["paid_provider_calls"] = 0
     if result["state"] == "RUNTIME_STAGED_VERIFY_REQUIRED" and mode == "install":
-        check = docker.create_check(image, runtime=result["target"])
+        check = docker.create_check(image, runtime=result["target"], core_source=manifest["source_commit"])
         try:
             result["runtime_abi"] = docker.verify_check(check)
         finally:

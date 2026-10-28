@@ -15,7 +15,8 @@ RUN --mount=type=bind,source=.,target=/build,readonly \
  && python3 -I -B /build/unpack.py /build/core.tar.gz --destination "/opt/nana-core/runtime/core-releases/$CORE_SOURCE_COMMIT" --sha256 "$CORE_SHA256" \
  && python3 -I -B /build/extract_web.py /build/web.tar.gz "$WEB_SHA256" \
  && chown -R 999:999 "/opt/nana-core/runtime/core-releases/$CORE_SOURCE_COMMIT" \
- && python3 -B -c "import os,subprocess;os.setgid(999);os.setuid(999);subprocess.run(['/opt/nana-core/runtime/bin/python3','-I','-B','/opt/nana-core/runtime/core-releases/$CORE_SOURCE_COMMIT/bootstrap.py','install'],check=True)"
+ && python3 -B -c "import os,subprocess;os.setgid(999);os.setuid(999);subprocess.run(['/opt/nana-core/runtime/bin/python3','-I','-B','/opt/nana-core/runtime/core-releases/$CORE_SOURCE_COMMIT/bootstrap.py','install'],check=True)" \
+ && python3 -I -B /build/compact_venv.py
 ENV NANA_CORE_RELEASE=/opt/nana-core/runtime/core-releases/${CORE_SOURCE_COMMIT}
 USER 999:999
 CMD ["verify"]

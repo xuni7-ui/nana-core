@@ -2800,3 +2800,5 @@ FL-A完整原报告收到并读取，脱敏source SHA登记，不复制平台个
 V4 integration checkpoint: fixed actual render provenance, pre-dispatch errors, read-only preflight and combined timeout; connected public source to original C with withdrawal; native APK compiles. Related regression found outdated -B argv expectations and retains the first failure. New immutable slot tooling never changes canonical home.
 
 V4 build correction: first BuildKit FROM used a config digest as a repository reference. Exact local tag is now checked against the same qualified image ID before offline build; no SDK/base substitution. First failure retained.
+
+V4 actual resource correction: failed vfs creates exposed duplicated interpreter copies in each venv. Fresh-image packaging converts only SHA-identical python/python3 aliases to same-venv python3.12 symlinks, saving 191,579,184 file bytes for three releases. New independent seal and actual prefix/ABI tests required; old images/host seals remain unchanged. Only four unreferenced partial DEV clones from this run were cleared.

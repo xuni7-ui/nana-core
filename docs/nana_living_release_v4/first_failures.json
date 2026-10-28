@@ -50,6 +50,17 @@
       "phase": "v4-image-build-first",
       "cause": "BuildKit parsed a Docker configuration image ID in FROM as a registry repository, despite the exact image being present locally.",
       "fix": "Use the pre-verified local tag whose configuration ID must exactly match the qualified base; pull=false and network=none remain set. No base was substituted."
+    },
+    {
+      "phase": "final-image-lifecycle-first",
+      "cause": "Caller supplied the previous source timestamp Web archive digest; immutable final Web had a new digest.",
+      "result": "LIVE_WEB_NOT_SERVED; test stopped without claiming success.",
+      "fix": "Read all source/image/Web bindings from the one build.json, then run a fresh owned DEV qualification. No Web validation was relaxed."
+    },
+    {
+      "phase": "parallel-final-container-allocation",
+      "cause": "Local Docker uses vfs: each create duplicates init/root trees. Two simultaneous creates exhausted the 32GiB development disk and left four unreferenced partial clones.",
+      "fix": "Verified no active container and no layerdb reference, then cleared only these four timestamp-bound failed clones. Existing images/evidence/data preserved. Qualify serially; compact byte-identical copied interpreter aliases in the new image under an independent seal, retaining all old releases."
     }
   ],
   "final_related": {

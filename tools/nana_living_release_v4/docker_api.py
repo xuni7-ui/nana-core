@@ -92,7 +92,7 @@ class Docker:
                 "mounts": [{k: m.get(k) for k in ("Type", "Source", "Destination", "RW")} for m in row.get("Mounts", [])],
                 "ports": row.get("NetworkSettings", {}).get("Ports", {})}
 
-    def create_check(self, image, *, runtime=None):
+    def create_check(self, image, *, runtime=None, core_source=None):
         metadata = self.image(image)
         if metadata["user"] != "999:999" or metadata["architecture"] != "amd64" or metadata["os"] != "linux":
             raise DockerError("IMAGE_RUNTIME_CONTRACT_MISMATCH")
@@ -101,10 +101,24 @@ class Docker:
                 "Memory": 256 * 1024 * 1024, "NanoCpus": 1000000000}
         if runtime is not None:
             host["Mounts"] = [{"Type": "bind", "Source": str(runtime), "Target": "/opt/nana-core/runtime", "ReadOnly": True}]
-        row = self.json("POST", "/containers/create", {
+        config = {
             "Image": image, "Cmd": ["verify"], "User": "999:999", "NetworkDisabled": True,
             "HostConfig": host,
-        })
+        }
+        if core_source is not None:
+            if not re.fullmatch(r"[a-f0-9]{40}", core_source):
+                raise DockerError("PINNED_CORE_REQUIRED")
+            root = "/opt/nana-core/runtime/core-releases/" + core_source
+            code = ("import sys,json,runpy,ssl,sqlite3,pydantic;from pathlib import Path;"
+                    "root=Path(sys.argv[1]);runpy.run_path(str(root/'bootstrap.py'))['verify'](root);"
+                    "sys.path.insert(0,str(root/'src'));"
+                    "from nana_core.host_requirements import require_sqlite_runtime;require_sqlite_runtime();"
+                    "\nif sys.prefix!=str(root/'.venv'):raise ValueError('QUALIFIED_INTERPRETER_BINDING_MISMATCH')\n"
+                    "print(json.dumps({'state':'PRIVATE_CORE_COMPATIBLE','python':sys.version.split()[0],"
+                    "'sqlite':sqlite3.sqlite_version,'openssl':ssl.OPENSSL_VERSION,'pydantic':pydantic.__version__,"
+                    "'subject_opened':False,'provider_calls':0}))")
+            config.update(Entrypoint=[root + "/.venv/bin/python", "-I", "-B", "-c", code, root], Cmd=[])
+        row = self.json("POST", "/containers/create", config)
         container = row["Id"]
         self.__temporary.add(container)
         return container
