@@ -7,8 +7,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 49,
-  "as_of_us": 1793144825352472,
+  "revision": 50,
+  "as_of_us": 1793162767342222,
   "stage": "H",
   "workstream": "FIRST_LIFE_UNIFIED_RELEASE",
   "status": "UNIFIED_DEPLOYABLE_DELIVERY_EXTERNAL_HOST_GATES_PENDING",
@@ -20,13 +20,15 @@
     "V3 Web与Android3.0.1 version301已构建，原appId/调试签名/Keystore升级路径保留；前端44、实际Core浏览器4视口、原V2边界3通过。",
     "Core249文件双构建同SHAf87c461f；最终镜像11分片307509301bytes/gzipSHA6974cec5，实际校验并docker load同ID；新8149封条，旧6565封条不改。",
     "CLOUD_DEPLOY_HANDOFF完整自含镜像/Core/Web/APK/新槽位安装/Operator修复/typed host config提案/默认不激活Compose/回退说明；清单anchor 46d009c14f82f23b9448c9d26bc48f71dfd90363007e8c9a469f1c38e6b6b41b",
-    "相关Python62通过，新增工具/部署复核21通过（有重叠）；未刷无关全仓；首次失败记录保留。"
+    "相关Python62通过，新增工具/部署复核21通过（有重叠）；未刷无关全仓；首次失败记录保留。",
+    "S2长期保持度并入原First-Life：复用MemoryService/ContextAssembler/Person-Self/StorageGuard；新增只读owner IPC数字采样工具及保存/检索/准确回忆/无法回忆分层验收，12针对测试通过。原37e6948发行包/镜像/封条未修改。"
   ],
   "open_gates": [
     "真实云端原Operator checker/13项名称与实际入口未取得；修正匹配容器ABI/互斥参数已实测，但原dry-run13/13仍NOT_RUN，不能以合成解析器或ABI代替。",
     "本会话无真实宿主访问；Ubuntu24.04/Docker29现场安装、新槽位/原输入/UID可读性及原checker最终结果由真实host按交接复核。",
     "实体手机tailnet私有HTTPS8443配对、真实Provider/FD绑定、B1真实异机首备/恢复及原单次Genesis/生产激活门仍按原权限，未执行。",
-    "Human Naturalness NOT_RUN，First-Life NOT_READY/BetaNO，私史/旧QQ-Iris-Bili writer切换/生产/设备/社交/新付费0，bwrap仍BLOCKED。"
+    "Human Naturalness NOT_RUN，First-Life NOT_READY/BetaNO，私史/旧QQ-Iris-Bili writer切换/生产/设备/社交/新付费0，bwrap仍BLOCKED。",
+    "S2真实宿主容量增长与真实共同经历跨日/周准确回忆NOT_RUN；DEV合成持久化/检索/虚拟时间和实际SIGKILL机制测试不等于长期陪伴通过。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
@@ -35,7 +37,8 @@
     "docs/nana_first_life_unified_release/FINAL_STATUS.md",
     "docs/nana_first_life_unified_release/evidence/final/qualification.json",
     "CLOUD_DEPLOY_HANDOFF/README.md",
-    "CLOUD_DEPLOY_HANDOFF/SHA256SUMS"
+    "CLOUD_DEPLOY_HANDOFF/SHA256SUMS",
+    "docs/nana_first_life_unified_release/s2/ACCEPTANCE.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2434,3 +2437,5 @@ This records the frontend branch at merge time; it does not supersede the unifie
 以上旧CURRENT块均保留历史；当前以顶部typed header revision49为准。Master/63criteria不变，GLOBAL_STAGE H。新版交接可独立安装，真实host13门/实体手机及原生产门尚待完成；不称First-Life/Beta READY。
 
 Final evidence manifest anchor（self excluded）：3ccdbb58fa6a071594b20b6648defefb3b06e308e68c09beef06a7da967d6997。交接SHA256SUMS anchor46d009c14f82f23b9448c9d26bc48f71dfd90363007e8c9a469f1c38e6b6b41b。
+
+S2 addendum manifest anchor（self excluded）：4d222972c4a00950a135366941edc5e5c97f7d803fa57277472f9672d49265d3。

@@ -1642,3 +1642,9 @@ First-Life继续优先，不改Master/63、既有合法自主能力或现有生�
 SUPERSEDES仅此前Core-only部署指引，不覆写历史资格：发布唯一最终Core3665+V3；Genesis检查与Core使用相同Debian匹配库/私有前缀，在container执行，host标准库adapter不加载私有_ssl。原checker及批准参数保留，互斥flag最小修复，不发明13门。新slot/8149封条与原runtime/6565并存；host config只输出新提案且保留身份/lineage/角色/原审批；默认Compose不激活。角色/UI配置不产生模型付费权限，UNKNOWN不重发。Master/Matrix及C/D/Store/Loop不变。
 
 证据：docs/nana_first_life_unified_release/evidence/final/qualification.json；交接：CLOUD_DEPLOY_HANDOFF/README.md。
+
+
+### S2 长期保持度并入 First-Life · 2026-10-28
+
+保存≠检索≠准确回忆；未开展评审≠无法回忆。重要共同经历需原合法保留路径的真实来源及以后实际影响。采样不读正文、不checkpoint/修剪/建Store/开第二Runtime；物理WAL收缩不等于遗忘。虚拟时间/离线测试不冒充长期陪伴，原固定发行物不为本验收增项重建。
+证据：docs/nana_first_life_unified_release/s2/；工具：tools/nana_first_life_unified_release/memory_retention.py。

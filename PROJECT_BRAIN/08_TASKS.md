@@ -1193,3 +1193,9 @@ main/R045/production/private/device/social/paidProvider0。报告与证据：doc
 [已实现/已测试/已运行隔离验收] 完整V3 merge、原DTO/native两有限操作、配置角色/CAS/真实回执、最终镜像/提取封条/新槽位/ABI/typed config提案/完整handoff/可安装APK。外部未验收：原host checker13/13、真实host/手机、正式Genesis/激活/B1/模型/真人。详见FINAL_STATUS，不以新设计或重复全回归替代交付。
 
 证据：docs/nana_first_life_unified_release/evidence/final/qualification.json；交接：CLOUD_DEPLOY_HANDOFF/README.md。
+
+
+### S2 长期保持度并入 First-Life · 2026-10-28
+
+已实现：原owner IPC storage数字采样及同identity/lineage双样本净增长，输出host-local元数据；容量保护/停止跨重启/Person-Self/SIGKILL/检索针对12项已测。待真实host：实际占用/增长/guard、重要共同经历持久化及真实跨日/周回忆/人工核验；本会话无host访问/新增付费或私史授权，相关项NOT_RUN。
+证据：docs/nana_first_life_unified_release/s2/；工具：tools/nana_first_life_unified_release/memory_retention.py。

@@ -1118,3 +1118,9 @@ main/R045/production/private/device/social/paidProvider0。报告与证据：doc
 同一Unified Release已完成V3整合与自含可部署交接；不再另开新版镜像/兼容性任务。下一真实动作是host落地并用原checker验证13项、手机私有HTTPS，再走原Genesis/激活/B1批准门。没有新的Domain、Foundation或真人自然度升级。
 
 证据：docs/nana_first_life_unified_release/evidence/final/qualification.json；交接：CLOUD_DEPLOY_HANDOFF/README.md。
+
+
+### S2 长期保持度并入 First-Life · 2026-10-28
+
+S2长期保持度作为现有First-Life部署/体验项，复用四个既有组件，不开第二记忆或独立主线，不改63criteria。随实际重启/跨日回访分层核已保存、已检索、准确回忆、无法回忆，真实生活证据未齐不升级First-Life。
+证据：docs/nana_first_life_unified_release/s2/；工具：tools/nana_first_life_unified_release/memory_retention.py。

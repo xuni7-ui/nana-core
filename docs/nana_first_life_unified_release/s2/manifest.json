@@ -1,0 +1,12 @@
+{
+  "scope": "S2 addendum; original release seal unchanged; self excluded",
+  "files": {
+    "dev-observation.json": "970bdb0e518703c0f6a74d10697bd023c6b8c46e40e66510b1d8c49a408da251",
+    "ACCEPTANCE.md": "af73c4e137ef26318def42894cbf9934540e90515219e4c768f1828bad5624a0",
+    "targeted.txt": "c33a7a96f1ab9c96c17d284b75cbc269f994134e95e9f31319114cc720525005",
+    "first-attempt.json": "a01c08bbd6de3e36380760e8a1d38774e83fd53351fff8bf5e474284ca4f5b34"
+  },
+  "provider_calls": 0,
+  "real_host": "NOT_RUN",
+  "real_human_long_term": "NOT_RUN"
+}

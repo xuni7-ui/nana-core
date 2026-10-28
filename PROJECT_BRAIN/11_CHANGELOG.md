@@ -2763,3 +2763,9 @@ FL-A完整原报告收到并读取，脱敏source SHA登记，不复制平台个
 改动：合入ea1e225完整前端；接原配置命令/备份投影与有限native；补容器ABI检查/原Operator最小argv评审补丁、新槽位原子安装/host config提案/完整交接与APK。原因：消除宿主OpenSSL3.0误加载Debian_ssl、新旧runtime遮挡及V3真实接口缺口。验证：最终镜像/提取runtime ABI；DEV同ID crash/recreate/备份B8/fence/撤Grant；62相关+21部署复核（重叠），44前端单元、4实际Core视口、3原V2边界、APK原生1与签名。保留磁盘/归档前缀/离线Gradle/严格DTO JSON/夹具权限首次失败，无弱化断言。全仓未重复；13门/手机/production/模型/真人未运行。
 
 证据：docs/nana_first_life_unified_release/evidence/final/qualification.json；交接：CLOUD_DEPLOY_HANDOFF/README.md。
+
+
+### S2 长期保持度并入 First-Life · 2026-10-28
+
+补S2验收流程/只读容量采样工具（原control.sock storage/profile、StorageGuard窗口、原identity metadata），不变更Core运行代码。12针对测试3.06s通过；独立DEV重开/虚拟24h保存、候选检索、最终context入选、已采用Person-Self约定保持；真实跨日/模型措辞/真人回忆NOT_RUN。首个开发探针因继承旧repo PYTHONPATH在取样前失败，明确绑定当前源码后使用新DEV目录验证，保留失败记录。无Provider/private/social/production操作，原镜像/APK/SHA不变。
+证据：docs/nana_first_life_unified_release/s2/；工具：tools/nana_first_life_unified_release/memory_retention.py。

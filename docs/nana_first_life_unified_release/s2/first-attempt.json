@@ -1,0 +1,1 @@
+{"result": "FAILED_BEFORE_MEASUREMENT", "cause": "Qualification shell inherited older repo PYTHONPATH; live_api absent there", "fix": "Explicit current source binding; fresh DEV home; production CLI already requires --core-root", "provider_calls": 0}

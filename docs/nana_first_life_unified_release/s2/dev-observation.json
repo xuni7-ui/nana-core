@@ -1,0 +1,107 @@
+{
+  "scope": "OWNED_SYNTHETIC_PERSON_SELF_CONVENTION_NOT_REAL_SHARED_LIFE",
+  "before": {
+    "saved": true,
+    "candidate_retrieved": true,
+    "context_selected": true,
+    "person_self_convention_present": true,
+    "accurate_human_recall": "NOT_RUN",
+    "unable_to_recall": "NOT_OBSERVED_NO_HUMAN_TRIAL",
+    "numeric": {
+      "schema_version": 1,
+      "kind": "HOST_LOCAL_NUMERIC_EVIDENCE_NOT_SUBJECT_MEMORY",
+      "subject_binding": {
+        "identity_id": "36d33cc4-1229-48bb-a85a-43a8b1ccbe36",
+        "lineage_binding": "b18dccb0783e134d66dab4f0780ea8a023306d34086743cf11272c86167c4801"
+      },
+      "observed_at_us": 1793162703802491,
+      "storage": {
+        "logical_database_bytes": 724992,
+        "reusable_page_bytes": 0,
+        "privacy_anchor_bytes": 165,
+        "family_bytes": 1767357,
+        "physical_file_bytes": {
+          "database": 724992,
+          "-wal": 1009432,
+          "-shm": 32768,
+          ".privacy.json": 165
+        }
+      },
+      "guard_status": "OBSERVING",
+      "limits": {
+        "max_state_mb": 256,
+        "max_state_growth_mb_per_hour": 32,
+        "min_free_disk_mb": 64,
+        "storage_growth_grace_seconds": 600,
+        "storage_growth_window_seconds": 600
+      },
+      "free_disk_bytes": 2377424896,
+      "accurate_recall": "NOT_RUN",
+      "human_long_term_companionship": "NOT_RUN",
+      "automatic_pruning": false,
+      "provider_calls": 0
+    }
+  },
+  "after_reopen": {
+    "saved": true,
+    "candidate_retrieved": true,
+    "context_selected": true,
+    "person_self_convention_present": true,
+    "accurate_human_recall": "NOT_RUN",
+    "unable_to_recall": "NOT_OBSERVED_NO_HUMAN_TRIAL",
+    "numeric": {
+      "schema_version": 1,
+      "kind": "HOST_LOCAL_NUMERIC_EVIDENCE_NOT_SUBJECT_MEMORY",
+      "subject_binding": {
+        "identity_id": "36d33cc4-1229-48bb-a85a-43a8b1ccbe36",
+        "lineage_binding": "b18dccb0783e134d66dab4f0780ea8a023306d34086743cf11272c86167c4801"
+      },
+      "observed_at_us": 1793162703823060,
+      "storage": {
+        "logical_database_bytes": 724992,
+        "reusable_page_bytes": 0,
+        "privacy_anchor_bytes": 165,
+        "family_bytes": 766197,
+        "physical_file_bytes": {
+          "database": 724992,
+          "-wal": 8272,
+          "-shm": 32768,
+          ".privacy.json": 165
+        }
+      },
+      "guard_status": "OBSERVING",
+      "limits": {
+        "max_state_mb": 256,
+        "max_state_growth_mb_per_hour": 32,
+        "min_free_disk_mb": 64,
+        "storage_growth_grace_seconds": 600,
+        "storage_growth_window_seconds": 600
+      },
+      "free_disk_bytes": 2378424320,
+      "accurate_recall": "NOT_RUN",
+      "human_long_term_companionship": "NOT_RUN",
+      "automatic_pruning": false,
+      "provider_calls": 0
+    }
+  },
+  "growth": {
+    "elapsed_us": 20569,
+    "basis": "TWO_REAL_OBSERVATIONS_NOT_FORECAST",
+    "logical_database_bytes": {
+      "net_delta_bytes": 0,
+      "net_bytes_per_hour": 0.0
+    },
+    "privacy_anchor_bytes": {
+      "net_delta_bytes": 0,
+      "net_bytes_per_hour": 0.0
+    },
+    "family_bytes": {
+      "net_delta_bytes": -1001160,
+      "net_bytes_per_hour": -175223686129.61252
+    }
+  },
+  "virtual_interval_us": 86400000000,
+  "real_cross_day_qualification": "NOT_RUN",
+  "provider_calls": 0,
+  "private_data_used": false
+}
