@@ -2783,3 +2783,8 @@ FL-A完整原报告收到并读取，脱敏source SHA登记，不复制平台个
 
 新增issue_pairing.py（原BFF认证/CSRF签发、43格式核验、TTY显示、无凭据持久化/重试）及只读部署源码核查命令。原HTTP实际43签发→19拒绝→配对→native会话→撤销8测试通过。前端/native/BFF业务源码及APK均未修改；19来源未取证，不冒称生产修复。
 证据：docs/nana_first_life_unified_release/pairing-protocol/。
+
+
+### Living Release V4 — unified continuation / 2026-10-28
+
+[用户完整任务/源码核对，H Advanced] 从本地远端77a09e2一致、干净工作树创建dev/nana-core-living-release-v4-codex，继承9217/7a1b/ea1e225/3665及302配对修复。统一V4不重复造Core，任务快照及真实缺口见docs/nana_living_release_v4/。Master/63标准和历史资格不改。30845fb未在仓库取得、无真实宿主访问，用户报告正式Genesis/现场状态不以旧文档否定。后续以原C/D/Memory/Provider接线及实际发行安装为主，不以审计替代施工；私史/付费/外发/正式切换单独授权，bwrap仍BLOCKED，First-Life/Beta不预先升级。
