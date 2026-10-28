@@ -1654,3 +1654,9 @@ SUPERSEDES仅此前Core-only部署指引，不覆写历史资格：发布唯一�
 
 配对协议的24–128长度及原生/服务端检查不放宽。去掉按钮的无提示内容禁用，改为点击后的明确四字段错误；trim边界空白，提交中禁用防重复，保留UNKNOWN不重放/Keystore/身份检查。
 证据：docs/nana_first_life_unified_release/pairing-fix/qualification.json。
+
+
+### 配对协议一致性紧急核验 · 2026-10-28
+
+配对码须由同一运行BFF登记，外部随机生成或padding均无效。保持256bit CSPRNG/TTL/单次/手机名称/角色/CSRF/Keystore，签发不做blind retry。原代码一致时不为兼容19码改安全合同/正式Subject或Genesis。
+证据：docs/nana_first_life_unified_release/pairing-protocol/。

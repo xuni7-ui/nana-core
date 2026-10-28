@@ -1130,3 +1130,9 @@ S2长期保持度作为现有First-Life部署/体验项，复用四个既有组�
 
 First-Life优先收口真实Android连接：客户端配对按钮补丁302，复用原后端/配对/身份，不重做Genesis、不重建Core镜像。
 证据：docs/nana_first_life_unified_release/pairing-fix/qualification.json。
+
+
+### 配对协议一致性紧急核验 · 2026-10-28
+
+当前配对闭环优先修签发路径，不为19字符错误码降低客户端门槛或再装APK；不扩展其他功能。
+证据：docs/nana_first_life_unified_release/pairing-protocol/。

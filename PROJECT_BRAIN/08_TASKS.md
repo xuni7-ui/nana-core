@@ -1205,3 +1205,9 @@ main/R045/production/private/device/social/paidProvider0。报告与证据：doc
 
 Android3.0.2已构建并保持原签名；手机视口native bridge fixture完成合法提交、输入不足提示、网络失败提示、配对成功进入聊天。真实手机/host配对未执行；不收集用户配对码。
 证据：docs/nana_first_life_unified_release/pairing-fix/qualification.json。
+
+
+### 配对协议一致性紧急核验 · 2026-10-28
+
+已核原32bytes→43chars及三端24–128一致，原HTTP配对/session/revoke闭环8测试通过；交付官方签发wrapper与只读核查命令。真实云端19来源未知/未访问，需现场改用原BFF签发并核手机结果。
+证据：docs/nana_first_life_unified_release/pairing-protocol/。

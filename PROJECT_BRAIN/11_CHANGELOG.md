@@ -2777,3 +2777,9 @@ FL-A完整原报告收到并读取，脱敏source SHA登记，不复制平台个
 证据：docs/nana_first_life_unified_release/pairing-fix/qualification.json。
 
 配对补丁交付跟进：稀疏工作树排除了artifacts目录；显式--sparse纳入已构建同SHA APK，不改二进制/协议/版本；编译日志仅清理行尾空格。
+
+
+### 配对协议一致性紧急核验 · 2026-10-28
+
+新增issue_pairing.py（原BFF认证/CSRF签发、43格式核验、TTY显示、无凭据持久化/重试）及只读部署源码核查命令。原HTTP实际43签发→19拒绝→配对→native会话→撤销8测试通过。前端/native/BFF业务源码及APK均未修改；19来源未取证，不冒称生产修复。
+证据：docs/nana_first_life_unified_release/pairing-protocol/。

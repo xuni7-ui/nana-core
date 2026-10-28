@@ -1,0 +1,36 @@
+{
+  "scope": "ORIGINAL_BFF_ACTUAL_HTTP_OWNED_DEV_NOT_PRODUCTION",
+  "official_random_bytes": 32,
+  "official_output_chars": 43,
+  "format": "unpadded URL-safe [A-Za-z0-9_-]",
+  "client_frontend_min_max": [
+    24,
+    128
+  ],
+  "android_native_min_max": [
+    24,
+    128
+  ],
+  "bff_pair_request_min_max": [
+    24,
+    128
+  ],
+  "cloud_19_code_source": "UNKNOWN_USER_HAS_NO_TOOL_METADATA",
+  "fix": "route issuance through running original BFF devices/offers; never locally generate or pad; endpoint check before credentials; trusted terminal-only display",
+  "actual_http_flow": [
+    "official43-issued",
+    "synthetic19-input-rejected400",
+    "registered43-paired200",
+    "repeat403",
+    "native-session200",
+    "bootstrap200",
+    "revoke200",
+    "bootstrap401"
+  ],
+  "apk_update_required": false,
+  "core_or_subject_modified": false,
+  "real_host_access": false,
+  "real_pairing_code_collected": false,
+  "real_cloud_pairing": "NOT_RUN",
+  "tests": "8 passed in 1.92s"
+}
