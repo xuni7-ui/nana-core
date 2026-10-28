@@ -2809,3 +2809,5 @@ V4 actual resource correction: failed vfs creates exposed duplicated interpreter
 V4综合交付：148定向/4补充/10对话记忆恢复/44前端/8实际Core浏览器/1原生单测通过。双离线构建相同；Docker安装/重复零变更/刻意缺文件fail closed；DEV实际SIGKILL及B8同ID恢复。保留全部失败。CURRENT摘要修复原DTO引用上限，限定8条，不新增记忆权威。
 
 V4 final operator guard: dispatched version-operation timeout/malformed receipt stays UNKNOWN with original client_request_id and no retry; unverified backup prevents switch. Wrapper preserves password FD0 rather than consuming it as script input. Four targeted packaging guards pass.
+
+V4 delivery audit: repository build/ ignore rule omitted six explicitly reviewed build inputs from the first delivery commit. Force-included only those six public recipe files; package already contained them. Added precise host live-startup opt-in prerequisite before native credential input; runtime source/image unchanged.

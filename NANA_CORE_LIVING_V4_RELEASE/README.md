@@ -95,6 +95,12 @@ durable secure host-vault integration is not implemented or claimed. No model ca
 is authorized by configuring a key or route. Defaults and mission total ceilings
 remain unchanged. Readiness is a local gate check, not paid HTTP qualification.
 
+Before asking for a credential, the authorized Host Operator must have selected
+`serve --live-provider-authorized` with the original approved route/privacy/budget.
+Without that startup opt-in, a parent-memory binding cannot reach the Core child
+and readiness stays `RUNTIME_PROVIDER_UNBOUND`. Set the approved startup mode
+before input; restarting the BFF afterwards clears its memory-only binding.
+
 ASR uses Android31+ on-device recognition only, if installed, and explicit mic
 permission. Text remains a draft until Send. TTS chooses a local Chinese voice;
 missing local service is unavailable, never an implicit paid/cloud fallback.
