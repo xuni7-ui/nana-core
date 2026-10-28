@@ -8,6 +8,7 @@ import androidx.activity.OnBackPressedCallback;
 public class MainActivity extends BridgeActivity {
     @Override public void onCreate(Bundle savedInstanceState) {
         registerPlugin(NanaHostPlugin.class);
+        registerPlugin(NanaSpeechPlugin.class);
         super.onCreate(savedInstanceState);
         getWindow().setSoftInputMode(android.view.WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE);
         if (bridge != null) {

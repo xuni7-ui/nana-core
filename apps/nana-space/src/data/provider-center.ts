@@ -162,6 +162,8 @@ export interface ProviderView {
   privacy: string[];
   timeoutMs?: number;
   costCeiling?: number;
+  revision?: number;
+  locality?: string;
 }
 export interface ModelView {
   id: string;
@@ -272,6 +274,8 @@ export function readProviderSettings(value: unknown): ProviderSettingsView {
       protocol: string(row.protocol, 48),
       baseUrl: safeProviderUrl(row.base_url),
       enabled: row.enabled === true,
+      revision: number(row.revision),
+      locality: string(row.locality, 32),
       secretState: ["AVAILABLE", "MISSING", "UNCONFIGURED"].includes(
         String(row.secret_state),
       )

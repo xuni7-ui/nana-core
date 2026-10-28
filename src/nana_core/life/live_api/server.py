@@ -355,6 +355,9 @@ class Handler(BaseHTTPRequestHandler):
         if route == "providers/commands":
             from .provider_settings import ProviderConfigurationRequest, configure
             value = configure(service, principal, self._model(ProviderConfigurationRequest, body))
+        elif route == "providers/credential":
+            from .provider_settings import CredentialBindingRequest, bind_credential
+            value = bind_credential(service, principal, self._model(CredentialBindingRequest, body))
         elif route == "messages":
             value = service.send(principal, self._model(MessageRequest, body))
         elif route in {"commands", "privacy/withdrawal"}:

@@ -26,6 +26,10 @@ def dispatch(app, request):
     if type(request) is not dict:
         raise CoreError("CLOUD_TYPED_REQUEST_REQUIRED")
     op = request.get("operation")
+    if op == "provider-readiness" and set(request) == {"operation", "privacy"}:
+        if request["privacy"] not in {"PUBLIC", "PROJECT"}:
+            raise CoreError("PRIVACY_DENIED")
+        return app.provider_readiness(privacy=request["privacy"])
     mutating = op in {"surface", "backup", "self-profile", "language-feedback", "review-expression-learning"} or (
         op == "control" and request.get("command") == "resume"
     )
@@ -34,6 +38,11 @@ def dispatch(app, request):
     if op == "surface" and set(request) == {"operation", "observation"}:
         return app.surfaces.receive(SurfaceObservation.model_validate_json(json.dumps(request["observation"])))
     if op == "view" and set(request) == {"operation", "view"}:
+        if request["view"] == "provider-settings":
+            from .readiness import provider_settings
+            return provider_settings(app)
+        if request["view"] == "provider-readiness":
+            return app.provider_readiness()
         if request["view"] == "life":
             return app.board()
         if request["view"] == "status":

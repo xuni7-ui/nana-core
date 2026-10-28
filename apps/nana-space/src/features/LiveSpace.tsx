@@ -478,6 +478,8 @@ export function LiveSpace() {
           ? {
               ...x,
               state: text(d.state),
+              error: typeof d.error === "string" ? d.error : undefined,
+              remembered: result.raw_body_persisted === true,
               reply: typeof result.text === "string" ? result.text : undefined,
               provider:
                 typeof result.provider_state === "string"
@@ -489,7 +491,7 @@ export function LiveSpace() {
     );
     setReceipt(d);
   };
-  const send = async () => {
+  const send = async (retain = false) => {
     if (busy || !draft.trim()) return;
     const input = draft.trim();
     const version = sessionVersion.current,
@@ -506,6 +508,8 @@ export function LiveSpace() {
         topic: "daily",
         thread_id: "nana-space",
         privacy_class: "PROJECT",
+        require_model: b.capabilities.provider_readiness === true,
+        ...(b.capabilities.shared_life_retention === true ? { retain_shared_life: retain } : {}),
       });
       if (
         version !== sessionVersion.current ||
@@ -591,6 +595,25 @@ export function LiveSpace() {
       });
       if (version !== sessionVersion.current) return;
       setReceipt(object(r.data));
+      await refresh();
+    } catch (e) {
+      if (version === sessionVersion.current) fail(e);
+    } finally {
+      if (version === sessionVersion.current) setBusy(false);
+    }
+  };
+  const bindProvider = async (providerId: string, revision: number) => {
+    if (busy) return;
+    const version = sessionVersion.current;
+    setBusy(true);
+    try {
+      const b = await fresh();
+      const r = await client.current.bindProviderCredential({
+        ...writeBase(b), provider_profile_id: providerId, profile_revision: revision,
+      });
+      if (version !== sessionVersion.current) return;
+      if (object(r.data).state !== "BOUND_IN_HOST_MEMORY") throw new V2Error("SECRET_BINDING_UNCONFIRMED");
+      setNotice("凭据已安全绑定到服务器内存。请在管理页确认重启以应用；此操作没有调用模型。服务器重启后需要重新绑定。");
       await refresh();
     } catch (e) {
       if (version === sessionVersion.current) fail(e);
@@ -1164,7 +1187,10 @@ export function LiveSpace() {
                 onDraft={setDraft}
                 busy={busy}
                 allowed={conversation}
-                send={() => void send()}
+                send={(retain) => void send(retain)}
+                readiness={bootstrap ? text(object(object(bootstrap.data).provider || {}).readiness && object(object(object(bootstrap.data).provider).readiness).state) : undefined}
+                configure={() => go("models")}
+                canRemember={bootstrap?.capabilities.shared_life_retention === true}
                 verify={(id) => void verify(id)}
                 notice={notify}
               />
@@ -1193,6 +1219,7 @@ export function LiveSpace() {
                 }
                 busy={busy}
                 onApply={applyProvider}
+                onBindCredential={admin && isNative() && bootstrap?.capabilities.native_secret_binding === true ? bindProvider : undefined}
               />
             )}
             {page === "backup" && (

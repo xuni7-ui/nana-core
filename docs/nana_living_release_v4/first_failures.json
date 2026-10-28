@@ -1,0 +1,37 @@
+{
+  "evidence_level": "DEVELOPMENT_TEST_FAILURE_HISTORY",
+  "failures": [
+    {
+      "phase": "readiness-initial",
+      "result": "2 failed, 18 passed / 8.00s",
+      "causes": [
+        "test profile id omitted existing namespace prefix",
+        "test helper attempted to open a runtime-managed Store without original owner"
+      ],
+      "fix": "Correct fixture IDs; use original LifeApplication owner."
+    },
+    {
+      "phase": "budget-fixture",
+      "result": "1 failed, 19 passed / 7.58s",
+      "cause": "DEV fixture correctly supplied zero authorized hourly budget",
+      "fix": "Explicit synthetic fixture ceilings; no production budget changed."
+    },
+    {
+      "phase": "memory-secret-fd",
+      "result": "2 failed, 21 passed / 9.82s",
+      "causes": [
+        "qualified CPython omits F_ADD_SEALS names despite Linux kernel support",
+        "test accessed non-public config path with wrong name"
+      ],
+      "fix": "Use stable Linux uapi seal constants; correct explicit test path."
+    }
+  ],
+  "final_related": {
+    "passed": 117,
+    "failed": 0,
+    "seconds": 21.81,
+    "full_repository": "NOT_REPEATED",
+    "scope": "living_release_v4/provider_routing/first_life_android_v2/real_living_integration/unified_release"
+  },
+  "real_provider_calls": 0
+}

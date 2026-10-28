@@ -82,8 +82,11 @@ def main():
     if operation == ["verify"]:
         print(json.dumps(value))
         return 0 if value["state"] == "PRIVATE_RUNTIME_COMPATIBLE" else 2
-    password_stdin = operation == ["serve", "--password-fd", "0"]
-    if operation != ["serve"] and not password_stdin:
+    allowed = {("serve",), ("serve", "--password-fd", "0"),
+               ("serve", "--live-provider-authorized"),
+               ("serve", "--password-fd", "0", "--live-provider-authorized")}
+    password_stdin = "--password-fd" in operation
+    if tuple(operation) not in allowed:
         print(json.dumps({"state": "OPERATION_DENIED"}))
         return 2
     if password_stdin and os.isatty(0):
@@ -110,6 +113,10 @@ def main():
         # The original gateway alone reads its bounded password from stdin.
         # The infrastructure relay never reads or persists credential bytes.
         command.extend(["--password-fd", "0"])
+    if "--live-provider-authorized" in operation:
+        # Separate operator opt-in; credentials arrive later via the explicit
+        # native/admin memory resolver. LifeConfig/route/budget remain binding.
+        command.append("--live-provider-authorized")
     os.execv(sys.executable, [sys.executable, "-I", str(Path(__file__).with_name("loopback_relay.py")), *command])
 
 

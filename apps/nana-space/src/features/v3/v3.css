@@ -1,4 +1,39 @@
 /* V3 is a surface. V2 remains the authority and credential transport boundary. */
+.v4-readiness {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  padding: 12px 18px;
+  background: var(--v3-soft);
+  border-block: 1px solid var(--v3-line);
+  color: var(--v3-muted);
+  font-size: 12px;
+}
+.v4-readiness button {
+  flex-shrink: 0;
+  min-height: 44px;
+  background: transparent;
+  border: 0;
+  color: var(--v3-accent);
+}
+.v3-space label.v4-remember {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin: 10px 0 4px;
+  flex-wrap: wrap;
+}
+.v4-remember small { font-size: 11px; }
+.v4-room-avatar { position: relative; z-index: 1; filter: drop-shadow(0 16px 32px #16152d66); }
+.v4-living-tone { display: flex; justify-content: space-between; gap: 20px; align-items: center; margin-bottom: 20px; }
+.v4-living-tone p { max-width: 540px; font-size: 12px; }
+.v4-living-tone details { min-width: 0; max-width: 38%; }
+@media (max-width: 600px) {
+  .v4-readiness { align-items: flex-start; }
+  .v4-living-tone { align-items: flex-start; flex-direction: column; gap: 8px; }
+  .v4-living-tone details { max-width: 100%; }
+}
 .v3-space {
   --v3-bg: #101322;
   --v3-card: #1b1e30;

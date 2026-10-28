@@ -32,6 +32,7 @@ export const livePages: LivePage[] = [
   "settings",
 ];
 interface NativePort {
+  bindProviderCredential(options: { data: Record<string, unknown> }): Promise<unknown>;
   status(): Promise<{
     paired: boolean;
     base?: string;
@@ -162,7 +163,7 @@ export class V2Client {
             : {}),
         },
         body: body === undefined ? undefined : JSON.stringify(body),
-        signal: AbortSignal.timeout(method === "GET" ? 10000 : 22000),
+        signal: AbortSignal.timeout(path === "messages" ? 35000 : method === "GET" ? 10000 : 22000),
       });
     } catch {
       throw new V2Error(
@@ -304,6 +305,13 @@ export class V2Client {
         ? await this.nativeCall({ operation: "receipt", data: { id } })
         : await this.request("receipts/" + id),
     );
+  }
+  async bindProviderCredential(data: Record<string, unknown>): Promise<Envelope> {
+    if (!isNative()) throw new V2Error("NATIVE_SECRET_INPUT_REQUIRED");
+    const incarnation = this.incarnation;
+    const result = await nativePort.bindProviderCredential({ data });
+    if (incarnation !== this.incarnation) throw new V2Error("SESSION_REVOKED");
+    return this.accept(result);
   }
   async confirm(body: HostConfirmation): Promise<string> {
     const result = this.accept(

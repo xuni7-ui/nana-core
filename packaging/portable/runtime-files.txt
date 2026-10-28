@@ -157,6 +157,8 @@ src/nana_core/life/owned_surface.py
 src/nana_core/life/portable_runtime.py
 src/nana_core/life/presentation.py
 src/nana_core/life/provider.py
+src/nana_core/life/readiness.py
+src/nana_core/life/secret_binding.py
 src/nana_core/life/review.py
 src/nana_core/life/shared.py
 src/nana_core/life/skills.py

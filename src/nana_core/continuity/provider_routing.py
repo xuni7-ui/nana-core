@@ -90,30 +90,13 @@ class RuntimeProviderFactory:
             return "MISSING"
 
     def create(self, provider, model, operation):
+        self.available(provider, model, operation)
         if provider.protocol == "LOCAL":
-            try:
-                d, port = self.registry._resolve(model.model_profile_id, operation)
-            except CoreError:
-                raise CoreError("PRE_DISPATCH_UNAVAILABLE") from None
-            if d != model.descriptor(provider):
-                raise CoreError("PRE_DISPATCH_UNAVAILABLE")
-            return port
-        if provider.protocol not in {"OPENAI_COMPATIBLE_CHAT", "SYNTHETIC_LOOPBACK"}:
-            raise CoreError("PROVIDER_PROTOCOL_UNAVAILABLE")
-        if operation not in {"COGNITION", "VISION", "AUDIO_UNDERSTAND", "VIDEO_UNDERSTAND"}:
-            raise CoreError("OPERATION_UNSUPPORTED")
+            return self.registry._resolve(model.model_profile_id, operation)[1]
         harness = provider.protocol == "SYNTHETIC_LOOPBACK"
-        if harness and not self.policy.allow_synthetic_loopback:
-            raise CoreError("PRE_DISPATCH_UNAVAILABLE")
-        if not harness and (
-            not self.policy.allow_remote or urlsplit(provider.base_url).hostname not in self.policy.allowed_remote_hosts
-        ):
-            raise CoreError("PRE_DISPATCH_UNAVAILABLE")
         credential = None
         secret = None
         if not harness:
-            if self.secret_state(provider) != "AVAILABLE":
-                raise CoreError("SECRET_UNAVAILABLE")
             try:
                 secret = self.__resolver.resolve(provider.secret_ref)
                 if type(secret) is not ResolvedSecret:
@@ -135,7 +118,6 @@ class RuntimeProviderFactory:
                     endpoint, model.remote_model_id, thinking_mode=provider.chat_thinking_mode, **kw
                 )
             modality = {"VISION": "IMAGE", "AUDIO_UNDERSTAND": "AUDIO", "VIDEO_UNDERSTAND": "VIDEO"}[operation]
-            # ASR is a separate configured port; no implicit ASR claim here.
             descriptor = SemanticDescriptor(
                 provider_id=provider.provider_profile_id,
                 model_id=model.remote_model_id,
@@ -148,6 +130,35 @@ class RuntimeProviderFactory:
             if secret:
                 secret.clear()
             credential = None
+
+    def available(self, provider, model, operation):
+        """Check construction gates without resolving a secret or dispatching.
+
+        This is local readiness, never provider authentication/HTTP qualification.
+        Both route inspection and actual construction use the same gates.
+        """
+        if provider.protocol == "LOCAL":
+            try:
+                d, port = self.registry._resolve(model.model_profile_id, operation)
+            except CoreError:
+                raise CoreError("PRE_DISPATCH_UNAVAILABLE") from None
+            if d != model.descriptor(provider):
+                raise CoreError("PRE_DISPATCH_UNAVAILABLE")
+            return
+        if provider.protocol not in {"OPENAI_COMPATIBLE_CHAT", "SYNTHETIC_LOOPBACK"}:
+            raise CoreError("PROVIDER_PROTOCOL_UNAVAILABLE")
+        if operation not in {"COGNITION", "VISION", "AUDIO_UNDERSTAND", "VIDEO_UNDERSTAND"}:
+            raise CoreError("OPERATION_UNSUPPORTED")
+        harness = provider.protocol == "SYNTHETIC_LOOPBACK"
+        if harness and not self.policy.allow_synthetic_loopback:
+            raise CoreError("PRE_DISPATCH_UNAVAILABLE")
+        if not harness and (
+            not self.policy.allow_remote or urlsplit(provider.base_url).hostname not in self.policy.allowed_remote_hosts
+        ):
+            raise CoreError("PRE_DISPATCH_UNAVAILABLE")
+        if not harness:
+            if self.secret_state(provider) != "AVAILABLE":
+                raise CoreError("SECRET_UNAVAILABLE")
 
 
 @dataclass(repr=False)
@@ -231,6 +242,13 @@ class CapabilityRouter:
             return False
 
     def resolve(self, request: RouteRequest, context_policy):
+        return self._resolve(request, context_policy, construct=True)
+
+    def inspect(self, request: RouteRequest, context_policy):
+        """Same route/policy intersection, with zero credentials or port calls."""
+        return self._resolve(request, context_policy, construct=False)
+
+    def _resolve(self, request, context_policy, *, construct):
         if type(request) is not RouteRequest:
             raise CoreError("ROUTING_TYPED_REQUEST_REQUIRED")
         request = RouteRequest.model_validate_json(request.model_dump_json())
@@ -303,7 +321,10 @@ class CapabilityRouter:
                 )
                 if p.locality == "REMOTE" and limits.cost_ceiling == 0:
                     raise CoreError("BUDGET_DENIED")
-                port = self.factory.create(p, m, request.operation)
+                if construct:
+                    port = self.factory.create(p, m, request.operation)
+                else:
+                    self.factory.available(p, m, request.operation)
                 policy = context_policy.model_copy(
                     update={
                         "readable_privacy": tuple(x for x in context_policy.readable_privacy if x in privacy),
@@ -326,7 +347,7 @@ class CapabilityRouter:
                     reasons=tuple(reasons),
                     effective=limits,
                 )
-                return RoutedTarget(snap, port, policy, self)
+                return RoutedTarget(snap, port, policy, self) if construct else snap
             except CoreError as exc:
                 last = exc.code
                 reasons.append(PreDispatchReason(model_profile_id=mid, code=last))

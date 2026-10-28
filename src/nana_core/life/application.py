@@ -137,9 +137,13 @@ class LifeApplication:
     def status(self):
         r=self.runtime
         return {'identity_id':r.identity_id,'autonomy':'PAUSED' if r.work.paused else 'RUNNING','provider':'OFFLINE_NO_PROVIDER' if self.router is None else 'CONFIGURED_NOT_QUALITY_QUALIFIED',
+            'provider_readiness':self.provider_readiness(),
             'view':runtime_projection(r,'LIVING_RUNTIME',self.policy,scopes=('project-work',),entity_id='project-user'),
             'learning':[{'state':x['state'],'cursor':x['cursor']} for x in r.store.db.execute("SELECT state,cursor FROM jobs WHERE work_kind='LEARNING' ORDER BY rowid DESC LIMIT 4")],
             'reports':[p.name for p in (self.home/'reports').glob('*.md')], 'pending_authorization':['REAL_PROVIDER_BUDGET_AND_EXPLICIT_SECRET_RESOLVER'] if self.router is None else [],'external_social_delivery':'DISABLED'}
+    def provider_readiness(self, *, privacy='PROJECT', operation='COGNITION'):
+        from .readiness import provider_readiness
+        return provider_readiness(self, privacy=privacy, operation=operation)
     def presence(self,state,*,privacy_classes=('PUBLIC',)):
         from ..continuity.open_agency.delivery import RecipientState
         if state not in {'BUSY','AVAILABLE','UNKNOWN'}:raise CoreError('LOCAL_PRESENCE_INVALID')
@@ -160,15 +164,8 @@ class LifeApplication:
         target=self.router.resolve(RouteRequest(operation='COGNITION',privacy_class=privacy,timeout_ms=self.config.provider_timeout_ms,cost_ceiling=self.config.provider_cost_ceiling_micro,context_limit=self.config.provider_context_tokens,output_limit=self.config.provider_output_tokens),self.policy)
         # Additional host ceilings intersect the original Runtime reservations.
         # PREPARED/UNKNOWN attempts count too; absence of a bill is not a refund.
-        now=self.runtime.clock.utc_now_us();s=self.runtime.store
-        # Optional mission-wide ceilings reuse original immutable reservations,
-        # across dates/restarts/providers. UNKNOWN/failure never refunds a slot.
-        calls,cost=s.db.execute('SELECT count(*),coalesce(sum(reserved_cost_micro),0) FROM cognitive_requests').fetchone()
-        if self.config.provider_total_calls_limit is not None and calls>=self.config.provider_total_calls_limit:raise CoreError('PROVIDER_TOTAL_CALL_BUDGET')
-        if self.config.provider_total_reserved_cost_micro is not None and cost+self.config.provider_cost_ceiling_micro>self.config.provider_total_reserved_cost_micro:raise CoreError('PROVIDER_TOTAL_RESERVED_COST_BUDGET')
-        if s.db.execute('SELECT count(*) FROM cognitive_requests WHERE created_at_us>=?',(now-HOUR,)).fetchone()[0]>=self.config.provider_calls_per_hour:raise CoreError('PROVIDER_HOURLY_BUDGET')
-        count=s.db.execute("SELECT count(*) FROM cognitive_requests c JOIN continuity_records r ON r.record_id=c.record_id JOIN artifacts a ON a.artifact_id=r.payload_artifact_id WHERE c.created_at_us>=? AND json_extract(CAST(a.payload AS TEXT),'$.request.route_snapshot.provider_profile_id')=?",(now-24*HOUR,target.snapshot.provider_profile_id)).fetchone()[0]
-        if count>=self.config.per_provider_calls_per_day:raise CoreError('PROVIDER_PROFILE_DAILY_BUDGET')
+        from .readiness import budget
+        budget(self,target.snapshot)
         if self.session is None or self.session.route_snapshot!=target.snapshot:
             if self.session and any(w.is_alive() for w in self.session._workers):raise CoreError('PROVIDER_WORKER_UNRESOLVED')
             self.session=target.cognition_session(self.runtime,project_state_source=self.current_project_state)

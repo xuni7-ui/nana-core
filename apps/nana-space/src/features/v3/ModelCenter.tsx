@@ -39,6 +39,7 @@ interface Props {
   canConfigure?: boolean;
   busy?: boolean;
   onApply?: (command: ProviderCommand) => Promise<void>;
+  onBindCredential?: (providerId: string, revision: number) => Promise<void>;
 }
 const secretLabels = {
   AVAILABLE: "安全凭据可用",
@@ -53,6 +54,7 @@ export function ModelCenter({
   canConfigure = false,
   busy = false,
   onApply,
+  onBindCredential,
 }: Props) {
   const view = useMemo(
     () => readProviderSettings(available ? settings : undefined),
@@ -124,6 +126,18 @@ export function ModelCenter({
             : "当前连接未开放配置写入；草稿只在本页内存中。"}
         </span>
       </div>
+      {onBindCredential && view.providers.length > 0 && (
+        <section className="v3-card" aria-label="安全凭据绑定">
+          <h3>在手机上安全连接模型</h3>
+          <p className="v3-muted">凭据通过原生安全输入框进入服务器内存；网页不会接触密钥。绑定后需通过已有管理入口明确重启，付费授权与额度保持独立。</p>
+          {view.providers.filter(p => p.locality === "REMOTE" && p.revision !== undefined).map(p => (
+            <button className="v3-button soft" disabled={busy} key={p.id}
+              onClick={() => void onBindCredential(p.id, p.revision!)}>
+              为 {p.name} 绑定凭据
+            </button>
+          ))}
+        </section>
+      )}
       <div className="v3-model-toolbar">
         <div className="v3-segmented" aria-label="模型中心分类">
           {(

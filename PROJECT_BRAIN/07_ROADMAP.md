@@ -1141,3 +1141,8 @@ First-Life优先收口真实Android连接：客户端配对按钮补丁302，复
 ### Living Release V4 — unified continuation / 2026-10-28
 
 [用户完整任务/源码核对，H Advanced] 从本地远端77a09e2一致、干净工作树创建dev/nana-core-living-release-v4-codex，继承9217/7a1b/ea1e225/3665及302配对修复。统一V4不重复造Core，任务快照及真实缺口见docs/nana_living_release_v4/。Master/63标准和历史资格不改。30845fb未在仓库取得、无真实宿主访问，用户报告正式Genesis/现场状态不以旧文档否定。后续以原C/D/Memory/Provider接线及实际发行安装为主，不以审计替代施工；私史/付费/外发/正式切换单独授权，bwrap仍BLOCKED，First-Life/Beta不预先升级。
+
+
+### Living V4 — actual integration checkpoint
+
+修复：原Router无dispatch inspect/当前运行Resolver readiness；双阶段原预算前检与精确REJECTED；手机显式共同经历保存直通原Person-Self；原生安全凭据输入→host内存Resolver→sealed memfd→原child，独立角色/配置/付费边界保留。补本地设备语音入口及可见来源节奏，原appId/Keystore不改。117相关Python实际通过21.81s；44前端单元通过，最终Web/APK及新镜像继续构建，手机/模型/生产未验收。只读Docker API工具实际可用，无Docker CLI也可核既有服务；本地旧镜像受限verify exit0，非云端。保留首次夹具/绑定常量失败。无新Provider调用/私人导入/生产切换；不以此升级First-Life。

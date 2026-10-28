@@ -685,6 +685,41 @@
         }
       }
     },
+    "/api/nana-space/v2/providers/credential": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        },
+        "security": [
+          {
+            "nativeBearer": []
+          }
+        ],
+        "description": "HOST_ADMIN + host opt-in. Native secure input only; no secret in JS, persistence or receipt.",
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/CredentialBindingRequest"
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/nana-space/v2/backup/status": {
       "get": {
         "responses": {
@@ -1016,6 +1051,65 @@
         "title": "Completion",
         "type": "string"
       },
+      "CredentialBindingRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "client_request_id": {
+            "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+            "title": "Client Request Id",
+            "type": "string"
+          },
+          "idempotency_key": {
+            "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+            "title": "Idempotency Key",
+            "type": "string"
+          },
+          "expected_revision": {
+            "minimum": 0,
+            "title": "Expected Revision",
+            "type": "integer"
+          },
+          "run_generation": {
+            "pattern": "^[a-f0-9]{32}$",
+            "title": "Run Generation",
+            "type": "string"
+          },
+          "owner_epoch": {
+            "minimum": 0,
+            "title": "Owner Epoch",
+            "type": "integer"
+          },
+          "provider_profile_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Provider Profile Id",
+            "type": "string"
+          },
+          "profile_revision": {
+            "minimum": 1,
+            "title": "Profile Revision",
+            "type": "integer"
+          },
+          "credential": {
+            "maxLength": 4096,
+            "minLength": 1,
+            "title": "Credential",
+            "type": "string"
+          }
+        },
+        "required": [
+          "client_request_id",
+          "idempotency_key",
+          "expected_revision",
+          "run_generation",
+          "owner_epoch",
+          "provider_profile_id",
+          "profile_revision",
+          "credential"
+        ],
+        "title": "CredentialBindingRequest",
+        "type": "object"
+      },
       "Envelope": {
         "additionalProperties": false,
         "properties": {
@@ -1328,6 +1422,16 @@
             ],
             "title": "Privacy Class",
             "type": "string"
+          },
+          "require_model": {
+            "default": false,
+            "title": "Require Model",
+            "type": "boolean"
+          },
+          "retain_shared_life": {
+            "default": false,
+            "title": "Retain Shared Life",
+            "type": "boolean"
           }
         },
         "required": [

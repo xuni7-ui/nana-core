@@ -10,15 +10,20 @@ import {
   Check,
   Copy,
   X,
+  Volume2,
 } from "lucide-react";
 import { Avatar } from "../../avatar/Avatar";
 import { Blank } from "./LifeViews";
+import { readinessLabel } from "../../data/readiness";
+import { transcribe, readAloud, stopSpeech } from "../../data/speech";
 export interface Turn {
   id: string;
   input: string;
   state: string;
   reply?: string;
   provider?: string;
+  error?: string;
+  remembered?: boolean;
 }
 /** Body text stays in React memory. Attachments are previews, never uploaded as text. */
 export function ChatPane({
@@ -30,15 +35,21 @@ export function ChatPane({
   busy,
   allowed,
   notice,
+  readiness,
+  configure,
+  canRemember = false,
 }: {
   turns: Turn[];
   draft: string;
   onDraft: (s: string) => void;
-  send: () => void;
+  send: (remember?: boolean) => void;
   verify: (id: string) => void;
   busy: boolean;
   allowed: boolean;
   notice: (s: string) => void;
+  readiness?: string;
+  configure?: () => void;
+  canRemember?: boolean;
 }) {
   const end = useRef<HTMLDivElement>(null),
     log = useRef<HTMLDivElement>(null);
@@ -51,6 +62,26 @@ export function ChatPane({
   }>();
   const file = useRef<HTMLInputElement>(null),
     image = useRef<HTMLInputElement>(null);
+  const [remember, setRemember] = useState(false);
+  const [voiceBusy, setVoiceBusy] = useState(false);
+  const mounted = useRef(true);
+  useEffect(() => {
+    mounted.current = true;
+    return () => { mounted.current = false; stopSpeech(); };
+  }, []);
+  const voice = async (text?: string) => {
+    if (voiceBusy) { stopSpeech(); return; }
+    setVoiceBusy(true);
+    try {
+      if (text) await readAloud(text);
+      else {
+        const transcript = await transcribe();
+        if (mounted.current) onDraft((draft + (draft ? " " : "") + transcript).slice(0, 2048));
+      }
+    } catch {
+      if (mounted.current) notice("本地语音未完成或不可用；没有改用联网服务、没有自动发送。可使用手机键盘语音输入。");
+    } finally { if (mounted.current) setVoiceBusy(false); }
+  };
   useEffect(() => {
     if (atEnd.current)
       end.current?.scrollIntoView({ block: "end", behavior: "instant" });
@@ -102,6 +133,12 @@ export function ChatPane({
           自动路由 <ChevronDown size={14} />
         </button>
       </div>
+      {readiness && readiness !== "READY_LOCAL_GATES" && (
+        <div className="v4-readiness" role="status">
+          <span>{readinessLabel(readiness)}</span>
+          {configure && <button type="button" onClick={configure}>查看模型设置</button>}
+        </div>
+      )}
       <div
         className="v3-chat-scroll live-chat-log"
         ref={log}
@@ -166,7 +203,9 @@ export function ChatPane({
                   </Markdown>
                 ) : (
                   <span>
-                    {t.state === "UNKNOWN" ? (
+                    {t.state === "REJECTED" ? (
+                      readinessLabel(t.error)
+                    ) : t.state === "UNKNOWN" ? (
                       "这条消息的结果还不能确认。先核验原回执，不重复发送。"
                     ) : t.state === "REQUESTED" ? (
                       <span className="v3-thinking">
@@ -183,6 +222,9 @@ export function ChatPane({
                     {t.provider ? ` · ${t.provider}` : ""}
                   </span>
                   {t.reply && (
+                    <button aria-label="朗读这条回复" onClick={() => void voice(t.reply)}><Volume2 size={14} /></button>
+                  )}
+                  {t.reply && (
                     <button
                       aria-label="复制这条回复"
                       onClick={() =>
@@ -198,7 +240,7 @@ export function ChatPane({
                   )}
                 </div>
                 <small className="v3-muted">
-                  仅此入口回执，不代表 QQ 已发送
+                  {t.remembered ? "已按本次选择保存，来源可查" : "本次文字未加入长期共同经历"}
                 </small>
                 {t.state === "UNKNOWN" && (
                   <button
@@ -238,7 +280,8 @@ export function ChatPane({
           className="live-composer v3-composer"
           onSubmit={(e) => {
             e.preventDefault();
-            send();
+            send(remember);
+            setRemember(false);
           }}
         >
           <textarea
@@ -263,7 +306,8 @@ export function ChatPane({
                 !composing.current
               ) {
                 e.preventDefault();
-                send();
+                send(remember);
+                setRemember(false);
               }
             }}
           />
@@ -285,12 +329,10 @@ export function ChatPane({
               </button>
               <button
                 type="button"
-                aria-label="语音输入状态"
-                onClick={() =>
-                  notice(
-                    "语音转写端口尚未接入，不会开启麦克风。可以使用手机键盘的语音输入。",
-                  )
-                }
+                aria-label={voiceBusy ? "停止语音" : "本地语音输入"}
+                aria-pressed={voiceBusy}
+                disabled={!allowed}
+                onClick={() => void voice()}
               >
                 <Mic size={19} />
               </button>
@@ -305,6 +347,11 @@ export function ChatPane({
             </button>
           </div>
         </form>
+        {canRemember && <label className="v4-remember">
+          <input type="checkbox" checked={remember} onChange={e => setRemember(e.target.checked)} />
+          记住这次共同经历
+          <small>仅本次提交 · 带来源保存，可在记忆中撤回</small>
+        </label>}
         <p className="v3-composer-note">
           <Sparkles size={11} /> PUBLIC / PROJECT ·{" "}
           {busy ? "正在等待单次请求，不自动重试" : "Ctrl / ⌘ + Enter 发送"}

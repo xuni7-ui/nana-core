@@ -266,8 +266,11 @@ class Supervisor:
                 if self.provider_binding is not None:
                     # Explicit host resolver only. FD number is not a credential;
                     # plaintext travels solely over an inherited private pipe.
-                    fd, reference = self.provider_binding()
-                    argv += ["--live-provider-authorized", "--secret-fd", str(fd), "--secret-ref", reference]
+                    supplied = self.provider_binding()
+                    if supplied is not None:
+                        fd, reference = supplied
+                        argv += ["--live-provider-authorized"]
+                        argv += ["--secret-bundle-fd", str(fd)] if reference is None else ["--secret-fd", str(fd), "--secret-ref", reference]
                 self.child = subprocess.Popen(
                     argv,
                     cwd=release.root,

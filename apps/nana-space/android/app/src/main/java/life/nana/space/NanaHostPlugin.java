@@ -110,7 +110,9 @@ public class NanaHostPlugin extends Plugin {
     private JSONObject http(String base, String path, String method, JSONObject body, String token) throws Exception {
         HttpsURLConnection connection = (HttpsURLConnection)new URL(origin(base) + PREFIX + path).openConnection();
         connection.setInstanceFollowRedirects(false);
-        connection.setConnectTimeout(10000); connection.setReadTimeout(15000);
+        connection.setConnectTimeout(10000);
+        // INTERPRET + RENDER may each legitimately consume 15 seconds.
+        connection.setReadTimeout("messages".equals(path) ? 35000 : 15000);
         connection.setRequestMethod(method); connection.setRequestProperty("Accept", "application/json");
         connection.setRequestProperty("Cache-Control", "no-store");
         if (token != null) connection.setRequestProperty("Authorization", "Bearer " + token);
@@ -121,6 +123,7 @@ public class NanaHostPlugin extends Plugin {
                 connection.setDoOutput(true); connection.setFixedLengthStreamingMode(bytes.length);
                 connection.setRequestProperty("Content-Type", "application/json");
                 try (java.io.OutputStream out = connection.getOutputStream()) { out.write(bytes); }
+                finally { Arrays.fill(bytes, (byte)0); }
             }
             int status = connection.getResponseCode();
             if (status >= 300 && status < 400) throw new Exception("REDIRECT_DENIED");
@@ -245,6 +248,45 @@ public class NanaHostPlugin extends Plugin {
                 // can be completed by an independently authenticated controller.
             } finally { clearBinding(); }
             JSObject out = new JSObject();out.put("cleared", true);out.put("server_revocation", revoked);call.resolve(out);
+        });
+    }
+    @PluginMethod public void bindProviderCredential(PluginCall call) {
+        // JS supplies only public profile/revision metadata. The value is typed
+        // into a native secure dialog and is never returned to the WebView.
+        JSObject metadata = call.getObject("data", new JSObject());
+        if (!metadata.optString("provider_profile_id").matches("[a-z][a-z0-9_-]{0,31}\\.[a-z][a-z0-9._-]{0,95}")) {
+            call.reject("INVALID_PROVIDER_PROFILE"); return;
+        }
+        getActivity().runOnUiThread(() -> {
+            android.widget.EditText input = new android.widget.EditText(getContext());
+            input.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            input.setSaveEnabled(false);
+            input.setSingleLine(true);
+            input.setFilters(new android.text.InputFilter[]{new android.text.InputFilter.LengthFilter(4096)});
+            input.setImeOptions(android.view.inputmethod.EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING);
+            if (Build.VERSION.SDK_INT >= 26) input.setImportantForAutofill(android.view.View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS);
+            android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(getActivity())
+                .setTitle("安全绑定模型凭据")
+                .setMessage("仅通过已配对的 HTTPS 发往服务器内存。不保存在手机、网页或数据库；服务器重启后需重新绑定。此操作不授予付费额度。")
+                .setView(input)
+                .setNegativeButton("取消", (d, w) -> { input.setText(""); call.reject("SECRET_INPUT_CANCELLED"); })
+                .setPositiveButton("安全绑定", (d, w) -> {
+                    final String value = input.getText().toString(); input.setText("");
+                    getBridge().execute(() -> {
+                        JSONObject body = null;
+                        try {
+                            JSONObject b = binding();
+                            body = new JSONObject(metadata.toString()); body.put("credential", value);
+                            JSONObject reply = http(b.getString("base"), "providers/credential", "POST", body, session(b));
+                            validateIdentity(reply, b);
+                            call.resolve(JSObject.fromJSONObject(reply));
+                        } catch (Exception ex) { reject(call, ex); }
+                        finally { if (body != null) body.remove("credential"); }
+                    });
+                }).create();
+            dialog.setOnCancelListener(d -> { input.setText(""); call.reject("SECRET_INPUT_CANCELLED"); });
+            dialog.getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_SECURE);
+            dialog.show();
         });
     }
     @PluginMethod public void notificationPermission(PluginCall call) {

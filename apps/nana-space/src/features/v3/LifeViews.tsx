@@ -158,6 +158,15 @@ export function HomeView({
   const activities = items.filter((x) =>
     /activit|experience|interest|concern/i.test(label(x.section)),
   );
+  const appetite = ready ? items.find(x => x.section === "affect" && x.category === "SOCIAL_APPETITE") : undefined;
+  const rhythm: Record<string, {text: string; expression: string}> = {
+    OPEN: {text: "对交流保持开放", expression: "neutral"},
+    SEEKING: {text: "有来源支持的联系意愿", expression: "smile"},
+    QUIET: {text: "更倾向安静相处", expression: "neutral"},
+    SATURATED: {text: "最近的交流已经充足", expression: "neutral"},
+    RECOVERING: {text: "正在恢复交流的余裕", expression: "sleepy"},
+  };
+  const tone = appetite ? rhythm[label(appetite.state)] : undefined;
   return (
     <div className={`v3-home ${room ? "v3-room-page" : ""}`}>
       <section className="v3-hero">
@@ -219,12 +228,23 @@ export function HomeView({
           <span className="v3-room-caption">
             A ROOM FOR NANA <span>✧</span>
           </span>
-          {!avatar && <Moon className="v3-room-moon" size={140} />}
+          {avatar ? <Avatar size={180} expression={tone?.expression || "neutral"} className="v4-room-avatar" /> : <Moon className="v3-room-moon" size={140} />}
           <span className="v3-room-plaque">
             <Moon size={15} />
-            静态形象 · 心情不由界面编造
+            {tone ? tone.text : "安静留白，等待真实的近况"}
           </span>
         </div>
+      </section>
+      <section className="v3-card v4-living-tone" aria-label="有来源的生活节奏">
+        <div>
+          <span className="v3-eyebrow">HER OWN PACE</span>
+          <h2>{tone ? tone.text : "此刻，不替她定义心情。"}</h2>
+          <p>交流意愿来自 Core 的经历与评价；角色表情只是表达提示，不代表主观感受已被证明。</p>
+        </div>
+        {appetite && <details><summary>看看这份近况的来源</summary>
+          <small>{appetite.as_of_us ? new Date(Number(appetite.as_of_us) / 1000).toLocaleString() : "时间尚未提供"}</small>
+          <code>{label(appetite.record_id, "暂未提供支持记录")}</code>
+        </details>}
       </section>
       <div className="v3-home-links">
         {(

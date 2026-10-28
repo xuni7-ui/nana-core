@@ -36,6 +36,17 @@ export type CommandRequest = {
 
 export type Completion = "REQUESTED" | "ADMITTED" | "REJECTED" | "RUNNING" | "UNKNOWN" | "VERIFIED" | "FAILED" | "REVOKED";
 
+export type CredentialBindingRequest = {
+  "client_request_id": string;
+  "idempotency_key": string;
+  "expected_revision": number;
+  "run_generation": string;
+  "owner_epoch": number;
+  "provider_profile_id": string;
+  "profile_revision": number;
+  "credential": string;
+};
+
 export type Envelope = {
   "contract"?: "nana-space-live/v2";
   "realm": Realm;
@@ -88,6 +99,8 @@ export type MessageRequest = {
   "topic"?: string;
   "thread_id"?: string;
   "privacy_class"?: "PUBLIC" | "PROJECT";
+  "require_model"?: boolean;
+  "retain_shared_life"?: boolean;
 };
 
 export type ModelProfile = {

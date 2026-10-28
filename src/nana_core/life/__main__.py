@@ -287,6 +287,7 @@ def main():
     start.add_argument("--headless", action="store_true")
     start.add_argument("--live-provider-authorized", action="store_true")
     start.add_argument("--secret-fd", type=int)
+    start.add_argument("--secret-bundle-fd", type=int)
     start.add_argument("--secret-ref")
     status = sub.add_parser("status")
     status.add_argument("--home", type=Path, required=True)
@@ -454,8 +455,11 @@ def main():
         router = None
         if a.live_provider_authorized:
             from .provider import ExplicitFDResolver, configured_router
+            from .secret_binding import MemorySecretResolver
 
-            if a.secret_fd is None or not a.secret_ref:
+            if a.secret_bundle_fd is None and (a.secret_fd is None or not a.secret_ref):
+                raise CoreError("EXPLICIT_SECRET_RESOLVER_REQUIRED")
+            if a.secret_bundle_fd is not None and (a.secret_fd is not None or a.secret_ref is not None):
                 raise CoreError("EXPLICIT_SECRET_RESOLVER_REQUIRED")
             cfg = load_config(home)
             if (
@@ -465,9 +469,10 @@ def main():
                 or cfg.provider_calls_per_day <= 0
             ):
                 raise CoreError("LIVE_PROVIDER_NOT_AUTHORIZED_OR_BUDGETED")
-            resolver = ExplicitFDResolver(a.secret_fd, a.secret_ref)
+            resolver = MemorySecretResolver.from_fd(a.secret_bundle_fd) if a.secret_bundle_fd is not None else ExplicitFDResolver(a.secret_fd, a.secret_ref)
+            os.close(a.secret_bundle_fd if a.secret_bundle_fd is not None else a.secret_fd)
             router = configured_router(home, cfg, resolver=resolver, authorized=True)
-        elif a.secret_fd is not None or a.secret_ref is not None:
+        elif a.secret_fd is not None or a.secret_ref is not None or a.secret_bundle_fd is not None:
             raise CoreError("LIVE_PROVIDER_NOT_AUTHORIZED")
         run(home, a.seconds, headless=a.headless, router=router, control_enabled=a.control)
     except (CoreError, OSError, ValueError) as exc:

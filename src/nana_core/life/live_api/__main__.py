@@ -14,6 +14,7 @@ from pathlib import Path
 from pydantic import Field
 from ...contracts import DTO, CoreError
 from ..provider import ExplicitFDResolver
+from ..secret_binding import MemorySecretResolver
 from .auth import AuthService
 from .bridge import GatewayService
 from .contracts import Binding, Role, ApiError
@@ -51,7 +52,7 @@ def main():
     p.add_argument("--secret-fd", type=int)
     p.add_argument("--secret-ref")
     a = p.parse_args()
-    resolver = None
+    resolver = MemorySecretResolver()
     supervisor = None
     server = None
     try:
@@ -66,27 +67,21 @@ def main():
             del raw
         auth = AuthService(Path(cfg.host_state) / "auth.json", password=password, roles=cfg.roles)
         password = None
-        binding = None
+        binding = resolver.inherited_fd if a.live_provider_authorized else None
         if a.live_provider_authorized:
-            if a.secret_fd is None or not a.secret_ref:
+            if (a.secret_fd is None) != (a.secret_ref is None):
                 raise ApiError("EXPLICIT_SECRET_RESOLVER_REQUIRED")
-            resolver = ExplicitFDResolver(a.secret_fd, a.secret_ref)
-            os.close(a.secret_fd)
-
-            def binding():
-                value = resolver.resolve(a.secret_ref)
+            if a.secret_fd is not None:
+                initial = ExplicitFDResolver(a.secret_fd, a.secret_ref)
                 try:
-                    raw = value.reveal_for_header().encode()
-                    if len(raw) > 4096:
-                        raise ApiError("SECRET_BOUND")
-                    read, write = os.pipe()
+                    value = initial.resolve(a.secret_ref)
                     try:
-                        os.write(write, raw)
+                        resolver.bind(a.secret_ref, value.reveal_for_header())
                     finally:
-                        os.close(write)
-                    return read, a.secret_ref
+                        value.clear()
                 finally:
-                    value.clear()
+                    initial.clear()
+                    os.close(a.secret_fd)
         elif a.secret_fd is not None or a.secret_ref is not None:
             raise ApiError("LIVE_PROVIDER_NOT_AUTHORIZED", 403)
         supervisor = Supervisor(
@@ -98,7 +93,8 @@ def main():
             activation=cfg.activation,
             provider_binding=binding,
         )
-        service = GatewayService(supervisor, auth, cfg.host_state, allow_provider_configuration=cfg.allow_provider_configuration)
+        service = GatewayService(supervisor, auth, cfg.host_state, allow_provider_configuration=cfg.allow_provider_configuration,
+                                 credential_resolver=resolver)
         server = ApiServer(("127.0.0.1", cfg.port), service, public_origin=cfg.public_origin, web_root=cfg.web_root)
         stopping = threading.Event()
 

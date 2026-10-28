@@ -7,6 +7,45 @@ updates the existing CAS document only, not live authorization, budget or identi
 from ...continuity.provider_config import ProviderCommand, ProviderConfigService, ProviderConfigurationAuthority
 from ...contracts import CoreError
 from .contracts import WriteRequest, Role, ApiError
+from pydantic import Field
+
+
+class CredentialBindingRequest(WriteRequest):
+    model_config = {"hide_input_in_errors": True}
+    provider_profile_id: str = Field(min_length=1, max_length=128)
+    profile_revision: int = Field(ge=1)
+    credential: str = Field(min_length=1, max_length=4096, repr=False, exclude=True)
+
+
+def bind_credential(service, principal, body):
+    """Native/admin/host opt-in only; value never enters receipts or DTO dumps."""
+    principal.require(Role.HOST_ADMIN)
+    if principal.kind != "NATIVE":
+        raise ApiError("NATIVE_SECRET_INPUT_REQUIRED", 403)
+    if not service.allow_provider_configuration or service.credential_resolver is None:
+        raise ApiError("PROVIDER_CONFIGURATION_DISABLED", 403)
+    with service.write_lock:
+        if body.run_generation != service.generation:
+            raise ApiError("STALE_RUN_NO_REPLAY", 409)
+        if body.owner_epoch != service.supervisor.status()["owner_epoch"]:
+            raise ApiError("STALE_EPOCH", 409)
+        if body.expected_revision != service.ledger.revision:
+            raise ApiError("REVISION_CONFLICT", 409)
+        authority = ProviderConfigurationAuthority()
+        config = ProviderConfigService(service.supervisor.home / "providers.json", authority).load()
+        profile = next((p for p in config.providers if p.provider_profile_id == body.provider_profile_id), None)
+        if profile is None or profile.revision != body.profile_revision:
+            raise ApiError("PROVIDER_CONFIG_REVISION_CONFLICT", 409)
+        if profile.locality != "REMOTE" or not profile.secret_ref:
+            raise ApiError("EXPLICIT_SECRET_REFERENCE_REQUIRED", 409)
+        try:
+            service.credential_resolver.bind(profile.secret_ref, body.credential)
+        except CoreError as exc:
+            raise ApiError(exc.code, 400) from None
+        return service.envelope({"state": "BOUND_IN_HOST_MEMORY", "provider_profile_id": profile.provider_profile_id,
+                                 "secret_state": "AVAILABLE", "credential_persisted": False,
+                                 "runtime_rebind": "EXPLICIT_RESTART_REQUIRED", "network_calls": 0,
+                                 "live_permission_granted": False})
 
 
 class ProviderConfigurationRequest(WriteRequest):

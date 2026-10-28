@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from pydantic.json_schema import models_json_schema
 from nana_core.life.live_api import contracts as c
-from nana_core.life.live_api.provider_settings import ProviderConfigurationRequest
+from nana_core.life.live_api.provider_settings import ProviderConfigurationRequest, CredentialBindingRequest
 
 ROOT = Path(__file__).resolve().parents[2]
 MODELS = [
@@ -19,6 +19,7 @@ MODELS = [
     c.HostConfirmation,
     c.Receipt,
     ProviderConfigurationRequest,
+    CredentialBindingRequest,
 ]
 
 
@@ -85,6 +86,7 @@ def generate():
         "/notifications": ["get"],
         "/providers/status": ["get"],
         "/providers/commands": ["post"],
+        "/providers/credential": ["post"],
         "/backup/status": ["get"],
         "/privacy/withdrawal": ["post"],
     }.items():
@@ -104,6 +106,7 @@ def generate():
         "/messages": "MessageRequest",
         "/commands": "CommandRequest",
         "/providers/commands": "ProviderConfigurationRequest",
+        "/providers/credential": "CredentialBindingRequest",
         "/privacy/withdrawal": "CommandRequest",
         "/host/confirmations": "HostConfirmation",
         "/host/operations": "HostRequest",
@@ -112,6 +115,9 @@ def generate():
         short = path.removeprefix("/api/nana-space/v2")
         for method, operation in operations.items():
             operation["security"] = [{"webCookie": []}, {"nativeBearer": []}]
+            if short == "/providers/credential":
+                operation["security"] = [{"nativeBearer": []}]
+                operation["description"] = "HOST_ADMIN + host opt-in. Native secure input only; no secret in JS, persistence or receipt."
             response = {"$ref": "#/components/schemas/Envelope"}
             if short == "/device/pairing":
                 response = {

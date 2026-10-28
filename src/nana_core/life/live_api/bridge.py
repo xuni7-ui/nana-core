@@ -31,9 +31,10 @@ PAGE_SECTIONS = {
 
 
 class GatewayService:
-    def __init__(self, supervisor, auth, state_root, *, allow_provider_configuration=False):
+    def __init__(self, supervisor, auth, state_root, *, allow_provider_configuration=False, credential_resolver=None):
         self.supervisor, self.auth = supervisor, auth
         self.allow_provider_configuration = allow_provider_configuration
+        self.credential_resolver = credential_resolver
         self.binding = supervisor.binding
         self.generation = secrets.token_hex(16)
         self.ledger = OperationLedger(Path(state_root) / "operations.json")
@@ -74,6 +75,9 @@ class GatewayService:
                 "social_delivery": "NOT_AUTHORIZED",
                 "provider_authority": False,
                 "provider_configuration_write": self.allow_provider_configuration,
+                "provider_readiness": True,
+                "native_secret_binding": self.allow_provider_configuration and self.credential_resolver is not None,
+                "shared_life_retention": True,
             },
             data=data,
         ).model_dump(mode="json")
@@ -121,6 +125,7 @@ class GatewayService:
                 raise ApiError("CORE_UNAVAILABLE", 503)
             return {
                 "state": result["result"].get("provider", "UNKNOWN"),
+                "readiness": result["result"].get("provider_readiness", {"state": "UNAVAILABLE_OLD_RUNTIME"}),
                 "real_model_qualification": "NOT_RUN_THIS_MISSION",
                 "secret_value_available_to_client": False,
             }
@@ -176,7 +181,8 @@ class GatewayService:
                 from .provider_settings import projection
 
                 try:
-                    data["provider_settings"] = projection(self.supervisor.home)
+                    current = core_request(self.supervisor.home, {"operation": "view", "view": "provider-settings"}, timeout=2) if status["process_ready"] else {}
+                    data["provider_settings"] = current["result"] if current.get("ok") is True else projection(self.supervisor.home)
                 except (CoreError, OSError, ValueError):
                     data["provider_settings"] = {"state": "UNAVAILABLE", "no_default_provider_selected": True}
             if page == Page.MEMORIES:
@@ -255,6 +261,10 @@ class GatewayService:
     def _prepare(self, principal, body, operation, role):
         principal.require(role)
         payload = body.model_dump(mode="json")
+        if operation == "MESSAGE" and payload.get("require_model") is False:
+            payload.pop("require_model")  # Preserve v2 receipt fingerprints.
+        if operation == "MESSAGE" and payload.get("retain_shared_life") is False:
+            payload.pop("retain_shared_life")
         old = self.ledger.prior(body.idempotency_key, principal.principal_id, payload)
         if old:
             return old
@@ -314,13 +324,14 @@ class GatewayService:
             "topic": body.topic,
             "text": body.text,
             "privacy_class": body.privacy_class,
+            "retain_shared_life": body.retain_shared_life,
         }
         command = {"operation": "surface", "observation": observation}
         if len(json.dumps(command).encode()) >= LIMIT:
             raise ApiError("CORE_INPUT_BOUND", 413)
 
         def call():
-            result = core_request(self.supervisor.home, command, timeout=20)
+            result = core_request(self.supervisor.home, command)
             if result.get("ok") is not True:
                 raise ApiError("CORE_INPUT_REJECTED", 409)
             row = result["result"]
@@ -342,6 +353,17 @@ class GatewayService:
             safe.update(external_delivery=False, completion_kind="SUBJECT_REVIEW_NOT_SOCIAL_DELIVERY")
             return safe
 
+        def before():
+            if not body.require_model:
+                return
+            try:
+                ready = core_request(self.supervisor.home, {"operation": "provider-readiness", "privacy": body.privacy_class}, timeout=2)
+            except (CoreError, OSError):
+                raise ApiError("PROVIDER_READINESS_UNAVAILABLE", 503) from None
+            state = ready.get("result", {}).get("state") if ready.get("ok") is True else "PROVIDER_READINESS_UNAVAILABLE"
+            if state != "READY_LOCAL_GATES":
+                raise ApiError(state if isinstance(state, str) else "PROVIDER_READINESS_UNAVAILABLE", 409)
+
         return self._call(
             principal,
             body,
@@ -350,6 +372,7 @@ class GatewayService:
             call,
             lambda row: row.get("state")
             in {"SHADOW_REPLY_CANDIDATE", "ALREADY_REVIEWED_NO_REPLAY", "ALREADY_REVIEWED_SOURCE_RETIRED"},
+            before,
         )
 
     def command(self, principal, body):

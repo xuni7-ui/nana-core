@@ -112,6 +112,8 @@ class MessageRequest(WriteRequest):
     topic: str = Field(default="daily", pattern=r"^[a-z][a-z0-9._-]{0,63}$")
     thread_id: str = Field(default="daily", pattern=r"^[A-Za-z0-9._:-]{1,96}$")
     privacy_class: Literal["PUBLIC", "PROJECT"] = "PROJECT"
+    require_model: bool = False  # Additive: old v2 clients retain offline review.
+    retain_shared_life: bool = False  # Explicit per-message consent, original Person-Self path.
 
 
 class CommandRequest(WriteRequest):
