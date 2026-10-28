@@ -1,7 +1,7 @@
 # syntax=docker/dockerfile:1
 # Exact locally qualified Nana/Debian13 image ID is checked by build_artifacts.py.
 # This is not an AstrBot base. No host OpenSSL or system Python is changed.
-ARG BASE_IMAGE
+ARG BASE_IMAGE=nana-first-life/unified:v3-3665
 FROM ${BASE_IMAGE}
 USER root
 ARG CORE_SOURCE_COMMIT

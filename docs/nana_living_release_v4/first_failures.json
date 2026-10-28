@@ -45,6 +45,11 @@
       "result": "2 failed / 138 passed / 34.49s",
       "cause": "Old infrastructure test expected command offsets before explicit -B on both interpreters.",
       "fix": "Update exact argv contract to require -I and -B; isolation and stdin rules unchanged."
+    },
+    {
+      "phase": "v4-image-build-first",
+      "cause": "BuildKit parsed a Docker configuration image ID in FROM as a registry repository, despite the exact image being present locally.",
+      "fix": "Use the pre-verified local tag whose configuration ID must exactly match the qualified base; pull=false and network=none remain set. No base was substituted."
     }
   ],
   "final_related": {

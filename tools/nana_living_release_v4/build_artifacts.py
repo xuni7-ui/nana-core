@@ -18,6 +18,7 @@ from tools.nana_portable_cloud.build import build
 
 ROOT = Path(__file__).resolve().parents[2]
 BASE = "sha256:6581d9e0cb7e686511aa704f77546cae508fc2911792753ed3a9bd3bf3cdb18b"
+BASE_TAG = "nana-first-life/unified:v3-3665"
 DOCKER = ["env", "-u", "DOCKER_HOST", "-u", "DOCKER_CONTEXT", "-u", "DOCKER_TLS",
           "-u", "DOCKER_TLS_VERIFY", "-u", "DOCKER_CERT_PATH", "docker", "--host=unix:///var/run/docker.sock"]
 
@@ -67,11 +68,11 @@ def main():
              "loopback_relay.py": "deployment/first-life-v2/docker/loopback_relay.py"}
     for name, source in paths.items():
         (context / name).write_bytes(subprocess.check_output(["git", "show", commit + ":" + source], cwd=ROOT))
-    metadata = json.loads(subprocess.check_output(DOCKER + ["image", "inspect", BASE], text=True))[0]
+    metadata = json.loads(subprocess.check_output(DOCKER + ["image", "inspect", BASE_TAG], text=True))[0]
     if (metadata["Id"], metadata["Os"], metadata["Architecture"], metadata["Config"]["User"]) != (BASE, "linux", "amd64", "999:999"):
         raise ValueError("QUALIFIED_BASE_MISMATCH")
     tag = "nana-first-life/living:v4-" + commit[:12]
-    command = DOCKER + ["build", "--network=none", "--pull=false", "--build-arg", "BASE_IMAGE=" + BASE,
+    command = DOCKER + ["build", "--network=none", "--pull=false", "--build-arg", "BASE_IMAGE=" + BASE_TAG,
                        "--build-arg", "CORE_SOURCE_COMMIT=" + commit, "--build-arg", "CORE_SHA256=" + first["sha256"],
                        "--build-arg", "WEB_SHA256=" + sha(context / "web.tar.gz"), "-t", tag, str(context)]
     with (args.work / "image-build.log").open("w") as output:
