@@ -80,7 +80,7 @@
     },
     "evidence/sealed-package.json": {
       "bytes": 385,
-      "sha256": "6bc0d09a64462fd102f19cba0aa25b21418cf4195a7cef4b8d20648a00487089"
+      "sha256": "b13a4d2f3d7214c97048eaa32f1ef7f7a2edb4c948533aa9826c45d2eae4ef3e"
     },
     "final-targeted.xml": {
       "bytes": 22201,
