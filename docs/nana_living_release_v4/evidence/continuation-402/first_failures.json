@@ -1,0 +1,25 @@
+{
+  "source_parent": "153196b1",
+  "scope": "OWNED_DEV_AND_SYNTHETIC_LOOPBACK",
+  "failures": [
+    {
+      "suite": "archive ingress first run",
+      "failed": 1,
+      "passed": 16,
+      "cause": "Test treated ranked Memory.query results as an exclusive term filter; asserted all memory types instead of legacy rows. Scope filtering assertion corrected; original Memory behavior unchanged."
+    },
+    {
+      "suite": "frames first run",
+      "failed": 3,
+      "passed": 16,
+      "cause": "Loopback Request.method helper used an absent attribute; use get_method. Independent Kernel verification replaced the execute receipt without retaining acquired frame references; Verify now reconstructs current original Memory frame references."
+    },
+    {
+      "suite": "Bilibili life first run",
+      "failed": 2,
+      "passed": 1,
+      "cause": "Synthetic HTTP model callback attempted original SQLite access from a transport thread. Fixture now reads frozen request context only; owner/thread invariant not changed."
+    }
+  ],
+  "standards_relaxed": false
+}

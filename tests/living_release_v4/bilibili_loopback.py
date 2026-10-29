@@ -19,7 +19,7 @@ class LoopbackOpener:
         parsed = urllib.parse.urlsplit(request.full_url)
         path = parsed.path + ("?" + parsed.query if parsed.query else "")
         return self.opener.open(urllib.request.Request(self.endpoint + path, data=request.data,
-            headers=dict(request.header_items()), method=request.method), timeout=timeout)
+            headers=dict(request.header_items()), method=request.get_method()), timeout=timeout)
 
 
 @contextmanager
@@ -39,11 +39,27 @@ def counterpart():
             if "/web-interface/nav" in self.path:
                 value = {"isLogin": state["logged_in"], "mid": state["account_id"]}
             elif "/search/type" in self.path:
-                value = {"result": [{"bvid": "BV1t55v6DE2v", "aid": 7, "cid": 8, "title": "Loopback source"}]}
+                value = {"result": state.get('search_results', [{"bvid": "BV1t55v6DE2v", "aid": 7, "cid": 8, "title": "Loopback source"}])}
             elif "/web-interface/view" in self.path:
-                value = {"bvid": "BV1t55v6DE2v", "aid": 7, "cid": 8, "title": "Loopback source"}
+                target = urllib.parse.parse_qs(urllib.parse.urlsplit(self.path).query)['bvid'][0]
+                value = {"bvid": target, "aid": 7, "cid": 8, "title": "Loopback source"}
             elif "/player/v2" in self.path:
                 value = {"subtitle": {"subtitles": [{"subtitle_url": "https://aisubtitle.hdslb.com/fixture.json"}]}}
+            elif '/player/videoshot' in self.path:
+                value = {'index': [0, 5, 10], 'image':['https://i0.hdslb.com/owned-storyboard.png'],
+                    'img_x_size':32, 'img_y_size':24, 'img_x_len':3, 'img_y_len':1}
+            elif self.path == '/owned-storyboard.png':
+                import io
+                from PIL import Image
+                image = Image.new('RGB', (96,24), 'blue')
+                for x in range(32,64):
+                    for y in range(24): image.putpixel((x,y), (255,0,0))
+                output = io.BytesIO()
+                image.save(output, format='PNG')
+                self.send_response(200)
+                self.end_headers()
+                self.wfile.write(output.getvalue())
+                return
             elif self.path == "/fixture.json":
                 self.reply({"body": [{"from": 1, "to": 2, "content": "Synthetic timestamped subtitle"}]})
                 return

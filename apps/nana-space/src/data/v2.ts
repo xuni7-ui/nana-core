@@ -54,6 +54,11 @@ interface NativePort {
     granted: boolean;
     background_push: string;
   }>;
+  backgroundNotifications(options?: { enabled?: boolean }): Promise<{
+    enabled: boolean; state: string; interval_minutes: number;
+    private_body_in_notification: false; instant_push: false; physical_delivery_qualified: false;
+  }>;
+  notificationQuiet(options: { quiet: boolean }): Promise<void>;
   notifyForeground(options: {
     event_id: string;
     page: LivePage;

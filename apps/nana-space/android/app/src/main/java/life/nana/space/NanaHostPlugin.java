@@ -95,6 +95,7 @@ public class NanaHostPlugin extends Plugin {
     // Security transition must complete before acknowledging logout.
     @android.annotation.SuppressLint("ApplySharedPref")
     private synchronized void clearBinding() {
+        try { NanaNotificationJob.configure(getContext(), false); } catch (Exception ignored) { }
         access = null; accessAt = 0;
         prefs().edit().clear().commit();
     }
@@ -316,6 +317,22 @@ public class NanaHostPlugin extends Plugin {
         if (Build.VERSION.SDK_INT < 33 || getPermissionState("notifications") == PermissionState.GRANTED) {
             JSObject out = new JSObject();out.put("granted", true);out.put("background_push", "NOT_QUALIFIED");call.resolve(out);
         } else requestPermissionForAlias("notifications", call, "permissionResult");
+    }
+    @PluginMethod public void backgroundNotifications(PluginCall call) {
+        try {
+            Boolean enabled = call.getBoolean("enabled");
+            if (enabled != null) NanaNotificationJob.configure(getContext(), enabled);
+            call.resolve(JSObject.fromJSONObject(NanaNotificationJob.status(getContext())));
+        } catch (Exception ex) { reject(call, ex); }
+    }
+    @PluginMethod public void notificationQuiet(PluginCall call) {
+        Boolean quiet = call.getBoolean("quiet");
+        if (quiet == null) { call.reject("NOTIFICATION_INPUT_DENIED"); return; }
+        synchronized (NanaNotificationJob.LOCK) {
+            NanaNotificationJob.prefs(getContext()).edit().putBoolean("quiet", quiet).commit();
+            if (quiet) ((NotificationManager)getContext().getSystemService(Context.NOTIFICATION_SERVICE)).cancel(NanaNotificationJob.JOB);
+        }
+        call.resolve();
     }
     @PermissionCallback private void permissionResult(PluginCall call) {
         JSObject out = new JSObject();out.put("granted", getPermissionState("notifications") == PermissionState.GRANTED);

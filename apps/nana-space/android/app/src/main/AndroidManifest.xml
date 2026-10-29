@@ -3,6 +3,7 @@
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS" />
+    <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <queries>
         <intent><action android:name="android.speech.RecognitionService" /></intent>
@@ -34,6 +35,9 @@
             </intent-filter>
 
         </activity>
+        <service android:name=".NanaNotificationJob"
+            android:permission="android.permission.BIND_JOB_SERVICE"
+            android:exported="false" />
 
 
     </application>

@@ -1695,3 +1695,8 @@ D-V4-FD2：撤销/轮换必须让旧运行实例的后续选择失效，不能�
 ## 2026-10-29 — V4 delivery checkpoint
 
 D-V4-DELIVERY-TRUTH：分别绑定运行源码c8、UI/Native源码af、实际安装6935项封条、不同测试源码和原失败。保留旧13/af精确归档与独立新SDK封条；兼容性不足先于停止健康服务拒绝，不修改旧审批、Store或历史资格。
+
+
+## 2026-10-29 — Living V4 continuous 402 checkpoint
+
+D-V4-402：旧档案只作为限时审批下的UNASSESSED SEMANTIC legacy claims进入原Memory，不成为EPISODIC/身份/Grant；旧解码器pre-stop拒绝。B站每个搜索/选择仍需原C+Kernel，后台为用户显式订阅的无正文动态提示，不冒充Nana已投递语言或即时推送。

@@ -107,6 +107,15 @@ class LifeApplication:
                 from .advanced import AdvancedLife
                 self.advanced=AdvancedLife(self,self.runtime.work.activity_source)
                 self.runtime.work.activity_source=self.advanced
+            self.bilibili_life = None
+            if self.config.bilibili_life and self.config.bilibili_life.enabled:
+                from .bilibili_life import BilibiliLife
+                self.bilibili_life = BilibiliLife(self, self.runtime.work.activity_source, self.config.bilibili_life)
+                self.runtime.work.activity_source = self.bilibili_life
+            from ..migration.archive_ingress import ArchiveImportService
+            self.legacy_imports = ArchiveImportService(self)
+            self.legacy_imports.reconcile()
+            self._legacy_review_at = 0
         except BaseException:self.runtime.stop();raise
 
     def _save_control(self):
@@ -114,6 +123,10 @@ class LifeApplication:
     def pause(self,paused=True):
         self.control['paused']=paused;self.runtime.work.paused=paused;self._save_control();return {'autonomy':'PAUSED' if paused else 'RUNNING'}
     def tick(self):
+        now = self.runtime.clock.utc_now_us()
+        if now >= self._legacy_review_at:
+            self.legacy_imports.reconcile()
+            self._legacy_review_at = now + 10_000_000
         incoming=self.ingress.drain()
         return {'surface_ingress':incoming} if incoming else self.runtime.step()
     def sources(self):
@@ -133,6 +146,7 @@ class LifeApplication:
         view['surfaces']=[{'binding_id':b.binding_id,'enabled':b.enabled,'mode':b.mode} for b in self.config.surface_bindings]
         view['human_review']='NOT_RUN'
         if self.advanced:view['advanced_life']=self.advanced.view()
+        if self.bilibili_life:view['bilibili_life']=self.bilibili_life.view()
         return view
     def status(self):
         r=self.runtime

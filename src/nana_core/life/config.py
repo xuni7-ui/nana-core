@@ -2,7 +2,7 @@
 import json,os,tempfile,resource
 from pathlib import Path
 from typing import Literal
-from pydantic import Field,model_validator
+from pydantic import Field,model_validator,model_serializer
 from zoneinfo import ZoneInfo,ZoneInfoNotFoundError
 from ..contracts import DTO,CoreError
 from ..continuity.project_work.port import ProjectMaterial
@@ -12,6 +12,7 @@ from ..continuity.current_state import ProjectStateBinding
 from ..continuity.hands.browser import BrowserEndpoint
 from ..continuity.open_life.sources import IntakeSource
 from ..continuity.controlled_world.projects import ControlledProject
+from .bilibili_life import BilibiliLifeConfig
 
 class LifeConfig(DTO):
     schema_version:Literal[1]=1
@@ -38,6 +39,12 @@ class LifeConfig(DTO):
     surface_bindings:tuple[SurfaceBinding,...]=Field(default=(),max_length=16)
     shared_presence:bool=False
     advanced_life:bool=False
+    bilibili_life:BilibiliLifeConfig|None=None
+    @model_serializer(mode='wrap')
+    def compatible_optional_platforms(self, handler):
+        value=handler(self)
+        if self.bilibili_life is None:value.pop('bilibili_life',None)
+        return value
     record_research_outcomes:bool=False
     world_sources:tuple[IntakeSource,...]=Field(default=(),max_length=16)
     controlled_projects:tuple[ControlledProject,...]=Field(default=(),max_length=4)

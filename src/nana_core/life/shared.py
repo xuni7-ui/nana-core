@@ -42,6 +42,36 @@ class SharedPresence:
                 if len(canonical(out).encode())>8000:out.pop()
                 break
         return {'items':out,'coverage':'ORIGINAL_C_APPROVED_CANDIDATES_ONLY','external_delivery':False}
+    def notification_inbox(self, *, privacy, scope=None, entity_id=None):
+        """Read-only, body-free subscription hints, not delivered Nana speech.
+
+        The paired device explicitly subscribes. Original C must have chosen
+        sharing; current busy/quiet/refusal/source state can suppress the hint.
+        This projection does not execute a social intention or mint a Grant.
+        """
+        app=self.app;r=app.runtime;s=r.store
+        scope=r.config.scopes[0] if scope is None else scope
+        entity_id=r.config.entity_id if entity_id is None else entity_id
+        inbox=self.inbox(privacy=privacy,scope=scope,entity_id=entity_id)
+        admission=DeliveryAdmission(s,DeliveryPolicy(recipients=('synthetic://recipient/'+entity_id,),
+            privacy_classes=tuple(p for p in privacy if p in {'PUBLIC','PROJECT'}),quiet_timezone=app.config.timezone,
+            quiet_start_local_hour=app.config.quiet_start_local_hour,quiet_end_local_hour=app.config.quiet_end_local_hour),
+            scopes=(scope,),privacy_classes=tuple(privacy))
+        _,recipient=admission._recipient('synthetic://recipient/'+entity_id,scope)
+        now=r.clock.utc_now_us()
+        if (r.work.paused or admission._quiet() or not recipient or recipient.availability!='AVAILABLE'
+                or not recipient.observed_at_us<=now<recipient.expires_at_us):
+            return {'items':[],'state':'SILENT_UNAVAILABLE_BUSY_OR_QUIET','private_body_in_notification':False}
+        items=[]
+        for candidate in inbox['items']:
+            row=s.one('continuity_records',candidate['candidate_record_id'])
+            if row['privacy_class'] not in recipient.permitted_privacy or now-row['created_at_us']>7*DAY:continue
+            if candidate['topic'] and depth_boundary(s,entity_id,scope,candidate['topic'],privacy)[0]:continue
+            cycle=r.subject.result(s.one('subject_cycles',candidate['cycle_id']))
+            if not cycle.evaluation or cycle.evaluation.normative!='ENDORSED':continue
+            items.append({'event_id':candidate['candidate_record_id'],'page':'home','kind':'SHARED_CANDIDATE_AVAILABLE'})
+            if len(items)>=8:break
+        return {'items':items,'state':'SUBSCRIPTION_HINTS_NOT_SOCIAL_DELIVERY','private_body_in_notification':False}
     def candidates(self):
         app=self.app;s=app.runtime.store;records=RecordService(s);out=[]
         for row in s.db.execute('SELECT * FROM experiences ORDER BY created_at_us DESC,rowid DESC LIMIT 32'):
@@ -132,7 +162,7 @@ class SharedPresence:
         from .conversation_opportunity import opportunity
         return opportunity(app)
     def review(self,cycle_id,binding_id):
-        app=self.app;r=app.runtime;s=r.store;b=app.surfaces._binding(binding_id)
+        app=self.app;r=app.runtime;s=r.store;app.surfaces._binding(binding_id)
         raw=s.one('subject_cycles',cycle_id)
         if not raw:raise CoreError('SHARED_CYCLE_UNAVAILABLE')
         cycle=r.subject.result(raw)

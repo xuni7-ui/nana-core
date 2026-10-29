@@ -267,6 +267,39 @@ class Supervisor:
         except Exception:
             raise ApiError("INCOMPATIBLE_SECRET_BINDING_CONTRACT", 409) from None
 
+    def _require_memory_ingress_contract(self, release):
+        """Reject an old decoder BEFORE stopping a healthy owner; no DB rollback."""
+        from ..config import load_config
+        path = self.home / 'subject/self.db'
+        with sqlite3.connect(path.as_uri() + '?mode=ro', uri=True) as db:
+            legacy = db.execute("SELECT 1 FROM continuity_evidence WHERE source_namespace='recorded.legacy.archive' LIMIT 1").fetchone()
+        required = {}
+        if legacy is not None:
+            required['archive_ingress_contract'] = 'INCOMPATIBLE_ARCHIVE_MEMORY_CONTRACT'
+        if load_config(self.home).bilibili_life is not None:
+            required['bilibili_life_contract'] = 'INCOMPATIBLE_BILIBILI_LIFE_CONTRACT'
+        if not required:
+            return
+        try:
+            manifest = Path(release.root) / 'runtime.json'
+            if manifest.is_file():
+                from ...continuity.privacy import _json_object
+                if manifest.resolve() != manifest or manifest.stat().st_size > 65536:
+                    raise ValueError()
+                metadata = json.loads(manifest.read_bytes(), object_pairs_hook=_json_object)
+            elif self.binding.realm == Realm.DEVELOPMENT and Path(release.root).resolve() == Path(__file__).resolve().parents[4]:
+                # Only this exact working-tree decoder, never another directory
+                # or an imported module from a newer interpreter on sys.path.
+                metadata = {'archive_ingress_contract': 1, 'bilibili_life_contract': 1}
+            else:
+                metadata = {}
+        except (OSError, ValueError, TypeError):
+            raise ApiError('INCOMPATIBLE_HOST_DATA_CONTRACT', 409) from None
+        for key, code in required.items():
+            value = metadata.get(key, 0)
+            if type(value) is not int or value < 1:
+                raise ApiError(code, 409)
+
     def start(self, *, automatic=False):
         with self.lock:
             unknown = self.verify_binding()
@@ -288,6 +321,7 @@ class Supervisor:
             release = self.releases[state["active_release"]]
             release.validate_local(qualified=self.binding.realm == Realm.PRODUCTION)
             self._require_secret_binding_contract(release)
+            self._require_memory_ingress_contract(release)
             # Core already writes its original bounded sanitized runtime.log.
             # Do not retain an unbounded stdout/stderr stream or error payloads.
             # Original entry point with explicit finite residency, not a second
@@ -428,6 +462,7 @@ class Supervisor:
         with self.lock:
             release = self.releases[self.state.read()["active_release"]]
             self._require_secret_binding_contract(release)
+            self._require_memory_ingress_contract(release)
             self.stop()
             return self.start()
 
@@ -447,6 +482,7 @@ class Supervisor:
             if (previous.schema_version, previous.plan_contract) != (target.schema_version, target.plan_contract):
                 raise ApiError("INCOMPATIBLE_RELEASE_STOP_REQUIRED", 409)
             self._require_secret_binding_contract(target)
+            self._require_memory_ingress_contract(target)
             if self.verify_binding():
                 raise ApiError("PENDING_UNKNOWN_REQUIRES_REVIEW", 409)
             self.stop()

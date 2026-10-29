@@ -1,0 +1,10 @@
+{
+  "file": "nana-space-4.0.2-debug.apk",
+  "bytes": 4759140,
+  "sha256": "a731c48a063ab7ef467e803aa368216a5e0c54f4f6a25d1a7590586d8330c596",
+  "version_code": 402,
+  "application_id": "life.nana.space.dev",
+  "signer_sha256": "b2fec5a02e6f32e69fb8ef8bce44391a6a4ba5ab8ce6dc7284cb57663016ec41",
+  "physical_phone": "NOT_RUN",
+  "background_job_delivery": "NOT_RUN"
+}

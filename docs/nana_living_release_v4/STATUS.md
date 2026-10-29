@@ -1,5 +1,13 @@
 # Living V4 — current development delivery and host gates
 
+**Current continuous work after153196b:**402 code adds scoped archive claim
+conversion, actual sampled-frame/H1 integration, original-C Bilibili selection
+and native background metadata subscription. See IMPLEMENTATION and
+evidence/continuation-402. New full image and unified task acceptance are still
+in progress; the c8/401 delivery and measurements below are the last sealed
+release, not evidence for this unsealed working source.
+
+
 [实测/文档，2026-10-29] **Development-qualified V4 candidate, ready for host
 reconciliation; product acceptance remains PARTIAL. First-Life NOT_READY;
 Beta NO.** Continue `dev/nana-core-living-release-v4-codex`, executable source

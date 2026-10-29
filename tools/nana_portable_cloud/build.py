@@ -14,6 +14,7 @@ DEPENDENCIES = {
 }
 FEATURE_DEPENDENCIES = {
     "HOST_VAULT": {"cryptography": "50.0.0", "cffi": "2.1.1", "pycparser": "3.0"},
+    "PUBLIC_VIDEO_FRAMES": {"pillow": "12.3.0"},
 }
 
 
@@ -155,6 +156,8 @@ def build(destination, wheels, revision="HEAD", *, features=()):
                 "dependencies": dependencies,
                 "features": sorted(features),
                 "secret_binding_contract": secret_contract,
+                "archive_ingress_contract": 1 if 'src/nana_core/migration/archive_ingress.py' in sources else 0,
+                "bilibili_life_contract": 1 if 'src/nana_core/life/bilibili_life.py' in sources else 0,
                 "real_provider_calls": 0,
             },
             indent=2,

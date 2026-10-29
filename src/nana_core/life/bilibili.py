@@ -59,6 +59,7 @@ class PublicReading:
     observed_at_us: int
     payload: dict = field(repr=False)
     origin: str = "REAL_PLATFORM_HTTP"
+    frames: tuple = field(default=(), repr=False)
 
 
 class BilibiliPublicTransport:
@@ -81,7 +82,7 @@ class BilibiliPublicTransport:
         self.opener = (BilibiliLoopbackOpener(loopback_endpoint) if loopback_endpoint is not None
                        else urllib.request.build_opener(NoRedirect()))
 
-    def _raw(self, url):
+    def _raw(self, url, *, image=False):
         if not self.authorized:
             raise CoreError("BILIBILI_READ_NOT_AUTHORIZED")
         if self.calls >= self.request_limit:
@@ -91,26 +92,27 @@ class BilibiliPublicTransport:
             invalid = parsed.scheme != "https" or parsed.username or parsed.password or parsed.fragment or parsed.port
         except ValueError:
             raise CoreError("BILIBILI_ENDPOINT_DENIED") from None
-        if invalid or parsed.hostname not in {"api.bilibili.com", "aisubtitle.hdslb.com"}:
+        hosts = {'i0.hdslb.com', 'i1.hdslb.com', 'i2.hdslb.com'} if image else {"api.bilibili.com", "aisubtitle.hdslb.com"}
+        if invalid or parsed.hostname not in hosts or (image and (parsed.query or not parsed.path.lower().endswith(('.jpg', '.jpeg', '.png')))):
             raise CoreError("BILIBILI_ENDPOINT_DENIED")
         self.calls += 1
         request = urllib.request.Request(url, headers={"Accept": "application/json", "User-Agent": "NanaCore/4 source-aware public reader"})
         try:
             with self.opener.open(request, timeout=5) as response:
                 self.last_http_status = response.status
-                raw = response.read(262145)
+                raw = response.read((1048576 if image else 262144) + 1)
         except urllib.error.HTTPError as exc:
             self.last_http_status = exc.code
             raise CoreError("BILIBILI_HTTP_UNAVAILABLE") from None
         except (OSError, http.client.HTTPException):
             raise CoreError("BILIBILI_READ_UNKNOWN_NO_RETRY") from None
-        if len(raw) > 262144:
+        if len(raw) > (1048576 if image else 262144):
             raise CoreError("BILIBILI_RESPONSE_BOUND")
         return raw
 
     def _get(self, path, query):
         if path not in {"/x/web-interface/search/type", "/x/web-interface/view", "/x/web-interface/archive/related",
-                        "/x/player/v2", "/x/v2/reply"}:
+                        "/x/player/v2", "/x/player/videoshot", "/x/v2/reply"}:
             raise CoreError("BILIBILI_ENDPOINT_DENIED")
         raw = self._raw("https://api.bilibili.com" + path + "?" + urllib.parse.urlencode(query))
         try:
@@ -161,7 +163,7 @@ class BilibiliPublicTransport:
             raise CoreError("BILIBILI_VIDEO_CORRELATION_MISMATCH")
         return PublicReading(bvid, "VIDEO_METADATA", time.time_ns() // 1000, self._video(data), self.origin)
 
-    def read_video(self, bvid, *, subtitles=True, comments=True, danmaku=True):
+    def read_video(self, bvid, *, subtitles=True, comments=True, danmaku=True, visual=False):
         """Fetch bounded actual materials, preserving which part was observed.
 
         Subtitle text is an excerpt with timestamps, comments are attributed to
@@ -194,7 +196,17 @@ class BilibiliPublicTransport:
             body["transcript"] = " ".join(row["text"] for row in body["subtitle_segments"])
         elif body["comment_samples"] or body["danmaku_samples"]:
             body["coverage"] = "SOCIAL_CONTEXT_ONLY_NOT_VIDEO_CONTENT"
-        return PublicReading(bvid, "VIDEO_READING", metadata.observed_at_us, body, self.origin)
+        frames = ()
+        if visual:
+            try:
+                from .bilibili_frames import acquire_frames
+                frames = acquire_frames(self, bvid, cid)
+                body['visual_frames'] = len(frames)
+                body['frame_timestamps_seconds'] = [f.at_seconds for f in frames]
+                body['coverage'] = 'SAMPLED_VIDEO_FRAMES_NOT_FULL_WATCH'
+            except (CoreError, ImportError) as exc:
+                body['notes'].append('VISUAL_FRAMES:' + (exc.code if isinstance(exc, CoreError) else 'FRAME_DECODER_UNAVAILABLE'))
+        return PublicReading(bvid, "VIDEO_READING", metadata.observed_at_us, body, self.origin, frames)
 
     def _subtitles(self, bvid, aid, cid):
         info = self._get("/x/player/v2", {"bvid": bvid, "aid": aid, "cid": cid})
@@ -269,7 +281,7 @@ class BilibiliSourceAdapter:
     def __init__(self, app):
         self.app = app
 
-    def ingest(self, reading):
+    def ingest(self, reading, *, parents=()):
         if type(reading) is not PublicReading or reading.kind not in {"DISCOVERY", "VIDEO_METADATA", "VIDEO_READING"}:
             raise CoreError("BILIBILI_TYPED_RECEIPT_REQUIRED")
         if type(reading.payload) is not dict or type(reading.reference) is not str or not 1 <= len(reading.reference) <= 128:
@@ -284,7 +296,7 @@ class BilibiliSourceAdapter:
                           "publication_is_not_authority": True, "watched": False})
         if len(body.encode()) > 24576:
             raise CoreError("BILIBILI_RECEIPT_BOUND")
-        reference = digest([reading.reference, digest(body)])
+        reference = digest([reading.reference, digest(body), list(parents)]) if parents else digest([reading.reference, digest(body)])
         namespace = "recorded.project.bilibili" if fixture else "recorded.bilibili.public"
         old = runtime.store.db.execute("SELECT observed_time_us FROM continuity_evidence WHERE source_namespace=? AND source_reference=?", (namespace, reference)).fetchone()
         evidence = memory.capture(EvidenceInput(
@@ -300,7 +312,7 @@ class BilibiliSourceAdapter:
             return prior[0]
         return memory.add(MemoryCandidate(entity_id=runtime.config.entity_id, scope=runtime.config.scopes[0],
                                          memory_type=MemoryType.EPISODIC, epistemic_kind="OBSERVATION",
-                                         source_evidence_id=evidence, text=body))
+                                         source_evidence_id=evidence, text=body, derived_from=parents))
 
     def interpret(self, memory_id):
         """One original budgeted cognition; interpretation never claims viewing."""
@@ -319,7 +331,7 @@ class BilibiliSourceAdapter:
             return {"state": result["state"], "request_id": request, "no_retry": True}
         return self.apply_proposal(memory_id, session, result["record_id"])
 
-    def apply_proposal(self, memory_id, session, proposal_id):
+    def apply_proposal(self, memory_id, session, proposal_id, *, enqueue=True):
         from ..continuity.world_loop.world import WorldModel, SourcedClaim
         from ..continuity.world_loop.attention import ConcernService
         from ..continuity.open_life.sources import remember
@@ -346,7 +358,7 @@ class BilibiliSourceAdapter:
         world.ingest(derived)
         concerns = ConcernService(runtime, resources=("project://bilibili/public",))
         ids = concerns.offer(proposal_id)
-        event = concerns.opportunity()
+        event = concerns.opportunity() if enqueue else None
         queue_id = runtime.submit(event) if event is not None else None
         return {"state": "INTERPRETED_NOT_WATCHED", "source_memory_id": memory_id, "derived_memory_id": derived,
                 "concern_ids": ids, "queue_id": queue_id, "entity_id": entity,
@@ -378,10 +390,12 @@ class BilibiliSourceAdapter:
                         "coverage": plain(data.get("coverage", "DISCOVERY_CANDIDATES"), 64), "watched": False,
                         "subtitle_segments": len(data.get("subtitle_segments") or []),
                         "comment_samples": len(data.get("comment_samples") or []), "danmaku_samples": len(data.get("danmaku_samples") or []),
-                        "visual_frames": data.get("visual_frames", 0), "source_origin": body["origin"],
+                        "visual_frames": 0, "source_origin": body["origin"],
                         "missing_sources": [plain(note, 96) for note in data.get("notes", [])[:3]],
                         "interpreted": self._interpreted(row["memory_id"]),
                         "observed_at_us": runtime.store.one("continuity_evidence", row["source_evidence_id"])["observed_time_us"]}
+            from .bilibili_frames import BilibiliFrameService
+            candidate.update(BilibiliFrameService(self.app).coverage(row['memory_id']))
             if len(canonical(out + [candidate]).encode()) > 10000:
                 break
             out.append(candidate)
@@ -407,7 +421,8 @@ class BilibiliReadArgs(DTO):
 class BilibiliReadRegistry:
     """Finite public reads; neither description nor interest grants authority."""
     definitions = MappingProxyType({"bilibili.public.discover": BilibiliReadArgs,
-                                    "bilibili.public.read": BilibiliReadArgs})
+                                    "bilibili.public.read": BilibiliReadArgs,
+                                    "bilibili.public.watch": BilibiliReadArgs})
     verify_capability = "bilibili.public.verify"
     resource = "project://bilibili/public"
 
@@ -419,7 +434,7 @@ class BilibiliReadRegistry:
     def request_count(capability):
         if capability not in BilibiliReadRegistry.definitions:
             raise CoreError("BILIBILI_READ_CAPABILITY_DENIED")
-        return 1 if capability == "bilibili.public.discover" else 5
+        return 1 if capability == "bilibili.public.discover" else 9 if capability == 'bilibili.public.watch' else 5
 
     @staticmethod
     def payload_privacy(payload):
@@ -462,11 +477,15 @@ class BilibiliReadPort:
             return
         raise CoreError("BILIBILI_CANONICAL_ACTIVATION_REQUIRED")
 
-    def _source(self, memory_id):
+    def _source(self, memory_id, *, interest=False):
         source = RecordService(self.store).memory.read(memory_id)
+        if source["scope"] not in self.app.runtime.config.scopes or source["privacy_class"] not in self.app.policy.readable_privacy:
+            raise CoreError("BILIBILI_READ_SOURCE_DENIED")
         if source["source_provenance"]["source_namespace"] not in {
                 "recorded.project.bilibili", "recorded.bilibili.public"}:
-            raise CoreError("BILIBILI_SOURCE_BINDING_REQUIRED")
+            if not interest or source['privacy_class'] != 'PUBLIC':
+                raise CoreError("BILIBILI_SOURCE_BINDING_REQUIRED")
+            return source, {'kind': 'SOURCED_INTEREST', 'origin': 'ORIGINAL_PUBLIC_CONCERN', 'data': {}}
         if source["scope"] not in self.app.runtime.config.scopes or source["privacy_class"] not in self.app.policy.readable_privacy:
             raise CoreError("BILIBILI_READ_SOURCE_DENIED")
         reading = json.loads(source["text"])
@@ -476,7 +495,7 @@ class BilibiliReadPort:
             raise CoreError("BILIBILI_QUERY_PRIVACY_DENIED")
         return source, reading
 
-    def bind_event(self, event, source_memory_id, *, discover=True):
+    def bind_event(self, event, source_memory_id, *, discover=True, visual=False):
         """Describe an opportunity; the caller still submits it to original C."""
         from ..continuity.autonomy.contracts import RealizationTarget
         if not event.world_concern_id:
@@ -485,11 +504,11 @@ class BilibiliReadPort:
         records = RecordService(self.store)
         if not row or source_memory_id not in records.support(row["record_id"]) or not records.current_support(row["record_id"]):
             raise CoreError("BILIBILI_CONCERN_SOURCE_MISMATCH")
-        _, reading = self._source(source_memory_id)
+        _, reading = self._source(source_memory_id, interest=discover)
         if not discover and (reading["kind"] not in {"VIDEO_METADATA", "VIDEO_READING"} or
                             not re.fullmatch(r"BV[A-Za-z0-9]{10}", reading["data"].get("bvid", ""))):
             raise CoreError("BILIBILI_ORIGINAL_SELECTION_REQUIRED")
-        capability = "bilibili.public.discover" if discover else "bilibili.public.read"
+        capability = "bilibili.public.discover" if discover else 'bilibili.public.watch' if visual else "bilibili.public.read"
         return event.model_copy(update={"realization_target": RealizationTarget(
             capability=capability, resource=self.registry.resource, operation="READ", resource_class="ORDINARY")})
 
@@ -509,7 +528,7 @@ class BilibiliReadPort:
             raise CoreError("BILIBILI_CURRENT_C_REQUIRED")
         if source_memory_id not in records.support(row["record_id"]):
             raise CoreError("BILIBILI_C_SOURCE_MISMATCH")
-        source, reading = self._source(source_memory_id)
+        source, reading = self._source(source_memory_id, interest=target.capability == 'bilibili.public.discover')
         event = records.read(self.store.one("subject_events", row["subject_event_id"])["record_id"])["payload"]["input"]
         concern = self.store.one("open_concerns", event.get("world_concern_id"))
         if (not concern or not records.current_support(concern["record_id"]) or
@@ -540,18 +559,23 @@ class BilibiliReadPort:
         body = self.registry.validate(invocation.capability, invocation.resource, invocation.args)
         if not verifying and self.args_for_cycle(body["cycle_id"], body["source_memory_id"]) != body:
             raise CoreError("BILIBILI_C_TARGET_MISMATCH")
-        self._source(body["source_memory_id"])
+        self._source(body["source_memory_id"], interest=body['query'] is not None)
         return body
 
     def execute(self, invocation):
         body = self._bound(invocation)
         reading = (self.transport.search(body["query"]) if body["query"] is not None
-                   else self.transport.read_video(body["bvid"]))
+                   else self.transport.read_video(body["bvid"], visual=invocation.capability == 'bilibili.public.watch'))
+        frames = reading.frames
         reading = PublicReading(reading.reference, reading.kind, reading.observed_at_us,
             {**reading.payload, "kernel_action_id": invocation.action_id, "kernel_args_hash": invocation.args_hash}, reading.origin)
         memory_id = self.sources.ingest(reading)
+        frame_ids = ()
+        if frames:
+            from .bilibili_frames import BilibiliFrameService
+            frame_ids = BilibiliFrameService(self.app).capture(memory_id, frames)
         return Receipt(external_id=memory_id, result={"source_memory_id": memory_id, "watched": False,
-                       "selection": "REQUIRES_ORIGINAL_C_JUDGMENT"})
+                       'frame_memory_ids': list(frame_ids), "selection": "REQUIRES_ORIGINAL_C_JUDGMENT"})
 
     def verify(self, invocation):
         self._bound(invocation, verifying=True)
@@ -565,8 +589,11 @@ class BilibiliReadPort:
                 continue
             data = source["data"]
             if data.get("kernel_action_id") == invocation.action_id and data.get("kernel_args_hash") == invocation.args_hash:
+                from .bilibili_frames import BilibiliFrameService
+                coverage = BilibiliFrameService(self.app).coverage(row[0])
                 return Verification(verdict="MATCH", evidence={"original_memory_readback": True,
-                    "network_repeated": False, "result": {"source_memory_id": row[0], "watched": False}})
+                    "network_repeated": False, "result": {"source_memory_id": row[0], "watched": False,
+                    'frame_memory_ids': [f['source_memory_id'] for f in coverage['frame_samples']]}})
         return Verification(verdict="INCONCLUSIVE", evidence={"no_blind_retry": True, "network_calls": 0})
 
 

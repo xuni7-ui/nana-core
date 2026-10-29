@@ -8,7 +8,7 @@ import re
 
 from ..contracts import CoreError
 from ..storage import uid
-from .contracts import EvidenceInput, MemoryCandidate
+from .contracts import EvidenceInput, MemoryCandidate, MemoryType
 
 PRIVACY_RANK = {"PUBLIC": 0, "PROJECT": 1, "PERSONAL": 2, "SECRET": 3}
 
@@ -40,6 +40,13 @@ class MemoryService:
         if not isinstance(candidate, EvidenceInput):
             raise CoreError("INVALID_EVIDENCE_CONTRACT")
         p = candidate.provenance
+        legacy = p.domain == 'LEGACY_ARCHIVE'
+        if legacy:
+            # Only the local, manifest/lineage-bound import controller can admit
+            # archived claims. A DTO, model output or a boolean is insufficient.
+            from ..migration.archive_ingress import ArchiveIngressAuthority
+            if type(self._authority) is not ArchiveIngressAuthority or not self._authority.permits(self.store, candidate):
+                raise CoreError('LEGACY_ARCHIVE_IMPORT_NOT_AUTHORIZED')
         consented=p.domain=='CONSENTED_INTERACTION'
         if consented and (self.store.schema_target<13 or candidate.privacy_class not in {'PUBLIC','PROJECT','PERSONAL'} or candidate.retention_consent_ref!=p.source_reference or (p.source_namespace,p.source_kind) not in {('recorded.conversation.input','USER_STATEMENT'),('recorded.conversation.feedback','USER_STATEMENT'),('recorded.conversation.feedback-check','SYSTEM_VERIFICATION'),('recorded.conversation.concern','MODEL_DERIVATION')}):raise CoreError('EXPLICIT_CONVERSATION_RETENTION_REQUIRED')
         local=p.domain=='LOCAL_INTERACTION_METADATA'
@@ -50,7 +57,7 @@ class MemoryService:
             if self.store.schema_target<13 or candidate.privacy_class not in {'PUBLIC','PROJECT','PERSONAL'} or not (legacy or pending):raise CoreError('LOCAL_METADATA_ONLY')
         project=p.domain=="DEVELOPMENT_PROJECT" and candidate.privacy_class=="PROJECT" and self.store.schema_target>=13
         if p.domain=="DEVELOPMENT_PROJECT" and not project:raise CoreError("PROJECT_DEVELOPMENT_INGRESS_ONLY")
-        if p.domain!="SYNTHETIC_ONLY" and not project and not local and not consented and (self.store.schema_target<13 or candidate.privacy_class!="PUBLIC"):
+        if p.domain!="SYNTHETIC_ONLY" and not project and not local and not consented and not legacy and (self.store.schema_target<13 or candidate.privacy_class!="PUBLIC"):
             raise CoreError("PUBLIC_DEVELOPMENT_INGRESS_ONLY")
         previous = self.store.db.execute("SELECT * FROM continuity_evidence WHERE "
             "source_namespace=? AND source_reference=? AND source_revision=?",
@@ -109,8 +116,14 @@ class MemoryService:
         if candidate.memory_type.value == "SELF" and candidate.entity_id != self.store.identity["identity_id"]:
             raise CoreError("SELF_MEMORY_REQUIRES_CANONICAL_SUBJECT")
         source = self.evidence(candidate.source_evidence_id)
+        legacy = json.loads(source['provenance_json'])['domain'] == 'LEGACY_ARCHIVE'
+        if legacy and (candidate.memory_type != MemoryType.SEMANTIC or candidate.epistemic_kind != 'BELIEF'
+                       or candidate.confidence != 0 or candidate.correction_of or not candidate.predicate_key):
+            raise CoreError('LEGACY_CLAIM_CANNOT_BECOME_EXPERIENCE_OR_FACT')
         authority = "DIRECT" if source["source_kind"] in {
             "USER_STATEMENT", "DIRECT_OBSERVATION", "SYSTEM_VERIFICATION"} else "INFERRED"
+        if legacy:
+            authority = 'INFERRED'
         if candidate.epistemic_kind in {"SUMMARY", "INFERENCE", "LESSON"}:
             authority = "INFERRED"
         parents = [self.read(x) for x in candidate.derived_from]

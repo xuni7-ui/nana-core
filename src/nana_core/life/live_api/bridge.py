@@ -82,6 +82,8 @@ class GatewayService:
                 "conversation_history": True,
                 "platform_bilibili_history": True,
                 "shared_life_candidates": True,
+                "notification_inbox": True,
+                "background_poll_hints": True,
             },
             data=data,
         ).model_dump(mode="json")
@@ -95,7 +97,8 @@ class GatewayService:
                 "roles": [r.value for r in principal.roles],
                 "provider": self.provider_status(),
                 "pages": [p.value for p in Page],
-                "notifications": {"foreground": "SUPPORTED_AFTER_NATIVE_PERMISSION", "background": "NOT_QUALIFIED"},
+                "notifications": {"foreground": "SUPPORTED_AFTER_NATIVE_PERMISSION", "background": "OS_SCHEDULED_METADATA_SUBSCRIPTION",
+                    "instant_push": False, "physical_delivery": "NOT_RUN"},
                 "first_life": "NOT_READY",
                 "identity_provenance": "EXISTING_BOUND_SUBJECT_NOT_AUTOMATIC_GENESIS",
             }
@@ -136,6 +139,19 @@ class GatewayService:
             data = response["result"] if before == after else {"items": [], "coverage": "SOURCE_CHANGED_REFRESH_REQUIRED"}
             data["privacy_watermark"] = after
             return self.envelope(data)
+
+    def notification_inbox(self, principal):
+        principal.require(Role.CONVERSATION)
+        with self.read_lock:
+            self.supervisor.verify_binding()
+            before = self._privacy_watermark()
+            response = core_request(self.supervisor.home, {'operation':'notification-inbox',
+                'privacy':list(self.binding.privacy),'scope':self.binding.scope,'entity_id':self.binding.entity_id})
+            if response.get('ok') is not True:
+                raise ApiError('NOTIFICATION_INBOX_UNAVAILABLE', 503)
+            after = self._privacy_watermark()
+            data = response['result'] if before == after else {'items':[], 'state':'SOURCE_CHANGED_REFRESH_REQUIRED'}
+            return self.envelope({**data,'privacy_watermark':after})
 
     def bilibili_history(self, principal):
         principal.require(Role.READER)

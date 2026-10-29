@@ -1,8 +1,10 @@
-"""Explicit host-local frozen archive lifecycle; no Core import or execution.
+"""Explicit host-local archive lifecycle and separately approved claim retention.
 
 Select frozen files by repeating --file. --synthetic requires the source's owned
 .nana-synthetic-legacy.json marker. Real private source access requires the
 operator's explicit --private-read-authorized flag; it does not enable import.
+import-batch requires a private, expiring approval pinned to a reviewed plan;
+only the already running original Core owner performs the retention operation.
 Withdraw retires search/plan support while preserving frozen source bytes.
 """
 
@@ -37,7 +39,7 @@ def sha256_arg(value):
 def parser():
     result = argparse.ArgumentParser(description=__doc__)
     commands = result.add_subparsers(dest="command", required=True)
-    for name in ("freeze", "verify", "search", "plan", "withdraw", "validate-plan"):
+    for name in ("freeze", "verify", "search", "plan", "withdraw", "validate-plan", "import-batch", "withdraw-core"):
         command = commands.add_parser(name, aliases=["import-preview"] if name == "plan" else [])
         command.add_argument("--subject-id", required=True)
         command.add_argument("--lineage-binding", required=True, type=sha256_arg)
@@ -60,6 +62,14 @@ def parser():
             command.add_argument("--source-id", required=True, type=sha256_arg)
         elif name == "validate-plan":
             command.add_argument("--plan-file", required=True)
+        elif name in {"import-batch", "withdraw-core"}:
+            command.add_argument("--home", required=True)
+            command.add_argument("--approval-file", required=True)
+            if name == "import-batch":
+                command.add_argument("--plan-file", required=True)
+                command.add_argument("--batch-id", required=True, type=sha256_arg)
+            else:
+                command.add_argument("--source-id", required=True, type=sha256_arg)
     return result
 
 
@@ -79,6 +89,22 @@ def load_plan(path):
 
 def run(args):
     binding = Binding(subject_id=args.subject_id, lineage_binding=args.lineage_binding)
+    if args.command in {"import-batch", "withdraw-core"}:
+        from nana_core.life.control import request
+        from nana_core.life.live_api.supervisor import existing_identity
+        if existing_identity(args.home)[:2] != (binding.subject_id, binding.lineage_binding):
+            raise CoreError('LEGACY_SUBJECT_LINEAGE_MISMATCH')
+        operation = 'legacy-import-batch' if args.command == 'import-batch' else 'legacy-withdraw'
+        body = {'operation': operation, 'archive': str(Path(args.archive).absolute()),
+                'approval_file': str(Path(args.approval_file).absolute())}
+        if args.command == 'import-batch':
+            body.update(plan_file=str(Path(args.plan_file).absolute()), batch_id=args.batch_id)
+        else:
+            body['source_id'] = args.source_id
+        result = request(args.home, body)
+        if result.get('ok') is not True:
+            raise CoreError(result.get('error', 'LEGACY_IMPORT_OWNER_UNAVAILABLE'))
+        return result['result']
     if args.command == "freeze":
         return archive.freeze(args.source_root, args.files, args.destination, binding,
                               private_authorized=args.private_read_authorized, synthetic=args.synthetic)

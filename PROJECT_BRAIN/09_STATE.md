@@ -7,26 +7,23 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 57,
-  "as_of_us": 1793295717858150,
+  "revision": 58,
+  "as_of_us": 1793316393996391,
   "stage": "H",
   "workstream": "LIVING_RELEASE_V4",
-  "status": "V4_DEVELOPMENT_RELEASE_DELIVERED_HOST_ACCEPTANCE_PENDING",
+  "status": "V4_CONTINUOUS_IMPLEMENTATION_AND_DELIVERY_IN_PROGRESS",
   "progress": [
-    "同一V4运行源码c8aa8c9，继承435ca7a/af584900；Master/Matrix字节不变、schema13/43business tables不变。",
-    "宿主AESGCM vault、FD2 epoch/digest撤销、缓存派发前失效与旧解码器pre-stop拒绝已测试；最新镜像UID999真实子进程撤销检查通过。",
-    "原Store对话/回执/分享候选与scope/entity/privacy/撤回接线；QQ/Bili适配接原C/Manager/Grant/Kernel/Verify，真实账号未测。",
-    "Core265文件两次离线构建一致；Android4.0.1/401原签名、UI代码af与当前相同，无需因服务端修复再装APK。",
-    "最新自有镜像五SDK ABI、实际DEV启动/SIGKILL/重建/B8通过；6935项新封条安装、重复零变更、精确损坏拒绝通过。",
-    "af原325相关测试通过；c8终查227定向通过（重叠不求和）；53前端、52场景分段浏览器及8真实DEV Core浏览器通过。",
-    "独立instrumented DEV300.163秒42动作/12目标/14实效、重启/备份/迁移通过；先前context fence失败保留，具体字段UNKNOWN。"
+    "继承153196b/c8/af及全部既有V4，继续同一dev分支；远端核同，Master/Matrix字节和schema13/43不变。",
+    "新增受控ArchiveImportService：私有限时plan/manifest/Subject/lineage审批，原Runtime/Memory保留UNASSESSED legacy claims；批次续接/启动撤回传播，通用RealMemoryIngress仍关闭。",
+    "B站新增限量真实分镜HTTP/像素/时间戳路径，接原Router VISION/H1/World；原C兴趣→搜索→引用候选→第二原C→Kernel读取，原Store游标和UNKNOWN恢复。",
+    "新增原C分享候选的无正文通知投影；Android402 JobScheduler明确订阅、15分钟调度、quiet/revoke/配对更换校验/去重限频，非即时push和真人送达。",
+    "240初次相关/261扩展相关/17恢复/1实际pre-stop旧decoder拒绝通过，各组重叠不求和；53前端单元、构建及402原签名APK构建通过。",
+    "402新镜像/完整发行尚未重建，已交付c8镜像/401发行仍是旧固定资格；不得混充新源码资格。"
   ],
   "open_gates": [
-    "正式8acff4fb主体、30845fb/hotfix及真实host仍USER_REPORTED_NOT_ATTESTED；本环境无安全VPN/host/credentials绑定。",
-    "整版V4_ACCEPTED=NO、V4_CODE_COMPLETE=NO：私史Core转换、B站画面/完整自主选择、后台投递仍有实现缺口，不能只靠授权关闭。",
-    "实Provider/钱包、实机HTTPS/语音、真人、正式24h/跨日记忆、QQ/Bili实效、B1异机仍NOT_RUN；First-Life NOT_READY/Beta NO。",
-    "已实现全源冻结/索引/预览/撤回，RealMemoryIngress原硬门未绕过；私人资料、旧写者、生产/main/R045未动；bwrap保持BLOCKED。",
-    "下一步云端按单一HOST_TASK_CARD只读核对热修复/active SDK及角色，再准备版本槽位；正式切换/费用/私史/社交须集中明确批准。"
+    "V4完整主线继续；平台owner启动/账户配置与真实连接、全部原任务逐项接线和综合发行待继续核验，不以本检查点宣布CODE_COMPLETE。",
+    "真实host/hotfix/正式主体仍USER_REPORTED_NOT_ATTESTED；没有安全VPN/凭据绑定；实Provider/平台/手机/真人/24h/跨日/私史导入/生产切换未运行。",
+    "First-Life NOT_READY/Beta NO；原24h/5h证据不改。当前新增路径仅owned/synthetic；原bwrap未资格、不降级其他能力。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
@@ -35,7 +32,8 @@
     "docs/nana_living_release_v4/STATUS.md",
     "docs/nana_living_release_v4/qualification.json",
     "docs/nana_living_release_v4/HOST_TASK_CARD.md",
-    "docs/nana_living_release_v4/evidence/final-401/"
+    "docs/nana_living_release_v4/evidence/final-401/",
+    "docs/nana_living_release_v4/evidence/continuation-402/"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

@@ -1734,13 +1734,30 @@ export function LiveSpace() {
                         type="checkbox"
                         checked={prefs.quiet}
                         onChange={(e) =>
-                          setPrefs((p) => ({ ...p, quiet: e.target.checked }))
+                          { const quiet = e.target.checked;
+                            setPrefs((p) => ({ ...p, quiet }));
+                            if (isNative()) void nativePort.notificationQuiet({ quiet }).catch(fail);
+                          }
                         }
                       />
                     </label>
                     <p>{notifications}</p>
                     {isNative() ? (
                       <div className="v3-actions">
+                        <button className="v3-button soft" onClick={() =>
+                          void nativePort.notificationPermission().then((r) => {
+                            if (!r.granted) throw new V2Error('NOTIFICATION_PERMISSION_REQUIRED');
+                            return nativePort.notificationQuiet({ quiet: prefs.quiet });
+                          })
+                            .then(() => nativePort.backgroundNotifications({ enabled: true }))
+                            .then(() => setNotifications("后台动态提醒已安排：系统约每15分钟检查一次，可因省电而延迟；只提醒奈奈有来源的分享候选，不显示私人正文。实机送达尚待验证。"))
+                            .catch(fail)
+                        }>开启后台动态提醒</button>
+                        <button className="v3-button soft" onClick={() =>
+                          void nativePort.backgroundNotifications({ enabled: false })
+                            .then(() => setNotifications("后台动态提醒已关闭。"))
+                            .catch(fail)
+                        }>关闭后台提醒</button>
                         <button
                           className="v3-button soft"
                           onClick={() =>

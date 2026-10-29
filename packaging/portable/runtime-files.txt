@@ -154,6 +154,8 @@ src/nana_core/life/__main__.py
 src/nana_core/life/advanced.py
 src/nana_core/life/application.py
 src/nana_core/life/bilibili.py
+src/nana_core/life/bilibili_frames.py
+src/nana_core/life/bilibili_life.py
 src/nana_core/life/bilibili_account.py
 src/nana_core/life/cloud.py
 src/nana_core/life/config.py
@@ -194,6 +196,7 @@ src/nana_core/life/view.py
 src/nana_core/memory.py
 src/nana_core/migration/__init__.py
 src/nana_core/migration/archive.py
+src/nana_core/migration/archive_ingress.py
 src/nana_core/migration/source_safety.py
 src/nana_core/planning.py
 src/nana_core/ports.py

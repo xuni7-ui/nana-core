@@ -26,8 +26,11 @@ def dispatch(app, request):
     if type(request) is not dict:
         raise CoreError("CLOUD_TYPED_REQUEST_REQUIRED")
     op = request.get("operation")
+    legacy = getattr(app, 'legacy_imports', None)
+    if legacy is not None and op != 'control':
+        legacy.reconcile()
     projection_keys = ({"operation", "privacy"}, {"operation", "privacy", "scope", "entity_id"})
-    if op in {"bilibili-history", "shared-candidates", "conversation-history"} and set(request) in projection_keys:
+    if op in {"bilibili-history", "shared-candidates", "conversation-history", "notification-inbox"} and set(request) in projection_keys:
         if type(request["privacy"]) is not list or any(p not in {"PUBLIC", "PROJECT"} for p in request["privacy"]):
             raise CoreError("PRIVACY_DENIED")
         coordinates = {k: request[k] for k in ("scope", "entity_id") if k in request}
@@ -38,17 +41,30 @@ def dispatch(app, request):
             return BilibiliSourceAdapter(app).history(privacy=request["privacy"], **coordinates)
         if op == "shared-candidates":
             return app.shared.inbox(privacy=request["privacy"], **coordinates)
+        if op == 'notification-inbox':
+            return app.shared.notification_inbox(privacy=request['privacy'], **coordinates)
         from .conversation import history
         return history(app, privacy=request["privacy"], **coordinates)
     if op == "provider-readiness" and set(request) == {"operation", "privacy"}:
         if request["privacy"] not in {"PUBLIC", "PROJECT"}:
             raise CoreError("PRIVACY_DENIED")
         return app.provider_readiness(privacy=request["privacy"])
-    mutating = op in {"surface", "backup", "self-profile", "language-feedback", "review-expression-learning", "bilibili-ingest", "bilibili-interpret"} or (
+    mutating = op in {"surface", "backup", "self-profile", "language-feedback", "review-expression-learning", "bilibili-ingest", "bilibili-interpret", "legacy-import-batch", "legacy-withdraw"} or (
         op == "control" and request.get("command") == "resume"
     )
     if mutating and shutil.disk_usage(app.home).free < app.config.min_free_disk_mb * 1024 * 1024:
         raise CoreError("CLOUD_DISK_GUARD")
+    if op in {"legacy-import-batch", "legacy-withdraw"}:
+        from ..migration.archive_ingress import ArchiveImportService, private_document
+        common = {'operation', 'archive', 'approval_file'}
+        expected = common | ({'plan_file', 'batch_id'} if op == 'legacy-import-batch' else {'source_id'})
+        if set(request) != expected or any(type(v) is not str or not 1 <= len(v) <= 4096 for v in request.values()):
+            raise CoreError('LEGACY_IMPORT_TYPED_REQUEST_REQUIRED')
+        service = ArchiveImportService(app)
+        if op == 'legacy-withdraw':
+            return service.withdraw(request['archive'], request['approval_file'], request['source_id'])
+        return service.import_batch(request['archive'], private_document(request['plan_file']),
+            request['approval_file'], request['batch_id'])
     if op == "bilibili-ingest" and set(request) == {"operation", "reading"}:
         from .bilibili import BilibiliSourceAdapter, PublicReading
         value = request["reading"]

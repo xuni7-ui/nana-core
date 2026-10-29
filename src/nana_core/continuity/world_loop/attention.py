@@ -76,9 +76,15 @@ class ConcernService:
                 if not self.records.current_support(row['record_id']):continue
                 if body['objective']:self.runtime.work.agency.policy.offer(Objective.model_validate_json(canonical(body['objective'])))
             except CoreError:continue
-    def opportunity(self):
+    def opportunity(self, *, concern_ids=None):
         r=self.runtime;now=self.store.clock.utc_now_us()
-        for row in self.store.db.execute("SELECT * FROM open_concerns WHERE state IN ('TRANSIENT','INTEREST','DEFERRED') AND next_review_us<=? ORDER BY encounters DESC,updated_at_us LIMIT 16",(now,)):
+        selected, args = '', [now]
+        if concern_ids is not None:
+            if type(concern_ids) is not tuple or not 1 <= len(concern_ids) <= 16 or any(type(c) is not str for c in concern_ids):
+                raise CoreError('CONCERN_SELECTION_BOUND')
+            selected = ' AND concern_id IN (' + ','.join('?' for _ in concern_ids) + ')'
+            args.extend(concern_ids)
+        for row in self.store.db.execute("SELECT * FROM open_concerns WHERE state IN ('TRANSIENT','INTEREST','DEFERRED') AND next_review_us<=?" + selected + " ORDER BY encounters DESC,updated_at_us LIMIT 16",args):
             try:body=self.records.read(row['record_id'])['payload']
             except CoreError:continue
             if not self.records.current_support(row['record_id']):continue

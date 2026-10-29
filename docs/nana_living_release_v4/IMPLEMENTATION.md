@@ -40,3 +40,43 @@ Bili adapters use fixed endpoints for discovery, metadata, timestamped subtitles
 The frozen legacy archive preserves whole selected files, content hashes, a rebuildable source index and bounded review ranges. Withdrawal excludes source search/plans while retaining frozen bytes. Real private conversion remains blocked by the original RealMemoryIngress; this archive is not a second Subject Store or imported personal history.
 
 Android/Web401 adds real source/history/shared-candidate views, no-body receipt recovery, native vault status/revoke and corrected speech cancellation/wait timing. Background social notifications, frame understanding, automatic discovery selection and private Core import are not silently filled with fixtures. Final artifact and host acceptance evidence follow separately.
+
+
+## Continuous V4 402 implementation checkpoint (not a second release)
+
+This continues 153196b. `migration/archive_ingress.py` retains reviewed legacy
+claims through the existing Runtime and MemoryService. A private, expiring
+approval pins Subject, lineage, manifest, complete batch plan, scope, entity,
+privacy and capacity. Stable source positions make interrupted imports resumable.
+Legacy semantic claims stay UNASSESSED/INFERRED, never lived episodes, adopted
+relationships, Grants or verified outcomes. The generic RealMemoryIngress API
+remains disabled. Host-local source bindings allow startup/safe-point withdrawal
+reconciliation through the original privacy journal, including backup erasure.
+
+`life/bilibili_frames.py` implements fixed public storyboard API/CDN reads,
+bounded actual image decoding, uniform sampled timestamps and original H1
+VISION route/World grounding. Missing Pillow/route/auth safely blocks the
+optional capability. `PUBLIC_VIDEO_FRAMES` pins Pillow12.3.0 offline. Storyboard
+samples do not prove a full watch; comments/subtitles remain separately labelled.
+
+`life/bilibili_life.py` composes the original activity-source safe point. An
+existing source-backed public concern can cause a separately judged search;
+explicitly cited candidates then require another original C judgment. Original
+Manager/Grant/Kernel own every request. Original Store jobs persist progress;
+UNKNOWN parks without another request. No source means no manufactured activity.
+No network, paid model or account is automatically authorized by the optional
+LifeConfig setting. The host must still bind original activation and Grants.
+
+Android402 adds an explicit JobScheduler subscription to body-free C-approved
+share hints. OS scheduling is approximately15min and may be delayed by Doze;
+force-stop and revoked notification/network permission can prevent delivery.
+The existing Keystore binding is reused without exposing tokens to JS; no
+semantic/model call occurs. Identity/lineage/realm, current busy/refusal/quiet,
+source support, pairing-change/revoke, once-per-candidate, hourly/daily limits
+and finite8-day metadata retention constrain hints. Local submission is not
+human acknowledgement or platform social delivery. Physical Android remains
+NOT_RUN. Existing appId/signature and pairing are retained.
+
+The current code changes need a matched new image/SDK and full task integration
+review before final delivery. Previous c8/401 artifacts remain historical pins;
+none of these checks establishes real host/platform/provider/human/24h success.

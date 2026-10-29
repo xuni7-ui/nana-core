@@ -28,5 +28,16 @@ def test_real_owned_outcome_original_c_candidate_projection_and_withdrawal(tmp_p
             assert not view['external_delivery'] and len(view['items'])==1
             assert view['items'][0]['delivery']=='NONE' and view['items'][0]['source_memory_ids']
             assert app.shared.inbox(privacy=('PUBLIC',))['items']==[]
+            assert app.shared.notification_inbox(privacy=('PUBLIC','PROJECT'))['items']==[]  # paused
+            app.pause(False)
+            hints=app.shared.notification_inbox(privacy=('PUBLIC','PROJECT'))
+            assert hints['items']==[{'event_id':view['items'][0]['candidate_record_id'],'page':'home','kind':'SHARED_CANDIDATE_AVAILABLE'}]
+            assert not hints['private_body_in_notification']
+            assert app.shared.notification_inbox(privacy=('PUBLIC',))['items']==[]
+            assert app.shared.notification_inbox(privacy=('PUBLIC','PROJECT'),scope='other')['items']==[]
+            app.presence('BUSY', privacy_classes=('PUBLIC','PROJECT'))
+            assert app.shared.notification_inbox(privacy=('PUBLIC','PROJECT'))['items']==[]
+            app.presence('AVAILABLE', privacy_classes=('PUBLIC','PROJECT'))
             app.forget(candidate['source_memory_ids'][0])
             assert app.shared.inbox(privacy=('PUBLIC','PROJECT'))['items']==[]
+            assert app.shared.notification_inbox(privacy=('PUBLIC','PROJECT'))['items']==[]

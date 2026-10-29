@@ -22,6 +22,7 @@ BASE_TAG = "nana-first-life/unified:v3-3665"
 COMPATIBLE_CORES = (
     ("compat-13.tar.gz", "435ca7a819847fc7d8a60dd6088f0e712ecbf965", "NANA_CORE_LIVING_V4_RELEASE/core.tar.gz", "728ef440fc34ab5c1b821814fae93408ee0b7384c5bad6959d274cb9ec5e5347"),
     ("compat-af.tar.gz", None, "tools/nana_living_release_v4/compatibility/af584900.core.tar.gz", "c091d70574911bb61bd401879300703df178f885ed7bc64cec2283247661acf3"),
+    ("compat-c8.tar.gz", "153196b1c39f41de0a20e7ac8cb1787cdf2bca80", "NANA_CORE_LIVING_V4_RELEASE/core.tar.gz", "c562b41aada49a48736269e29c8f07487f07b7b15c2694d75356541562c7d92c"),
 )
 DOCKER = ["env", "-u", "DOCKER_HOST", "-u", "DOCKER_CONTEXT", "-u", "DOCKER_TLS",
           "-u", "DOCKER_TLS_VERIFY", "-u", "DOCKER_CERT_PATH", "docker", "--host=unix:///var/run/docker.sock"]
@@ -57,8 +58,8 @@ def main():
     commit = subprocess.check_output(["git", "rev-parse", args.source + "^{commit}"], cwd=ROOT, text=True).strip()
     subprocess.run(["git", "diff", "--quiet", commit, "--", "apps/nana-space", "src", "packaging", "tools/nana_living_release_v4"], cwd=ROOT, check=True)
     args.work.mkdir(mode=0o700, parents=True, exist_ok=False)
-    first = build(args.work / "core-first", args.wheels, commit, features=("HOST_VAULT",))
-    second = build(args.work / "core-repeat", args.wheels, commit, features=("HOST_VAULT",))
+    first = build(args.work / "core-first", args.wheels, commit, features=("HOST_VAULT", "PUBLIC_VIDEO_FRAMES"))
+    second = build(args.work / "core-repeat", args.wheels, commit, features=("HOST_VAULT", "PUBLIC_VIDEO_FRAMES"))
     if first["sha256"] != second["sha256"]:
         raise ValueError("CORE_REBUILD_MISMATCH")
     context = args.work / "context"

@@ -331,6 +331,8 @@ class Handler(BaseHTTPRequestHandler):
                 value = service.conversation_history(principal)
             elif route == "life/shares":
                 value = service.shared_candidates(principal)
+            elif route == 'notifications/inbox':
+                value = service.notification_inbox(principal)
             elif route == "platform/bilibili":
                 value = service.bilibili_history(principal)
             elif route == "providers/status":
