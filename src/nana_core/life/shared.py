@@ -18,6 +18,30 @@ from ..presence.contracts import RuntimeEvent,Cause,DAY
 
 class SharedPresence:
     def __init__(self,app):self.app=app;self.next_at=0
+    def inbox(self, *, privacy, scope=None, entity_id=None):
+        """Current original-C candidates, not notifications or delivered speech."""
+        app=self.app;s=app.runtime.store;records=RecordService(s);out=[]
+        allowed=set(privacy)&set(app.policy.readable_privacy)&{'PUBLIC','PROJECT'}
+        scope=app.runtime.config.scopes[0] if scope is None else scope
+        entity_id=app.runtime.config.entity_id if entity_id is None else entity_id
+        for row in s.db.execute("SELECT * FROM continuity_records WHERE record_kind='RUNTIME_WORK' AND target_id LIKE 'shared-candidate:%' ORDER BY created_at_us DESC,rowid DESC LIMIT 64"):
+            if row['scope']!=scope or row['scope'] not in app.policy.allowed_scopes or row['privacy_class'] not in allowed or row['lifecycle']!='ACTIVE':continue
+            try:
+                current=records.read(row['record_id']);body=current['payload']
+                if body.get('kind')!='SHARED_LIFE_CANDIDATE' or not records.current_support(row['record_id']):continue
+                raw=s.one('subject_cycles',body['cycle_id'])
+                if not raw or app.runtime.subject.result(raw).intention.kind!='SOCIAL_INTERACTION':continue
+                event=s.one('subject_events',raw['subject_event_id'])
+                if not event or event['entity_id']!=entity_id:continue
+                out.append({'candidate_record_id':row['record_id'],'cycle_id':body['cycle_id'],
+                    'topic':body.get('topic'),'state':body['state'],'delivery':'NONE',
+                    'source_record_ids':[raw['record_id']],
+                    'source_memory_ids':list(records.support(row['record_id']))})
+            except CoreError:continue
+            if len(out)>=16 or len(canonical(out).encode())>8000:
+                if len(canonical(out).encode())>8000:out.pop()
+                break
+        return {'items':out,'coverage':'ORIGINAL_C_APPROVED_CANDIDATES_ONLY','external_delivery':False}
     def candidates(self):
         app=self.app;s=app.runtime.store;records=RecordService(s);out=[]
         for row in s.db.execute('SELECT * FROM experiences ORDER BY created_at_us DESC,rowid DESC LIMIT 32'):

@@ -2811,3 +2811,8 @@ V4综合交付：148定向/4补充/10对话记忆恢复/44前端/8实际Core浏�
 V4 final operator guard: dispatched version-operation timeout/malformed receipt stays UNKNOWN with original client_request_id and no retry; unverified backup prevents switch. Wrapper preserves password FD0 rather than consuming it as script input. Four targeted packaging guards pass.
 
 V4 delivery audit: repository build/ ignore rule omitted six explicitly reviewed build inputs from the first delivery commit. Force-included only those six public recipe files; package already contained them. Added precise host live-startup opt-in prerequisite before native credential input; runtime source/image unchanged.
+
+
+## 2026-10-29 — Living V4 final integration checkpoint
+
+继续435ca7a最终V4：补持久vault、原Store聊天历史/未决回执/共享候选投影；QQ与Bili真实网络适配、全量源归档；修原C兴趣重新评估与经验筛选、来源域与投影范围。当前新增功能为开发验证，实云/实机/真人/平台账号NOT_RUN；正在固定源码重建交付。完整原任务见FINAL_MISSION.md。

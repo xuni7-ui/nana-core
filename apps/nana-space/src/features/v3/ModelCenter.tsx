@@ -31,6 +31,7 @@ import {
   modelCommand,
   routeCommand,
 } from "../../data/provider-commands";
+import { credentialProfiles, vaultMetadata } from "../../data/living";
 
 interface Props {
   settings: unknown;
@@ -40,6 +41,8 @@ interface Props {
   busy?: boolean;
   onApply?: (command: ProviderCommand) => Promise<void>;
   onBindCredential?: (providerId: string, revision: number) => Promise<void>;
+  onRevokeCredential?: (providerId: string, revision: number) => Promise<void>;
+  credentialStatus?: unknown;
 }
 const secretLabels = {
   AVAILABLE: "安全凭据可用",
@@ -55,6 +58,8 @@ export function ModelCenter({
   busy = false,
   onApply,
   onBindCredential,
+  onRevokeCredential,
+  credentialStatus,
 }: Props) {
   const view = useMemo(
     () => readProviderSettings(available ? settings : undefined),
@@ -65,6 +70,8 @@ export function ModelCenter({
   const [editor, setEditor] = useState(false);
   const [draft, setDraft] = useState<ProviderDraft>(newProviderDraft);
   const [proposal, setProposal] = useState("");
+  const vault = vaultMetadata(credentialStatus);
+  const credentials = credentialProfiles(credentialStatus);
   const [providerId, setProviderId] = useState("");
   const [modelId, setModelId] = useState("");
   const apply = async (make: () => ProviderCommand) => {
@@ -126,16 +133,21 @@ export function ModelCenter({
             : "当前连接未开放配置写入；草稿只在本页内存中。"}
         </span>
       </div>
-      {onBindCredential && view.providers.length > 0 && (
+      {(onBindCredential || vault) && view.providers.length > 0 && (
         <section className="v3-card" aria-label="安全凭据绑定">
           <h3>在手机上安全连接模型</h3>
-          <p className="v3-muted">凭据通过原生安全输入框进入服务器内存；网页不会接触密钥。绑定后需通过已有管理入口明确重启，付费授权与额度保持独立。</p>
+          <p className="v3-muted">凭据通过原生安全输入框直接交给可信宿主，网页不会接触密钥。绑定后需通过已有管理入口明确应用，付费授权与额度保持独立。</p>
+          <p className="v3-inline-note" role="status">{vault?.persistent ? `宿主加密保险库 · revision ${vault.revision} · 正常服务重启可恢复绑定` : "尚未确认持久保险库；仅内存绑定在服务重启后需要重新录入"}</p>
           {view.providers.filter(p => p.locality === "REMOTE" && p.revision !== undefined).map(p => (
-            <button className="v3-button soft" disabled={busy} key={p.id}
+            <div className="v3-actions" key={p.id}>
+            <span className="v3-chip">{p.name} · {secretLabels[credentials.find(x => x.id === p.id)?.state as keyof typeof secretLabels] || "凭据状态待核实"}</span>
+            {onBindCredential && <button className="v3-button soft" disabled={busy}
               onClick={() => void onBindCredential(p.id, p.revision!)}>
-              为 {p.name} 绑定凭据
-            </button>
+              {credentials.find(x => x.id === p.id)?.state === "AVAILABLE" ? "轮换" : "绑定"} {p.name} 凭据
+            </button>}{onRevokeCredential && <button className="v3-button ghost" disabled={busy}
+              onClick={() => void onRevokeCredential(p.id, p.revision!)}>撤销 {p.name} 凭据</button>}</div>
           ))}
+          {!onBindCredential && <small className="v3-muted">请使用已配对且具有宿主管理权限的手机绑定、轮换或撤销凭据。</small>}
         </section>
       )}
       <div className="v3-model-toolbar">

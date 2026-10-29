@@ -25,6 +25,10 @@ export interface Turn {
   error?: string;
   remembered?: boolean;
   model?: string;
+  restored?: boolean;
+  exchangeId?: string;
+  pendingReceipt?: boolean;
+  requestedAt?: number;
 }
 /** Body text stays in React memory. Attachments are previews, never uploaded as text. */
 export function ChatPane({
@@ -65,6 +69,17 @@ export function ChatPane({
     image = useRef<HTMLInputElement>(null);
   const [remember, setRemember] = useState(false);
   const [voiceBusy, setVoiceBusy] = useState(false);
+  const [waitingSeconds, setWaitingSeconds] = useState(0);
+  const pending = [...turns].reverse().find(t => t.state === "REQUESTED");
+  useEffect(() => {
+    setWaitingSeconds(0);
+    if (!pending) return;
+    const started = pending.requestedAt ?? performance.now();
+    const update = () => setWaitingSeconds(Math.max(0, Math.floor((performance.now() - started) / 1000)));
+    update();
+    const timer = setInterval(update, 1000);
+    return () => clearInterval(timer);
+  }, [pending?.id, pending?.requestedAt]);
   const mounted = useRef(true);
   useEffect(() => {
     mounted.current = true;
@@ -158,7 +173,7 @@ export function ChatPane({
             <Avatar size={100} />
             <span className="v3-eyebrow">JUST A LITTLE MOMENT TOGETHER</span>
             <h2>想说什么，都可以慢慢说。</h2>
-            <p>这次会话只留在当前窗口。没有连接时，奈奈不会被演示回复代替。</p>
+            <p>未选择保留的文字只留在当前窗口。明确保留的共同经历来自同一个奈奈；没有连接时不生成演示回复。</p>
             <div className="v3-suggestions">
               {["今天在关注什么？", "我们目前做到哪了？", "先陪我待一会儿"].map(
                 (s) => (
@@ -210,7 +225,8 @@ export function ChatPane({
                       "这条消息的结果还不能确认。先核验原回执，不重复发送。"
                     ) : t.state === "REQUESTED" ? (
                       <span className="v3-thinking">
-                        正在等待这条消息的回执<span>···</span>
+                        <span role="status" aria-live="polite">正在等待这条消息的回执 · {waitingSeconds} 秒</span>
+                        {waitingSeconds >= 12 && <small>仍在等待单次请求，不自动重发。这里只显示等待时间，不推测模型正在想什么。</small>}
                       </span>
                     ) : (
                       "这条回执尚无可展示的回复。"
@@ -241,7 +257,7 @@ export function ChatPane({
                   )}
                 </div>
                 <small className="v3-muted">
-                  {t.remembered ? "已按本次选择保存，来源可查" : "本次文字未加入长期共同经历"}
+                  {t.pendingReceipt ? t.state === "UNKNOWN" ? "只恢复原请求编号，原文没有缓存；请核验回执" : "已核验原请求；此窗口没有重发原文" : t.restored ? "从奈奈保留的共同经历恢复 · 来源仍有效" : t.remembered ? "已按本次选择保存，来源可查" : "本次文字未加入长期共同经历"}
                 </small>
                 {t.state === "UNKNOWN" && (
                   <button

@@ -26,6 +26,20 @@ def dispatch(app, request):
     if type(request) is not dict:
         raise CoreError("CLOUD_TYPED_REQUEST_REQUIRED")
     op = request.get("operation")
+    projection_keys = ({"operation", "privacy"}, {"operation", "privacy", "scope", "entity_id"})
+    if op in {"bilibili-history", "shared-candidates", "conversation-history"} and set(request) in projection_keys:
+        if type(request["privacy"]) is not list or any(p not in {"PUBLIC", "PROJECT"} for p in request["privacy"]):
+            raise CoreError("PRIVACY_DENIED")
+        coordinates = {k: request[k] for k in ("scope", "entity_id") if k in request}
+        if any(type(v) is not str or not 1 <= len(v) <= 128 for v in coordinates.values()):
+            raise CoreError("INVALID_PROJECTION_BINDING")
+        if op == "bilibili-history":
+            from .bilibili import BilibiliSourceAdapter
+            return BilibiliSourceAdapter(app).history(privacy=request["privacy"], **coordinates)
+        if op == "shared-candidates":
+            return app.shared.inbox(privacy=request["privacy"], **coordinates)
+        from .conversation import history
+        return history(app, privacy=request["privacy"], **coordinates)
     if op == "provider-readiness" and set(request) == {"operation", "privacy"}:
         if request["privacy"] not in {"PUBLIC", "PROJECT"}:
             raise CoreError("PRIVACY_DENIED")
@@ -49,6 +63,9 @@ def dispatch(app, request):
     if op == "surface" and set(request) == {"operation", "observation"}:
         return app.surfaces.receive(SurfaceObservation.model_validate_json(json.dumps(request["observation"])))
     if op == "view" and set(request) == {"operation", "view"}:
+        if request["view"] == "bilibili-history":
+            from .bilibili import BilibiliSourceAdapter
+            return BilibiliSourceAdapter(app).history()
         if request["view"] == "provider-settings":
             from .readiness import provider_settings
             return provider_settings(app)

@@ -52,6 +52,7 @@ public class NanaHostPlugin extends Plugin {
         "home", "chat", "memories", "goals", "journal", "world", "growth", "devices", "runtime", "settings"));
     private String access = null;
     private long accessAt = 0;
+    private android.app.AlertDialog credentialDialog = null;
 
     private SharedPreferences prefs() {
         return getContext().getSharedPreferences("nana_secure_binding", Context.MODE_PRIVATE);
@@ -222,6 +223,11 @@ public class NanaHostPlugin extends Plugin {
                 else if ("notifications".equals(op)) route = "notifications";
                 else if ("providers".equals(op)) route = "providers/status";
                 else if ("backup.status".equals(op)) route = "backup/status";
+                else if ("conversation.history".equals(op)) route = "conversation/history";
+                else if ("bilibili.history".equals(op)) route = "platform/bilibili";
+                else if ("life.shares".equals(op)) route = "life/shares";
+                else if ("providers.credentials".equals(op)) route = "providers/credentials";
+                else if ("providers.credential.revoke".equals(op) && "REVOKE".equals(data.optString("action"))) { route = "providers/credential";method = "POST"; }
                 else if ("providers.command".equals(op)) { route = "providers/commands";method = "POST"; }
                 else if ("host.status".equals(op)) route = "host/operations";
                 else if ("message".equals(op)) { route = "messages";method = "POST"; }
@@ -258,6 +264,12 @@ public class NanaHostPlugin extends Plugin {
             call.reject("INVALID_PROVIDER_PROFILE"); return;
         }
         getActivity().runOnUiThread(() -> {
+            if (getActivity().isFinishing() || getActivity().isDestroyed()) {
+                call.reject("SECRET_INPUT_CANCELLED"); return;
+            }
+            if (credentialDialog != null && credentialDialog.isShowing()) {
+                call.reject("SECRET_INPUT_ALREADY_OPEN"); return;
+            }
             android.widget.EditText input = new android.widget.EditText(getContext());
             input.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
             input.setSaveEnabled(false);
@@ -267,7 +279,9 @@ public class NanaHostPlugin extends Plugin {
             if (Build.VERSION.SDK_INT >= 26) input.setImportantForAutofill(android.view.View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS);
             android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(getActivity())
                 .setTitle("安全绑定模型凭据")
-                .setMessage("仅通过已配对的 HTTPS 发往服务器内存。不保存在手机、网页或数据库；服务器重启后需重新绑定。此操作不授予付费额度。")
+                .setMessage(Boolean.TRUE.equals(call.getBoolean("persistent", false))
+                    ? "仅通过已配对 HTTPS 发往宿主加密保险库。网页不会接触密钥，手机不保存此值；服务重启可按宿主策略恢复。此操作不授予付费额度。"
+                    : "仅通过已配对的 HTTPS 发往服务器内存。不保存在手机、网页或数据库；服务器重启后需重新绑定。此操作不授予付费额度。")
                 .setView(input)
                 .setNegativeButton("取消", (d, w) -> { input.setText(""); call.reject("SECRET_INPUT_CANCELLED"); })
                 .setPositiveButton("安全绑定", (d, w) -> {
@@ -285,9 +299,18 @@ public class NanaHostPlugin extends Plugin {
                     });
                 }).create();
             dialog.setOnCancelListener(d -> { input.setText(""); call.reject("SECRET_INPUT_CANCELLED"); });
+            dialog.setOnDismissListener(d -> { input.setText(""); if (credentialDialog == dialog) credentialDialog = null; });
             dialog.getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_SECURE);
+            credentialDialog = dialog;
             dialog.show();
         });
+    }
+    @Override protected void handleOnPause() {
+        if (credentialDialog != null && credentialDialog.isShowing()) credentialDialog.cancel();
+    }
+    @Override protected void handleOnDestroy() {
+        if (credentialDialog != null && credentialDialog.isShowing()) credentialDialog.cancel();
+        credentialDialog = null; access = null; accessAt = 0;
     }
     @PluginMethod public void notificationPermission(PluginCall call) {
         if (Build.VERSION.SDK_INT < 33 || getPermissionState("notifications") == PermissionState.GRANTED) {

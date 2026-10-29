@@ -1,5 +1,7 @@
 # Reviewed runtime and optional-capability source assets.
 # Developer demos/qualification/lab are separate; do not expand by directory glob.
+# Versioned host application boundary; not another Subject
+# Execution context metadata and explicitly bound existing CapabilityPorts
 src/nana_core/__init__.py
 src/nana_core/actions.py
 src/nana_core/clock.py
@@ -125,6 +127,7 @@ src/nana_core/continuity/temporal.py
 src/nana_core/continuity/world_loop/__init__.py
 src/nana_core/continuity/world_loop/attention.py
 src/nana_core/continuity/world_loop/cognition.py
+src/nana_core/continuity/world_loop/concern_source.py
 src/nana_core/continuity/world_loop/coordinator.py
 src/nana_core/continuity/world_loop/extension.py
 src/nana_core/continuity/world_loop/harness.py
@@ -138,6 +141,11 @@ src/nana_core/continuity/world_loop/semantic_harness.py
 src/nana_core/continuity/world_loop/semantics.py
 src/nana_core/continuity/world_loop/world.py
 src/nana_core/contracts.py
+src/nana_core/execution_context/__init__.py
+src/nana_core/execution_context/contracts.py
+src/nana_core/execution_context/port.py
+src/nana_core/execution_context/probe.py
+src/nana_core/execution_context/routing.py
 src/nana_core/experience.py
 src/nana_core/host_requirements.py
 src/nana_core/initiative.py
@@ -145,27 +153,48 @@ src/nana_core/life/__init__.py
 src/nana_core/life/__main__.py
 src/nana_core/life/advanced.py
 src/nana_core/life/application.py
+src/nana_core/life/bilibili.py
+src/nana_core/life/bilibili_account.py
 src/nana_core/life/cloud.py
 src/nana_core/life/config.py
 src/nana_core/life/control.py
+src/nana_core/life/conversation.py
 src/nana_core/life/conversation_opportunity.py
 src/nana_core/life/dialogue_contracts.py
 src/nana_core/life/durability.py
 src/nana_core/life/ingress.py
 src/nana_core/life/inspector.py
+src/nana_core/life/live_api/__init__.py
+src/nana_core/life/live_api/__main__.py
+src/nana_core/life/live_api/adapters.py
+src/nana_core/life/live_api/auth.py
+src/nana_core/life/live_api/bridge.py
+src/nana_core/life/live_api/canonical.py
+src/nana_core/life/live_api/contracts.py
+src/nana_core/life/live_api/ledger.py
+src/nana_core/life/live_api/preflight.py
+src/nana_core/life/live_api/provider_settings.py
+src/nana_core/life/live_api/server.py
+src/nana_core/life/live_api/state.py
+src/nana_core/life/live_api/supervisor.py
 src/nana_core/life/owned_surface.py
+src/nana_core/life/platform_authority.py
+src/nana_core/life/platform_bridge.py
 src/nana_core/life/portable_runtime.py
 src/nana_core/life/presentation.py
 src/nana_core/life/provider.py
+src/nana_core/life/provider_vault.py
 src/nana_core/life/readiness.py
-src/nana_core/life/bilibili.py
-src/nana_core/life/secret_binding.py
 src/nana_core/life/review.py
+src/nana_core/life/secret_binding.py
 src/nana_core/life/shared.py
 src/nana_core/life/skills.py
 src/nana_core/life/surfaces.py
 src/nana_core/life/view.py
 src/nana_core/memory.py
+src/nana_core/migration/__init__.py
+src/nana_core/migration/archive.py
+src/nana_core/migration/source_safety.py
 src/nana_core/planning.py
 src/nana_core/ports.py
 src/nana_core/presence/__init__.py
@@ -200,26 +229,3 @@ src/nana_core/storage/schema_v7.sql
 src/nana_core/storage/schema_v8.sql
 src/nana_core/storage/schema_v9.sql
 src/nana_core/storage/sqlite_store.py
-
-# Versioned host application boundary; not another Subject
-src/nana_core/life/live_api/__init__.py
-src/nana_core/life/live_api/__main__.py
-src/nana_core/life/live_api/adapters.py
-src/nana_core/life/live_api/auth.py
-src/nana_core/life/live_api/bridge.py
-src/nana_core/life/live_api/canonical.py
-src/nana_core/life/live_api/contracts.py
-src/nana_core/life/live_api/ledger.py
-src/nana_core/life/live_api/server.py
-src/nana_core/life/live_api/state.py
-src/nana_core/life/live_api/supervisor.py
-
-src/nana_core/life/live_api/provider_settings.py
-src/nana_core/life/live_api/preflight.py
-
-# Execution context metadata and explicitly bound existing CapabilityPorts
-src/nana_core/execution_context/__init__.py
-src/nana_core/execution_context/contracts.py
-src/nana_core/execution_context/probe.py
-src/nana_core/execution_context/routing.py
-src/nana_core/execution_context/port.py

@@ -10,6 +10,7 @@ export const destinations = {
   journal: ["生活动态", "journal"],
   goals: ["小小计划", "goals"],
   world: ["世界探索", "world"],
+  bilibili: ["B站与看世界", "world"],
   growth: ["成长足迹", "growth"],
   notifications: ["通知信箱", "journal"],
   devices: ["设备与连接", "devices"],

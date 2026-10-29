@@ -9,12 +9,26 @@ from ..subject.contracts import SubjectInput
 from ..open_agency.contracts import Objective
 from ..open_agency.world import LocalWorldRegistry
 from .cognition import CognitionReply
+from .concern_source import binding as concern_binding
 
 class ConcernService:
     def __init__(self,runtime,*,resources,max_hot=16,revisit_us=3600_000_000):
         self.runtime,self.store=runtime,runtime.store;self.records=RecordService(self.store)
         self.resources=frozenset(resources);self.max_hot=max_hot;self.revisit=revisit_us
         if not 1<=max_hot<=32 or not 1<=len(self.resources)<=128:raise CoreError('CONCERN_POLICY_BOUND')
+    def _fresh_attention_can_return(self, old, previous):
+        """New evidence may reopen attention, never replay a parked execution.
+
+        An interpreted interest without an objective/skill used to remain
+        PROPOSED forever, even after a new independent encounter. The original
+        C must be allowed to reconsider that new evidence. Goal/skill recovery
+        and ambiguous provider/effect completion retain their existing fences.
+        """
+        if old['state'] != 'PROPOSED' or old['goal_id'] or previous.get('objective') or previous.get('skill_task'):
+            return False
+        if self.store.db.execute("SELECT 1 FROM cognitive_requests WHERE state IN ('PREPARED','CALLING','UNKNOWN') LIMIT 1").fetchone():
+            return False
+        return not self.store.db.execute("SELECT 1 FROM actions WHERE state IN ('DISPATCHING','UNKNOWN','PENDING_VERIFY') LIMIT 1").fetchone()
     def offer(self,proposal_record):
         record=self.records.read(proposal_record)
         if record['record_kind']!='COGNITION_PROPOSAL' or not self.records.current_support(proposal_record):raise CoreError('CONCERN_PROPOSAL_SOURCE_REQUIRED')
@@ -43,7 +57,8 @@ class ConcernService:
                 if self.store.db.execute("SELECT count(*) FROM open_concerns c JOIN continuity_records r ON c.record_id=r.record_id WHERE c.state NOT IN ('ABANDONED','EXPIRED') AND r.lifecycle='ACTIVE'").fetchone()[0]>=self.max_hot:continue
                 sources=idea.source_memory_ids
             count=1 if not old else old['encounters']+1
-            state=('INTEREST' if idea.expected_value=='HIGH' or count>=2 else 'TRANSIENT') if not old or old['state'] in {'TRANSIENT','INTEREST','DEFERRED'} else old['state']
+            reconsider = bool(old and self._fresh_attention_can_return(old, previous))
+            state=('INTEREST' if idea.expected_value=='HIGH' or count>=2 else 'TRANSIENT') if not old or old['state'] in {'TRANSIENT','INTEREST','DEFERRED'} or reconsider else old['state']
             if idea.expected_value=='LOW' and old and old['goal_id']:state='INTEREST'
             body={**idea.model_dump(mode='json'),'encounter_sources':sources,'proposal_record_id':proposal_record,'goal_candidate_not_adopted':True,'last_enqueued_revision':None}
             cid=old['concern_id'] if old else uid();now=self.store.clock.utc_now_us()
@@ -78,7 +93,11 @@ class ConcernService:
             behavior=('IGNORE',) if body['expected_value']=='LOW' else ('SEEK_CAPABILITY',) if body['skill_task'] else ('EXPLORE',) if body['motivation_source']=='CURIOSITY' else tuple(body.get('possible_behaviors',()))
             cue=ConcernCue(cue_kind='DISCOVERY',motivation_source=body['motivation_source'],topic_key=body['topic'],program_id=body['objective']['objective_id'] if body['objective'] and body['expected_value']!='LOW' else None,possible_behaviors=behavior)
             key=digest([row['concern_id'],row['revision']]);source_ids=tuple(body['source_memory_ids'])
-            prior=self.store.db.execute('SELECT * FROM subject_events WHERE source_key=?',('synthetic.world.concern.'+key,)).fetchone()
+            try:event_key, domain, namespace, event_domain = concern_binding(self.store, row)
+            except CoreError as exc:
+                if exc.code=='CONCERN_EXPLICIT_RETENTION_REQUIRED':continue
+                raise
+            prior=self.store.db.execute('SELECT * FROM subject_events WHERE source_key=?',(event_key,)).fetchone()
             if prior:
                 accepted=self.store.db.execute('SELECT * FROM subject_cycles WHERE subject_event_id=?',(prior['subject_event_id'],)).fetchone()
                 if accepted:
@@ -96,11 +115,11 @@ class ConcernService:
                             tx.update('open_concerns',row['concern_id'],state='PROPOSED',revision=row['revision']+1)
                     return None
             memory=self.records.memory;source=memory.read(source_ids[0]);when=row['updated_at_us']
-            eid=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.world-concern',source_reference=key,source_kind='MODEL_DERIVATION'),text=cue.model_dump_json(),privacy_class=self.records.read(row['record_id'])['privacy_class'],observed_time_us=when,event_time_us=source['event_time_us']))
+            eid=memory.capture(EvidenceInput(retention_consent_ref=key if domain=='CONSENTED_INTERACTION' else None,provenance=Provenance(domain=domain,source_namespace=namespace,source_reference=key,source_kind='MODEL_DERIVATION'),text=cue.model_dump_json(),privacy_class=self.records.read(row['record_id'])['privacy_class'],observed_time_us=when,event_time_us=source['event_time_us']))
             prior=self.store.db.execute('SELECT memory_id FROM memories WHERE source_evidence_id=?',(eid,)).fetchone()
             mid=prior[0] if prior else memory.add(MemoryCandidate(entity_id=r.config.entity_id,scope=source['scope'],memory_type=MemoryType.PROSPECTIVE,epistemic_kind='INFERENCE',source_evidence_id=eid,text=cue.model_dump_json(),derived_from=tuple(self.records.support(row['record_id'])),predicate_key='concern.'+body['topic'],confidence=.4))
             from ...presence.contracts import RuntimeEvent,Cause
-            inp=SubjectInput(source_key='synthetic.world.concern.'+key,world_concern_id=row['concern_id'],kind='WAKE',origin='SELF_WAKE',entity_id=r.config.entity_id,scope=source['scope'],source_memory_ids=(mid,),observed_at_us=when,privacy_class=self.records.read(row['record_id'])['privacy_class'],novelty='RELEVANT')
+            inp=SubjectInput(domain=event_domain,source_key=event_key,world_concern_id=row['concern_id'],kind='WAKE',origin='SELF_WAKE',entity_id=r.config.entity_id,scope=source['scope'],source_memory_ids=(mid,),observed_at_us=when,privacy_class=self.records.read(row['record_id'])['privacy_class'],novelty='RELEVANT')
             return RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=inp,causes=(Cause(kind='MEMORY',reference_id=mid),),due_at_us=when,priority=1)
         return None
     def after_cycle(self,cycle,event,result):
@@ -108,7 +127,7 @@ class ConcernService:
         if not cid:return
         row=self.store.one('open_concerns',cid)
         if not row:return
-        if event.source_key!='synthetic.world.concern.'+digest([cid,row['revision']]):raise CoreError('STALE_CONCERN_CYCLE')
+        if event.source_key!=concern_binding(self.store,row)[0]:raise CoreError('STALE_CONCERN_CYCLE')
         body=self.records.read(row['record_id'])['payload'];goal=result if isinstance(result,str) and self.store.one('goals',result) else row['goal_id']
         state='ADOPTED' if goal else 'PROPOSED' if cycle.intention.kind not in {'NO_ACTION','WAIT'} and cycle.evaluation and cycle.evaluation.normative=='ENDORSED' else 'DEFERRED'
         if body['expected_value']=='LOW' and goal:state='DEFERRED'

@@ -26,6 +26,7 @@ import {
   Cloud,
   WifiOff,
   Sparkles,
+  PlayCircle,
 } from "lucide-react";
 import type {
   Envelope,
@@ -64,6 +65,8 @@ import {
 import { ChatPane, type Turn } from "./v3/ChatPane";
 import { ModelCenter } from "./v3/ModelCenter";
 import { MemoryCenter } from "./v3/MemoryCenter";
+import { BilibiliView } from "./v3/BilibiliView";
+import { mergeRetainedTurns, retainedTurns, pendingReceiptTurns, sharedCandidates, vaultMetadata } from "../data/living";
 const v3Icons = {
   home: Home,
   chat: MessageCircle,
@@ -72,6 +75,7 @@ const v3Icons = {
   journal: BookOpen,
   goals: Compass,
   world: Orbit,
+  bilibili: PlayCircle,
   growth: Leaf,
   models: Sparkles,
   notifications: Bell,
@@ -96,6 +100,10 @@ const reasons: Record<string, string> = {
   ORIGIN_DENIED: "来源不匹配，连接已拒绝。",
   UNKNOWN_VERIFY_ONLY: "请求结果未知，请核验原回执，不要重复发送。",
   REVISION_CONFLICT: "状态已更新，请刷新后重新确认。",
+  PROVIDER_CONFIG_REVISION_CONFLICT: "模型配置已更新，请刷新后重新确认。",
+  PROVIDER_VAULT_REVISION_CONFLICT: "凭据状态已更新，请刷新后重新确认。",
+  PROVIDER_VAULT_REVISION_REQUIRED: "尚未取得保险库的当前状态，请刷新后重新确认。",
+  NATIVE_SECRET_INPUT_REQUIRED: "请在已配对的手机上管理安全凭据。",
   CORE_ALREADY_OWNED: "Core 已有运行 owner。",
   CORE_OWNER_PENDING_NO_RETRY: "已有启动进程尚待核验，不会重复启动。",
   CORE_UNAVAILABLE: "Core 暂不可用。",
@@ -166,6 +174,9 @@ export function LiveSpace() {
     string,
     unknown
   > | null>(null);
+  const [biliSnapshot, setBiliSnapshot] = useState<unknown>(null);
+  const [sharedSnapshot, setSharedSnapshot] = useState<unknown>(null);
+  const [credentialStatus, setCredentialStatus] = useState<unknown>(null);
   const [receipt, setReceipt] = useState<Record<string, unknown> | null>(null);
   const [notifications, setNotifications] =
     useState("未请求系统通知权限；后台推送未资格");
@@ -194,16 +205,37 @@ export function LiveSpace() {
     setDraft("");
     setReceipt(null);
     setBackupStatus(null);
+    setBiliSnapshot(null);
+    setSharedSnapshot(null);
+    setCredentialStatus(null);
   }, []);
   const accept = useCallback((b: Envelope) => {
     if (previousRun.current && previousRun.current !== b.run_generation) {
       setTurns([]);
       setReceipt(null);
       setBackupStatus(null);
+      setBiliSnapshot(null);
+      setSharedSnapshot(null);
+      setCredentialStatus(null);
+      setDraft("");
+      bodyGeneration.current++;
     }
     previousRun.current = b.run_generation;
     current.current = b;
     setBootstrap(b);
+  }, []);
+  const acceptPrivacy = useCallback((data: Record<string, unknown>) => {
+    const watermark = data.privacy_watermark;
+    if (typeof watermark !== "string") return;
+    if (privacy.current && privacy.current !== watermark) {
+      setTurns([]);
+      setDraft("");
+      setReceipt(null);
+      setBiliSnapshot(null);
+      setSharedSnapshot(null);
+      bodyGeneration.current++;
+    }
+    privacy.current = watermark;
   }, []);
   const refresh = useCallback(async () => {
     const seq = ++readVersion.current;
@@ -227,16 +259,40 @@ export function LiveSpace() {
         pageVersion !== routeVersion.current
       )
         return;
-      const watermark = object(view.data).privacy_watermark;
-      if (typeof watermark === "string") {
-        if (privacy.current && privacy.current !== watermark) {
-          setTurns([]);
-          setDraft("");
-          setReceipt(null);
-          bodyGeneration.current++;
-        }
-        privacy.current = watermark;
+      const viewData = object(view.data);
+      acceptPrivacy(viewData);
+      const roles = object(b.data).roles;
+      const canConverse = Array.isArray(roles) && roles.includes("CONVERSATION");
+      if (!canConverse) {
+        setTurns([]);
+        setDraft("");
+        bodyGeneration.current++;
       }
+      if (requestedPage === "chat" && canConverse && b.capabilities.conversation_history === true) {
+        const history = await client.current.conversationHistory();
+        if (version !== sessionVersion.current || pageVersion !== routeVersion.current || seq !== readVersion.current) return;
+        acceptPrivacy(object(history.data));
+        setTurns(current => mergeRetainedTurns([...retainedTurns(history.data), ...pendingReceiptTurns(history.data)], current));
+      } else if (requestedPage === "chat") {
+        setTurns(current => current.filter(turn => !turn.restored));
+      }
+      if ((requestedPage === "home" || requestedPage === "room") && b.capabilities.shared_life_candidates === true) {
+        const candidates = await client.current.sharedLifeCandidates();
+        if (version !== sessionVersion.current || pageVersion !== routeVersion.current || seq !== readVersion.current) return;
+        acceptPrivacy(object(candidates.data));
+        setSharedSnapshot(candidates.data);
+      } else setSharedSnapshot(null);
+      if (requestedPage === "bilibili" && b.capabilities.platform_bilibili_history === true) {
+        const readings = await client.current.bilibiliHistory();
+        if (version !== sessionVersion.current || pageVersion !== routeVersion.current || seq !== readVersion.current) return;
+        setBiliSnapshot(readings.data);
+      } else setBiliSnapshot(null);
+      if (requestedPage === "models" && b.capabilities.durable_provider_binding === true
+        && Array.isArray(object(b.data).roles) && (object(b.data).roles as unknown[]).includes("HOST_ADMIN")) {
+        const credentials = await client.current.providerCredentials();
+        if (version !== sessionVersion.current || pageVersion !== routeVersion.current || seq !== readVersion.current) return;
+        setCredentialStatus(credentials.data);
+      } else setCredentialStatus(null);
       if (requestedPage === "backup" && b.capabilities.backup_status === true) {
         const backup = await client.current.backupStatus();
         if (
@@ -247,6 +303,13 @@ export function LiveSpace() {
           return;
         setBackupStatus(object(backup.data));
       } else setBackupStatus(null);
+      if (typeof viewData.privacy_watermark === "string" && viewData.privacy_watermark !== privacy.current) {
+        // A newer auxiliary projection cannot make the older page current.
+        setSnapshot(null);
+        setLatency(Math.round(performance.now() - started));
+        setError("");
+        return;
+      }
       current.current = view;
       setSnapshot(view);
       setLatency(Math.round(performance.now() - started));
@@ -261,7 +324,7 @@ export function LiveSpace() {
         throw e;
       }
     }
-  }, [page, accept, fail]);
+  }, [page, accept, acceptPrivacy, fail]);
   useEffect(() => {
     const hash = () => {
       const next = route();
@@ -271,6 +334,9 @@ export function LiveSpace() {
         setPage(next);
         setSnapshot(null);
         setBackupStatus(null);
+        setBiliSnapshot(null);
+        setSharedSnapshot(null);
+        setCredentialStatus(null);
         setPairOffer("");
       }
     };
@@ -475,6 +541,8 @@ export function LiveSpace() {
               state: text(d.state),
               error: typeof d.error === "string" ? d.error : undefined,
               remembered: result.raw_body_persisted === true,
+              exchangeId: typeof result.exchange_record_id === "string" ? result.exchange_record_id : undefined,
+              restored: x.pendingReceipt ? false : x.restored,
               model: result.route && typeof result.route === "object" ? text(object(result.route).returned_model_id) || text(object(result.route).remote_model_id) : undefined,
               reply: typeof result.text === "string" ? result.text : undefined,
               provider:
@@ -496,9 +564,10 @@ export function LiveSpace() {
     let dispatched = false;
     setBusy(true);
     setDraft("");
-    setTurns((xs) => [...xs.slice(-31), { id, input, state: "REQUESTED" }]);
+    setTurns((xs) => [...xs.slice(-31), { id, input, state: "REQUESTED", requestedAt: performance.now() }]);
     try {
       const b = await fresh();
+      if (version !== sessionVersion.current || bodyVersion !== bodyGeneration.current) throw new V2Error("STALE_RUN_NO_REPLAY");
       dispatched = true;
       const r = await client.current.write("message", {
         ...writeBase(b, id),
@@ -606,15 +675,57 @@ export function LiveSpace() {
     setBusy(true);
     try {
       const b = await fresh();
+      const credentials = b.capabilities.durable_provider_binding === true ? await client.current.providerCredentials() : null;
+      if (version !== sessionVersion.current) return;
+      const vault = vaultMetadata(credentials?.data);
+      if (b.capabilities.durable_provider_binding === true && !vault) throw new V2Error("PROVIDER_VAULT_REVISION_REQUIRED");
+      if (credentials && pageName.current === "models") setCredentialStatus(credentials.data);
       const r = await client.current.bindProviderCredential({
         ...writeBase(b), provider_profile_id: providerId, profile_revision: revision,
-      });
+        ...(vault ? {expected_vault_revision: vault.revision} : {}),
+      }, b.capabilities.durable_provider_binding === true);
       if (version !== sessionVersion.current) return;
-      if (object(r.data).state !== "BOUND_IN_HOST_MEMORY") throw new V2Error("SECRET_BINDING_UNCONFIRMED");
-      setNotice("凭据已安全绑定到服务器内存。请在管理页确认重启以应用；此操作没有调用模型。服务器重启后需要重新绑定。");
+      const result = object(r.data);
+      if (!["BOUND_IN_HOST_MEMORY", "BOUND_IN_HOST_VAULT"].includes(String(result.state))) throw new V2Error("SECRET_BINDING_UNCONFIRMED");
+      setNotice(result.state === "BOUND_IN_HOST_VAULT"
+        ? "凭据已保存在宿主加密保险库，服务重启可恢复。请通过已有管理入口确认应用；没有调用模型或增加付费授权。"
+        : "凭据仅绑定到服务器内存。请在管理页确认重启以应用；服务器重启后需要重新绑定。此操作没有调用模型。");
       await refresh();
     } catch (e) {
-      if (version === sessionVersion.current) fail(e);
+      if (version === sessionVersion.current) {
+        setNotice(explain(e));
+        await refresh().catch(() => {});
+      }
+    } finally {
+      if (version === sessionVersion.current) setBusy(false);
+    }
+  };
+  const revokeProvider = async (providerId: string, revision: number) => {
+    if (busy || !window.confirm("撤销这个供应商的凭据并暂停其后续调用？已经发出的请求不会重放或被当作取消。")) return;
+    const version = sessionVersion.current;
+    setBusy(true);
+    try {
+      const b = await fresh();
+      const credentials = await client.current.providerCredentials();
+      if (version !== sessionVersion.current) return;
+      const vault = vaultMetadata(credentials.data);
+      if (!vault) throw new V2Error("PROVIDER_VAULT_REVISION_REQUIRED");
+      if (pageName.current === "models") setCredentialStatus(credentials.data);
+      const r = await client.current.revokeProviderCredential({
+        ...writeBase(b), provider_profile_id: providerId, profile_revision: revision,
+        ...(vault ? {expected_vault_revision: vault.revision} : {}),
+      });
+      if (version !== sessionVersion.current) return;
+      const result = object(r.data);
+      if (!["REVOKED", "CREDENTIAL_REVOKED", "REVOKED_AND_PROVIDER_DISABLED", "REVOKED_PROVIDER_DISABLED"].includes(String(result.state))) throw new V2Error("SECRET_REVOCATION_UNCONFIRMED");
+      const affected = Array.isArray(result.disabled_provider_profile_ids) ? result.disabled_provider_profile_ids.length : 1;
+      setNotice(`凭据已撤销，共暂停 ${affected} 个共用此凭据的供应商。已有请求仍以原回执为准；请通过管理入口明确重启以应用。`);
+      await refresh();
+    } catch (e) {
+      if (version === sessionVersion.current) {
+        setNotice(explain(e));
+        await refresh().catch(() => {});
+      }
     } finally {
       if (version === sessionVersion.current) setBusy(false);
     }
@@ -693,6 +804,9 @@ export function LiveSpace() {
     setDraft("");
     setReceipt(null);
     setBackupStatus(null);
+    setBiliSnapshot(null);
+    setSharedSnapshot(null);
+    setCredentialStatus(null);
     setBrowsing(false);
     setStyleDraft([]);
     setNotice("");
@@ -787,6 +901,9 @@ export function LiveSpace() {
     setNav(false);
     setSnapshot(null);
     setBackupStatus(null);
+    setBiliSnapshot(null);
+    setSharedSnapshot(null);
+    setCredentialStatus(null);
     setPairOffer("");
     setNotice("");
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -812,7 +929,7 @@ export function LiveSpace() {
   );
   const navGroups: [string, Destination[]][] = [
     ["日常相伴", ["home", "chat", "memories", "room"]],
-    ["她的世界", ["journal", "world", "goals", "growth"]],
+    ["她的世界", ["journal", "world", "bilibili", "goals", "growth"]],
     ["空间管理", ["models", "devices", "backup", "runtime", "settings"]],
   ];
   const navLinks = navGroups.map(([name, pages]) => (
@@ -1178,6 +1295,7 @@ export function LiveSpace() {
                 room={page === "room"}
                 go={go}
                 avatar={prefs.avatar}
+                shares={healthy ? sharedCandidates(sharedSnapshot) : []}
               />
             )}
             {page === "chat" && (
@@ -1220,9 +1338,12 @@ export function LiveSpace() {
                 }
                 busy={busy}
                 onApply={applyProvider}
+                credentialStatus={credentialStatus}
+                onRevokeCredential={admin && isNative() && bootstrap?.capabilities.durable_provider_binding === true ? revokeProvider : undefined}
                 onBindCredential={admin && isNative() && bootstrap?.capabilities.native_secret_binding === true ? bindProvider : undefined}
               />
             )}
+            {page === "bilibili" && <BilibiliView data={biliSnapshot} available={healthy && bootstrap?.capabilities.platform_bilibili_history === true}/>}
             {page === "backup" && (
               <BackupView
                 host={hostState}

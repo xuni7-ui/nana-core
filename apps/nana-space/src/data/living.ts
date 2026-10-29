@@ -1,0 +1,126 @@
+import type { Turn } from "../features/v3/ChatPane";
+
+const record = (value: unknown): Record<string, unknown> | null =>
+  value && typeof value === "object" && !Array.isArray(value)
+    ? value as Record<string, unknown> : null;
+
+/** Only source-validated, explicitly retained server exchanges are restored.
+ * A client cache is never the memory authority. Uncertain requests are not replayed.
+ */
+export function retainedTurns(value: unknown): Turn[] {
+  const data = record(value);
+  if (!data || !Array.isArray(data.items) || data.items.length > 64) return [];
+  return data.items.flatMap((value): Turn[] => {
+    const row = record(value);
+    if (!row || typeof row.exchange_record_id !== "string" || !/^[A-Za-z0-9._:-]{1,128}$/.test(row.exchange_record_id)
+      || typeof row.user_text !== "string" || typeof row.reply_text !== "string"
+      || row.user_text.length > 4096 || row.reply_text.length > 8192
+      || typeof row.created_at_us !== "number" || !Number.isSafeInteger(row.created_at_us)
+      || row.created_at_us < 0) return [];
+    return [{id: row.exchange_record_id, input: row.user_text, reply: row.reply_text,
+      state: "VERIFIED", remembered: true, restored: true,
+      exchangeId: row.exchange_record_id,
+      ...(typeof row.model === "string" && row.model.length <= 128 ? {model: row.model} : {})}];
+  }).slice(-32);
+}
+
+/** Original body-free server receipts restore verification handles only. */
+export function pendingReceiptTurns(value: unknown): Turn[] {
+  const data = record(value);
+  if (!data || !Array.isArray(data.pending_receipts) || data.pending_receipts.length > 32) return [];
+  return data.pending_receipts.flatMap((value): Turn[] => {
+    const row = record(value);
+    if (!row || typeof row.receipt_id !== "string" || !/^[A-Za-z0-9._:-]{1,96}$/.test(row.receipt_id)
+      || !["UNKNOWN", "REQUESTED"].includes(String(row.state))) return [];
+    return [{id: row.receipt_id, input: "", state: "UNKNOWN", restored: true, pendingReceipt: true}];
+  });
+}
+
+export function mergeRetainedTurns(restored: Turn[], current: Turn[]): Turn[] {
+  const supported = new Set(restored.filter(x => x.exchangeId).map(x => x.exchangeId));
+  const local = current.filter(x => !x.restored && !(x.remembered && x.exchangeId && !supported.has(x.exchangeId)));
+  const known = new Set(local.filter(x => x.exchangeId).map(x => x.exchangeId));
+  const localIds = new Set(local.map(x => x.id));
+  // Restored rows are replaced on each projection, so a withdrawn source cannot
+  // survive in a stale browser history after the server removes it.
+  return [...restored.filter(x => !localIds.has(x.id) && !known.has(x.exchangeId)), ...local].slice(-32);
+}
+
+export interface SharedCandidate {
+  id: string; cycleId: string; topic: string; state: string; records: string[]; memories: string[];
+}
+/** Original C-approved metadata only; no candidate is promoted into a delivered message. */
+export function sharedCandidates(value: unknown): SharedCandidate[] {
+  const data = record(value);
+  if (!data || data.external_delivery !== false || data.coverage !== "ORIGINAL_C_APPROVED_CANDIDATES_ONLY"
+    || !Array.isArray(data.items) || data.items.length > 64) return [];
+  const refs = (value: unknown) => Array.isArray(value) && value.length <= 32
+    && value.every(x => typeof x === "string" && /^[A-Za-z0-9._:-]{1,128}$/.test(x)) ? value as string[] : null;
+  return data.items.flatMap((value): SharedCandidate[] => {
+    const row = record(value);
+    if (!row || row.delivery !== "NONE" || typeof row.candidate_record_id !== "string"
+      || !/^[A-Za-z0-9._:-]{1,128}$/.test(row.candidate_record_id)
+      || typeof row.cycle_id !== "string" || !/^[A-Za-z0-9._:-]{1,128}$/.test(row.cycle_id)
+      || typeof row.state !== "string" || !/^[A-Z_]{1,96}$/.test(row.state)
+      || (row.topic !== null && row.topic !== undefined && (typeof row.topic !== "string" || row.topic.length > 128))) return [];
+    const records = refs(row.source_record_ids), memories = refs(row.source_memory_ids);
+    if (!records || !records.length || !memories) return [];
+    return [{id: row.candidate_record_id, cycleId: row.cycle_id, topic: typeof row.topic === "string" ? row.topic : "",
+      state: row.state, records, memories}];
+  }).slice(0, 16);
+}
+
+export function credentialProfiles(value: unknown) {
+  const data = record(value);
+  if (!data || !Array.isArray(data.profiles) || data.profiles.length > 64) return [];
+  return data.profiles.flatMap(value => {
+    const row = record(value);
+    return row && typeof row.provider_profile_id === "string" && /^[A-Za-z0-9._-]{1,128}$/.test(row.provider_profile_id)
+      && ["AVAILABLE", "MISSING", "UNCONFIGURED"].includes(String(row.secret_state))
+      ? [{id: row.provider_profile_id, state: String(row.secret_state)}] : [];
+  });
+}
+
+export function vaultMetadata(value: unknown) {
+  const data = record(value), vault = record(data?.vault);
+  if (!vault || typeof vault.revision !== "number" || !Number.isSafeInteger(vault.revision) || vault.revision < 0) return null;
+  return {revision: vault.revision, configured: vault.configured === true,
+    persistent: vault.persistence === "HOST_LOCAL_AES_256_GCM" || vault.storage === "HOST_LOCAL_AES_256_GCM",
+    state: typeof vault.state === "string" && /^[A-Z_]{1,64}$/.test(vault.state) ? vault.state : "UNKNOWN"};
+}
+
+const coverageLabels: Record<string, string> = {
+  METADATA_ONLY: "只读到视频信息", METADATA_ONLY_NOT_WATCHED: "只读到视频信息",
+  SUBTITLE_EXCERPT: "读过部分字幕", SUBTITLES: "读过字幕",
+  SUBTITLE_EXCERPT_NOT_VISUAL_VIEWING: "读过部分字幕 · 未取得画面",
+  SOCIAL_CONTEXT_ONLY_NOT_VIDEO_CONTENT: "读过互动上下文 · 未确认视频内容",
+  COMMENTS_ONLY: "读过部分评论", DANMAKU_EXCERPT: "读过部分弹幕",
+  VISUAL_FRAMES: "有采样画面来源", MULTIMODAL_EXCERPT: "有字幕与采样画面来源",
+};
+export function coverageLabel(value: unknown): string {
+  return typeof value === "string" && coverageLabels[value] ? coverageLabels[value] : "理解范围待核实";
+}
+
+export interface BilibiliReading {
+  id: string; bvid: string; title: string; coverage: string; interpreted: boolean;
+  observedAt: number; subtitles: number; comments: number; danmaku: number; frames: number;
+  origin: string; missing: string[];
+}
+export function bilibiliReadings(value: unknown): BilibiliReading[] {
+  const data = record(value);
+  if (!data || !Array.isArray(data.items) || data.items.length > 64) return [];
+  const count = (v: unknown) => Array.isArray(v) ? v.length : typeof v === "number" && Number.isSafeInteger(v) && v >= 0 ? v : 0;
+  return data.items.flatMap((value): BilibiliReading[] => {
+    const row = record(value);
+    if (!row || typeof row.source_memory_id !== "string" || typeof row.bvid !== "string"
+      || !/^BV[A-Za-z0-9]{10}$/.test(row.bvid) || typeof row.title !== "string" || row.title.length > 256
+      || typeof row.observed_at_us !== "number" || !Number.isSafeInteger(row.observed_at_us) || row.observed_at_us < 0
+      || !/^[A-Za-z0-9._:-]{1,128}$/.test(row.source_memory_id)) return [];
+    return [{id: row.source_memory_id, bvid: row.bvid, title: row.title,
+      coverage: coverageLabel(row.coverage), interpreted: row.interpreted === true,
+      observedAt: row.observed_at_us, subtitles: count(row.subtitle_segments),
+      comments: count(row.comment_samples), danmaku: count(row.danmaku_samples), frames: count(row.visual_frames),
+      origin: row.source_origin === "REAL_PLATFORM_HTTP" ? "真实平台读取" : row.source_origin === "SYNTHETIC_FIXTURE" ? "合成验证资料" : "来源范围待核实",
+      missing: Array.isArray(row.missing_sources) ? row.missing_sources.filter((s): s is string => typeof s === "string").map(s => s.slice(0, 128)).slice(0, 8) : []}];
+  }).slice(0, 32);
+}

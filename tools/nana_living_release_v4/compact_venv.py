@@ -6,6 +6,7 @@ seal; old images and sealed host slots are unchanged. No library is replaced.
 
 import hashlib
 import os
+import shutil
 from pathlib import Path
 
 
@@ -30,5 +31,22 @@ def compact(root=Path("/opt/nana-core/runtime/core-releases")):
     return saved
 
 
+def discard_build_caches(root=Path("/opt/nana-core/runtime")):
+    """Only the newly built image tree; never a deployed sealed SDK."""
+    if root.is_symlink() or root.resolve() != root:
+        raise ValueError("FRESH_RUNTIME_TREE_REQUIRED")
+    removed = 0
+    for path in sorted(root.rglob("*"), key=lambda p: len(p.parts), reverse=True):
+        if path.is_symlink():
+            continue
+        if path.is_file() and path.suffix in {".pyc", ".pyo"}:
+            removed += path.stat().st_size
+            path.unlink()
+        elif path.is_dir() and path.name in {"__pycache__", ".pytest_cache", ".git"}:
+            shutil.rmtree(path)
+    return removed
+
+
 if __name__ == "__main__":
-    print({"fresh_image_identical_alias_bytes_removed": compact(), "host_runtime_modified": False})
+    print({"fresh_image_identical_alias_bytes_removed": compact(),
+           "fresh_image_cache_bytes_removed": discard_build_caches(), "host_runtime_modified": False})

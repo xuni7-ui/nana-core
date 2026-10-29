@@ -1,20 +1,77 @@
-"""Optional host-local configuration transition; never resolves credentials.
+"""Explicit host-local provider configuration and credential transitions.
 
 The host opts in independently of Subject relationship or Manager rules. This
-updates the existing CAS document only, not live authorization, budget or identity.
+updates host configuration or its opted-in vault, not live authorization, budget
+or identity. Credential values never enter Subject data or receipt payloads.
 """
 
 from ...continuity.provider_config import ProviderCommand, ProviderConfigService, ProviderConfigurationAuthority
 from ...contracts import CoreError
 from .contracts import WriteRequest, Role, ApiError
-from pydantic import Field
+from pydantic import Field, model_validator
+from typing import Literal
 
 
 class CredentialBindingRequest(WriteRequest):
     model_config = {"hide_input_in_errors": True}
     provider_profile_id: str = Field(min_length=1, max_length=128)
     profile_revision: int = Field(ge=1)
-    credential: str = Field(min_length=1, max_length=4096, repr=False, exclude=True)
+    action: Literal["BIND", "REVOKE"] = "BIND"
+    expected_vault_revision: int | None = Field(default=None, ge=0)
+    credential: str | None = Field(default=None, min_length=1, max_length=4096, repr=False, exclude=True)
+
+    @model_validator(mode="after")
+    def action_shape(self):
+        if (self.action == "BIND") != (self.credential is not None):
+            raise ValueError("credential action shape invalid")
+        return self
+
+
+def credential_status(service, principal):
+    principal.require(Role.HOST_ADMIN)
+    resolver = service.credential_resolver
+    vault = resolver.metadata() if resolver is not None else {"configured": False, "storage": "UNAVAILABLE", "revision": None}
+    document = projection(service.supervisor.home)
+    authority = ProviderConfigurationAuthority()
+    try:
+        config = ProviderConfigService(service.supervisor.home / "providers.json", authority).load()
+        profiles = [{"provider_profile_id": p.provider_profile_id, "profile_revision": p.revision, "enabled": p.enabled,
+                     "secret_state": "UNCONFIGURED" if not p.secret_ref else "AVAILABLE" if resolver and resolver.available(p.secret_ref) else "MISSING"}
+                    for p in config.providers]
+    except CoreError as exc:
+        if exc.code != "PROVIDER_CONFIG_UNAVAILABLE":
+            raise
+        profiles = []
+    return service.envelope({"vault": vault, "profiles": profiles, "configuration_revision": document["revision"],
+                             "live_permission_granted": False, "network_calls": 0})
+
+
+def _disable_shared_profiles(config_service, config, reference, authority):
+    affected = []
+    for item in config.providers:
+        if item.secret_ref == reference:
+            affected.append(item.provider_profile_id)
+            if item.enabled:
+                config = config_service.update(ProviderCommand(operation="DISABLE_PROVIDER", expected_revision=config.revision,
+                                                               target_id=item.provider_profile_id), authority)
+    return affected
+
+
+def _mutate_binding(resolver, body, profile, config_service, config, authority):
+    persistent = bool(getattr(resolver, "persistent", False))
+    if persistent:
+        if body.expected_vault_revision is None:
+            raise CoreError("PROVIDER_VAULT_REVISION_REQUIRED")
+        if resolver.metadata()["revision"] != body.expected_vault_revision:
+            raise CoreError("PROVIDER_VAULT_REVISION_CONFLICT")
+    kwargs = {"expected_revision": body.expected_vault_revision} if persistent else {}
+    if body.action == "REVOKE":
+        affected = _disable_shared_profiles(config_service, config, profile.secret_ref, authority)
+        resolver.revoke(profile.secret_ref, **kwargs)
+    else:
+        affected = []
+        resolver.bind(profile.secret_ref, body.credential, **kwargs)
+    return persistent, affected
 
 
 def bind_credential(service, principal, body):
@@ -32,18 +89,25 @@ def bind_credential(service, principal, body):
         if body.expected_revision != service.ledger.revision:
             raise ApiError("REVISION_CONFLICT", 409)
         authority = ProviderConfigurationAuthority()
-        config = ProviderConfigService(service.supervisor.home / "providers.json", authority).load()
+        config_service = ProviderConfigService(service.supervisor.home / "providers.json", authority)
+        config = config_service.load()
         profile = next((p for p in config.providers if p.provider_profile_id == body.provider_profile_id), None)
         if profile is None or profile.revision != body.profile_revision:
             raise ApiError("PROVIDER_CONFIG_REVISION_CONFLICT", 409)
         if profile.locality != "REMOTE" or not profile.secret_ref:
             raise ApiError("EXPLICIT_SECRET_REFERENCE_REQUIRED", 409)
+        resolver = service.credential_resolver
         try:
-            service.credential_resolver.bind(profile.secret_ref, body.credential)
+            # Fence future selection before revocation. An already dispatched
+            # request cannot be cancelled or replayed by changing a vault.
+            persistent, affected = _mutate_binding(resolver, body, profile, config_service, config, authority)
         except CoreError as exc:
-            raise ApiError(exc.code, 400) from None
-        return service.envelope({"state": "BOUND_IN_HOST_MEMORY", "provider_profile_id": profile.provider_profile_id,
-                                 "secret_state": "AVAILABLE", "credential_persisted": False,
+            raise ApiError(exc.code, 409 if "CONFLICT" in exc.code or exc.code == "PROVIDER_VAULT_REVISION_REQUIRED" else 400) from None
+        return service.envelope({"state": "REVOKED_PROVIDER_DISABLED" if body.action == "REVOKE" else "BOUND_IN_HOST_VAULT" if persistent else "BOUND_IN_HOST_MEMORY",
+                                 "provider_profile_id": profile.provider_profile_id,
+                                 "secret_state": "MISSING" if body.action == "REVOKE" else "AVAILABLE", "credential_persisted": persistent and body.action == "BIND",
+                                 "vault": resolver.metadata(), "disabled_provider_profile_ids": affected,
+                                 "in_flight_requests_cancelled": False,
                                  "runtime_rebind": "EXPLICIT_RESTART_REQUIRED", "network_calls": 0,
                                  "live_permission_granted": False})
 

@@ -45,7 +45,8 @@ def collect_opportunities(loop,*,entity_id,now_us,quiet_since_us,quiet_window_us
             source=store.one('memories',mid)
             if store.schema_target>=13:
                 evidence=store.one('continuity_evidence',source['source_evidence_id'])
-                if evidence['source_namespace']=='synthetic.world-concern':continue # managed concern has its own deduplicated opportunity
+                if evidence['source_namespace'] in {'synthetic.world-concern','recorded.project.world-concern','recorded.world-concern','provider.world-concern'}:continue # managed concern has its own deduplicated opportunity
+                if evidence['source_namespace']=='recorded.conversation.concern' and len(evidence['source_reference'])==64 and all(c in '0123456789abcdef' for c in evidence['source_reference']):continue # managed concern digest, not the existing unfinished-topic record UUID
                 if evidence['source_namespace']=='recorded.project.material' and evidence['source_reference'].startswith(('open-life:cue:','shared-experience:')):continue # same managed attention source, not a second generic delivery
             result.append(AttentionOpportunity(key='memory-'+mid,source_kind='MEMORY',source_id=mid,
                 scope=scope,entity_id=entity_id,due_at_us=max(cue.not_before_us,source['ingested_time_us']+quiet_window_us,quiet_since_us+quiet_window_us),

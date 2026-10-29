@@ -1,7 +1,7 @@
 """Host-bound development surfaces into the same LifeApplication/SubjectLoop.
 
-QQ/Bili here are shadow adapters, not account connections. Only explicitly
-supplied PUBLIC/PROJECT summaries persist; conversation bodies remain volatile.
+Shadow adapters and explicit platform adapters enter the same SubjectLoop.
+Personal retention requires a trusted binding and a named consent reference.
 There is no transport, controller token, Grant, or second conversation database.
 """
 import json
@@ -24,7 +24,10 @@ class SurfaceBinding(DTO):
     entity_id:str='project-user'
     scope:str='project-work'
     enabled:bool=True
-    mode:Literal['DEVELOPMENT_SHADOW_NO_SEND']='DEVELOPMENT_SHADOW_NO_SEND'
+    mode:Literal['DEVELOPMENT_SHADOW_NO_SEND','PLATFORM_ADAPTER_NO_SEND']='DEVELOPMENT_SHADOW_NO_SEND'
+    permitted_privacy:tuple[Literal['PUBLIC','PROJECT','PERSONAL'],...]=('PUBLIC','PROJECT')
+    allow_personal_retention:bool=False
+    personal_retention_consent_ref:str|None=Field(default=None,pattern=r'^[A-Za-z0-9._:-]{1,128}$')
 
 
 class SurfaceObservation(DTO):
@@ -33,22 +36,23 @@ class SurfaceObservation(DTO):
     thread_id:str=Field(default='daily',pattern=r'^[A-Za-z0-9._:-]{1,96}$')
     topic:str=Field(default='daily',pattern=r'^[a-z][a-z0-9._-]{0,63}$')
     text:str=Field(min_length=1,max_length=2048)
-    privacy_class:Literal['PUBLIC','PROJECT']='PROJECT'
+    privacy_class:Literal['PUBLIC','PROJECT','PERSONAL']='PROJECT'
+    origin:Literal['DEVELOPMENT_SHADOW','SYNTHETIC_LOOPBACK','AUTHENTICATED_PLATFORM','ACCOUNT_API_UNATTESTED']='DEVELOPMENT_SHADOW'
     occurred_at_us:int|None=Field(default=None,ge=0,le=9223372036854775807)
     retain_shared_life:bool=False
     approved_summary:str|None=Field(default=None,min_length=1,max_length=512)
-    summary_authorization:Literal['NONE','EXPLICIT_PROJECT_SUMMARY']='NONE'
+    summary_authorization:Literal['NONE','EXPLICIT_PROJECT_SUMMARY','EXPLICIT_PERSONAL_SUMMARY']='NONE'
 
 
 def recent_sources(app,topic,privacy,limit=8):
     """Bounded metadata/source refs, filtered before any payload is read."""
     s=app.runtime.store;memory=MemoryService(s);out=[]
-    for row in s.db.execute("SELECT m.* FROM memories m JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE m.entity_id=? AND m.scope=? AND m.lifecycle='ACTIVE' AND e.source_namespace='recorded.project.surface-summary' ORDER BY m.created_at_us DESC,m.rowid DESC LIMIT 32",(app.runtime.config.entity_id,app.runtime.config.scopes[0])):
+    for row in s.db.execute("SELECT m.* FROM memories m JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE m.entity_id=? AND m.scope=? AND m.lifecycle='ACTIVE' AND e.source_namespace IN ('recorded.project.surface-summary','recorded.conversation.input') ORDER BY m.created_at_us DESC,m.rowid DESC LIMIT 32",(app.runtime.config.entity_id,app.runtime.config.scopes[0])):
         if row['privacy_class'] not in app.policy.readable_privacy or PRIVACY_RANK[row['privacy_class']]>PRIVACY_RANK[privacy]:continue
         try:
             current=memory.read(row['memory_id']);body=json.loads(current['text'])
         except (CoreError,ValueError):continue
-        if body['topic']==topic:out.append(current['memory_id'])
+        if type(body) is dict and body.get('topic')==topic and 'summary' in body:out.append(current['memory_id'])
         if len(out)>=limit:break
     return tuple(out)
 
@@ -69,13 +73,16 @@ class SurfaceSession:
     def receive(self,observation):
         if type(observation) is not SurfaceObservation:raise CoreError('SURFACE_TYPED_OBSERVATION_REQUIRED')
         o=SurfaceObservation.model_validate_json(observation.model_dump_json());b=self._binding(o.binding_id)
-        if o.approved_summary is not None and o.summary_authorization!='EXPLICIT_PROJECT_SUMMARY':raise CoreError('SURFACE_SUMMARY_NOT_AUTHORIZED')
+        if o.privacy_class not in b.permitted_privacy:raise CoreError('SURFACE_PRIVACY_NOT_BOUND')
+        if o.privacy_class=='PERSONAL' and (o.retain_shared_life or o.approved_summary is not None) and (not b.allow_personal_retention or not b.personal_retention_consent_ref):raise CoreError('SURFACE_PERSONAL_RETENTION_NOT_AUTHORIZED')
+        if b.mode=='DEVELOPMENT_SHADOW_NO_SEND' and o.origin!='DEVELOPMENT_SHADOW':raise CoreError('SURFACE_ORIGIN_BINDING_MISMATCH')
+        if o.approved_summary is not None and o.summary_authorization!=('EXPLICIT_PERSONAL_SUMMARY' if o.privacy_class=='PERSONAL' else 'EXPLICIT_PROJECT_SUMMARY'):raise CoreError('SURFACE_SUMMARY_NOT_AUTHORIZED')
         app=self._app;r=app.runtime;key=digest([b.binding_id,o.event_id]);now=r.clock.utc_now_us()
         envelope=SurfaceEnvelope(domain='LOCAL_INTERACTION',subject_id=r.identity_id,
             platform=b.platform,surface=b.surface,adapter=b.adapter,entity_id=b.entity_id,
             conversation_id=o.thread_id,session_id=b.binding_id,event_kind='conversation.message',
             occurred_at_us=o.occurred_at_us,observed_at_us=now,correlation_id=o.event_id,privacy_class=o.privacy_class,
-            source_reference='local:shadow:'+key[:40],source_event_key=key)
+            source_reference=('local:shadow:' if b.mode=='DEVELOPMENT_SHADOW_NO_SEND' else 'local:platform:')+key[:40],source_event_key=key)
         canonical_key=source_key(envelope)
         prior=r.store.db.execute('SELECT * FROM subject_events WHERE source_key=?',(canonical_key,)).fetchone()
         if prior:
@@ -89,15 +96,19 @@ class SurfaceSession:
         summary=()
         if o.approved_summary is not None:
             memory=MemoryService(r.store);body=canonical({'topic':o.topic,'summary':o.approved_summary,
-                'binding_id':b.binding_id,'event_id':o.event_id,'epistemic':'EXPLICIT_USER_STATEMENT_NOT_WORLD_TRUTH'})
-            reference='summary:'+key
-            old=r.store.db.execute("SELECT observed_time_us FROM continuity_evidence WHERE source_namespace='recorded.project.surface-summary' AND source_reference=?",(reference,)).fetchone()
-            eid=memory.capture(EvidenceInput(provenance=Provenance(domain='DEVELOPMENT_PROJECT' if o.privacy_class=='PROJECT' else 'RECORDED_PUBLIC',
-                source_namespace='recorded.project.surface-summary',source_reference=reference,source_kind='USER_STATEMENT',coverage='SUMMARY'),
+                'binding_id':b.binding_id,'event_id':o.event_id,'epistemic':'EXPLICIT_USER_STATEMENT_NOT_WORLD_TRUTH',
+                **({'retention_consent_ref':b.personal_retention_consent_ref} if o.privacy_class=='PERSONAL' else {})})
+            reference=('input:surface-summary:' if o.privacy_class=='PERSONAL' else 'summary:')+key
+            namespace='recorded.conversation.input' if o.privacy_class=='PERSONAL' else 'recorded.project.surface-summary'
+            old=r.store.db.execute("SELECT observed_time_us FROM continuity_evidence WHERE source_namespace=? AND source_reference=?",(namespace,reference)).fetchone()
+            eid=memory.capture(EvidenceInput(provenance=Provenance(domain='CONSENTED_INTERACTION' if o.privacy_class=='PERSONAL' else 'DEVELOPMENT_PROJECT' if o.privacy_class=='PROJECT' else 'RECORDED_PUBLIC',
+                source_namespace=namespace,source_reference=reference,source_kind='USER_STATEMENT',coverage='SUMMARY'),
+                retention_consent_ref=reference if o.privacy_class=='PERSONAL' else None,
                 text=body,privacy_class=o.privacy_class,observed_time_us=old[0] if old else now))
             summary=(memory.add(MemoryCandidate(entity_id=b.entity_id,scope=b.scope,memory_type=MemoryType.EPISODIC,
                 epistemic_kind='STATEMENT',source_evidence_id=eid,text=body,confidence=.8)),)
         result=app.chat(o.text,topic=o.topic,privacy=o.privacy_class,message_id=key,
             surface=envelope,support_memory_ids=summary,source_key=canonical_key,retain_shared_life=o.retain_shared_life)
         return {**result,'binding_id':b.binding_id,'source_key':canonical_key,'summary_memory_ids':summary,
-            'state':'SHADOW_REPLY_CANDIDATE','delivered':False,'execution_authority':False}
+            'state':'SHADOW_REPLY_CANDIDATE' if b.mode=='DEVELOPMENT_SHADOW_NO_SEND' else 'CORE_REPLY_CANDIDATE',
+            'platform_origin':o.origin,'delivered':False,'execution_authority':False}

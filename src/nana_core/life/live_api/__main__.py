@@ -1,8 +1,8 @@
 """Explicit host-bound BFF/Supervisor; never auto-init a canonical identity.
 
 TLS is supplied by a separately approved private proxy. The service binds ONLY
-loopback. Password/optional provider secret enter from explicitly inherited FDs,
-never environment discovery, files, argument values or an APK.
+loopback. Password/optional provider secret enter from explicitly inherited FDs
+or the opted-in host vault, never ambient discovery, argument values or an APK.
 """
 
 import argparse
@@ -36,6 +36,7 @@ class HostConfiguration(DTO):
     roles: tuple[Role, ...] = (Role.READER, Role.CONVERSATION)
     activation: dict[str, str] | None = None
     allow_provider_configuration: bool = False
+    provider_vault: str | None = None
 
 
 def read_private(path):
@@ -66,6 +67,14 @@ def main():
             result = check(cfg)
             print(json.dumps(result), flush=True)
             raise SystemExit(0 if result["state"] == "READ_ONLY_BINDING_CHECKED" else 2)
+        if cfg.provider_vault is not None:
+            vault = Path(cfg.provider_vault).absolute()
+            home = Path(cfg.home).resolve()
+            if not Path(cfg.provider_vault).is_absolute() or vault.resolve() != vault or vault.is_relative_to(home):
+                raise ApiError("PROVIDER_VAULT_MUST_BE_HOST_LOCAL_OUTSIDE_SUBJECT", 400)
+            if a.live_provider_authorized:
+                from ..provider_vault import DurableSecretResolver
+                resolver = DurableSecretResolver(vault, initialize=True)
         password = None
         if a.password_fd is not None:
             raw = os.read(a.password_fd, 513)
@@ -103,7 +112,7 @@ def main():
             provider_binding=binding,
         )
         service = GatewayService(supervisor, auth, cfg.host_state, allow_provider_configuration=cfg.allow_provider_configuration,
-                                 credential_resolver=resolver)
+                                 credential_resolver=resolver if a.live_provider_authorized else None)
         server = ApiServer(("127.0.0.1", cfg.port), service, public_origin=cfg.public_origin, web_root=cfg.web_root)
         stopping = threading.Event()
 

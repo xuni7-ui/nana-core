@@ -12,21 +12,10 @@ from ..contracts import CoreError
 from ..storage import canonical, digest
 from ..clock import Clock
 from ..migration.iris import FIELDS, iris_time
+from ..migration.source_safety import SECRET_NAMES, safe_payload as _safe_payload
 
 TABLES = {'memories': ('l2_row','memory_id'), 'nodes': ('kg_node','id'), 'edges': ('kg_edge',None)}
 PRIVATE_FIELDS={'content','text','name','user_name','group_name','sender_name','query','reason','note','op','verify','metadata','properties','custom_fields','interests','important_events'}
-SECRET_NAMES={'api_key','apikey','token','cookie','password','secret','authorization','credentials'}
-
-def _safe_payload(value):
-    if isinstance(value,dict):
-        if any(str(k).lower() in SECRET_NAMES for k in value):raise CoreError('SECRET_FIELD_IN_EXPORT')
-        for v in value.values():_safe_payload(v)
-    elif isinstance(value,list):
-        for v in value:_safe_payload(v)
-    elif isinstance(value,str) and value.lstrip().startswith(('{','[')):
-        try:parsed=json.loads(value)
-        except ValueError:return
-        _safe_payload(parsed)
 
 def _redact(payload):
     out={k:'[REDACTED]' for k in payload}

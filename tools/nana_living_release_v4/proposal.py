@@ -16,7 +16,7 @@ from nana_core.life.live_api.supervisor import Release
 data=json.load(sys.stdin)
 original=HostConfiguration.model_validate_json(json.dumps(data['original']))
 candidate=HostConfiguration.model_validate_json(json.dumps(data['candidate']))
-for field in ('home','host_state','binding','roles','activation','public_origin','port','active_release','allow_provider_configuration'):
+for field in ('home','host_state','binding','roles','activation','public_origin','port','active_release','allow_provider_configuration','provider_vault'):
  if getattr(original,field)!=getattr(candidate,field):raise ValueError('AUTHORITY_CHANGED')
 for item in candidate.releases:
  if item.source_commit==sys.argv[1]:item.validate_local(qualified=True)

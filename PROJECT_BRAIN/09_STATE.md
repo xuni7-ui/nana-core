@@ -7,27 +7,26 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 54,
-  "as_of_us": 1793226367208441,
+  "revision": 55,
+  "as_of_us": 1793274641985449,
   "stage": "H",
   "workstream": "LIVING_RELEASE_V4",
-  "status": "DEVELOPMENT_RELEASE_DELIVERED_V4_QUALIFICATION_PARTIAL",
+  "status": "V4_FINAL_INTEGRATION_VALIDATING",
   "progress": [
-    "V4开发发行：Core253文件双离线构建一致；运行源码13ddd484，Master/Matrix字节不变。",
-    "原Router/Policy/预算接入readiness；未dispatch拒绝不误报UNKNOWN，原拒绝话题无需模型；真实模型调用0。",
-    "单次经历保留接原Person-Self/Memory与撤回；实际render路由可查；不是第二记忆。",
-    "Android4.0.0/400与Web已构建，旧签名/appId不变；原生内存凭据与本地语音接线，未作实机资格。",
-    "完整自有Debian13镜像实际安装，重复install零变更，破坏文件精确拒绝；未切换任何生产服务。",
-    "实际DEV同Subject SIGKILL自动恢复epoch2→3→4、重建及B8迁移/旧源fence/撤Grant通过。",
-    "148项定向、4项发布补充、10项对话记忆恢复、44前端、8真实Core浏览器、1原生单测通过。"
+    "继承435ca7a同一V4；新增宿主本地AESGCM vault、CAS轮换/撤销；实际BFF SIGKILL后绑定恢复已验证，正式宿主未接入。",
+    "原Person-Self共同对话投影恢复、来源撤回、仅本设备未决回执只读核验；不恢复未保留原文、不重发UNKNOWN。",
+    "原C关注在新来源下可重新判断；经验需要按当前scope/privacy过滤后限额；软件反事实基线两例失败、升级通过，不是模型ablation。",
+    "B站字幕/评论/弹幕、有限发现/读取与账号发送适配；QQ桥接接原C/Manager/Grant/Kernel/Verify；仅loopback发送资格。",
+    "全量旧源冻结、索引/去重批次预览与撤回工具；未访问私史，不伪装成Core当前亲历。",
+    "V4前端4.0.1/401、历史/来源卡/共享候选/密钥状态已接真实API；单元53通过，APK和最终镜像待本轮重建。"
   ],
   "open_gates": [
-    "无安全host/VPN绑定；云端30845fb热修复及正式8acff4fb主体为用户报告，待只读对账与批准切换。",
-    "真实Provider/费用、真人自然度、手机私有HTTPS/语音/通知、正式24h及跨日记忆仍NOT_RUN。",
-    "Provider凭据仅内存，BFF/容器重启须重绑；持久安全vault未实现，不冒称无人值守资格。",
-    "B站仅公共元数据和原C语义接线；兴趣驱动看视频/账号评论私信仍缺适配及授权。",
-    "旧QQ/Iris/Bili不切换、私人历史不导入、B1实际PC备份未做；bwrap保持BLOCKED。",
-    "First-Life NOT_READY/Beta NO；旧5h PARTIAL_EXTERNAL_LIMIT不改，长期资格PENDING_EXTERNAL_STABLE_ENV。"
+    "无安全host/VPN/账号/Provider绑定；云端正式Subject与热修复仍USER_REPORTED_NOT_ATTESTED；未操作生产。",
+    "真实Provider/费用、真人自然度、实机HTTPS/语音/通知、正式24h/跨日共同记忆NOT_RUN；First-Life NOT_READY/Beta NO。",
+    "旧史不可变归档可运行，但原RealMemoryIngress硬门保留，真实Core转换导入尚未启用；不以归档搜索冒充长期记忆接入。",
+    "B站实际公开search单次HTTP200/API0后混合结果解析失败，已修代码未再联网；账号收发未实测，画面视觉/完整自主选择仍未验收。",
+    "后台通知未实现投递资格；共享候选仅原C真实记录投影，未送达。bwrap BLOCKED，不退化为宿主直接执行。",
+    "最终打包/实际新镜像安装及恢复复验进行中；旧5h PARTIAL_EXTERNAL_LIMIT、长期PENDING_EXTERNAL_STABLE_ENV不改。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
@@ -37,7 +36,8 @@
     "docs/nana_living_release_v4/qualification.json",
     "docs/nana_living_release_v4/STATUS.md",
     "docs/nana_living_release_v4/DEPLOY.md",
-    "docs/nana_living_release_v4/evidence/install-final.json"
+    "docs/nana_living_release_v4/evidence/install-final.json",
+    "docs/nana_living_release_v4/FINAL_MISSION.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

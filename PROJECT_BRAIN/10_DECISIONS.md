@@ -1680,3 +1680,8 @@ V4: distinguish absent config, bound credentials, local readiness and real model
 ### 2026-10-28 — Living V4 verified development delivery
 
 V4发行与产品资格分开。独立9737条新封条；新镜像SHA相同Python别名改为同venv符号链接，实测全部三版本ABI/prefix，旧镜像/封条不改。内存凭据不冒称vault；公共视频元数据不冒称观看；readiness不冒称真实认知。
+
+
+## 2026-10-29 — Living V4 final integration checkpoint
+
+D-V4-FINAL-20261029：保持同一V4与唯一Subject；Provider配置/密钥均宿主本地，AESGCM只防误泄漏及其他UID，不宣称抗root或同时盗取key+cipher。新投影必须求交binding scope/entity/privacy。关注来源按完整支持保守标记；外部模型/平台文本不授Grant。平台执行仍由原Manager/Grant/Kernel、原canonical激活与独立Verify约束，不改旧审批摘要。

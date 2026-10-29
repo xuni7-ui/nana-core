@@ -20,6 +20,7 @@ BOUND = 65536
 
 
 class MemorySecretResolver:
+    persistent = False
     def __init__(self):
         self.__values = {}
         self.__lock = threading.RLock()
@@ -43,6 +44,18 @@ class MemorySecretResolver:
     def available(self, reference):
         with self.__lock:
             return reference in self.__values
+
+    def revoke(self, reference):
+        with self.__lock:
+            value = self.__values.pop(reference, None)
+            if value is not None:
+                value.clear()
+            return value is not None
+
+    def metadata(self):
+        with self.__lock:
+            return {"configured": True, "storage": "MEMORY_ONLY", "revision": None,
+                    "bindings": len(self.__values), "credential_persisted": False}
 
     def resolve(self, reference):
         with self.__lock:

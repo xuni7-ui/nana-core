@@ -53,10 +53,11 @@ WRAPPER = ('#!/bin/sh\nset -eu\nrelease_root=$(CDPATH= cd -- "$(dirname -- "$0")
 def copy_inputs(root, build, work):
     shutil.copyfile(build["core"]["archive"], root / "core.tar.gz")
     shutil.copyfile(work / "context/web.tar.gz", root / "web.tar.gz")
-    shutil.copyfile(ROOT / "apps/nana-space/android/app/build/outputs/apk/debug/app-debug.apk", root / "nana-space-4.0.0-debug.apk")
+    version = json.loads((ROOT / "apps/nana-space/package.json").read_text())["version"]
+    shutil.copyfile(ROOT / "apps/nana-space/android/app/build/outputs/apk/debug/app-debug.apk", root / ("nana-space-" + version + "-debug.apk"))
     tools = root / "tools"
     tools.mkdir()
-    for name in ("deploy.py", "docker_api.py", "integrity.py", "operator_stage.py", "proposal.py", "switch_release.py", "host_facts.py"):
+    for name in ("deploy.py", "docker_api.py", "integrity.py", "operator_stage.py", "proposal.py", "switch_release.py", "host_facts.py", "legacy_archive.py"):
         shutil.copyfile(ROOT / "tools/nana_living_release_v4" / name, tools / name)
     for directory, names in (
         ("nana_first_life_android_v2", ("install_runtime_tree.py",)),

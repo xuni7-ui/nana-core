@@ -25,3 +25,18 @@ Explicit per-turn retention enters original Person-Self/Memory with provenance a
 Public Bilibili transport has fixed, bounded no-credential HTTPS reads; metadata-only is never described as watching. Its source adapter enters original Memory → CognitionSession → MODEL_DERIVATION → World → Concern → Runtime queue → C and source withdrawal, qualified with an explicit synthetic model. One authorized public metadata HTTP probe succeeded; real model calls remain zero. Full interest-led watching, account comments/DM and real cross-day adaptation remain incomplete.
 
 Operator preparation uses Unix Docker API and a finite disposable controller, not the ordinary Core. New slots use original archive extraction and exact file/owner checks. A staged tree cannot be READY_FOR_SWITCH until the installed mount passes the actual private interpreter ABI check. Repeat installation preserves state; immutable corruption produces exact path/digest diagnostics. No actual service switch/Genesis or user Store is touched.
+
+
+## 2026-10-29 final continuation (supersedes earlier implementation gaps)
+
+The same V4 now implements host-local AES-256-GCM provider binding with atomic CAS, startup restoration, native-only revisioned mutations, rotation and shared-reference revocation. The wrapping key is separate from the Subject. Root/service-UID compromise or theft of both key and ciphertext is outside this protection. Rotation/revoke affects future dispatch; neither cancels or retries a dispatched UNKNOWN.
+
+Original Person-Self speech occurrences back bounded conversation history. Explicitly retained local boundary/offline wording is recorded as reported speech, never model success or world truth. Unretained bodies are never reconstructed. Original body-free BFF receipt metadata is principal-scoped and queried without replay. SharedPresence exposes original C-approved candidates, not fake authored messages or delivery. All projections enforce binding scope/entity/privacy and withdrawal watermarks.
+
+Original attention now reconsidered source-backed interests after a fresh encounter; ambiguous provider/effect states still park attention. Experience-need filtering precedes the finite review horizon. The fixed two-case software-mechanism ablation fails on435ca7a and passes the upgrade; this is not model ablation, real semantic generalization or human review. Source domain follows full support with old queue-key compatibility.
+
+Bili adapters use fixed endpoints for discovery, metadata, timestamped subtitles, comments and XML danmaku; no video-frame claim. Account and OneBot adapters use original C/Manager/Grant/Kernel budgets, single dispatch and independent readback. Explicit platform binding reuses original canonical receipts without rewriting their hashes. Only loopback account effects have been exercised. One public Bili search returned HTTP200/API0 but mixed result parsing failed; invalid rows were subsequently filtered without a second network call.
+
+The frozen legacy archive preserves whole selected files, content hashes, a rebuildable source index and bounded review ranges. Withdrawal excludes source search/plans while retaining frozen bytes. Real private conversion remains blocked by the original RealMemoryIngress; this archive is not a second Subject Store or imported personal history.
+
+Android/Web401 adds real source/history/shared-candidate views, no-body receipt recovery, native vault status/revoke and corrected speech cancellation/wait timing. Background social notifications, frame understanding, automatic discovery selection and private Core import are not silently filled with fixtures. Final artifact and host acceptance evidence follow separately.

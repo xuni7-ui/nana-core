@@ -2707,3 +2707,14 @@
     opacity: 0.3;
   }
 }
+
+/* Small source badges, no ambient canvas or polling animation. */
+.v4-evidence-counts { display:flex; flex-wrap:wrap; gap: .65rem 1rem; color:var(--muted); font-size:.82rem; }
+.v4-evidence-counts span, .v4-bili-footer a { display:inline-flex; align-items:center; gap:.35rem; }
+.v4-bili-footer { display:flex; align-items:center; justify-content:space-between; flex-wrap:wrap; gap:.65rem; margin-top:1rem; font-size:.78rem; color:var(--muted); }
+.v4-bili-card h3 { overflow-wrap:anywhere; line-height:1.6; }
+.v4-bili-card .v3-card-heading { flex-wrap:wrap; gap:.5rem; }
+.v3-thinking small { display:block; max-width:24rem; font-weight:400; opacity:.8; line-height:1.6; }
+.v4-remember { display:flex; flex-wrap:wrap; align-items:center; gap:.5rem; }
+.v4-remember input { flex:0 0 auto; inline-size:1.2rem; block-size:1.2rem; margin:0; }
+.v4-remember small { flex-basis:100%; margin-left:1.7rem; }

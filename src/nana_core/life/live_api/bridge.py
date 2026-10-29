@@ -77,7 +77,11 @@ class GatewayService:
                 "provider_configuration_write": self.allow_provider_configuration,
                 "provider_readiness": True,
                 "native_secret_binding": self.allow_provider_configuration and self.credential_resolver is not None,
+                "durable_provider_binding": bool(getattr(self.credential_resolver, "persistent", False)),
                 "shared_life_retention": True,
+                "conversation_history": True,
+                "platform_bilibili_history": True,
+                "shared_life_candidates": True,
             },
             data=data,
         ).model_dump(mode="json")
@@ -96,6 +100,56 @@ class GatewayService:
                 "identity_provenance": "EXISTING_BOUND_SUBJECT_NOT_AUTOMATIC_GENESIS",
             }
         )
+
+    def conversation_history(self, principal):
+        principal.require(Role.CONVERSATION)
+        with self.read_lock:
+            self.supervisor.verify_binding()
+            before = self._privacy_watermark()
+            response = core_request(self.supervisor.home, {
+                "operation": "conversation-history", "privacy": list(self.binding.privacy),
+                "scope": self.binding.scope, "entity_id": self.binding.entity_id})
+            if response.get("ok") is not True:
+                raise ApiError("CONVERSATION_HISTORY_UNAVAILABLE", 503)
+            after = self._privacy_watermark()
+            data = response["result"] if before == after else {"items": [], "coverage": "SOURCE_CHANGED_REFRESH_REQUIRED"}
+            data["privacy_watermark"] = after
+            # Only original body-free metadata owned by this principal; no replay.
+            data["pending_receipts"] = [
+                {"receipt_id": key, "state": row["receipt"]["state"]}
+                for key, row in self.ledger.document.read()["receipts"].items()
+                if row["principal"] == principal.principal_id and row["receipt"]["operation"] == "MESSAGE"
+                and row["receipt"]["state"] in {"REQUESTED", "UNKNOWN"}
+            ][-32:]
+            return self.envelope(data)
+
+    def shared_candidates(self, principal):
+        principal.require(Role.CONVERSATION)
+        with self.read_lock:
+            self.supervisor.verify_binding()
+            before = self._privacy_watermark()
+            response = core_request(self.supervisor.home, {"operation": "shared-candidates", "privacy": list(self.binding.privacy),
+                "scope": self.binding.scope, "entity_id": self.binding.entity_id})
+            if response.get("ok") is not True:
+                raise ApiError("SHARED_CANDIDATES_UNAVAILABLE", 503)
+            after = self._privacy_watermark()
+            data = response["result"] if before == after else {"items": [], "coverage": "SOURCE_CHANGED_REFRESH_REQUIRED"}
+            data["privacy_watermark"] = after
+            return self.envelope(data)
+
+    def bilibili_history(self, principal):
+        principal.require(Role.READER)
+        with self.read_lock:
+            self.supervisor.verify_binding()
+            before = self._privacy_watermark()
+            response = core_request(self.supervisor.home, {"operation": "bilibili-history", "privacy": list(self.binding.privacy),
+                "scope": self.binding.scope, "entity_id": self.binding.entity_id})
+            if response.get("ok") is not True:
+                raise ApiError("BILIBILI_HISTORY_UNAVAILABLE", 503)
+            after = self._privacy_watermark()
+            if before != after:
+                return self.envelope({"items": [], "privacy_watermark": after, "state": "SOURCE_CHANGED_REFRESH_REQUIRED"}, coverage="STALE")
+            return self.envelope({**response["result"], "privacy_watermark": after})
 
     def backup_status(self, principal):
         """Derived existing receipt metadata; never opens a snapshot or PC path."""
@@ -346,6 +400,7 @@ class GatewayService:
                     "judgment",
                     "intention",
                     "message_memory_id",
+                    "exchange_record_id",
                     "raw_body_persisted",
                     "route",
                 )

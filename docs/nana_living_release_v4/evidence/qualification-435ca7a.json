@@ -1,0 +1,132 @@
+{
+  "workstream": "LIVING_RELEASE_V4",
+  "global_stage": "H",
+  "status": "INTEGRATED_DEVELOPMENT_RELEASE_V4_ACCEPTANCE_PARTIAL",
+  "base_head": "77a09e245603f38e10a4e2e36c2c7355e79e1eab",
+  "runtime_source_commit": "13ddd484156f8216dabd1d339f0bba696f801dab",
+  "runtime_business_diff_from_pin": "",
+  "inherited_commits": [
+    "a07e906",
+    "7a1bce9",
+    "9217e3f",
+    "ea1e225",
+    "3665d39"
+  ],
+  "schema_version": 13,
+  "business_tables": 43,
+  "foundation": "S1-S9 inherited qualified / S10 partial; fixed61/63 unchanged",
+  "master_sha256": "fe6efe121a05145b44178d5ec26b99430a28e873fca8d1b80f16671c65e5133c",
+  "matrix_sha256": "e8a197e28bde7605d0bd590e6d5f425af99f545d7df924caf22064dbad811552",
+  "image_id": "sha256:b5e55b2988135a991c3d9ac46b50e7c5fe9b75ce66335eb38e1429895b5fa54c",
+  "core_sha256": "728ef440fc34ab5c1b821814fae93408ee0b7384c5bad6959d274cb9ec5e5347",
+  "core_rebuild": "IDENTICAL_TWO_OFFLINE_BUILDS",
+  "core_files": 253,
+  "web_sha256": "3e6b5c1b3904132dd7b9374fa89128d9c82e177823da973a9c9256577d4f6751",
+  "apk": {
+    "file": "nana-space-4.0.0-debug.apk",
+    "bytes": 4722261,
+    "sha256": "2e93d66138ec11f637fd2094fd291352ada0ddf225d4df6d0d8091fbc07751cc",
+    "applicationId": "life.nana.space.dev",
+    "version_code": 400,
+    "version_name": "4.0.0-debug",
+    "signer_sha256": "b2fec5a02e6f32e69fb8ef8bce44391a6a4ba5ab8ce6dc7284cb57663016ec41",
+    "same_signer_as_3_0_2": true,
+    "build": "PASS",
+    "physical_phone_install": "NOT_RUN",
+    "on_device_asr_tts": "NOT_RUN",
+    "key_entered": "NO"
+  },
+  "install": "ACTUAL_LOCAL_DOCKER_PASS_READY_FOR_SWITCH",
+  "install_repeat": "PASS_ZERO_PERSISTENT_CHANGES",
+  "sealed_corruption": "PASS_EXACT_MISSING_PATH_NO_REPAIR",
+  "installed_mount_private_abi": "PASS_ALL_THREE_PREFIXES",
+  "identity_recovery": "ACTUAL_DEV_SIGKILL_RECREATE_EPOCH2_3_4_AND_B8_RESTORE_PASS",
+  "provider_config": "ACTUAL_CORE_BFF_AND_BROWSER_COMMANDS_PASS_NO_PAID_CALLS",
+  "provider_readiness": "PASS_ORIGINAL_POLICY_AND_BUDGET_NO_DISPATCH",
+  "secret_binding": "PASS_SYNTHETIC_MEMORY_ONLY_FD_AND_NATIVE_CODE_BOUNDARIES",
+  "durable_provider_vault": "NOT_IMPLEMENTED_REBIND_AFTER_BFF_RESTART",
+  "bilibili": "REAL_PUBLIC_METADATA_HTTP200_PLUS_SYNTHETIC_ORIGINAL_C_PIPELINE; NOT_WATCHED",
+  "bilibili_autonomous_watch_comment_dm": "NOT_COMPLETED_ACCOUNT_GRANTS_AND_REMAINING_ADAPTER_WORK",
+  "memory_retention": "PASS_CONTROLLED_PERSIST_RETRIEVE_RESTART_WITHDRAWAL; REAL_LONG_TERM_NOT_RUN",
+  "local_speech": "NATIVE_BUILT; ACTUAL_DEVICE_NOT_RUN",
+  "live_reply_streaming": "NOT_IMPLEMENTED_API_V2_ATOMIC_RECEIPT",
+  "model_ablation": "NOT_RUN",
+  "semantic_generalization": "NOT_RUN",
+  "human_naturalness": "NOT_RUN",
+  "formal_host_24h": "NOT_RUN",
+  "legacy_5h": "PARTIAL_EXTERNAL_LIMIT",
+  "new_long_residency": "PENDING_EXTERNAL_STABLE_ENV",
+  "real_provider_calls": 0,
+  "real_social_sends": 0,
+  "formal_subject_created": false,
+  "private_data_used": false,
+  "production_changed": false,
+  "main_changed": false,
+  "R045_changed": false,
+  "frontend_contract": "ADDITIVE_API_V2_CAPABILITY_GATED",
+  "first_life_experience_ready": "NOT_READY",
+  "beta": "NO",
+  "comparison_with_astrbot_openclaw": "NO_REAL_HEAD_TO_HEAD_QUALIFICATION_NO_SUPERIORITY_CLAIM",
+  "tests": {
+    "targeted": {
+      "passed": 148,
+      "failed": 0,
+      "seconds": 36.25
+    },
+    "packaging_stdin_rollback_supplement": {
+      "passed": 4,
+      "failed": 0,
+      "seconds": 0.09
+    },
+    "dialogue_memory_storage_recovery": {
+      "passed": 10,
+      "failed": 0,
+      "seconds": 4.15
+    },
+    "frontend_unit": {
+      "passed": 44,
+      "failed": 0,
+      "seconds": 2.59
+    },
+    "actual_core_browser": {
+      "passed": 8,
+      "failed": 0,
+      "seconds": 18.3
+    },
+    "android_native_unit": {
+      "passed": 1,
+      "failed": 0
+    },
+    "android_build": "PASS_26_SECONDS",
+    "full_repository": "NOT_REPEATED_PER_TARGETED_V4_INSTRUCTION"
+  },
+  "test_environment": {
+    "python": "3.12.14",
+    "sqlite": "3.53.1",
+    "openssl": "3.5.8",
+    "docker": "28.4.0",
+    "driver": "vfs"
+  },
+  "deployed_image_environment": {
+    "distribution": "DEBIAN13",
+    "python": "3.12.14",
+    "sqlite": "3.51.3",
+    "openssl": "3.5.7",
+    "pydantic": "2.13.4",
+    "uid_gid": "999:999"
+  },
+  "target_cloud_environment": "USER_REPORTED_UBUNTU24_04_DOCKER29_NOT_INDEPENDENTLY_ACCESSED",
+  "remaining_gates": [
+    "Safe read-only actual host/hotfix reconciliation and one approved service switch",
+    "Explicit provider authorization/budget and secure runtime binding; persistent vault still incomplete",
+    "Actual phone pairing/local speech/notification and human review",
+    "Formal same-Subject24h, cross-day recall, PC B1 recovery and private history import authorization",
+    "Remaining Bilibili interest/watch/account adapters and authorized QQ/social cutover"
+  ],
+  "manifest_sha256": "65834b03d6928aca6558939bbc4b9b1b5f9785fa63d116e6d165ad60a7029db9",
+  "image_gzip_sha256": "87866ddc44424276298724bee902ed079e9438035fe81c071d13310c8e2ab9e0",
+  "image_gzip_bytes": 331154026,
+  "handoff_zip_sha256": "5d620f7c21eaad796192cf5ec5cf5891972cda0f6c1af1ee89d4039ffa0eabb4",
+  "handoff_zip_bytes": 342411600,
+  "evidence_manifest_sha256": "2183784260d916c0e7cafa87cad55f3beacb83ec334042f9210bcd8ee430132c"
+}

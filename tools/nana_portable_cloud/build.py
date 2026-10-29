@@ -12,6 +12,9 @@ DEPENDENCIES = {
     "typing-extensions": "4.16.0",
     "typing-inspection": "0.4.3",
 }
+FEATURE_DEPENDENCIES = {
+    "HOST_VAULT": {"cryptography": "50.0.0", "cffi": "2.1.1", "pycparser": "3.0"},
+}
 
 
 def git(*args):
@@ -68,7 +71,12 @@ def verify_runtime_closure(selected, all_names, read):
             raise ValueError("RUNTIME_DYNAMIC_ASSET_MISSING")
 
 
-def build(destination, wheels, revision="HEAD"):
+def build(destination, wheels, revision="HEAD", *, features=()):
+    if len(set(features)) != len(features) or set(features) - set(FEATURE_DEPENDENCIES):
+        raise ValueError("RUNTIME_FEATURE_INVALID")
+    dependencies = dict(DEPENDENCIES)
+    for feature in sorted(features):
+        dependencies.update(FEATURE_DEPENDENCIES[feature])
     destination = Path(destination).absolute()
     if destination.exists() or destination.resolve() != destination:
         raise ValueError("CLEAN_BUILD_DESTINATION_REQUIRED")
@@ -97,7 +105,7 @@ def build(destination, wheels, revision="HEAD"):
     lock = []
     wheelroot = root / "wheelhouse"
     wheelroot.mkdir()
-    for package, version in DEPENDENCIES.items():
+    for package, version in dependencies.items():
         candidates = list(Path(wheels).glob(package.replace("-", "_") + "-" + version + "-*.whl"))
         if len(candidates) != 1:
             raise ValueError("EXACT_WHEEL_REQUIRED")
@@ -134,10 +142,11 @@ def build(destination, wheels, revision="HEAD"):
                 "bundle_version": 1,
                 "source_commit": commit,
                 "schema_version": 13,
-                "supported_platform": "Linux x86_64 / CPython3.12 / glibc>=2.17",
+                "supported_platform": "Linux x86_64 / CPython3.12 / glibc>=" + ("2.34" if "HOST_VAULT" in features else "2.17"),
                 "build_timestamp": datetime.fromtimestamp(epoch, timezone.utc).isoformat(),
                 "timestamp_policy": "SOURCE_COMMIT_TIMESTAMP_REPRODUCIBLE",
-                "dependencies": DEPENDENCIES,
+                "dependencies": dependencies,
+                "features": sorted(features),
                 "real_provider_calls": 0,
             },
             indent=2,
@@ -189,8 +198,9 @@ def main():
     p.add_argument("--output", type=Path, required=True)
     p.add_argument("--wheels", type=Path, required=True)
     p.add_argument("--revision", default="HEAD")
+    p.add_argument("--feature", action="append", choices=sorted(FEATURE_DEPENDENCIES), default=[])
     a = p.parse_args()
-    print(json.dumps(build(a.output, a.wheels, a.revision), indent=2))
+    print(json.dumps(build(a.output, a.wheels, a.revision, features=a.feature), indent=2))
 
 
 if __name__ == "__main__":

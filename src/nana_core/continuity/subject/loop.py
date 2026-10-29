@@ -36,8 +36,9 @@ class SubjectLoop:
             records.append(source['record_id'])
             memories.extend(self.records.support(source['record_id']))
         if self.store.schema_target>=13 and event.world_concern_id:
+            from ..world_loop.concern_source import binding as concern_binding
             concern=self.store.one('open_concerns',event.world_concern_id)
-            if not concern or event.source_key!='synthetic.world.concern.'+digest([concern['concern_id'],concern['revision']]) or not self.visible(concern['record_id'],event.scope):raise CoreError('STALE_OR_UNSUPPORTED_WORLD_CONCERN')
+            if not concern or event.source_key!=concern_binding(self.store,concern)[0] or not self.visible(concern['record_id'],event.scope):raise CoreError('STALE_OR_UNSUPPORTED_WORLD_CONCERN')
             records.append(concern['record_id']);memories.extend(self.records.support(concern['record_id']))
         for mid in (*event.source_memory_ids, *event.constraint_memory_ids):
             item = self.records.memory.read(mid)

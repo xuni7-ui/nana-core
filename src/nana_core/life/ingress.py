@@ -38,7 +38,7 @@ class SurfaceIngress:
                 # These checks precede C/capture. Reject invalid admitted input
                 # without killing the owner. Lease/privacy/integrity failures
                 # deliberately propagate and cannot be relabelled as user error.
-                if exc.code not in {'SURFACE_EVENT_COLLISION','SURFACE_SUMMARY_NOT_AUTHORIZED','SURFACE_DISABLED_OR_UNBOUND'}:raise
+                if exc.code not in {'SURFACE_EVENT_COLLISION','SURFACE_SUMMARY_NOT_AUTHORIZED','SURFACE_DISABLED_OR_UNBOUND','SURFACE_PRIVACY_NOT_BOUND','SURFACE_PERSONAL_RETENTION_NOT_AUTHORIZED','SURFACE_ORIGIN_BINDING_MISMATCH'}:raise
                 result={'state':'REJECTED_INPUT','error':exc.code,'judged':False,'external_delivery':False,'execution_authority':False}
             return {'sequence':sequence,'binding_id':o.binding_id,'event_id':o.event_id,'result':result}
         finally:self._delivering=False

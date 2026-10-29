@@ -53,10 +53,14 @@ def test_original_memory_world_concern_c_and_withdrawal(tmp_path):
     with LifeApplication(home, router=router) as app:
         adapter = BilibiliSourceAdapter(app)
         reading = PublicReading("BV1t55v6DE2v", "VIDEO_METADATA", app.runtime.clock.utc_now_us(),
-                                {"title": "Fixture source, not a real watch", "coverage": "METADATA_ONLY_NOT_WATCHED"}, "SYNTHETIC_FIXTURE")
+                                {"bvid": "BV1t55v6DE2v", "title": "Fixture source, not a real watch", "coverage": "METADATA_ONLY_NOT_WATCHED"}, "SYNTHETIC_FIXTURE")
         identity = app.runtime.identity_id
         mid = adapter.ingest(reading)
         assert adapter.ingest(reading) == mid
+        assert len(adapter.history(privacy=("PROJECT",))["items"]) == 1
+        assert adapter.history(privacy=("PUBLIC",))["items"] == []
+        assert adapter.history(privacy=("PROJECT",), scope="different-scope")["items"] == []
+        assert adapter.history(privacy=("PROJECT",), entity_id="different-entity")["items"] == []
         result = adapter.interpret(mid)
         assert result["state"] == "INTERPRETED_NOT_WATCHED" and result["concern_ids"]
         assert result["queue_id"] is not None and ports[0].calls == 1
@@ -73,3 +77,33 @@ def test_original_memory_world_concern_c_and_withdrawal(tmp_path):
         with pytest.raises(CoreError):
             adapter.ingest(reading)
         assert app.runtime.identity_id == identity and not app.runtime.store.all("grants")
+
+
+@pytest.mark.parametrize("context_privacy", ["PROJECT", "PERSONAL"])
+def test_model_interpretation_retains_all_context_dependencies_and_privacy(tmp_path, context_privacy):
+    from types import SimpleNamespace
+    from nana_core.continuity.memory import MemoryService
+    from nana_core.continuity.world_loop.cognition import CognitionSession, StructuredProposal
+    from nana_core.continuity.world_loop.harness import provider_harness
+    from tests.world_loop.helpers import fresh, policy, capture
+
+    with fresh(tmp_path / "self.db") as runtime, provider_harness(proposer=lambda request: StructuredProposal(
+            interpretation="A bounded source comparison", source_refs=request.primary_source_refs)) as (transport, _):
+        adapter = BilibiliSourceAdapter(SimpleNamespace(runtime=runtime))
+        source = adapter.ingest(PublicReading("BV1t55v6DE2v", "VIDEO_METADATA", runtime.clock.utc_now_us(),
+            {"bvid": "BV1t55v6DE2v", "title": "Synthetic source"}, "SYNTHETIC_FIXTURE"))
+        extra = capture(runtime, "comparison-context", {"context": "Synthetic comparison context"}, privacy=context_privacy)
+        session = CognitionSession(runtime, transport, policy())
+        proposal = session.execute(session.prepare("source-comparison", "INTERPRET", (source, extra)))["record_id"]
+        if context_privacy == "PERSONAL":
+            with pytest.raises(CoreError, match="BILIBILI_DERIVATION_PRIVACY_DENIED"):
+                adapter.apply_proposal(source, session, proposal)
+            return
+        derived = adapter.apply_proposal(source, session, proposal)["derived_memory_id"]
+        memory = MemoryService(runtime.store, runtime.authority)
+        assert memory.read(derived)["privacy_class"] == "PROJECT"
+        assert runtime.store.db.execute("SELECT 1 FROM memory_dependencies WHERE memory_id=? AND parent_kind='MEMORY' AND parent_id=?",
+            (derived, extra)).fetchone()
+        memory.forget(extra, runtime.authority)
+        with pytest.raises(CoreError):
+            memory.read(derived)

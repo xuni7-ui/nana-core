@@ -1156,3 +1156,8 @@ V4 source integration: original Memory/World/Concern/C public-source adapter, lo
 ### 2026-10-28 — Living V4 verified development delivery
 
 V4开发发行已交付完整镜像/Core/Web/APK及四模式Operator；First-Life仍需现场热修复对账、批准切换、合法模型与手机真人评审。继续跨日记忆/自主生活，不以离线通过替代正式生活。
+
+
+## 2026-10-29 — Living V4 final integration checkpoint
+
+V4同一主线继续：宿主持久vault、原C因果修复、跨会话投影、平台原Kernel适配和统一401发行。S1–S10/三横轴/63定义与Foundation历史不变；不另立V5。优先完成新版本实际发行验证，再按真实外部门受控接入。

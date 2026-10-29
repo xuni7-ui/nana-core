@@ -327,9 +327,18 @@ class Handler(BaseHTTPRequestHandler):
                 value = service.envelope({"host": service.supervisor.status()})
             elif route == "backup/status":
                 value = service.backup_status(principal)
+            elif route == "conversation/history":
+                value = service.conversation_history(principal)
+            elif route == "life/shares":
+                value = service.shared_candidates(principal)
+            elif route == "platform/bilibili":
+                value = service.bilibili_history(principal)
             elif route == "providers/status":
                 principal.require(Role.READER)
                 value = service.envelope(service.provider_status())
+            elif route == "providers/credentials":
+                from .provider_settings import credential_status
+                value = credential_status(service, principal)
             elif route == "notifications":
                 principal.require(Role.READER)
                 value = service.envelope(

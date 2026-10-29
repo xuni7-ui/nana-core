@@ -53,8 +53,8 @@ def main():
     commit = subprocess.check_output(["git", "rev-parse", args.source + "^{commit}"], cwd=ROOT, text=True).strip()
     subprocess.run(["git", "diff", "--quiet", commit, "--", "apps/nana-space", "src", "packaging", "tools/nana_living_release_v4"], cwd=ROOT, check=True)
     args.work.mkdir(mode=0o700, parents=True, exist_ok=False)
-    first = build(args.work / "core-first", args.wheels, commit)
-    second = build(args.work / "core-repeat", args.wheels, commit)
+    first = build(args.work / "core-first", args.wheels, commit, features=("HOST_VAULT",))
+    second = build(args.work / "core-repeat", args.wheels, commit, features=("HOST_VAULT",))
     if first["sha256"] != second["sha256"]:
         raise ValueError("CORE_REBUILD_MISMATCH")
     context = args.work / "context"

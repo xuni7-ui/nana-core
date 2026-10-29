@@ -19,6 +19,7 @@ import {
 } from "lucide-react";
 import { Avatar } from "../../avatar/Avatar";
 import type { Destination } from "./navigation";
+import type { SharedCandidate } from "../../data/living";
 
 export function label(value: unknown, fallback = "尚未提供") {
   return typeof value === "string"
@@ -147,6 +148,7 @@ export function HomeView({
   room,
   go,
   avatar = true,
+  shares = [],
 }: {
   items: Record<string, unknown>[];
   ready: boolean;
@@ -154,6 +156,7 @@ export function HomeView({
   room?: boolean;
   go: (p: Destination) => void;
   avatar?: boolean;
+  shares?: SharedCandidate[];
 }) {
   const activities = items.filter((x) =>
     /activit|experience|interest|concern/i.test(label(x.section)),
@@ -235,6 +238,22 @@ export function HomeView({
           </span>
         </div>
       </section>
+      {shares.length > 0 && <V3Card title="她留待分享的片刻" eyebrow="FROM HER OWN JUDGMENT">
+        <p className="v3-muted">这些候选来自奈奈已有的判断与来源。目前尚未送达，会等合适的时机与权限。</p>
+        <div className="v3-records">{shares.map(item => <article className="v3-record" key={item.id}>
+          <span className="v3-record-icon"><MessageCircle size={18}/></span>
+          <div><div className="v3-record-head"><strong>有来源的分享候选</strong><span className="v3-chip">尚未送达</span></div>
+            <p className="v3-muted">{item.state === "DEFER_BUSY" ? "知道你正忙，先留在这里。" : item.state === "SAVE_FOR_LATER_UNKNOWN_AVAILABILITY" ? "还不确定你是否方便，先留待以后。" : "留待适合的窗口。"}</p>
+            <details><summary>查看来源与范围 <ChevronRight size={13}/></summary>
+              {item.topic && <small>话题：{item.topic}</small>}
+              <code>{item.id}</code><small>原判断：{item.cycleId}</small>
+              {item.records.map(id => <small key={id}>支持记录：{id}</small>)}
+              {item.memories.map(id => <small key={id}>来源：{id}</small>)}
+              <small>当前状态：{item.state} · 尚无外部投递</small>
+            </details>
+          </div>
+        </article>)}</div>
+      </V3Card>}
       <section className="v3-card v4-living-tone" aria-label="有来源的生活节奏">
         <div>
           <span className="v3-eyebrow">HER OWN PACE</span>

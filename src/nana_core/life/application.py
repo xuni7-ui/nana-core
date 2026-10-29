@@ -269,9 +269,12 @@ class LifeApplication:
             self._recent.append(DialogueTurn(message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='USER',text=text[:1024]))
             self._recent.append(DialogueTurn(message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='ASSISTANT',text=draft[:1024],support_memory_ids=supports))
             self._recent=self._recent[-6:]
-            if retain_shared_life:
-                from ..continuity.person_self import retain_exchange
-                exchange_id=retain_exchange(r.store,entity_id=r.config.entity_id,scope=r.config.scopes[0],topic=topic,user_memory_id=mid,text=draft,cycle=cycle,source_memory_ids=supports)
+        # Explicit retention records what was actually said, including a local
+        # boundary acknowledgement or a provider-unavailable explanation. It
+        # does not certify model availability or the truth of the wording.
+        if retain_shared_life and len(supports)<=64:
+            from ..continuity.person_self import retain_exchange
+            exchange_id=retain_exchange(r.store,entity_id=r.config.entity_id,scope=r.config.scopes[0],topic=topic,user_memory_id=mid,text=draft,cycle=cycle,source_memory_ids=supports)
         self.control['messages']+=1;self._save_control();self._chat[key]=True
         if len(self._chat)>64:self._chat.pop(next(iter(self._chat)))
         route=None

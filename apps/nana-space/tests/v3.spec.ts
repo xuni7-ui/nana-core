@@ -93,6 +93,12 @@ interface MockState {
   pairRoute?: Route;
   delayConfirmation?: boolean;
   confirmationRoute?: Route;
+  capabilities?: Record<string, unknown>;
+  roles?: string[];
+  history?: Record<string, unknown>;
+  historyWatermark?: string;
+  shares?: Record<string, unknown>;
+  biliHistory?: Record<string, unknown>;
 }
 function envelope(state: MockState, data: Record<string, unknown>) {
   return {
@@ -109,7 +115,7 @@ function envelope(state: MockState, data: Record<string, unknown>) {
     coverage: "CURRENT",
     privacy_scope: ["PUBLIC", "PROJECT"],
     source_refs: ["SYNTHETIC_HTTP_FIXTURE"],
-    capabilities: {},
+    capabilities: state.capabilities || {},
     data,
   };
 }
@@ -191,10 +197,14 @@ async function installMock(page: Page): Promise<MockState> {
     }
     if (path === "bootstrap")
       return ok({
-        roles: ["READER", "CONVERSATION", "MANAGER", "HOST_ADMIN"],
+        roles: state.roles || ["READER", "CONVERSATION", "MANAGER", "HOST_ADMIN"],
         host,
         csrf: "TEST_ONLY_NOT_SECRET_CSRF_BOUNDARY_00000000",
       });
+    if (path === "conversation/history") return ok({...state.history, privacy_watermark: state.historyWatermark || state.watermark});
+    if (path === "life/shares") return ok({...state.shares, privacy_watermark: state.watermark});
+    if (path === "platform/bilibili") return ok(state.biliHistory || {items: []});
+    if (path === "providers/credentials") return ok({vault: {configured: true, storage: "HOST_LOCAL_AES_256_GCM", revision: 7, credential_persisted: true}, profiles: []});
     if (path.startsWith("views/")) {
       const source = path.slice(6);
       state.views.push(source);
@@ -458,7 +468,8 @@ test("SYNTHETIC HTTP failure: UNKNOWN uses GET original receipt, never second PO
       () => state.requests.filter((x) => x.path.startsWith("receipts/")).length,
     )
     .toBe(1);
-  await expect(page.locator(".live-reply")).toContainText("UNKNOWN");
+  await expect(page.locator(".live-reply")).toContainText("等待核验");
+  await expect(page.locator(".live-reply")).toContainText("先核验原回执，不重复发送");
   expect(
     state.requests.filter((x) => x.method === "POST" && x.path === "messages"),
   ).toHaveLength(1);
@@ -666,4 +677,83 @@ test("SYNTHETIC browser-only: 120 percent type, route history and native-back ev
   }
   await noHorizontalOverflow(page);
   expect(state.requests.filter((x) => x.method !== "GET")).toEqual([]);
+});
+
+test("SYNTHETIC living recovery: retained exchanges reopen and only original body-free pending receipts can be verified", async ({page}) => {
+  const state = await installMock(page);
+  state.capabilities = {conversation_history: true};
+  state.history = {items: [{exchange_record_id: "exchange-retained", message_id: "source-reference-not-request-uuid",
+    user_text: "SYNTHETIC retained user wording", reply_text: "SYNTHETIC retained sourced reply", created_at_us: 1793026800000000}],
+    pending_receipts: [{receipt_id: "original-request-uuid", state: "REQUESTED", text: "NEVER_RESTORE_UNCERTAIN_BODY"}]};
+  await open(page, "chat");
+  await expect(page.locator(".live-turn")).toHaveCount(2);
+  await expect(page.locator(".live-reply").first()).toContainText("retained sourced reply");
+  await expect(page.locator("main")).not.toContainText("NEVER_RESTORE_UNCERTAIN_BODY");
+  await page.getByRole("button", {name: "核验这条回执"}).click();
+  await expect.poll(() => state.requests.filter(x => x.path === "receipts/original-request-uuid").length).toBe(1);
+  expect(state.requests.filter(x => x.path.includes("source-reference-not-request-uuid"))).toEqual([]);
+  await page.reload();
+  await expect(page.locator(".live-turn")).toHaveCount(2);
+  await expect(page.locator(".live-reply").first()).toContainText("retained sourced reply");
+  state.history = {items: [], pending_receipts: []};
+  state.watermark = "fixture-withdrawn";
+  await page.getByRole("button", {name: "刷新真实状态"}).click();
+  await expect(page.locator(".live-turn")).toHaveCount(0);
+  expect(state.requests.filter(x => x.method !== "GET")).toEqual([]);
+  expect(await page.evaluate(() => JSON.stringify(Object.entries(localStorage)))).not.toContain("retained user wording");
+});
+
+test("SYNTHETIC living privacy: a withdrawal between view and history clears transient bodies and drafts", async ({page}) => {
+  const state = await installMock(page);
+  state.capabilities = {conversation_history: true};
+  state.history = {items: [], pending_receipts: []};
+  await open(page, "chat");
+  await page.getByLabel("和奈奈说点什么").fill("SYNTHETIC current transient wording");
+  await page.getByRole("button", {name: "发送", exact: true}).click();
+  await expect(page.locator(".live-reply")).toContainText(PRIVATE_MARKER);
+  await page.getByLabel("和奈奈说点什么").fill("SYNTHETIC unfinished draft");
+  state.historyWatermark = "fixture-history-newer-than-view";
+  await page.getByRole("button", {name: "刷新真实状态"}).click();
+  await expect(page.locator(".live-turn")).toHaveCount(0);
+  await expect(page.getByLabel("和奈奈说点什么")).toHaveValue("");
+  expect(state.requests.filter(x => x.method === "POST" && x.path === "messages")).toHaveLength(1);
+});
+
+test("SYNTHETIC living boundaries: reader history stays gated, Bili coverage is honest, web vault remains read-only", async ({page}) => {
+  const state = await installMock(page);
+  state.roles = ["READER", "HOST_ADMIN"];
+  state.capabilities = {conversation_history: true, platform_bilibili_history: true, durable_provider_binding: true, native_secret_binding: true};
+  state.biliHistory = {items: [{source_memory_id: "source-public-video", bvid: "BV1t55v6DE2v", title: "SYNTHETIC public source video",
+    coverage: "METADATA_ONLY_NOT_WATCHED", observed_at_us: 1793026800000000, comment_samples: 2, visual_frames: 0, source_origin: "REAL_PLATFORM_HTTP", watched: true}]};
+  await open(page, "chat");
+  await expect(page.getByLabel("和奈奈说点什么")).toBeDisabled();
+  expect(state.requests.filter(x => x.path === "conversation/history")).toEqual([]);
+  await go(page, "bilibili", "world");
+  await expect(page.locator(".v4-bili-card")).toContainText("只读到视频信息");
+  await expect(page.locator(".v4-bili-card")).toContainText("尚无可确认的语义理解记录");
+  await expect(page.getByRole("link", {name: "在B站打开"})).toHaveAttribute("href", "https://www.bilibili.com/video/BV1t55v6DE2v");
+  await noHorizontalOverflow(page);
+  await go(page, "models", "settings");
+  await expect(page.getByLabel("安全凭据绑定")).toContainText("宿主加密保险库 · revision 7");
+  await expect(page.getByRole("button", {name: /绑定 .* 凭据|轮换 .* 凭据|撤销 .* 凭据/})).toHaveCount(0);
+  expect(state.requests.filter(x => x.method !== "GET")).toEqual([]);
+});
+
+test("SYNTHETIC shared presence: original candidates appear in room without being delivered or notified", async ({page}) => {
+  const state = await installMock(page);
+  state.capabilities = {shared_life_candidates: true};
+  state.shares = {coverage: "ORIGINAL_C_APPROVED_CANDIDATES_ONLY", external_delivery: false,
+    items: [{candidate_record_id: "candidate-real-core", cycle_id: "cycle-original-c", topic: "experience.sourced", state: "DEFER_BUSY", delivery: "NONE",
+      source_record_ids: ["record-source"], source_memory_ids: ["memory-source"], text: "UNSUPPORTED_NARRATIVE_MUST_NOT_RENDER"}]};
+  await open(page, "room");
+  const card = page.locator(".v3-card").filter({has: page.getByRole("heading", {name: "她留待分享的片刻"})});
+  await expect(card).toContainText("尚未送达");
+  await expect(card).toContainText("知道你正忙，先留在这里");
+  await expect(card).not.toContainText("UNSUPPORTED_NARRATIVE_MUST_NOT_RENDER");
+  await noHorizontalOverflow(page);
+  state.shares = {...state.shares, items: []};
+  state.watermark = "fixture-shared-source-withdrawn";
+  await page.getByRole("button", {name: "刷新真实状态"}).click();
+  await expect(card).toHaveCount(0);
+  expect(state.requests.filter(x => x.method !== "GET")).toEqual([]);
 });

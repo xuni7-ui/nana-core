@@ -93,10 +93,18 @@ class ActionKernel:
         from .continuity.project_work.port import ProjectMaterialPort
         from .continuity.hands.port import OwnedApplicationPort
         from .continuity.hands.browser import OwnedBrowserPort
+        from .life.bilibili import BilibiliReadPort, BilibiliReadRegistry
+        from .life.bilibili_account import BilibiliActionPort, BilibiliActionRegistry
+        from .life.platform_bridge import QQCapabilityPort, QQRegistry
 
         if type(self.capability) in {OwnedApplicationPort, OwnedBrowserPort}:
             self.capability.assert_owned()
             return self.capability.identity_id == self.store.identity["identity_id"] and sealed
+        platform_registry = {BilibiliReadPort: BilibiliReadRegistry, BilibiliActionPort: BilibiliActionRegistry,
+                             QQCapabilityPort: QQRegistry}.get(type(self.capability))
+        if platform_registry is not None and type(self.registry) is platform_registry:
+            self.capability.assert_owned()
+            return self.capability.identity_id == self.store.identity["identity_id"]
         # Exact no-exec project adapter only; manifest is NOT execution authority.
         return (
             type(self.capability) in {OfflineEffectPort, ProjectMaterialPort}
@@ -350,7 +358,15 @@ class ActionKernel:
                 if len(started) >= json.loads(grant["body_json"])["max_attempts"]:
                     raise CoreError("ATTEMPTS_EXHAUSTED")
                 attempt_id = self._attempt(tx, action, grant, "EXECUTE")
-                requirements = {"external_requests": 1, "cost_micro_units": 1}
+                request_count = 1
+                if self.registry is not None and hasattr(self.registry, "request_count"):
+                    request_count = self.registry.request_count(action["capability"])
+                    if type(request_count) is not int or not 1 <= request_count <= 16:
+                        raise CoreError("CAPABILITY_REQUEST_COST_INVALID")
+                # A trusted adapter can declare a bounded precheck + dispatch
+                # cost. It still reserves from the SAME original wallet and
+                # cannot extend a Grant, authority or budget ceiling.
+                requirements = {"external_requests": request_count, "cost_micro_units": request_count}
                 if (
                     self.registry.is_write(action["capability"])
                     if self.registry

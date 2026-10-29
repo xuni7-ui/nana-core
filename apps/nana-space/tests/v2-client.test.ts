@@ -79,3 +79,20 @@ test("new finite provider and backup routes use original session and unknown wri
     ),
   ).toHaveLength(1);
 });
+
+test("living projections use scoped GET routes and browser credential mutations never reach fetch", async () => {
+  const request = vi.fn(async (_url: unknown) => new Response(JSON.stringify(sample()), {status: 200}));
+  vi.stubGlobal("fetch", request);
+  const client = new V2Client();
+  await client.conversationHistory();
+  await client.bilibiliHistory();
+  await client.sharedLifeCandidates();
+  await client.providerCredentials();
+  expect(request.mock.calls.map(call => String(call[0]))).toEqual([
+    "/api/nana-space/v2/conversation/history", "/api/nana-space/v2/platform/bilibili",
+    "/api/nana-space/v2/life/shares", "/api/nana-space/v2/providers/credentials",
+  ]);
+  await expect(client.bindProviderCredential({provider_profile_id: "provider.a"}, true)).rejects.toMatchObject({code: "NATIVE_SECRET_INPUT_REQUIRED"});
+  await expect(client.revokeProviderCredential({provider_profile_id: "provider.a"})).rejects.toMatchObject({code: "NATIVE_SECRET_INPUT_REQUIRED"});
+  expect(request).toHaveBeenCalledTimes(4);
+});

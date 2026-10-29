@@ -32,7 +32,7 @@ export const livePages: LivePage[] = [
   "settings",
 ];
 interface NativePort {
-  bindProviderCredential(options: { data: Record<string, unknown> }): Promise<unknown>;
+  bindProviderCredential(options: { data: Record<string, unknown>; persistent?: boolean }): Promise<unknown>;
   status(): Promise<{
     paired: boolean;
     base?: string;
@@ -306,12 +306,36 @@ export class V2Client {
         : await this.request("receipts/" + id),
     );
   }
-  async bindProviderCredential(data: Record<string, unknown>): Promise<Envelope> {
+  async bindProviderCredential(data: Record<string, unknown>, persistent = false): Promise<Envelope> {
     if (!isNative()) throw new V2Error("NATIVE_SECRET_INPUT_REQUIRED");
     const incarnation = this.incarnation;
-    const result = await nativePort.bindProviderCredential({ data });
+    const result = await nativePort.bindProviderCredential({ data, persistent });
     if (incarnation !== this.incarnation) throw new V2Error("SESSION_REVOKED");
     return this.accept(result);
+  }
+  async providerCredentials(): Promise<Envelope> {
+    return this.accept(isNative()
+      ? await this.nativeCall({ operation: "providers.credentials", data: {} })
+      : await this.request("providers/credentials"));
+  }
+  async revokeProviderCredential(data: Record<string, unknown>): Promise<Envelope> {
+    if (!isNative()) throw new V2Error("NATIVE_SECRET_INPUT_REQUIRED");
+    return this.accept(await this.nativeCall({ operation: "providers.credential.revoke", data: {...data, action: "REVOKE"} }));
+  }
+  async conversationHistory(): Promise<Envelope> {
+    return this.accept(isNative()
+      ? await this.nativeCall({ operation: "conversation.history", data: {} })
+      : await this.request("conversation/history"));
+  }
+  async bilibiliHistory(): Promise<Envelope> {
+    return this.accept(isNative()
+      ? await this.nativeCall({ operation: "bilibili.history", data: {} })
+      : await this.request("platform/bilibili"));
+  }
+  async sharedLifeCandidates(): Promise<Envelope> {
+    return this.accept(isNative()
+      ? await this.nativeCall({ operation: "life.shares", data: {} })
+      : await this.request("life/shares"));
   }
   async confirm(body: HostConfirmation): Promise<string> {
     const result = this.accept(
