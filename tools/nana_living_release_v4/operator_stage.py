@@ -44,6 +44,16 @@ def existing_slot(mode, target, seal, common):
             raise ValueError()
     except (OSError, ValueError, KeyError):
         return {**common, "state": "STAGE_REQUIRES_OPERATOR_REVIEW", "persistent_changes": 0}
+    if prior.get("state") == "HOST_CONFIGURATION_REVIEW_REQUIRED" and mode == "install":
+        from proposal import prepare
+        proposal = prepare(target.parents[2], target.parent, common["source_commit"])
+        if proposal["state"] == "HOST_CONFIGURATION_REVIEW_REQUIRED":
+            return {**common, **proposal, "persistent_changes": 0}
+        prior.update(common, state="RUNTIME_STAGED_VERIFY_REQUIRED", host_configuration_proposal=proposal)
+        prior.pop("code", None)
+        prior.pop("context", None)
+        publish_receipt(receipt, prior)
+        return {**common, "state": "RUNTIME_STAGED_VERIFY_REQUIRED", "persistent_changes": 1, "idempotent": False}
     if prior.get("state") == "RUNTIME_STAGED_VERIFY_REQUIRED":
         if mode != "commit":
             return {**common, "state": "RUNTIME_STAGED_VERIFY_REQUIRED", "persistent_changes": 0}
@@ -66,6 +76,13 @@ def run(mode, root, source, image, manifest, digest):
     common = {"source_commit": source, "image_id": image, "target": str(target),
               "target_context": "DOCKER_DAEMON_HOST_BIND", "free_bytes": free,
               "subject_opened": False, "canonical_home_changed": False, "services_changed": False}
+    # Check in the candidate image before staging, committing or trusting an old
+    # READY receipt. Supervisor may use its persisted alias instead of host.json.
+    from proposal import inspect_existing
+    compatibility = inspect_existing(root, source)
+    common["host_configuration_preflight"] = compatibility
+    if compatibility["state"] == "HOST_CONFIGURATION_REVIEW_REQUIRED":
+        return {**common, **compatibility, "persistent_changes": 0}
     if target.exists():
         return existing_slot(mode, target, seal, common)
     if mode != "install":
@@ -100,6 +117,10 @@ def run(mode, root, source, image, manifest, digest):
     result.update(state="RUNTIME_STAGED_VERIFY_REQUIRED", idempotent=False, persistent_changes=1)
     from proposal import prepare
     result["host_configuration_proposal"] = prepare(root, slot, source)
+    if result["host_configuration_proposal"]["state"] == "HOST_CONFIGURATION_REVIEW_REQUIRED":
+        result.update(state="HOST_CONFIGURATION_REVIEW_REQUIRED",
+                      code=result["host_configuration_proposal"]["code"],
+                      context=result["host_configuration_proposal"].get("context", {}))
     receipt = slot / "stage-receipt.json"
     publish_receipt(receipt, result)
     return result

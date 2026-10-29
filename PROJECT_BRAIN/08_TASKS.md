@@ -1236,3 +1236,8 @@ V4源码、隔离安装、重复安装零变更、精准破坏拒绝、实际同
 ## 2026-10-29 — Living V4 final integration checkpoint
 
 已实现/定向验证：vault正常重启恢复/撤销CAS，历史与共享候选真实API、QQ/账号Bili受控HTTP原Kernel。进行中：最终APK/自有镜像/封条/安装恢复统一验证。未运行：实账号/付费Provider/正式24h/真人；旧史Core实际转换仍被原硬门阻止，不能只凭归档当完成。
+
+
+## 2026-10-29 — V4 final credential/version hardening
+
+追加已测试：FD2 epoch/digest守卫、缓存target stale阻派发、兼容回滚pre-stop检查、实际active Runtime预检。新增SDK镜像与封条复验进行中；不再变更APK原生代码。

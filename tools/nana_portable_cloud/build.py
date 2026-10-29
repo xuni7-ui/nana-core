@@ -85,6 +85,13 @@ def build(destination, wheels, revision="HEAD", *, features=()):
     files = git("ls-tree", "-r", "--name-only", commit).decode().splitlines()
     selected = runtime_manifest(commit)
     sources = {name: git("show", commit + ":" + name) for name in selected}
+    secret_contract = 1
+    secret_source = sources.get("src/nana_core/life/secret_binding.py", b"")
+    for node in ast.parse(secret_source).body:
+        if isinstance(node, ast.Assign) and any(isinstance(t, ast.Name) and t.id == "SUPPORTED_FD_CONTRACT_VERSION" for t in node.targets):
+            secret_contract = ast.literal_eval(node.value)
+            if type(secret_contract) is not int or secret_contract not in {1, 2}:
+                raise ValueError("SECRET_BINDING_CONTRACT_INVALID")
     verify_runtime_closure(selected, files, lambda name: sources[name].decode())
     root = destination / "nana-first-life-portable-v1"
     root.mkdir(parents=True, mode=0o700)
@@ -147,6 +154,7 @@ def build(destination, wheels, revision="HEAD", *, features=()):
                 "timestamp_policy": "SOURCE_COMMIT_TIMESTAMP_REPRODUCIBLE",
                 "dependencies": dependencies,
                 "features": sorted(features),
+                "secret_binding_contract": secret_contract,
                 "real_provider_calls": 0,
             },
             indent=2,

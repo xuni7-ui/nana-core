@@ -126,7 +126,9 @@ def prepare(docker, root, manifest, host_root, mode):
             result["state"] = "RUNTIME_ABI_FAILED_NOT_SWITCHED"
         else:
             committed = docker.operator(image, host_root, "commit", files, arguments)
-            if committed["state"] != "READY_FOR_SWITCH":
+            if committed["state"] == "HOST_CONFIGURATION_REVIEW_REQUIRED":
+                result.update(committed)
+            elif committed["state"] != "READY_FOR_SWITCH":
                 result["state"] = "STAGE_COMMIT_UNVERIFIED"
             else:
                 result["state"] = "READY_FOR_SWITCH"

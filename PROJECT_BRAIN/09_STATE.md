@@ -7,18 +7,22 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 55,
-  "as_of_us": 1793274641985449,
+  "revision": 56,
+  "as_of_us": 1793293863915020,
   "stage": "H",
   "workstream": "LIVING_RELEASE_V4",
-  "status": "V4_FINAL_INTEGRATION_VALIDATING",
+  "status": "V4_FINAL_RUNTIME_SEALING",
   "progress": [
     "继承435ca7a同一V4；新增宿主本地AESGCM vault、CAS轮换/撤销；实际BFF SIGKILL后绑定恢复已验证，正式宿主未接入。",
     "原Person-Self共同对话投影恢复、来源撤回、仅本设备未决回执只读核验；不恢复未保留原文、不重发UNKNOWN。",
     "原C关注在新来源下可重新判断；经验需要按当前scope/privacy过滤后限额；软件反事实基线两例失败、升级通过，不是模型ablation。",
     "B站字幕/评论/弹幕、有限发现/读取与账号发送适配；QQ桥接接原C/Manager/Grant/Kernel/Verify；仅loopback发送资格。",
     "全量旧源冻结、索引/去重批次预览与撤回工具；未访问私史，不伪装成Core当前亲历。",
-    "V4前端4.0.1/401、历史/来源卡/共享候选/密钥状态已接真实API；单元53通过，APK和最终镜像待本轮重建。"
+    "V4前端4.0.1/401、历史/来源卡/共享候选/密钥状态已接真实API；单元53通过，APK和最终镜像待本轮重建。",
+    "终查补FD contract2：宿主撤销/轮换改变epoch后，子进程旧凭据快照及缓存目标后续派发前失效，原已dispatch请求不回放。",
+    "Supervisor在停止健康实例前拒绝不兼容旧FD解码器；版本准备检查实际active_alias/持久state及旧Runtime可用性，不改旧审批。",
+    "原300s受控DEV上下文指纹改变触发正常pre-dispatch fence；旧失败保留，具体字段UNKNOWN。独立稳定诊断300.163s完成42动作/12目标/14实效、重启/备份/B8；不是正式24h。",
+    "为兼容SDK注册版本，最终镜像将复用原13ddd484及af584900精确Core归档，与当前新版本并存；不恢复旧DB，不假称旧二进制支持FD2。"
   ],
   "open_gates": [
     "无安全host/VPN/账号/Provider绑定；云端正式Subject与热修复仍USER_REPORTED_NOT_ATTESTED；未操作生产。",
@@ -26,7 +30,7 @@
     "旧史不可变归档可运行，但原RealMemoryIngress硬门保留，真实Core转换导入尚未启用；不以归档搜索冒充长期记忆接入。",
     "B站实际公开search单次HTTP200/API0后混合结果解析失败，已修代码未再联网；账号收发未实测，画面视觉/完整自主选择仍未验收。",
     "后台通知未实现投递资格；共享候选仅原C真实记录投影，未送达。bwrap BLOCKED，不退化为宿主直接执行。",
-    "最终打包/实际新镜像安装及恢复复验进行中；旧5h PARTIAL_EXTERNAL_LIMIT、长期PENDING_EXTERNAL_STABLE_ENV不改。"
+    "最终安全修复固定源码/镜像重封与实际安装恢复复验进行中；旧5h PARTIAL_EXTERNAL_LIMIT及稳定长期资格门不变。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",

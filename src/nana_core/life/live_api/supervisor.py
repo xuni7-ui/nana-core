@@ -10,6 +10,7 @@ import hashlib
 import json
 import os
 import sqlite3
+import stat
 import subprocess
 import threading
 import time
@@ -217,6 +218,55 @@ class Supervisor:
     def _record(self, **changes):
         self.state.update(lambda data: data.update(changes))
 
+    def _require_secret_binding_contract(self, release, *, supplied=False, has_fd=False):
+        """Reject incompatible inherited credentials without stopping an owner.
+
+        Public resolver metadata may prove an empty binding before a switch.
+        The actual export is checked again before launch; no envelope downgrade
+        or credential export is used to probe compatibility.
+        """
+        if self.provider_binding is None or (supplied and not has_fd):
+            return
+        try:
+            resolver = getattr(self.provider_binding, "__self__", None)
+            required = getattr(resolver, "binding_contract_version", 1)
+            if type(required) is not int or required < 1:
+                raise ValueError()
+            if not supplied and required > 1 and callable(getattr(resolver, "metadata", None)):
+                bindings = resolver.metadata()["bindings"]
+                if type(bindings) is not int or not 0 <= bindings <= 12:
+                    raise ValueError()
+                if bindings == 0:
+                    return
+            manifest = Path(release.root) / "runtime.json"
+            supported = 1
+            if manifest.exists() or manifest.is_symlink():
+                if manifest.resolve() != manifest:
+                    raise ValueError()
+                fd = os.open(manifest, os.O_RDONLY | os.O_NOFOLLOW | os.O_NONBLOCK)
+                with os.fdopen(fd, "rb") as stream:
+                    info = os.fstat(stream.fileno())
+                    if not stat.S_ISREG(info.st_mode) or info.st_size > 65536:
+                        raise ValueError()
+                    raw = stream.read(65537)
+                if len(raw) > 65536:
+                    raise ValueError()
+                from ...continuity.privacy import _json_object
+
+                metadata = json.loads(raw, object_pairs_hook=_json_object)
+                supported = metadata.get("secret_binding_contract", 1)
+            elif self.binding.realm == Realm.DEVELOPMENT:
+                from .. import secret_binding
+
+                decoder = Path(release.root) / "src/nana_core/life/secret_binding.py"
+                if (decoder.is_file() and decoder.resolve() == decoder
+                        and decoder == Path(secret_binding.__file__).resolve()):
+                    supported = secret_binding.SUPPORTED_FD_CONTRACT_VERSION
+            if type(supported) is not int or supported < 1 or required > supported:
+                raise ValueError()
+        except Exception:
+            raise ApiError("INCOMPATIBLE_SECRET_BINDING_CONTRACT", 409) from None
+
     def start(self, *, automatic=False):
         with self.lock:
             unknown = self.verify_binding()
@@ -237,7 +287,7 @@ class Supervisor:
             self._prestart()
             release = self.releases[state["active_release"]]
             release.validate_local(qualified=self.binding.realm == Realm.PRODUCTION)
-            self._record(stop_latch=False, last_state="START_REQUESTED")
+            self._require_secret_binding_contract(release)
             # Core already writes its original bounded sanitized runtime.log.
             # Do not retain an unbounded stdout/stderr stream or error payloads.
             # Original entry point with explicit finite residency, not a second
@@ -271,6 +321,8 @@ class Supervisor:
                         fd, reference = supplied
                         argv += ["--live-provider-authorized"]
                         argv += ["--secret-bundle-fd", str(fd)] if reference is None else ["--secret-fd", str(fd), "--secret-ref", reference]
+                self._require_secret_binding_contract(release, supplied=True, has_fd=fd is not None)
+                self._record(stop_latch=False, last_state="START_REQUESTED")
                 self.child = subprocess.Popen(
                     argv,
                     cwd=release.root,
@@ -373,8 +425,11 @@ class Supervisor:
             raise ApiError("CORE_STOP_CLEANUP_UNKNOWN", 504)
 
     def restart(self):
-        self.stop()
-        return self.start()
+        with self.lock:
+            release = self.releases[self.state.read()["active_release"]]
+            self._require_secret_binding_contract(release)
+            self.stop()
+            return self.start()
 
     def change_release(self, release_id, *, rollback=False):
         """Offline stop/check/replace/start only, never active-plan hot downgrade.
@@ -391,6 +446,7 @@ class Supervisor:
             target.validate_local(qualified=self.binding.realm == Realm.PRODUCTION)
             if (previous.schema_version, previous.plan_contract) != (target.schema_version, target.plan_contract):
                 raise ApiError("INCOMPATIBLE_RELEASE_STOP_REQUIRED", 409)
+            self._require_secret_binding_contract(target)
             if self.verify_binding():
                 raise ApiError("PENDING_UNKNOWN_REQUIRES_REVIEW", 409)
             self.stop()

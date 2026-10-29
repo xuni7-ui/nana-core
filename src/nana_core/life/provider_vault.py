@@ -9,6 +9,7 @@ CAS and atomic replacement. No ambient credential discovery or network calls.
 
 import base64
 import fcntl
+import hashlib
 import json
 import os
 import stat
@@ -21,7 +22,7 @@ from cryptography.hazmat.primitives.ciphers.aead import AESGCM
 
 from ..contracts import CoreError
 from ..continuity.privacy import _json_object
-from .secret_binding import MemorySecretResolver
+from .secret_binding import MemorySecretResolver, _ENVELOPE, _sealed_fd, _vault_document
 
 LIMIT = 128 * 1024
 AAD = b"nana-host-provider-vault/v1\0"
@@ -61,6 +62,7 @@ class DurableSecretResolver(MemorySecretResolver):
     """Host explicitly selects this directory outside canonical Subject home."""
 
     persistent = True
+    binding_contract_version = 2
 
     def __init__(self, directory, *, initialize=False):
         super().__init__()
@@ -114,26 +116,24 @@ class DurableSecretResolver(MemorySecretResolver):
                            "ciphertext": base64.b64encode(encrypted).decode()}, separators=(",", ":")).encode()
 
     def _load(self):
+        revision, values, _ = self._load_snapshot()
+        return revision, values
+
+    def _load_snapshot(self):
         if self.__closed:
             raise CoreError("PROVIDER_VAULT_CLOSED")
         _private(self.__directory, directory=True)
         try:
-            value = json.loads(_read(self.__directory / "vault.json", LIMIT), object_pairs_hook=_json_object)
-            if (set(value) != {"schema_version", "revision", "nonce", "ciphertext"}
-                    or type(value["schema_version"]) is not int or value["schema_version"] != 1
-                    or type(value["revision"]) is not int or not 0 <= value["revision"] < 2**63):
-                raise ValueError()
-            nonce = base64.b64decode(value["nonce"], validate=True)
-            if len(nonce) != 12:
-                raise ValueError()
-            raw = self.__aes.decrypt(nonce, base64.b64decode(value["ciphertext"], validate=True),
+            document = _read(self.__directory / "vault.json", LIMIT)
+            value, nonce, ciphertext = _vault_document(document)
+            raw = self.__aes.decrypt(nonce, ciphertext,
                                      AAD + value["revision"].to_bytes(8, "big"))
             values = json.loads(raw, object_pairs_hook=_json_object)
             if type(values) is not dict or len(values) > 12:
                 raise ValueError()
             self._validate_values(values)
-            return value["revision"], values
-        except (OSError, ValueError, TypeError, KeyError, InvalidTag):
+            return value["revision"], values, hashlib.sha256(document).hexdigest()
+        except (OSError, ValueError, TypeError, KeyError, InvalidTag, RecursionError):
             raise CoreError("PROVIDER_VAULT_CORRUPT") from None
 
     @staticmethod
@@ -216,8 +216,16 @@ class DurableSecretResolver(MemorySecretResolver):
         return super().resolve(reference)
 
     def inherited_fd(self):
-        self._refresh()
-        return super().inherited_fd()
+        # Revision, values and digest come from the same ciphertext read. A
+        # concurrent replace may make this FD immediately stale, never relabel
+        # an old credential with a newer revision.
+        with self.__lock:
+            revision, values, digest = self._load_snapshot()
+            if not values:
+                return None
+            return _sealed_fd({_ENVELOPE: 1, "bindings": values,
+                               "host_vault": {"path": str(self.__directory / "vault.json"),
+                                              "revision": revision, "sha256": digest}})
 
     def clear(self):
         with self.__lock:

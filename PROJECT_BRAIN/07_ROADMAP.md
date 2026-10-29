@@ -1161,3 +1161,8 @@ V4开发发行已交付完整镜像/Core/Web/APK及四模式Operator；First-Lif
 ## 2026-10-29 — Living V4 final integration checkpoint
 
 V4同一主线继续：宿主持久vault、原C因果修复、跨会话投影、平台原Kernel适配和统一401发行。S1–S10/三横轴/63定义与Foundation历史不变；不另立V5。优先完成新版本实际发行验证，再按真实外部门受控接入。
+
+
+## 2026-10-29 — V4 final credential/version hardening
+
+继续同一V4收口：原支持/权限不减，先确保正在运行的密钥快照撤销和安全回滚兼容，再固定最终SDK。之后仍以真实宿主/Provider/手机/24h证据决定体验资格。

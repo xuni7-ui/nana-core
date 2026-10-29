@@ -237,7 +237,17 @@ class CapabilityRouter:
 
     def current(self, snapshot):
         try:
-            return self.config.load().revision == snapshot.config_revision
+            config = self.config.load()
+            if config.revision != snapshot.config_revision:
+                return False
+            provider = next(p for p in config.providers
+                            if p.provider_profile_id == snapshot.provider_profile_id)
+            model = next(m for m in config.models
+                         if m.model_profile_id == snapshot.model_profile_id)
+            self.factory.available(provider, model, snapshot.operation)
+            return True
+        except StopIteration:
+            return False
         except CoreError:
             return False
 

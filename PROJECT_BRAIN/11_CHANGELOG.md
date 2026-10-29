@@ -2816,3 +2816,8 @@ V4 delivery audit: repository build/ ignore rule omitted six explicitly reviewed
 ## 2026-10-29 — Living V4 final integration checkpoint
 
 继续435ca7a最终V4：补持久vault、原Store聊天历史/未决回执/共享候选投影；QQ与Bili真实网络适配、全量源归档；修原C兴趣重新评估与经验筛选、来源域与投影范围。当前新增功能为开发验证，实云/实机/真人/平台账号NOT_RUN；正在固定源码重建交付。完整原任务见FINAL_MISSION.md。
+
+
+## 2026-10-29 — V4 final credential/version hardening
+
+独立检查复现旧子进程撤销后仍resolve的边界，补guarded FD2及路由current可用性检查；原Supervisor增加启动/回滚/重启兼容门。独立300s有界owned诊断通过且保留首失败，不放宽context fence或42/12标准。最终SDK保留可信旧Core版本供显式兼容操作，正重新封装。

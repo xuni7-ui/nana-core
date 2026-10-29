@@ -19,6 +19,10 @@ from tools.nana_portable_cloud.build import build
 ROOT = Path(__file__).resolve().parents[2]
 BASE = "sha256:6581d9e0cb7e686511aa704f77546cae508fc2911792753ed3a9bd3bf3cdb18b"
 BASE_TAG = "nana-first-life/unified:v3-3665"
+COMPATIBLE_CORES = (
+    ("compat-13.tar.gz", "435ca7a819847fc7d8a60dd6088f0e712ecbf965", "NANA_CORE_LIVING_V4_RELEASE/core.tar.gz", "728ef440fc34ab5c1b821814fae93408ee0b7384c5bad6959d274cb9ec5e5347"),
+    ("compat-af.tar.gz", None, "tools/nana_living_release_v4/compatibility/af584900.core.tar.gz", "c091d70574911bb61bd401879300703df178f885ed7bc64cec2283247661acf3"),
+)
 DOCKER = ["env", "-u", "DOCKER_HOST", "-u", "DOCKER_CONTEXT", "-u", "DOCKER_TLS",
           "-u", "DOCKER_TLS_VERIFY", "-u", "DOCKER_CERT_PATH", "docker", "--host=unix:///var/run/docker.sock"]
 
@@ -59,6 +63,11 @@ def main():
         raise ValueError("CORE_REBUILD_MISMATCH")
     context = args.work / "context"
     context.mkdir()
+    for filename, pinned, name, expected in COMPATIBLE_CORES:
+        raw = subprocess.check_output(["git", "show", (pinned or commit) + ":" + name], cwd=ROOT)
+        if hashlib.sha256(raw).hexdigest() != expected:
+            raise ValueError("COMPATIBLE_CORE_ARCHIVE_MISMATCH")
+        (context / filename).write_bytes(raw)
     shutil.copyfile(first["archive"], context / "core.tar.gz")
     epoch = int(subprocess.check_output(["git", "show", "-s", "--format=%ct", commit], cwd=ROOT))
     web_archive(context / "web.tar.gz", epoch)

@@ -1685,3 +1685,8 @@ V4发行与产品资格分开。独立9737条新封条；新镜像SHA相同Pytho
 ## 2026-10-29 — Living V4 final integration checkpoint
 
 D-V4-FINAL-20261029：保持同一V4与唯一Subject；Provider配置/密钥均宿主本地，AESGCM只防误泄漏及其他UID，不宣称抗root或同时盗取key+cipher。新投影必须求交binding scope/entity/privacy。关注来源按完整支持保守标记；外部模型/平台文本不授Grant。平台执行仍由原Manager/Grant/Kernel、原canonical激活与独立Verify约束，不改旧审批摘要。
+
+
+## 2026-10-29 — V4 final credential/version hardening
+
+D-V4-FD2：撤销/轮换必须让旧运行实例的后续选择失效，不能只删父进程key而允许重新启用profile复用旧凭据。匿名FD显式绑定宿主vault epoch/cipher digest；旧loader不降级为无守卫明文映射。旧二进制回滚须在停止健康Core前检查FD合同，空vault可离线兼容。
