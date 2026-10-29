@@ -1,0 +1,555 @@
+{
+  "config": {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "/workspace/nana-unified-release/apps/nana-space/node_modules/.bin/playwright",
+      "test",
+      "--config",
+      "playwright.unified.config.ts"
+    ],
+    "configFile": "/workspace/nana-unified-release/apps/nana-space/playwright.unified.config.ts",
+    "rootDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/workspace/nana-unified-release/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "unified.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/workspace/nana-unified-release/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "phone-360",
+        "name": "phone-360",
+        "testDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "unified.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/workspace/nana-unified-release/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "phone-390",
+        "name": "phone-390",
+        "testDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "unified.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/workspace/nana-unified-release/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "phone-412",
+        "name": "phone-412",
+        "testDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "unified.spec.ts"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/workspace/nana-unified-release/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "desktop",
+        "testDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "snapshotDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": "unified.spec.ts",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "https://127.0.0.1:18445",
+          "ignoreHTTPSErrors": true,
+          "headless": true,
+          "launchOptions": {
+            "executablePath": "/usr/bin/chromium",
+            "args": [
+              "--no-sandbox",
+              "--disable-dev-shm-usage"
+            ]
+          },
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "desktop"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/workspace/nana-unified-release/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "phone-360",
+        "testDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "snapshotDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": "unified.spec.ts",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "https://127.0.0.1:18445",
+          "ignoreHTTPSErrors": true,
+          "headless": true,
+          "launchOptions": {
+            "executablePath": "/usr/bin/chromium",
+            "args": [
+              "--no-sandbox",
+              "--disable-dev-shm-usage"
+            ]
+          },
+          "viewport": {
+            "width": 360,
+            "height": 844
+          },
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "phone-360"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/workspace/nana-unified-release/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "phone-390",
+        "testDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "snapshotDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": "unified.spec.ts",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "https://127.0.0.1:18445",
+          "ignoreHTTPSErrors": true,
+          "headless": true,
+          "launchOptions": {
+            "executablePath": "/usr/bin/chromium",
+            "args": [
+              "--no-sandbox",
+              "--disable-dev-shm-usage"
+            ]
+          },
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "phone-390"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/workspace/nana-unified-release/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "phone-412",
+        "testDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "snapshotDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": "unified.spec.ts",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "https://127.0.0.1:18445",
+          "ignoreHTTPSErrors": true,
+          "headless": true,
+          "launchOptions": {
+            "executablePath": "/usr/bin/chromium",
+            "args": [
+              "--no-sandbox",
+              "--disable-dev-shm-usage"
+            ]
+          },
+          "viewport": {
+            "width": 412,
+            "height": 844
+          },
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "phone-412"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/unified-report.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "unified.spec.ts",
+      "file": "unified.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "V4 real connection rejects undispatched model calls and respects a topic boundary",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2950,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:52:41.766Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bf2316f650991e781f12-20bbc86f74d845802b9a",
+          "file": "unified.spec.ts",
+          "line": 3,
+          "column": 1
+        },
+        {
+          "title": "V3 real Core provider configuration, model route and backup receipt projection",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 4912,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:52:45.150Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bf2316f650991e781f12-b3df8b648ed4cbe2b6d3",
+          "file": "unified.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "V4 real connection rejects undispatched model calls and respects a topic boundary",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-360",
+              "projectName": "phone-360",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3133,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:52:51.382Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bf2316f650991e781f12-9ae9622cad5ec5ccd6ef",
+          "file": "unified.spec.ts",
+          "line": 3,
+          "column": 1
+        },
+        {
+          "title": "V3 real Core provider configuration, model route and backup receipt projection",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-360",
+              "projectName": "phone-360",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2694,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:52:55.020Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bf2316f650991e781f12-814fe2b123f40a4e7745",
+          "file": "unified.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "V4 real connection rejects undispatched model calls and respects a topic boundary",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-390",
+              "projectName": "phone-390",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1977,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:52:58.161Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bf2316f650991e781f12-01080063f4db38d04201",
+          "file": "unified.spec.ts",
+          "line": 3,
+          "column": 1
+        },
+        {
+          "title": "V3 real Core provider configuration, model route and backup receipt projection",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-390",
+              "projectName": "phone-390",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2786,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:53:00.410Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bf2316f650991e781f12-af55636de2953d6d072a",
+          "file": "unified.spec.ts",
+          "line": 28,
+          "column": 1
+        },
+        {
+          "title": "V4 real connection rejects undispatched model calls and respects a topic boundary",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-412",
+              "projectName": "phone-412",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1951,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:53:03.657Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bf2316f650991e781f12-e6c7a9f1697998d70a8e",
+          "file": "unified.spec.ts",
+          "line": 3,
+          "column": 1
+        },
+        {
+          "title": "V3 real Core provider configuration, model route and backup receipt projection",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-412",
+              "projectName": "phone-412",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2562,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:53:05.867Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bf2316f650991e781f12-745c69ce2702c108adfc",
+          "file": "unified.spec.ts",
+          "line": 28,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-29T11:52:40.980Z",
+    "duration": 27563.234,
+    "expected": 8,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

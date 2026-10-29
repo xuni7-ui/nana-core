@@ -1,0 +1,123 @@
+{
+  "runtime_source": "c8aa8c986219199d0d027ccce0791788516e9d85",
+  "files": {
+    "actual-core-browser.json": {
+      "bytes": 16458,
+      "sha256": "c98deb3d2d5857b0b12b72b0a37ec50a59126e7325742a4ec6a1aab9418589ce"
+    },
+    "browser-first-run.json": {
+      "bytes": 83842,
+      "sha256": "0ac062ab3005b9242ce0c9b3c95a60908842e67e4aec697c4517486af9e2d8bf"
+    },
+    "build-c8.json": {
+      "bytes": 889,
+      "sha256": "2bd772e8d4453faa5ed6a6c786dcb606ba6d6d76af21cdd4d80b77edd1455080"
+    },
+    "build.json": {
+      "bytes": 890,
+      "sha256": "cb5dff8a44ca0bfeb83dad689f4392251dfac43892e0f2b57ad2281ecfed5357"
+    },
+    "context-fence-review.json": {
+      "bytes": 984,
+      "sha256": "5ae388ca73a29221698541520549cfa118ecccc04b1fa32acd16aff4fc8a0cc7"
+    },
+    "controlled-diagnostic-metrics.json": {
+      "bytes": 2517,
+      "sha256": "63bd06530822fc8820b7ea82382e13f0580542a9711367f28ff725bd3a3773dd"
+    },
+    "controlled-diagnostic-run.json": {
+      "bytes": 23817,
+      "sha256": "27787560b4a9280eeefc63ccebec7f60b411a529cac1a859804f875051ac9aa1"
+    },
+    "controlled-qualification-result.json": {
+      "bytes": 206874,
+      "sha256": "a60b6fc0049c748c0ee76de2e5286e9a2afe0d348da9d0585fb7cc8ae4fa1b98"
+    },
+    "delivery.json": {
+      "bytes": 699,
+      "sha256": "ed16cbd212e05709ad5d65230f5743cf0f9c234bc64f0f8cb29af83f89435534"
+    },
+    "docker-lifecycle-c8.json": {
+      "bytes": 1587,
+      "sha256": "c4804754a5fdd25825fdde9af341fe5f4efccd0eb1f4c6f16b50e5a45b9d5292"
+    },
+    "docker-lifecycle.json": {
+      "bytes": 1587,
+      "sha256": "19975412d446dc3f5d4b2bf21f6476927c0cabeb1adda686b2f33b1a605ce672"
+    },
+    "final-c8-image-vault.json": {
+      "bytes": 1637,
+      "sha256": "5d901c52e433d91854e948c95e4a72892c6f9ed16026ab08df7f4c90e9e33c0f"
+    },
+    "final-hardening.xml": {
+      "bytes": 40246,
+      "sha256": "c57a3612d52a62e53b3406d03e2f1dbc80754b599e32c5b97f552bb355ca1e7e"
+    },
+    "final-image-vault.txt": {
+      "bytes": 228,
+      "sha256": "10546da51458c1f2fe4af5632bbf0dd7306b98f161de6916c9cfcd87141ecdc3"
+    },
+    "install-c8-first.json": {
+      "bytes": 1275,
+      "sha256": "a274d52b6c449a8a787c0d4d1a6807eb4803855c6ac46a74a860b7957a80a5cd"
+    },
+    "install-c8-repeat.json": {
+      "bytes": 1086,
+      "sha256": "6ca2484718e982b0521d4839d7110864bad9df8935e52effb6d62a4042687973"
+    },
+    "install-first-receipt.json": {
+      "bytes": 1094,
+      "sha256": "fd789e1a9e7695484889124f74436d3d6d66b6438240f0b33a9b422084362caa"
+    },
+    "install-repeat.json": {
+      "bytes": 975,
+      "sha256": "9cfcad6b478c5f4ce99852d0e7e71466f98c59bee5079f434c73092d5e62ddf4"
+    },
+    "mechanism-ablation-baseline.txt": {
+      "bytes": 6873,
+      "sha256": "102d9faad49eafd18b8ddfe3ffe782cd945f39dca9889b1ced14e59fecfccd86"
+    },
+    "mechanism-ablation.json": {
+      "bytes": 738,
+      "sha256": "7f4185cf6eae09ad7f3041bebca4e7f9f42143a402d74987cd32c352282c8872"
+    },
+    "public-sdk-cache-cleanup.json": {
+      "bytes": 434,
+      "sha256": "7ebcf1f5269ee10fa353faccaaa6715946a8057bf0f2d2690c0d67ac1e618a8c"
+    },
+    "residency-first-failed.json": {
+      "bytes": 1472,
+      "sha256": "1b418a3e0748567eb4eab62c73a3659f6bba9a2259a2d8b7cda11a363c2da857"
+    },
+    "residency-first-failure.txt": {
+      "bytes": 1079,
+      "sha256": "b63df8ef301ab8febe8322a870121b230371167cf5991845266b2ccc09928e15"
+    },
+    "sealed-c8-corruption.json": {
+      "bytes": 1214,
+      "sha256": "770856c46451cd6ebf21c6f15a7fedee95f50023aaa6890aa0e04f046b30a0b8"
+    },
+    "sealed-corruption.json": {
+      "bytes": 1103,
+      "sha256": "5bffea8d00e5d1c66b4acf7b3e812efd323533811e1fb833afcdad3f887134fe"
+    },
+    "secret-scan-initial-pattern-hits.json": {
+      "bytes": 1691,
+      "sha256": "6fd23cb449e594e84c1da340c0e6c55a386768c8638402597059d6c2e775feb5"
+    },
+    "secret-scan.json": {
+      "bytes": 563,
+      "sha256": "69121690f864f4a456f12081418f8436c35d894c0b186b70b2b5d73a555320a6"
+    },
+    "targeted.xml": {
+      "bytes": 50192,
+      "sha256": "d696dfbeb8ebcf38e3b9c0928ea252014e6eca56381b3c7472db5c196d21c19e"
+    },
+    "unknown-browser-rerun-summary.json": {
+      "bytes": 756,
+      "sha256": "a076bb3f9cb75be51bc5febb5cd141cc3ebf07ea4478cc992a3c24ab8d4ce3aa"
+    }
+  },
+  "self_included": false,
+  "production_claim": false
+}

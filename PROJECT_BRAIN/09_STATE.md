@@ -7,41 +7,35 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 56,
-  "as_of_us": 1793293863915020,
+  "revision": 57,
+  "as_of_us": 1793295717858150,
   "stage": "H",
   "workstream": "LIVING_RELEASE_V4",
-  "status": "V4_FINAL_RUNTIME_SEALING",
+  "status": "V4_DEVELOPMENT_RELEASE_DELIVERED_HOST_ACCEPTANCE_PENDING",
   "progress": [
-    "继承435ca7a同一V4；新增宿主本地AESGCM vault、CAS轮换/撤销；实际BFF SIGKILL后绑定恢复已验证，正式宿主未接入。",
-    "原Person-Self共同对话投影恢复、来源撤回、仅本设备未决回执只读核验；不恢复未保留原文、不重发UNKNOWN。",
-    "原C关注在新来源下可重新判断；经验需要按当前scope/privacy过滤后限额；软件反事实基线两例失败、升级通过，不是模型ablation。",
-    "B站字幕/评论/弹幕、有限发现/读取与账号发送适配；QQ桥接接原C/Manager/Grant/Kernel/Verify；仅loopback发送资格。",
-    "全量旧源冻结、索引/去重批次预览与撤回工具；未访问私史，不伪装成Core当前亲历。",
-    "V4前端4.0.1/401、历史/来源卡/共享候选/密钥状态已接真实API；单元53通过，APK和最终镜像待本轮重建。",
-    "终查补FD contract2：宿主撤销/轮换改变epoch后，子进程旧凭据快照及缓存目标后续派发前失效，原已dispatch请求不回放。",
-    "Supervisor在停止健康实例前拒绝不兼容旧FD解码器；版本准备检查实际active_alias/持久state及旧Runtime可用性，不改旧审批。",
-    "原300s受控DEV上下文指纹改变触发正常pre-dispatch fence；旧失败保留，具体字段UNKNOWN。独立稳定诊断300.163s完成42动作/12目标/14实效、重启/备份/B8；不是正式24h。",
-    "为兼容SDK注册版本，最终镜像将复用原13ddd484及af584900精确Core归档，与当前新版本并存；不恢复旧DB，不假称旧二进制支持FD2。"
+    "同一V4运行源码c8aa8c9，继承435ca7a/af584900；Master/Matrix字节不变、schema13/43business tables不变。",
+    "宿主AESGCM vault、FD2 epoch/digest撤销、缓存派发前失效与旧解码器pre-stop拒绝已测试；最新镜像UID999真实子进程撤销检查通过。",
+    "原Store对话/回执/分享候选与scope/entity/privacy/撤回接线；QQ/Bili适配接原C/Manager/Grant/Kernel/Verify，真实账号未测。",
+    "Core265文件两次离线构建一致；Android4.0.1/401原签名、UI代码af与当前相同，无需因服务端修复再装APK。",
+    "最新自有镜像五SDK ABI、实际DEV启动/SIGKILL/重建/B8通过；6935项新封条安装、重复零变更、精确损坏拒绝通过。",
+    "af原325相关测试通过；c8终查227定向通过（重叠不求和）；53前端、52场景分段浏览器及8真实DEV Core浏览器通过。",
+    "独立instrumented DEV300.163秒42动作/12目标/14实效、重启/备份/迁移通过；先前context fence失败保留，具体字段UNKNOWN。"
   ],
   "open_gates": [
-    "无安全host/VPN/账号/Provider绑定；云端正式Subject与热修复仍USER_REPORTED_NOT_ATTESTED；未操作生产。",
-    "真实Provider/费用、真人自然度、实机HTTPS/语音/通知、正式24h/跨日共同记忆NOT_RUN；First-Life NOT_READY/Beta NO。",
-    "旧史不可变归档可运行，但原RealMemoryIngress硬门保留，真实Core转换导入尚未启用；不以归档搜索冒充长期记忆接入。",
-    "B站实际公开search单次HTTP200/API0后混合结果解析失败，已修代码未再联网；账号收发未实测，画面视觉/完整自主选择仍未验收。",
-    "后台通知未实现投递资格；共享候选仅原C真实记录投影，未送达。bwrap BLOCKED，不退化为宿主直接执行。",
-    "最终安全修复固定源码/镜像重封与实际安装恢复复验进行中；旧5h PARTIAL_EXTERNAL_LIMIT及稳定长期资格门不变。"
+    "正式8acff4fb主体、30845fb/hotfix及真实host仍USER_REPORTED_NOT_ATTESTED；本环境无安全VPN/host/credentials绑定。",
+    "整版V4_ACCEPTED=NO、V4_CODE_COMPLETE=NO：私史Core转换、B站画面/完整自主选择、后台投递仍有实现缺口，不能只靠授权关闭。",
+    "实Provider/钱包、实机HTTPS/语音、真人、正式24h/跨日记忆、QQ/Bili实效、B1异机仍NOT_RUN；First-Life NOT_READY/Beta NO。",
+    "已实现全源冻结/索引/预览/撤回，RealMemoryIngress原硬门未绕过；私人资料、旧写者、生产/main/R045未动；bwrap保持BLOCKED。",
+    "下一步云端按单一HOST_TASK_CARD只读核对热修复/active SDK及角色，再准备版本槽位；正式切换/费用/私史/社交须集中明确批准。"
   ],
   "evidence_refs": [
     "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
     "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
-    "docs/nana_living_release_v4/MISSION.md",
-    "docs/nana_living_release_v4/IMPLEMENTATION.md",
-    "docs/nana_living_release_v4/qualification.json",
+    "docs/nana_living_release_v4/FINAL_MISSION.md",
     "docs/nana_living_release_v4/STATUS.md",
-    "docs/nana_living_release_v4/DEPLOY.md",
-    "docs/nana_living_release_v4/evidence/install-final.json",
-    "docs/nana_living_release_v4/FINAL_MISSION.md"
+    "docs/nana_living_release_v4/qualification.json",
+    "docs/nana_living_release_v4/HOST_TASK_CARD.md",
+    "docs/nana_living_release_v4/evidence/final-401/"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

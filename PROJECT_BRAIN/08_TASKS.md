@@ -1241,3 +1241,8 @@ V4源码、隔离安装、重复安装零变更、精准破坏拒绝、实际同
 ## 2026-10-29 — V4 final credential/version hardening
 
 追加已测试：FD2 epoch/digest守卫、缓存target stale阻派发、兼容回滚pre-stop检查、实际active Runtime预检。新增SDK镜像与封条复验进行中；不再变更APK原生代码。
+
+
+## 2026-10-29 — V4 delivery checkpoint
+
+本轮源码/当前镜像/安装重复与损坏拒绝/签名一致APK/Web已实测交付；正式切换/真人/Provider/平台/24h未运行。RealMemoryIngress转换、画面与完整自主Bili选择、后台投递仍未实现，不伪装完成。

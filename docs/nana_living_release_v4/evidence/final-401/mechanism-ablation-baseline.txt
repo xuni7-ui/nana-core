@@ -1,0 +1,103 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_fresh_supported_encounter_reaches_original_c_after_restart_and_can_change_interest _
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-18/test_fresh_supported_encounter0')
+
+    def test_fresh_supported_encounter_reaches_original_c_after_restart_and_can_change_interest(tmp_path):
+        path = tmp_path / 'subject/self.db'
+        clock = VirtualClock()
+        value = ['HIGH']
+    
+        def propose(request):
+            return StructuredProposal(
+                interpretation='Synthetic evidence for reconsideration, never authority',
+                source_refs=request.source_context_refs,
+                interests=(InterestProposal(topic='independent-question', motivation_source='CURIOSITY',
+                    source_memory_ids=request.primary_source_refs, expected_value=value[0],
+                    interpretation='A changed sourced appraisal', possible_behaviors=('EXPLORE',)),))
+    
+        with provider_harness(proposer=propose) as (transport, calls):
+            with fresh(path, clock) as r:
+                identity = r.identity_id
+                session = CognitionSession(r, transport, policy())
+                concerns = ConcernService(r, resources=('synthetic://public-question',))
+                source = capture(r, 'first-question', {'data': 'A promising independent question'})
+                proposal = session.execute(session.prepare('first-question', 'INTERPRET', (source,)))['record_id']
+                cid = concerns.offer(proposal)[0]
+                event = concerns.opportunity().input
+                before = r.subject.run(event)
+                assert before.intention.behavior == 'EXPLORE'
+                concerns.after_cycle(before, event, None)
+                assert r.store.one('open_concerns', cid)['state'] == 'PROPOSED'
+                assert concerns.opportunity() is None
+                assert concerns.offer(proposal) == ()
+                if before.intention_id:
+                    row = r.store.one('subject_intentions', before.intention_id)
+                    r.subject.transition_intention(before.intention_id, expected_revision=row['revision'], state='COMPLETED')
+            with fresh(path, clock) as r:
+                concerns = ConcernService(r, resources=('synthetic://public-question',))
+                assert r.identity_id == identity and concerns.opportunity() is None
+                value[0] = 'LOW'
+                clock.advance(SECOND)
+                changed = capture(r, 'counter-observation', {'data': 'New independent evidence reduces its value'})
+                session = CognitionSession(r, transport, policy())
+                proposal = session.execute(session.prepare('changed-question', 'INTERPRET', (changed,)))['record_id']
+                assert concerns.offer(proposal) == (cid,)
+>               event = concerns.opportunity().input
+                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               AttributeError: 'NoneType' object has no attribute 'input'
+
+tests/living_release_v4/test_causal_continuity.py:51: AttributeError
+____ test_need_uses_relevant_visible_failures_before_bounded_history_limit _____
+
+tmp_path = PosixPath('/tmp/pytest-of-agent/pytest-18/test_need_uses_relevant_visibl0')
+
+    def test_need_uses_relevant_visible_failures_before_bounded_history_limit(tmp_path):
+        """Synthetic history distractors never stand in for actual life evidence."""
+        from nana_core.continuity.learning import ExperienceService, ExperienceInput, StructuredQualityCheck
+        from nana_core.continuity.contracts import EvidenceInput, Provenance, MemoryCandidate, MemoryType
+        from nana_core.continuity.subject.experience_need import project_need
+        from nana_core.storage import digest
+    
+        with fresh(tmp_path / 'subject/self.db') as r:
+            memory = MemoryService(r.store)
+            service = ExperienceService(r.store, r.authority)
+    
+            def episode(key, *, scope='world', privacy='PUBLIC', passed=True):
+                text = '{"data": 1}'
+                evidence = memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.causal-history',
+                    source_reference=key, source_kind='DIRECT_OBSERVATION'), text=text, privacy_class=privacy,
+                    observed_time_us=r.clock.utc_now_us()))
+                mid = memory.add(MemoryCandidate(entity_id='observer', scope=scope, memory_type=MemoryType.EPISODIC,
+                    epistemic_kind='OBSERVATION', source_evidence_id=evidence, text=text))
+                check = StructuredQualityCheck(result_memory_id=mid,
+                    result_artifact_digest=digest(r.store.artifact(memory.read(mid)['payload_artifact_id'])),
+                    expected_digest=digest(1 if passed else 2), passed=passed)
+                proof = memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.structured-check',
+                    source_reference=key, source_kind='SYSTEM_VERIFICATION'), text=check.model_dump_json(),
+                    privacy_class=privacy, observed_time_us=r.clock.utc_now_us()))
+                proof_mid = memory.add(MemoryCandidate(entity_id='observer', scope=scope, memory_type=MemoryType.EPISODIC,
+                    epistemic_kind='OBSERVATION', source_evidence_id=proof, text=check.model_dump_json()))
+                service.record(ExperienceInput(context_memory_ids=(mid,), scope=scope, task_class='known-gap',
+                    decision='Explicit synthetic counterfactual history '+key, result_memory_id=mid,
+                    verification_memory_id=proof_mid))
+                return mid
+    
+            gap = episode('actual-test-gap', passed=False)
+            for index in range(33):
+                episode('other-scope-'+str(index), scope='another-platform', passed=False)
+                episode('private-'+str(index), privacy='PERSONAL', passed=False)
+                episode('success-'+str(index), passed=True)
+            view = project_need(r.store, 'known-gap', scope='world', privacy_classes=('PUBLIC',), source_memory_ids=(gap,))
+>           assert view.state == 'OPEN' and len(view.source_record_ids) == 1
+E           AssertionError: assert ('UNKNOWN' == 'OPEN'
+E             
+E             - OPEN
+E             + UNKNOWN)
+
+tests/living_release_v4/test_causal_continuity.py:101: AssertionError
+=========================== short test summary info ============================
+FAILED tests/living_release_v4/test_causal_continuity.py::test_fresh_supported_encounter_reaches_original_c_after_restart_and_can_change_interest
+FAILED tests/living_release_v4/test_causal_continuity.py::test_need_uses_relevant_visible_failures_before_bounded_history_limit
+2 failed, 1 deselected in 0.65s

@@ -1,0 +1,24 @@
+{
+  "src/nana_core/continuity/hands/port.py": {
+    "sha256": "7c18a7a42734907cf36828a0a2cd604aa73bf1c3b29d9550ede057593d3dadc3",
+    "unchanged_from_435ca7a": true
+  },
+  "src/nana_core/execution_context/probe.py": {
+    "sha256": "3788dde649e8737f67e42fb1e0ff704273597f2b189dc930322f16981fbdc288",
+    "unchanged_from_435ca7a": true
+  },
+  "tools/nana_cloud_daily_life/qualification.py": {
+    "sha256": "152d64ca9caf0957e1f907693958cf92ebab45adc7fb71198dcba5fda7ac5ab7",
+    "unchanged_from_435ca7a": true
+  },
+  "first_run_context_error": "REALIZATION_HANDS_EXECUTION_CONTEXT_CHANGED",
+  "exact_changed_field": "UNKNOWN_NOT_CAPTURED",
+  "post_failure_new_dispatch": false,
+  "first_run_retained": true,
+  "new_diagnostic": "PASS_ACTUAL300_SECONDS_INDEPENDENT_INSTRUMENTED_OWNED_DEV_NOT_FORMAL24H",
+  "same_source_as_first_run": true,
+  "new_run_source_unchanged": true,
+  "new_run_context_changes": 0,
+  "new_run_guard_rejections": 0,
+  "old_unknown_field_reinterpreted": false
+}

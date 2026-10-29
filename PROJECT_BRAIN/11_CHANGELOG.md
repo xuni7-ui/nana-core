@@ -2821,3 +2821,8 @@ V4 delivery audit: repository build/ ignore rule omitted six explicitly reviewed
 ## 2026-10-29 — V4 final credential/version hardening
 
 独立检查复现旧子进程撤销后仍resolve的边界，补guarded FD2及路由current可用性检查；原Supervisor增加启动/回滚/重启兼容门。独立300s有界owned诊断通过且保留首失败，不放宽context fence或42/12标准。最终SDK保留可信旧Core版本供显式兼容操作，正重新封装。
+
+
+## 2026-10-29 — V4 delivery checkpoint
+
+固定c8aa8c9后完成最终镜像五解释器ABI、真实DEV同主体SIGKILL/重建/B8、6935项安装/重复零变更和精确损坏拒绝；可覆盖Android401与匹配Web/镜像/部署包交付。227当前定向通过与325前序范围分开记录；旧context失败保留。生产/私史/实社交/新付费调用0，整版V4及First-Life未验收。

@@ -1,0 +1,12 @@
+{
+  "archive": "/mnt/data/NANA_CORE_LIVING_V4_RELEASE_4.0.1.zip",
+  "bytes": 414519309,
+  "sha256": "e3ce052d09cb91445b8f81b356299e39f4059e3a2f370303548d96308d408dc6",
+  "files": 49,
+  "manifest_sha256": "bfe8266341d2ed6e88e574d1b686a8c49448d32e8d788eb8c6890004f4b45321",
+  "runtime_source": "c8aa8c986219199d0d027ccce0791788516e9d85",
+  "image_id": "sha256:4dcf4cd458ee4f1fc629c350d2f437eb2615b45bcd86373188df4a13840b7c97",
+  "image_gzip_sha256": "708b236f190d34e55da06c09a3e1e375f1f62a1c106aa154b1580e1a4561c4cf",
+  "old_delivery_preserved": "/workspace/nana-staging/living-v4/preserved-release-435ca7a-20261029",
+  "zip_recipe": "ZIP_STORED_SORTED_SOURCE_COMMIT_UTC_TIME_UNIX_MODE_FORCE_ZIP64"
+}

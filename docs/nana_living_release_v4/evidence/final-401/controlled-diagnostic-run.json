@@ -1,0 +1,648 @@
+{
+  "mode": "INDEPENDENT_CURRENT_V4_OWNED_DEV_CONTEXT_DIAGNOSTIC_NOT_FORMAL_24H",
+  "source_commit": "af58490070cef26237bf81052d1939e5ce40ac46",
+  "seconds": 300.0,
+  "qualification_module": "tools.nana_cloud_daily_life.qualification.run",
+  "qualification_behavior": "UNCHANGED_ALL_ASSERTIONS_INCLUDING_42_ACTIONS_12_GOALS",
+  "instrumentation": "EXTERNAL_OBSERVATION_ONLY_NO_REPIN_NO_RETRY_NO_BYPASS",
+  "provider_calls_authorized": 0,
+  "real_social_sends_authorized": 0,
+  "production": false,
+  "source_formal_24h_touched": false,
+  "driver_sha256": {
+    "diagnostics.py": "ca9b2a3784684dddf328f4acbdffc122b6fbb6aee32e8376d27ff0e1d05ef76f",
+    "run_diagnostic.py": "6f2f6df3e0c550795d5cf797c2edbe1e5e877d970c5b6269a9b0220d447d5f6d",
+    "sitecustomize.py": "f57453c72bfb849d2e8397df59422929a56d48d3b46cd31298c2609ffd8efa3b"
+  },
+  "observer_interval_seconds": 0.5,
+  "observer_maximum_iterations": 900,
+  "state": "COMPLETED",
+  "started_utc_us": 1793292349941834,
+  "residency_status": "SHORT_PROCESS_INTEGRATION_NOT_TWO_HOURS",
+  "actual_residency_seconds": 300.1630241820021,
+  "actual_external_effects": 14,
+  "selected_source_unchanged": true,
+  "finished_utc_us": 1793292651411145,
+  "observer_errors": [],
+  "final_readonly_snapshot": {
+    "identity_id": "97dd65f0-0b61-4860-8d85-15691276f677",
+    "goals": [
+      {
+        "goal_id": "ebea21ab-5c95-41eb-8f5f-a265732df363",
+        "template": "owned-document",
+        "state": "COMPLETED",
+        "version": 8
+      },
+      {
+        "goal_id": "f8e06bf9-7331-4161-a830-373c2771b477",
+        "template": "owned-document",
+        "state": "COMPLETED",
+        "version": 4
+      },
+      {
+        "goal_id": "51e98102-390b-4420-af30-c872d6fb86bf",
+        "template": "owned-form",
+        "state": "COMPLETED",
+        "version": 8
+      },
+      {
+        "goal_id": "67cab9ba-855f-4c3b-8ed3-9c40a3cbd8a9",
+        "template": "owned-form",
+        "state": "COMPLETED",
+        "version": 4
+      },
+      {
+        "goal_id": "46bebdbd-6942-4c2f-a126-b69dcf2ed21a",
+        "template": "owned-form",
+        "state": "FAILED",
+        "version": 4
+      },
+      {
+        "goal_id": "131bf9a8-9856-4bac-89f4-d9d5f1c7866f",
+        "template": "owned-form",
+        "state": "COMPLETED",
+        "version": 4
+      },
+      {
+        "goal_id": "a856c675-55be-4da6-b23d-488a90d35838",
+        "template": "owned-form",
+        "state": "COMPLETED",
+        "version": 4
+      },
+      {
+        "goal_id": "a02a0f84-9056-463d-9714-c52565110906",
+        "template": "owned-document",
+        "state": "FAILED",
+        "version": 4
+      },
+      {
+        "goal_id": "fbfacbd7-a8b2-40ee-8e19-774200a10bfc",
+        "template": "owned-content",
+        "state": "COMPLETED",
+        "version": 4
+      },
+      {
+        "goal_id": "575cc4e3-256c-402b-ab38-63044fc01f4d",
+        "template": "owned-files",
+        "state": "COMPLETED",
+        "version": 4
+      },
+      {
+        "goal_id": "6e3b0459-8cc1-46be-a91a-5944fec5fabc",
+        "template": "owned-content",
+        "state": "COMPLETED",
+        "version": 4
+      },
+      {
+        "goal_id": "6cef88d2-f691-46b1-94e6-fcfb2fbf5d76",
+        "template": "owned-files",
+        "state": "COMPLETED",
+        "version": 4
+      }
+    ],
+    "actions": [
+      {
+        "action_id": "9c2cf845-9319-4deb-a65a-9796d8ea18fd",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "f64d15aa1af3aad8177bcc063df1021d3b6976badf1c424f5d5c0c12bd23acfb"
+      },
+      {
+        "action_id": "2aeb5b21-c1d4-4fd0-ac4e-8daf1c1da68c",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "e7d8e8e2c3e9200c56349424084b808f9acf97561f3c377af265c5beac081414"
+      },
+      {
+        "action_id": "9201ccac-a8d3-454b-b863-41189b1c0603",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "00823eb09ef77cb2117475b952e15848aa909db3ada31d2d96df8325703f0c4e"
+      },
+      {
+        "action_id": "7f90265c-965d-4f73-a4e4-2c0145ceee8d",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "2ca857564b01066d2ca813694373b3ac5ac8b62eeb8ac0e2a9a2eb5f5aef8392"
+      },
+      {
+        "action_id": "4ab4b438-e64d-4ea4-ad78-bed9377dec3d",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "a851bca1629edcc0391a7505ea40f442472f2f92cff142cf89df9ef01baa71a2"
+      },
+      {
+        "action_id": "46335cce-ca10-4057-bc8f-0013390e1e34",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "9cdb910adb99a2605bb43397f898a73fa27a8ab046fe0168bd6937ee893e2871"
+      },
+      {
+        "action_id": "ec62624c-f331-4c9b-b763-5d198729e904",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "492dba08d00eec28793167f12a798f5040f87b72b749708ac41ba1618221e203"
+      },
+      {
+        "action_id": "27b6aebe-de84-495c-bf19-9546334bfd6c",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "0d9e0058ad905894988a5a669b8881b9eb65b7b2402dbcd17f2e3ec05098ef7f"
+      },
+      {
+        "action_id": "256ba6aa-cb27-40e0-9eca-28d44c67c376",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "3d0768cc50af5d571451251e25e888d919057f768ab3fd7d9e09cfe6096982b9"
+      },
+      {
+        "action_id": "273b3854-0228-4fe2-9d38-07f81cd4c044",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "3ea2c9a81c411851716aad71399643bfde4bd27a1e781c473c8ae5044d106358"
+      },
+      {
+        "action_id": "e42723aa-351d-460e-bca2-2be7bc9dbd8e",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "c2efc12c773bfcdfa4f462ab9379da14f7ecca3b1868f44ea9b682d3687a189b"
+      },
+      {
+        "action_id": "f484b966-fd4b-4d19-a3fa-d377c5d4a847",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "c4032232902d4b528492390ccfd93665979437aef322cbfa97d2951f12e87d7f"
+      },
+      {
+        "action_id": "c0484610-21e6-4a07-baa5-e5a919e45ac7",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "85b56052c6d0e2bad1b359f6fdac792e8683a5e97d94f39562558f2be1409c23"
+      },
+      {
+        "action_id": "a802dc92-8574-4f03-985b-c4874c800d59",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "7c439af270165af85ea1940c726daf43620c87a05c98a17966dbe1f4d0c7dfc6"
+      },
+      {
+        "action_id": "72954b4f-9e4a-4cab-8ec9-1855d98440e0",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "d1bf060a17e09c89d5a2b0672e911d7f2e68be286789f88527748ada3aebafd4"
+      },
+      {
+        "action_id": "83611f72-0d05-4f85-a949-d766a995866e",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "4fc0a2bf3c415afc1acb65340e0c81c0a52a233aefe4cb18f3867e164e5f87e4"
+      },
+      {
+        "action_id": "4bd289dc-def5-4a7c-8e7d-e1a3e04a7c83",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "6d0de2daeb615fc6a8c8ceca4f4fc68594de93641ba0a3824b3e7e52a1dedd1a"
+      },
+      {
+        "action_id": "8ddb7150-19d6-4a36-ae7f-98866d35ebd3",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "a2dd4e07422b5d5143a8c936bb7a02f08168f863a984f20231129416aec9285d"
+      },
+      {
+        "action_id": "b6fc60f1-5d55-43ed-b240-7ae48b688ec5",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "09605a159d8466faf199fdcf47e12f511532e93404a4fe1dcf9e3de324c294a2"
+      },
+      {
+        "action_id": "ccd50a61-f1ae-4e37-aedd-20a5f6d8fc9b",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "6d371e5912c6011df23f547fd54d1c96a74c7e8d4b29c4a513ac2b238a0de18b"
+      },
+      {
+        "action_id": "ccfcd08e-205e-4d2c-9afa-b7fd59b5c77e",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "27d6818777f8a04d01f19441269fa98a6fb024311ffad16ab35dfdd6196c30f1"
+      },
+      {
+        "action_id": "978f2273-0452-426a-8bc2-ca043924d004",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "ad17c7a8e5b48787b117ab791dccca426cf6d662b944195bbb8fd1715d6dce34"
+      },
+      {
+        "action_id": "6b360149-4581-4b67-ba3d-34e7e9024049",
+        "capability": "world.skill",
+        "state": "SUCCEEDED",
+        "idempotency_key": "cfde82379163cbc087cf9a60e3e73d31ea3d96b951cb0f2ff8477e8eab29096e"
+      },
+      {
+        "action_id": "1f346af0-ab67-4b96-ae05-cad2f174e090",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "3f46843658d701b23e579e2f262868a52d7ebd4623cbead1a1cbd257380cdf7d"
+      },
+      {
+        "action_id": "2517e72e-218a-44f4-8f4e-7c6e8c0e1dc0",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "c183afd36f93e04abdf486c6de89b10e91356d2384b2368f564469c0f1016ece"
+      },
+      {
+        "action_id": "e36d69b5-d98f-473b-b1f4-db20ef4ca34c",
+        "capability": "world.skill",
+        "state": "SUCCEEDED",
+        "idempotency_key": "b7853b913b897dcbbb429ac818959e17b3aff824ec32812dc70f1299426abcbd"
+      },
+      {
+        "action_id": "d9fb5239-c3a1-40d3-819a-51119497c5cb",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "8ea96aa6b4726a3d48b5aec11978f5009ba04cd5c513e05efd99013ccac0d2a5"
+      },
+      {
+        "action_id": "c0400618-3bec-482f-a372-17adf0680ffc",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "e99a73e223f988c602ae663511731cb2e677d657da54ee3b91b9f9520b4da747"
+      },
+      {
+        "action_id": "af1cb335-db61-4639-b043-9683d39c2289",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "c60fc974de3f947a06d9814fecf9bb5106a51da89bd83c970b4a2874a5e31e23"
+      },
+      {
+        "action_id": "f5bb60d8-3e2c-4cfa-b71e-b9f674cb9d7d",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "ffd2270fb2aa9c6be48e518637a41ee0e3a3021c2305aa8fc70deb568ddd5bbd"
+      },
+      {
+        "action_id": "305330b4-840b-4d1f-81aa-582a7bee7334",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "412f8350ec77b8c9139a8e5be36439f2db1146aabc39eeae5c1588df50c0dbd4"
+      },
+      {
+        "action_id": "479825dd-5bdc-48d2-82b3-4df0207beae5",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "512509923475561886d7a1343f9e8a7b7fd4ece744c48025e6e04a5b68da8a3c"
+      },
+      {
+        "action_id": "75471c1e-231d-43e0-944f-f6bb074a188b",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "286dfa69eb27efba2489fa1ce5987b30993d1724c7bc5e60aa5464f632c8a275"
+      },
+      {
+        "action_id": "fabb8925-c114-4447-87ff-ec88fa462b0a",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "793440ddfaa7edcdd5bce3ecf36be03cac0c5e6fb3402ab59590f3f72375091f"
+      },
+      {
+        "action_id": "9211ac16-1276-4a37-b3cc-18bdab6a61d6",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "688327b5725feafed750a7d19c49fa7b7f52605a216ff01fa612d0dac62fe37e"
+      },
+      {
+        "action_id": "673afb0b-e83d-4a7e-b475-f28c01ade39b",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "6a6b39551e0d08e9efbb37ee01ea328769eb42686d59cd2218c92289074c9eba"
+      },
+      {
+        "action_id": "2b9eed18-7bbc-4c22-82b1-e830786200f4",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "92acd707a0ca9fc9dd4b7f34d04f0280216ee971f155daab9efd744c5c778dda"
+      },
+      {
+        "action_id": "d61b7c5a-3214-4c40-9c37-d5168864f924",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "7216d8525c3492a7ed3b8ac2d9f6881ea3daaaac01165d05233c5298c3aca14b"
+      },
+      {
+        "action_id": "06106803-3946-43c5-b54d-52590aa4ae3d",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "8a24e418e58c8cceefa97e5502596c39d1565f67be45fc12676d582790c14336"
+      },
+      {
+        "action_id": "2a3559ac-836f-4544-9ba7-09df5bea8551",
+        "capability": "world.observe",
+        "state": "SUCCEEDED",
+        "idempotency_key": "c84e85b103e277e013100409be7f849d05669f93b3e495e4de079a6e7e305bca"
+      },
+      {
+        "action_id": "0b731981-4b54-40d8-8a6e-509ee0ee6b5c",
+        "capability": "world.compute",
+        "state": "SUCCEEDED",
+        "idempotency_key": "8b7242fd5860344c82a218b01ca727de21586b9161472a9dd79c90121396a5a0"
+      },
+      {
+        "action_id": "28d6be1a-1932-49ca-8690-454b7aec8dce",
+        "capability": "world.publish",
+        "state": "SUCCEEDED",
+        "idempotency_key": "d49fc3d8739baafbc79245f9a1b300c96f1dd85a0d47f3c961e0b4e4cf195480"
+      }
+    ],
+    "experiences": [
+      {
+        "experience_id": "57596914-7c30-4e44-b5f6-06004a3550d9",
+        "task_class": "owned-document",
+        "outcome": "FAILURE"
+      },
+      {
+        "experience_id": "6101aa39-3cbf-42c5-b918-26ac6b89b343",
+        "task_class": "owned-document",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "30e88c1e-9cbf-447d-ac71-a6ecc75e5515",
+        "task_class": "owned-document",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "7d194fa4-655f-4651-a6a2-856108fcae5f",
+        "task_class": "owned-document",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "a8361736-fdae-48f8-add1-4bf6683f8a14",
+        "task_class": "owned-form",
+        "outcome": "FAILURE"
+      },
+      {
+        "experience_id": "16fa2413-a62c-46c8-b3be-69b67a1f5132",
+        "task_class": "owned-form",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "44bb71cf-a40b-4c18-b41b-0546d2de92b5",
+        "task_class": "owned-form",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "cc58cbda-1072-4a26-be56-c0d485069585",
+        "task_class": "owned-form",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "41b2c762-cd2d-42f9-a3a8-4533a126edfa",
+        "task_class": "owned-form",
+        "outcome": "FAILURE"
+      },
+      {
+        "experience_id": "8640f5b0-d653-45ae-b9be-0fb2b0810155",
+        "task_class": "owned-form",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "3bc9f16c-f2e5-4e77-869d-685ca418794d",
+        "task_class": "owned-form",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "feea28ee-2e79-46e8-a828-fe12c5a615ce",
+        "task_class": "owned-document",
+        "outcome": "FAILURE"
+      },
+      {
+        "experience_id": "e7ee3789-b775-4696-838e-3953297e1197",
+        "task_class": "owned-content",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "9f52feb3-93b0-4172-9695-28dc57c0922b",
+        "task_class": "owned-files",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "919f9023-03aa-4671-9e80-e36bc9d390e2",
+        "task_class": "owned-content",
+        "outcome": "SUCCESS"
+      },
+      {
+        "experience_id": "bb2e079c-173d-4f3a-bbda-e0f6a7ba70ac",
+        "task_class": "owned-files",
+        "outcome": "SUCCESS"
+      }
+    ],
+    "lessons": [
+      {
+        "lesson_id": "dcf0ac1a-9c3c-4dce-866b-ff3b560b9f61",
+        "task_class": "owned-document",
+        "state": "SUSPENDED"
+      },
+      {
+        "lesson_id": "4eee8a24-877c-4cef-966d-522ec91d80ff",
+        "task_class": "owned-form",
+        "state": "SUSPENDED"
+      }
+    ],
+    "assessments": [
+      {
+        "lesson_id": "dcf0ac1a-9c3c-4dce-866b-ff3b560b9f61",
+        "verdict": "SUCCESS",
+        "episode_key": "owned-7a44ff7fa3793c1d75d50ab8ca0873c214ecb68f"
+      },
+      {
+        "lesson_id": "4eee8a24-877c-4cef-966d-522ec91d80ff",
+        "verdict": "SUCCESS",
+        "episode_key": "owned-6fd6afe0fd53c3c6f215457c6e1ee77f47cd2cc4"
+      },
+      {
+        "lesson_id": "4eee8a24-877c-4cef-966d-522ec91d80ff",
+        "verdict": "COUNTEREXAMPLE",
+        "episode_key": "owned-b72bb9e7ec43333400b4871fcb055a5446b18a85"
+      },
+      {
+        "lesson_id": "dcf0ac1a-9c3c-4dce-866b-ff3b560b9f61",
+        "verdict": "COUNTEREXAMPLE",
+        "episode_key": "owned-a8d593eb0d3d54f4558358ce851a587d99becdef"
+      }
+    ],
+    "skill_jobs": [
+      {
+        "job_id": "4ea8aa1a-ded6-4c98-a948-719a16d25a21",
+        "state": "DONE",
+        "cursor": 6,
+        "stage": null
+      }
+    ],
+    "outcomes": [
+      {
+        "action_id": "9201ccac-a8d3-454b-b863-41189b1c0603",
+        "cursor": 2,
+        "experience_id": "57596914-7c30-4e44-b5f6-06004a3550d9",
+        "goal_id": "ebea21ab-5c95-41eb-8f5f-a265732df363",
+        "memory_id": "6797374e-f909-4026-aad6-efa3d5d84bbe",
+        "operator_id": "apply",
+        "plan_record_id": "2f9d83b4-c921-48ca-a0c8-0a0dbad0485d",
+        "quality": false,
+        "work_id": "4c5e0625-93c4-4b9f-87c9-c9d21ea02de1"
+      },
+      {
+        "action_id": "46335cce-ca10-4057-bc8f-0013390e1e34",
+        "cursor": 2,
+        "experience_id": "30e88c1e-9cbf-447d-ac71-a6ecc75e5515",
+        "goal_id": "ebea21ab-5c95-41eb-8f5f-a265732df363",
+        "memory_id": "58505b41-107a-4817-b993-b71d9c65b8c2",
+        "operator_id": "apply",
+        "plan_record_id": "b39d7f3e-4421-4e41-97ac-8900de59f3cd",
+        "quality": true,
+        "work_id": "4c5e0625-93c4-4b9f-87c9-c9d21ea02de1"
+      },
+      {
+        "action_id": "256ba6aa-cb27-40e0-9eca-28d44c67c376",
+        "cursor": 2,
+        "experience_id": "7d194fa4-655f-4651-a6a2-856108fcae5f",
+        "goal_id": "f8e06bf9-7331-4161-a830-373c2771b477",
+        "memory_id": "2596d5e0-279d-4f7b-9d0e-9d4b8068bc6b",
+        "operator_id": "apply",
+        "plan_record_id": "6f7e6390-3303-4e78-b1f2-1071b6c25fc3",
+        "quality": true,
+        "work_id": "5c093815-6067-494a-84b3-a8913bd0424b"
+      },
+      {
+        "action_id": "f484b966-fd4b-4d19-a3fa-d377c5d4a847",
+        "cursor": 2,
+        "experience_id": "a8361736-fdae-48f8-add1-4bf6683f8a14",
+        "goal_id": "51e98102-390b-4420-af30-c872d6fb86bf",
+        "memory_id": "2ea152ec-249d-4307-bf36-6a55a10545cb",
+        "operator_id": "apply",
+        "plan_record_id": "b87ca487-747d-4ca4-bca8-a5b54fd9243b",
+        "quality": false,
+        "work_id": "90aa989d-58f4-44af-b10b-c7caf19eb065"
+      },
+      {
+        "action_id": "72954b4f-9e4a-4cab-8ec9-1855d98440e0",
+        "cursor": 2,
+        "experience_id": "44bb71cf-a40b-4c18-b41b-0546d2de92b5",
+        "goal_id": "51e98102-390b-4420-af30-c872d6fb86bf",
+        "memory_id": "b611d591-adbe-4ae7-9333-9243ee73e3b5",
+        "operator_id": "apply",
+        "plan_record_id": "f00376ca-a92f-45a4-9501-9a9b306cf3b7",
+        "quality": true,
+        "work_id": "90aa989d-58f4-44af-b10b-c7caf19eb065"
+      },
+      {
+        "action_id": "8ddb7150-19d6-4a36-ae7f-98866d35ebd3",
+        "cursor": 2,
+        "experience_id": "cc58cbda-1072-4a26-be56-c0d485069585",
+        "goal_id": "67cab9ba-855f-4c3b-8ed3-9c40a3cbd8a9",
+        "memory_id": "5a6b4b84-6944-45e0-9e03-430b77cb1baf",
+        "operator_id": "apply",
+        "plan_record_id": "9a3143e3-4ee3-4da4-95ec-58b898a9e66f",
+        "quality": true,
+        "work_id": "092758e7-0fcf-4dd0-8747-1c4a169d50e1"
+      },
+      {
+        "action_id": "ccfcd08e-205e-4d2c-9afa-b7fd59b5c77e",
+        "cursor": 2,
+        "experience_id": "41b2c762-cd2d-42f9-a3a8-4533a126edfa",
+        "goal_id": "46bebdbd-6942-4c2f-a126-b69dcf2ed21a",
+        "memory_id": "ee75236a-d829-479d-8167-d8c6742d983d",
+        "operator_id": "apply",
+        "plan_record_id": "bbe1470d-b1c5-4502-8b70-b10fbf33c9f8",
+        "quality": false,
+        "work_id": "dd64827c-746c-4881-896f-5af867a6d320"
+      },
+      {
+        "action_id": "1f346af0-ab67-4b96-ae05-cad2f174e090",
+        "cursor": 2,
+        "experience_id": "8640f5b0-d653-45ae-b9be-0fb2b0810155",
+        "goal_id": "131bf9a8-9856-4bac-89f4-d9d5f1c7866f",
+        "memory_id": "e9bb11ff-700c-4418-a865-3a6e85dc88a3",
+        "operator_id": "apply",
+        "plan_record_id": "2d24c93d-fd4c-4aa9-9458-e1ffc5f62a51",
+        "quality": true,
+        "work_id": "164db6fe-f788-44c0-b3f3-2b35a086a75e"
+      },
+      {
+        "action_id": "d9fb5239-c3a1-40d3-819a-51119497c5cb",
+        "cursor": 2,
+        "experience_id": "3bc9f16c-f2e5-4e77-869d-685ca418794d",
+        "goal_id": "a856c675-55be-4da6-b23d-488a90d35838",
+        "memory_id": "97d21a81-af57-482c-98ff-01804eb5f7ed",
+        "operator_id": "apply",
+        "plan_record_id": "6a0fcdc5-6c57-4eb5-b421-5df92195f882",
+        "quality": true,
+        "work_id": "e8064f8b-a058-4fb1-8e2a-7fad549a0bfc"
+      },
+      {
+        "action_id": "f5bb60d8-3e2c-4cfa-b71e-b9f674cb9d7d",
+        "cursor": 2,
+        "experience_id": "feea28ee-2e79-46e8-a828-fe12c5a615ce",
+        "goal_id": "a02a0f84-9056-463d-9714-c52565110906",
+        "memory_id": "23c648f4-8c07-4139-879e-423129cf1ab1",
+        "operator_id": "apply",
+        "plan_record_id": "1d85cf04-ab65-45a8-8730-4724ead40842",
+        "quality": false,
+        "work_id": "86a9116f-32dd-4540-961c-7a4c898e6d06"
+      },
+      {
+        "action_id": "75471c1e-231d-43e0-944f-f6bb074a188b",
+        "cursor": 2,
+        "experience_id": "e7ee3789-b775-4696-838e-3953297e1197",
+        "goal_id": "fbfacbd7-a8b2-40ee-8e19-774200a10bfc",
+        "memory_id": "bd3d52fb-9dcb-4c27-a051-a35d4773575d",
+        "operator_id": "apply",
+        "plan_record_id": "aef67866-893f-47a1-a03d-c0e387aac557",
+        "quality": true,
+        "work_id": "b180da71-a0f6-46fe-8c6d-0a4fc39c4abb"
+      },
+      {
+        "action_id": "673afb0b-e83d-4a7e-b475-f28c01ade39b",
+        "cursor": 2,
+        "experience_id": "9f52feb3-93b0-4172-9695-28dc57c0922b",
+        "goal_id": "575cc4e3-256c-402b-ab38-63044fc01f4d",
+        "memory_id": "b9060ba9-9a72-48d7-b41d-60c186af63e6",
+        "operator_id": "apply",
+        "plan_record_id": "3c067ff7-2e29-453f-8e89-f7a84a7c8e7f",
+        "quality": true,
+        "work_id": "1f493080-9246-4950-9dda-46964ade1e4b"
+      },
+      {
+        "action_id": "06106803-3946-43c5-b54d-52590aa4ae3d",
+        "cursor": 2,
+        "experience_id": "919f9023-03aa-4671-9e80-e36bc9d390e2",
+        "goal_id": "6e3b0459-8cc1-46be-a91a-5944fec5fabc",
+        "memory_id": "f99f4b62-e203-46e2-ba2f-da043020e502",
+        "operator_id": "apply",
+        "plan_record_id": "c7b029bf-4cbb-4987-bef2-dadb6704206d",
+        "quality": true,
+        "work_id": "58831045-6588-43d7-8377-c191096ed66e"
+      },
+      {
+        "action_id": "28d6be1a-1932-49ca-8690-454b7aec8dce",
+        "cursor": 2,
+        "experience_id": "bb2e079c-173d-4f3a-bbda-e0f6a7ba70ac",
+        "goal_id": "6cef88d2-f691-46b1-94e6-fcfb2fbf5d76",
+        "memory_id": "49dadf69-2cac-4325-a0c9-b7c964e26e11",
+        "operator_id": "apply",
+        "plan_record_id": "7d312842-ac15-44eb-bc14-ddd1aec1dc27",
+        "quality": true,
+        "work_id": "05043491-578f-4324-b334-328485300b9e"
+      }
+    ],
+    "grants": 1,
+    "pending_intentions": 0,
+    "queue_depth": 0,
+    "no_action": 2,
+    "cognition_calls": 0,
+    "control": {
+      "messages": 2,
+      "paused": false
+    },
+    "fk_violations": []
+  }
+}

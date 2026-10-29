@@ -1,0 +1,91 @@
+{
+  "mode": "INDEPENDENT_CURRENT_V4_OWNED_DEV_CONTEXT_DIAGNOSTIC_NOT_FORMAL_24H",
+  "state": "COMPLETED",
+  "source_commit": "af58490070cef26237bf81052d1939e5ce40ac46",
+  "actual_residency_seconds": 300.1630241820021,
+  "work_complete_at_seconds": 28.684871629000554,
+  "residency_status": "SHORT_PROCESS_INTEGRATION_NOT_TWO_HOURS",
+  "selected_source_unchanged": true,
+  "source_hash_count": 269,
+  "actions": 42,
+  "action_states": {
+    "SUCCEEDED": 42
+  },
+  "goals": 12,
+  "goal_states": {
+    "COMPLETED": 10,
+    "FAILED": 2
+  },
+  "effects": 14,
+  "queue_depth": 0,
+  "pending_intentions": 0,
+  "cognition_calls": 0,
+  "foreign_key_violations": [],
+  "grants": 1,
+  "actual_sigkill_restart": {
+    "same_identity": true,
+    "old_epoch": 2,
+    "new_epoch": 3,
+    "no_new_grant": true,
+    "no_action_replay": true
+  },
+  "backup_delete_propagation": true,
+  "restored_subject": {
+    "identity_id": "97dd65f0-0b61-4860-8d85-15691276f677",
+    "grants_all_revoked": true,
+    "same_history": true,
+    "host_profiles_separately_supplied": true,
+    "provider_configuration_transferred": false
+  },
+  "runtime_rss_peak_kib": 54804,
+  "runtime_hwm_peak_kib": 54804,
+  "runtime_thread_peak": 1,
+  "runtime_fd_peak": 8,
+  "queue_depth_peak": 2,
+  "observer_errors": [],
+  "production_changes": 0,
+  "real_social_sends": 0,
+  "new_provider_calls": 0,
+  "context_trace_files": [
+    {
+      "file": "context-15272.jsonl",
+      "bytes": 7233,
+      "records": 7,
+      "kinds": {
+        "DIAGNOSTIC_INSTALLED": 1,
+        "PROBE_INITIAL": 2,
+        "PARENT_OBSERVER_INITIAL": 1,
+        "HANDS_PIN_OBSERVED": 1,
+        "PARENT_OBSERVER_END": 1,
+        "PROCESS_DIAGNOSTIC_END": 1
+      }
+    },
+    {
+      "file": "context-15285.jsonl",
+      "bytes": 2364,
+      "records": 3,
+      "kinds": {
+        "DIAGNOSTIC_INSTALLED": 1,
+        "PROBE_INITIAL": 1,
+        "HANDS_PIN_OBSERVED": 1
+      }
+    },
+    {
+      "file": "context-15373.jsonl",
+      "bytes": 3347,
+      "records": 4,
+      "kinds": {
+        "DIAGNOSTIC_INSTALLED": 1,
+        "PROBE_INITIAL": 1,
+        "HANDS_PIN_OBSERVED": 1,
+        "PROCESS_DIAGNOSTIC_END": 1
+      }
+    }
+  ],
+  "context_fingerprint_changes_or_rejections": 0,
+  "context_ids": [
+    "3e5dec5946a3c45b93ab3b986d6261d7823ed24cf979f53f8ab05c4fab4f82a6"
+  ],
+  "qualification-result.json_sha256": "a60b6fc0049c748c0ee76de2e5286e9a2afe0d348da9d0585fb7cc8ae4fa1b98",
+  "diagnostic-run.json_sha256": "27787560b4a9280eeefc63ccebec7f60b411a529cac1a859804f875051ac9aa1"
+}

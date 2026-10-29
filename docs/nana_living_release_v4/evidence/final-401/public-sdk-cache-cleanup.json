@@ -1,0 +1,15 @@
+{
+  "removed_only_reconstructible_public_sdk_tar_cache": [
+    {
+      "path": "/dev/shm/nana-v4-final-build-af584900/final-runtime.tar",
+      "bytes": 381075968
+    },
+    {
+      "path": "/dev/shm/nana-v4-final-build-c8aa8c9/final-runtime.tar",
+      "bytes": 502412288
+    }
+  ],
+  "complete_image_exports_and_runtime_tree_manifests_preserved": true,
+  "subject_data_removed": false,
+  "evidence_json_or_results_removed": false
+}

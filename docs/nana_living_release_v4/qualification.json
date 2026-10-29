@@ -1,10 +1,10 @@
 {
   "workstream": "LIVING_RELEASE_V4",
   "global_stage": "H",
-  "status": "INTEGRATED_DEVELOPMENT_RELEASE_V4_ACCEPTANCE_PARTIAL",
-  "base_head": "77a09e245603f38e10a4e2e36c2c7355e79e1eab",
-  "runtime_source_commit": "13ddd484156f8216dabd1d339f0bba696f801dab",
-  "runtime_business_diff_from_pin": "",
+  "status": "V4_DEVELOPMENT_RELEASE_DELIVERED_HOST_ACCEPTANCE_PENDING",
+  "base_head": "435ca7a819847fc7d8a60dd6088f0e712ecbf965",
+  "runtime_source_commit": "c8aa8c986219199d0d027ccce0791788516e9d85",
+  "runtime_business_diff_from_pin": " src/nana_core/actions.py                           |  18 +-\n src/nana_core/continuity/provider_routing.py       |  12 +-\n .../continuity/subject/experience_need.py          |  20 +-\n src/nana_core/continuity/subject/loop.py           |   3 +-\n src/nana_core/continuity/subject/watch.py          |   3 +-\n src/nana_core/continuity/world_loop/attention.py   |  29 +-\n .../continuity/world_loop/concern_source.py        |  47 +++\n src/nana_core/integration/exporter.py              |  13 +-\n src/nana_core/life/application.py                  |   9 +-\n src/nana_core/life/bilibili.py                     | 434 ++++++++++++++++++++-\n src/nana_core/life/bilibili_account.py             | 345 ++++++++++++++++\n src/nana_core/life/control.py                      |  17 +\n src/nana_core/life/conversation.py                 |  44 +++\n src/nana_core/life/ingress.py                      |   2 +-\n src/nana_core/life/live_api/__main__.py            |  15 +-\n src/nana_core/life/live_api/bridge.py              |  55 +++\n src/nana_core/life/live_api/provider_settings.py   |  82 +++-\n src/nana_core/life/live_api/server.py              |   9 +\n src/nana_core/life/live_api/supervisor.py          |  62 ++-\n src/nana_core/life/platform_authority.py           |  58 +++\n src/nana_core/life/platform_bridge.py              | 425 ++++++++++++++++++++\n src/nana_core/life/provider_vault.py               | 234 +++++++++++\n src/nana_core/life/secret_binding.py               | 176 +++++++--\n src/nana_core/life/shared.py                       |  24 ++\n src/nana_core/life/surfaces.py                     |  41 +-\n src/nana_core/migration/archive.py                 | 390 ++++++++++++++++++\n src/nana_core/migration/source_safety.py           |  24 ++\n 27 files changed, 2489 insertions(+), 102 deletions(-)\n",
   "inherited_commits": [
     "a07e906",
     "7a1bce9",
@@ -17,18 +17,18 @@
   "foundation": "S1-S9 inherited qualified / S10 partial; fixed61/63 unchanged",
   "master_sha256": "fe6efe121a05145b44178d5ec26b99430a28e873fca8d1b80f16671c65e5133c",
   "matrix_sha256": "e8a197e28bde7605d0bd590e6d5f425af99f545d7df924caf22064dbad811552",
-  "image_id": "sha256:b5e55b2988135a991c3d9ac46b50e7c5fe9b75ce66335eb38e1429895b5fa54c",
-  "core_sha256": "728ef440fc34ab5c1b821814fae93408ee0b7384c5bad6959d274cb9ec5e5347",
+  "image_id": "sha256:4dcf4cd458ee4f1fc629c350d2f437eb2615b45bcd86373188df4a13840b7c97",
+  "core_sha256": "c562b41aada49a48736269e29c8f07487f07b7b15c2694d75356541562c7d92c",
   "core_rebuild": "IDENTICAL_TWO_OFFLINE_BUILDS",
-  "core_files": 253,
-  "web_sha256": "3e6b5c1b3904132dd7b9374fa89128d9c82e177823da973a9c9256577d4f6751",
+  "core_files": 265,
+  "web_sha256": "8c8e50508fe95b213c80b241f86dd41049d641990e12d79836af170ca011d59a",
   "apk": {
-    "file": "nana-space-4.0.0-debug.apk",
-    "bytes": 4722261,
-    "sha256": "2e93d66138ec11f637fd2094fd291352ada0ddf225d4df6d0d8091fbc07751cc",
+    "file": "nana-space-4.0.1-debug.apk",
+    "bytes": 4728727,
+    "sha256": "7f8cb5c0e9ef76eca1169692f4f6acd706697182f229eb15d91e7abb4cf3e926",
     "applicationId": "life.nana.space.dev",
-    "version_code": 400,
-    "version_name": "4.0.0-debug",
+    "version_code": 401,
+    "version_name": "4.0.1-debug",
     "signer_sha256": "b2fec5a02e6f32e69fb8ef8bce44391a6a4ba5ab8ce6dc7284cb57663016ec41",
     "same_signer_as_3_0_2": true,
     "build": "PASS",
@@ -36,17 +36,17 @@
     "on_device_asr_tts": "NOT_RUN",
     "key_entered": "NO"
   },
-  "install": "ACTUAL_LOCAL_DOCKER_PASS_READY_FOR_SWITCH",
-  "install_repeat": "PASS_ZERO_PERSISTENT_CHANGES",
-  "sealed_corruption": "PASS_EXACT_MISSING_PATH_NO_REPAIR",
-  "installed_mount_private_abi": "PASS_ALL_THREE_PREFIXES",
+  "install": "ACTUAL_LOCAL_DOCKER_C8_PASS_READY_FOR_SWITCH",
+  "install_repeat": "PASS_ZERO_PERSISTENT_CHANGES_AND_FULL_TREE_DIGEST_EQUAL",
+  "sealed_corruption": "PASS_C8_EXACT_MISSING_PATH_NO_REPAIR",
+  "installed_mount_private_abi": "PASS_ALL_FIVE_PREFIXES",
   "identity_recovery": "ACTUAL_DEV_SIGKILL_RECREATE_EPOCH2_3_4_AND_B8_RESTORE_PASS",
   "provider_config": "ACTUAL_CORE_BFF_AND_BROWSER_COMMANDS_PASS_NO_PAID_CALLS",
   "provider_readiness": "PASS_ORIGINAL_POLICY_AND_BUDGET_NO_DISPATCH",
-  "secret_binding": "PASS_SYNTHETIC_MEMORY_ONLY_FD_AND_NATIVE_CODE_BOUNDARIES",
-  "durable_provider_vault": "NOT_IMPLEMENTED_REBIND_AFTER_BFF_RESTART",
-  "bilibili": "REAL_PUBLIC_METADATA_HTTP200_PLUS_SYNTHETIC_ORIGINAL_C_PIPELINE; NOT_WATCHED",
-  "bilibili_autonomous_watch_comment_dm": "NOT_COMPLETED_ACCOUNT_GRANTS_AND_REMAINING_ADAPTER_WORK",
+  "secret_binding": "HOST_LOCAL_AES256GCM_PLUS_GUARDED_ANONYMOUS_FD_V2",
+  "durable_provider_vault": "PASS_ACTUAL_BFF_RESTART_AND_FINAL_IMAGE_CHILD_EPOCH_REVOCATION",
+  "bilibili": "TIMESTAMPED_SUBTITLE_COMMENT_DANMAKU_AND_ACCOUNT_ADAPTERS; SYNTHETIC_KERNEL_EFFECTS; REAL_ONE_PUBLIC_SEARCH_HTTP200_API0_PARSE_FAILED",
+  "bilibili_autonomous_watch_comment_dm": "PARTIAL_IMPLEMENTATION_REAL_ACCOUNTS_NOT_RUN",
   "memory_retention": "PASS_CONTROLLED_PERSIST_RETRIEVE_RESTART_WITHDRAWAL; REAL_LONG_TERM_NOT_RUN",
   "local_speech": "NATIVE_BUILT; ACTUAL_DEVICE_NOT_RUN",
   "live_reply_streaming": "NOT_IMPLEMENTED_API_V2_ATOMIC_RECEIPT",
@@ -63,42 +63,45 @@
   "production_changed": false,
   "main_changed": false,
   "R045_changed": false,
-  "frontend_contract": "ADDITIVE_API_V2_CAPABILITY_GATED",
+  "frontend_contract": "ADDITIVE_CAPABILITY_GATED_API_V2; NATIVE401_UNCHANGED_AFTER_C8_SERVER_HARDENING",
   "first_life_experience_ready": "NOT_READY",
   "beta": "NO",
   "comparison_with_astrbot_openclaw": "NO_REAL_HEAD_TO_HEAD_QUALIFICATION_NO_SUPERIORITY_CLAIM",
   "tests": {
-    "targeted": {
-      "passed": 148,
+    "initial_affected_python": {
+      "source": "af584900",
+      "passed": 325,
       "failed": 0,
-      "seconds": 36.25
+      "seconds": 95.12
     },
-    "packaging_stdin_rollback_supplement": {
-      "passed": 4,
+    "final_provider_runtime_controller_focused": {
+      "source": "c8aa8c9",
+      "passed": 227,
       "failed": 0,
-      "seconds": 0.09
-    },
-    "dialogue_memory_storage_recovery": {
-      "passed": 10,
-      "failed": 0,
-      "seconds": 4.15
+      "seconds": 42.9
     },
     "frontend_unit": {
-      "passed": 44,
-      "failed": 0,
-      "seconds": 2.59
-    },
-    "actual_core_browser": {
-      "passed": 8,
-      "failed": 0,
-      "seconds": 18.3
-    },
-    "android_native_unit": {
-      "passed": 1,
+      "source": "af584900_UI_unchanged",
+      "passed": 53,
       "failed": 0
     },
-    "android_build": "PASS_26_SECONDS",
-    "full_repository": "NOT_REPEATED_PER_TARGETED_V4_INSTRUCTION"
+    "frontend_build": "PASS",
+    "synthetic_browser": {
+      "first_passed": 48,
+      "first_failed_outdated_text": 4,
+      "limited_rerun_passed": 4,
+      "limited_rerun_seconds": 7.7,
+      "raw_rerun_report_lost_after_subsequent_clean": "OBSERVED_EXEC_SUMMARY_PRESERVED"
+    },
+    "actual_dev_core_browser": {
+      "passed": 8,
+      "failed": 0,
+      "seconds": 27.6
+    },
+    "android_build": "PASS_28_SECONDS",
+    "full_repository": "NOT_RUN_THIS_CHANGE_PER_FOCUSED_POLICY",
+    "e12": "NOT_RUN_HISTORICAL_STATUS_UNCHANGED",
+    "counts_are_overlapping": "DO_NOT_SUM"
   },
   "test_environment": {
     "python": "3.12.14",
@@ -124,9 +127,37 @@
     "Remaining Bilibili interest/watch/account adapters and authorized QQ/social cutover"
   ],
   "manifest_sha256": "65834b03d6928aca6558939bbc4b9b1b5f9785fa63d116e6d165ad60a7029db9",
-  "image_gzip_sha256": "87866ddc44424276298724bee902ed079e9438035fe81c071d13310c8e2ab9e0",
-  "image_gzip_bytes": 331154026,
+  "image_gzip_sha256": "708b236f190d34e55da06c09a3e1e375f1f62a1c106aa154b1580e1a4561c4cf",
+  "image_gzip_bytes": 387853145,
   "handoff_zip_sha256": "5d620f7c21eaad796192cf5ec5cf5891972cda0f6c1af1ee89d4039ffa0eabb4",
   "handoff_zip_bytes": 342411600,
-  "evidence_manifest_sha256": "2183784260d916c0e7cafa87cad55f3beacb83ec334042f9210bcd8ee430132c"
+  "evidence_manifest_sha256": "2183784260d916c0e7cafa87cad55f3beacb83ec334042f9210bcd8ee430132c",
+  "runtime_entries": 6935,
+  "secret_fd_contract": 2,
+  "provider_secret_child_invalidation": "PASS_REVOKE_ROTATE_AND_CACHED_TARGET_BEFORE_DISPATCH",
+  "secret_compatible_recovery": "PASS_REJECT_OLD_DECODER_BEFORE_STOPPING_HEALTHY_CORE",
+  "active_alias_preflight": "PASS_CONTROLLED_CONFIGURED_AND_PERSISTED_ALIASES; REAL_HOST_NOT_ATTESTED",
+  "qq": "IMPLEMENTED_AND_SYNTHETIC_LOOPBACK_ORIGINAL_KERNEL_VERIFIED; REAL_NOT_RUN",
+  "legacy_history": "FULL_FROZEN_ARCHIVE_INDEX_SEARCH_WITHDRAW_BATCH_PREVIEW; REAL_CORE_IMPORT_DISABLED",
+  "v4_code_complete": false,
+  "v4_accepted": false,
+  "remaining_code_gaps": [
+    "REAL_PRIVATE_HISTORY_CONVERSION_EXECUTOR",
+    "BILIBILI_FRAME_ACQUISITION_AND_FULL_AUTONOMOUS_SELECTION",
+    "BACKGROUND_NOTIFICATION_DELIVERY"
+  ],
+  "source_ui_commit": "af58490070cef26237bf81052d1939e5ce40ac46",
+  "controlled_life": {
+    "source": "af584900",
+    "actual_seconds": 300.163024182,
+    "scope": "INSTRUMENTED_OWNED_DEV_NOT_FORMAL_24H",
+    "actions": 42,
+    "goals": 12,
+    "verified_owned_effects": 14,
+    "source_unchanged": true,
+    "context_changes": 0,
+    "first_run": "FAILED_REVIEW_REQUIRED_CONTEXT_FENCE_RETAINED_UNKNOWN_EXACT_CHANGED_FIELD",
+    "new_long_residency": "PENDING_EXTERNAL_STABLE_ENV"
+  },
+  "evidence_directory": "docs/nana_living_release_v4/evidence/final-401"
 }

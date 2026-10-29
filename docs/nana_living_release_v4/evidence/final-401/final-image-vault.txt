@@ -1,0 +1,1 @@
+{"scope": "FINAL_IMAGE_UID999_SYNTHETIC_VAULT_PROBE", "sqlite": "3.51.3", "openssl": "OpenSSL 3.5.7 9 Jun 2026", "cryptography": "50.0.0", "vault_restore_revoke": "PASS", "new_adapter_imports": "PASS", "real_provider_calls": 0}

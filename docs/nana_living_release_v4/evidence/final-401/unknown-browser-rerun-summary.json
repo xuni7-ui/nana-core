@@ -1,0 +1,18 @@
+{
+  "evidence_class": "OBSERVED_EXEC_RESULT_SUMMARY",
+  "command": "npx playwright test --config playwright.v3.config.ts --grep 'UNKNOWN uses GET original receipt'",
+  "passed": 4,
+  "failed": 0,
+  "seconds": 7.7,
+  "viewports": [
+    "desktop",
+    "phone-360",
+    "phone-390",
+    "phone-412"
+  ],
+  "actual_http": "SYNTHETIC_BROWSER_ROUTE_FIXTURE",
+  "original_get_once_and_no_duplicate_post_assertions": "PRESERVED",
+  "change": "Outdated UNKNOWN display-text expectation updated to actual Chinese waiting state; no assertion widening",
+  "raw_report_preserved": false,
+  "raw_report_limitation": "A subsequent Playwright actual-Core suite cleaned the shared report directory; first-run raw report and actual-Core report were preserved separately."
+}

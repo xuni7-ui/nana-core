@@ -1,0 +1,37 @@
+{
+  "source_commit": "c8aa8c986219199d0d027ccce0791788516e9d85",
+  "image_id": "sha256:4dcf4cd458ee4f1fc629c350d2f437eb2615b45bcd86373188df4a13840b7c97",
+  "target": "/dev/shm/nana-v4-installed-af584900/slots/c8aa8c986219199d0d027ccce0791788516e9d85/runtime",
+  "target_context": "DOCKER_DAEMON_HOST_BIND",
+  "free_bytes": 1326456832,
+  "subject_opened": false,
+  "canonical_home_changed": false,
+  "services_changed": false,
+  "host_configuration_preflight": {
+    "state": "NO_EXISTING_HOST_CONFIGURATION",
+    "installed": false
+  },
+  "state": "SEALED_SLOT_CONFLICT",
+  "persistent_changes": 0,
+  "idempotent": false,
+  "mismatch_count": 1,
+  "mismatches": [
+    {
+      "path": "core-releases/c8aa8c986219199d0d027ccce0791788516e9d85/src/nana_core/clock.py",
+      "reason": "MISSING",
+      "expected_sha256": "2b698b496aad23225c2b54115a7789ad1c0acb1d77d34f673bfee8e09c2dc982",
+      "actual_sha256": null
+    }
+  ],
+  "operator_exit_code": 2,
+  "daemon": {
+    "Version": "28.4.0",
+    "ApiVersion": "1.51",
+    "Os": "linux",
+    "Arch": "amd64"
+  },
+  "paid_provider_calls": 0,
+  "expected_exit_code": 2,
+  "only_owned_public_dev_slot_tampered": true,
+  "canonical_subject_or_production_changed": false
+}

@@ -1,0 +1,22 @@
+{
+  "source": "435ca7a819847fc7d8a60dd6088f0e712ecbf965",
+  "command": [
+    "/workspace/nana-core/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "tests/living_release_v4/test_causal_continuity.py",
+    "-k",
+    "not ambiguous"
+  ],
+  "exit_code": 1,
+  "classification": "SOFTWARE_MECHANISM_ABLATION_NOT_MODEL_ABLATION",
+  "provider": "SYNTHETIC_HTTP_LOOPBACK",
+  "scope": "controlled two causal regression scenarios",
+  "reproduction_selection": [
+    "test_fresh_supported_encounter_reaches_original_c_after_restart_and_can_change_interest",
+    "test_need_uses_relevant_visible_failures_before_bounded_history_limit"
+  ],
+  "final_current_source": "af58490070cef26237bf81052d1939e5ce40ac46",
+  "model_ablation": "NOT_RUN"
+}

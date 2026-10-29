@@ -18,4 +18,4 @@ for name,row in value['"'"'files'"'"'].items():
  if Path(name).is_absolute() or '"'"'..'"'"' in Path(name).parts or p.resolve()!=p or not p.is_file():raise SystemExit('"'"'RELEASE_FILE_INVALID: '"'"'+name)
  if sha(p)!=row['"'"'sha256'"'"']:raise SystemExit('"'"'RELEASE_FILE_DIGEST_MISMATCH: '"'"'+name)
 os.execv(sys.executable,[sys.executable,'"'"'-I'"'"','"'"'-B'"'"',str(root/'"'"'tools/deploy.py'"'"'),'"'"'--handoff'"'"',str(root),'"'"'--manifest-sha256'"'"',expected,*sys.argv[3:]])
-' "$release_root" 65834b03d6928aca6558939bbc4b9b1b5f9785fa63d116e6d165ad60a7029db9 "$@"
+' "$release_root" bfe8266341d2ed6e88e574d1b686a8c49448d32e8d788eb8c6890004f4b45321 "$@"

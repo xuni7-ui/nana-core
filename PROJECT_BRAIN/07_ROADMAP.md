@@ -1166,3 +1166,8 @@ V4同一主线继续：宿主持久vault、原C因果修复、跨会话投影、
 ## 2026-10-29 — V4 final credential/version hardening
 
 继续同一V4收口：原支持/权限不减，先确保正在运行的密钥快照撤销和安全回滚兼容，再固定最终SDK。之后仍以真实宿主/Provider/手机/24h证据决定体验资格。
+
+
+## 2026-10-29 — V4 delivery checkpoint
+
+V4开发交付已收口，运行源码c8aa8c9；整版与First-Life验收仍未通过。后续以实际host差异和统一审批为前置推进真实接入，不另立V5；剩余实现明确见STATUS，不能把授权当作代码补全。

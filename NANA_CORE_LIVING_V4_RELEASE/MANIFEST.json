@@ -1,12 +1,12 @@
 {
   "contract": "nana-living-release/v4",
-  "source_commit": "13ddd484156f8216dabd1d339f0bba696f801dab",
+  "source_commit": "c8aa8c986219199d0d027ccce0791788516e9d85",
   "schema_version": 13,
   "plan_contract": "PRECISION_V2",
-  "runtime_manifest_sha256": "29560fd048b26b60d470be7c30cd944482efc7dd31208019f0daa835aa12217b",
+  "runtime_manifest_sha256": "8de3ef31b8b533e56186aabfc8f675cc25cba88398018f303cca131760d1d750",
   "image": {
-    "id": "sha256:b5e55b2988135a991c3d9ac46b50e7c5fe9b75ce66335eb38e1429895b5fa54c",
-    "gzip_sha256": "87866ddc44424276298724bee902ed079e9438035fe81c071d13310c8e2ab9e0",
+    "id": "sha256:4dcf4cd458ee4f1fc629c350d2f437eb2615b45bcd86373188df4a13840b7c97",
+    "gzip_sha256": "708b236f190d34e55da06c09a3e1e375f1f62a1c106aa154b1580e1a4561c4cf",
     "parts": [
       "image/image.tar.gz.part001",
       "image/image.tar.gz.part002",
@@ -19,21 +19,47 @@
       "image/image.tar.gz.part009",
       "image/image.tar.gz.part010",
       "image/image.tar.gz.part011",
-      "image/image.tar.gz.part012"
+      "image/image.tar.gz.part012",
+      "image/image.tar.gz.part013",
+      "image/image.tar.gz.part014"
     ]
   },
   "files": {
+    "COMPONENTS.json": {
+      "bytes": 353,
+      "sha256": "cd72e296439d89c7587e8dd49a357337c24bf9080bb40d1b5b8e9c80cd31ad5a"
+    },
+    "DEPLOY.md": {
+      "bytes": 10921,
+      "sha256": "d80890aaa6e55f98bdb3f7449195fe24392d56b24e57cb5eada904e49dc12bd4"
+    },
+    "HOST_TASK_CARD.md": {
+      "bytes": 5537,
+      "sha256": "8de4accb95f3c26c21c6fdc7a018dbb521fc8e6419326bc73df13fcd73d6f703"
+    },
     "README.md": {
-      "bytes": 6977,
-      "sha256": "09ebbca931930deabd3102e5e884c112d325828727726ac72b2f4734a0c9974d"
+      "bytes": 10921,
+      "sha256": "d80890aaa6e55f98bdb3f7449195fe24392d56b24e57cb5eada904e49dc12bd4"
+    },
+    "STATUS.md": {
+      "bytes": 18880,
+      "sha256": "040bd3f6dcfe6df0a2497653abd427737fb7a44e5adc99bc54d387ee91cfc86a"
     },
     "build/Dockerfile": {
-      "bytes": 1303,
-      "sha256": "1b3b5a849730dc8e31b15a233b11ce80c05422100c8171cbe934a49883803dce"
+      "bytes": 2262,
+      "sha256": "b0e00bc346d53e18842bd074a89f393fa32980dc10a75b92db10a4afa3f875fc"
     },
     "build/compact_venv.py": {
-      "bytes": 1408,
-      "sha256": "b7ad664fb0cdab14b84ac3eef6caa4f6bb94208696bb33e7efa0d76e09752852"
+      "bytes": 2156,
+      "sha256": "75b81c1f0cd167cd417560d11fd04b2ea7f5e2cb76cf148a69b270577dd6e50c"
+    },
+    "build/compat-13.tar.gz": {
+      "bytes": 3078235,
+      "sha256": "728ef440fc34ab5c1b821814fae93408ee0b7384c5bad6959d274cb9ec5e5347"
+    },
+    "build/compat-af.tar.gz": {
+      "bytes": 8057038,
+      "sha256": "c091d70574911bb61bd401879300703df178f885ed7bc64cec2283247661acf3"
     },
     "build/container_entry.py": {
       "bytes": 5885,
@@ -52,80 +78,88 @@
       "sha256": "43cae88c58ea6db1e5e5226807ae00f6ab06281f0a801ef4a0832e1b2428cdf7"
     },
     "core.tar.gz": {
-      "bytes": 3078235,
-      "sha256": "728ef440fc34ab5c1b821814fae93408ee0b7384c5bad6959d274cb9ec5e5347"
+      "bytes": 8058671,
+      "sha256": "c562b41aada49a48736269e29c8f07487f07b7b15c2694d75356541562c7d92c"
     },
     "image/image.json": {
-      "bytes": 2381,
-      "sha256": "238f044f9d7cae018ea1f855dbe02ac01c5541b0cb74d80e578938bb1cc7cac8"
+      "bytes": 2699,
+      "sha256": "6aef933b1be240bb8bafdd5b9ff1ea95658f756396be492613545925e91b7668"
     },
     "image/image.tar.gz.part001": {
       "bytes": 29360128,
-      "sha256": "6ce8c3f37eaabb5f093449442b02138f2516d8ad47df5cdc4f0a64de5abff6a8"
+      "sha256": "734af3471933f370cbedc6235cf0154dd22f1dea6ce0991cb424044d0c618d87"
     },
     "image/image.tar.gz.part002": {
       "bytes": 29360128,
-      "sha256": "31ecf11d55cadc7fce93a93ed835d2395d6c63973d455dc2145577a442c0d169"
+      "sha256": "121eeefe26294a0a858e3294147cf50cf9fafc6d63b8634df307c6cb851fb1e1"
     },
     "image/image.tar.gz.part003": {
       "bytes": 29360128,
-      "sha256": "3035b3e9c13074ecfcc24564940c1e0adeb29bfb30326f0b722a916c79d7b745"
+      "sha256": "2c89f3d30bbde9f12a3e5761e8648ae8bb8616a883c933f13b2c94023b020850"
     },
     "image/image.tar.gz.part004": {
       "bytes": 29360128,
-      "sha256": "5abfc09bdd09105e7603641a8a45dcaffd69efed709e35b1946b59faf350c6b3"
+      "sha256": "a0ddf7f667dd2fa822ed25f02b271aa1749e43df04e98b5bdeb43a7266918380"
     },
     "image/image.tar.gz.part005": {
       "bytes": 29360128,
-      "sha256": "18dff735af502bd3bdcee4a4349ed30f24f261ef8eebe4a317bdfe5e791ca531"
+      "sha256": "b78f81e30ec2c8df3d83459493163e3b2800b5d6a49390113484f83c951706c0"
     },
     "image/image.tar.gz.part006": {
       "bytes": 29360128,
-      "sha256": "2d05e159f56472e87427942bf8988fe1658fee878ca1ca7b70668184f7676849"
+      "sha256": "037c2eadf708e23d8ecf66ac6a3fa773609f81eb47df08486a1a5559e63aad7d"
     },
     "image/image.tar.gz.part007": {
       "bytes": 29360128,
-      "sha256": "1dd294ffd433e1d05b1464faaa6f2f06131a5783c5fce307c787a265e171982e"
+      "sha256": "b6c4f80fef8a28e087ad076b48df0e55cd7bf6f5d08446cc30118e3ec5cf8c19"
     },
     "image/image.tar.gz.part008": {
       "bytes": 29360128,
-      "sha256": "e0b488cf471f7e0812c98bbff0db1903e232545aa9cd4fd97d6fdec45d8df0b3"
+      "sha256": "7437414ca4f6942880363f481683b50329b4a6c3e6443dea234c4f789a2115bb"
     },
     "image/image.tar.gz.part009": {
       "bytes": 29360128,
-      "sha256": "98bea7a965aa2b9e544500a6ef90ee021da3f617446eca1726c63676b32204f3"
+      "sha256": "051a8e0d7f9b5639603134922dfab4b2ca4dac679bed0b48283de8da92f83830"
     },
     "image/image.tar.gz.part010": {
       "bytes": 29360128,
-      "sha256": "40f16d407bb6830929ece729a941a639e94a4f6d675878871d94c72e80be3842"
+      "sha256": "32e5e449c7c888ee05065a10c8d6d780adb69b7144d4f6268a28e190641aeec0"
     },
     "image/image.tar.gz.part011": {
       "bytes": 29360128,
-      "sha256": "5d4ffb406a7e75aa31d891b11dfe1ecdf6fcdb713c6ee5e72bec49bfbb41f749"
+      "sha256": "cc6c6f02504d7c861e32a2f2ac80fd63b3f24e1c2a619990153417b992b29837"
     },
     "image/image.tar.gz.part012": {
-      "bytes": 8192618,
-      "sha256": "9275bd8b5f4844b1123de303be93c1be1a001be4f2f6fdc6bbd10413beaa84e3"
+      "bytes": 29360128,
+      "sha256": "52315699c17c99817a2e93e51f672a7c19ce564a9cc47f080ce9557a080a0708"
     },
-    "nana-space-4.0.0-debug.apk": {
-      "bytes": 4722261,
-      "sha256": "2e93d66138ec11f637fd2094fd291352ada0ddf225d4df6d0d8091fbc07751cc"
+    "image/image.tar.gz.part013": {
+      "bytes": 29360128,
+      "sha256": "57cd155dfd8033bdba9a7c11a223c7d60f282dab893bf5b4608cb929a2913811"
+    },
+    "image/image.tar.gz.part014": {
+      "bytes": 6171481,
+      "sha256": "d57f51f8e9db8e6cdd7480340fa135682894201bc6c4ea27017a20837570406f"
+    },
+    "nana-space-4.0.1-debug.apk": {
+      "bytes": 4728727,
+      "sha256": "7f8cb5c0e9ef76eca1169692f4f6acd706697182f229eb15d91e7abb4cf3e926"
     },
     "release.json": {
       "bytes": 601,
-      "sha256": "a04f3a9a1a428d1681989e259f79931c4ea6cc0aff819f0933f32676d0ff6c1f"
+      "sha256": "8b8a3aaf53ed82be846e762f6fe8295d5719bc6e7e83d9b80b0ea9cd104e9d1e"
     },
     "runtime-tree.json": {
-      "bytes": 2740013,
-      "sha256": "29560fd048b26b60d470be7c30cd944482efc7dd31208019f0daa835aa12217b"
+      "bytes": 1965942,
+      "sha256": "8de3ef31b8b533e56186aabfc8f675cc25cba88398018f303cca131760d1d750"
     },
     "tools/container_check.py": {
       "bytes": 3344,
       "sha256": "ef85235ce2332c35d8deadb103aecffdcde8e764e4664103fde5940c3b3d61e3"
     },
     "tools/deploy.py": {
-      "bytes": 7954,
-      "sha256": "52a2278bdeff204fcadf53e380f76b5ae97be82d3c24f96274bd7e75bd009add"
+      "bytes": 8072,
+      "sha256": "3ee000984044492c44d5283ff6a2f72c8acb06bf10349590c39b880a4c703623"
     },
     "tools/docker_api.py": {
       "bytes": 12407,
@@ -147,29 +181,33 @@
       "bytes": 6159,
       "sha256": "04643a79940ff8d2d78df30321a1269470c0cf2a51fa99597512699107881749"
     },
+    "tools/legacy_archive.py": {
+      "bytes": 5502,
+      "sha256": "658ee8cf501410864827e1c1915d4c8d25fd45d144263157d737b5b82c7e1022"
+    },
     "tools/operator_check.py": {
       "bytes": 4661,
       "sha256": "069afb26f3c556f28c3082bdf6be6b193aee30d63942028b033c471a925d6ac8"
     },
     "tools/operator_stage.py": {
-      "bytes": 6667,
-      "sha256": "f9c0d1f4d905d1639123c21ee478864a77e9d756b7631c86aa2179dea0d97683"
+      "bytes": 8122,
+      "sha256": "0e621a30f4a9385400f272b4056ac0cced40c35a64e0457c20072cbb0395e976"
     },
     "tools/patch_operator_flags.py": {
       "bytes": 2416,
       "sha256": "4cf8192c10f99f289f2145ba9a075b3a3facb5cfa2a767d1d099103ca6ae6af7"
     },
     "tools/proposal.py": {
-      "bytes": 3190,
-      "sha256": "ea8d8658d734ae0d5ac79d9c1839387313283b99a2d0f1f0c731db41f72d716a"
+      "bytes": 7956,
+      "sha256": "e3a31ee3e3f82dfa3aca60dc59c34e61e499e93ad5c876daae5b74f37575b6ce"
     },
     "tools/switch_release.py": {
       "bytes": 4424,
       "sha256": "940eea4b1572b792cb2f8865ab66206a6ab7ea1f9cfa1f0cd762b44ca1325a00"
     },
     "web.tar.gz": {
-      "bytes": 603620,
-      "sha256": "3e6b5c1b3904132dd7b9374fa89128d9c82e177823da973a9c9256577d4f6751"
+      "bytes": 606781,
+      "sha256": "8c8e50508fe95b213c80b241f86dd41049d641990e12d79836af170ca011d59a"
     }
   },
   "subject_data_included": false,

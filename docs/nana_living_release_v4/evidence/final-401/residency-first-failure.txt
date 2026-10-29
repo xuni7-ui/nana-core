@@ -1,0 +1,13 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/nana-unified-release/tools/nana_cloud_daily_life/qualification.py", line 107, in <module>
+    if __name__=='__main__':main()
+                            ^^^^^^
+  File "/workspace/nana-unified-release/tools/nana_cloud_daily_life/qualification.py", line 106, in main
+    r=run(a.root,a.repo,a.seconds);a.output.write_text(json.dumps(r,indent=2,ensure_ascii=False)+'\n');print(json.dumps({'residency_status':r['residency_status'],'seconds':r['actual_residency_seconds'],'effects':r['actual_external_effects'],'source_unchanged':r['selected_source_unchanged']}))
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/nana-unified-release/tools/nana_cloud_daily_life/qualification.py", line 84, in run
+    assert complete and len(final['actions'])==len(complete['actions'])==42 and len(final['goals'])==12
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

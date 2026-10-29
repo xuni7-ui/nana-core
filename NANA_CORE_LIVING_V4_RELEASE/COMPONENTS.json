@@ -1,0 +1,10 @@
+{
+  "runtime_source": "c8aa8c986219199d0d027ccce0791788516e9d85",
+  "ui_native_source": "af58490070cef26237bf81052d1939e5ce40ac46",
+  "ui_business_diff_af_to_runtime_pin": "NONE",
+  "apk_native_update_after_401_required": false,
+  "secret_fd_contract": 2,
+  "host_acceptance": "NOT_RUN",
+  "v4_accepted": false,
+  "private_data_or_credentials": false
+}

@@ -1690,3 +1690,8 @@ D-V4-FINAL-20261029：保持同一V4与唯一Subject；Provider配置/密钥均�
 ## 2026-10-29 — V4 final credential/version hardening
 
 D-V4-FD2：撤销/轮换必须让旧运行实例的后续选择失效，不能只删父进程key而允许重新启用profile复用旧凭据。匿名FD显式绑定宿主vault epoch/cipher digest；旧loader不降级为无守卫明文映射。旧二进制回滚须在停止健康Core前检查FD合同，空vault可离线兼容。
+
+
+## 2026-10-29 — V4 delivery checkpoint
+
+D-V4-DELIVERY-TRUTH：分别绑定运行源码c8、UI/Native源码af、实际安装6935项封条、不同测试源码和原失败。保留旧13/af精确归档与独立新SDK封条；兼容性不足先于停止健康服务拒绝，不修改旧审批、Store或历史资格。

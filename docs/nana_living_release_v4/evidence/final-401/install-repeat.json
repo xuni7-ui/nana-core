@@ -1,0 +1,26 @@
+{
+  "source_commit": "af58490070cef26237bf81052d1939e5ce40ac46",
+  "image_id": "sha256:43f08809b2a7d6c0111de60f4bea58c7b9a46c185fe1c27d0564ba0caf073021",
+  "target": "/dev/shm/nana-v4-installed-af584900/slots/af58490070cef26237bf81052d1939e5ce40ac46/runtime",
+  "target_context": "DOCKER_DAEMON_HOST_BIND",
+  "free_bytes": 3325644800,
+  "subject_opened": false,
+  "canonical_home_changed": false,
+  "services_changed": false,
+  "state": "READY_FOR_SWITCH",
+  "persistent_changes": 0,
+  "idempotent": true,
+  "mismatch_count": 0,
+  "mismatches": [],
+  "operator_exit_code": 0,
+  "daemon": {
+    "Version": "28.4.0",
+    "ApiVersion": "1.51",
+    "Os": "linux",
+    "Arch": "amd64"
+  },
+  "paid_provider_calls": 0,
+  "full_tree_metadata_and_content_digest_before": "34853e352f96561ae462b8229cf2fede3a0d1d734b4c49b97a8ea5702373ce91",
+  "full_tree_metadata_and_content_digest_after": "34853e352f96561ae462b8229cf2fede3a0d1d734b4c49b97a8ea5702373ce91",
+  "atime_excluded": true
+}

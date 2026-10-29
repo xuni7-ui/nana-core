@@ -1,0 +1,2171 @@
+{
+  "config": {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "/workspace/nana-unified-release/apps/nana-space/node_modules/.bin/playwright",
+      "test",
+      "--config",
+      "playwright.v3.config.ts"
+    ],
+    "configFile": "/workspace/nana-unified-release/apps/nana-space/playwright.v3.config.ts",
+    "rootDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/workspace/nana-unified-release/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "v3.spec.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/workspace/nana-unified-release/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "phone-360",
+        "name": "phone-360",
+        "testDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "v3.spec.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/workspace/nana-unified-release/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "phone-390",
+        "name": "phone-390",
+        "testDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "v3.spec.ts"
+        ],
+        "timeout": 30000
+      },
+      {
+        "outputDir": "/workspace/nana-unified-release/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "phone-412",
+        "name": "phone-412",
+        "testDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "v3.spec.ts"
+        ],
+        "timeout": 30000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/workspace/nana-unified-release/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "desktop",
+        "testDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "snapshotDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": "v3.spec.ts",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://127.0.0.1:14173",
+          "headless": true,
+          "launchOptions": {
+            "executablePath": "/usr/bin/chromium",
+            "args": [
+              "--no-sandbox",
+              "--disable-dev-shm-usage"
+            ]
+          },
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "desktop"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/workspace/nana-unified-release/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "phone-360",
+        "testDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "snapshotDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": "v3.spec.ts",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://127.0.0.1:14173",
+          "headless": true,
+          "launchOptions": {
+            "executablePath": "/usr/bin/chromium",
+            "args": [
+              "--no-sandbox",
+              "--disable-dev-shm-usage"
+            ]
+          },
+          "viewport": {
+            "width": 360,
+            "height": 844
+          },
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "phone-360"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/workspace/nana-unified-release/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "phone-390",
+        "testDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "snapshotDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": "v3.spec.ts",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://127.0.0.1:14173",
+          "headless": true,
+          "launchOptions": {
+            "executablePath": "/usr/bin/chromium",
+            "args": [
+              "--no-sandbox",
+              "--disable-dev-shm-usage"
+            ]
+          },
+          "viewport": {
+            "width": 390,
+            "height": 844
+          },
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "phone-390"
+      },
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/workspace/nana-unified-release/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "phone-412",
+        "testDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "snapshotDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": "v3.spec.ts",
+        "timeout": 30000,
+        "use": {
+          "baseURL": "http://127.0.0.1:14173",
+          "headless": true,
+          "launchOptions": {
+            "executablePath": "/usr/bin/chromium",
+            "args": [
+              "--no-sandbox",
+              "--disable-dev-shm-usage"
+            ]
+          },
+          "viewport": {
+            "width": 412,
+            "height": 844
+          },
+          "isMobile": true,
+          "hasTouch": true
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "phone-412"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/v3-report.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": {
+      "command": "npm run preview -- --host 127.0.0.1 --port 14173",
+      "url": "http://127.0.0.1:14173",
+      "reuseExistingServer": false
+    }
+  },
+  "suites": [
+    {
+      "title": "v3.spec.ts",
+      "file": "v3.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "SYNTHETIC HTTP: all V3 destinations reuse finite V2 views; responsive screenshots",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 3508,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:46:52.042Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-0695cbdf221a996a99a2",
+          "file": "v3.spec.ts",
+          "line": 290,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC HTTP: provider and memory drafts stay local; no fake write or paid test",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1326,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:46:56.174Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-deec30ac53309ba91adf",
+          "file": "v3.spec.ts",
+          "line": 345,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC HTTP: morning/midnight/system themes, reduced motion and navigation accessibility",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 978,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:46:57.514Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-2c4577f5bf89c9a79bed",
+          "file": "v3.spec.ts",
+          "line": 407,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC HTTP failure: UNKNOWN uses GET original receipt, never second POST",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5714,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.live-reply')\nExpected substring: \u001b[32m\"UNKNOWN\"\u001b[39m\nReceived string:    \u001b[31m\"这条消息的结果还不能确认。先核验原回执，不重复发送。 等待核验本次文字未加入长期共同经历核验这条回执\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.live-reply') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.live-reply')\u001b[22m\n\u001b[2m    14 × locator resolved to <div class=\"live-reply\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"这条消息的结果还不能确认。先核验原回执，不重复发送。 等待核验本次文字未加入长期共同经历核验这条回执\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.live-reply')\nExpected substring: \u001b[32m\"UNKNOWN\"\u001b[39m\nReceived string:    \u001b[31m\"这条消息的结果还不能确认。先核验原回执，不重复发送。 等待核验本次文字未加入长期共同经历核验这条回执\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.live-reply') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.live-reply')\u001b[22m\n\u001b[2m    14 × locator resolved to <div class=\"live-reply\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"这条消息的结果还不能确认。先核验原回执，不重复发送。 等待核验本次文字未加入长期共同经历核验这条回执\"\u001b[22m\n\n    at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:471:45",
+                    "location": {
+                      "file": "/workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts",
+                      "column": 45,
+                      "line": 471
+                    },
+                    "snippet": "  469 |     )\n  470 |     .toBe(1);\n> 471 |   await expect(page.locator(\".live-reply\")).toContainText(\"UNKNOWN\");\n      |                                             ^\n  472 |   expect(\n  473 |     state.requests.filter((x) => x.method === \"POST\" && x.path === \"messages\"),\n  474 |   ).toHaveLength(1);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts",
+                        "column": 45,
+                        "line": 471
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.live-reply')\nExpected substring: \u001b[32m\"UNKNOWN\"\u001b[39m\nReceived string:    \u001b[31m\"这条消息的结果还不能确认。先核验原回执，不重复发送。 等待核验本次文字未加入长期共同经历核验这条回执\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.live-reply') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.live-reply')\u001b[22m\n\u001b[2m    14 × locator resolved to <div class=\"live-reply\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"这条消息的结果还不能确认。先核验原回执，不重复发送。 等待核验本次文字未加入长期共同经历核验这条回执\"\u001b[22m\n\n\n  469 |     )\n  470 |     .toBe(1);\n> 471 |   await expect(page.locator(\".live-reply\")).toContainText(\"UNKNOWN\");\n      |                                             ^\n  472 |   expect(\n  473 |     state.requests.filter((x) => x.method === \"POST\" && x.path === \"messages\"),\n  474 |   ).toHaveLength(1);\n    at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:471:45"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:46:58.508Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/workspace/nana-unified-release/apps/nana-space/test-results/v3-SYNTHETIC-HTTP-failure--2c46d-l-receipt-never-second-POST-desktop/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts",
+                    "column": 45,
+                    "line": 471
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-a88841d8cbc83ff585a8",
+          "file": "v3.spec.ts",
+          "line": 449,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC lifecycle: privacy/run update clears bodies; late reply cannot revive; logout clears ephemeral state",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1566,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:04.689Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-baba3163ec7812f982fd",
+          "file": "v3.spec.ts",
+          "line": 480,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC race: delayed previous-page projection cannot appear on new destination",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 956,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:06.467Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-780e739d8449b2132799",
+          "file": "v3.spec.ts",
+          "line": 537,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC pairing race: late one-time offer stays cleared after leaving devices",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 836,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:07.443Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-485a90392bcc38ad08b5",
+          "file": "v3.spec.ts",
+          "line": 562,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC host race: logout while confirmation is pending prevents operation dispatch",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 855,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:08.290Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-77cb5884f0ba4d292d6c",
+          "file": "v3.spec.ts",
+          "line": 591,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC browser-only: 120 percent type, route history and native-back event preserve layout",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1195,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:09.164Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-50c25555c8691e3f7009",
+          "file": "v3.spec.ts",
+          "line": 626,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC living recovery: retained exchanges reopen and only original body-free pending receipts can be verified",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1685,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:10.375Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-f9675575ca85d9665978",
+          "file": "v3.spec.ts",
+          "line": 681,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC living privacy: a withdrawal between view and history clears transient bodies and drafts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 927,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:12.070Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-86c9b5822f8a92185dc1",
+          "file": "v3.spec.ts",
+          "line": 705,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC living boundaries: reader history stays gated, Bili coverage is honest, web vault remains read-only",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 908,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:13.005Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-d54cda08b97b00857aff",
+          "file": "v3.spec.ts",
+          "line": 721,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC shared presence: original candidates appear in room without being delivered or notified",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 1,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 839,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:13.925Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-9d46688f79f6b5a6e445",
+          "file": "v3.spec.ts",
+          "line": 741,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC HTTP: all V3 destinations reuse finite V2 views; responsive screenshots",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-360",
+              "projectName": "phone-360",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2042,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:15.185Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-40694f5a394a43e9e542",
+          "file": "v3.spec.ts",
+          "line": 290,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC HTTP: provider and memory drafts stay local; no fake write or paid test",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-360",
+              "projectName": "phone-360",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1198,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:17.440Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-8f1c42a092cfaac602d2",
+          "file": "v3.spec.ts",
+          "line": 345,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC HTTP: morning/midnight/system themes, reduced motion and navigation accessibility",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-360",
+              "projectName": "phone-360",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1036,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:18.655Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-ae4903c8ea02c1cbab92",
+          "file": "v3.spec.ts",
+          "line": 407,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC HTTP failure: UNKNOWN uses GET original receipt, never second POST",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-360",
+              "projectName": "phone-360",
+              "results": [
+                {
+                  "workerIndex": 2,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5874,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.live-reply')\nExpected substring: \u001b[32m\"UNKNOWN\"\u001b[39m\nReceived string:    \u001b[31m\"这条消息的结果还不能确认。先核验原回执，不重复发送。 等待核验本次文字未加入长期共同经历核验这条回执\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.live-reply') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.live-reply')\u001b[22m\n\u001b[2m    14 × locator resolved to <div class=\"live-reply\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"这条消息的结果还不能确认。先核验原回执，不重复发送。 等待核验本次文字未加入长期共同经历核验这条回执\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.live-reply')\nExpected substring: \u001b[32m\"UNKNOWN\"\u001b[39m\nReceived string:    \u001b[31m\"这条消息的结果还不能确认。先核验原回执，不重复发送。 等待核验本次文字未加入长期共同经历核验这条回执\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.live-reply') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.live-reply')\u001b[22m\n\u001b[2m    14 × locator resolved to <div class=\"live-reply\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"这条消息的结果还不能确认。先核验原回执，不重复发送。 等待核验本次文字未加入长期共同经历核验这条回执\"\u001b[22m\n\n    at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:471:45",
+                    "location": {
+                      "file": "/workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts",
+                      "column": 45,
+                      "line": 471
+                    },
+                    "snippet": "  469 |     )\n  470 |     .toBe(1);\n> 471 |   await expect(page.locator(\".live-reply\")).toContainText(\"UNKNOWN\");\n      |                                             ^\n  472 |   expect(\n  473 |     state.requests.filter((x) => x.method === \"POST\" && x.path === \"messages\"),\n  474 |   ).toHaveLength(1);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts",
+                        "column": 45,
+                        "line": 471
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.live-reply')\nExpected substring: \u001b[32m\"UNKNOWN\"\u001b[39m\nReceived string:    \u001b[31m\"这条消息的结果还不能确认。先核验原回执，不重复发送。 等待核验本次文字未加入长期共同经历核验这条回执\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.live-reply') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.live-reply')\u001b[22m\n\u001b[2m    14 × locator resolved to <div class=\"live-reply\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"这条消息的结果还不能确认。先核验原回执，不重复发送。 等待核验本次文字未加入长期共同经历核验这条回执\"\u001b[22m\n\n\n  469 |     )\n  470 |     .toBe(1);\n> 471 |   await expect(page.locator(\".live-reply\")).toContainText(\"UNKNOWN\");\n      |                                             ^\n  472 |   expect(\n  473 |     state.requests.filter((x) => x.method === \"POST\" && x.path === \"messages\"),\n  474 |   ).toHaveLength(1);\n    at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:471:45"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:19.712Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/workspace/nana-unified-release/apps/nana-space/test-results/v3-SYNTHETIC-HTTP-failure--2c46d-l-receipt-never-second-POST-phone-360/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts",
+                    "column": 45,
+                    "line": 471
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-d7332dab56529682994c",
+          "file": "v3.spec.ts",
+          "line": 449,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC lifecycle: privacy/run update clears bodies; late reply cannot revive; logout clears ephemeral state",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-360",
+              "projectName": "phone-360",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1679,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:26.014Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-35f0f7b2abaa0836374f",
+          "file": "v3.spec.ts",
+          "line": 480,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC race: delayed previous-page projection cannot appear on new destination",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-360",
+              "projectName": "phone-360",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 951,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:27.904Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-39e15e72991652d877d1",
+          "file": "v3.spec.ts",
+          "line": 537,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC pairing race: late one-time offer stays cleared after leaving devices",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-360",
+              "projectName": "phone-360",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 781,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:28.866Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-ab548c8ef1877c4c1663",
+          "file": "v3.spec.ts",
+          "line": 562,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC host race: logout while confirmation is pending prevents operation dispatch",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-360",
+              "projectName": "phone-360",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 961,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:29.669Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-12e23ee904c38dd48f9f",
+          "file": "v3.spec.ts",
+          "line": 591,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC browser-only: 120 percent type, route history and native-back event preserve layout",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-360",
+              "projectName": "phone-360",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1074,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:30.645Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-07892f474624ab46993c",
+          "file": "v3.spec.ts",
+          "line": 626,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC living recovery: retained exchanges reopen and only original body-free pending receipts can be verified",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-360",
+              "projectName": "phone-360",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1655,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:31.732Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-688968cf71e753e79af4",
+          "file": "v3.spec.ts",
+          "line": 681,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC living privacy: a withdrawal between view and history clears transient bodies and drafts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-360",
+              "projectName": "phone-360",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 908,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:33.395Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-b6f77f460c434f1938a8",
+          "file": "v3.spec.ts",
+          "line": 705,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC living boundaries: reader history stays gated, Bili coverage is honest, web vault remains read-only",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-360",
+              "projectName": "phone-360",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 858,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:34.314Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-9e9749acfdcfa6dd5b4a",
+          "file": "v3.spec.ts",
+          "line": 721,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC shared presence: original candidates appear in room without being delivered or notified",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-360",
+              "projectName": "phone-360",
+              "results": [
+                {
+                  "workerIndex": 3,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 746,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:35.182Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-d6ef159c3ae3f205cf85",
+          "file": "v3.spec.ts",
+          "line": 741,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC HTTP: all V3 destinations reuse finite V2 views; responsive screenshots",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-390",
+              "projectName": "phone-390",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2031,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:36.361Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-cc457c4e7efc015a292c",
+          "file": "v3.spec.ts",
+          "line": 290,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC HTTP: provider and memory drafts stay local; no fake write or paid test",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-390",
+              "projectName": "phone-390",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1276,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:38.603Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-44edb78ab164ebd2b1a2",
+          "file": "v3.spec.ts",
+          "line": 345,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC HTTP: morning/midnight/system themes, reduced motion and navigation accessibility",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-390",
+              "projectName": "phone-390",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 987,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:39.896Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-5ac80b6b1424e06b33be",
+          "file": "v3.spec.ts",
+          "line": 407,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC HTTP failure: UNKNOWN uses GET original receipt, never second POST",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-390",
+              "projectName": "phone-390",
+              "results": [
+                {
+                  "workerIndex": 4,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5857,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.live-reply')\nExpected substring: \u001b[32m\"UNKNOWN\"\u001b[39m\nReceived string:    \u001b[31m\"这条消息的结果还不能确认。先核验原回执，不重复发送。 等待核验本次文字未加入长期共同经历核验这条回执\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.live-reply') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.live-reply')\u001b[22m\n\u001b[2m    14 × locator resolved to <div class=\"live-reply\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"这条消息的结果还不能确认。先核验原回执，不重复发送。 等待核验本次文字未加入长期共同经历核验这条回执\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.live-reply')\nExpected substring: \u001b[32m\"UNKNOWN\"\u001b[39m\nReceived string:    \u001b[31m\"这条消息的结果还不能确认。先核验原回执，不重复发送。 等待核验本次文字未加入长期共同经历核验这条回执\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.live-reply') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.live-reply')\u001b[22m\n\u001b[2m    14 × locator resolved to <div class=\"live-reply\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"这条消息的结果还不能确认。先核验原回执，不重复发送。 等待核验本次文字未加入长期共同经历核验这条回执\"\u001b[22m\n\n    at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:471:45",
+                    "location": {
+                      "file": "/workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts",
+                      "column": 45,
+                      "line": 471
+                    },
+                    "snippet": "  469 |     )\n  470 |     .toBe(1);\n> 471 |   await expect(page.locator(\".live-reply\")).toContainText(\"UNKNOWN\");\n      |                                             ^\n  472 |   expect(\n  473 |     state.requests.filter((x) => x.method === \"POST\" && x.path === \"messages\"),\n  474 |   ).toHaveLength(1);"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts",
+                        "column": 45,
+                        "line": 471
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.live-reply')\nExpected substring: \u001b[32m\"UNKNOWN\"\u001b[39m\nReceived string:    \u001b[31m\"这条消息的结果还不能确认。先核验原回执，不重复发送。 等待核验本次文字未加入长期共同经历核验这条回执\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.live-reply') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.live-reply')\u001b[22m\n\u001b[2m    14 × locator resolved to <div class=\"live-reply\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"这条消息的结果还不能确认。先核验原回执，不重复发送。 等待核验本次文字未加入长期共同经历核验这条回执\"\u001b[22m\n\n\n  469 |     )\n  470 |     .toBe(1);\n> 471 |   await expect(page.locator(\".live-reply\")).toContainText(\"UNKNOWN\");\n      |                                             ^\n  472 |   expect(\n  473 |     state.requests.filter((x) => x.method === \"POST\" && x.path === \"messages\"),\n  474 |   ).toHaveLength(1);\n    at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:471:45"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:40.896Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/workspace/nana-unified-release/apps/nana-space/test-results/v3-SYNTHETIC-HTTP-failure--2c46d-l-receipt-never-second-POST-phone-390/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts",
+                    "column": 45,
+                    "line": 471
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-a18d0c540d6e3fa429a2",
+          "file": "v3.spec.ts",
+          "line": 449,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC lifecycle: privacy/run update clears bodies; late reply cannot revive; logout clears ephemeral state",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-390",
+              "projectName": "phone-390",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1707,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:47.174Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-8afe1751af1f2dea06b3",
+          "file": "v3.spec.ts",
+          "line": 480,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC race: delayed previous-page projection cannot appear on new destination",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-390",
+              "projectName": "phone-390",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 917,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:49.079Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-1cca8f0bd28724374ba8",
+          "file": "v3.spec.ts",
+          "line": 537,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC pairing race: late one-time offer stays cleared after leaving devices",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-390",
+              "projectName": "phone-390",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 878,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:50.007Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-7fc691eda7826aa41f74",
+          "file": "v3.spec.ts",
+          "line": 562,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC host race: logout while confirmation is pending prevents operation dispatch",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-390",
+              "projectName": "phone-390",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 908,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:50.898Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-24c87dd7feb8a0a8d011",
+          "file": "v3.spec.ts",
+          "line": 591,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC browser-only: 120 percent type, route history and native-back event preserve layout",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-390",
+              "projectName": "phone-390",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1255,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:51.820Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-e833de60946af637654d",
+          "file": "v3.spec.ts",
+          "line": 626,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC living recovery: retained exchanges reopen and only original body-free pending receipts can be verified",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-390",
+              "projectName": "phone-390",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1232,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:53.086Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-852565ec6df401e66c36",
+          "file": "v3.spec.ts",
+          "line": 681,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC living privacy: a withdrawal between view and history clears transient bodies and drafts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-390",
+              "projectName": "phone-390",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 958,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:54.333Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-b18629f329c207830835",
+          "file": "v3.spec.ts",
+          "line": 705,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC living boundaries: reader history stays gated, Bili coverage is honest, web vault remains read-only",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-390",
+              "projectName": "phone-390",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 780,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:55.303Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-e6265316c27314057001",
+          "file": "v3.spec.ts",
+          "line": 721,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC shared presence: original candidates appear in room without being delivered or notified",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-390",
+              "projectName": "phone-390",
+              "results": [
+                {
+                  "workerIndex": 5,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 819,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:56.090Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-1ca700b6b2a5ab34eb13",
+          "file": "v3.spec.ts",
+          "line": 741,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC HTTP: all V3 destinations reuse finite V2 views; responsive screenshots",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-412",
+              "projectName": "phone-412",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 2165,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:57.326Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-43fe6f84cf0a1328856c",
+          "file": "v3.spec.ts",
+          "line": 290,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC HTTP: provider and memory drafts stay local; no fake write or paid test",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-412",
+              "projectName": "phone-412",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1225,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:47:59.701Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-fed95c32dd132f68a392",
+          "file": "v3.spec.ts",
+          "line": 345,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC HTTP: morning/midnight/system themes, reduced motion and navigation accessibility",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-412",
+              "projectName": "phone-412",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1090,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:48:00.941Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-342f21bc5cee079c3b29",
+          "file": "v3.spec.ts",
+          "line": 407,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC HTTP failure: UNKNOWN uses GET original receipt, never second POST",
+          "ok": false,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-412",
+              "projectName": "phone-412",
+              "results": [
+                {
+                  "workerIndex": 6,
+                  "parallelIndex": 0,
+                  "status": "failed",
+                  "duration": 5953,
+                  "error": {
+                    "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.live-reply')\nExpected substring: \u001b[32m\"UNKNOWN\"\u001b[39m\nReceived string:    \u001b[31m\"这条消息的结果还不能确认。先核验原回执，不重复发送。 等待核验本次文字未加入长期共同经历核验这条回执\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.live-reply') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.live-reply')\u001b[22m\n\u001b[2m    14 × locator resolved to <div class=\"live-reply\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"这条消息的结果还不能确认。先核验原回执，不重复发送。 等待核验本次文字未加入长期共同经历核验这条回执\"\u001b[22m\n",
+                    "stack": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.live-reply')\nExpected substring: \u001b[32m\"UNKNOWN\"\u001b[39m\nReceived string:    \u001b[31m\"这条消息的结果还不能确认。先核验原回执，不重复发送。 等待核验本次文字未加入长期共同经历核验这条回执\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.live-reply') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.live-reply')\u001b[22m\n\u001b[2m    14 × locator resolved to <div class=\"live-reply\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"这条消息的结果还不能确认。先核验原回执，不重复发送。 等待核验本次文字未加入长期共同经历核验这条回执\"\u001b[22m\n\n    at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:471:45",
+                    "location": {
+                      "file": "/workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts",
+                      "column": 45,
+                      "line": 471
+                    },
+                    "snippet": "  469 |     )\n  470 |     .toBe(1);\n> 471 |   await expect(page.locator(\".live-reply\")).toContainText(\"等待核验\");\n      |                                             ^\n  472 |   await expect(page.locator(\".live-reply\")).toContainText(\"先核验原回执，不重复发送\");\n  473 |   expect(\n  474 |     state.requests.filter((x) => x.method === \"POST\" && x.path === \"messages\"),"
+                  },
+                  "errors": [
+                    {
+                      "location": {
+                        "file": "/workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts",
+                        "column": 45,
+                        "line": 471
+                      },
+                      "message": "Error: \u001b[2mexpect(\u001b[22m\u001b[31mlocator\u001b[39m\u001b[2m).\u001b[22mtoContainText\u001b[2m(\u001b[22m\u001b[32mexpected\u001b[39m\u001b[2m)\u001b[22m failed\n\nLocator: locator('.live-reply')\nExpected substring: \u001b[32m\"UNKNOWN\"\u001b[39m\nReceived string:    \u001b[31m\"这条消息的结果还不能确认。先核验原回执，不重复发送。 等待核验本次文字未加入长期共同经历核验这条回执\"\u001b[39m\nTimeout: 5000ms\n\nCall log:\n\u001b[2m  - Expect \"toContainText\" locator('.live-reply') with timeout 5000ms\u001b[22m\n\u001b[2m  - waiting for locator('.live-reply')\u001b[22m\n\u001b[2m    14 × locator resolved to <div class=\"live-reply\">…</div>\u001b[22m\n\u001b[2m       - unexpected value \"这条消息的结果还不能确认。先核验原回执，不重复发送。 等待核验本次文字未加入长期共同经历核验这条回执\"\u001b[22m\n\n\n  469 |     )\n  470 |     .toBe(1);\n> 471 |   await expect(page.locator(\".live-reply\")).toContainText(\"等待核验\");\n      |                                             ^\n  472 |   await expect(page.locator(\".live-reply\")).toContainText(\"先核验原回执，不重复发送\");\n  473 |   expect(\n  474 |     state.requests.filter((x) => x.method === \"POST\" && x.path === \"messages\"),\n    at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:471:45"
+                    }
+                  ],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:48:02.047Z",
+                  "annotations": [],
+                  "attachments": [
+                    {
+                      "name": "error-context",
+                      "contentType": "text/markdown",
+                      "path": "/workspace/nana-unified-release/apps/nana-space/test-results/v3-SYNTHETIC-HTTP-failure--2c46d-l-receipt-never-second-POST-phone-412/error-context.md"
+                    }
+                  ],
+                  "errorLocation": {
+                    "file": "/workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts",
+                    "column": 45,
+                    "line": 471
+                  }
+                }
+              ],
+              "status": "unexpected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-8f549f8fab179283d2dd",
+          "file": "v3.spec.ts",
+          "line": 449,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC lifecycle: privacy/run update clears bodies; late reply cannot revive; logout clears ephemeral state",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-412",
+              "projectName": "phone-412",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1657,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:48:08.409Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-744946b5ade2bafba5be",
+          "file": "v3.spec.ts",
+          "line": 480,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC race: delayed previous-page projection cannot appear on new destination",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-412",
+              "projectName": "phone-412",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 929,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:48:10.284Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-3d5f18d06f59423310b4",
+          "file": "v3.spec.ts",
+          "line": 537,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC pairing race: late one-time offer stays cleared after leaving devices",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-412",
+              "projectName": "phone-412",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 841,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:48:11.225Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-ddb42d72583293f1acc5",
+          "file": "v3.spec.ts",
+          "line": 562,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC host race: logout while confirmation is pending prevents operation dispatch",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-412",
+              "projectName": "phone-412",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 955,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:48:12.084Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-6f603a19e85ca841f9a2",
+          "file": "v3.spec.ts",
+          "line": 591,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC browser-only: 120 percent type, route history and native-back event preserve layout",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-412",
+              "projectName": "phone-412",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1192,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:48:13.053Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-9960f0b16336cd14ba1e",
+          "file": "v3.spec.ts",
+          "line": 626,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC living recovery: retained exchanges reopen and only original body-free pending receipts can be verified",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-412",
+              "projectName": "phone-412",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 1696,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:48:14.254Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-a795d15ae6d11b2b7b56",
+          "file": "v3.spec.ts",
+          "line": 681,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC living privacy: a withdrawal between view and history clears transient bodies and drafts",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-412",
+              "projectName": "phone-412",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 873,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:48:15.963Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-dd3a9a809269b4fdc9e6",
+          "file": "v3.spec.ts",
+          "line": 705,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC living boundaries: reader history stays gated, Bili coverage is honest, web vault remains read-only",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-412",
+              "projectName": "phone-412",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 764,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:48:16.843Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-f974e33442478de02a58",
+          "file": "v3.spec.ts",
+          "line": 721,
+          "column": 1
+        },
+        {
+          "title": "SYNTHETIC shared presence: original candidates appear in room without being delivered or notified",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 30000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "phone-412",
+              "projectName": "phone-412",
+              "results": [
+                {
+                  "workerIndex": 7,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 811,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-29T11:48:17.626Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "db0217481e7e2341cf40-500cb4d65f6c342f6d94",
+          "file": "v3.spec.ts",
+          "line": 741,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-29T11:46:51.106Z",
+    "duration": 87429.958,
+    "expected": 48,
+    "skipped": 0,
+    "unexpected": 4,
+    "flaky": 0
+  }
+}
