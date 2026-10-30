@@ -2840,3 +2840,7 @@ V4 delivery audit: repository build/ ignore rule omitted six explicitly reviewed
 
 ### V4 fresh-image build follow-up
 Initial d7 image build failed while installing compatible c8 SDK. Original archive integrity passed independently; current SDK and c8 install individually pass in diagnostic image. Bound build disk peak by installing/compacting each fresh SDK before the next. This changes only fresh image tooling, never a sealed deployed runtime; final image qualification remains pending. No unrelated regression rerun.
+
+
+### V4 actual build blocker resolved
+Confirmed initial ENOSPC in fresh SDK install; 983 rebuildable Gradle cache files copied/hash-verified to managed RAM cache, without moving Subject/private data. Superseded unused pre-final development image/cache released; final/base/current and prior full rollback ZIP remain. Matched f944e9e image607890d built; current private interpreter check asUID999 exits0, no Subject opened. Source/Pillow/Core hashes and original failures retained in platform-402 evidence. Full installation/recovery/export and explicit private frontend contract remain pending. No repeated business regression or production effects.

@@ -1,0 +1,20 @@
+{
+  "source_commit": "f944e9e69f871d760e3d5e63945c471de7ff5c13",
+  "base_image": "sha256:6581d9e0cb7e686511aa704f77546cae508fc2911792753ed3a9bd3bf3cdb18b",
+  "image_id": "sha256:607890d80824d0555a73c08c7a05633160904b2afba010a3411031b7f61ed93c",
+  "image_tag": "nana-first-life/living:v4-f944e9e69f87",
+  "core": {
+    "archive": "/dev/shm/nana-v4-build-incremental/core-first/nana-first-life-portable-v1.tar.gz",
+    "sha256": "c1dc4cb530cd4ecc7d051d8d587e5a8bc4ac816bde99e41d5344378b71c44bc3",
+    "source_commit": "f944e9e69f871d760e3d5e63945c471de7ff5c13",
+    "bundle_files": 275,
+    "new_provider_calls": 0
+  },
+  "core_repeat_sha256": "c1dc4cb530cd4ecc7d051d8d587e5a8bc4ac816bde99e41d5344378b71c44bc3",
+  "core_reproducible": true,
+  "web_sha256": "0671b7e90cc7ed73afa9a40d70d19e868104f8b3d790ffbd5e97d8820879f237",
+  "real_provider_calls": 0,
+  "formal_subject_created": false,
+  "build_log": "image-build-after-cache-relocation.log",
+  "qualification": "IMAGE_BUILT_NOT_INSTALLED_QUALIFIED"
+}

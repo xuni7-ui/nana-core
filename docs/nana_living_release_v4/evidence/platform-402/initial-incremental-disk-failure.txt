@@ -1,0 +1,134 @@
+#0 building with "default" instance using docker driver
+
+#1 [internal] load build definition from Dockerfile
+#1 transferring dockerfile: 2.33kB done
+#1 DONE 0.0s
+
+#2 resolve image config for docker-image://docker.io/docker/dockerfile:1
+#2 DONE 0.6s
+
+#3 docker-image://docker.io/docker/dockerfile:1@sha256:4edf897a3ffa55b89f906fc8cc78afdb3f1834cc9c7083565e611a8a7d5fe99e
+#3 CACHED
+
+#4 [internal] load metadata for docker.io/nana-first-life/unified:v3-3665
+#4 DONE 0.0s
+
+#5 [internal] load .dockerignore
+#5 transferring context: 2B done
+#5 DONE 0.0s
+
+#6 [stage-0 1/2] FROM docker.io/nana-first-life/unified:v3-3665
+#6 CACHED
+
+#7 [internal] load build context
+#7 transferring context: 34.81MB 0.1s done
+#7 DONE 0.1s
+
+#8 [stage-0 2/2] RUN --mount=type=bind,source=.,target=/build,readonly     umask 022  && cp /build/container_entry.py /usr/local/lib/nana/container_entry.py  && cp /build/loopback_relay.py /usr/local/lib/nana/loopback_relay.py  && python3 -I -B /build/unpack.py /build/compat-13.tar.gz --destination /opt/nana-core/runtime/core-releases/13ddd484156f8216dabd1d339f0bba696f801dab --sha256 728ef440fc34ab5c1b821814fae93408ee0b7384c5bad6959d274cb9ec5e5347  && python3 -I -B /build/unpack.py /build/compat-af.tar.gz --destination /opt/nana-core/runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46 --sha256 c091d70574911bb61bd401879300703df178f885ed7bc64cec2283247661acf3  && python3 -I -B /build/unpack.py /build/compat-c8.tar.gz --destination /opt/nana-core/runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85 --sha256 c562b41aada49a48736269e29c8f07487f07b7b15c2694d75356541562c7d92c  && chown -R 999:999 /opt/nana-core/runtime/core-releases/13ddd484156f8216dabd1d339f0bba696f801dab /opt/nana-core/runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46 /opt/nana-core/runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85  && python3 -I -B /build/install_compatible.py  && python3 -I -B /build/unpack.py /build/core.tar.gz --destination "/opt/nana-core/runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13" --sha256 "c1dc4cb530cd4ecc7d051d8d587e5a8bc4ac816bde99e41d5344378b71c44bc3"  && python3 -I -B /build/extract_web.py /build/web.tar.gz "0671b7e90cc7ed73afa9a40d70d19e868104f8b3d790ffbd5e97d8820879f237"  && chown -R 999:999 "/opt/nana-core/runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13"  && python3 -B -c "import os,subprocess;os.setgid(999);os.setuid(999);subprocess.run(['/opt/nana-core/runtime/bin/python3','-I','-B','/opt/nana-core/runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/bootstrap.py','install'],check=True)"  && python3 -I -B /build/compact_venv.py
+#8 1.943 /opt/nana-core/runtime/core-releases/13ddd484156f8216dabd1d339f0bba696f801dab
+#8 2.052 /opt/nana-core/runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46
+#8 2.150 /opt/nana-core/runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85
+#8 2.195 {'installing_compatible_source': '13ddd484156f8216dabd1d339f0bba696f801dab', 'free_bytes_before': 339873792}
+#8 4.954 WARNING: The directory '/root/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+#8 5.005 Looking in links: /opt/nana-core/runtime/core-releases/13ddd484156f8216dabd1d339f0bba696f801dab/wheelhouse
+#8 5.015 Processing ./runtime/core-releases/13ddd484156f8216dabd1d339f0bba696f801dab/wheelhouse/pydantic-2.13.4-py3-none-any.whl (from -r /opt/nana-core/runtime/core-releases/13ddd484156f8216dabd1d339f0bba696f801dab/requirements.lock (line 1))
+#8 5.025 Processing ./runtime/core-releases/13ddd484156f8216dabd1d339f0bba696f801dab/wheelhouse/pydantic_core-2.46.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (from -r /opt/nana-core/runtime/core-releases/13ddd484156f8216dabd1d339f0bba696f801dab/requirements.lock (line 2))
+#8 5.032 Processing ./runtime/core-releases/13ddd484156f8216dabd1d339f0bba696f801dab/wheelhouse/annotated_types-0.8.0-py3-none-any.whl (from -r /opt/nana-core/runtime/core-releases/13ddd484156f8216dabd1d339f0bba696f801dab/requirements.lock (line 3))
+#8 5.034 Processing ./runtime/core-releases/13ddd484156f8216dabd1d339f0bba696f801dab/wheelhouse/typing_extensions-4.16.0-py3-none-any.whl (from -r /opt/nana-core/runtime/core-releases/13ddd484156f8216dabd1d339f0bba696f801dab/requirements.lock (line 4))
+#8 5.036 Processing ./runtime/core-releases/13ddd484156f8216dabd1d339f0bba696f801dab/wheelhouse/typing_inspection-0.4.3-py3-none-any.whl (from -r /opt/nana-core/runtime/core-releases/13ddd484156f8216dabd1d339f0bba696f801dab/requirements.lock (line 5))
+#8 5.049 Installing collected packages: typing-extensions, annotated-types, typing-inspection, pydantic-core, pydantic
+#8 5.365 Successfully installed annotated-types-0.8.0 pydantic-2.13.4 pydantic-core-2.46.4 typing-extensions-4.16.0 typing-inspection-0.4.3
+#8 5.551 WARNING: The directory '/root/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+#8 5.569 No broken requirements found.
+#8 5.593 {"state": "INSTALLED_OFFLINE", "network_requests": 0, "actual_interpreter": {"python": [3, 12], "sqlite": {"supported": true, "version": "3.51.3", "minimum": "3.51.3", "checks": {"version": true, "json": true, "fts5": true}, "code": "SUPPORTED", "reason": null}, "native": {"supported": true, "missing": [], "code": "SUPPORTED"}, "venv": true, "prefix": "/opt/nana-core/runtime/core-releases/13ddd484156f8216dabd1d339f0bba696f801dab/.venv"}}
+#8 5.714 {'installing_compatible_source': 'af58490070cef26237bf81052d1939e5ce40ac46', 'free_bytes_before': 293203968}
+#8 8.339 WARNING: The directory '/root/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+#8 8.375 Looking in links: /opt/nana-core/runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46/wheelhouse
+#8 8.382 Processing ./runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46/wheelhouse/pydantic-2.13.4-py3-none-any.whl (from -r /opt/nana-core/runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46/requirements.lock (line 1))
+#8 8.388 Processing ./runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46/wheelhouse/pydantic_core-2.46.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (from -r /opt/nana-core/runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46/requirements.lock (line 2))
+#8 8.394 Processing ./runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46/wheelhouse/annotated_types-0.8.0-py3-none-any.whl (from -r /opt/nana-core/runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46/requirements.lock (line 3))
+#8 8.396 Processing ./runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46/wheelhouse/typing_extensions-4.16.0-py3-none-any.whl (from -r /opt/nana-core/runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46/requirements.lock (line 4))
+#8 8.397 Processing ./runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46/wheelhouse/typing_inspection-0.4.3-py3-none-any.whl (from -r /opt/nana-core/runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46/requirements.lock (line 5))
+#8 8.399 Processing ./runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46/wheelhouse/cryptography-50.0.0-cp311-abi3-manylinux_2_34_x86_64.whl (from -r /opt/nana-core/runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46/requirements.lock (line 6))
+#8 8.408 Processing ./runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46/wheelhouse/cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (from -r /opt/nana-core/runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46/requirements.lock (line 7))
+#8 8.410 Processing ./runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46/wheelhouse/pycparser-3.0-py3-none-any.whl (from -r /opt/nana-core/runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46/requirements.lock (line 8))
+#8 8.427 Installing collected packages: typing-extensions, pycparser, annotated-types, typing-inspection, pydantic-core, cffi, pydantic, cryptography
+#8 9.002 Successfully installed annotated-types-0.8.0 cffi-2.1.1 cryptography-50.0.0 pycparser-3.0 pydantic-2.13.4 pydantic-core-2.46.4 typing-extensions-4.16.0 typing-inspection-0.4.3
+#8 9.189 WARNING: The directory '/root/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+#8 9.209 No broken requirements found.
+#8 9.233 {"state": "INSTALLED_OFFLINE", "network_requests": 0, "actual_interpreter": {"python": [3, 12], "sqlite": {"supported": true, "version": "3.51.3", "minimum": "3.51.3", "checks": {"version": true, "json": true, "fts5": true}, "code": "SUPPORTED", "reason": null}, "native": {"supported": true, "missing": [], "code": "SUPPORTED"}, "venv": true, "prefix": "/opt/nana-core/runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46/.venv"}}
+#8 9.346 {'installing_compatible_source': 'c8aa8c986219199d0d027ccce0791788516e9d85', 'free_bytes_before': 230100992}
+#8 11.64 WARNING: The directory '/root/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+#8 11.67 Looking in links: /opt/nana-core/runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85/wheelhouse
+#8 11.68 Processing ./runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85/wheelhouse/pydantic-2.13.4-py3-none-any.whl (from -r /opt/nana-core/runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85/requirements.lock (line 1))
+#8 11.68 Processing ./runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85/wheelhouse/pydantic_core-2.46.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (from -r /opt/nana-core/runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85/requirements.lock (line 2))
+#8 11.69 Processing ./runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85/wheelhouse/annotated_types-0.8.0-py3-none-any.whl (from -r /opt/nana-core/runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85/requirements.lock (line 3))
+#8 11.69 Processing ./runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85/wheelhouse/typing_extensions-4.16.0-py3-none-any.whl (from -r /opt/nana-core/runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85/requirements.lock (line 4))
+#8 11.69 Processing ./runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85/wheelhouse/typing_inspection-0.4.3-py3-none-any.whl (from -r /opt/nana-core/runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85/requirements.lock (line 5))
+#8 11.69 Processing ./runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85/wheelhouse/cryptography-50.0.0-cp311-abi3-manylinux_2_34_x86_64.whl (from -r /opt/nana-core/runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85/requirements.lock (line 6))
+#8 11.70 Processing ./runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85/wheelhouse/cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (from -r /opt/nana-core/runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85/requirements.lock (line 7))
+#8 11.71 Processing ./runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85/wheelhouse/pycparser-3.0-py3-none-any.whl (from -r /opt/nana-core/runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85/requirements.lock (line 8))
+#8 11.72 Installing collected packages: typing-extensions, pycparser, annotated-types, typing-inspection, pydantic-core, cffi, pydantic, cryptography
+#8 12.27 Successfully installed annotated-types-0.8.0 cffi-2.1.1 cryptography-50.0.0 pycparser-3.0 pydantic-2.13.4 pydantic-core-2.46.4 typing-extensions-4.16.0 typing-inspection-0.4.3
+#8 12.46 WARNING: The directory '/root/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+#8 12.48 No broken requirements found.
+#8 12.51 {"state": "INSTALLED_OFFLINE", "network_requests": 0, "actual_interpreter": {"python": [3, 12], "sqlite": {"supported": true, "version": "3.51.3", "minimum": "3.51.3", "checks": {"version": true, "json": true, "fts5": true}, "code": "SUPPORTED", "reason": null}, "native": {"supported": true, "missing": [], "code": "SUPPORTED"}, "venv": true, "prefix": "/opt/nana-core/runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85/.venv"}}
+#8 12.74 /opt/nana-core/runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13
+#8 12.77 {"web_sha256": "0671b7e90cc7ed73afa9a40d70d19e868104f8b3d790ffbd5e97d8820879f237", "path": "/opt/nana-core/runtime/web-releases/0671b7e90cc7ed73afa9a40d70d19e868104f8b3d790ffbd5e97d8820879f237", "members": 41, "subject_created": false}
+#8 15.24 WARNING: The directory '/root/.cache/pip' or its parent directory is not owned or is not writable by the current user. The cache has been disabled. Check the permissions and owner of that directory. If executing pip with sudo, you should use sudo's -H flag.
+#8 15.28 Looking in links: /opt/nana-core/runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/wheelhouse
+#8 15.29 Processing ./runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/wheelhouse/pydantic-2.13.4-py3-none-any.whl (from -r /opt/nana-core/runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/requirements.lock (line 1))
+#8 15.29 Processing ./runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/wheelhouse/pydantic_core-2.46.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (from -r /opt/nana-core/runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/requirements.lock (line 2))
+#8 15.30 Processing ./runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/wheelhouse/annotated_types-0.8.0-py3-none-any.whl (from -r /opt/nana-core/runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/requirements.lock (line 3))
+#8 15.30 Processing ./runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/wheelhouse/typing_extensions-4.16.0-py3-none-any.whl (from -r /opt/nana-core/runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/requirements.lock (line 4))
+#8 15.30 Processing ./runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/wheelhouse/typing_inspection-0.4.3-py3-none-any.whl (from -r /opt/nana-core/runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/requirements.lock (line 5))
+#8 15.31 Processing ./runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/wheelhouse/cryptography-50.0.0-cp311-abi3-manylinux_2_34_x86_64.whl (from -r /opt/nana-core/runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/requirements.lock (line 6))
+#8 15.32 Processing ./runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/wheelhouse/cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (from -r /opt/nana-core/runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/requirements.lock (line 7))
+#8 15.32 Processing ./runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/wheelhouse/pycparser-3.0-py3-none-any.whl (from -r /opt/nana-core/runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/requirements.lock (line 8))
+#8 15.32 Processing ./runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/wheelhouse/pillow-12.3.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (from -r /opt/nana-core/runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/requirements.lock (line 9))
+#8 15.35 Installing collected packages: typing-extensions, pycparser, pillow, annotated-types, typing-inspection, pydantic-core, cffi, pydantic, cryptography
+#8 16.09 ERROR: Could not install packages due to an OSError: [Errno 28] No space left on device: '/opt/nana-core/runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/.venv/lib/python3.12/site-packages/cryptography/hazmat/bindings/_rust'
+#8 16.09 
+#8 16.13 {"state": "START_BLOCKED", "code": "BUNDLE_INTEGRITY_OR_INSTALL_FAILED"}
+#8 16.14 Traceback (most recent call last):
+#8 16.14   File "<string>", line 1, in <module>
+#8 16.14     import os,subprocess;os.setgid(999);os.setuid(999);subprocess.run(['/opt/nana-core/runtime/bin/python3','-I','-B','/opt/nana-core/runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/bootstrap.py','install'],check=True)
+#8 16.14                                                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+#8 16.14   File "/usr/lib/python3.13/subprocess.py", line 577, in run
+#8 16.14     raise CalledProcessError(retcode, process.args,
+#8 16.14                              output=stdout, stderr=stderr)
+#8 16.14 subprocess.CalledProcessError: Command '['/opt/nana-core/runtime/bin/python3', '-I', '-B', '/opt/nana-core/runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/bootstrap.py', 'install']' returned non-zero exit status 2.
+#8 ERROR: process "/bin/sh -c umask 022  && cp /build/container_entry.py /usr/local/lib/nana/container_entry.py  && cp /build/loopback_relay.py /usr/local/lib/nana/loopback_relay.py  && python3 -I -B /build/unpack.py /build/compat-13.tar.gz --destination /opt/nana-core/runtime/core-releases/13ddd484156f8216dabd1d339f0bba696f801dab --sha256 728ef440fc34ab5c1b821814fae93408ee0b7384c5bad6959d274cb9ec5e5347  && python3 -I -B /build/unpack.py /build/compat-af.tar.gz --destination /opt/nana-core/runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46 --sha256 c091d70574911bb61bd401879300703df178f885ed7bc64cec2283247661acf3  && python3 -I -B /build/unpack.py /build/compat-c8.tar.gz --destination /opt/nana-core/runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85 --sha256 c562b41aada49a48736269e29c8f07487f07b7b15c2694d75356541562c7d92c  && chown -R 999:999 /opt/nana-core/runtime/core-releases/13ddd484156f8216dabd1d339f0bba696f801dab /opt/nana-core/runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46 /opt/nana-core/runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85  && python3 -I -B /build/install_compatible.py  && python3 -I -B /build/unpack.py /build/core.tar.gz --destination \"/opt/nana-core/runtime/core-releases/$CORE_SOURCE_COMMIT\" --sha256 \"$CORE_SHA256\"  && python3 -I -B /build/extract_web.py /build/web.tar.gz \"$WEB_SHA256\"  && chown -R 999:999 \"/opt/nana-core/runtime/core-releases/$CORE_SOURCE_COMMIT\"  && python3 -B -c \"import os,subprocess;os.setgid(999);os.setuid(999);subprocess.run(['/opt/nana-core/runtime/bin/python3','-I','-B','/opt/nana-core/runtime/core-releases/$CORE_SOURCE_COMMIT/bootstrap.py','install'],check=True)\"  && python3 -I -B /build/compact_venv.py" did not complete successfully: exit code: 1
+------
+ > [stage-0 2/2] RUN --mount=type=bind,source=.,target=/build,readonly     umask 022  && cp /build/container_entry.py /usr/local/lib/nana/container_entry.py  && cp /build/loopback_relay.py /usr/local/lib/nana/loopback_relay.py  && python3 -I -B /build/unpack.py /build/compat-13.tar.gz --destination /opt/nana-core/runtime/core-releases/13ddd484156f8216dabd1d339f0bba696f801dab --sha256 728ef440fc34ab5c1b821814fae93408ee0b7384c5bad6959d274cb9ec5e5347  && python3 -I -B /build/unpack.py /build/compat-af.tar.gz --destination /opt/nana-core/runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46 --sha256 c091d70574911bb61bd401879300703df178f885ed7bc64cec2283247661acf3  && python3 -I -B /build/unpack.py /build/compat-c8.tar.gz --destination /opt/nana-core/runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85 --sha256 c562b41aada49a48736269e29c8f07487f07b7b15c2694d75356541562c7d92c  && chown -R 999:999 /opt/nana-core/runtime/core-releases/13ddd484156f8216dabd1d339f0bba696f801dab /opt/nana-core/runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46 /opt/nana-core/runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85  && python3 -I -B /build/install_compatible.py  && python3 -I -B /build/unpack.py /build/core.tar.gz --destination "/opt/nana-core/runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13" --sha256 "c1dc4cb530cd4ecc7d051d8d587e5a8bc4ac816bde99e41d5344378b71c44bc3"  && python3 -I -B /build/extract_web.py /build/web.tar.gz "0671b7e90cc7ed73afa9a40d70d19e868104f8b3d790ffbd5e97d8820879f237"  && chown -R 999:999 "/opt/nana-core/runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13"  && python3 -B -c "import os,subprocess;os.setgid(999);os.setuid(999);subprocess.run(['/opt/nana-core/runtime/bin/python3','-I','-B','/opt/nana-core/runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/bootstrap.py','install'],check=True)"  && python3 -I -B /build/compact_venv.py:
+16.09 
+16.13 {"state": "START_BLOCKED", "code": "BUNDLE_INTEGRITY_OR_INSTALL_FAILED"}
+16.14 Traceback (most recent call last):
+16.14   File "<string>", line 1, in <module>
+16.14     import os,subprocess;os.setgid(999);os.setuid(999);subprocess.run(['/opt/nana-core/runtime/bin/python3','-I','-B','/opt/nana-core/runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/bootstrap.py','install'],check=True)
+16.14                                                        ~~~~~~~~~~~~~~^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+16.14   File "/usr/lib/python3.13/subprocess.py", line 577, in run
+16.14     raise CalledProcessError(retcode, process.args,
+16.14                              output=stdout, stderr=stderr)
+16.14 subprocess.CalledProcessError: Command '['/opt/nana-core/runtime/bin/python3', '-I', '-B', '/opt/nana-core/runtime/core-releases/f944e9e69f871d760e3d5e63945c471de7ff5c13/bootstrap.py', 'install']' returned non-zero exit status 2.
+------
+Dockerfile:11
+--------------------
+  10 |     # One offline layer avoids retaining copied archives in the delivered image.
+  11 | >>> RUN --mount=type=bind,source=.,target=/build,readonly \
+  12 | >>>     umask 022 \
+  13 | >>>  && cp /build/container_entry.py /usr/local/lib/nana/container_entry.py \
+  14 | >>>  && cp /build/loopback_relay.py /usr/local/lib/nana/loopback_relay.py \
+  15 | >>>  && python3 -I -B /build/unpack.py /build/compat-13.tar.gz --destination /opt/nana-core/runtime/core-releases/13ddd484156f8216dabd1d339f0bba696f801dab --sha256 728ef440fc34ab5c1b821814fae93408ee0b7384c5bad6959d274cb9ec5e5347 \
+  16 | >>>  && python3 -I -B /build/unpack.py /build/compat-af.tar.gz --destination /opt/nana-core/runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46 --sha256 c091d70574911bb61bd401879300703df178f885ed7bc64cec2283247661acf3 \
+  17 | >>>  && python3 -I -B /build/unpack.py /build/compat-c8.tar.gz --destination /opt/nana-core/runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85 --sha256 c562b41aada49a48736269e29c8f07487f07b7b15c2694d75356541562c7d92c \
+  18 | >>>  && chown -R 999:999 /opt/nana-core/runtime/core-releases/13ddd484156f8216dabd1d339f0bba696f801dab /opt/nana-core/runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46 /opt/nana-core/runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85 \
+  19 | >>>  && python3 -I -B /build/install_compatible.py \
+  20 | >>>  && python3 -I -B /build/unpack.py /build/core.tar.gz --destination "/opt/nana-core/runtime/core-releases/$CORE_SOURCE_COMMIT" --sha256 "$CORE_SHA256" \
+  21 | >>>  && python3 -I -B /build/extract_web.py /build/web.tar.gz "$WEB_SHA256" \
+  22 | >>>  && chown -R 999:999 "/opt/nana-core/runtime/core-releases/$CORE_SOURCE_COMMIT" \
+  23 | >>>  && python3 -B -c "import os,subprocess;os.setgid(999);os.setuid(999);subprocess.run(['/opt/nana-core/runtime/bin/python3','-I','-B','/opt/nana-core/runtime/core-releases/$CORE_SOURCE_COMMIT/bootstrap.py','install'],check=True)" \
+  24 | >>>  && python3 -I -B /build/compact_venv.py
+  25 |     ENV NANA_CORE_RELEASE=/opt/nana-core/runtime/core-releases/${CORE_SOURCE_COMMIT}
+--------------------
+ERROR: failed to build: failed to solve: process "/bin/sh -c umask 022  && cp /build/container_entry.py /usr/local/lib/nana/container_entry.py  && cp /build/loopback_relay.py /usr/local/lib/nana/loopback_relay.py  && python3 -I -B /build/unpack.py /build/compat-13.tar.gz --destination /opt/nana-core/runtime/core-releases/13ddd484156f8216dabd1d339f0bba696f801dab --sha256 728ef440fc34ab5c1b821814fae93408ee0b7384c5bad6959d274cb9ec5e5347  && python3 -I -B /build/unpack.py /build/compat-af.tar.gz --destination /opt/nana-core/runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46 --sha256 c091d70574911bb61bd401879300703df178f885ed7bc64cec2283247661acf3  && python3 -I -B /build/unpack.py /build/compat-c8.tar.gz --destination /opt/nana-core/runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85 --sha256 c562b41aada49a48736269e29c8f07487f07b7b15c2694d75356541562c7d92c  && chown -R 999:999 /opt/nana-core/runtime/core-releases/13ddd484156f8216dabd1d339f0bba696f801dab /opt/nana-core/runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46 /opt/nana-core/runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85  && python3 -I -B /build/install_compatible.py  && python3 -I -B /build/unpack.py /build/core.tar.gz --destination \"/opt/nana-core/runtime/core-releases/$CORE_SOURCE_COMMIT\" --sha256 \"$CORE_SHA256\"  && python3 -I -B /build/extract_web.py /build/web.tar.gz \"$WEB_SHA256\"  && chown -R 999:999 \"/opt/nana-core/runtime/core-releases/$CORE_SOURCE_COMMIT\"  && python3 -B -c \"import os,subprocess;os.setgid(999);os.setuid(999);subprocess.run(['/opt/nana-core/runtime/bin/python3','-I','-B','/opt/nana-core/runtime/core-releases/$CORE_SOURCE_COMMIT/bootstrap.py','install'],check=True)\"  && python3 -I -B /build/compact_venv.py" did not complete successfully: exit code: 1
