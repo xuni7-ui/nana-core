@@ -22,6 +22,7 @@ class Role(StrEnum):
     CONVERSATION = "CONVERSATION"
     MANAGER = "MANAGER"
     HOST_ADMIN = "HOST_ADMIN"
+    PRIVATE_CONTEXT = "PRIVATE_CONTEXT"  # Explicit device scope, never a Core Grant.
 
 
 class Page(StrEnum):
@@ -54,7 +55,7 @@ class Binding(DTO):
     realm: Realm = Realm.DEVELOPMENT
     scope: str = Field(default="project-work", min_length=1, max_length=96)
     entity_id: str = Field(default="project-user", min_length=1, max_length=96)
-    privacy: tuple[Literal["PUBLIC", "PROJECT"], ...] = ("PUBLIC", "PROJECT")
+    privacy: tuple[Literal["PUBLIC", "PROJECT", "PERSONAL"], ...] = ("PUBLIC", "PROJECT")
     surface_binding_id: str = Field(default="nana.space", min_length=1, max_length=96)
 
     @model_validator(mode="after")
@@ -75,7 +76,7 @@ class Envelope(DTO):
     as_of_us: int = Field(ge=0)
     revision: int = Field(ge=0)
     coverage: Literal["CURRENT", "NO_DATA", "BLOCKED_SCOPE", "UNKNOWN", "UNAVAILABLE", "STALE"]
-    privacy_scope: tuple[Literal["PUBLIC", "PROJECT"], ...]
+    privacy_scope: tuple[Literal["PUBLIC", "PROJECT", "PERSONAL"], ...]
     source_refs: tuple[str, ...] = ()
     capabilities: dict[str, bool | str]
     execution_authority: Literal[False] = False
@@ -111,7 +112,7 @@ class MessageRequest(WriteRequest):
     text: str = Field(min_length=1, max_length=2048, repr=False)
     topic: str = Field(default="daily", pattern=r"^[a-z][a-z0-9._-]{0,63}$")
     thread_id: str = Field(default="daily", pattern=r"^[A-Za-z0-9._:-]{1,96}$")
-    privacy_class: Literal["PUBLIC", "PROJECT"] = "PROJECT"
+    privacy_class: Literal["PUBLIC", "PROJECT", "PERSONAL"] = "PROJECT"
     require_model: bool = False  # Additive: old v2 clients retain offline review.
     retain_shared_life: bool = False  # Explicit per-message consent, original Person-Self path.
 

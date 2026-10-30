@@ -1,0 +1,14 @@
+
+> @nana/space@4.0.2 test
+> vitest run --config vitest.config.ts --reporter=dot
+
+
+ RUN  v3.2.7 /workspace/nana-unified-release/apps/nana-space
+
+························································
+
+ Test Files  8 passed (8)
+      Tests  56 passed (56)
+   Start at  06:06:01
+   Duration  2.88s (transform 206ms, setup 0ms, collect 278ms, tests 1.50s, environment 1ms, prepare 341ms)
+

@@ -129,7 +129,7 @@ export function envelope(
     throw new V2Error("INVALID_ENVELOPE");
   if (
     !Array.isArray(row.privacy_scope) ||
-    row.privacy_scope.some((x) => !["PUBLIC", "PROJECT"].includes(String(x)))
+    row.privacy_scope.some((x) => !["PUBLIC", "PROJECT", "PERSONAL"].includes(String(x)))
   )
     throw new V2Error("SCOPE_DENIED");
   object(row.data);

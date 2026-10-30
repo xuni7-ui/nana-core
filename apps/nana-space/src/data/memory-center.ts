@@ -38,11 +38,11 @@ const strings = (value: unknown) =>
 export function normalizeMemoryText(text: string) {
   return text.normalize("NFKC").replace(/\s+/g, " ").trim().toLocaleLowerCase();
 }
-export function memoryCards(rows: Record<string, unknown>[]): MemoryCard[] {
+export function memoryCards(rows: Record<string, unknown>[], privacyScope: readonly string[] = ["PUBLIC", "PROJECT"]): MemoryCard[] {
   const seen = new Set<string>();
   return rows.slice(0, 32).flatMap((row): MemoryCard[] => {
-    // v2 is PUBLIC/PROJECT-only. A malformed row cannot expand envelope scope.
-    if (!["PUBLIC", "PROJECT"].includes(String(row.privacy_class))) return [];
+    // PERSONAL requires the authenticated envelope scope; SECRET stays denied.
+    if (!["PUBLIC", "PROJECT", "PERSONAL"].includes(String(row.privacy_class)) || !privacyScope.includes(String(row.privacy_class))) return [];
     const id = ownString(row.memory_id, 192);
     if (!id || seen.has(id)) return [];
     seen.add(id);

@@ -12,7 +12,7 @@ from ..contracts import CoreError
 
 
 def history(app, *, privacy, scope=None, entity_id=None):
-    permitted = tuple(p for p in privacy if p in app.policy.readable_privacy and p in {"PUBLIC", "PROJECT"})
+    permitted = tuple(p for p in privacy if p in app.policy.readable_privacy and p in {"PUBLIC", "PROJECT", "PERSONAL"})
     store = app.runtime.store
     records = RecordService(store)
     items, size, omitted = [], 0, 0

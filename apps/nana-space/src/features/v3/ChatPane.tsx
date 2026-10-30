@@ -43,11 +43,16 @@ export function ChatPane({
   readiness,
   configure,
   canRemember = false,
+  canUsePersonal = false,
+  personal = false,
+  onPersonal,
+  remember = false,
+  onRemember,
 }: {
   turns: Turn[];
   draft: string;
   onDraft: (s: string) => void;
-  send: (remember?: boolean) => void;
+  send: (remember?: boolean, privacy?: "PROJECT" | "PERSONAL") => void;
   verify: (id: string) => void;
   busy: boolean;
   allowed: boolean;
@@ -55,6 +60,11 @@ export function ChatPane({
   readiness?: string;
   configure?: () => void;
   canRemember?: boolean;
+  canUsePersonal?: boolean;
+  personal?: boolean;
+  onPersonal?: (personal: boolean) => void;
+  remember?: boolean;
+  onRemember?: (remember: boolean) => void;
 }) {
   const end = useRef<HTMLDivElement>(null),
     log = useRef<HTMLDivElement>(null);
@@ -67,7 +77,7 @@ export function ChatPane({
   }>();
   const file = useRef<HTMLInputElement>(null),
     image = useRef<HTMLInputElement>(null);
-  const [remember, setRemember] = useState(false);
+  const scopeAllowed = !personal || canUsePersonal;
   const [voiceBusy, setVoiceBusy] = useState(false);
   const [waitingSeconds, setWaitingSeconds] = useState(0);
   const pending = [...turns].reverse().find(t => t.state === "REQUESTED");
@@ -297,8 +307,9 @@ export function ChatPane({
           className="live-composer v3-composer"
           onSubmit={(e) => {
             e.preventDefault();
-            send(remember);
-            setRemember(false);
+            if (!scopeAllowed) return;
+            send(remember, personal ? "PERSONAL" : "PROJECT");
+            onRemember?.(false);
           }}
         >
           <textarea
@@ -323,8 +334,9 @@ export function ChatPane({
                 !composing.current
               ) {
                 e.preventDefault();
-                send(remember);
-                setRemember(false);
+                if (!scopeAllowed) return;
+                send(remember, personal ? "PERSONAL" : "PROJECT");
+                onRemember?.(false);
               }
             }}
           />
@@ -358,19 +370,24 @@ export function ChatPane({
             <button
               className="v3-send"
               aria-label="发送"
-              disabled={busy || !allowed || !draft.trim()}
+              disabled={busy || !allowed || !scopeAllowed || !draft.trim()}
             >
               <ArrowUp size={21} />
             </button>
           </div>
         </form>
+        {(canUsePersonal || personal) && <label className="v4-remember">
+          <input type="checkbox" checked={personal} disabled={busy} onChange={e => onPersonal?.(e.target.checked)} />
+          本次包含个人内容
+          <small>{scopeAllowed ? "仅获准设备可用；模型与保存仍受各自授权限制" : "个人范围授权已变化，请重新核对；不会自动改成项目内容发送"}</small>
+        </label>}
         {canRemember && <label className="v4-remember">
-          <input type="checkbox" checked={remember} onChange={e => setRemember(e.target.checked)} />
+          <input type="checkbox" checked={remember} onChange={e => onRemember?.(e.target.checked)} />
           记住这次共同经历
           <small>仅本次提交 · 带来源保存，可在记忆中撤回</small>
         </label>}
         <p className="v3-composer-note">
-          <Sparkles size={11} /> PUBLIC / PROJECT ·{" "}
+          <Sparkles size={11} /> {personal ? "PERSONAL" : "PUBLIC / PROJECT"} ·{" "}
           {busy ? "正在等待单次请求，不自动重试" : "Ctrl / ⌘ + Enter 发送"}
         </p>
       </div>

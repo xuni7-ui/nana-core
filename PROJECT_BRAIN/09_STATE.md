@@ -2440,3 +2440,8 @@ S2 addendum manifest anchor（self excluded）：4d222972c4a00950a135366941edc5e
 ### V4 closure item 1 — actual installed image / recovery
 
 f944e9e image607890d: actual install, repeat zero persistent changes, six mounted private SDK imports asUID999 and actual Pillow PNG decode PASS. Missing clock.py in owned test slot rejected with exact path/hash and no repair. Original same DEV Subject actual SIGKILL/recreate epochs2→3→4, B8 restoration/old-source fence/old-Grant revoke PASS. No production, actual Provider or real phone qualification. Temporary harness input/permission errors retained in evidence/closure-402 summary. Continue item2 explicit private-context scope, then item3 final matched export/delivery; no unrelated business regression repeated.
+
+
+### V4 closure item 2 — explicit personal context
+
+Additive PRIVATE_CONTEXT application role intersects host binding; no implicit scope gain for old paired devices, no Core Grant. Original Surface consent/provider/privacy/budget still required, SECRET denied. Original Memory/history/Inspector read and withdrawal are per-device; source/scope changes withhold cached receipts. Compatible runtime marker rejects unsafe downgrade before stop. Actual synthetic original-Core retention/restart/withdrawal and narrow-device denial PASS; related32, frontend56, actualTLS browser4 widths PASS (separate overlapping scopes, not summed). Browser first failures found draft checkbox state reset on ChatPane remount; choices now belong to the same ephemeral parent draft. Evidence private-403; actual personal data/provider/production0. Android403 follows original appId/signer; final build/export next.

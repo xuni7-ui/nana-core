@@ -40,7 +40,8 @@
           "items": {
             "enum": [
               "PUBLIC",
-              "PROJECT"
+              "PROJECT",
+              "PERSONAL"
             ],
             "type": "string"
           },
@@ -303,11 +304,41 @@
           "title": "Profile Revision",
           "type": "integer"
         },
-        "credential": {
-          "maxLength": 4096,
-          "minLength": 1,
-          "title": "Credential",
+        "action": {
+          "default": "BIND",
+          "enum": [
+            "BIND",
+            "REVOKE"
+          ],
+          "title": "Action",
           "type": "string"
+        },
+        "expected_vault_revision": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expected Vault Revision"
+        },
+        "credential": {
+          "anyOf": [
+            {
+              "maxLength": 4096,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Credential"
         }
       },
       "required": [
@@ -317,8 +348,7 @@
         "run_generation",
         "owner_epoch",
         "provider_profile_id",
-        "profile_revision",
-        "credential"
+        "profile_revision"
       ],
       "title": "CredentialBindingRequest",
       "type": "object"
@@ -384,7 +414,8 @@
           "items": {
             "enum": [
               "PUBLIC",
-              "PROJECT"
+              "PROJECT",
+              "PERSONAL"
             ],
             "type": "string"
           },
@@ -631,7 +662,8 @@
           "default": "PROJECT",
           "enum": [
             "PUBLIC",
-            "PROJECT"
+            "PROJECT",
+            "PERSONAL"
           ],
           "title": "Privacy Class",
           "type": "string"
@@ -871,6 +903,177 @@
         "device_name"
       ],
       "title": "PairRequest",
+      "type": "object"
+    },
+    "PlatformConfigurationRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "client_request_id": {
+          "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+          "title": "Client Request Id",
+          "type": "string"
+        },
+        "idempotency_key": {
+          "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+          "title": "Idempotency Key",
+          "type": "string"
+        },
+        "expected_revision": {
+          "minimum": 0,
+          "title": "Expected Revision",
+          "type": "integer"
+        },
+        "run_generation": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Run Generation",
+          "type": "string"
+        },
+        "owner_epoch": {
+          "minimum": 0,
+          "title": "Owner Epoch",
+          "type": "integer"
+        },
+        "platform": {
+          "enum": [
+            "qq",
+            "bilibili"
+          ],
+          "title": "Platform",
+          "type": "string"
+        },
+        "channel_id": {
+          "pattern": "^[a-z][a-z0-9._-]{0,63}$",
+          "title": "Channel Id",
+          "type": "string"
+        },
+        "enabled": {
+          "title": "Enabled",
+          "type": "boolean"
+        },
+        "configuration_revision": {
+          "minimum": 1,
+          "title": "Configuration Revision",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "client_request_id",
+        "idempotency_key",
+        "expected_revision",
+        "run_generation",
+        "owner_epoch",
+        "platform",
+        "channel_id",
+        "enabled",
+        "configuration_revision"
+      ],
+      "title": "PlatformConfigurationRequest",
+      "type": "object"
+    },
+    "PlatformCredentialRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "client_request_id": {
+          "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+          "title": "Client Request Id",
+          "type": "string"
+        },
+        "idempotency_key": {
+          "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+          "title": "Idempotency Key",
+          "type": "string"
+        },
+        "expected_revision": {
+          "minimum": 0,
+          "title": "Expected Revision",
+          "type": "integer"
+        },
+        "run_generation": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Run Generation",
+          "type": "string"
+        },
+        "owner_epoch": {
+          "minimum": 0,
+          "title": "Owner Epoch",
+          "type": "integer"
+        },
+        "platform": {
+          "enum": [
+            "qq",
+            "bilibili"
+          ],
+          "title": "Platform",
+          "type": "string"
+        },
+        "channel_id": {
+          "pattern": "^[a-z][a-z0-9._-]{0,63}$",
+          "title": "Channel Id",
+          "type": "string"
+        },
+        "slot": {
+          "enum": [
+            "AUTH",
+            "COOKIE",
+            "CSRF"
+          ],
+          "title": "Slot",
+          "type": "string"
+        },
+        "action": {
+          "enum": [
+            "BIND",
+            "REVOKE"
+          ],
+          "title": "Action",
+          "type": "string"
+        },
+        "configuration_revision": {
+          "minimum": 1,
+          "title": "Configuration Revision",
+          "type": "integer"
+        },
+        "expected_vault_revision": {
+          "anyOf": [
+            {
+              "minimum": 0,
+              "type": "integer"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Expected Vault Revision"
+        },
+        "credential": {
+          "anyOf": [
+            {
+              "maxLength": 4096,
+              "minLength": 1,
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Credential"
+        }
+      },
+      "required": [
+        "client_request_id",
+        "idempotency_key",
+        "expected_revision",
+        "run_generation",
+        "owner_epoch",
+        "platform",
+        "channel_id",
+        "slot",
+        "action",
+        "configuration_revision"
+      ],
+      "title": "PlatformCredentialRequest",
       "type": "object"
     },
     "ProviderCommand": {
@@ -1195,7 +1398,8 @@
         "READER",
         "CONVERSATION",
         "MANAGER",
-        "HOST_ADMIN"
+        "HOST_ADMIN",
+        "PRIVATE_CONTEXT"
       ],
       "title": "Role",
       "type": "string"

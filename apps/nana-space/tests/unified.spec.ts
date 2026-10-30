@@ -117,3 +117,32 @@ test("V3 real Core provider configuration, model route and backup receipt projec
     ),
   ).toBe(false);
 });
+
+test("explicit private context uses the real Core and current device scope", async ({ page }, info) => {
+  const target = JSON.parse(await readFile(process.env.NANA_V2_TARGET!, "utf8"));
+  test.skip(!target.private_context_qualification, "Explicit synthetic private-context harness required");
+  await page.goto("/index.html?source=live#chat");
+  await page.getByLabel("Subject ID", {exact: true}).fill(target.subject_id);
+  await page.getByLabel("会话口令", {exact: true}).fill("TEST_ONLY_NOT_SECRET_web_password");
+  await page.getByRole("button", {name: "安全连接", exact: true}).click();
+  const personal = page.getByLabel("本次包含个人内容", {exact: false});
+  await expect(personal).not.toBeChecked();
+  await personal.check();
+  await page.getByLabel("记住这次共同经历", {exact: false}).check();
+  await page.getByLabel("和奈奈说点什么", {exact: true}).fill("先不聊这个话题");
+  const request = page.waitForResponse(r => r.url().endsWith("/messages") && r.request().method() === "POST");
+  await page.getByRole("button", {name: "发送", exact: true}).click();
+  const response = await request, result = await response.json();
+  expect(response.request().postDataJSON().privacy_class).toBe("PERSONAL");
+  expect(result.data.state).toBe("VERIFIED");
+  expect(result.data.result.raw_body_persisted).toBe(true);
+  const projected = page.waitForResponse(r => r.url().endsWith("/views/memories"));
+  await page.goto("/index.html?source=live#memories");
+  const projection = await projected;
+  const data = await projection.json();
+  expect(data.privacy_scope).toContain("PERSONAL");
+  expect(data.data.memories.some((m: any) => m.memory_id === result.data.result.message_memory_id && m.privacy_class === "PERSONAL")).toBe(true);
+  expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth + 1)).toBe(true);
+  await mkdir("test-results/private-screens", {recursive: true});
+  await page.screenshot({path: `test-results/private-screens/${info.project.name}-private-memory.png`, fullPage: true});
+});

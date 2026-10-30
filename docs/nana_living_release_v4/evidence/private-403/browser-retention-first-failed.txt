@@ -1,0 +1,94 @@
+
+Running 4 tests using 1 worker
+
+(node:38451) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › tests/unified.spec.ts:121:1 › explicit private context uses the real Core and current device scope (1.3s)
+(node:38586) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [phone-360] › tests/unified.spec.ts:121:1 › explicit private context uses the real Core and current device scope (1.3s)
+(node:38721) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [phone-390] › tests/unified.spec.ts:121:1 › explicit private context uses the real Core and current device scope (1.3s)
+(node:38854) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 [phone-412] › tests/unified.spec.ts:121:1 › explicit private context uses the real Core and current device scope (1.3s)
+
+
+  1) [desktop] › tests/unified.spec.ts:121:1 › explicit private context uses the real Core and current device scope 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      136 |   expect(response.request().postDataJSON().privacy_class).toBe("PERSONAL");
+      137 |   expect(result.data.state).toBe("VERIFIED");
+    > 138 |   expect(result.data.result.raw_body_persisted).toBe(true);
+          |                                                 ^
+      139 |   const projected = page.waitForResponse(r => r.url().endsWith("/views/memories"));
+      140 |   await page.goto("/index.html?source=live#memories");
+      141 |   const projection = await projected;
+        at /workspace/nana-unified-release/apps/nana-space/tests/unified.spec.ts:138:49
+
+    Error Context: test-results/unified-explicit-private-c-6fd72-re-and-current-device-scope-desktop/error-context.md
+
+  2) [phone-360] › tests/unified.spec.ts:121:1 › explicit private context uses the real Core and current device scope 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      136 |   expect(response.request().postDataJSON().privacy_class).toBe("PERSONAL");
+      137 |   expect(result.data.state).toBe("VERIFIED");
+    > 138 |   expect(result.data.result.raw_body_persisted).toBe(true);
+          |                                                 ^
+      139 |   const projected = page.waitForResponse(r => r.url().endsWith("/views/memories"));
+      140 |   await page.goto("/index.html?source=live#memories");
+      141 |   const projection = await projected;
+        at /workspace/nana-unified-release/apps/nana-space/tests/unified.spec.ts:138:49
+
+    Error Context: test-results/unified-explicit-private-c-6fd72-re-and-current-device-scope-phone-360/error-context.md
+
+  3) [phone-390] › tests/unified.spec.ts:121:1 › explicit private context uses the real Core and current device scope 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      136 |   expect(response.request().postDataJSON().privacy_class).toBe("PERSONAL");
+      137 |   expect(result.data.state).toBe("VERIFIED");
+    > 138 |   expect(result.data.result.raw_body_persisted).toBe(true);
+          |                                                 ^
+      139 |   const projected = page.waitForResponse(r => r.url().endsWith("/views/memories"));
+      140 |   await page.goto("/index.html?source=live#memories");
+      141 |   const projection = await projected;
+        at /workspace/nana-unified-release/apps/nana-space/tests/unified.spec.ts:138:49
+
+    Error Context: test-results/unified-explicit-private-c-6fd72-re-and-current-device-scope-phone-390/error-context.md
+
+  4) [phone-412] › tests/unified.spec.ts:121:1 › explicit private context uses the real Core and current device scope 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: true
+    Received: false
+
+      136 |   expect(response.request().postDataJSON().privacy_class).toBe("PERSONAL");
+      137 |   expect(result.data.state).toBe("VERIFIED");
+    > 138 |   expect(result.data.result.raw_body_persisted).toBe(true);
+          |                                                 ^
+      139 |   const projected = page.waitForResponse(r => r.url().endsWith("/views/memories"));
+      140 |   await page.goto("/index.html?source=live#memories");
+      141 |   const projection = await projected;
+        at /workspace/nana-unified-release/apps/nana-space/tests/unified.spec.ts:138:49
+
+    Error Context: test-results/unified-explicit-private-c-6fd72-re-and-current-device-scope-phone-412/error-context.md
+
+  4 failed
+    [desktop] › tests/unified.spec.ts:121:1 › explicit private context uses the real Core and current device scope 
+    [phone-360] › tests/unified.spec.ts:121:1 › explicit private context uses the real Core and current device scope 
+    [phone-390] › tests/unified.spec.ts:121:1 › explicit private context uses the real Core and current device scope 
+    [phone-412] › tests/unified.spec.ts:121:1 › explicit private context uses the real Core and current device scope 

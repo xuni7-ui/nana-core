@@ -44,7 +44,7 @@ def dispatch(app, request):
         return app.platforms.bilibili(request['channel_id'],request['message_id'])
     projection_keys = ({"operation", "privacy"}, {"operation", "privacy", "scope", "entity_id"})
     if op in {"bilibili-history", "shared-candidates", "conversation-history", "notification-inbox"} and set(request) in projection_keys:
-        if type(request["privacy"]) is not list or any(p not in {"PUBLIC", "PROJECT"} for p in request["privacy"]):
+        if type(request["privacy"]) is not list or any(p not in {"PUBLIC", "PROJECT", "PERSONAL"} for p in request["privacy"]):
             raise CoreError("PRIVACY_DENIED")
         coordinates = {k: request[k] for k in ("scope", "entity_id") if k in request}
         if any(type(v) is not str or not 1 <= len(v) <= 128 for v in coordinates.values()):
@@ -59,7 +59,7 @@ def dispatch(app, request):
         from .conversation import history
         return history(app, privacy=request["privacy"], **coordinates)
     if op == "provider-readiness" and set(request) == {"operation", "privacy"}:
-        if request["privacy"] not in {"PUBLIC", "PROJECT"}:
+        if request["privacy"] not in {"PUBLIC", "PROJECT", "PERSONAL"}:
             raise CoreError("PRIVACY_DENIED")
         return app.provider_readiness(privacy=request["privacy"])
     mutating = op in {"surface", "backup", "self-profile", "language-feedback", "review-expression-learning", "bilibili-ingest", "bilibili-interpret", "legacy-import-batch", "legacy-withdraw"} or (

@@ -96,3 +96,8 @@ test("living projections use scoped GET routes and browser credential mutations 
   await expect(client.revokeProviderCredential({provider_profile_id: "provider.a"})).rejects.toMatchObject({code: "NATIVE_SECRET_INPUT_REQUIRED"});
   expect(request).toHaveBeenCalledTimes(4);
 });
+
+test("additive PERSONAL envelope is accepted while SECRET remains forbidden", () => {
+  expect(envelope({...sample(), privacy_scope: ["PUBLIC", "PROJECT", "PERSONAL"]}).privacy_scope).toContain("PERSONAL");
+  expect(() => envelope({...sample(), privacy_scope: ["PUBLIC", "SECRET"]})).toThrow("SCOPE_DENIED");
+});

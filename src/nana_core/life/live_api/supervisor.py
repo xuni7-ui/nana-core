@@ -279,6 +279,8 @@ class Supervisor:
             direct_reply = db.execute("SELECT 1 FROM events WHERE kind='open.direct_reply_assessed' LIMIT 1").fetchone()
             bilibili_work=db.execute("SELECT 1 FROM jobs WHERE work_kind='BILIBILI_LIFE' LIMIT 1").fetchone()
         required = {}
+        if 'PERSONAL' in self.binding.privacy:
+            required['private_context_contract'] = 'INCOMPATIBLE_PRIVATE_CONTEXT_CONTRACT'
         if legacy is not None:
             required['archive_ingress_contract'] = 'INCOMPATIBLE_ARCHIVE_MEMORY_CONTRACT'
         config = load_config(self.home)
@@ -299,7 +301,7 @@ class Supervisor:
             elif self.binding.realm == Realm.DEVELOPMENT and Path(release.root).resolve() == Path(__file__).resolve().parents[4]:
                 # Only this exact working-tree decoder, never another directory
                 # or an imported module from a newer interpreter on sys.path.
-                metadata = {'archive_ingress_contract': 1, 'bilibili_life_contract': 1, 'platform_runtime_contract': 1}
+                metadata = {'archive_ingress_contract': 1, 'bilibili_life_contract': 1, 'platform_runtime_contract': 1, 'private_context_contract': 1}
             else:
                 metadata = {}
         except (OSError, ValueError, TypeError):

@@ -5,7 +5,7 @@ export type Binding = {
   "realm"?: Realm;
   "scope"?: string;
   "entity_id"?: string;
-  "privacy"?: Array<"PUBLIC" | "PROJECT">;
+  "privacy"?: Array<"PUBLIC" | "PROJECT" | "PERSONAL">;
   "surface_binding_id"?: string;
 };
 
@@ -44,7 +44,9 @@ export type CredentialBindingRequest = {
   "owner_epoch": number;
   "provider_profile_id": string;
   "profile_revision": number;
-  "credential": string;
+  "action"?: "BIND" | "REVOKE";
+  "expected_vault_revision"?: (number | null);
+  "credential"?: (string | null);
 };
 
 export type Envelope = {
@@ -58,7 +60,7 @@ export type Envelope = {
   "as_of_us": number;
   "revision": number;
   "coverage": "CURRENT" | "NO_DATA" | "BLOCKED_SCOPE" | "UNKNOWN" | "UNAVAILABLE" | "STALE";
-  "privacy_scope": Array<"PUBLIC" | "PROJECT">;
+  "privacy_scope": Array<"PUBLIC" | "PROJECT" | "PERSONAL">;
   "source_refs"?: Array<string>;
   "capabilities": Record<string, (boolean | string)>;
   "execution_authority"?: false;
@@ -98,7 +100,7 @@ export type MessageRequest = {
   "text": string;
   "topic"?: string;
   "thread_id"?: string;
-  "privacy_class"?: "PUBLIC" | "PROJECT";
+  "privacy_class"?: "PUBLIC" | "PROJECT" | "PERSONAL";
   "require_model"?: boolean;
   "retain_shared_life"?: boolean;
 };
@@ -131,6 +133,33 @@ export type PairRequest = {
   "code": string;
   "subject_id": string;
   "device_name": string;
+};
+
+export type PlatformConfigurationRequest = {
+  "client_request_id": string;
+  "idempotency_key": string;
+  "expected_revision": number;
+  "run_generation": string;
+  "owner_epoch": number;
+  "platform": "qq" | "bilibili";
+  "channel_id": string;
+  "enabled": boolean;
+  "configuration_revision": number;
+};
+
+export type PlatformCredentialRequest = {
+  "client_request_id": string;
+  "idempotency_key": string;
+  "expected_revision": number;
+  "run_generation": string;
+  "owner_epoch": number;
+  "platform": "qq" | "bilibili";
+  "channel_id": string;
+  "slot": "AUTH" | "COOKIE" | "CSRF";
+  "action": "BIND" | "REVOKE";
+  "configuration_revision": number;
+  "expected_vault_revision"?: (number | null);
+  "credential"?: (string | null);
 };
 
 export type ProviderCommand = {
@@ -180,4 +209,4 @@ export type Receipt = {
   "error"?: (string | null);
 };
 
-export type Role = "READER" | "CONVERSATION" | "MANAGER" | "HOST_ADMIN";
+export type Role = "READER" | "CONVERSATION" | "MANAGER" | "HOST_ADMIN" | "PRIVATE_CONTEXT";

@@ -123,7 +123,7 @@ class AuthService:
                 raise ApiError("SESSION_REVOKED", 401)
             if p.device_id:
                 device = self.document.read()["devices"].get(p.device_id)
-                if not device or device["revoked"]:
+                if not device or device["revoked"] or not set(p.roles) <= set(device["roles"]):
                     raise ApiError("SESSION_REVOKED", 401)
             if kind == "WEB" and mutating and (type(csrf) is not str or not hmac.compare_digest(csrf, row[2])):
                 raise ApiError("CSRF_DENIED", 403)

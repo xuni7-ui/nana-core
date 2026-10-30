@@ -1,0 +1,3 @@
+# Preserve raw reporter output, including its original trailing whitespace.
+*-failed.txt -whitespace
+frontend-private.txt -whitespace

@@ -167,3 +167,10 @@ it("an out-of-scope memory body is never projected by a PUBLIC/PROJECT client", 
     ]),
   ).toEqual([]);
 });
+
+it("PERSONAL rows require explicit authenticated scope and SECRET is always discarded", () => {
+  const personal = {...rows[0], privacy_class: "PERSONAL"};
+  expect(memoryCards([personal])).toEqual([]);
+  expect(memoryCards([personal], ["PUBLIC", "PROJECT", "PERSONAL"])).toHaveLength(1);
+  expect(memoryCards([{...personal, privacy_class: "SECRET"}], ["SECRET"])).toEqual([]);
+});

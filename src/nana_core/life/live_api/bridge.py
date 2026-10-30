@@ -31,7 +31,16 @@ PAGE_SECTIONS = {
 
 
 class GatewayService:
-    def __init__(self, supervisor, auth, state_root, *, allow_provider_configuration=False, credential_resolver=None, platform_event_secret_refs=None):
+    def __init__(
+        self,
+        supervisor,
+        auth,
+        state_root,
+        *,
+        allow_provider_configuration=False,
+        credential_resolver=None,
+        platform_event_secret_refs=None,
+    ):
         self.supervisor, self.auth = supervisor, auth
         self.allow_provider_configuration = allow_provider_configuration
         self.credential_resolver = credential_resolver
@@ -44,17 +53,31 @@ class GatewayService:
         self.event_digest = None
         self.events = []
         self.receipt_privacy = {}
+        self.receipt_scopes = {}
         from .platform_events import PlatformEvents
-        self.platform_events=PlatformEvents(self,platform_event_secret_refs or {})
+
+        self.platform_events = PlatformEvents(self, platform_event_secret_refs or {})
 
     def _receipt(self, key, principal):
-        receipt = self.ledger.read(key, principal)
-        if receipt.result and self.receipt_privacy.get(key) != self._privacy_watermark():
+        receipt = self.ledger.read(key, principal.principal_id)
+        if receipt.result and (
+            self.receipt_privacy.get(key) != self._privacy_watermark()
+            or not set(self.receipt_scopes.get(key, ())) <= set(self.privacy_for(principal))
+        ):
             self.ledger.volatile.pop(key, None)
             return receipt.model_copy(update={"result": {"state": "BODY_WITHHELD_SOURCE_CHANGED"}})
         return receipt
 
-    def envelope(self, data, *, coverage="CURRENT", refs=()):
+    def privacy_for(self, principal=None):
+        """Intersection of host binding and explicitly granted application role.
+
+        Old devices and metadata-only responses never inherit PERSONAL merely
+        because the host later permits it. Surface/Provider/Manager gates remain.
+        """
+        private = principal is not None and Role.PRIVATE_CONTEXT in principal.roles
+        return tuple(p for p in self.binding.privacy if p != "PERSONAL" or private)
+
+    def envelope(self, data, *, coverage="CURRENT", refs=(), principal=None):
         status = self.supervisor.status()
         return Envelope(
             realm=self.binding.realm,
@@ -66,7 +89,7 @@ class GatewayService:
             as_of_us=time.time_ns() // 1000,
             revision=self.ledger.revision,
             coverage=coverage,
-            privacy_scope=self.binding.privacy,
+            privacy_scope=self.privacy_for(principal),
             source_refs=tuple(refs)[:32],
             capabilities={
                 "memory_metadata": True,
@@ -87,7 +110,8 @@ class GatewayService:
                 "notification_inbox": True,
                 "background_poll_hints": True,
                 "platform_configuration_write": self.allow_provider_configuration,
-                "platform_native_secret_binding": self.allow_provider_configuration and self.credential_resolver is not None,
+                "platform_native_secret_binding": self.allow_provider_configuration
+                and self.credential_resolver is not None,
             },
             data=data,
         ).model_dump(mode="json")
@@ -101,11 +125,16 @@ class GatewayService:
                 "roles": [r.value for r in principal.roles],
                 "provider": self.provider_status(),
                 "pages": [p.value for p in Page],
-                "notifications": {"foreground": "SUPPORTED_AFTER_NATIVE_PERMISSION", "background": "OS_SCHEDULED_METADATA_SUBSCRIPTION",
-                    "instant_push": False, "physical_delivery": "NOT_RUN"},
+                "notifications": {
+                    "foreground": "SUPPORTED_AFTER_NATIVE_PERMISSION",
+                    "background": "OS_SCHEDULED_METADATA_SUBSCRIPTION",
+                    "instant_push": False,
+                    "physical_delivery": "NOT_RUN",
+                },
                 "first_life": "NOT_READY",
                 "identity_provenance": "EXISTING_BOUND_SUBJECT_NOT_AUTOMATIC_GENESIS",
-            }
+            },
+            principal=principal,
         )
 
     def conversation_history(self, principal):
@@ -113,63 +142,99 @@ class GatewayService:
         with self.read_lock:
             self.supervisor.verify_binding()
             before = self._privacy_watermark()
-            response = core_request(self.supervisor.home, {
-                "operation": "conversation-history", "privacy": list(self.binding.privacy),
-                "scope": self.binding.scope, "entity_id": self.binding.entity_id})
+            response = core_request(
+                self.supervisor.home,
+                {
+                    "operation": "conversation-history",
+                    "privacy": list(self.privacy_for(principal)),
+                    "scope": self.binding.scope,
+                    "entity_id": self.binding.entity_id,
+                },
+            )
             if response.get("ok") is not True:
                 raise ApiError("CONVERSATION_HISTORY_UNAVAILABLE", 503)
             after = self._privacy_watermark()
-            data = response["result"] if before == after else {"items": [], "coverage": "SOURCE_CHANGED_REFRESH_REQUIRED"}
+            data = (
+                response["result"] if before == after else {"items": [], "coverage": "SOURCE_CHANGED_REFRESH_REQUIRED"}
+            )
             data["privacy_watermark"] = after
             # Only original body-free metadata owned by this principal; no replay.
             data["pending_receipts"] = [
                 {"receipt_id": key, "state": row["receipt"]["state"]}
                 for key, row in self.ledger.document.read()["receipts"].items()
-                if row["principal"] == principal.principal_id and row["receipt"]["operation"] == "MESSAGE"
+                if row["principal"] == principal.principal_id
+                and row["receipt"]["operation"] == "MESSAGE"
                 and row["receipt"]["state"] in {"REQUESTED", "UNKNOWN"}
             ][-32:]
-            return self.envelope(data)
+            return self.envelope(data, principal=principal)
 
     def shared_candidates(self, principal):
         principal.require(Role.CONVERSATION)
         with self.read_lock:
             self.supervisor.verify_binding()
             before = self._privacy_watermark()
-            response = core_request(self.supervisor.home, {"operation": "shared-candidates", "privacy": list(self.binding.privacy),
-                "scope": self.binding.scope, "entity_id": self.binding.entity_id})
+            response = core_request(
+                self.supervisor.home,
+                {
+                    "operation": "shared-candidates",
+                    "privacy": list(self.privacy_for(principal)),
+                    "scope": self.binding.scope,
+                    "entity_id": self.binding.entity_id,
+                },
+            )
             if response.get("ok") is not True:
                 raise ApiError("SHARED_CANDIDATES_UNAVAILABLE", 503)
             after = self._privacy_watermark()
-            data = response["result"] if before == after else {"items": [], "coverage": "SOURCE_CHANGED_REFRESH_REQUIRED"}
+            data = (
+                response["result"] if before == after else {"items": [], "coverage": "SOURCE_CHANGED_REFRESH_REQUIRED"}
+            )
             data["privacy_watermark"] = after
-            return self.envelope(data)
+            return self.envelope(data, principal=principal)
 
     def notification_inbox(self, principal):
         principal.require(Role.CONVERSATION)
         with self.read_lock:
             self.supervisor.verify_binding()
             before = self._privacy_watermark()
-            response = core_request(self.supervisor.home, {'operation':'notification-inbox',
-                'privacy':list(self.binding.privacy),'scope':self.binding.scope,'entity_id':self.binding.entity_id})
-            if response.get('ok') is not True:
-                raise ApiError('NOTIFICATION_INBOX_UNAVAILABLE', 503)
+            response = core_request(
+                self.supervisor.home,
+                {
+                    "operation": "notification-inbox",
+                    "privacy": list(self.privacy_for(principal)),
+                    "scope": self.binding.scope,
+                    "entity_id": self.binding.entity_id,
+                },
+            )
+            if response.get("ok") is not True:
+                raise ApiError("NOTIFICATION_INBOX_UNAVAILABLE", 503)
             after = self._privacy_watermark()
-            data = response['result'] if before == after else {'items':[], 'state':'SOURCE_CHANGED_REFRESH_REQUIRED'}
-            return self.envelope({**data,'privacy_watermark':after})
+            data = response["result"] if before == after else {"items": [], "state": "SOURCE_CHANGED_REFRESH_REQUIRED"}
+            return self.envelope({**data, "privacy_watermark": after}, principal=principal)
 
     def bilibili_history(self, principal):
         principal.require(Role.READER)
         with self.read_lock:
             self.supervisor.verify_binding()
             before = self._privacy_watermark()
-            response = core_request(self.supervisor.home, {"operation": "bilibili-history", "privacy": list(self.binding.privacy),
-                "scope": self.binding.scope, "entity_id": self.binding.entity_id})
+            response = core_request(
+                self.supervisor.home,
+                {
+                    "operation": "bilibili-history",
+                    "privacy": list(self.privacy_for(principal)),
+                    "scope": self.binding.scope,
+                    "entity_id": self.binding.entity_id,
+                },
+            )
             if response.get("ok") is not True:
                 raise ApiError("BILIBILI_HISTORY_UNAVAILABLE", 503)
             after = self._privacy_watermark()
             if before != after:
-                return self.envelope({"items": [], "privacy_watermark": after, "state": "SOURCE_CHANGED_REFRESH_REQUIRED"}, coverage="STALE")
-            return self.envelope({**response["result"], "privacy_watermark": after})
+                return self.envelope(
+                    {"items": [], "privacy_watermark": after, "state": "SOURCE_CHANGED_REFRESH_REQUIRED"},
+                    coverage="STALE",
+                    principal=principal,
+                )
+            return self.envelope({**response["result"], "privacy_watermark": after}, principal=principal)
 
     def backup_status(self, principal):
         """Derived existing receipt metadata; never opens a snapshot or PC path."""
@@ -177,17 +242,29 @@ class GatewayService:
         self.supervisor.verify_binding()
         rows = self.ledger.document.read()["receipts"].values()
         # A caller only sees receipts it owns. No backup body or host path.
-        local = [{"receipt_id": r["receipt"]["receipt_id"],
-                  "state": r["receipt"]["state"],
-                  "dispatch_happened": r["receipt"]["dispatch_happened"],
-                  "created_at_us": r["created_at_us"]}
-                 for r in rows if r["principal"] == principal.principal_id
-                 and r["receipt"]["operation"] == "BACKUP"][-16:]
-        return self.envelope({"local_receipts": local, "scope": "OWN_CALLER_METADATA_ONLY",
-                              "offsite_state": "STATUS_NOT_EXPOSED",
-                              "disaster_recovery": "NOT_QUALIFIED_BY_THIS_PROJECTION",
-                              "pc_delivery": "NOT_OBSERVED", "restore_check": "NOT_OBSERVED",
-                              "backup_schedule": "NOT_EXPOSED", "runnable_clone": False})
+        local = [
+            {
+                "receipt_id": r["receipt"]["receipt_id"],
+                "state": r["receipt"]["state"],
+                "dispatch_happened": r["receipt"]["dispatch_happened"],
+                "created_at_us": r["created_at_us"],
+            }
+            for r in rows
+            if r["principal"] == principal.principal_id and r["receipt"]["operation"] == "BACKUP"
+        ][-16:]
+        return self.envelope(
+            {
+                "local_receipts": local,
+                "scope": "OWN_CALLER_METADATA_ONLY",
+                "offsite_state": "STATUS_NOT_EXPOSED",
+                "disaster_recovery": "NOT_QUALIFIED_BY_THIS_PROJECTION",
+                "pc_delivery": "NOT_OBSERVED",
+                "restore_check": "NOT_OBSERVED",
+                "backup_schedule": "NOT_EXPOSED",
+                "runnable_clone": False,
+            },
+            principal=principal,
+        )
 
     def provider_status(self):
         status = self.supervisor.status()
@@ -217,19 +294,23 @@ class GatewayService:
                     self.supervisor.home,
                     scope=self.binding.scope,
                     entity_id=self.binding.entity_id,
-                    privacy=self.binding.privacy,
+                    privacy=self.privacy_for(principal),
                     limit=16,
                 )
             except (CoreError, OSError, ValueError):
                 return self.envelope(
-                    {"page": page.value, "items": [], "reason": "SOURCE_PROJECTION_UNAVAILABLE"}, coverage="UNAVAILABLE"
+                    {"page": page.value, "items": [], "reason": "SOURCE_PROJECTION_UNAVAILABLE"},
+                    coverage="UNAVAILABLE",
+                    principal=principal,
                 )
             if view.identity_id != self.binding.subject_id:
                 raise ApiError("INVALID_IDENTITY", 409)
             privacy_after = self._privacy_watermark()
             if privacy_before != privacy_after:
                 return self.envelope(
-                    {"page": page.value, "items": [], "reason": "SOURCE_CHANGED_REFRESH_REQUIRED"}, coverage="STALE"
+                    {"page": page.value, "items": [], "reason": "SOURCE_CHANGED_REFRESH_REQUIRED"},
+                    coverage="STALE",
+                    principal=principal,
                 )
             items = []
             for name in PAGE_SECTIONS[page]:
@@ -245,7 +326,7 @@ class GatewayService:
                 "provider": self.provider_status(),
                 "limitations": {
                     "private_history": "NOT_IMPORTED_OR_AUTHORIZED",
-                    "memory_bodies": "SCOPED_PUBLIC_PROJECT_ONLY",
+                    "memory_bodies": "EXPLICIT_DEVICE_AND_HOST_SCOPE",
                     "phone_control": "NO_DEVICE_AGENT",
                     "background_push": "NOT_QUALIFIED",
                 },
@@ -255,31 +336,44 @@ class GatewayService:
                 from .provider_settings import projection
 
                 try:
-                    current = core_request(self.supervisor.home, {"operation": "view", "view": "provider-settings"}, timeout=2) if status["process_ready"] else {}
-                    data["provider_settings"] = current["result"] if current.get("ok") is True else projection(self.supervisor.home)
+                    current = (
+                        core_request(
+                            self.supervisor.home, {"operation": "view", "view": "provider-settings"}, timeout=2
+                        )
+                        if status["process_ready"]
+                        else {}
+                    )
+                    data["provider_settings"] = (
+                        current["result"] if current.get("ok") is True else projection(self.supervisor.home)
+                    )
                 except (CoreError, OSError, ValueError):
                     data["provider_settings"] = {"state": "UNAVAILABLE", "no_default_provider_selected": True}
             if page == Page.MEMORIES:
-                data["memories"] = self._memories()
+                data["memories"] = self._memories(principal)
                 if self._privacy_watermark() != privacy_after:
                     return self.envelope(
                         {"page": page.value, "items": [], "memories": [], "reason": "SOURCE_CHANGED_REFRESH_REQUIRED"},
                         coverage="STALE",
+                        principal=principal,
                     )
             if page == Page.DEVICES:
-                state=core_request(self.supervisor.home,{'operation':'platform-status'},timeout=2) if status['process_ready'] else {}
-                channels=state.get('result',{}).get('channels',[]) if state.get('ok') is True else []
+                state = (
+                    core_request(self.supervisor.home, {"operation": "platform-status"}, timeout=2)
+                    if status["process_ready"]
+                    else {}
+                )
+                channels = state.get("result", {}).get("channels", []) if state.get("ok") is True else []
                 data["surfaces"] = [
                     {"platform": "nana.space", "state": "BOUND_TO_THIS_SUBJECT"},
-                    *[{'platform':c['platform']+'.'+c['channel_id'],'state':c['state']} for c in channels],
+                    *[{"platform": c["platform"] + "." + c["channel_id"], "state": c["state"]} for c in channels],
                     {"platform": "android.device-control", "state": "NO_DEVICE_AGENT"},
                 ]
-                data['platform_runtime']=state.get('result',{'state':'OWNER_UNAVAILABLE'})
+                data["platform_runtime"] = state.get("result", {"state": "OWNER_UNAVAILABLE"})
             coverage = "CURRENT" if status["process_ready"] else "STALE"
             if not items and coverage == "CURRENT":
                 coverage = "NO_DATA"
             refs = tuple(dict.fromkeys(r["reference"] for r in items))[:32]
-            return self.envelope(data, coverage=coverage, refs=refs)
+            return self.envelope(data, coverage=coverage, refs=refs, principal=principal)
 
     def _privacy_watermark(self):
         # Original Inspector already validated the original journal. Hash only,
@@ -310,7 +404,7 @@ class GatewayService:
                         "sequence": self.event_sequence,
                         "kind": "INVALIDATE_SCOPED_SNAPSHOT",
                         "as_of_us": snapshot["as_of_us"],
-                        "source_refs": snapshot["source_refs"],
+                        "source_refs": [],  # Shared invalidation ring contains no private references.
                     }
                 )
                 self.events = self.events[-64:]
@@ -331,7 +425,8 @@ class GatewayService:
                     "snapshot_required": bool(gap),
                     "events": events,
                     "no_command_replay": True,
-                }
+                },
+                principal=principal,
             )
 
     def _prepare(self, principal, body, operation, role):
@@ -364,7 +459,7 @@ class GatewayService:
             old = self._prepare(principal, body, operation, role)
             if old:
                 return self.envelope(
-                    self._receipt(body.idempotency_key, principal.principal_id).model_dump(mode="json")
+                    self._receipt(body.idempotency_key, principal).model_dump(mode="json"), principal=principal
                 )
             key = body.idempotency_key
             try:
@@ -372,7 +467,9 @@ class GatewayService:
                     before()
             except ApiError as exc:
                 self.ledger.transition(key, Completion.REJECTED, error=exc.code)
-                return self.envelope(self.ledger.read(key, principal.principal_id).model_dump(mode="json"))
+                return self.envelope(
+                    self.ledger.read(key, principal.principal_id).model_dump(mode="json"), principal=principal
+                )
             try:
                 # Persist dispatch intention before any possible real effect.
                 self.ledger.transition(key, Completion.RUNNING, dispatched=True)
@@ -381,14 +478,17 @@ class GatewayService:
                     raise ApiError("RESULT_UNVERIFIED", 503)
                 self.ledger.transition(key, Completion.VERIFIED, result=result)
                 self.receipt_privacy[key] = self._privacy_watermark()
+                self.receipt_scopes[key] = self.privacy_for(principal)
             except Exception:
                 # No retry/fallback. The underlying original Core receipt remains
                 # authoritative. Never turn a missing result into fake failure.
                 self.ledger.transition(key, Completion.UNKNOWN, error="UNKNOWN_NEEDS_RECONCILIATION")
-            return self.envelope(self.ledger.read(key, principal.principal_id).model_dump(mode="json"))
+            return self.envelope(
+                self.ledger.read(key, principal.principal_id).model_dump(mode="json"), principal=principal
+            )
 
     def send(self, principal, body, *, surface_binding_id=None):
-        if body.privacy_class not in self.binding.privacy:
+        if body.privacy_class not in self.privacy_for(principal):
             raise ApiError("SCOPE_DENIED", 403)
         event_id = (
             "v2." + hashlib.sha256((principal.principal_id + "\0" + body.client_request_id).encode()).hexdigest()[:56]
@@ -432,17 +532,36 @@ class GatewayService:
             return safe
 
         def before():
+            if body.privacy_class == "PERSONAL":
+                from ..config import load_config
+
+                bindings = load_config(self.supervisor.home).surface_bindings
+                surface = next((b for b in bindings if b.binding_id == observation["binding_id"]), None)
+                if surface is None or "PERSONAL" not in surface.permitted_privacy:
+                    raise ApiError("SURFACE_PRIVACY_NOT_BOUND", 403)
+                if body.retain_shared_life and (
+                    not surface.allow_personal_retention or not surface.personal_retention_consent_ref
+                ):
+                    raise ApiError("SURFACE_PERSONAL_RETENTION_NOT_AUTHORIZED", 403)
             if not body.require_model:
                 return
             from ...continuity.dialogue_shadow.bridge import LiteralSpanInterpreter
+
             meaning = LiteralSpanInterpreter().interpret(body.text)
-            if meaning.kind in {"DECLINE_DEPTH", "DECLINE_DELIVERY", "REOPEN", "REOPEN_DELIVERY"} and meaning.basis == "LITERAL_SPAN":
+            if (
+                meaning.kind in {"DECLINE_DEPTH", "DECLINE_DELIVERY", "REOPEN", "REOPEN_DELIVERY"}
+                and meaning.basis == "LITERAL_SPAN"
+            ):
                 return  # Original C still reviews the boundary, without a model bill.
             try:
-                ready = core_request(self.supervisor.home, {"operation": "provider-readiness", "privacy": body.privacy_class}, timeout=2)
+                ready = core_request(
+                    self.supervisor.home, {"operation": "provider-readiness", "privacy": body.privacy_class}, timeout=2
+                )
             except (CoreError, OSError):
                 raise ApiError("PROVIDER_READINESS_UNAVAILABLE", 503) from None
-            state = ready.get("result", {}).get("state") if ready.get("ok") is True else "PROVIDER_READINESS_UNAVAILABLE"
+            state = (
+                ready.get("result", {}).get("state") if ready.get("ok") is True else "PROVIDER_READINESS_UNAVAILABLE"
+            )
             if state != "READY_LOCAL_GATES":
                 raise ApiError(state if isinstance(state, str) else "PROVIDER_READINESS_UNAVAILABLE", 409)
 
@@ -463,7 +582,7 @@ class GatewayService:
         if op in {"PAUSE", "RESUME", "BUSY", "AVAILABLE", "REVOKE"}:
             command = {"operation": "control", "command": op.lower()}
         elif op == "WITHDRAW" and body.target_id:
-            self._assert_memory_scope(body.target_id)
+            self._assert_memory_scope(body.target_id, principal)
             command = {"operation": "forget", "memory_id": body.target_id}
         elif op == "SET_SURFACE" and body.target_id and body.target_revision is not None and body.enabled is not None:
             command = {
@@ -524,9 +643,9 @@ class GatewayService:
         )
 
     def receipt(self, principal, key):
-        return self.envelope(self._receipt(key, principal.principal_id).model_dump(mode="json"))
+        return self.envelope(self._receipt(key, principal).model_dump(mode="json"), principal=principal)
 
-    def _assert_memory_scope(self, memory_id):
+    def _assert_memory_scope(self, memory_id, principal=None):
         import sqlite3
         from ..inspector import _ReadView
 
@@ -535,12 +654,12 @@ class GatewayService:
             db.row_factory = sqlite3.Row
             db.execute("PRAGMA query_only=ON")
             db.execute("BEGIN")
-            view = _ReadView(db, path, self.binding.scope, self.binding.privacy)
+            view = _ReadView(db, path, self.binding.scope, self.privacy_for(principal))
             row = view.one("memories", memory_id)
             if not row or row["entity_id"] != self.binding.entity_id:
                 raise ApiError("SCOPE_DENIED", 403)
 
-    def _memories(self):
+    def _memories(self, principal=None):
         import sqlite3
         from ..inspector import _ReadView
         from ...continuity.memory import MemoryService
@@ -551,14 +670,14 @@ class GatewayService:
             db.row_factory = sqlite3.Row
             db.execute("PRAGMA query_only=ON")
             db.execute("BEGIN")
-            view = _ReadView(db, path, self.binding.scope, self.binding.privacy)
+            view = _ReadView(db, path, self.binding.scope, self.privacy_for(principal))
             memory = MemoryService(view)
-            marks = ",".join("?" for _ in self.binding.privacy)
+            marks = ",".join("?" for _ in self.privacy_for(principal))
             rows = db.execute(
                 "SELECT memory_id FROM memories WHERE entity_id=? AND scope=? AND privacy_class IN ("
                 + marks
                 + ") AND lifecycle='ACTIVE' ORDER BY created_at_us DESC LIMIT 32",
-                (self.binding.entity_id, self.binding.scope, *self.binding.privacy),
+                (self.binding.entity_id, self.binding.scope, *self.privacy_for(principal)),
             ).fetchall()
             for row in rows:
                 try:

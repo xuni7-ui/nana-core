@@ -1,0 +1,17 @@
+
+Running 4 tests using 1 worker
+
+(node:39073) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [desktop] › tests/unified.spec.ts:121:1 › explicit private context uses the real Core and current device scope (11.8s)
+(node:39237) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  2 [phone-360] › tests/unified.spec.ts:121:1 › explicit private context uses the real Core and current device scope (11.7s)
+(node:39394) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [phone-390] › tests/unified.spec.ts:121:1 › explicit private context uses the real Core and current device scope (11.6s)
+(node:39557) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  4 [phone-412] › tests/unified.spec.ts:121:1 › explicit private context uses the real Core and current device scope (11.5s)
+
+  4 passed (49.0s)

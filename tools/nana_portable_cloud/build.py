@@ -159,6 +159,7 @@ def build(destination, wheels, revision="HEAD", *, features=()):
                 "archive_ingress_contract": 1 if 'src/nana_core/migration/archive_ingress.py' in sources else 0,
                 "bilibili_life_contract": 1 if 'src/nana_core/life/bilibili_life.py' in sources else 0,
                 "platform_runtime_contract": 1 if 'src/nana_core/life/platform_runtime.py' in sources else 0,
+                "private_context_contract": int(b'PRIVATE_CONTEXT' in sources.get('src/nana_core/life/live_api/contracts.py', b'')),
                 "real_provider_calls": 0,
             },
             indent=2,

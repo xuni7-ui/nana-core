@@ -5,6 +5,8 @@ from pathlib import Path
 from pydantic.json_schema import models_json_schema
 from nana_core.life.live_api import contracts as c
 from nana_core.life.live_api.provider_settings import ProviderConfigurationRequest, CredentialBindingRequest
+from nana_core.life.live_api.platform_settings import PlatformConfigurationRequest
+from nana_core.life.live_api.platform_credentials import PlatformCredentialRequest
 
 ROOT = Path(__file__).resolve().parents[2]
 MODELS = [
@@ -20,6 +22,8 @@ MODELS = [
     c.Receipt,
     ProviderConfigurationRequest,
     CredentialBindingRequest,
+    PlatformConfigurationRequest,
+    PlatformCredentialRequest,
 ]
 
 
@@ -88,6 +92,12 @@ def generate():
         "/providers/commands": ["post"],
         "/providers/credential": ["post"],
         "/backup/status": ["get"],
+        "/conversation/history": ["get"],
+        "/life/shares": ["get"],
+        "/platform/bilibili": ["get"],
+        "/platform/status": ["get"],
+        "/platform/commands": ["post"],
+        "/platform/credential": ["post"],
         "/privacy/withdrawal": ["post"],
     }.items():
         paths["/api/nana-space/v2" + path] = {
@@ -107,6 +117,8 @@ def generate():
         "/commands": "CommandRequest",
         "/providers/commands": "ProviderConfigurationRequest",
         "/providers/credential": "CredentialBindingRequest",
+        "/platform/commands": "PlatformConfigurationRequest",
+        "/platform/credential": "PlatformCredentialRequest",
         "/privacy/withdrawal": "CommandRequest",
         "/host/confirmations": "HostConfirmation",
         "/host/operations": "HostRequest",
@@ -115,7 +127,7 @@ def generate():
         short = path.removeprefix("/api/nana-space/v2")
         for method, operation in operations.items():
             operation["security"] = [{"webCookie": []}, {"nativeBearer": []}]
-            if short == "/providers/credential":
+            if short in {"/providers/credential", "/platform/credential"}:
                 operation["security"] = [{"nativeBearer": []}]
                 operation["description"] = "HOST_ADMIN + host opt-in. Native secure input only; no secret in JS, persistence or receipt."
             response = {"$ref": "#/components/schemas/Envelope"}

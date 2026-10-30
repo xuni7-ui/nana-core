@@ -165,11 +165,14 @@ export function LiveSpace() {
   useEffect(() => { writePending.current = busy; }, [busy]);
   const [nav, setNav] = useState(false);
   const [draft, setDraft] = useState("");
+  const [personalDraft, setPersonalDraft] = useState(false);
+  const [rememberDraft, setRememberDraft] = useState(false);
   const [turns, setTurns] = useState<Turn[]>([]);
   const [pairOffer, setPairOffer] = useState("");
   const offerVersion = useRef(0);
   const [offerBusy, setOfferBusy] = useState(false);
   const [pairManagement, setPairManagement] = useState(false);
+  const [pairPrivate, setPairPrivate] = useState(false);
   const [devices, setDevices] = useState<Record<string, unknown>[]>([]);
   const [backupStatus, setBackupStatus] = useState<Record<
     string,
@@ -204,6 +207,8 @@ export function LiveSpace() {
     privacy.current = "";
     bodyGeneration.current++;
     setDraft("");
+    setPersonalDraft(false);
+    setRememberDraft(false);
     setReceipt(null);
     setBackupStatus(null);
     setBiliSnapshot(null);
@@ -211,7 +216,8 @@ export function LiveSpace() {
     setCredentialStatus(null);
   }, []);
   const accept = useCallback((b: Envelope) => {
-    if (previousRun.current && previousRun.current !== b.run_generation) {
+    if (previousRun.current && (previousRun.current !== b.run_generation || current.current?.privacy_scope.join(",") !== b.privacy_scope.join(","))) {
+      setSnapshot(null);
       setTurns([]);
       setReceipt(null);
       setBackupStatus(null);
@@ -219,6 +225,8 @@ export function LiveSpace() {
       setSharedSnapshot(null);
       setCredentialStatus(null);
       setDraft("");
+      setPersonalDraft(false);
+      setRememberDraft(false);
       bodyGeneration.current++;
     }
     previousRun.current = b.run_generation;
@@ -231,6 +239,8 @@ export function LiveSpace() {
     if (privacy.current && privacy.current !== watermark) {
       setTurns([]);
       setDraft("");
+      setPersonalDraft(false);
+      setRememberDraft(false);
       setReceipt(null);
       setBiliSnapshot(null);
       setSharedSnapshot(null);
@@ -267,6 +277,8 @@ export function LiveSpace() {
       if (!canConverse) {
         setTurns([]);
         setDraft("");
+        setPersonalDraft(false);
+        setRememberDraft(false);
         bodyGeneration.current++;
       }
       if (requestedPage === "chat" && canConverse && b.capabilities.conversation_history === true) {
@@ -556,7 +568,7 @@ export function LiveSpace() {
     );
     setReceipt(d);
   };
-  const send = async (retain = false) => {
+  const send = async (retain = false, privacyClass: "PROJECT" | "PERSONAL" = "PROJECT") => {
     if (busy || !draft.trim()) return;
     const input = draft.trim();
     const version = sessionVersion.current,
@@ -565,17 +577,20 @@ export function LiveSpace() {
     let dispatched = false;
     setBusy(true);
     setDraft("");
+    setPersonalDraft(false);
+    setRememberDraft(false);
     setTurns((xs) => [...xs.slice(-31), { id, input, state: "REQUESTED", requestedAt: performance.now() }]);
     try {
       const b = await fresh();
       if (version !== sessionVersion.current || bodyVersion !== bodyGeneration.current) throw new V2Error("STALE_RUN_NO_REPLAY");
+      if (!b.privacy_scope.includes(privacyClass)) throw new V2Error("SCOPE_DENIED");
       dispatched = true;
       const r = await client.current.write("message", {
         ...writeBase(b, id),
         text: input,
         topic: "daily",
         thread_id: "nana-space",
-        privacy_class: "PROJECT",
+        privacy_class: privacyClass,
         ...(b.capabilities.provider_readiness === true ? { require_model: true } : {}),
         ...(b.capabilities.shared_life_retention === true ? { retain_shared_life: retain } : {}),
       });
@@ -803,6 +818,8 @@ export function LiveSpace() {
     setDevices([]);
     setPairOffer("");
     setDraft("");
+    setPersonalDraft(false);
+    setRememberDraft(false);
     setReceipt(null);
     setBackupStatus(null);
     setBiliSnapshot(null);
@@ -844,9 +861,9 @@ export function LiveSpace() {
     try {
       const r = await client.current.offer(
         deviceName,
-        pairManagement
+        [...(pairManagement
           ? ["READER", "CONVERSATION", "MANAGER", "HOST_ADMIN"]
-          : ["READER", "CONVERSATION"],
+          : ["READER", "CONVERSATION"]), ...(pairPrivate ? ["PRIVATE_CONTEXT"] : [])],
       );
       if (
         version === sessionVersion.current &&
@@ -1257,6 +1274,8 @@ export function LiveSpace() {
                   onClick={() => {
                     setBrowsing(false);
                     setDraft("");
+                    setPersonalDraft(false);
+                    setRememberDraft(false);
                   }}
                 >
                   连接奈奈
@@ -1307,10 +1326,15 @@ export function LiveSpace() {
                 onDraft={setDraft}
                 busy={busy}
                 allowed={conversation}
-                send={(retain) => void send(retain)}
+                send={(retain, privacyClass) => void send(retain, privacyClass)}
                 readiness={providerReadyCode}
                 configure={() => go("models")}
                 canRemember={bootstrap?.capabilities.shared_life_retention === true}
+                canUsePersonal={bootstrap?.privacy_scope.includes("PERSONAL") === true}
+                personal={personalDraft}
+                onPersonal={setPersonalDraft}
+                remember={rememberDraft}
+                onRemember={setRememberDraft}
                 verify={(id) => void verify(id)}
                 notice={notify}
               />
@@ -1319,6 +1343,7 @@ export function LiveSpace() {
               <MemoryCenter
                 key={`${bootstrap?.run_generation || "offline"}:${privacy.current}`}
                 memories={memories}
+                privacyScope={snapshot?.privacy_scope}
                 available={healthy}
                 busy={busy}
                 canWithdraw={manager && healthy}
@@ -1509,6 +1534,12 @@ export function LiveSpace() {
                         />
                         明确授权这台设备管理云端运行（Manager / Host Admin）
                       </label>
+                      {roles.includes("PRIVATE_CONTEXT") && bootstrap?.privacy_scope.includes("PERSONAL") && <label className="v3-check">
+                        <input type="checkbox" checked={pairPrivate} onChange={e => {
+                          setPairPrivate(e.target.checked); setPairOffer(""); offerVersion.current++; setOfferBusy(false);
+                        }} />
+                        明确允许这台设备访问本主体已授权的个人内容
+                      </label>}
                       <button
                         className="v3-button primary"
                         disabled={offerBusy}

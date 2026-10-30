@@ -97,7 +97,7 @@ class _ReadView:
 
 
 def inspect(home,*,scope,entity_id,privacy=('PUBLIC','PROJECT'),limit=16):
-    if type(limit) is not int or not 1<=limit<=32 or not privacy or set(privacy)-{'PUBLIC','PROJECT'}:raise CoreError('INSPECTOR_POLICY_DENIED')
+    if type(limit) is not int or not 1<=limit<=32 or not privacy or set(privacy)-{'PUBLIC','PROJECT','PERSONAL'}:raise CoreError('INSPECTOR_POLICY_DENIED')
     home=Path(home).absolute()
     if home!=home.resolve() or home.stat().st_uid!=os.getuid() or home.stat().st_mode&0o077:raise CoreError('INSPECTOR_PRIVATE_HOME_REQUIRED')
     path=home/'subject/self.db'

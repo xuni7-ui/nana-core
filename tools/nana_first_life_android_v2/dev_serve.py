@@ -29,6 +29,7 @@ def main():
     parser.add_argument("--work", type=Path, required=True)
     parser.add_argument("--port", type=int, default=18445)
     parser.add_argument("--allow-provider-configuration", action="store_true", help="Explicit synthetic development-only config test opt-in")
+    parser.add_argument("--allow-private-context", action="store_true", help="Synthetic owned DEV only: explicit PERSONAL surface retention and host scope")
     a = parser.parse_args()
     work = a.work.absolute()
     if work.exists():
@@ -41,6 +42,16 @@ def main():
     module.initialize(home)
     identity, lineage, _ = existing_identity(home)
     binding = Binding(subject_id=identity, lineage_binding=lineage)
+    if a.allow_private_context:
+        from nana_core.life.config import load_config, update_config
+        config = load_config(home)
+        bindings = tuple(b.model_copy(update={
+            "permitted_privacy": ("PUBLIC", "PROJECT", "PERSONAL"),
+            "allow_personal_retention": True,
+            "personal_retention_consent_ref": "TEST_ONLY_NOT_SECRET_BROWSER_CONSENT",
+        }) if b.binding_id == binding.surface_binding_id else b for b in config.surface_bindings)
+        update_config(home, config.model_copy(update={"revision": config.revision + 1, "surface_bindings": bindings}), expected_revision=config.revision)
+        binding = binding.model_copy(update={"privacy": ("PUBLIC", "PROJECT", "PERSONAL")})
     source = subprocess.check_output(["git", "rev-parse", "HEAD"], cwd=ROOT, text=True).strip()
     release = Release(release_id="owned-dev", source_commit=source, root=str(ROOT), python=sys.executable)
     supervisor = Supervisor(home, work / "host", binding, [release], active_release="owned-dev")
@@ -87,6 +98,7 @@ def main():
                 "lineage_binding": lineage,
                 "origin": f"https://127.0.0.1:{a.port}",
                 "realm": "OWNED_DEVELOPMENT_ONLY",
+                "private_context_qualification": a.allow_private_context,
             }
         )
     )

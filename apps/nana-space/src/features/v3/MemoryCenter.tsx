@@ -26,6 +26,7 @@ import {
 interface Props {
   memories: Record<string, unknown>[];
   available: boolean;
+  privacyScope?: readonly string[];
   canWithdraw: boolean;
   busy: boolean;
   onWithdraw: (memoryId: string) => void;
@@ -48,14 +49,15 @@ const label = (value: string) => kindNames[value] || value;
 export function MemoryCenter({
   memories,
   available,
+  privacyScope,
   canWithdraw,
   busy,
   onWithdraw,
   onNotice,
 }: Props) {
   const cards = useMemo(
-    () => memoryCards(available ? memories : []),
-    [memories, available],
+    () => memoryCards(available ? memories : [], privacyScope),
+    [memories, available, privacyScope],
   );
   const [query, setQuery] = useState("");
   const [type, setType] = useState("");
