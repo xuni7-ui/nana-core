@@ -2435,3 +2435,8 @@ This records the frontend branch at merge time; it does not supersede the unifie
 Final evidence manifest anchor（self excluded）：3ccdbb58fa6a071594b20b6648defefb3b06e308e68c09beef06a7da967d6997。交接SHA256SUMS anchor46d009c14f82f23b9448c9d26bc48f71dfd90363007e8c9a469f1c38e6b6b41b。
 
 S2 addendum manifest anchor（self excluded）：4d222972c4a00950a135366941edc5e5c97f7d803fa57277472f9672d49265d3。
+
+
+### V4 closure item 1 — actual installed image / recovery
+
+f944e9e image607890d: actual install, repeat zero persistent changes, six mounted private SDK imports asUID999 and actual Pillow PNG decode PASS. Missing clock.py in owned test slot rejected with exact path/hash and no repair. Original same DEV Subject actual SIGKILL/recreate epochs2→3→4, B8 restoration/old-source fence/old-Grant revoke PASS. No production, actual Provider or real phone qualification. Temporary harness input/permission errors retained in evidence/closure-402 summary. Continue item2 explicit private-context scope, then item3 final matched export/delivery; no unrelated business regression repeated.

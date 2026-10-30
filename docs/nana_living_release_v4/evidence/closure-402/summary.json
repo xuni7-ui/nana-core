@@ -1,0 +1,16 @@
+{
+  "source": "f944e9e69f871d760e3d5e63945c471de7ff5c13",
+  "installation": "PASS",
+  "repeat_install_persistent_changes": 0,
+  "actual_sigkill_recreate_b8": "PASS_OWNED_DEV",
+  "all_six_installed_private_sdks": "PASS_UID999",
+  "pillow_actual_png_decode": "PASS",
+  "corruption": "EXACT_CLOCK_PATH_REJECTED_NO_REPAIR",
+  "initial_probe_errors": [
+    "Temporary harness omitted install_runtime_tree.py: corrected input set before installation",
+    "Temporary probe script was mode0600: corrected public script to0644; installed runtime unchanged"
+  ],
+  "new_business_regression_runs": 0,
+  "production_changed": false,
+  "formal_subject_qualified": false
+}

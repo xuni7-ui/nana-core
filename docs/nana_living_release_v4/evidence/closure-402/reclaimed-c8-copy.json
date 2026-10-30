@@ -1,0 +1,7 @@
+{
+  "state": "MATCHED_PUBLIC_EXTRACTION_RECLAIMED",
+  "matched_files": 6215,
+  "logical_bytes": 497282671,
+  "rollback_archive": "/mnt/data/NANA_CORE_LIVING_V4_RELEASE_4.0.1.zip",
+  "subject_data_removed": false
+}

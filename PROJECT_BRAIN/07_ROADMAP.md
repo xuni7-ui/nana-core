@@ -1181,3 +1181,8 @@ V4开发交付已收口，运行源码c8aa8c9；整版与First-Life验收仍未�
 ## 2026-10-30 · Living V4 原owner平台链收口检查点
 
 继承e8ff61d，原C/Manager/Grant/Kernel/Verify接通QQ和B站有限绑定回复；签名入站只传message ID，独立读取核对，不授予权限。手机CAS通道与原生安全凭据入口已实现；397相关回归通过，402 APK构建通过。初始失败、UNKNOWN停止记录及边界见 `docs/nana_living_release_v4/evidence/platform-402/`。未做真实provider/账号/私史/生产；私密前端授权路径和最终匹配发行继续，未宣称CODE_COMPLETE/First-Life/Beta。Master/63条/One Subject不变。
+
+
+### V4 closure item 1 — actual installed image / recovery
+
+f944e9e image607890d: actual install, repeat zero persistent changes, six mounted private SDK imports asUID999 and actual Pillow PNG decode PASS. Missing clock.py in owned test slot rejected with exact path/hash and no repair. Original same DEV Subject actual SIGKILL/recreate epochs2→3→4, B8 restoration/old-source fence/old-Grant revoke PASS. No production, actual Provider or real phone qualification. Temporary harness input/permission errors retained in evidence/closure-402 summary. Continue item2 explicit private-context scope, then item3 final matched export/delivery; no unrelated business regression repeated.

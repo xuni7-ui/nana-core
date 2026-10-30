@@ -1,0 +1,38 @@
+{
+  "source_commit": "f944e9e69f871d760e3d5e63945c471de7ff5c13",
+  "image_id": "sha256:607890d80824d0555a73c08c7a05633160904b2afba010a3411031b7f61ed93c",
+  "target": "/dev/shm/nana-v4-closure-records/install-root/slots/f944e9e69f871d760e3d5e63945c471de7ff5c13/runtime",
+  "target_context": "DOCKER_DAEMON_HOST_BIND",
+  "free_bytes": 1109499904,
+  "subject_opened": false,
+  "canonical_home_changed": false,
+  "services_changed": false,
+  "host_configuration_preflight": {
+    "state": "NO_EXISTING_HOST_CONFIGURATION",
+    "installed": false
+  },
+  "state": "NOT_INSTALLED",
+  "required_runtime_bytes": 594409904,
+  "proposed_changes": [
+    "new immutable runtime slot only"
+  ],
+  "preserved": [
+    "canonical home",
+    "identity",
+    "Store",
+    "host config",
+    "old images",
+    "old runtime",
+    "devices"
+  ],
+  "production_switch": "SEPARATE_ORIGINAL_APPROVAL_REQUIRED",
+  "persistent_changes": 0,
+  "operator_exit_code": 0,
+  "daemon": {
+    "Version": "28.4.0",
+    "ApiVersion": "1.51",
+    "Os": "linux",
+    "Arch": "amd64"
+  },
+  "paid_provider_calls": 0
+}

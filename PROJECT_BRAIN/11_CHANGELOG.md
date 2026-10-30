@@ -2844,3 +2844,8 @@ Initial d7 image build failed while installing compatible c8 SDK. Original archi
 
 ### V4 actual build blocker resolved
 Confirmed initial ENOSPC in fresh SDK install; 983 rebuildable Gradle cache files copied/hash-verified to managed RAM cache, without moving Subject/private data. Superseded unused pre-final development image/cache released; final/base/current and prior full rollback ZIP remain. Matched f944e9e image607890d built; current private interpreter check asUID999 exits0, no Subject opened. Source/Pillow/Core hashes and original failures retained in platform-402 evidence. Full installation/recovery/export and explicit private frontend contract remain pending. No repeated business regression or production effects.
+
+
+### V4 closure item 1 — actual installed image / recovery
+
+f944e9e image607890d: actual install, repeat zero persistent changes, six mounted private SDK imports asUID999 and actual Pillow PNG decode PASS. Missing clock.py in owned test slot rejected with exact path/hash and no repair. Original same DEV Subject actual SIGKILL/recreate epochs2→3→4, B8 restoration/old-source fence/old-Grant revoke PASS. No production, actual Provider or real phone qualification. Temporary harness input/permission errors retained in evidence/closure-402 summary. Continue item2 explicit private-context scope, then item3 final matched export/delivery; no unrelated business regression repeated.
