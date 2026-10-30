@@ -10,9 +10,11 @@ import shutil
 from pathlib import Path
 
 
-def compact(root=Path("/opt/nana-core/runtime/core-releases")):
+def compact(root=Path("/opt/nana-core/runtime/core-releases"), *, only=None):
     saved = 0
     for release in sorted(root.iterdir()):
+        if only is not None and release.name not in only:
+            continue
         binary = release / ".venv/bin/python3.12"
         if not binary.is_file() or binary.is_symlink():
             raise ValueError("QUALIFIED_REGULAR_INTERPRETER_REQUIRED")

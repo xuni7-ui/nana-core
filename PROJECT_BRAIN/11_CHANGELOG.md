@@ -2836,3 +2836,7 @@ V4 delivery audit: repository build/ ignore rule omitted six explicitly reviewed
 ## 2026-10-30 · Living V4 原owner平台链收口检查点
 
 继承e8ff61d，原C/Manager/Grant/Kernel/Verify接通QQ和B站有限绑定回复；签名入站只传message ID，独立读取核对，不授予权限。手机CAS通道与原生安全凭据入口已实现；397相关回归通过，402 APK构建通过。初始失败、UNKNOWN停止记录及边界见 `docs/nana_living_release_v4/evidence/platform-402/`。未做真实provider/账号/私史/生产；私密前端授权路径和最终匹配发行继续，未宣称CODE_COMPLETE/First-Life/Beta。Master/63条/One Subject不变。
+
+
+### V4 fresh-image build follow-up
+Initial d7 image build failed while installing compatible c8 SDK. Original archive integrity passed independently; current SDK and c8 install individually pass in diagnostic image. Bound build disk peak by installing/compacting each fresh SDK before the next. This changes only fresh image tooling, never a sealed deployed runtime; final image qualification remains pending. No unrelated regression rerun.

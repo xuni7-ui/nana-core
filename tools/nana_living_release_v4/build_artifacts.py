@@ -76,7 +76,8 @@ def main():
              "extract_web.py": "deployment/first-life-v2/docker/extract_web.py",
              "container_entry.py": "deployment/first-life-v2/docker/container_entry.py",
              "loopback_relay.py": "deployment/first-life-v2/docker/loopback_relay.py",
-             "compact_venv.py": "tools/nana_living_release_v4/compact_venv.py"}
+             "compact_venv.py": "tools/nana_living_release_v4/compact_venv.py",
+             "install_compatible.py": "tools/nana_living_release_v4/install_compatible.py"}
     for name, source in paths.items():
         (context / name).write_bytes(subprocess.check_output(["git", "show", commit + ":" + source], cwd=ROOT))
     metadata = json.loads(subprocess.check_output(DOCKER + ["image", "inspect", BASE_TAG], text=True))[0]
