@@ -2861,3 +2861,7 @@ no old seal/data/evidence is altered. Packaging now verifies actual Gradle versi
 and each APK-embedded Web asset against the matching archive before export.
 Actual403 APK builds in12s, same signer/appId; stale401 Web rejected. Exact APK
 metadata is in evidence/private-403/apk.json. Final image/export continues.
+
+
+### V4 403 development delivery
+三项工程工作已在隔离开发环境完成：安装恢复、显式个人范围、匹配发行包。最终源码 ffa24b7；实际安装/重复/损坏拒绝与 DEV 同主体恢复通过。真实宿主、付费 Provider、私人历史、真实社交、手机及真人/正式24h仍未验收；First-Life NOT_READY，Beta NO。详见 docs/nana_living_release_v4/qualification.json。

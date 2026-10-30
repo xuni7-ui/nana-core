@@ -7,34 +7,26 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 60,
-  "as_of_us": 1793335951124472,
+  "revision": 61,
+  "as_of_us": 1793360649014572,
   "stage": "H",
   "workstream": "LIVING_RELEASE_V4",
-  "status": "V4_MATCHED_IMAGE_BUILT_INSTALL_AND_REMAINING_SCOPE_PENDING",
+  "status": "V4_DEVELOPMENT_DELIVERY_403_VERIFIED_REAL_ACCEPTANCE_PENDING",
   "progress": [
-    "继承e8ff61d；同一V4主线。已接原chat→C→QQ/Bili发送/独立Verify，源和payload绑定、重复/UNKNOWN不重放；未新增主体/Store。",
-    "新增同UID owner平台入口、限量签名metadata relay、既有通道CAS管理及Android原生安全平台凭据绑定/撤销；不自动创建Grant。",
-    "397相关回归全通过/111.38s；54前端单元通过；402 APK原生构建成功，初始失败均保留。",
-    "平台resolver与真实模型授权分离；输入读取用原预算，缺预算未dispatch时不记录UNKNOWN。",
-    "完整镜像/安装恢复/最终发行待做；手机PUBLIC/PROJECT通道的授权PERSONAL扩展仍未实施，不能称V4_CODE_COMPLETE。",
-    "f944e9e新镜像607890d已实际构建，Core两次离线构建一致；UID999匹配私有解释器验证退出0。磁盘峰值已通过逐个SDK压缩/开发缓存转移缓解；未重跑397已过业务回归。"
+    "最终源码 ffa24b7；403 APK、匹配镜像与完整 ZIP 已构建并校验。",
+    "实际隔离安装、重复零变更、损坏拒绝、六套 SDK、同 DEV 主体 SIGKILL/重建/B8 恢复通过。",
+    "PRIVATE_CONTEXT 设备范围与原 Memory/Surface/Provider 交集已接线；旧设备不自动获得权限。"
   ],
   "open_gates": [
-    "继续：授权私密上下文接线、最终安装/恢复/完整整包导出校验；镜像构建成功不等于V4全部完成。",
-    "真实host/hotfix/正式主体USER_REPORTED_NOT_ATTESTED；实Provider/QQ/Bili/手机/真人/正式24h/跨日/私史导入/切换未运行。",
-    "First-Life NOT_READY/Beta NO；原24h/5h和Master/Matrix固定字节不变。"
+    "真实宿主/热修复、Provider、QQ/B站、手机、真人与正式24h仍待实际资格。",
+    "手机屏幕操作代理未实现；附件仅本地预览；bwrap 未资格保持关闭。",
+    "First-Life NOT_READY；Beta NO。"
   ],
   "evidence_refs": [
-    "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md",
-    "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md",
-    "docs/nana_living_release_v4/FINAL_MISSION.md",
-    "docs/nana_living_release_v4/STATUS.md",
     "docs/nana_living_release_v4/qualification.json",
-    "docs/nana_living_release_v4/HOST_TASK_CARD.md",
-    "docs/nana_living_release_v4/evidence/final-401/",
-    "docs/nana_living_release_v4/evidence/continuation-402/",
-    "docs/nana_living_release_v4/evidence/platform-402/checkpoint.json"
+    "docs/nana_living_release_v4/CAPABILITY_DELIVERY_MATRIX.md",
+    "docs/nana_living_release_v4/evidence/final-403/",
+    "docs/nana_living_release_v4/evidence/private-403/"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

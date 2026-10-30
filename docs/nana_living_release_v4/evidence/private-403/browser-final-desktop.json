@@ -1,0 +1,210 @@
+{
+  "config": {
+    "argv": [
+      "/opt/codex/runtimes/codex-primary-runtime/dependencies/node/bin/node",
+      "/workspace/nana-unified-release/apps/nana-space/node_modules/.bin/playwright",
+      "test",
+      "--config",
+      "playwright.unified.config.ts",
+      "--grep",
+      "explicit private context",
+      "--project",
+      "desktop"
+    ],
+    "configFile": "/workspace/nana-unified-release/apps/nana-space/playwright.unified.config.ts",
+    "rootDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+    "failOnFlakyTests": false,
+    "forbidOnly": false,
+    "fullyParallel": false,
+    "globalSetup": null,
+    "globalTeardown": null,
+    "globalTimeout": 0,
+    "grep": {},
+    "grepInvert": null,
+    "maxFailures": 0,
+    "metadata": {
+      "actualWorkers": 1
+    },
+    "preserveOutput": "always",
+    "projects": [
+      {
+        "outputDir": "/workspace/nana-unified-release/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "desktop",
+        "name": "desktop",
+        "testDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "unified.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/workspace/nana-unified-release/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "phone-360",
+        "name": "phone-360",
+        "testDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "unified.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/workspace/nana-unified-release/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "phone-390",
+        "name": "phone-390",
+        "testDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "unified.spec.ts"
+        ],
+        "timeout": 45000
+      },
+      {
+        "outputDir": "/workspace/nana-unified-release/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "id": "phone-412",
+        "name": "phone-412",
+        "testDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": [
+          "unified.spec.ts"
+        ],
+        "timeout": 45000
+      }
+    ],
+    "filteredProjects": [
+      {
+        "grep": {},
+        "grepInvert": null,
+        "outputDir": "/workspace/nana-unified-release/apps/nana-space/test-results",
+        "repeatEach": 1,
+        "retries": 0,
+        "metadata": {
+          "actualWorkers": 1
+        },
+        "name": "desktop",
+        "testDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "snapshotDir": "/workspace/nana-unified-release/apps/nana-space/tests",
+        "testIgnore": [],
+        "testMatch": "unified.spec.ts",
+        "timeout": 45000,
+        "use": {
+          "baseURL": "https://127.0.0.1:18445",
+          "ignoreHTTPSErrors": true,
+          "headless": true,
+          "launchOptions": {
+            "executablePath": "/usr/bin/chromium",
+            "args": [
+              "--no-sandbox",
+              "--disable-dev-shm-usage"
+            ]
+          },
+          "viewport": {
+            "width": 1440,
+            "height": 1000
+          }
+        },
+        "dependencies": [],
+        "ignoreSnapshots": false,
+        "__projectId": "desktop"
+      }
+    ],
+    "quiet": false,
+    "reporter": [
+      [
+        "list",
+        null
+      ],
+      [
+        "json",
+        {
+          "outputFile": "test-results/unified-report.json"
+        }
+      ]
+    ],
+    "reportSlowTests": {
+      "max": 5,
+      "threshold": 300000
+    },
+    "shard": null,
+    "tags": [],
+    "updateSnapshots": "default",
+    "updateSourceMethod": "patch",
+    "version": "1.64.1",
+    "workers": 1,
+    "webServer": null
+  },
+  "suites": [
+    {
+      "title": "unified.spec.ts",
+      "file": "unified.spec.ts",
+      "column": 0,
+      "line": 0,
+      "specs": [
+        {
+          "title": "explicit private context uses the real Core and current device scope",
+          "ok": true,
+          "tags": [],
+          "tests": [
+            {
+              "timeout": 45000,
+              "annotations": [],
+              "expectedStatus": "passed",
+              "projectId": "desktop",
+              "projectName": "desktop",
+              "results": [
+                {
+                  "workerIndex": 0,
+                  "parallelIndex": 0,
+                  "status": "passed",
+                  "duration": 13297,
+                  "errors": [],
+                  "stdout": [],
+                  "stderr": [],
+                  "retry": 0,
+                  "startTime": "2026-10-30T06:23:51.447Z",
+                  "annotations": [],
+                  "attachments": []
+                }
+              ],
+              "status": "expected"
+            }
+          ],
+          "id": "bf2316f650991e781f12-1d35dc977ad84fbb0171",
+          "file": "unified.spec.ts",
+          "line": 121,
+          "column": 1
+        }
+      ]
+    }
+  ],
+  "errors": [],
+  "stats": {
+    "startTime": "2026-10-30T06:23:50.370Z",
+    "duration": 15383.241999999998,
+    "expected": 1,
+    "skipped": 0,
+    "unexpected": 0,
+    "flaky": 0
+  }
+}

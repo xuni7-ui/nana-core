@@ -1,0 +1,11 @@
+{
+  "state": "PASS",
+  "manifest_sha256": "c203ff66b9b43d36f258c9aea1377a69166a6d2e938248baa25437846c23af27",
+  "files": 50,
+  "runtime_entries": 8263,
+  "tar_bytes": 1007916544,
+  "tar_sha256": "01717a09bb387297c457f2ef5263fc0fb2cca5e68b813ba33fb2b49cf1ec63a5",
+  "gzip_sha256": "26f715e9138775da187a8c2df9c1f7ea2584c58d68cdb0136538ebfb14b5732d",
+  "subject_included": false,
+  "credentials_included": false
+}

@@ -85,3 +85,27 @@ none of these checks establishes real host/platform/provider/human/24h success.
 ## 2026-10-30 platform-owner checkpoint
 
 See PLATFORM_CONNECTION.md and evidence/platform-402. 397 related tests pass; Android402 platform build exists. Matched image/full installation and the explicit private-context contract remain unfinished. This is not V4_CODE_COMPLETE or V4_ACCEPTED. No new provider/social/private/production effects.
+
+## Current403 closure (supersedes the preceding pending checkpoint)
+
+The three requested engineering items are now being sealed in sequence. Item1
+actual f944 install/repeat/precise corruption/six installed SDKs/Pillow and
+same-DEV SIGKILL/recreate/B8 passed (evidence/closure-402). Item2 explicit
+PRIVATE_CONTEXT intersection, original Memory/history/Inspector/Surface path,
+receipt scope guard and fail-before-stop decoder marker passed. Actual browser
+exposed and fixed ChatPane remount loss of privacy/retention checkboxes; both now
+belong to the same ephemeral draft. 32 related Python and56 frontend tests pass;
+four actual Core browser widths plus final stable-Web desktop pass (overlap,
+not summed). Android403 builds with the original signer/appId.
+
+Item3 constructs a new matched image from ffa24b7 and requires actual APK embedded
+assets equal to its Web archive. Stale actual401 APK is rejected. The full handoff
+is the source of final install/repeat/ABI/recovery qualification; see the current
+qualification.json for final results, not the historical401 tests above.
+
+See CAPABILITY_DELIVERY_MATRIX.md for the whole mission, including limits. Narrow
+archive conversion, sampled frames, original-C Bili selection, governed QQ/Bili
+account replies, native metadata background jobs and explicit personal context
+are implemented. They are not real private/account/phone/human/24h qualification.
+No paid call, private history, social send, formal Genesis or production change
+occurred. Master/Matrix/63 criteria and original authority are unchanged.

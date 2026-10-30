@@ -1,0 +1,7 @@
+{
+  "scope": "rebuildable Gradle transforms only after actual403 APK and signer verification",
+  "files": 6446,
+  "bytes": 273001848,
+  "public_modules_retained": true,
+  "source_apk_keystore_data_removed": false
+}

@@ -1,0 +1,8 @@
+{
+  "state": "MATCHED_PUBLIC_EXTRACTION_RECLAIMED",
+  "matched_files": 7404,
+  "logical_bytes": 594415190,
+  "rollback_archive": "/dev/shm/NANA_CORE_LIVING_V4_RELEASE_403",
+  "subject_data_removed": false,
+  "source": "ffa24b7964a1ab08a8948425f6389574ab797dee"
+}

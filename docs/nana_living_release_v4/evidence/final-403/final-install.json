@@ -1,0 +1,41 @@
+{
+  "state": "READY_FOR_SWITCH",
+  "image_id": "sha256:6454d2c59503248346b4dc1ce08d7b8b020d5581eaf5cdd780cfa99df16cf5cd",
+  "members": 8263,
+  "root_mode": "0555",
+  "subject_created": false,
+  "runtime_tree_matches_trusted_manifest": true,
+  "observed_runtime_tar_sha256": "f15466c71a8dc689127324310e40e013ded5089ca768550386aa1b104db5be51",
+  "runtime_tar_encoding_matches_reference": false,
+  "source_commit": "ffa24b7964a1ab08a8948425f6389574ab797dee",
+  "target": "/dev/shm/nana-v4-final-host-root/slots/ffa24b7964a1ab08a8948425f6389574ab797dee/runtime",
+  "target_context": "DOCKER_DAEMON_HOST_BIND",
+  "free_bytes": 968433664,
+  "subject_opened": false,
+  "canonical_home_changed": false,
+  "services_changed": false,
+  "host_configuration_preflight": {
+    "state": "NO_EXISTING_HOST_CONFIGURATION",
+    "installed": false
+  },
+  "idempotent": false,
+  "persistent_changes": 1,
+  "host_configuration_proposal": {
+    "state": "NO_EXISTING_HOST_CONFIGURATION",
+    "installed": false
+  },
+  "operator_exit_code": 0,
+  "daemon": {
+    "Version": "28.4.0",
+    "ApiVersion": "1.51",
+    "Os": "linux",
+    "Arch": "amd64"
+  },
+  "paid_provider_calls": 0,
+  "runtime_abi": {
+    "state": "RUNTIME_ENTRY_VERIFIED",
+    "exit_code": 0,
+    "subject_opened": false
+  },
+  "wrapper_exit_code": 0
+}

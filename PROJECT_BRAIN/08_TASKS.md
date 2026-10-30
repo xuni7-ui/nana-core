@@ -1266,3 +1266,7 @@ f944e9e image607890d: actual install, repeat zero persistent changes, six mounte
 ### V4 closure item 2 — explicit personal context
 
 Additive PRIVATE_CONTEXT application role intersects host binding; no implicit scope gain for old paired devices, no Core Grant. Original Surface consent/provider/privacy/budget still required, SECRET denied. Original Memory/history/Inspector read and withdrawal are per-device; source/scope changes withhold cached receipts. Compatible runtime marker rejects unsafe downgrade before stop. Actual synthetic original-Core retention/restart/withdrawal and narrow-device denial PASS; related32, frontend56, actualTLS browser4 widths PASS (separate overlapping scopes, not summed). Browser first failures found draft checkbox state reset on ChatPane remount; choices now belong to the same ephemeral parent draft. Evidence private-403; actual personal data/provider/production0. Android403 follows original appId/signer; final build/export next.
+
+
+### V4 403 development delivery
+三项工程工作已在隔离开发环境完成：安装恢复、显式个人范围、匹配发行包。最终源码 ffa24b7；实际安装/重复/损坏拒绝与 DEV 同主体恢复通过。真实宿主、付费 Provider、私人历史、真实社交、手机及真人/正式24h仍未验收；First-Life NOT_READY，Beta NO。详见 docs/nana_living_release_v4/qualification.json。

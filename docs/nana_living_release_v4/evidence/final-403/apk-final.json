@@ -1,0 +1,13 @@
+{
+  "file": "nana-space-4.0.3-debug.apk",
+  "sha256": "5f37ff2eac77ab6c065d278f609a48969b599ee1d9f8c155f804b4a248d1da23",
+  "bytes": 4737311,
+  "applicationId": "life.nana.space.dev",
+  "version_code": 403,
+  "version_name": "4.0.3-debug",
+  "signer_sha256": "b2fec5a02e6f32e69fb8ef8bce44391a6a4ba5ab8ce6dc7284cb57663016ec41",
+  "actual_apk_embedded_web_match": "PASS",
+  "old_actual_apk_rejected": "REJECTED",
+  "build_seconds": 12,
+  "physical_phone_install": "NOT_RUN"
+}
