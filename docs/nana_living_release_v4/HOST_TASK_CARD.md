@@ -1,10 +1,9 @@
 # Living V4 · one host-operator task card
 
 For the authorized cloud Nana/Host Operator. The user needs only Android.
-Candidate source: `c8aa8c986219199d0d027ccce0791788516e9d85`; matched bundle
-`NANA_CORE_LIVING_V4_RELEASE/`, Android 4.0.1-debug/401.
-The APK retains the af584900 native/UI build; server hardening needs no further
-APK download.
+Candidate source/image/digests: read the delivered MANIFEST.json and release.json;
+Android4.0.3-debug/403, same applicationId and signing key. Do not use historical
+c8/401 hashes for this package. This is the same V4 task, not a second release.
 [Status and limits](STATUS.md) · [deployment procedure](DEPLOY.md).
 
 1. **Reconcile before preparing.** Formal Subject
@@ -79,12 +78,27 @@ APK download.
    receipts as platform delivery. Human/phone/formal24h are NOT_RUN; First-Life
    NOT_READY and Beta NO remain until their evidence exists.
 
-Private archive work is **preview only after explicit private-read approval**:
-use selected files, verified Subject/lineage/hash pins and the selected release's
-own isolated interpreter with `tools/legacy_archive.py` freeze/verify/search/
-import-preview/withdraw. Do not export private bodies into reports. The real
-RealMemoryIngress import executor is disabled and unimplemented; approval or
-`--private-read-authorized` cannot enable it. Frame-based viewing, full autonomous
-selection, background notification delivery and formal bwrap qualification also
-retain implementation/qualification gaps. Host permissions cannot close these
-code gaps by themselves.
+Private archive work still needs explicit selected-source private-read/import
+approval. The complete immutable archive and hash-bound batch plan are retained;
+a narrow expiring approval can admit UNASSESSED legacy semantic claims through
+original MemoryService, never fabricate new lived events. Use legacy_archive.py
+freeze/verify/search/import-preview/import-batch/withdraw-core as documented.
+
+For private phone dialogue, explicitly approve binding PERSONAL, the host
+PRIVATE_CONTEXT application role, and a separate per-device pairing offer.
+Surface retention and Provider PERSONAL transmission remain separate opt-ins;
+do not silently give existing devices this scope. See PRIVATE_CONTEXT.md.
+
+Sampled-frame acquisition, original-C finite video selection, exact peer/thread
+account replies, platform switch/credential UI and explicit native background
+metadata hints are implemented with controlled evidence. They are not evidence
+of real watching, account delivery or physical notifications. bwrap remains
+unqualified and closed; other legal capabilities remain enabled. Never broaden
+old AstrBot privileges to enable it.
+
+The single final approval should name: actual host/hotfix disposition and exact
+new slot/image; existing Subject/lineage; verified backup and compatible rollback;
+provider/model/privacy/wallet/safe binding; selected legacy scope (if desired);
+exact account/peer Grants and old-writer handover (if desired); explicit device
+private scope (if desired). Keep each scope separate within this one review.
+No new Genesis, private read, paid request or real social send was executed here.

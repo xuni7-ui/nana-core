@@ -32,11 +32,10 @@ root/parent. Bounded page absence does not prove message absence; fetched is not
 marked-read. Delivery needs independent readback, not HTTP200. Platform binding
 alone never enables paid cognition; live-provider authorization remains separate.
 
-397 related tests passed in111.38s, including actual original-owner/owned HTTP
-paths, restart/UNKNOWN/privacy, provider, Precision and H1 compatibility. Initial
-failures are retained in evidence/platform-402. Android402 builds with the original
-application ID/signature; physical installation is NOT_RUN. The old c8/401 image
-remains historical. A matching new image/full installation qualification is not
-yet complete. The phone PUBLIC/PROJECT contract has not yet been expanded to
-explicit per-device PERSONAL access. No actual private history, real provider,
-real social account, production change or formal24h qualification occurred.
+397 related tests passed in111.38s on the platform integration source. Initial
+failures remain in evidence/platform-402. Closure item1 separately qualified
+current installed runtime/repeat/corruption/six SDKs/Pillow and same-DEV recovery.
+Explicit per-device PERSONAL projection and chat are now connected: see
+PRIVATE_CONTEXT.md and evidence/private-403. Android403 retains original
+applicationId/signature; physical installation is NOT_RUN. Actual account,
+paid Provider, real private history, production and formal24h remain unobserved.

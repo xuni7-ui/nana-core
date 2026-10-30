@@ -12,6 +12,8 @@ import shutil
 import shlex
 import subprocess
 import sys
+import tarfile
+import zipfile
 from pathlib import Path
 
 from tools.nana_first_life_android_v2.install_runtime_tree import manifest as runtime_manifest
@@ -54,7 +56,16 @@ def copy_inputs(root, build, work):
     shutil.copyfile(build["core"]["archive"], root / "core.tar.gz")
     shutil.copyfile(work / "context/web.tar.gz", root / "web.tar.gz")
     version = json.loads((ROOT / "apps/nana-space/package.json").read_text())["version"]
-    shutil.copyfile(ROOT / "apps/nana-space/android/app/build/outputs/apk/debug/app-debug.apk", root / ("nana-space-" + version + "-debug.apk"))
+    apk_root = ROOT / "apps/nana-space/android/app/build/outputs/apk/debug"
+    metadata = json.loads((apk_root / "output-metadata.json").read_bytes())
+    if metadata.get("applicationId") != "life.nana.space.dev" or any(
+        row.get("versionName") != version + "-debug" for row in metadata.get("elements", ())
+    ) or not metadata.get("elements"):
+        raise ValueError("MATCHED_ANDROID_BUILD_REQUIRED")
+    apk = apk_root / "app-debug.apk"
+    verify_apk_web(apk, work / "context/web.tar.gz")
+    shutil.copyfile(apk, root / ("nana-space-" + version + "-debug.apk"))
+    (root / "android-build.json").write_text(json.dumps(metadata, indent=2) + "\n")
     tools = root / "tools"
     tools.mkdir()
     for name in ("deploy.py", "docker_api.py", "integrity.py", "operator_stage.py", "proposal.py", "switch_release.py", "host_facts.py", "legacy_archive.py", "prepare_channels.py"):
@@ -72,6 +83,26 @@ def copy_inputs(root, build, work):
         if path.name not in {"core.tar.gz", "web.tar.gz"}:
             shutil.copyfile(path, target / path.name)
     shutil.copyfile(ROOT / "docs/nana_living_release_v4/DEPLOY.md", root / "README.md")
+    for name in ("HOST_TASK_CARD.md", "PLATFORM_CONNECTION.md", "PRIVATE_CONTEXT.md"):
+        shutil.copyfile(ROOT / "docs/nana_living_release_v4" / name, root / name)
+
+
+def verify_apk_web(apk, web):
+    """Reject a stale embedded client before exporting a mismatched release."""
+    with zipfile.ZipFile(apk) as android, tarfile.open(web, "r:gz") as archive:
+        count = 0
+        for member in archive:
+            if not member.isfile():
+                continue
+            path = Path(member.name)
+            if path.parts[0] != "nana-space-web" or ".." in path.parts:
+                raise ValueError("WEB_ARCHIVE_PATH_INVALID")
+            target = "assets/public/" + Path(*path.parts[1:]).as_posix()
+            if android.read(target) != archive.extractfile(member).read():
+                raise ValueError("APK_EMBEDDED_WEB_MISMATCH")
+            count += 1
+        if not count:
+            raise ValueError("MATCHED_WEB_REQUIRED")
 
 
 def main():
@@ -93,6 +124,9 @@ def main():
         docker.remove_check(container)
     tree = runtime_manifest(archive, image_id=build["image_id"])
     (root / "runtime-tree.json").write_text(json.dumps(tree, indent=2) + "\n")
+    # This newly created public export is only a manifest input. The image is
+    # exported independently below; retaining two raw copies can exhaust RAM.
+    archive.unlink()
     core_root = args.build / "core-first/nana-first-life-portable-v1"
     release = {"core_source": build["source_commit"], "core_sha256": sha(root / "core.tar.gz"),
                "core_integrity_sha256": sha(core_root / "SHA256SUMS"), "web_sha256": sha(root / "web.tar.gz"),

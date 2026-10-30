@@ -79,11 +79,12 @@ PRECISION_V2 are unchanged; active plans must not be hot-downgraded to old forma
 
 ## Android / Web
 
-`nana-space-4.0.1-debug.apk` retains `life.nana.space.dev` and the original debug
+`nana-space-4.0.3-debug.apk` retains `life.nana.space.dev` and the original debug
 signer. Cover-install, do not uninstall or clear application data. Existing
-Keystore pairing persists. This release adds native memory-only credential input
-and local speech, so this one native update is necessary; compatible server/Web
-updates do not normally require a new APK.
+Keystore pairing persists. This APK includes protected provider/platform credential dialogs, local speech,
+explicit background metadata subscription and device-scoped personal chat.
+Cover-install this matched client; compatible future server/Web updates do not
+normally require a new native installation.
 
 Native credentials go from a protected Android dialog directly to authenticated
 HTTPS; they never cross JS/localStorage, logs or the Subject Store. The new
@@ -123,8 +124,10 @@ Supervisor switch, safe model binding/budget, real ten-message dialogue, phone
 pairing/speech, B1 PC backup, private history import, QQ/Bilibili account actions,
 human review and formal24h life need their original permissions/environment.
 The Bilibili addition supports bounded public metadata/search and original
-source→World→Concern→C integration; metadata is not watching. Full autonomous
-watching/DM/commenting is incomplete. Code skills remain blocked until bwrap is
+source→World→Concern→C integration; metadata is not watching. Sampled-frame extraction and original-C interest-led selection are implemented;
+these are bounded storyboard samples, not proof of watching an entire video.
+Original C→governed account reply→independent Verify is connected for exact bound
+peers/threads; real account effects remain NOT_RUN. Code skills remain blocked until bwrap is
 actually qualified. First-Life/Beta are not upgraded by this package.
 
 
@@ -145,7 +148,8 @@ account matches, and exclusive-writer confirmation is required for writes.
 Binding mode PLATFORM_ADAPTER_NO_SEND grants no sending permission: each send
 still needs the original explicit capability/resource Grant, C judgment,
 DeliveryAdmission and Manager PASS. Account Bili verifies NAV MID before its
-duplicate precheck. Execution reserves3 requests; independent Verify another1.
+duplicate precheck. Execution reserves3 requests; independent Verify reserves2 for DM (account plus
+message readback),1 for comments.
 QQ reserves account precheck+POST2 plus independent GET1. A failed account check
 cannot mark an old matching post successful. Unavailable platform receipts keep
 UNKNOWN; no resend, including after restart. Live platform effects are NOT_RUN.
@@ -154,16 +158,20 @@ Full source freeze/search/withdraw/review-plan tooling is delivered as
 `tools/legacy_archive.py`; run it with the selected release's own interpreter
 (including -I mode), not host Python with guessed dependencies. It requires
 explicit file selection and Subject/lineage/hash pins. Real private read needs
-its own approval. Plans do not import private history: original
-RealMemoryIngress remains closed. Do not remove that fence or call a source
-archive a second Subject Store.
+its own approval. The generic RealMemoryIngress remains closed. The narrow ArchiveImportService
+requires an additional expiring approval pinned to Subject/lineage, archive, full
+plan, selected batch, privacy and row count. It creates UNASSESSED legacy semantic
+claims in the original MemoryService, never fake live episodic experiences or
+identity/authority. `legacy_archive.py import-batch` and `withdraw-core` use the
+original safe-point control path. Preserve the full immutable archive; approvals
+and archives do not themselves authorize private reads/imports.
 
 See HOST_TASK_CARD.md for the one consolidated host handoff.
 
 
 ## Credential decoder and active-version compatibility
 
-Current runtime source is c8aa8c986219199d0d027ccce0791788516e9d85. Its sealed
+Current runtime source is the exact `source_commit` in MANIFEST.json. Its sealed
 metadata declares secret_binding_contract2. The authenticated anonymous FD pins
 vault path/revision/ciphertext digest; a running child rejects future selection
 from its old snapshot after rotation/revoke/corruption, including cached targets.
@@ -173,7 +181,7 @@ rejected before stopping a healthy Core. An empty vault may use the original
 offline legacy path; original memory-only contract1 remains supported.
 
 The new independent SDK seal retains13ddd484,af584900,3665d39,dbfb37e and current
-c8. Old13/af archives are the exact original trusted archives, not relabeled
+c8 plus the current403 release. Old13/af archives are the exact original trusted archives, not relabeled
 rebuilds. The image checks each Python/SQLite/OpenSSL/Pydantic binding atUID999.
 This preserves available old versions; it does not grant all old binaries FD2
 compatibility. A host active alias absent from the candidate, wrong ownership,
@@ -181,3 +189,25 @@ invalid state/integrity or unavailable interpreter returns
 HOST_CONFIGURATION_REVIEW_REQUIRED with exact context before staging/reuse.
 Neither configured nor persisted active aliases are silently rewritten. Actual
 30845fb/hotfix compatibility still requires the host reconciliation in the card.
+
+
+## Explicit personal context and platform operation
+
+See PRIVATE_CONTEXT.md for the host-binding × explicit PRIVATE_CONTEXT device
+role × original Surface consent × Provider/privacy intersection. Defaults stay
+PUBLIC/PROJECT; existing devices never inherit PERSONAL automatically and SECRET
+is denied. Personal configuration is a separate reviewed scope, not implicit in
+this package or in Host Admin. Old clients lacking this scope remain usable.
+
+See PLATFORM_CONNECTION.md: `prepare_channels.py` proposes exact finite channel
+bindings against the existing canonical receipt; default is read-only. Signed
+metadata events trigger an independent account read, never caller-supplied text
+or authority. Platform-only credentials use the explicit
+`serve --platform-bindings-authorized` flag and never enable paid cognition.
+Use both flags only with both independent authorizations.
+
+Native background hints require explicit OS permission and subscription; Android
+JobScheduler runs approximately every15 minutes and may delay them. These are
+body-free notifications of original-C share candidates, not guaranteed instant
+Nana messages. Physical delivery remains NOT_RUN. APIv2 replies are atomic; no
+claimed token stream. bwrap-unqualified generated code remains blocked.

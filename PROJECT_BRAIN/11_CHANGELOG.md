@@ -2854,3 +2854,10 @@ f944e9e image607890d: actual install, repeat zero persistent changes, six mounte
 ### V4 closure item 2 — explicit personal context
 
 Additive PRIVATE_CONTEXT application role intersects host binding; no implicit scope gain for old paired devices, no Core Grant. Original Surface consent/provider/privacy/budget still required, SECRET denied. Original Memory/history/Inspector read and withdrawal are per-device; source/scope changes withhold cached receipts. Compatible runtime marker rejects unsafe downgrade before stop. Actual synthetic original-Core retention/restart/withdrawal and narrow-device denial PASS; related32, frontend56, actualTLS browser4 widths PASS (separate overlapping scopes, not summed). Browser first failures found draft checkbox state reset on ChatPane remount; choices now belong to the same ephemeral parent draft. Evidence private-403; actual personal data/provider/production0. Android403 follows original appId/signer; final build/export next.
+
+### V4 matched handoff packaging
+New public export tar is removed only after its full tree manifest is produced;
+no old seal/data/evidence is altered. Packaging now verifies actual Gradle version
+and each APK-embedded Web asset against the matching archive before export.
+Actual403 APK builds in12s, same signer/appId; stale401 Web rejected. Exact APK
+metadata is in evidence/private-403/apk.json. Final image/export continues.
