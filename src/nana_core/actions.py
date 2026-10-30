@@ -80,6 +80,14 @@ class ActionKernel:
         if getattr(capability, "path", None) and capability.path.resolve() == store.path.resolve():
             raise CoreError("EXTERNAL_WORLD_MUST_BE_SEPARATE")
 
+    def _verification_requests(self, action):
+        """Additional protocol reads reserve the original budget, never a new one."""
+        hook = getattr(self.registry, 'verify_request_count', None)
+        count = hook(action['capability']) if callable(hook) else 1
+        if type(count) is not int or not 1 <= count <= 16:
+            raise CoreError('INVALID_VERIFICATION_REQUEST_COUNT')
+        return count
+
     def _offline_subject_fixture(self):
         if self.store.schema_target < 9:
             return False
@@ -443,7 +451,8 @@ class ActionKernel:
             grant = self._grant_for(self.verify_capability, action["resource"])
             self._stamp_auth_time(tx)
             attempt = self._attempt(tx, action, grant, "VERIFY")
-            self._reserve(tx, attempt, {"external_requests": 1, "cost_micro_units": 1})
+            count = self._verification_requests(action)
+            self._reserve(tx, attempt, {"external_requests": count, "cost_micro_units": count})
             self._holds(tx, attempt, {"external_requests"})
             tx.update("attempts", attempt, started_at_us=self.store.clock.utc_now_us())
         try:
@@ -486,7 +495,8 @@ class ActionKernel:
             grant = self._grant_for(self.verify_capability, action["resource"])
             self._stamp_auth_time(tx)
             verification_attempt = self._attempt(tx, action, grant, "VERIFY")
-            self._reserve(tx, verification_attempt, {"external_requests": 1, "cost_micro_units": 1})
+            count = self._verification_requests(action)
+            self._reserve(tx, verification_attempt, {"external_requests": count, "cost_micro_units": count})
             self._holds(tx, verification_attempt, {"external_requests"})
             tx.update("attempts", verification_attempt, started_at_us=self.store.clock.utc_now_us())
         try:

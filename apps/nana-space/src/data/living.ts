@@ -124,3 +124,24 @@ export function bilibiliReadings(value: unknown): BilibiliReading[] {
       missing: Array.isArray(row.missing_sources) ? row.missing_sources.filter((s): s is string => typeof s === "string").map(s => s.slice(0, 128)).slice(0, 8) : []}];
   }).slice(0, 32);
 }
+
+export interface PlatformChannel {
+  platform: "qq" | "bilibili"; channel_id: string; enabled: boolean;
+  read_authorized: boolean; send_configured: boolean; secret_state: "AVAILABLE" | "MISSING";
+  state: string;
+}
+/** Configuration availability is not social authorization or a delivery proof. */
+export function platformChannels(value: unknown): PlatformChannel[] {
+  const data = record(value);
+  if (!data || !Array.isArray(data.channels) || data.channels.length > 32) return [];
+  return data.channels.flatMap((value): PlatformChannel[] => {
+    const row = record(value);
+    if (!row || (row.platform !== "qq" && row.platform !== "bilibili")
+      || typeof row.channel_id !== "string" || !/^[a-z][a-z0-9._-]{0,63}$/.test(row.channel_id)
+      || typeof row.enabled !== "boolean" || typeof row.read_authorized !== "boolean" || typeof row.send_configured !== "boolean"
+      || (row.secret_state !== "AVAILABLE" && row.secret_state !== "MISSING")
+      || typeof row.state !== "string" || !/^[A-Z_]{1,96}$/.test(row.state)) return [];
+    return [{platform: row.platform, channel_id: row.channel_id, enabled: row.enabled,
+      read_authorized: row.read_authorized, send_configured: row.send_configured, secret_state: row.secret_state, state: row.state}];
+  });
+}

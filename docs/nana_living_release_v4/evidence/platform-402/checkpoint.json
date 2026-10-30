@@ -1,0 +1,28 @@
+{
+  "status": "PLATFORM_INTEGRATION_TESTED_PACKAGING_IN_PROGRESS",
+  "base_head": "e8ff61d56937f5a719838bbdf15ef9a6001eb026",
+  "tests": {
+    "name": "pytest",
+    "errors": "0",
+    "failures": "0",
+    "skipped": "0",
+    "tests": "397",
+    "time": "111.377",
+    "timestamp": "2026-10-30T00:23:33.073710+00:00",
+    "hostname": "9a598f46e1d8"
+  },
+  "apk": {
+    "file": "nana-space-4.0.2-platform-debug.apk",
+    "bytes": 4842639,
+    "sha256": "2bac24d8da1625591cdfcbc258897121f108437a4a3edb5c714df8f7b505ea37",
+    "version_code": 402,
+    "physical_install": "NOT_RUN"
+  },
+  "real_provider_calls": 0,
+  "real_social_sends": 0,
+  "production_changed": false,
+  "private_data_used": false,
+  "formal_subject_created": false,
+  "private_frontend_context": "NOT_IMPLEMENTED_CURRENT_PUBLIC_PROJECT_ONLY",
+  "matched_image": "NOT_BUILT_FOR_THIS_SOURCE"
+}

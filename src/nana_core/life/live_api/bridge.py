@@ -31,7 +31,7 @@ PAGE_SECTIONS = {
 
 
 class GatewayService:
-    def __init__(self, supervisor, auth, state_root, *, allow_provider_configuration=False, credential_resolver=None):
+    def __init__(self, supervisor, auth, state_root, *, allow_provider_configuration=False, credential_resolver=None, platform_event_secret_refs=None):
         self.supervisor, self.auth = supervisor, auth
         self.allow_provider_configuration = allow_provider_configuration
         self.credential_resolver = credential_resolver
@@ -44,6 +44,8 @@ class GatewayService:
         self.event_digest = None
         self.events = []
         self.receipt_privacy = {}
+        from .platform_events import PlatformEvents
+        self.platform_events=PlatformEvents(self,platform_event_secret_refs or {})
 
     def _receipt(self, key, principal):
         receipt = self.ledger.read(key, principal)
@@ -84,6 +86,8 @@ class GatewayService:
                 "shared_life_candidates": True,
                 "notification_inbox": True,
                 "background_poll_hints": True,
+                "platform_configuration_write": self.allow_provider_configuration,
+                "platform_native_secret_binding": self.allow_provider_configuration and self.credential_resolver is not None,
             },
             data=data,
         ).model_dump(mode="json")
@@ -263,12 +267,14 @@ class GatewayService:
                         coverage="STALE",
                     )
             if page == Page.DEVICES:
+                state=core_request(self.supervisor.home,{'operation':'platform-status'},timeout=2) if status['process_ready'] else {}
+                channels=state.get('result',{}).get('channels',[]) if state.get('ok') is True else []
                 data["surfaces"] = [
                     {"platform": "nana.space", "state": "BOUND_TO_THIS_SUBJECT"},
-                    {"platform": "qq", "state": "SHADOW_ONLY_PRODUCTION_NOT_CONNECTED"},
-                    {"platform": "bilibili", "state": "NOT_CONNECTED"},
+                    *[{'platform':c['platform']+'.'+c['channel_id'],'state':c['state']} for c in channels],
                     {"platform": "android.device-control", "state": "NO_DEVICE_AGENT"},
                 ]
+                data['platform_runtime']=state.get('result',{'state':'OWNER_UNAVAILABLE'})
             coverage = "CURRENT" if status["process_ready"] else "STALE"
             if not items and coverage == "CURRENT":
                 coverage = "NO_DATA"

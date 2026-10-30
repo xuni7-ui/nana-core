@@ -1700,3 +1700,8 @@ D-V4-DELIVERY-TRUTH：分别绑定运行源码c8、UI/Native源码af、实际安
 ## 2026-10-29 — Living V4 continuous 402 checkpoint
 
 D-V4-402：旧档案只作为限时审批下的UNASSESSED SEMANTIC legacy claims进入原Memory，不成为EPISODIC/身份/Grant；旧解码器pre-stop拒绝。B站每个搜索/选择仍需原C+Kernel，后台为用户显式订阅的无正文动态提示，不冒充Nana已投递语言或即时推送。
+
+
+## 2026-10-30 · Living V4 原owner平台链收口检查点
+
+继承e8ff61d，原C/Manager/Grant/Kernel/Verify接通QQ和B站有限绑定回复；签名入站只传message ID，独立读取核对，不授予权限。手机CAS通道与原生安全凭据入口已实现；397相关回归通过，402 APK构建通过。初始失败、UNKNOWN停止记录及边界见 `docs/nana_living_release_v4/evidence/platform-402/`。未做真实provider/账号/私史/生产；私密前端授权路径和最终匹配发行继续，未宣称CODE_COMPLETE/First-Life/Beta。Master/63条/One Subject不变。

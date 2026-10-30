@@ -19,6 +19,7 @@ from ..continuity.world_loop.cognition import CognitionBudget
 from ..presence.contracts import DAY, SECOND
 from .bilibili import BilibiliPublicTransport, BilibiliReadRealization, PublicReading
 from .platform_authority import PlatformActivation
+from .live_api.contracts import ApiError
 
 
 class BilibiliLifeConfig(DTO):
@@ -241,7 +242,7 @@ class BilibiliLife:
         self.next_at = now + self.config.review_interval_seconds * SECOND
         try:
             self.read.port.assert_owned()
-        except CoreError as exc:
+        except (CoreError,ApiError) as exc:
             self.last_state = exc.code
             return self.previous.opportunity() if self.previous else None
         if self.store.db.execute(

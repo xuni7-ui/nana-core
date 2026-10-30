@@ -16,7 +16,7 @@ import urllib.request
 from dataclasses import dataclass
 from types import MappingProxyType
 
-from pydantic import Field
+from pydantic import Field, model_serializer
 
 from ..contracts import DTO, CoreError, Invocation, Receipt, Verification
 from ..storage import digest
@@ -58,6 +58,7 @@ class BilibiliAccountTransport:
             ("api.vc.bilibili.com", "/svr_sync/v1/svr_sync/fetch_session_msgs", False),
             ("api.vc.bilibili.com", "/web_im/v1/web_im/send_msg", True),
             ("api.bilibili.com", "/x/v2/reply", False),
+            ("api.bilibili.com", "/x/v2/reply/reply", False),
             ("api.bilibili.com", "/x/v2/reply/add", True),
             ("api.bilibili.com", "/x/web-interface/nav", False),
         }
@@ -175,17 +176,26 @@ class BilibiliAccountTransport:
                         "timestamp": row.get("timestamp"), "privacy_class": "PERSONAL"})
         return out
 
-    def comment_rows(self, aid):
+    def comment_rows(self, aid, root=0):
         if type(aid) is not int or aid < 1:
             raise CoreError("BILIBILI_MATERIAL_IDENTITY_REQUIRED")
-        data = self._json("api.bilibili.com", "/x/v2/reply", {"type": 1, "oid": aid, "pn": 1, "ps": 20, "sort": 0})
+        params={"type": 1, "oid": aid, "pn": 1, "ps": 20, "sort": 0}
+        if root:params['root']=root
+        data = self._json("api.bilibili.com", "/x/v2/reply/reply" if root else "/x/v2/reply", params)
         if type(data) is not dict or type(data.get("replies") or []) is not list:
             raise CoreError("BILIBILI_COMMENT_RESPONSE_INVALID")
-        return [row for row in (data.get("replies") or [])[:20] if type(row) is dict]
+        rows=[]
+        for row in (data.get('replies') or [])[:20]:
+            if type(row) is not dict:continue
+            rows.append(row)
+            nested=row.get('replies') or []
+            if type(nested) is not list:raise CoreError('BILIBILI_COMMENT_RESPONSE_INVALID')
+            rows.extend(r for r in nested[:3] if type(r) is dict)
+        return rows
 
-    def send_comment(self, aid, text, root=0):
+    def send_comment(self, aid, text, root=0,parent=None):
         return self._json("api.bilibili.com", "/x/v2/reply/add",
-                          {"type": 1, "oid": aid, "message": text, "root": root, "parent": root}, write=True)
+                          {"type": 1, "oid": aid, "message": text, "root": root, "parent": root if parent is None else parent}, write=True)
 
     def send_message(self, recipient, text, key):
         if type(recipient) is not int or recipient < 1 or recipient not in self.policy.permitted_recipients:
@@ -199,12 +209,27 @@ class BilibiliAccountTransport:
         }, write=True)
 
 
+class BilibiliReplyProof(DTO):
+    candidate_digest:str=Field(pattern=r'^[a-f0-9]{64}$')
+    cycle_record_id:str=Field(min_length=1,max_length=128)
+
+
 class BilibiliSendArgs(DTO):
     target_id: int = Field(ge=1)
     text: str = Field(min_length=1, max_length=1024)
     after_seqno: int = Field(default=0, ge=0)
     root_reply_id: int = Field(default=0, ge=0)
+    parent_reply_id: int | None = Field(default=None,ge=1)
     data_privacy: str = "PUBLIC"
+    admission_id: str | None = None
+    data: BilibiliReplyProof | None = None
+    @model_serializer(mode='wrap')
+    def original_wire(self,handler):
+        value=handler(self)
+        if self.admission_id is None:value.pop('admission_id',None)
+        if self.data is None:value.pop('data',None)
+        if self.parent_reply_id is None:value.pop('parent_reply_id',None)
+        return value
 
 
 class BilibiliActionRegistry:
@@ -221,6 +246,9 @@ class BilibiliActionRegistry:
         if capability not in BilibiliActionRegistry.definitions:
             raise CoreError("BILIBILI_ACTION_UNSUPPORTED")
         return 3  # Authenticated self-account + duplicate precheck + at most one POST.
+    @staticmethod
+    def verify_request_count(capability):
+        return 2 if capability=='bilibili.dm.send' else 1
 
     @staticmethod
     def payload_privacy(payload):
@@ -246,9 +274,10 @@ class BilibiliActionPort:
     cannot execute again; restart verification derives entirely from original
     action args/attempts and a fresh account read, with no second ledger.
     """
-    def __init__(self, store, transport, *, app=None, activation=None):
+    def __init__(self, store, transport, *, app=None, activation=None, delivery=None):
         self.store, self.transport = store, transport
         self.app, self.activation = app, activation
+        self.delivery=delivery
         self.identity_id = store.identity["identity_id"]
 
     def assert_owned(self):
@@ -277,16 +306,35 @@ class BilibiliActionPort:
         policy = self.transport.policy
         if not verifying and (policy.send_authorized is not True or policy.exclusive_writer_confirmed is not True):
             raise CoreError("BILIBILI_ACCOUNT_WRITER_NOT_AUTHORIZED")
-        return BilibiliActionRegistry().validate(invocation.capability, invocation.resource, invocation.args)
+        body=BilibiliActionRegistry().validate(invocation.capability, invocation.resource, invocation.args)
+        proof=body.get('data')
+        if proof is not None or self.transport.realm=='AUTHENTICATED_PLATFORM':
+            from ..continuity.records import RecordService
+            if type(proof) is not dict or set(proof)!={'candidate_digest','cycle_record_id'}:
+                raise CoreError('BILIBILI_ORIGINAL_C_REPLY_REQUIRED')
+            records=RecordService(self.store)
+            cycle=records.read(proof['cycle_record_id'])
+            target=cycle['payload'].get('realization_target') or {}
+            if (cycle['record_kind']!='SUBJECT_CYCLE' or not records.current_support(cycle['record_id'])
+                    or target.get('resource')!=invocation.resource or target.get('capability')!=invocation.capability
+                    or proof['candidate_digest']!=digest([body['text'],cycle['record_id'],body['data_privacy']])):
+                raise CoreError('BILIBILI_C_REPLY_BINDING_MISMATCH')
+            if not verifying:
+                from ..continuity.open_agency.delivery import DeliveryAdmission
+                if type(self.delivery) is not DeliveryAdmission or self.delivery.store is not self.store:
+                    raise CoreError('BILIBILI_ORIGINAL_DELIVERY_ADMISSION_REQUIRED')
+                self.delivery.require(body.get('admission_id'),invocation.resource,invocation=invocation)
+        return body
 
     def _matches(self, invocation, body):
         if invocation.capability == "bilibili.dm.send":
             rows = self.transport.messages(body["target_id"], after_seqno=body["after_seqno"])
             return [r for r in rows if r["sender_id"] == self.transport.policy.account_id and r["text"] == body["text"]]
-        rows = self.transport.comment_rows(body["target_id"])
+        rows = self.transport.comment_rows(body["target_id"],body['root_reply_id'])
         return [r for r in rows if type(r.get("member")) is dict and type(r.get("content")) is dict
                 and str(r["member"].get("mid")) == str(self.transport.policy.account_id)
                 and plain(r["content"].get("message"), 2048) == body["text"]
+                and (body.get('parent_reply_id') is None or str(r.get('parent',r.get('root',0)))==str(body['parent_reply_id']))
                 and str(r.get("root", 0)) == str(body["root_reply_id"])]
 
     def execute(self, invocation):
@@ -306,7 +354,7 @@ class BilibiliActionPort:
         if invocation.capability == "bilibili.dm.send":
             result = self.transport.send_message(body["target_id"], body["text"], invocation.idempotency_key)
         else:
-            result = self.transport.send_comment(body["target_id"], body["text"], body["root_reply_id"])
+            result = self.transport.send_comment(body["target_id"], body["text"], body["root_reply_id"],body.get('parent_reply_id'))
         return Receipt(external_id=str((result or {}).get("msg_key", (result or {}).get("rpid", invocation.action_id))),
                        result={"state": "ACCEPTED_NEEDS_VERIFY", "send_count": 1, "independent_verify_required": True})
 
@@ -320,6 +368,7 @@ class BilibiliActionPort:
             return Verification(verdict="INCONCLUSIVE", evidence={"platform": "bilibili", "no_blind_retry": True,
                 "authenticated_account_preflight": "NOT_BOUND", "network_calls": 0})
         try:
+            if invocation.capability=='bilibili.dm.send':self.transport.account()
             matches = self._matches(invocation, body)
         except CoreError:
             matches = []
@@ -335,11 +384,11 @@ from ..continuity.autonomy.realization import GovernedRealization
 
 class BilibiliAccountRealization(GovernedRealization):
     """Exact account port bound to the existing C/Manager/Grant/Kernel chain."""
-    def __init__(self, store, transport, authority, *, app=None, activation=None):
+    def __init__(self, store, transport, authority, *, app=None, activation=None,delivery=None):
         from ..actions import ActionKernel
         from ..continuity.autonomy.governance import ManagerConstraintGate
         if store.schema_target < 13 or type(transport) is not BilibiliAccountTransport:
             raise CoreError("BILIBILI_ORIGINAL_RUNTIME_REQUIRED")
         self.store, self.gate = store, ManagerConstraintGate(store)
-        self.port = BilibiliActionPort(store, transport, app=app, activation=activation)
+        self.port = BilibiliActionPort(store, transport, app=app, activation=activation,delivery=delivery)
         self.kernel = ActionKernel(store, self.port, authority, registry=BilibiliActionRegistry())

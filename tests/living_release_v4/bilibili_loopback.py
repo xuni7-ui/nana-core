@@ -38,6 +38,10 @@ def counterpart():
                 return
             if "/web-interface/nav" in self.path:
                 value = {"isLogin": state["logged_in"], "mid": state["account_id"]}
+            elif '/fetch_session_msgs' in self.path:
+                value = {'messages':state.get('messages',[])}
+            elif '/get_sessions' in self.path:
+                value = {'session_list':[{'session_type':1,'talker_id':43,'unread_count':1,'max_seqno':1}]}
             elif "/search/type" in self.path:
                 value = {"result": state.get('search_results', [{"bvid": "BV1t55v6DE2v", "aid": 7, "cid": 8, "title": "Loopback source"}])}
             elif "/web-interface/view" in self.path:
@@ -78,12 +82,25 @@ def counterpart():
 
         def do_POST(self):
             state["requests"].append(("POST", self.path))
+            if '/web_im/send_msg' in self.path:
+                values=urllib.parse.parse_qs(self.rfile.read(int(self.headers['Content-Length'])).decode())
+                state['posts']+=1
+                text=json.loads(values['msg[content]'][0])['content']
+                row={'msg_key':'out-'+str(state['posts']),'msg_seqno':2,'sender_uid':42,'receiver_id':43,
+                     'content':json.dumps({'content':text}),'timestamp':1}
+                state.setdefault('messages',[]).append(row)
+                if state['lose_response']:
+                    self.connection.shutdown(socket.SHUT_RDWR);self.connection.close();state['read_unavailable']=True
+                    return
+                self.reply({'code':0,'data':{'msg_key':row['msg_key']}})
+                return
             assert self.path == "/x/v2/reply/add"
             assert self.headers["Cookie"] == "TEST_ONLY_NOT_SECRET_COOKIE"
             values = urllib.parse.parse_qs(self.rfile.read(int(self.headers["Content-Length"])).decode())
             assert values["csrf"] == ["TESTONLYNOTSECRET0123456789"]
             state["posts"] += 1
-            row = {"rpid": state["posts"], "root": 0, "member": {"mid": 42}, "content": {"message": values["message"][0]}}
+            row = {"rpid": state["posts"], "root": int(values.get('root',['0'])[0]),
+                'parent':int(values.get('parent',['0'])[0]),"member": {"mid": 42}, "content": {"message": values["message"][0]}}
             state["comments"].append(row)
             if state["lose_response"]:
                 self.connection.shutdown(socket.SHUT_RDWR)

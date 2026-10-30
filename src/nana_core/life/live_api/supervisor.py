@@ -103,6 +103,7 @@ class Supervisor:
         activation=None,
         readiness_seconds=15,
         provider_binding=None,
+        provider_live_authorized=True,
     ):
         self.home = Path(home).absolute()
         self.binding = binding
@@ -115,6 +116,8 @@ class Supervisor:
         self.lock = threading.RLock()
         self.child = None
         self.provider_binding = provider_binding
+        if type(provider_live_authorized) is not bool:raise ApiError('EXPLICIT_PROVIDER_AUTHORIZATION_REQUIRED')
+        self.provider_live_authorized=provider_live_authorized
         self.state = AtomicDocument(
             Path(state_root) / "supervisor.json",
             {
@@ -273,11 +276,17 @@ class Supervisor:
         path = self.home / 'subject/self.db'
         with sqlite3.connect(path.as_uri() + '?mode=ro', uri=True) as db:
             legacy = db.execute("SELECT 1 FROM continuity_evidence WHERE source_namespace='recorded.legacy.archive' LIMIT 1").fetchone()
+            direct_reply = db.execute("SELECT 1 FROM events WHERE kind='open.direct_reply_assessed' LIMIT 1").fetchone()
+            bilibili_work=db.execute("SELECT 1 FROM jobs WHERE work_kind='BILIBILI_LIFE' LIMIT 1").fetchone()
         required = {}
         if legacy is not None:
             required['archive_ingress_contract'] = 'INCOMPATIBLE_ARCHIVE_MEMORY_CONTRACT'
-        if load_config(self.home).bilibili_life is not None:
+        config = load_config(self.home)
+        if config.bilibili_life is not None or bilibili_work is not None:
             required['bilibili_life_contract'] = 'INCOMPATIBLE_BILIBILI_LIFE_CONTRACT'
+        if (config.qq_channels or config.bilibili_channels or direct_reply is not None
+                or self.provider_binding is not None and not self.provider_live_authorized):
+            required['platform_runtime_contract'] = 'INCOMPATIBLE_PLATFORM_RUNTIME_CONTRACT'
         if not required:
             return
         try:
@@ -290,7 +299,7 @@ class Supervisor:
             elif self.binding.realm == Realm.DEVELOPMENT and Path(release.root).resolve() == Path(__file__).resolve().parents[4]:
                 # Only this exact working-tree decoder, never another directory
                 # or an imported module from a newer interpreter on sys.path.
-                metadata = {'archive_ingress_contract': 1, 'bilibili_life_contract': 1}
+                metadata = {'archive_ingress_contract': 1, 'bilibili_life_contract': 1, 'platform_runtime_contract': 1}
             else:
                 metadata = {}
         except (OSError, ValueError, TypeError):
@@ -353,7 +362,12 @@ class Supervisor:
                     supplied = self.provider_binding()
                     if supplied is not None:
                         fd, reference = supplied
-                        argv += ["--live-provider-authorized"]
+                        from ..config import load_config
+                        config=load_config(self.home)
+                        if config.qq_channels or config.bilibili_channels or not self.provider_live_authorized:
+                            argv += ['--platform-bindings-authorized']
+                        if self.provider_live_authorized:
+                            argv += ["--live-provider-authorized"]
                         argv += ["--secret-bundle-fd", str(fd)] if reference is None else ["--secret-fd", str(fd), "--secret-ref", reference]
                 self._require_secret_binding_contract(release, supplied=True, has_fd=fd is not None)
                 self._record(stop_latch=False, last_state="START_REQUESTED")

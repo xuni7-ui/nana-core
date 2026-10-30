@@ -108,7 +108,7 @@ def command(app, line):
     }
 
 
-def run(home, seconds, *, headless=False, router=None, control_enabled=False):
+def run(home, seconds, *, headless=False, router=None, control_enabled=False,secret_resolver=None):
     if control_enabled:
         from ..host_requirements import unix_socket_path
 
@@ -126,7 +126,7 @@ def run(home, seconds, *, headless=False, router=None, control_enabled=False):
     from .cloud import RotatingJSONLog
 
     with (
-        LifeApplication(home, router=router) as app,
+        LifeApplication(home, router=router,platform_resolver=secret_resolver) as app,
         ControlServer(app) if control_enabled else nullcontext() as control,
     ):
         from .durability import StorageGuard
@@ -286,6 +286,7 @@ def main():
     start.add_argument("--seconds", type=float, default=3600)
     start.add_argument("--headless", action="store_true")
     start.add_argument("--live-provider-authorized", action="store_true")
+    start.add_argument("--platform-bindings-authorized",action="store_true")
     start.add_argument("--secret-fd", type=int)
     start.add_argument("--secret-bundle-fd", type=int)
     start.add_argument("--secret-ref")
@@ -453,7 +454,8 @@ def main():
         if not 0 < a.seconds <= 7 * 86400:
             raise CoreError("LIFE_DURATION_BOUND")
         router = None
-        if a.live_provider_authorized:
+        resolver = None
+        if a.live_provider_authorized or a.platform_bindings_authorized:
             from .provider import ExplicitFDResolver, configured_router
             from .secret_binding import MemorySecretResolver
 
@@ -462,7 +464,7 @@ def main():
             if a.secret_bundle_fd is not None and (a.secret_fd is not None or a.secret_ref is not None):
                 raise CoreError("EXPLICIT_SECRET_RESOLVER_REQUIRED")
             cfg = load_config(home)
-            if (
+            if a.live_provider_authorized and (
                 not cfg.provider_hosts
                 or not cfg.remote_privacy
                 or cfg.provider_cost_ceiling_micro <= 0
@@ -471,10 +473,10 @@ def main():
                 raise CoreError("LIVE_PROVIDER_NOT_AUTHORIZED_OR_BUDGETED")
             resolver = MemorySecretResolver.from_fd(a.secret_bundle_fd) if a.secret_bundle_fd is not None else ExplicitFDResolver(a.secret_fd, a.secret_ref)
             os.close(a.secret_bundle_fd if a.secret_bundle_fd is not None else a.secret_fd)
-            router = configured_router(home, cfg, resolver=resolver, authorized=True)
+            if a.live_provider_authorized:router = configured_router(home, cfg, resolver=resolver, authorized=True)
         elif a.secret_fd is not None or a.secret_ref is not None or a.secret_bundle_fd is not None:
             raise CoreError("LIVE_PROVIDER_NOT_AUTHORIZED")
-        run(home, a.seconds, headless=a.headless, router=router, control_enabled=a.control)
+        run(home, a.seconds, headless=a.headless, router=router, control_enabled=a.control,secret_resolver=resolver)
     except (CoreError, OSError, ValueError) as exc:
         emit(
             {

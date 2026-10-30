@@ -66,6 +66,7 @@ import { ChatPane, type Turn } from "./v3/ChatPane";
 import { ModelCenter } from "./v3/ModelCenter";
 import { MemoryCenter } from "./v3/MemoryCenter";
 import { BilibiliView } from "./v3/BilibiliView";
+import { PlatformPanel } from "./v3/PlatformPanel";
 import { mergeRetainedTurns, retainedTurns, pendingReceiptTurns, sharedCandidates, vaultMetadata } from "../data/living";
 const v3Icons = {
   home: Home,
@@ -1403,6 +1404,7 @@ export function LiveSpace() {
             )}
             {page === "devices" && (
               <div className="v3-stack">
+                <PlatformPanel client={client.current} canManage={roles.includes('HOST_ADMIN') && bootstrap?.capabilities.platform_configuration_write === true}/>
                 <V3Card
                   title="同一个奈奈，许多生活入口"
                   eyebrow="ONE SUBJECT · MANY SURFACES"

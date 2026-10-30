@@ -57,7 +57,7 @@ def copy_inputs(root, build, work):
     shutil.copyfile(ROOT / "apps/nana-space/android/app/build/outputs/apk/debug/app-debug.apk", root / ("nana-space-" + version + "-debug.apk"))
     tools = root / "tools"
     tools.mkdir()
-    for name in ("deploy.py", "docker_api.py", "integrity.py", "operator_stage.py", "proposal.py", "switch_release.py", "host_facts.py", "legacy_archive.py"):
+    for name in ("deploy.py", "docker_api.py", "integrity.py", "operator_stage.py", "proposal.py", "switch_release.py", "host_facts.py", "legacy_archive.py", "prepare_channels.py"):
         shutil.copyfile(ROOT / "tools/nana_living_release_v4" / name, tools / name)
     for directory, names in (
         ("nana_first_life_android_v2", ("install_runtime_tree.py",)),

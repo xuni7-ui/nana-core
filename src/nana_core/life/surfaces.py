@@ -70,9 +70,17 @@ class SurfaceSession:
         b=self._bindings.get(key)
         if not b or not b.enabled:raise CoreError('SURFACE_DISABLED_OR_UNBOUND')
         return b
-    def receive(self,observation):
+    def receive(self,observation,*,reply_target=None):
         if type(observation) is not SurfaceObservation:raise CoreError('SURFACE_TYPED_OBSERVATION_REQUIRED')
         o=SurfaceObservation.model_validate_json(observation.model_dump_json());b=self._binding(o.binding_id)
+        if reply_target is not None:
+            from ..continuity.autonomy.contracts import RealizationTarget
+            if type(reply_target) is not RealizationTarget:raise CoreError('SURFACE_TRUSTED_REPLY_TARGET_REQUIRED')
+            allowed = (b.platform=='qq.onebot' and reply_target.capability=='world.contact' and reply_target.operation=='CONTACT') or (
+                b.platform=='bilibili.account' and reply_target.capability in {'bilibili.dm.send','bilibili.comment.send'} and reply_target.operation=='WRITE')
+            if (b.mode!='PLATFORM_ADAPTER_NO_SEND'
+                    or not allowed or reply_target.resource_class!='ORDINARY'):
+                raise CoreError('SURFACE_TRUSTED_REPLY_TARGET_REQUIRED')
         if o.privacy_class not in b.permitted_privacy:raise CoreError('SURFACE_PRIVACY_NOT_BOUND')
         if o.privacy_class=='PERSONAL' and (o.retain_shared_life or o.approved_summary is not None) and (not b.allow_personal_retention or not b.personal_retention_consent_ref):raise CoreError('SURFACE_PERSONAL_RETENTION_NOT_AUTHORIZED')
         if b.mode=='DEVELOPMENT_SHADOW_NO_SEND' and o.origin!='DEVELOPMENT_SHADOW':raise CoreError('SURFACE_ORIGIN_BINDING_MISMATCH')
@@ -108,7 +116,8 @@ class SurfaceSession:
             summary=(memory.add(MemoryCandidate(entity_id=b.entity_id,scope=b.scope,memory_type=MemoryType.EPISODIC,
                 epistemic_kind='STATEMENT',source_evidence_id=eid,text=body,confidence=.8)),)
         result=app.chat(o.text,topic=o.topic,privacy=o.privacy_class,message_id=key,
-            surface=envelope,support_memory_ids=summary,source_key=canonical_key,retain_shared_life=o.retain_shared_life)
+            surface=envelope,support_memory_ids=summary,source_key=canonical_key,retain_shared_life=o.retain_shared_life,
+            reply_target=reply_target)
         return {**result,'binding_id':b.binding_id,'source_key':canonical_key,'summary_memory_ids':summary,
             'state':'SHADOW_REPLY_CANDIDATE' if b.mode=='DEVELOPMENT_SHADOW_NO_SEND' else 'CORE_REPLY_CANDIDATE',
             'platform_origin':o.origin,'delivered':False,'execution_authority':False}

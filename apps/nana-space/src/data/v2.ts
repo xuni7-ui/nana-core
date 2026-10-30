@@ -33,6 +33,7 @@ export const livePages: LivePage[] = [
 ];
 interface NativePort {
   bindProviderCredential(options: { data: Record<string, unknown>; persistent?: boolean }): Promise<unknown>;
+  bindPlatformCredential(options: { data: Record<string, unknown>; persistent?: boolean }): Promise<unknown>;
   status(): Promise<{
     paired: boolean;
     base?: string;
@@ -336,6 +337,27 @@ export class V2Client {
     return this.accept(isNative()
       ? await this.nativeCall({ operation: "bilibili.history", data: {} })
       : await this.request("platform/bilibili"));
+  }
+  async platformStatus(): Promise<Envelope> {
+    return this.accept(isNative()
+      ? await this.nativeCall({operation: "platform.status", data: {}})
+      : await this.request("platform/status"));
+  }
+  async bindPlatformCredential(data: Record<string, unknown>, persistent = false): Promise<Envelope> {
+    if (!isNative()) throw new V2Error("NATIVE_SECRET_INPUT_REQUIRED");
+    const incarnation = this.incarnation;
+    const result = await nativePort.bindPlatformCredential({data, persistent});
+    if (incarnation !== this.incarnation) throw new V2Error("SESSION_REVOKED");
+    return this.accept(result);
+  }
+  async revokePlatformCredential(data: Record<string, unknown>): Promise<Envelope> {
+    if (!isNative()) throw new V2Error("NATIVE_SECRET_INPUT_REQUIRED");
+    return this.accept(await this.nativeCall({operation: "platform.credential.revoke", data: {...data, action: "REVOKE"}}));
+  }
+  async configurePlatform(data: Record<string, unknown>): Promise<Envelope> {
+    return this.accept(isNative()
+      ? await this.nativeCall({operation: "platform.command", data})
+      : await this.request("platform/commands", "POST", data));
   }
   async sharedLifeCandidates(): Promise<Envelope> {
     return this.accept(isNative()

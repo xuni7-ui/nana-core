@@ -13,6 +13,8 @@ from ..continuity.hands.browser import BrowserEndpoint
 from ..continuity.open_life.sources import IntakeSource
 from ..continuity.controlled_world.projects import ControlledProject
 from .bilibili_life import BilibiliLifeConfig
+from .platform_runtime import QQChannelBinding
+from .bilibili_runtime import BilibiliChannelBinding
 
 class LifeConfig(DTO):
     schema_version:Literal[1]=1
@@ -40,10 +42,14 @@ class LifeConfig(DTO):
     shared_presence:bool=False
     advanced_life:bool=False
     bilibili_life:BilibiliLifeConfig|None=None
+    qq_channels:tuple[QQChannelBinding,...]=Field(default=(),max_length=16)
+    bilibili_channels:tuple[BilibiliChannelBinding,...]=Field(default=(),max_length=16)
     @model_serializer(mode='wrap')
     def compatible_optional_platforms(self, handler):
         value=handler(self)
         if self.bilibili_life is None:value.pop('bilibili_life',None)
+        if not self.qq_channels:value.pop('qq_channels',None)
+        if not self.bilibili_channels:value.pop('bilibili_channels',None)
         return value
     record_research_outcomes:bool=False
     world_sources:tuple[IntakeSource,...]=Field(default=(),max_length=16)
@@ -61,6 +67,14 @@ class LifeConfig(DTO):
         try:ZoneInfo(self.timezone)
         except (ZoneInfoNotFoundError,ValueError):raise ValueError('IANA timezone required') from None
         if len({b.binding_id for b in self.surface_bindings})!=len(self.surface_bindings):raise ValueError('duplicate surface binding')
+        if len({c.channel_id for c in self.qq_channels})!=len(self.qq_channels):raise ValueError('duplicate QQ channel binding')
+        if len({c.channel_id for c in self.bilibili_channels})!=len(self.bilibili_channels):raise ValueError('duplicate Bilibili channel binding')
+        bindings={b.binding_id:b for b in self.surface_bindings}
+        for platform,channels in (('qq.onebot',self.qq_channels),('bilibili.account',self.bilibili_channels)):
+            for channel in channels:
+                binding=bindings.get(channel.binding_id)
+                if (binding is None or binding.platform!=platform or binding.mode!='PLATFORM_ADAPTER_NO_SEND'
+                        or channel.enabled and not binding.enabled):raise ValueError('platform channel surface binding mismatch')
         return self
     max_autonomous_materials:int=Field(default=2,ge=0,le=16)
     active_start_utc:int=Field(default=0,ge=0,le=23)

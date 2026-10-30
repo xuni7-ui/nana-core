@@ -1,4 +1,5 @@
 import { expect, test } from "vitest";
+import { platformChannels } from "../src/data/living";
 import { bilibiliReadings, credentialProfiles, mergeRetainedTurns, retainedTurns, pendingReceiptTurns, sharedCandidates, vaultMetadata } from "../src/data/living";
 
 test("retained history restores only valid sourced rows and withdrawal removes stale restored bodies", () => {
@@ -8,6 +9,14 @@ test("retained history restores only valid sourced rows and withdrawal removes s
   const unknown = {id: "original-request", input: "", state: "UNKNOWN"};
   expect(mergeRetainedTurns([], [...saved, unknown])).toEqual([unknown]);
   expect(retainedTurns({items: [{...saved[0], exchange_record_id: "../../other", created_at_us: 10}]})).toEqual([]);
+});
+
+test("platform settings distinguish configured source from authority and filter unknown sensitive fields", () => {
+  const channel = {platform: "qq", channel_id: "primary", enabled: true, read_authorized: true,
+    send_configured: true, secret_state: "AVAILABLE", state: "NOT_OBSERVED"};
+  expect(platformChannels({channels: [{...channel, credential: "TEST_ONLY_NOT_SECRET", grant: "IGNORE"}]})).toEqual([channel]);
+  expect(platformChannels({channels: [{...channel, platform: "HOST_ADMIN"}]})).toEqual([]);
+  expect(platformChannels({channels: [{...channel, enabled: "false"}]})).toEqual([]);
 });
 
 test("pending receipts restore only original verification IDs, never body or a fake completion", () => {

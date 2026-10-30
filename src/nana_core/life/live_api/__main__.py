@@ -37,6 +37,7 @@ class HostConfiguration(DTO):
     activation: dict[str, str] | None = None
     allow_provider_configuration: bool = False
     provider_vault: str | None = None
+    platform_event_secret_refs:dict[str,str]=Field(default_factory=dict,max_length=16)
 
 
 def read_private(path):
@@ -51,6 +52,7 @@ def main():
     p.add_argument("--config", required=True)
     p.add_argument("--password-fd", type=int)
     p.add_argument("--live-provider-authorized", action="store_true")
+    p.add_argument('--platform-bindings-authorized',action='store_true')
     p.add_argument("--secret-fd", type=int)
     p.add_argument("--secret-ref")
     p.add_argument("--check-only", action="store_true")
@@ -61,7 +63,7 @@ def main():
     try:
         cfg = read_private(a.config)
         if a.check_only:
-            if any((a.password_fd is not None, a.live_provider_authorized, a.secret_fd is not None, a.secret_ref is not None)):
+            if any((a.password_fd is not None, a.live_provider_authorized,a.platform_bindings_authorized, a.secret_fd is not None, a.secret_ref is not None)):
                 raise ApiError("READ_ONLY_PREFLIGHT_CREDENTIALS_DENIED")
             from .preflight import check
             result = check(cfg)
@@ -72,7 +74,7 @@ def main():
             home = Path(cfg.home).resolve()
             if not Path(cfg.provider_vault).is_absolute() or vault.resolve() != vault or vault.is_relative_to(home):
                 raise ApiError("PROVIDER_VAULT_MUST_BE_HOST_LOCAL_OUTSIDE_SUBJECT", 400)
-            if a.live_provider_authorized:
+            if a.live_provider_authorized or a.platform_bindings_authorized:
                 from ..provider_vault import DurableSecretResolver
                 resolver = DurableSecretResolver(vault, initialize=True)
         password = None
@@ -85,8 +87,8 @@ def main():
             del raw
         auth = AuthService(Path(cfg.host_state) / "auth.json", password=password, roles=cfg.roles)
         password = None
-        binding = resolver.inherited_fd if a.live_provider_authorized else None
-        if a.live_provider_authorized:
+        binding = resolver.inherited_fd if a.live_provider_authorized or a.platform_bindings_authorized else None
+        if a.live_provider_authorized or a.platform_bindings_authorized:
             if (a.secret_fd is None) != (a.secret_ref is None):
                 raise ApiError("EXPLICIT_SECRET_RESOLVER_REQUIRED")
             if a.secret_fd is not None:
@@ -110,9 +112,12 @@ def main():
             active_release=cfg.active_release,
             activation=cfg.activation,
             provider_binding=binding,
+            provider_live_authorized=a.live_provider_authorized,
         )
         service = GatewayService(supervisor, auth, cfg.host_state, allow_provider_configuration=cfg.allow_provider_configuration,
-                                 credential_resolver=resolver if a.live_provider_authorized else None)
+                                 credential_resolver=resolver if a.live_provider_authorized or a.platform_bindings_authorized else None,
+                                 platform_event_secret_refs=cfg.platform_event_secret_refs)
+        if cfg.platform_event_secret_refs:service.platform_events.start()
         server = ApiServer(("127.0.0.1", cfg.port), service, public_origin=cfg.public_origin, web_root=cfg.web_root)
         stopping = threading.Event()
 
@@ -150,6 +155,7 @@ def main():
         finally:
             stopping.set()
             thread.join(timeout=2)
+            service.platform_events.close()
     except (ApiError, CoreError, OSError, ValueError) as exc:
         code = exc.code if isinstance(exc, (ApiError, CoreError)) and re.fullmatch(r"[A-Z0-9_]{1,96}", exc.code) else "HOST_BINDING_OR_CONFIGURATION_UNAVAILABLE"
         print(json.dumps({"state": "BLOCKED", "code": code}), flush=True)

@@ -62,7 +62,7 @@ class PortfolioOpportunities:
         return None
 
 class LifeApplication:
-    def __init__(self,home,*,clock=None,router=None,bootstrap_grant=False):
+    def __init__(self,home,*,clock=None,router=None,bootstrap_grant=False,platform_resolver=None):
         self.home=home_path(home);self.config=load_config(home);self.router=router;self.session=None;self._chat={};self._recent=[];self.closed=False
         from ..continuity.current_state import ProjectStateSource
         self.current_project_state=ProjectStateSource(self.config.project_root,self.config.current_project_state) if self.config.current_project_state else None
@@ -116,6 +116,8 @@ class LifeApplication:
             self.legacy_imports = ArchiveImportService(self)
             self.legacy_imports.reconcile()
             self._legacy_review_at = 0
+            from .platform_runtime import PlatformRuntime
+            self.platforms=PlatformRuntime(self,platform_resolver)
         except BaseException:self.runtime.stop();raise
 
     def _save_control(self):
@@ -147,6 +149,7 @@ class LifeApplication:
         view['human_review']='NOT_RUN'
         if self.advanced:view['advanced_life']=self.advanced.view()
         if self.bilibili_life:view['bilibili_life']=self.bilibili_life.view()
+        view['platform_runtime']=self.platforms.view()
         return view
     def status(self):
         r=self.runtime
@@ -219,7 +222,7 @@ class LifeApplication:
         if result['state']!='PROPOSED':raise CoreError(result.get('error_code','DIALOGUE_NOT_PROPOSED'))
         return session,result['record_id']
 
-    def chat(self,text,*,topic='daily',privacy='PERSONAL',message_id=None,surface=None,support_memory_ids=(),source_key=None,retain_shared_life=False):
+    def chat(self,text,*,topic='daily',privacy='PERSONAL',message_id=None,surface=None,support_memory_ids=(),source_key=None,retain_shared_life=False,reply_target=None):
         if type(text) is not str or not 1<=len(text)<=2048:raise CoreError('LOCAL_MESSAGE_BOUND')
         if type(retain_shared_life) is not bool:raise CoreError('CONVERSATION_RETENTION_INVALID')
         r=self.runtime;key=message_id or uid();event_key=source_key or 'local.chat.'+key
@@ -253,7 +256,7 @@ class LifeApplication:
                 basis='MODEL_PROPOSAL' if meaning.confidence in {'RELEVANT','HIGH'} else 'INTERPRETED'
             provider_state='MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED'
         except CoreError as exc:provider_state=exc.code
-        event=SubjectInput(conversation_proposal=proposal,domain='LOCAL_INTERACTION',source_key=event_key,kind='INTERACTION',origin='USER',entity_id='project-user',scope='project-work',observed_at_us=surface.observed_at_us if surface else r.clock.utc_now_us(),occurred_at_us=surface.occurred_at_us if surface else None,privacy_class=privacy,surface=surface,
+        event=SubjectInput(realization_target=reply_target,conversation_proposal=proposal,domain='LOCAL_INTERACTION',source_key=event_key,kind='INTERACTION',origin='USER',entity_id='project-user',scope='project-work',observed_at_us=surface.observed_at_us if surface else r.clock.utc_now_us(),occurred_at_us=surface.occurred_at_us if surface else None,privacy_class=privacy,surface=surface,
             text='Local input reviewed meaning: '+kind,source_memory_ids=(mid,),interaction_signal=InteractionSignal(kind=kind,topic_key=topic,basis=basis,proposal_record_id=rid))
         qid=r.submit(RuntimeEvent(event_type='USER_EVENT',trigger='INCOMING_EVENT',input=event,causes=(Cause(kind='MEMORY',reference_id=mid),),due_at_us=r.clock.utc_now_us(),priority=3))
         outcome=r.step();queue=r.store.one('runtime_queue',qid)
@@ -271,7 +274,7 @@ class LifeApplication:
             # A configured provider can be budget-blocked after valid interpretation.
             # Do not falsely report that no model is configured or pretend this is generated speech.
             draft='本次没有生成模型回复（'+(render_state if render_state!='NOT_RUN' else provider_state)+'）。'
-        if cycle.intention_id:
+        if cycle.intention_id and reply_target is None:
             current=r.store.one('subject_intentions',cycle.intention_id)
             if current['state']=='PENDING':r.subject.transition_intention(cycle.intention_id,expected_revision=current['revision'],state='DROPPED')
         from .dialogue_contracts import DialogueTurn
@@ -295,7 +298,8 @@ class LifeApplication:
         if render_rid and render_state=='UNVERIFIED_MODEL_WORDING' and self.session.route_snapshot:
             route=self.session.route_snapshot.model_dump(mode='json')
             route['returned_model_id']=self.session.proposal(render_rid).model_id
-        return {'message_id':key,'message_memory_id':mid,'provider_state':provider_state,'render_state':render_state,'route':route,'mode':cycle.context_fit.mode,'judgment':cycle.judgment.stance,'intention':cycle.intention.kind,'text':draft,'raw_body_persisted':retain_shared_life,'exchange_record_id':exchange_id,'conversation_decision':cycle.conversation_decision.model_dump(mode='json') if cycle.conversation_decision else None,'external_social_send':False}
+        return {'message_id':key,'message_memory_id':mid,'provider_state':provider_state,'render_state':render_state,'route':route,'mode':cycle.context_fit.mode,'judgment':cycle.judgment.stance,'intention':cycle.intention.kind,'text':draft,'raw_body_persisted':retain_shared_life,'exchange_record_id':exchange_id,'conversation_decision':cycle.conversation_decision.model_dump(mode='json') if cycle.conversation_decision else None,'external_social_send':False,
+            'cycle_id':cycle.cycle_id,'cycle_record_id':cycle.record_id,'intention_id':cycle.intention_id}
 
     def forget(self,mid):
         MemoryService(self.runtime.store,self.runtime.authority).forget(mid,self.runtime.authority)

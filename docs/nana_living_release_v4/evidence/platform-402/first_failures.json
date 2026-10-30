@@ -1,0 +1,44 @@
+[
+  {
+    "scope": "Bili new workflow fixture",
+    "failed": 3,
+    "cause": "MemorySecretResolver takes bind(), not a constructor mapping",
+    "fixed": "explicit fixture bind; no security gate removed"
+  },
+  {
+    "scope": "input resource accounting",
+    "failed": 5,
+    "cause": "budget_holds requires actual action attempt FK",
+    "fixed": "atomic conservative spend in original budgets + original admission event; pre-dispatch denial rolls back reservation"
+  },
+  {
+    "scope": "new budget/CAS tests",
+    "failed": 2,
+    "cause": "fixture omitted write_attempts; existing protocol returns 200 REJECTED receipt for CAS",
+    "fixed": "complete original budget dimensions and assert exact rejected receipt"
+  },
+  {
+    "scope": "comment-thread workflow",
+    "failed": 1,
+    "cause": "exact child reply endpoint absent in HTTP allowlist",
+    "fixed": "allow only x/v2/reply/reply; verify root and parent"
+  },
+  {
+    "scope": "supervisor stop",
+    "failed": 1,
+    "cause": "UNKNOWN stop receipt during one isolated test; not reproduced by instrumented local run or final related suite",
+    "status": "INITIAL_UNKNOWN_PRESERVED_NO_FAKE_FAILURE_OR_SUCCESS"
+  },
+  {
+    "scope": "native credential test",
+    "failed": 1,
+    "cause": "fixture used wrong pairing path/envelope",
+    "fixed": "existing device/pairing and native exchange unchanged"
+  },
+  {
+    "scope": "related test collection",
+    "errors": 1,
+    "cause": "duplicate unqualified module test_preflight",
+    "fixed": "make this task test directory a Python package; no tests skipped"
+  }
+]

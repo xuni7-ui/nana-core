@@ -156,6 +156,7 @@ src/nana_core/life/application.py
 src/nana_core/life/bilibili.py
 src/nana_core/life/bilibili_frames.py
 src/nana_core/life/bilibili_life.py
+src/nana_core/life/bilibili_runtime.py
 src/nana_core/life/bilibili_account.py
 src/nana_core/life/cloud.py
 src/nana_core/life/config.py
@@ -176,12 +177,17 @@ src/nana_core/life/live_api/contracts.py
 src/nana_core/life/live_api/ledger.py
 src/nana_core/life/live_api/preflight.py
 src/nana_core/life/live_api/provider_settings.py
+src/nana_core/life/live_api/platform_events.py
+src/nana_core/life/live_api/platform_settings.py
+src/nana_core/life/live_api/platform_credentials.py
 src/nana_core/life/live_api/server.py
 src/nana_core/life/live_api/state.py
 src/nana_core/life/live_api/supervisor.py
 src/nana_core/life/owned_surface.py
 src/nana_core/life/platform_authority.py
 src/nana_core/life/platform_bridge.py
+src/nana_core/life/platform_runtime.py
+src/nana_core/life/platform_forward.py
 src/nana_core/life/portable_runtime.py
 src/nana_core/life/presentation.py
 src/nana_core/life/provider.py

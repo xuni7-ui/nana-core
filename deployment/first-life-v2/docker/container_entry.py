@@ -84,7 +84,11 @@ def main():
         return 0 if value["state"] == "PRIVATE_RUNTIME_COMPATIBLE" else 2
     allowed = {("serve",), ("preflight",), ("serve", "--password-fd", "0"),
                ("serve", "--live-provider-authorized"),
-               ("serve", "--password-fd", "0", "--live-provider-authorized")}
+               ("serve", "--password-fd", "0", "--live-provider-authorized"),
+               ('serve','--platform-bindings-authorized'),
+               ('serve','--password-fd','0','--platform-bindings-authorized'),
+               ('serve','--live-provider-authorized','--platform-bindings-authorized'),
+               ('serve','--password-fd','0','--live-provider-authorized','--platform-bindings-authorized')}
     password_stdin = "--password-fd" in operation
     if tuple(operation) not in allowed:
         print(json.dumps({"state": "OPERATION_DENIED"}))
@@ -120,6 +124,7 @@ def main():
         # Separate operator opt-in; credentials arrive later via the explicit
         # native/admin memory resolver. LifeConfig/route/budget remain binding.
         command.append("--live-provider-authorized")
+    if '--platform-bindings-authorized' in operation:command.append('--platform-bindings-authorized')
     os.execv(sys.executable, [sys.executable, "-I", "-B", str(Path(__file__).with_name("loopback_relay.py")), *command])
 
 

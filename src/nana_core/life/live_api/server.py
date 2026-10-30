@@ -138,6 +138,7 @@ class Handler(BaseHTTPRequestHandler):
             raise ApiError("JSON_REQUIRED", 415)
         try:
             raw = self.rfile.read(length)
+            self._raw_request_body = raw
             if len(raw) != length:
                 raise ValueError()
             value = json.loads(
@@ -204,7 +205,7 @@ class Handler(BaseHTTPRequestHandler):
 
     def _route(self):
         service = self.server.service
-        for name in ("Authorization", "Cookie", "Origin", "X-Nana-CSRF", "Content-Type"):
+        for name in ("Authorization", "Cookie", "Origin", "X-Nana-CSRF", "Content-Type", "X-Nana-Signature"):
             if len(self.headers.get_all(name) or []) > 1:
                 raise ApiError("AMBIGUOUS_HEADERS", 400)
         host = self.headers.get_all("Host") or []
@@ -239,6 +240,14 @@ class Handler(BaseHTTPRequestHandler):
             self._static(path, query)
             return
         route = path[len(PREFIX) + 1 :]
+        if (route.startswith('platform/qq/events/') or route.startswith('platform/bilibili/events/')) and self.command=='POST':
+            if self.headers.get('Origin') is not None:raise ApiError('PLATFORM_EVENT_ORIGIN_DENIED',403)
+            platform=route.split('/')[1]
+            channel=route.split('/events/',1)[1]
+            self._body()
+            result=service.platform_events.offer(channel,self._raw_request_body,self.headers.get('X-Nana-Signature'),platform=platform)
+            self._json(202,{'contract':'nana-space-live/v2',**result})
+            return
         allowed_query = {"cursor"} if route == "events" else set()
         if set(query) - allowed_query:
             raise ApiError("QUERY_INVALID")
@@ -335,6 +344,9 @@ class Handler(BaseHTTPRequestHandler):
                 value = service.notification_inbox(principal)
             elif route == "platform/bilibili":
                 value = service.bilibili_history(principal)
+            elif route=='platform/status':
+                from .platform_settings import status
+                value=status(service,principal)
             elif route == "providers/status":
                 principal.require(Role.READER)
                 value = service.envelope(service.provider_status())
@@ -363,7 +375,13 @@ class Handler(BaseHTTPRequestHandler):
         if self.command != "POST":
             raise ApiError("METHOD_DENIED", 405)
         body = self._body()
-        if route == "providers/commands":
+        if route=='platform/credential':
+            from .platform_credentials import PlatformCredentialRequest,bind
+            value=bind(service,principal,self._model(PlatformCredentialRequest,body))
+        elif route=='platform/commands':
+            from .platform_settings import PlatformConfigurationRequest,configure
+            value=configure(service,principal,self._model(PlatformConfigurationRequest,body))
+        elif route == "providers/commands":
             from .provider_settings import ProviderConfigurationRequest, configure
             value = configure(service, principal, self._model(ProviderConfigurationRequest, body))
         elif route == "providers/credential":

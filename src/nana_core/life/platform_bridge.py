@@ -223,6 +223,8 @@ class QQCapabilityPort:
 
     def assert_owned(self):
         """A local fixture or canonical activation can enter the original Core."""
+        if callable(getattr(self.transport.credential,'available',None)) and not self.transport.credential.available():
+            raise CoreError('QQ_CREDENTIAL_UNAVAILABLE')
         endpoint = urllib.parse.urlsplit(self.transport.endpoint)
         if self.transport.realm == "SYNTHETIC_LOOPBACK":
             if endpoint.scheme != "http" or endpoint.hostname not in {"127.0.0.1", "::1"}:
@@ -397,7 +399,7 @@ class QQIngress:
         require_platform_authority(self.app, self.activation, channel="qq", exclusive_writer=False,
                                    account_id=self.transport.account_id)
 
-    def receive(self, message_id):
+    def receive(self, message_id, *, reply_target=None):
         from .surfaces import SurfaceObservation
         self._authority()
         self.transport.account()
@@ -415,7 +417,7 @@ class QQIngress:
         result = self.app.surfaces.receive(SurfaceObservation(binding_id=self.binding_id,
             event_id="qq:" + str(message_id), thread_id="qq." + kind + "." + peer,
             occurred_at_us=row["time"] * 1_000_000, text=message_text(row.get("message")), privacy_class=self.privacy,
-            origin=self.transport.realm))
+            origin=self.transport.realm), reply_target=reply_target)
         source = result.get("source_key")
         if source:
             cycle = self.app.runtime.store.db.execute(

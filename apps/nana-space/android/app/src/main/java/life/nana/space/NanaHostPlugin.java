@@ -226,6 +226,9 @@ public class NanaHostPlugin extends Plugin {
                 else if ("backup.status".equals(op)) route = "backup/status";
                 else if ("conversation.history".equals(op)) route = "conversation/history";
                 else if ("bilibili.history".equals(op)) route = "platform/bilibili";
+                else if ("platform.status".equals(op)) route = "platform/status";
+                else if ("platform.command".equals(op)) { route = "platform/commands";method = "POST"; }
+                else if ("platform.credential.revoke".equals(op) && "REVOKE".equals(data.optString("action"))) { route = "platform/credential";method = "POST"; }
                 else if ("life.shares".equals(op)) route = "life/shares";
                 else if ("providers.credentials".equals(op)) route = "providers/credentials";
                 else if ("providers.credential.revoke".equals(op) && "REVOKE".equals(data.optString("action"))) { route = "providers/credential";method = "POST"; }
@@ -264,6 +267,19 @@ public class NanaHostPlugin extends Plugin {
         if (!metadata.optString("provider_profile_id").matches("[a-z][a-z0-9_-]{0,31}\\.[a-z][a-z0-9._-]{0,95}")) {
             call.reject("INVALID_PROVIDER_PROFILE"); return;
         }
+        bindHostCredential(call, metadata, "providers/credential", "安全绑定模型凭据");
+    }
+    @PluginMethod public void bindPlatformCredential(PluginCall call) {
+        JSObject metadata = call.getObject("data", new JSObject());
+        String platform = metadata.optString("platform"), slot = metadata.optString("slot");
+        if (!metadata.optString("channel_id").matches("[a-z][a-z0-9._-]{0,63}")
+            || !("qq".equals(platform) && "AUTH".equals(slot)
+                || "bilibili".equals(platform) && ("COOKIE".equals(slot) || "CSRF".equals(slot)))) {
+            call.reject("INVALID_PLATFORM_BINDING"); return;
+        }
+        bindHostCredential(call, metadata, "platform/credential", "安全绑定平台凭据");
+    }
+    private void bindHostCredential(PluginCall call, JSObject metadata, String route, String title) {
         getActivity().runOnUiThread(() -> {
             if (getActivity().isFinishing() || getActivity().isDestroyed()) {
                 call.reject("SECRET_INPUT_CANCELLED"); return;
@@ -279,7 +295,7 @@ public class NanaHostPlugin extends Plugin {
             input.setImeOptions(android.view.inputmethod.EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING);
             if (Build.VERSION.SDK_INT >= 26) input.setImportantForAutofill(android.view.View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS);
             android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(getActivity())
-                .setTitle("安全绑定模型凭据")
+                .setTitle(title)
                 .setMessage(Boolean.TRUE.equals(call.getBoolean("persistent", false))
                     ? "仅通过已配对 HTTPS 发往宿主加密保险库。网页不会接触密钥，手机不保存此值；服务重启可按宿主策略恢复。此操作不授予付费额度。"
                     : "仅通过已配对的 HTTPS 发往服务器内存。不保存在手机、网页或数据库；服务器重启后需重新绑定。此操作不授予付费额度。")
@@ -292,7 +308,7 @@ public class NanaHostPlugin extends Plugin {
                         try {
                             JSONObject b = binding();
                             body = new JSONObject(metadata.toString()); body.put("credential", value);
-                            JSONObject reply = http(b.getString("base"), "providers/credential", "POST", body, session(b));
+                            JSONObject reply = http(b.getString("base"), route, "POST", body, session(b));
                             validateIdentity(reply, b);
                             call.resolve(JSObject.fromJSONObject(reply));
                         } catch (Exception ex) { reject(call, ex); }

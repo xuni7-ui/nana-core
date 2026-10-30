@@ -29,6 +29,19 @@ def dispatch(app, request):
     legacy = getattr(app, 'legacy_imports', None)
     if legacy is not None and op != 'control':
         legacy.reconcile()
+    if op=='qq-message' and set(request)=={'operation','channel_id','message_id'}:
+        if (type(request['channel_id']) is not str or not re.fullmatch(r'[a-z][a-z0-9._-]{0,63}',request['channel_id'])
+                or type(request['message_id']) is not str or not re.fullmatch(r'[0-9]{1,20}',request['message_id'])):
+            raise CoreError('QQ_TYPED_MESSAGE_REFERENCE_REQUIRED')
+        if shutil.disk_usage(app.home).free < app.config.min_free_disk_mb * 1024 * 1024:
+            raise CoreError('CLOUD_DISK_GUARD')
+        return app.platforms.qq(request['channel_id'],request['message_id'])
+    if op=='bilibili-message' and set(request)=={'operation','channel_id','message_id'}:
+        if (type(request['channel_id']) is not str or not re.fullmatch(r'[a-z][a-z0-9._-]{0,63}',request['channel_id'])
+                or type(request['message_id']) is not str or not re.fullmatch(r'[A-Za-z0-9._:-]{1,128}',request['message_id'])):
+            raise CoreError('BILIBILI_TYPED_MESSAGE_REFERENCE_REQUIRED')
+        if shutil.disk_usage(app.home).free < app.config.min_free_disk_mb * 1024 * 1024:raise CoreError('CLOUD_DISK_GUARD')
+        return app.platforms.bilibili(request['channel_id'],request['message_id'])
     projection_keys = ({"operation", "privacy"}, {"operation", "privacy", "scope", "entity_id"})
     if op in {"bilibili-history", "shared-candidates", "conversation-history", "notification-inbox"} and set(request) in projection_keys:
         if type(request["privacy"]) is not list or any(p not in {"PUBLIC", "PROJECT"} for p in request["privacy"]):
@@ -54,6 +67,8 @@ def dispatch(app, request):
     )
     if mutating and shutil.disk_usage(app.home).free < app.config.min_free_disk_mb * 1024 * 1024:
         raise CoreError("CLOUD_DISK_GUARD")
+    if op=='platform-status' and set(request)=={'operation'}:return app.platforms.view()
+    if op=='platform-refresh' and set(request)=={'operation'}:return app.platforms.refresh()
     if op in {"legacy-import-batch", "legacy-withdraw"}:
         from ..migration.archive_ingress import ArchiveImportService, private_document
         common = {'operation', 'archive', 'approval_file'}
