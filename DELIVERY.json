@@ -1,0 +1,92 @@
+{
+  "zip_bytes": 473564792,
+  "zip_sha256": "c8306dfe6b4362ab5cb343d74eb57822a50bfbf68706556f304892fa0e00877c",
+  "source_commit": "ffa24b7964a1ab08a8948425f6389574ab797dee",
+  "parts": [
+    {
+      "file": "NANA_CORE_LIVING_V4_RELEASE_4.0.3.zip.part000",
+      "bytes": 29360128,
+      "sha256": "f864aa3f78189af53bb92dd17de8e7696008d1a1c4dbcfa48f9721ea327cecc7"
+    },
+    {
+      "file": "NANA_CORE_LIVING_V4_RELEASE_4.0.3.zip.part001",
+      "bytes": 29360128,
+      "sha256": "c981613573d11d59659126ec84f3a20b8b55bba285306f5830859e88b5f3644a"
+    },
+    {
+      "file": "NANA_CORE_LIVING_V4_RELEASE_4.0.3.zip.part002",
+      "bytes": 29360128,
+      "sha256": "eddfaf0a7167fad2b81d6b0d8e0bab297b8c286465f6560d70b50e1ebfb031a1"
+    },
+    {
+      "file": "NANA_CORE_LIVING_V4_RELEASE_4.0.3.zip.part003",
+      "bytes": 29360128,
+      "sha256": "b8f4b5bd467c0def492e3726c39897a775fd262bdea1209f800c614d3cb5c67d"
+    },
+    {
+      "file": "NANA_CORE_LIVING_V4_RELEASE_4.0.3.zip.part004",
+      "bytes": 29360128,
+      "sha256": "c59685635536f92c78b01e10a43bd6b8a07eb687689d0e4abcc9aef62362331f"
+    },
+    {
+      "file": "NANA_CORE_LIVING_V4_RELEASE_4.0.3.zip.part005",
+      "bytes": 29360128,
+      "sha256": "eaf8fef2f0b29110e33c457079091049534139156fe54c802bc2f5f5b41b3ca6"
+    },
+    {
+      "file": "NANA_CORE_LIVING_V4_RELEASE_4.0.3.zip.part006",
+      "bytes": 29360128,
+      "sha256": "0a56d365695ad09de726a4cc93bd2ba3ebe95a957301d48a7e585b3278fa6b65"
+    },
+    {
+      "file": "NANA_CORE_LIVING_V4_RELEASE_4.0.3.zip.part007",
+      "bytes": 29360128,
+      "sha256": "5a5eced93843d0c91d3dba47b829780c3b40bd859e0d3447a27203bad8cab875"
+    },
+    {
+      "file": "NANA_CORE_LIVING_V4_RELEASE_4.0.3.zip.part008",
+      "bytes": 29360128,
+      "sha256": "18b30ba0efdc76fa2849ad078c0174f34dbae801ccae341ea552d97617e27162"
+    },
+    {
+      "file": "NANA_CORE_LIVING_V4_RELEASE_4.0.3.zip.part009",
+      "bytes": 29360128,
+      "sha256": "23b443d761b4f904f868ca6d3db6e0a3345fcfa768f020187875d5209d77898c"
+    },
+    {
+      "file": "NANA_CORE_LIVING_V4_RELEASE_4.0.3.zip.part010",
+      "bytes": 29360128,
+      "sha256": "f22431f307d274dd65a46cda046250dc08e0c686ca3c8ba07d4052da5ded1b27"
+    },
+    {
+      "file": "NANA_CORE_LIVING_V4_RELEASE_4.0.3.zip.part011",
+      "bytes": 29360128,
+      "sha256": "dfe14dad17fee82e68bc067bdfa81d77ecc8d354445b19c937494b29c4ef1d12"
+    },
+    {
+      "file": "NANA_CORE_LIVING_V4_RELEASE_4.0.3.zip.part012",
+      "bytes": 29360128,
+      "sha256": "05bdc4f466d01d5c6117fc01c7f6b7332ffac7452ef62d087bdb805e38510818"
+    },
+    {
+      "file": "NANA_CORE_LIVING_V4_RELEASE_4.0.3.zip.part013",
+      "bytes": 29360128,
+      "sha256": "d015107f43633194693b01eecd171257defcaad8c2d99eb49ea7abe74ca17c23"
+    },
+    {
+      "file": "NANA_CORE_LIVING_V4_RELEASE_4.0.3.zip.part014",
+      "bytes": 29360128,
+      "sha256": "23f1e08b5f55db1fd8f0c9dfb69c09e8f846e1ce168ab36d8703a778ddc19932"
+    },
+    {
+      "file": "NANA_CORE_LIVING_V4_RELEASE_4.0.3.zip.part015",
+      "bytes": 29360128,
+      "sha256": "d0979df5f08d398cf89360c4d94dcc9b9328c8a539af76cac52afee8fcddddee"
+    },
+    {
+      "file": "NANA_CORE_LIVING_V4_RELEASE_4.0.3.zip.part016",
+      "bytes": 3802744,
+      "sha256": "56985b3e69c8057035209d32b9f90393c8a1f4e065b4f070ecba64d962430872"
+    }
+  ]
+}
