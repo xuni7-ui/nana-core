@@ -1,0 +1,9 @@
+{
+  "index_digest": "sha256:a60e91a01002f749b43818a2222d67b2845528338792258a656ddd959c05b725",
+  "manifest_size": 2687,
+  "config_digest": "sha256:6454d2c59503248346b4dc1ce08d7b8b020d5581eaf5cdd780cfa99df16cf5cd",
+  "config_size": 13551,
+  "layer_count": 16,
+  "blob_digests_sizes_and_diff_ids": "PASS",
+  "scope": "original verified V4.0.3 archive; no daemon or cloud host accessed"
+}

@@ -2865,3 +2865,12 @@ metadata is in evidence/private-403/apk.json. Final image/export continues.
 
 ### V4 403 development delivery
 三项工程工作已在隔离开发环境完成：安装恢复、显式个人范围、匹配发行包。最终源码 ffa24b7；实际安装/重复/损坏拒绝与 DEV 同主体恢复通过。真实宿主、付费 Provider、私人历史、真实社交、手机及真人/正式24h仍未验收；First-Life NOT_READY，Beta NO。详见 docs/nana_living_release_v4/qualification.json。
+
+### Docker 29 image identity investigation (in progress)
+Independently streamed the unchanged V4.0.3 archive: OCI manifest digest
+`sha256:a60e91a01002f749b43818a2222d67b2845528338792258a656ddd959c05b725`
+references config `sha256:6454d2c59503248346b4dc1ce08d7b8b020d5581eaf5cdd780cfa99df16cf5cd`;
+all sixteen layer blob digests, sizes and ordered config diff_ids matched.
+See docs/nana_living_release_v4/evidence/docker29-compat/. The remote host
+patch and its exact verification receipts are not accessible here; T2–T4 and
+T5 status are user-reported. No code fix or production access is claimed yet.
