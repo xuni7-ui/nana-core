@@ -83,7 +83,7 @@ class ProviderProfile(ConfigDTO):
     secret_ref: str | None = Field(default=None, pattern=r"^[a-z][a-z0-9._-]{0,95}$")
     enabled: bool = True
     permitted_privacy: tuple[Privacy, ...] = Field(default=("PUBLIC",), min_length=1, max_length=4)
-    default_timeout_ms: int = Field(default=3000, ge=50, le=30000)
+    default_timeout_ms: int = Field(default=120000, ge=50, le=600000)
     default_cost_ceiling: int = Field(default=1000, ge=0, le=1000000)
     tags: tuple[str, ...] = Field(default=(), max_length=16)
     revision: int = Field(default=1, ge=1)
@@ -141,7 +141,7 @@ class CapabilityRoute(ConfigDTO):
     primary_model_profile_id: str = Field(pattern=NAME_PATTERN)
     fallback_model_profile_ids: tuple[str, ...] = Field(default=(), max_length=8)
     enabled: bool = True
-    timeout_ceiling_ms: int = Field(default=3000, ge=50, le=30000)
+    timeout_ceiling_ms: int = Field(default=120000, ge=50, le=600000)
     cost_ceiling: int = Field(default=1000, ge=0, le=1000000)
     context_ceiling: int = Field(default=2000000, ge=256, le=2000000)
     output_ceiling: int = Field(default=131072, ge=1, le=131072)

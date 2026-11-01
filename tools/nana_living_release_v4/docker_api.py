@@ -93,7 +93,8 @@ class Docker:
             raise DockerError("PINNED_IMAGE_REQUIRED")
         row = self.json("GET", "/images/" + image + "/json")
         return {"id": row["Id"], "architecture": row["Architecture"], "os": row["Os"],
-                "user": row["Config"].get("User"), "size": row["Size"]}
+                "user": row["Config"].get("User"), "size": row["Size"],
+                "diff_ids": row.get("RootFS", {}).get("Layers")}
 
     def inspect(self, container):
         if not re.fullmatch(r"[a-f0-9]{64}", container):

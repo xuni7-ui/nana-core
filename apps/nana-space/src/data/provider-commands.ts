@@ -102,7 +102,7 @@ export function routeCommand(
       primary_model_profile_id: primary,
       fallback_model_profile_ids: fallbacks,
       permitted_privacy: ["PUBLIC", "PROJECT"],
-      timeout_ceiling_ms: 15000,
+      timeout_ceiling_ms: 120000,
       cost_ceiling: 1000,
       enabled: true,
     },

@@ -389,7 +389,7 @@ export function newProviderDraft(presetId = "compatible"): ProviderDraft {
     modelId: "",
     alias: "",
     operation: "COGNITION",
-    timeoutMs: 15000,
+    timeoutMs: 120000,
     contextLimit: 8192,
     outputLimit: 1024,
   };
@@ -409,9 +409,9 @@ export function validateProviderDraft(draft: ProviderDraft): string[] {
   if (
     !Number.isSafeInteger(draft.timeoutMs) ||
     draft.timeoutMs < 50 ||
-    draft.timeoutMs > 30000
+    draft.timeoutMs > 600000
   )
-    errors.push("超时必须介于50与30000ms；实际仍与运行时上限求交。");
+    errors.push("超时必须介于50与600000ms；实际仍与运行时上限求交。");
   if (
     !Number.isSafeInteger(draft.contextLimit) ||
     !Number.isSafeInteger(draft.outputLimit) ||

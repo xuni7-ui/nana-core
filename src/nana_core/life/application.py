@@ -176,8 +176,6 @@ class LifeApplication:
         return tuple(out)
     def _session(self,privacy):
         if self.router is None:raise CoreError('LIVE_PROVIDER_NOT_RUN_OFFLINE_MODE')
-        from ..presence.resources import resource_state
-        if resource_state(self.runtime.store,self.runtime.config).unresolved_calls:raise CoreError('UNRESOLVED_PROVIDER_CALL_NO_RETRY')
         target=self.router.resolve(RouteRequest(operation='COGNITION',privacy_class=privacy,timeout_ms=self.config.provider_timeout_ms,cost_ceiling=self.config.provider_cost_ceiling_micro,context_limit=self.config.provider_context_tokens,output_limit=self.config.provider_output_tokens),self.policy)
         # Additional host ceilings intersect the original Runtime reservations.
         # PREPARED/UNKNOWN attempts count too; absence of a bill is not a refund.
@@ -187,8 +185,6 @@ class LifeApplication:
             if self.session and any(w.is_alive() for w in self.session._workers):raise CoreError('PROVIDER_WORKER_UNRESOLVED')
             self.session=target.cognition_session(self.runtime,project_state_source=self.current_project_state)
             self.session.recover()
-        from ..presence.resources import resource_state
-        if resource_state(self.runtime.store,self.runtime.config).unresolved_calls:raise CoreError('UNRESOLVED_PROVIDER_CALL_NO_RETRY')
         return self.session
     def _model(self,key,phase,mid,text,topic,privacy,cycle=None,retain_shared_life=False):
         if cycle and cycle.record_id:

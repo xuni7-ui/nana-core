@@ -305,7 +305,7 @@ export function ModelCenter({
               <input
                 type="number"
                 min={50}
-                max={30000}
+                max={600000}
                 step={50}
                 value={draft.timeoutMs}
                 onChange={(e) => change("timeoutMs", Number(e.target.value))}

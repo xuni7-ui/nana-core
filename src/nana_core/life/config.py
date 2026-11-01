@@ -81,7 +81,7 @@ class LifeConfig(DTO):
     active_end_utc:int=Field(default=0,ge=0,le=23)
     provider_hosts:tuple[str,...]=()
     remote_privacy:tuple[Literal['PUBLIC','PROJECT','PERSONAL'],...]=()
-    provider_timeout_ms:int=Field(default=2000,ge=100,le=15000)
+    provider_timeout_ms:int=Field(default=120000,ge=100,le=600000)
     provider_output_tokens:int=Field(default=1024,ge=64,le=4096)
     provider_context_tokens:int=Field(default=8192,ge=1024,le=65536)
     # Host may choose an explicit operating budget up to the ORIGINAL Runtime
@@ -118,9 +118,15 @@ def write_config(home,config):
 def load_config(home):
     home=home_path(home);p=home/'life.json'
     try:
-        fd=os.open(p,os.O_RDONLY|os.O_NOFOLLOW)
-        with os.fdopen(fd,'rb') as stream:raw=stream.read(65537)
-        if len(raw)>65536 or p.stat().st_mode&0o077:raise ValueError()
+        import stat
+        fd=os.open(p,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK)
+        with os.fdopen(fd,'rb') as stream:
+            info=os.fstat(stream.fileno())
+            if not stat.S_ISREG(info.st_mode):raise CoreError('LIFE_CONFIG_REGULAR_FILE_REQUIRED')
+            if info.st_uid!=os.geteuid():raise CoreError('LIFE_CONFIG_OWNER_REQUIRED')
+            if info.st_mode&0o077:raise CoreError('LIFE_CONFIG_PRIVATE_MODE_REQUIRED')
+            raw=stream.read(65537)
+        if len(raw)>65536:raise ValueError()
         obj=json.loads(raw,object_pairs_hook=_json_object)
         return LifeConfig.model_validate_json(json.dumps(obj))
     except (OSError,ValueError):raise CoreError('LIFE_CONFIG_INVALID') from None

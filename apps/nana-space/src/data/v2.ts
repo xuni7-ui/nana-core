@@ -169,7 +169,7 @@ export class V2Client {
             : {}),
         },
         body: body === undefined ? undefined : JSON.stringify(body),
-        signal: AbortSignal.timeout(path === "messages" ? 35000 : method === "GET" ? 10000 : 22000),
+        signal: AbortSignal.timeout(path === "messages" ? 1230000 : method === "GET" ? 10000 : 22000),
       });
     } catch {
       throw new V2Error(

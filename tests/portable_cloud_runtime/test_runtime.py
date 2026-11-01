@@ -82,3 +82,14 @@ def test_home_symlink_and_host_config_cas(root,tmp_path):
  cfg=json.loads((h/'life.json').read_text());cfg['revision']+=1;p=tmp_path/'host.json';p.write_text(json.dumps(cfg));p.chmod(0o600)
  assert execute(root,A(command='config',home=h,document=p))['revision']==2
  with pytest.raises(CoreError):execute(root,A(command='config',home=h,document=p))
+
+
+def test_life_config_permission_preflight_is_explicit_and_does_not_rewrite(root,tmp_path):
+ from nana_core.life.config import load_config
+ home=tmp_path/'home';initialize(root,home)
+ path=home/'life.json';before=path.read_bytes();path.chmod(0o644)
+ with pytest.raises(CoreError,match='LIFE_CONFIG_PRIVATE_MODE_REQUIRED'):
+  load_config(home)
+ assert path.read_bytes()==before and path.stat().st_mode&0o777==0o644
+ path.chmod(0o600)
+ assert load_config(home).revision>=1 and path.read_bytes()==before

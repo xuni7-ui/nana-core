@@ -308,7 +308,7 @@ def request(home, data, timeout=None):
     if timeout is None:
         from .config import load_config
 
-        timeout = max(5, 2 * load_config(root).provider_timeout_ms / 1000 + 2)
+        timeout = max(5, 2 * load_config(root).provider_timeout_ms / 1000 + 30)
     from ..presence.cli import status
 
     current = status(root / "subject/self.db")

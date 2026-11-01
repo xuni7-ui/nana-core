@@ -68,7 +68,7 @@ def copy_inputs(root, build, work):
     (root / "android-build.json").write_text(json.dumps(metadata, indent=2) + "\n")
     tools = root / "tools"
     tools.mkdir()
-    for name in ("deploy.py", "docker_api.py", "integrity.py", "operator_stage.py", "proposal.py", "switch_release.py", "host_facts.py", "legacy_archive.py", "prepare_channels.py"):
+    for name in ("deploy.py", "docker_api.py", "integrity.py", "oci_identity.py", "operator_stage.py", "proposal.py", "switch_release.py", "host_facts.py", "legacy_archive.py", "prepare_channels.py"):
         shutil.copyfile(ROOT / "tools/nana_living_release_v4" / name, tools / name)
     for directory, names in (
         ("nana_first_life_android_v2", ("install_runtime_tree.py",)),
@@ -144,11 +144,14 @@ def seal(root):
     release = json.loads((root / "release.json").read_bytes())
     tree = json.loads((root / "runtime-tree.json").read_bytes())
     image = json.loads((root / "image/image.json").read_bytes())
+    from tools.nana_living_release_v4.oci_identity import inspect_archive
+    identity = inspect_archive([root / 'image' / row['file'] for row in image['parts']], image['image_id'])
     files = {p.relative_to(root).as_posix(): {"bytes": p.stat().st_size, "sha256": sha(p)}
              for p in sorted(root.rglob("*")) if p.is_file() and p.name not in {"MANIFEST.json", "SHA256SUMS", "deploy.sh"}}
     manifest = {"contract": "nana-living-release/v4", "source_commit": release["core_source"],
                 "schema_version": 13, "plan_contract": "PRECISION_V2", "runtime_manifest_sha256": release["runtime_manifest_sha256"],
-                "image": {"id": image["image_id"], "gzip_sha256": image["gzip_sha256"],
+                "image": {"id": image["image_id"], "manifest_id": identity['manifest_id'],
+                          "manifest_size": identity['manifest_size'], "config_size": identity['config_size'], "gzip_sha256": image["gzip_sha256"],
                           "parts": ["image/" + row["file"] for row in image["parts"]]},
                 "files": files, "subject_data_included": False, "credentials_included": False,
                 "activation": "SEPARATE_ORIGINAL_APPROVAL_REQUIRED"}

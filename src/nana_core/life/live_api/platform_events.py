@@ -118,7 +118,7 @@ class PlatformEvents:
             result = request(
                 self.service.supervisor.home,
                 {"operation": platform + "-message", "channel_id": channel, "message_id": message},
-                timeout=60,
+                timeout=None,  # Derive the bounded two-phase allowance from host config.
             )
             if result.get("ok") is not True:
                 state = result.get("error", "CORE_PLATFORM_UNAVAILABLE")

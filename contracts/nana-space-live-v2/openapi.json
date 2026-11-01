@@ -1068,8 +1068,8 @@
             "type": "boolean"
           },
           "timeout_ceiling_ms": {
-            "default": 3000,
-            "maximum": 30000,
+            "default": 120000,
+            "maximum": 600000,
             "minimum": 50,
             "title": "Timeout Ceiling Ms",
             "type": "integer"
@@ -2256,8 +2256,8 @@
             "type": "array"
           },
           "default_timeout_ms": {
-            "default": 3000,
-            "maximum": 30000,
+            "default": 120000,
+            "maximum": 600000,
             "minimum": 50,
             "title": "Default Timeout Ms",
             "type": "integer"

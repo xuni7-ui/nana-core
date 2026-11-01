@@ -1270,3 +1270,11 @@ Additive PRIVATE_CONTEXT application role intersects host binding; no implicit s
 
 ### V4 403 development delivery
 三项工程工作已在隔离开发环境完成：安装恢复、显式个人范围、匹配发行包。最终源码 ffa24b7；实际安装/重复/损坏拒绝与 DEV 同主体恢复通过。真实宿主、付费 Provider、私人历史、真实社交、手机及真人/正式24h仍未验收；First-Life NOT_READY，Beta NO。详见 docs/nana_living_release_v4/qualification.json。
+
+### V4.0.3 daily-use and deployment follow-up — 2026-11-01
+
+Issues #2/#4 remain OPEN: this development checkpoint is partial, not a production installation or release qualification. New configuration defaults use a 120000 ms per-model timeout (configurable up to 600000 ms); existing host/route values are not silently rewritten. The conversation control and web/native clients allow two sequential calls. A dispatched UNKNOWN remains reserved and cannot be replayed; a distinct request may proceed within existing cost/privacy limits and a two-live-worker bound. Background/media paths still have their existing conservative fences. No billing reconciliation was implemented or implied.
+
+New hosts obtain the existing shadow-only Nana Space binding; existing host configurations need a separately reviewed migration. Private life.json reports owner/mode errors rather than silently changing permissions; migration remains outstanding. Future release tooling checks a separately pinned OCI manifest, config, descriptor sizes, all layer hashes and uncompressed diff_ids before accepting the daemon's alternate image ID. The original 4.0.3 ZIP is unchanged. Isolated uid-999 Debian testing loaded OpenSSL 3.5.7 and SQLite 3.51.3 from the private runtime; this is not a rebuilt image or host validation.
+
+Open: Gateway may still run its baked release when Supervisor changes the active release; no automatic rollout/host fix was made. Existing ArchiveImportService is a separately approved identity/lineage/privacy-bound ingress, not the generic RealMemoryIngress flag; no private archive was imported or sent to a model. No real Provider calls, private history, production configuration, current Subject/Store/Vault, or QQ/Bilibili operations were changed. Android native timeout source changed, but a new APK and real-phone test have not been produced. Cloud T2–T4 is user-reported and was not independently checked here. Follow up with gateway version selection, safe config migration and actual deployment validation before closing the issues.

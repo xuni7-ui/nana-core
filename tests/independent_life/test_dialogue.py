@@ -71,19 +71,23 @@ def test_model_authority_attack_rejected_and_no_render_retry(tmp_path):
         assert not app.runtime.store.all('goals') and not app.runtime.store.all('grants')
 
 
-def test_unknown_after_dispatch_blocks_further_calls_and_survives_restart(tmp_path,monkeypatch):
+def test_unknown_stays_reserved_without_replay_but_new_dialogue_can_continue(tmp_path,monkeypatch):
     from nana_core.continuity.world_loop.cognition import OpenAIJSONTransport
     home=tmp_path/'home';initialize(home,active=0);clock=VirtualClock();calls=[]
     def timeout(self,request):calls.append(request.request_id);raise TimeoutError()
     monkeypatch.setattr(OpenAIJSONTransport,'exchange',timeout)
     with relay(home) as (router,requests):
         with LifeApplication(home,clock=clock,router=router) as app:
-            app.pause();first=app.chat('first');assert len(calls)==1
-            assert app.runtime.store.all('cognitive_requests')[0]['state']=='UNKNOWN'
-            app.chat('second');assert len(calls)==1
+            app.pause();app.chat('first',message_id='first');assert len(calls)==1
+            original=app.runtime.store.all('cognitive_requests')[0]
+            assert original['state']=='UNKNOWN' and original['reserved_cost_micro'] is not None
+            app.chat('first',message_id='first');assert len(calls)==1
+            app.chat('second',message_id='second');assert len(calls)==2 and len(set(calls))==2
         with LifeApplication(home,clock=clock,router=router) as app:
-            app.chat('third');assert len(calls)==1
-            assert app.runtime.store.all('cognitive_requests')[0]['state']=='UNKNOWN'
+            app.chat('first',message_id='first');assert len(calls)==2
+            app.chat('third',message_id='third');assert len(calls)==3 and len(set(calls))==3
+            assert app.runtime.store.one('cognitive_requests',original['request_id'])['state']=='UNKNOWN'
+            assert app.runtime.store.one('cognitive_requests',original['request_id'])['reserved_cost_micro']==original['reserved_cost_micro']
 
 
 def test_reply_context_contains_actual_verified_work_not_unrelated_raw_corpus(tmp_path):
@@ -113,3 +117,45 @@ def test_dialogue_wire_schema_excludes_non_dialogue_authority_fields(tmp_path):
    assert ('dialogue' in fields) == (body['cognitive_role']=='INTERPRET')
    assert ('draft' in fields) == (body['cognitive_role']=='SOCIAL')
    assert set(body['expected_schema']['$defs'])==({'DialogueMeaning','ConversationProposal'} if body['cognitive_role']=='INTERPRET' else {'DialogueDraft'})
+
+
+def test_daily_dialogue_timeout_defaults_and_independent_phase_budgets(tmp_path):
+    from nana_core.life.config import LifeConfig
+    from nana_core.continuity.provider_config import ProviderProfile, CapabilityRoute
+    from nana_core.continuity.provider_routing import RoutingPolicy
+    assert LifeConfig.model_fields['provider_timeout_ms'].default == 120000
+    assert ProviderProfile.model_fields['default_timeout_ms'].default == 120000
+    assert CapabilityRoute.model_fields['timeout_ceiling_ms'].default == 120000
+    assert RoutingPolicy.model_fields['timeout_ceiling_ms'].default == 120000
+    home=tmp_path/'home';initialize(home,active=0)
+    with relay(home,'CHAT') as (router,requests),LifeApplication(home,clock=VirtualClock(),router=router) as app:
+        app.pause();app.chat('SYNTHETIC_PROJECT',privacy='PROJECT')
+        assert len(requests)==2
+        assert [r['cognitive_role'] for r in requests]==['INTERPRET','SOCIAL']
+        assert all(r['budget']['timeout_ms']==120000 for r in requests)
+        assert requests[0]['request_id'] != requests[1]['request_id']
+
+
+def test_unknown_reservation_still_limits_independent_new_calls(tmp_path,monkeypatch):
+    from nana_core.continuity.world_loop.cognition import OpenAIJSONTransport
+    home=tmp_path/'home';initialize(home,active=0);calls=[]
+    def timeout(self,request):calls.append(request.request_id);raise TimeoutError()
+    monkeypatch.setattr(OpenAIJSONTransport,'exchange',timeout)
+    with relay(home) as (router,_),LifeApplication(home,clock=VirtualClock(),router=router) as app:
+        app.config=app.config.model_copy(update={'provider_total_calls_limit':1})
+        app.pause();app.chat('first',message_id='first');app.chat('second',message_id='second')
+        assert len(calls)==1
+        assert app.runtime.store.all('cognitive_requests')[0]['state']=='UNKNOWN'
+
+
+def test_portable_default_contains_gateway_surface_without_extra_authority(tmp_path):
+    from nana_core.life.portable_runtime import configuration
+    from nana_core.life.live_api.contracts import Binding
+    import shutil
+    from pathlib import Path
+    shutil.copytree(Path(__file__).resolve().parents[2]/'packaging/portable/materials',tmp_path/'materials')
+    cfg=configuration(tmp_path)
+    gateway=next(b for b in cfg.surface_bindings if b.binding_id==Binding.model_fields['surface_binding_id'].default)
+    assert gateway.platform=='nana.space' and gateway.adapter=='shadow.local'
+    assert gateway.mode=='DEVELOPMENT_SHADOW_NO_SEND'
+    assert gateway.permitted_privacy==('PUBLIC','PROJECT') and not gateway.allow_personal_retention

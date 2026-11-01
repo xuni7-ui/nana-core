@@ -21,7 +21,7 @@ Role=Literal['INTERPRET','GOALS','PLAN','REPLAN','REFLECT','LEARN','SKILL','SOCI
 class CognitionBudget(DTO):
     input_tokens: int=Field(default=16384,ge=256,le=65536)
     output_tokens: int=Field(default=2048,ge=64,le=8192)
-    timeout_ms: int=Field(default=3000,ge=50,le=30000)
+    timeout_ms: int=Field(default=3000,ge=50,le=600000)
     cost_ceiling_micro: int=Field(default=0,ge=0,le=1000000)
 class CognitionRequest(DTO):
     _volatile_media:dict|None=PrivateAttr(default=None)
@@ -427,11 +427,11 @@ class CognitionSession:
         if request.cognitive_role=='MEDIA' and any(p.get('data_b64') is None for p in request.role_input.get('parts',[])):
             if request_id not in self._volatile_inputs:return self._finish(row,'STALE','SEMANTIC_DEFERRED_SOURCE_BYTES_EXPIRED')
             request._volatile_media=self._volatile_inputs.pop(request_id)
+        self._workers=[w for w in self._workers if w.is_alive()]
+        if len(self._workers)>=2:return self._finish(row,'STALE','PROVIDER_WORKER_BOUND_PRE_DISPATCH')
         with self.store.transaction('world.cognition_calling',{'request_id':request_id}) as tx:tx.update('cognitive_requests',request_id,state='CALLING')
         started=time.monotonic_ns()
         try:
-            self._workers=[w for w in self._workers if w.is_alive()]
-            if len(self._workers)>=2:return self._finish(row,'UNKNOWN','PROVIDER_WORKER_BOUND')
             result=queue.Queue(maxsize=1)
             # Worker receives only immutable DTO and transport, never Core/Store.
             transport=self.transport

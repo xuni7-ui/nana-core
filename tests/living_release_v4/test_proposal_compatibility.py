@@ -233,7 +233,7 @@ def test_deploy_preserves_precise_review_result_if_host_changes_before_commit(tm
               "persistent_changes": 0}
 
     class Docker:
-        def image(self, image): return {}
+        def image(self, image): return {"id":image,"architecture":"amd64","os":"linux","user":"999:999"}
         def version(self): return {"Version": "TEST_ONLY"}
         def create_check(self, *args, **kwargs): return "isolated-check"
         def verify_check(self, check): return {"exit_code": 0}

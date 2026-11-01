@@ -20,7 +20,7 @@ class RoutingPolicy(DTO):
     allow_remote: bool = False
     allowed_remote_hosts: tuple[str, ...] = ()
     allow_synthetic_loopback: bool = False
-    timeout_ceiling_ms: int = Field(default=30000, ge=50, le=30000)
+    timeout_ceiling_ms: int = Field(default=120000, ge=50, le=600000)
     cost_ceiling: int = Field(default=100000, ge=0, le=1000000)
     context_limit: int = Field(default=65536, ge=256, le=2000000)
     output_limit: int = Field(default=8192, ge=1, le=131072)
@@ -30,7 +30,7 @@ class RouteRequest(DTO):
     operation: Operation
     input_modalities: tuple[Modality, ...] = ("TEXT",)
     privacy_class: Privacy = "PUBLIC"
-    timeout_ms: int = Field(default=3000, ge=50, le=30000)
+    timeout_ms: int = Field(default=120000, ge=50, le=600000)
     cost_ceiling: int = Field(default=1000, ge=0, le=1000000)
     context_limit: int = Field(default=16384, ge=256, le=2000000)
     output_limit: int = Field(default=2048, ge=1, le=131072)
@@ -39,7 +39,7 @@ class RouteRequest(DTO):
 
 
 class EffectiveLimits(DTO):
-    timeout_ms: int = Field(ge=50, le=30000)
+    timeout_ms: int = Field(ge=50, le=600000)
     cost_ceiling: int = Field(ge=0, le=1000000)
     context_limit: int = Field(ge=256, le=2000000)
     output_limit: int = Field(ge=1, le=131072)
@@ -306,7 +306,7 @@ class CapabilityRouter:
                     timeout_ms=min(
                         request.timeout_ms,
                         p.default_timeout_ms,
-                        route.timeout_ceiling_ms if route else 30000,
+                        route.timeout_ceiling_ms if route else 120000,
                         self.factory.policy.timeout_ceiling_ms,
                     ),
                     cost_ceiling=min(

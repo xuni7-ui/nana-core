@@ -42,6 +42,9 @@ def configuration(root):
         max_autonomous_materials=0,
         surface_bindings=(
             SurfaceBinding(binding_id="cloud.cli", platform="cloud.cli", surface="chat.direct", adapter="shadow.local"),
+            # The standard gateway's default binding; this remains a local
+            # observation surface and grants neither external sends nor PERSONAL.
+            SurfaceBinding(binding_id="nana.space", platform="nana.space", surface="chat.direct", adapter="shadow.local"),
         ),
     )
 
@@ -314,8 +317,6 @@ def execute(root, a):
             if a.live:
                 if not a.secret_ref:
                     raise CoreError("EXPLICIT_SECRET_REFERENCE_REQUIRED")
-                if ready["unknown_provider_requests"]:
-                    raise CoreError("UNRESOLVED_PROVIDER_CALL_NO_RETRY")
                 resolver = secret(a.secret_ref, a.secret_fd)
                 router = configured_router(home, load_config(home), resolver=resolver, authorized=True)
             elif a.secret_fd is not None or a.secret_ref:

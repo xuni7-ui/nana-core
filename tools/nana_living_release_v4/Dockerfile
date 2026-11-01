@@ -12,6 +12,7 @@ RUN --mount=type=bind,source=.,target=/build,readonly \
     umask 022 \
  && cp /build/container_entry.py /usr/local/lib/nana/container_entry.py \
  && cp /build/loopback_relay.py /usr/local/lib/nana/loopback_relay.py \
+ && install -m 0555 /usr/lib/x86_64-linux-gnu/libssl.so.3 /usr/lib/x86_64-linux-gnu/libcrypto.so.3 /opt/nana-core/runtime/lib/ \
  && python3 -I -B /build/unpack.py /build/compat-13.tar.gz --destination /opt/nana-core/runtime/core-releases/13ddd484156f8216dabd1d339f0bba696f801dab --sha256 728ef440fc34ab5c1b821814fae93408ee0b7384c5bad6959d274cb9ec5e5347 \
  && python3 -I -B /build/unpack.py /build/compat-af.tar.gz --destination /opt/nana-core/runtime/core-releases/af58490070cef26237bf81052d1939e5ce40ac46 --sha256 c091d70574911bb61bd401879300703df178f885ed7bc64cec2283247661acf3 \
  && python3 -I -B /build/unpack.py /build/compat-c8.tar.gz --destination /opt/nana-core/runtime/core-releases/c8aa8c986219199d0d027ccce0791788516e9d85 --sha256 c562b41aada49a48736269e29c8f07487f07b7b15c2694d75356541562c7d92c \
@@ -21,6 +22,7 @@ RUN --mount=type=bind,source=.,target=/build,readonly \
  && python3 -I -B /build/extract_web.py /build/web.tar.gz "$WEB_SHA256" \
  && chown -R 999:999 "/opt/nana-core/runtime/core-releases/$CORE_SOURCE_COMMIT" \
  && python3 -B -c "import os,subprocess;os.setgid(999);os.setuid(999);subprocess.run(['/opt/nana-core/runtime/bin/python3','-I','-B','/opt/nana-core/runtime/core-releases/$CORE_SOURCE_COMMIT/bootstrap.py','install'],check=True)" \
+ && python3 -B -c "import os,subprocess;os.setgid(999);os.setuid(999);subprocess.run(['/opt/nana-core/runtime/bin/python3','-I','-B','-c',\"import ssl,sys; from pathlib import Path; maps=Path('/proc/self/maps').read_text(); sys.exit(0 if all(p in maps for p in ('/opt/nana-core/runtime/lib/libssl.so.3','/opt/nana-core/runtime/lib/libcrypto.so.3')) else 1)\"],check=True)" \
  && python3 -I -B /build/compact_venv.py
 ENV NANA_CORE_RELEASE=/opt/nana-core/runtime/core-releases/${CORE_SOURCE_COMMIT}
 USER 999:999

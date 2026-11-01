@@ -114,7 +114,7 @@ public class NanaHostPlugin extends Plugin {
         connection.setInstanceFollowRedirects(false);
         connection.setConnectTimeout(10000);
         // INTERPRET + RENDER may each legitimately consume 15 seconds.
-        connection.setReadTimeout("messages".equals(path) ? 35000 : 15000);
+        connection.setReadTimeout("messages".equals(path) ? 1230000 : 15000);
         connection.setRequestMethod(method); connection.setRequestProperty("Accept", "application/json");
         connection.setRequestProperty("Cache-Control", "no-store");
         if (token != null) connection.setRequestProperty("Authorization", "Bearer " + token);

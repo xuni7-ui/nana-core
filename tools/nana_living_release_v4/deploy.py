@@ -16,6 +16,7 @@ from pathlib import Path
 sys.path.insert(0, str(Path(__file__).resolve().parent))
 from docker_api import Docker, DockerError
 from integrity import sha
+from oci_identity import inspect_archive
 
 
 def relative(root, name):
@@ -74,10 +75,51 @@ class Parts(io.RawIOBase):
         super().close()
 
 
-def load(docker, root, manifest):
+def image_identity(root, image):
+    """Validate both pins against the sealed source bytes before alias lookup."""
+    alias = image.get("manifest_id")
+    if alias is None:
+        return None  # Existing config-digest-only releases remain supported.
+    if alias == image["id"] or not re.fullmatch(r"sha256:[a-f0-9]{64}", alias):
+        raise ValueError("OCI_MANIFEST_INVALID")
+    paths = [relative(root, item) for item in image["parts"]]
+    combined = hashlib.sha256()
+    for path in paths:
+        with path.open("rb") as stream:
+            while raw := stream.read(1024 * 1024):
+                combined.update(raw)
+    if combined.hexdigest() != image["gzip_sha256"]:
+        raise ValueError("IMAGE_PARTS_COMBINED_MISMATCH")
+    proof = inspect_archive(paths, image["id"])
+    if (proof["manifest_id"] != alias or proof["manifest_size"] != image.get("manifest_size")
+            or proof["config_size"] != image.get("config_size")):
+        raise ValueError("OCI_MANIFEST_BINDING_MISMATCH")
+    return proof
+
+
+def resolve(docker, image, proof):
+    """Return daemon ID, retaining the config digest as the seal identity."""
+    pin = image["id"]
+    try:
+        row = docker.image(pin)
+    except DockerError as exc:
+        if str(exc) != "DOCKER_HTTP_404" or proof is None:
+            raise
+        row = docker.image(proof["manifest_id"])
+    actual = row.get("id")
+    if actual != pin and (proof is None or actual != proof["manifest_id"]):
+        raise ValueError("IMAGE_IDENTITY_MISMATCH")
+    if proof is not None and row.get("diff_ids") != proof["diff_ids"]:
+        raise ValueError("IMAGE_LAYER_MISMATCH")
+    if (row.get("architecture"), row.get("os"), row.get("user")) != ("amd64", "linux", "999:999"):
+        raise ValueError("IMAGE_RUNTIME_CONTRACT_MISMATCH")
+    return actual
+
+
+def load(docker, root, manifest, proof=None):
     image = manifest["image"]
     try:
-        return docker.image(image["id"])
+        return resolve(docker, image, proof)
     except DockerError as exc:
         if str(exc) != "DOCKER_HTTP_404":
             raise
@@ -91,16 +133,17 @@ def load(docker, root, manifest):
         raise ValueError("IMAGE_PARTS_COMBINED_MISMATCH")
     with io.BufferedReader(Parts(paths)) as joined, gzip.GzipFile(fileobj=joined) as compressed:
         docker.load(iter(lambda: compressed.read(1024 * 1024), b""))
-    return docker.image(image["id"])
+    return resolve(docker, image, proof)
 
 
 def prepare(docker, root, manifest, host_root, mode):
-    image = manifest["image"]["id"]
+    image = manifest["image"]["id"]  # config pin used for every sealed receipt
+    proof = image_identity(root, manifest["image"])
     if mode == "install":
-        load(docker, root, manifest)
+        api_id = load(docker, root, manifest, proof)
     else:
         try:
-            docker.image(image)
+            api_id = resolve(docker, manifest["image"], proof)
         except DockerError as exc:
             if str(exc) == "DOCKER_HTTP_404":
                 return {"state": "IMAGE_NOT_LOADED", "persistent_changes": 0, "next": "deploy.sh --install"}
@@ -113,11 +156,11 @@ def prepare(docker, root, manifest, host_root, mode):
         "--source", manifest["source_commit"], "--image", image,
         "--manifest", "/run/nana-operator/runtime-tree.json", "--digest", manifest["runtime_manifest_sha256"],
     ]
-    result = docker.operator(image, host_root, mode, files, arguments)
+    result = docker.operator(api_id, host_root, mode, files, arguments)
     result["daemon"] = docker.version()
     result["paid_provider_calls"] = 0
     if result["state"] == "RUNTIME_STAGED_VERIFY_REQUIRED" and mode == "install":
-        check = docker.create_check(image, runtime=result["target"], core_source=manifest["source_commit"])
+        check = docker.create_check(api_id, runtime=result["target"], core_source=manifest["source_commit"])
         try:
             result["runtime_abi"] = docker.verify_check(check)
         finally:
@@ -125,7 +168,7 @@ def prepare(docker, root, manifest, host_root, mode):
         if result["runtime_abi"]["exit_code"]:
             result["state"] = "RUNTIME_ABI_FAILED_NOT_SWITCHED"
         else:
-            committed = docker.operator(image, host_root, "commit", files, arguments)
+            committed = docker.operator(api_id, host_root, "commit", files, arguments)
             if committed["state"] == "HOST_CONFIGURATION_REVIEW_REQUIRED":
                 result.update(committed)
             elif committed["state"] != "READY_FOR_SWITCH":

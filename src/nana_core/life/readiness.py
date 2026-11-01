@@ -62,8 +62,9 @@ def provider_readiness(app, *, privacy="PROJECT", operation="COGNITION"):
             raise CoreError("RUNTIME_PROVIDER_UNBOUND")
         from ..presence.resources import resource_state
 
-        if resource_state(app.runtime.store, app.runtime.config).unresolved_calls:
-            raise CoreError("UNRESOLVED_PROVIDER_CALL_NO_RETRY")
+        result["unresolved_calls"] = resource_state(app.runtime.store, app.runtime.config).unresolved_calls
+        if app.session is not None and sum(w.is_alive() for w in app.session._workers) >= 2:
+            raise CoreError("PROVIDER_WORKER_BOUND_PRE_DISPATCH")
         snapshot = app.router.inspect(RouteRequest(
             operation=operation, privacy_class=privacy,
             timeout_ms=app.config.provider_timeout_ms,
