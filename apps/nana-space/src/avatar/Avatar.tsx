@@ -27,24 +27,12 @@ export function Avatar({
   expression?: string;
   className?: string;
 }) {
-  const safe = [
-    "neutral",
-    "sleepy",
-    "sad",
-    "angry",
-    "surprised",
-    "shy",
-    "happy",
-    "smile",
-    "mischievous",
-  ].includes(expression)
-    ? expression
-    : "neutral";
+  void expression; // Static original artwork; never implies an inferred mood.
   return (
     <img
       className={`avatar ${className}`}
-      src={`/assets/nana-${safe}.webp`}
-      alt="奈奈 · 用户原型头像"
+      src="/assets/nana-next.svg"
+      alt="奈奈 · 原创静态形象"
       width={size}
       height={size}
     />

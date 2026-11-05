@@ -429,6 +429,65 @@
         }
       }
     },
+    "/api/nana-space/v2/device/login": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "object",
+                  "required": [
+                    "contract",
+                    "subject_id",
+                    "lineage_binding",
+                    "realm",
+                    "device_id",
+                    "refresh_token"
+                  ],
+                  "properties": {
+                    "contract": {
+                      "type": "string"
+                    },
+                    "subject_id": {
+                      "type": "string"
+                    },
+                    "lineage_binding": {
+                      "type": "string"
+                    },
+                    "realm": {
+                      "type": "string"
+                    },
+                    "device_id": {
+                      "type": "string"
+                    },
+                    "refresh_token": {
+                      "type": "string"
+                    }
+                  },
+                  "description": "Native-only credential exchange; never forwarded to WebView JS"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        },
+        "security": [],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/DeviceLogin"
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/nana-space/v2/session/native": {
       "post": {
         "responses": {
@@ -1318,6 +1377,29 @@
           "profile_revision"
         ],
         "title": "CredentialBindingRequest",
+        "type": "object"
+      },
+      "DeviceLogin": {
+        "additionalProperties": false,
+        "properties": {
+          "password": {
+            "maxLength": 128,
+            "minLength": 12,
+            "title": "Password",
+            "type": "string"
+          },
+          "device_name": {
+            "maxLength": 64,
+            "minLength": 1,
+            "title": "Device Name",
+            "type": "string"
+          }
+        },
+        "required": [
+          "password",
+          "device_name"
+        ],
+        "title": "DeviceLogin",
         "type": "object"
       },
       "Envelope": {

@@ -66,6 +66,8 @@ export function ChatPane({
   remember?: boolean;
   onRemember?: (remember: boolean) => void;
 }) {
+  const [query, setQuery] = useState("");
+  const visibleTurns = turns.filter(t => (t.input + " " + (t.reply || "")).toLocaleLowerCase().includes(query.toLocaleLowerCase()));
   const end = useRef<HTMLDivElement>(null),
     log = useRef<HTMLDivElement>(null);
   const atEnd = useRef(true),
@@ -159,6 +161,7 @@ export function ChatPane({
           自动路由 <ChevronDown size={14} />
         </button>
       </div>
+      <label className="next-chat-search"><input aria-label="搜索当前对话" placeholder="在这段对话里找找…" value={query} onChange={e => setQuery(e.target.value)}/>{query && <button type="button" onClick={() => setQuery("")}>清除</button>}</label>
       {readiness && readiness !== "READY_LOCAL_GATES" && (
         <div className="v4-readiness" role="status">
           <span>{readinessLabel(readiness)}</span>
@@ -195,7 +198,7 @@ export function ChatPane({
             </div>
           </div>
         )}
-        {turns.map((t) => (
+        {visibleTurns.map((t) => (
           <article className="live-turn v3-turn" key={t.id}>
             {t.input && (
               <div className="v3-user-row">
@@ -235,8 +238,8 @@ export function ChatPane({
                       "这条消息的结果还不能确认。先核验原回执，不重复发送。"
                     ) : t.state === "REQUESTED" ? (
                       <span className="v3-thinking">
-                        <span role="status" aria-live="polite">正在等待这条消息的回执 · {waitingSeconds} 秒</span>
-                        {waitingSeconds >= 12 && <small>仍在等待单次请求，不自动重发。这里只显示等待时间，不推测模型正在想什么。</small>}
+                        <span role="status" aria-live="polite">正在等奈奈回复 · {waitingSeconds} 秒</span>
+                        {waitingSeconds >= 12 && <small>这次稍久一些，你可以先读读前面的对话。</small>}
                       </span>
                     ) : (
                       "这条回执尚无可展示的回复。"
@@ -248,6 +251,7 @@ export function ChatPane({
                     <Check size={12} /> {({VERIFIED: "已收到", REQUESTED: "等待回复", REJECTED: "这次未提交", UNKNOWN: "等待核验"} as Record<string, string>)[t.state] || t.state}
                     {t.model ? ` · ${t.model}` : ""}
                   </span>
+                  {t.reply && <button aria-label="引用这条回复" onClick={() => { onDraft(`引用：${t.reply!.slice(0, 500)}\n\n${draft}`); }}>引用</button>}
                   {t.reply && (
                     <button aria-label="朗读这条回复" onClick={() => void voice(t.reply)}><Volume2 size={14} /></button>
                   )}

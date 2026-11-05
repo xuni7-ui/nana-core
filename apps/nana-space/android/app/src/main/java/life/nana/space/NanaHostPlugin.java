@@ -113,7 +113,7 @@ public class NanaHostPlugin extends Plugin {
         HttpsURLConnection connection = (HttpsURLConnection)new URL(origin(base) + PREFIX + path).openConnection();
         connection.setInstanceFollowRedirects(false);
         connection.setConnectTimeout(10000);
-        // INTERPRET + RENDER may each legitimately consume 15 seconds.
+        // Accommodate the configured per-call ceiling for INTERPRET + RENDER.
         connection.setReadTimeout("messages".equals(path) ? 1230000 : 15000);
         connection.setRequestMethod(method); connection.setRequestProperty("Accept", "application/json");
         connection.setRequestProperty("Cache-Control", "no-store");
@@ -176,6 +176,53 @@ public class NanaHostPlugin extends Plugin {
                 out.put("subject_id", b.getString("subject_id"));out.put("lineage_binding", b.getString("lineage_binding"));
                 out.put("background_push", "NOT_QUALIFIED");call.resolve(out);
             } catch (Exception ex) { JSObject out = new JSObject();out.put("paired", false);call.resolve(out); }
+        });
+    }
+    @PluginMethod public void login(PluginCall call) {
+        final String base, name;
+        try {
+            base = origin(call.getString("base")); name = call.getString("device_name");
+            if (name == null || name.trim().isEmpty() || name.length() > 64) throw new Exception("PAIRING_INPUT_INVALID");
+        } catch (Exception ex) { reject(call, ex); return; }
+        getActivity().runOnUiThread(() -> {
+            if (getActivity().isFinishing() || getActivity().isDestroyed()) { call.reject("SECRET_INPUT_CANCELLED"); return; }
+            if (credentialDialog != null && credentialDialog.isShowing()) { call.reject("SECRET_INPUT_ALREADY_OPEN"); return; }
+            android.widget.EditText input = new android.widget.EditText(getContext());
+            input.setInputType(android.text.InputType.TYPE_CLASS_TEXT | android.text.InputType.TYPE_TEXT_VARIATION_PASSWORD);
+            input.setSaveEnabled(false); input.setSingleLine(true);
+            input.setFilters(new android.text.InputFilter[]{new android.text.InputFilter.LengthFilter(128)});
+            input.setImeOptions(android.view.inputmethod.EditorInfo.IME_FLAG_NO_PERSONALIZED_LEARNING);
+            if (Build.VERSION.SDK_INT >= 26) input.setImportantForAutofill(android.view.View.IMPORTANT_FOR_AUTOFILL_NO_EXCLUDE_DESCENDANTS);
+            android.app.AlertDialog dialog = new android.app.AlertDialog.Builder(getActivity())
+                .setTitle("登录奈奈")
+                .setMessage("服务器：" + base + "\n输入服务器登录口令。手机仅保存加密设备凭据；口令不会进入网页或被保存。")
+                .setView(input)
+                .setNegativeButton("取消", (d,w) -> { input.setText(""); call.reject("SECRET_INPUT_CANCELLED"); })
+                .setPositiveButton("登录并连接", (d,w) -> {
+                    final String password = input.getText().toString(); input.setText("");
+                    getBridge().execute(() -> {
+                        JSONObject body = new JSONObject();
+                        try {
+                            if (password.length() < 12) throw new Exception("SESSION_DENIED");
+                            body.put("password", password); body.put("device_name", name.trim());
+                            JSONObject reply = http(base, "device/login", "POST", body, null);
+                            String realm = reply.getString("realm");
+                            if (!("OWNED_DEVELOPMENT_ONLY".equals(realm) || "PRODUCTION_SINGLE_SUBJECT".equals(realm))
+                                || !reply.getString("lineage_binding").matches("[a-f0-9]{64}") || reply.getString("subject_id").isEmpty())
+                                throw new Exception("INVALID_IDENTITY");
+                            JSONObject stored = new JSONObject();
+                            for (String k : new String[]{"device_id","refresh_token","subject_id","lineage_binding","realm"}) stored.put(k, reply.getString(k));
+                            stored.put("base", base); save(stored); access = null;
+                            JSONObject current = http(base, "bootstrap", "GET", null, session(stored));
+                            validateIdentity(current, stored); call.resolve(JSObject.fromJSONObject(current));
+                        } catch (Exception ex) { reject(call, ex); }
+                        finally { body.remove("password"); }
+                    });
+                }).create();
+            dialog.setOnCancelListener(d -> { input.setText(""); call.reject("SECRET_INPUT_CANCELLED"); });
+            dialog.setOnDismissListener(d -> { input.setText(""); if (credentialDialog == dialog) credentialDialog = null; });
+            dialog.getWindow().addFlags(android.view.WindowManager.LayoutParams.FLAG_SECURE);
+            credentialDialog = dialog; dialog.show();
         });
     }
     @PluginMethod public void pair(PluginCall call) {

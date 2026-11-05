@@ -262,3 +262,19 @@ def test_revoked_inflight_native_session_cannot_receive_late_body(running, monke
     release.set()
     worker.join(timeout=4)
     assert results[0][0] == 401 and "late_body" not in json.dumps(results[0][1])
+
+
+def test_native_password_login_without_subject_id_or_web_pairing(running):
+    server, service = running
+    payload = {'password': PW, 'device_name': 'Synthetic Android'}
+    code, _, _ = http(server, 'device/login', 'POST', payload, {'Origin': ORIGIN})
+    assert code == 403
+    code, reply, cookie = http(server, 'device/login', 'POST', payload)
+    assert code == 200 and cookie is None
+    assert reply['subject_id'] == service.binding.subject_id
+    code, session, _ = http(server, 'session/native', 'POST', {
+        'device_id': reply['device_id'], 'refresh_token': reply['refresh_token'],
+        'subject_id': reply['subject_id']})
+    assert code == 200
+    code, b, _ = http(server, 'bootstrap', headers={'Authorization': 'Bearer '+session['access_token']})
+    assert code == 200 and b['subject_id'] == reply['subject_id']

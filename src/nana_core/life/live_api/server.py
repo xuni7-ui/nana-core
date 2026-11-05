@@ -18,6 +18,7 @@ from ...continuity.privacy import _json_object
 from .contracts import (
     ApiError,
     Login,
+    DeviceLogin,
     PairRequest,
     PairOffer,
     MessageRequest,
@@ -262,6 +263,19 @@ class Handler(BaseHTTPRequestHandler):
                 service.envelope({"authenticated": True, "csrf": csrf}),
                 COOKIE + "=" + token + "; Path=/; Max-Age=600; HttpOnly; Secure; SameSite=Strict",
             )
+            return
+        if route == "device/login" and self.command == "POST":
+            if self.headers.get("Origin") is not None:
+                raise ApiError("NATIVE_ORIGIN_DENIED", 403)
+            body = self._model(DeviceLogin, self._body())
+            device, refresh = service.auth.login_device(body.password, body.device_name)
+            self._json(200, {
+                "device_id": device, "refresh_token": refresh,
+                "realm": service.binding.realm.value,
+                "subject_id": service.binding.subject_id,
+                "lineage_binding": service.binding.lineage_binding,
+                "contract": "nana-space-live/v2",
+            })
             return
         if route == "device/pairing" and self.command == "POST":
             if self.headers.get("Origin") is not None:

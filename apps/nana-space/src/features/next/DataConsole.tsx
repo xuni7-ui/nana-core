@@ -1,0 +1,10 @@
+import { useRef, useState } from "react";
+import { livePages, type LivePage } from "../../data/v2";
+import type { Envelope } from "../../data/v2.generated";
+const titles:Record<LivePage,string>={home:"主体近况",chat:"对话",memories:"记忆与来源",goals:"目标与计划",journal:"经历与动态",world:"世界观察",growth:"学习与技能",devices:"设备",runtime:"运行与预算",settings:"模型与设置"};
+export function DataConsole({read,connected}:{read:(p:LivePage)=>Promise<Envelope>;connected:boolean}) {
+ const [page,setPage]=useState<LivePage>("runtime"),[value,setValue]=useState<Envelope|null>(null),[query,setQuery]=useState(""),[error,setError]=useState(""),[busy,setBusy]=useState(false);const seq=useRef(0);
+ const load=async(p:LivePage)=>{setPage(p);setValue(null);setError("");const id=++seq.current;setBusy(true);try{const r=await read(p);if(id===seq.current)setValue(r);}catch{if(id===seq.current)setError("未能读取。请检查连接或当前设备权限。");}finally{if(id===seq.current)setBusy(false);}};
+ const rows=value?Object.entries(value.data).filter(([k,v])=>(k+JSON.stringify(v)).toLocaleLowerCase().includes(query.toLocaleLowerCase())):[];
+ return <section className="v3-card next-console"><span className="v3-eyebrow">YOUR CONTROL ROOM</span><h2>每条状态，都可以展开看看</h2><p>直接读取当前设备有权访问的 Core 投影。筛选不会修改数据；未授权的内容由服务器隔离。</p><div className="next-console-tools"><select aria-label="数据范围" value={page} disabled={!connected||busy} onChange={e=>void load(e.target.value as LivePage)}>{livePages.map(p=><option key={p} value={p}>{titles[p]}</option>)}</select><button className="v3-button soft" disabled={!connected||busy} onClick={()=>void load(page)}>{busy?"读取中…":"读取最新数据"}</button><input aria-label="筛选字段或内容" placeholder="搜索字段、来源、状态…" value={query} onChange={e=>setQuery(e.target.value)}/></div><p role="status">{error|| (value?`来源时间 ${new Date(value.as_of_us/1000).toLocaleString()} · ${rows.length} 个字段组`:"选择范围，读取真实记录。")}</p>{rows.map(([key,v])=><details key={key}><summary>{key}</summary><pre tabIndex={0}>{JSON.stringify(v,null,2)}</pre></details>)}<small>这里覆盖现有 API 的授权字段，不代表可直接读取全部数据库表或密钥。</small></section>;
+}

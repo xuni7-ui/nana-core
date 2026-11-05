@@ -88,6 +88,11 @@ class Login(DTO):
     subject_id: str = Field(min_length=1, max_length=96)
 
 
+class DeviceLogin(DTO):
+    password: str = Field(min_length=12, max_length=128, repr=False, exclude=True)
+    device_name: str = Field(min_length=1, max_length=64)
+
+
 class PairRequest(DTO):
     code: str = Field(min_length=24, max_length=128, repr=False, exclude=True)
     subject_id: str = Field(min_length=1, max_length=96)

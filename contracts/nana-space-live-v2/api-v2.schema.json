@@ -353,6 +353,29 @@
       "title": "CredentialBindingRequest",
       "type": "object"
     },
+    "DeviceLogin": {
+      "additionalProperties": false,
+      "properties": {
+        "password": {
+          "maxLength": 128,
+          "minLength": 12,
+          "title": "Password",
+          "type": "string"
+        },
+        "device_name": {
+          "maxLength": 64,
+          "minLength": 1,
+          "title": "Device Name",
+          "type": "string"
+        }
+      },
+      "required": [
+        "password",
+        "device_name"
+      ],
+      "title": "DeviceLogin",
+      "type": "object"
+    },
     "Envelope": {
       "additionalProperties": false,
       "properties": {

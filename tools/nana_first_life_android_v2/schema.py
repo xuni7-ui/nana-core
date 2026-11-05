@@ -13,6 +13,7 @@ MODELS = [
     c.Binding,
     c.Envelope,
     c.Login,
+    c.DeviceLogin,
     c.PairRequest,
     c.PairOffer,
     c.MessageRequest,
@@ -83,6 +84,7 @@ def generate():
         "/host/confirmations": ["post"],
         "/host/operations": ["get", "post"],
         "/device/pairing": ["post"],
+        "/device/login": ["post"],
         "/session/native": ["post"],
         "/devices/offers": ["post"],
         "/devices": ["get"],
@@ -112,6 +114,7 @@ def generate():
     request_models = {
         "/session": "Login",
         "/device/pairing": "PairRequest",
+        "/device/login": "DeviceLogin",
         "/devices/offers": "PairOffer",
         "/messages": "MessageRequest",
         "/commands": "CommandRequest",
@@ -131,7 +134,7 @@ def generate():
                 operation["security"] = [{"nativeBearer": []}]
                 operation["description"] = "HOST_ADMIN + host opt-in. Native secure input only; no secret in JS, persistence or receipt."
             response = {"$ref": "#/components/schemas/Envelope"}
-            if short == "/device/pairing":
+            if short in {"/device/pairing", "/device/login"}:
                 response = {
                     "type": "object",
                     "required": ["contract", "subject_id", "lineage_binding", "realm", "device_id", "refresh_token"],
@@ -174,7 +177,7 @@ def generate():
                         "application/json": {"schema": {"$ref": "#/components/schemas/" + request_models[short]}}
                     },
                 }
-            if method == "post" and short in {"/session", "/device/pairing", "/session/native"}:
+            if method == "post" and short in {"/session", "/device/pairing", "/device/login", "/session/native"}:
                 operation["security"] = []
             operation["responses"]["200"]["content"] = {"application/json": {"schema": response}}
             if "{" in short:

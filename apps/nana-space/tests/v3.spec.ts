@@ -757,3 +757,20 @@ test("SYNTHETIC shared presence: original candidates appear in room without bein
   await expect(card).toHaveCount(0);
   expect(state.requests.filter(x => x.method !== "GET")).toEqual([]);
 });
+
+test("Next Experience: authorized console reads and filters original projections", async ({ page }) => {
+  const state = await installMock(page);
+  await open(page);
+  await go(page, "runtime", "runtime");
+  await page.getByRole("button", { name: "读取最新数据" }).click();
+  const panel = page.locator(".next-console");
+  await expect(panel).toContainText("来源时间");
+  await panel.getByLabel("筛选字段或内容").fill("no-such-field-marker");
+  await expect(panel.locator("details")).toHaveCount(0);
+  await panel.getByLabel("筛选字段或内容").fill("");
+  await panel.getByLabel("数据范围").selectOption("memories");
+  await expect(panel).toContainText("来源时间");
+  await panel.locator("summary", {hasText: /^memories$/}).click();
+  await expect(panel).toContainText(MEMORY_A);
+  expect(state.requests.filter(r => r.method === "POST")).toHaveLength(0);
+});

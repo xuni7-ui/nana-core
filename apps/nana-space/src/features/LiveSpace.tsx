@@ -63,6 +63,11 @@ import {
   ConnectionView,
 } from "./v3/LifeViews";
 import { ChatPane, type Turn } from "./v3/ChatPane";
+import { ModelSetup } from "./next/ModelSetup";
+import { DataConsole } from "./next/DataConsole";
+import { readProviderSettings, type ProviderDraft } from "../data/provider-center";
+import { providerCommand, modelCommand, routeCommand } from "../data/provider-commands";
+import "./next/experience.css";
 import { ModelCenter } from "./v3/ModelCenter";
 import { MemoryCenter } from "./v3/MemoryCenter";
 import { BilibiliView } from "./v3/BilibiliView";
@@ -115,7 +120,7 @@ const reasons: Record<string, string> = {
   AUTH_RATE_LIMIT: "尝试过于频繁，请稍后再试。",
   PAIRING_REQUIRED: "请先为这台手机配对。",
   NETWORK_OR_EXECUTION_UNKNOWN:
-    "无法确认连接结果。请检查手机 Tailscale 与私有 HTTPS 是否可达；若已提交配对，请先在管理端核验设备状态，不要重复提交旧码。",
+    "无法确认连接结果。请检查服务器 HTTPS 地址和网络是否可达；若已提交配对，请先在管理端核验设备状态，不要重复提交旧码。",
   HTTPS_ORIGIN_REQUIRED:
     "请输入完整 HTTPS 地址（域名和端口，不含路径、账号或参数）。",
   PAIRING_INPUT_INVALID:
@@ -158,6 +163,7 @@ export function LiveSpace() {
   const [password, setPassword] = useState("");
   const [base, setBase] = useState("");
   const [code, setCode] = useState("");
+  const [usePairCode, setUsePairCode] = useState(false);
   const [deviceName, setDeviceName] = useState("这台安卓手机");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
@@ -476,7 +482,7 @@ export function LiveSpace() {
     if (busy) return;
     setError("");
     const subject = identity.trim();
-    if (!subject || subject.length > 96) {
+    if ((!isNative() || usePairCode) && (!subject || subject.length > 96)) {
       setError("请填写已有奈奈的 Subject ID（最多 96 个字符）。");
       return;
     }
@@ -507,7 +513,7 @@ export function LiveSpace() {
         setError("请填写手机名称（最多 64 个字符）。");
         return;
       }
-      if (pairingCode.length < 24 || pairingCode.length > 128) {
+      if (usePairCode && (pairingCode.length < 24 || pairingCode.length > 128)) {
         setError(
           "请粘贴完整的一次性设备配对码（24–128 个字符），不是短数字码、登录口令或 Provider API Key。",
         );
@@ -521,7 +527,7 @@ export function LiveSpace() {
     const version = sessionVersion.current;
     try {
       const b = isNative()
-        ? await client.current.pair(address, pairingCode, subject, name)
+        ? usePairCode ? await client.current.pair(address, pairingCode, subject, name) : await client.current.loginDevice(address, name)
         : await client.current.login(password, subject);
       if (version === sessionVersion.current) {
         accept(b);
@@ -790,6 +796,34 @@ export function LiveSpace() {
     } finally {
       if (version === sessionVersion.current) setBusy(false);
     }
+  };
+  const setupModel = async (draft: ProviderDraft, setStatus: (s: string) => void) => {
+    if (writePending.current) return;
+    writePending.current = true; setBusy(true);
+    const version = sessionVersion.current;
+    const suffix = crypto.randomUUID().replaceAll("-", "").slice(0, 16);
+    const pid = "provider." + suffix, mid = "model." + suffix;
+    try {
+      for (const step of [0, 1, 2]) {
+        if (version !== sessionVersion.current) throw new V2Error("SESSION_REVOKED");
+        const b = await fresh();
+        const settings = readProviderSettings((await client.current.view("settings")).data.provider_settings);
+        if (settings.state !== "CURRENT" || settings.revision === undefined) throw new V2Error("CONFIGURATION_UNAVAILABLE");
+        setStatus(["保存供应商…", "保存模型…", "设置默认对话模型…"][step]);
+        const command = step === 0 ? providerCommand(draft, pid, settings.revision) : step === 1 ? modelCommand(draft, pid, mid, settings.revision) : routeCommand("COGNITION", mid, [], settings.revision);
+        if (command.provider) command.provider.secret_ref = "next." + suffix;
+        const id = crypto.randomUUID();
+        const r = await client.current.write("providers.command", {...writeBase(b, id), command});
+        if (version !== sessionVersion.current) throw new V2Error("SESSION_REVOKED");
+        setReceipt(object(r.data));
+        if (r.data.state !== "VERIFIED") throw new V2Error("UNKNOWN_VERIFY_ONLY");
+      }
+      setStatus("配置已保存。接下来在供应商卡片点“绑定凭据”，输入 API Key。实际可用性以服务端状态为准。");
+      await refresh();
+    } catch (e) {
+      setStatus(explain(e) + " 已保存的步骤会保留，请到下方配置列表核对；不会自动重发。");
+      await refresh().catch(() => {});
+    } finally { if (version === sessionVersion.current) { setBusy(false); writePending.current = false; } }
   };
   const verifyLatestReceipt = async () => {
     const id = text(receipt?.receipt_id),
@@ -1158,10 +1192,10 @@ export function LiveSpace() {
               title={
                 isNative() ? "把奈奈的窗口带在身边" : "欢迎回到这个小小空间"
               }
-              eyebrow={isNative() ? "PAIR YOUR DEVICE" : "CONNECT TO YOUR NANA"}
+              eyebrow="A LITTLE CLOSER, EVERY DAY"
               className="v3-login-card"
             >
-              <p>连接已有的云端主体。这里不会创建另一个奈奈。</p>
+              <p>连接已有的云端主体。你的手机，是通往她的新窗口。</p>
               <form
                 onSubmit={(e) => {
                   e.preventDefault();
@@ -1170,12 +1204,12 @@ export function LiveSpace() {
               >
                 {isNative() && (
                   <label>
-                    私有 HTTPS 地址
+                    服务器 HTTPS 地址
                     <input
-                      aria-label="私有 HTTPS 地址"
+                      aria-label="服务器 HTTPS 地址"
                       value={base}
                       onChange={(e) => setBase(e.target.value)}
-                      placeholder="https://私有地址:8443"
+                      placeholder="https://你的服务器"
                       inputMode="url"
                       autoCapitalize="none"
                       spellCheck={false}
@@ -1183,7 +1217,7 @@ export function LiveSpace() {
                     />
                   </label>
                 )}
-                <label>
+                {(!isNative() || usePairCode) && <label>
                   Subject ID
                   <input
                     aria-label="Subject ID"
@@ -1193,7 +1227,7 @@ export function LiveSpace() {
                     autoComplete="off"
                     placeholder="已核验的主体 ID"
                   />
-                </label>
+                </label>}
                 {isNative() ? (
                   <>
                     <label>
@@ -1205,7 +1239,7 @@ export function LiveSpace() {
                         maxLength={64}
                       />
                     </label>
-                    <label>
+                    {usePairCode && <label>
                       一次性配对码
                       <input
                         aria-label="一次性配对码"
@@ -1222,7 +1256,8 @@ export function LiveSpace() {
                         请粘贴宿主生成的完整设备配对码，仅在手机本地使用。当前{" "}
                         {code.trim().length} 个字符。
                       </small>
-                    </label>
+                    </label>}
+                    <button type="button" className="v3-button ghost" onClick={() => setUsePairCode(!usePairCode)}>{usePairCode ? "使用服务器口令登录" : "已有配对码？"}</button>
                   </>
                 ) : (
                   <label>
@@ -1243,7 +1278,7 @@ export function LiveSpace() {
                   type="submit"
                   disabled={busy}
                 >
-                  {busy ? "正在核验身份…" : "安全连接"}
+                  {busy ? "正在核验身份…" : isNative() && !usePairCode ? "登录并连接" : "安全连接"}
                   <ArrowUpRight size={17} />
                 </button>
               </form>
@@ -1352,7 +1387,7 @@ export function LiveSpace() {
               />
             )}
             {page === "models" && (
-              <ModelCenter
+              <><ModelSetup disabled={busy || !admin || !healthy || bootstrap?.capabilities.provider_configuration_write !== true} onSetup={setupModel}/><ModelCenter
                 key={`${bootstrap?.run_generation || "offline"}:${privacy.current}:${healthy}`}
                 settings={data.provider_settings}
                 available={healthy}
@@ -1367,7 +1402,7 @@ export function LiveSpace() {
                 credentialStatus={credentialStatus}
                 onRevokeCredential={admin && isNative() && bootstrap?.capabilities.durable_provider_binding === true ? revokeProvider : undefined}
                 onBindCredential={admin && isNative() && bootstrap?.capabilities.native_secret_binding === true ? bindProvider : undefined}
-              />
+              /></>
             )}
             {page === "bilibili" && <BilibiliView data={biliSnapshot} available={healthy && bootstrap?.capabilities.platform_bilibili_history === true}/>}
             {page === "backup" && (
@@ -1589,6 +1624,7 @@ export function LiveSpace() {
             )}
             {page === "runtime" && (
               <div className="v3-stack">
+                <DataConsole key={`${bootstrap?.run_generation}:${privacy.current}:${healthy}`} read={p => client.current.view(p)} connected={healthy}/>
                 <V3Card
                   title="持续存在，可靠地休息"
                   eyebrow="RUNTIME & GOVERNANCE"

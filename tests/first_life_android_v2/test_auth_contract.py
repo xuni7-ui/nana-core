@@ -125,3 +125,19 @@ def test_missing_initial_password_does_not_persist_an_unusable_auth_document(tmp
     service = AuthService(path, password="TEST_ONLY_NOT_SECRET_initial")
     token, _ = service.login("TEST_ONLY_NOT_SECRET_initial")
     assert service.authorize(token, "WEB")
+
+
+def test_password_device_enrollment_keeps_roles_restart_and_revocation(tmp_path):
+    path = tmp_path / 'auth.json'
+    auth = AuthService(path, password=PASSWORD, roles=(Role.READER, Role.CONVERSATION))
+    with pytest.raises(ApiError, match='SESSION_DENIED'):
+        auth.login_device('TEST_ONLY_NOT_SECRET_wrong', 'phone')
+    device, refresh = auth.login_device(PASSWORD, 'phone')
+    assert not auth.sessions
+    assert refresh not in path.read_text() and PASSWORD not in path.read_text()
+    reopened = AuthService(path, roles=(Role.READER,))
+    token = reopened.native_session(device, refresh)
+    principal = reopened.authorize(token, 'NATIVE')
+    assert principal.roles == (Role.READER,)
+    with pytest.raises(ApiError, match='SCOPE_DENIED'):
+        principal.require(Role.HOST_ADMIN)

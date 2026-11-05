@@ -173,6 +173,27 @@ class AuthService:
             self.attempts.clear()
             return device_id, refresh
 
+    def login_device(self, password, device_name):
+        """Enroll a personal device with the existing host login, never new roles."""
+        if type(device_name) is not str or not 1 <= len(device_name.strip()) <= 64:
+            raise ApiError("PAIRING_INPUT_INVALID", 400)
+        with self.lock:
+            token, _ = self.login(password)
+            try:
+                principal = self.authorize(token, "WEB")
+                refresh, device_id = secrets.token_urlsafe(48), secrets.token_hex(16)
+                def add(data):
+                    if len(data["devices"]) >= 32:
+                        raise ApiError("DEVICE_CAPACITY", 429)
+                    data["devices"][device_id] = {
+                        "name": device_name.strip(), "refresh_hash": token_hash(refresh),
+                        "roles": [r.value for r in principal.roles], "revoked": False,
+                    }
+                self.document.update(add)
+                return device_id, refresh
+            finally:
+                self.logout(token)
+
     def native_session(self, device_id, refresh):
         with self.lock:
             self._rate()

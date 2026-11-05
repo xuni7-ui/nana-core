@@ -49,6 +49,11 @@ export type CredentialBindingRequest = {
   "credential"?: (string | null);
 };
 
+export type DeviceLogin = {
+  "password": string;
+  "device_name": string;
+};
+
 export type Envelope = {
   "contract"?: "nana-space-live/v2";
   "realm": Realm;

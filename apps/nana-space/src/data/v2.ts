@@ -32,6 +32,7 @@ export const livePages: LivePage[] = [
   "settings",
 ];
 interface NativePort {
+  login(options: { base: string; device_name: string }): Promise<unknown>;
   bindProviderCredential(options: { data: Record<string, unknown>; persistent?: boolean }): Promise<unknown>;
   bindPlatformCredential(options: { data: Record<string, unknown>; persistent?: boolean }): Promise<unknown>;
   status(): Promise<{
@@ -235,6 +236,10 @@ export class V2Client {
     }
     this.csrf = csrf;
     return this.bootstrap();
+  }
+  async loginDevice(base: string, deviceName: string): Promise<Envelope> {
+    this.clear();
+    return this.accept(await nativePort.login({ base, device_name: deviceName }));
   }
   async pair(
     base: string,

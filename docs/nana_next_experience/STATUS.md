@@ -1,0 +1,21 @@
+# Nana Next Experience — development checkpoint
+
+Scope: Advanced Growth / Platform and Shared Life axes, original S1–S10 unchanged. Based on 61aebf3. Issues #2/#4 remain open with the previous deployment limitations. No production changes, real model calls, private data or platform sends.
+
+Implemented: native server-password login with automatic subject/lineage discovery after authentication, existing Keystore device storage and native session refresh; no browser pairing step. Same host password rate limit and role ceiling, no credential returned to WebView. HTTPS certificate validation and redirect rejection remain. Requires the updated BFF `/device/login`; old pairing remains available for older servers. Public HTTPS must be installed by the authorized operator; this workspace does not expose a public endpoint or claim a live phone connection.
+
+Model quick setup uses existing provider/model/route commands, checking each real receipt and current revision. It generates stable internal IDs and a secret reference; existing native credential input stores keys in the existing Vault. Partial changes are retained visibly on error, no blind replay. Model discovery, paid connection testing, streaming, and immediate hot activation are NOT implemented. Saving a route is not proof of provider usability.
+
+The control-room reader allows filtering and expanding the ten existing authorized view projections, not unrestricted SQL or all underlying database records. Original management controls remain. Chat adds current-history search and quoted drafts; no server replay or forged streaming. New original SVG art is static presentation, not evidence of an emotion. Theme and mobile spacing improvements preserve reduced-motion. UI screenshots use explicitly synthetic HTTP fixtures.
+
+Validation: Web production build passed; frontend 56 tests passed; original Core + HTTP/auth targeted suite 13 passed; browser fixture suite 52 passed across desktop and 360/390/412 pixel widths. Android build/result to be recorded after completion. These do not constitute production or human naturalness qualification.
+
+Remaining: finish the full product experience, true cloud/phone verification after operator deployment, server-side model discovery/test policy, streamed responses, richer data APIs, complete original-visual system and daily-use review. This is a working checkpoint, not completion of the full Next Experience mission.
+
+## APK checkpoint
+
+Android assembleDebug succeeded (85 tasks). Application ID `life.nana.space.dev`, versionCode 404; signing certificate SHA256 matches the previous 403 APK: `b2fec5a02e6f32e69fb8ef8bce44391a6a4ba5ab8ce6dc7284cb57663016ec41`. Existing installations using that app ID and signer support an in-place upgrade; do not uninstall or clear app data. Every packaged Web file was compared byte-for-byte with the Web build. APK: 4,743,131 bytes, SHA256 `2d609e8011c83be170e536774c37d12a1ca2b672e7fb482cf19cedf55e46f77f`. Web archive SHA256 `e084d7829f93414757ce126ef764bec14f5fb5a1b4dcc34a848f1682f597b9bd`.
+
+Four additional browser checks verified console read/filter behavior and absence of writes across desktop/360/390/412 widths. Real phone installation is NOT_RUN. Initial Android dependency resolution stalled on non-Android artifacts in Google's repository; the build-only relay was restricted for those known Maven Central groups and reused existing cached artifacts. No application network policy was changed.
+
+Operator integration: ship the updated `life/live_api` package and matching client using the existing sealed release/activation path; do not copy unsealed source into the live slot. Additive endpoint `POST /api/nana-space/v2/device/login` is native-only (Origin rejected), accepts server password and device name, returns identity and native device credentials only to the native transport. The existing TLS reverse proxy must preserve original Host. No new wildcard CORS, plaintext HTTP or public exposure is configured. Old BFF returns an unsupported-route error; use the retained pairing-code entry until an authorized matched rollout. Keys are entered in the original native dialog after provider creation; model list discovery and paid test are still unavailable.
