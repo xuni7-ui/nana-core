@@ -809,7 +809,23 @@ export function LiveSpace() {
         const b = await fresh();
         const settings = readProviderSettings((await client.current.view("settings")).data.provider_settings);
         if (settings.state !== "CURRENT" || settings.revision === undefined) throw new V2Error("CONFIGURATION_UNAVAILABLE");
-        setStatus(["保存供应商…", "保存模型…", "设置默认对话模型…"][step]);
+        if (step === 2) {
+          const profile = settings.providers.find(p => p.id === pid);
+          if (!isNative() || b.capabilities.native_secret_binding !== true || profile?.revision === undefined) {
+            setStatus("供应商与模型已保存。请使用已授权手机绑定凭据，再手动选择默认模型；当前路由未变。");
+            await refresh(); return;
+          }
+          const credentials = b.capabilities.durable_provider_binding === true ? await client.current.providerCredentials() : null;
+          const vault = vaultMetadata(credentials?.data);
+          if (b.capabilities.durable_provider_binding === true && !vault) throw new V2Error("PROVIDER_VAULT_REVISION_REQUIRED");
+          setStatus("请在手机安全输入框中输入 API Key…");
+          const result = object((await client.current.bindProviderCredential({
+            ...writeBase(b), provider_profile_id: pid, profile_revision: profile.revision,
+            ...(vault ? {expected_vault_revision: vault.revision} : {}),
+          }, b.capabilities.durable_provider_binding === true)).data);
+          if (!["BOUND_IN_HOST_MEMORY", "BOUND_IN_HOST_VAULT"].includes(String(result.state))) throw new V2Error("SECRET_BINDING_UNCONFIRMED");
+        }
+        setStatus(["保存供应商…", "保存模型…", "凭据已绑定，设置默认对话模型…"][step]);
         const command = step === 0 ? providerCommand(draft, pid, settings.revision) : step === 1 ? modelCommand(draft, pid, mid, settings.revision) : routeCommand("COGNITION", mid, [], settings.revision);
         if (command.provider) command.provider.secret_ref = "next." + suffix;
         const id = crypto.randomUUID();
@@ -818,7 +834,7 @@ export function LiveSpace() {
         setReceipt(object(r.data));
         if (r.data.state !== "VERIFIED") throw new V2Error("UNKNOWN_VERIFY_ONLY");
       }
-      setStatus("配置已保存。接下来在供应商卡片点“绑定凭据”，输入 API Key。实际可用性以服务端状态为准。");
+      setStatus("凭据已绑定，模型和路由已保存。实际可用性以服务器状态为准；配置可能需要重启才能生效。");
       await refresh();
     } catch (e) {
       setStatus(explain(e) + " 已保存的步骤会保留，请到下方配置列表核对；不会自动重发。");

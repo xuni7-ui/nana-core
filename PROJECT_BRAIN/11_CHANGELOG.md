@@ -2886,3 +2886,6 @@ Open: Gateway may still run its baked release when Supervisor changes the active
 
 ### Next Experience development — 2026-11-05
 Advanced Growth / Platform + Shared Life. Original architecture and 63 criteria unchanged. Current work: App-native password login, existing device identity/Keystore, model quick setup via original CAS commands, authorized projection explorer, chat search/quote and original static art. Web/auth/browser tests passed within documented scope; no host/public-HTTPS/real-phone qualification. Full task remains IN_PROGRESS, not First-Life READY. See docs/nana_next_experience/STATUS.md for implementation and remaining gaps.
+
+### Next Experience · safe model setup ordering
+The quick setup now binds credentials before switching the cognition route. If native credential binding is unavailable, it preserves the current route and reports the remaining step. Web build and 56 frontend tests passed; real provider/phone and deployment remain unverified.
