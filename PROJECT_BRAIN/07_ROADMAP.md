@@ -1211,3 +1211,7 @@ Advanced Growth / Platform + Shared Life. Original architecture and 63 criteria 
 
 ### 2026-11-06 · Next Experience / continuous ten-domain refinement
 Continue the same product task; uploaded V1.3 design retained in docs/nana_next_experience/task_inputs. First fix actual phone chat layout and plain-language UI, then remaining original product flow, then highest-value original Core cross-domain refinements. No duplicate total plan or migration owner; cloud memory migration untouched. Mobile browser layout >45% message-area checks passed at four sizes; live phone result pending. No frozen framework/criteria/authority change.
+
+
+### 2026-11-06 · long-term context/memory/latency addendum
+Accepted as a supplement to the existing ten-domain refinement mission. Baseline → bounded implementation → same-condition quality/resource comparison. Reuse ContextAssembler/MemoryService/MaintenanceService/Router/S8; retain emotional/autonomous/learning quality, provenance and privacy. Synthetic 1k/10k/100k/larger benchmarks and authoritative live Store/index mapping are separate evidence. Initial code search does not prove a live FAISS binding; host mapping remains unverified and cloud migration untouched. Details and measurement distinctions: docs/nana_next_experience/task_inputs/LONG_TERM_CONTEXT_MEMORY_ADDENDUM.md. No performance gain, live audit or total completion is claimed.
