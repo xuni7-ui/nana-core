@@ -57,11 +57,22 @@ class Growth:
 
     def _roots(self, memory_id):
         """Resolve inherited evidence: own derivations do not create new roots."""
-        seen, pending, roots = set(), [memory_id], set()
+        return self.source_roots((memory_id,))
+
+    def source_roots(self, memory_ids, *, max_nodes=None):
+        """Reuse source ancestry for independent encounters, with an optional bound.
+
+        Existing assertion counting keeps its original semantics. Bounded callers
+        must defer ambiguous ancestry rather than pretend it is a new encounter.
+        No facts, drive values or second source registry are written here.
+        """
+        seen, pending, roots = set(), list(memory_ids), set()
         while pending:
             current = pending.pop()
             if current in seen:
                 continue
+            if max_nodes is not None and len(seen)>=max_nodes:
+                raise CoreError('SOURCE_ROOT_HORIZON_REQUIRES_REVIEW')
             seen.add(current)
             memory = self.records.memory.read(current)
             deps = list(self.store.db.execute("SELECT * FROM memory_dependencies WHERE memory_id=? AND parent_kind='MEMORY'", (current,)))

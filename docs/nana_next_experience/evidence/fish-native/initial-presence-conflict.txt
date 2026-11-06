@@ -1,0 +1,50 @@
+..............F................                                          [100%]
+=================================== FAILURES ===================================
+____ test_rest_is_delivery_only_survives_restart_and_rechecks_old_admission ____
+
+tmp_path = PosixPath('/dev/shm/nana-fish-rest-final/test_rest_is_delivery_only_sur0')
+
+    def test_rest_is_delivery_only_survives_restart_and_rechecks_old_admission(tmp_path):
+        home=tmp_path/'life'; initialize(home); clock=VirtualClock()
+        resource='synthetic://recipient/project-user'
+        def gate(app):
+            return DeliveryAdmission(app.runtime.store,DeliveryPolicy(recipients=(resource,),
+                privacy_classes=('PUBLIC','PROJECT'),quiet_start_utc_hour=0,quiet_end_utc_hour=0),
+                scopes=('project-work',),privacy_classes=('PUBLIC','PROJECT'))
+        with LifeApplication(home,clock=clock) as app:
+            app.pause(); identity=app.runtime.identity_id
+            app.presence('AVAILABLE',privacy_classes=('PUBLIC','PROJECT'))
+            before=social_cycle(app,'before-rest')
+            assert before.intention.kind=='SOCIAL_INTERACTION'
+            desire=app.runtime.store.one('subject_intentions',before.intention_id)
+            allowed=gate(app).assess(before,resource)
+            assert allowed['result']=='ELIGIBLE'
+            app.chat('晚安',privacy='PROJECT',message_id='sleep')
+            assert depth_boundary(app.runtime.store,'project-user','project-work',REST_DELIVERY_TOPIC,('PROJECT',))[0]
+            assert not depth_boundary(app.runtime.store,'project-user','project-work',REST_DELIVERY_TOPIC,('PROJECT',),purpose='COGNITION')[0]
+            with pytest.raises(CoreError,match='DELIVERY_ADMISSION_STALE'):
+                gate(app).require(allowed['record_id'],resource)
+            app.presence('AVAILABLE',privacy_classes=('PUBLIC','PROJECT'))  # does not override rest declaration
+            assert app.runtime.store.one('subject_intentions',before.intention_id)==desire
+            assert gate(app).assess(before,resource)['result']=='DEFER_RECIPIENT_REST'
+            assert app.shared.notification_inbox(privacy=('PROJECT',))['state']=='SILENT_RECIPIENT_REST'
+            assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants')
+        clock.advance(60_000_000)
+        with LifeApplication(home,clock=clock) as app:
+            app.pause(); assert app.runtime.identity_id==identity
+            assert app.shared.notification_inbox(privacy=('PROJECT',))['state']=='SILENT_RECIPIENT_REST'
+            app.chat('我回来了',privacy='PROJECT',message_id='returned')
+            assert not depth_boundary(app.runtime.store,'project-user','project-work',REST_DELIVERY_TOPIC,('PROJECT',))[0]
+            app.presence('AVAILABLE',privacy_classes=('PUBLIC','PROJECT'))
+            previous=app.runtime.subject.result(app.runtime.store.one('subject_cycles',before.cycle_id))
+            assert previous.intention.kind=='SOCIAL_INTERACTION'
+>           assert gate(app).assess(previous,resource)['result']=='ELIGIBLE'
+E           AssertionError: assert 'UNKNOWN_AVAILABILITY' == 'ELIGIBLE'
+E             
+E             - ELIGIBLE
+E             + UNKNOWN_AVAILABILITY
+
+tests/person_self/test_rest_and_attribution.py:82: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_rest_and_attribution.py::test_rest_is_delivery_only_survives_restart_and_rechecks_old_admission
+1 failed, 30 passed in 3.46s

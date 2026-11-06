@@ -47,15 +47,15 @@ def open_project_runtime(path, clock):
         yield runtime
 
 
-def capture(runtime, key, data, *, kind='DIRECT_OBSERVATION', parents=(), predicate=None):
+def capture(runtime, key, data, *, kind='DIRECT_OBSERVATION', parents=(), predicate=None, event_time_us=None, correction_of=None):
     memory=MemoryService(runtime.store); text=canonical(data) if not isinstance(data,str) else data
     previous=runtime.store.db.execute("SELECT observed_time_us FROM continuity_evidence WHERE source_namespace='recorded.project.material' AND source_reference=?",(key,)).fetchone()
     observed=previous[0] if previous else runtime.clock.utc_now_us()
     eid=memory.capture(EvidenceInput(provenance=Provenance(domain='DEVELOPMENT_PROJECT',source_namespace='recorded.project.material', source_reference=key, source_kind=kind), text=text,
-        privacy_class='PROJECT', observed_time_us=observed))
+        privacy_class='PROJECT', observed_time_us=observed,event_time_us=event_time_us))
     existing=runtime.store.db.execute("SELECT memory_id FROM memories WHERE source_evidence_id=? AND lifecycle='ACTIVE'",(eid,)).fetchone()
     return existing[0] if existing else memory.add(MemoryCandidate(entity_id='project-user',scope='project-work',memory_type=MemoryType.EPISODIC,
-        epistemic_kind='BELIEF' if kind=='MODEL_DERIVATION' else 'STATEMENT' if kind=='USER_STATEMENT' else 'OBSERVATION',source_evidence_id=eid,text=text,derived_from=parents,predicate_key=predicate))
+        epistemic_kind='BELIEF' if kind=='MODEL_DERIVATION' else 'STATEMENT' if kind=='USER_STATEMENT' else 'OBSERVATION',source_evidence_id=eid,text=text,derived_from=parents,predicate_key=predicate,correction_of=correction_of))
 
 
 def post(runtime, key, mids, *, task_class="python-api",**kwargs):

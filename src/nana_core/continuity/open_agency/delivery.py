@@ -47,10 +47,15 @@ class DeliveryPolicy(DTO):
         return self
 
 class DeliveryAdmission:
+    def _recipient_resting(self, entity_id, scope):
+        from ..subject.context_fit import REST_DELIVERY_TOPIC, depth_boundary
+        return depth_boundary(self.store,entity_id,scope,REST_DELIVERY_TOPIC,self.privacy)[0]
+
     def __init__(self,store,policy,*,scopes,privacy_classes):
         self.store,self.policy=store,policy;self.scopes,self.privacy=tuple(scopes),tuple(privacy_classes);self.records=RecordService(store)
     def _recipient(self,resource,scope):
-        for row in self.store.db.execute("SELECT * FROM memories WHERE scope=? AND predicate_key=? AND lifecycle='ACTIVE' AND assessment IN ('CURRENT','UNASSESSED') ORDER BY created_at_us DESC LIMIT 16",(scope,'recipient.'+digest(resource)[:32])):
+        predicate='recipient.'+digest(resource)[:32]
+        for row in self.store.db.execute("SELECT * FROM memories WHERE scope=? AND predicate_key IN (?,?) AND lifecycle='ACTIVE' AND assessment IN ('CURRENT','UNASSESSED') ORDER BY created_at_us DESC,rowid DESC LIMIT 16",(scope,predicate,predicate+'.presence')):
             if row['privacy_class'] not in self.privacy:continue
             item=self.records.memory.read(row['memory_id'])
             if item['authority']!='DIRECT':continue
@@ -114,6 +119,7 @@ class DeliveryAdmission:
         if resource not in self.policy.recipients:code='DENY_RECIPIENT'
         elif not mid or state.observed_at_us>now or state.expires_at_us<=now:code='UNKNOWN_AVAILABILITY'
         elif state.availability!='AVAILABLE':code='DEFER_BUSY' if state.availability=='BUSY' else 'UNKNOWN_AVAILABILITY'
+        elif self._recipient_resting(state.entity_id,scope):code='DEFER_RECIPIENT_REST'
         elif self._quiet():code='DEFER_QUIET_WINDOW'
         parent=self.records.read(cycle.record_id)
         from ..memory import PRIVACY_RANK
@@ -137,6 +143,7 @@ class DeliveryAdmission:
         else:
             mid,state=self._recipient(resource,record['scope'])
             if body['result']!='ELIGIBLE' or body['resource']!=resource or body['expires_at_us']<=now or self._quiet() or mid!=body['recipient_memory_id'] or not state or state.availability!='AVAILABLE' or state.expires_at_us<=now:raise CoreError('DELIVERY_ADMISSION_STALE')
+            if self._recipient_resting(state.entity_id,record['scope']):raise CoreError('DELIVERY_ADMISSION_STALE')
         if invocation is not None:
             action=self.store.one('actions',invocation.action_id);intention=self.store.one('subject_intentions',body['intention_id'])
             if not action or action['effect_slot']!='subject:'+body['intention_id'] or not intention or intention['revision']!=body['intention_revision'] or intention['state']!='PENDING' or digest(invocation.args.get('data'))!=body['payload_digest']:raise CoreError('DELIVERY_INTENTION_OR_PAYLOAD_MISMATCH')

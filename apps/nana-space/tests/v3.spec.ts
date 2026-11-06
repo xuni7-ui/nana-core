@@ -101,6 +101,7 @@ interface MockState {
   biliHistory?: Record<string, unknown>;
   catalogEnabled?: boolean;
   memorySearchRows?: Record<string,unknown>[];
+  lifeItems?: Record<string,unknown>[];
 }
 function envelope(state: MockState, data: Record<string, unknown>) {
   return {
@@ -132,7 +133,7 @@ function viewData(state: MockState, source: string) {
   return {
     host,
     privacy_watermark: state.watermark,
-    items: [
+    items: state.lifeItems || [
       {
         section: source === "home" ? "activities" : source,
         state: "VERIFIED",
@@ -764,6 +765,28 @@ test("SYNTHETIC shared presence: original candidates appear in room without bein
   await page.getByRole("button", {name: "刷新真实状态"}).click();
   await expect(card).toHaveCount(0);
   expect(state.requests.filter(x => x.method !== "GET")).toEqual([]);
+});
+
+test("SYNTHETIC inner state: sourced concerns use plain Chinese, withdrawal removes them", async ({page}) => {
+  const state=await installMock(page);
+  state.lifeItems=[
+    {section:"affect",category:"SOCIAL_APPETITE",state:"QUIET",reference:"fixture:appetite"},
+    {section:"concerns",category:"OPEN_CONCERN",state:"TRANSIENT",reference:"fixture:curiosity",as_of_us:1793026800000000},
+  ];
+  await open(page,"room");
+  await expect(page.locator("main")).toContainText("这会儿想安静一会儿");
+  const thought=page.locator(".v3-record").filter({hasText:"心里惦记着的事"});
+  await expect(thought).toContainText("刚浮现的念头");
+  await expect(thought.locator("summary")).toHaveText(/查看来源/);
+  await thought.locator("summary").click();
+  await expect(thought).toContainText("fixture:curiosity");
+  await expect(thought).toContainText("OPEN_CONCERN");
+  await noHorizontalOverflow(page);
+  state.lifeItems=[]; state.watermark="fixture-concern-withdrawn";
+  await page.getByRole("button",{name:"刷新真实状态"}).click();
+  await expect(thought).toHaveCount(0);
+  await expect(page.locator("main")).not.toContainText("这会儿想安静一会儿");
+  expect(state.requests.filter(x=>x.method!=="GET")).toEqual([]);
 });
 
 test("Next Experience: authorized console reads and filters original projections", async ({ page }) => {

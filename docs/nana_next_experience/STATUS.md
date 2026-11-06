@@ -36,3 +36,8 @@ Final targeted browser run: 16 passed across desktop/360/390/412, covering layou
 ## Product406 continuation (not full mission closure)
 
 Host-admin model-list discovery, original-Store older-record literal search and sealed active-Gateway bootstrap are now connected in code. Matching Android406/Web built; see evidence/product-406 for exact tests, limits and API paths. Paid provider testing/streaming and real phone/host/cross-day outcomes remain distinct and unqualified. Iris v2 user-reported closure preserved.
+
+
+## Current continuation — native growth/affect and matched406 delivery
+
+Previous checkpoint limitations above are historical: the explicit authorized model catalog and original-Store older-memory search are implemented on480d45f; matched406 artifacts are being finalized. Core6f2a491 full regression1905/0/12 in572.94s. Subsequent original source-root concern dedupe, pure-thought fading/reconsideration, narrowly attributed rest/return delivery boundaries, temporal presence corrections and authoritative Inspector state are implemented and verified (233 related + later7 projection tests,24 responsive browser tests). See GROWTH_AND_AFFECT.md for exact causal evidence and unrun gates. No true token streaming, general semantic retrieval/live FAISS mapping, paid provider testing or real phone/cross-day qualification is claimed. No new project or replacement emotion system.

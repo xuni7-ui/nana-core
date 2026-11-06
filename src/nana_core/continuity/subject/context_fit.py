@@ -9,6 +9,10 @@ from ...contracts import DTO
 from ...storage import digest
 from ..records import RecordService
 
+# An existing delivery-boundary ledger topic, not a new availability authority.
+# C can retain interests and continue work while spontaneous delivery waits.
+REST_DELIVERY_TOPIC = 'presence.rest'
+
 class InteractionSignal(DTO):
     kind: Literal['VENT','CHAT','HELP','SHARE','CORRECTION','DECLINE_DEPTH','DECLINE_DELIVERY','REOPEN','REOPEN_DELIVERY','FOCUS','UNCLEAR','IMPORTANT','PROJECT_STATUS']
     topic_key: str = Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')

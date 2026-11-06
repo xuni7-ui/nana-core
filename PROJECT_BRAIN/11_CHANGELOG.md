@@ -2926,3 +2926,8 @@ Full current-Core1905passed/12skipped572.94s; corrected15MB portable build repro
 ### 2026-11-06 · Fish Heart 原生融合差额矩阵
 
 固定只读new@6a338343/v0.3.8/MIT，已有Appraisal/多面关系/Concern/时间/投递/S8逐项对照；优先查同根派生被错计为独立encounter的实际缺口。不复制插件、不安装AstrBot、不碰Iris或Core生产恢复。矩阵和归属见docs/nana_next_experience/FISH_HEART_GAP_MATRIX.md与upstream/fish-heart-reference.json。软件优化/十域主任务继续。
+
+
+### 2026-11-06 · continuous native affect / product integration
+
+原Concern来源去重/淡出恢复、第三方转述及晚安投递边界、时间状态冲突修复、Inspector当前状态投影、手机中文状态完成代码与相关验证；233+后续7/浏览器24通过。初始来源别名、presence争议和真实投影UNKNOWN失败保留。无生产/私人迁移/真实模型/社交操作。

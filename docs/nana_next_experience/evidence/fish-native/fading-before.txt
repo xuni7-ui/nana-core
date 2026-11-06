@@ -1,0 +1,50 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_interpretation_aliases_do_not_inflate_interest_but_independent_source_can _
+
+tmp_path = PosixPath('/dev/shm/fh6/test_interpretation_aliases_do0')
+
+    def test_interpretation_aliases_do_not_inflate_interest_but_independent_source_can(tmp_path):
+        path = tmp_path/'subject.db'; clock=ManualClock()
+        with fresh(path, clock) as r, provider_harness(proposer=proposer) as (transport, _):
+            session = CognitionSession(r, transport, policy())
+            concerns = ConcernService(r, resources=('synthetic://watch',))
+            root = capture(r, 'original', {'data':'SYNTHETIC one public discovery'})
+            cid = offer(session, concerns, 'first', root)[0]
+            identity = r.identity_id
+            for n in range(3):
+                derived = alias(r, root, str(n))
+                assert offer(session, concerns, 'alias-'+str(n), derived)==()
+                row = r.store.one('open_concerns', cid)
+                assert row['encounters']==1 and row['state']=='TRANSIENT'
+                assert concerns.opportunity() is None
+            assert not r.store.all('goals') and not r.store.all('actions') and not r.store.all('grants')
+        with fresh(path, clock) as r, provider_harness(proposer=proposer) as (transport, _):
+            session = CognitionSession(r, transport, policy()); concerns = ConcernService(r, resources=('synthetic://watch',))
+            assert r.identity_id==identity and r.store.one('open_concerns', cid)['encounters']==1
+            second = capture(r, 'new-source', {'data':'SYNTHETIC different independent discovery'})
+            assert offer(session, concerns, 'second', second)==(cid,)
+            assert r.store.one('open_concerns', cid)['encounters']==2
+            assert r.store.one('open_concerns', cid)['state']=='INTEREST'
+            event=concerns.opportunity()
+            assert event is not None
+            cycle=r.subject.run(event.input)
+            assert cycle.intention.behavior=='EXPLORE' and cycle.intention.self_generated
+            concerns.after_cycle(cycle,event.input,None)
+            assert r.store.one('open_concerns',cid)['state']=='PROPOSED'
+            assert concerns.opportunity() is None  # no repeated C cycle without new support
+            assert not r.store.all('actions') and not r.store.all('grants')
+        clock.advance(3*24*HOUR+SECOND)
+        with fresh(path, clock) as r:
+            concerns=ConcernService(r, resources=('synthetic://watch',))
+            assert concerns.opportunity() is None
+>           assert r.store.one('open_concerns', cid)['state']=='EXPIRED'
+E           AssertionError: assert 'PROPOSED' == 'EXPIRED'
+E             
+E             - EXPIRED
+E             + PROPOSED
+
+tests/world_loop/test_independent_concern_sources.py:72: AssertionError
+=========================== short test summary info ============================
+FAILED tests/world_loop/test_independent_concern_sources.py::test_interpretation_aliases_do_not_inflate_interest_but_independent_source_can
+1 failed, 1 deselected in 0.60s

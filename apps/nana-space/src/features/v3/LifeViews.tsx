@@ -43,6 +43,30 @@ const statusNames: Record<string, string> = {
   OPEN: "未完成",
   SETTLED: "已安定",
   NO_ACTION: "暂不行动",
+  TRANSIENT: "刚浮现的念头",
+  INTEREST: "想继续了解",
+  DEFERRED: "先放一放",
+  PROPOSED: "正在斟酌",
+  ABANDONED: "已经放下",
+  EXPIRED: "暂时淡出",
+  SEEKING: "想找人聊聊",
+  QUIET: "想安静一会儿",
+  SATURATED: "交流暂时够了",
+  RECOVERING: "先缓一缓",
+};
+const sectionNames: Record<string, string> = {
+  activities:"正在做的事", experience:"经历", interests:"兴趣", concerns:"当前关注",
+  needs:"此刻的需要", affect:"交流状态", relationship:"关系与牵挂", goals:"目标与计划",
+  decisions:"自己的判断", learning:"学习与成长", skills:"学会的本领", world:"世界观察",
+  source_lifecycle:"来源变化", provenance:"来源", runtime:"运行近况", health:"运行状况",
+  provider:"认知资源", authority:"执行权限", queue:"待办机会", unknown:"待核验事项",
+};
+const categoryNames: Record<string, string> = {
+  OPEN_CONCERN:"心里惦记着的事", WORLD_CONCERN:"心里惦记着的事", CONCERN:"当前关注",
+  EXPERIENCE_NEED:"从经历中发现的需要", SOCIAL_APPETITE:"这会儿想怎样相处",
+  VERIFIED_OUTCOME:"已经核验的经历", METHOD_LESSON:"从经历中学会的方法",
+  WORLD_BELIEF:"对事情的理解", GOAL:"想推进的事", JUDGMENT:"这一次的判断",
+  CODE_SKILL:"已有的能力", MEMORY:"记忆来源", COGNITION_ATTEMPT:"一次思考",
 };
 export const statusLabel = (x: unknown) => statusNames[label(x)] || label(x);
 export function V3Card({
@@ -112,14 +136,17 @@ export function RecordCards({
             </span>
             <div>
               <div className="v3-record-head">
-                <span>{label(r.section)}</span>
+                <span>{sectionNames[label(r.section)] || "近况记录"}</span>
                 <span className="v3-chip">{statusLabel(r.state)}</span>
               </div>
-              <h3>{label(r.category, "来源记录")}</h3>
+              <h3>{categoryNames[label(r.category)] || "近况记录"}</h3>
               <details>
                 <summary>
                   查看来源 <ChevronRight size={13} />
                 </summary>
+                <small>原始分类：{label(r.section)} / {label(r.category)}</small>
+                <small>原始状态：{label(r.state)}</small>
+                {typeof r.as_of_us === "number" && r.as_of_us > 0 && <small>记录时间：{new Date(r.as_of_us / 1000).toLocaleString()}</small>}
                 <code>{label(r.reference)}</code>
                 {Array.isArray(r.source_memory_ids) &&
                   r.source_memory_ids.map((s, n) => (
@@ -163,11 +190,11 @@ export function HomeView({
   );
   const appetite = ready ? items.find(x => x.section === "affect" && x.category === "SOCIAL_APPETITE") : undefined;
   const rhythm: Record<string, {text: string; expression: string}> = {
-    OPEN: {text: "对交流保持开放", expression: "neutral"},
-    SEEKING: {text: "有来源支持的联系意愿", expression: "smile"},
-    QUIET: {text: "更倾向安静相处", expression: "neutral"},
-    SATURATED: {text: "最近的交流已经充足", expression: "neutral"},
-    RECOVERING: {text: "正在恢复交流的余裕", expression: "sleepy"},
+    OPEN: {text: "愿意聊聊天", expression: "neutral"},
+    SEEKING: {text: "想找人聊聊", expression: "smile"},
+    QUIET: {text: "这会儿想安静一会儿", expression: "neutral"},
+    SATURATED: {text: "这会儿更想静一静", expression: "neutral"},
+    RECOVERING: {text: "先缓一缓，等会儿再聊", expression: "sleepy"},
   };
   const tone = appetite ? rhythm[label(appetite.state)] : undefined;
   return (

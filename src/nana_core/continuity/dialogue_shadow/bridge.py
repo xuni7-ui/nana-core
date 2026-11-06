@@ -57,13 +57,32 @@ class SemanticInterpreter(Protocol):
 LITERALS=(('DECLINE_DEPTH',('不要研究','别再研究','不许处理','不要处理','禁止读取','禁止再处理')),('DECLINE_DELIVERY',('先别聊','别分析','先不聊','不想聊','话题停一下','不要再提','不要深入')),('REOPEN_DELIVERY',('可以再讨论','重新谈谈')),('REOPEN',('允许研究','可以处理','允许读取')),('FOCUS',('先专注这件事','现在先帮我')),('VENT',('只是吐槽','只想吐槽')),('HELP',('请帮我','帮我排查')),('SHARE',('和你分享','分享一下')))
 
 
+def rest_delivery_signal(text):
+    """A whole, first-person presence declaration; never a keyword mood score.
+
+    Ambiguous, reported or compound statements remain semantic proposals. A
+    return declaration only reopens delivery, not processing or execution grants.
+    """
+    value=text.strip().strip('。！!，,～~ ')
+    if value in {'晚安','我去睡了','我先睡了','我先休息了'}:
+        return 'DECLINE_DELIVERY'
+    if value in {'我回来了','我休息好了','我醒了'}:
+        return 'REOPEN_DELIVERY'
+    return None
+
+
 class LiteralSpanInterpreter:
     """Small deterministic baseline, not a real-model/human language qualification."""
     def interpret(self,text):
         # Conflicting explicit cues, quotation and hypothetical language are
         # deliberately uncertain. Never pick refusal out of an adversarial quote.
-        if any(x in text for x in ('“','”','"','如果','假如','不是','并非')):
+        if any(x in text for x in ('“','”','"','「','」','『','』','‘','’','如果','假如','不是','并非')) or any(
+            x in text for x in ('他说','她说','他们说','她们说','对方说','别人说','有人说','说他','说她','说先','说不要','说不想','说别','转述','转告','引用')
+        ):
             return SemanticInterpretation(kind='UNCLEAR',basis='UNREVIEWED_PROPOSAL',support_start=0,support_end=0,mechanism='literal-baseline')
+        rest=rest_delivery_signal(text)
+        if rest:
+            return SemanticInterpretation(kind=rest,basis='LITERAL_SPAN',support_start=0,support_end=len(text),mechanism='explicit-presence-declaration')
         # Narrow explicit status questions; no subject names/personality branches.
         # Refusal/reopen spans retain precedence. Quoted/hypothetical text above
         # is not promoted to a current request by keyword matching.

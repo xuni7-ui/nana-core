@@ -59,6 +59,8 @@ class SharedPresence:
             scopes=(scope,),privacy_classes=tuple(privacy))
         _,recipient=admission._recipient('synthetic://recipient/'+entity_id,scope)
         now=r.clock.utc_now_us()
+        if admission._recipient_resting(entity_id,scope):
+            return {'items':[],'state':'SILENT_RECIPIENT_REST','private_body_in_notification':False}
         if (r.work.paused or admission._quiet() or not recipient or recipient.availability!='AVAILABLE'
                 or not recipient.observed_at_us<=now<recipient.expires_at_us):
             return {'items':[],'state':'SILENT_UNAVAILABLE_BUSY_OR_QUIET','private_body_in_notification':False}

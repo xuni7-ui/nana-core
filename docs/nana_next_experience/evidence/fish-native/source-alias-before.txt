@@ -1,0 +1,26 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_interpretation_aliases_do_not_inflate_interest_but_independent_source_can _
+
+tmp_path = PosixPath('/dev/shm/fh1/test_interpretation_aliases_do0')
+
+    def test_interpretation_aliases_do_not_inflate_interest_but_independent_source_can(tmp_path):
+        path = tmp_path/'subject.db'; clock=ManualClock()
+        with fresh(path, clock) as r, provider_harness(proposer=proposer) as (transport, _):
+            session = CognitionSession(r, transport, policy())
+            concerns = ConcernService(r, resources=('synthetic://watch',))
+            root = capture(r, 'original', {'data':'SYNTHETIC one public discovery'})
+            cid = offer(session, concerns, 'first', root)[0]
+            identity = r.identity_id
+            for n in range(3):
+                derived = alias(r, root, str(n))
+>               assert offer(session, concerns, 'alias-'+str(n), derived)==()
+E               AssertionError: assert ('db67937c-3d...d12aa20cda6',) == ()
+E                 
+E                 Left contains one more item: 'db67937c-3ded-4b4a-a0f5-dd12aa20cda6'
+E                 Use -v to get more diff
+
+tests/world_loop/test_independent_concern_sources.py:48: AssertionError
+=========================== short test summary info ============================
+FAILED tests/world_loop/test_independent_concern_sources.py::test_interpretation_aliases_do_not_inflate_interest_but_independent_source_can
+1 failed, 1 deselected in 0.50s

@@ -24,7 +24,7 @@ class ConcernService:
         C must be allowed to reconsider that new evidence. Goal/skill recovery
         and ambiguous provider/effect completion retain their existing fences.
         """
-        if old['state'] != 'PROPOSED' or old['goal_id'] or previous.get('objective') or previous.get('skill_task'):
+        if old['state'] not in {'PROPOSED','EXPIRED'} or old['goal_id'] or previous.get('objective') or previous.get('skill_task'):
             return False
         if self.store.db.execute("SELECT 1 FROM cognitive_requests WHERE state IN ('PREPARED','CALLING','UNKNOWN') LIMIT 1").fetchone():
             return False
@@ -43,20 +43,38 @@ class ConcernService:
                     if op.resource not in self.resources:raise CoreError('GOAL_RESOURCE_NOT_DESCRIBED')
                     LocalWorldRegistry().validate(op.capability,op.resource,op.args)
             key=digest([record['scope'],self.runtime.config.entity_id,idea.topic]);old=self.store.db.execute('SELECT * FROM open_concerns WHERE concern_key=?',(key,)).fetchone()
-            if old and old['state'] in {'ABANDONED','EXPIRED'}:continue
+            if old and old['state']=='ABANDONED':continue
+            faded=bool(old and old['state']=='EXPIRED')
             if old:
                 try:previous=self.records.read(old['record_id'])['payload']
                 except CoreError:continue
                 if set(idea.source_memory_ids)<=set(previous['encounter_sources']):continue
+                # New Memory IDs can merely be interpretations/summaries of the
+                # same occurrence. They must not inflate interest or keep an old
+                # thought alive. Share original S3's evidence-root resolution;
+                # fresh raw sources and different topics retain their choices.
+                from ..subject.growth import Growth
+                roots=Growth(self.store)
+                try:
+                    incoming=roots.source_roots(idea.source_memory_ids,max_nodes=128)
+                    encountered=roots.source_roots(previous['encounter_sources'],max_nodes=128)
+                except CoreError:
+                    continue  # Retired/ambiguous ancestry is not novelty.
+                if not set(incoming)-set(encountered):continue
+                if faded and not self._fresh_attention_can_return(old,previous):continue
                 # An adopted objective cannot be silently changed by new prose.
                 if previous.get('objective') and obj and previous['objective']!=obj.model_dump(mode='json'):raise CoreError('CONCERN_OBJECTIVE_REVISION_REQUIRED')
-                sources=tuple(dict.fromkeys((*previous['encounter_sources'],*idea.source_memory_ids)))[:32]
-            else:
+                sources=tuple(dict.fromkeys((*previous['encounter_sources'],*idea.source_memory_ids)))
+                if len(sources)>32:continue  # Do not count encounters we cannot retain/trace.
+            if not old or faded:
                 # Erased records are opaque historical headers, not live
                 # attention. Keeping them must not permanently consume capacity.
                 if self.store.db.execute("SELECT count(*) FROM open_concerns c JOIN continuity_records r ON c.record_id=r.record_id WHERE c.state NOT IN ('ABANDONED','EXPIRED') AND r.lifecycle='ACTIVE'").fetchone()[0]>=self.max_hot:continue
-                sources=idea.source_memory_ids
-            count=1 if not old else old['encounters']+1
+                if not old:sources=idea.source_memory_ids
+            # Time fading is not a permanent ban on curiosity. Fresh support
+            # opens one new review, without carrying a previous excitement count,
+            # re-adopting a goal or forgetting the original privacy dependencies.
+            count=1 if not old or faded else old['encounters']+1
             reconsider = bool(old and self._fresh_attention_can_return(old, previous))
             state=('INTEREST' if idea.expected_value=='HIGH' or count>=2 else 'TRANSIENT') if not old or old['state'] in {'TRANSIENT','INTEREST','DEFERRED'} or reconsider else old['state']
             if idea.expected_value=='LOW' and old and old['goal_id']:state='INTEREST'
@@ -84,11 +102,17 @@ class ConcernService:
                 raise CoreError('CONCERN_SELECTION_BOUND')
             selected = ' AND concern_id IN (' + ','.join('?' for _ in concern_ids) + ')'
             args.extend(concern_ids)
-        for row in self.store.db.execute("SELECT * FROM open_concerns WHERE state IN ('TRANSIENT','INTEREST','DEFERRED') AND next_review_us<=?" + selected + " ORDER BY encounters DESC,updated_at_us LIMIT 16",args):
+        for row in self.store.db.execute("SELECT * FROM open_concerns WHERE state IN ('TRANSIENT','INTEREST','DEFERRED','PROPOSED') AND next_review_us<=?" + selected + " ORDER BY encounters DESC,updated_at_us LIMIT 16",args):
             try:body=self.records.read(row['record_id'])['payload']
             except CoreError:continue
             if not self.records.current_support(row['record_id']):continue
             age=now-row['updated_at_us']
+            if row['state']=='PROPOSED':
+                # A considered pure thought must not consume hot capacity forever.
+                # Never re-enqueue its committed decision or retire goal/skill work;
+                # expiry changes only this opportunity, not identity or relationship.
+                if age<=3*86400_000_000 or row['goal_id'] or body['objective'] or body['skill_task']:
+                    continue
             if age>3*86400_000_000:
                 with self.store.transaction('world.concern_expired',{'concern_id':row['concern_id']}) as tx:tx.update('open_concerns',row['concern_id'],state='EXPIRED',revision=row['revision']+1)
                 continue

@@ -1,0 +1,54 @@
+{
+  "base_head": "051393e",
+  "qualification": "OFFLINE_CONTROLLED_ORIGINAL_CORE",
+  "real_provider_calls": 0,
+  "private_data_used": false,
+  "production_changed": false,
+  "real_phone_review": "NOT_RUN",
+  "human_naturalness": "NOT_RUN",
+  "cross_day_real_life": "NOT_RUN",
+  "real_model_swap": "NOT_RUN",
+  "core_related": {
+    "passed": 233,
+    "failed": 0,
+    "duration_seconds": 104.42
+  },
+  "projection_after_final_change": {
+    "passed": 7,
+    "failed": 0,
+    "duration_seconds": 2.2
+  },
+  "browser_fixture": {
+    "passed": 24,
+    "failed": 0,
+    "duration_seconds": 31.6,
+    "widths": [
+      "desktop",
+      360,
+      390,
+      412
+    ]
+  },
+  "apk": {
+    "version_code": 406,
+    "bytes": 4829689,
+    "sha256": "29d5402655b52c915243e55a5e90db50d4ccfb4cea46beafa0836e8a26c9120c",
+    "signer_sha256": "b2fec5a02e6f32e69fb8ef8bce44391a6a4ba5ab8ce6dc7284cb57663016ec41",
+    "web_files_byte_equal": 42
+  },
+  "source_sha256": {
+    "src/nana_core/continuity/subject/growth.py": "f6b21cf9f4aad5d26ab8dc4edc724056a7cb176f4a96138e450bde26ba5064f7",
+    "src/nana_core/continuity/world_loop/attention.py": "13ae5ae88ec44c2ad304a191c04331d8c9a58f949ad40ba9d85707fbd1754fc1",
+    "src/nana_core/continuity/dialogue_shadow/bridge.py": "a5906e7200e9a1f16fded3bc02702aae0f53a281b4beab2a5183b3bdc7b26393",
+    "src/nana_core/continuity/subject/context_fit.py": "bf5e7264568a2f49a2eb2cc577c2bdf14446d50b9f7d54d9b7f1cd0e7bf6320b",
+    "src/nana_core/continuity/open_agency/delivery.py": "3e2eb33909b5397f50838c129df4c620218a43fc7dfe20923d51435a7c1a9f56",
+    "src/nana_core/continuity/project_work/service.py": "1081ef461344d7e09606ac7f44b96f7578cf8ce8ab4e1c815deed26f8332c90d",
+    "src/nana_core/life/application.py": "af9f61b4477d424e8b806056417b36efdd71f4137d013ea0003d6df8da4b4788",
+    "src/nana_core/life/shared.py": "1f796747d401499c1a72202c6fd2273b6f38b2af5057f245faefa76dc5f60b42",
+    "src/nana_core/life/inspector.py": "f2ec349df0e863a562f551e25a6d9167790f250c4bb95ce6cb1f9cb29a939a22",
+    "apps/nana-space/src/features/v3/LifeViews.tsx": "f74a007bd25fe0852609e951849e5553e1e4b6bf2b3e76854237a72db978c1c1",
+    "apps/nana-space/tests/v3.spec.ts": "74839ca1afab3af38aee4a64dbc1e8c6f88acd4f539f4a90db3983fb0e7be65f",
+    "tests/person_self/test_rest_and_attribution.py": "a77ce716fb116c3d5eaffa2b159c5943fb6b2f3d508e8c10cdf5dfaad1c0a198",
+    "tests/world_loop/test_independent_concern_sources.py": "333a63cef53f73049562202e6af77dc54b6373054d83c709d7dd8e57490e9ea8"
+  }
+}

@@ -1,0 +1,43 @@
+
+> @nana/space@4.0.3 test:v3
+> playwright test --config playwright.v3.config.ts --grep inner state|Daily chat|model catalog|older-memory|living privacy|HTTP failure
+
+[WebServer] (node:31725) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 24 tests using 1 worker
+
+(node:31743) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/v3.spec.ts:458:1 › SYNTHETIC HTTP failure: UNKNOWN uses GET original receipt, never second POST (1.4s)
+  ✓   2 [desktop] › tests/v3.spec.ts:715:1 › SYNTHETIC living privacy: a withdrawal between view and history clears transient bodies and drafts (1.2s)
+  ✓   3 [desktop] › tests/v3.spec.ts:770:1 › SYNTHETIC inner state: sourced concerns use plain Chinese, withdrawal removes them (1.1s)
+  ✓   4 [desktop] › tests/v3.spec.ts:809:1 › Daily chat: message area owns the screen and options remain reachable (1.1s)
+  ✓   5 [desktop] › tests/v3.spec.ts:830:1 › SYNTHETIC model catalog: explicit list read fills draft without switching routes (1.1s)
+  ✓   6 [desktop] › tests/v3.spec.ts:844:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write (1.0s)
+(node:32051) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [phone-360] › tests/v3.spec.ts:458:1 › SYNTHETIC HTTP failure: UNKNOWN uses GET original receipt, never second POST (1.2s)
+  ✓   8 [phone-360] › tests/v3.spec.ts:715:1 › SYNTHETIC living privacy: a withdrawal between view and history clears transient bodies and drafts (1.1s)
+  ✓   9 [phone-360] › tests/v3.spec.ts:770:1 › SYNTHETIC inner state: sourced concerns use plain Chinese, withdrawal removes them (1.1s)
+  ✓  10 [phone-360] › tests/v3.spec.ts:809:1 › Daily chat: message area owns the screen and options remain reachable (1.2s)
+  ✓  11 [phone-360] › tests/v3.spec.ts:830:1 › SYNTHETIC model catalog: explicit list read fills draft without switching routes (1.0s)
+  ✓  12 [phone-360] › tests/v3.spec.ts:844:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write (980ms)
+(node:32369) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 [phone-390] › tests/v3.spec.ts:458:1 › SYNTHETIC HTTP failure: UNKNOWN uses GET original receipt, never second POST (1.2s)
+  ✓  14 [phone-390] › tests/v3.spec.ts:715:1 › SYNTHETIC living privacy: a withdrawal between view and history clears transient bodies and drafts (1.0s)
+  ✓  15 [phone-390] › tests/v3.spec.ts:770:1 › SYNTHETIC inner state: sourced concerns use plain Chinese, withdrawal removes them (1.1s)
+  ✓  16 [phone-390] › tests/v3.spec.ts:809:1 › Daily chat: message area owns the screen and options remain reachable (1.2s)
+  ✓  17 [phone-390] › tests/v3.spec.ts:830:1 › SYNTHETIC model catalog: explicit list read fills draft without switching routes (1.1s)
+  ✓  18 [phone-390] › tests/v3.spec.ts:844:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write (1.1s)
+(node:32679) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  19 [phone-412] › tests/v3.spec.ts:458:1 › SYNTHETIC HTTP failure: UNKNOWN uses GET original receipt, never second POST (1.2s)
+  ✓  20 [phone-412] › tests/v3.spec.ts:715:1 › SYNTHETIC living privacy: a withdrawal between view and history clears transient bodies and drafts (1.2s)
+  ✓  21 [phone-412] › tests/v3.spec.ts:770:1 › SYNTHETIC inner state: sourced concerns use plain Chinese, withdrawal removes them (1.1s)
+  ✓  22 [phone-412] › tests/v3.spec.ts:809:1 › Daily chat: message area owns the screen and options remain reachable (1.2s)
+  ✓  23 [phone-412] › tests/v3.spec.ts:830:1 › SYNTHETIC model catalog: explicit list read fills draft without switching routes (1.1s)
+  ✓  24 [phone-412] › tests/v3.spec.ts:844:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write (1.1s)
+
+  24 passed (31.6s)

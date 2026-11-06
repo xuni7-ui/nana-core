@@ -1,0 +1,25 @@
+F.                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_interpretation_aliases_do_not_inflate_interest_but_independent_source_can _
+
+tmp_path = PosixPath('/dev/shm/nana-concern-projection-before/test_interpretation_aliases_do0')
+
+    def test_interpretation_aliases_do_not_inflate_interest_but_independent_source_can(tmp_path):
+        path = tmp_path/'subject/self.db'; clock=ManualClock()
+        with fresh(path, clock) as r, provider_harness(proposer=proposer) as (transport, _):
+            session = CognitionSession(r, transport, policy())
+            concerns = ConcernService(r, resources=('synthetic://watch',))
+            root = capture(r, 'original', {'data':'SYNTHETIC one public discovery'})
+            cid = offer(session, concerns, 'first', root)[0]
+            visible=inspect(tmp_path,scope='world',entity_id='observer',privacy=('PUBLIC',)).sections['concerns']
+>           assert len(visible)==1 and visible[0].state=='TRANSIENT'
+E           AssertionError: assert (1 == 1 and 'UNKNOWN' == 'TRANSIENT'
+E            +  where 1 = len((InspectorItem(category='OPEN_CONCERN', reference='e4ab57f4-d358-4ab2-b579-42eaca6b9be6', state='UNKNOWN', record_id='...d358-4ab2-b579-42eaca6b9be6', as_of_us=1791590400068282, source_memory_ids=('c7b8c4e2-7b41-4b8c-997a-d7fc6a72f0fc',)),))
+E             
+E             - TRANSIENT
+E             + UNKNOWN)
+
+tests/world_loop/test_independent_concern_sources.py:47: AssertionError
+=========================== short test summary info ============================
+FAILED tests/world_loop/test_independent_concern_sources.py::test_interpretation_aliases_do_not_inflate_interest_but_independent_source_can
+1 failed, 1 passed in 0.51s

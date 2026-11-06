@@ -1,0 +1,79 @@
+..............FF...............                                          [100%]
+=================================== FAILURES ===================================
+____ test_rest_is_delivery_only_survives_restart_and_rechecks_old_admission ____
+
+tmp_path = PosixPath('/dev/shm/nana-fish-rest/test_rest_is_delivery_only_sur0')
+
+    def test_rest_is_delivery_only_survives_restart_and_rechecks_old_admission(tmp_path):
+        home=tmp_path/'life'; initialize(home); clock=VirtualClock()
+        resource='synthetic://recipient/project-user'
+        def gate(app):
+            return DeliveryAdmission(app.runtime.store,DeliveryPolicy(recipients=(resource,),
+                privacy_classes=('PUBLIC','PROJECT'),quiet_start_utc_hour=0,quiet_end_utc_hour=0),
+                scopes=('project-work',),privacy_classes=('PUBLIC','PROJECT'))
+        with LifeApplication(home,clock=clock) as app:
+            app.pause(); identity=app.runtime.identity_id
+            app.presence('AVAILABLE',privacy_classes=('PUBLIC','PROJECT'))
+            before=social_cycle(app,'before-rest')
+            assert before.intention.kind=='SOCIAL_INTERACTION'
+            allowed=gate(app).assess(before,resource)
+            assert allowed['result']=='ELIGIBLE'
+            app.chat('晚安',privacy='PROJECT',message_id='sleep')
+            assert depth_boundary(app.runtime.store,'project-user','project-work',REST_DELIVERY_TOPIC,('PROJECT',))[0]
+            assert not depth_boundary(app.runtime.store,'project-user','project-work',REST_DELIVERY_TOPIC,('PROJECT',),purpose='COGNITION')[0]
+            with pytest.raises(CoreError,match='DELIVERY_ADMISSION_STALE'):
+                gate(app).require(allowed['record_id'],resource)
+            app.presence('AVAILABLE',privacy_classes=('PUBLIC','PROJECT'))  # does not override rest declaration
+            later=social_cycle(app,'while-resting')
+>           assert later.intention.kind=='SOCIAL_INTERACTION'  # independent desire was not erased
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: assert 'NO_ACTION' == 'SOCIAL_INTERACTION'
+E             
+E             - SOCIAL_INTERACTION
+E             + NO_ACTION
+
+tests/person_self/test_rest_and_attribution.py:69: AssertionError
+___ test_model_cannot_close_global_rest_and_new_direct_dialogue_still_works ____
+
+tmp_path = PosixPath('/dev/shm/nana-fish-rest/test_model_cannot_close_global0')
+
+    def test_model_cannot_close_global_rest_and_new_direct_dialogue_still_works(tmp_path):
+        home=tmp_path/'life'; initialize(home)
+        with relay(home,'DECLINE_DELIVERY') as (router,requests), LifeApplication(home,clock=VirtualClock(),router=router) as app:
+            app.pause(); app.chat('小明说他不想聊',privacy='PROJECT',message_id='reported')
+            assert len(requests)==1
+            assert not depth_boundary(app.runtime.store,'project-user','project-work','daily',('PROJECT',))[0]
+            assert not depth_boundary(app.runtime.store,'project-user','project-work',REST_DELIVERY_TOPIC,('PROJECT',))[0]
+>       with relay(home,'CHAT') as (router,requests), LifeApplication(home,clock=VirtualClock(),router=router) as app:
+             ^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_rest_and_attribution.py:92: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/independent_life/test_dialogue.py:34: in relay
+    service.update(ProviderCommand(operation='UPSERT_PROVIDER',expected_revision=0,provider=p),authority)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.provider_config.ProviderConfigService object at 0x7f7e57263410>
+command = ProviderCommand(operation='UPSERT_PROVIDER', expected_revision=0, target_id=None, provider=ProviderProfile(provider_pr...JECT', 'PERSONAL'), default_timeout_ms=120000, default_cost_ceiling=1000, tags=(), revision=1), model=None, route=None)
+authority = <nana_core.continuity.provider_config.ProviderConfigurationAuthority object at 0x7f7e57263620>
+
+    def update(self, command, authority):
+        self._check(authority)
+        if type(command) is not ProviderCommand:
+            raise CoreError("PROVIDER_CONFIG_TYPED_COMMAND_REQUIRED")
+        command = ProviderCommand.model_validate_json(command.model_dump_json())
+        fd = self._lock()
+        try:
+            c = self._load()
+            if c.revision != command.expected_revision:
+>               raise CoreError("PROVIDER_CONFIG_REVISION_CONFLICT")
+E               nana_core.contracts.CoreError: PROVIDER_CONFIG_REVISION_CONFLICT
+
+src/nana_core/continuity/provider_config.py:345: CoreError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_rest_and_attribution.py::test_rest_is_delivery_only_survives_restart_and_rechecks_old_admission
+FAILED tests/person_self/test_rest_and_attribution.py::test_model_cannot_close_global_rest_and_new_direct_dialogue_still_works
+2 failed, 29 passed in 2.60s

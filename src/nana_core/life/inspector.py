@@ -137,12 +137,18 @@ def inspect(home,*,scope,entity_id,privacy=('PUBLIC','PROJECT'),limit=16):
         kinds={'INTENTION':'activities','OPEN_CONCERN':'concerns','INTENTION_DISPOSITION':'suppressed_deferred','CONSTRAINT_OUTCOME':'authority','ASSERTION':'interests','CODE_SKILL':'authority','DISCLOSURE_DECISION':'activities'}
         marks=','.join('?' for _ in privacy)
         for kind,section in kinds.items():
-            rows=db.execute('SELECT record_id,created_at_us FROM continuity_records WHERE record_kind=? AND scope=? AND privacy_class IN ('+marks+") AND lifecycle='ACTIVE' ORDER BY created_at_us DESC LIMIT ?",(kind,scope,*privacy,limit)).fetchall()
+            if kind=='OPEN_CONCERN':
+                # The proposal payload is historical, not the concern's current
+                # lifecycle. Show one authoritative row per concern; prior
+                # revisions must not crowd out or mislabel its current state.
+                rows=db.execute('SELECT r.record_id,c.updated_at_us AS created_at_us,c.state AS concern_state FROM open_concerns c JOIN continuity_records r ON c.record_id=r.record_id WHERE r.scope=? AND r.privacy_class IN ('+marks+") AND r.lifecycle='ACTIVE' ORDER BY c.updated_at_us DESC,c.rowid DESC LIMIT ?",(scope,*privacy,limit)).fetchall()
+            else:
+                rows=db.execute('SELECT record_id,created_at_us FROM continuity_records WHERE record_kind=? AND scope=? AND privacy_class IN ('+marks+") AND lifecycle='ACTIVE' ORDER BY created_at_us DESC LIMIT ?",(kind,scope,*privacy,limit)).fetchall()
             for row in rows:
                 rid=row['record_id']
                 if not visible(rid):continue
                 body=records.read(rid)['payload']
-                state=body.get('state',body.get('disposition',body.get('code',body.get('result',body.get('kind','UNKNOWN')))))
+                state=row['concern_state'] if kind=='OPEN_CONCERN' else body.get('state',body.get('disposition',body.get('code',body.get('result',body.get('kind','UNKNOWN')))))
                 refs=records.support(rid)
                 item(section,kind,rid,state,rid,row['created_at_us'],refs)
                 item('provenance',kind,rid,'CURRENT_SUPPORT',rid,row['created_at_us'],refs)

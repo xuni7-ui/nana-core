@@ -166,7 +166,15 @@ class LifeApplication:
         if state not in {'BUSY','AVAILABLE','UNKNOWN'}:raise CoreError('LOCAL_PRESENCE_INVALID')
         r=self.runtime
         value=RecipientState(resource='synthetic://recipient/project-user',entity_id='project-user',availability=state,observed_at_us=r.clock.utc_now_us(),expires_at_us=r.clock.utc_now_us()+60*SECOND,permitted_privacy=privacy_classes)
-        mid=capture(r,'local-presence:'+uid(),value.model_dump(mode='json'),kind='USER_STATEMENT',predicate='recipient.'+digest(value.resource)[:32])
+        # Point-in-time declarations supersede earlier declarations through the
+        # existing correction contract. They are not contradictory timeless
+        # claims. A separate suffix preserves legacy undated/disputed evidence;
+        # no past provenance is rewritten to invent an event time.
+        predicate='recipient.'+digest(value.resource)[:32]+'.presence'
+        previous=MemoryService(r.store).family('project-user','project-work',predicate)
+        current=next((m for m in previous if m['assessment']=='CURRENT' and m['event_time_us'] is not None),None)
+        mid=capture(r,'local-presence:'+uid(),value.model_dump(mode='json'),kind='USER_STATEMENT',predicate=predicate,
+            event_time_us=value.observed_at_us,correction_of=current['memory_id'] if current else None)
         r.refresh_attention();return {'declared_availability':state,'source_memory_id':mid,'not_inferred_from_contact_frequency':True}
     def _fact_sources(self):
         r=self.runtime;out=[]
@@ -221,6 +229,13 @@ class LifeApplication:
     def chat(self,text,*,topic='daily',privacy='PERSONAL',message_id=None,surface=None,support_memory_ids=(),source_key=None,retain_shared_life=False,reply_target=None):
         if type(text) is not str or not 1<=len(text)<=2048:raise CoreError('LOCAL_MESSAGE_BOUND')
         if type(retain_shared_life) is not bool:raise CoreError('CONVERSATION_RETENTION_INVALID')
+        # An explicit whole rest/return declaration has a delivery-only scope.
+        # Do not promote a model interpretation or third-party quotation to it.
+        from ..continuity.dialogue_shadow.bridge import rest_delivery_signal
+        rest=rest_delivery_signal(text)
+        if rest:
+            from ..continuity.subject.context_fit import REST_DELIVERY_TOPIC
+            topic=REST_DELIVERY_TOPIC
         r=self.runtime;key=message_id or uid();event_key=source_key or 'local.chat.'+key
         if key in self._chat:return {'message_id':key,'state':'ALREADY_REVIEWED_NO_REPLAY'}
         if r.store.db.execute('SELECT 1 FROM subject_events WHERE source_key=?',(event_key,)).fetchone():return {'message_id':key,'state':'ALREADY_REVIEWED_NO_REPLAY'}
@@ -270,6 +285,9 @@ class LifeApplication:
             # A configured provider can be budget-blocked after valid interpretation.
             # Do not falsely report that no model is configured or pretend this is generated speech.
             draft='本次没有生成模型回复（'+(render_state if render_state!='NOT_RUN' else provider_state)+'）。'
+        if rest and render_state!='UNVERIFIED_MODEL_WORDING':
+            draft='好，先休息吧。想聊时再来。' if rest=='DECLINE_DELIVERY' else '欢迎回来。'
+            render_state='LOCAL_DELIVERY_BOUNDARY_ACKNOWLEDGEMENT'
         if cycle.intention_id and reply_target is None:
             current=r.store.one('subject_intentions',cycle.intention_id)
             if current['state']=='PENDING':r.subject.transition_intention(cycle.intention_id,expected_revision=current['revision'],state='DROPPED')

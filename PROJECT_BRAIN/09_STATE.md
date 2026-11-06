@@ -7,21 +7,21 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 64,
-  "as_of_us": 1793995467164397,
+  "revision": 65,
+  "as_of_us": 1793998139808381,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_PRODUCT_406_AND_GROWTH_REGRESSION_CLOSURE",
+  "status": "IN_PROGRESS_PRODUCT_406_AND_NATIVE_AFFECT_DELIVERY",
   "progress": [
     "继承280fed8：手机内登录、模型向导、授权控制台已有开发交付。",
     "用户报告已登录；实际截图反馈聊天区过小，本轮修复布局与普通中文文案。",
     "专项布局验证通过桌面及360/390/412宽度；真实手机新版效果待用户体验。",
     "记忆检索优化0ac3739已实现；当前修复原S8再次学习与控制接口就绪race，受控验证通过。",
-    "406模型目录/早期记忆查找/选定Gateway启动路径已实现并验证；完整回归发现S8重复训练回退，已修复并通过受影响26项。"
+    "6f2a491完整回归1905通过/12跳过；本批原生关注/晚安/状态投影233相关+后续7通过，浏览器24通过。"
   ],
   "open_gates": [
     "整个软件优化与十域长期精修仍在进行，不以单批功能通过宣布完成。",
-    "当前源码完整回归、纠正后的密封Core产物与匹配手机交付待收口。",
+    "本批匹配源码的密封Core产物与406手机交付正在收口；真实模型/手机/跨日资格未运行。",
     "Iris v2由用户报告已收口；独立Core实际宿主状态由运行负责人核验，本地不触碰生产。",
     "真实模型/手机/跨日学习与独立选择，按对应实际回执分别记录。"
   ],
@@ -29,7 +29,9 @@
     "docs/nana_living_release_v4/qualification.json",
     "docs/nana_living_release_v4/CAPABILITY_DELIVERY_MATRIX.md",
     "docs/nana_living_release_v4/evidence/final-403/",
-    "docs/nana_living_release_v4/evidence/private-403/"
+    "docs/nana_living_release_v4/evidence/private-403/",
+    "docs/nana_next_experience/GROWTH_AND_AFFECT.md",
+    "docs/nana_next_experience/evidence/fish-native/qualification.json"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2479,3 +2481,8 @@ Product406 has actual BFF/native/Web paths for host-vault model lists and older 
 ### 2026-11-06 · complete batch regression / continuing native affect integration
 
 Corrected Core6f2a491 full1905/0/12 in572.94s; two portable builds equal, same installed DEV Subject restart/API/offline chat verified. No actual cloud/phone/provider qualification added. Fish Heart new branch pinned6a338343e2427a9173cf8860f0519ff912194e34 version0.3.8 MIT, reference only; no plugin installed or production Iris changed.
+
+
+### 2026-11-06 · continuous native affect / product integration
+
+[实测] Fish Heart原生融合批次：233相关Core通过104.42s，后续Inspector实际UNKNOWN修复7通过2.20s；浏览器24通过31.6s。原来源去重/独立新关注/原C自主EXPLORE/跨重启虚拟淡出/新来源再考虑/撤回均验证。晚安只约束投递，35次presence更新经原Memory纠正保持一条CURRENT。真人/实际手机/真实模型/跨日NOT_RUN；详见GROWTH_AND_AFFECT与evidence/fish-native。
