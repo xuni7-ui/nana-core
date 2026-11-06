@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 65,
-  "as_of_us": 1793998139808381,
+  "revision": 66,
+  "as_of_us": 1793998346159279,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_PRODUCT_406_AND_NATIVE_AFFECT_DELIVERY",
+  "status": "FROZEN_BY_USER_PENDING_0850_RESUME",
   "progress": [
     "继承280fed8：手机内登录、模型向导、授权控制台已有开发交付。",
     "用户报告已登录；实际截图反馈聊天区过小，本轮修复布局与普通中文文案。",
@@ -20,6 +20,7 @@
     "6f2a491完整回归1905通过/12跳过；本批原生关注/晚安/状态投影233相关+后续7通过，浏览器24通过。"
   ],
   "open_gates": [
+    "用户要求现在冻结，下一次北京时间08:50从FROZEN_CHECKPOINT续做全部未完成软件/十域任务，不以此宣布完成。",
     "整个软件优化与十域长期精修仍在进行，不以单批功能通过宣布完成。",
     "本批匹配源码的密封Core产物与406手机交付正在收口；真实模型/手机/跨日资格未运行。",
     "Iris v2由用户报告已收口；独立Core实际宿主状态由运行负责人核验，本地不触碰生产。",
@@ -31,7 +32,8 @@
     "docs/nana_living_release_v4/evidence/final-403/",
     "docs/nana_living_release_v4/evidence/private-403/",
     "docs/nana_next_experience/GROWTH_AND_AFFECT.md",
-    "docs/nana_next_experience/evidence/fish-native/qualification.json"
+    "docs/nana_next_experience/evidence/fish-native/qualification.json",
+    "docs/nana_next_experience/FROZEN_CHECKPOINT.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

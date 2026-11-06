@@ -2931,3 +2931,8 @@ Full current-Core1905passed/12skipped572.94s; corrected15MB portable build repro
 ### 2026-11-06 · continuous native affect / product integration
 
 原Concern来源去重/淡出恢复、第三方转述及晚安投递边界、时间状态冲突修复、Inspector当前状态投影、手机中文状态完成代码与相关验证；233+后续7/浏览器24通过。初始来源别名、presence争议和真实投影UNKNOWN失败保留。无生产/私人迁移/真实模型/社交操作。
+
+
+### User-requested freeze / resume checkpoint
+
+用户要求暂停至下一次北京时间08:50。源码cc3dc33已push；APK与两次一致的Core归档及安装日志保存到/mnt/data，未做新一轮安装运行或生产操作。准确待办见 docs/nana_next_experience/FROZEN_CHECKPOINT.md，406发布尚未完成，全部原任务继续保留。
