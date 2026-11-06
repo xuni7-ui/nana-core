@@ -2921,3 +2921,8 @@ Broader480d45f run exposed unchanged-material retraining loop (3fail/134pass, in
 ### 2026-11-06 · complete batch regression / continuing native affect integration
 
 Full current-Core1905passed/12skipped572.94s; corrected15MB portable build reproducible and installed -I original Core/API/restart verified. Added stopped-owner/hash-bound life.json permission tool,4tests pass. Continued same mission with pinned MIT Fish Heart research; no production/private/provider/social action.
+
+
+### 2026-11-06 · Fish Heart 原生融合差额矩阵
+
+固定只读new@6a338343/v0.3.8/MIT，已有Appraisal/多面关系/Concern/时间/投递/S8逐项对照；优先查同根派生被错计为独立encounter的实际缺口。不复制插件、不安装AstrBot、不碰Iris或Core生产恢复。矩阵和归属见docs/nana_next_experience/FISH_HEART_GAP_MATRIX.md与upstream/fish-heart-reference.json。软件优化/十域主任务继续。

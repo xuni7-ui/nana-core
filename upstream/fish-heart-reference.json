@@ -1,0 +1,19 @@
+{
+  "repository": "https://github.com/Vivy33/astrbot_plugin_fish_heart",
+  "branch": "new",
+  "commit": "6a338343e2427a9173cf8860f0519ff912194e34",
+  "version": "0.3.8",
+  "license": "MIT",
+  "copyright": [
+    "2026 LLL",
+    "2026 Vivy33"
+  ],
+  "use": "DESIGN_REFERENCE_ONLY_NO_PLUGIN_INSTALL_NO_RUNTIME_CODE_VENDORED",
+  "reviewed_files": {
+    "README.md": "20d2678cdefc2b560a89a58dfe74ab08c64259dcc61707c08d780c3e829acb1d",
+    "main.py": "bc80dd4b5658696993741a9e9ae104a4e244e5a97c7a06d70dd8ea4c757defb5",
+    "thought_engine.py": "9683e95c01e6fb915d70c20a2c9d4563b56637b00ed1fc72829c069bbda03200",
+    "_conf_schema.json": "de841368207b469dffa4799b6df4207f0254b0c8bd72f540bafdd6c1cc0cc678",
+    "LICENSE": "bb0c0e90b05d822715ea6154e9fab40c9651cff750036c391bf96f02e4fb407e"
+  }
+}
