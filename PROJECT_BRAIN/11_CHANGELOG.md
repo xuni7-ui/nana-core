@@ -2889,3 +2889,7 @@ Advanced Growth / Platform + Shared Life. Original architecture and 63 criteria 
 
 ### Next Experience · safe model setup ordering
 The quick setup now binds credentials before switching the cognition route. If native credential binding is unavailable, it preserves the current route and reports the remaining step. Web build and 56 frontend tests passed; real provider/phone and deployment remain unverified.
+
+
+### 2026-11-06 · Next Experience / continuous ten-domain refinement
+Continue the same product task; uploaded V1.3 design retained in docs/nana_next_experience/task_inputs. First fix actual phone chat layout and plain-language UI, then remaining original product flow, then highest-value original Core cross-domain refinements. No duplicate total plan or migration owner; cloud memory migration untouched. Mobile browser layout >45% message-area checks passed at four sizes; live phone result pending. No frozen framework/criteria/authority change.

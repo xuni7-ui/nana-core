@@ -7,20 +7,20 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 61,
-  "as_of_us": 1793360649014572,
+  "revision": 62,
+  "as_of_us": 1793980760673815,
   "stage": "H",
-  "workstream": "LIVING_RELEASE_V4",
-  "status": "V4_DEVELOPMENT_DELIVERY_403_VERIFIED_REAL_ACCEPTANCE_PENDING",
+  "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
+  "status": "IN_PROGRESS_PHONE_CHAT_LAYOUT_VALIDATED",
   "progress": [
-    "最终源码 ffa24b7；403 APK、匹配镜像与完整 ZIP 已构建并校验。",
-    "实际隔离安装、重复零变更、损坏拒绝、六套 SDK、同 DEV 主体 SIGKILL/重建/B8 恢复通过。",
-    "PRIVATE_CONTEXT 设备范围与原 Memory/Surface/Provider 交集已接线；旧设备不自动获得权限。"
+    "继承280fed8：手机内登录、模型向导、授权控制台已有开发交付。",
+    "用户报告已登录；实际截图反馈聊天区过小，本轮修复布局与普通中文文案。",
+    "专项布局验证通过桌面及360/390/412宽度；真实手机新版效果待用户体验。"
   ],
   "open_gates": [
-    "真实宿主/热修复、Provider、QQ/B站、手机、真人与正式24h仍待实际资格。",
-    "手机屏幕操作代理未实现；附件仅本地预览；bwrap 未资格保持关闭。",
-    "First-Life NOT_READY；Beta NO。"
+    "Next Experience完整产品任务仍在进行。",
+    "云端迁移由原负责人继续，本工作区不触碰私人数据或生产。",
+    "真实模型/手机/跨日学习与独立选择，按对应实际回执分别记录。"
   ],
   "evidence_refs": [
     "docs/nana_living_release_v4/qualification.json",
@@ -2449,3 +2449,7 @@ Open: Gateway may still run its baked release when Supervisor changes the active
 
 ### Next Experience development — 2026-11-05
 Advanced Growth / Platform + Shared Life. Original architecture and 63 criteria unchanged. Current work: App-native password login, existing device identity/Keystore, model quick setup via original CAS commands, authorized projection explorer, chat search/quote and original static art. Web/auth/browser tests passed within documented scope; no host/public-HTTPS/real-phone qualification. Full task remains IN_PROGRESS, not First-Life READY. See docs/nana_next_experience/STATUS.md for implementation and remaining gaps.
+
+
+### 2026-11-06 · Next Experience / continuous ten-domain refinement
+Continue the same product task; uploaded V1.3 design retained in docs/nana_next_experience/task_inputs. First fix actual phone chat layout and plain-language UI, then remaining original product flow, then highest-value original Core cross-domain refinements. No duplicate total plan or migration owner; cloud memory migration untouched. Mobile browser layout >45% message-area checks passed at four sizes; live phone result pending. No frozen framework/criteria/authority change.

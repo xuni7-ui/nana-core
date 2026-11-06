@@ -8,3 +8,33 @@
 @media(prefers-reduced-motion:reduce){.v3-space *, .v3-space *::before,.v3-space *::after{animation:none!important;scroll-behavior:auto!important;}}
 
 .next-chat-search{display:flex;gap:8px;padding:8px 20px;border-bottom:1px solid var(--v3-line);}.next-chat-search input{flex:1;min-width:0;background:var(--v3-soft);border:0;border-radius:16px;padding:10px 14px;color:var(--v3-text);}.next-chat-search button{background:none;border:0;color:var(--v3-accent);}
+
+/* Chat owns the viewport; only message history scrolls. */
+.v3-space .v3-main-chat{min-height:0;height:var(--v3-viewport,100dvh);overflow:hidden;box-sizing:border-box;}
+.v3-main-chat .v3-top{height:52px;min-height:52px;gap:8px;}
+.v3-main-chat .v3-top-title{min-width:0;white-space:nowrap;}
+.v3-main-chat .v3-top-tools .v3-icon-button:not(:last-child){display:none;}
+.v3-main-chat .v3-chat{min-height:0;overflow:hidden;margin-top:0;}
+.v3-main-chat .v3-chat-toolbar{padding:8px 0;min-height:52px;box-sizing:border-box;}
+.v3-main-chat .v3-chat-scroll{min-height:0;flex:1 1 0;}
+.v3-main-chat .v3-composer-wrap{position:relative;padding:6px 0 0;flex:none;}
+.v3-main-chat .v3-composer{position:static;display:block;margin:0;padding:8px 12px;border-radius:20px;backdrop-filter:none;}
+.v3-main-chat .v3-composer textarea{min-height:40px;height:44px;max-height:100px;resize:none;font-size:16px;}
+.v3-main-chat .v3-composer-tools{gap:8px;}
+.v3-main-chat .v3-composer-tools button{min-height:40px;}
+.next-search-toggle{align-self:flex-end;flex:none;background:transparent;border:0;color:var(--v3-muted);min-height:32px;padding:4px 8px;font-size:12px;}
+.next-send-options{font-size:12px;margin:2px 0;}
+.next-send-options>summary{cursor:pointer;min-height:32px;display:flex;align-items:center;padding:0 6px;color:var(--v3-muted);}
+.next-options-panel{position:absolute;bottom:42px;left:0;right:0;z-index:5;background:var(--v3-card);border:1px solid var(--v3-line);border-radius:18px;padding:12px 16px;box-shadow:0 8px 32px #0002;max-height:240px;overflow:auto;}
+.v3-space .next-options-panel label.v4-remember{display:flex;align-items:center;gap:8px;}
+.v3-space .next-options-panel input[type=checkbox]{width:20px;height:20px;min-height:20px;flex:none;}
+.next-options-panel p{font-size:11px;}
+@media(max-width:900px){
+.v3-main-chat .v3-top-tools{gap:4px;}.v3-main-chat .v3-profile-button{display:none;}
+.v3-main-chat .v3-top-tools .v3-icon-button{display:none!important;}
+.v3-main-chat .v3-connection-label{white-space:nowrap;}
+.v3-space:has(.v3-composer:focus-within) .v3-bottom-nav{display:none;}
+.v3-space:has(.v3-composer:focus-within) .v3-main-chat{padding-bottom:env(safe-area-inset-bottom);}
+.v3-main-chat .v3-reply-meta{flex-wrap:wrap;}
+}
+.v3-main-chat .v3-top-tools .v3-icon-button:is([aria-label="刷新真实状态"],[aria-label="退出并清除本机视图"]){display:grid!important;width:32px;min-width:32px;min-height:40px;padding:4px;}

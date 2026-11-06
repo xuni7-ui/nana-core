@@ -259,7 +259,7 @@ async function installMock(page: Page): Promise<MockState> {
 }
 async function open(page: Page, hash = "home") {
   await page.goto(`/index.html?source=live#${hash}`);
-  await expect(page.locator(".live-identity")).toContainText(SUBJECT);
+  await expect(page.locator("main")).toHaveAttribute("data-subject-id", SUBJECT);
 }
 async function go(page: Page, target: string, source = target) {
   const loaded = page.waitForResponse(
@@ -773,4 +773,25 @@ test("Next Experience: authorized console reads and filters original projections
   await panel.locator("summary", {hasText: /^memories$/}).click();
   await expect(panel).toContainText(MEMORY_A);
   expect(state.requests.filter(r => r.method === "POST")).toHaveLength(0);
+});
+
+test("Daily chat: message area owns the screen and options remain reachable", async ({page}) => {
+  await installMock(page); await open(page); await go(page, "chat", "chat");
+  const log = page.getByRole("log", {name:"当前会话"});
+  const box = await log.boundingBox();
+  expect(box!.height).toBeGreaterThan(page.viewportSize()!.height * .45);
+  await expect(page.locator(".live-identity")).toHaveCount(0);
+  await page.getByText("发送选项", {exact:true}).click();
+  await expect(page.locator(".next-options-panel")).toBeVisible();
+  expect((await log.boundingBox())!.height).toBeGreaterThan(page.viewportSize()!.height * .45);
+  await page.getByText("发送选项", {exact:true}).click();
+  await page.getByRole("button", {name:"搜索对话",exact:true}).click();
+  await expect(page.getByLabel("搜索当前对话")).toBeVisible();
+  await page.getByRole("button", {name:"收起搜索",exact:true}).click();
+  await page.getByLabel("和奈奈说点什么").focus();
+  if (page.viewportSize()!.width < 900) {
+    await expect(page.getByRole("navigation",{name:"移动端导航"})).toBeHidden();
+    await page.setViewportSize({width:page.viewportSize()!.width,height:480});
+    await expect(page.getByRole("button",{name:"发送",exact:true})).toBeVisible();
+  }
 });

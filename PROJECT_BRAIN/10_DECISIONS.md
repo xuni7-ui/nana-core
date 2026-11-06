@@ -1731,3 +1731,7 @@ Open: Gateway may still run its baked release when Supervisor changes the active
 
 ### Next Experience development — 2026-11-05
 Advanced Growth / Platform + Shared Life. Original architecture and 63 criteria unchanged. Current work: App-native password login, existing device identity/Keystore, model quick setup via original CAS commands, authorized projection explorer, chat search/quote and original static art. Web/auth/browser tests passed within documented scope; no host/public-HTTPS/real-phone qualification. Full task remains IN_PROGRESS, not First-Life READY. See docs/nana_next_experience/STATUS.md for implementation and remaining gaps.
+
+
+### 2026-11-06 · Next Experience / continuous ten-domain refinement
+Continue the same product task; uploaded V1.3 design retained in docs/nana_next_experience/task_inputs. First fix actual phone chat layout and plain-language UI, then remaining original product flow, then highest-value original Core cross-domain refinements. No duplicate total plan or migration owner; cloud memory migration untouched. Mobile browser layout >45% message-area checks passed at four sizes; live phone result pending. No frozen framework/criteria/authority change.

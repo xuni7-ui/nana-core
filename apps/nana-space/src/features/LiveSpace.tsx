@@ -1097,6 +1097,7 @@ export function LiveSpace() {
       <main
         className={`live-main v3-main ${page === "chat" ? "v3-main-chat" : ""}`}
         id="v3-content"
+        data-subject-id={bootstrap?.subject_id}
       >
         <header className="live-top v3-top">
           <div className="v3-top-title">
@@ -1119,8 +1120,8 @@ export function LiveSpace() {
               {connected
                 ? healthy
                   ? bootstrap?.realm === "PRODUCTION_SINGLE_SUBJECT"
-                    ? "已连接正式主体"
-                    : "开发连接"
+                    ? "在线"
+                    : "测试连接"
                   : "状态待确认"
                 : "未连接"}
             </span>
@@ -1952,9 +1953,9 @@ export function LiveSpace() {
                 )}
               </div>
             )}
-            {receipt && (
+            {receipt && page !== "chat" && (
               <details className="live-receipt v3-technical">
-                <summary>最近请求回执 · {text(receipt.state)}</summary>
+                <summary>最近操作 · {({VERIFIED:"已完成", UNKNOWN:"待确认", REJECTED:"未执行", REQUESTED:"处理中"} as Record<string,string>)[String(receipt.state)] || "查看详情"}</summary>
                 <button
                   className="button"
                   disabled={busy}
@@ -1968,7 +1969,7 @@ export function LiveSpace() {
                     <dd>{text(receipt.receipt_id)}</dd>
                   </div>
                   <div>
-                    <dt>已 dispatch</dt>
+                    <dt>是否已提交</dt>
                     <dd>{text(receipt.dispatch_happened)}</dd>
                   </div>
                   <div>
@@ -1976,7 +1977,7 @@ export function LiveSpace() {
                     <dd>{text(receipt.error || "以当前核验为准")}</dd>
                   </div>
                 </dl>
-                <small>不自动重试或 fallback，不代表外部投递成功。</small>
+                <small>结果不明确时请先核验，不会重复提交。</small>
               </details>
             )}
             {page !== "chat" && (
@@ -1993,12 +1994,12 @@ export function LiveSpace() {
                 )}
               </footer>
             )}
-            {bootstrap && (
+            {bootstrap && page !== "chat" && (
               <details className="live-identity v3-identity">
                 <summary>身份与来源信息</summary>
                 <span>{bootstrap.subject_id}</span>
                 <small>
-                  lineage {bootstrap.lineage_binding} ·{" "}
+                  身份延续标识 {bootstrap.lineage_binding} ·{" "}
                   {snapshot?.coverage || "等待当前投影"}
                 </small>
               </details>

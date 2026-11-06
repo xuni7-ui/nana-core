@@ -67,6 +67,7 @@ export function ChatPane({
   onRemember?: (remember: boolean) => void;
 }) {
   const [query, setQuery] = useState("");
+  const [searchOpen, setSearchOpen] = useState(false);
   const visibleTurns = turns.filter(t => (t.input + " " + (t.reply || "")).toLocaleLowerCase().includes(query.toLocaleLowerCase()));
   const end = useRef<HTMLDivElement>(null),
     log = useRef<HTMLDivElement>(null);
@@ -147,21 +148,22 @@ export function ChatPane({
           <Avatar size={36} />
           <span>
             <h1>奈奈</h1>
-            <small>同一个主体 · 保留自己的判断</small>
+            <small>在这里，接着聊</small>
           </span>
         </div>
         <button
           className="v3-button ghost"
           onClick={() =>
             notice(
-              "当前按 Core 的已授权自动路由。指定模型需后端 exact-model 接口，未发送切换请求。",
+              "由服务器选择当前可用的对话模型。你可以在模型页查看和修改。",
             )
           }
         >
-          自动路由 <ChevronDown size={14} />
+          当前模型 <ChevronDown size={14} />
         </button>
       </div>
-      <label className="next-chat-search"><input aria-label="搜索当前对话" placeholder="在这段对话里找找…" value={query} onChange={e => setQuery(e.target.value)}/>{query && <button type="button" onClick={() => setQuery("")}>清除</button>}</label>
+      <button className="next-search-toggle" onClick={() => {setSearchOpen(!searchOpen);setQuery("");}}>{searchOpen ? "收起搜索" : "搜索对话"}</button>
+      {searchOpen && <label className="next-chat-search"><input aria-label="搜索当前对话" placeholder="在这段对话里找找…" value={query} onChange={e => setQuery(e.target.value)}/>{query && <button type="button" onClick={() => setQuery("")}>清除</button>}</label>}
       {readiness && readiness !== "READY_LOCAL_GATES" && (
         <div className="v4-readiness" role="status">
           <span>{readinessLabel(readiness)}</span>
@@ -380,6 +382,9 @@ export function ChatPane({
             </button>
           </div>
         </form>
+        <details className="next-send-options">
+          <summary>发送选项{personal ? " · 个人内容" : ""}{remember ? " · 会记住" : ""}</summary>
+          <div className="next-options-panel">
         {(canUsePersonal || personal) && <label className="v4-remember">
           <input type="checkbox" checked={personal} disabled={busy} onChange={e => onPersonal?.(e.target.checked)} />
           本次包含个人内容
@@ -390,10 +395,9 @@ export function ChatPane({
           记住这次共同经历
           <small>仅本次提交 · 带来源保存，可在记忆中撤回</small>
         </label>}
-        <p className="v3-composer-note">
-          <Sparkles size={11} /> {personal ? "PERSONAL" : "PUBLIC / PROJECT"} ·{" "}
-          {busy ? "正在等待单次请求，不自动重试" : "Ctrl / ⌘ + Enter 发送"}
-        </p>
+          <p>这些选项只用于下一条消息。可在记忆页撤回已保存的内容。</p>
+          </div>
+        </details>
       </div>
       <input
         hidden
@@ -418,7 +422,7 @@ export function ChatPane({
       {!allowed && (
         <span className="v3-sr-only">
           <Blank title="尚未获得会话权限">
-            请先连接或检查 Conversation 权限。
+            请先连接，或检查这台设备的聊天权限。
           </Blank>
         </span>
       )}
