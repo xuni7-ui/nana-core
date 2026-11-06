@@ -5,6 +5,7 @@ existing application-owned oracle, not a model or a new learning subsystem.
 """
 
 import json
+import pytest
 
 from nana_core.actions import OperatorAuthority
 from nana_core.continuity import ContinuityStore, IdentityService
@@ -12,7 +13,7 @@ from nana_core.continuity.memory import MemoryService
 from nana_core.continuity.open_agency.learning import LearningCase, LearningSpec
 from nana_core.continuity.records import RecordService
 from nana_core.continuity.subject import SubjectInput
-from nana_core.continuity.subject.opportunities import ConcernCue
+from nana_core.continuity.subject.opportunities import ConcernCue, LearningValue
 from nana_core.continuity.subject.experience_need import project_need
 from nana_core.continuity.world_loop.learning import EpisodeLearning
 from nana_core.continuity.contracts import EvidenceInput, Provenance, MemoryCandidate, MemoryType
@@ -59,6 +60,27 @@ def reconsider(r, key, gap, *, load='LOW'):
     return cycle
 
 
+@pytest.mark.parametrize('load,value,expected', [
+    ('HIGH', None, 'REST'),
+    ('LOW', LearningValue(goal_value='LOW', future_reuse='LOW'), 'WATCH'),
+    ('LOW', LearningValue(goal_value='HIGH', future_reuse='HIGH', alternative='AVAILABLE'), 'WATCH'),
+    ('LOW', LearningValue(goal_value='HIGH', future_reuse='HIGH', time_compute_cost='HEAVY'), 'REST'),
+])
+def test_c_declining_learning_does_not_start_background_practice(tmp_path, load, value, expected):
+    with runtime(tmp_path/'subject.db', VirtualClock()) as r:
+        r.work.configure_open_learning((number_learning(),))
+        c = ConcernCue(cue_kind='OPEN_LOOP', motivation_source='CAPABILITY_GAP', topic_key='optional-study',
+            program_id='learn.numbers', possible_behaviors=('LEARN', 'WATCH'), cognitive_load=load,
+            learning_value=value)
+        mid = capture(r, 'optional-study', c.model_dump_json(), predicate='concern.optional-study')
+        send(r, 'consider-optional-study', (mid,), task_class='numbers')
+        result = r.step()
+        assert result['cycle'].intention.behavior==expected
+        assert jobs(r)==[], 'Runtime must not turn a considered learning program into mandatory learning'
+        advance(r, 12)
+        assert not r.store.all('lessons') and not r.store.all('cognitive_requests')
+
+
 def test_renewed_failure_relearns_once_then_transfers_after_restart(tmp_path, record_property):
     path = tmp_path/'subject.db'
     clock = VirtualClock()
@@ -92,6 +114,10 @@ def test_renewed_failure_relearns_once_then_transfers_after_restart(tmp_path, re
         # Counterexample runs the old method; failure suspends it before adoption.
         check = r.work.open_learning.monitor(old_lesson, spec.practice, authority=r.authority)
         assert not check['all_passed'] and r.work.open_learning.strategy('numbers', 'lab') is None
+        assert not r.work.open_learning._new_verified_gap(original, failure, number_learning(), 'lab')
+        heldout_only = number_learning().model_copy(update={'evaluation':(
+            number_learning().evaluation[0].model_copy(update={'expected':99}),)})
+        assert not r.work.open_learning._new_verified_gap(original, failure, heldout_only, 'lab')
         for parked in ('WAITING', 'RUNNING', 'UNKNOWN', 'CANCELLED'):
             assert not r.work.open_learning._new_verified_gap(
                 {**original, 'state':parked}, failure, spec, 'lab')

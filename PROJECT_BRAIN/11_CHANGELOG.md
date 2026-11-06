@@ -2911,3 +2911,8 @@ Fixed permanent learning-job dedup blockade and Supervisor pre-control readiness
 ### 2026-11-06 · Next Experience product406 continuation
 
 Added bounded authorized model-catalog and older-memory endpoints plus native/UI controls, sealed selected-release bootstrap, runtime allowlist additions and APK406. Evidence: product-406;12 focused/4 private/56 unit/20 browser pass, APK built/signature preserved. Historical failures retained; no live provider or production action.
+
+
+### 2026-11-06 · S8 renewal regression corrected
+
+Broader480d45f run exposed unchanged-material retraining loop (3fail/134pass, interrupted277.95s); rejected that Core build for delivery, kept evidence. Renewal now requires different candidate-visible practice/method information and independent later failure; heldout-only changes cannot reopen. Original26 owned-app/recovery/growth tests passed80.78s and5 guard tests1.14s. Client406 unchanged; new full regression and corrected sealed Core build follow.

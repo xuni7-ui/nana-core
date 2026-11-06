@@ -291,6 +291,13 @@ class LearningService:
         body = self.records.read(previous["record_id"])["payload"]
         if body.get("context_paused") or body["spec"]["domain"] != spec.domain:
             return False
+        # Another failure is not new learning material. Repeating unchanged
+        # practice would reproduce the same suspended rule, qualify it on the
+        # same holdouts and loop forever. Compare candidate-visible material
+        # only: changing heldout answers must never enable another experiment.
+        old_problem = LearningProblem.from_spec(LearningSpec.model_validate_json(canonical(body["spec"])))
+        if old_problem == LearningProblem.from_spec(spec):
+            return False
         if body.get("lesson_id"):
             lesson = self.store.one("lessons", body["lesson_id"])
             if not lesson or lesson["state"] not in {"SUSPENDED", "REJECTED", "RETIRED"}:

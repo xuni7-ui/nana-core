@@ -1,0 +1,291 @@
+....FF..............F
+=================================== FAILURES ===================================
+_______ test_renewed_failure_relearns_once_then_transfers_after_restart ________
+
+tmp_path = PosixPath('/dev/shm/nh/test_renewed_failure_relearns_0')
+record_property = <function record_property.<locals>.append_property at 0x7fd8bf5ebb00>
+
+    def test_renewed_failure_relearns_once_then_transfers_after_restart(tmp_path, record_property):
+        path = tmp_path/'subject.db'
+        clock = VirtualClock()
+        with runtime(path, clock) as r:
+            r.work.configure_open_learning((number_learning(),))
+            start_learning(r, number_learning())
+            original = dict(jobs(r)[0])
+            old_lesson = body(r, original)['lesson_id']
+            identity = r.identity_id
+            assert r.work.open_learning.strategy('numbers', 'lab')[1] == 'NUMERIC_SUM'
+        # A new resource/proposer instance on restart does not own the learned state.
+        with runtime(path, clock) as r:
+            spec = ordering_spec()
+            r.work.configure_open_learning((spec,))
+            assert r.identity_id == identity
+            assert r.work.open_learning.strategy('numbers', 'lab')[1] == 'NUMERIC_SUM'
+            obj = objective('changed.ordering', method='NUMERIC_SUM', expected=[2, 4, 9])
+            port = configure(r, tmp_path/'world'/'state.fixture.json', (obj,))
+            port.seed_observation(obj.operators[0].resource, [9, 2, 4])
+            source = cue(r, obj)
+            send(r, 'new-task', (source,), task_class='numbers'); r.step(); advance(r, 4)
+            failure = r.store.db.execute("SELECT * FROM experiences WHERE task_class='numbers' AND outcome='FAILURE' ORDER BY rowid DESC LIMIT 1").fetchone()
+            assert failure is not None
+            before = reconsider(r, 'reopened-gap', failure['result_memory_id'])
+            assert before.experience_need.state=='OPEN' and before.intention.behavior=='LEARN'
+            resting = reconsider(r, 'rest-before-learning', failure['result_memory_id'], load='HIGH')
+            assert resting.intention.behavior=='REST'
+            # An ordinary wake alone cannot restart completed learning.
+            start_learning(r, spec, 'ordinary-wake')
+            assert len(jobs(r)) == 1
+            # Counterexample runs the old method; failure suspends it before adoption.
+            check = r.work.open_learning.monitor(old_lesson, spec.practice, authority=r.authority)
+            assert not check['all_passed'] and r.work.open_learning.strategy('numbers', 'lab') is None
+>           assert not r.work.open_learning._new_verified_gap(original, failure, number_learning(), 'lab')
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/open_life/test_learning_renewal.py:117: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.open_agency.learning.LearningService object at 0x7fd8bf89ad20>
+previous = {'job_id': 'fe37cb58-6fd1-4012-9d87-39cd996faa9f', 'occurrence_key': 'learning:028f5c31db7eb86ffc00b19684ea3233a2ae7ade030b2649a470d8d8ac36f9e2', 'due_at_us': 1791590400000000, 'state': 'DONE', ...}
+experience = <sqlite3.Row object at 0x7fd8bf6e53c0>
+spec = LearningSpec(learning_key='learn.numbers', domain='numbers', baseline_method='NAIVE_SUM', hypotheses=('NUMERIC_SUM',),...nsfer', context='science', data=[0.2, 0.3], expected=0.5),), estimated_cost_micro=0, hypothesis_policy='PROPOSER_ONLY')
+scope = 'lab'
+
+    def _new_verified_gap(self, previous, experience, spec, scope):
+        """Reconsideration is new C-endorsed work, never an UNKNOWN retry.
+    
+        Event order, rather than host time, proves a new occurrence. A suggestion,
+        wake, changed model or changed practice file alone cannot restart work.
+        Source withdrawal still invalidates both the gap and its derived work.
+        """
+        if previous["state"] not in {"DONE", "BLOCKED"} or not experience:
+            return False
+        if experience["outcome"] != "FAILURE" or experience["task_class"] != spec.domain:
+            return False
+        head = self.store.one("continuity_records", experience["record_id"])
+        if (not head or head["scope"] != scope or head["privacy_class"] not in self.privacy
+                or head["lifecycle"] != "ACTIVE" or not self.records.current_support(head["record_id"])):
+            return False
+        body = self.records.read(previous["record_id"])["payload"]
+        if body.get("context_paused") or body["spec"]["domain"] != spec.domain:
+            return False
+        # Another failure is not new learning material. Repeating unchanged
+        # practice would reproduce the same suspended rule, qualify it on the
+        # same holdouts and loop forever. Compare candidate-visible material
+        # only: changing heldout answers must never enable another experiment.
+>       old_problem = LearningProblem.from_spec(LearningSpec.model_validate(body["spec"]))
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       pydantic_core._pydantic_core.ValidationError: 4 validation errors for LearningSpec
+E       hypotheses
+E         Input should be a valid tuple [type=tuple_type, input_value=['NUMERIC_SUM'], input_type=list]
+E           For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E       practice
+E         Input should be a valid tuple [type=tuple_type, input_value=[{'case_id': 'practice', ..., 2], 'expected': 3.25}], input_type=list]
+E           For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E       evaluation
+E         Input should be a valid tuple [type=tuple_type, input_value=[{'case_id': 'evaluation'... 3.5], 'expected': 6.0}], input_type=list]
+E           For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E       transfer
+E         Input should be a valid tuple [type=tuple_type, input_value=[{'case_id': 'transfer', ... 0.3], 'expected': 0.5}], input_type=list]
+E           For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+
+src/nana_core/continuity/open_agency/learning.py:298: ValidationError
+______ test_real_subject_outcome_learning_transfer_and_bounded_extension _______
+
+tmp_path = PosixPath('/dev/shm/nh/test_real_subject_outcome_lear0')
+
+    def test_real_subject_outcome_learning_transfer_and_bounded_extension(tmp_path):
+        with OwnedApplication(tmp_path/'target') as host:
+            home=tmp_path/'life';initialize(home,host.profile)
+            with LifeApplication(home,bootstrap_grant=True) as app:
+                r=app.runtime;identity=r.identity_id;initial_grants=len(r.store.all('grants'))
+>               until(app,lambda:len(r.store.all('goals'))==8 and all(g['state'] in {'COMPLETED','FAILED'} for g in r.store.all('goals')))
+
+tests/controlled_hands/test_application.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/controlled_hands/conftest.py:15: in until
+    app.tick();time.sleep(.015)
+    ^^^^^^^^^^
+src/nana_core/life/application.py:133: in tick
+    return {'surface_ingress':incoming} if incoming else self.runtime.step()
+                                                         ^^^^^^^^^^^^^^^^^^^
+src/nana_core/presence/runtime.py:370: in step
+    self._followup(row, event, result)
+src/nana_core/presence/runtime.py:404: in _followup
+    self.work.after_cycle(result, event)
+src/nana_core/presence/living.py:33: in after_cycle
+    result=self._after_cycle(cycle,event)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/presence/living.py:71: in _after_cycle
+    learned=self.open_learning.after_cycle(self.runtime,cycle,event)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/open_agency/learning.py:176: in after_cycle
+    reconsider = previous is not None and self._new_verified_gap(previous, experience, spec, event.scope)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.open_agency.learning.LearningService object at 0x7fd8bf6e9dc0>
+previous = <sqlite3.Row object at 0x7fd8bf89ecb0>
+experience = {'experience_id': '64a67775-4170-4a29-b7d9-3a7da6e4e717', 'record_id': 'b102f742-3315-4158-9006-2b937d67e128', 'task_class': 'owned-form', 'result_memory_id': 'ca08ed81-af6a-4c33-9c27-88bf0f5c6a4e', ...}
+spec = LearningSpec(learning_key='learn.owned-form', domain='owned-form', baseline_method='HANDS_POSITIONAL', hypotheses=('HA... 'field': 'label', 'value': 'amber'}, {'op': 'SUBMIT'}]}),), estimated_cost_micro=0, hypothesis_policy='PROPOSER_ONLY')
+scope = 'project-work'
+
+    def _new_verified_gap(self, previous, experience, spec, scope):
+        """Reconsideration is new C-endorsed work, never an UNKNOWN retry.
+    
+        Event order, rather than host time, proves a new occurrence. A suggestion,
+        wake, changed model or changed practice file alone cannot restart work.
+        Source withdrawal still invalidates both the gap and its derived work.
+        """
+        if previous["state"] not in {"DONE", "BLOCKED"} or not experience:
+            return False
+        if experience["outcome"] != "FAILURE" or experience["task_class"] != spec.domain:
+            return False
+        head = self.store.one("continuity_records", experience["record_id"])
+        if (not head or head["scope"] != scope or head["privacy_class"] not in self.privacy
+                or head["lifecycle"] != "ACTIVE" or not self.records.current_support(head["record_id"])):
+            return False
+        body = self.records.read(previous["record_id"])["payload"]
+        if body.get("context_paused") or body["spec"]["domain"] != spec.domain:
+            return False
+        # Another failure is not new learning material. Repeating unchanged
+        # practice would reproduce the same suspended rule, qualify it on the
+        # same holdouts and loop forever. Compare candidate-visible material
+        # only: changing heldout answers must never enable another experiment.
+>       old_problem = LearningProblem.from_spec(LearningSpec.model_validate(body["spec"]))
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       pydantic_core._pydantic_core.ValidationError: 4 validation errors for LearningSpec
+E       hypotheses
+E         Input should be a valid tuple [type=tuple_type, input_value=['HANDS_NAMED'], input_type=list]
+E           For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E       practice
+E         Input should be a valid tuple [type=tuple_type, input_value=[{'case_id': 'form-practi..._id': 'form-practice'}}], input_type=list]
+E           For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E       evaluation
+E         Input should be a valid tuple [type=tuple_type, input_value=[{'case_id': 'form-heldou...k_id': 'form-heldout'}}], input_type=list]
+E           For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E       transfer
+E         Input should be a valid tuple [type=tuple_type, input_value=[{'case_id': 'form-transf..._id': 'form-transfer'}}], input_type=list]
+E           For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+
+src/nana_core/continuity/open_agency/learning.py:298: ValidationError
+_ test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[DURING_LEARNING] _
+
+tmp_path = PosixPath('/dev/shm/nh/test_actual_process_sigkill_pr4')
+mode = 'DURING_LEARNING'
+
+    @pytest.mark.parametrize('mode',['BEFORE_PREPARE','BEFORE_EFFECT','AFTER_EFFECT','DURING_VERIFY','DURING_LEARNING','DURING_SKILL_TEST'])
+    def test_actual_process_sigkill_preserves_identity_effects_and_original_cursor(tmp_path,mode):
+        # This oracle tests baseline -> learned transfer. Concurrently preplanning
+        # both forms legitimately needs one more quality-repair write (covered below).
+        # Control only fixture input cadence; keep all original effect/count/time bars.
+        interval=1_000_000 if mode in {'DURING_LEARNING','DURING_SKILL_TEST'} else None
+        tasks=None if mode in {'DURING_LEARNING','DURING_SKILL_TEST'} else (ApplicationTask(task_id='doc',kind='DOCUMENT',wanted='safe content'),)
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+            home=tmp_path/'life';initialize(home,host.profile)
+            with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id
+            marker=tmp_path/'cut';log=tmp_path/'worker.log'
+            with log.open('w') as stream:
+                p=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_hands.crash_worker','--home',str(home),'--mode',mode,'--marker',str(marker),*(['--opportunity-interval-us',str(interval)] if interval else [])],cwd=REPO,stdout=stream,stderr=stream)
+                try:
+                    start=time.monotonic()
+                    while not marker.exists():
+                        assert p.poll() is None,log.read_text()
+                        assert time.monotonic()-start<40,'cut not reached'
+                        time.sleep(.02)
+                    before=snapshot(home);external=json.loads((Path(host.target.workspace)/'application-state.json').read_text())
+                    os.kill(p.pid,signal.SIGKILL);p.wait(timeout=4);assert p.returncode==-signal.SIGKILL
+                finally:
+                    if p.poll() is None:p.kill();p.wait(timeout=4)
+            with LifeApplication(home) as app:
+                if interval:app.work.interval=interval
+                r=app.runtime;assert r.identity_id==identity and len(r.store.all('grants'))==1
+                if mode=='BEFORE_EFFECT':
+                    for _ in range(15):app.tick();time.sleep(.025)
+                    effects=json.loads((Path(host.target.workspace)/'application-state.json').read_text())['effects']
+                    assert not effects and not external['effects']
+                    assert r.store.one('actions',marker.read_text())['state']=='UNKNOWN'
+                elif mode in {'AFTER_EFFECT','DURING_VERIFY','BEFORE_PREPARE'}:
+                    until(app,lambda:bool(r.store.db.execute("SELECT 1 FROM goals WHERE state='COMPLETED'").fetchone()))
+                    effects=json.loads((Path(host.target.workspace)/'application-state.json').read_text())['effects']
+                    assert len(effects)==1
+                    assert r.store.one('actions',marker.read_text())['state']=='SUCCEEDED'
+                    assert len(r.store.all('actions'))==len(before['actions'])
+                else:
+>                   until(app,lambda:len(r.store.all('goals'))==8 and all(g['state'] in {'COMPLETED','FAILED'} for g in r.store.all('goals')),seconds=40)
+
+tests/controlled_hands/test_recovery.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/controlled_hands/conftest.py:15: in until
+    app.tick();time.sleep(.015)
+    ^^^^^^^^^^
+src/nana_core/life/application.py:133: in tick
+    return {'surface_ingress':incoming} if incoming else self.runtime.step()
+                                                         ^^^^^^^^^^^^^^^^^^^
+src/nana_core/presence/runtime.py:370: in step
+    self._followup(row, event, result)
+src/nana_core/presence/runtime.py:404: in _followup
+    self.work.after_cycle(result, event)
+src/nana_core/presence/living.py:33: in after_cycle
+    result=self._after_cycle(cycle,event)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/presence/living.py:71: in _after_cycle
+    learned=self.open_learning.after_cycle(self.runtime,cycle,event)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/open_agency/learning.py:176: in after_cycle
+    reconsider = previous is not None and self._new_verified_gap(previous, experience, spec, event.scope)
+                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.open_agency.learning.LearningService object at 0x7fd8bf54d1f0>
+previous = <sqlite3.Row object at 0x7fd8bf55a230>
+experience = {'experience_id': 'e53be98c-f7f7-416e-a5a9-899d3bb73576', 'record_id': '9c95a72a-0fa9-4839-8229-79b7c8c29088', 'task_class': 'owned-form', 'result_memory_id': '116f2a29-4304-4821-bfcc-f629eeda015f', ...}
+spec = LearningSpec(learning_key='learn.owned-form', domain='owned-form', baseline_method='HANDS_POSITIONAL', hypotheses=('HA... 'field': 'label', 'value': 'amber'}, {'op': 'SUBMIT'}]}),), estimated_cost_micro=0, hypothesis_policy='PROPOSER_ONLY')
+scope = 'project-work'
+
+    def _new_verified_gap(self, previous, experience, spec, scope):
+        """Reconsideration is new C-endorsed work, never an UNKNOWN retry.
+    
+        Event order, rather than host time, proves a new occurrence. A suggestion,
+        wake, changed model or changed practice file alone cannot restart work.
+        Source withdrawal still invalidates both the gap and its derived work.
+        """
+        if previous["state"] not in {"DONE", "BLOCKED"} or not experience:
+            return False
+        if experience["outcome"] != "FAILURE" or experience["task_class"] != spec.domain:
+            return False
+        head = self.store.one("continuity_records", experience["record_id"])
+        if (not head or head["scope"] != scope or head["privacy_class"] not in self.privacy
+                or head["lifecycle"] != "ACTIVE" or not self.records.current_support(head["record_id"])):
+            return False
+        body = self.records.read(previous["record_id"])["payload"]
+        if body.get("context_paused") or body["spec"]["domain"] != spec.domain:
+            return False
+        # Another failure is not new learning material. Repeating unchanged
+        # practice would reproduce the same suspended rule, qualify it on the
+        # same holdouts and loop forever. Compare candidate-visible material
+        # only: changing heldout answers must never enable another experiment.
+>       old_problem = LearningProblem.from_spec(LearningSpec.model_validate_json(canonical(body["spec"])))
+                                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       pydantic_core._pydantic_core.ValidationError: 4 validation errors for LearningSpec
+E       hypotheses
+E         Input should be a valid tuple [type=tuple_type, input_value=['HANDS_NAMED'], input_type=list]
+E           For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E       practice
+E         Input should be a valid tuple [type=tuple_type, input_value=[{'case_id': 'form-practi..._id': 'form-practice'}}], input_type=list]
+E           For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E       evaluation
+E         Input should be a valid tuple [type=tuple_type, input_value=[{'case_id': 'form-heldou...k_id': 'form-heldout'}}], input_type=list]
+E           For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E       transfer
+E         Input should be a valid tuple [type=tuple_type, input_value=[{'case_id': 'form-transf..._id': 'form-transfer'}}], input_type=list]
+E           For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+
+src/nana_core/continuity/open_agency/learning.py:298: ValidationError
+=========================== short test summary info ============================
+FAILED tests/open_life/test_learning_renewal.py::test_renewed_failure_relearns_once_then_transfers_after_restart
+FAILED tests/controlled_hands/test_application.py::test_real_subject_outcome_learning_transfer_and_bounded_extension
+FAILED tests/controlled_hands/test_recovery.py::test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[DURING_LEARNING]
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! KeyboardInterrupt !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+/workspace/nana-unified-release/tests/controlled_hands/test_recovery.py:28: KeyboardInterrupt
+(to show a full traceback on KeyboardInterrupt use --full-trace)
+3 failed, 18 passed in 47.18s

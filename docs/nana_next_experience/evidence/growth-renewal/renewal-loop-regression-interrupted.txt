@@ -1,0 +1,160 @@
+........................................................................ [  3%]
+...................F..............FF.............................
+=================================== FAILURES ===================================
+______ test_real_subject_outcome_learning_transfer_and_bounded_extension _______
+
+tmp_path = PosixPath('/dev/shm/nf/test_real_subject_outcome_lear0')
+
+    def test_real_subject_outcome_learning_transfer_and_bounded_extension(tmp_path):
+        with OwnedApplication(tmp_path/'target') as host:
+            home=tmp_path/'life';initialize(home,host.profile)
+            with LifeApplication(home,bootstrap_grant=True) as app:
+                r=app.runtime;identity=r.identity_id;initial_grants=len(r.store.all('grants'))
+>               until(app,lambda:len(r.store.all('goals'))==8 and all(g['state'] in {'COMPLETED','FAILED'} for g in r.store.all('goals')))
+
+tests/controlled_hands/test_application.py:17: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+app = <nana_core.life.application.LifeApplication object at 0x7fa23035e060>
+predicate = <function test_real_subject_outcome_learning_transfer_and_bounded_extension.<locals>.<lambda> at 0x7fa2302d3740>
+seconds = 35
+
+    def until(app,predicate,seconds=35):
+        start=time.monotonic()
+        while time.monotonic()-start<seconds:
+            if predicate():return
+            app.tick();time.sleep(.015)
+>       raise AssertionError('bounded owned-application progress incomplete: '+str([(g['template'],g['state']) for g in app.runtime.store.all('goals')]))
+E       AssertionError: bounded owned-application progress incomplete: [('owned-document', 'COMPLETED'), ('owned-document', 'COMPLETED'), ('owned-form', 'COMPLETED'), ('owned-form', 'COMPLETED'), ('owned-form', 'BLOCKED'), ('owned-form', 'COMPLETED')]
+
+tests/controlled_hands/conftest.py:16: AssertionError
+_ test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[DURING_LEARNING] _
+
+tmp_path = PosixPath('/dev/shm/nf/test_actual_process_sigkill_pr4')
+mode = 'DURING_LEARNING'
+
+    @pytest.mark.parametrize('mode',['BEFORE_PREPARE','BEFORE_EFFECT','AFTER_EFFECT','DURING_VERIFY','DURING_LEARNING','DURING_SKILL_TEST'])
+    def test_actual_process_sigkill_preserves_identity_effects_and_original_cursor(tmp_path,mode):
+        # This oracle tests baseline -> learned transfer. Concurrently preplanning
+        # both forms legitimately needs one more quality-repair write (covered below).
+        # Control only fixture input cadence; keep all original effect/count/time bars.
+        interval=1_000_000 if mode in {'DURING_LEARNING','DURING_SKILL_TEST'} else None
+        tasks=None if mode in {'DURING_LEARNING','DURING_SKILL_TEST'} else (ApplicationTask(task_id='doc',kind='DOCUMENT',wanted='safe content'),)
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+            home=tmp_path/'life';initialize(home,host.profile)
+            with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id
+            marker=tmp_path/'cut';log=tmp_path/'worker.log'
+            with log.open('w') as stream:
+                p=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_hands.crash_worker','--home',str(home),'--mode',mode,'--marker',str(marker),*(['--opportunity-interval-us',str(interval)] if interval else [])],cwd=REPO,stdout=stream,stderr=stream)
+                try:
+                    start=time.monotonic()
+                    while not marker.exists():
+                        assert p.poll() is None,log.read_text()
+                        assert time.monotonic()-start<40,'cut not reached'
+                        time.sleep(.02)
+                    before=snapshot(home);external=json.loads((Path(host.target.workspace)/'application-state.json').read_text())
+                    os.kill(p.pid,signal.SIGKILL);p.wait(timeout=4);assert p.returncode==-signal.SIGKILL
+                finally:
+                    if p.poll() is None:p.kill();p.wait(timeout=4)
+            with LifeApplication(home) as app:
+                if interval:app.work.interval=interval
+                r=app.runtime;assert r.identity_id==identity and len(r.store.all('grants'))==1
+                if mode=='BEFORE_EFFECT':
+                    for _ in range(15):app.tick();time.sleep(.025)
+                    effects=json.loads((Path(host.target.workspace)/'application-state.json').read_text())['effects']
+                    assert not effects and not external['effects']
+                    assert r.store.one('actions',marker.read_text())['state']=='UNKNOWN'
+                elif mode in {'AFTER_EFFECT','DURING_VERIFY','BEFORE_PREPARE'}:
+                    until(app,lambda:bool(r.store.db.execute("SELECT 1 FROM goals WHERE state='COMPLETED'").fetchone()))
+                    effects=json.loads((Path(host.target.workspace)/'application-state.json').read_text())['effects']
+                    assert len(effects)==1
+                    assert r.store.one('actions',marker.read_text())['state']=='SUCCEEDED'
+                    assert len(r.store.all('actions'))==len(before['actions'])
+                else:
+>                   until(app,lambda:len(r.store.all('goals'))==8 and all(g['state'] in {'COMPLETED','FAILED'} for g in r.store.all('goals')),seconds=40)
+
+tests/controlled_hands/test_recovery.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+app = <nana_core.life.application.LifeApplication object at 0x7fa22ea59c70>
+predicate = <function test_actual_process_sigkill_preserves_identity_effects_and_original_cursor.<locals>.<lambda> at 0x7fa22ea259e0>
+seconds = 40
+
+    def until(app,predicate,seconds=35):
+        start=time.monotonic()
+        while time.monotonic()-start<seconds:
+            if predicate():return
+            app.tick();time.sleep(.015)
+>       raise AssertionError('bounded owned-application progress incomplete: '+str([(g['template'],g['state']) for g in app.runtime.store.all('goals')]))
+E       AssertionError: bounded owned-application progress incomplete: [('owned-document', 'COMPLETED'), ('owned-document', 'COMPLETED'), ('owned-form', 'COMPLETED'), ('owned-form', 'COMPLETED'), ('owned-form', 'BLOCKED'), ('owned-form', 'COMPLETED')]
+
+tests/controlled_hands/conftest.py:16: AssertionError
+_ test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[DURING_SKILL_TEST] _
+
+tmp_path = PosixPath('/dev/shm/nf/test_actual_process_sigkill_pr5')
+mode = 'DURING_SKILL_TEST'
+
+    @pytest.mark.parametrize('mode',['BEFORE_PREPARE','BEFORE_EFFECT','AFTER_EFFECT','DURING_VERIFY','DURING_LEARNING','DURING_SKILL_TEST'])
+    def test_actual_process_sigkill_preserves_identity_effects_and_original_cursor(tmp_path,mode):
+        # This oracle tests baseline -> learned transfer. Concurrently preplanning
+        # both forms legitimately needs one more quality-repair write (covered below).
+        # Control only fixture input cadence; keep all original effect/count/time bars.
+        interval=1_000_000 if mode in {'DURING_LEARNING','DURING_SKILL_TEST'} else None
+        tasks=None if mode in {'DURING_LEARNING','DURING_SKILL_TEST'} else (ApplicationTask(task_id='doc',kind='DOCUMENT',wanted='safe content'),)
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+            home=tmp_path/'life';initialize(home,host.profile)
+            with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id
+            marker=tmp_path/'cut';log=tmp_path/'worker.log'
+            with log.open('w') as stream:
+                p=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_hands.crash_worker','--home',str(home),'--mode',mode,'--marker',str(marker),*(['--opportunity-interval-us',str(interval)] if interval else [])],cwd=REPO,stdout=stream,stderr=stream)
+                try:
+                    start=time.monotonic()
+                    while not marker.exists():
+                        assert p.poll() is None,log.read_text()
+                        assert time.monotonic()-start<40,'cut not reached'
+                        time.sleep(.02)
+                    before=snapshot(home);external=json.loads((Path(host.target.workspace)/'application-state.json').read_text())
+                    os.kill(p.pid,signal.SIGKILL);p.wait(timeout=4);assert p.returncode==-signal.SIGKILL
+                finally:
+                    if p.poll() is None:p.kill();p.wait(timeout=4)
+            with LifeApplication(home) as app:
+                if interval:app.work.interval=interval
+                r=app.runtime;assert r.identity_id==identity and len(r.store.all('grants'))==1
+                if mode=='BEFORE_EFFECT':
+                    for _ in range(15):app.tick();time.sleep(.025)
+                    effects=json.loads((Path(host.target.workspace)/'application-state.json').read_text())['effects']
+                    assert not effects and not external['effects']
+                    assert r.store.one('actions',marker.read_text())['state']=='UNKNOWN'
+                elif mode in {'AFTER_EFFECT','DURING_VERIFY','BEFORE_PREPARE'}:
+                    until(app,lambda:bool(r.store.db.execute("SELECT 1 FROM goals WHERE state='COMPLETED'").fetchone()))
+                    effects=json.loads((Path(host.target.workspace)/'application-state.json').read_text())['effects']
+                    assert len(effects)==1
+                    assert r.store.one('actions',marker.read_text())['state']=='SUCCEEDED'
+                    assert len(r.store.all('actions'))==len(before['actions'])
+                else:
+>                   until(app,lambda:len(r.store.all('goals'))==8 and all(g['state'] in {'COMPLETED','FAILED'} for g in r.store.all('goals')),seconds=40)
+
+tests/controlled_hands/test_recovery.py:48: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+app = <nana_core.life.application.LifeApplication object at 0x7fa22ea968d0>
+predicate = <function test_actual_process_sigkill_preserves_identity_effects_and_original_cursor.<locals>.<lambda> at 0x7fa22ea24c20>
+seconds = 40
+
+    def until(app,predicate,seconds=35):
+        start=time.monotonic()
+        while time.monotonic()-start<seconds:
+            if predicate():return
+            app.tick();time.sleep(.015)
+>       raise AssertionError('bounded owned-application progress incomplete: '+str([(g['template'],g['state']) for g in app.runtime.store.all('goals')]))
+E       AssertionError: bounded owned-application progress incomplete: [('owned-document', 'COMPLETED'), ('owned-document', 'COMPLETED'), ('owned-form', 'COMPLETED'), ('owned-form', 'COMPLETED'), ('owned-form', 'BLOCKED'), ('owned-form', 'COMPLETED')]
+
+tests/controlled_hands/conftest.py:16: AssertionError
+=========================== short test summary info ============================
+FAILED tests/controlled_hands/test_application.py::test_real_subject_outcome_learning_transfer_and_bounded_extension
+FAILED tests/controlled_hands/test_recovery.py::test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[DURING_LEARNING]
+FAILED tests/controlled_hands/test_recovery.py::test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[DURING_SKILL_TEST]
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! KeyboardInterrupt !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/threading.py:355: KeyboardInterrupt
+(to show a full traceback on KeyboardInterrupt use --full-trace)
+3 failed, 134 passed in 277.95s (0:04:37)

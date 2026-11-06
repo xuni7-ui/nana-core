@@ -1753,3 +1753,8 @@ Use new original C-endorsed work for later checked gaps, never replay old UNKNOW
 ### 2026-11-06 · Next Experience product406 continuation
 
 Keep catalog GET separate from inference/paid qualification, and memory POST search separate from context/semantic retrieval. Gateway follows registered sealed source only at process start; no hot code update, second process or web artifact rewrite. Keep independent phone/host review gates.
+
+
+### 2026-11-06 · S8 material novelty boundary
+
+A failure may reopen a need, but it is not itself new training material. Re-running unchanged practice/holdouts after suspension is prohibited; candidate-visible new material plus original C endorsement and a distinct later checked failure are required. Do not use final-answer edits to authorize an experiment. No new learner or production strategy adoption.

@@ -7,22 +7,23 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 63,
-  "as_of_us": 1793980760673815,
+  "revision": 64,
+  "as_of_us": 1793995467164397,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_PRODUCT_AND_CROSS_DOMAIN_GROWTH",
+  "status": "IN_PROGRESS_PRODUCT_406_AND_GROWTH_REGRESSION_CLOSURE",
   "progress": [
     "继承280fed8：手机内登录、模型向导、授权控制台已有开发交付。",
     "用户报告已登录；实际截图反馈聊天区过小，本轮修复布局与普通中文文案。",
     "专项布局验证通过桌面及360/390/412宽度；真实手机新版效果待用户体验。",
-    "记忆检索优化0ac3739已实现；当前修复原S8再次学习与控制接口就绪race，受控验证通过。"
+    "记忆检索优化0ac3739已实现；当前修复原S8再次学习与控制接口就绪race，受控验证通过。",
+    "406模型目录/早期记忆查找/选定Gateway启动路径已实现并验证；完整回归发现S8重复训练回退，已修复并通过受影响26项。"
   ],
   "open_gates": [
-    "Next Experience完整产品任务仍在进行。",
-    "云端迁移由原负责人继续，本工作区不触碰私人数据或生产。",
-    "真实模型/手机/跨日学习与独立选择，按对应实际回执分别记录。",
-    "全部尚未完成的软件优化与十域精修仍在同一任务；不因单批通过交付总完成。"
+    "整个软件优化与十域长期精修仍在进行，不以单批功能通过宣布完成。",
+    "当前源码完整回归、纠正后的密封Core产物与匹配手机交付待收口。",
+    "Iris v2由用户报告已收口；独立Core实际宿主状态由运行负责人核验，本地不触碰生产。",
+    "真实模型/手机/跨日学习与独立选择，按对应实际回执分别记录。"
   ],
   "evidence_refs": [
     "docs/nana_living_release_v4/qualification.json",
