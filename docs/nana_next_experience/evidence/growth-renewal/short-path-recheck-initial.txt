@@ -1,0 +1,83 @@
+...F                                                                     [100%]
+=================================== FAILURES ===================================
+________ test_actual_supervisor_platform_fd_does_not_enable_model_calls ________
+
+tmp_path = PosixPath('/dev/shm/nq/test_actual_supervisor_platfor0')
+
+    def test_actual_supervisor_platform_fd_does_not_enable_model_calls(tmp_path):
+        from tests.first_life_android_v2.test_supervisor import owned, cleanup
+        from nana_core.life.live_api.supervisor import Supervisor
+        from nana_core.life.secret_binding import MemorySecretResolver
+    
+        home, binding, release = owned(tmp_path)
+        config = load_config(home)
+        update_config(
+            home,
+            config.model_copy(
+                update={
+                    "revision": config.revision + 1,
+                    "provider_hosts": ("provider.example",),
+                    "remote_privacy": ("PROJECT",),
+                    "provider_cost_ceiling_micro": 1,
+                }
+            ),
+            expected_revision=config.revision,
+        )
+        resolver = MemorySecretResolver()
+        resolver.bind("platform.events", "TEST_ONLY_NOT_SECRET_PLATFORM_KEY")
+        owner = Supervisor(
+            home,
+            tmp_path / "host-platform",
+            binding,
+            [release],
+            active_release=release.release_id,
+            provider_binding=resolver.inherited_fd,
+            provider_live_authorized=False,
+        )
+        try:
+            owner.start()
+            result = request(home, {"operation": "view", "view": "status"})
+            assert result["ok"] and result["result"]["provider"] == "OFFLINE_NO_PROVIDER"
+        finally:
+>           cleanup(owner)
+
+tests/living_release_v4/test_platform_settings.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/first_life_android_v2/test_supervisor.py:35: in cleanup
+    supervisor.stop()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.life.live_api.supervisor.Supervisor object at 0x7fad6e50e4b0>
+
+    def stop(self):
+        with self.lock:
+            self._record(stop_latch=True, last_state="STOP_REQUESTED")
+            current = self.status()
+            if not current["runtime_active"]:
+                self._wait_owned_exit()
+                self._record(last_state="STOP_LATCHED")
+                return self.status()
+            if not current["owner_managed"]:
+                raise ApiError("FOREIGN_OWNER_REQUIRES_OPERATOR", 409)
+            try:
+                result = request(self.home, {"operation": "control", "command": "stop"}, timeout=3)
+                if result.get("ok") is not True:
+                    raise ApiError("CORE_STOP_UNVERIFIED", 503)
+                deadline = time.monotonic() + 10
+                while time.monotonic() < deadline:
+                    if self.child is not None:
+                        self.child.poll()
+                    current = self.status()
+                    if not current["runtime_active"]:
+                        self._wait_owned_exit()
+                        self._record(last_state="STOP_LATCHED")
+                        return self.status()
+                    time.sleep(0.08)
+            except (OSError, CoreError):
+>               raise ApiError("UNKNOWN_NEEDS_RECONCILIATION", 503) from None
+E               nana_core.life.live_api.contracts.ApiError: UNKNOWN_NEEDS_RECONCILIATION
+
+src/nana_core/life/live_api/supervisor.py:453: ApiError
+=========================== short test summary info ============================
+FAILED tests/living_release_v4/test_platform_settings.py::test_actual_supervisor_platform_fd_does_not_enable_model_calls
+1 failed, 3 passed in 5.32s

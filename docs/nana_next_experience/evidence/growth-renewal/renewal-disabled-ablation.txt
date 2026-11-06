@@ -1,0 +1,56 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_______ test_renewed_failure_relearns_once_then_transfers_after_restart ________
+
+tmp_path = PosixPath('/dev/shm/na/test_renewed_failure_relearns_0')
+record_property = <function record_property.<locals>.append_property at 0x7fb3358a2c00>
+
+    def test_renewed_failure_relearns_once_then_transfers_after_restart(tmp_path, record_property):
+        path = tmp_path/'subject.db'
+        clock = VirtualClock()
+        with runtime(path, clock) as r:
+            r.work.configure_open_learning((number_learning(),))
+            start_learning(r, number_learning())
+            original = dict(jobs(r)[0])
+            old_lesson = body(r, original)['lesson_id']
+            identity = r.identity_id
+            assert r.work.open_learning.strategy('numbers', 'lab')[1] == 'NUMERIC_SUM'
+        # A new resource/proposer instance on restart does not own the learned state.
+        with runtime(path, clock) as r:
+            spec = ordering_spec()
+            r.work.configure_open_learning((spec,))
+            assert r.identity_id == identity
+            assert r.work.open_learning.strategy('numbers', 'lab')[1] == 'NUMERIC_SUM'
+            obj = objective('changed.ordering', method='NUMERIC_SUM', expected=[2, 4, 9])
+            port = configure(r, tmp_path/'world'/'state.fixture.json', (obj,))
+            port.seed_observation(obj.operators[0].resource, [9, 2, 4])
+            source = cue(r, obj)
+            send(r, 'new-task', (source,), task_class='numbers'); r.step(); advance(r, 4)
+            failure = r.store.db.execute("SELECT * FROM experiences WHERE task_class='numbers' AND outcome='FAILURE' ORDER BY rowid DESC LIMIT 1").fetchone()
+            assert failure is not None
+            before = reconsider(r, 'reopened-gap', failure['result_memory_id'])
+            assert before.experience_need.state=='OPEN' and before.intention.behavior=='LEARN'
+            resting = reconsider(r, 'rest-before-learning', failure['result_memory_id'], load='HIGH')
+            assert resting.intention.behavior=='REST'
+            # An ordinary wake alone cannot restart completed learning.
+            start_learning(r, spec, 'ordinary-wake')
+            assert len(jobs(r)) == 1
+            # Counterexample runs the old method; failure suspends it before adoption.
+            check = r.work.open_learning.monitor(old_lesson, spec.practice, authority=r.authority)
+            assert not check['all_passed'] and r.work.open_learning.strategy('numbers', 'lab') is None
+            for parked in ('WAITING', 'RUNNING', 'UNKNOWN', 'CANCELLED'):
+                assert not r.work.open_learning._new_verified_gap(
+                    {**original, 'state':parked}, failure, spec, 'lab')
+            # Self-originated reflection: no user command or provider call.
+            send(r, 'checked-new-failure', (source,), reflection_experience_id=failure['experience_id'], task_class='numbers')
+            r.drain(32)
+>           assert len(jobs(r)) == 2, 'A finished old learning job must not swallow a later checked gap'
+E           AssertionError: A finished old learning job must not swallow a later checked gap
+E           assert 1 == 2
+E            +  where 1 = len([<sqlite3.Row object at 0x7fb3359a9240>])
+E            +    where [<sqlite3.Row object at 0x7fb3359a9240>] = jobs(<nana_core.presence.runtime.NanaRuntime object at 0x7fb335972de0>)
+
+tests/open_life/test_learning_renewal.py:101: AssertionError
+=========================== short test summary info ============================
+FAILED tests/open_life/test_learning_renewal.py::test_renewed_failure_relearns_once_then_transfers_after_restart
+1 failed in 0.42s

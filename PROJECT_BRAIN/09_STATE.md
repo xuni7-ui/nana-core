@@ -7,20 +7,22 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 62,
+  "revision": 63,
   "as_of_us": 1793980760673815,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_PHONE_CHAT_LAYOUT_VALIDATED",
+  "status": "IN_PROGRESS_PRODUCT_AND_CROSS_DOMAIN_GROWTH",
   "progress": [
     "继承280fed8：手机内登录、模型向导、授权控制台已有开发交付。",
     "用户报告已登录；实际截图反馈聊天区过小，本轮修复布局与普通中文文案。",
-    "专项布局验证通过桌面及360/390/412宽度；真实手机新版效果待用户体验。"
+    "专项布局验证通过桌面及360/390/412宽度；真实手机新版效果待用户体验。",
+    "记忆检索优化0ac3739已实现；当前修复原S8再次学习与控制接口就绪race，受控验证通过。"
   ],
   "open_gates": [
     "Next Experience完整产品任务仍在进行。",
     "云端迁移由原负责人继续，本工作区不触碰私人数据或生产。",
-    "真实模型/手机/跨日学习与独立选择，按对应实际回执分别记录。"
+    "真实模型/手机/跨日学习与独立选择，按对应实际回执分别记录。",
+    "全部尚未完成的软件优化与十域精修仍在同一任务；不因单批通过交付总完成。"
   ],
   "evidence_refs": [
     "docs/nana_living_release_v4/qualification.json",
@@ -2461,3 +2463,8 @@ Accepted as a supplement to the existing ten-domain refinement mission. Baseline
 
 ### 2026-11-06 · measured long-lived memory refinement
 Original-Core synthetic corpora measured at1k/10k/100k/200k. Fixed SELF selection before bound, added rebuildable physical lookups, and adopted rare-term ranking with dense/small-scope fallback. Alternating same-Store200001-row comparison: exact context equality; retrieval P50 508.46→133.85ms, P95 526.23→146.02ms; assembly P50 678.06→298.79ms, P95 777.85→316.84ms. These are local English lexical fixtures, not live FAISS/semantic/human qualification. Context units remain UTF8 byte estimate; provider calls0. Preservation of private-source withdrawal, original dialogue and strict portable schema is tested; initial schema-drift failure retained and fixed by stripping exact known physical indexes only from export copies. Source digests/evidence in docs/nana_next_experience/evidence/context-memory. S8 policies/production not auto-replaced; cloud migration untouched. Next Experience and ten-domain mission remain IN_PROGRESS, not complete.
+
+
+### 2026-11-06 · continuous product/refinement / renewed S8 learning
+
+User reports Iris v2 retrieval/dedupe closed/deployed; do not redo it or modify production. Host recovery status remains UNKNOWN here. S8 renewal fix supports new independently verified gaps after suspended methods; synthetic closed-loop plus restart/withdrawal tested, no live-model or long-term companionship qualification. Evidence: `docs/nana_next_experience/evidence/growth-renewal/`.

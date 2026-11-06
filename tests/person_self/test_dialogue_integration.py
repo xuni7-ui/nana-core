@@ -53,18 +53,23 @@ def test_withdrawal_removes_retained_exchange_from_restart_context(tmp_path):
             assert 'RETAINED_CANARY' not in requests[-1]['context_json']
 
 
-def test_unknown_still_no_retry_with_retained_input(tmp_path,monkeypatch):
+def test_unknown_retained_turn_is_not_replayed_but_new_turn_can_continue(tmp_path,monkeypatch):
     from nana_core.continuity.world_loop.cognition import OpenAIJSONTransport
     home=tmp_path/'home';initialize(home);calls=[];clock=VirtualClock()
     def timeout(self,request):calls.append(request.request_id);raise TimeoutError()
     monkeypatch.setattr(OpenAIJSONTransport,'exchange',timeout)
     with relay(home,'CHAT') as (router,_):
         with LifeApplication(home,clock=clock,router=router) as app:
-            app.pause();app.chat('first',privacy='PROJECT',retain_shared_life=True)
+            app.pause();app.chat('first',message_id='first',privacy='PROJECT',retain_shared_life=True)
+            original=dict(app.runtime.store.all('cognitive_requests')[0])
+            assert original['state']=='UNKNOWN' and len(calls)==1
         with LifeApplication(home,clock=clock,router=router) as app:
-            app.chat('different',privacy='PROJECT',retain_shared_life=True)
+            app.chat('first',message_id='first',privacy='PROJECT',retain_shared_life=True)
             assert len(calls)==1
-            assert app.runtime.store.all('cognitive_requests')[0]['state']=='UNKNOWN'
+            app.chat('different',message_id='different',privacy='PROJECT',retain_shared_life=True)
+            assert len(calls)==2 and len(set(calls))==2
+            # New independent dialogue does not refund or rewrite the old UNKNOWN.
+            assert dict(app.runtime.store.one('cognitive_requests',original['request_id']))==original
 
 
 def test_learned_policy_changes_later_unrelated_render_after_restart(tmp_path):

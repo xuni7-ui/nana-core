@@ -166,13 +166,15 @@ class LearningService:
         old = self.store.db.execute("SELECT * FROM jobs WHERE occurrence_key=?", ("learning:" + key,)).fetchone()
         if old:
             return old["job_id"]
-        # One work item per supported learning problem; a wake/replay cannot
-        # recreate completed work or indefinitely train on its own outputs.
+        # Repeated wakes reuse current work. A completed problem may only reopen
+        # after a distinct, later checked failure and the old method's withdrawal;
+        # otherwise one early lesson permanently prevents future growth.
         previous = self.store.db.execute(
-            "SELECT j.* FROM jobs j JOIN continuity_records r ON r.record_id=j.record_id WHERE j.work_kind='LEARNING' AND r.target_id=? AND r.scope=? AND r.lifecycle='ACTIVE' LIMIT 1",
+            "SELECT j.* FROM jobs j JOIN continuity_records r ON r.record_id=j.record_id WHERE j.work_kind='LEARNING' AND r.target_id=? AND r.scope=? AND r.lifecycle='ACTIVE' ORDER BY j.rowid DESC LIMIT 1",
             (spec.learning_key, event.scope),
         ).fetchone()
-        if previous:
+        reconsider = previous is not None and self._new_verified_gap(previous, experience, spec, event.scope)
+        if previous and not reconsider:
             b = self.records.read(previous["record_id"])["payload"]
             if previous["state"] == "BLOCKED" and b.get("context_paused"):
                 binding = b["context_binding"]
@@ -241,6 +243,8 @@ class LearningService:
                     "selected_method": None,
                     "trial_record_id": None,
                     "lesson_id": None,
+                    **({"previous_work_id": previous["job_id"],
+                        "reconsidered_experience_id": experience["experience_id"]} if reconsider else {}),
                 },
                 records=parents,
                 memories=self.source_memory_ids,
@@ -268,6 +272,36 @@ class LearningService:
             if cycle.goal_candidate_id:
                 tx.update("subject_goal_candidates", cycle.goal_candidate_id, state="ADOPTED")
         return wid
+
+    def _new_verified_gap(self, previous, experience, spec, scope):
+        """Reconsideration is new C-endorsed work, never an UNKNOWN retry.
+
+        Event order, rather than host time, proves a new occurrence. A suggestion,
+        wake, changed model or changed practice file alone cannot restart work.
+        Source withdrawal still invalidates both the gap and its derived work.
+        """
+        if previous["state"] not in {"DONE", "BLOCKED"} or not experience:
+            return False
+        if experience["outcome"] != "FAILURE" or experience["task_class"] != spec.domain:
+            return False
+        head = self.store.one("continuity_records", experience["record_id"])
+        if (not head or head["scope"] != scope or head["privacy_class"] not in self.privacy
+                or head["lifecycle"] != "ACTIVE" or not self.records.current_support(head["record_id"])):
+            return False
+        body = self.records.read(previous["record_id"])["payload"]
+        if body.get("context_paused") or body["spec"]["domain"] != spec.domain:
+            return False
+        if body.get("lesson_id"):
+            lesson = self.store.one("lessons", body["lesson_id"])
+            if not lesson or lesson["state"] not in {"SUSPENDED", "REJECTED", "RETIRED"}:
+                return False
+        newer = self.store.db.execute(
+            "SELECT 1 FROM continuity_records gap JOIN events ge ON ge.event_id=gap.event_id "
+            "JOIN continuity_records prior ON prior.record_id=? JOIN events pe ON pe.event_id=prior.event_id "
+            "WHERE gap.record_id=? AND ge.rowid>pe.rowid",
+            (previous["record_id"], head["record_id"]),
+        ).fetchone()
+        return newer is not None
 
     def next_job(self):
         scopes = ",".join("?" for _ in self.scopes)

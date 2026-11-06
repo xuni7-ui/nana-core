@@ -67,6 +67,19 @@ def test_actual_start_pause_stop_restart_and_sigkill(tmp_path):
         cleanup(s)
 
 
+@pytest.mark.parametrize('peer', [None, False, True])
+def test_managed_readiness_requires_current_control_peer(tmp_path, monkeypatch, peer):
+    home, binding, release = owned(tmp_path)
+    s = Supervisor(home, tmp_path/'host', binding, [release], active_release='qualified')
+    raw = {'runtime': {'runtime_active': True, 'lease': {}}, 'process_ready': True,
+           'control_ready': peer, 'storage_status': 'OBSERVING', 'disk_pressure': 'AVAILABLE'}
+    monkeypatch.setattr('nana_core.life.live_api.supervisor.health', lambda unused: raw)
+    try:
+        assert s.status()['process_ready'] is (peer is True)
+    finally:
+        s.close()
+
+
 def test_wrong_identity_and_production_activation_rejected(tmp_path):
     home, binding, release = owned(tmp_path)
     with pytest.raises(ApiError, match="INVALID_IDENTITY"):

@@ -1,0 +1,9 @@
+{
+  "src/nana_core/continuity/open_agency/learning.py": "52cd0eabd94b53c161f99716cd29d5082930f59e28abb73878b1b38c6567521c",
+  "src/nana_core/life/live_api/supervisor.py": "3cf4067f407df6513217e88c7c077b418b7d6c598aa430003e0c99718bcd0090",
+  "tests/open_life/test_learning_renewal.py": "f33ace692488b91a3c8d1157d1de1bb9a904f6437fe2edacd183343410375dce",
+  "tests/first_life_android_v2/test_supervisor.py": "26ba701e6720eb0674711bf06d6cd4ccef542b891523a09404698ccabeaa417e",
+  "tests/person_self/test_dialogue_integration.py": "fd3a531a783115714107e109908331e09a3eafa3132cf5bffd17a3b24b74e701",
+  "PROJECT_BRAIN/00_MASTER_FRAMEWORK.md": "fe6efe121a05145b44178d5ec26b99430a28e873fca8d1b80f16671c65e5133c",
+  "PROJECT_BRAIN/01_CAPABILITY_MATRIX.md": "e8a197e28bde7605d0bd590e6d5f425af99f545d7df924caf22064dbad811552"
+}

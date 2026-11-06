@@ -202,7 +202,11 @@ class Supervisor:
             and lease.get("boot_id") == owner["boot_id"]
         )
         return {
-            "process_ready": raw["process_ready"],
+            # A lease can become ACTIVE before ControlServer binds its socket.
+            # This supervisor always starts --control: do not report readiness
+            # until the peer belongs to that lease, even if headless CLI health
+            # legitimately permits a runtime without a control endpoint.
+            "process_ready": raw["process_ready"] and raw["control_ready"] is True,
             "runtime_active": raw["runtime"].get("runtime_active", False),
             "owner_epoch": lease.get("epoch", 0),
             "stop_latch": state["stop_latch"],

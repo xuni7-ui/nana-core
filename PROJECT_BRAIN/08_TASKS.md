@@ -1294,3 +1294,8 @@ Accepted as a supplement to the existing ten-domain refinement mission. Baseline
 
 ### 2026-11-06 · measured long-lived memory refinement
 Original-Core synthetic corpora measured at1k/10k/100k/200k. Fixed SELF selection before bound, added rebuildable physical lookups, and adopted rare-term ranking with dense/small-scope fallback. Alternating same-Store200001-row comparison: exact context equality; retrieval P50 508.46→133.85ms, P95 526.23→146.02ms; assembly P50 678.06→298.79ms, P95 777.85→316.84ms. These are local English lexical fixtures, not live FAISS/semantic/human qualification. Context units remain UTF8 byte estimate; provider calls0. Preservation of private-source withdrawal, original dialogue and strict portable schema is tested; initial schema-drift failure retained and fixed by stripping exact known physical indexes only from export copies. Source digests/evidence in docs/nana_next_experience/evidence/context-memory. S8 policies/production not auto-replaced; cloud migration untouched. Next Experience and ten-domain mission remain IN_PROGRESS, not complete.
+
+
+### 2026-11-06 · continuous product/refinement / renewed S8 learning
+
+IN_PROGRESS: all unfinished Next Experience and ten-domain tasks remain in scope. Renewed-learning/runtime fixes implemented and related tests passed; full regression, remaining product endpoints, matched delivery and real phone/host reviews remain open. Evidence: `docs/nana_next_experience/evidence/growth-renewal/`.

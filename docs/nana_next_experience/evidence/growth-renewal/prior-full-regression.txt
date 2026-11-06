@@ -1,0 +1,312 @@
+........................................................................ [  3%]
+........................................................................ [  7%]
+........................................................................ [ 11%]
+........................................................................ [ 15%]
+.......................................................F................ [ 18%]
+.......................F....F........................................... [ 22%]
+........................................................................ [ 26%]
+......sssssssssss....................................................... [ 30%]
+........................................................................ [ 34%]
+........................................................................ [ 37%]
+........................................................................ [ 41%]
+........................................................................ [ 45%]
+...........................................F............................ [ 49%]
+........................................................................ [ 53%]
+........................................................................ [ 56%]
+........................................................................ [ 60%]
+........................................................................ [ 64%]
+........................................................................ [ 68%]
+........................................................................ [ 72%]
+........................................................................ [ 75%]
+........................................................................ [ 79%]
+.............s.......................................................... [ 83%]
+......................................F................................. [ 87%]
+........................................................................ [ 90%]
+........................................................................ [ 94%]
+........................................................................ [ 98%]
+...........................                                              [100%]
+=================================== FAILURES ===================================
+_________ test_actual_process_owner_handoff_and_fresh_lineage_rollback _________
+
+tmp_path = PosixPath('/dev/shm/nana-refinement-correct-source/test_actual_process_owner_hand0')
+
+    def test_actual_process_owner_handoff_and_fresh_lineage_rollback(tmp_path):
+>    result=run(REPO,tmp_path/'rehearsal')
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/first_life/test_rehearsal.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tools/nana_first_life/rehearsal.py:53: in run
+    rollback_home=root/'rollback-owner';rolled=moved(next_home,rollback_home,'rollback');p=launch(rollback_home)
+                                                                                           ^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+home = PosixPath('/dev/shm/nana-refinement-correct-source/test_actual_process_owner_hand0/rehearsal/rollback-owner')
+
+    def launch(home):
+     log=(root/(home.name+'.log')).open('a');logs.append(log)
+     p=subprocess.Popen([sys.executable,'-m','nana_core.life','run','--home',str(home),'--seconds','90','--headless','--control','--json'],cwd=repo,stdout=log,stderr=log);children.append(p)
+     until=time.monotonic()+8
+     while time.monotonic()<until:
+>     if p.poll() is not None:raise RuntimeError('rehearsal runtime failed')
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E     RuntimeError: rehearsal runtime failed
+
+tools/nana_first_life/rehearsal.py:23: RuntimeError
+_______ test_b1_actual_openpgp_roundtrip_and_pc_receive_are_not_real_dr ________
+
+tmp_path = PosixPath('/dev/shm/nana-refinement-correct-source/test_b1_actual_openpgp_roundtr0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f8ebe83a690>
+
+    def test_b1_actual_openpgp_roundtrip_and_pc_receive_are_not_real_dr(tmp_path, monkeypatch):
+        home = tmp_path / "pc-private-keyring"
+        home.mkdir(mode=0o700)
+        gpg = ["gpg", "--no-options", "--homedir", str(home), "--batch", "--no-tty"]
+        try:
+>           subprocess.run(
+                [
+                    *gpg,
+                    "--pinentry-mode",
+                    "loopback",
+                    "--passphrase",
+                    "",
+                    "--quick-generate-key",
+                    "TEST_ONLY_NOT_SECRET_B1",
+                    "future-default",
+                    "default",
+                    "0",
+                ],
+                capture_output=True,
+                check=True,
+                timeout=30,
+            )
+
+tests/first_life_android_v2/test_rev3_operator.py:76: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+input = None, capture_output = True, timeout = 30, check = True
+popenargs = (['gpg', '--no-options', '--homedir', '/dev/shm/nana-refinement-correct-source/test_b1_actual_openpgp_roundtr0/pc-private-keyring', '--batch', '--no-tty', ...],)
+kwargs = {'stdout': -1, 'stderr': -1}
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output & stderr attributes if those streams
+        were captured.
+    
+        If timeout (seconds) is given and the process takes too long,
+         a TimeoutExpired exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+>               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['gpg', '--no-options', '--homedir', '/dev/shm/nana-refinement-correct-source/test_b1_actual_openpgp_roundtr0/pc-private-keyring', '--batch', '--no-tty', '--pinentry-mode', 'loopback', '--passphrase', '', '--quick-generate-key', 'TEST_ONLY_NOT_SECRET_B1', 'future-default', 'default', '0']' returned non-zero exit status 2.
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py:571: CalledProcessError
+_______________ test_actual_start_pause_stop_restart_and_sigkill _______________
+
+tmp_path = PosixPath('/dev/shm/nana-refinement-correct-source/test_actual_start_pause_stop_r0')
+
+    def test_actual_start_pause_stop_restart_and_sigkill(tmp_path):
+        home, binding, release = owned(tmp_path)
+        s = Supervisor(home, tmp_path / "host", binding, [release], active_release="qualified")
+        try:
+            first = s.start()
+            assert first["process_ready"] and first["owner_managed"]
+            with pytest.raises(ApiError, match="CORE_ALREADY_OWNED"):
+                s.start()
+            from nana_core.life.control import request
+    
+>           assert request(home, {"operation": "control", "command": "pause"})["ok"]
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/first_life_android_v2/test_supervisor.py:53: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/life/control.py:302: in request
+    row = path.lstat()
+          ^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py:847: in lstat
+    return self.stat(follow_symlinks=False)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/dev/shm/nana-refinement-correct-source/test_actual_start_pause_stop_r0/home/control.sock')
+follow_symlinks = False
+
+    def stat(self, *, follow_symlinks=True):
+        """
+        Return the result of the stat() system call on this path, like
+        os.stat() does.
+        """
+>       return os.stat(self, follow_symlinks=follow_symlinks)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/dev/shm/nana-refinement-correct-source/test_actual_start_pause_stop_r0/home/control.sock'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py:840: FileNotFoundError
+________ test_actual_supervisor_platform_fd_does_not_enable_model_calls ________
+
+tmp_path = PosixPath('/dev/shm/nana-refinement-correct-source/test_actual_supervisor_platfor0')
+
+    def test_actual_supervisor_platform_fd_does_not_enable_model_calls(tmp_path):
+        from tests.first_life_android_v2.test_supervisor import owned, cleanup
+        from nana_core.life.live_api.supervisor import Supervisor
+        from nana_core.life.secret_binding import MemorySecretResolver
+    
+        home, binding, release = owned(tmp_path)
+        config = load_config(home)
+        update_config(
+            home,
+            config.model_copy(
+                update={
+                    "revision": config.revision + 1,
+                    "provider_hosts": ("provider.example",),
+                    "remote_privacy": ("PROJECT",),
+                    "provider_cost_ceiling_micro": 1,
+                }
+            ),
+            expected_revision=config.revision,
+        )
+        resolver = MemorySecretResolver()
+        resolver.bind("platform.events", "TEST_ONLY_NOT_SECRET_PLATFORM_KEY")
+        owner = Supervisor(
+            home,
+            tmp_path / "host-platform",
+            binding,
+            [release],
+            active_release=release.release_id,
+            provider_binding=resolver.inherited_fd,
+            provider_live_authorized=False,
+        )
+        try:
+            owner.start()
+            result = request(home, {"operation": "view", "view": "status"})
+            assert result["ok"] and result["result"]["provider"] == "OFFLINE_NO_PROVIDER"
+        finally:
+>           cleanup(owner)
+
+tests/living_release_v4/test_platform_settings.py:43: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/first_life_android_v2/test_supervisor.py:35: in cleanup
+    supervisor.stop()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.life.live_api.supervisor.Supervisor object at 0x7f8ebcc13560>
+
+    def stop(self):
+        with self.lock:
+            self._record(stop_latch=True, last_state="STOP_REQUESTED")
+            current = self.status()
+            if not current["runtime_active"]:
+                self._wait_owned_exit()
+                self._record(last_state="STOP_LATCHED")
+                return self.status()
+            if not current["owner_managed"]:
+                raise ApiError("FOREIGN_OWNER_REQUIRES_OPERATOR", 409)
+            try:
+                result = request(self.home, {"operation": "control", "command": "stop"}, timeout=3)
+                if result.get("ok") is not True:
+                    raise ApiError("CORE_STOP_UNVERIFIED", 503)
+                deadline = time.monotonic() + 10
+                while time.monotonic() < deadline:
+                    if self.child is not None:
+                        self.child.poll()
+                    current = self.status()
+                    if not current["runtime_active"]:
+                        self._wait_owned_exit()
+                        self._record(last_state="STOP_LATCHED")
+                        return self.status()
+                    time.sleep(0.08)
+            except (OSError, CoreError):
+>               raise ApiError("UNKNOWN_NEEDS_RECONCILIATION", 503) from None
+E               nana_core.life.live_api.contracts.ApiError: UNKNOWN_NEEDS_RECONCILIATION
+
+src/nana_core/life/live_api/supervisor.py:453: ApiError
+_______________ test_unknown_still_no_retry_with_retained_input ________________
+
+tmp_path = PosixPath('/dev/shm/nana-refinement-correct-source/test_unknown_still_no_retry_wi0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f8ebc0cbd10>
+
+    def test_unknown_still_no_retry_with_retained_input(tmp_path,monkeypatch):
+        from nana_core.continuity.world_loop.cognition import OpenAIJSONTransport
+        home=tmp_path/'home';initialize(home);calls=[];clock=VirtualClock()
+        def timeout(self,request):calls.append(request.request_id);raise TimeoutError()
+        monkeypatch.setattr(OpenAIJSONTransport,'exchange',timeout)
+        with relay(home,'CHAT') as (router,_):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();app.chat('first',privacy='PROJECT',retain_shared_life=True)
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.chat('different',privacy='PROJECT',retain_shared_life=True)
+>               assert len(calls)==1
+E               AssertionError: assert 2 == 1
+E                +  where 2 = len(['c678eed8-78bd-49d9-806f-d7b8e99ebd0b', '0196b823-6792-4496-b5de-a90ad4909e77'])
+
+tests/person_self/test_dialogue_integration.py:66: AssertionError
+=========================== short test summary info ============================
+SKIPPED [1] tests/h2_live_screen/test_live.py:16: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:19: explicit --live-screen required
+SKIPPED [6] tests/h2_live_screen/test_live.py:56: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:68: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:85: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:110: explicit --live-screen required
+SKIPPED [1] tests/offline_continuity/test_experiment.py:21: E12 real-model gate requires configured development endpoints via nana-semantic; offline pytest makes no real-model calls
+FAILED tests/first_life/test_rehearsal.py::test_actual_process_owner_handoff_and_fresh_lineage_rollback
+FAILED tests/first_life_android_v2/test_rev3_operator.py::test_b1_actual_openpgp_roundtrip_and_pc_receive_are_not_real_dr
+FAILED tests/first_life_android_v2/test_supervisor.py::test_actual_start_pause_stop_restart_and_sigkill
+FAILED tests/living_release_v4/test_platform_settings.py::test_actual_supervisor_platform_fd_does_not_enable_model_calls
+FAILED tests/person_self/test_dialogue_integration.py::test_unknown_still_no_retry_with_retained_input
+5 failed, 1882 passed, 12 skipped in 550.72s (0:09:10)
