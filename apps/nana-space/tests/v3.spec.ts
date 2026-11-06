@@ -99,6 +99,8 @@ interface MockState {
   historyWatermark?: string;
   shares?: Record<string, unknown>;
   biliHistory?: Record<string, unknown>;
+  catalogEnabled?: boolean;
+  memorySearchRows?: Record<string,unknown>[];
 }
 function envelope(state: MockState, data: Record<string, unknown>) {
   return {
@@ -164,7 +166,11 @@ function viewData(state: MockState, source: string) {
             },
           ]
         : [],
-    ...(source === "settings" ? { provider_settings: providerSettings } : {}),
+    ...(source === "settings" ? { provider_settings: state.catalogEnabled ? {
+      ...providerSettings,
+      providers: [{...providerSettings.providers[0], provider_profile_id:"provider.catalog", revision:1}],
+      models: [], routes: [],
+    } : providerSettings } : {}),
     ...(source === "devices"
       ? { surfaces: [{ platform: "SYNTHETIC_WEB", state: "BOUND_FIXTURE" }] }
       : {}),
@@ -205,6 +211,8 @@ async function installMock(page: Page): Promise<MockState> {
     if (path === "life/shares") return ok({...state.shares, privacy_watermark: state.watermark});
     if (path === "platform/bilibili") return ok(state.biliHistory || {items: []});
     if (path === "providers/credentials") return ok({vault: {configured: true, storage: "HOST_LOCAL_AES_256_GCM", revision: 7, credential_persisted: true}, profiles: []});
+    if (path === "providers/models" && state.catalogEnabled) return ok({models:["catalog.new"], qualification:"NOT_ESTABLISHED", inference_calls:0});
+    if (path === "memories/search" && method === "POST") return ok({memories:state.memorySearchRows || [], privacy_watermark:state.watermark, limit:64});
     if (path.startsWith("views/")) {
       const source = path.slice(6);
       state.views.push(source);
@@ -794,4 +802,34 @@ test("Daily chat: message area owns the screen and options remain reachable", as
     await page.setViewportSize({width:page.viewportSize()!.width,height:480});
     await expect(page.getByRole("button",{name:"发送",exact:true})).toBeVisible();
   }
+});
+
+test("SYNTHETIC model catalog: explicit list read fills draft without switching routes", async ({page}) => {
+  const state = await installMock(page);
+  state.catalogEnabled = true;
+  state.capabilities = {provider_model_discovery:true};
+  await open(page, "models");
+  const catalog = page.getByLabel("读取服务商模型");
+  await catalog.getByRole("button", {name:/读取 .* 模型/}).click();
+  await catalog.getByRole("combobox").selectOption("catalog.new");
+  await expect(page.getByLabel("远端 Model ID", {exact:true})).toHaveValue("catalog.new");
+  expect(state.requests.filter(r => r.path==="providers/models")).toHaveLength(1);
+  expect(state.requests.filter(r => r.method!=="GET")).toHaveLength(0);
+  await noHorizontalOverflow(page);
+});
+
+test("SYNTHETIC older-memory search: explicit scoped read, no memory write", async ({page}) => {
+  const state = await installMock(page);
+  state.capabilities = {memory_search:true};
+  state.memorySearchRows = [{memory_id:"older-memory", text:"SYNTHETIC 共同整理了星图，后续回到旧项目",
+    memory_type:"EPISODIC", privacy_class:"PROJECT", source_evidence_id:"older-source", created_at_us:1792940400000000}];
+  await open(page, "memories");
+  await page.getByLabel("搜索记忆", {exact:true}).fill("整理了星图");
+  await page.getByRole("button", {name:"查找更早记忆"}).click();
+  await expect(page.locator(".v3-memory-center")).toContainText("后续回到旧项目");
+  await expect(page.locator(".v3-memory-overview")).toContainText("最多显示64条");
+  expect(state.requests.filter(r => r.method==="POST")).toEqual([{method:"POST",path:"memories/search"}]);
+  await page.getByLabel("搜索记忆", {exact:true}).fill("");
+  await expect(page.locator(".v3-memory-center")).not.toContainText("后续回到旧项目");
+  await noHorizontalOverflow(page);
 });

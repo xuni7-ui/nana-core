@@ -16,6 +16,17 @@ from ...continuity.privacy import _json_object
 
 
 class AtomicDocument:
+    @classmethod
+    def read_existing(cls, path):
+        """Read private bootstrap metadata without creating directories/locks."""
+        p = Path(path).absolute()
+        if (p.parent.resolve() != p.parent or p.parent.stat().st_uid != os.getuid()
+                or p.parent.stat().st_mode & 0o077):
+            raise ApiError("HOST_PRIVATE_DIRECTORY_REQUIRED")
+        instance = object.__new__(cls)
+        instance.path = p
+        return instance.read()
+
     def __init__(self, path, initial):
         self.path = Path(path).absolute()
         self.lock = threading.RLock()

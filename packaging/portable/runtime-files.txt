@@ -177,6 +177,8 @@ src/nana_core/life/live_api/contracts.py
 src/nana_core/life/live_api/ledger.py
 src/nana_core/life/live_api/preflight.py
 src/nana_core/life/live_api/provider_settings.py
+src/nana_core/life/live_api/provider_models.py
+src/nana_core/life/live_api/release_entry.py
 src/nana_core/life/live_api/platform_events.py
 src/nana_core/life/live_api/platform_settings.py
 src/nana_core/life/live_api/platform_credentials.py

@@ -1748,3 +1748,8 @@ Original-Core synthetic corpora measured at1k/10k/100k/200k. Fixed SELF selectio
 ### 2026-11-06 · continuous product/refinement / renewed S8 learning
 
 Use new original C-endorsed work for later checked gaps, never replay old UNKNOWN or override ACTIVE lessons. No second learner/affect authority. All outstanding software work remains part of the same mission. Evidence: `docs/nana_next_experience/evidence/growth-renewal/`.
+
+
+### 2026-11-06 · Next Experience product406 continuation
+
+Keep catalog GET separate from inference/paid qualification, and memory POST search separate from context/semantic retrieval. Gateway follows registered sealed source only at process start; no hot code update, second process or web artifact rewrite. Keep independent phone/host review gates.

@@ -278,8 +278,16 @@ public class NanaHostPlugin extends Plugin {
                 else if ("platform.credential.revoke".equals(op) && "REVOKE".equals(data.optString("action"))) { route = "platform/credential";method = "POST"; }
                 else if ("life.shares".equals(op)) route = "life/shares";
                 else if ("providers.credentials".equals(op)) route = "providers/credentials";
+                else if ("providers.models".equals(op)) {
+                    String pid = data.optString("provider_profile_id");
+                    int revision = data.optInt("profile_revision", -1);
+                    if (!pid.matches("[a-z][a-z0-9_-]{0,31}\\.[a-z][a-z0-9._-]{0,95}") || revision < 1 || revision > 999999999)
+                        throw new Exception("PROVIDER_CATALOG_QUERY_REQUIRED");
+                    route = "providers/models?provider_profile_id=" + pid + "&profile_revision=" + revision;
+                }
                 else if ("providers.credential.revoke".equals(op) && "REVOKE".equals(data.optString("action"))) { route = "providers/credential";method = "POST"; }
                 else if ("providers.command".equals(op)) { route = "providers/commands";method = "POST"; }
+                else if ("memories.search".equals(op)) { route = "memories/search";method = "POST"; }
                 else if ("host.status".equals(op)) route = "host/operations";
                 else if ("message".equals(op)) { route = "messages";method = "POST"; }
                 else if ("command".equals(op)) { route = "commands";method = "POST"; }

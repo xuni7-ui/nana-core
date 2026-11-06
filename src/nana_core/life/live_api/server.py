@@ -14,6 +14,8 @@ import threading
 import urllib.parse
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 from pathlib import Path
+from pydantic import Field
+from ...contracts import DTO
 from ...continuity.privacy import _json_object
 from .contracts import (
     ApiError,
@@ -32,6 +34,10 @@ from .contracts import (
 PREFIX = "/api/nana-space/v2"
 COOKIE = "__Host-nana_v2"
 BODY_LIMIT = 32768
+
+
+class MemorySearch(DTO):
+    query: str = Field(min_length=1, max_length=256)
 
 
 def https_origin(value):
@@ -249,7 +255,8 @@ class Handler(BaseHTTPRequestHandler):
             result=service.platform_events.offer(channel,self._raw_request_body,self.headers.get('X-Nana-Signature'),platform=platform)
             self._json(202,{'contract':'nana-space-live/v2',**result})
             return
-        allowed_query = {"cursor"} if route == "events" else set()
+        allowed_query = ({"cursor"} if route == "events" else
+                         {"provider_profile_id", "profile_revision"} if route == "providers/models" else set())
         if set(query) - allowed_query:
             raise ApiError("QUERY_INVALID")
         if route == "session" and self.command == "POST":
@@ -367,6 +374,14 @@ class Handler(BaseHTTPRequestHandler):
             elif route == "providers/credentials":
                 from .provider_settings import credential_status
                 value = credential_status(service, principal)
+            elif route == "providers/models":
+                from .provider_models import discover
+                if set(query)!={'provider_profile_id','profile_revision'} or any(len(v)!=1 for v in query.values()):
+                    raise ApiError('PROVIDER_CATALOG_QUERY_REQUIRED', 400)
+                pid, revision = query['provider_profile_id'][0], query['profile_revision'][0]
+                if not re.fullmatch(r'[a-z][a-z0-9_-]{0,31}\.[a-z][a-z0-9._-]{0,95}',pid) or not re.fullmatch(r'[1-9][0-9]{0,8}',revision):
+                    raise ApiError('PROVIDER_CATALOG_QUERY_REQUIRED', 400)
+                value = discover(service, principal, pid, int(revision))
             elif route == "notifications":
                 principal.require(Role.READER)
                 value = service.envelope(
@@ -401,6 +416,11 @@ class Handler(BaseHTTPRequestHandler):
         elif route == "providers/credential":
             from .provider_settings import CredentialBindingRequest, bind_credential
             value = bind_credential(service, principal, self._model(CredentialBindingRequest, body))
+        elif route == "memories/search":
+            search = self._model(MemorySearch, body)
+            if not search.query.strip():
+                raise ApiError('MEMORY_SEARCH_QUERY_REQUIRED', 400)
+            value = service.search_memories(principal, search.query.strip())
         elif route == "messages":
             value = service.send(principal, self._model(MessageRequest, body))
         elif route in {"commands", "privacy/withdrawal"}:

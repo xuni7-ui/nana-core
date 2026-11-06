@@ -329,6 +329,16 @@ export class V2Client {
       ? await this.nativeCall({ operation: "providers.credentials", data: {} })
       : await this.request("providers/credentials"));
   }
+  async providerModels(providerId: string, revision: number): Promise<Envelope> {
+    return this.accept(isNative()
+      ? await this.nativeCall({operation: "providers.models", data: {provider_profile_id: providerId, profile_revision: revision}})
+      : await this.request(`providers/models?provider_profile_id=${encodeURIComponent(providerId)}&profile_revision=${revision}`));
+  }
+  async searchMemories(query: string): Promise<Envelope> {
+    return this.accept(isNative()
+      ? await this.nativeCall({operation:"memories.search", data:{query}})
+      : await this.request("memories/search", "POST", {query}));
+  }
   async revokeProviderCredential(data: Record<string, unknown>): Promise<Envelope> {
     if (!isNative()) throw new V2Error("NATIVE_SECRET_INPUT_REQUIRED");
     return this.accept(await this.nativeCall({ operation: "providers.credential.revoke", data: {...data, action: "REVOKE"} }));

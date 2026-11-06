@@ -43,6 +43,7 @@ interface Props {
   onBindCredential?: (providerId: string, revision: number) => Promise<void>;
   onRevokeCredential?: (providerId: string, revision: number) => Promise<void>;
   credentialStatus?: unknown;
+  onDiscover?: (providerId: string, revision: number) => Promise<string[]>;
 }
 const secretLabels = {
   AVAILABLE: "安全凭据可用",
@@ -60,6 +61,7 @@ export function ModelCenter({
   onBindCredential,
   onRevokeCredential,
   credentialStatus,
+  onDiscover,
 }: Props) {
   const view = useMemo(
     () => readProviderSettings(available ? settings : undefined),
@@ -74,6 +76,18 @@ export function ModelCenter({
   const credentials = credentialProfiles(credentialStatus);
   const [providerId, setProviderId] = useState("");
   const [modelId, setModelId] = useState("");
+  const [catalog, setCatalog] = useState<Record<string, string[]>>({});
+  const [discovering, setDiscovering] = useState<string | null>(null);
+  const discover = async (id: string, revision: number) => {
+    if (!onDiscover || discovering) return;
+    setDiscovering(id);
+    try {
+      const models = await onDiscover(id, revision);
+      setCatalog(current => ({...current, [id]: models}));
+      if (!models.length) onNotice("服务商返回的模型列表为空，也可以直接填写模型名称。");
+    } catch (error) { onNotice(error instanceof Error ? error.message : "模型列表读取失败，请稍后手动重试。"); }
+    finally { setDiscovering(null); }
+  };
   const apply = async (make: () => ProviderCommand) => {
     if (!canConfigure || busy || !onApply) return;
     try {
@@ -150,6 +164,19 @@ export function ModelCenter({
           {!onBindCredential && <small className="v3-muted">请使用已配对且具有宿主管理权限的手机绑定、轮换或撤销凭据。</small>}
         </section>
       )}
+      {onDiscover && view.providers.length > 0 && <section className="v3-card" aria-label="读取服务商模型">
+        <h3>从服务商读取模型</h3><p className="v3-muted">使用服务器已保存的凭据读取列表。不会生成回复或切换路由；列表中的模型仍需配置并验证。</p>
+        {view.providers.filter(p => p.locality === "REMOTE" && p.revision !== undefined).map(p => <div key={p.id}>
+          <button className="v3-button soft" disabled={busy || discovering !== null} onClick={() => void discover(p.id, p.revision!)}>
+            {discovering === p.id ? "正在读取…" : `读取 ${p.name} 模型`}
+          </button>
+          {catalog[p.id] && <label>服务商返回的模型<select defaultValue="" onChange={e => {
+            if (!e.target.value) return;
+            setDraft(current => ({...current, modelId:e.target.value, alias:e.target.value}));
+            setProviderId(p.id); setEditor(true); setProposal(""); setValidation([]);
+          }}><option value="">选择后填入配置草稿</option>{catalog[p.id].map(id => <option key={id} value={id}>{id}</option>)}</select></label>}
+        </div>)}
+      </section>}
       <div className="v3-model-toolbar">
         <div className="v3-segmented" aria-label="模型中心分类">
           {(
@@ -336,7 +363,7 @@ export function ModelCenter({
             <CircleHelp size={17} />
             <span>
               {providerPresets.find((p) => p.id === draft.preset)?.note} · 协议{" "}
-              {draft.protocol}。当前没有实际模型发现、验证或启用。
+              {draft.protocol}。草稿尚未验证；已保存的供应商可在上方读取实际模型列表。
             </span>
           </div>
           <div className="v3-tag-row">

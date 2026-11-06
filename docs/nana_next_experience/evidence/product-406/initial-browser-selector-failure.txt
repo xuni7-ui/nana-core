@@ -1,0 +1,136 @@
+
+> @nana/space@4.0.3 test:v3
+> playwright test --config playwright.v3.config.ts --grep model catalog|chat layout
+
+[WebServer] (node:17674) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:17691) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › tests/v3.spec.ts:805:1 › SYNTHETIC model catalog: explicit list read fills draft without switching routes (6.3s)
+(node:17847) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [phone-360] › tests/v3.spec.ts:805:1 › SYNTHETIC model catalog: explicit list read fills draft without switching routes (6.1s)
+(node:17991) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [phone-390] › tests/v3.spec.ts:805:1 › SYNTHETIC model catalog: explicit list read fills draft without switching routes (6.2s)
+(node:18140) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 [phone-412] › tests/v3.spec.ts:805:1 › SYNTHETIC model catalog: explicit list read fills draft without switching routes (6.1s)
+
+
+  1) [desktop] › tests/v3.spec.ts:805:1 › SYNTHETIC model catalog: explicit list read fills draft without switching routes 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('模型名称', { exact: true })
+    Expected: "catalog.new"
+    Received: "deepseek-chat"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('模型名称', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('模型名称', { exact: true })
+        14 × locator resolved to <input disabled required="" value="deepseek-chat" placeholder="填写服务商提供的模型名称"/>
+           - unexpected value "deepseek-chat"
+
+
+      811 |   await catalog.getByRole("button", {name:/读取 .* 模型/}).click();
+      812 |   await catalog.getByRole("combobox").selectOption("catalog.new");
+    > 813 |   await expect(page.getByLabel("远端 Model ID", {exact:true})).toHaveValue("catalog.new");
+          |                                                       ^
+      814 |   expect(state.requests.filter(r => r.path==="providers/models")).toHaveLength(1);
+      815 |   expect(state.requests.filter(r => r.method!=="GET")).toHaveLength(0);
+      816 |   await noHorizontalOverflow(page);
+        at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:813:55
+
+    Error Context: test-results/v3-SYNTHETIC-model-catalog-8d78b-ft-without-switching-routes-desktop/error-context.md
+
+  2) [phone-360] › tests/v3.spec.ts:805:1 › SYNTHETIC model catalog: explicit list read fills draft without switching routes 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('模型名称', { exact: true })
+    Expected: "catalog.new"
+    Received: "deepseek-chat"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('模型名称', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('模型名称', { exact: true })
+        14 × locator resolved to <input disabled required="" value="deepseek-chat" placeholder="填写服务商提供的模型名称"/>
+           - unexpected value "deepseek-chat"
+
+
+      811 |   await catalog.getByRole("button", {name:/读取 .* 模型/}).click();
+      812 |   await catalog.getByRole("combobox").selectOption("catalog.new");
+    > 813 |   await expect(page.getByLabel("远端 Model ID", {exact:true})).toHaveValue("catalog.new");
+          |                                                       ^
+      814 |   expect(state.requests.filter(r => r.path==="providers/models")).toHaveLength(1);
+      815 |   expect(state.requests.filter(r => r.method!=="GET")).toHaveLength(0);
+      816 |   await noHorizontalOverflow(page);
+        at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:813:55
+
+    Error Context: test-results/v3-SYNTHETIC-model-catalog-8d78b-ft-without-switching-routes-phone-360/error-context.md
+
+  3) [phone-390] › tests/v3.spec.ts:805:1 › SYNTHETIC model catalog: explicit list read fills draft without switching routes 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('模型名称', { exact: true })
+    Expected: "catalog.new"
+    Received: "deepseek-chat"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('模型名称', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('模型名称', { exact: true })
+        14 × locator resolved to <input disabled required="" value="deepseek-chat" placeholder="填写服务商提供的模型名称"/>
+           - unexpected value "deepseek-chat"
+
+
+      811 |   await catalog.getByRole("button", {name:/读取 .* 模型/}).click();
+      812 |   await catalog.getByRole("combobox").selectOption("catalog.new");
+    > 813 |   await expect(page.getByLabel("远端 Model ID", {exact:true})).toHaveValue("catalog.new");
+          |                                                       ^
+      814 |   expect(state.requests.filter(r => r.path==="providers/models")).toHaveLength(1);
+      815 |   expect(state.requests.filter(r => r.method!=="GET")).toHaveLength(0);
+      816 |   await noHorizontalOverflow(page);
+        at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:813:55
+
+    Error Context: test-results/v3-SYNTHETIC-model-catalog-8d78b-ft-without-switching-routes-phone-390/error-context.md
+
+  4) [phone-412] › tests/v3.spec.ts:805:1 › SYNTHETIC model catalog: explicit list read fills draft without switching routes 
+
+    Error: expect(locator).toHaveValue(expected) failed
+
+    Locator:  getByLabel('模型名称', { exact: true })
+    Expected: "catalog.new"
+    Received: "deepseek-chat"
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toHaveValue" getByLabel('模型名称', { exact: true }) with timeout 5000ms
+      - waiting for getByLabel('模型名称', { exact: true })
+        14 × locator resolved to <input disabled required="" value="deepseek-chat" placeholder="填写服务商提供的模型名称"/>
+           - unexpected value "deepseek-chat"
+
+
+      811 |   await catalog.getByRole("button", {name:/读取 .* 模型/}).click();
+      812 |   await catalog.getByRole("combobox").selectOption("catalog.new");
+    > 813 |   await expect(page.getByLabel("远端 Model ID", {exact:true})).toHaveValue("catalog.new");
+          |                                                       ^
+      814 |   expect(state.requests.filter(r => r.path==="providers/models")).toHaveLength(1);
+      815 |   expect(state.requests.filter(r => r.method!=="GET")).toHaveLength(0);
+      816 |   await noHorizontalOverflow(page);
+        at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:813:55
+
+    Error Context: test-results/v3-SYNTHETIC-model-catalog-8d78b-ft-without-switching-routes-phone-412/error-context.md
+
+  4 failed
+    [desktop] › tests/v3.spec.ts:805:1 › SYNTHETIC model catalog: explicit list read fills draft without switching routes 
+    [phone-360] › tests/v3.spec.ts:805:1 › SYNTHETIC model catalog: explicit list read fills draft without switching routes 
+    [phone-390] › tests/v3.spec.ts:805:1 › SYNTHETIC model catalog: explicit list read fills draft without switching routes 
+    [phone-412] › tests/v3.spec.ts:805:1 › SYNTHETIC model catalog: explicit list read fills draft without switching routes 

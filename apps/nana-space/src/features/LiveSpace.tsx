@@ -109,6 +109,17 @@ const reasons: Record<string, string> = {
   PROVIDER_CONFIG_REVISION_CONFLICT: "模型配置已更新，请刷新后重新确认。",
   PROVIDER_VAULT_REVISION_CONFLICT: "凭据状态已更新，请刷新后重新确认。",
   PROVIDER_VAULT_REVISION_REQUIRED: "尚未取得保险库的当前状态，请刷新后重新确认。",
+  PROVIDER_HOST_NOT_AUTHORIZED: "该服务地址尚未得到宿主网络授权，请由运行负责人确认。",
+  PROVIDER_CATALOG_AUTH: "服务商未接受凭据，请检查 API Key 和账户权限。",
+  PROVIDER_CATALOG_HTTP: "服务商暂时无法返回模型列表，也可以手动填写模型名称。",
+  PROVIDER_CATALOG_UNAVAILABLE: "模型列表读取未完成，请检查连接后手动重试。",
+  PROVIDER_CATALOG_PROTOCOL_UNSUPPORTED: "该供应商暂不支持自动读取，请直接填写模型名称。",
+  PROVIDER_CATALOG_WAIT: "刚刚已读取过模型列表，请稍等几秒。",
+  PROVIDER_CATALOG_FORMAT: "服务商返回的列表格式不兼容，请直接填写模型名称。",
+  PROVIDER_CATALOG_MODEL_INVALID: "模型列表包含不兼容项目，已停止读取；可以手动填写模型名称。",
+  SECRET_UNAVAILABLE: "尚未绑定可用的服务商凭据。",
+  MEMORY_SEARCH_NARROW_QUERY: "这次查找范围太大，请换一个更具体的词句。",
+  SOURCE_CHANGED_REFRESH_REQUIRED: "记忆来源已更新，请刷新后重新查找。",
   NATIVE_SECRET_INPUT_REQUIRED: "请在已配对的手机上管理安全凭据。",
   CORE_ALREADY_OWNED: "Core 已有运行 owner。",
   CORE_OWNER_PENDING_NO_RETRY: "已有启动进程尚待核验，不会重复启动。",
@@ -1395,6 +1406,19 @@ export function LiveSpace() {
               <MemoryCenter
                 key={`${bootstrap?.run_generation || "offline"}:${privacy.current}`}
                 memories={memories}
+                onSearch={healthy && bootstrap?.capabilities.memory_search === true ? async (query) => {
+                  const version = sessionVersion.current, watermark = privacy.current;
+                  try {
+                    const result = await client.current.searchMemories(query);
+                    if (version !== sessionVersion.current) throw new V2Error("SESSION_REVOKED");
+                    if (watermark !== privacy.current || object(result.data).privacy_watermark !== watermark) {
+                      await refresh(); throw new V2Error("SOURCE_CHANGED_REFRESH_REQUIRED");
+                    }
+                    const rows = object(result.data).memories;
+                    if (!Array.isArray(rows)) throw new V2Error("SOURCE_CHANGED_REFRESH_REQUIRED");
+                    return rows.map(object);
+                  } catch (error) { throw new Error(explain(error)); }
+                } : undefined}
                 privacyScope={snapshot?.privacy_scope}
                 available={healthy}
                 busy={busy}
@@ -1417,6 +1441,16 @@ export function LiveSpace() {
                 busy={busy}
                 onApply={applyProvider}
                 credentialStatus={credentialStatus}
+                onDiscover={admin && healthy && bootstrap?.capabilities.provider_model_discovery === true ? async (id, revision) => {
+                  const version = sessionVersion.current;
+                  try {
+                    const result = await client.current.providerModels(id, revision);
+                    if (version !== sessionVersion.current) throw new V2Error("SESSION_REVOKED");
+                    const models = object(result.data).models;
+                    if (!Array.isArray(models) || !models.every(x => typeof x === "string")) throw new V2Error("PROVIDER_CATALOG_FORMAT");
+                    return models as string[];
+                  } catch (error) { throw new Error(explain(error)); }
+                } : undefined}
                 onRevokeCredential={admin && isNative() && bootstrap?.capabilities.durable_provider_binding === true ? revokeProvider : undefined}
                 onBindCredential={admin && isNative() && bootstrap?.capabilities.native_secret_binding === true ? bindProvider : undefined}
               /></>

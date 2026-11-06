@@ -2468,3 +2468,8 @@ Original-Core synthetic corpora measured at1k/10k/100k/200k. Fixed SELF selectio
 ### 2026-11-06 · continuous product/refinement / renewed S8 learning
 
 User reports Iris v2 retrieval/dedupe closed/deployed; do not redo it or modify production. Host recovery status remains UNKNOWN here. S8 renewal fix supports new independently verified gaps after suspended methods; synthetic closed-loop plus restart/withdrawal tested, no live-model or long-term companionship qualification. Evidence: `docs/nana_next_experience/evidence/growth-renewal/`.
+
+
+### 2026-11-06 · Next Experience product406 continuation
+
+Product406 has actual BFF/native/Web paths for host-vault model lists and older authorized-memory search; build/API/fixture/private-restart tests passed. Gateway selected-release bootstrap tested against registered synthetic slots/seals; production installation and real phone use are NOT_RUN.

@@ -49,6 +49,7 @@ class GatewayService:
         self.ledger = OperationLedger(Path(state_root) / "operations.json")
         self.write_lock = threading.RLock()
         self.read_lock = threading.RLock()
+        self.provider_catalog_after = 0
         self.event_sequence = 0
         self.event_digest = None
         self.events = []
@@ -93,6 +94,7 @@ class GatewayService:
             source_refs=tuple(refs)[:32],
             capabilities={
                 "memory_metadata": True,
+                "memory_search": True,
                 "backup_status": True,
                 "body_cache": False,
                 "background_push": "UNAVAILABLE",
@@ -101,6 +103,7 @@ class GatewayService:
                 "provider_authority": False,
                 "provider_configuration_write": self.allow_provider_configuration,
                 "provider_readiness": True,
+                "provider_model_discovery": self.allow_provider_configuration and self.credential_resolver is not None,
                 "native_secret_binding": self.allow_provider_configuration and self.credential_resolver is not None,
                 "durable_provider_binding": bool(getattr(self.credential_resolver, "persistent", False)),
                 "shared_life_retention": True,
@@ -659,7 +662,18 @@ class GatewayService:
             if not row or row["entity_id"] != self.binding.entity_id:
                 raise ApiError("SCOPE_DENIED", 403)
 
-    def _memories(self, principal=None):
+    def search_memories(self, principal, query):
+        principal.require(Role.READER)
+        with self.read_lock:
+            self.supervisor.verify_binding()
+            before = self._privacy_watermark()
+            rows = self._memories(principal, query=query)
+            if before!=self._privacy_watermark():
+                raise ApiError('SOURCE_CHANGED_REFRESH_REQUIRED', 409)
+            return self.envelope({'memories':rows, 'limit':64,
+                'coverage':'LITERAL_TEXT_MATCH_NOT_SEMANTIC', 'privacy_watermark':before}, principal=principal)
+
+    def _memories(self, principal=None, *, query=None):
         import sqlite3
         from ..inspector import _ReadView
         from ...continuity.memory import MemoryService
@@ -673,12 +687,28 @@ class GatewayService:
             view = _ReadView(db, path, self.binding.scope, self.privacy_for(principal))
             memory = MemoryService(view)
             marks = ",".join("?" for _ in self.privacy_for(principal))
-            rows = db.execute(
-                "SELECT memory_id FROM memories WHERE entity_id=? AND scope=? AND privacy_class IN ("
-                + marks
-                + ") AND lifecycle='ACTIVE' ORDER BY created_at_us DESC LIMIT 32",
-                (self.binding.entity_id, self.binding.scope, *self.privacy_for(principal)),
-            ).fetchall()
+            args = (self.binding.entity_id, self.binding.scope, *self.privacy_for(principal))
+            extra = ''
+            if query is not None:
+                # Explicit manager browse/search only, not a new ContextAssembler
+                # retrieval policy. Literal matching works with CJK and does not
+                # send the query to a model or create a plaintext cache.
+                deadline = time.monotonic()+1
+                db.set_progress_handler(lambda: int(time.monotonic()>deadline), 5000)
+                extra = " AND assessment IN ('CURRENT','UNASSESSED') AND EXISTS (SELECT 1 FROM artifacts a WHERE a.artifact_id=memories.payload_artifact_id AND instr(lower(CAST(a.payload AS TEXT)),lower(?))>0)"
+                args = (*args, query)
+            try:
+                rows = db.execute(
+                    "SELECT memory_id FROM memories WHERE entity_id=? AND scope=? AND privacy_class IN ("
+                    + marks + ") AND lifecycle='ACTIVE'" + extra
+                    + " ORDER BY created_at_us DESC,rowid DESC LIMIT ?", (*args, 64 if query is not None else 32),
+                ).fetchall()
+            except sqlite3.OperationalError as exc:
+                if query is not None and 'interrupt' in str(exc).lower():
+                    raise ApiError('MEMORY_SEARCH_NARROW_QUERY', 422) from None
+                raise
+            finally:
+                db.set_progress_handler(None, 0)
             for row in rows:
                 try:
                     current = memory.read(row["memory_id"])

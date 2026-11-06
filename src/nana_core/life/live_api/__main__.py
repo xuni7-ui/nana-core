@@ -62,6 +62,8 @@ def main():
     server = None
     try:
         cfg = read_private(a.config)
+        from .release_entry import follow_gateway_release
+        follow_gateway_release(cfg)
         if a.check_only:
             if any((a.password_fd is not None, a.live_provider_authorized,a.platform_bindings_authorized, a.secret_fd is not None, a.secret_ref is not None)):
                 raise ApiError("READ_ONLY_PREFLIGHT_CREDENTIALS_DENIED")

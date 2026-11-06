@@ -31,3 +31,8 @@ Continue the original Next Experience product mission: direct phone connection, 
 Layout verification history: removing identity diagnostics from chat initially broke an old browser helper that looked for that visible block; the helper now checks the same subject binding on the main element while the layout test asserts the diagnostics are absent from chat. A real mobile pointer/focus regression was also caught: hiding navigation only while the textarea was focused caused the send target to move on blur. Navigation now stays hidden while any composer control is focused. No UNKNOWN/withdrawal assertions were relaxed. Original dependency pins lacked two JUnit BOM `.module` checksums; their official Maven Central JSON identity was checked and SHA256 pins were added, retaining strict dependency verification. Initial build/test failures were not production failures and no production state changed.
 
 Final targeted browser run: 16 passed across desktop/360/390/412, covering layout, UNKNOWN no-retry, privacy and reload; frontend 56 passed. Earlier interrupted broader browser runs are not counted as passing full suites.
+
+
+## Product406 continuation (not full mission closure)
+
+Host-admin model-list discovery, original-Store older-record literal search and sealed active-Gateway bootstrap are now connected in code. Matching Android406/Web built; see evidence/product-406 for exact tests, limits and API paths. Paid provider testing/streaming and real phone/host/cross-day outcomes remain distinct and unqualified. Iris v2 user-reported closure preserved.

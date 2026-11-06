@@ -1224,3 +1224,8 @@ Original-Core synthetic corpora measured at1k/10k/100k/200k. Fixed SELF selectio
 ### 2026-11-06 · continuous product/refinement / renewed S8 learning
 
 Current priority: finish the existing software/real-interface/ten-domain mission; S8 renewal linked to S3/S2 is the next scoped improvement, not a replacement project. Evidence: `docs/nana_next_experience/evidence/growth-renewal/`.
+
+
+### 2026-11-06 · Next Experience product406 continuation
+
+Continue same product mission: connected model catalog, full authorized-history literal search and selected Gateway bootstrap follow existing APIs/authority. Remaining streaming/multimodal and live daily-use gates stay open.

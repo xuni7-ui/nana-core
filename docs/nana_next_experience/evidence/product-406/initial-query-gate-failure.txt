@@ -1,0 +1,33 @@
+F....                                                                    [100%]
+=================================== FAILURES ===================================
+____ test_authenticated_catalog_from_existing_vault_does_not_change_routes _____
+
+running = (<nana_core.life.live_api.server.ApiServer object at 0x7f5c6772bda0>, <nana_core.life.live_api.bridge.GatewayService object at 0x7f5c67719130>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f5c677ae4e0>
+
+    def test_authenticated_catalog_from_existing_vault_does_not_change_routes(running, monkeypatch):
+        server, service = running
+        headers = login(server, service)
+        service.allow_provider_configuration = True
+        service.credential_resolver = MemorySecretResolver()
+        service.credential_resolver.bind('catalog.main', 'TEST_ONLY_NOT_SECRET_CATALOG')
+        cfg, authority = config_service(service.supervisor.home/'providers.json')
+        update(cfg, authority, 'UPSERT_PROVIDER', provider=profile())
+        life = load_config(service.supervisor.home)
+        update_config(service.supervisor.home, life.model_copy(update={
+            'revision':life.revision+1, 'provider_hosts':('catalog.example',)}), expected_revision=life.revision)
+        before = (service.supervisor.home/'providers.json').read_bytes()
+        calls = []
+        def read(p, value):
+            calls.append(p.provider_profile_id)
+            assert value=='TEST_ONLY_NOT_SECRET_CATALOG'
+            return {'models':['catalog.model'], 'truncated':False}
+        monkeypatch.setattr(provider_models, 'read_catalog', read)
+        path = 'providers/models?provider_profile_id=catalog.main&profile_revision=1'
+>       assert http(server, path)[0]==401
+E       assert 400 == 401
+
+tests/first_life_android_v2/test_provider_models.py:42: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_android_v2/test_provider_models.py::test_authenticated_catalog_from_existing_vault_does_not_change_routes
+1 failed, 4 passed in 1.75s

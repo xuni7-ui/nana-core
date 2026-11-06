@@ -31,6 +31,7 @@ interface Props {
   busy: boolean;
   onWithdraw: (memoryId: string) => void;
   onNotice: (text: string) => void;
+  onSearch?: (query: string) => Promise<Record<string, unknown>[]>;
 }
 const kindNames: Record<string, string> = {
   FACT: "事实",
@@ -54,12 +55,28 @@ export function MemoryCenter({
   busy,
   onWithdraw,
   onNotice,
+  onSearch,
 }: Props) {
-  const cards = useMemo(
-    () => memoryCards(available ? memories : [], privacyScope),
-    [memories, available, privacyScope],
-  );
   const [query, setQuery] = useState("");
+  const [remote, setRemote] = useState<{query:string; rows:Record<string,unknown>[]} | null>(null);
+  const [searching, setSearching] = useState(false);
+  const searchVersion = useRef(0);
+  const remoteActive = remote?.query===query;
+  const cards = useMemo(
+    () => memoryCards(available ? (remoteActive ? remote!.rows : memories) : [], privacyScope),
+    [memories, remote, remoteActive, available, privacyScope],
+  );
+  const searchAll = async () => {
+    if (!onSearch || searching || !query.trim()) return;
+    const version = ++searchVersion.current;
+    setSearching(true);
+    try {
+      const rows = await onSearch(query.trim());
+      if (version===searchVersion.current) setRemote({query, rows});
+    } catch (error) {
+      if (version===searchVersion.current) onNotice(error instanceof Error ? error.message : "查找没有完成，请稍后再试。");
+    } finally { if (version===searchVersion.current) setSearching(false); }
+  };
   const [type, setType] = useState("");
   const [source, setSource] = useState("");
   const [topic, setTopic] = useState("");
@@ -88,7 +105,7 @@ export function MemoryCenter({
     ...new Set(cards.flatMap((card) => card.relationships)),
   ];
   const shown = filterMemories(cards, {
-    query,
+    query:remoteActive ? "" : query,
     type,
     source,
     topic,
@@ -111,6 +128,7 @@ export function MemoryCenter({
   }
   useEffect(() => {
     if (!available) {
+      searchVersion.current++; setRemote(null); setSearching(false);
       clearPreview();
       setSelectedId(null);
       setDraftMode(null);
@@ -120,6 +138,7 @@ export function MemoryCenter({
   useEffect(
     () => () => {
       fileReadVersion.current++;
+      searchVersion.current++;
     },
     [],
   );
@@ -189,7 +208,7 @@ export function MemoryCenter({
           <strong>
             {available ? `${cards.length} 条可见记忆` : "等待已授权的记忆"}
           </strong>
-          <p>当前范围最多展示 32 条；不代表全部生活史。</p>
+          <p>{remoteActive ? "已从全部获准记录中按原文查找，最多显示64条。" : onSearch ? "当前显示最近32条，可输入词句查找更早记录。" : "当前范围最多展示32条；服务器尚未开放更早记录的查找。"}</p>
         </div>
         <span className="v3-chip">
           <ShieldCheck size={13} /> 来源可追溯
@@ -201,10 +220,14 @@ export function MemoryCenter({
           <input
             aria-label="搜索记忆"
             value={query}
-            onChange={(e) => setQuery(e.target.value)}
+            maxLength={256}
+            onChange={(e) => {searchVersion.current++; setSearching(false); setRemote(null); setQuery(e.target.value);}}
             placeholder="找找某个片刻、主题或来源…"
           />
         </label>
+        {onSearch && <button className="v3-button soft" disabled={busy || searching || !query.trim()} onClick={() => void searchAll()}>
+          {searching ? "查找中…" : "查找更早记忆"}
+        </button>}
         <label className="v3-filter-label">
           <span>类型</span>
           <select
