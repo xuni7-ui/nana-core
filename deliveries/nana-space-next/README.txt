@@ -1,6 +1,6 @@
-Nana Space Next debug APK
-
-SHA256: 2d609e8011c83be170e536774c37d12a1ca2b672e7fb482cf19cedf55e46f77f
-Based on bd841b5; does not contain later model route fix 280fed8.
-Native password login requires matching server deployment; legacy pairing remains available.
-Application ID: life.nana.space.dev; debug signing matches 4.0.3 debug APK.
+Latest APK: nana-space-4.0.5-chat-debug.apk
+Source: 8f2df93 on dev/nana-core-next-experience-codex
+SHA256: b5769495fc5ecc5a72f6fc6fc8c6da56063fc7d35624ac65db8eae17b5810d86
+Debug app life.nana.space.dev, versionCode405; same signer as403/404.
+Mobile chat layout fixed. Retains original login and pairing; existing device binding is preserved by covering installation. Do not uninstall.
+Actual phone testing remains pending. Older404 APK below predates the chat fixes.
