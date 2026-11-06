@@ -210,7 +210,7 @@ class MemoryService:
             (entity_id, scope, predicate_key)).fetchall()
         return [self.read(r[0], include_inactive=True) for r in rows]
 
-    def _query_filter(self, entity_ids, scopes, privacy_classes, include_conflicts):
+    def _query_filter(self, entity_ids, scopes, privacy_classes, include_conflicts, memory_types=()):
         if not scopes or not privacy_classes:
             return "0", []
         states = ("CURRENT", "UNASSESSED", "DISPUTED") if include_conflicts else ("CURRENT", "UNASSESSED")
@@ -221,21 +221,29 @@ class MemoryService:
         if entity_ids:
             clauses.append(f"m.entity_id IN ({','.join('?' for _ in entity_ids)})")
             parameters.extend(entity_ids)
+        if memory_types:
+            kinds = {kind.value for kind in MemoryType}
+            if not isinstance(memory_types, (tuple, list)) or any(
+                not isinstance(value, str) or value not in kinds for value in memory_types
+            ):
+                raise CoreError("INVALID_MEMORY_TYPE_FILTER")
+            clauses.append(f"m.memory_type IN ({','.join('?' for _ in memory_types)})")
+            parameters.extend(memory_types)
         return " AND ".join(clauses), parameters
 
-    def query_count(self, *, entity_ids=(), scopes=(), privacy_classes=("PUBLIC",), include_conflicts=False):
+    def query_count(self, *, entity_ids=(), scopes=(), privacy_classes=("PUBLIC",), include_conflicts=False, memory_types=()):
         self._fresh()
-        where, args = self._query_filter(entity_ids, scopes, privacy_classes, include_conflicts)
+        where, args = self._query_filter(entity_ids, scopes, privacy_classes, include_conflicts, memory_types)
         return self.store.db.execute("SELECT count(*) FROM memories m WHERE " + where, args).fetchone()[0]
 
     def query(self, *, entity_ids=(), scopes=(), privacy_classes=("PUBLIC",), include_conflicts=False,
-              limit=128, query_terms=()):
+              limit=128, query_terms=(), memory_types=()):
         self._fresh()
         if type(limit) is not int or not 1 <= limit <= 512:
             raise CoreError("INVALID_RETRIEVAL_LIMIT")
         if not scopes or not privacy_classes:
             return []
-        where, args = self._query_filter(entity_ids, scopes, privacy_classes, include_conflicts)
+        where, args = self._query_filter(entity_ids, scopes, privacy_classes, include_conflicts, memory_types)
         if query_terms:
             if len(query_terms) > 32 or any(type(t) is not str or not 1 <= len(t) <= 128 for t in query_terms):
                 raise CoreError("INVALID_QUERY_TERMS")
@@ -244,10 +252,42 @@ class MemoryService:
             order_args = [t.casefold() for t in query_terms]
         else:
             relevance, order_args = "0+0", []
-        # Privacy/entity/scope filter and bounded candidate ranking precede payload reads.
-        rows = self.store.db.execute("SELECT m.memory_id FROM memories m WHERE " + where +
-            " ORDER BY " + relevance + " DESC,(m.authority='DIRECT') DESC,m.importance DESC,"
-            "m.significance DESC,m.event_time_us DESC,m.rowid LIMIT ?", [*args, *order_args, limit]).fetchall()
+        # Rare-term expansion helps large eligible sets. Common terms and small
+        # scopes keep the original query plan; no plaintext/result cache is used.
+        sparse = False
+        has_term_index = bool(query_terms) and self.store.db.execute(
+            "SELECT 1 FROM sqlite_master WHERE type='index' AND name='memory_terms_term_lookup'"
+        ).fetchone() is not None
+        if has_term_index:
+            placeholders = ','.join('?' for _ in query_terms)
+            dense = self.store.db.execute(
+                f"SELECT 1 FROM memory_terms WHERE term IN ({placeholders}) LIMIT 1 OFFSET 4096",
+                order_args,
+            ).fetchone()
+            if dense is None:
+                visible = self.store.db.execute(
+                    "SELECT count(*) FROM memories m WHERE " + where, args
+                ).fetchone()[0]
+                sparse = visible > 512
+        order = "(m.authority='DIRECT') DESC,m.importance DESC,m.significance DESC,m.event_time_us DESC,m.rowid"
+        if sparse:
+            # CROSS JOIN pins the selective term lookup before memory checks.
+            # Both stages retain the same scope/entity/privacy/current filters.
+            rows = self.store.db.execute(
+                f"WITH hits AS (SELECT t.memory_id,count(*) AS relevance "
+                f"FROM memory_terms t INDEXED BY memory_terms_term_lookup CROSS JOIN memories m "
+                f"ON m.memory_id=t.memory_id WHERE t.term IN ({placeholders}) AND {where} "
+                f"GROUP BY t.memory_id) SELECT m.memory_id FROM memories m "
+                f"LEFT JOIN hits h ON h.memory_id=m.memory_id WHERE {where} "
+                f"ORDER BY coalesce(h.relevance,0) DESC,{order} LIMIT ?",
+                [*order_args, *args, *args, limit],
+            ).fetchall()
+        else:
+            rows = self.store.db.execute(
+                "SELECT m.memory_id FROM memories m WHERE " + where +
+                " ORDER BY " + relevance + " DESC," + order + " LIMIT ?",
+                [*args, *order_args, limit],
+            ).fetchall()
         return [self.read(r[0], include_inactive=include_conflicts) for r in rows]
 
     def conflict_bundle(self, row, privacy_classes):

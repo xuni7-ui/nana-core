@@ -122,3 +122,13 @@ def test_destination_binding_and_old_grants_do_not_migrate_as_authority(subject,
         assert restored.one('core_meta','cloud.shadow_runtime')
         with pytest.raises(CoreError,match='ALREADY_ACTIVATED'):
             SubjectPackageService(restored,destination).activate(transfer_id=manifest.transfer_id,destination_id=target,authority=destination)
+
+
+def test_rebuildable_index_substitution_is_not_ignored(subject, tmp_path):
+    store, operator = subject
+    store.db.execute('DROP INDEX memory_source_binding')
+    store.db.execute('CREATE INDEX memory_source_binding ON memories(scope)')
+    authority = PortableTransferAuthority()
+    with pytest.raises(CoreError, match='PORTABLE_SCHEMA_DRIFT'):
+        SubjectPackageService(store, authority).export(
+            tmp_path/'bad-index.zip', destination_id=str(uuid4()), source_commit=BASE, authority=authority)

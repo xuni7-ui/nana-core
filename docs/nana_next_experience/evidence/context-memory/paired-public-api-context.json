@@ -1,0 +1,37 @@
+{
+  "qualification": "SYNTHETIC_ORIGINAL_CORE_LEXICAL_NOT_LIVE_HOST",
+  "memory_rows": 200001,
+  "provider_calls": 0,
+  "provider_reported_input_tokens": null,
+  "provider_reported_output_tokens": null,
+  "semantic_error_rate": "NOT_MEASURED",
+  "live_index_mapping": "NOT_RUN",
+  "retrieval": {
+    "baseline": {
+      "samples": 9,
+      "p50_ms": 508.460314000331,
+      "p95_ms": 526.2298870002269
+    },
+    "candidate": {
+      "samples": 9,
+      "p50_ms": 133.84747199961566,
+      "p95_ms": 146.01762400070584
+    }
+  },
+  "context_assembly": {
+    "baseline": {
+      "samples": 9,
+      "p50_ms": 678.0587310004194,
+      "p95_ms": 777.8483040001447
+    },
+    "candidate": {
+      "samples": 9,
+      "p50_ms": 298.7901549995513,
+      "p95_ms": 316.8413600005806
+    }
+  },
+  "exact_context_equivalence": true,
+  "counter": "UTF8_BYTE_ESTIMATE_v1_NOT_PROVIDER_TOKENIZER",
+  "estimated_input_units": 7543,
+  "context_limit": 7680
+}

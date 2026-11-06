@@ -1,0 +1,279 @@
+.......FFFF..............                                                [100%]
+=================================== FAILURES ===================================
+__________ test_export_import_same_subject_retired_source_fresh_epoch __________
+
+subject = (<nana_core.continuity.store.ContinuityStore object at 0x7f273f0910d0>, <nana_core.actions.OperatorAuthority object at 0x7f273f092c60>)
+tmp_path = PosixPath('/dev/shm/nana-memory-regression/test_export_import_same_subjec0')
+
+    def test_export_import_same_subject_retired_source_fresh_epoch(subject,tmp_path):
+        store,operator=subject;cid,mid=populated(store,operator)
+        lease=RuntimeLease(store,RuntimeConfig(schema_target=10,scopes=('lab',),entity_id='person-a'))
+        old_epoch=lease.acquire();lease.release();store._runtime_guard=None
+        authority=PortableTransferAuthority();target=str(uuid4())
+>       result=SubjectPackageService(store,authority).export(tmp_path/'subject.zip',destination_id=target,source_commit=BASE,authority=authority)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/portable_subject/test_package.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.portable.SubjectPackageService object at 0x7f273f091970>
+path = PosixPath('/dev/shm/nana-memory-regression/test_export_import_same_subjec0/subject.zip')
+destination_id = '1599d50b-958b-41bf-8525-2891207e1205'
+source_commit = 'e26288e8ffcc1697b1a1f86b55f304b76d9b04ed'
+authority = <nana_core.continuity.portable.PortableTransferAuthority object at 0x7f273fdeaed0>
+pending_effects = False
+
+    def export(self,path,*,destination_id,source_commit,authority,pending_effects=False):
+        self._auth(authority);s=self._store;path=Path(path)
+        try:
+            if str(UUID(destination_id))!=destination_id or not re.fullmatch('[0-9a-f]{40}',source_commit):raise ValueError()
+        except (ValueError,TypeError):raise CoreError('PORTABLE_TRANSFER_SPEC_INVALID') from None
+        if path.exists() or path.is_symlink():raise CoreError('DESTINATION_EXISTS')
+        if type(pending_effects) is not bool:raise CoreError('PORTABLE_TRANSFER_SPEC_INVALID')
+        self._offline(pending_effects=pending_effects);s.ensure_privacy_current()
+        old=s.one('core_meta','portable.retired')
+        if old:
+            transfer=json.loads(old['value_json'])
+            if (transfer['destination_id'],transfer['source_commit'],transfer.get('pending_effects',False))!=(destination_id,source_commit,pending_effects):raise CoreError('PORTABLE_SOURCE_ALREADY_RETIRED')
+        else:
+            lease=s.one('runtime_lease',s.identity['identity_id']) if s.schema_target>=8 else None
+            floor=s.one('core_meta','runtime.epoch_floor')
+            transfer={'transfer_id':uid(),'destination_id':destination_id,'source_commit':source_commit,
+                'pending_effects':pending_effects,
+                'epoch_floor':max(lease['epoch'] if lease else 0,json.loads(floor['value_json']) if floor else 0),
+                'exported_at_us':s.clock.utc_now_us()}
+            # Existing stopped-runtime fence is satisfied by a trusted maintenance
+            # guard while exclusive Store flock remains held. No second runtime.
+            prior=getattr(s,'_runtime_guard',None)
+            s._runtime_guard=lambda: None
+            try:
+                with s.transaction('portable.source_retired',transfer) as tx:
+                    tx.put('core_meta',{'key':'portable.retired','value_json':canonical(transfer)})
+            finally:s._runtime_guard=prior
+        path.parent.mkdir(mode=0o700,parents=True,exist_ok=True)
+        with tempfile.TemporaryDirectory(prefix='.subject-package-',dir=path.parent) as name:
+            root=Path(name);dbpath=root/'subject.sqlite'
+            s.backup(dbpath)  # official managed, deletion-aware, quarantined backup
+            db=sqlite3.connect(dbpath,isolation_level=None)
+            try:
+                if s.schema_target>=8:db.execute('DELETE FROM runtime_lease')
+                if s.schema_target>=11:db.execute('UPDATE jobs SET owner_epoch=NULL')
+                db.execute("DELETE FROM core_meta WHERE key IN ('runtime.managed','runtime.health','runtime.life_control')")
+                db.execute("INSERT OR REPLACE INTO core_meta VALUES('runtime.epoch_floor',?)",(canonical(transfer['epoch_floor']),))
+                schema_sha=_schema_digest(db)
+>               if schema_sha!=_expected_schema(s.schema_target):raise CoreError('PORTABLE_SCHEMA_DRIFT')
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               nana_core.contracts.CoreError: PORTABLE_SCHEMA_DRIFT
+
+src/nana_core/continuity/portable.py:177: CoreError
+_______ test_package_tamper_unknown_machine_metadata_and_target_rejected _______
+
+subject = (<nana_core.continuity.store.ContinuityStore object at 0x7f273f186ea0>, <nana_core.actions.OperatorAuthority object at 0x7f273f185df0>)
+tmp_path = PosixPath('/dev/shm/nana-memory-regression/test_package_tamper_unknown_ma0')
+
+    def test_package_tamper_unknown_machine_metadata_and_target_rejected(subject,tmp_path):
+        store,_=subject;authority=PortableTransferAuthority();target=str(uuid4())
+        # Unknown host configuration is rejected, not filtered out of immutable history.
+        store._put('core_meta',{'key':'provider.configuration','value_json':canonical({'credential_ref':'not-a-secret'})})
+        service=SubjectPackageService(store,authority)
+        with pytest.raises(CoreError,match='UNSUPPORTED_MACHINE_METADATA'):
+            service.export(tmp_path/'blocked.zip',destination_id=target,source_commit=BASE,authority=authority)
+        store.db.execute("DELETE FROM core_meta WHERE key='provider.configuration'")
+>       result=service.export(tmp_path/'subject.zip',destination_id=target,source_commit=BASE,authority=authority)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/portable_subject/test_package.py:77: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.portable.SubjectPackageService object at 0x7f273f186570>
+path = PosixPath('/dev/shm/nana-memory-regression/test_package_tamper_unknown_ma0/subject.zip')
+destination_id = 'ab579e6f-bdc5-4c5f-a9ef-e171b80a19ef'
+source_commit = 'e26288e8ffcc1697b1a1f86b55f304b76d9b04ed'
+authority = <nana_core.continuity.portable.PortableTransferAuthority object at 0x7f273f186900>
+pending_effects = False
+
+    def export(self,path,*,destination_id,source_commit,authority,pending_effects=False):
+        self._auth(authority);s=self._store;path=Path(path)
+        try:
+            if str(UUID(destination_id))!=destination_id or not re.fullmatch('[0-9a-f]{40}',source_commit):raise ValueError()
+        except (ValueError,TypeError):raise CoreError('PORTABLE_TRANSFER_SPEC_INVALID') from None
+        if path.exists() or path.is_symlink():raise CoreError('DESTINATION_EXISTS')
+        if type(pending_effects) is not bool:raise CoreError('PORTABLE_TRANSFER_SPEC_INVALID')
+        self._offline(pending_effects=pending_effects);s.ensure_privacy_current()
+        old=s.one('core_meta','portable.retired')
+        if old:
+            transfer=json.loads(old['value_json'])
+            if (transfer['destination_id'],transfer['source_commit'],transfer.get('pending_effects',False))!=(destination_id,source_commit,pending_effects):raise CoreError('PORTABLE_SOURCE_ALREADY_RETIRED')
+        else:
+            lease=s.one('runtime_lease',s.identity['identity_id']) if s.schema_target>=8 else None
+            floor=s.one('core_meta','runtime.epoch_floor')
+            transfer={'transfer_id':uid(),'destination_id':destination_id,'source_commit':source_commit,
+                'pending_effects':pending_effects,
+                'epoch_floor':max(lease['epoch'] if lease else 0,json.loads(floor['value_json']) if floor else 0),
+                'exported_at_us':s.clock.utc_now_us()}
+            # Existing stopped-runtime fence is satisfied by a trusted maintenance
+            # guard while exclusive Store flock remains held. No second runtime.
+            prior=getattr(s,'_runtime_guard',None)
+            s._runtime_guard=lambda: None
+            try:
+                with s.transaction('portable.source_retired',transfer) as tx:
+                    tx.put('core_meta',{'key':'portable.retired','value_json':canonical(transfer)})
+            finally:s._runtime_guard=prior
+        path.parent.mkdir(mode=0o700,parents=True,exist_ok=True)
+        with tempfile.TemporaryDirectory(prefix='.subject-package-',dir=path.parent) as name:
+            root=Path(name);dbpath=root/'subject.sqlite'
+            s.backup(dbpath)  # official managed, deletion-aware, quarantined backup
+            db=sqlite3.connect(dbpath,isolation_level=None)
+            try:
+                if s.schema_target>=8:db.execute('DELETE FROM runtime_lease')
+                if s.schema_target>=11:db.execute('UPDATE jobs SET owner_epoch=NULL')
+                db.execute("DELETE FROM core_meta WHERE key IN ('runtime.managed','runtime.health','runtime.life_control')")
+                db.execute("INSERT OR REPLACE INTO core_meta VALUES('runtime.epoch_floor',?)",(canonical(transfer['epoch_floor']),))
+                schema_sha=_schema_digest(db)
+>               if schema_sha!=_expected_schema(s.schema_target):raise CoreError('PORTABLE_SCHEMA_DRIFT')
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               nana_core.contracts.CoreError: PORTABLE_SCHEMA_DRIFT
+
+src/nana_core/continuity/portable.py:177: CoreError
+_____ test_deleted_sources_remain_erased_after_package_and_official_replay _____
+
+subject = (<nana_core.continuity.store.ContinuityStore object at 0x7f273f187320>, <nana_core.actions.OperatorAuthority object at 0x7f273f187950>)
+tmp_path = PosixPath('/dev/shm/nana-memory-regression/test_deleted_sources_remain_er0')
+
+    def test_deleted_sources_remain_erased_after_package_and_official_replay(subject,tmp_path):
+        store,operator=subject;_,mid=populated(store,operator)
+        MemoryService(store,operator).forget(mid,operator)
+        authority=PortableTransferAuthority();target=str(uuid4())
+>       result=SubjectPackageService(store,authority).export(tmp_path/'deleted.zip',destination_id=target,source_commit=BASE,authority=authority)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/portable_subject/test_package.py:90: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.portable.SubjectPackageService object at 0x7f273f187b00>
+path = PosixPath('/dev/shm/nana-memory-regression/test_deleted_sources_remain_er0/deleted.zip')
+destination_id = 'ba72eec4-6985-4f5c-b137-4b3f5d17abde'
+source_commit = 'e26288e8ffcc1697b1a1f86b55f304b76d9b04ed'
+authority = <nana_core.continuity.portable.PortableTransferAuthority object at 0x7f273f11bbc0>
+pending_effects = False
+
+    def export(self,path,*,destination_id,source_commit,authority,pending_effects=False):
+        self._auth(authority);s=self._store;path=Path(path)
+        try:
+            if str(UUID(destination_id))!=destination_id or not re.fullmatch('[0-9a-f]{40}',source_commit):raise ValueError()
+        except (ValueError,TypeError):raise CoreError('PORTABLE_TRANSFER_SPEC_INVALID') from None
+        if path.exists() or path.is_symlink():raise CoreError('DESTINATION_EXISTS')
+        if type(pending_effects) is not bool:raise CoreError('PORTABLE_TRANSFER_SPEC_INVALID')
+        self._offline(pending_effects=pending_effects);s.ensure_privacy_current()
+        old=s.one('core_meta','portable.retired')
+        if old:
+            transfer=json.loads(old['value_json'])
+            if (transfer['destination_id'],transfer['source_commit'],transfer.get('pending_effects',False))!=(destination_id,source_commit,pending_effects):raise CoreError('PORTABLE_SOURCE_ALREADY_RETIRED')
+        else:
+            lease=s.one('runtime_lease',s.identity['identity_id']) if s.schema_target>=8 else None
+            floor=s.one('core_meta','runtime.epoch_floor')
+            transfer={'transfer_id':uid(),'destination_id':destination_id,'source_commit':source_commit,
+                'pending_effects':pending_effects,
+                'epoch_floor':max(lease['epoch'] if lease else 0,json.loads(floor['value_json']) if floor else 0),
+                'exported_at_us':s.clock.utc_now_us()}
+            # Existing stopped-runtime fence is satisfied by a trusted maintenance
+            # guard while exclusive Store flock remains held. No second runtime.
+            prior=getattr(s,'_runtime_guard',None)
+            s._runtime_guard=lambda: None
+            try:
+                with s.transaction('portable.source_retired',transfer) as tx:
+                    tx.put('core_meta',{'key':'portable.retired','value_json':canonical(transfer)})
+            finally:s._runtime_guard=prior
+        path.parent.mkdir(mode=0o700,parents=True,exist_ok=True)
+        with tempfile.TemporaryDirectory(prefix='.subject-package-',dir=path.parent) as name:
+            root=Path(name);dbpath=root/'subject.sqlite'
+            s.backup(dbpath)  # official managed, deletion-aware, quarantined backup
+            db=sqlite3.connect(dbpath,isolation_level=None)
+            try:
+                if s.schema_target>=8:db.execute('DELETE FROM runtime_lease')
+                if s.schema_target>=11:db.execute('UPDATE jobs SET owner_epoch=NULL')
+                db.execute("DELETE FROM core_meta WHERE key IN ('runtime.managed','runtime.health','runtime.life_control')")
+                db.execute("INSERT OR REPLACE INTO core_meta VALUES('runtime.epoch_floor',?)",(canonical(transfer['epoch_floor']),))
+                schema_sha=_schema_digest(db)
+>               if schema_sha!=_expected_schema(s.schema_target):raise CoreError('PORTABLE_SCHEMA_DRIFT')
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               nana_core.contracts.CoreError: PORTABLE_SCHEMA_DRIFT
+
+src/nana_core/continuity/portable.py:177: CoreError
+_____ test_destination_binding_and_old_grants_do_not_migrate_as_authority ______
+
+subject = (<nana_core.continuity.store.ContinuityStore object at 0x7f273f04e5a0>, <nana_core.actions.OperatorAuthority object at 0x7f273f04c410>)
+tmp_path = PosixPath('/dev/shm/nana-memory-regression/test_destination_binding_and_o0')
+
+    def test_destination_binding_and_old_grants_do_not_migrate_as_authority(subject,tmp_path):
+        from nana_core.actions import ActionKernel
+        from nana_core.contracts import GrantSpec
+        from nana_core.continuity.autonomy.fixture_effects import OfflineEffectPort
+        store,operator=subject
+        kernel=ActionKernel(store,OfflineEffectPort(store.identity['identity_id'],tmp_path/'world.fixture.json'),operator)
+        now=store.clock.utc_now_us()
+        grant=kernel.grant(GrantSpec(capabilities=('reading.source.read',),resources=('synthetic://source/one',),not_before_us=now,expires_at_us=now+100000000),operator)
+        kernel.set_budgets({'write_attempts':2,'external_requests':2,'cost_micro_units':2},operator)
+        controller=PortableTransferAuthority();target=str(uuid4())
+>       package=SubjectPackageService(store,controller).export(tmp_path/'authority.zip',destination_id=target,source_commit=BASE,authority=controller)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/portable_subject/test_package.py:111: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.portable.SubjectPackageService object at 0x7f273f04c380>
+path = PosixPath('/dev/shm/nana-memory-regression/test_destination_binding_and_o0/authority.zip')
+destination_id = '5edaab3e-5186-46fa-b2b0-8dde23fce9f5'
+source_commit = 'e26288e8ffcc1697b1a1f86b55f304b76d9b04ed'
+authority = <nana_core.continuity.portable.PortableTransferAuthority object at 0x7f273f04d130>
+pending_effects = False
+
+    def export(self,path,*,destination_id,source_commit,authority,pending_effects=False):
+        self._auth(authority);s=self._store;path=Path(path)
+        try:
+            if str(UUID(destination_id))!=destination_id or not re.fullmatch('[0-9a-f]{40}',source_commit):raise ValueError()
+        except (ValueError,TypeError):raise CoreError('PORTABLE_TRANSFER_SPEC_INVALID') from None
+        if path.exists() or path.is_symlink():raise CoreError('DESTINATION_EXISTS')
+        if type(pending_effects) is not bool:raise CoreError('PORTABLE_TRANSFER_SPEC_INVALID')
+        self._offline(pending_effects=pending_effects);s.ensure_privacy_current()
+        old=s.one('core_meta','portable.retired')
+        if old:
+            transfer=json.loads(old['value_json'])
+            if (transfer['destination_id'],transfer['source_commit'],transfer.get('pending_effects',False))!=(destination_id,source_commit,pending_effects):raise CoreError('PORTABLE_SOURCE_ALREADY_RETIRED')
+        else:
+            lease=s.one('runtime_lease',s.identity['identity_id']) if s.schema_target>=8 else None
+            floor=s.one('core_meta','runtime.epoch_floor')
+            transfer={'transfer_id':uid(),'destination_id':destination_id,'source_commit':source_commit,
+                'pending_effects':pending_effects,
+                'epoch_floor':max(lease['epoch'] if lease else 0,json.loads(floor['value_json']) if floor else 0),
+                'exported_at_us':s.clock.utc_now_us()}
+            # Existing stopped-runtime fence is satisfied by a trusted maintenance
+            # guard while exclusive Store flock remains held. No second runtime.
+            prior=getattr(s,'_runtime_guard',None)
+            s._runtime_guard=lambda: None
+            try:
+                with s.transaction('portable.source_retired',transfer) as tx:
+                    tx.put('core_meta',{'key':'portable.retired','value_json':canonical(transfer)})
+            finally:s._runtime_guard=prior
+        path.parent.mkdir(mode=0o700,parents=True,exist_ok=True)
+        with tempfile.TemporaryDirectory(prefix='.subject-package-',dir=path.parent) as name:
+            root=Path(name);dbpath=root/'subject.sqlite'
+            s.backup(dbpath)  # official managed, deletion-aware, quarantined backup
+            db=sqlite3.connect(dbpath,isolation_level=None)
+            try:
+                if s.schema_target>=8:db.execute('DELETE FROM runtime_lease')
+                if s.schema_target>=11:db.execute('UPDATE jobs SET owner_epoch=NULL')
+                db.execute("DELETE FROM core_meta WHERE key IN ('runtime.managed','runtime.health','runtime.life_control')")
+                db.execute("INSERT OR REPLACE INTO core_meta VALUES('runtime.epoch_floor',?)",(canonical(transfer['epoch_floor']),))
+                schema_sha=_schema_digest(db)
+>               if schema_sha!=_expected_schema(s.schema_target):raise CoreError('PORTABLE_SCHEMA_DRIFT')
+                                                                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               nana_core.contracts.CoreError: PORTABLE_SCHEMA_DRIFT
+
+src/nana_core/continuity/portable.py:177: CoreError
+=========================== short test summary info ============================
+FAILED tests/portable_subject/test_package.py::test_export_import_same_subject_retired_source_fresh_epoch
+FAILED tests/portable_subject/test_package.py::test_package_tamper_unknown_machine_metadata_and_target_rejected
+FAILED tests/portable_subject/test_package.py::test_deleted_sources_remain_erased_after_package_and_official_replay
+FAILED tests/portable_subject/test_package.py::test_destination_binding_and_old_grants_do_not_migrate_as_authority
+4 failed, 21 passed in 11.14s

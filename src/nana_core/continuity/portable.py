@@ -173,6 +173,16 @@ class SubjectPackageService:
                 if s.schema_target>=11:db.execute('UPDATE jobs SET owner_epoch=NULL')
                 db.execute("DELETE FROM core_meta WHERE key IN ('runtime.managed','runtime.health','runtime.life_control')")
                 db.execute("INSERT OR REPLACE INTO core_meta VALUES('runtime.epoch_floor',?)",(canonical(transfer['epoch_floor']),))
+                # This physical lookup is rebuildable host infrastructure, not
+                # portable Subject schema. Remove only the exact known index
+                # from the already isolated backup; reject a substituted shape.
+                from .store import REBUILDABLE_LOOKUP_INDEXES
+                for index_name, expected_sql in REBUILDABLE_LOOKUP_INDEXES.items():
+                    index = db.execute("SELECT sql FROM sqlite_master WHERE type='index' AND name=?", (index_name,)).fetchone()
+                    if index:
+                        if index[0] != expected_sql:
+                            raise CoreError('PORTABLE_SCHEMA_DRIFT')
+                        db.execute('DROP INDEX ' + index_name)
                 schema_sha=_schema_digest(db)
                 if schema_sha!=_expected_schema(s.schema_target):raise CoreError('PORTABLE_SCHEMA_DRIFT')
                 db.execute('PRAGMA wal_checkpoint(TRUNCATE)');db.execute('VACUUM')

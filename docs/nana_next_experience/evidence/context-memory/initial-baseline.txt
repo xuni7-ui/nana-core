@@ -1,0 +1,2 @@
+{"baseline": {"p50_ms": 1.088654999875871, "p95_ms": 1.2008959993181634}, "candidate": {"p50_ms": 0.7251130000440753, "p95_ms": 0.8213539995267638}, "size": 1000, "exact_rank_equivalence": true, "wall_seconds": 1.716723142999399, "provider_calls": 0, "sqlite": "3.53.1"}
+{"baseline": {"p50_ms": 15.397856999697979, "p95_ms": 16.568608999477874}, "candidate": {"p50_ms": 7.708002000072156, "p95_ms": 8.071125999776996}, "size": 10000, "exact_rank_equivalence": true, "wall_seconds": 126.48933953999949, "provider_calls": 0, "sqlite": "3.53.1"}

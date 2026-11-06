@@ -7,6 +7,20 @@ from pathlib import Path
 import os
 
 
+REBUILDABLE_LOOKUP_INDEXES = {
+    "events_artifact_lookup": "CREATE INDEX events_artifact_lookup ON events(artifact_id)",
+    "memories_payload_lookup": "CREATE INDEX memories_payload_lookup ON memories(payload_artifact_id)",
+    "evidence_payload_lookup": "CREATE INDEX evidence_payload_lookup ON continuity_evidence(payload_artifact_id)",
+    "memory_correction_lookup": "CREATE INDEX memory_correction_lookup ON memories(correction_of)",
+    "memory_superseded_lookup": "CREATE INDEX memory_superseded_lookup ON memories(superseded_by)",
+    "memory_terms_term_lookup": "CREATE INDEX memory_terms_term_lookup ON memory_terms(term,memory_id)",
+    "memory_source_binding": "CREATE INDEX memory_source_binding ON memories(source_evidence_id,entity_id,scope)",
+    "artifacts_event_lookup": "CREATE INDEX artifacts_event_lookup ON artifacts(created_event_id)",
+    "memories_event_lookup": "CREATE INDEX memories_event_lookup ON memories(event_id)",
+    "evidence_event_lookup": "CREATE INDEX evidence_event_lookup ON continuity_evidence(event_id)",
+}
+
+
 class ContinuityStore(Store):
     @staticmethod
     def _private_path(path):
@@ -37,6 +51,12 @@ class ContinuityStore(Store):
         super().__init__(path, clock, schema_target=schema_target, identity_bootstrap=identity_bootstrap)
         try:
             self.db.execute("PRAGMA secure_delete=ON")
+            # Physical lookup aid, not new Subject state or a schema transition.
+            # Opening the original Store already holds the exclusive writer lock.
+            # Source-bound idempotency and deferred foreign-key checks must not
+            # scan the entire history on each write.
+            for sql in REBUILDABLE_LOOKUP_INDEXES.values():
+                self.db.execute(sql.replace("CREATE INDEX ", "CREATE INDEX IF NOT EXISTS ", 1))
             for suffix in ("", "-wal", "-shm", ".lock"):
                 owned = Path(str(self.path) + suffix)
                 if owned.exists():

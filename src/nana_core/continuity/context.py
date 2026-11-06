@@ -149,7 +149,7 @@ def self_frame(store, authority, *, entity_id, scopes, privacy_classes, capabili
             and _visible(store, r, scopes, privacy_classes)),
         self_memory_ids=tuple(r["memory_id"] for r in MemoryService(store).query(
             entity_ids=(identity.identity_id,), scopes=scopes,
-            privacy_classes=privacy_classes) if r["memory_type"] == "SELF"),
+            privacy_classes=privacy_classes, memory_types=("SELF",))),
         capabilities=tuple(capabilities), limitations=tuple(limitations), state_token=token)
     if state_token(store) != token:
         raise CoreError("STATE_CHANGED_DURING_PROJECTION")

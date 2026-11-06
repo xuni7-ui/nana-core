@@ -74,3 +74,59 @@ def test_contracts_and_real_ingress_fail_closed(cognitive):
     with pytest.raises(ValidationError):
         MemoryCandidate(entity_id="x", scope="s", memory_type=MemoryType.SELF,
             epistemic_kind="SUMMARY", source_evidence_id=source, text="unsupported summary")
+
+
+def test_self_memories_are_filtered_before_candidate_limit(cognitive):
+    store, memory, authority = cognitive
+    self_id = store.identity['identity_id']
+    source = evidence(memory, 'self-anchor', 'synthetic self anchor')
+    anchor = add(memory, source, 'persistent self anchor', kind=MemoryType.SELF)
+    for i in range(132):
+        src = evidence(memory, f'self-note-{i}', f'note {i}')
+        memory.add(MemoryCandidate(entity_id=self_id, scope='synthetic-home', memory_type=MemoryType.SEMANTIC,
+            epistemic_kind='BELIEF', source_evidence_id=src, text=f'self note {i}', importance=1.0))
+    args = dict(entity_ids=(self_id,), scopes=('synthetic-home',), privacy_classes=('PERSONAL',))
+    assert anchor not in {m['memory_id'] for m in memory.query(**args)}
+    filtered = memory.query(**args, memory_types=('SELF',), limit=1)
+    assert [m['memory_id'] for m in filtered] == [anchor]
+    assert memory.query_count(**args, memory_types=('SELF',)) == 1
+    from nana_core.continuity.context import self_frame
+    assert self_frame(store, authority, entity_id='synthetic-sister', scopes=('synthetic-home',), privacy_classes=('PERSONAL',)).self_memory_ids == (anchor,)
+    with pytest.raises(CoreError, match='INVALID_MEMORY_TYPE_FILTER'):
+        memory.query(**args, memory_types=('invented',))
+
+
+def test_readonly_inventory_exposes_metadata_without_payload_or_writer(cognitive):
+    from tools.nana_next_experience.live_memory_inventory import inventory
+    store, memory, _ = cognitive
+    source = evidence(memory, 'inventory-source', 'TEST_ONLY_NOT_SECRET_BODY_NOT_METADATA')
+    add(memory, source, 'TEST_ONLY_NOT_SECRET_BODY_NOT_METADATA')
+    changes = store.db.total_changes
+    snapshot = inventory(store.path)
+    assert snapshot['identity_id'] == store.identity['identity_id']
+    assert snapshot['private_payloads_read'] is False
+    assert 'TEST_ONLY_NOT_SECRET_BODY_NOT_METADATA' not in json.dumps(snapshot)
+    assert snapshot['vector_binding'].startswith('NOT_VERIFIED')
+    assert store.db.total_changes == changes
+    alias = store.path.with_name('alias.db')
+    alias.symlink_to(store.path)
+    with pytest.raises(ValueError, match='OWNED_REGULAR_LIVE_STORE_REQUIRED'):
+        inventory(alias)
+
+
+def test_sparse_ranking_matches_independent_order_and_falls_back_without_index(cognitive):
+    import re
+    store, memory, _ = cognitive
+    expected = []
+    for i in range(700):
+        text = f'entry {i} ' + ('needle anchor' if i%17 == 0 else 'ordinary unrelated')
+        src = evidence(memory, f'rank-{i}', text)
+        mid = add(memory, src, text, importance=(i%10)/10)
+        expected.append((mid,text,(i%10)/10,i))
+    args = dict(entity_ids=('synthetic-sister',), scopes=('synthetic-home',), privacy_classes=('PERSONAL',))
+    for terms in (('needle','anchor'),('ordinary',),('no-match',),('needle','needle')):
+        wanted = [x[0] for x in sorted(expected,key=lambda x:(-len(set(re.findall(r'\w{2,64}',x[1])) & set(terms)),-x[2],x[3]))][:128]
+        assert [r['memory_id'] for r in memory.query(**args,query_terms=terms)] == wanted
+    store.db.execute('DROP INDEX memory_terms_term_lookup')
+    assert [r['memory_id'] for r in memory.query(**args,query_terms=('needle','anchor'))] == [x[0] for x in sorted(expected,key=lambda x:(-len(set(re.findall(r'\w{2,64}',x[1])) & {'needle','anchor'}),-x[2],x[3]))][:128]
+    assert memory.query(**{**args,'privacy_classes':('PUBLIC',)},query_terms=('needle',)) == []
