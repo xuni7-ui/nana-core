@@ -1304,3 +1304,8 @@ IN_PROGRESS: all unfinished Next Experience and ten-domain tasks remain in scope
 ### 2026-11-06 · Next Experience product406 continuation
 
 Implemented/tested: provider catalog + full-authorized-memory literal search + registered Gateway restart source alignment; matched APK406 built. Pending: full current-source regression, sealed runtime handoff and operator/phone verification; wider Next Experience/ten-domain mission IN_PROGRESS.
+
+
+### 2026-11-06 · complete batch regression / continuing native affect integration
+
+6f2a491 Core1905pass/12 explicit skips; APK406/matched portable archive built and isolated installed. Host permissions tool4pass. Continue Fish Heart gap matrix then high-value native enhancements; remaining streaming/multimodal/daily-use/real-host gates stay IN_PROGRESS.

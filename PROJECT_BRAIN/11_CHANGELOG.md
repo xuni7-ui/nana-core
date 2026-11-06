@@ -2916,3 +2916,8 @@ Added bounded authorized model-catalog and older-memory endpoints plus native/UI
 ### 2026-11-06 · S8 renewal regression corrected
 
 Broader480d45f run exposed unchanged-material retraining loop (3fail/134pass, interrupted277.95s); rejected that Core build for delivery, kept evidence. Renewal now requires different candidate-visible practice/method information and independent later failure; heldout-only changes cannot reopen. Original26 owned-app/recovery/growth tests passed80.78s and5 guard tests1.14s. Client406 unchanged; new full regression and corrected sealed Core build follow.
+
+
+### 2026-11-06 · complete batch regression / continuing native affect integration
+
+Full current-Core1905passed/12skipped572.94s; corrected15MB portable build reproducible and installed -I original Core/API/restart verified. Added stopped-owner/hash-bound life.json permission tool,4tests pass. Continued same mission with pinned MIT Fish Heart research; no production/private/provider/social action.

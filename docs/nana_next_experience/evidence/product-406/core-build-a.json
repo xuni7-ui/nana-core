@@ -1,0 +1,7 @@
+{
+  "archive": "/dev/shm/nana-product-406-corrected-a/nana-first-life-portable-v1.tar.gz",
+  "sha256": "529c123040e33a34e48df1aeffbcb15c90f440b3971cf532ad4ee922ec4e4da7",
+  "source_commit": "6f2a49127bcb574e940a4f77cc662b4eaaf4d640",
+  "bundle_files": 277,
+  "new_provider_calls": 0
+}

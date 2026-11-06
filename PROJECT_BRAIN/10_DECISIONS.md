@@ -1758,3 +1758,8 @@ Keep catalog GET separate from inference/paid qualification, and memory POST sea
 ### 2026-11-06 · S8 material novelty boundary
 
 A failure may reopen a need, but it is not itself new training material. Re-running unchanged practice/holdouts after suspension is prohibited; candidate-visible new material plus original C endorsement and a distinct later checked failure are required. Do not use final-answer edits to authorize an experiment. No new learner or production strategy adoption.
+
+
+### 2026-11-06 · complete batch regression / continuing native affect integration
+
+Reuse Fish Heart design ideas only after mapping to current native Appraisal/Concern/Runtime/Learning. No nine-value affection system, punitive silence, adult functions, second Store or privileged prompt authority. Full-regression source6f2a491 and APK client source480d45f are explicit ancestors; do not confuse artifact and production status.

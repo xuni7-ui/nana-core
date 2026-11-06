@@ -2474,3 +2474,8 @@ User reports Iris v2 retrieval/dedupe closed/deployed; do not redo it or modify 
 ### 2026-11-06 · Next Experience product406 continuation
 
 Product406 has actual BFF/native/Web paths for host-vault model lists and older authorized-memory search; build/API/fixture/private-restart tests passed. Gateway selected-release bootstrap tested against registered synthetic slots/seals; production installation and real phone use are NOT_RUN.
+
+
+### 2026-11-06 · complete batch regression / continuing native affect integration
+
+Corrected Core6f2a491 full1905/0/12 in572.94s; two portable builds equal, same installed DEV Subject restart/API/offline chat verified. No actual cloud/phone/provider qualification added. Fish Heart new branch pinned6a338343e2427a9173cf8860f0519ff912194e34 version0.3.8 MIT, reference only; no plugin installed or production Iris changed.
