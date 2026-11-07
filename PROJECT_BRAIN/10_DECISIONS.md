@@ -1878,3 +1878,8 @@ The routed session still inherited24 despite the host's explicit larger allowanc
 ### 2026-11-07 · Same backend task: original-C consolidation, capacity and usage
 
 原Maintenance jobs增加可重启增量/有界周回看、带时间和offset的来源片段；原C可以REST，条件未变不重复判断，条件变化后恢复；实际后续RENDER、纠错/撤回验证。原Store派生索引支持原源检索，单摘要claim family避免规模退化。StorageGuard新宿主可选实际磁盘/备份余量规划，旧FIXED/显式限额/异常速率/停止锁存不变；原资源账本从已接受usage分列真实提供方/fixture/缺失，bytes不冒充Token。248相关检查62.90s通过，源码指纹运行前后相同；全部初次失败保留，不称全仓/云端/手机/真人/商业Token资格。409APK/Web源码与b873同tree，完全未重打；最终后端包仍待整个后端收口。LIVING_MEMORY_UNIFIED.md及evidence/living-memory-unified记录实现与剩余冷归档/实际物理回收/S8反馈/真实绑定门；主任务继续，Master/63criteria不变。
+
+
+### 2026-11-07 · Cold history uses existing managed backup, no history eviction
+
+原Store.backup/PrivacyJournal新增可校验冷回读维护适配，停止态原CLI backup --cold可用；副本仅压缩已登记可重建索引，原链和主体不动、隔离标志不变，当前原源/权限/纠错/撤回始终优先。20项相关检查3.66s通过，真实分配占用/首次连接fixture失败留证。总磁盘不因多一副本而减少，未声称主库回收、生产恢复或DR；源码白名单已含新模块，后续同一Core安装验证继续，APK不重打。用户要求减少重复审核，本批只检查直接变更范围，不重跑无关全仓。

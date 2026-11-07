@@ -22,6 +22,7 @@ src/nana_core/continuity/autonomy/realization.py
 src/nana_core/continuity/autonomy/relationships.py
 src/nana_core/continuity/autonomy/requests.py
 src/nana_core/continuity/cognition.py
+src/nana_core/continuity/cold_history.py
 src/nana_core/continuity/commitments.py
 src/nana_core/continuity/context.py
 src/nana_core/continuity/contracts.py

@@ -1,0 +1,34 @@
+{
+  "base": "3a4b4156d9af7e080a1c538843f367070212249e",
+  "result": "OFFLINE_CONTROLLED_PASS",
+  "checks": 20,
+  "duration_seconds": 3.66,
+  "real_provider_calls": 0,
+  "apk_rebuilt": false,
+  "metrics": [
+    {
+      "initial_file_bytes": 782336,
+      "file_bytes": 696320,
+      "allocated_bytes": 696320,
+      "main_history_evicted": false,
+      "removed_rebuildable_indexes": [
+        "events_artifact_lookup",
+        "memories_payload_lookup",
+        "evidence_payload_lookup",
+        "memory_correction_lookup",
+        "memory_superseded_lookup",
+        "memory_terms_term_lookup",
+        "memory_source_binding",
+        "memory_user_note_lookup",
+        "artifacts_event_lookup",
+        "memory_dependency_parent_lookup",
+        "memory_consolidated_lookup",
+        "memories_event_lookup",
+        "evidence_event_lookup"
+      ]
+    }
+  ],
+  "space_claim": "COMPACTED_BACKUP_ONLY;MAIN_HISTORY_UNCHANGED;TOTAL_FOOTPRINT_INCREASES_WITH_COPY",
+  "restore": "SAME_DEV_IDENTITY_QUARANTINED_STORE_READBACK_NOT_ACTIVE_RUNTIME_OR_PRODUCTION_DR",
+  "first_failure": "test SQLite context manager committed but did not close; explicit closing fixed fixture; both WAL and main-file tampering remain rejected"
+}

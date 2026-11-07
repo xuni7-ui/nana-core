@@ -403,7 +403,13 @@ def execute(root, a):
         if owner_alive(status(home / "subject/self.db")):
             raise CoreError("STOP_FOR_PORTABLE_BACKUP")
         with ContinuityStore(home / "subject/self.db", schema_target=13) as store:
-            result = backup(store, a.output)
+            if getattr(a,'cold',False):
+                from ..actions import OperatorAuthority
+                from ..continuity.cold_history import ColdHistoryService
+                authority=OperatorAuthority()
+                result=ColdHistoryService(store,authority).create(a.output,authority=authority)
+                result.update(state='QUARANTINED_COLD_REVIEW_COPY',runnable=False,backup=str(a.output))
+            else:result = backup(store, a.output)
         result.update(sha256=hashlib.sha256(a.output.read_bytes()).hexdigest(), created_at_us=time.time_ns() // 1000)
         meta = a.output.with_name(a.output.name + ".json")
         fd = os.open(meta, os.O_CREAT | os.O_EXCL | os.O_WRONLY | os.O_NOFOLLOW, 0o600)
@@ -457,6 +463,8 @@ def main(root=None):
             s.add_argument("--secret-ref")
         if name in {"backup", "export"}:
             s.add_argument("--output", type=Path, required=True)
+        if name=="backup":
+            s.add_argument("--cold",action="store_true",help="compact a managed quarantined history copy; never evict or activate the original Subject")
         if name in {"export", "restore"}:
             s.add_argument("--destination-id", required=True)
             if name == "export":

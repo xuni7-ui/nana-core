@@ -7,8 +7,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 84,
-  "as_of_us": 1794059941195067,
+  "revision": 85,
+  "as_of_us": 1794060903647449,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_LIVING_MEMORY_DREAM_STORAGE_TOKEN_INTEGRATION",
@@ -20,10 +20,10 @@
     "完整请求模型计数绑定接入原ContextAssembler/Router，缺商业tokenizer不冒充准确token；实际派发前复核，原文闭包不长期保留。",
     "只对确认PROPOSED正数实测字节结算剩余字节额度；原财务/次数/UNKNOWN保留，新宿主32MB而旧设置4MB不变。",
     "原Maintenance增量/周回看、原C可休息且条件变化后再判断、实际后续RENDER及纠错撤回已隔离验证；新宿主弹性磁盘预算和上游usage/fixture分列，248相关检查62.90s通过。",
-    "409APK/Web与b873同source tree和既有SHA，全程未重打；软48h旧原文选择及同源fallback保留，不因后端适配重建客户端。"
+    "原受管备份的冷历史封签/压缩/原Store当前权限下回读、纠错/撤回及同DEV主体恢复读取已实现，20相关检查3.66s通过；未删除主链、未称总空间回收；409APK仍未重打。"
   ],
   "open_gates": [
-    "继续同一任务：冷历史完整性/跨引用/回读/恢复/隐私及实际物理治理、原S8对梦境/上下文错误的独立后续策略验证、其余产品融合；不以本批维护/容量/usage通过称全部完成。",
+    "继续同一后端安装/组合资格及原任务高价值融合；冷历史只完成安全回读前置，主链热数据驱逐/真实物理治理未实施，S8独立反馈及真实长期体验仍独立评估。",
     "真实模型/商业Tokenizer/手机/跨日/活库向量映射仍缺安全绑定，只暂停相关资格，不碰生产-s1/AstrBot/Iris或既有正式入口。",
     "新后端已代码隔离测试，最终Core包/包内安装probe未发布；先收口后端，再一次性处理必要客户端改动，APK未因本批重打。"
   ],

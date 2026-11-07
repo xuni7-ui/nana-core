@@ -93,3 +93,16 @@ def test_life_config_permission_preflight_is_explicit_and_does_not_rewrite(root,
  assert path.read_bytes()==before and path.stat().st_mode&0o777==0o644
  path.chmod(0o600)
  assert load_config(home).revision>=1 and path.read_bytes()==before
+
+
+def test_optional_cold_backup_is_original_quarantined_copy_not_activation(root,tmp_path):
+ home=tmp_path/'cold-source';initialize(root,home)
+ identity=preflight(root,home).get('identity_id')
+ destination=tmp_path/'cold'/'history.sqlite'
+ result=execute(root,A(command='backup',home=home,output=destination,cold=True))
+ assert result['state']=='QUARANTINED_COLD_REVIEW_COPY' and result['runnable'] is False
+ assert result['main_history_evicted'] is False and destination.with_name(destination.name+'.cold.json').exists()
+ assert destination.with_name(destination.name+'.privacy.json').exists()
+ with sqlite3.connect(destination) as db:
+  assert db.execute("SELECT value_json FROM core_meta WHERE key='recovery_quarantine'").fetchone()[0]=='true'
+  assert not db.execute('PRAGMA foreign_key_check').fetchone()

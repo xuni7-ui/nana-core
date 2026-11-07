@@ -36,3 +36,11 @@
 尚未完成：经完整性/跨引用/恢复/隐私验证后冷历史归档及其实际物理回收；更深入的S8对梦境/上下文错误的独立后续策略验证；安全绑定下商业tokenizer/真实模型消耗、实际云端/手机/跨日相处资格。当前仅代码与隔离验证，最终安装包内后端probe/交付尚待后端收口，不把旧522/b873包冒充新后端。409APK/Web完全不动，source tree和APK SHA仍与b873一致。
 
 最终本批源码指纹前后相同，248相关检查62.90s通过（外层64.003s），覆盖原PersonSelf/Runtime/C/S3/Provider/流式/可移植身份及新维护/容量/usage；不是全仓回归。初次缺召回优先级、LOCAL元数据fixture错误、未推进增量due的fixture、周回看被原hour间隔延迟等失败均保留；修复及相同断言复验见本目录evidence/living-memory-unified。历史2006/12仍只属于37e46b5。
+
+## 可执行冷历史前置：原受管备份的压缩与回读
+
+新增ColdHistoryService是原Store.backup/PrivacyJournal的宿主维护适配，不另建记忆真相库。已有停止态CLI增加`backup --cold --output ...`，原普通backup和原启动/恢复协议保持不变。运行中仅暂停安全点可建副本。保留全部事件/来源/关系/学习/UNKNOWN/权限记录，副本仅移除正式已登记可重建索引并VACUUM，独立封签/hash/FK/完整性核验，原recovery_quarantine一直true。
+
+回读须匹配原主体、schema、末事件、当前原源head/内容digest及当前scope/entity/privacy；主源纠错/撤回优先。PrivacyJournal真实清除受管副本内容，旧静态封签失效后必须重建副本，禁止偷偷重签。不会加载全部历史入上下文，不自动激活副本。actual DEV同主体重启后读取、索引重建后的隔离恢复读取及删除传播通过。冷副本减少的只是其自身索引空间，新增副本使总磁盘占用增加；不宣称已回收主库或取得真实异机DR资格。主事件链热数据自动驱逐仍未实施，不以本适配绕过该门。
+
+20项相关CLI/原恢复/冷回读检查3.66s通过；初次测试未关闭SQLite连接导致WAL还在，已修正fixture显式close，WAL未checkpoint与主文件篡改均拒绝，原断言保留。新模块进入精确Runtime文件白名单；后续包内实际安装继续执行，不重打APK。

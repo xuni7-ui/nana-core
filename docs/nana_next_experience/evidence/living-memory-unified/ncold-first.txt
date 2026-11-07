@@ -1,0 +1,29 @@
+.F.                                                                      [100%]
+=================================== FAILURES ===================================
+__________ test_cold_view_checks_current_scope_correction_and_tamper ___________
+
+app = <nana_core.life.application.LifeApplication object at 0x7f13d584bec0>
+tmp_path = PosixPath('/dev/shm/ncold-first/test_cold_view_checks_current_0')
+
+    def test_cold_view_checks_current_scope_correction_and_tamper(app,tmp_path):
+        mid=source(app,'cold-first','SYNTHETIC old fact',predicate_key='cold.fact')
+        service=ColdHistoryService(app.runtime.store,app.runtime.authority)
+        result=service.create(tmp_path/'archive'/'self.sqlite',authority=app.runtime.authority)
+        kwargs=dict(scopes=('project-work',),privacy_classes=('PROJECT',),entity_ids=('project-user',))
+        view=service.open(result['path'],**kwargs)
+        denied=service.open(result['path'],scopes=('other',),privacy_classes=('PROJECT',),entity_ids=('project-user',))
+        with pytest.raises(CoreError,match='SOURCE_UNAVAILABLE'):denied.memory(mid)
+        source(app,'cold-new','SYNTHETIC corrected fact',predicate_key='cold.fact',correction_of=mid)
+        with pytest.raises(CoreError,match='SOURCE_UNAVAILABLE'):view.memory(mid)
+        path=Path(result['path'])
+        with sqlite3.connect(path) as db:db.execute("UPDATE artifacts SET payload=? WHERE artifact_id=?",(b'SYNTHETIC tamper',app.runtime.store.one('memories',mid)['payload_artifact_id']))
+>       with pytest.raises(CoreError,match='CHANGED_RECREATE'):service.open(path,**kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       AssertionError: Regex pattern did not match.
+E         Expected regex: 'CHANGED_RECREATE'
+E         Actual message: 'COLD_HISTORY_UNCHECKPOINTED'
+
+tests/person_self/test_cold_history.py:46: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_cold_history.py::test_cold_view_checks_current_scope_correction_and_tamper
+1 failed, 2 passed in 0.34s
