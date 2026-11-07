@@ -1,6 +1,7 @@
-Latest APK: nana-space-4.0.5-chat-debug.apk
-Source: 8f2df93 on dev/nana-core-next-experience-codex
-SHA256: b5769495fc5ecc5a72f6fc6fc8c6da56063fc7d35624ac65db8eae17b5810d86
-Debug app life.nana.space.dev, versionCode405; same signer as403/404.
-Mobile chat layout fixed. Retains original login and pairing; existing device binding is preserved by covering installation. Do not uninstall.
-Actual phone testing remains pending. Older404 APK below predates the chat fixes.
+Latest APK: nana-space-4.0.6-next-debug.apk
+Core/Web/Android source: cc3dc335cfec6db00ac44850344de2c49df25769
+APK SHA256: 29d5402655b52c915243e55a5e90db50d4ccfb4cea46beafa0836e8a26c9120c
+Same debug appId/signature; cover-install, do not uninstall or clear pairing.
+Matched server archive and isolated operator steps: HANDOFF-406.md; verify SHA256SUMS-406.
+Cloud/real model/physical phone/human/cross-day NOT_RUN; no production activation.
+Older404/405 below remain historical, not the new406.
