@@ -1,0 +1,127 @@
+{
+  "qualification": "SYNTHETIC_LITERAL_SOURCE_SELECTION_ONLY",
+  "scales": [
+    {
+      "baseline": {
+        "p50_ms": 1.112933001422789,
+        "p95_ms": 1.590314001077786
+      },
+      "candidate": {
+        "p50_ms": 0.5865950006409548,
+        "p95_ms": 0.8624280017102137
+      },
+      "size": 1000,
+      "exact_rank_equivalence": true,
+      "wall_seconds": 0.7441333250026219,
+      "provider_calls": 0,
+      "sqlite": "3.53.1",
+      "literal_note_recall": {
+        "samples": 9,
+        "baseline_top128_contains_correct_source": false,
+        "correct_source_samples": 9,
+        "wrong_source_samples": 0,
+        "bounded_timeout_samples": 0,
+        "p50_ms": 0.3530670001055114,
+        "p95_ms": 1.946723998116795,
+        "eligible_sources": 1,
+        "foreign_source_excluded": true,
+        "qualification": "SYNTHETIC_LITERAL_SOURCE_SELECTION_NOT_SEMANTIC_OR_LIVE_RECALL",
+        "real_model_calls": 0,
+        "real_cost_micro": 0
+      }
+    },
+    {
+      "baseline": {
+        "p50_ms": 16.57912600057898,
+        "p95_ms": 20.070221995410975
+      },
+      "candidate": {
+        "p50_ms": 4.827705000934657,
+        "p95_ms": 6.109099995228462
+      },
+      "size": 10000,
+      "exact_rank_equivalence": true,
+      "wall_seconds": 8.537829338005395,
+      "provider_calls": 0,
+      "sqlite": "3.53.1",
+      "literal_note_recall": {
+        "samples": 9,
+        "baseline_top128_contains_correct_source": false,
+        "correct_source_samples": 9,
+        "wrong_source_samples": 0,
+        "bounded_timeout_samples": 0,
+        "p50_ms": 2.284418005729094,
+        "p95_ms": 2.639067002746742,
+        "eligible_sources": 1,
+        "foreign_source_excluded": true,
+        "qualification": "SYNTHETIC_LITERAL_SOURCE_SELECTION_NOT_SEMANTIC_OR_LIVE_RECALL",
+        "real_model_calls": 0,
+        "real_cost_micro": 0
+      }
+    },
+    {
+      "baseline": {
+        "p50_ms": 222.9168740013847,
+        "p95_ms": 251.90945700160228
+      },
+      "candidate": {
+        "p50_ms": 49.967967002885416,
+        "p95_ms": 55.608850001590326
+      },
+      "size": 100000,
+      "exact_rank_equivalence": true,
+      "wall_seconds": 101.19738841800427,
+      "provider_calls": 0,
+      "sqlite": "3.53.1",
+      "literal_note_recall": {
+        "samples": 9,
+        "baseline_top128_contains_correct_source": false,
+        "correct_source_samples": 9,
+        "wrong_source_samples": 0,
+        "bounded_timeout_samples": 0,
+        "p50_ms": 20.305139994889032,
+        "p95_ms": 22.790442999394145,
+        "eligible_sources": 1,
+        "foreign_source_excluded": true,
+        "qualification": "SYNTHETIC_LITERAL_SOURCE_SELECTION_NOT_SEMANTIC_OR_LIVE_RECALL",
+        "real_model_calls": 0,
+        "real_cost_micro": 0
+      }
+    },
+    {
+      "baseline": {
+        "p50_ms": 512.2968549985671,
+        "p95_ms": 538.9484640036244
+      },
+      "candidate": {
+        "p50_ms": 109.81363899918506,
+        "p95_ms": 113.24075100128539
+      },
+      "size": 200000,
+      "exact_rank_equivalence": true,
+      "wall_seconds": 215.54547062599886,
+      "provider_calls": 0,
+      "sqlite": "3.53.1",
+      "literal_note_recall": {
+        "samples": 9,
+        "baseline_top128_contains_correct_source": false,
+        "correct_source_samples": 9,
+        "wrong_source_samples": 0,
+        "bounded_timeout_samples": 0,
+        "p50_ms": 43.306475003191736,
+        "p95_ms": 45.742693000647705,
+        "eligible_sources": 1,
+        "foreign_source_excluded": true,
+        "qualification": "SYNTHETIC_LITERAL_SOURCE_SELECTION_NOT_SEMANTIC_OR_LIVE_RECALL",
+        "real_model_calls": 0,
+        "real_cost_micro": 0
+      }
+    }
+  ],
+  "distinct_query_fixtures_per_scale": 1,
+  "timing_repetitions_per_scale": 9,
+  "model_ablation": "MODEL_ABLATION_NOT_RUN",
+  "semantic_generalization": "NOT_RUN",
+  "human_long_term_recall": "NOT_RUN",
+  "outer_sql_candidate_label": "Historical aggregate-join sketch, not a new claimed deployed API speedup."
+}

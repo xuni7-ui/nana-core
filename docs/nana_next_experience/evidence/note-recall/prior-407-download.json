@@ -1,0 +1,27 @@
+{
+  "delivery_commit": "aae944a",
+  "download_type": "ACTUAL_HTTPS_STREAM_NO_SECRET",
+  "components": [
+    {
+      "file": "nana-space-4.0.7-next-debug.apk",
+      "http": 200,
+      "bytes": 4843428,
+      "sha256": "5fed16c7819255a9681574563291ae3a058f9edd563e2ec73991e35882f37b20",
+      "match": true
+    },
+    {
+      "file": "nana-space-4.0.7-web.tar.gz",
+      "http": 200,
+      "bytes": 614874,
+      "sha256": "e8a078acf1c686e70e22257fe4c3942504348c01882e906793817f9f2e4173c9",
+      "match": true
+    },
+    {
+      "file": "server-407/nana-core-edd170f-portable.tar.gz",
+      "http": 200,
+      "bytes": 14989197,
+      "sha256": "3ca1e517c23f43bfbce52678fde9d2514973f19d7eabd1dfeee5908b2a318159",
+      "match": true
+    }
+  ]
+}

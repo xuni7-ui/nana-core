@@ -7,33 +7,31 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 70,
-  "as_of_us": 1794016174504588,
+  "revision": 71,
+  "as_of_us": 1794018358092022,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_407_MATCHED_DELIVERY_AND_RECALL_REFINEMENT",
+  "status": "IN_PROGRESS_SOURCED_NOTE_RECALL_AND_ORIGINAL_GROWTH",
   "progress": [
-    "继承原Next Experience：手机登录、紧凑聊天、模型目录、旧记忆查询与Gateway版本选择已实现。",
-    "原S8再次学习与S3/S2跨域证据保留；Fish原生关注、晚安和状态连续已有受控验证。",
-    "406匹配APK/Web/Core已发布并实际GitHub下载核对SHA一致。",
-    "407实际原Store备注/纠错、权限、撤回、丢失回执对账与同开发主体重启已验证；APK同签名。",
-    "edd170f全仓1933通过/1失败/12跳过604.46秒；唯一失败为工程摘要9证据超出8项上限，现精简摘要、保留历史，定向复验。",
-    "407 Core两次构建一致并实际安装/十页API/离线聊天/备注/同ID重启通过；真实手机与模型未验。"
+    "继承原Next Experience、手机紧凑聊天、模型目录、原S8/S3/S2及Fish原生关注/晚安/关系连续。",
+    "407 APK/Web/Core已推送交付aae944a，三组件实际GitHub下载SHA相同；同签名覆盖升级。",
+    "407原Store备注/纠错/UNKNOWN对账已有安装证据；全仓1933/1文档摘要失败/12跳过，摘要修复定向通过。",
+    "新服务端把当前备注接入原两调用对话上下文；116相关、原成长12、焦点7通过，不多调用模型。",
+    "合成1k至200k旧字面备注来源选择通过；单案例重复9次，20万P95约45.74ms，不冒充语义泛化。"
   ],
   "open_gates": [
-    "同一软件优化和十域长期精修继续；不以单批交付宣布总完成。",
-    "407匹配交付收口；已保存/已检索不等于自动准确对话召回。",
-    "真实模型/物理手机/跨日生活/活库向量映射无绑定，独立资格未运行。",
-    "Iris迁移和云端恢复由原运行负责人负责，本地不修改生产。"
+    "整个软件及十域长期精修继续，不以小批交付宣布总完成。",
+    "新召回源码密封包与同一安装DEV主体模型夹具接线待验；407客户端协议兼容。",
+    "真实模型/手机/跨日/活库向量映射无安全绑定，资格未运行；生产/Iris迁移不触碰。",
+    "全请求模型token预算、真实语义召回与原S8检索错误学习继续，不以开发者修复冒充成长。"
   ],
   "evidence_refs": [
-    "docs/nana_living_release_v4/qualification.json",
     "docs/nana_next_experience/STATUS.md",
     "docs/nana_next_experience/GROWTH_AND_AFFECT.md",
-    "docs/nana_next_experience/evidence/growth-renewal/",
+    "docs/nana_next_experience/NOTE_RECALL.md",
+    "docs/nana_next_experience/evidence/note-recall/",
     "docs/nana_next_experience/MEMORY_NOTES.md",
-    "docs/nana_next_experience/evidence/memory-notes/",
-    "docs/nana_next_experience/HANDOFF_406.md"
+    "docs/nana_next_experience/HANDOFF_407.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

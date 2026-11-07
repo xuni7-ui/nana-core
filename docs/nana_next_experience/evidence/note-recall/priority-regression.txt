@@ -1,0 +1,93 @@
+FFF...                                                                   [100%]
+=================================== FAILURES ===================================
+_ test_note_selected_after_restart_model_change_correction_and_withdrawal[ORION-SYNTHETIC ORION delivery-window is Thursday.-SYNTHETIC ORION delivery-window is Friday.] _
+
+tmp_path = PosixPath('/dev/shm/n408-recall-bounds/test_note_selected_after_resta0')
+term = 'ORION', statement = 'SYNTHETIC ORION delivery-window is Thursday.'
+correction = 'SYNTHETIC ORION delivery-window is Friday.'
+
+    @pytest.mark.parametrize('term,statement,correction',[
+        ('ORION','SYNTHETIC ORION delivery-window is Thursday.','SYNTHETIC ORION delivery-window is Friday.'),
+        ('项目约定','合成资料：项目约定在周四。','合成资料：项目约定在周五。'),
+    ])
+    def test_note_selected_after_restart_model_change_correction_and_withdrawal(tmp_path,term,statement,correction):
+        home=tmp_path/'home';initialize(home,active=0);clock=VirtualClock()
+        with LifeApplication(home,clock=clock) as app:
+            first=save(app,text=statement,privacy='PROJECT',request_id='note.first')['memory_id']
+            identity=app.runtime.identity_id
+        for number,model in enumerate(('fixture-text-a','fixture-text-b')):
+            with relay(home,'CHAT',renderer=render_from_supplied_sources,
+                       remote_model_id=model,recall_query_terms=(term,'UNRETAINED_QUERY_CANARY')) as (router,requests),LifeApplication(home,clock=clock,router=router) as app:
+                app.pause()
+                if number:
+                    current=save(app,text=correction,privacy='PROJECT',request_id='note.correction',target_id=first)['memory_id']
+                else:current=first
+                result=app.chat('UNRETAINED_QUERY_CANARY what was our agreement?',privacy='PROJECT',message_id='question.'+str(number))
+                assert app.runtime.identity_id==identity and len(requests)==2
+                assert result['render_state']=='UNVERIFIED_MODEL_WORDING'
+                notes=supplied_notes(requests[-1])
+>               assert [n['memory_id'] for n in notes]==[current]
+E               AssertionError: assert [] == ['d68cd18d-ee...9ab8df7d2b67']
+E                 
+E                 Right contains one more item: 'd68cd18d-ee19-4da2-ac0d-9ab8df7d2b67'
+E                 Use -v to get more diff
+
+tests/independent_life/test_note_recall.py:47: AssertionError
+_ test_note_selected_after_restart_model_change_correction_and_withdrawal[\u9879\u76ee\u7ea6\u5b9a-\u5408\u6210\u8d44\u6599\uff1a\u9879\u76ee\u7ea6\u5b9a\u5728\u5468\u56db\u3002-\u5408\u6210\u8d44\u6599\uff1a\u9879\u76ee\u7ea6\u5b9a\u5728\u5468\u4e94\u3002] _
+
+tmp_path = PosixPath('/dev/shm/n408-recall-bounds/test_note_selected_after_resta1')
+term = '项目约定', statement = '合成资料：项目约定在周四。', correction = '合成资料：项目约定在周五。'
+
+    @pytest.mark.parametrize('term,statement,correction',[
+        ('ORION','SYNTHETIC ORION delivery-window is Thursday.','SYNTHETIC ORION delivery-window is Friday.'),
+        ('项目约定','合成资料：项目约定在周四。','合成资料：项目约定在周五。'),
+    ])
+    def test_note_selected_after_restart_model_change_correction_and_withdrawal(tmp_path,term,statement,correction):
+        home=tmp_path/'home';initialize(home,active=0);clock=VirtualClock()
+        with LifeApplication(home,clock=clock) as app:
+            first=save(app,text=statement,privacy='PROJECT',request_id='note.first')['memory_id']
+            identity=app.runtime.identity_id
+        for number,model in enumerate(('fixture-text-a','fixture-text-b')):
+            with relay(home,'CHAT',renderer=render_from_supplied_sources,
+                       remote_model_id=model,recall_query_terms=(term,'UNRETAINED_QUERY_CANARY')) as (router,requests),LifeApplication(home,clock=clock,router=router) as app:
+                app.pause()
+                if number:
+                    current=save(app,text=correction,privacy='PROJECT',request_id='note.correction',target_id=first)['memory_id']
+                else:current=first
+                result=app.chat('UNRETAINED_QUERY_CANARY what was our agreement?',privacy='PROJECT',message_id='question.'+str(number))
+                assert app.runtime.identity_id==identity and len(requests)==2
+                assert result['render_state']=='UNVERIFIED_MODEL_WORDING'
+                notes=supplied_notes(requests[-1])
+>               assert [n['memory_id'] for n in notes]==[current]
+E               AssertionError: assert [] == ['ce953fc7-52...60fb2a597617']
+E                 
+E                 Right contains one more item: 'ce953fc7-520c-47a3-a5cb-60fb2a597617'
+E                 Use -v to get more diff
+
+tests/independent_life/test_note_recall.py:47: AssertionError
+_ test_project_question_cannot_retrieve_personal_note_even_on_private_capable_provider _
+
+tmp_path = PosixPath('/dev/shm/n408-recall-bounds/test_project_question_cannot_r0')
+
+    def test_project_question_cannot_retrieve_personal_note_even_on_private_capable_provider(tmp_path):
+        home=tmp_path/'home';initialize(home,active=0)
+        cfg=load_config(home)
+        binding=SurfaceBinding(binding_id='private.notes',platform='cloud.local',surface='chat.direct',adapter='shadow.local',
+            permitted_privacy=('PUBLIC','PROJECT','PERSONAL'),allow_personal_retention=True,personal_retention_consent_ref='synthetic.private.note.consent')
+        update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'surface_bindings':(binding,)}),expected_revision=cfg.revision)
+        with relay(home,'CHAT',recall_query_terms=('SYNTHETIC_PRIVATE_NEEDLE',)) as (router,requests),LifeApplication(home,clock=VirtualClock(),router=router) as app:
+            private=save(app,text='SYNTHETIC_PRIVATE_NEEDLE explicitly retained private statement',privacy='PERSONAL',request_id='private.note',surface_binding_id=binding.binding_id)['memory_id']
+            app.pause();app.chat('Look up that note',privacy='PROJECT',message_id='public.question')
+            assert len(requests)==2
+            assert all(private not in r['source_context_refs'] and 'explicitly retained private statement' not in r['context_json'] for r in requests)
+            app.chat('Look up that note privately',privacy='PERSONAL',message_id='private.question')
+>           assert len(requests)==4 and private in requests[-1]['source_context_refs']
+E           assert (4 == 4 and 'd9379898-73f7-41e7-bddf-89f78a27d52f' in ['79ffe797-ef6b-481a-8636-6c9b5f90c80c', '34ac32ff-446b-413e-8d59-70d48df61a58'])
+E            +  where 4 = len([{'available_capabilities': [], 'budget': {'cost_ceiling_micro': 0, 'input_tokens': 8192, 'output_tokens': 1024, 'time...[],"source_event_ids":[]}],"content_digest":"7dceb0deb99d30081088c93920ab4e6c39d5b9654b3c0d25040356998270d31d"}', ...}])
+
+tests/independent_life/test_note_recall.py:72: AssertionError
+=========================== short test summary info ============================
+FAILED tests/independent_life/test_note_recall.py::test_note_selected_after_restart_model_change_correction_and_withdrawal[ORION-SYNTHETIC ORION delivery-window is Thursday.-SYNTHETIC ORION delivery-window is Friday.]
+FAILED tests/independent_life/test_note_recall.py::test_note_selected_after_restart_model_change_correction_and_withdrawal[\u9879\u76ee\u7ea6\u5b9a-\u5408\u6210\u8d44\u6599\uff1a\u9879\u76ee\u7ea6\u5b9a\u5728\u5468\u56db\u3002-\u5408\u6210\u8d44\u6599\uff1a\u9879\u76ee\u7ea6\u5b9a\u5728\u5468\u4e94\u3002]
+FAILED tests/independent_life/test_note_recall.py::test_project_question_cannot_retrieve_personal_note_even_on_private_capable_provider
+3 failed, 3 passed in 3.22s

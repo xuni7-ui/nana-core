@@ -1,0 +1,12 @@
+{
+  "python": "3.12.14",
+  "platform": "Linux-6.18.57-x86_64-with-glibc2.41",
+  "sqlite": "3.53.1",
+  "source_base": "e888805",
+  "data": "Explicit synthetic original-Store records only; local tmpfs, not the cloud authoritative DB",
+  "provider_calls": 0,
+  "real_cost_micro": 0,
+  "live_store_vector_mapping": "NOT_RUN",
+  "physical_phone": "NOT_RUN",
+  "model_ablation": "MODEL_ABLATION_NOT_RUN"
+}

@@ -1259,3 +1259,8 @@ Same main mission continues. Completed product406 source/API/bounded-growth batc
 ## 2026-11-07 — 匹配407实际发行收口
 
 407匹配交付已具备原Store备注/纠错与UNKNOWN独立对账；接着处理已测出的自动对话召回缺口。S8/S3/S2、Fish原生融合和全部原十域主线继续，不追加新总阶段。
+
+
+## 2026-11-07 — S2有来源备注进入真实Core对话链
+
+同一Next Experience/S2/S5精修：备注可经原INTERPRET有限检索词→原MemoryService→原ContextAssembler→原C已提交判断后的RENDER进入回答来源，407客户端无需改协议。保留原S8/S3/S2成长、Fish融合及全部未完主线。

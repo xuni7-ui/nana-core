@@ -176,10 +176,14 @@ class LifeApplication:
         mid=capture(r,'local-presence:'+uid(),value.model_dump(mode='json'),kind='USER_STATEMENT',predicate=predicate,
             event_time_us=value.observed_at_us,correction_of=current['memory_id'] if current else None)
         r.refresh_attention();return {'declared_availability':state,'source_memory_id':mid,'not_inferred_from_contact_frequency':True}
-    def _fact_sources(self):
+    def _fact_sources(self,privacy=None):
         r=self.runtime;out=[]
         for row in r.store.db.execute("SELECT m.memory_id FROM actions a JOIN continuity_evidence e ON e.source_reference=a.action_id JOIN memories m ON m.source_evidence_id=e.evidence_id WHERE a.capability='world.publish' AND a.state='SUCCEEDED' AND e.source_namespace IN ('recorded.project.local-action','recorded.project.owned-application-action') AND m.lifecycle='ACTIVE' ORDER BY a.rowid DESC LIMIT 3"):
-            try:MemoryService(r.store).read(row[0]);out.append(row[0])
+            try:
+                memory=MemoryService(r.store).read(row[0])
+                from ..continuity.memory import PRIVACY_RANK
+                if privacy is not None and PRIVACY_RANK[memory['privacy_class']]>PRIVACY_RANK[privacy]:continue
+                out.append(row[0])
             except CoreError:continue
         return tuple(out)
     def _session(self,privacy):
@@ -194,13 +198,13 @@ class LifeApplication:
             self.session=target.cognition_session(self.runtime,project_state_source=self.current_project_state)
             self.session.recover()
         return self.session
-    def _model(self,key,phase,mid,text,topic,privacy,cycle=None,retain_shared_life=False):
+    def _model(self,key,phase,mid,text,topic,privacy,cycle=None,retain_shared_life=False,recall_query_terms=()):
         if cycle and cycle.record_id:
             from ..continuity.memory import PRIVACY_RANK
             classification=self.runtime.store.one('continuity_records',cycle.record_id)['privacy_class']
             if PRIVACY_RANK[classification]>PRIVACY_RANK[privacy]:raise CoreError('DIALOGUE_JUDGMENT_PRIVACY_DENIED')
         session=self._session(privacy)
-        facts=self._fact_sources()[:1] if phase=='RENDER' and cycle.context_fit.mode in {'CHAT','SHARE','HELP'} else ()
+        facts=self._fact_sources(privacy)[:1] if phase=='RENDER' and cycle.context_fit.mode in {'CHAT','SHARE','HELP'} else ()
         from .surfaces import recent_sources
         continuity=recent_sources(self,topic,privacy)
         from ..continuity.memory import PRIVACY_RANK
@@ -220,7 +224,7 @@ class LifeApplication:
         descriptor=DialogueContext(recent_history_truncated=len(recent)<len(self._recent),retain_shared_life=retain_shared_life,conversation_decision=cycle.conversation_decision if cycle else None,project_status_query=LiteralSpanInterpreter().interpret(text).kind=='PROJECT_STATUS' or bool(cycle and cycle.context_fit.mode=='PROJECT_STATUS'),message_memory_id=mid,topic=topic,privacy_class=privacy,phase=phase,
             judgment=cycle.judgment.stance if cycle else None,intention=cycle.intention.kind if cycle else None,context_mode=cycle.context_fit.mode if cycle else None,effect_status='VERIFIED_EFFECT' if facts else 'NONE')
         data={'dialogue':descriptor.model_dump(mode='json')};volatile={'dialogue':descriptor.model_copy(update={'text':text,'recent_turns':tuple(recent)}).model_dump(mode='json')}
-        request=session.prepare(key, 'INTERPRET' if phase=='INTERPRET' else 'SOCIAL',tuple(dict.fromkeys((mid,*facts,*continuity,*(t.message_memory_id for t in recent)))),role_input=data,volatile_input=volatile,
+        request=session.prepare(key, 'INTERPRET' if phase=='INTERPRET' else 'SOCIAL',tuple(dict.fromkeys((mid,*facts,*continuity,*(t.message_memory_id for t in recent)))),role_input=data,volatile_input=volatile,query_terms=recall_query_terms if phase=='RENDER' else (),
             budget=CognitionBudget(input_tokens=self.config.provider_context_tokens,output_tokens=self.config.provider_output_tokens,timeout_ms=self.config.provider_timeout_ms,cost_ceiling_micro=self.config.provider_cost_ceiling_micro))
         result=session.execute(request)
         if result['state']!='PROPOSED':raise CoreError(result.get('error_code','DIALOGUE_NOT_PROPOSED'))
@@ -251,7 +255,7 @@ class LifeApplication:
         if retain_shared_life:
             from ..continuity.person_self import retain_input
             mid=retain_input(r.store,entity_id=r.config.entity_id,scope=r.config.scopes[0],text=text,privacy=privacy,message_id=event_key)
-        proposal=None
+        proposal=None;recall_query_terms=()
         literal=LiteralSpanInterpreter().interpret(text);kind=literal.kind if literal.basis=='LITERAL_SPAN' else 'UNCLEAR';basis='EXPLICIT' if literal.basis=='LITERAL_SPAN' else 'INTERPRETED';rid=None;provider_state='LIVE_PROVIDER_NOT_RUN'
         try:
             from ..continuity.subject.context_fit import depth_boundary
@@ -259,6 +263,7 @@ class LifeApplication:
             if closed or kind in {'DECLINE_DEPTH','DECLINE_DELIVERY','REOPEN','REOPEN_DELIVERY'}:raise CoreError('TOPIC_BOUNDARY_NO_MODEL_CALL')
             session,rid=self._model('life.interpret.'+key,'INTERPRET',mid,text,topic,privacy,retain_shared_life=retain_shared_life)
             meaning=session.proposal(rid).proposal.dialogue
+            recall_query_terms=session.take_recall_terms(rid)
             proposal=meaning.conversation_proposal if retain_shared_life else None
             # Literal user boundary beats contradictory model interpretation.
             if kind not in {'DECLINE_DEPTH','DECLINE_DELIVERY','REOPEN','REOPEN_DELIVERY','PROJECT_STATUS'}:
@@ -275,7 +280,7 @@ class LifeApplication:
         cycle=outcome['cycle'];draft=None;render_state='NOT_RUN';render_rid=None
         if cycle.context_fit.mode!='RESPECT_BOUNDARY' and self.router is not None and provider_state=='MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED':
             try:
-                session,render_rid=self._model('life.render.'+key,'RENDER',mid,text,topic,privacy,cycle,retain_shared_life=retain_shared_life)
+                session,render_rid=self._model('life.render.'+key,'RENDER',mid,text,topic,privacy,cycle,retain_shared_life=retain_shared_life,recall_query_terms=recall_query_terms)
                 draft=session.take_dialogue_draft(render_rid);render_state='UNVERIFIED_MODEL_WORDING'
             except CoreError as exc:render_state=exc.code
         if not draft:
@@ -329,6 +334,7 @@ class LifeApplication:
             self.closed=True;self._recent.clear();self.ingress.close()
             if self.session:
                 self.session._volatile_inputs.clear();self.session._volatile_dialogue.clear()
+                self.session._volatile_recall.clear()
                 if hasattr(self.session.transport,'_credential'):self.session.transport._credential=None
             self.runtime.stop()
     def __enter__(self):return self

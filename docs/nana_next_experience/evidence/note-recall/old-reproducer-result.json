@@ -1,0 +1,8 @@
+{
+  "count": 1001,
+  "process_exit": 0,
+  "result_1000_exists": true,
+  "result_1001_exists": false,
+  "root_cause": "CLI namespace was overwritten by a list of filter parameters; args.count became the list.count method, so the custom final checkpoint was silently omitted.",
+  "fix": "Keep separate filter_args, leave all protocol and SQLite constraints unchanged."
+}

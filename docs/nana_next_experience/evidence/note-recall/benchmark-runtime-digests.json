@@ -1,0 +1,8 @@
+{
+  "scope": "200k scaling used uncommitted post-e888 source before formatting only the two new memory functions; formatting AST equality was explicitly checked. Final source hashes below are post-format, not asserted as captured pre-format bytes.",
+  "memory_runtime_post_format_sha256": "8f8ed9558a5503cef7bf4ba71a8992af6891f81c808ef484615d86a1781df927",
+  "memory_runtime_ast_sha256": "f78f0fc10569a290b59e5f7e30195e95990e1d73284edc9f93eb3334151e1353",
+  "benchmark_source_current_sha256": "2b782aa0ca9abdf05c5d336b100e9b8070a2f554a7dc6a2754c7ae4431335b15",
+  "final_same-input_1001_snapshot": "reproducer-final.txt contains exact executed file fingerprints",
+  "literal_algorithm_changed_after_scale_run": false
+}

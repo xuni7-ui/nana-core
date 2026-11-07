@@ -10,22 +10,9 @@ import re
 from ..contracts import CoreError
 from ..storage import digest
 from ..continuity.contracts import EvidenceInput, Provenance, MemoryCandidate, MemoryType
-from ..continuity.memory import MemoryService
+from ..continuity.memory import MemoryService, is_user_note
 from ..migration.archive import SECRET
 from ..migration.source_safety import safe_payload
-
-
-def is_user_note(memory):
-    provenance = memory.get("source_provenance", {})
-    return (
-        (memory.get("predicate_key", "") or "").startswith("user-note.")
-        and (provenance.get("domain"), provenance.get("source_namespace"), provenance.get("source_kind"))
-        == ("CONSENTED_INTERACTION", "recorded.conversation.input", "USER_STATEMENT")
-        and provenance.get("source_reference", "").startswith("note:")
-        and memory.get("epistemic_kind") == "STATEMENT"
-        and memory.get("memory_type") == "SEMANTIC"
-        and memory.get("authority") == "DIRECT"
-    )
 
 
 def screen(text):

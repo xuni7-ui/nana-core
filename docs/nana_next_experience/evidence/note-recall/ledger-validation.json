@@ -1,0 +1,6 @@
+{
+  "initial": "Strict Python DTO validation rejected list input; no header written.",
+  "remediation": "Validate exactly the JSON wire format consumed by ProjectStateSource, retaining all original tuple/string/length bounds.",
+  "final": "PASS",
+  "runtime_contract_changed": false
+}

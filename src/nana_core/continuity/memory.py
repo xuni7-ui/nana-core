@@ -5,12 +5,28 @@ trusted application controllers call these commit methods; LLMs propose DTOs.
 """
 import json
 import re
+import sqlite3
+import time
 
 from ..contracts import CoreError
 from ..storage import uid
 from .contracts import EvidenceInput, MemoryCandidate, MemoryType
 
 PRIVACY_RANK = {"PUBLIC": 0, "PROJECT": 1, "PERSONAL": 2, "SECRET": 3}
+
+
+def is_user_note(memory):
+    """Explicitly consented user statement, never a lived event or permission."""
+    provenance = memory.get("source_provenance", {})
+    return (
+        (memory.get("predicate_key", "") or "").startswith("user-note.")
+        and (provenance.get("domain"), provenance.get("source_namespace"), provenance.get("source_kind"))
+        == ("CONSENTED_INTERACTION", "recorded.conversation.input", "USER_STATEMENT")
+        and provenance.get("source_reference", "").startswith("note:")
+        and memory.get("epistemic_kind") == "STATEMENT"
+        and memory.get("memory_type") == "SEMANTIC"
+        and memory.get("authority") == "DIRECT"
+    )
 
 
 class MemoryService:
@@ -289,6 +305,58 @@ class MemoryService:
                 [*args, *order_args, limit],
             ).fetchall()
         return [self.read(r[0], include_inactive=include_conflicts) for r in rows]
+
+    def literal_notes(self, *, entity_ids, scopes, privacy_classes, terms, limit=4, timeout_ms=100):
+        """Bounded original-Store literal lookup, not semantic truth or a cache.
+
+        Materialize authorized headers before inspecting text. Only the existing
+        explicitly retained note family participates; arbitrary observations,
+        private intentions and archives cannot enter through this shortcut.
+        The single owner must call outside a transaction/progress callback.
+        """
+        self._fresh()
+        if (
+            type(terms) is not tuple
+            or not 1 <= len(terms) <= 8
+            or any(type(t) is not str or not 2 <= len(t) <= 64 for t in terms)
+            or type(limit) is not int
+            or not 1 <= limit <= 4
+            or type(timeout_ms) is not int
+            or not 1 <= timeout_ms <= 1000
+        ):
+            raise CoreError("INVALID_NOTE_RECALL_QUERY")
+        where, args = self._query_filter(entity_ids, scopes, privacy_classes, False, ("SEMANTIC",))
+        match = " OR ".join("instr(lower(CAST(a.payload AS TEXT)),lower(?))>0" for _ in terms)
+        deadline = time.monotonic() + timeout_ms / 1000
+        db = self.store.db
+        if db.in_transaction:
+            raise CoreError("NOTE_RECALL_SAFE_POINT_REQUIRED")
+        db.set_progress_handler(lambda: int(time.monotonic() > deadline), 1000)
+        try:
+            rows = db.execute(
+                "WITH visible AS MATERIALIZED (SELECT m.memory_id,m.payload_artifact_id,m.rowid AS ordinal FROM memories m WHERE "
+                + where
+                + " AND substr(m.predicate_key,1,10)='user-note.') "
+                "SELECT v.memory_id FROM visible v JOIN artifacts a ON a.artifact_id=v.payload_artifact_id WHERE ("
+                + match
+                + ") ORDER BY v.ordinal DESC LIMIT ?",
+                (*args, *terms, limit),
+            ).fetchall()
+        except sqlite3.OperationalError as exc:
+            if "interrupt" in str(exc).lower():
+                raise CoreError("NOTE_RECALL_TIME_BOUND") from None
+            raise
+        finally:
+            db.set_progress_handler(None, 0)
+        result = []
+        for row in rows:
+            try:
+                current = self.read(row["memory_id"])
+            except CoreError:
+                continue
+            if is_user_note(current):
+                result.append(current)
+        return result
 
     def conflict_bundle(self, row, privacy_classes):
         headers = self.store.db.execute("SELECT * FROM memories WHERE entity_id=? AND scope=? AND predicate_key=? "

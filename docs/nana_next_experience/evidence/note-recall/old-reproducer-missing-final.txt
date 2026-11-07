@@ -1,0 +1,1 @@
+{"baseline": {"p50_ms": 1.12140199780697, "p95_ms": 1.4629599972977303}, "candidate": {"p50_ms": 0.51063799764961, "p95_ms": 0.6159039985504933}, "size": 1000, "exact_rank_equivalence": true, "wall_seconds": 0.7358943970029941, "provider_calls": 0, "sqlite": "3.53.1"}

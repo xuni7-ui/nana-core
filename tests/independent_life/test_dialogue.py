@@ -11,7 +11,7 @@ from nana_core.presence.authority import VirtualClock
 from .conftest import initialize
 
 @contextmanager
-def relay(home,kind='VENT',*,mode='normal',conversation_proposal=None,renderer=None,profile_id='fixture.provider',model_profile_id='fixture.text',remote_model_id='same-text-model'):
+def relay(home,kind='VENT',*,mode='normal',conversation_proposal=None,renderer=None,profile_id='fixture.provider',model_profile_id='fixture.text',remote_model_id='same-text-model',recall_query_terms=()):
     requests=[]
     class Handler(BaseHTTPRequestHandler):
         def log_message(self,*args):pass
@@ -21,6 +21,7 @@ def relay(home,kind='VENT',*,mode='normal',conversation_proposal=None,renderer=N
             proposal={'interpretation':descriptor['text'],'source_refs':request['source_context_refs'],'uncertainty':'LOW','confidence':.9}
             if role=='INTERPRET':
                 proposal['dialogue']={'kind':kind,'confidence':'HIGH'}
+                if recall_query_terms:proposal['dialogue']['recall_query_terms']=recall_query_terms
                 if conversation_proposal:proposal['dialogue']['conversation_proposal']=conversation_proposal
             else:proposal['draft']={'text':renderer(request) if renderer else 'A deliberately synthetic language response','claim_memory_ids':[],'effect_status':descriptor['effect_status']}
             if mode=='attack':proposal['interests']=[{'topic':'attack','motivation_source':'CURIOSITY','source_memory_ids':request['source_context_refs'],'interpretation':'model tries to create an adopted goal'}]
@@ -31,9 +32,9 @@ def relay(home,kind='VENT',*,mode='normal',conversation_proposal=None,renderer=N
         authority=ProviderConfigurationAuthority();service=ProviderConfigService(home/'test-providers.json',authority);service.initialize(authority)
         p=ProviderProfile(provider_profile_id=profile_id,display_name='SYNTHETIC_LOOPBACK',protocol='SYNTHETIC_LOOPBACK',locality='LOCAL_FIXTURE',base_url=f'http://127.0.0.1:{server.server_port}/v1',permitted_privacy=('PUBLIC','PROJECT','PERSONAL'))
         m=ModelProfile(model_profile_id=model_profile_id,provider_profile_id=p.provider_profile_id,remote_model_id=remote_model_id,model_version='1',operations=('COGNITION',),input_modalities=('TEXT',),output_modalities=('TEXT',),context_limit=8192,output_limit=2048)
-        service.update(ProviderCommand(operation='UPSERT_PROVIDER',expected_revision=0,provider=p),authority)
-        service.update(ProviderCommand(operation='UPSERT_MODEL',expected_revision=1,model=m),authority)
-        service.update(ProviderCommand(operation='SET_CAPABILITY_ROUTE',expected_revision=2,route=CapabilityRoute(operation='COGNITION',primary_model_profile_id=m.model_profile_id,permitted_privacy=('PUBLIC','PROJECT','PERSONAL'))),authority)
+        service.update(ProviderCommand(operation='UPSERT_PROVIDER',expected_revision=service.load().revision,provider=p),authority)
+        service.update(ProviderCommand(operation='UPSERT_MODEL',expected_revision=service.load().revision,model=m),authority)
+        service.update(ProviderCommand(operation='SET_CAPABILITY_ROUTE',expected_revision=service.load().revision,route=CapabilityRoute(operation='COGNITION',primary_model_profile_id=m.model_profile_id,permitted_privacy=('PUBLIC','PROJECT','PERSONAL'))),authority)
         factory=RuntimeProviderFactory(ProviderRegistry(),None,RoutingPolicy(allow_synthetic_loopback=True))
         yield CapabilityRouter(service,factory),requests
     finally:server.shutdown();server.server_close();thread.join(timeout=2)

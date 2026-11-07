@@ -1,0 +1,10 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/nana-unified-release/tools/nana_next_experience/memory_scale_compare.py", line 32, in <module>
+    e=m.capture(EvidenceInput(provenance=Provenance(domain='CONSENTED_INTERACTION',source_namespace='recorded.conversation.input',source_reference='note:synthetic-scale-'+entity,source_kind='USER_STATEMENT'),retention_consent_ref='synthetic-scale-consent',text=text,privacy_class='PROJECT',observed_time_us=101))
+      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/nana-unified-release/src/nana_core/continuity/memory.py", line 67, in capture
+    if consented and (self.store.schema_target<13 or candidate.privacy_class not in {'PUBLIC','PROJECT','PERSONAL'} or candidate.retention_consent_ref!=p.source_reference or (p.source_namespace,p.source_kind) not in {('recorded.conversation.input','USER_STATEMENT'),('recorded.conversation.feedback','USER_STATEMENT'),('recorded.conversation.feedback-check','SYSTEM_VERIFICATION'),('recorded.conversation.concern','MODEL_DERIVATION')}):raise CoreError('EXPLICIT_CONVERSATION_RETENTION_REQUIRED')
+                                                                                                                                                                                                                                                                                                                                                                                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+nana_core.contracts.CoreError: EXPLICIT_CONVERSATION_RETENTION_REQUIRED

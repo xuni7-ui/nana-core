@@ -171,6 +171,9 @@ class ContextAssembler:
         if not set(request.scopes) <= set(policy.allowed_scopes):
             raise CoreError("CONTEXT_SCOPE_DENIED")
         privacy = tuple(p for p in policy.readable_privacy if request.destination == "LOCAL_FIXTURE" or p in policy.remote_privacy)
+        if conversation_topic is not None:
+            from .memory import PRIVACY_RANK
+            privacy=tuple(p for p in privacy if PRIVACY_RANK[p]<=PRIVACY_RANK[request.task_privacy_class])
         if request.task_privacy_class not in privacy:
             raise CoreError("CONTEXT_TASK_PRIVACY_DENIED")
         frame = self_frame(self.store, self.authority, entity_id=request.entity_id,
@@ -179,6 +182,17 @@ class ContextAssembler:
         memory_query = dict(scopes=request.scopes, privacy_classes=privacy,
             entity_ids=(request.entity_id, frame.identity.identity_id), include_conflicts=True)
         memories = memory_service.query(**memory_query, query_terms=request.query_terms)
+        note_ids=set();recall_gap=None
+        note_terms=tuple(t for t in request.query_terms if 2<=len(t)<=64)[:8]
+        if pinned_only and conversation_topic is not None and note_terms:
+            try:
+                notes=memory_service.literal_notes(entity_ids=(request.entity_id,),scopes=request.scopes,
+                    privacy_classes=privacy,terms=note_terms)
+                note_ids={m['memory_id'] for m in notes}
+                memories.extend(m for m in notes if not any(old['memory_id']==m['memory_id'] for old in memories))
+            except CoreError as exc:
+                if exc.code not in {'NOTE_RECALL_TIME_BOUND','NOTE_RECALL_SAFE_POINT_REQUIRED'}:raise
+                recall_gap=exc.code+'_NO_ABSENCE_CLAIM'
         if len(required_memory_ids)>16:raise CoreError('CONTEXT_REQUIRED_SOURCE_BOUND')
         for mid in required_memory_ids:
             head=self.store.one('memories',mid)
@@ -264,11 +278,19 @@ class ContextAssembler:
             if relevance:score += 1000
             if row["memory_type"] == "SELF":
                 score += 50
+            if row['memory_id'] in note_ids and row['memory_id'] not in required_memory_ids:
+                # Keep person-self and established language policy ahead of
+                # optional lookup, while questions outrank generic projections.
+                score=min(score,975.0)
             block = ContextBlock(block_id="memory:" + row["memory_id"], kind="MEMORY",
                 data_json=canonical({k: row[k] for k in ("memory_id", "memory_type", "epistemic_kind", "text",
                     "assessment", "confidence", "authority", "event_time_us", "observed_time_us", "ingested_time_us")}),
                 source_memory_ids=(row["memory_id"],), source_event_ids=(row["event_id"],))
             block = block.model_copy(update={"source_evidence_ids": (row["source_evidence_id"],)})
+            if row['memory_id'] in note_ids:
+                block=block.model_copy(update={'data_json':canonical({**json.loads(block.data_json),
+                    'provenance':'EXPLICIT_USER_NOTE_NOT_VERIFIED_WORLD_FACT',
+                    'nana_lived_experience':False,'execution_authority':'NONE'})})
             candidates.append((score, block))
         # Disputes are whole bundles; never keep one side because of token limits.
         for key, rows in conflicts.items():
@@ -363,7 +385,7 @@ class ContextAssembler:
         if pinned_only:
             # Dialogue gets explicit verified facts plus existing filtered self/
             # relation projections; never the whole unrelated source corpus.
-            candidates=[(score,block) for score,block in candidates if (block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&set(required_memory_ids)) or block.kind in {'RELATIONSHIP_LINKS','SUBJECT_INFLUENCE','RELATIONAL_SUBJECT','PRIVATE_INTENT_STATE','PERSON_SELF','LIVED_LANGUAGE','LANGUAGE_EXAMPLES'}]
+            candidates=[(score,block) for score,block in candidates if (block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&(set(required_memory_ids)|note_ids)) or block.kind in {'RELATIONSHIP_LINKS','SUBJECT_INFLUENCE','RELATIONAL_SUBJECT','PRIVATE_INTENT_STATE','PERSON_SELF','LIVED_LANGUAGE','LANGUAGE_EXAMPLES'}]
         if source_only:
             # Media processors receive only the pinned, policy-filtered source,
             # never unrelated relationship, project or memory context.
@@ -379,7 +401,7 @@ class ContextAssembler:
             mandatory=[source_metadata(block) for block in mandatory]
             candidates=[(score,source_metadata(block)) for score,block in candidates]
         candidates.sort(key=lambda item: (-item[0], item[1].block_id))
-        selected, omitted = list(mandatory), []
+        selected, omitted = list(mandatory), [recall_gap] if recall_gap else []
         if retrieval_total > len(memories):
             omitted.append("RETRIEVAL_CANDIDATE_LIMIT")
         conflict_ids = tuple(block.block_id for _, block in candidates if block.kind == "UNRESOLVED_CONFLICT")

@@ -1,6 +1,6 @@
 """Semantic proposals, never identity, relationship, goal or execution authority."""
-from typing import Literal
-from pydantic import Field
+from typing import Literal, Annotated
+from pydantic import Field, StringConstraints, model_serializer
 from ..contracts import DTO
 from ..continuity.person_self import ConversationProposal, ConversationDecision
 
@@ -10,6 +10,12 @@ class DialogueMeaning(DTO):
     kind:MeaningKind
     confidence:Literal['LOW','RELEVANT','HIGH']='LOW'
     conversation_proposal:ConversationProposal|None=None
+    recall_query_terms:tuple[Annotated[str,StringConstraints(min_length=2,max_length=64)],...]=Field(default=(),max_length=8)
+    @model_serializer(mode='wrap')
+    def legacy_wire(self,handler):
+        value=handler(self)
+        if not self.recall_query_terms:value.pop('recall_query_terms',None)
+        return value
 
 class DialogueDraft(DTO):
     text:str|None=Field(default=None,max_length=2048)
