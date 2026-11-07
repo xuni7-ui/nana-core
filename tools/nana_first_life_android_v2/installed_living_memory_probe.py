@@ -7,12 +7,13 @@ consolidation/cold readback and validates current authority after withdrawal.
 import argparse
 import json
 import re
+import sqlite3
 from pathlib import Path
 import sys
 import time
 
 
-def run(bundle,work,prior,case_id="beacon",require_body_free_usage=False):
+def run(bundle,work,prior,case_id="beacon",require_body_free_usage=False,previous_bundle=None):
     if not re.fullmatch(r"[a-z][a-z0-9_-]{0,31}",case_id):raise ValueError("SYNTHETIC_CASE_ID_REQUIRED")
     if not __debug__:raise ValueError('QUALIFICATION_REQUIRES_ASSERTIONS')
     sys.dont_write_bytecode=True
@@ -20,7 +21,15 @@ def run(bundle,work,prior,case_id="beacon",require_body_free_usage=False):
     report=json.loads(Path(prior).read_text())
     source=json.loads((bundle/'runtime.json').read_text())['source_commit']
     marker=json.loads((home/'nana-space-development.json').read_text())
-    if (report.get('execution')!='ACTUAL_INSTALLED_DEV_CORE_NOT_CLOUD' or report.get('source_commit')!=source
+    old_source=report.get('source_commit')
+    if old_source!=source:
+        if previous_bundle is None:raise ValueError('PREVIOUS_DEV_BUNDLE_REQUIRED')
+        old=json.loads((Path(previous_bundle).resolve()/'runtime.json').read_text())
+        new=json.loads((bundle/'runtime.json').read_text())
+        keys=('schema_version','bundle_version','supported_platform','secret_binding_contract','archive_ingress_contract','bilibili_life_contract','platform_runtime_contract','private_context_contract')
+        if old['source_commit']!=old_source or any(old.get(k)!=new.get(k) for k in keys) or not set(old['features'])<=set(new['features']):
+            raise ValueError('DEV_UPGRADE_CONTRACT_MISMATCH')
+    if (report.get('execution')!='ACTUAL_INSTALLED_DEV_CORE_NOT_CLOUD'
             or marker!={'realm':'OWNED_DEVELOPMENT_ONLY','identity_id':report.get('subject_id')}
             or Path(sys.prefix).resolve()!=bundle/'.venv'):
         raise ValueError('INSTALLED_DEV_BINDING_REQUIRED')
@@ -39,7 +48,9 @@ def run(bundle,work,prior,case_id="beacon",require_body_free_usage=False):
     if owner_alive(status(home/'subject/self.db')):raise ValueError('STOPPED_DEV_OWNER_REQUIRED')
     identity,lineage,_=existing_identity(home)
     if (identity,lineage)!=(report['subject_id'],report['lineage_binding']):raise ValueError('SAME_SUBJECT_REQUIRED')
-    clock=VirtualClock(time.time_ns()//1000)
+    with sqlite3.connect((home/'subject/self.db').as_uri()+'?mode=ro',uri=True) as db:
+        high=db.execute('SELECT coalesce(max(clock_high_water_us),0) FROM runtime_lease').fetchone()[0]
+    clock=VirtualClock(max(time.time_ns()//1000,high))
     beacon='INSTALLED_DREAM_'+case_id.upper()
     text='SYNTHETIC installed original-source detail. '*24+beacon+' is Friday at the north gate.'
     query=ContextRequest(entity_id='project-user',scopes=('project-work',),task_class='world.social',
@@ -77,10 +88,13 @@ def run(bundle,work,prior,case_id="beacon",require_body_free_usage=False):
         capacity=capacity_plan(app.config.model_copy(update={'state_capacity_policy':'DISK_AWARE'}),sizes,home)
         assert capacity['backup_status']=='HEADROOM_ONLY_NOT_BACKUP_OR_DR_QUALIFICATION'
         resources=resource_state(store,app.runtime.config)
-        assert resources.calls==calls and resources.real_usage_reported_calls==0
-        assert resources.fixture_usage_reported_calls+resources.usage_missing_or_invalid_calls==report['local_fixture_calls']
+        day=app.runtime.clock.utc_now_us()//86_400_000_000*86_400_000_000
+        daily=store.db.execute('SELECT count(*) FROM cognitive_requests WHERE created_at_us>=?',(day,)).fetchone()[0]
+        assert resources.calls==daily and resources.real_usage_reported_calls==0
+        assert resources.fixture_usage_reported_calls+resources.usage_missing_or_invalid_calls==daily
         if require_body_free_usage:
-            assert resources.fixture_usage_reported_calls==calls and resources.usage_missing_or_invalid_calls==0
+            assert resources.fixture_usage_reported_calls==daily and resources.usage_missing_or_invalid_calls==0
+            assert store.db.execute("SELECT count(*) FROM core_meta WHERE substr(key,1,16)='cognition.usage.'").fetchone()[0]==calls
         # Earlier source withdrawal can legitimately erase derived usage records;
         # missing is not zero tokens or a refunded reservation.
     clock.advance(72*3_600_000_000)
@@ -102,7 +116,7 @@ def run(bundle,work,prior,case_id="beacon",require_body_free_usage=False):
             assert store.db.execute("SELECT count(*) FROM core_meta WHERE substr(key,1,16)='cognition.usage.'").fetchone()[0]==calls
     assert existing_identity(home)[:2]==(identity,lineage)
     return {'execution':'ACTUAL_INSTALLED_DEV_CONTINUATION_NOT_CLOUD','source_commit':source,
-        'subject_id':identity,'same_gateway_subject_and_lineage':True,'no_repository_pythonpath':True,
+        'subject_id':identity,'same_gateway_subject_and_lineage':True,'previous_source':old_source,'dev_upgrade_contract_checked':old_source!=source,'no_repository_pythonpath':True,
         'original_C_consolidation_changes_later_context':True,'virtual_72h_restart_and_source_withdrawal':True,
         'managed_cold_readback':True,'cold_initial_file_bytes':snapshot['initial_file_bytes'],
         'cold_file_bytes':snapshot['file_bytes'],'cold_allocated_bytes':snapshot['allocated_bytes'],
@@ -116,6 +130,6 @@ if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--bundle',type=Path,required=True);p.add_argument('--work',type=Path,required=True)
     p.add_argument('--prior',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
-    p.add_argument('--case-id',default='beacon');p.add_argument('--require-body-free-usage',action='store_true')
-    args=p.parse_args();result=run(args.bundle,args.work,args.prior,args.case_id,args.require_body_free_usage)
+    p.add_argument('--case-id',default='beacon');p.add_argument('--require-body-free-usage',action='store_true');p.add_argument('--previous-bundle',type=Path)
+    args=p.parse_args();result=run(args.bundle,args.work,args.prior,args.case_id,args.require_body_free_usage,args.previous_bundle)
     args.output.write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result))

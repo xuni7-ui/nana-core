@@ -1354,3 +1354,8 @@ a69实际离线安装/原BFF/十视图/同DEV恢复/SSE/原G及后续source撤�
 ### 2026-11-07 · Full regression and cold source references
 
 b25f7cb full regression 2043 passed/12 skipped in640.22s; original failed run preserved. Subsequent cold snapshot dependency check covers polymorphic MEMORY/EVIDENCE/RECORD parents beyond SQLite FK, refuses incomplete sealed copies. Cross-snapshot source and withdrawal plus negative cases:16 passed2.32s. Full result remains tied to b25, new cold patch is scoped-tested; new runtime package still needs building/installing. APK unchanged; no real model, production or phone qualification inferred.
+
+
+### 2026-11-07 · Installed 266 cold-reference continuation
+
+266 Runtime283文件两次构建SHA94684d933480e195a93493863ac8b73abd3b75b548e53543c3db3997c55a6963，实际离线安装；6a原DEV主体升级后身份/lineage、梦境与冷回读/撤回、数字usage保留通过，无新增模型调用；独立DEV主体的266 BFF/十视图/备份/笔记/重启通过。全仓2043/12只属于b25，后续冷引用16项为定向资格；不升级真人/云/手机或长期资格。409 APK不变。同一主线继续。

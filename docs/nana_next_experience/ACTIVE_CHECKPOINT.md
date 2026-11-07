@@ -1,3 +1,9 @@
+# Active continuation: installed 266 candidate, same task
+
+266272a runtime built twice identically and installed; same6a DEV Subject upgrade/lineage, dream, 72h virtual restart, cold readback/withdrawal and numeric usage passed with no additional model calls; separate266 DEV gateway passed. Source b25 full regression2043/12; 266 cold dependency16 targeted passes, no new full claim. Existing409 APK/Web unchanged. Update actual delivery to 266, then continue only remaining authorized high-value work; real cloud/model/phone/cross-day remain distinct gates. No production/private/social/new fee/key operations.
+
+---
+
 # Active continuation: cross-snapshot source fix and final Core artifact
 
 b25 full regression: 2043 passed / 12 skipped,640.22s. The subsequent cold snapshot polymorphic source check has 16 scoped passes, not a new full run. Build and actually install the Core at the latest source; candidate delivery 10112c1 still pins older6a and must not be presented as including the new fix. Existing409 APK/Web remain b873 unchanged; do not rebuild for backend. Preserve current candidate and old delivery; retain external approval boundaries and continue original task. See 09_STATE and LIVING_MEMORY_UNIFIED for pending qualifications.

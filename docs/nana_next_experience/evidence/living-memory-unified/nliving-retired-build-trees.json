@@ -1,0 +1,22 @@
+[
+  {
+    "build": "nliving-a69-build",
+    "verified_files": 282,
+    "archive_preserved": true
+  },
+  {
+    "build": "nliving-a69-rebuild",
+    "verified_files": 282,
+    "archive_preserved": true
+  },
+  {
+    "build": "nliving-usage-build",
+    "verified_files": 283,
+    "archive_preserved": true
+  },
+  {
+    "build": "nliving-usage-rebuild",
+    "verified_files": 283,
+    "archive_preserved": true
+  }
+]

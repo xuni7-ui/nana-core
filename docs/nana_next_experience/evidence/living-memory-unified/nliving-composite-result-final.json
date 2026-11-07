@@ -1,0 +1,9 @@
+{
+  "state": "CURRENT_DELIVERY_CONSISTENCY_VERIFIED",
+  "client_source": "b873a4af4b2c2731fe2c796b845364ab758a5f22",
+  "runtime_source": "6a32cae1d9b03ae3a1a9d0b7273d0885d82e466f",
+  "apk_web_files_equal": 42,
+  "runtime_contracts_preserved": true,
+  "production_activation": false,
+  "semantic_compatibility_or_execution_qualification": "NOT_PROVEN_BY_METADATA"
+}

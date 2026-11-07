@@ -7,8 +7,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 89,
-  "as_of_us": 1794074570120249,
+  "revision": 90,
+  "as_of_us": 1794074708735223,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_LIVING_MEMORY_DREAM_STORAGE_TOKEN_INTEGRATION",
@@ -20,12 +20,12 @@
     "完整请求模型计数绑定接入原ContextAssembler/Router，缺商业tokenizer不冒充准确token；实际派发前复核，原文闭包不长期保留。",
     "只对确认PROPOSED正数实测字节结算剩余字节额度；原财务/次数/UNKNOWN保留，新宿主32MB而旧设置4MB不变。",
     "a69实际新Core离线安装/原BFF/十视图/同DEV恢复/SSE/原G通过，6loopback真实0；同主体梦境/虚拟72h重启/冷回读追加模型0。",
-    "b25全仓2043通过/12跳过；后续冷快照多态来源跨快照/撤回与孤儿拒绝16项通过，新补丁仍需匹配Core包安装，APK未重打。"
+    "266 Runtime两次同SHA并实际离线安装；原6a DEV主体升级保持身份/lineage、梦境冷回读与撤回/数字usage，266 BFF另以隔离DEV验证；APK不重打。"
   ],
   "open_gates": [
     "继续同一后端安装/组合资格及原任务高价值融合；冷历史只完成安全回读前置，主链热数据驱逐/真实物理治理未实施，S8独立反馈及真实长期体验仍独立评估。",
     "真实模型/商业Tokenizer/手机/跨日/活库向量映射仍缺安全绑定，只暂停相关资格，不碰生产-s1/AstrBot/Iris或既有正式入口。",
-    "新后端已代码隔离测试，最终Core包/包内安装probe未发布；先收口后端，再一次性处理必要客户端改动，APK未因本批重打。"
+    "266包已隔离安装验证，交付指针需更新；真实生产激活、手机/模型/长期验收仍不可由开发测试代替。"
   ],
   "evidence_refs": [
     "docs/nana_next_experience/LIVING_MEMORY_UNIFIED.md",

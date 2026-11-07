@@ -1,0 +1,12 @@
+{
+  "retired": "INACTIVE_REGENERABLE_A69_VENV_ONLY",
+  "source_commit": "a69cbf17b6227d3d33c89a8c6639ac93958b82ae",
+  "retained": [
+    "archive",
+    "source",
+    "locked_wheels",
+    "DEV_stores",
+    "actual_test_receipts"
+  ],
+  "production_changed": false
+}

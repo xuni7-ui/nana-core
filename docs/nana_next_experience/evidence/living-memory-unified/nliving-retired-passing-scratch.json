@@ -1,0 +1,20 @@
+[
+  {
+    "path": "/tmp/nliving-related",
+    "result": "232 passed in 60.88s (0:01:00)",
+    "retained_result_log": "/tmp/nliving-related.txt",
+    "kind": "SUCCESSFUL_SYNTHETIC_TEST_SCRATCH_ONLY"
+  },
+  {
+    "path": "/tmp/nliving-qualified",
+    "result": "248 passed in 62.90s (0:01:02)",
+    "retained_result_log": "/tmp/nliving-qualified.txt",
+    "kind": "SUCCESSFUL_SYNTHETIC_TEST_SCRATCH_ONLY"
+  },
+  {
+    "path": "/tmp/nsoft48-related",
+    "result": "70 passed in 24.19s",
+    "retained_result_log": "/tmp/nsoft48-related.txt",
+    "kind": "SUCCESSFUL_SYNTHETIC_TEST_SCRATCH_ONLY"
+  }
+]
