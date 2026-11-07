@@ -2981,3 +2981,8 @@ Full current-Core1905passed/12skipped572.94s; corrected15MB portable build repro
 ## 2026-11-07 · Next Experience relationship continuity under growth
 
 Selected current relationship families before generic memory limits; reproduced old preferences/boundary/shared-event starvation and unrelated payload reads, fixed through original MemoryService, privacy/correction/dispute/restart/withdrawal verified.84 related +4 additional tests passed; small same153-row fixture0/0/0→1/1/1 recall. Evidence docs/nana_next_experience/RELATIONSHIP_RETENTION.md. No live model/host, no new learning or relationship authority.
+
+
+### 2026-11-07 · Same relationship fix: large-Store regression corrected before release
+
+Preserved six-query200k performance regression; replaced it with one authorized metadata scan and bounded per-family ranking, original payload/source checks. Same200k alternating9 pairs P95 original61.77ms→candidate49.24ms;50 related tests passed11.36s. This is a local performance fixture, not real relationship/naturalness qualification.

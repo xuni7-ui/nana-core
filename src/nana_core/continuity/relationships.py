@@ -18,19 +18,29 @@ class RelationshipView(DTO):
 
 def relationship_view(store, entity_id, *, scopes, privacy_classes):
     memory = MemoryService(store)
-    # Each established family gets a bounded slice before unrelated facts can
-    # consume its retrieval budget. This is a projection of the original Store,
-    # not another relationship authority or a strength/affection counter.
-    query = dict(entity_ids=(entity_id,), scopes=scopes, privacy_classes=privacy_classes)
-    selected_rows = {}
-    for prefix in ("preference.", "relationship.norm", "relationship.boundary", "relationship.open"):
-        for row in memory.query(**query, predicate_prefixes=(prefix,),
-                                memory_types=("RELATIONAL", "EPISODIC", "SEMANTIC"), limit=24):
-            selected_rows[row["memory_id"]] = row
-    for kind, limit in (("EPISODIC", 24), ("RELATIONAL", 8)):
-        for row in memory.query(**query, memory_types=(kind,), limit=limit):
-            selected_rows.setdefault(row["memory_id"], row)
-    relational = list(selected_rows.values())
+    # Select authorized metadata once, then reserve each established family a
+    # bounded slice. Six independent scans regress long-lived large Stores.
+    # Payloads stay behind the same original MemoryService.read source fence.
+    memory._fresh()
+    where, args = memory._query_filter((entity_id,), scopes, privacy_classes, False,
+                                      ("RELATIONAL", "EPISODIC", "SEMANTIC"))
+    prefixes = ("preference.", "relationship.norm", "relationship.boundary", "relationship.open")
+    matches = ["substr(m.predicate_key,1,length(?))=?" for _ in prefixes]
+    prefix_args = [value for prefix in prefixes for value in (prefix, prefix)]
+    family = "CASE " + " ".join(
+        f"WHEN {condition} THEN {index}" for index, condition in enumerate(matches)
+    ) + " WHEN m.memory_type='EPISODIC' THEN 4 ELSE 5 END"
+    eligible = "(m.memory_type IN ('RELATIONAL','EPISODIC') OR (m.predicate_key IS NOT NULL AND (" + " OR ".join(matches) + ")))"
+    rows = store.db.execute(
+        "WITH eligible AS MATERIALIZED (SELECT m.memory_id,m.authority,m.importance,"
+        "m.significance,m.event_time_us,m.rowid AS ordinal," + family + " AS family "
+        "FROM memories m WHERE " + where + " AND " + eligible + "), "
+        "ranked AS (SELECT *,ROW_NUMBER() OVER (PARTITION BY family ORDER BY "
+        "(authority='DIRECT') DESC,importance DESC,significance DESC,event_time_us DESC,ordinal) AS position "
+        "FROM eligible) SELECT memory_id FROM ranked WHERE position<=CASE WHEN family=5 THEN 8 ELSE 24 END "
+        "ORDER BY family,position", [*prefix_args, *args, *prefix_args]
+    ).fetchall()
+    relational = [memory.read(row[0]) for row in rows]
     def selected(prefix):
         return tuple(r["text"] for r in relational if (r["predicate_key"] or "").startswith(prefix))
     records = RecordService(store)

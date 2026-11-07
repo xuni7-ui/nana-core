@@ -1,0 +1,17 @@
+{
+  "qualification": "SYNTHETIC_200K_SAME_STORE_NOT_LIVE_RELATIONSHIP",
+  "real_provider_calls": 0,
+  "memory_rows": 200000,
+  "baseline": {
+    "p50_ms": 59.2926629979047,
+    "p95_ms": 64.40089300303953,
+    "preferences": 0,
+    "events": 0
+  },
+  "candidate": {
+    "p50_ms": 238.1160390068544,
+    "p95_ms": 248.39647600310855,
+    "preferences": 0,
+    "events": 0
+  }
+}
