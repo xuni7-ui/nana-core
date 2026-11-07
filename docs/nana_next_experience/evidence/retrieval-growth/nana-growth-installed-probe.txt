@@ -1,0 +1,9 @@
+{"execution": "ACTUAL_INSTALLED_DEV_CORE_NOT_CLOUD", "source_commit": "f03fcbbb6e8c7d0aa490d71aa89dfa128374dda7", "python": "3.12.14", "subject_id": "55d921d7-93ea-49ea-8d9d-6b3ec2a90bea", "lineage_binding": "fb60268023b36fcf09a9cc2ea04d4b6f939e05665b475211cd15b0f6caff5c14", "real_provider_calls": 0, "production_changed": false, "private_data_used": false, "real_social_sends": 0, "chat": "ORIGINAL_CORE_VERIFIED_OFFLINE_NOT_NATURALNESS_QUALIFICATION", "backup": "QUARANTINED_REVIEW_COPY", "notes_correction_restart_withdrawal": "PASS_ORIGINAL_STORE_NOT_NATURAL_MODEL_RECALL", "ten_pages": "PASS", "independent_host_stop": "PASS", "same_subject_restart": "PASS", "no_repository_pythonpath": "PASS", "isolation_entry": "PASS", "new_subject_mode": "EXPLICIT_DEVELOPMENT_ONLY"}
+Traceback (most recent call last):
+  File "/tmp/ngchecks/verify-note-recall.py", line 311, in <module>
+    result = run(
+             ^^^^
+  File "/tmp/ngchecks/verify-note-recall.py", line 271, in run
+    assert answer["text"] == "SYNTHETIC no supplied note" and len(requests) == before_calls + 4
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

@@ -126,15 +126,16 @@ def run(bundle, work, *, check_wire_reservations=False, check_retrieval_growth=F
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
     original = load_config(home)
+    fixture_call_limit = 6 if check_retrieval_growth else 4
     update_config(
         home,
         original.model_copy(
             update={
                 "revision": original.revision + 1,
-                "provider_calls_per_day": 4,
-                "provider_calls_per_hour": 4,
-                "per_provider_calls_per_day": 4,
-                "provider_total_calls_limit": 4,
+                "provider_calls_per_day": fixture_call_limit,
+                "provider_calls_per_hour": fixture_call_limit,
+                "per_provider_calls_per_day": fixture_call_limit,
+                "provider_total_calls_limit": fixture_call_limit,
                 "provider_context_tokens": 16384,
             }
         ),

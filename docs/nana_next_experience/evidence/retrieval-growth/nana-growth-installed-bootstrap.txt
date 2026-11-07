@@ -1,0 +1,14 @@
+Looking in links: /tmp/ng-installed/wheelhouse
+Processing /tmp/ng-installed/wheelhouse/pydantic-2.13.4-py3-none-any.whl (from -r /tmp/ng-installed/requirements.lock (line 1))
+Processing /tmp/ng-installed/wheelhouse/pydantic_core-2.46.4-cp312-cp312-manylinux_2_17_x86_64.manylinux2014_x86_64.whl (from -r /tmp/ng-installed/requirements.lock (line 2))
+Processing /tmp/ng-installed/wheelhouse/annotated_types-0.8.0-py3-none-any.whl (from -r /tmp/ng-installed/requirements.lock (line 3))
+Processing /tmp/ng-installed/wheelhouse/typing_extensions-4.16.0-py3-none-any.whl (from -r /tmp/ng-installed/requirements.lock (line 4))
+Processing /tmp/ng-installed/wheelhouse/typing_inspection-0.4.3-py3-none-any.whl (from -r /tmp/ng-installed/requirements.lock (line 5))
+Processing /tmp/ng-installed/wheelhouse/cryptography-50.0.0-cp311-abi3-manylinux_2_34_x86_64.whl (from -r /tmp/ng-installed/requirements.lock (line 6))
+Processing /tmp/ng-installed/wheelhouse/cffi-2.1.1-cp312-cp312-manylinux2014_x86_64.manylinux_2_17_x86_64.whl (from -r /tmp/ng-installed/requirements.lock (line 7))
+Processing /tmp/ng-installed/wheelhouse/pycparser-3.0-py3-none-any.whl (from -r /tmp/ng-installed/requirements.lock (line 8))
+Processing /tmp/ng-installed/wheelhouse/pillow-12.3.0-cp312-cp312-manylinux_2_27_x86_64.manylinux_2_28_x86_64.whl (from -r /tmp/ng-installed/requirements.lock (line 9))
+Installing collected packages: typing-extensions, pycparser, pillow, annotated-types, typing-inspection, pydantic-core, cffi, pydantic, cryptography
+Successfully installed annotated-types-0.8.0 cffi-2.1.1 cryptography-50.0.0 pillow-12.3.0 pycparser-3.0 pydantic-2.13.4 pydantic-core-2.46.4 typing-extensions-4.16.0 typing-inspection-0.4.3
+No broken requirements found.
+{"state": "INSTALLED_OFFLINE", "network_requests": 0, "actual_interpreter": {"python": [3, 12], "sqlite": {"supported": true, "version": "3.53.1", "minimum": "3.51.3", "checks": {"version": true, "json": true, "fts5": true}, "code": "SUPPORTED", "reason": null}, "native": {"supported": true, "missing": [], "code": "SUPPORTED"}, "venv": true, "prefix": "/tmp/ng-installed/.venv"}}

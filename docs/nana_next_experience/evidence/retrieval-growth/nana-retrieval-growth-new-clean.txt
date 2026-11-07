@@ -1,0 +1,137 @@
+........FF                                                               [100%]
+=================================== FAILURES ===================================
+_________ test_explicit_personal_notes_never_enter_project_self_study __________
+
+tmp_path = PosixPath('/tmp/rgnewclean/test_explicit_personal_notes_n0')
+
+    def test_explicit_personal_notes_never_enter_project_self_study(tmp_path):
+        from nana_core.life.config import load_config, update_config
+        from nana_core.life.surfaces import SurfaceBinding
+    
+        home = tmp_path / "home"
+        initialize(home, active=0)
+        config = load_config(home)
+        binding = SurfaceBinding(
+            binding_id="private.notes",
+            platform="cloud.local",
+            surface="chat.direct",
+            adapter="shadow.local",
+            permitted_privacy=("PUBLIC", "PROJECT", "PERSONAL"),
+            allow_personal_retention=True,
+        )
+        update_config(
+            home,
+            config.model_copy(update={"surface_bindings": (binding,), "revision": config.revision + 1}),
+            expected_revision=config.revision,
+        )
+        with LifeApplication(home, clock=VirtualClock()) as app:
+            for i, word in enumerate(("ＯＲＩＯＮ", "ＡＴＬＡＳ", "ＬＹＲＡ")):
+>               save(
+                    app,
+                    text="SYNTHETIC PRIVATE " + word,
+                    privacy="PERSONAL",
+                    request_id="private." + str(i),
+                    surface_binding_id=binding.binding_id,
+                )
+
+tests/independent_life/test_retrieval_growth.py:290: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+app = <nana_core.life.application.LifeApplication object at 0x7f31ec41b7a0>
+text = 'SYNTHETIC PRIVATE ＯＲＩＯＮ', privacy = 'PERSONAL', request_id = 'private.0'
+target_id = None, surface_binding_id = 'private.notes', request_digest = None
+
+    def save(app, *, text, privacy, request_id, target_id=None, surface_binding_id=None, request_digest=None):
+        r = app.runtime
+        r.lease.assert_current()
+        memory = MemoryService(r.store)
+        if type(text) is not str or not 1 <= len(text.strip()) <= 2048 or len(text) > 2048:
+            raise CoreError("MEMORY_NOTE_TEXT_BOUND")
+        if privacy not in r.config.privacy_classes or privacy not in {"PUBLIC", "PROJECT", "PERSONAL"}:
+            raise CoreError("MEMORY_NOTE_PRIVACY_DENIED")
+        binding = app.surfaces._binding(surface_binding_id) if surface_binding_id is not None else None
+        if binding and privacy not in binding.permitted_privacy:
+            raise CoreError("MEMORY_NOTE_PRIVACY_DENIED")
+        entity_id = r.config.entity_id
+        scope = binding.scope if binding else r.config.scopes[0]
+        if privacy == "PERSONAL":
+            if (
+                binding is None
+                or "PERSONAL" not in binding.permitted_privacy
+                or not binding.allow_personal_retention
+                or not binding.personal_retention_consent_ref
+            ):
+>               raise CoreError("SURFACE_PERSONAL_RETENTION_NOT_AUTHORIZED")
+E               nana_core.contracts.CoreError: SURFACE_PERSONAL_RETENTION_NOT_AUTHORIZED
+
+src/nana_core/life/memory_notes.py:47: CoreError
+____ test_partial_offer_recovery_does_not_duplicate_experience_or_self_wake ____
+
+tmp_path = PosixPath('/tmp/rgnewclean/test_partial_offer_recovery_do0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f31ec35b7d0>
+
+    def test_partial_offer_recovery_does_not_duplicate_experience_or_self_wake(tmp_path, monkeypatch):
+        home = tmp_path / "home"
+        initialize(home, active=0)
+        with LifeApplication(home, clock=VirtualClock()) as app:
+            notes(app)
+            growth = app.runtime.work.note_retrieval_growth
+            submit = app.runtime.submit
+    
+            def lost_receipt(event):
+                submit(event)
+                raise RuntimeError("SYNTHETIC lost local offer receipt")
+    
+            monkeypatch.setattr(app.runtime, "submit", lost_receipt)
+            with pytest.raises(RuntimeError, match="lost local offer"):
+                growth.slice("project-work")
+            count = len(app.runtime.store.all("experiences"))
+            queued = len(app.runtime.store.all("runtime_queue"))
+            app.runtime.clock.source.advance(SECOND)
+            monkeypatch.setattr(app.runtime, "submit", submit)
+>           growth.slice("project-work")
+
+tests/independent_life/test_retrieval_growth.py:322: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/retrieval_growth.py:516: in slice
+    study = r.submit(
+src/nana_core/presence/runtime.py:128: in submit
+    result = self.queue.enqueue(event)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/presence/queue.py:62: in enqueue
+    self.ingress.ingest(event.input)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.subject.ingress.SubjectIngress object at 0x7f31ec358110>
+event = SubjectInput(conversation_proposal=None, problem_frame=None, interaction_signal=None, growth_assessment_id=None, schem...details=None, positive_request=None, commitment_check_id=None, disposition_reflection_id=None, relational_request=None)
+
+    def ingest(self, event: SubjectInput):
+        if event.interaction_signal and self.store.schema_target<9:raise CoreError('CONTEXT_FIT_SCHEMA_REQUIRED')
+        now = self.store.clock.utc_now_us()
+        if event.surface:
+            from ..surfaces import source_key
+            if event.surface.subject_id != self.store.identity['identity_id'] or event.source_key != source_key(event.surface):
+                raise CoreError('SURFACE_BINDING_INVALID')
+        if event.observed_at_us > now or (event.occurred_at_us is not None and event.occurred_at_us > event.observed_at_us):
+            raise CoreError('INVALID_SUBJECT_TIME')
+        if not self.store.one('entities', event.entity_id):
+            raise CoreError('UNKNOWN_SUBJECT_ENTITY')
+        previous = self.store.db.execute('SELECT * FROM subject_events WHERE source_key=?', (event.source_key,)).fetchone()
+        if previous:
+            row = dict(previous)
+            if row['entity_id'] != event.entity_id or row['scope'] != event.scope or row['kind'] != event.kind or row['origin'] != event.origin:
+                raise CoreError('SUBJECT_SOURCE_COLLISION')
+            if row['record_id']:
+                try:
+                    old = self.records.read(row['record_id'])['payload']['input']
+                except CoreError:
+                    raise CoreError('SUBJECT_SOURCE_RETIRED') from None
+                if SubjectInput.model_validate_json(canonical(old)).model_dump(mode='json') != json.loads(event.model_dump_json()):
+>                   raise CoreError('SUBJECT_SOURCE_COLLISION')
+E                   nana_core.contracts.CoreError: SUBJECT_SOURCE_COLLISION
+
+src/nana_core/continuity/subject/ingress.py:51: CoreError
+=========================== short test summary info ============================
+FAILED tests/independent_life/test_retrieval_growth.py::test_explicit_personal_notes_never_enter_project_self_study
+FAILED tests/independent_life/test_retrieval_growth.py::test_partial_offer_recovery_does_not_duplicate_experience_or_self_wake
+2 failed, 8 passed in 2.79s

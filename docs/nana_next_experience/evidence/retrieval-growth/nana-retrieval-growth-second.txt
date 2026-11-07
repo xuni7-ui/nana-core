@@ -1,0 +1,72 @@
+F...................                                                     [100%]
+=================================== FAILURES ===================================
+_ test_autonomous_maintenance_gap_practice_restart_real_later_lookup_and_withdrawal _
+
+tmp_path = PosixPath('/tmp/rgsecond/test_autonomous_maintenance_ga0')
+record_property = <function record_property.<locals>.append_property at 0x7f6e756154e0>
+
+    def test_autonomous_maintenance_gap_practice_restart_real_later_lookup_and_withdrawal(tmp_path, record_property):
+        home=tmp_path/'home';initialize(home,active=0);clock=VirtualClock()
+        with LifeApplication(home,clock=clock) as app:
+            mids=notes(app)
+            identity=app.runtime.identity_id
+            evaluator=app.runtime.work.note_retrieval_growth.evaluator
+            snapshot=evaluator.snapshot('project-work')
+            assert evaluator.lookup('IDENTITY',('ORION',),snapshot)==[]
+            # Only the existing due maintenance safe point offers the opportunity.
+            app.runtime.work.maintenance.interval=SECOND
+            app.runtime.work.maintenance.discover()
+            assert app.runtime.work.maintenance_slice() is None
+            clock.advance(SECOND)
+            activity=app.runtime.work.maintenance_slice()
+            assert activity['retrieval_growth']['note_retrieval']=='OFFERED_TO_C'
+            assert not app.runtime.store.all('lessons')
+            # Original C, not the adapter, starts G. It has no user learn command.
+            app.runtime.step()
+            jobs=app.runtime.store.db.execute("SELECT * FROM jobs WHERE work_kind='LEARNING'").fetchall()
+            assert len(jobs)==1
+            assert not app.runtime.store.all('cognitive_requests')
+>       with LifeApplication(home,clock=clock) as app:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/independent_life/test_retrieval_growth.py:59: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/life/application.py:96: in __init__
+    self.runtime.work.note_retrieval_growth=NoteRetrievalGrowth(self.runtime)
+                                            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/retrieval_growth.py:194: in __init__
+    self.restore()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.retrieval_growth.NoteRetrievalGrowth object at 0x7f6e755d1880>
+
+    def restore(self):
+        """Recover trusted pending specs only after rechecking current sources."""
+        r = self.runtime
+        rows = r.store.db.execute("SELECT j.*,c.scope FROM jobs j JOIN continuity_records c ON c.record_id=j.record_id "
+            "WHERE j.work_kind='LEARNING' AND j.state IN ('WAITING','RUNNING','BLOCKED') "
+            "AND c.target_id LIKE 'learn.note-retrieval.%' ORDER BY j.rowid DESC LIMIT 4").fetchall()
+        from .open_agency.learning import LearningSpec
+        for row in rows:
+            if not RecordService(r.store).current_support(row['record_id']):
+                continue
+>           spec = LearningSpec.model_validate(RecordService(r.store).read(row['record_id'])['payload']['spec'])
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           pydantic_core._pydantic_core.ValidationError: 4 validation errors for LearningSpec
+E           hypotheses
+E             Input should be a valid tuple [type=tuple_type, input_value=['CASEFOLD', 'UNICODE_WORDS', 'JOIN'], input_type=list]
+E               For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E           practice
+E             Input should be a valid tuple [type=tuple_type, input_value=[{'case_id': 'practice', ...75-a36c-e26f828cccdb']}], input_type=list]
+E               For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E           evaluation
+E             Input should be a valid tuple [type=tuple_type, input_value=[{'case_id': 'evaluation'...76-acd1-f87967fbfa67']}], input_type=list]
+E               For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E           transfer
+E             Input should be a valid tuple [type=tuple_type, input_value=[{'case_id': 'transfer', ...eb-ac40-8f4c7fe085cf']}], input_type=list]
+E               For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+
+src/nana_core/continuity/retrieval_growth.py:216: ValidationError
+=========================== short test summary info ============================
+FAILED tests/independent_life/test_retrieval_growth.py::test_autonomous_maintenance_gap_practice_restart_real_later_lookup_and_withdrawal
+1 failed, 19 passed in 8.01s

@@ -3,7 +3,15 @@
   "baseline": "Retained fullwidth ORION note was stored but original literal lookup returned no note",
   "implementation": "Existing primitives -> original G practice/evaluation/transfer -> source-bound Lesson -> original ContextAssembler lookup",
   "new_tests": "10 passed / 2.73s",
-  "related_regression": "RUNNING_IN_SEPARATE_SMALL_GROUPS",
+  "related_regression": {
+    "passed": 139,
+    "failed": 0,
+    "groups": [
+      "64 passed in 41.39s",
+      "69 passed in 33.80s",
+      "6 passed in 12.19s"
+    ]
+  },
   "first_failures_preserved": true,
   "faults_fixed": [
     "Strict DTO JSON recovery",
@@ -18,5 +26,12 @@
   "live_store_vector_mapping": "NOT_RUN",
   "cross_day_life": "NOT_RUN",
   "production_changed": false,
-  "framework_or_criteria_changed": false
+  "framework_or_criteria_changed": false,
+  "runtime_source": "f03fcbbb6e8c7d0aa490d71aa89dfa128374dda7",
+  "archive_sha256": "ce518a23e3ec431b22f1b2a4e7441c84f57770ea2f65a133d9ac100c738ff25e",
+  "archive_bytes": 15001321,
+  "archive_files": 280,
+  "two_builds_equal": true,
+  "installed_probe": "PASS_ACTUAL_EXTRACTED_OFFLINE_BFF_SAME_DEV_SUBJECT_LINEAGE_ORIGINAL_G_LATER_RENDER_SOURCE_WITHDRAWAL",
+  "local_fixture_calls": 6
 }

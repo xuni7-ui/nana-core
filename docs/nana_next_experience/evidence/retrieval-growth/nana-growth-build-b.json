@@ -1,0 +1,7 @@
+{
+  "archive": "/tmp/nana-growth-build-b/nana-first-life-portable-v1.tar.gz",
+  "sha256": "ce518a23e3ec431b22f1b2a4e7441c84f57770ea2f65a133d9ac100c738ff25e",
+  "source_commit": "f03fcbbb6e8c7d0aa490d71aa89dfa128374dda7",
+  "bundle_files": 280,
+  "new_provider_calls": 0
+}

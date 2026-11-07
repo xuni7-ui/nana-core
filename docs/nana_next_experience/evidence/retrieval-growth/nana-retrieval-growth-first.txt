@@ -1,0 +1,57 @@
+F...                                                                     [100%]
+=================================== FAILURES ===================================
+_ test_autonomous_maintenance_gap_practice_restart_real_later_lookup_and_withdrawal _
+
+tmp_path = PosixPath('/tmp/rgfirst/test_autonomous_maintenance_ga0')
+record_property = <function record_property.<locals>.append_property at 0x7f0db821de40>
+
+    def test_autonomous_maintenance_gap_practice_restart_real_later_lookup_and_withdrawal(tmp_path, record_property):
+        home=tmp_path/'home';initialize(home,active=0);clock=VirtualClock()
+        with LifeApplication(home,clock=clock) as app:
+            mids=notes(app)
+            identity=app.runtime.identity_id
+            evaluator=app.runtime.work.note_retrieval_growth.evaluator
+            snapshot=evaluator.snapshot('project-work')
+            assert evaluator.lookup('IDENTITY',('ORION',),snapshot)==[]
+            # Only the existing due maintenance safe point offers the opportunity.
+            app.runtime.work.maintenance.discover()
+            assert app.runtime.work.maintenance_slice() is None
+            clock.advance(61*SECOND)
+>           activity=app.runtime.work.maintenance_slice()
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/independent_life/test_retrieval_growth.py:50: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/presence/living.py:160: in maintenance_slice
+    activity=self.maintenance.slice()
+             ^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/maintenance.py:47: in slice
+    with self.store.transaction('living.consolidation_candidate',data,source_namespace='living.consolidation',source_key=key) as tx:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+src/nana_core/storage/sqlite_store.py:246: in transaction
+    guard()
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.presence.authority.RuntimeLease object at 0x7f0db8299310>
+
+    def assert_current(self):
+        row = self.store.one("runtime_lease", self.identity_id)
+        if (
+            not row
+            or row["instance_id"] != self.instance_id
+            or row["epoch"] != self.epoch
+            or row["state"] != "ACTIVE"
+            or row["pid"] != os.getpid()
+            or (row["process_start"], row["boot_id"]) != (self.start, self.boot)
+            or self.store.clock.utc_now_us() >= row["expires_at_us"]
+        ):
+>           raise CoreError("RUNTIME_LEASE_LOST")
+E           nana_core.contracts.CoreError: RUNTIME_LEASE_LOST
+
+src/nana_core/presence/authority.py:110: CoreError
+=========================== short test summary info ============================
+FAILED tests/independent_life/test_retrieval_growth.py::test_autonomous_maintenance_gap_practice_restart_real_later_lookup_and_withdrawal
+1 failed, 3 passed in 0.62s

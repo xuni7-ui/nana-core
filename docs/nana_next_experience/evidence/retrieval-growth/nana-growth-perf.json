@@ -1,0 +1,25 @@
+{
+  "scope": "OWNED_SYNTHETIC_ORIGINAL_STORE_RETRIEVAL_NOT_MODEL_OR_GENERALIZATION",
+  "distinct_queries": 1,
+  "timing_repetitions": 15,
+  "notes": 3,
+  "eligible_relevant": 1,
+  "baseline": {
+    "correct": 0,
+    "false_results": 0,
+    "p50_ms": 0.08976500248536468,
+    "p95_ms": 0.3107800002908334
+  },
+  "learned_with_policy_and_snapshot": {
+    "correct": 15,
+    "false_results": 0,
+    "p50_ms": 0.9664660028647631,
+    "p95_ms": 2.204600998084061
+  },
+  "learning_and_32_virtual_safe_points_wall_ms": 116.8635939975502,
+  "calls": 0,
+  "cost": 0,
+  "tokens": "NOT_RUN_NO_MODEL",
+  "comparison": "Quality improvement with added bounded lookup overhead; not whole-system speedup",
+  "production_changed": false
+}

@@ -1,0 +1,20 @@
+{
+  "life": {
+    "exit_code": 0,
+    "elapsed_seconds": 42.33,
+    "summary": "64 passed in 41.39s",
+    "log": "/tmp/nana-growth-final-life.log"
+  },
+  "growth": {
+    "exit_code": 0,
+    "elapsed_seconds": 34.69,
+    "summary": "69 passed in 33.80s",
+    "log": "/tmp/nana-growth-final-growth.log"
+  },
+  "notes": {
+    "exit_code": 0,
+    "elapsed_seconds": 12.74,
+    "summary": "6 passed in 12.19s",
+    "log": "/tmp/nana-growth-final-notes.log"
+  }
+}
