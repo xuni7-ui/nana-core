@@ -1,0 +1,38 @@
+{
+  "runtime_source": "de08f8fe003e8188d3e661e5ae134a40fee3bc35",
+  "frontend_source": "f712136da20a48da437ce260674c967cf13c2ce0",
+  "compatible_apk_version_code": 408,
+  "api_contract_changed": false,
+  "scope": "SERVER_ONLY_PATCH_NOT_PRODUCTION_ACTIVATION",
+  "files": {
+    "HANDOFF.md": {
+      "bytes": 5897,
+      "sha256": "d767917e14f955b14ef9f5b0478b7861c86e8528da6d96b034767e76ae13c987"
+    },
+    "installed-dev-result.json": {
+      "bytes": 1289,
+      "sha256": "abf1289ec7dc6b335f5b925d908efae60d98158c13b025d64afdc3954457559a"
+    },
+    "nana-core-de08f8f-portable.tar.gz": {
+      "bytes": 14993379,
+      "sha256": "fbfe1399ce882ad5d310427039e47d767749e7a4e87fa5924d2258ebbf86741f"
+    },
+    "nana-unpack.py": {
+      "bytes": 2579,
+      "sha256": "43cae88c58ea6db1e5e5226807ae00f6ab06281f0a801ef4a0832e1b2428cdf7"
+    },
+    "verify-dev.py": {
+      "bytes": 11349,
+      "sha256": "7379b780e4720b310431d2378813e294525dedfa61dd8b01fba7aa401fcfb347"
+    },
+    "verify-note-recall.py": {
+      "bytes": 10081,
+      "sha256": "03ba9a545f6a019171dbe54bbd43d62cfb725e38347bde67b934a44054584654"
+    }
+  },
+  "two_builds_equal": true,
+  "installed_dev_qualification": "PASS",
+  "real_provider_calls": 0,
+  "physical_phone": "NOT_RUN",
+  "production_changed": false
+}

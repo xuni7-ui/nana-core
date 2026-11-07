@@ -1,0 +1,12 @@
+{
+  "client_manifest": "MANIFEST-408.json",
+  "client_manifest_sha256": "e0c357aa2df507b6c259822f238e878acd6a7ae862589c566092161625af984c",
+  "server_manifest": "server-408-wire-budget/MANIFEST.json",
+  "server_manifest_sha256": "efda992515bd372f7569f7b0e3d8ed1ccb06eead0128f4f8cc242e2e4aa4bc1b",
+  "apk_version_code": 408,
+  "frontend_source": "f712136da20a48da437ce260674c967cf13c2ce0",
+  "runtime_source": "de08f8fe003e8188d3e661e5ae134a40fee3bc35",
+  "compatibility": "EXISTING_HTTP_V2_CLIENT_UNCHANGED_SERVER_ONLY_REFINEMENT",
+  "qualification": "INSTALLED_DEV_PASS_NOT_REAL_HOST_PHONE_OR_HUMAN",
+  "production_activation": false
+}

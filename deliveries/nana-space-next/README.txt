@@ -1,3 +1,8 @@
+Current delivery selector: CURRENT-DELIVERY.json
+APK/Web408 source f712136 + compatible Core de08f8f. Read server-408-wire-budget/HANDOFF.md for latest candidate server steps.
+No phone reinstall needed if already408. No production activation implied.
+
+Original matched408 artifact set (kept unchanged for rollback):
 Latest APK: nana-space-4.0.8-next-debug.apk
 Core/Web/Android source: f712136da20a48da437ce260674c967cf13c2ce0
 APK SHA256: 97c33dbb409bcbc68a047bb8e10f118bc87c7a6363e54676461cd6b73490e5bb
@@ -18,3 +23,6 @@ Older404/405/406 remain historical below.
 
 Compatible server-only recall refinement: server-407-memory-recall/HANDOFF.md
 Core e7c28e7; same HTTPv2/407 client, no additional phone reinstall. See patch MANIFEST.json.
+
+Latest compatible server-only refinement for408: server-408-wire-budget/HANDOFF.md
+Core de08f8f, exact complete-wire byte reservations; no APK reinstall or paid-call/cost-limit change.
