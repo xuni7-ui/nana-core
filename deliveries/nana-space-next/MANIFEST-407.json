@@ -1,0 +1,79 @@
+{
+  "app_version_code": 407,
+  "app_version_name": "4.0.7-next-debug",
+  "frontend_source": "edd170f1971efe0aa592004d2a01b9be9f0cf4f1",
+  "core_source": "edd170f1971efe0aa592004d2a01b9be9f0cf4f1",
+  "api_contract": "nana-space-live/v2",
+  "app_id": "life.nana.space.dev",
+  "signer_sha256": "b2fec5a02e6f32e69fb8ef8bce44391a6a4ba5ab8ce6dc7284cb57663016ec41",
+  "files": {
+    "nana-space-4.0.7-next-debug.apk": {
+      "sha256": "5fed16c7819255a9681574563291ae3a058f9edd563e2ec73991e35882f37b20",
+      "bytes": 4843428
+    },
+    "nana-space-4.0.7-web.tar.gz": {
+      "sha256": "e8a078acf1c686e70e22257fe4c3942504348c01882e906793817f9f2e4173c9",
+      "bytes": 614874
+    },
+    "HANDOFF-407.md": {
+      "sha256": "1648ceb1aecb104e51fa35f2fc7d90988ff31ffc115ee8a64d032a2b72249eba",
+      "bytes": 7348
+    },
+    "server-407/full-regression.txt": {
+      "sha256": "266f9bf71dbc9c9d78fcc24035edcd2fb17db77d63137547b501e333448bbd5d",
+      "bytes": 6309
+    },
+    "server-407/header-and-delivery-retest.txt": {
+      "sha256": "5c9258a0de83f38243aa16ddbdf4932629810a56e692fb8852a52f3a6f665024",
+      "bytes": 98
+    },
+    "server-407/installed-dev-result.json": {
+      "sha256": "16226500e35af3d76cb14195b9d3d61042679c2f5f5dfbf01d4eece4d5e17c21",
+      "bytes": 815
+    },
+    "server-407/nana-core-edd170f-portable.tar.gz": {
+      "sha256": "3ca1e517c23f43bfbce52678fde9d2514973f19d7eabd1dfeee5908b2a318159",
+      "bytes": 14989197
+    },
+    "server-407/nana-unpack.py": {
+      "sha256": "43cae88c58ea6db1e5e5226807ae00f6ab06281f0a801ef4a0832e1b2428cdf7",
+      "bytes": 2579
+    },
+    "server-407/verify-delivery.py": {
+      "sha256": "e824b38bf9e70ad1cafd53899e0bc39256316573abe135da7c19fb5e5b6a3691",
+      "bytes": 4391
+    },
+    "server-407/verify-dev.py": {
+      "sha256": "7379b780e4720b310431d2378813e294525dedfa61dd8b01fba7aa401fcfb347",
+      "bytes": 11349
+    }
+  },
+  "installed_dev_gateway": "PASS",
+  "full_regression": {
+    "passed": 1933,
+    "failed": 1,
+    "skipped": 12,
+    "seconds": 604.46,
+    "status": "FAILED_REPOSITORY_STATUS_HEADER_TOO_MANY_EVIDENCE_REFS",
+    "raw": "server-407/full-regression.txt"
+  },
+  "document_repair": {
+    "runtime_code_changed": false,
+    "scope": "Compact authoritative current-state summary from9 to7 evidence refs; keep original max8 and historical records.",
+    "existing_failed_test_and_new_delivery_checks": {
+      "passed": 5,
+      "failed": 0,
+      "seconds": 0.21
+    },
+    "raw": "server-407/header-and-delivery-retest.txt",
+    "whole_suite_after_document_only_change": "NOT_REPEATED_UNCHANGED_RUNTIME"
+  },
+  "frontend_unit_passed": 59,
+  "responsive_browser_passed": 20,
+  "admission_unknown_browser_passed": 8,
+  "production_updated": false,
+  "physical_phone_review": "NOT_RUN",
+  "cloud_host_qualified": "NOT_RUN",
+  "real_provider_calls": 0,
+  "legacy_V403_zip_changed": false
+}

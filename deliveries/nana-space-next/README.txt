@@ -1,7 +1,8 @@
-Latest APK: nana-space-4.0.6-next-debug.apk
-Core/Web/Android source: cc3dc335cfec6db00ac44850344de2c49df25769
-APK SHA256: 29d5402655b52c915243e55a5e90db50d4ccfb4cea46beafa0836e8a26c9120c
-Same debug appId/signature; cover-install, do not uninstall or clear pairing.
-Matched server archive and isolated operator steps: HANDOFF-406.md; verify SHA256SUMS-406.
-Cloud/real model/physical phone/human/cross-day NOT_RUN; no production activation.
-Older404/405 below remain historical, not the new406.
+Latest APK: nana-space-4.0.7-next-debug.apk
+Core/Web/Android source: edd170f1971efe0aa592004d2a01b9be9f0cf4f1
+APK SHA256: 5fed16c7819255a9681574563291ae3a058f9edd563e2ec73991e35882f37b20
+Same appId/signature; cover-install, do not uninstall or clear pairing.
+Matched server archive and actual validation: HANDOFF-407.md / MANIFEST-407.json / SHA256SUMS-407.
+Includes original Store note save/correction/UNKNOWN reconciliation. Older server keeps draft-only UI.
+Cloud/physical phone/real model/human/cross-day NOT_RUN; no production activation.
+Older404/405/406 remain historical below.
