@@ -6,3 +6,6 @@ Matched server archive and actual validation: HANDOFF-407.md / MANIFEST-407.json
 Includes original Store note save/correction/UNKNOWN reconciliation. Older server keeps draft-only UI.
 Cloud/physical phone/real model/human/cross-day NOT_RUN; no production activation.
 Older404/405/406 remain historical below.
+
+Compatible server-only recall refinement: server-407-memory-recall/HANDOFF.md
+Core e7c28e7; same HTTPv2/407 client, no additional phone reinstall. See patch MANIFEST.json.

@@ -1,0 +1,42 @@
+{
+  "kind": "CORE_SERVER_PATCH_FOR_EXISTING_CLIENT",
+  "core_source": "e7c28e7f899bde7fa1787a2cdc9804ab5b7b4dce",
+  "compatible_client_version_code": 407,
+  "client_source_unchanged": "edd170f1971efe0aa592004d2a01b9be9f0cf4f1",
+  "api_contract": "nana-space-live/v2",
+  "schema_version": 13,
+  "files": {
+    "HANDOFF.md": {
+      "bytes": 7097,
+      "sha256": "e82359c7e2978be9d772fb775a7bd31eea6da9c611f45e936ca65a1d32706c0e"
+    },
+    "installed-dev-result.json": {
+      "bytes": 965,
+      "sha256": "c41f6ca1c2e7a3ee034c1630cc14b8aed98cf68e268601deef7afe68e428a8e4"
+    },
+    "nana-core-e7c28e7-portable.tar.gz": {
+      "bytes": 14992176,
+      "sha256": "e5dc0365e056eaa71458d551ba16701fb773988b5b604aacd694fe5683cc612c"
+    },
+    "nana-unpack.py": {
+      "bytes": 2579,
+      "sha256": "43cae88c58ea6db1e5e5226807ae00f6ab06281f0a801ef4a0832e1b2428cdf7"
+    },
+    "verify-dev.py": {
+      "bytes": 11349,
+      "sha256": "7379b780e4720b310431d2378813e294525dedfa61dd8b01fba7aa401fcfb347"
+    },
+    "verify-note-recall.py": {
+      "bytes": 8921,
+      "sha256": "0e979a973c9e1732f700e8ccecd5524d8f6aa051602119928b09f2a7c67eb0dd"
+    }
+  },
+  "core_rebuild_byte_equal": true,
+  "installed_dev_proof": "PASS",
+  "real_provider_calls": 0,
+  "local_fixture_calls": 2,
+  "production_changed": false,
+  "cloud_host_qualified": "NOT_RUN",
+  "physical_phone": "NOT_RUN",
+  "first_life": "NOT_READY"
+}
