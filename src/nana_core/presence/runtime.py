@@ -275,6 +275,11 @@ class NanaRuntime:
         if not (self.work and self.work.paused):
             self._watch_sources()
             self.scheduler.due()
+            if not self.queue.has_reactive() and self.scheduler.routine_pending():
+                self.subject.maintain()
+                checkpoint=self.store.db.execute("PRAGMA wal_checkpoint(PASSIVE)").fetchone()
+                if checkpoint[0]==0:self.oper['last_successful_checkpoint_us']=self.clock.utc_now_us()
+                self.scheduler.acknowledge_routine()
         work_activity = self.work.opportunity() if self.work and not self.queue.has_reactive() else None
         row = self.queue.claim(user_only=bool(self.work and self.work.paused))
         if row is None:

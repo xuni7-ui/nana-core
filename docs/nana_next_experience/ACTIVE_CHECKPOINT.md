@@ -1,3 +1,11 @@
+# Current active living/dream/storage/token integration — NOT frozen, NOT complete
+
+User latest supplement merged into same Next Experience/ten-domain mission; see LIVING_MEMORY_UNIFIED.md and task_inputs/LIVING_MEMORY_DREAM_STORAGE_TOKEN_2026_11_07.md.409APK finalized fromb873a4a, /mnt/data/Nana-409.apk4836713bytes/SHA82e6ba6d18378e500954b4848f3d3f02b5767cb8ea641acf99ef422260afebf9, same signer/appId. User expressly says no repeated APK builds for backend adaptation; finish backend first, then one necessary client build only. Quota forwarding1fbd014/62+20checks inherited. Full2006/12 remains37e46b5; later deltas are scoped, never call a new full pass.
+
+New built-in housekeeping coalescence/emptySCAN operational checkpoints+allocated storage metrics implemented, baseline360→1events per virtual1h,31related+4new checks pass. Pending restart-safe flags use originalStore ops metadata, C still expires state; custom/source/calendar audit preserved. Next continue real incremental Dream and48h/important-old context from existingMaintenance/C/Assembler, flexible storage growth/rate vs capacity, cold archive integrity/privacy proof before any eviction, aggregate actual usage and S8 feedback. No production changes or second systems. Prepublication522/b873Core bundles remain historical, final backend package NOT released yet.
+
+---
+
 # Current active409 implementation — continue whole original mission
 
 Latest source HEAD wins.409 streaming/native/receipt/runtime/token-framing changes are being qualified; no final artifact claim yet. STREAMING_AND_RUNTIME_409.md and current typed09 state supersede historical open-code bullets below. Preserve actual failures. Last published408 +f03fcbb delivery remains valid until matched409 is built/installed/selected. Continue remaining product/ten-domain work, not a milestone handoff.

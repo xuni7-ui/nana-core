@@ -43,22 +43,28 @@ def size_view(store):
     page=store.db.execute('PRAGMA page_size').fetchone()[0]
     count=store.db.execute('PRAGMA page_count').fetchone()[0]
     free=store.db.execute('PRAGMA freelist_count').fetchone()[0]
-    files={}
+    files={};allocations={};allocated_inodes={}
     for suffix in ('','-wal','-shm','.privacy.json'):
         p=Path(str(store.path)+suffix)
         if p.is_symlink():raise CoreError('CONTINUITY_SYMLINK_FORBIDDEN')
-        if p.exists():files[suffix or 'database']=p.stat().st_size
+        if p.exists():
+            details=p.stat();name=suffix or 'database'
+            files[name]=details.st_size;allocations[name]=details.st_blocks*512
+            allocated_inodes[(details.st_dev,details.st_ino)]=details.st_blocks*512
     # A registered copy may point to the same trusted deletion anchor elsewhere.
-    anchor=store.privacy.path.stat().st_size
+    anchor_details=store.privacy.path.stat();anchor=anchor_details.st_size
+    allocated_inodes[(anchor_details.st_dev,anchor_details.st_ino)]=anchor_details.st_blocks*512
     return {'logical_database_bytes':page*count,'reusable_page_bytes':page*free,
         'privacy_anchor_bytes':anchor,'physical_file_bytes':files,
+        'file_length_measurement':'STAT_ST_SIZE_NOT_ALLOCATED_BLOCKS','allocated_file_bytes':allocations,
+        'allocated_family_bytes':sum(allocated_inodes.values()),'allocation_measurement':'DEDUPLICATED_STAT_ST_BLOCKS_TIMES_512',
         'family_bytes':sum(files.values())+max(0,anchor-files.get('.privacy.json',0)),'history_deleted':False}
 
 
 def profile(store):
     sizes=size_view(store)
     tables=[{'name':r[0],'allocated_bytes':r[1],'payload_bytes':r[2]} for r in store.db.execute('SELECT name,sum(pgsize),sum(payload) FROM dbstat GROUP BY name ORDER BY sum(pgsize) DESC LIMIT 64')]
-    events=[{'kind':r[0],'recent_count':r[1],'json_bytes':r[2]} for r in store.db.execute('SELECT kind,count(*),sum(length(data_json)) FROM (SELECT kind,data_json FROM events ORDER BY seq DESC LIMIT 4096) GROUP BY kind ORDER BY sum(length(data_json)) DESC LIMIT 32')]
+    events=[{'kind':r[0],'recent_count':r[1],'json_bytes':r[2]} for r in store.db.execute('SELECT kind,count(*),sum(length(CAST(data_json AS BLOB))) FROM (SELECT kind,data_json FROM events ORDER BY seq DESC LIMIT 4096) GROUP BY kind ORDER BY sum(length(CAST(data_json AS BLOB))) DESC LIMIT 32')]
     return {'derived':True,**sizes,'tables_and_indexes':tables,'event_coverage':'LATEST_4096_NOT_FULL_HISTORY','event_kinds':events,
         'retention':{'permanent':['provenance','lineage','events','outcome_action_history','UNKNOWN','privacy_deletion_journal'],
         'rebuildable':['memory_terms','derived_context','life_journal_projection'],

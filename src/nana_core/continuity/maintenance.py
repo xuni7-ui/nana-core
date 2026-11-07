@@ -14,9 +14,9 @@ def source_stamp(store,mids):
     return digest(values)
 
 class MaintenanceService:
-    def __init__(self,store,*,scopes,entity_id,privacy_classes,slice_items=4,interval_us=3600000000):
+    def __init__(self,store,*,scopes,entity_id,privacy_classes,slice_items=4,interval_us=3600000000,operational_guard=None):
         self.store,self.scopes,self.entity_id,self.privacy_classes=store,scopes,entity_id,privacy_classes
-        self.records=RecordService(store);self.batch=slice_items;self.interval=interval_us
+        self.records=RecordService(store);self.batch=slice_items;self.interval=interval_us;self.operational_guard=operational_guard
     def _visible(self,mid):
         r=self.store.one('memories',mid)
         return bool(r and r['scope'] in self.scopes and r['entity_id'] in {self.entity_id,self.store.identity['identity_id']} and r['privacy_class'] in self.privacy_classes and r['lifecycle']=='ACTIVE' and r['assessment'] in {'CURRENT','UNASSESSED'})
@@ -35,6 +35,19 @@ class MaintenanceService:
         scope=json.loads(job['body_json'])['scope']
         # Cursor is operational row progress, never a second memory fact.
         rows=self.store.db.execute('SELECT rowid AS source_row,* FROM memories WHERE rowid>? AND scope=? ORDER BY rowid LIMIT ?',(job['cursor'],scope,self.batch)).fetchall()
+        if not rows and self.operational_guard is not None:
+            self.operational_guard();self.store.db.execute('BEGIN IMMEDIATE')
+            try:
+                self.operational_guard()
+                # Empty SCAN due time is a reconstructible timer checkpoint.
+                # Cursor/revision/support and all learning/action jobs remain intact.
+                self.store.db.execute("UPDATE jobs SET due_at_us=? WHERE job_id=? AND work_kind='SCAN' AND cursor=? AND state='WAITING'",
+                    (now+self.interval,job['job_id'],job['cursor']))
+                self.operational_guard();self.store.db.execute('COMMIT')
+            except BaseException:
+                if self.store.db.in_transaction:self.store.db.execute('ROLLBACK')
+                raise
+            return {'candidate_record_id':None,'work_id':job['job_id'],'read_count':0,'operational_only':True}
         mids=tuple(r['memory_id'] for r in rows if self._visible(r['memory_id']) and r['epistemic_kind'] in {'OBSERVATION','STATEMENT'} and not (r['predicate_key'] or '').startswith('concern.'))
         candidate=None
         if len(mids)>=2:

@@ -11,7 +11,7 @@ class LivingWork:
         self.runtime=runtime;self.agency=None;self.learning_policy=None;self.accommodation_policy=None;self.open_learning=None;self.exploration=None;self.world=None;self.paused=False;self.activity_source=None;self.skill_development=None
         from ..continuity.maintenance import MaintenanceService
         self.maintenance=MaintenanceService(runtime.store,scopes=runtime.config.scopes,entity_id=runtime.config.entity_id,
-            privacy_classes=runtime.config.privacy_classes,slice_items=runtime.config.living.slice_items,interval_us=runtime.config.living.maintenance_interval_us)
+            privacy_classes=runtime.config.privacy_classes,slice_items=runtime.config.living.slice_items,interval_us=runtime.config.living.maintenance_interval_us,operational_guard=runtime.lease.assert_current)
     def configure_agency(self,policy,port):
         r=self.runtime
         self.agency=AgencyService(r.store,r.subject,r.authority,policy,port,step_interval_us=r.config.living.step_interval_us)

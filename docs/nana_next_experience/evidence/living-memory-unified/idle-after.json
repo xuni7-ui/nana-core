@@ -1,0 +1,808 @@
+{
+  "scope": "ACTUAL_ORIGINAL_STORE_VIRTUAL_1H_NO_INPUT_NOT_PRODUCTION",
+  "source_runtime_sha256": "1bf438e8a9ed931a2153398ccda47213ea5ece6828adf8b097c7d70e0929baad",
+  "simulated_seconds": 3600,
+  "actual_seconds": 0.6181461789965397,
+  "provider_calls": 0,
+  "event_groups": [
+    {
+      "kind": "living.maintenance_scheduled",
+      "count": 1,
+      "json_bytes": 339
+    }
+  ],
+  "before": {
+    "derived": true,
+    "logical_database_bytes": 663552,
+    "reusable_page_bytes": 0,
+    "privacy_anchor_bytes": 139,
+    "physical_file_bytes": {
+      "database": 655360,
+      "-wal": 78312,
+      "-shm": 32768,
+      ".privacy.json": 139
+    },
+    "family_bytes": 766579,
+    "history_deleted": false,
+    "tables_and_indexes": [
+      {
+        "name": "sqlite_schema",
+        "allocated_bytes": 45056,
+        "payload_bytes": 32581
+      },
+      {
+        "name": "events",
+        "allocated_bytes": 12288,
+        "payload_bytes": 4272
+      },
+      {
+        "name": "world_valid_candidates",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "world_replaced_lookup",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "world_current",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "world_beliefs",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "subject_reflections",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "subject_intentions",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "subject_intention_live_slot",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "subject_goal_candidates",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "subject_events",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "subject_cycles",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "subject_current_intentions",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "subject_assertion_roots",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "strategy_history",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "strategy_assessments",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "strategies",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_sequence",
+        "allocated_bytes": 4096,
+        "payload_bytes": 10
+      },
+      {
+        "name": "sqlite_autoindex_world_beliefs_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_world_beliefs_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_subject_reflections_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_subject_reflections_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_subject_intentions_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_subject_goal_candidates_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_subject_goal_candidates_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_subject_events_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_subject_events_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_subject_cycles_3",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_subject_cycles_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_subject_cycles_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_strategy_assessments_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_strategy_assessments_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_strategies_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_self_assertions_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_self_assertions_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_runtime_schedules_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 42
+      },
+      {
+        "name": "sqlite_autoindex_runtime_schedules_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 39
+      },
+      {
+        "name": "sqlite_autoindex_runtime_queue_4",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_runtime_queue_3",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_runtime_queue_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_runtime_queue_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_runtime_lease_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 39
+      },
+      {
+        "name": "sqlite_autoindex_runtime_cognition_calls_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_runtime_cognition_calls_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_relationship_events_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_relationship_events_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_record_dependencies_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_record_dependencies_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_projects_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_plans_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_plans_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_open_concerns_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_open_concerns_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_memory_terms_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_memory_items_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_memory_dependencies_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_memory_dependencies_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_memories_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_lessons_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_lessons_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_jobs_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_jobs_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_identity_revisions_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 40
+      },
+      {
+        "name": "sqlite_autoindex_identity_revisions_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 39
+      }
+    ],
+    "event_coverage": "LATEST_4096_NOT_FULL_HISTORY",
+    "event_kinds": [
+      {
+        "kind": "runtime.schedule_created",
+        "recent_count": 1,
+        "json_bytes": 1848
+      },
+      {
+        "kind": "self.identity_adopted",
+        "recent_count": 1,
+        "json_bytes": 732
+      },
+      {
+        "kind": "identity.created",
+        "recent_count": 1,
+        "json_bytes": 484
+      },
+      {
+        "kind": "self.offline_execution_fenced",
+        "recent_count": 1,
+        "json_bytes": 170
+      },
+      {
+        "kind": "self.entity_bound",
+        "recent_count": 1,
+        "json_bytes": 157
+      },
+      {
+        "kind": "memory.entity_registered",
+        "recent_count": 1,
+        "json_bytes": 138
+      }
+    ],
+    "retention": {
+      "permanent": [
+        "provenance",
+        "lineage",
+        "events",
+        "outcome_action_history",
+        "UNKNOWN",
+        "privacy_deletion_journal"
+      ],
+      "rebuildable": [
+        "memory_terms",
+        "derived_context",
+        "life_journal_projection"
+      ],
+      "checkpoint_reusable": [
+        "WAL_pages_without_pinned_readers",
+        "freelist_pages"
+      ],
+      "rotate": [
+        "sanitized_runtime_logs"
+      ],
+      "archive": "FUTURE_EXPLICIT_VERIFIED_ARCHIVE_NOT_AUTOMATIC_PRUNING"
+    },
+    "authority": false
+  },
+  "after": {
+    "derived": true,
+    "logical_database_bytes": 663552,
+    "reusable_page_bytes": 0,
+    "privacy_anchor_bytes": 139,
+    "physical_file_bytes": {
+      "database": 663552,
+      "-wal": 383192,
+      "-shm": 32768,
+      ".privacy.json": 139
+    },
+    "family_bytes": 1079651,
+    "history_deleted": false,
+    "tables_and_indexes": [
+      {
+        "name": "sqlite_schema",
+        "allocated_bytes": 45056,
+        "payload_bytes": 32581
+      },
+      {
+        "name": "events",
+        "allocated_bytes": 12288,
+        "payload_bytes": 4741
+      },
+      {
+        "name": "world_valid_candidates",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "world_replaced_lookup",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "world_current",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "world_beliefs",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "subject_reflections",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "subject_intentions",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "subject_intention_live_slot",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "subject_goal_candidates",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "subject_events",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "subject_cycles",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "subject_current_intentions",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "subject_assertion_roots",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "strategy_history",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "strategy_assessments",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "strategies",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_sequence",
+        "allocated_bytes": 4096,
+        "payload_bytes": 10
+      },
+      {
+        "name": "sqlite_autoindex_world_beliefs_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_world_beliefs_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_subject_reflections_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_subject_reflections_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_subject_intentions_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_subject_goal_candidates_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_subject_goal_candidates_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_subject_events_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_subject_events_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_subject_cycles_3",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_subject_cycles_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_subject_cycles_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_strategy_assessments_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_strategy_assessments_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_strategies_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_self_assertions_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_self_assertions_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_runtime_schedules_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 42
+      },
+      {
+        "name": "sqlite_autoindex_runtime_schedules_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 39
+      },
+      {
+        "name": "sqlite_autoindex_runtime_queue_4",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_runtime_queue_3",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_runtime_queue_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_runtime_queue_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_runtime_lease_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 39
+      },
+      {
+        "name": "sqlite_autoindex_runtime_cognition_calls_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_runtime_cognition_calls_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_relationship_events_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_relationship_events_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_record_dependencies_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_record_dependencies_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_projects_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_plans_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_plans_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_open_concerns_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_open_concerns_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_memory_terms_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_memory_items_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_memory_dependencies_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_memory_dependencies_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_memories_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_lessons_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_lessons_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 0
+      },
+      {
+        "name": "sqlite_autoindex_jobs_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 28
+      },
+      {
+        "name": "sqlite_autoindex_jobs_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 39
+      },
+      {
+        "name": "sqlite_autoindex_identity_revisions_2",
+        "allocated_bytes": 4096,
+        "payload_bytes": 40
+      },
+      {
+        "name": "sqlite_autoindex_identity_revisions_1",
+        "allocated_bytes": 4096,
+        "payload_bytes": 39
+      }
+    ],
+    "event_coverage": "LATEST_4096_NOT_FULL_HISTORY",
+    "event_kinds": [
+      {
+        "kind": "runtime.schedule_created",
+        "recent_count": 1,
+        "json_bytes": 1848
+      },
+      {
+        "kind": "self.identity_adopted",
+        "recent_count": 1,
+        "json_bytes": 732
+      },
+      {
+        "kind": "identity.created",
+        "recent_count": 1,
+        "json_bytes": 484
+      },
+      {
+        "kind": "living.maintenance_scheduled",
+        "recent_count": 1,
+        "json_bytes": 339
+      },
+      {
+        "kind": "self.offline_execution_fenced",
+        "recent_count": 1,
+        "json_bytes": 170
+      },
+      {
+        "kind": "self.entity_bound",
+        "recent_count": 1,
+        "json_bytes": 157
+      },
+      {
+        "kind": "memory.entity_registered",
+        "recent_count": 1,
+        "json_bytes": 138
+      }
+    ],
+    "retention": {
+      "permanent": [
+        "provenance",
+        "lineage",
+        "events",
+        "outcome_action_history",
+        "UNKNOWN",
+        "privacy_deletion_journal"
+      ],
+      "rebuildable": [
+        "memory_terms",
+        "derived_context",
+        "life_journal_projection"
+      ],
+      "checkpoint_reusable": [
+        "WAL_pages_without_pinned_readers",
+        "freelist_pages"
+      ],
+      "rotate": [
+        "sanitized_runtime_logs"
+      ],
+      "archive": "FUTURE_EXPLICIT_VERIFIED_ARCHIVE_NOT_AUTOMATIC_PRUNING"
+    },
+    "authority": false
+  },
+  "new_events": 1,
+  "logical_growth_bytes": 0,
+  "physical_family_growth_bytes": 313072
+}

@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 81,
-  "as_of_us": 1794056716347250,
+  "revision": 82,
+  "as_of_us": 1794057765263314,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_409_FINAL_MATCHED_ARTIFACTS_BUILDING",
+  "status": "IN_PROGRESS_LIVING_MEMORY_DREAM_STORAGE_TOKEN_INTEGRATION",
   "progress": [
     "原Next Experience及十域任务持续；f03fcbb检索学习/原S3/S2/Fish、408已交付能力继承，不新增主体或学习系统。",
     "a0263e5原回执热集保留256，终态/UNKNOWN元数据可私有归档，跨重启同key不重发，旧二进制遇新标记拒绝。",
@@ -19,21 +19,20 @@
     "原owner等待模型时可处理既有暂停/撤权/停止；不递归聊天/导入，停止保留UNKNOWN及费用并禁止新渲染调用。",
     "完整请求模型计数绑定接入原ContextAssembler/Router，缺商业tokenizer不冒充准确token；实际派发前复核，原文闭包不长期保留。",
     "只对确认PROPOSED正数实测字节结算剩余字节额度；原财务/次数/UNKNOWN保留，新宿主32MB而旧设置4MB不变。",
-    "backend37e46b5全仓2006/0/12，754.49秒；后续仅修路由隐藏24次会话上限，62路由/预算及20真实DEV相关检查通过，未冒充再跑全仓。",
-    "最终b873a4a前端66/24定向通过，409同签名APK4836713字节/42资源一致；后续backend-only保留相同前端树，最终Core尚在封包。"
+    "合并用户持续生活/梦境/遗忘/全局Token补充，409已定版；后端全部完成后才一次性处理必要客户端变化，不重复APK。",
+    "同条件虚拟1h原Store空闲360→1永久事件，逻辑增长1171456→0字节、family文件长度增长1715248→313072；31原相关及4新增验证通过，真实生产未验。"
   ],
   "open_gates": [
-    "原总任务继续；最终匹配409 APK/Web/Core及下载交付正在收口，不把预发布522旧候选冒充最终409。",
-    "真实商业tokenizer、模型语义/真人/物理手机/跨日/权威活库向量映射无安全绑定，相关资格未运行。",
-    "生产/Iris迁移由原运行负责人负责；不调用真实provider、不读私史、不触碰正式主体或既有权限。"
+    "新补充已并入同一主任务，继续原维护上的梦境/48h动态上下文/情绪动机因果/弹性容量/安全冷归档与Token元数据；不以空闲修复或APK当总完成。",
+    "真实模型/商业Tokenizer/手机/跨日/活库向量映射仍缺安全绑定，只暂停相关资格，不碰生产-s1/AstrBot/Iris或既有正式入口。",
+    "409覆盖安装文件已提供；新的后端最终Core包尚未发布，预发布522/b873归档不作为最终组合。"
   ],
   "evidence_refs": [
-    "docs/nana_next_experience/STATUS.md",
+    "docs/nana_next_experience/LIVING_MEMORY_UNIFIED.md",
+    "docs/nana_next_experience/task_inputs/LIVING_MEMORY_DREAM_STORAGE_TOKEN_2026_11_07.md",
     "docs/nana_next_experience/STREAMING_AND_RUNTIME_409.md",
-    "docs/nana_next_experience/RECEIPT_LONGEVITY.md",
     "docs/nana_next_experience/RETRIEVAL_GROWTH.md",
     "docs/nana_next_experience/GROWTH_AND_AFFECT.md",
-    "docs/nana_next_experience/evidence/streaming409/development.json",
     "docs/nana_next_experience/ACTIVE_CHECKPOINT.md"
   ]
 }
