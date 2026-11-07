@@ -1,0 +1,39 @@
+[WebServer] (node:107889) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 24 tests using 1 worker
+
+(node:107907) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/v3.spec.ts:635:1 › SYNTHETIC host race: logout while confirmation is pending prevents operation dispatch (1.9s)
+  ✓   2 [desktop] › tests/v3.spec.ts:749:1 › SYNTHETIC living privacy: a withdrawal between view and history clears transient bodies and drafts (1.7s)
+  ✓   3 [desktop] › tests/v3.spec.ts:843:1 › Daily chat: message area owns the screen and options remain reachable (1.8s)
+  ✓   4 [desktop] › tests/v3.spec.ts:880:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write (1.4s)
+  ✓   5 [desktop] › tests/v3.spec.ts:949:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change (2.8s)
+  ✓   6 [desktop] › tests/v3.spec.ts:1004:1 › SYNTHETIC stream: final receipt replaces provisional text, interruption never retries (1.8s)
+(node:108244) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [phone-360] › tests/v3.spec.ts:635:1 › SYNTHETIC host race: logout while confirmation is pending prevents operation dispatch (1.8s)
+  ✓   8 [phone-360] › tests/v3.spec.ts:749:1 › SYNTHETIC living privacy: a withdrawal between view and history clears transient bodies and drafts (1.6s)
+  ✓   9 [phone-360] › tests/v3.spec.ts:843:1 › Daily chat: message area owns the screen and options remain reachable (1.7s)
+  ✓  10 [phone-360] › tests/v3.spec.ts:880:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write (1.4s)
+  ✓  11 [phone-360] › tests/v3.spec.ts:949:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change (2.7s)
+  ✓  12 [phone-360] › tests/v3.spec.ts:1004:1 › SYNTHETIC stream: final receipt replaces provisional text, interruption never retries (1.6s)
+(node:108589) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 [phone-390] › tests/v3.spec.ts:635:1 › SYNTHETIC host race: logout while confirmation is pending prevents operation dispatch (1.8s)
+  ✓  14 [phone-390] › tests/v3.spec.ts:749:1 › SYNTHETIC living privacy: a withdrawal between view and history clears transient bodies and drafts (1.5s)
+  ✓  15 [phone-390] › tests/v3.spec.ts:843:1 › Daily chat: message area owns the screen and options remain reachable (1.8s)
+  ✓  16 [phone-390] › tests/v3.spec.ts:880:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write (1.4s)
+  ✓  17 [phone-390] › tests/v3.spec.ts:949:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change (2.8s)
+  ✓  18 [phone-390] › tests/v3.spec.ts:1004:1 › SYNTHETIC stream: final receipt replaces provisional text, interruption never retries (1.9s)
+(node:109034) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  19 [phone-412] › tests/v3.spec.ts:635:1 › SYNTHETIC host race: logout while confirmation is pending prevents operation dispatch (1.6s)
+  ✓  20 [phone-412] › tests/v3.spec.ts:749:1 › SYNTHETIC living privacy: a withdrawal between view and history clears transient bodies and drafts (1.7s)
+  ✓  21 [phone-412] › tests/v3.spec.ts:843:1 › Daily chat: message area owns the screen and options remain reachable (1.5s)
+  ✓  22 [phone-412] › tests/v3.spec.ts:880:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write (1.5s)
+  ✓  23 [phone-412] › tests/v3.spec.ts:949:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change (2.5s)
+  ✓  24 [phone-412] › tests/v3.spec.ts:1004:1 › SYNTHETIC stream: final receipt replaces provisional text, interruption never retries (1.8s)
+
+  24 passed (51.0s)

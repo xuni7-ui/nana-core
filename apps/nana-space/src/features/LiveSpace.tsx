@@ -500,16 +500,17 @@ export function LiveSpace() {
   }, [nav]);
   useEffect(() => {
     const viewport = window.visualViewport;
-    const update = () =>
-      document.documentElement.style.setProperty(
-        "--v3-viewport",
-        `${viewport?.height || innerHeight}px`,
-      );
+    const update = () => {
+      const height=viewport?.height || innerHeight;
+      document.documentElement.toggleAttribute("data-nana-short-viewport", innerWidth < 900 && height < 600);
+      document.documentElement.style.setProperty("--v3-viewport", `${height}px`);
+    };
     update();
     viewport?.addEventListener("resize", update);
     return () => {
       viewport?.removeEventListener("resize", update);
       document.documentElement.style.removeProperty("--v3-viewport");
+      document.documentElement.removeAttribute("data-nana-short-viewport");
     };
   }, []);
   const login = async () => {
@@ -655,6 +656,13 @@ export function LiveSpace() {
       fail(e);
       // Keep only the original receipt ID. Never retain/replay uncertain bodies.
       setTurns([{ id, input: "", state: dispatched ? "UNKNOWN" : "REJECTED" }]);
+      if (dispatched && e instanceof V2Error && ["UNKNOWN_VERIFY_ONLY", "STREAM_INTERRUPTED_VERIFY_ONLY",
+          "INVALID_STREAM", "STREAM_RESPONSE_BOUND", "STREAM_FRAME_BOUND"].includes(e.code)) {
+        // Only re-read the authenticated binding/privacy state. Never repeat a
+        // message/provider request. A single lost reply must not lock future
+        // independent conversation behind a manual reconnect ritual.
+        await refresh().catch(() => {});
+      }
     } finally {
       if (version === sessionVersion.current) setBusy(false);
     }

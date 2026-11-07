@@ -1,0 +1,24 @@
+
+> @nana/space@4.0.3 test
+> vitest run --config vitest.config.ts --run
+
+
+ RUN  v3.2.7 /workspace/nana-unified-release/apps/nana-space
+
+ ✓ tests/adapters.test.ts (12 tests) 1484ms
+   ✓ fictional Demo data and transitions > has explicit failure and UNKNOWN semantics without retries  443ms
+   ✓ fictional Demo data and transitions > streams cumulative local text and cancels mid-stream  820ms
+ ✓ tests/chat-stream.test.ts (7 tests) 77ms
+ ✓ tests/living.test.ts (7 tests) 13ms
+ ✓ tests/v2-client.test.ts (7 tests) 16ms
+ ✓ tests/memory-center.test.ts (10 tests) 10ms
+ ✓ tests/live.test.ts (4 tests) 16ms
+ ✓ tests/provider-center.test.ts (15 tests) 13ms
+ ✓ tests/provider-commands.test.ts (2 tests) 5ms
+ ✓ tests/local-speech.test.ts (2 tests) 6ms
+
+ Test Files  9 passed (9)
+      Tests  66 passed (66)
+   Start at  12:52:53
+   Duration  4.57s (transform 478ms, setup 0ms, collect 689ms, tests 1.64s, environment 2ms, prepare 685ms)
+

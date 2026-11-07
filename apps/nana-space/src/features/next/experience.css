@@ -42,6 +42,9 @@
 .next-provisional::after { content:"▍"; color:var(--v3-accent,#9c83ce); margin-inline-start:.15rem; }
 
 @media(max-width:900px){
-.v3-space:has(.v3-main-chat .v3-composer:focus-within) .v3-bottom-nav{display:none;}
-.v3-space:has(.v3-main-chat .v3-composer:focus-within) .v3-main-chat{padding-bottom:10px;}
+.v3-space:has(.v3-main-chat .v3-composer-wrap:focus-within) .v3-bottom-nav{display:none;}
+/* Keep touch targets stationary during focus changes. Reclaim the reserved
+   navigation space only after the viewport actually becomes short (IME). */
+:root[data-nana-short-viewport] .v3-space .v3-main-chat{padding-bottom:10px;}
+:root[data-nana-short-viewport] .v3-space:has(.v3-main-chat) .v3-bottom-nav{display:none;}
 }

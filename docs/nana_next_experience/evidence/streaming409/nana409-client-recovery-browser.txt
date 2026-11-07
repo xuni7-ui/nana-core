@@ -1,0 +1,103 @@
+[WebServer] (node:104046) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 16 tests using 1 worker
+
+(node:104064) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/v3.spec.ts:843:1 › Daily chat: message area owns the screen and options remain reachable (1.8s)
+  ✓   2 [desktop] › tests/v3.spec.ts:878:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write (1.7s)
+  ✓   3 [desktop] › tests/v3.spec.ts:947:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change (3.1s)
+  ✓   4 [desktop] › tests/v3.spec.ts:1002:1 › SYNTHETIC stream: final receipt replaces provisional text, interruption never retries (2.1s)
+(node:104320) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   5 [phone-360] › tests/v3.spec.ts:843:1 › Daily chat: message area owns the screen and options remain reachable (6.7s)
+(node:104511) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 [phone-360] › tests/v3.spec.ts:878:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write (1.7s)
+  ✘   7 [phone-360] › tests/v3.spec.ts:947:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change (30.0s)
+(node:104969) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   8 [phone-360] › tests/v3.spec.ts:1002:1 › SYNTHETIC stream: final receipt replaces provisional text, interruption never retries (2.1s)
+(node:105128) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   9 [phone-390] › tests/v3.spec.ts:843:1 › Daily chat: message area owns the screen and options remain reachable (6.4s)
+(node:105310) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  10 [phone-390] › tests/v3.spec.ts:878:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write (1.5s)
+  ✘  11 [phone-390] › tests/v3.spec.ts:947:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change (30.0s)
+
+
+  1) [phone-360] › tests/v3.spec.ts:843:1 › Daily chat: message area owns the screen and options remain reachable 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  locator('.next-options-panel')
+    Expected: visible
+    Received: hidden
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeVisible" locator('.next-options-panel') with timeout 5000ms
+      - waiting for locator('.next-options-panel')
+        14 × locator resolved to <div class="next-options-panel">…</div>
+           - unexpected value "hidden"
+
+
+      848 |   await expect(page.locator(".live-identity")).toHaveCount(0);
+      849 |   await page.getByText("发送选项", {exact:true}).click();
+    > 850 |   await expect(page.locator(".next-options-panel")).toBeVisible();
+          |                                                     ^
+      851 |   expect((await log.boundingBox())!.height).toBeGreaterThan(page.viewportSize()!.height * .45);
+      852 |   await page.getByText("发送选项", {exact:true}).click();
+      853 |   await page.getByRole("button", {name:"搜索对话",exact:true}).click();
+        at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:850:53
+
+    Error Context: test-results/v3-Daily-chat-message-area-a6490-nd-options-remain-reachable-phone-360/error-context.md
+
+  2) [phone-360] › tests/v3.spec.ts:947:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change 
+
+    Test timeout of 30000ms exceeded.
+
+    Error Context: test-results/v3-SYNTHETIC-retention-con-7b8b1-al-and-clears-on-run-change-phone-360/error-context.md
+
+  3) [phone-390] › tests/v3.spec.ts:843:1 › Daily chat: message area owns the screen and options remain reachable 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator:  locator('.next-options-panel')
+    Expected: visible
+    Received: hidden
+    Timeout:  5000ms
+
+    Call log:
+      - Expect "toBeVisible" locator('.next-options-panel') with timeout 5000ms
+      - waiting for locator('.next-options-panel')
+        14 × locator resolved to <div class="next-options-panel">…</div>
+           - unexpected value "hidden"
+
+
+      848 |   await expect(page.locator(".live-identity")).toHaveCount(0);
+      849 |   await page.getByText("发送选项", {exact:true}).click();
+    > 850 |   await expect(page.locator(".next-options-panel")).toBeVisible();
+          |                                                     ^
+      851 |   expect((await log.boundingBox())!.height).toBeGreaterThan(page.viewportSize()!.height * .45);
+      852 |   await page.getByText("发送选项", {exact:true}).click();
+      853 |   await page.getByRole("button", {name:"搜索对话",exact:true}).click();
+        at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:850:53
+
+    Error Context: test-results/v3-Daily-chat-message-area-a6490-nd-options-remain-reachable-phone-390/error-context.md
+
+  4) [phone-390] › tests/v3.spec.ts:947:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change 
+
+    Test timeout of 30000ms exceeded.
+
+    Error Context: test-results/v3-SYNTHETIC-retention-con-7b8b1-al-and-clears-on-run-change-phone-390/error-context.md
+
+  4 failed
+    [phone-360] › tests/v3.spec.ts:843:1 › Daily chat: message area owns the screen and options remain reachable 
+    [phone-360] › tests/v3.spec.ts:947:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change 
+    [phone-390] › tests/v3.spec.ts:843:1 › Daily chat: message area owns the screen and options remain reachable 
+    [phone-390] › tests/v3.spec.ts:947:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change 
+  5 did not run
+  7 passed (1.6m)

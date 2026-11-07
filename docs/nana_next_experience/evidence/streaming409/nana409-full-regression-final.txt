@@ -1,0 +1,47 @@
+........................................................................ [  3%]
+........................................................................ [  7%]
+........................................................................ [ 10%]
+........................................................................ [ 14%]
+........................................................................ [ 17%]
+........................................................................ [ 21%]
+........................................................................ [ 24%]
+.....................................................sssssssssss........ [ 28%]
+........................................................................ [ 32%]
+........................................................................ [ 35%]
+........................................................................ [ 39%]
+........................................................................ [ 42%]
+........................................................................ [ 46%]
+........................................................................ [ 49%]
+........................................................................ [ 53%]
+........................................................................ [ 57%]
+........................................................................ [ 60%]
+........................................................................ [ 64%]
+........................................................................ [ 67%]
+........................................................................ [ 71%]
+........................................................................ [ 74%]
+........................................................................ [ 78%]
+............s........................................................... [ 82%]
+........................................................................ [ 85%]
+........................................................................ [ 89%]
+........................................................................ [ 92%]
+........................................................................ [ 96%]
+........................................................................ [ 99%]
+..                                                                       [100%]
+============================= slowest 8 durations ==============================
+24.25s call     tests/nana_shadow/test_r044_recovery.py::test_50_actual_worker_processes_stop_reap_and_release_lease
+20.73s call     tests/controlled_hands/test_application.py::test_real_subject_outcome_learning_transfer_and_bounded_extension
+20.61s call     tests/continuous_self/test_subject_life.py::test_ten_day_counterfactual_and_sixty_day_life
+18.39s call     tests/controlled_hands/test_recovery.py::test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[DURING_LEARNING]
+17.08s call     tests/controlled_hands/test_recovery.py::test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[DURING_SKILL_TEST]
+15.02s call     tests/controlled_world/test_crash_campaign.py::test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[SKILL_QUALIFICATION]
+9.65s call     tests/precision/test_lifecycle.py::test_multihand_hierarchy_learns_per_task_domain_and_replans_same_goal
+8.71s call     tests/controlled_world/test_lab_browser.py::test_browser_request_cap_and_original_kernel
+=========================== short test summary info ============================
+SKIPPED [1] tests/h2_live_screen/test_live.py:16: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:19: explicit --live-screen required
+SKIPPED [6] tests/h2_live_screen/test_live.py:56: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:68: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:85: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:110: explicit --live-screen required
+SKIPPED [1] tests/offline_continuity/test_experiment.py:21: E12 real-model gate requires configured development endpoints via nana-semantic; offline pytest makes no real-model calls
+2006 passed, 12 skipped in 754.49s (0:12:34)

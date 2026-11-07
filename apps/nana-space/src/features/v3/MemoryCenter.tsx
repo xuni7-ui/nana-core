@@ -247,6 +247,7 @@ export function MemoryCenter({
           <Search size={17} />
           <input
             aria-label="搜索记忆"
+            disabled={!available}
             value={query}
             maxLength={256}
             onChange={(e) => {searchVersion.current++; setSearching(false); setRemote(null); setQuery(e.target.value);}}

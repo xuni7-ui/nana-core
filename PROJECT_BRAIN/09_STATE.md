@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 79,
-  "as_of_us": 1794054425957668,
+  "revision": 80,
+  "as_of_us": 1794056087637289,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_STREAM_RUNTIME_409_VALIDATING",
+  "status": "IN_PROGRESS_409_FINAL_MATCHED_ARTIFACTS_BUILDING",
   "progress": [
     "原Next Experience及十域任务持续；f03fcbb检索学习/原S3/S2/Fish、408已交付能力继承，不新增主体或学习系统。",
     "a0263e5原回执热集保留256，终态/UNKNOWN元数据可私有归档，跨重启同key不重发，旧二进制遇新标记拒绝。",
@@ -19,11 +19,11 @@
     "原owner等待模型时可处理既有暂停/撤权/停止；不递归聊天/导入，停止保留UNKNOWN及费用并禁止新渲染调用。",
     "完整请求模型计数绑定接入原ContextAssembler/Router，缺商业tokenizer不冒充准确token；实际派发前复核，原文闭包不长期保留。",
     "只对确认PROPOSED正数实测字节结算剩余字节额度；原财务/次数/UNKNOWN保留，新宿主32MB而旧设置4MB不变。",
-    "已执行本地真实HTTP/UDS/SSE、原C及路由相关验证；Java编译/两项原生检查、66前端检查通过，失败保留。",
-    "手机布局与管理导航暴露两个真实问题，正在修复/复验；409整包、实际安装和最终全仓结果待实际运行，不冒充已交付。"
+    "最终backend37e46b5实际2006通过/0失败/12显式门控跳过，754.49秒；原首次32夹具失败及修复证据均保留。",
+    "最终前端66检查/24手机桌面定向通过；修复中断后新独立消息、首次记忆搜索丢字和触摸布局移动；新匹配409整包正在构建。"
   ],
   "open_gates": [
-    "完整任务继续；409源码/最终回归/匹配APK-Web-Core发布及安装验证尚在施工。",
+    "原总任务继续；最终匹配409 APK/Web/Core及下载交付正在收口，不把预发布522旧候选冒充最终409。",
     "真实商业tokenizer、模型语义/真人/物理手机/跨日/权威活库向量映射无安全绑定，相关资格未运行。",
     "生产/Iris迁移由原运行负责人负责；不调用真实provider、不读私史、不触碰正式主体或既有权限。"
   ],

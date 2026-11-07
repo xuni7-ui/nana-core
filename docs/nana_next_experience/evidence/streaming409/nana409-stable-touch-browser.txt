@@ -1,0 +1,31 @@
+[WebServer] (node:106223) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 16 tests using 1 worker
+
+(node:106255) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/v3.spec.ts:843:1 › Daily chat: message area owns the screen and options remain reachable (2.1s)
+  ✓   2 [desktop] › tests/v3.spec.ts:878:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write (1.8s)
+  ✓   3 [desktop] › tests/v3.spec.ts:947:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change (3.0s)
+  ✓   4 [desktop] › tests/v3.spec.ts:1002:1 › SYNTHETIC stream: final receipt replaces provisional text, interruption never retries (2.0s)
+(node:106542) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   5 [phone-360] › tests/v3.spec.ts:843:1 › Daily chat: message area owns the screen and options remain reachable (1.9s)
+  ✓   6 [phone-360] › tests/v3.spec.ts:878:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write (1.5s)
+  ✓   7 [phone-360] › tests/v3.spec.ts:947:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change (2.7s)
+  ✓   8 [phone-360] › tests/v3.spec.ts:1002:1 › SYNTHETIC stream: final receipt replaces provisional text, interruption never retries (1.9s)
+(node:106801) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 [phone-390] › tests/v3.spec.ts:843:1 › Daily chat: message area owns the screen and options remain reachable (1.9s)
+  ✓  10 [phone-390] › tests/v3.spec.ts:878:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write (1.6s)
+  ✓  11 [phone-390] › tests/v3.spec.ts:947:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change (3.0s)
+  ✓  12 [phone-390] › tests/v3.spec.ts:1002:1 › SYNTHETIC stream: final receipt replaces provisional text, interruption never retries (2.1s)
+(node:107071) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 [phone-412] › tests/v3.spec.ts:843:1 › Daily chat: message area owns the screen and options remain reachable (2.1s)
+  ✓  14 [phone-412] › tests/v3.spec.ts:878:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write (1.6s)
+  ✓  15 [phone-412] › tests/v3.spec.ts:947:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change (2.4s)
+  ✓  16 [phone-412] › tests/v3.spec.ts:1002:1 › SYNTHETIC stream: final receipt replaces provisional text, interruption never retries (1.7s)
+
+  16 passed (40.2s)

@@ -857,7 +857,9 @@ test("Daily chat: message area owns the screen and options remain reachable", as
   if (page.viewportSize()!.width < 900) {
     await expect(page.getByRole("navigation",{name:"移动端导航"})).toBeHidden();
     await page.setViewportSize({width:page.viewportSize()!.width,height:480});
+    await expect(page.locator("html")).toHaveAttribute("data-nana-short-viewport", "");
     await expect(page.getByRole("button",{name:"发送",exact:true})).toBeVisible();
+    expect((await log.boundingBox())!.height).toBeGreaterThan(130);
   }
 });
 
@@ -1015,6 +1017,13 @@ test("SYNTHETIC stream: final receipt replaces provisional text, interruption ne
   await expect(page.getByText("SYNTHETIC 临时生成文字",{exact:true})).toHaveCount(0);
   expect(state.requests.filter(r=>r.path==="messages/stream" && r.method==="POST")).toHaveLength(2);
   expect(state.requests.filter(r=>r.path==="messages" && r.method==="POST")).toHaveLength(0);
+  await expect(page.getByLabel("和奈奈说点什么")).toBeEnabled();
+  state.streamInterrupted=false;
+  await page.getByLabel("和奈奈说点什么").fill("SYNTHETIC independent message after UNKNOWN");
+  await page.getByRole("button",{name:"发送",exact:true}).click();
+  await expect(page.getByText("SYNTHETIC 最终核验回复",{exact:true})).toBeVisible();
+  expect(state.requests.filter(r=>r.path==="messages/stream" && r.method==="POST")).toHaveLength(3);
+  expect(new Set(state.messageBodies?.map(body=>body.client_request_id)).size).toBe(3);
   await noHorizontalOverflow(page);
   await page.screenshot({path:`test-results/409-${info.project.name}-stream.png`});
   expect(await page.evaluate(()=>JSON.stringify(localStorage))).not.toContain("interrupted turn");
