@@ -118,6 +118,62 @@ class TokenCounter(Protocol):
     def count(self, text: str) -> int: ...
 
 
+class ModelTokenCounter:
+    """Trusted adapter binding, never supplied by model output or user text.
+
+    The host supplies local tokenizer/framing code and an exact model/version
+    binding. This is an admission measurement, not provider-reported usage or
+    proof that an arbitrary commercial tokenizer has been qualified.
+    """
+    def __init__(self, *, provider_id, model_id, revision, text_tokens, request_tokens):
+        import re
+        if (type(provider_id) is not str or type(model_id) is not str
+                or not 1 <= len(provider_id) <= 96 or not 1 <= len(model_id) <= 96
+                or type(revision) is not str or not re.fullmatch(r"[a-f0-9]{64}", revision)
+                or not callable(text_tokens) or not callable(request_tokens)):
+            raise CoreError("MODEL_TOKEN_COUNTER_BINDING_INVALID")
+        self.provider_id, self.model_id, self.revision = provider_id, model_id, revision
+        self._text_tokens, self._request_tokens = text_tokens, request_tokens
+        self.descriptor = "MODEL_REQUEST_FRAMING_V1:" + revision
+
+    @staticmethod
+    def checked(value):
+        if type(value) is not int or not 0 <= value <= 2097152:
+            raise CoreError("MODEL_TOKEN_COUNTER_RESULT_INVALID")
+        return value
+
+    def count(self, text):
+        return self.checked(self._text_tokens(text))
+
+    def count_request(self, body, *, provider_id, model_id):
+        if (provider_id, model_id) != (self.provider_id, self.model_id):
+            raise CoreError("MODEL_TOKEN_COUNTER_TARGET_MISMATCH")
+        return self.checked(self._request_tokens(body))
+
+
+class FramedContextCounter:
+    """Count a candidate package inside its complete, actual request frame.
+
+    ContextAssembler keeps all original priority/required-source rules. Role
+    inputs, history, schema, system instructions and output reserve now share
+    the same per-model limit, rather than budgeting the context object alone.
+    """
+    def __init__(self, binding, count_package):
+        self.descriptor = "REQUEST_FRAMING_BOUND_V1:" + binding.revision
+        self._count_package = count_package
+
+    def count(self, text):
+        # A digest and its own manifest count cannot participate in an exact
+        # tokenizer fixed point. Normalize only these bounded metadata fields
+        # for selection; reserve slack, then measure the actual final request
+        # independently before reservation AND dispatch. Insufficient slack
+        # rejects safely rather than silently exceeding a model limit.
+        value=json.loads(text)
+        value['content_digest']='0'*64
+        value['manifest']['input_tokens']=0
+        return ModelTokenCounter.checked(self._count_package(canonical(value)))+256
+
+
 class ConservativeCounter:
     descriptor = "UTF8_BYTE_ESTIMATE_v1_NOT_PROVIDER_TOKENIZER"
 

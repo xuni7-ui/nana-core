@@ -1,0 +1,15 @@
+{
+  "scope": "SAME_NEXT_EXPERIENCE_AND_TEN_DOMAIN_MISSION",
+  "status": "IMPLEMENTED_RELATED_TESTED_NOT_FINAL_DELIVERY",
+  "base": "a0263e5",
+  "real_provider_calls": 0,
+  "production_changed": false,
+  "physical_phone": "NOT_RUN",
+  "human_naturalness": "NOT_RUN",
+  "commercial_tokenizer": "NOT_QUALIFIED",
+  "stream_qualification": "ACTUAL_LOOPBACK_HTTP_UDS_ORIGINAL_C_PROVIDER_SSE",
+  "counter_qualification": "SYNTHETIC_CHARACTER_FRAMING_ONLY",
+  "owner_priority": "ORIGINAL_OWNER_SAFE_POINT_NO_SECOND_LOOP",
+  "financial_refund": false,
+  "historical_failures_preserved": true
+}

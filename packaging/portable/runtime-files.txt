@@ -128,6 +128,7 @@ src/nana_core/continuity/temporal.py
 src/nana_core/continuity/world_loop/__init__.py
 src/nana_core/continuity/world_loop/attention.py
 src/nana_core/continuity/world_loop/cognition.py
+src/nana_core/continuity/world_loop/streaming.py
 src/nana_core/continuity/world_loop/concern_source.py
 src/nana_core/continuity/world_loop/coordinator.py
 src/nana_core/continuity/world_loop/extension.py

@@ -25,6 +25,8 @@ class CognitionBudget(DTO):
     cost_ceiling_micro: int=Field(default=0,ge=0,le=1000000)
 class CognitionRequest(DTO):
     _volatile_media:dict|None=PrivateAttr(default=None)
+    _publish_draft:object=PrivateAttr(default=None)
+    response_mode:Literal["JSON","JSON_STREAM"]="JSON"
     def media_input(self):return self._volatile_media or self.role_input
     request_id:str
     subject_epoch:int
@@ -48,6 +50,7 @@ class CognitionRequest(DTO):
     def legacy_route_wire(self,handler):
         result=handler(self)
         if self.route_snapshot is None:result.pop('route_snapshot',None)
+        if self.response_mode=='JSON':result.pop('response_mode',None)
         return result
 class InterestProposal(DTO):
     topic:str=Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
@@ -132,13 +135,18 @@ class _NoRedirect(urllib.request.HTTPRedirectHandler):
     def redirect_request(self,*args,**kwargs):raise TransportFailure('PROVIDER_REDIRECT_DENIED')
 
 class OpenAIJSONTransport:
-    """Bounded non-streaming chat completions over HTTPS. No automatic retries.
+    """Bounded JSON/SSE chat completions over HTTPS. No automatic retries.
 
     Application provides exact endpoint/model/credential. Loopback HTTP is only
     available as explicitly SYNTHETIC harness; external HTTP is always denied.
     """
-    def __init__(self,endpoint,model_id,*,provider_id='development-http',credential=None,harness=False,thinking_mode='PROVIDER_DEFAULT'):
+    def __init__(self,endpoint,model_id,*,provider_id='development-http',credential=None,harness=False,thinking_mode='PROVIDER_DEFAULT',token_counter=None):
         if thinking_mode not in {'PROVIDER_DEFAULT','DISABLED'}:raise CoreError('PROVIDER_OPTIONS_INVALID')
+        from ..context import ModelTokenCounter
+        if token_counter is not None:
+            if type(token_counter) is not ModelTokenCounter:raise CoreError('MODEL_TOKEN_COUNTER_BINDING_INVALID')
+            if (token_counter.provider_id,token_counter.model_id)!=(provider_id,model_id):raise CoreError('MODEL_TOKEN_COUNTER_TARGET_MISMATCH')
+        self.token_counter=token_counter
         self.thinking_mode=thinking_mode
         u=urlsplit(endpoint)
         if u.username or u.password or u.fragment or u.query:raise CoreError('PROVIDER_ENDPOINT_INVALID')
@@ -233,12 +241,15 @@ class OpenAIJSONTransport:
 
     def request_body(self,request):
         """Exact bounded wire body; pure serialization, no credentials or I/O."""
-        body={'model':self.model_id,'stream':False,'messages':self.messages(request),
+        stream=request.response_mode=='JSON_STREAM'
+        if stream and (request.cognitive_role!='SOCIAL' or not request.role_input.get('dialogue')):raise TransportFailure('PROVIDER_STREAM_ROLE_DENIED')
+        body={'model':self.model_id,'stream':stream,'messages':self.messages(request),
             # The proposal includes extensible operator arguments. Its ordinary
             # DTO schema is not provider-native strict JSON Schema (closed
             # objects/all properties required). Request JSON, then enforce the
             # complete typed contract locally before accepting any proposal.
             'max_tokens':request.budget.output_tokens,'response_format':{'type':'json_object'}}
+        if stream:body['stream_options']={'include_usage':True}
         if self.thinking_mode=='DISABLED':body['thinking']={'type':'disabled'}
         data=canonical(body).encode()
         if len(data)>196608:raise TransportFailure('PROVIDER_CONTEXT_OVERFLOW')
@@ -246,7 +257,8 @@ class OpenAIJSONTransport:
 
     @staticmethod
     def response_bound(request):
-        return min(131072,request.budget.output_tokens*4+4096)
+        return (min(1048576,request.budget.output_tokens*256+8192) if request.response_mode=='JSON_STREAM'
+            else min(131072,request.budget.output_tokens*4+4096))
 
     def wire_reservation(self,request,volatile_input=None):
         # The raw dialogue/media remains owner-local. Never change its persisted
@@ -260,6 +272,7 @@ class OpenAIJSONTransport:
         headers={'Content-Type':'application/json','Accept':'application/json','X-Request-ID':request.request_id}
         if self._credential:headers['Authorization']='Bearer '+self._credential
         req=urllib.request.Request(self.endpoint,data=data,headers=headers,method='POST');started=time.monotonic()
+        deadline=started+request.budget.timeout_ms/1000
         observation={'request_body_sha256':hashlib.sha256(data).hexdigest(),
             'request_started_at':datetime.now(timezone.utc).isoformat(),'latency_ms':0.}
         self.last_http_observation=None
@@ -277,23 +290,32 @@ class OpenAIJSONTransport:
         try:
             with self.opener.open(req,timeout=request.budget.timeout_ms/1000) as response:
                 response_bound=self.response_bound(request)
-                raw=response.read(response_bound+1)
+                measure(response=response)
+                stream_envelope=None
+                if request.response_mode=='JSON_STREAM' and response.headers.get_content_type()=='text/event-stream':
+                    from .streaming import receive
+                    try:stream_envelope,raw=receive(response,response_bound,getattr(request,'_publish_draft',None) or (lambda _:None),deadline=deadline)
+                    except CoreError as exc:raise TransportFailure(exc.code) from None
+                else:
+                    from .streaming import read_body
+                    raw=read_body(response,response_bound,deadline)
                 if len(raw)>response_bound:raise TransportFailure('PROVIDER_RESPONSE_BOUND')
                 measure(raw,response)
                 if time.monotonic()-started>request.budget.timeout_ms/1000:raise TimeoutError('PROVIDER_TIMEOUT')
-                if response.headers.get_content_type()!='application/json':raise TransportFailure('PROVIDER_PARTIAL_OR_UNSUPPORTED_STREAM')
+                if stream_envelope is None and response.headers.get_content_type()!='application/json':raise TransportFailure('PROVIDER_PARTIAL_OR_UNSUPPORTED_STREAM')
             def observe(envelope,choice):
                 observed_usage=envelope.get('usage')
                 safe_usage={k:v for k,v in observed_usage.items() if k in {'prompt_tokens','completion_tokens','total_tokens','input_tokens','output_tokens'} and type(v) is int and v>=0} if type(observed_usage) is dict else None
                 self.last_response_metadata={'finish_reason':self._measurement_id(choice.get('finish_reason')),'model_returned':self._measurement_id(envelope.get('model')),'usage':safe_usage}
                 observation['relay_response_id']=self._measurement_id(envelope.get('id'));measure()
-            proposal,actual_model,usage=self._parse_response(raw,request,observe)
+            proposal,actual_model,usage=self._parse_response(canonical(stream_envelope).encode() if stream_envelope is not None else raw,request,observe)
             return CognitionReply(request_id=request.request_id,request_digest=digest(request.model_dump(mode='json')),provider_id=self.provider_id,model_id=actual_model,
-                origin='SYNTHETIC' if self.harness else 'REAL_PROVIDER',proposal=proposal,usage=usage,wire_input_bytes=len(data),wire_output_bytes=len(raw),cost_micro=0 if self.harness else None,billing='FIXTURE_ZERO' if self.harness else 'UNKNOWN',http_observation=self.last_http_observation)
+                origin='SYNTHETIC' if self.harness else 'REAL_PROVIDER',proposal=proposal,usage=usage,wire_input_bytes=len(data),wire_output_bytes=len(raw),cost_micro=0 if self.harness else None,billing='FIXTURE_ZERO' if self.harness else 'UNKNOWN',http_observation=HTTPObservation(**observation))
         except urllib.error.HTTPError as exc:
             code='PROVIDER_RATE_LIMIT' if exc.code==429 else 'PROVIDER_CONTEXT_OVERFLOW' if exc.code==413 else 'PROVIDER_HTTP_ERROR'
             try:
-                error_body=exc.read(131073)
+                from .streaming import read_body
+                error_body=read_body(exc,131072,deadline)
                 measure(error_body if len(error_body)<=131072 else None,exc)
             finally:exc.close()
             raise TransportFailure(code) from None
@@ -322,15 +344,26 @@ class CognitionSession:
         if runtime.store.schema_target<13:raise CoreError('WORLD_SCHEMA_REQUIRED')
         self.runtime,self.store,self.transport,self.policy=runtime,runtime.store,transport,policy
         self.records=RecordService(self.store);self.assembler=ContextAssembler(self.store,runtime.authority,project_state_source=project_state_source)
-        self.max_calls=max_calls_per_day;self._workers=[];self._volatile_inputs={};self._volatile_dialogue={};self._volatile_recall={}
+        self.draft_sink=None;self.max_calls=max_calls_per_day;self._workers=[];self._volatile_inputs={};self._volatile_dialogue={};self._volatile_recall={}
         if route_snapshot is not None and type(route_snapshot) is not RouteSnapshot:raise CoreError('ROUTE_SNAPSHOT_REQUIRED')
         self.route_snapshot,self._route_guard=route_snapshot,route_guard
         if not 1<=max_calls_per_day<=128:raise CoreError("COGNITION_QUOTA_BOUND")
     def prepare(self,key,role,source_ids,*,budget=None,goal_id=None,capabilities=(),role_input=None,volatile_input=None,pinned_only=False,query_terms=()):
+        previous=self.assembler.counter
+        try:
+            return self._prepare(key,role,source_ids,budget=budget,goal_id=goal_id,capabilities=capabilities,
+                role_input=role_input,volatile_input=volatile_input,pinned_only=pinned_only,query_terms=query_terms)
+        finally:
+            # A framing callback briefly sees owner-local unretained input. Never
+            # leave its closure as an assembler/long-lived plaintext cache.
+            self.assembler.counter=previous
+
+    def _prepare(self,key,role,source_ids,*,budget=None,goal_id=None,capabilities=(),role_input=None,volatile_input=None,pinned_only=False,query_terms=()):
         if type(pinned_only) is not bool:raise CoreError('COGNITION_CONTEXT_SELECTION_INVALID')
         old=self.store.db.execute('SELECT * FROM cognitive_requests WHERE request_key=?',(key,)).fetchone()
         if old:return old['request_id']
         r=self.runtime;r.lease.assert_current();b=budget or CognitionBudget()
+        if r.stop_requested:raise CoreError('RUNTIME_STOP_REQUESTED_NO_DISPATCH')
         if self.route_snapshot is not None:
             snap=self.route_snapshot;limit=snap.effective
             if not self._route_guard or not self._route_guard():raise CoreError('ROUTE_CHANGED_BEFORE_DISPATCH')
@@ -341,6 +374,37 @@ class CognitionSession:
         now=self.store.clock.utc_now_us();count=self.store.db.execute("SELECT count(*) FROM cognitive_requests WHERE created_at_us>=?",(now//86400_000_000*86400_000_000,)).fetchone()[0]
         if count>=self.max_calls:raise CoreError('COGNITION_DAILY_BUDGET')
         if self.transport.remote and b.cost_ceiling_micro==0:raise CoreError('REMOTE_COST_RESERVATION_REQUIRED')
+        role_input=role_input or {}
+        goal=self.store.one('goals',goal_id) if goal_id else None
+        if goal_id and not goal:raise CoreError('COGNITION_GOAL_UNKNOWN')
+        request_id=uid()
+        current=[]
+        for g in self.store.db.execute("SELECT * FROM goals WHERE state IN ('ACTIVE','BLOCKED','SUSPENDED') LIMIT 16"):
+            head=self.store.one('continuity_records',json.loads(g['body_json']).get('record_id'))
+            if head and head['scope'] in r.config.scopes and head['privacy_class'] in allowed_for_request(self.transport,self.policy,role_input) and self.records.current_support(head['record_id']):current.append({'goal_id':g['goal_id'],'version':g['version'],'state':g['state']})
+        current=tuple(current)
+        world_stamp=self._world_stamp(r.config.scopes,allowed_for_request(self.transport,self.policy,role_input))
+        def make_request(context_json):
+            package=json.loads(context_json)
+            source_refs=tuple(dict.fromkeys((*source_ids,*(m for block in package['blocks'] for m in block['source_memory_ids']))))
+            return CognitionRequest(response_mode='JSON_STREAM' if role=='SOCIAL' and self.draft_sink is not None and isinstance(self.transport,OpenAIJSONTransport) else 'JSON',
+                request_id=request_id,subject_epoch=r.lease.epoch,subject_revision=r.subject.revision,cognitive_role=role,
+                source_context_refs=source_refs,primary_source_refs=tuple(source_ids),context_json=context_json,
+                current_goals=current,available_capabilities=tuple(capabilities),world_stamp=world_stamp,
+                expected_schema=StructuredProposal.model_json_schema(),role_input=role_input,budget=b,created_at_us=now,
+                deadline_us=now+b.timeout_ms*1000,route_snapshot=self.route_snapshot)
+        token_counter=getattr(self.transport,'token_counter',None)
+        if token_counter is not None:
+            from ..context import FramedContextCounter
+            def count_package(context_json):
+                candidate=make_request(context_json)
+                candidate._volatile_media=volatile_input
+                body=json.loads(self.transport.request_body(candidate))
+                return token_counter.count_request(body,provider_id=self.transport.provider_id,model_id=self.transport.model_id)
+            self.assembler.counter=FramedContextCounter(token_counter,count_package)
+        if token_counter is None:
+            from ..context import ConservativeCounter
+            self.assembler.counter=ConservativeCounter()
         req=ContextRequest(entity_id=r.config.entity_id,scopes=r.config.scopes,task_class='world.'+role.lower(),task='Interpret sourced context; proposals only; silence is valid.',task_privacy_class=(role_input or {}).get('dialogue',{}).get('privacy_class','PUBLIC'),destination='DEVELOPMENT_REMOTE' if self.transport.remote else 'LOCAL_FIXTURE',max_input_tokens=b.input_tokens,output_reserve_tokens=b.output_tokens,query_terms=query_terms)
         context=self.assembler.assemble(req,self.policy,capabilities=capabilities,limitations=('NO_AUTHORITY_IN_MODEL_OUTPUT',),required_memory_ids=source_ids,source_only=role=='MEDIA',pinned_only=pinned_only or bool(role_input and role_input.get('dialogue')),require_current_state=bool(role_input and role_input.get('dialogue',{}).get('project_status_query')),conversation_topic=role_input.get('dialogue',{}).get('topic') if role_input else None)
         if role_input and role_input.get('dialogue') and self.store.schema_target>=13 and not any(b.kind=='PERSON_SELF' for b in context.blocks):raise CoreError('PERSON_SELF_CONTEXT_BUDGET')
@@ -394,15 +458,15 @@ class CognitionSession:
         for mid in refs:
             m=self.records.memory.read(mid)
             if m['scope'] not in req.scopes or m['privacy_class'] not in allowed:raise CoreError('COGNITION_PRIVACY_DENIED')
-        goal=self.store.one('goals',goal_id) if goal_id else None
-        if goal_id and not goal:raise CoreError('COGNITION_GOAL_UNKNOWN')
-        now=self.store.clock.utc_now_us();request_id=uid()
-        current=[]
-        for g in self.store.db.execute("SELECT * FROM goals WHERE state IN ('ACTIVE','BLOCKED','SUSPENDED') LIMIT 16"):
-            head=self.store.one('continuity_records',json.loads(g['body_json']).get('record_id'))
-            if head and head['scope'] in req.scopes and head['privacy_class'] in allowed and self.records.current_support(head['record_id']):current.append({'goal_id':g['goal_id'],'version':g['version'],'state':g['state']})
-        current=tuple(current)
-        request=CognitionRequest(request_id=request_id,subject_epoch=r.lease.epoch,subject_revision=r.subject.revision,cognitive_role=role,source_context_refs=refs,primary_source_refs=tuple(source_ids),context_json=context.model_dump_json(),current_goals=current,available_capabilities=tuple(capabilities),world_stamp=self._world_stamp(req.scopes,allowed),expected_schema=StructuredProposal.model_json_schema(),role_input=role_input,budget=b,created_at_us=now,deadline_us=now+b.timeout_ms*1000,route_snapshot=self.route_snapshot)
+        request=make_request(context.model_dump_json())
+        token_accounting=None
+        if token_counter is not None:
+            measured=count_package(context.model_dump_json())
+            if measured>context.manifest.input_tokens or measured+b.output_tokens>b.input_tokens:
+                raise CoreError('MODEL_REQUEST_TOKEN_BUDGET')
+            token_accounting={'counter':token_counter.descriptor,'model':self.transport.model_id,
+                'provider':self.transport.provider_id,'input_tokens':measured,'output_reserve_tokens':b.output_tokens,
+                'context_limit':b.input_tokens,'provider_reported_usage':False}
         reserved_bytes=(self.transport.wire_reservation(request,volatile_input)
             if isinstance(self.transport,OpenAIJSONTransport) else
             (len(request.model_dump_json().encode())+(len(canonical(volatile_input).encode()) if volatile_input else 0))*2+16384+min(131072,b.output_tokens*4+4096))
@@ -410,11 +474,11 @@ class CognitionSession:
             from ...presence.resources import resource_state
             resource=resource_state(self.store,r.config);limits=r.config.living
             if resource.calls>=r.config.max_calls_per_day:raise CoreError('COGNITION_DAILY_BUDGET')
-            if resource.reserved_bytes+reserved_bytes>limits.max_model_bytes_per_day or (not role_input.get('dialogue') and (resource.background_reserved_bytes+reserved_bytes)*100>limits.max_model_bytes_per_day*limits.background_fraction_percent):raise CoreError('COGNITION_BYTE_BUDGET')
+            if resource.admission_bytes+reserved_bytes>limits.max_model_bytes_per_day or (not role_input.get('dialogue') and (resource.background_admission_bytes+reserved_bytes)*100>limits.max_model_bytes_per_day*limits.background_fraction_percent):raise CoreError('COGNITION_BYTE_BUDGET')
             if resource.reserved_estimated_cost_micro+b.cost_ceiling_micro>limits.max_estimated_cost_micro_per_day:raise CoreError('COGNITION_COST_BUDGET')
         self.assembler.validate(context,req,self.policy)
         with self.store.transaction('world.cognition_prepared',{'request_id':request_id}) as tx:
-            rid=self.records.create(tx,kind='COGNITION_REQUEST',scope=req.scopes[0],payload={'request':request.model_dump(mode='json'),'provider':self.transport.provider_id,'model':self.transport.model_id},memories=tuple(dict.fromkeys((*refs,*history_support))),records=tuple(dict.fromkeys((*extra_parents,*(x for block in context.blocks for x in block.source_record_ids)))),privacy_floor=LocalWorldRegistry.payload_privacy(role_input) if role_input.get('dialogue') else None)
+            rid=self.records.create(tx,kind='COGNITION_REQUEST',scope=req.scopes[0],payload={'request':request.model_dump(mode='json'),'provider':self.transport.provider_id,'model':self.transport.model_id,**({'token_accounting':token_accounting} if token_accounting else {})},memories=tuple(dict.fromkeys((*refs,*history_support))),records=tuple(dict.fromkeys((*extra_parents,*(x for block in context.blocks for x in block.source_record_ids)))),privacy_floor=LocalWorldRegistry.payload_privacy(role_input) if role_input.get('dialogue') else None)
             tx.put('cognitive_requests',{'request_id':request_id,'request_key':key,'record_id':rid,'subject_revision':r.subject.revision,'owner_epoch':r.lease.epoch,'goal_id':goal_id,'goal_version':goal['version'] if goal else None,'state':'PREPARED','deadline_us':request.deadline_us,'request_digest':digest(request.model_dump(mode='json')),'response_digest':None,'error_code':None,'created_at_us':now,'reserved_bytes':reserved_bytes,'reserved_cost_micro':b.cost_ceiling_micro,'input_bytes':None,'output_bytes':None,'actual_cost_micro':None,'latency_us':None})
         if volatile_input is not None:self._volatile_inputs[request_id]=volatile_input
         return request_id
@@ -447,6 +511,7 @@ class CognitionSession:
         row=self.store.one('cognitive_requests',request_id)
         if not row:raise CoreError('COGNITION_UNKNOWN_REQUEST')
         if row['state']!='PREPARED':return {'state':row['state'],'request_id':request_id,'replayed':True}
+        if self.runtime.stop_requested:return self._finish(row,'STALE','RUNTIME_STOP_REQUESTED_NO_DISPATCH')
         if not self._current(row):return self._finish(row,'STALE','STALE_CONTEXT')
         request=CognitionRequest.model_validate_json(canonical(self.records.read(row['record_id'])['payload']['request']))
         if request.cognitive_role in {'INTERPRET','SOCIAL'} and request.role_input.get('dialogue'):
@@ -462,6 +527,14 @@ class CognitionSession:
             except CoreError as exc:return self._finish(row,'STALE',exc.code)
             if required_bytes>row['reserved_bytes']:
                 return self._finish(row,'STALE','WIRE_RESERVATION_CHANGED_NO_DISPATCH')
+            accounting=self.records.read(row['record_id'])['payload'].get('token_accounting')
+            if accounting is not None:
+                binding=self.transport.token_counter
+                try:
+                    measured=binding.count_request(json.loads(self.transport.request_body(request)),provider_id=self.transport.provider_id,model_id=self.transport.model_id) if binding is not None else None
+                    if binding is None or binding.descriptor!=accounting['counter'] or measured!=accounting['input_tokens'] or measured+request.budget.output_tokens>request.budget.input_tokens:
+                        return self._finish(row,'STALE','MODEL_TOKEN_BINDING_CHANGED_NO_DISPATCH')
+                except CoreError:return self._finish(row,'STALE','MODEL_TOKEN_BINDING_CHANGED_NO_DISPATCH')
         self._workers=[w for w in self._workers if w.is_alive()]
         if len(self._workers)>=2:return self._finish(row,'STALE','PROVIDER_WORKER_BOUND_PRE_DISPATCH')
         with self.store.transaction('world.cognition_calling',{'request_id':request_id}) as tx:tx.update('cognitive_requests',request_id,state='CALLING')
@@ -470,23 +543,64 @@ class CognitionSession:
             result=queue.Queue(maxsize=1)
             # Worker receives only immutable DTO and transport, never Core/Store.
             transport=self.transport
+            draft_events=queue.Queue(maxsize=64)
+            stream_open=threading.Event();stream_open.set()
+            if request.response_mode=='JSON_STREAM':
+                cumulative=['']
+                def publish(piece):
+                    cumulative[0]+=piece
+                    if stream_open.is_set():
+                        try:draft_events.put_nowait(cumulative[0])
+                        except queue.Full:
+                            try:draft_events.get_nowait()
+                            except queue.Empty:pass
+                            try:draft_events.put_nowait(cumulative[0])
+                            except queue.Full:pass
+                request._publish_draft=publish
+            streamed='';latest='';last_publish=0.
+            def drain_draft(force=False):
+                nonlocal streamed,latest,last_publish
+                while not draft_events.empty():latest=draft_events.get_nowait()
+                if latest!=streamed and (force or (len(latest)-len(streamed)>=8 and time.monotonic()-last_publish>=.125)):
+                    last_publish=time.monotonic()
+                    if not self._current(row):raise CoreError('STALE_STREAM_CONTEXT')
+                    streamed=latest
+                    if self.draft_sink is not None:
+                        try:self.draft_sink({'state':'PROVISIONAL_MODEL_DRAFT','text':streamed[:4096]})
+                        except Exception:self.draft_sink=None  # lost display is not permission to resend
             def call():
                 try:result.put((True,transport.exchange(request)))
                 except Exception as exc:result.put((False,exc))
+            if self.draft_sink is not None and request.cognitive_role in {'INTERPRET','SOCIAL'}:
+                try:self.draft_sink({'state':'INTERPRETING' if request.cognitive_role=='INTERPRET' else 'RENDERING'})
+                except Exception:self.draft_sink=None
             worker=threading.Thread(target=call,daemon=True,name='bounded-cognition-transport');self._workers.append(worker);worker.start()
             deadline=time.monotonic()+request.budget.timeout_ms/1000
+            next_control=0.
             while worker.is_alive():
                 self.runtime.lease.heartbeat();self.runtime.cadence.drain(self.runtime.submit)
+                if time.monotonic() >= next_control:
+                    next_control=time.monotonic()+.05
+                    progress=getattr(self.runtime,'control_progress',None)
+                    if progress is not None:progress()
+                if self.runtime.stop_requested:return self._finish(row,'UNKNOWN','STOPPED_PROVIDER_BILLING_UNKNOWN_NO_RETRY')
+                drain_draft()
                 if self.runtime.queue.has_reactive():return self._finish(row,'UNKNOWN','PREEMPTED_NO_AUTOMATIC_RETRY')
                 if time.monotonic()>=deadline:raise TimeoutError('PROVIDER_TIMEOUT')
                 worker.join(min(.02,max(0,deadline-time.monotonic())))
+            if self.runtime.stop_requested:return self._finish(row,'UNKNOWN','STOPPED_PROVIDER_BILLING_UNKNOWN_NO_RETRY')
+            drain_draft(force=True);stream_open.clear()
             ok,value=result.get_nowait()
             if not ok:raise value
             return self.accept(request_id,value,latency_us=(time.monotonic_ns()-started)//1000)
         except TimeoutError:return self._finish(row,'UNKNOWN','PROVIDER_TIMEOUT_BILLING_UNKNOWN')
         except Exception as exc:
             if isinstance(exc,CoreError) and exc.code in {'RUNTIME_LEASE_LOST','PRIVACY_ANCHOR_INVALID','PRIVACY_ANCHOR_UNAVAILABLE'}:raise
+            if isinstance(exc,CoreError) and exc.code=='STALE_STREAM_CONTEXT':return self._finish(row,'STALE',exc.code)
+            if isinstance(exc,CoreError) and exc.code=='PROVIDER_STREAM_INTERRUPTED_BILLING_UNKNOWN':return self._finish(row,'UNKNOWN',exc.code)
             return self._finish(row,'FAILED',exc.code if isinstance(exc,TransportFailure) else 'PROVIDER_INVALID_REPLY')
+        finally:
+            if 'stream_open' in locals():stream_open.clear()
     def accept(self,request_id,reply,*,latency_us=0):
         row=self.store.one('cognitive_requests',request_id)
         if row['state']!='CALLING':return {'state':row['state'],'request_id':request_id,'replayed':True}

@@ -50,6 +50,9 @@ public class NanaHostPlugin extends Plugin {
     private static final String PREFIX = "/api/nana-space/v2/";
     private static final Set<String> PAGES = new HashSet<>(Arrays.asList(
         "home", "chat", "memories", "goals", "journal", "world", "growth", "devices", "runtime", "settings"));
+    private final java.util.concurrent.atomic.AtomicBoolean streamingActive = new java.util.concurrent.atomic.AtomicBoolean(false);
+    private volatile HttpsURLConnection liveMessageConnection = null;
+    private String accessBinding = null;
     private String access = null;
     private long accessAt = 0;
     private android.app.AlertDialog credentialDialog = null;
@@ -70,6 +73,7 @@ public class NanaHostPlugin extends Plugin {
         return (SecretKey)store.getKey(ALIAS, null);
     }
     private synchronized void save(JSONObject value) throws Exception {
+        access=null;accessAt=0;accessBinding=null;
         Cipher cipher = Cipher.getInstance("AES/GCM/NoPadding");
         cipher.init(Cipher.ENCRYPT_MODE, key());
         byte[] ciphertext = cipher.doFinal(value.toString().getBytes(StandardCharsets.UTF_8));
@@ -96,7 +100,8 @@ public class NanaHostPlugin extends Plugin {
     @android.annotation.SuppressLint("ApplySharedPref")
     private synchronized void clearBinding() {
         try { NanaNotificationJob.configure(getContext(), false); } catch (Exception ignored) { }
-        access = null; accessAt = 0;
+        access = null; accessAt = 0; accessBinding=null;
+        HttpsURLConnection active=liveMessageConnection;if(active!=null)active.disconnect();
         prefs().edit().clear().commit();
     }
     static String origin(String value) throws Exception {
@@ -150,14 +155,24 @@ public class NanaHostPlugin extends Plugin {
             return result;
         } finally { connection.disconnect(); }
     }
+    static String sessionBinding(String base,String device,String subject,String lineage) throws Exception {
+        if(device==null || !device.matches("[a-f0-9]{32}") || subject==null || subject.length()>96
+            || lineage==null || !lineage.matches("[a-f0-9]{64}"))throw new Exception("INVALID_IDENTITY");
+        return origin(base)+"|"+device+"|"+subject.length()+":"+subject+"|"+lineage;
+    }
+    private String sessionBinding(JSONObject b) throws Exception {
+        return sessionBinding(b.getString("base"),b.getString("device_id"),b.getString("subject_id"),b.getString("lineage_binding"));
+    }
     private synchronized String session(JSONObject b) throws Exception {
-        if (access != null && SystemClock.elapsedRealtime() - accessAt < 500000) return access;
+        String target=sessionBinding(b);
+        if(!target.equals(sessionBinding(binding())))throw new Exception("SESSION_REVOKED");
+        if (access != null && target.equals(accessBinding) && SystemClock.elapsedRealtime() - accessAt < 500000) return access;
         JSONObject body = new JSONObject();
         body.put("device_id", b.getString("device_id")); body.put("refresh_token", b.getString("refresh_token"));
         body.put("subject_id", b.getString("subject_id"));
         try {
             JSONObject r = http(b.getString("base"), "session/native", "POST", body, null);
-            access = r.getString("access_token"); accessAt = SystemClock.elapsedRealtime();
+            access = r.getString("access_token"); accessAt = SystemClock.elapsedRealtime();accessBinding=target;
             return access;
         } catch (Exception ex) {
             if ("SESSION_DENIED".equals(ex.getMessage())) clearBinding();
@@ -255,7 +270,70 @@ public class NanaHostPlugin extends Plugin {
             clearBinding();throw new Exception("INVALID_IDENTITY");
         }
     }
+    private JSONObject httpMessageStream(JSONObject bound, JSONObject body, String token) throws Exception {
+        HttpsURLConnection connection = (HttpsURLConnection)new URL(origin(bound.getString("base")) + PREFIX + "messages/stream").openConnection();
+        liveMessageConnection=connection;
+        connection.setInstanceFollowRedirects(false);connection.setConnectTimeout(10000);connection.setReadTimeout(1230000);
+        connection.setRequestMethod("POST");connection.setRequestProperty("Accept", "application/x-ndjson");
+        connection.setRequestProperty("Cache-Control", "no-store");connection.setRequestProperty("Authorization", "Bearer " + token);
+        connection.setRequestProperty("Content-Type", "application/json");
+        try {
+            byte[] request=body.toString().getBytes(StandardCharsets.UTF_8);
+            if(request.length>32768)throw new Exception("REQUEST_BOUND");
+            connection.setDoOutput(true);connection.setFixedLengthStreamingMode(request.length);
+            try(java.io.OutputStream out=connection.getOutputStream()){out.write(request);}
+            finally{Arrays.fill(request,(byte)0);}
+            int status=connection.getResponseCode();
+            if(status>=300 && status<400)throw new Exception("REDIRECT_DENIED");
+            if(status>=400)throw new Exception("STREAM_INTERRUPTED_VERIFY_ONLY");
+            String contentType=connection.getContentType();
+            if(contentType==null || !contentType.startsWith("application/x-ndjson"))throw new Exception("INVALID_STREAM");
+            long started=SystemClock.elapsedRealtime();int total=0,frames=0;
+            ByteArrayOutputStream line=new ByteArrayOutputStream();
+            try(InputStream input=connection.getInputStream()){
+                byte[] buffer=new byte[4096];int count;
+                while((count=input.read(buffer))!=-1){
+                    total+=count;
+                    if(total>8388608 || SystemClock.elapsedRealtime()-started>1230000)throw new Exception("STREAM_RESPONSE_BOUND");
+                    for(int i=0;i<count;i++){
+                        if(buffer[i]=='\n'){
+                            if(++frames>1024)throw new Exception("STREAM_FRAME_BOUND");
+                            String raw=StandardCharsets.UTF_8.newDecoder().onMalformedInput(java.nio.charset.CodingErrorAction.REPORT)
+                                .decode(java.nio.ByteBuffer.wrap(line.toByteArray())).toString();line.reset();
+                            JSONObject frame=new JSONObject(raw);
+                            if("error".equals(frame.optString("event")))throw new Exception("STREAM_INTERRUPTED_VERIFY_ONLY");
+                            if(!body.getString("client_request_id").equals(frame.optString("message_id")))throw new Exception("INVALID_STREAM");
+                            JSONObject current=binding();
+                            if(!current.getString("base").equals(bound.getString("base"))
+                                || !current.getString("device_id").equals(bound.getString("device_id")))throw new Exception("SESSION_REVOKED");
+                            JSONObject envelope=frame.getJSONObject("data");validateIdentity(envelope,bound);
+                            if("receipt".equals(frame.optString("event")))return envelope;
+                            if(!"progress".equals(frame.optString("event")))throw new Exception("INVALID_STREAM");
+                            notifyListeners("nanaChatProgress",JSObject.fromJSONObject(frame));
+                        }else{
+                            if(line.size()>=262144)throw new Exception("STREAM_FRAME_BOUND");
+                            line.write(buffer[i]);
+                        }
+                    }
+                }
+            }
+            throw new Exception("STREAM_INTERRUPTED_VERIFY_ONLY");
+        } finally {connection.disconnect();if(liveMessageConnection==connection)liveMessageConnection=null;}
+    }
+    private void messageStream(PluginCall call) {
+        if(!streamingActive.compareAndSet(false,true)){call.reject("STREAM_BUSY");return;}
+        Thread worker=new Thread(() -> {
+            try {
+                JSONObject b=binding();JSONObject data=new JSONObject(call.getObject("data",new JSObject()).toString());
+                JSONObject reply=httpMessageStream(b,data,session(b));validateIdentity(reply,b);
+                call.resolve(JSObject.fromJSONObject(reply));
+            } catch(Exception ex){reject(call,ex);}
+            finally {streamingActive.set(false);}
+        },"nana-chat-https");
+        worker.setDaemon(true);worker.start();
+    }
     @PluginMethod public void call(PluginCall call) {
+        if("message.stream".equals(call.getString("operation"))){messageStream(call);return;}
         getBridge().execute(() -> {
             try {
                 JSONObject b = binding();String op = call.getString("operation");String route;String method = "GET";
@@ -383,7 +461,8 @@ public class NanaHostPlugin extends Plugin {
     }
     @Override protected void handleOnDestroy() {
         if (credentialDialog != null && credentialDialog.isShowing()) credentialDialog.cancel();
-        credentialDialog = null; access = null; accessAt = 0;
+        credentialDialog = null; access = null; accessAt = 0;accessBinding=null;
+        HttpsURLConnection active=liveMessageConnection;if(active!=null)active.disconnect();
     }
     @PluginMethod public void notificationPermission(PluginCall call) {
         if (Build.VERSION.SDK_INT < 33 || getPermissionState("notifications") == PermissionState.GRANTED) {

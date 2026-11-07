@@ -30,7 +30,7 @@ from .dialogue_contracts import DialogueContext
 def runtime_config(config):
     return RuntimeConfig(schema_target=13,scopes=('project-work',),entity_id='project-user',privacy_classes=('PUBLIC','PROJECT','PERSONAL'),model=None,
         heartbeat_us=SECOND,lease_us=30*SECOND,review_interval_us=config.idle_review_seconds*SECOND,idle_recall_us=SECOND,queue_capacity=64,schedule_capacity=128,poll_seconds=.2,
-        max_calls_per_day=config.provider_calls_per_day,living=LivingRuntimeConfig(maintenance_interval_us=60*SECOND,step_interval_us=200_000,max_idle_seconds=2,background_fraction_percent=50,max_model_bytes_per_day=4_000_000,max_estimated_cost_micro_per_day=max(1,config.provider_cost_ceiling_micro*config.provider_calls_per_day)))
+        max_calls_per_day=config.provider_calls_per_day,living=LivingRuntimeConfig(maintenance_interval_us=60*SECOND,step_interval_us=200_000,max_idle_seconds=2,background_fraction_percent=50,max_model_bytes_per_day=config.provider_wire_bytes_per_day,max_estimated_cost_micro_per_day=max(1,config.provider_cost_ceiling_micro*config.provider_calls_per_day)))
 
 class PortfolioOpportunities:
     """Finite host-approved material availability, not a wish/adoption engine."""
@@ -63,7 +63,7 @@ class PortfolioOpportunities:
 
 class LifeApplication:
     def __init__(self,home,*,clock=None,router=None,bootstrap_grant=False,platform_resolver=None):
-        self.home=home_path(home);self.config=load_config(home);self.router=router;self.session=None;self._chat={};self._recent=[];self.closed=False
+        self.home=home_path(home);self.config=load_config(home);self.router=router;self.session=None;self.response_sink=None;self._chat={};self._recent=[];self.closed=False
         from ..continuity.current_state import ProjectStateSource
         self.current_project_state=ProjectStateSource(self.config.project_root,self.config.current_project_state) if self.config.current_project_state else None
         self.clock=clock or Clock()
@@ -199,6 +199,7 @@ class LifeApplication:
             if self.session and any(w.is_alive() for w in self.session._workers):raise CoreError('PROVIDER_WORKER_UNRESOLVED')
             self.session=target.cognition_session(self.runtime,project_state_source=self.current_project_state)
             self.session.recover()
+        self.session.draft_sink=self.response_sink
         return self.session
     def _model(self,key,phase,mid,text,topic,privacy,cycle=None,retain_shared_life=False,recall_query_terms=()):
         if cycle and cycle.record_id:

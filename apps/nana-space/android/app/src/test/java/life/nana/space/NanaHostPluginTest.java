@@ -9,4 +9,12 @@ public class NanaHostPluginTest {
             catch(Exception expected){assertEquals("HTTPS_ORIGIN_REQUIRED",expected.getMessage());}
         }
     }
+    @Test public void sessionCacheIsBoundToHostDeviceSubjectAndLineage() throws Exception {
+        String device="a".repeat(32),lineage="b".repeat(64);
+        String initial=NanaHostPlugin.sessionBinding("https://space.test",device,"subject",lineage);
+        assertNotEquals(initial,NanaHostPlugin.sessionBinding("https://other.test",device,"subject",lineage));
+        assertNotEquals(initial,NanaHostPlugin.sessionBinding("https://space.test","c".repeat(32),"subject",lineage));
+        assertNotEquals(initial,NanaHostPlugin.sessionBinding("https://space.test",device,"another",lineage));
+        assertNotEquals(initial,NanaHostPlugin.sessionBinding("https://space.test",device,"subject","d".repeat(64)));
+    }
 }

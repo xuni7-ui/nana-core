@@ -248,8 +248,11 @@ class ControlServer:
         self.socket.listen(4)
         self.socket.setblocking(False)
         self.inode = self.path.lstat().st_ino
+        self.previous_progress = getattr(app.runtime, "control_progress", None)
+        self.progress_callback = lambda: self.poll(urgent_only=True)
+        app.runtime.control_progress = self.progress_callback
 
-    def poll(self):
+    def poll(self, *, urgent_only=False):
         try:
             conn, _ = self.socket.accept()
         except BlockingIOError:
@@ -272,8 +275,32 @@ class ControlServer:
                 if len(raw) > LIMIT or not raw.endswith(b"\n"):
                     raise CoreError("CLOUD_REQUEST_BOUND")
                 req = json.loads(raw, object_pairs_hook=_json_object)
-                result = dispatch(self.app, req)
-                response = {"ok": True, "result": result}
+                if urgent_only:
+                    # Same original owner, only at a transport-wait safe point.
+                    # No recursive chat, backup, import, resume or action dispatch.
+                    allowed = type(req) is dict and (
+                        (set(req) == {"operation", "command"} and req["operation"] == "control"
+                         and req["command"] in {"pause", "busy", "available", "revoke", "stop"})
+                        or req == {"operation": "view", "view": "status"})
+                    if not allowed:
+                        raise CoreError("CLOUD_BUSY_PRE_DISPATCH")
+                old_sink=getattr(self.app,'response_sink',None)
+                try:
+                    if type(req) is dict and req.get('operation')=='surface-stream':
+                        if set(req)!={'operation','observation'}:raise CoreError('CLOUD_TYPED_REQUEST_REQUIRED')
+                        live=[True]
+                        def progress(value):
+                            if not live[0]:return
+                            if value.get('state') not in {'INTERPRETING','RENDERING','PROVISIONAL_MODEL_DRAFT'}:return
+                            try:conn.sendall((json.dumps({'progress':value},ensure_ascii=False)+'\n').encode())
+                            except OSError:live[0]=False
+                        self.app.response_sink=progress
+                        req={**req,'operation':'surface'}
+                    result = dispatch(self.app, req)
+                    response = {"ok": True, "result": result}
+                finally:
+                    self.app.response_sink=old_sink
+                    if getattr(self.app,'session',None):self.app.session.draft_sink=old_sink
             except (CoreError, ValueError, OSError, TypeError, KeyError, RecursionError) as exc:
                 response = {"ok": False, "code": exc.code if isinstance(exc, CoreError) else "CLOUD_REQUEST_REJECTED"}
             try:
@@ -283,6 +310,8 @@ class ControlServer:
         return True
 
     def close(self):
+        if getattr(self.app.runtime, "control_progress", None) is self.progress_callback:
+            self.app.runtime.control_progress = self.previous_progress
         self.socket.close()
         try:
             if self.path.lstat().st_ino == self.inode:
@@ -297,7 +326,7 @@ class ControlServer:
         self.close()
 
 
-def request(home, data, timeout=None):
+def request(home, data, timeout=None, *, progress=None):
     path = Path(home).absolute() / "control.sock"
     root = path.parent
     if root != root.resolve() or root.stat().st_uid != os.getuid() or root.stat().st_mode & 0o077:
@@ -305,6 +334,7 @@ def request(home, data, timeout=None):
     row = path.lstat()
     if not stat.S_ISSOCK(row.st_mode) or row.st_uid != os.getuid() or row.st_mode & 0o077:
         raise CoreError("CLOUD_CONTROL_PATH_DENIED")
+    if data.get('operation')=='surface-stream' and progress is None:raise CoreError('CLOUD_STREAM_LISTENER_REQUIRED')
     raw = (json.dumps(data) + "\n").encode()
     if len(raw) > LIMIT:
         raise CoreError("CLOUD_REQUEST_BOUND")
@@ -328,14 +358,32 @@ def request(home, data, timeout=None):
             raise CoreError("CLOUD_CONTROL_OWNER_REQUIRED")
         try:
             sock.sendall(raw)
-            reply = b""
-            while b"\n" not in reply and len(reply) <= 262144:
-                part = sock.recv(4096)
-                if not part:
-                    break
-                reply += part
+            reply=b'';buffer=b'';total=0;frames=0;display=True
+            while True:
+                while b'\n' not in buffer:
+                    part=sock.recv(4096)
+                    if not part:raise CoreError('CLOUD_COMPLETION_UNKNOWN_NO_RETRY')
+                    buffer+=part;total+=len(part)
+                    if len(buffer)>262144 or total>(8388608 if progress else 262144):raise CoreError('CLOUD_RESPONSE_BOUND')
+                line,buffer=buffer.split(b'\n',1)
+                value=json.loads(line,object_pairs_hook=_json_object)
+                if type(value) is dict and set(value)=={'progress'}:
+                    frames+=1
+                    if progress is None or frames>1024:raise CoreError('CLOUD_PROGRESS_BOUND')
+                    body=value['progress']
+                    if (type(body) is not dict or body.get('state') not in {'INTERPRETING','RENDERING','PROVISIONAL_MODEL_DRAFT'}
+                            or set(body)-{'state','text'} or ('text' in body and (type(body['text']) is not str or len(body['text'])>4096))):
+                        raise CoreError('CLOUD_PROGRESS_INVALID')
+                    if display:
+                        try:progress(body)
+                        except Exception:display=False  # keep reading original final result, never redispatch
+                    continue
+                reply=line
+                break
         except OSError:
             raise CoreError("CLOUD_COMPLETION_UNKNOWN_NO_RETRY") from None
+        except (ValueError,RecursionError):
+            raise CoreError("CLOUD_RESPONSE_UNKNOWN_NO_RETRY") from None
     if len(reply) > 262144:
         raise CoreError("CLOUD_RESPONSE_BOUND")
     try:

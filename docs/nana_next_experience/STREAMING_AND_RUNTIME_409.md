@@ -1,0 +1,35 @@
+# Same-task chat/runtime continuation409
+
+This implements outstanding Next Experience/ten-domain work; it does not close the long-term mission or certify real model/human/phone/cross-day use. Original Subject/Store/Loop/C, Manager/Grant and Foundation criteria are unchanged. No production update, real provider call, private migration or social delivery.
+
+## Actual streaming, original cognition
+
+The opt-in versioned `chat_streaming` capability adds POST `/api/nana-space/v2/messages/stream`. The original authenticated/CSRF MessageRequest, receipt key, original surface observation and two-phase INTERPRET→C→RENDER remain. Only RENDER may request OpenAI SSE. A provider returning one ordinary JSON response is accepted as that same response, without retry or fake character animation.
+
+A bounded parser extracts only root `draft.text`, handles split escapes/surrogates and excludes reasoning content/tools/headers. Partial output is explicitly provisional and owner-memory-only. Original complete strict JSON/schema/source validation still accepts or rejects the final response. Missing terminal SSE is UNKNOWN with billing held, never automatic fallback/resend. Web and native clear provisional wording on error/session/run/privacy change; existing original-receipt lookup remains the recovery path. No draft enters Subject memory or client storage.
+
+Original owner drains a bounded cumulative queue, at most8Hz, rather than letting a transport worker access Store or make decisions. UDS and HTTP frames are bounded, correlated to message/identity/lineage/epoch/run and authenticated throughout. A final receipt is reread through current privacy/role fences. Web uses plain provisional text and final Markdown; no per-token Markdown reparsing or fake thought process. Native uses the same TLS/Keystore binding, with a separate single in-flight HTTP worker so logout/control requests can proceed. Session cache is bound to exact server/device/subject/lineage; clearing binding disconnects only this owned transport.
+
+Per-attempt absolute deadlines apply to JSON and SSE chunk reads. A slowly trickling peer cannot reset the entire timeout for every line. Existing configured120-second daily ceiling/default and per-model600-second allowed maximum are not shortened; serial phases retain independent reservations. A late response cannot authorize another dispatch.
+
+## Responsive Manager and ordinary phone layout
+
+While waiting for cognition, the same original owner services only existing restrictive pause/busy/available/revoke/stop plus status at a safe point. Resume/chat/import/backup/action requests are rejected pre-dispatch at that point. Authenticated Manager controls/confirmed HOST_ADMIN stop can bypass only the Gateway's long conversational lock; receipt CAS, roles, confirmation and original owner serialization remain. Stop records the in-flight attempt UNKNOWN and prevents a new RENDER dispatch. Pause changes scheduling, not desires; revoke does not mint new grants.
+
+The client keeps pending-chat state while allowing these controls. Explicit navigation may read a management page while periodic polling still yields to a pending write. Mobile composer focus hides bottom navigation for the whole form, keeping send targets stable. The original mobile regression was reproduced at360/390/412; it is not marked passing until the repaired focused browser run completes. Existing source-retention/private-turn controls are unchanged.
+
+## Reservations and full request accounting
+
+Original financial/call reservations and UNKNOWN holds are immutable. Only a PROPOSED response with valid positive independently measured wire input/output bytes may settle unused *byte admission allowance*. Historical `reserved_bytes` remains; no fee/call refund occurs. Missing/negative/zero/oversized measurements and uncertain/failed/stale calls retain the full byte hold. New-host wire preset32MB/day accommodates bounded SSE; absent/old configurations keep4MB, with no live rewrite.
+
+Trusted RuntimeProviderFactory may bind an existing ModelTokenCounter by model-profile ID, exact provider/model and tokenizer/framing revision digest. Host-supplied local tokenizer/framing code sees the complete actual request, including system instructions, selected context, role inputs/history/schema and output reserve. Nothing from a model or ordinary config JSON supplies executable counter code. ContextAssembler retains its original mandatory-source/identity/conflict/priority rules. Candidate selection uses normalized bounded hash/count metadata plus256tokens of slack to avoid a tokenizer self-reference fixed point; the actual final complete request is measured before reservation and independently rechecked before dispatch. A changed/missing counter/target/count rejects without dispatch/refund. Insufficient slack fails safely. Transient framing closures are removed in finally, including failed preparations.
+
+The binding is an admission measurement, not provider-reported usage. Current tests use explicitly synthetic character protocols; no commercial tokenizer/assets are safely bound here. Unbound commercial models retain the explicitly labelled UTF8 estimate and exact byte observations. Therefore **real-model exact-token qualification remains NOT_RUN**, not falsely completed by these tests.
+
+## Delivery and qualification
+
+Code/fixture/network results and initial failures are retained under evidence/streaming409. Java compilation and existing/native cache-binding checks passed with the original appId/signing path. Final APK/Web/Core hashes, final regression and actual extracted offline installation will be added after their actual runs.408 remains the last published client until409 artifacts are verified and selected. Do not install partial/unsealed source in a live slot or combine a409client claim with an old Core archive.
+
+Receipt longevity is inherited from a0263e5: preserve operations.json **and the complete operations.json.archive directory** for same-host rollback/restore. After the archive-format marker appears, an old non-aware binary must fail closed. Never restore just the root file to discard cold UNKNOWN/idempotency metadata. See RECEIPT_LONGEVITY.md.
+
+Focused final follow-up:16browser checks passed26.7seconds (desktop/360/390/412), including the repaired keyboard/navigation and in-flight pause flow; original related backend41pass30.50s, later token-counter/router/context55pass7.48s, JSON/SSE/framing/network26pass4.90s. These groups overlap and are not added into a fabricated full-suite total. Initial3mobile focus failures, in-flight navigation timeout and bad fixture shadowing are retained. Final full regression remains separately pending. No physical phone or real provider result is inferred.

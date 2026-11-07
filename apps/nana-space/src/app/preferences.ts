@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 export interface Preferences {
   theme: "dark" | "light" | "system";
   motion: boolean;
+  streamReplies: boolean;
   avatar: boolean;
   fontScale: number;
   quiet: boolean;
@@ -10,6 +11,7 @@ export interface Preferences {
 const defaults: Preferences = {
   theme: "system",
   motion: true,
+  streamReplies: true,
   avatar: true,
   fontScale: 1,
   quiet: true,
@@ -26,6 +28,7 @@ export function usePreferences() {
         theme: ["dark", "light", "system"].includes(x.theme)
           ? x.theme
           : defaults.theme,
+        streamReplies: typeof x.streamReplies === "boolean" ? x.streamReplies : true,
         motion: typeof x.motion === "boolean" ? x.motion : defaults.motion,
         avatar: typeof x.avatar === "boolean" ? x.avatar : true,
         fontScale: [0.9, 1, 1.1, 1.2].includes(x.fontScale) ? x.fontScale : 1,

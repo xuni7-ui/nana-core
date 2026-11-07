@@ -29,6 +29,8 @@ export interface Turn {
   exchangeId?: string;
   pendingReceipt?: boolean;
   requestedAt?: number;
+  provisional?: string;
+  phase?: string;
 }
 /** Body text stays in React memory. Attachments are previews, never uploaded as text. */
 export function ChatPane({
@@ -48,6 +50,8 @@ export function ChatPane({
   onPersonal,
   remember = false,
   onRemember,
+  streaming = false,
+  onStreaming,
   rememberConnection = false,
   onRememberConnection,
 }: {
@@ -67,6 +71,8 @@ export function ChatPane({
   onPersonal?: (personal: boolean) => void;
   remember?: boolean;
   onRemember?: (remember: boolean) => void;
+  streaming?: boolean;
+  onStreaming?: (value: boolean) => void;
   rememberConnection?: boolean;
   onRememberConnection?: (remember: boolean) => void;
 }) {
@@ -166,7 +172,8 @@ export function ChatPane({
           当前模型 <ChevronDown size={14} />
         </button>
       </div>
-      <button className="next-search-toggle" onClick={() => {setSearchOpen(!searchOpen);setQuery("");}}>{searchOpen ? "收起搜索" : "搜索对话"}</button>
+      <div className="next-chat-tools">{onStreaming && <button type="button" className="next-search-toggle" aria-pressed={streaming} disabled={busy} onClick={() => onStreaming(!streaming)}>逐字回复{streaming ? " · 开" : " · 关"}</button>}
+      <button className="next-search-toggle" onClick={() => {setSearchOpen(!searchOpen);setQuery("");}}>{searchOpen ? "收起搜索" : "搜索对话"}</button></div>
       {searchOpen && <label className="next-chat-search"><input aria-label="搜索当前对话" placeholder="在这段对话里找找…" value={query} onChange={e => setQuery(e.target.value)}/>{query && <button type="button" onClick={() => setQuery("")}>清除</button>}</label>}
       {readiness && readiness !== "READY_LOCAL_GATES" && (
         <div className="v4-readiness" role="status">
@@ -244,7 +251,9 @@ export function ChatPane({
                       "这条消息的结果还不能确认。先核验原回执，不重复发送。"
                     ) : t.state === "REQUESTED" ? (
                       <span className="v3-thinking">
-                        <span role="status" aria-live="polite">正在等奈奈回复 · {waitingSeconds} 秒</span>
+                        {t.provisional && <span className="next-provisional" aria-label="生成中的临时回复" aria-live="off">{t.provisional}</span>}
+                        <span role="status" aria-live="polite">{t.provisional ? "回复正在生成" : t.phase === "RENDERING" ? "奈奈正在组织回应" : "正在等奈奈回复"}<span aria-hidden="true"> · {waitingSeconds} 秒</span></span>
+                        {t.provisional && <small>生成中，以完成后的回复为准。</small>}
                         {waitingSeconds >= 12 && <small>这次稍久一些，你可以先读读前面的对话。</small>}
                       </span>
                     ) : (

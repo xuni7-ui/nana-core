@@ -11,7 +11,7 @@ from ..presence.contracts import HOUR
 
 
 def budget_limits(cfg):
-    return {"calls_per_hour": cfg.provider_calls_per_hour,
+    return {"wire_bytes_per_day": cfg.provider_wire_bytes_per_day, "calls_per_hour": cfg.provider_calls_per_hour,
             "calls_per_day": cfg.provider_calls_per_day,
             "per_provider_calls_per_day": cfg.per_provider_calls_per_day,
             "total_calls": cfg.provider_total_calls_limit,

@@ -1,4 +1,6 @@
 import { Capacitor, registerPlugin } from "@capacitor/core";
+import { readChatFrames, StreamError } from "./chat-stream";
+export interface ChatProgress { state: "INTERPRETING"|"RENDERING"|"PROVISIONAL_MODEL_DRAFT"; text?: string; }
 import type {
   Envelope,
   MessageRequest,
@@ -33,6 +35,7 @@ export const livePages: LivePage[] = [
   "settings",
 ];
 interface NativePort {
+  addListener(event: "nanaChatProgress", listener: (frame: unknown) => void): Promise<{remove(): Promise<void>}>;
   login(options: { base: string; device_name: string }): Promise<unknown>;
   bindProviderCredential(options: { data: Record<string, unknown>; persistent?: boolean }): Promise<unknown>;
   bindPlatformCredential(options: { data: Record<string, unknown>; persistent?: boolean }): Promise<unknown>;
@@ -318,6 +321,66 @@ export class V2Client {
         })
       : await this.request(path, "POST", body);
     return this.accept(result);
+  }
+  async streamMessage(body: MessageRequest, onProgress: (progress: ChatProgress) => void): Promise<Envelope> {
+    if (body.run_generation !== this.generation) throw new V2Error("STALE_RUN_NO_REPLAY");
+    const incarnation = this.incarnation;
+    let sequence = 0, final: Envelope|undefined;
+    const acceptFrame = (value: unknown): boolean => {
+      if (incarnation !== this.incarnation) throw new V2Error("SESSION_REVOKED");
+      const row = object(value);
+      if (row.event === "error") throw new V2Error("STREAM_INTERRUPTED_VERIFY_ONLY");
+      if (row.message_id !== body.client_request_id) throw new V2Error("INVALID_STREAM");
+      const e = envelope(row.data, this.subject, this.lineage);
+      if (e.run_generation !== body.run_generation || e.owner_epoch !== body.owner_epoch)
+        throw new V2Error("STALE_RUN_NO_REPLAY");
+      if (row.event === "receipt") {
+        const receipt = object(e.data);
+        if (receipt.receipt_id !== body.idempotency_key || receipt.client_request_id !== body.client_request_id
+            || receipt.operation !== "MESSAGE" || receipt.no_retry !== true)
+          throw new V2Error("INVALID_STREAM");
+        final = this.accept(e); return true;
+      }
+      if (row.event !== "progress" || !integer(row.sequence) || row.sequence <= sequence || row.sequence > 1024)
+        throw new V2Error("INVALID_STREAM");
+      sequence = row.sequence;
+      const progress = object(e.data);
+      if (!["INTERPRETING","RENDERING","PROVISIONAL_MODEL_DRAFT"].includes(String(progress.state))
+          || (progress.text !== undefined && (typeof progress.text !== "string" || [...progress.text].length > 4096)))
+        throw new V2Error("INVALID_STREAM");
+      onProgress({state: progress.state as ChatProgress["state"], ...(typeof progress.text === "string" ? {text:progress.text} : {})});
+      return false;
+    };
+    if (isNative()) {
+      let failed: unknown;
+      const listener = await nativePort.addListener("nanaChatProgress", frame => {
+        if (failed) return;
+        try { acceptFrame(frame); } catch (error) { failed = error; }
+      });
+      try {
+        const value = await this.nativeCall({operation:"message.stream",data:body as unknown as Record<string,unknown>});
+        if (failed) throw failed;
+        // The native final result uses the same original receipt envelope.
+        acceptFrame({event:"receipt",message_id:body.client_request_id,data:value});
+      } finally { await listener.remove(); }
+    } else {
+      let response: Response;
+      try {
+        response = await fetch("/api/nana-space/v2/messages/stream", {method:"POST",credentials:"same-origin",
+          cache:"no-store",headers:{"Content-Type":"application/json","X-Nana-CSRF":this.csrf},
+          body:JSON.stringify(body),signal:AbortSignal.timeout(1230000)});
+      } catch { throw new V2Error("UNKNOWN_VERIFY_ONLY"); }
+      if (!response.ok || !response.body) throw new V2Error("STREAM_INTERRUPTED_VERIFY_ONLY");
+      if (!response.headers.get("Content-Type")?.startsWith("application/x-ndjson"))
+        throw new V2Error("INVALID_STREAM");
+      try { await readChatFrames(response.body,acceptFrame); }
+      catch (error) {
+        if (error instanceof V2Error) throw error;
+        throw new V2Error(error instanceof StreamError ? error.code : "STREAM_INTERRUPTED_VERIFY_ONLY");
+      }
+    }
+    if (!final) throw new V2Error("STREAM_INTERRUPTED_VERIFY_ONLY");
+    return final;
   }
   async receipt(id: string): Promise<Envelope> {
     if (!/^[A-Za-z0-9._:-]{1,96}$/.test(id)) throw new V2Error("INVALID_ID");

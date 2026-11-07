@@ -106,6 +106,9 @@ const reasons: Record<string, string> = {
   SCOPE_DENIED: "此会话没有这项权限。",
   ORIGIN_DENIED: "来源不匹配，连接已拒绝。",
   UNKNOWN_VERIFY_ONLY: "请求结果未知，请核验原回执，不要重复发送。",
+  STREAM_INTERRUPTED_VERIFY_ONLY: "回复传输中断，请核验原回执；不会重复发送。",
+  INVALID_STREAM: "这次回复传输未能核验，请查看原回执。",
+  RECEIPT_ACTIVE_CAPACITY: "当前仍有多项操作处理中，请稍后查看原回执。",
   REVISION_CONFLICT: "状态已更新，请刷新后重新确认。",
   PROVIDER_CONFIG_REVISION_CONFLICT: "模型配置已更新，请刷新后重新确认。",
   PROVIDER_VAULT_REVISION_CONFLICT: "凭据状态已更新，请刷新后重新确认。",
@@ -184,6 +187,8 @@ export function LiveSpace() {
   const [deviceName, setDeviceName] = useState("这台安卓手机");
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [priorityBusy, setPriorityBusy] = useState(false);
+  const priorityPending = useRef(false);
   const writePending = useRef(false);
   useEffect(() => { writePending.current = busy; }, [busy]);
   const [nav, setNav] = useState(false);
@@ -395,7 +400,9 @@ export function LiveSpace() {
     const poll = () => {
       if (active && !document.hidden && !writePending.current) void refresh().catch(() => {});
     };
-    poll();
+    // Explicit navigation must still load Manager/read views during a chat.
+    // Only periodic background refresh yields to the pending write.
+    void refresh().catch(() => {});
     const timer = setInterval(poll, 10000);
     const visible = () => {
       if (!document.hidden) poll();
@@ -585,6 +592,8 @@ export function LiveSpace() {
           ? {
               ...x,
               state: text(d.state),
+              provisional: undefined,
+              phase: undefined,
               error: typeof d.error === "string" ? d.error : undefined,
               remembered: result.raw_body_persisted === true,
               exchangeId: typeof result.exchange_record_id === "string" ? result.exchange_record_id : undefined,
@@ -618,7 +627,7 @@ export function LiveSpace() {
       if (version !== sessionVersion.current || bodyVersion !== bodyGeneration.current) throw new V2Error("STALE_RUN_NO_REPLAY");
       if (!b.privacy_scope.includes(privacyClass)) throw new V2Error("SCOPE_DENIED");
       dispatched = true;
-      const r = await client.current.write("message", {
+      const request = {
         ...writeBase(b, id),
         text: input,
         topic: "daily",
@@ -626,7 +635,14 @@ export function LiveSpace() {
         privacy_class: privacyClass,
         ...(b.capabilities.provider_readiness === true ? { require_model: true } : {}),
         ...(b.capabilities.shared_life_retention === true ? { retain_shared_life: retain } : {}),
-      });
+      };
+      const r = b.capabilities.chat_streaming === true && prefs.streamReplies
+        ? await client.current.streamMessage(request, progress => {
+            if (version === sessionVersion.current && bodyVersion === bodyGeneration.current)
+              setTurns(xs => xs.map(turn => turn.id === id ? {...turn,phase:progress.state,
+                ...(progress.text !== undefined ? {provisional:progress.text} : {})} : turn));
+          })
+        : await client.current.write("message", request);
       if (
         version !== sessionVersion.current ||
         bodyVersion !== bodyGeneration.current
@@ -664,8 +680,10 @@ export function LiveSpace() {
     operation: CommandRequest["operation"],
     target?: string,
   ) => {
-    if (busy) return;
-    setBusy(true);
+    const priority = ["PAUSE", "BUSY", "AVAILABLE", "REVOKE"].includes(operation);
+    if ((busy && !priority) || priorityPending.current) return;
+    if (priority) { priorityPending.current=true; setPriorityBusy(true); }
+    else setBusy(true);
     const version = sessionVersion.current;
     if (operation === "WITHDRAW") {
       setTurns([]);
@@ -684,7 +702,8 @@ export function LiveSpace() {
     } catch (e) {
       if (version === sessionVersion.current) fail(e);
     } finally {
-      if (version === sessionVersion.current) setBusy(false);
+      if (priority) { priorityPending.current=false; setPriorityBusy(false); }
+      else if (version === sessionVersion.current) setBusy(false);
     }
   };
   const saveMemoryNote=async(text:string,privacy_class:"PUBLIC"|"PROJECT"|"PERSONAL",target_id?:string)=>{
@@ -721,13 +740,15 @@ export function LiveSpace() {
   };
   const host = async (operation: HostRequest["operation"]) => {
     if (
-      busy ||
+      (busy && operation !== "STOP") || priorityPending.current ||
       !window.confirm(
         `确认请求云端 ${operation}？这不会创建新主体；最终状态以服务端核验为准。`,
       )
     )
       return;
-    setBusy(true);
+    const priority = operation === "STOP";
+    if (priority) { priorityPending.current=true; setPriorityBusy(true); }
+    else setBusy(true);
     const version = sessionVersion.current;
     try {
       const b = await fresh();
@@ -747,7 +768,8 @@ export function LiveSpace() {
     } catch (e) {
       if (version === sessionVersion.current) fail(e);
     } finally {
-      if (version === sessionVersion.current) setBusy(false);
+      if (priority) { priorityPending.current=false; setPriorityBusy(false); }
+      else if (version === sessionVersion.current) setBusy(false);
     }
   };
   const bindProvider = async (providerId: string, revision: number) => {
@@ -1086,7 +1108,7 @@ export function LiveSpace() {
         <button
           key={op}
           className="v3-button soft"
-          disabled={busy || !admin || !healthy}
+          disabled={priorityBusy || (busy && op !== "STOP") || !admin || !healthy}
           onClick={() => void host(op)}
         >
           {
@@ -1441,6 +1463,8 @@ export function LiveSpace() {
                 allowed={conversation}
                 send={(retain, privacyClass) => void send(retain, privacyClass)}
                 readiness={providerReadyCode}
+                streaming={prefs.streamReplies}
+                onStreaming={bootstrap?.capabilities.chat_streaming === true ? next => setPrefs({...prefs,streamReplies:next}) : undefined}
                 configure={() => go("models")}
                 canRemember={bootstrap?.capabilities.shared_life_retention === true}
                 canUsePersonal={bootstrap?.privacy_scope.includes("PERSONAL") === true}
@@ -1992,7 +2016,7 @@ export function LiveSpace() {
                         <button
                           className="v3-button soft"
                           key={op}
-                          disabled={!manager || !healthy || busy}
+                          disabled={!manager || !healthy || priorityBusy || (busy && op === "RESUME")}
                           onClick={() => {
                             if (
                               op !== "REVOKE" ||

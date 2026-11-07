@@ -110,7 +110,11 @@ class Handler(BaseHTTPRequestHandler):
     def _headers(self, code, content_type, length, *, cookie=None):
         self.send_response(code)
         self.send_header("Content-Type", content_type)
-        self.send_header("Content-Length", str(length))
+        if length is None:
+            self.send_header('Connection','close')
+            self.send_header('X-Accel-Buffering','no')
+            self.close_connection=True
+        else:self.send_header("Content-Length", str(length))
         self.send_header("Cache-Control", "no-store, max-age=0")
         self.send_header("Pragma", "no-cache")
         self.send_header("X-Content-Type-Options", "nosniff")
@@ -131,6 +135,14 @@ class Handler(BaseHTTPRequestHandler):
         raw = json.dumps(value, separators=(",", ":"), ensure_ascii=False, allow_nan=False).encode()
         self._headers(code, "application/json; charset=utf-8", len(raw), cookie=cookie)
         self.wfile.write(raw)
+
+    def _stream_frame(self,value):
+        raw=(json.dumps(value,ensure_ascii=False,separators=(',',':'),allow_nan=False)+'\n').encode()
+        if len(raw)>262144:raise ApiError('STREAM_DELIVERY_BOUND',503)
+        if not getattr(self,'_stream_started',False):
+            self._headers(200,'application/x-ndjson; charset=utf-8',None)
+            self._stream_started=True
+        self.wfile.write(raw);self.wfile.flush()
 
     def _body(self):
         if self.headers.get("Transfer-Encoding") is not None:
@@ -198,12 +210,16 @@ class Handler(BaseHTTPRequestHandler):
         try:
             self._route()
         except ApiError as exc:
-            self._json(exc.status, {"contract": "nana-space-live/v2", "code": exc.code})
+            if getattr(self,'_stream_started',False):
+                try:self._stream_frame({'event':'error','code':exc.code,'no_retry':True})
+                except OSError:pass
+            else:self._json(exc.status, {"contract": "nana-space-live/v2", "code": exc.code})
         except (OSError, TimeoutError):
             self.close_connection = True
         except Exception:
             # No exception repr/local variables: inputs may contain credentials.
-            self._json(503, {"contract": "nana-space-live/v2", "code": "SERVICE_UNAVAILABLE"})
+            if getattr(self,'_stream_started',False):self.close_connection=True
+            else:self._json(503, {"contract": "nana-space-live/v2", "code": "SERVICE_UNAVAILABLE"})
 
     do_GET = _run
     do_POST = _run
@@ -424,6 +440,26 @@ class Handler(BaseHTTPRequestHandler):
             if not search.query.strip():
                 raise ApiError('MEMORY_SEARCH_QUERY_REQUIRED', 400)
             value = service.search_memories(principal, search.query.strip())
+        elif route == 'messages/stream':
+            request=self._model(MessageRequest,body)
+            principal.require(Role.CONVERSATION)
+            self._stream_started=False
+            sequence=[0]
+            def emit(value):
+                current=self._auth()
+                if current.principal_id!=principal.principal_id:raise ApiError('SESSION_REVOKED',401)
+                current.require(Role.CONVERSATION)
+                sequence[0]+=1
+                if sequence[0]>1024:raise ApiError('STREAM_DELIVERY_BOUND',503)
+                self._stream_frame({'event':'progress','sequence':sequence[0],
+                    'message_id':request.client_request_id,'data':service.envelope(value,principal=current)})
+            value=service.send(principal,request,progress=emit)
+            current=self._auth()
+            if current.principal_id!=principal.principal_id:raise ApiError('SESSION_REVOKED',401)
+            current.require(Role.CONVERSATION)
+            value=service.receipt(current,request.idempotency_key)
+            self._stream_frame({'event':'receipt','message_id':request.client_request_id,'data':value})
+            return
         elif route == "messages":
             value = service.send(principal, self._model(MessageRequest, body))
         elif route in {"commands", "privacy/withdrawal"}:

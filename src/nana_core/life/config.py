@@ -87,6 +87,7 @@ class LifeConfig(DTO):
     provider_context_tokens:int=Field(default=8192,ge=1024,le=65536)
     # Host may choose an explicit operating budget up to the ORIGINAL Runtime
     # ceiling. Defaults and mission-wide reservations remain unchanged.
+    provider_wire_bytes_per_day:int=Field(default=4_000_000,ge=0,le=268_435_456)
     provider_calls_per_day:int=Field(default=12,ge=0,le=128)
     provider_calls_per_hour:int=Field(default=24,ge=0,le=128)
     per_provider_calls_per_day:int=Field(default=24,ge=0,le=128)
@@ -98,6 +99,7 @@ class LifeConfig(DTO):
 # Applied only when explicitly creating a new daily-use configuration. Legacy
 # LifeConfig defaults and every existing host document remain unchanged.
 DAILY_PROVIDER_DEFAULTS = MappingProxyType({
+    'provider_wire_bytes_per_day': 32_000_000,
     'provider_calls_per_day': 128,
     'provider_calls_per_hour': 64,
     'per_provider_calls_per_day': 128,

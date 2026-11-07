@@ -11,7 +11,7 @@ from nana_core.presence.authority import VirtualClock
 from .conftest import initialize
 
 @contextmanager
-def relay(home,kind='VENT',*,mode='normal',conversation_proposal=None,renderer=None,profile_id='fixture.provider',model_profile_id='fixture.text',remote_model_id='same-text-model',recall_query_terms=()):
+def relay(home,kind='VENT',*,mode='normal',conversation_proposal=None,renderer=None,profile_id='fixture.provider',model_profile_id='fixture.text',remote_model_id='same-text-model',recall_query_terms=(),stream_fixture=None):
     requests=[]
     class Handler(BaseHTTPRequestHandler):
         def log_message(self,*args):pass
@@ -26,7 +26,21 @@ def relay(home,kind='VENT',*,mode='normal',conversation_proposal=None,renderer=N
             else:proposal['draft']={'text':renderer(request) if renderer else 'A deliberately synthetic language response','claim_memory_ids':[],'effect_status':descriptor['effect_status']}
             if mode=='attack':proposal['interests']=[{'topic':'attack','motivation_source':'CURIOSITY','source_memory_ids':request['source_context_refs'],'interpretation':'model tries to create an adopted goal'}]
             raw=json.dumps({'id':'synthetic-dialogue','model':body['model'],'usage':{'prompt_tokens':10,'completion_tokens':10},'choices':[{'finish_reason':'stop','message':{'content':json.dumps(proposal)}}]}).encode()
-            self.send_response(200);self.send_header('Content-Type','application/json');self.send_header('Content-Length',str(len(raw)));self.end_headers();self.wfile.write(raw)
+            if body.get('stream') and stream_fixture is not None:
+                self.send_response(200);self.send_header('Content-Type','text/event-stream');self.end_headers()
+                content=json.dumps(proposal,ensure_ascii=False)
+                split=content.index(proposal['draft']['text'])+max(8,len(proposal['draft']['text'])//2)
+                for index,part in enumerate((content[:split],content[split:])):
+                    event={'model':body['model'],'choices':[{'index':0,'delta':{'content':part},'finish_reason':None}]}
+                    self.wfile.write(('data: '+json.dumps(event)+'\n\n').encode());self.wfile.flush()
+                    if index==0 and stream_fixture.get('release') is not None:stream_fixture['release'].wait(2)
+                if stream_fixture.get('interrupt'):return
+                if stream_fixture.get('finished') is not None:stream_fixture['finished'].set()
+                event={'model':body['model'],'choices':[{'index':0,'delta':{},'finish_reason':'stop'}],
+                    'usage':{'prompt_tokens':10,'completion_tokens':10}}
+                self.wfile.write(('data: '+json.dumps(event)+'\n\ndata: [DONE]\n\n').encode());self.wfile.flush()
+            else:
+                self.send_response(200);self.send_header('Content-Type','application/json');self.send_header('Content-Length',str(len(raw)));self.end_headers();self.wfile.write(raw)
     server=ThreadingHTTPServer(('127.0.0.1',0),Handler);thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
     try:
         authority=ProviderConfigurationAuthority();service=ProviderConfigService(home/'test-providers.json',authority);service.initialize(authority)

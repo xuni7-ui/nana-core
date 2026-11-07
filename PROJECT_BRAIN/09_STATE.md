@@ -7,35 +7,34 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 78,
-  "as_of_us": 1794049325738192,
+  "revision": 79,
+  "as_of_us": 1794054425957668,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_INSTALLED_RETRIEVAL_GROWTH_DELIVERED",
+  "status": "IN_PROGRESS_STREAM_RUNTIME_409_VALIDATING",
   "progress": [
-    "继承原Next Experience、手机紧凑聊天/模型目录/备注召回及原S8/S3/S2/Fish关注与安静机制；同一主任务不重开。",
-    "408同签名APK/Web保持f712136；已重新提供Nana-408.apk直接附件路径及实测HTTP200备用入口。",
-    "旧全仓1933/1文档摘要失败/12跳过及后续定向修复保留；不把此次相关检查写成新全仓通过。",
-    "继承20万规模字面备注索引与装配优化、关系来源配额及精确请求字节预留；不冒充真实模型token/长期回忆资格。",
-    "391ab0d新宿主128/64/128默认额度及中文提示已进入f03fcbb归档；旧配置不改、费用默认0、UNKNOWN不重放。",
-    "f03fcbb原C/G对实际保留笔记检索缺口做练习/独立评价/迁移；重启后不同笔记可进入实际本地HTTP渲染请求。",
-    "真实反例停用旧方法，后续独立核验复用使原S3需要OPEN→SETTLED/C选WATCH；撤回来源使方法不可用，无第二学习/情绪系统。",
-    "139相关检查通过；280文件两次构建相同，最终归档实际离线安装/十页/同DEV恢复/六次本地夹具调用通过，交付c8d5934兼容408。"
+    "原Next Experience及十域任务持续；f03fcbb检索学习/原S3/S2/Fish、408已交付能力继承，不新增主体或学习系统。",
+    "a0263e5原回执热集保留256，终态/UNKNOWN元数据可私有归档，跨重启同key不重发，旧二进制遇新标记拒绝。",
+    "真正SSE经原INTERPRET→C→RENDER、原owner、UDS、BFF、Web/Android接线；草稿临时，最终仍完整来源/JSON核验。",
+    "原owner等待模型时可处理既有暂停/撤权/停止；不递归聊天/导入，停止保留UNKNOWN及费用并禁止新渲染调用。",
+    "完整请求模型计数绑定接入原ContextAssembler/Router，缺商业tokenizer不冒充准确token；实际派发前复核，原文闭包不长期保留。",
+    "只对确认PROPOSED正数实测字节结算剩余字节额度；原财务/次数/UNKNOWN保留，新宿主32MB而旧设置4MB不变。",
+    "已执行本地真实HTTP/UDS/SSE、原C及路由相关验证；Java编译/两项原生检查、66前端检查通过，失败保留。",
+    "手机布局与管理导航暴露两个真实问题，正在修复/复验；409整包、实际安装和最终全仓结果待实际运行，不冒充已交付。"
   ],
   "open_gates": [
-    "整个软件及十域长期精修仍继续；本批有界检索学习及可安装交付不等于总工程完成。",
-    "全请求模型特定token计数、真实流式及剩余产品接线仍待后续实际实现，不以字节量或夹具冒充。",
-    "真实模型/手机/跨日/活库向量映射无安全绑定；仅相关资格暂停，生产/Iris迁移由原负责人处理。"
+    "完整任务继续；409源码/最终回归/匹配APK-Web-Core发布及安装验证尚在施工。",
+    "真实商业tokenizer、模型语义/真人/物理手机/跨日/权威活库向量映射无安全绑定，相关资格未运行。",
+    "生产/Iris迁移由原运行负责人负责；不调用真实provider、不读私史、不触碰正式主体或既有权限。"
   ],
   "evidence_refs": [
     "docs/nana_next_experience/STATUS.md",
-    "docs/nana_next_experience/GROWTH_AND_AFFECT.md",
+    "docs/nana_next_experience/STREAMING_AND_RUNTIME_409.md",
+    "docs/nana_next_experience/RECEIPT_LONGEVITY.md",
     "docs/nana_next_experience/RETRIEVAL_GROWTH.md",
-    "docs/nana_next_experience/DAILY_DEFAULTS.md",
-    "docs/nana_next_experience/HANDOFF_RETRIEVAL_GROWTH.md",
-    "docs/nana_next_experience/CHAT_MEMORY_FLOW.md",
-    "docs/nana_next_experience/RELATIONSHIP_RETENTION.md",
-    "docs/nana_next_experience/WIRE_RESERVATION.md"
+    "docs/nana_next_experience/GROWTH_AND_AFFECT.md",
+    "docs/nana_next_experience/evidence/streaming409/development.json",
+    "docs/nana_next_experience/ACTIVE_CHECKPOINT.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

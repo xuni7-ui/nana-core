@@ -1,3 +1,9 @@
+# Current active409 implementation — continue whole original mission
+
+Latest source HEAD wins.409 streaming/native/receipt/runtime/token-framing changes are being qualified; no final artifact claim yet. STREAMING_AND_RUNTIME_409.md and current typed09 state supersede historical open-code bullets below. Preserve actual failures. Last published408 +f03fcbb delivery remains valid until matched409 is built/installed/selected. Continue remaining product/ten-domain work, not a milestone handoff.
+
+---
+
 # Current active continuation — same user task, not a freeze or completion
 
 Latest installed runtime source f03fcbbb6e8c7d0aa490d71aa89dfa128374dda7; external tool source edfd685. Delivery c8d59349480a5bf11ae001b2150e34f3781320bb on delivery/nana-space-next-apk, remote equals local. Current selector now chooses server-408-retrieval-growth with original same-signed408 client/Web f712136. Source branch remains dev/nana-core-next-experience-codex; legitimate later HEAD wins. Earlier checkpoint below is historical where superseded.

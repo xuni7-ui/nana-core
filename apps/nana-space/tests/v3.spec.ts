@@ -85,6 +85,7 @@ interface MockState {
   requests: { method: string; path: string }[];
   views: string[];
   abortMessage: boolean;
+  streamInterrupted?: boolean;
   delayMessage: boolean;
   messageRoute?: Route;
   messageBodies?: Record<string, unknown>[];
@@ -250,6 +251,22 @@ async function installMock(page: Page): Promise<MockState> {
     ) {
       state.confirmationRoute = route;
       return;
+    }
+    if (path === "commands" && method === "POST") {
+      const body=request.postDataJSON();
+      return ok({receipt_id:body.idempotency_key,client_request_id:body.client_request_id,operation:body.operation,
+        state:"VERIFIED",dispatch_happened:true,no_retry:true,result:{subject_desire_rewritten:false}});
+    }
+    if (path === "messages/stream" && method === "POST" && state.capabilities?.chat_streaming === true) {
+      const body = request.postDataJSON();
+      (state.messageBodies ||= []).push(body);
+      const frames = [{event:"progress",message_id:body.client_request_id,sequence:1,
+        data:envelope(state,{state:"PROVISIONAL_MODEL_DRAFT",text:"SYNTHETIC 临时生成文字"})}];
+      if (!state.streamInterrupted) frames.push({event:"receipt",message_id:body.client_request_id,
+        data:envelope(state,{receipt_id:body.idempotency_key,client_request_id:body.client_request_id,
+          operation:"MESSAGE",no_retry:true,state:"VERIFIED",dispatch_happened:true,
+          result:{text:"SYNTHETIC 最终核验回复"}})} as typeof frames[number]);
+      return route.fulfill({status:200,contentType:"application/x-ndjson",body:frames.map(v=>JSON.stringify(v)).join("\n")+"\n"});
     }
     if (path === "messages" && method === "POST") {
       (state.messageBodies ||= []).push(request.postDataJSON());
@@ -979,4 +996,48 @@ test("SYNTHETIC retention: connection opt-in survives sends, excludes personal a
   const persisted = await page.evaluate(() => JSON.stringify(localStorage));
   expect(persisted).not.toContain("retained project turn");
   expect(persisted).not.toContain("rememberConnection");
+});
+
+
+test("SYNTHETIC stream: final receipt replaces provisional text, interruption never retries", async ({page},info)=>{
+  const state=await installMock(page);
+  state.capabilities={chat_streaming:true};
+  await open(page,"chat");
+  await expect(page.getByRole("button",{name:"逐字回复 · 开"})).toHaveAttribute("aria-pressed","true");
+  await page.getByLabel("和奈奈说点什么").fill("SYNTHETIC stream turn");
+  await page.getByRole("button",{name:"发送",exact:true}).click();
+  await expect(page.getByText("SYNTHETIC 最终核验回复",{exact:true})).toBeVisible();
+  await expect(page.getByText("SYNTHETIC 临时生成文字",{exact:true})).toHaveCount(0);
+  state.streamInterrupted=true;
+  await page.getByLabel("和奈奈说点什么").fill("SYNTHETIC interrupted turn");
+  await page.getByRole("button",{name:"发送",exact:true}).click();
+  await expect(page.getByText("这条消息的结果还不能确认。先核验原回执，不重复发送。",{exact:true})).toBeVisible();
+  await expect(page.getByText("SYNTHETIC 临时生成文字",{exact:true})).toHaveCount(0);
+  expect(state.requests.filter(r=>r.path==="messages/stream" && r.method==="POST")).toHaveLength(2);
+  expect(state.requests.filter(r=>r.path==="messages" && r.method==="POST")).toHaveLength(0);
+  await noHorizontalOverflow(page);
+  await page.screenshot({path:`test-results/409-${info.project.name}-stream.png`});
+  expect(await page.evaluate(()=>JSON.stringify(localStorage))).not.toContain("interrupted turn");
+});
+
+
+test("SYNTHETIC in-flight controls: pause stays usable without unlocking the pending message",async({page})=>{
+  const state=await installMock(page);state.delayMessage=true;
+  await open(page,"chat");
+  await page.getByLabel("和奈奈说点什么").fill("SYNTHETIC waiting model request");
+  await page.getByRole("button",{name:"发送",exact:true}).click();
+  await expect.poll(()=>Boolean(state.messageRoute)).toBe(true);
+  await go(page,"settings");
+  const pause=page.getByRole("button",{name:"暂停自主调度",exact:true});
+  await expect(pause).toBeEnabled();
+  await expect(page.getByRole("button",{name:"恢复调度",exact:true})).toBeDisabled();
+  await pause.click();
+  await expect.poll(()=>state.requests.filter(r=>r.path==="commands" && r.method==="POST").length).toBe(1);
+  await expect(pause).toBeEnabled();
+  await go(page,"chat");
+  await expect(page.getByRole("button",{name:"发送",exact:true})).toBeDisabled();
+  const body=state.messageRoute!.request().postDataJSON();
+  await state.messageRoute!.fulfill({status:200,json:envelope(state,{receipt_id:body.client_request_id,state:"VERIFIED",dispatch_happened:true,result:{text:"SYNTHETIC finished after manager control"}})});
+  await expect(page.getByText("SYNTHETIC finished after manager control",{exact:true})).toBeVisible();
+  expect(state.requests.filter(r=>r.path==="messages" && r.method==="POST")).toHaveLength(1);
 });

@@ -15,6 +15,8 @@ def provider_notice(code: str) -> str:
         'PROVIDER_UNCONFIGURED': '还没有配置可用的聊天模型。',
         'RUNTIME_PROVIDER_UNBOUND': '模型设置已保存，运行中的连接还未启用。',
         'SECRET_UNAVAILABLE': '模型凭据尚未安全绑定。',
+        'PROVIDER_STREAM_INTERRUPTED_BILLING_UNKNOWN': '回复传输中断，这次结果和费用仍待核对；不会自动重发原请求。',
+        'STALE_STREAM_CONTEXT': '生成期间来源状态已经变化，这次临时草稿未被采用。',
         'PROVIDER_TIMEOUT_BILLING_UNKNOWN': '这次回复超时，结果和费用仍待核对；不会自动重发。',
         'PROVIDER_WORKER_UNRESOLVED': '先前的模型请求仍在处理中，结果还不能确认。',
         'PROVIDER_WORKER_BOUND_PRE_DISPATCH': '仍有模型请求在处理中，这次没有再发出调用。',

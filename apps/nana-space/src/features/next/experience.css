@@ -36,3 +36,12 @@
 .v3-main-chat .v3-reply-meta{flex-wrap:wrap;}
 }
 .v3-main-chat .v3-top-tools .v3-icon-button:is([aria-label="刷新真实状态"],[aria-label="退出并清除本机视图"]){display:grid!important;width:32px;min-width:32px;min-height:40px;padding:4px;}
+
+.next-chat-tools { display:flex; gap:.75rem; align-items:center; flex-wrap:wrap; }
+.next-provisional { white-space:pre-wrap; overflow-wrap:anywhere; display:block; font:inherit; }
+.next-provisional::after { content:"▍"; color:var(--v3-accent,#9c83ce); margin-inline-start:.15rem; }
+
+@media(max-width:900px){
+.v3-space:has(.v3-main-chat .v3-composer:focus-within) .v3-bottom-nav{display:none;}
+.v3-space:has(.v3-main-chat .v3-composer:focus-within) .v3-main-chat{padding-bottom:10px;}
+}

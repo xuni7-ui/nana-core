@@ -48,6 +48,7 @@ class GatewayService:
         self.generation = secrets.token_hex(16)
         self.ledger = OperationLedger(Path(state_root) / "operations.json")
         self.write_lock = threading.RLock()
+        self.priority_lock = threading.RLock()
         self.read_lock = threading.RLock()
         self.provider_catalog_after = 0
         self.event_sequence = 0
@@ -116,6 +117,7 @@ class GatewayService:
                 "provider_authority": False,
                 "provider_configuration_write": self.allow_provider_configuration,
                 "provider_readiness": True,
+                "chat_streaming": True,
                 "provider_model_discovery": self.allow_provider_configuration and self.credential_resolver is not None,
                 "native_secret_binding": self.allow_provider_configuration and self.credential_resolver is not None,
                 "durable_provider_binding": bool(getattr(self.credential_resolver, "persistent", False)),
@@ -471,8 +473,11 @@ class GatewayService:
         )
         return None
 
-    def _call(self, principal, body, operation, role, call, verify, before=None):
-        with self.write_lock:
+    def _call(self, principal, body, operation, role, call, verify, before=None, *, priority=False):
+        # Receipt metadata CAS is independently locked. Only existing restrictive
+        # controls may bypass the long conversational dispatch lock; the original
+        # owner still serializes actual effects at its transport-wait safe point.
+        with (self.priority_lock if priority else self.write_lock):
             old = self._prepare(principal, body, operation, role)
             if old:
                 return self.envelope(
@@ -505,7 +510,7 @@ class GatewayService:
                 self.ledger.read(key, principal.principal_id).model_dump(mode="json"), principal=principal
             )
 
-    def send(self, principal, body, *, surface_binding_id=None):
+    def send(self, principal, body, *, surface_binding_id=None, progress=None):
         if body.privacy_class not in self.privacy_for(principal):
             raise ApiError("SCOPE_DENIED", 403)
         event_id = (
@@ -520,12 +525,13 @@ class GatewayService:
             "privacy_class": body.privacy_class,
             "retain_shared_life": body.retain_shared_life,
         }
-        command = {"operation": "surface", "observation": observation}
+        command = {"operation": "surface-stream" if progress is not None else "surface", "observation": observation}
         if len(json.dumps(command).encode()) >= LIMIT:
             raise ApiError("CORE_INPUT_BOUND", 413)
 
         def call():
-            result = core_request(self.supervisor.home, command)
+            result = (core_request(self.supervisor.home, command, progress=progress) if progress is not None
+                else core_request(self.supervisor.home, command))
             if result.get("ok") is not True:
                 raise ApiError("CORE_INPUT_REJECTED", 409)
             row = result["result"]
@@ -624,7 +630,7 @@ class GatewayService:
                     raise ApiError("CONTROL_UNVERIFIED", 503)
             return {"operation": op, "core_result": result, "subject_desire_rewritten": False, "grants_created": False}
 
-        return self._call(principal, body, op, Role.MANAGER, call, lambda row: isinstance(row, dict))
+        return self._call(principal, body, op, Role.MANAGER, call, lambda row: isinstance(row, dict), priority=op in {"PAUSE", "BUSY", "AVAILABLE", "REVOKE"})
 
     def host_operation(self, principal, body):
         principal.require(Role.HOST_ADMIN)
@@ -657,7 +663,7 @@ class GatewayService:
             )
 
         return self._call(
-            principal, body, body.operation, Role.HOST_ADMIN, call, lambda row: isinstance(row, dict), before
+            principal, body, body.operation, Role.HOST_ADMIN, call, lambda row: isinstance(row, dict), before, priority=body.operation == "STOP"
         )
 
     def receipt(self, principal, key):

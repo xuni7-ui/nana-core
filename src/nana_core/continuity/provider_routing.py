@@ -72,9 +72,15 @@ class RouteSnapshot(DTO):
 
 
 class RuntimeProviderFactory:
-    def __init__(self, registry: ProviderRegistry, secret_resolver, policy: RoutingPolicy):
+    def __init__(self, registry: ProviderRegistry, secret_resolver, policy: RoutingPolicy, *, token_counters=None):
         self.registry = registry
         self.__resolver = secret_resolver
+        from .context import ModelTokenCounter
+        if token_counters is not None and (type(token_counters) is not dict or any(
+                type(k) is not str or type(v) is not ModelTokenCounter for k,v in token_counters.items())):
+            raise CoreError("MODEL_TOKEN_COUNTER_BINDING_INVALID")
+        # Trusted host code only; no tokenizer callbacks from model/config JSON.
+        self.token_counters = dict(token_counters or {})
         self.policy = policy
 
     def secret_state(self, provider):
@@ -115,7 +121,7 @@ class RuntimeProviderFactory:
             kw = dict(provider_id=provider.provider_profile_id, credential=credential, harness=harness)
             if operation == "COGNITION":
                 return OpenAIJSONTransport(
-                    endpoint, model.remote_model_id, thinking_mode=provider.chat_thinking_mode, **kw
+                    endpoint, model.remote_model_id, thinking_mode=provider.chat_thinking_mode, token_counter=self.token_counters.get(model.model_profile_id), **kw
                 )
             modality = {"VISION": "IMAGE", "AUDIO_UNDERSTAND": "AUDIO", "VIDEO_UNDERSTAND": "VIDEO"}[operation]
             descriptor = SemanticDescriptor(
