@@ -1,0 +1,30 @@
+{
+  "scope": "OWNED_SYNTHETIC_ORIGINAL_STORE_ONLY",
+  "memory_rows": 200000,
+  "distinct_query_fixtures": 1,
+  "timing_repetitions_per_arm": 9,
+  "arms": {
+    "without_note_index": {
+      "correct": 9,
+      "wrong": 0,
+      "timeout": 0,
+      "p50_ms": 43.62925099849235,
+      "p95_ms": 62.81820299773244
+    },
+    "with_note_index": {
+      "correct": 9,
+      "wrong": 0,
+      "timeout": 0,
+      "p50_ms": 0.33778099896153435,
+      "p95_ms": 0.48729300033301115
+    }
+  },
+  "index_build_p50_ms": 20.4054459973122,
+  "fresh_connection_open_ms": 5773.430693996488,
+  "fresh_connection_first_lookup_ms": 1.1878079967573285,
+  "fresh_connection_correct": true,
+  "os_cache_cold": false,
+  "semantic_or_live_qualification": "NOT_RUN",
+  "provider_calls": 0,
+  "runtime_source_sha256": "7dd4b833c86fba1aa79ee9fef91094341a17a7d5536495f8581daec9bd97dd3e"
+}

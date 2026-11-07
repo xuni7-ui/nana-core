@@ -7,17 +7,17 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 71,
-  "as_of_us": 1794018358092022,
+  "revision": 72,
+  "as_of_us": 1794030830509818,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_SOURCED_NOTE_RECALL_AND_ORIGINAL_GROWTH",
+  "status": "IN_PROGRESS_RECALL_SERVER_PACKAGE_VERIFICATION",
   "progress": [
     "继承原Next Experience、手机紧凑聊天、模型目录、原S8/S3/S2及Fish原生关注/晚安/关系连续。",
     "407 APK/Web/Core已推送交付aae944a，三组件实际GitHub下载SHA相同；同签名覆盖升级。",
     "407原Store备注/纠错/UNKNOWN对账已有安装证据；全仓1933/1文档摘要失败/12跳过，摘要修复定向通过。",
     "新服务端把当前备注接入原两调用对话上下文；116相关、原成长12、焦点7通过，不多调用模型。",
-    "合成1k至200k旧字面备注来源选择通过；单案例重复9次，20万P95约45.74ms，不冒充语义泛化。"
+    "原Store合成20万字面备注有索引P95约0.49ms、新连接约1.19ms；Pinned所选块相同，读取258→130，装配P50约302→219ms。"
   ],
   "open_gates": [
     "整个软件及十域长期精修继续，不以小批交付宣布总完成。",

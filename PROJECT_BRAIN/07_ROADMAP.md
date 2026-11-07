@@ -1264,3 +1264,13 @@ Same main mission continues. Completed product406 source/API/bounded-growth batc
 ## 2026-11-07 — S2有来源备注进入真实Core对话链
 
 同一Next Experience/S2/S5精修：备注可经原INTERPRET有限检索词→原MemoryService→原ContextAssembler→原C已提交判断后的RENDER进入回答来源，407客户端无需改协议。保留原S8/S3/S2成长、Fish融合及全部未完主线。
+
+
+## 2026-11-07 — S2实际冷连接瓶颈修正
+
+S2当前召回新增真实冷连接复查：fa1f315在20万合成库曾触发100ms上限，未放宽预算；复用原可重建索引机制优化已实测瓶颈，继续同一主线。
+
+
+## 2026-11-07 — 原上下文丢弃候选的实际开销优化
+
+已测Pinned对话避免读取随后丢弃的128条原文，所选证据字节相同；继续封包安装验证，不改变原S8/S3/S2、Fish或主体框架。

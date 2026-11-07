@@ -183,6 +183,8 @@ def run(bundle, work):
             assert len(requests) == 2 and mid in requests[-1]["source_context_refs"]
             assert answer["text"] == text and answer["render_state"] == "UNVERIFIED_MODEL_WORDING"
             assert not app.runtime.store.all("actions") and not app.runtime.store.all("lessons")
+        final_identity,final_lineage,_=existing_identity(home)
+        assert (final_identity,final_lineage)==(identity,lineage)
         return {
             **gateway,
             "installed_note_context_and_fixture_wording": "PASS_NOT_REAL_MODEL_RECALL",

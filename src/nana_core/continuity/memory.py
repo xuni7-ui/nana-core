@@ -331,10 +331,16 @@ class MemoryService:
         db = self.store.db
         if db.in_transaction:
             raise CoreError("NOTE_RECALL_SAFE_POINT_REQUIRED")
+        from .store import REBUILDABLE_LOOKUP_INDEXES
+        index = db.execute("SELECT sql FROM sqlite_master WHERE type='index' AND name='memory_user_note_lookup'").fetchone()
+        if index and index[0] != REBUILDABLE_LOOKUP_INDEXES['memory_user_note_lookup']:
+            raise CoreError('NOTE_RECALL_INDEX_DEFINITION_MISMATCH')
+        hint = ' INDEXED BY memory_user_note_lookup' if index else ''
         db.set_progress_handler(lambda: int(time.monotonic() > deadline), 1000)
         try:
             rows = db.execute(
-                "WITH visible AS MATERIALIZED (SELECT m.memory_id,m.payload_artifact_id,m.rowid AS ordinal FROM memories m WHERE "
+                "WITH visible AS MATERIALIZED (SELECT m.memory_id,m.payload_artifact_id,m.rowid AS ordinal FROM memories m"
+                + hint + " WHERE "
                 + where
                 + " AND substr(m.predicate_key,1,10)='user-note.') "
                 "SELECT v.memory_id FROM visible v JOIN artifacts a ON a.artifact_id=v.payload_artifact_id WHERE ("

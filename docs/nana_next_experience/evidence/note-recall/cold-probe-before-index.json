@@ -1,0 +1,9 @@
+{
+  "source_commit": "fa1f3159ce6c8a4309265ff2934926872ae0fe3d",
+  "memory_rows": 200000,
+  "probe": "Fresh Store connection, attempting9 bounded literal note reads",
+  "result": "NOTE_RECALL_TIME_BOUND",
+  "failed_iteration": "NOT_RECORDED",
+  "limitation": "One observed timeout under concurrent build/clone; not a claim that every cold lookup fails. Raw original command stderr was returned by the execution tool; this file records that observation without inventing missing timings.",
+  "action": "Preserve100ms bound; introduce exact registered rebuildable partial index; compare same corpus."
+}

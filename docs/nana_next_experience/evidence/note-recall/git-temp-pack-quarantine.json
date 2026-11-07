@@ -1,0 +1,11 @@
+{
+  "operation": "Quarantine inactive unregistered tmp_pack only; preserve bytes, refs, unique objects and unknown files",
+  "bytes": 1729888256,
+  "sha256": "a197b750a08be4dd1124d3c7cc99c371575bce5b3efa090f78be6510b009c682",
+  "source": "/workspace/nana-core/.git/objects/pack/tmp_pack_GAwA76",
+  "quarantine": "/tmp/nana-git-maintenance-quarantine/tmp_pack_GAwA76",
+  "head_unchanged": "fa1f3159ce6c8a4309265ff2934926872ae0fe3d",
+  "prior_gc_auto": null,
+  "temporary_repo_gc_auto": 0,
+  "reason": "Automatic repack exhausted development disk; no production or source-history modification."
+}

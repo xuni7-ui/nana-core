@@ -8,6 +8,9 @@ import json
 import math
 import statistics
 import time
+import types
+import sys
+import subprocess
 from unittest.mock import patch
 from pathlib import Path
 from nana_core.continuity import ContinuityStore
@@ -79,7 +82,52 @@ def compare(root):
         return out
 
 
+def compare_pinned(root):
+    """Versioned old/new context on one Store; no second Runtime or model."""
+    if not __debug__:raise ValueError('QUALIFICATION_REQUIRES_ASSERTIONS')
+    root=Path(root).absolute()
+    if root.resolve()!=root or not (root/'self.db').is_file() or not list(root.glob('result-*.json')):
+        raise ValueError('EXISTING_DISPOSABLE_SYNTHETIC_STORE_REQUIRED')
+    repo=Path(__file__).resolve().parents[2]
+    source=subprocess.check_output(['git','show','fa1f3159ce6c8a4309265ff2934926872ae0fe3d:src/nana_core/continuity/context.py'],cwd=repo)
+    module=types.ModuleType('nana_core.continuity._pinned_context_baseline')
+    module.__package__='nana_core.continuity';sys.modules[module.__name__]=module
+    exec(compile(source,'<pinned-context-fa1f315>','exec'),module.__dict__)
+    samples={'baseline':[],'candidate':[]};reads={k:[] for k in samples};packages={}
+    with ContinuityStore(root/'self.db',ManualClock(),schema_target=13) as store:
+        if not store.db.execute("SELECT 1 FROM continuity_evidence WHERE source_namespace='synthetic.scale' LIMIT 1").fetchone():raise ValueError('SYNTHETIC_CORPUS_REQUIRED')
+        primary=store.db.execute("SELECT memory_id FROM memories WHERE entity_id='bench' AND scope='bench' AND predicate_key IS NULL ORDER BY rowid DESC LIMIT 1").fetchone()[0]
+        wanted=store.db.execute("SELECT memory_id FROM memories WHERE entity_id='bench' AND predicate_key='user-note.synthetic-scale'").fetchone()[0]
+        req=ContextRequest(entity_id='bench',scopes=('bench',),task_class='world.social',task='Synthetic sourced recall',task_privacy_class='PROJECT',query_terms=('虹光约定',),max_input_tokens=16384,output_reserve_tokens=2048)
+        policy=ContextPolicy(policy_id='synthetic.pinned',allowed_scopes=('bench',),readable_privacy=('PROJECT',))
+        original_read=MemoryService.read
+        for n in range(9):
+            for arm in (tuple(samples) if n%2==0 else tuple(reversed(samples))):
+                count=[0]
+                def counted(self,*args,**kwargs):
+                    count[0]+=1
+                    return original_read(self,*args,**kwargs)
+                cls=module.ContextAssembler if arm=='baseline' else ContextAssembler
+                with patch.object(MemoryService,'read',counted):
+                    start=time.perf_counter();assembler=cls(store,OperatorAuthority())
+                    package=assembler.assemble(req,policy,required_memory_ids=(primary,),pinned_only=True,conversation_topic='synthetic')
+                    assembler.validate(package,req,policy);samples[arm].append((time.perf_counter()-start)*1000)
+                reads[arm].append(count[0]);packages[arm]=package.model_dump(mode='json')
+            a,b=(packages[k] for k in samples)
+            assert a['blocks']==b['blocks'],'SELECTED_SOURCE_CONTENT_CHANGED'
+            assert {wanted,primary}<={mid for block in b['blocks'] for mid in block['source_memory_ids']}
+        return {'qualification':'SYNTHETIC_SAME_STORE_PINNED_CONTEXT_NOT_MODEL_ABLATION',
+                'memory_rows':store.db.execute('SELECT count(*) FROM memories').fetchone()[0],
+                'baseline_source':'fa1f3159ce6c8a4309265ff2934926872ae0fe3d context with current same MemoryService/index',
+                'arms':{k:{**stats(v),'payload_read_calls':reads[k]} for k,v in samples.items()},
+                'selected_blocks_byte_equal':True,'manifest_change':'Truthful explicit-source omission/candidate counts only',
+                'provider_calls':0,'tokenizer':'UTF8_BYTE_ESTIMATE_NOT_PROVIDER_TOKENIZER',
+                'real_model_or_live_qualification':'NOT_RUN'}
+
+
 if __name__ == '__main__':
     parser=argparse.ArgumentParser(description=__doc__)
     parser.add_argument('--root',type=Path,required=True)
-    print(json.dumps(compare(parser.parse_args().root),indent=2))
+    parser.add_argument('--pinned',action='store_true')
+    args=parser.parse_args()
+    print(json.dumps((compare_pinned if args.pinned else compare)(args.root),indent=2))

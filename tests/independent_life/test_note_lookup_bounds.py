@@ -46,6 +46,19 @@ def test_old_matching_note_survives_candidate_bound_and_timeout_leaves_store_usa
             with pytest.raises(CoreError, match="NOTE_RECALL_SAFE_POINT_REQUIRED"):
                 memory.literal_notes(**query)
         assert memory.read(wanted)["assessment"] == "CURRENT"
+        db = app.runtime.store.db
+        from nana_core.continuity.store import REBUILDABLE_LOOKUP_INDEXES
+
+        ddl = REBUILDABLE_LOOKUP_INDEXES["memory_user_note_lookup"]
+        assert db.execute("SELECT sql FROM sqlite_master WHERE name='memory_user_note_lookup'").fetchone()[0] == ddl
+        db.execute("DROP INDEX memory_user_note_lookup")
+        assert [m["memory_id"] for m in memory.literal_notes(**query)] == [wanted]
+        db.execute("CREATE INDEX memory_user_note_lookup ON memories(scope)")
+        with pytest.raises(CoreError, match="NOTE_RECALL_INDEX_DEFINITION_MISMATCH"):
+            memory.literal_notes(**query)
+        db.execute("DROP INDEX memory_user_note_lookup")
+        db.execute(ddl)
+        assert [m["memory_id"] for m in memory.literal_notes(**query)] == [wanted]
 
 
 def test_invalid_query_is_rejected_before_reading_memory(tmp_path):

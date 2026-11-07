@@ -181,7 +181,10 @@ class ContextAssembler:
         memory_service = MemoryService(self.store)
         memory_query = dict(scopes=request.scopes, privacy_classes=privacy,
             entity_ids=(request.entity_id, frame.identity.identity_id), include_conflicts=True)
-        memories = memory_service.query(**memory_query, query_terms=request.query_terms)
+        # Pinned dialogue discards unrelated raw-memory blocks below anyway.
+        # Fetch its explicit sources/notes only; self/relationship/lessons still
+        # use their original independent sourced projections.
+        memories = [] if pinned_only else memory_service.query(**memory_query, query_terms=request.query_terms)
         note_ids=set();recall_gap=None
         note_terms=tuple(t for t in request.query_terms if 2<=len(t)<=64)[:8]
         if pinned_only and conversation_topic is not None and note_terms:
@@ -191,7 +194,7 @@ class ContextAssembler:
                 note_ids={m['memory_id'] for m in notes}
                 memories.extend(m for m in notes if not any(old['memory_id']==m['memory_id'] for old in memories))
             except CoreError as exc:
-                if exc.code not in {'NOTE_RECALL_TIME_BOUND','NOTE_RECALL_SAFE_POINT_REQUIRED'}:raise
+                if exc.code not in {'NOTE_RECALL_TIME_BOUND','NOTE_RECALL_SAFE_POINT_REQUIRED','NOTE_RECALL_INDEX_DEFINITION_MISMATCH'}:raise
                 recall_gap=exc.code+'_NO_ABSENCE_CLAIM'
         if len(required_memory_ids)>16:raise CoreError('CONTEXT_REQUIRED_SOURCE_BOUND')
         for mid in required_memory_ids:
@@ -403,7 +406,7 @@ class ContextAssembler:
         candidates.sort(key=lambda item: (-item[0], item[1].block_id))
         selected, omitted = list(mandatory), [recall_gap] if recall_gap else []
         if retrieval_total > len(memories):
-            omitted.append("RETRIEVAL_CANDIDATE_LIMIT")
+            omitted.append("EXPLICIT_SOURCE_SELECTION" if pinned_only else "RETRIEVAL_CANDIDATE_LIMIT")
         conflict_ids = tuple(block.block_id for _, block in candidates if block.kind == "UNRESOLVED_CONFLICT")
         for _, block in candidates:
             if block.block_id in {x.block_id for x in selected}:

@@ -15,6 +15,10 @@ REBUILDABLE_LOOKUP_INDEXES = {
     "memory_superseded_lookup": "CREATE INDEX memory_superseded_lookup ON memories(superseded_by)",
     "memory_terms_term_lookup": "CREATE INDEX memory_terms_term_lookup ON memory_terms(term,memory_id)",
     "memory_source_binding": "CREATE INDEX memory_source_binding ON memories(source_evidence_id,entity_id,scope)",
+    "memory_user_note_lookup": (
+        "CREATE INDEX memory_user_note_lookup ON memories(entity_id,scope,privacy_class,lifecycle,assessment) "
+        "WHERE substr(predicate_key,1,10)='user-note.'"
+    ),
     "artifacts_event_lookup": "CREATE INDEX artifacts_event_lookup ON artifacts(created_event_id)",
     "memories_event_lookup": "CREATE INDEX memories_event_lookup ON memories(event_id)",
     "evidence_event_lookup": "CREATE INDEX evidence_event_lookup ON continuity_evidence(event_id)",

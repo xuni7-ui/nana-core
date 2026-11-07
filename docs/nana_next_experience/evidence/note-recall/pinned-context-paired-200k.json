@@ -1,0 +1,44 @@
+{
+  "qualification": "SYNTHETIC_SAME_STORE_PINNED_CONTEXT_NOT_MODEL_ABLATION",
+  "memory_rows": 200000,
+  "baseline_source": "fa1f3159ce6c8a4309265ff2934926872ae0fe3d context with current same MemoryService/index",
+  "arms": {
+    "baseline": {
+      "samples": 9,
+      "p50_ms": 302.1145289967535,
+      "p95_ms": 397.7199240034679,
+      "payload_read_calls": [
+        258,
+        258,
+        258,
+        258,
+        258,
+        258,
+        258,
+        258,
+        258
+      ]
+    },
+    "candidate": {
+      "samples": 9,
+      "p50_ms": 219.40399600134697,
+      "p95_ms": 281.1884969996754,
+      "payload_read_calls": [
+        130,
+        130,
+        130,
+        130,
+        130,
+        130,
+        130,
+        130,
+        130
+      ]
+    }
+  },
+  "selected_blocks_byte_equal": true,
+  "manifest_change": "Truthful explicit-source omission/candidate counts only",
+  "provider_calls": 0,
+  "tokenizer": "UTF8_BYTE_ESTIMATE_NOT_PROVIDER_TOKENIZER",
+  "real_model_or_live_qualification": "NOT_RUN"
+}

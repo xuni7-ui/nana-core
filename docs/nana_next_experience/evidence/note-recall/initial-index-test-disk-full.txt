@@ -1,0 +1,53 @@
+F...                                                                     [100%]
+=================================== FAILURES ===================================
+_ test_old_matching_note_survives_candidate_bound_and_timeout_leaves_store_usable _
+
+tmp_path = PosixPath('/dev/shm/note-index-counterexamples/test_old_matching_note_survive0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fc1f0420440>
+
+    def test_old_matching_note_survives_candidate_bound_and_timeout_leaves_store_usable(tmp_path, monkeypatch):
+        home = tmp_path / "home"
+        initialize(home, active=0)
+        with LifeApplication(home, clock=VirtualClock()) as app:
+            wanted = save(app, text="SYNTHETIC ancient-needle 合成重要约定", privacy="PROJECT", request_id="old.needle")[
+                "memory_id"
+            ]
+            for n in range(260):
+>               save(
+                    app, text="SYNTHETIC unrelated retained note " + str(n), privacy="PROJECT", request_id="noise." + str(n)
+                )
+
+tests/independent_life/test_note_lookup_bounds.py:23: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/life/memory_notes.py:115: in save
+    mid = memory.add(
+src/nana_core/continuity/memory.py:185: in add
+    tx.put("memories", {"memory_id": memory_id, "entity_id": candidate.entity_id,
+src/nana_core/storage/sqlite_store.py:51: in put
+    self.store._put(table, row)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.store.ContinuityStore object at 0x7fc1f0421700>
+table = 'memories'
+row = {'memory_id': '8ab3953b-1c59-41ee-930b-f347e8a882e0', 'entity_id': 'project-user', 'scope': 'project-work', 'memory_type': 'SEMANTIC', ...}
+
+    def _put(self, table, row):
+        if table not in self.keys:
+            raise ValueError(table)
+        allowed = {r["name"] for r in self.db.execute(f"PRAGMA table_info({table})")}
+        if set(row) != allowed:
+            raise ValueError(f"invalid projection row for {table}")
+        columns = list(row)
+        key = self.keys[table]
+        assignments = ",".join(f"{c}=excluded.{c}" for c in columns if c != key)
+>       self.db.execute(
+            f"INSERT INTO {table} ({','.join(columns)}) VALUES ({','.join('?' for _ in columns)}) "
+            f"ON CONFLICT({key}) DO UPDATE SET {assignments}",
+            list(row.values()),
+        )
+E       sqlite3.OperationalError: database or disk is full
+
+src/nana_core/storage/sqlite_store.py:219: OperationalError
+=========================== short test summary info ============================
+FAILED tests/independent_life/test_note_lookup_bounds.py::test_old_matching_note_survives_candidate_bound_and_timeout_leaves_store_usable
+1 failed, 3 passed in 0.42s

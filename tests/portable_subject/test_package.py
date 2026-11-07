@@ -124,10 +124,11 @@ def test_destination_binding_and_old_grants_do_not_migrate_as_authority(subject,
             SubjectPackageService(restored,destination).activate(transfer_id=manifest.transfer_id,destination_id=target,authority=destination)
 
 
-def test_rebuildable_index_substitution_is_not_ignored(subject, tmp_path):
+@pytest.mark.parametrize('index_name',('memory_source_binding','memory_user_note_lookup'))
+def test_rebuildable_index_substitution_is_not_ignored(subject, tmp_path,index_name):
     store, operator = subject
-    store.db.execute('DROP INDEX memory_source_binding')
-    store.db.execute('CREATE INDEX memory_source_binding ON memories(scope)')
+    store.db.execute('DROP INDEX '+index_name)
+    store.db.execute('CREATE INDEX '+index_name+' ON memories(scope)')
     authority = PortableTransferAuthority()
     with pytest.raises(CoreError, match='PORTABLE_SCHEMA_DRIFT'):
         SubjectPackageService(store, authority).export(
