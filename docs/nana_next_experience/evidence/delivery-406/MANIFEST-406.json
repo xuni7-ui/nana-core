@@ -1,0 +1,64 @@
+{
+  "app_version_code": 406,
+  "app_version_name": "4.0.6-next-debug",
+  "frontend_source": "cc3dc335cfec6db00ac44850344de2c49df25769",
+  "core_source": "cc3dc335cfec6db00ac44850344de2c49df25769",
+  "api_contract": "nana-space-live/v2",
+  "app_id": "life.nana.space.dev",
+  "signer_sha256": "b2fec5a02e6f32e69fb8ef8bce44391a6a4ba5ab8ce6dc7284cb57663016ec41",
+  "files": {
+    "nana-space-4.0.6-next-debug.apk": {
+      "sha256": "29d5402655b52c915243e55a5e90db50d4ccfb4cea46beafa0836e8a26c9120c",
+      "bytes": 4829689
+    },
+    "nana-space-4.0.6-web.tar.gz": {
+      "sha256": "a2ed2d50e5f7ced66d2865634784e1355ca4e0b240f12d6a4bfe8615ff3e9b34",
+      "bytes": 614761
+    },
+    "HANDOFF-406.md": {
+      "sha256": "4e98e92cfddd967a6181ce7c7516c27573d839c92546490254a41f7407d14d3e",
+      "bytes": 5813
+    },
+    "server-406/installed-dev-result.json": {
+      "sha256": "c78ff7b1f258dea8ed24577583f93e7b4d768126429097dd354a590500284cb1",
+      "bytes": 726
+    },
+    "server-406/nana-core-cc3dc33-portable.tar.gz": {
+      "sha256": "a921f917676ed34fe6b146652f216bea143b687aaf2d18da981a265c8fea496b",
+      "bytes": 14984028
+    },
+    "server-406/nana-unpack.py": {
+      "sha256": "43cae88c58ea6db1e5e5226807ae00f6ab06281f0a801ef4a0832e1b2428cdf7",
+      "bytes": 2579
+    },
+    "server-406/verify-dev.py": {
+      "sha256": "9789551318c07b91bd338cae77cf60734d8f8ba75bf33515d402ec432216430e",
+      "bytes": 9180
+    }
+  },
+  "installed_dev_gateway": "PASS",
+  "source_related_tests": {
+    "passed": 233,
+    "duration_seconds": 104.42
+  },
+  "final_inspector_tests": {
+    "passed": 7,
+    "duration_seconds": 2.2
+  },
+  "responsive_fixture_tests": {
+    "passed": 24,
+    "duration_seconds": 31.6
+  },
+  "full_regression": {
+    "source": "6f2a49127bcb574e940a4f77cc662b4eaaf4d640",
+    "passed": 1905,
+    "failed": 0,
+    "skipped": 12,
+    "current_source_full": "NOT_RERUN_UNRELATED_SUITE"
+  },
+  "production_updated": false,
+  "cloud_host_qualified": "NOT_RUN",
+  "physical_phone_review": "NOT_RUN",
+  "real_provider_calls": 0,
+  "legacy_V403_zip_changed": false
+}

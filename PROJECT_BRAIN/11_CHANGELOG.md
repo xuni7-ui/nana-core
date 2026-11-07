@@ -2936,3 +2936,8 @@ Full current-Core1905passed/12skipped572.94s; corrected15MB portable build repro
 ### User-requested freeze / resume checkpoint
 
 用户要求暂停至下一次北京时间08:50。源码cc3dc33已push；APK与两次一致的Core归档及安装日志保存到/mnt/data，未做新一轮安装运行或生产操作。准确待办见 docs/nana_next_experience/FROZEN_CHECKPOINT.md，406发布尚未完成，全部原任务继续保留。
+
+
+### 2026-11-07 · resume matched406 / same continuous mission
+
+冻结6b3124b恢复：仓库remote相等且干净；新cc3dc33实际安装probe通过，406匹配产物与交接清单完成。交付生成脚本两次误用cwd提前失败，未发布错误清单或操作生产；改为明确repo路径并验证42资源与APK一致及全部SHA后继续。

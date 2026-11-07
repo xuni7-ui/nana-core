@@ -1,0 +1,7 @@
+{
+  "archive": "/dev/shm/nana-fish-core-a/nana-first-life-portable-v1.tar.gz",
+  "sha256": "a921f917676ed34fe6b146652f216bea143b687aaf2d18da981a265c8fea496b",
+  "source_commit": "cc3dc335cfec6db00ac44850344de2c49df25769",
+  "bundle_files": 277,
+  "new_provider_calls": 0
+}

@@ -41,3 +41,8 @@ Host-admin model-list discovery, original-Store older-record literal search and 
 ## Current continuation — native growth/affect and matched406 delivery
 
 Previous checkpoint limitations above are historical: the explicit authorized model catalog and original-Store older-memory search are implemented on480d45f; matched406 artifacts are being finalized. Core6f2a491 full regression1905/0/12 in572.94s. Subsequent original source-root concern dedupe, pure-thought fading/reconsideration, narrowly attributed rest/return delivery boundaries, temporal presence corrections and authoritative Inspector state are implemented and verified (233 related + later7 projection tests,24 responsive browser tests). See GROWTH_AND_AFFECT.md for exact causal evidence and unrun gates. No true token streaming, general semantic retrieval/live FAISS mapping, paid provider testing or real phone/cross-day qualification is claimed. No new project or replacement emotion system.
+
+
+## 2026-11-07 resumed: matched406 installed delivery
+
+The exact cc3dc33 portable archive was run after offline installation: ten API pages, original Core offline chat, backup, independent stop and same DEV identity restart passed. No repository PYTHONPATH or real provider calls. Updated406 manifest pins both Core and frontend cc3dc33, final APK29d540… and Corea921f9…; HANDOFF_406.md describes isolated operator steps. Source commit and delivery commit remain separate; no cloud/phone/production qualification is claimed. Continue remaining product and ten-domain work; this is not full-mission completion.

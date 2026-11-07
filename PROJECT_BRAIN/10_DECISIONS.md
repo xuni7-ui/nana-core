@@ -1768,3 +1768,8 @@ Reuse Fish Heart design ideas only after mapping to current native Appraisal/Con
 ### 2026-11-06 · continuous native affect / product integration
 
 Fish Heart只借鉴设计思想并保留MIT归属，增强原S3/S4/S2/S6/S8，不造第二情绪/Store/Loop。重复解释不算独立经历，短期念头淡出不删除关系或历史；明确休息只写delivery边界，源于模型的提案不能安装它。状态更新走原Memory纠正及真实事件时间，旧无时间来源不补造。
+
+
+### 2026-11-07 · resume matched406 / same continuous mission
+
+406只交付精确cc3dc33匹配APK/Web/Core及候选隔离说明，不改既有474MB V4.0.3包、不覆盖生产。Docker校验替换entrypoint、限定新槽和scratch、不挂载canonical数据。旧全回归与新受影响资格按实际源码分别记载。
