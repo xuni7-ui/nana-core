@@ -79,7 +79,8 @@ def test_unknown_stays_reserved_without_replay_but_new_dialogue_can_continue(tmp
     monkeypatch.setattr(OpenAIJSONTransport,'exchange',timeout)
     with relay(home) as (router,requests):
         with LifeApplication(home,clock=clock,router=router) as app:
-            app.pause();app.chat('first',message_id='first');assert len(calls)==1
+            app.pause();notice=app.chat('first',message_id='first');assert len(calls)==1
+            assert '超时' in notice['text'] and '仍待核对' in notice['text'] and 'PROVIDER_' not in notice['text']
             original=app.runtime.store.all('cognitive_requests')[0]
             assert original['state']=='UNKNOWN' and original['reserved_cost_micro'] is not None
             app.chat('first',message_id='first');assert len(calls)==1

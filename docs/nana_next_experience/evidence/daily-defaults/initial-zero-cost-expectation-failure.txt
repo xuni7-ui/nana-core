@@ -1,0 +1,31 @@
+...F........                                                             [100%]
+=================================== FAILURES ===================================
+_ test_remote_zero_cost_readiness_is_not_reported_ready_and_never_resolves_key _
+
+tmp_path = PosixPath('/tmp/nana-daily-budget-final/test_remote_zero_cost_readines0')
+
+    def test_remote_zero_cost_readiness_is_not_reported_ready_and_never_resolves_key(tmp_path):
+        router, service, authority, _, ports=fixture_router(tmp_path)
+        remote=ProviderProfile(provider_profile_id='remote.main',display_name='Remote',protocol='OPENAI_COMPATIBLE_CHAT',
+            base_url='https://example.test/v1',secret_ref='remote.default',locality='REMOTE')
+        update(service,authority,'UPSERT_PROVIDER',provider=remote)
+        update(service,authority,'UPSERT_MODEL',model=model('model.remote','remote.main'))
+        from nana_core.continuity.provider_config import CapabilityRoute
+        update(service,authority,'SET_CAPABILITY_ROUTE',route=CapabilityRoute(operation='COGNITION',primary_model_profile_id='model.remote'))
+        resolver=router.factory._RuntimeProviderFactory__resolver;resolver.refs.add('remote.default')
+        router.factory.policy=RoutingPolicy(allow_remote=True,allowed_remote_hosts=('example.test',))
+        home=tmp_path/'life';initialize(home)
+        with LifeApplication(home) as life:
+            app=SimpleNamespace(config=life.config,runtime=life.runtime,home=tmp_path/'host',router=router,session=None,policy=policy())
+            result=provider_readiness(app,privacy='PUBLIC')
+>           assert result['state']=='REMOTE_COST_RESERVATION_REQUIRED',result
+E           AssertionError: {'operation': 'COGNITION', 'privacy_class': 'PUBLIC', 'state': 'BUDGET_DENIED', 'network_calls': 0, ...}
+E           assert 'BUDGET_DENIED' == 'REMOTE_COST_...TION_REQUIRED'
+E             
+E             - REMOTE_COST_RESERVATION_REQUIRED
+E             + BUDGET_DENIED
+
+tests/cloud_life/test_daily_configuration.py:77: AssertionError
+=========================== short test summary info ============================
+FAILED tests/cloud_life/test_daily_configuration.py::test_remote_zero_cost_readiness_is_not_reported_ready_and_never_resolves_key
+1 failed, 11 passed in 5.48s

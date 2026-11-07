@@ -1,4 +1,33 @@
 """Small local display; never authority, delivery or another context builder."""
+def provider_notice(code: str) -> str:
+    """Human-readable operational notice; never model speech or an outcome."""
+    reasons = {
+        'PROVIDER_HOURLY_BUDGET': '过去一小时的模型调用额度已达到设定上限。',
+        'PROVIDER_DAILY_BUDGET': '过去24小时的模型调用额度已达到设定上限。',
+        'PROVIDER_PROFILE_DAILY_BUDGET': '这个模型服务过去24小时的调用额度已达到设定上限。',
+        'PROVIDER_TOTAL_CALL_BUDGET': '本次授权的模型调用次数已经用完。',
+        'PROVIDER_TOTAL_RESERVED_COST_BUDGET': '本次授权的可用预算不足。',
+        'COGNITION_DAILY_BUDGET': '本周期的模型调用次数已达到设定上限。',
+        'COGNITION_BYTE_BUDGET': '本周期的模型总用量已达到设定上限。',
+        'COGNITION_COST_BUDGET': '本周期的模型费用预留已达到设定上限。',
+        'BUDGET_DENIED': '当前模型的预算或用量设置还不能支持这次请求。',
+        'REMOTE_COST_RESERVATION_REQUIRED': '模型调用预算还没有启用。',
+        'PROVIDER_UNCONFIGURED': '还没有配置可用的聊天模型。',
+        'RUNTIME_PROVIDER_UNBOUND': '模型设置已保存，运行中的连接还未启用。',
+        'SECRET_UNAVAILABLE': '模型凭据尚未安全绑定。',
+        'PROVIDER_TIMEOUT_BILLING_UNKNOWN': '这次回复超时，结果和费用仍待核对；不会自动重发。',
+        'PROVIDER_WORKER_UNRESOLVED': '先前的模型请求仍在处理中，结果还不能确认。',
+        'PROVIDER_WORKER_BOUND_PRE_DISPATCH': '仍有模型请求在处理中，这次没有再发出调用。',
+        'PREEMPTED_NO_AUTOMATIC_RETRY': '生成过程已让位给新的输入，原请求结果仍待核对。',
+        'WIRE_RESERVATION_CHANGED_NO_DISPATCH': '发送前的用量校验未通过，这次没有发出模型请求。',
+        'COGNITION_SOURCE_OUTSIDE_CONTEXT_BUDGET': '准备回答所需的信息超出了当前设置的容量。',
+        'INSUFFICIENT_CONTEXT_BUDGET': '准备回答所需的信息超出了当前设置的容量。',
+        'PERSON_SELF_CONTEXT_BUDGET': '准备回答所需的信息超出了当前设置的容量。',
+        'DIALOGUE_PRIVACY_DENIED': '这段内容超出了当前模型获准读取的范围。',
+    }
+    return reasons.get(code, '这次暂时无法生成回复，请查看模型状态。')
+
+
 def display(value):
     if 'life' in value:
         b=value['life'];rows=['生活视图（派生/非第二记忆） '+b['identity_id'],b['first_life_experience_ready']]

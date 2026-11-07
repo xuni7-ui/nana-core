@@ -8,7 +8,7 @@ from ..contracts import CoreError
 from ..continuity.project_work.service import material_for
 from ..continuity.provider_config import ProviderConfigService, ProviderConfigurationAuthority
 from ..presence.cli import status as runtime_status
-from .config import LifeConfig, home_path, write_config, load_config, apply_resource_limits
+from .config import LifeConfig, home_path, write_config, load_config, apply_resource_limits, DAILY_PROVIDER_DEFAULTS
 from .application import LifeApplication
 
 DEMO_SOURCES = ("src/nana_core/continuity/recurrence.py", "src/nana_core/continuity/extensions.py")
@@ -281,6 +281,9 @@ def main():
     init.add_argument("--provider-host", action="append", default=[])
     init.add_argument("--remote-privacy", action="append", choices=["PUBLIC", "PROJECT", "PERSONAL"], default=[])
     init.add_argument("--provider-cost-ceiling-micro", type=int, default=0)
+    init.add_argument("--provider-calls-per-day", type=int, default=DAILY_PROVIDER_DEFAULTS["provider_calls_per_day"])
+    init.add_argument("--provider-calls-per-hour", type=int, default=DAILY_PROVIDER_DEFAULTS["provider_calls_per_hour"])
+    init.add_argument("--per-provider-calls-per-day", type=int, default=DAILY_PROVIDER_DEFAULTS["per_provider_calls_per_day"])
     start = sub.add_parser("run")
     start.add_argument("--home", type=Path, required=True)
     start.add_argument("--seconds", type=float, default=3600)
@@ -432,6 +435,9 @@ def main():
                 provider_hosts=tuple(a.provider_host),
                 remote_privacy=tuple(a.remote_privacy),
                 provider_cost_ceiling_micro=a.provider_cost_ceiling_micro,
+                provider_calls_per_day=a.provider_calls_per_day,
+                provider_calls_per_hour=a.provider_calls_per_hour,
+                per_provider_calls_per_day=a.per_provider_calls_per_day,
                 project_root=str(a.project.absolute()),
                 materials=tuple(material_for(a.project, x) for x in sources),
                 practice=material_for(a.project, training[0]),

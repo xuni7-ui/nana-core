@@ -1,0 +1,36 @@
+usage: __main__.py init [-h] --home HOME --project PROJECT [--demo-materials]
+                        [--source SOURCE] [--practice PRACTICE]
+                        [--heldout HELDOUT] [--transfer TRANSFER]
+                        [--allow-local-artifacts] [--document-work]
+                        [--allow-local-skills]
+                        [--owned-application-profile OWNED_APPLICATION_PROFILE]
+                        [--provider-host PROVIDER_HOST]
+                        [--remote-privacy {PUBLIC,PROJECT,PERSONAL}]
+                        [--provider-cost-ceiling-micro PROVIDER_COST_CEILING_MICRO]
+                        [--provider-calls-per-day PROVIDER_CALLS_PER_DAY]
+                        [--provider-calls-per-hour PROVIDER_CALLS_PER_HOUR]
+                        [--per-provider-calls-per-day PER_PROVIDER_CALLS_PER_DAY]
+                        [--daily-life] [--timezone TIMEZONE] [--json]
+
+options:
+  -h, --help            show this help message and exit
+  --home HOME
+  --project PROJECT
+  --demo-materials
+  --source SOURCE
+  --practice PRACTICE
+  --heldout HELDOUT
+  --transfer TRANSFER
+  --allow-local-artifacts
+  --document-work
+  --allow-local-skills
+  --owned-application-profile OWNED_APPLICATION_PROFILE
+  --provider-host PROVIDER_HOST
+  --remote-privacy {PUBLIC,PROJECT,PERSONAL}
+  --provider-cost-ceiling-micro PROVIDER_COST_CEILING_MICRO
+  --provider-calls-per-day PROVIDER_CALLS_PER_DAY
+  --provider-calls-per-hour PROVIDER_CALLS_PER_HOUR
+  --per-provider-calls-per-day PER_PROVIDER_CALLS_PER_DAY
+  --daily-life
+  --timezone TIMEZONE
+  --json                machine-readable output

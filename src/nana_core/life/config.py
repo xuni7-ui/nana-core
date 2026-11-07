@@ -1,6 +1,7 @@
 """Host-local startup data, never a portable subject/personality configuration."""
 import json,os,tempfile,resource
 from pathlib import Path
+from types import MappingProxyType
 from typing import Literal
 from pydantic import Field,model_validator,model_serializer
 from zoneinfo import ZoneInfo,ZoneInfoNotFoundError
@@ -92,6 +93,20 @@ class LifeConfig(DTO):
     provider_cost_ceiling_micro:int=Field(default=0,ge=0,le=100000)
     provider_total_calls_limit:int|None=Field(default=None,ge=0,le=100000)
     provider_total_reserved_cost_micro:int|None=Field(default=None,ge=0,le=1000000000)
+
+
+# Applied only when explicitly creating a new daily-use configuration. Legacy
+# LifeConfig defaults and every existing host document remain unchanged.
+DAILY_PROVIDER_DEFAULTS = MappingProxyType({
+    'provider_calls_per_day': 128,
+    'provider_calls_per_hour': 64,
+    'per_provider_calls_per_day': 128,
+})
+
+
+def daily_configuration(**fields) -> LifeConfig:
+    """New-host defaults within the original128-call ceiling; no paid grant."""
+    return LifeConfig(**{**DAILY_PROVIDER_DEFAULTS, **fields})
 
 
 def home_path(home):

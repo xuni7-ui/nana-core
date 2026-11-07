@@ -289,7 +289,8 @@ class LifeApplication:
         if self.router is not None and not render_state=='UNVERIFIED_MODEL_WORDING' and cycle.context_fit.mode!='RESPECT_BOUNDARY':
             # A configured provider can be budget-blocked after valid interpretation.
             # Do not falsely report that no model is configured or pretend this is generated speech.
-            draft='本次没有生成模型回复（'+(render_state if render_state!='NOT_RUN' else provider_state)+'）。'
+            from .presentation import provider_notice
+            draft=provider_notice(render_state if render_state!='NOT_RUN' else provider_state)
         if rest and render_state!='UNVERIFIED_MODEL_WORDING':
             draft='好，先休息吧。想聊时再来。' if rest=='DECLINE_DELIVERY' else '欢迎回来。'
             render_state='LOCAL_DELIVERY_BOUNDARY_ACKNOWLEDGEMENT'

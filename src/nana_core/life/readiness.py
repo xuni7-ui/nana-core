@@ -10,8 +10,17 @@ from ..continuity.provider_routing import RouteRequest, ProviderSettingsService
 from ..presence.contracts import HOUR
 
 
-def budget(app, snapshot, *, calls=1):
-    """Intersect host ceilings using the original immutable request reservations."""
+def budget_limits(cfg):
+    return {"calls_per_hour": cfg.provider_calls_per_hour,
+            "calls_per_day": cfg.provider_calls_per_day,
+            "per_provider_calls_per_day": cfg.per_provider_calls_per_day,
+            "total_calls": cfg.provider_total_calls_limit,
+            "total_reserved_cost_micro": cfg.provider_total_reserved_cost_micro,
+            "per_call_reserved_cost_micro": cfg.provider_cost_ceiling_micro}
+
+
+def budget_report(app, snapshot, *, calls=1):
+    """Read original immutable reservations, retaining diagnostics when blocked."""
     cfg, store = app.config, app.runtime.store
     now = app.runtime.clock.utc_now_us()
     count, cost = store.db.execute(
@@ -31,26 +40,41 @@ def budget(app, snapshot, *, calls=1):
         "json_extract(CAST(a.payload AS TEXT),'$.request.route_snapshot.provider_profile_id')=?",
         (now - 24 * HOUR, snapshot.provider_profile_id),
     ).fetchone()[0]
-    if cfg.provider_total_calls_limit is not None and count + calls > cfg.provider_total_calls_limit:
-        raise CoreError("PROVIDER_TOTAL_CALL_BUDGET")
-    if (cfg.provider_total_reserved_cost_micro is not None
-            and cost + calls * cfg.provider_cost_ceiling_micro > cfg.provider_total_reserved_cost_micro):
-        raise CoreError("PROVIDER_TOTAL_RESERVED_COST_BUDGET")
-    if hour + calls > cfg.provider_calls_per_hour:
-        raise CoreError("PROVIDER_HOURLY_BUDGET")
-    if day + calls > cfg.provider_calls_per_day:
-        raise CoreError("PROVIDER_DAILY_BUDGET")
-    if profile + calls > cfg.per_provider_calls_per_day:
-        raise CoreError("PROVIDER_PROFILE_DAILY_BUDGET")
+    checks = (
+        (cfg.provider_total_calls_limit is not None and count + calls > cfg.provider_total_calls_limit,
+         "PROVIDER_TOTAL_CALL_BUDGET"),
+        (cfg.provider_total_reserved_cost_micro is not None
+         and cost + calls * cfg.provider_cost_ceiling_micro > cfg.provider_total_reserved_cost_micro,
+         "PROVIDER_TOTAL_RESERVED_COST_BUDGET"),
+        (hour + calls > cfg.provider_calls_per_hour, "PROVIDER_HOURLY_BUDGET"),
+        (day + calls > cfg.provider_calls_per_day, "PROVIDER_DAILY_BUDGET"),
+        (profile + calls > cfg.per_provider_calls_per_day, "PROVIDER_PROFILE_DAILY_BUDGET"),
+    )
+    reason = next((reason for blocked, reason in checks if blocked), None)
+    from .presentation import provider_notice
     return {"reserved_calls_total": count, "reserved_cost_micro_total": cost,
             "calls_last_hour": hour, "calls_last_day": day,
-            "minimum_calls_for_dialogue": calls, "unknown_reservations_refunded": False}
+            "provider_calls_last_day": profile, "minimum_calls_for_dialogue": calls,
+            "unknown_reservations_refunded": False,
+            "accounting": "CONSERVATIVE_RESERVATIONS_NOT_PROVIDER_BILLING",
+            "window": "TRAILING_1H_AND_24H_NOT_LOCAL_MIDNIGHT",
+            "limits": budget_limits(cfg),
+            "block_reason": reason, "block_message": provider_notice(reason) if reason else None}
+
+
+def budget(app, snapshot, *, calls=1):
+    """Same admission order/bounds; inspection never reserves or refunds."""
+    report = budget_report(app, snapshot, calls=calls)
+    if report['block_reason']:
+        raise CoreError(report['block_reason'])
+    return report
 
 
 def provider_readiness(app, *, privacy="PROJECT", operation="COGNITION"):
     result = {"operation": operation, "privacy_class": privacy, "state": "UNKNOWN",
               "network_calls": 0, "live_check": "LIVE_PROVIDER_CHECK_NOT_AUTHORIZED",
-              "qualification": "NOT_ESTABLISHED_BY_READINESS", "dispatch_happened": False}
+              "qualification": "NOT_ESTABLISHED_BY_READINESS", "dispatch_happened": False,
+              "budget_limits": budget_limits(app.config)}
     try:
         authority = ProviderConfigurationAuthority()
         config = ProviderConfigService(app.home / "providers.json", authority)
@@ -73,7 +97,9 @@ def provider_readiness(app, *, privacy="PROJECT", operation="COGNITION"):
             output_limit=app.config.provider_output_tokens,
         ), app.policy)
         result["route"] = snapshot.model_dump(mode="json")
-        result["budget"] = budget(app, snapshot, calls=2 if operation == "COGNITION" else 1)
+        result["budget"] = budget_report(app, snapshot, calls=2 if operation == "COGNITION" else 1)
+        if result["budget"]["block_reason"]:
+            raise CoreError(result["budget"]["block_reason"])
         result["state"] = "READY_LOCAL_GATES"
     except CoreError as exc:
         result["state"] = "PROVIDER_UNCONFIGURED" if exc.code == "PROVIDER_CONFIG_UNAVAILABLE" else exc.code

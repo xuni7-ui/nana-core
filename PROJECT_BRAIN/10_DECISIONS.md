@@ -1838,3 +1838,8 @@ Existing verify_delivery.py retains strict same-source APK/Web/Core verification
 ### 2026-11-07 ·408-compatible server byte refinement delivered
 
 Source de08f8f, delivery9c54efb, Core279files/14993379bytes/SHAfbfe1399…6741f; two builds equal, actual extracted/install/original BFF/note/backup/sameDEV+lineage recovery and2local fixture phases passed. Actual HTTP request lengths and pre-reservations independently agreed. Same408 client, no second phone download. Current selector checker verifies actual sources, original client set, runtime contracts and retained optional features;12positive/negative checks passed. Actual remote Core SHA matched. No fee/token/production qualification upgrade. Original task continues; S8 retrieval-feedback learning/full model-token budgeting/streaming and real-host/human gates remain open.
+
+
+### 2026-11-07 · Daily defaults / readable quota code continuation
+
+New-host-only128daily/64hour/128provider preset stays within original128-call ceiling, cost0/no credential/host/privacy authorization; old/missing/explicit host settings stay unchanged. Readiness exposes original counts/ceilings/reasons without writes; server operational notices use plain Chinese while exact codes and UNKNOWN reservations remain.27 related checks14.47s and CLI help passed. This batch is code-tested, not yet a new installed candidate; current published client408/Corede08 remain unchanged. See DAILY_DEFAULTS.md. Continue originalS8/S3/S2 work rather than requalifying old G/Fish mechanisms.

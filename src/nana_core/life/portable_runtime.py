@@ -32,8 +32,9 @@ from .surfaces import SurfaceBinding
 
 
 def configuration(root):
+    from .config import daily_configuration
     project = (Path(root) / "materials").absolute()
-    return LifeConfig(
+    return daily_configuration(
         project_root=str(project),
         materials=(material_for(project, "sample.py"),),
         practice=material_for(project, "practice.py"),
