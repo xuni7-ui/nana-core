@@ -7,8 +7,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 85,
-  "as_of_us": 1794060903647449,
+  "revision": 86,
+  "as_of_us": 1794061689544005,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_LIVING_MEMORY_DREAM_STORAGE_TOKEN_INTEGRATION",
@@ -19,8 +19,8 @@
     "原owner等待模型时可处理既有暂停/撤权/停止；不递归聊天/导入，停止保留UNKNOWN及费用并禁止新渲染调用。",
     "完整请求模型计数绑定接入原ContextAssembler/Router，缺商业tokenizer不冒充准确token；实际派发前复核，原文闭包不长期保留。",
     "只对确认PROPOSED正数实测字节结算剩余字节额度；原财务/次数/UNKNOWN保留，新宿主32MB而旧设置4MB不变。",
-    "原Maintenance增量/周回看、原C可休息且条件变化后再判断、实际后续RENDER及纠错撤回已隔离验证；新宿主弹性磁盘预算和上游usage/fixture分列，248相关检查62.90s通过。",
-    "原受管备份的冷历史封签/压缩/原Store当前权限下回读、纠错/撤回及同DEV主体恢复读取已实现，20相关检查3.66s通过；未删除主链、未称总空间回收；409APK仍未重打。"
+    "a69实际新Core离线安装/原BFF/十视图/同DEV恢复/SSE/原G通过，6loopback真实0；同主体梦境/虚拟72h重启/冷回读追加模型0。",
+    "包内实测暴露内容擦除丢usage，已在原accept事务分离纯数字逐笔计量并保持擦除/原费用/UNKNOWN；46相关6.05s通过，匹配包安装继续，APK不变。"
   ],
   "open_gates": [
     "继续同一后端安装/组合资格及原任务高价值融合；冷历史只完成安全回读前置，主链热数据驱逐/真实物理治理未实施，S8独立反馈及真实长期体验仍独立评估。",

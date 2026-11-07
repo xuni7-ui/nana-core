@@ -1,0 +1,12 @@
+{
+  "retired": "REGENERABLE_INACTIVE_PREPUBLICATION_VENV_ONLY",
+  "path": "/tmp/n409f-installed/.venv",
+  "source_commit": "b873a4af4b2c2731fe2c796b845364ab758a5f22",
+  "retained": [
+    "source tree",
+    "locked wheels",
+    "archives",
+    "all DEV Subject stores and qualification receipts"
+  ],
+  "production_changed": false
+}

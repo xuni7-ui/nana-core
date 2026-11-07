@@ -1,0 +1,7 @@
+{
+  "archive": "/dev/shm/nliving-a69-rebuild/nana-first-life-portable-v1.tar.gz",
+  "sha256": "4debe6fea2c1bcf9f348f109e674fb1051ea89617426102383b2eec0252f63a8",
+  "source_commit": "a69cbf17b6227d3d33c89a8c6639ac93958b82ae",
+  "bundle_files": 282,
+  "new_provider_calls": 0
+}

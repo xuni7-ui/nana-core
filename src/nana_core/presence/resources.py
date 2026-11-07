@@ -46,38 +46,36 @@ def accounted_bytes(row):
     return row['reserved_bytes']
 
 
-def _reported_usage_pair(usage):
-    """Count each convention once, never turn bytes/absence into token usage."""
-    if type(usage) is not dict:return None
-    values=[]
-    for aliases in (('prompt_tokens','input_tokens'),('completion_tokens','output_tokens')):
-        present=[usage[key] for key in aliases if key in usage]
-        if not present or any(type(n) is not int or not 0<=n<=2**53-1 for n in present) or len(set(present))!=1:return None
-        values.append(present[0])
-    total=usage.get('total_tokens')
-    if total is not None and (type(total) is not int or total!=sum(values)):return None
-    return tuple(values)
+from ..continuity.accounting import PREFIX,decode_usage_receipt,reported_usage_pair as _reported_usage_pair
 
 
 def reported_token_usage(store,world,*,legacy_calls=0):
     """Metadata-only projection of accepted original cognition receipts.
 
     A provider's report is not an invoice or a measured tokenizer binding.
-    UNKNOWN/unaccepted/deleted receipts retain reservations and missing usage;
+    UNKNOWN/unaccepted receipts retain reservations and missing usage;
+    new numeric receipts survive content erasure, legacy reports may be missing;
     local fixture totals can never be presented as commercial model evidence.
     """
     real=[0,0,0];fixture=[0,0,0];missing=legacy_calls
     for request in world:
-        row=store.db.execute("SELECT json_extract(CAST(a.payload AS TEXT),'$.reply.origin'),"
-            "json_extract(CAST(a.payload AS TEXT),'$.reply.usage') "
-            "FROM continuity_records r JOIN artifacts a ON a.artifact_id=r.payload_artifact_id "
-            "WHERE r.record_kind='COGNITION_PROPOSAL' AND r.target_id=? AND r.lifecycle='ACTIVE' LIMIT 1",
-            (request['request_id'],)).fetchone()
-        try:pair=_reported_usage_pair(json.loads(row[1])) if row and row[1] is not None else None
-        except (ValueError,TypeError):pair=None
-        if pair is None or row[0] not in {'REAL_PROVIDER','SYNTHETIC'}:
+        saved=store.one('core_meta',PREFIX+request['request_id'])
+        if saved:
+            value=decode_usage_receipt(saved['key'],saved['value_json'])
+            pair=(value['input_tokens'],value['output_tokens']) if value else None
+            origin=value['origin'] if value else None
+        else:
+            row=store.db.execute("SELECT json_extract(CAST(a.payload AS TEXT),'$.reply.origin'),"
+                "json_extract(CAST(a.payload AS TEXT),'$.reply.usage') "
+                "FROM continuity_records r JOIN artifacts a ON a.artifact_id=r.payload_artifact_id "
+                "WHERE r.record_kind='COGNITION_PROPOSAL' AND r.target_id=? AND r.lifecycle='ACTIVE' LIMIT 1",
+                (request['request_id'],)).fetchone()
+            try:pair=_reported_usage_pair(json.loads(row[1])) if row and row[1] is not None else None
+            except (ValueError,TypeError):pair=None
+            origin=row[0] if row else None
+        if pair is None or origin not in {'REAL_PROVIDER','SYNTHETIC'}:
             missing+=1;continue
-        bucket=real if row[0]=='REAL_PROVIDER' else fixture
+        bucket=real if origin=='REAL_PROVIDER' else fixture
         bucket[0]+=pair[0];bucket[1]+=pair[1];bucket[2]+=1
     return {'provider_reported_input_tokens':real[0] if real[2] else None,
         'provider_reported_output_tokens':real[1] if real[2] else None,'real_usage_reported_calls':real[2],

@@ -1,0 +1,39 @@
+............F                                                            [100%]
+=================================== FAILURES ===================================
+_ test_original_portability_keeps_only_bound_numeric_usage_and_drops_routine_checkpoint _
+
+app = <nana_core.life.application.LifeApplication object at 0x7f0727712c30>
+tmp_path = PosixPath('/dev/shm/nusage-portable/test_original_portability_keep0')
+
+    def test_original_portability_keeps_only_bound_numeric_usage_and_drops_routine_checkpoint(app,tmp_path):
+        import json,sqlite3,zipfile
+        from uuid import uuid4
+        from nana_core.continuity import ContinuityStore
+        from nana_core.continuity.portable import SubjectPackageService,PortableTransferAuthority,verify_package
+        from nana_core.continuity.accounting import PREFIX
+        from nana_core.storage import canonical
+        home=app.home;clock=app.clock;identity=app.runtime.identity_id;app.close()
+        with relay(home,'CHAT') as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as current:
+                current.pause();current.chat('SYNTHETIC portable usage',message_id='portable-usage')
+                assert len(requests)==2
+                # Same reconstructible operational metadata used by the runtime;
+                # never a new Subject fact or an event containing a host path.
+                current.runtime.store._put('core_meta',{'key':'runtime.routine_review','value_json':canonical({'pending':False,'checks':1,'as_of_us':current.runtime.clock.utc_now_us(),'authority':False})})
+        authority=PortableTransferAuthority();target=str(uuid4());path=tmp_path/'usage-package.zip'
+        with ContinuityStore(home/'subject'/'self.db',clock,schema_target=13) as store:
+            result=SubjectPackageService(store,authority).export(path,destination_id=target,source_commit='a69cbf17b6227d3d33c89a8c6639ac93958b82ae',authority=authority)
+        manifest,_=verify_package(path,expected_sha256=result['sha256'])
+        assert manifest.identity_id==identity
+        with zipfile.ZipFile(path) as archive:raw=archive.read('subject.sqlite')
+        db=sqlite3.connect(':memory:')
+        try:
+            db.deserialize(raw)
+>           assert not db.execute("SELECT 1 FROM core_meta WHERE key='runtime.routine_review'").fetchone()
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           sqlite3.OperationalError: unable to open database file
+
+tests/person_self/test_reported_usage.py:101: OperationalError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_reported_usage.py::test_original_portability_keeps_only_bound_numeric_usage_and_drops_routine_checkpoint
+1 failed, 12 passed in 2.36s

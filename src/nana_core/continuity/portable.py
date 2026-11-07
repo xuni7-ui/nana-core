@@ -25,7 +25,7 @@ MAX_PACKAGE=64*1024*1024
 _FILES={'subject.sqlite','privacy.json','manifest.json'}
 _META={'recovery_quarantine','cloud.shadow_runtime','self.subject_revision','governance.registry','governance.clock',
        'auth_high_water_us','portable.retired','portable.received','runtime.epoch_floor'}
-_TRANSIENT={'runtime.managed','runtime.health','runtime.life_control'}
+_TRANSIENT={'runtime.managed','runtime.health','runtime.life_control','runtime.routine_review'}
 
 class PortableTransferAuthority:
     """Trusted offline application construction, not Subject/ModelPort authority."""
@@ -126,13 +126,14 @@ class SubjectPackageService:
             if s.db.execute("SELECT 1 FROM runtime_queue WHERE state='PROCESSING'").fetchone() or s.db.execute("SELECT 1 FROM runtime_cognition_calls WHERE state='RESERVED'").fetchone():raise CoreError('PORTABLE_UNRESOLVED_COGNITION')
         if not pending_effects and (s.db.execute("SELECT 1 FROM actions WHERE state IN ('READY','DISPATCHING','PENDING_VERIFY','UNKNOWN')").fetchone() or s.db.execute("SELECT 1 FROM budgets WHERE held>0").fetchone()):
             raise CoreError('PORTABLE_UNRESOLVED_EFFECT')
-        unknown={r['key'] for r in s.all('core_meta')}-_META-_TRANSIENT
+        from .accounting import portable_usage_metadata
+        unknown={r['key'] for r in s.all('core_meta') if r['key'] not in _META|_TRANSIENT and not portable_usage_metadata(s,r)}
         if unknown:raise CoreError('PORTABLE_UNSUPPORTED_MACHINE_METADATA')
         # Journal entries are never rewritten to strip an accidental credential.
         # Reject unsupported metadata instead of exporting it from an older event.
         for row in s.db.execute('SELECT data_json FROM events'):
             for c in json.loads(row[0])['changes']:
-                if c['table']=='core_meta' and c['row']['key'] not in _META|_TRANSIENT:
+                if c['table']=='core_meta' and c['row']['key'] not in _META|_TRANSIENT and not portable_usage_metadata(s,c['row']):
                     raise CoreError('PORTABLE_UNSUPPORTED_MACHINE_METADATA')
                 if c['table']=='runtime_lease' or (c['table']=='core_meta' and c['row']['key'] in _TRANSIENT):
                     raise CoreError('PORTABLE_HOST_METADATA_IN_HISTORY')
@@ -171,7 +172,7 @@ class SubjectPackageService:
             try:
                 if s.schema_target>=8:db.execute('DELETE FROM runtime_lease')
                 if s.schema_target>=11:db.execute('UPDATE jobs SET owner_epoch=NULL')
-                db.execute("DELETE FROM core_meta WHERE key IN ('runtime.managed','runtime.health','runtime.life_control')")
+                db.execute("DELETE FROM core_meta WHERE key IN ("+",".join("?" for _ in _TRANSIENT)+")",tuple(sorted(_TRANSIENT)))
                 db.execute("INSERT OR REPLACE INTO core_meta VALUES('runtime.epoch_floor',?)",(canonical(transfer['epoch_floor']),))
                 # This physical lookup is rebuildable host infrastructure, not
                 # portable Subject schema. Remove only the exact known index

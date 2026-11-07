@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/workspace/nana-unified-release/tools/nana_first_life_android_v2/installed_living_memory_probe.py", line 109, in <module>
+    args=p.parse_args();result=run(args.bundle,args.work,args.prior)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/nana-unified-release/tools/nana_first_life_android_v2/installed_living_memory_probe.py", line 78, in run
+    assert resources.fixture_usage_reported_calls==report['local_fixture_calls']
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

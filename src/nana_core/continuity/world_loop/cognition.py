@@ -645,6 +645,8 @@ class CognitionSession:
         with self.store.transaction('world.cognition_proposed',{'request_id':request_id}) as tx:
             rid=self.records.create(tx,kind='COGNITION_PROPOSAL',scope=self.records.read(row['record_id'])['scope'],payload={'reply':reply.model_dump(mode='json'),'response_digest':digest(reply.model_dump(mode='json')),'latency_us':latency_us,'proposal_not_truth':True},records=(row['record_id'],),target_id=request_id)
             tx.update('cognitive_requests',request_id,state='PROPOSED',response_digest=digest(reply.model_dump(mode='json')),input_bytes=reply.wire_input_bytes,output_bytes=reply.wire_output_bytes,actual_cost_micro=reply.cost_micro,latency_us=latency_us)
+            from ..accounting import record_usage
+            record_usage(tx,reply)
         if transient is not None:self._volatile_dialogue[request_id]=transient
         if recall_terms:
             self._volatile_recall[request_id]=recall_terms
