@@ -3001,3 +3001,8 @@ Core/frontend f712136, delivery ced522e. Three remote downloads SHA matched; fin
 ## 2026-11-07 · Original model byte ledger uses exact outbound body
 
 Same Next Experience S4/S5 refinement. Reuse one pure OpenAI body serializer for exact preflight input+unchanged bounded response+overflow probe reservation; preserve cost/call/UNKNOWN/no-retry, privacy and all non-OpenAI transport bounds. Recheck before dispatch, legacy reservations not refunded. Wire contents unchanged; actual tests and tradeoff in WIRE_RESERVATION.md/evidence/wire-reservation. CPU overhead measured, no token/billing savings claim.408client unchanged; server patch awaits final installed artifact qualification.
+
+
+## 2026-11-07 · Explicit current delivery compatibility check
+
+Existing verify_delivery.py retains strict same-source APK/Web/Core verification for each original artifact set. Added explicit CURRENT selector verification for a separately qualified server-only patch: pinned manifest hashes, all file hashes/paths, actual Core source, declared API/client version, identical runtime/schema/host-binding contracts and optional-feature superset.12positive/negative tests passed; actual missing API contract declaration correctly rejected before metadata completion. No runtime, phone or semantic qualification inferred from consistency. No Core/APK rebuilt for this external tool. Prevents ambiguous old/new package selection while retaining rollback files.

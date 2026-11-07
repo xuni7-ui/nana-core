@@ -1,0 +1,7 @@
+Traceback (most recent call last):
+  File "/workspace/nana-unified-release/tools/nana_next_experience/verify_delivery.py", line 195, in <module>
+    verify_current(args.root, args.current) if args.current else verify(args.root, args.manifest), indent=2
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/nana-unified-release/tools/nana_next_experience/verify_delivery.py", line 78, in verify_current
+    raise ValueError("SERVER_PATCH_CLIENT_CONTRACT_MISMATCH")
+ValueError: SERVER_PATCH_CLIENT_CONTRACT_MISMATCH
