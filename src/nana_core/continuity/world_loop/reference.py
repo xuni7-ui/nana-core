@@ -27,11 +27,11 @@ def context_policy():return ContextPolicy(policy_id='world-reference',allowed_sc
 def codec_providers():
     p=ProviderRegistry();p.register(ProviderDescriptor(provider_id='local.codec',model_id='local.codec-v1',model_version='1',operations=('VISION','AUDIO_UNDERSTAND','VIDEO_UNDERSTAND'),input_modalities=('IMAGE','AUDIO','VIDEO'),output_modalities=('TEXT',),context_limit=65536,output_limit=16384,locality='LOCAL',permitted_privacy=('PUBLIC',)),DecodedMediaProcessor());return p
 
-def open_runtime(path,clock,*,wall=False):
+def open_runtime(path,clock,*,wall=False,max_calls_per_day=64):
     with ContinuityStore(path,clock,schema_target=13) as s:
         IdentityService(s,OperatorAuthority())
         for e,k in [('observer','PERSON'),('friend','PERSON'),('device','OBJECT')]:MemoryService(s).entity(e,k)
-    config=RuntimeConfig(schema_target=13,max_calls_per_day=64,living=LivingRuntimeConfig(max_model_bytes_per_day=16_000_000,background_fraction_percent=80,maintenance_interval_us=SECOND if wall else HOUR),scopes=('world',),entity_id='observer',privacy_classes=('PUBLIC','PROJECT','PERSONAL'),lease_us=2*HOUR,heartbeat_us=SECOND if wall else 15*60*SECOND,review_interval_us=2*SECOND if wall else HOUR,idle_recall_us=2*SECOND if wall else HOUR)
+    config=RuntimeConfig(schema_target=13,max_calls_per_day=max_calls_per_day,living=LivingRuntimeConfig(max_model_bytes_per_day=16_000_000,background_fraction_percent=80,maintenance_interval_us=SECOND if wall else HOUR),scopes=('world',),entity_id='observer',privacy_classes=('PUBLIC','PROJECT','PERSONAL'),lease_us=2*HOUR,heartbeat_us=SECOND if wall else 15*60*SECOND,review_interval_us=2*SECOND if wall else HOUR,idle_recall_us=2*SECOND if wall else HOUR)
     return NanaRuntime(path,config,clock=clock)
 
 def capture(r,key,body,*,privacy='PUBLIC',kind='DIRECT_OBSERVATION',predicate=None,event_time=None,entity='observer'):

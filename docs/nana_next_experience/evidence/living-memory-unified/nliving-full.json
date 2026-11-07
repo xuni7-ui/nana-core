@@ -1,0 +1,25 @@
+{
+  "source_commit": "6a32cae1d9b03ae3a1a9d0b7273d0885d82e466f",
+  "trees": {
+    "src": "4748520f7422f9fa8995d2ec9ef5827df7bf6a12",
+    "tests": "cb441a82bc0c6a464812633a0c2832d376ab2926",
+    "packaging": "b1e9a208ecbcca1b6f112abee371751a23e5176c"
+  },
+  "exit_code": 1,
+  "elapsed_seconds": 730.7544605629955,
+  "command": [
+    "/workspace/nana-core/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--basetemp=/dev/shm/nliving-full",
+    "-o",
+    "tmp_path_retention_policy=failed",
+    "--junitxml=/tmp/nliving-full.xml"
+  ],
+  "only_passed_regenerable_scratch_retired_by_pytest": true,
+  "failed_test_scratch_retained": true,
+  "runtime_unchanged_during_run": true,
+  "real_provider_tests": "DEFAULT_OPT_IN_GATES_NOT_ENABLED",
+  "apk_rebuilt": false
+}

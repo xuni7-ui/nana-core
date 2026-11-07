@@ -12,7 +12,7 @@ import sys
 import time
 
 
-def run(bundle,work,prior,case_id="beacon"):
+def run(bundle,work,prior,case_id="beacon",require_body_free_usage=False):
     if not re.fullmatch(r"[a-z][a-z0-9_-]{0,31}",case_id):raise ValueError("SYNTHETIC_CASE_ID_REQUIRED")
     if not __debug__:raise ValueError('QUALIFICATION_REQUIRES_ASSERTIONS')
     sys.dont_write_bytecode=True
@@ -79,6 +79,8 @@ def run(bundle,work,prior,case_id="beacon"):
         resources=resource_state(store,app.runtime.config)
         assert resources.calls==calls and resources.real_usage_reported_calls==0
         assert resources.fixture_usage_reported_calls+resources.usage_missing_or_invalid_calls==report['local_fixture_calls']
+        if require_body_free_usage:
+            assert resources.fixture_usage_reported_calls==calls and resources.usage_missing_or_invalid_calls==0
         # Earlier source withdrawal can legitimately erase derived usage records;
         # missing is not zero tokens or a refunded reservation.
     clock.advance(72*3_600_000_000)
@@ -96,6 +98,8 @@ def run(bundle,work,prior,case_id="beacon"):
         assert not any('Friday at the north gate' in b.data_json for b in after.blocks)
         assert store.one('memories',summary)['lifecycle']=='DELETED'
         assert store.db.execute('SELECT count(*) FROM cognitive_requests').fetchone()[0]==calls
+        if require_body_free_usage:
+            assert store.db.execute("SELECT count(*) FROM core_meta WHERE substr(key,1,16)='cognition.usage.'").fetchone()[0]==calls
     assert existing_identity(home)[:2]==(identity,lineage)
     return {'execution':'ACTUAL_INSTALLED_DEV_CONTINUATION_NOT_CLOUD','source_commit':source,
         'subject_id':identity,'same_gateway_subject_and_lineage':True,'no_repository_pythonpath':True,
@@ -104,6 +108,7 @@ def run(bundle,work,prior,case_id="beacon"):
         'cold_file_bytes':snapshot['file_bytes'],'cold_allocated_bytes':snapshot['allocated_bytes'],
         'main_history_evicted':False,'total_disk_reclaimed':False,'capacity':capacity,
         'usage':resources.model_dump(mode='json'),'additional_model_calls':0,'real_provider_calls':0,
+        'body_free_usage_required_and_preserved':require_body_free_usage,
         'physical_phone':'NOT_RUN','real_cross_day_companionship':'NOT_RUN','apk_rebuilt':False}
 
 
@@ -111,6 +116,6 @@ if __name__=='__main__':
     p=argparse.ArgumentParser(description=__doc__)
     p.add_argument('--bundle',type=Path,required=True);p.add_argument('--work',type=Path,required=True)
     p.add_argument('--prior',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
-    p.add_argument('--case-id',default='beacon')
-    args=p.parse_args();result=run(args.bundle,args.work,args.prior,args.case_id)
+    p.add_argument('--case-id',default='beacon');p.add_argument('--require-body-free-usage',action='store_true')
+    args=p.parse_args();result=run(args.bundle,args.work,args.prior,args.case_id,args.require_body_free_usage)
     args.output.write_text(json.dumps(result,indent=2)+'\n');print(json.dumps(result))

@@ -60,7 +60,7 @@ def test_b8_host_sources_not_portable_same_subject_new_device(tmp_path):
 
 def virtual_life(root):
     clock=VirtualClock();captures=0;max_queue=0;boosted=False;preempted=False
-    with open_runtime(root/'subject/self.db',clock) as r:
+    with open_runtime(root/'subject/self.db',clock,max_calls_per_day=32) as r:
         c,adapter,m,a=setup(r,root);c.attach();periodic(c,a,ms=600000)
         # Three independently injected synthetic sensors share the same Runtime owner.
         for sid,kind,mod,data,ops in [('camera.b','CAMERA','IMAGE',png('blue'),('VISION',)),('mic.c','MICROPHONE','AUDIO',__import__('nana_core.continuity.world_loop.samples',fromlist=['media_samples']).media_samples()['AUDIO'],('AUDIO_UNDERSTAND',))]:
@@ -91,6 +91,8 @@ def virtual_life(root):
             c._checkpoint=lambda stage:None
             assert len(c.state['requests'])<=64 and len(c.state['sources'])<=32 and len(c.state.get('pending',{}))<=16
             assert r.identity_id==identity
+        days=r.store.db.execute('SELECT created_at_us/86400000000 AS day,count(*) AS calls FROM cognitive_requests GROUP BY day').fetchall()
+        assert all(row['calls']<=32 for row in days)
         assert boosted and preempted and c.state['coalesced']>0 and m.calls<=64 and max_queue<=8
         return {'virtual_hours':(clock.utc_now_us()-initial)/HOUR,'screen_captures':adapter.captures,'semantic_calls':m.calls,'queue_max':max_queue,'request_hot_count':len(c.state['requests']),'source_hot_count':len(c.state['sources']),'coalesced':c.state['coalesced'],'watch_boost':boosted,'user_preemption':preempted,'identity_stable':True,'records':len(r.store.all('continuity_records'))}
 

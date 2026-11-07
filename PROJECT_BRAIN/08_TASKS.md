@@ -1419,3 +1419,8 @@ The routed session still inherited24 despite the host's explicit larger allowanc
 ### 2026-11-07 · Installed living integration and independent numeric usage
 
 a69实际离线安装/原BFF/十视图/同DEV恢复/SSE/原G及后续source撤回通过6次loopback、真实0；同主体后续梦境/72h虚拟重启/冷回读新增模型0。实际发现内容擦除连带usage，永久改为原accept事务写逐笔纯数字原Store元数据，不带正文或权限；旧已擦除数据不编造。原B8只接受绑定request的精确数字结构，原routine检查点作为transient不携带。46相关检查6.05s通过；失败/旧包源码及环境空间处置均留证，旧a69不假称包含后续修复。409APK不变，继续匹配后端安装交付；不称云/手机/真人/跨日资格或整个长期工程完成。
+
+
+### 2026-11-07 · Continue same task: installed integration and scoped regression fix
+
+6a32cae完整回归2042通过/1失败/12跳过，失败保留；原测试环境显式配置32次/UTC日，保留24h总64和其余断言，并检查逐日额度，感知/路由18项7.45s通过。6a实际离线包中原BFF/SSE/G/同DEV主体、梦境72h虚拟重启/冷回读/撤回与独立数字usage均实测；6次仅loopback，新真实调用0。旧APK409不重打，真实手机/云/真人长期资格未运行；同一长期任务继续。

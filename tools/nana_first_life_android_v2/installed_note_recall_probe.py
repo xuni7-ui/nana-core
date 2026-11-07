@@ -15,7 +15,7 @@ import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 
-def run(bundle, work, *, check_wire_reservations=False, check_retrieval_growth=False, check_streaming=False):
+def run(bundle, work, *, check_wire_reservations=False, check_retrieval_growth=False, check_streaming=False, report_usage=False):
     if not __debug__:
         raise ValueError("QUALIFICATION_REQUIRES_ASSERTIONS")
     sys.dont_write_bytecode = True
@@ -122,12 +122,16 @@ def run(bundle, work, *, check_wire_reservations=False, check_retrieval_growth=F
                 emit({'content':content[:split]})
                 if not stream_release.wait(5):return
                 emit({'content':content[split:]})
+                if report_usage:
+                    value={'model':body['model'],'choices':[],'usage':{'prompt_tokens':10,'completion_tokens':10,'total_tokens':20}}
+                    self.wfile.write(('data: '+json.dumps(value)+'\n\n').encode());self.wfile.flush()
                 emit({},'stop')
                 self.wfile.write(b'data: [DONE]\n\n');self.wfile.flush();stream_finished.set()
                 return
             raw = json.dumps(
                 {
                     "model": body["model"],
+                    **({"usage":{"prompt_tokens":10,"completion_tokens":10,"total_tokens":20}} if report_usage else {}),
                     "choices": [
                         {"finish_reason": "stop", "message": {"content": json.dumps(proposal, ensure_ascii=False)}}
                     ],
@@ -340,6 +344,7 @@ if __name__ == "__main__":
     parser.add_argument("--check-wire-reservations", action="store_true")
     parser.add_argument("--check-retrieval-growth", action="store_true")
     parser.add_argument("--check-streaming", action="store_true")
+    parser.add_argument("--report-usage", action="store_true", help="report explicitly synthetic usage in loopback replies")
     args = parser.parse_args()
     result = run(
         args.bundle,
@@ -347,6 +352,7 @@ if __name__ == "__main__":
         check_wire_reservations=args.check_wire_reservations,
         check_retrieval_growth=args.check_retrieval_growth,
         check_streaming=args.check_streaming,
+        report_usage=args.report_usage,
     )
     args.output.write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps(result))
