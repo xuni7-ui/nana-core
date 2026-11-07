@@ -1,0 +1,36 @@
+{
+  "core_source": "edd170f1971efe0aa592004d2a01b9be9f0cf4f1",
+  "full_run": {
+    "passed": 1933,
+    "failed": 1,
+    "skipped": 12,
+    "seconds": 604.46,
+    "status": "FAILED_REPOSITORY_STATUS_HEADER_TOO_MANY_EVIDENCE_REFS",
+    "raw": "full-edd170f.txt"
+  },
+  "remediation": {
+    "runtime_code_changed": false,
+    "scope": "Compact authoritative current-state summary from9 to7 evidence refs; keep original max8 and historical records.",
+    "existing_failed_test_and_new_delivery_checks": {
+      "passed": 5,
+      "failed": 0,
+      "seconds": 0.21
+    },
+    "raw": "header-final.txt",
+    "whole_suite_after_document_only_change": "NOT_REPEATED_UNCHANGED_RUNTIME"
+  },
+  "skip_reasons": {
+    "live_screen_explicit_opt_in": 11,
+    "real_model_development_endpoints": 1
+  },
+  "offline_install": "PASS",
+  "installed_original_core_and_gateway": "PASS",
+  "same_dev_subject_restart": "PASS",
+  "notes_correction_search_withdrawal": "PASS",
+  "core_rebuild_byte_equal": true,
+  "real_provider_calls": 0,
+  "production_changed": false,
+  "physical_phone": "NOT_RUN",
+  "human_naturalness": "NOT_RUN",
+  "long_term_recall": "NOT_RUN"
+}

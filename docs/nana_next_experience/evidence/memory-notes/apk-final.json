@@ -1,0 +1,11 @@
+{
+  "source_commit": "edd170f1971efe0aa592004d2a01b9be9f0cf4f1",
+  "version_code": 407,
+  "bytes": 4843428,
+  "sha256": "5fed16c7819255a9681574563291ae3a058f9edd563e2ec73991e35882f37b20",
+  "web_files_byte_equal": 42,
+  "native_note_operation": "PRESENT",
+  "signer_sha256": "b2fec5a02e6f32e69fb8ef8bce44391a6a4ba5ab8ce6dc7284cb57663016ec41",
+  "physical_phone": "NOT_RUN",
+  "supersedes_build_record": "apk.json (earlier pre-admission-fix build, not final)"
+}

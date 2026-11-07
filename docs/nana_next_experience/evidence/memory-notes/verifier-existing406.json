@@ -1,0 +1,9 @@
+{
+  "state": "ARTIFACT_CONSISTENCY_VERIFIED",
+  "core_source": "cc3dc335cfec6db00ac44850344de2c49df25769",
+  "checked_files": 7,
+  "apk_web_files_equal": 42,
+  "frontend_source_attestation": "BUILD_PIPELINE_MANIFEST_NOT_INDEPENDENT_SOURCE_PROOF",
+  "production_activation": false,
+  "host_phone_provider_qualification": "NOT_IMPLIED"
+}

@@ -7,38 +7,33 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 69,
-  "as_of_us": 1794015506409560,
+  "revision": 70,
+  "as_of_us": 1794016174504588,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_407_REGRESSION_REPAIR",
+  "status": "IN_PROGRESS_407_MATCHED_DELIVERY_AND_RECALL_REFINEMENT",
   "progress": [
-    "继承280fed8：手机内登录、模型向导、授权控制台已有开发交付。",
-    "用户报告已登录；实际截图反馈聊天区过小，本轮修复布局与普通中文文案。",
-    "专项布局验证通过桌面及360/390/412宽度；真实手机新版效果待用户体验。",
-    "记忆检索优化0ac3739已实现；当前修复原S8再次学习与控制接口就绪race，受控验证通过。",
-    "6f2a491完整回归1905通过/12跳过；本批原生关注/晚安/状态投影233相关+后续7通过，浏览器24通过。",
-    "2026-11-07续办：cc3dc33密封包内实际BFF/十页API/原C离线聊天/备份/同DEV身份重启通过；406 APK/Web/Core清单对齐。",
-    "406三组件已实际GitHub下载SHA一致；继续实现真实原Store备注/纠错，407手机和权限/撤回/UNKNOWN验证通过。",
-    "407首次全仓回归保留FAIL：合成测试盘耗尽与一处真实语义重评回归已定位；新认识可重新经原C判断但不增加原始encounter，完整复验待跑。"
+    "继承原Next Experience：手机登录、紧凑聊天、模型目录、旧记忆查询与Gateway版本选择已实现。",
+    "原S8再次学习与S3/S2跨域证据保留；Fish原生关注、晚安和状态连续已有受控验证。",
+    "406匹配APK/Web/Core已发布并实际GitHub下载核对SHA一致。",
+    "407实际原Store备注/纠错、权限、撤回、丢失回执对账与同开发主体重启已验证；APK同签名。",
+    "edd170f全仓1933通过/1失败/12跳过604.46秒；唯一失败为工程摘要9证据超出8项上限，现精简摘要、保留历史，定向复验。",
+    "407 Core两次构建一致并实际安装/十页API/离线聊天/备注/同ID重启通过；真实手机与模型未验。"
   ],
   "open_gates": [
-    "整个软件优化与十域长期精修仍在进行，不以单批功能通过宣布完成。",
-    "本批匹配源码的密封Core产物与406手机交付正在收口；真实模型/手机/跨日资格未运行。",
-    "Iris v2由用户报告已收口；独立Core实际宿主状态由运行负责人核验，本地不触碰生产。",
-    "真实模型/手机/跨日学习与独立选择，按对应实际回执分别记录。",
-    "407新端点/源码发行回归与匹配包待收口；备注保存与搜索不冒充自动对话召回或长期记忆资格。"
+    "同一软件优化和十域长期精修继续；不以单批交付宣布总完成。",
+    "407匹配交付收口；已保存/已检索不等于自动准确对话召回。",
+    "真实模型/物理手机/跨日生活/活库向量映射无绑定，独立资格未运行。",
+    "Iris迁移和云端恢复由原运行负责人负责，本地不修改生产。"
   ],
   "evidence_refs": [
     "docs/nana_living_release_v4/qualification.json",
-    "docs/nana_living_release_v4/CAPABILITY_DELIVERY_MATRIX.md",
-    "docs/nana_living_release_v4/evidence/final-403/",
-    "docs/nana_living_release_v4/evidence/private-403/",
+    "docs/nana_next_experience/STATUS.md",
     "docs/nana_next_experience/GROWTH_AND_AFFECT.md",
-    "docs/nana_next_experience/evidence/fish-native/qualification.json",
-    "docs/nana_next_experience/FROZEN_CHECKPOINT.md",
-    "docs/nana_next_experience/evidence/delivery-406/installed-api.json",
-    "docs/nana_next_experience/MEMORY_NOTES.md"
+    "docs/nana_next_experience/evidence/growth-renewal/",
+    "docs/nana_next_experience/MEMORY_NOTES.md",
+    "docs/nana_next_experience/evidence/memory-notes/",
+    "docs/nana_next_experience/HANDOFF_406.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

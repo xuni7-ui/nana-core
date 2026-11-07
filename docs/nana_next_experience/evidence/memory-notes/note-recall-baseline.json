@@ -1,0 +1,15 @@
+{
+  "source": "edd170f1971efe0aa592004d2a01b9be9f0cf4f1",
+  "scope": "synthetic original Store + actual loopback transport; not semantic/model qualification",
+  "saved": true,
+  "exact_note_selected": false,
+  "phases": 2,
+  "wire_request_bytes": [
+    11675,
+    11013
+  ],
+  "elapsed_ms": 105.76743999990867,
+  "real_provider_calls": 0,
+  "cost": 0,
+  "reply_class": "UNVERIFIED_MODEL_WORDING"
+}

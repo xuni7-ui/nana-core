@@ -1,0 +1,54 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_high_primary_significance_preserves_independent_framing_and_no_authority _
+
+tmp_path = PosixPath('/dev/shm/n407-review-repro/test_high_primary_significance0')
+approved_dev_branch = 'dev/nana-core-next-experience-codex'
+
+    def test_high_primary_significance_preserves_independent_framing_and_no_authority(tmp_path,approved_dev_branch):
+        home=tmp_path/'life';initial=initialize(home)
+        from nana_core.life.config import load_config,update_config
+        cfg=load_config(home);update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'current_project_state':None}),expected_revision=cfg.revision)
+>       first=prepare(home)
+              ^^^^^^^^^^^^^
+
+tests/first_life_integration/test_review_prepare.py:9: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tools/nana_first_life_integration/review_prepare.py:32: in prepare
+    current=ProjectStateSource(cfg.project_root,cfg.current_project_state).projection(scopes=('project-work',),privacy_classes=('PUBLIC','PROJECT'),now_us=r.clock.utc_now_us())
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.current_state.ProjectStateSource object at 0x7f21e628cb90>
+scopes = ('project-work',), privacy_classes = ('PUBLIC', 'PROJECT')
+now_us = 1794015878542302
+
+    def projection(self,*,scopes,privacy_classes,now_us):
+     b=self.binding
+     # Scope/privacy before opening even a byte of the source.
+     if b.scope not in scopes or b.privacy_class not in privacy_classes:return None
+     try:
+      path=self.root/b.relative_path
+      if self.root.resolve()!=self.root or path.resolve()!=path:raise ValueError()
+      fd=os.open(path,os.O_RDONLY|os.O_NOFOLLOW|os.O_NONBLOCK)
+      with os.fdopen(fd,'rb') as stream:
+       if not stat.S_ISREG(os.fstat(stream.fileno()).st_mode):raise ValueError()
+       prefix=stream.read(PREFIX_LIMIT)
+      begin=prefix.find(START)
+      if not 0<=begin<=512 or prefix.count(START)!=1:raise ValueError()
+      end=prefix.find(END,begin+len(START))
+      if end<0:raise ValueError()
+      raw=prefix[begin+len(START):end].strip()
+      if len(raw)>8192:raise ValueError()
+      state=ProjectCurrentState.model_validate_json(json.dumps(json.loads(raw,object_pairs_hook=_json_object)))
+      if state.scope!=b.scope or state.privacy_class!=b.privacy_class:raise ValueError()
+      if state.as_of_us>now_us or now_us-state.as_of_us>b.max_age_us:raise CoreError('PROJECT_CURRENT_STATE_STALE')
+     except CoreError:raise
+>    except (OSError,ValueError,TypeError):raise CoreError('PROJECT_CURRENT_STATE_UNAVAILABLE') from None
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E    nana_core.contracts.CoreError: PROJECT_CURRENT_STATE_UNAVAILABLE
+
+src/nana_core/continuity/current_state.py:77: CoreError
+=========================== short test summary info ============================
+FAILED tests/first_life_integration/test_review_prepare.py::test_high_primary_significance_preserves_independent_framing_and_no_authority
+1 failed in 0.17s

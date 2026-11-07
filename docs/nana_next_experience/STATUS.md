@@ -46,3 +46,9 @@ Previous checkpoint limitations above are historical: the explicit authorized mo
 ## 2026-11-07 resumed: matched406 installed delivery
 
 The exact cc3dc33 portable archive was run after offline installation: ten API pages, original Core offline chat, backup, independent stop and same DEV identity restart passed. No repository PYTHONPATH or real provider calls. Updated406 manifest pins both Core and frontend cc3dc33, final APK29d540… and Corea921f9…; HANDOFF_406.md describes isolated operator steps. Source commit and delivery commit remain separate; no cloud/phone/production qualification is claimed. Continue remaining product and ten-domain work; this is not full-mission completion.
+
+## Current407 product and memory delivery (continues the same mission)
+
+Real authenticated note/correction endpoints and native/UI wiring now use original MemoryService, with exact readback before VERIFIED, source-bound lost-response reconciliation, no automatic retry, and current-target/privacy/withdrawal fences. Original manager scope and explicit consent remain. New407 APK/Web/Core are matched to edd170f; actual installed BFF/Core/ten-page/chat/same-ID restart/note correction/search/withdrawal passed. See MEMORY_NOTES.md/HANDOFF_407.md/evidence/memory-notes/qualification.json for exact hashes and limits. Full run1933pass/1 repository-summary failure/12skip; bounded summary repair and delivery checks5pass, no hidden full rerun claim.
+
+Source-root aliases remain one encounter; a genuinely changed original World snapshot can now reach original C again without doubling the experience. The regression exposed by full testing was fixed and verified. Deployment checker catches wrong Core and APK/Web pairing before publishing. None of this establishes live cloud/physical phone/real model/human/cross-day qualification. Automatic note recall remains the next measured code gap; full Next Experience and ten-domain mission remains active.
