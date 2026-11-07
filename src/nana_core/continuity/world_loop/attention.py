@@ -12,8 +12,9 @@ from .cognition import CognitionReply
 from .concern_source import binding as concern_binding
 
 class ConcernService:
-    def __init__(self,runtime,*,resources,max_hot=16,revisit_us=3600_000_000):
+    def __init__(self,runtime,*,resources,max_hot=16,revisit_us=3600_000_000,cognition=None):
         self.runtime,self.store=runtime,runtime.store;self.records=RecordService(self.store)
+        self.cognition=cognition  # Existing coordinator session, never another thinker.
         self.resources=frozenset(resources);self.max_hot=max_hot;self.revisit=revisit_us
         if not 1<=max_hot<=32 or not 1<=len(self.resources)<=128:raise CoreError('CONCERN_POLICY_BOUND')
     def _fresh_attention_can_return(self, old, previous):
@@ -24,11 +25,34 @@ class ConcernService:
         C must be allowed to reconsider that new evidence. Goal/skill recovery
         and ambiguous provider/effect completion retain their existing fences.
         """
-        if old['state'] not in {'PROPOSED','EXPIRED'} or old['goal_id'] or previous.get('objective') or previous.get('skill_task'):
+        if old['state'] not in {'TRANSIENT','INTEREST','DEFERRED','PROPOSED','EXPIRED'} or old['goal_id'] or previous.get('objective') or previous.get('skill_task'):
             return False
         if self.store.db.execute("SELECT 1 FROM cognitive_requests WHERE state IN ('PREPARED','CALLING','UNKNOWN') LIMIT 1").fetchone():
             return False
         return not self.store.db.execute("SELECT 1 FROM actions WHERE state IN ('DISPATCHING','UNKNOWN','PENDING_VERIFY') LIMIT 1").fetchone()
+    def _changed_world_review(self, proposal_record, previous):
+        """A current semantic revision can reopen judgment, not add an encounter.
+
+        Compare the original session's sourced world snapshots. New wording or
+        a new memory ID alone is not novelty. The same session validates owner,
+        deadline, context, route and live support before C can see the revision.
+        """
+        if self.cognition is None:
+            return False
+        try:
+            reply=self.cognition.proposal(proposal_record)
+            prior=self.records.read(previous['proposal_record_id'])['payload']['reply']
+            requests=[]
+            for request_id in (prior['request_id'],reply.request_id):
+                row=self.store.one('cognitive_requests',request_id)
+                if not row or row['state']!='PROPOSED':return False
+                requests.append(self.records.read(row['record_id'])['payload']['request'])
+            before,after=requests
+            return (before['cognitive_role']==after['cognitive_role']
+                    and after['cognitive_role'] in {'GOALS','INTERPRET'}
+                    and before['world_stamp']!=after['world_stamp'])
+        except (CoreError,KeyError):
+            return False
     def offer(self,proposal_record):
         record=self.records.read(proposal_record)
         if record['record_kind']!='COGNITION_PROPOSAL' or not self.records.current_support(proposal_record):raise CoreError('CONCERN_PROPOSAL_SOURCE_REQUIRED')
@@ -45,6 +69,7 @@ class ConcernService:
             key=digest([record['scope'],self.runtime.config.entity_id,idea.topic]);old=self.store.db.execute('SELECT * FROM open_concerns WHERE concern_key=?',(key,)).fetchone()
             if old and old['state']=='ABANDONED':continue
             faded=bool(old and old['state']=='EXPIRED')
+            same_encounter=False
             if old:
                 try:previous=self.records.read(old['record_id'])['payload']
                 except CoreError:continue
@@ -60,7 +85,12 @@ class ConcernService:
                     encountered=roots.source_roots(previous['encounter_sources'],max_nodes=128)
                 except CoreError:
                     continue  # Retired/ambiguous ancestry is not novelty.
-                if not set(incoming)-set(encountered):continue
+                same_encounter=not set(incoming)-set(encountered)
+                if same_encounter:
+                    if (obj or idea.skill_task or faded
+                            or not self._fresh_attention_can_return(old,previous)
+                            or not self._changed_world_review(proposal_record,previous)):
+                        continue
                 if faded and not self._fresh_attention_can_return(old,previous):continue
                 # An adopted objective cannot be silently changed by new prose.
                 if previous.get('objective') and obj and previous['objective']!=obj.model_dump(mode='json'):raise CoreError('CONCERN_OBJECTIVE_REVISION_REQUIRED')
@@ -74,7 +104,7 @@ class ConcernService:
             # Time fading is not a permanent ban on curiosity. Fresh support
             # opens one new review, without carrying a previous excitement count,
             # re-adopting a goal or forgetting the original privacy dependencies.
-            count=1 if not old or faded else old['encounters']+1
+            count=1 if not old or faded else old['encounters']+(0 if same_encounter else 1)
             reconsider = bool(old and self._fresh_attention_can_return(old, previous))
             state=('INTEREST' if idea.expected_value=='HIGH' or count>=2 else 'TRANSIENT') if not old or old['state'] in {'TRANSIENT','INTEREST','DEFERRED'} or reconsider else old['state']
             if idea.expected_value=='LOW' and old and old['goal_id']:state='INTEREST'

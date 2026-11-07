@@ -1,0 +1,16 @@
+{
+  "core_source_commit": "73fc941f50915a47ce966de9537b6ddbcba89cd3",
+  "passed": 1694,
+  "failed": 185,
+  "errors": 55,
+  "skipped": 12,
+  "seconds": 521.98,
+  "status": "FAIL",
+  "causes": [
+    "Owned /dev/shm test workspace exhausted; SQLite disk-full and ENOSPC cascaded.",
+    "Independently reproduced real semantic revision re-review regression from concern-root deduplication."
+  ],
+  "raw_log": "initial-full-73fc941.txt",
+  "fix": "Preserve one encounter but let a current original-session world-snapshot revision reach original C again; no objective/skill/UNKNOWN replay.",
+  "next": "Fresh source full regression required; no historical success substituted."
+}

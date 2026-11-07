@@ -104,6 +104,7 @@ interface MockState {
   lifeItems?: Record<string,unknown>[];
   noteRows?: Record<string,unknown>[];
   noteUnknown?: boolean;
+  noteReject?: boolean;
   noteResolved?: boolean;
   noteReceipts?: Record<string,string>;
 }
@@ -219,6 +220,7 @@ async function installMock(page: Page): Promise<MockState> {
     if (path === "providers/models" && state.catalogEnabled) return ok({models:["catalog.new"], qualification:"NOT_ESTABLISHED", inference_calls:0});
     if (path === "memories/search" && method === "POST") return ok({memories:state.memorySearchRows || [], privacy_watermark:state.watermark, limit:64});
     if (path === "memories/notes" && method === "POST" && state.capabilities?.memory_notes===true) {
+      if(state.noteReject)return route.fulfill({status:409,json:{code:"REVISION_CONFLICT"}});
       const body=request.postDataJSON();
       const mid="fixture-note-"+body.client_request_id;
       state.noteRows=[{memory_id:mid,text:body.text,memory_type:"SEMANTIC",epistemic_kind:"STATEMENT",assessment:"CURRENT",privacy_class:body.privacy_class,source_evidence_id:"fixture-note-source",created_at_us:1793026800000000,user_provided_note:true},...(state.noteRows||[]).filter(r=>r.memory_id!==body.target_id)];
@@ -906,4 +908,17 @@ test("SYNTHETIC note UNKNOWN: verify the original receipt without another write"
   expect(state.requests.filter(r=>r.path==="memories/notes")).toHaveLength(1);
   expect(state.requests.filter(r=>r.path.startsWith("receipts/") && r.method==="GET")).toHaveLength(1);
   await noHorizontalOverflow(page);
+});
+
+test("SYNTHETIC note admission conflict: no false UNKNOWN or automatic second POST",async({page})=>{
+  const state=await installMock(page);state.capabilities={memory_notes:true};state.noteRows=[];state.noteReject=true;
+  await open(page,"memories");
+  await page.getByRole("button",{name:"写一条备注",exact:true}).click();
+  await page.getByLabel("记忆草稿内容").fill("SYNTHETIC rejected before note admission");
+  await page.getByLabel("同意将这条用户备注保存到云端记忆").check();
+  await page.getByRole("button",{name:"保存备注",exact:true}).click();
+  await expect(page.getByRole("button",{name:"核验这次保存",exact:true})).toHaveCount(0);
+  await expect(page.getByRole("button",{name:"保存备注",exact:true})).toBeEnabled();
+  expect(state.requests.filter(r=>r.path==="memories/notes")).toHaveLength(1);
+  expect(state.noteRows).toEqual([]);
 });

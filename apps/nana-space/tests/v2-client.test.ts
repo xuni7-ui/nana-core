@@ -1,5 +1,5 @@
 import { test, expect, vi, afterEach } from "vitest";
-import { V2Client, envelope, V2Error } from "../src/data/v2";
+import { V2Client, envelope, V2Error, noteFailureState } from "../src/data/v2";
 const sample = () => ({
   contract: "nana-space-live/v2",
   realm: "OWNED_DEVELOPMENT_ONLY",
@@ -18,6 +18,15 @@ const sample = () => ({
   data: {},
 });
 afterEach(() => vi.unstubAllGlobals());
+test("note rejections before admission do not become unresolved writes",()=>{
+  for(const code of ["REVISION_CONFLICT","SCOPE_DENIED","INVALID_REQUEST","NATIVE_OPERATION_DENIED"])
+    expect(noteFailureState(new V2Error(code),true)).toBe("REJECTED");
+  expect(noteFailureState(new Error("bootstrap unavailable"),false)).toBe("REJECTED");
+});
+test("note transport/server uncertainty never authorizes a retry",()=>{
+  for(const error of [new Error("network lost"),new V2Error("UNKNOWN_VERIFY_ONLY"),new V2Error("SERVER_ERROR")])
+    expect(noteFailureState(error,true)).toBe("UNKNOWN");
+});
 test("late Web response after local logout is discarded before rebinding identity", async () => {
   let complete!: (x: Response) => void;
   vi.stubGlobal(

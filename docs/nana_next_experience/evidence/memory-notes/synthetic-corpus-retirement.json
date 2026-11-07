@@ -1,0 +1,41 @@
+{
+  "scope": "OWNED_SYNTHETIC_BENCHMARK_ONLY",
+  "reason": "free temporary capacity after archived measurements; no user/production data",
+  "files": [
+    {
+      "path": "/dev/shm/nana-context-baseline/result-1000.json",
+      "bytes": 310,
+      "sha256": "23e83a4adb8e5bf175f996e6516eb4b63eefb640ea51917cae90658e8f8e8a6c"
+    },
+    {
+      "path": "/dev/shm/nana-context-baseline/result-10000.json",
+      "bytes": 311,
+      "sha256": "805df6a776958f8c9475d027950e771b83040153f3ab1fbbf2856ba572e28673"
+    },
+    {
+      "path": "/dev/shm/nana-context-baseline/result-100000.json",
+      "bytes": 309,
+      "sha256": "e0c97a7e0ad6cd599190e02d0142c99a4babb5f7dcb4e5163e5f6589aa931fcd"
+    },
+    {
+      "path": "/dev/shm/nana-context-baseline/result-200000.json",
+      "bytes": 310,
+      "sha256": "0033f2b3d216a467599cff194e541f60d7b51c10e48dcb4ba1f24d2a5ff3c290"
+    },
+    {
+      "path": "/dev/shm/nana-context-baseline/self.db",
+      "bytes": 1146318848,
+      "sha256": "76d3778885580e71fe0458da79c041d4eee02297d9ad65e54f5413cb59cd70a5"
+    },
+    {
+      "path": "/dev/shm/nana-context-baseline/self.db.lock",
+      "bytes": 0,
+      "sha256": "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855"
+    },
+    {
+      "path": "/dev/shm/nana-context-baseline/self.db.privacy.json",
+      "bytes": 139,
+      "sha256": "e60d10320a31a965fa43c4bb6d1d020b347fa4d3a748bef2fc073af1ffdda1df"
+    }
+  ]
+}

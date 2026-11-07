@@ -1,0 +1,27 @@
+
+> @nana/space@4.0.3 test:v3
+> playwright test --config playwright.v3.config.ts --grep note admission conflict|note UNKNOWN
+
+[WebServer] (node:46854) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 8 tests using 1 worker
+
+(node:46872) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  1 [desktop] › tests/v3.spec.ts:895:1 › SYNTHETIC note UNKNOWN: verify the original receipt without another write (2.1s)
+  ✓  2 [desktop] › tests/v3.spec.ts:913:1 › SYNTHETIC note admission conflict: no false UNKNOWN or automatic second POST (1.5s)
+(node:47052) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  3 [phone-360] › tests/v3.spec.ts:895:1 › SYNTHETIC note UNKNOWN: verify the original receipt without another write (1.8s)
+  ✓  4 [phone-360] › tests/v3.spec.ts:913:1 › SYNTHETIC note admission conflict: no false UNKNOWN or automatic second POST (1.5s)
+(node:47228) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  5 [phone-390] › tests/v3.spec.ts:895:1 › SYNTHETIC note UNKNOWN: verify the original receipt without another write (1.4s)
+  ✓  6 [phone-390] › tests/v3.spec.ts:913:1 › SYNTHETIC note admission conflict: no false UNKNOWN or automatic second POST (1.2s)
+(node:47396) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  7 [phone-412] › tests/v3.spec.ts:895:1 › SYNTHETIC note UNKNOWN: verify the original receipt without another write (1.4s)
+  ✓  8 [phone-412] › tests/v3.spec.ts:913:1 › SYNTHETIC note admission conflict: no false UNKNOWN or automatic second POST (1.2s)
+
+  8 passed (17.8s)

@@ -1249,3 +1249,8 @@ Same main mission continues. Completed product406 source/API/bounded-growth batc
 ### 2026-11-07 · real original-Store notes / ongoing refinement
 
 继续同一产品和十域精修：原MemoryService备注/纠错与手机实际接线已实现，S8/独立生活/关系不变。随后针对自动对话召回和实际模型路径预算做有界基线；真实host/phone/长期陪伴资格仍独立。
+
+
+## 2026-11-07 — 同一主任务407回归修正
+
+原Next Experience/S2/S3/S5精修：407真实备注/纠错与UNKNOWN对账已经实现，发行回归发现跨域语义重评边界，优先修复同源新认识后继续匹配交付；不新开主线。

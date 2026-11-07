@@ -1,0 +1,32 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____ test_new_semantic_revision_reaches_fresh_c_review_and_can_stay_silent _____
+
+tmp_path = PosixPath('/dev/shm/n407-repro/test_new_semantic_revision_rea0')
+
+    def test_new_semantic_revision_reaches_fresh_c_review_and_can_stay_silent(tmp_path):
+        from nana_core.continuity.world_loop.reference import configure
+        def propose(req):
+            out=semantic_proposer(req)
+            if req.cognitive_role=='GOALS':return out.model_copy(update={'interests':tuple(i.model_copy(update={'expected_value':'HIGH','possible_behaviors':('WATCH',)}) for i in out.interests)})
+            return out
+        with fresh(tmp_path/'s'/'self.db') as r,semantic_harness(proposer=propose) as (t,_):
+            configure(r,tmp_path,t,('synthetic://public',),grant=False,planner=False)
+            raw=media_samples()['IMAGE'];mid=ingest(r,'IMAGE',raw);s=setup(r,t);first=s.prepare('first',mid,raw);s.execute(first);a=s.ground(first,entity_id='device')
+            r.work.world.observe(a['semantic_memory_ids'][0])
+            for _ in range(8):r.clock.source.advance(SECOND);r.step()
+            def review_cycles():
+                return {row[0] for row in r.store.db.execute("SELECT c.cycle_id FROM subject_cycles c JOIN subject_events e ON c.subject_event_id=e.subject_event_id WHERE e.source_key LIKE 'synthetic.world.concern.%'")}
+            before=review_cycles();assert len(before)==1
+            next_id=s.prepare('independent-review',mid,raw);s.execute(next_id);b=s.ground(next_id,entity_id='device')
+            r.work.world.observe(b['semantic_memory_ids'][0])
+            for _ in range(8):r.clock.source.advance(SECOND);r.step()
+>           assert len(review_cycles())==2 and before<=review_cycles()
+E           AssertionError: assert (1 == 2)
+E            +  where 1 = len({'e36a35ba-d7df-47c7-9025-fec77c3a7936'})
+E            +    where {'e36a35ba-d7df-47c7-9025-fec77c3a7936'} = <function test_new_semantic_revision_reaches_fresh_c_review_and_can_stay_silent.<locals>.review_cycles at 0x7f4eafd02200>()
+
+tests/h1_semantics/test_integration.py:104: AssertionError
+=========================== short test summary info ============================
+FAILED tests/h1_semantics/test_integration.py::test_new_semantic_revision_reaches_fresh_c_review_and_can_stay_silent
+1 failed in 0.79s

@@ -1778,3 +1778,8 @@ Fish Heart只借鉴设计思想并保留MIT归属，增强原S3/S4/S2/S6/S8，�
 ### 2026-11-07 · real original-Store notes / ongoing refinement
 
 用户备注属于明确保留的USER_STATEMENT，不是Nana亲历、世界核验或身份/权限修改。只允许更正这类备注；来源/经历/Archive/SELF不能被此接口重写。沿用原Store/MemoryService/correction/Privacy/Manager/Surface/ledger；未确定写入结果不可再次POST。
+
+
+## 2026-11-07 — 同一主任务407回归修正
+
+同一raw source的语义修订可因原session验证的world_stamp变化重交原C，但不能增加独立encounter；只有纯关注且无待决UNKNOWN/效果/技能/目标时允许。原兴趣来源去重和全部执行权限不变。

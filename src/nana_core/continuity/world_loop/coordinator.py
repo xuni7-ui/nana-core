@@ -16,7 +16,7 @@ class WorldLoopWork:
         self.runtime,self.store=runtime,runtime.store;self.records=RecordService(self.store)
         if not runtime.work.agency or not runtime.work.agency.policy.dynamic_resources:raise CoreError('DYNAMIC_GOAL_REALM_REQUIRED')
         self.cognition=CognitionSession(runtime,transport,policy);self.cognition.recover()
-        self.concerns=ConcernService(runtime,resources=resources);self.concerns.restore_descriptions()
+        self.concerns=ConcernService(runtime,resources=resources,cognition=self.cognition);self.concerns.restore_descriptions()
         self.world=WorldModel(self.store,scopes=runtime.config.scopes,privacy_classes=runtime.config.privacy_classes)
         self.budget=CognitionBudget()
         self.skills=skill_development

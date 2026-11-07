@@ -75,6 +75,13 @@ export class V2Error extends Error {
     super(code);
   }
 }
+/** A note rejected before admission has no write to reconcile. Network loss does. */
+export function noteFailureState(error: unknown, dispatched: boolean): "REJECTED"|"UNKNOWN" {
+  if (!dispatched) return "REJECTED";
+  const rejected = new Set(["SCOPE_DENIED","VALIDATION_ERROR","INVALID_REQUEST","STALE_EPOCH",
+    "STALE_RUN_NO_REPLAY","REVISION_CONFLICT","IDEMPOTENCY_COLLISION","NATIVE_OPERATION_DENIED"]);
+  return error instanceof V2Error && rejected.has(error.code) ? "REJECTED" : "UNKNOWN";
+}
 export function object(value: unknown): Record<string, unknown> {
   if (!value || typeof value !== "object" || Array.isArray(value))
     throw new V2Error("INVALID_ENVELOPE");

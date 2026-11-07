@@ -40,7 +40,7 @@ def test_interpretation_aliases_do_not_inflate_interest_but_independent_source_c
     path = tmp_path/'subject/self.db'; clock=ManualClock()
     with fresh(path, clock) as r, provider_harness(proposer=proposer) as (transport, _):
         session = CognitionSession(r, transport, policy())
-        concerns = ConcernService(r, resources=('synthetic://watch',))
+        concerns = ConcernService(r, resources=('synthetic://watch',), cognition=session)
         root = capture(r, 'original', {'data':'SYNTHETIC one public discovery'})
         cid = offer(session, concerns, 'first', root)[0]
         visible=inspect(tmp_path,scope='world',entity_id='observer',privacy=('PUBLIC',)).sections['concerns']
@@ -54,7 +54,7 @@ def test_interpretation_aliases_do_not_inflate_interest_but_independent_source_c
             assert concerns.opportunity() is None
         assert not r.store.all('goals') and not r.store.all('actions') and not r.store.all('grants')
     with fresh(path, clock) as r, provider_harness(proposer=proposer) as (transport, _):
-        session = CognitionSession(r, transport, policy()); concerns = ConcernService(r, resources=('synthetic://watch',))
+        session = CognitionSession(r, transport, policy()); concerns = ConcernService(r, resources=('synthetic://watch',), cognition=session)
         assert r.identity_id==identity and r.store.one('open_concerns', cid)['encounters']==1
         second = capture(r, 'new-source', {'data':'SYNTHETIC different independent discovery'})
         assert offer(session, concerns, 'second', second)==(cid,)
@@ -78,7 +78,7 @@ def test_interpretation_aliases_do_not_inflate_interest_but_independent_source_c
         assert r.store.one('open_concerns', cid)['state']=='EXPIRED'
         assert r.identity_id==identity and MemoryService(r.store).read(root)
     with fresh(path, clock) as r, provider_harness(proposer=proposer) as (transport, _):
-        session=CognitionSession(r, transport, policy()); concerns=ConcernService(r, resources=('synthetic://watch',))
+        session=CognitionSession(r, transport, policy()); concerns=ConcernService(r, resources=('synthetic://watch',), cognition=session)
         assert offer(session, concerns, 'old-alias-after-expiry', alias(r, root, 'late'))==()
         later=capture(r, 'later-independent', {'data':'SYNTHETIC renewed discovery after rest'})
         assert offer(session, concerns, 'revisit-later', later)==(cid,)

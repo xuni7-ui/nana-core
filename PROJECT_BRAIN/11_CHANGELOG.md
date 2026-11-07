@@ -2946,3 +2946,8 @@ Full current-Core1905passed/12skipped572.94s; corrected15MB portable build repro
 ### 2026-11-07 · real original-Store notes / ongoing refinement
 
 新增真实备注API及Core原生IPC和手机有限操作，原纠正链、独立Store回读、stale拒绝、隐私不可降级及显式保留；单元57、四尺寸浏览器20及原Core21+最后4相关通过。全部原始开发失败保留。407源码/包收口中；无production/private history/model/social操作。
+
+
+## 2026-11-07 — 同一主任务407回归修正
+
+修复完整回归实测暴露的同源语义修订被去重误拦；使用原session当前提案/世界快照和现有关注，不新增认知或情绪系统。UI明确预接收拒绝与UNKNOWN区别。首次全仓73fc941失败日志保留，独立复现失败→定向3通过，59前端unit/8专项浏览器通过；完整复验待验。

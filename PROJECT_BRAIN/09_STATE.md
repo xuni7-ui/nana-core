@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 68,
-  "as_of_us": 1794013949641763,
+  "revision": 69,
+  "as_of_us": 1794015506409560,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_PRODUCT_AND_S2_NOTE_RELEASE_QUALIFICATION",
+  "status": "IN_PROGRESS_407_REGRESSION_REPAIR",
   "progress": [
     "继承280fed8：手机内登录、模型向导、授权控制台已有开发交付。",
     "用户报告已登录；实际截图反馈聊天区过小，本轮修复布局与普通中文文案。",
@@ -19,7 +19,8 @@
     "记忆检索优化0ac3739已实现；当前修复原S8再次学习与控制接口就绪race，受控验证通过。",
     "6f2a491完整回归1905通过/12跳过；本批原生关注/晚安/状态投影233相关+后续7通过，浏览器24通过。",
     "2026-11-07续办：cc3dc33密封包内实际BFF/十页API/原C离线聊天/备份/同DEV身份重启通过；406 APK/Web/Core清单对齐。",
-    "406三组件已实际GitHub下载SHA一致；继续实现真实原Store备注/纠错，407手机和权限/撤回/UNKNOWN验证通过。"
+    "406三组件已实际GitHub下载SHA一致；继续实现真实原Store备注/纠错，407手机和权限/撤回/UNKNOWN验证通过。",
+    "407首次全仓回归保留FAIL：合成测试盘耗尽与一处真实语义重评回归已定位；新认识可重新经原C判断但不增加原始encounter，完整复验待跑。"
   ],
   "open_gates": [
     "整个软件优化与十域长期精修仍在进行，不以单批功能通过宣布完成。",

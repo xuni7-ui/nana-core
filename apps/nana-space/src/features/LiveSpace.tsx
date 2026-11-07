@@ -37,6 +37,7 @@ import type {
 import {
   V2Client,
   V2Error,
+  noteFailureState,
   livePages,
   object,
   writeBase,
@@ -693,8 +694,8 @@ export function LiveSpace() {
       return {id,state:String(receipt.state)};
     }catch(error){
       if(version===sessionVersion.current){
-        const state=dispatched?"UNKNOWN":"REJECTED";
-        setReceipt({receipt_id:id,state,operation:"MEMORY_NOTE",dispatch_happened:dispatched?"UNKNOWN":false});
+        const state=noteFailureState(error,dispatched);
+        setReceipt({receipt_id:id,state,operation:"MEMORY_NOTE",dispatch_happened:state==="REJECTED"?false:"UNKNOWN"});
         setNotice(explain(error));
         return {id,state};
       }

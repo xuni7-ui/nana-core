@@ -103,4 +103,10 @@ def test_new_semantic_revision_reaches_fresh_c_review_and_can_stay_silent(tmp_pa
         for _ in range(8):r.clock.source.advance(SECOND);r.step()
         assert len(review_cycles())==2 and before<=review_cycles()
         assert len(r.store.all('open_concerns'))==1
+        concern=r.store.all('open_concerns')[0]
+        assert concern['encounters']==1  # New judgment is not another raw event.
+        latest=r.work.world.concerns.records.read(concern['record_id'])['payload']['proposal_record_id']
+        assert r.work.world.concerns.offer(latest)==()  # No replay of this revision.
+        for _ in range(8):r.clock.source.advance(SECOND);r.step()
+        assert len(review_cycles())==2
         assert not r.store.all('actions') and not r.store.all('goals')
