@@ -7,21 +7,21 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 72,
-  "as_of_us": 1794030830509818,
+  "revision": 73,
+  "as_of_us": 1794031559739404,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_RECALL_SERVER_PACKAGE_VERIFICATION",
+  "status": "IN_PROGRESS_PRODUCT_AND_TEN_DOMAIN_AFTER_RECALL_DELIVERY",
   "progress": [
     "继承原Next Experience、手机紧凑聊天、模型目录、原S8/S3/S2及Fish原生关注/晚安/关系连续。",
     "407 APK/Web/Core已推送交付aae944a，三组件实际GitHub下载SHA相同；同签名覆盖升级。",
     "407原Store备注/纠错/UNKNOWN对账已有安装证据；全仓1933/1文档摘要失败/12跳过，摘要修复定向通过。",
-    "新服务端把当前备注接入原两调用对话上下文；116相关、原成长12、焦点7通过，不多调用模型。",
+    "e7c28e7原Core包实际安装/十页/同DEV重启/笔记及两次本地模型来源接线通过，交付5eef0c0下载SHA相同；兼容407。",
     "原Store合成20万字面备注有索引P95约0.49ms、新连接约1.19ms；Pinned所选块相同，读取258→130，装配P50约302→219ms。"
   ],
   "open_gates": [
     "整个软件及十域长期精修继续，不以小批交付宣布总完成。",
-    "新召回源码密封包与同一安装DEV主体模型夹具接线待验；407客户端协议兼容。",
+    "继续原普通聊天记忆/关系上下文、流式/完整token预算和S8反馈等高值代码缺口；不重复已通过能力。",
     "真实模型/手机/跨日/活库向量映射无安全绑定，资格未运行；生产/Iris迁移不触碰。",
     "全请求模型token预算、真实语义召回与原S8检索错误学习继续，不以开发者修复冒充成长。"
   ],
@@ -29,8 +29,8 @@
     "docs/nana_next_experience/STATUS.md",
     "docs/nana_next_experience/GROWTH_AND_AFFECT.md",
     "docs/nana_next_experience/NOTE_RECALL.md",
-    "docs/nana_next_experience/evidence/note-recall/",
-    "docs/nana_next_experience/MEMORY_NOTES.md",
+    "docs/nana_next_experience/evidence/note-recall/qualification.json",
+    "docs/nana_next_experience/HANDOFF_NOTE_RECALL.md",
     "docs/nana_next_experience/HANDOFF_407.md"
   ]
 }
