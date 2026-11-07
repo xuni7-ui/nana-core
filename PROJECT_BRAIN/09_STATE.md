@@ -7,22 +7,23 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 75,
-  "as_of_us": 1794033061064545,
+  "revision": 76,
+  "as_of_us": 1794034309602066,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_AFTER_MATCHED_408_DELIVERY",
+  "status": "IN_PROGRESS_AFTER_408_AND_WIRE_REFINEMENT",
   "progress": [
     "继承原Next Experience、手机紧凑聊天、模型目录、原S8/S3/S2及Fish原生关注/晚安/关系连续。",
     "408 APK/Web/Core交付ced522e，三组件真实HTTPS下载SHA一致；同签名覆盖升级，云端仍未授权变更。",
     "407原Store备注/纠错/UNKNOWN对账已有安装证据；全仓1933/1文档摘要失败/12跳过，摘要修复定向通过。",
     "e7c28e7原Core包实际安装/十页/同DEV重启/笔记及两次本地模型来源接线通过，交付5eef0c0下载SHA相同；兼容407。",
     "原Store合成20万字面备注有索引P95约0.49ms、新连接约1.19ms；Pinned所选块相同，读取258→130，装配P50约302→219ms。",
-    "408连接内明确保留聊天与触控稳定；59前端、12响应式、50关系上下文、17原G成长检查通过，最终归档安装/同DEV恢复通过。"
+    "408连接内明确保留聊天与触控稳定；59前端、12响应式、50关系上下文、17原G成长检查通过，最终归档安装/同DEV恢复通过。",
+    "de08f8f服务端补丁已实际归档安装与同DEV恢复；请求字节精确预留27504/27934，费用/次数/UNKNOWN边界不变；交付9c54efb下载SHA一致。"
   ],
   "open_gates": [
     "整个软件及十域长期精修继续，不以小批交付宣布总完成。",
-    "继续原普通聊天记忆/关系上下文、流式/完整token预算和S8反馈等高值代码缺口；不重复已通过能力。",
+    "继续原S8检索错误→学习→独立复用、全请求模型token预算、真实流式与其余产品接线，不重做既有G/情感或已完成交付。",
     "真实模型/手机/跨日/活库向量映射无安全绑定，资格未运行；生产/Iris迁移不触碰。",
     "全请求模型token预算、真实语义召回与原S8检索错误学习继续，不以开发者修复冒充成长。"
   ],
@@ -33,7 +34,8 @@
     "docs/nana_next_experience/evidence/chat408/qualification.json",
     "docs/nana_next_experience/HANDOFF_408.md",
     "docs/nana_next_experience/CHAT_MEMORY_FLOW.md",
-    "docs/nana_next_experience/RELATIONSHIP_RETENTION.md"
+    "docs/nana_next_experience/RELATIONSHIP_RETENTION.md",
+    "docs/nana_next_experience/WIRE_RESERVATION.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2498,3 +2500,8 @@ Ordinary chat adds explicit connection-only PROJECT retention, PERSONAL remains 
 ### 2026-11-07 · Actual408 candidate published without production activation
 
 Core/frontend f712136, delivery ced522e. Three remote downloads SHA matched; final279-file archive extracted/offline installed, original BFF/chat/notes/backup/sameDEV restart plus2local fixture context calls passed.17 original G/growth tests also passed. Same signed APK408 and42matchingWeb files; no physical phone/cloud/model/human/cross-day qualification or new full-suite pass. Original task remains active. HANDOFF_408.md/evidence/chat408/qualification.json are current receipts; next continue full wire/model-aware context budget, originalS8 retrieval feedback and remaining product integration, with real-host/provider/human gates separately pending.
+
+
+### 2026-11-07 ·408-compatible server byte refinement delivered
+
+Source de08f8f, delivery9c54efb, Core279files/14993379bytes/SHAfbfe1399…6741f; two builds equal, actual extracted/install/original BFF/note/backup/sameDEV+lineage recovery and2local fixture phases passed. Actual HTTP request lengths and pre-reservations independently agreed. Same408 client, no second phone download. Current selector checker verifies actual sources, original client set, runtime contracts and retained optional features;12positive/negative checks passed. Actual remote Core SHA matched. No fee/token/production qualification upgrade. Original task continues; S8 retrieval-feedback learning/full model-token budgeting/streaming and real-host/human gates remain open.

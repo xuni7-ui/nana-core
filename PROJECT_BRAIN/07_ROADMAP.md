@@ -1289,3 +1289,8 @@ Ordinary chat adds explicit connection-only PROJECT retention, PERSONAL remains 
 ### 2026-11-07 · Actual408 candidate published without production activation
 
 Core/frontend f712136, delivery ced522e. Three remote downloads SHA matched; final279-file archive extracted/offline installed, original BFF/chat/notes/backup/sameDEV restart plus2local fixture context calls passed.17 original G/growth tests also passed. Same signed APK408 and42matchingWeb files; no physical phone/cloud/model/human/cross-day qualification or new full-suite pass. Original task remains active. HANDOFF_408.md/evidence/chat408/qualification.json are current receipts; next continue full wire/model-aware context budget, originalS8 retrieval feedback and remaining product integration, with real-host/provider/human gates separately pending.
+
+
+### 2026-11-07 ·408-compatible server byte refinement delivered
+
+Source de08f8f, delivery9c54efb, Core279files/14993379bytes/SHAfbfe1399…6741f; two builds equal, actual extracted/install/original BFF/note/backup/sameDEV+lineage recovery and2local fixture phases passed. Actual HTTP request lengths and pre-reservations independently agreed. Same408 client, no second phone download. Current selector checker verifies actual sources, original client set, runtime contracts and retained optional features;12positive/negative checks passed. Actual remote Core SHA matched. No fee/token/production qualification upgrade. Original task continues; S8 retrieval-feedback learning/full model-token budgeting/streaming and real-host/human gates remain open.

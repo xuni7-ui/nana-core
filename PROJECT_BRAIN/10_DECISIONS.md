@@ -1833,3 +1833,8 @@ Same Next Experience S4/S5 refinement. Reuse one pure OpenAI body serializer for
 ## 2026-11-07 · Explicit current delivery compatibility check
 
 Existing verify_delivery.py retains strict same-source APK/Web/Core verification for each original artifact set. Added explicit CURRENT selector verification for a separately qualified server-only patch: pinned manifest hashes, all file hashes/paths, actual Core source, declared API/client version, identical runtime/schema/host-binding contracts and optional-feature superset.12positive/negative tests passed; actual missing API contract declaration correctly rejected before metadata completion. No runtime, phone or semantic qualification inferred from consistency. No Core/APK rebuilt for this external tool. Prevents ambiguous old/new package selection while retaining rollback files.
+
+
+### 2026-11-07 ·408-compatible server byte refinement delivered
+
+Source de08f8f, delivery9c54efb, Core279files/14993379bytes/SHAfbfe1399…6741f; two builds equal, actual extracted/install/original BFF/note/backup/sameDEV+lineage recovery and2local fixture phases passed. Actual HTTP request lengths and pre-reservations independently agreed. Same408 client, no second phone download. Current selector checker verifies actual sources, original client set, runtime contracts and retained optional features;12positive/negative checks passed. Actual remote Core SHA matched. No fee/token/production qualification upgrade. Original task continues; S8 retrieval-feedback learning/full model-token budgeting/streaming and real-host/human gates remain open.
