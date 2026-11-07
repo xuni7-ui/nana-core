@@ -1,3 +1,9 @@
+# Active continuation: cross-snapshot source fix and final Core artifact
+
+b25 full regression: 2043 passed / 12 skipped,640.22s. The subsequent cold snapshot polymorphic source check has 16 scoped passes, not a new full run. Build and actually install the Core at the latest source; candidate delivery 10112c1 still pins older6a and must not be presented as including the new fix. Existing409 APK/Web remain b873 unchanged; do not rebuild for backend. Preserve current candidate and old delivery; retain external approval boundaries and continue original task. See 09_STATE and LIVING_MEMORY_UNIFIED for pending qualifications.
+
+---
+
 # Current backend continuation — same task; no repeated APK builds
 
 Latest legal HEAD/typed09 wins. c36114b soft48h and the following originalMaintenance/C/Context/disk/usage batch continue the same mission. See LIVING_MEMORY_UNIFIED.md and evidence/living-memory-unified for actual tests and preserved first failures. Backend package has not yet been rebuilt/installed for these new changes. Do not re-run Gradle or requalify unchanged409 Web/native. Existing /mnt/data/Nana-409.apk is still b873 client,4836713bytes SHA82e6ba6d18378e500954b4848f3d3f02b5767cb8ea641acf99ef422260afebf9; apps/nana-space tree72c4d2bef00753237fb402efb13fb3fb9176bfa3 remains byte-identical.

@@ -35,6 +35,19 @@ def _file_digest(path):
     return result.hexdigest()
 
 
+def _check_dependencies(db):
+    """SQLite FK checks do not cover polymorphic source IDs."""
+    for table,kind,parent,key in (
+        ('memory_dependencies','MEMORY','memories','memory_id'),
+        ('memory_dependencies','EVIDENCE','continuity_evidence','evidence_id'),
+        ('record_dependencies','MEMORY','memories','memory_id'),
+        ('record_dependencies','RECORD','continuity_records','record_id'),
+    ):
+        sql=('SELECT 1 FROM '+table+' d LEFT JOIN '+parent+' p ON p.'+key+'=d.parent_id '
+             'WHERE d.parent_kind=? AND p.'+key+' IS NULL LIMIT 1')
+        if db.execute(sql,(kind,)).fetchone():raise CoreError('COLD_HISTORY_DEPENDENCY_INTEGRITY')
+
+
 class ColdHistoryService:
     """Host maintenance adapter, not a second MemoryService or runtime owner."""
     def __init__(self,store,authority):
@@ -72,6 +85,7 @@ class ColdHistoryService:
             db.execute('VACUUM')
             if db.execute('PRAGMA integrity_check').fetchone()[0]!='ok' or db.execute('PRAGMA foreign_key_check').fetchone():
                 raise CoreError('COLD_HISTORY_INTEGRITY')
+            _check_dependencies(db)
             cutoff=db.execute('SELECT max(seq) FROM events').fetchone()[0]
             last=db.execute('SELECT event_id,data_json FROM events WHERE seq=?',(cutoff,)).fetchone()
             identity=db.execute('SELECT identity_id FROM identities').fetchone()[0]

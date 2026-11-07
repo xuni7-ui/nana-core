@@ -77,3 +77,42 @@ def test_same_original_subject_reopens_cold_history_after_restart(app,tmp_path):
         assert restored.one('core_meta','recovery_quarantine')['value_json']=='true'
         assert MemoryService(restored).read(mid)['text']=='SYNTHETIC remembered across a restart'
         assert not restored.db.execute('PRAGMA foreign_key_check').fetchone()
+
+
+
+def test_cross_snapshot_sources_and_withdrawal_stay_linked(app,tmp_path):
+    from .test_dream_recall import consolidate
+    mid=source(app,'cross-parent','SYNTHETIC cross-snapshot parent')
+    service=ColdHistoryService(app.runtime.store,app.runtime.authority)
+    first=service.create(tmp_path/'older'/'history.sqlite',authority=app.runtime.authority)
+    _,summary,_,_=consolidate(app,mid)
+    second=service.create(tmp_path/'newer'/'history.sqlite',authority=app.runtime.authority)
+    kwargs=dict(scopes=('project-work',),privacy_classes=('PROJECT',),entity_ids=('project-user',))
+    older=service.open(first['path'],**kwargs);newer=service.open(second['path'],**kwargs)
+    assert older.memory(mid)['text']=='SYNTHETIC cross-snapshot parent'
+    assert mid in newer.memory(summary)['text']
+    with closing(sqlite3.connect(second['path'],isolation_level=None)) as db:
+        assert db.execute("SELECT 1 FROM memory_dependencies WHERE memory_id=? AND parent_kind='MEMORY' AND parent_id=?",(summary,mid)).fetchone()
+        assert db.execute('SELECT 1 FROM memories WHERE memory_id=?',(mid,)).fetchone()
+    app.forget(mid)
+    for view,source_id in ((older,mid),(newer,summary)):
+        with pytest.raises(CoreError,match='SOURCE_UNAVAILABLE'):view.memory(source_id)
+
+
+@pytest.mark.parametrize('table,parent_kind', [('memory_dependencies','MEMORY'),('record_dependencies','RECORD')])
+def test_snapshot_refuses_polymorphic_dangling_sources_even_when_sqlite_fk_passes(app,tmp_path,table,parent_kind):
+    from uuid import uuid4
+    from .test_dream_recall import consolidate
+    mid=source(app,'dangling-source','SYNTHETIC source for invalid linkage')
+    rid,summary,_,_=consolidate(app,mid)
+    with app.runtime.store.transaction('synthetic.invalid_dependency') as tx:
+        if table=='memory_dependencies':
+            tx.put(table,{'link_id':str(uuid4()),'memory_id':summary,'parent_kind':parent_kind,'parent_id':str(uuid4())})
+        else:
+            tx.put(table,{'link_id':str(uuid4()),'record_id':rid,'parent_kind':parent_kind,'parent_id':str(uuid4()),'relation_kind':'SUPPORT'})
+    assert not app.runtime.store.db.execute('PRAGMA foreign_key_check').fetchone()
+    service=ColdHistoryService(app.runtime.store,app.runtime.authority)
+    dest=tmp_path/'invalid'/'history.sqlite'
+    with pytest.raises(CoreError,match='COLD_HISTORY_DEPENDENCY_INTEGRITY'):
+        service.create(dest,authority=app.runtime.authority)
+    assert not dest.with_name(dest.name+'.cold.json').exists()

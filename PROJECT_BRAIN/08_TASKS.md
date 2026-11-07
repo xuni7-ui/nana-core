@@ -1424,3 +1424,8 @@ a69实际离线安装/原BFF/十视图/同DEV恢复/SSE/原G及后续source撤�
 ### 2026-11-07 · Continue same task: installed integration and scoped regression fix
 
 6a32cae完整回归2042通过/1失败/12跳过，失败保留；原测试环境显式配置32次/UTC日，保留24h总64和其余断言，并检查逐日额度，感知/路由18项7.45s通过。6a实际离线包中原BFF/SSE/G/同DEV主体、梦境72h虚拟重启/冷回读/撤回与独立数字usage均实测；6次仅loopback，新真实调用0。旧APK409不重打，真实手机/云/真人长期资格未运行；同一长期任务继续。
+
+
+### 2026-11-07 · Full regression and cold source references
+
+b25f7cb full regression 2043 passed/12 skipped in640.22s; original failed run preserved. Subsequent cold snapshot dependency check covers polymorphic MEMORY/EVIDENCE/RECORD parents beyond SQLite FK, refuses incomplete sealed copies. Cross-snapshot source and withdrawal plus negative cases:16 passed2.32s. Full result remains tied to b25, new cold patch is scoped-tested; new runtime package still needs building/installing. APK unchanged; no real model, production or phone qualification inferred.

@@ -1,0 +1,62 @@
+........................................................................ [  3%]
+........................................................................ [  7%]
+........................................................................ [ 10%]
+........................................................................ [ 14%]
+........................................................................ [ 17%]
+........................................................................ [ 21%]
+........................................................................ [ 24%]
+.........................................................sssssssssss.... [ 28%]
+........................................................................ [ 31%]
+........................................................................ [ 35%]
+........................................................................ [ 38%]
+........................................................................ [ 42%]
+........................................................................ [ 45%]
+........................................................................ [ 49%]
+........................................................................ [ 52%]
+........................................................................ [ 56%]
+........................................................................ [ 59%]
+........................................................................ [ 63%]
+........................................................................ [ 66%]
+........................................................................ [ 70%]
+........................................................................ [ 73%]
+........................................................................ [ 77%]
+......................s................................................. [ 80%]
+........................................................................ [ 84%]
+........................................................................ [ 87%]
+........................................................................ [ 91%]
+........................................................................ [ 94%]
+........................................................................ [ 98%]
+.......................................                                  [100%]
+=============================== warnings summary ===============================
+tests/foundation_closure/test_experience_need.py::test_actual_failure_changes_need_reuse_settles_restart_counterexample_reopens
+  tests/foundation_closure/test_experience_need.py:22: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+    def test_actual_failure_changes_need_reuse_settles_restart_counterexample_reopens(tmp_path,record_property):
+
+tests/foundation_closure/test_framing.py::test_same_question_different_observation_reframes_problem_not_method[stale prefix -REFRAME-True]
+tests/foundation_closure/test_framing.py::test_same_question_different_observation_reframes_problem_not_method[-PREMISE_SUPPORTED-True]
+tests/foundation_closure/test_framing.py::test_same_question_different_observation_reframes_problem_not_method[stale prefix -REFRAME-False]
+  tests/foundation_closure/test_framing.py:12: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+    @pytest.mark.parametrize('initial,expected,grant',[('stale prefix ','REFRAME',True),('','PREMISE_SUPPORTED',True),('stale prefix ','REFRAME',False)])
+
+tests/foundation_closure/test_semantic_chain.py::test_current_lineage_owned_source_semantic_world_concern_c_withdrawal_restart
+  tests/foundation_closure/test_semantic_chain.py:8: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+    def test_current_lineage_owned_source_semantic_world_concern_c_withdrawal_restart(tmp_path,record_property):
+
+tests/independent_life/test_retrieval_growth.py::test_autonomous_maintenance_gap_practice_restart_real_later_lookup_and_withdrawal
+  tests/independent_life/test_retrieval_growth.py:43: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+    def test_autonomous_maintenance_gap_practice_restart_real_later_lookup_and_withdrawal(tmp_path, record_property):
+
+tests/open_life/test_learning_renewal.py::test_renewed_failure_relearns_once_then_transfers_after_restart
+  tests/open_life/test_learning_renewal.py:84: PytestWarning: record_property is incompatible with junit_family 'xunit2' (use 'legacy' or 'xunit1')
+    def test_renewed_failure_relearns_once_then_transfers_after_restart(tmp_path, record_property):
+
+-- Docs: https://docs.pytest.org/en/stable/how-to/capture-warnings.html
+=========================== short test summary info ============================
+SKIPPED [1] tests/h2_live_screen/test_live.py:16: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:19: explicit --live-screen required
+SKIPPED [6] tests/h2_live_screen/test_live.py:56: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:68: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:85: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:110: explicit --live-screen required
+SKIPPED [1] tests/offline_continuity/test_experiment.py:21: E12 real-model gate requires configured development endpoints via nana-semantic; offline pytest makes no real-model calls
+2043 passed, 12 skipped, 7 warnings in 640.22s (0:10:40)

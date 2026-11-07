@@ -1,0 +1,16 @@
+{
+  "source_commit": "b25f7cb1dc075715687460b574c383045494f912",
+  "exit_code": 0,
+  "elapsed_seconds": 641.3191526099981,
+  "command": [
+    "/workspace/nana-core/.venv/bin/python",
+    "-m",
+    "pytest",
+    "-q",
+    "--basetemp=/dev/shm/nliving-full-final",
+    "-o",
+    "tmp_path_retention_policy=failed",
+    "--junitxml=/tmp/nliving-full-final.xml"
+  ],
+  "apk_rebuilt": false
+}
