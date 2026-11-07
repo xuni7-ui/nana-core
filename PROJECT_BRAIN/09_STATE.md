@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 76,
-  "as_of_us": 1794034309602066,
+  "revision": 77,
+  "as_of_us": 1794035555750572,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_AFTER_408_AND_WIRE_REFINEMENT",
+  "status": "IN_PROGRESS_DAILY_CODE_AND_ORIGINAL_S8_CONTINUATION",
   "progress": [
     "继承原Next Experience、手机紧凑聊天、模型目录、原S8/S3/S2及Fish原生关注/晚安/关系连续。",
     "408 APK/Web/Core交付ced522e，三组件真实HTTPS下载SHA一致；同签名覆盖升级，云端仍未授权变更。",
@@ -19,7 +19,8 @@
     "e7c28e7原Core包实际安装/十页/同DEV重启/笔记及两次本地模型来源接线通过，交付5eef0c0下载SHA相同；兼容407。",
     "原Store合成20万字面备注有索引P95约0.49ms、新连接约1.19ms；Pinned所选块相同，读取258→130，装配P50约302→219ms。",
     "408连接内明确保留聊天与触控稳定；59前端、12响应式、50关系上下文、17原G成长检查通过，最终归档安装/同DEV恢复通过。",
-    "de08f8f服务端补丁已实际归档安装与同DEV恢复；请求字节精确预留27504/27934，费用/次数/UNKNOWN边界不变；交付9c54efb下载SHA一致。"
+    "de08f8f服务端补丁已实际归档安装与同DEV恢复；请求字节精确预留27504/27934，费用/次数/UNKNOWN边界不变；交付9c54efb下载SHA一致。",
+    "391ab0d新建宿主128/64/128默认额度与中文超时/额度说明已实现并27项通过；旧配置不变，当前仍未打包该批。"
   ],
   "open_gates": [
     "整个软件及十域长期精修继续，不以小批交付宣布总完成。",
@@ -30,7 +31,7 @@
   "evidence_refs": [
     "docs/nana_next_experience/STATUS.md",
     "docs/nana_next_experience/GROWTH_AND_AFFECT.md",
-    "docs/nana_next_experience/NOTE_RECALL.md",
+    "docs/nana_next_experience/DAILY_DEFAULTS.md",
     "docs/nana_next_experience/evidence/chat408/qualification.json",
     "docs/nana_next_experience/HANDOFF_408.md",
     "docs/nana_next_experience/CHAT_MEMORY_FLOW.md",
