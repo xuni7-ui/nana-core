@@ -250,3 +250,39 @@ def test_lost_actual_write_reply_reconciles_from_persisted_proof_without_redispa
         same = http(server, "memories/notes", "POST", request, headers)[1]["data"]
         assert same["state"] == "VERIFIED"
     assert len(calls) == 1  # GET/replay of the receipt never calls the writer again.
+
+
+def test_archived_lost_reply_reconciles_from_original_core_after_gateway_and_owner_restart(running, monkeypatch):
+    """Only one actual saved DEV note; filler rows are explicit host metadata fixtures."""
+    from nana_core.life.live_api import memory_notes
+    from nana_core.life.live_api.ledger import OperationLedger, HOT_LIMIT
+    from nana_core.life.live_api.contracts import Completion
+
+    server, service = running
+    headers = login(server, service)
+    actual = memory_notes.core_request
+    calls = []
+
+    def lost(*args, **kwargs):
+        result = actual(*args, **kwargs)
+        calls.append(result["result"]["memory_id"])
+        raise TimeoutError("SYNTHETIC reply lost after actual commit")
+
+    monkeypatch.setattr(memory_notes, "core_request", lost)
+    request = note(service, "archived-lost-note", "SYNTHETIC archived proof remains available")
+    assert http(server, "memories/notes", "POST", request, headers)[1]["data"]["state"] == "UNKNOWN"
+    for i in range(HOT_LIMIT + 1):
+        key = "synthetic-filler." + str(i)
+        service.ledger.reserve(key, "synthetic-fixture-owner", {}, "MESSAGE", service.ledger.revision, key)
+        service.ledger.transition(key, Completion.VERIFIED)
+    assert "archived-lost-note" not in service.ledger.document.read()["receipts"]
+    assert service.ledger.entry("archived-lost-note")["receipt"]["state"] == "UNKNOWN"
+    service.supervisor.stop()
+    service.supervisor.start()
+    service.ledger = OperationLedger(service.ledger.document.path)
+    service.receipt_privacy.clear()
+    service.receipt_scopes.clear()
+    result = http(server, "receipts/archived-lost-note", headers=headers)[1]["data"]
+    assert result["state"] == "VERIFIED" and result["result"]["memory_id"] == calls[0]
+    repeated = http(server, "memories/notes", "POST", request, headers)[1]["data"]
+    assert repeated["state"] == "VERIFIED" and len(calls) == 1

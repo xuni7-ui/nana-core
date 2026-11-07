@@ -59,6 +59,15 @@ class GatewayService:
 
         self.platform_events = PlatformEvents(self, platform_event_secret_refs or {})
 
+    def _prune_receipt_cache(self):
+        # Warm body visibility follows the bounded host ledger, never an
+        # unbounded second dialogue history. Archived metadata has no wording.
+        hot = self.ledger.document.read()['receipts']
+        for cache in (self.receipt_privacy, self.receipt_scopes):
+            for key in tuple(cache):
+                if key not in hot:
+                    cache.pop(key, None)
+
     def _receipt(self, key, principal):
         receipt = self.ledger.read(key, principal.principal_id)
         if receipt.state==Completion.UNKNOWN and receipt.operation=='MEMORY_NOTE':
@@ -166,6 +175,7 @@ class GatewayService:
             )
             data["privacy_watermark"] = after
             # Only original body-free metadata owned by this principal; no replay.
+            data['pending_receipts_coverage'] = 'RECENT_ONLY_ARCHIVED_METADATA_AVAILABLE_BY_ORIGINAL_ID'
             data["pending_receipts"] = [
                 {"receipt_id": key, "state": row["receipt"]["state"]}
                 for key, row in self.ledger.document.read()["receipts"].items()
@@ -490,6 +500,7 @@ class GatewayService:
                 # No retry/fallback. The underlying original Core receipt remains
                 # authoritative. Never turn a missing result into fake failure.
                 self.ledger.transition(key, Completion.UNKNOWN, error="UNKNOWN_NEEDS_RECONCILIATION")
+            self._prune_receipt_cache()
             return self.envelope(
                 self.ledger.read(key, principal.principal_id).model_dump(mode="json"), principal=principal
             )

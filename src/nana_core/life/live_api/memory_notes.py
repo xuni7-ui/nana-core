@@ -144,7 +144,7 @@ def reconcile(service, key, principal, receipt):
     if Role.MANAGER not in principal.roles:
         return receipt
     with service.write_lock:
-        saved = service.ledger.document.read()["receipts"].get(key)
+        saved = service.ledger.entry(key)
         if not saved or saved["principal"] != principal.principal_id:
             return receipt
         request_id = "v2-note." + digest([principal.principal_id, key])
@@ -190,4 +190,5 @@ def reconcile(service, key, principal, receipt):
         )
         service.receipt_privacy[key] = service._privacy_watermark()
         service.receipt_scopes[key] = service.privacy_for(principal)
+        service._prune_receipt_cache()
         return service.ledger.read(key, principal.principal_id)

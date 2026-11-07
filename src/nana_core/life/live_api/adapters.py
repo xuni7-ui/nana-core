@@ -66,7 +66,7 @@ class InboundConnector:
         # Duplicate requests preserve the exact original envelope so a route or
         # epoch change cannot turn replay into a fresh Core dispatch.
         with self.service.write_lock:
-            prior = self.service.ledger.document.read()["receipts"].get(key)
+            prior = self.service.ledger.entry(key)
             if prior:
                 # Stored request digest contains no body. Compare the platform
                 # observation independently before returning a receipt.
