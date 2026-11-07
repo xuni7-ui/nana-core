@@ -1,12 +1,12 @@
 {
-  "client_manifest": "MANIFEST-408.json",
-  "client_manifest_sha256": "e0c357aa2df507b6c259822f238e878acd6a7ae862589c566092161625af984c",
-  "server_manifest": "server-408-retrieval-growth/MANIFEST.json",
-  "server_manifest_sha256": "0be17f628231b86dffafc53c02d9cd853e2a351369d66439ba412e81d90d90f6",
-  "apk_version_code": 408,
-  "frontend_source": "f712136da20a48da437ce260674c967cf13c2ce0",
-  "runtime_source": "f03fcbbb6e8c7d0aa490d71aa89dfa128374dda7",
-  "compatibility": "EXISTING_HTTP_V2_CLIENT_UNCHANGED_SERVER_ONLY_REFINEMENT",
+  "client_manifest": "MANIFEST-409.json",
+  "client_manifest_sha256": "4e93d09bf99a44fc5dda5504b0a8a3203ae1ab11bf6a86ee2044b2f4e4c97b71",
+  "server_manifest": "server-409-living-266/MANIFEST.json",
+  "server_manifest_sha256": "fba50d5bc26241692a215a93112a7549a75348484f5f878a64a3d7210512e03c",
+  "apk_version_code": 409,
+  "frontend_source": "b873a4af4b2c2731fe2c796b845364ab758a5f22",
+  "runtime_source": "266272a92b5837b2458c107163bd95ea8e0d7fe4",
+  "compatibility": "EXISTING_HTTP_V2_CLIENT_AND_MATCHED_SERVER",
   "qualification": "INSTALLED_DEV_PASS_NOT_REAL_HOST_PHONE_OR_HUMAN",
   "production_activation": false
 }

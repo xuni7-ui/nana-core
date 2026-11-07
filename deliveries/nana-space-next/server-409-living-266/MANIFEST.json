@@ -1,0 +1,54 @@
+{
+  "runtime_source": "266272a92b5837b2458c107163bd95ea8e0d7fe4",
+  "frontend_source": "b873a4af4b2c2731fe2c796b845364ab758a5f22",
+  "compatible_apk_version_code": 409,
+  "api_contract_changed": false,
+  "api_contract": "nana-space-live/v2",
+  "scope": "SERVER_PATCH_NOT_PRODUCTION_ACTIVATION",
+  "files": {
+    "HANDOFF.md": {
+      "bytes": 1604,
+      "sha256": "4d6ddf34a7b280c3f71f53cf7a11d0dc74b899a803b250372029beb794e505b7"
+    },
+    "verify-living-memory.py": {
+      "bytes": 10175,
+      "sha256": "6ca012c170c0cdfead42ed6feb7d4280155fc1ee0228f4046703d1473ac39495"
+    },
+    "verify-note-recall.py": {
+      "bytes": 17714,
+      "sha256": "c3fcf039d2199e94dbc7b27093155b1891c1b35e6f1c7fc532bedaa7583081f0"
+    },
+    "verify-dev.py": {
+      "bytes": 11349,
+      "sha256": "7379b780e4720b310431d2378813e294525dedfa61dd8b01fba7aa401fcfb347"
+    },
+    "verify-delivery.py": {
+      "bytes": 8664,
+      "sha256": "5fa5a46ccc1736dd84d8249d970159bbaae6dc0fc468f87df386ec329af322cb"
+    },
+    "installed-upgrade-result.json": {
+      "bytes": 2287,
+      "sha256": "83be13ad510a2ac9a294ff1acf155e868902fd54f3420a3741428bc5b277c39e"
+    },
+    "installed-dev-result.json": {
+      "bytes": 815,
+      "sha256": "5a02795eb9231a79afe21b068a5e08d4f345f7acfcb311cf58c8d6655184003d"
+    },
+    "nana-unpack.py": {
+      "bytes": 2579,
+      "sha256": "43cae88c58ea6db1e5e5226807ae00f6ab06281f0a801ef4a0832e1b2428cdf7"
+    },
+    "nana-core-266272a-portable.tar.gz": {
+      "bytes": 15022640,
+      "sha256": "94684d933480e195a93493863ac8b73abd3b75b548e53543c3db3997c55a6963"
+    }
+  },
+  "two_builds_equal": true,
+  "installed_dev_qualification": "PASS_GATEWAY_AND_SAME_SUBJECT_UPGRADE",
+  "full_regression": "B25_2043_PASS_12_SKIP_266_COLD_16_SCOPED_PASS",
+  "real_provider_calls": 0,
+  "physical_phone": "NOT_RUN",
+  "human_naturalness": "NOT_RUN",
+  "production_changed": false,
+  "verification_tool_source": "07610b682529394f01418af00912972cd01817f9"
+}
