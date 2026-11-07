@@ -1773,3 +1773,8 @@ Fish Heart只借鉴设计思想并保留MIT归属，增强原S3/S4/S2/S6/S8，�
 ### 2026-11-07 · resume matched406 / same continuous mission
 
 406只交付精确cc3dc33匹配APK/Web/Core及候选隔离说明，不改既有474MB V4.0.3包、不覆盖生产。Docker校验替换entrypoint、限定新槽和scratch、不挂载canonical数据。旧全回归与新受影响资格按实际源码分别记载。
+
+
+### 2026-11-07 · real original-Store notes / ongoing refinement
+
+用户备注属于明确保留的USER_STATEMENT，不是Nana亲历、世界核验或身份/权限修改。只允许更正这类备注；来源/经历/Archive/SELF不能被此接口重写。沿用原Store/MemoryService/correction/Privacy/Manager/Surface/ledger；未确定写入结果不可再次POST。

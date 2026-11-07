@@ -17,7 +17,7 @@ import time
 from pathlib import Path
 
 
-def run(bundle, work):
+def run(bundle, work, *, check_memory_notes=False):
     bundle = Path(bundle).resolve()
     work = Path(work).absolute()
     if work.exists():
@@ -204,9 +204,33 @@ def run(bundle, work):
             status == 200 and row["data"]["state"] == "VERIFIED" and row["data"]["result"]["external_delivery"] is False
         )
         result["chat"] = "ORIGINAL_CORE_VERIFIED_OFFLINE_NOT_NATURALNESS_QUALIFICATION"
+        def note_write(key, text, target=None):
+            _, current, _ = call('bootstrap')
+            request={"client_request_id":key,"idempotency_key":key,
+                "expected_revision":current['revision'],"owner_epoch":current['owner_epoch'],
+                "run_generation":current['run_generation'],"text":text,
+                "privacy_class":"PROJECT","consent":True}
+            if target:request['target_id']=target
+            code, receipt, _=call('memories/notes','POST',request)
+            if code!=200 or receipt['data']['state']!='VERIFIED':raise RuntimeError('INSTALLED_NOTE_WRITE_UNVERIFIED')
+            return receipt['data']['result']['memory_id']
+        if check_memory_notes:
+            initial_note=note_write('installed.note.1','SYNTHETIC installed-note project Wednesday')
+            current_note=note_write('installed.note.2','SYNTHETIC installed-note project Friday',initial_note)
         result["backup"] = hostop("BACKUP")["state"]
         second = hostop("RESTART")
         assert second["subject_id"] == identity and second["owner_epoch"] > first["owner_epoch"]
+        if check_memory_notes:
+            code, notes, _=call('memories/search','POST',{'query':'SYNTHETIC installed-note'})
+            if code!=200 or [m['memory_id'] for m in notes['data']['memories']]!=[current_note]:raise RuntimeError('INSTALLED_NOTE_RESTART_RECALL_FAILED')
+            _, current, _=call('bootstrap')
+            code, removed, _=call('commands','POST',{'operation':'WITHDRAW','target_id':current_note,
+                'client_request_id':'installed.note.withdraw','idempotency_key':'installed.note.withdraw',
+                'expected_revision':current['revision'],'owner_epoch':current['owner_epoch'],'run_generation':current['run_generation']})
+            if code!=200 or removed['data']['state']!='VERIFIED':raise RuntimeError('INSTALLED_NOTE_WITHDRAWAL_FAILED')
+            code, notes, _=call('memories/search','POST',{'query':'SYNTHETIC installed-note'})
+            if code!=200 or notes['data']['memories']:raise RuntimeError('INSTALLED_NOTE_WITHDRAWAL_REVIVED_OLD_VERSION')
+            result['notes_correction_restart_withdrawal']='PASS_ORIGINAL_STORE_NOT_NATURAL_MODEL_RECALL'
         stopped = hostop("STOP")
         assert not stopped["runtime_active"] and stopped["stop_latch"]
         assert call("bootstrap")[0] == 200
@@ -239,8 +263,9 @@ def main():
     p.add_argument("--bundle", type=Path, required=True)
     p.add_argument("--work", type=Path, required=True)
     p.add_argument("--output", type=Path, required=True)
+    p.add_argument('--check-memory-notes',action='store_true')
     a = p.parse_args()
-    value = run(a.bundle, a.work)
+    value = run(a.bundle, a.work,check_memory_notes=a.check_memory_notes)
     a.output.write_text(json.dumps(value, indent=2) + "\n")
     print(json.dumps(value))
 

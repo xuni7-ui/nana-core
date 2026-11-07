@@ -61,6 +61,9 @@ class GatewayService:
 
     def _receipt(self, key, principal):
         receipt = self.ledger.read(key, principal.principal_id)
+        if receipt.state==Completion.UNKNOWN and receipt.operation=='MEMORY_NOTE':
+            from .memory_notes import reconcile
+            receipt=reconcile(self,key,principal,receipt)
         if receipt.result and (
             self.receipt_privacy.get(key) != self._privacy_watermark()
             or not set(self.receipt_scopes.get(key, ())) <= set(self.privacy_for(principal))
@@ -95,6 +98,7 @@ class GatewayService:
             capabilities={
                 "memory_metadata": True,
                 "memory_search": True,
+                "memory_notes": True,
                 "backup_status": True,
                 "body_cache": False,
                 "background_push": "UNAVAILABLE",
@@ -730,5 +734,7 @@ class GatewayService:
                         if k in current
                     }
                 )
+                from ..memory_notes import is_user_note
+                result[-1]['user_provided_note']=is_user_note(current)
             view.ensure_privacy_current()
         return result

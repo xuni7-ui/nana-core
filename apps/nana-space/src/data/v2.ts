@@ -6,6 +6,7 @@ import type {
   HostRequest,
   HostConfirmation,
   ProviderConfigurationRequest,
+  MemoryNoteRequest,
 } from "./v2.generated";
 
 export type LivePage =
@@ -286,11 +287,12 @@ export class V2Client {
     );
   }
   async write(
-    kind: "message" | "command" | "host.operation" | "providers.command",
+    kind: "message" | "command" | "host.operation" | "providers.command" | "memories.note",
     body:
       | MessageRequest
       | CommandRequest
       | HostRequest
+      | MemoryNoteRequest
       | ProviderConfigurationRequest,
   ): Promise<Envelope> {
     if (body.run_generation !== this.generation)
@@ -300,6 +302,7 @@ export class V2Client {
       command: "commands",
       "host.operation": "host/operations",
       "providers.command": "providers/commands",
+      "memories.note": "memories/notes",
     }[kind];
     const result = isNative()
       ? await this.nativeCall({

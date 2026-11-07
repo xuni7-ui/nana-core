@@ -2941,3 +2941,8 @@ Full current-Core1905passed/12skipped572.94s; corrected15MB portable build repro
 ### 2026-11-07 · resume matched406 / same continuous mission
 
 冻结6b3124b恢复：仓库remote相等且干净；新cc3dc33实际安装probe通过，406匹配产物与交接清单完成。交付生成脚本两次误用cwd提前失败，未发布错误清单或操作生产；改为明确repo路径并验证42资源与APK一致及全部SHA后继续。
+
+
+### 2026-11-07 · real original-Store notes / ongoing refinement
+
+新增真实备注API及Core原生IPC和手机有限操作，原纠正链、独立Store回读、stale拒绝、隐私不可降级及显式保留；单元57、四尺寸浏览器20及原Core21+最后4相关通过。全部原始开发失败保留。407源码/包收口中；无production/private history/model/social操作。

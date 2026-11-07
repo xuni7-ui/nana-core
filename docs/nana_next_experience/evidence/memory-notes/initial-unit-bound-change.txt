@@ -1,0 +1,55 @@
+
+> @nana/space@4.0.3 test
+> vitest run --config vitest.config.ts
+
+
+ RUN  v3.2.7 /workspace/nana-unified-release/apps/nana-space
+
+ ✓ tests/adapters.test.ts (12 tests) 1456ms
+   ✓ fictional Demo data and transitions > has explicit failure and UNKNOWN semantics without retries  442ms
+   ✓ fictional Demo data and transitions > streams cumulative local text and cancels mid-stream  814ms
+ ✓ tests/v2-client.test.ts (5 tests) 14ms
+ ❯ tests/memory-center.test.ts (9 tests | 1 failed) 18ms
+   ✓ Memory center projection > preserves original evidence semantics without inventing topic or relationship 3ms
+   ✓ Memory center projection > searches only provided data and intersects source/type/topic filters 1ms
+   × Memory center projection > bounds and deduplicates records, rejects invalid timestamps 9ms
+     → expected [ …(40) ] to have a length of 32 but got 40
+   ✓ Memory import preview, never a memory write > marks user-provided text and detects current-projection and intra-file duplicates 1ms
+   ✓ Memory import preview, never a memory write > keeps injected markup as inert plain text and ignores asserted authority 0ms
+   ✓ Memory import preview, never a memory write > parses text paragraphs but fails closed on unsupported or malformed input 1ms
+   ✓ Memory import preview, never a memory write > bounds byte size, entry count and per-entry text without uploading 1ms
+   ✓ an out-of-scope memory body is never projected by a PUBLIC/PROJECT client 0ms
+   ✓ PERSONAL rows require explicit authenticated scope and SECRET is always discarded 0ms
+ ✓ tests/live.test.ts (4 tests) 11ms
+ ✓ tests/provider-center.test.ts (15 tests) 9ms
+ ✓ tests/living.test.ts (7 tests) 7ms
+ ✓ tests/local-speech.test.ts (2 tests) 5ms
+ ✓ tests/provider-commands.test.ts (2 tests) 9ms
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/memory-center.test.ts > Memory center projection > bounds and deduplicates records, rejects invalid timestamps
+AssertionError: expected [ …(40) ] to have a length of 32 but got 40
+
+- Expected
++ Received
+
+- 32
++ 40
+
+ ❯ tests/memory-center.test.ts:72:31
+     70|       created_at_us: -1,
+     71|     }));
+     72|     expect(memoryCards(many)).toHaveLength(32);
+       |                               ^
+     73|     expect(memoryCards([rows[0], rows[0]])).toHaveLength(1);
+     74|     expect(
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed | 7 passed (8)
+      Tests  1 failed | 55 passed (56)
+   Start at  00:58:38
+   Duration  3.75s (transform 333ms, setup 0ms, collect 466ms, tests 1.53s, environment 1ms, prepare 577ms)
+

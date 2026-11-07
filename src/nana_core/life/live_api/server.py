@@ -416,6 +416,9 @@ class Handler(BaseHTTPRequestHandler):
         elif route == "providers/credential":
             from .provider_settings import CredentialBindingRequest, bind_credential
             value = bind_credential(service, principal, self._model(CredentialBindingRequest, body))
+        elif route == "memories/notes":
+            from .memory_notes import MemoryNoteRequest, save
+            value=save(service,principal,self._model(MemoryNoteRequest,body))
         elif route == "memories/search":
             search = self._model(MemorySearch, body)
             if not search.query.strip():

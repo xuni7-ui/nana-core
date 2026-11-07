@@ -1,0 +1,18 @@
+
+==================================== ERRORS ====================================
+______ ERROR collecting tests/first_life_android_v2/test_memory_notes.py _______
+ImportError while importing test module '/workspace/nana-unified-release/tests/first_life_android_v2/test_memory_notes.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/first_life_android_v2/test_memory_notes.py:10: in <module>
+    from nana_core.life.live_api.memory_notes import MemoryNoteRequest, save as api_save
+src/nana_core/life/live_api/memory_notes.py:5: in <module>
+    from ..control import core_request
+E   ImportError: cannot import name 'core_request' from 'nana_core.life.control' (/workspace/nana-unified-release/src/nana_core/life/control.py)
+=========================== short test summary info ============================
+ERROR tests/first_life_android_v2/test_memory_notes.py
+!!!!!!!!!!!!!!!!!!!! Interrupted: 1 error during collection !!!!!!!!!!!!!!!!!!!!
+1 error in 0.47s

@@ -12,6 +12,7 @@ export interface MemoryCard {
   createdAt: number | null;
   topics: string[];
   relationships: string[];
+  userProvidedNote: boolean;
 }
 export interface MemoryFilters {
   query?: string;
@@ -38,9 +39,9 @@ const strings = (value: unknown) =>
 export function normalizeMemoryText(text: string) {
   return text.normalize("NFKC").replace(/\s+/g, " ").trim().toLocaleLowerCase();
 }
-export function memoryCards(rows: Record<string, unknown>[], privacyScope: readonly string[] = ["PUBLIC", "PROJECT"]): MemoryCard[] {
+export function memoryCards(rows: Record<string, unknown>[], privacyScope: readonly string[] = ["PUBLIC", "PROJECT"], view: "RECENT"|"SEARCH"="RECENT"): MemoryCard[] {
   const seen = new Set<string>();
-  return rows.slice(0, 32).flatMap((row): MemoryCard[] => {
+  return rows.slice(0, view==="SEARCH"?64:32).flatMap((row): MemoryCard[] => {
     // PERSONAL requires the authenticated envelope scope; SECRET stays denied.
     if (!["PUBLIC", "PROJECT", "PERSONAL"].includes(String(row.privacy_class)) || !privacyScope.includes(String(row.privacy_class))) return [];
     const id = ownString(row.memory_id, 192);
@@ -66,6 +67,7 @@ export function memoryCards(rows: Record<string, unknown>[], privacyScope: reado
         createdAt,
         topics: strings(row.topics),
         relationships: strings(row.relationship_refs),
+        userProvidedNote: row.user_provided_note === true,
       },
     ];
   });

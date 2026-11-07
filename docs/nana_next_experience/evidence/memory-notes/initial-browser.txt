@@ -1,0 +1,170 @@
+
+> @nana/space@4.0.3 test:v3
+> playwright test --config playwright.v3.config.ts --grep note retention|note UNKNOWN|drafts stay local|living privacy|older-memory
+
+[WebServer] (node:37214) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 20 tests using 1 worker
+
+(node:37231) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   1 [desktop] › tests/v3.spec.ts:366:1 › SYNTHETIC HTTP: provider and memory drafts stay local; no fake write or paid test (6.8s)
+(node:37384) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   2 [desktop] › tests/v3.spec.ts:727:1 › SYNTHETIC living privacy: a withdrawal between view and history clears transient bodies and drafts (1.2s)
+  ✓   3 [desktop] › tests/v3.spec.ts:856:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write (1.1s)
+  ✓   4 [desktop] › tests/v3.spec.ts:872:1 › SYNTHETIC note retention: explicit consent, verified save and current-note correction (1.4s)
+  ✓   5 [desktop] › tests/v3.spec.ts:893:1 › SYNTHETIC note UNKNOWN: verify the original receipt without another write (1.3s)
+(node:37620) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘   6 [phone-360] › tests/v3.spec.ts:366:1 › SYNTHETIC HTTP: provider and memory drafts stay local; no fake write or paid test (6.6s)
+(node:37762) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   7 [phone-360] › tests/v3.spec.ts:727:1 › SYNTHETIC living privacy: a withdrawal between view and history clears transient bodies and drafts (1.3s)
+  ✓   8 [phone-360] › tests/v3.spec.ts:856:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write (1.1s)
+  ✓   9 [phone-360] › tests/v3.spec.ts:872:1 › SYNTHETIC note retention: explicit consent, verified save and current-note correction (1.6s)
+  ✓  10 [phone-360] › tests/v3.spec.ts:893:1 › SYNTHETIC note UNKNOWN: verify the original receipt without another write (1.3s)
+(node:38005) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  11 [phone-390] › tests/v3.spec.ts:366:1 › SYNTHETIC HTTP: provider and memory drafts stay local; no fake write or paid test (6.6s)
+(node:38146) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  12 [phone-390] › tests/v3.spec.ts:727:1 › SYNTHETIC living privacy: a withdrawal between view and history clears transient bodies and drafts (1.3s)
+  ✓  13 [phone-390] › tests/v3.spec.ts:856:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write (992ms)
+  ✓  14 [phone-390] › tests/v3.spec.ts:872:1 › SYNTHETIC note retention: explicit consent, verified save and current-note correction (1.6s)
+  ✓  15 [phone-390] › tests/v3.spec.ts:893:1 › SYNTHETIC note UNKNOWN: verify the original receipt without another write (1.3s)
+(node:38384) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  16 [phone-412] › tests/v3.spec.ts:366:1 › SYNTHETIC HTTP: provider and memory drafts stay local; no fake write or paid test (6.6s)
+(node:38546) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  17 [phone-412] › tests/v3.spec.ts:727:1 › SYNTHETIC living privacy: a withdrawal between view and history clears transient bodies and drafts (1.3s)
+  ✘  18 [phone-412] › tests/v3.spec.ts:856:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write (30.0s)
+(node:38728) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  19 [phone-412] › tests/v3.spec.ts:872:1 › SYNTHETIC note retention: explicit consent, verified save and current-note correction (1.8s)
+  ✓  20 [phone-412] › tests/v3.spec.ts:893:1 › SYNTHETIC note UNKNOWN: verify the original receipt without another write (1.3s)
+
+
+  1) [desktop] › tests/v3.spec.ts:366:1 › SYNTHETIC HTTP: provider and memory drafts stay local; no fake write or paid test 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('.v3-note-draft')
+    Expected substring: "USER_PROVIDED"
+    Received string:    "写一条备注你提供的声明 · 不作为奈奈亲历或已证实事实SYNTHETIC user supplied draft, never lived experience当前服务器尚未提供备注保存；草稿只在本页，不会发送或写入。需要后端支持 · 暂不能提交查看保存范围"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" locator('.v3-note-draft') with timeout 5000ms
+      - waiting for locator('.v3-note-draft')
+        14 × locator resolved to <section aria-label="用户提供的记忆草稿" class="v3-card v3-note-draft">…</section>
+           - unexpected value "写一条备注你提供的声明 · 不作为奈奈亲历或已证实事实SYNTHETIC user supplied draft, never lived experience当前服务器尚未提供备注保存；草稿只在本页，不会发送或写入。需要后端支持 · 暂不能提交查看保存范围"
+
+
+      416 |     .getByLabel("记忆草稿内容")
+      417 |     .fill("SYNTHETIC user supplied draft, never lived experience");
+    > 418 |   await expect(page.locator(".v3-note-draft")).toContainText("USER_PROVIDED");
+          |                                                ^
+      419 |   await noHorizontalOverflow(page);
+      420 |   await go(page, "models", "settings");
+      421 |   await expect(page.locator(".v3-provider-editor")).toHaveCount(0);
+        at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:418:48
+
+    Error Context: test-results/v3-SYNTHETIC-HTTP-provider-3f660--no-fake-write-or-paid-test-desktop/error-context.md
+
+  2) [phone-360] › tests/v3.spec.ts:366:1 › SYNTHETIC HTTP: provider and memory drafts stay local; no fake write or paid test 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('.v3-note-draft')
+    Expected substring: "USER_PROVIDED"
+    Received string:    "写一条备注你提供的声明 · 不作为奈奈亲历或已证实事实SYNTHETIC user supplied draft, never lived experience当前服务器尚未提供备注保存；草稿只在本页，不会发送或写入。需要后端支持 · 暂不能提交查看保存范围"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" locator('.v3-note-draft') with timeout 5000ms
+      - waiting for locator('.v3-note-draft')
+        14 × locator resolved to <section aria-label="用户提供的记忆草稿" class="v3-card v3-note-draft">…</section>
+           - unexpected value "写一条备注你提供的声明 · 不作为奈奈亲历或已证实事实SYNTHETIC user supplied draft, never lived experience当前服务器尚未提供备注保存；草稿只在本页，不会发送或写入。需要后端支持 · 暂不能提交查看保存范围"
+
+
+      416 |     .getByLabel("记忆草稿内容")
+      417 |     .fill("SYNTHETIC user supplied draft, never lived experience");
+    > 418 |   await expect(page.locator(".v3-note-draft")).toContainText("USER_PROVIDED");
+          |                                                ^
+      419 |   await noHorizontalOverflow(page);
+      420 |   await go(page, "models", "settings");
+      421 |   await expect(page.locator(".v3-provider-editor")).toHaveCount(0);
+        at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:418:48
+
+    Error Context: test-results/v3-SYNTHETIC-HTTP-provider-3f660--no-fake-write-or-paid-test-phone-360/error-context.md
+
+  3) [phone-390] › tests/v3.spec.ts:366:1 › SYNTHETIC HTTP: provider and memory drafts stay local; no fake write or paid test 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('.v3-note-draft')
+    Expected substring: "USER_PROVIDED"
+    Received string:    "写一条备注你提供的声明 · 不作为奈奈亲历或已证实事实SYNTHETIC user supplied draft, never lived experience当前服务器尚未提供备注保存；草稿只在本页，不会发送或写入。需要后端支持 · 暂不能提交查看保存范围"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" locator('.v3-note-draft') with timeout 5000ms
+      - waiting for locator('.v3-note-draft')
+        14 × locator resolved to <section aria-label="用户提供的记忆草稿" class="v3-card v3-note-draft">…</section>
+           - unexpected value "写一条备注你提供的声明 · 不作为奈奈亲历或已证实事实SYNTHETIC user supplied draft, never lived experience当前服务器尚未提供备注保存；草稿只在本页，不会发送或写入。需要后端支持 · 暂不能提交查看保存范围"
+
+
+      416 |     .getByLabel("记忆草稿内容")
+      417 |     .fill("SYNTHETIC user supplied draft, never lived experience");
+    > 418 |   await expect(page.locator(".v3-note-draft")).toContainText("USER_PROVIDED");
+          |                                                ^
+      419 |   await noHorizontalOverflow(page);
+      420 |   await go(page, "models", "settings");
+      421 |   await expect(page.locator(".v3-provider-editor")).toHaveCount(0);
+        at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:418:48
+
+    Error Context: test-results/v3-SYNTHETIC-HTTP-provider-3f660--no-fake-write-or-paid-test-phone-390/error-context.md
+
+  4) [phone-412] › tests/v3.spec.ts:366:1 › SYNTHETIC HTTP: provider and memory drafts stay local; no fake write or paid test 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('.v3-note-draft')
+    Expected substring: "USER_PROVIDED"
+    Received string:    "写一条备注你提供的声明 · 不作为奈奈亲历或已证实事实SYNTHETIC user supplied draft, never lived experience当前服务器尚未提供备注保存；草稿只在本页，不会发送或写入。需要后端支持 · 暂不能提交查看保存范围"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" locator('.v3-note-draft') with timeout 5000ms
+      - waiting for locator('.v3-note-draft')
+        14 × locator resolved to <section aria-label="用户提供的记忆草稿" class="v3-card v3-note-draft">…</section>
+           - unexpected value "写一条备注你提供的声明 · 不作为奈奈亲历或已证实事实SYNTHETIC user supplied draft, never lived experience当前服务器尚未提供备注保存；草稿只在本页，不会发送或写入。需要后端支持 · 暂不能提交查看保存范围"
+
+
+      416 |     .getByLabel("记忆草稿内容")
+      417 |     .fill("SYNTHETIC user supplied draft, never lived experience");
+    > 418 |   await expect(page.locator(".v3-note-draft")).toContainText("USER_PROVIDED");
+          |                                                ^
+      419 |   await noHorizontalOverflow(page);
+      420 |   await go(page, "models", "settings");
+      421 |   await expect(page.locator(".v3-provider-editor")).toHaveCount(0);
+        at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:418:48
+
+    Error Context: test-results/v3-SYNTHETIC-HTTP-provider-3f660--no-fake-write-or-paid-test-phone-412/error-context.md
+
+  5) [phone-412] › tests/v3.spec.ts:856:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write 
+
+    Test timeout of 30000ms exceeded.
+
+    Error Context: test-results/v3-SYNTHETIC-older-memory--533a9-scoped-read-no-memory-write-phone-412/error-context.md
+
+  5 failed
+    [desktop] › tests/v3.spec.ts:366:1 › SYNTHETIC HTTP: provider and memory drafts stay local; no fake write or paid test 
+    [phone-360] › tests/v3.spec.ts:366:1 › SYNTHETIC HTTP: provider and memory drafts stay local; no fake write or paid test 
+    [phone-390] › tests/v3.spec.ts:366:1 › SYNTHETIC HTTP: provider and memory drafts stay local; no fake write or paid test 
+    [phone-412] › tests/v3.spec.ts:366:1 › SYNTHETIC HTTP: provider and memory drafts stay local; no fake write or paid test 
+    [phone-412] › tests/v3.spec.ts:856:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write 
+  15 passed (1.4m)

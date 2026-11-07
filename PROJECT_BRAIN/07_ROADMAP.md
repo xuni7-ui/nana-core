@@ -1244,3 +1244,8 @@ Same main mission continues. Completed product406 source/API/bounded-growth batc
 ### 2026-11-07 · resume matched406 / same continuous mission
 
 恢复同一软件/十域主线；先完成真实匹配406交付，再处理原Core记忆纠错与模型按路径预算等高收益缺口；原学习/自主/关系成长继续。
+
+
+### 2026-11-07 · real original-Store notes / ongoing refinement
+
+继续同一产品和十域精修：原MemoryService备注/纠错与手机实际接线已实现，S8/独立生活/关系不变。随后针对自动对话召回和实际模型路径预算做有界基线；真实host/phone/长期陪伴资格仍独立。

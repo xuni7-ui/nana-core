@@ -78,6 +78,14 @@ describe("Memory center projection", () => {
     ).toBeNull();
     expect(memoryCards([{}])).toEqual([]);
   });
+  it("uses the real64 search horizon only for explicit search; note claims stay distinct",()=>{
+    const many=Array.from({length:80},(_,i)=>({...rows[0],memory_id:`search-${i}`,user_provided_note:i===0}));
+    expect(memoryCards(many)).toHaveLength(32);
+    const searched=memoryCards(many,["PUBLIC","PROJECT"],"SEARCH");
+    expect(searched).toHaveLength(64);
+    expect(searched[0].userProvidedNote).toBe(true);
+    expect(searched[1].userProvidedNote).toBe(false);
+  });
 });
 describe("Memory import preview, never a memory write", () => {
   it("marks user-provided text and detects current-projection and intra-file duplicates", () => {

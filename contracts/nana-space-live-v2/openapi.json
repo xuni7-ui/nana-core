@@ -197,6 +197,33 @@
         }
       }
     },
+    "/api/nana-space/v2/memories/notes": {
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        },
+        "security": [
+          {
+            "webCookie": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ]
+      }
+    },
     "/api/nana-space/v2/receipts/{id}": {
       "get": {
         "responses": {
@@ -1659,6 +1686,82 @@
           "subject_id"
         ],
         "title": "Login",
+        "type": "object"
+      },
+      "MemoryNoteRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "client_request_id": {
+            "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+            "title": "Client Request Id",
+            "type": "string"
+          },
+          "idempotency_key": {
+            "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+            "title": "Idempotency Key",
+            "type": "string"
+          },
+          "expected_revision": {
+            "minimum": 0,
+            "title": "Expected Revision",
+            "type": "integer"
+          },
+          "run_generation": {
+            "pattern": "^[a-f0-9]{32}$",
+            "title": "Run Generation",
+            "type": "string"
+          },
+          "owner_epoch": {
+            "minimum": 0,
+            "title": "Owner Epoch",
+            "type": "integer"
+          },
+          "text": {
+            "maxLength": 2048,
+            "minLength": 1,
+            "title": "Text",
+            "type": "string"
+          },
+          "privacy_class": {
+            "enum": [
+              "PUBLIC",
+              "PROJECT",
+              "PERSONAL"
+            ],
+            "title": "Privacy Class",
+            "type": "string"
+          },
+          "consent": {
+            "const": true,
+            "title": "Consent",
+            "type": "boolean"
+          },
+          "target_id": {
+            "anyOf": [
+              {
+                "maxLength": 96,
+                "minLength": 1,
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Target Id"
+          }
+        },
+        "required": [
+          "client_request_id",
+          "idempotency_key",
+          "expected_revision",
+          "run_generation",
+          "owner_epoch",
+          "text",
+          "privacy_class",
+          "consent"
+        ],
+        "title": "MemoryNoteRequest",
         "type": "object"
       },
       "MessageRequest": {

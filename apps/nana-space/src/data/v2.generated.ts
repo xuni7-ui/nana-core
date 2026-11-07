@@ -96,6 +96,18 @@ export type Login = {
   "subject_id": string;
 };
 
+export type MemoryNoteRequest = {
+  "client_request_id": string;
+  "idempotency_key": string;
+  "expected_revision": number;
+  "run_generation": string;
+  "owner_epoch": number;
+  "text": string;
+  "privacy_class": "PUBLIC" | "PROJECT" | "PERSONAL";
+  "consent": true;
+  "target_id"?: (string | null);
+};
+
 export type MessageRequest = {
   "client_request_id": string;
   "idempotency_key": string;

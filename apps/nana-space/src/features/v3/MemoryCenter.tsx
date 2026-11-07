@@ -32,6 +32,8 @@ interface Props {
   onWithdraw: (memoryId: string) => void;
   onNotice: (text: string) => void;
   onSearch?: (query: string) => Promise<Record<string, unknown>[]>;
+  onSaveNote?: (text: string,privacy: "PUBLIC"|"PROJECT"|"PERSONAL",target?: string) => Promise<{id:string;state:string}>;
+  onVerifyNote?: (id:string) => Promise<{id:string;state:string}>;
 }
 const kindNames: Record<string, string> = {
   FACT: "事实",
@@ -44,6 +46,8 @@ const kindNames: Record<string, string> = {
   MODEL_DERIVATION: "模型推导",
   USER_PROVIDED: "用户提供",
   UNKNOWN: "未提供",
+  CURRENT:"当前有效", DISPUTED:"存在争议", UNASSESSED:"尚未核实",
+  STATEMENT:"用户声明", PUBLIC:"公开", PROJECT:"项目", PERSONAL:"私人",
 };
 const label = (value: string) => kindNames[value] || value;
 
@@ -56,6 +60,8 @@ export function MemoryCenter({
   onWithdraw,
   onNotice,
   onSearch,
+  onSaveNote,
+  onVerifyNote,
 }: Props) {
   const [query, setQuery] = useState("");
   const [remote, setRemote] = useState<{query:string; rows:Record<string,unknown>[]} | null>(null);
@@ -63,7 +69,7 @@ export function MemoryCenter({
   const searchVersion = useRef(0);
   const remoteActive = remote?.query===query;
   const cards = useMemo(
-    () => memoryCards(available ? (remoteActive ? remote!.rows : memories) : [], privacyScope),
+    () => memoryCards(available ? (remoteActive ? remote!.rows : memories) : [], privacyScope, remoteActive?"SEARCH":"RECENT"),
     [memories, remote, remoteActive, available, privacyScope],
   );
   const searchAll = async () => {
@@ -87,6 +93,27 @@ export function MemoryCenter({
     null,
   );
   const [draft, setDraft] = useState("");
+  const [notePrivacy,setNotePrivacy]=useState<"PUBLIC"|"PROJECT"|"PERSONAL">(privacyScope?.includes("PERSONAL")?"PERSONAL":"PROJECT");
+  const [noteConsent,setNoteConsent]=useState(false);
+  const [noteSaving,setNoteSaving]=useState(false);
+  const [noteReceipt,setNoteReceipt]=useState<{id:string;state:string}|null>(null);
+  const saveNote=async()=>{
+    if (!onSaveNote || busy || noteSaving || !noteConsent || !draft.trim() || noteReceipt?.state==="UNKNOWN") return;
+    setNoteSaving(true);
+    try {
+      const receipt=await onSaveNote(draft,notePrivacy,draftMode==="CORRECTION"?selected?.id:undefined);
+      setNoteReceipt(receipt);
+      if(receipt.state==="VERIFIED"){setDraft("");setDraftMode(null);setNoteConsent(false);}
+    } catch {onNotice("保存未完成；请查看最近操作的原回执，不要重复发送。");}
+    finally{setNoteSaving(false);}
+  };
+  const verifyNote=async()=>{
+    if(!onVerifyNote || !noteReceipt || noteSaving)return;
+    setNoteSaving(true);
+    try{const receipt=await onVerifyNote(noteReceipt.id);setNoteReceipt(receipt);
+      if(receipt.state==="VERIFIED"){setDraft("");setDraftMode(null);setNoteConsent(false);}
+    }catch{onNotice("暂时无法核验，原请求不会重发。");}finally{setNoteSaving(false);}
+  };
   const [preview, setPreview] = useState<ImportDraft[]>([]);
   const [fileName, setFileName] = useState("");
   const [importError, setImportError] = useState("");
@@ -195,6 +222,7 @@ export function MemoryCenter({
             setDraftMode("NOTE");
             setDraft("");
             setSelectedId(null);
+            setNoteConsent(false);setNoteReceipt(null);
           }}
         >
           <FileText size={16} /> 写一条备注
@@ -337,7 +365,7 @@ export function MemoryCenter({
                 >
                   <div className="v3-card-meta">
                     <span className="v3-chip">{label(card.type)}</span>
-                    <span>{card.privacy}</span>
+                    <span>{label(card.privacy)}</span>
                     <ChevronRight size={15} />
                   </div>
                   <p>{card.text || "当前来源未提供可显示的正文。"}</p>
@@ -345,7 +373,7 @@ export function MemoryCenter({
                     <Link2 size={13} />
                     <span>{card.source || "来源未提供"}</span>
                     <span className="v3-muted">
-                      {label(card.epistemicKind)}
+                      {card.userProvidedNote?"你提供的备注":label(card.epistemicKind)}
                     </span>
                   </div>
                 </button>
@@ -490,11 +518,11 @@ export function MemoryCenter({
             </div>
             <div>
               <dt>原始可信度评估</dt>
-              <dd>{selected.assessment}</dd>
+              <dd>{label(selected.assessment)}</dd>
             </div>
             <div>
               <dt>隐私范围</dt>
-              <dd>{selected.privacy}</dd>
+              <dd>{label(selected.privacy)}</dd>
             </div>
             <div>
               <dt>记忆 ID</dt>
@@ -504,12 +532,14 @@ export function MemoryCenter({
           <div className="v3-actions">
             <button
               className="button"
+              disabled={!selected.userProvidedNote}
               onClick={() => {
                 setDraftMode("CORRECTION");
                 setDraft("");
+                setNoteConsent(false);setNoteReceipt(null);setNotePrivacy(selected.privacy as "PUBLIC"|"PROJECT"|"PERSONAL");
               }}
             >
-              写一条纠错草稿
+              {selected.userProvidedNote?"更新这条备注":"原始来源请用撤回处理"}
             </button>
             <button
               className="button danger"
@@ -551,28 +581,32 @@ export function MemoryCenter({
               <X size={17} />
             </button>
           </div>
-          <span className="v3-chip">USER_PROVIDED · 仅当前页面内存</span>
+          <span className="v3-chip">你提供的声明 · 不作为奈奈亲历或已证实事实</span>
           <textarea
             aria-label="记忆草稿内容"
             rows={4}
-            maxLength={4000}
+            maxLength={2048}
             value={draft}
+            disabled={noteSaving||noteReceipt?.state==="UNKNOWN"}
             onChange={(e) => setDraft(e.target.value)}
             placeholder="这是你提供的备注或纠正，不是奈奈自己的经历…"
           />
-          <p>
-            当前 V2
-            仅支持来源撤回，没有新增备注或纠错写入端点。草稿不会发送给模型，也不会保存到设备。
-          </p>
+          <p>{onSaveNote?"确认后保存到同一个云端记忆库；更新保留来源与旧版本，不调用模型。不要填写 Key、口令或 Cookie。":"当前服务器尚未提供备注保存；草稿只在本页，不会发送或写入。"}</p>
+          {onSaveNote && <>
+            <label>保存范围 <select aria-label="备注保存范围" value={notePrivacy} onChange={e=>setNotePrivacy(e.target.value as typeof notePrivacy)} disabled={noteSaving||noteReceipt?.state==="UNKNOWN"}>
+              {(["PERSONAL","PROJECT","PUBLIC"] as const).filter(p=>privacyScope?.includes(p) && (draftMode!=="CORRECTION"||!selected||["PUBLIC","PROJECT","PERSONAL"].indexOf(p)>=["PUBLIC","PROJECT","PERSONAL"].indexOf(selected.privacy))).map(p=><option key={p} value={p}>{label(p)}</option>)}
+            </select></label>
+            <label className="v3-check-row"><input type="checkbox" checked={noteConsent} onChange={e=>setNoteConsent(e.target.checked)} disabled={noteSaving||noteReceipt?.state==="UNKNOWN"}/>同意将这条用户备注保存到云端记忆</label>
+          </>}
+          {noteReceipt?.state==="UNKNOWN" && <p role="status">保存结果待确认，不会再次提交。请核验这次保存的原回执。</p>}
           <div className="v3-actions">
-            <button className="button" disabled>
-              需要后端支持 · 暂不能提交
-            </button>
+            <button className="button" disabled={!onSaveNote||busy||noteSaving||!draft.trim()||!noteConsent||noteReceipt?.state==="UNKNOWN"} onClick={()=>void saveNote()}>{noteSaving?"正在核验…":onSaveNote?"保存备注":"需要后端支持 · 暂不能提交"}</button>
+            {noteReceipt?.state==="UNKNOWN" && <button className="button" disabled={noteSaving} onClick={()=>void verifyNote()}>核验这次保存</button>}
             <button
               className="button"
               onClick={() =>
                 onNotice(
-                  "草稿仅保留在当前页面内存；离开页面后清除，没有写入云端。",
+                  "提交前草稿仅在本页；只有云端回执确认后才算保存。离开页面会清除未提交草稿。",
                 )
               }
             >

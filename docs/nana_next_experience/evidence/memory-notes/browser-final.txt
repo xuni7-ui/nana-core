@@ -1,0 +1,39 @@
+
+> @nana/space@4.0.3 test:v3
+> playwright test --config playwright.v3.config.ts --grep note retention|note UNKNOWN|drafts stay local|living privacy|older-memory
+
+[WebServer] (node:39009) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 20 tests using 1 worker
+
+(node:39027) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/v3.spec.ts:366:1 › SYNTHETIC HTTP: provider and memory drafts stay local; no fake write or paid test (2.1s)
+  ✓   2 [desktop] › tests/v3.spec.ts:727:1 › SYNTHETIC living privacy: a withdrawal between view and history clears transient bodies and drafts (1.2s)
+  ✓   3 [desktop] › tests/v3.spec.ts:856:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write (1.1s)
+  ✓   4 [desktop] › tests/v3.spec.ts:872:1 › SYNTHETIC note retention: explicit consent, verified save and current-note correction (1.4s)
+  ✓   5 [desktop] › tests/v3.spec.ts:893:1 › SYNTHETIC note UNKNOWN: verify the original receipt without another write (1.3s)
+(node:39299) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   6 [phone-360] › tests/v3.spec.ts:366:1 › SYNTHETIC HTTP: provider and memory drafts stay local; no fake write or paid test (1.7s)
+  ✓   7 [phone-360] › tests/v3.spec.ts:727:1 › SYNTHETIC living privacy: a withdrawal between view and history clears transient bodies and drafts (1.1s)
+  ✓   8 [phone-360] › tests/v3.spec.ts:856:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write (1.1s)
+  ✓   9 [phone-360] › tests/v3.spec.ts:872:1 › SYNTHETIC note retention: explicit consent, verified save and current-note correction (1.6s)
+  ✓  10 [phone-360] › tests/v3.spec.ts:893:1 › SYNTHETIC note UNKNOWN: verify the original receipt without another write (1.3s)
+(node:39572) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  11 [phone-390] › tests/v3.spec.ts:366:1 › SYNTHETIC HTTP: provider and memory drafts stay local; no fake write or paid test (1.8s)
+  ✓  12 [phone-390] › tests/v3.spec.ts:727:1 › SYNTHETIC living privacy: a withdrawal between view and history clears transient bodies and drafts (1.1s)
+  ✓  13 [phone-390] › tests/v3.spec.ts:856:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write (1.0s)
+  ✓  14 [phone-390] › tests/v3.spec.ts:872:1 › SYNTHETIC note retention: explicit consent, verified save and current-note correction (1.6s)
+  ✓  15 [phone-390] › tests/v3.spec.ts:893:1 › SYNTHETIC note UNKNOWN: verify the original receipt without another write (1.4s)
+(node:39847) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  16 [phone-412] › tests/v3.spec.ts:366:1 › SYNTHETIC HTTP: provider and memory drafts stay local; no fake write or paid test (1.8s)
+  ✓  17 [phone-412] › tests/v3.spec.ts:727:1 › SYNTHETIC living privacy: a withdrawal between view and history clears transient bodies and drafts (1.1s)
+  ✓  18 [phone-412] › tests/v3.spec.ts:856:1 › SYNTHETIC older-memory search: explicit scoped read, no memory write (1.1s)
+  ✓  19 [phone-412] › tests/v3.spec.ts:872:1 › SYNTHETIC note retention: explicit consent, verified save and current-note correction (1.6s)
+  ✓  20 [phone-412] › tests/v3.spec.ts:893:1 › SYNTHETIC note UNKNOWN: verify the original receipt without another write (1.3s)
+
+  20 passed (32.6s)

@@ -1,0 +1,29 @@
+{
+  "execution": "ACTUAL_PINNED_GITHUB_HTTPS_DOWNLOAD",
+  "results": [
+    {
+      "file": "nana-space-4.0.6-next-debug.apk",
+      "http": 200,
+      "bytes": 4829689,
+      "sha256": "29d5402655b52c915243e55a5e90db50d4ccfb4cea46beafa0836e8a26c9120c",
+      "content_type": "application/octet-stream",
+      "url": "https://raw.githubusercontent.com/xuni7-ui/nana-core/6404597/deliveries/nana-space-next/nana-space-4.0.6-next-debug.apk"
+    },
+    {
+      "file": "nana-space-4.0.6-web.tar.gz",
+      "http": 200,
+      "bytes": 614761,
+      "sha256": "a2ed2d50e5f7ced66d2865634784e1355ca4e0b240f12d6a4bfe8615ff3e9b34",
+      "content_type": "application/octet-stream",
+      "url": "https://raw.githubusercontent.com/xuni7-ui/nana-core/6404597/deliveries/nana-space-next/nana-space-4.0.6-web.tar.gz"
+    },
+    {
+      "file": "server-406/nana-core-cc3dc33-portable.tar.gz",
+      "http": 200,
+      "bytes": 14984028,
+      "sha256": "a921f917676ed34fe6b146652f216bea143b687aaf2d18da981a265c8fea496b",
+      "content_type": "application/octet-stream",
+      "url": "https://raw.githubusercontent.com/xuni7-ui/nana-core/6404597/deliveries/nana-space-next/server-406/nana-core-cc3dc33-portable.tar.gz"
+    }
+  ]
+}

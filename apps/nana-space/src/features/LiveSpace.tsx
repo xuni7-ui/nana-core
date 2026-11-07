@@ -119,6 +119,11 @@ const reasons: Record<string, string> = {
   PROVIDER_CATALOG_MODEL_INVALID: "模型列表包含不兼容项目，已停止读取；可以手动填写模型名称。",
   SECRET_UNAVAILABLE: "尚未绑定可用的服务商凭据。",
   MEMORY_SEARCH_NARROW_QUERY: "这次查找范围太大，请换一个更具体的词句。",
+  MEMORY_NOTE_REJECTED:"这条备注未获核验；请检查来源、保存范围和当前版本。不要重复提交原请求。",
+  MEMORY_NOTE_TARGET_STALE:"这条备注已经变化或被撤回。请刷新后选择当前版本再更新，原请求未执行。",
+  MEMORY_NOTE_TARGET_DENIED:"只能更新你保存的备注；原始经历和外部来源请通过原有纠错或撤回流程处理。",
+  MEMORY_NOTE_PRIVACY_DOWNGRADE_DENIED:"更新不能降低原备注的隐私范围。",
+  SURFACE_PERSONAL_RETENTION_NOT_AUTHORIZED:"当前入口尚未授权保存私人内容，请联系运行负责人确认，或选择已允许的保存范围。",
   SOURCE_CHANGED_REFRESH_REQUIRED: "记忆来源已更新，请刷新后重新查找。",
   NATIVE_SECRET_INPUT_REQUIRED: "请在已配对的手机上管理安全凭据。",
   CORE_ALREADY_OWNED: "Core 已有运行 owner。",
@@ -670,6 +675,38 @@ export function LiveSpace() {
     } finally {
       if (version === sessionVersion.current) setBusy(false);
     }
+  };
+  const saveMemoryNote=async(text:string,privacy_class:"PUBLIC"|"PROJECT"|"PERSONAL",target_id?:string)=>{
+    if(writePending.current)throw new V2Error("REQUEST_BUSY");
+    const id=crypto.randomUUID(),version=sessionVersion.current;
+    let dispatched=false;
+    writePending.current=true;setBusy(true);
+    try{
+      const b=await fresh();
+      if(version!==sessionVersion.current)throw new V2Error("SESSION_REVOKED");
+      dispatched=true;
+      const response=await client.current.write("memories.note",{...writeBase(b,id),text,privacy_class,consent:true,...(target_id?{target_id}:{})});
+      if(version!==sessionVersion.current)throw new V2Error("SESSION_REVOKED");
+      const receipt=object(response.data);setReceipt(receipt);
+      setNotice(receipt.state==="VERIFIED"?"备注已保存；它是你提供的声明，不会冒充奈奈亲历。":typeof receipt.error==="string"?(reasons[receipt.error]||"保存结果待核验，请查看原回执。"):"保存结果待核验，不会重复提交。");
+      await refresh();
+      return {id,state:String(receipt.state)};
+    }catch(error){
+      if(version===sessionVersion.current){
+        const state=dispatched?"UNKNOWN":"REJECTED";
+        setReceipt({receipt_id:id,state,operation:"MEMORY_NOTE",dispatch_happened:dispatched?"UNKNOWN":false});
+        setNotice(explain(error));
+        return {id,state};
+      }
+      throw error;
+    }finally{writePending.current=false;if(version===sessionVersion.current)setBusy(false);}
+  };
+  const verifyMemoryNote=async(id:string)=>{
+    const version=sessionVersion.current;
+    const response=await client.current.receipt(id);
+    if(version!==sessionVersion.current)throw new V2Error("SESSION_REVOKED");
+    const receipt=object(response.data);setReceipt(receipt);await refresh();
+    return {id,state:String(receipt.state)};
   };
   const host = async (operation: HostRequest["operation"]) => {
     if (
@@ -1419,6 +1456,8 @@ export function LiveSpace() {
                     return rows.map(object);
                   } catch (error) { throw new Error(explain(error)); }
                 } : undefined}
+                onSaveNote={manager && healthy && bootstrap?.capabilities.memory_notes===true?saveMemoryNote:undefined}
+                onVerifyNote={verifyMemoryNote}
                 privacyScope={snapshot?.privacy_scope}
                 available={healthy}
                 busy={busy}

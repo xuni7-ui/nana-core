@@ -102,6 +102,10 @@ interface MockState {
   catalogEnabled?: boolean;
   memorySearchRows?: Record<string,unknown>[];
   lifeItems?: Record<string,unknown>[];
+  noteRows?: Record<string,unknown>[];
+  noteUnknown?: boolean;
+  noteResolved?: boolean;
+  noteReceipts?: Record<string,string>;
 }
 function envelope(state: MockState, data: Record<string, unknown>) {
   return {
@@ -144,7 +148,7 @@ function viewData(state: MockState, source: string) {
     ],
     memories:
       source === "memories"
-        ? [
+        ? state.noteRows || [
             {
               memory_id: "fixture-memory-a",
               text: MEMORY_A,
@@ -214,6 +218,14 @@ async function installMock(page: Page): Promise<MockState> {
     if (path === "providers/credentials") return ok({vault: {configured: true, storage: "HOST_LOCAL_AES_256_GCM", revision: 7, credential_persisted: true}, profiles: []});
     if (path === "providers/models" && state.catalogEnabled) return ok({models:["catalog.new"], qualification:"NOT_ESTABLISHED", inference_calls:0});
     if (path === "memories/search" && method === "POST") return ok({memories:state.memorySearchRows || [], privacy_watermark:state.watermark, limit:64});
+    if (path === "memories/notes" && method === "POST" && state.capabilities?.memory_notes===true) {
+      const body=request.postDataJSON();
+      const mid="fixture-note-"+body.client_request_id;
+      state.noteRows=[{memory_id:mid,text:body.text,memory_type:"SEMANTIC",epistemic_kind:"STATEMENT",assessment:"CURRENT",privacy_class:body.privacy_class,source_evidence_id:"fixture-note-source",created_at_us:1793026800000000,user_provided_note:true},...(state.noteRows||[]).filter(r=>r.memory_id!==body.target_id)];
+      state.noteReceipts={...state.noteReceipts,[body.client_request_id]:mid};state.revision++;
+      if(state.noteUnknown)return route.abort("failed");
+      return ok({receipt_id:body.client_request_id,state:"VERIFIED",dispatch_happened:true,result:{state:"USER_NOTE_SAVED",memory_id:mid,nana_lived_experience:false}});
+    }
     if (path.startsWith("views/")) {
       const source = path.slice(6);
       state.views.push(source);
@@ -255,7 +267,7 @@ async function installMock(page: Page): Promise<MockState> {
     if (path.startsWith("receipts/"))
       return ok({
         receipt_id: path.slice(9),
-        state: "UNKNOWN",
+        state: state.noteResolved && state.noteReceipts?.[path.slice(9)]?"VERIFIED":"UNKNOWN",
         dispatch_happened: true,
         result: {},
       });
@@ -403,7 +415,7 @@ test("SYNTHETIC HTTP: provider and memory drafts stay local; no fake write or pa
   await page
     .getByLabel("记忆草稿内容")
     .fill("SYNTHETIC user supplied draft, never lived experience");
-  await expect(page.locator(".v3-note-draft")).toContainText("USER_PROVIDED");
+  await expect(page.locator(".v3-note-draft")).toContainText("你提供的声明");
   await noHorizontalOverflow(page);
   await go(page, "models", "settings");
   await expect(page.locator(".v3-provider-editor")).toHaveCount(0);
@@ -854,5 +866,44 @@ test("SYNTHETIC older-memory search: explicit scoped read, no memory write", asy
   expect(state.requests.filter(r => r.method==="POST")).toEqual([{method:"POST",path:"memories/search"}]);
   await page.getByLabel("搜索记忆", {exact:true}).fill("");
   await expect(page.locator(".v3-memory-center")).not.toContainText("后续回到旧项目");
+  await noHorizontalOverflow(page);
+});
+
+test("SYNTHETIC note retention: explicit consent, verified save and current-note correction",async({page})=>{
+  const state=await installMock(page);state.capabilities={memory_notes:true};state.noteRows=[];
+  await open(page,"memories");
+  await page.getByRole("button",{name:"写一条备注",exact:true}).click();
+  await page.getByLabel("记忆草稿内容").fill("SYNTHETIC 项目约定为周三");
+  await expect(page.getByRole("button",{name:"保存备注",exact:true})).toBeDisabled();
+  await page.getByLabel("同意将这条用户备注保存到云端记忆").check();
+  await page.getByRole("button",{name:"保存备注",exact:true}).click();
+  await expect(page.locator(".v3-memory-card")).toHaveCount(1);
+  await expect(page.locator(".v3-memory-card")).toContainText("你提供的备注");
+  await page.locator(".v3-memory-card").click();
+  await page.getByRole("button",{name:"更新这条备注",exact:true}).click();
+  await page.getByLabel("记忆草稿内容").fill("SYNTHETIC 项目约定改为周五");
+  await page.getByLabel("同意将这条用户备注保存到云端记忆").check();
+  await page.getByRole("button",{name:"保存备注",exact:true}).click();
+  await expect(page.locator(".v3-memory-card")).toHaveCount(1);
+  await expect(page.locator(".v3-memory-card")).toContainText("周五");
+  expect(state.requests.filter(r=>r.method==="POST")).toEqual([{method:"POST",path:"memories/notes"},{method:"POST",path:"memories/notes"}]);
+  await noHorizontalOverflow(page);
+});
+
+test("SYNTHETIC note UNKNOWN: verify the original receipt without another write",async({page})=>{
+  const state=await installMock(page);state.capabilities={memory_notes:true};state.noteRows=[];state.noteUnknown=true;
+  await open(page,"memories");
+  await page.getByRole("button",{name:"写一条备注",exact:true}).click();
+  await page.getByLabel("记忆草稿内容").fill("SYNTHETIC 网络中断后的同一备注");
+  await page.getByLabel("同意将这条用户备注保存到云端记忆").check();
+  await page.getByRole("button",{name:"保存备注",exact:true}).click();
+  await expect(page.getByRole("button",{name:"核验这次保存",exact:true})).toBeVisible();
+  await expect(page.getByRole("button",{name:"保存备注",exact:true})).toBeDisabled();
+  await expect(page.getByLabel("记忆草稿内容")).toBeDisabled();
+  state.noteResolved=true;
+  await page.getByRole("button",{name:"核验这次保存",exact:true}).click();
+  await expect(page.getByLabel("用户提供的记忆草稿")).toHaveCount(0);
+  expect(state.requests.filter(r=>r.path==="memories/notes")).toHaveLength(1);
+  expect(state.requests.filter(r=>r.path.startsWith("receipts/") && r.method==="GET")).toHaveLength(1);
   await noHorizontalOverflow(page);
 });

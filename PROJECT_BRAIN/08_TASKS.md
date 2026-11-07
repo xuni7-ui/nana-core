@@ -1319,3 +1319,8 @@ Implemented/tested: provider catalog + full-authorized-memory literal search + r
 ### 2026-11-07 · resume matched406 / same continuous mission
 
 [已运行验收·隔离DEV] cc3dc33安装包内BFF/原Core启动、十API页、离线聊天、备份、停机/同ID重启通过。406清单已纠正旧480/6f，发布与后续产品深化继续；真实云端/手机/模型/跨日仍待验。
+
+
+### 2026-11-07 · real original-Store notes / ongoing refinement
+
+[已实现/已测试] Memory notes写入、原纠正链、同Subject重启、来源撤回、权限/隐私/真实readback/UNKNOWN只GET回执；57unit/20browser，407APK已编译。待当前源码发行回归与匹配包验证发布。注：保存/检索不等于自然聊天准确回忆，自动备注召回未资格。

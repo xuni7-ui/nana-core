@@ -1,0 +1,9 @@
+{
+  "tool": "ruff==0.14.1",
+  "files": [
+    "src/nana_core/life/memory_notes.py",
+    "src/nana_core/life/live_api/memory_notes.py",
+    "tests/first_life_android_v2/test_memory_notes.py"
+  ],
+  "ast_equal": true
+}

@@ -7,6 +7,7 @@ from nana_core.life.live_api import contracts as c
 from nana_core.life.live_api.provider_settings import ProviderConfigurationRequest, CredentialBindingRequest
 from nana_core.life.live_api.platform_settings import PlatformConfigurationRequest
 from nana_core.life.live_api.platform_credentials import PlatformCredentialRequest
+from nana_core.life.live_api.memory_notes import MemoryNoteRequest
 
 ROOT = Path(__file__).resolve().parents[2]
 MODELS = [
@@ -17,6 +18,7 @@ MODELS = [
     c.PairRequest,
     c.PairOffer,
     c.MessageRequest,
+    MemoryNoteRequest,
     c.CommandRequest,
     c.HostRequest,
     c.HostConfirmation,
@@ -79,6 +81,7 @@ def generate():
         "/views/{domain}": ["get"],
         "/events": ["get"],
         "/messages": ["post"],
+        "/memories/notes": ["post"],
         "/receipts/{id}": ["get"],
         "/commands": ["post"],
         "/host/confirmations": ["post"],

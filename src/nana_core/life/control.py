@@ -62,12 +62,15 @@ def dispatch(app, request):
         if request["privacy"] not in {"PUBLIC", "PROJECT", "PERSONAL"}:
             raise CoreError("PRIVACY_DENIED")
         return app.provider_readiness(privacy=request["privacy"])
-    mutating = op in {"surface", "backup", "self-profile", "language-feedback", "review-expression-learning", "bilibili-ingest", "bilibili-interpret", "legacy-import-batch", "legacy-withdraw"} or (
+    mutating = op in {"surface", "backup", "self-profile", "language-feedback", "review-expression-learning", "bilibili-ingest", "bilibili-interpret", "legacy-import-batch", "legacy-withdraw", "memory-note"} or (
         op == "control" and request.get("command") == "resume"
     )
     if mutating and shutil.disk_usage(app.home).free < app.config.min_free_disk_mb * 1024 * 1024:
         raise CoreError("CLOUD_DISK_GUARD")
     if op=='platform-status' and set(request)=={'operation'}:return app.platforms.view()
+    if op=='memory-note' and set(request)=={'operation','text','privacy','request_id','target_id','surface_binding_id','request_digest'}:
+        from .memory_notes import save
+        return save(app,text=request['text'],privacy=request['privacy'],request_id=request['request_id'],target_id=request['target_id'],surface_binding_id=request['surface_binding_id'],request_digest=request['request_digest'])
     if op=='platform-refresh' and set(request)=={'operation'}:return app.platforms.refresh()
     if op in {"legacy-import-batch", "legacy-withdraw"}:
         from ..migration.archive_ingress import ArchiveImportService, private_document
