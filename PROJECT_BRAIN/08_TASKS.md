@@ -1434,3 +1434,8 @@ b25f7cb full regression 2043 passed/12 skipped in640.22s; original failed run pr
 ### 2026-11-07 · Installed 266 cold-reference continuation
 
 266 Runtime283文件两次构建SHA94684d933480e195a93493863ac8b73abd3b75b548e53543c3db3997c55a6963，实际离线安装；6a原DEV主体升级后身份/lineage、梦境与冷回读/撤回、数字usage保留通过，无新增模型调用；独立DEV主体的266 BFF/十视图/备份/笔记/重启通过。全仓2043/12只属于b25，后续冷引用16项为定向资格；不升级真人/云/手机或长期资格。409 APK不变。同一主线继续。
+
+
+### 2026-11-07 · 266 candidate delivery and continuation
+
+Delivery `1568a6e7f554cc8dd201663d078bc5d8e734205e` selects unchanged client409 and Core `266272a92b5837b2458c107163bd95ea8e0d7fe4`. Core archive: 15,022,640 bytes, SHA-256 `94684d933480e195a93493863ac8b73abd3b75b548e53543c3db3997c55a6963`; two builds agree and the actual remote download matches. Offline installation and DEV same-subject upgrade/restart/source-withdrawal/usage tests passed; separate DEV BFF tested. Full regression is specifically source b25: 2043 passed/12 skipped, 640.22s; 266 has 16 focused cold-dependency passes. No APK rebuild, real provider call or production deployment. Real host/phone/model/cross-day and live vector mapping remain unverified; independent larger-scope retrieval qualification and physical hot-history archiving remain open. See `docs/nana_next_experience/ACTIVE_CHECKPOINT.md`.

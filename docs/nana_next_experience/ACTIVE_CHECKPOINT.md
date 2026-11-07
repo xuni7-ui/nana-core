@@ -1,3 +1,13 @@
+# Active continuation — 266 delivered, original mission remains open
+
+Delivery branch commit `1568a6e7f554cc8dd201663d078bc5d8e734205e` selects Core runtime `266272a92b5837b2458c107163bd95ea8e0d7fe4` and the existing b873 client 4.0.9. The 283-file Core was built twice identically, installed offline, and its remote archive was actually downloaded and SHA-256 verified as `94684d933480e195a93493863ac8b73abd3b75b548e53543c3db3997c55a6963` (15,022,640 bytes). It is not installed on the real host by this delivery. The existing APK was not rebuilt and remains SHA-256 `82e6ba6d18378e500954b4848f3d3f02b5767cb8ea641acf99ef422260afebf9`.
+
+Same synthetic DEV Subject and lineage upgraded from 6a to 266, with consolidation, virtual 72h restart, cold readback/withdrawal and body-free usage persistence verified; a separate DEV Subject verified the installed BFF. No real model calls were made in the upgrade probe. Full regression at b25 was 2043 passed, 12 skipped, 640.22s; 266 cold-dependency changes have 16 focused passes, not a new full-suite claim. Historical failed run and reasons are preserved.
+
+Continue the same mission: improve independently evaluated retrieval growth beyond the current 16 eligible notes and obtain diverse held-out quality evidence at scale; physical hot-history eviction and full archive/privacy recovery remain unqualified. Actual cloud/authoritative vector mapping, real tokenizer and provider, physical phone, human naturalness and real cross-day living remain separate external gates. Do not repeat completed work, rebuild APK for backend-only changes, operate production/private/social resources, or treat these DEV tests as real-life qualification.
+
+---
+
 # Active continuation: installed 266 candidate, same task
 
 266272a runtime built twice identically and installed; same6a DEV Subject upgrade/lineage, dream, 72h virtual restart, cold readback/withdrawal and numeric usage passed with no additional model calls; separate266 DEV gateway passed. Source b25 full regression2043/12; 266 cold dependency16 targeted passes, no new full claim. Existing409 APK/Web unchanged. Update actual delivery to 266, then continue only remaining authorized high-value work; real cloud/model/phone/cross-day remain distinct gates. No production/private/social/new fee/key operations.
