@@ -17,3 +17,9 @@
 | 容量/归档 | 当前固定256MiB guard仍存在；弹性磁盘预算与异常速率分离、验证后冷归档/回读仍待做；不能截断链或越权真实重整 |
 
 原31项相关运行/维护/检索成长检查及3项新检查点验证通过。baseline及初始候选见evidence/living-memory-unified。后续新来源、恢复/重放/前台抢占及真实磁盘比较继续补验，不能把这一个修复写成整项任务完成。
+
+## 后续实际代码：软48h和原始话语回忆
+
+同Store PersonSelf按当前task query/48h软窗口/时间选取，明确同意保留的话语才入候选；最多96条可见header、4个source-backed交流、热context至多2段，重要旧源不被48h删除。384字符逐字片段带原文offset与来源、reported-speech而非事实。privacy/active在SQL LIMIT前过滤。实际原INTERPRET→C→RENDER验证暴露末尾omission元数据把整个PersonSelf丢弃，已加有来源的单段回忆→稳定self降级，不抬模型预算/不削弱来源。
+
+70相关检查24.19s通过，含72h虚拟间隔/同主体重启/旧原文实际进入RENDER/撤回后消失/未选择保留的query不落库；初始预算失败保留在soft48-result。不是实际跨日相处或商业模型回忆质量资格。APK未重打。

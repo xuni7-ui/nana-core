@@ -36,7 +36,8 @@ def rows(store, kind, scope, privacy, *, limit=32, target=None):
         return ()
     storage={'PERSONAL_ADOPTION':'ASSERTION','CONVERSATION_EXCHANGE':'RELATIONSHIP_EVENT','LIVED_LANGUAGE_SAMPLE':'EXPERIENCE_CANDIDATE'}[kind]
     sql = 'SELECT * FROM continuity_records WHERE record_kind=? AND scope=?'
-    args = [storage, scope]
+    sql += ' AND lifecycle=? AND privacy_class IN ('+','.join('?' for _ in privacy)+')'
+    args = [storage, scope, 'ACTIVE', *privacy]
     if target is not None:
         sql += ' AND target_id=?'
         args.append(target)
@@ -148,7 +149,7 @@ def retain_exchange(store, *, entity_id, scope, topic, user_memory_id, text, cyc
             memories=tuple(dict.fromkeys((user_memory_id, *source_memory_ids))), records=(cycle.record_id,))
 
 
-def project(store, *, entity_id, scope, privacy, topic=None):
+def project(store, *, entity_id, scope, privacy, topic=None, query_terms=()):
     """Rebuild the self from existing authority; no serialized second self."""
     from .subject.projections import project_self
     from .relational.projections import self_narrative
@@ -159,8 +160,18 @@ def project(store, *, entity_id, scope, privacy, topic=None):
     anchor = anchor_view(store, entity_id, scope=scope, privacy_classes=privacy)
     adoption = adopted(store, scope, entity_id, privacy)
     # Significant adopted records are selected independently of dialogue recency.
-    exchanges = rows(store, 'CONVERSATION_EXCHANGE', scope, privacy, limit=8, target=topic) if topic else ()
-    exchanges = tuple(r for r in exchanges if r['payload']['entity_id'] == entity_id)[:4]
+    terms=tuple(t for t in query_terms if type(t) is str and 2<=len(t)<=64)[:8]
+    recent_floor=store.clock.utc_now_us()-48*3_600_000_000
+    available=rows(store,'CONVERSATION_EXCHANGE',scope,privacy,limit=96 if terms else 16,target=topic) if topic else ()
+    available=tuple(r for r in available if r['payload']['entity_id']==entity_id)
+    def rank(record):
+        data=record['payload'];reported=data['user_statement']+'\n'+data['assistant_utterance']
+        hits=sum(bool(re.search(re.escape(t),reported,re.IGNORECASE)) for t in terms)
+        return (hits,data['as_of_us']>=recent_floor,data['as_of_us'])
+    # 48h is a soft relevance feature, never deletion or a hard history cutoff.
+    # Matching older speech can outrank unrelated recent chatter. Stable self,
+    # relationship and commitment sources still have independent priority.
+    exchanges=tuple(sorted(available,key=rank,reverse=True)[:4])
     narrative = self_narrative(store, scope=scope, privacy_classes=privacy, entity_id=entity_id)
     episodes=[]
     for raw in store.db.execute('SELECT e.* FROM experiences e JOIN continuity_records r ON r.record_id=e.record_id WHERE r.scope=? ORDER BY e.created_at_us DESC LIMIT 8',(scope,)):
@@ -223,7 +234,12 @@ def project(store, *, entity_id, scope, privacy, topic=None):
             'personality': personality_body, 'relationship': relationship,
             'relationship_anchor': anchor.model_dump(mode='json') if anchor else None,
             'adopted_conventions': [r['payload'] for r in adoption],
-            'recent_exchanges': [r['payload'] for r in reversed(exchanges)],
+            'recent_exchanges': [r['payload'] for r in sorted(exchanges,key=lambda r:(r['payload']['as_of_us'],store.event(r['event_id'])['seq']))],
+            'preferred_exchange_memory_ids':tuple(r['payload']['user_memory_id'] for r in exchanges),
+            'exchange_source_records':{r['payload']['user_memory_id']:r['record_id'] for r in exchanges},
+            'recent_selection':{'candidate_window_hours':48,'window_is_hard_limit':False,
+                'visible_candidates':len(available),'selected_count':len(exchanges),'query_term_count':len(terms),
+                'scope':'EXPLICITLY_RETAINED_REPORTED_SPEECH_NOT_NEW_FACT'},
             'narrative': narrative_body, 'source_record_ids': refs, 'source_memory_ids': mids,
             'stable_source_record_ids':stable,'omitted_sections':tuple(dict.fromkeys(omitted)),
             'recall_status':recall,
@@ -233,18 +249,31 @@ def project(store, *, entity_id, scope, privacy, topic=None):
             'as_of_us': store.clock.utc_now_us(), 'state_token': token, 'execution_authority': False}
 
 
-def compact(view):
+def compact(view, *, query_terms=()):
     """Small stable self first; the full read-only view remains inspectable."""
     conventions = [{'kind': item['decision']['proposal']['kind'], 'value': item['decision']['proposal']['value'],
                     'basis': item['confidence'], 'as_of_us': item['as_of_us']} for item in view['adopted_conventions']]
     living=view['living']
+    preferred=view.get('preferred_exchange_memory_ids',())[:2]
+    selected=[r for r in view['recent_exchanges'] if r['user_memory_id'] in preferred] if preferred else view['recent_exchanges'][-2:]
+    terms=tuple(t for t in query_terms if type(t) is str and 2<=len(t)<=64)[:8]
+    excerpts=[]
+    for record in selected:
+        item={k:record[k] for k in ('epistemic_status','as_of_us')};spans={}
+        for key in ('user_statement','assistant_utterance'):
+            original=record[key];start=0
+            matches=[m for t in terms if (m:=re.search(re.escape(t),original,re.IGNORECASE))]
+            if matches:start=max(0,min(m.start() for m in matches)-96)
+            item[key]=original[start:start+384];spans[key]={'start':start,'end':start+len(item[key]),'full_characters':len(original)}
+        item['excerpt_ranges']=spans;item['user_memory_id']=record['user_memory_id'];excerpts.append(item)
     return {'identity_id':view['identity_id'],'name':view['identity']['name'],'aliases':view['identity'].get('aliases',()),
             'model_is_resource_not_self':True,'adopted_conventions':conventions,
             'relationship':{k:view['relationship'].get(k) for k in ('familiarity','interaction_style')},
             'primary_user':bool(view['relationship_anchor'] and view['relationship_anchor']['spec']['role_kind']=='PRIMARY_USER'),
             'current_self':{k:living[k] for k in ('presence','current_activity','internal')},
             'traits':{k:v for k,v in view['personality']['expression_tendencies'].items() if v not in {'UNKNOWN','UNESTABLISHED'}},
-            'recent_exchanges':[{k:r[k][:384] if k in {'user_statement','assistant_utterance'} else r[k] for k in ('user_statement','assistant_utterance','epistemic_status','as_of_us')} for r in view['recent_exchanges'][-2:]],
+            'recent_exchanges':excerpts,
+            'recent_selection':view.get('recent_selection',{}),
             'memory_access':view['memory_access'],'absence_is_not_proof_of_forgetting':True,
             'recall_status':view['recall_status'],
             'omitted_sections':view['omitted_sections'],
@@ -257,3 +286,13 @@ def stable_core(view):
     value=compact(view)
     keys=('identity_id','name','aliases','model_is_resource_not_self','adopted_conventions','primary_user','recall_status','learning_capability','memory_access','absence_is_not_proof_of_forgetting','execution_authority')
     return {**{k:value[k] for k in keys},'additional_self_context':'OMITTED_FOR_BUDGET_NOT_ABSENT'}
+
+
+def recall_core(view, *, query_terms=()):
+    """Retain one relevant verbatim excerpt before optional current-state prose."""
+    result=stable_core(view)
+    preferred=view.get('preferred_exchange_memory_ids',())[:1]
+    detail=compact(view,query_terms=query_terms)
+    result['recent_exchanges']=[r for r in detail['recent_exchanges'] if r['user_memory_id'] in preferred]
+    result['as_of_us']=view['as_of_us']
+    return result

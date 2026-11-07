@@ -1,0 +1,24 @@
+{
+  "base": "9b86008ee82241a8c9dbc2672e87a3a0f2ab8779",
+  "qualification": "OFFLINE_CONTROLLED",
+  "passed": 70,
+  "failed": 0,
+  "duration_seconds": 24.19,
+  "real_provider_calls": 0,
+  "physical_phone": "NOT_RUN",
+  "long_term_companionship": "NOT_RUN",
+  "first_failure": {
+    "test": "test_older_relevant_speech_reaches_actual_render_and_withdrawal_rechecks",
+    "result": "PERSON_SELF_CONTEXT_BUDGET",
+    "cause": "final omission metadata overflow dropped entire self block after initial fit",
+    "fix": "smaller sourced recall and stable forms reconsidered at final whole-package budget pass"
+  },
+  "checks": [
+    "72h synthetic gap and same original Subject restart",
+    "older relevant speech beats recent irrelevant chatter",
+    "actual INTERPRET/original C/RENDER receives original exact excerpt",
+    "withdrawal removes future use",
+    "unretained query not persisted",
+    "privacy before row limit"
+  ]
+}

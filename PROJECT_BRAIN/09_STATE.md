@@ -7,8 +7,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 82,
-  "as_of_us": 1794057765263314,
+  "revision": 83,
+  "as_of_us": 1794058822158384,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_LIVING_MEMORY_DREAM_STORAGE_TOKEN_INTEGRATION",
@@ -20,7 +20,7 @@
     "完整请求模型计数绑定接入原ContextAssembler/Router，缺商业tokenizer不冒充准确token；实际派发前复核，原文闭包不长期保留。",
     "只对确认PROPOSED正数实测字节结算剩余字节额度；原财务/次数/UNKNOWN保留，新宿主32MB而旧设置4MB不变。",
     "合并用户持续生活/梦境/遗忘/全局Token补充，409已定版；后端全部完成后才一次性处理必要客户端变化，不重复APK。",
-    "同条件虚拟1h原Store空闲360→1永久事件，逻辑增长1171456→0字节、family文件长度增长1715248→313072；31原相关及4新增验证通过，真实生产未验。"
+    "软48h/current task相关旧原文进入实际RENDER，撤回后不可用；修复final omission元数据挤掉整个Self预算bug，70相关检查24.19s通过；不重新构建APK。"
   ],
   "open_gates": [
     "新补充已并入同一主任务，继续原维护上的梦境/48h动态上下文/情绪动机因果/弹性容量/安全冷归档与Token元数据；不以空闲修复或APK当总完成。",

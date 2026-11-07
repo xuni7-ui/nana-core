@@ -432,13 +432,16 @@ class ContextAssembler:
                     safe=[{k:v[k] for k in ('category','status','disclosure_policy','risk_class','authority_need','external_effect','execution_authority')} for v in values]
                     candidates.append((936.0,ContextBlock(block_id='private-intent-state:'+scope,kind='PRIVATE_INTENT_STATE',data_json=canonical({'activities':safe,'content_withheld':True,'delivery_authority':False}),source_record_ids=tuple(v['record_id'] for v in values),source_memory_ids=tuple(sorted({m for v in values for m in v['source_memory_ids']})))))
         if conversation_topic is not None and self.store.schema_target>=13:
-            from .person_self import project, compact, stable_core
+            from .person_self import project, compact, stable_core, recall_core
             for scope in request.scopes:
-                person=project(self.store,entity_id=request.entity_id,scope=scope,privacy=privacy,topic=conversation_topic)
+                person=project(self.store,entity_id=request.entity_id,scope=scope,privacy=privacy,topic=conversation_topic,query_terms=request.query_terms)
                 candidates.append((980.0,ContextBlock(block_id='person-self:'+scope,kind='PERSON_SELF',
-                    data_json=canonical(compact(person)),source_record_ids=person['source_record_ids'],source_memory_ids=person['source_memory_ids'])))
+                    data_json=canonical(compact(person,query_terms=request.query_terms)),source_record_ids=person['source_record_ids'],source_memory_ids=person['source_memory_ids'])))
                 refs=person['stable_source_record_ids']
-                self_fallbacks['person-self:'+scope]=ContextBlock(block_id='person-self:'+scope,kind='PERSON_SELF',data_json=canonical(stable_core(person)),source_record_ids=refs,source_memory_ids=tuple(sorted({m for rid in refs for m in RecordService(self.store).support(rid)})))
+                recall_refs=tuple(dict.fromkeys((*refs,*(person['exchange_source_records'][mid] for mid in person['preferred_exchange_memory_ids'][:1]))))
+                self_fallbacks['person-self:'+scope]=(
+                    ContextBlock(block_id='person-self:'+scope,kind='PERSON_SELF',data_json=canonical(recall_core(person,query_terms=request.query_terms)),source_record_ids=recall_refs,source_memory_ids=tuple(sorted({m for rid in recall_refs for m in RecordService(self.store).support(rid)}))),
+                    ContextBlock(block_id='person-self:'+scope,kind='PERSON_SELF',data_json=canonical(stable_core(person)),source_record_ids=refs,source_memory_ids=tuple(sorted({m for rid in refs for m in RecordService(self.store).support(rid)}))))
         if conversation_topic is not None and self.store.schema_target>=13:
             from .lived_language import context as language_context
             for scope in request.scopes:
@@ -484,11 +487,11 @@ class ContextAssembler:
             if proposed.manifest.input_tokens <= proposed.manifest.input_limit:
                 selected.append(block)
             elif block.block_id in self_fallbacks:
-                fallback=self_fallbacks[block.block_id]
                 partial_omission=omitted+[block.block_id+':CURRENT_AND_LIVED_DETAIL']
-                proposed=self._package(frame,request,policy,coverage,selected+[fallback],partial_omission,conflict_ids)
-                if proposed.manifest.input_tokens<=proposed.manifest.input_limit:
-                    selected.append(fallback);omitted=partial_omission
+                for fallback in self_fallbacks[block.block_id]:
+                    proposed=self._package(frame,request,policy,coverage,selected+[fallback],partial_omission,conflict_ids)
+                    if proposed.manifest.input_tokens<=proposed.manifest.input_limit:
+                        selected.append(fallback);omitted=partial_omission;break
                 else:omitted.append(block.block_id)
             else:
                 omitted.append(block.block_id)
@@ -496,8 +499,18 @@ class ContextAssembler:
         # Omission metadata itself consumes budget; drop complete optional blocks
         # until the whole serialized input (not only prose) fits.
         while package.manifest.input_tokens > package.manifest.input_limit and len(selected) > len(mandatory):
-            omitted.append(selected.pop().block_id)
-            package = self._package(frame, request, policy, coverage, selected, omitted, conflict_ids)
+            last=selected[-1]
+            # Omission metadata can tip an initially fitting self block over the
+            # limit. Try its smaller sourced forms before losing the whole self.
+            for fallback in self_fallbacks.get(last.block_id,()):
+                if len(fallback.model_dump_json())>=len(last.model_dump_json()):continue
+                trial_omitted=list(dict.fromkeys((*omitted,last.block_id+':CURRENT_AND_LIVED_DETAIL')))
+                trial=self._package(frame,request,policy,coverage,[*selected[:-1],fallback],trial_omitted,conflict_ids)
+                if trial.manifest.input_tokens<=trial.manifest.input_limit:
+                    selected[-1]=fallback;omitted=trial_omitted;package=trial;break
+            else:
+                omitted.append(selected.pop().block_id)
+                package = self._package(frame, request, policy, coverage, selected, omitted, conflict_ids)
         if package.manifest.input_tokens > package.manifest.input_limit:
             raise CoreError("INSUFFICIENT_CONTEXT_BUDGET")
         if any(c not in package.manifest.selected_ids for c in conflict_ids):

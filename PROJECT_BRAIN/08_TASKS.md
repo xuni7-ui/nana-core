@@ -1399,3 +1399,8 @@ The routed session still inherited24 despite the host's explicit larger allowanc
 ### 2026-11-07 · User living/dream/storage/token supplement merged, same mission
 
 原任务和软件继续，409是4.0.9修复件，用户明确禁止因后端适配逐次重打APK；后端全完成后仅一次性处理必要客户端改动。新要求输入摘要和当前差额见 LIVING_MEMORY_UNIFIED.md/task_inputs。首先实测原无输入虚拟1h360永久事件/1171456逻辑增长/1715248family文件长度增长，候选原C检查点与空SCAN操作计时1事件/0逻辑增长/313072family增长，模型0；31原相关及4新增验证通过。并非真实1h驻留或生产改善，不删旧链/经历/动作审计，不新建主体/Store/循环。梦境价值选择/未来回忆、48h候选、弹性容量与冷档完整性、真实usage账本继续施工；真实云/模型/人/手机/跨日资格分列。
+
+
+### 2026-11-07 · Same task soft recent window and actual rendered source selection
+
+原PersonSelf/Assembler增加task相关软48h候选和逐字excerpt/offset，重要旧源可优先、SQL privacy/active过滤先于LIMIT。真实原C/本地传输请求验证发现并修复最终omission元数据挤掉全Self的预算bug，保留source-backed单段与稳定self降级，不抬预算。70相关检查24.19s通过，含72h虚拟重启、实际RENDER和撤回；初次失败留证。不是生产/真人/长期资格；409APK保留不重打。继续梦境/存储/成本原任务。
