@@ -1,3 +1,11 @@
+# Active continuation — 10k diverse synthetic retrieval evidence
+
+External benchmark added after b3d0124; on a private copy of the existing 10k synthetic Store, 24 distinct Chinese/ASCII exact note queries, with same-text other-entity distractors, yielded baseline 0/24 and candidate 24/24 target recall, candidate wrong source 0/24. Single-run P50/P95 baseline 9.27/12.80ms, candidate 0.37/0.70ms. Different result contracts, constrained synthetic examples; not semantic/live/long-term qualification. Initial privacy-sidecar and note-prefix fixture failures retained. See evidence/heldout-10k-20261108. The runtime delivery remains 266 and APK409 remains unchanged.
+
+Still open: varied independent evaluations at 100k+, original S8 fallback beyond 16 notes, safe physical hot-history archiving/recovery and actual production/phone/model/cross-day evidence. Continue the same mission without unauthorized production, private data or paid calls.
+
+---
+
 # Active continuation — 266 delivered, original mission remains open
 
 Delivery branch commit `1568a6e7f554cc8dd201663d078bc5d8e734205e` selects Core runtime `266272a92b5837b2458c107163bd95ea8e0d7fe4` and the existing b873 client 4.0.9. The 283-file Core was built twice identically, installed offline, and its remote archive was actually downloaded and SHA-256 verified as `94684d933480e195a93493863ac8b73abd3b75b548e53543c3db3997c55a6963` (15,022,640 bytes). It is not installed on the real host by this delivery. The existing APK was not rebuilt and remains SHA-256 `82e6ba6d18378e500954b4848f3d3f02b5767cb8ea641acf99ef422260afebf9`.

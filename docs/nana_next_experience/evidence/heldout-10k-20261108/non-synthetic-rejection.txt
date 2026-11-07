@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/nana-unified-release/tools/nana_next_experience/memory_heldout_compare.py", line 97, in <module>
+    main()
+  File "/workspace/nana-unified-release/tools/nana_next_experience/memory_heldout_compare.py", line 40, in main
+    raise ValueError('SYNTHETIC_CORPUS_REQUIRED')
+ValueError: SYNTHETIC_CORPUS_REQUIRED

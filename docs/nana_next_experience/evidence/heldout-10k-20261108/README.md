@@ -1,0 +1,7 @@
+# Diverse exact-query synthetic comparison
+
+On source b3d0124 runtime, the external `tools/nana_next_experience/memory_heldout_compare.py` copies the existing 10,000-row `synthetic.scale` fixture using SQLite backup, adds 24 newly specified Chinese/ASCII exact-query note cases and same-text other-entity distractors through original MemoryService, then alternates original ranked query and original literal-note lookup. The two arms have different result contracts: baseline returns up to 128 ranked candidates; candidate returns up to 4 explicit retained notes. Baseline wrong-source count is not measured. No model, tokenizer, production Store, or semantic judgment was used.
+
+Final 24 distinct exact queries: baseline target 0/24, candidate 24/24, candidate wrong source 0/24. Baseline P50/P95 9.27/12.80 ms; candidate 0.37/0.70 ms. These timings are one local run and not proof of broad semantic generalization, end-to-end context quality, real costs or long-term recall. Source memory volume is 10,000 plus 48 synthetic notes; this does not qualify 100k/200k multi-query heldout.
+
+The first attempt failed `PRIVACY_ANCHOR_MISSING`; the tool now copies the standalone synthetic privacy sidecar and explicitly refuses external anchors. The next fixture mistakenly used a reference without the required `note:` prefix and produced 0/24; its result is retained. After fixing the fixture, final results above were obtained. A copy containing recorded-conversation fixture entries was rejected by the source guard. No runtime behavior was changed and no APK was rebuilt.

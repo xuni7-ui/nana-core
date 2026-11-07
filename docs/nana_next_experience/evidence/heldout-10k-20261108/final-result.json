@@ -1,0 +1,28 @@
+{
+  "qualification": "SYNTHETIC_EXACT_SOURCE_SELECTION_NOT_SEMANTIC_OR_LIVE",
+  "initial_memories": 10000,
+  "distinct_queries": 24,
+  "query_families": [
+    "Chinese literal",
+    "ASCII literal"
+  ],
+  "models_or_paid_calls": 0,
+  "actual_tokens": null,
+  "actual_cost": null,
+  "arms": {
+    "baseline": {
+      "correct": 0,
+      "wrong_source": "NOT_MEASURED_RANKED_CANDIDATES",
+      "missing": 24,
+      "p50_ms": 9.26518150663469,
+      "p95_ms": 12.80366099672392
+    },
+    "candidate": {
+      "correct": 24,
+      "wrong_source": 0,
+      "missing": 0,
+      "p50_ms": 0.37465749483089894,
+      "p95_ms": 0.6998980097705498
+    }
+  }
+}

@@ -2523,3 +2523,8 @@ Runtimef03fcbb, tool edfd685, artifactc8d5934.139related checks passed;280-file 
 ### 2026-11-07 · 266 candidate delivery and continuation
 
 Delivery `1568a6e7f554cc8dd201663d078bc5d8e734205e` selects unchanged client409 and Core `266272a92b5837b2458c107163bd95ea8e0d7fe4`. Core archive: 15,022,640 bytes, SHA-256 `94684d933480e195a93493863ac8b73abd3b75b548e53543c3db3997c55a6963`; two builds agree and the actual remote download matches. Offline installation and DEV same-subject upgrade/restart/source-withdrawal/usage tests passed; separate DEV BFF tested. Full regression is specifically source b25: 2043 passed/12 skipped, 640.22s; 266 has 16 focused cold-dependency passes. No APK rebuild, real provider call or production deployment. Real host/phone/model/cross-day and live vector mapping remain unverified; independent larger-scope retrieval qualification and physical hot-history archiving remain open. See `docs/nana_next_experience/ACTIVE_CHECKPOINT.md`.
+
+
+### 2026-11-08 · 10k synthetic exact retrieval comparison
+
+On the existing 10k synthetic Store copy, 24 new Chinese/ASCII exact-query cases and same-text other-entity distractors gave baseline target0/24 versus candidate24/24, candidate wrong-source0/24; local P50/P95 9.27/12.80ms versus0.37/0.70ms. Baseline retrieves ranked candidates, candidate retrieves explicit notes: different contracts. Not semantic/model/live or 100k+ independent qualification. Initial benchmark fixture failures and correction are preserved in docs/nana_next_experience/evidence/heldout-10k-20261108. Runtime266 and client409 unchanged; original task remains active.
