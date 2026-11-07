@@ -1,0 +1,39 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_weekly_review_is_bounded_resumable_and_does_not_reinvent_unchanged_summary _
+
+tmp_path = PosixPath('/tmp/ndream-weekly-first/test_weekly_review_is_bounded_0')
+
+    def test_weekly_review_is_bounded_resumable_and_does_not_reinvent_unchanged_summary(tmp_path):
+        import json
+        path=tmp_path/'self.db'
+        with fresh(path) as r:
+            clock=r.clock.source;identity=r.identity_id
+            for n in range(9):capture(r,'weekly-'+str(n),'SYNTHETIC weekly source '+str(n))
+            maintenance=r.work.maintenance;maintenance.interval=SECOND;maintenance.discover()
+            for _ in range(24):clock.advance(100_000);r.step()
+            assert r.store.db.execute("SELECT 1 FROM events WHERE source_namespace='living.consolidation-adopted'").fetchone()
+        clock.advance(7*86_400_000_000)
+        with fresh(path,clock=clock) as r:
+            maintenance=r.work.maintenance
+            original=r.store.db.execute("SELECT * FROM jobs WHERE work_kind='SCAN'").fetchone()
+            before=r.store.db.execute("SELECT count(*) FROM events WHERE source_namespace='living.consolidation'").fetchone()[0]
+            activity=maintenance.slice()
+            assert activity['mode']=='WEEKLY_REVIEW' and activity['read_count']<=4
+            job=r.store.one('jobs',original['job_id']);metadata=json.loads(job['body_json'])
+            assert job['cursor']==original['cursor'] and metadata['deep_cursor']>0
+            cursor=metadata['deep_cursor']
+        with fresh(path,clock=clock) as r:
+            assert r.identity_id==identity
+            job=r.store.db.execute("SELECT * FROM jobs WHERE work_kind='SCAN'").fetchone()
+            assert json.loads(job['body_json'])['deep_cursor']==cursor
+            for _ in range(24):clock.advance(100_000);r.lease.heartbeat();r.work.maintenance.slice()
+            assert r.store.db.execute("SELECT count(*) FROM events WHERE source_namespace='living.consolidation'").fetchone()[0]==before
+            metadata=json.loads(r.store.one('jobs',job['job_id'])['body_json'])
+>           assert metadata['deep_cursor']==0 and metadata['last_deep_review_us']>=clock.utc_now_us()-3_000_000
+E           assert (4 == 0)
+
+tests/living_autonomy/test_maintenance.py:151: AssertionError
+=========================== short test summary info ============================
+FAILED tests/living_autonomy/test_maintenance.py::test_weekly_review_is_bounded_resumable_and_does_not_reinvent_unchanged_summary
+1 failed, 5 deselected in 0.43s

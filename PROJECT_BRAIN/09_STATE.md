@@ -7,8 +7,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 83,
-  "as_of_us": 1794058822158384,
+  "revision": 84,
+  "as_of_us": 1794059941195067,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_LIVING_MEMORY_DREAM_STORAGE_TOKEN_INTEGRATION",
@@ -19,13 +19,13 @@
     "原owner等待模型时可处理既有暂停/撤权/停止；不递归聊天/导入，停止保留UNKNOWN及费用并禁止新渲染调用。",
     "完整请求模型计数绑定接入原ContextAssembler/Router，缺商业tokenizer不冒充准确token；实际派发前复核，原文闭包不长期保留。",
     "只对确认PROPOSED正数实测字节结算剩余字节额度；原财务/次数/UNKNOWN保留，新宿主32MB而旧设置4MB不变。",
-    "合并用户持续生活/梦境/遗忘/全局Token补充，409已定版；后端全部完成后才一次性处理必要客户端变化，不重复APK。",
-    "软48h/current task相关旧原文进入实际RENDER，撤回后不可用；修复final omission元数据挤掉整个Self预算bug，70相关检查24.19s通过；不重新构建APK。"
+    "原Maintenance增量/周回看、原C可休息且条件变化后再判断、实际后续RENDER及纠错撤回已隔离验证；新宿主弹性磁盘预算和上游usage/fixture分列，248相关检查62.90s通过。",
+    "409APK/Web与b873同source tree和既有SHA，全程未重打；软48h旧原文选择及同源fallback保留，不因后端适配重建客户端。"
   ],
   "open_gates": [
-    "新补充已并入同一主任务，继续原维护上的梦境/48h动态上下文/情绪动机因果/弹性容量/安全冷归档与Token元数据；不以空闲修复或APK当总完成。",
+    "继续同一任务：冷历史完整性/跨引用/回读/恢复/隐私及实际物理治理、原S8对梦境/上下文错误的独立后续策略验证、其余产品融合；不以本批维护/容量/usage通过称全部完成。",
     "真实模型/商业Tokenizer/手机/跨日/活库向量映射仍缺安全绑定，只暂停相关资格，不碰生产-s1/AstrBot/Iris或既有正式入口。",
-    "409覆盖安装文件已提供；新的后端最终Core包尚未发布，预发布522/b873归档不作为最终组合。"
+    "新后端已代码隔离测试，最终Core包/包内安装probe未发布；先收口后端，再一次性处理必要客户端改动，APK未因本批重打。"
   ],
   "evidence_refs": [
     "docs/nana_next_experience/LIVING_MEMORY_UNIFIED.md",

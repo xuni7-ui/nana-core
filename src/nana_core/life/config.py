@@ -57,6 +57,12 @@ class LifeConfig(DTO):
     controlled_projects:tuple[ControlledProject,...]=Field(default=(),max_length=4)
     world_source_root:str|None=None
     world_source_interval_seconds:int=Field(default=300,ge=30,le=86400)
+    # Existing hosts retain their explicit/missing fixed ceiling. New-host
+    # factory may opt into a disk-aware plan; this never edits a live config.
+    state_capacity_policy:Literal['FIXED','DISK_AWARE']='FIXED'
+    state_capacity_ceiling_mb:int=Field(default=16384,ge=1,le=1048576)
+    state_disk_reserve_mb:int=Field(default=256,ge=1,le=1048576)
+    state_backup_headroom_copies:int=Field(default=2,ge=1,le=8)
     max_state_mb:int=Field(default=256,ge=1,le=4096)
     max_state_growth_mb_per_hour:int=Field(default=32,ge=1,le=1024)
     storage_review_seconds:int=Field(default=60,ge=1,le=3600)
@@ -108,7 +114,8 @@ DAILY_PROVIDER_DEFAULTS = MappingProxyType({
 
 def daily_configuration(**fields) -> LifeConfig:
     """New-host defaults within the original128-call ceiling; no paid grant."""
-    return LifeConfig(**{**DAILY_PROVIDER_DEFAULTS, **fields})
+    capacity='FIXED' if 'max_state_mb' in fields else 'DISK_AWARE'
+    return LifeConfig(**{**DAILY_PROVIDER_DEFAULTS,'state_capacity_policy':capacity,**fields})
 
 
 def home_path(home):

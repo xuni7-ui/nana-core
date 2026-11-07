@@ -20,6 +20,11 @@ REBUILDABLE_LOOKUP_INDEXES = {
         "WHERE substr(predicate_key,1,10)='user-note.'"
     ),
     "artifacts_event_lookup": "CREATE INDEX artifacts_event_lookup ON artifacts(created_event_id)",
+    "memory_dependency_parent_lookup": "CREATE INDEX memory_dependency_parent_lookup ON memory_dependencies(parent_kind,parent_id,memory_id)",
+    "memory_consolidated_lookup": (
+        "CREATE INDEX memory_consolidated_lookup ON memories(entity_id,scope,privacy_class,lifecycle,assessment) "
+        "WHERE substr(predicate_key,1,17)='consolidation.v1.'"
+    ),
     "memories_event_lookup": "CREATE INDEX memories_event_lookup ON memories(event_id)",
     "evidence_event_lookup": "CREATE INDEX evidence_event_lookup ON continuity_evidence(event_id)",
 }

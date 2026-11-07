@@ -1,4 +1,5 @@
 """Operational resource offer, not motivation or a grant. Estimates stay labeled."""
+import json
 from ..contracts import DTO
 from .contracts import DAY
 
@@ -21,6 +22,14 @@ class ResourceState(DTO):
     unresolved_calls: int
     max_observed_latency_us: int | None
     unknown_cost_calls: int = 0
+    provider_reported_input_tokens: int | None = None
+    provider_reported_output_tokens: int | None = None
+    real_usage_reported_calls: int = 0
+    fixture_reported_input_tokens: int | None = None
+    fixture_reported_output_tokens: int | None = None
+    fixture_usage_reported_calls: int = 0
+    usage_missing_or_invalid_calls: int = 0
+    token_accounting: str = 'UPSTREAM_REPORTED_NOT_BYTES_OR_BILLING;FIXTURE_SEPARATE;MISSING_NOT_ZERO'
     external_execution_authority: bool = False
 
 
@@ -37,6 +46,46 @@ def accounted_bytes(row):
     return row['reserved_bytes']
 
 
+def _reported_usage_pair(usage):
+    """Count each convention once, never turn bytes/absence into token usage."""
+    if type(usage) is not dict:return None
+    values=[]
+    for aliases in (('prompt_tokens','input_tokens'),('completion_tokens','output_tokens')):
+        present=[usage[key] for key in aliases if key in usage]
+        if not present or any(type(n) is not int or not 0<=n<=2**53-1 for n in present) or len(set(present))!=1:return None
+        values.append(present[0])
+    total=usage.get('total_tokens')
+    if total is not None and (type(total) is not int or total!=sum(values)):return None
+    return tuple(values)
+
+
+def reported_token_usage(store,world,*,legacy_calls=0):
+    """Metadata-only projection of accepted original cognition receipts.
+
+    A provider's report is not an invoice or a measured tokenizer binding.
+    UNKNOWN/unaccepted/deleted receipts retain reservations and missing usage;
+    local fixture totals can never be presented as commercial model evidence.
+    """
+    real=[0,0,0];fixture=[0,0,0];missing=legacy_calls
+    for request in world:
+        row=store.db.execute("SELECT json_extract(CAST(a.payload AS TEXT),'$.reply.origin'),"
+            "json_extract(CAST(a.payload AS TEXT),'$.reply.usage') "
+            "FROM continuity_records r JOIN artifacts a ON a.artifact_id=r.payload_artifact_id "
+            "WHERE r.record_kind='COGNITION_PROPOSAL' AND r.target_id=? AND r.lifecycle='ACTIVE' LIMIT 1",
+            (request['request_id'],)).fetchone()
+        try:pair=_reported_usage_pair(json.loads(row[1])) if row and row[1] is not None else None
+        except (ValueError,TypeError):pair=None
+        if pair is None or row[0] not in {'REAL_PROVIDER','SYNTHETIC'}:
+            missing+=1;continue
+        bucket=real if row[0]=='REAL_PROVIDER' else fixture
+        bucket[0]+=pair[0];bucket[1]+=pair[1];bucket[2]+=1
+    return {'provider_reported_input_tokens':real[0] if real[2] else None,
+        'provider_reported_output_tokens':real[1] if real[2] else None,'real_usage_reported_calls':real[2],
+        'fixture_reported_input_tokens':fixture[0] if fixture[2] else None,
+        'fixture_reported_output_tokens':fixture[1] if fixture[2] else None,'fixture_usage_reported_calls':fixture[2],
+        'usage_missing_or_invalid_calls':missing}
+
+
 def resource_state(store,config):
     day=store.clock.utc_now_us()//DAY*DAY
     rows=store.db.execute('SELECT * FROM runtime_cognition_calls WHERE started_at_us>=?',(day,)).fetchall()
@@ -51,7 +100,7 @@ def resource_state(store,config):
     pressure='EXHAUSTED' if admission>=limits[0] or cost>=limits[1] or len(rows)+len(world)>=config.max_calls_per_day else 'CONSTRAINED' if admission*2>=limits[0] or cost*2>=limits[1] else 'AVAILABLE'
     latencies=[r['wall_latency_us'] for r in rows if r['wall_latency_us'] is not None]
     latencies.extend(r['latency_us'] for r in world if r['latency_us'] is not None)
-    return ResourceState(calls=len(rows)+len(world),reserved_bytes=rb,admission_bytes=admission,background_admission_bytes=background,actual_input_bytes=sum(r['input_bytes'] or 0 for r in [*rows,*world]),actual_output_bytes=sum(r['output_bytes'] or 0 for r in [*rows,*world]),
+    return ResourceState(**reported_token_usage(store,world,legacy_calls=len(rows)),calls=len(rows)+len(world),reserved_bytes=rb,admission_bytes=admission,background_admission_bytes=background,actual_input_bytes=sum(r['input_bytes'] or 0 for r in [*rows,*world]),actual_output_bytes=sum(r['output_bytes'] or 0 for r in [*rows,*world]),
         reserved_estimated_cost_micro=cost,actual_cost_micro=sum(r['actual_cost_micro'] or 0 for r in [*rows,*world]),background_reserved_bytes=sum(r['reserved_bytes'] for r in rows if r['lane']=='BACKGROUND')+sum(r['reserved_bytes'] for r in world if r['request_id'] not in foreground),
         byte_limit=limits[0],estimated_cost_limit_micro=limits[1],pressure=pressure,unresolved_calls=sum(r['state'] in {'RESERVED','UNKNOWN'} for r in rows)+sum(r['state'] in {'CALLING','UNKNOWN'} for r in world),unknown_cost_calls=sum(r['actual_cost_micro'] is None and r['state'] in {'CALLING','UNKNOWN','FAILED','PROPOSED','REJECTED'} for r in world),max_observed_latency_us=max(latencies) if latencies else None)
 

@@ -1,0 +1,81 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+__ test_consolidated_original_sources_reach_render_after_restart_and_withdraw __
+
+app = <nana_core.life.application.LifeApplication object at 0x7f53bf388c20>
+
+    def test_consolidated_original_sources_reach_render_after_restart_and_withdraw(app):
+        long='SYNTHETIC observed line. '*32+'LANTERN_MEETING Friday afternoon at north gate.'
+        mid=source(app,'source',long,importance=.9,significance=.8)
+        rid,summary,body,_=consolidate(app,mid)
+        store=app.runtime.store
+        assert body['method']=='SOURCE_EXCERPTS_V1' and body['model_calls']==0
+        memory=MemoryService(store).read(summary)
+        assert memory['authority']=='INFERRED' and memory['epistemic_kind']=='SUMMARY'
+        fragment=next(f for f in body['fragments'] if f['memory_id']==mid)
+        assert fragment['excerpt']==long[fragment['start']:fragment['end']]
+        assert fragment['event_time_us']==11 and fragment['observed_time_us']!=11
+        assert not store.all('cognitive_requests')
+        home=app.home;clock=app.clock;identity=app.runtime.identity_id;app.close();clock.advance(72*3_600_000_000)
+        with relay(home,'CHAT',recall_query_terms=('LANTERN_MEETING',)) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as current:
+                current.pause()
+                recalls=current.runtime.work.maintenance.recall(('LANTERN_MEETING',))
+                assert recalls and recalls[0]['fragments'][0]['start']>0
+                assert 'Friday afternoon' in str(recalls)
+                answer=current.chat('When was LANTERN_MEETING?',message_id='dream-recall',topic='daily')
+                assert answer['render_state']=='UNVERIFIED_MODEL_WORDING' and len(requests)==2
+                context=json.loads(requests[-1]['context_json'])
+                blocks=[b for b in context['blocks'] if b['kind']=='CONSOLIDATED_RECALL']
+>               assert blocks and 'Friday afternoon' in str(blocks)
+E               assert ([])
+
+tests/person_self/test_dream_recall.py:62: AssertionError
+_____ test_consolidation_excludes_transient_receipts_and_separates_privacy _____
+
+app = <nana_core.life.application.LifeApplication object at 0x7f53bf2b5ac0>
+
+    def test_consolidation_excludes_transient_receipts_and_separates_privacy(app):
+        high=source(app,'high','SYNTHETIC important public memory',privacy='PROJECT',importance=.9)
+        low=source(app,'low','SYNTHETIC less important memory',privacy='PROJECT',importance=.1)
+        secret=source(app,'private','SYNTHETIC private fixture not real private data',privacy='PERSONAL',importance=.4)
+>       receipt=source(app,'receipt','TRANSIENT_RECEIPT_NOT_A_LIVED_EXPERIENCE',domain='LOCAL_INTERACTION_METADATA',namespace='recorded.local.message')
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_dream_recall.py:76: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/person_self/test_dream_recall.py:13: in source
+    eid=memory.capture(EvidenceInput(provenance=Provenance(domain=domain,source_namespace=namespace,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.memory.MemoryService object at 0x7f53bf2b50d0>
+candidate = EvidenceInput(retention_consent_ref=None, schema_version=1, provenance=Provenance(domain='LOCAL_INTERACTION_METADATA',...RANSIENT_RECEIPT_NOT_A_LIVED_EXPERIENCE', privacy_class='PROJECT', event_time_us=11, observed_time_us=1791590400000000)
+
+    def capture(self, candidate: EvidenceInput):
+        self._fresh()
+        if not isinstance(candidate, EvidenceInput):
+            raise CoreError("INVALID_EVIDENCE_CONTRACT")
+        p = candidate.provenance
+        legacy = p.domain == 'LEGACY_ARCHIVE'
+        if legacy:
+            # Only the local, manifest/lineage-bound import controller can admit
+            # archived claims. A DTO, model output or a boolean is insufficient.
+            from ..migration.archive_ingress import ArchiveIngressAuthority
+            if type(self._authority) is not ArchiveIngressAuthority or not self._authority.permits(self.store, candidate):
+                raise CoreError('LEGACY_ARCHIVE_IMPORT_NOT_AUTHORIZED')
+        consented=p.domain=='CONSENTED_INTERACTION'
+        if consented and (self.store.schema_target<13 or candidate.privacy_class not in {'PUBLIC','PROJECT','PERSONAL'} or candidate.retention_consent_ref!=p.source_reference or (p.source_namespace,p.source_kind) not in {('recorded.conversation.input','USER_STATEMENT'),('recorded.conversation.feedback','USER_STATEMENT'),('recorded.conversation.feedback-check','SYSTEM_VERIFICATION'),('recorded.conversation.concern','MODEL_DERIVATION')}):raise CoreError('EXPLICIT_CONVERSATION_RETENTION_REQUIRED')
+        local=p.domain=='LOCAL_INTERACTION_METADATA'
+        if local:
+            from .contracts import PENDING_LOCAL_RECEIPT
+            legacy=p.source_kind=='USER_STATEMENT' and re.fullmatch(r'Local input reviewed meaning: (?:VENT|CHAT|HELP|SHARE|CORRECTION|DECLINE_DEPTH|DECLINE_DELIVERY|REOPEN|REOPEN_DELIVERY|FOCUS|UNCLEAR|IMPORTANT|PROJECT_STATUS)',candidate.text)
+            pending=p.source_kind=='DIRECT_OBSERVATION' and candidate.text==PENDING_LOCAL_RECEIPT
+>           if self.store.schema_target<13 or candidate.privacy_class not in {'PUBLIC','PROJECT','PERSONAL'} or not (legacy or pending):raise CoreError('LOCAL_METADATA_ONLY')
+                                                                                                                                        ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           nana_core.contracts.CoreError: LOCAL_METADATA_ONLY
+
+src/nana_core/continuity/memory.py:73: CoreError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_dream_recall.py::test_consolidated_original_sources_reach_render_after_restart_and_withdraw
+FAILED tests/person_self/test_dream_recall.py::test_consolidation_excludes_transient_receipts_and_separates_privacy
+2 failed in 0.89s

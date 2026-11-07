@@ -1,6 +1,6 @@
 """D provides opportunities and safe points; C/Agency own their semantics."""
 import json
-from ..storage import canonical,digest
+from ..storage import canonical,digest,uid
 from ..contracts import CoreError
 from ..continuity.agency import AgencyService,step_view
 from ..continuity.subject.contracts import SubjectInput
@@ -116,11 +116,36 @@ class LivingWork:
             observed_at_us=when,source_memory_ids=experience.context_memory_ids[:32],task_class=experience.task_class)
         r.submit(RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=inp,causes=(Cause(kind='EXPERIENCE',reference_id=experience_id),),due_at_us=when,priority=0))
 
+    def _memory_review_blockers(self,scope):
+        # Original current Subject intentions/commitments, not a new motive or
+        # a timer forcing C to adopt a summary. No raw source bodies retained.
+        r=self.runtime
+        pending=tuple(sorted((i['intention_id'],i['revision'],i['state']) for i in r.subject.pending(scope)))
+        obligations=tuple(tuple(row) for row in r.store.db.execute(
+            "SELECT commitment_id,revision,state FROM commitments WHERE scope=? AND state IN ('ADOPTED','ACTIVE') ORDER BY commitment_id",(scope,)))
+        where,args=self.maintenance.records.memory._query_filter((r.config.entity_id,r.identity_id),(scope,),r.config.privacy_classes,False)
+        cues=tuple(tuple(row) for row in r.store.db.execute(
+            'SELECT m.memory_id,m.updated_at_us,m.assessment FROM memories m WHERE '+where+
+            " AND substr(m.predicate_key,1,8)='concern.' ORDER BY m.memory_id LIMIT 129",args))
+        return digest([pending,obligations,cues])
+
     def review_memory(self,rid,cycle):
-        old=self.runtime.store.db.execute("SELECT 1 FROM events WHERE source_namespace='living.review' AND source_key=?",(rid,)).fetchone()
+        r=self.runtime
+        old=r.store.db.execute("SELECT 1 FROM events WHERE source_namespace='living.review' AND source_key=?",(rid,)).fetchone()
         if old:return None
         mid=self.maintenance.adopt(rid,cycle)
-        with self.runtime.store.transaction('living.memory_reviewed',{'candidate_record_id':rid,'memory_id':mid},source_namespace='living.review',source_key=rid):pass
+        job=r.store.db.execute('SELECT * FROM jobs WHERE occurrence_key=?',('maintenance-review:'+rid,)).fetchone()
+        if mid is None and cycle.judgment.stance=='DEFER':
+            if job and json.loads(job['body_json']).get('cycle_id')==cycle.cycle_id:return None
+            head=r.store.one('continuity_records',rid)
+            body=canonical({'scope':head['scope'],'cycle_id':cycle.cycle_id,'blockers':self._memory_review_blockers(head['scope'])})
+            with r.store.transaction('living.memory_review_deferred',{'candidate_record_id':rid,'cycle_id':cycle.cycle_id}) as tx:
+                if job:tx.update('jobs',job['job_id'],state='PAUSED',body_json=body,revision=job['revision']+1,updated_at_us=r.clock.utc_now_us())
+                else:tx.put('jobs',{'job_id':uid(),'occurrence_key':'maintenance-review:'+rid,'due_at_us':r.clock.utc_now_us(),
+                    'state':'PAUSED','body_json':body,'work_kind':'MEMORY_REVIEW','record_id':rid,'revision':1,'cursor':0,'owner_epoch':None,'updated_at_us':r.clock.utc_now_us()})
+            return None
+        with r.store.transaction('living.memory_reviewed',{'candidate_record_id':rid,'memory_id':mid},source_namespace='living.review',source_key=rid) as tx:
+            if job:tx.update('jobs',job['job_id'],state='DONE',revision=job['revision']+1,updated_at_us=r.clock.utc_now_us())
         return mid
 
     def maintenance_slice(self):
@@ -145,10 +170,28 @@ class LivingWork:
         if background:
             activity=background()
             if activity:return activity
-        for head in r.store.db.execute("SELECT * FROM continuity_records c WHERE record_kind='MAINTENANCE_CANDIDATE' AND lifecycle='ACTIVE' AND NOT EXISTS (SELECT 1 FROM events e WHERE e.source_namespace='living.review' AND e.source_key=c.record_id) ORDER BY created_at_us LIMIT 16"):
+        scopes=r.config.scopes;privacy=r.config.privacy_classes
+        heads=r.store.db.execute("SELECT * FROM continuity_records c WHERE record_kind='MAINTENANCE_CANDIDATE' AND lifecycle='ACTIVE' "
+            "AND scope IN ("+','.join('?' for _ in scopes)+") AND privacy_class IN ("+','.join('?' for _ in privacy)+") "
+            "AND NOT EXISTS (SELECT 1 FROM events e WHERE e.source_namespace='living.review' AND e.source_key=c.record_id) "
+            "ORDER BY created_at_us LIMIT 16",(*scopes,*privacy)).fetchall()
+        for head in heads:
             try:_,body=self.maintenance.candidate(head['record_id'])
-            except CoreError:continue
-            key='synthetic.living.review.'+head['record_id']
+            except CoreError as exc:
+                if exc.code not in {'MAINTENANCE_SOURCE_STALE','MAINTENANCE_SOURCE_UNAVAILABLE'}:raise
+                # Retire only this stale offer, preserving all original history.
+                # Otherwise old corrected candidates can starve newer work.
+                with r.store.transaction('living.memory_reviewed',{'candidate_record_id':head['record_id'],
+                        'memory_id':None,'reason':exc.code},source_namespace='living.review',source_key=head['record_id']):pass
+                continue
+            job=r.store.db.execute('SELECT * FROM jobs WHERE occurrence_key=?',('maintenance-review:'+head['record_id'],)).fetchone()
+            if job and job['state']=='PAUSED':
+                previous=json.loads(job['body_json'])
+                if previous['blockers']==self._memory_review_blockers(head['scope']):continue
+                with r.store.transaction('living.memory_review_reconsidered',{'candidate_record_id':head['record_id']}) as tx:
+                    tx.update('jobs',job['job_id'],state='WAITING',revision=job['revision']+1,updated_at_us=r.clock.utc_now_us())
+                job=r.store.one('jobs',job['job_id'])
+            key='synthetic.living.review.'+head['record_id']+('.'+str(job['revision']) if job else '')
             source=r.store.db.execute('SELECT * FROM subject_events WHERE source_key=?',(key,)).fetchone()
             if source:
                 cycle=r.store.db.execute('SELECT * FROM subject_cycles WHERE subject_event_id=?',(source['subject_event_id'],)).fetchone()

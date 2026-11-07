@@ -1404,3 +1404,8 @@ The routed session still inherited24 despite the host's explicit larger allowanc
 ### 2026-11-07 · Same task soft recent window and actual rendered source selection
 
 原PersonSelf/Assembler增加task相关软48h候选和逐字excerpt/offset，重要旧源可优先、SQL privacy/active过滤先于LIMIT。真实原C/本地传输请求验证发现并修复最终omission元数据挤掉全Self的预算bug，保留source-backed单段与稳定self降级，不抬预算。70相关检查24.19s通过，含72h虚拟重启、实际RENDER和撤回；初次失败留证。不是生产/真人/长期资格；409APK保留不重打。继续梦境/存储/成本原任务。
+
+
+### 2026-11-07 · Same backend task: original-C consolidation, capacity and usage
+
+原Maintenance jobs增加可重启增量/有界周回看、带时间和offset的来源片段；原C可以REST，条件未变不重复判断，条件变化后恢复；实际后续RENDER、纠错/撤回验证。原Store派生索引支持原源检索，单摘要claim family避免规模退化。StorageGuard新宿主可选实际磁盘/备份余量规划，旧FIXED/显式限额/异常速率/停止锁存不变；原资源账本从已接受usage分列真实提供方/fixture/缺失，bytes不冒充Token。248相关检查62.90s通过，源码指纹运行前后相同；全部初次失败保留，不称全仓/云端/手机/真人/商业Token资格。409APK/Web源码与b873同tree，完全未重打；最终后端包仍待整个后端收口。LIVING_MEMORY_UNIFIED.md及evidence/living-memory-unified记录实现与剩余冷归档/实际物理回收/S8反馈/真实绑定门；主任务继续，Master/63criteria不变。

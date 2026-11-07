@@ -140,6 +140,9 @@ def decide(event, situation, appraisal, motives):
             Intention(kind='NO_ACTION' if behavior in {'REST','WITHDRAW'} else 'GOAL_CANDIDATE',purpose='Review the existing goal lifecycle without creating a new goal or permission',slot_key='lifecycle-'+situation.goal_review_id,source_ids=sources,self_generated=self_generated,behavior=behavior))
     if situation.goal_review_id and not (situation.cue and situation.cue.cognitive_load=='HIGH'):
         return ('FOCUS_NOW',Judgment(stance='ALTERNATIVE',reason='A checked new method warrants reconsidering a supported goal; no old action is retried',source_ids=sources,lesson_ids=situation.lesson_ids),Intention(kind='GOAL_CANDIDATE',purpose='Reconsider the plan using independently checked learning',slot_key='revise-'+situation.goal_review_id,source_ids=sources,self_generated=self_generated,behavior='LEARN'))
+    if situation.memory_review_id and (situation.pending_count>=6 or (situation.cue and situation.cue.cognitive_load=='HIGH')):
+        return ('DEFER',Judgment(stance='DEFER',reason='Current sourced commitments or attention load outweigh optional consolidation; keep its sources and review after conditions change',source_ids=sources),
+            Intention(kind='NO_ACTION',purpose='Rest or finish existing intentions before optional memory work',slot_key='quiet',source_ids=sources,self_generated=True,behavior='REST'))
     if situation.memory_review_id:
         return ('BACKGROUND_WATCH',Judgment(stance='REMEMBER',reason='Preserve a source-linked bounded summary as derived memory, never a new observation',source_ids=sources),Intention(kind='MEMORY_CANDIDATE',purpose='Admit a traceable derived summary',slot_key='summary-'+situation.memory_review_id,source_ids=sources,self_generated=True,behavior='MAINTAIN'))
     if situation.voluntary_restraints and situation.cue and 'SOCIALIZE' in directions(situation.cue) and event.urgency!='HIGH':

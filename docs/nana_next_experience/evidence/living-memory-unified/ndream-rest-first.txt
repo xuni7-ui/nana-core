@@ -1,0 +1,29 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_optional_consolidation_can_rest_then_resume_only_after_changed_original_attention _
+
+tmp_path = PosixPath('/tmp/ndream-rest-first/test_optional_consolidation_ca0')
+
+    def test_optional_consolidation_can_rest_then_resume_only_after_changed_original_attention(tmp_path):
+        from nana_core.continuity.subject import SubjectInput
+        from nana_core.continuity.subject.opportunities import ConcernCue
+        path=tmp_path/'self.db'
+        with fresh(path) as r:
+            clock=r.clock.source;identity=r.identity_id
+            for n in range(6):
+                cue=ConcernCue(cue_kind='OPPORTUNITY',motivation_source='CURIOSITY',topic_key='pending-'+str(n),possible_behaviors=('EXPLORE',))
+                mid=capture(r,'pending-'+str(n),cue.model_dump_json(),predicate_key='concern.opportunity.'+str(n))
+                cycle=r.subject.run(SubjectInput(kind='WAKE',origin='SELF_WAKE',source_key='synthetic.pending.'+str(n),entity_id='synthetic-person',scope='lab',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,)))
+                assert cycle.intention.kind=='EXPLORE'
+            assert len(r.subject.pending('lab'))==6
+            capture(r,'meaningful','A SYNTHETIC significant project observation',importance=.9)
+            maintenance=r.work.maintenance;maintenance.interval=SECOND;maintenance.discover()
+            clock.advance(SECOND);r.lease.heartbeat();r.drain(16)
+            job=r.store.db.execute("SELECT * FROM jobs WHERE work_kind='MEMORY_REVIEW' AND state='PAUSED'").fetchone()
+>           assert job and not [m for m in r.store.all('memories') if m['epistemic_kind']=='SUMMARY']
+E           assert (None)
+
+tests/living_autonomy/test_maintenance.py:106: AssertionError
+=========================== short test summary info ============================
+FAILED tests/living_autonomy/test_maintenance.py::test_optional_consolidation_can_rest_then_resume_only_after_changed_original_attention
+1 failed, 4 deselected in 0.41s

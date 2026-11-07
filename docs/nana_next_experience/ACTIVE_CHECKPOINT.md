@@ -1,3 +1,11 @@
+# Current backend continuation — same task; no repeated APK builds
+
+Latest legal HEAD/typed09 wins. c36114b soft48h and the following originalMaintenance/C/Context/disk/usage batch continue the same mission. See LIVING_MEMORY_UNIFIED.md and evidence/living-memory-unified for actual tests and preserved first failures. Backend package has not yet been rebuilt/installed for these new changes. Do not re-run Gradle or requalify unchanged409 Web/native. Existing /mnt/data/Nana-409.apk is still b873 client,4836713bytes SHA82e6ba6d18378e500954b4848f3d3f02b5767cb8ea641acf99ef422260afebf9; apps/nana-space tree72c4d2bef00753237fb402efb13fb3fb9176bfa3 remains byte-identical.
+
+Continue verified cold archive/readback/privacy and actual physical storage governance using original backup/Store mechanisms before any history eviction; original S8 independent feedback and remaining integrated product work remain open. Only once backend work settles build/qualify the matching Core artifact and reuse unchanged client; if a real client change is necessary, one final APK build. No production/private/Iris/fees/social/Genesis or authority expansion. Commercial tokenizer/real model/phone/cross-day gates remain separately unrun. No total mission completion claimed.
+
+---
+
 # Current active living/dream/storage/token integration — NOT frozen, NOT complete
 
 User latest supplement merged into same Next Experience/ten-domain mission; see LIVING_MEMORY_UNIFIED.md and task_inputs/LIVING_MEMORY_DREAM_STORAGE_TOKEN_2026_11_07.md.409APK finalized fromb873a4a, /mnt/data/Nana-409.apk4836713bytes/SHA82e6ba6d18378e500954b4848f3d3f02b5767cb8ea641acf99ef422260afebf9, same signer/appId. User expressly says no repeated APK builds for backend adaptation; finish backend first, then one necessary client build only. Quota forwarding1fbd014/62+20checks inherited. Full2006/12 remains37e46b5; later deltas are scoped, never call a new full pass.

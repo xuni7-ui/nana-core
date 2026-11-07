@@ -1,0 +1,43 @@
+{
+  "base_commit": "c36114b7715d47064d8751ea6c8800d7236ea47d",
+  "exit_code": 0,
+  "elapsed_seconds": 64.00260022500879,
+  "source_sha256": {
+    "src/nana_core/continuity/context.py": "8f6470cfa8947d81e7b30d3f0d75cd9abe5e26e338a86335faf87751a4f9e604",
+    "src/nana_core/continuity/maintenance.py": "f5131fc341544384590fc342d547ee5642d8de0125a51a0da88d292066a05eac",
+    "src/nana_core/continuity/store.py": "bfc91d1e55934bfbab694a7e7fea7a275378a21c782d6f9bfd9f64b4f814298d",
+    "src/nana_core/continuity/subject/policy.py": "8cd261c0ad4136836a9494e17dbf7f812fd7be2a2c536fe4edccf071ac0462c8",
+    "src/nana_core/life/config.py": "5477b2c134382232127d5c1d5edb4f7d897a625a167029946e6bbbdedd497471",
+    "src/nana_core/life/durability.py": "b9ef933cb7849fcd2c0d077cc229e3d7dc5d4a6c72e3f053079a565529317ec6",
+    "src/nana_core/presence/living.py": "d0c9309055ceee6c56ac3f9e28795abba981d133d699eb2f1acdc1fedd879f94",
+    "src/nana_core/presence/resources.py": "38200040acdd451ab044fe07551d0d73d00f09fcc866defffb39c932bc677714"
+  },
+  "source_unchanged_during_run": true,
+  "command": [
+    "/workspace/nana-core/.venv/bin/python",
+    "-m",
+    "pytest",
+    "tests/person_self",
+    "tests/living_autonomy",
+    "tests/affective_autonomy",
+    "tests/continuous_self",
+    "tests/first_life/test_durability.py",
+    "tests/first_life/test_capacity_planning.py",
+    "tests/cloud_life/test_daily_configuration.py",
+    "tests/portable_subject/test_package.py",
+    "tests/portable_subject/test_schema_genericity.py",
+    "tests/independent_life/test_dialogue.py",
+    "tests/world_loop/test_boundaries.py",
+    "tests/world_loop/test_streaming.py",
+    "tests/provider_routing",
+    "-q",
+    "--basetemp=/tmp/nliving-qualified"
+  ],
+  "qualification": "OFFLINE_CONTROLLED_NOT_LIVE_PROVIDER_OR_PHONE",
+  "real_provider_calls": 0,
+  "apk_rebuilt": false,
+  "passed": 248,
+  "failed": 0,
+  "skipped": 0,
+  "pytest_duration_seconds": 62.9
+}

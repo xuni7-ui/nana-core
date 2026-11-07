@@ -85,6 +85,33 @@ def read_window(path):
     except (OSError,ValueError):raise CoreError('STORAGE_MONITOR_INVALID') from None
 
 
+def capacity_plan(config,sizes,path):
+    """Host capacity, independent of anomaly rate and never a storage grant.
+
+    Reserve configured unprivileged free space and room for consistent backup
+    copies. File lengths remain conservative admission bounds; allocated blocks
+    are reported separately, not represented as reclaimed history.
+    """
+    mode=getattr(config,'state_capacity_policy','FIXED')
+    if mode=='FIXED':
+        return {'policy':'FIXED','limit_bytes':config.max_state_mb*MB,'authority':False}
+    if mode!='DISK_AWARE':raise CoreError('STORAGE_CAPACITY_POLICY_INVALID')
+    try:disk=os.statvfs(path)
+    except OSError:raise CoreError('STORAGE_CAPACITY_UNAVAILABLE') from None
+    available=disk.f_bavail*disk.f_frsize
+    reserve=max(config.min_free_disk_mb,config.state_disk_reserve_mb)*MB
+    resident=sizes['family_bytes']
+    usable=max(0,available-reserve)
+    copies=config.state_backup_headroom_copies
+    # Existing allocated family already occupies disk; growth and every future
+    # backup copy still require genuinely free space on this filesystem.
+    limit=min(config.state_capacity_ceiling_mb*MB,(usable+resident)//(copies+1))
+    return {'policy':'DISK_AWARE','limit_bytes':limit,'free_bytes_unprivileged':available,
+        'reserve_bytes':reserve,'backup_headroom_copies':copies,
+        'configured_ceiling_bytes':config.state_capacity_ceiling_mb*MB,
+        'backup_status':'HEADROOM_ONLY_NOT_BACKUP_OR_DR_QUALIFICATION','authority':False}
+
+
 class StorageGuard:
     def __init__(self,app):
         self.app=app;self.path=app.home/'storage-monitor.json';self.next_us=0;self.last=None
@@ -96,9 +123,10 @@ class StorageGuard:
         sizes=size_view(r.store);logical=sizes['logical_database_bytes']+sizes['privacy_anchor_bytes'];cfg=app.config
         state=self.state or StorageWindow(started_us=now,window_us=now,logical_bytes=logical)
         if now<state.window_us:raise CoreError('STORAGE_MONITOR_CLOCK_CONFLICT')
+        capacity=capacity_plan(cfg,sizes,app.home)
         status=state.status;elapsed=now-state.window_us;growth=max(0,logical-state.logical_bytes)
         if status.endswith('_STOP'):pass # latched across restart until trusted offline review
-        elif sizes['family_bytes']>cfg.max_state_mb*MB:status='STATE_SIZE_LIMIT_STOP'
+        elif sizes['family_bytes']>capacity['limit_bytes']:status='STATE_SIZE_LIMIT_STOP'
         elif state.window_us-state.started_us>=cfg.storage_growth_grace_seconds*1_000_000 and elapsed>=cfg.storage_growth_window_seconds*1_000_000:
             if growth*HOUR>cfg.max_state_growth_mb_per_hour*MB*elapsed:status='STATE_GROWTH_LIMIT_STOP'
         if elapsed>=cfg.storage_growth_window_seconds*1_000_000 and status=='OBSERVING':
@@ -106,7 +134,7 @@ class StorageGuard:
         state=state.model_copy(update={'status':status});self.state=state
         r.lease.assert_current()
         checkpoint=r.store.db.execute('PRAGMA wal_checkpoint(PASSIVE)').fetchone()
-        self.last={**sizes,'status':status,'growth_bytes_observed_window':growth,'window_elapsed_us':elapsed,
+        self.last={**sizes,'status':status,'capacity':capacity,'growth_bytes_observed_window':growth,'window_elapsed_us':elapsed,
             'checkpoint':{'busy':checkpoint[0],'wal_pages':checkpoint[1],'checkpointed_pages':checkpoint[2]},'automatic_pruning':False}
         _atomic(self.path,state.model_dump_json());r.lease.assert_current()
         if status.endswith('_STOP'):r.request_stop()

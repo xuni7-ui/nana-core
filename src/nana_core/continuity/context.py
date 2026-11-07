@@ -452,6 +452,21 @@ class ContextAssembler:
                 if language['examples']:
                     refs=language['source_record_ids']
                     candidates.append((500.0,ContextBlock(block_id='language-examples:'+scope,kind='LANGUAGE_EXAMPLES',data_json=canonical({'examples':language['examples'],'examples_are_not_autobiography':True}),source_record_ids=refs,source_memory_ids=tuple(sorted({m for rid in refs for m in RecordService(self.store).support(rid)})))))
+        if conversation_topic is not None and self.store.schema_target>=11 and note_terms:
+            from .maintenance import MaintenanceService
+            consolidation=MaintenanceService(self.store,scopes=request.scopes,entity_id=request.entity_id,privacy_classes=privacy)
+            try:consolidated=consolidation.recall(note_terms)
+            except CoreError as exc:
+                if exc.code not in {'CONSOLIDATION_RECALL_TIME_BOUND','CONSOLIDATION_RECALL_SAFE_POINT_REQUIRED'}:raise
+                omitted_reason=exc.code+'_NO_ABSENCE_CLAIM'
+                candidates.append((0.0,ContextBlock(block_id='consolidation-recall-status',kind='CONSOLIDATED_RECALL',
+                    data_json=canonical({'status':omitted_reason,'authority':False}))))
+                consolidated=()
+            for review in consolidated:
+                candidates.append((981.0,ContextBlock(block_id='consolidated:'+review['summary_memory_id'],
+                    kind='CONSOLIDATED_RECALL',data_json=canonical(review),
+                    source_memory_ids=(review['summary_memory_id'],*review['source_memory_ids']),
+                    source_record_ids=(review['candidate_record_id'],))))
         candidates.extend(self._lessons(request, privacy))
         if required_memory_ids:
             required=[block for _,block in candidates if block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&set(required_memory_ids)]
@@ -460,7 +475,7 @@ class ContextAssembler:
         if pinned_only:
             # Dialogue gets explicit verified facts plus existing filtered self/
             # relation projections; never the whole unrelated source corpus.
-            candidates=[(score,block) for score,block in candidates if (block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&(set(required_memory_ids)|note_ids)) or block.kind in {'RELATIONSHIP_LINKS','SUBJECT_INFLUENCE','RELATIONAL_SUBJECT','PRIVATE_INTENT_STATE','PERSON_SELF','LIVED_LANGUAGE','LANGUAGE_EXAMPLES'}]
+            candidates=[(score,block) for score,block in candidates if (block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&(set(required_memory_ids)|note_ids)) or block.kind in {'RELATIONSHIP_LINKS','SUBJECT_INFLUENCE','RELATIONAL_SUBJECT','PRIVATE_INTENT_STATE','PERSON_SELF','LIVED_LANGUAGE','LANGUAGE_EXAMPLES','CONSOLIDATED_RECALL'}]
         if source_only:
             # Media processors receive only the pinned, policy-filtered source,
             # never unrelated relationship, project or memory context.
