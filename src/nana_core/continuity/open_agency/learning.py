@@ -382,7 +382,7 @@ class LearningService:
                 # and transfer remain untouched application-owned holdouts.
                 from .practice import compare_practice
 
-                method, trials = compare_practice(problem, preferred=method)
+                method, trials = compare_practice(problem, preferred=method, evaluator=getattr(self.evaluator, "practice_evaluate", None))
                 new["practice_competition"] = {
                     "nominee": nominated_method,
                     "selected": method,

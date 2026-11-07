@@ -7,9 +7,9 @@ from ..learning import ExperienceService
 from ..open_agency.learning import LearningCase,IndependentEvaluator
 
 class EpisodeLearning:
-    def __init__(self,store,authority,*,scopes,privacy_classes):
+    def __init__(self,store,authority,*,scopes,privacy_classes,evaluator=None):
         self.store,self.authority,self.scopes,self.privacy=store,authority,tuple(scopes),tuple(privacy_classes)
-        self.records=RecordService(store);self.experiences=ExperienceService(store,authority)
+        self.records=RecordService(store);self.experiences=ExperienceService(store,authority);self.evaluator=evaluator or IndependentEvaluator()
     def assess(self,lesson_id,source_memory_id,*,authority):
         if authority is not self.authority:raise CoreError('UNAUTHENTICATED_OPERATOR')
         memory=self.records.memory.read(source_memory_id)
@@ -26,7 +26,7 @@ class EpisodeLearning:
         if head['scope']!=memory['scope'] or head['privacy_class'] not in self.privacy or not self.records.current_support(lesson['record_id']):raise CoreError('STRATEGY_SOURCE_RETIRED')
         rule=self.experiences._rule(lesson)
         if getattr(rule,'kind',None)!='METHOD_SELECTION':raise CoreError('METHOD_STRATEGY_REQUIRED')
-        result=IndependentEvaluator().evaluate(rule.method,(case,));verdict='SUCCESS' if result['all_passed'] else 'COUNTEREXAMPLE'
+        result=self.evaluator.evaluate(rule.method,(case,));verdict='SUCCESS' if result['all_passed'] else 'COUNTEREXAMPLE'
         aid=uid()
         with self.store.transaction('world.strategy_episode_checked',{'assessment_id':aid,'verdict':verdict}) as tx:
             rid=self.records.create(tx,kind='STRATEGY_REVIEW',scope=memory['scope'],payload={'episode':body,'result':result,'method':rule.method,'attribution':'STRATEGY_OUTPUT_VS_INDEPENDENT_EXPECTATION','not_a_personality_change':True},memories=(source_memory_id,),records=(lesson['record_id'],),target_id=lesson_id)
@@ -62,7 +62,7 @@ class EpisodeLearning:
             if row['verdict']!='COUNTEREXAMPLE' or not self.records.current_support(row['record_id']):continue
             payload=self.records.read(row['record_id'])['payload']
             case=LearningCase.model_validate_json(canonical(payload['episode']['case']))
-            if not IndependentEvaluator().evaluate(rule.method,(case,))['all_passed']:raise CoreError('UNRESOLVED_COUNTEREXAMPLE')
+            if not self.evaluator.evaluate(rule.method,(case,))['all_passed']:raise CoreError('UNRESOLVED_COUNTEREXAMPLE')
         self.experiences.test_lesson(lesson_id);self.experiences.activate(lesson_id,self.authority)
         with self.store.transaction('world.strategy_revalidated',{'lesson_id':lesson_id,'support_records':support}):pass
         return self.view(lesson_id)

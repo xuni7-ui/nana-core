@@ -15,7 +15,7 @@ import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 
-def run(bundle, work, *, check_wire_reservations=False):
+def run(bundle, work, *, check_wire_reservations=False, check_retrieval_growth=False):
     if not __debug__:
         raise ValueError("QUALIFICATION_REQUIRES_ASSERTIONS")
     sys.dont_write_bytecode = True
@@ -75,6 +75,8 @@ def run(bundle, work, *, check_wire_reservations=False):
     requests = []
     wire_lengths = []
     wire_reservations = []
+    recall_terms = ["虹光约定"]
+    growth_result = None
 
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *args):
@@ -93,7 +95,7 @@ def run(bundle, work, *, check_wire_reservations=False):
                 "confidence": 0.9,
             }
             if request["cognitive_role"] == "INTERPRET":
-                proposal["dialogue"] = {"kind": "CHAT", "confidence": "HIGH", "recall_query_terms": ["虹光约定"]}
+                proposal["dialogue"] = {"kind": "CHAT", "confidence": "HIGH", "recall_query_terms": list(recall_terms)}
             else:
                 notes = [
                     json.loads(b["data_json"])
@@ -124,7 +126,7 @@ def run(bundle, work, *, check_wire_reservations=False):
     thread = threading.Thread(target=server.serve_forever, daemon=True)
     thread.start()
     original = load_config(home)
-    cfg = update_config(
+    update_config(
         home,
         original.model_copy(
             update={
@@ -194,17 +196,98 @@ def run(bundle, work, *, check_wire_reservations=False):
                     assert row["input_bytes"] == actual_bytes
                     assert row["reserved_bytes"] == actual_bytes + bound + 1
                     assert row["input_bytes"] + row["output_bytes"] <= row["reserved_bytes"]
-                    wire_reservations.append({"role": received["cognitive_role"],
-                        "reserved_bytes": row["reserved_bytes"], "actual_input_bytes": actual_bytes,
-                        "response_hard_bound_bytes": bound})
-        final_identity,final_lineage,_=existing_identity(home)
-        assert (final_identity,final_lineage)==(identity,lineage)
+                    wire_reservations.append(
+                        {
+                            "role": received["cognitive_role"],
+                            "reserved_bytes": row["reserved_bytes"],
+                            "actual_input_bytes": actual_bytes,
+                            "response_hard_bound_bytes": bound,
+                        }
+                    )
+        if check_retrieval_growth:
+            from nana_core.clock import Clock
+            from nana_core.presence.authority import VirtualClock
+            from nana_core.presence.contracts import SECOND
+            from nana_core.continuity.retrieval_growth import qualified_method
+            from nana_core.continuity.records import RecordService
+
+            clock = VirtualClock(Clock().utc_now_us())
+            with LifeApplication(home, clock=clock) as app:
+                app.pause(False)
+                mids = [
+                    save(
+                        app,
+                        text="SYNTHETIC " + word + " window Thursday.",
+                        privacy="PROJECT",
+                        request_id="installed.study." + str(i),
+                    )["memory_id"]
+                    for i, word in enumerate(("ＯＲＩＯＮ", "ＡＴＬＡＳ", "ＬＹＲＡ"))
+                ]
+                evaluator = app.runtime.work.note_retrieval_growth.evaluator
+                before = evaluator.lookup("IDENTITY", ("ORION",), evaluator.snapshot("project-work"))
+                assert before == []
+                offered = app.runtime.work.note_retrieval_growth.slice("project-work")
+                assert offered["note_retrieval"] == "OFFERED_TO_C" and not app.runtime.store.all("lessons")
+            # Recover even the proposed spec before C's queued decision; same owner/Subject.
+            with LifeApplication(home, clock=clock) as app:
+                for _ in range(32):
+                    clock.advance(SECOND)
+                    app.runtime.step()
+                selected = qualified_method(
+                    app.runtime.store, app.runtime.authority, "project-user", "project-work", ("PROJECT",)
+                )
+                assert app.runtime.identity_id == identity and selected[1] == "UNICODE_WORDS"
+                job = app.runtime.store.db.execute(
+                    "SELECT * FROM jobs WHERE work_kind='LEARNING' ORDER BY rowid DESC LIMIT 1"
+                ).fetchone()
+                data = RecordService(app.runtime.store).read(job["record_id"])["payload"]
+                assert job["state"] == "DONE" and data["results"]["BASELINE"]["passed"] == 0
+                assert data["results"]["EVALUATE"]["all_passed"] and data["results"]["TRANSFER"]["all_passed"]
+                later = save(
+                    app,
+                    text="SYNTHETIC ＡＬＴＡＩＲ later agreement Friday.",
+                    privacy="PROJECT",
+                    request_id="installed.study.later",
+                )["memory_id"]
+                app.pause()
+            recall_terms[:] = ["ALTAIR"]
+            before_calls = len(requests)
+            with LifeApplication(home, clock=clock, router=router) as app:
+                answer = app.chat(
+                    "SYNTHETIC later independent note?", privacy="PROJECT", message_id="installed.learned.recall"
+                )
+                assert "ＡＬＴＡＩＲ" in answer["text"] and len(requests) == before_calls + 2
+                assert later in requests[-1]["source_context_refs"] and app.runtime.identity_id == identity
+                app.forget(mids[0])
+                assert (
+                    qualified_method(
+                        app.runtime.store, app.runtime.authority, "project-user", "project-work", ("PROJECT",)
+                    )
+                    is None
+                )
+                answer = app.chat(
+                    "SYNTHETIC after source withdrawal?", privacy="PROJECT", message_id="installed.learned.withdrawal"
+                )
+                assert answer["text"] == "SYNTHETIC no supplied note" and len(requests) == before_calls + 4
+            growth_result = {
+                "before_literal_found": False,
+                "selected_method": selected[1],
+                "independent_evaluation": True,
+                "independent_transfer": True,
+                "same_subject_restart": True,
+                "later_new_note_in_actual_render_request": True,
+                "source_withdrawal_fences_method": True,
+                "scope": "INSTALLED_DEV_STORE_AND_LOOPBACK_FIXTURE_NOT_LIVE_MODEL_OR_HUMAN",
+            }
+        final_identity, final_lineage, _ = existing_identity(home)
+        assert (final_identity, final_lineage) == (identity, lineage)
         return {
             **gateway,
             "installed_note_context_and_fixture_wording": "PASS_NOT_REAL_MODEL_RECALL",
             "same_subject_after_fixture_phase": True,
             "local_fixture_calls": len(requests),
             "real_provider_calls": 0,
+            **({"retrieval_growth": growth_result} if growth_result else {}),
             **({"exact_wire_reservations": wire_reservations} if check_wire_reservations else {}),
         }
     finally:
@@ -223,7 +306,13 @@ if __name__ == "__main__":
     parser.add_argument("--work", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--check-wire-reservations", action="store_true")
+    parser.add_argument("--check-retrieval-growth", action="store_true")
     args = parser.parse_args()
-    result = run(args.bundle, args.work, check_wire_reservations=args.check_wire_reservations)
+    result = run(
+        args.bundle,
+        args.work,
+        check_wire_reservations=args.check_wire_reservations,
+        check_retrieval_growth=args.check_retrieval_growth,
+    )
     args.output.write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps(result))

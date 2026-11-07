@@ -1,0 +1,9 @@
+{
+  "scope": "CONTROLLED_SYNTHETIC_ORIGINAL_MEMORY_SERVICE_NOT_LIVE_RECALL",
+  "literal_found": false,
+  "existing_unicode_word_primitive_can_match": true,
+  "source_stored": true,
+  "active_lookup_lesson": false,
+  "real_provider_calls": 0,
+  "production_changed": false
+}

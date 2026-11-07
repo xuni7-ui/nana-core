@@ -157,7 +157,17 @@ class LivingWork:
             inp=SubjectInput(source_key=key,kind='WAKE',origin='SELF_WAKE',entity_id=r.config.entity_id,scope=head['scope'],observed_at_us=head['created_at_us'],source_memory_ids=tuple(body['memory_ids']),memory_review_id=head['record_id'])
             r.submit(RuntimeEvent(event_type='SELF_EVENT',trigger='SELF_TRIGGER',input=inp,causes=tuple(Cause(kind='MEMORY',reference_id=m) for m in body['memory_ids']),due_at_us=head['created_at_us'],priority=0))
             return {'review_enqueued':head['record_id']}
-        return self.maintenance.slice()
+        activity=self.maintenance.slice()
+        growth=getattr(self,'note_retrieval_growth',None)
+        if activity and growth:
+            job=r.store.one('jobs',activity['work_id'])
+            scope=json.loads(job['body_json'])['scope']
+            try:activity['retrieval_growth']=growth.slice(scope)
+            except CoreError as exc:
+                if exc.code not in {'NOTE_RECALL_TIME_BOUND','NOTE_RECALL_SAFE_POINT_REQUIRED',
+                    'NOTE_RECALL_INDEX_DEFINITION_MISMATCH','NOTE_STRATEGY_SCOPE_BOUND','NOTE_STRATEGY_SOURCE_CHANGED'}:raise
+                activity['retrieval_growth']={'note_retrieval':'DEFER','reason':exc.code}
+        return activity
     def opportunity(self):
         if self.paused:return None
         if self.world:

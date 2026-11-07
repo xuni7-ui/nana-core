@@ -1843,3 +1843,8 @@ Source de08f8f, delivery9c54efb, Core279files/14993379bytes/SHAfbfe1399…6741f;
 ### 2026-11-07 · Daily defaults / readable quota code continuation
 
 New-host-only128daily/64hour/128provider preset stays within original128-call ceiling, cost0/no credential/host/privacy authorization; old/missing/explicit host settings stay unchanged. Readiness exposes original counts/ceilings/reasons without writes; server operational notices use plain Chinese while exact codes and UNKNOWN reservations remain.27 related checks14.47s and CLI help passed. This batch is code-tested, not yet a new installed candidate; current published client408/Corede08 remain unchanged. See DAILY_DEFAULTS.md. Continue originalS8/S3/S2 work rather than requalifying old G/Fish mechanisms.
+
+
+### 2026-11-07 · Original S8 retrieval practice in the same Next Experience task
+
+Source-backed retained-note lookup failure now offers an optional original-C opportunity, original-G practice-only competition/independent evaluation/transfer, source-bound method reuse and counterexample suspension. Original S3 need can settle after checked later reuse; no new learner/memory/emotion authority. Ten focused checks2.73s pass; initial faults/resource exit137 retained. Related/installed artifact qualification pending, no live-model/phone/production claim. See RETRIEVAL_GROWTH.md/evidence/retrieval-growth. Existing408 APK/signature and original framework/63criteria unchanged; remaining whole mission stays active.

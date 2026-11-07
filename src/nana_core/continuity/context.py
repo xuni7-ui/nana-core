@@ -185,16 +185,28 @@ class ContextAssembler:
         # Fetch its explicit sources/notes only; self/relationship/lessons still
         # use their original independent sourced projections.
         memories = [] if pinned_only else memory_service.query(**memory_query, query_terms=request.query_terms)
-        note_ids=set();recall_gap=None
+        note_ids=set();note_strategy_refs=();recall_gap=None
         note_terms=tuple(t for t in request.query_terms if 2<=len(t)<=64)[:8]
         if pinned_only and conversation_topic is not None and note_terms:
             try:
                 notes=memory_service.literal_notes(entity_ids=(request.entity_id,),scopes=request.scopes,
                     privacy_classes=privacy,terms=note_terms)
+                if not notes and 'PROJECT' in privacy:
+                    from .retrieval_growth import NoteRetrievalEvaluator, qualified_method, word_queries
+                    if word_queries(note_terms):
+                        for scope in request.scopes:
+                            selected=qualified_method(self.store,self.authority,request.entity_id,scope,privacy)
+                            if selected:
+                                evaluator=NoteRetrievalEvaluator(self.store,request.entity_id,request.scopes,privacy)
+                                snapshot=evaluator.snapshot(scope)
+                                notes=evaluator.lookup(selected[1],note_terms,snapshot)
+                                if notes:
+                                    note_strategy_refs=(selected[0],)
+                                    break
                 note_ids={m['memory_id'] for m in notes}
                 memories.extend(m for m in notes if not any(old['memory_id']==m['memory_id'] for old in memories))
             except CoreError as exc:
-                if exc.code not in {'NOTE_RECALL_TIME_BOUND','NOTE_RECALL_SAFE_POINT_REQUIRED','NOTE_RECALL_INDEX_DEFINITION_MISMATCH'}:raise
+                if exc.code not in {'NOTE_RECALL_TIME_BOUND','NOTE_RECALL_SAFE_POINT_REQUIRED','NOTE_RECALL_INDEX_DEFINITION_MISMATCH','NOTE_STRATEGY_SCOPE_BOUND'}:raise
                 recall_gap=exc.code+'_NO_ABSENCE_CLAIM'
         if len(required_memory_ids)>16:raise CoreError('CONTEXT_REQUIRED_SOURCE_BOUND')
         for mid in required_memory_ids:
@@ -284,7 +296,7 @@ class ContextAssembler:
             if row['memory_id'] in note_ids and row['memory_id'] not in required_memory_ids:
                 # Keep person-self and established language policy ahead of
                 # optional lookup, while questions outrank generic projections.
-                score=min(score,975.0)
+                score=975.0
             block = ContextBlock(block_id="memory:" + row["memory_id"], kind="MEMORY",
                 data_json=canonical({k: row[k] for k in ("memory_id", "memory_type", "epistemic_kind", "text",
                     "assessment", "confidence", "authority", "event_time_us", "observed_time_us", "ingested_time_us")}),
@@ -293,7 +305,8 @@ class ContextAssembler:
             if row['memory_id'] in note_ids:
                 block=block.model_copy(update={'data_json':canonical({**json.loads(block.data_json),
                     'provenance':'EXPLICIT_USER_NOTE_NOT_VERIFIED_WORLD_FACT',
-                    'nana_lived_experience':False,'execution_authority':'NONE'})})
+                    'nana_lived_experience':False,'execution_authority':'NONE'}),
+                    'source_record_ids':note_strategy_refs})
             candidates.append((score, block))
         # Disputes are whole bundles; never keep one side because of token limits.
         for key, rows in conflicts.items():

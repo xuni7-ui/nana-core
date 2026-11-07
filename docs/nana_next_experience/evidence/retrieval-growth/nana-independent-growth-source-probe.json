@@ -1,0 +1,25 @@
+{
+  "qualification": "CONTROLLED_SYNTHETIC_SOURCE_DEPENDENCY_PROBE_NOT_LIVE_GROWTH",
+  "before": {
+    "numbers": [
+      "b7f5b2c3-4596-4d19-ac3d-0383fbb316a9",
+      "NUMERIC_SUM"
+    ],
+    "language": [
+      "3a6ee9f2-245f-4da6-b135-128ebafc62b0",
+      "UNICODE_WORDS"
+    ]
+  },
+  "after_withdrawing_number_cue": {
+    "numbers": null,
+    "language": [
+      "3a6ee9f2-245f-4da6-b135-128ebafc62b0",
+      "UNICODE_WORDS"
+    ]
+  },
+  "number_cue_in_language_support": false,
+  "language_cue_in_number_support": false,
+  "lesson_count": 2,
+  "real_provider_calls": 0,
+  "production_changed": false
+}

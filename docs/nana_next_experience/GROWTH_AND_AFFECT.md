@@ -28,3 +28,8 @@ S8 对应上一批6f2a491：原G从实际任务失败发现缺口，在新候选
 ## 后续完整回归修正
 
 73fc941全仓首次运行揭示真实边界：新的语义认识来自相同原始事件，仍应允许原C重评，不能只因证据根相同拦掉。现复用原WorldLoop的同一个CognitionSession验证当前提案及真实world_stamp变化；不加encounters、不自动行动、不复活过期关注，不重放UNKNOWN/目标/技能。重复模型措辞、同一世界快照别名依然无效。原H1测试已增强为两次独立C判断、一个原始encounter且不重复重放。完整新源码回归待验，初始失败未掩盖。
+
+
+## Same-task S8 retrieval feedback continuation
+
+Retained-note lookup failures now have an original C→G practice/independent validation→later ContextAssembler method path; checked counterexamples and S3 need modulation reuse existing services. Exact scope, tests, recovery and unrun real-life gates: RETRIEVAL_GROWTH.md. Developer implementation is not itself Nana learning; only actual original-G executed trials/later lookup count within the declared DEV scope.

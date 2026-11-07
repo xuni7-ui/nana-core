@@ -88,6 +88,7 @@ src/nana_core/continuity/provider_config.py
 src/nana_core/continuity/provider_routing.py
 src/nana_core/continuity/providers.py
 src/nana_core/continuity/records.py
+src/nana_core/continuity/retrieval_growth.py
 src/nana_core/continuity/recurrence.py
 src/nana_core/continuity/relational/__init__.py
 src/nana_core/continuity/relational/accommodation.py

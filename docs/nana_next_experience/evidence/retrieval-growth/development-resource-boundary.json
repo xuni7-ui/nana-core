@@ -1,0 +1,9 @@
+{
+  "first_related_exit": 137,
+  "development_memory_events": "low 0\nhigh 0\nmax 44164\noom 4\noom_kill 4\noom_group_kill 0\n",
+  "preserved_historical_scratch_archive": "/tmp/nana-preserved-full-test-scratch.tar.gz",
+  "preserved_hash_verified_files": 8828,
+  "archive_bytes": 89078147,
+  "removed_only_regenerable_gradle_caches": true,
+  "source_apk_signature_and_failure_evidence_retained": true
+}

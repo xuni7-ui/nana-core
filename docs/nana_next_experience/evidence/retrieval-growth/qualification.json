@@ -1,0 +1,22 @@
+{
+  "scope": "CONTROLLED_ORIGINAL_STORE_AND_RUNTIME_NOT_LIVE_COMPANIONSHIP",
+  "baseline": "Retained fullwidth ORION note was stored but original literal lookup returned no note",
+  "implementation": "Existing primitives -> original G practice/evaluation/transfer -> source-bound Lesson -> original ContextAssembler lookup",
+  "new_tests": "10 passed / 2.73s",
+  "related_regression": "RUNNING_IN_SEPARATE_SMALL_GROUPS",
+  "first_failures_preserved": true,
+  "faults_fixed": [
+    "Strict DTO JSON recovery",
+    "Stable occurrence time and idempotent partial self-wake recovery"
+  ],
+  "heldout_candidate_visible": false,
+  "source_withdrawal_fences_method": true,
+  "counterexample_suspends_old_method": true,
+  "original_C_need_settled_then_WATCH_tested": true,
+  "real_provider_calls": 0,
+  "real_phone": "NOT_RUN",
+  "live_store_vector_mapping": "NOT_RUN",
+  "cross_day_life": "NOT_RUN",
+  "production_changed": false,
+  "framework_or_criteria_changed": false
+}

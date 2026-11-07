@@ -92,6 +92,8 @@ class LifeApplication:
                     from .skills import DocumentSkills
                     self.runtime.work.skill_development=DocumentSkills(self, specs[-1])
                 self.runtime.work.activity_source=PortfolioOpportunities(self)
+            from ..continuity.retrieval_growth import NoteRetrievalGrowth
+            self.runtime.work.note_retrieval_growth=NoteRetrievalGrowth(self.runtime)
             old=self.runtime.store.one('core_meta','runtime.life_control');self.control=json.loads(old['value_json']) if old else {'paused':False,'messages':0}
             self.runtime.work.paused=self.control['paused']
             self.policy=ContextPolicy(policy_id='independent-life',allowed_scopes=('project-work',),readable_privacy=('PUBLIC','PROJECT','PERSONAL'),remote_privacy=self.config.remote_privacy)
