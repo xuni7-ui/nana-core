@@ -1,0 +1,56 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__ test_relationship_families_survive_unrelated_growth_restart_and_withdrawal __
+
+cognitive = (<nana_core.continuity.store.ContinuityStore object at 0x7f23b9569be0>, <nana_core.continuity.memory.MemoryService object at 0x7f23b94e9dc0>, <nana_core.actions.OperatorAuthority object at 0x7f23b956b380>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f23b95690d0>
+
+    def test_relationship_families_survive_unrelated_growth_restart_and_withdrawal(cognitive, monkeypatch):
+        """Old important relationship facts cannot compete with unrelated trivia."""
+        store, memory, authority = cognitive
+        preference = add(memory, evidence(memory, "old-pref", "Prefer quiet evenings"),
+            "Prefer quiet evenings", kind=MemoryType.SEMANTIC,
+            predicate_key="preference.evenings", importance=0.1)
+        boundary = add(memory, evidence(memory, "old-boundary", "Do not push declined topics"),
+            "Do not push declined topics", kind=MemoryType.RELATIONAL,
+            predicate_key="relationship.boundary.topic", importance=0.1)
+        shared = add(memory, evidence(memory, "old-shared", "Reviewed the real synthetic project together"),
+            "Reviewed the real synthetic project together", kind=MemoryType.EPISODIC, importance=0.1)
+        for i in range(150):
+            add(memory, evidence(memory, f"unrelated-{i}", f"Unrelated synthetic fact {i}"),
+                f"Unrelated synthetic fact {i}", predicate_key=f"unrelated.{i}", importance=0.99)
+        unrelated_payloads = {row["payload_artifact_id"] for row in store.all("memories")
+                              if (row["predicate_key"] or "").startswith("unrelated.")}
+        real_artifact = store.artifact
+        def safe_read(artifact_id):
+            assert artifact_id not in unrelated_payloads, "irrelevant payload loaded before family selection"
+            return real_artifact(artifact_id)
+        monkeypatch.setattr(store, "artifact", safe_read)
+        kwargs = {"scopes": ("synthetic-home",), "privacy_classes": ("PERSONAL",)}
+>       view = relationship_view(store, "synthetic-sister", **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/continuous_self/test_relationship_projects.py:112: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/relationships.py:21: in relationship_view
+    items = memory.query(entity_ids=(entity_id,), scopes=scopes, privacy_classes=privacy_classes)
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/memory.py:307: in query
+    return [self.read(r[0], include_inactive=include_conflicts) for r in rows]
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/memory.py:124: in read
+    return {**row, "text": self.store.artifact(row["payload_artifact_id"]).decode(),
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+artifact_id = '72b35ed6-9fff-4762-8c64-047299c2024f'
+
+    def safe_read(artifact_id):
+>       assert artifact_id not in unrelated_payloads, "irrelevant payload loaded before family selection"
+E       AssertionError: irrelevant payload loaded before family selection
+E       assert '72b35ed6-9fff-4762-8c64-047299c2024f' not in {'006aeb36-c8dd-41c7-887e-5757035d5e25', '0304d2aa-433c-4df4-82a4-d494e1147089', '03d963b8-b469-461d-96dc-78142ea94a33...f505-57dc-409d-b6d4-ecdaaa4b9193', '052ac92b-7300-418c-bb60-0ee5500d99b8', '06e0bb4c-d6ff-4782-9f78-fbcd7eb10e33', ...}
+
+tests/continuous_self/test_relationship_projects.py:108: AssertionError
+=========================== short test summary info ============================
+FAILED tests/continuous_self/test_relationship_projects.py::test_relationship_families_survive_unrelated_growth_restart_and_withdrawal
+1 failed, 2 deselected in 0.24s

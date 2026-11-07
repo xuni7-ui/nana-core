@@ -18,8 +18,19 @@ class RelationshipView(DTO):
 
 def relationship_view(store, entity_id, *, scopes, privacy_classes):
     memory = MemoryService(store)
-    items = memory.query(entity_ids=(entity_id,), scopes=scopes, privacy_classes=privacy_classes)
-    relational = [r for r in items if r["memory_type"] in {"RELATIONAL", "EPISODIC", "SEMANTIC"}]
+    # Each established family gets a bounded slice before unrelated facts can
+    # consume its retrieval budget. This is a projection of the original Store,
+    # not another relationship authority or a strength/affection counter.
+    query = dict(entity_ids=(entity_id,), scopes=scopes, privacy_classes=privacy_classes)
+    selected_rows = {}
+    for prefix in ("preference.", "relationship.norm", "relationship.boundary", "relationship.open"):
+        for row in memory.query(**query, predicate_prefixes=(prefix,),
+                                memory_types=("RELATIONAL", "EPISODIC", "SEMANTIC"), limit=24):
+            selected_rows[row["memory_id"]] = row
+    for kind, limit in (("EPISODIC", 24), ("RELATIONAL", 8)):
+        for row in memory.query(**query, memory_types=(kind,), limit=limit):
+            selected_rows.setdefault(row["memory_id"], row)
+    relational = list(selected_rows.values())
     def selected(prefix):
         return tuple(r["text"] for r in relational if (r["predicate_key"] or "").startswith(prefix))
     records = RecordService(store)

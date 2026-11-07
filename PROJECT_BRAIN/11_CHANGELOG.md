@@ -2976,3 +2976,8 @@ Full current-Core1905passed/12skipped572.94s; corrected15MB portable build repro
 ## 2026-11-07 — 兼容407的S2服务端实际交付
 
 源e7c28e7包14992176bytes/SHAe5dc0365…612c，两次构建一致；隔离安装后原BFF/Core/API/笔记/备份/同DEV重启通过，同一identity+lineage实际两次loopback模型使当前来源进入表达。交付5eef0c0并实际下载校验；调用真实Provider0、生产0、未使用Key。首次发布准备命令工作目录不存在而未执行，已更正到真实仓库根；不影响产物校验。
+
+
+## 2026-11-07 · Next Experience relationship continuity under growth
+
+Selected current relationship families before generic memory limits; reproduced old preferences/boundary/shared-event starvation and unrelated payload reads, fixed through original MemoryService, privacy/correction/dispute/restart/withdrawal verified.84 related +4 additional tests passed; small same153-row fixture0/0/0→1/1/1 recall. Evidence docs/nana_next_experience/RELATIONSHIP_RETENTION.md. No live model/host, no new learning or relationship authority.

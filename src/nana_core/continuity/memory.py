@@ -253,13 +253,24 @@ class MemoryService:
         return self.store.db.execute("SELECT count(*) FROM memories m WHERE " + where, args).fetchone()[0]
 
     def query(self, *, entity_ids=(), scopes=(), privacy_classes=("PUBLIC",), include_conflicts=False,
-              limit=128, query_terms=(), memory_types=()):
+              limit=128, query_terms=(), memory_types=(), predicate_prefixes=()):
         self._fresh()
         if type(limit) is not int or not 1 <= limit <= 512:
             raise CoreError("INVALID_RETRIEVAL_LIMIT")
         if not scopes or not privacy_classes:
             return []
         where, args = self._query_filter(entity_ids, scopes, privacy_classes, include_conflicts, memory_types)
+        # Select sourced claim families before ranking/limits or loading payloads.
+        # Literal prefix matching deliberately gives % and _ no wildcard authority.
+        if predicate_prefixes:
+            if not isinstance(predicate_prefixes, (tuple, list)) or len(predicate_prefixes) > 8 or any(
+                type(prefix) is not str or not 1 <= len(prefix) <= 128 for prefix in predicate_prefixes
+            ):
+                raise CoreError("INVALID_PREDICATE_PREFIX_FILTER")
+            where += " AND (" + " OR ".join(
+                "substr(m.predicate_key,1,length(?))=?" for _ in predicate_prefixes
+            ) + ")"
+            args.extend(value for prefix in predicate_prefixes for value in (prefix, prefix))
         if query_terms:
             if len(query_terms) > 32 or any(type(t) is not str or not 1 <= len(t) <= 128 for t in query_terms):
                 raise CoreError("INVALID_QUERY_TERMS")

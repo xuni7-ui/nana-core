@@ -1808,3 +1808,8 @@ Pinned-only对话直接读取明确来源与合格备注，其余Self/关系/承
 ## 2026-11-07 — 兼容407的S2服务端实际交付
 
 本批明确作为兼容既有407客户端的服务端补丁，不伪造frontend_source==新Core，保留原407三组件及其清单不变。无须为这一服务端改进重装APK；真实激活仍走原授权/封签/Supervisor路径。
+
+
+## 2026-11-07 · Next Experience relationship continuity under growth
+
+Relationship projection reserves bounded original-source retrieval for existing preference/norm/boundary/open families and episodic/relational rows; it does not rank all arbitrary semantic facts as relationship history. Max128 distinct IDs; exact privacy/current/source rules and original C remain unchanged.

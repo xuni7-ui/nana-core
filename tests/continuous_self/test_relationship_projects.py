@@ -85,3 +85,60 @@ def test_deletion_covers_relationship_commitment_and_every_project_revision(cogn
     assert CANARY.encode() not in store.path.read_bytes()
     assert not relationship_view(store, "synthetic-sister", scopes=("synthetic-home",),
                                  privacy_classes=("PERSONAL",)).memory_ids
+
+
+def test_relationship_families_survive_unrelated_growth_restart_and_withdrawal(cognitive, monkeypatch):
+    """Old important relationship facts cannot compete with unrelated trivia."""
+    store, memory, authority = cognitive
+    preference = add(memory, evidence(memory, "old-pref", "Prefer quiet evenings"),
+        "Prefer quiet evenings", kind=MemoryType.SEMANTIC,
+        predicate_key="preference.evenings", importance=0.1)
+    boundary = add(memory, evidence(memory, "old-boundary", "Do not push declined topics"),
+        "Do not push declined topics", kind=MemoryType.RELATIONAL,
+        predicate_key="relationship.boundary.topic", importance=0.1)
+    shared = add(memory, evidence(memory, "old-shared", "Reviewed the real synthetic project together"),
+        "Reviewed the real synthetic project together", kind=MemoryType.EPISODIC, importance=0.1)
+    for i in range(150):
+        add(memory, evidence(memory, f"unrelated-{i}", f"Unrelated synthetic fact {i}"),
+            f"Unrelated synthetic fact {i}", predicate_key=f"unrelated.{i}", importance=0.99)
+    unrelated_payloads = {row["payload_artifact_id"] for row in store.all("memories")
+                          if (row["predicate_key"] or "").startswith("unrelated.")}
+    real_artifact = store.artifact
+    def safe_read(artifact_id):
+        assert artifact_id not in unrelated_payloads, "irrelevant payload loaded before family selection"
+        return real_artifact(artifact_id)
+    monkeypatch.setattr(store, "artifact", safe_read)
+    kwargs = {"scopes": ("synthetic-home",), "privacy_classes": ("PERSONAL",)}
+    view = relationship_view(store, "synthetic-sister", **kwargs)
+    assert view.known_preferences == ("Prefer quiet evenings",)
+    assert view.boundaries == ("Do not push declined topics",)
+    assert shared in view.memory_ids and preference in view.memory_ids and boundary in view.memory_ids
+    assert len(view.memory_ids) <= 128
+    assert not relationship_view(store, "synthetic-sister", scopes=("synthetic-home",),
+                                 privacy_classes=("PUBLIC",)).memory_ids
+    backup = store.path.with_name("relationship-restart.db")
+    store.backup(backup)
+    with ContinuityStore(backup, store.clock) as restored:
+        assert relationship_view(restored, "synthetic-sister", **kwargs) == view
+    memory.forget(boundary, authority)
+    assert not relationship_view(store, "synthetic-sister", **kwargs).boundaries
+    assert relationship_view(store, "synthetic-sister", **kwargs).known_preferences == view.known_preferences
+
+
+def test_relationship_correction_dispute_and_literal_family_boundaries(cognitive):
+    store, memory, _ = cognitive
+    original = add(memory, evidence(memory, "pref-old", "Prefer A", privacy="PUBLIC"),
+                   "Prefer A", predicate_key="preference.choice")
+    revised = add(memory, evidence(memory, "pref-new", "Prefer B", privacy="PUBLIC", when=200),
+                  "Prefer B", predicate_key="preference.choice", correction_of=original)
+    kwargs = {"scopes": ("synthetic-home",), "privacy_classes": ("PUBLIC",)}
+    assert relationship_view(store, "synthetic-sister", **kwargs).known_preferences == ("Prefer B",)
+    add(memory, evidence(memory, "pref-dispute", "Prefer C", privacy="PUBLIC", when=200),
+        "Prefer C", predicate_key="preference.choice")
+    assert not relationship_view(store, "synthetic-sister", **kwargs).known_preferences
+    assert memory.read(revised, include_inactive=True)["assessment"] == "DISPUTED"
+    assert not memory.query(**kwargs, predicate_prefixes=("preference.%",))
+    with pytest.raises(CoreError, match="INVALID_PREDICATE_PREFIX_FILTER"):
+        memory.query(**kwargs, predicate_prefixes=("",))
+    with pytest.raises(CoreError, match="INVALID_PREDICATE_PREFIX_FILTER"):
+        memory.query(**kwargs, predicate_prefixes=tuple("x" for _ in range(9)))
