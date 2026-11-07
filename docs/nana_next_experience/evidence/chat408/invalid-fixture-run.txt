@@ -1,0 +1,18 @@
+
+> @nana/space@4.0.3 test:v3
+> playwright test --config playwright.v3.config.ts --grep SYNTHETIC retention|UNKNOWN uses GET|lifecycle: privacy/run
+
+[WebServer] (node:64587) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 12 tests using 1 worker
+
+(node:64604) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/v3.spec.ts:475:1 › SYNTHETIC HTTP failure: UNKNOWN uses GET original receipt, never second POST (1.3s)
+  ✓   2 [desktop] › tests/v3.spec.ts:507:1 › SYNTHETIC lifecycle: privacy/run update clears bodies; late reply cannot revive; logout clears ephemeral state (1.9s)
+  ✘   3 [desktop] › tests/v3.spec.ts:930:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change (30.0s)
+(node:64852) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   4 [phone-360] › tests/v3.spec.ts:475:1 › SYNTHETIC HTTP failure: UNKNOWN uses GET original receipt, never second POST (1.2s)
+  ✓   5 [phone-360] › tests/v3.spec.ts:507:1 › SYNTHETIC lifecycle: privacy/run update clears bodies; late reply cannot revive; logout clears ephemeral state (2.0s)

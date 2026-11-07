@@ -1279,3 +1279,8 @@ S2当前召回新增真实冷连接复查：fa1f315在20万合成库曾触发100
 ## 2026-11-07 — 兼容407的S2服务端实际交付
 
 S2召回服务端补丁已实际安装验证并交付同一分支，兼容407APK；继续原软件与十域任务，不以此宣布总体完成。
+
+
+## 2026-11-07 · Same Next Experience408 and relationship continuity continuation
+
+Ordinary chat adds explicit connection-only PROJECT retention, PERSONAL remains per-turn. Corrected duplicate child resets and mobile focus-induced click-target shift;59 unit tests and12 responsive request/UNKNOWN/lifecycle checks pass. S2/S3 current preferences/boundaries/events survive unrelated growth; large200k regression fixed before delivery with one metadata scan,50 related tests pass. Original G/S8, Fish-native/needs and source/privacy mechanisms inherited; no new emotional authority or fake Nana learning. See CHAT_MEMORY_FLOW.md and RELATIONSHIP_RETENTION.md. New matched408 candidate delivery pending actual final build/install, not cloud/human qualification; same continuous mission remains active.

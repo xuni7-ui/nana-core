@@ -1354,3 +1354,8 @@ S2备注召回代码已测：相关116/额外原成长12/最终焦点7通过；�
 ## 2026-11-07 — 兼容407的S2服务端实际交付
 
 e7c28e7新包实际BFF/十页/同DEV重启/笔记闭环及同ID同lineage两次本地夹具模型接线通过；交付5eef0c0，真实GitHub下载SHA相同。下一步处理普通聊天记忆流程和关系上下文等原有高值缺口，真实宿主/模型/手机未验不冒充通过。
+
+
+## 2026-11-07 · Same Next Experience408 and relationship continuity continuation
+
+Ordinary chat adds explicit connection-only PROJECT retention, PERSONAL remains per-turn. Corrected duplicate child resets and mobile focus-induced click-target shift;59 unit tests and12 responsive request/UNKNOWN/lifecycle checks pass. S2/S3 current preferences/boundaries/events survive unrelated growth; large200k regression fixed before delivery with one metadata scan,50 related tests pass. Original G/S8, Fish-native/needs and source/privacy mechanisms inherited; no new emotional authority or fake Nana learning. See CHAT_MEMORY_FLOW.md and RELATIONSHIP_RETENTION.md. New matched408 candidate delivery pending actual final build/install, not cloud/human qualification; same continuous mission remains active.

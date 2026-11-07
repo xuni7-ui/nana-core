@@ -190,6 +190,8 @@ export function LiveSpace() {
   const [draft, setDraft] = useState("");
   const [personalDraft, setPersonalDraft] = useState(false);
   const [rememberDraft, setRememberDraft] = useState(false);
+  // Opt-in for this authenticated connection only; never persisted on the device.
+  const [rememberConnection, setRememberConnection] = useState(false);
   const [turns, setTurns] = useState<Turn[]>([]);
   const [pairOffer, setPairOffer] = useState("");
   const offerVersion = useRef(0);
@@ -232,6 +234,7 @@ export function LiveSpace() {
     setDraft("");
     setPersonalDraft(false);
     setRememberDraft(false);
+    setRememberConnection(false);
     setReceipt(null);
     setBackupStatus(null);
     setBiliSnapshot(null);
@@ -239,6 +242,10 @@ export function LiveSpace() {
     setCredentialStatus(null);
   }, []);
   const accept = useCallback((b: Envelope) => {
+    if (current.current?.capabilities.shared_life_retention === true && b.capabilities.shared_life_retention !== true) {
+      setRememberDraft(false);
+      setRememberConnection(false);
+    }
     if (previousRun.current && (previousRun.current !== b.run_generation || current.current?.privacy_scope.join(",") !== b.privacy_scope.join(","))) {
       setSnapshot(null);
       setTurns([]);
@@ -250,6 +257,7 @@ export function LiveSpace() {
       setDraft("");
       setPersonalDraft(false);
       setRememberDraft(false);
+      setRememberConnection(false);
       bodyGeneration.current++;
     }
     previousRun.current = b.run_generation;
@@ -264,6 +272,7 @@ export function LiveSpace() {
       setDraft("");
       setPersonalDraft(false);
       setRememberDraft(false);
+      setRememberConnection(false);
       setReceipt(null);
       setBiliSnapshot(null);
       setSharedSnapshot(null);
@@ -302,6 +311,7 @@ export function LiveSpace() {
         setDraft("");
         setPersonalDraft(false);
         setRememberDraft(false);
+        setRememberConnection(false);
         bodyGeneration.current++;
       }
       if (requestedPage === "chat" && canConverse && b.capabilities.conversation_history === true) {
@@ -919,6 +929,7 @@ export function LiveSpace() {
     setDraft("");
     setPersonalDraft(false);
     setRememberDraft(false);
+    setRememberConnection(false);
     setReceipt(null);
     setBackupStatus(null);
     setBiliSnapshot(null);
@@ -1377,6 +1388,7 @@ export function LiveSpace() {
                     setDraft("");
                     setPersonalDraft(false);
                     setRememberDraft(false);
+                    setRememberConnection(false);
                   }}
                 >
                   连接奈奈
@@ -1434,8 +1446,16 @@ export function LiveSpace() {
                 canUsePersonal={bootstrap?.privacy_scope.includes("PERSONAL") === true}
                 personal={personalDraft}
                 onPersonal={setPersonalDraft}
-                remember={rememberDraft}
-                onRemember={setRememberDraft}
+                remember={rememberDraft || (rememberConnection && !personalDraft)}
+                onRemember={(next) => {
+                  setRememberDraft(next);
+                  if (!next) setRememberConnection(false);
+                }}
+                rememberConnection={rememberConnection}
+                onRememberConnection={(next) => {
+                  setRememberConnection(next);
+                  setRememberDraft(false);
+                }}
                 verify={(id) => void verify(id)}
                 notice={notify}
               />

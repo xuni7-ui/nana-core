@@ -2986,3 +2986,8 @@ Selected current relationship families before generic memory limits; reproduced 
 ### 2026-11-07 · Same relationship fix: large-Store regression corrected before release
 
 Preserved six-query200k performance regression; replaced it with one authorized metadata scan and bounded per-family ranking, original payload/source checks. Same200k alternating9 pairs P95 original61.77ms→candidate49.24ms;50 related tests passed11.36s. This is a local performance fixture, not real relationship/naturalness qualification.
+
+
+## 2026-11-07 · Next Experience408 explicit connection retention
+
+Kept original retain_shared_life per-message contract. Added opt-in PROJECT retention for current authenticated connection only, no device persistence; PERSONAL still separately consented. Parent handles one-shot clearing; removed duplicate child reset. Logout/run/privacy/role/error/capability loss clears mode, original UNKNOWN GET-only behavior retained. Frontend59 tests passed3.51s; responsive request-body/lifecycle checks and APK receipts in docs/nana_next_experience/evidence/chat408. Android408 same appId/signature,42Web assets equal; real physical phone/model/cloud remains unrun. See CHAT_MEMORY_FLOW.md.

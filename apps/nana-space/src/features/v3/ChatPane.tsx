@@ -48,6 +48,8 @@ export function ChatPane({
   onPersonal,
   remember = false,
   onRemember,
+  rememberConnection = false,
+  onRememberConnection,
 }: {
   turns: Turn[];
   draft: string;
@@ -65,6 +67,8 @@ export function ChatPane({
   onPersonal?: (personal: boolean) => void;
   remember?: boolean;
   onRemember?: (remember: boolean) => void;
+  rememberConnection?: boolean;
+  onRememberConnection?: (remember: boolean) => void;
 }) {
   const [query, setQuery] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
@@ -315,7 +319,7 @@ export function ChatPane({
             e.preventDefault();
             if (!scopeAllowed) return;
             send(remember, personal ? "PERSONAL" : "PROJECT");
-            onRemember?.(false);
+
           }}
         >
           <textarea
@@ -342,7 +346,7 @@ export function ChatPane({
                 e.preventDefault();
                 if (!scopeAllowed) return;
                 send(remember, personal ? "PERSONAL" : "PROJECT");
-                onRemember?.(false);
+
               }
             }}
           />
@@ -391,11 +395,16 @@ export function ChatPane({
           <small>{scopeAllowed ? "仅获准设备可用；模型与保存仍受各自授权限制" : "个人范围授权已变化，请重新核对；不会自动改成项目内容发送"}</small>
         </label>}
         {canRemember && <label className="v4-remember">
-          <input type="checkbox" checked={remember} onChange={e => onRemember?.(e.target.checked)} />
+          <input type="checkbox" checked={remember} disabled={busy} onChange={e => onRemember?.(e.target.checked)} />
           记住这次共同经历
-          <small>仅本次提交 · 带来源保存，可在记忆中撤回</small>
+          <small>{rememberConnection && !personal ? "本次连接已开启连续保存；可随时取消" : "仅本次提交 · 带来源保存，可在记忆中撤回"}</small>
         </label>}
-          <p>这些选项只用于下一条消息。可在记忆页撤回已保存的内容。</p>
+        {canRemember && <label className="v4-remember">
+          <input type="checkbox" checked={rememberConnection && !personal} disabled={busy || personal} onChange={e => onRememberConnection?.(e.target.checked)} />
+          记住后续对话（本次连接）
+          <small>由你主动开启；退出或权限变化后关闭。个人内容仍需逐条选择。</small>
+        </label>}
+          <p>个人内容仅用于下一条消息。已保存的内容可在记忆页撤回。</p>
           </div>
         </details>
       </div>

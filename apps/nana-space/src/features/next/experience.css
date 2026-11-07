@@ -33,8 +33,6 @@
 .v3-main-chat .v3-top-tools{gap:4px;}.v3-main-chat .v3-profile-button{display:none;}
 .v3-main-chat .v3-top-tools .v3-icon-button{display:none!important;}
 .v3-main-chat .v3-connection-label{white-space:nowrap;}
-.v3-space:has(.v3-composer:focus-within) .v3-bottom-nav{display:none;}
-.v3-space:has(.v3-composer:focus-within) .v3-main-chat{padding-bottom:env(safe-area-inset-bottom);}
 .v3-main-chat .v3-reply-meta{flex-wrap:wrap;}
 }
 .v3-main-chat .v3-top-tools .v3-icon-button:is([aria-label="刷新真实状态"],[aria-label="退出并清除本机视图"]){display:grid!important;width:32px;min-width:32px;min-height:40px;padding:4px;}

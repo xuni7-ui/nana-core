@@ -1,0 +1,133 @@
+
+> @nana/space@4.0.3 test:v3
+> playwright test --config playwright.v3.config.ts --grep SYNTHETIC retention
+
+[WebServer] (node:61477) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:61514) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › tests/v3.spec.ts:930:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change (30.1s)
+(node:61828) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [phone-360] › tests/v3.spec.ts:930:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change (30.1s)
+(node:61982) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  3 [phone-390] › tests/v3.spec.ts:930:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change (30.2s)
+(node:62234) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  4 [phone-412] › tests/v3.spec.ts:930:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change (30.0s)
+
+
+  1) [desktop] › tests/v3.spec.ts:930:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change 
+
+    Test timeout of 30000ms exceeded.
+
+    Error Context: test-results/v3-SYNTHETIC-retention-con-7b8b1-al-and-clears-on-run-change-desktop/error-context.md
+
+  2) [phone-360] › tests/v3.spec.ts:930:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: '发送', exact: true })
+        - locator resolved to <button class="v3-send" aria-label="发送">…</button>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <label class="v4-remember">…</label> from <details open="" class="next-send-options">…</details> subtree intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <label class="v4-remember">…</label> from <details open="" class="next-send-options">…</details> subtree intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        55 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <label class="v4-remember">…</label> from <details open="" class="next-send-options">…</details> subtree intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+        - waiting for element to be visible, enabled and stable
+        - element is visible, enabled and stable
+        - scrolling into view if needed
+        - done scrolling
+
+
+      941 |   const send = async (text: string) => {
+      942 |     await page.getByLabel("和奈奈说点什么").fill(text);
+    > 943 |     await page.getByRole("button", { name: "发送", exact: true }).click();
+          |                                                                 ^
+      944 |     await expect(page.getByRole("button", { name: "发送", exact: true })).toBeDisabled();
+      945 |     await expect(continuous).toBeEnabled();
+      946 |   };
+        at send (/workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:943:65)
+        at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:947:3
+
+    Error Context: test-results/v3-SYNTHETIC-retention-con-7b8b1-al-and-clears-on-run-change-phone-360/error-context.md
+
+  3) [phone-390] › tests/v3.spec.ts:930:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: '发送', exact: true })
+        - locator resolved to <button class="v3-send" aria-label="发送">…</button>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <label class="v4-remember">…</label> from <details open="" class="next-send-options">…</details> subtree intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <label class="v4-remember">…</label> from <details open="" class="next-send-options">…</details> subtree intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        55 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <label class="v4-remember">…</label> from <details open="" class="next-send-options">…</details> subtree intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+        - waiting for element to be visible, enabled and stable
+
+
+      941 |   const send = async (text: string) => {
+      942 |     await page.getByLabel("和奈奈说点什么").fill(text);
+    > 943 |     await page.getByRole("button", { name: "发送", exact: true }).click();
+          |                                                                 ^
+      944 |     await expect(page.getByRole("button", { name: "发送", exact: true })).toBeDisabled();
+      945 |     await expect(continuous).toBeEnabled();
+      946 |   };
+        at send (/workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:943:65)
+        at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:947:3
+
+    Error Context: test-results/v3-SYNTHETIC-retention-con-7b8b1-al-and-clears-on-run-change-phone-390/error-context.md
+
+  4) [phone-412] › tests/v3.spec.ts:930:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change 
+
+    Test timeout of 30000ms exceeded.
+
+    Error Context: test-results/v3-SYNTHETIC-retention-con-7b8b1-al-and-clears-on-run-change-phone-412/error-context.md
+
+  4 failed
+    [desktop] › tests/v3.spec.ts:930:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change 
+    [phone-360] › tests/v3.spec.ts:930:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change 
+    [phone-390] › tests/v3.spec.ts:930:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change 
+    [phone-412] › tests/v3.spec.ts:930:1 › SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change 

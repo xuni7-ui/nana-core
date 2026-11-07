@@ -7,17 +7,18 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 73,
-  "as_of_us": 1794031559739404,
+  "revision": 74,
+  "as_of_us": 1794032784095932,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_PRODUCT_AND_TEN_DOMAIN_AFTER_RECALL_DELIVERY",
+  "status": "IN_PROGRESS_408_MATCHED_DELIVERY",
   "progress": [
     "继承原Next Experience、手机紧凑聊天、模型目录、原S8/S3/S2及Fish原生关注/晚安/关系连续。",
     "407 APK/Web/Core已推送交付aae944a，三组件实际GitHub下载SHA相同；同签名覆盖升级。",
     "407原Store备注/纠错/UNKNOWN对账已有安装证据；全仓1933/1文档摘要失败/12跳过，摘要修复定向通过。",
     "e7c28e7原Core包实际安装/十页/同DEV重启/笔记及两次本地模型来源接线通过，交付5eef0c0下载SHA相同；兼容407。",
-    "原Store合成20万字面备注有索引P95约0.49ms、新连接约1.19ms；Pinned所选块相同，读取258→130，装配P50约302→219ms。"
+    "原Store合成20万字面备注有索引P95约0.49ms、新连接约1.19ms；Pinned所选块相同，读取258→130，装配P50约302→219ms。",
+    "408连接内明确保留聊天、个人逐条授权、触控焦点稳定；59前端及12响应式检查通过。关系家族先筛选，50相关检查及20万对照已通过。"
   ],
   "open_gates": [
     "整个软件及十域长期精修继续，不以小批交付宣布总完成。",
@@ -31,7 +32,9 @@
     "docs/nana_next_experience/NOTE_RECALL.md",
     "docs/nana_next_experience/evidence/note-recall/qualification.json",
     "docs/nana_next_experience/HANDOFF_NOTE_RECALL.md",
-    "docs/nana_next_experience/HANDOFF_407.md"
+    "docs/nana_next_experience/HANDOFF_407.md",
+    "docs/nana_next_experience/CHAT_MEMORY_FLOW.md",
+    "docs/nana_next_experience/RELATIONSHIP_RETENTION.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2486,3 +2489,8 @@ Corrected Core6f2a491 full1905/0/12 in572.94s; two portable builds equal, same i
 ### 2026-11-06 · continuous native affect / product integration
 
 [实测] Fish Heart原生融合批次：233相关Core通过104.42s，后续Inspector实际UNKNOWN修复7通过2.20s；浏览器24通过31.6s。原来源去重/独立新关注/原C自主EXPLORE/跨重启虚拟淡出/新来源再考虑/撤回均验证。晚安只约束投递，35次presence更新经原Memory纠正保持一条CURRENT。真人/实际手机/真实模型/跨日NOT_RUN；详见GROWTH_AND_AFFECT与evidence/fish-native。
+
+
+## 2026-11-07 · Same Next Experience408 and relationship continuity continuation
+
+Ordinary chat adds explicit connection-only PROJECT retention, PERSONAL remains per-turn. Corrected duplicate child resets and mobile focus-induced click-target shift;59 unit tests and12 responsive request/UNKNOWN/lifecycle checks pass. S2/S3 current preferences/boundaries/events survive unrelated growth; large200k regression fixed before delivery with one metadata scan,50 related tests pass. Original G/S8, Fish-native/needs and source/privacy mechanisms inherited; no new emotional authority or fake Nana learning. See CHAT_MEMORY_FLOW.md and RELATIONSHIP_RETENTION.md. New matched408 candidate delivery pending actual final build/install, not cloud/human qualification; same continuous mission remains active.

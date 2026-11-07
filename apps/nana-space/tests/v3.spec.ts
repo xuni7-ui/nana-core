@@ -87,6 +87,8 @@ interface MockState {
   abortMessage: boolean;
   delayMessage: boolean;
   messageRoute?: Route;
+  messageBodies?: Record<string, unknown>[];
+  privacyScope?: string[];
   delayMemories: boolean;
   memoryRoute?: Route;
   delayPair?: boolean;
@@ -121,7 +123,7 @@ function envelope(state: MockState, data: Record<string, unknown>) {
     session_generation: 1,
     run_generation: state.run,
     coverage: "CURRENT",
-    privacy_scope: ["PUBLIC", "PROJECT"],
+    privacy_scope: state.privacyScope || ["PUBLIC", "PROJECT"],
     source_refs: ["SYNTHETIC_HTTP_FIXTURE"],
     capabilities: state.capabilities || {},
     data,
@@ -250,6 +252,7 @@ async function installMock(page: Page): Promise<MockState> {
       return;
     }
     if (path === "messages" && method === "POST") {
+      (state.messageBodies ||= []).push(request.postDataJSON());
       if (state.abortMessage) return route.abort("failed");
       if (state.delayMessage) {
         state.messageRoute = route;
@@ -921,4 +924,59 @@ test("SYNTHETIC note admission conflict: no false UNKNOWN or automatic second PO
   await expect(page.getByRole("button",{name:"保存备注",exact:true})).toBeEnabled();
   expect(state.requests.filter(r=>r.path==="memories/notes")).toHaveLength(1);
   expect(state.noteRows).toEqual([]);
+});
+
+
+test("SYNTHETIC retention: connection opt-in survives sends, excludes personal and clears on run change", async ({ page }, info) => {
+  const state = await installMock(page);
+  state.capabilities = { shared_life_retention: true };
+  state.privacyScope = ["PUBLIC", "PROJECT", "PERSONAL"];
+  await open(page, "chat");
+  await page.locator(".next-send-options summary").click();
+  const continuous = page.getByLabel("记住后续对话（本次连接）", { exact: false });
+  const personal = page.getByLabel("本次包含个人内容", { exact: false });
+  const once = page.getByLabel("记住这次共同经历", { exact: false });
+  await expect(continuous).not.toBeChecked();
+  await continuous.check();
+  const send = async (text: string, keyboard = false) => {
+    if (await page.locator(".next-send-options").getAttribute("open") !== null)
+      await page.locator(".next-send-options summary").click();
+    await page.getByLabel("和奈奈说点什么").fill(text);
+    if (keyboard) await page.getByLabel("和奈奈说点什么").press("Control+Enter");
+    else await page.getByRole("button", { name: "发送", exact: true }).click();
+    await expect(page.getByRole("button", { name: "发送", exact: true })).toBeDisabled();
+    await expect(continuous).toBeEnabled();
+  };
+  await send("SYNTHETIC first retained project turn");
+  await expect(continuous).toBeChecked();
+  await send("SYNTHETIC second retained project turn", true);
+  await page.screenshot({path: `test-results/408-${info.project.name}-chat.png`});
+  expect(state.messageBodies?.map(body => body.retain_shared_life)).toEqual([true, true]);
+  await page.locator(".next-send-options summary").click();
+  await personal.check();
+  await expect(continuous).toBeDisabled();
+  await expect(continuous).not.toBeChecked();
+  await expect(once).not.toBeChecked();
+  await send("SYNTHETIC explicitly personal not retained");
+  expect(state.messageBodies?.at(-1)?.privacy_class).toBe("PERSONAL");
+  expect(state.messageBodies?.at(-1)?.retain_shared_life).toBe(false);
+  await expect(continuous).toBeChecked();
+  state.capabilities.shared_life_retention = false;
+  await page.getByRole("button", { name: "刷新真实状态", exact: true }).click();
+  await expect(continuous).toHaveCount(0);
+  state.capabilities.shared_life_retention = true;
+  await page.getByRole("button", { name: "刷新真实状态", exact: true }).click();
+  await expect(continuous).not.toBeChecked();
+  await page.locator(".next-send-options summary").click();
+  await continuous.check();
+  await page.locator(".next-send-options summary").click();
+  state.run = "c".repeat(32);
+  await page.getByRole("button", { name: "刷新真实状态", exact: true }).click();
+  await expect(continuous).not.toBeChecked();
+  await expect(once).not.toBeChecked();
+  await send("SYNTHETIC after run change");
+  expect(state.messageBodies?.at(-1)?.retain_shared_life).toBe(false);
+  const persisted = await page.evaluate(() => JSON.stringify(localStorage));
+  expect(persisted).not.toContain("retained project turn");
+  expect(persisted).not.toContain("rememberConnection");
 });
