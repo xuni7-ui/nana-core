@@ -1,0 +1,22 @@
+{
+  "source": "522135d",
+  "app_id": "life.nana.space.dev",
+  "version_code": 409,
+  "version_name": "4.0.9-next-debug",
+  "same_signer": true,
+  "web_files_compared": 42,
+  "all_apk_web_assets_equal": true,
+  "extra_capacitor_shims": [
+    "cordova.js",
+    "cordova_plugins.js"
+  ],
+  "apk": {
+    "bytes": 4753207,
+    "sha256": "15449c95ad8c346333bc13d37384ecec8836366c8ac51775ef71cfb1c887187d"
+  },
+  "web": {
+    "bytes": 618787,
+    "sha256": "c983b2f54b856c8b90b61e91a75ddf51c83d95118e422e76d56e361a7adba4d0"
+  },
+  "physical_phone": "NOT_RUN"
+}

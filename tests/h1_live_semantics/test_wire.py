@@ -15,9 +15,9 @@ from tools.nana_h1_live_qualification.fixtures import cases,assess
 
 class Response:
     def __init__(self,raw,request_id='relay-request'):
-        self.raw=raw;self.code=200;self.headers=Message();self.headers['Content-Type']='application/json';self.headers['X-Request-ID']=request_id
+        self.raw=raw;self.body=io.BytesIO(raw);self.code=200;self.headers=Message();self.headers['Content-Type']='application/json';self.headers['X-Request-ID']=request_id
     def close(self):pass
-    def read(self,n):return self.raw[:n]
+    def read(self,n):return self.body.read(n)
     def __enter__(self):return self
     def __exit__(self,*args):pass
 class Opener:
@@ -123,3 +123,19 @@ def test_incomplete_response_keeps_allowlisted_usage_and_resets_on_timeout(tmp_p
         t.opener=Timeout()
         with pytest.raises(TimeoutError):t.exchange(req)
         assert t.last_response_metadata is None
+
+
+def test_recording_capture_accumulates_chunks_once_and_blocks_split_secret_echo():
+    import urllib.request
+    payload=canonical({'id':'chunked-fixture','model':'fixture','usage':{'prompt_tokens':7}}).encode()
+    recorder=RecordingOpener(Opener(Response(payload)),'TEST_ONLY_SPLIT_SECRET')
+    with recorder.open(urllib.request.Request('https://api.tiantoken.com/v1/chat/completions',data=b'{}')) as response:
+        consumed=bytearray()
+        while chunk:=response.read1(3):consumed.extend(chunk)
+    assert bytes(consumed)==payload and len(recorder.responses)==1
+    assert recorder.responses[0]['id']=='chunked-fixture'
+    recorder=RecordingOpener(Opener(Response(b'{"text":"TEST_ONLY_SPLIT_SECRET"}')),'TEST_ONLY_SPLIT_SECRET')
+    with pytest.raises(CoreError,match='SECRET_ECHO_BLOCKED'):
+        with recorder.open(urllib.request.Request('https://api.tiantoken.com/v1/chat/completions',data=b'{}')) as response:
+            while response.read1(3):pass
+    assert not recorder.responses

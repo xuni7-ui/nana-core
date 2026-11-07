@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/tmp/nana-preserve-finished-scratch.py", line 20, in <module>
+    if actual!=files:raise RuntimeError('archive readback mismatch')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+RuntimeError: archive readback mismatch

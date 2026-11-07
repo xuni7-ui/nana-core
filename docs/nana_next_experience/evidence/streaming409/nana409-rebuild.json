@@ -1,0 +1,14 @@
+[
+  {
+    "archive": "/tmp/n409a/nana-first-life-portable-v1.tar.gz",
+    "sha256": "141470bd6856f4ea1d7c1a2bbf93f480c55bdbfb9496f849a480492535e0c49b",
+    "bytes": 15009681,
+    "readback_files": 281
+  },
+  {
+    "archive": "/tmp/n409b/nana-first-life-portable-v1.tar.gz",
+    "sha256": "141470bd6856f4ea1d7c1a2bbf93f480c55bdbfb9496f849a480492535e0c49b",
+    "bytes": 15009681,
+    "readback_files": 281
+  }
+]

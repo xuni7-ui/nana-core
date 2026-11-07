@@ -1,0 +1,99 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_acquired_frame_uses_real_router_original_h1_world_and_source_lifecycle __
+
+tmp_path = PosixPath('/tmp/n409-bili-isolated/test_acquired_frame_uses_real_0')
+
+    def test_acquired_frame_uses_real_router_original_h1_world_and_source_lifecycle(tmp_path):
+        from nana_core.continuity.provider_config import ProviderProfile, CapabilityRoute
+        from nana_core.continuity.provider_routing import CapabilityRouter, RuntimeProviderFactory, RoutingPolicy
+        from nana_core.continuity.providers import ProviderRegistry
+        from nana_core.continuity.world_loop.semantic_harness import semantic_proposer
+        from nana_core.continuity.world_loop.world import WorldModel
+        from tests.provider_routing.helpers import config_service, model, update, Resolver
+    
+        with (
+            counterpart() as (opener, _),
+            provider_harness(semantic_proposer) as (wire, metrics),
+            fresh(tmp_path / "self.db", Clock()) as r,
+        ):
+            config, authority = config_service(tmp_path / "config/providers.json")
+            provider = ProviderProfile(
+                provider_profile_id="frames.loopback",
+                display_name="SYNTHETIC_LOOPBACK",
+                protocol="SYNTHETIC_LOOPBACK",
+                base_url=wire.endpoint.removesuffix("/chat/completions"),
+                locality="LOCAL_FIXTURE",
+                permitted_privacy=("PUBLIC", "PROJECT"),
+            )
+            profile = model("model.frames", provider.provider_profile_id, ("VISION",)).model_copy(
+                update={"remote_model_id": "harness-v1"}
+            )
+            update(config, authority, "UPSERT_PROVIDER", provider=provider)
+            update(config, authority, "UPSERT_MODEL", model=profile)
+            update(
+                config,
+                authority,
+                "SET_CAPABILITY_ROUTE",
+                route=CapabilityRoute(
+                    operation="VISION",
+                    primary_model_profile_id=profile.model_profile_id,
+                    permitted_privacy=("PUBLIC", "PROJECT"),
+                ),
+            )
+            router = CapabilityRouter(
+                config, RuntimeProviderFactory(ProviderRegistry(), Resolver(), RoutingPolicy(allow_synthetic_loopback=True))
+            )
+            app = SimpleNamespace(
+                runtime=r,
+                policy=policy(),
+                router=router,
+                config=SimpleNamespace(
+                    provider_context_tokens=16000,
+                    provider_output_tokens=4096,
+                    provider_timeout_ms=3000,
+                    provider_cost_ceiling_micro=0,
+                    provider_total_calls_limit=2,
+                    provider_total_reserved_cost_micro=0,
+                    provider_calls_per_hour=2,
+                    provider_calls_per_day=2,
+                    per_provider_calls_per_day=2,
+                ),
+            )
+            public = BilibiliPublicTransport(authorized=True, origin="SYNTHETIC_FIXTURE", request_limit=9)
+            public.opener = opener
+            reading = public.read_video("BV1t55v6DE2v", visual=True)
+            source = BilibiliSourceAdapter(app).ingest(reading)
+            service = BilibiliFrameService(app)
+            mid = service.capture(source, reading.frames)[0]
+>           result = service.interpret(mid)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/living_release_v4/test_bilibili_frames.py:165: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/life/bilibili_frames.py:222: in interpret
+    budget(self.app, target.snapshot)
+src/nana_core/life/readiness.py:67: in budget
+    report = budget_report(app, snapshot, calls=calls)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/life/readiness.py:61: in budget_report
+    "limits": budget_limits(cfg),
+              ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cfg = namespace(provider_context_tokens=16000, provider_output_tokens=4096, provider_timeout_ms=3000, provider_cost_ceiling_...rovider_total_reserved_cost_micro=0, provider_calls_per_hour=2, provider_calls_per_day=2, per_provider_calls_per_day=2)
+
+    def budget_limits(cfg):
+>       return {"wire_bytes_per_day": cfg.provider_wire_bytes_per_day, "calls_per_hour": cfg.provider_calls_per_hour,
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                "calls_per_day": cfg.provider_calls_per_day,
+                "per_provider_calls_per_day": cfg.per_provider_calls_per_day,
+                "total_calls": cfg.provider_total_calls_limit,
+                "total_reserved_cost_micro": cfg.provider_total_reserved_cost_micro,
+                "per_call_reserved_cost_micro": cfg.provider_cost_ceiling_micro}
+E       AttributeError: 'types.SimpleNamespace' object has no attribute 'provider_wire_bytes_per_day'
+
+src/nana_core/life/readiness.py:14: AttributeError
+=========================== short test summary info ============================
+FAILED tests/living_release_v4/test_bilibili_frames.py::test_acquired_frame_uses_real_router_original_h1_world_and_source_lifecycle
+1 failed in 1.09s

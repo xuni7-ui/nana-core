@@ -35,15 +35,29 @@ class RecordingOpener:
         response=self.opener.open(request,**kwargs);owner=self
         class Response:
             headers=response.headers;code=response.code
+            fp=getattr(response,'fp',None)
+            def __init__(self):self.buffer=bytearray();self.recorded=False
             def __enter__(self):return self
-            def __exit__(self,*args):response.close()
-            def read(self,n):
-                raw=response.read(n)
-                if owner.key.encode() in raw:raise CoreError('SECRET_ECHO_BLOCKED')
-                if len(raw)<=131072:
-                    try:owner.responses.append(json.loads(raw))
-                    except (ValueError,UnicodeError):owner.responses.append({'parse':'MALFORMED','raw_sha256':hashlib.sha256(raw).hexdigest()})
+            def _finalize(self):
+                if self.recorded:return
+                self.recorded=True
+                raw=bytes(self.buffer)
+                try:owner.responses.append(json.loads(raw))
+                except (ValueError,UnicodeError):owner.responses.append({'parse':'MALFORMED','raw_sha256':hashlib.sha256(raw).hexdigest()})
+                self.buffer.clear()
+            def __exit__(self,*args):
+                try:self._finalize()
+                finally:response.close()
+            def _observe(self,raw):
+                self.buffer.extend(raw)
+                if len(self.buffer)>131072:
+                    self.buffer.clear();self.recorded=True;raise CoreError('LIVE_RESPONSE_CAPTURE_BOUND')
+                if owner.key.encode() in self.buffer:
+                    self.buffer.clear();self.recorded=True;raise CoreError('SECRET_ECHO_BLOCKED')
+                if not raw:self._finalize()
                 return raw
+            def read(self,n):return self._observe(response.read(n))
+            def read1(self,n):return self._observe((getattr(response,'read1',None) or response.read)(n))
         return Response()
 
 def completed_response(recorder,previous_count):

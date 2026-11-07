@@ -1,0 +1,17 @@
+.......F....                                                             [100%]
+=================================== FAILURES ===================================
+___ test_key_like_text_and_unfinished_escape_cannot_be_presented_as_a_draft ____
+
+    def test_key_like_text_and_unfinished_escape_cannot_be_presented_as_a_draft():
+        d = DraftPrefix()
+        assert d.feed('{"interpretation":"draft text FAKE') == ""
+        d = DraftPrefix()
+>       assert d.feed('{"draft":{"text":"x\\uD83C') == "x"
+E       AssertionError: assert '' == 'x'
+E         
+E         - x
+
+tests/world_loop/test_streaming.py:81: AssertionError
+=========================== short test summary info ============================
+FAILED tests/world_loop/test_streaming.py::test_key_like_text_and_unfinished_escape_cannot_be_presented_as_a_draft
+1 failed, 11 passed in 0.82s

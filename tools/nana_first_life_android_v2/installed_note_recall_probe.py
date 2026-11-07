@@ -15,7 +15,7 @@ import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 
-def run(bundle, work, *, check_wire_reservations=False, check_retrieval_growth=False):
+def run(bundle, work, *, check_wire_reservations=False, check_retrieval_growth=False, check_streaming=False):
     if not __debug__:
         raise ValueError("QUALIFICATION_REQUIRES_ASSERTIONS")
     sys.dont_write_bytecode = True
@@ -77,6 +77,8 @@ def run(bundle, work, *, check_wire_reservations=False, check_retrieval_growth=F
     wire_reservations = []
     recall_terms = ["虹光约定"]
     growth_result = None
+    stream_result = None
+    stream_release=threading.Event();stream_finished=threading.Event();stream_progress=[]
 
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *args):
@@ -108,6 +110,21 @@ def run(bundle, work, *, check_wire_reservations=False, check_retrieval_growth=F
                     "claim_memory_ids": [n["memory_id"] for n in notes],
                     "effect_status": request["role_input"]["dialogue"]["effect_status"],
                 }
+            if check_streaming and body.get('stream') is True:
+                content=json.dumps(proposal,ensure_ascii=False)
+                split=content.index('"text": "')+len('"text": "')+12
+                self.send_response(200)
+                self.send_header('Content-Type','text/event-stream')
+                self.end_headers()
+                def emit(delta,finish=None):
+                    value={'model':body['model'],'choices':[{'index':0,'delta':delta,'finish_reason':finish}]}
+                    self.wfile.write(('data: '+json.dumps(value,ensure_ascii=False)+'\n\n').encode());self.wfile.flush()
+                emit({'content':content[:split]})
+                if not stream_release.wait(5):return
+                emit({'content':content[split:]})
+                emit({},'stop')
+                self.wfile.write(b'data: [DONE]\n\n');self.wfile.flush();stream_finished.set()
+                return
             raw = json.dumps(
                 {
                     "model": body["model"],
@@ -185,7 +202,19 @@ def run(bundle, work, *, check_wire_reservations=False, check_retrieval_growth=F
             app.pause()
             text = "SYNTHETIC 合成资料：虹光约定安排在周五。"
             mid = save(app, text=text, privacy="PROJECT", request_id="installed.recall.note")["memory_id"]
+            if check_streaming:
+                def progress(value):
+                    stream_progress.append(value['state'])
+                    if value['state']=='PROVISIONAL_MODEL_DRAFT' and not stream_release.is_set():
+                        assert not stream_finished.is_set(),'prefix must precede provider terminal event'
+                        stream_release.set()
+                app.response_sink=progress
             answer = app.chat("SYNTHETIC 请回忆这个项目约定", privacy="PROJECT", message_id="installed.recall.question")
+            if check_streaming:
+                assert stream_release.is_set() and 'PROVISIONAL_MODEL_DRAFT' in stream_progress
+                assert requests[0].get('response_mode','JSON')=='JSON' and requests[1]['response_mode']=='JSON_STREAM'
+                stream_result={'actual_early_provider_prefix':True,'original_interpret_C_render':True,
+                    'scope':'INSTALLED_ORIGINAL_OWNER_AND_LOOPBACK_SSE_NOT_REAL_PROVIDER_OR_PHONE'}
             assert app.runtime.identity_id == identity
             assert len(requests) == 2 and mid in requests[-1]["source_context_refs"]
             assert answer["text"] == text and answer["render_state"] == "UNVERIFIED_MODEL_WORDING"
@@ -193,7 +222,7 @@ def run(bundle, work, *, check_wire_reservations=False, check_retrieval_growth=F
             if check_wire_reservations:
                 for received, actual_bytes in zip(requests, wire_lengths, strict=True):
                     row = app.runtime.store.one("cognitive_requests", received["request_id"])
-                    bound = min(131072, received["budget"]["output_tokens"] * 4 + 4096)
+                    bound = (min(1048576,received["budget"]["output_tokens"]*256+8192) if received.get("response_mode")=="JSON_STREAM" else min(131072, received["budget"]["output_tokens"] * 4 + 4096))
                     assert row["input_bytes"] == actual_bytes
                     assert row["reserved_bytes"] == actual_bytes + bound + 1
                     assert row["input_bytes"] + row["output_bytes"] <= row["reserved_bytes"]
@@ -288,10 +317,12 @@ def run(bundle, work, *, check_wire_reservations=False, check_retrieval_growth=F
             "same_subject_after_fixture_phase": True,
             "local_fixture_calls": len(requests),
             "real_provider_calls": 0,
+            **({"streaming": stream_result} if stream_result else {}),
             **({"retrieval_growth": growth_result} if growth_result else {}),
             **({"exact_wire_reservations": wire_reservations} if check_wire_reservations else {}),
         }
     finally:
+        stream_release.set()
         current = load_config(home)
         update_config(
             home, original.model_copy(update={"revision": current.revision + 1}), expected_revision=current.revision
@@ -308,12 +339,14 @@ if __name__ == "__main__":
     parser.add_argument("--output", type=Path, required=True)
     parser.add_argument("--check-wire-reservations", action="store_true")
     parser.add_argument("--check-retrieval-growth", action="store_true")
+    parser.add_argument("--check-streaming", action="store_true")
     args = parser.parse_args()
     result = run(
         args.bundle,
         args.work,
         check_wire_reservations=args.check_wire_reservations,
         check_retrieval_growth=args.check_retrieval_growth,
+        check_streaming=args.check_streaming,
     )
     args.output.write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps(result))

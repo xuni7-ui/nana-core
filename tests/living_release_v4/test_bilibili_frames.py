@@ -145,6 +145,7 @@ def test_acquired_frame_uses_real_router_original_h1_world_and_source_lifecycle(
             policy=policy(),
             router=router,
             config=SimpleNamespace(
+                provider_wire_bytes_per_day=4_000_000,
                 provider_context_tokens=16000,
                 provider_output_tokens=4096,
                 provider_timeout_ms=3000,

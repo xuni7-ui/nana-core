@@ -1,0 +1,1416 @@
+........................................................................ [  3%]
+........................................................................ [  7%]
+........................................................................ [ 10%]
+........................................................................ [ 14%]
+........................................................................ [ 17%]
+........................................................................ [ 21%]
+........................................................................ [ 24%]
+.F...FF.....F.......................................sssssssssss......... [ 28%]
+........................................................................ [ 32%]
+........................................................................ [ 35%]
+.................................................................F...FFF [ 39%]
+FFFFFFFFFFFFFFFFFFFFFFF................................................. [ 42%]
+...........................F............................................ [ 46%]
+........................................................................ [ 49%]
+........................................................................ [ 53%]
+........................................................................ [ 57%]
+........................................................................ [ 60%]
+........................................................................ [ 64%]
+........................................................................ [ 67%]
+........................................................................ [ 71%]
+........................................................................ [ 74%]
+........................................................................ [ 78%]
+...........s............................................................ [ 82%]
+........................................................................ [ 85%]
+........................................................................ [ 89%]
+........................................................................ [ 92%]
+........................................................................ [ 96%]
+........................................................................ [ 99%]
+.                                                                        [100%]
+=================================== FAILURES ===================================
+__ test_wire_measurements_real_bytes_digest_ids_no_headers_and_legacy_digest ___
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_wire_measurements_real_by0')
+
+    def test_wire_measurements_real_bytes_digest_ids_no_headers_and_legacy_digest(tmp_path):
+        from nana_core.continuity.world_loop.cognition import CognitionBudget
+        with fresh(tmp_path/'s/self.db') as r:
+            t=remote();s=setup(r,t);raw=media_samples()['IMAGE'];mid=ingest(r,'IMAGE',raw)
+            cid=s.prepare('wire',mid,raw,budget=CognitionBudget(cost_ceiling_micro=1000))
+            request=CognitionRequest.model_validate_json(canonical(s.records.read(r.store.one('cognitive_requests',cid)['record_id'])['payload']['request']))
+            content=StructuredProposal(interpretation='Only a proposal',source_refs=(mid,)).model_dump(mode='json')
+            envelope=canonical({'id':'relay-response','model':'qwen3.8-flash','choices':[{'message':{'content':canonical(content)},'finish_reason':'stop'}],'usage':{'prompt_tokens':12,'completion_tokens':9}}).encode()
+>           t.opener=Opener(Response(envelope));rep=t.exchange(request);obs=rep.http_observation
+                                                    ^^^^^^^^^^^^^^^^^^^
+
+tests/h1_live_semantics/test_wire.py:38: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.world_loop.semantics.OpenAIMediaTransport object at 0x7efd6ec98560>
+request = CognitionRequest(response_mode='JSON', request_id='800adf02-bd24-4156-80a5-8831b1b573d8', subject_epoch=1, subject_rev...created_at_us=1791590400000000, deadline_us=1791590403000000, provenance='PROPOSAL_NOT_AUTHORITY', route_snapshot=None)
+
+    def exchange(self,request):
+        data=self.request_body(request)
+        headers={'Content-Type':'application/json','Accept':'application/json','X-Request-ID':request.request_id}
+        if self._credential:headers['Authorization']='Bearer '+self._credential
+        req=urllib.request.Request(self.endpoint,data=data,headers=headers,method='POST');started=time.monotonic()
+        deadline=started+request.budget.timeout_ms/1000
+        observation={'request_body_sha256':hashlib.sha256(data).hexdigest(),
+            'request_started_at':datetime.now(timezone.utc).isoformat(),'latency_ms':0.}
+        self.last_http_observation=None
+        self.last_response_metadata=None
+        self.last_parse_diagnostic=ResponseDiagnostic(stage='HTTP');self.last_parse_request_id=request.request_id
+        def measure(raw=None,response=None):
+            observation['latency_ms']=(time.monotonic()-started)*1000
+            if raw is not None:observation['raw_response_body_sha256']=hashlib.sha256(raw).hexdigest()
+            if response is not None:
+                observation.update(response_http_status=response.code,
+                    relay_request_id=self._measurement_id(response.headers.get('x-request-id')),
+                    response_received_at=datetime.now(timezone.utc).isoformat())
+            self.last_http_observation=HTTPObservation(**observation)
+        measure()
+        try:
+            with self.opener.open(req,timeout=request.budget.timeout_ms/1000) as response:
+                response_bound=self.response_bound(request)
+                measure(response=response)
+                stream_envelope=None
+                if request.response_mode=='JSON_STREAM' and response.headers.get_content_type()=='text/event-stream':
+                    from .streaming import receive
+                    try:stream_envelope,raw=receive(response,response_bound,getattr(request,'_publish_draft',None) or (lambda _:None),deadline=deadline)
+                    except CoreError as exc:raise TransportFailure(exc.code) from None
+                else:
+                    from .streaming import read_body
+                    raw=read_body(response,response_bound,deadline)
+>               if len(raw)>response_bound:raise TransportFailure('PROVIDER_RESPONSE_BOUND')
+                                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               nana_core.continuity.world_loop.cognition.TransportFailure: PROVIDER_RESPONSE_BOUND
+
+src/nana_core/continuity/world_loop/cognition.py:302: TransportFailure
+_________ test_failure_measurements_and_no_transport_retry[malformed] __________
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_failure_measurements_and_1')
+failure = 'malformed'
+
+    @pytest.mark.parametrize('failure',['timeout','malformed','refusal','http_error'])
+    def test_failure_measurements_and_no_transport_retry(tmp_path,failure):
+        import urllib.error
+        from nana_core.continuity.world_loop.cognition import CognitionBudget,TransportFailure
+        with fresh(tmp_path/'s/self.db') as r:
+            t=remote();s=setup(r,t);raw=media_samples()['IMAGE'];mid=ingest(r,'IMAGE',raw)
+            cid=s.prepare('failure',mid,raw,budget=CognitionBudget(cost_ceiling_micro=1000))
+            request=CognitionRequest.model_validate_json(canonical(s.records.read(r.store.one('cognitive_requests',cid)['record_id'])['payload']['request']))
+            calls=[]
+            class Failed:
+                def open(self,req,**kw):
+                    calls.append(req)
+                    if failure=='timeout':raise TimeoutError('no credential diagnostics')
+                    if failure=='http_error':raise urllib.error.HTTPError(req.full_url,503,'unavailable',Message(),io.BytesIO(b'public unavailable'))
+                    return Response(b'{' if failure=='malformed' else b'{"id":"refusal-id","choices":[{"message":{"refusal":"no"},"finish_reason":"stop"}]}')
+            t.opener=Failed()
+            with pytest.raises((TimeoutError,TransportFailure)):t.exchange(request)
+            assert len(calls)==1 and t.last_http_observation.request_body_sha256==hashlib.sha256(calls[0].data).hexdigest()
+            if failure=='timeout':assert t.last_http_observation.raw_response_body_sha256 is None
+            elif failure=='http_error':assert t.last_http_observation.response_http_status==503
+>           else:assert t.last_http_observation.raw_response_body_sha256 is not None
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: assert None is not None
+E            +  where None = HTTPObservation(request_body_sha256='fb41705eaa29b39b68416a515b0757daba133e69a6e46c8a472bdea919797c4c', raw_response_b...26-11-07T12:33:46.131138+00:00', response_received_at='2026-11-07T12:33:46.131205+00:00', latency_ms=7.094313012203202).raw_response_body_sha256
+E            +    where HTTPObservation(request_body_sha256='fb41705eaa29b39b68416a515b0757daba133e69a6e46c8a472bdea919797c4c', raw_response_b...26-11-07T12:33:46.131138+00:00', response_received_at='2026-11-07T12:33:46.131205+00:00', latency_ms=7.094313012203202) = <nana_core.continuity.world_loop.semantics.OpenAIMediaTransport object at 0x7efd707bb8f0>.last_http_observation
+
+tests/h1_live_semantics/test_wire.py:89: AssertionError
+__________ test_failure_measurements_and_no_transport_retry[refusal] ___________
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_failure_measurements_and_2')
+failure = 'refusal'
+
+    @pytest.mark.parametrize('failure',['timeout','malformed','refusal','http_error'])
+    def test_failure_measurements_and_no_transport_retry(tmp_path,failure):
+        import urllib.error
+        from nana_core.continuity.world_loop.cognition import CognitionBudget,TransportFailure
+        with fresh(tmp_path/'s/self.db') as r:
+            t=remote();s=setup(r,t);raw=media_samples()['IMAGE'];mid=ingest(r,'IMAGE',raw)
+            cid=s.prepare('failure',mid,raw,budget=CognitionBudget(cost_ceiling_micro=1000))
+            request=CognitionRequest.model_validate_json(canonical(s.records.read(r.store.one('cognitive_requests',cid)['record_id'])['payload']['request']))
+            calls=[]
+            class Failed:
+                def open(self,req,**kw):
+                    calls.append(req)
+                    if failure=='timeout':raise TimeoutError('no credential diagnostics')
+                    if failure=='http_error':raise urllib.error.HTTPError(req.full_url,503,'unavailable',Message(),io.BytesIO(b'public unavailable'))
+                    return Response(b'{' if failure=='malformed' else b'{"id":"refusal-id","choices":[{"message":{"refusal":"no"},"finish_reason":"stop"}]}')
+            t.opener=Failed()
+            with pytest.raises((TimeoutError,TransportFailure)):t.exchange(request)
+            assert len(calls)==1 and t.last_http_observation.request_body_sha256==hashlib.sha256(calls[0].data).hexdigest()
+            if failure=='timeout':assert t.last_http_observation.raw_response_body_sha256 is None
+            elif failure=='http_error':assert t.last_http_observation.response_http_status==503
+>           else:assert t.last_http_observation.raw_response_body_sha256 is not None
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: assert None is not None
+E            +  where None = HTTPObservation(request_body_sha256='8ef884a134df258fa42f16a45715ff5040c2c973cf0bd151788d0798fa1ce24e', raw_response_b...-11-07T12:33:46.348911+00:00', response_received_at='2026-11-07T12:33:46.349016+00:00', latency_ms=0.26775199512485415).raw_response_body_sha256
+E            +    where HTTPObservation(request_body_sha256='8ef884a134df258fa42f16a45715ff5040c2c973cf0bd151788d0798fa1ce24e', raw_response_b...-11-07T12:33:46.348911+00:00', response_received_at='2026-11-07T12:33:46.349016+00:00', latency_ms=0.26775199512485415) = <nana_core.continuity.world_loop.semantics.OpenAIMediaTransport object at 0x7efd707b8200>.last_http_observation
+
+tests/h1_live_semantics/test_wire.py:89: AssertionError
+____ test_incomplete_response_keeps_allowlisted_usage_and_resets_on_timeout ____
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_incomplete_response_keeps0')
+
+    def test_incomplete_response_keeps_allowlisted_usage_and_resets_on_timeout(tmp_path):
+        from nana_core.continuity.world_loop.cognition import CognitionBudget,TransportFailure
+        with fresh(tmp_path/'s/self.db') as r:
+            t=remote();s=setup(r,t);raw=media_samples()['IMAGE'];mid=ingest(r,'IMAGE',raw)
+            cid=s.prepare('partial-metadata',mid,raw,budget=CognitionBudget(cost_ceiling_micro=1000))
+            req=CognitionRequest.model_validate_json(canonical(s.records.read(r.store.one('cognitive_requests',cid)['record_id'])['payload']['request']))
+            payload=canonical({'id':'partial-id','model':'qwen3.8-flash','choices':[{'message':{'content':'{'},'finish_reason':'length'}],'usage':{'prompt_tokens':12,'completion_tokens':1024,'credential':'FAKE_TEST_SENTINEL'}}).encode()
+            t.opener=Opener(Response(payload));t.thinking_mode='DISABLED'
+>           with pytest.raises(TransportFailure,match='PROVIDER_PARTIAL_OUTPUT'):t.exchange(req)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           AssertionError: Regex pattern did not match.
+E             Expected regex: 'PROVIDER_PARTIAL_OUTPUT'
+E             Actual message: 'PROVIDER_RESPONSE_BOUND'
+
+tests/h1_live_semantics/test_wire.py:117: AssertionError
+_____ test_entry_uses_existing_runtime_and_keeps_only_operational_metadata _____
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_entry_uses_existing_runti0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7efd6e956f30>
+
+    def test_entry_uses_existing_runtime_and_keeps_only_operational_metadata(tmp_path, monkeypatch):
+        home, output, resolver, router = prepare(monkeypatch, tmp_path)
+        original = OpenAIJSONTransport.exchange
+        with fresh(tmp_path / 'synthetic/self.db') as runtime:
+            port, session, request = make_request(runtime)
+            port.opener = Opener(Response(json.dumps(envelope()).encode()))
+            def run(path, seconds, **kwargs):
+                assert path == home and seconds == 30
+                assert kwargs == {'headless': True, 'router': router, 'control_enabled': True}
+                assert session.execute(request.request_id)['state'] == 'PROPOSED'
+            monkeypatch.setattr('nana_core.life.__main__.run', run)
+>           report = entry.start(home, 30, output, resolver)
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/live_response/test_entry.py:41: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tools/nana_first_life_live_response/entry.py:59: in start
+    run(home, seconds, headless=True, router=router, control_enabled=True)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+path = PosixPath('/dev/shm/n409-full/test_entry_uses_existing_runti0/home')
+seconds = 30
+kwargs = {'headless': True, 'router': <object object at 0x7efd70dc62e0>, 'control_enabled': True}
+
+    def run(path, seconds, **kwargs):
+        assert path == home and seconds == 30
+        assert kwargs == {'headless': True, 'router': router, 'control_enabled': True}
+>       assert session.execute(request.request_id)['state'] == 'PROPOSED'
+E       AssertionError: assert 'FAILED' == 'PROPOSED'
+E         
+E         - PROPOSED
+E         + FAILED
+
+tests/live_response/test_entry.py:39: AssertionError
+__ test_valid_envelope_differences_do_not_relax_semantic_contract[canonical] ___
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_valid_envelope_difference0')
+variant = 'canonical'
+
+    @pytest.mark.parametrize('variant',['canonical','deepseek','optional-omitted','nullable','vendor-extra','text-blocks','usage-absent'])
+    def test_valid_envelope_differences_do_not_relax_semantic_contract(tmp_path,variant):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();msg=body['choices'][0]['message']
+            if variant=='deepseek':msg['reasoning_content']=None;body['usage'].update(prompt_cache_hit_tokens=0,prompt_cache_miss_tokens=8)
+            if variant=='optional-omitted':
+                for key in ('id','object','created'):body.pop(key)
+                msg.pop('role') # legacy single-choice compatible implicit assistant
+            if variant=='nullable':msg['refusal']=None;body['usage']=None
+            if variant=='vendor-extra':body['vendor_note']='TEST_ONLY_NOT_SECRET_VENDOR';msg['annotations']=[]
+            if variant=='text-blocks':
+                old=copy.deepcopy(body)
+                msg['content']=[{'type':'text','text':msg['content']}]
+                # Exact old code path reproduces a *synthetic* known incompatibility.
+                from nana_core.continuity.world_loop.cognition import strict_json
+                with pytest.raises(TypeError):strict_json(msg['content'])
+            if variant=='usage-absent':body.pop('usage')
+            port.opener=Opener(Response(canonical(body).encode()));out=session.execute(req.request_id)
+>           assert out['state']=='PROPOSED' and len(port.opener.requests)==1
+E           AssertionError: assert ('FAILED' == 'PROPOSED'
+E             
+E             - PROPOSED
+E             + FAILED)
+
+tests/live_response/test_response_contract.py:42: AssertionError
+___ test_valid_envelope_differences_do_not_relax_semantic_contract[deepseek] ___
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_valid_envelope_difference1')
+variant = 'deepseek'
+
+    @pytest.mark.parametrize('variant',['canonical','deepseek','optional-omitted','nullable','vendor-extra','text-blocks','usage-absent'])
+    def test_valid_envelope_differences_do_not_relax_semantic_contract(tmp_path,variant):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();msg=body['choices'][0]['message']
+            if variant=='deepseek':msg['reasoning_content']=None;body['usage'].update(prompt_cache_hit_tokens=0,prompt_cache_miss_tokens=8)
+            if variant=='optional-omitted':
+                for key in ('id','object','created'):body.pop(key)
+                msg.pop('role') # legacy single-choice compatible implicit assistant
+            if variant=='nullable':msg['refusal']=None;body['usage']=None
+            if variant=='vendor-extra':body['vendor_note']='TEST_ONLY_NOT_SECRET_VENDOR';msg['annotations']=[]
+            if variant=='text-blocks':
+                old=copy.deepcopy(body)
+                msg['content']=[{'type':'text','text':msg['content']}]
+                # Exact old code path reproduces a *synthetic* known incompatibility.
+                from nana_core.continuity.world_loop.cognition import strict_json
+                with pytest.raises(TypeError):strict_json(msg['content'])
+            if variant=='usage-absent':body.pop('usage')
+            port.opener=Opener(Response(canonical(body).encode()));out=session.execute(req.request_id)
+>           assert out['state']=='PROPOSED' and len(port.opener.requests)==1
+E           AssertionError: assert ('FAILED' == 'PROPOSED'
+E             
+E             - PROPOSED
+E             + FAILED)
+
+tests/live_response/test_response_contract.py:42: AssertionError
+_ test_valid_envelope_differences_do_not_relax_semantic_contract[optional-omitted] _
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_valid_envelope_difference2')
+variant = 'optional-omitted'
+
+    @pytest.mark.parametrize('variant',['canonical','deepseek','optional-omitted','nullable','vendor-extra','text-blocks','usage-absent'])
+    def test_valid_envelope_differences_do_not_relax_semantic_contract(tmp_path,variant):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();msg=body['choices'][0]['message']
+            if variant=='deepseek':msg['reasoning_content']=None;body['usage'].update(prompt_cache_hit_tokens=0,prompt_cache_miss_tokens=8)
+            if variant=='optional-omitted':
+                for key in ('id','object','created'):body.pop(key)
+                msg.pop('role') # legacy single-choice compatible implicit assistant
+            if variant=='nullable':msg['refusal']=None;body['usage']=None
+            if variant=='vendor-extra':body['vendor_note']='TEST_ONLY_NOT_SECRET_VENDOR';msg['annotations']=[]
+            if variant=='text-blocks':
+                old=copy.deepcopy(body)
+                msg['content']=[{'type':'text','text':msg['content']}]
+                # Exact old code path reproduces a *synthetic* known incompatibility.
+                from nana_core.continuity.world_loop.cognition import strict_json
+                with pytest.raises(TypeError):strict_json(msg['content'])
+            if variant=='usage-absent':body.pop('usage')
+            port.opener=Opener(Response(canonical(body).encode()));out=session.execute(req.request_id)
+>           assert out['state']=='PROPOSED' and len(port.opener.requests)==1
+E           AssertionError: assert ('FAILED' == 'PROPOSED'
+E             
+E             - PROPOSED
+E             + FAILED)
+
+tests/live_response/test_response_contract.py:42: AssertionError
+___ test_valid_envelope_differences_do_not_relax_semantic_contract[nullable] ___
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_valid_envelope_difference3')
+variant = 'nullable'
+
+    @pytest.mark.parametrize('variant',['canonical','deepseek','optional-omitted','nullable','vendor-extra','text-blocks','usage-absent'])
+    def test_valid_envelope_differences_do_not_relax_semantic_contract(tmp_path,variant):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();msg=body['choices'][0]['message']
+            if variant=='deepseek':msg['reasoning_content']=None;body['usage'].update(prompt_cache_hit_tokens=0,prompt_cache_miss_tokens=8)
+            if variant=='optional-omitted':
+                for key in ('id','object','created'):body.pop(key)
+                msg.pop('role') # legacy single-choice compatible implicit assistant
+            if variant=='nullable':msg['refusal']=None;body['usage']=None
+            if variant=='vendor-extra':body['vendor_note']='TEST_ONLY_NOT_SECRET_VENDOR';msg['annotations']=[]
+            if variant=='text-blocks':
+                old=copy.deepcopy(body)
+                msg['content']=[{'type':'text','text':msg['content']}]
+                # Exact old code path reproduces a *synthetic* known incompatibility.
+                from nana_core.continuity.world_loop.cognition import strict_json
+                with pytest.raises(TypeError):strict_json(msg['content'])
+            if variant=='usage-absent':body.pop('usage')
+            port.opener=Opener(Response(canonical(body).encode()));out=session.execute(req.request_id)
+>           assert out['state']=='PROPOSED' and len(port.opener.requests)==1
+E           AssertionError: assert ('FAILED' == 'PROPOSED'
+E             
+E             - PROPOSED
+E             + FAILED)
+
+tests/live_response/test_response_contract.py:42: AssertionError
+_ test_valid_envelope_differences_do_not_relax_semantic_contract[vendor-extra] _
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_valid_envelope_difference4')
+variant = 'vendor-extra'
+
+    @pytest.mark.parametrize('variant',['canonical','deepseek','optional-omitted','nullable','vendor-extra','text-blocks','usage-absent'])
+    def test_valid_envelope_differences_do_not_relax_semantic_contract(tmp_path,variant):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();msg=body['choices'][0]['message']
+            if variant=='deepseek':msg['reasoning_content']=None;body['usage'].update(prompt_cache_hit_tokens=0,prompt_cache_miss_tokens=8)
+            if variant=='optional-omitted':
+                for key in ('id','object','created'):body.pop(key)
+                msg.pop('role') # legacy single-choice compatible implicit assistant
+            if variant=='nullable':msg['refusal']=None;body['usage']=None
+            if variant=='vendor-extra':body['vendor_note']='TEST_ONLY_NOT_SECRET_VENDOR';msg['annotations']=[]
+            if variant=='text-blocks':
+                old=copy.deepcopy(body)
+                msg['content']=[{'type':'text','text':msg['content']}]
+                # Exact old code path reproduces a *synthetic* known incompatibility.
+                from nana_core.continuity.world_loop.cognition import strict_json
+                with pytest.raises(TypeError):strict_json(msg['content'])
+            if variant=='usage-absent':body.pop('usage')
+            port.opener=Opener(Response(canonical(body).encode()));out=session.execute(req.request_id)
+>           assert out['state']=='PROPOSED' and len(port.opener.requests)==1
+E           AssertionError: assert ('FAILED' == 'PROPOSED'
+E             
+E             - PROPOSED
+E             + FAILED)
+
+tests/live_response/test_response_contract.py:42: AssertionError
+_ test_valid_envelope_differences_do_not_relax_semantic_contract[text-blocks] __
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_valid_envelope_difference5')
+variant = 'text-blocks'
+
+    @pytest.mark.parametrize('variant',['canonical','deepseek','optional-omitted','nullable','vendor-extra','text-blocks','usage-absent'])
+    def test_valid_envelope_differences_do_not_relax_semantic_contract(tmp_path,variant):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();msg=body['choices'][0]['message']
+            if variant=='deepseek':msg['reasoning_content']=None;body['usage'].update(prompt_cache_hit_tokens=0,prompt_cache_miss_tokens=8)
+            if variant=='optional-omitted':
+                for key in ('id','object','created'):body.pop(key)
+                msg.pop('role') # legacy single-choice compatible implicit assistant
+            if variant=='nullable':msg['refusal']=None;body['usage']=None
+            if variant=='vendor-extra':body['vendor_note']='TEST_ONLY_NOT_SECRET_VENDOR';msg['annotations']=[]
+            if variant=='text-blocks':
+                old=copy.deepcopy(body)
+                msg['content']=[{'type':'text','text':msg['content']}]
+                # Exact old code path reproduces a *synthetic* known incompatibility.
+                from nana_core.continuity.world_loop.cognition import strict_json
+                with pytest.raises(TypeError):strict_json(msg['content'])
+            if variant=='usage-absent':body.pop('usage')
+            port.opener=Opener(Response(canonical(body).encode()));out=session.execute(req.request_id)
+>           assert out['state']=='PROPOSED' and len(port.opener.requests)==1
+E           AssertionError: assert ('FAILED' == 'PROPOSED'
+E             
+E             - PROPOSED
+E             + FAILED)
+
+tests/live_response/test_response_contract.py:42: AssertionError
+_ test_valid_envelope_differences_do_not_relax_semantic_contract[usage-absent] _
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_valid_envelope_difference6')
+variant = 'usage-absent'
+
+    @pytest.mark.parametrize('variant',['canonical','deepseek','optional-omitted','nullable','vendor-extra','text-blocks','usage-absent'])
+    def test_valid_envelope_differences_do_not_relax_semantic_contract(tmp_path,variant):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();msg=body['choices'][0]['message']
+            if variant=='deepseek':msg['reasoning_content']=None;body['usage'].update(prompt_cache_hit_tokens=0,prompt_cache_miss_tokens=8)
+            if variant=='optional-omitted':
+                for key in ('id','object','created'):body.pop(key)
+                msg.pop('role') # legacy single-choice compatible implicit assistant
+            if variant=='nullable':msg['refusal']=None;body['usage']=None
+            if variant=='vendor-extra':body['vendor_note']='TEST_ONLY_NOT_SECRET_VENDOR';msg['annotations']=[]
+            if variant=='text-blocks':
+                old=copy.deepcopy(body)
+                msg['content']=[{'type':'text','text':msg['content']}]
+                # Exact old code path reproduces a *synthetic* known incompatibility.
+                from nana_core.continuity.world_loop.cognition import strict_json
+                with pytest.raises(TypeError):strict_json(msg['content'])
+            if variant=='usage-absent':body.pop('usage')
+            port.opener=Opener(Response(canonical(body).encode()));out=session.execute(req.request_id)
+>           assert out['state']=='PROPOSED' and len(port.opener.requests)==1
+E           AssertionError: assert ('FAILED' == 'PROPOSED'
+E             
+E             - PROPOSED
+E             + FAILED)
+
+tests/live_response/test_response_contract.py:42: AssertionError
+_ test_negative_diagnostics_are_structural_durable_and_no_replay[top-array-ENVELOPE-PROVIDER_MALFORMED] _
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_negative_diagnostics_are_0')
+variant = 'top-array', stage = 'ENVELOPE', code = 'PROVIDER_MALFORMED'
+
+    @pytest.mark.parametrize('variant,stage,code',[
+     ('top-array','ENVELOPE','PROVIDER_MALFORMED'),('missing-message','MESSAGE','PROVIDER_MALFORMED'),
+     ('duplicate-json','OUTER_JSON','PROVIDER_MALFORMED'),('truncated-json','OUTER_JSON','PROVIDER_MALFORMED'),
+     ('missing-semantic','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('choices-empty','CHOICES','PROVIDER_MALFORMED'),('choices-object','CHOICES','PROVIDER_MALFORMED'),
+     ('role-user','MESSAGE','PROVIDER_MALFORMED'),('content-number','CONTENT','PROVIDER_MALFORMED'),
+     ('content-null','CONTENT','PROVIDER_MALFORMED'),('bad-json','SEMANTIC_JSON','PROVIDER_MALFORMED'),
+     ('wrong-enum','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('extra-authority','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('numeric-string','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('usage-string','USAGE','PROVIDER_MALFORMED'),
+     ('tool-calls','FINISH','PROVIDER_PARTIAL_OUTPUT'),('length','FINISH','PROVIDER_PARTIAL_OUTPUT')])
+    def test_negative_diagnostics_are_structural_durable_and_no_replay(tmp_path,variant,stage,code):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();msg=body['choices'][0]['message'];secret='TEST_ONLY_NOT_SECRET_PRIVATE_PROSE'
+            payload=json.loads(msg['content'])
+            if variant=='missing-message':body['choices'][0].pop('message')
+            if variant=='missing-semantic':payload.pop('interpretation');msg['content']=canonical(payload)
+            if variant=='choices-empty':body['choices']=[]
+            if variant=='choices-object':body['choices']={}
+            if variant=='role-user':msg['role']='user'
+            if variant=='content-number':msg['content']=12
+            if variant=='content-null':msg['content']=None
+            if variant=='bad-json':msg['content']='{'+secret
+            if variant=='wrong-enum':payload['uncertainty']=secret
+            if variant=='extra-authority':payload[secret]={'grant':True}
+            if variant=='numeric-string':payload['confidence']='0.4'
+            if variant in {'wrong-enum','extra-authority','numeric-string'}:msg['content']=canonical(payload)
+            if variant=='usage-string':body['usage']['prompt_tokens']=secret
+            if variant=='tool-calls':body['choices'][0]['finish_reason']='tool_calls';msg['content']=None
+            if variant=='length':body['choices'][0]['finish_reason']='length'
+            raw=canonical(body).encode()
+            if variant=='top-array':raw=b'[]'
+            if variant=='duplicate-json':raw=b'{"choices":[],"choices":[]}'
+            if variant=='truncated-json':raw=raw[:-3]
+            port.opener=Opener(Response(raw));out=session.execute(req.request_id)
+>           assert out['state']=='FAILED' and out['error_code']==code and len(port.opener.requests)==1
+E           AssertionError: assert ('FAILED' == 'FAILED'
+E             
+E               FAILED and 'PROVIDER_RESPONSE_BOUND' == 'PROVIDER_MALFORMED'
+E             
+E             - PROVIDER_MALFORMED
+E             + PROVIDER_RESPONSE_BOUND)
+
+tests/live_response/test_response_contract.py:83: AssertionError
+_ test_negative_diagnostics_are_structural_durable_and_no_replay[missing-message-MESSAGE-PROVIDER_MALFORMED] _
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_negative_diagnostics_are_1')
+variant = 'missing-message', stage = 'MESSAGE', code = 'PROVIDER_MALFORMED'
+
+    @pytest.mark.parametrize('variant,stage,code',[
+     ('top-array','ENVELOPE','PROVIDER_MALFORMED'),('missing-message','MESSAGE','PROVIDER_MALFORMED'),
+     ('duplicate-json','OUTER_JSON','PROVIDER_MALFORMED'),('truncated-json','OUTER_JSON','PROVIDER_MALFORMED'),
+     ('missing-semantic','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('choices-empty','CHOICES','PROVIDER_MALFORMED'),('choices-object','CHOICES','PROVIDER_MALFORMED'),
+     ('role-user','MESSAGE','PROVIDER_MALFORMED'),('content-number','CONTENT','PROVIDER_MALFORMED'),
+     ('content-null','CONTENT','PROVIDER_MALFORMED'),('bad-json','SEMANTIC_JSON','PROVIDER_MALFORMED'),
+     ('wrong-enum','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('extra-authority','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('numeric-string','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('usage-string','USAGE','PROVIDER_MALFORMED'),
+     ('tool-calls','FINISH','PROVIDER_PARTIAL_OUTPUT'),('length','FINISH','PROVIDER_PARTIAL_OUTPUT')])
+    def test_negative_diagnostics_are_structural_durable_and_no_replay(tmp_path,variant,stage,code):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();msg=body['choices'][0]['message'];secret='TEST_ONLY_NOT_SECRET_PRIVATE_PROSE'
+            payload=json.loads(msg['content'])
+            if variant=='missing-message':body['choices'][0].pop('message')
+            if variant=='missing-semantic':payload.pop('interpretation');msg['content']=canonical(payload)
+            if variant=='choices-empty':body['choices']=[]
+            if variant=='choices-object':body['choices']={}
+            if variant=='role-user':msg['role']='user'
+            if variant=='content-number':msg['content']=12
+            if variant=='content-null':msg['content']=None
+            if variant=='bad-json':msg['content']='{'+secret
+            if variant=='wrong-enum':payload['uncertainty']=secret
+            if variant=='extra-authority':payload[secret]={'grant':True}
+            if variant=='numeric-string':payload['confidence']='0.4'
+            if variant in {'wrong-enum','extra-authority','numeric-string'}:msg['content']=canonical(payload)
+            if variant=='usage-string':body['usage']['prompt_tokens']=secret
+            if variant=='tool-calls':body['choices'][0]['finish_reason']='tool_calls';msg['content']=None
+            if variant=='length':body['choices'][0]['finish_reason']='length'
+            raw=canonical(body).encode()
+            if variant=='top-array':raw=b'[]'
+            if variant=='duplicate-json':raw=b'{"choices":[],"choices":[]}'
+            if variant=='truncated-json':raw=raw[:-3]
+            port.opener=Opener(Response(raw));out=session.execute(req.request_id)
+>           assert out['state']=='FAILED' and out['error_code']==code and len(port.opener.requests)==1
+E           AssertionError: assert ('FAILED' == 'FAILED'
+E             
+E               FAILED and 'PROVIDER_RESPONSE_BOUND' == 'PROVIDER_MALFORMED'
+E             
+E             - PROVIDER_MALFORMED
+E             + PROVIDER_RESPONSE_BOUND)
+
+tests/live_response/test_response_contract.py:83: AssertionError
+_ test_negative_diagnostics_are_structural_durable_and_no_replay[duplicate-json-OUTER_JSON-PROVIDER_MALFORMED] _
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_negative_diagnostics_are_2')
+variant = 'duplicate-json', stage = 'OUTER_JSON', code = 'PROVIDER_MALFORMED'
+
+    @pytest.mark.parametrize('variant,stage,code',[
+     ('top-array','ENVELOPE','PROVIDER_MALFORMED'),('missing-message','MESSAGE','PROVIDER_MALFORMED'),
+     ('duplicate-json','OUTER_JSON','PROVIDER_MALFORMED'),('truncated-json','OUTER_JSON','PROVIDER_MALFORMED'),
+     ('missing-semantic','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('choices-empty','CHOICES','PROVIDER_MALFORMED'),('choices-object','CHOICES','PROVIDER_MALFORMED'),
+     ('role-user','MESSAGE','PROVIDER_MALFORMED'),('content-number','CONTENT','PROVIDER_MALFORMED'),
+     ('content-null','CONTENT','PROVIDER_MALFORMED'),('bad-json','SEMANTIC_JSON','PROVIDER_MALFORMED'),
+     ('wrong-enum','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('extra-authority','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('numeric-string','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('usage-string','USAGE','PROVIDER_MALFORMED'),
+     ('tool-calls','FINISH','PROVIDER_PARTIAL_OUTPUT'),('length','FINISH','PROVIDER_PARTIAL_OUTPUT')])
+    def test_negative_diagnostics_are_structural_durable_and_no_replay(tmp_path,variant,stage,code):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();msg=body['choices'][0]['message'];secret='TEST_ONLY_NOT_SECRET_PRIVATE_PROSE'
+            payload=json.loads(msg['content'])
+            if variant=='missing-message':body['choices'][0].pop('message')
+            if variant=='missing-semantic':payload.pop('interpretation');msg['content']=canonical(payload)
+            if variant=='choices-empty':body['choices']=[]
+            if variant=='choices-object':body['choices']={}
+            if variant=='role-user':msg['role']='user'
+            if variant=='content-number':msg['content']=12
+            if variant=='content-null':msg['content']=None
+            if variant=='bad-json':msg['content']='{'+secret
+            if variant=='wrong-enum':payload['uncertainty']=secret
+            if variant=='extra-authority':payload[secret]={'grant':True}
+            if variant=='numeric-string':payload['confidence']='0.4'
+            if variant in {'wrong-enum','extra-authority','numeric-string'}:msg['content']=canonical(payload)
+            if variant=='usage-string':body['usage']['prompt_tokens']=secret
+            if variant=='tool-calls':body['choices'][0]['finish_reason']='tool_calls';msg['content']=None
+            if variant=='length':body['choices'][0]['finish_reason']='length'
+            raw=canonical(body).encode()
+            if variant=='top-array':raw=b'[]'
+            if variant=='duplicate-json':raw=b'{"choices":[],"choices":[]}'
+            if variant=='truncated-json':raw=raw[:-3]
+            port.opener=Opener(Response(raw));out=session.execute(req.request_id)
+>           assert out['state']=='FAILED' and out['error_code']==code and len(port.opener.requests)==1
+E           AssertionError: assert ('FAILED' == 'FAILED'
+E             
+E               FAILED and 'PROVIDER_RESPONSE_BOUND' == 'PROVIDER_MALFORMED'
+E             
+E             - PROVIDER_MALFORMED
+E             + PROVIDER_RESPONSE_BOUND)
+
+tests/live_response/test_response_contract.py:83: AssertionError
+_ test_negative_diagnostics_are_structural_durable_and_no_replay[truncated-json-OUTER_JSON-PROVIDER_MALFORMED] _
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_negative_diagnostics_are_3')
+variant = 'truncated-json', stage = 'OUTER_JSON', code = 'PROVIDER_MALFORMED'
+
+    @pytest.mark.parametrize('variant,stage,code',[
+     ('top-array','ENVELOPE','PROVIDER_MALFORMED'),('missing-message','MESSAGE','PROVIDER_MALFORMED'),
+     ('duplicate-json','OUTER_JSON','PROVIDER_MALFORMED'),('truncated-json','OUTER_JSON','PROVIDER_MALFORMED'),
+     ('missing-semantic','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('choices-empty','CHOICES','PROVIDER_MALFORMED'),('choices-object','CHOICES','PROVIDER_MALFORMED'),
+     ('role-user','MESSAGE','PROVIDER_MALFORMED'),('content-number','CONTENT','PROVIDER_MALFORMED'),
+     ('content-null','CONTENT','PROVIDER_MALFORMED'),('bad-json','SEMANTIC_JSON','PROVIDER_MALFORMED'),
+     ('wrong-enum','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('extra-authority','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('numeric-string','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('usage-string','USAGE','PROVIDER_MALFORMED'),
+     ('tool-calls','FINISH','PROVIDER_PARTIAL_OUTPUT'),('length','FINISH','PROVIDER_PARTIAL_OUTPUT')])
+    def test_negative_diagnostics_are_structural_durable_and_no_replay(tmp_path,variant,stage,code):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();msg=body['choices'][0]['message'];secret='TEST_ONLY_NOT_SECRET_PRIVATE_PROSE'
+            payload=json.loads(msg['content'])
+            if variant=='missing-message':body['choices'][0].pop('message')
+            if variant=='missing-semantic':payload.pop('interpretation');msg['content']=canonical(payload)
+            if variant=='choices-empty':body['choices']=[]
+            if variant=='choices-object':body['choices']={}
+            if variant=='role-user':msg['role']='user'
+            if variant=='content-number':msg['content']=12
+            if variant=='content-null':msg['content']=None
+            if variant=='bad-json':msg['content']='{'+secret
+            if variant=='wrong-enum':payload['uncertainty']=secret
+            if variant=='extra-authority':payload[secret]={'grant':True}
+            if variant=='numeric-string':payload['confidence']='0.4'
+            if variant in {'wrong-enum','extra-authority','numeric-string'}:msg['content']=canonical(payload)
+            if variant=='usage-string':body['usage']['prompt_tokens']=secret
+            if variant=='tool-calls':body['choices'][0]['finish_reason']='tool_calls';msg['content']=None
+            if variant=='length':body['choices'][0]['finish_reason']='length'
+            raw=canonical(body).encode()
+            if variant=='top-array':raw=b'[]'
+            if variant=='duplicate-json':raw=b'{"choices":[],"choices":[]}'
+            if variant=='truncated-json':raw=raw[:-3]
+            port.opener=Opener(Response(raw));out=session.execute(req.request_id)
+>           assert out['state']=='FAILED' and out['error_code']==code and len(port.opener.requests)==1
+E           AssertionError: assert ('FAILED' == 'FAILED'
+E             
+E               FAILED and 'PROVIDER_RESPONSE_BOUND' == 'PROVIDER_MALFORMED'
+E             
+E             - PROVIDER_MALFORMED
+E             + PROVIDER_RESPONSE_BOUND)
+
+tests/live_response/test_response_contract.py:83: AssertionError
+_ test_negative_diagnostics_are_structural_durable_and_no_replay[missing-semantic-SEMANTIC_SCHEMA-PROVIDER_MALFORMED] _
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_negative_diagnostics_are_4')
+variant = 'missing-semantic', stage = 'SEMANTIC_SCHEMA'
+code = 'PROVIDER_MALFORMED'
+
+    @pytest.mark.parametrize('variant,stage,code',[
+     ('top-array','ENVELOPE','PROVIDER_MALFORMED'),('missing-message','MESSAGE','PROVIDER_MALFORMED'),
+     ('duplicate-json','OUTER_JSON','PROVIDER_MALFORMED'),('truncated-json','OUTER_JSON','PROVIDER_MALFORMED'),
+     ('missing-semantic','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('choices-empty','CHOICES','PROVIDER_MALFORMED'),('choices-object','CHOICES','PROVIDER_MALFORMED'),
+     ('role-user','MESSAGE','PROVIDER_MALFORMED'),('content-number','CONTENT','PROVIDER_MALFORMED'),
+     ('content-null','CONTENT','PROVIDER_MALFORMED'),('bad-json','SEMANTIC_JSON','PROVIDER_MALFORMED'),
+     ('wrong-enum','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('extra-authority','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('numeric-string','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('usage-string','USAGE','PROVIDER_MALFORMED'),
+     ('tool-calls','FINISH','PROVIDER_PARTIAL_OUTPUT'),('length','FINISH','PROVIDER_PARTIAL_OUTPUT')])
+    def test_negative_diagnostics_are_structural_durable_and_no_replay(tmp_path,variant,stage,code):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();msg=body['choices'][0]['message'];secret='TEST_ONLY_NOT_SECRET_PRIVATE_PROSE'
+            payload=json.loads(msg['content'])
+            if variant=='missing-message':body['choices'][0].pop('message')
+            if variant=='missing-semantic':payload.pop('interpretation');msg['content']=canonical(payload)
+            if variant=='choices-empty':body['choices']=[]
+            if variant=='choices-object':body['choices']={}
+            if variant=='role-user':msg['role']='user'
+            if variant=='content-number':msg['content']=12
+            if variant=='content-null':msg['content']=None
+            if variant=='bad-json':msg['content']='{'+secret
+            if variant=='wrong-enum':payload['uncertainty']=secret
+            if variant=='extra-authority':payload[secret]={'grant':True}
+            if variant=='numeric-string':payload['confidence']='0.4'
+            if variant in {'wrong-enum','extra-authority','numeric-string'}:msg['content']=canonical(payload)
+            if variant=='usage-string':body['usage']['prompt_tokens']=secret
+            if variant=='tool-calls':body['choices'][0]['finish_reason']='tool_calls';msg['content']=None
+            if variant=='length':body['choices'][0]['finish_reason']='length'
+            raw=canonical(body).encode()
+            if variant=='top-array':raw=b'[]'
+            if variant=='duplicate-json':raw=b'{"choices":[],"choices":[]}'
+            if variant=='truncated-json':raw=raw[:-3]
+            port.opener=Opener(Response(raw));out=session.execute(req.request_id)
+>           assert out['state']=='FAILED' and out['error_code']==code and len(port.opener.requests)==1
+E           AssertionError: assert ('FAILED' == 'FAILED'
+E             
+E               FAILED and 'PROVIDER_RESPONSE_BOUND' == 'PROVIDER_MALFORMED'
+E             
+E             - PROVIDER_MALFORMED
+E             + PROVIDER_RESPONSE_BOUND)
+
+tests/live_response/test_response_contract.py:83: AssertionError
+_ test_negative_diagnostics_are_structural_durable_and_no_replay[choices-empty-CHOICES-PROVIDER_MALFORMED] _
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_negative_diagnostics_are_5')
+variant = 'choices-empty', stage = 'CHOICES', code = 'PROVIDER_MALFORMED'
+
+    @pytest.mark.parametrize('variant,stage,code',[
+     ('top-array','ENVELOPE','PROVIDER_MALFORMED'),('missing-message','MESSAGE','PROVIDER_MALFORMED'),
+     ('duplicate-json','OUTER_JSON','PROVIDER_MALFORMED'),('truncated-json','OUTER_JSON','PROVIDER_MALFORMED'),
+     ('missing-semantic','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('choices-empty','CHOICES','PROVIDER_MALFORMED'),('choices-object','CHOICES','PROVIDER_MALFORMED'),
+     ('role-user','MESSAGE','PROVIDER_MALFORMED'),('content-number','CONTENT','PROVIDER_MALFORMED'),
+     ('content-null','CONTENT','PROVIDER_MALFORMED'),('bad-json','SEMANTIC_JSON','PROVIDER_MALFORMED'),
+     ('wrong-enum','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('extra-authority','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('numeric-string','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('usage-string','USAGE','PROVIDER_MALFORMED'),
+     ('tool-calls','FINISH','PROVIDER_PARTIAL_OUTPUT'),('length','FINISH','PROVIDER_PARTIAL_OUTPUT')])
+    def test_negative_diagnostics_are_structural_durable_and_no_replay(tmp_path,variant,stage,code):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();msg=body['choices'][0]['message'];secret='TEST_ONLY_NOT_SECRET_PRIVATE_PROSE'
+            payload=json.loads(msg['content'])
+            if variant=='missing-message':body['choices'][0].pop('message')
+            if variant=='missing-semantic':payload.pop('interpretation');msg['content']=canonical(payload)
+            if variant=='choices-empty':body['choices']=[]
+            if variant=='choices-object':body['choices']={}
+            if variant=='role-user':msg['role']='user'
+            if variant=='content-number':msg['content']=12
+            if variant=='content-null':msg['content']=None
+            if variant=='bad-json':msg['content']='{'+secret
+            if variant=='wrong-enum':payload['uncertainty']=secret
+            if variant=='extra-authority':payload[secret]={'grant':True}
+            if variant=='numeric-string':payload['confidence']='0.4'
+            if variant in {'wrong-enum','extra-authority','numeric-string'}:msg['content']=canonical(payload)
+            if variant=='usage-string':body['usage']['prompt_tokens']=secret
+            if variant=='tool-calls':body['choices'][0]['finish_reason']='tool_calls';msg['content']=None
+            if variant=='length':body['choices'][0]['finish_reason']='length'
+            raw=canonical(body).encode()
+            if variant=='top-array':raw=b'[]'
+            if variant=='duplicate-json':raw=b'{"choices":[],"choices":[]}'
+            if variant=='truncated-json':raw=raw[:-3]
+            port.opener=Opener(Response(raw));out=session.execute(req.request_id)
+>           assert out['state']=='FAILED' and out['error_code']==code and len(port.opener.requests)==1
+E           AssertionError: assert ('FAILED' == 'FAILED'
+E             
+E               FAILED and 'PROVIDER_RESPONSE_BOUND' == 'PROVIDER_MALFORMED'
+E             
+E             - PROVIDER_MALFORMED
+E             + PROVIDER_RESPONSE_BOUND)
+
+tests/live_response/test_response_contract.py:83: AssertionError
+_ test_negative_diagnostics_are_structural_durable_and_no_replay[choices-object-CHOICES-PROVIDER_MALFORMED] _
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_negative_diagnostics_are_6')
+variant = 'choices-object', stage = 'CHOICES', code = 'PROVIDER_MALFORMED'
+
+    @pytest.mark.parametrize('variant,stage,code',[
+     ('top-array','ENVELOPE','PROVIDER_MALFORMED'),('missing-message','MESSAGE','PROVIDER_MALFORMED'),
+     ('duplicate-json','OUTER_JSON','PROVIDER_MALFORMED'),('truncated-json','OUTER_JSON','PROVIDER_MALFORMED'),
+     ('missing-semantic','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('choices-empty','CHOICES','PROVIDER_MALFORMED'),('choices-object','CHOICES','PROVIDER_MALFORMED'),
+     ('role-user','MESSAGE','PROVIDER_MALFORMED'),('content-number','CONTENT','PROVIDER_MALFORMED'),
+     ('content-null','CONTENT','PROVIDER_MALFORMED'),('bad-json','SEMANTIC_JSON','PROVIDER_MALFORMED'),
+     ('wrong-enum','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('extra-authority','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('numeric-string','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('usage-string','USAGE','PROVIDER_MALFORMED'),
+     ('tool-calls','FINISH','PROVIDER_PARTIAL_OUTPUT'),('length','FINISH','PROVIDER_PARTIAL_OUTPUT')])
+    def test_negative_diagnostics_are_structural_durable_and_no_replay(tmp_path,variant,stage,code):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();msg=body['choices'][0]['message'];secret='TEST_ONLY_NOT_SECRET_PRIVATE_PROSE'
+            payload=json.loads(msg['content'])
+            if variant=='missing-message':body['choices'][0].pop('message')
+            if variant=='missing-semantic':payload.pop('interpretation');msg['content']=canonical(payload)
+            if variant=='choices-empty':body['choices']=[]
+            if variant=='choices-object':body['choices']={}
+            if variant=='role-user':msg['role']='user'
+            if variant=='content-number':msg['content']=12
+            if variant=='content-null':msg['content']=None
+            if variant=='bad-json':msg['content']='{'+secret
+            if variant=='wrong-enum':payload['uncertainty']=secret
+            if variant=='extra-authority':payload[secret]={'grant':True}
+            if variant=='numeric-string':payload['confidence']='0.4'
+            if variant in {'wrong-enum','extra-authority','numeric-string'}:msg['content']=canonical(payload)
+            if variant=='usage-string':body['usage']['prompt_tokens']=secret
+            if variant=='tool-calls':body['choices'][0]['finish_reason']='tool_calls';msg['content']=None
+            if variant=='length':body['choices'][0]['finish_reason']='length'
+            raw=canonical(body).encode()
+            if variant=='top-array':raw=b'[]'
+            if variant=='duplicate-json':raw=b'{"choices":[],"choices":[]}'
+            if variant=='truncated-json':raw=raw[:-3]
+            port.opener=Opener(Response(raw));out=session.execute(req.request_id)
+>           assert out['state']=='FAILED' and out['error_code']==code and len(port.opener.requests)==1
+E           AssertionError: assert ('FAILED' == 'FAILED'
+E             
+E               FAILED and 'PROVIDER_RESPONSE_BOUND' == 'PROVIDER_MALFORMED'
+E             
+E             - PROVIDER_MALFORMED
+E             + PROVIDER_RESPONSE_BOUND)
+
+tests/live_response/test_response_contract.py:83: AssertionError
+_ test_negative_diagnostics_are_structural_durable_and_no_replay[role-user-MESSAGE-PROVIDER_MALFORMED] _
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_negative_diagnostics_are_7')
+variant = 'role-user', stage = 'MESSAGE', code = 'PROVIDER_MALFORMED'
+
+    @pytest.mark.parametrize('variant,stage,code',[
+     ('top-array','ENVELOPE','PROVIDER_MALFORMED'),('missing-message','MESSAGE','PROVIDER_MALFORMED'),
+     ('duplicate-json','OUTER_JSON','PROVIDER_MALFORMED'),('truncated-json','OUTER_JSON','PROVIDER_MALFORMED'),
+     ('missing-semantic','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('choices-empty','CHOICES','PROVIDER_MALFORMED'),('choices-object','CHOICES','PROVIDER_MALFORMED'),
+     ('role-user','MESSAGE','PROVIDER_MALFORMED'),('content-number','CONTENT','PROVIDER_MALFORMED'),
+     ('content-null','CONTENT','PROVIDER_MALFORMED'),('bad-json','SEMANTIC_JSON','PROVIDER_MALFORMED'),
+     ('wrong-enum','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('extra-authority','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('numeric-string','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('usage-string','USAGE','PROVIDER_MALFORMED'),
+     ('tool-calls','FINISH','PROVIDER_PARTIAL_OUTPUT'),('length','FINISH','PROVIDER_PARTIAL_OUTPUT')])
+    def test_negative_diagnostics_are_structural_durable_and_no_replay(tmp_path,variant,stage,code):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();msg=body['choices'][0]['message'];secret='TEST_ONLY_NOT_SECRET_PRIVATE_PROSE'
+            payload=json.loads(msg['content'])
+            if variant=='missing-message':body['choices'][0].pop('message')
+            if variant=='missing-semantic':payload.pop('interpretation');msg['content']=canonical(payload)
+            if variant=='choices-empty':body['choices']=[]
+            if variant=='choices-object':body['choices']={}
+            if variant=='role-user':msg['role']='user'
+            if variant=='content-number':msg['content']=12
+            if variant=='content-null':msg['content']=None
+            if variant=='bad-json':msg['content']='{'+secret
+            if variant=='wrong-enum':payload['uncertainty']=secret
+            if variant=='extra-authority':payload[secret]={'grant':True}
+            if variant=='numeric-string':payload['confidence']='0.4'
+            if variant in {'wrong-enum','extra-authority','numeric-string'}:msg['content']=canonical(payload)
+            if variant=='usage-string':body['usage']['prompt_tokens']=secret
+            if variant=='tool-calls':body['choices'][0]['finish_reason']='tool_calls';msg['content']=None
+            if variant=='length':body['choices'][0]['finish_reason']='length'
+            raw=canonical(body).encode()
+            if variant=='top-array':raw=b'[]'
+            if variant=='duplicate-json':raw=b'{"choices":[],"choices":[]}'
+            if variant=='truncated-json':raw=raw[:-3]
+            port.opener=Opener(Response(raw));out=session.execute(req.request_id)
+>           assert out['state']=='FAILED' and out['error_code']==code and len(port.opener.requests)==1
+E           AssertionError: assert ('FAILED' == 'FAILED'
+E             
+E               FAILED and 'PROVIDER_RESPONSE_BOUND' == 'PROVIDER_MALFORMED'
+E             
+E             - PROVIDER_MALFORMED
+E             + PROVIDER_RESPONSE_BOUND)
+
+tests/live_response/test_response_contract.py:83: AssertionError
+_ test_negative_diagnostics_are_structural_durable_and_no_replay[content-number-CONTENT-PROVIDER_MALFORMED] _
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_negative_diagnostics_are_8')
+variant = 'content-number', stage = 'CONTENT', code = 'PROVIDER_MALFORMED'
+
+    @pytest.mark.parametrize('variant,stage,code',[
+     ('top-array','ENVELOPE','PROVIDER_MALFORMED'),('missing-message','MESSAGE','PROVIDER_MALFORMED'),
+     ('duplicate-json','OUTER_JSON','PROVIDER_MALFORMED'),('truncated-json','OUTER_JSON','PROVIDER_MALFORMED'),
+     ('missing-semantic','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('choices-empty','CHOICES','PROVIDER_MALFORMED'),('choices-object','CHOICES','PROVIDER_MALFORMED'),
+     ('role-user','MESSAGE','PROVIDER_MALFORMED'),('content-number','CONTENT','PROVIDER_MALFORMED'),
+     ('content-null','CONTENT','PROVIDER_MALFORMED'),('bad-json','SEMANTIC_JSON','PROVIDER_MALFORMED'),
+     ('wrong-enum','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('extra-authority','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('numeric-string','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('usage-string','USAGE','PROVIDER_MALFORMED'),
+     ('tool-calls','FINISH','PROVIDER_PARTIAL_OUTPUT'),('length','FINISH','PROVIDER_PARTIAL_OUTPUT')])
+    def test_negative_diagnostics_are_structural_durable_and_no_replay(tmp_path,variant,stage,code):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();msg=body['choices'][0]['message'];secret='TEST_ONLY_NOT_SECRET_PRIVATE_PROSE'
+            payload=json.loads(msg['content'])
+            if variant=='missing-message':body['choices'][0].pop('message')
+            if variant=='missing-semantic':payload.pop('interpretation');msg['content']=canonical(payload)
+            if variant=='choices-empty':body['choices']=[]
+            if variant=='choices-object':body['choices']={}
+            if variant=='role-user':msg['role']='user'
+            if variant=='content-number':msg['content']=12
+            if variant=='content-null':msg['content']=None
+            if variant=='bad-json':msg['content']='{'+secret
+            if variant=='wrong-enum':payload['uncertainty']=secret
+            if variant=='extra-authority':payload[secret]={'grant':True}
+            if variant=='numeric-string':payload['confidence']='0.4'
+            if variant in {'wrong-enum','extra-authority','numeric-string'}:msg['content']=canonical(payload)
+            if variant=='usage-string':body['usage']['prompt_tokens']=secret
+            if variant=='tool-calls':body['choices'][0]['finish_reason']='tool_calls';msg['content']=None
+            if variant=='length':body['choices'][0]['finish_reason']='length'
+            raw=canonical(body).encode()
+            if variant=='top-array':raw=b'[]'
+            if variant=='duplicate-json':raw=b'{"choices":[],"choices":[]}'
+            if variant=='truncated-json':raw=raw[:-3]
+            port.opener=Opener(Response(raw));out=session.execute(req.request_id)
+>           assert out['state']=='FAILED' and out['error_code']==code and len(port.opener.requests)==1
+E           AssertionError: assert ('FAILED' == 'FAILED'
+E             
+E               FAILED and 'PROVIDER_RESPONSE_BOUND' == 'PROVIDER_MALFORMED'
+E             
+E             - PROVIDER_MALFORMED
+E             + PROVIDER_RESPONSE_BOUND)
+
+tests/live_response/test_response_contract.py:83: AssertionError
+_ test_negative_diagnostics_are_structural_durable_and_no_replay[content-null-CONTENT-PROVIDER_MALFORMED] _
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_negative_diagnostics_are_9')
+variant = 'content-null', stage = 'CONTENT', code = 'PROVIDER_MALFORMED'
+
+    @pytest.mark.parametrize('variant,stage,code',[
+     ('top-array','ENVELOPE','PROVIDER_MALFORMED'),('missing-message','MESSAGE','PROVIDER_MALFORMED'),
+     ('duplicate-json','OUTER_JSON','PROVIDER_MALFORMED'),('truncated-json','OUTER_JSON','PROVIDER_MALFORMED'),
+     ('missing-semantic','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('choices-empty','CHOICES','PROVIDER_MALFORMED'),('choices-object','CHOICES','PROVIDER_MALFORMED'),
+     ('role-user','MESSAGE','PROVIDER_MALFORMED'),('content-number','CONTENT','PROVIDER_MALFORMED'),
+     ('content-null','CONTENT','PROVIDER_MALFORMED'),('bad-json','SEMANTIC_JSON','PROVIDER_MALFORMED'),
+     ('wrong-enum','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('extra-authority','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('numeric-string','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('usage-string','USAGE','PROVIDER_MALFORMED'),
+     ('tool-calls','FINISH','PROVIDER_PARTIAL_OUTPUT'),('length','FINISH','PROVIDER_PARTIAL_OUTPUT')])
+    def test_negative_diagnostics_are_structural_durable_and_no_replay(tmp_path,variant,stage,code):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();msg=body['choices'][0]['message'];secret='TEST_ONLY_NOT_SECRET_PRIVATE_PROSE'
+            payload=json.loads(msg['content'])
+            if variant=='missing-message':body['choices'][0].pop('message')
+            if variant=='missing-semantic':payload.pop('interpretation');msg['content']=canonical(payload)
+            if variant=='choices-empty':body['choices']=[]
+            if variant=='choices-object':body['choices']={}
+            if variant=='role-user':msg['role']='user'
+            if variant=='content-number':msg['content']=12
+            if variant=='content-null':msg['content']=None
+            if variant=='bad-json':msg['content']='{'+secret
+            if variant=='wrong-enum':payload['uncertainty']=secret
+            if variant=='extra-authority':payload[secret]={'grant':True}
+            if variant=='numeric-string':payload['confidence']='0.4'
+            if variant in {'wrong-enum','extra-authority','numeric-string'}:msg['content']=canonical(payload)
+            if variant=='usage-string':body['usage']['prompt_tokens']=secret
+            if variant=='tool-calls':body['choices'][0]['finish_reason']='tool_calls';msg['content']=None
+            if variant=='length':body['choices'][0]['finish_reason']='length'
+            raw=canonical(body).encode()
+            if variant=='top-array':raw=b'[]'
+            if variant=='duplicate-json':raw=b'{"choices":[],"choices":[]}'
+            if variant=='truncated-json':raw=raw[:-3]
+            port.opener=Opener(Response(raw));out=session.execute(req.request_id)
+>           assert out['state']=='FAILED' and out['error_code']==code and len(port.opener.requests)==1
+E           AssertionError: assert ('FAILED' == 'FAILED'
+E             
+E               FAILED and 'PROVIDER_RESPONSE_BOUND' == 'PROVIDER_MALFORMED'
+E             
+E             - PROVIDER_MALFORMED
+E             + PROVIDER_RESPONSE_BOUND)
+
+tests/live_response/test_response_contract.py:83: AssertionError
+_ test_negative_diagnostics_are_structural_durable_and_no_replay[bad-json-SEMANTIC_JSON-PROVIDER_MALFORMED] _
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_negative_diagnostics_are_10')
+variant = 'bad-json', stage = 'SEMANTIC_JSON', code = 'PROVIDER_MALFORMED'
+
+    @pytest.mark.parametrize('variant,stage,code',[
+     ('top-array','ENVELOPE','PROVIDER_MALFORMED'),('missing-message','MESSAGE','PROVIDER_MALFORMED'),
+     ('duplicate-json','OUTER_JSON','PROVIDER_MALFORMED'),('truncated-json','OUTER_JSON','PROVIDER_MALFORMED'),
+     ('missing-semantic','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('choices-empty','CHOICES','PROVIDER_MALFORMED'),('choices-object','CHOICES','PROVIDER_MALFORMED'),
+     ('role-user','MESSAGE','PROVIDER_MALFORMED'),('content-number','CONTENT','PROVIDER_MALFORMED'),
+     ('content-null','CONTENT','PROVIDER_MALFORMED'),('bad-json','SEMANTIC_JSON','PROVIDER_MALFORMED'),
+     ('wrong-enum','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('extra-authority','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('numeric-string','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('usage-string','USAGE','PROVIDER_MALFORMED'),
+     ('tool-calls','FINISH','PROVIDER_PARTIAL_OUTPUT'),('length','FINISH','PROVIDER_PARTIAL_OUTPUT')])
+    def test_negative_diagnostics_are_structural_durable_and_no_replay(tmp_path,variant,stage,code):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();msg=body['choices'][0]['message'];secret='TEST_ONLY_NOT_SECRET_PRIVATE_PROSE'
+            payload=json.loads(msg['content'])
+            if variant=='missing-message':body['choices'][0].pop('message')
+            if variant=='missing-semantic':payload.pop('interpretation');msg['content']=canonical(payload)
+            if variant=='choices-empty':body['choices']=[]
+            if variant=='choices-object':body['choices']={}
+            if variant=='role-user':msg['role']='user'
+            if variant=='content-number':msg['content']=12
+            if variant=='content-null':msg['content']=None
+            if variant=='bad-json':msg['content']='{'+secret
+            if variant=='wrong-enum':payload['uncertainty']=secret
+            if variant=='extra-authority':payload[secret]={'grant':True}
+            if variant=='numeric-string':payload['confidence']='0.4'
+            if variant in {'wrong-enum','extra-authority','numeric-string'}:msg['content']=canonical(payload)
+            if variant=='usage-string':body['usage']['prompt_tokens']=secret
+            if variant=='tool-calls':body['choices'][0]['finish_reason']='tool_calls';msg['content']=None
+            if variant=='length':body['choices'][0]['finish_reason']='length'
+            raw=canonical(body).encode()
+            if variant=='top-array':raw=b'[]'
+            if variant=='duplicate-json':raw=b'{"choices":[],"choices":[]}'
+            if variant=='truncated-json':raw=raw[:-3]
+            port.opener=Opener(Response(raw));out=session.execute(req.request_id)
+>           assert out['state']=='FAILED' and out['error_code']==code and len(port.opener.requests)==1
+E           AssertionError: assert ('FAILED' == 'FAILED'
+E             
+E               FAILED and 'PROVIDER_RESPONSE_BOUND' == 'PROVIDER_MALFORMED'
+E             
+E             - PROVIDER_MALFORMED
+E             + PROVIDER_RESPONSE_BOUND)
+
+tests/live_response/test_response_contract.py:83: AssertionError
+_ test_negative_diagnostics_are_structural_durable_and_no_replay[wrong-enum-SEMANTIC_SCHEMA-PROVIDER_MALFORMED] _
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_negative_diagnostics_are_11')
+variant = 'wrong-enum', stage = 'SEMANTIC_SCHEMA', code = 'PROVIDER_MALFORMED'
+
+    @pytest.mark.parametrize('variant,stage,code',[
+     ('top-array','ENVELOPE','PROVIDER_MALFORMED'),('missing-message','MESSAGE','PROVIDER_MALFORMED'),
+     ('duplicate-json','OUTER_JSON','PROVIDER_MALFORMED'),('truncated-json','OUTER_JSON','PROVIDER_MALFORMED'),
+     ('missing-semantic','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('choices-empty','CHOICES','PROVIDER_MALFORMED'),('choices-object','CHOICES','PROVIDER_MALFORMED'),
+     ('role-user','MESSAGE','PROVIDER_MALFORMED'),('content-number','CONTENT','PROVIDER_MALFORMED'),
+     ('content-null','CONTENT','PROVIDER_MALFORMED'),('bad-json','SEMANTIC_JSON','PROVIDER_MALFORMED'),
+     ('wrong-enum','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('extra-authority','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('numeric-string','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('usage-string','USAGE','PROVIDER_MALFORMED'),
+     ('tool-calls','FINISH','PROVIDER_PARTIAL_OUTPUT'),('length','FINISH','PROVIDER_PARTIAL_OUTPUT')])
+    def test_negative_diagnostics_are_structural_durable_and_no_replay(tmp_path,variant,stage,code):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();msg=body['choices'][0]['message'];secret='TEST_ONLY_NOT_SECRET_PRIVATE_PROSE'
+            payload=json.loads(msg['content'])
+            if variant=='missing-message':body['choices'][0].pop('message')
+            if variant=='missing-semantic':payload.pop('interpretation');msg['content']=canonical(payload)
+            if variant=='choices-empty':body['choices']=[]
+            if variant=='choices-object':body['choices']={}
+            if variant=='role-user':msg['role']='user'
+            if variant=='content-number':msg['content']=12
+            if variant=='content-null':msg['content']=None
+            if variant=='bad-json':msg['content']='{'+secret
+            if variant=='wrong-enum':payload['uncertainty']=secret
+            if variant=='extra-authority':payload[secret]={'grant':True}
+            if variant=='numeric-string':payload['confidence']='0.4'
+            if variant in {'wrong-enum','extra-authority','numeric-string'}:msg['content']=canonical(payload)
+            if variant=='usage-string':body['usage']['prompt_tokens']=secret
+            if variant=='tool-calls':body['choices'][0]['finish_reason']='tool_calls';msg['content']=None
+            if variant=='length':body['choices'][0]['finish_reason']='length'
+            raw=canonical(body).encode()
+            if variant=='top-array':raw=b'[]'
+            if variant=='duplicate-json':raw=b'{"choices":[],"choices":[]}'
+            if variant=='truncated-json':raw=raw[:-3]
+            port.opener=Opener(Response(raw));out=session.execute(req.request_id)
+>           assert out['state']=='FAILED' and out['error_code']==code and len(port.opener.requests)==1
+E           AssertionError: assert ('FAILED' == 'FAILED'
+E             
+E               FAILED and 'PROVIDER_RESPONSE_BOUND' == 'PROVIDER_MALFORMED'
+E             
+E             - PROVIDER_MALFORMED
+E             + PROVIDER_RESPONSE_BOUND)
+
+tests/live_response/test_response_contract.py:83: AssertionError
+_ test_negative_diagnostics_are_structural_durable_and_no_replay[extra-authority-SEMANTIC_SCHEMA-PROVIDER_MALFORMED] _
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_negative_diagnostics_are_12')
+variant = 'extra-authority', stage = 'SEMANTIC_SCHEMA'
+code = 'PROVIDER_MALFORMED'
+
+    @pytest.mark.parametrize('variant,stage,code',[
+     ('top-array','ENVELOPE','PROVIDER_MALFORMED'),('missing-message','MESSAGE','PROVIDER_MALFORMED'),
+     ('duplicate-json','OUTER_JSON','PROVIDER_MALFORMED'),('truncated-json','OUTER_JSON','PROVIDER_MALFORMED'),
+     ('missing-semantic','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('choices-empty','CHOICES','PROVIDER_MALFORMED'),('choices-object','CHOICES','PROVIDER_MALFORMED'),
+     ('role-user','MESSAGE','PROVIDER_MALFORMED'),('content-number','CONTENT','PROVIDER_MALFORMED'),
+     ('content-null','CONTENT','PROVIDER_MALFORMED'),('bad-json','SEMANTIC_JSON','PROVIDER_MALFORMED'),
+     ('wrong-enum','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('extra-authority','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('numeric-string','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('usage-string','USAGE','PROVIDER_MALFORMED'),
+     ('tool-calls','FINISH','PROVIDER_PARTIAL_OUTPUT'),('length','FINISH','PROVIDER_PARTIAL_OUTPUT')])
+    def test_negative_diagnostics_are_structural_durable_and_no_replay(tmp_path,variant,stage,code):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();msg=body['choices'][0]['message'];secret='TEST_ONLY_NOT_SECRET_PRIVATE_PROSE'
+            payload=json.loads(msg['content'])
+            if variant=='missing-message':body['choices'][0].pop('message')
+            if variant=='missing-semantic':payload.pop('interpretation');msg['content']=canonical(payload)
+            if variant=='choices-empty':body['choices']=[]
+            if variant=='choices-object':body['choices']={}
+            if variant=='role-user':msg['role']='user'
+            if variant=='content-number':msg['content']=12
+            if variant=='content-null':msg['content']=None
+            if variant=='bad-json':msg['content']='{'+secret
+            if variant=='wrong-enum':payload['uncertainty']=secret
+            if variant=='extra-authority':payload[secret]={'grant':True}
+            if variant=='numeric-string':payload['confidence']='0.4'
+            if variant in {'wrong-enum','extra-authority','numeric-string'}:msg['content']=canonical(payload)
+            if variant=='usage-string':body['usage']['prompt_tokens']=secret
+            if variant=='tool-calls':body['choices'][0]['finish_reason']='tool_calls';msg['content']=None
+            if variant=='length':body['choices'][0]['finish_reason']='length'
+            raw=canonical(body).encode()
+            if variant=='top-array':raw=b'[]'
+            if variant=='duplicate-json':raw=b'{"choices":[],"choices":[]}'
+            if variant=='truncated-json':raw=raw[:-3]
+            port.opener=Opener(Response(raw));out=session.execute(req.request_id)
+>           assert out['state']=='FAILED' and out['error_code']==code and len(port.opener.requests)==1
+E           AssertionError: assert ('FAILED' == 'FAILED'
+E             
+E               FAILED and 'PROVIDER_RESPONSE_BOUND' == 'PROVIDER_MALFORMED'
+E             
+E             - PROVIDER_MALFORMED
+E             + PROVIDER_RESPONSE_BOUND)
+
+tests/live_response/test_response_contract.py:83: AssertionError
+_ test_negative_diagnostics_are_structural_durable_and_no_replay[numeric-string-SEMANTIC_SCHEMA-PROVIDER_MALFORMED] _
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_negative_diagnostics_are_13')
+variant = 'numeric-string', stage = 'SEMANTIC_SCHEMA'
+code = 'PROVIDER_MALFORMED'
+
+    @pytest.mark.parametrize('variant,stage,code',[
+     ('top-array','ENVELOPE','PROVIDER_MALFORMED'),('missing-message','MESSAGE','PROVIDER_MALFORMED'),
+     ('duplicate-json','OUTER_JSON','PROVIDER_MALFORMED'),('truncated-json','OUTER_JSON','PROVIDER_MALFORMED'),
+     ('missing-semantic','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('choices-empty','CHOICES','PROVIDER_MALFORMED'),('choices-object','CHOICES','PROVIDER_MALFORMED'),
+     ('role-user','MESSAGE','PROVIDER_MALFORMED'),('content-number','CONTENT','PROVIDER_MALFORMED'),
+     ('content-null','CONTENT','PROVIDER_MALFORMED'),('bad-json','SEMANTIC_JSON','PROVIDER_MALFORMED'),
+     ('wrong-enum','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('extra-authority','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('numeric-string','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('usage-string','USAGE','PROVIDER_MALFORMED'),
+     ('tool-calls','FINISH','PROVIDER_PARTIAL_OUTPUT'),('length','FINISH','PROVIDER_PARTIAL_OUTPUT')])
+    def test_negative_diagnostics_are_structural_durable_and_no_replay(tmp_path,variant,stage,code):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();msg=body['choices'][0]['message'];secret='TEST_ONLY_NOT_SECRET_PRIVATE_PROSE'
+            payload=json.loads(msg['content'])
+            if variant=='missing-message':body['choices'][0].pop('message')
+            if variant=='missing-semantic':payload.pop('interpretation');msg['content']=canonical(payload)
+            if variant=='choices-empty':body['choices']=[]
+            if variant=='choices-object':body['choices']={}
+            if variant=='role-user':msg['role']='user'
+            if variant=='content-number':msg['content']=12
+            if variant=='content-null':msg['content']=None
+            if variant=='bad-json':msg['content']='{'+secret
+            if variant=='wrong-enum':payload['uncertainty']=secret
+            if variant=='extra-authority':payload[secret]={'grant':True}
+            if variant=='numeric-string':payload['confidence']='0.4'
+            if variant in {'wrong-enum','extra-authority','numeric-string'}:msg['content']=canonical(payload)
+            if variant=='usage-string':body['usage']['prompt_tokens']=secret
+            if variant=='tool-calls':body['choices'][0]['finish_reason']='tool_calls';msg['content']=None
+            if variant=='length':body['choices'][0]['finish_reason']='length'
+            raw=canonical(body).encode()
+            if variant=='top-array':raw=b'[]'
+            if variant=='duplicate-json':raw=b'{"choices":[],"choices":[]}'
+            if variant=='truncated-json':raw=raw[:-3]
+            port.opener=Opener(Response(raw));out=session.execute(req.request_id)
+>           assert out['state']=='FAILED' and out['error_code']==code and len(port.opener.requests)==1
+E           AssertionError: assert ('FAILED' == 'FAILED'
+E             
+E               FAILED and 'PROVIDER_RESPONSE_BOUND' == 'PROVIDER_MALFORMED'
+E             
+E             - PROVIDER_MALFORMED
+E             + PROVIDER_RESPONSE_BOUND)
+
+tests/live_response/test_response_contract.py:83: AssertionError
+_ test_negative_diagnostics_are_structural_durable_and_no_replay[usage-string-USAGE-PROVIDER_MALFORMED] _
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_negative_diagnostics_are_14')
+variant = 'usage-string', stage = 'USAGE', code = 'PROVIDER_MALFORMED'
+
+    @pytest.mark.parametrize('variant,stage,code',[
+     ('top-array','ENVELOPE','PROVIDER_MALFORMED'),('missing-message','MESSAGE','PROVIDER_MALFORMED'),
+     ('duplicate-json','OUTER_JSON','PROVIDER_MALFORMED'),('truncated-json','OUTER_JSON','PROVIDER_MALFORMED'),
+     ('missing-semantic','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('choices-empty','CHOICES','PROVIDER_MALFORMED'),('choices-object','CHOICES','PROVIDER_MALFORMED'),
+     ('role-user','MESSAGE','PROVIDER_MALFORMED'),('content-number','CONTENT','PROVIDER_MALFORMED'),
+     ('content-null','CONTENT','PROVIDER_MALFORMED'),('bad-json','SEMANTIC_JSON','PROVIDER_MALFORMED'),
+     ('wrong-enum','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('extra-authority','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('numeric-string','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('usage-string','USAGE','PROVIDER_MALFORMED'),
+     ('tool-calls','FINISH','PROVIDER_PARTIAL_OUTPUT'),('length','FINISH','PROVIDER_PARTIAL_OUTPUT')])
+    def test_negative_diagnostics_are_structural_durable_and_no_replay(tmp_path,variant,stage,code):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();msg=body['choices'][0]['message'];secret='TEST_ONLY_NOT_SECRET_PRIVATE_PROSE'
+            payload=json.loads(msg['content'])
+            if variant=='missing-message':body['choices'][0].pop('message')
+            if variant=='missing-semantic':payload.pop('interpretation');msg['content']=canonical(payload)
+            if variant=='choices-empty':body['choices']=[]
+            if variant=='choices-object':body['choices']={}
+            if variant=='role-user':msg['role']='user'
+            if variant=='content-number':msg['content']=12
+            if variant=='content-null':msg['content']=None
+            if variant=='bad-json':msg['content']='{'+secret
+            if variant=='wrong-enum':payload['uncertainty']=secret
+            if variant=='extra-authority':payload[secret]={'grant':True}
+            if variant=='numeric-string':payload['confidence']='0.4'
+            if variant in {'wrong-enum','extra-authority','numeric-string'}:msg['content']=canonical(payload)
+            if variant=='usage-string':body['usage']['prompt_tokens']=secret
+            if variant=='tool-calls':body['choices'][0]['finish_reason']='tool_calls';msg['content']=None
+            if variant=='length':body['choices'][0]['finish_reason']='length'
+            raw=canonical(body).encode()
+            if variant=='top-array':raw=b'[]'
+            if variant=='duplicate-json':raw=b'{"choices":[],"choices":[]}'
+            if variant=='truncated-json':raw=raw[:-3]
+            port.opener=Opener(Response(raw));out=session.execute(req.request_id)
+>           assert out['state']=='FAILED' and out['error_code']==code and len(port.opener.requests)==1
+E           AssertionError: assert ('FAILED' == 'FAILED'
+E             
+E               FAILED and 'PROVIDER_RESPONSE_BOUND' == 'PROVIDER_MALFORMED'
+E             
+E             - PROVIDER_MALFORMED
+E             + PROVIDER_RESPONSE_BOUND)
+
+tests/live_response/test_response_contract.py:83: AssertionError
+_ test_negative_diagnostics_are_structural_durable_and_no_replay[tool-calls-FINISH-PROVIDER_PARTIAL_OUTPUT] _
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_negative_diagnostics_are_15')
+variant = 'tool-calls', stage = 'FINISH', code = 'PROVIDER_PARTIAL_OUTPUT'
+
+    @pytest.mark.parametrize('variant,stage,code',[
+     ('top-array','ENVELOPE','PROVIDER_MALFORMED'),('missing-message','MESSAGE','PROVIDER_MALFORMED'),
+     ('duplicate-json','OUTER_JSON','PROVIDER_MALFORMED'),('truncated-json','OUTER_JSON','PROVIDER_MALFORMED'),
+     ('missing-semantic','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('choices-empty','CHOICES','PROVIDER_MALFORMED'),('choices-object','CHOICES','PROVIDER_MALFORMED'),
+     ('role-user','MESSAGE','PROVIDER_MALFORMED'),('content-number','CONTENT','PROVIDER_MALFORMED'),
+     ('content-null','CONTENT','PROVIDER_MALFORMED'),('bad-json','SEMANTIC_JSON','PROVIDER_MALFORMED'),
+     ('wrong-enum','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('extra-authority','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('numeric-string','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('usage-string','USAGE','PROVIDER_MALFORMED'),
+     ('tool-calls','FINISH','PROVIDER_PARTIAL_OUTPUT'),('length','FINISH','PROVIDER_PARTIAL_OUTPUT')])
+    def test_negative_diagnostics_are_structural_durable_and_no_replay(tmp_path,variant,stage,code):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();msg=body['choices'][0]['message'];secret='TEST_ONLY_NOT_SECRET_PRIVATE_PROSE'
+            payload=json.loads(msg['content'])
+            if variant=='missing-message':body['choices'][0].pop('message')
+            if variant=='missing-semantic':payload.pop('interpretation');msg['content']=canonical(payload)
+            if variant=='choices-empty':body['choices']=[]
+            if variant=='choices-object':body['choices']={}
+            if variant=='role-user':msg['role']='user'
+            if variant=='content-number':msg['content']=12
+            if variant=='content-null':msg['content']=None
+            if variant=='bad-json':msg['content']='{'+secret
+            if variant=='wrong-enum':payload['uncertainty']=secret
+            if variant=='extra-authority':payload[secret]={'grant':True}
+            if variant=='numeric-string':payload['confidence']='0.4'
+            if variant in {'wrong-enum','extra-authority','numeric-string'}:msg['content']=canonical(payload)
+            if variant=='usage-string':body['usage']['prompt_tokens']=secret
+            if variant=='tool-calls':body['choices'][0]['finish_reason']='tool_calls';msg['content']=None
+            if variant=='length':body['choices'][0]['finish_reason']='length'
+            raw=canonical(body).encode()
+            if variant=='top-array':raw=b'[]'
+            if variant=='duplicate-json':raw=b'{"choices":[],"choices":[]}'
+            if variant=='truncated-json':raw=raw[:-3]
+            port.opener=Opener(Response(raw));out=session.execute(req.request_id)
+>           assert out['state']=='FAILED' and out['error_code']==code and len(port.opener.requests)==1
+E           AssertionError: assert ('FAILED' == 'FAILED'
+E             
+E               FAILED and 'PROVIDER_RESPONSE_BOUND' == 'PROVIDER_PARTIAL_OUTPUT'
+E             
+E             - PROVIDER_PARTIAL_OUTPUT
+E             + PROVIDER_RESPONSE_BOUND)
+
+tests/live_response/test_response_contract.py:83: AssertionError
+_ test_negative_diagnostics_are_structural_durable_and_no_replay[length-FINISH-PROVIDER_PARTIAL_OUTPUT] _
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_negative_diagnostics_are_16')
+variant = 'length', stage = 'FINISH', code = 'PROVIDER_PARTIAL_OUTPUT'
+
+    @pytest.mark.parametrize('variant,stage,code',[
+     ('top-array','ENVELOPE','PROVIDER_MALFORMED'),('missing-message','MESSAGE','PROVIDER_MALFORMED'),
+     ('duplicate-json','OUTER_JSON','PROVIDER_MALFORMED'),('truncated-json','OUTER_JSON','PROVIDER_MALFORMED'),
+     ('missing-semantic','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('choices-empty','CHOICES','PROVIDER_MALFORMED'),('choices-object','CHOICES','PROVIDER_MALFORMED'),
+     ('role-user','MESSAGE','PROVIDER_MALFORMED'),('content-number','CONTENT','PROVIDER_MALFORMED'),
+     ('content-null','CONTENT','PROVIDER_MALFORMED'),('bad-json','SEMANTIC_JSON','PROVIDER_MALFORMED'),
+     ('wrong-enum','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('extra-authority','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),
+     ('numeric-string','SEMANTIC_SCHEMA','PROVIDER_MALFORMED'),('usage-string','USAGE','PROVIDER_MALFORMED'),
+     ('tool-calls','FINISH','PROVIDER_PARTIAL_OUTPUT'),('length','FINISH','PROVIDER_PARTIAL_OUTPUT')])
+    def test_negative_diagnostics_are_structural_durable_and_no_replay(tmp_path,variant,stage,code):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();msg=body['choices'][0]['message'];secret='TEST_ONLY_NOT_SECRET_PRIVATE_PROSE'
+            payload=json.loads(msg['content'])
+            if variant=='missing-message':body['choices'][0].pop('message')
+            if variant=='missing-semantic':payload.pop('interpretation');msg['content']=canonical(payload)
+            if variant=='choices-empty':body['choices']=[]
+            if variant=='choices-object':body['choices']={}
+            if variant=='role-user':msg['role']='user'
+            if variant=='content-number':msg['content']=12
+            if variant=='content-null':msg['content']=None
+            if variant=='bad-json':msg['content']='{'+secret
+            if variant=='wrong-enum':payload['uncertainty']=secret
+            if variant=='extra-authority':payload[secret]={'grant':True}
+            if variant=='numeric-string':payload['confidence']='0.4'
+            if variant in {'wrong-enum','extra-authority','numeric-string'}:msg['content']=canonical(payload)
+            if variant=='usage-string':body['usage']['prompt_tokens']=secret
+            if variant=='tool-calls':body['choices'][0]['finish_reason']='tool_calls';msg['content']=None
+            if variant=='length':body['choices'][0]['finish_reason']='length'
+            raw=canonical(body).encode()
+            if variant=='top-array':raw=b'[]'
+            if variant=='duplicate-json':raw=b'{"choices":[],"choices":[]}'
+            if variant=='truncated-json':raw=raw[:-3]
+            port.opener=Opener(Response(raw));out=session.execute(req.request_id)
+>           assert out['state']=='FAILED' and out['error_code']==code and len(port.opener.requests)==1
+E           AssertionError: assert ('FAILED' == 'FAILED'
+E             
+E               FAILED and 'PROVIDER_RESPONSE_BOUND' == 'PROVIDER_PARTIAL_OUTPUT'
+E             
+E             - PROVIDER_PARTIAL_OUTPUT
+E             + PROVIDER_RESPONSE_BOUND)
+
+tests/live_response/test_response_contract.py:83: AssertionError
+_____________ test_model_mismatch_stays_core_correlation_rejection _____________
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_model_mismatch_stays_core0')
+
+    def test_model_mismatch_stays_core_correlation_rejection(tmp_path):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r);body=envelope();body['model']='another-model'
+            port.opener=Opener(Response(canonical(body).encode()));out=session.execute(req.request_id)
+>           assert out['state']=='REJECTED' and out['error_code']=='CORRELATION_MISMATCH'
+E           AssertionError: assert ('FAILED' == 'REJECTED'
+E             
+E             - REJECTED
+E             + FAILED)
+
+tests/live_response/test_response_contract.py:99: AssertionError
+_____ test_outer_json_and_timeout_diagnostic_do_not_reuse_previous_result ______
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_outer_json_and_timeout_di0')
+
+    def test_outer_json_and_timeout_diagnostic_do_not_reuse_previous_result(tmp_path):
+        with fresh(tmp_path/'subject/self.db') as r:
+            port,session,req=make_request(r)
+            port.opener=Opener(Response(b'{'))
+            out=session.execute(req.request_id)
+>           assert out['state']=='FAILED' and port.last_parse_diagnostic.stage=='OUTER_JSON'
+E           AssertionError: assert ('FAILED' == 'FAILED'
+E             
+E               FAILED and 'HTTP' == 'OUTER_JSON'
+E             
+E             - OUTER_JSON
+E             + HTTP)
+
+tests/live_response/test_response_contract.py:109: AssertionError
+_ test_acquired_frame_uses_real_router_original_h1_world_and_source_lifecycle __
+
+tmp_path = PosixPath('/dev/shm/n409-full/test_acquired_frame_uses_real_0')
+
+    def test_acquired_frame_uses_real_router_original_h1_world_and_source_lifecycle(tmp_path):
+        from nana_core.continuity.provider_config import ProviderProfile, CapabilityRoute
+        from nana_core.continuity.provider_routing import CapabilityRouter, RuntimeProviderFactory, RoutingPolicy
+        from nana_core.continuity.providers import ProviderRegistry
+        from nana_core.continuity.world_loop.semantic_harness import semantic_proposer
+        from nana_core.continuity.world_loop.world import WorldModel
+        from tests.provider_routing.helpers import config_service, model, update, Resolver
+    
+        with (
+            counterpart() as (opener, _),
+            provider_harness(semantic_proposer) as (wire, metrics),
+            fresh(tmp_path / "self.db", Clock()) as r,
+        ):
+            config, authority = config_service(tmp_path / "config/providers.json")
+            provider = ProviderProfile(
+                provider_profile_id="frames.loopback",
+                display_name="SYNTHETIC_LOOPBACK",
+                protocol="SYNTHETIC_LOOPBACK",
+                base_url=wire.endpoint.removesuffix("/chat/completions"),
+                locality="LOCAL_FIXTURE",
+                permitted_privacy=("PUBLIC", "PROJECT"),
+            )
+            profile = model("model.frames", provider.provider_profile_id, ("VISION",)).model_copy(
+                update={"remote_model_id": "harness-v1"}
+            )
+            update(config, authority, "UPSERT_PROVIDER", provider=provider)
+            update(config, authority, "UPSERT_MODEL", model=profile)
+            update(
+                config,
+                authority,
+                "SET_CAPABILITY_ROUTE",
+                route=CapabilityRoute(
+                    operation="VISION",
+                    primary_model_profile_id=profile.model_profile_id,
+                    permitted_privacy=("PUBLIC", "PROJECT"),
+                ),
+            )
+            router = CapabilityRouter(
+                config, RuntimeProviderFactory(ProviderRegistry(), Resolver(), RoutingPolicy(allow_synthetic_loopback=True))
+            )
+            app = SimpleNamespace(
+                runtime=r,
+                policy=policy(),
+                router=router,
+                config=SimpleNamespace(
+                    provider_context_tokens=16000,
+                    provider_output_tokens=4096,
+                    provider_timeout_ms=3000,
+                    provider_cost_ceiling_micro=0,
+                    provider_total_calls_limit=2,
+                    provider_total_reserved_cost_micro=0,
+                    provider_calls_per_hour=2,
+                    provider_calls_per_day=2,
+                    per_provider_calls_per_day=2,
+                ),
+            )
+            public = BilibiliPublicTransport(authorized=True, origin="SYNTHETIC_FIXTURE", request_limit=9)
+            public.opener = opener
+            reading = public.read_video("BV1t55v6DE2v", visual=True)
+            source = BilibiliSourceAdapter(app).ingest(reading)
+            service = BilibiliFrameService(app)
+            mid = service.capture(source, reading.frames)[0]
+>           result = service.interpret(mid)
+                     ^^^^^^^^^^^^^^^^^^^^^^
+
+tests/living_release_v4/test_bilibili_frames.py:165: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/life/bilibili_frames.py:222: in interpret
+    budget(self.app, target.snapshot)
+src/nana_core/life/readiness.py:67: in budget
+    report = budget_report(app, snapshot, calls=calls)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/life/readiness.py:61: in budget_report
+    "limits": budget_limits(cfg),
+              ^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+cfg = namespace(provider_context_tokens=16000, provider_output_tokens=4096, provider_timeout_ms=3000, provider_cost_ceiling_...rovider_total_reserved_cost_micro=0, provider_calls_per_hour=2, provider_calls_per_day=2, per_provider_calls_per_day=2)
+
+    def budget_limits(cfg):
+>       return {"wire_bytes_per_day": cfg.provider_wire_bytes_per_day, "calls_per_hour": cfg.provider_calls_per_hour,
+                                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+                "calls_per_day": cfg.provider_calls_per_day,
+                "per_provider_calls_per_day": cfg.per_provider_calls_per_day,
+                "total_calls": cfg.provider_total_calls_limit,
+                "total_reserved_cost_micro": cfg.provider_total_reserved_cost_micro,
+                "per_call_reserved_cost_micro": cfg.provider_cost_ceiling_micro}
+E       AttributeError: 'types.SimpleNamespace' object has no attribute 'provider_wire_bytes_per_day'
+
+src/nana_core/life/readiness.py:14: AttributeError
+============================= slowest 8 durations ==============================
+25.64s call     tests/continuous_self/test_subject_life.py::test_ten_day_counterfactual_and_sixty_day_life
+18.53s call     tests/controlled_hands/test_application.py::test_real_subject_outcome_learning_transfer_and_bounded_extension
+17.62s call     tests/controlled_hands/test_recovery.py::test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[DURING_SKILL_TEST]
+16.53s call     tests/controlled_hands/test_recovery.py::test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[DURING_LEARNING]
+15.75s call     tests/controlled_world/test_crash_campaign.py::test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[SKILL_QUALIFICATION]
+15.21s call     tests/nana_shadow/test_r044_recovery.py::test_50_actual_worker_processes_stop_reap_and_release_lease
+8.74s call     tests/precision/test_lifecycle.py::test_multihand_hierarchy_learns_per_task_domain_and_replans_same_goal
+8.16s call     tests/controlled_world/test_lab_browser.py::test_browser_request_cap_and_original_kernel
+=========================== short test summary info ============================
+SKIPPED [1] tests/h2_live_screen/test_live.py:16: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:19: explicit --live-screen required
+SKIPPED [6] tests/h2_live_screen/test_live.py:56: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:68: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:85: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:110: explicit --live-screen required
+SKIPPED [1] tests/offline_continuity/test_experiment.py:21: E12 real-model gate requires configured development endpoints via nana-semantic; offline pytest makes no real-model calls
+FAILED tests/h1_live_semantics/test_wire.py::test_wire_measurements_real_bytes_digest_ids_no_headers_and_legacy_digest
+FAILED tests/h1_live_semantics/test_wire.py::test_failure_measurements_and_no_transport_retry[malformed]
+FAILED tests/h1_live_semantics/test_wire.py::test_failure_measurements_and_no_transport_retry[refusal]
+FAILED tests/h1_live_semantics/test_wire.py::test_incomplete_response_keeps_allowlisted_usage_and_resets_on_timeout
+FAILED tests/live_response/test_entry.py::test_entry_uses_existing_runtime_and_keeps_only_operational_metadata
+FAILED tests/live_response/test_response_contract.py::test_valid_envelope_differences_do_not_relax_semantic_contract[canonical]
+FAILED tests/live_response/test_response_contract.py::test_valid_envelope_differences_do_not_relax_semantic_contract[deepseek]
+FAILED tests/live_response/test_response_contract.py::test_valid_envelope_differences_do_not_relax_semantic_contract[optional-omitted]
+FAILED tests/live_response/test_response_contract.py::test_valid_envelope_differences_do_not_relax_semantic_contract[nullable]
+FAILED tests/live_response/test_response_contract.py::test_valid_envelope_differences_do_not_relax_semantic_contract[vendor-extra]
+FAILED tests/live_response/test_response_contract.py::test_valid_envelope_differences_do_not_relax_semantic_contract[text-blocks]
+FAILED tests/live_response/test_response_contract.py::test_valid_envelope_differences_do_not_relax_semantic_contract[usage-absent]
+FAILED tests/live_response/test_response_contract.py::test_negative_diagnostics_are_structural_durable_and_no_replay[top-array-ENVELOPE-PROVIDER_MALFORMED]
+FAILED tests/live_response/test_response_contract.py::test_negative_diagnostics_are_structural_durable_and_no_replay[missing-message-MESSAGE-PROVIDER_MALFORMED]
+FAILED tests/live_response/test_response_contract.py::test_negative_diagnostics_are_structural_durable_and_no_replay[duplicate-json-OUTER_JSON-PROVIDER_MALFORMED]
+FAILED tests/live_response/test_response_contract.py::test_negative_diagnostics_are_structural_durable_and_no_replay[truncated-json-OUTER_JSON-PROVIDER_MALFORMED]
+FAILED tests/live_response/test_response_contract.py::test_negative_diagnostics_are_structural_durable_and_no_replay[missing-semantic-SEMANTIC_SCHEMA-PROVIDER_MALFORMED]
+FAILED tests/live_response/test_response_contract.py::test_negative_diagnostics_are_structural_durable_and_no_replay[choices-empty-CHOICES-PROVIDER_MALFORMED]
+FAILED tests/live_response/test_response_contract.py::test_negative_diagnostics_are_structural_durable_and_no_replay[choices-object-CHOICES-PROVIDER_MALFORMED]
+FAILED tests/live_response/test_response_contract.py::test_negative_diagnostics_are_structural_durable_and_no_replay[role-user-MESSAGE-PROVIDER_MALFORMED]
+FAILED tests/live_response/test_response_contract.py::test_negative_diagnostics_are_structural_durable_and_no_replay[content-number-CONTENT-PROVIDER_MALFORMED]
+FAILED tests/live_response/test_response_contract.py::test_negative_diagnostics_are_structural_durable_and_no_replay[content-null-CONTENT-PROVIDER_MALFORMED]
+FAILED tests/live_response/test_response_contract.py::test_negative_diagnostics_are_structural_durable_and_no_replay[bad-json-SEMANTIC_JSON-PROVIDER_MALFORMED]
+FAILED tests/live_response/test_response_contract.py::test_negative_diagnostics_are_structural_durable_and_no_replay[wrong-enum-SEMANTIC_SCHEMA-PROVIDER_MALFORMED]
+FAILED tests/live_response/test_response_contract.py::test_negative_diagnostics_are_structural_durable_and_no_replay[extra-authority-SEMANTIC_SCHEMA-PROVIDER_MALFORMED]
+FAILED tests/live_response/test_response_contract.py::test_negative_diagnostics_are_structural_durable_and_no_replay[numeric-string-SEMANTIC_SCHEMA-PROVIDER_MALFORMED]
+FAILED tests/live_response/test_response_contract.py::test_negative_diagnostics_are_structural_durable_and_no_replay[usage-string-USAGE-PROVIDER_MALFORMED]
+FAILED tests/live_response/test_response_contract.py::test_negative_diagnostics_are_structural_durable_and_no_replay[tool-calls-FINISH-PROVIDER_PARTIAL_OUTPUT]
+FAILED tests/live_response/test_response_contract.py::test_negative_diagnostics_are_structural_durable_and_no_replay[length-FINISH-PROVIDER_PARTIAL_OUTPUT]
+FAILED tests/live_response/test_response_contract.py::test_model_mismatch_stays_core_correlation_rejection
+FAILED tests/live_response/test_response_contract.py::test_outer_json_and_timeout_diagnostic_do_not_reuse_previous_result
+FAILED tests/living_release_v4/test_bilibili_frames.py::test_acquired_frame_uses_real_router_original_h1_world_and_source_lifecycle
+32 failed, 1973 passed, 12 skipped in 665.99s (0:11:05)

@@ -1,0 +1,25 @@
+............F....................................                        [100%]
+=================================== FAILURES ===================================
+_ test_recording_capture_accumulates_chunks_once_and_blocks_split_secret_echo __
+
+    def test_recording_capture_accumulates_chunks_once_and_blocks_split_secret_echo():
+        import urllib.request
+        payload=canonical({'id':'chunked-fixture','model':'fixture','usage':{'prompt_tokens':7}}).encode()
+        recorder=RecordingOpener(Opener(Response(payload)),'TEST_ONLY_SPLIT_SECRET')
+        with recorder.open(urllib.request.Request('https://api.tiantoken.com/v1/chat/completions',data=b'{}')) as response:
+            consumed=bytearray()
+            while chunk:=response.read1(3):consumed.extend(chunk)
+        assert bytes(consumed)==payload and len(recorder.responses)==1
+        assert recorder.responses[0]['id']=='chunked-fixture'
+        recorder=RecordingOpener(Opener(Response(b'{"text":"TEST_ONLY_SPLIT_SECRET"}')),'TEST_ONLY_SPLIT_SECRET')
+        with pytest.raises(CoreError,match='SECRET_ECHO_BLOCKED'):
+            with recorder.open(urllib.request.Request('https://api.tiantoken.com/v1/chat/completions',data=b'{}')) as response:
+                while response.read1(3):pass
+>       assert not recorder.responses
+E       AssertionError: assert not [{'text': 'TEST_ONLY_SPLIT_SECRET'}]
+E        +  where [{'text': 'TEST_ONLY_SPLIT_SECRET'}] = <tools.nana_h1_live_qualification.run.RecordingOpener object at 0x7f5cb0f472c0>.responses
+
+tests/h1_live_semantics/test_wire.py:141: AssertionError
+=========================== short test summary info ============================
+FAILED tests/h1_live_semantics/test_wire.py::test_recording_capture_accumulates_chunks_once_and_blocks_split_secret_echo
+1 failed, 48 passed in 8.83s

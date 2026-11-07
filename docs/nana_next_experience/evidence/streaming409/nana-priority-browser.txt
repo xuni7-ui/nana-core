@@ -1,0 +1,54 @@
+[WebServer] (node:87806) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 4 tests using 1 worker
+
+(node:87827) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  1 [desktop] › tests/v3.spec.ts:1024:1 › SYNTHETIC in-flight controls: pause stays usable without unlocking the pending message (30.1s)
+(node:88080) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✘  2 [phone-360] › tests/v3.spec.ts:1024:1 › SYNTHETIC in-flight controls: pause stays usable without unlocking the pending message (26.7s)
+
+
+  1) [desktop] › tests/v3.spec.ts:1024:1 › SYNTHETIC in-flight controls: pause stays usable without unlocking the pending message 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: page.waitForResponse: Test timeout of 30000ms exceeded.
+
+      306 | }
+      307 | async function go(page: Page, target: string, source = target) {
+    > 308 |   const loaded = page.waitForResponse(
+          |                       ^
+      309 |     (response) =>
+      310 |       response.url().includes(`${API}views/${source}`) &&
+      311 |       response.request().method() === "GET",
+        at go (/workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:308:23)
+        at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:1030:9
+
+    Error Context: test-results/v3-SYNTHETIC-in-flight-con-b41ad-locking-the-pending-message-desktop/error-context.md
+
+  2) [phone-360] › tests/v3.spec.ts:1024:1 › SYNTHETIC in-flight controls: pause stays usable without unlocking the pending message 
+
+    Test was interrupted.
+
+    Error: page.waitForResponse: Test ended.
+
+      306 | }
+      307 | async function go(page: Page, target: string, source = target) {
+    > 308 |   const loaded = page.waitForResponse(
+          |                       ^
+      309 |     (response) =>
+      310 |       response.url().includes(`${API}views/${source}`) &&
+      311 |       response.request().method() === "GET",
+        at go (/workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:308:23)
+        at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:1030:9
+
+    Error Context: test-results/v3-SYNTHETIC-in-flight-con-b41ad-locking-the-pending-message-phone-360/error-context.md
+
+  1 failed
+    [desktop] › tests/v3.spec.ts:1024:1 › SYNTHETIC in-flight controls: pause stays usable without unlocking the pending message 
+  1 interrupted
+    [phone-360] › tests/v3.spec.ts:1024:1 › SYNTHETIC in-flight controls: pause stays usable without unlocking the pending message 
+  2 did not run
