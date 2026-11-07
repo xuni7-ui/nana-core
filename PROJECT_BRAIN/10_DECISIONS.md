@@ -1848,3 +1848,8 @@ New-host-only128daily/64hour/128provider preset stays within original128-call ce
 ### 2026-11-07 · Original S8 retrieval practice in the same Next Experience task
 
 Source-backed retained-note lookup failure now offers an optional original-C opportunity, original-G practice-only competition/independent evaluation/transfer, source-bound method reuse and counterexample suspension. Original S3 need can settle after checked later reuse; no new learner/memory/emotion authority. Ten focused checks2.73s pass; initial faults/resource exit137 retained. Related/installed artifact qualification pending, no live-model/phone/production claim. See RETRIEVAL_GROWTH.md/evidence/retrieval-growth. Existing408 APK/signature and original framework/63criteria unchanged; remaining whole mission stays active.
+
+
+### 2026-11-07 · Installed original S8/S2/S3 candidate delivered, same408 client
+
+Runtimef03fcbb, tool edfd685, artifactc8d5934.139related checks passed;280-file archive15001321bytes SHAce518a23e3ec431b22f1b2a4e7441c84f57770ea2f65a133d9ac100c738ff25e, two builds equal. Actual extracted/offline BFF/ten views/notes/backup/sameDEV identity+lineage restart plus original-G study/later different-note RENDER/source withdrawal passed with6loopback calls/real0. Initial source/fixture/resource failures preserved; external checker6-call option leaves Runtime limits unchanged. Daily defaults391ab0d included, old settings not rewritten.408APK unchanged, directNana-408.apk link restored; current selector pins new server patch. See HANDOFF_RETRIEVAL_GROWTH.md and evidence/retrieval-growth. Model-specific full token framing/streaming/product remainder and live host/phone/human/cross-day/vector gates stay open. No production change or total-mission completion.

@@ -7,33 +7,32 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 77,
-  "as_of_us": 1794035555750572,
+  "revision": 78,
+  "as_of_us": 1794049325738192,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_DAILY_CODE_AND_ORIGINAL_S8_CONTINUATION",
+  "status": "IN_PROGRESS_INSTALLED_RETRIEVAL_GROWTH_DELIVERED",
   "progress": [
-    "继承原Next Experience、手机紧凑聊天、模型目录、原S8/S3/S2及Fish原生关注/晚安/关系连续。",
-    "408 APK/Web/Core交付ced522e，三组件真实HTTPS下载SHA一致；同签名覆盖升级，云端仍未授权变更。",
-    "407原Store备注/纠错/UNKNOWN对账已有安装证据；全仓1933/1文档摘要失败/12跳过，摘要修复定向通过。",
-    "e7c28e7原Core包实际安装/十页/同DEV重启/笔记及两次本地模型来源接线通过，交付5eef0c0下载SHA相同；兼容407。",
-    "原Store合成20万字面备注有索引P95约0.49ms、新连接约1.19ms；Pinned所选块相同，读取258→130，装配P50约302→219ms。",
-    "408连接内明确保留聊天与触控稳定；59前端、12响应式、50关系上下文、17原G成长检查通过，最终归档安装/同DEV恢复通过。",
-    "de08f8f服务端补丁已实际归档安装与同DEV恢复；请求字节精确预留27504/27934，费用/次数/UNKNOWN边界不变；交付9c54efb下载SHA一致。",
-    "391ab0d新建宿主128/64/128默认额度与中文超时/额度说明已实现并27项通过；旧配置不变，当前仍未打包该批。"
+    "继承原Next Experience、手机紧凑聊天/模型目录/备注召回及原S8/S3/S2/Fish关注与安静机制；同一主任务不重开。",
+    "408同签名APK/Web保持f712136；已重新提供Nana-408.apk直接附件路径及实测HTTP200备用入口。",
+    "旧全仓1933/1文档摘要失败/12跳过及后续定向修复保留；不把此次相关检查写成新全仓通过。",
+    "继承20万规模字面备注索引与装配优化、关系来源配额及精确请求字节预留；不冒充真实模型token/长期回忆资格。",
+    "391ab0d新宿主128/64/128默认额度及中文提示已进入f03fcbb归档；旧配置不改、费用默认0、UNKNOWN不重放。",
+    "f03fcbb原C/G对实际保留笔记检索缺口做练习/独立评价/迁移；重启后不同笔记可进入实际本地HTTP渲染请求。",
+    "真实反例停用旧方法，后续独立核验复用使原S3需要OPEN→SETTLED/C选WATCH；撤回来源使方法不可用，无第二学习/情绪系统。",
+    "139相关检查通过；280文件两次构建相同，最终归档实际离线安装/十页/同DEV恢复/六次本地夹具调用通过，交付c8d5934兼容408。"
   ],
   "open_gates": [
-    "整个软件及十域长期精修继续，不以小批交付宣布总完成。",
-    "继续原S8检索错误→学习→独立复用、全请求模型token预算、真实流式与其余产品接线，不重做既有G/情感或已完成交付。",
-    "真实模型/手机/跨日/活库向量映射无安全绑定，资格未运行；生产/Iris迁移不触碰。",
-    "全请求模型token预算、真实语义召回与原S8检索错误学习继续，不以开发者修复冒充成长。"
+    "整个软件及十域长期精修仍继续；本批有界检索学习及可安装交付不等于总工程完成。",
+    "全请求模型特定token计数、真实流式及剩余产品接线仍待后续实际实现，不以字节量或夹具冒充。",
+    "真实模型/手机/跨日/活库向量映射无安全绑定；仅相关资格暂停，生产/Iris迁移由原负责人处理。"
   ],
   "evidence_refs": [
     "docs/nana_next_experience/STATUS.md",
     "docs/nana_next_experience/GROWTH_AND_AFFECT.md",
+    "docs/nana_next_experience/RETRIEVAL_GROWTH.md",
     "docs/nana_next_experience/DAILY_DEFAULTS.md",
-    "docs/nana_next_experience/evidence/chat408/qualification.json",
-    "docs/nana_next_experience/HANDOFF_408.md",
+    "docs/nana_next_experience/HANDOFF_RETRIEVAL_GROWTH.md",
     "docs/nana_next_experience/CHAT_MEMORY_FLOW.md",
     "docs/nana_next_experience/RELATIONSHIP_RETENTION.md",
     "docs/nana_next_experience/WIRE_RESERVATION.md"
@@ -2516,3 +2515,8 @@ New-host-only128daily/64hour/128provider preset stays within original128-call ce
 ### 2026-11-07 · Original S8 retrieval practice in the same Next Experience task
 
 Source-backed retained-note lookup failure now offers an optional original-C opportunity, original-G practice-only competition/independent evaluation/transfer, source-bound method reuse and counterexample suspension. Original S3 need can settle after checked later reuse; no new learner/memory/emotion authority. Ten focused checks2.73s pass; initial faults/resource exit137 retained. Related/installed artifact qualification pending, no live-model/phone/production claim. See RETRIEVAL_GROWTH.md/evidence/retrieval-growth. Existing408 APK/signature and original framework/63criteria unchanged; remaining whole mission stays active.
+
+
+### 2026-11-07 · Installed original S8/S2/S3 candidate delivered, same408 client
+
+Runtimef03fcbb, tool edfd685, artifactc8d5934.139related checks passed;280-file archive15001321bytes SHAce518a23e3ec431b22f1b2a4e7441c84f57770ea2f65a133d9ac100c738ff25e, two builds equal. Actual extracted/offline BFF/ten views/notes/backup/sameDEV identity+lineage restart plus original-G study/later different-note RENDER/source withdrawal passed with6loopback calls/real0. Initial source/fixture/resource failures preserved; external checker6-call option leaves Runtime limits unchanged. Daily defaults391ab0d included, old settings not rewritten.408APK unchanged, directNana-408.apk link restored; current selector pins new server patch. See HANDOFF_RETRIEVAL_GROWTH.md and evidence/retrieval-growth. Model-specific full token framing/streaming/product remainder and live host/phone/human/cross-day/vector gates stay open. No production change or total-mission completion.

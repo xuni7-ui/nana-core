@@ -33,5 +33,6 @@
   "archive_files": 280,
   "two_builds_equal": true,
   "installed_probe": "PASS_ACTUAL_EXTRACTED_OFFLINE_BFF_SAME_DEV_SUBJECT_LINEAGE_ORIGINAL_G_LATER_RENDER_SOURCE_WITHDRAWAL",
-  "local_fixture_calls": 6
+  "local_fixture_calls": 6,
+  "current_state_and_delivery_checks": "34 passed in 5.87s"
 }

@@ -1,0 +1,15 @@
+{
+  "runtime_source": "f03fcbbb6e8c7d0aa490d71aa89dfa128374dda7",
+  "external_tool_source": "edfd685",
+  "delivery_head": "c8d59349480a5bf11ae001b2150e34f3781320bb",
+  "delivery_branch": "delivery/nana-space-next-apk",
+  "apk_version_code": 408,
+  "apk_unchanged": true,
+  "apk_direct_download": "/mnt/data/Nana-408.apk",
+  "apk_bytes": 4792397,
+  "apk_sha256": "97c33dbb409bcbc68a047bb8e10f118bc87c7a6363e54676461cd6b73490e5bb",
+  "core_sha256": "ce518a23e3ec431b22f1b2a4e7441c84f57770ea2f65a133d9ac100c738ff25e",
+  "core_bytes": 15001321,
+  "actual_download_check": "PASS_ACTUAL_GITHUB_HTTPS_BYTES_AND_SHA",
+  "production_changed": false
+}

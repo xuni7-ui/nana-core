@@ -1,0 +1,44 @@
+{
+  "runtime_source": "f03fcbbb6e8c7d0aa490d71aa89dfa128374dda7",
+  "frontend_source": "f712136da20a48da437ce260674c967cf13c2ce0",
+  "compatible_apk_version_code": 408,
+  "api_contract_changed": false,
+  "api_contract": "nana-space-live/v2",
+  "scope": "SERVER_ONLY_PATCH_NOT_PRODUCTION_ACTIVATION",
+  "files": {
+    "HANDOFF.md": {
+      "bytes": 7070,
+      "sha256": "36faf0eb2458c67f4590d13b8ab357763a4519702770c5a17ce473132d7494cb"
+    },
+    "installed-dev-result.json": {
+      "bytes": 1675,
+      "sha256": "e589cee8bba19438b29f273232eb6388e410d92d59174ce57e93060cb1fee2a6"
+    },
+    "nana-core-f03fcbb-portable.tar.gz": {
+      "bytes": 15001321,
+      "sha256": "ce518a23e3ec431b22f1b2a4e7441c84f57770ea2f65a133d9ac100c738ff25e"
+    },
+    "nana-unpack.py": {
+      "bytes": 2579,
+      "sha256": "43cae88c58ea6db1e5e5226807ae00f6ab06281f0a801ef4a0832e1b2428cdf7"
+    },
+    "verify-current.py": {
+      "bytes": 8664,
+      "sha256": "5fa5a46ccc1736dd84d8249d970159bbaae6dc0fc468f87df386ec329af322cb"
+    },
+    "verify-dev.py": {
+      "bytes": 11349,
+      "sha256": "7379b780e4720b310431d2378813e294525dedfa61dd8b01fba7aa401fcfb347"
+    },
+    "verify-note-recall.py": {
+      "bytes": 14887,
+      "sha256": "66be6081f8aa53023e30dbb3c92a8e6db68273b39298babfe5881eca0f42049e"
+    }
+  },
+  "two_builds_equal": true,
+  "installed_dev_qualification": "PASS",
+  "real_provider_calls": 0,
+  "physical_phone": "NOT_RUN",
+  "production_changed": false,
+  "verification_tool_source": "edfd685"
+}
