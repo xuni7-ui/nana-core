@@ -6,8 +6,8 @@
   "scope": "SERVER_ONLY_PATCH_NOT_PRODUCTION_ACTIVATION",
   "files": {
     "HANDOFF.md": {
-      "bytes": 5897,
-      "sha256": "d767917e14f955b14ef9f5b0478b7861c86e8528da6d96b034767e76ae13c987"
+      "bytes": 6205,
+      "sha256": "75eb2612c3617f8aea9692788ea65483e3769b7d3cfba2c6f5c16b00cec66ece"
     },
     "installed-dev-result.json": {
       "bytes": 1289,
@@ -20,6 +20,10 @@
     "nana-unpack.py": {
       "bytes": 2579,
       "sha256": "43cae88c58ea6db1e5e5226807ae00f6ab06281f0a801ef4a0832e1b2428cdf7"
+    },
+    "verify-current.py": {
+      "bytes": 8664,
+      "sha256": "5fa5a46ccc1736dd84d8249d970159bbaae6dc0fc468f87df386ec329af322cb"
     },
     "verify-dev.py": {
       "bytes": 11349,
@@ -34,5 +38,7 @@
   "installed_dev_qualification": "PASS",
   "real_provider_calls": 0,
   "physical_phone": "NOT_RUN",
-  "production_changed": false
+  "production_changed": false,
+  "api_contract": "nana-space-live/v2",
+  "verification_tool_source": "d3f4bb9"
 }

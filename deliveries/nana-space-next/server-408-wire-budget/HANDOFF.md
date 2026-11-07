@@ -2,9 +2,10 @@
 
 Runtime source: `de08f8fe003e8188d3e661e5ae134a40fee3bc35`. Existing408 APK/Web remains source f712136. No phone reinstall, no new474MB V4 release, no new subject or schema. Use this replacement candidate Core archive rather than editing files inside a sealed older candidate. Original408 artifact set stays historical and unchanged.
 
-From the downloaded delivery root:
+Download/keep both the original matched408 manifest files and this server patch. The current checker verifies their hashes, actual source pins and retained runtime features; it does not authorize activation. From that complete downloaded delivery root:
 
 ```sh
+python3 server-408-wire-budget/verify-current.py --root . --current CURRENT-DELIVERY.json
 (cd server-408-wire-budget && sha256sum -c SHA256SUMS)
 python3 server-408-wire-budget/nana-unpack.py server-408-wire-budget/nana-core-de08f8f-portable.tar.gz --sha256 fbfe1399ce882ad5d310427039e47d767749e7a4e87fa5924d2258ebbf86741f --destination /srv/nana-core/candidates/next-408-wire-de08f8f
 ```
