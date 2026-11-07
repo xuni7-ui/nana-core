@@ -101,3 +101,23 @@ def test_remote_personal_requires_context_and_route_and_provider(tmp_path):
     assert 'TEST_ONLY_NOT_SECRET' not in target.snapshot.model_dump_json()+repr(target)
     with pytest.raises(CoreError,match='PRIVACY_DENIED'):router.resolve(RouteRequest(operation='COGNITION',privacy_class='SECRET'),allowed)
     target.port._credential=None
+
+
+@pytest.mark.parametrize('ceiling',[0,2,26])
+def test_routed_session_inherits_original_runtime_call_ceiling_instead_of_hidden_24(tmp_path,ceiling):
+    router,configuration,authority,registry,ports=fixture_router(tmp_path)
+    target=router.resolve(RouteRequest(operation='COGNITION'),policy())
+    with fresh(tmp_path/'subject/self.db') as runtime:
+        runtime.config=runtime.config.model_copy(update={'max_calls_per_day':ceiling})
+        if ceiling==0:
+            with pytest.raises(CoreError,match='COGNITION_DAILY_BUDGET'):target.cognition_session(runtime)
+            assert not runtime.store.all('cognitive_requests')
+            return
+        mid=capture(runtime,'quota.source',{'fact':'SYNTHETIC call admission, never a paid request'})
+        session=target.cognition_session(runtime)
+        assert session.max_calls==ceiling
+        for n in range(ceiling):session.prepare('quota.'+str(n),'INTERPRET',(mid,))
+        with pytest.raises(CoreError,match='COGNITION_DAILY_BUDGET'):session.prepare('quota.over','INTERPRET',(mid,))
+        assert len(runtime.store.all('cognitive_requests'))==ceiling
+        assert all(row['state']=='PREPARED' for row in runtime.store.all('cognitive_requests'))
+        assert ports[0].calls==ports[1].calls==0

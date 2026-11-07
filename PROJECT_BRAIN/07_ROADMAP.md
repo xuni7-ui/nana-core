@@ -1314,3 +1314,8 @@ Runtimef03fcbb, tool edfd685, artifactc8d5934.139related checks passed;280-file 
 ## 2026-11-07 · Same-task409 runtime/product continuation, not completion
 
 Original owner/C streaming, responsive existing restrictive management, absolute JSON/SSE attempt deadlines, same-model full-request tokenizer binding and confirmed-byte admission settlement implemented; commercial tokenizer/real model/phone/human/long-life qualification remains unrun. Original256receipt hot set can privately archive body-free terminal/UNKNOWN keys without lifetime chat exhaustion; same-host restore retains root AND whole archive, old binaries fail closed. No production/Iris/identity/Framework/criteria changes. STREAMING_AND_RUNTIME_409.md and evidence/streaming409 record code/tests/failures; final artifacts/full regression/installed409 remain pending actual execution. Continue all original software and ten-domain work.
+
+
+### 2026-11-07 · Same409 final quota propagation, current runtime authority retained
+
+The routed session still inherited24 despite the host's explicit larger allowance. Pass exactly original Runtime.max_calls_per_day (0denied;2/26bounded;no model calls); no fee/hour/privacy/refund changes.62router/budget/stream/framing and20daily/media/source-growth/network checks pass. Full2006/12 remains tied to37e46b5, before this narrow delta. Clientb873a4a/409same signature and42asset equality retained, native code unchanged; final artifact source will attest identical frontend tree rather than rebuild unchanged APK. Framework/criteria/production/Iris untouched; same entire mission continues.

@@ -7,8 +7,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 80,
-  "as_of_us": 1794056087637289,
+  "revision": 81,
+  "as_of_us": 1794056716347250,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_409_FINAL_MATCHED_ARTIFACTS_BUILDING",
@@ -19,8 +19,8 @@
     "原owner等待模型时可处理既有暂停/撤权/停止；不递归聊天/导入，停止保留UNKNOWN及费用并禁止新渲染调用。",
     "完整请求模型计数绑定接入原ContextAssembler/Router，缺商业tokenizer不冒充准确token；实际派发前复核，原文闭包不长期保留。",
     "只对确认PROPOSED正数实测字节结算剩余字节额度；原财务/次数/UNKNOWN保留，新宿主32MB而旧设置4MB不变。",
-    "最终backend37e46b5实际2006通过/0失败/12显式门控跳过，754.49秒；原首次32夹具失败及修复证据均保留。",
-    "最终前端66检查/24手机桌面定向通过；修复中断后新独立消息、首次记忆搜索丢字和触摸布局移动；新匹配409整包正在构建。"
+    "backend37e46b5全仓2006/0/12，754.49秒；后续仅修路由隐藏24次会话上限，62路由/预算及20真实DEV相关检查通过，未冒充再跑全仓。",
+    "最终b873a4a前端66/24定向通过，409同签名APK4836713字节/42资源一致；后续backend-only保留相同前端树，最终Core尚在封包。"
   ],
   "open_gates": [
     "原总任务继续；最终匹配409 APK/Web/Core及下载交付正在收口，不把预发布522旧候选冒充最终409。",

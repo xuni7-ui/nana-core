@@ -1,0 +1,13 @@
+{
+  "path": "/tmp/n409-installed/.venv",
+  "scope": "OWN_GENERATED_OFFLINE_INSTALL_LIBRARIES_ONLY",
+  "source": "522135d",
+  "requirements_sha256": "a614447f8cea5ccb402f259e25782f73dddb22eaa9afa9d50eac148e6e8e0853",
+  "retained": [
+    "sealed source archive",
+    "locked wheelhouse",
+    "installation receipt",
+    "all DEV Subject homes"
+  ],
+  "production_changed": false
+}

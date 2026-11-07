@@ -12,3 +12,8 @@ Ordinary server-returned timeout/quota notices now use concise Chinese. Structur
 
 
 Subsequent installed evidence: these defaults/notices are included in runtimef03fcbb and the280-file server-408-retrieval-growth candidate. Actual offline installation/original BFF and sameDEV recovery passed. Old host settings remain unchanged; this does not assert production installation.
+
+
+## Actual routed daily allowance propagation
+
+The final409 audit found RuntimeProviderFactory/RoutedTarget was still constructing CognitionSession with its historical24-call default, even when the original host Runtime was explicitly configured for26/128. Routed sessions now receive exactly runtime.config.max_calls_per_day; zero refuses before construction/dispatch. No fee/hour/provider/privacy limits change, and the standalone experiment constructor keeps its old default. An actual26-PREPARED-request/no-network case crosses the old24boundary and rejects27;2and0cases retain lower ceilings.62router/budget/stream/framing checks passed9.95s. Full2006/12 source37e46b5 precedes this narrow propagation fix; do not claim an unexecuted whole-suite rerun for the delta.

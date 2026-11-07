@@ -185,10 +185,16 @@ class RoutedTarget:
             raise CoreError("COGNITION_TRANSPORT_REQUIRED")
         from .world_loop.cognition import CognitionSession
 
+        # The original Runtime owns the host call ceiling. Do not silently
+        # reintroduce the early experiment's24-call constructor default when a
+        # host has explicitly configured another (including zero) allowance.
+        ceiling=runtime.config.max_calls_per_day
+        if ceiling==0:raise CoreError("COGNITION_DAILY_BUDGET")
         return CognitionSession(
             runtime,
             self.port,
             self.context_policy,
+            max_calls_per_day=ceiling,
             route_snapshot=self.snapshot,
             route_guard=self._current,
             project_state_source=project_state_source,
