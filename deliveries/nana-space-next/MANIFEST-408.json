@@ -1,0 +1,55 @@
+{
+  "app_version_code": 408,
+  "app_version_name": "4.0.8-next-debug",
+  "frontend_source": "f712136da20a48da437ce260674c967cf13c2ce0",
+  "core_source": "f712136da20a48da437ce260674c967cf13c2ce0",
+  "api_contract": "nana-space-live/v2",
+  "app_id": "life.nana.space.dev",
+  "signer_sha256": "b2fec5a02e6f32e69fb8ef8bce44391a6a4ba5ab8ce6dc7284cb57663016ec41",
+  "files": {
+    "nana-space-4.0.8-next-debug.apk": {
+      "sha256": "97c33dbb409bcbc68a047bb8e10f118bc87c7a6363e54676461cd6b73490e5bb",
+      "bytes": 4792397
+    },
+    "nana-space-4.0.8-web.tar.gz": {
+      "sha256": "f0e4069ca06d05ea181a582a4474fc93f1753e63abdd3744ff657331da5c57cf",
+      "bytes": 616288
+    },
+    "HANDOFF-408.md": {
+      "sha256": "7f92ffc8a95fa8fa62b108381c8995d2ec2bd33114a265630602080cffd80c2f",
+      "bytes": 7438
+    },
+    "server-408/installed-dev-result.json": {
+      "sha256": "e29835b4619d1135739ff3a25deb77dd6399500d603c49a30418b5c2a45db4aa",
+      "bytes": 965
+    },
+    "server-408/nana-core-f712136-portable.tar.gz": {
+      "sha256": "0e0f468ebea38864e1b9b88c325144699c55416e6fed9f89268cf13b716f898c",
+      "bytes": 14993066
+    },
+    "server-408/nana-unpack.py": {
+      "sha256": "43cae88c58ea6db1e5e5226807ae00f6ab06281f0a801ef4a0832e1b2428cdf7",
+      "bytes": 2579
+    },
+    "server-408/verify-delivery.py": {
+      "sha256": "e824b38bf9e70ad1cafd53899e0bc39256316573abe135da7c19fb5e5b6a3691",
+      "bytes": 4391
+    },
+    "server-408/verify-dev.py": {
+      "sha256": "7379b780e4720b310431d2378813e294525dedfa61dd8b01fba7aa401fcfb347",
+      "bytes": 11349
+    },
+    "server-408/verify-note-recall.py": {
+      "sha256": "0e979a973c9e1732f700e8ccecd5524d8f6aa051602119928b09f2a7c67eb0dd",
+      "bytes": 8921
+    }
+  },
+  "installed_dev_gateway": "PASS",
+  "same_dev_subject_note_context": "PASS_NOT_REAL_MODEL_RECALL",
+  "two_builds_equal": true,
+  "real_provider_calls": 0,
+  "production_changed": false,
+  "physical_phone": "NOT_RUN",
+  "human_naturalness": "NOT_RUN",
+  "full_mission_complete": false
+}
