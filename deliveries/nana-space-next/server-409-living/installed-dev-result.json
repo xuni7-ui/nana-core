@@ -1,0 +1,52 @@
+{
+  "execution": "ACTUAL_INSTALLED_DEV_CORE_NOT_CLOUD",
+  "source_commit": "6a32cae1d9b03ae3a1a9d0b7273d0885d82e466f",
+  "python": "3.12.14",
+  "subject_id": "69c52807-0a51-4dec-b4a7-065af4a090a5",
+  "lineage_binding": "33a3277f8d1e915d99ddaeb69046910c61cd5f18b822f5674d5e21c5e133a75f",
+  "real_provider_calls": 0,
+  "production_changed": false,
+  "private_data_used": false,
+  "real_social_sends": 0,
+  "chat": "ORIGINAL_CORE_VERIFIED_OFFLINE_NOT_NATURALNESS_QUALIFICATION",
+  "backup": "QUARANTINED_REVIEW_COPY",
+  "notes_correction_restart_withdrawal": "PASS_ORIGINAL_STORE_NOT_NATURAL_MODEL_RECALL",
+  "ten_pages": "PASS",
+  "independent_host_stop": "PASS",
+  "same_subject_restart": "PASS",
+  "no_repository_pythonpath": "PASS",
+  "isolation_entry": "PASS",
+  "new_subject_mode": "EXPLICIT_DEVELOPMENT_ONLY",
+  "installed_note_context_and_fixture_wording": "PASS_NOT_REAL_MODEL_RECALL",
+  "same_subject_after_fixture_phase": true,
+  "local_fixture_calls": 6,
+  "streaming": {
+    "actual_early_provider_prefix": true,
+    "original_interpret_C_render": true,
+    "scope": "INSTALLED_ORIGINAL_OWNER_AND_LOOPBACK_SSE_NOT_REAL_PROVIDER_OR_PHONE"
+  },
+  "retrieval_growth": {
+    "before_literal_found": false,
+    "selected_method": "UNICODE_WORDS",
+    "independent_evaluation": true,
+    "independent_transfer": true,
+    "same_subject_restart": true,
+    "later_new_note_in_actual_render_request": true,
+    "source_withdrawal_fences_method": true,
+    "scope": "INSTALLED_DEV_STORE_AND_LOOPBACK_FIXTURE_NOT_LIVE_MODEL_OR_HUMAN"
+  },
+  "exact_wire_reservations": [
+    {
+      "role": "INTERPRET",
+      "reserved_bytes": 27816,
+      "actual_input_bytes": 19623,
+      "response_hard_bound_bytes": 8192
+    },
+    {
+      "role": "SOCIAL",
+      "reserved_bytes": 290463,
+      "actual_input_bytes": 20126,
+      "response_hard_bound_bytes": 270336
+    }
+  ]
+}

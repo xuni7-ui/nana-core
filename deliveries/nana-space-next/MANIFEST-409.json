@@ -1,0 +1,33 @@
+{
+  "app_version_code": 409,
+  "app_version_name": "4.0.9-next-debug",
+  "frontend_source": "b873a4af4b2c2731fe2c796b845364ab758a5f22",
+  "core_source": "b873a4af4b2c2731fe2c796b845364ab758a5f22",
+  "api_contract": "nana-space-live/v2",
+  "app_id": "life.nana.space.dev",
+  "signer_sha256": "b2fec5a02e6f32e69fb8ef8bce44391a6a4ba5ab8ce6dc7284cb57663016ec41",
+  "frontend_tree": "72c4d2bef00753237fb402efb13fb3fb9176bfa3",
+  "files": {
+    "client-409/README.md": {
+      "bytes": 606,
+      "sha256": "ec09ffd27ad83ebfc28f66d11de0d8508d20fe81abb2a59126ec2ec1b75603ce"
+    },
+    "client-409/compatibility-baseline-core-b873a4a-portable.tar.gz": {
+      "bytes": 15009694,
+      "sha256": "27bb36cfb8b3ba9dbacad47dd0b52cd9396563715ed809c06d64432fd8087a4d"
+    },
+    "client-409/nana-space-4.0.9-web.tar.gz": {
+      "bytes": 616698,
+      "sha256": "15ff2c276cf142ac74137dea5b4880590093dda970b0f1988f91b475d5dd0959"
+    },
+    "client-409/nana-space-4.0.9-next-debug.apk": {
+      "bytes": 4836713,
+      "sha256": "82e6ba6d18378e500954b4848f3d3f02b5767cb8ea641acf99ef422260afebf9"
+    }
+  },
+  "apk_rebuilt_for_backend": false,
+  "baseline_core": "COMPATIBILITY_ANCHOR_NOT_CURRENT_BACKEND",
+  "physical_phone": "NOT_RUN",
+  "production_changed": false,
+  "full_mission_complete": false
+}

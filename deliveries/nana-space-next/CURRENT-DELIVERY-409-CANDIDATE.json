@@ -1,0 +1,12 @@
+{
+  "client_manifest": "MANIFEST-409.json",
+  "client_manifest_sha256": "4e93d09bf99a44fc5dda5504b0a8a3203ae1ab11bf6a86ee2044b2f4e4c97b71",
+  "server_manifest": "server-409-living/MANIFEST.json",
+  "server_manifest_sha256": "93cea66e5713923eedecaa8a20fddb445f689da0ea61696302546668e9a00e7f",
+  "apk_version_code": 409,
+  "frontend_source": "b873a4af4b2c2731fe2c796b845364ab758a5f22",
+  "runtime_source": "6a32cae1d9b03ae3a1a9d0b7273d0885d82e466f",
+  "compatibility": "EXISTING_HTTP_V2_CLIENT_AND_MATCHED_SERVER",
+  "qualification": "INSTALLED_DEV_PASS_NOT_REAL_HOST_PHONE_OR_HUMAN",
+  "production_activation": false
+}
