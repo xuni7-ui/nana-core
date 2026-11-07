@@ -15,7 +15,7 @@ import threading
 from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
 
 
-def run(bundle, work):
+def run(bundle, work, *, check_wire_reservations=False):
     if not __debug__:
         raise ValueError("QUALIFICATION_REQUIRES_ASSERTIONS")
     sys.dont_write_bytecode = True
@@ -73,13 +73,17 @@ def run(bundle, work):
     ):
         raise ValueError("DEV_IDENTITY_BINDING_MISMATCH")
     requests = []
+    wire_lengths = []
+    wire_reservations = []
 
     class Handler(BaseHTTPRequestHandler):
         def log_message(self, *args):
             pass
 
         def do_POST(self):
-            body = json.loads(self.rfile.read(int(self.headers["Content-Length"])))
+            raw = self.rfile.read(int(self.headers["Content-Length"]))
+            wire_lengths.append(len(raw))
+            body = json.loads(raw)
             request = json.loads(body["messages"][1]["content"])
             requests.append(request)
             proposal = {
@@ -183,6 +187,16 @@ def run(bundle, work):
             assert len(requests) == 2 and mid in requests[-1]["source_context_refs"]
             assert answer["text"] == text and answer["render_state"] == "UNVERIFIED_MODEL_WORDING"
             assert not app.runtime.store.all("actions") and not app.runtime.store.all("lessons")
+            if check_wire_reservations:
+                for received, actual_bytes in zip(requests, wire_lengths, strict=True):
+                    row = app.runtime.store.one("cognitive_requests", received["request_id"])
+                    bound = min(131072, received["budget"]["output_tokens"] * 4 + 4096)
+                    assert row["input_bytes"] == actual_bytes
+                    assert row["reserved_bytes"] == actual_bytes + bound + 1
+                    assert row["input_bytes"] + row["output_bytes"] <= row["reserved_bytes"]
+                    wire_reservations.append({"role": received["cognitive_role"],
+                        "reserved_bytes": row["reserved_bytes"], "actual_input_bytes": actual_bytes,
+                        "response_hard_bound_bytes": bound})
         final_identity,final_lineage,_=existing_identity(home)
         assert (final_identity,final_lineage)==(identity,lineage)
         return {
@@ -191,6 +205,7 @@ def run(bundle, work):
             "same_subject_after_fixture_phase": True,
             "local_fixture_calls": len(requests),
             "real_provider_calls": 0,
+            **({"exact_wire_reservations": wire_reservations} if check_wire_reservations else {}),
         }
     finally:
         current = load_config(home)
@@ -207,7 +222,8 @@ if __name__ == "__main__":
     parser.add_argument("--bundle", type=Path, required=True)
     parser.add_argument("--work", type=Path, required=True)
     parser.add_argument("--output", type=Path, required=True)
+    parser.add_argument("--check-wire-reservations", action="store_true")
     args = parser.parse_args()
-    result = run(args.bundle, args.work)
+    result = run(args.bundle, args.work, check_wire_reservations=args.check_wire_reservations)
     args.output.write_text(json.dumps(result, indent=2) + "\n")
     print(json.dumps(result))

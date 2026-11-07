@@ -1,0 +1,28 @@
+{
+  "qualification": "EXISTING_408_LOCAL_HTTP_METADATA_NOT_NEW_PROVIDER_CALL",
+  "baseline_source": "f712136da20a48da437ce260674c967cf13c2ce0",
+  "real_provider_calls": 0,
+  "new_calls": 0,
+  "requests": [
+    {
+      "role": "INTERPRET",
+      "old_reserved_bytes": 69388,
+      "observed_input_bytes": 19311,
+      "observed_output_bytes": 419,
+      "response_hard_bound_bytes": 8192,
+      "candidate_exact_bound_bytes": 27504,
+      "provider_tokens": "NOT_INFERRED_FROM_BYTES",
+      "actual_cost": "FIXTURE_ZERO_NOT_PROVIDER_BILLING"
+    },
+    {
+      "role": "SOCIAL",
+      "old_reserved_bytes": 71608,
+      "observed_input_bytes": 19741,
+      "observed_output_bytes": 567,
+      "response_hard_bound_bytes": 8192,
+      "candidate_exact_bound_bytes": 27934,
+      "provider_tokens": "NOT_INFERRED_FROM_BYTES",
+      "actual_cost": "FIXTURE_ZERO_NOT_PROVIDER_BILLING"
+    }
+  ]
+}

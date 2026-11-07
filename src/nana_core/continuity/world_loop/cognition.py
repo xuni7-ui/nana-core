@@ -231,7 +231,8 @@ class OpenAIJSONTransport:
         stage('COMPLETE',strict_schema_valid=True)
         return proposal,actual_model,usage
 
-    def exchange(self,request):
+    def request_body(self,request):
+        """Exact bounded wire body; pure serialization, no credentials or I/O."""
         body={'model':self.model_id,'stream':False,'messages':self.messages(request),
             # The proposal includes extensible operator arguments. Its ordinary
             # DTO schema is not provider-native strict JSON Schema (closed
@@ -241,6 +242,21 @@ class OpenAIJSONTransport:
         if self.thinking_mode=='DISABLED':body['thinking']={'type':'disabled'}
         data=canonical(body).encode()
         if len(data)>196608:raise TransportFailure('PROVIDER_CONTEXT_OVERFLOW')
+        return data
+
+    @staticmethod
+    def response_bound(request):
+        return min(131072,request.budget.output_tokens*4+4096)
+
+    def wire_reservation(self,request,volatile_input=None):
+        # The raw dialogue/media remains owner-local. Never change its persisted
+        # descriptor, digest or source contract just to measure the request.
+        actual=request.model_copy(deep=True)
+        actual._volatile_media=volatile_input
+        return len(self.request_body(actual))+self.response_bound(actual)+1
+
+    def exchange(self,request):
+        data=self.request_body(request)
         headers={'Content-Type':'application/json','Accept':'application/json','X-Request-ID':request.request_id}
         if self._credential:headers['Authorization']='Bearer '+self._credential
         req=urllib.request.Request(self.endpoint,data=data,headers=headers,method='POST');started=time.monotonic()
@@ -260,7 +276,7 @@ class OpenAIJSONTransport:
         measure()
         try:
             with self.opener.open(req,timeout=request.budget.timeout_ms/1000) as response:
-                response_bound=min(131072,request.budget.output_tokens*4+4096)
+                response_bound=self.response_bound(request)
                 raw=response.read(response_bound+1)
                 if len(raw)>response_bound:raise TransportFailure('PROVIDER_RESPONSE_BOUND')
                 measure(raw,response)
@@ -387,7 +403,9 @@ class CognitionSession:
             if head and head['scope'] in req.scopes and head['privacy_class'] in allowed and self.records.current_support(head['record_id']):current.append({'goal_id':g['goal_id'],'version':g['version'],'state':g['state']})
         current=tuple(current)
         request=CognitionRequest(request_id=request_id,subject_epoch=r.lease.epoch,subject_revision=r.subject.revision,cognitive_role=role,source_context_refs=refs,primary_source_refs=tuple(source_ids),context_json=context.model_dump_json(),current_goals=current,available_capabilities=tuple(capabilities),world_stamp=self._world_stamp(req.scopes,allowed),expected_schema=StructuredProposal.model_json_schema(),role_input=role_input,budget=b,created_at_us=now,deadline_us=now+b.timeout_ms*1000,route_snapshot=self.route_snapshot)
-        reserved_bytes=(len(request.model_dump_json().encode())+(len(canonical(volatile_input).encode()) if volatile_input else 0))*2+16384+min(131072,b.output_tokens*4+4096)
+        reserved_bytes=(self.transport.wire_reservation(request,volatile_input)
+            if isinstance(self.transport,OpenAIJSONTransport) else
+            (len(request.model_dump_json().encode())+(len(canonical(volatile_input).encode()) if volatile_input else 0))*2+16384+min(131072,b.output_tokens*4+4096))
         if r.config.living:
             from ...presence.resources import resource_state
             resource=resource_state(self.store,r.config);limits=r.config.living
@@ -437,6 +455,13 @@ class CognitionSession:
         if request.cognitive_role=='MEDIA' and any(p.get('data_b64') is None for p in request.role_input.get('parts',[])):
             if request_id not in self._volatile_inputs:return self._finish(row,'STALE','SEMANTIC_DEFERRED_SOURCE_BYTES_EXPIRED')
             request._volatile_media=self._volatile_inputs.pop(request_id)
+        if isinstance(self.transport,OpenAIJSONTransport):
+            # Recheck before CALLING: legacy conservative reservations stay valid,
+            # while a changed serializer cannot send more bytes than authorized.
+            try:required_bytes=self.transport.wire_reservation(request,request._volatile_media)
+            except CoreError as exc:return self._finish(row,'STALE',exc.code)
+            if required_bytes>row['reserved_bytes']:
+                return self._finish(row,'STALE','WIRE_RESERVATION_CHANGED_NO_DISPATCH')
         self._workers=[w for w in self._workers if w.is_alive()]
         if len(self._workers)>=2:return self._finish(row,'STALE','PROVIDER_WORKER_BOUND_PRE_DISPATCH')
         with self.store.transaction('world.cognition_calling',{'request_id':request_id}) as tx:tx.update('cognitive_requests',request_id,state='CALLING')

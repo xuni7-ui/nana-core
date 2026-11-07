@@ -1,0 +1,16 @@
+{
+  "scope": "LOCAL_PURE_SERIALIZATION_MICROBENCHMARK_NOT_REQUEST_LATENCY_OR_TOKEN_SAVINGS",
+  "samples_per_arm": 31,
+  "new_network_calls": 0,
+  "volatile_input": "NOT_PRESENT_IN_PERSISTED_DESCRIPTOR",
+  "timing": {
+    "legacy_formula": {
+      "p50_ms": 0.169391,
+      "p95_ms": 0.191469
+    },
+    "exact_body_with_deep_copy": {
+      "p50_ms": 0.772031,
+      "p95_ms": 1.115456
+    }
+  }
+}

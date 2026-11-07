@@ -1,0 +1,129 @@
+................................................F....................... [ 48%]
+........................................................................ [ 96%]
+......                                                                   [100%]
+=================================== FAILURES ===================================
+_ test_exact_body_can_fit_existing_byte_ceiling_without_changing_call_or_cost_limits _
+
+tmp_path = PosixPath('/tmp/nana-wire-related/test_exact_body_can_fit_existi0')
+
+    def test_exact_body_can_fit_existing_byte_ceiling_without_changing_call_or_cost_limits(tmp_path):
+        from nana_core.presence.contracts import LivingRuntimeConfig
+        with fresh(tmp_path/'s'/'self.db') as runtime, provider_harness() as (transport, state):
+            mid = capture(runtime, 'source', {'data': 'SYNTHETIC authorized byte bound'})
+            session = CognitionSession(runtime, transport, policy())
+            _, row, request = prepared(session, 'measure-only', mid)
+            exact = row['reserved_bytes']
+            legacy = len(request.model_dump_json().encode())*2+16384+transport.response_bound(request)
+            # One reservation is already retained. Allow precisely one more at the
+            # original shared ceiling; legacy padding cannot fit that same ceiling.
+            runtime.config = runtime.config.model_copy(update={'living': LivingRuntimeConfig(
+                max_model_bytes_per_day=(exact*200+89)//90+1024, background_fraction_percent=90)})
+            assert exact+legacy > runtime.config.living.max_model_bytes_per_day
+>           rid, second, _ = prepared(session, 'independent-second', mid)
+                             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/world_loop/test_wire_reservation.py:76: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/world_loop/test_wire_reservation.py:10: in prepared
+    rid = session.prepare(key, 'INTERPRET', (mid,))
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.world_loop.cognition.CognitionSession object at 0x7f226f571d30>
+key = 'independent-second', role = 'INTERPRET'
+source_ids = ('4083e0bb-0233-482a-8459-06f4a196ee9a',), budget = None
+goal_id = None, capabilities = (), role_input = {}, volatile_input = None
+pinned_only = False, query_terms = ()
+
+    def prepare(self,key,role,source_ids,*,budget=None,goal_id=None,capabilities=(),role_input=None,volatile_input=None,pinned_only=False,query_terms=()):
+        if type(pinned_only) is not bool:raise CoreError('COGNITION_CONTEXT_SELECTION_INVALID')
+        old=self.store.db.execute('SELECT * FROM cognitive_requests WHERE request_key=?',(key,)).fetchone()
+        if old:return old['request_id']
+        r=self.runtime;r.lease.assert_current();b=budget or CognitionBudget()
+        if self.route_snapshot is not None:
+            snap=self.route_snapshot;limit=snap.effective
+            if not self._route_guard or not self._route_guard():raise CoreError('ROUTE_CHANGED_BEFORE_DISPATCH')
+            media_op={'VISION':'IMAGE','AUDIO_UNDERSTAND':'AUDIO','VIDEO_UNDERSTAND':'VIDEO','STT':'AUDIO'}.get(snap.operation)
+            if (snap.operation=='COGNITION' and role=='MEDIA') or (media_op and (role!='MEDIA' or not role_input or role_input.get('modality')!=media_op)):raise CoreError('ROUTED_OPERATION_MISMATCH')
+            if limit.output_limit<64 or limit.context_limit<256:raise CoreError('BUDGET_DENIED')
+            b=CognitionBudget(input_tokens=min(b.input_tokens,limit.context_limit),output_tokens=min(b.output_tokens,limit.output_limit),timeout_ms=min(b.timeout_ms,limit.timeout_ms),cost_ceiling_micro=min(b.cost_ceiling_micro,limit.cost_ceiling))
+        now=self.store.clock.utc_now_us();count=self.store.db.execute("SELECT count(*) FROM cognitive_requests WHERE created_at_us>=?",(now//86400_000_000*86400_000_000,)).fetchone()[0]
+        if count>=self.max_calls:raise CoreError('COGNITION_DAILY_BUDGET')
+        if self.transport.remote and b.cost_ceiling_micro==0:raise CoreError('REMOTE_COST_RESERVATION_REQUIRED')
+        req=ContextRequest(entity_id=r.config.entity_id,scopes=r.config.scopes,task_class='world.'+role.lower(),task='Interpret sourced context; proposals only; silence is valid.',task_privacy_class=(role_input or {}).get('dialogue',{}).get('privacy_class','PUBLIC'),destination='DEVELOPMENT_REMOTE' if self.transport.remote else 'LOCAL_FIXTURE',max_input_tokens=b.input_tokens,output_reserve_tokens=b.output_tokens,query_terms=query_terms)
+        context=self.assembler.assemble(req,self.policy,capabilities=capabilities,limitations=('NO_AUTHORITY_IN_MODEL_OUTPUT',),required_memory_ids=source_ids,source_only=role=='MEDIA',pinned_only=pinned_only or bool(role_input and role_input.get('dialogue')),require_current_state=bool(role_input and role_input.get('dialogue',{}).get('project_status_query')),conversation_topic=role_input.get('dialogue',{}).get('topic') if role_input else None)
+        if role_input and role_input.get('dialogue') and self.store.schema_target>=13 and not any(b.kind=='PERSON_SELF' for b in context.blocks):raise CoreError('PERSON_SELF_CONTEXT_BUDGET')
+        history_support=[]
+        selected={m for block in context.blocks for m in block.source_memory_ids}
+        if not set(source_ids)<=selected:raise CoreError('COGNITION_SOURCE_OUTSIDE_CONTEXT_BUDGET')
+        refs=tuple(dict.fromkeys((*source_ids,*(m for block in context.blocks for m in block.source_memory_ids))))
+        if not refs:raise CoreError('COGNITION_SOURCES_REQUIRED')
+        role_input=role_input or {};extra_parents=()
+        if role_input:
+            from ..open_agency.world import bounded_data,LocalWorldRegistry
+            if role!='MEDIA':bounded_data(role_input)
+            if role in {'PLAN','REPLAN'}:
+                from ..open_agency.contracts import PlannerInput
+                parsed=PlannerInput.model_validate_json(canonical(role_input))
+                parent=self.records.read(parsed.source_record_id)
+                if parent['scope'] not in req.scopes or parent['privacy_class'] not in allowed_for_role(self.transport,self.policy) or not self.records.current_support(parsed.source_record_id):raise CoreError('COGNITION_ROLE_SOURCE_DENIED')
+                extra_parents=(parsed.source_record_id,)
+            elif role=='LEARN':
+                from ..open_agency.learning import LearningSpec,LearningProblem
+                role_input=(LearningProblem.from_spec(LearningSpec.model_validate_json(canonical(role_input))) if 'evaluation' in role_input or 'transfer' in role_input else LearningProblem.model_validate_json(canonical(role_input))).model_dump(mode='json')
+            elif role=='SKILL':
+                from ..open_agency.code_skills import CodeSpec
+                if set(role_input)-{'spec','diagnostic'}:raise CoreError('COGNITION_ROLE_INPUT_REJECTED')
+                CodeSpec.model_validate_json(canonical(role_input['spec']))
+                if role_input.get('diagnostic') is not None and (type(role_input['diagnostic']) is not str or len(role_input['diagnostic'])>512):raise CoreError('COGNITION_ROLE_INPUT_REJECTED')
+            elif role in {'INTERPRET','SOCIAL'} and 'dialogue' in role_input:
+                if set(role_input)!={'dialogue'} or volatile_input is None:raise CoreError('DIALOGUE_TRANSIENT_REQUIRED')
+                descriptor=DialogueContext.model_validate_json(canonical(role_input['dialogue']))
+                actual=DialogueContext.model_validate_json(canonical(volatile_input['dialogue']))
+                if set(volatile_input)!={'dialogue'} or descriptor.text is not None or descriptor.recent_turns or not actual.text or actual.model_copy(update={'text':None,'recent_turns':()})!=descriptor or descriptor.message_memory_id not in source_ids or descriptor.phase!=('INTERPRET' if role=='INTERPRET' else 'RENDER'):raise CoreError('DIALOGUE_SOURCE_BINDING_INVALID')
+                if actual.privacy_class not in allowed_for_role(self.transport,self.policy):raise CoreError('DIALOGUE_PRIVACY_DENIED')
+                from ..memory import PRIVACY_RANK
+                for turn in actual.recent_turns:
+                    if turn.message_memory_id not in source_ids or turn.topic!=descriptor.topic or PRIVACY_RANK[turn.privacy_class]>PRIVACY_RANK[actual.privacy_class] or turn.privacy_class not in allowed_for_role(self.transport,self.policy):raise CoreError('DIALOGUE_HISTORY_PRIVACY_DENIED')
+                    for mid in turn.support_memory_ids:
+                        m=self.records.memory.read(mid)
+                        if m['scope'] not in req.scopes or m['privacy_class'] not in allowed_for_role(self.transport,self.policy) or PRIVACY_RANK[m['privacy_class']]>PRIVACY_RANK[actual.privacy_class]:raise CoreError('DIALOGUE_HISTORY_PRIVACY_DENIED')
+                        history_support.append(mid)
+                if len(set(history_support))>64:raise CoreError('DIALOGUE_HISTORY_SUPPORT_BOUND')
+            elif role=='MEDIA':
+                from .semantics import validate_media_input
+                validate_media_input(self,volatile_input or role_input,source_ids)
+                if volatile_input is not None:
+                    clean=json.loads(canonical(volatile_input))
+                    for part in clean['parts']:part['data_b64']=None
+                    if clean!=role_input:raise CoreError('MEDIA_VOLATILE_BINDING_MISMATCH')
+            else:raise CoreError('COGNITION_ROLE_INPUT_REJECTED')
+            if LocalWorldRegistry.payload_privacy(role_input) not in allowed_for_role(self.transport,self.policy):raise CoreError('COGNITION_ROLE_PRIVACY_DENIED')
+        allowed=allowed_for_request(self.transport,self.policy,role_input)
+        for mid in refs:
+            m=self.records.memory.read(mid)
+            if m['scope'] not in req.scopes or m['privacy_class'] not in allowed:raise CoreError('COGNITION_PRIVACY_DENIED')
+        goal=self.store.one('goals',goal_id) if goal_id else None
+        if goal_id and not goal:raise CoreError('COGNITION_GOAL_UNKNOWN')
+        now=self.store.clock.utc_now_us();request_id=uid()
+        current=[]
+        for g in self.store.db.execute("SELECT * FROM goals WHERE state IN ('ACTIVE','BLOCKED','SUSPENDED') LIMIT 16"):
+            head=self.store.one('continuity_records',json.loads(g['body_json']).get('record_id'))
+            if head and head['scope'] in req.scopes and head['privacy_class'] in allowed and self.records.current_support(head['record_id']):current.append({'goal_id':g['goal_id'],'version':g['version'],'state':g['state']})
+        current=tuple(current)
+        request=CognitionRequest(request_id=request_id,subject_epoch=r.lease.epoch,subject_revision=r.subject.revision,cognitive_role=role,source_context_refs=refs,primary_source_refs=tuple(source_ids),context_json=context.model_dump_json(),current_goals=current,available_capabilities=tuple(capabilities),world_stamp=self._world_stamp(req.scopes,allowed),expected_schema=StructuredProposal.model_json_schema(),role_input=role_input,budget=b,created_at_us=now,deadline_us=now+b.timeout_ms*1000,route_snapshot=self.route_snapshot)
+        reserved_bytes=(self.transport.wire_reservation(request,volatile_input)
+            if isinstance(self.transport,OpenAIJSONTransport) else
+            (len(request.model_dump_json().encode())+(len(canonical(volatile_input).encode()) if volatile_input else 0))*2+16384+min(131072,b.output_tokens*4+4096))
+        if r.config.living:
+            from ...presence.resources import resource_state
+            resource=resource_state(self.store,r.config);limits=r.config.living
+            if resource.calls>=r.config.max_calls_per_day:raise CoreError('COGNITION_DAILY_BUDGET')
+>           if resource.reserved_bytes+reserved_bytes>limits.max_model_bytes_per_day or (not role_input.get('dialogue') and (resource.background_reserved_bytes+reserved_bytes)*100>limits.max_model_bytes_per_day*limits.background_fraction_percent):raise CoreError('COGNITION_BYTE_BUDGET')
+                                                                                                                                                                                                                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           nana_core.contracts.CoreError: COGNITION_BYTE_BUDGET
+
+src/nana_core/continuity/world_loop/cognition.py:413: CoreError
+=========================== short test summary info ============================
+FAILED tests/world_loop/test_wire_reservation.py::test_exact_body_can_fit_existing_byte_ceiling_without_changing_call_or_cost_limits
+1 failed, 149 passed in 65.40s (0:01:05)

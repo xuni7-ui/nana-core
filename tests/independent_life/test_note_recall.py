@@ -66,6 +66,17 @@ def test_note_selected_after_restart_model_change_correction_and_withdrawal(tmp_
                 message_id="question." + str(number),
             )
             assert app.runtime.identity_id == identity and len(requests) == 2
+            # Actual received loopback body includes volatile wording/history;
+            # measure that complete wire form, not just persisted descriptors.
+            from nana_core.continuity.world_loop.cognition import CognitionRequest
+            from nana_core.storage import canonical
+            for received in requests:
+                wire_request = CognitionRequest.model_validate_json(canonical(received))
+                row = app.runtime.store.one("cognitive_requests", wire_request.request_id)
+                transport = app.session.transport
+                assert row["input_bytes"] == len(transport.request_body(wire_request))
+                assert row["reserved_bytes"] == row["input_bytes"] + transport.response_bound(wire_request) + 1
+                assert row["input_bytes"] + row["output_bytes"] <= row["reserved_bytes"]
             assert result["render_state"] == "UNVERIFIED_MODEL_WORDING"
             notes = supplied_notes(requests[-1])
             assert [n["memory_id"] for n in notes] == [current]

@@ -2996,3 +2996,8 @@ Kept original retain_shared_life per-message contract. Added opt-in PROJECT rete
 ### 2026-11-07 · Actual408 candidate published without production activation
 
 Core/frontend f712136, delivery ced522e. Three remote downloads SHA matched; final279-file archive extracted/offline installed, original BFF/chat/notes/backup/sameDEV restart plus2local fixture context calls passed.17 original G/growth tests also passed. Same signed APK408 and42matchingWeb files; no physical phone/cloud/model/human/cross-day qualification or new full-suite pass. Original task remains active. HANDOFF_408.md/evidence/chat408/qualification.json are current receipts; next continue full wire/model-aware context budget, originalS8 retrieval feedback and remaining product integration, with real-host/provider/human gates separately pending.
+
+
+## 2026-11-07 · Original model byte ledger uses exact outbound body
+
+Same Next Experience S4/S5 refinement. Reuse one pure OpenAI body serializer for exact preflight input+unchanged bounded response+overflow probe reservation; preserve cost/call/UNKNOWN/no-retry, privacy and all non-OpenAI transport bounds. Recheck before dispatch, legacy reservations not refunded. Wire contents unchanged; actual tests and tradeoff in WIRE_RESERVATION.md/evidence/wire-reservation. CPU overhead measured, no token/billing savings claim.408client unchanged; server patch awaits final installed artifact qualification.
