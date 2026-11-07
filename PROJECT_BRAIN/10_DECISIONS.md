@@ -1818,3 +1818,8 @@ Relationship projection reserves bounded original-source retrieval for existing 
 ## 2026-11-07 · Next Experience408 explicit connection retention
 
 Kept original retain_shared_life per-message contract. Added opt-in PROJECT retention for current authenticated connection only, no device persistence; PERSONAL still separately consented. Parent handles one-shot clearing; removed duplicate child reset. Logout/run/privacy/role/error/capability loss clears mode, original UNKNOWN GET-only behavior retained. Frontend59 tests passed3.51s; responsive request-body/lifecycle checks and APK receipts in docs/nana_next_experience/evidence/chat408. Android408 same appId/signature,42Web assets equal; real physical phone/model/cloud remains unrun. See CHAT_MEMORY_FLOW.md.
+
+
+### 2026-11-07 · Actual408 candidate published without production activation
+
+Core/frontend f712136, delivery ced522e. Three remote downloads SHA matched; final279-file archive extracted/offline installed, original BFF/chat/notes/backup/sameDEV restart plus2local fixture context calls passed.17 original G/growth tests also passed. Same signed APK408 and42matchingWeb files; no physical phone/cloud/model/human/cross-day qualification or new full-suite pass. Original task remains active. HANDOFF_408.md/evidence/chat408/qualification.json are current receipts; next continue full wire/model-aware context budget, originalS8 retrieval feedback and remaining product integration, with real-host/provider/human gates separately pending.

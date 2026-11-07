@@ -1,0 +1,22 @@
+{
+  "runtime_and_frontend_source": "f712136da20a48da437ce260674c967cf13c2ce0",
+  "delivery_commit": "ced522e3f2a6068fe5c415528aaba32025f8b6f7",
+  "actual_three_artifact_download_sha_match": true,
+  "actual_archive_extraction_offline_install": "PASS",
+  "same_dev_subject_restart_and_note_context": "PASS_NOT_REAL_MODEL_RECALL",
+  "frontend_unit_passed": 59,
+  "responsive_fixture_passed": 12,
+  "final_relationship_context_person_passed": 50,
+  "original_learning_growth_passed": 17,
+  "same_signature_upgrade": "PASS_BUILD_NOT_PHYSICAL_PHONE",
+  "bundle_files": 279,
+  "two_builds_equal": true,
+  "real_provider_calls": 0,
+  "local_fixture_calls": 2,
+  "full_current_suite": "NOT_RERUN_RELATED_EVIDENCE_ONLY",
+  "real_host": "NOT_RUN",
+  "physical_phone": "NOT_RUN",
+  "human_review": "NOT_RUN",
+  "production_changed": false,
+  "full_mission_complete": false
+}

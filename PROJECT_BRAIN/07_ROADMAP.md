@@ -1284,3 +1284,8 @@ S2召回服务端补丁已实际安装验证并交付同一分支，兼容407APK
 ## 2026-11-07 · Same Next Experience408 and relationship continuity continuation
 
 Ordinary chat adds explicit connection-only PROJECT retention, PERSONAL remains per-turn. Corrected duplicate child resets and mobile focus-induced click-target shift;59 unit tests and12 responsive request/UNKNOWN/lifecycle checks pass. S2/S3 current preferences/boundaries/events survive unrelated growth; large200k regression fixed before delivery with one metadata scan,50 related tests pass. Original G/S8, Fish-native/needs and source/privacy mechanisms inherited; no new emotional authority or fake Nana learning. See CHAT_MEMORY_FLOW.md and RELATIONSHIP_RETENTION.md. New matched408 candidate delivery pending actual final build/install, not cloud/human qualification; same continuous mission remains active.
+
+
+### 2026-11-07 · Actual408 candidate published without production activation
+
+Core/frontend f712136, delivery ced522e. Three remote downloads SHA matched; final279-file archive extracted/offline installed, original BFF/chat/notes/backup/sameDEV restart plus2local fixture context calls passed.17 original G/growth tests also passed. Same signed APK408 and42matchingWeb files; no physical phone/cloud/model/human/cross-day qualification or new full-suite pass. Original task remains active. HANDOFF_408.md/evidence/chat408/qualification.json are current receipts; next continue full wire/model-aware context budget, originalS8 retrieval feedback and remaining product integration, with real-host/provider/human gates separately pending.

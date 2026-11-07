@@ -1,0 +1,23 @@
+{
+  "delivery_commit": "ced522e3f2a6068fe5c415528aaba32025f8b6f7",
+  "checks": {
+    "nana-space-4.0.8-next-debug.apk": {
+      "sha256": "97c33dbb409bcbc68a047bb8e10f118bc87c7a6363e54676461cd6b73490e5bb",
+      "bytes": 4792397,
+      "http_status": 200,
+      "matches": true
+    },
+    "nana-space-4.0.8-web.tar.gz": {
+      "sha256": "f0e4069ca06d05ea181a582a4474fc93f1753e63abdd3744ff657331da5c57cf",
+      "bytes": 616288,
+      "http_status": 200,
+      "matches": true
+    },
+    "server-408/nana-core-f712136-portable.tar.gz": {
+      "sha256": "0e0f468ebea38864e1b9b88c325144699c55416e6fed9f89268cf13b716f898c",
+      "bytes": 14993066,
+      "http_status": 200,
+      "matches": true
+    }
+  }
+}
