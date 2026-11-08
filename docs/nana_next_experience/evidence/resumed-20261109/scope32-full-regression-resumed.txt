@@ -1,0 +1,118 @@
+........................................................................ [  3%]
+........................................................................ [  6%]
+........................................................................ [ 10%]
+........................................................................ [ 13%]
+........................................................................ [ 17%]
+........................................................................ [ 20%]
+........................................F.....FF.......F................ [ 23%]
+...................................................................sssss [ 27%]
+ssssss.................................................................. [ 30%]
+........................................................................ [ 34%]
+........................................................................ [ 37%]
+........................................................................ [ 40%]
+........................................................................ [ 44%]
+........................................................................ [ 47%]
+........................................................................ [ 51%]
+........................................................................ [ 54%]
+........................................................................ [ 57%]
+........................................................................ [ 61%]
+........................................................................ [ 64%]
+........................................................................ [ 68%]
+........................................................................ [ 71%]
+........................................................................ [ 74%]
+...............................................s........................ [ 78%]
+........................................................................ [ 81%]
+........................................................................ [ 85%]
+........................................................................ [ 88%]
+........................................................................ [ 92%]
+........................................................................ [ 95%]
+........................................................................ [ 98%]
+.........................                                                [100%]
+=================================== FAILURES ===================================
+_____ test_eight_call_envelope_requires_known_fixture_baseline_no_dispatch _____
+
+tmp_path = PosixPath('/tmp/n32resume/test_eight_call_envelope_requi0')
+approved_dev_branch = 'dev/nana-core-next-experience-codex'
+
+    def test_eight_call_envelope_requires_known_fixture_baseline_no_dispatch(tmp_path,approved_dev_branch):
+        home=tmp_path/'life';initialize(home)
+        with pytest.raises(CoreError,match='BUDGET_BASE_MISMATCH'):configure(home)
+        with LifeApplication(home) as app:
+            outcome=setup(app,tmp_path)
+            assert outcome['semantic']['fixture_calls']==1
+        cfg=configure(home)
+        assert cfg.provider_total_calls_limit==9 and cfg.provider_total_reserved_cost_micro==400000
+        assert cfg.provider_timeout_ms==15000 and cfg.remote_privacy==('PUBLIC','PROJECT')
+        class ExplicitSyntheticResolver:
+            def available(self,reference):return reference==REF
+            def resolve(self,reference):return ResolvedSecret('TEST_ONLY_NOT_SECRET')
+>       assert preflight(home,live=True,resolver=ExplicitSyntheticResolver())['state']=='PREFLIGHT_PASS'
+E       AssertionError: assert 'FIRST_LIFE_START_BLOCKED' == 'PREFLIGHT_PASS'
+E         
+E         - PREFLIGHT_PASS
+E         + FIRST_LIFE_START_BLOCKED
+
+tests/first_life_integration/test_live_gate.py:24: AssertionError
+_______ test_preflight_read_only_offline_and_fail_closed_live_or_active ________
+
+tmp_path = PosixPath('/tmp/n32resume/test_preflight_read_only_offli0')
+approved_dev_branch = 'dev/nana-core-next-experience-codex'
+
+    def test_preflight_read_only_offline_and_fail_closed_live_or_active(tmp_path,approved_dev_branch):
+        home=tmp_path/'life';initialize(home)
+        result=preflight(home)
+>       assert result['state']=='PREFLIGHT_PASS' and result['checks']['manager_path']
+E       AssertionError: assert ('FIRST_LIFE_START_BLOCKED' == 'PREFLIGHT_PASS'
+E         
+E         - PREFLIGHT_PASS
+E         + FIRST_LIFE_START_BLOCKED)
+
+tests/first_life_integration/test_preflight.py:10: AssertionError
+_______ test_branch_mismatch_stays_blocked_without_default_policy_change _______
+
+tmp_path = PosixPath('/tmp/n32resume/test_branch_mismatch_stays_blo0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fcd7c150320>
+
+    def test_branch_mismatch_stays_blocked_without_default_policy_change(tmp_path,monkeypatch):
+        import subprocess
+        from tools.nana_first_life_integration import dev
+        assert dev.BRANCH=='dev/nana-core-cloud-first-life-launch-v1-codex'
+        home=tmp_path/'life';initialize(home)
+        actual=subprocess.check_output(['git','branch','--show-current'],cwd=dev.REPO,text=True).strip()
+        monkeypatch.setattr(dev,'BRANCH',actual+'.not-the-approved-branch')
+        result=preflight(home)
+        assert result['state']=='FIRST_LIFE_START_BLOCKED'
+        assert not result['checks']['branch']
+>       assert all(value for key,value in result['checks'].items() if key!='branch')
+E       assert False
+E        +  where False = all(<generator object test_branch_mismatch_stays_blocked_without_default_policy_change.<locals>.<genexpr> at 0x7fcd7d5e4790>)
+
+tests/first_life_integration/test_preflight.py:31: AssertionError
+_ test_high_primary_significance_preserves_independent_framing_and_no_authority _
+
+tmp_path = PosixPath('/tmp/n32resume/test_high_primary_significance0')
+approved_dev_branch = 'dev/nana-core-next-experience-codex'
+
+    def test_high_primary_significance_preserves_independent_framing_and_no_authority(tmp_path,approved_dev_branch):
+        home=tmp_path/'life';initial=initialize(home)
+        from nana_core.life.config import load_config,update_config
+        cfg=load_config(home);update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'current_project_state':None}),expected_revision=cfg.revision)
+        first=prepare(home)
+>       assert first['current_state_projection']['attribution']=='EXTERNAL_PROJECT_STATUS_NOT_SUBJECT_EXPERIENCE'
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'current_state_projection'
+
+tests/first_life_integration/test_review_prepare.py:10: KeyError
+=========================== short test summary info ============================
+SKIPPED [1] tests/h2_live_screen/test_live.py:16: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:19: explicit --live-screen required
+SKIPPED [6] tests/h2_live_screen/test_live.py:56: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:68: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:85: explicit --live-screen required
+SKIPPED [1] tests/h2_live_screen/test_live.py:110: explicit --live-screen required
+SKIPPED [1] tests/offline_continuity/test_experiment.py:21: E12 real-model gate requires configured development endpoints via nana-semantic; offline pytest makes no real-model calls
+FAILED tests/first_life_integration/test_live_gate.py::test_eight_call_envelope_requires_known_fixture_baseline_no_dispatch
+FAILED tests/first_life_integration/test_preflight.py::test_preflight_read_only_offline_and_fail_closed_live_or_active
+FAILED tests/first_life_integration/test_preflight.py::test_branch_mismatch_stays_blocked_without_default_policy_change
+FAILED tests/first_life_integration/test_review_prepare.py::test_high_primary_significance_preserves_independent_framing_and_no_authority
+4 failed, 2097 passed, 12 skipped in 594.70s (0:09:54)

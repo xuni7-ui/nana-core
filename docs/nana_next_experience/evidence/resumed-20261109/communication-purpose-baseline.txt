@@ -1,0 +1,29 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_correction_uses_committed_communication_purpose_not_forced_clarification _
+
+tmp_path = PosixPath('/tmp/n32purposebase/test_correction_uses_committed0')
+
+    def test_correction_uses_committed_communication_purpose_not_forced_clarification(tmp_path):
+        from nana_core.life.memory_notes import save
+        from nana_core.continuity.memory import MemoryService
+        home = tmp_path / 'home'; initialize(home, active=0)
+        def render(request):
+            dialogue = request['role_input']['dialogue']
+            purpose = dialogue.get('communication_purpose')
+            return 'SYNTHETIC acknowledge correction' if purpose and dialogue['judgment'] != 'ASK' else 'SYNTHETIC ask what response is wanted'
+        with relay(home, 'CORRECTION', renderer=render) as (router, requests), LifeApplication(home, clock=VirtualClock(), router=router) as app:
+            app.pause()
+            mid = save(app, text='SYNTHETIC prior ORCHID report', privacy='PROJECT', request_id='purpose-note')['memory_id']
+            before = MemoryService(app.runtime.store).read(mid)
+            result = app.chat('SYNTHETIC correction: the name was ORCHID.', privacy='PROJECT', message_id='purpose-correction')
+>           assert result['text'] == 'SYNTHETIC acknowledge correction'
+E           AssertionError: assert 'SYNTHETIC as...nse is wanted' == 'SYNTHETIC ac...ge correction'
+E             
+E             - SYNTHETIC acknowledge correction
+E             + SYNTHETIC ask what response is wanted
+
+tests/independent_life/test_dialogue.py:193: AssertionError
+=========================== short test summary info ============================
+FAILED tests/independent_life/test_dialogue.py::test_correction_uses_committed_communication_purpose_not_forced_clarification
+1 failed, 14 deselected in 0.86s

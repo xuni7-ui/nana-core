@@ -3255,3 +3255,7 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-09 · 原安装梦境调度补证据及自主性成本归因修复
 
 原安装探针64秒没覆盖18秒节流的来源积压；改为按既有SCAN due推进，保持工作切片/全部断言，未改包或Runtime，原d2同DEV巩固/虚拟72h/冷回读/撤回/数字usage通过，新增模型0。维护中的原探针同样改到期驱动并实际通过。原OpportunityQueue将external需预留/未知误作HIGH认知负荷，基线2失败4通过；保留完整成本估计/排序，只对真实compute/time/storage/interruption或显式HEAVY映射负荷，实际预算/权限不变。最终57相关通过15.38s；证据resumed-20261109。全仓另跑且出现失败待总结；不称总工程或生产完成。
+
+### 2026-11-09 · 原C交流目的、纠错回应及项目状态头闭包
+
+原C不再将每个CORRECTION当未知意图强制追问；保持纠错是来源报告、不自动改记忆事实。既有DialogueContext可选投影真实C目的/当前回复对象/cycle，原请求deadline及revision/隐私约束有效期，prepare核对当前原C并拒绝伪造，不增调用/第二意志/新权限。基线1失败，原HTTP/四模式/G32/context等38相关通过17.32s；初次开发NameError和错误测试路径保留。f4入口全仓2097通过4失败12跳过594.70s：浅历史祖先3项问题补全历史后排除，另1项暴露Brain状态头超8项数组限制，本批压缩当前头并保留原头及历史，原读取器/8192字节门不改。后续整体验证单列；真实模型/手机/自然度/生产不升级。

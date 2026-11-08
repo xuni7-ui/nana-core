@@ -1,3 +1,11 @@
+# Active continuation — communication purpose and bounded Brain projection
+
+Original C correction response now acknowledges a sourced correction instead of invariably asking what response is wanted. Current-turn purpose is projected from committed C and rechecked before RENDER; original cognition deadline/revision/owner/privacy bound it.38related checks passed17.32s, no real calls. Entry f4 full regression2097pass/4fail/12skip594.70s: filtered full history resolves shallow ancestry blockers; remaining typed Brain header was invalid (>8 arrays), compacted without relaxing parser. Exact first failures retained in evidence/resumed-20261109. Current-source full regression/First-Life projection recheck remains to run.
+
+Continue same all A–H task. A frozen diverse literal corpus is running1k/10k/100k/200k on original Store;1k/10k144/144 vs72/144, but100k BOTH arms144timeouts under unchanged100ms. This exposes a real scale bound, not success; inspect candidate qualification/materialization while preserving privacy and eligibility before LIMIT. The scale probe is a known own untracked draft until its full evidence is finalized. No APK/CURRENT/production change.
+
+---
+
 # Active continuation — resumed from f4b893b, 2026-11-09 03:34 Asia/Shanghai
 
 Latest local/remote f4b893b matched, clean at entry; no other Nana/pytest executor observed. Original complete mission restored. Installed d2 Dream continuation now passed after fixing only external virtual schedule; candidate pacing unchanged. Original queue external-admission→cognitive-load misclassification repaired,57related checks pass; original whole-task remainder persists. Correct absolute-PYTHONPATH full regression running in validation clone; installed Dream first failure under diagnosis against persisted SCAN cursor/due times. Old freeze below is historical. No new runtime implementation or qualification claimed at resume.

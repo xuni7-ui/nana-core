@@ -30,7 +30,17 @@ class DialogueTurn(DTO):
     support_memory_ids:tuple[str,...]=Field(default=(),max_length=64)
     text:str=Field(min_length=1,max_length=1024)
 
+class CommunicationPurpose(DTO):
+    """Projection of this original C decision, bounded by its cognition request."""
+    cycle_id: str = Field(min_length=1, max_length=128)
+    respond_to_memory_ids: tuple[str, ...] = Field(min_length=1, max_length=12)
+    purpose: str = Field(min_length=1, max_length=512)
+    validity: Literal['CURRENT_COGNITIVE_REQUEST_ONLY'] = 'CURRENT_COGNITIVE_REQUEST_ONLY'
+    execution_authority: Literal[False] = False
+
+
 class DialogueContext(DTO):
+    communication_purpose: CommunicationPurpose | None = None
     recent_history_truncated:bool=False
     retain_shared_life:bool=False
     conversation_decision:ConversationDecision|None=None
@@ -45,3 +55,10 @@ class DialogueContext(DTO):
     intention:str|None=Field(default=None,max_length=64)
     context_mode:str|None=Field(default=None,max_length=64)
     effect_status:Literal['NONE','VERIFIED_EFFECT','UNKNOWN']='NONE'
+
+    @model_serializer(mode='wrap')
+    def legacy_communication_wire(self, handler):
+        value = handler(self)
+        if self.communication_purpose is None:
+            value.pop('communication_purpose', None)
+        return value
