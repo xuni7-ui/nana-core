@@ -2,6 +2,8 @@
 
 ## 工程恢复入口
 
+**当前源码导航：**先核对 [当前状态](PROJECT_BRAIN/09_STATE.md) 与 [源码导航和真实性核对](docs/nana_next_experience/SOURCE_NAVIGATION_AUDIT.md)。下方早期目录、日期及未推送状态为历史记录，不代表当前运行或发布版本。
+
 先读 [Master Framework](PROJECT_BRAIN/00_MASTER_FRAMEWORK.md) 与 [Capability Matrix](PROJECT_BRAIN/01_CAPABILITY_MATRIX.md)，再读 [当前状态](PROJECT_BRAIN/09_STATE.md)。总框架已于2026-10-20冻结；能力进度按固定条件与证据核算。
 
 > 奈奈工程（Nana）的**独立开发副本**与**权威事实源仓库**。

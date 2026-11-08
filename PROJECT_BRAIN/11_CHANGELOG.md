@@ -3169,3 +3169,7 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-08 · P1 原反馈 UNKNOWN 只读核验
 
 原反馈记录可选绑定请求摘要，BFF从原Store提交证据恢复已保存反馈回执，不重派发，不证明实际送达或学习结果。实际隔离owner/HTTP断线前后、账本重开、摘要不符及来源撤回，最终相关36项通过（27.36s）。旧记录/样本兼容，不碰生产或模型账单。
+
+### 2026-11-08 · 复用源码审计入口到现有主分支
+
+从独立审计50a842a复用README/AGENTS的历史状态提示及SOURCE_NAVIGATION_AUDIT，避免导航长期只存在审计分支；只整合说明，不移动、删除或合并核心实现。已核实交付CURRENT仍选266，源码存在/候选存在/已选/实际运行分别记录。后续大型治理仍待P1真实验收。
