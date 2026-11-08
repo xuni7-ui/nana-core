@@ -3130,3 +3130,8 @@ User adds source-backed research on companion7.x and memory2.3.1, memory-use exp
 ### 2026-11-08 · Interrupted-attempt recovery isolated candidate
 
 Runtime4205f31 adds explicit stopped-owner recovery through original exclusive Store lock/lease, expected subject/lineage/epoch and a single event transaction; PREPARED/CALLING/RESERVED become UNKNOWN with reservation preserved, no retry/provider/billing assertion. Related33 tests plus2 owner/real-child CLI tests pass. Actual extracted/offline installed package exercised synthetic pending state after real child exit and idempotent repeat; reproducible/remote-stream SHA67e9926c…ebc14. Delivery5b4f589 is isolated only, selector/APK/production unchanged. Correct namespace and old/new Supervisor compatibility, recovery on real Store, off-host restore, real provider billing and production readiness remain unqualified. Evidence: docs/nana_next_experience/evidence/interrupted-recovery-20261108.
+
+
+### 2026-11-08 · Backend priority and restricted context efficiency
+
+User reports cloud4205f31 isolated candidate/recovery verification; host namespace, provider billing, backup/restore and Gateway cutover remain separate unqualified gates and production unchanged. User prioritizes completing backend before further host iteration. Source fdc5192 avoids WorldModel and learning projections that restricted paths unconditionally discard;33 relevant tests pass;24 alternating same-Store synthetic context pairs have exact complete package/source equality with calls24/24→0/0, P50 4.87→4.97ms/P95 7.25→6.60ms. No global speed, token, real model or human quality claim. See docs/nana_next_experience/evidence/context-projection-20261108; original mission remains open.

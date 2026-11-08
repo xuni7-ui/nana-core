@@ -1,0 +1,29 @@
+{
+  "qualification": "SYNTHETIC_SAME_SUBJECT_NOT_REAL_DIALOGUE",
+  "baseline_commit": "ef14a72e08ea5f5ec4b58c353e123070ce99f082",
+  "pairs_per_scenario": 12,
+  "scenarios": [
+    "pinned",
+    "source_only"
+  ],
+  "exact_package_and_source_equality": true,
+  "model_calls": 0,
+  "provider_tokens": "NOT_RUN",
+  "real_cost": "NOT_RUN",
+  "arms": {
+    "baseline": {
+      "samples": 24,
+      "p50_ms": 4.873650002991781,
+      "p95_ms": 7.249565998790786,
+      "world": 24,
+      "lessons": 24
+    },
+    "candidate": {
+      "samples": 24,
+      "p50_ms": 4.972294991603121,
+      "p95_ms": 6.598259991733357,
+      "world": 0,
+      "lessons": 0
+    }
+  }
+}

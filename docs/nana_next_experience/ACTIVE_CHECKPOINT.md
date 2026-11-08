@@ -1,3 +1,11 @@
+# Active continuation — backend priority; host cutover paused
+
+User relays cloud operator report: 4205f31 isolated install and synthetic recovery positive/11 negatives passed; local/PID namespace and remote filesystem not fully established, provider billing still UNKNOWN, old Gateway rollback race and host.json drift remain. This is reported evidence not locally inspected. Per user, do not iterate host cutover while backend is unfinished; production unchanged. No further operator document required now.
+
+Backend source fdc5192 skips world and lesson projections discarded by pinned/source-only context selection;33 related tests pass. Same synthetic Store and same request/budgets,24 alternating pairs, exact full serialized package/source equality; projected calls24/24→0/0, P50 4.87→4.97ms/P95 7.25→6.60ms, no broad speed or token claim. See evidence/context-projection-20261108. Continue memory-use modes and explicit delivered-feedback attribution with same-budget causal/withdrawal tests, original C/S2/S3/S8 and safe retention. Existing UNKNOWN recovery release4205 candidate and old API/app remain untouched. No APK rebuild until backend final and client necessary.
+
+---
+
 # Active continuation — interrupted-attempt DEV candidate4205f31
 
 Source4205f315f30b49b1d9eb8a52d36a15eb137193f2 adds local explicit recover-interrupted with original Store lock, expected Subject/lineage/epoch, previous-owner process check and new RuntimeLease. It quarantines stale PREPARED/CALLING/RESERVED as UNKNOWN atomically with no refund/provider/retry, not actual provider reconciliation. Includes earlier stop-race and s1/UNKNOWN fixes. Related33 tests plus2 updated owner/actual-CLI tests passed; installed exact archive on synthetic DEV had real child exit with synthetic CALLING row, same identity, preserved reservation and repeat no-op. Two builds and remote stream SHA67e9926cc98e8a5515c5c5f689a26116c47f87b829ef990fa06ee183761ebc14. Delivery5b4f589 is isolated only, selector unchanged; APK unchanged. See evidence/interrupted-recovery-20261108 for first failed packaging/probe and limits.
