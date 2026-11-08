@@ -143,3 +143,33 @@ def test_controlled_release_switch_and_stop_latch_survives_reopen(tmp_path):
         assert reopened.status()["stop_latch"] and not reopened.monitor_once()["runtime_active"]
     finally:
         reopened.close()
+
+
+def test_release_rechecks_outstanding_work_after_owner_stops(tmp_path, monkeypatch):
+    home, binding, release = owned(tmp_path)
+    candidate = release.model_copy(update={'release_id': 'candidate'})
+    supervisor = Supervisor(home, tmp_path/'host', binding, [release, candidate], active_release=release.release_id)
+    try:
+        checks = iter((0, 1))
+        monkeypatch.setattr(supervisor, 'verify_binding', lambda: next(checks))
+        stopped = []
+        monkeypatch.setattr(supervisor, 'stop', lambda: stopped.append(True))
+        with pytest.raises(ApiError, match='PENDING_UNKNOWN_REQUIRES_REVIEW'):
+            supervisor.change_release('candidate')
+        assert stopped == [True]
+        assert supervisor.state.read()['active_release'] == release.release_id
+    finally:
+        supervisor.close()
+
+
+def test_manual_start_cannot_bypass_outstanding_work(tmp_path, monkeypatch):
+    home, binding, release = owned(tmp_path)
+    supervisor = Supervisor(home, tmp_path/'host', binding, [release], active_release=release.release_id)
+    try:
+        monkeypatch.setattr(supervisor, 'verify_binding', lambda: 1)
+        monkeypatch.setattr(supervisor, 'status', lambda: {'runtime_active': False})
+        with pytest.raises(ApiError, match='PENDING_UNKNOWN_REQUIRES_REVIEW'):
+            supervisor.start()
+        assert supervisor.child is None
+    finally:
+        supervisor.close()

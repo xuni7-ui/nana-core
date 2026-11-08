@@ -340,7 +340,9 @@ class Supervisor:
                     alive = False
                 if alive:
                     raise ApiError("CORE_OWNER_PENDING_NO_RETRY", 409)
-            if automatic and (state["stop_latch"] or unknown):
+            if unknown:
+                raise ApiError("PENDING_UNKNOWN_REQUIRES_REVIEW", 409)
+            if automatic and state["stop_latch"]:
                 raise ApiError("AUTORESTART_INHIBITED", 409)
             self._prestart()
             release = self.releases[state["active_release"]]
@@ -516,6 +518,11 @@ class Supervisor:
             if self.verify_binding():
                 raise ApiError("PENDING_UNKNOWN_REQUIRES_REVIEW", 409)
             self.stop()
+            # The old owner can create an attempt after the first check but
+            # before stop completes. Never select/start the new release until
+            # the stopped owner's final committed ledger is checked again.
+            if self.verify_binding():
+                raise ApiError("PENDING_UNKNOWN_REQUIRES_REVIEW", 409)
             self._prestart()
             self._record(
                 active_release=release_id,
