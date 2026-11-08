@@ -227,7 +227,7 @@ class LifeApplication:
             history_sources.update(sources)
             recent.append(turn)
         recent.reverse()
-        descriptor=DialogueContext(recent_history_truncated=len(recent)<len(self._recent),retain_shared_life=retain_shared_life,conversation_decision=cycle.conversation_decision if cycle else None,project_status_query=LiteralSpanInterpreter().interpret(text).kind=='PROJECT_STATUS' or bool(cycle and cycle.context_fit.mode=='PROJECT_STATUS'),message_memory_id=mid,topic=topic,privacy_class=privacy,phase=phase,
+        descriptor=DialogueContext(recent_history_truncated=len(recent)<len(self._recent) or any(t.text_truncated for t in recent),retain_shared_life=retain_shared_life,conversation_decision=cycle.conversation_decision if cycle else None,project_status_query=LiteralSpanInterpreter().interpret(text).kind=='PROJECT_STATUS' or bool(cycle and cycle.context_fit.mode=='PROJECT_STATUS'),message_memory_id=mid,topic=topic,privacy_class=privacy,phase=phase,
             communication_purpose=CommunicationPurpose(cycle_id=cycle.cycle_id,respond_to_memory_ids=(mid,),purpose=cycle.intention.purpose) if cycle else None,
             judgment=cycle.judgment.stance if cycle else None,intention=cycle.intention.kind if cycle else None,context_mode=cycle.context_fit.mode if cycle else None,effect_status='VERIFIED_EFFECT' if facts else 'NONE')
         data={'dialogue':descriptor.model_dump(mode='json')};volatile={'dialogue':descriptor.model_copy(update={'text':text,'recent_turns':tuple(recent)}).model_dump(mode='json')}
@@ -310,8 +310,8 @@ class LifeApplication:
         supports=RecordService(r.store).support(render_rid) if render_rid else ()
         exchange_id=None
         if render_state=='UNVERIFIED_MODEL_WORDING' and len(supports)<=64:
-            self._recent.append(DialogueTurn(message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='USER',text=text[:1024]))
-            self._recent.append(DialogueTurn(message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='ASSISTANT',text=draft[:1024],support_memory_ids=supports))
+            self._recent.append(DialogueTurn(message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='USER',text=text[:1024],text_truncated=len(text)>1024))
+            self._recent.append(DialogueTurn(message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='ASSISTANT',text=draft[:1024],support_memory_ids=supports,text_truncated=len(draft)>1024))
             self._recent=self._recent[-6:]
         # Explicit retention records what was actually said, including a local
         # boundary acknowledgement or a provider-unavailable explanation. It

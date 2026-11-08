@@ -1,0 +1,24 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__________ test_long_reply_is_preserved_and_recent_excerpt_is_honest ___________
+
+tmp_path = PosixPath('/tmp/n32longbase/test_long_reply_is_preserved_a0')
+
+    def test_long_reply_is_preserved_and_recent_excerpt_is_honest(tmp_path):
+        home = tmp_path / 'home'; initialize(home, active=0)
+        text = 'SYNTHETIC_LONG_REPLY_CANARY ' + ('bounded explanation. ' * 160)
+        assert 2048 < len(text) < 4096
+        with relay(home, 'CHAT', renderer=lambda request: text) as (router, requests), LifeApplication(home, clock=VirtualClock(), router=router) as app:
+            app.pause()
+            first = app.chat('SYNTHETIC explain in depth', privacy='PROJECT', message_id='long-purpose')
+>           assert first['text'] == text and first['render_state'] == 'UNVERIFIED_MODEL_WORDING'
+E           AssertionError: assert ('这次暂时无法生成回复，请查看模型状态。' == 'SYNTHETIC_LO...explanation. '
+E             
+E             - SYNTHETIC_LONG_REPLY_CANARY bounded explanation. bounded explanation. bounded explanation. bounded explanation. bounded explanation. bounded explanation. bounded explanation. bounded explanation. bounded explanation. bounded explanation. bounded explanation. bounded explanation. bounded explanation. bounded explanation. bounded explanation. bounded explanation. bounded explanation. bounded explanation. bounded explanation. bounded explanation. bounded explanation. bounded explanation. bounded explanation. bounded explanation. bounded explanation. bounded explanation. bounded e...
+E             
+E             ...Full output truncated (2 lines hidden), use '-vv' to show)
+
+tests/independent_life/test_dialogue.py:237: AssertionError
+=========================== short test summary info ============================
+FAILED tests/independent_life/test_dialogue.py::test_long_reply_is_preserved_and_recent_excerpt_is_honest
+1 failed, 16 deselected in 0.74s

@@ -1,0 +1,7 @@
+{
+  "database_sha256": "7099e7f3d165407af27bdd4b722e33d5879989bc373a0c06a3d1f4fc91433a34",
+  "spec_sha256": "7fb0b79025ea4700d066cd5a392a7784811cbe1347cc76b9dd3337afc147bf10",
+  "memory_rows": 100000,
+  "scope": "OWNED_SYNTHETIC_NOT_LIVE_STORE",
+  "database_includes_derived_index": true
+}

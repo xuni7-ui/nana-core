@@ -73,8 +73,12 @@ def run(bundle,work,prior,case_id="beacon",require_body_free_usage=False,previou
         # polling window can cover a paced backlog or shorten Runtime pacing.
         for _ in range(256):
             due=store.db.execute("SELECT min(due_at_us) FROM jobs WHERE work_kind='SCAN' AND state='WAITING'").fetchone()[0]
-            clock.advance(max(1,due-clock.utc_now_us()))
-            app.runtime.lease.heartbeat();activity=maintenance.slice()
+            # A long persisted idle interval still needs the original lease
+            # heartbeats; jumping across its TTL is not a living Runtime.
+            while clock.utc_now_us()<due:
+                clock.advance(min(app.runtime.config.heartbeat_us,due-clock.utc_now_us()))
+                app.runtime.lease.heartbeat()
+            activity=maintenance.slice()
             if not activity or not activity.get('candidate_record_id'):continue
             rid=activity['candidate_record_id'];head,body=maintenance.candidate(rid)
             if mid not in body['memory_ids']:continue

@@ -1,0 +1,46 @@
+diff --git a/src/nana_core/continuity/memory.py b/src/nana_core/continuity/memory.py
+index 41736ef..7cea5c4 100644
+--- a/src/nana_core/continuity/memory.py
++++ b/src/nana_core/continuity/memory.py
+@@ -15,13 +15,16 @@ from .contracts import EvidenceInput, MemoryCandidate, MemoryType
+ PRIVACY_RANK = {"PUBLIC": 0, "PROJECT": 1, "PERSONAL": 2, "SECRET": 3}
+ 
+ # Same qualification before ranking/LIMIT for literal lookup and G snapshots.
+-USER_NOTE_QUALIFICATION = (
++USER_NOTE_MEMORY_QUALIFICATION = (
+     " AND substr(m.predicate_key,1,10)='user-note.'"
+     " AND m.authority='DIRECT' AND m.epistemic_kind='STATEMENT'"
++)
++USER_NOTE_SOURCE_QUALIFICATION = (
+     " AND e.source_namespace='recorded.conversation.input' AND e.source_kind='USER_STATEMENT'"
+     " AND json_extract(e.provenance_json,'$.domain')='CONSENTED_INTERACTION'"
+     " AND substr(e.source_reference,1,5)='note:' AND e.state='AVAILABLE'"
+ )
++USER_NOTE_QUALIFICATION = USER_NOTE_MEMORY_QUALIFICATION + USER_NOTE_SOURCE_QUALIFICATION
+ 
+ 
+ def is_user_note(memory):
+@@ -359,13 +362,16 @@ class MemoryService:
+         db.set_progress_handler(lambda: int(time.monotonic() > deadline), 1000)
+         try:
+             rows = db.execute(
+-                "WITH visible AS MATERIALIZED (SELECT m.memory_id,m.payload_artifact_id,m.rowid AS ordinal FROM memories m"
+-                + hint + " JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE "
+-                + where
+-                + USER_NOTE_QUALIFICATION + ") "
+-                "SELECT v.memory_id FROM visible v JOIN artifacts a ON a.artifact_id=v.payload_artifact_id WHERE ("
+-                + match
+-                + ") ORDER BY v.ordinal DESC LIMIT ?",
++                # Header privacy/entity/currentness precede any payload read.
++                # Match authorized note text before expensive source JSON checks,
++                # but keep ALL source eligibility before ranking and LIMIT.
++                "WITH visible AS MATERIALIZED (SELECT m.memory_id,m.payload_artifact_id,m.source_evidence_id,m.rowid AS ordinal FROM memories m"
++                + hint + " WHERE " + where + USER_NOTE_MEMORY_QUALIFICATION + "), "
++                "matches AS MATERIALIZED (SELECT v.memory_id,v.source_evidence_id,v.ordinal FROM visible v "
++                "JOIN artifacts a ON a.artifact_id=v.payload_artifact_id WHERE (" + match + ")) "
++                "SELECT v.memory_id FROM matches v JOIN continuity_evidence e ON e.evidence_id=v.source_evidence_id WHERE 1=1"
++                + USER_NOTE_SOURCE_QUALIFICATION
++                + " ORDER BY v.ordinal DESC LIMIT ?",
+                 (*args, *terms, limit),
+             ).fetchall()
+         except sqlite3.OperationalError as exc:

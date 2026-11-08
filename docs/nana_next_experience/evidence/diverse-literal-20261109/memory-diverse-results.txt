@@ -1,0 +1,15 @@
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/nana-unified-release/tools/nana_next_experience/memory_diverse_compare.py", line 155, in <module>
+    if __name__ == '__main__': main()
+                               ^^^^^^
+  File "/workspace/nana-unified-release/tools/nana_next_experience/memory_diverse_compare.py", line 118, in main
+    expected[stem + '.new'] = add(memory, stem + '.new', text + ' corrected report',
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/nana-unified-release/tools/nana_next_experience/memory_diverse_compare.py", line 51, in add
+    return memory.add(MemoryCandidate(entity_id=entity, scope=scope, memory_type=MemoryType.SEMANTIC,
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/nana-unified-release/src/nana_core/continuity/memory.py", line 184, in add
+    raise CoreError("CORRECTION_TIME_UNPROVEN")
+nana_core.contracts.CoreError: CORRECTION_TIME_UNPROVEN

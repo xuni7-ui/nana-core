@@ -18,17 +18,26 @@ class DialogueMeaning(DTO):
         return value
 
 class DialogueDraft(DTO):
-    text:str|None=Field(default=None,max_length=2048)
+    text:str|None=Field(default=None,max_length=16384)
     claim_memory_ids:tuple[str,...]=Field(default=(),max_length=16)
     effect_status:Literal['NONE','VERIFIED_EFFECT','UNKNOWN']='NONE'
 
 class DialogueTurn(DTO):
+    text_truncated: bool = False
     message_memory_id:str
     topic:str=Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
     privacy_class:Literal['PUBLIC','PROJECT','PERSONAL']
     speaker:Literal['USER','ASSISTANT']
     support_memory_ids:tuple[str,...]=Field(default=(),max_length=64)
     text:str=Field(min_length=1,max_length=1024)
+
+    @model_serializer(mode='wrap')
+    def legacy_turn_wire(self, handler):
+        value = handler(self)
+        if not self.text_truncated:
+            value.pop('text_truncated', None)
+        return value
+
 
 class CommunicationPurpose(DTO):
     """Projection of this original C decision, bounded by its cognition request."""

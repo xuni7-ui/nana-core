@@ -225,3 +225,21 @@ def test_forged_communication_purpose_cannot_replace_original_c(tmp_path, monkey
         assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants')
         cycle = app.runtime.subject.result(app.runtime.store.one('subject_cycles', result['cycle_id']))
         assert 'forged' not in cycle.intention.purpose
+
+
+def test_long_reply_is_preserved_and_recent_excerpt_is_honest(tmp_path):
+    home = tmp_path / 'home'; initialize(home, active=0)
+    text = 'SYNTHETIC_LONG_REPLY_CANARY ' + ('bounded explanation. ' * 260)
+    assert 4096 < len(text) < 8192
+    with relay(home, 'CHAT', renderer=lambda request: text) as (router, requests), LifeApplication(home, clock=VirtualClock(), router=router) as app:
+        app.pause()
+        first = app.chat('SYNTHETIC explain in depth', privacy='PROJECT', message_id='long-purpose')
+        assert first['text'] == text and first['render_state'] == 'UNVERIFIED_MODEL_WORDING'
+        app.chat('SYNTHETIC a later question', privacy='PROJECT', message_id='after-long-purpose')
+        previous = requests[2]['role_input']['dialogue']
+        assert previous['recent_history_truncated'] is True
+        assistant = next(t for t in previous['recent_turns'] if t['speaker'] == 'ASSISTANT')
+        assert assistant['text_truncated'] is True and assistant['text'] == text[:1024]
+        assert len(requests) == 4
+        assert not app.runtime.store.db.execute("SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),'SYNTHETIC_LONG_REPLY_CANARY')>0").fetchone()
+        assert not app.runtime.store.all('actions')

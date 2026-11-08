@@ -5,6 +5,7 @@ owner, control socket, original C and network transports all execute.
 """
 
 import http.client, json, threading, shutil, time
+import pytest
 from types import SimpleNamespace
 from nana_core.life.application import LifeApplication
 from nana_core.life.control import ControlServer
@@ -17,7 +18,11 @@ from tests.first_life_android_v2.test_http_integration import login, ORIGIN, PW
 from tests.independent_life.test_dialogue import relay
 
 
-def test_complete_network_path_streams_before_provider_done_without_replacing_original_subject(tmp_path):
+@pytest.mark.parametrize('response_text', [
+    'A deliberately synthetic language response',
+    'SYNTHETIC_LONG_BFF_RESPONSE ' + 'source-bound explanation. ' * 260,
+])
+def test_complete_network_path_streams_before_provider_done_without_replacing_original_subject(tmp_path, response_text):
     home, binding, _ = owned(tmp_path)
     from nana_core.life.config import load_config, update_config
 
@@ -41,7 +46,7 @@ def test_complete_network_path_streams_before_provider_done_without_replacing_or
     stop = threading.Event()
     state = {}
     errors = []
-    with relay(home, "CHAT", stream_fixture={"release": release, "finished": finished}) as (router, requests):
+    with relay(home, "CHAT", renderer=lambda request: response_text, stream_fixture={"release": release, "finished": finished}) as (router, requests):
         shutil.copy2(home / "test-providers.json", home / "providers.json")
 
         def owner():
@@ -125,7 +130,7 @@ def test_complete_network_path_streams_before_provider_done_without_replacing_or
             assert any(f["event"] == "progress" and f["data"]["data"].get("text") for f in frames)
             final = frames[-1]["data"]["data"]
             assert (
-                final["state"] == "VERIFIED" and final["result"]["text"] == "A deliberately synthetic language response"
+                final["state"] == "VERIFIED" and final["result"]["text"] == response_text
             )
             assert state["identity"] == binding.subject_id and len(requests) == 2
             assert all(f["data"]["subject_id"] == binding.subject_id for f in frames)

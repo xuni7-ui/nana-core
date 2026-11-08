@@ -119,3 +119,13 @@ def test_trickled_bytes_do_not_reset_the_absolute_json_or_sse_deadline(monkeypat
     with pytest.raises(TimeoutError):
         streaming.receive(Trickle(), 1000, lambda _: None, deadline=1.0)
     assert now[0] <= 1.01
+
+
+def test_long_dialogue_draft_bound_remains_finite():
+    from nana_core.life.dialogue_contracts import DialogueDraft
+    from pydantic import ValidationError
+    assert len(DialogueDraft(text='x' * 16384).text) == 16384
+    with pytest.raises(ValidationError):
+        DialogueDraft(text='x' * 16385)
+    with pytest.raises(CoreError, match='PROVIDER_STREAM_DRAFT_BOUND'):
+        DraftPrefix().feed(json.dumps({'draft': {'text': 'x' * 16385}}))

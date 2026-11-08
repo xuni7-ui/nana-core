@@ -74,3 +74,21 @@ def test_runtime_stop_during_interpret_wait_is_unknown_and_never_dispatches_rend
         assert len(requests) == 1 and len(rows) == 1
         assert rows[0]["state"] == "UNKNOWN" and rows[0]["error_code"] == "STOPPED_PROVIDER_BILLING_UNKNOWN_NO_RETRY"
         assert app.runtime.stop_requested
+
+
+def test_long_stream_keeps_bounded_provisional_prefix_and_complete_final_reply(tmp_path):
+    import threading
+    home = tmp_path / 'home'; initialize(home, active=0)
+    release = threading.Event(); release.set()
+    fixture = {'release': release, 'finished': threading.Event()}
+    text = 'SYNTHETIC_LONG_STREAM_CANARY ' + 'complete explanation. ' * 260
+    assert 4096 < len(text) < 8192
+    values = []
+    with relay(home, 'CHAT', renderer=lambda request: text, stream_fixture=fixture) as (router, requests), LifeApplication(home, clock=VirtualClock(), router=router) as app:
+        app.pause(); app.response_sink = values.append
+        result = app.chat('SYNTHETIC long discussion', privacy='PROJECT', message_id='long-stream')
+        assert result['text'] == text and result['render_state'] == 'UNVERIFIED_MODEL_WORDING'
+        partials = [v['text'] for v in values if v['state'] == 'PROVISIONAL_MODEL_DRAFT']
+        assert partials and all(text.startswith(p) and len(p) <= 4096 for p in partials)
+        assert len(requests) == 2 and fixture['finished'].is_set()
+        assert not app.runtime.store.db.execute("SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),'SYNTHETIC_LONG_STREAM_CANARY')>0").fetchone()

@@ -1,0 +1,2954 @@
+{
+  "qualification": "DIVERSE_LITERAL_SOURCE_NOT_SEMANTIC",
+  "fingerprints": {
+    "spec_sha256": "7fb0b79025ea4700d066cd5a392a7784811cbe1347cc76b9dd3337afc147bf10",
+    "baseline_memory_sha256": "59508e83a7d1502aa6d87cff89a3e70527b12200471994aebc5b757e2d081ad6",
+    "candidate_memory_sha256": "2b8adecdc899b41629feb155927d594bf310540a1df6cf8d58366c4df1a57304",
+    "probe_sha256": "703520d71f210ae8f4c0436f11d36396adc8490d84329fe91a640f0941067e67"
+  },
+  "memory_rows": 10000,
+  "distinct_queries": 48,
+  "trials_per_arm": 144,
+  "arms": {
+    "baseline": {
+      "correct": 144,
+      "false_result_cases": 0,
+      "missed_cases": 0,
+      "timeouts": 0,
+      "timings_ms": [
+        17.785058997105807,
+        15.236747000017203,
+        13.755763000517618,
+        13.172964998375392,
+        12.821431999327615,
+        11.138186000607675,
+        12.1484999981476,
+        11.303503000817727,
+        11.96720100051607,
+        12.286165001569316,
+        12.527946000773227,
+        11.355950999131892,
+        12.43146200067713,
+        11.36898999902769,
+        14.719487000547815,
+        11.613544000283582,
+        13.054868999461178,
+        11.71294300002046,
+        11.133781001262832,
+        11.42341200102237,
+        11.386916998162633,
+        12.373855999612715,
+        12.630086999706691,
+        12.519522999355104,
+        13.710545001231367,
+        13.730845003010472,
+        12.378643001284217,
+        11.954451001656707,
+        13.53532499706489,
+        12.323080001806375,
+        13.739066998823546,
+        11.806681999587454,
+        12.143002000811975,
+        12.65567500013276,
+        14.184461000695592,
+        15.233641999657266,
+        14.974848003475927,
+        13.714491000428097,
+        12.992656000278657,
+        12.757476997649064,
+        16.869938001036644,
+        14.527311999700032,
+        11.374509002052946,
+        11.85269000052358,
+        14.111542001046473,
+        12.552221000078134,
+        12.519132000306854,
+        13.076061000901973,
+        14.902909999364056,
+        14.104180998401716,
+        15.120313000807073,
+        14.769361998332897,
+        12.811526998120826,
+        12.001901999610709,
+        12.073709000105737,
+        12.210632998176152,
+        12.11865599907469,
+        17.307288999290904,
+        17.041423001501244,
+        14.946575000067241,
+        13.293774998601293,
+        14.008428999659372,
+        13.344459999643732,
+        13.933195998106385,
+        15.790460998687195,
+        12.856655001087347,
+        13.370308999583358,
+        15.523492998909205,
+        13.738746998569695,
+        13.571226998465136,
+        14.140695002424764,
+        21.05539699914516,
+        25.218122002115706,
+        18.440434996591648,
+        24.74113199787098,
+        27.346399998350535,
+        13.806877999741118,
+        15.022207997390069,
+        16.681896999216406,
+        14.955388000089442,
+        17.035562999808462,
+        19.271432000095956,
+        14.002800002344884,
+        14.564756998879602,
+        17.871968000690686,
+        16.04951599802007,
+        12.588836001668824,
+        15.32222300011199,
+        19.255447001341963,
+        13.409657000011066,
+        15.13909099958255,
+        13.31064999976661,
+        12.168140001449501,
+        12.980318999325391,
+        12.906498999655014,
+        13.28414100134978,
+        12.561785999423591,
+        13.858616002835333,
+        14.40816300237202,
+        11.7619350021414,
+        13.867409001250053,
+        12.199005999718793,
+        12.577319001138676,
+        11.1307159968419,
+        11.289441998087568,
+        12.308539000514429,
+        12.18848899952718,
+        15.23660699967877,
+        13.335517000086838,
+        14.058332999411505,
+        13.007068999286275,
+        12.97334799892269,
+        15.19577500221203,
+        12.377901999570895,
+        12.252876000275137,
+        13.055760002316674,
+        12.984734999918146,
+        11.561195999092888,
+        12.77706600012607,
+        12.41034000122454,
+        12.49885200013523,
+        15.61682199826464,
+        12.841963001847034,
+        12.391752999974415,
+        11.1734099991736,
+        12.280546998226782,
+        14.273523000156274,
+        11.539473998709582,
+        14.53983999817865,
+        13.310680998984026,
+        13.217782001447631,
+        13.40998800151283,
+        12.613352999323979,
+        13.298001998919062,
+        12.16652700168197,
+        12.293355997826438,
+        12.429809001332615,
+        13.364250000449829,
+        13.249408999399748,
+        13.986755999212619,
+        13.517518000298878,
+        12.493965001340257,
+        13.086206003208645,
+        12.134810000134166
+      ],
+      "outcomes": [
+        {
+          "case": "meeting0.eligible",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting0.eligible",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting0.eligible",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting0.corrected",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting0.corrected",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting0.corrected",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting0.withdrawn",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting0.withdrawn",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting0.withdrawn",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting0.absent",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting0.absent",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting0.absent",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting1.eligible",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting1.eligible",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting1.eligible",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting1.corrected",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting1.corrected",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting1.corrected",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting1.withdrawn",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting1.withdrawn",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting1.withdrawn",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting1.absent",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting1.absent",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting1.absent",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting2.eligible",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting2.eligible",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting2.eligible",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting2.corrected",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting2.corrected",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting2.corrected",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting2.withdrawn",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting2.withdrawn",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting2.withdrawn",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting2.absent",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting2.absent",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting2.absent",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden0.eligible",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden0.eligible",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden0.eligible",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden0.corrected",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden0.corrected",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden0.corrected",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden0.withdrawn",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden0.withdrawn",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden0.withdrawn",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden0.absent",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden0.absent",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden0.absent",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden1.eligible",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden1.eligible",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden1.eligible",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden1.corrected",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden1.corrected",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden1.corrected",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden1.withdrawn",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden1.withdrawn",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden1.withdrawn",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden1.absent",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden1.absent",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden1.absent",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden2.eligible",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden2.eligible",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden2.eligible",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden2.corrected",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden2.corrected",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden2.corrected",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden2.withdrawn",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden2.withdrawn",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden2.withdrawn",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden2.absent",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden2.absent",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden2.absent",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe0.eligible",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe0.eligible",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe0.eligible",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe0.corrected",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe0.corrected",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe0.corrected",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe0.withdrawn",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe0.withdrawn",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe0.withdrawn",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe0.absent",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe0.absent",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe0.absent",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe1.eligible",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe1.eligible",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe1.eligible",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe1.corrected",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe1.corrected",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe1.corrected",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe1.withdrawn",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe1.withdrawn",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe1.withdrawn",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe1.absent",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe1.absent",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe1.absent",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe2.eligible",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe2.eligible",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe2.eligible",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe2.corrected",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe2.corrected",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe2.corrected",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe2.withdrawn",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe2.withdrawn",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe2.withdrawn",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe2.absent",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe2.absent",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe2.absent",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy0.eligible",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy0.eligible",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy0.eligible",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy0.corrected",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy0.corrected",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy0.corrected",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy0.withdrawn",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy0.withdrawn",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy0.withdrawn",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy0.absent",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy0.absent",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy0.absent",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy1.eligible",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy1.eligible",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy1.eligible",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy1.corrected",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy1.corrected",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy1.corrected",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy1.withdrawn",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy1.withdrawn",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy1.withdrawn",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy1.absent",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy1.absent",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy1.absent",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy2.eligible",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy2.eligible",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy2.eligible",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy2.corrected",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy2.corrected",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy2.corrected",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy2.withdrawn",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy2.withdrawn",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy2.withdrawn",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy2.absent",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy2.absent",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy2.absent",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        }
+      ],
+      "p50_ms": 13.129585500792018,
+      "p95_ms": 17.858931650152954
+    },
+    "candidate": {
+      "correct": 144,
+      "false_result_cases": 0,
+      "missed_cases": 0,
+      "timeouts": 0,
+      "timings_ms": [
+        2.4368659978790674,
+        1.696815001196228,
+        1.2064559996360913,
+        1.297220998822013,
+        0.9161630005110055,
+        1.438831000996288,
+        1.0570529993856326,
+        1.3305300017236732,
+        0.9993670028052293,
+        1.6177479992620647,
+        0.8876509964466095,
+        1.3722029980272055,
+        1.3677549977728631,
+        1.6917579996515997,
+        1.1805270005424973,
+        1.649916001042584,
+        1.2564600001496729,
+        1.2889989993709605,
+        1.1455750027380418,
+        1.3227880008344073,
+        1.1232820033910684,
+        1.4715700017404743,
+        1.0997669996868353,
+        1.9853649973811116,
+        1.594512999872677,
+        1.8684800015762448,
+        0.9630229978938587,
+        1.828402000683127,
+        1.207567001983989,
+        1.828972002840601,
+        1.1565819986572023,
+        1.2396950005495455,
+        1.0807690014189575,
+        1.8814909999491647,
+        1.3862630003131926,
+        3.0994919980003033,
+        1.4975689991842955,
+        1.4844590004940983,
+        2.225141997769242,
+        1.4097980019869283,
+        1.0923549998551607,
+        1.8497829987609293,
+        1.0301629990863148,
+        1.4117509999778122,
+        0.9219620005751494,
+        1.4467830005742144,
+        1.3154980006220285,
+        1.994958998693619,
+        3.022598997631576,
+        1.5513190010096878,
+        1.303509998251684,
+        1.8179660000896547,
+        1.163642002211418,
+        1.7395189970557112,
+        0.9227029986504931,
+        1.3646810002683196,
+        1.4188320019457024,
+        1.3975500005471986,
+        1.117503001296427,
+        1.8385959992883727,
+        1.6172670002561063,
+        2.145833997929003,
+        1.1532769967743661,
+        2.1804250027344096,
+        1.2870450009359047,
+        1.8578349991003051,
+        1.291571999900043,
+        1.7301549996773247,
+        1.5333219998865388,
+        1.2944769987370819,
+        1.2886579970654566,
+        2.2275549999903888,
+        3.0134650005493313,
+        2.38833399998839,
+        1.211152000905713,
+        2.140885997505393,
+        1.365772001008736,
+        2.6201189975836314,
+        1.2884280004072934,
+        1.7641759986872785,
+        1.0191569999733474,
+        3.4824639988073613,
+        1.573921999806771,
+        1.5114189991436433,
+        1.589215000421973,
+        1.7801490030251443,
+        1.3053519978711847,
+        1.3653019996127114,
+        1.794732001144439,
+        1.8524469996918924,
+        1.2730550006381236,
+        1.6883730022527743,
+        0.9384559998579789,
+        1.309569001023192,
+        0.8566549986426253,
+        1.564397996844491,
+        1.2672359989664983,
+        1.7866390007839072,
+        1.0662569984560832,
+        1.7356129974359646,
+        1.343009000265738,
+        1.40839600135223,
+        0.8675809986016247,
+        1.317540998570621,
+        1.0134680014743935,
+        1.4457920005952474,
+        1.0215900001639966,
+        2.476795998518355,
+        1.3590020025731064,
+        1.4041400027053896,
+        1.0960009967675433,
+        1.4976390011725016,
+        1.2365000002318993,
+        1.5924799990898464,
+        0.8957130012277048,
+        1.268417003302602,
+        1.0163330007344484,
+        1.351170998532325,
+        1.3412359985522926,
+        1.6626239994366188,
+        2.5014929997269064,
+        1.82176200178219,
+        1.1346989995217882,
+        1.4675239981443156,
+        0.9534790006000549,
+        1.6871500010893214,
+        0.9103949996642768,
+        1.2581020018842537,
+        1.9756800029426813,
+        1.5827860006538685,
+        1.2656729995796923,
+        1.5767670010973234,
+        1.2985620014660526,
+        1.6300960014632437,
+        0.928612000279827,
+        1.4122419997875113,
+        1.190261998999631,
+        1.2978109989489894,
+        0.894070999493124,
+        2.169388000766048,
+        1.3415770008577965,
+        1.472500996896997,
+        1.0106440022354946,
+        2.193034000811167
+      ],
+      "outcomes": [
+        {
+          "case": "meeting0.eligible",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting0.eligible",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting0.eligible",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting0.corrected",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting0.corrected",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting0.corrected",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting0.withdrawn",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting0.withdrawn",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting0.withdrawn",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting0.absent",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting0.absent",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting0.absent",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting1.eligible",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting1.eligible",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting1.eligible",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting1.corrected",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting1.corrected",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting1.corrected",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting1.withdrawn",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting1.withdrawn",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting1.withdrawn",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting1.absent",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting1.absent",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting1.absent",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting2.eligible",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting2.eligible",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting2.eligible",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting2.corrected",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting2.corrected",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting2.corrected",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "meeting2.withdrawn",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting2.withdrawn",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting2.withdrawn",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting2.absent",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting2.absent",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "meeting2.absent",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden0.eligible",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden0.eligible",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden0.eligible",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden0.corrected",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden0.corrected",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden0.corrected",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden0.withdrawn",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden0.withdrawn",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden0.withdrawn",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden0.absent",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden0.absent",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden0.absent",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden1.eligible",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden1.eligible",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden1.eligible",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden1.corrected",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden1.corrected",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden1.corrected",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden1.withdrawn",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden1.withdrawn",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden1.withdrawn",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden1.absent",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden1.absent",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden1.absent",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden2.eligible",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden2.eligible",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden2.eligible",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden2.corrected",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden2.corrected",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden2.corrected",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "garden2.withdrawn",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden2.withdrawn",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden2.withdrawn",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden2.absent",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden2.absent",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "garden2.absent",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe0.eligible",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe0.eligible",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe0.eligible",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe0.corrected",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe0.corrected",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe0.corrected",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe0.withdrawn",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe0.withdrawn",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe0.withdrawn",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe0.absent",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe0.absent",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe0.absent",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe1.eligible",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe1.eligible",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe1.eligible",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe1.corrected",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe1.corrected",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe1.corrected",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe1.withdrawn",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe1.withdrawn",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe1.withdrawn",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe1.absent",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe1.absent",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe1.absent",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe2.eligible",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe2.eligible",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe2.eligible",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe2.corrected",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe2.corrected",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe2.corrected",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "recipe2.withdrawn",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe2.withdrawn",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe2.withdrawn",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe2.absent",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe2.absent",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "recipe2.absent",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy0.eligible",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy0.eligible",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy0.eligible",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy0.corrected",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy0.corrected",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy0.corrected",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy0.withdrawn",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy0.withdrawn",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy0.withdrawn",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy0.absent",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy0.absent",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy0.absent",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy1.eligible",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy1.eligible",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy1.eligible",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy1.corrected",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy1.corrected",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy1.corrected",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy1.withdrawn",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy1.withdrawn",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy1.withdrawn",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy1.absent",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy1.absent",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy1.absent",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy2.eligible",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy2.eligible",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy2.eligible",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy2.corrected",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy2.corrected",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy2.corrected",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 1,
+          "expected": 1,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy2.withdrawn",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy2.withdrawn",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy2.withdrawn",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy2.absent",
+          "rep": 0,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy2.absent",
+          "rep": 1,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        },
+        {
+          "case": "astronomy2.absent",
+          "rep": 2,
+          "correct": true,
+          "timeout": false,
+          "returned": 0,
+          "expected": 0,
+          "false_results": 0
+        }
+      ],
+      "p50_ms": 1.379232999170199,
+      "p95_ms": 2.429586198195466
+    }
+  },
+  "temperature": "SHARED_CONNECTION_FIRST_SAMPLE_AND_ALTERNATING_WARM_NOT_OS_COLD",
+  "percentile": "LINEAR_INCLUSIVE",
+  "wall_seconds": 32.39665288499964,
+  "sqlite": "3.53.1",
+  "provider_calls": 0,
+  "provider_tokens": null,
+  "actual_cost": null,
+  "semantic_or_naturalness": "NOT_RUN",
+  "context_assembly": "NOT_MEASURED",
+  "live_index_mapping": "NOT_RUN",
+  "disk": {
+    "self.db.lock": {
+      "bytes": 0,
+      "allocated_bytes": 0
+    },
+    "self.db-shm": {
+      "bytes": 32768,
+      "allocated_bytes": 32768
+    },
+    "self.db-wal": {
+      "bytes": 4725672,
+      "allocated_bytes": 4726784
+    },
+    "self.db": {
+      "bytes": 102723584,
+      "allocated_bytes": 102723584
+    },
+    "self.db.privacy.json": {
+      "bytes": 2504,
+      "allocated_bytes": 4096
+    },
+    "self.db.privacy.json.lock": {
+      "bytes": 0,
+      "allocated_bytes": 0
+    }
+  }
+}

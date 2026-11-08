@@ -19,6 +19,11 @@ REBUILDABLE_LOOKUP_INDEXES = {
         "CREATE INDEX memory_user_note_lookup ON memories(entity_id,scope,privacy_class,lifecycle,assessment) "
         "WHERE substr(predicate_key,1,10)='user-note.'"
     ),
+    "memory_note_gram_coverage": (
+        "CREATE INDEX memory_note_gram_coverage ON memories(entity_id,scope,privacy_class,lifecycle,assessment,memory_id) "
+        "WHERE substr(predicate_key,1,10)='user-note.' AND memory_type='SEMANTIC' "
+        "AND epistemic_kind='STATEMENT' AND authority='DIRECT'"
+    ),
     "artifacts_event_lookup": "CREATE INDEX artifacts_event_lookup ON artifacts(created_event_id)",
     "memory_dependency_parent_lookup": "CREATE INDEX memory_dependency_parent_lookup ON memory_dependencies(parent_kind,parent_id,memory_id)",
     "memory_consolidated_lookup": (

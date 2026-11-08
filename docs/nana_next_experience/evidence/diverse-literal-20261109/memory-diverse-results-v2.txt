@@ -1,0 +1,21 @@
+{"memory_rows": 1000, "wall_seconds": 2.3633378129998164, "scores": {"baseline": {"correct": 72, "false_result_cases": 0, "timeouts": 0, "p50_ms": 0.8101150015136227, "p95_ms": 1.0626446002788725}, "candidate": {"correct": 72, "false_result_cases": 0, "timeouts": 0, "p50_ms": 0.37599400093313307, "p95_ms": 0.5112028009534697}}}
+{"memory_rows": 10000, "wall_seconds": 23.874117962001037, "scores": {"baseline": {"correct": 72, "false_result_cases": 0, "timeouts": 0, "p50_ms": 11.657631499474519, "p95_ms": 17.046754150578636}, "candidate": {"correct": 72, "false_result_cases": 0, "timeouts": 0, "p50_ms": 5.910667499847477, "p95_ms": 8.948941702328739}}}
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/nana-unified-release/tools/nana_next_experience/memory_diverse_compare.py", line 156, in <module>
+    if __name__ == '__main__': main()
+                               ^^^^^^
+  File "/workspace/nana-unified-release/tools/nana_next_experience/memory_diverse_compare.py", line 132, in main
+    add(memory, 'noise.' + str(index), text, entity='other' if index % 5 == 0 else 'bench',
+  File "/workspace/nana-unified-release/tools/nana_next_experience/memory_diverse_compare.py", line 49, in add
+    eid = memory.capture(EvidenceInput(provenance=provenance, text=text, privacy_class=privacy,
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/nana-unified-release/src/nana_core/continuity/memory.py", line 109, in capture
+    tx.put("continuity_evidence", {"evidence_id": evidence_id,
+  File "/workspace/nana-unified-release/src/nana_core/storage/sqlite_store.py", line 51, in put
+    self.store._put(table, row)
+  File "/workspace/nana-unified-release/src/nana_core/storage/sqlite_store.py", line 213, in _put
+    allowed = {r["name"] for r in self.db.execute(f"PRAGMA table_info({table})")}
+                                  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+KeyboardInterrupt

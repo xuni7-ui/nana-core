@@ -80,6 +80,15 @@ class MaintenanceService:
         continuing_deep=now-metadata['last_deep_review_us']>=7*86_400_000_000
         gap=(self.pace if candidate else 100_000) if more or continuing_deep else self.interval
         with self.store.transaction('living.maintenance_slice',{'work_id':job['job_id'],'read_count':len(rows),'candidate_record_id':candidate}) as tx:
+            # Rebuild only this already-read bounded slice's derived lookup aid.
+            # Old writers leave per-note markers absent, so cursor recovery and
+            # weekly review can upgrade those notes without a startup full scan.
+            from .memory import is_user_note,NOTE_GRAM_COMPLETE,NOTE_GRAM_MAX_CHARS
+            for source in selected:
+                if (is_user_note(source) and len(source['text'])<=NOTE_GRAM_MAX_CHARS
+                        and not self.store.db.execute('SELECT 1 FROM memory_terms WHERE memory_id=? AND term=?',
+                            (source['memory_id'],NOTE_GRAM_COMPLETE)).fetchone()):
+                    self.records.memory._index(source['memory_id'],source['text'])
             tx.update('jobs',job['job_id'],cursor=cursor,body_json=canonical(metadata),revision=job['revision']+1,due_at_us=now+gap,updated_at_us=now)
         return {'candidate_record_id':candidate,'candidate_record_ids':tuple(candidates),'mode':mode,'work_id':job['job_id'],'read_count':len(rows)}
     def _offer(self,selected,scope,mode):

@@ -1,3 +1,11 @@
+# Active continuation — final-source regression and matching package next
+
+Current batch implements source-qualified bounded literal-note trigrams in original memory_terms with legacy/long/two-character scan fallback, original maintenance bounded backfill and checked rebuildable covering index.1k/10k/100k144/144;200k142/144,0false,2timeouts/P9548.18ms. Index storage adds~0.8GB in200k fixture; no archive/reclamation claim.55related checks passed14.56s. Long draft16384/no Token budget increase, honest clipped-history metadata, finite SSE parser/provisional4096prefix;34related and2actual HTTP→UDS→Core→SSE checks pass. See evidence/diverse-literal-20261109 and resumed-20261109.
+
+Next immediately: commit/push current batch, fast-forward proper full-history validation clone and run final-source full pytest with absolute PYTHONPATH; first entry full2097/4fail/12skip preserved. Build two matching exact-source portable candidates, actual offline install and original BFF/Core/G32/feedback/same-DEV upgrade/restart/Dream/withdrawal, preserving real failures. Source/installation do not qualify phone/model/human/long-term/production. Continue original all A–H remainder, especially source-bound delivery feedback and continuous input/autonomy remaining paths. No APK until backend/client final scope actually closes; CURRENT266+409 unchanged.
+
+---
+
 # Active continuation — communication purpose and bounded Brain projection
 
 Original C correction response now acknowledges a sourced correction instead of invariably asking what response is wanted. Current-turn purpose is projected from committed C and rechecked before RENDER; original cognition deadline/revision/owner/privacy bound it.38related checks passed17.32s, no real calls. Entry f4 full regression2097pass/4fail/12skip594.70s: filtered full history resolves shallow ancestry blockers; remaining typed Brain header was invalid (>8 arrays), compacted without relaxing parser. Exact first failures retained in evidence/resumed-20261109. Current-source full regression/First-Life projection recheck remains to run.

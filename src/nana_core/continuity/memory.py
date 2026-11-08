@@ -14,14 +14,23 @@ from .contracts import EvidenceInput, MemoryCandidate, MemoryType
 
 PRIVACY_RANK = {"PUBLIC": 0, "PROJECT": 1, "PERSONAL": 2, "SECRET": 3}
 
+# Rebuildable lookup terms share the original memory_terms deletion lifecycle.
+# Completeness is per immutable payload; old binaries/long notes remain scanned.
+NOTE_GRAM_PREFIX = '@note-literal3-v1:'
+NOTE_GRAM_COMPLETE = NOTE_GRAM_PREFIX + 'complete'
+NOTE_GRAM_MAX_CHARS = 4096
+
 # Same qualification before ranking/LIMIT for literal lookup and G snapshots.
-USER_NOTE_QUALIFICATION = (
+USER_NOTE_HEADER_QUALIFICATION = (
     " AND substr(m.predicate_key,1,10)='user-note.'"
     " AND m.authority='DIRECT' AND m.epistemic_kind='STATEMENT'"
+)
+USER_NOTE_SOURCE_QUALIFICATION = (
     " AND e.source_namespace='recorded.conversation.input' AND e.source_kind='USER_STATEMENT'"
     " AND json_extract(e.provenance_json,'$.domain')='CONSENTED_INTERACTION'"
     " AND substr(e.source_reference,1,5)='note:' AND e.state='AVAILABLE'"
 )
+USER_NOTE_QUALIFICATION = USER_NOTE_HEADER_QUALIFICATION + USER_NOTE_SOURCE_QUALIFICATION
 
 
 def is_user_note(memory):
@@ -356,17 +365,46 @@ class MemoryService:
         if index and index[0] != REBUILDABLE_LOOKUP_INDEXES['memory_user_note_lookup']:
             raise CoreError('NOTE_RECALL_INDEX_DEFINITION_MISMATCH')
         hint = ' INDEXED BY memory_user_note_lookup' if index else ''
+        term_index=db.execute("SELECT sql FROM sqlite_master WHERE type='index' AND name='memory_terms_term_lookup'").fetchone()
+        if term_index and term_index[0]!=REBUILDABLE_LOOKUP_INDEXES['memory_terms_term_lookup']:
+            raise CoreError('NOTE_RECALL_INDEX_DEFINITION_MISMATCH')
+        # A substring match must contain its first normalized trigram. This is
+        # only a candidate accelerator: final literal/source checks stay exact.
+        # Two-character queries and missing legacy indexes retain the old path.
+        grams=tuple(dict.fromkeys(NOTE_GRAM_PREFIX+t.casefold()[:3] for t in terms))
+        accelerated=bool(term_index and all(len(t.casefold())>=3 for t in terms))
+        coverage=db.execute("SELECT sql FROM sqlite_master WHERE type='index' AND name='memory_note_gram_coverage'").fetchone()
+        if coverage and coverage[0]!=REBUILDABLE_LOOKUP_INDEXES['memory_note_gram_coverage']:
+            raise CoreError('NOTE_RECALL_INDEX_DEFINITION_MISMATCH')
+        coverage_hint=' INDEXED BY memory_note_gram_coverage' if coverage else hint
         db.set_progress_handler(lambda: int(time.monotonic() > deadline), 1000)
         try:
+            prefix="WITH "
+            memory_from="memories m"+hint
+            parameters=[]
+            if accelerated:
+                # EXCEPT is index-only: no payload from an unqualified header is
+                # opened. Unindexed notes remain in the candidate set, including
+                # notes written by old versions and payloads over the gram cap.
+                prefix+=("unindexed AS MATERIALIZED (SELECT m.memory_id FROM memories m"+coverage_hint+
+                    " WHERE "+where+USER_NOTE_HEADER_QUALIFICATION+" AND m.memory_type='SEMANTIC' EXCEPT "
+                    "SELECT memory_id FROM memory_terms INDEXED BY memory_terms_term_lookup WHERE term=?), "
+                    "candidate_ids AS MATERIALIZED (SELECT memory_id FROM unindexed UNION "
+                    "SELECT memory_id FROM memory_terms INDEXED BY memory_terms_term_lookup WHERE term IN ("+
+                    ','.join('?' for _ in grams)+")), ")
+                parameters.extend((*args,NOTE_GRAM_COMPLETE,*grams))
+                # Candidate-first primary-key probes avoid rejoining every note
+                # to evidence before the selective gram set is considered.
+                memory_from="candidate_ids c CROSS JOIN memories m ON m.memory_id=c.memory_id"
             rows = db.execute(
-                "WITH visible AS MATERIALIZED (SELECT m.memory_id,m.payload_artifact_id,m.rowid AS ordinal FROM memories m"
-                + hint + " JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE "
+                prefix+"visible AS MATERIALIZED (SELECT m.memory_id,m.payload_artifact_id,m.rowid AS ordinal FROM "
+                + memory_from + " CROSS JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE "
                 + where
                 + USER_NOTE_QUALIFICATION + ") "
                 "SELECT v.memory_id FROM visible v JOIN artifacts a ON a.artifact_id=v.payload_artifact_id WHERE ("
                 + match
                 + ") ORDER BY v.ordinal DESC LIMIT ?",
-                (*args, *terms, limit),
+                (*parameters, *args, *terms, limit),
             ).fetchall()
         except sqlite3.OperationalError as exc:
             if "interrupt" in str(exc).lower():
@@ -439,6 +477,13 @@ class MemoryService:
 
     def _index(self, memory_id, text):
         terms = set(re.findall(r"\w{2,64}", text.casefold()))
+        row=self.store.one('memories',memory_id)
+        if (row and row['memory_type']=='SEMANTIC' and row['epistemic_kind']=='STATEMENT'
+                and row['authority']=='DIRECT' and (row['predicate_key'] or '').startswith('user-note.')
+                and len(text)<=NOTE_GRAM_MAX_CHARS):
+            normalized=text.casefold()
+            terms.update(NOTE_GRAM_PREFIX+normalized[i:i+3] for i in range(max(0,len(normalized)-2)))
+            terms.add(NOTE_GRAM_COMPLETE)
         self.store.db.executemany("INSERT OR IGNORE INTO memory_terms VALUES(?,?)",
                                  ((memory_id, t) for t in terms))
 

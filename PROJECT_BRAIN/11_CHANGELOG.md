@@ -3259,3 +3259,7 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-09 · 原C交流目的、纠错回应及项目状态头闭包
 
 原C不再将每个CORRECTION当未知意图强制追问；保持纠错是来源报告、不自动改记忆事实。既有DialogueContext可选投影真实C目的/当前回复对象/cycle，原请求deadline及revision/隐私约束有效期，prepare核对当前原C并拒绝伪造，不增调用/第二意志/新权限。基线1失败，原HTTP/四模式/G32/context等38相关通过17.32s；初次开发NameError和错误测试路径保留。f4入口全仓2097通过4失败12跳过594.70s：浅历史祖先3项问题补全历史后排除，另1项暴露Brain状态头超8项数组限制，本批压缩当前头并保留原头及历史，原读取器/8192字节门不改。后续整体验证单列；真实模型/手机/自然度/生产不升级。
+
+### 2026-11-09 · 多样literal检索、旧笔记派生回补与长回复真实网络链
+
+同一原Store/48冻结query/100ms/四结果/正负各24对照，复用memory_terms有界trigram和逐笔完整标记，旧写者/长笔记/两字查询保留扫描，完整来源资格仍在LIMIT前；新增可重建覆盖索引和原Maintenance每次已读slice内回补。55原notes/G/梦境/cold/隐私/B8相关通过14.56s。1k/10k/100k新144/144无误召，100k P959.724ms；200k142/144/误召0/2超时/P9548.180ms，原c9均超时。重建74.336s，DB增加约0.8GB/曾有约1GB WAL，明确增加存储而非回收。无收益SQL候选撤掉，初始fixture/lease失败和中途源码未冻结实验单独保留排除资格。长draft16384原Token预算不增，真实HTTP→UDS→C→SSE长短两场景2通过3.32s；34相关通过17.87s，历史截短有标记，feedback长2048限制不假装解除。当前源码全仓及新包安装下一步，CURRENT/APK/生产未改。证据diverse-literal-20261109与resumed-20261109。
