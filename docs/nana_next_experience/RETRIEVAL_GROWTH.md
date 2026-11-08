@@ -1,5 +1,7 @@
 # Original S8 → S2 → S3 retrieval growth — same continuous task
 
+2026-11-08 continuation: existing V1/16 qualification stays valid. Explicit trusted host selection32 now has separate V2 independent original-G evaluation/transfer, later different-note actual RENDER, same-budget self fallback and original B8 continuity/withdrawal evidence.38related tests and24frozen later-query contrasts pass in declared DEV scope; P95 increases with the extra bounded work. This is not unrestricted or100k-scale learned retrieval. See evidence/retrieval-scope32-20261108/README.md; prior16-bound descriptions below remain historical V1 scope.
+
 Advanced Growth within the frozen framework. No second memory, learner, scheduler, emotion or permission authority. Source baseline8284360; final runtime commit is pinned in the eventual artifact manifest. This is bounded original-Core DEV execution, not human/real-model/cross-day qualification.
 
 ## Actual before / experience / after

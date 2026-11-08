@@ -1,0 +1,25 @@
+{
+  "frozen_spec_digest": "ea19fa9f5955ca8f8b8ff1aceaff337be3ac52c2db1f57d3fb7f2ea7b824c656",
+  "summaries": {
+    "baseline": {
+      "queries": 24,
+      "correct": 9,
+      "false_positive_queries": 0,
+      "positive_queries": 18,
+      "positive_queries_recalled": 3,
+      "scope_deferrals": 21,
+      "p50_ms": 0.7903899999999999,
+      "p95_ms": 1.08938
+    },
+    "candidate": {
+      "queries": 24,
+      "correct": 24,
+      "false_positive_queries": 0,
+      "positive_queries": 18,
+      "positive_queries_recalled": 18,
+      "scope_deferrals": 0,
+      "p50_ms": 1.676984,
+      "p95_ms": 1.897511
+    }
+  }
+}

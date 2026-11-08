@@ -13,7 +13,7 @@ import unicodedata
 
 from ..contracts import CoreError
 from ..storage import canonical, digest
-from .memory import MemoryService, is_user_note
+from .memory import MemoryService, is_user_note, USER_NOTE_QUALIFICATION
 from .records import RecordService
 from .open_agency.learning import IndependentEvaluator, LearningService
 from .open_agency.world import transform
@@ -23,7 +23,15 @@ EVALUATOR = "CORE_NOTE_RETRIEVAL_V1"
 MAX_NOTES = 16
 METHODS = ("IDENTITY", "CASEFOLD", "UNICODE_WORDS", "JOIN")
 SCOPE = {"max_notes": MAX_NOTES, "query_shape": "WORDLIKE", "read_only": True}
+EXPANDED_MAX_NOTES = 32
+EXPANDED_EVALUATOR = "CORE_NOTE_RETRIEVAL_V2"
+EXPANDED_SCOPE = {**SCOPE, "max_notes": EXPANDED_MAX_NOTES}
+QUALIFICATION_SCOPES = {EVALUATOR: SCOPE, EXPANDED_EVALUATOR: EXPANDED_SCOPE}
 ASCII_LOWER = str.maketrans("ABCDEFGHIJKLMNOPQRSTUVWXYZ", "abcdefghijklmnopqrstuvwxyz")
+
+
+def snapshot_evaluator(snapshot):
+    return EXPANDED_EVALUATOR if snapshot.get('max_notes', MAX_NOTES) == EXPANDED_MAX_NOTES else EVALUATOR
 
 
 def word_queries(terms):
@@ -43,8 +51,8 @@ class NoteRetrievalEvaluator:
         self.privacy = tuple(p for p in privacy_classes if p in {"PUBLIC", "PROJECT"})
         self.fallback = fallback or IndependentEvaluator()
 
-    def snapshot(self, scope, *, timeout_ms=100):
-        if scope not in self.scopes or not self.privacy:
+    def snapshot(self, scope, *, timeout_ms=100, max_notes=MAX_NOTES):
+        if scope not in self.scopes or not self.privacy or type(max_notes) is not int or max_notes not in {MAX_NOTES, EXPANDED_MAX_NOTES}:
             raise CoreError("NOTE_STRATEGY_SCOPE_BOUND")
         memory = MemoryService(self.store)
         memory._fresh()
@@ -54,25 +62,22 @@ class NoteRetrievalEvaluator:
         deadline = time.monotonic() + timeout_ms / 1000
         db.set_progress_handler(lambda: int(time.monotonic() > deadline), 1000)
         try:
-            rows = memory.query(
-                entity_ids=(self.entity_id,),
-                scopes=(scope,),
-                privacy_classes=self.privacy,
-                memory_types=("SEMANTIC",),
-                predicate_prefixes=("user-note.",),
-                limit=MAX_NOTES + 1,
-            )
-            if len(rows) > MAX_NOTES:
+            where, args = memory._query_filter((self.entity_id,), (scope,), self.privacy, False, ("SEMANTIC",))
+            rows = db.execute(
+                "SELECT m.memory_id,m.rowid AS lookup_ordinal FROM memories m "
+                "JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE "
+                + where + USER_NOTE_QUALIFICATION + " ORDER BY m.rowid DESC LIMIT ?",
+                (*args, max_notes + 1),
+            ).fetchall()
+            if len(rows) > max_notes:
                 raise CoreError("NOTE_STRATEGY_SCOPE_BOUND")
             notes = []
-            for row in rows:
+            for header in rows:
                 if time.monotonic() > deadline:
                     raise CoreError("NOTE_RECALL_TIME_BOUND")
+                row = memory.read(header['memory_id'])
                 if is_user_note(row):
-                    ordinal = db.execute(
-                        "SELECT rowid FROM memories WHERE memory_id=?", (row["memory_id"],)
-                    ).fetchone()[0]
-                    notes.append({**row, "lookup_ordinal": ordinal})
+                    notes.append({**row, "lookup_ordinal": header['lookup_ordinal']})
             notes.sort(key=lambda row: row["lookup_ordinal"])
             stamp = digest(
                 [
@@ -87,7 +92,7 @@ class NoteRetrievalEvaluator:
                     for r in notes
                 ]
             )
-            return {"scope": scope, "stamp": stamp, "notes": notes}
+            return {"scope": scope, "stamp": stamp, "notes": notes, "max_notes": max_notes}
         except sqlite3.OperationalError as exc:
             if "interrupt" in str(exc).lower():
                 raise CoreError("NOTE_RECALL_TIME_BOUND") from None
@@ -143,17 +148,20 @@ class NoteRetrievalEvaluator:
         return self.evaluate(method, cases)
 
     def evaluate(self, method, cases):
-        note_cases = [type(c.data) is dict and c.data.get("kind") == EVALUATOR for c in cases]
+        note_cases = [type(c.data) is dict and type(c.data.get("kind")) is str
+                      and c.data["kind"] in QUALIFICATION_SCOPES for c in cases]
         if not any(note_cases):
             return self.fallback.evaluate(method, cases)
-        if not all(note_cases):
+        if not all(note_cases) or len({c.data['kind'] for c in cases}) != 1:
             raise CoreError("NOTE_STRATEGY_MIXED_EVALUATION")
+        evaluator = cases[0].data['kind']
+        qualification = QUALIFICATION_SCOPES[evaluator]
         results = []
         for case in cases:
             data = case.data
             if set(data) != {"kind", "scope", "source_stamp", "terms"} or not word_queries(data["terms"]):
                 raise CoreError("NOTE_STRATEGY_INPUT_BOUND")
-            snapshot = self.snapshot(data["scope"])
+            snapshot = self.snapshot(data["scope"], max_notes=qualification['max_notes'])
             if snapshot["stamp"] != data["source_stamp"]:
                 raise CoreError("NOTE_STRATEGY_SOURCE_CHANGED")
             if case.expected != self.oracle(snapshot, data["terms"]):
@@ -174,9 +182,9 @@ class NoteRetrievalEvaluator:
             "passed": sum(r["passed"] for r in results),
             "cases": results,
             "all_passed": all(r["passed"] for r in results),
-            "evaluator": EVALUATOR,
+            "evaluator": evaluator,
             "entity_id": self.entity_id,
-            "qualification_scope": SCOPE,
+            "qualification_scope": qualification,
         }
 
 
@@ -196,16 +204,29 @@ def qualified_method(store, authority, entity_id, scope, privacy_classes):
     trial = records.read(rule["trial_record_id"])
     if trial["record_kind"] != "LEARNING_TRIAL" or trial["payload"].get("domain") != DOMAIN:
         return None
+    profiles = []
     for stage in ("EVALUATE", "TRANSFER"):
         result = trial["payload"]["results"].get(stage, {})
+        profile = result.get('evaluator')
         if (
-            result.get("evaluator") != EVALUATOR
+            type(profile) is not str or profile not in QUALIFICATION_SCOPES
             or result.get("entity_id") != entity_id
-            or result.get("qualification_scope") != SCOPE
+            or result.get("qualification_scope") != QUALIFICATION_SCOPES.get(profile)
             or result.get("all_passed") is not True
         ):
             return None
+        profiles.append(profile)
+    if len(set(profiles)) != 1:
+        return None
     return lesson_record, method
+
+
+def qualified_note_limit(store, selected):
+    """Read the independently checked scope; old lessons never inherit32."""
+    records = RecordService(store)
+    rule = records.read(selected[0])['payload']['rule']
+    trial = records.read(rule['trial_record_id'])['payload']
+    return trial['results']['EVALUATE']['qualification_scope']['max_notes']
 
 
 def case_for(snapshot, terms, label):
@@ -214,7 +235,7 @@ def case_for(snapshot, terms, label):
     return LearningCase(
         case_id=label,
         context="retained-notes-" + label,
-        data={"kind": EVALUATOR, "scope": snapshot["scope"], "source_stamp": snapshot["stamp"], "terms": list(terms)},
+        data={"kind": snapshot_evaluator(snapshot), "scope": snapshot["scope"], "source_stamp": snapshot["stamp"], "terms": list(terms)},
         expected=NoteRetrievalEvaluator.oracle(snapshot, terms),
     )
 
@@ -245,6 +266,7 @@ class NoteRetrievalGrowth:
 
     def __init__(self, runtime):
         self.runtime = runtime
+        self.max_notes = runtime.config.living.note_retrieval_notes_limit if runtime.config.living else MAX_NOTES
         self.evaluator = NoteRetrievalEvaluator(
             runtime.store, runtime.config.entity_id, runtime.config.scopes, runtime.config.privacy_classes
         )
@@ -275,7 +297,7 @@ class NoteRetrievalGrowth:
             if not RecordService(r.store).current_support(row["record_id"]):
                 continue
             body = RecordService(r.store).read(row["record_id"])["payload"]
-            if body.get("kind") != EVALUATOR or body.get("entity_id") != r.config.entity_id:
+            if type(body.get("kind")) is not str or body["kind"] not in QUALIFICATION_SCOPES or body.get("entity_id") != r.config.entity_id:
                 continue
             spec = LearningSpec.model_validate_json(canonical(body["spec"]))
             if (
@@ -399,19 +421,21 @@ class NoteRetrievalGrowth:
         if r.work.paused or "PROJECT" not in r.config.privacy_classes:
             return None
         try:
-            snapshot = self.evaluator.snapshot(scope)
+            snapshot = self.evaluator.snapshot(scope, max_notes=self.max_notes)
         except CoreError as exc:
             if exc.code in {"NOTE_RECALL_TIME_BOUND", "NOTE_RECALL_SAFE_POINT_REQUIRED", "NOTE_STRATEGY_SCOPE_BOUND"}:
                 return {"note_retrieval": "DEFER", "reason": exc.code}
             raise
         if len(snapshot["notes"]) < 3:
             return None  # no independent practice/evaluation/transfer yet
-        key = digest([r.config.entity_id, scope, snapshot["stamp"]])
+        key = digest([r.config.entity_id, scope, snapshot["stamp"], *([self.max_notes] if self.max_notes != MAX_NOTES else [])])
         if r.store.db.execute(
             "SELECT 1 FROM events WHERE source_namespace='living.note-retrieval' AND source_key=?", (key,)
         ).fetchone():
             return None
         selected = qualified_method(r.store, r.authority, r.config.entity_id, scope, r.config.privacy_classes)
+        if selected and qualified_note_limit(r.store, selected) < self.max_notes:
+            selected = None  # Independent scope qualification, not a counterexample to16.
         gaps = []
         for mid, terms in probes(snapshot, partial=selected is not None):
             method = selected[1] if selected else "IDENTITY"
@@ -487,7 +511,7 @@ class NoteRetrievalGrowth:
                         scope=scope,
                         target_id=learning_key,
                         payload={
-                            "kind": EVALUATOR,
+                            "kind": snapshot_evaluator(snapshot),
                             "entity_id": r.config.entity_id,
                             "spec": spec.model_dump(mode="json"),
                         },

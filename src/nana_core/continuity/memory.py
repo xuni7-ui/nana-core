@@ -14,6 +14,15 @@ from .contracts import EvidenceInput, MemoryCandidate, MemoryType
 
 PRIVACY_RANK = {"PUBLIC": 0, "PROJECT": 1, "PERSONAL": 2, "SECRET": 3}
 
+# Same qualification before ranking/LIMIT for literal lookup and G snapshots.
+USER_NOTE_QUALIFICATION = (
+    " AND substr(m.predicate_key,1,10)='user-note.'"
+    " AND m.authority='DIRECT' AND m.epistemic_kind='STATEMENT'"
+    " AND e.source_namespace='recorded.conversation.input' AND e.source_kind='USER_STATEMENT'"
+    " AND json_extract(e.provenance_json,'$.domain')='CONSENTED_INTERACTION'"
+    " AND substr(e.source_reference,1,5)='note:' AND e.state='AVAILABLE'"
+)
+
 
 def is_user_note(memory):
     """Explicitly consented user statement, never a lived event or permission."""
@@ -353,11 +362,7 @@ class MemoryService:
                 "WITH visible AS MATERIALIZED (SELECT m.memory_id,m.payload_artifact_id,m.rowid AS ordinal FROM memories m"
                 + hint + " JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE "
                 + where
-                + " AND substr(m.predicate_key,1,10)='user-note.'"
-                + " AND m.authority='DIRECT' AND m.epistemic_kind='STATEMENT'"
-                + " AND e.source_namespace='recorded.conversation.input' AND e.source_kind='USER_STATEMENT'"
-                + " AND json_extract(e.provenance_json,'$.domain')='CONSENTED_INTERACTION'"
-                + " AND substr(e.source_reference,1,5)='note:' AND e.state='AVAILABLE') "
+                + USER_NOTE_QUALIFICATION + ") "
                 "SELECT v.memory_id FROM visible v JOIN artifacts a ON a.artifact_id=v.payload_artifact_id WHERE ("
                 + match
                 + ") ORDER BY v.ordinal DESC LIMIT ?",

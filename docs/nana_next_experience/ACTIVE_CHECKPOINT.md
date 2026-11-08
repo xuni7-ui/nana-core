@@ -1,3 +1,9 @@
+# Active continuation — original G independently checked32-note candidate
+
+Current source after4123b6b implements separate opt-in V2/32 qualification, legacy16 unchanged, original C/G practice/EVALUATE/TRANSFER, source withdrawal, actual later different-note RENDER and original B8 continuity.38related checks pass;24later-query same-Store comparison9/24→24/24, no false positives, P951.09→1.90ms (quality at added cost). Existing stable-self fallback preserves recall at the same8192/1024 fixture budget. Initial errors retained. Full current-source regression and matched portable installation pending; no newAPK/CURRENT/production. See evidence/retrieval-scope32-20261108 and original task remainder. Feedback independentCI42491401749 now passed both jobs, privateSQLite3.53.1; no minimum3.51.3 claim.
+
+---
+
 # Active continuation — feedback compilation/HTTP/browser qualified
 
 User resumed from58418b4; fb828cad inherited source and added scoped qualification. Network/socket permissions now work. Actual full TS/Vite,66frontend units,25original Core/HTTP feedback/history and20four-viewport browser checks passed. Prior failures retained. GitHub client job also passed; first CI Core job correctly refused unsupported system SQLite, retry uses private standalone interpreter and original gate. Exact evidence: evidence/feedback-qualified-20261108. No new APK/CURRENT/production/real model/human/phone claim. Continue remaining original-Core/ten-domain work and batch backend before matching installation; previous pause below is historical.

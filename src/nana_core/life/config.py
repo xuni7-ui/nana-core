@@ -42,6 +42,7 @@ class LifeConfig(DTO):
     surface_bindings:tuple[SurfaceBinding,...]=Field(default=(),max_length=16)
     shared_presence:bool=False
     advanced_life:bool=False
+    note_retrieval_notes_limit:Literal[16,32]=16
     bilibili_life:BilibiliLifeConfig|None=None
     qq_channels:tuple[QQChannelBinding,...]=Field(default=(),max_length=16)
     bilibili_channels:tuple[BilibiliChannelBinding,...]=Field(default=(),max_length=16)
@@ -51,6 +52,7 @@ class LifeConfig(DTO):
         if self.bilibili_life is None:value.pop('bilibili_life',None)
         if not self.qq_channels:value.pop('qq_channels',None)
         if not self.bilibili_channels:value.pop('bilibili_channels',None)
+        if self.note_retrieval_notes_limit == 16:value.pop('note_retrieval_notes_limit',None)
         return value
     record_research_outcomes:bool=False
     world_sources:tuple[IntakeSource,...]=Field(default=(),max_length=16)

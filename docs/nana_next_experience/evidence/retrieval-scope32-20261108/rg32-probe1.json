@@ -1,0 +1,654 @@
+{
+  "scope": "SYNTHETIC_ORIGINAL_STORE_G_NO_REAL_MODEL",
+  "baseline_source": "4123b6b035705aeceec67a88b91275b96479fd3a",
+  "frozen_spec": {
+    "schema_version": 1,
+    "qualification": "NOTE_SCOPE32_LATER_QUERY_V1",
+    "source_bound": 32,
+    "timeout_ms": 100,
+    "result_limit": 4,
+    "provider_calls": 0,
+    "later_notes": [
+      "ALTAIR",
+      "CERES",
+      "PALLAS"
+    ],
+    "queries": [
+      {
+        "query": "ALTAIR",
+        "expected_later_index": 0
+      },
+      {
+        "query": "altair",
+        "expected_later_index": 0
+      },
+      {
+        "query": "Altair",
+        "expected_later_index": 0
+      },
+      {
+        "query": "ＡＬＴＡＩＲ",
+        "expected_later_index": 0
+      },
+      {
+        "query": "ALTA",
+        "expected_later_index": 0
+      },
+      {
+        "query": "TAIR",
+        "expected_later_index": 0
+      },
+      {
+        "query": "CERES",
+        "expected_later_index": 1
+      },
+      {
+        "query": "ceres",
+        "expected_later_index": 1
+      },
+      {
+        "query": "Ceres",
+        "expected_later_index": 1
+      },
+      {
+        "query": "ＣＥＲＥＳ",
+        "expected_later_index": 1
+      },
+      {
+        "query": "CERE",
+        "expected_later_index": 1
+      },
+      {
+        "query": "ERES",
+        "expected_later_index": 1
+      },
+      {
+        "query": "PALLAS",
+        "expected_later_index": 2
+      },
+      {
+        "query": "pallas",
+        "expected_later_index": 2
+      },
+      {
+        "query": "Pallas",
+        "expected_later_index": 2
+      },
+      {
+        "query": "ＰＡＬＬＡＳ",
+        "expected_later_index": 2
+      },
+      {
+        "query": "PALL",
+        "expected_later_index": 2
+      },
+      {
+        "query": "LLAS",
+        "expected_later_index": 2
+      },
+      {
+        "query": "NEBULA",
+        "expected_later_index": null
+      },
+      {
+        "query": "ALTAIR9",
+        "expected_later_index": null
+      },
+      {
+        "query": "CERES9",
+        "expected_later_index": null
+      },
+      {
+        "query": "PALLAS9",
+        "expected_later_index": null
+      },
+      {
+        "query": "MISSING",
+        "expected_later_index": null
+      },
+      {
+        "query": "SIRIUS",
+        "expected_later_index": null
+      }
+    ]
+  },
+  "frozen_spec_digest": "ea19fa9f5955ca8f8b8ff1aceaff337be3ac52c2db1f57d3fb7f2ea7b824c656",
+  "summaries": {
+    "baseline": {
+      "queries": 24,
+      "correct": 9,
+      "false_positive_queries": 0,
+      "positive_queries": 18,
+      "positive_queries_recalled": 3,
+      "scope_deferrals": 21,
+      "p50_ms": 0.7903899999999999,
+      "p95_ms": 1.08938
+    },
+    "candidate": {
+      "queries": 24,
+      "correct": 24,
+      "false_positive_queries": 0,
+      "positive_queries": 18,
+      "positive_queries_recalled": 18,
+      "scope_deferrals": 0,
+      "p50_ms": 1.676984,
+      "p95_ms": 1.897511
+    }
+  },
+  "results": {
+    "baseline": [
+      {
+        "query": "ALTAIR",
+        "expected": [
+          "3e3dc761-6382-40e5-b3b4-cbaa4235c6f3"
+        ],
+        "actual": [],
+        "gap": "NOTE_STRATEGY_SCOPE_BOUND",
+        "correct": false
+      },
+      {
+        "query": "altair",
+        "expected": [
+          "3e3dc761-6382-40e5-b3b4-cbaa4235c6f3"
+        ],
+        "actual": [],
+        "gap": "NOTE_STRATEGY_SCOPE_BOUND",
+        "correct": false
+      },
+      {
+        "query": "Altair",
+        "expected": [
+          "3e3dc761-6382-40e5-b3b4-cbaa4235c6f3"
+        ],
+        "actual": [],
+        "gap": "NOTE_STRATEGY_SCOPE_BOUND",
+        "correct": false
+      },
+      {
+        "query": "ＡＬＴＡＩＲ",
+        "expected": [
+          "3e3dc761-6382-40e5-b3b4-cbaa4235c6f3"
+        ],
+        "actual": [
+          "3e3dc761-6382-40e5-b3b4-cbaa4235c6f3"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "ALTA",
+        "expected": [
+          "3e3dc761-6382-40e5-b3b4-cbaa4235c6f3"
+        ],
+        "actual": [],
+        "gap": "NOTE_STRATEGY_SCOPE_BOUND",
+        "correct": false
+      },
+      {
+        "query": "TAIR",
+        "expected": [
+          "3e3dc761-6382-40e5-b3b4-cbaa4235c6f3"
+        ],
+        "actual": [],
+        "gap": "NOTE_STRATEGY_SCOPE_BOUND",
+        "correct": false
+      },
+      {
+        "query": "CERES",
+        "expected": [
+          "6db82950-9cc2-4b2e-bcc5-db9b35de1c1b"
+        ],
+        "actual": [],
+        "gap": "NOTE_STRATEGY_SCOPE_BOUND",
+        "correct": false
+      },
+      {
+        "query": "ceres",
+        "expected": [
+          "6db82950-9cc2-4b2e-bcc5-db9b35de1c1b"
+        ],
+        "actual": [],
+        "gap": "NOTE_STRATEGY_SCOPE_BOUND",
+        "correct": false
+      },
+      {
+        "query": "Ceres",
+        "expected": [
+          "6db82950-9cc2-4b2e-bcc5-db9b35de1c1b"
+        ],
+        "actual": [],
+        "gap": "NOTE_STRATEGY_SCOPE_BOUND",
+        "correct": false
+      },
+      {
+        "query": "ＣＥＲＥＳ",
+        "expected": [
+          "6db82950-9cc2-4b2e-bcc5-db9b35de1c1b"
+        ],
+        "actual": [
+          "6db82950-9cc2-4b2e-bcc5-db9b35de1c1b"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "CERE",
+        "expected": [
+          "6db82950-9cc2-4b2e-bcc5-db9b35de1c1b"
+        ],
+        "actual": [],
+        "gap": "NOTE_STRATEGY_SCOPE_BOUND",
+        "correct": false
+      },
+      {
+        "query": "ERES",
+        "expected": [
+          "6db82950-9cc2-4b2e-bcc5-db9b35de1c1b"
+        ],
+        "actual": [],
+        "gap": "NOTE_STRATEGY_SCOPE_BOUND",
+        "correct": false
+      },
+      {
+        "query": "PALLAS",
+        "expected": [
+          "6b4668d3-b780-4f3d-9c5e-c722e0210576"
+        ],
+        "actual": [],
+        "gap": "NOTE_STRATEGY_SCOPE_BOUND",
+        "correct": false
+      },
+      {
+        "query": "pallas",
+        "expected": [
+          "6b4668d3-b780-4f3d-9c5e-c722e0210576"
+        ],
+        "actual": [],
+        "gap": "NOTE_STRATEGY_SCOPE_BOUND",
+        "correct": false
+      },
+      {
+        "query": "Pallas",
+        "expected": [
+          "6b4668d3-b780-4f3d-9c5e-c722e0210576"
+        ],
+        "actual": [],
+        "gap": "NOTE_STRATEGY_SCOPE_BOUND",
+        "correct": false
+      },
+      {
+        "query": "ＰＡＬＬＡＳ",
+        "expected": [
+          "6b4668d3-b780-4f3d-9c5e-c722e0210576"
+        ],
+        "actual": [
+          "6b4668d3-b780-4f3d-9c5e-c722e0210576"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "PALL",
+        "expected": [
+          "6b4668d3-b780-4f3d-9c5e-c722e0210576"
+        ],
+        "actual": [],
+        "gap": "NOTE_STRATEGY_SCOPE_BOUND",
+        "correct": false
+      },
+      {
+        "query": "LLAS",
+        "expected": [
+          "6b4668d3-b780-4f3d-9c5e-c722e0210576"
+        ],
+        "actual": [],
+        "gap": "NOTE_STRATEGY_SCOPE_BOUND",
+        "correct": false
+      },
+      {
+        "query": "NEBULA",
+        "expected": [],
+        "actual": [],
+        "gap": "NOTE_STRATEGY_SCOPE_BOUND",
+        "correct": true
+      },
+      {
+        "query": "ALTAIR9",
+        "expected": [],
+        "actual": [],
+        "gap": "NOTE_STRATEGY_SCOPE_BOUND",
+        "correct": true
+      },
+      {
+        "query": "CERES9",
+        "expected": [],
+        "actual": [],
+        "gap": "NOTE_STRATEGY_SCOPE_BOUND",
+        "correct": true
+      },
+      {
+        "query": "PALLAS9",
+        "expected": [],
+        "actual": [],
+        "gap": "NOTE_STRATEGY_SCOPE_BOUND",
+        "correct": true
+      },
+      {
+        "query": "MISSING",
+        "expected": [],
+        "actual": [],
+        "gap": "NOTE_STRATEGY_SCOPE_BOUND",
+        "correct": true
+      },
+      {
+        "query": "SIRIUS",
+        "expected": [],
+        "actual": [],
+        "gap": "NOTE_STRATEGY_SCOPE_BOUND",
+        "correct": true
+      }
+    ],
+    "candidate": [
+      {
+        "query": "ALTAIR",
+        "expected": [
+          "3e3dc761-6382-40e5-b3b4-cbaa4235c6f3"
+        ],
+        "actual": [
+          "3e3dc761-6382-40e5-b3b4-cbaa4235c6f3"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "altair",
+        "expected": [
+          "3e3dc761-6382-40e5-b3b4-cbaa4235c6f3"
+        ],
+        "actual": [
+          "3e3dc761-6382-40e5-b3b4-cbaa4235c6f3"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "Altair",
+        "expected": [
+          "3e3dc761-6382-40e5-b3b4-cbaa4235c6f3"
+        ],
+        "actual": [
+          "3e3dc761-6382-40e5-b3b4-cbaa4235c6f3"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "ＡＬＴＡＩＲ",
+        "expected": [
+          "3e3dc761-6382-40e5-b3b4-cbaa4235c6f3"
+        ],
+        "actual": [
+          "3e3dc761-6382-40e5-b3b4-cbaa4235c6f3"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "ALTA",
+        "expected": [
+          "3e3dc761-6382-40e5-b3b4-cbaa4235c6f3"
+        ],
+        "actual": [
+          "3e3dc761-6382-40e5-b3b4-cbaa4235c6f3"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "TAIR",
+        "expected": [
+          "3e3dc761-6382-40e5-b3b4-cbaa4235c6f3"
+        ],
+        "actual": [
+          "3e3dc761-6382-40e5-b3b4-cbaa4235c6f3"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "CERES",
+        "expected": [
+          "6db82950-9cc2-4b2e-bcc5-db9b35de1c1b"
+        ],
+        "actual": [
+          "6db82950-9cc2-4b2e-bcc5-db9b35de1c1b"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "ceres",
+        "expected": [
+          "6db82950-9cc2-4b2e-bcc5-db9b35de1c1b"
+        ],
+        "actual": [
+          "6db82950-9cc2-4b2e-bcc5-db9b35de1c1b"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "Ceres",
+        "expected": [
+          "6db82950-9cc2-4b2e-bcc5-db9b35de1c1b"
+        ],
+        "actual": [
+          "6db82950-9cc2-4b2e-bcc5-db9b35de1c1b"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "ＣＥＲＥＳ",
+        "expected": [
+          "6db82950-9cc2-4b2e-bcc5-db9b35de1c1b"
+        ],
+        "actual": [
+          "6db82950-9cc2-4b2e-bcc5-db9b35de1c1b"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "CERE",
+        "expected": [
+          "6db82950-9cc2-4b2e-bcc5-db9b35de1c1b"
+        ],
+        "actual": [
+          "6db82950-9cc2-4b2e-bcc5-db9b35de1c1b"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "ERES",
+        "expected": [
+          "6db82950-9cc2-4b2e-bcc5-db9b35de1c1b"
+        ],
+        "actual": [
+          "6db82950-9cc2-4b2e-bcc5-db9b35de1c1b"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "PALLAS",
+        "expected": [
+          "6b4668d3-b780-4f3d-9c5e-c722e0210576"
+        ],
+        "actual": [
+          "6b4668d3-b780-4f3d-9c5e-c722e0210576"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "pallas",
+        "expected": [
+          "6b4668d3-b780-4f3d-9c5e-c722e0210576"
+        ],
+        "actual": [
+          "6b4668d3-b780-4f3d-9c5e-c722e0210576"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "Pallas",
+        "expected": [
+          "6b4668d3-b780-4f3d-9c5e-c722e0210576"
+        ],
+        "actual": [
+          "6b4668d3-b780-4f3d-9c5e-c722e0210576"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "ＰＡＬＬＡＳ",
+        "expected": [
+          "6b4668d3-b780-4f3d-9c5e-c722e0210576"
+        ],
+        "actual": [
+          "6b4668d3-b780-4f3d-9c5e-c722e0210576"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "PALL",
+        "expected": [
+          "6b4668d3-b780-4f3d-9c5e-c722e0210576"
+        ],
+        "actual": [
+          "6b4668d3-b780-4f3d-9c5e-c722e0210576"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "LLAS",
+        "expected": [
+          "6b4668d3-b780-4f3d-9c5e-c722e0210576"
+        ],
+        "actual": [
+          "6b4668d3-b780-4f3d-9c5e-c722e0210576"
+        ],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "NEBULA",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "ALTAIR9",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "CERES9",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "PALLAS9",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "MISSING",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      },
+      {
+        "query": "SIRIUS",
+        "expected": [],
+        "actual": [],
+        "gap": null,
+        "correct": true
+      }
+    ]
+  },
+  "latency_samples_ms": {
+    "baseline": [
+      1.240645,
+      0.899318,
+      0.978445,
+      0.276492,
+      0.888781,
+      0.778327,
+      0.830285,
+      1.08938,
+      1.044604,
+      0.197985,
+      0.84027,
+      0.757367,
+      0.727502,
+      0.736265,
+      0.678469,
+      0.237063,
+      0.956883,
+      1.100236,
+      0.750246,
+      0.802453,
+      0.760722,
+      0.727191,
+      1.028399,
+      0.717858
+    ],
+    "candidate": [
+      1.736913,
+      1.564997,
+      1.78182,
+      0.425203,
+      1.579639,
+      1.770764,
+      1.424278,
+      2.21195,
+      1.684765,
+      0.357671,
+      1.639539,
+      1.820848,
+      1.669203,
+      1.456526,
+      1.823382,
+      0.225025,
+      1.744014,
+      1.931623,
+      1.520241,
+      1.865585,
+      1.548803,
+      1.538007,
+      1.897511,
+      1.779346
+    ]
+  },
+  "new_provider_calls": 0,
+  "model_tokens": "NOT_RUN",
+  "actual_model_cost": "NOT_RUN",
+  "virtual_time_not_residency": true,
+  "source_withdrawal_removes_strategy": true,
+  "fact_assessment_unchanged": true
+}

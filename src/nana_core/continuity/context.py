@@ -248,13 +248,13 @@ class ContextAssembler:
                 notes=memory_service.literal_notes(entity_ids=(request.entity_id,),scopes=request.scopes,
                     privacy_classes=privacy,terms=note_terms)
                 if not notes and 'PROJECT' in privacy:
-                    from .retrieval_growth import NoteRetrievalEvaluator, qualified_method, word_queries
+                    from .retrieval_growth import NoteRetrievalEvaluator, qualified_method, qualified_note_limit, word_queries
                     if word_queries(note_terms):
                         for scope in request.scopes:
                             selected=qualified_method(self.store,self.authority,request.entity_id,scope,privacy)
                             if selected:
                                 evaluator=NoteRetrievalEvaluator(self.store,request.entity_id,request.scopes,privacy)
-                                snapshot=evaluator.snapshot(scope)
+                                snapshot=evaluator.snapshot(scope,max_notes=qualified_note_limit(self.store,selected))
                                 notes=evaluator.lookup(selected[1],note_terms,snapshot)
                                 if notes:
                                     note_strategy_refs=(selected[0],)
@@ -516,6 +516,28 @@ class ContextAssembler:
             proposed = self._package(frame, request, policy, coverage, selected + [block], omitted, conflict_ids)
             if proposed.manifest.input_tokens <= proposed.manifest.input_limit:
                 selected.append(block)
+            elif block.kind == 'MEMORY' and set(block.source_memory_ids) & note_ids:
+                # A qualified lookup can carry a larger source proof. Reuse the
+                # existing sourced self fallback before dropping the answer's
+                # evidence. Canonical identity/adopted conventions remain; no
+                # mandatory block, conflict bundle or token limit is weakened.
+                fitted = False
+                for index, current in enumerate(selected):
+                    if current in mandatory:
+                        continue
+                    for fallback in self_fallbacks.get(current.block_id, ()):
+                        if fallback == current:
+                            continue
+                        trimmed = [*selected[:index], fallback, *selected[index+1:]]
+                        partial = omitted + [current.block_id + ':CURRENT_AND_LIVED_DETAIL_FOR_RECALL']
+                        proposal = self._package(frame, request, policy, coverage, trimmed + [block], partial, conflict_ids)
+                        if proposal.manifest.input_tokens <= proposal.manifest.input_limit:
+                            selected, omitted, fitted = trimmed + [block], partial, True
+                            break
+                    if fitted:
+                        break
+                if not fitted:
+                    omitted.append(block.block_id)
             elif block.block_id in self_fallbacks:
                 partial_omission=omitted+[block.block_id+':CURRENT_AND_LIVED_DETAIL']
                 for fallback in self_fallbacks[block.block_id]:

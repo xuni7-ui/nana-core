@@ -1,0 +1,54 @@
+FF..................                                                     [100%]
+=================================== FAILURES ===================================
+_ test_expanded_original_g_requires_new_qualification_and_later_use_survives_restart _
+
+tmp_path = PosixPath('/tmp/nana-rg32-first/test_expanded_original_g_requi0')
+
+    def test_expanded_original_g_requires_new_qualification_and_later_use_survives_restart(tmp_path):
+        home = tmp_path / 'home'
+>       initialize_expanded(home)
+
+tests/independent_life/test_retrieval_growth_expanded.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/independent_life/test_retrieval_growth_expanded.py:22: in initialize_expanded
+    write_config(home, type(config).model_validate({**config.model_dump(), 'note_retrieval_notes_limit': 32}))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+home = PosixPath('/tmp/nana-rg32-first/test_expanded_original_g_requi0/home')
+config = LifeConfig(schema_version=1, revision=1, project_root='/workspace/nana-unified-release', current_project_state=None, m...ls_per_day=24, provider_cost_ceiling_micro=0, provider_total_calls_limit=None, provider_total_reserved_cost_micro=None)
+
+    def write_config(home,config):
+        p=home_path(home)/'life.json'
+>       if p.exists():raise CoreError('LIFE_ALREADY_INITIALIZED')
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       nana_core.contracts.CoreError: LIFE_ALREADY_INITIALIZED
+
+src/nana_core/life/config.py:134: CoreError
+__ test_expanded_scope_rejects_33_notes_and_cannot_forge_legacy_qualification __
+
+tmp_path = PosixPath('/tmp/nana-rg32-first/test_expanded_scope_rejects_330')
+
+    def test_expanded_scope_rejects_33_notes_and_cannot_forge_legacy_qualification(tmp_path):
+        home = tmp_path / 'home'
+>       initialize_expanded(home)
+
+tests/independent_life/test_retrieval_growth_expanded.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tests/independent_life/test_retrieval_growth_expanded.py:22: in initialize_expanded
+    write_config(home, type(config).model_validate({**config.model_dump(), 'note_retrieval_notes_limit': 32}))
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+home = PosixPath('/tmp/nana-rg32-first/test_expanded_scope_rejects_330/home')
+config = LifeConfig(schema_version=1, revision=1, project_root='/workspace/nana-unified-release', current_project_state=None, m...ls_per_day=24, provider_cost_ceiling_micro=0, provider_total_calls_limit=None, provider_total_reserved_cost_micro=None)
+
+    def write_config(home,config):
+        p=home_path(home)/'life.json'
+>       if p.exists():raise CoreError('LIFE_ALREADY_INITIALIZED')
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       nana_core.contracts.CoreError: LIFE_ALREADY_INITIALIZED
+
+src/nana_core/life/config.py:134: CoreError
+=========================== short test summary info ============================
+FAILED tests/independent_life/test_retrieval_growth_expanded.py::test_expanded_original_g_requires_new_qualification_and_later_use_survives_restart
+FAILED tests/independent_life/test_retrieval_growth_expanded.py::test_expanded_scope_rejects_33_notes_and_cannot_forge_legacy_qualification
+2 failed, 18 passed in 8.01s

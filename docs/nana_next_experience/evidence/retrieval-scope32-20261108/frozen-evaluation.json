@@ -1,0 +1,111 @@
+{
+  "schema_version": 1,
+  "qualification": "NOTE_SCOPE32_LATER_QUERY_V1",
+  "source_bound": 32,
+  "timeout_ms": 100,
+  "result_limit": 4,
+  "provider_calls": 0,
+  "later_notes": [
+    "ALTAIR",
+    "CERES",
+    "PALLAS"
+  ],
+  "queries": [
+    {
+      "query": "ALTAIR",
+      "expected_later_index": 0
+    },
+    {
+      "query": "altair",
+      "expected_later_index": 0
+    },
+    {
+      "query": "Altair",
+      "expected_later_index": 0
+    },
+    {
+      "query": "ＡＬＴＡＩＲ",
+      "expected_later_index": 0
+    },
+    {
+      "query": "ALTA",
+      "expected_later_index": 0
+    },
+    {
+      "query": "TAIR",
+      "expected_later_index": 0
+    },
+    {
+      "query": "CERES",
+      "expected_later_index": 1
+    },
+    {
+      "query": "ceres",
+      "expected_later_index": 1
+    },
+    {
+      "query": "Ceres",
+      "expected_later_index": 1
+    },
+    {
+      "query": "ＣＥＲＥＳ",
+      "expected_later_index": 1
+    },
+    {
+      "query": "CERE",
+      "expected_later_index": 1
+    },
+    {
+      "query": "ERES",
+      "expected_later_index": 1
+    },
+    {
+      "query": "PALLAS",
+      "expected_later_index": 2
+    },
+    {
+      "query": "pallas",
+      "expected_later_index": 2
+    },
+    {
+      "query": "Pallas",
+      "expected_later_index": 2
+    },
+    {
+      "query": "ＰＡＬＬＡＳ",
+      "expected_later_index": 2
+    },
+    {
+      "query": "PALL",
+      "expected_later_index": 2
+    },
+    {
+      "query": "LLAS",
+      "expected_later_index": 2
+    },
+    {
+      "query": "NEBULA",
+      "expected_later_index": null
+    },
+    {
+      "query": "ALTAIR9",
+      "expected_later_index": null
+    },
+    {
+      "query": "CERES9",
+      "expected_later_index": null
+    },
+    {
+      "query": "PALLAS9",
+      "expected_later_index": null
+    },
+    {
+      "query": "MISSING",
+      "expected_later_index": null
+    },
+    {
+      "query": "SIRIUS",
+      "expected_later_index": null
+    }
+  ]
+}

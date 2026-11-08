@@ -1,0 +1,113 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+_ test_expanded_original_g_requires_new_qualification_and_later_use_survives_restart _
+
+tmp_path = PosixPath('/tmp/nana-rg32-before/test_expanded_original_g_requi0')
+
+    def test_expanded_original_g_requires_new_qualification_and_later_use_survives_restart(tmp_path):
+        home = tmp_path / 'home'
+>       initialize_expanded(home)
+
+tests/independent_life/test_retrieval_growth_expanded.py:32: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+home = PosixPath('/tmp/nana-rg32-before/test_expanded_original_g_requi0/home')
+
+    def initialize_expanded(home):
+        initialize(home, active=0)
+        config = load_config(home)
+        # Trusted explicit host setting. Missing/old config remains the16-note scope.
+>       write_config(home, type(config).model_validate({**config.model_dump(), 'note_retrieval_notes_limit': 32}))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       pydantic_core._pydantic_core.ValidationError: 1 validation error for LifeConfig
+E       note_retrieval_notes_limit
+E         Extra inputs are not permitted [type=extra_forbidden, input_value=32, input_type=int]
+E           For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden
+
+tests/independent_life/test_retrieval_growth_expanded.py:22: ValidationError
+__ test_expanded_scope_rejects_33_notes_and_cannot_forge_legacy_qualification __
+
+tmp_path = PosixPath('/tmp/nana-rg32-before/test_expanded_scope_rejects_330')
+
+    def test_expanded_scope_rejects_33_notes_and_cannot_forge_legacy_qualification(tmp_path):
+        home = tmp_path / 'home'
+>       initialize_expanded(home)
+
+tests/independent_life/test_retrieval_growth_expanded.py:73: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+home = PosixPath('/tmp/nana-rg32-before/test_expanded_scope_rejects_330/home')
+
+    def initialize_expanded(home):
+        initialize(home, active=0)
+        config = load_config(home)
+        # Trusted explicit host setting. Missing/old config remains the16-note scope.
+>       write_config(home, type(config).model_validate({**config.model_dump(), 'note_retrieval_notes_limit': 32}))
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       pydantic_core._pydantic_core.ValidationError: 1 validation error for LifeConfig
+E       note_retrieval_notes_limit
+E         Extra inputs are not permitted [type=extra_forbidden, input_value=32, input_type=int]
+E           For further information visit https://errors.pydantic.dev/2.13/v/extra_forbidden
+
+tests/independent_life/test_retrieval_growth_expanded.py:22: ValidationError
+_ test_old_host_scope_stays_16_and_unknown_capacity_is_not_a_false_counterexample _
+
+tmp_path = PosixPath('/tmp/nana-rg32-before/test_old_host_scope_stays_16_a0')
+
+    def test_old_host_scope_stays_16_and_unknown_capacity_is_not_a_false_counterexample(tmp_path):
+        home = tmp_path / 'home'
+        initialize(home, active=0)
+        with LifeApplication(home, clock=VirtualClock()) as app:
+            notes(app)
+            growth = app.runtime.work.note_retrieval_growth
+            growth.slice('project-work')
+            advance(app)
+            original = selected(app)
+            fillers(app)
+            assert growth.slice('project-work')['reason'] == 'NOTE_STRATEGY_SCOPE_BOUND'
+            assert selected(app) == original
+>           assert load_config(home).note_retrieval_notes_limit == 16
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/independent_life/test_retrieval_growth_expanded.py:95: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = LifeConfig(schema_version=1, revision=1, project_root='/workspace/nana-unified-release', current_project_state=None, m...ls_per_day=24, provider_cost_ceiling_micro=0, provider_total_calls_limit=None, provider_total_reserved_cost_micro=None)
+item = 'note_retrieval_notes_limit'
+
+    def __getattr__(self, item: str) -> Any:
+        private_attributes = object.__getattribute__(self, '__private_attributes__')
+        if item in private_attributes:
+            attribute = private_attributes[item]
+            if hasattr(attribute, '__get__'):
+                return attribute.__get__(self, type(self))  # type: ignore
+    
+            try:
+                # Note: self.__pydantic_private__ cannot be None if self.__private_attributes__ has items
+                return self.__pydantic_private__[item]  # type: ignore
+            except KeyError as exc:
+                raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}') from exc
+        else:
+            # `__pydantic_extra__` can fail to be set if the model is not yet fully initialized.
+            # See `BaseModel.__repr_args__` for more details
+            try:
+                pydantic_extra = object.__getattribute__(self, '__pydantic_extra__')
+            except AttributeError:
+                pydantic_extra = None
+    
+            if pydantic_extra and item in pydantic_extra:
+                return pydantic_extra[item]
+            else:
+                if hasattr(self.__class__, item):
+                    return super().__getattribute__(item)  # Raises AttributeError if appropriate
+                else:
+                    # this is the current error
+>                   raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+E                   AttributeError: 'LifeConfig' object has no attribute 'note_retrieval_notes_limit'
+
+../nana-test-env/lib/python3.12/site-packages/pydantic/main.py:1042: AttributeError
+=========================== short test summary info ============================
+FAILED tests/independent_life/test_retrieval_growth_expanded.py::test_expanded_original_g_requires_new_qualification_and_later_use_survives_restart
+FAILED tests/independent_life/test_retrieval_growth_expanded.py::test_expanded_scope_rejects_33_notes_and_cannot_forge_legacy_qualification
+FAILED tests/independent_life/test_retrieval_growth_expanded.py::test_old_host_scope_stays_16_and_unknown_capacity_is_not_a_false_counterexample
+3 failed in 0.34s

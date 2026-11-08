@@ -1,0 +1,39 @@
+F..                                                                      [100%]
+=================================== FAILURES ===================================
+_ test_expanded_original_g_requires_new_qualification_and_later_use_survives_restart _
+
+tmp_path = PosixPath('/tmp/nana-rg32-second/test_expanded_original_g_requi0')
+
+    def test_expanded_original_g_requires_new_qualification_and_later_use_survives_restart(tmp_path):
+        home = tmp_path / 'home'
+        initialize_expanded(home)
+        clock = VirtualClock()
+        with LifeApplication(home, clock=clock) as app:
+            train = notes(app)
+            fillers(app)
+            evaluator = app.runtime.work.note_retrieval_growth.evaluator
+            with pytest.raises(CoreError, match='NOTE_STRATEGY_SCOPE_BOUND'):
+                evaluator.snapshot('project-work')  # Legacy qualification stays bounded.
+            assert selected(app) is None
+            result = app.runtime.work.note_retrieval_growth.slice('project-work')
+            assert result['note_retrieval'] == 'OFFERED_TO_C'
+            assert not app.runtime.store.all('lessons')
+            identity = app.runtime.identity_id
+        with LifeApplication(home, clock=clock) as app:
+            advance(app)
+            lesson = selected(app)
+            assert lesson and lesson[1] == 'UNICODE_WORDS'
+            rule = RecordService(app.runtime.store).read(lesson[0])['payload']['rule']
+            trial = RecordService(app.runtime.store).read(rule['trial_record_id'])['payload']
+            for stage in ('EVALUATE', 'TRANSFER'):
+                assert trial['results'][stage]['qualification_scope']['max_notes'] == 32
+                assert trial['results'][stage]['evaluator'] == 'CORE_NOTE_RETRIEVAL_V2'
+                assert trial['results'][stage]['all_passed']
+>           assert trial['practice_competition']['selection_scope'] == 'PRACTICE_ONLY_NOT_QUALIFICATION'
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           KeyError: 'practice_competition'
+
+tests/independent_life/test_retrieval_growth_expanded.py:57: KeyError
+=========================== short test summary info ============================
+FAILED tests/independent_life/test_retrieval_growth_expanded.py::test_expanded_original_g_requires_new_qualification_and_later_use_survives_restart
+1 failed, 2 passed in 0.68s

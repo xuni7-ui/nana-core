@@ -1,6 +1,6 @@
 """Standalone D runtime contracts. All ingress remains synthetic/dev only."""
 from typing import Literal
-from pydantic import Field, model_validator
+from pydantic import Field, model_validator, model_serializer
 from ..contracts import DTO
 from ..continuity.subject.contracts import SubjectInput
 from ..continuity.recurrence import RecurrenceSpec
@@ -22,6 +22,12 @@ class CapabilitySnapshot(DTO):
 
 
 class LivingRuntimeConfig(DTO):
+    note_retrieval_notes_limit: Literal[16,32] = 16
+    @model_serializer(mode='wrap')
+    def compatible_note_scope(self, handler):
+        value = handler(self)
+        if self.note_retrieval_notes_limit == 16:value.pop('note_retrieval_notes_limit', None)
+        return value
     max_idle_seconds: float = Field(default=2,ge=.02,le=30)
     maintenance_interval_us: int = Field(default=HOUR,ge=100_000)
     slice_items: int = Field(default=4,ge=1,le=16)
