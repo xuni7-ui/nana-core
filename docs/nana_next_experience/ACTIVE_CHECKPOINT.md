@@ -1,3 +1,11 @@
+# Active continuation — S1/266 merged DEV candidate awaiting host verification
+
+Runtime29664808db1dd5528a68868f64ad02d9de0e444f includes s1 18s pacing, SQL source eligibility and provenance-preserving same-candidate crash dedup; 80 related tests passed. Two equal builds SHA27b662ad14e0dad0416732e4c7e7a181aa24c680ae720009d3e3515d93bb2e3b; actual archive offline-installed and synthetic BFF + same DEV subject dream/virtual72h/source withdrawal tested. Delivery branch d9556ef adds explicit `server-409-s1-merge-2966480`, selector still pins prior266, NOT production. Field s1 source text-only dedup is unsafe and references absent memories.text; no text-only cross-source reuse. See evidence/s1-merge-20261108. APK409 unchanged, production appId/signature discrepancy unresolved.
+
+Next: get cloud operator isolated candidate installation/independent verification and s1 upgrade/rollback compatibility evidence, without production modification; separately continue 100k+ heldout, larger S8 scope, cold storage/retention, Android original-app upgrade path, real model/phone/cross-day gates. Retain host.json/Gateway drift, offhost restore and exposed listener as separate operator matters. No unauthorized production, privacy or paid operations.
+
+---
+
 # Active continuation — field hotfix merge required before host upgrade
 
 2026-11-08 user relays host operator report: 266 archive SHA verified; isolated offline candidate installed with private Python3.12.14/SQLite3.51.3, no Subject or production Store. Operator identifies three s1 maintenance changes absent from266: 18s candidate pacing, derived-summary deduplication, and SQL eligibility filtering. Treat report as unverified until actual field source/diff are received. In this workspace neither `/srv/nana-core/ops/handoff/codex-s1-266-20261108` nor its tar is accessible. Request the sanitized field handoff tar as an attachment, verify its full SHA and contents, compare s1/t6/266, integrate without losing C-driven consolidation/weekly review or provenance, and run focused regression including real burst/disk-growth and withdrawal/restart. No new release or production switch before that integration. Existing host.json/Core-Gateway mismatch, device appId/signature and public listener remain separate pending issues. User has already authorized isolated candidate install; do not ask again for that.

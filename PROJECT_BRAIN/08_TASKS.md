@@ -1444,3 +1444,8 @@ Delivery `1568a6e7f554cc8dd201663d078bc5d8e734205e` selects unchanged client409 
 ### 2026-11-08 · Cloud operator report requires reconciliation
 
 User relays read-only operator findings: Core ffa24b7-s1/Gateway t6 and host.json=t6 reportedly drift; maintenance hotfix difference requires source comparison before any upgrade. Reported SQLite3.46.1 must be checked in actual Core interpreter. Core memory_terms and separate Iris FAISS reportedly not bound; off-host backup restore remains unverified. Android4.0.1 reportedly uses life.nana.space; candidate409 manifest is life.nana.space.dev, so no in-place upgrade or state continuity is claimed. Candidate266 exists in delivery commit1568a6e, SHA94684d93…a6963, but host retrieval/install not established. These are user-relayed facts, not local production inspection. See ACTIVE_CHECKPOINT; production and privacy boundaries unchanged.
+
+
+### 2026-11-08 · S1 field maintenance merge candidate
+
+Verified user-supplied s1/t6/266 source handoff SHA185d2623…94bf; merged 18s candidate pacing and SQL lifecycle/assessment/epistemic filtering. Crash recovery dedup checks identical candidate evidence, entity/scope/privacy, exact parent set and payload; do not reuse unrelated sources on equal text. Runtime2966480: 80 related tests pass; two equal builds SHA27b662ad…2e3b, actual offline installation/DEV gateway and same DEV Subject consolidation/virtual72h/withdrawal passed. Delivery d9556ef adds separate candidate; selector remains266, cloud/production/human not qualified. APK409 unchanged and reported production appId differs. Remaining gates and initial test/probe failures: docs/nana_next_experience/evidence/s1-merge-20261108.

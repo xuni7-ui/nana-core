@@ -1,0 +1,7 @@
+{
+  "archive": "/dev/shm/nana-s1-merged-2966480/nana-first-life-portable-v1.tar.gz",
+  "sha256": "27b662ad14e0dad0416732e4c7e7a181aa24c680ae720009d3e3515d93bb2e3b",
+  "source_commit": "29664808db1dd5528a68868f64ad02d9de0e444f",
+  "bundle_files": 283,
+  "new_provider_calls": 0
+}

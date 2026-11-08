@@ -1913,3 +1913,8 @@ b25f7cb full regression 2043 passed/12 skipped in640.22s; original failed run pr
 ### 2026-11-07 · 266 candidate delivery and continuation
 
 Delivery `1568a6e7f554cc8dd201663d078bc5d8e734205e` selects unchanged client409 and Core `266272a92b5837b2458c107163bd95ea8e0d7fe4`. Core archive: 15,022,640 bytes, SHA-256 `94684d933480e195a93493863ac8b73abd3b75b548e53543c3db3997c55a6963`; two builds agree and the actual remote download matches. Offline installation and DEV same-subject upgrade/restart/source-withdrawal/usage tests passed; separate DEV BFF tested. Full regression is specifically source b25: 2043 passed/12 skipped, 640.22s; 266 has 16 focused cold-dependency passes. No APK rebuild, real provider call or production deployment. Real host/phone/model/cross-day and live vector mapping remain unverified; independent larger-scope retrieval qualification and physical hot-history archiving remain open. See `docs/nana_next_experience/ACTIVE_CHECKPOINT.md`.
+
+
+### 2026-11-08 · S1 field maintenance merge candidate
+
+Verified user-supplied s1/t6/266 source handoff SHA185d2623…94bf; merged 18s candidate pacing and SQL lifecycle/assessment/epistemic filtering. Crash recovery dedup checks identical candidate evidence, entity/scope/privacy, exact parent set and payload; do not reuse unrelated sources on equal text. Runtime2966480: 80 related tests pass; two equal builds SHA27b662ad…2e3b, actual offline installation/DEV gateway and same DEV Subject consolidation/virtual72h/withdrawal passed. Delivery d9556ef adds separate candidate; selector remains266, cloud/production/human not qualified. APK409 unchanged and reported production appId differs. Remaining gates and initial test/probe failures: docs/nana_next_experience/evidence/s1-merge-20261108.
