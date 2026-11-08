@@ -3090,3 +3090,8 @@ Delivery `1568a6e7f554cc8dd201663d078bc5d8e734205e` selects unchanged client409 
 ### 2026-11-08 · 10k synthetic exact retrieval comparison
 
 On the existing 10k synthetic Store copy, 24 new Chinese/ASCII exact-query cases and same-text other-entity distractors gave baseline target0/24 versus candidate24/24, candidate wrong-source0/24; local P50/P95 9.27/12.80ms versus0.37/0.70ms. Baseline retrieves ranked candidates, candidate retrieves explicit notes: different contracts. Not semantic/model/live or 100k+ independent qualification. Initial benchmark fixture failures and correction are preserved in docs/nana_next_experience/evidence/heldout-10k-20261108. Runtime266 and client409 unchanged; original task remains active.
+
+
+### 2026-11-08 · Cloud operator report requires reconciliation
+
+User relays read-only operator findings: Core ffa24b7-s1/Gateway t6 and host.json=t6 reportedly drift; maintenance hotfix difference requires source comparison before any upgrade. Reported SQLite3.46.1 must be checked in actual Core interpreter. Core memory_terms and separate Iris FAISS reportedly not bound; off-host backup restore remains unverified. Android4.0.1 reportedly uses life.nana.space; candidate409 manifest is life.nana.space.dev, so no in-place upgrade or state continuity is claimed. Candidate266 exists in delivery commit1568a6e, SHA94684d93…a6963, but host retrieval/install not established. These are user-relayed facts, not local production inspection. See ACTIVE_CHECKPOINT; production and privacy boundaries unchanged.

@@ -1,3 +1,9 @@
+# Active continuation — cloud operator reported version drift; reconcile first
+
+User relayed cloud operator read-only report 2026-11-08; not independently verified here. Operator reports running Core ffa24b7-s1 and Gateway ffa24b7-t6 with differing maintenance.py, host.json still pointing at t6, subject single self.db writer while separately active Iris writes its own store, Core lexical memory_terms with Iris FAISS separate, and off-host restore unverified. Do not assume candidate266 includes s1 hotfix: obtain sanitized s1/t6 source diff and compare. Reported host SQLite3.46.1 may refer to CLI/system Python; confirm the actual Core interpreter sqlite3.sqlite_version. Do not change production or host.json without explicit approval. User reports 4.0.1 appId life.nana.space; candidate409 manifest appId life.nana.space.dev, so it cannot be presented as an in-place update or assumed to share device state; signatures and phone actual package still need verification. Candidate266 archive remote URL and hash checked from development environment, cloud retrieval pending. No newer deployed status claimed. Host port listeners and actual exposure need separate authenticated operator assessment; no network changes authorized.
+
+---
+
 # Active continuation — 10k diverse synthetic retrieval evidence
 
 External benchmark added after b3d0124; on a private copy of the existing 10k synthetic Store, 24 distinct Chinese/ASCII exact note queries, with same-text other-entity distractors, yielded baseline 0/24 and candidate 24/24 target recall, candidate wrong source 0/24. Single-run P50/P95 baseline 9.27/12.80ms, candidate 0.37/0.70ms. Different result contracts, constrained synthetic examples; not semantic/live/long-term qualification. Initial privacy-sidecar and note-prefix fixture failures retained. See evidence/heldout-10k-20261108. The runtime delivery remains 266 and APK409 remains unchanged.
