@@ -74,6 +74,8 @@ class GatewayService:
         if receipt.state==Completion.UNKNOWN and receipt.operation=='MEMORY_NOTE':
             from .memory_notes import reconcile
             receipt=reconcile(self,key,principal,receipt)
+        if receipt.state==Completion.UNKNOWN and receipt.operation=='LANGUAGE_FEEDBACK':
+            receipt=self.reconcile_language_feedback(key,principal,receipt)
         if receipt.result and (
             self.receipt_privacy.get(key) != self._privacy_watermark()
             or not set(self.receipt_scopes.get(key, ())) <= set(self.privacy_for(principal))
@@ -511,6 +513,55 @@ class GatewayService:
                 self.ledger.read(key, principal.principal_id).model_dump(mode="json"), principal=principal
             )
 
+    def reconcile_language_feedback(self, key, principal, receipt):
+        """Only a matching original commit can settle UNKNOWN; never resend."""
+        import sqlite3
+        from ...continuity.records import RecordService
+        from ...storage import digest
+        from ..inspector import _ReadView
+
+        if Role.MANAGER not in principal.roles:
+            return receipt
+        with self.write_lock:
+            saved=self.ledger.entry(key)
+            if not saved or saved['principal']!=principal.principal_id:
+                return receipt
+            sample_id='web-review.'+digest([principal.principal_id,key])
+            path=self.supervisor.home / 'subject/self.db'
+            try:
+                with sqlite3.connect(path.as_uri()+'?mode=ro',uri=True) as db:
+                    db.row_factory=sqlite3.Row
+                    db.execute('PRAGMA query_only=ON');db.execute('BEGIN')
+                    view=_ReadView(db,path,self.binding.scope,self.privacy_for(principal))
+                    records=RecordService(view)
+                    event=db.execute("SELECT data_json FROM events WHERE source_namespace='language.review' AND source_key=?",(sample_id,)).fetchone()
+                    if not event:return receipt
+                    rid=json.loads(event[0])['data']['record_id']
+                    row=records.read(rid);payload=row['payload']
+                    sample=payload.get('sample',{})
+                    if (payload.get('person_kind')!='LIVED_LANGUAGE_SAMPLE'
+                            or payload.get('request_digest')!=saved['digest']
+                            or sample.get('sample_id')!=sample_id
+                            or sample.get('provenance')!='USER_PROVIDED_REVIEW'
+                            or sample.get('body_storage')!='DEPENDENT_RECORD'
+                            or not records.current_support(rid)):
+                        return receipt
+                    exchange=records.read(sample['review_target'])
+                    if exchange['payload'].get('entity_id')!=self.binding.entity_id:
+                        return receipt
+                    view.ensure_privacy_current()
+            except Exception:
+                return receipt
+            current=self.ledger.read(key,principal.principal_id)
+            if current.state!=Completion.UNKNOWN:return current
+            self.ledger.transition(key,Completion.VERIFIED,result={'state':'EXPLICIT_FEEDBACK_SAVED',
+                'sample_record_id':rid,'delivery_proven':False,'human_naturalness_qualified':False,
+                'learning_state':'NOT_RECONCILED','reconciled_from_original_commit':True})
+            self.receipt_privacy[key]=self._privacy_watermark()
+            self.receipt_scopes[key]=self.privacy_for(principal)
+            self._prune_receipt_cache()
+            return self.ledger.read(key,principal.principal_id)
+
     def language_feedback(self, principal, body):
         """Retain an explicit review through the original owner, not delivery proof."""
         import sqlite3
@@ -552,7 +603,8 @@ class GatewayService:
 
         def call():
             response=core_request(self.supervisor.home,{'operation':'language-feedback',
-                'sample':sample.model_dump(mode='json'),'exchange_record_id':body.exchange_record_id})
+                'sample':sample.model_dump(mode='json'),'exchange_record_id':body.exchange_record_id,
+                'request_digest':fingerprint(body.model_dump(mode='json'))})
             if response.get('ok') is not True:
                 raise ApiError('FEEDBACK_CORE_UNCONFIRMED',503)
             result=response['result']

@@ -321,3 +321,44 @@ def test_feedback_requires_auth_role_csrf_and_explicit_consent(running):
         assert http(server,'conversation/feedback','POST',{**body,'consent':consent},headers)[0]==400
     reader=paired(server,service,headers,['READER'])
     assert http(server,'conversation/feedback','POST',body,reader)[0]==403
+
+
+@pytest.mark.parametrize('cut',['after_commit','before_commit','wrong_digest','withdrawn_source'])
+def test_feedback_unknown_reconciles_only_matching_original_commit(running,monkeypatch,cut):
+    import time
+    import nana_core.life.live_api.bridge as bridge
+    from nana_core.life.live_api.ledger import OperationLedger
+    server,service=running;headers=login(server,service)
+    turn=http(server,'messages','POST',{**base(service,'feedback-cut-turn'),
+        'text':'SYNTHETIC feedback cut','retain_shared_life':True},headers)[1]['data']['result']
+    sample={'sample_id':'cut-sample','review_target':turn['exchange_record_id'],'mode':'CASUAL',
+        'context':'synthetic','candidate_response':turn['text'],'human_judgment':'PARTIAL',
+        'provenance':'USER_PROVIDED_REVIEW','observed_at_us':time.time_ns()//1000}
+    original=bridge.core_request;calls=[]
+    def lose_reply(home,command,**kwargs):
+        if command.get('operation')=='language-feedback':
+            calls.append(command)
+            if cut!='before_commit':original(home,command,**kwargs)
+            raise TimeoutError('synthetic lost feedback acknowledgement')
+        return original(home,command,**kwargs)
+    monkeypatch.setattr(bridge,'core_request',lose_reply)
+    body={**base(service,'feedback-cut'),'sample':sample,'exchange_record_id':turn['exchange_record_id'],'consent':True}
+    response=http(server,'conversation/feedback','POST',body,headers)[1]['data']
+    assert response['state']=='UNKNOWN'
+    if cut=='wrong_digest':
+        def corrupt(data):data['receipts']['feedback-cut']['digest']='f'*64
+        service.ledger.document.update(corrupt)
+    if cut=='withdrawn_source':
+        removed=http(server,'commands','POST',{**base(service,'erase-feedback-source'),'operation':'WITHDRAW',
+            'target_id':turn['message_memory_id']},headers)[1]['data']
+        assert removed['state']=='VERIFIED',removed
+    service.ledger=OperationLedger(service.ledger.document.path)
+    result=http(server,'receipts/feedback-cut',headers=headers)[1]['data']
+    assert result['state']==('VERIFIED' if cut=='after_commit' else 'UNKNOWN'),result
+    if cut=='after_commit':
+        assert result['result']['reconciled_from_original_commit'] is True
+        assert result['result']['learning_state']=='NOT_RECONCILED'
+        assert result['result']['delivery_proven'] is False
+    assert len(calls)==1
+    again=http(server,'receipts/feedback-cut',headers=headers)[1]['data']
+    assert again['state']==result['state'] and len(calls)==1

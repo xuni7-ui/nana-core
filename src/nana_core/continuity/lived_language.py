@@ -132,9 +132,11 @@ class LanguageService:
             raise CoreError('OPERATOR_AUTHORITY_REQUIRED')
         self.store, self._authority, self.records = store, authority, RecordService(store)
 
-    def record(self, sample, *, scope, entity_id, privacy, authority, exchange_record_id=None):
+    def record(self, sample, *, scope, entity_id, privacy, authority, exchange_record_id=None, request_digest=None):
         if authority is not self._authority or type(sample) is not LanguageSample:
             raise CoreError('LANGUAGE_REVIEW_AUTHORITY_REQUIRED')
+        if request_digest is not None and (type(request_digest) is not str or len(request_digest)!=64 or any(c not in '0123456789abcdef' for c in request_digest)):
+            raise CoreError('LANGUAGE_REVIEW_REQUEST_DIGEST_INVALID')
         if sample.observed_at_us > self.store.clock.utc_now_us():
             raise CoreError('LANGUAGE_REVIEW_TIME_INVALID')
         if not exchange_record_id and sample.body_storage!='SOURCE_REPORT':raise CoreError('LANGUAGE_REVIEW_BINDING_REQUIRED')
@@ -151,7 +153,8 @@ class LanguageService:
             rid = json.loads(old[0])['data']['record_id']
             existing = self.records.read(rid)
             if (existing['scope'] != scope or existing['payload']['sample'] != stored_sample.model_dump(mode='json')
-                    or existing['payload'].get('memory_use_feedback') != (use.model_dump(mode='json') if use else None)):
+                    or existing['payload'].get('memory_use_feedback') != (use.model_dump(mode='json') if use else None)
+                    or existing['payload'].get('request_digest') != request_digest):
                 raise CoreError('LANGUAGE_REVIEW_COLLISION')
             if not self.records.current_support(rid):
                 raise CoreError('LANGUAGE_REVIEW_SOURCE_WITHDRAWN')
@@ -182,6 +185,7 @@ class LanguageService:
         data = {}
         with self.store.transaction('subject.language_review_recorded', data, source_namespace='language.review', source_key=sample.sample_id) as tx:
             payload={'person_kind':'LIVED_LANGUAGE_SAMPLE','sample': stored_sample.model_dump(mode='json'), 'not_subject_experience': sample.provenance == 'PROJECT_SYNTHETIC'}
+            if request_digest is not None:payload['request_digest']=request_digest
             if use:payload['memory_use_feedback']=use.model_dump(mode='json')
             rid = self.records.create(tx, kind='EXPERIENCE_CANDIDATE', scope=scope, target_id=sample.mode, payload=payload, memories=(mid,), records=parents)
             if use:

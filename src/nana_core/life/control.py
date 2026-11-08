@@ -136,7 +136,7 @@ def dispatch(app, request):
             reason=request["reason"],
             authority=app.runtime.authority,
         ).model_dump(mode="json")
-    if op == "language-feedback" and set(request) == {"operation", "sample", "exchange_record_id"}:
+    if op == "language-feedback" and set(request) in ({"operation", "sample", "exchange_record_id"}, {"operation", "sample", "exchange_record_id", "request_digest"}):
         from ..continuity.lived_language import LanguageService, LanguageSample
         from ..continuity.learning import ExperienceService
 
@@ -152,6 +152,7 @@ def dispatch(app, request):
             privacy=head["privacy_class"],
             authority=app.runtime.authority,
             exchange_record_id=request["exchange_record_id"],
+            request_digest=request.get("request_digest"),
         )
         eid = service.experience(rid, app.runtime.authority)
         lesson = None

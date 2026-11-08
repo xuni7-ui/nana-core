@@ -1,3 +1,9 @@
+# Active continuation — feedback UNKNOWN commit reconciliation
+
+Original feedback records optionally bind the request fingerprint in the existing dependency-bound record envelope (legacy samples unchanged). On UNKNOWN receipt GET, the BFF only reads a matching original language.review commit under principal/scope/privacy/source checks. It can confirm feedback saved without provider calls or redispatch; learning_state=NOT_RECONCILED and delivery_proven=false stay explicit. Missing commit, wrong digest and withdrawn source remain UNKNOWN. Actual loopback owner/Store cuts before/after commit plus restart of receipt ledger, mismatch and withdrawal: final36related tests passed27.36s. This does not reconcile model billing or external platform delivery. Continue original backend and product task; no new APK/production change.
+
+---
+
 # Active continuation — original feedback client wiring
 
 Existing ChatPane now submits explicit retained-turn expression feedback through generated v2 contracts, Web API and finite native mapping. Capability/Manager/current-session gates keep old servers compatible. UNKNOWN hides submit and only checks original receipt. Bodies stay in React memory. Web build and66frontend unit tests pass; synthetic HTTP browser scenario passed desktop/360/390/412 (4cases), original feedback HTTP2 passed. No APK rebuild or physical Android qualification. Feedback requires retained wording <=2048chars; unretained/long/unknown replies do not offer this entry. Next: commit-proof-only feedback reconciliation, then other original backend/product gaps; production untouched.
