@@ -1,0 +1,32 @@
+......FF                                                                 [100%]
+=================================== FAILURES ===================================
+_________ test_human_counterexample_still_blocks_synthetic_hypothesis __________
+
+app = <nana_core.life.application.LifeApplication object at 0x7f087bc1d3a0>
+
+    def test_human_counterexample_still_blocks_synthetic_hypothesis(app):
+        from nana_core.continuity.lived_language import learnable
+        record(app,1);record(app,2)
+        assert learnable(app.runtime.store,'project-work',('PROJECT',))['eligible']
+        record(app,3,tags=('TOO_TERSE',),provenance='USER_PROVIDED_REVIEW')
+>       assert not learnable(app.runtime.store,'project-work',('PROJECT',))['eligible']
+E       assert not True
+
+tests/person_self/test_learning.py:93: AssertionError
+____________ test_human_review_cannot_requalify_a_synthetic_lesson _____________
+
+app = <nana_core.life.application.LifeApplication object at 0x7f087bc1f590>
+
+    def test_human_review_cannot_requalify_a_synthetic_lesson(app):
+        record(app,1);_,synthetic_experience=record(app,2);synthetic_lesson=activate(app,synthetic_experience)
+        record(app,3,provenance='USER_PROVIDED_REVIEW')
+        _,human_experience=record(app,4,provenance='USER_PROVIDED_REVIEW')
+        before=expression_policy(app.runtime.store,scope='project-work',privacy=('PROJECT',),mode='CASUAL')
+>       assert before['rule'] is None
+E       AssertionError: assert {'kind': 'CONTEXTUAL_EXPRESSION', 'scope': 'interaction.expression', 'mode': 'CASUAL', 'hypothesis': 'REDUCE_UNNECESSARY_META_AND_VERBOSITY', ...} is None
+
+tests/person_self/test_learning.py:101: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_learning.py::test_human_counterexample_still_blocks_synthetic_hypothesis
+FAILED tests/person_self/test_learning.py::test_human_review_cannot_requalify_a_synthetic_lesson
+2 failed, 6 passed in 0.64s

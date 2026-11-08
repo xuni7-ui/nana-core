@@ -1,0 +1,107 @@
+..............F.................                                         [100%]
+=================================== FAILURES ===================================
+_ test_distinct_bound_reviews_survive_synthetic_counter_and_change_later_context _
+
+tmp_path = PosixPath('/tmp/nana-feedback-fix02/test_distinct_bound_reviews_su0')
+
+    def test_distinct_bound_reviews_survive_synthetic_counter_and_change_later_context(tmp_path):
+        """Synthetic local feedback types; no human/naturalness qualification."""
+        from .test_learning import record,activate
+        from nana_core.continuity.lived_language import LanguageSample,LanguageService
+        home=tmp_path/'home';initialize(home);clock=VirtualClock()
+        def render(context):
+            active=any(b['kind']=='LIVED_LANGUAGE' and json.loads(b['data_json'])['policy']['state']=='ACTIVE_BOUNDED_HYPOTHESIS' for b in context['blocks'])
+            return 'SYNTHETIC later concise' if active else 'SYNTHETIC earlier procedural'
+        with relay(home,'CHAT',renderer=render) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();service=LanguageService(app.runtime.store,app.runtime.authority)
+                for i in range(2):
+                    turn=app.chat('SYNTHETIC human-like input '+str(i),privacy='PROJECT',retain_shared_life=True,message_id='review-turn-'+str(i))
+                    sample=LanguageSample(sample_id='bound-review-'+str(i),review_target=turn['exchange_record_id'],
+                        mode='CASUAL',context='SYNTHETIC human-like input '+str(i),candidate_response=turn['text'],
+                        human_judgment='REJECTED',reason_tags=('TOO_VERBOSE',),provenance='USER_PROVIDED_REVIEW',observed_at_us=clock.utc_now_us())
+                    rid=service.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',
+                        authority=app.runtime.authority,exchange_record_id=turn['exchange_record_id'])
+                    eid=service.experience(rid,app.runtime.authority)
+                record(app,9,tags=('TOO_TERSE',),provenance='PROJECT_SYNTHETIC')
+                lesson=activate(app,eid)
+                identity=app.runtime.identity_id
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause()
+                after=app.chat('SYNTHETIC distinct later turn',privacy='PROJECT',message_id='review-later')
+>               assert app.runtime.identity_id==identity and after['text']=='SYNTHETIC later concise'
+E               AssertionError: assert ('0559b145-478...-63394684c970' == '0559b145-478...-63394684c970'
+E                 
+E                   0559b145-4783-4a8c-98d3-63394684c970 and '这次暂时无法生成回复，请查看模型状态。' == 'SYNTHETIC later concise'
+E                 
+E                 - SYNTHETIC later concise
+E                 + 这次暂时无法生成回复，请查看模型状态。)
+
+tests/person_self/test_dialogue_integration.py:154: AssertionError
+----------------------------- Captured stderr call -----------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 36940)
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 766, in __init__
+    self.handle()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 440, in handle
+    self.handle_one_request()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 428, in handle_one_request
+    method()
+  File "/workspace/nana-unified-release/tests/independent_life/test_dialogue.py", line 26, in do_POST
+    else:proposal['draft']={'text':renderer(request) if renderer else 'A deliberately synthetic language response','claim_memory_ids':[],'effect_status':descriptor['effect_status']}
+                                   ^^^^^^^^^^^^^^^^^
+  File "/workspace/nana-unified-release/tests/person_self/test_dialogue_integration.py", line 135, in render
+    active=any(b['kind']=='LIVED_LANGUAGE' and json.loads(b['data_json'])['policy']['state']=='ACTIVE_BOUNDED_HYPOTHESIS' for b in context['blocks'])
+                                                                                                                                   ~~~~~~~^^^^^^^^^^
+KeyError: 'blocks'
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 36958)
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 766, in __init__
+    self.handle()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 440, in handle
+    self.handle_one_request()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 428, in handle_one_request
+    method()
+  File "/workspace/nana-unified-release/tests/independent_life/test_dialogue.py", line 26, in do_POST
+    else:proposal['draft']={'text':renderer(request) if renderer else 'A deliberately synthetic language response','claim_memory_ids':[],'effect_status':descriptor['effect_status']}
+                                   ^^^^^^^^^^^^^^^^^
+  File "/workspace/nana-unified-release/tests/person_self/test_dialogue_integration.py", line 135, in render
+    active=any(b['kind']=='LIVED_LANGUAGE' and json.loads(b['data_json'])['policy']['state']=='ACTIVE_BOUNDED_HYPOTHESIS' for b in context['blocks'])
+                                                                                                                                   ~~~~~~~^^^^^^^^^^
+KeyError: 'blocks'
+----------------------------------------
+----------------------------------------
+Exception occurred during processing of request from ('127.0.0.1', 36976)
+Traceback (most recent call last):
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 697, in process_request_thread
+    self.finish_request(request, client_address)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 362, in finish_request
+    self.RequestHandlerClass(request, client_address, self)
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py", line 766, in __init__
+    self.handle()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 440, in handle
+    self.handle_one_request()
+  File "/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/http/server.py", line 428, in handle_one_request
+    method()
+  File "/workspace/nana-unified-release/tests/independent_life/test_dialogue.py", line 26, in do_POST
+    else:proposal['draft']={'text':renderer(request) if renderer else 'A deliberately synthetic language response','claim_memory_ids':[],'effect_status':descriptor['effect_status']}
+                                   ^^^^^^^^^^^^^^^^^
+  File "/workspace/nana-unified-release/tests/person_self/test_dialogue_integration.py", line 135, in render
+    active=any(b['kind']=='LIVED_LANGUAGE' and json.loads(b['data_json'])['policy']['state']=='ACTIVE_BOUNDED_HYPOTHESIS' for b in context['blocks'])
+                                                                                                                                   ~~~~~~~^^^^^^^^^^
+KeyError: 'blocks'
+----------------------------------------
+=========================== short test summary info ============================
+FAILED tests/person_self/test_dialogue_integration.py::test_distinct_bound_reviews_survive_synthetic_counter_and_change_later_context
+1 failed, 31 passed in 7.50s

@@ -2573,3 +2573,8 @@ Runtime4205f31 adds explicit stopped-owner recovery through original exclusive S
 ### 2026-11-08 · Backend priority and restricted context efficiency
 
 User reports cloud4205f31 isolated candidate/recovery verification; host namespace, provider billing, backup/restore and Gateway cutover remain separate unqualified gates and production unchanged. User prioritizes completing backend before further host iteration. Source fdc5192 avoids WorldModel and learning projections that restricted paths unconditionally discard;33 relevant tests pass;24 alternating same-Store synthetic context pairs have exact complete package/source equality with calls24/24→0/0, P50 4.87→4.97ms/P95 7.25→6.60ms. No global speed, token, real model or human quality claim. See docs/nana_next_experience/evidence/context-projection-20261108; original mission remains open.
+
+
+### 2026-11-08 · Original expression feedback source separation
+
+Source878b9e5 separates human-tagged and fixture support/counterexamples, prevents fixture veto/outvoting human reviews, keeps human counterexample authority and binds lesson origin to its qualifying evidence.100 related tests pass including synthetic bound feedback/later different context after restart; actual delivered-human review and per-memory mentionability remain unqualified. No factual trust rewrite, model call, production, or APK rebuild. See docs/nana_next_experience/evidence/feedback-provenance-20261108.

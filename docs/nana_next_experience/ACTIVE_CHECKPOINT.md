@@ -1,3 +1,11 @@
+# Active continuation — feedback source separation in original growth
+
+Runtime878b9e5 groups original expression feedback support/counters by provenance, prevents synthetic volume/veto from overriding actual human-tagged feedback, does not use UNREVIEWED as evidence, and binds qualifying lesson origin to its evidence group. Human counterexamples still veto synthetic hypotheses.100 related tests pass; bound local fixture feedback changed a later different-turn context after restart, not real human/delivery/naturalness evidence. Baseline/failure/limits in evidence/feedback-provenance-20261108. Backend only: no new APK, host release or production change.
+
+Continue actual confirmed-delivery attribution and per-memory mentionability, independent larger-scale S8 retrieval, storage governance and previous cloud recovery gates; user requested continuous work without repeated milestone stops, but real host/phone/model/cross-day checks remain distinct. See MEMORY_COLLABORATION_REFINEMENT.md.
+
+---
+
 # Active continuation — backend priority; host cutover paused
 
 User relays cloud operator report: 4205f31 isolated install and synthetic recovery positive/11 negatives passed; local/PID namespace and remote filesystem not fully established, provider billing still UNKNOWN, old Gateway rollback race and host.json drift remain. This is reported evidence not locally inspected. Per user, do not iterate host cutover while backend is unfinished; production unchanged. No further operator document required now.

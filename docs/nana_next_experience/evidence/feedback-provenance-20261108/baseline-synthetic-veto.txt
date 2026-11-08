@@ -1,0 +1,19 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_________ test_synthetic_counterexample_cannot_overrule_human_feedback _________
+
+app = <nana_core.life.application.LifeApplication object at 0x7f4d4c934dd0>
+
+    def test_synthetic_counterexample_cannot_overrule_human_feedback(app):
+        from nana_core.continuity.lived_language import learnable
+        record(app,1,provenance='USER_PROVIDED_REVIEW')
+        record(app,2,provenance='USER_PROVIDED_REVIEW')
+        record(app,3,tags=('TOO_TERSE',),provenance='PROJECT_SYNTHETIC')
+        result=learnable(app.runtime.store,'project-work',('PROJECT',))
+>       assert result['eligible'] and result['evidence_level']=='USER_PROVIDED_REVIEW'
+E       assert (False)
+
+tests/person_self/test_learning.py:83: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_learning.py::test_synthetic_counterexample_cannot_overrule_human_feedback
+1 failed in 0.17s
