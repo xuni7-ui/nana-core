@@ -1,0 +1,83 @@
+.F............................F.....F                                    [100%]
+=================================== FAILURES ===================================
+_____ test_unknown_reservation_allows_new_foreground_but_paces_background ______
+
+tmp_path = PosixPath('/tmp/unknown-gate-fix02/test_unknown_reservation_allow0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f3558c89160>
+
+    def test_unknown_reservation_allows_new_foreground_but_paces_background(tmp_path, monkeypatch):
+        home = tmp_path / 'home'
+        initialize(home, active=0)
+        clock = VirtualClock()
+        calls = []
+        def timeout(self, request):
+            calls.append(request.request_id)
+            raise TimeoutError()
+        monkeypatch.setattr(OpenAIJSONTransport, 'exchange', timeout)
+        with relay(home) as (router, _), LifeApplication(home, clock=clock, router=router) as app:
+            app.pause()
+            app.chat('SYNTHETIC initial timeout', message_id='unknown-first')
+            row = app.runtime.store.all('cognitive_requests')[0]
+            assert row['state'] == 'UNKNOWN' and len(calls) == 1
+            state = resource_state(app.runtime.store, app.runtime.config)
+            assert state.unresolved_terminal_calls == 1 and state.unresolved_live_calls == 0
+            living = app.runtime.config.living.model_copy(update={'max_estimated_cost_micro_per_day': 100})
+            cap = app.runtime.config.model_copy(update={'provider_unknown_calls_per_day': 1, 'living': living})
+            assert allocation_reason(app.runtime.store, cap, {'event_type': 'SELF_EVENT'}) == 'UNKNOWN_BILLING_BACKGROUND_PAUSED'
+>           assert allocation_reason(app.runtime.store, cap, {'event_type': 'USER_EVENT'}) is None
+E           AssertionError: assert 'MODEL_ESTIMATED_COST_EXHAUSTED' is None
+E            +  where 'MODEL_ESTIMATED_COST_EXHAUSTED' = allocation_reason(<nana_core.continuity.store.ContinuityStore object at 0x7f3558ad0c80>, RuntimeConfig(schema_target=13, living=LivingRuntimeConfig(max_idle_seconds=2.0, maintenance_interval_us=60000000, sli...ion=1, capabilities=(), devices=(), platforms=(), provenance='SYNTHETIC_OPERATOR_SNAPSHOT', execution_authority=False)), {'event_type': 'USER_EVENT'})
+E            +    where <nana_core.continuity.store.ContinuityStore object at 0x7f3558ad0c80> = <nana_core.presence.runtime.NanaRuntime object at 0x7f3558ad0290>.store
+E            +      where <nana_core.presence.runtime.NanaRuntime object at 0x7f3558ad0290> = <nana_core.life.application.LifeApplication object at 0x7f3558ad26f0>.runtime
+
+tests/independent_life/test_unknown_background_contract.py:46: AssertionError
+_______________ test_actual_start_pause_stop_restart_and_sigkill _______________
+
+tmp_path = PosixPath('/tmp/unknown-gate-fix02/test_actual_start_pause_stop_r0')
+
+    def test_actual_start_pause_stop_restart_and_sigkill(tmp_path):
+        home, binding, release = owned(tmp_path)
+        s = Supervisor(home, tmp_path / "host", binding, [release], active_release="qualified")
+        try:
+>           first = s.start()
+                    ^^^^^^^^^
+
+tests/first_life_android_v2/test_supervisor.py:47: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.life.live_api.supervisor.Supervisor object at 0x7f3558b6e360>
+automatic = False
+
+>   ???
+E   nana_core.life.live_api.contracts.ApiError: CORE_START_TIMEOUT_UNKNOWN
+
+src/nana_core/life/live_api/supervisor.py:407: ApiError
+________ test_controlled_release_switch_and_stop_latch_survives_reopen _________
+
+tmp_path = PosixPath('/tmp/unknown-gate-fix02/test_controlled_release_switch0')
+
+    def test_controlled_release_switch_and_stop_latch_survives_reopen(tmp_path):
+        home, binding, release = owned(tmp_path)
+        next_release = release.model_copy(update={"release_id": "next-qualified"})
+        supervisor = Supervisor(
+            home, tmp_path / "host", binding, [release, next_release], active_release=release.release_id
+        )
+        try:
+>           first = supervisor.start()
+                    ^^^^^^^^^^^^^^^^^^
+
+tests/first_life_android_v2/test_supervisor.py:132: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.life.live_api.supervisor.Supervisor object at 0x7f3558ad1a60>
+automatic = False
+
+>   ???
+E   nana_core.life.live_api.contracts.ApiError: CORE_START_TIMEOUT_UNKNOWN
+
+src/nana_core/life/live_api/supervisor.py:407: ApiError
+=========================== short test summary info ============================
+FAILED tests/independent_life/test_unknown_background_contract.py::test_unknown_reservation_allows_new_foreground_but_paces_background
+FAILED tests/first_life_android_v2/test_supervisor.py::test_actual_start_pause_stop_restart_and_sigkill
+FAILED tests/first_life_android_v2/test_supervisor.py::test_controlled_release_switch_and_stop_latch_survives_reopen
+3 failed, 34 passed in 43.37s

@@ -1,10 +1,14 @@
 """Existing-host UNKNOWN budget contract; only loopback fixtures are used."""
 import pytest
 import json
+import subprocess
+import sys
+from pathlib import Path
 
 from nana_core.life.application import LifeApplication
 from nana_core.life.config import LifeConfig
-from nana_core.life.live_api.supervisor import existing_identity, identity_request_state
+from nana_core.life.live_api.supervisor import existing_identity, identity_request_state, Supervisor, Release
+from nana_core.life.live_api.contracts import Binding
 from nana_core.presence.resources import allocation_reason, resource_state
 from nana_core.presence.contracts import DAY
 from nana_core.continuity.world_loop.cognition import OpenAIJSONTransport
@@ -74,3 +78,32 @@ def test_active_call_blocks_identity_gate_even_across_day(tmp_path, monkeypatch)
         assert resource_state(app.runtime.store, config).unresolved_live_calls == 1
         assert allocation_reason(app.runtime.store, config, {'event_type': 'USER_EVENT'}) == 'UNRESOLVED_PROVIDER_CALL'
         assert existing_identity(home)[2] == 1
+
+
+def test_terminal_unknown_survives_actual_dev_release_change(tmp_path, monkeypatch):
+    root = Path(__file__).resolve().parents[2]
+    home = tmp_path / 'home'
+    initialize(home, active=0)
+    clock = VirtualClock()
+    monkeypatch.setattr(OpenAIJSONTransport, 'exchange', lambda *args: (_ for _ in ()).throw(TimeoutError()))
+    with relay(home) as (router, _), LifeApplication(home, clock=clock, router=router) as app:
+        app.pause()
+        app.chat('SYNTHETIC timeout before release', message_id='release-unknown')
+        row = app.runtime.store.all('cognitive_requests')[0]
+        assert row['state'] == 'UNKNOWN'
+    identity,lineage,active,terminal = identity_request_state(home)
+    assert active == 0 and terminal == 1
+    revision = subprocess.check_output(['git','rev-parse','HEAD'], cwd=root, text=True).strip()
+    release = Release(release_id='before', root=str(root), python=sys.executable, source_commit=revision)
+    candidate = release.model_copy(update={'release_id': 'after'})
+    supervisor = Supervisor(home, tmp_path/'host', Binding(subject_id=identity,lineage_binding=lineage),
+                            [release,candidate], active_release='before')
+    try:
+        first = supervisor.start()
+        result = supervisor.change_release('after')
+        assert result['subject_id'] == first['subject_id'] == identity
+        assert result['unknown_requests'] == 1
+        assert identity_request_state(home)[2:] == (0,1)
+    finally:
+        try: supervisor.stop()
+        finally: supervisor.close()

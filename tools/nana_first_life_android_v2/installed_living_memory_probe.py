@@ -69,7 +69,9 @@ def run(bundle,work,prior,case_id="beacon",require_body_free_usage=False,previou
         assert not any('Friday at the north gate' in b.data_json for b in before.blocks)
         maintenance=app.runtime.work.maintenance;maintenance.interval=1_000_000;maintenance.discover()
         summary=None
-        for _ in range(64):
+        # Allow an existing due scan and paced source backlog to finish without
+        # weakening the Runtime's 18-second candidate interval.
+        for _ in range(256):
             clock.advance(1_000_000);app.runtime.lease.heartbeat();activity=maintenance.slice()
             if not activity or not activity.get('candidate_record_id'):continue
             rid=activity['candidate_record_id'];head,body=maintenance.candidate(rid)

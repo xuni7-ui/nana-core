@@ -1,0 +1,69 @@
+FF...................................                                    [100%]
+=================================== FAILURES ===================================
+____________ test_old_configuration_field_is_preserved_and_bounded _____________
+
+app = <nana_core.life.application.LifeApplication object at 0x7f3377000fb0>
+
+    def test_old_configuration_field_is_preserved_and_bounded(app):
+        raw = app.config.model_dump(mode='json')
+        raw['provider_unknown_calls_per_day'] = 7
+>       restored = LifeConfig.model_validate(raw)
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       pydantic_core._pydantic_core.ValidationError: 7 validation errors for LifeConfig
+E       materials
+E         Input should be a valid tuple [type=tuple_type, input_value=[{'material_id': 'm7e4f6a...sk_type': 'PYTHON_API'}], input_type=list]
+E           For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E       document_learning
+E         Input should be a valid tuple [type=tuple_type, input_value=[], input_type=list]
+E           For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E       surface_bindings
+E         Input should be a valid tuple [type=tuple_type, input_value=[], input_type=list]
+E           For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E       world_sources
+E         Input should be a valid tuple [type=tuple_type, input_value=[], input_type=list]
+E           For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E       controlled_projects
+E         Input should be a valid tuple [type=tuple_type, input_value=[], input_type=list]
+E           For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E       provider_hosts
+E         Input should be a valid tuple [type=tuple_type, input_value=[], input_type=list]
+E           For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E       remote_privacy
+E         Input should be a valid tuple [type=tuple_type, input_value=[], input_type=list]
+E           For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+
+tests/independent_life/test_unknown_background_contract.py:18: ValidationError
+_____ test_unknown_reservation_allows_new_foreground_but_paces_background ______
+
+tmp_path = PosixPath('/tmp/unknown-gate-fix01/test_unknown_reservation_allow0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f3376ffaf60>
+
+    def test_unknown_reservation_allows_new_foreground_but_paces_background(tmp_path, monkeypatch):
+        home = tmp_path / 'home'
+        initialize(home, active=0)
+        clock = VirtualClock()
+        calls = []
+        def timeout(self, request):
+            calls.append(request.request_id)
+            raise TimeoutError()
+        monkeypatch.setattr(OpenAIJSONTransport, 'exchange', timeout)
+        with relay(home) as (router, _), LifeApplication(home, clock=clock, router=router) as app:
+            app.pause()
+            app.chat('SYNTHETIC initial timeout', message_id='unknown-first')
+            row = app.runtime.store.all('cognitive_requests')[0]
+            assert row['state'] == 'UNKNOWN' and len(calls) == 1
+            state = resource_state(app.runtime.store, app.runtime.config)
+            assert state.unresolved_terminal_calls == 1 and state.unresolved_live_calls == 0
+            cap = app.runtime.config.model_copy(update={'provider_unknown_calls_per_day': 1})
+            assert allocation_reason(app.runtime.store, cap, {'event_type': 'SELF_EVENT'}) == 'UNKNOWN_BILLING_BACKGROUND_PAUSED'
+>           assert allocation_reason(app.runtime.store, cap, {'event_type': 'USER_EVENT'}) is None
+E           AssertionError: assert 'MODEL_ESTIMATED_COST_EXHAUSTED' is None
+E            +  where 'MODEL_ESTIMATED_COST_EXHAUSTED' = allocation_reason(<nana_core.continuity.store.ContinuityStore object at 0x7f3376e717c0>, RuntimeConfig(schema_target=13, living=LivingRuntimeConfig(max_idle_seconds=2.0, maintenance_interval_us=60000000, sli...ion=1, capabilities=(), devices=(), platforms=(), provenance='SYNTHETIC_OPERATOR_SNAPSHOT', execution_authority=False)), {'event_type': 'USER_EVENT'})
+E            +    where <nana_core.continuity.store.ContinuityStore object at 0x7f3376e717c0> = <nana_core.presence.runtime.NanaRuntime object at 0x7f3376e70d40>.store
+E            +      where <nana_core.presence.runtime.NanaRuntime object at 0x7f3376e70d40> = <nana_core.life.application.LifeApplication object at 0x7f3376e70890>.runtime
+
+tests/independent_life/test_unknown_background_contract.py:44: AssertionError
+=========================== short test summary info ============================
+FAILED tests/independent_life/test_unknown_background_contract.py::test_old_configuration_field_is_preserved_and_bounded
+FAILED tests/independent_life/test_unknown_background_contract.py::test_unknown_reservation_allows_new_foreground_but_paces_background
+2 failed, 35 passed in 16.87s

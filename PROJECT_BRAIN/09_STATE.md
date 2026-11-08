@@ -2543,3 +2543,8 @@ Verified user-supplied s1/t6/266 source handoff SHA185d2623…94bf; merged 18s c
 ### 2026-11-08 · Reported live configuration incompatibility
 
 User relays cloud operator isolated2966480 install and 25/25 synthetic checks; host production unchanged. Current LifeConfig rejects reported existing `provider_unknown_calls_per_day`; neither current nor repository ffa24b7 config contains it. Current readiness counts all requests in existing budgets, with no separate UNKNOWN daily limit. Removal/default8 was only reported as parse-compatible; actual budget semantic equivalence and rollback are not established. Await sanitized operator implementation/value and inspect full migration behavior before fixing or proposing production change. See ACTIVE_CHECKPOINT.
+
+
+### 2026-11-08 · UNKNOWN budget and release gate DEV compatibility
+
+Runtime6d7418c restores prior host config `provider_unknown_calls_per_day` and UTC daily background cap, preserves terminal UNKNOWN/reservations and independently permits later foreground work when other budgets allow. Supervisor distinguishes outstanding requests from terminal UNKNOWN while status retains both; PREPARED and runtime RESERVED deliberately remain stricter gates than field CALLING-only. 38 related tests and4 focused tests including real isolated DEV release change pass; two builds SHA5940be19…fb67, actual offline install/gateway/DEV dream-restart-withdrawal pass. Delivery6da2f55 is an isolated candidate only, no current selector/production/APK change; user-supplied operator report requires host verification, safe reconciliation and rollback still open. Evidence: docs/nana_next_experience/evidence/unknown-gate-20261108.
