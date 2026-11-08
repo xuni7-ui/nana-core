@@ -2616,3 +2616,7 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-08 · 治理 PR 检查入口（待审阅）
 
 治理分支增加轻量 PR 工作流，复用现有源码导航与便携导入定向测试；CI 结果以 GitHub 对该提交的实际运行回执为准，不影响现役主任务状态。
+
+### 2026-11-08 · 交付检查入口核对（治理分支待集成）
+
+固定交付提交 `5b4f589` 的 selector 所列文件已在隔离目录由现有 Next Experience 验证器校验；结果为一致性验证，不证明线上部署或真实体验。

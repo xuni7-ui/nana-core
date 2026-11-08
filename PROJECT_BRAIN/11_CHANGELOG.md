@@ -3237,3 +3237,11 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 - **改了什么**：新增仅在现役分支 PR 涉及治理入口或便携构建检查时运行的轻量工作流，复用现有导航检查和标准库定向测试。
 - **为什么**：现有 Next 工作流不在 PR 上自动运行，治理变更缺少对应 CI 回执；不修改原反馈/SQLite 资格流程。
 - **怎么验证**：本地运行现有两个检查并核对工作流仅调用它们；GitHub CI 的实际结论以该提交运行回执为准。无部署或服务启动。
+
+### 2026-11-08 · Next Experience 交付校验入口澄清（治理分支待集成）
+
+- **改了什么**：源码索引区分现有 CURRENT selector 验证器与历史 handoff 校验器，补充对应测试和固定交付快照验证范围。
+- **为什么**：两者校验的格式与保证范围不同；只链接历史工具会使开发者难以找到当前 selector 检查。
+- **怎么验证**：从交付提交 `5b4f589` 提取 selector 所列 Git 文件，在隔离目录运行 `python3 tools/nana_next_experience/verify_delivery.py --root /tmp/nana-delivery-review-5v4gmty3 --current CURRENT-DELIVERY.json`，得到 CURRENT_DELIVERY_CONSISTENCY_VERIFIED、42 个 APK/Web 文件相同；导航链接检查与 `git diff --check` 通过。未启动服务或验证生产、手机及语义兼容。
+
+- **集成记录**：第一阶段 PR #5 已合并为 `0742f0d47c7b59e9400b25d9d174b414f8b2b83f`，其治理 CI 已通过；本 selector 澄清仍待单独审阅。
