@@ -1,3 +1,9 @@
+# Active continuation — memory collaboration added to existing mission
+
+User requested native memory-expression / real feedback / conditional multi-route retrieval and S2/S3/S5/S6/S8 growth integration. Pinned reference analysis and evidence/gaps: MEMORY_COLLABORATION_REFINEMENT.md. No integration or quality gain has been established by this analysis. Keep in parallel with existing owner-fenced UNKNOWN recovery and release-stop race, not a new project; same Store/C/Manager, no paid/production/private/social activity, no APK rebuild. Freeze representative comparisons first; actual delivered feedback, per-memory mentionability vs fact credibility, source withdrawal, and different future conversation remain open.
+
+---
+
 # Active continuation — UNKNOWN recovery still open; stop-race fixed
 
 User reports cloud b257a09 candidate installed and synthetic legacy-config/UNKNOWN gates checked; report not independently inspected. Source8e7d2ad fixes Supervisor's pre-stop-only TOCTOU and manual start bypass: after stopping old owner recheck pending ledger before changing selected release; manual start also blocks outstanding work. Related27 tests pass, including late-pending race. Existing cloud candidate b257a09 lacks this fix; no new packaged candidate or production readiness claimed. See evidence/unknown-stop-race-20261108.

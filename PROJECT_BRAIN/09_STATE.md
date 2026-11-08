@@ -2558,3 +2558,8 @@ Runtime b257a09 additionally checks active provider work at dialogue session ent
 ### 2026-11-08 · UNKNOWN recovery and release-stop race
 
 Cloud operator reports isolated b257a09 config/gates passed; not locally independently verified. Source8e7d2ad prevents release selection when new pending work appears during stop, and blocks manual start with outstanding attempts. 27 focused tests passed. This is not a provider billing reconciliation or crash recovery interface, and cloud candidate b257a09 lacks this later fix. Keep active/unknown/reservation evidence, no blind retry; owner-fenced recovery, old/new Supervisor compatibility, backup/restore and production switch remain open. See docs/nana_next_experience/evidence/unknown-stop-race-20261108.
+
+
+### 2026-11-08 · Memory collaboration supplement to current mission
+
+User adds source-backed research on companion7.x and memory2.3.1, memory-use expression/feedback/retrieval, original C/S3/S8 future behavior and same-budget quality/cost evaluation. This extends existing Next Experience/ten-domain work; UNKNOWN recovery remains open. Pinned reference source and existing/partial/missing evidence in docs/nana_next_experience/MEMORY_COLLABORATION_REFINEMENT.md. No new algorithm, external copied code, real provider/production/phone, new APK or end-to-end gain is claimed.
