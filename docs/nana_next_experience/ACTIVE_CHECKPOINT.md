@@ -1,3 +1,13 @@
+# Active continuation — four memory-use modes in the existing chat
+
+b75ba7f is the supplied4268815's direct documentation successor, no divergence; remote delivery remains5b4f589/CURRENT266+409. Original work snapshot18bc736 preserved. New shallow sparse checkout/work branch `/workspace/nana-unified-release` restored through GitHub connector, original commit/tree and833 text blobs hash-checked; omitted binaries/history are not full-clone or build evidence.
+
+Existing history now projects up to8 current same-person/scope/privacy retained-statement dependencies; existing ChatPane selects a source and one of four modes through original feedback/UNKNOWN/native mapping. Advisory, no delivery or factual truth assertion.4original Store→guidance/virtual72h/same identity/withdrawal checks and3Node contracts pass. Related38pass/1socket PermissionError; original failures retained. Full frontend build/browser/HTTP/native/final installation NOT_RUN. No APK or CURRENT/production change. Evidence: evidence/memory-use-client-20261108/README.md.
+
+Continue original C autonomy constraints now, then remaining natural communication, independent >16-note learning, physical archive/privacy closure and matched release. Shell proxy and socket permission prevent network/build qualification here; other original-Core development continues. Do not call this whole-task completion or a release candidate qualified for production.
+
+---
+
 # Active continuation — original note lookup eligibility before LIMIT
 
 MemoryService.literal_notes now applies its existing user-note provenance/semantic/direct-authority qualification before text ranking and LIMIT. Previously four newer non-note rows with the same predicate prefix could consume the limit, be rejected after retrieval, and hide a valid older note. Baseline synthetic original-Store test reproduced empty vs expected valid note; final18note-recall/retrieval-growth/search tests pass11.46s, covering synthetic and public-source lookalikes. Original read/privacy/deletion/time guards remain. No semantic truth, model quality or broader16-note learning qualification claimed.

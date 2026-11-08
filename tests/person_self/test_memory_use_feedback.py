@@ -96,6 +96,62 @@ def test_legacy_language_sample_serialization_stays_unchanged(app):
     assert 'memory_use' not in sample.model_dump(mode='json')
 
 
+@pytest.mark.parametrize('mode', ['EXPLICIT_RECALL', 'NATURAL_REFERENCE', 'IMPLICIT_REFERENCE', 'DO_NOT_MENTION'])
+def test_history_memory_choices_are_current_bound_retained_statements(app, mode):
+    from types import SimpleNamespace
+    from nana_core.life.conversation import history
+    from nana_core.continuity.person_self import retain_exchange
+
+    home, clock = app.home, app.clock
+    app.close()
+    with LifeApplication(home, clock=clock) as current:
+        current.pause()
+        mid = save(current, text='SYNTHETIC ORCHID meeting is Friday.', privacy='PROJECT',
+                   request_id='visible-use-note')['memory_id']
+        unrelated = save(current, text='SYNTHETIC unrelated note', privacy='PROJECT',
+                         request_id='unrelated-visible-note')['memory_id']
+        turn = current.chat('SYNTHETIC ORCHID question', privacy='PROJECT',
+                            retain_shared_life=True, message_id='visible-use-turn')
+        # Explicit synthetic dependency on the real original C cycle; no
+        # model or transport delivery is claimed by this source projection.
+        rid = retain_exchange(current.runtime.store, entity_id='project-user', scope='project-work',
+            topic='daily', user_memory_id=turn['message_memory_id'], text=turn['text'],
+            cycle=SimpleNamespace(record_id=turn['cycle_record_id'],
+                                  judgment=SimpleNamespace(stance=turn['judgment'])),
+            source_memory_ids=(mid,))
+        row = next(r for r in history(current, privacy=('PROJECT',))['items'] if r['exchange_record_id'] == rid)
+        choices = row.get('memory_use_sources', [])
+        assert {'memory_id': mid, 'excerpt': 'SYNTHETIC ORCHID meeting is Friday.'} in choices
+        assert unrelated not in {c['memory_id'] for c in choices}
+        assert turn['message_memory_id'] not in {c['memory_id'] for c in choices}
+        assert row['memory_use_delivery_proven'] is False
+        assert len(choices) <= 8 and all(len(c['excerpt']) <= 160 for c in choices)
+        assert history(current, privacy=('PUBLIC',))['items'] == []
+        assert history(current, privacy=('PROJECT',), entity_id='another-person')['items'] == []
+        before = MemoryService(current.runtime.store).read(mid)
+        assert not any(b.kind == 'MEMORY_USE_GUIDANCE' for b in package(current).blocks)
+        sample = LanguageSample(sample_id='projected-source-review', review_target=rid, mode='CASUAL',
+            context='SYNTHETIC source-choice review', candidate_response=turn['text'], human_judgment='PARTIAL',
+            provenance='USER_PROVIDED_REVIEW', observed_at_us=clock.utc_now_us(),
+            memory_use=MemoryUseFeedback(memory_id=choices[0]['memory_id'], mode=mode))
+        service = LanguageService(current.runtime.store, current.runtime.authority)
+        service.record(sample, scope='project-work', entity_id='project-user', privacy='PROJECT',
+                       authority=current.runtime.authority, exchange_record_id=rid)
+        identity = current.runtime.identity_id
+    clock.advance(3 * 86400_000_000)
+    with LifeApplication(home, clock=clock) as current:
+        assert current.runtime.identity_id == identity
+        row = next(r for r in history(current, privacy=('PROJECT',))['items'] if r['exchange_record_id'] == rid)
+        assert row['memory_use_sources'] == choices
+        guidance = next(b for b in package(current).blocks if b.kind == 'MEMORY_USE_GUIDANCE')
+        assert json.loads(guidance.data_json)['memory_use_guidance'][0]['requested_mode'] == mode
+        after = MemoryService(current.runtime.store).read(mid)
+        assert (after['assessment'], after['confidence'], after['text']) == (before['assessment'], before['confidence'], before['text'])
+        current.forget(mid)
+        assert rid not in {r['exchange_record_id'] for r in history(current, privacy=('PROJECT',))['items']}
+        assert not any(b.kind == 'MEMORY_USE_GUIDANCE' for b in package(current).blocks)
+        assert current.runtime.store.db.execute('SELECT COUNT(*) FROM cognitive_requests').fetchone()[0] == 0
+
 
 def test_many_reviews_for_one_memory_do_not_hide_another(monkeypatch):
     """Repeated reviews for one selected memory cannot starve another."""

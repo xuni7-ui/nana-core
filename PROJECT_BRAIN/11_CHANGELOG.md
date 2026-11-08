@@ -3185,3 +3185,7 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-08 · 用户要求完整转交命令
 
 将累计Next Experience与十域精修范围、授权边界、真实实现/交付状态及剩余项汇总到docs/nana_next_experience/CODEX_CONTINUATION_MISSION.md，供其他Codex接续；不是新任务/第二账本，不声称总任务完成，不复制任何聊天凭据或私人内容。基线4268815与远端一致，原源码工作区干净。
+
+### 2026-11-08 · 四模式记忆反馈客户端源码接线
+
+[实测/源码] b75ba7f合法接续4268815；原话轮投影提供有界同人/范围/隐私保留来源，ChatPane四模式复用原反馈及UNKNOWN，不改事实或证明送达。4项Store/后续上下文/同主体重启/撤回和3项Node契约通过；相关38通过/1socket权限失败保留。前端完整构建/HTTP/浏览器/手机/安装/生产未资格，CURRENT/APK不变，原总任务继续。证据见evidence/memory-use-client-20261108/README.md。

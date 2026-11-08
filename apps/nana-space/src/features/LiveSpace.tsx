@@ -74,6 +74,7 @@ import { MemoryCenter } from "./v3/MemoryCenter";
 import { BilibiliView } from "./v3/BilibiliView";
 import { PlatformPanel } from "./v3/PlatformPanel";
 import { mergeRetainedTurns, retainedTurns, pendingReceiptTurns, sharedCandidates, vaultMetadata } from "../data/living";
+import { languageFeedbackSample, type FeedbackChoice } from "../data/feedback";
 const v3Icons = {
   home: Home,
   chat: MessageCircle,
@@ -714,7 +715,7 @@ export function LiveSpace() {
       else if (version === sessionVersion.current) setBusy(false);
     }
   };
-  const saveLanguageFeedback=async(turn:Turn,tag:"TOO_VERBOSE"|"NATURAL"|"TOO_TERSE")=>{
+  const saveLanguageFeedback=async(turn:Turn,choice:FeedbackChoice)=>{
     if(writePending.current || !turn.exchangeId || !turn.reply)throw new V2Error("REQUEST_BUSY");
     const id=crypto.randomUUID(),version=sessionVersion.current;
     let dispatched=false;
@@ -722,13 +723,11 @@ export function LiveSpace() {
     try{
       const b=await fresh();
       if(version!==sessionVersion.current)throw new V2Error("SESSION_REVOKED");
+      if(typeof choice!=="string" && b.capabilities.memory_use_feedback!==true)throw new V2Error("CAPABILITY_UNAVAILABLE");
+      const sample=languageFeedbackSample(turn,id,choice,Math.floor(Date.now()*1000));
       dispatched=true;
       const response=await client.current.write("conversation.feedback",{...writeBase(b,id),consent:true,
-        exchange_record_id:turn.exchangeId,sample:{sample_id:id,review_target:turn.exchangeId,mode:"CASUAL",
-          context:turn.input.slice(0,1024)||"这次交流",candidate_response:turn.reply,
-          human_judgment:tag==="NATURAL"?"ACCEPTED":"REJECTED",reason_tags:[tag],
-          exact_feedback:({TOO_VERBOSE:"有点啰嗦",NATURAL:"这样刚好",TOO_TERSE:"想听多一点"})[tag],
-          provenance:"USER_PROVIDED_REVIEW",observed_at_us:Math.floor(Date.now()*1000)}});
+        exchange_record_id:turn.exchangeId,sample});
       if(version!==sessionVersion.current)throw new V2Error("SESSION_REVOKED");
       const result=object(response.data);setReceipt(result);
       return {id,state:String(result.state)};
@@ -1498,6 +1497,7 @@ export function LiveSpace() {
                 key={`${bootstrap?.run_generation || "offline"}:${privacy.current}`}
                 turns={turns}
                 onFeedback={manager && healthy && bootstrap?.capabilities.conversation_feedback===true ? saveLanguageFeedback : undefined}
+                memoryFeedback={bootstrap?.capabilities.memory_use_feedback===true}
                 onVerifyFeedback={verifyLanguageFeedback}
                 draft={draft}
                 onDraft={setDraft}

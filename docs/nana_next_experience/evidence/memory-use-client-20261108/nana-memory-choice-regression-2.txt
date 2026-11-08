@@ -1,0 +1,46 @@
+.......................F...............                                  [100%]
+=================================== FAILURES ===================================
+___ test_model_cannot_close_global_rest_and_new_direct_dialogue_still_works ____
+
+tmp_path = PosixPath('/tmp/nana-memory-choice-regression-2/test_model_cannot_close_global0')
+
+    def test_model_cannot_close_global_rest_and_new_direct_dialogue_still_works(tmp_path):
+        home=tmp_path/'life'; initialize(home)
+>       with relay(home,'DECLINE_DELIVERY') as (router,requests), LifeApplication(home,clock=VirtualClock(),router=router) as app:
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_rest_and_attribution.py:89: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/contextlib.py:137: in __enter__
+    return next(self.gen)
+           ^^^^^^^^^^^^^^
+tests/independent_life/test_dialogue.py:44: in relay
+    server=ThreadingHTTPServer(('127.0.0.1',0),Handler);thread=threading.Thread(target=server.serve_forever,daemon=True);thread.start()
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socketserver.py:453: in __init__
+    self.socket = socket.socket(self.address_family,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <socket.socket fd=-1, family=0, type=0, proto=0>
+family = <AddressFamily.AF_INET: 2>, type = <SocketKind.SOCK_STREAM: 1>
+proto = 0, fileno = None
+
+    def __init__(self, family=-1, type=-1, proto=-1, fileno=None):
+        # For user code address family and type values are IntEnum members, but
+        # for the underlying _socket.socket they're just integers. The
+        # constructor of _socket.socket converts the given argument to an
+        # integer automatically.
+        if fileno is None:
+            if family == -1:
+                family = AF_INET
+            if type == -1:
+                type = SOCK_STREAM
+            if proto == -1:
+                proto = 0
+>       _socket.socket.__init__(self, family, type, proto, fileno)
+E       PermissionError: [Errno 1] Operation not permitted
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/socket.py:233: PermissionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_rest_and_attribution.py::test_model_cannot_close_global_rest_and_new_direct_dialogue_still_works
+1 failed, 38 passed, 4 deselected in 2.02s

@@ -1,0 +1,37 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+______ test_history_memory_choices_are_current_bound_retained_statements _______
+
+app = <nana_core.life.application.LifeApplication object at 0x7fee3d401460>
+
+    def test_history_memory_choices_are_current_bound_retained_statements(app):
+        from types import SimpleNamespace
+        from nana_core.life.conversation import history
+        from nana_core.continuity.person_self import retain_exchange
+    
+        home, clock = app.home, app.clock
+        app.close()
+        with LifeApplication(home, clock=clock) as current:
+                current.pause()
+                mid = save(current, text='SYNTHETIC ORCHID meeting is Friday.', privacy='PROJECT',
+                           request_id='visible-use-note')['memory_id']
+                unrelated = save(current, text='SYNTHETIC unrelated note', privacy='PROJECT',
+                                 request_id='unrelated-visible-note')['memory_id']
+                turn = current.chat('SYNTHETIC ORCHID question', privacy='PROJECT',
+                                    retain_shared_life=True, message_id='visible-use-turn')
+                # Explicit synthetic dependency on the real original C cycle; no
+                # model or transport delivery is claimed by this source projection.
+                rid = retain_exchange(current.runtime.store, entity_id='project-user', scope='project-work',
+                    topic='daily', user_memory_id=turn['message_memory_id'], text=turn['text'],
+                    cycle=SimpleNamespace(record_id=turn['cycle_record_id'],
+                                          judgment=SimpleNamespace(stance=turn['judgment'])),
+                    source_memory_ids=(mid,))
+                row = next(r for r in history(current, privacy=('PROJECT',))['items'] if r['exchange_record_id'] == rid)
+                choices = row.get('memory_use_sources', [])
+>               assert {'memory_id': mid, 'excerpt': 'SYNTHETIC ORCHID meeting is Friday.'} in choices
+E               AssertionError: assert {'memory_id': '0e064a30-2327-4b8b-bd78-884a46a5fdf2', 'excerpt': 'SYNTHETIC ORCHID meeting is Friday.'} in []
+
+tests/person_self/test_memory_use_feedback.py:123: AssertionError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_memory_use_feedback.py::test_history_memory_choices_are_current_bound_retained_statements
+1 failed in 0.20s

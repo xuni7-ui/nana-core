@@ -16,7 +16,42 @@ import { Avatar } from "../../avatar/Avatar";
 import { Blank } from "./LifeViews";
 import { readinessLabel } from "../../data/readiness";
 import { transcribe, readAloud, stopSpeech } from "../../data/speech";
-export type FeedbackTag = "TOO_VERBOSE" | "NATURAL" | "TOO_TERSE";
+import { memoryUseModes, type FeedbackChoice, type MemoryUseSource } from "../../data/feedback";
+import type { MemoryUseFeedback } from "../../data/v2.generated";
+export type { FeedbackTag } from "../../data/feedback";
+const memoryReceiptKey = (turnId: string, memoryId: string) => `${turnId}/memory/${memoryId}`;
+
+function MemoryUseReview({turn, receipts, busy, save, verify}: {
+  turn: Turn;
+  receipts: Record<string, {id: string; state: string}>;
+  busy: boolean;
+  save: (choice: MemoryUseFeedback) => void;
+  verify?: (memoryId: string) => void;
+}) {
+  const [selected, setSelected] = useState("");
+  const source = turn.memoryUseSources?.find(item => item.memory_id === selected);
+  const receipt = source ? receipts[memoryReceiptKey(turn.id, source.memory_id)] : undefined;
+  return <fieldset disabled={busy} className="v3-memory-feedback">
+    <legend>这段记忆以后怎样提起</legend>
+    <p>先选这次交流关联的记忆。这里只记录你的偏好，不表示回复确实提起过它。</p>
+    <label>关联记忆
+      <select aria-label="选择关联记忆" value={source ? selected : ""} onChange={event => setSelected(event.target.value)}>
+        <option value="">请选择一段记忆</option>
+        {turn.memoryUseSources?.map(item => <option key={item.memory_id} value={item.memory_id}>{item.excerpt}</option>)}
+      </select>
+    </label>
+    {source && (!receipt || receipt.state === "REJECTED") && <div>
+      {memoryUseModes.map(([mode, label, description]) => <button key={mode} title={description}
+        onClick={() => save({memory_id: source.memory_id, mode})}>保存：{label}</button>)}
+      <small>点击保存会保留这次意见；“暂不提及”不会删除记忆，可在记忆中心撤回来源。</small>
+    </div>}
+    {receipt && <p role="status">{receipt.state === "VERIFIED" ? "记忆使用偏好已保存"
+      : receipt.state === "REJECTED" ? "这次未保存，可检查后重新提交" : "保存结果待核验，不会重复提交"}</p>}
+    {source && receipt?.state === "UNKNOWN" && verify &&
+      <button onClick={() => verify(source.memory_id)}>核验这条记忆偏好</button>}
+  </fieldset>;
+}
+
 export interface Turn {
   id: string;
   input: string;
@@ -32,6 +67,7 @@ export interface Turn {
   requestedAt?: number;
   provisional?: string;
   phase?: string;
+  memoryUseSources?: MemoryUseSource[];
 }
 /** Body text stays in React memory. Attachments are previews, never uploaded as text. */
 export function ChatPane({
@@ -57,9 +93,11 @@ export function ChatPane({
   onRememberConnection,
   onFeedback,
   onVerifyFeedback,
+  memoryFeedback = false,
 }: {
-  onFeedback?: (turn: Turn, tag: FeedbackTag) => Promise<{id:string;state:string}>;
+  onFeedback?: (turn: Turn, choice: FeedbackChoice) => Promise<{id:string;state:string}>;
   onVerifyFeedback?: (id:string) => Promise<{id:string;state:string}>;
+  memoryFeedback?: boolean;
   turns: Turn[];
   draft: string;
   onDraft: (s: string) => void;
@@ -84,15 +122,17 @@ export function ChatPane({
   const [feedbackTurn, setFeedbackTurn] = useState<string>();
   const [feedbackBusy, setFeedbackBusy] = useState(false);
   const [feedbackReceipts, setFeedbackReceipts] = useState<Record<string,{id:string;state:string}>>({});
-  const review = async (turn:Turn, tag?:FeedbackTag) => {
+  const review = async (turn:Turn, choice?:FeedbackChoice, verifyMemoryId?:string) => {
     if (feedbackBusy) return;
-    const receipt=feedbackReceipts[turn.id];
-    if (tag && receipt && receipt.state!=="REJECTED") return;
+    const memoryId=typeof choice==="object"?choice.memory_id:verifyMemoryId;
+    const key=memoryId?memoryReceiptKey(turn.id,memoryId):turn.id;
+    const receipt=feedbackReceipts[key];
+    if (choice && receipt && receipt.state!=="REJECTED") return;
     setFeedbackBusy(true);
     try {
-      const result=tag && onFeedback ? await onFeedback(turn,tag)
+      const result=choice && onFeedback ? await onFeedback(turn,choice)
         : receipt && onVerifyFeedback ? await onVerifyFeedback(receipt.id) : undefined;
-      if(result)setFeedbackReceipts(old=>({...old,[turn.id]:result}));
+      if(result)setFeedbackReceipts(old=>({...old,[key]:result}));
     } catch { notice("这条评价尚未提交，请稍后检查连接。"); }
     finally { setFeedbackBusy(false); }
   };
@@ -316,6 +356,10 @@ export function ChatPane({
                   {feedbackReceipts[t.id] && <p role="status">{feedbackReceipts[t.id].state==="VERIFIED"?"评价已保存":feedbackReceipts[t.id].state==="REJECTED"?"这次未保存，可检查后重新提交":"保存结果待核验，不会重复提交"}</p>}
                   {feedbackReceipts[t.id]?.state==="UNKNOWN" && onVerifyFeedback &&
                     <button disabled={feedbackBusy} onClick={()=>void review(t)}>核验这条评价</button>}
+                  {memoryFeedback && t.memoryUseSources?.length && onFeedback ?
+                    <MemoryUseReview turn={t} receipts={feedbackReceipts} busy={busy||feedbackBusy}
+                      save={choice=>void review(t,choice)}
+                      verify={onVerifyFeedback?mid=>void review(t,undefined,mid):undefined} /> : null}
                 </div>}
                 <small className="v3-muted">
                   {t.pendingReceipt ? t.state === "UNKNOWN" ? "只恢复原请求编号，原文没有缓存；请核验回执" : "已核验原请求；此窗口没有重发原文" : t.restored ? "从奈奈保留的共同经历恢复 · 来源仍有效" : t.remembered ? "已按本次选择保存，来源可查" : "本次文字未加入长期共同经历"}

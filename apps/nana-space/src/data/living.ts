@@ -1,4 +1,5 @@
 import type { Turn } from "../features/v3/ChatPane";
+import type { MemoryUseSource } from "./feedback";
 
 const record = (value: unknown): Record<string, unknown> | null =>
   value && typeof value === "object" && !Array.isArray(value)
@@ -17,9 +18,18 @@ export function retainedTurns(value: unknown): Turn[] {
       || row.user_text.length > 4096 || row.reply_text.length > 8192
       || typeof row.created_at_us !== "number" || !Number.isSafeInteger(row.created_at_us)
       || row.created_at_us < 0) return [];
+    const memoryUseSources: MemoryUseSource[] = row.memory_use_delivery_proven === false
+      && Array.isArray(row.memory_use_sources) && row.memory_use_sources.length <= 8
+      ? row.memory_use_sources.flatMap(value => {
+        const source = record(value);
+        return source && typeof source.memory_id === "string" && /^[A-Za-z0-9._:-]{1,128}$/.test(source.memory_id)
+          && typeof source.excerpt === "string" && source.excerpt.length > 0 && source.excerpt.length <= 160
+          ? [{memory_id: source.memory_id, excerpt: source.excerpt}] : [];
+      }) : [];
     return [{id: row.exchange_record_id, input: row.user_text, reply: row.reply_text,
       state: "VERIFIED", remembered: true, restored: true,
       exchangeId: row.exchange_record_id,
+      memoryUseSources,
       ...(typeof row.model === "string" && row.model.length <= 128 ? {model: row.model} : {})}];
   }).slice(-32);
 }
@@ -38,7 +48,12 @@ export function pendingReceiptTurns(value: unknown): Turn[] {
 
 export function mergeRetainedTurns(restored: Turn[], current: Turn[]): Turn[] {
   const supported = new Set(restored.filter(x => x.exchangeId).map(x => x.exchangeId));
-  const local = current.filter(x => !x.restored && !(x.remembered && x.exchangeId && !supported.has(x.exchangeId)));
+  const local = current.filter(x => !x.restored && !(x.remembered && x.exchangeId && !supported.has(x.exchangeId)))
+    .map(x => {
+      const sources = x.exchangeId && x.remembered
+        ? restored.find(row => row.exchangeId === x.exchangeId)?.memoryUseSources : undefined;
+      return x.memoryUseSources || sources?.length ? {...x, memoryUseSources: sources ?? []} : x;
+    });
   const known = new Set(local.filter(x => x.exchangeId).map(x => x.exchangeId));
   const localIds = new Set(local.map(x => x.id));
   // Restored rows are replaced on each projection, so a withdrawn source cannot
