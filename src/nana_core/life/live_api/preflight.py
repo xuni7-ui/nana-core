@@ -8,14 +8,14 @@ import os
 import sqlite3
 from pathlib import Path
 
-from .supervisor import existing_identity
+from .supervisor import identity_request_state
 from .contracts import ApiError, Role
 from ..config import load_config
 
 
 def check(config):
     home = Path(config.home).absolute()
-    identity, lineage, unknown = existing_identity(home)
+    identity, lineage, active, terminal = identity_request_state(home)
     if (identity, lineage) != (config.binding.subject_id, config.binding.lineage_binding):
         raise ApiError("INVALID_IDENTITY", 409)
     with sqlite3.connect((home / "subject/self.db").as_uri() + "?mode=ro", uri=True, timeout=1) as db:
@@ -44,7 +44,8 @@ def check(config):
         "source_context": {"mount_namespace": os.readlink("/proc/self/ns/mnt"), "user_namespace": os.readlink("/proc/self/ns/user")},
         "runtime_owner_ready_in_this_namespace": health_view["process_ready"],
         "runtime_visibility": "VERIFIED_LOCAL_OWNER" if health_view["process_ready"] else "UNVERIFIED_IN_THIS_CONTEXT",
-        "unknown_requests": unknown, "storage_status": health_view["storage_status"],
+        "unknown_requests": active + terminal, "active_provider_requests": active,
+        "storage_status": health_view["storage_status"],
         "disk_pressure": health_view["disk_pressure"], "configuration_revision": revision,
         "provider": provider, "provider_hosts_configured": bool(life.provider_hosts),
         "provider_budget_configured": life.provider_cost_ceiling_micro > 0 and life.provider_calls_per_day > 0,

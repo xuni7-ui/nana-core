@@ -89,6 +89,8 @@ class LifeConfig(DTO):
     provider_hosts:tuple[str,...]=()
     remote_privacy:tuple[Literal['PUBLIC','PROJECT','PERSONAL'],...]=()
     provider_timeout_ms:int=Field(default=120000,ge=100,le=600000)
+    # Existing production contract: zero disables this background-only cap.
+    provider_unknown_calls_per_day:int=Field(default=8,ge=0,le=128)
     provider_output_tokens:int=Field(default=1024,ge=64,le=4096)
     provider_context_tokens:int=Field(default=8192,ge=1024,le=65536)
     # Host may choose an explicit operating budget up to the ORIGINAL Runtime

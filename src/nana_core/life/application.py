@@ -30,7 +30,7 @@ from .dialogue_contracts import DialogueContext
 def runtime_config(config):
     return RuntimeConfig(schema_target=13,scopes=('project-work',),entity_id='project-user',privacy_classes=('PUBLIC','PROJECT','PERSONAL'),model=None,
         heartbeat_us=SECOND,lease_us=30*SECOND,review_interval_us=config.idle_review_seconds*SECOND,idle_recall_us=SECOND,queue_capacity=64,schedule_capacity=128,poll_seconds=.2,
-        max_calls_per_day=config.provider_calls_per_day,living=LivingRuntimeConfig(maintenance_interval_us=60*SECOND,step_interval_us=200_000,max_idle_seconds=2,background_fraction_percent=50,max_model_bytes_per_day=config.provider_wire_bytes_per_day,max_estimated_cost_micro_per_day=max(1,config.provider_cost_ceiling_micro*config.provider_calls_per_day)))
+        max_calls_per_day=config.provider_calls_per_day,provider_unknown_calls_per_day=config.provider_unknown_calls_per_day,living=LivingRuntimeConfig(maintenance_interval_us=60*SECOND,step_interval_us=200_000,max_idle_seconds=2,background_fraction_percent=50,max_model_bytes_per_day=config.provider_wire_bytes_per_day,max_estimated_cost_micro_per_day=max(1,config.provider_cost_ceiling_micro*config.provider_calls_per_day)))
 
 class PortfolioOpportunities:
     """Finite host-approved material availability, not a wish/adoption engine."""

@@ -46,6 +46,7 @@ class RuntimeConfig(DTO):
     cognition_cooldown_us: int = Field(default=10*60*SECOND,ge=0)
     cognition_backoff_us: int = Field(default=30*60*SECOND,ge=0)
     max_calls_per_day: int = Field(default=8,ge=0,le=128)
+    provider_unknown_calls_per_day: int = Field(default=8,ge=0,le=128)
     model_timeout_seconds: float = Field(default=1.5,ge=0.05,le=30)
     queue_capacity: int = Field(default=256,ge=4,le=4096)
     schedule_capacity: int = Field(default=128,ge=4,le=1024)

@@ -84,7 +84,7 @@ class CognitionCoordinator:
         if now<self.backoff_until:return 'LIGHT_COGNITION','MODEL_BACKOFF'
         previous=self.store.db.execute('SELECT * FROM runtime_cognition_calls WHERE queue_id=?',(row['queue_id'],)).fetchone()
         if previous:return 'LIGHT_COGNITION','MODEL_ATTEMPT_ALREADY_RESERVED'
-        if self.store.db.execute("SELECT 1 FROM runtime_cognition_calls WHERE provider=? AND state IN ('RESERVED','UNKNOWN')",(self.model_kind,)).fetchone():
+        if self.store.db.execute("SELECT 1 FROM runtime_cognition_calls WHERE provider=? AND state='RESERVED'",(self.model_kind,)).fetchone():
             return 'LIGHT_COGNITION','UNRESOLVED_PROVIDER_CALL'
         latest=self.store.db.execute('SELECT max(started_at_us) FROM runtime_cognition_calls').fetchone()[0]
         if latest is not None and now-latest<self.config.cognition_cooldown_us:return 'LIGHT_COGNITION','COGNITION_COOLDOWN'

@@ -20,6 +20,8 @@ class ResourceState(DTO):
     estimated_cost_limit_micro: int
     pressure: str
     unresolved_calls: int
+    unresolved_live_calls: int = 0
+    unresolved_terminal_calls: int = 0
     max_observed_latency_us: int | None
     unknown_cost_calls: int = 0
     provider_reported_input_tokens: int | None = None
@@ -100,13 +102,15 @@ def resource_state(store,config):
     latencies.extend(r['latency_us'] for r in world if r['latency_us'] is not None)
     return ResourceState(**reported_token_usage(store,world,legacy_calls=len(rows)),calls=len(rows)+len(world),reserved_bytes=rb,admission_bytes=admission,background_admission_bytes=background,actual_input_bytes=sum(r['input_bytes'] or 0 for r in [*rows,*world]),actual_output_bytes=sum(r['output_bytes'] or 0 for r in [*rows,*world]),
         reserved_estimated_cost_micro=cost,actual_cost_micro=sum(r['actual_cost_micro'] or 0 for r in [*rows,*world]),background_reserved_bytes=sum(r['reserved_bytes'] for r in rows if r['lane']=='BACKGROUND')+sum(r['reserved_bytes'] for r in world if r['request_id'] not in foreground),
-        byte_limit=limits[0],estimated_cost_limit_micro=limits[1],pressure=pressure,unresolved_calls=sum(r['state'] in {'RESERVED','UNKNOWN'} for r in rows)+sum(r['state'] in {'CALLING','UNKNOWN'} for r in world),unknown_cost_calls=sum(r['actual_cost_micro'] is None and r['state'] in {'CALLING','UNKNOWN','FAILED','PROPOSED','REJECTED'} for r in world),max_observed_latency_us=max(latencies) if latencies else None)
+        byte_limit=limits[0],estimated_cost_limit_micro=limits[1],pressure=pressure,unresolved_calls=sum(r['state'] in {'RESERVED','UNKNOWN'} for r in rows)+sum(r['state'] in {'CALLING','UNKNOWN'} for r in world),unresolved_live_calls=store.db.execute("SELECT count(*) FROM runtime_cognition_calls WHERE state='RESERVED'").fetchone()[0]+(store.db.execute("SELECT count(*) FROM cognitive_requests WHERE state='CALLING'").fetchone()[0] if store.schema_target>=13 else 0),unresolved_terminal_calls=sum(r['state']=='UNKNOWN' for r in rows)+sum(r['state']=='UNKNOWN' for r in world),unknown_cost_calls=sum(r['actual_cost_micro'] is None and r['state'] in {'CALLING','UNKNOWN','FAILED','PROPOSED','REJECTED'} for r in world),max_observed_latency_us=max(latencies) if latencies else None)
 
 
 def allocation_reason(store,config,row):
     state=resource_state(store,config);l=config.living
     if state.calls>=config.max_calls_per_day:return 'COGNITION_BUDGET_EXHAUSTED'
-    if state.unresolved_calls:return 'UNRESOLVED_PROVIDER_CALL'
+    if state.unresolved_live_calls:return 'UNRESOLVED_PROVIDER_CALL'
+    cap=config.provider_unknown_calls_per_day
+    if cap and row['event_type']!='USER_EVENT' and state.unresolved_terminal_calls>=cap:return 'UNKNOWN_BILLING_BACKGROUND_PAUSED'
     if state.admission_bytes+l.call_reserved_bytes>l.max_model_bytes_per_day:return 'MODEL_BYTE_RESERVATION_EXHAUSTED'
     if state.reserved_estimated_cost_micro+l.call_estimated_cost_micro>l.max_estimated_cost_micro_per_day:return 'MODEL_ESTIMATED_COST_EXHAUSTED'
     if row['event_type']!='USER_EVENT' and (state.background_admission_bytes+l.call_reserved_bytes)*100>l.max_model_bytes_per_day*l.background_fraction_percent:return 'BACKGROUND_SUB_BUDGET_PRESERVES_FOREGROUND'

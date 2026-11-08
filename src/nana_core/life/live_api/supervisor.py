@@ -25,7 +25,7 @@ from .contracts import ApiError, Binding, Realm
 from .state import AtomicDocument
 
 
-def existing_identity(home):
+def identity_request_state(home):
     path = Path(home).absolute() / "subject/self.db"
     if path.resolve() != path or not path.is_file() or path.stat().st_uid != os.getuid():
         raise ApiError("EXISTING_SUBJECT_REQUIRED", 503)
@@ -36,10 +36,19 @@ def existing_identity(home):
         lineage = hashlib.sha256(
             json.dumps({"identity_id": rows[0][0], "created_event_id": rows[0][1]}, sort_keys=True).encode()
         ).hexdigest()
-        unknown = db.execute("SELECT count(*) FROM cognitive_requests WHERE state IN ('CALLING','UNKNOWN')").fetchone()[
-            0
-        ]
-    return rows[0][0], lineage, unknown
+        # Terminal UNKNOWN retains its receipt and reservation but cannot
+        # permanently fence a release. Outstanding attempts remain a gate.
+        active = db.execute("SELECT count(*) FROM cognitive_requests WHERE state IN ('CALLING','PREPARED')").fetchone()[0]
+        active += db.execute("SELECT count(*) FROM runtime_cognition_calls WHERE state='RESERVED'").fetchone()[0]
+        terminal = db.execute("SELECT count(*) FROM cognitive_requests WHERE state='UNKNOWN'").fetchone()[0]
+        terminal += db.execute("SELECT count(*) FROM runtime_cognition_calls WHERE state='UNKNOWN'").fetchone()[0]
+    return rows[0][0], lineage, active, terminal
+
+
+def existing_identity(home):
+    """Keep the three-field API; its third value is the outstanding-work gate."""
+    identity,lineage,active,_ = identity_request_state(home)
+    return identity,lineage,active
 
 
 class Release(DTO):
@@ -217,7 +226,8 @@ class Supervisor:
             "storage_status": raw["storage_status"],
             "last_exit_code": state.get("last_exit_code"),
             "disk_pressure": raw["disk_pressure"],
-            "unknown_requests": self.verify_binding(),
+            "unknown_requests": sum(identity_request_state(self.home)[2:]),
+            "active_provider_requests": self.verify_binding(),
             "subject_id": self.binding.subject_id,
             "lineage_binding": self.binding.lineage_binding,
         }
