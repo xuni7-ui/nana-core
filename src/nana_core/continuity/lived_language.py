@@ -100,7 +100,10 @@ def learnable(store, scope, privacy):
             support[group][sample.review_target] = (row['record_id'], mid)
     # Synthetic contrast pairs do not combine with actual human observations to
     # manufacture a threshold. Both kinds can qualify only within their scope.
-    winner = max(kinds, key=lambda key: len(support[key]))
+    # Once a real review exists, fixtures cannot outvote it by volume. A lone
+    # review remains insufficient to adopt a new rule; it is not padded.
+    winner = ('USER_PROVIDED_REVIEW' if support['USER_PROVIDED_REVIEW'] or counters['USER_PROVIDED_REVIEW']
+              else 'PROJECT_SYNTHETIC')
     # A real negative report may still veto a synthetic hypothesis: synthetic
     # fixtures never overrule an explicitly stated human counterexample.
     veto = tuple(counters[winner]) + (tuple(counters['USER_PROVIDED_REVIEW']) if winner != 'USER_PROVIDED_REVIEW' else ())

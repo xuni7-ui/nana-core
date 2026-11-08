@@ -112,3 +112,11 @@ def test_unreviewed_example_is_not_a_human_counterexample(app):
     r=app.runtime
     LanguageService(r.store,r.authority).record(draft,scope='project-work',entity_id='project-user',privacy='PROJECT',authority=r.authority)
     assert learnable(r.store,'project-work',('PROJECT',))['eligible']
+
+
+def test_one_human_review_is_not_outvoted_by_many_fixture_reviews(app):
+    from nana_core.continuity.lived_language import learnable
+    record(app,1);record(app,2);record(app,3)
+    record(app,4,provenance='USER_PROVIDED_REVIEW')
+    result=learnable(app.runtime.store,'project-work',('PROJECT',))
+    assert result['evidence_level']=='USER_PROVIDED_REVIEW' and not result['eligible']
