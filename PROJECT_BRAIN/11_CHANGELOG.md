@@ -3145,3 +3145,7 @@ Source878b9e5 separates human-tagged and fixture support/counterexamples, preven
 ### 2026-11-08 · Explicit source-bound memory-use feedback
 
 Source a917c03 accepts explicit four-mode feedback bound to a current source in a retained exchange and projects an advisory, dependency-bound guidance block for later context. Fact assessment and execution authority are unchanged. Previous sample/evidence body shape stays compatible.33 related checks passed before final stale-reference guard and16 targeted after; a prior larger run failed from tmpfs ENOSPC. Synthetic fixtures only, not confirmed real delivery, human review, C/S3/S8 lifelong qualification or production. See docs/nana_next_experience/STATUS_AND_REMAINING.md.
+
+### 2026-11-08 · 现有主任务：源码入口核对
+
+以开发源码 9c33176 为核对基准，在独立审计分支添加真实调用链、版本边界、历史入口误导和未验证事项导航，README 与 AGENTS 标明旧阶段描述；不迁移核心或修改冻结标准。只读核对实际源码、Git 分支及远端引用；交付分支远端对象本地缺失，未声称完成内容对照。P1 体验与原十域精修继续，真实部署和真人体验资格不变。
