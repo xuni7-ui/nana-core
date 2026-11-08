@@ -90,3 +90,40 @@ def test_legacy_language_sample_serialization_stays_unchanged(app):
     sample=LanguageSample(sample_id='legacy',review_target='turn',mode='CASUAL',context='SYNTHETIC',
         candidate_response='SYNTHETIC',human_judgment='UNREVIEWED',provenance='PROJECT_SYNTHETIC',observed_at_us=app.clock.utc_now_us())
     assert 'memory_use' not in sample.model_dump(mode='json')
+
+
+
+def test_many_reviews_for_one_memory_do_not_hide_another(monkeypatch):
+    """Repeated reviews for one selected memory cannot starve another."""
+    import sqlite3
+    from types import SimpleNamespace
+    import nana_core.continuity.lived_language as language
+
+    db=sqlite3.connect(':memory:');db.row_factory=sqlite3.Row
+    db.execute('CREATE TABLE continuity_records (record_id TEXT, record_kind TEXT, scope TEXT, lifecycle TEXT, target_id TEXT, privacy_class TEXT)')
+    bodies={}
+    for index in range(34):
+        mid='memory-b' if index==0 else 'memory-a'
+        rid=f'review-{index}';ref=f'ref-{index}';exchange=f'exchange-{mid}'
+        sample=LanguageSample(sample_id=f'sample-{index}',review_target=exchange,mode='CASUAL',context='synthetic',
+            candidate_response='synthetic',human_judgment='PARTIAL',provenance='USER_PROVIDED_REVIEW',
+            body_storage='DEPENDENT_RECORD',observed_at_us=index)
+        bodies[ref]={'payload':{'person_kind':'MEMORY_USE_FEEDBACK_REFERENCE','review_record_id':rid}}
+        bodies[rid]={'record_id':rid,'payload':{'sample':sample.model_dump(mode='json'),
+            'memory_use_feedback':{'memory_id':mid,'mode':'DO_NOT_MENTION'}}}
+        bodies[exchange]={'record_id':exchange,'scope':'scope','payload':{'entity_id':'person'}}
+        db.execute('INSERT INTO continuity_records VALUES (?, ?, ?, ?, ?, ?)',(ref,'ASSERTION','scope','ACTIVE','memory-use.'+mid,'PROJECT'))
+    withdrawn=set()
+    class Records:
+        def __init__(self,store):
+            self.memory=SimpleNamespace(read=lambda mid:{'entity_id':'person','scope':'scope','privacy_class':'PROJECT'})
+        def current_support(self,rid):return rid not in withdrawn
+        def read(self,rid):return bodies[rid]
+        def support(self,rid):return (rid.removeprefix('exchange-'),)
+    monkeypatch.setattr(language,'RecordService',Records)
+    result=language.memory_use_guidance(SimpleNamespace(db=db),entity_id='person',scope='scope',privacy=('PROJECT',),memory_ids=('memory-a','memory-b'))
+    assert {item['memory_id'] for item in result['items']} == {'memory-a','memory-b'}
+    withdrawn.add('ref-33')
+    result=language.memory_use_guidance(SimpleNamespace(db=db),entity_id='person',scope='scope',privacy=('PROJECT',),memory_ids=('memory-a','memory-b'))
+    assert {item['memory_id'] for item in result['items']} == {'memory-a','memory-b'}
+    assert 'review-33' not in result['source_record_ids']

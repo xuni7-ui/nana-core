@@ -259,8 +259,13 @@ def memory_use_guidance(store, *, entity_id, scope, privacy, memory_ids):
     # reviews grow; never rely on the last32 dialogue reviews to find it.
     if not privacy:return {'items':(), 'source_record_ids':()}
     targets=tuple('memory-use.'+mid for mid in sorted(wanted)[:128])
-    heads=store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='ASSERTION' AND scope=? AND lifecycle='ACTIVE' AND target_id IN ("+
-        ','.join('?' for _ in targets)+") AND privacy_class IN ("+','.join('?' for _ in privacy)+") ORDER BY rowid DESC LIMIT 32",(scope,*targets,*privacy)).fetchall()
+    # Interleave each selected memory's newest reviews. A frequently reviewed
+    # memory must not evict every other selected memory from the bounded scan.
+    heads=store.db.execute("SELECT record_id FROM (SELECT record_id, rowid AS sequence, "
+        "row_number() OVER (PARTITION BY target_id ORDER BY rowid DESC) AS review_rank "
+        "FROM continuity_records WHERE record_kind='ASSERTION' AND scope=? AND lifecycle='ACTIVE' AND target_id IN ("+
+        ','.join('?' for _ in targets)+") AND privacy_class IN ("+','.join('?' for _ in privacy)+")) "
+        "ORDER BY review_rank, sequence DESC LIMIT 256",(scope,*targets,*privacy)).fetchall()
     for head in heads:
         try:
             if not records.current_support(head['record_id']):continue

@@ -3153,3 +3153,7 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-08 · S8 兴趣通过机会评估
 
 修复通用低价值/重复机会筛选在原 C 处理明确学习兴趣之前提前忽略的问题；维持无兴趣筛选、去重、资源风险和原授权边界。四个新增隔离对照在修复前 3 失败 1 通过；修复后原机会/学习/主体相关 40 项通过。未验证真实生活或部署。见 docs/nana_next_experience/ACTIVE_CHECKPOINT.md。
+
+### 2026-11-08 · 记忆使用反馈防挤占
+
+修复单一记忆多次评价占满有界读取、让另一条已选记忆反馈不可见的问题；按记忆交错读取并继续检查来源、隐私和撤回。合成 SQLite 对照在修复前重现失败，相关 24 项和最终定向 7 项通过；不等于真实送达或生产验收。见 docs/nana_next_experience/ACTIVE_CHECKPOINT.md。

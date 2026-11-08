@@ -1,3 +1,9 @@
+# Active continuation — memory-use review fairness
+
+The original source-bound memory-use guidance now interleaves bounded recent feedback per selected memory, so many reviews of one source do not hide another selected source. Source support, privacy, entity/scope and original four-item output remain; withdrawn feedback is skipped. A synthetic SQLite baseline with 33 reviews for one memory and one for another reproduced starvation; the fix passes that contrast and withdrawal, 24 related tests and a 7-test focused rerun. This is offline retrieval behavior, not real delivery attribution, confirmed memory use, human naturalness or a production deployment. Continue delivery attribution, C/S3/S8, P1 and other ten-domain work.
+
+---
+
 # Active continuation — preserve learning interest through opportunity assessment
 
 Original C now considers specifically sourced learning interest even when a generic opportunity score is LOW or REPEATED. Uninterested generic opportunities still follow the existing filter; risk/cost checks, queue deduplication, grants and execution boundaries remain. Before this change three new isolated cases failed and one passed; afterward 40 focused original opportunity/learning/SubjectLoop checks passed. This is a bounded decision improvement, not proof of learned capability or real-world experience. Continue memory feedback/delivery attribution and the existing P1 and ten-domain work; no APK rebuild or production change.
