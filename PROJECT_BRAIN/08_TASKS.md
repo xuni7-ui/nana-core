@@ -1,5 +1,9 @@
 # PROJECT_BRAIN / 08 TASKS（任务清单）
 
+## CURRENT — NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT
+
+以09_STATE当前块、docs/nana_next_experience/STATUS_AND_REMAINING.md及ACTIVE_CHECKPOINT.md续办。原总任务未完成，软件/十域/仓库导航共同继承；下方Foundation核账CURRENT是历史记录。已完成反馈客户端与原Store只读提交核验的开发联调，继续剩余自然交流、自主性、记忆成长、存储及最终匹配交付；真实host/model/phone/长期资格分别记录。
+
 ## CURRENT — FOUNDATION AUDIT INDEPENDENT RECHECK / af52371 INHERITED
 
 [源码/离线复核2026-10-20] 已核验eece7a4为远端af52371直接祖先，保护本地10个未提交草稿文件及hash后fast-forward；不覆盖另一会话成果。

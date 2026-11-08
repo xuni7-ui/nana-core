@@ -1,3 +1,11 @@
+# Active continuation — installed feedback integration, overall mission open
+
+Source43a5662 two portable builds match SHA84ac36d9c14c197b51e380e69bb0dbc99ee48ef8a1b5c9c0f6176e96a0c2cc68; exact extracted bundle actually installed offline with Python3.12.14/SQLite3.53.1 and -I/no repo PYTHONPATH. Original BFF/owner/Store feedback save+idempotency, ten pages, same Subject restart, note correction/withdrawal and quarantined backup passed. Source3.53.1 DEV is not cloud3.51.3 qualification. Evidence/feedback-integration-20261108 contains numeric result and a patch to the existing delivery server-409 probe (reuse, no runtime harness). APK409 unchanged; new native mapping not physically qualified. No new CURRENT selector or production activation.
+
+Continue the same complete mission: original-C natural communication and autonomy constraint audit beyond learning, actual delivery attribution and C/S3/S8 outcomes, independently evaluated >16-note retrieval, physical archive/privacy recovery, runtime/Gateway/backup integration and final matched artifacts. No claim these are finished; real host/model/phone/cross-day require their actual evidence.
+
+---
+
 # Active continuation — feedback UNKNOWN commit reconciliation
 
 Original feedback records optionally bind the request fingerprint in the existing dependency-bound record envelope (legacy samples unchanged). On UNKNOWN receipt GET, the BFF only reads a matching original language.review commit under principal/scope/privacy/source checks. It can confirm feedback saved without provider calls or redispatch; learning_state=NOT_RECONCILED and delivery_proven=false stay explicit. Missing commit, wrong digest and withdrawn source remain UNKNOWN. Actual loopback owner/Store cuts before/after commit plus restart of receipt ledger, mismatch and withdrawal: final36related tests passed27.36s. This does not reconcile model billing or external platform delivery. Continue original backend and product task; no new APK/production change.

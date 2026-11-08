@@ -1,0 +1,34 @@
+--- delivery/server-409/verify-dev.py
++++ installed-feedback-probe.py
+@@ -192,6 +192,7 @@
+             "POST",
+             {
+                 "text": "PROJECT 请按现有来源说明当前状态",
++                "retain_shared_life": True,
+                 "privacy_class": "PROJECT",
+                 "client_request_id": key,
+                 "idempotency_key": key,
+@@ -204,6 +205,23 @@
+             status == 200 and row["data"]["state"] == "VERIFIED" and row["data"]["result"]["external_delivery"] is False
+         )
+         result["chat"] = "ORIGINAL_CORE_VERIFIED_OFFLINE_NOT_NATURALNESS_QUALIFICATION"
++        turn=row['data']['result']
++        _,current,_=call('bootstrap')
++        if not current['capabilities'].get('conversation_feedback'):raise RuntimeError('FEEDBACK_CAPABILITY_MISSING')
++        feedback={'client_request_id':'installed.feedback','idempotency_key':'installed.feedback',
++            'expected_revision':current['revision'],'owner_epoch':current['owner_epoch'],'run_generation':current['run_generation'],
++            'consent':True,'exchange_record_id':turn['exchange_record_id'],
++            'sample':{'sample_id':'installed-review','review_target':turn['exchange_record_id'],'mode':'CASUAL',
++                'context':'SYNTHETIC retained installed dialogue','candidate_response':turn['text'],
++                'human_judgment':'PARTIAL','provenance':'USER_PROVIDED_REVIEW','observed_at_us':time.time_ns()//1000}}
++        code,ack,_=call('conversation/feedback','POST',feedback)
++        if code!=200 or ack['data']['state']!='VERIFIED':raise RuntimeError('INSTALLED_FEEDBACK_FAILED')
++        code,repeated,_=call('conversation/feedback','POST',feedback)
++        if code!=200 or repeated['data']['result']!=ack['data']['result']:raise RuntimeError('INSTALLED_FEEDBACK_REPLAY_FAILED')
++        if ack['data']['result'].get('delivery_proven') is not False:raise RuntimeError('FALSE_DELIVERY_PROOF')
++        result['feedback']='PASS_ORIGINAL_OWNER_AND_STORE_NOT_REAL_USER_REVIEW'
++        result['sqlite']=__import__('sqlite3').sqlite_version
++
+         def note_write(key, text, target=None):
+             _, current, _ = call('bootstrap')
+             request={"client_request_id":key,"idempotency_key":key,

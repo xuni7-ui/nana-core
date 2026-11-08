@@ -3173,3 +3173,7 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-08 · 复用源码审计入口到现有主分支
 
 从独立审计50a842a复用README/AGENTS的历史状态提示及SOURCE_NAVIGATION_AUDIT，避免导航长期只存在审计分支；只整合说明，不移动、删除或合并核心实现。已核实交付CURRENT仍选266，源码存在/候选存在/已选/实际运行分别记录。后续大型治理仍待P1真实验收。
+
+### 2026-11-08 · 原反馈接线实际便携安装
+
+固定43a5662两次构建同SHA84ac36d9…cc68，284文件；精确解包后离线安装，实际BFF→原owner→Store反馈/幂等、十视图、同DEV主体重启、笔记纠错撤回及隔离备份通过。Python3.12.14/SQLite3.53.1，不冒充云端/模型/真机。更新09机器状态和08当前入口，原总任务开放项保留；见evidence/feedback-integration-20261108。

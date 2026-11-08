@@ -1,0 +1,44 @@
+{
+  "scope": "ISOLATED_DEV_NOT_HOST_PHONE_MODEL_HUMAN_OR_TOTAL_COMPLETION",
+  "source_commit": "43a5662563fdf929fe7eb29889bc678f3ab3320d",
+  "core_archive_sha256": "84ac36d9c14c197b51e380e69bb0dbc99ee48ef8a1b5c9c0f6176e96a0c2cc68",
+  "core_archive_bytes": 15029142,
+  "bundle_files": 284,
+  "two_builds_equal": true,
+  "python_related_tests": {
+    "passed": 36,
+    "duration_seconds": 27.36
+  },
+  "frontend_unit_tests": 66,
+  "browser_mock_viewports": [
+    "desktop",
+    "360",
+    "390",
+    "412"
+  ],
+  "browser_mock_tests": 4,
+  "web_build": "PASS",
+  "apk_rebuilt": false,
+  "installed_probe": {
+    "execution": "ACTUAL_INSTALLED_DEV_CORE_NOT_CLOUD",
+    "source_commit": "43a5662563fdf929fe7eb29889bc678f3ab3320d",
+    "python": "3.12.14",
+    "subject_id": "f1d99174-daa7-4c73-864b-5e98577f4d54",
+    "lineage_binding": "dfdb2245251156ac488a799d61f8bf1b69cd0424a1f335b4024d7fd05496492f",
+    "real_provider_calls": 0,
+    "production_changed": false,
+    "private_data_used": false,
+    "real_social_sends": 0,
+    "chat": "ORIGINAL_CORE_VERIFIED_OFFLINE_NOT_NATURALNESS_QUALIFICATION",
+    "feedback": "PASS_ORIGINAL_OWNER_AND_STORE_NOT_REAL_USER_REVIEW",
+    "sqlite": "3.53.1",
+    "backup": "QUARANTINED_REVIEW_COPY",
+    "notes_correction_restart_withdrawal": "PASS_ORIGINAL_STORE_NOT_NATURAL_MODEL_RECALL",
+    "ten_pages": "PASS",
+    "independent_host_stop": "PASS",
+    "same_subject_restart": "PASS",
+    "no_repository_pythonpath": "PASS",
+    "isolation_entry": "PASS",
+    "new_subject_mode": "EXPLICIT_DEVELOPMENT_ONLY"
+  }
+}

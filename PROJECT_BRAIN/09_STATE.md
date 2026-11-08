@@ -7,8 +7,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 90,
-  "as_of_us": 1794074708735223,
+  "revision": 91,
+  "as_of_us": 1794139340475325,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_LIVING_MEMORY_DREAM_STORAGE_TOKEN_INTEGRATION",
@@ -20,12 +20,15 @@
     "完整请求模型计数绑定接入原ContextAssembler/Router，缺商业tokenizer不冒充准确token；实际派发前复核，原文闭包不长期保留。",
     "只对确认PROPOSED正数实测字节结算剩余字节额度；原财务/次数/UNKNOWN保留，新宿主32MB而旧设置4MB不变。",
     "a69实际新Core离线安装/原BFF/十视图/同DEV恢复/SSE/原G通过，6loopback真实0；同主体梦境/虚拟72h重启/冷回读追加模型0。",
-    "266 Runtime两次同SHA并实际离线安装；原6a DEV主体升级保持身份/lineage、梦境冷回读与撤回/数字usage，266 BFF另以隔离DEV验证；APK不重打。"
+    "266 Runtime两次同SHA并实际离线安装；原6a DEV主体升级保持身份/lineage、梦境冷回读与撤回/数字usage，266 BFF另以隔离DEV验证；APK不重打。",
+    "7b8a9cc至43a5662原反馈API、客户端契约/Web/原生映射、UNKNOWN提交证据核验与源码入口已接线；36相关后端、66前端单测、4合成浏览器视口通过。",
+    "43a5662后端两次同SHA84ac36d9…cc68，已实际离线安装并通过原BFF/Core/反馈幂等/十视图/同主体重启/笔记撤回；SQLite3.53.1开发环境，不冒充云端3.51.3。"
   ],
   "open_gates": [
     "继续同一后端安装/组合资格及原任务高价值融合；冷历史只完成安全回读前置，主链热数据驱逐/真实物理治理未实施，S8独立反馈及真实长期体验仍独立评估。",
     "真实模型/商业Tokenizer/手机/跨日/活库向量映射仍缺安全绑定，只暂停相关资格，不碰生产-s1/AstrBot/Iris或既有正式入口。",
-    "266包已隔离安装验证，交付指针需更新；真实生产激活、手机/模型/长期验收仍不可由开发测试代替。"
+    "266包已隔离安装验证，交付指针需更新；真实生产激活、手机/模型/长期验收仍不可由开发测试代替。",
+    "当前新开发包尚未成为交付CURRENT或生产；客户端新原生映射未打新APK。自然交流/自主性全审计、16条检索学习扩展、真实送达归因、主链物理归档等仍未整体完成。"
   ],
   "evidence_refs": [
     "docs/nana_next_experience/LIVING_MEMORY_UNIFIED.md",
@@ -33,7 +36,10 @@
     "docs/nana_next_experience/STREAMING_AND_RUNTIME_409.md",
     "docs/nana_next_experience/RETRIEVAL_GROWTH.md",
     "docs/nana_next_experience/GROWTH_AND_AFFECT.md",
-    "docs/nana_next_experience/ACTIVE_CHECKPOINT.md"
+    "docs/nana_next_experience/ACTIVE_CHECKPOINT.md",
+    "docs/nana_next_experience/STATUS_AND_REMAINING.md",
+    "docs/nana_next_experience/SOURCE_NAVIGATION_AUDIT.md",
+    "docs/nana_next_experience/evidence/feedback-integration-20261108/qualification.json"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
