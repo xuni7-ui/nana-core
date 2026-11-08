@@ -351,9 +351,13 @@ class MemoryService:
         try:
             rows = db.execute(
                 "WITH visible AS MATERIALIZED (SELECT m.memory_id,m.payload_artifact_id,m.rowid AS ordinal FROM memories m"
-                + hint + " WHERE "
+                + hint + " JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE "
                 + where
-                + " AND substr(m.predicate_key,1,10)='user-note.') "
+                + " AND substr(m.predicate_key,1,10)='user-note.'"
+                + " AND m.authority='DIRECT' AND m.epistemic_kind='STATEMENT'"
+                + " AND e.source_namespace='recorded.conversation.input' AND e.source_kind='USER_STATEMENT'"
+                + " AND json_extract(e.provenance_json,'$.domain')='CONSENTED_INTERACTION'"
+                + " AND substr(e.source_reference,1,5)='note:' AND e.state='AVAILABLE') "
                 "SELECT v.memory_id FROM visible v JOIN artifacts a ON a.artifact_id=v.payload_artifact_id WHERE ("
                 + match
                 + ") ORDER BY v.ordinal DESC LIMIT ?",

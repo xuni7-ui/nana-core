@@ -177,3 +177,21 @@ def test_public_chat_can_continue_after_project_work_without_leaking_project_fac
         assert len(requests) == 2 and answer["render_state"] == "UNVERIFIED_MODEL_WORDING"
         assert requests[-1]["role_input"]["dialogue"]["effect_status"] == "NONE"
         assert not set(facts) & set(requests[-1]["source_context_refs"])
+
+
+@pytest.mark.parametrize("source_domain",["SYNTHETIC_ONLY","RECORDED_PUBLIC"])
+def test_non_note_rows_do_not_consume_literal_recall_limit(tmp_path,source_domain):
+    from nana_core.continuity.memory import MemoryService
+    from nana_core.continuity.contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
+    home=tmp_path/'home';initialize(home,active=0)
+    with LifeApplication(home,clock=VirtualClock()) as app:
+        app.pause()
+        valid=save(app,text='SYNTHETIC ORCHID actual saved note',privacy='PROJECT',request_id='valid-recall')['memory_id']
+        memory=MemoryService(app.runtime.store)
+        for n in range(4):
+            eid=memory.capture(EvidenceInput(provenance=Provenance(domain=source_domain,source_namespace='synthetic.other-source' if source_domain=='SYNTHETIC_ONLY' else 'recorded.conversation.input',source_reference='note:other-'+str(n),source_kind='USER_STATEMENT'),
+                text='SYNTHETIC ORCHID other-source statement',privacy_class='PUBLIC',observed_time_us=app.clock.utc_now_us()))
+            memory.add(MemoryCandidate(entity_id='project-user',scope='project-work',memory_type=MemoryType.SEMANTIC,
+                epistemic_kind='STATEMENT',source_evidence_id=eid,text='SYNTHETIC ORCHID other-source statement',predicate_key=f'user-note.other-{n}'))
+        found=memory.literal_notes(entity_ids=('project-user',),scopes=('project-work',),privacy_classes=('PUBLIC','PROJECT'),terms=('ORCHID',))
+        assert [row['memory_id'] for row in found]==[valid]

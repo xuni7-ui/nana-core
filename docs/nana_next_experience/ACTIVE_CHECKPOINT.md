@@ -1,3 +1,11 @@
+# Active continuation — original note lookup eligibility before LIMIT
+
+MemoryService.literal_notes now applies its existing user-note provenance/semantic/direct-authority qualification before text ranking and LIMIT. Previously four newer non-note rows with the same predicate prefix could consume the limit, be rejected after retrieval, and hide a valid older note. Baseline synthetic original-Store test reproduced empty vs expected valid note; final18note-recall/retrieval-growth/search tests pass11.46s, covering synthetic and public-source lookalikes. Original read/privacy/deletion/time guards remain. No semantic truth, model quality or broader16-note learning qualification claimed.
+
+Latest installed43a5662 bundle remains a valid earlier DEV integration artifact; this subsequent lookup patch is source-tested and not in that artifact. Batch next backend changes before another install/release; do not label43a as current final release. Continue P1/natural communication/autonomy/remaining original mission; APK unchanged.
+
+---
+
 # Active continuation — installed feedback integration, overall mission open
 
 Source43a5662 two portable builds match SHA84ac36d9c14c197b51e380e69bb0dbc99ee48ef8a1b5c9c0f6176e96a0c2cc68; exact extracted bundle actually installed offline with Python3.12.14/SQLite3.53.1 and -I/no repo PYTHONPATH. Original BFF/owner/Store feedback save+idempotency, ten pages, same Subject restart, note correction/withdrawal and quarantined backup passed. Source3.53.1 DEV is not cloud3.51.3 qualification. Evidence/feedback-integration-20261108 contains numeric result and a patch to the existing delivery server-409 probe (reuse, no runtime harness). APK409 unchanged; new native mapping not physically qualified. No new CURRENT selector or production activation.

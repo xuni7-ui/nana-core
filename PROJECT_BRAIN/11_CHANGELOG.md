@@ -3177,3 +3177,7 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-08 · 原反馈接线实际便携安装
 
 固定43a5662两次构建同SHA84ac36d9…cc68，284文件；精确解包后离线安装，实际BFF→原owner→Store反馈/幂等、十视图、同DEV主体重启、笔记纠错撤回及隔离备份通过。Python3.12.14/SQLite3.53.1，不冒充云端/模型/真机。更新09机器状态和08当前入口，原总任务开放项保留；见evidence/feedback-integration-20261108。
+
+### 2026-11-08 · S2 来源资格在备注召回限额之前
+
+原literal_notes将已有正式用户备注来源/类型/authority资格放到SQL限额前，避免同前缀非备注挤占四条结果。原Store合成基线重现有效备注被漏召回；最终18项召回/检索学习/搜索验证通过（11.46s）。已有隐私与读取验证保留；该后续补丁未进入较早43a安装包，不宣称最终匹配发行。
