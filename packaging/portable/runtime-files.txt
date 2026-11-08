@@ -171,6 +171,7 @@ src/nana_core/life/dialogue_contracts.py
 src/nana_core/life/durability.py
 src/nana_core/life/ingress.py
 src/nana_core/life/inspector.py
+src/nana_core/life/interrupted_recovery.py
 src/nana_core/life/live_api/__init__.py
 src/nana_core/life/live_api/__main__.py
 src/nana_core/life/live_api/adapters.py
