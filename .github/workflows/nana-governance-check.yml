@@ -1,0 +1,29 @@
+name: Nana governance checks
+
+on:
+  pull_request:
+    branches: [dev/nana-core-next-experience-codex]
+    paths:
+      - .github/workflows/nana-governance-check.yml
+      - AGENTS.md
+      - README.md
+      - docs/nana_next_experience/GOVERNANCE_SOURCE_MAP.md
+      - tools/nana_next_experience/check_governance_links.py
+      - tools/nana_portable_cloud/build.py
+      - tests/engineering_quality/test_portable_missing_import.py
+
+permissions:
+  contents: read
+
+jobs:
+  governance-check:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          persist-credentials: false
+      - name: Check source navigation
+        run: python3 tools/nana_next_experience/check_governance_links.py
+      - name: Check portable import boundary
+        run: PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests/engineering_quality -p test_portable_missing_import.py
