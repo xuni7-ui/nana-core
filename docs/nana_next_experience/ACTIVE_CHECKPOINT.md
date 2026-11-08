@@ -1,3 +1,9 @@
+# Active continuation — interest and existing alternatives
+
+Original C learning-value arbitration no longer treats an available alternative as an unconditional veto when sourced interest is RELEVANT or HIGH. Low-interest/low-value alternatives still decline; risk, cost, load, authorization and execution remain independently constrained. On the same synthetic C opportunity cases, baseline failed 3 new cases (two interested choices and risk classification); after the change, attention-research and learning-renewal suites passed 28, plus open-agency learning and subject-loop 8. This verifies a narrow offline decision change, not real learned capability, autonomous life or model/human experience. Continue delivery-attribution/C/S3/S8 and daily-experience work; no APK build or production changes.
+
+---
+
 # Active continuation — explicit memory-use reports; overall status listed
 
 Runtime a917c03 adds optional four-mode user-reported memory-use guidance, bound to a retained exchange and one current source, indexed through original Store dependency-bound records; fact assessment unchanged. Older sample/evidence bodies omit the new field for compatibility. Related33 checks passed before final stale-reference handling, then16 focused checks passed; one prior full group failed due tmpfs ENOSPC, not a pass. Local synthetic fixture only: delivery confirmation, real user review, C/S3/S8 causal learning, cloud and phone remain unqualified. See STATUS_AND_REMAINING.md and evidence/memory-use-20261108. No APK rebuild or production change. Continue original task.

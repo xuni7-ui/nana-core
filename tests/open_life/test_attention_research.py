@@ -110,6 +110,9 @@ def test_no_arbitrary_network(url):
 @pytest.mark.parametrize('factors,expected',[
     ({'goal_value':'LOW','future_reuse':'LOW'},'WATCH'),
     ({'goal_value':'HIGH','future_reuse':'HIGH','alternative':'AVAILABLE'},'WATCH'),
+    ({'goal_value':'LOW','future_reuse':'LOW','interest':'HIGH','alternative':'AVAILABLE'},'LEARN'),
+    ({'goal_value':'LOW','future_reuse':'LOW','interest':'RELEVANT','alternative':'AVAILABLE'},'LEARN'),
+    ({'goal_value':'LOW','future_reuse':'LOW','interest':'HIGH','alternative':'AVAILABLE','risk':'HIGH'},'REST'),
     ({'goal_value':'HIGH','future_reuse':'HIGH','time_compute_cost':'HEAVY'},'REST'),
     ({'goal_value':'HIGH','future_reuse':'HIGH','risk':'HIGH'},'REST'),
     ({'goal_value':'HIGH','future_reuse':'HIGH'},'LEARN'),
