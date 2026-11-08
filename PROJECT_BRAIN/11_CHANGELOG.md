@@ -3149,3 +3149,7 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-08 · S8 兴趣与替代方案判断
 
 原 C 的学习机会判断不再仅因为已有替代方式而压制明确的个人兴趣；低兴趣替代方案、高风险及资源约束保留。新增同条件夹具基线 3 个失败，修复后两组 28 项、额外相关 8 项通过；仅为离线决策验证，不等同真实成长或部署。详见 docs/nana_next_experience/ACTIVE_CHECKPOINT.md。
+
+### 2026-11-08 · S8 兴趣通过机会评估
+
+修复通用低价值/重复机会筛选在原 C 处理明确学习兴趣之前提前忽略的问题；维持无兴趣筛选、去重、资源风险和原授权边界。四个新增隔离对照在修复前 3 失败 1 通过；修复后原机会/学习/主体相关 40 项通过。未验证真实生活或部署。见 docs/nana_next_experience/ACTIVE_CHECKPOINT.md。

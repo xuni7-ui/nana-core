@@ -50,6 +50,27 @@ def test_queue_original_c_restart_idempotency_and_suppression(runtime):
     assert judge(r,q,repeated)['behavior']=='IGNORE'
 
 
+@pytest.mark.parametrize('value,novelty,interest,risk,expected', [
+    ('LOW', 'NEW', 'HIGH', 'LOW', 'LEARN'),
+    ('RELEVANT', 'REPEATED', 'RELEVANT', 'LOW', 'LEARN'),
+    ('LOW', 'REPEATED', 'LOW', 'LOW', 'IGNORE'),
+    ('LOW', 'REPEATED', 'HIGH', 'HIGH', 'REST'),
+])
+def test_learning_interest_survives_generic_opportunity_filter(runtime, value, novelty, interest, risk, expected):
+    from nana_core.continuity.subject.opportunities import LearningValue
+    r = runtime
+    source = capture(r, 'interest-assessment', {'source': 'synthetic assessment'})
+    queue = OpportunityQueue(r)
+    item = candidate(r, source, value=value, novelty=novelty)
+    cue = item.cue.model_copy(update={
+        'motivation_source': 'SELF_DEVELOPMENT', 'possible_behaviors': ('LEARN', 'WATCH'),
+        'learning_value': LearningValue(goal_value='LOW', future_reuse='LOW', interest=interest, risk=risk),
+    })
+    result = judge(r, queue, queue.offer(item.model_copy(update={'cue': cue})))
+    assert result['behavior'] == expected
+    assert not r.store.all('actions') and not r.store.all('grants')
+
+
 def test_load_and_expensive_learning_allow_rest(runtime):
     r=runtime;m=capture(r,'cost',{'expensive':True});q=OpportunityQueue(r)
     j=q.offer(candidate(r,m,cost='HEAVY'))

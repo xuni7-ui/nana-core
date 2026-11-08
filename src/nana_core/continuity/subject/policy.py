@@ -165,7 +165,11 @@ def decide(event, situation, appraisal, motives):
             return ('DEFER',Judgment(stance='DEFER',reason='Current load and lack of urgent duty make rest appropriate',source_ids=sources),
                 Intention(kind='NO_ACTION',purpose='Rest instead of creating meaningless work',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='REST'))
         assessment=cue.opportunity_assessment
-        if assessment and (assessment.value=='LOW' or assessment.novelty=='REPEATED'):
+        # A general opportunity score must not erase a specific interest in learning.
+        interested_learning = (cue.learning_value is not None
+            and cue.learning_value.interest in {'RELEVANT', 'HIGH'}
+            and bool(set(options) & {'LEARN', 'SEEK_CAPABILITY'}))
+        if assessment and (assessment.value=='LOW' or assessment.novelty=='REPEATED') and not interested_learning:
             return ('BACKGROUND_WATCH',Judgment(stance='IGNORE',reason='Current low value or repeated low-stimulation evidence does not warrant another activity; this is the Subject decision, not a Runtime veto',source_ids=sources),
                 Intention(kind='NO_ACTION',purpose='Consider the motive and choose not to act on this opportunity',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='IGNORE'))
         value=cue.learning_value

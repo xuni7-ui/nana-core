@@ -1,3 +1,9 @@
+# Active continuation — preserve learning interest through opportunity assessment
+
+Original C now considers specifically sourced learning interest even when a generic opportunity score is LOW or REPEATED. Uninterested generic opportunities still follow the existing filter; risk/cost checks, queue deduplication, grants and execution boundaries remain. Before this change three new isolated cases failed and one passed; afterward 40 focused original opportunity/learning/SubjectLoop checks passed. This is a bounded decision improvement, not proof of learned capability or real-world experience. Continue memory feedback/delivery attribution and the existing P1 and ten-domain work; no APK rebuild or production change.
+
+---
+
 # Active continuation — interest and existing alternatives
 
 Original C learning-value arbitration no longer treats an available alternative as an unconditional veto when sourced interest is RELEVANT or HIGH. Low-interest/low-value alternatives still decline; risk, cost, load, authorization and execution remain independently constrained. On the same synthetic C opportunity cases, baseline failed 3 new cases (two interested choices and risk classification); after the change, attention-research and learning-renewal suites passed 28, plus open-agency learning and subject-loop 8. This verifies a narrow offline decision change, not real learned capability, autonomous life or model/human experience. Continue delivery-attribution/C/S3/S8 and daily-experience work; no APK build or production changes.
