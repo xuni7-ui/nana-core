@@ -1,3 +1,9 @@
+# Active continuation — feedback compilation/HTTP/browser qualified
+
+User resumed from58418b4; fb828cad inherited source and added scoped qualification. Network/socket permissions now work. Actual full TS/Vite,66frontend units,25original Core/HTTP feedback/history and20four-viewport browser checks passed. Prior failures retained. GitHub client job also passed; first CI Core job correctly refused unsupported system SQLite, retry uses private standalone interpreter and original gate. Exact evidence: evidence/feedback-qualified-20261108. No new APK/CURRENT/production/real model/human/phone claim. Continue remaining original-Core/ten-domain work and batch backend before matching installation; previous pause below is historical.
+
+---
+
 # Current pause — user-requested / resume22:30 Asia/Shanghai on2026-11-08
 
 Current execution paused by user; a one-time continuation has been created, enabled, for22:30Beijing/14:30UTC. Read FROZEN_CHECKPOINT.md first; original mission remains incomplete. This freeze also preserves original-C adopted-topic interest exception (EXPLORE/CREATE), five contrast passes and17related passes; full A–E audit and real life not claimed. Prior4debd2e source feedback client remains source-tested, no full UI/HTTP/build/installation claim. Existing production/CURRENT/APK unchanged. Resume by verifying latest legitimate source/Brain, not replaying old work.

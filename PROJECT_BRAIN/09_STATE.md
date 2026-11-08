@@ -7,8 +7,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 94,
-  "as_of_us": 1794148438623789,
+  "revision": 95,
+  "as_of_us": 1794149124307896,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_FEEDBACK_QUALIFICATION_AND_TEN_DOMAIN_REFINEMENT",
@@ -25,7 +25,8 @@
     "43a5662后端两次同SHA84ac36d9…cc68，已实际离线安装并通过原BFF/Core/反馈幂等/十视图/同主体重启/笔记撤回；SQLite3.53.1开发环境，不冒充云端3.51.3。",
     "四模式记忆反馈的关联来源投影与聊天选择入口已源码接线；4项原Store/同主体重启/后续上下文/撤回受控验证和3项Node契约检查通过；前端完整构建/HTTP/浏览器尚未资格。",
     "用户要求冻结并于2026-11-08 22:30 Asia/Shanghai恢复原总任务；一次性续办已创建。同Growth采纳的匹配个人兴趣在通用低价值/重复筛选中保留EXPLORE/CREATE选项，5项对照及17项原C/Growth/agency定向通过；非自主性全审计/真实生活资格。",
-    "已按用户定时指令从58418b4恢复，远端identical、工作树干净；原有成果继承。四模式完整编译/HTTP/浏览器资格准备通过有界开发工作流尝试，尚无运行成功证据。"
+    "已按用户定时指令从58418b4恢复，远端identical、工作树干净；原有成果继承。四模式完整编译/HTTP/浏览器资格准备通过有界开发工作流尝试，尚无运行成功证据。",
+    "环境授权恢复后fb828cad实际完整TS/Vite构建、66前端单测、25原Core/HTTP/反馈/历史/重启检查、20四视口反馈/四模式/UNKNOWN浏览器检查通过；独立GitHub前端通过，初次后端因SQLITE_VERSION_UNSUPPORTED失败保留，正在换私有解释器，不降门禁。"
   ],
   "open_gates": [
     "继续同一后端安装/组合资格及原任务高价值融合；冷历史只完成安全回读前置，主链热数据驱逐/真实物理治理未实施，S8独立反馈及真实长期体验仍独立评估。",
@@ -46,7 +47,8 @@
     "docs/nana_next_experience/evidence/feedback-integration-20261108/qualification.json",
     "docs/nana_next_experience/evidence/memory-use-client-20261108/README.md",
     "docs/nana_next_experience/FROZEN_CHECKPOINT.md",
-    "docs/nana_next_experience/evidence/adopted-interest-20261108/README.md"
+    "docs/nana_next_experience/evidence/adopted-interest-20261108/README.md",
+    "docs/nana_next_experience/evidence/feedback-qualified-20261108/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

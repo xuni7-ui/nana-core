@@ -3197,3 +3197,7 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-08 · 从58418b4恢复原主任务及受控资格
 
 本地远端identical、dirty为空；用户指令恢复。保留冻结成果，不重跑无改动原资格；本地socket/代理仍阻塞，加入只读权限、15分钟上限、仅手动/工作流文件改动触发的开发资格流程，补四模式和UNKNOWN的四视口用例，尝试TS/Vite/单测/原HTTP/浏览器。此时只有准备，无成功运行/安装/生产证据；不调用真实模型或构建APK。
+
+### 2026-11-08 · 四模式完整构建与原HTTP/四视口资格
+
+用户解除沙箱后fb828cad本地完整TS/Vite、66前端单测、25原Core/HTTP/历史、20浏览器（桌面/360/390/412）通过；新模式/来源绑定及UNKNOWN不重发实际运行。独立CI前端成功，后端因host SQLite低于门禁失败，保留并改用私有standalone解释器，尚无后端CI新PASS。不打APK、不改CURRENT/生产；继续原任务其余开发。
