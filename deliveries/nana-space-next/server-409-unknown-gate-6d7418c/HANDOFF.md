@@ -1,3 +1,7 @@
+# SUPERSEDED — do not use this candidate
+
+This intermediate 6d7418c did not fence live provider work at the dialogue session entry. Use the independently qualified b257a09 candidate directory.
+
 # UNKNOWN compatibility isolated candidate — no production activation
 
 Runtime 6d7418c0dd30e7f2952aafed970d03e543410672 includes 2966480 field maintenance fixes. It accepts and retains `provider_unknown_calls_per_day` (default8, 0 disables background-only cap, UTC day), reserves costs and never replays UNKNOWN. Terminal UNKNOWN no longer blocks an independent later foreground conversation or the supervisor release gate; CALLING/PREPARED and runtime RESERVED remain a release gate. UNKNOWN remains visible via status and preserved receipts, not success/refund. An in-flight request blocks even across a UTC day. S1 had only CALLING at this gate: the PREPARED and runtime RESERVED extra checks are deliberate differences and need host compatibility qualification.

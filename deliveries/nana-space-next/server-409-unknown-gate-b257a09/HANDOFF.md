@@ -1,0 +1,7 @@
+# UNKNOWN compatibility candidate — isolated DEV only
+
+Runtime b257a09 supersedes 6d7418c; it retains the s1 pacing and source-safe maintenance fix, and restores legacy provider_unknown_calls_per_day (default8, range0–128, zero disables background cap). Terminal UNKNOWN is preserved and counted, never auto-retried or refunded. Prior UNKNOWN no longer blocks independent foreground requests within all other budgets, and active calls fence dialogue session entry. The status retains unknown counts. Supervisor release gate also counts PREPARED and runtime RESERVED; this is deliberately stricter than field s1 and requires host-specific verification. No operator-safe unresolved-attempt reconciliation flow has been qualified. Some media paths retain additional conservative gates.
+
+Two builds match; exact archive was extracted and installed offline; isolated DEV gateway and same DEV subject consolidation/virtual72h/restart/withdrawal passed. Tests and full limitations are recorded in source branch; no real provider, production Store, phone or social use. APK unchanged and reported production appId differs. CURRENT-DELIVERY.json remains historical266: this folder is a separate candidate, not production activation.
+
+Verify SHA256SUMS and use trusted nana-unpack.py with the exact archive hash, qualified Python3.12/SQLite3.51.3 and a fresh isolated slot. Do not overwrite existing slots, real home or change host configuration. Verify actual legacy config/UNKNOWN/active gates and rollback in isolation before requesting production approval.
