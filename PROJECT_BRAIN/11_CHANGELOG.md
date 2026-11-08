@@ -3206,6 +3206,38 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 
 新增显式受控32条资格profile，旧16配置序列化/资格不扩大，原C/G练习与独立评价/转移、来源撤回/重启/B8迁移保持。实测发现较大来源证明令召回被预算挤掉，复用稳定自我有源降级在原预算内保留回忆，不抬限。相关38通过16.37s；24冻结后续查询同Store比较旧源9/24→24/24、误召均0、P95约1.09→1.90ms；零模型，不声称提速或长期生活。首错和新fixture错误保留，见evidence/retrieval-scope32-20261108。独立反馈CI复验42491401749两job通过，实际私有SQLite3.53.1，不冒充3.51.3。
 
+### 2026-11-08 · 独立仓库治理源码索引（待集成）
+
+- **改了什么**：基于 `b75ba7f8c74bfa98fefb518d8e028d731bd6c483` 新增治理源码索引与链接检查，澄清 README、AGENTS 的历史目录和宿主说明。
+- **为什么**：现役 Core 与历史 AstrBot 叙述容易混淆；沿用已有 SOURCE_NAVIGATION_AUDIT 并补充模块归属、证据边界和分支治理，不移动源码。
+- **怎么验证**：独立工作区非浅克隆、`git fsck --connectivity-only --no-reflogs` 通过；运行 `python3 tools/nana_next_experience/check_governance_links.py` 检查索引链接，另验证缺失链接返回非零；`git diff --check` 检查补丁。仅源码和文档核验，不证明部署或运行资格。
+
+### 2026-11-08 · 同名入口引用边界核对（治理分支待集成）
+
+- **改了什么**：在治理源码索引补充旧 Runtime、MemoryView 的实际消费者、合成数据限制及便携包清单关系，并补充定向测试入口；只读核对交付分支固定提交的 CURRENT、候选选择与两个 manifest 源码字段，以及审计分支、交付源提交与 A 的固定提交关系。
+- **为什么**：同名文件在不同代实现中存在，已有调用和入包证据，不能凭名称判冗余或删除。
+- **怎么验证**：只读核对实现、导入、测试及 `packaging/portable/runtime-files.txt`；复用构建器静态闭包检查验证基线245条清单并检查清单内直接导入；核对固定提交的 selector/manifest 字段并复算两个 manifest SHA-256，使用 GitHub compare 和 blob 核对审计分支关系；运行治理索引链接检查与 `git diff --check`。没有更改运行源码或宣称生产使用。
+
+### 2026-11-08 · 便携静态闭包漏检修复（治理分支待集成）
+
+- **改了什么**：构建器对 `import nana_core...` 显式模块增加存在性检查，并兼容命名空间包，新增标准库定向测试；源码索引记录限制与回退方式。
+- **为什么**：合成输入显示仓库及清单均缺失的内部绝对模块曾被静态闭包检查接受，可能延迟到运行时才暴露。
+- **怎么验证**：`PYTHONDONTWRITEBYTECODE=1 python3 -m unittest discover -s tests/engineering_quality -p test_portable_missing_import.py` 通过；修复后的闭包检查分别通过 `b75ba7f8` 和 `58418b4` 的 245 项源码清单；`git diff --check` 与治理链接检查通过。另以交付包中经摘要核对的 wheel 对 A 的 `fb828ca` 两次独立构建，归档 SHA-256 均为 `c6c7229c74e5732e0d2c7d428646f0f48a0085bb5cb1a964588b8a6d262be8c0`；既有 unpack 工具解包并核验 279 项内容摘要及 source commit。未安装、实际运行或生产验证；`from` 属性及动态导入仍有原有边界。
+
+- **本地治理提交**：`3b86e62ae690fcd131aca95e478b9c0d192a196f`、`4e6c7004277a39a91d2d84fa699978284333aae4`；合入前不代表已集成或部署。
+
+### 2026-11-08 · 第一阶段治理成果独立集成验证（待审阅）
+
+- **改了什么**：以 `d2d5e8ca5277dcd0c6ea034266ad652d16e53bcf` 为基线，复用本地治理提交 `3b86e62`、`4e6c700` 的源码导航与构建检查；现役状态和历史账本原文保留，仅追加记录。
+- **为什么**：将已验证治理成果交由现役开发分支审阅，同时隔离未提交的 selector 澄清。
+- **怎么验证**：标准库定向测试 2 项通过，导航 63 个本地目标通过；以目标源码和已核验交付 wheel 隔离构建并经既有 unpack 工具核对 279 个文件摘要及 source commit，归档 SHA-256 `878b7fda9875e54aac385ca64a0ad733b72f0b400a5b8eb55445f36b0dd61a8f`。仅构建与归档校验；安装、实际运行和生产均未执行。
+
+### 2026-11-08 · 治理 PR 自动检查（待审阅）
+
+- **改了什么**：新增仅在现役分支 PR 涉及治理入口或便携构建检查时运行的轻量工作流，复用现有导航检查和标准库定向测试。
+- **为什么**：现有 Next 工作流不在 PR 上自动运行，治理变更缺少对应 CI 回执；不修改原反馈/SQLite 资格流程。
+- **怎么验证**：本地运行现有两个检查并核对工作流仅调用它们；GitHub CI 的实际结论以该提交运行回执为准。无部署或服务启动。
+
 ### 2026-11-08 · 检索对照百分位口径修正
 
 修正开发探针P95下取整顺序统计值为linear-inclusive百分位；按保留的原24个样本重算，原始结果不改、不重跑、不改正确率。见retrieval-scope32证据percentiles-corrected.json；运行Core源码未改。
@@ -3213,3 +3245,5 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-08 · 用户再次冻结与两次北京时间续办
 
 按用户指令立即暂停开发并只中断本会话owned全仓pytest（407通过230.29s/KeyboardInterrupt/exit2）。保存d2匹配284文件两次同SHA、实际离线安装及原G32后续RENDER/同DEV重启/撤回证据，6loopback真实0；原梦境延续探针assert summary首错保留待诊断，完整回归三次环境/稀疏/PYTHONPATH首错亦保留，不伪造全仓或梦境通过。两次自动续办已创建启用：2026-11-09 03:30和09:30 Asia/Shanghai，均恢复当前状态推进原任务全部剩余项并先检查在途执行者。本批仅检查点/证据及P95开发探针口径修正，无运行Core改动、新APK、CURRENT或生产切换。
+
+冻结保存时检测到远端0742f0d（PR#5治理导航/便携静态导入检查）已合法合入，普通推送拒绝后保留双方成果并作正常merge。d2安装证据只绑定d2，治理后继构建器不冒充已安装资格；本次不追加开发或重跑测试，恢复核对最新源码。

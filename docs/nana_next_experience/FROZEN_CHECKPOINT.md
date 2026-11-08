@@ -2,7 +2,7 @@
 
 同一主任务 `NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT` 暂停执行，按用户指令创建并启用两次实际续办：**2026-11-09 03:30、09:30 Asia/Shanghai（北京时间）**。命令均为从届时最新合法源码/Brain继续全部未完成任务，非仅提醒；第二次先核对在途执行者，防并行覆盖或双写。旧22:30冻结/恢复记录为历史。
 
-冻结前源码已推 `d2d5e8ca5277dcd0c6ea034266ad652d16e53bcf`。原G独立32资格、旧16保护、同预算回忆与原B8相关38通过；反馈完整编译/66前端/25HTTP/20四视口/独立CI成果复用。d2同源284文件两次构建同SHA `b6b56dceedfefea417cef63e1965cfdfd06897e6e3837a177fc8aac37e9a6976`，实际离线安装原BFF/Core/反馈幂等/十视图/同DEV重启/笔记撤回和G32不同后续笔记RENDER通过，6loopback真实0，Python3.12.14/SQLite3.53.1。候选未选CURRENT/生产；APK未重打。后继冻结提交仅保存证据/检查点及P95开发工具口径修正，无运行Core改动。
+冻结前安装源码已推 `d2d5e8ca5277dcd0c6ea034266ad652d16e53bcf`。保存时远端合法合入 `0742f0d`（PR#5治理导航/便携构建内部导入检查）；普通push拒绝后正常merge保留双方成果，恢复以最新合法后继为准，d2安装不冒充后继构建器资格。原G独立32资格、旧16保护、同预算回忆与原B8相关38通过；反馈完整编译/66前端/25HTTP/20四视口/独立CI成果复用。d2同源284文件两次构建同SHA `b6b56dceedfefea417cef63e1965cfdfd06897e6e3837a177fc8aac37e9a6976`，实际离线安装原BFF/Core/反馈幂等/十视图/同DEV重启/笔记撤回和G32不同后续笔记RENDER通过，6loopback真实0，Python3.12.14/SQLite3.53.1。候选未选CURRENT/生产；APK未重打。后继冻结提交仅保存证据/检查点及P95开发工具口径修正，无运行Core改动。
 
 **精确下一步**：先核对源码/远端/dirty及现有执行者，再读 `evidence/installed-scope32-20261108/README.md`。原安装梦境延续探针 `assert summary` 首次失败未排除，不称梦境/冷回读组合已过。候选游标遇新增17条填充来源、探针跳过非beacon候选的饥饿只是待验证假设；诊断原维护意向/原C驱动，不放宽断言。完整回归依赖和子进程PYTHONPATH问题有原始失败记录；修正后的原全仓命令因本次冻结有意SIGINT，**407 passed /230.29s，exit2/KeyboardInterrupt，非全仓PASS**。恢复使用绝对 `PYTHONPATH=/workspace/nana-core-validation/src` 与 `/workspace/nana-test-env/bin/python`；原1项SIGKILL恢复复验通过。原始失败、安装结果、外部探针patch和包指纹均已保存。
 
