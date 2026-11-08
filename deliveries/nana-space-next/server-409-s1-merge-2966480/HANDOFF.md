@@ -1,0 +1,7 @@
+# S1 field repair + 266 candidate; no production activation
+
+Runtime source 29664808db1dd5528a68868f64ad02d9de0e444f, size and SHA in SHA256SUMS. Two independent offline builds match. Existing 409 development APK remains unchanged; it uses a different applicationId than the reported production phone app and is not an in-place upgrade. CURRENT-DELIVERY.json still describes the prior 266 candidate; this folder is an explicit separate development candidate pending host qualification, not a production switch.
+
+S1 pacing and SQL selection are integrated with existing weekly review and C consolidation. Recovery deduplicates only an identical derivative of the same candidate with the same source, privacy and parent set; the field text-only SQL is incompatible with the actual schema and unsafe for source withdrawal. Related80 tests passed. Install and synthetic DEV gateway / same DEV subject / consolidation / virtual72h restart / source withdrawal passed; real cloud/phone/model not tested. Real s1 upgrade, data migration, host configuration and Gateway alignment require a checked plan, backup and approval. No existing identity or store may be replaced.
+
+Use trusted unpacker with archive hash, then an eligible Python3.12 runtime bound to SQLite >=3.51.3 for isolated offline install. Existing 266 installation need not be overwritten: install a separate versioned candidate slot. Never use this package to execute genesis or automatically migrate production.
