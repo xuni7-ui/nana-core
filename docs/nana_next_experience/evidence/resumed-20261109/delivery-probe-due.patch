@@ -1,0 +1,13 @@
+--- a/verify-living-memory.py
++++ b/verify-living-memory.py
+@@ -70,7 +70,9 @@
+         maintenance=app.runtime.work.maintenance;maintenance.interval=1_000_000;maintenance.discover()
+         summary=None
+         for _ in range(64):
+-            clock.advance(1_000_000);app.runtime.lease.heartbeat();activity=maintenance.slice()
++            due=store.db.execute("SELECT min(due_at_us) FROM jobs WHERE work_kind='SCAN' AND state='WAITING'").fetchone()[0]
++            clock.advance(max(1, due-clock.utc_now_us()))
++            app.runtime.lease.heartbeat();activity=maintenance.slice()
+             if not activity or not activity.get('candidate_record_id'):continue
+             rid=activity['candidate_record_id'];head,body=maintenance.candidate(rid)
+             if mid not in body['memory_ids']:continue

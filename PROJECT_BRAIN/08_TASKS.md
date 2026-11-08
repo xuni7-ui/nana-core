@@ -1506,3 +1506,5 @@ Source878b9e5 separates human-tagged and fixture support/counterexamples, preven
 ### 2026-11-08 · Explicit source-bound memory-use feedback
 
 Source a917c03 accepts explicit four-mode feedback bound to a current source in a retained exchange and projects an advisory, dependency-bound guidance block for later context. Fact assessment and execution authority are unchanged. Previous sample/evidence body shape stays compatible.33 related checks passed before final stale-reference guard and16 targeted after; a prior larger run failed from tmpfs ENOSPC. Synthetic fixtures only, not confirmed real delivery, human review, C/S3/S8 lifelong qualification or production. See docs/nana_next_experience/STATUS_AND_REMAINING.md.
+
+[2026-11-09恢复实测] d2同源安装梦境/原C/虚拟72h/冷回读/撤回补证据通过（仅外部探针按持久化到期推进，无Runtime补丁）；外部预留条件误作高认知负荷已修，57定向通过。全仓另跑待完整总结，不拼接为最新全仓PASS；其余原任务和真实模型/手机/自然度/长期/生产仍开放。

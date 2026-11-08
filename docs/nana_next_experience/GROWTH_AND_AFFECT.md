@@ -33,3 +33,19 @@ S8 对应上一批6f2a491：原G从实际任务失败发现缺口，在新候选
 ## Same-task S8 retrieval feedback continuation
 
 Retained-note lookup failures now have an original C→G practice/independent validation→later ContextAssembler method path; checked counterexamples and S3 need modulation reuse existing services. Exact scope, tests, recovery and unrun real-life gates: RETRIEVAL_GROWTH.md. Developer implementation is not itself Nana learning; only actual original-G executed trials/later lookup count within the declared DEV scope.
+
+## 2026-11-09 · 自主性A–E续审：成本与认知负荷分开
+
+原OpportunityQueue把资源估计中的外部需预留/未知一律当HIGH认知负荷；相同已采纳兴趣、轻量短时低存储不打扰场景基线2失败4通过，修复后原兴趣/学习/注意/Hands/边界57通过15.38s。保留队列排序及完整估计，只将compute/time/storage/interruption或显式HEAVY映射负荷；真实pending负荷与Resource/Manager/Grant/Kernel继续约束执行，不因想探索创建权限。见evidence/resumed-20261109。
+
+| 当前路径 | A–E归属与结论 | 下一步/证据限制 |
+|---|---|---|
+| Grant/Kernel、非普通资源披露 | A现实权限；执行门保留，不能反向擦掉兴趣 | 原受控Hands回归复用；真实账号未验 |
+| pending>=4、compute/time/storage/interruption | B容量/注意；保留暂缓，不设永久兴趣禁令 | 57相关覆盖；不同长期负荷竞争待扩大 |
+| 外部需预留/未知→HIGH认知负荷 | E错误归因，本批最小修复 | 2失败对照→6控制通过；不是收费额度已许可 |
+| 明确休息/话题拒绝/隐私/投递准入 | C接收者边界，保持范围/撤回/UNKNOWN | 不等于内部念头必须消失 |
+| due commitment优先、无足够价值学习则WATCH | D主体当前取舍，硬优先可能过宽 | 未整体资格；需紧急新事件/承诺可延期的因果对照，不简单删分支 |
+| 高负荷一律REST、社交低相关/重复→沉默 | D/E待分辨；当前保留愿望记录 | 轻量替代/真实分享愿望及不同上下文独立评价尚待实现 |
+| 通用低价值/重复压制匹配已采纳兴趣 | E已有58418b4修复，复用 | 不表示全部娱乐/社交分类已收口 |
+
+本表是现有入口的增量核对，不宣称A–E全覆盖、自然度、真实生活或长期成长完成。

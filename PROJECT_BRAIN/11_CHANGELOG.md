@@ -3247,3 +3247,11 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 按用户指令立即暂停开发并只中断本会话owned全仓pytest（407通过230.29s/KeyboardInterrupt/exit2）。保存d2匹配284文件两次同SHA、实际离线安装及原G32后续RENDER/同DEV重启/撤回证据，6loopback真实0；原梦境延续探针assert summary首错保留待诊断，完整回归三次环境/稀疏/PYTHONPATH首错亦保留，不伪造全仓或梦境通过。两次自动续办已创建启用：2026-11-09 03:30和09:30 Asia/Shanghai，均恢复当前状态推进原任务全部剩余项并先检查在途执行者。本批仅检查点/证据及P95开发探针口径修正，无运行Core改动、新APK、CURRENT或生产切换。
 
 冻结保存时检测到远端0742f0d（PR#5治理导航/便携静态导入检查）已合法合入，普通推送拒绝后保留双方成果并作正常merge。d2安装证据只绑定d2，治理后继构建器不冒充已安装资格；本次不追加开发或重跑测试，恢复核对最新源码。
+
+### 2026-11-09 · 从最新冻结点恢复同一主任务
+
+核对f4b893b本地/远端、dirty空、d2祖先及无其他执行进程，保留原治理merge与全部已验证成果。原验证副本正常快进后启动绝对PYTHONPATH全仓；根据持久化游标/调度诊断安装梦境首错。尚无新PASS或运行代码修改；继续原A–H，生产/CURRENT/APK及真实权限不变。
+
+### 2026-11-09 · 原安装梦境调度补证据及自主性成本归因修复
+
+原安装探针64秒没覆盖18秒节流的来源积压；改为按既有SCAN due推进，保持工作切片/全部断言，未改包或Runtime，原d2同DEV巩固/虚拟72h/冷回读/撤回/数字usage通过，新增模型0。维护中的原探针同样改到期驱动并实际通过。原OpportunityQueue将external需预留/未知误作HIGH认知负荷，基线2失败4通过；保留完整成本估计/排序，只对真实compute/time/storage/interruption或显式HEAVY映射负荷，实际预算/权限不变。最终57相关通过15.38s；证据resumed-20261109。全仓另跑且出现失败待总结；不称总工程或生产完成。

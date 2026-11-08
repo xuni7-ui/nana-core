@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 97,
-  "as_of_us": 1794151279258024,
+  "revision": 98,
+  "as_of_us": 1794166829736208,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "PAUSED_BY_USER_SCHEDULED_CONTINUATIONS",
+  "status": "IN_PROGRESS_AUTONOMY_AND_REGRESSION",
   "progress": [
     "原Next Experience及十域任务持续；f03fcbb检索学习/原S3/S2/Fish、408已交付能力继承，不新增主体或学习系统。",
     "a0263e5原回执热集保留256，终态/UNKNOWN元数据可私有归档，跨重启同key不重发，旧二进制遇新标记拒绝。",
@@ -31,14 +31,17 @@
     "独立GitHub复验42491401749前端与原Core反馈两job均成功；私有CPython3.12.14实际SQLite3.53.1，25原HTTP测试25.27s，未降低原门禁。",
     "用户冻结当前执行；已创建启用2026-11-09 03:30和09:30 Asia/Shanghai两次原主任务实际续办，恢复先核对最新状态及在途执行者。",
     "固定d2d5e8c的284文件包两次同SHAb6b56d…a6976；已实际离线安装并通过原BFF/Store/反馈幂等/十视图/同DEV重启/笔记撤回/G32后续不同笔记RENDER，6loopback真实0，SQLite3.53.1。",
-    "原样本P95改linear-inclusive：旧源1.0986076ms、新1.9265062ms；原正确率/原样本不改，非新运行。"
+    "原样本P95改linear-inclusive：旧源1.0986076ms、新1.9265062ms；原正确率/原样本不改，非新运行。",
+    "按用户定时续办恢复f4b893b：本地远端一致、dirty空、无其他Nana/pytest执行进程；独立验证副本正常fast-forward。原始全部任务/授权/验收边界继承；开始正确绝对PYTHONPATH全仓及原安装梦境探针调度诊断。",
+    "原d2安装梦境首错已定位为64秒虚拟观察短于18秒候选节流所需总时长；外部探针按持久化SCAN到期推进、保持64工作切片与全部断言后通过，同DEV/原C/虚拟72h/冷回读/撤回/数字usage，新增模型0。现役维护探针同样改为到期驱动并实际通过。",
+    "原OpportunityQueue不再把外部需预留/成本未知映射为认知HIGH；真实compute/time/storage/interruption/显式HEAVY及pending负荷保留，完整估计/排序与执行预算权限保留。基线2失败4通过，最终57相关通过15.38s；仅修该E路径。"
   ],
   "open_gates": [
     "继续同一后端安装/组合资格及原任务高价值融合；冷历史只完成安全回读前置，主链热数据驱逐/真实物理治理未实施，S8独立反馈及真实长期体验仍独立评估。",
     "真实模型/商业Tokenizer/手机/跨日/活库向量映射仍缺安全绑定，只暂停相关资格，不碰生产-s1/AstrBot/Iris或既有正式入口。",
     "当前新开发包尚未成为交付CURRENT或生产；客户端新原生映射未打新APK。自然交流/自主性全审计、16条检索学习扩展、真实送达归因、主链物理归档等仍未整体完成。",
     "网络/socket已恢复，反馈完整构建/25HTTP/20浏览器和独立CI已补齐；32条候选的完整回归/匹配便携安装及实际手机/模型/真实送达/长期验收仍独立待验。CURRENT仍合法选择266+409，后续候选须匹配源提交，不自动切换。",
-    "冻结前安装梦境延续探针assert summary失败未诊断；完整回归首错日志保留，修正依赖/稀疏模块/子进程PYTHONPATH后407通过230.29s因用户冻结SIGINT，exit2，非全仓通过。下一次先诊断原维护候选驱动并恢复全仓，再续其余原任务；不改CURRENT/生产。"
+    "f4b893b原入口全仓正在独立运行，已有失败迹象待完整总结；与后续自主性改动57定向资格分开。继续原其余全部开发/模型手机长期/匹配发行。"
   ],
   "evidence_refs": [
     "docs/nana_next_experience/LIVING_MEMORY_UNIFIED.md",
@@ -55,7 +58,8 @@
     "docs/nana_next_experience/evidence/adopted-interest-20261108/README.md",
     "docs/nana_next_experience/evidence/feedback-qualified-20261108/README.md",
     "docs/nana_next_experience/evidence/retrieval-scope32-20261108/README.md",
-    "docs/nana_next_experience/evidence/installed-scope32-20261108/README.md"
+    "docs/nana_next_experience/evidence/installed-scope32-20261108/README.md",
+    "docs/nana_next_experience/evidence/resumed-20261109/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

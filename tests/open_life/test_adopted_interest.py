@@ -73,3 +73,27 @@ def test_interest_restart_and_source_withdrawal_remove_the_exception(runtime):
         after = item.model_copy(update={'source_memory_ids': (new_mid,)})
         assert judge(current, queue, queue.offer(after))['behavior'] == 'IGNORE'
         assert not current.store.all('actions') and not current.store.all('grants')
+
+
+@pytest.mark.parametrize('external,compute,time_cost,storage,interruption,expected', [
+    ('REQUIRES_RESERVATION', 'LIGHT', 'SHORT', 'SMALL', 'LIGHT', 'EXPLORE'),
+    ('UNKNOWN', 'LIGHT', 'SHORT', 'SMALL', 'LIGHT', 'EXPLORE'),
+    ('NONE', 'HEAVY', 'SHORT', 'SMALL', 'LIGHT', 'REST'),
+    ('NONE', 'LIGHT', 'LONG', 'SMALL', 'LIGHT', 'REST'),
+    ('REQUIRES_RESERVATION', 'LIGHT', 'SHORT', 'LARGE', 'LIGHT', 'REST'),
+    ('UNKNOWN', 'LIGHT', 'SHORT', 'SMALL', 'HEAVY', 'REST'),
+])
+def test_external_admission_estimate_does_not_claim_cognitive_load(
+        runtime, external, compute, time_cost, storage, interruption, expected):
+    from nana_core.continuity.open_life.opportunities import ActivityCost
+    r = runtime
+    adopt_interest(r)
+    mid = capture(r, 'cost-kind', {'source': 'SYNTHETIC independent enjoyable option'})
+    item = candidate(r, mid, value='LOW', novelty='REPEATED').model_copy(update={
+        'resource_estimate': ActivityCost(external=external, compute=compute,
+            time=time_cost, storage=storage, interruption=interruption)})
+    queue = OpportunityQueue(r)
+    result = judge(r, queue, queue.offer(item))
+    assert result['behavior'] == expected
+    assert queue.view()[0]['resource_estimate']['external'] == external
+    assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('cognitive_requests')
