@@ -1,0 +1,7 @@
+{
+  "archive": "/dev/shm/nana-unknown-gate-b257a09/nana-first-life-portable-v1.tar.gz",
+  "sha256": "7b3d777f0867ade3f3c879d28e02d3fcce6a816770056b503345e4b91630341a",
+  "source_commit": "b257a093bde616ea1ff121a888d0942936856a03",
+  "bundle_files": 283,
+  "new_provider_calls": 0
+}

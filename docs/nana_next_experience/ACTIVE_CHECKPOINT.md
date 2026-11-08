@@ -1,3 +1,11 @@
+# Active continuation — b257a09 supersedes intermediate6d candidate
+
+Source b257a09 additionally fences active provider work at actual dialogue session entry and after session recovery; terminal UNKNOWN remains visible and does not block independent work within other limits. Related39 tests pass, including DEV release switch and active session denial. Two builds SHA7b3d777f0867ade3f3c879d28e02d3fcce6a816770056b503345e4b91630341a; actual extracted/offline install/DEV gateway/virtual72h/source withdrawal pass. Initial install ENOSPC was fixed by removing only our disposable test scratch. Delivery421180f marks6d superseded and provides b257a09 candidate; selector remains old266, no production activation or APK rebuild. Prior s1 field maintenance merge included.
+
+Cloud operator must verify legacy config, actual UNKNOWN/live/PREPARED/RESERVED gates, s1 rollback compatibility, explicit UNKNOWN reconciliation, backup restore and Core/Gateway alignment in an isolated environment; real host, human/phone, model and production readiness remain NOT_RUN. Continue original long mission. See evidence/unknown-gate-20261108.
+
+---
+
 # Active continuation — UNKNOWN gate fix delivered as isolated candidate
 
 User-provided operator gate archive verified SHA034987deaeed550f2a0d9f3beaf9125c32648010ad606a546d7a2ca423ea5818. Runtime6d7418c0dd30e7f2952aafed970d03e543410672 restores legacy background UNKNOWN cap/config and distinguishes active from terminal without refund/retry. Supervisor 3-tuple API retained, read-only status preserves unknown count, separate active count; PREPARED and runtime RESERVED remain gate (more restrictive than field CALLING-only), actual host still needs verification. Other world/media paths have independent restrictions; no universal claim. 38 related tests and separate4 tests including actual DEV release change passed. Two builds same SHA5940be19345b2225dd2099d14121c6ecf62a8ddd048c1c6e04bdde1acf17fb67; extracted offline install, DEV gateway, dream/virtual72h/withdrawal passed. Delivery6da2f55 is separate candidate and selector stays prior266; no production activation or phone APK rebuild. See evidence/unknown-gate-20261108.

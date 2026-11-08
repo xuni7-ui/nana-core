@@ -1923,3 +1923,8 @@ Verified user-supplied s1/t6/266 source handoff SHA185d2623…94bf; merged 18s c
 ### 2026-11-08 · UNKNOWN budget and release gate DEV compatibility
 
 Runtime6d7418c restores prior host config `provider_unknown_calls_per_day` and UTC daily background cap, preserves terminal UNKNOWN/reservations and independently permits later foreground work when other budgets allow. Supervisor distinguishes outstanding requests from terminal UNKNOWN while status retains both; PREPARED and runtime RESERVED deliberately remain stricter gates than field CALLING-only. 38 related tests and4 focused tests including real isolated DEV release change pass; two builds SHA5940be19…fb67, actual offline install/gateway/DEV dream-restart-withdrawal pass. Delivery6da2f55 is an isolated candidate only, no current selector/production/APK change; user-supplied operator report requires host verification, safe reconciliation and rollback still open. Evidence: docs/nana_next_experience/evidence/unknown-gate-20261108.
+
+
+### 2026-11-08 · UNKNOWN session fence supersedes intermediate candidate
+
+Runtime b257a09 additionally checks active provider work at dialogue session entry and after recovery. Related39 tests pass, two builds SHA7b3d777f…30341a and actual offline install/DEV gateway/virtual72h withdrawal pass. Initial install ENOSPC resolved by removing only task-created disposable scratch. Delivery421180f marks6d candidate superseded; selector and production unchanged. Legacy PREPARED/runtime RESERVED gates remain stricter than field s1 and need host validation; rollback/reconciliation not declared ready. See docs/nana_next_experience/evidence/unknown-gate-20261108.

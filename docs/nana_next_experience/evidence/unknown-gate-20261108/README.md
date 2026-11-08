@@ -1,3 +1,9 @@
+# Latest: session-fenced b257a09 supersedes 6d7418c
+
+Review after 6d delivery found the actual dialogue session also needed the live-call gate. Source b257a09 checks resource_state unresolved_live_calls at session entry and after recovery; terminal UNKNOWN is not treated as active. Related39 tests pass including active session denial and DEV release change. Two reproducible builds SHA7b3d777f0867ade3f3c879d28e02d3fcce6a816770056b503345e4b91630341a; actual archive offline-installed and DEV gateway + virtual72h living probe pass. First installation failed ENOSPC on tmpfs; only task-created disposable previous test scratch was removed, then installation passed. No production/real model/phone. Delivery421180f marks6d superseded and places b257a09 in a separate explicit candidate folder; current selector is not altered. Host verification and unresolved rollback gates remain.
+
+---
+
 # UNKNOWN budget and release gate compatibility
 
 User-provided operator source/receipts archive SHA-256 034987deaeed550f2a0d9f3beaf9125c32648010ad606a546d7a2ca423ea5818; five enclosed files verified. Runtime6d7418c restores LifeConfig/RuntimeConfig provider_unknown_calls_per_day, default8, range0–128, 0 disables the background-only daily cap. Existing cost, byte and call limits remain in force. UTC-day terminal UNKNOWN from both ledgers is counted; reservations and UNKNOWN are retained, not replayed/refunded. Original Runtime allocation blocks live attempts and applies UNKNOWN cap only to background. Unlike the field code's daily live count, an active call is checked across all dates. Other Bilibili/media paths may retain their own more restrictive gates: not a global qualification.
