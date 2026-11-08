@@ -281,6 +281,12 @@ def execute(root, a):
     name = a.command
     if name == "preflight":
         return preflight(root, home)
+    if name == "recover-interrupted":
+        if not a.acknowledge_interruption:
+            raise CoreError('INTERRUPTED_RECOVERY_ACKNOWLEDGEMENT_REQUIRED')
+        from .interrupted_recovery import recover_interrupted
+        return recover_interrupted(home, expected_epoch=a.expected_epoch, expected_subject=a.expected_subject,
+                                   expected_lineage=a.expected_lineage)
     if name == "init":
         if not a.fresh:
             raise CoreError("EXPLICIT_FRESH_MODE_REQUIRED")
@@ -425,6 +431,7 @@ def main(root=None):
     subs = p.add_subparsers(dest="command", required=True)
     for name in (
         "preflight",
+        "recover-interrupted",
         "init",
         "restore",
         "start",
@@ -446,6 +453,11 @@ def main(root=None):
     ):
         s = subs.add_parser(name)
         s.add_argument("--home", type=Path, default=root / "var/subject")
+        if name == "recover-interrupted":
+            s.add_argument("--expected-epoch", type=int, required=True)
+            s.add_argument("--expected-subject", required=True)
+            s.add_argument("--expected-lineage", required=True)
+            s.add_argument("--acknowledge-interruption", action="store_true")
         if name == "chat":
             s.add_argument("--retain-shared-life", action="store_true")
         if name == "self-profile":
