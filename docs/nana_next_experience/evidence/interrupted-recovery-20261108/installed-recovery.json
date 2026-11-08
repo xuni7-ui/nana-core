@@ -1,0 +1,15 @@
+{
+  "execution": "INSTALLED_SYNTHETIC_CRASH_RECOVERY_NOT_CLOUD",
+  "source_commit": "4205f315f30b49b1d9eb8a52d36a15eb137193f2",
+  "same_subject_and_lineage": true,
+  "previous_process_actual_exit": true,
+  "calling_state": "SYNTHETIC_INJECTED_NOT_LIVE_PROVIDER",
+  "result": "UNKNOWN",
+  "reservation_preserved": true,
+  "repeat_no_op": true,
+  "provider_calls": 0,
+  "automatic_retries": 0,
+  "provider_billing_reconciled": false,
+  "production_changed": false,
+  "physical_phone": "NOT_RUN"
+}

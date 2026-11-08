@@ -3125,3 +3125,8 @@ Cloud operator reports isolated b257a09 config/gates passed; not locally indepen
 ### 2026-11-08 · Memory collaboration supplement to current mission
 
 User adds source-backed research on companion7.x and memory2.3.1, memory-use expression/feedback/retrieval, original C/S3/S8 future behavior and same-budget quality/cost evaluation. This extends existing Next Experience/ten-domain work; UNKNOWN recovery remains open. Pinned reference source and existing/partial/missing evidence in docs/nana_next_experience/MEMORY_COLLABORATION_REFINEMENT.md. No new algorithm, external copied code, real provider/production/phone, new APK or end-to-end gain is claimed.
+
+
+### 2026-11-08 · Interrupted-attempt recovery isolated candidate
+
+Runtime4205f31 adds explicit stopped-owner recovery through original exclusive Store lock/lease, expected subject/lineage/epoch and a single event transaction; PREPARED/CALLING/RESERVED become UNKNOWN with reservation preserved, no retry/provider/billing assertion. Related33 tests plus2 owner/real-child CLI tests pass. Actual extracted/offline installed package exercised synthetic pending state after real child exit and idempotent repeat; reproducible/remote-stream SHA67e9926c…ebc14. Delivery5b4f589 is isolated only, selector/APK/production unchanged. Correct namespace and old/new Supervisor compatibility, recovery on real Store, off-host restore, real provider billing and production readiness remain unqualified. Evidence: docs/nana_next_experience/evidence/interrupted-recovery-20261108.

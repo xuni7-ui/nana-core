@@ -1,3 +1,11 @@
+# Active continuation — interrupted-attempt DEV candidate4205f31
+
+Source4205f315f30b49b1d9eb8a52d36a15eb137193f2 adds local explicit recover-interrupted with original Store lock, expected Subject/lineage/epoch, previous-owner process check and new RuntimeLease. It quarantines stale PREPARED/CALLING/RESERVED as UNKNOWN atomically with no refund/provider/retry, not actual provider reconciliation. Includes earlier stop-race and s1/UNKNOWN fixes. Related33 tests plus2 updated owner/actual-CLI tests passed; installed exact archive on synthetic DEV had real child exit with synthetic CALLING row, same identity, preserved reservation and repeat no-op. Two builds and remote stream SHA67e9926cc98e8a5515c5c5f689a26116c47f87b829ef990fa06ee183761ebc14. Delivery5b4f589 is isolated only, selector unchanged; APK unchanged. See evidence/interrupted-recovery-20261108 for first failed packaging/probe and limits.
+
+Next: cloud operator independently checks candidate using synthetic data, correct host/PID namespace/fencing, old/new Gateway supervisor integration and rollback; operation modifies Store/lease, so production execution requires explicit separate authorization and verified backup. Billing reconciliation remains UNKNOWN absent provider evidence; no production readiness. Continue memory collaboration and other original task gaps.
+
+---
+
 # Active continuation — memory collaboration added to existing mission
 
 User requested native memory-expression / real feedback / conditional multi-route retrieval and S2/S3/S5/S6/S8 growth integration. Pinned reference analysis and evidence/gaps: MEMORY_COLLABORATION_REFINEMENT.md. No integration or quality gain has been established by this analysis. Keep in parallel with existing owner-fenced UNKNOWN recovery and release-stop race, not a new project; same Store/C/Manager, no paid/production/private/social activity, no APK rebuild. Freeze representative comparisons first; actual delivered feedback, per-memory mentionability vs fact credibility, source withdrawal, and different future conversation remain open.

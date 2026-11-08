@@ -1928,3 +1928,8 @@ Runtime6d7418c restores prior host config `provider_unknown_calls_per_day` and U
 ### 2026-11-08 · UNKNOWN session fence supersedes intermediate candidate
 
 Runtime b257a09 additionally checks active provider work at dialogue session entry and after recovery. Related39 tests pass, two builds SHA7b3d777f…30341a and actual offline install/DEV gateway/virtual72h withdrawal pass. Initial install ENOSPC resolved by removing only task-created disposable scratch. Delivery421180f marks6d candidate superseded; selector and production unchanged. Legacy PREPARED/runtime RESERVED gates remain stricter than field s1 and need host validation; rollback/reconciliation not declared ready. See docs/nana_next_experience/evidence/unknown-gate-20261108.
+
+
+### 2026-11-08 · Interrupted-attempt recovery isolated candidate
+
+Runtime4205f31 adds explicit stopped-owner recovery through original exclusive Store lock/lease, expected subject/lineage/epoch and a single event transaction; PREPARED/CALLING/RESERVED become UNKNOWN with reservation preserved, no retry/provider/billing assertion. Related33 tests plus2 owner/real-child CLI tests pass. Actual extracted/offline installed package exercised synthetic pending state after real child exit and idempotent repeat; reproducible/remote-stream SHA67e9926c…ebc14. Delivery5b4f589 is isolated only, selector/APK/production unchanged. Correct namespace and old/new Supervisor compatibility, recovery on real Store, off-host restore, real provider billing and production readiness remain unqualified. Evidence: docs/nana_next_experience/evidence/interrupted-recovery-20261108.

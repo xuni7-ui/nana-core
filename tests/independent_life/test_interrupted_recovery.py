@@ -45,6 +45,11 @@ def test_stopped_owner_fenced_recovery_keeps_unknown_and_reservations(tmp_path, 
     # The test process still exists even after it released its lease.
     with pytest.raises(CoreError,match='INTERRUPTED_OWNER_STILL_ALIVE'):
         recover_interrupted(home,**binding)
+    with monkeypatch.context() as unavailable:
+        def denied(pid):raise PermissionError('synthetic /proc denial')
+        unavailable.setattr('nana_core.life.interrupted_recovery.process_identity',denied)
+        with pytest.raises(CoreError,match='INTERRUPTED_OWNER_UNVERIFIED'):
+            recover_interrupted(home,**binding)
     # Fixture simulates the prior host process having exited, not a provider result.
     monkeypatch.setattr('nana_core.life.interrupted_recovery.process_identity',lambda pid: ('synthetic-other','other-boot'))
     with pytest.raises(CoreError,match='INTERRUPTED_RECOVERY_EPOCH_CHANGED'):
