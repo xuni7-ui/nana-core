@@ -612,6 +612,329 @@
       "type": "object"
     },
     "JsonValue": {},
+    "LanguageFeedbackRequest": {
+      "additionalProperties": false,
+      "properties": {
+        "client_request_id": {
+          "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+          "title": "Client Request Id",
+          "type": "string"
+        },
+        "idempotency_key": {
+          "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+          "title": "Idempotency Key",
+          "type": "string"
+        },
+        "expected_revision": {
+          "minimum": 0,
+          "title": "Expected Revision",
+          "type": "integer"
+        },
+        "run_generation": {
+          "pattern": "^[a-f0-9]{32}$",
+          "title": "Run Generation",
+          "type": "string"
+        },
+        "owner_epoch": {
+          "minimum": 0,
+          "title": "Owner Epoch",
+          "type": "integer"
+        },
+        "sample": {
+          "$ref": "#/$defs/LanguageSample"
+        },
+        "exchange_record_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Exchange Record Id",
+          "type": "string"
+        },
+        "consent": {
+          "const": true,
+          "title": "Consent",
+          "type": "boolean"
+        }
+      },
+      "required": [
+        "client_request_id",
+        "idempotency_key",
+        "expected_revision",
+        "run_generation",
+        "owner_epoch",
+        "sample",
+        "exchange_record_id",
+        "consent"
+      ],
+      "title": "LanguageFeedbackRequest",
+      "type": "object"
+    },
+    "LanguageSample": {
+      "additionalProperties": false,
+      "properties": {
+        "body_storage": {
+          "default": "SOURCE_REPORT",
+          "enum": [
+            "SOURCE_REPORT",
+            "DEPENDENT_RECORD"
+          ],
+          "title": "Body Storage",
+          "type": "string"
+        },
+        "sample_id": {
+          "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+          "title": "Sample Id",
+          "type": "string"
+        },
+        "review_target": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Review Target",
+          "type": "string"
+        },
+        "mode": {
+          "enum": [
+            "CASUAL",
+            "PROJECT",
+            "TECHNICAL"
+          ],
+          "title": "Mode",
+          "type": "string"
+        },
+        "context": {
+          "maxLength": 1024,
+          "minLength": 1,
+          "title": "Context",
+          "type": "string"
+        },
+        "relationship_context": {
+          "default": "UNSPECIFIED",
+          "maxLength": 512,
+          "title": "Relationship Context",
+          "type": "string"
+        },
+        "current_self_state": {
+          "default": "UNSPECIFIED",
+          "maxLength": 512,
+          "title": "Current Self State",
+          "type": "string"
+        },
+        "candidate_response": {
+          "maxLength": 2048,
+          "minLength": 1,
+          "title": "Candidate Response",
+          "type": "string"
+        },
+        "human_judgment": {
+          "enum": [
+            "ACCEPTED",
+            "REJECTED",
+            "PARTIAL",
+            "UNREVIEWED"
+          ],
+          "title": "Human Judgment",
+          "type": "string"
+        },
+        "exact_feedback": {
+          "default": "",
+          "maxLength": 1024,
+          "title": "Exact Feedback",
+          "type": "string"
+        },
+        "reason_tags": {
+          "default": [],
+          "items": {
+            "enum": [
+              "TOO_FORMAL",
+              "TOO_VERBOSE",
+              "META_SUMMARIZING",
+              "ASSISTANT_VOICE",
+              "OVER_DISCLAIMER",
+              "FAKE_MEMORY",
+              "FAKE_EMOTION",
+              "NATURAL",
+              "PLAYFUL",
+              "WARM",
+              "MISCHIEVOUS",
+              "CONCISE",
+              "INDEPENDENT",
+              "DISAGREES_NATURALLY",
+              "RELATIONALLY_GROUNDED",
+              "SELF_CONTINUOUS",
+              "TOO_TERSE",
+              "TOO_OBEDIENT",
+              "TOO_DEFENSIVE"
+            ],
+            "type": "string"
+          },
+          "maxItems": 8,
+          "title": "Reason Tags",
+          "type": "array"
+        },
+        "style_tags": {
+          "default": [],
+          "items": {
+            "enum": [
+              "TOO_FORMAL",
+              "TOO_VERBOSE",
+              "META_SUMMARIZING",
+              "ASSISTANT_VOICE",
+              "OVER_DISCLAIMER",
+              "FAKE_MEMORY",
+              "FAKE_EMOTION",
+              "NATURAL",
+              "PLAYFUL",
+              "WARM",
+              "MISCHIEVOUS",
+              "CONCISE",
+              "INDEPENDENT",
+              "DISAGREES_NATURALLY",
+              "RELATIONALLY_GROUNDED",
+              "SELF_CONTINUOUS",
+              "TOO_TERSE",
+              "TOO_OBEDIENT",
+              "TOO_DEFENSIVE"
+            ],
+            "type": "string"
+          },
+          "maxItems": 8,
+          "title": "Style Tags",
+          "type": "array"
+        },
+        "truthfulness_tags": {
+          "default": [],
+          "items": {
+            "enum": [
+              "TOO_FORMAL",
+              "TOO_VERBOSE",
+              "META_SUMMARIZING",
+              "ASSISTANT_VOICE",
+              "OVER_DISCLAIMER",
+              "FAKE_MEMORY",
+              "FAKE_EMOTION",
+              "NATURAL",
+              "PLAYFUL",
+              "WARM",
+              "MISCHIEVOUS",
+              "CONCISE",
+              "INDEPENDENT",
+              "DISAGREES_NATURALLY",
+              "RELATIONALLY_GROUNDED",
+              "SELF_CONTINUOUS",
+              "TOO_TERSE",
+              "TOO_OBEDIENT",
+              "TOO_DEFENSIVE"
+            ],
+            "type": "string"
+          },
+          "maxItems": 8,
+          "title": "Truthfulness Tags",
+          "type": "array"
+        },
+        "memory_use_tags": {
+          "default": [],
+          "items": {
+            "enum": [
+              "TOO_FORMAL",
+              "TOO_VERBOSE",
+              "META_SUMMARIZING",
+              "ASSISTANT_VOICE",
+              "OVER_DISCLAIMER",
+              "FAKE_MEMORY",
+              "FAKE_EMOTION",
+              "NATURAL",
+              "PLAYFUL",
+              "WARM",
+              "MISCHIEVOUS",
+              "CONCISE",
+              "INDEPENDENT",
+              "DISAGREES_NATURALLY",
+              "RELATIONALLY_GROUNDED",
+              "SELF_CONTINUOUS",
+              "TOO_TERSE",
+              "TOO_OBEDIENT",
+              "TOO_DEFENSIVE"
+            ],
+            "type": "string"
+          },
+          "maxItems": 8,
+          "title": "Memory Use Tags",
+          "type": "array"
+        },
+        "autonomy_tags": {
+          "default": [],
+          "items": {
+            "enum": [
+              "TOO_FORMAL",
+              "TOO_VERBOSE",
+              "META_SUMMARIZING",
+              "ASSISTANT_VOICE",
+              "OVER_DISCLAIMER",
+              "FAKE_MEMORY",
+              "FAKE_EMOTION",
+              "NATURAL",
+              "PLAYFUL",
+              "WARM",
+              "MISCHIEVOUS",
+              "CONCISE",
+              "INDEPENDENT",
+              "DISAGREES_NATURALLY",
+              "RELATIONALLY_GROUNDED",
+              "SELF_CONTINUOUS",
+              "TOO_TERSE",
+              "TOO_OBEDIENT",
+              "TOO_DEFENSIVE"
+            ],
+            "type": "string"
+          },
+          "maxItems": 8,
+          "title": "Autonomy Tags",
+          "type": "array"
+        },
+        "provenance": {
+          "enum": [
+            "USER_PROVIDED_REVIEW",
+            "PROJECT_SYNTHETIC"
+          ],
+          "title": "Provenance",
+          "type": "string"
+        },
+        "provenance_reference": {
+          "default": "LOCAL_REVIEW",
+          "maxLength": 512,
+          "minLength": 1,
+          "title": "Provenance Reference",
+          "type": "string"
+        },
+        "observed_at_us": {
+          "minimum": 0,
+          "title": "Observed At Us",
+          "type": "integer"
+        },
+        "memory_use": {
+          "anyOf": [
+            {
+              "$ref": "#/$defs/MemoryUseFeedback"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null
+        }
+      },
+      "required": [
+        "sample_id",
+        "review_target",
+        "mode",
+        "context",
+        "candidate_response",
+        "human_judgment",
+        "provenance",
+        "observed_at_us"
+      ],
+      "title": "LanguageSample",
+      "type": "object"
+    },
     "Login": {
       "additionalProperties": false,
       "properties": {
@@ -709,6 +1032,33 @@
         "consent"
       ],
       "title": "MemoryNoteRequest",
+      "type": "object"
+    },
+    "MemoryUseFeedback": {
+      "additionalProperties": false,
+      "properties": {
+        "memory_id": {
+          "maxLength": 128,
+          "minLength": 1,
+          "title": "Memory Id",
+          "type": "string"
+        },
+        "mode": {
+          "enum": [
+            "EXPLICIT_RECALL",
+            "NATURAL_REFERENCE",
+            "IMPLICIT_REFERENCE",
+            "DO_NOT_MENTION"
+          ],
+          "title": "Mode",
+          "type": "string"
+        }
+      },
+      "required": [
+        "memory_id",
+        "mode"
+      ],
+      "title": "MemoryUseFeedback",
       "type": "object"
     },
     "MessageRequest": {

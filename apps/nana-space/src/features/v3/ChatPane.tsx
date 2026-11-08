@@ -16,6 +16,7 @@ import { Avatar } from "../../avatar/Avatar";
 import { Blank } from "./LifeViews";
 import { readinessLabel } from "../../data/readiness";
 import { transcribe, readAloud, stopSpeech } from "../../data/speech";
+export type FeedbackTag = "TOO_VERBOSE" | "NATURAL" | "TOO_TERSE";
 export interface Turn {
   id: string;
   input: string;
@@ -54,7 +55,11 @@ export function ChatPane({
   onStreaming,
   rememberConnection = false,
   onRememberConnection,
+  onFeedback,
+  onVerifyFeedback,
 }: {
+  onFeedback?: (turn: Turn, tag: FeedbackTag) => Promise<{id:string;state:string}>;
+  onVerifyFeedback?: (id:string) => Promise<{id:string;state:string}>;
   turns: Turn[];
   draft: string;
   onDraft: (s: string) => void;
@@ -76,6 +81,21 @@ export function ChatPane({
   rememberConnection?: boolean;
   onRememberConnection?: (remember: boolean) => void;
 }) {
+  const [feedbackTurn, setFeedbackTurn] = useState<string>();
+  const [feedbackBusy, setFeedbackBusy] = useState(false);
+  const [feedbackReceipts, setFeedbackReceipts] = useState<Record<string,{id:string;state:string}>>({});
+  const review = async (turn:Turn, tag?:FeedbackTag) => {
+    if (feedbackBusy) return;
+    const receipt=feedbackReceipts[turn.id];
+    if (tag && receipt && receipt.state!=="REJECTED") return;
+    setFeedbackBusy(true);
+    try {
+      const result=tag && onFeedback ? await onFeedback(turn,tag)
+        : receipt && onVerifyFeedback ? await onVerifyFeedback(receipt.id) : undefined;
+      if(result)setFeedbackReceipts(old=>({...old,[turn.id]:result}));
+    } catch { notice("这条评价尚未提交，请稍后检查连接。"); }
+    finally { setFeedbackBusy(false); }
+  };
   const [query, setQuery] = useState("");
   const [searchOpen, setSearchOpen] = useState(false);
   const visibleTurns = turns.filter(t => (t.input + " " + (t.reply || "")).toLocaleLowerCase().includes(query.toLocaleLowerCase()));
@@ -266,6 +286,8 @@ export function ChatPane({
                     <Check size={12} /> {({VERIFIED: "已收到", REQUESTED: "等待回复", REJECTED: "这次未提交", UNKNOWN: "等待核验"} as Record<string, string>)[t.state] || t.state}
                     {t.model ? ` · ${t.model}` : ""}
                   </span>
+                  {onFeedback && t.state==="VERIFIED" && t.exchangeId && t.reply && t.reply.length<=2048 &&
+                    <button aria-label="评价这条回复" onClick={()=>setFeedbackTurn(feedbackTurn===t.id?undefined:t.id)}>交流反馈</button>}
                   {t.reply && <button aria-label="引用这条回复" onClick={() => { onDraft(`引用：${t.reply!.slice(0, 500)}\n\n${draft}`); }}>引用</button>}
                   {t.reply && (
                     <button aria-label="朗读这条回复" onClick={() => void voice(t.reply)}><Volume2 size={14} /></button>
@@ -285,6 +307,16 @@ export function ChatPane({
                     </button>
                   )}
                 </div>
+                {feedbackTurn===t.id && <div className="v3-feedback" aria-label="交流反馈">
+                  <p>保存你的感受，帮助今后的交流；不会改写奈奈的身份或记忆事实。</p>
+                  {(!feedbackReceipts[t.id] || feedbackReceipts[t.id].state==="REJECTED") && <div>
+                    {([['TOO_VERBOSE','有点啰嗦'],['NATURAL','这样刚好'],['TOO_TERSE','想听多一点']] as const).map(([tag,label])=>
+                      <button key={tag} disabled={busy||feedbackBusy} onClick={()=>void review(t,tag)}>保存：{label}</button>)}
+                  </div>}
+                  {feedbackReceipts[t.id] && <p role="status">{feedbackReceipts[t.id].state==="VERIFIED"?"评价已保存":feedbackReceipts[t.id].state==="REJECTED"?"这次未保存，可检查后重新提交":"保存结果待核验，不会重复提交"}</p>}
+                  {feedbackReceipts[t.id]?.state==="UNKNOWN" && onVerifyFeedback &&
+                    <button disabled={feedbackBusy} onClick={()=>void review(t)}>核验这条评价</button>}
+                </div>}
                 <small className="v3-muted">
                   {t.pendingReceipt ? t.state === "UNKNOWN" ? "只恢复原请求编号，原文没有缓存；请核验回执" : "已核验原请求；此窗口没有重发原文" : t.restored ? "从奈奈保留的共同经历恢复 · 来源仍有效" : t.remembered ? "已按本次选择保存，来源可查" : "本次文字未加入长期共同经历"}
                 </small>

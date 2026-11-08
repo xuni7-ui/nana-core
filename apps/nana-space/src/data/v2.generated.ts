@@ -91,6 +91,39 @@ export type HostRequest = {
 
 export type JsonValue = null | boolean | number | string | Array<JsonValue> | { [key: string]: JsonValue };
 
+export type LanguageFeedbackRequest = {
+  "client_request_id": string;
+  "idempotency_key": string;
+  "expected_revision": number;
+  "run_generation": string;
+  "owner_epoch": number;
+  "sample": LanguageSample;
+  "exchange_record_id": string;
+  "consent": true;
+};
+
+export type LanguageSample = {
+  "body_storage"?: "SOURCE_REPORT" | "DEPENDENT_RECORD";
+  "sample_id": string;
+  "review_target": string;
+  "mode": "CASUAL" | "PROJECT" | "TECHNICAL";
+  "context": string;
+  "relationship_context"?: string;
+  "current_self_state"?: string;
+  "candidate_response": string;
+  "human_judgment": "ACCEPTED" | "REJECTED" | "PARTIAL" | "UNREVIEWED";
+  "exact_feedback"?: string;
+  "reason_tags"?: Array<"TOO_FORMAL" | "TOO_VERBOSE" | "META_SUMMARIZING" | "ASSISTANT_VOICE" | "OVER_DISCLAIMER" | "FAKE_MEMORY" | "FAKE_EMOTION" | "NATURAL" | "PLAYFUL" | "WARM" | "MISCHIEVOUS" | "CONCISE" | "INDEPENDENT" | "DISAGREES_NATURALLY" | "RELATIONALLY_GROUNDED" | "SELF_CONTINUOUS" | "TOO_TERSE" | "TOO_OBEDIENT" | "TOO_DEFENSIVE">;
+  "style_tags"?: Array<"TOO_FORMAL" | "TOO_VERBOSE" | "META_SUMMARIZING" | "ASSISTANT_VOICE" | "OVER_DISCLAIMER" | "FAKE_MEMORY" | "FAKE_EMOTION" | "NATURAL" | "PLAYFUL" | "WARM" | "MISCHIEVOUS" | "CONCISE" | "INDEPENDENT" | "DISAGREES_NATURALLY" | "RELATIONALLY_GROUNDED" | "SELF_CONTINUOUS" | "TOO_TERSE" | "TOO_OBEDIENT" | "TOO_DEFENSIVE">;
+  "truthfulness_tags"?: Array<"TOO_FORMAL" | "TOO_VERBOSE" | "META_SUMMARIZING" | "ASSISTANT_VOICE" | "OVER_DISCLAIMER" | "FAKE_MEMORY" | "FAKE_EMOTION" | "NATURAL" | "PLAYFUL" | "WARM" | "MISCHIEVOUS" | "CONCISE" | "INDEPENDENT" | "DISAGREES_NATURALLY" | "RELATIONALLY_GROUNDED" | "SELF_CONTINUOUS" | "TOO_TERSE" | "TOO_OBEDIENT" | "TOO_DEFENSIVE">;
+  "memory_use_tags"?: Array<"TOO_FORMAL" | "TOO_VERBOSE" | "META_SUMMARIZING" | "ASSISTANT_VOICE" | "OVER_DISCLAIMER" | "FAKE_MEMORY" | "FAKE_EMOTION" | "NATURAL" | "PLAYFUL" | "WARM" | "MISCHIEVOUS" | "CONCISE" | "INDEPENDENT" | "DISAGREES_NATURALLY" | "RELATIONALLY_GROUNDED" | "SELF_CONTINUOUS" | "TOO_TERSE" | "TOO_OBEDIENT" | "TOO_DEFENSIVE">;
+  "autonomy_tags"?: Array<"TOO_FORMAL" | "TOO_VERBOSE" | "META_SUMMARIZING" | "ASSISTANT_VOICE" | "OVER_DISCLAIMER" | "FAKE_MEMORY" | "FAKE_EMOTION" | "NATURAL" | "PLAYFUL" | "WARM" | "MISCHIEVOUS" | "CONCISE" | "INDEPENDENT" | "DISAGREES_NATURALLY" | "RELATIONALLY_GROUNDED" | "SELF_CONTINUOUS" | "TOO_TERSE" | "TOO_OBEDIENT" | "TOO_DEFENSIVE">;
+  "provenance": "USER_PROVIDED_REVIEW" | "PROJECT_SYNTHETIC";
+  "provenance_reference"?: string;
+  "observed_at_us": number;
+  "memory_use"?: (MemoryUseFeedback | null);
+};
+
 export type Login = {
   "password": string;
   "subject_id": string;
@@ -106,6 +139,11 @@ export type MemoryNoteRequest = {
   "privacy_class": "PUBLIC" | "PROJECT" | "PERSONAL";
   "consent": true;
   "target_id"?: (string | null);
+};
+
+export type MemoryUseFeedback = {
+  "memory_id": string;
+  "mode": "EXPLICIT_RECALL" | "NATURAL_REFERENCE" | "IMPLICIT_REFERENCE" | "DO_NOT_MENTION";
 };
 
 export type MessageRequest = {

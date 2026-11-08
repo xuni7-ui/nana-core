@@ -1,3 +1,9 @@
+# Active continuation — original feedback client wiring
+
+Existing ChatPane now submits explicit retained-turn expression feedback through generated v2 contracts, Web API and finite native mapping. Capability/Manager/current-session gates keep old servers compatible. UNKNOWN hides submit and only checks original receipt. Bodies stay in React memory. Web build and66frontend unit tests pass; synthetic HTTP browser scenario passed desktop/360/390/412 (4cases), original feedback HTTP2 passed. No APK rebuild or physical Android qualification. Feedback requires retained wording <=2048chars; unretained/long/unknown replies do not offer this entry. Next: commit-proof-only feedback reconciliation, then other original backend/product gaps; production untouched.
+
+---
+
 # Active continuation — real owner feedback API (DEV)
 
 POST /api/nana-space/v2/conversation/feedback now accepts an authenticated Manager's explicit retention-consented LanguageSample and exchange_record_id through original language-feedback IPC. Existing generation/epoch/revision/idempotency/CSRF and privacy gates apply; original Store record is independently reopened read-only and compared before VERIFIED. Return explicitly says delivery_proven=false and human_naturalness_qualified=false. Original LanguageService rejects a review dated before its retained exchange. Actual loopback HTTP/owner/Store saved once, repeated receipt, restart, mismatch/auth/role/CSRF/consent checks and original feedback suite:32 passed in21.44s. No model calls, production or APK change; endpoint is not yet wired into client controls or deployed. Remaining actual delivery attribution and C/S3/S8 causal qualification stay open.

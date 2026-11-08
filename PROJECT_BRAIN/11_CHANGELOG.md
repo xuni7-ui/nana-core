@@ -3161,3 +3161,7 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-08 · P1/S2/S7/S8 原反馈路径接入 BFF
 
 原 language-feedback IPC 经现有认证/Manager/CSRF/CAS/幂等链暴露为 conversation/feedback；明确同意保留，独立只读核对原 Store 提交，不把反馈保存当送达或真人自然度。原服务拒绝早于话轮的评价。实际隔离 HTTP→owner→Store 与相关 32 项测试通过（21.44s）；客户端入口、真实送达归因和部署仍未验收，未重建 APK。见 ACTIVE_CHECKPOINT.md。
+
+### 2026-11-08 · P1 原聊天反馈客户端接线
+
+生成契约/OpenAPI、Web调用、Android有限原生操作和现有ChatPane反馈入口接线；仅已保留可绑定话轮，Manager及新能力字段控制；UNKNOWN只查原回执。Web构建、66前端单测、4视口合成浏览器及2原HTTP反馈测试通过；未重打APK、未部署或验收真机。见ACTIVE_CHECKPOINT.md。

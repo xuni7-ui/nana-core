@@ -1050,3 +1050,32 @@ test("SYNTHETIC in-flight controls: pause stays usable without unlocking the pen
   await expect(page.getByText("SYNTHETIC finished after manager control",{exact:true})).toBeVisible();
   expect(state.requests.filter(r=>r.path==="messages" && r.method==="POST")).toHaveLength(1);
 });
+
+test("SYNTHETIC explicit reply feedback saves once and UNKNOWN only checks its receipt",async({page})=>{
+  const state=await installMock(page);
+  state.capabilities={conversation_history:true,conversation_feedback:true};
+  state.history={items:[{exchange_record_id:"feedback-exchange",message_id:"feedback-message",user_text:"SYNTHETIC retained hello",reply_text:"SYNTHETIC retained reply",created_at_us:1793026800000000}]};
+  let posts=0, receiptId="",checks=0;
+  await page.route(`**${API}conversation/feedback`,async route=>{
+    posts++;
+    const body=route.request().postDataJSON();receiptId=body.idempotency_key;
+    expect(body.consent).toBe(true);
+    expect(body.sample.review_target).toBe("feedback-exchange");
+    expect(body.sample.reason_tags).toEqual(["TOO_VERBOSE"]);
+    await route.fulfill({status:200,json:envelope(state,{receipt_id:receiptId,state:"UNKNOWN",dispatch_happened:true,result:{}})});
+  });
+  await page.route(`**${API}receipts/*`,async route=>{
+    checks++;expect(route.request().url()).toContain(receiptId);
+    await route.fulfill({status:200,json:envelope(state,{receipt_id:receiptId,state:"VERIFIED",dispatch_happened:true,result:{state:"EXPLICIT_FEEDBACK_SAVED",delivery_proven:false}})});
+  });
+  await open(page,"chat");
+  await page.getByRole("button",{name:"评价这条回复"}).click();
+  await page.getByRole("button",{name:"保存：有点啰嗦"}).click();
+  await expect(page.getByText("保存结果待核验，不会重复提交",{exact:true})).toBeVisible();
+  await expect(page.getByRole("button",{name:"保存：有点啰嗦"})).toHaveCount(0);
+  await page.getByRole("button",{name:"核验这条评价"}).click();
+  await expect(page.getByText("评价已保存",{exact:true})).toBeVisible();
+  expect(posts).toBe(1);expect(checks).toBe(1);
+  expect(await page.evaluate(()=>JSON.stringify(Object.entries(localStorage)))).not.toContain("SYNTHETIC retained reply");
+  await noHorizontalOverflow(page);
+});

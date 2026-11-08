@@ -109,6 +109,7 @@ class GatewayService:
                 "memory_metadata": True,
                 "memory_search": True,
                 "memory_notes": True,
+                "conversation_feedback": True,
                 "backup_status": True,
                 "body_cache": False,
                 "background_push": "UNAVAILABLE",

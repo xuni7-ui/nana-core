@@ -714,6 +714,38 @@ export function LiveSpace() {
       else if (version === sessionVersion.current) setBusy(false);
     }
   };
+  const saveLanguageFeedback=async(turn:Turn,tag:"TOO_VERBOSE"|"NATURAL"|"TOO_TERSE")=>{
+    if(writePending.current || !turn.exchangeId || !turn.reply)throw new V2Error("REQUEST_BUSY");
+    const id=crypto.randomUUID(),version=sessionVersion.current;
+    let dispatched=false;
+    writePending.current=true;setBusy(true);
+    try{
+      const b=await fresh();
+      if(version!==sessionVersion.current)throw new V2Error("SESSION_REVOKED");
+      dispatched=true;
+      const response=await client.current.write("conversation.feedback",{...writeBase(b,id),consent:true,
+        exchange_record_id:turn.exchangeId,sample:{sample_id:id,review_target:turn.exchangeId,mode:"CASUAL",
+          context:turn.input.slice(0,1024)||"这次交流",candidate_response:turn.reply,
+          human_judgment:tag==="NATURAL"?"ACCEPTED":"REJECTED",reason_tags:[tag],
+          exact_feedback:({TOO_VERBOSE:"有点啰嗦",NATURAL:"这样刚好",TOO_TERSE:"想听多一点"})[tag],
+          provenance:"USER_PROVIDED_REVIEW",observed_at_us:Math.floor(Date.now()*1000)}});
+      if(version!==sessionVersion.current)throw new V2Error("SESSION_REVOKED");
+      const result=object(response.data);setReceipt(result);
+      return {id,state:String(result.state)};
+    }catch(error){
+      if(version!==sessionVersion.current)throw error;
+      const state=noteFailureState(error,dispatched);
+      setReceipt({receipt_id:id,state,operation:"LANGUAGE_FEEDBACK"});
+      return {id,state};
+    }finally{writePending.current=false;if(version===sessionVersion.current)setBusy(false);}
+  };
+  const verifyLanguageFeedback=async(id:string)=>{
+    const version=sessionVersion.current;
+    const response=await client.current.receipt(id);
+    if(version!==sessionVersion.current)throw new V2Error("SESSION_REVOKED");
+    const result=object(response.data);setReceipt(result);
+    return {id,state:String(result.state)};
+  };
   const saveMemoryNote=async(text:string,privacy_class:"PUBLIC"|"PROJECT"|"PERSONAL",target_id?:string)=>{
     if(writePending.current)throw new V2Error("REQUEST_BUSY");
     const id=crypto.randomUUID(),version=sessionVersion.current;
@@ -1465,6 +1497,8 @@ export function LiveSpace() {
               <ChatPane
                 key={`${bootstrap?.run_generation || "offline"}:${privacy.current}`}
                 turns={turns}
+                onFeedback={manager && healthy && bootstrap?.capabilities.conversation_feedback===true ? saveLanguageFeedback : undefined}
+                onVerifyFeedback={verifyLanguageFeedback}
                 draft={draft}
                 onDraft={setDraft}
                 busy={busy}
