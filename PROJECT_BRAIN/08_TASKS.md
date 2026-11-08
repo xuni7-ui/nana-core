@@ -2,6 +2,8 @@
 
 ## CURRENT — NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT
 
+[用户冻结2026-11-08] 当前暂停，已创建北京时间今晚22:30一次性续办。四模式已推4debd2e；本冻结批保存原C兴趣筛选补丁、17项定向通过及全部限制。恢复先读FROZEN_CHECKPOINT当前块，再连续推进同一总任务；不宣称全部完成。
+
 [2026-11-08异地续办] b75ba7f接续4268815，四模式来源选择/聊天反馈已代码实现，原Store重启/后续上下文/撤回4项、Node契约3项通过；完整构建/HTTP/浏览器仍待环境权限恢复，不升级安装/生产资格。继续原C自主性及自然交流等未完成项；见ACTIVE_CHECKPOINT最新块。
 
 以09_STATE当前块、docs/nana_next_experience/STATUS_AND_REMAINING.md及ACTIVE_CHECKPOINT.md续办。原总任务未完成，软件/十域/仓库导航共同继承；下方Foundation核账CURRENT是历史记录。已完成反馈客户端与原Store只读提交核验的开发联调，继续剩余自然交流、自主性、记忆成长、存储及最终匹配交付；真实host/model/phone/长期资格分别记录。

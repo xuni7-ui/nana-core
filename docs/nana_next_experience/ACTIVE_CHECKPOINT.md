@@ -1,3 +1,9 @@
+# Current pause — user-requested / resume22:30 Asia/Shanghai on2026-11-08
+
+Current execution paused by user; a one-time continuation has been created, enabled, for22:30Beijing/14:30UTC. Read FROZEN_CHECKPOINT.md first; original mission remains incomplete. This freeze also preserves original-C adopted-topic interest exception (EXPLORE/CREATE), five contrast passes and17related passes; full A–E audit and real life not claimed. Prior4debd2e source feedback client remains source-tested, no full UI/HTTP/build/installation claim. Existing production/CURRENT/APK unchanged. Resume by verifying latest legitimate source/Brain, not replaying old work.
+
+---
+
 # Active continuation — four memory-use modes in the existing chat
 
 b75ba7f is the supplied4268815's direct documentation successor, no divergence; remote delivery remains5b4f589/CURRENT266+409. Original work snapshot18bc736 preserved. New shallow sparse checkout/work branch `/workspace/nana-unified-release` restored through GitHub connector, original commit/tree and833 text blobs hash-checked; omitted binaries/history are not full-clone or build evidence.

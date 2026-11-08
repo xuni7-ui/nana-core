@@ -1,0 +1,115 @@
+FF..F                                                                    [100%]
+=================================== FAILURES ===================================
+_ test_adopted_personal_interest_survives_generic_score[CREATE-LOW-NEW-world.question-LOW-CREATE] _
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7f18d9013740>
+behavior = 'CREATE', value = 'LOW', novelty = 'NEW', topic = 'world.question'
+load = 'LOW', expected = 'CREATE'
+
+    @pytest.mark.parametrize('behavior,value,novelty,topic,load,expected', [
+        ('CREATE', 'LOW', 'NEW', 'world.question', 'LOW', 'CREATE'),
+        ('EXPLORE', 'RELEVANT', 'REPEATED', 'world.question', 'LOW', 'EXPLORE'),
+        ('CREATE', 'LOW', 'REPEATED', 'another.interest', 'LOW', 'IGNORE'),
+        ('CREATE', 'LOW', 'REPEATED', 'world.question', 'HIGH', 'REST'),
+    ])
+    def test_adopted_personal_interest_survives_generic_score(runtime, behavior, value, novelty, topic, load, expected):
+        r = runtime
+        adopt_interest(r, topic)
+        mid = capture(r, 'leisure-opportunity', {'source': 'SYNTHETIC personal option'})
+        item = candidate(r, mid, value=value, novelty=novelty)
+        item = item.model_copy(update={'cue': item.cue.model_copy(update={
+            'motivation_source': 'CREATIVE_INTEREST', 'possible_behaviors': (behavior, 'WATCH'),
+            'cognitive_load': load})})
+        queue = OpportunityQueue(r)
+        jid = queue.offer(item)
+        result = judge(r, queue, jid)
+>       assert result['behavior'] == expected
+E       AssertionError: assert 'IGNORE' == 'CREATE'
+E         
+E         - CREATE
+E         + IGNORE
+
+tests/open_life/test_adopted_interest.py:47: AssertionError
+_ test_adopted_personal_interest_survives_generic_score[EXPLORE-RELEVANT-REPEATED-world.question-LOW-EXPLORE] _
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7f18d9019550>
+behavior = 'EXPLORE', value = 'RELEVANT', novelty = 'REPEATED'
+topic = 'world.question', load = 'LOW', expected = 'EXPLORE'
+
+    @pytest.mark.parametrize('behavior,value,novelty,topic,load,expected', [
+        ('CREATE', 'LOW', 'NEW', 'world.question', 'LOW', 'CREATE'),
+        ('EXPLORE', 'RELEVANT', 'REPEATED', 'world.question', 'LOW', 'EXPLORE'),
+        ('CREATE', 'LOW', 'REPEATED', 'another.interest', 'LOW', 'IGNORE'),
+        ('CREATE', 'LOW', 'REPEATED', 'world.question', 'HIGH', 'REST'),
+    ])
+    def test_adopted_personal_interest_survives_generic_score(runtime, behavior, value, novelty, topic, load, expected):
+        r = runtime
+        adopt_interest(r, topic)
+        mid = capture(r, 'leisure-opportunity', {'source': 'SYNTHETIC personal option'})
+        item = candidate(r, mid, value=value, novelty=novelty)
+        item = item.model_copy(update={'cue': item.cue.model_copy(update={
+            'motivation_source': 'CREATIVE_INTEREST', 'possible_behaviors': (behavior, 'WATCH'),
+            'cognitive_load': load})})
+        queue = OpportunityQueue(r)
+        jid = queue.offer(item)
+        result = judge(r, queue, jid)
+>       assert result['behavior'] == expected
+E       AssertionError: assert 'IGNORE' == 'EXPLORE'
+E         
+E         - EXPLORE
+E         + IGNORE
+
+tests/open_life/test_adopted_interest.py:47: AssertionError
+_______ test_interest_restart_and_source_withdrawal_remove_the_exception _______
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7f18d853ce90>
+
+    def test_interest_restart_and_source_withdrawal_remove_the_exception(runtime):
+        r = runtime
+        support = adopt_interest(r)
+        path, clock, identity = r.store.path, r.clock.source, r.identity_id
+>       support_mid = r.store.one('subject_events', support[0].subject_event_id)['memory_id']
+                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/open_life/test_adopted_interest.py:60: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = CycleResult(conversation_decision=None, experience_need=None, problem_frame=None, context_fit=None, cycle_id='52a666ce...isclosure=None, realization_target=None, request_decision=None, selected_disposition_id=None, relational_decision=None)
+item = 'subject_event_id'
+
+    def __getattr__(self, item: str) -> Any:
+        private_attributes = object.__getattribute__(self, '__private_attributes__')
+        if item in private_attributes:
+            attribute = private_attributes[item]
+            if hasattr(attribute, '__get__'):
+                return attribute.__get__(self, type(self))  # type: ignore
+    
+            try:
+                # Note: self.__pydantic_private__ cannot be None if self.__private_attributes__ has items
+                return self.__pydantic_private__[item]  # type: ignore
+            except KeyError as exc:
+                raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}') from exc
+        else:
+            # `__pydantic_extra__` can fail to be set if the model is not yet fully initialized.
+            # See `BaseModel.__repr_args__` for more details
+            try:
+                pydantic_extra = object.__getattribute__(self, '__pydantic_extra__')
+            except AttributeError:
+                pydantic_extra = None
+    
+            if pydantic_extra and item in pydantic_extra:
+                return pydantic_extra[item]
+            else:
+                if hasattr(self.__class__, item):
+                    return super().__getattribute__(item)  # Raises AttributeError if appropriate
+                else:
+                    # this is the current error
+>                   raise AttributeError(f'{type(self).__name__!r} object has no attribute {item!r}')
+E                   AttributeError: 'CycleResult' object has no attribute 'subject_event_id'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/site-packages/pydantic/main.py:1042: AttributeError
+=========================== short test summary info ============================
+FAILED tests/open_life/test_adopted_interest.py::test_adopted_personal_interest_survives_generic_score[CREATE-LOW-NEW-world.question-LOW-CREATE]
+FAILED tests/open_life/test_adopted_interest.py::test_adopted_personal_interest_survives_generic_score[EXPLORE-RELEVANT-REPEATED-world.question-LOW-EXPLORE]
+FAILED tests/open_life/test_adopted_interest.py::test_interest_restart_and_source_withdrawal_remove_the_exception
+3 failed, 2 passed in 0.76s

@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 92,
-  "as_of_us": 1794144820101396,
+  "revision": 93,
+  "as_of_us": 1794145435264000,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_LIVING_MEMORY_DREAM_STORAGE_TOKEN_INTEGRATION",
+  "status": "PAUSED_BY_USER_SCHEDULED_CONTINUATION",
   "progress": [
     "原Next Experience及十域任务持续；f03fcbb检索学习/原S3/S2/Fish、408已交付能力继承，不新增主体或学习系统。",
     "a0263e5原回执热集保留256，终态/UNKNOWN元数据可私有归档，跨重启同key不重发，旧二进制遇新标记拒绝。",
@@ -23,7 +23,8 @@
     "266 Runtime两次同SHA并实际离线安装；原6a DEV主体升级保持身份/lineage、梦境冷回读与撤回/数字usage，266 BFF另以隔离DEV验证；APK不重打。",
     "7b8a9cc至43a5662原反馈API、客户端契约/Web/原生映射、UNKNOWN提交证据核验与源码入口已接线；36相关后端、66前端单测、4合成浏览器视口通过。",
     "43a5662后端两次同SHA84ac36d9…cc68，已实际离线安装并通过原BFF/Core/反馈幂等/十视图/同主体重启/笔记撤回；SQLite3.53.1开发环境，不冒充云端3.51.3。",
-    "四模式记忆反馈的关联来源投影与聊天选择入口已源码接线；4项原Store/同主体重启/后续上下文/撤回受控验证和3项Node契约检查通过；前端完整构建/HTTP/浏览器尚未资格。"
+    "四模式记忆反馈的关联来源投影与聊天选择入口已源码接线；4项原Store/同主体重启/后续上下文/撤回受控验证和3项Node契约检查通过；前端完整构建/HTTP/浏览器尚未资格。",
+    "用户要求冻结并于2026-11-08 22:30 Asia/Shanghai恢复原总任务；一次性续办已创建。同Growth采纳的匹配个人兴趣在通用低价值/重复筛选中保留EXPLORE/CREATE选项，5项对照及17项原C/Growth/agency定向通过；非自主性全审计/真实生活资格。"
   ],
   "open_gates": [
     "继续同一后端安装/组合资格及原任务高价值融合；冷历史只完成安全回读前置，主链热数据驱逐/真实物理治理未实施，S8独立反馈及真实长期体验仍独立评估。",
@@ -42,7 +43,9 @@
     "docs/nana_next_experience/STATUS_AND_REMAINING.md",
     "docs/nana_next_experience/SOURCE_NAVIGATION_AUDIT.md",
     "docs/nana_next_experience/evidence/feedback-integration-20261108/qualification.json",
-    "docs/nana_next_experience/evidence/memory-use-client-20261108/README.md"
+    "docs/nana_next_experience/evidence/memory-use-client-20261108/README.md",
+    "docs/nana_next_experience/FROZEN_CHECKPOINT.md",
+    "docs/nana_next_experience/evidence/adopted-interest-20261108/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
