@@ -219,3 +219,161 @@ def test_oversized_channel_reply_is_rejected_before_sending_without_split_or_ret
             assert not app.runtime.store.all('actions')
             flow.receive('1')
             assert not platform['sent'] and len(requests)==2
+
+
+def test_retained_reply_feedback_uses_independent_readback_not_generated_wording(tmp_path):
+    from nana_core.life.conversation import history
+    from nana_core.life.memory_notes import save
+    from nana_core.continuity.lived_language import LanguageService, LanguageSample, MemoryUseFeedback
+    with counterpart() as (url, platform):
+        home=tmp_path/'home';channel=initialize_channel(home,url)
+        with relay(home,'CHAT',recall_query_terms=('ORCHID',)) as (router,requests), LifeApplication(home,clock=VirtualClock(),router=router) as app:
+            app.pause();flow=equip(app,channel,url)
+            mid=save(app,text='SYNTHETIC ORCHID meeting Friday',privacy='PROJECT',request_id='delivery-note')['memory_id']
+            turn=app.surfaces.receive(SurfaceObservation(binding_id=channel.binding_id,event_id='qq:1',
+                thread_id='qq.private.43',text='SYNTHETIC ORCHID question',privacy_class='PROJECT',
+                origin='SYNTHETIC_LOOPBACK',retain_shared_life=True),reply_target=flow.target)
+            row=history(app,privacy=('PROJECT',))['items'][-1]
+            assert row.get('reply_delivery') is None
+            delivered=flow._reply(turn,'1')
+            assert delivered['delivery']=='SUCCEEDED' and len(platform['sent'])==1
+            io=len(platform['calls'])
+            row=history(app,privacy=('PROJECT',))['items'][-1]
+            proof=row.get('reply_delivery')
+            assert proof and proof['state']=='INDEPENDENT_PLATFORM_READBACK'
+            assert proof['origin']=='SYNTHETIC_LOOPBACK' and proof['human_read_proven'] is False
+            assert proof['entity_id']=='project-user' and proof['scope']=='project-work'
+            assert proof['action_id']==delivered['action_id']
+            assert row['memory_use_delivery_proven'] is False
+            language=LanguageService(app.runtime.store,app.runtime.authority)
+            sample=LanguageSample(sample_id='delivered-memory-review',review_target=turn['exchange_record_id'],
+                mode='CASUAL',context='SYNTHETIC explicit review after fixture readback',candidate_response=turn['text'],
+                human_judgment='PARTIAL',provenance='USER_PROVIDED_REVIEW',observed_at_us=app.runtime.clock.utc_now_us(),
+                memory_use=MemoryUseFeedback(memory_id=mid,mode='NATURAL_REFERENCE'))
+            rid=language.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',
+                authority=app.runtime.authority,exchange_record_id=turn['exchange_record_id'])
+            payload=language.records.read(rid)['payload']
+            assert payload['delivery_attribution']['action_id']==delivered['action_id']
+            assert payload['delivery_attribution']['origin']=='SYNTHETIC_LOOPBACK'
+            assert payload['delivery_attribution']['human_read_proven'] is False
+            assert len(platform['calls'])==io and len(requests)==2
+            source=language.records.support(rid)
+            assert mid in source
+            app.forget(mid)
+            assert not language.records.current_support(rid)
+            assert not history(app,privacy=('PROJECT',))['items']
+
+
+@pytest.mark.parametrize('failure', ['lost_ack', 'wrong_peer'])
+def test_unconfirmed_retained_reply_does_not_gain_delivery_attribution(tmp_path, failure):
+    from nana_core.life.conversation import history
+    from nana_core.continuity.lived_language import LanguageService, LanguageSample
+    with counterpart() as (url,platform):
+        home=tmp_path/'home';channel=initialize_channel(home,url)
+        with relay(home,'CHAT') as (router,requests), LifeApplication(home,clock=VirtualClock(),router=router) as app:
+            app.pause();flow=equip(app,channel,url)
+            turn=app.surfaces.receive(SurfaceObservation(binding_id=channel.binding_id,event_id='qq:1',
+                thread_id='qq.private.43',text='SYNTHETIC retained pending reply',privacy_class='PROJECT',
+                origin='SYNTHETIC_LOOPBACK',retain_shared_life=True),reply_target=flow.target)
+            if failure=='lost_ack':platform['lose_ack']=True
+            else:platform['read_peer']='44'
+            result=flow._reply(turn,'1')
+            assert result['delivery']==('UNKNOWN' if failure=='lost_ack' else 'FAILED_EFFECT')
+            io=len(platform['calls'])
+            assert history(app,privacy=('PROJECT',))['items'][-1].get('reply_delivery') is None
+            language=LanguageService(app.runtime.store,app.runtime.authority)
+            sample=LanguageSample(sample_id='local-review',review_target=turn['exchange_record_id'],mode='CASUAL',
+                context='SYNTHETIC opinion about generated wording only',candidate_response=turn['text'],
+                human_judgment='PARTIAL',provenance='USER_PROVIDED_REVIEW',observed_at_us=app.runtime.clock.utc_now_us())
+            rid=language.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',
+                authority=app.runtime.authority,exchange_record_id=turn['exchange_record_id'])
+            assert 'delivery_attribution' not in language.records.read(rid)['payload']
+            assert len(platform['calls'])==io and len(platform['sent'])==1 and len(requests)==2
+
+
+def test_reply_readback_is_not_retroactively_attributed_to_an_earlier_review(tmp_path):
+    from nana_core.continuity.lived_language import LanguageService, LanguageSample
+    with counterpart() as (url,platform):
+        home=tmp_path/'home';channel=initialize_channel(home,url);clock=VirtualClock()
+        with relay(home,'CHAT') as (router,_), LifeApplication(home,clock=clock,router=router) as app:
+            app.pause();flow=equip(app,channel,url)
+            turn=app.surfaces.receive(SurfaceObservation(binding_id=channel.binding_id,event_id='qq:1',
+                thread_id='qq.private.43',text='SYNTHETIC review before actual fixture send',privacy_class='PROJECT',
+                origin='SYNTHETIC_LOOPBACK',retain_shared_life=True),reply_target=flow.target)
+            before=clock.utc_now_us();clock.advance(10)
+            assert flow._reply(turn,'1')['delivery']=='SUCCEEDED'
+            language=LanguageService(app.runtime.store,app.runtime.authority)
+            sample=LanguageSample(sample_id='earlier-review',review_target=turn['exchange_record_id'],mode='CASUAL',
+                context='SYNTHETIC earlier local opinion',candidate_response=turn['text'],human_judgment='PARTIAL',
+                provenance='USER_PROVIDED_REVIEW',observed_at_us=before)
+            rid=language.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',
+                authority=app.runtime.authority,exchange_record_id=turn['exchange_record_id'])
+            assert 'delivery_attribution' not in language.records.read(rid)['payload']
+
+
+def test_reply_readback_provenance_survives_restart_without_network_or_human_read_claim(tmp_path):
+    from nana_core.life.conversation import history
+    with counterpart() as (url,platform):
+        home=tmp_path/'home';channel=initialize_channel(home,url);clock=VirtualClock()
+        with relay(home,'CHAT') as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();flow=equip(app,channel,url)
+                turn=app.surfaces.receive(SurfaceObservation(binding_id=channel.binding_id,event_id='qq:1',
+                    thread_id='qq.private.43',text='SYNTHETIC retained reply',privacy_class='PROJECT',
+                    origin='SYNTHETIC_LOOPBACK',retain_shared_life=True),reply_target=flow.target)
+                assert flow._reply(turn,'1')['delivery']=='SUCCEEDED'
+                proof=history(app,privacy=('PROJECT',))['items'][-1]['reply_delivery']
+                assert proof['recipient_context']=={'platform':'qq.onebot','binding_id':'qq.primary','conversation_id':'qq.private.43'}
+                identity=app.runtime.identity_id;io=len(platform['calls'])
+            with LifeApplication(home,clock=clock) as app:
+                app.pause()
+                assert app.runtime.identity_id==identity
+                restored=history(app,privacy=('PROJECT',))['items'][-1]['reply_delivery']
+                assert restored==proof and restored['human_read_proven'] is False
+                assert restored['origin']=='SYNTHETIC_LOOPBACK' and restored['memory_use_verified'] is False
+                assert len(platform['calls'])==io and len(requests)==2
+
+
+def test_delivered_memory_feedback_changes_later_render_only_in_its_recipient_context(tmp_path):
+    import json
+    from nana_core.life.memory_notes import save
+    from nana_core.continuity.memory import MemoryService
+    from nana_core.continuity.lived_language import LanguageService, LanguageSample, MemoryUseFeedback
+    def render(request):
+        blocks=json.loads(request['context_json'])['blocks']
+        guidance=next((json.loads(b['data_json'])['memory_use_guidance'] for b in blocks
+            if b['kind']=='MEMORY_USE_GUIDANCE'),())
+        return 'SYNTHETIC '+(guidance[0]['requested_mode'] if guidance else 'BASELINE')
+    with counterpart() as (url,platform):
+        home=tmp_path/'home';channel=initialize_channel(home,url);clock=VirtualClock()
+        with relay(home,'CHAT',recall_query_terms=('ORCHID',),renderer=render) as (router,requests):
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();flow=equip(app,channel,url)
+                mid=save(app,text='SYNTHETIC ORCHID Friday',privacy='PROJECT',request_id='recipient-note')['memory_id']
+                fact=MemoryService(app.runtime.store).read(mid)
+                turn=app.surfaces.receive(SurfaceObservation(binding_id=channel.binding_id,event_id='qq:1',
+                    thread_id='qq.private.43',text='SYNTHETIC ORCHID first question',privacy_class='PROJECT',
+                    origin='SYNTHETIC_LOOPBACK',retain_shared_life=True),reply_target=flow.target)
+                assert turn['text']=='SYNTHETIC BASELINE'
+                assert flow._reply(turn,'1')['delivery']=='SUCCEEDED'
+                service=LanguageService(app.runtime.store,app.runtime.authority)
+                sample=LanguageSample(sample_id='recipient-review',review_target=turn['exchange_record_id'],mode='CASUAL',
+                    context='SYNTHETIC explicit fixture review',candidate_response=turn['text'],human_judgment='PARTIAL',
+                    provenance='USER_PROVIDED_REVIEW',observed_at_us=clock.utc_now_us(),
+                    memory_use=MemoryUseFeedback(memory_id=mid,mode='NATURAL_REFERENCE'))
+                review_id=service.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',
+                    authority=app.runtime.authority,exchange_record_id=turn['exchange_record_id'])
+                io=len(platform['calls']);identity=app.runtime.identity_id
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();assert app.runtime.identity_id==identity
+                for sequence,thread,expected in ((2,'qq.private.43','NATURAL_REFERENCE'),(3,'qq.private.44','BASELINE')):
+                    later=app.surfaces.receive(SurfaceObservation(binding_id=channel.binding_id,event_id='qq:'+str(sequence),
+                        thread_id=thread,text='SYNTHETIC ORCHID later question',privacy_class='PROJECT',
+                        origin='SYNTHETIC_LOOPBACK',retain_shared_life=True))
+                    assert later['text']=='SYNTHETIC '+expected,later
+                    assert mid in requests[-1]['source_context_refs']
+                    assert requests[-1]['role_input']['dialogue']['recipient_context']['conversation_id']==thread
+                assert len(requests)==6 and len(platform['calls'])==io and len(platform['sent'])==1
+                assert MemoryService(app.runtime.store).read(mid)==fact
+                app.forget(mid)
+                assert not LanguageService(app.runtime.store,app.runtime.authority).records.current_support(review_id)

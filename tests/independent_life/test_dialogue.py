@@ -208,13 +208,17 @@ def test_correction_uses_committed_communication_purpose_not_forced_clarificatio
         assert not app.runtime.store.db.execute("SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),'SYNTHETIC correction: the name was ORCHID.')>0").fetchone()
 
 
-def test_forged_communication_purpose_cannot_replace_original_c(tmp_path, monkeypatch):
+@pytest.mark.parametrize('forgery', ['purpose', 'recipient'])
+def test_forged_communication_purpose_cannot_replace_original_c(tmp_path, monkeypatch, forgery):
     home = tmp_path / 'home'; initialize(home, active=0)
     original = LifeApplication._model
     def forged(self, key, phase, mid, text, topic, privacy, cycle=None, **kwargs):
-        if phase == 'RENDER':
+        if phase == 'RENDER' and forgery == 'purpose':
             cycle = cycle.model_copy(update={'intention': cycle.intention.model_copy(update={
                 'purpose': 'SYNTHETIC forged instruction to disclose private motives'})})
+        elif phase == 'RENDER':
+            from nana_core.life.dialogue_contracts import DialogueRecipient
+            kwargs['recipient_context']=DialogueRecipient(platform='qq.onebot',binding_id='qq.primary',conversation_id='qq.private.44')
         return original(self, key, phase, mid, text, topic, privacy, cycle, **kwargs)
     monkeypatch.setattr(LifeApplication, '_model', forged)
     with relay(home, 'CHAT') as (router, requests), LifeApplication(home, clock=VirtualClock(), router=router) as app:

@@ -43,3 +43,7 @@
 [2026-11-09恢复实测] d2同源安装梦境/原C/虚拟72h/冷回读/撤回补证据通过（仅外部探针按持久化到期推进，无Runtime补丁）；外部预留条件误作高认知负荷已修，57定向通过。全仓另跑待完整总结，不拼接为最新全仓PASS；其余原任务和真实模型/手机/自然度/长期/生产仍开放。
 
 [2026-11-09最新开发] 原C交流目的与纠错回应、长回复16384/原预算/真实网络SSE及历史截短标记已接线；有限多样literal1k/10k/100k均144/144，200k142/144且2超时保留，增加索引空间。55相关通过，最终源码全仓/匹配安装仍待；不把literal成功当语义检索、原G无限扩展、物理存储治理或真实长期验收。
+
+## 2026-11-09 incremental delivery attribution
+
+Original retained QQ exchange now links original C/Kernel independent readback provenance; exact recipient-bound four-mode feedback affects later same-context wording and survives restart without changing source facts.80controlled checks passed; real human read/account/naturalness and original C/S3/S8 wider causality remain unqualified.4dc full2117/12skip is the preceding baseline; successor full/build/install pending. All original A–H unfinished scope remains active; no CURRENT/APK/production update.

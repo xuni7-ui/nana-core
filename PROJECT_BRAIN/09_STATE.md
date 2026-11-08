@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 102,
-  "as_of_us": 1794169934443188,
+  "revision": 103,
+  "as_of_us": 1794171188954427,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_MATCHED_REGRESSION_AND_INSTALLATION",
+  "status": "IN_PROGRESS_DELIVERY_ATTRIBUTION_MATCHED_QUALIFICATION",
   "progress": [
     "同一Next Experience与十域主任务已恢复；唯一Subject/Store/Loop、原C/D/G/Planner及Precision V2保持。最新合法源码与Brain优先。",
     "四模式原反馈API/Web/原生映射接线；TS/Vite、66前端、25原HTTP、20四视口及独立CI42491401749通过，未打新APK。",
@@ -20,10 +20,10 @@
     "d2安装梦境外部到期驱动/原C/虚拟72h/冷回读/撤回/usage通过；964b038自主性成本归因57项、c9原C交流目的38项通过，非真实生活。",
     "长回复契约16384字符、原预算不变；SSE最终全文/4096前缀、历史节选标记接线，34相关和2原HTTP长短回复通过。",
     "原memory_terms有界派生加速：1k/10k/100k均144/144，100k P959.72ms；200k142/144、误召0/超时2、P9548.18ms，增加约0.8GB索引；55相关通过。",
-    "70全仓2113通过/2旧C预期失败/12明确跳过591.95s；严格区分真实负荷REST与同题pending去重NO_ACTION，31相关通过。平台2048生成前置/独立拒绝34相关通过，后继全仓/新包待验。"
+    "4dc全仓2117通过/12明确跳过591.63s；新QQ原Kernel独立回读归因及精确收件上下文反馈80相关通过60.05s，含重启后同会话改变/另一会话不继承；新全仓/匹配包待验。"
   ],
   "open_gates": [
-    "原A–H全部剩余范围继承：自主性A–E其余路径、连续输入/插话/节奏、真实送达归因和C/S3/S8不同后续因果需完成。",
+    "原A–H全部剩余继承：自主性A–E其余路径、连续输入/插话/节奏、真实账号送达及C/S3/S8不同后续因果仍需完成；新送达归因仅受控QQ且无真人已读证明。",
     "原G仍限独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移仍待改进。新加速只资格有限合成literal源选择。",
     "冷副本安全回读不等于主链物理驱逐；跨归档引用、恢复/撤回、分配空间与异机DR仍待资格。",
     "全链模型特定Token/费用/超时、产品/模型向导、运行Gateway/Core/宿主兼容与仓库闭包仍按原清单推进。",
@@ -38,7 +38,7 @@
     "docs/nana_next_experience/evidence/diverse-literal-20261109/README.md",
     "docs/nana_next_experience/evidence/retrieval-scope32-20261108/README.md",
     "docs/nana_next_experience/evidence/installed-70-20261109/README.md",
-    "docs/nana_next_experience/evidence/resumed-20261109/README.md"
+    "docs/nana_next_experience/evidence/delivery-attribution-20261109/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

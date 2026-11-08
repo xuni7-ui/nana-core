@@ -136,7 +136,8 @@ class OneBotHTTPTransport:
         if not re.fullmatch(r"-?[0-9]{1,20}", str(message_id)):
             raise CoreError("ONEBOT_ACK_UNKNOWN_NO_RETRY")
         return {"message_id": str(message_id), "target_kind": target_kind, "target_id": str(target_id),
-                "account_id": self.account_id, "text_digest": digest(text), "echo": echo}
+                "account_id": self.account_id, "text_digest": digest(text), "echo": echo,
+                "platform_origin": self.realm}
 
     def verify_receipt(self, receipt):
         row = self.get_message(receipt["message_id"])
@@ -149,7 +150,7 @@ class OneBotHTTPTransport:
                    and digest(message_text(row.get("message"))) == receipt["text_digest"])
         return Verification(verdict="MATCH" if matches else "EFFECT_MISMATCH", evidence={
             "message_id": receipt["message_id"], "account_id": self.account_id,
-            "target_id": str(peer), "independent_readback": True})
+            "target_id": str(peer), "independent_readback": True, "platform_origin": self.realm})
 
 
 class QQRegistry:

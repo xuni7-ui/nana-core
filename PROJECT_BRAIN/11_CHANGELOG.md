@@ -3267,3 +3267,7 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-09 · 70同源安装/旧DEV升级与平台单条长度前置
 
 70包284文件两次同SHA21655e…beca4，真实离线安装，原BFF/反馈幂等/十视图/G32/同主体重启、梦境冷回读撤回通过，6loopback真实0；d2原DEV升级70保持身份/lineage且不新增模型调用。另strace实际旧d2Gateway入口按既有快照同PIDexec70并只读预检通过，DB/配置/Supervisor hash不变；首个trace字符串截短断言失败留存，不改产品。70全仓2113通过2旧C预期失败12明确跳过591.95s，保留首错；旧测试现严格区分实际负荷REST和同题pending去重NO_ACTION，31相关通过12.54s，无运行guard变更。平台原2048单条限额现前置到模型契约且接收层独立拒绝超限、不拆/截/重试，34QQ/Bili/HTTP相关通过25.32s；基线QQ_MESSAGE_BOUND留存。这个后继不在70包内，匹配构建安装下一批。Issue2/4及61a祖先/入口复核见SOURCE_NAVIGATION_AUDIT，不关闭Issue/声称生产已修。
+
+### 2026-11-09 · 原Kernel送达归因与精确收件上下文反馈
+
+4dc全仓2117通过12明确跳过591.63s。新批读取原C/原Kernel动作digest/独立回执回读，确认已保留QQ回复的来源/联系人/范围/时间；既有反馈Record依赖原回执，不建第二日志/不补发/不称真人已读。后续四模式建议限对应platform/binding/conversation，原C源校验防伪造。跨同主体重启后，同收件场景改变表达、其他收件场景不继承，事实评估不变；撤回使依赖失效。最初读不存在非保留本地event body导致16失败40通过，修复不保留原始聊天，原断言不放宽；最终80相关通过60.05s，受控owned HTTP/真实账号0。证据delivery-attribution-20261109；当前后继全仓/匹配安装下一步，原全部A–H剩余不缩减，CURRENT/APK/生产不动。

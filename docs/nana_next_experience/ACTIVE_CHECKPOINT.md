@@ -1,3 +1,11 @@
+# Active continuation — recipient-bound original delivery feedback
+
+4dc full regression **2117pass/12skip591.63s**; current successor uses original C/Kernel independent receipt+readback to attribute retained QQ reply feedback, no send/read retry or human-read claim. Precise platform/binding/conversation context is checked against original C and used to scope later guidance.80related checks60.05s, including real owned HTTP loopback, same Subject restart followed by different same-vs-other-recipient RENDER, UNKNOWN/wrong-peer/time/source-withdrawal, feedback API/idempotency and original learning. Initial missing-body wiring failure16/40 retained; nonretained local chat stays nonretained. See evidence/delivery-attribution-20261109.
+
+Next: push this batch, fast-forward proper full-history validation clone, run exact successor full regression and two matching portable builds, offline original installation/feedback/G32/long reply/same-DEV upgrade/Dream. Continue all original A–H work; source-bound proof is not real delivery or full C/S3/S8 long-term causality. No APK/CURRENT/production change. Main-tree own current modifications are this batch; old /workspace/nana-core snapshot protected. Completed n32resume test files preserved at /workspace/scratch/preserved-test-workdirs/n32resume (no DB deletion).
+
+---
+
 # Active continuation — platform reply bound successor, full regression next
 
 70 exact package two equal21655e…beca4,284files, actual offline BFF/feedback/G32/sameDEV/Dream/cold/withdrawal and d2→70sameDEV upgrade passed;6loopback/real0. Actual oldGateway bootstrap execs registered70 under one PID and read-only checks preserve source DB/config/state hashes.70full2113pass/2old resource-expectationfail/12skip591.95s; strict revised tests preserve cheaper-first/pending dedup/actual pressure REST/no action/Grant/model,31related pass.

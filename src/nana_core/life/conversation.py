@@ -62,6 +62,9 @@ def history(app, *, privacy, scope=None, entity_id=None):
                     "memory_use_sources": memory_use_sources(records, record, privacy=permitted,
                                                                entity_id=entity_id, scope=scope),
                     "memory_use_delivery_proven": False}
+            from ..continuity.lived_language import delivery_for_exchange
+            delivery=delivery_for_exchange(records,record)
+            if delivery:item['reply_delivery']=delivery
         except CoreError:
             continue
         encoded = len(json.dumps(item, ensure_ascii=False).encode())
