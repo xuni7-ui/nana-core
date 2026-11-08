@@ -1,0 +1,32 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____________________ test_actual_sigkill_six_dangerous_cuts ____________________
+
+tmp_path = PosixPath('/tmp/n32diag/test_actual_sigkill_six_danger0')
+
+    def test_actual_sigkill_six_dangerous_cuts(tmp_path):
+>    report=run(tmp_path/'crash')
+            ^^^^^^^^^^^^^^^^^^^^^
+
+tests/affective_autonomy/test_recovery.py:4: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+directory = PosixPath('/tmp/n32diag/test_actual_sigkill_six_danger0/crash')
+
+    def run(directory):
+     reports=[]
+     for cut in ('C1','C2','C3','C4','C5','C6'):
+      root=Path(directory)/cut;root.mkdir(parents=True,mode=0o700)
+      path,marker=root/'self.db',root/'ready.json'
+      p=subprocess.Popen([sys.executable,str(Path(__file__).with_name('process_case.py')),str(path),str(marker),cut],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
+      try:
+       until=time.monotonic()+15
+       while not marker.exists() and p.poll() is None and time.monotonic()<until:time.sleep(.01)
+>      if not marker.exists():raise AssertionError(('checkpoint not reached',cut,p.communicate(timeout=2)))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E      AssertionError: ('checkpoint not reached', 'C1', ('', 'Traceback (most recent call last):\n  File "/workspace/nana-core-validation/tests/affective_autonomy/process_case.py", line 4, in <module>\n    from life import fresh,equip,propose,rule,cycle,TARGET\n  File "/workspace/nana-core-validation/tests/affective_autonomy/life.py", line 4, in <module>\n    from nana_core.actions import OperatorAuthority\nModuleNotFoundError: No module named \'nana_core\'\n'))
+
+tests/affective_autonomy/recovery.py:19: AssertionError
+=========================== short test summary info ============================
+FAILED tests/affective_autonomy/test_recovery.py::test_actual_sigkill_six_dangerous_cuts
+1 failed in 0.09s

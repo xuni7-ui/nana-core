@@ -1,0 +1,276 @@
+
+==================================== ERRORS ====================================
+____________ ERROR collecting tests/h1_live_semantics/test_wire.py _____________
+ImportError while importing test module '/workspace/nana-core-validation/tests/h1_live_semantics/test_wire.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/h1_live_semantics/test_wire.py:13: in <module>
+    from tools.nana_h1_live_qualification.run import RecordingOpener
+tools/nana_h1_live_qualification/run.py:20: in <module>
+    from .fixtures import cases,assess
+tools/nana_h1_live_qualification/fixtures.py:3: in <module>
+    from PIL import Image,ImageDraw,ImageFont
+E   ModuleNotFoundError: No module named 'PIL'
+___________ ERROR collecting tests/h2_live_screen/test_contracts.py ____________
+ImportError while importing test module '/workspace/nana-core-validation/tests/h2_live_screen/test_contracts.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/h2_live_screen/test_contracts.py:4: in <module>
+    from PIL import Image
+E   ModuleNotFoundError: No module named 'PIL'
+______________ ERROR collecting tests/h2_live_screen/test_live.py ______________
+ImportError while importing test module '/workspace/nana-core-validation/tests/h2_live_screen/test_live.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/h2_live_screen/test_live.py:13: in <module>
+    from tests.h2_perception.test_runtime import user_event
+tests/h2_perception/test_runtime.py:7: in <module>
+    from .helpers import *
+tests/h2_perception/helpers.py:2: in <module>
+    from PIL import Image,ImageDraw
+E   ModuleNotFoundError: No module named 'PIL'
+___________ ERROR collecting tests/h2_perception/test_boundaries.py ____________
+ImportError while importing test module '/workspace/nana-core-validation/tests/h2_perception/test_boundaries.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/h2_perception/test_boundaries.py:14: in <module>
+    from .helpers import *
+tests/h2_perception/helpers.py:2: in <module>
+    from PIL import Image,ImageDraw
+E   ModuleNotFoundError: No module named 'PIL'
+_____________ ERROR collecting tests/h2_perception/test_capture.py _____________
+ImportError while importing test module '/workspace/nana-core-validation/tests/h2_perception/test_capture.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/h2_perception/test_capture.py:8: in <module>
+    from .helpers import *
+tests/h2_perception/helpers.py:2: in <module>
+    from PIL import Image,ImageDraw
+E   ModuleNotFoundError: No module named 'PIL'
+____________ ERROR collecting tests/h2_perception/test_recovery.py _____________
+ImportError while importing test module '/workspace/nana-core-validation/tests/h2_perception/test_recovery.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/h2_perception/test_recovery.py:4: in <module>
+    from .helpers import *
+tests/h2_perception/helpers.py:2: in <module>
+    from PIL import Image,ImageDraw
+E   ModuleNotFoundError: No module named 'PIL'
+_____________ ERROR collecting tests/h2_perception/test_runtime.py _____________
+ImportError while importing test module '/workspace/nana-core-validation/tests/h2_perception/test_runtime.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/h2_perception/test_runtime.py:7: in <module>
+    from .helpers import *
+tests/h2_perception/helpers.py:2: in <module>
+    from PIL import Image,ImageDraw
+E   ModuleNotFoundError: No module named 'PIL'
+_____________ ERROR collecting tests/h2_perception/test_system.py ______________
+ImportError while importing test module '/workspace/nana-core-validation/tests/h2_perception/test_system.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/h2_perception/test_system.py:12: in <module>
+    from .helpers import *
+tests/h2_perception/helpers.py:2: in <module>
+    from PIL import Image,ImageDraw
+E   ModuleNotFoundError: No module named 'PIL'
+______________ ERROR collecting tests/live_response/test_entry.py ______________
+ImportError while importing test module '/workspace/nana-core-validation/tests/live_response/test_entry.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/live_response/test_entry.py:8: in <module>
+    from tests.h1_live_semantics.test_wire import Opener, Response
+tests/h1_live_semantics/test_wire.py:13: in <module>
+    from tools.nana_h1_live_qualification.run import RecordingOpener
+tools/nana_h1_live_qualification/run.py:20: in <module>
+    from .fixtures import cases,assess
+tools/nana_h1_live_qualification/fixtures.py:3: in <module>
+    from PIL import Image,ImageDraw,ImageFont
+E   ModuleNotFoundError: No module named 'PIL'
+________ ERROR collecting tests/live_response/test_response_contract.py ________
+ImportError while importing test module '/workspace/nana-core-validation/tests/live_response/test_response_contract.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/live_response/test_response_contract.py:8: in <module>
+    from tests.h1_live_semantics.test_wire import Response,Opener
+tests/h1_live_semantics/test_wire.py:13: in <module>
+    from tools.nana_h1_live_qualification.run import RecordingOpener
+tools/nana_h1_live_qualification/run.py:20: in <module>
+    from .fixtures import cases,assess
+tools/nana_h1_live_qualification/fixtures.py:3: in <module>
+    from PIL import Image,ImageDraw,ImageFont
+E   ModuleNotFoundError: No module named 'PIL'
+_______ ERROR collecting tests/living_release_v4/test_bilibili_frames.py _______
+ImportError while importing test module '/workspace/nana-core-validation/tests/living_release_v4/test_bilibili_frames.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/living_release_v4/test_bilibili_frames.py:7: in <module>
+    from PIL import Image
+E   ModuleNotFoundError: No module named 'PIL'
+____ ERROR collecting tests/living_release_v4/test_platform_credentials.py _____
+ImportError while importing test module '/workspace/nana-core-validation/tests/living_release_v4/test_platform_credentials.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/living_release_v4/test_platform_credentials.py:8: in <module>
+    from nana_core.life.provider_vault import DurableSecretResolver
+src/nana_core/life/provider_vault.py:20: in <module>
+    from cryptography.exceptions import InvalidTag
+E   ModuleNotFoundError: No module named 'cryptography'
+_______ ERROR collecting tests/living_release_v4/test_provider_vault.py ________
+ImportError while importing test module '/workspace/nana-core-validation/tests/living_release_v4/test_provider_vault.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/living_release_v4/test_provider_vault.py:11: in <module>
+    from nana_core.life.provider_vault import DurableSecretResolver
+src/nana_core/life/provider_vault.py:20: in <module>
+    from cryptography.exceptions import InvalidTag
+E   ModuleNotFoundError: No module named 'cryptography'
+_ ERROR collecting tests/living_release_v4/test_supervisor_secret_binding_contract.py _
+ImportError while importing test module '/workspace/nana-core-validation/tests/living_release_v4/test_supervisor_secret_binding_contract.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/living_release_v4/test_supervisor_secret_binding_contract.py:13: in <module>
+    from nana_core.life.provider_vault import DurableSecretResolver
+src/nana_core/life/provider_vault.py:20: in <module>
+    from cryptography.exceptions import InvalidTag
+E   ModuleNotFoundError: No module named 'cryptography'
+_________ ERROR collecting tests/living_release_v4/test_vault_epoch.py _________
+ImportError while importing test module '/workspace/nana-core-validation/tests/living_release_v4/test_vault_epoch.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/living_release_v4/test_vault_epoch.py:18: in <module>
+    from nana_core.life.provider_vault import DurableSecretResolver
+src/nana_core/life/provider_vault.py:20: in <module>
+    from cryptography.exceptions import InvalidTag
+E   ModuleNotFoundError: No module named 'cryptography'
+_______ ERROR collecting tests/nana_shadow/test_message_hook_adapter.py ________
+ImportError while importing test module '/workspace/nana-core-validation/tests/nana_shadow/test_message_hook_adapter.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/nana_shadow/test_message_hook_adapter.py:32: in <module>
+    import message_hook_adapter as mha  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   ModuleNotFoundError: No module named 'message_hook_adapter'
+_________ ERROR collecting tests/nana_shadow/test_observer_offline.py __________
+ImportError while importing test module '/workspace/nana-core-validation/tests/nana_shadow/test_observer_offline.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/nana_shadow/test_observer_offline.py:32: in <module>
+    import nana_observe_core as core  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   ModuleNotFoundError: No module named 'nana_observe_core'
+____________ ERROR collecting tests/nana_shadow/test_r041_client.py ____________
+ImportError while importing test module '/workspace/nana-core-validation/tests/nana_shadow/test_r041_client.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/nana_shadow/test_r041_client.py:17: in <module>
+    from test_message_hook_adapter import FakeEvent,HostileRepr,CANARY
+tests/nana_shadow/test_message_hook_adapter.py:32: in <module>
+    import message_hook_adapter as mha  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   ModuleNotFoundError: No module named 'message_hook_adapter'
+___________ ERROR collecting tests/nana_shadow/test_r044_privacy.py ____________
+ImportError while importing test module '/workspace/nana-core-validation/tests/nana_shadow/test_r044_privacy.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/nana_shadow/test_r044_privacy.py:8: in <module>
+    from test_r041_client import client_config_for_adversarial_test
+tests/nana_shadow/test_r041_client.py:17: in <module>
+    from test_message_hook_adapter import FakeEvent,HostileRepr,CANARY
+tests/nana_shadow/test_message_hook_adapter.py:32: in <module>
+    import message_hook_adapter as mha  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   ModuleNotFoundError: No module named 'message_hook_adapter'
+___________ ERROR collecting tests/nana_shadow/test_r04_isolation.py ___________
+ImportError while importing test module '/workspace/nana-core-validation/tests/nana_shadow/test_r04_isolation.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/nana_shadow/test_r04_isolation.py:7: in <module>
+    from test_message_hook_adapter import FakeEvent,HostileRepr,CANARY
+tests/nana_shadow/test_message_hook_adapter.py:32: in <module>
+    import message_hook_adapter as mha  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   ModuleNotFoundError: No module named 'message_hook_adapter'
+=========================== short test summary info ============================
+ERROR tests/h1_live_semantics/test_wire.py
+ERROR tests/h2_live_screen/test_contracts.py
+ERROR tests/h2_live_screen/test_live.py
+ERROR tests/h2_perception/test_boundaries.py
+ERROR tests/h2_perception/test_capture.py
+ERROR tests/h2_perception/test_recovery.py
+ERROR tests/h2_perception/test_runtime.py
+ERROR tests/h2_perception/test_system.py
+ERROR tests/live_response/test_entry.py
+ERROR tests/live_response/test_response_contract.py
+ERROR tests/living_release_v4/test_bilibili_frames.py
+ERROR tests/living_release_v4/test_platform_credentials.py
+ERROR tests/living_release_v4/test_provider_vault.py
+ERROR tests/living_release_v4/test_supervisor_secret_binding_contract.py
+ERROR tests/living_release_v4/test_vault_epoch.py
+ERROR tests/nana_shadow/test_message_hook_adapter.py
+ERROR tests/nana_shadow/test_observer_offline.py
+ERROR tests/nana_shadow/test_r041_client.py
+ERROR tests/nana_shadow/test_r044_privacy.py
+ERROR tests/nana_shadow/test_r04_isolation.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 20 errors during collection !!!!!!!!!!!!!!!!!!!
+20 errors in 7.54s

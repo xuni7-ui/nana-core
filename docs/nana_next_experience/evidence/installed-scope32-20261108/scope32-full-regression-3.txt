@@ -1,0 +1,1445 @@
+................F.............FF.......F..........FF.......FFF.......F.. [  3%]
+.......F......FFF....................FFFFFF....FFFFFFFFFFFF............. [  6%]
+........................................................................ [ 10%]
+........................................................................ [ 13%]
+..................................................................F.F... [ 17%]
+........................................................................ [ 20%]
+.......................FF.............F..F..FF.......FF................. [ 23%]
+..................
+=================================== FAILURES ===================================
+____________________ test_actual_sigkill_six_dangerous_cuts ____________________
+
+tmp_path = PosixPath('/tmp/n32f3/test_actual_sigkill_six_danger0')
+
+    def test_actual_sigkill_six_dangerous_cuts(tmp_path):
+>    report=run(tmp_path/'crash')
+            ^^^^^^^^^^^^^^^^^^^^^
+
+tests/affective_autonomy/test_recovery.py:4: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+directory = PosixPath('/tmp/n32f3/test_actual_sigkill_six_danger0/crash')
+
+    def run(directory):
+     reports=[]
+     for cut in ('C1','C2','C3','C4','C5','C6'):
+      root=Path(directory)/cut;root.mkdir(parents=True,mode=0o700)
+      path,marker=root/'self.db',root/'ready.json'
+      p=subprocess.Popen([sys.executable,str(Path(__file__).with_name('process_case.py')),str(path),str(marker),cut],stdout=subprocess.PIPE,stderr=subprocess.PIPE,text=True)
+      try:
+       until=time.monotonic()+15
+       while not marker.exists() and p.poll() is None and time.monotonic()<until:time.sleep(.01)
+>      if not marker.exists():raise AssertionError(('checkpoint not reached',cut,p.communicate(timeout=2)))
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E      AssertionError: ('checkpoint not reached', 'C1', ('', 'Traceback (most recent call last):\n  File "/workspace/nana-core-validation/tests/affective_autonomy/process_case.py", line 4, in <module>\n    from life import fresh,equip,propose,rule,cycle,TARGET\n  File "/workspace/nana-core-validation/tests/affective_autonomy/life.py", line 4, in <module>\n    from nana_core.actions import OperatorAuthority\nModuleNotFoundError: No module named \'nana_core\'\n'))
+
+tests/affective_autonomy/recovery.py:19: AssertionError
+_______ test_c_committed_decision_survives_sigkill_before_followup[GOAL] _______
+
+tmp_path = PosixPath('/tmp/n32f3/test_c_committed_decision_surv0'), cut = 'GOAL'
+
+    @pytest.mark.parametrize('cut',['GOAL','REFLECTION'])
+    def test_c_committed_decision_survives_sigkill_before_followup(tmp_path,cut):
+     task=ApplicationTask(task_id='note',kind='DOCUMENT',initial='old ',wanted='new')
+     with OwnedApplication(tmp_path/'app',tasks=(task,)) as target:
+      home=tmp_path/'life';initialize(home,owned_application_profile=str(target.profile))
+      with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id
+      marker=tmp_path/'cut'
+      with (tmp_path/'cut.log').open('w') as stream:
+       p=subprocess.Popen([sys.executable,'-m','tools.nana_cloud_daily_life.crash_worker','--home',str(home),'--marker',str(marker),'--cut',cut],cwd=REPO,stdout=stream,stderr=stream)
+       try:
+        deadline=time.monotonic()+15
+        while not marker.exists():
+>        assert p.poll() is None and time.monotonic()<deadline
+E        AssertionError: assert (1 is None)
+E         +  where 1 = poll()
+E         +    where poll = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 't...>.poll
+
+tests/cloud_life/test_followup_recovery.py:21: AssertionError
+____ test_c_committed_decision_survives_sigkill_before_followup[REFLECTION] ____
+
+tmp_path = PosixPath('/tmp/n32f3/test_c_committed_decision_surv1')
+cut = 'REFLECTION'
+
+    @pytest.mark.parametrize('cut',['GOAL','REFLECTION'])
+    def test_c_committed_decision_survives_sigkill_before_followup(tmp_path,cut):
+     task=ApplicationTask(task_id='note',kind='DOCUMENT',initial='old ',wanted='new')
+     with OwnedApplication(tmp_path/'app',tasks=(task,)) as target:
+      home=tmp_path/'life';initialize(home,owned_application_profile=str(target.profile))
+      with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id
+      marker=tmp_path/'cut'
+      with (tmp_path/'cut.log').open('w') as stream:
+       p=subprocess.Popen([sys.executable,'-m','tools.nana_cloud_daily_life.crash_worker','--home',str(home),'--marker',str(marker),'--cut',cut],cwd=REPO,stdout=stream,stderr=stream)
+       try:
+        deadline=time.monotonic()+15
+        while not marker.exists():
+>        assert p.poll() is None and time.monotonic()<deadline
+E        AssertionError: assert (1 is None)
+E         +  where 1 = poll()
+E         +    where poll = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 't...>.poll
+
+tests/cloud_life/test_followup_recovery.py:21: AssertionError
+__________ test_headless_control_restart_dedup_and_quarantined_backup __________
+
+tmp_path = PosixPath('/tmp/n32f3/test_headless_control_restart_0')
+
+    def test_headless_control_restart_dedup_and_quarantined_backup(tmp_path):
+     task=ApplicationTask(task_id='note',kind='CONTENT',initial='b\na\nb',wanted='a\nb')
+     with OwnedApplication(tmp_path/'app',tasks=(task,)) as target:
+      home=tmp_path/'life';initialize(home,owned_application_profile=str(target.profile))
+      with LifeApplication(home,bootstrap_grant=True) as app:
+       identity=app.runtime.identity_id;app.pause()
+      with (tmp_path/'process.log').open('w') as log:
+       args=[sys.executable,'-m','nana_core.life','run','--home',str(home),'--seconds','30','--headless','--control','--json']
+       p=subprocess.Popen(args,cwd=REPO,stdout=log,stderr=log)
+       try:
+>       wait_ready(home,p)
+
+tests/cloud_life/test_process.py:29: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+home = PosixPath('/tmp/n32f3/test_headless_control_restart_0/life')
+p = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 'n...>
+
+    def wait_ready(home,p):
+     start=time.monotonic()
+     while time.monotonic()-start<8:
+>     assert p.poll() is None
+E     AssertionError: assert 1 is None
+E      +  where 1 = poll()
+E      +    where poll = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 'n...>.poll
+
+tests/cloud_life/test_process.py:14: AssertionError
+_____________ test_clock_only_presence_and_bounded_cognition_swap ______________
+
+tmp_path = PosixPath('/tmp/n32f3/test_clock_only_presence_and_b0')
+
+    def test_clock_only_presence_and_bounded_cognition_swap(tmp_path):
+        path=tmp_path/'self.db';clock=VirtualClock();prepared(path,clock)
+        config=RuntimeConfig(scopes=('life',),entity_id='synthetic-person',lease_us=3*HOUR,heartbeat_us=HOUR,
+            review_interval_us=HOUR,model='analytical',cognition_cooldown_us=0,max_calls_per_day=1)
+        with NanaRuntime(path,config,clock=clock) as runtime:
+            identity=runtime.store.identity.copy()
+            first=runtime.health()
+            clock.advance(HOUR);runtime.drain()
+            assert runtime.health().clock_us>first.clock_us
+            assert not runtime.store.all('runtime_cognition_calls')
+            sample=event(runtime.store,'uncertain')
+            sample=sample.model_copy(update={'input':sample.input.model_copy(update={'significance':'HIGH','uncertainty':'HIGH'})})
+            runtime.submit(sample);result=runtime.step()
+>           assert result['mode']=='FULL_COGNITION' and result['cycle'].deliberation
+E           AssertionError: assert ('FULL_COGNITION' == 'FULL_COGNITION'
+E             
+E               FULL_COGNITION and None)
+E            +  where None = CycleResult(conversation_decision=None, experience_need=None, problem_frame=None, context_fit=None, cycle_id='2ce88488...isclosure=None, realization_target=None, request_decision=None, selected_disposition_id=None, relational_decision=None).deliberation
+
+tests/continuous_runtime/test_coordinator.py:28: AssertionError
+_______________ test_model_timeout_reaped_and_restart_continues ________________
+
+tmp_path = PosixPath('/tmp/n32f3/test_model_timeout_reaped_and_0')
+
+    def test_model_timeout_reaped_and_restart_continues(tmp_path):
+        path=tmp_path/'self.db';clock=VirtualClock();prepared(path,clock)
+        config=RuntimeConfig(scopes=('life',),entity_id='synthetic-person',model='timeout',model_timeout_seconds=.2)
+        with NanaRuntime(path,config,clock=clock) as runtime:
+            e=event(runtime.store,'timeout');e=e.model_copy(update={'input':e.input.model_copy(update={'significance':'HIGH','uncertainty':'HIGH'})})
+            runtime.submit(e);out=runtime.step()
+>           assert out['reason']=='MODEL_TIMEOUT_LIGHT_FALLBACK'
+E           AssertionError: assert 'MODEL_FAILED_LIGHT_FALLBACK' == 'MODEL_TIMEOUT_LIGHT_FALLBACK'
+E             
+E             - MODEL_TIMEOUT_LIGHT_FALLBACK
+E             ?       ^ ^ ^^^
+E             + MODEL_FAILED_LIGHT_FALLBACK
+E             ?       ^^ ^ ^
+
+tests/continuous_runtime/test_coordinator.py:44: AssertionError
+__________ test_same_subject_many_behaviors_and_virtual_runtime_life ___________
+
+tmp_path = PosixPath('/tmp/n32f3/test_same_subject_many_behavio0')
+
+    def test_same_subject_many_behaviors_and_virtual_runtime_life(tmp_path):
+        report=run(tmp_path/'life')
+>       assert all(report['checks'].values()),report['checks']
+E       AssertionError: {'ONE_SUBJECT_LOOP_MANY_BEHAVIORS': True, 'S1_CAUSAL_SOCIAL_LEARNING': True, 'S2_PROJECT': True, 'S3_CAPABILITY_GAP': True, ...}
+E       assert False
+E        +  where False = all(dict_values([True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, False, True, True, True]))
+E        +    where dict_values([True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, True, False, True, True, True]) = <built-in method values of dict object at 0x7f932144ef00>()
+E        +      where <built-in method values of dict object at 0x7f932144ef00> = {'ONE_SUBJECT_LOOP_MANY_BEHAVIORS': True, 'S1_CAUSAL_SOCIAL_LEARNING': True, 'S2_PROJECT': True, 'S3_CAPABILITY_GAP': True, ...}.values
+
+tests/continuous_runtime/test_system_qualification.py:7: AssertionError
+_______________ test_actual_wall_process_soak_and_crash_recovery _______________
+
+tmp_path = PosixPath('/tmp/n32f3/test_actual_wall_process_soak_0')
+
+    def test_actual_wall_process_soak_and_crash_recovery(tmp_path):
+>       soak=wall_soak(tmp_path/'wall')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/continuous_runtime/test_system_qualification.py:15: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/presence/process_qualification.py:131: in wall_soak
+    wait_until(
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+test = <function wall_soak.<locals>.<lambda> at 0x7f93212ab7e0>, seconds = 10
+process = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 'n...>
+
+    def wait_until(test, seconds=10, process=None):
+        end = time.monotonic() + seconds
+        while time.monotonic() < end:
+            if test():
+                return
+            if process is not None and process.poll() is not None:
+                break
+            time.sleep(0.02)
+>       raise AssertionError("bounded process checkpoint not reached")
+E       AssertionError: bounded process checkpoint not reached
+
+src/nana_core/presence/process_qualification.py:38: AssertionError
+_______ test_full_continuous_self_candidate_across_real_process_restart ________
+
+tmp_path = PosixPath('/tmp/n32f3/test_full_continuous_self_cand0')
+
+    def test_full_continuous_self_candidate_across_real_process_restart(tmp_path):
+        path, authority = tmp_path / "candidate.db", OperatorAuthority()
+        with ContinuityStore(path, ManualClock()) as store:
+            identity = IdentityService(store, authority).current()
+            memory = MemoryService(store, authority)
+            memory.entity("synthetic-sister", "PERSON")
+            shared = add(memory, evidence(memory, "shared-project", "We are building a fictional continuity project"),
+                         "We are building a fictional continuity project", kind=MemoryType.RELATIONAL)
+            self_memory = add(memory, evidence(memory, "self-focus", "Current focus: reliable continuity"),
+                              "Current focus: reliable continuity", kind=MemoryType.SELF)
+            old = add(memory, evidence(memory, "old-preference", "Long notes", when=100), "Long notes",
+                      predicate_key="preference.notes")
+            corrected = add(memory, evidence(memory, "corrected-preference", "Short notes with sources", when=200),
+                            "Short notes with sources", predicate_key="preference.notes", correction_of=old)
+            commitments = CommitmentService(store, authority)
+            cid = commitments.propose(CommitmentCandidate(entity_id="synthetic-sister", scope="synthetic-home",
+                description="Complete the fictional review", support_memory_ids=(shared,)))
+            commitments.transition(cid, "ADOPTED", expected_revision=1, authority=authority)
+            commitments.transition(cid, "ACTIVE", expected_revision=2, authority=authority)
+            ProjectService(store, authority).save(project_id="synthetic-continuity", entity_id="synthetic-sister",
+                scope="synthetic-home", content=ProjectContent(goal="Continuity without chat replay",
+                    current_state="Offline candidate", decisions=("Keep one identity",),
+                    next_actions=("Review offline results",)), source_memory_ids=(shared,), expected_revision=0, authority=authority)
+            _, _, experience, lesson = learn_missing_locator(store, memory, authority)
+            assembler = ContextAssembler(store, authority)
+            context = assembler.assemble(request(), policy())
+            a = DeliberationSession(assembler).run(AnalyticalFixturePort(), context, request(), policy())
+            before = digest({t: store.all(t) for t in TABLES})
+            assert old not in {mid for block in context.blocks for mid in block.source_memory_ids}
+            assert corrected in {mid for block in context.blocks for mid in block.source_memory_ids}
+            assert a.proposal.lesson_refs == (lesson,)
+        code = '''
+    import json,sys
+    from nana_core.actions import OperatorAuthority
+    from nana_core.clock import ManualClock
+    from nana_core.continuity import ContinuityStore,IdentityService
+    from nana_core.continuity.context import ContextAssembler,ContextRequest,ContextPolicy,self_frame
+    from nana_core.continuity.cognition import CautiousFixturePort,DeliberationSession
+    from nana_core.continuity.memory import MemoryService
+    from nana_core.storage import digest
+    with ContinuityStore(sys.argv[1],ManualClock()) as s:
+     a=OperatorAuthority()
+     r=ContextRequest(entity_id='synthetic-sister',scopes=('synthetic-home',),task_class='reading_card',task='Prepare a synthetic reading card')
+     p=ContextPolicy(policy_id='synthetic-local',allowed_scopes=('synthetic-home',),readable_privacy=('PUBLIC','PROJECT','PERSONAL'))
+     assembler=ContextAssembler(s,a)
+     context=assembler.assemble(r,p)
+     result=DeliberationSession(assembler).run(CautiousFixturePort(),context,r,p)
+     frame=self_frame(s,a,entity_id=r.entity_id,scopes=r.scopes,privacy_classes=p.readable_privacy)
+     tables=('identities','identity_revisions','memories','commitments','projects','experiences','lessons')
+     print(json.dumps({'identity_id':frame.identity.identity_id,'identity_revision':frame.identity.revision,
+      'commitments':{x.commitment_id:x.state for x in frame.active_commitments},
+      'projects':{x.project_id:x.content.current_state for x in frame.active_projects},
+      'preferences':frame.relationship.known_preferences,'self_memory_ids':frame.self_memory_ids,
+      'original_times':{x['memory_id']:x['event_time_us'] for x in MemoryService(s).query(scopes=r.scopes,privacy_classes=p.readable_privacy)},
+      'lesson_refs':result.proposal.lesson_refs,'operations':result.proposal.proposed_operations,
+      'state_digest':digest({t:s.all(t) for t in tables}),
+      'action_counts':{t:len(s.all(t)) for t in ('actions','attempts','grants','budgets')}}))
+    '''
+>       child = subprocess.run([sys.executable, "-c", code, str(path)], capture_output=True, text=True, check=True, timeout=10)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/continuous_self/test_candidate.py:82: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+input = None, capture_output = True, timeout = 10, check = True
+popenargs = (['/workspace/nana-test-env/bin/python', '-c', "\nimport json,sys\nfrom nana_core.actions import OperatorAuthority\nfr...for t in ('actions','attempts','grants','budgets')}}))\n", '/tmp/n32f3/test_full_continuous_self_cand0/candidate.db'],)
+kwargs = {'text': True, 'stdout': -1, 'stderr': -1}
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output & stderr attributes if those streams
+        were captured.
+    
+        If timeout (seconds) is given and the process takes too long,
+         a TimeoutExpired exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+>               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['/workspace/nana-test-env/bin/python', '-c', "\nimport json,sys\nfrom nana_core.actions import OperatorAuthority\nfrom nana_core.clock import ManualClock\nfrom nana_core.continuity import ContinuityStore,IdentityService\nfrom nana_core.continuity.context import ContextAssembler,ContextRequest,ContextPolicy,self_frame\nfrom nana_core.continuity.cognition import CautiousFixturePort,DeliberationSession\nfrom nana_core.continuity.memory import MemoryService\nfrom nana_core.storage import digest\nwith ContinuityStore(sys.argv[1],ManualClock()) as s:\n a=OperatorAuthority()\n r=ContextRequest(entity_id='synthetic-sister',scopes=('synthetic-home',),task_class='reading_card',task='Prepare a synthetic reading card')\n p=ContextPolicy(policy_id='synthetic-local',allowed_scopes=('synthetic-home',),readable_privacy=('PUBLIC','PROJECT','PERSONAL'))\n assembler=ContextAssembler(s,a)\n context=assembler.assemble(r,p)\n result=DeliberationSession(assembler).run(CautiousFixturePort(),context,r,p)\n frame=self_frame(s,a,entity_id=r.entity_id,scopes=r.scopes,privacy_classes=p.readable_privacy)\n tables=('identities','identity_revisions','memories','commitments','projects','experiences','lessons')\n print(json.dumps({'identity_id':frame.identity.identity_id,'identity_revision':frame.identity.revision,\n  'commitments':{x.commitment_id:x.state for x in frame.active_commitments},\n  'projects':{x.project_id:x.content.current_state for x in frame.active_projects},\n  'preferences':frame.relationship.known_preferences,'self_memory_ids':frame.self_memory_ids,\n  'original_times':{x['memory_id']:x['event_time_us'] for x in MemoryService(s).query(scopes=r.scopes,privacy_classes=p.readable_privacy)},\n  'lesson_refs':result.proposal.lesson_refs,'operations':result.proposal.proposed_operations,\n  'state_digest':digest({t:s.all(t) for t in tables}),\n  'action_counts':{t:len(s.all(t)) for t in ('actions','attempts','grants','budgets')}}))\n", '/tmp/n32f3/test_full_continuous_self_cand0/candidate.db']' returned non-zero exit status 1.
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py:571: CalledProcessError
+____________ test_experience_restart_new_model_and_matched_ablation ____________
+
+cognitive = (<nana_core.continuity.store.ContinuityStore object at 0x7f9320102840>, <nana_core.continuity.memory.MemoryService object at 0x7f9321385bb0>, <nana_core.actions.OperatorAuthority object at 0x7f93201006b0>)
+
+    def test_experience_restart_new_model_and_matched_ablation(cognitive):
+        store, memory, authority = cognitive
+        identity = IdentityService(store, authority).current()
+        _, _, experience, lesson = learn_missing_locator(store, memory, authority)
+        assembler = ContextAssembler(store, authority)
+        context = assembler.assemble(request(), policy())
+        learned = DeliberationSession(assembler).run(AnalyticalFixturePort(), context, request(), policy())
+        assert learned.proposal.lesson_refs == (lesson,)
+        assert learned.proposal.proposed_operations == ("READ_SOURCE", "LOCATE_SOURCE", "DRAFT")
+        unrelated = assembler.assemble(request().model_copy(update={"task_class": "unrelated"}), policy())
+        assert not any(b.kind == "LESSON" for b in unrelated.blocks)
+        # An actual fresh interpreter opens a managed snapshot, swaps the fixture
+        # port, and reconstructs context from Store; no Python object is shared.
+        backup = store.path.with_name("restart-learning.db")
+        store.backup(backup)
+        code = '''
+    import sys
+    from nana_core.actions import OperatorAuthority
+    from nana_core.continuity import ContinuityStore
+    from nana_core.continuity.context import ContextAssembler,ContextRequest,ContextPolicy
+    from nana_core.continuity.cognition import CautiousFixturePort,DeliberationSession
+    with ContinuityStore(sys.argv[1]) as s:
+     a=ContextAssembler(s,OperatorAuthority())
+     r=ContextRequest(entity_id='synthetic-sister',scopes=('synthetic-home',),task_class='reading_card',task='Prepare a synthetic reading card')
+     p=ContextPolicy(policy_id='synthetic-local',allowed_scopes=('synthetic-home',),readable_privacy=('PUBLIC','PROJECT','PERSONAL'))
+     print(DeliberationSession(a).run(CautiousFixturePort(),a.assemble(r,p),r,p).proposal.model_dump_json())
+    '''
+>       child = subprocess.run([sys.executable, "-c", code, str(backup)], capture_output=True, text=True, timeout=10, check=True)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/continuous_self/test_learning.py:68: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+input = None, capture_output = True, timeout = 10, check = True
+popenargs = (['/workspace/nana-test-env/bin/python', '-c', "\nimport sys\nfrom nana_core.actions import OperatorAuthority\nfrom na....assemble(r,p),r,p).proposal.model_dump_json())\n", '/tmp/n32f3/test_experience_restart_new_mo0/restart-learning.db'],)
+kwargs = {'text': True, 'stdout': -1, 'stderr': -1}
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output & stderr attributes if those streams
+        were captured.
+    
+        If timeout (seconds) is given and the process takes too long,
+         a TimeoutExpired exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+>               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['/workspace/nana-test-env/bin/python', '-c', "\nimport sys\nfrom nana_core.actions import OperatorAuthority\nfrom nana_core.continuity import ContinuityStore\nfrom nana_core.continuity.context import ContextAssembler,ContextRequest,ContextPolicy\nfrom nana_core.continuity.cognition import CautiousFixturePort,DeliberationSession\nwith ContinuityStore(sys.argv[1]) as s:\n a=ContextAssembler(s,OperatorAuthority())\n r=ContextRequest(entity_id='synthetic-sister',scopes=('synthetic-home',),task_class='reading_card',task='Prepare a synthetic reading card')\n p=ContextPolicy(policy_id='synthetic-local',allowed_scopes=('synthetic-home',),readable_privacy=('PUBLIC','PROJECT','PERSONAL'))\n print(DeliberationSession(a).run(CautiousFixturePort(),a.assemble(r,p),r,p).proposal.model_dump_json())\n", '/tmp/n32f3/test_experience_restart_new_mo0/restart-learning.db']' returned non-zero exit status 1.
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py:571: CalledProcessError
+_____ test_real_sigkill_after_durable_delete_intent_recovers_before_reads ______
+
+tmp_path = PosixPath('/tmp/n32f3/test_real_sigkill_after_durabl0')
+
+    def test_real_sigkill_after_durable_delete_intent_recovers_before_reads(tmp_path):
+        path = tmp_path / "crash.db"
+        authority = OperatorAuthority()
+        with ContinuityStore(path, ManualClock()) as store:
+            identity = IdentityService(store, authority).current().identity_id
+            memory = MemoryService(store, authority)
+            memory.entity("synthetic-sister", "PERSON")
+            a = add(memory, evidence(memory, "crash-source", CANARY), CANARY)
+        # Real child process dies after journal fsync, before SQLite erasure begins.
+        code = '''
+    import os,signal,sys
+    from nana_core.continuity import ContinuityStore
+    from nana_core.actions import OperatorAuthority
+    from nana_core.clock import ManualClock
+    from nana_core.continuity.memory import MemoryService
+    with ContinuityStore(sys.argv[1], ManualClock()) as s:
+     a=OperatorAuthority()
+     def killed(): os.kill(os.getpid(),signal.SIGKILL)
+     s.privacy.ensure_current=killed
+     MemoryService(s,a).forget(sys.argv[2],a)
+    '''
+        child = subprocess.run([sys.executable, "-c", code, str(path), a], capture_output=True, timeout=10)
+>       assert child.returncode == -signal.SIGKILL
+E       assert 1 == -<Signals.SIGKILL: 9>
+E        +  where 1 = CompletedProcess(args=['/workspace/nana-test-env/bin/python', '-c', '\nimport os,signal,sys\nfrom nana_core.continuity...most recent call last):\n  File "<string>", line 3, in <module>\nModuleNotFoundError: No module named \'nana_core\'\n').returncode
+E        +  and   <Signals.SIGKILL: 9> = signal.SIGKILL
+
+tests/continuous_self/test_privacy.py:106: AssertionError
+________________ test_ten_day_counterfactual_and_sixty_day_life ________________
+
+tmp_path = PosixPath('/tmp/n32f3/test_ten_day_counterfactual_an0')
+
+    def test_ten_day_counterfactual_and_sixty_day_life(tmp_path):
+>       report = run(tmp_path/'life', days=60)
+                 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/continuous_self/test_subject_life.py:16: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/subject/simulation.py:237: in run
+    runs[name]['after_restart']=restored_process(path,START+9*DAY_US)
+                                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/continuity/subject/simulation.py:62: in restored_process
+    child = subprocess.run([sys.executable, '-m', 'nana_core.continuity.subject.simulation', '--rebuild', str(path), '--now', str(now)],
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+input = None, capture_output = True, timeout = 30, check = True
+popenargs = (['/workspace/nana-test-env/bin/python', '-m', 'nana_core.continuity.subject.simulation', '--rebuild', '/tmp/n32f3/test_ten_day_counterfactual_an0/life/normal/self.db', '--now', ...],)
+kwargs = {'text': True, 'stdout': -1, 'stderr': -1}
+
+    def run(*popenargs,
+            input=None, capture_output=False, timeout=None, check=False, **kwargs):
+        """Run command with arguments and return a CompletedProcess instance.
+    
+        The returned instance will have attributes args, returncode, stdout and
+        stderr. By default, stdout and stderr are not captured, and those attributes
+        will be None. Pass stdout=PIPE and/or stderr=PIPE in order to capture them,
+        or pass capture_output=True to capture both.
+    
+        If check is True and the exit code was non-zero, it raises a
+        CalledProcessError. The CalledProcessError object will have the return code
+        in the returncode attribute, and output & stderr attributes if those streams
+        were captured.
+    
+        If timeout (seconds) is given and the process takes too long,
+         a TimeoutExpired exception will be raised.
+    
+        There is an optional argument "input", allowing you to
+        pass bytes or a string to the subprocess's stdin.  If you use this argument
+        you may not also use the Popen constructor's "stdin" argument, as
+        it will be used internally.
+    
+        By default, all communication is in bytes, and therefore any "input" should
+        be bytes, and the stdout and stderr will be bytes. If in text mode, any
+        "input" should be a string, and stdout and stderr will be strings decoded
+        according to locale encoding, or by "encoding" if set. Text mode is
+        triggered by setting any of text, encoding, errors or universal_newlines.
+    
+        The other arguments are the same as for the Popen constructor.
+        """
+        if input is not None:
+            if kwargs.get('stdin') is not None:
+                raise ValueError('stdin and input arguments may not both be used.')
+            kwargs['stdin'] = PIPE
+    
+        if capture_output:
+            if kwargs.get('stdout') is not None or kwargs.get('stderr') is not None:
+                raise ValueError('stdout and stderr arguments may not be used '
+                                 'with capture_output.')
+            kwargs['stdout'] = PIPE
+            kwargs['stderr'] = PIPE
+    
+        with Popen(*popenargs, **kwargs) as process:
+            try:
+                stdout, stderr = process.communicate(input, timeout=timeout)
+            except TimeoutExpired as exc:
+                process.kill()
+                if _mswindows:
+                    # Windows accumulates the output in a single blocking
+                    # read() call run on child threads, with the timeout
+                    # being done in a join() on those threads.  communicate()
+                    # _after_ kill() is required to collect that and add it
+                    # to the exception.
+                    exc.stdout, exc.stderr = process.communicate()
+                else:
+                    # POSIX _communicate already populated the output so
+                    # far into the TimeoutExpired exception.
+                    process.wait()
+                raise
+            except:  # Including KeyboardInterrupt, communicate handled that.
+                process.kill()
+                # We don't call process.wait() as .__exit__ does that for us.
+                raise
+            retcode = process.poll()
+            if check and retcode:
+>               raise CalledProcessError(retcode, process.args,
+                                         output=stdout, stderr=stderr)
+E               subprocess.CalledProcessError: Command '['/workspace/nana-test-env/bin/python', '-m', 'nana_core.continuity.subject.simulation', '--rebuild', '/tmp/n32f3/test_ten_day_counterfactual_an0/life/normal/self.db', '--now', '1792368000000000']' returned non-zero exit status 1.
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py:571: CalledProcessError
+_________ test_actual_sigkill_subject_transaction_no_duplicate[during] _________
+
+tmp_path = PosixPath('/tmp/n32f3/test_actual_sigkill_subject_tr0')
+cut = 'during'
+
+    @pytest.mark.parametrize('cut', ('during','after'))
+    def test_actual_sigkill_subject_transaction_no_duplicate(tmp_path, cut):
+        path, marker = tmp_path/'self.db', tmp_path/'ready'
+        process = subprocess.Popen([sys.executable,'-c',CHILD,str(path),str(marker),cut], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        try:
+            limit=time.monotonic()+15
+            while not marker.exists() and process.poll() is None and time.monotonic()<limit:
+                time.sleep(.01)
+>           assert marker.exists(), process.communicate(timeout=2)
+E           AssertionError: ('', 'Traceback (most recent call last):
+E               File "<string>", line 4, in <module>
+E             ModuleNotFoundError: No module named \'nana_core\'
+E             ')
+E           assert False
+E            +  where False = exists()
+E            +    where exists = PosixPath('/tmp/n32f3/test_actual_sigkill_subject_tr0/ready').exists
+
+tests/continuous_self/test_subject_life.py:78: AssertionError
+_________ test_actual_sigkill_subject_transaction_no_duplicate[after] __________
+
+tmp_path = PosixPath('/tmp/n32f3/test_actual_sigkill_subject_tr1')
+cut = 'after'
+
+    @pytest.mark.parametrize('cut', ('during','after'))
+    def test_actual_sigkill_subject_transaction_no_duplicate(tmp_path, cut):
+        path, marker = tmp_path/'self.db', tmp_path/'ready'
+        process = subprocess.Popen([sys.executable,'-c',CHILD,str(path),str(marker),cut], stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+        try:
+            limit=time.monotonic()+15
+            while not marker.exists() and process.poll() is None and time.monotonic()<limit:
+                time.sleep(.01)
+>           assert marker.exists(), process.communicate(timeout=2)
+E           AssertionError: ('', 'Traceback (most recent call last):
+E               File "<string>", line 4, in <module>
+E             ModuleNotFoundError: No module named \'nana_core\'
+E             ')
+E           assert False
+E            +  where False = exists()
+E            +    where exists = PosixPath('/tmp/n32f3/test_actual_sigkill_subject_tr1/ready').exists
+
+tests/continuous_self/test_subject_life.py:78: AssertionError
+_ test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[BEFORE_PREPARE] _
+
+tmp_path = PosixPath('/tmp/n32f3/test_actual_process_sigkill_pr0')
+mode = 'BEFORE_PREPARE'
+
+    @pytest.mark.parametrize('mode',['BEFORE_PREPARE','BEFORE_EFFECT','AFTER_EFFECT','DURING_VERIFY','DURING_LEARNING','DURING_SKILL_TEST'])
+    def test_actual_process_sigkill_preserves_identity_effects_and_original_cursor(tmp_path,mode):
+        # This oracle tests baseline -> learned transfer. Concurrently preplanning
+        # both forms legitimately needs one more quality-repair write (covered below).
+        # Control only fixture input cadence; keep all original effect/count/time bars.
+        interval=1_000_000 if mode in {'DURING_LEARNING','DURING_SKILL_TEST'} else None
+        tasks=None if mode in {'DURING_LEARNING','DURING_SKILL_TEST'} else (ApplicationTask(task_id='doc',kind='DOCUMENT',wanted='safe content'),)
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+            home=tmp_path/'life';initialize(home,host.profile)
+            with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id
+            marker=tmp_path/'cut';log=tmp_path/'worker.log'
+            with log.open('w') as stream:
+                p=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_hands.crash_worker','--home',str(home),'--mode',mode,'--marker',str(marker),*(['--opportunity-interval-us',str(interval)] if interval else [])],cwd=REPO,stdout=stream,stderr=stream)
+                try:
+                    start=time.monotonic()
+                    while not marker.exists():
+>                       assert p.poll() is None,log.read_text()
+E                       AssertionError: Traceback (most recent call last):
+E                           File "<frozen runpy>", line 198, in _run_module_as_main
+E                           File "<frozen runpy>", line 88, in _run_code
+E                           File "/workspace/nana-core-validation/tools/nana_controlled_hands/crash_worker.py", line 4, in <module>
+E                             from nana_core.life.application import LifeApplication
+E                         ModuleNotFoundError: No module named 'nana_core'
+E                         
+E                       assert 1 is None
+E                        +  where 1 = poll()
+E                        +    where poll = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 't...>.poll
+
+tests/controlled_hands/test_recovery.py:26: AssertionError
+_ test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[BEFORE_EFFECT] _
+
+tmp_path = PosixPath('/tmp/n32f3/test_actual_process_sigkill_pr1')
+mode = 'BEFORE_EFFECT'
+
+    @pytest.mark.parametrize('mode',['BEFORE_PREPARE','BEFORE_EFFECT','AFTER_EFFECT','DURING_VERIFY','DURING_LEARNING','DURING_SKILL_TEST'])
+    def test_actual_process_sigkill_preserves_identity_effects_and_original_cursor(tmp_path,mode):
+        # This oracle tests baseline -> learned transfer. Concurrently preplanning
+        # both forms legitimately needs one more quality-repair write (covered below).
+        # Control only fixture input cadence; keep all original effect/count/time bars.
+        interval=1_000_000 if mode in {'DURING_LEARNING','DURING_SKILL_TEST'} else None
+        tasks=None if mode in {'DURING_LEARNING','DURING_SKILL_TEST'} else (ApplicationTask(task_id='doc',kind='DOCUMENT',wanted='safe content'),)
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+            home=tmp_path/'life';initialize(home,host.profile)
+            with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id
+            marker=tmp_path/'cut';log=tmp_path/'worker.log'
+            with log.open('w') as stream:
+                p=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_hands.crash_worker','--home',str(home),'--mode',mode,'--marker',str(marker),*(['--opportunity-interval-us',str(interval)] if interval else [])],cwd=REPO,stdout=stream,stderr=stream)
+                try:
+                    start=time.monotonic()
+                    while not marker.exists():
+>                       assert p.poll() is None,log.read_text()
+E                       AssertionError: Traceback (most recent call last):
+E                           File "<frozen runpy>", line 198, in _run_module_as_main
+E                           File "<frozen runpy>", line 88, in _run_code
+E                           File "/workspace/nana-core-validation/tools/nana_controlled_hands/crash_worker.py", line 4, in <module>
+E                             from nana_core.life.application import LifeApplication
+E                         ModuleNotFoundError: No module named 'nana_core'
+E                         
+E                       assert 1 is None
+E                        +  where 1 = poll()
+E                        +    where poll = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 't...>.poll
+
+tests/controlled_hands/test_recovery.py:26: AssertionError
+_ test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[AFTER_EFFECT] _
+
+tmp_path = PosixPath('/tmp/n32f3/test_actual_process_sigkill_pr2')
+mode = 'AFTER_EFFECT'
+
+    @pytest.mark.parametrize('mode',['BEFORE_PREPARE','BEFORE_EFFECT','AFTER_EFFECT','DURING_VERIFY','DURING_LEARNING','DURING_SKILL_TEST'])
+    def test_actual_process_sigkill_preserves_identity_effects_and_original_cursor(tmp_path,mode):
+        # This oracle tests baseline -> learned transfer. Concurrently preplanning
+        # both forms legitimately needs one more quality-repair write (covered below).
+        # Control only fixture input cadence; keep all original effect/count/time bars.
+        interval=1_000_000 if mode in {'DURING_LEARNING','DURING_SKILL_TEST'} else None
+        tasks=None if mode in {'DURING_LEARNING','DURING_SKILL_TEST'} else (ApplicationTask(task_id='doc',kind='DOCUMENT',wanted='safe content'),)
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+            home=tmp_path/'life';initialize(home,host.profile)
+            with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id
+            marker=tmp_path/'cut';log=tmp_path/'worker.log'
+            with log.open('w') as stream:
+                p=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_hands.crash_worker','--home',str(home),'--mode',mode,'--marker',str(marker),*(['--opportunity-interval-us',str(interval)] if interval else [])],cwd=REPO,stdout=stream,stderr=stream)
+                try:
+                    start=time.monotonic()
+                    while not marker.exists():
+>                       assert p.poll() is None,log.read_text()
+E                       AssertionError: Traceback (most recent call last):
+E                           File "<frozen runpy>", line 198, in _run_module_as_main
+E                           File "<frozen runpy>", line 88, in _run_code
+E                           File "/workspace/nana-core-validation/tools/nana_controlled_hands/crash_worker.py", line 4, in <module>
+E                             from nana_core.life.application import LifeApplication
+E                         ModuleNotFoundError: No module named 'nana_core'
+E                         
+E                       assert 1 is None
+E                        +  where 1 = poll()
+E                        +    where poll = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 't...>.poll
+
+tests/controlled_hands/test_recovery.py:26: AssertionError
+_ test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[DURING_VERIFY] _
+
+tmp_path = PosixPath('/tmp/n32f3/test_actual_process_sigkill_pr3')
+mode = 'DURING_VERIFY'
+
+    @pytest.mark.parametrize('mode',['BEFORE_PREPARE','BEFORE_EFFECT','AFTER_EFFECT','DURING_VERIFY','DURING_LEARNING','DURING_SKILL_TEST'])
+    def test_actual_process_sigkill_preserves_identity_effects_and_original_cursor(tmp_path,mode):
+        # This oracle tests baseline -> learned transfer. Concurrently preplanning
+        # both forms legitimately needs one more quality-repair write (covered below).
+        # Control only fixture input cadence; keep all original effect/count/time bars.
+        interval=1_000_000 if mode in {'DURING_LEARNING','DURING_SKILL_TEST'} else None
+        tasks=None if mode in {'DURING_LEARNING','DURING_SKILL_TEST'} else (ApplicationTask(task_id='doc',kind='DOCUMENT',wanted='safe content'),)
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+            home=tmp_path/'life';initialize(home,host.profile)
+            with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id
+            marker=tmp_path/'cut';log=tmp_path/'worker.log'
+            with log.open('w') as stream:
+                p=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_hands.crash_worker','--home',str(home),'--mode',mode,'--marker',str(marker),*(['--opportunity-interval-us',str(interval)] if interval else [])],cwd=REPO,stdout=stream,stderr=stream)
+                try:
+                    start=time.monotonic()
+                    while not marker.exists():
+>                       assert p.poll() is None,log.read_text()
+E                       AssertionError: Traceback (most recent call last):
+E                           File "<frozen runpy>", line 198, in _run_module_as_main
+E                           File "<frozen runpy>", line 88, in _run_code
+E                           File "/workspace/nana-core-validation/tools/nana_controlled_hands/crash_worker.py", line 4, in <module>
+E                             from nana_core.life.application import LifeApplication
+E                         ModuleNotFoundError: No module named 'nana_core'
+E                         
+E                       assert 1 is None
+E                        +  where 1 = poll()
+E                        +    where poll = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 't...>.poll
+
+tests/controlled_hands/test_recovery.py:26: AssertionError
+_ test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[DURING_LEARNING] _
+
+tmp_path = PosixPath('/tmp/n32f3/test_actual_process_sigkill_pr4')
+mode = 'DURING_LEARNING'
+
+    @pytest.mark.parametrize('mode',['BEFORE_PREPARE','BEFORE_EFFECT','AFTER_EFFECT','DURING_VERIFY','DURING_LEARNING','DURING_SKILL_TEST'])
+    def test_actual_process_sigkill_preserves_identity_effects_and_original_cursor(tmp_path,mode):
+        # This oracle tests baseline -> learned transfer. Concurrently preplanning
+        # both forms legitimately needs one more quality-repair write (covered below).
+        # Control only fixture input cadence; keep all original effect/count/time bars.
+        interval=1_000_000 if mode in {'DURING_LEARNING','DURING_SKILL_TEST'} else None
+        tasks=None if mode in {'DURING_LEARNING','DURING_SKILL_TEST'} else (ApplicationTask(task_id='doc',kind='DOCUMENT',wanted='safe content'),)
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+            home=tmp_path/'life';initialize(home,host.profile)
+            with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id
+            marker=tmp_path/'cut';log=tmp_path/'worker.log'
+            with log.open('w') as stream:
+                p=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_hands.crash_worker','--home',str(home),'--mode',mode,'--marker',str(marker),*(['--opportunity-interval-us',str(interval)] if interval else [])],cwd=REPO,stdout=stream,stderr=stream)
+                try:
+                    start=time.monotonic()
+                    while not marker.exists():
+>                       assert p.poll() is None,log.read_text()
+E                       AssertionError: Traceback (most recent call last):
+E                           File "<frozen runpy>", line 198, in _run_module_as_main
+E                           File "<frozen runpy>", line 88, in _run_code
+E                           File "/workspace/nana-core-validation/tools/nana_controlled_hands/crash_worker.py", line 4, in <module>
+E                             from nana_core.life.application import LifeApplication
+E                         ModuleNotFoundError: No module named 'nana_core'
+E                         
+E                       assert 1 is None
+E                        +  where 1 = poll()
+E                        +    where poll = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 't...>.poll
+
+tests/controlled_hands/test_recovery.py:26: AssertionError
+_ test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[DURING_SKILL_TEST] _
+
+tmp_path = PosixPath('/tmp/n32f3/test_actual_process_sigkill_pr5')
+mode = 'DURING_SKILL_TEST'
+
+    @pytest.mark.parametrize('mode',['BEFORE_PREPARE','BEFORE_EFFECT','AFTER_EFFECT','DURING_VERIFY','DURING_LEARNING','DURING_SKILL_TEST'])
+    def test_actual_process_sigkill_preserves_identity_effects_and_original_cursor(tmp_path,mode):
+        # This oracle tests baseline -> learned transfer. Concurrently preplanning
+        # both forms legitimately needs one more quality-repair write (covered below).
+        # Control only fixture input cadence; keep all original effect/count/time bars.
+        interval=1_000_000 if mode in {'DURING_LEARNING','DURING_SKILL_TEST'} else None
+        tasks=None if mode in {'DURING_LEARNING','DURING_SKILL_TEST'} else (ApplicationTask(task_id='doc',kind='DOCUMENT',wanted='safe content'),)
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+            home=tmp_path/'life';initialize(home,host.profile)
+            with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id
+            marker=tmp_path/'cut';log=tmp_path/'worker.log'
+            with log.open('w') as stream:
+                p=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_hands.crash_worker','--home',str(home),'--mode',mode,'--marker',str(marker),*(['--opportunity-interval-us',str(interval)] if interval else [])],cwd=REPO,stdout=stream,stderr=stream)
+                try:
+                    start=time.monotonic()
+                    while not marker.exists():
+>                       assert p.poll() is None,log.read_text()
+E                       AssertionError: Traceback (most recent call last):
+E                           File "<frozen runpy>", line 198, in _run_module_as_main
+E                           File "<frozen runpy>", line 88, in _run_code
+E                           File "/workspace/nana-core-validation/tools/nana_controlled_hands/crash_worker.py", line 4, in <module>
+E                             from nana_core.life.application import LifeApplication
+E                         ModuleNotFoundError: No module named 'nana_core'
+E                         
+E                       assert 1 is None
+E                        +  where 1 = poll()
+E                        +    where poll = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 't...>.poll
+
+tests/controlled_hands/test_recovery.py:26: AssertionError
+_ test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[IDLE] __
+
+owned_root = PosixPath('/tmp/nana-cw-5_3_wa5h'), cut = 'IDLE'
+
+    @pytest.mark.parametrize('cut',CUTS)
+    def test_actual_process_cut_same_subject_no_duplicate_effect_or_authority(owned_root,cut):
+        with ControlledWorld(owned_root/'world',interval=120) as world:
+            home=owned_root/'life';cfg=initialize(home,world.host.profile,skills=True)
+            update_config(home,cfg.model_copy(update={'revision':2,'advanced_life':True,'shared_presence':True,'owned_browser_endpoint':world.browser.endpoint,'world_sources':tuple(IntakeSource(source_id=k,channel='OWNED_HTTP',location=world.services[k].url+'/source',semantic_format='SOURCED_CLAIM_JSON') for k in ('feed','api'))}),expected_revision=1)
+            with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id;grants=len(app.runtime.store.all('grants'))
+            marker=owned_root/'cut.json'
+            with (owned_root/'worker.log').open('w') as log:
+                process=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_world.crash_worker','--home',str(home),'--marker',str(marker),'--cut',cut],stdout=log,stderr=log)
+                try:
+                    deadline=time.monotonic()+65
+                    while not marker.exists():
+>                       assert process.poll() is None,(cut,(owned_root/'worker.log').read_text()[-2000:])
+E                       AssertionError: ('IDLE', 'Traceback (most recent call last):
+E                           File "<frozen runpy>", line 198, in _run_module_as_main
+E                           File "<froz...le>
+E                             from nana_core.life.application import LifeApplication
+E                         ModuleNotFoundError: No module named \'nana_core\'
+E                         ')
+E                       assert 1 is None
+E                        +  where 1 = poll()
+E                        +    where poll = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 't...>.poll
+
+tests/controlled_world/test_crash_campaign.py:23: AssertionError
+_ test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[IDLE_TERM] _
+
+owned_root = PosixPath('/tmp/nana-cw-avwgm4bv'), cut = 'IDLE_TERM'
+
+    @pytest.mark.parametrize('cut',CUTS)
+    def test_actual_process_cut_same_subject_no_duplicate_effect_or_authority(owned_root,cut):
+        with ControlledWorld(owned_root/'world',interval=120) as world:
+            home=owned_root/'life';cfg=initialize(home,world.host.profile,skills=True)
+            update_config(home,cfg.model_copy(update={'revision':2,'advanced_life':True,'shared_presence':True,'owned_browser_endpoint':world.browser.endpoint,'world_sources':tuple(IntakeSource(source_id=k,channel='OWNED_HTTP',location=world.services[k].url+'/source',semantic_format='SOURCED_CLAIM_JSON') for k in ('feed','api'))}),expected_revision=1)
+            with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id;grants=len(app.runtime.store.all('grants'))
+            marker=owned_root/'cut.json'
+            with (owned_root/'worker.log').open('w') as log:
+                process=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_world.crash_worker','--home',str(home),'--marker',str(marker),'--cut',cut],stdout=log,stderr=log)
+                try:
+                    deadline=time.monotonic()+65
+                    while not marker.exists():
+>                       assert process.poll() is None,(cut,(owned_root/'worker.log').read_text()[-2000:])
+E                       AssertionError: ('IDLE_TERM', 'Traceback (most recent call last):
+E                           File "<frozen runpy>", line 198, in _run_module_as_main
+E                           File "...le>
+E                             from nana_core.life.application import LifeApplication
+E                         ModuleNotFoundError: No module named \'nana_core\'
+E                         ')
+E                       assert 1 is None
+E                        +  where 1 = poll()
+E                        +    where poll = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 't...>.poll
+
+tests/controlled_world/test_crash_campaign.py:23: AssertionError
+_ test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[IDLE_GRACEFUL] _
+
+owned_root = PosixPath('/tmp/nana-cw-98s64fax'), cut = 'IDLE_GRACEFUL'
+
+    @pytest.mark.parametrize('cut',CUTS)
+    def test_actual_process_cut_same_subject_no_duplicate_effect_or_authority(owned_root,cut):
+        with ControlledWorld(owned_root/'world',interval=120) as world:
+            home=owned_root/'life';cfg=initialize(home,world.host.profile,skills=True)
+            update_config(home,cfg.model_copy(update={'revision':2,'advanced_life':True,'shared_presence':True,'owned_browser_endpoint':world.browser.endpoint,'world_sources':tuple(IntakeSource(source_id=k,channel='OWNED_HTTP',location=world.services[k].url+'/source',semantic_format='SOURCED_CLAIM_JSON') for k in ('feed','api'))}),expected_revision=1)
+            with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id;grants=len(app.runtime.store.all('grants'))
+            marker=owned_root/'cut.json'
+            with (owned_root/'worker.log').open('w') as log:
+                process=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_world.crash_worker','--home',str(home),'--marker',str(marker),'--cut',cut],stdout=log,stderr=log)
+                try:
+                    deadline=time.monotonic()+65
+                    while not marker.exists():
+>                       assert process.poll() is None,(cut,(owned_root/'worker.log').read_text()[-2000:])
+E                       AssertionError: ('IDLE_GRACEFUL', 'Traceback (most recent call last):
+E                           File "<frozen runpy>", line 198, in _run_module_as_main
+E                           Fi...le>
+E                             from nana_core.life.application import LifeApplication
+E                         ModuleNotFoundError: No module named \'nana_core\'
+E                         ')
+E                       assert 1 is None
+E                        +  where 1 = poll()
+E                        +    where poll = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 't...>.poll
+
+tests/controlled_world/test_crash_campaign.py:23: AssertionError
+_ test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[RESEARCH] _
+
+owned_root = PosixPath('/tmp/nana-cw-mfl6kf1x'), cut = 'RESEARCH'
+
+    @pytest.mark.parametrize('cut',CUTS)
+    def test_actual_process_cut_same_subject_no_duplicate_effect_or_authority(owned_root,cut):
+        with ControlledWorld(owned_root/'world',interval=120) as world:
+            home=owned_root/'life';cfg=initialize(home,world.host.profile,skills=True)
+            update_config(home,cfg.model_copy(update={'revision':2,'advanced_life':True,'shared_presence':True,'owned_browser_endpoint':world.browser.endpoint,'world_sources':tuple(IntakeSource(source_id=k,channel='OWNED_HTTP',location=world.services[k].url+'/source',semantic_format='SOURCED_CLAIM_JSON') for k in ('feed','api'))}),expected_revision=1)
+            with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id;grants=len(app.runtime.store.all('grants'))
+            marker=owned_root/'cut.json'
+            with (owned_root/'worker.log').open('w') as log:
+                process=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_world.crash_worker','--home',str(home),'--marker',str(marker),'--cut',cut],stdout=log,stderr=log)
+                try:
+                    deadline=time.monotonic()+65
+                    while not marker.exists():
+>                       assert process.poll() is None,(cut,(owned_root/'worker.log').read_text()[-2000:])
+E                       AssertionError: ('RESEARCH', 'Traceback (most recent call last):
+E                           File "<frozen runpy>", line 198, in _run_module_as_main
+E                           File "<...le>
+E                             from nana_core.life.application import LifeApplication
+E                         ModuleNotFoundError: No module named \'nana_core\'
+E                         ')
+E                       assert 1 is None
+E                        +  where 1 = poll()
+E                        +    where poll = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 't...>.poll
+
+tests/controlled_world/test_crash_campaign.py:23: AssertionError
+_ test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[BEFORE_ACTION] _
+
+owned_root = PosixPath('/tmp/nana-cw-c5ll4cz5'), cut = 'BEFORE_ACTION'
+
+    @pytest.mark.parametrize('cut',CUTS)
+    def test_actual_process_cut_same_subject_no_duplicate_effect_or_authority(owned_root,cut):
+        with ControlledWorld(owned_root/'world',interval=120) as world:
+            home=owned_root/'life';cfg=initialize(home,world.host.profile,skills=True)
+            update_config(home,cfg.model_copy(update={'revision':2,'advanced_life':True,'shared_presence':True,'owned_browser_endpoint':world.browser.endpoint,'world_sources':tuple(IntakeSource(source_id=k,channel='OWNED_HTTP',location=world.services[k].url+'/source',semantic_format='SOURCED_CLAIM_JSON') for k in ('feed','api'))}),expected_revision=1)
+            with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id;grants=len(app.runtime.store.all('grants'))
+            marker=owned_root/'cut.json'
+            with (owned_root/'worker.log').open('w') as log:
+                process=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_world.crash_worker','--home',str(home),'--marker',str(marker),'--cut',cut],stdout=log,stderr=log)
+                try:
+                    deadline=time.monotonic()+65
+                    while not marker.exists():
+>                       assert process.poll() is None,(cut,(owned_root/'worker.log').read_text()[-2000:])
+E                       AssertionError: ('BEFORE_ACTION', 'Traceback (most recent call last):
+E                           File "<frozen runpy>", line 198, in _run_module_as_main
+E                           Fi...le>
+E                             from nana_core.life.application import LifeApplication
+E                         ModuleNotFoundError: No module named \'nana_core\'
+E                         ')
+E                       assert 1 is None
+E                        +  where 1 = poll()
+E                        +    where poll = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 't...>.poll
+
+tests/controlled_world/test_crash_campaign.py:23: AssertionError
+_ test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[AFTER_ACTION_BEFORE_VERIFY] _
+
+owned_root = PosixPath('/tmp/nana-cw-25woh4bc')
+cut = 'AFTER_ACTION_BEFORE_VERIFY'
+
+    @pytest.mark.parametrize('cut',CUTS)
+    def test_actual_process_cut_same_subject_no_duplicate_effect_or_authority(owned_root,cut):
+        with ControlledWorld(owned_root/'world',interval=120) as world:
+            home=owned_root/'life';cfg=initialize(home,world.host.profile,skills=True)
+            update_config(home,cfg.model_copy(update={'revision':2,'advanced_life':True,'shared_presence':True,'owned_browser_endpoint':world.browser.endpoint,'world_sources':tuple(IntakeSource(source_id=k,channel='OWNED_HTTP',location=world.services[k].url+'/source',semantic_format='SOURCED_CLAIM_JSON') for k in ('feed','api'))}),expected_revision=1)
+            with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id;grants=len(app.runtime.store.all('grants'))
+            marker=owned_root/'cut.json'
+            with (owned_root/'worker.log').open('w') as log:
+                process=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_world.crash_worker','--home',str(home),'--marker',str(marker),'--cut',cut],stdout=log,stderr=log)
+                try:
+                    deadline=time.monotonic()+65
+                    while not marker.exists():
+>                       assert process.poll() is None,(cut,(owned_root/'worker.log').read_text()[-2000:])
+E                       AssertionError: ('AFTER_ACTION_BEFORE_VERIFY', 'Traceback (most recent call last):
+E                           File "<frozen runpy>", line 198, in _run_module_...le>
+E                             from nana_core.life.application import LifeApplication
+E                         ModuleNotFoundError: No module named \'nana_core\'
+E                         ')
+E                       assert 1 is None
+E                        +  where 1 = poll()
+E                        +    where poll = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 't...>.poll
+
+tests/controlled_world/test_crash_campaign.py:23: AssertionError
+_ test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[DURING_VERIFY] _
+
+owned_root = PosixPath('/tmp/nana-cw-0ft8u5ht'), cut = 'DURING_VERIFY'
+
+    @pytest.mark.parametrize('cut',CUTS)
+    def test_actual_process_cut_same_subject_no_duplicate_effect_or_authority(owned_root,cut):
+        with ControlledWorld(owned_root/'world',interval=120) as world:
+            home=owned_root/'life';cfg=initialize(home,world.host.profile,skills=True)
+            update_config(home,cfg.model_copy(update={'revision':2,'advanced_life':True,'shared_presence':True,'owned_browser_endpoint':world.browser.endpoint,'world_sources':tuple(IntakeSource(source_id=k,channel='OWNED_HTTP',location=world.services[k].url+'/source',semantic_format='SOURCED_CLAIM_JSON') for k in ('feed','api'))}),expected_revision=1)
+            with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id;grants=len(app.runtime.store.all('grants'))
+            marker=owned_root/'cut.json'
+            with (owned_root/'worker.log').open('w') as log:
+                process=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_world.crash_worker','--home',str(home),'--marker',str(marker),'--cut',cut],stdout=log,stderr=log)
+                try:
+                    deadline=time.monotonic()+65
+                    while not marker.exists():
+>                       assert process.poll() is None,(cut,(owned_root/'worker.log').read_text()[-2000:])
+E                       AssertionError: ('DURING_VERIFY', 'Traceback (most recent call last):
+E                           File "<frozen runpy>", line 198, in _run_module_as_main
+E                           Fi...le>
+E                             from nana_core.life.application import LifeApplication
+E                         ModuleNotFoundError: No module named \'nana_core\'
+E                         ')
+E                       assert 1 is None
+E                        +  where 1 = poll()
+E                        +    where poll = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 't...>.poll
+
+tests/controlled_world/test_crash_campaign.py:23: AssertionError
+_ test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[AFTER_EXPERIENCE] _
+
+owned_root = PosixPath('/tmp/nana-cw-llabdesn'), cut = 'AFTER_EXPERIENCE'
+
+    @pytest.mark.parametrize('cut',CUTS)
+    def test_actual_process_cut_same_subject_no_duplicate_effect_or_authority(owned_root,cut):
+        with ControlledWorld(owned_root/'world',interval=120) as world:
+            home=owned_root/'life';cfg=initialize(home,world.host.profile,skills=True)
+            update_config(home,cfg.model_copy(update={'revision':2,'advanced_life':True,'shared_presence':True,'owned_browser_endpoint':world.browser.endpoint,'world_sources':tuple(IntakeSource(source_id=k,channel='OWNED_HTTP',location=world.services[k].url+'/source',semantic_format='SOURCED_CLAIM_JSON') for k in ('feed','api'))}),expected_revision=1)
+            with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id;grants=len(app.runtime.store.all('grants'))
+            marker=owned_root/'cut.json'
+            with (owned_root/'worker.log').open('w') as log:
+                process=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_world.crash_worker','--home',str(home),'--marker',str(marker),'--cut',cut],stdout=log,stderr=log)
+                try:
+                    deadline=time.monotonic()+65
+                    while not marker.exists():
+>                       assert process.poll() is None,(cut,(owned_root/'worker.log').read_text()[-2000:])
+E                       AssertionError: ('AFTER_EXPERIENCE', 'Traceback (most recent call last):
+E                           File "<frozen runpy>", line 198, in _run_module_as_main
+E                          ...le>
+E                             from nana_core.life.application import LifeApplication
+E                         ModuleNotFoundError: No module named \'nana_core\'
+E                         ')
+E                       assert 1 is None
+E                        +  where 1 = poll()
+E                        +    where poll = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 't...>.poll
+
+tests/controlled_world/test_crash_campaign.py:23: AssertionError
+_ test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[LEARNING] _
+
+owned_root = PosixPath('/tmp/nana-cw-xra429fc'), cut = 'LEARNING'
+
+    @pytest.mark.parametrize('cut',CUTS)
+    def test_actual_process_cut_same_subject_no_duplicate_effect_or_authority(owned_root,cut):
+        with ControlledWorld(owned_root/'world',interval=120) as world:
+            home=owned_root/'life';cfg=initialize(home,world.host.profile,skills=True)
+            update_config(home,cfg.model_copy(update={'revision':2,'advanced_life':True,'shared_presence':True,'owned_browser_endpoint':world.browser.endpoint,'world_sources':tuple(IntakeSource(source_id=k,channel='OWNED_HTTP',location=world.services[k].url+'/source',semantic_format='SOURCED_CLAIM_JSON') for k in ('feed','api'))}),expected_revision=1)
+            with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id;grants=len(app.runtime.store.all('grants'))
+            marker=owned_root/'cut.json'
+            with (owned_root/'worker.log').open('w') as log:
+                process=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_world.crash_worker','--home',str(home),'--marker',str(marker),'--cut',cut],stdout=log,stderr=log)
+                try:
+                    deadline=time.monotonic()+65
+                    while not marker.exists():
+>                       assert process.poll() is None,(cut,(owned_root/'worker.log').read_text()[-2000:])
+E                       AssertionError: ('LEARNING', 'Traceback (most recent call last):
+E                           File "<frozen runpy>", line 198, in _run_module_as_main
+E                           File "<...le>
+E                             from nana_core.life.application import LifeApplication
+E                         ModuleNotFoundError: No module named \'nana_core\'
+E                         ')
+E                       assert 1 is None
+E                        +  where 1 = poll()
+E                        +    where poll = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 't...>.poll
+
+tests/controlled_world/test_crash_campaign.py:23: AssertionError
+_ test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[SKILL_QUALIFICATION] _
+
+owned_root = PosixPath('/tmp/nana-cw-g6lwy91l'), cut = 'SKILL_QUALIFICATION'
+
+    @pytest.mark.parametrize('cut',CUTS)
+    def test_actual_process_cut_same_subject_no_duplicate_effect_or_authority(owned_root,cut):
+        with ControlledWorld(owned_root/'world',interval=120) as world:
+            home=owned_root/'life';cfg=initialize(home,world.host.profile,skills=True)
+            update_config(home,cfg.model_copy(update={'revision':2,'advanced_life':True,'shared_presence':True,'owned_browser_endpoint':world.browser.endpoint,'world_sources':tuple(IntakeSource(source_id=k,channel='OWNED_HTTP',location=world.services[k].url+'/source',semantic_format='SOURCED_CLAIM_JSON') for k in ('feed','api'))}),expected_revision=1)
+            with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id;grants=len(app.runtime.store.all('grants'))
+            marker=owned_root/'cut.json'
+            with (owned_root/'worker.log').open('w') as log:
+                process=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_world.crash_worker','--home',str(home),'--marker',str(marker),'--cut',cut],stdout=log,stderr=log)
+                try:
+                    deadline=time.monotonic()+65
+                    while not marker.exists():
+>                       assert process.poll() is None,(cut,(owned_root/'worker.log').read_text()[-2000:])
+E                       AssertionError: ('SKILL_QUALIFICATION', 'Traceback (most recent call last):
+E                           File "<frozen runpy>", line 198, in _run_module_as_main...le>
+E                             from nana_core.life.application import LifeApplication
+E                         ModuleNotFoundError: No module named \'nana_core\'
+E                         ')
+E                       assert 1 is None
+E                        +  where 1 = poll()
+E                        +    where poll = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 't...>.poll
+
+tests/controlled_world/test_crash_campaign.py:23: AssertionError
+_ test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[AFTER_DELIVERY_CANDIDATE] _
+
+owned_root = PosixPath('/tmp/nana-cw-rzb10yy6')
+cut = 'AFTER_DELIVERY_CANDIDATE'
+
+    @pytest.mark.parametrize('cut',CUTS)
+    def test_actual_process_cut_same_subject_no_duplicate_effect_or_authority(owned_root,cut):
+        with ControlledWorld(owned_root/'world',interval=120) as world:
+            home=owned_root/'life';cfg=initialize(home,world.host.profile,skills=True)
+            update_config(home,cfg.model_copy(update={'revision':2,'advanced_life':True,'shared_presence':True,'owned_browser_endpoint':world.browser.endpoint,'world_sources':tuple(IntakeSource(source_id=k,channel='OWNED_HTTP',location=world.services[k].url+'/source',semantic_format='SOURCED_CLAIM_JSON') for k in ('feed','api'))}),expected_revision=1)
+            with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id;grants=len(app.runtime.store.all('grants'))
+            marker=owned_root/'cut.json'
+            with (owned_root/'worker.log').open('w') as log:
+                process=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_world.crash_worker','--home',str(home),'--marker',str(marker),'--cut',cut],stdout=log,stderr=log)
+                try:
+                    deadline=time.monotonic()+65
+                    while not marker.exists():
+>                       assert process.poll() is None,(cut,(owned_root/'worker.log').read_text()[-2000:])
+E                       AssertionError: ('AFTER_DELIVERY_CANDIDATE', 'Traceback (most recent call last):
+E                           File "<frozen runpy>", line 198, in _run_module_as...le>
+E                             from nana_core.life.application import LifeApplication
+E                         ModuleNotFoundError: No module named \'nana_core\'
+E                         ')
+E                       assert 1 is None
+E                        +  where 1 = poll()
+E                        +    where poll = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 't...>.poll
+
+tests/controlled_world/test_crash_campaign.py:23: AssertionError
+_ test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[BACKUP] _
+
+owned_root = PosixPath('/tmp/nana-cw-ykiloffh'), cut = 'BACKUP'
+
+    @pytest.mark.parametrize('cut',CUTS)
+    def test_actual_process_cut_same_subject_no_duplicate_effect_or_authority(owned_root,cut):
+        with ControlledWorld(owned_root/'world',interval=120) as world:
+            home=owned_root/'life';cfg=initialize(home,world.host.profile,skills=True)
+            update_config(home,cfg.model_copy(update={'revision':2,'advanced_life':True,'shared_presence':True,'owned_browser_endpoint':world.browser.endpoint,'world_sources':tuple(IntakeSource(source_id=k,channel='OWNED_HTTP',location=world.services[k].url+'/source',semantic_format='SOURCED_CLAIM_JSON') for k in ('feed','api'))}),expected_revision=1)
+            with LifeApplication(home,bootstrap_grant=True) as app:identity=app.runtime.identity_id;grants=len(app.runtime.store.all('grants'))
+            marker=owned_root/'cut.json'
+            with (owned_root/'worker.log').open('w') as log:
+                process=subprocess.Popen([sys.executable,'-m','tools.nana_controlled_world.crash_worker','--home',str(home),'--marker',str(marker),'--cut',cut],stdout=log,stderr=log)
+                try:
+                    deadline=time.monotonic()+65
+                    while not marker.exists():
+>                       assert process.poll() is None,(cut,(owned_root/'worker.log').read_text()[-2000:])
+E                       AssertionError: ('BACKUP', 'Traceback (most recent call last):
+E                           File "<frozen runpy>", line 198, in _run_module_as_main
+E                           File "<fr...le>
+E                             from nana_core.life.application import LifeApplication
+E                         ModuleNotFoundError: No module named \'nana_core\'
+E                         ')
+E                       assert 1 is None
+E                        +  where 1 = poll()
+E                        +    where poll = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 't...>.poll
+
+tests/controlled_world/test_crash_campaign.py:23: AssertionError
+_________ test_actual_process_owner_handoff_and_fresh_lineage_rollback _________
+
+tmp_path = PosixPath('/tmp/n32f3/test_actual_process_owner_hand0')
+
+    def test_actual_process_owner_handoff_and_fresh_lineage_rollback(tmp_path):
+>    result=run(REPO,tmp_path/'rehearsal')
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/first_life/test_rehearsal.py:6: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tools/nana_first_life/rehearsal.py:43: in run
+    old=launch(source);command(source,{'operation':'control','command':'pause'})
+        ^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+home = PosixPath('/tmp/n32f3/test_actual_process_owner_hand0/rehearsal/legacy-role')
+
+    def launch(home):
+     log=(root/(home.name+'.log')).open('a');logs.append(log)
+     p=subprocess.Popen([sys.executable,'-m','nana_core.life','run','--home',str(home),'--seconds','90','--headless','--control','--json'],cwd=repo,stdout=log,stderr=log);children.append(p)
+     until=time.monotonic()+8
+     while time.monotonic()<until:
+>     if p.poll() is not None:raise RuntimeError('rehearsal runtime failed')
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E     RuntimeError: rehearsal runtime failed
+
+tools/nana_first_life/rehearsal.py:23: RuntimeError
+________ test_chat_client_uses_existing_runtime_without_raw_transcript _________
+
+tmp_path = PosixPath('/tmp/n32f3/test_chat_client_uses_existing0')
+
+    def test_chat_client_uses_existing_runtime_without_raw_transcript(tmp_path):
+     import subprocess,sys,sqlite3
+     from nana_core.life.surfaces import SurfaceBinding
+     from nana_core.life.control import request
+     from tests.cloud_life.test_process import wait_ready
+     from tests.cloud_life.conftest import REPO
+     home=tmp_path/'life';initialize(home,max_autonomous_materials=0,surface_bindings=(SurfaceBinding(binding_id='cloud.cli',platform='cloud.cli',surface='chat.direct',adapter='shadow.local'),))
+     with LifeApplication(home) as app:app.pause();identity=app.runtime.identity_id
+     with (tmp_path/'server.log').open('w') as log:
+      p=subprocess.Popen([sys.executable,'-m','nana_core.life','run','--home',str(home),'--seconds','25','--headless','--control','--json'],cwd=REPO,stdout=log,stderr=log)
+      try:
+>      wait_ready(home,p)
+
+tests/first_life/test_review.py:35: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+home = PosixPath('/tmp/n32f3/test_chat_client_uses_existing0/life')
+p = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 'n...>
+
+    def wait_ready(home,p):
+     start=time.monotonic()
+     while time.monotonic()-start<8:
+>     assert p.poll() is None
+E     AssertionError: assert 1 is None
+E      +  where 1 = poll()
+E      +    where poll = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 'n...>.poll
+
+tests/cloud_life/test_process.py:14: AssertionError
+__________ test_sigkill_guard_is_complete_old_or_new[BEFORE_REPLACE] ___________
+
+tmp_path = PosixPath('/tmp/n32f3/test_sigkill_guard_is_complete0')
+cut = 'BEFORE_REPLACE'
+
+    @pytest.mark.parametrize('cut',['BEFORE_REPLACE','AFTER_REPLACE'])
+    def test_sigkill_guard_is_complete_old_or_new(tmp_path,cut):
+        p=tmp_path/'storage-monitor.json';before=StorageWindow(started_us=1,window_us=1,logical_bytes=12)
+        after=StorageWindow(started_us=1,window_us=2,logical_bytes=99,status='STATE_SIZE_LIMIT_STOP')
+        _atomic(p,before.model_dump_json())
+        program='''import os,sys\nfrom pathlib import Path\nfrom nana_core.life.durability import _atomic\noriginal=os.replace\ndef replace(a,b):\n if sys.argv[2]=='AFTER_REPLACE':original(a,b)\n print('CUT',flush=True)\n sys.stdin.buffer.read(1)\n if sys.argv[2]=='BEFORE_REPLACE':original(a,b)\nos.replace=replace\n_atomic(Path(sys.argv[1]),sys.argv[3])\n'''
+        proc=subprocess.Popen([sys.executable,'-c',program,str(p),cut,after.model_dump_json()],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL)
+        try:
+            import selectors
+            with selectors.DefaultSelector() as ready:
+                ready.register(proc.stdout,selectors.EVENT_READ)
+                assert ready.select(4),'child never reached fsync/replace cut'
+>           assert proc.stdout.readline()==b'CUT\n'
+E           AssertionError: assert b'' == b'CUT\n'
+E             
+E             Use -v to get more diff
+
+tests/first_life_hardening/test_atomic_recovery.py:28: AssertionError
+___________ test_sigkill_guard_is_complete_old_or_new[AFTER_REPLACE] ___________
+
+tmp_path = PosixPath('/tmp/n32f3/test_sigkill_guard_is_complete1')
+cut = 'AFTER_REPLACE'
+
+    @pytest.mark.parametrize('cut',['BEFORE_REPLACE','AFTER_REPLACE'])
+    def test_sigkill_guard_is_complete_old_or_new(tmp_path,cut):
+        p=tmp_path/'storage-monitor.json';before=StorageWindow(started_us=1,window_us=1,logical_bytes=12)
+        after=StorageWindow(started_us=1,window_us=2,logical_bytes=99,status='STATE_SIZE_LIMIT_STOP')
+        _atomic(p,before.model_dump_json())
+        program='''import os,sys\nfrom pathlib import Path\nfrom nana_core.life.durability import _atomic\noriginal=os.replace\ndef replace(a,b):\n if sys.argv[2]=='AFTER_REPLACE':original(a,b)\n print('CUT',flush=True)\n sys.stdin.buffer.read(1)\n if sys.argv[2]=='BEFORE_REPLACE':original(a,b)\nos.replace=replace\n_atomic(Path(sys.argv[1]),sys.argv[3])\n'''
+        proc=subprocess.Popen([sys.executable,'-c',program,str(p),cut,after.model_dump_json()],stdin=subprocess.PIPE,stdout=subprocess.PIPE,stderr=subprocess.DEVNULL)
+        try:
+            import selectors
+            with selectors.DefaultSelector() as ready:
+                ready.register(proc.stdout,selectors.EVENT_READ)
+                assert ready.select(4),'child never reached fsync/replace cut'
+>           assert proc.stdout.readline()==b'CUT\n'
+E           AssertionError: assert b'' == b'CUT\n'
+E             
+E             Use -v to get more diff
+
+tests/first_life_hardening/test_atomic_recovery.py:28: AssertionError
+_____ test_eight_call_envelope_requires_known_fixture_baseline_no_dispatch _____
+
+tmp_path = PosixPath('/tmp/n32f3/test_eight_call_envelope_requi0')
+approved_dev_branch = 'dev/nana-core-next-experience-codex'
+
+    def test_eight_call_envelope_requires_known_fixture_baseline_no_dispatch(tmp_path,approved_dev_branch):
+        home=tmp_path/'life';initialize(home)
+        with pytest.raises(CoreError,match='BUDGET_BASE_MISMATCH'):configure(home)
+        with LifeApplication(home) as app:
+            outcome=setup(app,tmp_path)
+            assert outcome['semantic']['fixture_calls']==1
+        cfg=configure(home)
+        assert cfg.provider_total_calls_limit==9 and cfg.provider_total_reserved_cost_micro==400000
+        assert cfg.provider_timeout_ms==15000 and cfg.remote_privacy==('PUBLIC','PROJECT')
+        class ExplicitSyntheticResolver:
+            def available(self,reference):return reference==REF
+            def resolve(self,reference):return ResolvedSecret('TEST_ONLY_NOT_SECRET')
+>       assert preflight(home,live=True,resolver=ExplicitSyntheticResolver())['state']=='PREFLIGHT_PASS'
+E       AssertionError: assert 'FIRST_LIFE_START_BLOCKED' == 'PREFLIGHT_PASS'
+E         
+E         - PREFLIGHT_PASS
+E         + FIRST_LIFE_START_BLOCKED
+
+tests/first_life_integration/test_live_gate.py:24: AssertionError
+_______ test_private_terminal_binding_never_echoes_synthetic_credential ________
+
+    def test_private_terminal_binding_never_echoes_synthetic_credential():
+        import os,pty,select,subprocess,sys,time
+        master,slave=pty.openpty()
+        code="from tools.nana_first_life_integration.live_review import secret_from_terminal,REF; r=secret_from_terminal(); print('BOUND',r.available(REF),repr(r),flush=True); r.clear(); print('CLEARED',r.available(REF),flush=True)"
+        child=subprocess.Popen([sys.executable,'-c',code],stdin=slave,stdout=slave,stderr=slave,close_fds=True);os.close(slave)
+        received=b'';deadline=time.monotonic()+5
+        try:
+            while b'CREDENTIAL_INPUT_READY_ECHO_DISABLED' not in received:
+                assert time.monotonic()<deadline and child.poll() is None
+>               if select.select([master],[],[],.1)[0]:received+=os.read(master,4096)
+                                                                 ^^^^^^^^^^^^^^^^^^^^
+E               OSError: [Errno 5] Input/output error
+
+tests/first_life_integration/test_live_gate.py:62: OSError
+_______ test_preflight_read_only_offline_and_fail_closed_live_or_active ________
+
+tmp_path = PosixPath('/tmp/n32f3/test_preflight_read_only_offli0')
+approved_dev_branch = 'dev/nana-core-next-experience-codex'
+
+    def test_preflight_read_only_offline_and_fail_closed_live_or_active(tmp_path,approved_dev_branch):
+        home=tmp_path/'life';initialize(home)
+        result=preflight(home)
+>       assert result['state']=='PREFLIGHT_PASS' and result['checks']['manager_path']
+E       AssertionError: assert ('FIRST_LIFE_START_BLOCKED' == 'PREFLIGHT_PASS'
+E         
+E         - PREFLIGHT_PASS
+E         + FIRST_LIFE_START_BLOCKED)
+
+tests/first_life_integration/test_preflight.py:10: AssertionError
+_______ test_branch_mismatch_stays_blocked_without_default_policy_change _______
+
+tmp_path = PosixPath('/tmp/n32f3/test_branch_mismatch_stays_blo0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f93214bef30>
+
+    def test_branch_mismatch_stays_blocked_without_default_policy_change(tmp_path,monkeypatch):
+        import subprocess
+        from tools.nana_first_life_integration import dev
+        assert dev.BRANCH=='dev/nana-core-cloud-first-life-launch-v1-codex'
+        home=tmp_path/'life';initialize(home)
+        actual=subprocess.check_output(['git','branch','--show-current'],cwd=dev.REPO,text=True).strip()
+        monkeypatch.setattr(dev,'BRANCH',actual+'.not-the-approved-branch')
+        result=preflight(home)
+        assert result['state']=='FIRST_LIFE_START_BLOCKED'
+        assert not result['checks']['branch']
+>       assert all(value for key,value in result['checks'].items() if key!='branch')
+E       assert False
+E        +  where False = all(<generator object test_branch_mismatch_stays_blocked_without_default_policy_change.<locals>.<genexpr> at 0x7f9323d83ed0>)
+
+tests/first_life_integration/test_preflight.py:31: AssertionError
+_ test_high_primary_significance_preserves_independent_framing_and_no_authority _
+
+tmp_path = PosixPath('/tmp/n32f3/test_high_primary_significance0')
+approved_dev_branch = 'dev/nana-core-next-experience-codex'
+
+    def test_high_primary_significance_preserves_independent_framing_and_no_authority(tmp_path,approved_dev_branch):
+        home=tmp_path/'life';initial=initialize(home)
+        from nana_core.life.config import load_config,update_config
+        cfg=load_config(home);update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'current_project_state':None}),expected_revision=cfg.revision)
+        first=prepare(home)
+>       assert first['current_state_projection']['attribution']=='EXTERNAL_PROJECT_STATUS_NOT_SUBJECT_EXPERIENCE'
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       KeyError: 'current_state_projection'
+
+tests/first_life_integration/test_review_prepare.py:10: KeyError
+_ test_actual_failure_changes_need_reuse_settles_restart_counterexample_reopens _
+
+tmp_path = PosixPath('/tmp/n32f3/test_actual_failure_changes_ne0')
+record_property = <function record_property.<locals>.append_property at 0x7f9320150900>
+
+    def test_actual_failure_changes_need_reuse_settles_restart_counterexample_reopens(tmp_path,record_property):
+        tasks=(ApplicationTask(task_id='base',kind='DOCUMENT',initial='old ',wanted='new',context='notes'),ApplicationTask(task_id='later',kind='DOCUMENT',initial='draft ',wanted='different',context='research'))
+        with OwnedApplication(tmp_path/'target',tasks=tasks) as host:
+            home=tmp_path/'life';initialize(home,host.profile,skills=False)
+            with LifeApplication(home,bootstrap_grant=True) as app:
+                r=app.runtime;identity=r.identity_id
+                until(app,lambda:bool(r.store.db.execute("SELECT 1 FROM experiences WHERE outcome='FAILURE' AND task_class='owned-document'").fetchone()))
+                app.pause();failure=r.store.db.execute("SELECT * FROM experiences WHERE outcome='FAILURE' AND task_class='owned-document' LIMIT 1").fetchone()
+                # The opportunity is derived from the observed gap. No PreferenceSignal.
+                cue=ConcernCue(cue_kind='OPEN_LOOP',topic_key='document-competence',motivation_source='CAPABILITY_GAP',program_id='learn.owned-document',possible_behaviors=('LEARN','WATCH'))
+                mid=capture(r,'reconsider-known-gap',cue.model_dump(mode='json'),kind='MODEL_DERIVATION',parents=(failure['result_memory_id'],),predicate='concern.document-competence')
+                before=need_cycle(app,'before',mid)
+                assert before.experience_need.state=='OPEN' and before.intention.behavior=='LEARN'
+                if before.intention_id:r.subject.transition_intention(before.intention_id,expected_revision=1,state='DROPPED')
+                app.pause(False)
+                until(app,lambda:bool(opportunities(r.store,scope='project-work',privacy_classes=r.config.privacy_classes)))
+                app.pause();view=opportunities(r.store,scope='project-work',privacy_classes=r.config.privacy_classes)[0]
+                after=need_cycle(app,'after',mid)
+                assert after.experience_need.state=='SETTLED' and after.intention.behavior=='WATCH'
+                assert not r.store.all('self_assertions') and not r.store.all('assertion_signals')
+                effects=len(json.loads((Path(host.target.workspace)/'application-state.json').read_text())['effects'])
+            marker=tmp_path/'committed-self-wake.json'
+            child=subprocess.Popen([sys.executable,'-m','tools.nana_foundation_closure.restart_worker','--home',str(home),'--mid',mid,'--marker',str(marker)])
+            try:
+                deadline=time.monotonic()+10
+                while not marker.exists():
+>                   assert child.poll() is None and time.monotonic()<deadline
+E                   AssertionError: assert (1 is None)
+E                    +  where 1 = poll()
+E                    +    where poll = <Popen: returncode: 1 args: ['/workspace/nana-test-env/bin/python', '-m', 't...>.poll
+
+tests/foundation_closure/test_experience_need.py:48: AssertionError
+----------------------------- Captured stderr call -----------------------------
+Traceback (most recent call last):
+  File "<frozen runpy>", line 198, in _run_module_as_main
+  File "<frozen runpy>", line 88, in _run_code
+  File "/workspace/nana-core-validation/tools/nana_foundation_closure/restart_worker.py", line 4, in <module>
+    from nana_core.life.application import LifeApplication
+ModuleNotFoundError: No module named 'nana_core'
+=========================== short test summary info ============================
+FAILED tests/affective_autonomy/test_recovery.py::test_actual_sigkill_six_dangerous_cuts
+FAILED tests/cloud_life/test_followup_recovery.py::test_c_committed_decision_survives_sigkill_before_followup[GOAL]
+FAILED tests/cloud_life/test_followup_recovery.py::test_c_committed_decision_survives_sigkill_before_followup[REFLECTION]
+FAILED tests/cloud_life/test_process.py::test_headless_control_restart_dedup_and_quarantined_backup
+FAILED tests/continuous_runtime/test_coordinator.py::test_clock_only_presence_and_bounded_cognition_swap
+FAILED tests/continuous_runtime/test_coordinator.py::test_model_timeout_reaped_and_restart_continues
+FAILED tests/continuous_runtime/test_system_qualification.py::test_same_subject_many_behaviors_and_virtual_runtime_life
+FAILED tests/continuous_runtime/test_system_qualification.py::test_actual_wall_process_soak_and_crash_recovery
+FAILED tests/continuous_self/test_candidate.py::test_full_continuous_self_candidate_across_real_process_restart
+FAILED tests/continuous_self/test_learning.py::test_experience_restart_new_model_and_matched_ablation
+FAILED tests/continuous_self/test_privacy.py::test_real_sigkill_after_durable_delete_intent_recovers_before_reads
+FAILED tests/continuous_self/test_subject_life.py::test_ten_day_counterfactual_and_sixty_day_life
+FAILED tests/continuous_self/test_subject_life.py::test_actual_sigkill_subject_transaction_no_duplicate[during]
+FAILED tests/continuous_self/test_subject_life.py::test_actual_sigkill_subject_transaction_no_duplicate[after]
+FAILED tests/controlled_hands/test_recovery.py::test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[BEFORE_PREPARE]
+FAILED tests/controlled_hands/test_recovery.py::test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[BEFORE_EFFECT]
+FAILED tests/controlled_hands/test_recovery.py::test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[AFTER_EFFECT]
+FAILED tests/controlled_hands/test_recovery.py::test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[DURING_VERIFY]
+FAILED tests/controlled_hands/test_recovery.py::test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[DURING_LEARNING]
+FAILED tests/controlled_hands/test_recovery.py::test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[DURING_SKILL_TEST]
+FAILED tests/controlled_world/test_crash_campaign.py::test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[IDLE]
+FAILED tests/controlled_world/test_crash_campaign.py::test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[IDLE_TERM]
+FAILED tests/controlled_world/test_crash_campaign.py::test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[IDLE_GRACEFUL]
+FAILED tests/controlled_world/test_crash_campaign.py::test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[RESEARCH]
+FAILED tests/controlled_world/test_crash_campaign.py::test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[BEFORE_ACTION]
+FAILED tests/controlled_world/test_crash_campaign.py::test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[AFTER_ACTION_BEFORE_VERIFY]
+FAILED tests/controlled_world/test_crash_campaign.py::test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[DURING_VERIFY]
+FAILED tests/controlled_world/test_crash_campaign.py::test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[AFTER_EXPERIENCE]
+FAILED tests/controlled_world/test_crash_campaign.py::test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[LEARNING]
+FAILED tests/controlled_world/test_crash_campaign.py::test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[SKILL_QUALIFICATION]
+FAILED tests/controlled_world/test_crash_campaign.py::test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[AFTER_DELIVERY_CANDIDATE]
+FAILED tests/controlled_world/test_crash_campaign.py::test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[BACKUP]
+FAILED tests/first_life/test_rehearsal.py::test_actual_process_owner_handoff_and_fresh_lineage_rollback
+FAILED tests/first_life/test_review.py::test_chat_client_uses_existing_runtime_without_raw_transcript
+FAILED tests/first_life_hardening/test_atomic_recovery.py::test_sigkill_guard_is_complete_old_or_new[BEFORE_REPLACE]
+FAILED tests/first_life_hardening/test_atomic_recovery.py::test_sigkill_guard_is_complete_old_or_new[AFTER_REPLACE]
+FAILED tests/first_life_integration/test_live_gate.py::test_eight_call_envelope_requires_known_fixture_baseline_no_dispatch
+FAILED tests/first_life_integration/test_live_gate.py::test_private_terminal_binding_never_echoes_synthetic_credential
+FAILED tests/first_life_integration/test_preflight.py::test_preflight_read_only_offline_and_fail_closed_live_or_active
+FAILED tests/first_life_integration/test_preflight.py::test_branch_mismatch_stays_blocked_without_default_policy_change
+FAILED tests/first_life_integration/test_review_prepare.py::test_high_primary_significance_preserves_independent_framing_and_no_authority
+FAILED tests/foundation_closure/test_experience_need.py::test_actual_failure_changes_need_reuse_settles_restart_counterexample_reopens
+!!!!!!!!!!!!!!!!!!!!!!!!!!!!!! KeyboardInterrupt !!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/subprocess.py:2047: KeyboardInterrupt
+(to show a full traceback on KeyboardInterrupt use --full-trace)
+42 failed, 480 passed in 183.26s (0:03:03)

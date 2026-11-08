@@ -3205,3 +3205,11 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-08 · 原G独立32条检索资格与同预算回忆
 
 新增显式受控32条资格profile，旧16配置序列化/资格不扩大，原C/G练习与独立评价/转移、来源撤回/重启/B8迁移保持。实测发现较大来源证明令召回被预算挤掉，复用稳定自我有源降级在原预算内保留回忆，不抬限。相关38通过16.37s；24冻结后续查询同Store比较旧源9/24→24/24、误召均0、P95约1.09→1.90ms；零模型，不声称提速或长期生活。首错和新fixture错误保留，见evidence/retrieval-scope32-20261108。独立反馈CI复验42491401749两job通过，实际私有SQLite3.53.1，不冒充3.51.3。
+
+### 2026-11-08 · 检索对照百分位口径修正
+
+修正开发探针P95下取整顺序统计值为linear-inclusive百分位；按保留的原24个样本重算，原始结果不改、不重跑、不改正确率。见retrieval-scope32证据percentiles-corrected.json；运行Core源码未改。
+
+### 2026-11-08 · 用户再次冻结与两次北京时间续办
+
+按用户指令立即暂停开发并只中断本会话owned全仓pytest（407通过230.29s/KeyboardInterrupt/exit2）。保存d2匹配284文件两次同SHA、实际离线安装及原G32后续RENDER/同DEV重启/撤回证据，6loopback真实0；原梦境延续探针assert summary首错保留待诊断，完整回归三次环境/稀疏/PYTHONPATH首错亦保留，不伪造全仓或梦境通过。两次自动续办已创建启用：2026-11-09 03:30和09:30 Asia/Shanghai，均恢复当前状态推进原任务全部剩余项并先检查在途执行者。本批仅检查点/证据及P95开发探针口径修正，无运行Core改动、新APK、CURRENT或生产切换。

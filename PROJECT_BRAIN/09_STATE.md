@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 96,
-  "as_of_us": 1794150144583120,
+  "revision": 97,
+  "as_of_us": 1794151279258024,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_RETRIEVAL_SCOPE_AND_MATCHED_INTEGRATION",
+  "status": "PAUSED_BY_USER_SCHEDULED_CONTINUATIONS",
   "progress": [
     "原Next Experience及十域任务持续；f03fcbb检索学习/原S3/S2/Fish、408已交付能力继承，不新增主体或学习系统。",
     "a0263e5原回执热集保留256，终态/UNKNOWN元数据可私有归档，跨重启同key不重发，旧二进制遇新标记拒绝。",
@@ -28,13 +28,17 @@
     "已按用户定时指令从58418b4恢复，远端identical、工作树干净；原有成果继承。四模式完整编译/HTTP/浏览器资格准备通过有界开发工作流尝试，尚无运行成功证据。",
     "环境授权恢复后fb828cad实际完整TS/Vite构建、66前端单测、25原Core/HTTP/反馈/历史/重启检查、20四视口反馈/四模式/UNKNOWN浏览器检查通过；独立GitHub前端通过，初次后端因SQLITE_VERSION_UNSUPPORTED失败保留，正在换私有解释器，不降门禁。",
     "原G检索学习新增独立V2/32资格，旧16配置/资格不自动扩大；38项原检索/近期上下文/B8及新增迁移检查通过。24个冻结后续查询同Store/100ms：旧源9/24、新24/24，无误召；阳性3/18→18/18，P95约1.09→1.90ms为质量代价，零模型调用；非大规模/真实模型资格。",
-    "独立GitHub复验42491401749前端与原Core反馈两job均成功；私有CPython3.12.14实际SQLite3.53.1，25原HTTP测试25.27s，未降低原门禁。"
+    "独立GitHub复验42491401749前端与原Core反馈两job均成功；私有CPython3.12.14实际SQLite3.53.1，25原HTTP测试25.27s，未降低原门禁。",
+    "用户冻结当前执行；已创建启用2026-11-09 03:30和09:30 Asia/Shanghai两次原主任务实际续办，恢复先核对最新状态及在途执行者。",
+    "固定d2d5e8c的284文件包两次同SHAb6b56d…a6976；已实际离线安装并通过原BFF/Store/反馈幂等/十视图/同DEV重启/笔记撤回/G32后续不同笔记RENDER，6loopback真实0，SQLite3.53.1。",
+    "原样本P95改linear-inclusive：旧源1.0986076ms、新1.9265062ms；原正确率/原样本不改，非新运行。"
   ],
   "open_gates": [
     "继续同一后端安装/组合资格及原任务高价值融合；冷历史只完成安全回读前置，主链热数据驱逐/真实物理治理未实施，S8独立反馈及真实长期体验仍独立评估。",
     "真实模型/商业Tokenizer/手机/跨日/活库向量映射仍缺安全绑定，只暂停相关资格，不碰生产-s1/AstrBot/Iris或既有正式入口。",
     "当前新开发包尚未成为交付CURRENT或生产；客户端新原生映射未打新APK。自然交流/自主性全审计、16条检索学习扩展、真实送达归因、主链物理归档等仍未整体完成。",
-    "网络/socket已恢复，反馈完整构建/25HTTP/20浏览器和独立CI已补齐；32条候选的完整回归/匹配便携安装及实际手机/模型/真实送达/长期验收仍独立待验。CURRENT仍合法选择266+409，后续候选须匹配源提交，不自动切换。"
+    "网络/socket已恢复，反馈完整构建/25HTTP/20浏览器和独立CI已补齐；32条候选的完整回归/匹配便携安装及实际手机/模型/真实送达/长期验收仍独立待验。CURRENT仍合法选择266+409，后续候选须匹配源提交，不自动切换。",
+    "冻结前安装梦境延续探针assert summary失败未诊断；完整回归首错日志保留，修正依赖/稀疏模块/子进程PYTHONPATH后407通过230.29s因用户冻结SIGINT，exit2，非全仓通过。下一次先诊断原维护候选驱动并恢复全仓，再续其余原任务；不改CURRENT/生产。"
   ],
   "evidence_refs": [
     "docs/nana_next_experience/LIVING_MEMORY_UNIFIED.md",
@@ -50,7 +54,8 @@
     "docs/nana_next_experience/FROZEN_CHECKPOINT.md",
     "docs/nana_next_experience/evidence/adopted-interest-20261108/README.md",
     "docs/nana_next_experience/evidence/feedback-qualified-20261108/README.md",
-    "docs/nana_next_experience/evidence/retrieval-scope32-20261108/README.md"
+    "docs/nana_next_experience/evidence/retrieval-scope32-20261108/README.md",
+    "docs/nana_next_experience/evidence/installed-scope32-20261108/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

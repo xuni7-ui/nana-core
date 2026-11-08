@@ -1,0 +1,73 @@
+
+==================================== ERRORS ====================================
+_______ ERROR collecting tests/nana_shadow/test_message_hook_adapter.py ________
+ImportError while importing test module '/workspace/nana-core-validation/tests/nana_shadow/test_message_hook_adapter.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/nana_shadow/test_message_hook_adapter.py:32: in <module>
+    import message_hook_adapter as mha  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   ModuleNotFoundError: No module named 'message_hook_adapter'
+_________ ERROR collecting tests/nana_shadow/test_observer_offline.py __________
+ImportError while importing test module '/workspace/nana-core-validation/tests/nana_shadow/test_observer_offline.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/nana_shadow/test_observer_offline.py:32: in <module>
+    import nana_observe_core as core  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   ModuleNotFoundError: No module named 'nana_observe_core'
+____________ ERROR collecting tests/nana_shadow/test_r041_client.py ____________
+ImportError while importing test module '/workspace/nana-core-validation/tests/nana_shadow/test_r041_client.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/nana_shadow/test_r041_client.py:17: in <module>
+    from test_message_hook_adapter import FakeEvent,HostileRepr,CANARY
+tests/nana_shadow/test_message_hook_adapter.py:32: in <module>
+    import message_hook_adapter as mha  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   ModuleNotFoundError: No module named 'message_hook_adapter'
+___________ ERROR collecting tests/nana_shadow/test_r044_privacy.py ____________
+ImportError while importing test module '/workspace/nana-core-validation/tests/nana_shadow/test_r044_privacy.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/nana_shadow/test_r044_privacy.py:8: in <module>
+    from test_r041_client import client_config_for_adversarial_test
+tests/nana_shadow/test_r041_client.py:17: in <module>
+    from test_message_hook_adapter import FakeEvent,HostileRepr,CANARY
+tests/nana_shadow/test_message_hook_adapter.py:32: in <module>
+    import message_hook_adapter as mha  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   ModuleNotFoundError: No module named 'message_hook_adapter'
+___________ ERROR collecting tests/nana_shadow/test_r04_isolation.py ___________
+ImportError while importing test module '/workspace/nana-core-validation/tests/nana_shadow/test_r04_isolation.py'.
+Hint: make sure your test modules/packages have valid Python names.
+Traceback:
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/importlib/__init__.py:90: in import_module
+    return _bootstrap._gcd_import(name[level:], package, level)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+tests/nana_shadow/test_r04_isolation.py:7: in <module>
+    from test_message_hook_adapter import FakeEvent,HostileRepr,CANARY
+tests/nana_shadow/test_message_hook_adapter.py:32: in <module>
+    import message_hook_adapter as mha  # noqa: E402
+    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E   ModuleNotFoundError: No module named 'message_hook_adapter'
+=========================== short test summary info ============================
+ERROR tests/nana_shadow/test_message_hook_adapter.py
+ERROR tests/nana_shadow/test_observer_offline.py
+ERROR tests/nana_shadow/test_r041_client.py
+ERROR tests/nana_shadow/test_r044_privacy.py
+ERROR tests/nana_shadow/test_r04_isolation.py
+!!!!!!!!!!!!!!!!!!! Interrupted: 5 errors during collection !!!!!!!!!!!!!!!!!!!!
+5 errors in 6.61s
