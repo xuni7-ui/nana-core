@@ -8,6 +8,7 @@ from enum import StrEnum
 from typing import Literal
 from pydantic import Field, JsonValue, model_validator
 from ...contracts import DTO
+from ...continuity.lived_language import LanguageSample
 
 CONTRACT = "nana-space-live/v2"
 
@@ -120,6 +121,20 @@ class MessageRequest(WriteRequest):
     privacy_class: Literal["PUBLIC", "PROJECT", "PERSONAL"] = "PROJECT"
     require_model: bool = False  # Additive: old v2 clients retain offline review.
     retain_shared_life: bool = False  # Explicit per-message consent, original Person-Self path.
+
+
+
+class LanguageFeedbackRequest(WriteRequest):
+    sample: LanguageSample = Field(repr=False)
+    exchange_record_id: str = Field(min_length=1, max_length=128)
+    consent: Literal[True]
+
+    @model_validator(mode='before')
+    @classmethod
+    def explicit_feedback_consent(cls, value):
+        if not isinstance(value, dict) or value.get('consent') is not True:
+            raise ValueError('explicit feedback retention consent required')
+        return value
 
 
 class CommandRequest(WriteRequest):

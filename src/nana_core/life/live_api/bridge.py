@@ -510,6 +510,62 @@ class GatewayService:
                 self.ledger.read(key, principal.principal_id).model_dump(mode="json"), principal=principal
             )
 
+    def language_feedback(self, principal, body):
+        """Retain an explicit review through the original owner, not delivery proof."""
+        import sqlite3
+        from ...continuity.records import RecordService
+        from ...continuity.lived_language import LanguageSample
+        from ...storage import canonical, digest
+        from ..inspector import _ReadView
+
+        principal.require(Role.MANAGER)
+        sample=body.sample.model_copy(update={'sample_id':'web-review.'+digest([principal.principal_id,body.idempotency_key])})
+
+        def read_record(record_id):
+            path=self.supervisor.home / 'subject/self.db'
+            with sqlite3.connect(path.as_uri()+'?mode=ro',uri=True) as db:
+                db.row_factory=sqlite3.Row
+                db.execute('PRAGMA query_only=ON')
+                db.execute('BEGIN')
+                view=_ReadView(db,path,self.binding.scope,self.privacy_for(principal))
+                records=RecordService(view)
+                row=records.read(record_id)
+                if not records.current_support(record_id):
+                    raise ApiError('FEEDBACK_SOURCE_UNAVAILABLE',409)
+                view.ensure_privacy_current()
+                return row
+
+        def before():
+            try:
+                exchange=read_record(body.exchange_record_id)
+            except CoreError:
+                raise ApiError('FEEDBACK_SOURCE_UNAVAILABLE',409) from None
+            payload=exchange['payload']
+            if (sample.provenance!='USER_PROVIDED_REVIEW' or sample.human_judgment=='UNREVIEWED'
+                    or sample.review_target!=body.exchange_record_id
+                    or payload.get('person_kind')!='CONVERSATION_EXCHANGE'
+                    or payload.get('entity_id')!=self.binding.entity_id
+                    or exchange['scope']!=self.binding.scope
+                    or payload.get('assistant_utterance')!=sample.candidate_response):
+                raise ApiError('FEEDBACK_TURN_MISMATCH',409)
+
+        def call():
+            response=core_request(self.supervisor.home,{'operation':'language-feedback',
+                'sample':sample.model_dump(mode='json'),'exchange_record_id':body.exchange_record_id})
+            if response.get('ok') is not True:
+                raise ApiError('FEEDBACK_CORE_UNCONFIRMED',503)
+            result=response['result']
+            record=read_record(result['sample_record_id'])
+            saved=LanguageSample.model_validate_json(canonical(record['payload']['sample']))
+            expected=sample.model_copy(update={'body_storage':'DEPENDENT_RECORD','memory_use':None})
+            use=sample.memory_use.model_dump(mode='json') if sample.memory_use else None
+            if saved!=expected or record['payload'].get('memory_use_feedback')!=use:
+                raise ApiError('FEEDBACK_COMMIT_UNVERIFIED',503)
+            return {**result,'state':'EXPLICIT_FEEDBACK_SAVED','delivery_proven':False}
+
+        return self._call(principal,body,'LANGUAGE_FEEDBACK',Role.MANAGER,call,
+            lambda result:result.get('state')=='EXPLICIT_FEEDBACK_SAVED',before)
+
     def send(self, principal, body, *, surface_binding_id=None, progress=None):
         if body.privacy_class not in self.privacy_for(principal):
             raise ApiError("SCOPE_DENIED", 403)

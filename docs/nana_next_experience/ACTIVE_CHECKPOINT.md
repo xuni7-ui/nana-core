@@ -1,3 +1,11 @@
+# Active continuation — real owner feedback API (DEV)
+
+POST /api/nana-space/v2/conversation/feedback now accepts an authenticated Manager's explicit retention-consented LanguageSample and exchange_record_id through original language-feedback IPC. Existing generation/epoch/revision/idempotency/CSRF and privacy gates apply; original Store record is independently reopened read-only and compared before VERIFIED. Return explicitly says delivery_proven=false and human_naturalness_qualified=false. Original LanguageService rejects a review dated before its retained exchange. Actual loopback HTTP/owner/Store saved once, repeated receipt, restart, mismatch/auth/role/CSRF/consent checks and original feedback suite:32 passed in21.44s. No model calls, production or APK change; endpoint is not yet wired into client controls or deployed. Remaining actual delivery attribution and C/S3/S8 causal qualification stay open.
+
+Body: original WriteRequest fields (client_request_id, idempotency_key, expected_revision, run_generation, owner_epoch), consent=true, exchange_record_id, sample=LanguageSample. Server namespaces sample_id to principal/idempotency key. User review is opinion, not memory fact truth or proof a transport delivered a draft. UNKNOWN is not redispatched; no feedback reconciliation capability is claimed.
+
+---
+
 # Active continuation — memory-use review fairness
 
 The original source-bound memory-use guidance now interleaves bounded recent feedback per selected memory, so many reviews of one source do not hide another selected source. Source support, privacy, entity/scope and original four-item output remain; withdrawn feedback is skipped. A synthetic SQLite baseline with 33 reviews for one memory and one for another reproduced starvation; the fix passes that contrast and withdrawal, 24 related tests and a 7-test focused rerun. This is offline retrieval behavior, not real delivery attribution, confirmed memory use, human naturalness or a production deployment. Continue delivery attribution, C/S3/S8, P1 and other ten-domain work.

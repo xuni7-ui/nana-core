@@ -45,6 +45,10 @@ def test_bound_preference_reaches_later_context_restart_and_withdrawal(app,mode)
             with pytest.raises(CoreError,match='MEMORY_USE_REVIEW_SOURCE_MISMATCH'):
                 service.record(bad,scope='project-work',entity_id='project-user',privacy='PROJECT',
                     authority=current.runtime.authority,exchange_record_id=turn['exchange_record_id'])
+            with pytest.raises(CoreError,match='LANGUAGE_REVIEW_TIME_INVALID'):
+                service.record(sample.model_copy(update={'sample_id':'predated-use-review','observed_at_us':0}),
+                    scope='project-work',entity_id='project-user',privacy='PROJECT',authority=current.runtime.authority,
+                    exchange_record_id=turn['exchange_record_id'])
             rid=service.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',
                 authority=current.runtime.authority,exchange_record_id=turn['exchange_record_id'])
             saved=service.records.read(rid)['payload']

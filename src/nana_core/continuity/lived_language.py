@@ -161,6 +161,8 @@ class LanguageService:
             exchange = self.records.read(exchange_record_id)
             if exchange['payload'].get('person_kind') != 'CONVERSATION_EXCHANGE' or exchange['scope'] != scope or exchange['payload']['entity_id'] != entity_id or sample.review_target != exchange_record_id or sample.candidate_response != exchange['payload']['assistant_utterance']:
                 raise CoreError('LANGUAGE_REVIEW_TURN_MISMATCH')
+            if sample.observed_at_us < exchange['payload']['as_of_us']:
+                raise CoreError('LANGUAGE_REVIEW_TIME_INVALID')
             parents = (exchange_record_id,)
             if sample.memory_use is not None:
                 mid=sample.memory_use.memory_id

@@ -278,3 +278,46 @@ def test_native_password_login_without_subject_id_or_web_pairing(running):
     assert code == 200
     code, b, _ = http(server, 'bootstrap', headers={'Authorization': 'Bearer '+session['access_token']})
     assert code == 200 and b['subject_id'] == reply['subject_id']
+
+
+def test_explicit_feedback_reaches_original_store_once(running):
+    server,service=running
+    headers=login(server,service)
+    sent=http(server,'messages','POST',{**base(service,'retained-feedback-turn'),
+        'text':'SYNTHETIC retained greeting','retain_shared_life':True},headers)[1]['data']
+    assert sent['state']=='VERIFIED',sent
+    turn=sent['result'];exchange=turn['exchange_record_id']
+    assert exchange
+    sample={'sample_id':'client-local-review','review_target':exchange,'mode':'CASUAL',
+        'context':'SYNTHETIC retained greeting','candidate_response':turn['text'],
+        'human_judgment':'PARTIAL','exact_feedback':'SYNTHETIC concise preference',
+        'provenance':'USER_PROVIDED_REVIEW','observed_at_us':__import__('time').time_ns()//1000}
+    request={**base(service,'feedback-once'),'exchange_record_id':exchange,'sample':sample,'consent':True}
+    code,result,_=http(server,'conversation/feedback','POST',request,headers)
+    assert code==200 and result['data']['state']=='VERIFIED',result
+    saved=result['data']['result']
+    assert saved['state']=='EXPLICIT_FEEDBACK_SAVED' and not saved['delivery_proven']
+    assert not saved['human_naturalness_qualified'] and not saved['personality_overwritten']
+    assert http(server,'conversation/feedback','POST',request,headers)[1]['data']['result']==saved
+    wrong={**base(service,'wrong-feedback'),'exchange_record_id':exchange,
+        'sample':{**sample,'candidate_response':'NOT THE RETAINED WORDING'},'consent':True}
+    rejected=http(server,'conversation/feedback','POST',wrong,headers)[1]['data']
+    assert rejected['state']=='REJECTED' and not rejected['dispatch_happened']
+    assert rejected['error']=='FEEDBACK_TURN_MISMATCH'
+    service.supervisor.stop();service.supervisor.start()
+    assert http(server,'receipts/feedback-once',headers=headers)[1]['data']['state']=='VERIFIED'
+
+
+def test_feedback_requires_auth_role_csrf_and_explicit_consent(running):
+    from tests.living_release_v4.test_private_context import paired
+    server,service=running;headers=login(server,service)
+    sample={'sample_id':'synthetic','review_target':'absent','mode':'CASUAL','context':'synthetic',
+        'candidate_response':'synthetic','human_judgment':'PARTIAL',
+        'provenance':'USER_PROVIDED_REVIEW','observed_at_us':0}
+    body={**base(service,'feedback-auth'),'exchange_record_id':'absent','sample':sample,'consent':True}
+    assert http(server,'conversation/feedback','POST',body)[0] in {401,403}
+    assert http(server,'conversation/feedback','POST',body,{'Cookie':headers['Cookie'],'Origin':headers['Origin']})[0]==403
+    for consent in (False,1,'true'):
+        assert http(server,'conversation/feedback','POST',{**body,'consent':consent},headers)[0]==400
+    reader=paired(server,service,headers,['READER'])
+    assert http(server,'conversation/feedback','POST',body,reader)[0]==403

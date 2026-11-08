@@ -432,6 +432,9 @@ class Handler(BaseHTTPRequestHandler):
         elif route == "providers/credential":
             from .provider_settings import CredentialBindingRequest, bind_credential
             value = bind_credential(service, principal, self._model(CredentialBindingRequest, body))
+        elif route == "conversation/feedback":
+            from .contracts import LanguageFeedbackRequest
+            value=service.language_feedback(principal,self._model(LanguageFeedbackRequest,body))
         elif route == "memories/notes":
             from .memory_notes import MemoryNoteRequest, save
             value=save(service,principal,self._model(MemoryNoteRequest,body))

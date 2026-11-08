@@ -3157,3 +3157,7 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-08 · 记忆使用反馈防挤占
 
 修复单一记忆多次评价占满有界读取、让另一条已选记忆反馈不可见的问题；按记忆交错读取并继续检查来源、隐私和撤回。合成 SQLite 对照在修复前重现失败，相关 24 项和最终定向 7 项通过；不等于真实送达或生产验收。见 docs/nana_next_experience/ACTIVE_CHECKPOINT.md。
+
+### 2026-11-08 · P1/S2/S7/S8 原反馈路径接入 BFF
+
+原 language-feedback IPC 经现有认证/Manager/CSRF/CAS/幂等链暴露为 conversation/feedback；明确同意保留，独立只读核对原 Store 提交，不把反馈保存当送达或真人自然度。原服务拒绝早于话轮的评价。实际隔离 HTTP→owner→Store 与相关 32 项测试通过（21.44s）；客户端入口、真实送达归因和部署仍未验收，未重建 APK。见 ACTIVE_CHECKPOINT.md。
