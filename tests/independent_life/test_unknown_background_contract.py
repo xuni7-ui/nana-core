@@ -15,6 +15,7 @@ from nana_core.continuity.world_loop.cognition import OpenAIJSONTransport
 from tests.independent_life.conftest import initialize
 from tests.independent_life.test_dialogue import relay
 from nana_core.presence.authority import VirtualClock
+from nana_core.contracts import CoreError
 
 
 def test_old_configuration_field_is_preserved_and_bounded(app):
@@ -78,6 +79,8 @@ def test_active_call_blocks_identity_gate_even_across_day(tmp_path, monkeypatch)
         assert resource_state(app.runtime.store, config).unresolved_live_calls == 1
         assert allocation_reason(app.runtime.store, config, {'event_type': 'USER_EVENT'}) == 'UNRESOLVED_PROVIDER_CALL'
         assert existing_identity(home)[2] == 1
+        with pytest.raises(CoreError, match='UNRESOLVED_PROVIDER_CALL_NO_RETRY'):
+            app._session('PROJECT')
 
 
 def test_terminal_unknown_survives_actual_dev_release_change(tmp_path, monkeypatch):
