@@ -417,7 +417,7 @@ class ContextAssembler:
                             data['historical_tradeoff_not_current_policy']=past;refs=(*refs,h['record_id'])
                 candidates.append((935.0,ContextBlock(block_id='relational-subject:'+scope,kind='RELATIONAL_SUBJECT',data_json=canonical(data),source_record_ids=refs,
                     source_memory_ids=tuple(sorted({*appetite.source_memory_ids,*(m for rid in refs for m in RecordService(self.store).support(rid))})))))
-        if self.store.schema_target>=13:
+        if self.store.schema_target>=13 and not (pinned_only or source_only):
             from .world_loop.world import WorldModel
             records=RecordService(self.store)
             for view in WorldModel(self.store,scopes=request.scopes,privacy_classes=privacy).snapshot(limit=16):
@@ -467,7 +467,11 @@ class ContextAssembler:
                     kind='CONSOLIDATED_RECALL',data_json=canonical(review),
                     source_memory_ids=(review['summary_memory_id'],*review['source_memory_ids']),
                     source_record_ids=(review['candidate_record_id'],))))
-        candidates.extend(self._lessons(request, privacy))
+        # Both restricted paths discard EXPERIENCE/LESSON blocks below. Do
+        # not scan them first; their sourced effects inside Subject/Person-Self
+        # remain independent of this optional context projection.
+        if not (pinned_only or source_only):
+            candidates.extend(self._lessons(request, privacy))
         if required_memory_ids:
             required=[block for _,block in candidates if block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&set(required_memory_ids)]
             if not set(required_memory_ids)<={m for block in required for m in block.source_memory_ids}:raise CoreError('CONTEXT_REQUIRED_SOURCE_UNAVAILABLE')
