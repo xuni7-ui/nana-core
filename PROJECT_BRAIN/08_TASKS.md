@@ -1449,3 +1449,8 @@ User relays read-only operator findings: Core ffa24b7-s1/Gateway t6 and host.jso
 ### 2026-11-08 · S1 field maintenance merge candidate
 
 Verified user-supplied s1/t6/266 source handoff SHA185d2623…94bf; merged 18s candidate pacing and SQL lifecycle/assessment/epistemic filtering. Crash recovery dedup checks identical candidate evidence, entity/scope/privacy, exact parent set and payload; do not reuse unrelated sources on equal text. Runtime2966480: 80 related tests pass; two equal builds SHA27b662ad…2e3b, actual offline installation/DEV gateway and same DEV Subject consolidation/virtual72h/withdrawal passed. Delivery d9556ef adds separate candidate; selector remains266, cloud/production/human not qualified. APK409 unchanged and reported production appId differs. Remaining gates and initial test/probe failures: docs/nana_next_experience/evidence/s1-merge-20261108.
+
+
+### 2026-11-08 · Reported live configuration incompatibility
+
+User relays cloud operator isolated2966480 install and 25/25 synthetic checks; host production unchanged. Current LifeConfig rejects reported existing `provider_unknown_calls_per_day`; neither current nor repository ffa24b7 config contains it. Current readiness counts all requests in existing budgets, with no separate UNKNOWN daily limit. Removal/default8 was only reported as parse-compatible; actual budget semantic equivalence and rollback are not established. Await sanitized operator implementation/value and inspect full migration behavior before fixing or proposing production change. See ACTIVE_CHECKPOINT.

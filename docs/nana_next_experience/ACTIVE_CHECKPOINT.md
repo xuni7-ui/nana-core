@@ -1,3 +1,9 @@
+# Active continuation — cloud-reported life.json compatibility blocker
+
+2026-11-08 user relays cloud operator's isolated 2966480 installation and 25/25 synthetic checks, not independently verified here; production remained unchanged. The operator reports actual life.json revision7 contains `provider_unknown_calls_per_day`, absent from candidate LifeConfig, hence strict config rejects it; dropping the field is not an established semantic migration. Current repository, including ffa24b7 baseline, contains no such identifier; current readiness counts all reserved requests in hour/day/provider budgets without a separate UNKNOWN-per-day limit. Obtain sanitized s1/t6 config.py and all source references implementing this field, its actual configured integer and valid bounds/default/window, startup and fallback behavior, and evidence around UNKNOWN continuation. Do not silently ignore/drop the field or assert default 8 without original authoritative code. User has authorized isolated investigation; actual host config update and production switch remain separate approval. Request operator's written upgrade/rollback plan in parallel.
+
+---
+
 # Active continuation — S1/266 merged DEV candidate awaiting host verification
 
 Runtime29664808db1dd5528a68868f64ad02d9de0e444f includes s1 18s pacing, SQL source eligibility and provenance-preserving same-candidate crash dedup; 80 related tests passed. Two equal builds SHA27b662ad14e0dad0416732e4c7e7a181aa24c680ae720009d3e3515d93bb2e3b; actual archive offline-installed and synthetic BFF + same DEV subject dream/virtual72h/source withdrawal tested. Delivery branch d9556ef adds explicit `server-409-s1-merge-2966480`, selector still pins prior266, NOT production. Field s1 source text-only dedup is unsafe and references absent memories.text; no text-only cross-source reuse. See evidence/s1-merge-20261108. APK409 unchanged, production appId/signature discrepancy unresolved.
