@@ -46,6 +46,15 @@ def verify_runtime_closure(selected, all_names, read):
             targets = []
             if isinstance(node, ast.Import):
                 targets = [a.name for a in node.names]
+                for target in targets:
+                    if target == "nana_core" or target.startswith("nana_core."):
+                        module_path = "src/" + target.replace(".", "/")
+                        if module_path + ".py" not in available:
+                            prefix = module_path + "/"
+                            if not any(path.startswith(prefix) for path in available):
+                                raise ValueError("RUNTIME_IMPORT_MISSING: " + target)
+                            if not any(path.startswith(prefix) for path in chosen):
+                                raise ValueError("RUNTIME_IMPORT_MISSING: " + target)
             elif isinstance(node, ast.ImportFrom):
                 base = (
                     importlib.util.resolve_name("." * node.level + (node.module or ""), package)

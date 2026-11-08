@@ -2600,3 +2600,15 @@ Source878b9e5 separates human-tagged and fixture support/counterexamples, preven
 ### 2026-11-08 · Explicit source-bound memory-use feedback
 
 Source a917c03 accepts explicit four-mode feedback bound to a current source in a retained exchange and projects an advisory, dependency-bound guidance block for later context. Fact assessment and execution authority are unchanged. Previous sample/evidence body shape stays compatible.33 related checks passed before final stale-reference guard and16 targeted after; a prior larger run failed from tmpfs ENOSPC. Synthetic fixtures only, not confirmed real delivery, human review, C/S3/S8 lifelong qualification or production. See docs/nana_next_experience/STATUS_AND_REMAINING.md.
+
+### 2026-11-08 · 独立治理分支本地记录（待集成）
+
+基线 `b75ba7f8c74bfa98fefb518d8e028d731bd6c483`；治理分支补充源码归属与链接检查，详见 [治理源码索引](../docs/nana_next_experience/GOVERNANCE_SOURCE_MAP.md) 和 11 CHANGELOG。本记录不改变上方现役主任务状态或任何运行/交付资格；集成前须与现役最新状态逐项核对。
+
+### 2026-11-08 · 治理分支同名模块证据（待集成）
+
+旧 Runtime 和 MemoryView 的消费者及入包证据已追加至治理源码索引；这不是生产运行或可删除性的结论。现役主任务状态以集成时的最新 09 为准。
+
+### 2026-11-08 · 便携构建检查修复（治理分支待集成）
+
+构建器新增明确绝对内部导入缺失检测；定向反例和两个固定源码清单的静态检查通过。对 A 固定提交 `fb828ca` 的便携包两次隔离构建及归档摘要核验通过；安装、实际运行及生产验证均未执行。现役任务状态以集成时最新 09 为准。

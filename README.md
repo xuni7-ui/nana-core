@@ -21,7 +21,9 @@
 
 > ⚠️ 本目录**不包含**任何生产数据、凭证、聊天记录、数据库或日志。
 
-## 目录结构
+## 目录结构（2026-10-10 历史快照）
+
+现役源码及新增模块见 [治理源码索引](docs/nana_next_experience/GOVERNANCE_SOURCE_MAP.md)。
 
 ```
 nana-core/
@@ -62,7 +64,7 @@ nana-core/
 4. **4 核 / ~4 GB 资源约束**：禁止重型扫描、爬虫、死循环。
 5. **不可逆操作（commit/push/deploy）须人类批准。**
 
-## 当前状态
+## 历史状态（2026-10-10，非当前快照）
 
 🟢 **P1 + P2 已完成（2026-10-10）**：事实口径已修正、证据改为四档制、项目账本（ROADMAP/TASKS/STATE/DECISIONS/CHANGELOG）已建立、本地 Git 版本控制已建立。
 ⏸ **未 push、未上传 GitHub、未改生产。**

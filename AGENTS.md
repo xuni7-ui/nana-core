@@ -18,11 +18,13 @@
 
 ## 1. 项目定位
 
-本仓库是 **nana-core**：奈奈（一个长期运行的 AI 陪伴/助手系统）的**工程事实与控制平面**。奈奈实际运行在 AstrBot 4.28.0 宿主之上，由若干 AstrBot 插件与独立外挂进程组成。
+本仓库是 **nana-core**：奈奈工程的事实、源码与协作仓库。独立 Core 的源码入口和历史 AstrBot 集成见 [源码导航](docs/nana_next_experience/SOURCE_NAVIGATION_AUDIT.md)；具体运行环境和版本须凭现场回执核验。
 
 本仓库**不是** AstrBot 的分支，**不是**任一插件的上游镜像，**是**奈奈工程的权威事实源与可控开发副本。
 
 ## 2. 目录约定
+
+下图是 2026-10-10 的历史目录，不是当前完整树；现役模块归属参见 [治理源码索引](docs/nana_next_experience/GOVERNANCE_SOURCE_MAP.md)。
 
 ```
 nana-core/
