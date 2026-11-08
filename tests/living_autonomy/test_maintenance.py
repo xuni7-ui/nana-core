@@ -129,7 +129,7 @@ def test_weekly_review_is_bounded_resumable_and_does_not_reinvent_unchanged_summ
         clock=r.clock.source;identity=r.identity_id
         for n in range(9):capture(r,'weekly-'+str(n),'SYNTHETIC weekly source '+str(n))
         maintenance=r.work.maintenance;maintenance.interval=SECOND;maintenance.discover()
-        for _ in range(24):clock.advance(100_000);r.step()
+        for _ in range(60):clock.advance(SECOND);r.lease.heartbeat();r.step()
         assert r.store.db.execute("SELECT 1 FROM events WHERE source_namespace='living.consolidation-adopted'").fetchone()
     clock.advance(7*86_400_000_000)
     with fresh(path,clock=clock) as r:
@@ -145,8 +145,56 @@ def test_weekly_review_is_bounded_resumable_and_does_not_reinvent_unchanged_summ
         assert r.identity_id==identity
         job=r.store.db.execute("SELECT * FROM jobs WHERE work_kind='SCAN'").fetchone()
         assert json.loads(job['body_json'])['deep_cursor']==cursor
-        for _ in range(24):clock.advance(100_000);r.lease.heartbeat();r.work.maintenance.slice()
+        for _ in range(60):clock.advance(SECOND);r.lease.heartbeat();r.work.maintenance.slice()
         assert r.store.db.execute("SELECT count(*) FROM events WHERE source_namespace='living.consolidation'").fetchone()[0]==before
         metadata=json.loads(r.store.one('jobs',job['job_id'])['body_json'])
-        assert metadata['deep_cursor']==0 and metadata['last_deep_review_us']>=clock.utc_now_us()-3_000_000
+        assert metadata['deep_cursor']==0 and metadata['last_deep_review_us']>=clock.utc_now_us()-60*SECOND
         assert not r.store.all('runtime_cognition_calls')
+
+
+def test_candidate_backlog_is_paced_and_filters_ineligible_rows(tmp_path):
+    with fresh(tmp_path/'self.db') as r:
+        for n in range(9):
+            capture(r,'pace-'+str(n),'SYNTHETIC pace source '+str(n))
+        m=r.work.maintenance;m.interval=SECOND;m.discover()
+        r.clock.source.advance(SECOND)
+        activity=m.slice()
+        assert activity['candidate_record_id'] and activity['read_count']==4
+        job=r.store.db.execute("SELECT * FROM jobs WHERE work_kind='SCAN'").fetchone()
+        assert job['due_at_us']-r.clock.utc_now_us()==18*SECOND
+        r.clock.source.advance(SECOND);r.lease.heartbeat()
+        assert m.slice() is None
+        # Add ineligible entries and ensure the scan reads only eligible sources.
+        for n in range(4):
+            mid=capture(r,'excluded-'+str(n),'SYNTHETIC suppressed '+str(n))
+            MemoryService(r.store,r.authority).set_lifecycle(mid,'SUPPRESSED',r.authority)
+        for _ in range(17):r.clock.source.advance(SECOND);r.lease.heartbeat()
+        assert m.slice()['read_count']==4
+
+
+def test_interrupted_adoption_reuses_only_same_source_and_preserves_withdrawal(tmp_path):
+    from types import SimpleNamespace
+    from unittest.mock import patch
+    path=tmp_path/'self.db'
+    with fresh(path) as r:
+        source=capture(r,'recover-one','SYNTHETIC source for interrupted adoption')
+        capture(r,'recover-two','SYNTHETIC second source for interrupted adoption')
+        m=r.work.maintenance;m.interval=SECOND;m.discover();r.clock.source.advance(SECOND)
+        rid=m.slice()['candidate_record_id']
+        cycle=SimpleNamespace(selected_memory_candidate_id=rid,
+            intention=SimpleNamespace(kind='MEMORY_CANDIDATE'),
+            evaluation=SimpleNamespace(normative='ENDORSED'),intention_id=None)
+        original=r.store.transaction
+        def interrupted(event_type,*args,**kwargs):
+            if event_type=='living.consolidation_adopted':raise RuntimeError('SYNTHETIC_CRASH')
+            return original(event_type,*args,**kwargs)
+        with patch.object(r.store,'transaction',side_effect=interrupted):
+            with pytest.raises(RuntimeError,match='SYNTHETIC_CRASH'):m.adopt(rid,cycle)
+        summaries=[row for row in r.store.all('memories') if row['epistemic_kind']=='SUMMARY']
+        assert len(summaries)==1
+        summary_id=summaries[0]['memory_id'];clock=r.clock.source
+    with fresh(path,clock=clock) as r:
+        assert r.work.maintenance.adopt(rid,cycle)==summary_id
+        assert len([row for row in r.store.all('memories') if row['epistemic_kind']=='SUMMARY'])==1
+        MemoryService(r.store,r.authority).forget(source,r.authority)
+        assert r.store.one('memories',summary_id)['lifecycle']=='DELETED'

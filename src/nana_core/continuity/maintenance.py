@@ -17,9 +17,9 @@ def source_stamp(store,mids):
     return digest(values)
 
 class MaintenanceService:
-    def __init__(self,store,*,scopes,entity_id,privacy_classes,slice_items=4,interval_us=3600000000,operational_guard=None):
+    def __init__(self,store,*,scopes,entity_id,privacy_classes,slice_items=4,interval_us=3600000000,operational_guard=None,candidate_pace_us=18000000):
         self.store,self.scopes,self.entity_id,self.privacy_classes=store,scopes,entity_id,privacy_classes
-        self.records=RecordService(store);self.batch=slice_items;self.interval=interval_us;self.operational_guard=operational_guard
+        self.records=RecordService(store);self.batch=slice_items;self.interval=interval_us;self.operational_guard=operational_guard;self.pace=candidate_pace_us
     def _visible(self,mid):
         r=self.store.one('memories',mid)
         return bool(r and r['scope'] in self.scopes and r['entity_id'] in {self.entity_id,self.store.identity['identity_id']} and r['privacy_class'] in self.privacy_classes and r['lifecycle']=='ACTIVE' and r['assessment'] in {'CURRENT','UNASSESSED'})
@@ -43,7 +43,7 @@ class MaintenanceService:
         deep_due=now-metadata['last_deep_review_us']>=7*86_400_000_000
         mode='WEEKLY_REVIEW' if deep_due and metadata.get('last_scan_mode')!='WEEKLY_REVIEW' else 'INCREMENTAL'
         def read_after(cursor):
-            return self.store.db.execute('SELECT rowid AS source_row,* FROM memories WHERE rowid>? AND scope=? ORDER BY rowid LIMIT ?',
+            return self.store.db.execute("SELECT rowid AS source_row,* FROM memories WHERE rowid>? AND scope=? AND lifecycle='ACTIVE' AND epistemic_kind IN ('OBSERVATION','STATEMENT') AND assessment IN ('CURRENT','UNASSESSED') ORDER BY rowid LIMIT ?",
                 (cursor,scope,self.batch)).fetchall()
         rows=read_after(metadata['deep_cursor'] if mode=='WEEKLY_REVIEW' else job['cursor'])
         if not rows and mode=='INCREMENTAL' and deep_due:
@@ -78,8 +78,9 @@ class MaintenanceService:
         elif rows:cursor=rows[-1]['source_row']
         metadata['last_scan_mode']=mode
         continuing_deep=now-metadata['last_deep_review_us']>=7*86_400_000_000
+        gap=(self.pace if candidate else 100_000) if more or continuing_deep else self.interval
         with self.store.transaction('living.maintenance_slice',{'work_id':job['job_id'],'read_count':len(rows),'candidate_record_id':candidate}) as tx:
-            tx.update('jobs',job['job_id'],cursor=cursor,body_json=canonical(metadata),revision=job['revision']+1,due_at_us=now+100_000 if more or continuing_deep else now+self.interval,updated_at_us=now)
+            tx.update('jobs',job['job_id'],cursor=cursor,body_json=canonical(metadata),revision=job['revision']+1,due_at_us=now+gap,updated_at_us=now)
         return {'candidate_record_id':candidate,'candidate_record_ids':tuple(candidates),'mode':mode,'work_id':job['job_id'],'read_count':len(rows)}
     def _offer(self,selected,scope,mode):
         mids=tuple(r['memory_id'] for r in selected)
@@ -212,9 +213,20 @@ class MaintenanceService:
         if old:return json.loads(old[0])['data']['memory_id']
         # Legacy provenance name denotes derivation; no real model was called.
         e=self.records.memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.consolidation',source_reference=rid,source_kind='MODEL_DERIVATION',coverage='EXCERPT'),text=body['text'],privacy_class=head['privacy_class'],observed_time_us=head['created_at_us']))
-        mid=self.records.memory.add(MemoryCandidate(entity_id=self.entity_id,scope=head['scope'],memory_type=MemoryType.SEMANTIC,epistemic_kind='SUMMARY',source_evidence_id=e,text=body['text'],derived_from=tuple(body['memory_ids']),confidence=.5,
-            predicate_key='consolidation.v1.'+rid if body.get('method')=='SOURCE_EXCERPTS_V1' else None))
-        with self.store.transaction('living.consolidation_adopted',{'candidate_record_id':rid,'memory_id':mid},source_namespace='living.consolidation-adopted',source_key=rid):pass
+        # A crash can occur after memory.add but before the adopted event.
+        # Reuse only this candidate's identical active derivative with exactly
+        # the same parents. Equal wording alone must never merge provenance.
+        mid=None
+        rows=self.store.db.execute("SELECT memory_id FROM memories WHERE source_evidence_id=? AND entity_id=? AND scope=? AND privacy_class=? AND memory_type='SEMANTIC' AND epistemic_kind='SUMMARY' AND lifecycle='ACTIVE' AND assessment IN ('CURRENT','UNASSESSED') ORDER BY created_at_us",(e,self.entity_id,head['scope'],head['privacy_class'])).fetchall()
+        for row in rows:
+            parents=self.store.db.execute("SELECT parent_id FROM memory_dependencies WHERE memory_id=? AND parent_kind='MEMORY'",(row['memory_id'],)).fetchall()
+            if {p[0] for p in parents}==set(body['memory_ids']) and self.records.memory.read(row['memory_id'])['text']==body['text']:
+                mid=row['memory_id'];break
+        reused=mid is not None
+        if not reused:
+            mid=self.records.memory.add(MemoryCandidate(entity_id=self.entity_id,scope=head['scope'],memory_type=MemoryType.SEMANTIC,epistemic_kind='SUMMARY',source_evidence_id=e,text=body['text'],derived_from=tuple(body['memory_ids']),confidence=.5,
+                predicate_key='consolidation.v1.'+rid if body.get('method')=='SOURCE_EXCERPTS_V1' else None))
+        with self.store.transaction('living.consolidation_adopted',{'candidate_record_id':rid,'memory_id':mid,'reused_derived_index':reused},source_namespace='living.consolidation-adopted',source_key=rid):pass
         if cycle.intention_id:self._complete(cycle.intention_id)
         return mid
     def _complete(self,iid):
