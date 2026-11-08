@@ -1079,3 +1079,46 @@ test("SYNTHETIC explicit reply feedback saves once and UNKNOWN only checks its r
   expect(await page.evaluate(()=>JSON.stringify(Object.entries(localStorage)))).not.toContain("SYNTHETIC retained reply");
   await noHorizontalOverflow(page);
 });
+
+for (const [mode, label] of [
+  ["EXPLICIT_RECALL", "明确回忆"], ["NATURAL_REFERENCE", "自然呼应"],
+  ["IMPLICIT_REFERENCE", "放在心里"], ["DO_NOT_MENTION", "暂不提及"],
+] as const) {
+  test(`SYNTHETIC four memory-use feedback ${mode} binds source and verifies UNKNOWN without resending`, async ({page}) => {
+    const state = await installMock(page);
+    state.capabilities = {conversation_history: true, conversation_feedback: true, memory_use_feedback: true};
+    state.history = {items: [{exchange_record_id: "memory-feedback-exchange", user_text: "SYNTHETIC retained question",
+      reply_text: "SYNTHETIC retained reply", created_at_us: 1793026800000000,
+      memory_use_delivery_proven: false,
+      memory_use_sources: [{memory_id: "memory-source-note", excerpt: "SYNTHETIC retained ORCHID note"}]}]};
+    let posts = 0, checks = 0, receiptId = "";
+    await page.route(`**${API}conversation/feedback`, async route => {
+      posts++;
+      const body = route.request().postDataJSON();
+      receiptId = body.idempotency_key;
+      expect(body.consent).toBe(true);
+      expect(body.sample.review_target).toBe("memory-feedback-exchange");
+      expect(body.sample.memory_use).toEqual({memory_id: "memory-source-note", mode});
+      expect(body.sample.human_judgment).toBe("PARTIAL");
+      expect(body.sample.reason_tags).toEqual([]);
+      await route.fulfill({status: 200, json: envelope(state, {receipt_id: receiptId, state: "UNKNOWN", dispatch_happened: true, result: {}})});
+    });
+    await page.route(`**${API}receipts/*`, async route => {
+      checks++;
+      expect(route.request().url()).toContain(receiptId);
+      await route.fulfill({status: 200, json: envelope(state, {receipt_id: receiptId, state: "VERIFIED", dispatch_happened: true,
+        result: {state: "EXPLICIT_FEEDBACK_SAVED", delivery_proven: false}})});
+    });
+    await open(page, "chat");
+    await page.getByRole("button", {name: "评价这条回复"}).click();
+    await expect(page.getByRole("button", {name: `保存：${label}`, exact: true})).toHaveCount(0);
+    await page.getByLabel("选择关联记忆").selectOption("memory-source-note");
+    await page.getByRole("button", {name: `保存：${label}`, exact: true}).click();
+    await expect(page.getByRole("button", {name: `保存：${label}`, exact: true})).toHaveCount(0);
+    await page.getByRole("button", {name: "核验这条记忆偏好"}).click();
+    await expect(page.getByText("记忆使用偏好已保存", {exact: true})).toBeVisible();
+    expect(posts).toBe(1); expect(checks).toBe(1);
+    expect(await page.evaluate(() => JSON.stringify(Object.entries(localStorage)))).not.toContain("SYNTHETIC retained ORCHID note");
+    await noHorizontalOverflow(page);
+  });
+}
