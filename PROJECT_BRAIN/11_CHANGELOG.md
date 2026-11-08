@@ -3181,3 +3181,7 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-08 · S2 来源资格在备注召回限额之前
 
 原literal_notes将已有正式用户备注来源/类型/authority资格放到SQL限额前，避免同前缀非备注挤占四条结果。原Store合成基线重现有效备注被漏召回；最终18项召回/检索学习/搜索验证通过（11.46s）。已有隐私与读取验证保留；该后续补丁未进入较早43a安装包，不宣称最终匹配发行。
+
+### 2026-11-08 · 用户要求完整转交命令
+
+将累计Next Experience与十域精修范围、授权边界、真实实现/交付状态及剩余项汇总到docs/nana_next_experience/CODEX_CONTINUATION_MISSION.md，供其他Codex接续；不是新任务/第二账本，不声称总任务完成，不复制任何聊天凭据或私人内容。基线4268815与远端一致，原源码工作区干净。
