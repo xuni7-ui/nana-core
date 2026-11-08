@@ -1,3 +1,9 @@
+# Active continuation — explicit memory-use reports; overall status listed
+
+Runtime a917c03 adds optional four-mode user-reported memory-use guidance, bound to a retained exchange and one current source, indexed through original Store dependency-bound records; fact assessment unchanged. Older sample/evidence bodies omit the new field for compatibility. Related33 checks passed before final stale-reference handling, then16 focused checks passed; one prior full group failed due tmpfs ENOSPC, not a pass. Local synthetic fixture only: delivery confirmation, real user review, C/S3/S8 causal learning, cloud and phone remain unqualified. See STATUS_AND_REMAINING.md and evidence/memory-use-20261108. No APK rebuild or production change. Continue original task.
+
+---
+
 # Active continuation — feedback source separation in original growth
 
 Runtime878b9e5 groups original expression feedback support/counters by provenance, prevents synthetic volume/veto from overriding actual human-tagged feedback, does not use UNREVIEWED as evidence, and binds qualifying lesson origin to its evidence group. Human counterexamples still veto synthetic hypotheses.100 related tests pass; bound local fixture feedback changed a later different-turn context after restart, not real human/delivery/naturalness evidence. Baseline/failure/limits in evidence/feedback-provenance-20261108. Backend only: no new APK, host release or production change.

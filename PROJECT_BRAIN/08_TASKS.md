@@ -1489,3 +1489,8 @@ User reports cloud4205f31 isolated candidate/recovery verification; host namespa
 ### 2026-11-08 · Original expression feedback source separation
 
 Source878b9e5 separates human-tagged and fixture support/counterexamples, prevents fixture veto/outvoting human reviews, keeps human counterexample authority and binds lesson origin to its qualifying evidence.100 related tests pass including synthetic bound feedback/later different context after restart; actual delivered-human review and per-memory mentionability remain unqualified. No factual trust rewrite, model call, production, or APK rebuild. See docs/nana_next_experience/evidence/feedback-provenance-20261108.
+
+
+### 2026-11-08 · Explicit source-bound memory-use feedback
+
+Source a917c03 accepts explicit four-mode feedback bound to a current source in a retained exchange and projects an advisory, dependency-bound guidance block for later context. Fact assessment and execution authority are unchanged. Previous sample/evidence body shape stays compatible.33 related checks passed before final stale-reference guard and16 targeted after; a prior larger run failed from tmpfs ENOSPC. Synthetic fixtures only, not confirmed real delivery, human review, C/S3/S8 lifelong qualification or production. See docs/nana_next_experience/STATUS_AND_REMAINING.md.
