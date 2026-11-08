@@ -289,7 +289,8 @@ class ExperienceService:
         elif isinstance(rule,ExpressionRule):
             head=self.records.read(row['record_id'])
             q=learnable(self.store,head['scope'],('PUBLIC','PROJECT','PERSONAL','SECRET'))
-            checks={'two_distinct_review_occurrences':q['eligible'],'no_counterexample':not q['counter_records'],'context_limited':rule.mode=='CASUAL','no_fixed_utterance':rule.fixed_utterance is None,'judgment_unchanged':not rule.changes_judgment,'no_authority':not rule.grants_authority}
+            origin=sample_from_memory(self.store,self.records.memory.read(self.store.one('experiences',row['experience_id'])['result_memory_id'])).provenance
+            checks={'two_distinct_review_occurrences':q['eligible'],'evidence_origin_matches':origin==q['evidence_level'],'no_counterexample':not q['counter_records'],'context_limited':rule.mode=='CASUAL','no_fixed_utterance':rule.fixed_utterance is None,'judgment_unchanged':not rule.changes_judgment,'no_authority':not rule.grants_authority}
             compiler_version='CONTEXTUAL_EXPRESSION_HYPOTHESIS_V1'
         elif isinstance(rule,InteractionRule):
             baseline=propose_social(topic='trial',style='WARM_PLAYFUL',available=True,source_ids=('source',),last_act='TEASE')

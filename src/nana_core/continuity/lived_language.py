@@ -80,25 +80,34 @@ def report_matches(sample, report):
 def learnable(store, scope, privacy):
     records = RecordService(store)
     samples = rows(store, 'LIVED_LANGUAGE_SAMPLE', scope, privacy, target='CASUAL')
-    support = {}; counters = []
+    # Human reviews and project fixtures are distinct evidence populations in
+    # both directions: synthetic counterexamples cannot veto human feedback,
+    # and a human report cannot silently validate/suspend a fixture lesson.
+    kinds = ('USER_PROVIDED_REVIEW','PROJECT_SYNTHETIC')
+    support = {kind:{} for kind in kinds}; counters = {kind:[] for kind in kinds}
     for row in samples:
         sample = LanguageSample.model_validate_json(canonical(row['payload']['sample']))
+        if sample.human_judgment == 'UNREVIEWED':
+            continue
+        group = sample.provenance
         # One occurrence contributes once, even if reviewed/replayed repeatedly.
-        if sample.review_target in support or any(t == sample.review_target for t, _ in counters):
+        if sample.review_target in support[group] or any(t == sample.review_target for t, _ in counters[group]):
             continue
         if 'TOO_TERSE' in sample.reason_tags:
-            counters.append((sample.review_target, row['record_id']))
+            counters[group].append((sample.review_target, row['record_id']))
         elif sample.human_judgment == 'REJECTED' and set(sample.reason_tags) & {'TOO_VERBOSE','META_SUMMARIZING','OVER_DISCLAIMER'}:
             mid = next(m for m in records.support(row['record_id']) if records.memory.read(m)['source_provenance']['source_namespace']=='recorded.conversation.feedback' and records.memory.read(m)['source_provenance']['source_reference']==sample.sample_id)
-            support[sample.review_target] = (row['record_id'], mid, sample.provenance)
+            support[group][sample.review_target] = (row['record_id'], mid)
     # Synthetic contrast pairs do not combine with actual human observations to
     # manufacture a threshold. Both kinds can qualify only within their scope.
-    groups = {kind: [v for v in support.values() if v[2] == kind] for kind in ('USER_PROVIDED_REVIEW','PROJECT_SYNTHETIC')}
-    winner = max(groups, key=lambda key: len(groups[key]))
-    return {'eligible': len(groups[winner]) >= 2 and not counters,
-            'support_records': tuple(v[0] for v in groups[winner])[:8],
-            'support_memories': tuple(v[1] for v in groups[winner])[:8],
-            'counter_records': tuple(r for _, r in counters), 'evidence_level': winner}
+    winner = max(kinds, key=lambda key: len(support[key]))
+    # A real negative report may still veto a synthetic hypothesis: synthetic
+    # fixtures never overrule an explicitly stated human counterexample.
+    veto = tuple(counters[winner]) + (tuple(counters['USER_PROVIDED_REVIEW']) if winner != 'USER_PROVIDED_REVIEW' else ())
+    return {'eligible': len(support[winner]) >= 2 and not veto,
+            'support_records': tuple(v[0] for v in support[winner].values())[:8],
+            'support_memories': tuple(v[1] for v in support[winner].values())[:8],
+            'counter_records': tuple(r for _, r in veto), 'evidence_level': winner}
 
 
 class LanguageService:
@@ -173,6 +182,15 @@ def expression_policy(store, *, scope, privacy, mode):
     for raw in store.db.execute("SELECT * FROM lessons WHERE task_class='interaction.expression' AND state='ACTIVE' ORDER BY rowid DESC LIMIT 16"):
         h = store.one('continuity_records', raw['record_id'])
         if h['scope'] != scope or h['privacy_class'] not in privacy or h['lifecycle'] != 'ACTIVE' or not records.current_support(h['record_id']):
+            continue
+        experience=store.one('experiences',raw['experience_id'])
+        if not experience:
+            continue
+        try:
+            origin=sample_from_memory(store,records.memory.read(experience['result_memory_id'])).provenance
+        except CoreError:
+            continue
+        if origin != qualification['evidence_level']:
             continue
         return {'state': 'ACTIVE_BOUNDED_HYPOTHESIS', 'rule': ExpressionRule().model_dump(mode='json'),
                 'source_record_ids': (h['record_id'], *qualification['support_records']),

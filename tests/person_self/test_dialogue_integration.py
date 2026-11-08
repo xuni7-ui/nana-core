@@ -124,3 +124,34 @@ def test_feedback_on_later_learned_reply_binds_current_report_and_erases_copied_
         app.forget(turn['message_memory_id'])
         with pytest.raises(CoreError):RecordService(app.runtime.store).memory.read(experience['result_memory_id'])
         assert not app.runtime.store.db.execute("SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),'FEEDBACK_SOURCE_CANARY')>0").fetchone()
+
+
+def test_distinct_bound_reviews_survive_synthetic_counter_and_change_later_context(tmp_path):
+    """Synthetic local feedback types; no human/naturalness qualification."""
+    from .test_learning import record,activate
+    from nana_core.continuity.lived_language import LanguageSample,LanguageService
+    home=tmp_path/'home';initialize(home);clock=VirtualClock()
+    def render(request):
+        context=json.loads(request['context_json'])
+        active=any(b['kind']=='LIVED_LANGUAGE' and json.loads(b['data_json'])['policy']['state']=='ACTIVE_BOUNDED_HYPOTHESIS' for b in context['blocks'])
+        return 'SYNTHETIC later concise' if active else 'SYNTHETIC earlier procedural'
+    with relay(home,'CHAT',renderer=render) as (router,requests):
+        with LifeApplication(home,clock=clock,router=router) as app:
+            app.pause();service=LanguageService(app.runtime.store,app.runtime.authority)
+            for i in range(2):
+                turn=app.chat('SYNTHETIC human-like input '+str(i),privacy='PROJECT',retain_shared_life=True,message_id='review-turn-'+str(i))
+                sample=LanguageSample(sample_id='bound-review-'+str(i),review_target=turn['exchange_record_id'],
+                    mode='CASUAL',context='SYNTHETIC human-like input '+str(i),candidate_response=turn['text'],
+                    human_judgment='REJECTED',reason_tags=('TOO_VERBOSE',),provenance='USER_PROVIDED_REVIEW',observed_at_us=clock.utc_now_us())
+                rid=service.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',
+                    authority=app.runtime.authority,exchange_record_id=turn['exchange_record_id'])
+                eid=service.experience(rid,app.runtime.authority)
+            record(app,9,tags=('TOO_TERSE',),provenance='PROJECT_SYNTHETIC')
+            lesson=activate(app,eid)
+            identity=app.runtime.identity_id
+        with LifeApplication(home,clock=clock,router=router) as app:
+            app.pause()
+            after=app.chat('SYNTHETIC distinct later turn',privacy='PROJECT',message_id='review-later')
+            assert app.runtime.identity_id==identity and after['text']=='SYNTHETIC later concise'
+            context=json.loads(requests[-1]['context_json'])
+            assert any(b['kind']=='LIVED_LANGUAGE' and json.loads(b['data_json'])['policy'].get('lesson_id')==lesson for b in context['blocks'])

@@ -72,3 +72,43 @@ def test_delete_feedback_invalidates_derived_lesson(app):
     root=RecordService(app.runtime.store).support(rid)[0]
     app.forget(root)
     assert expression_policy(app.runtime.store,scope='project-work',privacy=('PROJECT',),mode='CASUAL')['rule'] is None
+
+
+def test_synthetic_counterexample_cannot_overrule_human_feedback(app):
+    from nana_core.continuity.lived_language import learnable
+    record(app,1,provenance='USER_PROVIDED_REVIEW')
+    record(app,2,provenance='USER_PROVIDED_REVIEW')
+    record(app,3,tags=('TOO_TERSE',),provenance='PROJECT_SYNTHETIC')
+    result=learnable(app.runtime.store,'project-work',('PROJECT',))
+    assert result['eligible'] and result['evidence_level']=='USER_PROVIDED_REVIEW'
+    record(app,4,tags=('TOO_TERSE',),provenance='USER_PROVIDED_REVIEW')
+    assert not learnable(app.runtime.store,'project-work',('PROJECT',))['eligible']
+
+
+def test_human_counterexample_still_blocks_synthetic_hypothesis(app):
+    from nana_core.continuity.lived_language import learnable
+    record(app,1);record(app,2)
+    assert learnable(app.runtime.store,'project-work',('PROJECT',))['eligible']
+    record(app,3,tags=('TOO_TERSE',),provenance='USER_PROVIDED_REVIEW')
+    assert not learnable(app.runtime.store,'project-work',('PROJECT',))['eligible']
+
+
+def test_human_review_cannot_requalify_a_synthetic_lesson(app):
+    record(app,1);_,synthetic_experience=record(app,2);synthetic_lesson=activate(app,synthetic_experience)
+    record(app,3,provenance='USER_PROVIDED_REVIEW')
+    _,human_experience=record(app,4,provenance='USER_PROVIDED_REVIEW')
+    before=expression_policy(app.runtime.store,scope='project-work',privacy=('PROJECT',),mode='CASUAL')
+    assert before['rule'] is None
+    human_lesson=activate(app,human_experience)
+    after=expression_policy(app.runtime.store,scope='project-work',privacy=('PROJECT',),mode='CASUAL')
+    assert after['lesson_id']==human_lesson and after['lesson_id']!=synthetic_lesson
+
+
+def test_unreviewed_example_is_not_a_human_counterexample(app):
+    from nana_core.continuity.lived_language import learnable
+    record(app,1,provenance='USER_PROVIDED_REVIEW')
+    record(app,2,provenance='USER_PROVIDED_REVIEW')
+    draft=sample(app,3,tags=('TOO_TERSE',),provenance='USER_PROVIDED_REVIEW').model_copy(update={'human_judgment':'UNREVIEWED'})
+    r=app.runtime
+    LanguageService(r.store,r.authority).record(draft,scope='project-work',entity_id='project-user',privacy='PROJECT',authority=r.authority)
+    assert learnable(r.store,'project-work',('PROJECT',))['eligible']
