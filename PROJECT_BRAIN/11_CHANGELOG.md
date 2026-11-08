@@ -3263,3 +3263,7 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-09 · 多样literal检索、旧笔记派生回补与长回复真实网络链
 
 同一原Store/48冻结query/100ms/四结果/正负各24对照，复用memory_terms有界trigram和逐笔完整标记，旧写者/长笔记/两字查询保留扫描，完整来源资格仍在LIMIT前；新增可重建覆盖索引和原Maintenance每次已读slice内回补。55原notes/G/梦境/cold/隐私/B8相关通过14.56s。1k/10k/100k新144/144无误召，100k P959.724ms；200k142/144/误召0/2超时/P9548.180ms，原c9均超时。重建74.336s，DB增加约0.8GB/曾有约1GB WAL，明确增加存储而非回收。无收益SQL候选撤掉，初始fixture/lease失败和中途源码未冻结实验单独保留排除资格。长draft16384原Token预算不增，真实HTTP→UDS→C→SSE长短两场景2通过3.32s；34相关通过17.87s，历史截短有标记，feedback长2048限制不假装解除。当前源码全仓及新包安装下一步，CURRENT/APK/生产未改。证据diverse-literal-20261109与resumed-20261109。
+
+### 2026-11-09 · 70同源安装/旧DEV升级与平台单条长度前置
+
+70包284文件两次同SHA21655e…beca4，真实离线安装，原BFF/反馈幂等/十视图/G32/同主体重启、梦境冷回读撤回通过，6loopback真实0；d2原DEV升级70保持身份/lineage且不新增模型调用。另strace实际旧d2Gateway入口按既有快照同PIDexec70并只读预检通过，DB/配置/Supervisor hash不变；首个trace字符串截短断言失败留存，不改产品。70全仓2113通过2旧C预期失败12明确跳过591.95s，保留首错；旧测试现严格区分实际负荷REST和同题pending去重NO_ACTION，31相关通过12.54s，无运行guard变更。平台原2048单条限额现前置到模型契约且接收层独立拒绝超限、不拆/截/重试，34QQ/Bili/HTTP相关通过25.32s；基线QQ_MESSAGE_BOUND留存。这个后继不在70包内，匹配构建安装下一批。Issue2/4及61a祖先/入口复核见SOURCE_NAVIGATION_AUDIT，不关闭Issue/声称生产已修。

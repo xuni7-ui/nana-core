@@ -51,3 +51,18 @@
 ## 整理建议与回退
 
 近期保留原模块和公开接口：入口是 README → Brain → 本导航 → 真实代码/测试；原始文档留作历史。P1 日用真实体验仍优先，不立即开展大规模目录迁移、依赖删除、旧分支合并或新 CI 治理项目。等 P1 有真实验收回执，再基于实际调用图提出明确归属和轻量检查；任何源码迁移需先评估引用、发布清单、序列化、身份、数据和回退。文档改动可通过其独立 Git 提交回退；本审计不移动或改写 Core。
+
+## 2026-11-09 · Issue#2/#4的现役源码与隔离安装复核
+
+GitHub连接器只读取得原Issue及评论（原文快照见evidence/resumed-20261109/issues-2-4-snapshot.json），没有发评论/关闭Issue。原61aebf3已是70c70d0祖先，不能按旧Issue“尚未修复”从零开发。源码在独立完整历史验证副本核对；主工作树未物化文件不当作仓库不存在。
+
+| 原要求 | 实际入口/继承事实 | 本次资格与剩余 |
+|---|---|---|
+| Docker29双digest | tools/nana_living_release_v4/deploy.py:resolve及oci_identity.py从实际OCI绑定config/manifest，404才切合法manifest，并比diff_ids/架构/UID | SOURCE_FIXED；原正反例在70全仓执行，整体仅2个旧C预期失败，不冒充真实Docker29现场或新镜像构建 |
+| 私有SSL库 | 同目录Dockerfile把libssl/libcrypto复制到私有runtime/lib，以UID999核对实际映射路径；不是改系统库 | SOURCE_FIXED；既有冷启动证据继承。本次安装用现有CPython3.12.14/SQLite3.53.1，未重建474MB旧V4、未验云端3.51.3 |
+| life.json权限迁移 | config_permissions.py:prepare在既有独占锁/精确摘要下只fchmod0600，不改内容/所有者，拒绝活动owner及链接 | SOURCE_FIXED；原正反例被本次70全仓覆盖；没有应用到生产文件 |
+| Gateway与Core版本入口 | live_api/__main__.py启动先follow_gateway_release；原私有Supervisor快照覆盖旧baked选择，注册和封签验证后exec目标 | 额外ACTUAL_INSTALLED_DEV检查：旧d2入口→70入口同PID两次成功exec，read-only检查通过，DB/配置/host状态hash不变；不是现役进程热切换/生产部署 |
+| 120s/UNKNOWN/绑定 | 原可配置120–600s、两段独立等待、UNKNOWN保留与新独立前台额度、默认nana.space及旧配置不暗改已有实现 | 源码和既有HTTP/安装资格复用；真实账单/现场config仍UNKNOWN，不盲重试/清账 |
+| 历史导入 | life/application.py接原ArchiveImportService；control.py的显式legacy-import/withdraw入口，migration/archive_ingress.py核身份/lineage/审批/来源/隐私；generic入口继续disabled | 源码可达及原合成拒绝路径被全仓覆盖，没读/导入8105条私人源；私人批准、源过滤、活Core/Iris索引和真实批次仍归云端负责人 |
+
+Issue仍OPEN，不把操作者旧报告当最新现场，不自动关闭或切换现役。全部分支/孤立模块/依赖/长期运行闭包的完整审计仍未完成。上述是原任务H的有界继承核对，没有另建治理工程。

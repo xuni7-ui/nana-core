@@ -189,3 +189,33 @@ def test_source_read_uses_original_budget_and_cannot_dispatch_when_exhausted(tmp
                 flow.receive("1")
             assert platform["calls"] == [] and not platform["sent"]
             assert not app.runtime.store.db.execute("SELECT 1 FROM events WHERE kind='platform.qq.ingress_reserved'").fetchone()
+
+
+def test_channel_bound_is_given_before_rendering_not_mechanical_post_split(tmp_path):
+    with counterpart() as (url, platform):
+        home=tmp_path/'home';channel=initialize_channel(home,url)
+        def render(request):
+            limit=request['role_input']['dialogue'].get('reply_character_limit',16384)
+            return 'SYNTHETIC bounded channel reply' if limit==2048 else 'SYNTHETIC long channel wording '*100
+        with relay(home,'CHAT',renderer=render) as (router,requests), LifeApplication(home,clock=VirtualClock(),router=router) as app:
+            app.pause();flow=equip(app,channel,url)
+            result=flow.receive('1')
+            assert result['delivery']=='SUCCEEDED' and len(platform['sent'])==1
+            assert requests[-1]['role_input']['dialogue']['reply_character_limit']==2048
+            assert requests[-1]['expected_schema']['$defs']['DialogueDraft']['properties']['text']['anyOf'][0]['maxLength']==2048
+            assert platform['sent'][0]['message']==[{'type':'text','data':{'text':'SYNTHETIC bounded channel reply'}}]
+            assert len(requests)==2
+
+
+def test_oversized_channel_reply_is_rejected_before_sending_without_split_or_retry(tmp_path):
+    with counterpart() as (url, platform):
+        home=tmp_path/'home';channel=initialize_channel(home,url)
+        with relay(home,'CHAT',renderer=lambda request:'SYNTHETIC oversized channel reply '*100) as (router,requests), LifeApplication(home,clock=VirtualClock(),router=router) as app:
+            app.pause();flow=equip(app,channel,url)
+            result=flow.receive('1')
+            assert result['render_state']=='DIALOGUE_REPLY_BOUND'
+            assert result['delivery']=='NOT_AUTHORIZED_OR_NO_MODEL_WORDING'
+            assert not platform['sent'] and len(requests)==2
+            assert not app.runtime.store.all('actions')
+            flow.receive('1')
+            assert not platform['sent'] and len(requests)==2

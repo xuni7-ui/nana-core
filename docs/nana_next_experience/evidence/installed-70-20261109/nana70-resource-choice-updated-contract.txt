@@ -1,0 +1,55 @@
+..FF...........................                                          [100%]
+=================================== FAILURES ===================================
+_ test_c_prefers_cheaper_then_distinguishes_attention_from_external_admission[cost2] _
+
+owned_root = PosixPath('/tmp/nana-cw-jnq6azvc')
+cost = {'external': 'REQUIRES_RESERVATION'}
+
+    @pytest.mark.parametrize('cost',[
+        {'compute':'HEAVY'},{'time':'LONG'},{'external':'REQUIRES_RESERVATION'},
+        {'external':'UNKNOWN'},{'storage':'LARGE'},{'interruption':'HEAVY'},
+    ])
+    def test_c_prefers_cheaper_then_distinguishes_attention_from_external_admission(owned_root,cost):
+        with open_runtime(owned_root/'self.db',VirtualClock()) as r:
+            q=OpportunityQueue(r);expensive=capture(r,'expensive',{'known_gap':True});cheap=capture(r,'cheap',{'local_alternative':True})
+            first=q.offer(candidate(r,expensive,resource_estimate=ActivityCost(**cost)))
+            second=q.offer(candidate(r,cheap,resource_estimate=ActivityCost()))
+            selected=q.opportunity();assert selected['opportunity_id']==second
+            cheaper=judge(r,q,second);assert cheaper['behavior']=='EXPLORE'
+            costly=judge(r,q,first)
+            # Exact new contract: external reservation/unknown cost is not mental
+            # fatigue. Real compute/time/storage/interruption pressure still rests.
+            # Queue ordering and all no-action/no-Grant/no-model assertions remain.
+            expected='EXPLORE' if 'external' in cost else 'REST'
+>           assert costly['behavior']==expected
+E           AssertionError: assert None == 'EXPLORE'
+
+tests/controlled_world/test_resource_choice.py:25: AssertionError
+_ test_c_prefers_cheaper_then_distinguishes_attention_from_external_admission[cost3] _
+
+owned_root = PosixPath('/tmp/nana-cw-rwpfrw40'), cost = {'external': 'UNKNOWN'}
+
+    @pytest.mark.parametrize('cost',[
+        {'compute':'HEAVY'},{'time':'LONG'},{'external':'REQUIRES_RESERVATION'},
+        {'external':'UNKNOWN'},{'storage':'LARGE'},{'interruption':'HEAVY'},
+    ])
+    def test_c_prefers_cheaper_then_distinguishes_attention_from_external_admission(owned_root,cost):
+        with open_runtime(owned_root/'self.db',VirtualClock()) as r:
+            q=OpportunityQueue(r);expensive=capture(r,'expensive',{'known_gap':True});cheap=capture(r,'cheap',{'local_alternative':True})
+            first=q.offer(candidate(r,expensive,resource_estimate=ActivityCost(**cost)))
+            second=q.offer(candidate(r,cheap,resource_estimate=ActivityCost()))
+            selected=q.opportunity();assert selected['opportunity_id']==second
+            cheaper=judge(r,q,second);assert cheaper['behavior']=='EXPLORE'
+            costly=judge(r,q,first)
+            # Exact new contract: external reservation/unknown cost is not mental
+            # fatigue. Real compute/time/storage/interruption pressure still rests.
+            # Queue ordering and all no-action/no-Grant/no-model assertions remain.
+            expected='EXPLORE' if 'external' in cost else 'REST'
+>           assert costly['behavior']==expected
+E           AssertionError: assert None == 'EXPLORE'
+
+tests/controlled_world/test_resource_choice.py:25: AssertionError
+=========================== short test summary info ============================
+FAILED tests/controlled_world/test_resource_choice.py::test_c_prefers_cheaper_then_distinguishes_attention_from_external_admission[cost2]
+FAILED tests/controlled_world/test_resource_choice.py::test_c_prefers_cheaper_then_distinguishes_attention_from_external_admission[cost3]
+2 failed, 29 passed in 12.84s

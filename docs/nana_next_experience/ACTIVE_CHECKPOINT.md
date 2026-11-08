@@ -1,3 +1,11 @@
+# Active continuation — platform reply bound successor, full regression next
+
+70 exact package two equal21655e…beca4,284files, actual offline BFF/feedback/G32/sameDEV/Dream/cold/withdrawal and d2→70sameDEV upgrade passed;6loopback/real0. Actual oldGateway bootstrap execs registered70 under one PID and read-only checks preserve source DB/config/state hashes.70full2113pass/2old resource-expectationfail/12skip591.95s; strict revised tests preserve cheaper-first/pending dedup/actual pressure REST/no action/Grant/model,31related pass.
+
+Successor source projects existing QQ/Bili2048reply capacity before rendering/schema and rechecks before dispatch; local16384 stays. Baseline actual QQfixture failedQQ_MESSAGE_BOUND,34related final pass25.32s. This is not in70archive; commit successor, run full current-source regression, build+install matching successor once and verify source/lineage/contracts. Original Issue2/4source fixes inherited, actual DEV entry selection checked, real host/private/DR not qualified. Evidence/installed-70-20261109 and updatedSOURCE_NAVIGATION_AUDIT. Remaining all originalA–H work continues (continuous input, actual-delivery feedback/C-S3-S8, other autonomy, main-chain storage/privacy, model/product/real life). No newAPK/CURRENT/production.
+
+---
+
 # Active continuation — final-source regression and matching package next
 
 Current batch implements source-qualified bounded literal-note trigrams in original memory_terms with legacy/long/two-character scan fallback, original maintenance bounded backfill and checked rebuildable covering index.1k/10k/100k144/144;200k142/144,0false,2timeouts/P9548.18ms. Index storage adds~0.8GB in200k fixture; no archive/reclamation claim.55related checks passed14.56s. Long draft16384/no Token budget increase, honest clipped-history metadata, finite SSE parser/provisional4096prefix;34related and2actual HTTP→UDS→Core→SSE checks pass. See evidence/diverse-literal-20261109 and resumed-20261109.

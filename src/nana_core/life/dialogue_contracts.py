@@ -49,6 +49,7 @@ class CommunicationPurpose(DTO):
 
 
 class DialogueContext(DTO):
+    reply_character_limit: int = Field(default=16384, ge=1, le=16384)
     communication_purpose: CommunicationPurpose | None = None
     recent_history_truncated:bool=False
     retain_shared_life:bool=False
@@ -70,4 +71,6 @@ class DialogueContext(DTO):
         value = handler(self)
         if self.communication_purpose is None:
             value.pop('communication_purpose', None)
+        if self.reply_character_limit == 16384:
+            value.pop('reply_character_limit', None)
         return value
