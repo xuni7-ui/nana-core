@@ -5,7 +5,7 @@ Learning changes a narrow expression hypothesis, not identity or judgment.
 """
 import json
 from typing import Literal
-from pydantic import Field
+from pydantic import Field, model_serializer
 from ..contracts import DTO, CoreError
 from ..storage import canonical, digest
 from .contracts import EvidenceInput, Provenance, MemoryCandidate, MemoryType
@@ -16,6 +16,11 @@ Tag = Literal['TOO_FORMAL','TOO_VERBOSE','META_SUMMARIZING','ASSISTANT_VOICE',
               'OVER_DISCLAIMER','FAKE_MEMORY','FAKE_EMOTION','NATURAL','PLAYFUL',
               'WARM','MISCHIEVOUS','CONCISE','INDEPENDENT','DISAGREES_NATURALLY',
               'RELATIONALLY_GROUNDED','SELF_CONTINUOUS','TOO_TERSE','TOO_OBEDIENT','TOO_DEFENSIVE']
+
+
+class MemoryUseFeedback(DTO):
+    memory_id: str = Field(min_length=1,max_length=128)
+    mode: Literal['EXPLICIT_RECALL','NATURAL_REFERENCE','IMPLICIT_REFERENCE','DO_NOT_MENTION']
 
 
 class LanguageSample(DTO):
@@ -37,6 +42,13 @@ class LanguageSample(DTO):
     provenance: Literal['USER_PROVIDED_REVIEW','PROJECT_SYNTHETIC']
     provenance_reference: str = Field(default='LOCAL_REVIEW',min_length=1,max_length=512)
     observed_at_us: int = Field(ge=0)
+    memory_use: MemoryUseFeedback | None = None
+
+    @model_serializer(mode='wrap')
+    def compatible_memory_use(self,handler):
+        result=handler(self)
+        if self.memory_use is None:result.pop('memory_use',None)
+        return result
 
 
 class ExpressionFeedbackCheck(DTO):
@@ -126,12 +138,20 @@ class LanguageService:
         if sample.observed_at_us > self.store.clock.utc_now_us():
             raise CoreError('LANGUAGE_REVIEW_TIME_INVALID')
         if not exchange_record_id and sample.body_storage!='SOURCE_REPORT':raise CoreError('LANGUAGE_REVIEW_BINDING_REQUIRED')
+        if sample.memory_use is not None and (not exchange_record_id or sample.provenance!='USER_PROVIDED_REVIEW' or sample.human_judgment=='UNREVIEWED'):
+            raise CoreError('MEMORY_USE_REVIEW_BINDING_REQUIRED')
         if exchange_record_id:sample=sample.model_copy(update={'body_storage':'DEPENDENT_RECORD'})
+        use=sample.memory_use
+        # Old binaries strictly parse the sample and evidence. Keep those
+        # bodies unchanged; optional use feedback lives in the same generic
+        # dependency-bound record envelope, which old readers already ignore.
+        stored_sample=sample.model_copy(update={'memory_use':None})
         old = self.store.db.execute("SELECT data_json FROM events WHERE source_namespace='language.review' AND source_key=?", (sample.sample_id,)).fetchone()
         if old:
             rid = json.loads(old[0])['data']['record_id']
             existing = self.records.read(rid)
-            if existing['scope'] != scope or existing['payload']['sample'] != sample.model_dump(mode='json'):
+            if (existing['scope'] != scope or existing['payload']['sample'] != stored_sample.model_dump(mode='json')
+                    or existing['payload'].get('memory_use_feedback') != (use.model_dump(mode='json') if use else None)):
                 raise CoreError('LANGUAGE_REVIEW_COLLISION')
             if not self.records.current_support(rid):
                 raise CoreError('LANGUAGE_REVIEW_SOURCE_WITHDRAWN')
@@ -142,17 +162,30 @@ class LanguageService:
             if exchange['payload'].get('person_kind') != 'CONVERSATION_EXCHANGE' or exchange['scope'] != scope or exchange['payload']['entity_id'] != entity_id or sample.review_target != exchange_record_id or sample.candidate_response != exchange['payload']['assistant_utterance']:
                 raise CoreError('LANGUAGE_REVIEW_TURN_MISMATCH')
             parents = (exchange_record_id,)
+            if sample.memory_use is not None:
+                mid=sample.memory_use.memory_id
+                if not self.records.current_support(exchange_record_id) or mid not in self.records.support(exchange_record_id):
+                    raise CoreError('MEMORY_USE_REVIEW_SOURCE_MISMATCH')
+                target=self.records.memory.read(mid)
+                if target['entity_id']!=entity_id or target['scope']!=scope:
+                    raise CoreError('MEMORY_USE_REVIEW_SOURCE_MISMATCH')
             from .memory import PRIVACY_RANK
             privacy=max((privacy,exchange['privacy_class']),key=PRIVACY_RANK.get)
         memory = self.records.memory
         inherited=tuple(dict.fromkeys(m for rid in parents for m in self.records.support(rid)))
         if len(inherited)>64:raise CoreError('LANGUAGE_REVIEW_SOURCE_BOUND')
-        report=source_report(sample)
+        report=source_report(stored_sample)
         eid = memory.capture(EvidenceInput(provenance=Provenance(domain='CONSENTED_INTERACTION',source_namespace='recorded.conversation.feedback', source_reference=sample.sample_id, source_kind='USER_STATEMENT'), text=report.model_dump_json(), privacy_class=privacy, retention_consent_ref=sample.sample_id, observed_time_us=sample.observed_at_us))
         mid = memory.add(MemoryCandidate(entity_id=entity_id, scope=scope, memory_type=MemoryType.EPISODIC, epistemic_kind='STATEMENT', source_evidence_id=eid, text=report.model_dump_json(),derived_from=inherited))
         data = {}
         with self.store.transaction('subject.language_review_recorded', data, source_namespace='language.review', source_key=sample.sample_id) as tx:
-            rid = self.records.create(tx, kind='EXPERIENCE_CANDIDATE', scope=scope, target_id=sample.mode, payload={'person_kind':'LIVED_LANGUAGE_SAMPLE','sample': sample.model_dump(mode='json'), 'not_subject_experience': sample.provenance == 'PROJECT_SYNTHETIC'}, memories=(mid,), records=parents)
+            payload={'person_kind':'LIVED_LANGUAGE_SAMPLE','sample': stored_sample.model_dump(mode='json'), 'not_subject_experience': sample.provenance == 'PROJECT_SYNTHETIC'}
+            if use:payload['memory_use_feedback']=use.model_dump(mode='json')
+            rid = self.records.create(tx, kind='EXPERIENCE_CANDIDATE', scope=scope, target_id=sample.mode, payload=payload, memories=(mid,), records=parents)
+            if use:
+                self.records.create(tx,kind='ASSERTION',scope=scope,target_id='memory-use.'+use.memory_id,
+                    payload={'person_kind':'MEMORY_USE_FEEDBACK_REFERENCE','review_record_id':rid,
+                             'execution_authority':False,'changes_fact_credibility':False},records=(rid,))
             data['record_id'] = rid
         return rid
 
@@ -211,3 +244,47 @@ def context(store, *, scope, privacy, mode):
     return {'policy': policy, 'examples': examples,
             'examples_are_not_autobiography': True, 'human_naturalness_qualified': False,
             'source_record_ids': tuple(dict.fromkeys((*policy['source_record_ids'], *(r['record_id'] for r in samples))))}
+
+
+def memory_use_guidance(store, *, entity_id, scope, privacy, memory_ids):
+    """Bounded explicit user reports, advisory to C; never fact assessment.
+
+    Selection targets only sources already chosen for this request. No automatic
+    interpretation of silence, sentiment, generated drafts or delivery success.
+    """
+    wanted=set(memory_ids);seen=set();items=[];refs=[]
+    records=RecordService(store)
+    if not wanted:return {'items':(), 'source_record_ids':()}
+    # Original indexed generic records preserve a preference when unrelated
+    # reviews grow; never rely on the last32 dialogue reviews to find it.
+    if not privacy:return {'items':(), 'source_record_ids':()}
+    targets=tuple('memory-use.'+mid for mid in sorted(wanted)[:128])
+    heads=store.db.execute("SELECT record_id FROM continuity_records WHERE record_kind='ASSERTION' AND scope=? AND lifecycle='ACTIVE' AND target_id IN ("+
+        ','.join('?' for _ in targets)+") AND privacy_class IN ("+','.join('?' for _ in privacy)+") ORDER BY rowid DESC LIMIT 32",(scope,*targets,*privacy)).fetchall()
+    for head in heads:
+        try:
+            if not records.current_support(head['record_id']):continue
+            reference=records.read(head['record_id'])['payload']
+            if reference.get('person_kind')!='MEMORY_USE_FEEDBACK_REFERENCE':continue
+            row=records.read(reference['review_record_id'])
+        except CoreError:
+            continue
+        sample=LanguageSample.model_validate_json(canonical(row['payload']['sample']))
+        raw_use=row['payload'].get('memory_use_feedback')
+        use=MemoryUseFeedback.model_validate_json(canonical(raw_use)) if raw_use is not None else None
+        if (use is None or use.memory_id not in wanted or use.memory_id in seen
+                or sample.provenance!='USER_PROVIDED_REVIEW' or sample.human_judgment=='UNREVIEWED'
+                or sample.body_storage!='DEPENDENT_RECORD'):continue
+        try:exchange=records.read(sample.review_target)
+        except CoreError:continue
+        if (exchange['payload'].get('entity_id')!=entity_id or exchange['scope']!=scope
+                or not records.current_support(exchange['record_id'])
+                or use.memory_id not in records.support(exchange['record_id'])):continue
+        target=records.memory.read(use.memory_id)
+        if target['entity_id']!=entity_id or target['scope']!=scope or target['privacy_class'] not in privacy:continue
+        seen.add(use.memory_id);refs.append(row['record_id'])
+        items.append({'memory_id':use.memory_id,'requested_mode':use.mode,
+            'basis':'EXPLICIT_USER_REVIEW_NOT_DELIVERY_PROOF','fact_assessment_unchanged':True,
+            'advisory_to_subject':True,'execution_authority':False})
+        if len(items)==4:break
+    return {'items':tuple(items),'source_record_ids':tuple(refs)}

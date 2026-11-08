@@ -470,6 +470,17 @@ class ContextAssembler:
         # Both restricted paths discard EXPERIENCE/LESSON blocks below. Do
         # not scan them first; their sourced effects inside Subject/Person-Self
         # remain independent of this optional context projection.
+        if conversation_topic is not None and not source_only and self.store.schema_target>=13:
+            from .lived_language import memory_use_guidance
+            for scope in request.scopes:
+                guidance=memory_use_guidance(self.store,entity_id=request.entity_id,scope=scope,
+                    privacy=privacy,memory_ids=tuple(m['memory_id'] for m in memories))
+                if guidance['items']:
+                    refs=guidance['source_record_ids']
+                    candidates.append((979.0,ContextBlock(block_id='memory-use-guidance:'+scope,
+                        kind='MEMORY_USE_GUIDANCE',data_json=canonical({'memory_use_guidance':guidance['items'],
+                            'changes_fact_credibility':False,'grants_authority':False}),source_record_ids=refs,
+                        source_memory_ids=tuple(sorted({mid for rid in refs for mid in RecordService(self.store).support(rid)})))))
         if not (pinned_only or source_only):
             candidates.extend(self._lessons(request, privacy))
         if required_memory_ids:
@@ -479,7 +490,7 @@ class ContextAssembler:
         if pinned_only:
             # Dialogue gets explicit verified facts plus existing filtered self/
             # relation projections; never the whole unrelated source corpus.
-            candidates=[(score,block) for score,block in candidates if (block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&(set(required_memory_ids)|note_ids)) or block.kind in {'RELATIONSHIP_LINKS','SUBJECT_INFLUENCE','RELATIONAL_SUBJECT','PRIVATE_INTENT_STATE','PERSON_SELF','LIVED_LANGUAGE','LANGUAGE_EXAMPLES','CONSOLIDATED_RECALL'}]
+            candidates=[(score,block) for score,block in candidates if (block.kind in {'MEMORY','UNRESOLVED_CONFLICT'} and set(block.source_memory_ids)&(set(required_memory_ids)|note_ids)) or block.kind in {'RELATIONSHIP_LINKS','SUBJECT_INFLUENCE','RELATIONAL_SUBJECT','PRIVATE_INTENT_STATE','PERSON_SELF','LIVED_LANGUAGE','LANGUAGE_EXAMPLES','MEMORY_USE_GUIDANCE','CONSOLIDATED_RECALL'}]
         if source_only:
             # Media processors receive only the pinned, policy-filtered source,
             # never unrelated relationship, project or memory context.
