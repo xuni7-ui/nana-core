@@ -1464,3 +1464,8 @@ Runtime6d7418c restores prior host config `provider_unknown_calls_per_day` and U
 ### 2026-11-08 · UNKNOWN session fence supersedes intermediate candidate
 
 Runtime b257a09 additionally checks active provider work at dialogue session entry and after recovery. Related39 tests pass, two builds SHA7b3d777f…30341a and actual offline install/DEV gateway/virtual72h withdrawal pass. Initial install ENOSPC resolved by removing only task-created disposable scratch. Delivery421180f marks6d candidate superseded; selector and production unchanged. Legacy PREPARED/runtime RESERVED gates remain stricter than field s1 and need host validation; rollback/reconciliation not declared ready. See docs/nana_next_experience/evidence/unknown-gate-20261108.
+
+
+### 2026-11-08 · UNKNOWN recovery and release-stop race
+
+Cloud operator reports isolated b257a09 config/gates passed; not locally independently verified. Source8e7d2ad prevents release selection when new pending work appears during stop, and blocks manual start with outstanding attempts. 27 focused tests passed. This is not a provider billing reconciliation or crash recovery interface, and cloud candidate b257a09 lacks this later fix. Keep active/unknown/reservation evidence, no blind retry; owner-fenced recovery, old/new Supervisor compatibility, backup/restore and production switch remain open. See docs/nana_next_experience/evidence/unknown-stop-race-20261108.

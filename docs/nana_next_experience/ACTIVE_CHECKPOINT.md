@@ -1,3 +1,11 @@
+# Active continuation — UNKNOWN recovery still open; stop-race fixed
+
+User reports cloud b257a09 candidate installed and synthetic legacy-config/UNKNOWN gates checked; report not independently inspected. Source8e7d2ad fixes Supervisor's pre-stop-only TOCTOU and manual start bypass: after stopping old owner recheck pending ledger before changing selected release; manual start also blocks outstanding work. Related27 tests pass, including late-pending race. Existing cloud candidate b257a09 lacks this fix; no new packaged candidate or production readiness claimed. See evidence/unknown-stop-race-20261108.
+
+Next: implement and qualify an explicit owner-fenced, host-authorized recovery entry for stale PREPARED/CALLING/RESERVED without redispatch, fake SUCCESS/FAILURE or refund, using original Store/event chain; assess process liveness, epoch fencing, restart, old Supervisor compatibility and concurrent stop/release races. Separate upstream billing reconciliation is not possible without provider evidence and must remain UNKNOWN. Host backup/restore, Gateway alignment and device compatibility remain open. Production change requires separate approval.
+
+---
+
 # Active continuation — b257a09 supersedes intermediate6d candidate
 
 Source b257a09 additionally fences active provider work at actual dialogue session entry and after session recovery; terminal UNKNOWN remains visible and does not block independent work within other limits. Related39 tests pass, including DEV release switch and active session denial. Two builds SHA7b3d777f0867ade3f3c879d28e02d3fcce6a816770056b503345e4b91630341a; actual extracted/offline install/DEV gateway/virtual72h/source withdrawal pass. Initial install ENOSPC was fixed by removing only our disposable test scratch. Delivery421180f marks6d superseded and provides b257a09 candidate; selector remains old266, no production activation or APK rebuild. Prior s1 field maintenance merge included.
