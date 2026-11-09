@@ -1,3 +1,13 @@
+# Active continuation — bounded Web wait queue implemented; Core CI sandbox remains blocker
+
+Web source implemented a four-entry volatile unsent queue while one chat turn is active; cancel, per-item privacy/retention capture, fresh binding/idempotency on dispatch,20-minute expiry and discard on privacy/run/session/UNKNOWN/failure/stop/unmount. Desktop/phone360/390/412 fixture test wait/cancel/FIFO/fresh request IDs/final receipt **4 passed10.2s**, frontend build3.28s, original67 units3.79s, original12 relevant browsers20.7s. No real provider/account/device. Details evidence/web-waiting-inbox-20261109.
+
+Remote CI5065 full suite intentionally did not start: original IsolatedSkillRunner returned UNAVAILABLE/BWRAP_NAMESPACE_OR_RUNTIME_DENIED after first new environment run identified dependencies/ownership/umask. We added scoped stderr of the exact existing bwrap probe; next inspect actual new CI. No outer privilege widening/fallback and no Core candidate.47 CI first failure remains1975/111/61/12. Core source current4a was checked by27 affected tests; entire repo/exact installed successor remain unqualified.
+
+Next actual front-end behavior: add explicit expiry/UNKNOWN tests if needed. Core multi-input communication purpose, BFF verified concurrency/idempotency, composer recovery, current generated draft handling and recipient-side interruption remain; all other original A–H scope inherits. No APK/CURRENT/production update. Real model/account/phone/human/actual multi-day growth not run.
+
+---
+
 # Active continuation — queue source4a pushed; complete CI host repair pending
 
 Actual47fullCI42554694011 failed1975pass/111fail/61setup errors/12skip706.79s; client passed, no Corecandidate. Full original XMLartifact13647312518 actually downloaded/ZIP verified367ee9…a206, local /workspace/scratch/nana47-ci-qualification-core.xml and source evidence/full-ci-host-20261109. Main causes test-container checkoutGitownership/sanitizedHOME, missingffmpeg/gpgconf/bwrap,077 private fixture umask. Existing workflow corrected only host tools/scoped systemGit trust/privateumask/nested-container namespace capabilities; original IsolatedSkillRunner mandatory real probe now before full suite. Never bypass originalbwrap/SQLite/privacy assertions. New result not yet known;4aCI42555877455 still inherits old environment.

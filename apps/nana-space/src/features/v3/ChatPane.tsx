@@ -94,10 +94,16 @@ export function ChatPane({
   onFeedback,
   onVerifyFeedback,
   memoryFeedback = false,
+  canQueue = false,
+  queuedCount = 0,
+  cancelQueued,
 }: {
   onFeedback?: (turn: Turn, choice: FeedbackChoice) => Promise<{id:string;state:string}>;
   onVerifyFeedback?: (id:string) => Promise<{id:string;state:string}>;
   memoryFeedback?: boolean;
+  canQueue?: boolean;
+  queuedCount?: number;
+  cancelQueued?: (id: string) => void;
   turns: Turn[];
   draft: string;
   onDraft: (s: string) => void;
@@ -309,6 +315,10 @@ export function ChatPane({
                       readinessLabel(t.error)
                     ) : t.state === "UNKNOWN" ? (
                       "这条消息的结果还不能确认。先核验原回执，不重复发送。"
+                    ) : t.state === "WAITING_LOCAL" ? (
+                      "等前一条回复后再发送；现在还没有送出。"
+                    ) : t.state === "LOCAL_EXPIRED" ? (
+                      "等待时间太长，这条没有发送。"
                     ) : t.state === "REQUESTED" ? (
                       <span className="v3-thinking">
                         {t.provisional && <span className="next-provisional" aria-label="生成中的临时回复" aria-live="off">{t.provisional}</span>}
@@ -323,9 +333,11 @@ export function ChatPane({
                 )}
                 <div className="v3-reply-meta">
                   <span>
-                    <Check size={12} /> {({VERIFIED: "已收到", REQUESTED: "等待回复", REJECTED: "这次未提交", UNKNOWN: "等待核验"} as Record<string, string>)[t.state] || t.state}
+                    {t.state === "VERIFIED" && <Check size={12} />} {({WAITING_LOCAL: "待发送", LOCAL_EXPIRED: "未发送", VERIFIED: "已收到", REQUESTED: "等待回复", REJECTED: "这次未提交", UNKNOWN: "等待核验"} as Record<string, string>)[t.state] || t.state}
                     {t.model ? ` · ${t.model}` : ""}
                   </span>
+                  {t.state === "WAITING_LOCAL" && cancelQueued &&
+                    <button aria-label="取消这条待发消息" onClick={() => cancelQueued(t.id)}>取消待发</button>}
                   {onFeedback && t.state==="VERIFIED" && t.exchangeId && t.reply && t.reply.length<=2048 &&
                     <button aria-label="评价这条回复" onClick={()=>setFeedbackTurn(feedbackTurn===t.id?undefined:t.id)}>交流反馈</button>}
                   {t.reply && <button aria-label="引用这条回复" onClick={() => { onDraft(`引用：${t.reply!.slice(0, 500)}\n\n${draft}`); }}>引用</button>}
@@ -465,27 +477,28 @@ export function ChatPane({
             <button
               className="v3-send"
               aria-label="发送"
-              disabled={busy || !allowed || !scopeAllowed || !draft.trim()}
+              disabled={(busy && !canQueue) || !allowed || !scopeAllowed || !draft.trim()}
             >
               <ArrowUp size={21} />
             </button>
           </div>
         </form>
+        {queuedCount > 0 && <small role="status">{queuedCount} 条等待发送{queuedCount >= 4 ? "，请先等一等或取消待发消息" : "，还可以继续补充"}</small>}
         <details className="next-send-options">
           <summary>发送选项{personal ? " · 个人内容" : ""}{remember ? " · 会记住" : ""}</summary>
           <div className="next-options-panel">
         {(canUsePersonal || personal) && <label className="v4-remember">
-          <input type="checkbox" checked={personal} disabled={busy} onChange={e => onPersonal?.(e.target.checked)} />
+          <input type="checkbox" checked={personal} disabled={busy && !canQueue} onChange={e => onPersonal?.(e.target.checked)} />
           本次包含个人内容
           <small>{scopeAllowed ? "仅获准设备可用；模型与保存仍受各自授权限制" : "个人范围授权已变化，请重新核对；不会自动改成项目内容发送"}</small>
         </label>}
         {canRemember && <label className="v4-remember">
-          <input type="checkbox" checked={remember} disabled={busy} onChange={e => onRemember?.(e.target.checked)} />
+          <input type="checkbox" checked={remember} disabled={busy && !canQueue} onChange={e => onRemember?.(e.target.checked)} />
           记住这次共同经历
           <small>{rememberConnection && !personal ? "本次连接已开启连续保存；可随时取消" : "仅本次提交 · 带来源保存，可在记忆中撤回"}</small>
         </label>}
         {canRemember && <label className="v4-remember">
-          <input type="checkbox" checked={rememberConnection && !personal} disabled={busy || personal} onChange={e => onRememberConnection?.(e.target.checked)} />
+          <input type="checkbox" checked={rememberConnection && !personal} disabled={(busy && !canQueue) || personal} onChange={e => onRememberConnection?.(e.target.checked)} />
           记住后续对话（本次连接）
           <small>由你主动开启；退出或权限变化后关闭。个人内容仍需逐条选择。</small>
         </label>}

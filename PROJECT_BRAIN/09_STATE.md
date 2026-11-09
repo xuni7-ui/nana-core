@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 110,
-  "as_of_us": 1794194818252750,
+  "revision": 111,
+  "as_of_us": 1794265474568891,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_CONTINUOUS_INPUT_AND_CI_HOST_REPAIR",
+  "status": "IN_PROGRESS_ORIGINAL_CONTINUOUS_INPUT_WEB_AND_CORE_SANDBOX_CI",
   "progress": [
     "同一Next Experience与十域主任务已恢复；唯一Subject/Store/Loop、原C/D/G/Planner及Precision V2保持。最新合法源码与Brain优先。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
@@ -20,10 +20,10 @@
     "原C承诺与已采纳兴趣竞争57相关、送达反馈原Kernel独立回读及精确收件后续表达/重启撤回通过；原norm/load/Grant保持，真实社交/长期因果未验。",
     "长回复16384/原Token预算；6fd安装两轮12625字全文、已保留全文重启恢复/撤回通过；1024历史节选标记/4096流式前缀保留，反馈仍限2048。",
     "原memory_terms有界派生加速：1k/10k/100k均144/144，100k P959.72ms；200k142/144、误召0/超时2、P9548.18ms，增加约0.8GB索引；55相关通过。",
-    "原私有Core输入在模型等待时最多4条有界暂存，原owner逐条C审阅、实际接收时间保留；27相关通过，含重启/流式/拒绝/停止/断开/过期。BFF并发、客户端与C多输入重组仍待开发。"
+    "原Core模型等待入口每主体4条FIFO/接收时间通过27相关；Web每轮4条本地待发送/可取消/20min过期，初发才续原鉴权与新幂等ID，build/67单测/desktop+360/390/412浏览器队列4通过；完整CI在原bwrap资格失败，未产Core包。"
   ],
   "open_gates": [
-    "原A–H全部剩余继承；新有界私有入口待完整CI/匹配安装。BFF仍串行/client忙时禁止提交，C多输入目的/插话/未发重组、其余自主性/真实送达及C-S3-S8因果仍待开发。",
+    "原A–H继承；Web/Core各逐条原C，BFF仍串行，尚无多消息目的合并/在途草稿重组及完整误触/中断闭环；其余自主性A–E/送达/长期因果继续。",
     "原G仍限独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移仍待改进。新加速只资格有限合成literal源选择。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "全链模型特定Token/费用/超时、产品/模型向导、运行Gateway/Core/宿主兼容与仓库闭包仍按原清单推进。",
@@ -38,7 +38,7 @@
     "docs/nana_next_experience/evidence/diverse-literal-20261109/README.md",
     "docs/nana_next_experience/evidence/retrieval-scope32-20261108/README.md",
     "docs/nana_next_experience/evidence/full-ci-host-20261109/README.md",
-    "docs/nana_next_experience/evidence/continuous-input-inbox-20261109/README.md"
+    "docs/nana_next_experience/evidence/web-waiting-inbox-20261109/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

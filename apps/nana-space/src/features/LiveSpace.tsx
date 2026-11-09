@@ -225,6 +225,20 @@ export function LiveSpace() {
   const current = useRef<Envelope | null>(null);
   const privacy = useRef("");
   const bodyGeneration = useRef(0);
+  const chatInputs = useRef<Array<{id: ReturnType<typeof crypto.randomUUID>; input: string; retain: boolean;
+    privacyClass: "PROJECT" | "PERSONAL"; version: number; bodyVersion: number; expiresAt: number}>>([]);
+  const chatDrain = useRef<object | null>(null);
+  const [waitingInputs, setWaitingInputs] = useState(0);
+  const clearQueuedInputs = useCallback(() => {
+    chatInputs.current = []; setWaitingInputs(0);
+    setTurns(xs => xs.filter(turn => turn.state !== "WAITING_LOCAL"));
+    if (chatDrain.current) {
+      chatDrain.current = null; writePending.current = false; setBusy(false);
+    }
+  }, []);
+  useEffect(() => () => {
+    chatInputs.current = []; chatDrain.current = null; sessionVersion.current++;
+  }, []);
   const previousRun = useRef("");
   const [prefs, setPrefs] = usePreferences();
   const fail = useCallback((e: unknown) => {
@@ -237,6 +251,7 @@ export function LiveSpace() {
     setTurns([]);
     privacy.current = "";
     bodyGeneration.current++;
+    clearQueuedInputs();
     setDraft("");
     setPersonalDraft(false);
     setRememberDraft(false);
@@ -246,7 +261,7 @@ export function LiveSpace() {
     setBiliSnapshot(null);
     setSharedSnapshot(null);
     setCredentialStatus(null);
-  }, []);
+  }, [clearQueuedInputs]);
   const accept = useCallback((b: Envelope) => {
     if (current.current?.capabilities.shared_life_retention === true && b.capabilities.shared_life_retention !== true) {
       setRememberDraft(false);
@@ -265,11 +280,12 @@ export function LiveSpace() {
       setRememberDraft(false);
       setRememberConnection(false);
       bodyGeneration.current++;
+    clearQueuedInputs();
     }
     previousRun.current = b.run_generation;
     current.current = b;
     setBootstrap(b);
-  }, []);
+  }, [clearQueuedInputs]);
   const acceptPrivacy = useCallback((data: Record<string, unknown>) => {
     const watermark = data.privacy_watermark;
     if (typeof watermark !== "string") return;
@@ -283,9 +299,10 @@ export function LiveSpace() {
       setBiliSnapshot(null);
       setSharedSnapshot(null);
       bodyGeneration.current++;
+    clearQueuedInputs();
     }
     privacy.current = watermark;
-  }, []);
+  }, [clearQueuedInputs]);
   const refresh = useCallback(async () => {
     const seq = ++readVersion.current;
     const version = sessionVersion.current;
@@ -319,6 +336,7 @@ export function LiveSpace() {
         setRememberDraft(false);
         setRememberConnection(false);
         bodyGeneration.current++;
+    clearQueuedInputs();
       }
       if (requestedPage === "chat" && canConverse && b.capabilities.conversation_history === true) {
         const history = await client.current.conversationHistory();
@@ -376,7 +394,7 @@ export function LiveSpace() {
         throw e;
       }
     }
-  }, [page, accept, acceptPrivacy, fail]);
+  }, [page, accept, acceptPrivacy, fail, clearQueuedInputs]);
   useEffect(() => {
     const hash = () => {
       const next = route();
@@ -612,60 +630,76 @@ export function LiveSpace() {
     );
     setReceipt(d);
   };
+  const cancelQueuedInput = (id: string) => {
+    if (!chatInputs.current.some(item => item.id === id)) return;
+    chatInputs.current = chatInputs.current.filter(item => item.id !== id);
+    setWaitingInputs(chatInputs.current.length);
+    setTurns(xs => xs.filter(turn => turn.id !== id));
+  };
   const send = async (retain = false, privacyClass: "PROJECT" | "PERSONAL" = "PROJECT") => {
-    if (busy || !draft.trim()) return;
-    const input = draft.trim();
-    const version = sessionVersion.current,
-      bodyVersion = bodyGeneration.current;
-    const id = crypto.randomUUID();
-    let dispatched = false;
-    setBusy(true);
-    setDraft("");
-    setPersonalDraft(false);
-    setRememberDraft(false);
-    setTurns((xs) => [...xs.slice(-31), { id, input, state: "REQUESTED", requestedAt: performance.now() }]);
+    if (!draft.trim() || ((busy || writePending.current) && !chatDrain.current) || chatInputs.current.length >= 4) return;
+    const owner = chatDrain.current || {};
+    const queued = {id: crypto.randomUUID(), input: draft.trim(), retain, privacyClass,
+      version: sessionVersion.current, bodyVersion: bodyGeneration.current,
+      expiresAt: performance.now() + 20 * 60_000};
+    chatInputs.current.push(queued);
+    setWaitingInputs(chatInputs.current.length);
+    setDraft(""); setPersonalDraft(false); setRememberDraft(false);
+    setTurns(xs => [...xs.slice(-31), {id: queued.id, input: queued.input, state: "WAITING_LOCAL"}]);
+    if (chatDrain.current) return;
+    chatDrain.current = owner; writePending.current = true; setBusy(true);
     try {
-      const b = await fresh();
-      if (version !== sessionVersion.current || bodyVersion !== bodyGeneration.current) throw new V2Error("STALE_RUN_NO_REPLAY");
-      if (!b.privacy_scope.includes(privacyClass)) throw new V2Error("SCOPE_DENIED");
-      dispatched = true;
-      const request = {
-        ...writeBase(b, id),
-        text: input,
-        topic: "daily",
-        thread_id: "nana-space",
-        privacy_class: privacyClass,
-        ...(b.capabilities.provider_readiness === true ? { require_model: true } : {}),
-        ...(b.capabilities.shared_life_retention === true ? { retain_shared_life: retain } : {}),
-      };
-      const r = b.capabilities.chat_streaming === true && prefs.streamReplies
-        ? await client.current.streamMessage(request, progress => {
-            if (version === sessionVersion.current && bodyVersion === bodyGeneration.current)
-              setTurns(xs => xs.map(turn => turn.id === id ? {...turn,phase:progress.state,
-                ...(progress.text !== undefined ? {provisional:progress.text} : {})} : turn));
-          })
-        : await client.current.write("message", request);
-      if (
-        version !== sessionVersion.current ||
-        bodyVersion !== bodyGeneration.current
-      )
-        return;
-      updateTurn(id, r);
-      await refresh().catch(() => {});
-    } catch (e) {
-      if (version !== sessionVersion.current) return;
-      fail(e);
-      // Keep only the original receipt ID. Never retain/replay uncertain bodies.
-      setTurns([{ id, input: "", state: dispatched ? "UNKNOWN" : "REJECTED" }]);
-      if (dispatched && e instanceof V2Error && ["UNKNOWN_VERIFY_ONLY", "STREAM_INTERRUPTED_VERIFY_ONLY",
-          "INVALID_STREAM", "STREAM_RESPONSE_BOUND", "STREAM_FRAME_BOUND"].includes(e.code)) {
-        // Only re-read the authenticated binding/privacy state. Never repeat a
-        // message/provider request. A single lost reply must not lock future
-        // independent conversation behind a manual reconnect ritual.
-        await refresh().catch(() => {});
+      while (chatDrain.current === owner && chatInputs.current.length) {
+        const item = chatInputs.current.shift()!;
+        setWaitingInputs(chatInputs.current.length);
+        const {id, input, retain, privacyClass, version, bodyVersion} = item;
+        if (version !== sessionVersion.current || bodyVersion !== bodyGeneration.current) break;
+        if (performance.now() >= item.expiresAt) {
+          setTurns(xs => xs.map(turn => turn.id === id ? {id, input: "", state: "LOCAL_EXPIRED"} : turn));
+          continue;
+        }
+        let dispatched = false;
+        setTurns(xs => xs.map(turn => turn.id === id ? {...turn, state: "REQUESTED", requestedAt: performance.now()} : turn));
+        try {
+          // Re-authenticate/re-bind and reserve a fresh original receipt only
+          // when this input reaches the existing serial BFF dispatch path.
+          const b = await fresh();
+          if (version !== sessionVersion.current || bodyVersion !== bodyGeneration.current) break;
+          if (!b.privacy_scope.includes(privacyClass)) throw new V2Error("SCOPE_DENIED");
+          if (retain && b.capabilities.shared_life_retention !== true) throw new V2Error("RETENTION_UNAVAILABLE");
+          dispatched = true;
+          const request = {
+            ...writeBase(b, id), text: input, topic: "daily", thread_id: "nana-space", privacy_class: privacyClass,
+            ...(b.capabilities.provider_readiness === true ? {require_model: true} : {}),
+            ...(b.capabilities.shared_life_retention === true ? {retain_shared_life: retain} : {}),
+          };
+          const result = b.capabilities.chat_streaming === true && prefs.streamReplies
+            ? await client.current.streamMessage(request, progress => {
+                if (version === sessionVersion.current && bodyVersion === bodyGeneration.current)
+                  setTurns(xs => xs.map(turn => turn.id === id ? {...turn, phase: progress.state,
+                    ...(progress.text !== undefined ? {provisional: progress.text} : {})} : turn));
+              })
+            : await client.current.write("message", request);
+          if (version !== sessionVersion.current || bodyVersion !== bodyGeneration.current) break;
+          updateTurn(id, result);
+          // An uncertain/rejected original receipt never drains more waiting
+          // bodies automatically. Only explicitly new input may start later.
+          if (object(result.data).state !== "VERIFIED") { clearQueuedInputs(); break; }
+          await refresh().catch(() => {});
+        } catch (e) {
+          if (version !== sessionVersion.current || bodyVersion !== bodyGeneration.current) break;
+          fail(e);
+          setTurns([{id, input: "", state: dispatched ? "UNKNOWN" : "REJECTED"}]);
+          if (dispatched && e instanceof V2Error && ["UNKNOWN_VERIFY_ONLY", "STREAM_INTERRUPTED_VERIFY_ONLY",
+              "INVALID_STREAM", "STREAM_RESPONSE_BOUND", "STREAM_FRAME_BOUND"].includes(e.code))
+            await refresh().catch(() => {});
+          break;
+        }
       }
     } finally {
-      if (version === sessionVersion.current) setBusy(false);
+      if (chatDrain.current === owner) {
+        chatDrain.current = null; writePending.current = false; setBusy(false);
+      }
     }
   };
   const verify = async (id: string) => {
@@ -786,6 +820,7 @@ export function LiveSpace() {
     )
       return;
     const priority = operation === "STOP";
+    if (priority) clearQueuedInputs();
     if (priority) { priorityPending.current=true; setPriorityBusy(true); }
     else setBusy(true);
     const version = sessionVersion.current;
@@ -979,6 +1014,7 @@ export function LiveSpace() {
     sessionVersion.current++;
     offerVersion.current++;
     bodyGeneration.current++;
+    clearQueuedInputs();
     setBusy(true);
     const pending = client.current.logout();
     client.current.clear();
@@ -1502,6 +1538,9 @@ export function LiveSpace() {
                 draft={draft}
                 onDraft={setDraft}
                 busy={busy}
+                canQueue={chatDrain.current !== null && waitingInputs < 4}
+                queuedCount={waitingInputs}
+                cancelQueued={cancelQueuedInput}
                 allowed={conversation}
                 send={(retain, privacyClass) => void send(retain, privacyClass)}
                 readiness={providerReadyCode}

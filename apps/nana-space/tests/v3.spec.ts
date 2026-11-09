@@ -88,6 +88,7 @@ interface MockState {
   streamInterrupted?: boolean;
   delayMessage: boolean;
   messageRoute?: Route;
+  messageRoutes?: Route[];
   messageBodies?: Record<string, unknown>[];
   privacyScope?: string[];
   delayMemories: boolean;
@@ -273,6 +274,7 @@ async function installMock(page: Page): Promise<MockState> {
       if (state.abortMessage) return route.abort("failed");
       if (state.delayMessage) {
         state.messageRoute = route;
+        (state.messageRoutes ||= []).push(route);
         return;
       }
       const body = request.postDataJSON();
@@ -1140,3 +1142,33 @@ for (const [mode, label] of [
     await noHorizontalOverflow(page);
   });
 }
+
+
+test("SYNTHETIC local chat inbox waits, can cancel, and sends remaining turns in order",async({page})=>{
+  const state=await installMock(page);state.delayMessage=true;
+  await open(page,"chat");
+  const input=page.getByLabel("和奈奈说点什么");
+  await input.fill("SYNTHETIC first turn");
+  await page.getByRole("button",{name:"发送",exact:true}).click();
+  await expect.poll(()=>Boolean(state.messageRoute)).toBe(true);
+  await input.fill("SYNTHETIC cancel this queued turn");
+  await page.getByRole("button",{name:"发送",exact:true}).click();
+  await expect(page.getByText("等前一条回复后再发送；现在还没有送出。",{exact:true})).toBeVisible();
+  expect(state.messageBodies).toHaveLength(1);
+  await page.getByRole("button",{name:"取消这条待发消息"}).click();
+  await expect(page.getByText("等前一条回复后再发送；现在还没有送出。",{exact:true})).toHaveCount(0);
+  await input.fill("SYNTHETIC second turn");
+  await page.getByRole("button",{name:"发送",exact:true}).click();
+  expect(state.messageBodies).toHaveLength(1);
+  const firstBody=state.messageRoutes![0].request().postDataJSON();
+  await state.messageRoutes![0].fulfill({status:200,json:envelope(state,{receipt_id:firstBody.client_request_id,
+    state:"VERIFIED",dispatch_happened:true,result:{text:"SYNTHETIC first acknowledged"}})});
+  await expect.poll(()=>state.messageRoutes?.length).toBe(2);
+  const secondBody=state.messageRoutes![1].request().postDataJSON();
+  expect(secondBody.text).toBe("SYNTHETIC second turn");
+  expect(secondBody.client_request_id).not.toBe(firstBody.client_request_id);
+  await state.messageRoutes![1].fulfill({status:200,json:envelope(state,{receipt_id:secondBody.client_request_id,
+    state:"VERIFIED",dispatch_happened:true,result:{text:"SYNTHETIC second acknowledged"}})});
+  await expect(page.getByText("SYNTHETIC second acknowledged",{exact:true})).toBeVisible();
+  expect(state.messageBodies?.map(body=>body.text)).toEqual(["SYNTHETIC first turn","SYNTHETIC second turn"]);
+});
