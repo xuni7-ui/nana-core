@@ -3327,3 +3327,7 @@ CI5065实际bwrap原探针stderr为`Can't mount proc on /proc: Operation not per
 ### 2026-11-09 · UNKNOWN回执阻止Web待发队列续发并修CI runner权限
 
 Web合成浏览器用例验证首条原请求返回UNKNOWN后移除本地待发正文、不发第二条；桌面/360/390/412共4通过。vitest仍67通过；首次Playwright输出目录创建遇overlay ENOSPC，改把Playwright产物写/tmp后4通过，没有清理受保护测试数据/交付。GitHub run42718410546旧SQLite3.46.1只读容器构建及检查成功、client job通过；Core runner在sudo缺失的/etc/gitconfig系统写权限失败，全仓/原bwrap探针未启动，未产Core候选。已将system safe.directory改用sudo，下一提交触发新验证。首错和边界见evidence/ci-bwrap-host-requalification-20261109、evidence/web-waiting-inbox-20261109。CURRENT/APK/生产未动。
+
+### 2026-11-09 · Ubuntu runner的bwrap userns profile资格修复
+
+Run42718858552确认sudo safe.directory与依赖、私有Core SQLite3.53.1和只读真实3.46.1容器均通过；原IsolatedSkillRunner运行真实bwrap后仍UNAVAILABLE，stderr`bwrap: loopback: Failed RTM_NEWADDR: Operation not permitted`，完整pytest未启动、Core客户端Web分job仍在执行。根因符合Ubuntu24.04 AppArmor unprivileged userns默认限制。工作流现只在可丢弃GitHub runner添加 `/usr/bin/bwrap` 专属AppArmor profile并授userns；发现已有该路径profile即失败，保留AppArmor与原11项完整探针，不改内核开关/测试断言/真实主机。Profile仍待GitHub实测，未称解决。

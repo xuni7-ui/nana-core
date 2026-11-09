@@ -40,7 +40,21 @@ jobs:
       - name: Runner tools and read-only old SQLite host fixture
         run: |
           sudo apt-get update
-          sudo apt-get install --yes --no-install-recommends bubblewrap ffmpeg gnupg
+          sudo apt-get install --yes --no-install-recommends apparmor bubblewrap ffmpeg gnupg
+          if sudo grep -RqsE 'profile[[:space:]]+[^[:space:]]+[[:space:]]+/usr/bin/bwrap([[:space:]]|$)' /etc/apparmor.d; then
+            echo 'Existing AppArmor attachment for /usr/bin/bwrap; refusing to replace it.' >&2
+            exit 1
+          fi
+          sudo tee /etc/apparmor.d/bwrap >/dev/null <<'PROFILE'
+          abi <abi/4.0>,
+          include <tunables/global>
+
+          profile bwrap /usr/bin/bwrap flags=(unconfined) {
+            userns,
+            include if exists <local/bwrap>
+          }
+          PROFILE
+          sudo apparmor_parser -r /etc/apparmor.d/bwrap
           command -v docker
           mkdir -p /tmp/nana-old-sqlite-context
           docker build --tag nana-old-sqlite:3.46.1 -f - /tmp/nana-old-sqlite-context <<'DOCKERFILE'
