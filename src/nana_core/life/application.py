@@ -24,7 +24,7 @@ from ..presence.runtime import NanaRuntime
 from ..presence.contracts import RuntimeConfig,LivingRuntimeConfig,RuntimeEvent,Cause,SECOND,HOUR
 from ..presence.projections import runtime_projection
 from .config import home_path,load_config
-from .dialogue_contracts import DialogueContext
+from .dialogue_contracts import DialogueContext,CommunicationPurpose,DialogueRecipient
 
 
 def runtime_config(config):
@@ -204,7 +204,7 @@ class LifeApplication:
         if resource_state(self.runtime.store,self.runtime.config).unresolved_live_calls:raise CoreError('UNRESOLVED_PROVIDER_CALL_NO_RETRY')
         self.session.draft_sink=self.response_sink
         return self.session
-    def _model(self,key,phase,mid,text,topic,privacy,cycle=None,retain_shared_life=False,recall_query_terms=()):
+    def _model(self,key,phase,mid,text,topic,privacy,cycle=None,retain_shared_life=False,recall_query_terms=(),recipient_context=None):
         if cycle and cycle.record_id:
             from ..continuity.memory import PRIVACY_RANK
             classification=self.runtime.store.one('continuity_records',cycle.record_id)['privacy_class']
@@ -227,7 +227,10 @@ class LifeApplication:
             history_sources.update(sources)
             recent.append(turn)
         recent.reverse()
-        descriptor=DialogueContext(recent_history_truncated=len(recent)<len(self._recent),retain_shared_life=retain_shared_life,conversation_decision=cycle.conversation_decision if cycle else None,project_status_query=LiteralSpanInterpreter().interpret(text).kind=='PROJECT_STATUS' or bool(cycle and cycle.context_fit.mode=='PROJECT_STATUS'),message_memory_id=mid,topic=topic,privacy_class=privacy,phase=phase,
+        descriptor=DialogueContext(recent_history_truncated=len(recent)<len(self._recent) or any(t.text_truncated for t in recent),retain_shared_life=retain_shared_life,conversation_decision=cycle.conversation_decision if cycle else None,project_status_query=LiteralSpanInterpreter().interpret(text).kind=='PROJECT_STATUS' or bool(cycle and cycle.context_fit.mode=='PROJECT_STATUS'),message_memory_id=mid,topic=topic,privacy_class=privacy,phase=phase,
+            recipient_context=recipient_context,
+            reply_character_limit=2048 if cycle and cycle.realization_target else 16384,
+            communication_purpose=CommunicationPurpose(cycle_id=cycle.cycle_id,respond_to_memory_ids=(mid,),purpose=cycle.intention.purpose) if cycle else None,
             judgment=cycle.judgment.stance if cycle else None,intention=cycle.intention.kind if cycle else None,context_mode=cycle.context_fit.mode if cycle else None,effect_status='VERIFIED_EFFECT' if facts else 'NONE')
         data={'dialogue':descriptor.model_dump(mode='json')};volatile={'dialogue':descriptor.model_copy(update={'text':text,'recent_turns':tuple(recent)}).model_dump(mode='json')}
         request=session.prepare(key, 'INTERPRET' if phase=='INTERPRET' else 'SOCIAL',tuple(dict.fromkeys((mid,*facts,*continuity,*(t.message_memory_id for t in recent)))),role_input=data,volatile_input=volatile,query_terms=recall_query_terms if phase=='RENDER' else (),
@@ -262,12 +265,13 @@ class LifeApplication:
             from ..continuity.person_self import retain_input
             mid=retain_input(r.store,entity_id=r.config.entity_id,scope=r.config.scopes[0],text=text,privacy=privacy,message_id=event_key)
         proposal=None;recall_query_terms=()
+        recipient_context=DialogueRecipient(platform=surface.platform,binding_id=surface.session_id,conversation_id=surface.conversation_id) if surface is not None else None
         literal=LiteralSpanInterpreter().interpret(text);kind=literal.kind if literal.basis=='LITERAL_SPAN' else 'UNCLEAR';basis='EXPLICIT' if literal.basis=='LITERAL_SPAN' else 'INTERPRETED';rid=None;provider_state='LIVE_PROVIDER_NOT_RUN'
         try:
             from ..continuity.subject.context_fit import depth_boundary
             closed,_,_=depth_boundary(r.store,'project-user','project-work',topic,r.config.privacy_classes)
             if closed or kind in {'DECLINE_DEPTH','DECLINE_DELIVERY','REOPEN','REOPEN_DELIVERY'}:raise CoreError('TOPIC_BOUNDARY_NO_MODEL_CALL')
-            session,rid=self._model('life.interpret.'+key,'INTERPRET',mid,text,topic,privacy,retain_shared_life=retain_shared_life)
+            session,rid=self._model('life.interpret.'+key,'INTERPRET',mid,text,topic,privacy,retain_shared_life=retain_shared_life,recipient_context=recipient_context)
             meaning=session.proposal(rid).proposal.dialogue
             recall_query_terms=session.take_recall_terms(rid)
             proposal=meaning.conversation_proposal if retain_shared_life else None
@@ -286,7 +290,7 @@ class LifeApplication:
         cycle=outcome['cycle'];draft=None;render_state='NOT_RUN';render_rid=None
         if cycle.context_fit.mode!='RESPECT_BOUNDARY' and self.router is not None and provider_state=='MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED':
             try:
-                session,render_rid=self._model('life.render.'+key,'RENDER',mid,text,topic,privacy,cycle,retain_shared_life=retain_shared_life,recall_query_terms=recall_query_terms)
+                session,render_rid=self._model('life.render.'+key,'RENDER',mid,text,topic,privacy,cycle,retain_shared_life=retain_shared_life,recall_query_terms=recall_query_terms,recipient_context=recipient_context)
                 draft=session.take_dialogue_draft(render_rid);render_state='UNVERIFIED_MODEL_WORDING'
             except CoreError as exc:render_state=exc.code
         if not draft:
@@ -309,8 +313,8 @@ class LifeApplication:
         supports=RecordService(r.store).support(render_rid) if render_rid else ()
         exchange_id=None
         if render_state=='UNVERIFIED_MODEL_WORDING' and len(supports)<=64:
-            self._recent.append(DialogueTurn(message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='USER',text=text[:1024]))
-            self._recent.append(DialogueTurn(message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='ASSISTANT',text=draft[:1024],support_memory_ids=supports))
+            self._recent.append(DialogueTurn(message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='USER',text=text[:1024],text_truncated=len(text)>1024))
+            self._recent.append(DialogueTurn(message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='ASSISTANT',text=draft[:1024],support_memory_ids=supports,text_truncated=len(draft)>1024))
             self._recent=self._recent[-6:]
         # Explicit retention records what was actually said, including a local
         # boundary acknowledgement or a provider-unavailable explanation. It

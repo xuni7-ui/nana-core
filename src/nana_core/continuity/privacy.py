@@ -100,6 +100,9 @@ class PrivacyJournal:
         self.applied = None
         self._checked_signature = None
         self._applying = False
+        # Rebuildable per-copy progress only. The durable journal remains the
+        # authority; replacement/in-place writes or a changed prefix invalidate it.
+        self._copy_clean = {}
         self.read()
         self.ensure_current()
         self.pending_backups = self.sanitize_backups()
@@ -240,19 +243,50 @@ class PrivacyJournal:
         pending = []
         if not body["intents"]:
             return pending
+        fingerprint = digest(body["intents"])
+        prefixes = {len(body["intents"]): fingerprint}
+        def signature(path):
+            result = []
+            for suffix in ("", "-wal", "-shm", "-journal"):
+                try:
+                    info = Path(str(path) + suffix).lstat()
+                except FileNotFoundError:
+                    if not suffix:
+                        raise CoreError("BACKUP_UNAVAILABLE") from None
+                    result.append(None)
+                    continue
+                if not stat.S_ISREG(info.st_mode):
+                    raise CoreError("BACKUP_FILE_INVALID")
+                result.append((info.st_dev, info.st_ino, info.st_size, info.st_mtime_ns,
+                    info.st_ctime_ns, info.st_mode, info.st_uid, info.st_gid, info.st_nlink))
+            return tuple(result)
         for name in body["backups"]:
             path = Path(name)
             if not path.exists():
+                self._copy_clean.pop(name, None)
                 continue
             if path.resolve() == self.store.path.resolve():
                 continue  # this restored Store was already purged before reads
             if path.is_symlink():
+                self._copy_clean.pop(name, None)
                 pending.append(name)
                 continue
             lock = open(str(path) + ".lock", "a+b")
             db = None
+            complete = False
             try:
                 fcntl.flock(lock, fcntl.LOCK_EX | fcntl.LOCK_NB)
+                current = signature(path)
+                cached = self._copy_clean.get(name)
+                start = 0
+                # An alias may have differently named WAL files. Keep the
+                # original full replay for hard-linked database files.
+                if cached and current[0][-1] == 1 and cached[0] == current and cached[1] <= len(body["intents"]):
+                    count = cached[1]
+                    if count not in prefixes:
+                        prefixes[count] = digest(body["intents"][:count])
+                    if prefixes[count] == cached[2]:
+                        start = count
                 db = sqlite3.connect(path, isolation_level=None)
                 db.row_factory = sqlite3.Row
                 db.execute("PRAGMA foreign_keys=ON")
@@ -260,15 +294,25 @@ class PrivacyJournal:
                 identity = db.execute("SELECT identity_id FROM identities").fetchone()
                 if not identity or identity[0] != body["identity_id"]:
                     raise CoreError("BACKUP_IDENTITY_MISMATCH")
-                for intent in body["intents"]:
+                for intent in body["intents"][start:]:
                     self._purge(db, intent)
                 if db.execute("PRAGMA wal_checkpoint(TRUNCATE)").fetchone()[0] != 0:
                     raise CoreError("PURGE_CHECKPOINT_PENDING")
-            except (BlockingIOError, sqlite3.Error, CoreError):
+                complete = True
+            except (OSError, sqlite3.Error, CoreError):
+                self._copy_clean.pop(name, None)
                 pending.append(name)
             finally:
                 if db:
                     db.close()
+                if complete:
+                    try:
+                        # Capture AFTER checkpoint/close while still holding the
+                        # original writer lock, including any WAL/journal files.
+                        self._copy_clean[name] = (signature(path), len(body["intents"]), fingerprint)
+                    except (OSError, CoreError):
+                        self._copy_clean.pop(name, None)
+                        pending.append(name)
                 lock.close()
         return pending
 

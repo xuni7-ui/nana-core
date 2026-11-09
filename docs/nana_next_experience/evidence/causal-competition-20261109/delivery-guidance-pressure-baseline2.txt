@@ -1,0 +1,58 @@
+.F                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_delivered_memory_feedback_changes_later_render_only_in_its_recipient_context[1] _
+
+tmp_path = PosixPath('/tmp/nanaguidancepressurebase2/test_delivered_memory_feedback1')
+preexisting_retained_turns = 1
+
+    @pytest.mark.parametrize('preexisting_retained_turns', [0, 1])
+    def test_delivered_memory_feedback_changes_later_render_only_in_its_recipient_context(tmp_path,preexisting_retained_turns):
+        import json
+        from nana_core.life.memory_notes import save
+        from nana_core.continuity.memory import MemoryService
+        from nana_core.continuity.lived_language import LanguageService, LanguageSample, MemoryUseFeedback
+        def render(request):
+            blocks=json.loads(request['context_json'])['blocks']
+            guidance=next((json.loads(b['data_json'])['memory_use_guidance'] for b in blocks
+                if b['kind']=='MEMORY_USE_GUIDANCE'),())
+            return 'SYNTHETIC '+(guidance[0]['requested_mode'] if guidance else 'BASELINE')
+        with counterpart() as (url,platform):
+            home=tmp_path/'home';channel=initialize_channel(home,url);clock=VirtualClock()
+            with relay(home,'CHAT',recall_query_terms=('ORCHID',),renderer=render) as (router,requests):
+                with LifeApplication(home,clock=clock,router=router) as app:
+                    app.pause();flow=equip(app,channel,url)
+                    for index in range(preexisting_retained_turns):
+                        app.chat('SYNTHETIC earlier unrelated conversation '+str(index),privacy='PROJECT',
+                            retain_shared_life=True,message_id='earlier-'+str(index))
+                    mid=save(app,text='SYNTHETIC ORCHID Friday',privacy='PROJECT',request_id='recipient-note')['memory_id']
+                    fact=MemoryService(app.runtime.store).read(mid)
+                    turn=app.surfaces.receive(SurfaceObservation(binding_id=channel.binding_id,event_id='qq:1',
+                        thread_id='qq.private.43',text='SYNTHETIC ORCHID first question',privacy_class='PROJECT',
+                        origin='SYNTHETIC_LOOPBACK',retain_shared_life=True),reply_target=flow.target)
+                    assert turn['text']=='SYNTHETIC BASELINE'
+                    assert flow._reply(turn,'1')['delivery']=='SUCCEEDED'
+                    service=LanguageService(app.runtime.store,app.runtime.authority)
+                    sample=LanguageSample(sample_id='recipient-review',review_target=turn['exchange_record_id'],mode='CASUAL',
+                        context='SYNTHETIC explicit fixture review',candidate_response=turn['text'],human_judgment='PARTIAL',
+                        provenance='USER_PROVIDED_REVIEW',observed_at_us=clock.utc_now_us(),
+                        memory_use=MemoryUseFeedback(memory_id=mid,mode='NATURAL_REFERENCE'))
+                    review_id=service.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',
+                        authority=app.runtime.authority,exchange_record_id=turn['exchange_record_id'])
+                    io=len(platform['calls']);identity=app.runtime.identity_id
+                with LifeApplication(home,clock=clock,router=router) as app:
+                    app.pause();assert app.runtime.identity_id==identity
+                    for sequence,thread,expected in ((2,'qq.private.43','NATURAL_REFERENCE'),(3,'qq.private.44','BASELINE')):
+                        later=app.surfaces.receive(SurfaceObservation(binding_id=channel.binding_id,event_id='qq:'+str(sequence),
+                            thread_id=thread,text='SYNTHETIC ORCHID later question',privacy_class='PROJECT',
+                            origin='SYNTHETIC_LOOPBACK',retain_shared_life=True))
+>                       assert later['text']=='SYNTHETIC '+expected,later
+E                       AssertionError: {'message_id': 'b51af99d8f9e133a78b0c7ad4f11fa592cd55edc66f1879028ad640f879477f0', 'message_memory_id': 'a6761b31-c942...b', 'provider_state': 'MODEL_PROPOSAL_ACCEPTED_NOT_QUALITY_QUALIFIED', 'render_state': 'UNVERIFIED_MODEL_WORDING', ...}
+E                       assert 'SYNTHETIC BASELINE' == 'SYNTHETIC NATURAL_REFERENCE'
+E                         
+E                         - SYNTHETIC NATURAL_REFERENCE
+E                         + SYNTHETIC BASELINE
+
+tests/living_release_v4/test_platform_runtime.py:377: AssertionError
+=========================== short test summary info ============================
+FAILED tests/living_release_v4/test_platform_runtime.py::test_delivered_memory_feedback_changes_later_render_only_in_its_recipient_context[1]
+1 failed, 1 passed, 12 deselected in 3.47s

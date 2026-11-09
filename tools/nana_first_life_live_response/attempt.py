@@ -37,7 +37,10 @@ def render_existing(app,event_key,text,attempt_id):
     if event.domain!='LOCAL_INTERACTION' or event.privacy_class!='PROJECT' or event.interaction_signal.kind!='PROJECT_STATUS':raise CoreError('QUALIFICATION_PROJECT_STATUS_REQUIRED')
     before=len(s.all('subject_cycles'));cycle=r.subject.run(event)
     if not cycle.replayed or cycle.context_fit.mode!='PROJECT_STATUS' or before!=len(s.all('subject_cycles')):raise CoreError('QUALIFICATION_EXISTING_JUDGMENT_REQUIRED')
-    session,rid=app._model('first-life.render-validation.'+attempt_id,'RENDER',event.source_memory_ids[0],text,event.interaction_signal.topic_key,'PROJECT',cycle)
+    from nana_core.life.dialogue_contracts import DialogueRecipient
+    recipient=(DialogueRecipient(platform=event.surface.platform,binding_id=event.surface.session_id,
+        conversation_id=event.surface.conversation_id) if event.surface else None)
+    session,rid=app._model('first-life.render-validation.'+attempt_id,'RENDER',event.source_memory_ids[0],text,event.interaction_signal.topic_key,'PROJECT',cycle,recipient_context=recipient)
     wording=session.take_dialogue_draft(rid)
     if not wording:raise CoreError('QUALIFICATION_NO_USABLE_WORDING')
     return {'record_id':rid,'cycle_id':cycle.cycle_id,'original_C_replayed_without_new_judgment':True,'render_state':'UNVERIFIED_MODEL_WORDING','raw_body_persisted':False},wording

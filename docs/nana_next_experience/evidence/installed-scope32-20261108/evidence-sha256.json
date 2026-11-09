@@ -1,0 +1,19 @@
+{
+  "README.md": "7896f096fc37f6c0122544087b8f13049d1a40140d705451c23d16af78827ca1",
+  "runtime.json": "90e9c231bee79292729bed52f68a919095022269ff408ca5db43829a43ce5138",
+  "scope32-build-a.json": "bb320902dec2d8de64d51d91ae624a474387248539ef0b0ecf89bfa3ee7c1981",
+  "scope32-build-b.json": "004e05388507c2de454571f80b08e502075d6197ade9588ffc6ef9dcd3544301",
+  "scope32-child-diagnostic.txt": "d5400b74304969a079627bd89c54275ae2cc5729a1c598016ede890909fbf918",
+  "scope32-child-fixed.txt": "c036b726f980bb166231094d3df058c3414e4c4d452940cb6ea6be9813c2b520",
+  "scope32-full-regression-2.txt": "061714033f0e69d9d6fd822a3f92538adc5f1c459e4264149b2dc92745a65825",
+  "scope32-full-regression-3.txt": "c0dc1e2bc3c1c3f05d410e98002aff16e9443e1cda4ae8c29b2db575a2b3aa28",
+  "scope32-full-regression-4.txt": "ccf9aaf4b0261ac44a0d40d6ba779becd593ab9bc17ab95a87f45296e3b12185",
+  "scope32-full-regression.txt": "3ddc77b9962decdc7dbe3a315633792aeca8240ed306848dbba80d78b114e9f4",
+  "scope32-installed-result.json": "a63f75d60aa1a288737a53f314dd0cc44b27feebe68398269c37114521d6775d",
+  "scope32-installed-result.txt": "0454a3c77f44393d4f06d339385be766a394e4536c7325c1801ced0d87edafb6",
+  "scope32-living-result.txt": "443e9efaf20955f0c0453d6a1885a480fb4e418f8c6117664d1e5a1f7db17acd",
+  "scope32-offline-install.txt": "20b1338225280d52302b1b2e82f50a50b91405fb04603854a79306a47fd067b0",
+  "verify-dev.py.patch": "8698398b6ebbf75bbfea0d378c9cb0e48d08c23ce01d89c1d23a6d1776b8bf09",
+  "verify-living-memory.py.unchanged.txt": "d6407b0c81e448fa78bd1f278eb73b38be9a260da767d9e32f5c2ca4e62d98f4",
+  "verify-note-recall.py.patch": "bdd803afb6fdf3eef9416ff3e6705acf6a7a8be0b7bd1d213acfbd41b02b0223"
+}

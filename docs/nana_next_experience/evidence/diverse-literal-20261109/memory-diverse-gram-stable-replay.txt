@@ -1,0 +1,4 @@
+Opening original synthetic Store with completed derived index
+Original Store opened
+Frozen expected source bindings checked
+{"baseline": {"correct": 0, "false_result_cases": 0, "timeouts": 144, "p50_ms": 100.29519949966925, "p95_ms": 102.29344245035463}, "candidate": {"correct": 129, "false_result_cases": 0, "timeouts": 15, "p50_ms": 70.55323050008155, "p95_ms": 102.5720781979544}}

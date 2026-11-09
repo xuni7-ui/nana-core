@@ -99,7 +99,9 @@ def run(home, output, baseline=BASELINE):
                 'positive_queries': sum(bool(r['expected']) for r in rows),
                 'positive_queries_recalled': sum(bool(r['expected']) and r['actual'] == r['expected'] for r in rows),
                 'scope_deferrals': sum(r['gap'] is not None for r in rows),
-                'p50_ms': statistics.median(durations), 'p95_ms': durations[int((len(durations)-1)*.95)]}
+                'p50_ms': statistics.median(durations),
+                'p95_ms': statistics.quantiles(durations, n=100, method='inclusive')[94],
+                'percentile_method': 'LINEAR_INCLUSIVE'}
         result = {'scope': 'SYNTHETIC_ORIGINAL_STORE_G_NO_REAL_MODEL', 'baseline_source': baseline,
             'frozen_spec': spec, 'frozen_spec_digest': frozen_digest, 'summaries': summary,
             'results': results, 'latency_samples_ms': timings, 'new_provider_calls': 0,

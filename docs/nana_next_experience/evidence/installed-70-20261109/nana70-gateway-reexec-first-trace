@@ -1,0 +1,2 @@
+33704 execve("/workspace/scratch/nana-scope32-installed/.venv/bin/python", ["/workspace/scratch/nana-scope32-"..., "-I", "-B", "/workspace/scratch/nana-scope32-"..., "--config", "/tmp/n70installed/host-reexec-ch"..., "--check-only"], 0x7ffde5e11480 /* 3 vars */) = 0
+33704 execve("/workspace/scratch/nana-resumed70-installed/.venv/bin/python", ["/workspace/scratch/nana-resumed7"..., "-I", "-B", "/workspace/scratch/nana-resumed7"..., "--config", "/tmp/n70installed/host-reexec-ch"..., "--check-only"], 0x21f38230 /* 4 vars */) = 0

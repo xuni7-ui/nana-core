@@ -1,0 +1,226 @@
+{
+  "run_id": 42548690816,
+  "source_commit": "c33d94717736f8aeeaef95c341a4cbb7287ad8e1",
+  "url": "https://github.com/xuni7-ui/nana-core/actions/runs/42548690816",
+  "jobs": [
+    {
+      "id": 128939195142,
+      "name": "client-feedback",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run npm ci",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Run npm run build",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Run npm test",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Run node tests/feedback.node.ts",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Run npx playwright install --with-deps chromium",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Four-mode feedback, complete retained replies and UNKNOWN at desktop and phone widths",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 9
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 10
+        },
+        {
+          "name": "Post Run actions/setup-node@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 19
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 20
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 21
+        }
+      ]
+    },
+    {
+      "id": 128939195339,
+      "name": "original-core-feedback",
+      "status": "completed",
+      "conclusion": "success",
+      "steps": [
+        {
+          "name": "Set up job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 1
+        },
+        {
+          "name": "Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 2
+        },
+        {
+          "name": "Run astral-sh/setup-uv@v6",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 3
+        },
+        {
+          "name": "Run uv python install 3.12.14",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 4
+        },
+        {
+          "name": "Original owner HTTP, feedback, history and source withdrawal",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 5
+        },
+        {
+          "name": "Matching portable candidate, reproducible builds and offline installation",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 6
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 7
+        },
+        {
+          "name": "Run actions/upload-artifact@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 8
+        },
+        {
+          "name": "Post Run astral-sh/setup-uv@v6",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 15
+        },
+        {
+          "name": "Post Run actions/checkout@v4",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 16
+        },
+        {
+          "name": "Complete job",
+          "status": "completed",
+          "conclusion": "success",
+          "number": 17
+        }
+      ]
+    }
+  ],
+  "artifacts": [
+    {
+      "id": 13644875866,
+      "name": "nana-core-feedback-c33d94717736f8aeeaef95c341a4cbb7287ad8e1",
+      "size_in_bytes": 1179,
+      "url": "https://api.github.com/repos/xuni7-ui/nana-core/actions/artifacts/13644875866",
+      "archive_download_url": "https://api.github.com/repos/xuni7-ui/nana-core/actions/artifacts/13644875866/zip",
+      "expired": false,
+      "created_at": "2026-11-09T02:03:56Z",
+      "expires_at": "2026-11-23T02:03:55Z",
+      "updated_at": "2026-11-09T02:03:56Z",
+      "digest": "sha256:7e0b9bcf004416d339f5c36f80a7085a0aed40c48b505aad88cc3250298fa6cc",
+      "workflow_run": {
+        "id": 42548690816,
+        "repository_id": 1412180408,
+        "head_repository_id": 1412180408,
+        "head_branch": "dev/nana-core-next-experience-codex",
+        "head_sha": "c33d94717736f8aeeaef95c341a4cbb7287ad8e1"
+      }
+    },
+    {
+      "id": 13644601614,
+      "name": "nana-client-feedback-c33d94717736f8aeeaef95c341a4cbb7287ad8e1",
+      "size_in_bytes": 634595,
+      "url": "https://api.github.com/repos/xuni7-ui/nana-core/actions/artifacts/13644601614",
+      "archive_download_url": "https://api.github.com/repos/xuni7-ui/nana-core/actions/artifacts/13644601614/zip",
+      "expired": false,
+      "created_at": "2026-11-09T02:04:09Z",
+      "expires_at": "2026-11-23T02:04:08Z",
+      "updated_at": "2026-11-09T02:04:09Z",
+      "digest": "sha256:a546cfe78486ffc6bdbd91a75e2caf4062a79d6d1e6a9d76ee6290108af2311b",
+      "workflow_run": {
+        "id": 42548690816,
+        "repository_id": 1412180408,
+        "head_repository_id": 1412180408,
+        "head_branch": "dev/nana-core-next-experience-codex",
+        "head_sha": "c33d94717736f8aeeaef95c341a4cbb7287ad8e1"
+      }
+    },
+    {
+      "id": 13644566813,
+      "name": "nana-portable-candidate-c33d94717736f8aeeaef95c341a4cbb7287ad8e1",
+      "size_in_bytes": 15042100,
+      "url": "https://api.github.com/repos/xuni7-ui/nana-core/actions/artifacts/13644566813",
+      "archive_download_url": "https://api.github.com/repos/xuni7-ui/nana-core/actions/artifacts/13644566813/zip",
+      "expired": false,
+      "created_at": "2026-11-09T02:03:57Z",
+      "expires_at": "2026-11-23T02:03:56Z",
+      "updated_at": "2026-11-09T02:03:57Z",
+      "digest": "sha256:bb4c1e627ae63ed1748d15199fe445879849867b0caf585e62611a96ccc57068",
+      "workflow_run": {
+        "id": 42548690816,
+        "repository_id": 1412180408,
+        "head_repository_id": 1412180408,
+        "head_branch": "dev/nana-core-next-experience-codex",
+        "head_sha": "c33d94717736f8aeeaef95c341a4cbb7287ad8e1"
+      }
+    }
+  ]
+}

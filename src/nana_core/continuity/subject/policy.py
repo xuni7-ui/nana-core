@@ -103,7 +103,7 @@ def motivate(event, situation, appraisal):
 
 
 def decide(event, situation, appraisal, motives):
-    """Lexicographic obligations/constraints/interest arbitration, not a mood trigger."""
+    """Source-backed obligations, constraints and interests; no execution power."""
     sources, self_generated = situation.memory_ids, event.origin == 'SELF_WAKE'
     if event.retention == 'DO_NOT_REMEMBER':
         return ('IGNORE', Judgment(stance='IGNORE', reason='Honor non-retention; do not form a long-term inference', source_ids=()),
@@ -127,7 +127,13 @@ def decide(event, situation, appraisal, motives):
             return ('FOCUS_NOW',Judgment(stance='ASK',reason=frame.reason,source_ids=sources),
                 Intention(kind='WAIT',purpose='Clarify the premise before choosing a different problem',slot_key='frame-clarify',source_ids=sources,self_generated=self_generated))
     if context_choice:return context_choice
-    if situation.due_commitment_ids:
+    # A due promise remains a pressing motive, not a permanent ban on an
+    # already adopted personal interest. An explicit promise review still wins;
+    # ordinary interest cues continue through the same norm/load/value guards.
+    personal_activity = bool(situation.cue
+        and situation.cue.topic_key in situation.adopted_interests
+        and set(directions(situation.cue)) & {'EXPLORE', 'CREATE'})
+    if situation.due_commitment_ids and (event.commitment_check_id or not personal_activity):
         return ('FOCUS_NOW', Judgment(stance='DEFER', reason='An adopted due commitment takes priority over optional exploration', source_ids=sources),
             Intention(kind='GOAL_CANDIDATE', purpose='Review a due commitment; no execution has been authorized', slot_key='commitment-review', source_ids=sources, self_generated=self_generated))
     if situation.reflection_experience_id:
@@ -170,8 +176,7 @@ def decide(event, situation, appraisal, motives):
         interested_learning = (cue.learning_value is not None
             and cue.learning_value.interest in {'RELEVANT', 'HIGH'}
             and bool(set(options) & {'LEARN', 'SEEK_CAPABILITY'}))
-        interested_activity = (cue.topic_key in situation.adopted_interests
-            and bool(set(options) & {'EXPLORE', 'CREATE'}))
+        interested_activity = personal_activity and bool(set(options) & {'EXPLORE', 'CREATE'})
         if assessment and (assessment.value=='LOW' or assessment.novelty=='REPEATED') and not (interested_learning or interested_activity):
             return ('BACKGROUND_WATCH',Judgment(stance='IGNORE',reason='Current low value or repeated low-stimulation evidence does not warrant another activity; this is the Subject decision, not a Runtime veto',source_ids=sources),
                 Intention(kind='NO_ACTION',purpose='Consider the motive and choose not to act on this opportunity',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='IGNORE'))

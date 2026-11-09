@@ -1,0 +1,32 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_retained_reply_feedback_uses_independent_readback_not_generated_wording _
+
+tmp_path = PosixPath('/tmp/nanadeliverybase/test_retained_reply_feedback_u0')
+
+    def test_retained_reply_feedback_uses_independent_readback_not_generated_wording(tmp_path):
+        from nana_core.life.conversation import history
+        from nana_core.life.memory_notes import save
+        from nana_core.continuity.lived_language import LanguageService, LanguageSample, MemoryUseFeedback
+        with counterpart() as (url, platform):
+            home=tmp_path/'home';channel=initialize_channel(home,url)
+            with relay(home,'CHAT',recall_query_terms=('ORCHID',)) as (router,requests), LifeApplication(home,clock=VirtualClock(),router=router) as app:
+                app.pause();flow=equip(app,channel,url)
+                mid=save(app,text='SYNTHETIC ORCHID meeting Friday',privacy='PROJECT',request_id='delivery-note')['memory_id']
+                turn=app.surfaces.receive(SurfaceObservation(binding_id=channel.binding_id,event_id='qq:1',
+                    thread_id='qq.private.43',text='SYNTHETIC ORCHID question',privacy_class='PROJECT',
+                    origin='SYNTHETIC_LOOPBACK',retain_shared_life=True),reply_target=flow.target)
+                row=history(app,privacy=('PROJECT',))['items'][-1]
+                assert row.get('reply_delivery') is None
+                delivered=flow._reply(turn,'1')
+                assert delivered['delivery']=='SUCCEEDED' and len(platform['sent'])==1
+                io=len(platform['calls'])
+                row=history(app,privacy=('PROJECT',))['items'][-1]
+                proof=row.get('reply_delivery')
+>               assert proof and proof['state']=='INDEPENDENT_PLATFORM_READBACK'
+E               assert (None)
+
+tests/living_release_v4/test_platform_runtime.py:243: AssertionError
+=========================== short test summary info ============================
+FAILED tests/living_release_v4/test_platform_runtime.py::test_retained_reply_feedback_uses_independent_readback_not_generated_wording
+1 failed, 7 deselected in 1.61s

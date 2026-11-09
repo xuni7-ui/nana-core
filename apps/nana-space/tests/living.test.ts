@@ -11,6 +11,15 @@ test("retained history restores only valid sourced rows and withdrawal removes s
   expect(retainedTurns({items: [{...saved[0], exchange_record_id: "../../other", created_at_us: 10}]})).toEqual([]);
 });
 
+test("complete long retained replies restore within the Core character bound", () => {
+  const row = {exchange_record_id: "long-speech", user_text: "source", reply_text: "SYNTHETIC "+"explanation. ".repeat(1000), created_at_us: 10};
+  expect(retainedTurns({items: [row]})[0]?.reply).toBe(row.reply_text);
+  const astral = {...row, reply_text: "🌙".repeat(10000)};
+  expect(retainedTurns({items: [astral]})[0]?.reply).toBe(astral.reply_text);
+  expect(retainedTurns({items: [{...row, reply_text: "x".repeat(16385)}]})).toEqual([]);
+  expect(mergeRetainedTurns([], retainedTurns({items: [astral]}))).toEqual([]);
+});
+
 test("platform settings distinguish configured source from authority and filter unknown sensitive fields", () => {
   const channel = {platform: "qq", channel_id: "primary", enabled: true, read_authorized: true,
     send_configured: true, secret_state: "AVAILABLE", state: "NOT_OBSERVED"};

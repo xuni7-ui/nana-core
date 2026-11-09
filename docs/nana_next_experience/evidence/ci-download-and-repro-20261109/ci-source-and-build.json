@@ -1,0 +1,11 @@
+{
+  "source_commit": "c33d94717736f8aeeaef95c341a4cbb7287ad8e1",
+  "sha256": "fe55bbdb6235f6916015b0e8cde354ff5e7d547b92334513755d711761c9bf10",
+  "bundle_files": 284,
+  "two_builds_match": true,
+  "offline_install": "PASS",
+  "production_changed": false,
+  "CURRENT_updated": false,
+  "real_provider_calls": 0,
+  "physical_phone": "NOT_RUN"
+}

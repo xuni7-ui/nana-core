@@ -1,0 +1,22 @@
+{
+  "execution": "ACTUAL_INSTALLED_DEV_CORE_NOT_CLOUD",
+  "source_commit": "c33d94717736f8aeeaef95c341a4cbb7287ad8e1",
+  "python": "3.12.14",
+  "subject_id": "8b05129d-3ca9-485a-9b2f-7bffc5cb2b6c",
+  "lineage_binding": "737751b9d52e0806d0c7254660c8370c8ccb391bb11fc1c0740add92fa1e189c",
+  "real_provider_calls": 0,
+  "production_changed": false,
+  "private_data_used": false,
+  "real_social_sends": 0,
+  "chat": "ORIGINAL_CORE_VERIFIED_OFFLINE_NOT_NATURALNESS_QUALIFICATION",
+  "feedback": "PASS_ORIGINAL_OWNER_AND_STORE_NOT_REAL_USER_REVIEW",
+  "sqlite": "3.53.1",
+  "backup": "QUARANTINED_REVIEW_COPY",
+  "notes_correction_restart_withdrawal": "PASS_ORIGINAL_STORE_NOT_NATURAL_MODEL_RECALL",
+  "ten_pages": "PASS",
+  "independent_host_stop": "PASS",
+  "same_subject_restart": "PASS",
+  "no_repository_pythonpath": "PASS",
+  "isolation_entry": "PASS",
+  "new_subject_mode": "EXPLICIT_DEVELOPMENT_ONLY"
+}

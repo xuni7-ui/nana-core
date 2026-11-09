@@ -1,0 +1,9 @@
++ f3441cc477e8c4110c368e2dbcd0534a9eee3856 feat(subject): add generic relational bootstrap and personality seed contracts
++ 9f68385b1837f90b5cf352722f22a2d613df4ae9 feat(subject): derive social appetite independently of relational anchors
++ 83f8720eeac916d224382448fa1727753da34221 feat(subject): add personality guided relational tradeoff and self authorship
++ 63445e4106debd2134badc7ca439fd789eacfbbc feat(commitments): support bounded voluntary relational accommodation and review
++ c8a92102a781af1740d9bf1733200033c1dc147f feat(subject): derive personality and self narrative from independent causal support
++ 93324995e895fe3afa477b80645e6b14b497a954 test(subject): qualify relational tradeoffs and close truncated support privacy boundary
++ 1d80d0b8baed37b6f9f2f4cdd6c1e458cf67b09d test(subject): qualify relational recovery deletion and ninety day continuity
++ a97a8114b7d638d7c9bd1a9895822dbc6efc4e7c test(subject): tighten same scope governance and relational authority contrasts
++ 67326d195edd0693d41eacc63fcc00e1c3205bd6 docs(core): freeze relational autonomy offline qualification and source fingerprints

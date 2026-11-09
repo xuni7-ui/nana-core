@@ -1,0 +1,18 @@
+{
+  "scope": "ACTUAL_INSTALLED_DEV_CHECK_ONLY_NOT_PRODUCTION",
+  "old_source": "d2d5e8ca5277dcd0c6ea034266ad652d16e53bcf",
+  "target_source": "70c70d0b2d3c8105da765f92b1ce621e8e130f9c",
+  "actual_successful_execve_count": 2,
+  "existing_snapshot_overrode_baked_old_selection": true,
+  "same_dev_subject": "167595ca-8e5c-4cf6-8803-f4acba8a7643",
+  "data_and_supervisor_hashes_unchanged": true,
+  "before_sha256": {
+    "life/subject/self.db": "11fd1be7fa555cf3776608174bb84945d51d704e303e57d34bad5387b97436a8",
+    "life/subject/self.db.privacy.json": "484fd5b97141711de53f746741790eac4614e7775e1f1351d75108c44df41ce4",
+    "life/life.json": "5c1e35870eacc2a451b89d50addad1f887733ed86bb179dcfd05269e186e604b",
+    "host/supervisor.json": "46732be2fe235a7ffd4442e68ce68aa6cddcb6fc032468bdd822aecd24dd3e01"
+  },
+  "model_calls": 0,
+  "credential_fds_supplied": false,
+  "source_registry_only_not_live_cutover": true
+}

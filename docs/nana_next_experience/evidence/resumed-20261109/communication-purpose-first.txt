@@ -1,0 +1,132 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_correction_uses_committed_communication_purpose_not_forced_clarification _
+
+tmp_path = PosixPath('/tmp/n32purposefirst/test_correction_uses_committed0')
+
+    def test_correction_uses_committed_communication_purpose_not_forced_clarification(tmp_path):
+        from nana_core.life.memory_notes import save
+        from nana_core.continuity.memory import MemoryService
+        home = tmp_path / 'home'; initialize(home, active=0)
+        def render(request):
+            dialogue = request['role_input']['dialogue']
+            purpose = dialogue.get('communication_purpose')
+            return 'SYNTHETIC acknowledge correction' if purpose and dialogue['judgment'] != 'ASK' else 'SYNTHETIC ask what response is wanted'
+        with relay(home, 'CORRECTION', renderer=render) as (router, requests), LifeApplication(home, clock=VirtualClock(), router=router) as app:
+            app.pause()
+            mid = save(app, text='SYNTHETIC prior ORCHID report', privacy='PROJECT', request_id='purpose-note')['memory_id']
+            before = MemoryService(app.runtime.store).read(mid)
+>           result = app.chat('SYNTHETIC correction: the name was ORCHID.', privacy='PROJECT', message_id='purpose-correction')
+                     ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/independent_life/test_dialogue.py:192: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/life/application.py:290: in chat
+    session,render_rid=self._model('life.render.'+key,'RENDER',mid,text,topic,privacy,cycle,retain_shared_life=retain_shared_life,recall_query_terms=recall_query_terms)
+                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/life/application.py:234: in _model
+    request=session.prepare(key, 'INTERPRET' if phase=='INTERPRET' else 'SOCIAL',tuple(dict.fromkeys((mid,*facts,*continuity,*(t.message_memory_id for t in recent)))),role_input=data,volatile_input=volatile,query_terms=recall_query_terms if phase=='RENDER' else (),
+src/nana_core/continuity/world_loop/cognition.py:354: in prepare
+    return self._prepare(key,role,source_ids,budget=budget,goal_id=goal_id,capabilities=capabilities,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.world_loop.cognition.CognitionSession object at 0x7f670a0f0410>
+key = 'life.render.purpose-correction', role = 'SOCIAL'
+source_ids = ('5c20d90f-862c-4faf-a084-6ade8c69cf79',)
+budget = CognitionBudget(input_tokens=8192, output_tokens=1024, timeout_ms=120000, cost_ceiling_micro=0)
+goal_id = None, capabilities = ()
+role_input = {'dialogue': {'communication_purpose': {'cycle_id': 'faa58d1e-44c5-44ab-ac7c-9479aa64e3cb', 'respond_to_memory_ids': [...QUEST_ONLY', ...}, 'recent_history_truncated': False, 'retain_shared_life': False, 'conversation_decision': None, ...}}
+volatile_input = {'dialogue': {'communication_purpose': {'cycle_id': 'faa58d1e-44c5-44ab-ac7c-9479aa64e3cb', 'respond_to_memory_ids': [...QUEST_ONLY', ...}, 'recent_history_truncated': False, 'retain_shared_life': False, 'conversation_decision': None, ...}}
+pinned_only = False, query_terms = ()
+
+    def _prepare(self,key,role,source_ids,*,budget=None,goal_id=None,capabilities=(),role_input=None,volatile_input=None,pinned_only=False,query_terms=()):
+        if type(pinned_only) is not bool:raise CoreError('COGNITION_CONTEXT_SELECTION_INVALID')
+        old=self.store.db.execute('SELECT * FROM cognitive_requests WHERE request_key=?',(key,)).fetchone()
+        if old:return old['request_id']
+        r=self.runtime;r.lease.assert_current();b=budget or CognitionBudget()
+        if r.stop_requested:raise CoreError('RUNTIME_STOP_REQUESTED_NO_DISPATCH')
+        if self.route_snapshot is not None:
+            snap=self.route_snapshot;limit=snap.effective
+            if not self._route_guard or not self._route_guard():raise CoreError('ROUTE_CHANGED_BEFORE_DISPATCH')
+            media_op={'VISION':'IMAGE','AUDIO_UNDERSTAND':'AUDIO','VIDEO_UNDERSTAND':'VIDEO','STT':'AUDIO'}.get(snap.operation)
+            if (snap.operation=='COGNITION' and role=='MEDIA') or (media_op and (role!='MEDIA' or not role_input or role_input.get('modality')!=media_op)):raise CoreError('ROUTED_OPERATION_MISMATCH')
+            if limit.output_limit<64 or limit.context_limit<256:raise CoreError('BUDGET_DENIED')
+            b=CognitionBudget(input_tokens=min(b.input_tokens,limit.context_limit),output_tokens=min(b.output_tokens,limit.output_limit),timeout_ms=min(b.timeout_ms,limit.timeout_ms),cost_ceiling_micro=min(b.cost_ceiling_micro,limit.cost_ceiling))
+        now=self.store.clock.utc_now_us();count=self.store.db.execute("SELECT count(*) FROM cognitive_requests WHERE created_at_us>=?",(now//86400_000_000*86400_000_000,)).fetchone()[0]
+        if count>=self.max_calls:raise CoreError('COGNITION_DAILY_BUDGET')
+        if self.transport.remote and b.cost_ceiling_micro==0:raise CoreError('REMOTE_COST_RESERVATION_REQUIRED')
+        role_input=role_input or {}
+        goal=self.store.one('goals',goal_id) if goal_id else None
+        if goal_id and not goal:raise CoreError('COGNITION_GOAL_UNKNOWN')
+        request_id=uid()
+        current=[]
+        for g in self.store.db.execute("SELECT * FROM goals WHERE state IN ('ACTIVE','BLOCKED','SUSPENDED') LIMIT 16"):
+            head=self.store.one('continuity_records',json.loads(g['body_json']).get('record_id'))
+            if head and head['scope'] in r.config.scopes and head['privacy_class'] in allowed_for_request(self.transport,self.policy,role_input) and self.records.current_support(head['record_id']):current.append({'goal_id':g['goal_id'],'version':g['version'],'state':g['state']})
+        current=tuple(current)
+        world_stamp=self._world_stamp(r.config.scopes,allowed_for_request(self.transport,self.policy,role_input))
+        def make_request(context_json):
+            package=json.loads(context_json)
+            source_refs=tuple(dict.fromkeys((*source_ids,*(m for block in package['blocks'] for m in block['source_memory_ids']))))
+            return CognitionRequest(response_mode='JSON_STREAM' if role=='SOCIAL' and self.draft_sink is not None and isinstance(self.transport,OpenAIJSONTransport) else 'JSON',
+                request_id=request_id,subject_epoch=r.lease.epoch,subject_revision=r.subject.revision,cognitive_role=role,
+                source_context_refs=source_refs,primary_source_refs=tuple(source_ids),context_json=context_json,
+                current_goals=current,available_capabilities=tuple(capabilities),world_stamp=world_stamp,
+                expected_schema=StructuredProposal.model_json_schema(),role_input=role_input,budget=b,created_at_us=now,
+                deadline_us=now+b.timeout_ms*1000,route_snapshot=self.route_snapshot)
+        token_counter=getattr(self.transport,'token_counter',None)
+        if token_counter is not None:
+            from ..context import FramedContextCounter
+            def count_package(context_json):
+                candidate=make_request(context_json)
+                candidate._volatile_media=volatile_input
+                body=json.loads(self.transport.request_body(candidate))
+                return token_counter.count_request(body,provider_id=self.transport.provider_id,model_id=self.transport.model_id)
+            self.assembler.counter=FramedContextCounter(token_counter,count_package)
+        if token_counter is None:
+            from ..context import ConservativeCounter
+            self.assembler.counter=ConservativeCounter()
+        req=ContextRequest(entity_id=r.config.entity_id,scopes=r.config.scopes,task_class='world.'+role.lower(),task='Interpret sourced context; proposals only; silence is valid.',task_privacy_class=(role_input or {}).get('dialogue',{}).get('privacy_class','PUBLIC'),destination='DEVELOPMENT_REMOTE' if self.transport.remote else 'LOCAL_FIXTURE',max_input_tokens=b.input_tokens,output_reserve_tokens=b.output_tokens,query_terms=query_terms)
+        context=self.assembler.assemble(req,self.policy,capabilities=capabilities,limitations=('NO_AUTHORITY_IN_MODEL_OUTPUT',),required_memory_ids=source_ids,source_only=role=='MEDIA',pinned_only=pinned_only or bool(role_input and role_input.get('dialogue')),require_current_state=bool(role_input and role_input.get('dialogue',{}).get('project_status_query')),conversation_topic=role_input.get('dialogue',{}).get('topic') if role_input else None)
+        if role_input and role_input.get('dialogue') and self.store.schema_target>=13 and not any(b.kind=='PERSON_SELF' for b in context.blocks):raise CoreError('PERSON_SELF_CONTEXT_BUDGET')
+        history_support=[]
+        selected={m for block in context.blocks for m in block.source_memory_ids}
+        if not set(source_ids)<=selected:raise CoreError('COGNITION_SOURCE_OUTSIDE_CONTEXT_BUDGET')
+        refs=tuple(dict.fromkeys((*source_ids,*(m for block in context.blocks for m in block.source_memory_ids))))
+        if not refs:raise CoreError('COGNITION_SOURCES_REQUIRED')
+        role_input=role_input or {};extra_parents=()
+        if role_input:
+            from ..open_agency.world import bounded_data,LocalWorldRegistry
+            if role!='MEDIA':bounded_data(role_input)
+            if role in {'PLAN','REPLAN'}:
+                from ..open_agency.contracts import PlannerInput
+                parsed=PlannerInput.model_validate_json(canonical(role_input))
+                parent=self.records.read(parsed.source_record_id)
+                if parent['scope'] not in req.scopes or parent['privacy_class'] not in allowed_for_role(self.transport,self.policy) or not self.records.current_support(parsed.source_record_id):raise CoreError('COGNITION_ROLE_SOURCE_DENIED')
+                extra_parents=(parsed.source_record_id,)
+            elif role=='LEARN':
+                from ..open_agency.learning import LearningSpec,LearningProblem
+                role_input=(LearningProblem.from_spec(LearningSpec.model_validate_json(canonical(role_input))) if 'evaluation' in role_input or 'transfer' in role_input else LearningProblem.model_validate_json(canonical(role_input))).model_dump(mode='json')
+            elif role=='SKILL':
+                from ..open_agency.code_skills import CodeSpec
+                if set(role_input)-{'spec','diagnostic'}:raise CoreError('COGNITION_ROLE_INPUT_REJECTED')
+                CodeSpec.model_validate_json(canonical(role_input['spec']))
+                if role_input.get('diagnostic') is not None and (type(role_input['diagnostic']) is not str or len(role_input['diagnostic'])>512):raise CoreError('COGNITION_ROLE_INPUT_REJECTED')
+            elif role in {'INTERPRET','SOCIAL'} and 'dialogue' in role_input:
+                if set(role_input)!={'dialogue'} or volatile_input is None:raise CoreError('DIALOGUE_TRANSIENT_REQUIRED')
+                descriptor=DialogueContext.model_validate_json(canonical(role_input['dialogue']))
+                actual=DialogueContext.model_validate_json(canonical(volatile_input['dialogue']))
+                if set(volatile_input)!={'dialogue'} or descriptor.text is not None or descriptor.recent_turns or not actual.text or actual.model_copy(update={'text':None,'recent_turns':()})!=descriptor or descriptor.message_memory_id not in source_ids or descriptor.phase!=('INTERPRET' if role=='INTERPRET' else 'RENDER'):raise CoreError('DIALOGUE_SOURCE_BINDING_INVALID')
+                if actual.privacy_class not in allowed_for_role(self.transport,self.policy):raise CoreError('DIALOGUE_PRIVACY_DENIED')
+                from ..memory import PRIVACY_RANK
+                purpose=descriptor.communication_purpose
+                if purpose is not None:
+                    cycle_row=self.store.one('subject_cycles',purpose.cycle_id)
+>                   if role!='SOCIAL' or not cycle_row or cycle_row['revision']!=revision(self.store):raise CoreError('COMMUNICATION_PURPOSE_BINDING_INVALID')
+                                                                                 ^^^^^^^^
+E                   NameError: name 'revision' is not defined
+
+src/nana_core/continuity/world_loop/cognition.py:444: NameError
+=========================== short test summary info ============================
+FAILED tests/independent_life/test_dialogue.py::test_correction_uses_committed_communication_purpose_not_forced_clarification
+1 failed, 14 deselected in 0.79s

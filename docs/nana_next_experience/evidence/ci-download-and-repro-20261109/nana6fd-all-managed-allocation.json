@@ -1,0 +1,117 @@
+{
+  "measurement": "CURRENT_STAT_ST_BLOCKS_DEDUPLICATED_ALL_REGISTERED_COPY_FAMILIES",
+  "source_commit": "6fd8ed544d5b0a195d159b6f9c75a5b36b022d5c",
+  "registered_copy_count": 6,
+  "files": [
+    {
+      "path": "/tmp/n6fdlong/life/subject/self.db",
+      "file_bytes": 10821632,
+      "allocated_bytes": 10821632,
+      "deduplicated": false
+    },
+    {
+      "path": "/tmp/n6fdlong/life/subject/self.db.privacy.json",
+      "file_bytes": 71616,
+      "allocated_bytes": 73728,
+      "deduplicated": false
+    },
+    {
+      "path": "/tmp/n6fdlong/life/subject/self.db",
+      "file_bytes": 10821632,
+      "allocated_bytes": 10821632,
+      "deduplicated": true
+    },
+    {
+      "path": "/tmp/n6fdlong/life/subject/self.db.privacy.json",
+      "file_bytes": 71616,
+      "allocated_bytes": 73728,
+      "deduplicated": true
+    },
+    {
+      "path": "/tmp/n6fdlong/life/backups/host-660fb36bc83c4424ddc9279d.db",
+      "file_bytes": 876544,
+      "allocated_bytes": 876544,
+      "deduplicated": false
+    },
+    {
+      "path": "/tmp/n6fdlong/life/backups/host-660fb36bc83c4424ddc9279d.db.privacy.json",
+      "file_bytes": 65,
+      "allocated_bytes": 4096,
+      "deduplicated": false
+    },
+    {
+      "path": "/tmp/n6fdlong/life/reclaim-experiment/before-withdrawal.db",
+      "file_bytes": 16056320,
+      "allocated_bytes": 16056320,
+      "deduplicated": false
+    },
+    {
+      "path": "/tmp/n6fdlong/life/reclaim-experiment/before-withdrawal.db.privacy.json",
+      "file_bytes": 65,
+      "allocated_bytes": 4096,
+      "deduplicated": false
+    },
+    {
+      "path": "/tmp/n6fdlong/life/reclaim-experiment/post-withdrawal-cold.db",
+      "file_bytes": 5726208,
+      "allocated_bytes": 5726208,
+      "deduplicated": false
+    },
+    {
+      "path": "/tmp/n6fdlong/life/reclaim-experiment/post-withdrawal-cold.db.privacy.json",
+      "file_bytes": 65,
+      "allocated_bytes": 4096,
+      "deduplicated": false
+    },
+    {
+      "path": "/tmp/n6fdlong/life/reclaim-experiment/post-withdrawal-cold.db.cold.json",
+      "file_bytes": 942,
+      "allocated_bytes": 4096,
+      "deduplicated": false
+    },
+    {
+      "path": "/tmp/n6fdlong/life/reclaim-experiment-canonical2/before-withdrawal.db",
+      "file_bytes": 20955136,
+      "allocated_bytes": 20955136,
+      "deduplicated": false
+    },
+    {
+      "path": "/tmp/n6fdlong/life/reclaim-experiment-canonical2/before-withdrawal.db-wal",
+      "file_bytes": 0,
+      "allocated_bytes": 0,
+      "deduplicated": false
+    },
+    {
+      "path": "/tmp/n6fdlong/life/reclaim-experiment-canonical2/before-withdrawal.db-shm",
+      "file_bytes": 32768,
+      "allocated_bytes": 32768,
+      "deduplicated": false
+    },
+    {
+      "path": "/tmp/n6fdlong/life/reclaim-experiment-canonical2/before-withdrawal.db.privacy.json",
+      "file_bytes": 65,
+      "allocated_bytes": 4096,
+      "deduplicated": false
+    },
+    {
+      "path": "/tmp/n6fdlong/life/reclaim-experiment-canonical2/post-withdrawal-cold.db",
+      "file_bytes": 10469376,
+      "allocated_bytes": 10469376,
+      "deduplicated": false
+    },
+    {
+      "path": "/tmp/n6fdlong/life/reclaim-experiment-canonical2/post-withdrawal-cold.db.privacy.json",
+      "file_bytes": 65,
+      "allocated_bytes": 4096,
+      "deduplicated": false
+    },
+    {
+      "path": "/tmp/n6fdlong/life/reclaim-experiment-canonical2/post-withdrawal-cold.db.cold.json",
+      "file_bytes": 945,
+      "allocated_bytes": 4096,
+      "deduplicated": false
+    }
+  ],
+  "total_allocated_bytes": 65040384,
+  "delta_qualification": "NO_ALL_REGISTERED_BEFORE_SNAPSHOT_SO_NO_TOTAL_RECLAIM_CLAIM"
+}

@@ -1,0 +1,35 @@
+# Original mission resumed — 2026-11-09 Asia/Shanghai
+
+Entry `f4b893bdd9213f23940f0c288241fb10959ad133`, remote identical, clean, d2 ancestor, no other Nana/pytest executor observed. Old18bc736 workspace preserved. Original all A–H scope persists; frozen Master/Matrix unchanged.
+
+## Installed Dream first failure resolved, no Runtime repair
+
+Original external delivery probe advanced64 one-second virtual ticks despite existing18-second candidate pacing. The failed synthetic installed home had SCAN cursor19 while target source row40 was still unread. It was a too-short observation window, not proven C starvation. The earlier starvation hypothesis in the frozen checkpoint is superseded by actual scheduling evidence.
+
+Changed only external probe timing to advance to the original persisted next SCAN due_at_us (heartbeats retained), retaining the original64-slice bound, original C/adopt and all assertions. Actual unchanged installed d2 package, same DEV identity28400c9b-b009-40ed-a863-a49f343af738 and lineage, then passed consolidation→later context→virtual72h restart→managed cold readback→source withdrawal→body-free numeric usage checks. Additional model calls0, real0. External patch and raw result retained. Original maintained repository probe had an earlier256-tick workaround; it now likewise follows persisted due times with the existing256 work-slice bound and passed on the same installed Subject with a distinct synthetic case. Neither test weakens18s Runtime pacing, changes the package, nor proves real cross-day/human/physical main-chain eviction/DR. Cold file allocated bytes and logical/main-chain limits are separate in the JSON.
+
+## Autonomy E-category repair: external admission is not mental load
+
+Original OpportunityQueue converted any ActivityCost.pressure—including external REQUIRES_RESERVATION/UNKNOWN—into HIGH cognitive_load. On identical original-C adopted-interest fixtures, this forced REST for otherwise LIGHT/SHORT/SMALL/noninterrupting exploration, without checking actual budget admission. Baseline new contrast:2failed/4passed; the four compute/time/storage/interruption pressure controls already passed.
+
+Keep total pressure for finite queue ordering and preserve full sourced estimate. Only actual compute/time/storage/interruption estimates or explicit heavy cost elevate cognitive load; original pending-intention load, C choice, source withdrawal, dedup, Runtime budgets/Resource/Manager/Grant/Kernel remain. No real action, grant, or model call is introduced by deciding EXPLORE. Final57related tests passed15.38s, covering original interest/learning/attention and controlled Hands/real-life boundary fixtures. This is developer code repair, not Nana learning or a full autonomy audit. No schema or default policy field change.
+
+Full entry-source regression runs separately in `/workspace/nana-core-validation` (absolute PYTHONPATH); do not infer its outcome from57 tests. It is tied to f4b893b, not this later Runtime change. Original failures and eventual final summary remain independently reported. No APK, CURRENT, real provider, private history, production or real social/device operation.
+
+## Entry full regression and current-state integration failure
+
+Exact f4b893b:2097passed/4failed/12skipped,594.70s. Three failures were ancestry gates on the shallow validation clone, not code failures. Obtaining full filtered Git history (no source/guard edits) made11 of12 related First-Life checks pass. The remaining prepare check then exposed a genuine integration bug: Brain's top typed current-state arrays exceeded ProjectCurrentState's existing8-item bounds. Original f4 header is preserved here. Current header is compacted to8progress/6open/8refs, original parser/8192-byte/schema limits unchanged, historical Git/changelog/checkpoints retained. Original DTO strict JSON validation passes; subsequent First-Life integration rerun remains separately recorded. This is not a pass of the initial full run.
+
+## Original-C communication purpose / correction response
+
+Previously C treated every CORRECTION as an uncertain intention and mandated asking what response was wanted. Baseline fixture failed. C now acknowledges the reported correction, clarifies only missing details, and leaves MemoryService factual assessment unchanged. The existing dialogue descriptor projects that exact C intention purpose with cycle ID/current message binding and CURRENT_COGNITIVE_REQUEST_ONLY validity. Original request deadline, subject revision/owner/privacy checks bound lifetime; no shorter timeout or second conversation authority. Preparation independently checks exact current committed C purpose/stance/intention/context and supported source; forged purpose is refused before a RENDER reservation/dispatch. INTERPRET/legacy descriptors omit the optional field. Original C record is a dependency of the prepared request.
+
+Renderer instructions allow concise greetings or substantial discussion, optional Emoji/actions/questions, and do not demand disclosing private motives or mechanically splitting generated text. These are contract improvements, not empirical real-model/human naturalness. A specific wrong fixture path caused no tests to run and is preserved; an initial missing revision import was corrected to original r.subject.revision. Final38related checks passed17.32s, including actual loopback INTERPRET→C→RENDER, source-bound four modes, G32 later recall, context boundaries, UNKNOWN and forged-purpose rejection. Existing correction report never rewrites a prior note by itself. Sequential-input coalescing/interruption/delivery attribution remain open.
+
+## Final bounded projection and long replies
+
+Current Brain/source after compaction: original project-state projection PASS and34First-Life/preflight/current-state checks pass7.86s after obtaining actual ancestor history. Original full result remains2097/4/12, not rewritten.
+
+A separate concrete product failure rejected drafts beyond2048characters even for a requested detailed reply. Baseline new original-Core fixture failed. Draft bound now16384characters; original provider/model Token/time/cost limits unchanged, no extra call. SSE parser has a matching finite16384field bound/131072JSON-content bound, inside existing transport response ceiling; provisional IPC/BFF prefixes remain4096. Exact full reply returns only after original schema/source validation. Recent transient turn excerpts remain1024characters but carry an honest optional text_truncated flag and recent_history_truncated; omitted legacy false fields preserve old descriptor serialization. No automatic raw retention. Existing feedback still only applies to <=2048-character retained replies; no fake long-review support.
+
+Final34dialogue/stream/retained-history checks pass17.87s; separate2real HTTP→UDS→original owner/C→SSE fixture→HTTP cases pass3.32s, including >4096-character output and original responsive PAUSE/REVOKE/no-resume/identity/call-count assertions. No APK rebuild or physical phone test. Hard draft length16385 is still refused by both typed DTO and SSE parser. These groups overlap; do not sum them as a full suite.

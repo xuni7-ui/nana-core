@@ -223,7 +223,7 @@ class ContextAssembler:
         self.counter = counter or ConservativeCounter()
         self._issued = deque(maxlen=64)  # hashes only, never a plaintext context cache
 
-    def assemble(self, request: ContextRequest, policy: ContextPolicy, *, capabilities=(), limitations=(), subject_frame=None, required_memory_ids=(), source_only=False, pinned_only=False, require_current_state=False, conversation_topic=None):
+    def assemble(self, request: ContextRequest, policy: ContextPolicy, *, capabilities=(), limitations=(), subject_frame=None, required_memory_ids=(), source_only=False, pinned_only=False, require_current_state=False, conversation_topic=None, recipient_context=None):
         if not set(request.scopes) <= set(policy.allowed_scopes):
             raise CoreError("CONTEXT_SCOPE_DENIED")
         privacy = tuple(p for p in policy.readable_privacy if request.destination == "LOCAL_FIXTURE" or p in policy.remote_privacy)
@@ -474,7 +474,7 @@ class ContextAssembler:
             from .lived_language import memory_use_guidance
             for scope in request.scopes:
                 guidance=memory_use_guidance(self.store,entity_id=request.entity_id,scope=scope,
-                    privacy=privacy,memory_ids=tuple(m['memory_id'] for m in memories))
+                    privacy=privacy,memory_ids=tuple(m['memory_id'] for m in memories),recipient_context=recipient_context)
                 if guidance['items']:
                     refs=guidance['source_record_ids']
                     candidates.append((979.0,ContextBlock(block_id='memory-use-guidance:'+scope,
@@ -516,8 +516,9 @@ class ContextAssembler:
             proposed = self._package(frame, request, policy, coverage, selected + [block], omitted, conflict_ids)
             if proposed.manifest.input_tokens <= proposed.manifest.input_limit:
                 selected.append(block)
-            elif block.kind == 'MEMORY' and set(block.source_memory_ids) & note_ids:
-                # A qualified lookup can carry a larger source proof. Reuse the
+            elif (block.kind == 'MEMORY' and set(block.source_memory_ids) & note_ids) or block.kind == 'MEMORY_USE_GUIDANCE':
+                # Qualified lookup and its source-bound use feedback can carry
+                # larger proofs, especially after independent delivery. Reuse the
                 # existing sourced self fallback before dropping the answer's
                 # evidence. Canonical identity/adopted conventions remain; no
                 # mandatory block, conflict bundle or token limit is weakened.

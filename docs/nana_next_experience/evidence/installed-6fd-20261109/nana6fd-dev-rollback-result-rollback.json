@@ -1,0 +1,12 @@
+{
+  "execution": "ACTUAL_INSTALLED_STOPPED_DEV_BINARY_ATTACH_NOT_DB_ROLLBACK",
+  "source_commit": "00898e01f73c9dc717507fd549b0a1f22ba27b6f",
+  "subject_id": "bd746620-7ef0-4eed-8944-caee2eafece0",
+  "lineage_binding": "2df303afb8fd07218a1ee364eefff737682aee434eb3bb5ac2fb624ddf62dce9",
+  "single_identity": true,
+  "same_subject_and_lineage": true,
+  "additional_cognitive_requests": 0,
+  "additional_subject_cycles": 0,
+  "real_sends": 0,
+  "production_changed": false
+}

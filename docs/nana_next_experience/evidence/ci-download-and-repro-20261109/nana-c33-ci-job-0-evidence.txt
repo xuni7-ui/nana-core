@@ -1,0 +1,5 @@
+2026-11-09T02:03:13.2743882Z 3.12.14 (main, Sep 29 2026, 15:01:18) [Clang 22.1.3 ] 3.53.1
+2026-11-09T02:03:41.6195123Z 27 passed in 26.89s
+2026-11-09T02:03:55.4398061Z {"state": "INSTALLED_OFFLINE", "network_requests": 0, "actual_interpreter": {"python": [3, 12], "sqlite": {"supported": true, "version": "3.53.1", "minimum": "3.51.3", "checks": {"version": true, "json": true, "fts5": true}, "code": "SUPPORTED", "reason": null}, "native": {"supported": true, "missing": [], "code": "SUPPORTED"}, "venv": true, "prefix": "/home/runner/work/nana-core/nana-core/qualification-installed/.venv"}}
+2026-11-09T02:03:56.3459422Z Artifact download URL: https://github.com/xuni7-ui/nana-core/actions/runs/42548690816/artifacts/13644875866
+2026-11-09T02:03:57.7221565Z Artifact download URL: https://github.com/xuni7-ui/nana-core/actions/runs/42548690816/artifacts/13644566813

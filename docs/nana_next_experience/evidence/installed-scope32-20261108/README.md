@@ -1,0 +1,20 @@
+# Installed original Core / scope32 — user-requested freeze, 2026-11-08
+
+[实测] Runtime source `d2d5e8ca5277dcd0c6ea034266ad652d16e53bcf`. Two original portable builds, 284 files, SHA256 `b6b56dceedfefea417cef63e1965cfdfd06897e6e3837a177fc8aac37e9a6976`. Features HOST_VAULT/PUBLIC_VIDEO_FRAMES; offline wheel installation, Python3.12.14 / actual SQLite3.53.1. This is DEV, not cloud SQLite3.51.3 or CURRENT/production qualification.
+
+Build dirs `/workspace/scratch/nana-scope32-build-{a,b}`; extracted/installed `/workspace/scratch/nana-scope32-installed`; wheels `/workspace/scratch/nana-wheels`; DEV home `/tmp/n32installed/life`. Paths are temporary and may not survive environment replacement. Rebuild through original `python -m tools.nana_portable_cloud.build --output <dir> --wheels <pinned-wheel-dir> --revision d2d5e8ca5277dcd0c6ea034266ad652d16e53bcf --feature HOST_VAULT --feature PUBLIC_VIDEO_FRAMES`; use original unpack/bootstrap installer. Do not overwrite an existing subject or production home.
+
+Original delivery probes reused from `5b4f589fec8ecf5deb4dc5fafd2f4193c96569b8:deliveries/nana-space-next/server-409-living-266/`. Patches here are external validation only, never packaged in runtime. Installed Python used `-I -B`, cwd `/workspace`, no repository PYTHONPATH. Original BFF/Core/Store feedback+idempotency, ten views, SSE/INTERPRET→C→RENDER, same subject restart, notes correction/withdrawal, quarantined backup and original G32 independent evaluation/transfer/later different-note actual RENDER passed. Six loopback fixture calls, real0. Exact results retained in JSON; wire byte reservations are not tokens.
+
+## Unresolved first failure (must resume diagnosis)
+
+The unchanged installed living-memory continuation probe failed `assert summary` (line81). Command: installed `.venv/bin/python -I -B /workspace/scratch/nana-installed-verify-living.py --bundle /workspace/scratch/nana-scope32-installed --work /tmp/n32installed --prior /workspace/scratch/scope32-installed-result.json --output /workspace/scratch/scope32-living-result.json --case-id scope32-installed --require-body-free-usage`. No success JSON exists. Dream/cold/usage continuation NOT QUALIFIED. Hypothesis only: added17 fillers change backlog; external probe ignores maintenance candidates without beacon, possibly leaving an unprocessed original-C candidate at the cursor. Inspect original runtime maintenance intent/queue and drive legitimate candidates through original C; do not weaken assertion, fabricate summary, or merely raise loop limits. Failed home is retained and may contain synthetic pending maintenance.
+
+## Full regression attempts / pause
+
+1. Initial collection20errors: missing optional PIL/cryptography; raw log preserved.
+2. After pinned feature wheels, collection5errors: sparse checkout omitted old observer adapters; raw log preserved.
+3. After restoring those source dirs, child tests could not import nana_core because pytest parent-only pythonpath did not propagate. Owned run interrupted:42failed/480passed in183.26s; not a full result. Exact child diagnostic retained; explicit absolute PYTHONPATH fixed the original SIGKILL recovery check (1passed2.22s).
+4. Correct full command: `PYTHONPATH=/workspace/nana-core-validation/src PYTHONDONTWRITEBYTECODE=1 /workspace/nana-test-env/bin/python -m pytest -q --basetemp=/tmp/n32f4`. User then requested freeze; only this owned pytest was sent SIGINT, result **407passed in230.29s, KeyboardInterrupt, exit2**. No full-source PASS is claimed. Fresh validation clone source is exact d2d5e8c. Restore env requirements-core-dev.lock plus pinned runtime features and absolute PYTHONPATH before resuming full run; tests/guards were not weakened.
+
+No new APK/Web release/CURRENT/production change, paid models, private history or real social/device operations. All original mission development and real-life gates remain tracked in existing Brain/checkpoints. Both continuation automations created/enabled: 2026-11-09 03:30 and09:30 Asia/Shanghai. Second execution must check active owner and latest state before proceeding.

@@ -1,0 +1,80 @@
+--- /workspace/scratch/nana-installed-probes/verify-note-recall.before-long.py	2026-11-08 20:55:03.976756864 +0000
++++ /workspace/scratch/nana-installed-probes/verify-note-recall.py	2026-11-08 20:55:04.001579852 +0000
+@@ -15,9 +15,10 @@
+ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+ 
+ 
+-def run(bundle, work, *, check_wire_reservations=False, check_retrieval_growth=False, check_streaming=False, report_usage=False, check_scope32=False):
++def run(bundle, work, *, check_wire_reservations=False, check_retrieval_growth=False, check_streaming=False, report_usage=False, check_scope32=False, check_long_response=False):
+     if not __debug__:
+         raise ValueError("QUALIFICATION_REQUIRES_ASSERTIONS")
++    if check_long_response and check_retrieval_growth:raise ValueError("SEPARATE_FIXED_LONG_RESPONSE_SCENARIO_REQUIRED")
+     sys.dont_write_bytecode = True
+     bundle = Path(bundle).resolve()
+     work = Path(work).absolute()
+@@ -76,6 +77,8 @@
+     wire_lengths = []
+     wire_reservations = []
+     recall_terms = ["虹光约定"]
++    long_suffix = (" bounded installed long explanation." * 180) if check_long_response else ""
++    long_result = None
+     growth_result = None
+     stream_result = None
+     stream_release=threading.Event();stream_finished=threading.Event();stream_progress=[]
+@@ -106,7 +109,7 @@
+                     and json.loads(b["data_json"]).get("provenance") == "EXPLICIT_USER_NOTE_NOT_VERIFIED_WORLD_FACT"
+                 ]
+                 proposal["draft"] = {
+-                    "text": notes[0]["text"] if notes else "SYNTHETIC no supplied note",
++                    "text": (notes[0]["text"] if notes else "SYNTHETIC no supplied note") + long_suffix,
+                     "claim_memory_ids": [n["memory_id"] for n in notes],
+                     "effect_status": request["role_input"]["dialogue"]["effect_status"],
+                 }
+@@ -222,8 +225,22 @@
+                     'scope':'INSTALLED_ORIGINAL_OWNER_AND_LOOPBACK_SSE_NOT_REAL_PROVIDER_OR_PHONE'}
+             assert app.runtime.identity_id == identity
+             assert len(requests) == 2 and mid in requests[-1]["source_context_refs"]
+-            assert answer["text"] == text and answer["render_state"] == "UNVERIFIED_MODEL_WORDING"
++            assert answer["text"] == text + long_suffix and answer["render_state"] == "UNVERIFIED_MODEL_WORDING"
+             assert not app.runtime.store.all("actions") and not app.runtime.store.all("lessons")
++            if check_long_response:
++                assert 2048 < len(answer['text']) <= 16384
++                before_calls=len(requests)
++                later=app.chat("SYNTHETIC please continue",privacy="PROJECT",message_id="installed.long.continue")
++                assert later['text']==text+long_suffix and len(requests)==before_calls+2
++                recent=requests[-1]['role_input']['dialogue']['recent_turns']
++                clipped=[turn for turn in recent if turn['speaker']=='ASSISTANT']
++                assert clipped and clipped[-1]['text_truncated'] is True and len(clipped[-1]['text'])==1024
++                assert requests[-1]['role_input']['dialogue']['recent_history_truncated'] is True
++                assert app.runtime.identity_id==identity
++                long_result={'reply_characters':len(answer['text']),'later_full_reply_characters':len(later['text']),
++                    'history_excerpt_characters':len(clipped[-1]['text']),'history_excerpt_marked':True,
++                    'same_subject':True,'local_fixture_calls':len(requests),'real_provider_calls':0,
++                    'scope':'INSTALLED_ORIGINAL_CORE_LOOPBACK_NOT_REAL_MODEL_OR_PHONE'}
+             if check_wire_reservations:
+                 for received, actual_bytes in zip(requests, wire_lengths, strict=True):
+                     row = app.runtime.store.one("cognitive_requests", received["request_id"])
+@@ -329,6 +346,7 @@
+             "same_subject_after_fixture_phase": True,
+             "local_fixture_calls": len(requests),
+             "real_provider_calls": 0,
++            **({"long_response": long_result} if long_result else {}),
+             **({"streaming": stream_result} if stream_result else {}),
+             **({"retrieval_growth": growth_result} if growth_result else {}),
+             **({"exact_wire_reservations": wire_reservations} if check_wire_reservations else {}),
+@@ -353,6 +371,7 @@
+     parser.add_argument("--check-retrieval-growth", action="store_true")
+     parser.add_argument("--check-streaming", action="store_true")
+     parser.add_argument("--check-scope32", action="store_true")
++    parser.add_argument("--check-long-response", action="store_true")
+     parser.add_argument("--report-usage", action="store_true", help="report explicitly synthetic usage in loopback replies")
+     args = parser.parse_args()
+     result = run(
+@@ -363,6 +382,7 @@
+         check_streaming=args.check_streaming,
+         report_usage=args.report_usage,
+         check_scope32=args.check_scope32,
++        check_long_response=args.check_long_response,
+     )
+     args.output.write_text(json.dumps(result, indent=2) + "\n")
+     print(json.dumps(result))

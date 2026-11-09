@@ -1,0 +1,799 @@
+{
+  "scope": "OWNED_SYNTHETIC_200K_NOT_LIVE",
+  "memory_rows": 200000,
+  "files": {
+    "self.db.lock": {
+      "bytes": 0,
+      "allocated_bytes": 0
+    },
+    "self.db-shm": {
+      "bytes": 32768,
+      "allocated_bytes": 32768
+    },
+    "self.db-wal": {
+      "bytes": 0,
+      "allocated_bytes": 0
+    },
+    "self.db": {
+      "bytes": 2036559872,
+      "allocated_bytes": 2036559872
+    },
+    "self.db.privacy.json": {
+      "bytes": 2501,
+      "allocated_bytes": 4096
+    },
+    "self.db.privacy.json.lock": {
+      "bytes": 0,
+      "allocated_bytes": 0
+    }
+  },
+  "pages": [
+    {
+      "name": "actions",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "artifacts",
+      "page_bytes": 164274176,
+      "payload_bytes": 146186247
+    },
+    {
+      "name": "artifacts_event_lookup",
+      "page_bytes": 20107264,
+      "payload_bytes": 16767147
+    },
+    {
+      "name": "assertion_signals",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "attempts",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "autonomy_event_lookup",
+      "page_bytes": 27369472,
+      "payload_bytes": 12334749
+    },
+    {
+      "name": "autonomy_record_lookup",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "autonomy_record_target",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "autonomy_relationship_lookup",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "budget_holds",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "budgets",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "cognition_pending",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "cognitive_requests",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "commitments",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "concern_attention",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "continuity_evidence",
+      "page_bytes": 82149376,
+      "payload_bytes": 76143634
+    },
+    {
+      "name": "continuity_records",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "core_meta",
+      "page_bytes": 4096,
+      "payload_bytes": 115
+    },
+    {
+      "name": "decisions",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "entities",
+      "page_bytes": 4096,
+      "payload_bytes": 98
+    },
+    {
+      "name": "events",
+      "page_bytes": 410681344,
+      "payload_bytes": 381869653
+    },
+    {
+      "name": "events_artifact_lookup",
+      "page_bytes": 4087808,
+      "payload_bytes": 2367219
+    },
+    {
+      "name": "evidence_event_lookup",
+      "page_bytes": 10035200,
+      "payload_bytes": 8367105
+    },
+    {
+      "name": "evidence_payload_lookup",
+      "page_bytes": 9977856,
+      "payload_bytes": 8367105
+    },
+    {
+      "name": "experiences",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "goals",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "grants",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "identities",
+      "page_bytes": 4096,
+      "payload_bytes": 270
+    },
+    {
+      "name": "identity_revisions",
+      "page_bytes": 4096,
+      "payload_bytes": 458
+    },
+    {
+      "name": "jobs",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "lessons",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "living_work_ready",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "memories",
+      "page_bytes": 58679296,
+      "payload_bytes": 55695205
+    },
+    {
+      "name": "memories_event_lookup",
+      "page_bytes": 9994240,
+      "payload_bytes": 8367105
+    },
+    {
+      "name": "memories_payload_lookup",
+      "page_bytes": 9981952,
+      "payload_bytes": 8367105
+    },
+    {
+      "name": "memory_consolidated_lookup",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "memory_correction_lookup",
+      "page_bytes": 2027520,
+      "payload_bytes": 1167537
+    },
+    {
+      "name": "memory_dependencies",
+      "page_bytes": 25669632,
+      "payload_bytes": 24200000
+    },
+    {
+      "name": "memory_dependency_parent_lookup",
+      "page_bytes": 20652032,
+      "payload_bytes": 17567105
+    },
+    {
+      "name": "memory_family",
+      "page_bytes": 12746752,
+      "payload_bytes": 10976713
+    },
+    {
+      "name": "memory_items",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "memory_note_gram_coverage",
+      "page_bytes": 5427200,
+      "payload_bytes": 5171616
+    },
+    {
+      "name": "memory_scope_visibility",
+      "page_bytes": 9818112,
+      "payload_bytes": 8099632
+    },
+    {
+      "name": "memory_source_binding",
+      "page_bytes": 12996608,
+      "payload_bytes": 10881365
+    },
+    {
+      "name": "memory_superseded_lookup",
+      "page_bytes": 2027520,
+      "payload_bytes": 1167537
+    },
+    {
+      "name": "memory_terms",
+      "page_bytes": 305532928,
+      "payload_bytes": 270858603
+    },
+    {
+      "name": "memory_terms_term_lookup",
+      "page_bytes": 341499904,
+      "payload_bytes": 289909700
+    },
+    {
+      "name": "memory_user_note_lookup",
+      "page_bytes": 9437184,
+      "payload_bytes": 8099632
+    },
+    {
+      "name": "one_possible_effect",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "open_concerns",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "open_goal_attention",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "plans",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "projects",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "record_dependencies",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "relational_request_identity",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "relationship_events",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "runtime_cognition_calls",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "runtime_due",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "runtime_lease",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "runtime_queue",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "runtime_ready",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "runtime_schedules",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "self_assertions",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_actions_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_actions_2",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_artifacts_1",
+      "page_bytes": 20078592,
+      "payload_bytes": 16767147
+    },
+    {
+      "name": "sqlite_autoindex_assertion_signals_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_assertion_signals_2",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_attempts_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_attempts_2",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_budget_holds_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_budget_holds_2",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_budgets_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_cognitive_requests_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_cognitive_requests_2",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_commitments_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_continuity_evidence_1",
+      "page_bytes": 9986048,
+      "payload_bytes": 8367105
+    },
+    {
+      "name": "sqlite_autoindex_continuity_evidence_2",
+      "page_bytes": 9986048,
+      "payload_bytes": 8463202
+    },
+    {
+      "name": "sqlite_autoindex_continuity_records_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_core_meta_1",
+      "page_bytes": 4096,
+      "payload_bytes": 46
+    },
+    {
+      "name": "sqlite_autoindex_decisions_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_entities_1",
+      "page_bytes": 4096,
+      "payload_bytes": 57
+    },
+    {
+      "name": "sqlite_autoindex_events_1",
+      "page_bytes": 20062208,
+      "payload_bytes": 16767903
+    },
+    {
+      "name": "sqlite_autoindex_events_2",
+      "page_bytes": 4558848,
+      "payload_bytes": 2767238
+    },
+    {
+      "name": "sqlite_autoindex_experiences_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_goals_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_goals_2",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_goals_3",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_grants_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_identities_1",
+      "page_bytes": 4096,
+      "payload_bytes": 39
+    },
+    {
+      "name": "sqlite_autoindex_identity_revisions_1",
+      "page_bytes": 4096,
+      "payload_bytes": 39
+    },
+    {
+      "name": "sqlite_autoindex_identity_revisions_2",
+      "page_bytes": 4096,
+      "payload_bytes": 40
+    },
+    {
+      "name": "sqlite_autoindex_jobs_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_jobs_2",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_lessons_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_lessons_2",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_memories_1",
+      "page_bytes": 10022912,
+      "payload_bytes": 8367105
+    },
+    {
+      "name": "sqlite_autoindex_memory_dependencies_1",
+      "page_bytes": 10043392,
+      "payload_bytes": 8367105
+    },
+    {
+      "name": "sqlite_autoindex_memory_dependencies_2",
+      "page_bytes": 20643840,
+      "payload_bytes": 17567105
+    },
+    {
+      "name": "sqlite_autoindex_memory_items_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_memory_terms_1",
+      "page_bytes": 375459840,
+      "payload_bytes": 289909700
+    },
+    {
+      "name": "sqlite_autoindex_open_concerns_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_open_concerns_2",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_plans_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_plans_2",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_projects_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_record_dependencies_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_record_dependencies_2",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_relationship_events_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_relationship_events_2",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_runtime_cognition_calls_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_runtime_cognition_calls_2",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_runtime_lease_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_runtime_queue_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_runtime_queue_2",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_runtime_queue_3",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_runtime_queue_4",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_runtime_schedules_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_runtime_schedules_2",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_self_assertions_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_self_assertions_2",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_strategies_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_strategy_assessments_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_strategy_assessments_2",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_subject_cycles_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_subject_cycles_2",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_subject_cycles_3",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_subject_events_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_subject_events_2",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_subject_goal_candidates_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_subject_goal_candidates_2",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_subject_intentions_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_subject_reflections_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_subject_reflections_2",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_world_beliefs_1",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_autoindex_world_beliefs_2",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "sqlite_schema",
+      "page_bytes": 45056,
+      "payload_bytes": 33236
+    },
+    {
+      "name": "sqlite_sequence",
+      "page_bytes": 4096,
+      "payload_bytes": 12
+    },
+    {
+      "name": "strategies",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "strategy_assessments",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "strategy_history",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "subject_assertion_roots",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "subject_current_intentions",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "subject_cycles",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "subject_events",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "subject_goal_candidates",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "subject_intention_live_slot",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "subject_intentions",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "subject_reflections",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "world_beliefs",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "world_current",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "world_replaced_lookup",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    },
+    {
+      "name": "world_valid_candidates",
+      "page_bytes": 4096,
+      "payload_bytes": 0
+    }
+  ],
+  "no_main_chain_eviction": true,
+  "not_disk_reclamation": true
+}

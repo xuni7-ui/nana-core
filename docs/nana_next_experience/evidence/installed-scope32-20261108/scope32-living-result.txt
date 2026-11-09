@@ -1,0 +1,8 @@
+Traceback (most recent call last):
+  File "/workspace/scratch/nana-installed-verify-living.py", line 134, in <module>
+    args=p.parse_args();result=run(args.bundle,args.work,args.prior,args.case_id,args.require_body_free_usage,args.previous_bundle)
+                               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/workspace/scratch/nana-installed-verify-living.py", line 81, in run
+    assert summary
+           ^^^^^^^
+AssertionError

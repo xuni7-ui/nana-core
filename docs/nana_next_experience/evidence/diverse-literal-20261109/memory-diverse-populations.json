@@ -1,0 +1,10 @@
+{
+  "nana-memory-diverse-v3": {
+    "rows": 200000,
+    "eligible_notes": 41503
+  },
+  "nana-memory-diverse-final": {
+    "rows": 100000,
+    "eligible_notes": 20725
+  }
+}

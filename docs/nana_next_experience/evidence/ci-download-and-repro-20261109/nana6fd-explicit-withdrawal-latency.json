@@ -1,0 +1,11 @@
+{
+  "source": "ORIGINAL_JOURNAL_CREATED_AT_TO_MATCHED_PRIVACY_ERASED_EVENT",
+  "samples": 180,
+  "p50_ms": 1385.912,
+  "p95_ms": 1749.16,
+  "max_ms": 1977.003,
+  "event_span_seconds": 750.534527,
+  "scope": "OWNED_DEV_180_EXPLICIT_WITHDRAWALS_WITH_MULTIPLE_MANAGED_COPIES_NOT_PRODUCTION",
+  "source_commit": "6fd8ed544d5b0a195d159b6f9c75a5b36b022d5c",
+  "data_not_retention_or_auto_delete_policy": true
+}

@@ -62,10 +62,15 @@ def history(app, *, privacy, scope=None, entity_id=None):
                     "memory_use_sources": memory_use_sources(records, record, privacy=permitted,
                                                                entity_id=entity_id, scope=scope),
                     "memory_use_delivery_proven": False}
+            from ..continuity.lived_language import delivery_for_exchange
+            delivery=delivery_for_exchange(records,record)
+            if delivery:item['reply_delivery']=delivery
         except CoreError:
             continue
         encoded = len(json.dumps(item, ensure_ascii=False).encode())
-        if len(items) >= 32 or size + encoded > 10000:
+        # Keep a complete admitted long reply recoverable. This finite UTF-8
+        # projection budget stays below the existing 256KiB IPC response cap.
+        if len(items) >= 32 or size + encoded > 131072:
             omitted += 1
             continue
         size += encoded

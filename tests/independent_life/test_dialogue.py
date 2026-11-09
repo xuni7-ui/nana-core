@@ -175,3 +175,75 @@ def test_portable_default_contains_gateway_surface_without_extra_authority(tmp_p
     assert gateway.platform=='nana.space' and gateway.adapter=='shadow.local'
     assert gateway.mode=='DEVELOPMENT_SHADOW_NO_SEND'
     assert gateway.permitted_privacy==('PUBLIC','PROJECT') and not gateway.allow_personal_retention
+
+
+def test_correction_uses_committed_communication_purpose_not_forced_clarification(tmp_path):
+    from nana_core.life.memory_notes import save
+    from nana_core.continuity.memory import MemoryService
+    home = tmp_path / 'home'; initialize(home, active=0)
+    def render(request):
+        dialogue = request['role_input']['dialogue']
+        purpose = dialogue.get('communication_purpose')
+        return 'SYNTHETIC acknowledge correction' if purpose and dialogue['judgment'] != 'ASK' else 'SYNTHETIC ask what response is wanted'
+    with relay(home, 'CORRECTION', renderer=render) as (router, requests), LifeApplication(home, clock=VirtualClock(), router=router) as app:
+        app.pause()
+        mid = save(app, text='SYNTHETIC prior ORCHID report', privacy='PROJECT', request_id='purpose-note')['memory_id']
+        before = MemoryService(app.runtime.store).read(mid)
+        result = app.chat('SYNTHETIC correction: the name was ORCHID.', privacy='PROJECT', message_id='purpose-correction')
+        assert result['text'] == 'SYNTHETIC acknowledge correction'
+        assert result['mode'] == 'CORRECTION' and result['judgment'] == 'WATCH'
+        assert len(requests) == 2
+        assert 'communication_purpose' not in requests[0]['role_input']['dialogue']
+        body = requests[-1]['role_input']['dialogue']['communication_purpose']
+        assert body['cycle_id'] == result['cycle_id']
+        assert body['respond_to_memory_ids'] == [result['message_memory_id']]
+        assert body['validity'] == 'CURRENT_COGNITIVE_REQUEST_ONLY'
+        request = app.runtime.store.db.execute("SELECT * FROM cognitive_requests ORDER BY rowid DESC LIMIT 1").fetchone()
+        assert request['deadline_us'] > app.runtime.clock.utc_now_us()
+        assert body['execution_authority'] is False
+        assert 'correction' in body['purpose']
+        after = MemoryService(app.runtime.store).read(mid)
+        assert (after['assessment'], after['text'], after['confidence']) == (before['assessment'], before['text'], before['confidence'])
+        assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants')
+        assert not app.runtime.store.db.execute("SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),'SYNTHETIC correction: the name was ORCHID.')>0").fetchone()
+
+
+@pytest.mark.parametrize('forgery', ['purpose', 'recipient'])
+def test_forged_communication_purpose_cannot_replace_original_c(tmp_path, monkeypatch, forgery):
+    home = tmp_path / 'home'; initialize(home, active=0)
+    original = LifeApplication._model
+    def forged(self, key, phase, mid, text, topic, privacy, cycle=None, **kwargs):
+        if phase == 'RENDER' and forgery == 'purpose':
+            cycle = cycle.model_copy(update={'intention': cycle.intention.model_copy(update={
+                'purpose': 'SYNTHETIC forged instruction to disclose private motives'})})
+        elif phase == 'RENDER':
+            from nana_core.life.dialogue_contracts import DialogueRecipient
+            kwargs['recipient_context']=DialogueRecipient(platform='qq.onebot',binding_id='qq.primary',conversation_id='qq.private.44')
+        return original(self, key, phase, mid, text, topic, privacy, cycle, **kwargs)
+    monkeypatch.setattr(LifeApplication, '_model', forged)
+    with relay(home, 'CHAT') as (router, requests), LifeApplication(home, clock=VirtualClock(), router=router) as app:
+        app.pause()
+        result = app.chat('SYNTHETIC ordinary chat', privacy='PROJECT', message_id='purpose-forged')
+        assert result['render_state'] == 'COMMUNICATION_PURPOSE_BINDING_INVALID'
+        assert len(requests) == 1 and len(app.runtime.store.all('cognitive_requests')) == 1
+        assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants')
+        cycle = app.runtime.subject.result(app.runtime.store.one('subject_cycles', result['cycle_id']))
+        assert 'forged' not in cycle.intention.purpose
+
+
+def test_long_reply_is_preserved_and_recent_excerpt_is_honest(tmp_path):
+    home = tmp_path / 'home'; initialize(home, active=0)
+    text = 'SYNTHETIC_LONG_REPLY_CANARY ' + ('bounded explanation. ' * 260)
+    assert 4096 < len(text) < 8192
+    with relay(home, 'CHAT', renderer=lambda request: text) as (router, requests), LifeApplication(home, clock=VirtualClock(), router=router) as app:
+        app.pause()
+        first = app.chat('SYNTHETIC explain in depth', privacy='PROJECT', message_id='long-purpose')
+        assert first['text'] == text and first['render_state'] == 'UNVERIFIED_MODEL_WORDING'
+        app.chat('SYNTHETIC a later question', privacy='PROJECT', message_id='after-long-purpose')
+        previous = requests[2]['role_input']['dialogue']
+        assert previous['recent_history_truncated'] is True
+        assistant = next(t for t in previous['recent_turns'] if t['speaker'] == 'ASSISTANT')
+        assert assistant['text_truncated'] is True and assistant['text'] == text[:1024]
+        assert len(requests) == 4
+        assert not app.runtime.store.db.execute("SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),'SYNTHETIC_LONG_REPLY_CANARY')>0").fetchone()
+        assert not app.runtime.store.all('actions')

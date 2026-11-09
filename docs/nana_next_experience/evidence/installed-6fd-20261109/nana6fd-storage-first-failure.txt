@@ -1,0 +1,5 @@
+Traceback (most recent call last):
+  File "/workspace/scratch/nana-installed-probes/verify-storage-reclaim.py", line 61, in <module>
+    assert logical_digest()==logical
+           ^^^^^^^^^^^^^^^^^^^^^^^^^
+AssertionError

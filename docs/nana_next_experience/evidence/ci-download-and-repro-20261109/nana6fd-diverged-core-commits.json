@@ -1,0 +1,40 @@
+[
+  {
+    "branch": "refs/heads/delivery/nana-space-next-apk",
+    "head": "5b4f589fec8ecf5deb4dc5fafd2f4193c96569b8",
+    "branch_only_core_commits": []
+  },
+  {
+    "branch": "refs/heads/delivery/nana-v4-403-verified-zip",
+    "head": "b95001dc17664658b3d8b7cd75d7faeab01b8450",
+    "branch_only_core_commits": []
+  },
+  {
+    "branch": "refs/heads/dev/nana-core-relational-autonomy-v1-codex",
+    "head": "67326d195edd0693d41eacc63fcc00e1c3205bd6",
+    "branch_only_core_commits": [
+      "1d80d0b8baed37b6f9f2f4cdd6c1e458cf67b09d test(subject): qualify relational recovery deletion and ninety day continuity",
+      "93324995e895fe3afa477b80645e6b14b497a954 test(subject): qualify relational tradeoffs and close truncated support privacy boundary",
+      "c8a92102a781af1740d9bf1733200033c1dc147f feat(subject): derive personality and self narrative from independent causal support",
+      "63445e4106debd2134badc7ca439fd789eacfbbc feat(commitments): support bounded voluntary relational accommodation and review",
+      "83f8720eeac916d224382448fa1727753da34221 feat(subject): add personality guided relational tradeoff and self authorship",
+      "9f68385b1837f90b5cf352722f22a2d613df4ae9 feat(subject): derive social appetite independently of relational anchors",
+      "f3441cc477e8c4110c368e2dbcd0534a9eee3856 feat(subject): add generic relational bootstrap and personality seed contracts"
+    ]
+  },
+  {
+    "branch": "refs/heads/dev/nana-core-source-navigation-audit-codex",
+    "head": "50a842a0250726271ec1c1248e9cfd00087b7a5f",
+    "branch_only_core_commits": []
+  },
+  {
+    "branch": "refs/heads/dev/nana-space-v1-codex",
+    "head": "b403f609e72d2149942af4073e41874ecce99e26",
+    "branch_only_core_commits": []
+  },
+  {
+    "branch": "refs/heads/governance/selector-clarification-0742f0d",
+    "head": "f720fe62d6f2f0ba8c1c33ed52453c2550246a4f",
+    "branch_only_core_commits": []
+  }
+]

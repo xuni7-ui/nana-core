@@ -1,0 +1,766 @@
+{
+  "as_of_us": 1794189034151283,
+  "current_source": "6fd8ed544d5b0a195d159b6f9c75a5b36b022d5c",
+  "remote_branches": 54,
+  "current_core_path_count": 297,
+  "branches": [
+    {
+      "ref": "refs/heads/delivery/nana-space-next-apk",
+      "head": "5b4f589fec8ecf5deb4dc5fafd2f4193c96569b8",
+      "relation_to_current": "DIVERGED",
+      "current_only_branch_only_commit_counts": [
+        "92",
+        "16"
+      ],
+      "core_python_sql_file_count": 288,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 9,
+      "changed_core_client_portable_path_count": 86,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/delivery/nana-v4-403-verified-zip",
+      "head": "b95001dc17664658b3d8b7cd75d7faeab01b8450",
+      "relation_to_current": "DIVERGED",
+      "current_only_branch_only_commit_counts": [
+        "458",
+        "1"
+      ],
+      "core_python_sql_file_count": 0,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 297,
+      "changed_core_client_portable_path_count": 550,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-affective-autonomy-v1-codex",
+      "head": "e26288e8ffcc1697b1a1f86b55f304b76d9b04ed",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "294",
+        "0"
+      ],
+      "core_python_sql_file_count": 116,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 181,
+      "changed_core_client_portable_path_count": 474,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-cloud-daily-life-shared-presence-v1-codex",
+      "head": "b06e1e72f63a481ba349c23043c4027f137b9876",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "215",
+        "0"
+      ],
+      "core_python_sql_file_count": 213,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 84,
+      "changed_core_client_portable_path_count": 403,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-cloud-first-life-launch-v1-codex",
+      "head": "87f73d235d593a0d852bca409b0e73e0ef67cc5e",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "162",
+        "0"
+      ],
+      "core_python_sql_file_count": 249,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 48,
+      "changed_core_client_portable_path_count": 346,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-continuous-runtime-codex",
+      "head": "02e68d31d4d15beff141f19aebceb84d592f8a04",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "302",
+        "0"
+      ],
+      "core_python_sql_file_count": 103,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 194,
+      "changed_core_client_portable_path_count": 484,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-continuous-self-codex",
+      "head": "ea65dabaa907b8bd777723d5ccc9527e1014d0c5",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "309",
+        "0"
+      ],
+      "core_python_sql_file_count": 86,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 211,
+      "changed_core_client_portable_path_count": 490,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-e1e6-open-autonomy-self-extension-v1-codex",
+      "head": "255ac99593219295b7126725bf6d51e1890051de",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "275",
+        "0"
+      ],
+      "core_python_sql_file_count": 155,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 142,
+      "changed_core_client_portable_path_count": 447,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-engineering-quality-portable-v2-codex",
+      "head": "d207726d5f9ede8b0d7bbb7bc4feaecf8050b367",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "149",
+        "0"
+      ],
+      "core_python_sql_file_count": 250,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 47,
+      "changed_core_client_portable_path_count": 326,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-execution-context-routing-v1-codex",
+      "head": "9217e3f3550dc5a875c42ac6de53035dd73deae2",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "129",
+        "0"
+      ],
+      "core_python_sql_file_count": 267,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 30,
+      "changed_core_client_portable_path_count": 176,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-first-life-android-v2-codex",
+      "head": "a07e906fa59798c6bfc7a00c2281a924f979c55d",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "136",
+        "0"
+      ],
+      "core_python_sql_file_count": 261,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 36,
+      "changed_core_client_portable_path_count": 182,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-first-life-unified-release-v1-codex",
+      "head": "77a09e245603f38e10a4e2e36c2c7355e79e1eab",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "116",
+        "0"
+      ],
+      "core_python_sql_file_count": 267,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 30,
+      "changed_core_client_portable_path_count": 160,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-h1-live-semantic-provider-v1-codex",
+      "head": "ba798b201ff2f7ba671a2cb9939d9692b59fd93f",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "260",
+        "0"
+      ],
+      "core_python_sql_file_count": 173,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 124,
+      "changed_core_client_portable_path_count": 440,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-h1-semantic-grounding-v1-codex",
+      "head": "f6aabc3c8e8712b811540764a3937cc9283861af",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "262",
+        "0"
+      ],
+      "core_python_sql_file_count": 173,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 124,
+      "changed_core_client_portable_path_count": 440,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-h2-live-real-screen-v1-codex",
+      "head": "9faaad5006159c4f69f5c4056f0c6b062cc7770b",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "248",
+        "0"
+      ],
+      "core_python_sql_file_count": 182,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 115,
+      "changed_core_client_portable_path_count": 426,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-h2-perception-ingress-v1-codex",
+      "head": "06c80a907af49c3b80bf097f90c71e02d552aaf8",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "251",
+        "0"
+      ],
+      "core_python_sql_file_count": 181,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 116,
+      "changed_core_client_portable_path_count": 431,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-independent-life-runtime-a7-d8-c9-v1-codex",
+      "head": "5cc5c736e0f7267e8b84ef1f544ffbf846380d61",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "236",
+        "0"
+      ],
+      "core_python_sql_file_count": 198,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 99,
+      "changed_core_client_portable_path_count": 416,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-living-release-v4-codex",
+      "head": "61aebf3790c8e8bea8ca2fde2a559a63adfd11aa",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "94",
+        "0"
+      ],
+      "core_python_sql_file_count": 288,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 9,
+      "changed_core_client_portable_path_count": 91,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-next-experience-codex",
+      "head": "6fd8ed544d5b0a195d159b6f9c75a5b36b022d5c",
+      "relation_to_current": "SAME_HEAD",
+      "current_only_branch_only_commit_counts": [
+        "0",
+        "0"
+      ],
+      "core_python_sql_file_count": 297,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 0,
+      "changed_core_client_portable_path_count": 0,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-next-stage-readiness-codex",
+      "head": "b3ff62ac944fe95c7a29217071c3885aaa5f04bb",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "327",
+        "0"
+      ],
+      "core_python_sql_file_count": 55,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 242,
+      "changed_core_client_portable_path_count": 501,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-provider-capability-routing-v1-codex",
+      "head": "a4abd5ce230848ae6667e5e5362964636e3ead08",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "256",
+        "0"
+      ],
+      "core_python_sql_file_count": 175,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 122,
+      "changed_core_client_portable_path_count": 439,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-real-action-experience-evolution-v1-codex",
+      "head": "d7886ba9b49cf2fbb52cebcbce9525394c938d3c",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "220",
+        "0"
+      ],
+      "core_python_sql_file_count": 209,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 88,
+      "changed_core_client_portable_path_count": 408,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-real-cognition-lived-growth-v2-codex",
+      "head": "ca6d8374f222020e1d68574fcfa987f905d10580",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "226",
+        "0"
+      ],
+      "core_python_sql_file_count": 201,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 96,
+      "changed_core_client_portable_path_count": 411,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-real-cognition-world-loop-v1-codex",
+      "head": "dcaf30fe1581c5fff19ab302a83b4b56e69487a0",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "265",
+        "0"
+      ],
+      "core_python_sql_file_count": 169,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 128,
+      "changed_core_client_portable_path_count": 441,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-real-life-growth-and-presence-v1-codex",
+      "head": "32306111a052811f3b293d36e5d5500787950d8a",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "240",
+        "0"
+      ],
+      "core_python_sql_file_count": 191,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 106,
+      "changed_core_client_portable_path_count": 418,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-real-living-integration-v1-codex",
+      "head": "7a1bce994d7640389b48202e8de27be7c715eb97",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "134",
+        "0"
+      ],
+      "core_python_sql_file_count": 262,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 35,
+      "changed_core_client_portable_path_count": 182,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-relational-autonomy-v1-codex",
+      "head": "67326d195edd0693d41eacc63fcc00e1c3205bd6",
+      "relation_to_current": "DIVERGED",
+      "current_only_branch_only_commit_counts": [
+        "294",
+        "9"
+      ],
+      "core_python_sql_file_count": 123,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 174,
+      "changed_core_client_portable_path_count": 469,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-source-navigation-audit-codex",
+      "head": "50a842a0250726271ec1c1248e9cfd00087b7a5f",
+      "relation_to_current": "DIVERGED",
+      "current_only_branch_only_commit_counts": [
+        "26",
+        "2"
+      ],
+      "core_python_sql_file_count": 297,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 0,
+      "changed_core_client_portable_path_count": 32,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-v1-astrbot-shadow-bind",
+      "head": "652a72fde12dcb4786491a6a0f73b06e8675fe1a",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "385",
+        "0"
+      ],
+      "core_python_sql_file_count": 55,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 242,
+      "changed_core_client_portable_path_count": 501,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-v1-astrbot-shadow-bind-codex",
+      "head": "10581aea4009add4e311bb0df843fbedffa7acfb",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "375",
+        "0"
+      ],
+      "core_python_sql_file_count": 55,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 242,
+      "changed_core_client_portable_path_count": 501,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-v1-astrbot-shadow-bind-r03",
+      "head": "89385e98118da81bae751311fb6149f048b772a8",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "371",
+        "0"
+      ],
+      "core_python_sql_file_count": 55,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 242,
+      "changed_core_client_portable_path_count": 501,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-v1-cloud-bridge",
+      "head": "ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "401",
+        "0"
+      ],
+      "core_python_sql_file_count": 55,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 242,
+      "changed_core_client_portable_path_count": 502,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-v1-dev-validation",
+      "head": "29872608b7b82fcca4a89a3be98fda8e8c65337f",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "419",
+        "0"
+      ],
+      "core_python_sql_file_count": 31,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 266,
+      "changed_core_client_portable_path_count": 525,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-v1-first-real-shadow",
+      "head": "8ff57a3a227ee1c35ed34cf314866300e34d01f8",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "397",
+        "0"
+      ],
+      "core_python_sql_file_count": 55,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 242,
+      "changed_core_client_portable_path_count": 502,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-v1-phase3-entry",
+      "head": "d79fa3eb72efd1907d314780a5c8677bbc361021",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "409",
+        "0"
+      ],
+      "core_python_sql_file_count": 41,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 256,
+      "changed_core_client_portable_path_count": 514,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-v1-r04-single-message-shadow-codex",
+      "head": "8f9dfab0b7fb008f9f43f02fc361e7001cde37a3",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "358",
+        "0"
+      ],
+      "core_python_sql_file_count": 55,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 242,
+      "changed_core_client_portable_path_count": 501,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-v1-r041-short-lived-host-bridge-codex",
+      "head": "c7d87018335de0797177f53bf8986f06e1e78eef",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "352",
+        "0"
+      ],
+      "core_python_sql_file_count": 55,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 242,
+      "changed_core_client_portable_path_count": 501,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-v1-r042-real-host-preflight",
+      "head": "7d8a4817e8ea0101fcd905effb7b3239de0a4b0f",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "350",
+        "0"
+      ],
+      "core_python_sql_file_count": 55,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 242,
+      "changed_core_client_portable_path_count": 501,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-v1-r042-trust-onboarding-codex",
+      "head": "a436333d3dceb30773860ff5a3168ca1acdf6682",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "348",
+        "0"
+      ],
+      "core_python_sql_file_count": 55,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 242,
+      "changed_core_client_portable_path_count": 501,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-v1-r043-first-real-shadow-candidate",
+      "head": "2d83e6a2acfd07f5e67581543c9b7dff7e6d5cfa",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "344",
+        "0"
+      ],
+      "core_python_sql_file_count": 55,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 242,
+      "changed_core_client_portable_path_count": 501,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-v1-r044-preprod-redteam-codex",
+      "head": "1bdf1f07abb02d6610db86153b1cb7b14fe74dc1",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "340",
+        "0"
+      ],
+      "core_python_sql_file_count": 55,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 242,
+      "changed_core_client_portable_path_count": 501,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-v1-r045-first-real-shadow-release-candidate",
+      "head": "ef7750e012a1004cbfb9d888319001f0b04154db",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "334",
+        "0"
+      ],
+      "core_python_sql_file_count": 55,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 242,
+      "changed_core_client_portable_path_count": 501,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-v1-s0-s4",
+      "head": "884db6a460c2803e8c89434c3fa8e36f7ffe90cf",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "430",
+        "0"
+      ],
+      "core_python_sql_file_count": 13,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 284,
+      "changed_core_client_portable_path_count": 541,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-v1-s5",
+      "head": "6491aa6ddadd63e23035f69dd18a218b70ccf650",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "428",
+        "0"
+      ],
+      "core_python_sql_file_count": 19,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 278,
+      "changed_core_client_portable_path_count": 539,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-v1-s6",
+      "head": "b2b5b99e69377d024bbb58c13d9f2564dccea9f5",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "424",
+        "0"
+      ],
+      "core_python_sql_file_count": 24,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 273,
+      "changed_core_client_portable_path_count": 534,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-v1-shadow-bootstrap",
+      "head": "99098b21c6d48948807fd2052f808e6c9e1aba6b",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "389",
+        "0"
+      ],
+      "core_python_sql_file_count": 55,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 242,
+      "changed_core_client_portable_path_count": 501,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-v1-shadow-host-compat",
+      "head": "c3ada9b09faa8a2683f98d5c8bafec24779cfd71",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "386",
+        "0"
+      ],
+      "core_python_sql_file_count": 55,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 242,
+      "changed_core_client_portable_path_count": 501,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-core-vision-first-shared-growth-v2-codex",
+      "head": "94016fcbf1f16a7438c7ceba42e22b21de26f3e6",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "244",
+        "0"
+      ],
+      "core_python_sql_file_count": 184,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 113,
+      "changed_core_client_portable_path_count": 423,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-space-core-integration-v1-codex",
+      "head": "b899e0936e73723862606fb0b219d6856b88350a",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "160",
+        "0"
+      ],
+      "core_python_sql_file_count": 249,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 48,
+      "changed_core_client_portable_path_count": 275,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-space-v1-codex",
+      "head": "b403f609e72d2149942af4073e41874ecce99e26",
+      "relation_to_current": "DIVERGED",
+      "current_only_branch_only_commit_counts": [
+        "166",
+        "2"
+      ],
+      "core_python_sql_file_count": 249,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 48,
+      "changed_core_client_portable_path_count": 309,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/dev/nana-space-v3-cotex",
+      "head": "ea1e2255adc66a4248f2729be2be99de09cae794",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "133",
+        "0"
+      ],
+      "core_python_sql_file_count": 261,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 36,
+      "changed_core_client_portable_path_count": 170,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/governance/integration-first-d2d5e8c",
+      "head": "9e993846a8fe3e6fb031c50c44fccb7199f4b0be",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "9",
+        "0"
+      ],
+      "core_python_sql_file_count": 297,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 0,
+      "changed_core_client_portable_path_count": 16,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/governance/selector-clarification-0742f0d",
+      "head": "f720fe62d6f2f0ba8c1c33ed52453c2550246a4f",
+      "relation_to_current": "DIVERGED",
+      "current_only_branch_only_commit_counts": [
+        "8",
+        "1"
+      ],
+      "core_python_sql_file_count": 297,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 0,
+      "changed_core_client_portable_path_count": 16,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    },
+    {
+      "ref": "refs/heads/main",
+      "head": "18bc736d5e37fe3325e514a0e975403df2f97c9f",
+      "relation_to_current": "ANCESTOR_OF_CURRENT",
+      "current_only_branch_only_commit_counts": [
+        "437",
+        "0"
+      ],
+      "core_python_sql_file_count": 0,
+      "core_paths_only_in_branch": [],
+      "core_paths_only_in_current_count": 297,
+      "changed_core_client_portable_path_count": 550,
+      "qualification": "GIT_TREE_AND_ANCESTRY_ONLY_NOT_IMPORT_RUNTIME_OR_PRODUCTION_CLOSURE"
+    }
+  ],
+  "actual_production_head": "NOT_OBSERVED_THIS_RUN",
+  "delivery_CURRENT": "SOURCE_SELECTOR_ONLY_NOT_RUNNING_OBSERVATION"
+}

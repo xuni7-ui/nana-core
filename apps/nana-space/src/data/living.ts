@@ -15,7 +15,7 @@ export function retainedTurns(value: unknown): Turn[] {
     const row = record(value);
     if (!row || typeof row.exchange_record_id !== "string" || !/^[A-Za-z0-9._:-]{1,128}$/.test(row.exchange_record_id)
       || typeof row.user_text !== "string" || typeof row.reply_text !== "string"
-      || row.user_text.length > 4096 || row.reply_text.length > 8192
+      || row.user_text.length > 4096 || [...row.reply_text].length > 16384
       || typeof row.created_at_us !== "number" || !Number.isSafeInteger(row.created_at_us)
       || row.created_at_us < 0) return [];
     const memoryUseSources: MemoryUseSource[] = row.memory_use_delivery_proven === false

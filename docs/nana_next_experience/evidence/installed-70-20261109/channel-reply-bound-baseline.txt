@@ -1,0 +1,42 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+____ test_channel_bound_is_given_before_rendering_not_mechanical_post_split ____
+
+tmp_path = PosixPath('/tmp/n70channelbase/test_channel_bound_is_given_be0')
+
+    def test_channel_bound_is_given_before_rendering_not_mechanical_post_split(tmp_path):
+        with counterpart() as (url, platform):
+            home=tmp_path/'home';channel=initialize_channel(home,url)
+            def render(request):
+                limit=request['role_input']['dialogue'].get('reply_character_limit',16384)
+                return 'SYNTHETIC bounded channel reply' if limit==2048 else 'SYNTHETIC long channel wording '*100
+            with relay(home,'CHAT',renderer=render) as (router,requests), LifeApplication(home,clock=VirtualClock(),router=router) as app:
+                app.pause();flow=equip(app,channel,url)
+>               result=flow.receive('1')
+                       ^^^^^^^^^^^^^^^^^
+
+tests/living_release_v4/test_platform_runtime.py:202: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/life/platform_runtime.py:158: in receive
+    return self._reply(result, message_id)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/life/platform_runtime.py:195: in _reply
+    candidate = self.port.bind_candidate(result["text"], rid, privacy=self.channel.privacy_class)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.life.platform_bridge.QQCapabilityPort object at 0x7f4703eb1c40>
+text = 'SYNTHETIC long channel wording SYNTHETIC long channel wording SYNTHETIC long channel wording SYNTHETIC long channel w...TIC long channel wording SYNTHETIC long channel wording SYNTHETIC long channel wording SYNTHETIC long channel wording '
+cycle_record_id = '0997c2e8-73a7-4b9c-bb69-4700fa876705', privacy = 'PROJECT'
+
+    def bind_candidate(self, text, cycle_record_id, *, privacy):
+        if privacy not in {"PUBLIC", "PROJECT", "PERSONAL"}:
+            raise CoreError("QQ_PRIVACY_DENIED")
+        if type(text) is not str or not 1 <= len(text) <= 2048:
+>           raise CoreError("QQ_MESSAGE_BOUND")
+E           nana_core.contracts.CoreError: QQ_MESSAGE_BOUND
+
+src/nana_core/life/platform_bridge.py:243: CoreError
+=========================== short test summary info ============================
+FAILED tests/living_release_v4/test_platform_runtime.py::test_channel_bound_is_given_before_rendering_not_mechanical_post_split
+1 failed, 5 deselected in 1.76s

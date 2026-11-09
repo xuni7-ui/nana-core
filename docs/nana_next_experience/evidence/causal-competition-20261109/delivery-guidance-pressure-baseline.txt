@@ -1,0 +1,99 @@
+.F                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_delivered_memory_feedback_changes_later_render_only_in_its_recipient_context[3] _
+
+tmp_path = PosixPath('/tmp/nanaguidancepressurefirst/test_delivered_memory_feedback1')
+preexisting_retained_turns = 3
+
+    @pytest.mark.parametrize('preexisting_retained_turns', [0, 3])
+    def test_delivered_memory_feedback_changes_later_render_only_in_its_recipient_context(tmp_path,preexisting_retained_turns):
+        import json
+        from nana_core.life.memory_notes import save
+        from nana_core.continuity.memory import MemoryService
+        from nana_core.continuity.lived_language import LanguageService, LanguageSample, MemoryUseFeedback
+        def render(request):
+            blocks=json.loads(request['context_json'])['blocks']
+            guidance=next((json.loads(b['data_json'])['memory_use_guidance'] for b in blocks
+                if b['kind']=='MEMORY_USE_GUIDANCE'),())
+            return 'SYNTHETIC '+(guidance[0]['requested_mode'] if guidance else 'BASELINE')
+        with counterpart() as (url,platform):
+            home=tmp_path/'home';channel=initialize_channel(home,url);clock=VirtualClock()
+            with relay(home,'CHAT',recall_query_terms=('ORCHID',),renderer=render) as (router,requests):
+                with LifeApplication(home,clock=clock,router=router) as app:
+                    app.pause();flow=equip(app,channel,url)
+                    for index in range(preexisting_retained_turns):
+                        app.chat('SYNTHETIC earlier unrelated conversation '+str(index),privacy='PROJECT',
+                            retain_shared_life=True,message_id='earlier-'+str(index))
+                    mid=save(app,text='SYNTHETIC ORCHID Friday',privacy='PROJECT',request_id='recipient-note')['memory_id']
+                    fact=MemoryService(app.runtime.store).read(mid)
+                    turn=app.surfaces.receive(SurfaceObservation(binding_id=channel.binding_id,event_id='qq:1',
+                        thread_id='qq.private.43',text='SYNTHETIC ORCHID first question',privacy_class='PROJECT',
+                        origin='SYNTHETIC_LOOPBACK',retain_shared_life=True),reply_target=flow.target)
+                    assert turn['text']=='SYNTHETIC BASELINE'
+                    assert flow._reply(turn,'1')['delivery']=='SUCCEEDED'
+                    service=LanguageService(app.runtime.store,app.runtime.authority)
+                    sample=LanguageSample(sample_id='recipient-review',review_target=turn['exchange_record_id'],mode='CASUAL',
+                        context='SYNTHETIC explicit fixture review',candidate_response=turn['text'],human_judgment='PARTIAL',
+                        provenance='USER_PROVIDED_REVIEW',observed_at_us=clock.utc_now_us(),
+                        memory_use=MemoryUseFeedback(memory_id=mid,mode='NATURAL_REFERENCE'))
+>                   review_id=service.record(sample,scope='project-work',entity_id='project-user',privacy='PROJECT',
+                        authority=app.runtime.authority,exchange_record_id=turn['exchange_record_id'])
+
+tests/living_release_v4/test_platform_runtime.py:368: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.lived_language.LanguageService object at 0x7f2eea82c830>
+sample = LanguageSample(body_storage='DEPENDENT_RECORD', sample_id='recipient-review', review_target='dcd33e56-de2e-4d5f-ba0a-9...590400000000, memory_use=MemoryUseFeedback(memory_id='a6ecfc4b-97bd-4a9f-878f-53dea6e25373', mode='NATURAL_REFERENCE'))
+scope = 'project-work', entity_id = 'project-user', privacy = 'PROJECT'
+authority = <nana_core.actions.OperatorAuthority object at 0x7f2eea368890>
+exchange_record_id = 'dcd33e56-de2e-4d5f-ba0a-9249096e51c8'
+request_digest = None
+
+    def record(self, sample, *, scope, entity_id, privacy, authority, exchange_record_id=None, request_digest=None):
+        if authority is not self._authority or type(sample) is not LanguageSample:
+            raise CoreError('LANGUAGE_REVIEW_AUTHORITY_REQUIRED')
+        if request_digest is not None and (type(request_digest) is not str or len(request_digest)!=64 or any(c not in '0123456789abcdef' for c in request_digest)):
+            raise CoreError('LANGUAGE_REVIEW_REQUEST_DIGEST_INVALID')
+        if sample.observed_at_us > self.store.clock.utc_now_us():
+            raise CoreError('LANGUAGE_REVIEW_TIME_INVALID')
+        if not exchange_record_id and sample.body_storage!='SOURCE_REPORT':raise CoreError('LANGUAGE_REVIEW_BINDING_REQUIRED')
+        if sample.memory_use is not None and (not exchange_record_id or sample.provenance!='USER_PROVIDED_REVIEW' or sample.human_judgment=='UNREVIEWED'):
+            raise CoreError('MEMORY_USE_REVIEW_BINDING_REQUIRED')
+        if exchange_record_id:sample=sample.model_copy(update={'body_storage':'DEPENDENT_RECORD'})
+        use=sample.memory_use
+        # Old binaries strictly parse the sample and evidence. Keep those
+        # bodies unchanged; optional use feedback lives in the same generic
+        # dependency-bound record envelope, which old readers already ignore.
+        stored_sample=sample.model_copy(update={'memory_use':None})
+        old = self.store.db.execute("SELECT data_json FROM events WHERE source_namespace='language.review' AND source_key=?", (sample.sample_id,)).fetchone()
+        if old:
+            rid = json.loads(old[0])['data']['record_id']
+            existing = self.records.read(rid)
+            if (existing['scope'] != scope or existing['payload']['sample'] != stored_sample.model_dump(mode='json')
+                    or existing['payload'].get('memory_use_feedback') != (use.model_dump(mode='json') if use else None)
+                    or existing['payload'].get('request_digest') != request_digest):
+                raise CoreError('LANGUAGE_REVIEW_COLLISION')
+            if not self.records.current_support(rid):
+                raise CoreError('LANGUAGE_REVIEW_SOURCE_WITHDRAWN')
+            return rid
+        parents = ();delivery=None
+        if exchange_record_id:
+            exchange = self.records.read(exchange_record_id)
+            if exchange['payload'].get('person_kind') != 'CONVERSATION_EXCHANGE' or exchange['scope'] != scope or exchange['payload']['entity_id'] != entity_id or sample.review_target != exchange_record_id or sample.candidate_response != exchange['payload']['assistant_utterance']:
+                raise CoreError('LANGUAGE_REVIEW_TURN_MISMATCH')
+            if sample.observed_at_us < exchange['payload']['as_of_us']:
+                raise CoreError('LANGUAGE_REVIEW_TIME_INVALID')
+            parents = (exchange_record_id,)
+            delivery=delivery_for_exchange(self.records,exchange,observed_at_us=sample.observed_at_us)
+            if delivery:
+                parents=(*parents,delivery['receipt_record_id'],delivery['verification_record_id'])
+            if sample.memory_use is not None:
+                mid=sample.memory_use.memory_id
+                if not self.records.current_support(exchange_record_id) or mid not in self.records.support(exchange_record_id):
+>                   raise CoreError('MEMORY_USE_REVIEW_SOURCE_MISMATCH')
+E                   nana_core.contracts.CoreError: MEMORY_USE_REVIEW_SOURCE_MISMATCH
+
+src/nana_core/continuity/lived_language.py:261: CoreError
+=========================== short test summary info ============================
+FAILED tests/living_release_v4/test_platform_runtime.py::test_delivered_memory_feedback_changes_later_render_only_in_its_recipient_context[3]
+1 failed, 1 passed, 12 deselected in 3.08s

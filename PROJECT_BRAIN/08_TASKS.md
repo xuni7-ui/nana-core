@@ -2,6 +2,8 @@
 
 ## CURRENT — NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT
 
+[用户冻结2026-11-08 23:20北京时间] 已保存d2同源离线安装及首错/部分回归证据，创建启用明天11月9日03:30、09:30两次原任务实际续办；先排查安装梦境assert summary和恢复绝对PYTHONPATH全仓回归（本次407通过后因用户冻结中断，非全仓PASS），再连续推进全部原剩余项。见09及FROZEN_CHECKPOINT顶部；下方已恢复说明为历史。
+
 [2026-11-08已恢复] 从58418b4继续；4123b6b反馈完整构建/25HTTP/20四视口及独立CI已通过。当前V2/32独立检索资格、旧V1保护、同预算回忆和原B8迁移相关38通过，待同源完整回归/匹配安装，继续其余原任务。下面冻结说明保留为历史。
 
 [用户冻结2026-11-08] 当前暂停，已创建北京时间今晚22:30一次性续办。四模式已推4debd2e；本冻结批保存原C兴趣筛选补丁、17项定向通过及全部限制。恢复先读FROZEN_CHECKPOINT当前块，再连续推进同一总任务；不宣称全部完成。
@@ -1504,3 +1506,5 @@ Source878b9e5 separates human-tagged and fixture support/counterexamples, preven
 ### 2026-11-08 · Explicit source-bound memory-use feedback
 
 Source a917c03 accepts explicit four-mode feedback bound to a current source in a retained exchange and projects an advisory, dependency-bound guidance block for later context. Fact assessment and execution authority are unchanged. Previous sample/evidence body shape stays compatible.33 related checks passed before final stale-reference guard and16 targeted after; a prior larger run failed from tmpfs ENOSPC. Synthetic fixtures only, not confirmed real delivery, human review, C/S3/S8 lifelong qualification or production. See docs/nana_next_experience/STATUS_AND_REMAINING.md.
+
+[2026-11-09恢复实测] d2同源安装梦境/原C/虚拟72h/冷回读/撤回补证据通过（仅外部探针按持久化到期推进，无Runtime补丁）；外部预留条件误作高认知负荷已修，57定向通过。全仓另跑待完整总结，不拼接为最新全仓PASS；其余原任务和真实模型/手机/自然度/长期/生产仍开放。

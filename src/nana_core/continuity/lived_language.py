@@ -125,6 +125,91 @@ def learnable(store, scope, privacy):
             'counter_records': tuple(r for _, r in veto), 'evidence_level': winner}
 
 
+def delivery_for_exchange(records, exchange, *, observed_at_us=None):
+    """Original Kernel/readback provenance, not a user claim or human-read proof.
+
+    First supported adapter is QQ. Missing/legacy/UNKNOWN evidence stays unproven;
+    no network read, action retry, new receipt or second delivery journal occurs.
+    All payload headers are scope/privacy checked before opening their bodies.
+    """
+    from ..contracts import Receipt, Verification
+    from .memory import PRIVACY_RANK
+    store=records.store
+    def read_record(rid):
+        head=store.one('continuity_records',rid)
+        if (not head or head['scope']!=exchange['scope'] or head['lifecycle']!='ACTIVE'
+                or PRIVACY_RANK[head['privacy_class']]>PRIVACY_RANK[exchange['privacy_class']]
+                or not records.current_support(rid)):
+            raise CoreError('DELIVERY_SOURCE_UNAVAILABLE')
+        return records.read(rid)
+    def event_payload(eid,kind,action_id):
+        event=store.event(eid)
+        if (event['kind']!=kind or event['identity_id']!=store.identity['identity_id']
+                or not event['artifact_id'] or len(event['data_json'])>65536):
+            raise CoreError('DELIVERY_EVENT_MISMATCH')
+        body=json.loads(event['data_json'])
+        if body['data'].get('action_id')!=action_id or len(body.get('changes',()))>64:
+            raise CoreError('DELIVERY_EVENT_MISMATCH')
+        ids=tuple(change['row']['record_id'] for change in body.get('changes',())
+            if change.get('table')=='continuity_records'
+            and change['row'].get('record_kind')=='ACTION_PAYLOAD'
+            and change['row'].get('payload_artifact_id')==event['artifact_id'])
+        if len(ids)!=1:raise CoreError('DELIVERY_EVENT_MISMATCH')
+        record=read_record(ids[0])
+        if record['record_kind']!='ACTION_PAYLOAD':raise CoreError('DELIVERY_EVENT_MISMATCH')
+        return event,record
+    try:
+        if (exchange['payload'].get('person_kind')!='CONVERSATION_EXCHANGE'
+                or not records.current_support(exchange['record_id'])):return None
+        parents=store.db.execute("SELECT parent_id FROM record_dependencies WHERE record_id=? AND parent_kind='RECORD' AND relation_kind='SUPPORT' LIMIT 3",(exchange['record_id'],)).fetchall()
+        cycles=[read_record(row[0]) for row in parents]
+        cycles=[row for row in cycles if row['record_kind']=='SUBJECT_CYCLE']
+        if len(cycles)!=1:return None
+        cycle=cycles[0];decision=cycle['payload'];intention=decision.get('intention_id')
+        if not intention or (decision.get('evaluation') or {}).get('normative')!='ENDORSED':return None
+        event=store.one('subject_events',decision['event_id'])
+        source=read_record(event['record_id'])['payload']['input']
+        surface=source.get('surface') or {};target=decision.get('realization_target') or {}
+        data=exchange['payload']
+        if (surface.get('platform')!='qq.onebot' or source['entity_id']!=data['entity_id']
+                or source['scope']!=exchange['scope'] or data['user_memory_id'] not in source['source_memory_ids']
+                or target.get('capability')!='world.contact'):return None
+        action=store.db.execute("SELECT * FROM actions WHERE effect_slot=? AND state='SUCCEEDED' LIMIT 1",('subject:'+intention,)).fetchone()
+        if not action or action['capability']!='world.contact' or action['resource']!=target.get('resource'):return None
+        args=read_record(json.loads(action['args_json'])['action_payload_record'])['payload']
+        candidate=args.get('data') or {}
+        if (args.get('data_privacy')!=exchange['privacy_class'] or candidate.get('cycle_record_id')!=cycle['record_id']
+                or candidate.get('candidate_digest')!=digest([data['assistant_utterance'],cycle['record_id'],exchange['privacy_class']])):return None
+        execute=store.one('attempts',action['attempt_id'])
+        verify=store.db.execute("SELECT * FROM attempts WHERE action_id=? AND kind='VERIFY' AND outcome='SUCCEEDED' AND verification_event_id=? ORDER BY attempt_no DESC LIMIT 1",
+            (action['action_id'],execute['verification_event_id'])).fetchone()
+        if not verify or execute['kind']!='EXECUTE' or execute['outcome']!='SUCCEEDED':return None
+        ack_event,ack_record=event_payload(execute['receipt_event_id'],'action.receipt_received',action['action_id'])
+        checked_event,checked_record=event_payload(verify['verification_event_id'],'action.verified',action['action_id'])
+        ack=Receipt.model_validate_json(canonical(ack_record['payload']))
+        checked=Verification.model_validate_json(canonical(checked_record['payload']))
+        receipt=ack.result;proof=checked.evidence;origin=receipt.get('platform_origin')
+        if (origin not in {'SYNTHETIC_LOOPBACK','AUTHENTICATED_PLATFORM'} or proof.get('platform_origin')!=origin
+                or checked.verdict!='MATCH' or proof.get('independent_readback') is not True
+                or ack.external_id!=receipt.get('message_id') or proof.get('message_id')!=receipt.get('message_id')
+                or proof.get('account_id')!=receipt.get('account_id') or proof.get('target_id')!=receipt.get('target_id')
+                or receipt.get('echo')!=action['idempotency_key'] or receipt.get('text_digest')!=digest(data['assistant_utterance'])
+                or surface.get('conversation_id')!='qq.'+str(receipt.get('target_kind'))+'.'+str(receipt.get('target_id'))
+                or checked_event['recorded_at_us']<data['as_of_us']
+                or (observed_at_us is not None and observed_at_us<checked_event['recorded_at_us'])):return None
+        return {'state':'INDEPENDENT_PLATFORM_READBACK','origin':origin,'entity_id':data['entity_id'],
+            'scope':exchange['scope'],'action_id':action['action_id'],'verified_at_us':checked_event['recorded_at_us'],
+            'recipient_context':{'platform':surface['platform'],'binding_id':surface['session_id'],
+                'conversation_id':surface['conversation_id']},
+            'receipt_record_id':ack_record['record_id'],'verification_record_id':checked_record['record_id'],
+            'human_read_proven':False,'memory_use_verified':False,'execution_authority':False}
+    except CoreError as exc:
+        if exc.code in {'PRIVACY_ANCHOR_INVALID','PRIVACY_ANCHOR_UNAVAILABLE','RUNTIME_LEASE_LOST'}:raise
+        return None
+    except (KeyError,ValueError,TypeError,AttributeError):
+        return None
+
+
 class LanguageService:
     def __init__(self, store, authority):
         from ..actions import OperatorAuthority
@@ -159,7 +244,7 @@ class LanguageService:
             if not self.records.current_support(rid):
                 raise CoreError('LANGUAGE_REVIEW_SOURCE_WITHDRAWN')
             return rid
-        parents = ()
+        parents = ();delivery=None
         if exchange_record_id:
             exchange = self.records.read(exchange_record_id)
             if exchange['payload'].get('person_kind') != 'CONVERSATION_EXCHANGE' or exchange['scope'] != scope or exchange['payload']['entity_id'] != entity_id or sample.review_target != exchange_record_id or sample.candidate_response != exchange['payload']['assistant_utterance']:
@@ -167,6 +252,9 @@ class LanguageService:
             if sample.observed_at_us < exchange['payload']['as_of_us']:
                 raise CoreError('LANGUAGE_REVIEW_TIME_INVALID')
             parents = (exchange_record_id,)
+            delivery=delivery_for_exchange(self.records,exchange,observed_at_us=sample.observed_at_us)
+            if delivery:
+                parents=(*parents,delivery['receipt_record_id'],delivery['verification_record_id'])
             if sample.memory_use is not None:
                 mid=sample.memory_use.memory_id
                 if not self.records.current_support(exchange_record_id) or mid not in self.records.support(exchange_record_id):
@@ -185,6 +273,7 @@ class LanguageService:
         data = {}
         with self.store.transaction('subject.language_review_recorded', data, source_namespace='language.review', source_key=sample.sample_id) as tx:
             payload={'person_kind':'LIVED_LANGUAGE_SAMPLE','sample': stored_sample.model_dump(mode='json'), 'not_subject_experience': sample.provenance == 'PROJECT_SYNTHETIC'}
+            if delivery:payload['delivery_attribution']=delivery
             if request_digest is not None:payload['request_digest']=request_digest
             if use:payload['memory_use_feedback']=use.model_dump(mode='json')
             rid = self.records.create(tx, kind='EXPERIENCE_CANDIDATE', scope=scope, target_id=sample.mode, payload=payload, memories=(mid,), records=parents)
@@ -252,7 +341,7 @@ def context(store, *, scope, privacy, mode):
             'source_record_ids': tuple(dict.fromkeys((*policy['source_record_ids'], *(r['record_id'] for r in samples))))}
 
 
-def memory_use_guidance(store, *, entity_id, scope, privacy, memory_ids):
+def memory_use_guidance(store, *, entity_id, scope, privacy, memory_ids, recipient_context=None):
     """Bounded explicit user reports, advisory to C; never fact assessment.
 
     Selection targets only sources already chosen for this request. No automatic
@@ -291,6 +380,10 @@ def memory_use_guidance(store, *, entity_id, scope, privacy, memory_ids):
         if (exchange['payload'].get('entity_id')!=entity_id or exchange['scope']!=scope
                 or not records.current_support(exchange['record_id'])
                 or use.memory_id not in records.support(exchange['record_id'])):continue
+        delivery=row['payload'].get('delivery_attribution')
+        # Delivery-qualified feedback belongs to its exact recipient context;
+        # it is not a global preference for every other surface/contact.
+        if delivery is not None and delivery.get('recipient_context')!=recipient_context:continue
         target=records.memory.read(use.memory_id)
         if target['entity_id']!=entity_id or target['scope']!=scope or target['privacy_class'] not in privacy:continue
         seen.add(use.memory_id);refs.append(row['record_id'])

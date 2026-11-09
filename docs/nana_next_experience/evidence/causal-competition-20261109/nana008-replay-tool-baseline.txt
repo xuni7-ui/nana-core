@@ -1,0 +1,162 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+___ test_project_status_through_actual_surface_retains_only_closed_metadata ____
+
+tmp_path = PosixPath('/tmp/nana008renderrepro/test_project_status_through_ac0')
+
+    def test_project_status_through_actual_surface_retains_only_closed_metadata(tmp_path):
+     from nana_core.life.surfaces import SurfaceObservation,SurfaceBinding
+     from nana_core.life.config import load_config,update_config
+     clock=VirtualClock();home,path=initialize(tmp_path,clock)
+     cfg=load_config(home)
+     update_config(home,cfg.model_copy(update={'revision':cfg.revision+1,'surface_bindings':(SurfaceBinding(binding_id='cloud.cli',platform='cloud.cli',surface='chat.direct',adapter='shadow.local'),)}),expected_revision=cfg.revision)
+     text='这个工程现在进展怎样？' # synthetic project query; not the human opener
+     with relay(home,'UNCLEAR') as (router,requests),LifeApplication(home,clock=clock,router=router) as app:
+      app.pause();before={t:len(app.runtime.store.all(t)) for t in ('actions','goals','grants')}
+      result=app.surfaces.receive(SurfaceObservation(binding_id='cloud.cli',event_id='synthetic-status-surface',topic='first-life',privacy_class='PROJECT',text=text))
+      assert result['mode']=='PROJECT_STATUS' and result['render_state']=='UNVERIFIED_MODEL_WORDING'
+      assert len(requests)==2 and not result['delivered'] and not result['execution_authority']
+      assert before=={t:len(app.runtime.store.all(t)) for t in before}
+      record=app.runtime.store.db.execute('SELECT record_id FROM subject_events WHERE source_key=?',(result['source_key'],)).fetchone()[0]
+      from nana_core.continuity.records import RecordService
+      payload=RecordService(app.runtime.store).read(record)['payload']['input']
+      assert payload['text']=='Local input reviewed meaning: PROJECT_STATUS'
+      assert text not in str(app.runtime.store.snapshot())
+      again=app.surfaces.receive(SurfaceObservation(binding_id='cloud.cli',event_id='synthetic-status-surface',topic='first-life',privacy_class='PROJECT',text=text))
+      assert again['state']=='ALREADY_REVIEWED_NO_REPLAY' and len(requests)==2
+      # The separate KEEP admission path uses the same finite vocabulary.
+      from nana_core.continuity.contracts import EvidenceInput,Provenance
+      from nana_core.continuity.memory import MemoryService
+      service=MemoryService(app.runtime.store)
+      p=Provenance(domain='LOCAL_INTERACTION_METADATA',source_namespace='recorded.local.subject',source_reference='synthetic-kept-status',source_kind='USER_STATEMENT')
+      service.capture(EvidenceInput(provenance=p,text=payload['text'],privacy_class='PROJECT',observed_time_us=clock.utc_now_us()))
+      with pytest.raises(CoreError,match='LOCAL_METADATA_ONLY'):
+       service.capture(EvidenceInput(provenance=p.model_copy(update={'source_reference':'unsafe-suffix'}),text=payload['text']+' arbitrary prose',privacy_class='PROJECT',observed_time_us=clock.utc_now_us()))
+      # A fresh rendering verification can reuse the already committed C judgment
+      # without repeating INTERPRET or replaying its old RENDER request.
+      from tools.nana_first_life_live_response.attempt import render_existing
+      from uuid import uuid4
+      counts={t:len(app.runtime.store.all(t)) for t in ('subject_cycles','actions','goals','grants')}
+>     info,wording=render_existing(app,result['source_key'],text,str(uuid4()))
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/first_life/test_project_status_context.py:189: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+tools/nana_first_life_live_response/attempt.py:40: in render_existing
+    session,rid=app._model('first-life.render-validation.'+attempt_id,'RENDER',event.source_memory_ids[0],text,event.interaction_signal.topic_key,'PROJECT',cycle)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+src/nana_core/life/application.py:236: in _model
+    request=session.prepare(key, 'INTERPRET' if phase=='INTERPRET' else 'SOCIAL',tuple(dict.fromkeys((mid,*facts,*continuity,*(t.message_memory_id for t in recent)))),role_input=data,volatile_input=volatile,query_terms=recall_query_terms if phase=='RENDER' else (),
+src/nana_core/continuity/world_loop/cognition.py:357: in prepare
+    return self._prepare(key,role,source_ids,budget=budget,goal_id=goal_id,capabilities=capabilities,
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.world_loop.cognition.CognitionSession object at 0x7f8ab72d83b0>
+key = 'first-life.render-validation.1da2dde6-28ef-49ea-b52c-ceb73c6df318'
+role = 'SOCIAL', source_ids = ('b97403ba-b210-4feb-a7b6-ecea6fbd8a19',)
+budget = CognitionBudget(input_tokens=16384, output_tokens=1024, timeout_ms=120000, cost_ceiling_micro=100)
+goal_id = None, capabilities = ()
+role_input = {'dialogue': {'communication_purpose': {'cycle_id': 'c8bb3bf1-f6f9-4c4a-b75b-72a9daf289ce', 'respond_to_memory_ids': [...QUEST_ONLY', ...}, 'recent_history_truncated': False, 'retain_shared_life': False, 'conversation_decision': None, ...}}
+volatile_input = {'dialogue': {'communication_purpose': {'cycle_id': 'c8bb3bf1-f6f9-4c4a-b75b-72a9daf289ce', 'respond_to_memory_ids': [...QUEST_ONLY', ...}, 'recent_history_truncated': False, 'retain_shared_life': False, 'conversation_decision': None, ...}}
+pinned_only = False, query_terms = ()
+
+    def _prepare(self,key,role,source_ids,*,budget=None,goal_id=None,capabilities=(),role_input=None,volatile_input=None,pinned_only=False,query_terms=()):
+        if type(pinned_only) is not bool:raise CoreError('COGNITION_CONTEXT_SELECTION_INVALID')
+        old=self.store.db.execute('SELECT * FROM cognitive_requests WHERE request_key=?',(key,)).fetchone()
+        if old:return old['request_id']
+        r=self.runtime;r.lease.assert_current();b=budget or CognitionBudget()
+        if r.stop_requested:raise CoreError('RUNTIME_STOP_REQUESTED_NO_DISPATCH')
+        if self.route_snapshot is not None:
+            snap=self.route_snapshot;limit=snap.effective
+            if not self._route_guard or not self._route_guard():raise CoreError('ROUTE_CHANGED_BEFORE_DISPATCH')
+            media_op={'VISION':'IMAGE','AUDIO_UNDERSTAND':'AUDIO','VIDEO_UNDERSTAND':'VIDEO','STT':'AUDIO'}.get(snap.operation)
+            if (snap.operation=='COGNITION' and role=='MEDIA') or (media_op and (role!='MEDIA' or not role_input or role_input.get('modality')!=media_op)):raise CoreError('ROUTED_OPERATION_MISMATCH')
+            if limit.output_limit<64 or limit.context_limit<256:raise CoreError('BUDGET_DENIED')
+            b=CognitionBudget(input_tokens=min(b.input_tokens,limit.context_limit),output_tokens=min(b.output_tokens,limit.output_limit),timeout_ms=min(b.timeout_ms,limit.timeout_ms),cost_ceiling_micro=min(b.cost_ceiling_micro,limit.cost_ceiling))
+        now=self.store.clock.utc_now_us();count=self.store.db.execute("SELECT count(*) FROM cognitive_requests WHERE created_at_us>=?",(now//86400_000_000*86400_000_000,)).fetchone()[0]
+        if count>=self.max_calls:raise CoreError('COGNITION_DAILY_BUDGET')
+        if self.transport.remote and b.cost_ceiling_micro==0:raise CoreError('REMOTE_COST_RESERVATION_REQUIRED')
+        role_input=role_input or {}
+        goal=self.store.one('goals',goal_id) if goal_id else None
+        if goal_id and not goal:raise CoreError('COGNITION_GOAL_UNKNOWN')
+        request_id=uid()
+        current=[]
+        for g in self.store.db.execute("SELECT * FROM goals WHERE state IN ('ACTIVE','BLOCKED','SUSPENDED') LIMIT 16"):
+            head=self.store.one('continuity_records',json.loads(g['body_json']).get('record_id'))
+            if head and head['scope'] in r.config.scopes and head['privacy_class'] in allowed_for_request(self.transport,self.policy,role_input) and self.records.current_support(head['record_id']):current.append({'goal_id':g['goal_id'],'version':g['version'],'state':g['state']})
+        current=tuple(current)
+        world_stamp=self._world_stamp(r.config.scopes,allowed_for_request(self.transport,self.policy,role_input))
+        def make_request(context_json):
+            package=json.loads(context_json)
+            source_refs=tuple(dict.fromkeys((*source_ids,*(m for block in package['blocks'] for m in block['source_memory_ids']))))
+            return CognitionRequest(response_mode='JSON_STREAM' if role=='SOCIAL' and self.draft_sink is not None and isinstance(self.transport,OpenAIJSONTransport) else 'JSON',
+                request_id=request_id,subject_epoch=r.lease.epoch,subject_revision=r.subject.revision,cognitive_role=role,
+                source_context_refs=source_refs,primary_source_refs=tuple(source_ids),context_json=context_json,
+                current_goals=current,available_capabilities=tuple(capabilities),world_stamp=world_stamp,
+                expected_schema=StructuredProposal.model_json_schema(),role_input=role_input,budget=b,created_at_us=now,
+                deadline_us=now+b.timeout_ms*1000,route_snapshot=self.route_snapshot)
+        token_counter=getattr(self.transport,'token_counter',None)
+        if token_counter is not None:
+            from ..context import FramedContextCounter
+            def count_package(context_json):
+                candidate=make_request(context_json)
+                candidate._volatile_media=volatile_input
+                body=json.loads(self.transport.request_body(candidate))
+                return token_counter.count_request(body,provider_id=self.transport.provider_id,model_id=self.transport.model_id)
+            self.assembler.counter=FramedContextCounter(token_counter,count_package)
+        if token_counter is None:
+            from ..context import ConservativeCounter
+            self.assembler.counter=ConservativeCounter()
+        req=ContextRequest(entity_id=r.config.entity_id,scopes=r.config.scopes,task_class='world.'+role.lower(),task='Interpret sourced context; proposals only; silence is valid.',task_privacy_class=(role_input or {}).get('dialogue',{}).get('privacy_class','PUBLIC'),destination='DEVELOPMENT_REMOTE' if self.transport.remote else 'LOCAL_FIXTURE',max_input_tokens=b.input_tokens,output_reserve_tokens=b.output_tokens,query_terms=query_terms)
+        context=self.assembler.assemble(req,self.policy,capabilities=capabilities,limitations=('NO_AUTHORITY_IN_MODEL_OUTPUT',),required_memory_ids=source_ids,source_only=role=='MEDIA',pinned_only=pinned_only or bool(role_input and role_input.get('dialogue')),require_current_state=bool(role_input and role_input.get('dialogue',{}).get('project_status_query')),conversation_topic=role_input.get('dialogue',{}).get('topic') if role_input else None,recipient_context=role_input.get('dialogue',{}).get('recipient_context') if role_input else None)
+        if role_input and role_input.get('dialogue') and self.store.schema_target>=13 and not any(b.kind=='PERSON_SELF' for b in context.blocks):raise CoreError('PERSON_SELF_CONTEXT_BUDGET')
+        history_support=[]
+        selected={m for block in context.blocks for m in block.source_memory_ids}
+        if not set(source_ids)<=selected:raise CoreError('COGNITION_SOURCE_OUTSIDE_CONTEXT_BUDGET')
+        refs=tuple(dict.fromkeys((*source_ids,*(m for block in context.blocks for m in block.source_memory_ids))))
+        if not refs:raise CoreError('COGNITION_SOURCES_REQUIRED')
+        role_input=role_input or {};extra_parents=()
+        if role_input:
+            from ..open_agency.world import bounded_data,LocalWorldRegistry
+            if role!='MEDIA':bounded_data(role_input)
+            if role in {'PLAN','REPLAN'}:
+                from ..open_agency.contracts import PlannerInput
+                parsed=PlannerInput.model_validate_json(canonical(role_input))
+                parent=self.records.read(parsed.source_record_id)
+                if parent['scope'] not in req.scopes or parent['privacy_class'] not in allowed_for_role(self.transport,self.policy) or not self.records.current_support(parsed.source_record_id):raise CoreError('COGNITION_ROLE_SOURCE_DENIED')
+                extra_parents=(parsed.source_record_id,)
+            elif role=='LEARN':
+                from ..open_agency.learning import LearningSpec,LearningProblem
+                role_input=(LearningProblem.from_spec(LearningSpec.model_validate_json(canonical(role_input))) if 'evaluation' in role_input or 'transfer' in role_input else LearningProblem.model_validate_json(canonical(role_input))).model_dump(mode='json')
+            elif role=='SKILL':
+                from ..open_agency.code_skills import CodeSpec
+                if set(role_input)-{'spec','diagnostic'}:raise CoreError('COGNITION_ROLE_INPUT_REJECTED')
+                CodeSpec.model_validate_json(canonical(role_input['spec']))
+                if role_input.get('diagnostic') is not None and (type(role_input['diagnostic']) is not str or len(role_input['diagnostic'])>512):raise CoreError('COGNITION_ROLE_INPUT_REJECTED')
+            elif role in {'INTERPRET','SOCIAL'} and 'dialogue' in role_input:
+                if set(role_input)!={'dialogue'} or volatile_input is None:raise CoreError('DIALOGUE_TRANSIENT_REQUIRED')
+                descriptor=DialogueContext.model_validate_json(canonical(role_input['dialogue']))
+                actual=DialogueContext.model_validate_json(canonical(volatile_input['dialogue']))
+                if set(volatile_input)!={'dialogue'} or descriptor.text is not None or descriptor.recent_turns or not actual.text or actual.model_copy(update={'text':None,'recent_turns':()})!=descriptor or descriptor.message_memory_id not in source_ids or descriptor.phase!=('INTERPRET' if role=='INTERPRET' else 'RENDER'):raise CoreError('DIALOGUE_SOURCE_BINDING_INVALID')
+                if actual.privacy_class not in allowed_for_role(self.transport,self.policy):raise CoreError('DIALOGUE_PRIVACY_DENIED')
+                from ..memory import PRIVACY_RANK
+                purpose=descriptor.communication_purpose
+                if purpose is not None:
+                    cycle_row=self.store.one('subject_cycles',purpose.cycle_id)
+                    if role!='SOCIAL' or not cycle_row or cycle_row['revision']!=r.subject.revision:raise CoreError('COMMUNICATION_PURPOSE_BINDING_INVALID')
+                    cycle=r.subject.result(cycle_row)
+                    source=self.store.one('subject_events',cycle.event_id)
+                    # Local nonretained input intentionally has no event body.
+                    # Surface ingress retains normalized bound metadata only.
+                    surface=(self.records.read(source['record_id'])['payload']['input'].get('surface')
+                        if source['record_id'] else None)
+                    expected_recipient=({'platform':surface['platform'],'binding_id':surface['session_id'],
+                        'conversation_id':surface['conversation_id']} if surface else None)
+                    if (descriptor.recipient_context.model_dump(mode='json') if descriptor.recipient_context else None)!=expected_recipient:
+>                       raise CoreError('COMMUNICATION_PURPOSE_BINDING_INVALID')
+E                       nana_core.contracts.CoreError: COMMUNICATION_PURPOSE_BINDING_INVALID
+
+src/nana_core/continuity/world_loop/cognition.py:457: CoreError
+=========================== short test summary info ============================
+FAILED tests/first_life/test_project_status_context.py::test_project_status_through_actual_surface_retains_only_closed_metadata
+1 failed in 1.38s

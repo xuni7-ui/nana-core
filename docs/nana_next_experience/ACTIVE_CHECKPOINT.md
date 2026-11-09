@@ -1,3 +1,103 @@
+# Active continuation — privacy copy increment source ready, full successor next
+
+Latest committed77caeb6 fixed packaging: local022/077 + CI42549995332 double build all same9fe868…b014, actual remote download13645077479 and independent offline bootstrap passed. These archives contain original6fd runtime, NOT the new privacy code below.6fd full2131/12skip687.29s remains prior baseline, all original scope inherited.
+
+Current own source/test/workflow/docs batch changes only original PrivacyJournal copy progress: actual unchanged-copy file-family signature + exact completed prefix digest, only new suffix goes through original purge. Any changed/in-place/stale/nonprefix/WAL/lock/checkpoint failure resets; hardlinks retain full replay. Source-store purge/log replay unchanged. Frozen old39scans vs candidate3, real WAL/pinned-reader/stale-copy/anchor-edit and original privacy/cold/feedback/B8/learning48passed11.23s. Full/installed successor not yet qualified. See evidence/privacy-copy-increment-20261109; no authority/data format changes.
+
+Next immediately commit/push, fast-forward validation clone (currently6fd clean), full absolute-PYTHONPATH pytest with fresh /workspace/scratch/nana-privacy-full. Do not put another1.1GBfull run in tmpfs: retained data already occupies it. Completed n32resume moved intact/fingerprint-verified13199entries to /dev/shm/preserved-test-workdirs/n32resume; old root path now historical, original /workspace/nana-core protected. Root free~1.7GB at start, no DB/artifact deletion. Then reuse scoped CI matching double build/download/install and affected original owner/feedback/G32/Dream/source withdraw/rollback checks on exact new source.
+
+Continuous input/interrupt/pace remains code work in control.py urgent_only/application.chat; remaining C load/share/affect and delivery→C/S3/S8 outcomes, broader G/retrieval, main-chain archive/source-journal replay/restore, real Token counters/provider native protocols/model wizard, native final client and repository content closure all still active. Original user A–H unchanged. No real model/account/private import/user device/production/CURRENT/APK change. A local cache or candidate does not complete the whole task.
+
+---
+
+# Active continuation — real C33 download/install, fixed-mask packaging next
+
+C33CI42548690816 both jobsPASS (27Core/67client/24browser and actual two-build/offline install). Actual remote candidate ZIP13644566813 downloaded, digestverified; Coretarfe55bb…bf10 independently unpacked/offline installed and original BFF/feedback/restart/notes/backup passed DEV8b05129d… . Downloaded Web42files match6fd. Source inputs identical to6fd full2131pass12skip; no fake newer full run.
+
+Cross-host actual local C33 rebuild4bd8… differs from CItar though all284payloads match: generated file/wheel modes inherited umask0644vs0600. Current known own builder/test/workflow/docs repair normalizes archive metadata only. Old frozen builder fails the same genuine umask contrast; fixed21portable/import checks pass. Next commit/push exact batch, let original scoped CI build/upload fixed candidate, compare local fixed source under022/077 with CI, then download+independent install (no runtime code changed; reuse6fd controlled integration with byte-equivalence). C33artifact remains historical, not the fixed candidate. No APK/CURRENT/production.
+
+Storage canonical2 experiment has FINISHED successfully; do NOT rerun or start duplicate. Output /workspace/scratch/nana6fd-installed-storage-canonical-result.json and evidence/ci-download-and-repro-20261109. Main allocation aftercheckpoint20,955,136→10,821,632, exact schema/row-order andrawdump unchanged, later withdrawal/old seal invalidation preserved,0models. First rawdump failure remains failed/unreconstructed. Two-copy subset delta is not all-family delta; current all6copy inventory65,040,384bytes. Original180explicit withdrawals journal→eventP951749ms/event span750.53s exposes real privacy performance work. No automatic main compaction/active history eviction/DR implemented.
+
+Continue actual original work after packaging: bounded continuous input/interrupt/pace (control.py urgent_only/application.chat one-message path); remaining C real-load/share choice/affect and delivery→C/S3/S8 outcomes; G16/32 wider independent transfer/large semantic retrieval/200k2timeouts; main-chain archive/privacy performance/recovery; real configured-router tokenizer and provider protocols/model wizard; client/native final source and repository content closure.54Githeads only metadata: five diverged branches no Core commits, relational branch7Core commits still needs content/call comparison. All A–H preserved, no new task system or second authority. Current actual production head/model/phone/human/actual days unobserved/unqualified, not inferred from candidates.
+
+---
+
+# Active continuation — exact6fd full/install/rollback qualified; CI/download next
+
+Runtime6fd8ed544d5b0a195d159b6f9c75a5b36b022d5c full **2131pass/12skip687.29s**. Two284-file Core candidates same99f869…901e; Web42files9747fc…effd1. Actual offline BFF/feedback/G32/source withdrawal/Dream/virtual72h/sameDEV upgrade pass. Installed independent QQ readback→feedback→restart→same-vs-other recipient later wording now passes the original failed008 assertion; installed12625long reply/full retained restart/withdrawal passes. Stopped original DEV binary6fd→008→6fd, one same DB/Subject/lineage, no new C cycles/requests/effects. Browser24pass39.6s after exact body selector correction; first4fail20pass plus canceled unfixed run130 retained. See evidence/installed-6fd-20261109.
+
+Current own test/workflow/docs-only successor will trigger the existing scoped CI with matching two-build/offline-install candidate artifacts plus long-history browser case. Runtime source inputs remain6fd; compare relevant trees. Next verify remote run, fetch actual artifact and independently install/check it before calling download qualified. No new Release/APK/CURRENT/production.
+
+An explicit installed storage experiment is still running at checkpoint: /workspace/scratch/nana-installed-probes/verify-storage-reclaim.py --case-id canonical2 on /tmp/n6fdlong; PID60210 observed while active.240synthetic sources/180explicit withdrawals across original managed copies are costly. First SQLdump hash failure retained; all table data vs prior cold snapshot matches except expected quarantine marker. Canonical schema/explicit row-order rerun output /workspace/scratch/nana6fd-installed-storage-canonical-result.{json,txt}; do not start a duplicate or overwrite old files. This is an experiment, no automatic production compaction API or live history eviction. Save its result/first real failure before next code work. Original rawdata/old test DBs preserved.
+
+After CI/download and storage result, continue actual code: original control.py urgent-only currently rejects other incoming messages during model wait; application.chat binds one message, so bounded multi-input/interruption/pace remains. Original C load/share and wider autonomy/affect, delivery→C/S3/S8 outcomes, G16/32 wider independent transfer, large/semantic retrieval/200k2timeouts, full main-chain archive/privacy/restore, configured_router real Token counters/provider native protocols/model wizard and matching final mobile delivery remain unfinished development.54branch Git metadata does not finish import/runtime/production closure. All user A–H still inherited; real model/account/device/human/actual days/production separate original authorities. Do not stop only for an external gate or claim total completion.
+
+---
+
+# Active continuation — 09:30 recovery, causal competition/pressure/history repaired
+
+Entry on2026-11-09 09:34CST recovered same00898e0/remote, d2ancestor, five known own modifications; no other executor. Original mission fully inherited, not restart.008 full2123pass/1old render-tool recipient-missing failure/12skip634.55s; tool source-bound fix40pass. Original C due-promise vs owned interest four contrasts and restart/withdrawal57pass17.08s; guidance pressure reproduced in actual installed008 and one-preexisting-turn source, existing self fallback repairs it.160combined related77.74s. New complete retained long-history restore fixes10KB backend projection and8192UTF16 client mismatch:27backend/67client pass. Exact evidence/causal-competition-20261109 preserves first failures, bounded A–E paths, no old failed run relabelledPASS.
+
+Next immediately: commit/push this exact batch, fast-forward validation clone, full exact-source regression using absolute PYTHONPATH and new /dev/shm/nana-causal-full (preserve existing test DBs). Two matching Core builds + Web, actual independent offline installation, reuse original G32/feedback/long-retained/restart/withdrawal/Dream/same-DEV upgrade and original installed QQ delivery-recipient fixture.008 package6319b4…75b0 is historical284-file candidate, not these fixes. Failed installed QQ subject is preserved, not reset or replayed. CURRENT266+409 unchanged; no APK yet.
+
+Continue original all A–H after each verified batch: continuous inputs/interrupt/pace, remaining autonomy/affect, true delivery and C/S3/S8 outcomes, larger/semantic retrieval/remaining200k timeouts, main-chain physical archive/privacy/restore, full model-specific Token/protocol/product wizard and repository/final release. Do not mark all unfinished development external-blocked. Real model/account/device/human/naturalness/actual days/production remain separately unqualified and require original specific authorities where applicable. This environment was suspended between03:30 and09:30 continuations; no uninterrupted-run claim.
+
+---
+
+# Active continuation — recipient-bound original delivery feedback
+
+4dc full regression **2117pass/12skip591.63s**; current successor uses original C/Kernel independent receipt+readback to attribute retained QQ reply feedback, no send/read retry or human-read claim. Precise platform/binding/conversation context is checked against original C and used to scope later guidance.80related checks60.05s, including real owned HTTP loopback, same Subject restart followed by different same-vs-other-recipient RENDER, UNKNOWN/wrong-peer/time/source-withdrawal, feedback API/idempotency and original learning. Initial missing-body wiring failure16/40 retained; nonretained local chat stays nonretained. See evidence/delivery-attribution-20261109.
+
+Next: push this batch, fast-forward proper full-history validation clone, run exact successor full regression and two matching portable builds, offline original installation/feedback/G32/long reply/same-DEV upgrade/Dream. Continue all original A–H work; source-bound proof is not real delivery or full C/S3/S8 long-term causality. No APK/CURRENT/production change. Main-tree own current modifications are this batch; old /workspace/nana-core snapshot protected. Completed n32resume test files preserved at /workspace/scratch/preserved-test-workdirs/n32resume (no DB deletion).
+
+---
+
+# Active continuation — platform reply bound successor, full regression next
+
+70 exact package two equal21655e…beca4,284files, actual offline BFF/feedback/G32/sameDEV/Dream/cold/withdrawal and d2→70sameDEV upgrade passed;6loopback/real0. Actual oldGateway bootstrap execs registered70 under one PID and read-only checks preserve source DB/config/state hashes.70full2113pass/2old resource-expectationfail/12skip591.95s; strict revised tests preserve cheaper-first/pending dedup/actual pressure REST/no action/Grant/model,31related pass.
+
+Successor source projects existing QQ/Bili2048reply capacity before rendering/schema and rechecks before dispatch; local16384 stays. Baseline actual QQfixture failedQQ_MESSAGE_BOUND,34related final pass25.32s. This is not in70archive; commit successor, run full current-source regression, build+install matching successor once and verify source/lineage/contracts. Original Issue2/4source fixes inherited, actual DEV entry selection checked, real host/private/DR not qualified. Evidence/installed-70-20261109 and updatedSOURCE_NAVIGATION_AUDIT. Remaining all originalA–H work continues (continuous input, actual-delivery feedback/C-S3-S8, other autonomy, main-chain storage/privacy, model/product/real life). No newAPK/CURRENT/production.
+
+---
+
+# Active continuation — final-source regression and matching package next
+
+Current batch implements source-qualified bounded literal-note trigrams in original memory_terms with legacy/long/two-character scan fallback, original maintenance bounded backfill and checked rebuildable covering index.1k/10k/100k144/144;200k142/144,0false,2timeouts/P9548.18ms. Index storage adds~0.8GB in200k fixture; no archive/reclamation claim.55related checks passed14.56s. Long draft16384/no Token budget increase, honest clipped-history metadata, finite SSE parser/provisional4096prefix;34related and2actual HTTP→UDS→Core→SSE checks pass. See evidence/diverse-literal-20261109 and resumed-20261109.
+
+Next immediately: commit/push current batch, fast-forward proper full-history validation clone and run final-source full pytest with absolute PYTHONPATH; first entry full2097/4fail/12skip preserved. Build two matching exact-source portable candidates, actual offline install and original BFF/Core/G32/feedback/same-DEV upgrade/restart/Dream/withdrawal, preserving real failures. Source/installation do not qualify phone/model/human/long-term/production. Continue original all A–H remainder, especially source-bound delivery feedback and continuous input/autonomy remaining paths. No APK until backend/client final scope actually closes; CURRENT266+409 unchanged.
+
+---
+
+# Active continuation — communication purpose and bounded Brain projection
+
+Original C correction response now acknowledges a sourced correction instead of invariably asking what response is wanted. Current-turn purpose is projected from committed C and rechecked before RENDER; original cognition deadline/revision/owner/privacy bound it.38related checks passed17.32s, no real calls. Entry f4 full regression2097pass/4fail/12skip594.70s: filtered full history resolves shallow ancestry blockers; remaining typed Brain header was invalid (>8 arrays), compacted without relaxing parser. Exact first failures retained in evidence/resumed-20261109. Current-source full regression/First-Life projection recheck remains to run.
+
+Continue same all A–H task. A frozen diverse literal corpus is running1k/10k/100k/200k on original Store;1k/10k144/144 vs72/144, but100k BOTH arms144timeouts under unchanged100ms. This exposes a real scale bound, not success; inspect candidate qualification/materialization while preserving privacy and eligibility before LIMIT. The scale probe is a known own untracked draft until its full evidence is finalized. No APK/CURRENT/production change.
+
+---
+
+# Active continuation — resumed from f4b893b, 2026-11-09 03:34 Asia/Shanghai
+
+Latest local/remote f4b893b matched, clean at entry; no other Nana/pytest executor observed. Original complete mission restored. Installed d2 Dream continuation now passed after fixing only external virtual schedule; candidate pacing unchanged. Original queue external-admission→cognitive-load misclassification repaired,57related checks pass; original whole-task remainder persists. Correct absolute-PYTHONPATH full regression running in validation clone; installed Dream first failure under diagnosis against persisted SCAN cursor/due times. Old freeze below is historical. No new runtime implementation or qualification claimed at resume.
+
+---
+
+# Current user-requested freeze — 2026-11-08 23:20 Asia/Shanghai
+
+同一主任务 `NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT` 暂停执行，按用户指令创建并启用两次实际续办：**2026-11-09 03:30、09:30 Asia/Shanghai（北京时间）**。命令均为从届时最新合法源码/Brain继续全部未完成任务，非仅提醒；第二次先核对在途执行者，防并行覆盖或双写。旧22:30冻结/恢复记录为历史。
+
+冻结前安装源码已推 `d2d5e8ca5277dcd0c6ea034266ad652d16e53bcf`。保存时远端合法合入 `0742f0d`（PR#5治理导航/便携构建内部导入检查）；普通push拒绝后正常merge保留双方成果，恢复以最新合法后继为准，d2安装不冒充后继构建器资格。原G独立32资格、旧16保护、同预算回忆与原B8相关38通过；反馈完整编译/66前端/25HTTP/20四视口/独立CI成果复用。d2同源284文件两次构建同SHA `b6b56dceedfefea417cef63e1965cfdfd06897e6e3837a177fc8aac37e9a6976`，实际离线安装原BFF/Core/反馈幂等/十视图/同DEV重启/笔记撤回和G32不同后续笔记RENDER通过，6loopback真实0，Python3.12.14/SQLite3.53.1。候选未选CURRENT/生产；APK未重打。后继冻结提交仅保存证据/检查点及P95开发工具口径修正，无运行Core改动。
+
+**精确下一步**：先核对源码/远端/dirty及现有执行者，再读 `evidence/installed-scope32-20261108/README.md`。原安装梦境延续探针 `assert summary` 首次失败未排除，不称梦境/冷回读组合已过。候选游标遇新增17条填充来源、探针跳过非beacon候选的饥饿只是待验证假设；诊断原维护意向/原C驱动，不放宽断言。完整回归依赖和子进程PYTHONPATH问题有原始失败记录；修正后的原全仓命令因本次冻结有意SIGINT，**407 passed /230.29s，exit2/KeyboardInterrupt，非全仓PASS**。恢复使用绝对 `PYTHONPATH=/workspace/nana-core-validation/src` 与 `/workspace/nana-test-env/bin/python`；原1项SIGKILL恢复复验通过。原始失败、安装结果、外部探针patch和包指纹均已保存。
+
+开发工作树 `/workspace/nana-unified-release`；独立合法稀疏验证副本 `/workspace/nana-core-validation` 在d2；旧 `/workspace/nana-core` 18bc736保护。包/安装槽 `/workspace/scratch/nana-scope32-build-{a,b}` / `nana-scope32-installed`，合成DEV主体 `/tmp/n32installed/life`，原探针在 `/workspace/scratch/nana-installed-probes`。临时路径异地不保证存在，按证据匹配源码和依赖重建，不创建第二正式主体。不 reset/rebase/amend/force，不动未知工作。初次克隆稀疏漏模块与环境问题均不当产品修复。
+
+随后继续原任务全部A–H：自主性A–E全路径、自然交流连续输入/插话/节奏与投递、真实送达归因和原C/S3/S8因果、超过32/更大多样检索及长期独立迁移、主链物理存储/隐私闭包、完整模型特定Token/成本/超时、产品/模型向导、仓库/运行版本核对与最终匹配发行。现有32条有限资格不代替大规模或长期成长。完整用户命令见CODEX_CONTINUATION_MISSION.md和原task_inputs，原Store/Loop/C/D/G/Planner、Precision V2与冻结S1–S10/三横轴/63标准保持。
+
+既有开发/依赖/隔离测试/构建/提交/开发push授权继续；生产切换/genesis/私史/旧writer关闭/真实账号/用户设备/新持续费用仍按原单独授权，禁止历史聊天Key。CURRENT仍266+409；最终客户端确需更新时统一APK。局部安装/受控PASS不等于真实模型、手机、自然度、跨日/长期生活或生产验收。平台或外部依赖中止仅暂停相关资格并保存精确续办点；不承诺永久运行。
+
+---
+
 # Active continuation — original G independently checked32-note candidate
 
 Current source after4123b6b implements separate opt-in V2/32 qualification, legacy16 unchanged, original C/G practice/EVALUATE/TRANSFER, source withdrawal, actual later different-note RENDER and original B8 continuity.38related checks pass;24later-query same-Store comparison9/24→24/24, no false positives, P951.09→1.90ms (quality at added cost). Existing stable-self fallback preserves recall at the same8192/1024 fixture budget. Initial errors retained. Full current-source regression and matched portable installation pending; no newAPK/CURRENT/production. See evidence/retrieval-scope32-20261108 and original task remainder. Feedback independentCI42491401749 now passed both jobs, privateSQLite3.53.1; no minimum3.51.3 claim.

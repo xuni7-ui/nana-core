@@ -1,0 +1,66 @@
+--- a/verify-note-recall.py
++++ b/verify-note-recall.py
+@@ -15,7 +15,7 @@
+ from http.server import BaseHTTPRequestHandler, ThreadingHTTPServer
+ 
+ 
+-def run(bundle, work, *, check_wire_reservations=False, check_retrieval_growth=False, check_streaming=False, report_usage=False):
++def run(bundle, work, *, check_wire_reservations=False, check_retrieval_growth=False, check_streaming=False, report_usage=False, check_scope32=False):
+     if not __debug__:
+         raise ValueError("QUALIFICATION_REQUIRES_ASSERTIONS")
+     sys.dont_write_bytecode = True
+@@ -158,6 +158,7 @@
+                 "per_provider_calls_per_day": fixture_call_limit,
+                 "provider_total_calls_limit": fixture_call_limit,
+                 "provider_context_tokens": 16384,
++                "note_retrieval_notes_limit": 32 if check_scope32 else original.note_retrieval_notes_limit,
+             }
+         ),
+         expected_revision=original.revision,
+@@ -257,8 +258,12 @@
+                     )["memory_id"]
+                     for i, word in enumerate(("ＯＲＩＯＮ", "ＡＴＬＡＳ", "ＬＹＲＡ"))
+                 ]
++                if check_scope32:
++                    for index in range(17):
++                        save(app, text="SYNTHETIC installed filler item" + str(index), privacy="PROJECT",
++                             request_id="installed.scope32.filler." + str(index))
+                 evaluator = app.runtime.work.note_retrieval_growth.evaluator
+-                before = evaluator.lookup("IDENTITY", ("ORION",), evaluator.snapshot("project-work"))
++                before = evaluator.lookup("IDENTITY", ("ORION",), evaluator.snapshot("project-work", max_notes=32 if check_scope32 else 16))
+                 assert before == []
+                 offered = app.runtime.work.note_retrieval_growth.slice("project-work")
+                 assert offered["note_retrieval"] == "OFFERED_TO_C" and not app.runtime.store.all("lessons")
+@@ -276,6 +281,8 @@
+                 ).fetchone()
+                 data = RecordService(app.runtime.store).read(job["record_id"])["payload"]
+                 assert job["state"] == "DONE" and data["results"]["BASELINE"]["passed"] == 0
++                assert data["results"]["EVALUATE"]["qualification_scope"]["max_notes"] == (32 if check_scope32 else 16)
++                assert data["results"]["TRANSFER"]["qualification_scope"]["max_notes"] == (32 if check_scope32 else 16)
+                 assert data["results"]["EVALUATE"]["all_passed"] and data["results"]["TRANSFER"]["all_passed"]
+                 later = save(
+                     app,
+@@ -305,6 +312,7 @@
+                 assert answer["text"] == "SYNTHETIC no supplied note" and len(requests) == before_calls + 4
+             growth_result = {
+                 "before_literal_found": False,
++                "qualified_note_limit": 32 if check_scope32 else 16,
+                 "selected_method": selected[1],
+                 "independent_evaluation": True,
+                 "independent_transfer": True,
+@@ -344,6 +352,7 @@
+     parser.add_argument("--check-wire-reservations", action="store_true")
+     parser.add_argument("--check-retrieval-growth", action="store_true")
+     parser.add_argument("--check-streaming", action="store_true")
++    parser.add_argument("--check-scope32", action="store_true")
+     parser.add_argument("--report-usage", action="store_true", help="report explicitly synthetic usage in loopback replies")
+     args = parser.parse_args()
+     result = run(
+@@ -353,6 +362,7 @@
+         check_retrieval_growth=args.check_retrieval_growth,
+         check_streaming=args.check_streaming,
+         report_usage=args.report_usage,
++        check_scope32=args.check_scope32,
+     )
+     args.output.write_text(json.dumps(result, indent=2) + "\n")
+     print(json.dumps(result))

@@ -110,9 +110,11 @@ def choose(event,situation):
         return 'FOCUS_NOW',Judgment(stance='ASK',reason='Attend to the requested focus; preserve unrelated pending activity for later',source_ids=sources),Intention(kind='WAIT',purpose='Clarify the immediate need while background work yields',slot_key='context-focus',source_ids=sources,self_generated=False)
     if fit.mode=='PROJECT_STATUS':
         return 'FOCUS_NOW',Judgment(stance='WATCH',reason='Attend to an explicit project-status question using current sourced state, not clarification of an unclear intent',source_ids=sources),Intention(kind='SOCIAL_INTERACTION',purpose='Discuss sourced current project status and a supported assessment, not adopt work or invent personal experiences',slot_key='project-status-'+fit.topic_key,source_ids=sources,self_generated=False)
+    if fit.mode=='CORRECTION':
+        return 'FOCUS_NOW',Judgment(stance='WATCH',reason='Attend to the correction as a sourced report; it does not by itself verify or rewrite a fact',source_ids=sources),Intention(kind='SOCIAL_INTERACTION',purpose='Acknowledge the correction and distinguish established details from uncertainty; clarify only missing details',slot_key='correction-'+fit.topic_key,source_ids=sources,self_generated=False)
     if fit.mode in {'VENT','SHARE','CHAT'}:
         return 'FOCUS_NOW',Judgment(stance='WATCH',reason='Attend to the interaction without turning it into unsolicited research',source_ids=sources),Intention(kind='SOCIAL_INTERACTION',purpose='Consider a context-appropriate response, not a new project',slot_key='interaction-'+fit.topic_key,source_ids=sources,self_generated=False)
-    if fit.mode in {'UNCLEAR','DECLINE_DEPTH','CORRECTION'}:
+    if fit.mode in {'UNCLEAR','DECLINE_DEPTH'}:
         return 'FOCUS_NOW',Judgment(stance='ASK',reason='Intent is uncertain; clarification is preferable to unsolicited analysis',source_ids=sources),Intention(kind='WAIT',purpose='Ask what kind of response is wanted',slot_key='context-clarify',source_ids=sources,self_generated=self_generated)
     return 'FOCUS_NOW',Judgment(stance='THINK_MORE',reason='Consider explicit help or sourced significance; no goal is adopted by the request',source_ids=sources),Intention(kind='GOAL_CANDIDATE',purpose='Consider a bounded helpful next step',slot_key='help-'+fit.topic_key,source_ids=sources,self_generated=self_generated)
 

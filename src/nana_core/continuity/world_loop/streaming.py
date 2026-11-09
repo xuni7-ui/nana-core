@@ -69,7 +69,7 @@ class DraftPrefix:
             i += 1
 
     def feed(self, fragment):
-        if type(fragment) is not str or len(self.raw) + len(fragment) > 65536:
+        if type(fragment) is not str or len(self.raw) + len(fragment) > 131072:
             raise CoreError("PROVIDER_STREAM_CONTENT_BOUND")
         self.raw += fragment
         if self.blocked:
@@ -109,7 +109,7 @@ class DraftPrefix:
             if value and 0xD800 <= ord(value[-1]) <= 0xDBFF:
                 value = value[:-1]
             value.encode("utf-8")  # never emit an unpaired escaped surrogate
-            if len(value) > 4096:
+            if len(value) > 16384:
                 raise CoreError("PROVIDER_STREAM_DRAFT_BOUND")
             if not value.startswith(self.emitted):
                 self.blocked = True

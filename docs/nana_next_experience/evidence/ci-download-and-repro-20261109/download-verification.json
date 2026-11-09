@@ -1,0 +1,27 @@
+{
+  "portable": {
+    "downloaded_zip_sha256": "bb4c1e627ae63ed1748d15199fe445879849867b0caf585e62611a96ccc57068",
+    "zip_bytes": 15042100,
+    "entries": 4,
+    "uncompressed_bytes": 15038473,
+    "destination": "/workspace/scratch/nana-c33-downloaded/portable"
+  },
+  "client": {
+    "downloaded_zip_sha256": "a546cfe78486ffc6bdbd91a75e2caf4062a79d6d1e6a9d76ee6290108af2311b",
+    "zip_bytes": 634595,
+    "entries": 43,
+    "uncompressed_bytes": 1178621,
+    "destination": "/workspace/scratch/nana-c33-downloaded/client"
+  },
+  "bundle": {
+    "source_commit": "c33d94717736f8aeeaef95c341a4cbb7287ad8e1",
+    "sha256": "fe55bbdb6235f6916015b0e8cde354ff5e7d547b92334513755d711761c9bf10",
+    "bundle_files": 284,
+    "two_builds_match": true,
+    "offline_install": "PASS",
+    "production_changed": false,
+    "CURRENT_updated": false,
+    "real_provider_calls": 0,
+    "physical_phone": "NOT_RUN"
+  }
+}
