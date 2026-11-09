@@ -1,0 +1,18 @@
+{
+  "source_commit": "47fe4d2df3564b29222dd173ab8fa6006f8bbdcd",
+  "run_id": 42554694011,
+  "job_id": 128957682364,
+  "artifact_id": 13647312518,
+  "zip_sha256": "367ee9fa53b6df79b37f9207ec560884f7f15ff34a0cc1785ef1e5ddf41fa206",
+  "xml_sha256": "664087a56381469c82e01d8ad420c20cc5bde0d949ccb8543dd96af236cae608",
+  "result": {
+    "failed": 111,
+    "passed": 1975,
+    "errors": 61,
+    "skipped": 12,
+    "seconds": 706.79
+  },
+  "xml_local_path": "/workspace/scratch/nana47-ci-qualification-core.xml",
+  "candidate_created": false,
+  "production_changed": false
+}

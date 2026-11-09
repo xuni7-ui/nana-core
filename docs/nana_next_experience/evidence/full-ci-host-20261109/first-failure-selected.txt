@@ -1,0 +1,353 @@
+2026-11-09T03:08:22.3740687Z [36;1m/usr/bin/python3 -I -c 'import sqlite3; print(sqlite3.sqlite_version); assert sqlite3.sqlite_version == "3.46.1"'[0m
+2026-11-09T03:09:06.5016681Z [36;1m.qualification-venv/bin/python -c 'import sys,sqlite3; print(sys.version, sqlite3.sqlite_version); assert sqlite3.sqlite_version_info >= (3,51,3)'[0m
+2026-11-09T03:20:55.9840335Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:55.9902839Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:55.9965001Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0024281Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0074285Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0109897Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0165127Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0201854Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0239378Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0276522Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0315506Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0343398Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0358625Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0375514Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0398353Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0430652Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0446425Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0462561Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0477654Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0493560Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0508493Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0523585Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0539340Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0555291Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0571543Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0586930Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0602288Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0620469Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0638875Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0668952Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0684121Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0698020Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0713207Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0728393Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0744822Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0759627Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0774889Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0790344Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0806873Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0821665Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0836793Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0851486Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0883389Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0899099Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0912881Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0928475Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0942472Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0958424Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0972345Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.0988255Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1001905Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1017514Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1032330Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1047564Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1062149Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1077323Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1101992Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1119383Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1135115Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1150062Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1165224Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1204624Z >           raise CoreError("SKILL_SANDBOX_UNAVAILABLE")
+2026-11-09T03:20:56.1204786Z E           nana_core.contracts.CoreError: SKILL_SANDBOX_UNAVAILABLE
+2026-11-09T03:20:56.1225544Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1239103Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1253605Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1296058Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1397290Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'gpgconf'
+2026-11-09T03:20:56.1410921Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1425052Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1438991Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1452709Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1466271Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1479626Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1493253Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1506947Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1521966Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1538225Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.1582360Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.1611251Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.1635306Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.1659189Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.1682756Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.1706721Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.1730012Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.1767227Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.1816304Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.1840040Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.1863659Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.1887243Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.1913782Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.1940103Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.1974518Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2000911Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2031485Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2059669Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2086008Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2109664Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2136448Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2160468Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2184360Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2224423Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2285067Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2351388Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2390570Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2414106Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2437161Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2462142Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2487252Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2514673Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2539597Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2545327Z E        +  where 1 = CompletedProcess(args=['/__w/nana-core/nana-core/.qualification-venv/bin/python', '-m', 'tests.h1_semantics.crash_work...xception_type(errno_num, err_msg, err_filename)\nFileNotFoundError: [Errno 2] No such file or directory: \'ffmpeg\'\n').returncode
+2026-11-09T03:20:56.2550955Z E        +  where 1 = CompletedProcess(args=['/__w/nana-core/nana-core/.qualification-venv/bin/python', '-m', 'tests.h1_semantics.crash_work...xception_type(errno_num, err_msg, err_filename)\nFileNotFoundError: [Errno 2] No such file or directory: \'ffmpeg\'\n').returncode
+2026-11-09T03:20:56.2556555Z E        +  where 1 = CompletedProcess(args=['/__w/nana-core/nana-core/.qualification-venv/bin/python', '-m', 'tests.h1_semantics.crash_work...xception_type(errno_num, err_msg, err_filename)\nFileNotFoundError: [Errno 2] No such file or directory: \'ffmpeg\'\n').returncode
+2026-11-09T03:20:56.2561941Z E        +  where 1 = CompletedProcess(args=['/__w/nana-core/nana-core/.qualification-venv/bin/python', '-m', 'tests.h1_semantics.crash_work...xception_type(errno_num, err_msg, err_filename)\nFileNotFoundError: [Errno 2] No such file or directory: \'ffmpeg\'\n').returncode
+2026-11-09T03:20:56.2567594Z E        +  where 1 = CompletedProcess(args=['/__w/nana-core/nana-core/.qualification-venv/bin/python', '-m', 'tests.h1_semantics.crash_work...xception_type(errno_num, err_msg, err_filename)\nFileNotFoundError: [Errno 2] No such file or directory: \'ffmpeg\'\n').returncode
+2026-11-09T03:20:56.2592777Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2616906Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2641600Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2665760Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2694523Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2718053Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2743368Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2767629Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.2784194Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.2803664Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.2826927Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.2841326Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.2855961Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.2870362Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.2888278Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.2902847Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.2917430Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.2931341Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.2946213Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.2961042Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.2976291Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.2990137Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.3003858Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.3017427Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.3031645Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.3045814Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.3059395Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.3073947Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.3090151Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.3104745Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.3118922Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.3133297Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.3148062Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.3162106Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.3176709Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.3181203Z >           raise CoreError("SKILL_SANDBOX_UNAVAILABLE")
+2026-11-09T03:20:56.3181366Z E           nana_core.contracts.CoreError: SKILL_SANDBOX_UNAVAILABLE
+2026-11-09T03:20:56.3185805Z >           raise CoreError("SKILL_SANDBOX_UNAVAILABLE")
+2026-11-09T03:20:56.3185969Z E           nana_core.contracts.CoreError: SKILL_SANDBOX_UNAVAILABLE
+2026-11-09T03:20:56.3189851Z >           raise CoreError("SKILL_SANDBOX_UNAVAILABLE")
+2026-11-09T03:20:56.3190010Z E           nana_core.contracts.CoreError: SKILL_SANDBOX_UNAVAILABLE
+2026-11-09T03:20:56.3196458Z >           raise CoreError("PROVIDER_CONFIG_PRIVATE_DIRECTORY_REQUIRED")
+2026-11-09T03:20:56.3196682Z E           nana_core.contracts.CoreError: PROVIDER_CONFIG_PRIVATE_DIRECTORY_REQUIRED
+2026-11-09T03:20:56.3223679Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3250682Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3264879Z fatal: detected dubious ownership in repository at '/__w/nana-core/nana-core'
+2026-11-09T03:20:56.3291484Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3314584Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3344177Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3367673Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3375975Z SKIPPED [1] tests/h2_live_screen/test_live.py:16: explicit --live-screen required
+2026-11-09T03:20:56.3376183Z SKIPPED [1] tests/h2_live_screen/test_live.py:19: explicit --live-screen required
+2026-11-09T03:20:56.3376388Z SKIPPED [6] tests/h2_live_screen/test_live.py:56: explicit --live-screen required
+2026-11-09T03:20:56.3376588Z SKIPPED [1] tests/h2_live_screen/test_live.py:68: explicit --live-screen required
+2026-11-09T03:20:56.3376783Z SKIPPED [1] tests/h2_live_screen/test_live.py:85: explicit --live-screen required
+2026-11-09T03:20:56.3376997Z SKIPPED [1] tests/h2_live_screen/test_live.py:110: explicit --live-screen required
+2026-11-09T03:20:56.3377568Z SKIPPED [1] tests/offline_continuity/test_experiment.py:21: E12 real-model gate requires configured development endpoints via nana-semantic; offline pytest makes no real-model calls
+2026-11-09T03:20:56.3378298Z ERROR tests/first_life_android_v2/test_http_integration.py::test_web_ten_real_views_message_idempotency_and_host_stop - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3378992Z ERROR tests/first_life_android_v2/test_http_integration.py::test_native_exchange_origin_roles_revoke_and_injection - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3379670Z ERROR tests/first_life_android_v2/test_http_integration.py::test_unknown_does_not_repeat_dispatch_and_restart_gap - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3380367Z ERROR tests/first_life_android_v2/test_http_integration.py::test_bound_qq_shadow_no_impersonation_and_same_subject - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3381284Z ERROR tests/first_life_android_v2/test_http_integration.py::test_revoked_inflight_native_session_cannot_receive_late_body - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3381988Z ERROR tests/first_life_android_v2/test_http_integration.py::test_native_password_login_without_subject_id_or_web_pairing - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3382669Z ERROR tests/first_life_android_v2/test_http_integration.py::test_explicit_feedback_reaches_original_store_once - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3383496Z ERROR tests/first_life_android_v2/test_http_integration.py::test_feedback_requires_auth_role_csrf_and_explicit_consent - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3384289Z ERROR tests/first_life_android_v2/test_http_integration.py::test_feedback_unknown_reconciles_only_matching_original_commit[after_commit] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3385067Z ERROR tests/first_life_android_v2/test_http_integration.py::test_feedback_unknown_reconciles_only_matching_original_commit[before_commit] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3385833Z ERROR tests/first_life_android_v2/test_http_integration.py::test_feedback_unknown_reconciles_only_matching_original_commit[wrong_digest] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3386726Z ERROR tests/first_life_android_v2/test_http_integration.py::test_feedback_unknown_reconciles_only_matching_original_commit[withdrawn_source] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3387464Z ERROR tests/first_life_android_v2/test_memory_notes.py::test_actual_notes_correction_restart_recall_withdrawal_and_same_receipt - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3388172Z ERROR tests/first_life_android_v2/test_memory_notes.py::test_note_role_csrf_explicit_consent_and_private_retention_gates - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3388858Z ERROR tests/first_life_android_v2/test_memory_notes.py::test_dispatch_id_alone_cannot_fake_an_independent_saved_note - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3389648Z ERROR tests/first_life_android_v2/test_memory_notes.py::test_lost_actual_write_reply_reconciles_from_persisted_proof_without_redispatch[False] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3390426Z ERROR tests/first_life_android_v2/test_memory_notes.py::test_lost_actual_write_reply_reconciles_from_persisted_proof_without_redispatch[True] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3391201Z ERROR tests/first_life_android_v2/test_memory_notes.py::test_archived_lost_reply_reconciles_from_original_core_after_gateway_and_owner_restart - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3391903Z ERROR tests/first_life_android_v2/test_memory_search.py::test_actual_chinese_search_outside_recent_window_and_withdrawal - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3392637Z ERROR tests/first_life_android_v2/test_provider_models.py::test_authenticated_catalog_from_existing_vault_does_not_change_routes - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3393604Z ERROR tests/first_life_integration/test_live_gate.py::test_eight_call_envelope_requires_known_fixture_baseline_no_dispatch - subprocess.CalledProcessError: Command '['git', 'branch', '--show-current']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3394982Z ERROR tests/first_life_integration/test_preflight.py::test_preflight_read_only_offline_and_fail_closed_live_or_active - subprocess.CalledProcessError: Command '['git', 'branch', '--show-current']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3396360Z ERROR tests/first_life_integration/test_review_prepare.py::test_high_primary_significance_preserves_independent_framing_and_no_authority - subprocess.CalledProcessError: Command '['git', 'branch', '--show-current']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3397888Z ERROR tests/integration/test_first_shadow.py::test_fixed_source_integrity_and_no_global_install - subprocess.CalledProcessError: Command '['git', 'ls-tree', '-r', '--name-only', 'ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513', 'src/nana_core']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3399462Z ERROR tests/integration/test_first_shadow.py::test_first_probe_restart_dedup_evidence_candidate_barrier - subprocess.CalledProcessError: Command '['git', 'ls-tree', '-r', '--name-only', 'ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513', 'src/nana_core']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3400341Z ERROR tests/integration/test_first_shadow.py::test_stop_and_rollback_bound_to_one_workspace - subprocess.CalledProcessError: Command '['git', 'ls-tree', '-r', '--name-only', 'ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513', 'src/nana_core']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3401423Z ERROR tests/integration/test_first_shadow.py::test_no_existing_directory_or_symlink_can_be_repurposed - subprocess.CalledProcessError: Command '['git', 'ls-tree', '-r', '--name-only', 'ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513', 'src/nana_core']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3402316Z ERROR tests/integration/test_first_shadow.py::test_sigkill_recovery_never_reports_clean_rollback - subprocess.CalledProcessError: Command '['git', 'ls-tree', '-r', '--name-only', 'ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513', 'src/nana_core']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3403518Z ERROR tests/integration/test_first_shadow.py::test_corrupt_session_metadata_releases_launcher_lock - subprocess.CalledProcessError: Command '['git', 'ls-tree', '-r', '--name-only', 'ddabfc4e49221b45a9f9600dd2ab8cb7f66ec513', 'src/nana_core']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3404259Z ERROR tests/living_release_v4/test_conversation_history.py::test_actual_bff_history_is_role_scoped_and_receipts_never_replay - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3405013Z ERROR tests/living_release_v4/test_platform_credentials.py::test_actual_native_bind_revoke_shared_channels_and_no_secret_in_subject - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3405692Z ERROR tests/living_release_v4/test_platform_events.py::test_actual_http_requires_hmac_and_denies_browser_origin - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3406335Z ERROR tests/living_release_v4/test_platform_events.py::test_bilibili_event_uses_opaque_message_key_only - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3407036Z ERROR tests/living_release_v4/test_platform_events.py::test_actual_legacy_forwarder_has_one_signed_post_and_no_authority - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3407738Z ERROR tests/living_release_v4/test_platform_settings.py::test_actual_owner_config_cas_and_phone_switch_never_mints_grant - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3408666Z ERROR tests/living_release_v4/test_private_context.py::test_personal_actual_core_retention_restart_scoped_read_withdrawal_and_cached_receipt - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3409379Z ERROR tests/living_release_v4/test_private_context.py::test_personal_still_requires_surface_retention_and_provider_privacy - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3410068Z ERROR tests/living_release_v4/test_provider_vault.py::test_native_vault_cas_metadata_and_shared_reference_revocation - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3410747Z ERROR tests/living_release_v4/test_readiness.py::test_actual_bff_missing_provider_rejects_before_message_dispatch - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3411414Z ERROR tests/living_release_v4/test_readiness.py::test_model_readiness_does_not_block_original_topic_boundary - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3412085Z ERROR tests/living_release_v4/test_secret_binding.py::test_native_only_admin_binding_no_secret_in_durable_state - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3412787Z ERROR tests/living_release_v4/test_secret_binding.py::test_explicit_retention_reaches_existing_person_self_and_withdrawal - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3413830Z ERROR tests/living_release_v4/test_supervisor_secret_binding_contract.py::test_incompatible_rollback_preserves_actual_healthy_core_without_stop - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3414582Z ERROR tests/living_release_v4/test_supervisor_secret_binding_contract.py::test_contract_two_target_switches_and_consumes_guarded_fd - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3415387Z ERROR tests/living_release_v4/test_supervisor_secret_binding_contract.py::test_restart_rejects_new_incompatible_binding_without_stopping_healthy_core - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3416140Z ERROR tests/living_release_v4/test_supervisor_secret_binding_contract.py::test_legacy_plain_map_still_starts_with_contract_one_target - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3416880Z ERROR tests/living_release_v4/test_supervisor_secret_binding_contract.py::test_empty_durable_binding_allows_legacy_offline_start - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3417650Z ERROR tests/living_release_v4/test_supervisor_secret_binding_contract.py::test_binding_added_after_empty_metadata_is_rechecked_before_popen - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3418405Z ERROR tests/living_release_v4/test_supervisor_secret_binding_contract.py::test_incompatible_start_does_not_export_or_mutate_stop_latch - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3419141Z ERROR tests/living_release_v4/test_supervisor_secret_binding_contract.py::test_invalid_target_contract_rejected_before_stop[True] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3419972Z ERROR tests/living_release_v4/test_supervisor_secret_binding_contract.py::test_invalid_target_contract_rejected_before_stop[2] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3420691Z ERROR tests/living_release_v4/test_supervisor_secret_binding_contract.py::test_invalid_target_contract_rejected_before_stop[0] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3421421Z ERROR tests/living_release_v4/test_supervisor_secret_binding_contract.py::test_invalid_target_contract_rejected_before_stop[-1] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3422171Z ERROR tests/living_release_v4/test_supervisor_secret_binding_contract.py::test_metadata_failure_rejects_change_without_export_or_stop - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3423925Z ERROR tests/living_release_v4/test_supervisor_secret_binding_contract.py::test_no_fd_binding_and_opaque_legacy_callback_remain_compatible - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3425417Z ERROR tests/living_release_v4/test_supervisor_secret_binding_contract.py::test_development_fallback_requires_actual_loaded_decoder_and_never_production - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3426674Z ERROR tests/real_living_integration/test_integration.py::test_real_http_host_opt_in_cas_no_network_no_subject_events - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3428140Z ERROR tests/real_living_integration/test_integration.py::test_provider_reader_not_configuration_authority - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3429605Z ERROR tests/real_living_integration/test_integration.py::test_backup_projection_is_authenticated_and_never_promotes_local_to_dr - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3430805Z ERROR tests/unified_release/test_configuration.py::test_new_v3_commands_real_http_revision_roles_and_receipts - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3432092Z ERROR tests/unified_release/test_pairing_protocol.py::test_official_issuer_and_original_pairing_session_work_together - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3434641Z FAILED tests/controlled_hands/test_application.py::test_real_subject_outcome_learning_transfer_and_bounded_extension - AssertionError: bounded owned-application progress incomplete: [('owned-document', 'COMPLETED'), ('owned-document', 'COMPLETED'), ('owned-form', 'COMPLETED'), ('owned-form', 'COMPLETED'), ('owned-form', 'FAILED'), ('owned-form', 'FAILED'), ('owned-document', 'FAILED')]
+2026-11-09T03:20:56.3437002Z FAILED tests/controlled_hands/test_recovery.py::test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[DURING_LEARNING] - AssertionError: bounded owned-application progress incomplete: [('owned-document', 'COMPLETED'), ('owned-document', 'COMPLETED'), ('owned-form', 'COMPLETED'), ('owned-form', 'COMPLETED'), ('owned-form', 'FAILED'), ('owned-form', 'FAILED'), ('owned-document', 'FAILED')]
+2026-11-09T03:20:56.3437651Z FAILED tests/controlled_hands/test_recovery.py::test_actual_process_sigkill_preserves_identity_effects_and_original_cursor[DURING_SKILL_TEST] - AssertionError: cut not reached
+2026-11-09T03:20:56.3438960Z FAILED tests/controlled_world/test_crash_campaign.py::test_actual_process_cut_same_subject_no_duplicate_effect_or_authority[SKILL_QUALIFICATION] - AssertionError: ('SKILL_QUALIFICATION', 'Traceback (most recent call last):
+2026-11-09T03:20:56.3447125Z FAILED tests/controlled_world/test_noisy_growth.py::test_skill_created_qualified_used_reused_counterexample_suspended_retired - nana_core.contracts.CoreError: SKILL_SANDBOX_UNAVAILABLE
+2026-11-09T03:20:56.3447700Z FAILED tests/engineering_quality/test_host.py::test_bwrap_unavailable_never_falls_back[namespace-denied] - AssertionError: assert 0 == ('namespace-denied' == 'namespace-denied'
+2026-11-09T03:20:56.3448399Z FAILED tests/engineering_quality/test_host.py::test_real_bwrap_isolation_and_pure_skill - AssertionError: assert ('UNAVAILABLE' == 'AVAILABLE'
+2026-11-09T03:20:56.3449552Z FAILED tests/first_life/test_rehearsal.py::test_actual_process_owner_handoff_and_fresh_lineage_rollback - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3450311Z FAILED tests/first_life_android_v2/test_canonical_legacy.py::test_one_explicit_genesis_then_fenced_activation_no_shadow_promotion - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3451300Z FAILED tests/first_life_android_v2/test_chat_stream_http.py::test_complete_network_path_streams_before_provider_done_without_replacing_original_subject[A deliberately synthetic language response] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3477536Z FAILED tests/first_life_android_v2/test_chat_stream_http.py::test_complete_network_path_streams_before_provider_done_without_replacing_original_subject[SYNTHETIC_LONG_BFF_RESPONSE source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. source-bound explanation. ] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3478397Z FAILED tests/first_life_android_v2/test_rev3_operator.py::test_b1_actual_openpgp_roundtrip_and_pc_receive_are_not_real_dr - FileNotFoundError: [Errno 2] No such file or directory: 'gpgconf'
+2026-11-09T03:20:56.3479070Z FAILED tests/first_life_android_v2/test_supervisor.py::test_actual_start_pause_stop_restart_and_sigkill - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3479836Z FAILED tests/first_life_android_v2/test_supervisor.py::test_managed_readiness_requires_current_control_peer[None] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3480530Z FAILED tests/first_life_android_v2/test_supervisor.py::test_managed_readiness_requires_current_control_peer[False] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3481215Z FAILED tests/first_life_android_v2/test_supervisor.py::test_managed_readiness_requires_current_control_peer[True] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3481886Z FAILED tests/first_life_android_v2/test_supervisor.py::test_wrong_identity_and_production_activation_rejected - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3482586Z FAILED tests/first_life_android_v2/test_supervisor.py::test_controlled_release_switch_and_stop_latch_survives_reopen - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3483661Z FAILED tests/first_life_android_v2/test_supervisor.py::test_release_rechecks_outstanding_work_after_owner_stops - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3484355Z FAILED tests/first_life_android_v2/test_supervisor.py::test_manual_start_cannot_bypass_outstanding_work - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3485072Z FAILED tests/first_life_integration/test_live_gate.py::test_exact_secret_audit_blocks_leak_and_writes_only_sanitized_summary - subprocess.CalledProcessError: Command '['git', 'ls-files', '-z']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3485818Z FAILED tests/first_life_integration/test_preflight.py::test_branch_mismatch_stays_blocked_without_default_policy_change - subprocess.CalledProcessError: Command '['git', 'branch', '--show-current']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3486614Z FAILED tests/foundation_closure/test_semantic_chain.py::test_current_lineage_owned_source_semantic_world_concern_c_withdrawal_restart - nana_core.contracts.CoreError: PRIVATE_CONTINUITY_DIRECTORY_REQUIRED
+2026-11-09T03:20:56.3487191Z FAILED tests/h1_live_semantics/test_wire.py::test_wire_measurements_real_bytes_digest_ids_no_headers_and_legacy_digest - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3487756Z FAILED tests/h1_live_semantics/test_wire.py::test_public_dataset_independent_repeatable_shape_text_and_actual_video - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3488274Z FAILED tests/h1_live_semantics/test_wire.py::test_failure_measurements_and_no_transport_retry[timeout] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3488803Z FAILED tests/h1_live_semantics/test_wire.py::test_failure_measurements_and_no_transport_retry[malformed] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3489323Z FAILED tests/h1_live_semantics/test_wire.py::test_failure_measurements_and_no_transport_retry[refusal] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3489850Z FAILED tests/h1_live_semantics/test_wire.py::test_failure_measurements_and_no_transport_retry[http_error] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3490408Z FAILED tests/h1_live_semantics/test_wire.py::test_incomplete_response_keeps_allowlisted_usage_and_resets_on_timeout - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3491072Z FAILED tests/h1_semantics/test_grounding.py::test_actual_media_grounding_temporal_lineage_summary_and_erasure[IMAGE] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3491647Z FAILED tests/h1_semantics/test_grounding.py::test_actual_media_grounding_temporal_lineage_summary_and_erasure[AUDIO] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3492199Z FAILED tests/h1_semantics/test_grounding.py::test_actual_media_grounding_temporal_lineage_summary_and_erasure[VIDEO] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3492713Z FAILED tests/h1_semantics/test_grounding.py::test_semantic_contradiction_direct_correction_and_context - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3493497Z FAILED tests/h1_semantics/test_grounding.py::test_semantic_privacy_isolated_context_stale_and_digest - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3494007Z FAILED tests/h1_semantics/test_grounding.py::test_semantic_output_dangerous_boundaries[origin] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3494508Z FAILED tests/h1_semantics/test_grounding.py::test_semantic_output_dangerous_boundaries[identity] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3495005Z FAILED tests/h1_semantics/test_grounding.py::test_semantic_output_dangerous_boundaries[source] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3495485Z FAILED tests/h1_semantics/test_grounding.py::test_semantic_output_dangerous_boundaries[span] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3495962Z FAILED tests/h1_semantics/test_grounding.py::test_semantic_output_dangerous_boundaries[asr] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3496456Z FAILED tests/h1_semantics/test_grounding.py::test_semantic_output_dangerous_boundaries[summary] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3496940Z FAILED tests/h1_semantics/test_grounding.py::test_semantic_output_dangerous_boundaries[goal] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3497579Z FAILED tests/h1_semantics/test_grounding.py::test_semantic_failures_no_retry_or_late_write[timeout] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3498078Z FAILED tests/h1_semantics/test_grounding.py::test_semantic_failures_no_retry_or_late_write[partial] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3498579Z FAILED tests/h1_semantics/test_grounding.py::test_semantic_failures_no_retry_or_late_write[malformed] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3499071Z FAILED tests/h1_semantics/test_grounding.py::test_semantic_failures_no_retry_or_late_write[deleted] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3499625Z FAILED tests/h1_semantics/test_grounding.py::test_source_withdrawal_during_call_and_semantic_epistemic_promotion - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3500127Z FAILED tests/h1_semantics/test_grounding.py::test_input_bounds_exact_source_key_and_billing_unknown - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3500630Z FAILED tests/h1_semantics/test_grounding.py::test_media_context_routes_parts_not_untyped_source_body - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3501161Z FAILED tests/h1_semantics/test_integration.py::test_same_semantic_observation_different_subject_priorities - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3501697Z FAILED tests/h1_semantics/test_integration.py::test_data_privacy_and_media_wire_parts_do_not_expand_authority - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3502326Z FAILED tests/h1_semantics/test_integration.py::test_separate_video_audio_association_and_gapped_coverage - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3502849Z FAILED tests/h1_semantics/test_integration.py::test_fixture_asr_contract_does_not_become_a_user_command - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3503538Z FAILED tests/h1_semantics/test_integration.py::test_new_semantic_revision_reaches_fresh_c_review_and_can_stay_silent - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3504040Z FAILED tests/h1_semantics/test_life.py::test_48h_semantic_world_reuses_f_g_i_and_preserves_subject[0] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3504527Z FAILED tests/h1_semantics/test_life.py::test_48h_semantic_world_reuses_f_g_i_and_preserves_subject[1] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3505072Z FAILED tests/h1_semantics/test_recovery.py::test_actual_h1_sigkill_reopen_no_duplicate_provider_belief_cycle_or_goal[decode] - AssertionError: Traceback (most recent call last):
+2026-11-09T03:20:56.3508694Z  +  where 1 = CompletedProcess(args=['/__w/nana-core/nana-core/.qualification-venv/bin/python', '-m', 'tests.h1_semantics.crash_work...xception_type(errno_num, err_msg, err_filename)\nFileNotFoundError: [Errno 2] No such file or directory: \'ffmpeg\'\n').returncode
+2026-11-09T03:20:56.3509368Z FAILED tests/h1_semantics/test_recovery.py::test_actual_h1_sigkill_reopen_no_duplicate_provider_belief_cycle_or_goal[calling] - AssertionError: Traceback (most recent call last):
+2026-11-09T03:20:56.3512832Z  +  where 1 = CompletedProcess(args=['/__w/nana-core/nana-core/.qualification-venv/bin/python', '-m', 'tests.h1_semantics.crash_work...xception_type(errno_num, err_msg, err_filename)\nFileNotFoundError: [Errno 2] No such file or directory: \'ffmpeg\'\n').returncode
+2026-11-09T03:20:56.3513633Z FAILED tests/h1_semantics/test_recovery.py::test_actual_h1_sigkill_reopen_no_duplicate_provider_belief_cycle_or_goal[proposed] - AssertionError: Traceback (most recent call last):
+2026-11-09T03:20:56.3516876Z  +  where 1 = CompletedProcess(args=['/__w/nana-core/nana-core/.qualification-venv/bin/python', '-m', 'tests.h1_semantics.crash_work...xception_type(errno_num, err_msg, err_filename)\nFileNotFoundError: [Errno 2] No such file or directory: \'ffmpeg\'\n').returncode
+2026-11-09T03:20:56.3517661Z FAILED tests/h1_semantics/test_recovery.py::test_actual_h1_sigkill_reopen_no_duplicate_provider_belief_cycle_or_goal[belief] - AssertionError: Traceback (most recent call last):
+2026-11-09T03:20:56.3521081Z  +  where 1 = CompletedProcess(args=['/__w/nana-core/nana-core/.qualification-venv/bin/python', '-m', 'tests.h1_semantics.crash_work...xception_type(errno_num, err_msg, err_filename)\nFileNotFoundError: [Errno 2] No such file or directory: \'ffmpeg\'\n').returncode
+2026-11-09T03:20:56.3521858Z FAILED tests/h1_semantics/test_recovery.py::test_actual_h1_sigkill_reopen_no_duplicate_provider_belief_cycle_or_goal[cycle] - AssertionError: Traceback (most recent call last):
+2026-11-09T03:20:56.3525235Z  +  where 1 = CompletedProcess(args=['/__w/nana-core/nana-core/.qualification-venv/bin/python', '-m', 'tests.h1_semantics.crash_work...xception_type(errno_num, err_msg, err_filename)\nFileNotFoundError: [Errno 2] No such file or directory: \'ffmpeg\'\n').returncode
+2026-11-09T03:20:56.3525954Z FAILED tests/h1_semantics/test_recovery.py::test_h1_subject_package_retains_interpretation_not_provider_or_execution_handles - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3526480Z FAILED tests/h2_perception/test_boundaries.py::test_generated_file_import_actual_decode[AUDIO-ops1] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3526988Z FAILED tests/h2_perception/test_boundaries.py::test_generated_file_import_actual_decode[VIDEO-ops2] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3527614Z FAILED tests/h2_perception/test_capture.py::test_audio_true_pcm_decode_and_synthetic_stt[PUBLIC] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3528119Z FAILED tests/h2_perception/test_capture.py::test_audio_true_pcm_decode_and_synthetic_stt[PERSONAL] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3528603Z FAILED tests/h2_perception/test_capture.py::test_audio_true_pcm_decode_and_synthetic_stt[SECRET] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3529057Z FAILED tests/h2_perception/test_capture.py::test_video_real_ffmpeg_and_h1 - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3529486Z FAILED tests/h2_perception/test_system.py::test_24h_virtual_mixed_sensor_soak - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3530298Z FAILED tests/independent_life/test_retrieval_growth_expanded.py::test_scope32_qualification_and_future_context_survive_original_b8_transfer - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3531045Z FAILED tests/independent_life/test_unknown_background_contract.py::test_terminal_unknown_survives_actual_dev_release_change - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3531525Z FAILED tests/lived_growth/test_boundaries.py::test_board_erasure_source_and_skill_support_close_together - AssertionError: assert (4 == 4 and 2 == 2 and 0 == 1)
+2026-11-09T03:20:56.3533872Z FAILED tests/lived_growth/test_boundaries.py::test_skill_tests_are_sliced_and_foreground_preempts_without_losing_case_cursor - assert None is not None
+2026-11-09T03:20:56.3534560Z FAILED tests/lived_growth/test_work.py::test_two_real_task_domains_failure_learning_generated_skill_unseen_use - AssertionError: [('python-api', 'COMPLETED'), ('python-api', 'COMPLETED'), ('markdown-outline', 'COMPLETED')]
+2026-11-09T03:20:56.3536217Z FAILED tests/living_release_v4/test_archive_ingress.py::test_import_resume_restart_recall_and_withdraw_use_one_original_store - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3536909Z FAILED tests/living_release_v4/test_archive_ingress.py::test_approval_denials_precede_all_memory_writes[lineage] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3537585Z FAILED tests/living_release_v4/test_archive_ingress.py::test_approval_denials_precede_all_memory_writes[plan] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3538269Z FAILED tests/living_release_v4/test_archive_ingress.py::test_approval_denials_precede_all_memory_writes[privacy] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3539064Z FAILED tests/living_release_v4/test_archive_ingress.py::test_approval_denials_precede_all_memory_writes[expired] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3539765Z FAILED tests/living_release_v4/test_archive_ingress.py::test_approval_denials_precede_all_memory_writes[permissions] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3540446Z FAILED tests/living_release_v4/test_archive_ingress.py::test_approval_denials_precede_all_memory_writes[missing] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3541087Z FAILED tests/living_release_v4/test_archive_ingress.py::test_plain_dto_cannot_enable_legacy_ingress - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3541860Z FAILED tests/living_release_v4/test_archive_ingress.py::test_archive_withdrawal_before_crash_is_reconciled_before_restarted_owner_reads - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3542572Z FAILED tests/living_release_v4/test_archive_ingress.py::test_actual_healthy_owner_is_not_stopped_for_an_old_memory_decoder - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3543333Z FAILED tests/living_release_v4/test_bilibili.py::test_original_memory_world_concern_c_and_withdrawal - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3544244Z FAILED tests/living_release_v4/test_channel_preparation.py::test_delivered_operator_channel_plan_is_readonly_and_apply_never_creates_subject - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3544997Z FAILED tests/living_release_v4/test_config_permissions.py::test_permission_plan_apply_and_idempotence_preserve_original_subject - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3545715Z FAILED tests/living_release_v4/test_config_permissions.py::test_active_original_store_blocks_apply_without_rewriting_config - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3546430Z FAILED tests/living_release_v4/test_config_permissions.py::test_alias_config_cannot_redirect_permission_changes[symlink] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3547150Z FAILED tests/living_release_v4/test_config_permissions.py::test_alias_config_cannot_redirect_permission_changes[hardlink] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3547935Z FAILED tests/living_release_v4/test_platform_authority.py::test_development_subject_cannot_gain_real_platform_authority_from_typed_descriptor - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3548641Z FAILED tests/living_release_v4/test_platform_settings.py::test_actual_supervisor_platform_fd_does_not_enable_model_calls - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3549339Z FAILED tests/living_release_v4/test_preflight.py::test_preflight_reads_existing_subject_without_creating_authority - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3550050Z FAILED tests/living_release_v4/test_private_context.py::test_private_binding_rejects_old_release_before_healthy_owner_stops - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3550861Z FAILED tests/living_release_v4/test_provider_vault.py::test_vault_cannot_be_created_inside_aliased_subject_home[symlink] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3551589Z FAILED tests/living_release_v4/test_provider_vault.py::test_vault_cannot_be_created_inside_aliased_subject_home[parent_segment] - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3552330Z FAILED tests/living_release_v4/test_provider_vault.py::test_actual_bff_process_restart_restores_binding_without_new_provider_input - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3552996Z FAILED tests/living_release_v4/test_readiness.py::test_budget_two_phase_check_uses_original_reservations - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3553839Z FAILED tests/living_release_v4/test_secret_binding.py::test_real_child_fd_binding_readiness_without_network_dispatch - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3554420Z FAILED tests/open_autonomy/test_code_skills.py::test_generated_python_fails_repairs_sandbox_tests_reviews_packages_and_retires - nana_core.contracts.CoreError: SKILL_SANDBOX_UNAVAILABLE
+2026-11-09T03:20:56.3554986Z FAILED tests/open_autonomy/test_code_skills.py::test_copied_active_skill_record_does_not_recreate_local_execution_authority - nana_core.contracts.CoreError: SKILL_SANDBOX_UNAVAILABLE
+2026-11-09T03:20:56.3555658Z FAILED tests/open_autonomy/test_complete_life.py::test_real_cross_domain_service_calls_and_learning_change_future_behavior - nana_core.contracts.CoreError: SKILL_SANDBOX_UNAVAILABLE
+2026-11-09T03:20:56.3556215Z FAILED tests/person_self/test_portability.py::test_two_cognition_configurations_preserve_same_self - nana_core.contracts.CoreError: PROVIDER_CONFIG_PRIVATE_DIRECTORY_REQUIRED
+2026-11-09T03:20:56.3556797Z FAILED tests/provider_routing/test_ports.py::test_original_openai_transport_native_loopback_config_to_h1[VISION-IMAGE] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3557421Z FAILED tests/provider_routing/test_ports.py::test_original_openai_transport_native_loopback_config_to_h1[VIDEO_UNDERSTAND-VIDEO] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3558130Z FAILED tests/real_living_integration/test_integration.py::test_existing_home_preflight_never_genesis - subprocess.CalledProcessError: Command '['git', 'rev-parse', 'HEAD']' returned non-zero exit status 128.
+2026-11-09T03:20:56.3558664Z FAILED tests/world_loop/test_boundaries.py::test_budgeted_source_selection_and_public_recorded_domain - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3559199Z FAILED tests/world_loop/test_foundation.py::test_actual_image_audio_video_decode_spans_and_source_erasure - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3559703Z FAILED tests/world_loop/test_living.py::test_dynamic_sourced_goals_and_two_self_detected_skill_kinds - AssertionError: assert set() == {'TEXT_CLEAN'...KEN_ANALYSIS'}
+2026-11-09T03:20:56.3561048Z FAILED tests/world_loop/test_system.py::test_integrated_world_life_and_distinct_contrast[0] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3561648Z FAILED tests/world_loop/test_system.py::test_integrated_world_life_and_distinct_contrast[1] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-09T03:20:56.3561851Z 111 failed, 1975 passed, 12 skipped, 7 warnings, 61 errors in 706.79s (0:11:46)

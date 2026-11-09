@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 109,
-  "as_of_us": 1794194358497801,
+  "revision": 110,
+  "as_of_us": 1794194818252750,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_ORIGINAL_CONTINUOUS_INPUT_AND_FULL_SOURCE_QUALIFICATION",
+  "status": "IN_PROGRESS_CONTINUOUS_INPUT_AND_CI_HOST_REPAIR",
   "progress": [
     "同一Next Experience与十域主任务已恢复；唯一Subject/Store/Loop、原C/D/G/Planner及Precision V2保持。最新合法源码与Brain优先。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
@@ -27,7 +27,7 @@
     "原G仍限独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移仍待改进。新加速只资格有限合成literal源选择。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "全链模型特定Token/费用/超时、产品/模型向导、运行Gateway/Core/宿主兼容与仓库闭包仍按原清单推进。",
-    "最终CI真实下载/独立安装与正式发行未收口；CURRENT仍266+409。6fd匹配候选已安装及原DEV二进制回退，不能替代全部A–H或生产资格。",
+    "最新完整CI47失败1975通过/111失败/61设置错/12跳过，原XML真实下载留存；隔离Git/ffmpeg/GPG/bwrap/umask修复待实际资格。CURRENT266+409，匹配最终包/安装/发行仍待收口。",
     "真实模型/付费/手机/真人自然度/实际跨日长期/生产分别未验；生产切换/genesis/私史/旧writer/真实账号/用户设备/新持续费用仍须原单独授权。"
   ],
   "evidence_refs": [
@@ -37,7 +37,7 @@
     "docs/nana_next_experience/SOURCE_NAVIGATION_AUDIT.md",
     "docs/nana_next_experience/evidence/diverse-literal-20261109/README.md",
     "docs/nana_next_experience/evidence/retrieval-scope32-20261108/README.md",
-    "docs/nana_next_experience/evidence/installed-6fd-20261109/README.md",
+    "docs/nana_next_experience/evidence/full-ci-host-20261109/README.md",
     "docs/nana_next_experience/evidence/continuous-input-inbox-20261109/README.md"
   ]
 }

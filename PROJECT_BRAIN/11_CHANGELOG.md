@@ -3307,3 +3307,7 @@ C33独立CI27Core/67client/24browser和双构建离线安装通过，真实下�
 ### 2026-11-09 · 原Core连续输入有界等待与接收时间
 
 ControlServer仅把模型等待时新bound surface连接/文本暂存内存最多4条，不递归入C/Store；原owner空闲后FIFO按原权限/幂等/INTERPRET→C→RENDER处理。队列等待与每输入两次调用分别有界，原provider120s配置保留；停止/关闭/满/失联/过期在派发前结束。记录实际入队UTC到原surface/Subject/evidence，显式retain同样保留接收/记录时间区别，不新增持久队列或默认保留。旧场景明确即时拒绝失败1.28s；首binding夹具错误3失败保留，修正后最终27相关通过17.49s，含真实UDS/SSE、历史/重启/隐私和五队列场景。当前完整CI/匹配安装待验；BFF仍串行/UI busy，C多输入/未发重组未完成，不外推手机/自然度/长期/生产。CURRENT/APK不变。
+
+### 2026-11-09 · 新完整CI首次宿主失败原样留存与环境修复
+
+47完整CI42554694011为1975通过/111失败/61设置错/12跳过706.79s，不产Core候选。实际下载原XMLartifact13647312518并核ZIP367ee9…a206，原XML本地保留。新隔离Debian旧SQLite3.46.1正确，但挂载Git归属/净化HOME、缺ffmpeg/GPG/bwrap及默认umask触发既有严门；只修workflow宿主依赖、exactworkspace系统Git信任、077、容器嵌套namespace能力，并把原bwrap完整真实probe前置快速失败。原断言/Store/Kernel不放宽，实际新结果待验。4a队列源码已推且27相关通过；继续客户端/BFF/C原剩余工作，CURRENT/生产/APK不改。

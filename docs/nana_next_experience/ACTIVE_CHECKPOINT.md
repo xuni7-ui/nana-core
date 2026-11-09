@@ -1,3 +1,11 @@
+# Active continuation — queue source4a pushed; complete CI host repair pending
+
+Actual47fullCI42554694011 failed1975pass/111fail/61setup errors/12skip706.79s; client passed, no Corecandidate. Full original XMLartifact13647312518 actually downloaded/ZIP verified367ee9…a206, local /workspace/scratch/nana47-ci-qualification-core.xml and source evidence/full-ci-host-20261109. Main causes test-container checkoutGitownership/sanitizedHOME, missingffmpeg/gpgconf/bwrap,077 private fixture umask. Existing workflow corrected only host tools/scoped systemGit trust/privateumask/nested-container namespace capabilities; original IsolatedSkillRunner mandatory real probe now before full suite. Never bypass originalbwrap/SQLite/privacy assertions. New result not yet known;4aCI42555877455 still inherits old environment.
+
+4a3e198 has actual original-owner bound input queue max4/receipt-time correction,27affected checks17.49s; wider95pass/1missing original fixture29.96s then matchingGitblob restoration/onlyfailedcheck1pass0.02s. Need corrected full CI/exact candidate/new independent install before new whole qualification. RawDBs/old release/evidence protected. Then actualclient bounded input/BFF/C multi-message purpose/unsent-draft and all originalA–H work continue. Do not turn CI repair into the whole task. CURRENT266+409/APK/production unchanged; real-model/phone/human/actual-long-term remainNOT_RUN.
+
+---
+
 # Active continuation — original private input queue implemented, BFF/client next
 
 Parent47fe4d2 is the normal merge of own9b7db66 social/legacyABA and approved PR6/7c32488 selector docs. Original branch authorization preserved; no history rewritten.47fullCI42554694011 running when recorded, client passed; check actual result, never infer whole pass. f190 old full2136passed/1legacyABAfailed/12skip still first-failure evidence, original391shadow checks passed after bothwire pinning fix.
