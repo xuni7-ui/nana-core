@@ -1,0 +1,8 @@
+{
+  "source": "/workspace/scratch/preserved-test-workdirs/n32resume",
+  "destination": "/dev/shm/preserved-test-workdirs/n32resume",
+  "entry_count": 13199,
+  "all_regular_file_bytes_and_symlink_targets_verified": true,
+  "full_local_manifest": "/workspace/scratch/nana-preserved-test-tree-relocation.json",
+  "full_manifest_sha256": "9ec5dca1bdd8b91e52c7756622c8e6e9c51f77c0548fffde8fcdfb498a6e76c8"
+}

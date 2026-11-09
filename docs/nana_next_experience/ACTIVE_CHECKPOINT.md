@@ -1,3 +1,15 @@
+# Active continuation — privacy copy increment source ready, full successor next
+
+Latest committed77caeb6 fixed packaging: local022/077 + CI42549995332 double build all same9fe868…b014, actual remote download13645077479 and independent offline bootstrap passed. These archives contain original6fd runtime, NOT the new privacy code below.6fd full2131/12skip687.29s remains prior baseline, all original scope inherited.
+
+Current own source/test/workflow/docs batch changes only original PrivacyJournal copy progress: actual unchanged-copy file-family signature + exact completed prefix digest, only new suffix goes through original purge. Any changed/in-place/stale/nonprefix/WAL/lock/checkpoint failure resets; hardlinks retain full replay. Source-store purge/log replay unchanged. Frozen old39scans vs candidate3, real WAL/pinned-reader/stale-copy/anchor-edit and original privacy/cold/feedback/B8/learning48passed11.23s. Full/installed successor not yet qualified. See evidence/privacy-copy-increment-20261109; no authority/data format changes.
+
+Next immediately commit/push, fast-forward validation clone (currently6fd clean), full absolute-PYTHONPATH pytest with fresh /workspace/scratch/nana-privacy-full. Do not put another1.1GBfull run in tmpfs: retained data already occupies it. Completed n32resume moved intact/fingerprint-verified13199entries to /dev/shm/preserved-test-workdirs/n32resume; old root path now historical, original /workspace/nana-core protected. Root free~1.7GB at start, no DB/artifact deletion. Then reuse scoped CI matching double build/download/install and affected original owner/feedback/G32/Dream/source withdraw/rollback checks on exact new source.
+
+Continuous input/interrupt/pace remains code work in control.py urgent_only/application.chat; remaining C load/share/affect and delivery→C/S3/S8 outcomes, broader G/retrieval, main-chain archive/source-journal replay/restore, real Token counters/provider native protocols/model wizard, native final client and repository content closure all still active. Original user A–H unchanged. No real model/account/private import/user device/production/CURRENT/APK change. A local cache or candidate does not complete the whole task.
+
+---
+
 # Active continuation — real C33 download/install, fixed-mask packaging next
 
 C33CI42548690816 both jobsPASS (27Core/67client/24browser and actual two-build/offline install). Actual remote candidate ZIP13644566813 downloaded, digestverified; Coretarfe55bb…bf10 independently unpacked/offline installed and original BFF/feedback/restart/notes/backup passed DEV8b05129d… . Downloaded Web42files match6fd. Source inputs identical to6fd full2131pass12skip; no fake newer full run.

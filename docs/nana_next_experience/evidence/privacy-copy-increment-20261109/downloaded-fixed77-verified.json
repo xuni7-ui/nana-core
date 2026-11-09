@@ -1,0 +1,8 @@
+{
+  "source_commit": "77caeb6908a54100286e5a49187deb7dced26d35",
+  "artifact_id": 13645077479,
+  "actual_download_zip_sha256": "9f8ccea8289b18f382d0d543e505b00ba67176204af87e29e9518ecf87f80f39",
+  "core_archive_sha256": "9fe868eda159c95a130626779cca13a4f99146c00ecfa47d02a2c0ee85e0b014",
+  "local_umask_022_077_and_remote_two_builds_same_sha": true,
+  "network_production_changed": false
+}

@@ -3283,3 +3283,7 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-09 · 真实CI候选下载/独立安装及跨host归档权限修复
 
 C33独立CI27Core/67client/24browser和双构建离线安装通过，真实下载Core/Web核ZIP与tar摘要，原下载包独立安装BFF/反馈幂等/同主体重启/notes撤回通过。跨hostC33重建内容284文件全同但tar SHA异，定位仅生成文件/wheel权限受umask影响；原builder归档固定角色mode、私有解包权限不改。真实冻结旧版同测试sha断言失败，修复21portable/import检查通过5.28s；首夹具漏unpacker/1失败20通过保留。新固定源实际构建CI/下载下一批，未把旧候选改标。显式6fd DEV物理复用规范化独立case主文件20,955,136→10,821,632bytes，全表/原dump一致、重启/撤回有效，0模型；未接自动API/驱逐。全部6受管copy当前65,040,384bytes，无全family前值不能称全局delta。180显式撤回原journal→eventP951749ms但事件跨度750.53s，真实性能开发项保留。证据ci-download-and-repro；CURRENT/APK/生产不改。
+
+### 2026-11-09 · 原隐私日志副本增量工作与固定包跨机资格
+
+77固定包本地022/077与CI42549995332双构建四包同9fe868…b014，实际下载核摘要/独立离线安装通过；不含新隐私代码。针对实验暴露每次撤回重扫全部历史，原PrivacyJournal仅对已完成副本前缀建立易失file-family签名+digest缓存；原journal权威/源库重放/锁/identity/secure_delete/purge/checkpoint保留。文件替换/原位改写/同长度intent变更/WAL/失败失效、hardlink全重放。真实旧39→新3扫描，48隐私/冷回读/反馈/B8/learning相关通过11.23s，含实际WAL读者PENDING和后续消除。源库仍全日志重放，未宣称全部性能闭包。当前新源码全仓/新包安装待验。完成旧13199项测试树逐文件/链接指纹搬移到/dev/shm以腾根盘，保留DB/旧验收不删；下一全仓在根盘fresh目录。证据privacy-copy-increment，CURRENT/APK/生产不动。

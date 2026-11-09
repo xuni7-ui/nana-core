@@ -1,0 +1,27 @@
+F..                                                                      [100%]
+=================================== FAILURES ===================================
+_____ test_new_withdrawal_does_not_rescan_old_intents_in_unchanged_copies ______
+
+copies = (<nana_core.continuity.store.ContinuityStore object at 0x7f1ad611dd90>, <nana_core.continuity.memory.MemoryService obj...withdrawal_does_not_r0/copy-1.db'), PosixPath('/tmp/nanacopyincrementbase/test_new_withdrawal_does_not_r0/copy-2.db')])
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f1ad611dbb0>
+
+    def test_new_withdrawal_does_not_rescan_old_intents_in_unchanged_copies(copies,monkeypatch):
+        store,memory,authority,ids,paths=copies
+        for mid in ids[:12]:assert memory.forget(mid,authority)['state']=='COMPLETE'
+        scans=[];original=sqlite3.connect;names={str(p) for p in paths}
+        def observed(database,*args,**kwargs):
+            db=original(database,*args,**kwargs)
+            if str(database) in names:
+                db.set_trace_callback(lambda sql:scans.append(str(database)) if sql=='SELECT * FROM memories' else None)
+            return db
+        monkeypatch.setattr(sqlite3,'connect',observed)
+        assert memory.forget(ids[12],authority)['state']=='COMPLETE'
+>       assert len(scans)==len(paths)
+E       AssertionError: assert 39 == 3
+E        +  where 39 = len(['/tmp/nanacopyincrementbase/test_new_withdrawal_does_not_r0/copy-0.db', '/tmp/nanacopyincrementbase/test_new_withdraw...est_new_withdrawal_does_not_r0/copy-0.db', '/tmp/nanacopyincrementbase/test_new_withdrawal_does_not_r0/copy-0.db', ...])
+E        +  and   3 = len([PosixPath('/tmp/nanacopyincrementbase/test_new_withdrawal_does_not_r0/copy-0.db'), PosixPath('/tmp/nanacopyincrementb..._withdrawal_does_not_r0/copy-1.db'), PosixPath('/tmp/nanacopyincrementbase/test_new_withdrawal_does_not_r0/copy-2.db')])
+
+tests/continuous_self/test_privacy_copy_increment.py:49: AssertionError
+=========================== short test summary info ============================
+FAILED tests/continuous_self/test_privacy_copy_increment.py::test_new_withdrawal_does_not_rescan_old_intents_in_unchanged_copies
+1 failed, 2 passed in 0.43s
