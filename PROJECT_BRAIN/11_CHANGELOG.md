@@ -3291,3 +3291,15 @@ C33独立CI27Core/67client/24browser和双构建离线安装通过，真实下�
 ### 2026-11-09 · 原C独立社交兴趣与旧桥inode复用修复
 
 独立原社交偏好可参与低通用价值/重复及低关系价值分享取舍，同cue单独OPEN不够；真实接收/decline/高频重复/load/norm/Grant保留。冻结4失败4通过，候选83相关通过12.74s，含同主体重启/撤回。f190完整回归2136通过/1失败/12跳过718.86s：旧DirectoryFence未持有inode而复用为symlink误认；原断言不变，工具/plugin双wire保留已验证FD至close，391shadow通过（首次缺稀疏插件5收集错误及双wire不同1失败均保留）。新FD生命周期OS计数验证释放。完整后继资格改用既有隔离CI，准备实际旧SQLite3.46.1宿主与原私有受支持Core、完整祖先/可选依赖/全仓原断言；实际CI结果待验。无模型/真实发送/生产/CURRENT/APK改动。
+
+### 2026-11-08 · Next Experience 交付校验入口澄清（治理分支待集成）
+
+- **改了什么**：源码索引区分现有 CURRENT selector 验证器与历史 handoff 校验器，补充对应测试和固定交付快照验证范围。
+- **为什么**：两者校验的格式与保证范围不同；只链接历史工具会使开发者难以找到当前 selector 检查。
+- **怎么验证**：从交付提交 `5b4f589` 提取 selector 所列 Git 文件，在隔离目录运行 `python3 tools/nana_next_experience/verify_delivery.py --root /tmp/nana-delivery-review-5v4gmty3 --current CURRENT-DELIVERY.json`，得到 CURRENT_DELIVERY_CONSISTENCY_VERIFIED、42 个 APK/Web 文件相同；导航链接检查与 `git diff --check` 通过。未启动服务或验证生产、手机及语义兼容。
+
+- **集成记录**：第一阶段 PR #5 已合并为 `0742f0d47c7b59e9400b25d9d174b414f8b2b83f`，其治理 CI 已通过；本 selector 澄清仍待单独审阅。
+
+### 2026-11-09 · 合法远端PR6与当前实现接续
+
+正常push因远端PR6合并而拒绝后先只读核对：7c32488相对f190仅治理索引/09/11三个文档，核心源码无变。保留其交付验证范围澄清和本批社交/ABA实现，正常双亲merge；11末尾追加冲突保留两侧全文，不覆盖远端工作，不reset/rebase/amend/force。新完整CI与匹配包仍待实际运行。
