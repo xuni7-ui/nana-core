@@ -77,8 +77,15 @@ jobs:
           umask 077
           export PYTHONPATH="$GITHUB_WORKSPACE/src"
           .qualification-venv/bin/python - <<'PYPREFLIGHT'
-          from nana_core.continuity.open_agency.code_skills import IsolatedSkillRunner
-          probe=IsolatedSkillRunner().qualify()
+          from nana_core.continuity.open_agency import code_skills
+          original_run=code_skills.subprocess.run
+          def report_probe_failure(*args, **kwargs):
+              result=original_run(*args, **kwargs)
+              if result.returncode:
+                  print('original sandbox process stderr:', result.stderr[-4096:].decode(errors='replace'))
+              return result
+          code_skills.subprocess.run=report_probe_failure
+          probe=code_skills.IsolatedSkillRunner().qualify()
           print(probe)
           assert probe['state']=='AVAILABLE' and all(probe['checks'].values())
           PYPREFLIGHT

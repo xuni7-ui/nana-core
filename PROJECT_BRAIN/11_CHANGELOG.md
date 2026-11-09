@@ -3311,3 +3311,7 @@ ControlServer仅把模型等待时新bound surface连接/文本暂存内存最�
 ### 2026-11-09 · 新完整CI首次宿主失败原样留存与环境修复
 
 47完整CI42554694011为1975通过/111失败/61设置错/12跳过706.79s，不产Core候选。实际下载原XMLartifact13647312518并核ZIP367ee9…a206，原XML本地保留。新隔离Debian旧SQLite3.46.1正确，但挂载Git归属/净化HOME、缺ffmpeg/GPG/bwrap及默认umask触发既有严门；只修workflow宿主依赖、exactworkspace系统Git信任、077、容器嵌套namespace能力，并把原bwrap完整真实probe前置快速失败。原断言/Store/Kernel不放宽，实际新结果待验。4a队列源码已推且27相关通过；继续客户端/BFF/C原剩余工作，CURRENT/生产/APK不改。
+
+### 2026-11-09 · CI原沙箱快速拒绝待诊断
+
+5065CI42556464241在完整pytest前按原IsolatedSkillRunner真实probe返回UNAVAILABLE/BWRAP_NAMESPACE_OR_RUNTIME_DENIED而失败；未启动新完整套件/未生成Core候选，客户端通过。原限制不改，不扩大容器权限；只给同一个实际probe记录失败子进程stderr以定位宿主/解释器问题，仍必须原全部检查通过才可继续。运行日志functions store5065_core_log可复取，正式GitHubjob128963201474。并行本地Web待发消息实现已编译，尚未提交/完整资格。
