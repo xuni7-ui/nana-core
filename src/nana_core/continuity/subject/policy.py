@@ -177,7 +177,14 @@ def decide(event, situation, appraisal, motives):
             and cue.learning_value.interest in {'RELEVANT', 'HIGH'}
             and bool(set(options) & {'LEARN', 'SEEK_CAPABILITY'}))
         interested_activity = personal_activity and bool(set(options) & {'EXPLORE', 'CREATE'})
-        if assessment and (assessment.value=='LOW' or assessment.novelty=='REPEATED') and not (interested_learning or interested_activity):
+        # A current independent social preference/seed can support ordinary
+        # company without instrumental or relationship value. OPEN from this
+        # same cue alone has no such record support. Actual reception/authority
+        # remains the existing separate DeliveryAdmission/Kernel consideration.
+        interested_social = bool(situation.separate_delivery and 'SOCIALIZE' in options
+            and situation.social_appetite and situation.social_appetite.state in {'OPEN','SEEKING'}
+            and situation.social_appetite.source_record_ids)
+        if assessment and (assessment.value=='LOW' or assessment.novelty=='REPEATED') and not (interested_learning or interested_activity or interested_social):
             return ('BACKGROUND_WATCH',Judgment(stance='IGNORE',reason='Current low value or repeated low-stimulation evidence does not warrant another activity; this is the Subject decision, not a Runtime veto',source_ids=sources),
                 Intention(kind='NO_ACTION',purpose='Consider the motive and choose not to act on this opportunity',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='IGNORE'))
         value=cue.learning_value
@@ -194,7 +201,7 @@ def decide(event, situation, appraisal, motives):
         if share and 'SOCIALIZE' in options:
             low=share.relational_relevance=='LOW' and share.affect_relevance=='LOW' and share.urgency=='LOW'
             redundant=share.novelty=='REPEATED' and share.recent_delivery_frequency=='HIGH' and share.urgency!='HIGH'
-            if share.user_preference=='DECLINED' or low or redundant:
+            if share.user_preference=='DECLINED' or redundant or (low and not interested_social):
                 return ('BACKGROUND_WATCH',Judgment(stance='WATCH',reason='A real wish to share can remain private: limited relevance, declined topic or repeated interruption does not warrant expression',source_ids=sources),Intention(kind='NO_ACTION',purpose='Keep the sourced experience without manufacturing a notification',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='STAY_SILENT'))
         behavior=options[0]
         if behavior in {'REST','WITHDRAW','IGNORE','WATCH','STAY_SILENT','DO_NOTHING','DEFER'}:

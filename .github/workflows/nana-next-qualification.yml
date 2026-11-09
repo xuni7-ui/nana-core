@@ -1,11 +1,11 @@
-name: Nana Next scoped qualification
+name: Nana Next source qualification
 
 # Explicit qualification of the inherited continuation; no deployment or model calls.
 on:
   workflow_dispatch:
   push:
     branches: [dev/nana-core-next-experience-codex]
-    paths: [.github/workflows/nana-next-qualification.yml, tools/nana_portable_cloud/build.py, packaging/portable/runtime-files.txt, src/nana_core/continuity/privacy.py, tests/continuous_self/test_privacy_copy_increment.py]
+    paths: [.github/workflows/nana-next-qualification.yml, tools/nana_portable_cloud/build.py, packaging/portable/runtime-files.txt, src/nana_core/continuity/privacy.py, tests/continuous_self/test_privacy_copy_increment.py, src/nana_core/continuity/subject/policy.py, tests/open_autonomy/test_delivery.py, tools/nana_astrbot_shadow/bridge_wire.py, src/plugins/astrbot_plugin_nana_shadow_observer/bridge_wire.py, tests/nana_shadow/test_r044_filesystem.py]
 
 permissions:
   contents: read
@@ -13,11 +13,24 @@ permissions:
 jobs:
   original-core-feedback:
     runs-on: ubuntu-24.04
-    timeout-minutes: 15
+    timeout-minutes: 30
+    # The legacy client isolation test requires an actual 3.46.1 binding. This
+    # disposable CI host is separate from the >=3.51.3 private Core interpreter.
+    container: debian:trixie-slim
+    env:
+      PYTHONDONTWRITEBYTECODE: '1'
     steps:
+      - name: Isolated old host fixture and build tools
+        run: |
+          apt-get update
+          apt-get install --yes --no-install-recommends python3 git curl ca-certificates build-essential
+          /usr/bin/python3 -I -c 'import sqlite3; print(sqlite3.sqlite_version); assert sqlite3.sqlite_version == "3.46.1"'
+
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+          fetch-depth: 0
+          filter: blob:none
       # setup-python's host-linked SQLite failed the existing minimum gate.
       # Use a private standalone interpreter; never replace a system library.
       - uses: astral-sh/setup-uv@v6
@@ -25,15 +38,19 @@ jobs:
           uv python install 3.12.14
           uv venv --python 3.12.14 .qualification-venv
           uv pip install --python .qualification-venv/bin/python -r requirements-core-dev.lock
+          .qualification-venv/bin/python - <<'PYDEPS' > qualification-feature-requirements.txt
+          from tools.nana_portable_cloud.build import FEATURE_DEPENDENCIES
+          for feature in ('HOST_VAULT', 'PUBLIC_VIDEO_FRAMES'):
+              for package, version in sorted(FEATURE_DEPENDENCIES[feature].items()):
+                  print(package + '==' + version)
+          PYDEPS
+          uv pip install --python .qualification-venv/bin/python -r qualification-feature-requirements.txt
           .qualification-venv/bin/python -c 'import sys,sqlite3; print(sys.version, sqlite3.sqlite_version); assert sqlite3.sqlite_version_info >= (3,51,3)'
-      - name: Original owner HTTP, feedback, history and source withdrawal
-        run: >-
-          .qualification-venv/bin/python -m pytest tests/person_self/test_memory_use_feedback.py
-          tests/living_release_v4/test_conversation_history.py
-          tests/first_life_android_v2/test_http_integration.py
-          tests/portable_cloud_runtime/test_reproducible_build.py
-          tests/continuous_self/test_privacy_copy_increment.py
-          -q --junitxml=qualification-core.xml --basetemp=/tmp/nana-feedback-ci
+      - name: Complete exact-source regression, original assertions and legacy isolation
+        run: |
+          export PYTHONPATH="$GITHUB_WORKSPACE/src"
+          .qualification-venv/bin/python -m pytest -q --junitxml=qualification-core.xml \
+            --basetemp=/tmp/nq --old-sqlite-python=/usr/bin/python3
       - name: Matching portable candidate, reproducible builds and offline installation
         run: |
           uv pip install --python .qualification-venv/bin/python pip==25.3

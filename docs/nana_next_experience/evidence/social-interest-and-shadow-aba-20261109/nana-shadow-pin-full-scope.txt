@@ -1,0 +1,20 @@
+...............................................F........................ [ 18%]
+........................................................................ [ 36%]
+........................................................................ [ 55%]
+........................................................................ [ 73%]
+........................................................................ [ 92%]
+...............................                                          [100%]
+=================================== FAILURES ===================================
+_____________ test_wire_exact_canonical_and_shared_plugin_protocol _____________
+
+    def test_wire_exact_canonical_and_shared_plugin_protocol():
+>       assert Path('tools/nana_astrbot_shadow/bridge_wire.py').read_bytes()==Path('src/plugins/astrbot_plugin_nana_shadow_observer/bridge_wire.py').read_bytes()
+E       assert b'"""Shared s...dError:pass\n' == b'"""Shared s...dError:pass\n'
+E         
+E         At index 9600 diff: b';' != b'\n'
+E         Use -v to get more diff
+
+tests/nana_shadow/test_r041_bridge.py:101: AssertionError
+=========================== short test summary info ============================
+FAILED tests/nana_shadow/test_r041_bridge.py::test_wire_exact_canonical_and_shared_plugin_protocol
+1 failed, 390 passed in 54.32s

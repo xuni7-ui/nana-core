@@ -169,7 +169,7 @@ class DirectoryFence:
     def __init__(self,path):
         self.path=private_directory(path)
         self.fd=os.open(self.path,os.O_RDONLY|os.O_DIRECTORY|os.O_NOFOLLOW|os.O_CLOEXEC)
-        st=os.fstat(self.fd);self.identity=(st.st_dev,st.st_ino);self.owned={}
+        st=os.fstat(self.fd);self.identity=(st.st_dev,st.st_ino);self.owned={};self._pins={}
         try:self.check()
         except BaseException:self.close();raise
 
@@ -182,6 +182,8 @@ class DirectoryFence:
         return self
 
     def close(self):
+        for pin in self._pins.values():os.close(pin)
+        self._pins.clear()
         if self.fd is not None:os.close(self.fd);self.fd=None
 
     def __enter__(self):return self
@@ -208,8 +210,13 @@ class DirectoryFence:
             if (len(data)>maximum or (before.st_dev,before.st_ino)!=(current.st_dev,current.st_ino)
                 or (before.st_size,before.st_mtime_ns,before.st_ctime_ns)!=(after.st_size,after.st_mtime_ns,after.st_ctime_ns)):
                 raise ValueError('WIRE_CONFIG_DRIFT')
+            # Pin the validated inode through later identity-based operations.
+            # Without a live descriptor unlink/recreate can reuse the same ino.
+            identity=(after.st_dev,after.st_ino)
+            if identity not in self._pins:self._pins[identity]=fd;fd=None
             return data
-        finally:os.close(fd)
+        finally:
+            if fd is not None:os.close(fd)
 
     def _detach(self,name,expected,*,anchored=False):
         import secrets
@@ -267,7 +274,7 @@ class DirectoryFence:
         fd=os.open(temporary,os.O_WRONLY|os.O_CREAT|os.O_EXCL|os.O_NOFOLLOW|os.O_CLOEXEC,0o600,dir_fd=self.fd)
         detached=None
         try:
-            with os.fdopen(fd,'wb') as stream:stream.write(data);stream.flush();os.fsync(stream.fileno())
+            with os.fdopen(fd,'wb',closefd=False) as stream:stream.write(data);stream.flush();os.fsync(stream.fileno())
             self.check()
             if replace:
                 expected=self.owned.get(name)
@@ -275,10 +282,14 @@ class DirectoryFence:
                 detached=self._detach(name,expected)
             # Never overwrite an object which appeared during construction.
             self._publish(temporary,name)
-            st=self.entry(name);self.owned[name]=(st.st_dev,st.st_ino)
+            st=self.entry(name);opened=os.fstat(fd)
+            if (st.st_dev,st.st_ino)!=(opened.st_dev,opened.st_ino):raise ValueError('WIRE_ENTRY_DRIFT')
+            self.owned[name]=(opened.st_dev,opened.st_ino)
+            self._pins[self.owned[name]]=fd;fd=None
             if detached:os.unlink(detached,dir_fd=self.fd)
             os.fsync(self.fd)
             return self.owned[name]
         finally:
+            if fd is not None:os.close(fd)
             try:os.unlink(temporary,dir_fd=self.fd)
             except FileNotFoundError:pass

@@ -1,3 +1,13 @@
+# Active continuation — social choice / legacy ABA repaired, exact full CI next
+
+Current own changes follow f1909f2. Its full root-disk regression2136passed/1failed/12skipped718.86s, raw /workspace/scratch/nana-f190-full-regression.txt and /workspace/pf190 retained. Failure is original legacy DirectoryFence inode ABA, now live descriptors pin validated sidecars; both tool/plugin wire identical and all391legacy-shadow checks pass. Social preference supported by independent original record can compete with generic low-value/repeated shares; original reception/load/decline/repetition/authority intact,83related including restart/withdraw pass. Evidence/social-interest-and-shadow-aba-20261109 includes first failures. No new full pass claimed.
+
+Next: normal commit/push known whitelist, existing CI complete exact-source pytest on disposable Debian old-host fixture plus private supported Core, exact portable double-build/offline install and client checks. Check real CI results, download only matching artifacts, verify source/SHA and independently install affected original owner/feedback/G32/privacy/Dream/upgrade/rollback. Root old full DBs preserved, avoid another1.2GB local full test tree; no production Docker changes. Latest f190 scopedCI42552155564 passed, not full.
+
+Then continuous-input/urgent interruption/unsent draft handling in original control.py/application.chat is next actual source work; all original A–H remaining work persists. Protected old /workspace/nana-core18bc736; CURRENT266+409/production/APK untouched. Real-model/account/phone/human/actual-day growth unqualified. Do not reduce the task to this batch or candidate installation.
+
+---
+
 # Active continuation — privacy copy increment source ready, full successor next
 
 Latest committed77caeb6 fixed packaging: local022/077 + CI42549995332 double build all same9fe868…b014, actual remote download13645077479 and independent offline bootstrap passed. These archives contain original6fd runtime, NOT the new privacy code below.6fd full2131/12skip687.29s remains prior baseline, all original scope inherited.

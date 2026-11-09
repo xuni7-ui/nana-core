@@ -109,3 +109,23 @@ def test_long_socket_path_blocks_before_session_consumption(tmp_path):
     long=tmp_path/('i'*80);long.mkdir(mode=0o700)
     with pytest.raises(ValueError,match='SOCKET_PATH_LENGTH'):
         ShortLivedWorker(root,long,r.receipt_id,client_pid=os.getpid(),trust=FixtureTrustStore())
+
+
+def test_fence_releases_validated_and_replaced_file_descriptors(tmp_path):
+    # Repeated writes must pin removed inodes against ABA only for this fence's
+    # lifetime. Exercise both successful reads and failed foreign replacements.
+    d=tmp_path/'private';d.mkdir(mode=0o700)
+    before=len(list(Path('/proc/self/fd').iterdir()))
+    for cycle in range(3):
+        with DirectoryFence(d) as fence:
+            for version in range(12):
+                fence.write('test.json',{'version':version},replace=version>0)
+                assert json.loads(fence.read('test.json'))=={'version':version}
+            fence.unlink_owned('test.json')
+            foreign=d/'test.json';foreign.write_text('FOREIGN');foreign.chmod(0o600)
+            with pytest.raises(ValueError,match='ENTRY_NOT_OWNED'):
+                fence.write('test.json',{},replace=True)
+            assert foreign.read_text()=='FOREIGN'
+            foreign.unlink()
+        assert not list(d.iterdir())
+        assert len(list(Path('/proc/self/fd').iterdir()))==before

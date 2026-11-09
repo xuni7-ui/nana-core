@@ -1,0 +1,537 @@
+..FFFFFFFF                                                               [100%]
+=================================== FAILURES ===================================
+_ test_owned_connection_interest_can_compete_with_generic_share_relevance[True-LOW-NEW-UNKNOWN-LOW-LOW-BUSY-SOCIALIZE] _
+
+tmp_path = PosixPath('/tmp/nanasocialsharefirst/test_owned_connection_interest0')
+owned = True, value = 'LOW', novelty = 'NEW', preference = 'UNKNOWN'
+frequency = 'LOW', load = 'LOW', availability = 'BUSY', expected = 'SOCIALIZE'
+
+    @pytest.mark.parametrize('owned,value,novelty,preference,frequency,load,availability,expected', [
+        (True,'LOW','NEW','UNKNOWN','LOW','LOW','BUSY','SOCIALIZE'),
+        (True,'RELEVANT','REPEATED','UNKNOWN','LOW','LOW','UNKNOWN','SOCIALIZE'),
+        (True,'RELEVANT','NEW','ALLOW','LOW','LOW','AVAILABLE','SOCIALIZE'),
+        (True,'RELEVANT','NEW','DECLINED','LOW','LOW','AVAILABLE','STAY_SILENT'),
+        (True,'RELEVANT','REPEATED','ALLOW','HIGH','LOW','AVAILABLE','STAY_SILENT'),
+        (False,'LOW','NEW','UNKNOWN','LOW','LOW','AVAILABLE','IGNORE'),
+        (False,'RELEVANT','NEW','UNKNOWN','LOW','LOW','AVAILABLE','STAY_SILENT'),
+        (True,'RELEVANT','NEW','ALLOW','LOW','HIGH','AVAILABLE','REST'),
+    ])
+    def test_owned_connection_interest_can_compete_with_generic_share_relevance(
+            tmp_path,owned,value,novelty,preference,frequency,load,availability,expected):
+        from nana_core.continuity.subject import PreferenceSignal
+        from nana_core.continuity.subject.opportunities import ShareAssessment,OpportunityAssessment
+        with fresh(tmp_path/'s'/'self.db') as r:
+            if owned:
+                for index in range(2):
+                    r.subject.run(SubjectInput(source_key='synthetic.social-interest.'+str(index),kind='PLAY',origin='ENVIRONMENT',
+                        entity_id='synthetic-person',scope='lab',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),
+                        text='SYNTHETIC independent enjoyable connection '+str(index),
+                        preference_signal=PreferenceSignal(topic='social_connection',direction='SUPPORT',
+                            interpretation='SYNTHETIC personally values ordinary company')))
+                desire=social_appetite(r.store,scope='lab',privacy_classes=('PERSONAL',))
+                assert desire.state=='SEEKING' and desire.source_record_ids
+            resource='synthetic://contact/friend'
+            cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='RELATIONSHIP',topic_key='small-share',
+                possible_behaviors=('SOCIALIZE','STAY_SILENT'),resource_class='ORDINARY',availability=availability,cognitive_load=load,
+                share_assessment=ShareAssessment(user_preference=preference,recent_delivery_frequency=frequency,novelty=novelty),
+                opportunity_assessment=OpportunityAssessment(value=value,novelty=novelty))
+            mid=capture(r,'small-share',cue.model_dump_json(),predicate='concern.small-share')
+            recipient=RecipientState(resource=resource,entity_id='synthetic-person',availability=availability,
+                observed_at_us=r.clock.utc_now_us(),expires_at_us=r.clock.utc_now_us()+HOUR,permitted_privacy=('PERSONAL',))
+            capture(r,'small-share-recipient',recipient.model_dump_json(),predicate='recipient.'+digest(resource)[:32])
+            send(r,'small-share-choice',(mid,),realization_target=RealizationTarget(capability='world.contact',operation='CONTACT',resource=resource,resource_class='ORDINARY'))
+            cycle=r.step()['cycle']
+            assert cycle.intention.behavior==expected
+            assert cycle.evaluation.wanted
+            if expected=='SOCIALIZE':
+                assert cycle.intention.kind=='SOCIAL_INTERACTION' and cycle.evaluation.normative=='ENDORSED'
+                gate=DeliveryAdmission(r.store,DeliveryPolicy(recipients=(resource,),privacy_classes=('PERSONAL',),
+                    quiet_start_utc_hour=0,quiet_end_utc_hour=0),scopes=('lab',),privacy_classes=('PERSONAL',))
+                result=gate.assess(cycle,resource)
+                assert result['result']=={'BUSY':'DEFER_BUSY','UNKNOWN':'UNKNOWN_AVAILABILITY','AVAILABLE':'ELIGIBLE'}[availability]
+                assert result['authority_granted'] is False
+>           assert not r.store.all('grants') and not r.store.all('actions') and not r.store.all('cognitive_requests')
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/open_autonomy/test_delivery.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.store.ContinuityStore object at 0x7f0024296960>
+table = 'cognitive_requests'
+
+    def all(self, table):
+        if table not in {*getattr(self, "keys", KEYS), "events", "artifacts"}:
+>           raise ValueError(table)
+E           ValueError: cognitive_requests
+
+src/nana_core/storage/sqlite_store.py:193: ValueError
+_ test_owned_connection_interest_can_compete_with_generic_share_relevance[True-RELEVANT-REPEATED-UNKNOWN-LOW-LOW-UNKNOWN-SOCIALIZE] _
+
+tmp_path = PosixPath('/tmp/nanasocialsharefirst/test_owned_connection_interest1')
+owned = True, value = 'RELEVANT', novelty = 'REPEATED', preference = 'UNKNOWN'
+frequency = 'LOW', load = 'LOW', availability = 'UNKNOWN'
+expected = 'SOCIALIZE'
+
+    @pytest.mark.parametrize('owned,value,novelty,preference,frequency,load,availability,expected', [
+        (True,'LOW','NEW','UNKNOWN','LOW','LOW','BUSY','SOCIALIZE'),
+        (True,'RELEVANT','REPEATED','UNKNOWN','LOW','LOW','UNKNOWN','SOCIALIZE'),
+        (True,'RELEVANT','NEW','ALLOW','LOW','LOW','AVAILABLE','SOCIALIZE'),
+        (True,'RELEVANT','NEW','DECLINED','LOW','LOW','AVAILABLE','STAY_SILENT'),
+        (True,'RELEVANT','REPEATED','ALLOW','HIGH','LOW','AVAILABLE','STAY_SILENT'),
+        (False,'LOW','NEW','UNKNOWN','LOW','LOW','AVAILABLE','IGNORE'),
+        (False,'RELEVANT','NEW','UNKNOWN','LOW','LOW','AVAILABLE','STAY_SILENT'),
+        (True,'RELEVANT','NEW','ALLOW','LOW','HIGH','AVAILABLE','REST'),
+    ])
+    def test_owned_connection_interest_can_compete_with_generic_share_relevance(
+            tmp_path,owned,value,novelty,preference,frequency,load,availability,expected):
+        from nana_core.continuity.subject import PreferenceSignal
+        from nana_core.continuity.subject.opportunities import ShareAssessment,OpportunityAssessment
+        with fresh(tmp_path/'s'/'self.db') as r:
+            if owned:
+                for index in range(2):
+                    r.subject.run(SubjectInput(source_key='synthetic.social-interest.'+str(index),kind='PLAY',origin='ENVIRONMENT',
+                        entity_id='synthetic-person',scope='lab',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),
+                        text='SYNTHETIC independent enjoyable connection '+str(index),
+                        preference_signal=PreferenceSignal(topic='social_connection',direction='SUPPORT',
+                            interpretation='SYNTHETIC personally values ordinary company')))
+                desire=social_appetite(r.store,scope='lab',privacy_classes=('PERSONAL',))
+                assert desire.state=='SEEKING' and desire.source_record_ids
+            resource='synthetic://contact/friend'
+            cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='RELATIONSHIP',topic_key='small-share',
+                possible_behaviors=('SOCIALIZE','STAY_SILENT'),resource_class='ORDINARY',availability=availability,cognitive_load=load,
+                share_assessment=ShareAssessment(user_preference=preference,recent_delivery_frequency=frequency,novelty=novelty),
+                opportunity_assessment=OpportunityAssessment(value=value,novelty=novelty))
+            mid=capture(r,'small-share',cue.model_dump_json(),predicate='concern.small-share')
+            recipient=RecipientState(resource=resource,entity_id='synthetic-person',availability=availability,
+                observed_at_us=r.clock.utc_now_us(),expires_at_us=r.clock.utc_now_us()+HOUR,permitted_privacy=('PERSONAL',))
+            capture(r,'small-share-recipient',recipient.model_dump_json(),predicate='recipient.'+digest(resource)[:32])
+            send(r,'small-share-choice',(mid,),realization_target=RealizationTarget(capability='world.contact',operation='CONTACT',resource=resource,resource_class='ORDINARY'))
+            cycle=r.step()['cycle']
+            assert cycle.intention.behavior==expected
+            assert cycle.evaluation.wanted
+            if expected=='SOCIALIZE':
+                assert cycle.intention.kind=='SOCIAL_INTERACTION' and cycle.evaluation.normative=='ENDORSED'
+                gate=DeliveryAdmission(r.store,DeliveryPolicy(recipients=(resource,),privacy_classes=('PERSONAL',),
+                    quiet_start_utc_hour=0,quiet_end_utc_hour=0),scopes=('lab',),privacy_classes=('PERSONAL',))
+                result=gate.assess(cycle,resource)
+                assert result['result']=={'BUSY':'DEFER_BUSY','UNKNOWN':'UNKNOWN_AVAILABILITY','AVAILABLE':'ELIGIBLE'}[availability]
+                assert result['authority_granted'] is False
+>           assert not r.store.all('grants') and not r.store.all('actions') and not r.store.all('cognitive_requests')
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/open_autonomy/test_delivery.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.store.ContinuityStore object at 0x7f0024296e70>
+table = 'cognitive_requests'
+
+    def all(self, table):
+        if table not in {*getattr(self, "keys", KEYS), "events", "artifacts"}:
+>           raise ValueError(table)
+E           ValueError: cognitive_requests
+
+src/nana_core/storage/sqlite_store.py:193: ValueError
+_ test_owned_connection_interest_can_compete_with_generic_share_relevance[True-RELEVANT-NEW-ALLOW-LOW-LOW-AVAILABLE-SOCIALIZE] _
+
+tmp_path = PosixPath('/tmp/nanasocialsharefirst/test_owned_connection_interest2')
+owned = True, value = 'RELEVANT', novelty = 'NEW', preference = 'ALLOW'
+frequency = 'LOW', load = 'LOW', availability = 'AVAILABLE'
+expected = 'SOCIALIZE'
+
+    @pytest.mark.parametrize('owned,value,novelty,preference,frequency,load,availability,expected', [
+        (True,'LOW','NEW','UNKNOWN','LOW','LOW','BUSY','SOCIALIZE'),
+        (True,'RELEVANT','REPEATED','UNKNOWN','LOW','LOW','UNKNOWN','SOCIALIZE'),
+        (True,'RELEVANT','NEW','ALLOW','LOW','LOW','AVAILABLE','SOCIALIZE'),
+        (True,'RELEVANT','NEW','DECLINED','LOW','LOW','AVAILABLE','STAY_SILENT'),
+        (True,'RELEVANT','REPEATED','ALLOW','HIGH','LOW','AVAILABLE','STAY_SILENT'),
+        (False,'LOW','NEW','UNKNOWN','LOW','LOW','AVAILABLE','IGNORE'),
+        (False,'RELEVANT','NEW','UNKNOWN','LOW','LOW','AVAILABLE','STAY_SILENT'),
+        (True,'RELEVANT','NEW','ALLOW','LOW','HIGH','AVAILABLE','REST'),
+    ])
+    def test_owned_connection_interest_can_compete_with_generic_share_relevance(
+            tmp_path,owned,value,novelty,preference,frequency,load,availability,expected):
+        from nana_core.continuity.subject import PreferenceSignal
+        from nana_core.continuity.subject.opportunities import ShareAssessment,OpportunityAssessment
+        with fresh(tmp_path/'s'/'self.db') as r:
+            if owned:
+                for index in range(2):
+                    r.subject.run(SubjectInput(source_key='synthetic.social-interest.'+str(index),kind='PLAY',origin='ENVIRONMENT',
+                        entity_id='synthetic-person',scope='lab',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),
+                        text='SYNTHETIC independent enjoyable connection '+str(index),
+                        preference_signal=PreferenceSignal(topic='social_connection',direction='SUPPORT',
+                            interpretation='SYNTHETIC personally values ordinary company')))
+                desire=social_appetite(r.store,scope='lab',privacy_classes=('PERSONAL',))
+                assert desire.state=='SEEKING' and desire.source_record_ids
+            resource='synthetic://contact/friend'
+            cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='RELATIONSHIP',topic_key='small-share',
+                possible_behaviors=('SOCIALIZE','STAY_SILENT'),resource_class='ORDINARY',availability=availability,cognitive_load=load,
+                share_assessment=ShareAssessment(user_preference=preference,recent_delivery_frequency=frequency,novelty=novelty),
+                opportunity_assessment=OpportunityAssessment(value=value,novelty=novelty))
+            mid=capture(r,'small-share',cue.model_dump_json(),predicate='concern.small-share')
+            recipient=RecipientState(resource=resource,entity_id='synthetic-person',availability=availability,
+                observed_at_us=r.clock.utc_now_us(),expires_at_us=r.clock.utc_now_us()+HOUR,permitted_privacy=('PERSONAL',))
+            capture(r,'small-share-recipient',recipient.model_dump_json(),predicate='recipient.'+digest(resource)[:32])
+            send(r,'small-share-choice',(mid,),realization_target=RealizationTarget(capability='world.contact',operation='CONTACT',resource=resource,resource_class='ORDINARY'))
+            cycle=r.step()['cycle']
+            assert cycle.intention.behavior==expected
+            assert cycle.evaluation.wanted
+            if expected=='SOCIALIZE':
+                assert cycle.intention.kind=='SOCIAL_INTERACTION' and cycle.evaluation.normative=='ENDORSED'
+                gate=DeliveryAdmission(r.store,DeliveryPolicy(recipients=(resource,),privacy_classes=('PERSONAL',),
+                    quiet_start_utc_hour=0,quiet_end_utc_hour=0),scopes=('lab',),privacy_classes=('PERSONAL',))
+                result=gate.assess(cycle,resource)
+                assert result['result']=={'BUSY':'DEFER_BUSY','UNKNOWN':'UNKNOWN_AVAILABILITY','AVAILABLE':'ELIGIBLE'}[availability]
+                assert result['authority_granted'] is False
+>           assert not r.store.all('grants') and not r.store.all('actions') and not r.store.all('cognitive_requests')
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/open_autonomy/test_delivery.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.store.ContinuityStore object at 0x7f0024295f10>
+table = 'cognitive_requests'
+
+    def all(self, table):
+        if table not in {*getattr(self, "keys", KEYS), "events", "artifacts"}:
+>           raise ValueError(table)
+E           ValueError: cognitive_requests
+
+src/nana_core/storage/sqlite_store.py:193: ValueError
+_ test_owned_connection_interest_can_compete_with_generic_share_relevance[True-RELEVANT-NEW-DECLINED-LOW-LOW-AVAILABLE-STAY_SILENT] _
+
+tmp_path = PosixPath('/tmp/nanasocialsharefirst/test_owned_connection_interest3')
+owned = True, value = 'RELEVANT', novelty = 'NEW', preference = 'DECLINED'
+frequency = 'LOW', load = 'LOW', availability = 'AVAILABLE'
+expected = 'STAY_SILENT'
+
+    @pytest.mark.parametrize('owned,value,novelty,preference,frequency,load,availability,expected', [
+        (True,'LOW','NEW','UNKNOWN','LOW','LOW','BUSY','SOCIALIZE'),
+        (True,'RELEVANT','REPEATED','UNKNOWN','LOW','LOW','UNKNOWN','SOCIALIZE'),
+        (True,'RELEVANT','NEW','ALLOW','LOW','LOW','AVAILABLE','SOCIALIZE'),
+        (True,'RELEVANT','NEW','DECLINED','LOW','LOW','AVAILABLE','STAY_SILENT'),
+        (True,'RELEVANT','REPEATED','ALLOW','HIGH','LOW','AVAILABLE','STAY_SILENT'),
+        (False,'LOW','NEW','UNKNOWN','LOW','LOW','AVAILABLE','IGNORE'),
+        (False,'RELEVANT','NEW','UNKNOWN','LOW','LOW','AVAILABLE','STAY_SILENT'),
+        (True,'RELEVANT','NEW','ALLOW','LOW','HIGH','AVAILABLE','REST'),
+    ])
+    def test_owned_connection_interest_can_compete_with_generic_share_relevance(
+            tmp_path,owned,value,novelty,preference,frequency,load,availability,expected):
+        from nana_core.continuity.subject import PreferenceSignal
+        from nana_core.continuity.subject.opportunities import ShareAssessment,OpportunityAssessment
+        with fresh(tmp_path/'s'/'self.db') as r:
+            if owned:
+                for index in range(2):
+                    r.subject.run(SubjectInput(source_key='synthetic.social-interest.'+str(index),kind='PLAY',origin='ENVIRONMENT',
+                        entity_id='synthetic-person',scope='lab',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),
+                        text='SYNTHETIC independent enjoyable connection '+str(index),
+                        preference_signal=PreferenceSignal(topic='social_connection',direction='SUPPORT',
+                            interpretation='SYNTHETIC personally values ordinary company')))
+                desire=social_appetite(r.store,scope='lab',privacy_classes=('PERSONAL',))
+                assert desire.state=='SEEKING' and desire.source_record_ids
+            resource='synthetic://contact/friend'
+            cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='RELATIONSHIP',topic_key='small-share',
+                possible_behaviors=('SOCIALIZE','STAY_SILENT'),resource_class='ORDINARY',availability=availability,cognitive_load=load,
+                share_assessment=ShareAssessment(user_preference=preference,recent_delivery_frequency=frequency,novelty=novelty),
+                opportunity_assessment=OpportunityAssessment(value=value,novelty=novelty))
+            mid=capture(r,'small-share',cue.model_dump_json(),predicate='concern.small-share')
+            recipient=RecipientState(resource=resource,entity_id='synthetic-person',availability=availability,
+                observed_at_us=r.clock.utc_now_us(),expires_at_us=r.clock.utc_now_us()+HOUR,permitted_privacy=('PERSONAL',))
+            capture(r,'small-share-recipient',recipient.model_dump_json(),predicate='recipient.'+digest(resource)[:32])
+            send(r,'small-share-choice',(mid,),realization_target=RealizationTarget(capability='world.contact',operation='CONTACT',resource=resource,resource_class='ORDINARY'))
+            cycle=r.step()['cycle']
+            assert cycle.intention.behavior==expected
+            assert cycle.evaluation.wanted
+            if expected=='SOCIALIZE':
+                assert cycle.intention.kind=='SOCIAL_INTERACTION' and cycle.evaluation.normative=='ENDORSED'
+                gate=DeliveryAdmission(r.store,DeliveryPolicy(recipients=(resource,),privacy_classes=('PERSONAL',),
+                    quiet_start_utc_hour=0,quiet_end_utc_hour=0),scopes=('lab',),privacy_classes=('PERSONAL',))
+                result=gate.assess(cycle,resource)
+                assert result['result']=={'BUSY':'DEFER_BUSY','UNKNOWN':'UNKNOWN_AVAILABILITY','AVAILABLE':'ELIGIBLE'}[availability]
+                assert result['authority_granted'] is False
+>           assert not r.store.all('grants') and not r.store.all('actions') and not r.store.all('cognitive_requests')
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/open_autonomy/test_delivery.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.store.ContinuityStore object at 0x7f0023f7b950>
+table = 'cognitive_requests'
+
+    def all(self, table):
+        if table not in {*getattr(self, "keys", KEYS), "events", "artifacts"}:
+>           raise ValueError(table)
+E           ValueError: cognitive_requests
+
+src/nana_core/storage/sqlite_store.py:193: ValueError
+_ test_owned_connection_interest_can_compete_with_generic_share_relevance[True-RELEVANT-REPEATED-ALLOW-HIGH-LOW-AVAILABLE-STAY_SILENT] _
+
+tmp_path = PosixPath('/tmp/nanasocialsharefirst/test_owned_connection_interest4')
+owned = True, value = 'RELEVANT', novelty = 'REPEATED', preference = 'ALLOW'
+frequency = 'HIGH', load = 'LOW', availability = 'AVAILABLE'
+expected = 'STAY_SILENT'
+
+    @pytest.mark.parametrize('owned,value,novelty,preference,frequency,load,availability,expected', [
+        (True,'LOW','NEW','UNKNOWN','LOW','LOW','BUSY','SOCIALIZE'),
+        (True,'RELEVANT','REPEATED','UNKNOWN','LOW','LOW','UNKNOWN','SOCIALIZE'),
+        (True,'RELEVANT','NEW','ALLOW','LOW','LOW','AVAILABLE','SOCIALIZE'),
+        (True,'RELEVANT','NEW','DECLINED','LOW','LOW','AVAILABLE','STAY_SILENT'),
+        (True,'RELEVANT','REPEATED','ALLOW','HIGH','LOW','AVAILABLE','STAY_SILENT'),
+        (False,'LOW','NEW','UNKNOWN','LOW','LOW','AVAILABLE','IGNORE'),
+        (False,'RELEVANT','NEW','UNKNOWN','LOW','LOW','AVAILABLE','STAY_SILENT'),
+        (True,'RELEVANT','NEW','ALLOW','LOW','HIGH','AVAILABLE','REST'),
+    ])
+    def test_owned_connection_interest_can_compete_with_generic_share_relevance(
+            tmp_path,owned,value,novelty,preference,frequency,load,availability,expected):
+        from nana_core.continuity.subject import PreferenceSignal
+        from nana_core.continuity.subject.opportunities import ShareAssessment,OpportunityAssessment
+        with fresh(tmp_path/'s'/'self.db') as r:
+            if owned:
+                for index in range(2):
+                    r.subject.run(SubjectInput(source_key='synthetic.social-interest.'+str(index),kind='PLAY',origin='ENVIRONMENT',
+                        entity_id='synthetic-person',scope='lab',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),
+                        text='SYNTHETIC independent enjoyable connection '+str(index),
+                        preference_signal=PreferenceSignal(topic='social_connection',direction='SUPPORT',
+                            interpretation='SYNTHETIC personally values ordinary company')))
+                desire=social_appetite(r.store,scope='lab',privacy_classes=('PERSONAL',))
+                assert desire.state=='SEEKING' and desire.source_record_ids
+            resource='synthetic://contact/friend'
+            cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='RELATIONSHIP',topic_key='small-share',
+                possible_behaviors=('SOCIALIZE','STAY_SILENT'),resource_class='ORDINARY',availability=availability,cognitive_load=load,
+                share_assessment=ShareAssessment(user_preference=preference,recent_delivery_frequency=frequency,novelty=novelty),
+                opportunity_assessment=OpportunityAssessment(value=value,novelty=novelty))
+            mid=capture(r,'small-share',cue.model_dump_json(),predicate='concern.small-share')
+            recipient=RecipientState(resource=resource,entity_id='synthetic-person',availability=availability,
+                observed_at_us=r.clock.utc_now_us(),expires_at_us=r.clock.utc_now_us()+HOUR,permitted_privacy=('PERSONAL',))
+            capture(r,'small-share-recipient',recipient.model_dump_json(),predicate='recipient.'+digest(resource)[:32])
+            send(r,'small-share-choice',(mid,),realization_target=RealizationTarget(capability='world.contact',operation='CONTACT',resource=resource,resource_class='ORDINARY'))
+            cycle=r.step()['cycle']
+            assert cycle.intention.behavior==expected
+            assert cycle.evaluation.wanted
+            if expected=='SOCIALIZE':
+                assert cycle.intention.kind=='SOCIAL_INTERACTION' and cycle.evaluation.normative=='ENDORSED'
+                gate=DeliveryAdmission(r.store,DeliveryPolicy(recipients=(resource,),privacy_classes=('PERSONAL',),
+                    quiet_start_utc_hour=0,quiet_end_utc_hour=0),scopes=('lab',),privacy_classes=('PERSONAL',))
+                result=gate.assess(cycle,resource)
+                assert result['result']=={'BUSY':'DEFER_BUSY','UNKNOWN':'UNKNOWN_AVAILABILITY','AVAILABLE':'ELIGIBLE'}[availability]
+                assert result['authority_granted'] is False
+>           assert not r.store.all('grants') and not r.store.all('actions') and not r.store.all('cognitive_requests')
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/open_autonomy/test_delivery.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.store.ContinuityStore object at 0x7f00242293a0>
+table = 'cognitive_requests'
+
+    def all(self, table):
+        if table not in {*getattr(self, "keys", KEYS), "events", "artifacts"}:
+>           raise ValueError(table)
+E           ValueError: cognitive_requests
+
+src/nana_core/storage/sqlite_store.py:193: ValueError
+_ test_owned_connection_interest_can_compete_with_generic_share_relevance[False-LOW-NEW-UNKNOWN-LOW-LOW-AVAILABLE-IGNORE] _
+
+tmp_path = PosixPath('/tmp/nanasocialsharefirst/test_owned_connection_interest5')
+owned = False, value = 'LOW', novelty = 'NEW', preference = 'UNKNOWN'
+frequency = 'LOW', load = 'LOW', availability = 'AVAILABLE', expected = 'IGNORE'
+
+    @pytest.mark.parametrize('owned,value,novelty,preference,frequency,load,availability,expected', [
+        (True,'LOW','NEW','UNKNOWN','LOW','LOW','BUSY','SOCIALIZE'),
+        (True,'RELEVANT','REPEATED','UNKNOWN','LOW','LOW','UNKNOWN','SOCIALIZE'),
+        (True,'RELEVANT','NEW','ALLOW','LOW','LOW','AVAILABLE','SOCIALIZE'),
+        (True,'RELEVANT','NEW','DECLINED','LOW','LOW','AVAILABLE','STAY_SILENT'),
+        (True,'RELEVANT','REPEATED','ALLOW','HIGH','LOW','AVAILABLE','STAY_SILENT'),
+        (False,'LOW','NEW','UNKNOWN','LOW','LOW','AVAILABLE','IGNORE'),
+        (False,'RELEVANT','NEW','UNKNOWN','LOW','LOW','AVAILABLE','STAY_SILENT'),
+        (True,'RELEVANT','NEW','ALLOW','LOW','HIGH','AVAILABLE','REST'),
+    ])
+    def test_owned_connection_interest_can_compete_with_generic_share_relevance(
+            tmp_path,owned,value,novelty,preference,frequency,load,availability,expected):
+        from nana_core.continuity.subject import PreferenceSignal
+        from nana_core.continuity.subject.opportunities import ShareAssessment,OpportunityAssessment
+        with fresh(tmp_path/'s'/'self.db') as r:
+            if owned:
+                for index in range(2):
+                    r.subject.run(SubjectInput(source_key='synthetic.social-interest.'+str(index),kind='PLAY',origin='ENVIRONMENT',
+                        entity_id='synthetic-person',scope='lab',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),
+                        text='SYNTHETIC independent enjoyable connection '+str(index),
+                        preference_signal=PreferenceSignal(topic='social_connection',direction='SUPPORT',
+                            interpretation='SYNTHETIC personally values ordinary company')))
+                desire=social_appetite(r.store,scope='lab',privacy_classes=('PERSONAL',))
+                assert desire.state=='SEEKING' and desire.source_record_ids
+            resource='synthetic://contact/friend'
+            cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='RELATIONSHIP',topic_key='small-share',
+                possible_behaviors=('SOCIALIZE','STAY_SILENT'),resource_class='ORDINARY',availability=availability,cognitive_load=load,
+                share_assessment=ShareAssessment(user_preference=preference,recent_delivery_frequency=frequency,novelty=novelty),
+                opportunity_assessment=OpportunityAssessment(value=value,novelty=novelty))
+            mid=capture(r,'small-share',cue.model_dump_json(),predicate='concern.small-share')
+            recipient=RecipientState(resource=resource,entity_id='synthetic-person',availability=availability,
+                observed_at_us=r.clock.utc_now_us(),expires_at_us=r.clock.utc_now_us()+HOUR,permitted_privacy=('PERSONAL',))
+            capture(r,'small-share-recipient',recipient.model_dump_json(),predicate='recipient.'+digest(resource)[:32])
+            send(r,'small-share-choice',(mid,),realization_target=RealizationTarget(capability='world.contact',operation='CONTACT',resource=resource,resource_class='ORDINARY'))
+            cycle=r.step()['cycle']
+            assert cycle.intention.behavior==expected
+            assert cycle.evaluation.wanted
+            if expected=='SOCIALIZE':
+                assert cycle.intention.kind=='SOCIAL_INTERACTION' and cycle.evaluation.normative=='ENDORSED'
+                gate=DeliveryAdmission(r.store,DeliveryPolicy(recipients=(resource,),privacy_classes=('PERSONAL',),
+                    quiet_start_utc_hour=0,quiet_end_utc_hour=0),scopes=('lab',),privacy_classes=('PERSONAL',))
+                result=gate.assess(cycle,resource)
+                assert result['result']=={'BUSY':'DEFER_BUSY','UNKNOWN':'UNKNOWN_AVAILABILITY','AVAILABLE':'ELIGIBLE'}[availability]
+                assert result['authority_granted'] is False
+>           assert not r.store.all('grants') and not r.store.all('actions') and not r.store.all('cognitive_requests')
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/open_autonomy/test_delivery.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.store.ContinuityStore object at 0x7f0024297cb0>
+table = 'cognitive_requests'
+
+    def all(self, table):
+        if table not in {*getattr(self, "keys", KEYS), "events", "artifacts"}:
+>           raise ValueError(table)
+E           ValueError: cognitive_requests
+
+src/nana_core/storage/sqlite_store.py:193: ValueError
+_ test_owned_connection_interest_can_compete_with_generic_share_relevance[False-RELEVANT-NEW-UNKNOWN-LOW-LOW-AVAILABLE-STAY_SILENT] _
+
+tmp_path = PosixPath('/tmp/nanasocialsharefirst/test_owned_connection_interest6')
+owned = False, value = 'RELEVANT', novelty = 'NEW', preference = 'UNKNOWN'
+frequency = 'LOW', load = 'LOW', availability = 'AVAILABLE'
+expected = 'STAY_SILENT'
+
+    @pytest.mark.parametrize('owned,value,novelty,preference,frequency,load,availability,expected', [
+        (True,'LOW','NEW','UNKNOWN','LOW','LOW','BUSY','SOCIALIZE'),
+        (True,'RELEVANT','REPEATED','UNKNOWN','LOW','LOW','UNKNOWN','SOCIALIZE'),
+        (True,'RELEVANT','NEW','ALLOW','LOW','LOW','AVAILABLE','SOCIALIZE'),
+        (True,'RELEVANT','NEW','DECLINED','LOW','LOW','AVAILABLE','STAY_SILENT'),
+        (True,'RELEVANT','REPEATED','ALLOW','HIGH','LOW','AVAILABLE','STAY_SILENT'),
+        (False,'LOW','NEW','UNKNOWN','LOW','LOW','AVAILABLE','IGNORE'),
+        (False,'RELEVANT','NEW','UNKNOWN','LOW','LOW','AVAILABLE','STAY_SILENT'),
+        (True,'RELEVANT','NEW','ALLOW','LOW','HIGH','AVAILABLE','REST'),
+    ])
+    def test_owned_connection_interest_can_compete_with_generic_share_relevance(
+            tmp_path,owned,value,novelty,preference,frequency,load,availability,expected):
+        from nana_core.continuity.subject import PreferenceSignal
+        from nana_core.continuity.subject.opportunities import ShareAssessment,OpportunityAssessment
+        with fresh(tmp_path/'s'/'self.db') as r:
+            if owned:
+                for index in range(2):
+                    r.subject.run(SubjectInput(source_key='synthetic.social-interest.'+str(index),kind='PLAY',origin='ENVIRONMENT',
+                        entity_id='synthetic-person',scope='lab',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),
+                        text='SYNTHETIC independent enjoyable connection '+str(index),
+                        preference_signal=PreferenceSignal(topic='social_connection',direction='SUPPORT',
+                            interpretation='SYNTHETIC personally values ordinary company')))
+                desire=social_appetite(r.store,scope='lab',privacy_classes=('PERSONAL',))
+                assert desire.state=='SEEKING' and desire.source_record_ids
+            resource='synthetic://contact/friend'
+            cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='RELATIONSHIP',topic_key='small-share',
+                possible_behaviors=('SOCIALIZE','STAY_SILENT'),resource_class='ORDINARY',availability=availability,cognitive_load=load,
+                share_assessment=ShareAssessment(user_preference=preference,recent_delivery_frequency=frequency,novelty=novelty),
+                opportunity_assessment=OpportunityAssessment(value=value,novelty=novelty))
+            mid=capture(r,'small-share',cue.model_dump_json(),predicate='concern.small-share')
+            recipient=RecipientState(resource=resource,entity_id='synthetic-person',availability=availability,
+                observed_at_us=r.clock.utc_now_us(),expires_at_us=r.clock.utc_now_us()+HOUR,permitted_privacy=('PERSONAL',))
+            capture(r,'small-share-recipient',recipient.model_dump_json(),predicate='recipient.'+digest(resource)[:32])
+            send(r,'small-share-choice',(mid,),realization_target=RealizationTarget(capability='world.contact',operation='CONTACT',resource=resource,resource_class='ORDINARY'))
+            cycle=r.step()['cycle']
+            assert cycle.intention.behavior==expected
+            assert cycle.evaluation.wanted
+            if expected=='SOCIALIZE':
+                assert cycle.intention.kind=='SOCIAL_INTERACTION' and cycle.evaluation.normative=='ENDORSED'
+                gate=DeliveryAdmission(r.store,DeliveryPolicy(recipients=(resource,),privacy_classes=('PERSONAL',),
+                    quiet_start_utc_hour=0,quiet_end_utc_hour=0),scopes=('lab',),privacy_classes=('PERSONAL',))
+                result=gate.assess(cycle,resource)
+                assert result['result']=={'BUSY':'DEFER_BUSY','UNKNOWN':'UNKNOWN_AVAILABILITY','AVAILABLE':'ELIGIBLE'}[availability]
+                assert result['authority_granted'] is False
+>           assert not r.store.all('grants') and not r.store.all('actions') and not r.store.all('cognitive_requests')
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/open_autonomy/test_delivery.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.store.ContinuityStore object at 0x7f0023f7afc0>
+table = 'cognitive_requests'
+
+    def all(self, table):
+        if table not in {*getattr(self, "keys", KEYS), "events", "artifacts"}:
+>           raise ValueError(table)
+E           ValueError: cognitive_requests
+
+src/nana_core/storage/sqlite_store.py:193: ValueError
+_ test_owned_connection_interest_can_compete_with_generic_share_relevance[True-RELEVANT-NEW-ALLOW-LOW-HIGH-AVAILABLE-REST] _
+
+tmp_path = PosixPath('/tmp/nanasocialsharefirst/test_owned_connection_interest7')
+owned = True, value = 'RELEVANT', novelty = 'NEW', preference = 'ALLOW'
+frequency = 'LOW', load = 'HIGH', availability = 'AVAILABLE', expected = 'REST'
+
+    @pytest.mark.parametrize('owned,value,novelty,preference,frequency,load,availability,expected', [
+        (True,'LOW','NEW','UNKNOWN','LOW','LOW','BUSY','SOCIALIZE'),
+        (True,'RELEVANT','REPEATED','UNKNOWN','LOW','LOW','UNKNOWN','SOCIALIZE'),
+        (True,'RELEVANT','NEW','ALLOW','LOW','LOW','AVAILABLE','SOCIALIZE'),
+        (True,'RELEVANT','NEW','DECLINED','LOW','LOW','AVAILABLE','STAY_SILENT'),
+        (True,'RELEVANT','REPEATED','ALLOW','HIGH','LOW','AVAILABLE','STAY_SILENT'),
+        (False,'LOW','NEW','UNKNOWN','LOW','LOW','AVAILABLE','IGNORE'),
+        (False,'RELEVANT','NEW','UNKNOWN','LOW','LOW','AVAILABLE','STAY_SILENT'),
+        (True,'RELEVANT','NEW','ALLOW','LOW','HIGH','AVAILABLE','REST'),
+    ])
+    def test_owned_connection_interest_can_compete_with_generic_share_relevance(
+            tmp_path,owned,value,novelty,preference,frequency,load,availability,expected):
+        from nana_core.continuity.subject import PreferenceSignal
+        from nana_core.continuity.subject.opportunities import ShareAssessment,OpportunityAssessment
+        with fresh(tmp_path/'s'/'self.db') as r:
+            if owned:
+                for index in range(2):
+                    r.subject.run(SubjectInput(source_key='synthetic.social-interest.'+str(index),kind='PLAY',origin='ENVIRONMENT',
+                        entity_id='synthetic-person',scope='lab',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),
+                        text='SYNTHETIC independent enjoyable connection '+str(index),
+                        preference_signal=PreferenceSignal(topic='social_connection',direction='SUPPORT',
+                            interpretation='SYNTHETIC personally values ordinary company')))
+                desire=social_appetite(r.store,scope='lab',privacy_classes=('PERSONAL',))
+                assert desire.state=='SEEKING' and desire.source_record_ids
+            resource='synthetic://contact/friend'
+            cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='RELATIONSHIP',topic_key='small-share',
+                possible_behaviors=('SOCIALIZE','STAY_SILENT'),resource_class='ORDINARY',availability=availability,cognitive_load=load,
+                share_assessment=ShareAssessment(user_preference=preference,recent_delivery_frequency=frequency,novelty=novelty),
+                opportunity_assessment=OpportunityAssessment(value=value,novelty=novelty))
+            mid=capture(r,'small-share',cue.model_dump_json(),predicate='concern.small-share')
+            recipient=RecipientState(resource=resource,entity_id='synthetic-person',availability=availability,
+                observed_at_us=r.clock.utc_now_us(),expires_at_us=r.clock.utc_now_us()+HOUR,permitted_privacy=('PERSONAL',))
+            capture(r,'small-share-recipient',recipient.model_dump_json(),predicate='recipient.'+digest(resource)[:32])
+            send(r,'small-share-choice',(mid,),realization_target=RealizationTarget(capability='world.contact',operation='CONTACT',resource=resource,resource_class='ORDINARY'))
+            cycle=r.step()['cycle']
+            assert cycle.intention.behavior==expected
+            assert cycle.evaluation.wanted
+            if expected=='SOCIALIZE':
+                assert cycle.intention.kind=='SOCIAL_INTERACTION' and cycle.evaluation.normative=='ENDORSED'
+                gate=DeliveryAdmission(r.store,DeliveryPolicy(recipients=(resource,),privacy_classes=('PERSONAL',),
+                    quiet_start_utc_hour=0,quiet_end_utc_hour=0),scopes=('lab',),privacy_classes=('PERSONAL',))
+                result=gate.assess(cycle,resource)
+                assert result['result']=={'BUSY':'DEFER_BUSY','UNKNOWN':'UNKNOWN_AVAILABILITY','AVAILABLE':'ELIGIBLE'}[availability]
+                assert result['authority_granted'] is False
+>           assert not r.store.all('grants') and not r.store.all('actions') and not r.store.all('cognitive_requests')
+                                                                                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/open_autonomy/test_delivery.py:94: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.store.ContinuityStore object at 0x7f0023f78e30>
+table = 'cognitive_requests'
+
+    def all(self, table):
+        if table not in {*getattr(self, "keys", KEYS), "events", "artifacts"}:
+>           raise ValueError(table)
+E           ValueError: cognitive_requests
+
+src/nana_core/storage/sqlite_store.py:193: ValueError
+=========================== short test summary info ============================
+FAILED tests/open_autonomy/test_delivery.py::test_owned_connection_interest_can_compete_with_generic_share_relevance[True-LOW-NEW-UNKNOWN-LOW-LOW-BUSY-SOCIALIZE]
+FAILED tests/open_autonomy/test_delivery.py::test_owned_connection_interest_can_compete_with_generic_share_relevance[True-RELEVANT-REPEATED-UNKNOWN-LOW-LOW-UNKNOWN-SOCIALIZE]
+FAILED tests/open_autonomy/test_delivery.py::test_owned_connection_interest_can_compete_with_generic_share_relevance[True-RELEVANT-NEW-ALLOW-LOW-LOW-AVAILABLE-SOCIALIZE]
+FAILED tests/open_autonomy/test_delivery.py::test_owned_connection_interest_can_compete_with_generic_share_relevance[True-RELEVANT-NEW-DECLINED-LOW-LOW-AVAILABLE-STAY_SILENT]
+FAILED tests/open_autonomy/test_delivery.py::test_owned_connection_interest_can_compete_with_generic_share_relevance[True-RELEVANT-REPEATED-ALLOW-HIGH-LOW-AVAILABLE-STAY_SILENT]
+FAILED tests/open_autonomy/test_delivery.py::test_owned_connection_interest_can_compete_with_generic_share_relevance[False-LOW-NEW-UNKNOWN-LOW-LOW-AVAILABLE-IGNORE]
+FAILED tests/open_autonomy/test_delivery.py::test_owned_connection_interest_can_compete_with_generic_share_relevance[False-RELEVANT-NEW-UNKNOWN-LOW-LOW-AVAILABLE-STAY_SILENT]
+FAILED tests/open_autonomy/test_delivery.py::test_owned_connection_interest_can_compete_with_generic_share_relevance[True-RELEVANT-NEW-ALLOW-LOW-HIGH-AVAILABLE-REST]
+8 failed, 2 passed in 1.05s

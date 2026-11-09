@@ -1,0 +1,21 @@
+# Original social choice and legacy shadow inode lifetime
+
+Same unique Next Experience / ten-domain task, following f1909f2411cbc8b55fe01f536a3261f4dc527f43. S3/S6/S7 Foundation continuation; frozen criteria/architecture unchanged. No real model, person, send, account, device or production action.
+
+## Source behavior
+
+An independently adopted original social preference/seed can now support ordinary company even when a generic opportunity is low-value/repeated or a share has little instrumental/relationship value. OPEN derived only from the same cue is insufficient: original social_appetite source_record_ids must support it. Explicit topic decline, high-frequency repetition, actual high load, original normative judgment, admission and Kernel/Grant remain. Busy/unknown recipients retain the internal desire but original admission returns DEFER_BUSY/UNKNOWN_AVAILABILITY; ELIGIBLE still grants no authority. This is a bounded A–E category-E correction, not the full autonomy/affect audit.
+
+Frozen f190 source against the same eight contrasts:4failed/4passed. Candidate original related83passed12.74s, including same Subject restart and withdrawal removing the exception. Early fixture failures (schema12 has no cognitive_requests table) retained; corrected assertion explicitly proves that table is absent, no runtime/ledger added. Independent original source facts/permissions not rewritten.
+
+## Complete f190 regression first failure
+
+Exact f190 validation checkout:2136passed/1failed/12skipped718.86s. Original DirectoryFence test failed on the root overlay filesystem: an unpinned removed inode could be reused for a symlink and falsely pass the old (dev,ino) ownership check. Original assertion unchanged. Legacy bridge now retains O_CLOEXEC descriptors for validated/read and atomically published sidecar inodes until the fence closes. This prevents ABA during that lifetime; context close releases all descriptors. Both original tool and existing plugin wire copies remain byte identical; no second bridge or protocol. Pinning externally supplied socket tuples is not newly claimed.
+
+Original R044 tests23passed0.49s. A broader primary-checkout attempt had5collection errors because historical plugin payloads are absent in that sparse tree; switched to existing full validation checkout with only own affected files copied. First broader run1failed/390passed54.32s caught the required byte-identical plugin wire copy, now synchronized. Final complete legacy-shadow suite391passed (raw duration in log), including repeated write/read/unlink/failed foreign replacement/close OS descriptor counts. No old test removed or assertion relaxed. Full latest source qualification still pending remote CI.
+
+## Qualification resources and exact next step
+
+Preserve f190 full raw DBs /workspace/pf190 and both failed shadow attempt trees. Root free became low, so extend the existing CI job to complete exact-source pytest, original old-host isolation and portable double-build/offline bootstrap; no additional governance framework or production Docker change. A disposable Debian trixie CI container supplies actual host SQLite3.46.1; private Core Python3.12.14 must still report>=3.51.3. Install optional dependencies from the original builder pins, full ancestry with filtered history, absolute subprocess PYTHONPATH. No weakening/skipping of the old interpreter test. Existing f190 scoped CI42552155564 succeeded; it is not a whole-repository result. New full CI and exact installed successor remain pending until actual results. Two temporary uv interpreters installed solely to probe old bindings both reported3.46.0, removed via uv uninstall; real runtime/interpreters untouched. SQLite official archive URL returned403 and was not used.
+
+Continue the same original A–H scope: continuous input/interrupt/pacing is still real code work; C/S3/S8 outcomes, remaining load/affect/autonomy, broader G/semantic retrieval, archive/source-journal/privacy closure, real model-specific Token/native providers/model wizard, final native delivery and repository closure remain. CURRENT266+409/no new APK/production unchanged. Real-model/human/phone/actual days/long-term growth NOT_RUN; prior synthetic/virtual results retain their limited scope.
