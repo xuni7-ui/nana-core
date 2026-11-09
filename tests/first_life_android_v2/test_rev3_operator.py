@@ -68,6 +68,19 @@ def fixture_bundle(root):
     return bundle
 
 
+def test_public_key_backup_packet_check_accepts_aead_but_rejects_symmetric_session():
+    assert b1_backup._public_key_encrypted_packet_listing(
+        b":pubkey enc packet:\n:encrypted data packet:\n"
+    )
+    assert b1_backup._public_key_encrypted_packet_listing(
+        b":pubkey enc packet:\n:aead encrypted packet: cipher=9 aead=2\n"
+    )
+    assert not b1_backup._public_key_encrypted_packet_listing(
+        b":pubkey enc packet:\n:symkey enc packet:\n:aead encrypted packet:\n"
+    )
+    assert not b1_backup._public_key_encrypted_packet_listing(b":pubkey enc packet:\n")
+
+
 def test_b1_actual_openpgp_roundtrip_and_pc_receive_are_not_real_dr(tmp_path, monkeypatch):
     home = tmp_path / "pc-private-keyring"
     home.mkdir(mode=0o700)

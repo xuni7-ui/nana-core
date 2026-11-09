@@ -3331,3 +3331,7 @@ Web合成浏览器用例验证首条原请求返回UNKNOWN后移除本地待发�
 ### 2026-11-09 · Ubuntu runner的bwrap userns profile资格修复
 
 Run42718858552确认sudo safe.directory与依赖、私有Core SQLite3.53.1和只读真实3.46.1容器均通过；原IsolatedSkillRunner运行真实bwrap后仍UNAVAILABLE，stderr`bwrap: loopback: Failed RTM_NEWADDR: Operation not permitted`，完整pytest未启动、Core客户端Web分job仍在执行。根因符合Ubuntu24.04 AppArmor unprivileged userns默认限制。工作流现只在可丢弃GitHub runner添加 `/usr/bin/bwrap` 专属AppArmor profile并授userns；发现已有该路径profile即失败，保留AppArmor与原11项完整探针，不改内核开关/测试断言/真实主机。Profile仍待GitHub实测，未称解决。
+
+### 2026-11-09 · hosted bwrap完整资格及OpenPGP/旧SQLite兼容首错
+
+Run42719453260完整原隔离探针AVAILABLE，11/11原检查均true；原全仓2150 passed、1 failed、1 setup error、12 skipped、691.98s；client job通过，Core候选步骤跳过。JUnit artifact13720761008保留。唯一环境setup错：pytest script位于`/tmp/nq`，旧SQLite容器未映射它，容器2只读根/nw约束本身保留，现只读绑定该专用临时目录。真实OpenPGP失败：Ubuntu runner GnuPG2.4.4-2ubuntu17.6的AEAD payload packet名不匹配固定旧`:encrypted data packet:`字符串；新增精确包listing判定接受旧encrypted-data或AEAD标记，要求pubkey session、拒绝symkey session。原本机GnuPG2.4.7真实roundtrip与新packet矩阵2项通过；GPG2.4.4真实完整回归仍需CI复验。此前所有/首次错误与artifact id见evidence/ci-bwrap-host-requalification-20261109。无模型/生产/安装候选/CURRENT/APK更改。

@@ -272,6 +272,16 @@ def receive(root, source, sink):
     sink.write((json.dumps({"state": "RECEIVED_ENCRYPTED_ONLY", **v, "restored": False}) + "\n").encode())
 
 
+def _public_key_encrypted_packet_listing(packets):
+    """Accept RFC4880 encrypted data and OpenPGP AEAD payloads, never passphrase packets."""
+    has_public_key_session = b":pubkey enc packet:" in packets
+    has_encrypted_payload = any(
+        marker in packets for marker in (b":encrypted data packet:", b":aead encrypted packet:")
+    )
+    has_symmetric_session = b":symkey enc packet:" in packets
+    return has_public_key_session and has_encrypted_payload and not has_symmetric_session
+
+
 def send(ciphertext, host, user, known_hosts, agent, tailscale, socket):
     # Explicit target only. Never scan peers or discover historical credentials.
     try:
@@ -328,7 +338,7 @@ def send(ciphertext, host, user, known_hosts, agent, tailscale, socket):
             capture_output=True,
             timeout=10,
         )
-        if b":pubkey enc packet:" not in result.stdout or b":encrypted data packet:" not in result.stdout:
+        if not _public_key_encrypted_packet_listing(result.stdout):
             raise ValueError("ONLY_PUBLIC_KEY_ENCRYPTED_BACKUP_MAY_LEAVE_HOST")
     v = {"sha256": sha(path), "bytes": path.stat().st_size}
     if v["bytes"] > LIMIT:

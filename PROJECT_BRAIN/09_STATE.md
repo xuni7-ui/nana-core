@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 114,
-  "as_of_us": 1794266200000000,
+  "revision": 115,
+  "as_of_us": 1794266970000000,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_ORIGINAL_CONTINUOUS_INPUT_AND_CI_HOST_REQUALIFICATION",
+  "status": "IN_PROGRESS_ORIGINAL_CONTINUOUS_INPUT_AND_FULL_CI_FIRST_FAILURES",
   "progress": [
     "同一Next Experience与十域主任务已恢复；唯一Subject/Store/Loop、原C/D/G/Planner及Precision V2保持。最新合法源码与Brain优先。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
@@ -20,7 +20,7 @@
     "原C承诺与已采纳兴趣竞争57相关、送达反馈原Kernel独立回读及精确收件后续表达/重启撤回通过；原norm/load/Grant保持，真实社交/长期因果未验。",
     "长回复16384/原Token预算；6fd安装两轮12625字全文、已保留全文重启恢复/撤回通过；1024历史节选标记/4096流式前缀保留，反馈仍限2048。",
     "原memory_terms有界派生加速：1k/10k/100k均144/144，100k P959.72ms；200k142/144、误召0/超时2、P9548.18ms，增加约0.8GB索引；55相关通过。",
-    "GitHub run42718858552: runner/依赖/旧SQLite容器成功，原bwrap因Ubuntu AppArmor的RTM_NEWADDR拒绝；client仍运行。仅Core资格/全仓未开始，已加精确/usr/bin/bwrap userns profile待验。"
+    "GitHub run42719453260原11项探针AVAILABLE，完整回归2150通过/1失败/1设置错/12跳过；client通过。首错定位SQLite /tmp映射和GPG2.4.4 AEAD包识别，未产候选。"
   ],
   "open_gates": [
     "原A–H继承；Web/Core各逐条原C，BFF仍串行，尚无多消息目的合并/在途草稿重组及完整误触/中断闭环；其余自主性A–E/送达/长期因果继续。",
@@ -28,7 +28,7 @@
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "全链模型特定Token/费用/超时、产品/模型向导、运行Gateway/Core/宿主兼容与仓库闭包仍按原清单推进。",
     "历史47完整CI回归含环境问题的首错为1975通过/111失败/61设置错/12跳过，原XML留存；后继确切bwrap宿主限制已修工作流，待GitHub复验。CURRENT266+409，匹配最终包/安装/发行仍待收口。",
-    "新增AppArmor userns profile仅部署到一次性runner，实际探针和全仓尚无结果；不可泛化为可用，最终双构建/安装仍待资格。CURRENT266+409，真实模型/手机/生产未验。"
+    "已修复SQLite fixture只读挂载与B1接受AEAD且拒绝对称包，focused 2通过；GitHub完整回归复验待触发。末续双构建/独立安装/长期A–H保持未完成。"
   ],
   "evidence_refs": [
     "docs/nana_next_experience/CODEX_CONTINUATION_MISSION.md",
