@@ -1,0 +1,36 @@
+.......................F................................................ [ 75%]
+........................                                                 [100%]
+=================================== FAILURES ===================================
+_____ test_fixed_twenty_case_inventory_and_no_automatic_naturalness_score ______
+
+    def test_fixed_twenty_case_inventory_and_no_automatic_naturalness_score():
+        root=Path(__file__).resolve().parents[2]/'docs/nana_persistent_person_self_v1_evidence'
+>       suite=json.loads((root/'heldout_conversations.json').read_text())
+                         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_heldout_contract.py:8: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py:1027: in read_text
+    with self.open(mode='r', encoding=encoding, errors=errors) as f:
+         ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = PosixPath('/workspace/nana-unified-release/docs/nana_persistent_person_self_v1_evidence/heldout_conversations.json')
+mode = 'r', buffering = -1, encoding = 'locale', errors = None, newline = None
+
+    def open(self, mode='r', buffering=-1, encoding=None,
+             errors=None, newline=None):
+        """
+        Open the file pointed to by this path and return a file object, as
+        the built-in open() function does.
+        """
+        if "b" not in mode:
+            encoding = io.text_encoding(encoding)
+>       return io.open(self, mode, buffering, encoding, errors, newline)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E       FileNotFoundError: [Errno 2] No such file or directory: '/workspace/nana-unified-release/docs/nana_persistent_person_self_v1_evidence/heldout_conversations.json'
+
+/opt/codex/runtimes/codex-primary-runtime/dependencies/python/lib/python3.12/pathlib.py:1013: FileNotFoundError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_heldout_contract.py::test_fixed_twenty_case_inventory_and_no_automatic_naturalness_score
+1 failed, 95 passed in 29.96s

@@ -70,7 +70,7 @@ class SurfaceSession:
         b=self._bindings.get(key)
         if not b or not b.enabled:raise CoreError('SURFACE_DISABLED_OR_UNBOUND')
         return b
-    def receive(self,observation,*,reply_target=None):
+    def validate_observation(self,observation,*,reply_target=None):
         if type(observation) is not SurfaceObservation:raise CoreError('SURFACE_TYPED_OBSERVATION_REQUIRED')
         o=SurfaceObservation.model_validate_json(observation.model_dump_json());b=self._binding(o.binding_id)
         if reply_target is not None:
@@ -85,7 +85,13 @@ class SurfaceSession:
         if o.privacy_class=='PERSONAL' and (o.retain_shared_life or o.approved_summary is not None) and (not b.allow_personal_retention or not b.personal_retention_consent_ref):raise CoreError('SURFACE_PERSONAL_RETENTION_NOT_AUTHORIZED')
         if b.mode=='DEVELOPMENT_SHADOW_NO_SEND' and o.origin!='DEVELOPMENT_SHADOW':raise CoreError('SURFACE_ORIGIN_BINDING_MISMATCH')
         if o.approved_summary is not None and o.summary_authorization!=('EXPLICIT_PERSONAL_SUMMARY' if o.privacy_class=='PERSONAL' else 'EXPLICIT_PROJECT_SUMMARY'):raise CoreError('SURFACE_SUMMARY_NOT_AUTHORIZED')
-        app=self._app;r=app.runtime;key=digest([b.binding_id,o.event_id]);now=r.clock.utc_now_us()
+        return o,b
+    def receive(self,observation,*,reply_target=None,observed_at_us=None):
+        o,b=self.validate_observation(observation,reply_target=reply_target)
+        app=self._app;r=app.runtime;key=digest([b.binding_id,o.event_id]);current=r.clock.utc_now_us()
+        if observed_at_us is not None and (type(observed_at_us) is not int or not 0<=observed_at_us<=current):
+            raise CoreError('SURFACE_OBSERVATION_TIME_INVALID')
+        now=current if observed_at_us is None else observed_at_us
         envelope=SurfaceEnvelope(domain='LOCAL_INTERACTION',subject_id=r.identity_id,
             platform=b.platform,surface=b.surface,adapter=b.adapter,entity_id=b.entity_id,
             conversation_id=o.thread_id,session_id=b.binding_id,event_kind='conversation.message',

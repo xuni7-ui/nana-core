@@ -259,11 +259,11 @@ class LifeApplication:
         from ..continuity.contracts import PENDING_LOCAL_RECEIPT
         body=PENDING_LOCAL_RECEIPT
         old=r.store.db.execute("SELECT observed_time_us FROM continuity_evidence WHERE source_namespace='recorded.local.message' AND source_reference=?",(reference,)).fetchone()
-        eid=memory.capture(EvidenceInput(provenance=Provenance(domain='LOCAL_INTERACTION_METADATA',source_namespace='recorded.local.message',source_reference=reference,source_kind='DIRECT_OBSERVATION'),text=body,privacy_class=privacy,observed_time_us=old[0] if old else r.clock.utc_now_us()))
+        eid=memory.capture(EvidenceInput(provenance=Provenance(domain='LOCAL_INTERACTION_METADATA',source_namespace='recorded.local.message',source_reference=reference,source_kind='DIRECT_OBSERVATION'),text=body,privacy_class=privacy,observed_time_us=old[0] if old else surface.observed_at_us if surface else r.clock.utc_now_us()))
         mid=memory.add(MemoryCandidate(entity_id=r.config.entity_id,scope=r.config.scopes[0],memory_type=MemoryType.EPISODIC,epistemic_kind='OBSERVATION',source_evidence_id=eid,text=body,derived_from=tuple(support_memory_ids)))
         if retain_shared_life:
             from ..continuity.person_self import retain_input
-            mid=retain_input(r.store,entity_id=r.config.entity_id,scope=r.config.scopes[0],text=text,privacy=privacy,message_id=event_key)
+            mid=retain_input(r.store,entity_id=r.config.entity_id,scope=r.config.scopes[0],text=text,privacy=privacy,message_id=event_key,observed_at_us=surface.observed_at_us if surface else None)
         proposal=None;recall_query_terms=()
         recipient_context=DialogueRecipient(platform=surface.platform,binding_id=surface.session_id,conversation_id=surface.conversation_id) if surface is not None else None
         literal=LiteralSpanInterpreter().interpret(text);kind=literal.kind if literal.basis=='LITERAL_SPAN' else 'UNCLEAR';basis='EXPLICIT' if literal.basis=='LITERAL_SPAN' else 'INTERPRETED';rid=None;provider_state='LIVE_PROVIDER_NOT_RUN'

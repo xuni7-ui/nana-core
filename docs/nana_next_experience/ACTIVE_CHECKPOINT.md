@@ -1,3 +1,13 @@
+# Active continuation — original private input queue implemented, BFF/client next
+
+Parent47fe4d2 is the normal merge of own9b7db66 social/legacyABA and approved PR6/7c32488 selector docs. Original branch authorization preserved; no history rewritten.47fullCI42554694011 running when recorded, client passed; check actual result, never infer whole pass. f190 old full2136passed/1legacyABAfailed/12skip still first-failure evidence, original391shadow checks passed after bothwire pinning fix.
+
+Current originalControlServer changes: max4volatile validated bound surface connections wait during existing model; no recursive C/Store. Same owner drains original flow after current completes; controls/status stay urgent, queue expiry separate from own model calls, stop/close/full/disconnect do not dispatch new input. Receipt UTC flows through Subject/source evidence while ingested/created stays later. Original retained-input opt-in unchanged. Frozen old followup fails1.28s; new27related17.49s, originals preserved. See evidence/continuous-input-inbox-20261109. New exact-source full CI/portable/offline install pending.
+
+Next actual code: existing GatewayService.write_lock still serializes messages and LiveSpace busy prevents send, so do not claim Web/phone continuous input. Connect original CAS/role/CSRF/readiness/idempotency without overlapping Store writers; bounded UI and original C multi-message purpose/unsent draft reorganization remain. All original A–H remainder inherited. Preserve old /workspace/nana-core18bc736, raw test DBs/artifacts, CURRENT266+409. Real-model/account/phone/human/actual long-term/production NOT_RUN; no new APK until backend/client closure.
+
+---
+
 # Active continuation — social choice / legacy ABA repaired, exact full CI next
 
 Current own changes follow f1909f2. Its full root-disk regression2136passed/1failed/12skipped718.86s, raw /workspace/scratch/nana-f190-full-regression.txt and /workspace/pf190 retained. Failure is original legacy DirectoryFence inode ABA, now live descriptors pin validated sidecars; both tool/plugin wire identical and all391legacy-shadow checks pass. Social preference supported by independent original record can compete with generic low-value/repeated shares; original reception/load/decline/repetition/authority intact,83related including restart/withdraw pass. Evidence/social-interest-and-shadow-aba-20261109 includes first failures. No new full pass claimed.

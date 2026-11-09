@@ -127,12 +127,12 @@ def commit(store, tx, event, decision, cycle_record_id):
                    records=(cycle_record_id,), supersedes=old[0] if old and store.one('continuity_records', old[0])['lifecycle'] != 'DELETED' else None)
 
 
-def retain_input(store, *, entity_id, scope, text, privacy, message_id):
+def retain_input(store, *, entity_id, scope, text, privacy, message_id, observed_at_us=None):
     """Explicit per-turn opt-in only; default dialogue remains transient."""
     memory = MemoryService(store)
     now = store.clock.utc_now_us()
     eid = memory.capture(EvidenceInput(provenance=Provenance(domain='CONSENTED_INTERACTION',source_namespace='recorded.conversation.input', source_reference=message_id, source_kind='USER_STATEMENT'), text=text,
-        privacy_class=privacy, retention_consent_ref=message_id, observed_time_us=now))
+        privacy_class=privacy, retention_consent_ref=message_id, observed_time_us=now if observed_at_us is None else observed_at_us))
     return memory.add(MemoryCandidate(entity_id=entity_id, scope=scope, memory_type=MemoryType.EPISODIC,
         epistemic_kind='STATEMENT', source_evidence_id=eid, text=text))
 

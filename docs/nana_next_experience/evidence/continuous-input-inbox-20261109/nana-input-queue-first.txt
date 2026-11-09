@@ -1,0 +1,58 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+_________ test_followup_waits_without_recursive_subject_or_lost_input __________
+
+tmp_path = PosixPath('/tmp/q47first/test_followup_waits_without_re0')
+
+    def test_followup_waits_without_recursive_subject_or_lost_input(tmp_path):
+        home,binding,_=owned(tmp_path);setup(home)
+        release=threading.Event();prefix=threading.Event();observed=[]
+        with relay(home,'CHAT',stream_fixture={'release':release}) as (router,calls),running_owner(home,router) as state:
+            def see(value):
+                if value.get('text'):prefix.set()
+            first,first_done,t1=launch(home,message('first','SYNTHETIC first thought'),see)
+            second={};t2=None
+            try:
+>               assert prefix.wait(3)
+E               assert False
+E                +  where False = wait(3)
+E                +    where wait = <threading.Event at 0x7f22fec67680: unset>.wait
+
+tests/first_life_android_v2/test_continuous_inputs.py:76: AssertionError
+____ test_queue_bounds_privacy_stop_and_disconnected_inputs_before_dispatch ____
+
+tmp_path = PosixPath('/tmp/q47first/test_queue_bounds_privacy_stop0')
+
+    def test_queue_bounds_privacy_stop_and_disconnected_inputs_before_dispatch(tmp_path):
+        home,_,_=owned(tmp_path);setup(home)
+        release=threading.Event();prefix=threading.Event();clients=[]
+        with relay(home,'CHAT',stream_fixture={'release':release}) as (router,calls),running_owner(home,router) as state:
+            first,done,thread=launch(home,message('active'),lambda v:prefix.set() if v.get('text') else None)
+            try:
+>               assert prefix.wait(3)
+E               assert False
+E                +  where False = wait(3)
+E                +    where wait = <threading.Event at 0x7f22fe9d19d0: unset>.wait
+
+tests/first_life_android_v2/test_continuous_inputs.py:104: AssertionError
+____________ test_closed_waiting_client_never_enters_original_core _____________
+
+tmp_path = PosixPath('/tmp/q47first/test_closed_waiting_client_nev0')
+
+    def test_closed_waiting_client_never_enters_original_core(tmp_path):
+        home,_,_=owned(tmp_path);setup(home)
+        release=threading.Event();prefix=threading.Event()
+        with relay(home,'CHAT',stream_fixture={'release':release}) as (router,calls),running_owner(home,router) as state:
+            first,done,thread=launch(home,message('active'),lambda v:prefix.set() if v.get('text') else None)
+            try:
+>               assert prefix.wait(3)
+E               assert False
+E                +  where False = wait(3)
+E                +    where wait = <threading.Event at 0x7f22fe8a13a0: unset>.wait
+
+tests/first_life_android_v2/test_continuous_inputs.py:132: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_android_v2/test_continuous_inputs.py::test_followup_waits_without_recursive_subject_or_lost_input
+FAILED tests/first_life_android_v2/test_continuous_inputs.py::test_queue_bounds_privacy_stop_and_disconnected_inputs_before_dispatch
+FAILED tests/first_life_android_v2/test_continuous_inputs.py::test_closed_waiting_client_never_enters_original_core
+3 failed in 11.61s

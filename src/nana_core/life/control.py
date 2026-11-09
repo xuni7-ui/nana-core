@@ -13,6 +13,7 @@ import stat
 import struct
 import time
 import shutil
+from collections import deque
 from pathlib import Path
 from ..contracts import CoreError
 from ..host_requirements import unix_socket_path
@@ -20,9 +21,10 @@ from ..continuity.privacy import _json_object
 from .surfaces import SurfaceObservation
 
 LIMIT = 16384
+MAX_PENDING_INPUTS = 4
 
 
-def dispatch(app, request):
+def dispatch(app, request, *, observed_at_us=None):
     if type(request) is not dict:
         raise CoreError("CLOUD_TYPED_REQUEST_REQUIRED")
     op = request.get("operation")
@@ -95,7 +97,7 @@ def dispatch(app, request):
         from .bilibili import BilibiliSourceAdapter
         return BilibiliSourceAdapter(app).interpret(request["source_memory_id"])
     if op == "surface" and set(request) == {"operation", "observation"}:
-        return app.surfaces.receive(SurfaceObservation.model_validate_json(json.dumps(request["observation"])))
+        return app.surfaces.receive(SurfaceObservation.model_validate_json(json.dumps(request["observation"])), observed_at_us=observed_at_us)
     if op == "view" and set(request) == {"operation", "view"}:
         if request["view"] == "bilibili-history":
             from .bilibili import BilibiliSourceAdapter
@@ -249,36 +251,69 @@ class ControlServer:
         self.socket.listen(4)
         self.socket.setblocking(False)
         self.inode = self.path.lstat().st_ino
+        self.pending_inputs = deque()  # private volatile bodies, never a second Store
         self.previous_progress = getattr(app.runtime, "control_progress", None)
         self.progress_callback = lambda: self.poll(urgent_only=True)
         app.runtime.control_progress = self.progress_callback
 
     def poll(self, *, urgent_only=False):
+        queued = False
+        req = None
+        deadline = None
+        observed_at_us = None
+        if not urgent_only and self.pending_inputs:
+            conn, req, deadline, observed_at_us = self.pending_inputs.popleft()
+        else:
+            try:
+                conn, _ = self.socket.accept()
+            except BlockingIOError:
+                return False
         try:
-            conn, _ = self.socket.accept()
-        except BlockingIOError:
-            return False
-        with conn:
             conn.settimeout(0.2)
             try:
-                _, uid, _ = struct.unpack("3i", conn.getsockopt(socket.SOL_SOCKET, socket.SO_PEERCRED, 12))
-                if uid != os.getuid():
-                    raise CoreError("CLOUD_CONTROL_OWNER_REQUIRED")
-                raw = b""
-                deadline = time.monotonic() + 0.5
-                while b"\n" not in raw and len(raw) <= LIMIT:
+                if req is None:
+                    _, uid, _ = struct.unpack("3i", conn.getsockopt(socket.SOL_SOCKET, socket.SO_PEERCRED, 12))
+                    if uid != os.getuid():
+                        raise CoreError("CLOUD_CONTROL_OWNER_REQUIRED")
+                    raw = b""
+                    read_deadline = time.monotonic() + 0.5
+                    while b"\n" not in raw and len(raw) <= LIMIT:
+                        if time.monotonic() >= read_deadline:
+                            raise CoreError("CLOUD_REQUEST_TIMEOUT")
+                        part = conn.recv(4096)
+                        if not part:
+                            break
+                        raw += part
+                    if len(raw) > LIMIT or not raw.endswith(b"\n"):
+                        raise CoreError("CLOUD_REQUEST_BOUND")
+                    req = json.loads(raw, object_pairs_hook=_json_object)
+                else:
+                    if self.app.runtime.stop_requested:
+                        raise CoreError('CLOUD_QUEUED_PRE_DISPATCH_CANCELLED')
                     if time.monotonic() >= deadline:
-                        raise CoreError("CLOUD_REQUEST_TIMEOUT")
-                    part = conn.recv(4096)
-                    if not part:
-                        break
-                    raw += part
-                if len(raw) > LIMIT or not raw.endswith(b"\n"):
-                    raise CoreError("CLOUD_REQUEST_BOUND")
-                req = json.loads(raw, object_pairs_hook=_json_object)
+                        raise CoreError('CLOUD_QUEUED_PRE_DISPATCH_EXPIRED')
+                    # A closed waiting client has not authorized detached work.
+                    # Never consume extra bytes or enter Core for that request.
+                    import select
+                    if select.select([conn], [], [], 0)[0]:
+                        if not conn.recv(1, socket.MSG_PEEK | socket.MSG_DONTWAIT):
+                            return True
+                        raise CoreError('CLOUD_TYPED_REQUEST_REQUIRED')
                 if urgent_only:
-                    # Same original owner, only at a transport-wait safe point.
-                    # No recursive chat, backup, import, resume or action dispatch.
+                    # Input can wait, but cannot recursively enter C/Store while
+                    # another cognition request owns the original safe point.
+                    if type(req) is dict and req.get('operation') in {'surface','surface-stream'}:
+                        if set(req) != {'operation','observation'}:
+                            raise CoreError('CLOUD_TYPED_REQUEST_REQUIRED')
+                        self.app.surfaces.validate_observation(SurfaceObservation.model_validate_json(json.dumps(req['observation'])))
+                        if self.app.runtime.stop_requested:
+                            raise CoreError('CLOUD_QUEUED_PRE_DISPATCH_CANCELLED')
+                        if len(self.pending_inputs) >= MAX_PENDING_INPUTS:
+                            raise CoreError('CLOUD_INPUT_QUEUE_FULL_PRE_DISPATCH')
+                        self.pending_inputs.append((conn, req, time.monotonic()+2*self.app.config.provider_timeout_ms/1000, self.app.runtime.clock.utc_now_us()))
+                        queued = True
+                        return True
+                    # Only original interruption controls run at transport wait.
                     allowed = type(req) is dict and (
                         (set(req) == {"operation", "command"} and req["operation"] == "control"
                          and req["command"] in {"pause", "busy", "available", "revoke", "stop"})
@@ -297,7 +332,7 @@ class ControlServer:
                             except OSError:live[0]=False
                         self.app.response_sink=progress
                         req={**req,'operation':'surface'}
-                    result = dispatch(self.app, req)
+                    result = dispatch(self.app, req, observed_at_us=observed_at_us)
                     response = {"ok": True, "result": result}
                 finally:
                     self.app.response_sink=old_sink
@@ -308,11 +343,22 @@ class ControlServer:
                 conn.sendall((json.dumps(response, ensure_ascii=False) + "\n").encode())
             except OSError:
                 pass  # lost response never authorizes replay
+        finally:
+            if not queued:
+                conn.close()
         return True
 
     def close(self):
         if getattr(self.app.runtime, "control_progress", None) is self.progress_callback:
             self.app.runtime.control_progress = self.previous_progress
+        while self.pending_inputs:
+            conn, _, _, _ = self.pending_inputs.popleft()
+            try:
+                conn.sendall(b'{"ok":false,"code":"CLOUD_QUEUED_PRE_DISPATCH_CANCELLED"}\n')
+            except OSError:
+                pass
+            finally:
+                conn.close()
         self.socket.close()
         try:
             if self.path.lstat().st_ino == self.inode:
@@ -342,7 +388,9 @@ def request(home, data, timeout=None, *, progress=None):
     if timeout is None:
         from .config import load_config
 
-        timeout = max(5, 2 * load_config(root).provider_timeout_ms / 1000 + 30)
+        # Separate queue wait (up to two calls) from this input's own two calls.
+        calls = 4 if data.get('operation') in {'surface','surface-stream'} else 2
+        timeout = max(5, calls * load_config(root).provider_timeout_ms / 1000 + 30)
     from ..presence.cli import status
 
     current = status(root / "subject/self.db")

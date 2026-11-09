@@ -161,8 +161,9 @@ def run(home, seconds, *, headless=False, router=None, control_enabled=False,sec
         eof = False
         discard = False
         while not app.runtime.stop_requested and time.monotonic() - started < seconds:
-            ready = selector.select(0 if pending else max(0.1, min(1.0, app.runtime.next_wait_seconds())))
-            if control and any(key.data == "control" for key, _ in ready):
+            control_pending = bool(control and control.pending_inputs)
+            ready = selector.select(0 if pending or control_pending else max(0.1, min(1.0, app.runtime.next_wait_seconds())))
+            if control and (control_pending or any(key.data == "control" for key, _ in ready)):
                 control.poll()
             if any(key.data == "stdin" for key, _ in ready):
                 # Read the FD directly: TextIOWrapper.readline can read ahead,

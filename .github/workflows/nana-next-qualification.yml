@@ -5,7 +5,23 @@ on:
   workflow_dispatch:
   push:
     branches: [dev/nana-core-next-experience-codex]
-    paths: [.github/workflows/nana-next-qualification.yml, tools/nana_portable_cloud/build.py, packaging/portable/runtime-files.txt, src/nana_core/continuity/privacy.py, tests/continuous_self/test_privacy_copy_increment.py, src/nana_core/continuity/subject/policy.py, tests/open_autonomy/test_delivery.py, tools/nana_astrbot_shadow/bridge_wire.py, src/plugins/astrbot_plugin_nana_shadow_observer/bridge_wire.py, tests/nana_shadow/test_r044_filesystem.py]
+    paths:
+      - .github/workflows/nana-next-qualification.yml
+      - tools/nana_portable_cloud/build.py
+      - packaging/portable/runtime-files.txt
+      - src/nana_core/continuity/privacy.py
+      - tests/continuous_self/test_privacy_copy_increment.py
+      - src/nana_core/continuity/subject/policy.py
+      - tests/open_autonomy/test_delivery.py
+      - tools/nana_astrbot_shadow/bridge_wire.py
+      - src/plugins/astrbot_plugin_nana_shadow_observer/bridge_wire.py
+      - tests/nana_shadow/test_r044_filesystem.py
+      - src/nana_core/life/control.py
+      - src/nana_core/life/surfaces.py
+      - src/nana_core/life/__main__.py
+      - src/nana_core/life/application.py
+      - src/nana_core/continuity/person_self.py
+      - tests/first_life_android_v2/test_continuous_inputs.py
 
 permissions:
   contents: read
