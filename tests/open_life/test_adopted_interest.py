@@ -97,3 +97,63 @@ def test_external_admission_estimate_does_not_claim_cognitive_load(
     assert result['behavior'] == expected
     assert queue.view()[0]['resource_estimate']['external'] == external
     assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('cognitive_requests')
+
+
+@pytest.mark.parametrize('adopted,load,explicit_review,expected', [
+    (True,'LOW',False,'CREATE'),
+    (True,'HIGH',False,'REST'),
+    (False,'LOW',False,None),
+    (True,'LOW',True,None),
+])
+def test_due_commitment_is_considered_without_a_permanent_veto_on_owned_interest(
+        runtime,adopted,load,explicit_review,expected):
+    from nana_core.continuity.commitments import CommitmentCandidate,CommitmentService
+    from nana_core.continuity.subject.opportunities import ConcernCue
+    r=runtime
+    interest_sources=adopt_interest(r) if adopted else ()
+    source=capture(r,'due-promise-source',{'source':'SYNTHETIC adopted promise'})
+    service=CommitmentService(r.store,r.authority)
+    cid=service.propose(CommitmentCandidate(entity_id='observer',scope='world',
+        description='SYNTHETIC due promise still requires a review',support_memory_ids=(source,),due_at_us=r.clock.utc_now_us()-1))
+    service.transition(cid,'ADOPTED',expected_revision=1,authority=r.authority)
+    cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='CREATIVE_INTEREST',topic_key='world.question',
+        possible_behaviors=('CREATE','WATCH'),resource_class='ORDINARY',cognitive_load=load)
+    # Use original C ingress on the same original Store; no forced decision,
+    # fake fulfillment, model, planner or permission is injected.
+    from nana_core.continuity.contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
+    memory=MemoryService(r.store)
+    evidence=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.interest.choice',
+        source_reference='due-choice',source_kind='DIRECT_OBSERVATION'),text=cue.model_dump_json(),privacy_class='PUBLIC',
+        observed_time_us=r.clock.utc_now_us()))
+    mid=memory.add(MemoryCandidate(entity_id='observer',scope='world',memory_type=MemoryType.SEMANTIC,
+        epistemic_kind='OBSERVATION',source_evidence_id=evidence,text=cue.model_dump_json(),predicate_key='concern.world.question'))
+    choice=r.subject.run(SubjectInput(source_key='synthetic.due-interest.choice',kind='WAKE',origin='SELF_WAKE',
+        entity_id='observer',scope='world',privacy_class='PUBLIC',observed_at_us=r.clock.utc_now_us(),
+        source_memory_ids=(mid,),commitment_check_id=cid if explicit_review else None))
+    assert choice.intention.behavior==expected
+    assert any(m.source=='COMMITMENT' for m in choice.motivations)
+    assert service.get(cid).state=='ADOPTED' and service.get(cid).overdue
+    if expected is None:assert choice.intention.slot_key=='commitment-review'
+    else:
+        assert choice.intention.slot_key!='commitment-review'
+        assert choice.evaluation.normative==('ENDORSED' if expected=='CREATE' else 'UNDECIDED')
+    assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('cognitive_requests')
+    if expected=='CREATE':
+        event=r.store.one('subject_events',r.store.one('subject_cycles',interest_sources[0].cycle_id)['subject_event_id'])
+        interest_mid=event['memory_id'];path,clock,identity=r.store.path,r.clock.source,r.identity_id
+        r.stop()
+        with open_runtime(path,clock) as current:
+            assert current.identity_id==identity
+            current.subject.run(SubjectInput(source_key='synthetic.due-interest.explicit-review',kind='WAKE',origin='SELF_WAKE',
+                entity_id='observer',scope='world',privacy_class='PUBLIC',observed_at_us=current.clock.utc_now_us(),
+                source_memory_ids=(mid,),commitment_check_id=cid))
+            MemoryService(current.store,current.authority).forget(interest_mid,current.authority)
+            later=current.subject.run(SubjectInput(source_key='synthetic.due-interest.withdrawn',kind='WAKE',origin='SELF_WAKE',
+                entity_id='observer',scope='world',privacy_class='PUBLIC',observed_at_us=current.clock.utc_now_us(),source_memory_ids=(mid,)))
+            # The independent promise is intact. Withdrawing the interest source
+            # retires dependent earlier choices and removes the exception.
+            assert later.intention.behavior is None
+            assert later.intention.kind=='GOAL_CANDIDATE' and later.intention.slot_key=='commitment-review'
+            assert any(m.source=='COMMITMENT' for m in later.motivations)
+            assert CommitmentService(current.store,current.authority).get(cid).state=='ADOPTED'
+            assert not current.store.all('actions') and not current.store.all('grants')

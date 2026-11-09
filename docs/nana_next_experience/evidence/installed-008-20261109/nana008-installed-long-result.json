@@ -1,0 +1,66 @@
+{
+  "execution": "ACTUAL_INSTALLED_DEV_CORE_NOT_CLOUD",
+  "source_commit": "00898e01f73c9dc717507fd549b0a1f22ba27b6f",
+  "python": "3.12.14",
+  "subject_id": "0752d8e9-2421-464c-851e-ad326a7490f9",
+  "lineage_binding": "627ebf3b410ee6f0f6022e8608100c6f961448869c75b89460852e4018b21ee1",
+  "real_provider_calls": 0,
+  "production_changed": false,
+  "private_data_used": false,
+  "real_social_sends": 0,
+  "chat": "ORIGINAL_CORE_VERIFIED_OFFLINE_NOT_NATURALNESS_QUALIFICATION",
+  "feedback": "PASS_ORIGINAL_OWNER_AND_STORE_NOT_REAL_USER_REVIEW",
+  "sqlite": "3.53.1",
+  "backup": "QUARANTINED_REVIEW_COPY",
+  "notes_correction_restart_withdrawal": "PASS_ORIGINAL_STORE_NOT_NATURAL_MODEL_RECALL",
+  "ten_pages": "PASS",
+  "independent_host_stop": "PASS",
+  "same_subject_restart": "PASS",
+  "no_repository_pythonpath": "PASS",
+  "isolation_entry": "PASS",
+  "new_subject_mode": "EXPLICIT_DEVELOPMENT_ONLY",
+  "installed_note_context_and_fixture_wording": "PASS_NOT_REAL_MODEL_RECALL",
+  "same_subject_after_fixture_phase": true,
+  "local_fixture_calls": 4,
+  "long_response": {
+    "reply_characters": 6505,
+    "later_full_reply_characters": 6505,
+    "history_excerpt_characters": 1024,
+    "history_excerpt_marked": true,
+    "same_subject": true,
+    "local_fixture_calls": 4,
+    "real_provider_calls": 0,
+    "scope": "INSTALLED_ORIGINAL_CORE_LOOPBACK_NOT_REAL_MODEL_OR_PHONE"
+  },
+  "streaming": {
+    "actual_early_provider_prefix": true,
+    "original_interpret_C_render": true,
+    "scope": "INSTALLED_ORIGINAL_OWNER_AND_LOOPBACK_SSE_NOT_REAL_PROVIDER_OR_PHONE"
+  },
+  "exact_wire_reservations": [
+    {
+      "role": "INTERPRET",
+      "reserved_bytes": 31141,
+      "actual_input_bytes": 22948,
+      "response_hard_bound_bytes": 8192
+    },
+    {
+      "role": "SOCIAL",
+      "reserved_bytes": 294212,
+      "actual_input_bytes": 23875,
+      "response_hard_bound_bytes": 270336
+    },
+    {
+      "role": "INTERPRET",
+      "reserved_bytes": 33953,
+      "actual_input_bytes": 25760,
+      "response_hard_bound_bytes": 8192
+    },
+    {
+      "role": "SOCIAL",
+      "reserved_bytes": 297155,
+      "actual_input_bytes": 26818,
+      "response_hard_bound_bytes": 270336
+    }
+  ]
+}

@@ -68,7 +68,9 @@ def history(app, *, privacy, scope=None, entity_id=None):
         except CoreError:
             continue
         encoded = len(json.dumps(item, ensure_ascii=False).encode())
-        if len(items) >= 32 or size + encoded > 10000:
+        # Keep a complete admitted long reply recoverable. This finite UTF-8
+        # projection budget stays below the existing 256KiB IPC response cap.
+        if len(items) >= 32 or size + encoded > 131072:
             omitted += 1
             continue
         size += encoded

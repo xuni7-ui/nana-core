@@ -3271,3 +3271,7 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-09 · 原Kernel送达归因与精确收件上下文反馈
 
 4dc全仓2117通过12明确跳过591.63s。新批读取原C/原Kernel动作digest/独立回执回读，确认已保留QQ回复的来源/联系人/范围/时间；既有反馈Record依赖原回执，不建第二日志/不补发/不称真人已读。后续四模式建议限对应platform/binding/conversation，原C源校验防伪造。跨同主体重启后，同收件场景改变表达、其他收件场景不继承，事实评估不变；撤回使依赖失效。最初读不存在非保留本地event body导致16失败40通过，修复不保留原始聊天，原断言不放宽；最终80相关通过60.05s，受控owned HTTP/真实账号0。证据delivery-attribution-20261109；当前后继全仓/匹配安装下一步，原全部A–H剩余不缩减，CURRENT/APK/生产不动。
+
+### 2026-11-09 · 09:30恢复、原C承诺兴趣竞争及安装压力/长历史接线
+
+008全仓2123通过1旧工具收件接线失败12跳过634.55s，保持原断言，工具从原event传recipient后40通过。原C修复due对已采纳兴趣的一律抢占，承诺动机/状态、显式复核、原norm/load/pending仍保留；基线2失败2通过，含同主体重启/来源撤回57通过17.08s。008实际安装QQ原回读/反馈保存后后续模式失败，原request manifest证实guidance预算省略；一条已有保留交流对照重现，复用原self fallback修复，不增Token/放宽隐私。合并160相关通过77.74s。另长保留回复因后端10KB投影/客户端8192UTF16消失，改有界128KiB投影/16384codepoints、原IPC256KiB不变，长ASCII及astral/重启撤回与原HTTP27通过28.15s、客户端67通过4.44s。证据causal-competition和installed-008；后继全仓/匹配包待验，不称总任务/真实体验/生产完成。09:34恢复无其他executor，旧快照/旧DB保留。

@@ -516,8 +516,9 @@ class ContextAssembler:
             proposed = self._package(frame, request, policy, coverage, selected + [block], omitted, conflict_ids)
             if proposed.manifest.input_tokens <= proposed.manifest.input_limit:
                 selected.append(block)
-            elif block.kind == 'MEMORY' and set(block.source_memory_ids) & note_ids:
-                # A qualified lookup can carry a larger source proof. Reuse the
+            elif (block.kind == 'MEMORY' and set(block.source_memory_ids) & note_ids) or block.kind == 'MEMORY_USE_GUIDANCE':
+                # Qualified lookup and its source-bound use feedback can carry
+                # larger proofs, especially after independent delivery. Reuse the
                 # existing sourced self fallback before dropping the answer's
                 # evidence. Canonical identity/adopted conventions remain; no
                 # mandatory block, conflict bundle or token limit is weakened.

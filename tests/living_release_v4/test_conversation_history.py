@@ -1,3 +1,4 @@
+import pytest
 from nana_core.life.application import LifeApplication
 from nana_core.life.conversation import history
 from nana_core.presence.authority import VirtualClock
@@ -57,3 +58,22 @@ def test_actual_bff_history_is_role_scoped_and_receipts_never_replay(running):  
         **base(service, "withdraw-source"), "operation": "WITHDRAW", "target_id": source}, headers)[1]
     assert withdrawn["data"]["state"] == "VERIFIED"
     assert http(server, "conversation/history", headers=headers)[1]["data"]["items"] == []
+
+
+@pytest.mark.parametrize('text', ['SYNTHETIC '+('complete explanation. '*600), '🌙'*10000], ids=['ascii-long','unicode-long'])
+def test_complete_long_retained_speech_survives_restart_and_withdrawal(tmp_path,text):
+    home=tmp_path/'home';initialize(home);clock=VirtualClock()
+    with relay(home,'CHAT',renderer=lambda _:text,stream_fixture={}) as (router,requests):
+        with LifeApplication(home,clock=clock,router=router) as app:
+            app.pause();app.response_sink=lambda _:None
+            turn=app.chat('SYNTHETIC long discussion',privacy='PROJECT',retain_shared_life=True)
+            assert turn['text']==text and turn['render_state']=='UNVERIFIED_MODEL_WORDING'
+            first=history(app,privacy=('PROJECT',))
+            assert first['items'][-1]['reply_text']==text and first['omitted_count']==0
+            assert history(app,privacy=('PUBLIC',))['items']==[]
+            identity=app.runtime.identity_id;assert len(requests)==2
+        with LifeApplication(home,clock=clock) as app:
+            app.pause();assert app.runtime.identity_id==identity
+            assert history(app,privacy=('PROJECT',))==first
+            app.forget(turn['message_memory_id'])
+            assert history(app,privacy=('PROJECT',))['items']==[]

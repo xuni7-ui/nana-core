@@ -334,7 +334,8 @@ def test_reply_readback_provenance_survives_restart_without_network_or_human_rea
                 assert len(platform['calls'])==io and len(requests)==2
 
 
-def test_delivered_memory_feedback_changes_later_render_only_in_its_recipient_context(tmp_path):
+@pytest.mark.parametrize('preexisting_retained_turns', [0, 1])
+def test_delivered_memory_feedback_changes_later_render_only_in_its_recipient_context(tmp_path,preexisting_retained_turns):
     import json
     from nana_core.life.memory_notes import save
     from nana_core.continuity.memory import MemoryService
@@ -349,6 +350,9 @@ def test_delivered_memory_feedback_changes_later_render_only_in_its_recipient_co
         with relay(home,'CHAT',recall_query_terms=('ORCHID',),renderer=render) as (router,requests):
             with LifeApplication(home,clock=clock,router=router) as app:
                 app.pause();flow=equip(app,channel,url)
+                for index in range(preexisting_retained_turns):
+                    app.chat('SYNTHETIC earlier unrelated conversation '+str(index),privacy='PROJECT',
+                        retain_shared_life=True,message_id='earlier-'+str(index))
                 mid=save(app,text='SYNTHETIC ORCHID Friday',privacy='PROJECT',request_id='recipient-note')['memory_id']
                 fact=MemoryService(app.runtime.store).read(mid)
                 turn=app.surfaces.receive(SurfaceObservation(binding_id=channel.binding_id,event_id='qq:1',
@@ -373,7 +377,7 @@ def test_delivered_memory_feedback_changes_later_render_only_in_its_recipient_co
                     assert later['text']=='SYNTHETIC '+expected,later
                     assert mid in requests[-1]['source_context_refs']
                     assert requests[-1]['role_input']['dialogue']['recipient_context']['conversation_id']==thread
-                assert len(requests)==6 and len(platform['calls'])==io and len(platform['sent'])==1
+                assert len(requests)==6+2*preexisting_retained_turns and len(platform['calls'])==io and len(platform['sent'])==1
                 assert MemoryService(app.runtime.store).read(mid)==fact
                 app.forget(mid)
                 assert not LanguageService(app.runtime.store,app.runtime.authority).records.current_support(review_id)

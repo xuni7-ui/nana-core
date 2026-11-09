@@ -12,7 +12,7 @@
 | Token、成本与速度 | 实际线缆字节、上游报告与UNKNOWN预留分开；受限上下文跳过无效投影 | 真实模型特定tokenizer、费用、延迟和自然度联合对照缺少授权/现场结果；字节估算不是Token。 |
 | 云端接入与平台 | 旧Core真实运行与4205隔离候选由云端负责人报告；QQ/Iris现有服务保留 | 版本漂移、异机备份恢复、真实平台权限与手机体验需现场核验；不擅自切换或导入私人历史。 |
 
-开发分支继承的全仓回归属于 b25：2043通过、12跳过；后续改动只有各自定向测试，不能称最新版本全仓通过。a917c03记忆使用功能：保护来源和撤回，原记忆事实不改；33项相关测试在最后容错小调整前通过，最终变更后16项定向通过。此前一次大组运行因临时盘写满失败并保留记录，不算通过。
+历史b25全仓为2043通过/12跳过；4dc全仓2117通过/12跳过，008后继全仓2123通过/1旧工具收件接线失败/12跳过，当前修复后整体验证仍待运行，不能拼接称最新全仓通过。a917c03记忆使用功能：保护来源和撤回，原记忆事实不改；33项相关测试在最后容错小调整前通过，最终变更后16项定向通过。此前一次大组运行因临时盘写满失败并保留记录，不算通过。
 
 当前可执行主线：继续后端记忆使用的真实送达归因与原C/S3/S8反馈闭环，再做独立对照和存储治理；同时保持云端生产由原负责人管理。长期生活、真实模型和用户体验必须分别实测，不能仅由开发夹具宣布完成。
 
@@ -47,3 +47,5 @@
 ## 2026-11-09 incremental delivery attribution
 
 Original retained QQ exchange now links original C/Kernel independent readback provenance; exact recipient-bound four-mode feedback affects later same-context wording and survives restart without changing source facts.80controlled checks passed; real human read/account/naturalness and original C/S3/S8 wider causality remain unqualified.4dc full2117/12skip is the preceding baseline; successor full/build/install pending. All original A–H unfinished scope remains active; no CURRENT/APK/production update.
+
+2026-11-09 09:30续办：承诺兴趣竞争/送达反馈防挤占/长保留回复恢复已有源码及受控证据，当前后继全仓与匹配安装进行中。详见ACTIVE_CHECKPOINT与causal-competition证据；原全部A–H未完成范围继续继承。
