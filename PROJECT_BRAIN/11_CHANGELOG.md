@@ -3335,3 +3335,7 @@ Run42718858552确认sudo safe.directory与依赖、私有Core SQLite3.53.1和只
 ### 2026-11-09 · hosted bwrap完整资格及OpenPGP/旧SQLite兼容首错
 
 Run42719453260完整原隔离探针AVAILABLE，11/11原检查均true；原全仓2150 passed、1 failed、1 setup error、12 skipped、691.98s；client job通过，Core候选步骤跳过。JUnit artifact13720761008保留。唯一环境setup错：pytest script位于`/tmp/nq`，旧SQLite容器未映射它，容器2只读根/nw约束本身保留，现只读绑定该专用临时目录。真实OpenPGP失败：Ubuntu runner GnuPG2.4.4-2ubuntu17.6的AEAD payload packet名不匹配固定旧`:encrypted data packet:`字符串；新增精确包listing判定接受旧encrypted-data或AEAD标记，要求pubkey session、拒绝symkey session。原本机GnuPG2.4.7真实roundtrip与新packet矩阵2项通过；GPG2.4.4真实完整回归仍需CI复验。此前所有/首次错误与artifact id见evidence/ci-bwrap-host-requalification-20261109。无模型/生产/安装候选/CURRENT/APK更改。
+
+### 2026-11-09 · AEAD修复通过Ubuntu GnuPG回归，SQLite fixture仅余容器UID问题
+
+Run42722401896原bwrap11/11通过，精确全仓2152 passed/0 failed/1 setup error/12 skipped/700.89s；client PASS。B1真实GnuPG2.4.4失败已消失。原XML artifact13721483539保留。唯一错误仍OLD_SQLITE_FIXTURE_REQUIRES_3_46_1：tmp `/tmp/nq` 是runner-owned0700，容器root无法穿越只读mount。工作流现以host数字UID:GID运行fixture、设PYTHONDONTWRITEBYTECODE、加真实脚本路径`/tmp/nq/nana-old-sqlite-probe.py`预检后删除，保持网络断开/根只读/两个挂载只读。该新权限路径尚待CI实测；不产Core候选。无skip/断言变更，CURRENT/APK/生产未动。

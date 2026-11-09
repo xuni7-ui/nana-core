@@ -66,13 +66,21 @@ jobs:
           DOCKERFILE
           sudo tee /usr/local/bin/nana-old-sqlite-python >/dev/null <<'WRAPPER'
           #!/bin/sh
-          exec docker run --rm --network none --read-only --tmpfs /tmp:rw,nosuid,nodev,mode=1777 \
+          exec docker run --rm --network none --read-only --user "$(id -u):$(id -g)" \
+            --env PYTHONDONTWRITEBYTECODE=1 --tmpfs /tmp:rw,nosuid,nodev,mode=1777 \
             --mount "type=bind,src=$GITHUB_WORKSPACE,dst=$GITHUB_WORKSPACE,readonly" \
             --mount "type=bind,src=/tmp/nq,dst=/tmp/nq,readonly" \
             --workdir "$GITHUB_WORKSPACE" nana-old-sqlite:3.46.1 "$@"
           WRAPPER
           sudo chmod 0755 /usr/local/bin/nana-old-sqlite-python
           mkdir -p /tmp/nq
+          cat > /tmp/nq/nana-old-sqlite-probe.py <<'PYOLD'
+          import sqlite3
+          print(sqlite3.sqlite_version)
+          assert sqlite3.sqlite_version == '3.46.1'
+          PYOLD
+          /usr/local/bin/nana-old-sqlite-python -I /tmp/nq/nana-old-sqlite-probe.py
+          rm /tmp/nq/nana-old-sqlite-probe.py
           /usr/local/bin/nana-old-sqlite-python -I -c 'import sqlite3; assert sqlite3.sqlite_version == "3.46.1"'
 
       - uses: actions/checkout@v4
