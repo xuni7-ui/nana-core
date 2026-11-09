@@ -5,7 +5,7 @@ on:
   workflow_dispatch:
   push:
     branches: [dev/nana-core-next-experience-codex]
-    paths: [.github/workflows/nana-next-qualification.yml]
+    paths: [.github/workflows/nana-next-qualification.yml, tools/nana_portable_cloud/build.py, packaging/portable/runtime-files.txt]
 
 permissions:
   contents: read
@@ -31,6 +31,7 @@ jobs:
           .qualification-venv/bin/python -m pytest tests/person_self/test_memory_use_feedback.py
           tests/living_release_v4/test_conversation_history.py
           tests/first_life_android_v2/test_http_integration.py
+          tests/portable_cloud_runtime/test_reproducible_build.py
           -q --junitxml=qualification-core.xml --basetemp=/tmp/nana-feedback-ci
       - name: Matching portable candidate, reproducible builds and offline installation
         run: |

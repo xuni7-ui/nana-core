@@ -199,7 +199,10 @@ def build(destination, wheels, revision="HEAD", *, features=()):
             raw = p.read_bytes()
             info = tarfile.TarInfo("nana-first-life-portable-v1/" + p.relative_to(root).as_posix())
             info.size = len(raw)
-            info.mode = p.stat().st_mode & 0o777
+            # Generated metadata/wheels otherwise inherit the host's umask,
+            # making identical committed inputs produce different archives.
+            relative = p.relative_to(root).as_posix()
+            info.mode = 0o755 if relative == "nana" or relative.endswith(".sh") else 0o644
             info.mtime = epoch
             tar.addfile(info, io.BytesIO(raw))
     checksum = hashlib.sha256(archive.read_bytes()).hexdigest()

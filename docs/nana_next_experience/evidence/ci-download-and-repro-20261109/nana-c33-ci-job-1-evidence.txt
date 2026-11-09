@@ -1,0 +1,4 @@
+2026-11-09T02:03:25.2083779Z  Test Files  9 passed (9)
+2026-11-09T02:03:25.2084514Z       Tests  67 passed (67)
+2026-11-09T02:04:08.4936218Z   24 passed (21.7s)
+2026-11-09T02:04:09.4114370Z Artifact download URL: https://github.com/xuni7-ui/nana-core/actions/runs/42548690816/artifacts/13644601614

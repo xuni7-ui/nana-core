@@ -1,0 +1,126 @@
+{
+  "execution": "EXPLICIT_INSTALLED_DEV_PHYSICAL_REUSE_EXPERIMENT_NOT_PRODUCTION_API",
+  "source_commit": "6fd8ed544d5b0a195d159b6f9c75a5b36b022d5c",
+  "subject_id": "1cbac0bf-5fb6-4e55-97e3-cd750b26a1b8",
+  "lineage_binding": "151e4f907821956b87fe986a60a7dce7624563b27e6f4cf739d6ab9ea4a22f57",
+  "synthetic_sources": 240,
+  "explicitly_withdrawn_before_reclaim": 180,
+  "before": {
+    "original_store": {
+      "logical_database_bytes": 20955136,
+      "reusable_page_bytes": 8540160,
+      "privacy_anchor_bytes": 71420,
+      "physical_file_bytes": {
+        "database": 20955136,
+        "-wal": 0,
+        "-shm": 32768,
+        ".privacy.json": 71420
+      },
+      "file_length_measurement": "STAT_ST_SIZE_NOT_ALLOCATED_BLOCKS",
+      "allocated_file_bytes": {
+        "database": 20955136,
+        "-wal": 0,
+        "-shm": 32768,
+        ".privacy.json": 73728
+      },
+      "allocated_family_bytes": 21061632,
+      "allocation_measurement": "DEDUPLICATED_STAT_ST_BLOCKS_TIMES_512",
+      "family_bytes": 21059324,
+      "history_deleted": false
+    },
+    "managed_copies": {
+      "before-withdrawal.db": {
+        "file_bytes": 20955136,
+        "allocated_bytes": 20955136
+      },
+      "post-withdrawal-cold.db": {
+        "file_bytes": 10469376,
+        "allocated_bytes": 10469376
+      }
+    },
+    "total_allocated_with_managed_copies": 52486144
+  },
+  "after_checkpoint_before_vacuum": {
+    "original_store": {
+      "logical_database_bytes": 20955136,
+      "reusable_page_bytes": 8540160,
+      "privacy_anchor_bytes": 71420,
+      "physical_file_bytes": {
+        "database": 20955136,
+        "-wal": 0,
+        "-shm": 32768,
+        ".privacy.json": 71420
+      },
+      "file_length_measurement": "STAT_ST_SIZE_NOT_ALLOCATED_BLOCKS",
+      "allocated_file_bytes": {
+        "database": 20955136,
+        "-wal": 0,
+        "-shm": 32768,
+        ".privacy.json": 73728
+      },
+      "allocated_family_bytes": 21061632,
+      "allocation_measurement": "DEDUPLICATED_STAT_ST_BLOCKS_TIMES_512",
+      "family_bytes": 21059324,
+      "history_deleted": false
+    },
+    "managed_copies": {
+      "before-withdrawal.db": {
+        "file_bytes": 20955136,
+        "allocated_bytes": 20955136
+      },
+      "post-withdrawal-cold.db": {
+        "file_bytes": 10469376,
+        "allocated_bytes": 10469376
+      }
+    },
+    "total_allocated_with_managed_copies": 52486144
+  },
+  "after": {
+    "original_store": {
+      "logical_database_bytes": 10821632,
+      "reusable_page_bytes": 0,
+      "privacy_anchor_bytes": 71420,
+      "physical_file_bytes": {
+        "database": 10821632,
+        "-wal": 0,
+        "-shm": 32768,
+        ".privacy.json": 71420
+      },
+      "file_length_measurement": "STAT_ST_SIZE_NOT_ALLOCATED_BLOCKS",
+      "allocated_file_bytes": {
+        "database": 10821632,
+        "-wal": 0,
+        "-shm": 32768,
+        ".privacy.json": 73728
+      },
+      "allocated_family_bytes": 10928128,
+      "allocation_measurement": "DEDUPLICATED_STAT_ST_BLOCKS_TIMES_512",
+      "family_bytes": 10925820,
+      "history_deleted": false
+    },
+    "managed_copies": {
+      "before-withdrawal.db": {
+        "file_bytes": 20955136,
+        "allocated_bytes": 20955136
+      },
+      "post-withdrawal-cold.db": {
+        "file_bytes": 10469376,
+        "allocated_bytes": 10469376
+      }
+    },
+    "total_allocated_with_managed_copies": 42352640
+  },
+  "sqlite_vacuum_seconds": 0.17979210300109116,
+  "all_canonical_schema_and_row_order_digests_unchanged": true,
+  "raw_sql_dump_before": "bf416f7f22e4294a5a5c62a352d25791504a5df18bb2df8f8b4e95b4ed7cb113",
+  "raw_sql_dump_after": "bf416f7f22e4294a5a5c62a352d25791504a5df18bb2df8f8b4e95b4ed7cb113",
+  "privacy_anchor_unchanged_during_reclaim": "96899224fbd5b1b4dd54c3a11345059cd30c7764e2e865873c290ce9c4cac97f",
+  "same_subject_restart": true,
+  "old_and_later_withdrawal_remain_effective": true,
+  "active_history_evicted": false,
+  "automatic_reclaim_implemented": false,
+  "additional_model_calls": 0,
+  "real_account_sends": 0,
+  "physical_phone": "NOT_RUN",
+  "production_changed": false
+}

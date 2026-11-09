@@ -3279,3 +3279,7 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-09 · 6fd全仓/匹配安装、受控送达后续与真实DEV回退
 
 6fd精确全仓2131通过12原门禁跳过687.29s；284文件双构建同99f869…901e，原离线安装BFF/反馈幂等/G32/重启/梦境冷回读撤回通过。独立安装原QQ回读反馈→同主体重启→后续对应会话改变/另会话不继承6fixture真实0；两轮12625字及明确保留全文重启恢复撤回4fixture真实0。实际008→6fd DEV升级和6fd→008→6fd同当前DB二进制回退/恢复，单身份谱系且不增C/模型/效果；非生产热切换。Web编译/67单测/24四视口通过，首次整个气泡选择导致4失败20通过和误开中止130均保留。54remote Git树祖先盘点完成元数据部分，不宣称所有实现/运行闭包。物理整理首SQLdump不变性失败保留，规范化复验仍在运行；不称归档闭包完成。复用原CI增加匹配双构建/离线安装候选artifact和长历史浏览器例，远端/真实下载下一步。证据installed-6fd；CURRENT/APK/真实模型/手机/真人/实际长期/生产不升级。
+
+### 2026-11-09 · 真实CI候选下载/独立安装及跨host归档权限修复
+
+C33独立CI27Core/67client/24browser和双构建离线安装通过，真实下载Core/Web核ZIP与tar摘要，原下载包独立安装BFF/反馈幂等/同主体重启/notes撤回通过。跨hostC33重建内容284文件全同但tar SHA异，定位仅生成文件/wheel权限受umask影响；原builder归档固定角色mode、私有解包权限不改。真实冻结旧版同测试sha断言失败，修复21portable/import检查通过5.28s；首夹具漏unpacker/1失败20通过保留。新固定源实际构建CI/下载下一批，未把旧候选改标。显式6fd DEV物理复用规范化独立case主文件20,955,136→10,821,632bytes，全表/原dump一致、重启/撤回有效，0模型；未接自动API/驱逐。全部6受管copy当前65,040,384bytes，无全family前值不能称全局delta。180显式撤回原journal→eventP951749ms但事件跨度750.53s，真实性能开发项保留。证据ci-download-and-repro；CURRENT/APK/生产不改。
