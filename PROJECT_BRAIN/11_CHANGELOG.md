@@ -3323,3 +3323,7 @@ ControlServer仅把模型等待时新bound surface连接/文本暂存内存最�
 ### 2026-11-09 · GitHub Core 沙箱资格改由runner宿主验证
 
 CI5065实际bwrap原探针stderr为`Can't mount proc on /proc: Operation not permitted`，来自Debian Actions嵌套容器；全仓测试未启动、无Core候选。本机同一原探针11项均AVAILABLE只证明当前开发宿主。工作流移除Debian外层容器，让GitHub Ubuntu runner原样执行bwrap资格；SQLite3.46.1夹具单独保留断网/只读Debian容器，保留构建和运行版本断言。加入apps/nana-space触发路径及待发队列浏览器资格。YAML解析、git diff --check和本机原探针通过；GitHub实际回执待新提交触发，不宣称全仓、候选或安装通过。CURRENT/APK/生产未动。详见evidence/ci-bwrap-host-requalification-20261109。
+
+### 2026-11-09 · UNKNOWN回执阻止Web待发队列续发并修CI runner权限
+
+Web合成浏览器用例验证首条原请求返回UNKNOWN后移除本地待发正文、不发第二条；桌面/360/390/412共4通过。vitest仍67通过；首次Playwright输出目录创建遇overlay ENOSPC，改把Playwright产物写/tmp后4通过，没有清理受保护测试数据/交付。GitHub run42718410546旧SQLite3.46.1只读容器构建及检查成功、client job通过；Core runner在sudo缺失的/etc/gitconfig系统写权限失败，全仓/原bwrap探针未启动，未产Core候选。已将system safe.directory改用sudo，下一提交触发新验证。首错和边界见evidence/ci-bwrap-host-requalification-20261109、evidence/web-waiting-inbox-20261109。CURRENT/APK/生产未动。

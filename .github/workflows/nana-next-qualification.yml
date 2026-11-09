@@ -67,7 +67,7 @@ jobs:
       - uses: astral-sh/setup-uv@v6
       - run: |
           umask 077
-          git config --system --add safe.directory "$GITHUB_WORKSPACE"
+          sudo git config --system --add safe.directory "$GITHUB_WORKSPACE"
           git rev-parse HEAD
           command -v ffmpeg
           command -v gpgconf

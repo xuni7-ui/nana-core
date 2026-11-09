@@ -7,3 +7,6 @@ The scoped GitHub run after the container preflight change returned `bwrap: Can'
 The workflow now runs that same probe on the disposable GitHub Ubuntu runner host. The legacy SQLite 3.46.1 fixture remains a separate Debian Trixie container, network-disabled, read-only except tmpfs `/tmp`, with the checkout mounted read-only. A runtime version assertion remains in both fixture build and invocation. The exact-source full pytest, matching double build/offline install, and Web inbox browser case will run only after the original probe reports every check passing. This workflow edit has no GitHub result yet.
 
 No production service, Store, CURRENT selector, APK, real model, account, or device was changed or used.
+
+
+Follow-up GitHub run 42718410546 confirmed the Debian SQLite fixture built and its exact 3.46.1 invocation passed, and the client job passed. Core stopped in the subsequent host preparation at `git config --system`: the Ubuntu runner user had no permission for `/etc/gitconfig`. The bwrap probe and full suite did not run; no candidate was made. The workflow now uses `sudo git config --system` for that runner-local safe.directory entry. This correction is committed separately; its real probe result remains pending.

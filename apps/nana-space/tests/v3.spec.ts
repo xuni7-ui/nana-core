@@ -1172,3 +1172,23 @@ test("SYNTHETIC local chat inbox waits, can cancel, and sends remaining turns in
   await expect(page.getByText("SYNTHETIC second acknowledged",{exact:true})).toBeVisible();
   expect(state.messageBodies?.map(body=>body.text)).toEqual(["SYNTHETIC first turn","SYNTHETIC second turn"]);
 });
+
+test("SYNTHETIC local chat inbox clears queued text after an unknown original receipt",async({page})=>{
+  const state=await installMock(page);state.delayMessage=true;
+  await open(page,"chat");
+  const input=page.getByLabel("和奈奈说点什么");
+  await input.fill("SYNTHETIC first uncertain turn");
+  await page.getByRole("button",{name:"发送",exact:true}).click();
+  await expect.poll(()=>Boolean(state.messageRoute)).toBe(true);
+  await input.fill("SYNTHETIC must not auto-send after UNKNOWN");
+  await page.getByRole("button",{name:"发送",exact:true}).click();
+  await expect(page.getByText("等前一条回复后再发送；现在还没有送出。",{exact:true})).toBeVisible();
+  const firstBody=state.messageRoute!.request().postDataJSON();
+  await state.messageRoute!.fulfill({status:200,json:envelope(state,{receipt_id:firstBody.client_request_id,
+    state:"UNKNOWN",dispatch_happened:true,result:{}})});
+  await expect(page.getByRole("button",{name:"核验这条回执"})).toBeVisible();
+  await expect(page.getByText("等前一条回复后再发送；现在还没有送出。",{exact:true})).toHaveCount(0);
+  await expect.poll(()=>state.messageBodies).toHaveLength(1);
+  expect(state.messageBodies?.map(body=>body.text)).toEqual(["SYNTHETIC first uncertain turn"]);
+  expect(state.messageRoutes).toHaveLength(1);
+});
