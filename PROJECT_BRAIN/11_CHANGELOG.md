@@ -3287,3 +3287,11 @@ C33独立CI27Core/67client/24browser和双构建离线安装通过，真实下�
 ### 2026-11-09 · 原隐私日志副本增量工作与固定包跨机资格
 
 77固定包本地022/077与CI42549995332双构建四包同9fe868…b014，实际下载核摘要/独立离线安装通过；不含新隐私代码。针对实验暴露每次撤回重扫全部历史，原PrivacyJournal仅对已完成副本前缀建立易失file-family签名+digest缓存；原journal权威/源库重放/锁/identity/secure_delete/purge/checkpoint保留。文件替换/原位改写/同长度intent变更/WAL/失败失效、hardlink全重放。真实旧39→新3扫描，48隐私/冷回读/反馈/B8/learning相关通过11.23s，含实际WAL读者PENDING和后续消除。源库仍全日志重放，未宣称全部性能闭包。当前新源码全仓/新包安装待验。完成旧13199项测试树逐文件/链接指纹搬移到/dev/shm以腾根盘，保留DB/旧验收不删；下一全仓在根盘fresh目录。证据privacy-copy-increment，CURRENT/APK/生产不动。
+
+### 2026-11-08 · Next Experience 交付校验入口澄清（治理分支待集成）
+
+- **改了什么**：源码索引区分现有 CURRENT selector 验证器与历史 handoff 校验器，补充对应测试和固定交付快照验证范围。
+- **为什么**：两者校验的格式与保证范围不同；只链接历史工具会使开发者难以找到当前 selector 检查。
+- **怎么验证**：从交付提交 `5b4f589` 提取 selector 所列 Git 文件，在隔离目录运行 `python3 tools/nana_next_experience/verify_delivery.py --root /tmp/nana-delivery-review-5v4gmty3 --current CURRENT-DELIVERY.json`，得到 CURRENT_DELIVERY_CONSISTENCY_VERIFIED、42 个 APK/Web 文件相同；导航链接检查与 `git diff --check` 通过。未启动服务或验证生产、手机及语义兼容。
+
+- **集成记录**：第一阶段 PR #5 已合并为 `0742f0d47c7b59e9400b25d9d174b414f8b2b83f`，其治理 CI 已通过；本 selector 澄清仍待单独审阅。
