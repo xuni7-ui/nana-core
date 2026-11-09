@@ -66,3 +66,7 @@ GitHub连接器只读取得原Issue及评论（原文快照见evidence/resumed-2
 | 历史导入 | life/application.py接原ArchiveImportService；control.py的显式legacy-import/withdraw入口，migration/archive_ingress.py核身份/lineage/审批/来源/隐私；generic入口继续disabled | 源码可达及原合成拒绝路径被全仓覆盖，没读/导入8105条私人源；私人批准、源过滤、活Core/Iris索引和真实批次仍归云端负责人 |
 
 Issue仍OPEN，不把操作者旧报告当最新现场，不自动关闭或切换现役。全部分支/孤立模块/依赖/长期运行闭包的完整审计仍未完成。上述是原任务H的有界继承核对，没有另建治理工程。
+
+## 2026-11-09 54remote metadata inventory
+
+6fd源树与54真实remote heads已在原完整filtered验证克隆核对：47祖先、6分歧、1当前；main18bc736为祖先且src/nana_core路径0，交付5b4f589/导航50a842a分歧但Core路径名无当前缺项。原旧工作树保护。原始head/tree/commit差异计数在evidence/installed-6fd-20261109/nana6fd-branch-inventory.json。只完成Git结构/祖先，不把相同文件名当实现相同、接线、资格或实际运行；六条分歧实现内容与所有依赖调用闭包仍待逐项核对，不据名称删代码。CURRENT266+409仍是源码selector，不是现场生产观测。

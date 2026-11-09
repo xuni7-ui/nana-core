@@ -32,11 +32,50 @@ jobs:
           tests/living_release_v4/test_conversation_history.py
           tests/first_life_android_v2/test_http_integration.py
           -q --junitxml=qualification-core.xml --basetemp=/tmp/nana-feedback-ci
+      - name: Matching portable candidate, reproducible builds and offline installation
+        run: |
+          uv pip install --python .qualification-venv/bin/python pip==25.3
+          .qualification-venv/bin/python - <<'PY' > qualification-wheel-requirements.txt
+          from tools.nana_portable_cloud.build import DEPENDENCIES, FEATURE_DEPENDENCIES
+          dependencies = dict(DEPENDENCIES)
+          for feature in ('HOST_VAULT', 'PUBLIC_VIDEO_FRAMES'):
+              dependencies.update(FEATURE_DEPENDENCIES[feature])
+          for package, version in sorted(dependencies.items()):
+              print(package + '==' + version)
+          PY
+          .qualification-venv/bin/python -m pip download --only-binary=:all: --no-deps \
+            --dest qualification-wheels --requirement qualification-wheel-requirements.txt
+          for replica in a b; do
+            .qualification-venv/bin/python tools/nana_portable_cloud/build.py --revision "$GITHUB_SHA" \
+              --wheels qualification-wheels --output "qualification-build-$replica" \
+              --feature HOST_VAULT --feature PUBLIC_VIDEO_FRAMES > "qualification-build-$replica.json"
+          done
+          .qualification-venv/bin/python - <<'PY'
+          import json, os, pathlib, shutil, subprocess, sys
+          a = json.loads(pathlib.Path('qualification-build-a.json').read_text())
+          b = json.loads(pathlib.Path('qualification-build-b.json').read_text())
+          assert a['sha256'] == b['sha256'] and a['source_commit'] == b['source_commit'] == os.environ['GITHUB_SHA']
+          subprocess.run([sys.executable, '-I', 'qualification-build-a/nana-unpack.py', a['archive'],
+                          '--sha256', a['sha256'], '--destination', 'qualification-installed'], check=True)
+          subprocess.run([sys.executable, '-I', 'qualification-installed/bootstrap.py', 'install'], check=True)
+          out = pathlib.Path('qualification-portable'); out.mkdir()
+          for name in ('nana-first-life-portable-v1.tar.gz', 'nana-first-life-portable-v1.tar.gz.sha256', 'nana-unpack.py'):
+              shutil.copyfile(pathlib.Path('qualification-build-a') / name, out / name)
+          (out / 'source-and-build.json').write_text(json.dumps({
+              'source_commit': a['source_commit'], 'sha256': a['sha256'], 'bundle_files': a['bundle_files'],
+              'two_builds_match': True, 'offline_install': 'PASS', 'production_changed': False,
+              'CURRENT_updated': False, 'real_provider_calls': 0, 'physical_phone': 'NOT_RUN'}, indent=2) + chr(10))
+          PY
       - uses: actions/upload-artifact@v4
         if: always()
         with:
           name: nana-core-feedback-${{ github.sha }}
           path: qualification-core.xml
+          retention-days: 14
+      - uses: actions/upload-artifact@v4
+        with:
+          name: nana-portable-candidate-${{ github.sha }}
+          path: qualification-portable
           retention-days: 14
 
   client-feedback:
@@ -57,14 +96,14 @@ jobs:
       - run: npm test
       - run: node tests/feedback.node.ts
       - run: npx playwright install --with-deps chromium
-      - name: Four-mode feedback and UNKNOWN at desktop and phone widths
+      - name: Four-mode feedback, complete retained replies and UNKNOWN at desktop and phone widths
         run: |
           cat > playwright.qualification.config.ts <<'CONFIG'
           import base from './playwright.v3.config';
           export default {...base, use: {...base.use,
             launchOptions: {...base.use?.launchOptions, executablePath: undefined}}};
           CONFIG
-          npx playwright test --config playwright.qualification.config.ts --grep 'explicit reply feedback|four memory-use feedback'
+          npx playwright test --config playwright.qualification.config.ts --grep 'complete retained long reply|explicit reply feedback|four memory-use feedback'
       - uses: actions/upload-artifact@v4
         if: always()
         with:

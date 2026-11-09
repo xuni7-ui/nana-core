@@ -49,3 +49,5 @@
 Original retained QQ exchange now links original C/Kernel independent readback provenance; exact recipient-bound four-mode feedback affects later same-context wording and survives restart without changing source facts.80controlled checks passed; real human read/account/naturalness and original C/S3/S8 wider causality remain unqualified.4dc full2117/12skip is the preceding baseline; successor full/build/install pending. All original A–H unfinished scope remains active; no CURRENT/APK/production update.
 
 2026-11-09 09:30续办：承诺兴趣竞争/送达反馈防挤占/长保留回复恢复已有源码及受控证据，当前后继全仓与匹配安装进行中。详见ACTIVE_CHECKPOINT与causal-competition证据；原全部A–H未完成范围继续继承。
+
+2026-11-09 6fd收口：2131全仓通过/12原跳过；匹配Core/Web及实际隔离安装、原QQ收件反馈后续、12625长文重启恢复撤回、同当前DB二进制DEV升级/回退通过。原A–H仍IN_PROGRESS，当前CI真实下载、物理实验及后续实际开发详见ACTIVE_CHECKPOINT。不是正式发布或自然/长期生活验收。

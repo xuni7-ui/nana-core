@@ -7,27 +7,27 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 104,
-  "as_of_us": 1794188298846627,
+  "revision": 105,
+  "as_of_us": 1794189653818291,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_CAUSAL_COMPETITION_AND_MATCHED_QUALIFICATION",
+  "status": "IN_PROGRESS_MATCHED_INSTALL_CI_DOWNLOAD_AND_ORIGINAL_REMAINDER",
   "progress": [
     "同一Next Experience与十域主任务已恢复；唯一Subject/Store/Loop、原C/D/G/Planner及Precision V2保持。最新合法源码与Brain优先。",
-    "四模式原反馈API/Web/原生映射接线；TS/Vite、66前端、25原HTTP、20四视口及独立CI42491401749通过，未打新APK。",
+    "四模式原API/Web/原生映射复用；后继TS/Vite、67前端单测和桌面/360/390/412共24浏览器场景通过，未重打APK；新远端CI/候选下载待验。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
-    "70c70d0原包284文件两次同SHA21655e…beca4，实际离线BFF/反馈/G32/重启/梦境冷回读撤回通过，6loopback真实0；原d2 DEV同主体升级通过。",
-    "d2安装梦境外部到期驱动/原C/虚拟72h/冷回读/撤回/usage通过；964b038自主性成本归因57项、c9原C交流目的38项通过，非真实生活。",
-    "长回复16384/原Token预算；SSE全文/4096前缀、历史节选明确标记。008安装两轮6505字通过；后继已修复长保留回复重启恢复的10KB/8192客户端限制。",
+    "6fd原Core284文件两次同SHA99f869…901e，实际离线BFF/反馈/G32/重启/梦境冷回读撤回通过；008→6fd同DEV升级、6fd→008→6fd原DB二进制回退恢复通过。",
+    "原C承诺与已采纳兴趣竞争57相关、送达反馈原Kernel独立回读及精确收件后续表达/重启撤回通过；原norm/load/Grant保持，真实社交/长期因果未验。",
+    "长回复16384/原Token预算；6fd安装两轮12625字全文、已保留全文重启恢复/撤回通过；1024历史节选标记/4096流式前缀保留，反馈仍限2048。",
     "原memory_terms有界派生加速：1k/10k/100k均144/144，100k P959.72ms；200k142/144、误召0/超时2、P9548.18ms，增加约0.8GB索引；55相关通过。",
-    "008全仓2123通过/1旧工具收件接线失败/12跳过634.55s；后继原工具40、承诺兴趣竞争57、送达反馈预算160相关通过；长历史修复27后端/67客户端通过，后继全仓/匹配安装待验。"
+    "6fd精确全仓2131通过/12原门禁跳过687.29s；54远端47祖先/6分歧/1同HEAD已盘点；物理实验SQLdump首错保留，规范化摘要复验仍在运行，不称存储闭包完成。"
   ],
   "open_gates": [
     "原A–H全部剩余继承：自主性A–E其余路径、连续输入/插话/节奏、真实账号送达及C/S3/S8不同后续因果仍需完成；新送达归因仅受控QQ且无真人已读证明。",
     "原G仍限独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移仍待改进。新加速只资格有限合成literal源选择。",
     "冷副本安全回读不等于主链物理驱逐；跨归档引用、恢复/撤回、分配空间与异机DR仍待资格。",
     "全链模型特定Token/费用/超时、产品/模型向导、运行Gateway/Core/宿主兼容与仓库闭包仍按原清单推进。",
-    "当前改动后的全仓与最终匹配制品/下载/独立安装未收口；CURRENT仍266+409，不更新生产或反复打APK。",
+    "最终CI真实下载/独立安装与正式发行未收口；CURRENT仍266+409。6fd匹配候选已安装及原DEV二进制回退，不能替代全部A–H或生产资格。",
     "真实模型/付费/手机/真人自然度/实际跨日长期/生产分别未验；生产切换/genesis/私史/旧writer/真实账号/用户设备/新持续费用仍须原单独授权。"
   ],
   "evidence_refs": [
@@ -37,7 +37,7 @@
     "docs/nana_next_experience/SOURCE_NAVIGATION_AUDIT.md",
     "docs/nana_next_experience/evidence/diverse-literal-20261109/README.md",
     "docs/nana_next_experience/evidence/retrieval-scope32-20261108/README.md",
-    "docs/nana_next_experience/evidence/installed-70-20261109/README.md",
+    "docs/nana_next_experience/evidence/installed-6fd-20261109/README.md",
     "docs/nana_next_experience/evidence/causal-competition-20261109/README.md"
   ]
 }

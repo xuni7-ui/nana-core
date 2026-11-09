@@ -1051,6 +1051,24 @@ test("SYNTHETIC in-flight controls: pause stays usable without unlocking the pen
   expect(state.requests.filter(r=>r.path==="messages" && r.method==="POST")).toHaveLength(1);
 });
 
+test("SYNTHETIC complete retained long reply restores and withdrawal removes it",async({page})=>{
+  const state=await installMock(page);
+  const reply="SYNTHETIC_LONG_RESTORE "+"complete explanation. ".repeat(550)+"🌙".repeat(1000);
+  state.capabilities={conversation_history:true,conversation_feedback:true};
+  state.history={items:[{exchange_record_id:"long-retained",user_text:"SYNTHETIC retained discussion",reply_text:reply,created_at_us:1793026800000000}]};
+  await open(page,"chat");
+  await expect(page.locator(".live-reply > p").first()).toHaveText(reply);
+  await expect(page.getByRole("button",{name:"评价这条回复"})).toHaveCount(0);
+  await noHorizontalOverflow(page);
+  await page.reload();
+  await expect(page.locator(".live-reply > p").first()).toHaveText(reply);
+  expect(await page.evaluate(()=>JSON.stringify(Object.entries(localStorage)))).not.toContain("SYNTHETIC_LONG_RESTORE");
+  state.history={items:[],pending_receipts:[]};state.watermark="fixture-long-withdrawn";
+  await page.getByRole("button",{name:"刷新真实状态"}).click();
+  await expect(page.locator(".live-turn")).toHaveCount(0);
+  expect(state.requests.filter(x=>x.method!=="GET")).toEqual([]);
+});
+
 test("SYNTHETIC explicit reply feedback saves once and UNKNOWN only checks its receipt",async({page})=>{
   const state=await installMock(page);
   state.capabilities={conversation_history:true,conversation_feedback:true};
