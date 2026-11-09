@@ -3319,3 +3319,7 @@ ControlServer仅把模型等待时新bound surface连接/文本暂存内存最�
 ### 2026-11-09 · Web聊天逐条待发送队列及取消
 
 聊天模型等待期间最多4条输入保留在React内存，逐条显示未发送、允许取消、20分钟到期；只在出队前刷新现有绑定/权限并以新ID串行调用原BFF，明确选择保留/隐私随每条捕获。UNVERIFIED先前回执阻止后续自动发送，会话/隐私/运行/停止/卸载/失败时清除候选，不持久化正文。UI待发队列不代替原C；消息仍逐条在前一回复后进入原C，没有批量内容总结/后台发送/改已展示草稿。原前端67测试3.79s、构建3.28s，原12浏览器回归20.7s，新桌面+360/390/412完整等待/取消/FIFO/独立ID/回执4通过10.2s。无真钱/真实模型/账号/手机；Core完整CI5065在原bwrap真实资格失败停止，未产Core包；不得称总体验/生产完成。证据web-waiting-inbox。
+
+### 2026-11-09 · GitHub Core 沙箱资格改由runner宿主验证
+
+CI5065实际bwrap原探针stderr为`Can't mount proc on /proc: Operation not permitted`，来自Debian Actions嵌套容器；全仓测试未启动、无Core候选。本机同一原探针11项均AVAILABLE只证明当前开发宿主。工作流移除Debian外层容器，让GitHub Ubuntu runner原样执行bwrap资格；SQLite3.46.1夹具单独保留断网/只读Debian容器，保留构建和运行版本断言。加入apps/nana-space触发路径及待发队列浏览器资格。YAML解析、git diff --check和本机原探针通过；GitHub实际回执待新提交触发，不宣称全仓、候选或安装通过。CURRENT/APK/生产未动。详见evidence/ci-bwrap-host-requalification-20261109。

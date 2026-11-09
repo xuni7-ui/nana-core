@@ -22,6 +22,7 @@ on:
       - src/nana_core/life/application.py
       - src/nana_core/continuity/person_self.py
       - tests/first_life_android_v2/test_continuous_inputs.py
+      - apps/nana-space/**
 
 permissions:
   contents: read
@@ -29,22 +30,32 @@ permissions:
 jobs:
   original-core-feedback:
     runs-on: ubuntu-24.04
-    timeout-minutes: 30
-    # The legacy client isolation test requires an actual 3.46.1 binding. This
-    # disposable CI host is separate from the >=3.51.3 private Core interpreter.
-    container:
-      image: debian:trixie-slim
-      # Nested bwrap must still qualify its own original no-network namespace
-      # policy. These flags affect only this disposable CI worker, never a host.
-      options: --cap-add SYS_ADMIN --security-opt seccomp=unconfined --security-opt apparmor=unconfined
+    timeout-minutes: 90
+    # Run the original bwrap qualification on the disposable GitHub runner host.
+    # A nested Debian Actions container cannot mount /proc under the hosted
+    # runner's container boundary, even when the original probe is otherwise valid.
     env:
       PYTHONDONTWRITEBYTECODE: '1'
     steps:
-      - name: Isolated old host fixture and build tools
+      - name: Runner tools and read-only old SQLite host fixture
         run: |
-          apt-get update
-          apt-get install --yes --no-install-recommends python3 git curl ca-certificates build-essential bubblewrap ffmpeg gnupg
-          /usr/bin/python3 -I -c 'import sqlite3; print(sqlite3.sqlite_version); assert sqlite3.sqlite_version == "3.46.1"'
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends bubblewrap ffmpeg gnupg
+          command -v docker
+          mkdir -p /tmp/nana-old-sqlite-context
+          docker build --tag nana-old-sqlite:3.46.1 -f - /tmp/nana-old-sqlite-context <<'DOCKERFILE'
+          FROM debian:trixie-slim
+          RUN apt-get update && apt-get install --yes --no-install-recommends python3 && rm -rf /var/lib/apt/lists/* && /usr/bin/python3 -I -c 'import sqlite3; print(sqlite3.sqlite_version); assert sqlite3.sqlite_version == "3.46.1"'
+          ENTRYPOINT ["/usr/bin/python3"]
+          DOCKERFILE
+          sudo tee /usr/local/bin/nana-old-sqlite-python >/dev/null <<'WRAPPER'
+          #!/bin/sh
+          exec docker run --rm --network none --read-only --tmpfs /tmp:rw,nosuid,nodev,mode=1777 \
+            --mount "type=bind,src=$GITHUB_WORKSPACE,dst=$GITHUB_WORKSPACE,readonly" \
+            --workdir "$GITHUB_WORKSPACE" nana-old-sqlite:3.46.1 "$@"
+          WRAPPER
+          sudo chmod 0755 /usr/local/bin/nana-old-sqlite-python
+          /usr/local/bin/nana-old-sqlite-python -I -c 'import sqlite3; assert sqlite3.sqlite_version == "3.46.1"'
 
       - uses: actions/checkout@v4
         with:
@@ -90,7 +101,7 @@ jobs:
           assert probe['state']=='AVAILABLE' and all(probe['checks'].values())
           PYPREFLIGHT
           .qualification-venv/bin/python -m pytest -q --junitxml=qualification-core.xml \
-            --basetemp=/tmp/nq --old-sqlite-python=/usr/bin/python3
+            --basetemp=/tmp/nq --old-sqlite-python=/usr/local/bin/nana-old-sqlite-python
       - name: Matching portable candidate, reproducible builds and offline installation
         run: |
           uv pip install --python .qualification-venv/bin/python pip==25.3
@@ -162,7 +173,7 @@ jobs:
           export default {...base, use: {...base.use,
             launchOptions: {...base.use?.launchOptions, executablePath: undefined}}};
           CONFIG
-          npx playwright test --config playwright.qualification.config.ts --grep 'complete retained long reply|explicit reply feedback|four memory-use feedback'
+          npx playwright test --config playwright.qualification.config.ts --grep 'complete retained long reply|explicit reply feedback|four memory-use feedback|SYNTHETIC local chat inbox'
       - uses: actions/upload-artifact@v4
         if: always()
         with:

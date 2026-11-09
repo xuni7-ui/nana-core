@@ -1,0 +1,9 @@
+# CI bwrap host requalification — 2026-11-09
+
+The exact original `IsolatedSkillRunner().qualify()` source probe returned `AVAILABLE` on this development host with all 11 original checks true; this is local source evidence, not GitHub runner or production qualification.
+
+The scoped GitHub run after the container preflight change returned `bwrap: Can't mount proc on /proc: Operation not permitted`. It stopped before the full suite and produced no Core candidate. The Debian Actions job container added an outer namespace boundary that prevents the required original bwrap probe; no probe assertion was relaxed.
+
+The workflow now runs that same probe on the disposable GitHub Ubuntu runner host. The legacy SQLite 3.46.1 fixture remains a separate Debian Trixie container, network-disabled, read-only except tmpfs `/tmp`, with the checkout mounted read-only. A runtime version assertion remains in both fixture build and invocation. The exact-source full pytest, matching double build/offline install, and Web inbox browser case will run only after the original probe reports every check passing. This workflow edit has no GitHub result yet.
+
+No production service, Store, CURRENT selector, APK, real model, account, or device was changed or used.

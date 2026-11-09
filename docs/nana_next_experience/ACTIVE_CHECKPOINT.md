@@ -1,3 +1,13 @@
+# Active continuation — GitHub runner bwrap host requalification pending
+
+2026-11-09 latest source e8030fb is pushed and clean before this workflow batch. Actual CI5065 job128964524475 stderr: `bwrap: Can't mount proc on /proc: Operation not permitted`; original probe stopped the full suite before pytest and no Core candidate was produced. This is Debian Actions-container namespace limitation, not permission to bypass the original probe. Exact original IsolatedSkillRunner probe locally returned AVAILABLE with all 11 checks true (source-development host only).
+
+Workflow now runs the unchanged mandatory original probe on the disposable Ubuntu runner host; old SQLite3.46.1 stays in a Debian Trixie Docker fixture with checkout read-only, network disabled, read-only root and tmpfs /tmp. The workflow retains its fixture build/runtime version assertions, exact full pytest, matching double portable build/offline install, and now includes the Web inbox browser scenario/path trigger. YAML parse, diff-check and local original probe passed; this new GitHub result is not yet known. First action after push: inspect actual Core/client run and probe stderr. If probe passes, review complete test failures before treating candidate build/install as qualified; if probe fails, preserve first stderr and repair only runner setup.
+
+Do not update CURRENT/APK/production. User's original A–H scope continues after qualification; BFF/C multi-message intent, draft merge, delivery causality, autonomy, large-scale search/storage/token/model setup/product and repository closure remain open. See evidence/ci-bwrap-host-requalification-20261109.
+
+---
+
 # Active continuation — bounded Web wait queue implemented; Core CI sandbox remains blocker
 
 Web source implemented a four-entry volatile unsent queue while one chat turn is active; cancel, per-item privacy/retention capture, fresh binding/idempotency on dispatch,20-minute expiry and discard on privacy/run/session/UNKNOWN/failure/stop/unmount. Desktop/phone360/390/412 fixture test wait/cancel/FIFO/fresh request IDs/final receipt **4 passed10.2s**, frontend build3.28s, original67 units3.79s, original12 relevant browsers20.7s. No real provider/account/device. Details evidence/web-waiting-inbox-20261109.
