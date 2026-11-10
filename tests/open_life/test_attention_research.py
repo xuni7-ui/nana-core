@@ -218,3 +218,29 @@ def test_owned_http_one_occurrence_and_timeout_no_replay(runtime,tmp_path):
             package=SubjectPackageService(store,authority).export(tmp_path/'http-subject.nana',destination_id=str(uuid4()),source_commit='1fd40c9cbd12a56a4ec1e3f11d37aaffeea69cf7',authority=authority)
             assert package['bytes']>0
     finally:server.shutdown();server.server_close();thread.join(timeout=2)
+
+
+def test_default_attention_does_not_stop_after_eight_distinct_daily_opportunities(runtime):
+    r=runtime;q=OpportunityQueue(r);ids=[]
+    for index in range(9):
+        source=capture(r,'distinct-daily-source-'+str(index),{'source':'SYNTHETIC distinct changed observation','index':index})
+        item=candidate(r,source)
+        item=item.model_copy(update={'cue':item.cue.model_copy(update={'possible_behaviors':('WATCH',)})})
+        job=q.offer(item);ids.append(job)
+        assert judge(r,q,job)['behavior']=='WATCH'
+        assert q.offer(item)==job
+    before=r.store.db.execute("SELECT count(*) FROM subject_events WHERE source_key LIKE 'development.life.%'").fetchone()[0]
+    assert before==9
+    for _ in range(20):q.opportunity()
+    assert r.store.db.execute("SELECT count(*) FROM subject_events WHERE source_key LIKE 'development.life.%'").fetchone()[0]==before
+    path,clock,identity=r.store.path,r.clock.source,r.identity_id
+    r.stop()
+    with open_runtime(path,clock) as current:
+        assert current.identity_id==identity
+        q=OpportunityQueue(current)
+        source=capture(current,'after-restart-new-attention',{'source':'SYNTHETIC later different observation'})
+        item=candidate(current,source)
+        item=item.model_copy(update={'cue':item.cue.model_copy(update={'possible_behaviors':('WATCH',)})})
+        assert judge(current,q,q.offer(item))['behavior']=='WATCH'
+        assert current.store.db.execute("SELECT count(*) FROM subject_events WHERE source_key LIKE 'development.life.%'").fetchone()[0]==10
+        assert not current.store.all('actions') and not current.store.all('grants') and not current.store.all('cognitive_requests')

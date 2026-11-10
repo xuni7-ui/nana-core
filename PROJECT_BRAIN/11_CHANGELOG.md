@@ -3451,3 +3451,8 @@ acdd284文件本地双构建同6a8848…0f00，独立离线安装BFF/反馈幂�
 ### 2026-11-11 · 服务商目录选择到实际模型注册接通
 
 原目录只填远端模型未给内部ID，且modelCommand错误校验未填写的供应商地址；providerCommand也先强要模型字段。现目录生成有效model.catalog-ID，仍须明确点注册，provider/model命令只校验实际发出的字段，原组合草稿完整校验、HTTPS/协议/内部ID/模型预算上界和服务端权威保持。旧1fail2pass，18相关单测557ms、live编译、16四视口22.8s；目录先0写后单一UPSERT_MODEL，provider/route/key无写。证据catalog-registration。无新API/依赖/Store/后台/模型调用，不重跑完整发行/APK。此前c069实际定向CI99Core/70unit/56浏览器及Node通过，不冒充新源码full。原A–H/续配/native/真实提供商未完；CURRENT/生产不动。
+
+
+### 2026-11-11 · 原注意队列不再隐式每日八次停止
+
+AdvancedLife原OpportunityQueue默认daily_limit由8改无隐式配额，显式trusted1–24配额仍原条件。有限队列、一次原D safe-point、源/事件去重/过期/pause/前台/原C/真实模型与执行资源边界保持；非增加模型额度或无限轮询。原版第9个新WATCH卡WAITING严格失败0.53s；89原open-life/controlledsource/PrecisionV2通过14.10s，含原显式2/day、burst背压、9次后20次同状态0新增、同身份重启第10独立来源/0actions/grants/models。新真实经历会有正常Store成本；未配置quota时少一次全日eventcount，不称零存储成本。证据attention-quota；不重跑未受影响完整发行/Web。全部A–H与真实环境资格仍开放，CURRENT/生产不动。

@@ -7,17 +7,17 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 130,
-  "as_of_us": 1794351742954050,
+  "revision": 131,
+  "as_of_us": 1794351944440755,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_CATALOG_REGISTRATION_AND_ORIGINAL_REMAINDER",
+  "status": "IN_PROGRESS_DISTINCT_ATTENTION_AND_ORIGINAL_REMAINDER",
   "progress": [
     "同一Next Experience与十域主任务已恢复；唯一Subject/Store/Loop、原C/D/G/Planner及Precision V2保持。最新合法源码与Brain优先。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
-    "原C保留承诺动机而不固定覆盖安静/同主题已采纳学习，51定向99通过。原机会队列LARGE存储估计不再伪作HIGH认知负荷；86相关通过9.57s，全估计/排序/实际执行与磁盘门保持，0模型/动作。",
+    "原C安静/已采纳学习可竞争承诺；LARGE存储不伪作疲倦。队列取消隐式8机会/天，显式宿主1–24配额/容量/去重/原D/实际模型执行预算保持；89相关14.10s，9机会后同状态0重复，重启第10独立事件通过。",
     "长回复16384字及全文恢复已有；新2049–16384字反馈绑定完整原话轮SHA，旧Sample2048不扩容。后续原context读取≤384字有标节选；短反馈JSON标签数组拒绝亦修。",
     "原memory_terms有界派生加速：1k/10k/100k均144/144，100k P959.72ms；200k142/144、误召0/超时2、P9548.18ms，增加约0.8GB索引；55相关通过。",
     "c069独立定向CI99Core/70前端/56浏览器及编译Node通过；新模型目录选择自动有效ID，provider/model各验自身字段，实际选中目录模型可显式注册而不改路由。18相关单测/16四视口/编译通过，0真实提供商。"
@@ -38,7 +38,7 @@
     "docs/nana_next_experience/evidence/installed-c162-20261110/README.md",
     "docs/nana_next_experience/evidence/long-feedback-and-tiering-20261111/README.md",
     "docs/nana_next_experience/evidence/owned-choice-and-due-promises-20261111/README.md",
-    "docs/nana_next_experience/evidence/catalog-registration-20261111/README.md"
+    "docs/nana_next_experience/evidence/attention-quota-20261111/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

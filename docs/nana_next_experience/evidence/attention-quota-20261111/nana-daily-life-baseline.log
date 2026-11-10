@@ -1,0 +1,38 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_____ test_default_attention_has_no_eight_decision_daily_lifetime_ceiling ______
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7f7d1cb252b0>
+
+    def test_default_attention_has_no_eight_decision_daily_lifetime_ceiling(runtime):
+        r=runtime;q=OpportunityQueue(r);ids=[]
+        for index in range(9):
+            source=capture(r,'distinct-daily-source-'+str(index),{'source':'SYNTHETIC distinct changed observation','index':index})
+            item=candidate(r,source)
+            item=item.model_copy(update={'cue':item.cue.model_copy(update={'possible_behaviors':('WATCH',)})})
+            job=q.offer(item);ids.append(job)
+>           assert judge(r,q,job)['behavior']=='WATCH'
+                   ^^^^^^^^^^^^^^
+
+tests/open_life/test_attention_research.py:230: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+r = <nana_core.presence.runtime.NanaRuntime object at 0x7f7d1cb252b0>
+q = <nana_core.continuity.open_life.opportunities.OpportunityQueue object at 0x7f7d1cb2aa20>
+j = 'c55d5975-6610-455f-9240-92bbed0e413c'
+
+    def judge(r,q,j):
+        q.opportunity()
+        for _ in range(12):
+            r.clock.source.advance(SECOND);r.step();q.opportunity()
+            if r.store.one('jobs',j)['state']=='DONE':break
+>       assert r.store.one('jobs',j)['state']=='DONE'
+E       AssertionError: assert 'WAITING' == 'DONE'
+E         
+E         - DONE
+E         + WAITING
+
+tests/open_life/test_attention_research.py:28: AssertionError
+=========================== short test summary info ============================
+FAILED tests/open_life/test_attention_research.py::test_default_attention_has_no_eight_decision_daily_lifetime_ceiling
+1 failed, 35 deselected in 0.53s

@@ -43,8 +43,8 @@ class LifeOpportunity(DTO):
 
 
 class OpportunityQueue:
-    def __init__(self,runtime,*,capacity=16,daily_limit=8):
-        if not 1<=capacity<=32 or not 1<=daily_limit<=24:raise CoreError('LIFE_QUEUE_POLICY_BOUND')
+    def __init__(self,runtime,*,capacity=16,daily_limit=None):
+        if not 1<=capacity<=32 or (daily_limit is not None and (type(daily_limit) is not int or not 1<=daily_limit<=24)):raise CoreError('LIFE_QUEUE_POLICY_BOUND')
         self.runtime=runtime;self.store=runtime.store;self.records=RecordService(self.store)
         self.capacity,self.daily_limit=capacity,daily_limit
 
@@ -103,8 +103,12 @@ class OpportunityQueue:
             if c.expires_at_us<=now:return self._finish(row,'CANCELLED','EXPIRED')
             viable.append((row,head,c))
         if not viable:return None
-        day=now//DAY*DAY
-        if s.db.execute("SELECT count(*) FROM subject_events WHERE source_key LIKE 'development.life.%' AND observed_at_us>=?",(day,)).fetchone()[0]>=self.daily_limit:return None
+        # Optional explicit host quota, not a default limit on distinct C
+        # judgments. Capacity/deduplication and original D safe points still
+        # bound processing; actual model/effect budgets are checked separately.
+        if self.daily_limit is not None:
+            day=now//DAY*DAY
+            if s.db.execute("SELECT count(*) FROM subject_events WHERE source_key LIKE 'development.life.%' AND observed_at_us>=?",(day,)).fetchone()[0]>=self.daily_limit:return None
         # Attention ordering is finite; these are options, not pre-adopted goals.
         row,head,c=max(viable,key=lambda x:({'LOW':0,'RELEVANT':1,'HIGH':2}[x[2].value],x[2].kind=='REST',-(x[2].resource_estimate.pressure if x[2].resource_estimate else int(x[2].cost=='HEAVY')),-x[0]['due_at_us']))
         cue=c.cue.model_copy(update={'opportunity_assessment':OpportunityAssessment(value=c.value,novelty=c.novelty)})
