@@ -1,0 +1,20 @@
+{
+  "source_base": "474845c4dbc2671bf69567c43f9febe281ca6b7c",
+  "fixed_delivery_commit": "5b4f589fec8ecf5deb4dc5fafd2f4193c96569b8",
+  "runtime_source": "266272a92b5837b2458c107163bd95ea8e0d7fe4",
+  "supported_platform": "Linux x86_64 / CPython3.12 / glibc>=2.34",
+  "features": [
+    "HOST_VAULT",
+    "PUBLIC_VIDEO_FRAMES"
+  ],
+  "original_shipped_quickstart_line": "Ubuntu/Debian-like x86_64 Linux, CPython **3.12**, glibc>=2.17, SQLite>=**3.51.3**",
+  "documented_metadata_command_stdout": [
+    "Linux x86_64 / CPython3.12 / glibc>=2.34",
+    "features: HOST_VAULT, PUBLIC_VIDEO_FRAMES"
+  ],
+  "metadata_command_exit": 0,
+  "extracted_or_executed_Core": false,
+  "installation_run": false,
+  "production_or_selector_changed": false,
+  "existing_delivery_bytes_changed": false
+}

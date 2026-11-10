@@ -1,9 +1,14 @@
 # Portable Cloud Runtime V1
 
-Ubuntu/Debian-like x86_64 Linux, CPython **3.12**, glibc>=2.17, SQLite>=**3.51.3**
+Ubuntu/Debian-like x86_64 Linux, CPython **3.12**, SQLite>=**3.51.3**
 with JSON and FTS5 in that Python's actual binding. This preserves Store's WAL-reset
 corruption-fix requirement. The installer checks both itself and the target venv;
 preflight never passes an older SQLite merely because JSON/FTS5 work.
+The glibc minimum depends on the built features: the base bundle declares
+**glibc>=2.17**, while a bundle with **HOST_VAULT requires glibc>=2.34**.
+Use `supported_platform` and `features` in that verified bundle's `runtime.json`,
+not the base minimum, when selecting a host. Metadata review does not replace
+the actual installer and preflight checks.
 Required stdlib/native modules also include ctypes,ssl,zlib,sqlite3,resource,
 termios and venv. A partially built Python can initialize a Store yet lack the
 ctypes process-isolation primitive; this is now refused before install/identity.
@@ -18,7 +23,8 @@ No ffmpeg/ffprobe is required for this text/Inspector runtime; capture/audio are
 1. Upload the archive, its separately checked SHA256 and nana-unpack.py.
 2. Safe extraction (destination must not exist):
    `python3 nana-unpack.py nana-first-life-portable-v1.tar.gz --sha256 <published-sha256> --destination ./nana`
-3. `cd nana && ./install.sh /path/to/python3.12` (entirely offline, hashed wheels).
+3. `cd nana`; inspect the platform metadata shown below, then run
+   `./install.sh /path/to/python3.12` (entirely offline, hashed wheels).
 4. `./nana preflight` checks the host without creating a Subject.
 5. Choose **one** explicit mode:
    - New test identity: `./nana init --fresh` prints **NEW SUBJECT CREATED**.
@@ -26,6 +32,17 @@ No ffmpeg/ffprobe is required for this text/Inspector runtime; capture/audio are
 6. `./nana start --seconds 3600` runs the original foreground Runtime.
 7. Another SSH terminal: `./nana health`, `./nana inspect`, `./nana chat`.
 8. `./nana stop`; restart with `./nana start` or `./nana restart`.
+
+Before invoking `install.sh` in step 3, inspect the extracted, checksum-verified
+bundle from that directory without starting Core or creating a Subject:
+
+```sh
+python3 -I -c 'import json; m=json.load(open("runtime.json")); print(m["supported_platform"]); print("features:", ", ".join(m["features"]))'
+```
+
+Run the remaining commands from this same bundle directory. If the declared
+platform is unsupported, use a matching host; this guide does not authorize
+replacing system libraries or weakening the original checks.
 
 Default home is bundle-relative `var/subject`; every command supports
 `--home /absolute/private/path`. No dependency on a repository checkout, cwd,

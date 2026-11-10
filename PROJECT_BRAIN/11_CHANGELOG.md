@@ -3399,3 +3399,10 @@ acdd284文件本地双构建同6a8848…0f00，独立离线安装BFF/反馈幂�
 [静态实测] 基线718df771cd4ace5e993ac9932f456ca98676d511的source qualification push过滤器，在26份实际portable打包文件、原unpack与资格开发锁共28个路径中仅命中runtime-files.txt。最小改为packaging/portable/**并加入原解包器和requirements-core-dev.lock；原分支/手动入口、permissions及全部jobs字节不变，原Git树旧命中均保留。覆盖变为28/28，YAML/shell语法通过，GitHub实际CI/资格状态以回执为准；不把路径匹配写成构建或安装PASS。治理PR复用已有工作流，不新增业务框架或依赖。
 
 证据docs/nana_next_experience/evidence/governance-portable-ci-paths-20261111/README.md。以最新A 63e4e323abb00f467484ee35d096f814f5585ffe为底，两份现役账本原文完整保留后追加；A的Core/UNKNOWN/安装证据和revision125不改。新路径仍执行原完整资格，可能增加单改打包文件时的运行次数；未取消A现有CI，不动selector/生产/私人数据。回退仅撤销两个workflow的本批路径修改。
+
+
+### 2026-11-11 · Codex B：包内安装平台说明遵循实际feature manifest
+
+[固定Git产物只读实测] CURRENT固定交付5b4f589/Core266的runtime.json为HOST_VAULT+PUBLIC_VIDEO_FRAMES、glibc>=2.34，但同包QUICKSTART统一写>=2.17；现役builder仍按HOST_VAULT选择2.34/2.17。只修包内说明并补源码地图入口：安装前按已校验包的supported_platform/features选宿主，保留原安装/preflight门槛。文档原命令在仅含实际元数据的新目录执行通过，未解包执行Core或安装/创建主体；未替换旧产物/CURRENT。证据docs/nana_next_experience/evidence/governance-platform-guide-20261111/README.md。
+
+以474845c现役两份账本全文为底追加；本批只有安装说明/导航/账本/证据文本，无Core/客户端/安装器/依赖/权限/冻结框架/生产变更。PR9已合并474845c，其最终治理CI42875181308通过，合并后原source qualification42875488564当时仍在途，不能称完整资格通过。本批回退只需撤销文档提交，无数据或selector迁移。
