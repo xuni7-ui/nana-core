@@ -1,0 +1,91 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+_ test_due_promise_keeps_its_motive_without_overriding_a_sourced_quiet_choice[REST] _
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7f4ea5e2f680>
+behavior = 'REST'
+
+    @pytest.mark.parametrize('behavior', ['REST','WATCH','STAY_SILENT'])
+    def test_due_promise_keeps_its_motive_without_overriding_a_sourced_quiet_choice(runtime,behavior):
+        from nana_core.continuity.commitments import CommitmentCandidate,CommitmentService
+        from nana_core.continuity.subject.opportunities import ConcernCue
+        r=runtime
+        source=capture(r,'quiet-due-promise',{'source':'SYNTHETIC independently adopted due promise'})
+        commitments=CommitmentService(r.store,r.authority)
+        cid=commitments.propose(CommitmentCandidate(entity_id='observer',scope='world',
+            description='SYNTHETIC obligation remains outstanding during chosen quiet',
+            support_memory_ids=(source,),due_at_us=r.clock.utc_now_us()-1))
+        commitments.transition(cid,'ADOPTED',expected_revision=1,authority=r.authority)
+        cue=ConcernCue(cue_kind='LOAD_STATE',topic_key='rest.current',motivation_source='REST',
+            possible_behaviors=(behavior,),cognitive_load='HIGH')
+        mid=capture(r,'quiet-with-promise',cue.model_dump_json(),predicate='concern.rest.current')
+        event=SubjectInput(source_key='synthetic.due.quiet',kind='WAKE',origin='SELF_WAKE',entity_id='observer',
+            scope='world',privacy_class='PUBLIC',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+        chosen=r.subject.run(event)
+>       assert chosen.intention.behavior==behavior
+E       AssertionError: assert None == 'REST'
+E        +  where None = Intention(kind='GOAL_CANDIDATE', purpose='Review a due commitment; no execution has been authorized', slot_key='commit...s=('0a9841d8-ca49-45bf-bc76-899b5e8e4b8b', '54f0f73c-6f3e-4217-bdef-592ca6eeab3e'), self_generated=True, behavior=None).behavior
+E        +    where Intention(kind='GOAL_CANDIDATE', purpose='Review a due commitment; no execution has been authorized', slot_key='commit...s=('0a9841d8-ca49-45bf-bc76-899b5e8e4b8b', '54f0f73c-6f3e-4217-bdef-592ca6eeab3e'), self_generated=True, behavior=None) = CycleResult(conversation_decision=None, experience_need=None, problem_frame=None, context_fit=ContextFitAssessment(der...isclosure=None, realization_target=None, request_decision=None, selected_disposition_id=None, relational_decision=None).intention
+
+tests/open_life/test_adopted_interest.py:179: AssertionError
+_ test_due_promise_keeps_its_motive_without_overriding_a_sourced_quiet_choice[WATCH] _
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7f4ea5e6f7a0>
+behavior = 'WATCH'
+
+    @pytest.mark.parametrize('behavior', ['REST','WATCH','STAY_SILENT'])
+    def test_due_promise_keeps_its_motive_without_overriding_a_sourced_quiet_choice(runtime,behavior):
+        from nana_core.continuity.commitments import CommitmentCandidate,CommitmentService
+        from nana_core.continuity.subject.opportunities import ConcernCue
+        r=runtime
+        source=capture(r,'quiet-due-promise',{'source':'SYNTHETIC independently adopted due promise'})
+        commitments=CommitmentService(r.store,r.authority)
+        cid=commitments.propose(CommitmentCandidate(entity_id='observer',scope='world',
+            description='SYNTHETIC obligation remains outstanding during chosen quiet',
+            support_memory_ids=(source,),due_at_us=r.clock.utc_now_us()-1))
+        commitments.transition(cid,'ADOPTED',expected_revision=1,authority=r.authority)
+        cue=ConcernCue(cue_kind='LOAD_STATE',topic_key='rest.current',motivation_source='REST',
+            possible_behaviors=(behavior,),cognitive_load='HIGH')
+        mid=capture(r,'quiet-with-promise',cue.model_dump_json(),predicate='concern.rest.current')
+        event=SubjectInput(source_key='synthetic.due.quiet',kind='WAKE',origin='SELF_WAKE',entity_id='observer',
+            scope='world',privacy_class='PUBLIC',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+        chosen=r.subject.run(event)
+>       assert chosen.intention.behavior==behavior
+E       AssertionError: assert None == 'WATCH'
+E        +  where None = Intention(kind='GOAL_CANDIDATE', purpose='Review a due commitment; no execution has been authorized', slot_key='commit...s=('002420be-ac61-4a18-9140-8c9f4cf835d2', '70eea349-c845-46d2-adec-3f13dbd5cd8e'), self_generated=True, behavior=None).behavior
+E        +    where Intention(kind='GOAL_CANDIDATE', purpose='Review a due commitment; no execution has been authorized', slot_key='commit...s=('002420be-ac61-4a18-9140-8c9f4cf835d2', '70eea349-c845-46d2-adec-3f13dbd5cd8e'), self_generated=True, behavior=None) = CycleResult(conversation_decision=None, experience_need=None, problem_frame=None, context_fit=ContextFitAssessment(der...isclosure=None, realization_target=None, request_decision=None, selected_disposition_id=None, relational_decision=None).intention
+
+tests/open_life/test_adopted_interest.py:179: AssertionError
+_ test_due_promise_keeps_its_motive_without_overriding_a_sourced_quiet_choice[STAY_SILENT] _
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7f4ea5e2f1a0>
+behavior = 'STAY_SILENT'
+
+    @pytest.mark.parametrize('behavior', ['REST','WATCH','STAY_SILENT'])
+    def test_due_promise_keeps_its_motive_without_overriding_a_sourced_quiet_choice(runtime,behavior):
+        from nana_core.continuity.commitments import CommitmentCandidate,CommitmentService
+        from nana_core.continuity.subject.opportunities import ConcernCue
+        r=runtime
+        source=capture(r,'quiet-due-promise',{'source':'SYNTHETIC independently adopted due promise'})
+        commitments=CommitmentService(r.store,r.authority)
+        cid=commitments.propose(CommitmentCandidate(entity_id='observer',scope='world',
+            description='SYNTHETIC obligation remains outstanding during chosen quiet',
+            support_memory_ids=(source,),due_at_us=r.clock.utc_now_us()-1))
+        commitments.transition(cid,'ADOPTED',expected_revision=1,authority=r.authority)
+        cue=ConcernCue(cue_kind='LOAD_STATE',topic_key='rest.current',motivation_source='REST',
+            possible_behaviors=(behavior,),cognitive_load='HIGH')
+        mid=capture(r,'quiet-with-promise',cue.model_dump_json(),predicate='concern.rest.current')
+        event=SubjectInput(source_key='synthetic.due.quiet',kind='WAKE',origin='SELF_WAKE',entity_id='observer',
+            scope='world',privacy_class='PUBLIC',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+        chosen=r.subject.run(event)
+>       assert chosen.intention.behavior==behavior
+E       AssertionError: assert None == 'STAY_SILENT'
+E        +  where None = Intention(kind='GOAL_CANDIDATE', purpose='Review a due commitment; no execution has been authorized', slot_key='commit...s=('26c7e999-ef38-45e7-a54d-30cd6558f0d9', '6e687033-47cd-4d80-946a-cbc26d19437e'), self_generated=True, behavior=None).behavior
+E        +    where Intention(kind='GOAL_CANDIDATE', purpose='Review a due commitment; no execution has been authorized', slot_key='commit...s=('26c7e999-ef38-45e7-a54d-30cd6558f0d9', '6e687033-47cd-4d80-946a-cbc26d19437e'), self_generated=True, behavior=None) = CycleResult(conversation_decision=None, experience_need=None, problem_frame=None, context_fit=ContextFitAssessment(der...isclosure=None, realization_target=None, request_decision=None, selected_disposition_id=None, relational_decision=None).intention
+
+tests/open_life/test_adopted_interest.py:179: AssertionError
+=========================== short test summary info ============================
+FAILED tests/open_life/test_adopted_interest.py::test_due_promise_keeps_its_motive_without_overriding_a_sourced_quiet_choice[REST]
+FAILED tests/open_life/test_adopted_interest.py::test_due_promise_keeps_its_motive_without_overriding_a_sourced_quiet_choice[WATCH]
+FAILED tests/open_life/test_adopted_interest.py::test_due_promise_keeps_its_motive_without_overriding_a_sourced_quiet_choice[STAY_SILENT]
+3 failed, 15 deselected in 0.51s

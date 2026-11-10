@@ -99,14 +99,17 @@ def test_external_admission_estimate_does_not_claim_cognitive_load(
     assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('cognitive_requests')
 
 
-@pytest.mark.parametrize('adopted,load,explicit_review,expected', [
-    (True,'LOW',False,'CREATE'),
-    (True,'HIGH',False,'REST'),
-    (False,'LOW',False,None),
-    (True,'LOW',True,None),
+@pytest.mark.parametrize('adopted,load,explicit_review,expected,behavior', [
+    (True,'LOW',False,'CREATE','CREATE'),
+    (True,'HIGH',False,'REST','CREATE'),
+    (False,'LOW',False,None,'CREATE'),
+    (True,'LOW',True,None,'CREATE'),
+    (True,'LOW',False,'LEARN','LEARN'),
+    (False,'LOW',False,None,'LEARN'),
+    (True,'LOW',True,None,'LEARN'),
 ])
 def test_due_commitment_is_considered_without_a_permanent_veto_on_owned_interest(
-        runtime,adopted,load,explicit_review,expected):
+        runtime,adopted,load,explicit_review,expected,behavior):
     from nana_core.continuity.commitments import CommitmentCandidate,CommitmentService
     from nana_core.continuity.subject.opportunities import ConcernCue
     r=runtime
@@ -117,7 +120,7 @@ def test_due_commitment_is_considered_without_a_permanent_veto_on_owned_interest
         description='SYNTHETIC due promise still requires a review',support_memory_ids=(source,),due_at_us=r.clock.utc_now_us()-1))
     service.transition(cid,'ADOPTED',expected_revision=1,authority=r.authority)
     cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='CREATIVE_INTEREST',topic_key='world.question',
-        possible_behaviors=('CREATE','WATCH'),resource_class='ORDINARY',cognitive_load=load)
+        possible_behaviors=(behavior,'WATCH'),resource_class='ORDINARY',cognitive_load=load)
     # Use original C ingress on the same original Store; no forced decision,
     # fake fulfillment, model, planner or permission is injected.
     from nana_core.continuity.contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
@@ -132,13 +135,14 @@ def test_due_commitment_is_considered_without_a_permanent_veto_on_owned_interest
         source_memory_ids=(mid,),commitment_check_id=cid if explicit_review else None))
     assert choice.intention.behavior==expected
     assert any(m.source=='COMMITMENT' for m in choice.motivations)
+    assert all('COMMITMENT' not in m.inhibited_by for m in choice.motivations)
     assert service.get(cid).state=='ADOPTED' and service.get(cid).overdue
     if expected is None:assert choice.intention.slot_key=='commitment-review'
     else:
         assert choice.intention.slot_key!='commitment-review'
-        assert choice.evaluation.normative==('ENDORSED' if expected=='CREATE' else 'UNDECIDED')
+        assert choice.evaluation.normative==('ENDORSED' if expected in {'CREATE','LEARN'} else 'UNDECIDED')
     assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('cognitive_requests')
-    if expected=='CREATE':
+    if expected in {'CREATE','LEARN'}:
         event=r.store.one('subject_events',r.store.one('subject_cycles',interest_sources[0].cycle_id)['subject_event_id'])
         interest_mid=event['memory_id'];path,clock,identity=r.store.path,r.clock.source,r.identity_id
         r.stop()
@@ -157,3 +161,38 @@ def test_due_commitment_is_considered_without_a_permanent_veto_on_owned_interest
             assert any(m.source=='COMMITMENT' for m in later.motivations)
             assert CommitmentService(current.store,current.authority).get(cid).state=='ADOPTED'
             assert not current.store.all('actions') and not current.store.all('grants')
+
+
+@pytest.mark.parametrize('behavior', ['REST','WATCH','STAY_SILENT'])
+def test_due_promise_keeps_its_motive_without_overriding_a_sourced_quiet_choice(runtime,behavior):
+    from nana_core.continuity.commitments import CommitmentCandidate,CommitmentService
+    from nana_core.continuity.subject.opportunities import ConcernCue
+    r=runtime
+    source=capture(r,'quiet-due-promise',{'source':'SYNTHETIC independently adopted due promise'})
+    commitments=CommitmentService(r.store,r.authority)
+    cid=commitments.propose(CommitmentCandidate(entity_id='observer',scope='world',
+        description='SYNTHETIC obligation remains outstanding during chosen quiet',
+        support_memory_ids=(source,),due_at_us=r.clock.utc_now_us()-1))
+    commitments.transition(cid,'ADOPTED',expected_revision=1,authority=r.authority)
+    cue=ConcernCue(cue_kind='LOAD_STATE',topic_key='rest.current',motivation_source='REST',
+        possible_behaviors=(behavior,),cognitive_load='HIGH')
+    mid=capture(r,'quiet-with-promise',cue.model_dump_json(),predicate='concern.rest.current')
+    event=SubjectInput(source_key='synthetic.due.quiet',kind='WAKE',origin='SELF_WAKE',entity_id='observer',
+        scope='world',privacy_class='PUBLIC',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,))
+    chosen=r.subject.run(event)
+    assert chosen.intention.behavior==behavior
+    assert any(m.source=='COMMITMENT' and m.strength=='PRESSING' for m in chosen.motivations)
+    assert all('COMMITMENT' not in m.inhibited_by for m in chosen.motivations)
+    assert commitments.get(cid).state=='ADOPTED' and commitments.get(cid).overdue
+    path,clock,identity=r.store.path,r.clock.source,r.identity_id
+    r.stop()
+    with open_runtime(path,clock) as current:
+        assert current.identity_id==identity
+        # A separate explicit check still reviews the real promise rather than
+        # rewriting it as completed, deleting its due date or forcing quiet.
+        review=current.subject.run(event.model_copy(update={'source_key':'synthetic.due.explicit',
+            'observed_at_us':current.clock.utc_now_us(),'commitment_check_id':cid}))
+        assert review.intention.slot_key=='commitment-review'
+        assert review.intention.behavior is None
+        assert CommitmentService(current.store,current.authority).get(cid).overdue
+        assert not current.store.all('actions') and not current.store.all('grants') and not current.store.all('cognitive_requests')

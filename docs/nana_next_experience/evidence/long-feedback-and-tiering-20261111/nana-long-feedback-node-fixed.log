@@ -1,0 +1,11 @@
+✔ all four memory preferences bind the selected retained source without rating fact truth or verbosity (2.552309ms)
+✔ foreign, withdrawn, unretained and malformed targets cannot form memory feedback (1.172836ms)
+✔ fresh history attaches choices to a live turn and removes stale choices on a later projection (0.484962ms)
+ℹ tests 3
+ℹ suites 0
+ℹ pass 3
+ℹ fail 0
+ℹ cancelled 0
+ℹ skipped 0
+ℹ todo 0
+ℹ duration_ms 12.859879

@@ -83,18 +83,15 @@ def motivate(event, situation, appraisal):
     if situation.project_ids:
         motives.append(Motivation(source='PROJECT_COMPLETION', strength='RELEVANT', source_ids=situation.project_ids))
     if situation.unresolved_interest:
-        motives.append(Motivation(source='EXPLORATION', strength='RELEVANT', source_ids=situation.memory_ids,
-            inhibited_by=('COMMITMENT',) if situation.due_commitment_ids else ()))
+        motives.append(Motivation(source='EXPLORATION', strength='RELEVANT', source_ids=situation.memory_ids))
     if event.novelty == 'HIGH':
-        motives.append(Motivation(source='CURIOSITY', strength='AVAILABLE', source_ids=situation.memory_ids,
-            inhibited_by=('COMMITMENT',) if situation.due_commitment_ids else ()))
+        motives.append(Motivation(source='CURIOSITY', strength='AVAILABLE', source_ids=situation.memory_ids))
     if (situation.social_appetite and situation.social_appetite.state in {'OPEN','SEEKING'}) or (situation.social_appetite is None and event.kind == 'INTERACTION' and situation.familiar):
         motives.append(Motivation(source='SOCIAL_CONNECTION', strength='AVAILABLE', source_ids=situation.memory_ids))
     if appraisal.risk == 'HIGH':
         motives.insert(0, Motivation(source='CARE', strength='PRESSING', source_ids=situation.memory_ids))
     if situation.cue:
-        motives.append(Motivation(source=situation.cue.motivation_source,strength='RELEVANT',source_ids=situation.memory_ids,
-            inhibited_by=('COMMITMENT',) if situation.due_commitment_ids else ()))
+        motives.append(Motivation(source=situation.cue.motivation_source,strength='RELEVANT',source_ids=situation.memory_ids))
     if situation.problem_frame and situation.problem_frame.state=='REFRAME':
         motives.append(Motivation(source='UNRESOLVED_QUESTION',strength='RELEVANT',source_ids=situation.problem_frame.source_memory_ids))
     if not motives:
@@ -130,10 +127,14 @@ def decide(event, situation, appraisal, motives):
     # A due promise remains a pressing motive, not a permanent ban on an
     # already adopted personal interest. An explicit promise review still wins;
     # ordinary interest cues continue through the same norm/load/value guards.
-    personal_activity = bool(situation.cue
-        and situation.cue.topic_key in situation.adopted_interests
-        and set(directions(situation.cue)) & {'EXPLORE', 'CREATE'})
-    if situation.due_commitment_ids and (event.commitment_check_id or not personal_activity):
+    personal_interest = bool(situation.cue
+        and situation.cue.topic_key in situation.adopted_interests)
+    options=[x for x in directions(situation.cue) if x not in situation.prohibited_behaviors] if situation.cue else []
+    quiet_choice=bool(options and options[0] in {'REST','WITHDRAW','IGNORE','WATCH','STAY_SILENT','DO_NOTHING','DEFER'})
+    # A due promise remains visible/pressing without making rest or silence
+    # unavailable. An explicit promise review still takes its original route;
+    # quiet choices later pass the same norm/privacy/resource admission.
+    if situation.due_commitment_ids and (event.commitment_check_id or not (personal_interest or quiet_choice)):
         return ('FOCUS_NOW', Judgment(stance='DEFER', reason='An adopted due commitment takes priority over optional exploration', source_ids=sources),
             Intention(kind='GOAL_CANDIDATE', purpose='Review a due commitment; no execution has been authorized', slot_key='commitment-review', source_ids=sources, self_generated=self_generated))
     if situation.reflection_experience_id:
@@ -165,14 +166,13 @@ def decide(event, situation, appraisal, motives):
         cue=situation.cue
         if cue.program_id and cue.program_id in situation.adopted_program_ids:
             return ('BACKGROUND_WATCH',Judgment(stance='WATCH',reason='An adopted goal already carries this concern; do not duplicate it',source_ids=sources),Intention(kind='NO_ACTION',purpose='Let the existing plan progress',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='WATCH'))
-        options=[x for x in directions(cue) if x not in situation.prohibited_behaviors]
         if not options or (cue.resource_ref and cue.resource_class!='ORDINARY' and not situation.autonomy_semantics):
             return ('IGNORE',Judgment(stance='IGNORE',reason='A sourced norm/privacy constraint inhibits the possible opportunity',source_ids=sources),
                 Intention(kind='NO_ACTION',purpose='Honor constraints rather than act merely because it is possible',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='IGNORE'))
         behavior=options[0]
         # Quiet/withdrawal options start no work and do not need instrumental
         # value, novelty or spare capacity. Norm/privacy filtering still precedes them.
-        if behavior in {'REST','WITHDRAW','IGNORE','WATCH','STAY_SILENT','DO_NOTHING','DEFER'}:
+        if quiet_choice:
             return ('BACKGROUND_WATCH' if behavior=='WATCH' else 'DEFER',Judgment(stance='WATCH' if behavior=='WATCH' else 'DEFER',reason='An available concern does not require activity',source_ids=sources),
                 Intention(kind='NO_ACTION',purpose='Respect the current priority without external action',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior=behavior))
         if cue.cognitive_load=='HIGH' and cue.urgency!='HIGH':
@@ -184,7 +184,7 @@ def decide(event, situation, appraisal, motives):
         interested_learning = (cue.learning_value is not None
             and cue.learning_value.interest in {'RELEVANT', 'HIGH'}
             and bool(set(options) & {'LEARN', 'SEEK_CAPABILITY'}))
-        interested_activity = personal_activity and bool(set(options) & {'EXPLORE', 'CREATE'})
+        interested_activity = personal_interest and bool(set(options) & {'EXPLORE', 'CREATE'})
         # A current independent social preference/seed can support ordinary
         # company without instrumental or relationship value. OPEN from this
         # same cue alone has no such record support. Actual reception/authority
