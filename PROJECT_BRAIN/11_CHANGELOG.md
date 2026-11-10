@@ -3446,3 +3446,8 @@ acdd284文件本地双构建同6a8848…0f00，独立离线安装BFF/反馈幂�
 原机会队列ActivityCost.storage=LARGE曾强设HIGH认知负荷并使原C强REST。仅解除此容量→疲倦推断，完整估计/注意排序/实际执行与独立物理磁盘门保持；compute/time/interruption及真实HIGH负荷仍原判断。严格新EXPLORE契约旧1fail5pass，修复86相关9.57s；真实cycle/完整estimate/0actions/grants/model验证，非放宽为任选REST或EXPLORE。证据storage-estimate-and-attention。
 
 原CI增加小型实际Git差异筛选，纯Core跳过Web、纯Web跳过无关Core，bridge/contracts/显式手动或workflow改动选双端且两端仍并行；full发行/迁移显式选择保持。无新依赖/审批层/业务权威，12脚本语法及4类差异验证。B PR12正常merge c30ef76，双方账本与用户实施原则保留。全部原A–H持续，CURRENT/APK/生产/真实模型/手机未动。
+
+
+### 2026-11-11 · 服务商目录选择到实际模型注册接通
+
+原目录只填远端模型未给内部ID，且modelCommand错误校验未填写的供应商地址；providerCommand也先强要模型字段。现目录生成有效model.catalog-ID，仍须明确点注册，provider/model命令只校验实际发出的字段，原组合草稿完整校验、HTTPS/协议/内部ID/模型预算上界和服务端权威保持。旧1fail2pass，18相关单测557ms、live编译、16四视口22.8s；目录先0写后单一UPSERT_MODEL，provider/route/key无写。证据catalog-registration。无新API/依赖/Store/后台/模型调用，不重跑完整发行/APK。此前c069实际定向CI99Core/70unit/56浏览器及Node通过，不冒充新源码full。原A–H/续配/native/真实提供商未完；CURRENT/生产不动。

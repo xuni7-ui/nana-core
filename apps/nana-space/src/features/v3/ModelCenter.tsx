@@ -173,7 +173,8 @@ export function ModelCenter({
           {catalog[p.id] && <label>服务商返回的模型<select defaultValue="" onChange={e => {
             if (!e.target.value) return;
             setDraft(current => ({...current, modelId:e.target.value, alias:e.target.value}));
-            setProviderId(p.id); setEditor(true); setProposal(""); setValidation([]);
+            setProviderId(p.id); setModelId("model.catalog-"+crypto.randomUUID().replaceAll("-", "").slice(0,16));
+            setEditor(true); setProposal(""); setValidation([]);
           }}><option value="">选择后填入配置草稿</option>{catalog[p.id].map(id => <option key={id} value={id}>{id}</option>)}</select></label>}
         </div>)}
       </section>}

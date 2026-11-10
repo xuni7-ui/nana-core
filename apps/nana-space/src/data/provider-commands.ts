@@ -21,7 +21,7 @@ export function providerCommand(
   providerId: string,
   revision: number,
 ): ProviderCommand {
-  const errors = validateProviderDraft(draft);
+  const errors = validateProviderDraft(draft, "PROVIDER");
   if (errors.length) throw new Error(errors[0]);
   if (draft.protocol !== "OPENAI_COMPATIBLE_CHAT")
     throw new Error(
@@ -50,7 +50,7 @@ export function modelCommand(
   modelId: string,
   revision: number,
 ): ProviderCommand {
-  const errors = validateProviderDraft(draft);
+  const errors = validateProviderDraft(draft, "MODEL");
   if (errors.length) throw new Error(errors[0]);
   const op = draft.operation;
   const inputs: Partial<

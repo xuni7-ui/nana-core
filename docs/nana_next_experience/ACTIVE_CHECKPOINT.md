@@ -1,3 +1,11 @@
+# Active continuation — catalog selection reaches explicit model registration
+
+Predecessorc069 exact targetedCI42918753431 PASS99Core/70unit/56browser/build/Node; original full/install/sandbox intentionally NOT_RUN. Current UI-only batch separates provider/model field validation and generates valid internalID on catalog selection, preserving existing provider reference/HTTPS/protocol/budgets/explicit writes. Frozen1fail2pass; fixed18provider unit,livebuild,16four-width catalog+wizard browser passed. Evidence catalog-registration-20261111. No new API/store/model call/APK/production.
+
+Next actual source: advanced Life OpportunityQueue defaultdaily_limit8 still competes with independent no-model decisions. Before any change distinguish bounded CPU/storage scheduling from fixed lifetime count, inspect unchanged-source intake dedup and original explicit operator quota; do not simply delete bounds. Source intake local content already digest-stable (read actual code). Natural multi-input C purpose/draft/interrupt, model setup resumable steps/native/actual provider, originalG wider independent transfer/retrieval/storage/privacy/fullrequestToken and all A–H persist. Current/sourceBrain supersedes old817 scheduled prompt. Skip unchanged CI components, reuse original evidence, no artifact403 retry without new path. CURRENT266+409 unchanged; realmodel/account/phone/human/long-term/production remain separate.
+
+---
+
 # Active continuation — storage demand is capacity, not fatigue
 
 Legal sourcec30ef76 normally merged BPR12 after ownmodel setup8e3f3fb. Current new source removes onlyLARGE storage estimate→HIGH cognitive_load conversion in originalOpportunityQueue; full estimate/ranking and actual disk/execution gates unchanged. Strict first1fail/5pass, fixed86related9.57s; no action/model. CI path selector now skips unchanged counterpart component (workflow/manual/bridge/contracts select both); all original tests/full-release assertions retained. Evidence storage-estimate-and-attention-20261111.

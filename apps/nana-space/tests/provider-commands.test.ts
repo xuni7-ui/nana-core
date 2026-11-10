@@ -31,3 +31,16 @@ test("unsupported protocol, wrong IDs and repeated fallback refuse locally", () 
   const r = routeCommand("COGNITION", "model.a", ["model.b"], 5);
   expect(r.route?.permitted_privacy).toEqual(["PUBLIC", "PROJECT"]);
 });
+
+test("provider and selected-model registration validate only their own fields", () => {
+  const provider=providerCommand({...draft(),modelId:'',contextLimit:0,outputLimit:0},'provider.catalog',4);
+  expect(provider.provider?.base_url).toBe('https://provider.example/v1');
+  expect(provider.model).toBeUndefined();
+  const model=modelCommand({...draft(),displayName:'',baseUrl:''},'provider.catalog','model.selected',5);
+  expect(model.model?.remote_model_id).toBe('same.model');
+  expect(model.model?.provider_profile_id).toBe('provider.catalog');
+  expect(model.provider).toBeUndefined();
+  expect(()=>providerCommand({...draft(),baseUrl:'http://untrusted.example'},'provider.catalog',4)).toThrow();
+  expect(()=>modelCommand({...draft(),modelId:''},'provider.catalog','model.selected',5)).toThrow();
+  expect(()=>modelCommand({...draft(),contextLimit:0},'provider.catalog','model.selected',5)).toThrow();
+});

@@ -866,10 +866,16 @@ test("Daily chat: message area owns the screen and options remain reachable", as
   }
 });
 
-test("SYNTHETIC model catalog: explicit list read fills draft without switching routes", async ({page}) => {
+test("SYNTHETIC model catalog: explicit list read fills draft and registers only the chosen model", async ({page}) => {
   const state = await installMock(page);
   state.catalogEnabled = true;
-  state.capabilities = {provider_model_discovery:true};
+  state.capabilities = {provider_model_discovery:true,provider_configuration_write:true};
+  const commands:Record<string,unknown>[]=[];
+  await page.route(`**${API}providers/commands`,async route=>{
+    const body=route.request().postDataJSON();commands.push(body.command);state.revision++;
+    return route.fulfill({status:200,json:envelope(state,{receipt_id:body.client_request_id,state:'VERIFIED',
+      dispatch_happened:true,result:{configuration_revision:5}})});
+  });
   await open(page, "models");
   const catalog = page.getByLabel("读取服务商模型");
   await catalog.getByRole("button", {name:/读取 .* 模型/}).click();
@@ -877,6 +883,15 @@ test("SYNTHETIC model catalog: explicit list read fills draft without switching 
   await expect(page.getByLabel("远端 Model ID", {exact:true})).toHaveValue("catalog.new");
   expect(state.requests.filter(r => r.path==="providers/models")).toHaveLength(1);
   expect(state.requests.filter(r => r.method!=="GET")).toHaveLength(0);
+  const modelId=await page.getByLabel("模型配置 ID",{exact:true}).inputValue();
+  expect(modelId).toMatch(/^model\.catalog-[a-f0-9]{16}$/);
+  await page.getByRole('button',{name:'注册模型配置',exact:true}).click();
+  await expect.poll(()=>commands.length).toBe(1);
+  expect(commands[0].operation).toBe('UPSERT_MODEL');
+  expect(commands[0].expected_revision).toBe(4);
+  expect(commands[0].model).toMatchObject({model_profile_id:modelId,provider_profile_id:'provider.catalog',remote_model_id:'catalog.new'});
+  expect(commands[0].provider).toBeUndefined();expect(commands[0].route).toBeUndefined();
+  await expect(page.getByText('最近操作 · 已完成',{exact:true})).toBeVisible();
   await noHorizontalOverflow(page);
 });
 

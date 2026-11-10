@@ -394,9 +394,10 @@ export function newProviderDraft(presetId = "compatible"): ProviderDraft {
     outputLimit: 1024,
   };
 }
-export function validateProviderDraft(draft: ProviderDraft): string[] {
+export function validateProviderDraft(draft: ProviderDraft, section: "ALL" | "PROVIDER" | "MODEL" = "ALL"): string[] {
   const errors: string[] = [];
-  if (!draft.displayName.trim()) errors.push("请填写供应商显示名称。");
+  if (section !== "MODEL" && !draft.displayName.trim()) errors.push("请填写供应商显示名称。");
+  if (section !== "MODEL") {
   if (draft.protocol === "LOCAL") {
     if (draft.baseUrl)
       errors.push("LOCAL 草稿不使用 remote Base URL；需宿主本地适配器。");
@@ -404,22 +405,23 @@ export function validateProviderDraft(draft: ProviderDraft): string[] {
     errors.push(
       "请使用已确认的 HTTPS Base URL；不能包含凭据、查询参数或 completion 路径。",
     );
-  if (!/^[A-Za-z0-9][A-Za-z0-9._:/-]{0,95}$/.test(draft.modelId))
+  }
+  if (section !== "PROVIDER" && !/^[A-Za-z0-9][A-Za-z0-9._:/-]{0,95}$/.test(draft.modelId))
     errors.push("请填写明确的远端 Model ID（最多96字符）。");
-  if (
+  if (section !== "MODEL" && (
     !Number.isSafeInteger(draft.timeoutMs) ||
     draft.timeoutMs < 50 ||
     draft.timeoutMs > 600000
-  )
+  ))
     errors.push("超时必须介于50与600000ms；实际仍与运行时上限求交。");
-  if (
+  if (section !== "PROVIDER" && (
     !Number.isSafeInteger(draft.contextLimit) ||
     !Number.isSafeInteger(draft.outputLimit) ||
     draft.contextLimit < 256 ||
     draft.contextLimit > 2000000 ||
     draft.outputLimit < 1 ||
     draft.outputLimit > 131072
-  )
+  ))
     errors.push("上下文或输出上限超出 Core DTO 范围。");
   return errors;
 }

@@ -1,0 +1,30 @@
+
+ RUN  v3.2.7 /workspace/nana-unified-release/apps/nana-space
+
+ ❯ tests/provider-commands.test.ts (3 tests | 1 failed) 17ms
+   ✓ commands use original model/provider IDs and exact config revision without secrets 4ms
+   ✓ unsupported protocol, wrong IDs and repeated fallback refuse locally 1ms
+   × provider and selected-model registration validate only their own fields 11ms
+     → 请填写明确的远端 Model ID（最多96字符）。
+
+⎯⎯⎯⎯⎯⎯⎯ Failed Tests 1 ⎯⎯⎯⎯⎯⎯⎯
+
+ FAIL  tests/provider-commands.test.ts > provider and selected-model registration validate only their own fields
+Error: 请填写明确的远端 Model ID（最多96字符）。
+ ❯ providerCommand src/data/provider-commands.ts:25:28
+     23| ): ProviderCommand {
+     24|   const errors = validateProviderDraft(draft);
+     25|   if (errors.length) throw new Error(errors[0]);
+       |                            ^
+     26|   if (draft.protocol !== "OPENAI_COMPATIBLE_CHAT")
+     27|     throw new Error(
+ ❯ tests/provider-commands.test.ts:36:18
+
+⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯⎯[1/1]⎯
+
+
+ Test Files  1 failed (1)
+      Tests  1 failed | 2 passed (3)
+   Start at  22:59:11
+   Duration  406ms (transform 108ms, setup 0ms, collect 101ms, tests 17ms, environment 0ms, prepare 108ms)
+

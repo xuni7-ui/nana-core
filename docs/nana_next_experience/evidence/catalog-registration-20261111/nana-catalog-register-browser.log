@@ -1,0 +1,42 @@
+[WebServer] (node:17382) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:17395) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 16 tests using 1 worker
+
+(node:17413) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/16] [desktop] › tests/v3.spec.ts:869:1 › SYNTHETIC model catalog: explicit list read fills draft and registers only the chosen model
+[2/16] [desktop] › tests/v3.spec.ts:1274:66 › SYNTHETIC model setup: numeric UUID SAVED
+[3/16] [desktop] › tests/v3.spec.ts:1274:66 › SYNTHETIC model setup: numeric UUID LOST_ACK
+[4/16] [desktop] › tests/v3.spec.ts:1274:66 › SYNTHETIC model setup: numeric UUID REJECTED
+(node:17646) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[5/16] [phone-360] › tests/v3.spec.ts:869:1 › SYNTHETIC model catalog: explicit list read fills draft and registers only the chosen model
+[6/16] [phone-360] › tests/v3.spec.ts:1274:66 › SYNTHETIC model setup: numeric UUID SAVED
+[7/16] [phone-360] › tests/v3.spec.ts:1274:66 › SYNTHETIC model setup: numeric UUID LOST_ACK
+[8/16] [phone-360] › tests/v3.spec.ts:1274:66 › SYNTHETIC model setup: numeric UUID REJECTED
+(node:17886) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[9/16] [phone-390] › tests/v3.spec.ts:869:1 › SYNTHETIC model catalog: explicit list read fills draft and registers only the chosen model
+[10/16] [phone-390] › tests/v3.spec.ts:1274:66 › SYNTHETIC model setup: numeric UUID SAVED
+[11/16] [phone-390] › tests/v3.spec.ts:1274:66 › SYNTHETIC model setup: numeric UUID LOST_ACK
+[12/16] [phone-390] › tests/v3.spec.ts:1274:66 › SYNTHETIC model setup: numeric UUID REJECTED
+(node:18125) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[13/16] [phone-412] › tests/v3.spec.ts:869:1 › SYNTHETIC model catalog: explicit list read fills draft and registers only the chosen model
+[14/16] [phone-412] › tests/v3.spec.ts:1274:66 › SYNTHETIC model setup: numeric UUID SAVED
+[15/16] [phone-412] › tests/v3.spec.ts:1274:66 › SYNTHETIC model setup: numeric UUID LOST_ACK
+[16/16] [phone-412] › tests/v3.spec.ts:1274:66 › SYNTHETIC model setup: numeric UUID REJECTED
+  16 passed (22.8s)
