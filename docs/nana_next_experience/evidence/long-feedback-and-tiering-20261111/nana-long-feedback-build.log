@@ -1,0 +1,36 @@
+vite v6.4.5 building for live...
+transforming...
+✓ 1785 modules transformed.
+rendering chunks...
+computing gzip size...
+../../../../tmp/nana-long-feedback-dist/index.html                          0.74 kB │ gzip:  0.47 kB
+../../../../tmp/nana-long-feedback-dist/assets/CoreApp-DlTee8Ns.css         3.31 kB │ gzip:  0.99 kB
+../../../../tmp/nana-long-feedback-dist/assets/ExplorePages-S7BqOZCt.css   12.93 kB │ gzip:  2.95 kB
+../../../../tmp/nana-long-feedback-dist/assets/settings-s7FLzCO4.css       19.37 kB │ gzip:  3.76 kB
+../../../../tmp/nana-long-feedback-dist/assets/index-CBiVU63E.css          39.56 kB │ gzip:  9.18 kB
+../../../../tmp/nana-long-feedback-dist/assets/LiveSpace-BK9hKw5E.css      51.18 kB │ gzip: 10.21 kB
+../../../../tmp/nana-long-feedback-dist/assets/clock-3-DLoP6Qx8.js          0.35 kB │ gzip:  0.27 kB
+../../../../tmp/nana-long-feedback-dist/assets/eye-C40uZZbE.js              0.42 kB │ gzip:  0.30 kB
+../../../../tmp/nana-long-feedback-dist/assets/lock-keyhole-BW0H0aOe.js     0.42 kB │ gzip:  0.32 kB
+../../../../tmp/nana-long-feedback-dist/assets/shield-check-DQXj-QCp.js     0.48 kB │ gzip:  0.35 kB
+../../../../tmp/nana-long-feedback-dist/assets/radio-Gs2Ky7hR.js            0.83 kB │ gzip:  0.40 kB
+../../../../tmp/nana-long-feedback-dist/assets/refresh-cw-bq2plaR5.js       0.84 kB │ gzip:  0.42 kB
+../../../../tmp/nana-long-feedback-dist/assets/sparkles-BccHF_5F.js         0.92 kB │ gzip:  0.44 kB
+../../../../tmp/nana-long-feedback-dist/assets/smartphone-BIrWH-5v.js       1.08 kB │ gzip:  0.46 kB
+../../../../tmp/nana-long-feedback-dist/assets/plus-Dy10whTE.js             1.16 kB │ gzip:  0.46 kB
+../../../../tmp/nana-long-feedback-dist/assets/Avatar-D_nE2o68.js           1.58 kB │ gzip:  0.93 kB
+../../../../tmp/nana-long-feedback-dist/assets/upload-B2uc9w3G.js           1.69 kB │ gzip:  0.67 kB
+../../../../tmp/nana-long-feedback-dist/assets/ui-BSAJmtxo.js               1.69 kB │ gzip:  0.64 kB
+../../../../tmp/nana-long-feedback-dist/assets/sun-CQZy4alT.js              1.85 kB │ gzip:  0.59 kB
+../../../../tmp/nana-long-feedback-dist/assets/monitor-COimvWSL.js          1.94 kB │ gzip:  0.70 kB
+../../../../tmp/nana-long-feedback-dist/assets/x-BaziIDVi.js                2.42 kB │ gzip:  0.83 kB
+../../../../tmp/nana-long-feedback-dist/assets/preferences-BfojDQuH.js      3.31 kB │ gzip:  1.24 kB
+../../../../tmp/nana-long-feedback-dist/assets/ChatPage-BmzOTY03.js         7.31 kB │ gzip:  3.42 kB
+../../../../tmp/nana-long-feedback-dist/assets/SettingsPage-B8ujGlgA.js    10.20 kB │ gzip:  4.67 kB
+../../../../tmp/nana-long-feedback-dist/assets/RuntimePage-tgCSZLVM.js     16.46 kB │ gzip:  6.42 kB
+../../../../tmp/nana-long-feedback-dist/assets/CoreApp-PNJRW1ke.js         19.67 kB │ gzip:  8.37 kB
+../../../../tmp/nana-long-feedback-dist/assets/ExplorePages-CLoXIwRG.js    27.19 kB │ gzip:  8.98 kB
+../../../../tmp/nana-long-feedback-dist/assets/index-BrChNHSn.js          120.23 kB │ gzip: 37.21 kB
+../../../../tmp/nana-long-feedback-dist/assets/LiveSpace-CkmYG9Dj.js      166.11 kB │ gzip: 55.92 kB
+../../../../tmp/nana-long-feedback-dist/assets/index-BiaiA_gp.js          228.04 kB │ gzip: 71.41 kB
+✓ built in 3.17s

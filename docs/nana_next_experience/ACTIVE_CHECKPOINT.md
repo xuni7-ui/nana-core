@@ -1,3 +1,13 @@
+# Active continuation — long feedback integrated; innovation-first tiered checks
+
+Parent63e4e32 now has actual fullCI42874916032 PASS2171/12skip703.70s and matching independent install1originalfocus C→RENDER+7quiet,137Core modules bundle-bound. Current long feedback feature adds original full-response SHA binding without lifting legacySample2048 or duplicating text; long source example≤384 marked excerpt. Existing consent wire tuple bug fixed with strict field-level check.71affected backend52.99s,70frontend,40four-size browsers/build and old6fd DTO2sample read passed. First failures retained; no full release/install of this feature claimed. Evidence long-feedback-and-tiering-20261111.
+
+User innovation-first principle is persisted in task_inputs/INNOVATION_FIRST_AND_ENGINEERING_SIMPLIFICATION_2026_11_11.md and10decisions: experiments targeted, integration affected, full only release/migration. Existing full assertions retained behind explicitfull; do not spend another cycle on knownartifact403 without new route. OriginalA–H remains.
+
+Remote legal24e43c7 includes B PR9/10 portable-path CI coverage/platform guide, no business source changes; normal integrate pending this batch. Continue originalC A–E: due commitments currently only exempt adoptedEXPLORE/CREATE, not adopted learning/social/rest; high cognitive load and risk/cost branches still coarsely forceREST. Diagnose with actual original source-backed motive and capacity evidence, no blind guard deletion. Natural multi-message purpose/draft/interrupt and model wizard remain. No production/CURRENT/APK/realmodel/account/phone updates.
+
+---
+
 # Active continuation — FOCUS original C purpose is responsive, not always clarification
 
 After normal governance merge718df77, source context_fit.choose changed onlyFOCUS: THINK_MORE/SOCIAL_INTERACTION with supplied-details/clarify-only-missing purpose, allow_new_workfalse, original delivery boundaries preserved; UNCLEAR stillASK/WAIT. FrozenSubjecttest failed first;159vision/person-self/independent tests53.06s plus separate1actual loopback INTERPRET→C→RENDER purpose binding0.71s passed. Source/test/workflow/evidence current batch pending push; successor full/install needed. Evidence focus-purpose-20261110.

@@ -1,0 +1,116 @@
+FFFF                                                                     [100%]
+=================================== FAILURES ===================================
+_ test_long_reply_feedback_uses_original_exchange_hash_and_verify_only[False-ascii] _
+
+running = (<nana_core.life.live_api.server.ApiServer object at 0x7fc550415250>, <nana_core.life.live_api.bridge.GatewayService object at 0x7fc550413b00>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fc550411ee0>
+reply = 'SYNTHETIC long explanation. long explanation. long explanation. long explanation. long explanation. long explanation....lanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. '
+lost_ack = False
+
+    @pytest.mark.parametrize('reply', ['SYNTHETIC '+('long explanation. '*180),'🌙'*3000], ids=['ascii','unicode'])
+    @pytest.mark.parametrize('lost_ack',[False,True])
+    def test_long_reply_feedback_uses_original_exchange_hash_and_verify_only(running,monkeypatch,reply,lost_ack):
+        server,service=running;headers=login(server,service)
+        identity=service.binding.subject_id
+        service.supervisor.stop()
+        with relay(service.supervisor.home,'CHAT',renderer=lambda _:reply,stream_fixture={}) as (router,requests):
+            with LifeApplication(service.supervisor.home,clock=VirtualClock(time.time_ns()//1000),router=router) as app:
+                app.pause();app.response_sink=lambda _:None
+                turn=app.chat('SYNTHETIC explicit retained long reply',privacy='PROJECT',retain_shared_life=True)
+>               assert app.runtime.identity_id==identity and turn['text']==reply
+E               AssertionError: assert ('1ccb9a27-1c7...-d69cde798144' == '1ccb9a27-1c7...-d69cde798144'
+E                 
+E                   1ccb9a27-1c71-4089-a221-d69cde798144 and '本次授权的模型调用次数已经用完。' == 'SYNTHETIC lo...explanation. '
+E                 
+E                 - SYNTHETIC long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. ...
+E                 
+E                 ...Full output truncated (2 lines hidden), use '-vv' to show)
+
+tests/first_life_android_v2/test_long_feedback.py:22: AssertionError
+_ test_long_reply_feedback_uses_original_exchange_hash_and_verify_only[False-unicode] _
+
+running = (<nana_core.life.live_api.server.ApiServer object at 0x7fc5501db260>, <nana_core.life.live_api.bridge.GatewayService object at 0x7fc5505c64b0>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fc5501db710>
+reply = '🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙...🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙'
+lost_ack = False
+
+    @pytest.mark.parametrize('reply', ['SYNTHETIC '+('long explanation. '*180),'🌙'*3000], ids=['ascii','unicode'])
+    @pytest.mark.parametrize('lost_ack',[False,True])
+    def test_long_reply_feedback_uses_original_exchange_hash_and_verify_only(running,monkeypatch,reply,lost_ack):
+        server,service=running;headers=login(server,service)
+        identity=service.binding.subject_id
+        service.supervisor.stop()
+        with relay(service.supervisor.home,'CHAT',renderer=lambda _:reply,stream_fixture={}) as (router,requests):
+            with LifeApplication(service.supervisor.home,clock=VirtualClock(time.time_ns()//1000),router=router) as app:
+                app.pause();app.response_sink=lambda _:None
+                turn=app.chat('SYNTHETIC explicit retained long reply',privacy='PROJECT',retain_shared_life=True)
+>               assert app.runtime.identity_id==identity and turn['text']==reply
+E               AssertionError: assert ('8e7b5a6e-447...-a4535a095ee9' == '8e7b5a6e-447...-a4535a095ee9'
+E                 
+E                   8e7b5a6e-4474-4e42-be7e-a4535a095ee9 and '本次授权的模型调用次数已经用完。' == '🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙...🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙'
+E                 
+E                 - 🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙...
+E                 
+E                 ...Full output truncated (2 lines hidden), use '-vv' to show)
+
+tests/first_life_android_v2/test_long_feedback.py:22: AssertionError
+_ test_long_reply_feedback_uses_original_exchange_hash_and_verify_only[True-ascii] _
+
+running = (<nana_core.life.live_api.server.ApiServer object at 0x7fc55018dfd0>, <nana_core.life.live_api.bridge.GatewayService object at 0x7fc5502b01d0>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fc5502b2300>
+reply = 'SYNTHETIC long explanation. long explanation. long explanation. long explanation. long explanation. long explanation....lanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. '
+lost_ack = True
+
+    @pytest.mark.parametrize('reply', ['SYNTHETIC '+('long explanation. '*180),'🌙'*3000], ids=['ascii','unicode'])
+    @pytest.mark.parametrize('lost_ack',[False,True])
+    def test_long_reply_feedback_uses_original_exchange_hash_and_verify_only(running,monkeypatch,reply,lost_ack):
+        server,service=running;headers=login(server,service)
+        identity=service.binding.subject_id
+        service.supervisor.stop()
+        with relay(service.supervisor.home,'CHAT',renderer=lambda _:reply,stream_fixture={}) as (router,requests):
+            with LifeApplication(service.supervisor.home,clock=VirtualClock(time.time_ns()//1000),router=router) as app:
+                app.pause();app.response_sink=lambda _:None
+                turn=app.chat('SYNTHETIC explicit retained long reply',privacy='PROJECT',retain_shared_life=True)
+>               assert app.runtime.identity_id==identity and turn['text']==reply
+E               AssertionError: assert ('5149369d-713...-35c4597f4e98' == '5149369d-713...-35c4597f4e98'
+E                 
+E                   5149369d-7136-4821-8621-35c4597f4e98 and '本次授权的模型调用次数已经用完。' == 'SYNTHETIC lo...explanation. '
+E                 
+E                 - SYNTHETIC long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. ...
+E                 
+E                 ...Full output truncated (2 lines hidden), use '-vv' to show)
+
+tests/first_life_android_v2/test_long_feedback.py:22: AssertionError
+_ test_long_reply_feedback_uses_original_exchange_hash_and_verify_only[True-unicode] _
+
+running = (<nana_core.life.live_api.server.ApiServer object at 0x7fc550192bd0>, <nana_core.life.live_api.bridge.GatewayService object at 0x7fc55018f950>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fc550192f00>
+reply = '🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙...🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙'
+lost_ack = True
+
+    @pytest.mark.parametrize('reply', ['SYNTHETIC '+('long explanation. '*180),'🌙'*3000], ids=['ascii','unicode'])
+    @pytest.mark.parametrize('lost_ack',[False,True])
+    def test_long_reply_feedback_uses_original_exchange_hash_and_verify_only(running,monkeypatch,reply,lost_ack):
+        server,service=running;headers=login(server,service)
+        identity=service.binding.subject_id
+        service.supervisor.stop()
+        with relay(service.supervisor.home,'CHAT',renderer=lambda _:reply,stream_fixture={}) as (router,requests):
+            with LifeApplication(service.supervisor.home,clock=VirtualClock(time.time_ns()//1000),router=router) as app:
+                app.pause();app.response_sink=lambda _:None
+                turn=app.chat('SYNTHETIC explicit retained long reply',privacy='PROJECT',retain_shared_life=True)
+>               assert app.runtime.identity_id==identity and turn['text']==reply
+E               AssertionError: assert ('b8029a51-22d...-1b3651febf51' == 'b8029a51-22d...-1b3651febf51'
+E                 
+E                   b8029a51-22d8-494d-824c-1b3651febf51 and '本次授权的模型调用次数已经用完。' == '🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙...🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙'
+E                 
+E                 - 🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙...
+E                 
+E                 ...Full output truncated (2 lines hidden), use '-vv' to show)
+
+tests/first_life_android_v2/test_long_feedback.py:22: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_android_v2/test_long_feedback.py::test_long_reply_feedback_uses_original_exchange_hash_and_verify_only[False-ascii]
+FAILED tests/first_life_android_v2/test_long_feedback.py::test_long_reply_feedback_uses_original_exchange_hash_and_verify_only[False-unicode]
+FAILED tests/first_life_android_v2/test_long_feedback.py::test_long_reply_feedback_uses_original_exchange_hash_and_verify_only[True-ascii]
+FAILED tests/first_life_android_v2/test_long_feedback.py::test_long_reply_feedback_uses_original_exchange_hash_and_verify_only[True-unicode]
+4 failed in 6.68s

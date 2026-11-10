@@ -1743,6 +1743,19 @@
             "const": true,
             "title": "Consent",
             "type": "boolean"
+          },
+          "response_sha256": {
+            "anyOf": [
+              {
+                "pattern": "^[a-f0-9]{64}$",
+                "type": "string"
+              },
+              {
+                "type": "null"
+              }
+            ],
+            "default": null,
+            "title": "Response Sha256"
           }
         },
         "required": [

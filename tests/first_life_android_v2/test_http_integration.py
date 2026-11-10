@@ -290,6 +290,7 @@ def test_explicit_feedback_reaches_original_store_once(running):
     assert exchange
     sample={'sample_id':'client-local-review','review_target':exchange,'mode':'CASUAL',
         'context':'SYNTHETIC retained greeting','candidate_response':turn['text'],
+        'reason_tags':['TOO_VERBOSE'],
         'human_judgment':'PARTIAL','exact_feedback':'SYNTHETIC concise preference',
         'provenance':'USER_PROVIDED_REVIEW','observed_at_us':__import__('time').time_ns()//1000}
     request={**base(service,'feedback-once'),'exchange_record_id':exchange,'sample':sample,'consent':True}

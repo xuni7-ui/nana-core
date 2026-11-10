@@ -100,6 +100,7 @@ export type LanguageFeedbackRequest = {
   "sample": LanguageSample;
   "exchange_record_id": string;
   "consent": true;
+  "response_sha256"?: (string | null);
 };
 
 export type LanguageSample = {

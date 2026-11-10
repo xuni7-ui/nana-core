@@ -16,7 +16,7 @@ import { Avatar } from "../../avatar/Avatar";
 import { Blank } from "./LifeViews";
 import { readinessLabel } from "../../data/readiness";
 import { transcribe, readAloud, stopSpeech } from "../../data/speech";
-import { memoryUseModes, type FeedbackChoice, type MemoryUseSource } from "../../data/feedback";
+import { memoryUseModes, reviewableResponse, type FeedbackChoice, type MemoryUseSource } from "../../data/feedback";
 import type { MemoryUseFeedback } from "../../data/v2.generated";
 export type { FeedbackTag } from "../../data/feedback";
 const memoryReceiptKey = (turnId: string, memoryId: string) => `${turnId}/memory/${memoryId}`;
@@ -94,6 +94,7 @@ export function ChatPane({
   onFeedback,
   onVerifyFeedback,
   memoryFeedback = false,
+  longFeedback = false,
   canQueue = false,
   queuedCount = 0,
   cancelQueued,
@@ -101,6 +102,7 @@ export function ChatPane({
   onFeedback?: (turn: Turn, choice: FeedbackChoice) => Promise<{id:string;state:string}>;
   onVerifyFeedback?: (id:string) => Promise<{id:string;state:string}>;
   memoryFeedback?: boolean;
+  longFeedback?: boolean;
   canQueue?: boolean;
   queuedCount?: number;
   cancelQueued?: (id: string) => void;
@@ -338,7 +340,7 @@ export function ChatPane({
                   </span>
                   {t.state === "WAITING_LOCAL" && cancelQueued &&
                     <button aria-label="取消这条待发消息" onClick={() => cancelQueued(t.id)}>取消待发</button>}
-                  {onFeedback && t.state==="VERIFIED" && t.exchangeId && t.reply && t.reply.length<=2048 &&
+                  {onFeedback && t.state==="VERIFIED" && t.exchangeId && t.reply && reviewableResponse(t.reply,longFeedback) &&
                     <button aria-label="评价这条回复" onClick={()=>setFeedbackTurn(feedbackTurn===t.id?undefined:t.id)}>交流反馈</button>}
                   {t.reply && <button aria-label="引用这条回复" onClick={() => { onDraft(`引用：${t.reply!.slice(0, 500)}\n\n${draft}`); }}>引用</button>}
                   {t.reply && (

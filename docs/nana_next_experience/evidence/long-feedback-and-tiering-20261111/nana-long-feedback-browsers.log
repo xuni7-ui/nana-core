@@ -1,0 +1,66 @@
+[WebServer] (node:10954) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:10971) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 40 tests using 1 worker
+
+(node:10988) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/40] [desktop] › tests/v3.spec.ts:1057:1 › SYNTHETIC complete retained long reply restores and withdrawal removes it
+[2/40] [desktop] › tests/v3.spec.ts:1075:1 › SYNTHETIC explicit reply feedback saves once and UNKNOWN only checks its receipt
+[3/40] [desktop] › tests/v3.spec.ts:1108:3 › SYNTHETIC four memory-use feedback EXPLICIT_RECALL binds source and verifies UNKNOWN without resending
+[4/40] [desktop] › tests/v3.spec.ts:1108:3 › SYNTHETIC four memory-use feedback NATURAL_REFERENCE binds source and verifies UNKNOWN without resending
+[5/40] [desktop] › tests/v3.spec.ts:1108:3 › SYNTHETIC four memory-use feedback IMPLICIT_REFERENCE binds source and verifies UNKNOWN without resending
+[6/40] [desktop] › tests/v3.spec.ts:1108:3 › SYNTHETIC four memory-use feedback DO_NOT_MENTION binds source and verifies UNKNOWN without resending
+[7/40] [desktop] › tests/v3.spec.ts:1148:1 › SYNTHETIC local chat inbox waits, can cancel, and sends remaining turns in order
+[8/40] [desktop] › tests/v3.spec.ts:1177:1 › SYNTHETIC local chat inbox clears queued text after an unknown original receipt
+[9/40] [desktop] › tests/v3.spec.ts:1197:1 › SYNTHETIC local chat inbox expires unsent bodies while the original request is pending
+[10/40] [desktop] › tests/v3.spec.ts:1227:1 › SYNTHETIC long reply feedback binds full Unicode response without reposting its body
+(node:11443) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[11/40] [phone-360] › tests/v3.spec.ts:1057:1 › SYNTHETIC complete retained long reply restores and withdrawal removes it
+[12/40] [phone-360] › tests/v3.spec.ts:1075:1 › SYNTHETIC explicit reply feedback saves once and UNKNOWN only checks its receipt
+[13/40] [phone-360] › tests/v3.spec.ts:1108:3 › SYNTHETIC four memory-use feedback EXPLICIT_RECALL binds source and verifies UNKNOWN without resending
+[14/40] [phone-360] › tests/v3.spec.ts:1108:3 › SYNTHETIC four memory-use feedback NATURAL_REFERENCE binds source and verifies UNKNOWN without resending
+[15/40] [phone-360] › tests/v3.spec.ts:1108:3 › SYNTHETIC four memory-use feedback IMPLICIT_REFERENCE binds source and verifies UNKNOWN without resending
+[16/40] [phone-360] › tests/v3.spec.ts:1108:3 › SYNTHETIC four memory-use feedback DO_NOT_MENTION binds source and verifies UNKNOWN without resending
+[17/40] [phone-360] › tests/v3.spec.ts:1148:1 › SYNTHETIC local chat inbox waits, can cancel, and sends remaining turns in order
+[18/40] [phone-360] › tests/v3.spec.ts:1177:1 › SYNTHETIC local chat inbox clears queued text after an unknown original receipt
+[19/40] [phone-360] › tests/v3.spec.ts:1197:1 › SYNTHETIC local chat inbox expires unsent bodies while the original request is pending
+[20/40] [phone-360] › tests/v3.spec.ts:1227:1 › SYNTHETIC long reply feedback binds full Unicode response without reposting its body
+(node:11890) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[21/40] [phone-390] › tests/v3.spec.ts:1057:1 › SYNTHETIC complete retained long reply restores and withdrawal removes it
+[22/40] [phone-390] › tests/v3.spec.ts:1075:1 › SYNTHETIC explicit reply feedback saves once and UNKNOWN only checks its receipt
+[23/40] [phone-390] › tests/v3.spec.ts:1108:3 › SYNTHETIC four memory-use feedback EXPLICIT_RECALL binds source and verifies UNKNOWN without resending
+[24/40] [phone-390] › tests/v3.spec.ts:1108:3 › SYNTHETIC four memory-use feedback NATURAL_REFERENCE binds source and verifies UNKNOWN without resending
+[25/40] [phone-390] › tests/v3.spec.ts:1108:3 › SYNTHETIC four memory-use feedback IMPLICIT_REFERENCE binds source and verifies UNKNOWN without resending
+[26/40] [phone-390] › tests/v3.spec.ts:1108:3 › SYNTHETIC four memory-use feedback DO_NOT_MENTION binds source and verifies UNKNOWN without resending
+[27/40] [phone-390] › tests/v3.spec.ts:1148:1 › SYNTHETIC local chat inbox waits, can cancel, and sends remaining turns in order
+[28/40] [phone-390] › tests/v3.spec.ts:1177:1 › SYNTHETIC local chat inbox clears queued text after an unknown original receipt
+[29/40] [phone-390] › tests/v3.spec.ts:1197:1 › SYNTHETIC local chat inbox expires unsent bodies while the original request is pending
+[30/40] [phone-390] › tests/v3.spec.ts:1227:1 › SYNTHETIC long reply feedback binds full Unicode response without reposting its body
+(node:12338) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[31/40] [phone-412] › tests/v3.spec.ts:1057:1 › SYNTHETIC complete retained long reply restores and withdrawal removes it
+[32/40] [phone-412] › tests/v3.spec.ts:1075:1 › SYNTHETIC explicit reply feedback saves once and UNKNOWN only checks its receipt
+[33/40] [phone-412] › tests/v3.spec.ts:1108:3 › SYNTHETIC four memory-use feedback EXPLICIT_RECALL binds source and verifies UNKNOWN without resending
+[34/40] [phone-412] › tests/v3.spec.ts:1108:3 › SYNTHETIC four memory-use feedback NATURAL_REFERENCE binds source and verifies UNKNOWN without resending
+[35/40] [phone-412] › tests/v3.spec.ts:1108:3 › SYNTHETIC four memory-use feedback IMPLICIT_REFERENCE binds source and verifies UNKNOWN without resending
+[36/40] [phone-412] › tests/v3.spec.ts:1108:3 › SYNTHETIC four memory-use feedback DO_NOT_MENTION binds source and verifies UNKNOWN without resending
+[37/40] [phone-412] › tests/v3.spec.ts:1148:1 › SYNTHETIC local chat inbox waits, can cancel, and sends remaining turns in order
+[38/40] [phone-412] › tests/v3.spec.ts:1177:1 › SYNTHETIC local chat inbox clears queued text after an unknown original receipt
+[39/40] [phone-412] › tests/v3.spec.ts:1197:1 › SYNTHETIC local chat inbox expires unsent bodies while the original request is pending
+[40/40] [phone-412] › tests/v3.spec.ts:1227:1 › SYNTHETIC long reply feedback binds full Unicode response without reposting its body
+  40 passed (50.6s)

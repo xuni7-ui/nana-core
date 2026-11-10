@@ -1933,3 +1933,8 @@ Runtime b257a09 additionally checks active provider work at dialogue session ent
 ### 2026-11-08 · Interrupted-attempt recovery isolated candidate
 
 Runtime4205f31 adds explicit stopped-owner recovery through original exclusive Store lock/lease, expected subject/lineage/epoch and a single event transaction; PREPARED/CALLING/RESERVED become UNKNOWN with reservation preserved, no retry/provider/billing assertion. Related33 tests plus2 owner/real-child CLI tests pass. Actual extracted/offline installed package exercised synthetic pending state after real child exit and idempotent repeat; reproducible/remote-stream SHA67e9926c…ebc14. Delivery5b4f589 is isolated only, selector/APK/production unchanged. Correct namespace and old/new Supervisor compatibility, recovery on real Store, off-host restore, real provider billing and production readiness remain unqualified. Evidence: docs/nana_next_experience/evidence/interrupted-recovery-20261108.
+
+
+### 2026-11-11 · 用户创新优先与分级验证
+
+同一A/B主任务采纳[用户实施补充](../docs/nana_next_experience/task_inputs/INNOVATION_FIRST_AND_ENGINEERING_SIMPLIFICATION_2026_11_11.md)。能力、自主性、体验和可验证成长优先；探索定向对照、集成受影响回归、发行/迁移才完整验证。SUPERSEDES普通源码小改自动重复全仓/双构建/安装的执行习惯，不改变必要身份/数据/授权/投递保证、原十域和生产边界。已定位artifact403单列，不重复耗时。下一能力开发继续原C自主性/自然交流/学习迁移，不能把精简流程本身当总任务。

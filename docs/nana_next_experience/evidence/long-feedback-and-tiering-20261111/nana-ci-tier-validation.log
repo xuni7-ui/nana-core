@@ -1,0 +1,11 @@
+YAML PASS; bash syntax PASS 11 run steps
+Changed-source selection:
+tests/first_life_android_v2/test_continuous_inputs.py
+tests/first_life_android_v2/test_http_integration.py
+tests/first_life_android_v2/test_long_feedback.py
+tests/independent_life/test_dialogue.py
+tests/person_self/test_dialogue_integration.py
+tests/person_self/test_learning.py
+tests/person_self/test_long_feedback_binding.py
+tests/person_self/test_memory_use_feedback.py
+Full original regression/bwrap/oldSQLite/doublebuild/install retained behind explicit full dispatch.

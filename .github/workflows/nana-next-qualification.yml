@@ -3,6 +3,12 @@ name: Nana Next source qualification
 # Explicit qualification of the inherited continuation; no deployment or model calls.
 on:
   workflow_dispatch:
+    inputs:
+      qualification:
+        description: 'Targeted integration, or full release/data-migration qualification'
+        type: choice
+        default: targeted
+        options: [targeted, full]
   push:
     branches: [dev/nana-core-next-experience-codex]
     paths:
@@ -14,6 +20,11 @@ on:
       - src/nana_core/continuity/subject/policy.py
       - src/nana_core/continuity/subject/context_fit.py
       - tests/vision_first/test_context_fit.py
+      - src/nana_core/continuity/lived_language.py
+      - src/nana_core/life/live_api/bridge.py
+      - src/nana_core/life/live_api/contracts.py
+      - tests/first_life_android_v2/test_long_feedback.py
+      - tests/person_self/test_long_feedback_binding.py
       - tests/open_autonomy/test_delivery.py
       - tools/nana_astrbot_shadow/bridge_wire.py
       - src/plugins/astrbot_plugin_nana_shadow_observer/bridge_wire.py
@@ -40,8 +51,10 @@ jobs:
     # runner's container boundary, even when the original probe is otherwise valid.
     env:
       PYTHONDONTWRITEBYTECODE: '1'
+      NANA_FULL_QUALIFICATION: ${{ github.event_name == 'workflow_dispatch' && inputs.qualification == 'full' }}
     steps:
-      - name: Runner tools and read-only old SQLite host fixture
+      - name: Full qualification host and old SQLite fixture
+        if: env.NANA_FULL_QUALIFICATION == 'true'
         run: |
           sudo apt-get update
           sudo apt-get install --yes --no-install-recommends apparmor bubblewrap ffmpeg gnupg
@@ -99,9 +112,11 @@ jobs:
           umask 077
           sudo git config --system --add safe.directory "$GITHUB_WORKSPACE"
           git rev-parse HEAD
-          command -v ffmpeg
-          command -v gpgconf
-          command -v bwrap
+          if [ "$NANA_FULL_QUALIFICATION" = true ]; then
+            command -v ffmpeg
+            command -v gpgconf
+            command -v bwrap
+          fi
           uv python install 3.12.14
           uv venv --python 3.12.14 .qualification-venv
           uv pip install --python .qualification-venv/bin/python -r requirements-core-dev.lock
@@ -113,9 +128,11 @@ jobs:
           PYDEPS
           uv pip install --python .qualification-venv/bin/python -r qualification-feature-requirements.txt
           .qualification-venv/bin/python -c 'import sys,sqlite3; print(sys.version, sqlite3.sqlite_version); assert sqlite3.sqlite_version_info >= (3,51,3)'
-      - name: Complete exact-source regression, original assertions and legacy isolation
+      - name: Full release regression and original sandbox qualification
+        if: env.NANA_FULL_QUALIFICATION == 'true'
         run: |
           umask 077
+          echo full > qualification-level.txt
           export PYTHONPATH="$GITHUB_WORKSPACE/src"
           .qualification-venv/bin/python - <<'PYPREFLIGHT'
           from nana_core.continuity.open_agency import code_skills
@@ -132,7 +149,38 @@ jobs:
           PYPREFLIGHT
           .qualification-venv/bin/python -m pytest -q --junitxml=qualification-core.xml \
             --basetemp=/tmp/nq --old-sqlite-python=/usr/local/bin/nana-old-sqlite-python
+      - name: Affected source integration checks
+        if: env.NANA_FULL_QUALIFICATION != 'true'
+        env:
+          NANA_CHANGE_BASE: ${{ github.event.before }}
+        run: |
+          umask 077
+          echo targeted > qualification-level.txt
+          export PYTHONPATH="$GITHUB_WORKSPACE/src:$GITHUB_WORKSPACE"
+          .qualification-venv/bin/python - <<'PYTARGET'
+          import os, pathlib, subprocess, sys
+          base=os.environ.get('NANA_CHANGE_BASE') or 'HEAD^'
+          if set(base)=={'0'}: base='HEAD^'
+          changed=subprocess.check_output(['git','diff','--name-only',base,'HEAD'],text=True).splitlines()
+          groups=[
+            (('lived_language.py','live_api/bridge.py','live_api/contracts.py','long_feedback','feedback.ts','feedback.test.ts','nana-space-live-v2'),
+             ['tests/person_self/test_memory_use_feedback.py','tests/person_self/test_long_feedback_binding.py','tests/person_self/test_learning.py','tests/person_self/test_dialogue_integration.py','tests/first_life_android_v2/test_long_feedback.py','tests/first_life_android_v2/test_http_integration.py']),
+            (('subject/context_fit.py','test_context_fit.py'), ['tests/vision_first/test_context_fit.py','tests/independent_life/test_dialogue.py']),
+            (('subject/policy.py','tests/open_life/'), ['tests/open_life','tests/open_autonomy/test_delivery.py','tests/open_autonomy/test_planning.py','tests/precision/test_planning.py','tests/precision/test_recovery.py']),
+            (('life/control.py','life/application.py','life/surfaces.py','life/__main__.py','test_continuous_inputs.py'), ['tests/first_life_android_v2/test_continuous_inputs.py','tests/first_life_android_v2/test_http_integration.py','tests/independent_life/test_dialogue.py']),
+            (('continuity/privacy.py','test_privacy_copy_increment.py'), ['tests/continuous_self/test_privacy.py','tests/continuous_self/test_privacy_copy_increment.py','tests/person_self/test_memory_use_feedback.py']),
+            (('bridge_wire.py','test_r044_filesystem.py'), ['tests/nana_shadow/test_r044_filesystem.py','tests/nana_shadow/test_r044_races.py','tests/nana_shadow/test_r044_privacy.py']),
+            (('b1_backup.py','test_rev3_operator.py'), ['tests/first_life_android_v2/test_rev3_operator.py']),
+            (('nana_portable_cloud/','packaging/portable/','requirements-core-dev.lock'), ['tests/engineering_quality/test_portable_missing_import.py','tests/portable_cloud_runtime']),
+            (('continuity/person_self.py',), ['tests/person_self'])]
+          selected=sorted({test for markers, tests in groups if any(any(marker in path for marker in markers) for path in changed) for test in tests})
+          if not selected: selected=['tests/first_life_android_v2/test_http_integration.py']
+          print('TARGETED_CHECKS',selected,flush=True)
+          assert all(pathlib.Path(test).exists() for test in selected)
+          subprocess.run([sys.executable,'-m','pytest','-q','--junitxml=qualification-core.xml','--basetemp=/tmp/nq',*selected],check=True)
+          PYTARGET
       - name: Matching portable candidate, reproducible builds and offline installation
+        if: env.NANA_FULL_QUALIFICATION == 'true'
         run: |
           uv pip install --python .qualification-venv/bin/python pip==25.3
           .qualification-venv/bin/python - <<'PY' > qualification-wheel-requirements.txt
@@ -170,9 +218,12 @@ jobs:
         if: always()
         with:
           name: nana-core-feedback-${{ github.sha }}
-          path: qualification-core.xml
+          path: |
+            qualification-core.xml
+            qualification-level.txt
           retention-days: 14
       - uses: actions/upload-artifact@v4
+        if: env.NANA_FULL_QUALIFICATION == 'true'
         with:
           name: nana-portable-candidate-${{ github.sha }}
           path: qualification-portable
@@ -203,7 +254,7 @@ jobs:
           export default {...base, use: {...base.use,
             launchOptions: {...base.use?.launchOptions, executablePath: undefined}}};
           CONFIG
-          npx playwright test --config playwright.qualification.config.ts --grep 'complete retained long reply|explicit reply feedback|four memory-use feedback|SYNTHETIC local chat inbox'
+          npx playwright test --config playwright.qualification.config.ts --grep 'complete retained long reply|explicit reply feedback|four memory-use feedback|SYNTHETIC local chat inbox|SYNTHETIC long reply feedback'
       - uses: actions/upload-artifact@v4
         if: always()
         with:

@@ -6,7 +6,7 @@ activation is separate from this protocol's implementation and from dev fixtures
 
 from enum import StrEnum
 from typing import Literal
-from pydantic import Field, JsonValue, model_validator
+from pydantic import Field, JsonValue, model_validator, model_serializer, field_validator
 from ...contracts import DTO
 from ...continuity.lived_language import LanguageSample
 
@@ -128,11 +128,18 @@ class LanguageFeedbackRequest(WriteRequest):
     sample: LanguageSample = Field(repr=False)
     exchange_record_id: str = Field(min_length=1, max_length=128)
     consent: Literal[True]
+    response_sha256: str | None = Field(default=None, pattern=r'^[a-f0-9]{64}$')
 
-    @model_validator(mode='before')
+    @model_serializer(mode='wrap')
+    def compatible_response_binding(self, handler):
+        value=handler(self)
+        if self.response_sha256 is None:value.pop('response_sha256',None)
+        return value
+
+    @field_validator('consent', mode='before')
     @classmethod
     def explicit_feedback_consent(cls, value):
-        if not isinstance(value, dict) or value.get('consent') is not True:
+        if value is not True:
             raise ValueError('explicit feedback retention consent required')
         return value
 

@@ -1,0 +1,100 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample[ascii] _
+
+tmp_path = PosixPath('/tmp/nana-long-feedback-core-2/test_long_feedback_binds_full_0')
+reply = 'SYNTHETIC long explanation. long explanation. long explanation. long explanation. long explanation. long explanation....lanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. '
+
+    @pytest.mark.parametrize('reply', ['SYNTHETIC '+('long explanation. '*180), '🌙'*3000], ids=['ascii','unicode'])
+    def test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample(tmp_path, reply):
+        home=tmp_path/'home';initialize(home)
+        with relay(home,'CHAT',renderer=lambda _:reply,stream_fixture={}) as (router,requests), LifeApplication(home,clock=VirtualClock(),router=router) as app:
+            app.pause();app.response_sink=lambda _:None
+            turn=app.chat('SYNTHETIC retained discussion',privacy='PROJECT',retain_shared_life=True)
+            assert turn['text']==reply
+            exchange=turn['exchange_record_id']
+            sample=LanguageSample(sample_id='synthetic.long-review',review_target=exchange,mode='CASUAL',
+                context='SYNTHETIC whole-response review',candidate_response='DEPENDENT_RECORD_BODY',
+                human_judgment='REJECTED',reason_tags=('TOO_VERBOSE',),provenance='USER_PROVIDED_REVIEW',
+                observed_at_us=app.runtime.clock.utc_now_us())
+            sha=hashlib.sha256(reply.encode()).hexdigest()
+            service=LanguageService(app.runtime.store,app.runtime.authority)
+            args=dict(scope=app.runtime.config.scopes[0],entity_id=app.runtime.config.entity_id,privacy='PROJECT',
+                authority=app.runtime.authority,exchange_record_id=exchange,response_sha256=sha)
+            rid=service.record(sample,**args)
+            assert service.record(sample,**args)==rid
+            stored=RecordService(app.runtime.store).read(rid)['payload']
+            assert stored['sample']['candidate_response']=='DEPENDENT_RECORD_BODY'
+            assert stored['response_sha256']==sha
+            assert reply not in str(stored)
+>           assert LanguageSample.model_validate(stored['sample']).candidate_response=='DEPENDENT_RECORD_BODY'
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           pydantic_core._pydantic_core.ValidationError: 5 validation errors for LanguageSample
+E           reason_tags
+E             Input should be a valid tuple [type=tuple_type, input_value=['TOO_VERBOSE'], input_type=list]
+E               For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E           style_tags
+E             Input should be a valid tuple [type=tuple_type, input_value=[], input_type=list]
+E               For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E           truthfulness_tags
+E             Input should be a valid tuple [type=tuple_type, input_value=[], input_type=list]
+E               For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E           memory_use_tags
+E             Input should be a valid tuple [type=tuple_type, input_value=[], input_type=list]
+E               For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E           autonomy_tags
+E             Input should be a valid tuple [type=tuple_type, input_value=[], input_type=list]
+E               For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+
+tests/person_self/test_long_feedback_binding.py:36: ValidationError
+_ test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample[unicode] _
+
+tmp_path = PosixPath('/tmp/nana-long-feedback-core-2/test_long_feedback_binds_full_1')
+reply = '🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙...🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙'
+
+    @pytest.mark.parametrize('reply', ['SYNTHETIC '+('long explanation. '*180), '🌙'*3000], ids=['ascii','unicode'])
+    def test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample(tmp_path, reply):
+        home=tmp_path/'home';initialize(home)
+        with relay(home,'CHAT',renderer=lambda _:reply,stream_fixture={}) as (router,requests), LifeApplication(home,clock=VirtualClock(),router=router) as app:
+            app.pause();app.response_sink=lambda _:None
+            turn=app.chat('SYNTHETIC retained discussion',privacy='PROJECT',retain_shared_life=True)
+            assert turn['text']==reply
+            exchange=turn['exchange_record_id']
+            sample=LanguageSample(sample_id='synthetic.long-review',review_target=exchange,mode='CASUAL',
+                context='SYNTHETIC whole-response review',candidate_response='DEPENDENT_RECORD_BODY',
+                human_judgment='REJECTED',reason_tags=('TOO_VERBOSE',),provenance='USER_PROVIDED_REVIEW',
+                observed_at_us=app.runtime.clock.utc_now_us())
+            sha=hashlib.sha256(reply.encode()).hexdigest()
+            service=LanguageService(app.runtime.store,app.runtime.authority)
+            args=dict(scope=app.runtime.config.scopes[0],entity_id=app.runtime.config.entity_id,privacy='PROJECT',
+                authority=app.runtime.authority,exchange_record_id=exchange,response_sha256=sha)
+            rid=service.record(sample,**args)
+            assert service.record(sample,**args)==rid
+            stored=RecordService(app.runtime.store).read(rid)['payload']
+            assert stored['sample']['candidate_response']=='DEPENDENT_RECORD_BODY'
+            assert stored['response_sha256']==sha
+            assert reply not in str(stored)
+>           assert LanguageSample.model_validate(stored['sample']).candidate_response=='DEPENDENT_RECORD_BODY'
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           pydantic_core._pydantic_core.ValidationError: 5 validation errors for LanguageSample
+E           reason_tags
+E             Input should be a valid tuple [type=tuple_type, input_value=['TOO_VERBOSE'], input_type=list]
+E               For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E           style_tags
+E             Input should be a valid tuple [type=tuple_type, input_value=[], input_type=list]
+E               For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E           truthfulness_tags
+E             Input should be a valid tuple [type=tuple_type, input_value=[], input_type=list]
+E               For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E           memory_use_tags
+E             Input should be a valid tuple [type=tuple_type, input_value=[], input_type=list]
+E               For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E           autonomy_tags
+E             Input should be a valid tuple [type=tuple_type, input_value=[], input_type=list]
+E               For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+
+tests/person_self/test_long_feedback_binding.py:36: ValidationError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_long_feedback_binding.py::test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample[ascii]
+FAILED tests/person_self/test_long_feedback_binding.py::test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample[unicode]
+2 failed in 1.37s

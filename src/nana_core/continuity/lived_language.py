@@ -4,6 +4,7 @@ Corpus examples are reports/evaluation material, never autobiographical facts.
 Learning changes a narrow expression hypothesis, not identity or judgment.
 """
 import json
+import hashlib
 from typing import Literal
 from pydantic import Field, model_serializer
 from ..contracts import DTO, CoreError
@@ -49,6 +50,17 @@ class LanguageSample(DTO):
         result=handler(self)
         if self.memory_use is None:result.pop('memory_use',None)
         return result
+
+
+def response_matches(sample, response, response_sha256=None):
+    """Bind an explicit review to the original speech, retaining the legacy sample bound."""
+    if response_sha256 is None:
+        return sample.candidate_response == response
+    return (type(response) is str and 2048 < len(response) <= 16384
+        and sample.candidate_response == 'DEPENDENT_RECORD_BODY'
+        and type(response_sha256) is str and len(response_sha256) == 64
+        and all(c in '0123456789abcdef' for c in response_sha256)
+        and hashlib.sha256(response.encode('utf-8')).hexdigest() == response_sha256)
 
 
 class ExpressionFeedbackCheck(DTO):
@@ -217,7 +229,7 @@ class LanguageService:
             raise CoreError('OPERATOR_AUTHORITY_REQUIRED')
         self.store, self._authority, self.records = store, authority, RecordService(store)
 
-    def record(self, sample, *, scope, entity_id, privacy, authority, exchange_record_id=None, request_digest=None):
+    def record(self, sample, *, scope, entity_id, privacy, authority, exchange_record_id=None, request_digest=None, response_sha256=None):
         if authority is not self._authority or type(sample) is not LanguageSample:
             raise CoreError('LANGUAGE_REVIEW_AUTHORITY_REQUIRED')
         if request_digest is not None and (type(request_digest) is not str or len(request_digest)!=64 or any(c not in '0123456789abcdef' for c in request_digest)):
@@ -225,6 +237,7 @@ class LanguageService:
         if sample.observed_at_us > self.store.clock.utc_now_us():
             raise CoreError('LANGUAGE_REVIEW_TIME_INVALID')
         if not exchange_record_id and sample.body_storage!='SOURCE_REPORT':raise CoreError('LANGUAGE_REVIEW_BINDING_REQUIRED')
+        if response_sha256 is not None and not exchange_record_id:raise CoreError('LANGUAGE_REVIEW_BINDING_REQUIRED')
         if sample.memory_use is not None and (not exchange_record_id or sample.provenance!='USER_PROVIDED_REVIEW' or sample.human_judgment=='UNREVIEWED'):
             raise CoreError('MEMORY_USE_REVIEW_BINDING_REQUIRED')
         if exchange_record_id:sample=sample.model_copy(update={'body_storage':'DEPENDENT_RECORD'})
@@ -239,6 +252,7 @@ class LanguageService:
             existing = self.records.read(rid)
             if (existing['scope'] != scope or existing['payload']['sample'] != stored_sample.model_dump(mode='json')
                     or existing['payload'].get('memory_use_feedback') != (use.model_dump(mode='json') if use else None)
+                    or existing['payload'].get('response_sha256') != response_sha256
                     or existing['payload'].get('request_digest') != request_digest):
                 raise CoreError('LANGUAGE_REVIEW_COLLISION')
             if not self.records.current_support(rid):
@@ -247,7 +261,7 @@ class LanguageService:
         parents = ();delivery=None
         if exchange_record_id:
             exchange = self.records.read(exchange_record_id)
-            if exchange['payload'].get('person_kind') != 'CONVERSATION_EXCHANGE' or exchange['scope'] != scope or exchange['payload']['entity_id'] != entity_id or sample.review_target != exchange_record_id or sample.candidate_response != exchange['payload']['assistant_utterance']:
+            if exchange['payload'].get('person_kind') != 'CONVERSATION_EXCHANGE' or exchange['scope'] != scope or exchange['payload']['entity_id'] != entity_id or sample.review_target != exchange_record_id or not response_matches(sample, exchange['payload']['assistant_utterance'], response_sha256):
                 raise CoreError('LANGUAGE_REVIEW_TURN_MISMATCH')
             if sample.observed_at_us < exchange['payload']['as_of_us']:
                 raise CoreError('LANGUAGE_REVIEW_TIME_INVALID')
@@ -275,6 +289,7 @@ class LanguageService:
             payload={'person_kind':'LIVED_LANGUAGE_SAMPLE','sample': stored_sample.model_dump(mode='json'), 'not_subject_experience': sample.provenance == 'PROJECT_SYNTHETIC'}
             if delivery:payload['delivery_attribution']=delivery
             if request_digest is not None:payload['request_digest']=request_digest
+            if response_sha256 is not None:payload['response_sha256']=response_sha256
             if use:payload['memory_use_feedback']=use.model_dump(mode='json')
             rid = self.records.create(tx, kind='EXPERIENCE_CANDIDATE', scope=scope, target_id=sample.mode, payload=payload, memories=(mid,), records=parents)
             if use:
@@ -331,11 +346,21 @@ def expression_policy(store, *, scope, privacy, mode):
 
 def context(store, *, scope, privacy, mode):
     policy = expression_policy(store, scope=scope, privacy=privacy, mode=mode)
+    records = RecordService(store)
     samples = rows(store, 'LIVED_LANGUAGE_SAMPLE', scope, privacy, target=mode, limit=16)[:2]
     examples=[]
     for row in samples:
         item=row['payload']['sample']
-        examples.append({k:item[k][:384] if k in {'context','candidate_response','exact_feedback'} else item[k] for k in ('context','candidate_response','human_judgment','exact_feedback','reason_tags','provenance','provenance_reference')})
+        example={k:item[k][:384] if k in {'context','candidate_response','exact_feedback'} else item[k] for k in ('context','candidate_response','human_judgment','exact_feedback','reason_tags','provenance','provenance_reference')}
+        if row['payload'].get('response_sha256') is not None:
+            try:
+                original=records.read(item['review_target'])['payload']['assistant_utterance']
+                sample=LanguageSample.model_validate_json(canonical(item))
+                if not response_matches(sample,original,row['payload']['response_sha256']):continue
+            except (CoreError,ValueError,KeyError):continue
+            example['candidate_response']=original[:384]
+            example['candidate_response_truncated']=len(original)>384
+        examples.append(example)
     return {'policy': policy, 'examples': examples,
             'examples_are_not_autobiography': True, 'human_naturalness_qualified': False,
             'source_record_ids': tuple(dict.fromkeys((*policy['source_record_ids'], *(r['record_id'] for r in samples))))}

@@ -3392,3 +3392,10 @@ acdd284文件本地双构建同6a8848…0f00，独立离线安装BFF/反馈幂�
 ### 2026-11-10 · 原C明确FOCUS不再预设需要泛澄清
 
 明确关注优先级不等于意图未知。原FOCUS改THINK_MORE/SOCIAL_INTERACTION，目的响应已有细节、只问缺失具体信息，allow_new_workfalse/后台兴趣/交付边界保持，UNCLEAR原ASK/WAIT不动。旧Subject新case失败，159相关53.06s+独立1真实loopback C目的至RENDER0.71s通过；0行动/Grant/真实模型，不冒充真人自然度。原CI增加相应source/test触发。b706原CI2156/12pass708.03s、probe11/11、双构建/CI离线安装PASS；不冒充新focus源码全仓。治理merge71817交付测试pass、首76链接缺稀疏历史文件后按同HEADblob恢复再PASS，双方账本保留。证据focus-purpose；总A–H继续，CURRENT/APK/生产不动。
+
+
+### 2026-11-11 · 长回复原话轮反馈与用户创新优先实施
+
+原2049–16384字符已保留回复现可做交流/四模式反馈，客户端能力旗标兼容旧服务端；完整UTF8 SHA绑定原Store话轮，旧Sample2048不扩容/正文不重复，原撤回和UNKNOWN只核验保持。后续原context≤384字带截断标，避免占位符成为表达范例。修复旧DTO model-before consent引发JSON标签数组被严格tuple拒绝，field-before仍要求isTrue。71相关后端52.99s、70前端、40四尺寸合成浏览器、live编译通过；首错保留，旧6fd实际DTO只读2样本兼容，不称整运行时回退。原63匹配安装1+7quiet和全CI2171/12skip703.70s回执补入原证据，不用于新feature全资格。
+
+按用户创新优先补充普通push改受影响回归，原full/bwrap/oldSQLite/双构建/离线安装仅发行迁移显式选择，所有原断言保留；artifact403不重复尝试。能力收益是长交流也能反馈并影响后续表达，新增仅本地hash和最多两条有界原记录读取，0新增模型调用/后台权威。证据long-feedback-and-tiering。原A–H继续，CURRENT266+409/生产/APK/真实模型/账号/手机未动。

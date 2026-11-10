@@ -74,7 +74,7 @@ import { MemoryCenter } from "./v3/MemoryCenter";
 import { BilibiliView } from "./v3/BilibiliView";
 import { PlatformPanel } from "./v3/PlatformPanel";
 import { mergeRetainedTurns, retainedTurns, pendingReceiptTurns, sharedCandidates, vaultMetadata } from "../data/living";
-import { languageFeedbackSample, type FeedbackChoice } from "../data/feedback";
+import { languageFeedbackSample, languageFeedbackResponseBinding, reviewableResponse, type FeedbackChoice } from "../data/feedback";
 const v3Icons = {
   home: Home,
   chat: MessageCircle,
@@ -771,10 +771,13 @@ export function LiveSpace() {
       const b=await fresh();
       if(version!==sessionVersion.current)throw new V2Error("SESSION_REVOKED");
       if(typeof choice!=="string" && b.capabilities.memory_use_feedback!==true)throw new V2Error("CAPABILITY_UNAVAILABLE");
+      if(!reviewableResponse(turn.reply,b.capabilities.long_reply_feedback===true))throw new V2Error("CAPABILITY_UNAVAILABLE");
       const sample=languageFeedbackSample(turn,id,choice,Math.floor(Date.now()*1000));
+      const responseBinding=await languageFeedbackResponseBinding(turn.reply);
+      if(version!==sessionVersion.current)throw new V2Error("SESSION_REVOKED");
       dispatched=true;
       const response=await client.current.write("conversation.feedback",{...writeBase(b,id),consent:true,
-        exchange_record_id:turn.exchangeId,sample});
+        exchange_record_id:turn.exchangeId,sample,...responseBinding});
       if(version!==sessionVersion.current)throw new V2Error("SESSION_REVOKED");
       const result=object(response.data);setReceipt(result);
       return {id,state:String(result.state)};
@@ -1547,6 +1550,7 @@ export function LiveSpace() {
                 turns={turns}
                 onFeedback={manager && healthy && bootstrap?.capabilities.conversation_feedback===true ? saveLanguageFeedback : undefined}
                 memoryFeedback={bootstrap?.capabilities.memory_use_feedback===true}
+                longFeedback={bootstrap?.capabilities.long_reply_feedback===true}
                 onVerifyFeedback={verifyLanguageFeedback}
                 draft={draft}
                 onDraft={setDraft}

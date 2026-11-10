@@ -2,6 +2,7 @@
  * The original BFF/Keystore qualifications are reported separately by v2.spec.ts.
  */
 import { test, expect, type Page, type Route } from "@playwright/test";
+import { createHash } from "node:crypto";
 import { mkdir } from "node:fs/promises";
 
 const API = "/api/nana-space/v2/";
@@ -1221,4 +1222,35 @@ test("SYNTHETIC local chat inbox expires unsent bodies while the original reques
     state:"VERIFIED",dispatch_happened:true,result:{text:"SYNTHETIC active reply survives expiry"}})});
   await expect(page.getByText("SYNTHETIC active reply survives expiry",{exact:true})).toBeVisible();
   expect(state.messageBodies).toHaveLength(1);
+});
+
+test("SYNTHETIC long reply feedback binds full Unicode response without reposting its body",async({page})=>{
+  const state=await installMock(page);
+  const reply='🌙'.repeat(3000);
+  state.capabilities={conversation_history:true,conversation_feedback:true,long_reply_feedback:true};
+  state.history={items:[{exchange_record_id:'long-feedback-exchange',user_text:'SYNTHETIC long discussion',
+    reply_text:reply,created_at_us:1793026800000000}]};
+  let posts=0,checks=0,id='';
+  await page.route(`**${API}conversation/feedback`,async route=>{
+    posts++;const body=route.request().postDataJSON();id=body.idempotency_key;
+    expect(body.response_sha256).toBe(createHash('sha256').update(reply,'utf8').digest('hex'));
+    expect(body.sample.candidate_response).toBe('DEPENDENT_RECORD_BODY');
+    expect(body.sample.reason_tags).toEqual(['TOO_VERBOSE']);
+    expect(body.exchange_record_id).toBe('long-feedback-exchange');
+    expect(JSON.stringify(body)).not.toContain(reply);
+    await route.fulfill({status:200,json:envelope(state,{receipt_id:id,state:'UNKNOWN',dispatch_happened:true,result:{}})});
+  });
+  await page.route(`**${API}receipts/*`,async route=>{
+    checks++;expect(route.request().url()).toContain(id);
+    await route.fulfill({status:200,json:envelope(state,{receipt_id:id,state:'VERIFIED',dispatch_happened:true,
+      result:{state:'EXPLICIT_FEEDBACK_SAVED',delivery_proven:false}})});
+  });
+  await open(page,'chat');
+  await page.getByRole('button',{name:'评价这条回复'}).click();
+  await page.getByRole('button',{name:'保存：有点啰嗦'}).click();
+  await expect(page.getByText('保存结果待核验，不会重复提交',{exact:true})).toBeVisible();
+  await page.getByRole('button',{name:'核验这条评价'}).click();
+  await expect(page.getByText('评价已保存',{exact:true})).toBeVisible();
+  expect(posts).toBe(1);expect(checks).toBe(1);
+  expect(await page.evaluate(()=>JSON.stringify(Object.entries(localStorage)))).not.toContain(reply);
 });

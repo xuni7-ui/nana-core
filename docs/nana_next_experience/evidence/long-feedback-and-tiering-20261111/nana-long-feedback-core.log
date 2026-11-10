@@ -1,0 +1,123 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+_ test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample[ascii] _
+
+tmp_path = PosixPath('/tmp/nana-long-feedback-core/test_long_feedback_binds_full_0')
+reply = 'SYNTHETIC long explanation. long explanation. long explanation. long explanation. long explanation. long explanation....lanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. '
+
+    @pytest.mark.parametrize('reply', ['SYNTHETIC '+('long explanation. '*180), '🌙'*3000], ids=['ascii','unicode'])
+    def test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample(tmp_path, reply):
+        home=tmp_path/'home';initialize(home)
+        with relay(home,'CHAT',renderer=lambda _:reply) as (router,requests), LifeApplication(home,clock=VirtualClock(),router=router) as app:
+            app.pause()
+            turn=app.chat('SYNTHETIC retained discussion',privacy='PROJECT',retain_shared_life=True)
+            exchange=turn['exchange_record_id']
+            sample=LanguageSample(sample_id='synthetic.long-review',review_target=exchange,mode='CASUAL',
+                context='SYNTHETIC whole-response review',candidate_response='DEPENDENT_RECORD_BODY',
+                human_judgment='REJECTED',reason_tags=('TOO_VERBOSE',),provenance='USER_PROVIDED_REVIEW',
+                observed_at_us=app.runtime.clock.utc_now_us())
+            sha=hashlib.sha256(reply.encode()).hexdigest()
+            service=LanguageService(app.runtime.store,app.runtime.authority)
+            args=dict(scope=app.runtime.config.scopes[0],entity_id=app.runtime.config.entity_id,privacy='PROJECT',
+                authority=app.runtime.authority,exchange_record_id=exchange,response_sha256=sha)
+            rid=service.record(sample,**args)
+            assert service.record(sample,**args)==rid
+            stored=RecordService(app.runtime.store).read(rid)['payload']
+            assert stored['sample']['candidate_response']=='DEPENDENT_RECORD_BODY'
+            assert stored['response_sha256']==sha
+            assert reply not in str(stored)
+>           assert LanguageSample.model_validate(stored['sample']).candidate_response=='DEPENDENT_RECORD_BODY'
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           pydantic_core._pydantic_core.ValidationError: 5 validation errors for LanguageSample
+E           reason_tags
+E             Input should be a valid tuple [type=tuple_type, input_value=['TOO_VERBOSE'], input_type=list]
+E               For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E           style_tags
+E             Input should be a valid tuple [type=tuple_type, input_value=[], input_type=list]
+E               For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E           truthfulness_tags
+E             Input should be a valid tuple [type=tuple_type, input_value=[], input_type=list]
+E               For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E           memory_use_tags
+E             Input should be a valid tuple [type=tuple_type, input_value=[], input_type=list]
+E               For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E           autonomy_tags
+E             Input should be a valid tuple [type=tuple_type, input_value=[], input_type=list]
+E               For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+
+tests/person_self/test_long_feedback_binding.py:35: ValidationError
+_ test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample[unicode] _
+
+tmp_path = PosixPath('/tmp/nana-long-feedback-core/test_long_feedback_binds_full_1')
+reply = '🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙...🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙'
+
+    @pytest.mark.parametrize('reply', ['SYNTHETIC '+('long explanation. '*180), '🌙'*3000], ids=['ascii','unicode'])
+    def test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample(tmp_path, reply):
+        home=tmp_path/'home';initialize(home)
+        with relay(home,'CHAT',renderer=lambda _:reply) as (router,requests), LifeApplication(home,clock=VirtualClock(),router=router) as app:
+            app.pause()
+            turn=app.chat('SYNTHETIC retained discussion',privacy='PROJECT',retain_shared_life=True)
+            exchange=turn['exchange_record_id']
+            sample=LanguageSample(sample_id='synthetic.long-review',review_target=exchange,mode='CASUAL',
+                context='SYNTHETIC whole-response review',candidate_response='DEPENDENT_RECORD_BODY',
+                human_judgment='REJECTED',reason_tags=('TOO_VERBOSE',),provenance='USER_PROVIDED_REVIEW',
+                observed_at_us=app.runtime.clock.utc_now_us())
+            sha=hashlib.sha256(reply.encode()).hexdigest()
+            service=LanguageService(app.runtime.store,app.runtime.authority)
+            args=dict(scope=app.runtime.config.scopes[0],entity_id=app.runtime.config.entity_id,privacy='PROJECT',
+                authority=app.runtime.authority,exchange_record_id=exchange,response_sha256=sha)
+>           rid=service.record(sample,**args)
+                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_long_feedback_binding.py:29: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.lived_language.LanguageService object at 0x7f83157877d0>
+sample = LanguageSample(body_storage='DEPENDENT_RECORD', sample_id='synthetic.long-review', review_target='ce4c0f0e-c490-45b9-9...ovenance='USER_PROVIDED_REVIEW', provenance_reference='LOCAL_REVIEW', observed_at_us=1791590400000000, memory_use=None)
+scope = 'project-work', entity_id = 'project-user', privacy = 'PROJECT'
+authority = <nana_core.actions.OperatorAuthority object at 0x7f831556b5c0>
+exchange_record_id = 'ce4c0f0e-c490-45b9-97e4-c8142cca5eaf'
+request_digest = None
+response_sha256 = '030f95ada964d9411007196da4835ed34005753779fdecde75640a2a1b1ec235'
+
+    def record(self, sample, *, scope, entity_id, privacy, authority, exchange_record_id=None, request_digest=None, response_sha256=None):
+        if authority is not self._authority or type(sample) is not LanguageSample:
+            raise CoreError('LANGUAGE_REVIEW_AUTHORITY_REQUIRED')
+        if request_digest is not None and (type(request_digest) is not str or len(request_digest)!=64 or any(c not in '0123456789abcdef' for c in request_digest)):
+            raise CoreError('LANGUAGE_REVIEW_REQUEST_DIGEST_INVALID')
+        if sample.observed_at_us > self.store.clock.utc_now_us():
+            raise CoreError('LANGUAGE_REVIEW_TIME_INVALID')
+        if not exchange_record_id and sample.body_storage!='SOURCE_REPORT':raise CoreError('LANGUAGE_REVIEW_BINDING_REQUIRED')
+        if response_sha256 is not None and not exchange_record_id:raise CoreError('LANGUAGE_REVIEW_BINDING_REQUIRED')
+        if sample.memory_use is not None and (not exchange_record_id or sample.provenance!='USER_PROVIDED_REVIEW' or sample.human_judgment=='UNREVIEWED'):
+            raise CoreError('MEMORY_USE_REVIEW_BINDING_REQUIRED')
+        if exchange_record_id:sample=sample.model_copy(update={'body_storage':'DEPENDENT_RECORD'})
+        use=sample.memory_use
+        # Old binaries strictly parse the sample and evidence. Keep those
+        # bodies unchanged; optional use feedback lives in the same generic
+        # dependency-bound record envelope, which old readers already ignore.
+        stored_sample=sample.model_copy(update={'memory_use':None})
+        old = self.store.db.execute("SELECT data_json FROM events WHERE source_namespace='language.review' AND source_key=?", (sample.sample_id,)).fetchone()
+        if old:
+            rid = json.loads(old[0])['data']['record_id']
+            existing = self.records.read(rid)
+            if (existing['scope'] != scope or existing['payload']['sample'] != stored_sample.model_dump(mode='json')
+                    or existing['payload'].get('memory_use_feedback') != (use.model_dump(mode='json') if use else None)
+                    or existing['payload'].get('response_sha256') != response_sha256
+                    or existing['payload'].get('request_digest') != request_digest):
+                raise CoreError('LANGUAGE_REVIEW_COLLISION')
+            if not self.records.current_support(rid):
+                raise CoreError('LANGUAGE_REVIEW_SOURCE_WITHDRAWN')
+            return rid
+        parents = ();delivery=None
+        if exchange_record_id:
+            exchange = self.records.read(exchange_record_id)
+            if exchange['payload'].get('person_kind') != 'CONVERSATION_EXCHANGE' or exchange['scope'] != scope or exchange['payload']['entity_id'] != entity_id or sample.review_target != exchange_record_id or not response_matches(sample, exchange['payload']['assistant_utterance'], response_sha256):
+>               raise CoreError('LANGUAGE_REVIEW_TURN_MISMATCH')
+E               nana_core.contracts.CoreError: LANGUAGE_REVIEW_TURN_MISMATCH
+
+src/nana_core/continuity/lived_language.py:265: CoreError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_long_feedback_binding.py::test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample[ascii]
+FAILED tests/person_self/test_long_feedback_binding.py::test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample[unicode]
+2 failed in 1.39s

@@ -113,6 +113,7 @@ class GatewayService:
                 "memory_notes": True,
                 "conversation_feedback": True,
                 "memory_use_feedback": True,
+                "long_reply_feedback": True,
                 "backup_status": True,
                 "body_cache": False,
                 "background_push": "UNAVAILABLE",
@@ -567,7 +568,7 @@ class GatewayService:
         """Retain an explicit review through the original owner, not delivery proof."""
         import sqlite3
         from ...continuity.records import RecordService
-        from ...continuity.lived_language import LanguageSample
+        from ...continuity.lived_language import LanguageSample, response_matches
         from ...storage import canonical, digest
         from ..inspector import _ReadView
 
@@ -599,12 +600,13 @@ class GatewayService:
                     or payload.get('person_kind')!='CONVERSATION_EXCHANGE'
                     or payload.get('entity_id')!=self.binding.entity_id
                     or exchange['scope']!=self.binding.scope
-                    or payload.get('assistant_utterance')!=sample.candidate_response):
+                    or not response_matches(sample,payload.get('assistant_utterance'),body.response_sha256)):
                 raise ApiError('FEEDBACK_TURN_MISMATCH',409)
 
         def call():
             response=core_request(self.supervisor.home,{'operation':'language-feedback',
                 'sample':sample.model_dump(mode='json'),'exchange_record_id':body.exchange_record_id,
+                **({'response_sha256':body.response_sha256} if body.response_sha256 is not None else {}),
                 'request_digest':fingerprint(body.model_dump(mode='json'))})
             if response.get('ok') is not True:
                 raise ApiError('FEEDBACK_CORE_UNCONFIRMED',503)
@@ -613,7 +615,8 @@ class GatewayService:
             saved=LanguageSample.model_validate_json(canonical(record['payload']['sample']))
             expected=sample.model_copy(update={'body_storage':'DEPENDENT_RECORD','memory_use':None})
             use=sample.memory_use.model_dump(mode='json') if sample.memory_use else None
-            if saved!=expected or record['payload'].get('memory_use_feedback')!=use:
+            if (saved!=expected or record['payload'].get('memory_use_feedback')!=use
+                    or record['payload'].get('response_sha256')!=body.response_sha256):
                 raise ApiError('FEEDBACK_COMMIT_UNVERIFIED',503)
             return {**result,'state':'EXPLICIT_FEEDBACK_SAVED','delivery_proven':False}
 

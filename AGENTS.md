@@ -2,6 +2,8 @@
 
 ## CURRENT ENTRY CONTRACT — Master Framework Freeze V1（2026-10-20）
 
+**用户当前实施原则（2026-11-11）：** [创新优先与工程负担精简](docs/nana_next_experience/task_inputs/INNOVATION_FIRST_AND_ENGINEERING_SIMPLIFICATION_2026_11_11.md)适用于同一A/B任务。能力、自主性、体验、可验证成长优先；探索定向对照，集成相关回归，发行/迁移才完整验证。复用已验证成果，已定位外部403单列；必要身份/数据/授权/真实投递保证及冻结框架继续保留。
+
 **当前补充：**本节中“本轮 Foundation”等是历史阶段描述，不是当前任务；以 `PROJECT_BRAIN/09_STATE.md`、用户授权及实际 Git/运行回执为准。开发前核对现役分支、任务继承和现有实现，按职责扩展原模块，保持单主体/Store/Loop；实现、测试、接线、部署和真实体验分开报告。参见 `docs/nana_next_experience/SOURCE_NAVIGATION_AUDIT.md`。当前 P1 日用体验优先；大规模目录迁移和额外治理建设待真实验收后评估。
 
 用户已正式冻结总框架。动手前先读 `PROJECT_BRAIN/00_MASTER_FRAMEWORK.md` → `01_CAPABILITY_MATRIX.md` → `09_STATE.md`，再定位07/08与具体证据。

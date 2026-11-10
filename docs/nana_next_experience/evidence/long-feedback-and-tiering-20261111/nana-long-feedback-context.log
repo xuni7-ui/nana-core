@@ -1,0 +1,112 @@
+FF.....................                                                  [100%]
+=================================== FAILURES ===================================
+_ test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample[ascii] _
+
+tmp_path = PosixPath('/tmp/nana-long-feedback-context/test_long_feedback_binds_full_0')
+reply = 'SYNTHETIC long explanation. long explanation. long explanation. long explanation. long explanation. long explanation....lanation. long explanation. long explanation. long explanation. long explanation. long explanation. long explanation. '
+
+    @pytest.mark.parametrize('reply', ['SYNTHETIC '+('long explanation. '*180), '🌙'*3000], ids=['ascii','unicode'])
+    def test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample(tmp_path, reply):
+        home=tmp_path/'home';initialize(home)
+        with relay(home,'CHAT',renderer=lambda _:reply,stream_fixture={}) as (router,requests), LifeApplication(home,clock=VirtualClock(),router=router) as app:
+            app.pause();app.response_sink=lambda _:None
+            turn=app.chat('SYNTHETIC retained discussion',privacy='PROJECT',retain_shared_life=True)
+            assert turn['text']==reply
+            exchange=turn['exchange_record_id']
+            sample=LanguageSample(sample_id='synthetic.long-review',review_target=exchange,mode='CASUAL',
+                context='SYNTHETIC whole-response review',candidate_response='DEPENDENT_RECORD_BODY',
+                human_judgment='REJECTED',reason_tags=('TOO_VERBOSE',),provenance='USER_PROVIDED_REVIEW',
+                observed_at_us=app.runtime.clock.utc_now_us())
+            sha=hashlib.sha256(reply.encode()).hexdigest()
+            service=LanguageService(app.runtime.store,app.runtime.authority)
+            args=dict(scope=app.runtime.config.scopes[0],entity_id=app.runtime.config.entity_id,privacy='PROJECT',
+                authority=app.runtime.authority,exchange_record_id=exchange,response_sha256=sha)
+            rid=service.record(sample,**args)
+            assert service.record(sample,**args)==rid
+            stored=RecordService(app.runtime.store).read(rid)['payload']
+            assert stored['sample']['candidate_response']=='DEPENDENT_RECORD_BODY'
+            assert stored['response_sha256']==sha
+            assert reply not in str(stored)
+            (tmp_path/'legacy-sample.json').write_text(json.dumps(stored['sample']))
+            assert LanguageSample.model_validate_json(json.dumps(stored['sample'])).candidate_response=='DEPENDENT_RECORD_BODY'
+            from nana_core.continuity.lived_language import context
+>           projected=context(app.runtime.store,scope=args['scope'],privacy=('PROJECT',),mode='CASUAL')
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_long_feedback_binding.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+store = <nana_core.continuity.store.ContinuityStore object at 0x7f3b3b55bd40>
+scope = 'project-work', privacy = ('PROJECT',), mode = 'CASUAL'
+
+    def context(store, *, scope, privacy, mode):
+        policy = expression_policy(store, scope=scope, privacy=privacy, mode=mode)
+        samples = rows(store, 'LIVED_LANGUAGE_SAMPLE', scope, privacy, target=mode, limit=16)[:2]
+        examples=[]
+        for row in samples:
+            item=row['payload']['sample']
+            example={k:item[k][:384] if k in {'context','candidate_response','exact_feedback'} else item[k] for k in ('context','candidate_response','human_judgment','exact_feedback','reason_tags','provenance','provenance_reference')}
+            if row['payload'].get('response_sha256') is not None:
+                try:
+>                   original=records.read(item['review_target'])['payload']['assistant_utterance']
+                             ^^^^^^^
+E                   NameError: name 'records' is not defined
+
+src/nana_core/continuity/lived_language.py:356: NameError
+_ test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample[unicode] _
+
+tmp_path = PosixPath('/tmp/nana-long-feedback-context/test_long_feedback_binds_full_1')
+reply = '🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙...🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙🌙'
+
+    @pytest.mark.parametrize('reply', ['SYNTHETIC '+('long explanation. '*180), '🌙'*3000], ids=['ascii','unicode'])
+    def test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample(tmp_path, reply):
+        home=tmp_path/'home';initialize(home)
+        with relay(home,'CHAT',renderer=lambda _:reply,stream_fixture={}) as (router,requests), LifeApplication(home,clock=VirtualClock(),router=router) as app:
+            app.pause();app.response_sink=lambda _:None
+            turn=app.chat('SYNTHETIC retained discussion',privacy='PROJECT',retain_shared_life=True)
+            assert turn['text']==reply
+            exchange=turn['exchange_record_id']
+            sample=LanguageSample(sample_id='synthetic.long-review',review_target=exchange,mode='CASUAL',
+                context='SYNTHETIC whole-response review',candidate_response='DEPENDENT_RECORD_BODY',
+                human_judgment='REJECTED',reason_tags=('TOO_VERBOSE',),provenance='USER_PROVIDED_REVIEW',
+                observed_at_us=app.runtime.clock.utc_now_us())
+            sha=hashlib.sha256(reply.encode()).hexdigest()
+            service=LanguageService(app.runtime.store,app.runtime.authority)
+            args=dict(scope=app.runtime.config.scopes[0],entity_id=app.runtime.config.entity_id,privacy='PROJECT',
+                authority=app.runtime.authority,exchange_record_id=exchange,response_sha256=sha)
+            rid=service.record(sample,**args)
+            assert service.record(sample,**args)==rid
+            stored=RecordService(app.runtime.store).read(rid)['payload']
+            assert stored['sample']['candidate_response']=='DEPENDENT_RECORD_BODY'
+            assert stored['response_sha256']==sha
+            assert reply not in str(stored)
+            (tmp_path/'legacy-sample.json').write_text(json.dumps(stored['sample']))
+            assert LanguageSample.model_validate_json(json.dumps(stored['sample'])).candidate_response=='DEPENDENT_RECORD_BODY'
+            from nana_core.continuity.lived_language import context
+>           projected=context(app.runtime.store,scope=args['scope'],privacy=('PROJECT',),mode='CASUAL')
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/person_self/test_long_feedback_binding.py:40: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+store = <nana_core.continuity.store.ContinuityStore object at 0x7f3b3b46e1e0>
+scope = 'project-work', privacy = ('PROJECT',), mode = 'CASUAL'
+
+    def context(store, *, scope, privacy, mode):
+        policy = expression_policy(store, scope=scope, privacy=privacy, mode=mode)
+        samples = rows(store, 'LIVED_LANGUAGE_SAMPLE', scope, privacy, target=mode, limit=16)[:2]
+        examples=[]
+        for row in samples:
+            item=row['payload']['sample']
+            example={k:item[k][:384] if k in {'context','candidate_response','exact_feedback'} else item[k] for k in ('context','candidate_response','human_judgment','exact_feedback','reason_tags','provenance','provenance_reference')}
+            if row['payload'].get('response_sha256') is not None:
+                try:
+>                   original=records.read(item['review_target'])['payload']['assistant_utterance']
+                             ^^^^^^^
+E                   NameError: name 'records' is not defined
+
+src/nana_core/continuity/lived_language.py:356: NameError
+=========================== short test summary info ============================
+FAILED tests/person_self/test_long_feedback_binding.py::test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample[ascii]
+FAILED tests/person_self/test_long_feedback_binding.py::test_long_feedback_binds_full_source_without_copying_body_into_legacy_sample[unicode]
+2 failed, 21 passed in 5.97s

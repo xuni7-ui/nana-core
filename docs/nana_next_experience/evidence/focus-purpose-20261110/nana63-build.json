@@ -1,0 +1,7 @@
+{
+  "archive": "/tmp/nana63-build/nana-first-life-portable-v1.tar.gz",
+  "sha256": "652adae531c9fb634489fb591a10400292c150ae936fe591d085df1501045899",
+  "source_commit": "63e4e323abb00f467484ee35d096f814f5585ffe",
+  "bundle_files": 284,
+  "new_provider_calls": 0
+}
