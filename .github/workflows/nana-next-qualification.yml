@@ -14,7 +14,9 @@ on:
     paths:
       - .github/workflows/nana-next-qualification.yml
       - tools/nana_portable_cloud/build.py
-      - packaging/portable/runtime-files.txt
+      - tools/nana_portable_cloud/unpack.py
+      - packaging/portable/**
+      - requirements-core-dev.lock
       - src/nana_core/continuity/privacy.py
       - tests/continuous_self/test_privacy_copy_increment.py
       - src/nana_core/continuity/subject/policy.py

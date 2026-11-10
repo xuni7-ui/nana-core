@@ -5,6 +5,7 @@ on:
     branches: [dev/nana-core-next-experience-codex]
     paths:
       - .github/workflows/nana-governance-check.yml
+      - .github/workflows/nana-next-qualification.yml
       - AGENTS.md
       - README.md
       - docs/nana_next_experience/GOVERNANCE_SOURCE_MAP.md
