@@ -2622,3 +2622,10 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 [源码/回执] PR7已合并为cdc013230417e4d5171fca9dd53978e2a7cd61d3，合并头c8ba765的治理CI42873132606通过；相对A的c162df3仅八份预期治理文本文件，A两份账本原文完整保留。该CI不替代A原Core全仓或真实体验资格。
 
 正式源码地图补上此前未显式定位的GrantSpec、ActionKernel授权/验证、CapabilityPort和执行上下文入口，并区分普通GovernedRealization与QQGovernedDelivery现有绑定；原端口在integration与execution_context仍有消费者，历史offline注释不构成删除依据。仅修改地图和本两份账本，保留cdc0132现役原文后追加。验证使用既有导航检查与实际治理CI，不重跑未受影响业务测试。无Core/客户端/权限/冻结框架/selector/生产改动；回退仅撤销此文档提交。
+
+
+### 2026-11-11 · Codex B：现有便携资格工作流补齐真实打包输入触发
+
+[静态实测] 基线718df771cd4ace5e993ac9932f456ca98676d511的source qualification push过滤器，在26份实际portable打包文件、原unpack与资格开发锁共28个路径中仅命中runtime-files.txt。最小改为packaging/portable/**并加入原解包器和requirements-core-dev.lock；原分支/手动入口、permissions及全部jobs字节不变，原Git树旧命中均保留。覆盖变为28/28，YAML/shell语法通过，GitHub实际CI/资格状态以回执为准；不把路径匹配写成构建或安装PASS。治理PR复用已有工作流，不新增业务框架或依赖。
+
+证据docs/nana_next_experience/evidence/governance-portable-ci-paths-20261111/README.md。两份现役账本原文完整保留后追加；A的Core/UNKNOWN/安装证据和revision124不改。新路径仍执行原完整资格，可能增加单改打包文件时的运行次数；未取消A现有CI，不动selector/生产/私人数据。回退仅撤销两个workflow的本批路径修改。

@@ -3388,3 +3388,10 @@ acdd284文件本地双构建同6a8848…0f00，独立离线安装BFF/反馈幂�
 ### 2026-11-10 · 正常集成PR7/PR8治理后继并保留新C安装证据
 
 本地5ea8b07推送被a2e3d27合法后继拒绝，fetch只读核对相对c162仅交付归档重复项验证/17测试/治理CI/Grant-CapabilityPort导航/两账本追加。正常merge保留双方，11末尾冲突按完整追加双方原文解决；09顶部最新revision124和安装资格保留。无reset/rebase/amend/force及Core运行逻辑变更；SOURCE和新C安装证据继续，不把治理CI当全仓。
+
+
+### 2026-11-11 · Codex B：现有便携资格工作流补齐真实打包输入触发
+
+[静态实测] 基线718df771cd4ace5e993ac9932f456ca98676d511的source qualification push过滤器，在26份实际portable打包文件、原unpack与资格开发锁共28个路径中仅命中runtime-files.txt。最小改为packaging/portable/**并加入原解包器和requirements-core-dev.lock；原分支/手动入口、permissions及全部jobs字节不变，原Git树旧命中均保留。覆盖变为28/28，YAML/shell语法通过，GitHub实际CI/资格状态以回执为准；不把路径匹配写成构建或安装PASS。治理PR复用已有工作流，不新增业务框架或依赖。
+
+证据docs/nana_next_experience/evidence/governance-portable-ci-paths-20261111/README.md。两份现役账本原文完整保留后追加；A的Core/UNKNOWN/安装证据和revision124不改。新路径仍执行原完整资格，可能增加单改打包文件时的运行次数；未取消A现有CI，不动selector/生产/私人数据。回退仅撤销两个workflow的本批路径修改。
