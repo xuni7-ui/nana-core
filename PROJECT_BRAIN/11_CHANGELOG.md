@@ -3374,3 +3374,10 @@ acdd284文件本地双构建同6a8848…0f00，独立离线安装BFF/反馈幂�
 [实测] 复用现有Next Experience交付验证器，原逻辑对重复APK public资源与Core runtime.json默取末项；重算manifest/selector摘要后五个合成反例仍误通过。最小修复后17项交付测试及2项便携导入测试通过；固定交付5b4f589的CURRENT只读复验仍为42个APK/Web文件一致，两个Core的契约检查通过。原治理PR工作流复用既有pytest锁版本和交付测试；实际GitHub CI/集成以PR回执为准。证据docs/nana_next_experience/evidence/governance-archive-ambiguity-20261111/README.md。
 
 本记录以A最新已确认c162df34c832fb9241f12529e0d02e3cdec5b101的账本原文为底仅追加；不改变顶部revision123、A的主体/交流/自主性成果、Core/客户端运行代码、CURRENT266+409或生产。候选artifact下载403/远端摘要对照仍开放；没有本轮安装/模型/手机/真人/生产资格。可通过撤销本批治理验证器/测试/workflow提交回退，不需数据或运行态操作。
+
+
+### 2026-11-11 · Codex B：Grant/CapabilityPort源码归属与PR7集成回执
+
+[源码/回执] PR7已合并为cdc013230417e4d5171fca9dd53978e2a7cd61d3，合并头c8ba765的治理CI42873132606通过；相对A的c162df3仅八份预期治理文本文件，A两份账本原文完整保留。该CI不替代A原Core全仓或真实体验资格。
+
+正式源码地图补上此前未显式定位的GrantSpec、ActionKernel授权/验证、CapabilityPort和执行上下文入口，并区分普通GovernedRealization与QQGovernedDelivery现有绑定；原端口在integration与execution_context仍有消费者，历史offline注释不构成删除依据。仅修改地图和本两份账本，保留cdc0132现役原文后追加。验证使用既有导航检查与实际治理CI，不重跑未受影响业务测试。无Core/客户端/权限/冻结框架/selector/生产改动；回退仅撤销此文档提交。

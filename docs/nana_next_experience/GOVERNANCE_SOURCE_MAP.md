@@ -9,7 +9,8 @@
 | 判断、动机、情感、关系、规划 | SubjectLoop 使用 [policy](../../src/nana_core/continuity/subject/policy.py) 的 appraise/motivate/decide；[relationships](../../src/nana_core/continuity/relationships.py)；[OpenAgencyService](../../src/nana_core/continuity/open_agency/service.py) 使用 [BoundedPlanner](../../src/nana_core/continuity/open_agency/planning.py) | 不以类型或源码存在推定真实生活表现。C 的 WHAT/WHY 与 D 的 WHEN 边界见冻结总纲。 |
 | 世界与认知 | [WorldLoopWork](../../src/nana_core/continuity/world_loop/coordinator.py) 使用 [CognitionSession](../../src/nana_core/continuity/world_loop/cognition.py)、WorldModel、ConcernService；[provider routing](../../src/nana_core/continuity/provider_routing.py) | 实际模型及费用依赖配置和回执。 |
 | 学习、自扩展、深层演化 | [LivingWork](../../src/nana_core/presence/living.py) 配置 [LearningService](../../src/nana_core/continuity/open_agency/learning.py)；另有 [retrieval growth](../../src/nana_core/continuity/retrieval_growth.py)、[技能执行](../../src/nana_core/continuity/open_agency/skill_runner.py)、[主体包与迁移](../../src/nana_core/continuity/portable.py) | 深层演化不能从迁移接口推定完成；S10 按 Matrix 和独立验证/回退证据判断。 |
-| Manager、权限、动作 | [ManagerConstraintGate](../../src/nana_core/continuity/autonomy/governance.py)、[GovernedRealization](../../src/nana_core/continuity/autonomy/realization.py)、[actions](../../src/nana_core/actions.py) | 意愿不等于授权；UNKNOWN 不盲重试。外部动作及送达须独立核验。 |
+| Manager、Grant、动作 | [ManagerConstraintGate](../../src/nana_core/continuity/autonomy/governance.py) → [GovernedRealization](../../src/nana_core/continuity/autonomy/realization.py) → [ActionKernel](../../src/nana_core/actions.py)；[GrantSpec](../../src/nana_core/contracts.py) 定义能力、资源与有效时间，Kernel 的 grant/revoke/_grant_for 管授权记录与检查 | Manager PASS 不等于 Grant；dispatch 在调用端口前重查授权，verify 使用对应验证能力的 Grant。意愿不等于授权；UNKNOWN 不盲重试，外部动作及送达须独立核验。 |
+| CapabilityPort 与执行上下文 | [CapabilityPort](../../src/nana_core/ports.py) 定义 execute/verify；Kernel 调用注入端口。原 [ContextBoundPort](../../src/nana_core/execution_context/port.py) 复用 Kernel 授权检查并绑定执行上下文；[ExecutionChannel](../../src/nana_core/execution_context/routing.py) 持有该协议端口 | 接口实现或上下文/通道元数据不授予权限，也不成为第二执行权威。端口与宿主的实际绑定须另验。 |
 | 手机/Web 与 API | [Nana Space](../../apps/nana-space/README.md)、[API 服务](../../src/nana_core/life/live_api/server.py)、[supervisor](../../src/nana_core/life/live_api/supervisor.py)、[host gateway](../../packaging/portable/host_gateway.py) | 代码不证明客户端、网关、手机实际已更新。 |
 | QQ/B站 | [PlatformRuntime](../../src/nana_core/life/platform_runtime.py) 的 qq/bilibili 入口分别调用 [QQ bridge](../../src/nana_core/life/platform_bridge.py) 与 [Bilibili workflow](../../src/nana_core/life/bilibili_runtime.py)；[shadow](../../tools/nana_cloud_surfaces/shadow.py) 是受控入口，复用旧 B站 normalize | 旧 [B站 Agent](../../src/bili_agent/bili_agent.py) 及事件泵是历史独立链，不能仅凭名称断定其是否在真实宿主运行。 |
 | 构建、测试、交付 | [portable build](../../tools/nana_portable_cloud/build.py)、[runtime 白名单](../../packaging/portable/runtime-files.txt)、[测试](../../tests/)、[Next Experience selector 检查](../../tools/nana_next_experience/verify_delivery.py) 的 `--current` 与[历史 handoff 检查](../../tools/nana_first_life_unified_release/check_delivery.py)；[selector 测试](../../tests/first_life_android_v2/test_delivery_consistency.py) | 前者核对复合 selector、产物及声明契约；后者校验独立 SHA256SUMS 锚定的 handoff，适用范围不同。分别核对源码 SHA、清单、摘要、selector、安装与运行回执。 |
@@ -36,6 +37,14 @@
 - [旧 Runtime](../../src/nana_core/runtime.py) 自述为同步离线 driver；[development lab](../../src/nana_core/development/lab.py) 使用它，[离线 Runtime 测试](../../tests/offline_continuity/test_runtime.py)直接导入它。独立 life 主链使用上表的 `NanaRuntime`。这证明旧入口仍有源码消费者，不能按名字删除；不据此推定它在生产运行。
 - [旧 MemoryView](../../src/nana_core/memory.py) 的 `entries` 要求显式 `synthetic:` 数据集；[迁移演练](../../src/nana_core/phase3/memory_rehearsal.py) 与 [phase3 测试](../../tests/phase3/test_memory.py)使用它。它与 `continuity/memory.py` 的 MemoryService 有不同的入口和范围，不能仅因同名合并。
 - [便携包清单](../../packaging/portable/runtime-files.txt)同时列出新旧 runtime 和 memory 文件。对该基线 245 个清单条目运行 [构建器已有静态闭包检查](../../tools/nana_portable_cloud/build.py)通过；清单内 [initiative](../../src/nana_core/initiative.py) 静态引用旧 Runtime，而清单内未发现对旧 MemoryView 模块的静态导入。静态扫描不覆盖所有动态/外部消费者，也不证明每个实例的调用情况。若拟移除，先查外部入口、实际构建/安装、兼容测试与回退路径，再与负责人协调。
+
+## Grant 与 CapabilityPort 的复用边界（2026-11-11，基线 cdc0132）
+
+[源码核对] `ports.py` 的历史 offline 说明不能据以认定协议已废弃：[宿主集成契约](../../src/nana_core/integration/contracts.py)仍将 `HostCapabilityAdapter` 直接别名到原 `CapabilityPort`，上表执行通道也直接引用它。扩展适配器应沿用原 execute/verify 与 Kernel，不能因为旧注释另建权限或端口框架。
+
+原 [QQReplyWorkflow](../../src/nana_core/life/platform_runtime.py) 构造 QQCapabilityPort，再由 [QQGovernedDelivery](../../src/nana_core/life/platform_bridge.py)复用原 ManagerConstraintGate 和 ActionKernel；它不走仅接纳指定离线/owned端口的普通 GovernedRealization 构造器。此处是现有源码的不同绑定路径，不是新增主体或授权来源，也不证明真实QQ已启用。
+
+已有测试定位：[Manager PASS 不等于 Grant及直接Kernel不可绕过治理](../../tests/affective_autonomy/test_realization.py)、[动作Grant/过期/UNKNOWN](../../tests/offline_continuity/test_actions.py)、[QQ绑定与效果核验](../../tests/living_release_v4/test_platform_bridge.py)。这些链接提供现有验证入口，本次仅补导航，不重跑或升级它们的行为资格。
 
 
 ## 便携构建检查的限定修复（治理分支待集成）
