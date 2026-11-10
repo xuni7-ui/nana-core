@@ -12,6 +12,8 @@ on:
       - src/nana_core/continuity/privacy.py
       - tests/continuous_self/test_privacy_copy_increment.py
       - src/nana_core/continuity/subject/policy.py
+      - src/nana_core/continuity/subject/context_fit.py
+      - tests/vision_first/test_context_fit.py
       - tests/open_autonomy/test_delivery.py
       - tools/nana_astrbot_shadow/bridge_wire.py
       - src/plugins/astrbot_plugin_nana_shadow_observer/bridge_wire.py

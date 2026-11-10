@@ -1,3 +1,13 @@
+# Active continuation — FOCUS original C purpose is responsive, not always clarification
+
+After normal governance merge718df77, source context_fit.choose changed onlyFOCUS: THINK_MORE/SOCIAL_INTERACTION with supplied-details/clarify-only-missing purpose, allow_new_workfalse, original delivery boundaries preserved; UNCLEAR stillASK/WAIT. FrozenSubjecttest failed first;159vision/person-self/independent tests53.06s plus separate1actual loopback INTERPRET→C→RENDER purpose binding0.71s passed. Source/test/workflow/evidence current batch pending push; successor full/install needed. Evidence focus-purpose-20261110.
+
+Actual b706CI42872229350 completedPASS:2156passed12skip708.03s,bwrap11/11,matching doublebuild and CI offline install network0/privateSQLite3.53.1. It qualifies onlyb706. c162 quietchoices installed25+7/source244 evidence remains, c162 fullCI42872977856 still needs actual result. Earlier817 note-withdrawUNKNOWN first-failure remains; don't relax/replay/infer from targetinactive.
+
+Original taskA–H not finished. Next continue multi-message C purpose/draft/recipient interruption and remaining A–E/affect/experience→judgment-learning; retrieval/storage/privacy/Token/product/model-wizard/runtime/delivery closure persists. Remoteartifact source-byte download remains proxyCONNECT403 to file-reference domain, only that qualification is blocked. Independent source builds/installs/DEV binary rollback are saved. No production/CURRENT/APK/realmodel/account/phone change. Two scheduled11日06:50/12:10 continue prompts remain enabled and do not freeze this work.
+
+---
+
 # Active continuation — original C broad regression and installed package qualified
 
 Current source c162df3 quiet/lifecycle changes:244source tests across6 original C domains passed65.56s. Source-matching284-file package SHA1ef1fbfe72c4a3f59c38ceb45ecd13b6204ecf8fec16cac33849b23f5db1b867 independently offline installed/tmp/nc162. Installed Python-I with original external pytest fixtures:25 lifecycle/learning/delivery/planning tests2.89s+7pure quiet judgments; all102 importedCore modules pinned to installedsrc. First3 lab-module collection errors retained; did not add labs to runtime. Evidence installed-c162-20261110. Core full CI pending; earlier817 withdrawalUNKNOWN remains unresolved.

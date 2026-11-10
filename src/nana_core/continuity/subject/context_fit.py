@@ -107,7 +107,7 @@ def choose(event,situation):
     if fit.mode=='RESPECT_BOUNDARY':
         return 'DEFER',Judgment(stance='DEFER',reason='Respect the sourced boundary at its declared scope',source_ids=sources),Intention(kind='NO_ACTION',purpose='Withhold this interaction; preserve desires and independent cognition unless processing is forbidden',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='STAY_SILENT')
     if fit.mode=='FOCUS':
-        return 'FOCUS_NOW',Judgment(stance='ASK',reason='Attend to the requested focus; preserve unrelated pending activity for later',source_ids=sources),Intention(kind='WAIT',purpose='Clarify the immediate need while background work yields',slot_key='context-focus',source_ids=sources,self_generated=False)
+        return 'FOCUS_NOW',Judgment(stance='THINK_MORE',reason='Attend to the requested focus; preserve unrelated pending activity for later',source_ids=sources),Intention(kind='SOCIAL_INTERACTION',purpose='Respond to the current focus using supplied details; clarify only missing specifics while background work yields',slot_key='context-focus',source_ids=sources,self_generated=False)
     if fit.mode=='PROJECT_STATUS':
         return 'FOCUS_NOW',Judgment(stance='WATCH',reason='Attend to an explicit project-status question using current sourced state, not clarification of an unclear intent',source_ids=sources),Intention(kind='SOCIAL_INTERACTION',purpose='Discuss sourced current project status and a supported assessment, not adopt work or invent personal experiences',slot_key='project-status-'+fit.topic_key,source_ids=sources,self_generated=False)
     if fit.mode=='CORRECTION':

@@ -3388,3 +3388,7 @@ acdd284文件本地双构建同6a8848…0f00，独立离线安装BFF/反馈幂�
 ### 2026-11-10 · 正常集成PR7/PR8治理后继并保留新C安装证据
 
 本地5ea8b07推送被a2e3d27合法后继拒绝，fetch只读核对相对c162仅交付归档重复项验证/17测试/治理CI/Grant-CapabilityPort导航/两账本追加。正常merge保留双方，11末尾冲突按完整追加双方原文解决；09顶部最新revision124和安装资格保留。无reset/rebase/amend/force及Core运行逻辑变更；SOURCE和新C安装证据继续，不把治理CI当全仓。
+
+### 2026-11-10 · 原C明确FOCUS不再预设需要泛澄清
+
+明确关注优先级不等于意图未知。原FOCUS改THINK_MORE/SOCIAL_INTERACTION，目的响应已有细节、只问缺失具体信息，allow_new_workfalse/后台兴趣/交付边界保持，UNCLEAR原ASK/WAIT不动。旧Subject新case失败，159相关53.06s+独立1真实loopback C目的至RENDER0.71s通过；0行动/Grant/真实模型，不冒充真人自然度。原CI增加相应source/test触发。b706原CI2156/12pass708.03s、probe11/11、双构建/CI离线安装PASS；不冒充新focus源码全仓。治理merge71817交付测试pass、首76链接缺稀疏历史文件后按同HEADblob恢复再PASS，双方账本保留。证据focus-purpose；总A–H继续，CURRENT/APK/生产不动。

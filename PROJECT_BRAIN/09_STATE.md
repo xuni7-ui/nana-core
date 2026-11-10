@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 124,
-  "as_of_us": 1794334782730739,
+  "revision": 125,
+  "as_of_us": 1794335079603537,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_ORIGINAL_C_NONWORKING_CHOICES_AND_RESTART_RECEIPT",
+  "status": "IN_PROGRESS_ORIGINAL_C_FOCUSED_COMMUNICATION_PURPOSE",
   "progress": [
     "同一Next Experience与十域主任务已恢复；唯一Subject/Store/Loop、原C/D/G/Planner及Precision V2保持。最新合法源码与Brain优先。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
@@ -20,14 +20,14 @@
     "原C放弃/安静选择修复：源码六组244通过65.56s；匹配c162独立离线安装，安装包Python运行25原生命周期/学习/投递/计划测试+7纯判断，102Core模块全来自安装包。全仓/真人/长期仍待。",
     "长回复16384/原Token预算；6fd安装两轮12625字全文、已保留全文重启恢复/撤回通过；1024历史节选标记/4096流式前缀保留，反馈仍限2048。",
     "原memory_terms有界派生加速：1k/10k/100k均144/144，100k P959.72ms；200k142/144、误召0/超时2、P9548.18ms，增加约0.8GB索引；55相关通过。",
-    "acddab6原Core CI2153通过/12跳过、双构建/CI离线安装保留；Web待发正文现在独立到期清除，不等前请求完成。新构建/67单测/12四视口队列场景通过；虚拟时间不是实际20分钟驻留。"
+    "b706原C完整CI42872229350：2156通过/12跳过/708.03s，原bwrap11/11、双构建/CI离线安装PASS。更新FOCUS原C不再无条件ASK/WAIT，159相关+1真实loopback目的绑定测试通过，非真实模型自然度。"
   ],
   "open_gates": [
     "原A–H继承；Web/Core各逐条原C，BFF仍串行，尚无多消息目的合并/在途草稿重组及完整误触/中断闭环；其余自主性A–E/送达/长期因果继续。",
     "原G仍限独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移仍待改进。新加速只资格有限合成literal源选择。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "全链模型特定Token/费用/超时、产品/模型向导、运行Gateway/Core/宿主兼容与仓库闭包仍按原清单推进。",
-    "817完整CI42870078570为2152pass/1fail/12skip：重启后笔记撤回返回UNKNOWN；同一严格本地测试1pass3.68s，仅加实际回执诊断未称修复。新C后继全仓/安装仍待，CURRENT266+409。",
+    "b706全仓已PASS；817重启withdrawUNKNOWN曾失败仍留首错，不以一次通过称根因已修。c162后继CI在途；新FOCUS含原C→RENDER159+1定向通过，后继全仓/匹配安装待验。CURRENT266+409。",
     "独立本地重建/安装已补；远端artifact字节下载403及本地/远端SHA对照仍未完成，不能混同。817客户端CI67/36通过，Core在途。CURRENT266+409；手机/模型/生产/长期仍未资格，A–H继续。"
   ],
   "evidence_refs": [
@@ -38,7 +38,7 @@
     "docs/nana_next_experience/evidence/installed-c162-20261110/README.md",
     "docs/nana_next_experience/evidence/ci-bwrap-host-requalification-20261109/README.md",
     "docs/nana_next_experience/evidence/independent-install-817-20261110/README.md",
-    "docs/nana_next_experience/evidence/web-waiting-inbox-20261109/README.md"
+    "docs/nana_next_experience/evidence/focus-purpose-20261110/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

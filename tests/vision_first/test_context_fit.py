@@ -14,6 +14,19 @@ def interaction(r,key,kind,topic='ordinary',**kwargs):
 def wake(r,key,mid):
     return SubjectInput(source_key='synthetic.context.wake.'+key,kind='WAKE',origin='SELF_WAKE',entity_id='observer',scope='world',observed_at_us=r.clock.utc_now_us(),source_memory_ids=(mid,),privacy_class='PUBLIC')
 
+def test_focused_user_request_does_not_install_unconditional_clarification(tmp_path):
+    with open_runtime(tmp_path/'self.db',VirtualClock()) as r:
+        event=interaction(r,'focus-explained','FOCUS','current-focus').model_copy(update={
+            'text':'SYNTHETIC 现在先帮我说明：这条错误表示文件不存在。'})
+        focused=r.subject.run(event)
+        assert focused.context_fit.mode=='FOCUS' and not focused.context_fit.allow_new_work
+        assert focused.judgment.stance!='ASK'
+        assert focused.intention.kind=='SOCIAL_INTERACTION'
+        assert focused.goal_candidate_id is None
+        uncertain=r.subject.run(interaction(r,'actually-unclear','UNCLEAR','unknown-focus'))
+        assert uncertain.judgment.stance=='ASK' and uncertain.intention.kind=='WAIT'
+        assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('jobs')
+
 def test_vent_help_share_unclear_and_busy_are_semantic_proposals_not_tasks(tmp_path):
     with open_runtime(tmp_path/'self.db',VirtualClock()) as r:
         class Count(AnalyticalFixturePort):
