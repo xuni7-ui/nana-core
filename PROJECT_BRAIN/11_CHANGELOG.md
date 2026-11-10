@@ -3468,3 +3468,10 @@ catalog42919922408客户端成功/Core按范围跳过；quota42920422226原Core�
 ### 2026-11-11 · 宿主显式开放运行预算配置API（客户端下一批）
 
 复用life.update_config CAS/原OperationLedger，新GET/POST providers/runtime仅HOST_ADMIN+新defaultfalse宿主标志+原allow_provider_configuration+原live启动授权，严格consentTrue；当前profile revision/host绑定后设置全宿主operating调用/Token/资源预留，原任务总上限/timeout/已有私人授权/身份保持，不自动重启/解Key/出网。新flagFalse序列化省略兼容旧普通配置，True wholeGateway回退须兼容版本或原host配置。旧路由404留证；6新HTTP8.94s，再13相关11.59s，含CSRF/角色/默认关闭/CAS/原幂等/写后丢结果UNKNOWN不重写不推断。证据provider-runtime-settings。此提交只有API/生成契约，App/native下一步，非全能力完成或生产授权；CURRENT/APK/真实模型/手机/生产未动。
+
+
+### 2026-11-11 · App运行预算表单与有限原生映射源码接线
+
+复用V2Client新有限GET/POST、当前Host配置/CSRF/CAS回执；仅宿主已开cap+HOST_ADMIN展示。表单明确全宿主共享预算/已授权内容范围/选定域名/内部资源单位与真实账单分离，计费同意默认false；配置或profile变更重置同意，session owner隔离不占chat pending标志。26相关SDK单测869ms/live编译/16四视口22.5s，最终同意文案覆盖其他已授权模型后重编译、4保存视口9.0s。UNKNOWN核验不因配置可见而成功，REJECTED保留，0自动重启/模型/Key/catalog请求。
+
+Android增2有限映射，javac未在PATH，本批无原生编译/APK/实机资格。纠正打包PROVIDERS.md旧15s示例为实际默认120s可配置，未改任何运行配置。证据provider-runtime-settings；当前实际CoreHTTP与Web合成浏览器分开报告，全发行/独立安装/真实provider/native后续。BPR13远端合法后继导致7c首次push拒绝，保留local/source后正常合并，不强推。CURRENT/生产不动。

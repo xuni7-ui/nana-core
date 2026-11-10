@@ -302,7 +302,7 @@ jobs:
           export default {...base, use: {...base.use,
             launchOptions: {...base.use?.launchOptions, executablePath: undefined}}};
           CONFIG
-          npx playwright test --config playwright.qualification.config.ts --grep 'complete retained long reply|explicit reply feedback|four memory-use feedback|SYNTHETIC local chat inbox|SYNTHETIC long reply feedback|SYNTHETIC model setup|SYNTHETIC model catalog'
+          npx playwright test --config playwright.qualification.config.ts --grep 'complete retained long reply|explicit reply feedback|four memory-use feedback|SYNTHETIC local chat inbox|SYNTHETIC long reply feedback|SYNTHETIC model setup|SYNTHETIC model catalog|SYNTHETIC runtime budget'
       - uses: actions/upload-artifact@v4
         if: always()
         with:

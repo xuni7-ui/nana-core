@@ -1,0 +1,12 @@
+
+ RUN  v3.2.7 /workspace/nana-unified-release/apps/nana-space
+
+ ✓ tests/v2-client.test.ts (8 tests) 14ms
+ ✓ tests/provider-center.test.ts (15 tests) 7ms
+ ✓ tests/provider-commands.test.ts (3 tests) 6ms
+
+ Test Files  3 passed (3)
+      Tests  26 passed (26)
+   Start at  23:30:11
+   Duration  869ms (transform 145ms, setup 0ms, collect 197ms, tests 26ms, environment 1ms, prepare 204ms)
+

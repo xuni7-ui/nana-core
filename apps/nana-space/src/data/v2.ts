@@ -8,6 +8,7 @@ import type {
   HostRequest,
   HostConfirmation,
   ProviderConfigurationRequest,
+  ProviderRuntimeBudgetRequest,
   MemoryNoteRequest,
   LanguageFeedbackRequest,
 } from "./v2.generated";
@@ -298,14 +299,15 @@ export class V2Client {
     );
   }
   async write(
-    kind: "message" | "command" | "host.operation" | "providers.command" | "memories.note" | "conversation.feedback",
+    kind: "message" | "command" | "host.operation" | "providers.command" | "providers.runtime" | "memories.note" | "conversation.feedback",
     body:
       | MessageRequest
       | CommandRequest
       | HostRequest
       | MemoryNoteRequest
       | LanguageFeedbackRequest
-      | ProviderConfigurationRequest,
+      | ProviderConfigurationRequest
+      | ProviderRuntimeBudgetRequest,
   ): Promise<Envelope> {
     if (body.run_generation !== this.generation)
       throw new V2Error("STALE_RUN_NO_REPLAY");
@@ -314,6 +316,7 @@ export class V2Client {
       command: "commands",
       "host.operation": "host/operations",
       "providers.command": "providers/commands",
+      "providers.runtime": "providers/runtime",
       "memories.note": "memories/notes",
       "conversation.feedback": "conversation/feedback",
     }[kind];
@@ -404,6 +407,11 @@ export class V2Client {
     return this.accept(isNative()
       ? await this.nativeCall({ operation: "providers.credentials", data: {} })
       : await this.request("providers/credentials"));
+  }
+  async providerRuntime(): Promise<Envelope> {
+    return this.accept(isNative()
+      ? await this.nativeCall({operation:"providers.runtime.status",data:{}})
+      : await this.request("providers/runtime"));
   }
   async providerModels(providerId: string, revision: number): Promise<Envelope> {
     return this.accept(isNative()

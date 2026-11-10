@@ -65,6 +65,7 @@ import {
 } from "./v3/LifeViews";
 import { ChatPane, type Turn } from "./v3/ChatPane";
 import { ModelSetup } from "./next/ModelSetup";
+import { ProviderRuntimeSettings, type RuntimeBudgetInput } from "./next/ProviderRuntimeSettings";
 import { DataConsole } from "./next/DataConsole";
 import { readProviderSettings, type ProviderDraft } from "../data/provider-center";
 import { providerCommand, modelCommand, routeCommand } from "../data/provider-commands";
@@ -121,6 +122,9 @@ const reasons: Record<string, string> = {
   PROVIDER_CATALOG_PROTOCOL_UNSUPPORTED: "该供应商暂不支持自动读取，请直接填写模型名称。",
   PROVIDER_CATALOG_WAIT: "刚刚已读取过模型列表，请稍等几秒。",
   PROVIDER_CATALOG_FORMAT: "服务商返回的列表格式不兼容，请直接填写模型名称。",
+  PROVIDER_RUNTIME_CONFIGURATION_DISABLED: "宿主尚未开放运行预算设置。",
+  LIFE_CONFIG_REVISION_CONFLICT: "运行配置已变化，请刷新核对后重新选择。",
+  PROVIDER_RUNTIME_PROFILE_UNSUPPORTED: "请选择已启用且具有当前协议适配的远程服务商。",
   PROVIDER_CATALOG_MODEL_INVALID: "模型列表包含不兼容项目，已停止读取；可以手动填写模型名称。",
   SECRET_UNAVAILABLE: "尚未绑定可用的服务商凭据。",
   MEMORY_SEARCH_NARROW_QUERY: "这次查找范围太大，请换一个更具体的词句。",
@@ -212,6 +216,8 @@ export function LiveSpace() {
   const [biliSnapshot, setBiliSnapshot] = useState<unknown>(null);
   const [sharedSnapshot, setSharedSnapshot] = useState<unknown>(null);
   const [credentialStatus, setCredentialStatus] = useState<unknown>(null);
+  const [providerRuntime, setProviderRuntime] = useState<unknown>(null);
+  const runtimeBudgetPending = useRef<number | null>(null);
   const [receipt, setReceipt] = useState<Record<string, unknown> | null>(null);
   const [notifications, setNotifications] =
     useState("未请求系统通知权限；后台推送未资格");
@@ -274,6 +280,7 @@ export function LiveSpace() {
     setBiliSnapshot(null);
     setSharedSnapshot(null);
     setCredentialStatus(null);
+    setProviderRuntime(null);
   }, [clearQueuedInputs]);
   const accept = useCallback((b: Envelope) => {
     if (current.current?.capabilities.shared_life_retention === true && b.capabilities.shared_life_retention !== true) {
@@ -288,6 +295,7 @@ export function LiveSpace() {
       setBiliSnapshot(null);
       setSharedSnapshot(null);
       setCredentialStatus(null);
+      setProviderRuntime(null);
       setDraft("");
       setPersonalDraft(false);
       setRememberDraft(false);
@@ -376,6 +384,12 @@ export function LiveSpace() {
         if (version !== sessionVersion.current || pageVersion !== routeVersion.current || seq !== readVersion.current) return;
         setCredentialStatus(credentials.data);
       } else setCredentialStatus(null);
+      if (requestedPage === "models" && b.capabilities.provider_runtime_configuration === true
+        && Array.isArray(object(b.data).roles) && (object(b.data).roles as unknown[]).includes("HOST_ADMIN")) {
+        const runtime=await client.current.providerRuntime();
+        if(version!==sessionVersion.current || pageVersion!==routeVersion.current || seq!==readVersion.current)return;
+        setProviderRuntime(runtime.data);
+      } else setProviderRuntime(null);
       if (requestedPage === "backup" && b.capabilities.backup_status === true) {
         const backup = await client.current.backupStatus();
         if (
@@ -420,6 +434,7 @@ export function LiveSpace() {
         setBiliSnapshot(null);
         setSharedSnapshot(null);
         setCredentialStatus(null);
+        setProviderRuntime(null);
         setPairOffer("");
       }
     };
@@ -1019,6 +1034,31 @@ export function LiveSpace() {
       await refresh().catch(() => {});
     } finally { if (version === sessionVersion.current) { setBusy(false); writePending.current = false; } }
   };
+  const saveProviderRuntime = async (input: RuntimeBudgetInput) => {
+    const version=sessionVersion.current;
+    if (busy || writePending.current || runtimeBudgetPending.current===version) throw new V2Error("REQUEST_BUSY");
+    runtimeBudgetPending.current=version;setBusy(true);
+    const id=crypto.randomUUID();
+    try {
+      const b=await fresh();
+      if(version!==sessionVersion.current)throw new V2Error("SESSION_REVOKED");
+      const response=await client.current.write("providers.runtime",{...writeBase(b,id),...input});
+      if(version!==sessionVersion.current)throw new V2Error("SESSION_REVOKED");
+      const result=object(response.data);setReceipt(result);
+      if(result.state!=="VERIFIED")throw new V2Error(typeof result.error==="string"?result.error:"UNKNOWN_VERIFY_ONLY");
+      setNotice("运行预算与连接域名已保存。请明确重启以应用；尚未调用模型。");
+      await refresh();
+    } catch(error) {
+      if(version===sessionVersion.current){
+        if(error instanceof V2Error && error.code==="UNKNOWN_VERIFY_ONLY")setReceipt({receipt_id:id,state:"UNKNOWN",dispatch_happened:"UNKNOWN"});
+        setNotice(explain(error));await refresh().catch(()=>{});
+      }
+      throw error;
+    } finally {
+      if(runtimeBudgetPending.current===version)runtimeBudgetPending.current=null;
+      if(version===sessionVersion.current)setBusy(false);
+    }
+  };
   const verifyLatestReceipt = async () => {
     const id = text(receipt?.receipt_id),
       version = sessionVersion.current;
@@ -1055,6 +1095,7 @@ export function LiveSpace() {
     setBiliSnapshot(null);
     setSharedSnapshot(null);
     setCredentialStatus(null);
+    setProviderRuntime(null);
     setBrowsing(false);
     setStyleDraft([]);
     setNotice("");
@@ -1152,6 +1193,7 @@ export function LiveSpace() {
     setBiliSnapshot(null);
     setSharedSnapshot(null);
     setCredentialStatus(null);
+    setProviderRuntime(null);
     setPairOffer("");
     setNotice("");
     window.scrollTo({ top: 0, behavior: "instant" });
@@ -1617,7 +1659,11 @@ export function LiveSpace() {
               />
             )}
             {page === "models" && (
-              <><ModelSetup disabled={busy || !admin || !healthy || bootstrap?.capabilities.provider_configuration_write !== true} canBindCredential={isNative() && bootstrap?.capabilities.native_secret_binding===true} onSetup={setupModel}/><ModelCenter
+              <><ModelSetup disabled={busy || !admin || !healthy || bootstrap?.capabilities.provider_configuration_write !== true} canBindCredential={isNative() && bootstrap?.capabilities.native_secret_binding===true} onSetup={setupModel}/>
+                {admin && bootstrap?.capabilities.provider_runtime_configuration===true && Boolean(providerRuntime) &&
+                  <ProviderRuntimeSettings key={JSON.stringify([object(providerRuntime).configuration_revision,object(providerRuntime).profiles])} data={providerRuntime}
+                    disabled={busy || !healthy} onSave={saveProviderRuntime}/>}
+                <ModelCenter
                 key={`${bootstrap?.run_generation || "offline"}:${privacy.current}:${healthy}`}
                 settings={data.provider_settings}
                 available={healthy}

@@ -114,3 +114,21 @@ test("additive PERSONAL envelope is accepted while SECRET remains forbidden", ()
   expect(envelope({...sample(), privacy_scope: ["PUBLIC", "PROJECT", "PERSONAL"]}).privacy_scope).toContain("PERSONAL");
   expect(() => envelope({...sample(), privacy_scope: ["PUBLIC", "SECRET"]})).toThrow("SCOPE_DENIED");
 });
+
+test("host runtime settings use the finite route and an uncertain POST is never retried", async()=>{
+  const request=vi.fn(async(_url:unknown,options?:RequestInit)=>{
+    if(options?.method==='POST')throw new TypeError('SYNTHETIC lost settings completion');
+    return new Response(JSON.stringify(sample()),{status:200});
+  });
+  vi.stubGlobal('fetch',request);
+  const client=new V2Client();await client.bootstrap();await client.providerRuntime();
+  expect(String(request.mock.calls.at(-1)?.[0])).toBe('/api/nana-space/v2/providers/runtime');
+  await expect(client.write('providers.runtime',{client_request_id:'budget',idempotency_key:'budget',
+    expected_revision:0,run_generation:'b'.repeat(32),owner_epoch:1,provider_profile_id:'provider.runtime',
+    profile_revision:1,configuration_revision:3,calls_per_day:6,calls_per_hour:4,per_provider_calls_per_day:6,
+    output_tokens:1024,context_tokens:8192,per_call_reserved_cost_micro:500,consent:true})).rejects.toMatchObject({code:'UNKNOWN_VERIFY_ONLY'});
+  expect(request).toHaveBeenCalledTimes(3);
+  expect(String(request.mock.calls.at(-1)?.[0])).toBe('/api/nana-space/v2/providers/runtime');
+  const body=JSON.parse(String(request.mock.calls.at(-1)?.[1]?.body));
+  expect(body.consent).toBe(true);expect(body.configuration_revision).toBe(3);
+});

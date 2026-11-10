@@ -1,0 +1,38 @@
+[WebServer] (node:19576) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:19589) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 12 tests using 1 worker
+
+(node:19606) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/12] [desktop] › tests/v3.spec.ts:1335:66 › SYNTHETIC runtime budget: explicit consent and VERIFIED receipt
+[2/12] [desktop] › tests/v3.spec.ts:1335:66 › SYNTHETIC runtime budget: explicit consent and UNKNOWN receipt
+[3/12] [desktop] › tests/v3.spec.ts:1335:66 › SYNTHETIC runtime budget: explicit consent and REJECTED receipt
+(node:19804) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[4/12] [phone-360] › tests/v3.spec.ts:1335:66 › SYNTHETIC runtime budget: explicit consent and VERIFIED receipt
+[5/12] [phone-360] › tests/v3.spec.ts:1335:66 › SYNTHETIC runtime budget: explicit consent and UNKNOWN receipt
+[6/12] [phone-360] › tests/v3.spec.ts:1335:66 › SYNTHETIC runtime budget: explicit consent and REJECTED receipt
+(node:20003) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[7/12] [phone-390] › tests/v3.spec.ts:1335:66 › SYNTHETIC runtime budget: explicit consent and VERIFIED receipt
+[8/12] [phone-390] › tests/v3.spec.ts:1335:66 › SYNTHETIC runtime budget: explicit consent and UNKNOWN receipt
+[9/12] [phone-390] › tests/v3.spec.ts:1335:66 › SYNTHETIC runtime budget: explicit consent and REJECTED receipt
+(node:20208) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[10/12] [phone-412] › tests/v3.spec.ts:1335:66 › SYNTHETIC runtime budget: explicit consent and VERIFIED receipt
+[11/12] [phone-412] › tests/v3.spec.ts:1335:66 › SYNTHETIC runtime budget: explicit consent and UNKNOWN receipt
+[12/12] [phone-412] › tests/v3.spec.ts:1335:66 › SYNTHETIC runtime budget: explicit consent and REJECTED receipt
+  12 passed (18.0s)

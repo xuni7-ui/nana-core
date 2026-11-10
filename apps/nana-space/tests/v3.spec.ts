@@ -1331,3 +1331,62 @@ for (const scenario of ['SAVED','LOST_ACK','REJECTED'] as const) test(`SYNTHETIC
   expect(state.requests.some(r=>r.path==='providers/credentials/bind'||r.path==='providers/models')).toBe(false);
   await noHorizontalOverflow(page);
 });
+
+for(const outcome of ['VERIFIED','UNKNOWN','REJECTED','PROFILE_CHANGED'] as const) test(`SYNTHETIC runtime budget: explicit consent and ${outcome} receipt`,async({page})=>{
+  const state=await installMock(page);
+  state.capabilities={provider_configuration_write:true,provider_runtime_configuration:true};
+  let configRevision=3,day=6,posts=0,receiptReads=0,requestId='',profileRevision=1;
+  const runtime=()=>({configuration_revision:configRevision,can_configure:true,provider_hosts:[],remote_privacy:['PUBLIC','PROJECT'],
+    limits:{calls_per_day:day,calls_per_hour:4,per_provider_calls_per_day:6,per_call_reserved_cost_micro:500,total_calls:20,total_reserved_cost_micro:10000},
+    output_tokens:1024,context_tokens:8192,profiles:[{provider_profile_id:'provider-a',profile_revision:profileRevision,
+      display_name:'SYNTHETIC Text Resource',host:profileRevision===1?'provider-a.example':'changed.example',enabled:true,locality:'REMOTE',
+      protocol:'OPENAI_COMPATIBLE_CHAT',per_call_reserved_cost_micro:1000}],network_calls:0});
+  await page.route(`**${API}providers/runtime`,async route=>{
+    if(route.request().method()==='GET')return route.fulfill({status:200,json:envelope(state,runtime())});
+    const body=route.request().postDataJSON();posts++;requestId=body.client_request_id;
+    expect(body).toMatchObject({provider_profile_id:'provider-a',profile_revision:1,configuration_revision:3,
+      consent:true,calls_per_day:7,calls_per_hour:4,per_provider_calls_per_day:6,per_call_reserved_cost_micro:500});
+    expect(JSON.stringify(body)).not.toMatch(/api_key|credential|secret|password/);
+    if(outcome!=='REJECTED'){configRevision++;day=7;state.revision++;}
+    if(outcome==='UNKNOWN')return route.abort('failed');
+    return route.fulfill({status:200,json:envelope(state,{receipt_id:requestId,state:outcome,
+      dispatch_happened:outcome==='VERIFIED',...(outcome==='REJECTED'?{error:'LIFE_CONFIG_REVISION_CONFLICT'}:
+      {result:{configuration_revision:configRevision,runtime_applied:false,restart_required:true,network_calls:0}})})});
+  });
+  await page.route(`**${API}receipts/*`,route=>{
+    receiptReads++;return route.fulfill({status:200,json:envelope(state,{receipt_id:requestId,state:'UNKNOWN',dispatch_happened:'UNKNOWN'})});
+  });
+  await open(page,'models');
+  const panel=page.getByLabel('模型运行预算',{exact:true});
+  await expect(panel).toBeVisible();
+  const save=panel.getByRole('button',{name:'保存运行预算',exact:true});
+  await expect(save).toBeDisabled();expect(posts).toBe(0);
+  await panel.getByLabel('每日请求上限',{exact:true}).fill('7');
+  const consent=panel.getByRole('checkbox',{name:/我允许向/});
+  await consent.check();
+  if(outcome==='PROFILE_CHANGED'){
+    profileRevision=2;
+    await page.getByRole('button',{name:'刷新真实状态',exact:true}).click();
+    await expect(panel.getByRole('checkbox',{name:/我允许向 changed.example/})).not.toBeChecked();
+    await expect(save).toBeDisabled();expect(posts).toBe(0);
+    await noHorizontalOverflow(page);return;
+  }
+  await save.click();
+  if(outcome==='VERIFIED'){
+    await expect(page.getByText('最近操作 · 已完成',{exact:true})).toBeVisible();
+    await expect(page.getByText('运行预算与连接域名已保存。请明确重启以应用；尚未调用模型。',{exact:true})).toBeVisible();
+    await expect(panel.getByRole('checkbox',{name:/我允许向/})).not.toBeChecked();
+  }else if(outcome==='UNKNOWN'){
+    await expect(page.getByText('最近操作 · 待确认',{exact:true})).toBeVisible();
+    await page.getByText('最近操作 · 待确认',{exact:true}).click();
+    await page.getByRole('button',{name:'核验当前回执',exact:true}).click();
+    await expect.poll(()=>receiptReads).toBe(1);
+    await expect(page.getByText('最近操作 · 待确认',{exact:true})).toBeVisible();
+    await expect(page.getByText(/运行预算与连接域名已保存/)).toHaveCount(0);
+  }else{
+    await expect(page.getByText('最近操作 · 未执行',{exact:true})).toBeVisible();expect(configRevision).toBe(3);
+  }
+  expect(posts).toBe(1);
+  expect(state.requests.some(r=>['messages','host/operations','host/confirmations','providers/models','providers/credential'].includes(r.path))).toBe(false);
+  await noHorizontalOverflow(page);
+});

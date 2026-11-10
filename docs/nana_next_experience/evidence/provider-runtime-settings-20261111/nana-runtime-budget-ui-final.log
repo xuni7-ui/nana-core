@@ -1,0 +1,40 @@
+vite v6.4.5 building for live...
+
+(!) outDir /tmp/nana-runtime-budget-ui-dist is not inside project root and will not be emptied.
+Use --emptyOutDir to override.
+
+transforming...
+✓ 1786 modules transformed.
+rendering chunks...
+computing gzip size...
+../../../../tmp/nana-runtime-budget-ui-dist/index.html                          0.74 kB │ gzip:  0.47 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/CoreApp-DlTee8Ns.css         3.31 kB │ gzip:  0.99 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/ExplorePages-S7BqOZCt.css   12.93 kB │ gzip:  2.95 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/settings-s7FLzCO4.css       19.37 kB │ gzip:  3.76 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/index-CBiVU63E.css          39.56 kB │ gzip:  9.18 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/LiveSpace-BK9hKw5E.css      51.18 kB │ gzip: 10.21 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/clock-3-Cz3bcsEu.js          0.35 kB │ gzip:  0.27 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/eye-CEVJ_4uF.js              0.42 kB │ gzip:  0.30 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/lock-keyhole-BSq71DGR.js     0.42 kB │ gzip:  0.32 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/shield-check-CEB-otz1.js     0.48 kB │ gzip:  0.35 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/radio-B4h_R6cS.js            0.83 kB │ gzip:  0.40 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/refresh-cw-Cw0AGPLA.js       0.84 kB │ gzip:  0.42 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/sparkles-Dhl2hy8u.js         0.92 kB │ gzip:  0.44 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/smartphone-CEL1Ql6v.js       1.08 kB │ gzip:  0.46 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/plus-is75ephY.js             1.16 kB │ gzip:  0.46 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/Avatar-dDrXzLUZ.js           1.58 kB │ gzip:  0.93 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/upload-BUq2A5D5.js           1.69 kB │ gzip:  0.67 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/ui-CjSuShUR.js               1.69 kB │ gzip:  0.64 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/sun-mMznm-P1.js              1.85 kB │ gzip:  0.59 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/monitor-mGS3ai6i.js          1.94 kB │ gzip:  0.70 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/x-CCoZpoPT.js                2.42 kB │ gzip:  0.83 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/preferences-0suyjrPv.js      3.31 kB │ gzip:  1.24 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/ChatPage-fU3_Dk7-.js         7.31 kB │ gzip:  3.42 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/SettingsPage-DHJ1CZfj.js    10.20 kB │ gzip:  4.67 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/RuntimePage-BAMHb0Sq.js     16.46 kB │ gzip:  6.42 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/CoreApp-o3alvGFx.js         19.67 kB │ gzip:  8.37 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/ExplorePages-Du6A9Xrg.js    27.19 kB │ gzip:  8.98 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/index-BzDSFjKW.js          120.23 kB │ gzip: 37.21 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/LiveSpace-sFWV7zrl.js      172.93 kB │ gzip: 57.78 kB
+../../../../tmp/nana-runtime-budget-ui-dist/assets/index-BaqJ3dG-.js          228.04 kB │ gzip: 71.41 kB
+✓ built in 2.64s

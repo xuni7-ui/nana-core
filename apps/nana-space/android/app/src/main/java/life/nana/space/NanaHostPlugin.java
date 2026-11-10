@@ -356,6 +356,8 @@ public class NanaHostPlugin extends Plugin {
                 else if ("platform.credential.revoke".equals(op) && "REVOKE".equals(data.optString("action"))) { route = "platform/credential";method = "POST"; }
                 else if ("life.shares".equals(op)) route = "life/shares";
                 else if ("providers.credentials".equals(op)) route = "providers/credentials";
+                else if ("providers.runtime.status".equals(op)) route = "providers/runtime";
+                else if ("providers.runtime".equals(op)) { route = "providers/runtime";method = "POST"; }
                 else if ("providers.models".equals(op)) {
                     String pid = data.optString("provider_profile_id");
                     int revision = data.optInt("profile_revision", -1);

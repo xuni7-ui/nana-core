@@ -1,0 +1,42 @@
+[WebServer] (node:21253) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:21266) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 16 tests using 1 worker
+
+(node:21283) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/16] [desktop] › tests/v3.spec.ts:1335:84 › SYNTHETIC runtime budget: explicit consent and VERIFIED receipt
+[2/16] [desktop] › tests/v3.spec.ts:1335:84 › SYNTHETIC runtime budget: explicit consent and UNKNOWN receipt
+[3/16] [desktop] › tests/v3.spec.ts:1335:84 › SYNTHETIC runtime budget: explicit consent and REJECTED receipt
+[4/16] [desktop] › tests/v3.spec.ts:1335:84 › SYNTHETIC runtime budget: explicit consent and PROFILE_CHANGED receipt
+(node:21520) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[5/16] [phone-360] › tests/v3.spec.ts:1335:84 › SYNTHETIC runtime budget: explicit consent and VERIFIED receipt
+[6/16] [phone-360] › tests/v3.spec.ts:1335:84 › SYNTHETIC runtime budget: explicit consent and UNKNOWN receipt
+[7/16] [phone-360] › tests/v3.spec.ts:1335:84 › SYNTHETIC runtime budget: explicit consent and REJECTED receipt
+[8/16] [phone-360] › tests/v3.spec.ts:1335:84 › SYNTHETIC runtime budget: explicit consent and PROFILE_CHANGED receipt
+(node:21757) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[9/16] [phone-390] › tests/v3.spec.ts:1335:84 › SYNTHETIC runtime budget: explicit consent and VERIFIED receipt
+[10/16] [phone-390] › tests/v3.spec.ts:1335:84 › SYNTHETIC runtime budget: explicit consent and UNKNOWN receipt
+[11/16] [phone-390] › tests/v3.spec.ts:1335:84 › SYNTHETIC runtime budget: explicit consent and REJECTED receipt
+[12/16] [phone-390] › tests/v3.spec.ts:1335:84 › SYNTHETIC runtime budget: explicit consent and PROFILE_CHANGED receipt
+(node:21991) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[13/16] [phone-412] › tests/v3.spec.ts:1335:84 › SYNTHETIC runtime budget: explicit consent and VERIFIED receipt
+[14/16] [phone-412] › tests/v3.spec.ts:1335:84 › SYNTHETIC runtime budget: explicit consent and UNKNOWN receipt
+[15/16] [phone-412] › tests/v3.spec.ts:1335:84 › SYNTHETIC runtime budget: explicit consent and REJECTED receipt
+[16/16] [phone-412] › tests/v3.spec.ts:1335:84 › SYNTHETIC runtime budget: explicit consent and PROFILE_CHANGED receipt
+  16 passed (22.5s)
