@@ -6,6 +6,8 @@ on:
     paths:
       - .github/workflows/nana-governance-check.yml
       - .github/workflows/nana-next-qualification.yml
+      - .source-checkout
+      - docs/guides/independent-life.md
       - AGENTS.md
       - README.md
       - docs/nana_next_experience/GOVERNANCE_SOURCE_MAP.md
@@ -27,6 +29,8 @@ jobs:
       - uses: actions/checkout@v4
         with:
           persist-credentials: false
+      - name: Use source working-tree profile
+        run: git sparse-checkout set --stdin < .source-checkout
       - name: Check source navigation
         run: python3 tools/nana_next_experience/check_governance_links.py
       - name: Check portable import boundary

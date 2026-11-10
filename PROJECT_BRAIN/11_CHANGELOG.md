@@ -3475,3 +3475,10 @@ catalog42919922408客户端成功/Core按范围跳过；quota42920422226原Core�
 复用V2Client新有限GET/POST、当前Host配置/CSRF/CAS回执；仅宿主已开cap+HOST_ADMIN展示。表单明确全宿主共享预算/已授权内容范围/选定域名/内部资源单位与真实账单分离，计费同意默认false；配置或profile变更重置同意，session owner隔离不占chat pending标志。26相关SDK单测869ms/live编译/16四视口22.5s，最终同意文案覆盖其他已授权模型后重编译、4保存视口9.0s。UNKNOWN核验不因配置可见而成功，REJECTED保留，0自动重启/模型/Key/catalog请求。
 
 Android增2有限映射，javac未在PATH，本批无原生编译/APK/实机资格。纠正打包PROVIDERS.md旧15s示例为实际默认120s可配置，未改任何运行配置。证据provider-runtime-settings；当前实际CoreHTTP与Web合成浏览器分开报告，全发行/独立安装/真实provider/native后续。BPR13远端合法后继导致7c首次push拒绝，保留local/source后正常合并，不强推。CURRENT/生产不动。
+
+
+### 2026-11-11 · Codex B 源码工作视图精简
+
+新增原生Git目录列表与可选轻量检出指令，不迁移或删除交付。34eabd7临时验证副本的源码工作树69548KiB（不含Git对象），省略三组约1339452KiB历史快照，150文件仍在索引；CLI帮助、原19项定向检查和77导航目标通过，按需恢复一个快照目录后无Git改动。首次列表漏tests的失败已修正；既有治理CI改在源码视图运行原检查，防止再次遗漏。
+
+主治理副本保持完整；文档明确完整回归/交付审阅前恢复全部工作树。以34eabd769ae375c6f6c8d606ff557945c8ccd8b3两份账本全文为底追加，无Core/客户端/封签交付/生产改动；回退仅撤销目录列表、文档与该CI配置。
