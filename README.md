@@ -1,97 +1,87 @@
-# nana-core
+# Nana Core
 
-## 工程恢复入口
+**围绕一个持续主体构建的 AI 伴侣内核。**
 
-**当前源码导航：**先核对 [当前状态](PROJECT_BRAIN/09_STATE.md) 与 [源码导航和真实性核对](docs/nana_next_experience/SOURCE_NAVIGATION_AUDIT.md)。下方早期目录、日期及未推送状态为历史记录，不代表当前运行或发布版本。
+奈奈的身份、记忆、经历和判断保持在同一个主体谱系中。模型提供认知与表达资源，平台提供感知与行动入口；跨模型、跨设备的生活仍由同一权威 Store 和 SubjectLoop 连接。
 
-先读 [Master Framework](PROJECT_BRAIN/00_MASTER_FRAMEWORK.md) 与 [Capability Matrix](PROJECT_BRAIN/01_CAPABILITY_MATRIX.md)，再读 [当前状态](PROJECT_BRAIN/09_STATE.md)。总框架已于2026-10-20冻结；能力进度按固定条件与证据核算。
+工程目标是让奈奈拥有自己的判断、兴趣与生活，并与人形成长期共同经历。学习与自进化服务于这些生活：经历必须能影响后续选择，成长必须有独立验证、来源和回退。
 
-> 奈奈工程（Nana）的**独立开发副本**与**权威事实源仓库**。
-> 创建：2026-10-10 CST ｜ 维护：奈奈（Nana）
+**现役开发分支：`dev/nana-core-next-experience-codex`。** 当前继续 Next Experience 与十域精修；最新实现、资格差额和任务以 [当前状态](PROJECT_BRAIN/09_STATE.md) 为准。
 
----
+## 核心架构
 
-## 这是什么
-
-`nana-core` 是奈奈工程对照 Codex Cloud 协作而建立的**独立、非生产**目录。它不是 AstrBot 的分支，也不是任一插件的镜像，而是：
-
-- **事实源**：`PROJECT_BRAIN/` 记录奈奈工程的架构、源码、配置、验证状态。
-- **开发副本**：`src/` 存放奈奈**原创**源码副本。
-- **证据仓**：`manifests/` 存放白名单、敏感扫描、指纹与改动 diff。
-
-> ⚠️ 本目录**不包含**任何生产数据、凭证、聊天记录、数据库或日志。
-
-## 目录结构（2026-10-10 历史快照）
-
-现役源码及新增模块见 [治理源码索引](docs/nana_next_experience/GOVERNANCE_SOURCE_MAP.md)。
-
-```
-nana-core/
-├── AGENTS.md          # 本项目 AI 协作规范（奈奈工程专用）
-├── README.md          # 本文件
-├── PROJECT_BRAIN/     # 权威事实源（事实层 00–06 + 账本层 07–11，共 12 文件）
-├── docs/              # 迁移报告 / 校验说明
-├── manifests/         # 白名单 / 扫描报告 / 指纹 / diff / 拟提交清单
-├── upstream/          # 第三方来源登记（不含其源码）
-└── src/
-    ├── plugins/       # 奈奈自制插件（4 个）
-    ├── bili_agent/    # B站 Agent 外挂脚本
-    └── c5v/           # C.5-V 感知骨架
+```mermaid
+flowchart TD
+    Surface[Web · Android · QQ · B站] --> Entry[平台入口与受限输入]
+    Entry --> Subject[唯一 SubjectLoop<br/>C：WHAT / WHY · D：WHEN]
+    Subject <--> Store[权威 Store<br/>身份 · 记忆 · 经历 · 关系]
+    Subject <--> Cognition[上下文 · 世界理解<br/>可替换模型与认知资源]
+    Subject <--> Growth[规划 · 反思 · 学习 · 自扩展]
+    Subject --> Gate[Manager · Grant · Privacy]
+    Gate --> Action[ActionKernel · CapabilityPort]
+    Action --> World[受控行动与独立 Verify]
+    World --> Store
 ```
 
-## 快速导航
-
-| 我想了解… | 去看 |
+| 设计重点 | 现有实现入口 |
 |---|---|
-| 整体架构 | `PROJECT_BRAIN/01_architecture.md` |
-| 有哪些源码 | `PROJECT_BRAIN/02_source_inventory.md` |
-| 配置/数据在哪（不含内容） | `PROJECT_BRAIN/03_config_runtime.md` |
-| 哪些做完/在做/没做 | `PROJECT_BRAIN/04_verification_status.md` |
-| 第三方许可 | `PROJECT_BRAIN/05_third_party_licenses.md` |
-| 风险 | `PROJECT_BRAIN/06_open_risks.md` |
-| **现在到哪一步了** | `PROJECT_BRAIN/09_STATE.md` ⭐ |
-| **接下来做什么** | `PROJECT_BRAIN/07_ROADMAP.md`、`08_TASKS.md` |
-| **为什么这么定** | `PROJECT_BRAIN/10_DECISIONS.md` |
-| **上次改了什么** | `PROJECT_BRAIN/11_CHANGELOG.md` |
-| 能传什么/不能传什么 | `manifests/upload_whitelist.md` |
-| 安全扫描结果 | `manifests/sensitive_scan_report_20261010.md` |
+| **连续的单一主体** | [身份与权威 Store](src/nana_core/continuity/)、[SubjectLoop](src/nana_core/continuity/subject/loop.py)、[Runtime](src/nana_core/presence/runtime.py)；同一谱系内的重启、迁移与单写者约束。 |
+| **有来源的长期记忆与经历** | [记忆](src/nana_core/continuity/memory.py)、[经历与学习](src/nana_core/continuity/learning.py)、[上下文](src/nana_core/continuity/context.py)；保留时间、来源、隐私及纠错撤回。 |
+| **独立生活与共同经历** | [判断与动机](src/nana_core/continuity/subject/policy.py)、[生活应用](src/nana_core/life/application.py)；输入、关系、兴趣和原有目标共同参与选择。 |
+| **可验证的成长** | [LearningService](src/nana_core/continuity/open_agency/learning.py)、[自扩展](src/nana_core/continuity/world_loop/extension.py)；有限候选经独立评估、后续复用与反例检验。 |
+| **多平台共享主体** | [Nana Space](apps/nana-space/)、[平台 Runtime](src/nana_core/life/platform_runtime.py)、[模型路由](src/nana_core/continuity/provider_routing.py)；表面与模型接入沿用原主体。 |
+| **意愿与现实权限分离** | [治理门](src/nana_core/continuity/autonomy/governance.py)、[ActionKernel](src/nana_core/actions.py)；愿望不授予 Grant，UNKNOWN 保留不确定性并禁止盲目重试。 |
 
-## 安全纪律（务必遵守）
+完整模块归属见 [源码地图](docs/nana_next_experience/GOVERNANCE_SOURCE_MAP.md)，稳定愿景与十域定义见 [冻结总纲](PROJECT_BRAIN/00_MASTER_FRAMEWORK.md)。
 
-1. **白名单制**：默认禁止，只有 `manifests/upload_whitelist.md` 列出的可入库。
-2. **密钥零容忍**：发现硬编码密钥 → 阻断该文件并报告（不输出原文）。
-3. **生产只读**：本目录**不**回写生产；生产改动需**明确批准**。
-4. **4 核 / ~4 GB 资源约束**：禁止重型扫描、爬虫、死循环。
-5. **不可逆操作（commit/push/deploy）须人类批准。**
+## 当前能证明什么
 
-## 历史状态（2026-10-10，非当前快照）
+| 层次 | 工程状态与边界 |
+|---|---|
+| 设计愿景 | 持续身份、Independent Life、Shared Life、跨域成长；固定标准见 [Capability Matrix](PROJECT_BRAIN/01_CAPABILITY_MATRIX.md)。 |
+| 实现与受控验证 | Core、Web/Android、记忆、规划、有限学习/自扩展和便携交付已有源码及限定范围的测试、进程与安装证据。具体版本和范围跟随各自回执。 |
+| 当前精修 | 连续交流、自主性、反馈因果、更大规模检索、存储/隐私、模型成本及匹配发行仍有开放项，见 [当前检查点](docs/nana_next_experience/ACTIVE_CHECKPOINT.md)。 |
+| 真实使用资格 | 真实宿主、手机、模型、自然度和长期生活分别验收；CI 成功、源码存在和候选包不自动代表生产部署或整体完成。 |
 
-🟢 **P1 + P2 已完成（2026-10-10）**：事实口径已修正、证据改为四档制、项目账本（ROADMAP/TASKS/STATE/DECISIONS/CHANGELOG）已建立、本地 Git 版本控制已建立。
-⏸ **未 push、未上传 GitHub、未改生产。**
+## 开始使用与开发
 
-详见 `PROJECT_BRAIN/09_STATE.md` 与 `PROJECT_BRAIN/11_CHANGELOG.md`。
+获取现役源码，使用 Python 3.12；实际 Python 的 SQLite 绑定须 **>=3.51.3**，支持 JSON/FTS5。
 
----
-*本仓库内容 DRAFT 状态。第三方版权归其原作者，详见 `upstream/sources.md` 与 `PROJECT_BRAIN/05`。*
-
-
----
-
-## 附：远端仓库初始 README（原样保留）
-
-> 来源：`origin/main` 首提交 `23e583b`（Initial commit）。合并无关历史时按「保留双方 README」原样保留，未删改。
-
-# nana-core
-Nana Core — portable AI agent architecture and development workspace
-
-## 独立开发体验（无需 AstrBot / QQ）
-
-```bash
-.venv/bin/python -m nana_core.life init --home /tmp/my-nana-life --project "$PWD" --demo-materials --allow-local-artifacts
-.venv/bin/python -m nana_core.life run --home /tmp/my-nana-life
+```sh
+git clone --branch dev/nana-core-next-experience-codex https://github.com/xuni7-ui/nana-core.git
+cd nana-core
+python3.12 -m venv .venv
+.venv/bin/python -m pip install -r requirements-core-dev.lock
+PYTHONPATH=src .venv/bin/python -m nana_core.life --help
 ```
 
-原单主体 Runtime 可在无人输入时处理批准的真实源码材料、核验报告、从失败选择并
-复用已验证的方法；可直接输入普通文本，或 `/status`、`/pause`、`/resume`、`/quit`。
-默认无真实模型/外网/社交发送；离线语义与真实 provider 资格严格分开。
-新环境安装、配置、删除/撤权与恢复见[最短用户指南](docs/nana_independent_life_quickstart.md)。
+- **从源码试用：**[独立 Nana 指南](docs/guides/independent-life.md)。使用显式开发 home；重复启动沿用同一身份。
+- **安装便携包：**[包内安装说明](packaging/portable/docs/QUICKSTART.md)。先核对归档摘要和 `runtime.json` 的平台/feature 要求。
+- **构建与交付：**[便携构建器](tools/nana_portable_cloud/build.py) 从确切 Git 提交和白名单构建，使用已准备的固定 wheel；[交付验证器](tools/nana_next_experience/verify_delivery.py)核对实际组件与 CURRENT selector。
+- **修改前：**阅读 [AGENTS.md](AGENTS.md)、冻结总纲和当前状态；扩展已有模块，在独立分支中提交可验证的小变更。
+
+一组无需模型或生产服务的工程检查：
+
+```sh
+PYTHONPATH=src .venv/bin/python -m pytest -q \
+  tests/engineering_quality/test_portable_missing_import.py \
+  tests/first_life_android_v2/test_delivery_consistency.py
+```
+
+完整资格环境、旧 SQLite 隔离及安装验证使用[既有 CI](.github/workflows/nana-next-qualification.yml)；按变更选择测试，保留失败和范围限制。
+
+## 仓库布局
+
+| 位置 | 用途 |
+|---|---|
+| [`src/nana_core/`](src/nana_core/) · [`apps/nana-space/`](apps/nana-space/) | 独立 Core 与 Web/Android 客户端。 |
+| [`tools/`](tools/) · [`packaging/`](packaging/) · [`deployment/`](deployment/) | 开发/资格工具、便携构建输入与显式部署模板。 |
+| [`docs/guides/`](docs/guides/) · [`docs/nana_next_experience/`](docs/nana_next_experience/) | 当前使用入口与现役精修资料。 |
+| [`PROJECT_BRAIN/`](PROJECT_BRAIN/) | 规范、能力标准、状态、任务与决策的权威事实账本。 |
+| [`docs/`](docs/) · [`manifests/`](manifests/) | 各阶段文档及原始验证证据；历史回执保留其版本和范围。 |
+| [`artifacts/`](artifacts/) · [`CLOUD_DEPLOY_HANDOFF/`](CLOUD_DEPLOY_HANDOFF/) · [`NANA_CORE_LIVING_V4_RELEASE/`](NANA_CORE_LIVING_V4_RELEASE/) | 既有交付与发布快照；目录名和文件存在不代表当前被选中或已上线。 |
+| [`materials/`](materials/) · [`patches/`](patches/) · [`upstream/`](upstream/) | 历史集成材料、上游派生补丁与来源登记，保留许可及已知消费者。 |
+
+早期宿主、目录和建仓记录已移至[历史 README](docs/archive/repository/README-before-20261111.md)。`main` 的公开发布策略由项目维护者另行决定。
+
+第三方来源与许可见 [LICENSES_AND_PROVENANCE.md](LICENSES_AND_PROVENANCE.md)。仓库不承载生产凭据或私人生活资料；真实平台、私人数据、付费模型与生产动作遵守各自授权。

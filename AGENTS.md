@@ -4,7 +4,7 @@
 
 **用户当前实施原则（2026-11-11）：** [创新优先与工程负担精简](docs/nana_next_experience/task_inputs/INNOVATION_FIRST_AND_ENGINEERING_SIMPLIFICATION_2026_11_11.md)适用于同一A/B任务。能力、自主性、体验、可验证成长优先；探索定向对照，集成相关回归，发行/迁移才完整验证。复用已验证成果，已定位外部403单列；必要身份/数据/授权/真实投递保证及冻结框架继续保留。
 
-**当前补充：**本节中“本轮 Foundation”等是历史阶段描述，不是当前任务；以 `PROJECT_BRAIN/09_STATE.md`、用户授权及实际 Git/运行回执为准。开发前核对现役分支、任务继承和现有实现，按职责扩展原模块，保持单主体/Store/Loop；实现、测试、接线、部署和真实体验分开报告。参见 `docs/nana_next_experience/SOURCE_NAVIGATION_AUDIT.md`。当前 P1 日用体验优先；大规模目录迁移和额外治理建设待真实验收后评估。
+**当前补充：**本节中“本轮 Foundation”等是历史阶段描述，不是当前任务；以 `PROJECT_BRAIN/09_STATE.md`、用户授权及实际 Git/运行回执为准。开发前核对现役分支、任务继承和现有实现，按职责扩展原模块，保持单主体/Store/Loop；实现、测试、接线、部署和真实体验分开报告。参见 `docs/nana_next_experience/SOURCE_NAVIGATION_AUDIT.md`。Codex A继续主体与真实体验精修；Codex B按项目负责人最新授权推进仓库入口焕新和低风险目录整理，保留真实消费者、封签交付和原始证据。
 
 用户已正式冻结总框架。动手前先读 `PROJECT_BRAIN/00_MASTER_FRAMEWORK.md` → `01_CAPABILITY_MATRIX.md` → `09_STATE.md`，再定位07/08与具体证据。
 本条更新下方§9中旧“先只读09”的入口顺序；09仍是当前任务状态唯一入口。不得把聊天、新功能或单次体验直接变成总路线变更。
@@ -26,21 +26,14 @@
 
 ## 2. 目录约定
 
-下图是 2026-10-10 的历史目录，不是当前完整树；现役模块归属参见 [治理源码索引](docs/nana_next_experience/GOVERNANCE_SOURCE_MAP.md)。
+现役开发分支为 `dev/nana-core-next-experience-codex`。仓库布局与使用入口见 [README](README.md)，模块边界见 [源码地图](docs/nana_next_experience/GOVERNANCE_SOURCE_MAP.md)。
 
-```
-nana-core/
-├── AGENTS.md                 # 本文件
-├── README.md
-├── PROJECT_BRAIN/            # 唯一权威事实源
-├── docs/                     # 报告/说明
-├── manifests/                # 清单、指纹、diff、白名单
-├── upstream/                 # 第三方来源登记（不含其源码）
-└── src/                      # 奈奈原创/可控源码副本
-    ├── plugins/              # 奈奈自制插件
-    ├── bili_agent/           # B站 Agent
-    └── c5v/                  # C.5-V 感知骨架
-```
+- `src/nana_core/`、`apps/nana-space/`：独立Core与客户端。
+- `tools/`、`packaging/`、`deployment/`：已有工程工具、构建输入和显式部署模板。
+- `docs/guides/`：当前使用指南；`docs/nana_next_experience/`：现役精修资料。
+- `PROJECT_BRAIN/`：权威规范与事实账本；历史证据与交付快照保留其原范围。
+
+目录整理优先移动普通文档/模板并修正引用；有已知消费者的旧入口保留兼容。密封清单、正式交付、第三方许可与原始证据不得仅因年代或体积删除。已明确授权的低风险治理沿用用户持续授权；生产和真实权限边界不变。
 
 ## 3. 事实来源规则（Fact Provenance）
 

@@ -90,7 +90,7 @@ The log rotates into at most `runtime.log` and `runtime.log.1`. It contains only
 clock/state/queue depth. CLI JSON stdout is a trusted operational projection,
 not a public/social endpoint. Restrict or rotate the host's stdout capture too.
 Disk pressure pauses future work. Health is process readiness, not Beta approval.
-`deploy/development/nana-cloud-life.service.example` is an uninstalled rehearsal
+`deployment/development/nana-cloud-life.service.example` is an uninstalled rehearsal
 artifact; it requires explicit host paths/user and skill sandbox qualification.
 It does not configure a second daemon or auto-restart/regrant.
 

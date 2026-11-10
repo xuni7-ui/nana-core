@@ -3413,3 +3413,10 @@ acdd284文件本地双构建同6a8848…0f00，独立离线安装BFF/反馈幂�
 [固定Git产物只读实测] CURRENT固定交付5b4f589/Core266的runtime.json为HOST_VAULT+PUBLIC_VIDEO_FRAMES、glibc>=2.34，但同包QUICKSTART统一写>=2.17；现役builder仍按HOST_VAULT选择2.34/2.17。只修包内说明并补源码地图入口：安装前按已校验包的supported_platform/features选宿主，保留原安装/preflight门槛。文档原命令在仅含实际元数据的新目录执行通过，未解包执行Core或安装/创建主体；未替换旧产物/CURRENT。证据docs/nana_next_experience/evidence/governance-platform-guide-20261111/README.md。
 
 以474845c现役两份账本全文为底追加；本批只有安装说明/导航/账本/证据文本，无Core/客户端/安装器/依赖/权限/冻结框架/生产变更。PR9已合并474845c，其最终治理CI42875181308通过，合并后原source qualification42875488564当时仍在途，不能称完整资格通过。本批回退只需撤销文档提交，无数据或selector迁移。
+
+
+### 2026-11-11 · Codex B 仓库焕新第一批
+
+重做现役README：主体定位、Mermaid架构、实现/资格边界、源码/使用/构建/贡献入口；旧README全文原样置入历史归档。源码试用指南实际移入docs/guides并保留旧链接跳转，修正Python/SQLite前提；开发service示例原字节并入deployment/development，更新唯一现役文档引用，移除空deploy入口。AGENTS目录与B最新治理优先级同步。
+
+验证：README所列19项工程检查、life --help、48个变更文档链接、77个既有导航目标通过；旧README内容及service字节保留，未改Core/客户端/封签交付/生产/main。以24e43c7账本全文为底追加；治理PR实际CI/集成按GitHub回执。目录整理继续分批推进，不把本批写成全部专项完成。
