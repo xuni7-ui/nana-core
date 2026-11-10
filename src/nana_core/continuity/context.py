@@ -255,7 +255,9 @@ class ContextAssembler:
                             if selected:
                                 evaluator=NoteRetrievalEvaluator(self.store,request.entity_id,request.scopes,privacy)
                                 snapshot=evaluator.snapshot(scope,max_notes=qualified_note_limit(self.store,selected))
-                                notes=evaluator.lookup(selected[1],note_terms,snapshot)
+                                # The same owner/safe point just found no literal
+                                # result across these scopes. Do not run it again.
+                                notes=evaluator._normalized_lookup(selected[1],note_terms,snapshot)
                                 if notes:
                                     note_strategy_refs=(selected[0],)
                                     break

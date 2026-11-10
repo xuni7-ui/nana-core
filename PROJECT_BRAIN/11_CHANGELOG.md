@@ -3456,3 +3456,10 @@ acdd284文件本地双构建同6a8848…0f00，独立离线安装BFF/反馈幂�
 ### 2026-11-11 · 原注意队列不再隐式每日八次停止
 
 AdvancedLife原OpportunityQueue默认daily_limit由8改无隐式配额，显式trusted1–24配额仍原条件。有限队列、一次原D safe-point、源/事件去重/过期/pause/前台/原C/真实模型与执行资源边界保持；非增加模型额度或无限轮询。原版第9个新WATCH卡WAITING严格失败0.53s；89原open-life/controlledsource/PrecisionV2通过14.10s，含原显式2/day、burst背压、9次后20次同状态0新增、同身份重启第10独立来源/0actions/grants/models。新真实经历会有正常Store成本；未配置quota时少一次全日eventcount，不称零存储成本。证据attention-quota；不重跑未受影响完整发行/Web。全部A–H与真实环境资格仍开放，CURRENT/生产不动。
+
+
+### 2026-11-11 · 原G后续RENDER复用同一次字面miss
+
+上下文已跨许可scope查无字面命中，再走已资格G16/32时原lookup又查一次。现仅原assembler已负支路调用拆出的private规范化primitive；普通G独立评价/练习/复用仍原literal-first，边界/源/隐私/无命中不等于遗忘不变，无缓存或模型bypass字段。旧16/32两case均2次查询严格失败；24原G/notes/重启撤回11.59s+7原context/private5.80s通过，后续不同note实际RENDER2→1字面查，再有literal来源仍优先；2话轮仍4INTERPRET/SOCIALfixture、原C不删，不推断账单Token改善。证据recall-single-miss。
+
+catalog42919922408客户端成功/Core按范围跳过；quota42920422226原Core成功/Web跳过，非full发行。所有原A–H继续，CURRENT/APK/生产/真实提供商/手机不动。

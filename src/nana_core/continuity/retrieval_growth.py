@@ -126,6 +126,17 @@ class NoteRetrievalEvaluator:
         )
         if rows or method == "IDENTITY":
             return rows
+        return self._normalized_lookup(method,terms,snapshot)
+
+    def _normalized_lookup(self, method, terms, snapshot):
+        """Trusted caller already checked literal priority at this safe point.
+
+        No cached miss, user flag or persisted result; ordinary evaluator entry
+        still runs the original literal query before invoking this primitive.
+        """
+        if method not in METHODS or not word_queries(terms):
+            raise CoreError("NOTE_STRATEGY_INPUT_BOUND")
+        if method == "IDENTITY":return []
         folded = [t.casefold() if method == "CASEFOLD" else unicodedata.normalize("NFKC", t).casefold() for t in terms]
         result = []
         for row in reversed(snapshot["notes"]):

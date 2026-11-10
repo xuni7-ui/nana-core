@@ -325,3 +325,35 @@ def test_partial_offer_recovery_does_not_duplicate_experience_or_self_wake(tmp_p
         assert len(app.runtime.store.all("runtime_queue")) == queued
         advance(app)
         assert selected(app)[1] == "UNICODE_WORDS"
+
+
+@pytest.mark.parametrize('limit',[16,32])
+def test_render_reuses_its_literal_miss_before_qualified_normalized_lookup(tmp_path,monkeypatch,limit):
+    from nana_core.continuity.memory import MemoryService
+    from .test_retrieval_growth_expanded import initialize_expanded,fillers
+    home=tmp_path/'home';clock=VirtualClock()
+    if limit==32:initialize_expanded(home)
+    else:initialize(home,active=0)
+    with LifeApplication(home,clock=clock) as app:
+        notes(app)
+        if limit==32:fillers(app)
+        app.runtime.work.note_retrieval_growth.slice('project-work');advance(app)
+        assert selected(app)[1]=='UNICODE_WORDS'
+        later=notes(app,('ＡＬＴＡＩＲ',),prefix='different-later')[0]
+    with relay(home,'CHAT',renderer=render_from_supplied_sources,recall_query_terms=('ALTAIR',)) as (router,requests), LifeApplication(home,clock=clock,router=router) as app:
+        app.pause();calls=[];original=MemoryService.literal_notes
+        def observed(service,**kwargs):
+            if kwargs.get('terms')==('ALTAIR',):calls.append(kwargs)
+            return original(service,**kwargs)
+        monkeypatch.setattr(MemoryService,'literal_notes',observed)
+        app.chat('SYNTHETIC later agreement?',privacy='PROJECT',message_id='single.miss')
+        assert [n['memory_id'] for n in supplied_notes(requests[-1])]==[later]
+        assert len(calls)==1,calls
+        # A newly available actual literal source still wins; qualified
+        # normalization never displaces the original literal-first contract.
+        literal=notes(app,('ALTAIR',),prefix='literal-later')[0];calls.clear()
+        app.chat('SYNTHETIC later literal agreement?',privacy='PROJECT',message_id='literal.first')
+        assert [n['memory_id'] for n in supplied_notes(requests[-1])]==[literal]
+        assert len(calls)==1,calls
+        assert [r['cognitive_role'] for r in requests]==['INTERPRET','SOCIAL','INTERPRET','SOCIAL']
+        assert not app.runtime.store.all('actions')

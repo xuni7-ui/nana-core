@@ -1,0 +1,72 @@
+FF                                                                       [100%]
+=================================== FAILURES ===================================
+__ test_render_reuses_its_literal_miss_before_qualified_normalized_lookup[16] __
+
+tmp_path = PosixPath('/tmp/nana-recall-single-baseline/test_render_reuses_its_literal0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f3e84a0f4a0>
+limit = 16
+
+    @pytest.mark.parametrize('limit',[16,32])
+    def test_render_reuses_its_literal_miss_before_qualified_normalized_lookup(tmp_path,monkeypatch,limit):
+        from nana_core.continuity.memory import MemoryService
+        from .test_retrieval_growth_expanded import initialize_expanded,fillers
+        home=tmp_path/'home';clock=VirtualClock()
+        if limit==32:initialize_expanded(home)
+        else:initialize(home,active=0)
+        with LifeApplication(home,clock=clock) as app:
+            notes(app)
+            if limit==32:fillers(app)
+            app.runtime.work.note_retrieval_growth.slice('project-work');advance(app)
+            assert selected(app)[1]=='UNICODE_WORDS'
+            later=notes(app,('ＡＬＴＡＩＲ',),prefix='different-later')[0]
+        with relay(home,'CHAT',renderer=render_from_supplied_sources,recall_query_terms=('ALTAIR',)) as (router,requests), LifeApplication(home,clock=clock,router=router) as app:
+            app.pause();calls=[];original=MemoryService.literal_notes
+            def observed(service,**kwargs):
+                if kwargs.get('terms')==('ALTAIR',):calls.append(kwargs)
+                return original(service,**kwargs)
+            monkeypatch.setattr(MemoryService,'literal_notes',observed)
+            app.chat('SYNTHETIC later agreement?',privacy='PROJECT',message_id='single.miss')
+            assert [n['memory_id'] for n in supplied_notes(requests[-1])]==[later]
+>           assert len(calls)==1,calls
+E           AssertionError: [{'entity_ids': ('project-user',), 'scopes': ('project-work',), 'privacy_classes': ('PUBLIC', 'PROJECT'), 'terms': ('A..._ids': ('project-user',), 'scopes': ('project-work',), 'privacy_classes': ('PUBLIC', 'PROJECT'), 'terms': ('ALTAIR',)}]
+E           assert 2 == 1
+E            +  where 2 = len([{'entity_ids': ('project-user',), 'scopes': ('project-work',), 'privacy_classes': ('PUBLIC', 'PROJECT'), 'terms': ('A..._ids': ('project-user',), 'scopes': ('project-work',), 'privacy_classes': ('PUBLIC', 'PROJECT'), 'terms': ('ALTAIR',)}])
+
+tests/independent_life/test_retrieval_growth.py:351: AssertionError
+__ test_render_reuses_its_literal_miss_before_qualified_normalized_lookup[32] __
+
+tmp_path = PosixPath('/tmp/nana-recall-single-baseline/test_render_reuses_its_literal1')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f3e84b6b380>
+limit = 32
+
+    @pytest.mark.parametrize('limit',[16,32])
+    def test_render_reuses_its_literal_miss_before_qualified_normalized_lookup(tmp_path,monkeypatch,limit):
+        from nana_core.continuity.memory import MemoryService
+        from .test_retrieval_growth_expanded import initialize_expanded,fillers
+        home=tmp_path/'home';clock=VirtualClock()
+        if limit==32:initialize_expanded(home)
+        else:initialize(home,active=0)
+        with LifeApplication(home,clock=clock) as app:
+            notes(app)
+            if limit==32:fillers(app)
+            app.runtime.work.note_retrieval_growth.slice('project-work');advance(app)
+            assert selected(app)[1]=='UNICODE_WORDS'
+            later=notes(app,('ＡＬＴＡＩＲ',),prefix='different-later')[0]
+        with relay(home,'CHAT',renderer=render_from_supplied_sources,recall_query_terms=('ALTAIR',)) as (router,requests), LifeApplication(home,clock=clock,router=router) as app:
+            app.pause();calls=[];original=MemoryService.literal_notes
+            def observed(service,**kwargs):
+                if kwargs.get('terms')==('ALTAIR',):calls.append(kwargs)
+                return original(service,**kwargs)
+            monkeypatch.setattr(MemoryService,'literal_notes',observed)
+            app.chat('SYNTHETIC later agreement?',privacy='PROJECT',message_id='single.miss')
+            assert [n['memory_id'] for n in supplied_notes(requests[-1])]==[later]
+>           assert len(calls)==1,calls
+E           AssertionError: [{'entity_ids': ('project-user',), 'scopes': ('project-work',), 'privacy_classes': ('PUBLIC', 'PROJECT'), 'terms': ('A..._ids': ('project-user',), 'scopes': ('project-work',), 'privacy_classes': ('PUBLIC', 'PROJECT'), 'terms': ('ALTAIR',)}]
+E           assert 2 == 1
+E            +  where 2 = len([{'entity_ids': ('project-user',), 'scopes': ('project-work',), 'privacy_classes': ('PUBLIC', 'PROJECT'), 'terms': ('A..._ids': ('project-user',), 'scopes': ('project-work',), 'privacy_classes': ('PUBLIC', 'PROJECT'), 'terms': ('ALTAIR',)}])
+
+tests/independent_life/test_retrieval_growth.py:351: AssertionError
+=========================== short test summary info ============================
+FAILED tests/independent_life/test_retrieval_growth.py::test_render_reuses_its_literal_miss_before_qualified_normalized_lookup[16]
+FAILED tests/independent_life/test_retrieval_growth.py::test_render_reuses_its_literal_miss_before_qualified_normalized_lookup[32]
+2 failed, 10 deselected in 1.81s
