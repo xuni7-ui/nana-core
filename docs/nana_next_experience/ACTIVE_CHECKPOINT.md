@@ -1,3 +1,11 @@
+# Active continuation — original C sourced withdrawal no longer forced into rest
+
+Parent821426e. Original goal lifecycle previously choseREST beforeWITHDRAW whenever loadHIGH. New narrow priority preserves source-bound withdrawal; continuation/new-work load gates unchanged. Original ongoing-goal3-load test: frozen1fail2pass; fix22relatedpass14.94s (original longgoals/projectpresence/planning/PrecisionV2), cross-restartABANDONED and0actions. Evidence withdraw-under-load-20261110. Next full CI/matching package must target this source; installed817 evidence cannot qualify new policy.
+
+New tests/current policy pending commit/push then continue original communication intent/draft and autonomyA–E. Remote817run42870078570 Core still in progress at last check; client67/36PASS. Scheduled11日北京时间06:50/12:10 prompts read newestBrain/source and coordinate any running writer. User explicitly says scheduling does not stop current work. No freeze was requested.
+
+---
+
 # Active continuation — independent install/rollback evidence saved; two scheduled resumptions
 
 81754c7 Web expiry source pushed. Independent source builds/installed original Core acdd and matching817 now passed; exact SHA, DEV IDs, commands, BFF/feedback/restart/withdrawal, synthetic delivery attribution and stopped same-DB binary rollback reports are versioned at evidence/independent-install-817-20261110. Three previously external successful qualification drivers copied byte-identically into tools/nana_next_experience/qualification with hashes. Local independent rebuild does not equal remote artifact download (still403); CURRENT266+409 unchanged.

@@ -141,7 +141,9 @@ def decide(event, situation, appraisal, motives):
             Intention(kind='REFLECTION',purpose='Examine the recorded outcome without inventing new history',slot_key='reflect-'+situation.reflection_experience_id,
                 source_ids=sources,self_generated=self_generated,behavior='REFLECT'))
     if situation.goal_review_id and event.goal_review and event.goal_review.purpose=='LIFECYCLE':
-        behavior='REST' if situation.cue and situation.cue.cognitive_load=='HIGH' else 'WITHDRAW' if situation.cue and 'WITHDRAW' in directions(situation.cue) else 'CONTINUE_PROJECT'
+        # Ending a sourced adopted goal does not start more work. Attention
+        # load can defer continuation, but must not turn withdrawal into a pause.
+        behavior='WITHDRAW' if situation.cue and 'WITHDRAW' in directions(situation.cue) else 'REST' if situation.cue and situation.cue.cognitive_load=='HIGH' else 'CONTINUE_PROJECT'
         return ('DEFER' if behavior=='REST' else 'FOCUS_NOW',Judgment(stance='DEFER' if behavior=='REST' else 'AGREE',reason='Review continued ownership of a sourced goal; pause, continue or abandon without replaying its plan',source_ids=sources),
             Intention(kind='NO_ACTION' if behavior in {'REST','WITHDRAW'} else 'GOAL_CANDIDATE',purpose='Review the existing goal lifecycle without creating a new goal or permission',slot_key='lifecycle-'+situation.goal_review_id,source_ids=sources,self_generated=self_generated,behavior=behavior))
     if situation.goal_review_id and not (situation.cue and situation.cue.cognitive_load=='HIGH'):
