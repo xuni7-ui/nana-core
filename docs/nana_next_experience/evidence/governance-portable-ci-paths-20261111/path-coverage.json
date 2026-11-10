@@ -41,5 +41,7 @@
   "permissions_and_job_bytes_unchanged": true,
   "yaml_and_shell_syntax": "PASS",
   "github_workflow_run": "NOT_CLAIMED_BY_STATIC_MATCH_CHECK",
-  "production_changed": false
+  "production_changed": false,
+  "integration_base": "63e4e323abb00f467484ee35d096f814f5585ffe",
+  "latest_A_triggers_and_job_bytes_preserved": true
 }

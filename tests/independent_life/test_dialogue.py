@@ -177,6 +177,26 @@ def test_portable_default_contains_gateway_surface_without_extra_authority(tmp_p
     assert gateway.permitted_privacy==('PUBLIC','PROJECT') and not gateway.allow_personal_retention
 
 
+def test_focus_communication_purpose_reaches_original_render_without_forced_question(tmp_path):
+    home=tmp_path/'home';initialize(home,active=0)
+    def render(request):
+        dialogue=request['role_input']['dialogue']
+        purpose=dialogue.get('communication_purpose')
+        return 'SYNTHETIC explain supplied focus' if (purpose and dialogue['judgment']=='THINK_MORE'
+            and dialogue['intention']=='SOCIAL_INTERACTION') else 'SYNTHETIC unnecessary clarification'
+    with relay(home,'FOCUS',renderer=render) as (router,requests), LifeApplication(home,clock=VirtualClock(),router=router) as app:
+        app.pause()
+        answer=app.chat('SYNTHETIC 现在先帮我说明：这条错误表示文件不存在。',privacy='PROJECT',message_id='focus-purpose')
+        assert answer['mode']=='FOCUS' and answer['text']=='SYNTHETIC explain supplied focus'
+        assert len(requests)==2 and 'communication_purpose' not in requests[0]['role_input']['dialogue']
+        purpose=requests[-1]['role_input']['dialogue']['communication_purpose']
+        assert purpose['cycle_id']==answer['cycle_id']
+        assert purpose['respond_to_memory_ids']==[answer['message_memory_id']]
+        assert purpose['validity']=='CURRENT_COGNITIVE_REQUEST_ONLY' and purpose['execution_authority'] is False
+        assert 'clarify only missing specifics' in purpose['purpose']
+        assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants')
+
+
 def test_correction_uses_committed_communication_purpose_not_forced_clarification(tmp_path):
     from nana_core.life.memory_notes import save
     from nana_core.continuity.memory import MemoryService
