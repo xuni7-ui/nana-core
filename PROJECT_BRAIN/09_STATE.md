@@ -2647,6 +2647,6 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 
 ### 2026-11-11 · Codex B 仓库焕新第二批
 
-将5份早期B站/AstrBot独立说明实际移入docs/archive/legacy-platforms，原文字节保留；历史指纹不改，归档页保留旧路径映射。新增单一docs入口区分当前指南、阶段资料与原始证据。GitHub属性仅将构建快照/机器生成结果与上游派生材料正确分类，手写文档和正式Core保持普通展示；不删大包或封签材料。
+将5份早期B站/AstrBot独立说明实际移入docs/archive/legacy-platforms，原文字节保留；历史指纹不改，归档页保留旧路径映射。新增单一docs入口区分当前指南、阶段资料与原始证据。GitHub属性仅将构建快照/机器生成结果与上游派生材料正确分类，手写文档和正式Core保持普通展示；不删大包或封签材料。更新过时S5实验包描述，保留原分发名/版本；独立锁工具的离线wheel构建与元数据检查通过，未新增项目依赖。
 
 验证迁移原文、文档链接与属性边界，复用既有治理CI；未重复业务回归。现役以26cb36e为底，仅追加账本；A的长反馈/分级CI/核心成果保持，旧预览仍有测试消费者所以保留原路径。

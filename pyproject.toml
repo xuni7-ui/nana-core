@@ -5,7 +5,7 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "nana-core-offline"
 version = "0.1.0"
-description = "Independent Nana Core continuity experiment and bounded S5 ModelPort evaluation"
+description = "Persistent single-subject runtime with memory, governed actions and bounded learning"
 requires-python = ">=3.12"
 dependencies = ["pydantic>=2.13.4,<=2.13.5"]
 

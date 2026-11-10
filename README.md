@@ -61,6 +61,8 @@ PYTHONPATH=src .venv/bin/python -m nana_core.life --help
 - **查找文档：**[文档入口](docs/README.md)区分当前指南、历史设计和版本化证据。
 - **修改前：**阅读 [AGENTS.md](AGENTS.md)、冻结总纲和当前状态；扩展已有模块，在独立分支中提交可验证的小变更。
 
+源码 Python 分发名 `nana-core-offline` 保留兼容；具体运行交付通过源码 SHA、`runtime.json` 和实际清单追溯。
+
 一组无需模型或生产服务的工程检查：
 
 ```sh
