@@ -1,3 +1,15 @@
+# Active continuation — independent install/rollback evidence saved; two scheduled resumptions
+
+81754c7 Web expiry source pushed. Independent source builds/installed original Core acdd and matching817 now passed; exact SHA, DEV IDs, commands, BFF/feedback/restart/withdrawal, synthetic delivery attribution and stopped same-DB binary rollback reports are versioned at evidence/independent-install-817-20261110. Three previously external successful qualification drivers copied byte-identically into tools/nana_next_experience/qualification with hashes. Local independent rebuild does not equal remote artifact download (still403); CURRENT266+409 unchanged.
+
+Remote run42870078570 at817: client build/67units/36browserPASS, Core full regression in progress at record; read actual final result before claiming817 full. Core runtime source unchanged from acdd2153/12. LocalWeb12 queue scenarios passed19.1s; virtual time evidence only.
+
+User requested two exact scheduled resumptions, both confirmed created/enabled: 2026-11-11 06:50 and12:10 Asia/Shanghai (clock2026-11-10 18:00UTC = Beijing11日02:00). Prompt inherits original task, reads latest actual Brain/source and checks existing executor to prevent duplicate writer. No pause/freeze was requested in this new instruction.
+
+Next actual code work: original C multi-message purpose/draft reconciliation and broader A–E choice audit, delivery→C/S3/S8 causality, large diverse retrieval/storage privacy, full requestToken/cost/timeout and product/model wizard/repository closure all remain. The high-load gates in original policy.py around lifecycle/maintenance/learning require classification and independent sourced preference/resource reasoning, not blanket guard deletion. Artifact download is only a related external qualification blocker. Protected root DBs/Git/old release; npmcache560 entries preserved with fingerprints in/tmp, builds/tests use/tmp.
+
+---
+
 # Active continuation — pending local text expires during an in-flight request
 
 Parent75382db verified remote/local equal and clean. DOMAIN S7 + Privacy axis / Advanced: Web queue now actively removes only unsent text at each original20-minute deadline, even while an earlier request is pending; in-flight request/receipt and original timeout unchanged. Frozen baseline one desktop scenario failed (still queued at20m). New production TS/Vite build2.63s,67 units3.43s,12 queue scenarios across desktop/360/390/412 passed19.1s; virtual staggered deadlines and eventual active reply tested. First multi-locator failure and 21m test crossing original1230000ms client timeout retained; final scenario staggers5s so20m05s remains below original timeout. No weaker assertion or timeout. Detailed evidence/web-queue-expiry-20261110. No APK/CURRENT/production change.

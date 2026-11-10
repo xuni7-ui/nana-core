@@ -1,0 +1,7 @@
+{
+  "archive": "/tmp/nana-acdd-independent-build-b/nana-first-life-portable-v1.tar.gz",
+  "sha256": "6a884822d5992174180367217215977a5714b9612772bd9e8b54a7af892a0f00",
+  "source_commit": "acddab6b47fce6afed3ea852a315ffceeb8317a9",
+  "bundle_files": 284,
+  "new_provider_calls": 0
+}

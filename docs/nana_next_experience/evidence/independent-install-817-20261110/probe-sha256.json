@@ -1,0 +1,5 @@
+{
+  "verify-dev.py": "f8c24cfa07d80d482d64132ec3d28dc9b7b56cbb843a6887f0c136bee8112140",
+  "verify-delivery.py": "1191ac62ff0c0d68c3ec8e40f58436f07b1a5222675de2396f0fe454d87eb270",
+  "verify-binary-rollback.py": "ef9d13db556c275ba55a44cbbae0f64b4604b0bf62fd9d8fa5e9a438592cb4f9"
+}

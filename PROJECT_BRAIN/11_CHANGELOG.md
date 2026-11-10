@@ -3355,3 +3355,7 @@ GitHub workflow run42726524392双job均PASS。原IsolatedSkillRunner probe AVAIL
 ### 2026-11-10 · Web待发正文在前请求等待中按条过期
 
 DOMAIN S7/Privacy Advanced：复用原React队列设置最近截止时间timer，到期移除尚未送出正文并显示LOCAL_EXPIRED，不中断已派发请求/不取消原receipt/不续发候选。原版本desktop虚拟20min失败；新TS/Vite构建2.63s、67units3.43s、12四视口队列19.1s通过，含两条错开5s各自过期和原请求后续回复。首TS UUID Set类型错已修，首多气泡选择器严格错误、21m触发原20.5m网络timeout的fixture错误均保留；最终不改原超时与断言目的。产物全部/tmp，根盘满时保护原DB/缓存/交付。无模型/APK/CURRENT/生产；总A–H仍IN_PROGRESS。
+
+### 2026-11-10 · 独立本地Core重建/安装/回退及两次北京时间续办
+
+acdd284文件本地双构建同6a8848…0f00，独立离线安装BFF/反馈幂等/十视图/同DEV重启/笔记纠错撤回/合成QQ独立回读收件范围反馈6loopback真实0通过；同当前DEV DB acdd→6fd→acdd二进制停机回退返回保持身份谱系且0新增C请求/周期。817匹配包95afe6…ac3d亦实际离线安装+BFF/反馈/重启撤回通过。原3个外部验证driver按成功文件原字节入库并留SHA，不打包进Core，不造第二测试框架。817client独立CI67unit/36browserPASS，Core full仍在途；原acdd2153/12资格复用。用户最新请求创建启用北京时间2026-11-11 06:50、12:10两次续办（当时UTC10日18:00），指令完整继承原A–H并先协调执行者，不仅提醒，未冻结当前开发。证据independent-install-817。远端artifact403仍独立开放；无APK/CURRENT/真实模型/账号/手机/生产。

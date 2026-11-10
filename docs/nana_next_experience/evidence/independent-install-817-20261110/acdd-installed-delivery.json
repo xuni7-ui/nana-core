@@ -1,0 +1,18 @@
+{
+  "subject_id": "dafae1a8-8505-4666-a2a9-4506e2599267",
+  "local_fixture_calls": 6,
+  "platform_fixture_sends": 1,
+  "actual_independent_readback": true,
+  "same_subject_restart": true,
+  "recipient_scoped_later_render": true,
+  "source_withdrawal": true,
+  "human_read_proven": false,
+  "real_provider_calls": 0,
+  "real_account_sends": 0,
+  "execution": "ACTUAL_INSTALLED_OWNED_QQ_LOOPBACK_NOT_REAL_ACCOUNT_OR_HUMAN",
+  "source_commit": "acddab6b47fce6afed3ea852a315ffceeb8317a9",
+  "lineage_binding": "2b6f881c7657bcbac4a18463f35ac5b219bdb8dff3d8f34c81d3388eacbc3204",
+  "no_repository_pythonpath": true,
+  "production_changed": false,
+  "private_data_used": false
+}

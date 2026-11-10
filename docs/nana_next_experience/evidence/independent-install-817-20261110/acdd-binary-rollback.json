@@ -1,0 +1,36 @@
+{
+  "execution": "ACTUAL_STOPPED_DEV_BINARY_ROLLBACK_AND_RETURN",
+  "subject_id": "dafae1a8-8505-4666-a2a9-4506e2599267",
+  "lineage_binding": "2b6f881c7657bcbac4a18463f35ac5b219bdb8dff3d8f34c81d3388eacbc3204",
+  "stages": [
+    {
+      "execution": "ACTUAL_INSTALLED_STOPPED_DEV_BINARY_ATTACH_NOT_DB_ROLLBACK",
+      "source_commit": "6fd8ed544d5b0a195d159b6f9c75a5b36b022d5c",
+      "subject_id": "dafae1a8-8505-4666-a2a9-4506e2599267",
+      "lineage_binding": "2b6f881c7657bcbac4a18463f35ac5b219bdb8dff3d8f34c81d3388eacbc3204",
+      "single_identity": true,
+      "same_subject_and_lineage": true,
+      "additional_cognitive_requests": 0,
+      "additional_subject_cycles": 0,
+      "real_sends": 0,
+      "production_changed": false
+    },
+    {
+      "execution": "ACTUAL_INSTALLED_STOPPED_DEV_BINARY_ATTACH_NOT_DB_ROLLBACK",
+      "source_commit": "acddab6b47fce6afed3ea852a315ffceeb8317a9",
+      "subject_id": "dafae1a8-8505-4666-a2a9-4506e2599267",
+      "lineage_binding": "2b6f881c7657bcbac4a18463f35ac5b219bdb8dff3d8f34c81d3388eacbc3204",
+      "single_identity": true,
+      "same_subject_and_lineage": true,
+      "additional_cognitive_requests": 0,
+      "additional_subject_cycles": 0,
+      "real_sends": 0,
+      "production_changed": false
+    }
+  ],
+  "database_rollback": false,
+  "production_changed": false,
+  "real_provider_calls": 0,
+  "physical_phone": "NOT_RUN",
+  "qualification": "NO_ACTIVE_PLAN_HOT_SWITCH_OR_PRODUCTION_HOST_QUALIFICATION"
+}
