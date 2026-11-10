@@ -169,6 +169,12 @@ def decide(event, situation, appraisal, motives):
         if not options or (cue.resource_ref and cue.resource_class!='ORDINARY' and not situation.autonomy_semantics):
             return ('IGNORE',Judgment(stance='IGNORE',reason='A sourced norm/privacy constraint inhibits the possible opportunity',source_ids=sources),
                 Intention(kind='NO_ACTION',purpose='Honor constraints rather than act merely because it is possible',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='IGNORE'))
+        behavior=options[0]
+        # Quiet/withdrawal options start no work and do not need instrumental
+        # value, novelty or spare capacity. Norm/privacy filtering still precedes them.
+        if behavior in {'REST','WITHDRAW','IGNORE','WATCH','STAY_SILENT','DO_NOTHING','DEFER'}:
+            return ('BACKGROUND_WATCH' if behavior=='WATCH' else 'DEFER',Judgment(stance='WATCH' if behavior=='WATCH' else 'DEFER',reason='An available concern does not require activity',source_ids=sources),
+                Intention(kind='NO_ACTION',purpose='Respect the current priority without external action',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior=behavior))
         if cue.cognitive_load=='HIGH' and cue.urgency!='HIGH':
             return ('DEFER',Judgment(stance='DEFER',reason='Current load and lack of urgent duty make rest appropriate',source_ids=sources),
                 Intention(kind='NO_ACTION',purpose='Rest instead of creating meaningless work',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='REST'))
@@ -205,10 +211,6 @@ def decide(event, situation, appraisal, motives):
             redundant=share.novelty=='REPEATED' and share.recent_delivery_frequency=='HIGH' and share.urgency!='HIGH'
             if share.user_preference=='DECLINED' or redundant or (low and not interested_social):
                 return ('BACKGROUND_WATCH',Judgment(stance='WATCH',reason='A real wish to share can remain private: limited relevance, declined topic or repeated interruption does not warrant expression',source_ids=sources),Intention(kind='NO_ACTION',purpose='Keep the sourced experience without manufacturing a notification',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='STAY_SILENT'))
-        behavior=options[0]
-        if behavior in {'REST','WITHDRAW','IGNORE','WATCH','STAY_SILENT','DO_NOTHING','DEFER'}:
-            return ('BACKGROUND_WATCH' if behavior=='WATCH' else 'DEFER',Judgment(stance='WATCH' if behavior=='WATCH' else 'DEFER',reason='An available concern does not require activity',source_ids=sources),
-                Intention(kind='NO_ACTION',purpose='Respect the current priority without external action',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior=behavior))
         if behavior=='SOCIALIZE' and cue.availability!='AVAILABLE' and not situation.separate_delivery:
             return ('DEFER',Judgment(stance='DEFER',reason='Availability is unknown/busy; prefer silence over interruption',source_ids=sources),
                 Intention(kind='NO_ACTION',purpose='Wait for a receptive context',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='STAY_SILENT'))

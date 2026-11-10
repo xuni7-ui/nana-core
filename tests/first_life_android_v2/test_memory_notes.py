@@ -59,7 +59,7 @@ def test_actual_notes_correction_restart_recall_withdrawal_and_same_receipt(runn
         {**base(service, "withdraw-note"), "operation": "WITHDRAW", "target_id": nextmid},
         headers,
     )
-    assert withdrawn[1]["data"]["state"] == "VERIFIED"
+    assert withdrawn[1]["data"]["state"] == "VERIFIED", withdrawn
     assert http(server, "memories/search", "POST", {"query": "项目约定"}, headers)[1]["data"]["memories"] == []
     assert (
         http(server, "receipts/correct-note", headers=headers)[1]["data"]["result"]["state"]

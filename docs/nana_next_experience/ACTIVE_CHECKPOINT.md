@@ -1,3 +1,13 @@
+# Active continuation — quiet choices preserved, restart withdrawal UNKNOWN remains open
+
+Original C now handles existing7NO_ACTION options after norm/privacy/resource but before activity load/value/novelty, preserving6 choices previously forcedREST. Frozen6fail1pass;77relatedpass17.15s then8quiet/normpass0.90s (separate runs). Lifecycle load/withdrawal earlierb70622relatedpass retained. Current source needs successor fullCI/installed qualification. Evidence nonworking-choices-20261110.
+
+Earlier817CI42870078570:2152pass/1fail/12skip683.89s, client67/36PASS. Strict actual note correction→restart→search→withdrawal test gotUNKNOWN at withdrawal. Local exact strict check1pass3.68s, no causal fix established; only assertion diagnostic added. Original Gateway._call safely preservesUNKNOWN and does not retry; forget command has no original per-request commit ID, so cannot infer delivery just from inactive target. Next inspect actual new CI receipt diagnostic if it repeats; never loosen VERIFIED or fabricate reconciliation.
+
+Remote policyb706CI42872229350 remains in progress. Latest repository run cac02bc is separate governance PR, not currentbranch advancement. Current branch remote/local equalb706 before this batch. Two scheduled11日06:50/12:10 continue prompts remain enabled; user explicitly requires ongoing work now. OriginalA–H continues: C multi-message intention/draft/reception, broader autonomy/affect/cause, retrieval/storage/privacy/Token/product/lineage/real delivery qualification.
+
+---
+
 # Active continuation — original C sourced withdrawal no longer forced into rest
 
 Parent821426e. Original goal lifecycle previously choseREST beforeWITHDRAW whenever loadHIGH. New narrow priority preserves source-bound withdrawal; continuation/new-work load gates unchanged. Original ongoing-goal3-load test: frozen1fail2pass; fix22relatedpass14.94s (original longgoals/projectpresence/planning/PrecisionV2), cross-restartABANDONED and0actions. Evidence withdraw-under-load-20261110. Next full CI/matching package must target this source; installed817 evidence cannot qualify new policy.

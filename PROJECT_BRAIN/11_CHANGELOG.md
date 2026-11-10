@@ -3363,3 +3363,7 @@ acdd284文件本地双构建同6a8848…0f00，独立离线安装BFF/反馈幂�
 ### 2026-11-10 · 原C高负荷仍允许有源长期目标放弃
 
 原goal lifecycle把HIGH认知负荷优先映射REST，覆盖同一合法GoalReviewRef的WITHDRAW。现先判断有源放弃，再让负荷影响继续；不删执行/来源/Manager/Grant或其他新工作负荷门。原版HIGH失败、LOW/OCCUPIED2通过；修复22相关通过14.94s，含同主体重启放弃后再重启仍ABANDONED/单goal/0actions、原pause/resume/plan引用与PrecisionV2原断言。证据withdraw-under-load，后继全仓与匹配安装待验；非全部自主性完成。用户纠正定时续办不等于暂停，持续推进当前工程。无模型/真实账号/APK/CURRENT/生产。
+
+### 2026-11-10 · 原C非工作选项先于活动价值/负荷筛选
+
+原7个NO_ACTION分支移到原norm/privacy/resource过滤之后、活动load/value/novelty之前；避免WATCH/沉默/不做事/撤回/忽略/暂缓被一律改REST。旧6fail1pass，新77relatedpass17.15s+独立8quiet/normpass0.90s，0action/grant/cognitive request。来源norm仍先起效，不释放实际权限或强制活动。另817旧sourceCI2152pass/1fail/12skip，笔记重启后withdrawUNKNOWN原首错保留；本地严格1pass3.68s不称修复，仅断言附真实回执便于诊断，不放宽状态。当前branch远端仍b706；cac02bc为独立治理PR不合并覆盖。证据nonworking-choices；后继full/installed待验，CURRENT/APK/生产不动。
