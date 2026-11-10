@@ -252,6 +252,24 @@ export type ProviderProfile = {
   "revision"?: number;
 };
 
+export type ProviderRuntimeBudgetRequest = {
+  "client_request_id": string;
+  "idempotency_key": string;
+  "expected_revision": number;
+  "run_generation": string;
+  "owner_epoch": number;
+  "provider_profile_id": string;
+  "profile_revision": number;
+  "configuration_revision": number;
+  "calls_per_day": number;
+  "calls_per_hour": number;
+  "per_provider_calls_per_day": number;
+  "output_tokens": number;
+  "context_tokens": number;
+  "per_call_reserved_cost_micro": number;
+  "consent": true;
+};
+
 export type Realm = "OWNED_DEVELOPMENT_ONLY" | "PRODUCTION_SINGLE_SUBJECT";
 
 export type Receipt = {

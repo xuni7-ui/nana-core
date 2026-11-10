@@ -12,7 +12,7 @@ import signal
 import re
 import threading
 from pathlib import Path
-from pydantic import Field
+from pydantic import Field, model_serializer
 from ...contracts import DTO, CoreError
 from ..provider import ExplicitFDResolver
 from ..secret_binding import MemorySecretResolver
@@ -36,8 +36,16 @@ class HostConfiguration(DTO):
     roles: tuple[Role, ...] = (Role.READER, Role.CONVERSATION)
     activation: dict[str, str] | None = None
     allow_provider_configuration: bool = False
+    allow_provider_runtime_budget: bool = False
     provider_vault: str | None = None
     platform_event_secret_refs:dict[str,str]=Field(default_factory=dict,max_length=16)
+
+    @model_serializer(mode='wrap')
+    def compatible_runtime_opt_in(self,handler):
+        value=handler(self)
+        if not self.allow_provider_runtime_budget:value.pop('allow_provider_runtime_budget',None)
+        return value
+
 
 
 def read_private(path):
@@ -118,6 +126,7 @@ def main():
         )
         service = GatewayService(supervisor, auth, cfg.host_state, allow_provider_configuration=cfg.allow_provider_configuration,
                                  credential_resolver=resolver if a.live_provider_authorized or a.platform_bindings_authorized else None,
+                                 allow_provider_runtime_budget=cfg.allow_provider_runtime_budget,
                                  platform_event_secret_refs=cfg.platform_event_secret_refs)
         if cfg.platform_event_secret_refs:service.platform_events.start()
         server = ApiServer(("127.0.0.1", cfg.port), service, public_origin=cfg.public_origin, web_root=cfg.web_root)

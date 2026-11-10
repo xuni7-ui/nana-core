@@ -808,6 +808,68 @@
         }
       }
     },
+    "/api/nana-space/v2/providers/runtime": {
+      "get": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        },
+        "security": [
+          {
+            "webCookie": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ]
+      },
+      "post": {
+        "responses": {
+          "200": {
+            "description": "Typed sanitized envelope",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/Envelope"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Fail closed typed error"
+          }
+        },
+        "security": [
+          {
+            "webCookie": []
+          },
+          {
+            "nativeBearer": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ProviderRuntimeBudgetRequest"
+              }
+            }
+          }
+        }
+      }
+    },
     "/api/nana-space/v2/providers/credential": {
       "post": {
         "responses": {
@@ -2877,6 +2939,112 @@
           "locality"
         ],
         "title": "ProviderProfile",
+        "type": "object"
+      },
+      "ProviderRuntimeBudgetRequest": {
+        "additionalProperties": false,
+        "properties": {
+          "client_request_id": {
+            "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+            "title": "Client Request Id",
+            "type": "string"
+          },
+          "idempotency_key": {
+            "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+            "title": "Idempotency Key",
+            "type": "string"
+          },
+          "expected_revision": {
+            "minimum": 0,
+            "title": "Expected Revision",
+            "type": "integer"
+          },
+          "run_generation": {
+            "pattern": "^[a-f0-9]{32}$",
+            "title": "Run Generation",
+            "type": "string"
+          },
+          "owner_epoch": {
+            "minimum": 0,
+            "title": "Owner Epoch",
+            "type": "integer"
+          },
+          "provider_profile_id": {
+            "maxLength": 128,
+            "minLength": 1,
+            "title": "Provider Profile Id",
+            "type": "string"
+          },
+          "profile_revision": {
+            "minimum": 1,
+            "title": "Profile Revision",
+            "type": "integer"
+          },
+          "configuration_revision": {
+            "minimum": 1,
+            "title": "Configuration Revision",
+            "type": "integer"
+          },
+          "calls_per_day": {
+            "maximum": 128,
+            "minimum": 1,
+            "title": "Calls Per Day",
+            "type": "integer"
+          },
+          "calls_per_hour": {
+            "maximum": 128,
+            "minimum": 1,
+            "title": "Calls Per Hour",
+            "type": "integer"
+          },
+          "per_provider_calls_per_day": {
+            "maximum": 128,
+            "minimum": 1,
+            "title": "Per Provider Calls Per Day",
+            "type": "integer"
+          },
+          "output_tokens": {
+            "maximum": 4096,
+            "minimum": 64,
+            "title": "Output Tokens",
+            "type": "integer"
+          },
+          "context_tokens": {
+            "maximum": 65536,
+            "minimum": 1024,
+            "title": "Context Tokens",
+            "type": "integer"
+          },
+          "per_call_reserved_cost_micro": {
+            "maximum": 100000,
+            "minimum": 1,
+            "title": "Per Call Reserved Cost Micro",
+            "type": "integer"
+          },
+          "consent": {
+            "const": true,
+            "title": "Consent",
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "client_request_id",
+          "idempotency_key",
+          "expected_revision",
+          "run_generation",
+          "owner_epoch",
+          "provider_profile_id",
+          "profile_revision",
+          "configuration_revision",
+          "calls_per_day",
+          "calls_per_hour",
+          "per_provider_calls_per_day",
+          "output_tokens",
+          "context_tokens",
+          "per_call_reserved_cost_micro",
+          "consent"
+        ],
+        "title": "ProviderRuntimeBudgetRequest",
         "type": "object"
       },
       "Realm": {

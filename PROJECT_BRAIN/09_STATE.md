@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 132,
-  "as_of_us": 1794352548902029,
+  "revision": 133,
+  "as_of_us": 1794353146193870,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_RECALL_REUSE_AND_ORIGINAL_REMAINDER",
+  "status": "IN_PROGRESS_HOST_OPTED_RUNTIME_SETTINGS_API",
   "progress": [
     "同一Next Experience与十域主任务已恢复；唯一Subject/Store/Loop、原C/D/G/Planner及Precision V2保持。最新合法源码与Brain优先。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
@@ -20,7 +20,7 @@
     "原C安静/已采纳学习可竞争承诺；LARGE存储不伪作疲倦。队列取消隐式8机会/天，显式宿主1–24配额/容量/去重/原D/实际模型执行预算保持；89相关14.10s，9机会后同状态0重复，重启第10独立事件通过。",
     "长回复16384字及全文恢复已有；新2049–16384字反馈绑定完整原话轮SHA，旧Sample2048不扩容。后续原context读取≤384字有标节选；短反馈JSON标签数组拒绝亦修。",
     "原literal1k/10k/100k144/144，200k142/144仍2超时。新原context复用同一safe-point字面miss，已资格G16/32后续RENDER字面查询2→1，字面命中仍优先；24+7相关通过，2话轮4模型fixture不减C阶段。",
-    "c069独立定向CI99Core/70前端/56浏览器及编译Node通过；新模型目录选择自动有效ID，provider/model各验自身字段，实际选中目录模型可显式注册而不改路由。18相关单测/16四视口/编译通过，0真实提供商。"
+    "模型目录已接通显式注册。新增默认关闭的宿主运行预算GET/POST接口，要求原live启动授权/宿主opt-in/HOST_ADMIN/严格同意/原CAS回执；13相关HTTP通过，0模型/密钥解析/出网。App/native接线下一步，未称可日用。"
   ],
   "open_gates": [
     "原A–H继承；Web/Core各逐条原C，BFF仍串行，尚无多消息目的合并/在途草稿重组及完整误触/中断闭环；其余自主性A–E/送达/长期因果继续。",
@@ -38,7 +38,7 @@
     "docs/nana_next_experience/evidence/long-feedback-and-tiering-20261111/README.md",
     "docs/nana_next_experience/evidence/catalog-registration-20261111/README.md",
     "docs/nana_next_experience/evidence/attention-quota-20261111/README.md",
-    "docs/nana_next_experience/evidence/recall-single-miss-20261111/README.md"
+    "docs/nana_next_experience/evidence/provider-runtime-settings-20261111/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

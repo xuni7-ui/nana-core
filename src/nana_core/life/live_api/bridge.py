@@ -38,11 +38,13 @@ class GatewayService:
         state_root,
         *,
         allow_provider_configuration=False,
+        allow_provider_runtime_budget=False,
         credential_resolver=None,
         platform_event_secret_refs=None,
     ):
         self.supervisor, self.auth = supervisor, auth
         self.allow_provider_configuration = allow_provider_configuration
+        self.allow_provider_runtime_budget = allow_provider_runtime_budget
         self.credential_resolver = credential_resolver
         self.binding = supervisor.binding
         self.generation = secrets.token_hex(16)
@@ -121,6 +123,7 @@ class GatewayService:
                 "social_delivery": "NOT_AUTHORIZED",
                 "provider_authority": False,
                 "provider_configuration_write": self.allow_provider_configuration,
+                "provider_runtime_configuration": self.allow_provider_runtime_budget is True and self.allow_provider_configuration is True and self.supervisor.provider_live_authorized is True,
                 "provider_readiness": True,
                 "chat_streaming": True,
                 "provider_model_discovery": self.allow_provider_configuration and self.credential_resolver is not None,

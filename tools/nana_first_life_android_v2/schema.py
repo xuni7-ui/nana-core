@@ -4,7 +4,7 @@ import json
 from pathlib import Path
 from pydantic.json_schema import models_json_schema
 from nana_core.life.live_api import contracts as c
-from nana_core.life.live_api.provider_settings import ProviderConfigurationRequest, CredentialBindingRequest
+from nana_core.life.live_api.provider_settings import ProviderConfigurationRequest, CredentialBindingRequest, ProviderRuntimeBudgetRequest
 from nana_core.life.live_api.platform_settings import PlatformConfigurationRequest
 from nana_core.life.live_api.platform_credentials import PlatformCredentialRequest
 from nana_core.life.live_api.memory_notes import MemoryNoteRequest
@@ -25,6 +25,7 @@ MODELS = [
     c.HostConfirmation,
     c.Receipt,
     ProviderConfigurationRequest,
+    ProviderRuntimeBudgetRequest,
     CredentialBindingRequest,
     PlatformConfigurationRequest,
     PlatformCredentialRequest,
@@ -97,6 +98,7 @@ def generate():
         "/notifications": ["get"],
         "/providers/status": ["get"],
         "/providers/commands": ["post"],
+        "/providers/runtime": ["get","post"],
         "/providers/credential": ["post"],
         "/backup/status": ["get"],
         "/conversation/history": ["get"],
@@ -125,6 +127,7 @@ def generate():
         "/conversation/feedback": "LanguageFeedbackRequest",
         "/commands": "CommandRequest",
         "/providers/commands": "ProviderConfigurationRequest",
+        "/providers/runtime": "ProviderRuntimeBudgetRequest",
         "/providers/credential": "CredentialBindingRequest",
         "/platform/commands": "PlatformConfigurationRequest",
         "/platform/credential": "PlatformCredentialRequest",

@@ -3463,3 +3463,8 @@ AdvancedLife原OpportunityQueue默认daily_limit由8改无隐式配额，显式t
 上下文已跨许可scope查无字面命中，再走已资格G16/32时原lookup又查一次。现仅原assembler已负支路调用拆出的private规范化primitive；普通G独立评价/练习/复用仍原literal-first，边界/源/隐私/无命中不等于遗忘不变，无缓存或模型bypass字段。旧16/32两case均2次查询严格失败；24原G/notes/重启撤回11.59s+7原context/private5.80s通过，后续不同note实际RENDER2→1字面查，再有literal来源仍优先；2话轮仍4INTERPRET/SOCIALfixture、原C不删，不推断账单Token改善。证据recall-single-miss。
 
 catalog42919922408客户端成功/Core按范围跳过；quota42920422226原Core成功/Web跳过，非full发行。所有原A–H继续，CURRENT/APK/生产/真实提供商/手机不动。
+
+
+### 2026-11-11 · 宿主显式开放运行预算配置API（客户端下一批）
+
+复用life.update_config CAS/原OperationLedger，新GET/POST providers/runtime仅HOST_ADMIN+新defaultfalse宿主标志+原allow_provider_configuration+原live启动授权，严格consentTrue；当前profile revision/host绑定后设置全宿主operating调用/Token/资源预留，原任务总上限/timeout/已有私人授权/身份保持，不自动重启/解Key/出网。新flagFalse序列化省略兼容旧普通配置，True wholeGateway回退须兼容版本或原host配置。旧路由404留证；6新HTTP8.94s，再13相关11.59s，含CSRF/角色/默认关闭/CAS/原幂等/写后丢结果UNKNOWN不重写不推断。证据provider-runtime-settings。此提交只有API/生成契约，App/native下一步，非全能力完成或生产授权；CURRENT/APK/真实模型/手机/生产未动。

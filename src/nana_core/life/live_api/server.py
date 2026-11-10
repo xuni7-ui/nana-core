@@ -359,6 +359,9 @@ class Handler(BaseHTTPRequestHandler):
                 except ValueError:
                     raise ApiError("VIEW_NOT_FOUND", 404) from None
                 value = service.snapshot(principal, page)
+            elif route == "providers/runtime":
+                from .provider_settings import runtime_status
+                value=runtime_status(service,principal)
             elif route == "events":
                 value = service.events_since(principal, (query.get("cursor") or [None])[0])
             elif route.startswith("receipts/"):
@@ -429,6 +432,9 @@ class Handler(BaseHTTPRequestHandler):
         elif route == "providers/commands":
             from .provider_settings import ProviderConfigurationRequest, configure
             value = configure(service, principal, self._model(ProviderConfigurationRequest, body))
+        elif route == "providers/runtime":
+            from .provider_settings import ProviderRuntimeBudgetRequest,configure_runtime
+            value=configure_runtime(service,principal,self._model(ProviderRuntimeBudgetRequest,body))
         elif route == "providers/credential":
             from .provider_settings import CredentialBindingRequest, bind_credential
             value = bind_credential(service, principal, self._model(CredentialBindingRequest, body))

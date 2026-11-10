@@ -30,6 +30,9 @@ on:
       - src/nana_core/continuity/subject/context_fit.py
       - tests/vision_first/test_context_fit.py
       - src/nana_core/continuity/lived_language.py
+      - src/nana_core/life/live_api/provider_settings.py
+      - src/nana_core/life/live_api/server.py
+      - tests/first_life_android_v2/test_provider_runtime_settings.py
       - src/nana_core/life/live_api/bridge.py
       - src/nana_core/life/live_api/contracts.py
       - tests/first_life_android_v2/test_long_feedback.py
@@ -207,6 +210,7 @@ jobs:
             (('lived_language.py','live_api/bridge.py','live_api/contracts.py','long_feedback','feedback.ts','feedback.test.ts','nana-space-live-v2'),
              ['tests/person_self/test_memory_use_feedback.py','tests/person_self/test_long_feedback_binding.py','tests/person_self/test_learning.py','tests/person_self/test_dialogue_integration.py','tests/first_life_android_v2/test_long_feedback.py','tests/first_life_android_v2/test_http_integration.py']),
             (('continuity/context.py','continuity/retrieval_growth.py','test_retrieval_growth','test_note_recall'), ['tests/independent_life/test_retrieval_growth.py','tests/independent_life/test_retrieval_growth_expanded.py','tests/independent_life/test_note_recall.py','tests/continuous_self/test_context.py','tests/person_self/test_context_selection_efficiency.py','tests/living_release_v4/test_private_context.py']),
+            (('live_api/provider_settings.py','live_api/server.py','test_provider_runtime_settings.py'), ['tests/first_life_android_v2/test_provider_runtime_settings.py','tests/first_life_android_v2/test_provider_models.py','tests/first_life_android_v2/test_http_integration.py']),
             (('subject/context_fit.py','test_context_fit.py'), ['tests/vision_first/test_context_fit.py','tests/independent_life/test_dialogue.py']),
             (('subject/policy.py','open_life/opportunities.py','tests/open_life/'), ['tests/open_life','tests/open_autonomy/test_delivery.py','tests/open_autonomy/test_planning.py','tests/precision/test_planning.py','tests/precision/test_recovery.py']),
             (('life/control.py','life/application.py','life/surfaces.py','life/__main__.py','test_continuous_inputs.py'), ['tests/first_life_android_v2/test_continuous_inputs.py','tests/first_life_android_v2/test_http_integration.py','tests/independent_life/test_dialogue.py']),
