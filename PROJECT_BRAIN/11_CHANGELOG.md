@@ -3343,3 +3343,7 @@ Run42722401896原bwrap11/11通过，精确全仓2152 passed/0 failed/1 setup err
 ### 2026-11-10 · SQLite fixture净化环境暴露GITHUB_WORKSPACE丢失
 
 Run42724497432原bwrap11/11通过，Core全仓2152 passed/0 failed/1 setup error/12 skipped/733.98s，client PASS；GPG2.4.4 B1缺陷已闭合。JUnit artifact13721957397保留。唯一setup error仍旧SQLite fixture版本预检失败；原因是原测试subprocess用明确env白名单，wrapper依赖的GITHUB_WORKSPACE随之消失。新wrapper生成时将checkout绝对路径写入，只保留运行时UID/GID取值；另以和测试完全相同的env -i(PATH/LANG/TZ)先验证SQLite3.46.1，并执行/tmp中的真实脚本。仍是隔离断网/只读，具体预检和全仓复验待新CI，不放宽原测试。无候选/Core安装/CURRENT/APK/生产。
+
+### 2026-11-10 · acddab6首次完整Core/Web资格与匹配候选
+
+GitHub workflow run42726524392双job均PASS。原IsolatedSkillRunner probe AVAILABLE，11项包括net/user/mnt/pid/uts/ipc namespace、host路径/环境隔离、no_new_privs/capabilities和只读work全true。精确全仓2153 passed/12显式门控skip/0 failed/0 error/707.68s；历史GPG2.4.4 AEAD回归修复、3.46.1旧宿主容器fixture均通过。Core私有Python3.12/SQLite3.53.1；两次精确源码portable构建SHA一致，使用匹配acddab6源码的portable候选在CI同run解包且`INSTALLED_OFFLINE`、network_requests=0。Core候选artifact13723513381(15,043,533 bytes)，JUnit13723254033，client artifact13722233261。Client npm build、67 tests、32 Playwright浏览器场景均pass。无production/CURRENT/APK/真实模型/真人/手机变化；候选目前不是已独立下载、手机安装、发布或上线。未来复验须取artifact内manifest确切SHA并做独立host下载/安装；本次仅CI同host offline install。后续原A–H仍继承。
