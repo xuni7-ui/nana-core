@@ -1,0 +1,38 @@
+[WebServer] (node:14890) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:14903) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 12 tests using 1 worker
+
+(node:14921) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/12] [desktop] › tests/v3.spec.ts:869:1 › SYNTHETIC model catalog: explicit list read fills draft without switching routes
+[2/12] [desktop] › tests/v3.spec.ts:1259:37 › SYNTHETIC model setup: numeric UUID saves configuration without a native credential or route switch
+[3/12] [desktop] › tests/v3.spec.ts:1259:37 › SYNTHETIC model setup: numeric UUID lost ACK is verify-only
+(node:15142) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[4/12] [phone-360] › tests/v3.spec.ts:869:1 › SYNTHETIC model catalog: explicit list read fills draft without switching routes
+[5/12] [phone-360] › tests/v3.spec.ts:1259:37 › SYNTHETIC model setup: numeric UUID saves configuration without a native credential or route switch
+[6/12] [phone-360] › tests/v3.spec.ts:1259:37 › SYNTHETIC model setup: numeric UUID lost ACK is verify-only
+(node:15346) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[7/12] [phone-390] › tests/v3.spec.ts:869:1 › SYNTHETIC model catalog: explicit list read fills draft without switching routes
+[8/12] [phone-390] › tests/v3.spec.ts:1259:37 › SYNTHETIC model setup: numeric UUID saves configuration without a native credential or route switch
+[9/12] [phone-390] › tests/v3.spec.ts:1259:37 › SYNTHETIC model setup: numeric UUID lost ACK is verify-only
+(node:15554) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[10/12] [phone-412] › tests/v3.spec.ts:869:1 › SYNTHETIC model catalog: explicit list read fills draft without switching routes
+[11/12] [phone-412] › tests/v3.spec.ts:1259:37 › SYNTHETIC model setup: numeric UUID saves configuration without a native credential or route switch
+[12/12] [phone-412] › tests/v3.spec.ts:1259:37 › SYNTHETIC model setup: numeric UUID lost ACK is verify-only
+  12 passed (18.1s)

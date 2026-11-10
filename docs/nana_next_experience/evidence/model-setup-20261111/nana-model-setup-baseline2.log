@@ -1,0 +1,76 @@
+[WebServer] (node:14444) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:14457) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 2 tests using 1 worker
+
+(node:14474) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/2] [desktop] › tests/v3.spec.ts:1259:37 › SYNTHETIC model setup: numeric UUID saves configuration without a native credential or route switch
+  1) [desktop] › tests/v3.spec.ts:1259:37 › SYNTHETIC model setup: numeric UUID saves configuration without a native credential or route switch 
+
+    Error: expect(locator).toContainText(expected) failed
+
+    Locator: locator('.next-setup')
+    Expected substring: "供应商与模型已保存"
+    Received string:    "MAKE IT YOURS把你喜欢的模型，带给奈奈选择服务商，填写模型名称。内部配置由向导完成，密钥通过手机安全输入框存到服务器。服务商DeepSeekOpenAI自定义 OpenAI-compatibleAPI 地址模型名称保存并设为对话模型未完成：连接或结果未知 已保存的步骤会保留，请到下方配置列表核对；不会自动重发。不会自动调用付费模型。更多能力、备用模型和高级参数仍在下方。"
+    Timeout: 5000ms
+
+    Call log:
+      - Expect "toContainText" locator('.next-setup') with timeout 5000ms
+      - waiting for locator('.next-setup')
+        14 × locator resolved to <section class="next-setup v3-card">…</section>
+           - unexpected value "MAKE IT YOURS把你喜欢的模型，带给奈奈选择服务商，填写模型名称。内部配置由向导完成，密钥通过手机安全输入框存到服务器。服务商DeepSeekOpenAI自定义 OpenAI-compatibleAPI 地址模型名称保存并设为对话模型未完成：连接或结果未知 已保存的步骤会保留，请到下方配置列表核对；不会自动重发。不会自动调用付费模型。更多能力、备用模型和高级参数仍在下方。"
+
+
+      1293 |     expect(commands).toHaveLength(1);expect(receiptReads).toBe(1);
+      1294 |   }else{
+    > 1295 |     await expect(setup).toContainText('供应商与模型已保存');
+           |                         ^
+      1296 |     expect(commands).toHaveLength(2);
+      1297 |     expect(commands.map(c=>c.operation)).toEqual(['UPSERT_PROVIDER','UPSERT_MODEL']);
+      1298 |     const provider=commands[0].provider as Record<string,unknown>;
+        at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:1295:25
+
+    Error Context: ../../../../tmp/nana-model-setup-baseline-results2/v3-SYNTHETIC-model-setup-n-f52f2--credential-or-route-switch-desktop/error-context.md
+
+
+(node:14615) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[2/2] [desktop] › tests/v3.spec.ts:1259:37 › SYNTHETIC model setup: numeric UUID lost ACK is verify-only
+  2) [desktop] › tests/v3.spec.ts:1259:37 › SYNTHETIC model setup: numeric UUID lost ACK is verify-only 
+
+    Error: expect(locator).toBeVisible() failed
+
+    Locator: getByText('UNKNOWN', { exact: true })
+    Expected: visible
+    Timeout: 5000ms
+    Error: element(s) not found
+
+    Call log:
+      - Expect "toBeVisible" getByText('UNKNOWN', { exact: true }) with timeout 5000ms
+      - waiting for getByText('UNKNOWN', { exact: true })
+
+
+      1287 |   await setup.locator('button').click();
+      1288 |   if(lostAck){
+    > 1289 |     await expect(page.getByText('UNKNOWN',{exact:true})).toBeVisible();
+           |                                                          ^
+      1290 |     await expect.poll(()=>commands.length).toBe(1);
+      1291 |     await page.getByRole('button',{name:'核验回执',exact:true}).click();
+      1292 |     await expect(page.getByText('VERIFIED',{exact:true})).toBeVisible();
+        at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:1289:58
+
+    Error Context: ../../../../tmp/nana-model-setup-baseline-results2/v3-SYNTHETIC-model-setup-n-48973-UID-lost-ACK-is-verify-only-desktop/error-context.md
+
+
+  2 failed
+    [desktop] › tests/v3.spec.ts:1259:37 › SYNTHETIC model setup: numeric UUID saves configuration without a native credential or route switch 
+    [desktop] › tests/v3.spec.ts:1259:37 › SYNTHETIC model setup: numeric UUID lost ACK is verify-only 

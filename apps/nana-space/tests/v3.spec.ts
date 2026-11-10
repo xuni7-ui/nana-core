@@ -1254,3 +1254,65 @@ test("SYNTHETIC long reply feedback binds full Unicode response without repostin
   expect(posts).toBe(1);expect(checks).toBe(1);
   expect(await page.evaluate(()=>JSON.stringify(Object.entries(localStorage)))).not.toContain(reply);
 });
+
+
+for (const scenario of ['SAVED','LOST_ACK','REJECTED'] as const) test(`SYNTHETIC model setup: numeric UUID ${scenario}`, async ({page}) => {
+  const lostAck=scenario==='LOST_ACK';
+  const rejected=scenario==='REJECTED';
+  const state=await installMock(page);
+  state.capabilities={provider_configuration_write:true};
+  await page.addInitScript(()=>{
+    let next=0;
+    crypto.randomUUID=()=>`01234567-89ab-4cde-8fab-${String(++next).padStart(12,'0')}` as `${string}-${string}-${string}-${string}-${string}`;
+  });
+  let configRevision=providerSettings.revision;
+  const commands:Record<string,unknown>[]=[];
+  let requestId='';let receiptReads=0;
+  await page.route(`**${API}views/settings`,route=>route.fulfill({status:200,json:envelope(state,
+    {...viewData(state,'settings'),provider_settings:{...providerSettings,revision:configRevision}})}));
+  await page.route(`**${API}providers/commands`,async route=>{
+    const body=route.request().postDataJSON();
+    commands.push(body.command);requestId=body.client_request_id;
+    expect(body.command.expected_revision).toBe(configRevision);
+    if(rejected)return route.fulfill({status:200,json:envelope(state,{receipt_id:body.client_request_id,
+      state:'REJECTED',dispatch_happened:false,error:'PROVIDER_CONFIG_REVISION_CONFLICT'})});
+    configRevision++;state.revision++;
+    if(lostAck)return route.abort('failed');
+    return route.fulfill({status:200,json:envelope(state,{receipt_id:body.client_request_id,state:'VERIFIED',
+      dispatch_happened:true,result:{configuration_revision:configRevision}})});
+  });
+  await page.route(`**${API}receipts/*`,route=>{
+    receiptReads++;
+    return route.fulfill({status:200,json:envelope(state,
+      {receipt_id:requestId,state:'VERIFIED',dispatch_happened:true,result:{configuration_revision:configRevision}})});
+  });
+  await open(page,'models');
+  const setup=page.locator('.next-setup');
+  await setup.locator('button').click();
+  if(rejected){
+    await expect(page.getByText('最近操作 · 未执行',{exact:true})).toBeVisible();
+    expect(commands).toHaveLength(1);expect(configRevision).toBe(providerSettings.revision);expect(receiptReads).toBe(0);
+    await expect(page.getByText('最近操作 · 待确认',{exact:true})).toHaveCount(0);
+  }else if(lostAck){
+    await expect(page.getByText('最近操作 · 待确认',{exact:true})).toBeVisible();
+    await expect.poll(()=>commands.length).toBe(1);
+    await page.getByText('最近操作 · 待确认',{exact:true}).click();
+    await page.getByRole('button',{name:'核验当前回执',exact:true}).click();
+    await expect(page.getByText('最近操作 · 已完成',{exact:true})).toBeVisible();
+    expect(commands).toHaveLength(1);expect(receiptReads).toBe(1);
+  }else{
+    await expect(setup).toContainText('供应商与模型已保存');
+    expect(commands).toHaveLength(2);
+    expect(commands.map(c=>c.operation)).toEqual(['UPSERT_PROVIDER','UPSERT_MODEL']);
+    const provider=commands[0].provider as Record<string,unknown>;
+    const model=commands[1].model as Record<string,unknown>;
+    expect(provider.provider_profile_id).toMatch(/^provider\.[a-z][a-z0-9._-]+$/);
+    expect(model.model_profile_id).toMatch(/^model\.[a-z][a-z0-9._-]+$/);
+    expect(model.provider_profile_id).toBe(provider.provider_profile_id);
+    expect(provider.default_timeout_ms).toBe(120000);
+    expect(model.remote_model_id).toBe('deepseek-chat');
+  }
+  expect(commands.some(c=>c.operation==='SET_CAPABILITY_ROUTE')).toBe(false);
+  expect(state.requests.some(r=>r.path==='providers/credentials/bind'||r.path==='providers/models')).toBe(false);
+  await noHorizontalOverflow(page);
+});

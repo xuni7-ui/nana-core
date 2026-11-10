@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 127,
-  "as_of_us": 1794337085452975,
+  "revision": 128,
+  "as_of_us": 1794351017770210,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_OWNED_CHOICES_WITHOUT_FIXED_PROMISE_OVERRIDE",
+  "status": "IN_PROGRESS_MODEL_SETUP_AND_AUTONOMY_REFINEMENT",
   "progress": [
     "同一Next Experience与十域主任务已恢复；唯一Subject/Store/Loop、原C/D/G/Planner及Precision V2保持。最新合法源码与Brain优先。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
@@ -20,14 +20,14 @@
     "原C继续取消承诺固定压制：有源安静/同主题已采纳学习兴趣可竞争，承诺仍PRESSING/逾期/ADOPTED，显式复查与实际norm/负荷/权限保持；99相关+21动机+4原SubjectLoop通过，跨重启/撤回保留。",
     "长回复16384字及全文恢复已有；新2049–16384字反馈绑定完整原话轮SHA，旧Sample2048不扩容。后续原context读取≤384字有标节选；短反馈JSON标签数组拒绝亦修。",
     "原memory_terms有界派生加速：1k/10k/100k均144/144，100k P959.72ms；200k142/144、误召0/超时2、P9548.18ms，增加约0.8GB索引；55相关通过。",
-    "新长反馈71受影响后端通过52.99s、70前端、40四尺寸浏览器、编译通过；旧6fd DTO只读2样本兼容。用户创新优先/分级验证采纳，普通push只相关回归，发行/迁移显式full。"
+    "51d31ad独立定向CI42880510965通过99Core/40浏览器/前端编译单测Node；未跑full发行。模型向导修数字开头UUID被拒绝，Web文案按能力区分，丢失ACK原请求可核验且明确拒绝保留；16受影响浏览器通过。"
   ],
   "open_gates": [
     "原A–H继承；Web/Core各逐条原C，BFF仍串行，尚无多消息目的合并/在途草稿重组及完整误触/中断闭环；其余自主性A–E/送达/长期因果继续。",
     "原G仍限独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移仍待改进。新加速只资格有限合成literal源选择。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "全链模型特定Token/费用/超时、产品/模型向导、运行Gateway/Core/宿主兼容与仓库闭包仍按原清单推进。",
-    "26cb原受影响Core CI通过，client旧Node2049拒绝断言首错已保留；契约改测旧能力门/新16384界限，本地3通过。新安静/学习选择未全发行，其他A–E/真人自然度/长期仍开放。",
+    "817重启withdrawUNKNOWN首错仍保留，后继成功不称根因已修。原C其余A–E/多消息目的草稿/长期因果未完；模型向导续配/目录前置/原生及真实提供商仍待，当前仅受控Web资格。",
     "远端artifact字节下载403/远端SHA对照保留独立差额，无新路径不再重复；独立本地安装不冒充远端。原A–H未完成，生产/模型/账号/手机未操作。"
   ],
   "evidence_refs": [
@@ -36,9 +36,9 @@
     "docs/nana_next_experience/STATUS_AND_REMAINING.md",
     "docs/nana_next_experience/SOURCE_NAVIGATION_AUDIT.md",
     "docs/nana_next_experience/evidence/installed-c162-20261110/README.md",
-    "docs/nana_next_experience/evidence/ci-bwrap-host-requalification-20261109/README.md",
-    "docs/nana_next_experience/evidence/focus-purpose-20261110/README.md",
-    "docs/nana_next_experience/evidence/owned-choice-and-due-promises-20261111/README.md"
+    "docs/nana_next_experience/evidence/long-feedback-and-tiering-20261111/README.md",
+    "docs/nana_next_experience/evidence/owned-choice-and-due-promises-20261111/README.md",
+    "docs/nana_next_experience/evidence/model-setup-20261111/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

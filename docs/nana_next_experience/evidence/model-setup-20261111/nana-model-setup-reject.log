@@ -1,0 +1,30 @@
+[WebServer] (node:15799) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:15812) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 4 tests using 1 worker
+
+(node:15830) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/4] [desktop] › tests/v3.spec.ts:1259:66 › SYNTHETIC model setup: numeric UUID REJECTED
+(node:15960) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[2/4] [phone-360] › tests/v3.spec.ts:1259:66 › SYNTHETIC model setup: numeric UUID REJECTED
+(node:16093) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[3/4] [phone-390] › tests/v3.spec.ts:1259:66 › SYNTHETIC model setup: numeric UUID REJECTED
+(node:16228) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[4/4] [phone-412] › tests/v3.spec.ts:1259:66 › SYNTHETIC model setup: numeric UUID REJECTED
+  4 passed (9.6s)

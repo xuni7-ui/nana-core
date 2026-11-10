@@ -973,7 +973,8 @@ export function LiveSpace() {
     writePending.current = true; setBusy(true);
     const version = sessionVersion.current;
     const suffix = crypto.randomUUID().replaceAll("-", "").slice(0, 16);
-    const pid = "provider." + suffix, mid = "model." + suffix;
+    const pid = "provider.next-" + suffix, mid = "model.next-" + suffix;
+    let pendingId: string | undefined;
     try {
       for (const step of [0, 1, 2]) {
         if (version !== sessionVersion.current) throw new V2Error("SESSION_REVOKED");
@@ -1000,14 +1001,20 @@ export function LiveSpace() {
         const command = step === 0 ? providerCommand(draft, pid, settings.revision) : step === 1 ? modelCommand(draft, pid, mid, settings.revision) : routeCommand("COGNITION", mid, [], settings.revision);
         if (command.provider) command.provider.secret_ref = "next." + suffix;
         const id = crypto.randomUUID();
+        pendingId=id;
         const r = await client.current.write("providers.command", {...writeBase(b, id), command});
         if (version !== sessionVersion.current) throw new V2Error("SESSION_REVOKED");
         setReceipt(object(r.data));
-        if (r.data.state !== "VERIFIED") throw new V2Error("UNKNOWN_VERIFY_ONLY");
+        pendingId=undefined;
+        if (r.data.state !== "VERIFIED") throw new V2Error(
+          typeof r.data.error === "string" ? r.data.error : r.data.state === "UNKNOWN" ? "UNKNOWN_VERIFY_ONLY" : "REQUEST_REJECTED");
       }
       setStatus("凭据已绑定，模型和路由已保存。实际可用性以服务器状态为准；配置可能需要重启才能生效。");
       await refresh();
     } catch (e) {
+      if (version !== sessionVersion.current) return;
+      if (pendingId && e instanceof V2Error && e.code === "UNKNOWN_VERIFY_ONLY")
+        setReceipt({receipt_id:pendingId,state:"UNKNOWN",dispatch_happened:"UNKNOWN"});
       setStatus(explain(e) + " 已保存的步骤会保留，请到下方配置列表核对；不会自动重发。");
       await refresh().catch(() => {});
     } finally { if (version === sessionVersion.current) { setBusy(false); writePending.current = false; } }
@@ -1610,7 +1617,7 @@ export function LiveSpace() {
               />
             )}
             {page === "models" && (
-              <><ModelSetup disabled={busy || !admin || !healthy || bootstrap?.capabilities.provider_configuration_write !== true} onSetup={setupModel}/><ModelCenter
+              <><ModelSetup disabled={busy || !admin || !healthy || bootstrap?.capabilities.provider_configuration_write !== true} canBindCredential={isNative() && bootstrap?.capabilities.native_secret_binding===true} onSetup={setupModel}/><ModelCenter
                 key={`${bootstrap?.run_generation || "offline"}:${privacy.current}:${healthy}`}
                 settings={data.provider_settings}
                 available={healthy}

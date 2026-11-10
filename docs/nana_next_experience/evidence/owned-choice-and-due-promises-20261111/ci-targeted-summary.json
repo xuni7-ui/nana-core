@@ -1,0 +1,22 @@
+{
+  "source_commit": "51d31adbacc6c544d6a6ec23eda0249f4f5eadee",
+  "run_id": 42880510965,
+  "conclusion": "success",
+  "qualification": "TARGETED_NOT_FULL_RELEASE",
+  "original_core": {
+    "job_id": 130055216210,
+    "passed": 99,
+    "seconds": 26.14
+  },
+  "client": {
+    "job_id": 130055215585,
+    "browser_passed": 40,
+    "browser_seconds": 35.9,
+    "build": "PASS",
+    "unit": "PASS",
+    "node_feedback_contract": "PASS"
+  },
+  "full_release_and_sandbox_and_doublebuild_install": "INTENTIONALLY_NOT_RUN_FOR_TARGETED_TIER",
+  "real_provider_calls": 0,
+  "production_changed": false
+}

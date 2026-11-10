@@ -1,3 +1,11 @@
+# Active continuation — model wizard saves with numeric UUID and verifies lost ACK
+
+Latest prior51d31ad targetedCI42880510965 SUCCESS99Core/40browser/build-unit-Node; full/sandbox/doublebuild/install intentionally skipped. New model UI uses validprovider.next-/model.next- IDs, capability-truthful Web/native button text, original lost-ACK receipt ID verification and preserves definiteREJECTED. Frozen2browser fails retained; newlivebuild,12success/lostACK/catalog four-width cases+4separate rejection cases pass. Evidence model-setup-20261111. No full/newAPK/production needed for this small UI change; real provider/native still unqualified.
+
+Next actual work: original OpportunityQueue still maps LARGE storage estimate to HIGH cognitive_load and forcesREST. Separate estimated capacity from attention; retain estimate/ranking/actual storage permissions and prove normal originalC desire without allocation/model. Continue natural multi-input purpose/unsent drafts/interrupt, model setup resumption/catalog, remaining autonomy/affect/G/retrieval/storage/privacy/Token and matching final delivery. Same originalA–H/Subject/Store/Loop/lineage, currentBrain and legal successors take precedence over old817 scheduled prompt. Artifact403 remains separate, no retry without new path; CURRENT266+409 unchanged.
+
+---
+
 # Active continuation — quiet and owned learning can compete with due promises
 
 Current predecessor26cb includes long feedback/tieredCI and normal BPR9/10/11 merges. ActualCI42879600516 Core targetedSUCCESS; client build/unit passed then oldNode2049-reject assertion failed. Contract synchronized: legacy capability still hides long review, source-bound marker allowed with capability,16385 rejects;3Node localPASS. Full/client remote successor still must be read accurately. First CI failure preserved in long-feedback-and-tiering.
