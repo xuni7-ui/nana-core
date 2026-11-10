@@ -7,8 +7,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 123,
-  "as_of_us": 1794334400002662,
+  "revision": 124,
+  "as_of_us": 1794334782730739,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_ORIGINAL_C_NONWORKING_CHOICES_AND_RESTART_RECEIPT",
@@ -17,7 +17,7 @@
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
-    "原C高负荷保留有源goalWITHDRAW跨重启ABANDONED(22相关)；非工作选项不再先过活动价值/新鲜感/负荷筛选，norm仍优先；原版6fail1pass→77相关通过+8专项含norm通过，0行动/调用。",
+    "原C放弃/安静选择修复：源码六组244通过65.56s；匹配c162独立离线安装，安装包Python运行25原生命周期/学习/投递/计划测试+7纯判断，102Core模块全来自安装包。全仓/真人/长期仍待。",
     "长回复16384/原Token预算；6fd安装两轮12625字全文、已保留全文重启恢复/撤回通过；1024历史节选标记/4096流式前缀保留，反馈仍限2048。",
     "原memory_terms有界派生加速：1k/10k/100k均144/144，100k P959.72ms；200k142/144、误召0/超时2、P9548.18ms，增加约0.8GB索引；55相关通过。",
     "acddab6原Core CI2153通过/12跳过、双构建/CI离线安装保留；Web待发正文现在独立到期清除，不等前请求完成。新构建/67单测/12四视口队列场景通过；虚拟时间不是实际20分钟驻留。"
@@ -35,7 +35,7 @@
     "docs/nana_next_experience/ACTIVE_CHECKPOINT.md",
     "docs/nana_next_experience/STATUS_AND_REMAINING.md",
     "docs/nana_next_experience/SOURCE_NAVIGATION_AUDIT.md",
-    "docs/nana_next_experience/evidence/nonworking-choices-20261110/README.md",
+    "docs/nana_next_experience/evidence/installed-c162-20261110/README.md",
     "docs/nana_next_experience/evidence/ci-bwrap-host-requalification-20261109/README.md",
     "docs/nana_next_experience/evidence/independent-install-817-20261110/README.md",
     "docs/nana_next_experience/evidence/web-waiting-inbox-20261109/README.md"

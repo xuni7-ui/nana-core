@@ -3367,3 +3367,7 @@ acdd284文件本地双构建同6a8848…0f00，独立离线安装BFF/反馈幂�
 ### 2026-11-10 · 原C非工作选项先于活动价值/负荷筛选
 
 原7个NO_ACTION分支移到原norm/privacy/resource过滤之后、活动load/value/novelty之前；避免WATCH/沉默/不做事/撤回/忽略/暂缓被一律改REST。旧6fail1pass，新77relatedpass17.15s+独立8quiet/normpass0.90s，0action/grant/cognitive request。来源norm仍先起效，不释放实际权限或强制活动。另817旧sourceCI2152pass/1fail/12skip，笔记重启后withdrawUNKNOWN原首错保留；本地严格1pass3.68s不称修复，仅断言附真实回执便于诊断，不放宽状态。当前branch远端仍b706；cac02bc为独立治理PR不合并覆盖。证据nonworking-choices；后继full/installed待验，CURRENT/APK/生产不动。
+
+### 2026-11-10 · 新C源码244回归与实际安装包原测试资格
+
+6组原C相关源码测试244通过65.56s；c162独立284文件包1ef1fb…b867离线安装成功，安装包自身Python-I执行原25生命周期/学习/投递/规划测试2.89s及7纯quiet判断，102已加载Core模块均断言来自安装包。首3实验室引用收集错原样保留，未扩包lab；第二调用选无需lab的原测试，未减断言。源码244不是全仓，纯7不是生活经历/真人资格。证据installed-c162。远端下载已定位代理CONNECT403到sdmntprkoreacentral.oaiusercontent.com，网络政策仅package_managers，无可用request_changes；不输出签名引用，不阻塞其他开发。817重启withdrawUNKNOWN首错仍开放；后继全仓在途。CURRENT/APK/模型/账号/手机/生产未动。

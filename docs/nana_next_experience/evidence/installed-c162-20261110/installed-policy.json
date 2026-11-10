@@ -1,0 +1,17 @@
+{
+  "source_commit": "c162df34c832fb9241f12529e0d02e3cdec5b101",
+  "execution": "INSTALLED_BUNDLE_PYTHON_AND_CORE_WITH_EXTERNAL_EXISTING_PYTEST_FIXTURES",
+  "pytest_exit": 0,
+  "installed_pure_quiet_judgments": 7,
+  "all_loaded_core_modules_from_bundle": true,
+  "core_modules": 102,
+  "real_model_calls": 0,
+  "real_social_sends": 0,
+  "production_changed": false,
+  "original_tests": [
+    "open_life/test_learning_renewal.py",
+    "open_life/test_long_goals.py",
+    "open_autonomy/test_delivery.py",
+    "open_autonomy/test_planning.py"
+  ]
+}

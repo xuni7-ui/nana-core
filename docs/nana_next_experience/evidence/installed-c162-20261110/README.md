@@ -1,0 +1,11 @@
+# Installed original C c162 qualification
+
+Exact source c162df34c832fb9241f12529e0d02e3cdec5b101 independently built284 files, SHA256 `1ef1fbfe72c4a3f59c38ceb45ecd13b6204ecf8fec16cac33849b23f5db1b867`, offline installed `/tmp/nc162`, private Python3.12/SQLite3.53.1. This is a local source rebuild, not a downloaded remote candidate.
+
+Source original C regression across tests/{affective_autonomy,foundation_closure,independent_life,living_autonomy,open_autonomy,open_life}:244 passed65.56s, log `/tmp/nana-c162-subject-regression.log`. This supersedes neither full whole-repo tests nor actual long-term/human qualification.
+
+Installed package test: installed `.venv/bin/python -I -B` pinned nana_core to bundle/src, loaded existing pytest dependencies externally from the original testenv and original test files from the checkout, with empty config to avoid repo pythonpath.25 original learning/goal-lifecycle/delivery/planning tests passed2.89s;7 additional pure quiet-policy judgments passed. All102 imported nana_core module files were asserted inside the installed bundle. Existing tests still execute real original runtime/Store in fresh synthetic dirs;7 pure judgments alone are not a lived-experience qualification. Driver saved verbatim as verify-installed-policy.py (exact environment paths intentionally retained). Report installed-policy.json. Raw `/tmp/nana-c162-installed-policy-fixed.log`.
+
+First attempt tried three lab-dependent test modules, all3 failed collection because world_loop.reference/controlled_world.lab are deliberately excluded from portable runtime. Log `/tmp/nana-c162-installed-policy.log`, original script `/tmp/nana-installed-policy-tests.first.py` retained. Runtime payload was NOT expanded; subsequent invocation selected four existing modules needing no labs. No assertion or test standard was weakened.
+
+No model/account/human/phone/APK/CURRENT/production changes. New whole-repo CI still pending at record. Earlier817 fullCI2152pass1fail12skip had withdrawalUNKNOWN after restart, retained as unresolved separately from these C changes. Remote artifact transfer CONNECT403 is now confirmed to the file-reference domain sdmntprkoreacentral.oaiusercontent.com under enforced package-manager-only egress. No signed URL/credential retained in this evidence; local source builds do not prove remote byte equality.
