@@ -15,3 +15,5 @@ Per user innovation-first instructions, automatic pushes now select affected exi
 Current batch full release/install, actual provider/phone/human naturalness and long-term learning NOT_RUN. CURRENT266+409 and production unchanged. Original A–H backlog remains active.
 
 Final automatic affected-path selection ran all eight selected original modules:71passed52.99s (no -k deselection). It includes original multi-input/HTTP/dialogue/feedback/learning and new long examples. This replaces no full-release assertions.
+
+Actual merged-source26cb CI42879600516: affected Core jobSUCCESS; client unit/build passed then Node contract failed at its obsolete2049 rejection assertion, so CI browsers did not run. Preserved first failure. Updated contract checks legacy server capability still rejects2049, new long sample is dependent marker, and16385 still rejects; existing3Node tests pass12.86ms. Local40browser result remains separate. No fullCI success claimed for26cb.

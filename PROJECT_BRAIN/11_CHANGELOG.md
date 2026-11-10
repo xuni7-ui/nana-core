@@ -3420,3 +3420,10 @@ acdd284文件本地双构建同6a8848…0f00，独立离线安装BFF/反馈幂�
 重做现役README：主体定位、Mermaid架构、实现/资格边界、源码/使用/构建/贡献入口；旧README全文原样置入历史归档。源码试用指南实际移入docs/guides并保留旧链接跳转，修正Python/SQLite前提；开发service示例原字节并入deployment/development，更新唯一现役文档引用，移除空deploy入口。AGENTS目录与B最新治理优先级同步。
 
 验证：README所列19项工程检查、life --help、48个变更文档链接、77个既有导航目标通过；旧README内容及service字节保留，未改Core/客户端/封签交付/生产/main。以24e43c7账本全文为底追加；治理PR实际CI/集成按GitHub回执。目录整理继续分批推进，不把本批写成全部专项完成。
+
+
+### 2026-11-11 · 原C安静与已采纳学习不再被逾期承诺自动覆盖
+
+保留承诺PRESSING/到期/ADOPTED/显式复查，移除“所有非EXPLORE/CREATE兴趣先复查承诺”的固定生活顺序；经norm过滤的安静第一选项或原Growth同主题已采纳兴趣可继续原负荷/价值/权限判断，动机不因存在承诺而自动标inhibited。原版3quiet失败、quiet修83通过后LEARN新例1失败6通过；最终99相关14.20s，动机改后21兴趣1.57s+4原Loop0.21s。重启同身份、承诺仍逾期、显式复查/来源撤回/0actions/grants/model保留，无新增机制或预算。证据owned-choice-and-due-promises；全A–H继续。
+
+26cb独立CI受影响Core成功；client旧Node契约仍预期2049拒绝导致首错，已保存并同步旧能力门、dependent marker与16385拒绝，原3Node通过12.86ms，无产品门放宽以过测。B PR9/10/11已正常合并，保留入口整理/平台说明/CI路径和双方账本；两次push被合法后继拒绝后fetch/normalmerge，无强推。新能力不重跑未受影响完整发行；CURRENT/APK/生产不动。

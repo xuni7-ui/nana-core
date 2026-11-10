@@ -1,7 +1,7 @@
 // Network-independent contract checks: node tests/feedback.node.ts
 import { test } from "node:test";
 import assert from "node:assert/strict";
-import { languageFeedbackSample, memoryUseModes } from "../src/data/feedback.ts";
+import { languageFeedbackSample, memoryUseModes, reviewableResponse } from "../src/data/feedback.ts";
 import { mergeRetainedTurns, retainedTurns } from "../src/data/living.ts";
 
 const row = {exchange_record_id: "retained-exchange", user_text: "SYNTHETIC question", reply_text: "SYNTHETIC reply",
@@ -29,7 +29,11 @@ test("foreign, withdrawn, unretained and malformed targets cannot form memory fe
   assert.throws(() => languageFeedbackSample(turn, "foreign", {...choice, memory_id: "other-person"}, 10));
   assert.throws(() => languageFeedbackSample({...turn, state: "UNKNOWN"}, "unknown", choice, 10));
   assert.throws(() => languageFeedbackSample({...turn, exchangeId: undefined}, "transient", choice, 10));
-  assert.throws(() => languageFeedbackSample({...turn, reply: "x".repeat(2049)}, "long", choice, 10));
+  const longReply="x".repeat(2049);
+  assert.equal(reviewableResponse(longReply), false); // Old server has no long-feedback capability.
+  assert.equal(reviewableResponse(longReply, true), true);
+  assert.equal(languageFeedbackSample({...turn,reply:longReply}, "long", choice, 10).candidate_response, "DEPENDENT_RECORD_BODY");
+  assert.throws(() => languageFeedbackSample({...turn, reply: "x".repeat(16385)}, "oversized", choice, 10));
   for (const source of [{memory_id: "../wrong", excerpt: "SYNTHETIC"}, {memory_id: "source-note", excerpt: "x".repeat(161)}])
     assert.deepEqual(retainedTurns({items: [{...row, memory_use_sources: [source]}]})[0].memoryUseSources, []);
   assert.deepEqual(retainedTurns({items: [{...row, memory_use_delivery_proven: true}]})[0].memoryUseSources, []);

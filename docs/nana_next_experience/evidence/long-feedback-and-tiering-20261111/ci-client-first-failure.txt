@@ -1,0 +1,13 @@
+Exact source26cb36ef2f08c7fb2865d6e62652938952d0e93e, run42879600516.
+Core affected integration job130052006957 SUCCESS; client job130052006406 FAILURE.
+First failure excerpt from actual GitHub client logs:
+2026-11-10T18:53:47.6841299Z ##[group]Run node tests/feedback.node.ts
+2026-11-10T18:53:47.6841742Z [36;1mnode tests/feedback.node.ts[0m
+2026-11-10T18:53:47.8789918Z ℹ tests 3
+2026-11-10T18:53:47.8790862Z ℹ pass 2
+2026-11-10T18:53:47.8791170Z ℹ fail 1
+2026-11-10T18:53:47.8831958Z test at tests/feedback.node.ts:26:1
+2026-11-10T18:53:47.8833712Z   AssertionError [ERR_ASSERTION]: Missing expected exception.
+2026-11-10T18:53:47.8834564Z       at TestContext.<anonymous> (file:///home/runner/work/nana-core/nana-core/apps/nana-space/tests/feedback.node.ts:32:10)
+2026-11-10T18:53:47.8839916Z     code: 'ERR_ASSERTION',
+Old Node contract still expected any2049-character response to reject. Product now gates long feedback by server capability and independently enforces16384. Updated Node contract explicitly tests both boundaries and dependent body binding. No product guard or source assertion was removed to make it pass.

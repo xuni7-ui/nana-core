@@ -1,3 +1,13 @@
+# Active continuation — quiet and owned learning can compete with due promises
+
+Current predecessor26cb includes long feedback/tieredCI and normal BPR9/10/11 merges. ActualCI42879600516 Core targetedSUCCESS; client build/unit passed then oldNode2049-reject assertion failed. Contract synchronized: legacy capability still hides long review, source-bound marker allowed with capability,16385 rejects;3Node localPASS. Full/client remote successor still must be read accurately. First CI failure preserved in long-feedback-and-tiering.
+
+New original C batch: due promises retain PRESSING/ADOPTED/overdue/explicit checks, but do not auto replace source-backed quiet or same-topic adopted learning interest. Original norm-filtered options reused, no new life priority/authority; generic unsupported activity still follows original due review. First3quietfail and1learningfail saved;99affected+21motive+4originalLoop pass, cross-restart/current-source withdrawal intact. Evidence owned-choice-and-due-promises-20261111.
+
+Next real product work: inspect original model setup/Vault/catalog and natural multi-input communication purpose/draft/interrupt. Keep broader A–E/load/affect/delivery→C/S3/S8, G independent transfer/retrieval/storage/privacy/fullrequestToken/provider/native protocols and final matching release backlog. User innovation-first applies; don't repeat full/build/install for small changes or knownartifact403. No CURRENT/APK/production/model/account/phone changes.
+
+---
+
 # Active continuation — long feedback integrated; innovation-first tiered checks
 
 Parent63e4e32 now has actual fullCI42874916032 PASS2171/12skip703.70s and matching independent install1originalfocus C→RENDER+7quiet,137Core modules bundle-bound. Current long feedback feature adds original full-response SHA binding without lifting legacySample2048 or duplicating text; long source example≤384 marked excerpt. Existing consent wire tuple bug fixed with strict field-level check.71affected backend52.99s,70frontend,40four-size browsers/build and old6fd DTO2sample read passed. First failures retained; no full release/install of this feature claimed. Evidence long-feedback-and-tiering-20261111.
