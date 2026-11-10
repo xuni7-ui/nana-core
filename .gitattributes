@@ -1,0 +1,22 @@
+# Build snapshots are retained, but should not dominate source-language statistics
+# or expanded pull-request diffs. Operator documentation remains ordinary text.
+/artifacts/** linguist-generated=true
+/CLOUD_DEPLOY_HANDOFF/artifacts/** linguist-generated=true
+/CLOUD_DEPLOY_HANDOFF/image/** linguist-generated=true
+/CLOUD_DEPLOY_HANDOFF/reference/** linguist-generated=true
+/CLOUD_DEPLOY_HANDOFF/reproduce/** linguist-generated=true
+/NANA_CORE_LIVING_V4_RELEASE/build/** linguist-generated=true
+/NANA_CORE_LIVING_V4_RELEASE/image/** linguist-generated=true
+
+# Machine-produced qualification output; manually written Markdown stays visible.
+/docs/**/*.xml linguist-generated=true
+/docs/*_evidence/**/*.json linguist-generated=true
+/docs/*_evidence/**/*.txt linguist-generated=true
+/docs/nana_next_experience/evidence/**/*.json linguist-generated=true
+/docs/nana_next_experience/evidence/**/*.log linguist-generated=true
+/docs/previews/** linguist-generated=true
+/manifests/*fingerprints*.json linguist-generated=true
+
+# Upstream-derived Iris customizations and patches keep their original licenses.
+/materials/iris_customizations/** linguist-vendored=true
+/patches/astrbot/** linguist-vendored=true

@@ -58,6 +58,7 @@ PYTHONPATH=src .venv/bin/python -m nana_core.life --help
 - **从源码试用：**[独立 Nana 指南](docs/guides/independent-life.md)。使用显式开发 home；重复启动沿用同一身份。
 - **安装便携包：**[包内安装说明](packaging/portable/docs/QUICKSTART.md)。先核对归档摘要和 `runtime.json` 的平台/feature 要求。
 - **构建与交付：**[便携构建器](tools/nana_portable_cloud/build.py) 从确切 Git 提交和白名单构建，使用已准备的固定 wheel；[交付验证器](tools/nana_next_experience/verify_delivery.py)核对实际组件与 CURRENT selector。
+- **查找文档：**[文档入口](docs/README.md)区分当前指南、历史设计和版本化证据。
 - **修改前：**阅读 [AGENTS.md](AGENTS.md)、冻结总纲和当前状态；扩展已有模块，在独立分支中提交可验证的小变更。
 
 一组无需模型或生产服务的工程检查：
