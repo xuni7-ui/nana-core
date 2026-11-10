@@ -7,8 +7,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 116,
-  "as_of_us": 1794268440000000,
+  "revision": 117,
+  "as_of_us": 1794269498000000,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_ORIGINAL_CONTINUOUS_INPUT_AND_FULL_CI_FIRST_FAILURES",
@@ -20,7 +20,7 @@
     "原C承诺与已采纳兴趣竞争57相关、送达反馈原Kernel独立回读及精确收件后续表达/重启撤回通过；原norm/load/Grant保持，真实社交/长期因果未验。",
     "长回复16384/原Token预算；6fd安装两轮12625字全文、已保留全文重启恢复/撤回通过；1024历史节选标记/4096流式前缀保留，反馈仍限2048。",
     "原memory_terms有界派生加速：1k/10k/100k均144/144，100k P959.72ms；200k142/144、误召0/超时2、P9548.18ms，增加约0.8GB索引；55相关通过。",
-    "GitHub run42722401896原探针11/11、全仓2152通过/0失败/1设置错/12跳过、client通过；GPG2.4.4修复实际过。SQLite脚本路径权限仍挡唯一1测试，已加同UID只读映射+脚本预探针待CI。"
+    "GitHub run42724497432原探针11/11、全仓2152通过/0失败/1设置错/12跳过/733.98s、client通过；B1 GPG通过。剩余错误因fixture净化env丢GITHUB_WORKSPACE；已固定嵌入仓库路径和同env预探针待CI。"
   ],
   "open_gates": [
     "原A–H继承；Web/Core各逐条原C，BFF仍串行，尚无多消息目的合并/在途草稿重组及完整误触/中断闭环；其余自主性A–E/送达/长期因果继续。",
@@ -28,7 +28,7 @@
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "全链模型特定Token/费用/超时、产品/模型向导、运行Gateway/Core/宿主兼容与仓库闭包仍按原清单推进。",
     "历史47完整CI回归含环境问题的首错为1975通过/111失败/61设置错/12跳过，原XML留存；后继确切bwrap宿主限制已修工作流，待GitHub复验。CURRENT266+409，匹配最终包/安装/发行仍待收口。",
-    "完整回归剩SQLite只读容器中的/tmp/nq脚本可见性待新CI确认；完全通过后匹配双构建和离线安装才可能启动。CURRENT266+409、原A–H长期范围未完成。"
+    "仅SQLite wrapper净化环境下仓库挂载可见性待复验；全仓合格后匹配双构建/独立安装才开始，长期A–H仍未完成。CURRENT266+409，无模型/手机/生产升级。"
   ],
   "evidence_refs": [
     "docs/nana_next_experience/CODEX_CONTINUATION_MISSION.md",

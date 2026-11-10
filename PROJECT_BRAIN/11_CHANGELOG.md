@@ -3339,3 +3339,7 @@ Run42719453260完整原隔离探针AVAILABLE，11/11原检查均true；原全仓
 ### 2026-11-09 · AEAD修复通过Ubuntu GnuPG回归，SQLite fixture仅余容器UID问题
 
 Run42722401896原bwrap11/11通过，精确全仓2152 passed/0 failed/1 setup error/12 skipped/700.89s；client PASS。B1真实GnuPG2.4.4失败已消失。原XML artifact13721483539保留。唯一错误仍OLD_SQLITE_FIXTURE_REQUIRES_3_46_1：tmp `/tmp/nq` 是runner-owned0700，容器root无法穿越只读mount。工作流现以host数字UID:GID运行fixture、设PYTHONDONTWRITEBYTECODE、加真实脚本路径`/tmp/nq/nana-old-sqlite-probe.py`预检后删除，保持网络断开/根只读/两个挂载只读。该新权限路径尚待CI实测；不产Core候选。无skip/断言变更，CURRENT/APK/生产未动。
+
+### 2026-11-10 · SQLite fixture净化环境暴露GITHUB_WORKSPACE丢失
+
+Run42724497432原bwrap11/11通过，Core全仓2152 passed/0 failed/1 setup error/12 skipped/733.98s，client PASS；GPG2.4.4 B1缺陷已闭合。JUnit artifact13721957397保留。唯一setup error仍旧SQLite fixture版本预检失败；原因是原测试subprocess用明确env白名单，wrapper依赖的GITHUB_WORKSPACE随之消失。新wrapper生成时将checkout绝对路径写入，只保留运行时UID/GID取值；另以和测试完全相同的env -i(PATH/LANG/TZ)先验证SQLite3.46.1，并执行/tmp中的真实脚本。仍是隔离断网/只读，具体预检和全仓复验待新CI，不放宽原测试。无候选/Core安装/CURRENT/APK/生产。
