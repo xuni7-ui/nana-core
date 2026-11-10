@@ -79,6 +79,34 @@ def test_load_and_expensive_learning_allow_rest(runtime):
     assert not r.store.all('actions')
 
 
+@pytest.mark.parametrize('behavior', ['REST','WATCH','DO_NOTHING','STAY_SILENT','WITHDRAW','IGNORE','DEFER'])
+def test_nonworking_options_do_not_need_productivity_or_low_load(runtime, behavior):
+    r=runtime
+    mid=capture(r,'quiet-choice',{'source':'SYNTHETIC source-backed nonworking option'})
+    item=candidate(r,mid,value='LOW',novelty='REPEATED')
+    item=item.model_copy(update={'cue':item.cue.model_copy(update={
+        'possible_behaviors':(behavior,), 'cognitive_load':'HIGH'})})
+    queue=OpportunityQueue(r)
+    result=judge(r,queue,queue.offer(item))
+    assert result['behavior']==behavior
+    assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('cognitive_requests')
+
+
+def test_nonworking_option_still_passes_original_sourced_norm_filter(runtime):
+    r=runtime
+    norm=ConcernCue(cue_kind='CONSTRAINT',topic_key='world.question',motivation_source='MAINTENANCE',
+        prohibited_behaviors=('WITHDRAW',))
+    capture(r,'quiet-norm',norm.model_dump_json(),predicate='concern.constraint.quiet')
+    mid=capture(r,'norm-limited-quiet',{'source':'SYNTHETIC constrained option'})
+    item=candidate(r,mid,value='LOW',novelty='REPEATED')
+    item=item.model_copy(update={'cue':item.cue.model_copy(update={
+        'possible_behaviors':('WITHDRAW',),'cognitive_load':'HIGH'})})
+    queue=OpportunityQueue(r)
+    result=judge(r,queue,queue.offer(item))
+    assert result['behavior']=='IGNORE'
+    assert not r.store.all('actions') and not r.store.all('grants')
+
+
 def test_deleted_source_never_wakes_again(runtime):
     r=runtime;m=capture(r,'delete',{'exists':True});q=OpportunityQueue(r);j=q.offer(candidate(r,m))
     MemoryService(r.store,r.authority).forget(m,r.authority)

@@ -7,17 +7,17 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 122,
-  "as_of_us": 1794334139213088,
+  "revision": 123,
+  "as_of_us": 1794334400002662,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_ORIGINAL_C_WITHDRAWAL_UNDER_LOAD",
+  "status": "IN_PROGRESS_ORIGINAL_C_NONWORKING_CHOICES_AND_RESTART_RECEIPT",
   "progress": [
     "同一Next Experience与十域主任务已恢复；唯一Subject/Store/Loop、原C/D/G/Planner及Precision V2保持。最新合法源码与Brain优先。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
-    "原C负荷不再把有源长期目标WITHDRAW强改REST；原Subject→goal lifecycle跨重启ABANDONED、0动作通过，含原长期目标/计划/PrecisionV2共22通过。原放弃资格/来源/执行治理不变，非完整自主性审计。",
+    "原C高负荷保留有源goalWITHDRAW跨重启ABANDONED(22相关)；非工作选项不再先过活动价值/新鲜感/负荷筛选，norm仍优先；原版6fail1pass→77相关通过+8专项含norm通过，0行动/调用。",
     "长回复16384/原Token预算；6fd安装两轮12625字全文、已保留全文重启恢复/撤回通过；1024历史节选标记/4096流式前缀保留，反馈仍限2048。",
     "原memory_terms有界派生加速：1k/10k/100k均144/144，100k P959.72ms；200k142/144、误召0/超时2、P9548.18ms，增加约0.8GB索引；55相关通过。",
     "acddab6原Core CI2153通过/12跳过、双构建/CI离线安装保留；Web待发正文现在独立到期清除，不等前请求完成。新构建/67单测/12四视口队列场景通过；虚拟时间不是实际20分钟驻留。"
@@ -27,7 +27,7 @@
     "原G仍限独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移仍待改进。新加速只资格有限合成literal源选择。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "全链模型特定Token/费用/超时、产品/模型向导、运行Gateway/Core/宿主兼容与仓库闭包仍按原清单推进。",
-    "最新原C负荷/放弃改动22相关通过，后继完整CI/匹配包待验；817客户端CI67/36已通过，Core全仓在途。候选未更新CURRENT266+409。",
+    "817完整CI42870078570为2152pass/1fail/12skip：重启后笔记撤回返回UNKNOWN；同一严格本地测试1pass3.68s，仅加实际回执诊断未称修复。新C后继全仓/安装仍待，CURRENT266+409。",
     "独立本地重建/安装已补；远端artifact字节下载403及本地/远端SHA对照仍未完成，不能混同。817客户端CI67/36通过，Core在途。CURRENT266+409；手机/模型/生产/长期仍未资格，A–H继续。"
   ],
   "evidence_refs": [
@@ -35,7 +35,7 @@
     "docs/nana_next_experience/ACTIVE_CHECKPOINT.md",
     "docs/nana_next_experience/STATUS_AND_REMAINING.md",
     "docs/nana_next_experience/SOURCE_NAVIGATION_AUDIT.md",
-    "docs/nana_next_experience/evidence/withdraw-under-load-20261110/README.md",
+    "docs/nana_next_experience/evidence/nonworking-choices-20261110/README.md",
     "docs/nana_next_experience/evidence/ci-bwrap-host-requalification-20261109/README.md",
     "docs/nana_next_experience/evidence/independent-install-817-20261110/README.md",
     "docs/nana_next_experience/evidence/web-waiting-inbox-20261109/README.md"
@@ -2614,4 +2614,4 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 
 [实测] 复用现有Next Experience交付验证器，原逻辑对重复APK public资源与Core runtime.json默取末项；重算manifest/selector摘要后五个合成反例仍误通过。最小修复后17项交付测试及2项便携导入测试通过；固定交付5b4f589的CURRENT只读复验仍为42个APK/Web文件一致，两个Core的契约检查通过。原治理PR工作流复用既有pytest锁版本和交付测试；实际GitHub CI/集成以PR回执为准。证据docs/nana_next_experience/evidence/governance-archive-ambiguity-20261111/README.md。
 
-本记录以A最新已确认b706aa48e57ba23e914b322733e3797887791d76的账本原文为底仅追加；不改变顶部revision122、A的主体/交流/自主性成果、Core/客户端运行代码、CURRENT266+409或生产。候选artifact下载403/远端摘要对照仍开放；没有本轮安装/模型/手机/真人/生产资格。可通过撤销本批治理验证器/测试/workflow提交回退，不需数据或运行态操作。
+本记录以A最新已确认c162df34c832fb9241f12529e0d02e3cdec5b101的账本原文为底仅追加；不改变顶部revision123、A的主体/交流/自主性成果、Core/客户端运行代码、CURRENT266+409或生产。候选artifact下载403/远端摘要对照仍开放；没有本轮安装/模型/手机/真人/生产资格。可通过撤销本批治理验证器/测试/workflow提交回退，不需数据或运行态操作。

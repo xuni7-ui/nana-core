@@ -3364,9 +3364,13 @@ acdd284文件本地双构建同6a8848…0f00，独立离线安装BFF/反馈幂�
 
 原goal lifecycle把HIGH认知负荷优先映射REST，覆盖同一合法GoalReviewRef的WITHDRAW。现先判断有源放弃，再让负荷影响继续；不删执行/来源/Manager/Grant或其他新工作负荷门。原版HIGH失败、LOW/OCCUPIED2通过；修复22相关通过14.94s，含同主体重启放弃后再重启仍ABANDONED/单goal/0actions、原pause/resume/plan引用与PrecisionV2原断言。证据withdraw-under-load，后继全仓与匹配安装待验；非全部自主性完成。用户纠正定时续办不等于暂停，持续推进当前工程。无模型/真实账号/APK/CURRENT/生产。
 
+### 2026-11-10 · 原C非工作选项先于活动价值/负荷筛选
+
+原7个NO_ACTION分支移到原norm/privacy/resource过滤之后、活动load/value/novelty之前；避免WATCH/沉默/不做事/撤回/忽略/暂缓被一律改REST。旧6fail1pass，新77relatedpass17.15s+独立8quiet/normpass0.90s，0action/grant/cognitive request。来源norm仍先起效，不释放实际权限或强制活动。另817旧sourceCI2152pass/1fail/12skip，笔记重启后withdrawUNKNOWN原首错保留；本地严格1pass3.68s不称修复，仅断言附真实回执便于诊断，不放宽状态。当前branch远端仍b706；cac02bc为独立治理PR不合并覆盖。证据nonworking-choices；后继full/installed待验，CURRENT/APK/生产不动。
+
 
 ### 2026-11-11 · Codex B：交付归档重复项拒绝（治理待PR验证）
 
 [实测] 复用现有Next Experience交付验证器，原逻辑对重复APK public资源与Core runtime.json默取末项；重算manifest/selector摘要后五个合成反例仍误通过。最小修复后17项交付测试及2项便携导入测试通过；固定交付5b4f589的CURRENT只读复验仍为42个APK/Web文件一致，两个Core的契约检查通过。原治理PR工作流复用既有pytest锁版本和交付测试；实际GitHub CI/集成以PR回执为准。证据docs/nana_next_experience/evidence/governance-archive-ambiguity-20261111/README.md。
 
-本记录以A最新已确认b706aa48e57ba23e914b322733e3797887791d76的账本原文为底仅追加；不改变顶部revision122、A的主体/交流/自主性成果、Core/客户端运行代码、CURRENT266+409或生产。候选artifact下载403/远端摘要对照仍开放；没有本轮安装/模型/手机/真人/生产资格。可通过撤销本批治理验证器/测试/workflow提交回退，不需数据或运行态操作。
+本记录以A最新已确认c162df34c832fb9241f12529e0d02e3cdec5b101的账本原文为底仅追加；不改变顶部revision123、A的主体/交流/自主性成果、Core/客户端运行代码、CURRENT266+409或生产。候选artifact下载403/远端摘要对照仍开放；没有本轮安装/模型/手机/真人/生产资格。可通过撤销本批治理验证器/测试/workflow提交回退，不需数据或运行态操作。
