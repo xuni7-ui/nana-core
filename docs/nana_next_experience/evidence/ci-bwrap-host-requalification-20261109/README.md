@@ -25,3 +25,6 @@ Run 42724497432 confirmed the old-SQLite script-path UID mapping still failed in
 
 
 The final matching run is 42726524392 at source `acddab6b47fce6afed3ea852a315ffceeb8317a9`. Both Core and client jobs passed. It reported 2153 passed, 12 explicit gate skips, 0 failed/errors; original isolation probe had all 11 checks true. Portable double builds matched, and the CI job installed the matching candidate offline (`INSTALLED_OFFLINE`, network_requests 0). Candidate artifact 13723513381 (15,043,533 bytes); Core JUnit 13723254033; client build/test/browser artifact 13722233261. The artifact includes the exact archive SHA manifest; this repository checkpoint intentionally does not guess that digest. No separately hosted install, physical phone, real provider/person or production update occurred. CURRENT remains Core266+client409.
+
+
+The hosted candidate artifact is available by ID above, but the current execution workspace could not independently fetch its bytes: the connector's transient artifact reference returned HTTP 403 when downloading to `/tmp`. No local archive or independently verified SHA was produced. Do not treat the CI same-run install as a separate-host install; use an available GitHub artifact transfer route to inspect the source manifest/SHA and run a separate installation/upgrade/rollback check.

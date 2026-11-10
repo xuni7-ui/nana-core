@@ -7,8 +7,8 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 118,
-  "as_of_us": 1794270472000000,
+  "revision": 119,
+  "as_of_us": 1794270576000000,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
   "status": "IN_PROGRESS_ORIGINAL_CONTINUOUS_INPUT_CI_QUALIFIED_CANDIDATE_NOT_RELEASED",
@@ -28,7 +28,7 @@
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "全链模型特定Token/费用/超时、产品/模型向导、运行Gateway/Core/宿主兼容与仓库闭包仍按原清单推进。",
     "历史47完整CI回归含环境问题的首错为1975通过/111失败/61设置错/12跳过，原XML留存；后继确切bwrap宿主限制已修工作流，待GitHub复验。CURRENT266+409，匹配最终包/安装/发行仍待收口。",
-    "候选artifact13723513381/Core报告13723254033/client报告13722233261匹配acddab6并CI内离线安装；本地独立下载/安装、手机/模型/真实人/生产未验，CURRENT266+409不变。长期原A–H继续。"
+    "候选artifact13723513381远端可用；当前执行环境获取其下载字节返回HTTP403，尚无独立下载/摘要复核/异机安装。CI内离线安装通过。CURRENT266+409；手机/模型/生产未验，A–H继续。"
   ],
   "evidence_refs": [
     "docs/nana_next_experience/CODEX_CONTINUATION_MISSION.md",
