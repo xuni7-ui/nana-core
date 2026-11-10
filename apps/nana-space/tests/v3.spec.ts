@@ -1192,3 +1192,33 @@ test("SYNTHETIC local chat inbox clears queued text after an unknown original re
   expect(state.messageBodies?.map(body=>body.text)).toEqual(["SYNTHETIC first uncertain turn"]);
   expect(state.messageRoutes).toHaveLength(1);
 });
+
+test("SYNTHETIC local chat inbox expires unsent bodies while the original request is pending",async({page})=>{
+  const state=await installMock(page);state.delayMessage=true;
+  await page.clock.install();
+  await open(page,"chat");
+  const input=page.getByLabel("和奈奈说点什么");
+  await input.fill("SYNTHETIC active request stays pending");
+  await page.getByRole("button",{name:"发送",exact:true}).click();
+  await expect.poll(()=>Boolean(state.messageRoute)).toBe(true);
+  await input.fill("SYNTHETIC expired secret must disappear");
+  await page.getByRole("button",{name:"发送",exact:true}).click();
+  await expect(page.getByRole("button",{name:"取消这条待发消息"})).toBeVisible();
+  await page.clock.fastForward(5_000);
+  await input.fill("SYNTHETIC later body has its own deadline");
+  await page.getByRole("button",{name:"发送",exact:true}).click();
+  await expect(page.getByRole("button",{name:"取消这条待发消息"})).toHaveCount(2);
+  await page.clock.fastForward(20*60_000-5_000+1);
+  await expect(page.getByRole("button",{name:"取消这条待发消息"})).toHaveCount(1);
+  await expect(page.locator(".live-turn").filter({hasText:"SYNTHETIC expired secret must disappear"})).toHaveCount(0);
+  await expect(page.locator(".live-turn").filter({hasText:"SYNTHETIC later body has its own deadline"})).toHaveCount(1);
+  await page.clock.fastForward(5_000);
+  await expect(page.getByRole("button",{name:"取消这条待发消息"})).toHaveCount(0);
+  await expect(page.locator(".live-turn").filter({hasText:"SYNTHETIC later body has its own deadline"})).toHaveCount(0);
+  expect(state.messageBodies).toHaveLength(1);
+  const body=state.messageRoute!.request().postDataJSON();
+  await state.messageRoute!.fulfill({status:200,json:envelope(state,{receipt_id:body.client_request_id,
+    state:"VERIFIED",dispatch_happened:true,result:{text:"SYNTHETIC active reply survives expiry"}})});
+  await expect(page.getByText("SYNTHETIC active reply survives expiry",{exact:true})).toBeVisible();
+  expect(state.messageBodies).toHaveLength(1);
+});

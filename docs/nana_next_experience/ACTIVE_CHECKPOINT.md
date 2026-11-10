@@ -1,3 +1,11 @@
+# Active continuation — pending local text expires during an in-flight request
+
+Parent75382db verified remote/local equal and clean. DOMAIN S7 + Privacy axis / Advanced: Web queue now actively removes only unsent text at each original20-minute deadline, even while an earlier request is pending; in-flight request/receipt and original timeout unchanged. Frozen baseline one desktop scenario failed (still queued at20m). New production TS/Vite build2.63s,67 units3.43s,12 queue scenarios across desktop/360/390/412 passed19.1s; virtual staggered deadlines and eventual active reply tested. First multi-locator failure and 21m test crossing original1230000ms client timeout retained; final scenario staggers5s so20m05s remains below original timeout. No weaker assertion or timeout. Detailed evidence/web-queue-expiry-20261110. No APK/CURRENT/production change.
+
+Next independent source rebuild/install can use existing nine wheels and /tmp (root overlay full, protected DBs untouched). Core runtime remains identical to acddab6's2153/12 full qualification; new Web uses local evidence above, remote CI after push must be read. Then resume multi-message C intent/draft reconciliation and originalA–H backlog. Remote artifact fetch403 only blocks independent download qualification.
+
+---
+
 # Active continuation — full source qualification and matching portable candidate passed
 
 Latest pushed source `acddab6b47fce6afed3ea852a315ffceeb8317a9`, run42726524392: both Core and client jobs succeeded. Original bwrap probe AVAILABLE, all 11 checks true; exact full pytest 2153 passed, 12 explicit existing skips, 0 failures/errors in707.68s. Client build, 67 unit tests and32 browser scenarios passed. Core built two matching portable archives and completed same-run offline unpack/install: `INSTALLED_OFFLINE`, network_requests=0, private Python3.12/SQLite3.53.1; old host fixture SQLite3.46.1 passed. Candidate artifact13723513381 (15,043,533 bytes), Core report13723254033, client report13722233261. Exact candidate SHA is inside the artifact manifest and is not copied into this checkpoint. This is CI-host qualification plus same-run offline installation, not separately downloaded/installed on another machine, physical phone, real model/person or production. CURRENT remains Core266 + client409.

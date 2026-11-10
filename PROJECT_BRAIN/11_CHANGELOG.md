@@ -3351,3 +3351,7 @@ GitHub workflow run42726524392双job均PASS。原IsolatedSkillRunner probe AVAIL
 ### 2026-11-10 · 记录候选artifact独立抓取403边界
 
 候选artifact13723513381、Core报告13723254033、client报告13722233261留存在GitHub Actions，精确源acddab6；workflow内双构建匹配且离线安装通过。但本执行环境通过连接器取得临时artifact引用后，直接落本地请求HTTP403，没有候选ZIP/SHA可在当前workspace独立核验。故不称独立下载或异机安装；后续需用可用的GitHub Artifact传递路径取其manifest/sha，再做异机验证；CURRENT/APK/生产不动。
+
+### 2026-11-10 · Web待发正文在前请求等待中按条过期
+
+DOMAIN S7/Privacy Advanced：复用原React队列设置最近截止时间timer，到期移除尚未送出正文并显示LOCAL_EXPIRED，不中断已派发请求/不取消原receipt/不续发候选。原版本desktop虚拟20min失败；新TS/Vite构建2.63s、67units3.43s、12四视口队列19.1s通过，含两条错开5s各自过期和原请求后续回复。首TS UUID Set类型错已修，首多气泡选择器严格错误、21m触发原20.5m网络timeout的fixture错误均保留；最终不改原超时与断言目的。产物全部/tmp，根盘满时保护原DB/缓存/交付。无模型/APK/CURRENT/生产；总A–H仍IN_PROGRESS。

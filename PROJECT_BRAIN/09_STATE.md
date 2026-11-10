@@ -7,11 +7,11 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 119,
-  "as_of_us": 1794270576000000,
+  "revision": 120,
+  "as_of_us": 1794333362911369,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_ORIGINAL_CONTINUOUS_INPUT_CI_QUALIFIED_CANDIDATE_NOT_RELEASED",
+  "status": "IN_PROGRESS_WEB_QUEUE_EXPIRY_TARGETED_QUALIFIED",
   "progress": [
     "同一Next Experience与十域主任务已恢复；唯一Subject/Store/Loop、原C/D/G/Planner及Precision V2保持。最新合法源码与Brain优先。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
@@ -20,14 +20,14 @@
     "原C承诺与已采纳兴趣竞争57相关、送达反馈原Kernel独立回读及精确收件后续表达/重启撤回通过；原norm/load/Grant保持，真实社交/长期因果未验。",
     "长回复16384/原Token预算；6fd安装两轮12625字全文、已保留全文重启恢复/撤回通过；1024历史节选标记/4096流式前缀保留，反馈仍限2048。",
     "原memory_terms有界派生加速：1k/10k/100k均144/144，100k P959.72ms；200k142/144、误召0/超时2、P9548.18ms，增加约0.8GB索引；55相关通过。",
-    "GitHub run42726524392提交acddab6：bwrap原探针11/11、Core2153通过/12原有跳过/0失败、Core/Web双构建一致、CI离线安装network_requests=0；client67单测/32浏览器通过。artifact候选未更新CURRENT。"
+    "acddab6原Core CI2153通过/12跳过、双构建/CI离线安装保留；Web待发正文现在独立到期清除，不等前请求完成。新构建/67单测/12四视口队列场景通过；虚拟时间不是实际20分钟驻留。"
   ],
   "open_gates": [
     "原A–H继承；Web/Core各逐条原C，BFF仍串行，尚无多消息目的合并/在途草稿重组及完整误触/中断闭环；其余自主性A–E/送达/长期因果继续。",
     "原G仍限独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移仍待改进。新加速只资格有限合成literal源选择。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "全链模型特定Token/费用/超时、产品/模型向导、运行Gateway/Core/宿主兼容与仓库闭包仍按原清单推进。",
-    "历史47完整CI回归含环境问题的首错为1975通过/111失败/61设置错/12跳过，原XML留存；后继确切bwrap宿主限制已修工作流，待GitHub复验。CURRENT266+409，匹配最终包/安装/发行仍待收口。",
+    "原Core acddab6完整CI已通过；最新仅Web待发过期变更针对资格通过，匹配Web/必要时APK和独立下载/安装/发行尚待收口，CURRENT266+409。",
     "候选artifact13723513381远端可用；当前执行环境获取其下载字节返回HTTP403，尚无独立下载/摘要复核/异机安装。CI内离线安装通过。CURRENT266+409；手机/模型/生产未验，A–H继续。"
   ],
   "evidence_refs": [
@@ -37,7 +37,7 @@
     "docs/nana_next_experience/SOURCE_NAVIGATION_AUDIT.md",
     "docs/nana_next_experience/evidence/diverse-literal-20261109/README.md",
     "docs/nana_next_experience/evidence/ci-bwrap-host-requalification-20261109/README.md",
-    "docs/nana_next_experience/evidence/full-ci-host-20261109/README.md",
+    "docs/nana_next_experience/evidence/web-queue-expiry-20261110/README.md",
     "docs/nana_next_experience/evidence/web-waiting-inbox-20261109/README.md"
   ]
 }

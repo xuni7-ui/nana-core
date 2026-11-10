@@ -236,6 +236,19 @@ export function LiveSpace() {
       chatDrain.current = null; writePending.current = false; setBusy(false);
     }
   }, []);
+  useEffect(() => {
+    if (!chatInputs.current.length) return;
+    const deadline = Math.min(...chatInputs.current.map(item => item.expiresAt));
+    const timer = setTimeout(() => {
+      const now = performance.now();
+      const expired = new Set<string>(chatInputs.current.filter(item => item.expiresAt <= now).map(item => item.id));
+      if (!expired.size) return;
+      chatInputs.current = chatInputs.current.filter(item => !expired.has(item.id));
+      setWaitingInputs(chatInputs.current.length);
+      setTurns(xs => xs.map(turn => expired.has(turn.id) ? {id: turn.id, input: "", state: "LOCAL_EXPIRED"} : turn));
+    }, Math.max(1, Math.ceil(deadline - performance.now())));
+    return () => clearTimeout(timer);
+  }, [waitingInputs]);
   useEffect(() => () => {
     chatInputs.current = []; chatDrain.current = null; sessionVersion.current++;
   }, []);
