@@ -157,3 +157,51 @@ def test_current_selector_rejects_resigned_or_mismatched_server_patch(tmp_path, 
     (tmp_path / "CURRENT.json").write_text(json.dumps(selector))
     with pytest.raises(ValueError):
         verify_current(tmp_path, "CURRENT.json")
+
+
+@pytest.mark.parametrize(
+    "selection,component",
+    [("manifest", "apk"), ("manifest", "core"), ("current", "apk"),
+     ("current", "core"), ("current", "patch")],
+)
+def test_resigned_archives_cannot_hide_duplicate_component_entries(tmp_path, selection, component):
+    from tools.nana_next_experience.verify_delivery import verify_current
+
+    if selection == "current":
+        current_fixture(tmp_path)
+    else:
+        fixture(tmp_path)
+    manifest_path = tmp_path / ("patch/MANIFEST.json" if component == "patch" else "MANIFEST.json")
+    manifest = json.loads(manifest_path.read_text())
+    name = {"apk": "space.apk", "core": "core-portable.tar.gz", "patch": "new-portable.tar.gz"}[component]
+    path = manifest_path.parent / name
+    if component == "apk":
+        # getinfo() silently chooses the last entry, hiding a stale first copy.
+        with zipfile.ZipFile(path, "w") as apk:
+            apk.writestr("assets/public/index.html", "old first copy")
+            with pytest.warns(UserWarning, match="Duplicate name"):
+                apk.writestr("assets/public/index.html", "same")
+        reason = "APK_WEB_DUPLICATE_ENTRY"
+    else:
+        member_name = "nana-first-life-portable-v1/runtime.json"
+        with tarfile.open(path, "r:gz") as tar:
+            original = tar.extractfile(member_name).read()
+        with tarfile.open(path, "w:gz") as tar:
+            for raw in (b'{"source_commit":"old first copy"}', original):
+                member = tarfile.TarInfo(member_name)
+                member.size = len(raw)
+                tar.addfile(member, io.BytesIO(raw))
+        reason = "CORE_RUNTIME_METADATA_INVALID"
+    manifest["files"][name] = {"bytes": path.stat().st_size, "sha256": sha256(path)}
+    manifest_path.write_text(json.dumps(manifest))
+    if selection == "current":
+        selector_path = tmp_path / "CURRENT.json"
+        selector = json.loads(selector_path.read_text())
+        key = "server_manifest_sha256" if component == "patch" else "client_manifest_sha256"
+        selector[key] = sha256(manifest_path)
+        selector_path.write_text(json.dumps(selector))
+        check = lambda: verify_current(tmp_path, "CURRENT.json")
+    else:
+        check = lambda: verify(tmp_path, "MANIFEST.json")
+    with pytest.raises(ValueError, match=reason):
+        check()

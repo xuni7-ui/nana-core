@@ -1,0 +1,13 @@
+{
+  "state": "CURRENT_DELIVERY_CONSISTENCY_VERIFIED",
+  "client_source": "b873a4af4b2c2731fe2c796b845364ab758a5f22",
+  "runtime_source": "266272a92b5837b2458c107163bd95ea8e0d7fe4",
+  "apk_web_files_equal": 42,
+  "runtime_contracts_preserved": true,
+  "production_activation": false,
+  "semantic_compatibility_or_execution_qualification": "NOT_PROVEN_BY_METADATA",
+  "delivery_commit": "5b4f589fec8ecf5deb4dc5fafd2f4193c96569b8",
+  "verification": "READ_ONLY_FIXED_GIT_DELIVERY_SNAPSHOT",
+  "installation_run": false,
+  "production_observed": false
+}

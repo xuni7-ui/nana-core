@@ -45,7 +45,10 @@ def metadata(root, name, expected_sha=None):
 
 def runtime_metadata(path):
     with tarfile.open(path, "r:gz") as archive:
-        member = archive.getmember("nana-first-life-portable-v1/runtime.json")
+        matches = [member for member in archive if member.name == "nana-first-life-portable-v1/runtime.json"]
+        if len(matches) != 1:
+            raise ValueError("CORE_RUNTIME_METADATA_INVALID")
+        member = matches[0]
         if not member.isfile() or member.size > 65536:
             raise ValueError("CORE_RUNTIME_METADATA_INVALID")
         return json.load(archive.extractfile(member))
@@ -142,17 +145,20 @@ def verify(root, manifest_name):
     core = [root / n for n in files if n.endswith("-portable.tar.gz")]
     if len(apk) != 1 or len(web) != 1 or len(core) != 1:
         raise ValueError("ONE_MATCHED_ARTIFACT_SET_REQUIRED")
-    with tarfile.open(core[0], "r:gz") as archive:
-        runtime = archive.getmember("nana-first-life-portable-v1/runtime.json")
-        if not runtime.isfile() or runtime.size > 65536:
-            raise ValueError("CORE_RUNTIME_METADATA_INVALID")
-        actual = json.load(archive.extractfile(runtime))
+    actual = runtime_metadata(core[0])
     if actual["source_commit"] != manifest["core_source"]:
         raise ValueError("CORE_SOURCE_MISMATCH")
     if manifest["frontend_source"] != manifest["core_source"]:
         raise ValueError("MATCHED_SOURCE_REQUIRED")
     count = 0
     with tarfile.open(web[0], "r:gz") as archive, zipfile.ZipFile(apk[0]) as android:
+        # ZIP lookup selects the last duplicate; do not attest ambiguous assets.
+        apk_names = set()
+        for info in android.infolist():
+            if info.filename.startswith("assets/public/") and not info.is_dir():
+                if info.filename in apk_names:
+                    raise ValueError("APK_WEB_DUPLICATE_ENTRY")
+                apk_names.add(info.filename)
         names = set()
         for member in archive:
             name = safe_name(member.name)
