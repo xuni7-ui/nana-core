@@ -3363,3 +3363,10 @@ acdd284文件本地双构建同6a8848…0f00，独立离线安装BFF/反馈幂�
 ### 2026-11-10 · 原C高负荷仍允许有源长期目标放弃
 
 原goal lifecycle把HIGH认知负荷优先映射REST，覆盖同一合法GoalReviewRef的WITHDRAW。现先判断有源放弃，再让负荷影响继续；不删执行/来源/Manager/Grant或其他新工作负荷门。原版HIGH失败、LOW/OCCUPIED2通过；修复22相关通过14.94s，含同主体重启放弃后再重启仍ABANDONED/单goal/0actions、原pause/resume/plan引用与PrecisionV2原断言。证据withdraw-under-load，后继全仓与匹配安装待验；非全部自主性完成。用户纠正定时续办不等于暂停，持续推进当前工程。无模型/真实账号/APK/CURRENT/生产。
+
+
+### 2026-11-11 · Codex B：交付归档重复项拒绝（治理待PR验证）
+
+[实测] 复用现有Next Experience交付验证器，原逻辑对重复APK public资源与Core runtime.json默取末项；重算manifest/selector摘要后五个合成反例仍误通过。最小修复后17项交付测试及2项便携导入测试通过；固定交付5b4f589的CURRENT只读复验仍为42个APK/Web文件一致，两个Core的契约检查通过。原治理PR工作流复用既有pytest锁版本和交付测试；实际GitHub CI/集成以PR回执为准。证据docs/nana_next_experience/evidence/governance-archive-ambiguity-20261111/README.md。
+
+本记录以A最新已确认b706aa48e57ba23e914b322733e3797887791d76的账本原文为底仅追加；不改变顶部revision122、A的主体/交流/自主性成果、Core/客户端运行代码、CURRENT266+409或生产。候选artifact下载403/远端摘要对照仍开放；没有本轮安装/模型/手机/真人/生产资格。可通过撤销本批治理验证器/测试/workflow提交回退，不需数据或运行态操作。

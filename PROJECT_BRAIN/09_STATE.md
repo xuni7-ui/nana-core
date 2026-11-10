@@ -2608,3 +2608,10 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-08 · 交付检查入口核对（治理分支待集成）
 
 固定交付提交 `5b4f589` 的 selector 所列文件已在隔离目录由现有 Next Experience 验证器校验；结果为一致性验证，不证明线上部署或真实体验。
+
+
+### 2026-11-11 · Codex B：交付归档重复项拒绝（治理待PR验证）
+
+[实测] 复用现有Next Experience交付验证器，原逻辑对重复APK public资源与Core runtime.json默取末项；重算manifest/selector摘要后五个合成反例仍误通过。最小修复后17项交付测试及2项便携导入测试通过；固定交付5b4f589的CURRENT只读复验仍为42个APK/Web文件一致，两个Core的契约检查通过。原治理PR工作流复用既有pytest锁版本和交付测试；实际GitHub CI/集成以PR回执为准。证据docs/nana_next_experience/evidence/governance-archive-ambiguity-20261111/README.md。
+
+本记录以A最新已确认b706aa48e57ba23e914b322733e3797887791d76的账本原文为底仅追加；不改变顶部revision122、A的主体/交流/自主性成果、Core/客户端运行代码、CURRENT266+409或生产。候选artifact下载403/远端摘要对照仍开放；没有本轮安装/模型/手机/真人/生产资格。可通过撤销本批治理验证器/测试/workflow提交回退，不需数据或运行态操作。
