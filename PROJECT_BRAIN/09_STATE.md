@@ -2643,3 +2643,10 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 重做现役README：主体定位、Mermaid架构、实现/资格边界、源码/使用/构建/贡献入口；旧README全文原样置入历史归档。源码试用指南实际移入docs/guides并保留旧链接跳转，修正Python/SQLite前提；开发service示例原字节并入deployment/development，更新唯一现役文档引用，移除空deploy入口。AGENTS目录与B最新治理优先级同步。
 
 验证：README所列19项工程检查、life --help、48个变更文档链接、77个既有导航目标通过；旧README内容及service字节保留，未改Core/客户端/封签交付/生产/main。以24e43c7账本全文为底追加；治理PR实际CI/集成按GitHub回执。目录整理继续分批推进，不把本批写成全部专项完成。
+
+
+### 2026-11-11 · Codex B 仓库焕新第二批
+
+将5份早期B站/AstrBot独立说明实际移入docs/archive/legacy-platforms，原文字节保留；历史指纹不改，归档页保留旧路径映射。新增单一docs入口区分当前指南、阶段资料与原始证据。GitHub属性仅将构建快照/机器生成结果与上游派生材料正确分类，手写文档和正式Core保持普通展示；不删大包或封签材料。更新过时S5实验包描述，保留原分发名/版本；独立锁工具的离线wheel构建与元数据检查通过，未新增项目依赖。
+
+验证迁移原文、文档链接与属性边界，复用既有治理CI；未重复业务回归。现役以最新A 51d31adbacc6c544d6a6ec23eda0249f4f5eadee为底，仅追加账本；A的长反馈/分级CI/核心成果保持，旧预览仍有测试消费者所以保留原路径。
