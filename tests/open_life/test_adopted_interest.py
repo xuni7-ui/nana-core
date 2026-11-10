@@ -80,7 +80,7 @@ def test_interest_restart_and_source_withdrawal_remove_the_exception(runtime):
     ('UNKNOWN', 'LIGHT', 'SHORT', 'SMALL', 'LIGHT', 'EXPLORE'),
     ('NONE', 'HEAVY', 'SHORT', 'SMALL', 'LIGHT', 'REST'),
     ('NONE', 'LIGHT', 'LONG', 'SMALL', 'LIGHT', 'REST'),
-    ('REQUIRES_RESERVATION', 'LIGHT', 'SHORT', 'LARGE', 'LIGHT', 'REST'),
+    ('REQUIRES_RESERVATION', 'LIGHT', 'SHORT', 'LARGE', 'LIGHT', 'EXPLORE'),
     ('UNKNOWN', 'LIGHT', 'SHORT', 'SMALL', 'HEAVY', 'REST'),
 ])
 def test_external_admission_estimate_does_not_claim_cognitive_load(
@@ -95,7 +95,12 @@ def test_external_admission_estimate_does_not_claim_cognitive_load(
     queue = OpportunityQueue(r)
     result = judge(r, queue, queue.offer(item))
     assert result['behavior'] == expected
-    assert queue.view()[0]['resource_estimate']['external'] == external
+    estimate=queue.view()[0]['resource_estimate']
+    assert estimate['external']==external and estimate['storage']==storage
+    from nana_core.continuity.records import RecordService
+    result_cue=RecordService(r.store).read(r.store.one('subject_cycles',result['cycle_id'])['record_id'])['payload']
+    if storage=='LARGE' and compute=='LIGHT' and time_cost=='SHORT' and interruption=='LIGHT':
+        assert result_cue['intention']['behavior']=='EXPLORE'
     assert not r.store.all('actions') and not r.store.all('grants') and not r.store.all('cognitive_requests')
 
 

@@ -1,3 +1,13 @@
+# Active continuation — storage demand is capacity, not fatigue
+
+Legal sourcec30ef76 normally merged BPR12 after ownmodel setup8e3f3fb. Current new source removes onlyLARGE storage estimate→HIGH cognitive_load conversion in originalOpportunityQueue; full estimate/ranking and actual disk/execution gates unchanged. Strict first1fail/5pass, fixed86related9.57s; no action/model. CI path selector now skips unchanged counterpart component (workflow/manual/bridge/contracts select both); all original tests/full-release assertions retained. Evidence storage-estimate-and-attention-20261111.
+
+Current model UI16controlled browser/livebuild remains, c30exactCI result still to read;51prior99Core/40browserCI success. New model prefix/receipt/native-label fixes are not APK/physical phone/realprovider qualification. Source/Brain supersede817 scheduled text; ordinary work continues with no freeze.
+
+Next: actual natural multi-input C purpose/unsent drafts/interrupt remains development; model wizard resumable multi-step continuation/catalog-first and native flow still open. Large diverse learned retrieval/200k2timeouts, actual configured tokenizer/provider adapters, storage/privacy/recovery, autonomy load/affect and originalC/S3/S8 causal outcomes and final matching release remain originalA–H. Don't retry artifact403 without new path. CURRENT266+409 unchanged; no production/realmodel/account/phone operation.
+
+---
+
 # Active continuation — model wizard saves with numeric UUID and verifies lost ACK
 
 Latest prior51d31ad targetedCI42880510965 SUCCESS99Core/40browser/build-unit-Node; full/sandbox/doublebuild/install intentionally skipped. New model UI uses validprovider.next-/model.next- IDs, capability-truthful Web/native button text, original lost-ACK receipt ID verification and preserves definiteREJECTED. Frozen2browser fails retained; newlivebuild,12success/lostACK/catalog four-width cases+4separate rejection cases pass. Evidence model-setup-20261111. No full/newAPK/production needed for this small UI change; real provider/native still unqualified.

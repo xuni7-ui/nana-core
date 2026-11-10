@@ -3439,3 +3439,10 @@ acdd284文件本地双构建同6a8848…0f00，独立离线安装BFF/反馈幂�
 将5份早期B站/AstrBot独立说明实际移入docs/archive/legacy-platforms，原文字节保留；历史指纹不改，归档页保留旧路径映射。新增单一docs入口区分当前指南、阶段资料与原始证据。GitHub属性仅将构建快照/机器生成结果与上游派生材料正确分类，手写文档和正式Core保持普通展示；不删大包或封签材料。更新过时S5实验包描述，保留原分发名/版本；独立锁工具的离线wheel构建与元数据检查通过，未新增项目依赖。
 
 验证迁移原文、文档链接与属性边界，复用既有治理CI；未重复业务回归。现役以最新A 51d31adbacc6c544d6a6ec23eda0249f4f5eadee为底，仅追加账本；A的长反馈/分级CI/核心成果保持，旧预览仍有测试消费者所以保留原路径。
+
+
+### 2026-11-11 · 存储需求不再伪作主体疲倦；按受影响端跳过重复构建
+
+原机会队列ActivityCost.storage=LARGE曾强设HIGH认知负荷并使原C强REST。仅解除此容量→疲倦推断，完整估计/注意排序/实际执行与独立物理磁盘门保持；compute/time/interruption及真实HIGH负荷仍原判断。严格新EXPLORE契约旧1fail5pass，修复86相关9.57s；真实cycle/完整estimate/0actions/grants/model验证，非放宽为任选REST或EXPLORE。证据storage-estimate-and-attention。
+
+原CI增加小型实际Git差异筛选，纯Core跳过Web、纯Web跳过无关Core，bridge/contracts/显式手动或workflow改动选双端且两端仍并行；full发行/迁移显式选择保持。无新依赖/审批层/业务权威，12脚本语法及4类差异验证。B PR12正常merge c30ef76，双方账本与用户实施原则保留。全部原A–H持续，CURRENT/APK/生产/真实模型/手机未动。

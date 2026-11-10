@@ -110,14 +110,14 @@ class OpportunityQueue:
         cue=c.cue.model_copy(update={'opportunity_assessment':OpportunityAssessment(value=c.value,novelty=c.novelty)})
         load=s.db.execute("SELECT count(*) FROM subject_intentions WHERE state='PENDING'").fetchone()[0]
         if load>=4:cue=cue.model_copy(update={'cognitive_load':'HIGH'})
-        # Actual attention/compute/storage pressure still reaches C. An external
-        # reservation requirement is an execution-admission condition, not
-        # evidence that the Subject is tired or cannot want this activity.
-        # Keep the full estimate for ordering/audit and let the original
-        # Resource/Manager/Grant gates constrain any later actual execution.
+        # Compute/time/interruption estimates can inform attention demand.
+        # External reservation and storage size concern later execution/capacity,
+        # not evidence that the Subject is tired or cannot want the activity.
+        # Keep every estimate for ordering/projection; this candidate grants no
+        # resource allocation or execution authority.
         estimate=c.resource_estimate
         attention_pressure=bool(estimate and (estimate.compute=='HEAVY' or estimate.time=='LONG'
-            or estimate.storage=='LARGE' or estimate.interruption=='HEAVY'))
+            or estimate.interruption=='HEAVY'))
         if c.cost=='HEAVY' or attention_pressure:cue=cue.model_copy(update={'cognitive_load':'HIGH'})
         from .sources import remember
         prior=s.db.execute("SELECT m.memory_id FROM memories m JOIN continuity_evidence e ON e.evidence_id=m.source_evidence_id WHERE e.source_namespace='recorded.project.material' AND e.source_reference=?",('open-life:cue:'+row['job_id'],)).fetchone()

@@ -1,0 +1,3 @@
+Workflow YAML / 12 shell steps / Python syntax PASS
+Four affected-component cases PASS: UI only client; Core only Core; API bridge both; protocol both.
+Full and manual explicit dispatch select both. No change to checks/assertions inside jobs.

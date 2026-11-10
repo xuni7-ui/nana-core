@@ -1,0 +1,37 @@
+....F.                                                                   [100%]
+=================================== FAILURES ===================================
+_ test_external_admission_estimate_does_not_claim_cognitive_load[REQUIRES_RESERVATION-LIGHT-SHORT-LARGE-LIGHT-EXPLORE] _
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7f3982c3b4a0>
+external = 'REQUIRES_RESERVATION', compute = 'LIGHT', time_cost = 'SHORT'
+storage = 'LARGE', interruption = 'LIGHT', expected = 'EXPLORE'
+
+    @pytest.mark.parametrize('external,compute,time_cost,storage,interruption,expected', [
+        ('REQUIRES_RESERVATION', 'LIGHT', 'SHORT', 'SMALL', 'LIGHT', 'EXPLORE'),
+        ('UNKNOWN', 'LIGHT', 'SHORT', 'SMALL', 'LIGHT', 'EXPLORE'),
+        ('NONE', 'HEAVY', 'SHORT', 'SMALL', 'LIGHT', 'REST'),
+        ('NONE', 'LIGHT', 'LONG', 'SMALL', 'LIGHT', 'REST'),
+        ('REQUIRES_RESERVATION', 'LIGHT', 'SHORT', 'LARGE', 'LIGHT', 'EXPLORE'),
+        ('UNKNOWN', 'LIGHT', 'SHORT', 'SMALL', 'HEAVY', 'REST'),
+    ])
+    def test_external_admission_estimate_does_not_claim_cognitive_load(
+            runtime, external, compute, time_cost, storage, interruption, expected):
+        from nana_core.continuity.open_life.opportunities import ActivityCost
+        r = runtime
+        adopt_interest(r)
+        mid = capture(r, 'cost-kind', {'source': 'SYNTHETIC independent enjoyable option'})
+        item = candidate(r, mid, value='LOW', novelty='REPEATED').model_copy(update={
+            'resource_estimate': ActivityCost(external=external, compute=compute,
+                time=time_cost, storage=storage, interruption=interruption)})
+        queue = OpportunityQueue(r)
+        result = judge(r, queue, queue.offer(item))
+>       assert result['behavior'] == expected
+E       AssertionError: assert 'REST' == 'EXPLORE'
+E         
+E         - EXPLORE
+E         + REST
+
+tests/open_life/test_adopted_interest.py:97: AssertionError
+=========================== short test summary info ============================
+FAILED tests/open_life/test_adopted_interest.py::test_external_admission_estimate_does_not_claim_cognitive_load[REQUIRES_RESERVATION-LIGHT-SHORT-LARGE-LIGHT-EXPLORE]
+1 failed, 5 passed, 15 deselected in 0.79s
