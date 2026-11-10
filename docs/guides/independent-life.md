@@ -5,6 +5,16 @@
 
 ## 最短启动
 
+首次获取源码时，可选用 Git 原生轻量工作视图，暂不检出三组大型历史交付快照：
+
+```sh
+git clone --filter=blob:none --sparse --branch dev/nana-core-next-experience-codex https://github.com/xuni7-ui/nana-core.git
+cd nana-core
+git sparse-checkout set --stdin < .source-checkout
+```
+
+此视图包含当前源码、客户端、工具、测试与文档；Git 引用和文件索引保留，历史 blob 按需获取。省略的交付目录仍存在于 Git 中。完整回归或交付审阅前用 `git sparse-checkout disable` 恢复全部工作树文件；首次恢复需要下载尚未获取的内容。已有完整克隆可直接沿用。
+
 在现役开发分支仓库根目录，使用 Python 3.12；实际 SQLite 绑定须 >=3.51.3，
 并支持 JSON/FTS5。已有合格开发环境可直接使用下面命令。
 全新环境先 `python3.12 -m venv .venv`，再 `.venv/bin/python -m pip install -e .`；

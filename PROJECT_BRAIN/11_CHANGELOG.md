@@ -3463,3 +3463,10 @@ AdvancedLife原OpportunityQueue默认daily_limit由8改无隐式配额，显式t
 上下文已跨许可scope查无字面命中，再走已资格G16/32时原lookup又查一次。现仅原assembler已负支路调用拆出的private规范化primitive；普通G独立评价/练习/复用仍原literal-first，边界/源/隐私/无命中不等于遗忘不变，无缓存或模型bypass字段。旧16/32两case均2次查询严格失败；24原G/notes/重启撤回11.59s+7原context/private5.80s通过，后续不同note实际RENDER2→1字面查，再有literal来源仍优先；2话轮仍4INTERPRET/SOCIALfixture、原C不删，不推断账单Token改善。证据recall-single-miss。
 
 catalog42919922408客户端成功/Core按范围跳过；quota42920422226原Core成功/Web跳过，非full发行。所有原A–H继续，CURRENT/APK/生产/真实提供商/手机不动。
+
+
+### 2026-11-11 · Codex B 源码工作视图精简
+
+新增原生Git目录列表与可选轻量检出指令，不迁移或删除交付。34eabd7临时验证副本的源码工作树69548KiB（不含Git对象），省略三组约1339452KiB历史快照，150文件仍在索引；CLI帮助、原19项定向检查和77导航目标通过，按需恢复一个快照目录后无Git改动。首次列表漏tests的失败已修正；既有治理CI改在源码视图运行原检查，防止再次遗漏。
+
+主治理副本保持完整；文档明确完整回归/交付审阅前恢复全部工作树。以34eabd769ae375c6f6c8d606ff557945c8ccd8b3两份账本全文为底追加，无Core/客户端/封签交付/生产改动；回退仅撤销目录列表、文档与该CI配置。
