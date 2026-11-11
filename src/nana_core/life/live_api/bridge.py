@@ -60,6 +60,10 @@ class GatewayService:
         self.receipt_privacy = {}
         self.receipt_scopes = {}
         self.sequence_owner = None  # Observed original Core capability, never inferred from Gateway version.
+        self.continuation_owner = None
+        self.continuation_lock = threading.RLock()  # Short metadata admission, never a model wait.
+        self.continuation_dispatch_lock = threading.RLock()
+        self.inflight_messages = {}  # Parent bindings only; no message bodies/history.
         from .platform_events import PlatformEvents
 
         self.platform_events = PlatformEvents(self, platform_event_secret_refs or {})
@@ -129,6 +133,7 @@ class GatewayService:
                 "provider_readiness": True,
                 "chat_streaming": True,
                 "conversation_sequence": status.get('process_ready') is True and self.sequence_owner==(status['owner_epoch'],status.get('source_commit')),
+                "conversation_continuation": status.get('process_ready') is True and self.continuation_owner==(status['owner_epoch'],status.get('source_commit')),
                 "provider_model_discovery": self.allow_provider_configuration and self.credential_resolver is not None,
                 "native_secret_binding": self.allow_provider_configuration and self.credential_resolver is not None,
                 "durable_provider_binding": bool(getattr(self.credential_resolver, "persistent", False)),
@@ -299,6 +304,7 @@ class GatewayService:
     def provider_status(self):
         status = self.supervisor.status()
         self.sequence_owner = None
+        self.continuation_owner = None
         if not status["process_ready"]:
             return {"state": "UNAVAILABLE_CORE_STOPPED", "real_model_qualification": "NOT_RUN_THIS_MISSION"}
         try:
@@ -310,6 +316,12 @@ class GatewayService:
                     and type(capability) is dict and capability.get('schema_version')==1
                     and capability.get('max_inputs')==4 and capability.get('ipc_bytes')==LIMIT):
                 self.sequence_owner=(status['owner_epoch'],status.get('source_commit'))
+            continuation=result['result'].get('conversation_continuation')
+            if (result['result'].get('identity_id')==self.binding.subject_id
+                    and type(continuation) is dict and continuation.get('schema_version')==1
+                    and continuation.get('max_pending')==1 and continuation.get('enabled') is True
+                    and continuation.get('retained_coalescing') is False):
+                self.continuation_owner=(status['owner_epoch'],status.get('source_commit'))
             return {
                 "state": result["result"].get("provider", "UNKNOWN"),
                 "readiness": result["result"].get("provider_readiness", {"state": "UNAVAILABLE_OLD_RUNTIME"}),
@@ -465,13 +477,18 @@ class GatewayService:
                 principal=principal,
             )
 
-    def _prepare(self, principal, body, operation, role):
-        principal.require(role)
+    @staticmethod
+    def _operation_payload(body, operation):
         payload = body.model_dump(mode="json")
         if operation == "MESSAGE" and payload.get("require_model") is False:
             payload.pop("require_model")  # Preserve v2 receipt fingerprints.
         if operation == "MESSAGE" and payload.get("retain_shared_life") is False:
             payload.pop("retain_shared_life")
+        return payload
+
+    def _prepare(self, principal, body, operation, role):
+        principal.require(role)
+        payload = self._operation_payload(body, operation)
         old = self.ledger.prior(body.idempotency_key, principal.principal_id, payload)
         if old:
             return old
@@ -490,11 +507,11 @@ class GatewayService:
         )
         return None
 
-    def _call(self, principal, body, operation, role, call, verify, before=None, *, priority=False):
+    def _call(self, principal, body, operation, role, call, verify, before=None, *, priority=False, dispatch_lock=None, bind_privacy_before=False):
         # Receipt metadata CAS is independently locked. Only existing restrictive
         # controls may bypass the long conversational dispatch lock; the original
         # owner still serializes actual effects at its transport-wait safe point.
-        with (self.priority_lock if priority else self.write_lock):
+        with (dispatch_lock if dispatch_lock is not None else self.priority_lock if priority else self.write_lock):
             old = self._prepare(principal, body, operation, role)
             if old:
                 return self.envelope(
@@ -512,19 +529,22 @@ class GatewayService:
             try:
                 # Persist dispatch intention before any possible real effect.
                 self.ledger.transition(key, Completion.RUNNING, dispatched=True)
+                privacy_before = self._privacy_watermark() if bind_privacy_before else None
                 result = call()
                 if not verify(result):
                     raise ApiError("RESULT_UNVERIFIED", 503)
                 self.ledger.transition(key, Completion.VERIFIED, result=result)
-                self.receipt_privacy[key] = self._privacy_watermark()
+                self.receipt_privacy[key] = privacy_before if bind_privacy_before else self._privacy_watermark()
                 self.receipt_scopes[key] = self.privacy_for(principal)
             except Exception:
                 # No retry/fallback. The underlying original Core receipt remains
                 # authoritative. Never turn a missing result into fake failure.
                 self.ledger.transition(key, Completion.UNKNOWN, error="UNKNOWN_NEEDS_RECONCILIATION")
             self._prune_receipt_cache()
+            receipt=(self._receipt(key,principal) if bind_privacy_before
+                else self.ledger.read(key,principal.principal_id))
             return self.envelope(
-                self.ledger.read(key, principal.principal_id).model_dump(mode="json"), principal=principal
+                receipt.model_dump(mode="json"), principal=principal
             )
 
     def reconcile_language_feedback(self, key, principal, receipt):
@@ -689,8 +709,13 @@ class GatewayService:
             lambda result:result.get('state')=='SUBJECT_SEQUENCE_REVIEWED',before)
 
     def send(self, principal, body, *, surface_binding_id=None, progress=None):
+        principal.require(Role.CONVERSATION)
         if body.privacy_class not in self.privacy_for(principal):
             raise ApiError("SCOPE_DENIED", 403)
+        parent_key=(principal.principal_id,body.client_request_id)
+        context=(principal,surface_binding_id or self.binding.surface_binding_id,body.thread_id,
+            body.topic,body.privacy_class,body.run_generation,body.owner_epoch)
+        continuation=None
         event_id = (
             "v2." + hashlib.sha256((principal.principal_id + "\0" + body.client_request_id).encode()).hexdigest()[:56]
         )
@@ -707,9 +732,49 @@ class GatewayService:
         if len(json.dumps(command).encode()) >= LIMIT:
             raise ApiError("CORE_INPUT_BOUND", 413)
 
+        if body.continuation_of is not None:
+            # Receipt reads remain possible after the private admission window
+            # closes. This is the same payload/principal fingerprint as _prepare.
+            old=self.ledger.prior(body.idempotency_key,principal.principal_id,self._operation_payload(body,'MESSAGE'))
+            if old:
+                return self.envelope(self._receipt(body.idempotency_key,principal).model_dump(mode='json'),principal=principal)
+            status=self.supervisor.status()
+            with self.continuation_lock:
+                parent=self.inflight_messages.get((principal.principal_id,body.continuation_of))
+                if (not parent or not parent['accepting'] or parent['claimed']
+                        or body.continuation_of==body.client_request_id or body.retain_shared_life
+                        or parent['context']!=context or (body.require_model and not parent['require_model'])
+                        or body.run_generation!=self.generation
+                        or self.continuation_owner!=(status['owner_epoch'],status.get('source_commit'))
+                        or not status.get('process_ready')):
+                    # Before ledger reservation/Core dispatch; ordinary input can
+                    # still be submitted after the parent finishes, with consent.
+                    raise ApiError('CONTINUATION_WINDOW_CLOSED',409)
+                parent['claimed']=True;parent['done'].clear();continuation=parent
+
         def call():
-            result = (core_request(self.supervisor.home, command, progress=progress) if progress is not None
-                else core_request(self.supervisor.home, command))
+            slot=None
+            status=self.supervisor.status()
+            if (continuation is None and not body.retain_shared_life
+                    and self.continuation_owner==(status['owner_epoch'],status.get('source_commit'))
+                    and status.get('process_ready')):
+                slot={'context':context,'require_model':body.require_model,'accepting':True,
+                    'claimed':False,'done':threading.Event()}
+                slot['done'].set()
+                with self.continuation_lock:self.inflight_messages[parent_key]=slot
+            try:
+                result = (core_request(self.supervisor.home, command, progress=progress) if progress is not None
+                    else core_request(self.supervisor.home, command))
+            finally:
+                if slot is not None:
+                    with self.continuation_lock:slot['accepting']=False
+                    # Hold the existing ordinary write lane until this admitted
+                    # child settles. Priority controls keep their independent lane.
+                    from ..config import load_config
+                    limit=2*load_config(self.supervisor.home).provider_timeout_ms/1000+35
+                    complete=slot['done'].wait(limit)
+                    with self.continuation_lock:self.inflight_messages.pop(parent_key,None)
+                    if not complete:raise ApiError('CONTINUATION_RESULT_UNKNOWN',503)
             if result.get("ok") is not True:
                 raise ApiError("CORE_INPUT_REJECTED", 409)
             row = result["result"]
@@ -736,6 +801,7 @@ class GatewayService:
             return safe
 
         def before():
+            self.supervisor.verify_binding()
             if body.privacy_class == "PERSONAL":
                 from ..config import load_config
 
@@ -749,6 +815,8 @@ class GatewayService:
                     raise ApiError("SURFACE_PERSONAL_RETENTION_NOT_AUTHORIZED", 403)
             if not body.require_model:
                 return
+            if continuation is not None:
+                return  # Parent passed local readiness; original Core checks each new cognition.
             from ...continuity.dialogue_shadow.bridge import LiteralSpanInterpreter
 
             meaning = LiteralSpanInterpreter().interpret(body.text)
@@ -779,15 +847,12 @@ class GatewayService:
                 and type(row.get('message_memory_id')) is str
                 and re.fullmatch(r'[A-Za-z0-9._:-]{1,128}',row['message_memory_id']) is not None)
 
-        return self._call(
-            principal,
-            body,
-            "MESSAGE",
-            Role.CONVERSATION,
-            call,
-            verified_review,
-            before,
-        )
+        try:
+            return self._call(principal,body,"MESSAGE",Role.CONVERSATION,call,verified_review,before,
+                dispatch_lock=self.continuation_dispatch_lock if continuation is not None else None,
+                bind_privacy_before=True)
+        finally:
+            if continuation is not None:continuation['done'].set()
 
     def command(self, principal, body):
         principal.require(Role.MANAGER)

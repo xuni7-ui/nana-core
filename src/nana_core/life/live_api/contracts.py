@@ -121,6 +121,13 @@ class MessageRequest(WriteRequest):
     privacy_class: Literal["PUBLIC", "PROJECT", "PERSONAL"] = "PROJECT"
     require_model: bool = False  # Additive: old v2 clients retain offline review.
     retain_shared_life: bool = False  # Explicit per-message consent, original Person-Self path.
+    continuation_of: str | None = Field(default=None, pattern=r"^[A-Za-z0-9._:-]{1,96}$")
+
+    @model_serializer(mode='wrap')
+    def compatible_continuation_binding(self, handler):
+        value=handler(self)
+        if self.continuation_of is None:value.pop('continuation_of',None)
+        return value
 
 
 class SequenceMessage(DTO):

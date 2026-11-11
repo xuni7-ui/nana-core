@@ -110,3 +110,8 @@ Original retained QQ exchange now links original C/Kernel independent readback p
 ### 2026-11-11 · 单条审阅/未回复回执与前端来源显示
 
 BFF不再把Core已审阅未回复误作UNKNOWN，严格nullable/no-speech/source检查；Web双源/逆序仅显示实际后续回复、未知不升格旧draft。空modeldraft明确资源无词而非伪模型/离线措辞。最终50后端50.84s/88单测/TS/Vite/16视口通过；parent HTTP真实进Core而child为ownedIPC，浏览器mock，不能称并发HTTP已接。真正认证并发接纳/Web调度/native transport/真实TLS仍需开发与资格，Core实验默认关。证据deferred-review-receipt-20261111；原余A–H/CURRENT266+409不减。
+
+
+### 2026-11-11 原认证HTTP并发接纳增量
+
+docs/nana_next_experience/evidence/http-continuation-20261111/README.md：后端原锁保持，有限同scope child进入原C/各自回执/实际3fixture，无第二主体；13HTTP/22auth/69相关通过。None省略兼容旧指纹，等待全程隐私锚、priority pause、重复无dispatch已证。Web/drain/真实TLS/native/CLI启用仍开发项，非全部阻塞；默认关闭，CURRENT266+409不变。269独立CI155/88/120实核；本批不宣称全仓/安装/真实模型/手机/自然度/长期成长完成。

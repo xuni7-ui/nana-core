@@ -80,6 +80,18 @@ def test_schema_extra_privacy_rejection_and_redaction():
             MessageRequest.model_validate_json(json.dumps({**request, **extra}))
 
 
+def test_optional_continuation_preserves_old_message_receipt_fingerprint():
+    from nana_core.life.live_api.bridge import GatewayService
+    old=dict(client_request_id='legacy',idempotency_key='legacy',expected_revision=0,
+        run_generation='a'*32,owner_epoch=1,text='SYNTHETIC legacy text',
+        topic='daily',thread_id='daily',privacy_class='PROJECT')
+    body=MessageRequest.model_validate_json(json.dumps(old))
+    assert 'continuation_of' not in body.model_dump(mode='json')
+    assert GatewayService._operation_payload(body,'MESSAGE')==old
+    linked=body.model_copy(update={'continuation_of':'parent'})
+    assert GatewayService._operation_payload(linked,'MESSAGE')=={**old,'continuation_of':'parent'}
+
+
 def test_corrupt_auth_never_silently_resets(tmp_path):
     path = tmp_path / "auth.json"
     AuthService(path, password=PASSWORD)

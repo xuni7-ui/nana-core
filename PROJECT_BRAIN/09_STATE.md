@@ -7,13 +7,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 155,
-  "as_of_us": 1794398639993601,
+  "revision": 156,
+  "as_of_us": 1794400211550014,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_DEFERRED_REVIEW_RECEIPT_WIRED",
+  "status": "IN_PROGRESS_HTTP_CONTINUATION_ADMITTED",
   "progress": [
-    "原Core→BFF单条deferred审阅回执→Web已区分未回复/双源后续/UNKNOWN与逆序；空模型draft不再伪离线模型措辞。50最终后端50.84s/88前端/编译/16四视口通过，HTTP后续仍ownedIPC夹具，真实并发HTTP待接。",
+    "两个独立认证HTTP在首INTERPRET未结束已入原队列；原C两源3fixture调用、各自回执、重复不派发、范围拒绝/priority pause/等待全程隐私锚通过。69相关63.22s、最终HTTP13/授权22及TS通过；Web并发接线下一步。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
@@ -23,7 +23,7 @@
     "新运行预算Web→真实TLS BFF→原DEV Core四视口通过，同主体/谱系重载、原总上限0保持；额外桌面Cookie/owner epoch通过。关停后实核1主体/0模型请求/0actions/grants，SQLite3.53.1。615定向CI79Core/72前端/72浏览器通过；非安装/native/生产。"
   ],
   "open_gates": [
-    "排队多输入/未回答全文已接；Core生成中插话实验默认关，单条deferred回执与Web显示已接。BFF按principal/context/owner并发接纳及Web并发drain尚未开发；需核native transport并发、等待期隐私闭包、真实TLS，再受控启用；APK/手机/投递长期待。",
+    "Core opt-in默认FALSE；BFF同principal/context/owner并发接纳已实现/受控测试。Web并发drain、native transport实跑/等待期限/真实TLS与原CLI受控启用待；APK/手机/真实投递长期仍待。",
     "原G WORDLIKE及新TEXT仍独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移待。新TEXT为有限源/原G/context资格，旧63e4对新增profile待G会literal_error，返回新版可恢复；最终匹配安装/安全回退仍待。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "全链模型特定Token/费用/超时、其他原生协议及模型产品、Gateway/Core/宿主/仓库闭包待；Anthropic文字已接原链并定向资格，真实API/完整目录分页/原生流式媒体/最终安装未资格。",
@@ -31,14 +31,14 @@
     "远端artifact字节下载403/远端SHA对照保留独立差额，无新路径不再重复；独立本地安装不冒充远端。原A–H未完成，生产/模型/账号/手机未操作。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/http-continuation-20261111/README.md",
     "docs/nana_next_experience/evidence/deferred-review-receipt-20261111/README.md",
     "docs/nana_next_experience/evidence/inflight-draft-prototype-20261111/README.md",
     "docs/nana_next_experience/evidence/anthropic-native-20261111/README.md",
     "docs/nana_next_experience/evidence/ci-client-selection-20261111/README.md",
     "docs/nana_next_experience/evidence/text-profile-old-reader-20261111/README.md",
     "docs/nana_next_experience/CODEX_CONTINUATION_MISSION.md",
-    "docs/nana_next_experience/ACTIVE_CHECKPOINT.md",
-    "docs/nana_next_experience/STATUS_AND_REMAINING.md"
+    "docs/nana_next_experience/ACTIVE_CHECKPOINT.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2684,3 +2684,8 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-11 · 审阅但未回复的独立回执与显示
 
 [实测] Core原C源MIDs/非空生成才有cycle responseID，BFF严格确认deferred原审阅而非送达；前端清未发草稿/逆序双源链接/UNKNOWN不升格，状态仅React内存。空renderer null/空/空白不再伪离线或模型措辞，明确PROVIDER_EMPTY_DRAFT，不重派发/退账/编造主体沉默。首HTTPUNKNOWN及3空draft首错保留，74相关/最终50后端50.84s/88前端5.18s/TS/live3.69s/16四视口28.1s通过。HTTP parent真实进原Core，但followup仍ownedIPC，browser为拦截合成，不冒充并发HTTP；该接纳与Web drain仍待实现，flag仍默认关。713实际CI111Core95.58s/client正确skip。证据deferred-review-receipt-20261111，源码表SHA256 2d278d484a25e636cca3e82e17a5b4ccc9a0ec67f43d85e1a4afb5de847e1822不自指。原A–H/CURRENT266+409/native设备/真实模型/生产未动。
+
+
+### 2026-11-11 原HTTP并发接续接纳（SOURCE ONLY/ISOLATED TESTED）
+
+[实测] docs/nana_next_experience/evidence/http-continuation-20261111/README.md；source-sha256.json锚`cd0c97177c452aee4291a23d1162bda10bea757ada925038c04b4ede71f091bf`。13final12.93s/22auth20.69s/69related63.22s，首3反馈回归保留并最小收窄隐私读取后恢复。实际HTTP并发不是Web/真实TLS/手机资格，默认Core关闭，下一客户端连续输入。269CI155Core/88unit/120browser实核成功，非本批全仓。

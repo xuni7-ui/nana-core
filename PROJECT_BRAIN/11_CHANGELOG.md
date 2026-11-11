@@ -3591,3 +3591,8 @@ Anthropic native endpoint/system/body/x-api-key/version/stop/usage复用原HTTP�
 ### 2026-11-11 · 独立deferred审阅回执与真实措辞归因
 
 Core投影原C输入源和仅非空已生成的responseID，BFF单条严格承认审阅无reply而不宣称送达；Web既有living投影处理独立/逆序双源、清provisional、UNKNOWN不作已说，状态不持久化。首HTTPUNKNOWN1fail修复；null/empty/blank renderer旧伪offline/model措辞3fail修复为PROVIDER_EMPTY_DRAFT通知，权限/费用/原C不替代。74相关57.27s，最终50后端50.84s含5负例及auth/HTTP/SSE/native，88前端5.18s/TS/Vite3.69s/16四视口28.1s。真实parentHTTP→Core但followup为ownedIPC，browser拦截；未宣称并发HTTP/实际手机/模型/生产。713确切CI111Core95.58s/clientskip复用。证据deferred-review-receipt-20261111/09指纹锚。下一认证绑定并发接纳/原锁优先控制/等候期隐私与Web调度/native能力核验后真实TLS，flag默认False，原A–H/266+409保留。
+
+
+### 2026-11-11 · 原BFF认证并发接续接纳
+
+MessageRequest可选parent/旧None省略；原Core opt-in capability绑定currentidentity/owner/source，原write_lock覆盖Root+child、child独立lane而priority控制保持。两独立HTTP在首理解期间入原队列，原C双源/3fixture/独立回执，不是Web已接。principal/device/gen/context/retention/CAS/idempotence及整个等待隐私锚定向通过，69相关63.22s/最终13HTTP12.93s/22auth20.69s/TS成功；首次反馈UNKNOWN提前reconcile3失败保留并收窄新读取范围，不改断言。证据http-continuation-20261111/09锚，269CI155Core/88unit/120browser实核。下一Web真实接续+TLS/原CLI受控启用；默认Core仍false，原A–H/CURRENT266+409保持。

@@ -157,6 +157,8 @@ class LifeApplication:
         r=self.runtime
         return {'identity_id':r.identity_id,'autonomy':'PAUSED' if r.work.paused else 'RUNNING','provider':'OFFLINE_NO_PROVIDER' if self.router is None else 'CONFIGURED_NOT_QUALITY_QUALIFIED',
             'conversation_sequence':{'schema_version':1,'max_inputs':4,'ipc_bytes':16384,'retained_coalescing':False},
+            'conversation_continuation':{'schema_version':1,'max_pending':1,'retained_coalescing':False,
+                'enabled':callable(getattr(self,'dialogue_continuation_pending',None))},
             'provider_readiness':self.provider_readiness(),
             'view':runtime_projection(r,'LIVING_RUNTIME',self.policy,scopes=('project-work',),entity_id='project-user'),
             'learning':[{'state':x['state'],'cursor':x['cursor']} for x in r.store.db.execute("SELECT state,cursor FROM jobs WHERE work_kind='LEARNING' ORDER BY rowid DESC LIMIT 4")],
@@ -314,7 +316,7 @@ class LifeApplication:
                 'render_state':'DEFERRED_TO_CONTINUATION','mode':cycle.context_fit.mode,
                 'judgment':cycle.judgment.stance,'intention':cycle.intention.kind,'text':None,
                 'raw_body_persisted':retain_shared_life,'exchange_record_id':None,
-                'respond_to_memory_ids':[],
+                'respond_to_memory_ids':[],'reply_response_id':None,
                 'external_social_send':False,'cycle_id':cycle.cycle_id,'cycle_record_id':cycle.record_id,
                 'intention_id':cycle.intention_id}
         can_defer=(cycle.intention.kind=='SOCIAL_INTERACTION' and cycle.context_fit.mode!='RESPECT_BOUNDARY'

@@ -1,0 +1,11 @@
+{
+  ".github/workflows/nana-next-qualification.yml": "8b6cdb713f5033ab6071b13812df588007e4725013019ab05039ffc79a258c3a",
+  "apps/nana-space/src/data/v2.generated.ts": "a5c0c5c899505708a00a6535cf70e3a572be93b1564999887c87e595b8056d9e",
+  "contracts/nana-space-live-v2/api-v2.schema.json": "ccf4d80e741313fc5ef485be44e8e19c8cbabe3dbd7a4871a98f82e17dff0fe2",
+  "contracts/nana-space-live-v2/openapi.json": "cc5af86c9e8f01313ce5230b6a42e7ee104a8946d4f65d6cbf2d5001ab7b5b8a",
+  "src/nana_core/life/application.py": "455cd95aecdd088a97f0292b3a6518f0f0ff0795a5297a99d2234551bc58b80d",
+  "src/nana_core/life/live_api/bridge.py": "97c443842e99339e19799f47cbdd7927ba88781d9f8562b984d5fee07c14bf56",
+  "src/nana_core/life/live_api/contracts.py": "8e4ec5d5efb13718ca9620a8bb8a0118aca18048cf8c778e2e50d9b0925fe9a3",
+  "tests/first_life_android_v2/test_auth_contract.py": "fb29a049f46b32766835858493158ea6cfd4533edee423d2354a52effec81492",
+  "tests/first_life_android_v2/test_http_continuation.py": "e5e1d54cfbe3c497e460c42ec264b2ebe205328a3ee042d472fb4a8ef9e6b52d"
+}

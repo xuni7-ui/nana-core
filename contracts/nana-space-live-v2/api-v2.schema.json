@@ -1139,6 +1139,19 @@
           "default": false,
           "title": "Retain Shared Life",
           "type": "boolean"
+        },
+        "continuation_of": {
+          "anyOf": [
+            {
+              "pattern": "^[A-Za-z0-9._:-]{1,96}$",
+              "type": "string"
+            },
+            {
+              "type": "null"
+            }
+          ],
+          "default": null,
+          "title": "Continuation Of"
         }
       },
       "required": [

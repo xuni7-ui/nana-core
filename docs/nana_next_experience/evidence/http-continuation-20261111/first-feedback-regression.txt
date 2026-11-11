@@ -1,0 +1,109 @@
+................F.FF..                                                   [100%]
+=================================== FAILURES ===================================
+_ test_feedback_unknown_reconciles_only_matching_original_commit[after_commit] _
+
+running = (<nana_core.life.live_api.server.ApiServer object at 0x7fb667fb77d0>, <nana_core.life.live_api.bridge.GatewayService object at 0x7fb667fcdca0>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fb667fb7020>
+cut = 'after_commit'
+
+    @pytest.mark.parametrize('cut',['after_commit','before_commit','wrong_digest','withdrawn_source'])
+    def test_feedback_unknown_reconciles_only_matching_original_commit(running,monkeypatch,cut):
+        import time
+        import nana_core.life.live_api.bridge as bridge
+        from nana_core.life.live_api.ledger import OperationLedger
+        server,service=running;headers=login(server,service)
+        turn=http(server,'messages','POST',{**base(service,'feedback-cut-turn'),
+            'text':'SYNTHETIC feedback cut','retain_shared_life':True},headers)[1]['data']['result']
+        sample={'sample_id':'cut-sample','review_target':turn['exchange_record_id'],'mode':'CASUAL',
+            'context':'synthetic','candidate_response':turn['text'],'human_judgment':'PARTIAL',
+            'provenance':'USER_PROVIDED_REVIEW','observed_at_us':time.time_ns()//1000}
+        original=bridge.core_request;calls=[]
+        def lose_reply(home,command,**kwargs):
+            if command.get('operation')=='language-feedback':
+                calls.append(command)
+                if cut!='before_commit':original(home,command,**kwargs)
+                raise TimeoutError('synthetic lost feedback acknowledgement')
+            return original(home,command,**kwargs)
+        monkeypatch.setattr(bridge,'core_request',lose_reply)
+        body={**base(service,'feedback-cut'),'sample':sample,'exchange_record_id':turn['exchange_record_id'],'consent':True}
+        response=http(server,'conversation/feedback','POST',body,headers)[1]['data']
+>       assert response['state']=='UNKNOWN'
+E       AssertionError: assert 'VERIFIED' == 'UNKNOWN'
+E         
+E         - UNKNOWN
+E         + VERIFIED
+
+tests/first_life_android_v2/test_http_integration.py:348: AssertionError
+_ test_feedback_unknown_reconciles_only_matching_original_commit[wrong_digest] _
+
+running = (<nana_core.life.live_api.server.ApiServer object at 0x7fb667f347d0>, <nana_core.life.live_api.bridge.GatewayService object at 0x7fb667fb7ad0>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fb66810de50>
+cut = 'wrong_digest'
+
+    @pytest.mark.parametrize('cut',['after_commit','before_commit','wrong_digest','withdrawn_source'])
+    def test_feedback_unknown_reconciles_only_matching_original_commit(running,monkeypatch,cut):
+        import time
+        import nana_core.life.live_api.bridge as bridge
+        from nana_core.life.live_api.ledger import OperationLedger
+        server,service=running;headers=login(server,service)
+        turn=http(server,'messages','POST',{**base(service,'feedback-cut-turn'),
+            'text':'SYNTHETIC feedback cut','retain_shared_life':True},headers)[1]['data']['result']
+        sample={'sample_id':'cut-sample','review_target':turn['exchange_record_id'],'mode':'CASUAL',
+            'context':'synthetic','candidate_response':turn['text'],'human_judgment':'PARTIAL',
+            'provenance':'USER_PROVIDED_REVIEW','observed_at_us':time.time_ns()//1000}
+        original=bridge.core_request;calls=[]
+        def lose_reply(home,command,**kwargs):
+            if command.get('operation')=='language-feedback':
+                calls.append(command)
+                if cut!='before_commit':original(home,command,**kwargs)
+                raise TimeoutError('synthetic lost feedback acknowledgement')
+            return original(home,command,**kwargs)
+        monkeypatch.setattr(bridge,'core_request',lose_reply)
+        body={**base(service,'feedback-cut'),'sample':sample,'exchange_record_id':turn['exchange_record_id'],'consent':True}
+        response=http(server,'conversation/feedback','POST',body,headers)[1]['data']
+>       assert response['state']=='UNKNOWN'
+E       AssertionError: assert 'VERIFIED' == 'UNKNOWN'
+E         
+E         - UNKNOWN
+E         + VERIFIED
+
+tests/first_life_android_v2/test_http_integration.py:348: AssertionError
+_ test_feedback_unknown_reconciles_only_matching_original_commit[withdrawn_source] _
+
+running = (<nana_core.life.live_api.server.ApiServer object at 0x7fb66810cd70>, <nana_core.life.live_api.bridge.GatewayService object at 0x7fb667f343e0>)
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7fb667fbed20>
+cut = 'withdrawn_source'
+
+    @pytest.mark.parametrize('cut',['after_commit','before_commit','wrong_digest','withdrawn_source'])
+    def test_feedback_unknown_reconciles_only_matching_original_commit(running,monkeypatch,cut):
+        import time
+        import nana_core.life.live_api.bridge as bridge
+        from nana_core.life.live_api.ledger import OperationLedger
+        server,service=running;headers=login(server,service)
+        turn=http(server,'messages','POST',{**base(service,'feedback-cut-turn'),
+            'text':'SYNTHETIC feedback cut','retain_shared_life':True},headers)[1]['data']['result']
+        sample={'sample_id':'cut-sample','review_target':turn['exchange_record_id'],'mode':'CASUAL',
+            'context':'synthetic','candidate_response':turn['text'],'human_judgment':'PARTIAL',
+            'provenance':'USER_PROVIDED_REVIEW','observed_at_us':time.time_ns()//1000}
+        original=bridge.core_request;calls=[]
+        def lose_reply(home,command,**kwargs):
+            if command.get('operation')=='language-feedback':
+                calls.append(command)
+                if cut!='before_commit':original(home,command,**kwargs)
+                raise TimeoutError('synthetic lost feedback acknowledgement')
+            return original(home,command,**kwargs)
+        monkeypatch.setattr(bridge,'core_request',lose_reply)
+        body={**base(service,'feedback-cut'),'sample':sample,'exchange_record_id':turn['exchange_record_id'],'consent':True}
+        response=http(server,'conversation/feedback','POST',body,headers)[1]['data']
+>       assert response['state']=='UNKNOWN'
+E       AssertionError: assert 'VERIFIED' == 'UNKNOWN'
+E         
+E         - UNKNOWN
+E         + VERIFIED
+
+tests/first_life_android_v2/test_http_integration.py:348: AssertionError
+=========================== short test summary info ============================
+FAILED tests/first_life_android_v2/test_http_integration.py::test_feedback_unknown_reconciles_only_matching_original_commit[after_commit]
+FAILED tests/first_life_android_v2/test_http_integration.py::test_feedback_unknown_reconciles_only_matching_original_commit[wrong_digest]
+FAILED tests/first_life_android_v2/test_http_integration.py::test_feedback_unknown_reconciles_only_matching_original_commit[withdrawn_source]
+3 failed, 19 passed in 22.93s

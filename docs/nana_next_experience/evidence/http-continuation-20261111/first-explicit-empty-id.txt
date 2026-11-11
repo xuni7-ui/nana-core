@@ -1,0 +1,46 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_concurrent_http_review_uses_one_original_purpose_and_individual_receipts _
+
+tmp_path = PosixPath('/tmp/nana-http-cont-positive/test_concurrent_http_review_us0')
+
+    def test_concurrent_http_review_uses_one_original_purpose_and_individual_receipts(tmp_path):
+        release=threading.Event();blocked=threading.Event();answers={};threads=[]
+        with sequence_api(tmp_path,coalesce_continuations=True) as (server,service,calls):
+            control=service.fixture_owner['control'];factory=control.app.router.factory;original=factory.create
+            def create(*args):
+                port=original(*args);exchange=port.exchange
+                def once(request):
+                    if request.cognitive_role=='INTERPRET' and not blocked.is_set():
+                        blocked.set();assert release.wait(5)
+                    return exchange(request)
+                port.exchange=once;return port
+            factory.create=create;headers=login(server,service)
+            bootstrap=http(server,'bootstrap',headers=headers)[1]
+            assert bootstrap['capabilities']['conversation_continuation'] is True
+            parent={**base(service,'http-parent'),'text':'SYNTHETIC initial thought',
+                    'thread_id':'same-recipient','privacy_class':'PROJECT','require_model':True}
+            def start(name,body):
+                thread=threading.Thread(target=lambda:answers.update({name:http(server,'messages','POST',body,headers)}),daemon=True)
+                threads.append(thread);thread.start()
+            try:
+                start('parent',parent);assert blocked.wait(3)
+                child={**base(service,'http-child'),'text':'SYNTHETIC added thought',
+                       'thread_id':'same-recipient','privacy_class':'PROJECT','require_model':True,
+                       'continuation_of':'http-parent'}
+                start('child',child)
+                wait_pending(control,1)  # This must happen before releasing the first model.
+                release.set()
+                for thread in threads:thread.join(7);assert not thread.is_alive()
+                root=answers['parent'][1]['data'];follow=answers['child'][1]['data']
+                assert answers['parent'][0]==answers['child'][0]==200
+                assert root['state']==follow['state']=='VERIFIED',answers
+                assert root['result']['state']=='SHADOW_INPUT_REVIEWED_NO_REPLY'
+>               assert root['result']['text'] is None and root['result']['reply_response_id'] is None
+                                                          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E               KeyError: 'reply_response_id'
+
+tests/first_life_android_v2/test_http_continuation.py:43: KeyError
+=========================== short test summary info ============================
+FAILED tests/first_life_android_v2/test_http_continuation.py::test_concurrent_http_review_uses_one_original_purpose_and_individual_receipts
+1 failed in 1.79s

@@ -1,0 +1,11 @@
+Source 26970a4f503345d86de499fea1021ddee354e5c7, run43017414153 completed SUCCESS. Read via authenticated GitHub connector, not artifact download.
+
+original-core-feedback job 130512125057 SUCCESS
+2026-11-11T12:09:28.7936687Z 155 passed in 126.98s (0:02:06)
+
+client-feedback job 130512125337 SUCCESS
+2026-11-11T12:09:14.2955061Z [32m✓ built in 2.46s[39m
+2026-11-11T12:09:16.5207579Z [2m Test Files [22m [1m[32m10 passed[39m[22m[90m (10)[39m
+2026-11-11T12:09:16.5208697Z [2m      Tests [22m [1m[32m88 passed[39m[22m[90m (88)[39m
+2026-11-11T12:09:16.7131337Z ℹ skipped 0
+2026-11-11T12:11:12.9340136Z   120 passed (1.6m)

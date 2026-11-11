@@ -159,6 +159,7 @@ export type MessageRequest = {
   "privacy_class"?: "PUBLIC" | "PROJECT" | "PERSONAL";
   "require_model"?: boolean;
   "retain_shared_life"?: boolean;
+  "continuation_of"?: (string | null);
 };
 
 export type MessageSequenceRequest = {

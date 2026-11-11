@@ -1,0 +1,27 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+_ test_concurrent_http_review_uses_one_original_purpose_and_individual_receipts _
+
+tmp_path = PosixPath('/tmp/nana-http-cont-first/test_concurrent_http_review_us0')
+
+    def test_concurrent_http_review_uses_one_original_purpose_and_individual_receipts(tmp_path):
+        release=threading.Event();blocked=threading.Event();answers={};threads=[]
+        with sequence_api(tmp_path,coalesce_continuations=True) as (server,service,calls):
+            control=service.fixture_owner['control'];factory=control.app.router.factory;original=factory.create
+            def create(*args):
+                port=original(*args);exchange=port.exchange
+                def once(request):
+                    if request.cognitive_role=='INTERPRET' and not blocked.is_set():
+                        blocked.set();assert release.wait(5)
+                    return exchange(request)
+                port.exchange=once;return port
+            factory.create=create;headers=login(server,service)
+            bootstrap=http(server,'bootstrap',headers=headers)[1]
+>           assert bootstrap['capabilities']['conversation_continuation'] is True
+                   ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           KeyError: 'conversation_continuation'
+
+tests/first_life_android_v2/test_http_continuation.py:24: KeyError
+=========================== short test summary info ============================
+FAILED tests/first_life_android_v2/test_http_continuation.py::test_concurrent_http_review_uses_one_original_purpose_and_individual_receipts
+1 failed in 1.86s
