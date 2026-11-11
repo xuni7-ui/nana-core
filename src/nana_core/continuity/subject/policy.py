@@ -92,6 +92,8 @@ def motivate(event, situation, appraisal):
         motives.insert(0, Motivation(source='CARE', strength='PRESSING', source_ids=situation.memory_ids))
     if situation.cue:
         motives.append(Motivation(source=situation.cue.motivation_source,strength='RELEVANT',source_ids=situation.memory_ids))
+        if situation.cue.cognitive_load=='HIGH' and situation.cue.motivation_source!='REST':
+            motives.append(Motivation(source='REST',strength='RELEVANT',source_ids=situation.memory_ids))
     if situation.problem_frame and situation.problem_frame.state=='REFRAME':
         motives.append(Motivation(source='UNRESOLVED_QUESTION',strength='RELEVANT',source_ids=situation.problem_frame.source_memory_ids))
     if not motives:
@@ -175,9 +177,6 @@ def decide(event, situation, appraisal, motives):
         if quiet_choice:
             return ('BACKGROUND_WATCH' if behavior=='WATCH' else 'DEFER',Judgment(stance='WATCH' if behavior=='WATCH' else 'DEFER',reason='An available concern does not require activity',source_ids=sources),
                 Intention(kind='NO_ACTION',purpose='Respect the current priority without external action',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior=behavior))
-        if cue.cognitive_load=='HIGH' and cue.urgency!='HIGH':
-            return ('DEFER',Judgment(stance='DEFER',reason='Current load and lack of urgent duty make rest appropriate',source_ids=sources),
-                Intention(kind='NO_ACTION',purpose='Rest instead of creating meaningless work',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='REST'))
         assessment=cue.opportunity_assessment
         # Generic utility/novelty does not erase a current source-backed personal
         # interest. Enjoyment need not promise learning or task productivity.
@@ -192,6 +191,14 @@ def decide(event, situation, appraisal, motives):
         interested_social = bool(situation.separate_delivery and 'SOCIALIZE' in options
             and situation.social_appetite and situation.social_appetite.state in {'OPEN','SEEKING'}
             and situation.social_appetite.source_record_ids)
+        demanding = cue.attention_demand=='HEAVY' or bool(cue.learning_value and cue.learning_value.time_compute_cost=='HEAVY')
+        supported_light_interest = not demanding and (interested_learning or interested_activity or interested_social)
+        # Current load remains a sourced rest motive. It does not require the
+        # Subject to stop every light, supported interest or private wish to
+        # connect. Actual execution and reception are admitted separately.
+        if cue.cognitive_load=='HIGH' and cue.urgency!='HIGH' and not supported_light_interest:
+            return ('DEFER',Judgment(stance='DEFER',reason='Current load outweighs this demanding or unsupported optional direction',source_ids=sources),
+                Intention(kind='NO_ACTION',purpose='Keep the option while choosing rest for now',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='REST'))
         if assessment and (assessment.value=='LOW' or assessment.novelty=='REPEATED') and not (interested_learning or interested_activity or interested_social):
             return ('BACKGROUND_WATCH',Judgment(stance='IGNORE',reason='Current low value or repeated low-stimulation evidence does not warrant another activity; this is the Subject decision, not a Runtime veto',source_ids=sources),
                 Intention(kind='NO_ACTION',purpose='Consider the motive and choose not to act on this opportunity',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='IGNORE'))
@@ -218,7 +225,8 @@ def decide(event, situation, appraisal, motives):
             return ('DEFER',Judgment(stance='DEFER',reason='Availability is unknown/busy; prefer silence over interruption',source_ids=sources),
                 Intention(kind='NO_ACTION',purpose='Wait for a receptive context',slot_key='quiet',source_ids=sources,self_generated=self_generated,behavior='STAY_SILENT'))
         kind='SOCIAL_INTERACTION' if behavior=='SOCIALIZE' else 'EXPLORE' if behavior=='EXPLORE' else 'GOAL_CANDIDATE'
-        return ('FOCUS_NOW',Judgment(stance='THINK_MORE',reason='Current evidence supports considering this direction within constraints',source_ids=sources,lesson_ids=situation.lesson_ids),
+        reason='A supported light interest can coexist with current load; rest remains available and execution is separately admitted' if cue.cognitive_load=='HIGH' else 'Current evidence supports considering this direction within constraints'
+        return ('FOCUS_NOW',Judgment(stance='THINK_MORE',reason=reason,source_ids=sources,lesson_ids=situation.lesson_ids),
             Intention(kind=kind,purpose='Consider '+behavior.lower()+' for the unresolved topic '+cue.topic_key,
                 slot_key='concern-'+cue.topic_key,source_ids=sources,self_generated=self_generated,behavior=behavior))
     if event.task_class == 'reading_card' and situation.lesson_ids:

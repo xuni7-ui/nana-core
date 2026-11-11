@@ -31,7 +31,7 @@ def adopt_interest(r, topic='world.question'):
     ('CREATE', 'LOW', 'NEW', 'world.question', 'LOW', 'CREATE'),
     ('EXPLORE', 'RELEVANT', 'REPEATED', 'world.question', 'LOW', 'EXPLORE'),
     ('CREATE', 'LOW', 'REPEATED', 'another.interest', 'LOW', 'IGNORE'),
-    ('CREATE', 'LOW', 'REPEATED', 'world.question', 'HIGH', 'REST'),
+    ('CREATE', 'LOW', 'REPEATED', 'world.question', 'HIGH', 'CREATE'),
 ])
 def test_adopted_personal_interest_survives_generic_score(runtime, behavior, value, novelty, topic, load, expected):
     r = runtime
@@ -45,6 +45,9 @@ def test_adopted_personal_interest_survives_generic_score(runtime, behavior, val
     jid = queue.offer(item)
     result = judge(r, queue, jid)
     assert result['behavior'] == expected
+    if load=='HIGH':
+        cycle=r.subject.result(r.store.one('subject_cycles',result['cycle_id']))
+        assert any(m.source=='REST' and m.strength=='RELEVANT' and m.source_ids for m in cycle.motivations)
     cycles = len(r.store.all('subject_cycles'))
     assert queue.offer(item) == jid
     for _ in range(4):
@@ -115,7 +118,7 @@ def test_external_admission_estimate_does_not_claim_cognitive_load(
 
 @pytest.mark.parametrize('adopted,load,explicit_review,expected,behavior', [
     (True,'LOW',False,'CREATE','CREATE'),
-    (True,'HIGH',False,'REST','CREATE'),
+    (True,'HIGH',False,'CREATE','CREATE'),
     (False,'LOW',False,None,'CREATE'),
     (True,'LOW',True,None,'CREATE'),
     (True,'LOW',False,'LEARN','LEARN'),
@@ -149,6 +152,7 @@ def test_due_commitment_is_considered_without_a_permanent_veto_on_owned_interest
         source_memory_ids=(mid,),commitment_check_id=cid if explicit_review else None))
     assert choice.intention.behavior==expected
     assert any(m.source=='COMMITMENT' for m in choice.motivations)
+    if load=='HIGH':assert any(m.source=='REST' and m.source_ids for m in choice.motivations)
     assert all('COMMITMENT' not in m.inhibited_by for m in choice.motivations)
     assert service.get(cid).state=='ADOPTED' and service.get(cid).overdue
     if expected is None:assert choice.intention.slot_key=='commitment-review'

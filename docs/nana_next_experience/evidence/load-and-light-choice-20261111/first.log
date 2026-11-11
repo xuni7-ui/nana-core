@@ -1,0 +1,132 @@
+........F........F.................F.                                    [100%]
+=================================== FAILURES ===================================
+_ test_adopted_personal_interest_survives_generic_score[CREATE-LOW-REPEATED-world.question-HIGH-REST] _
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7f3fa5106000>
+behavior = 'CREATE', value = 'LOW', novelty = 'REPEATED'
+topic = 'world.question', load = 'HIGH', expected = 'REST'
+
+    @pytest.mark.parametrize('behavior,value,novelty,topic,load,expected', [
+        ('CREATE', 'LOW', 'NEW', 'world.question', 'LOW', 'CREATE'),
+        ('EXPLORE', 'RELEVANT', 'REPEATED', 'world.question', 'LOW', 'EXPLORE'),
+        ('CREATE', 'LOW', 'REPEATED', 'another.interest', 'LOW', 'IGNORE'),
+        ('CREATE', 'LOW', 'REPEATED', 'world.question', 'HIGH', 'REST'),
+    ])
+    def test_adopted_personal_interest_survives_generic_score(runtime, behavior, value, novelty, topic, load, expected):
+        r = runtime
+        adopt_interest(r, topic)
+        mid = capture(r, 'leisure-opportunity', {'source': 'SYNTHETIC personal option'})
+        item = candidate(r, mid, value=value, novelty=novelty)
+        item = item.model_copy(update={'cue': item.cue.model_copy(update={
+            'motivation_source': 'CREATIVE_INTEREST', 'possible_behaviors': (behavior, 'WATCH'),
+            'cognitive_load': load})})
+        queue = OpportunityQueue(r)
+        jid = queue.offer(item)
+        result = judge(r, queue, jid)
+>       assert result['behavior'] == expected
+E       AssertionError: assert 'CREATE' == 'REST'
+E         
+E         - REST
+E         + CREATE
+
+tests/open_life/test_adopted_interest.py:47: AssertionError
+_ test_due_commitment_is_considered_without_a_permanent_veto_on_owned_interest[True-HIGH-False-REST-CREATE] _
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7f3fa5311d30>
+adopted = True, load = 'HIGH', explicit_review = False, expected = 'REST'
+behavior = 'CREATE'
+
+    @pytest.mark.parametrize('adopted,load,explicit_review,expected,behavior', [
+        (True,'LOW',False,'CREATE','CREATE'),
+        (True,'HIGH',False,'REST','CREATE'),
+        (False,'LOW',False,None,'CREATE'),
+        (True,'LOW',True,None,'CREATE'),
+        (True,'LOW',False,'LEARN','LEARN'),
+        (False,'LOW',False,None,'LEARN'),
+        (True,'LOW',True,None,'LEARN'),
+    ])
+    def test_due_commitment_is_considered_without_a_permanent_veto_on_owned_interest(
+            runtime,adopted,load,explicit_review,expected,behavior):
+        from nana_core.continuity.commitments import CommitmentCandidate,CommitmentService
+        from nana_core.continuity.subject.opportunities import ConcernCue
+        r=runtime
+        interest_sources=adopt_interest(r) if adopted else ()
+        source=capture(r,'due-promise-source',{'source':'SYNTHETIC adopted promise'})
+        service=CommitmentService(r.store,r.authority)
+        cid=service.propose(CommitmentCandidate(entity_id='observer',scope='world',
+            description='SYNTHETIC due promise still requires a review',support_memory_ids=(source,),due_at_us=r.clock.utc_now_us()-1))
+        service.transition(cid,'ADOPTED',expected_revision=1,authority=r.authority)
+        cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='CREATIVE_INTEREST',topic_key='world.question',
+            possible_behaviors=(behavior,'WATCH'),resource_class='ORDINARY',cognitive_load=load)
+        # Use original C ingress on the same original Store; no forced decision,
+        # fake fulfillment, model, planner or permission is injected.
+        from nana_core.continuity.contracts import EvidenceInput,Provenance,MemoryCandidate,MemoryType
+        memory=MemoryService(r.store)
+        evidence=memory.capture(EvidenceInput(provenance=Provenance(source_namespace='synthetic.interest.choice',
+            source_reference='due-choice',source_kind='DIRECT_OBSERVATION'),text=cue.model_dump_json(),privacy_class='PUBLIC',
+            observed_time_us=r.clock.utc_now_us()))
+        mid=memory.add(MemoryCandidate(entity_id='observer',scope='world',memory_type=MemoryType.SEMANTIC,
+            epistemic_kind='OBSERVATION',source_evidence_id=evidence,text=cue.model_dump_json(),predicate_key='concern.world.question'))
+        choice=r.subject.run(SubjectInput(source_key='synthetic.due-interest.choice',kind='WAKE',origin='SELF_WAKE',
+            entity_id='observer',scope='world',privacy_class='PUBLIC',observed_at_us=r.clock.utc_now_us(),
+            source_memory_ids=(mid,),commitment_check_id=cid if explicit_review else None))
+>       assert choice.intention.behavior==expected
+E       AssertionError: assert 'CREATE' == 'REST'
+E         
+E         - REST
+E         + CREATE
+
+tests/open_life/test_adopted_interest.py:150: AssertionError
+_ test_owned_connection_interest_can_compete_with_generic_share_relevance[True-RELEVANT-NEW-ALLOW-LOW-HIGH-AVAILABLE-REST] _
+
+tmp_path = PosixPath('/tmp/nana-load-first/test_owned_connection_interest7')
+owned = True, value = 'RELEVANT', novelty = 'NEW', preference = 'ALLOW'
+frequency = 'LOW', load = 'HIGH', availability = 'AVAILABLE', expected = 'REST'
+
+    @pytest.mark.parametrize('owned,value,novelty,preference,frequency,load,availability,expected', [
+        (True,'LOW','NEW','UNKNOWN','LOW','LOW','BUSY','SOCIALIZE'),
+        (True,'RELEVANT','REPEATED','UNKNOWN','LOW','LOW','UNKNOWN','SOCIALIZE'),
+        (True,'RELEVANT','NEW','ALLOW','LOW','LOW','AVAILABLE','SOCIALIZE'),
+        (True,'RELEVANT','NEW','DECLINED','LOW','LOW','AVAILABLE','STAY_SILENT'),
+        (True,'RELEVANT','REPEATED','ALLOW','HIGH','LOW','AVAILABLE','STAY_SILENT'),
+        (False,'LOW','NEW','UNKNOWN','LOW','LOW','AVAILABLE','IGNORE'),
+        (False,'RELEVANT','NEW','UNKNOWN','LOW','LOW','AVAILABLE','STAY_SILENT'),
+        (True,'RELEVANT','NEW','ALLOW','LOW','HIGH','AVAILABLE','REST'),
+    ])
+    def test_owned_connection_interest_can_compete_with_generic_share_relevance(
+            tmp_path,owned,value,novelty,preference,frequency,load,availability,expected):
+        from nana_core.continuity.subject import PreferenceSignal
+        from nana_core.continuity.subject.opportunities import ShareAssessment,OpportunityAssessment
+        with fresh(tmp_path/'s'/'self.db') as r:
+            if owned:
+                for index in range(2):
+                    r.subject.run(SubjectInput(source_key='synthetic.social-interest.'+str(index),kind='PLAY',origin='ENVIRONMENT',
+                        entity_id='synthetic-person',scope='lab',privacy_class='PERSONAL',observed_at_us=r.clock.utc_now_us(),
+                        text='SYNTHETIC independent enjoyable connection '+str(index),
+                        preference_signal=PreferenceSignal(topic='social_connection',direction='SUPPORT',
+                            interpretation='SYNTHETIC personally values ordinary company')))
+                desire=social_appetite(r.store,scope='lab',privacy_classes=('PERSONAL',))
+                assert desire.state=='SEEKING' and desire.source_record_ids
+            resource='synthetic://contact/friend'
+            cue=ConcernCue(cue_kind='DISCOVERY',motivation_source='RELATIONSHIP',topic_key='small-share',
+                possible_behaviors=('SOCIALIZE','STAY_SILENT'),resource_class='ORDINARY',availability=availability,cognitive_load=load,
+                share_assessment=ShareAssessment(user_preference=preference,recent_delivery_frequency=frequency,novelty=novelty),
+                opportunity_assessment=OpportunityAssessment(value=value,novelty=novelty))
+            mid=capture(r,'small-share',cue.model_dump_json(),predicate='concern.small-share')
+            recipient=RecipientState(resource=resource,entity_id='synthetic-person',availability=availability,
+                observed_at_us=r.clock.utc_now_us(),expires_at_us=r.clock.utc_now_us()+HOUR,permitted_privacy=('PERSONAL',))
+            capture(r,'small-share-recipient',recipient.model_dump_json(),predicate='recipient.'+digest(resource)[:32])
+            send(r,'small-share-choice',(mid,),realization_target=RealizationTarget(capability='world.contact',operation='CONTACT',resource=resource,resource_class='ORDINARY'))
+            cycle=r.step()['cycle']
+>           assert cycle.intention.behavior==expected
+E           AssertionError: assert 'SOCIALIZE' == 'REST'
+E             
+E             - REST
+E             + SOCIALIZE
+
+tests/open_autonomy/test_delivery.py:84: AssertionError
+=========================== short test summary info ============================
+FAILED tests/open_life/test_adopted_interest.py::test_adopted_personal_interest_survives_generic_score[CREATE-LOW-REPEATED-world.question-HIGH-REST]
+FAILED tests/open_life/test_adopted_interest.py::test_due_commitment_is_considered_without_a_permanent_veto_on_owned_interest[True-HIGH-False-REST-CREATE]
+FAILED tests/open_autonomy/test_delivery.py::test_owned_connection_interest_can_compete_with_generic_share_relevance[True-RELEVANT-NEW-ALLOW-LOW-HIGH-AVAILABLE-REST]
+3 failed, 34 passed in 2.78s

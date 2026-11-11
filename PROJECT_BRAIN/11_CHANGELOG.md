@@ -3529,3 +3529,8 @@ typed messages/sequence复用原role/CSRF/CAS/OperationLedger/UDS，子messageID
 ### 2026-11-11 · 任务需求不伪作疲倦，有意义兴趣可考虑高需求活动
 
 原Queue把costHEAVY/compute/time/interruption需求写HIGH当前负荷，改为同原ConcernCue可选attention_demand，默认LIGHT不出旧wire，无新Store/权威/执行。原C复用既有兴趣/独立社交证据权衡，generic无支持高需求仍延期；有意义学习不因time_compute_costHEAVY单独否决，高风险/实际HIGH负荷/来源/规范/资源/投递不变。7新首错保留，61通过/3旧REST契约失败5.10s；按明确新能力将三项精确EXPLORE并加强LOW当前load/HEAVYdemand/全部估计保留断言，非删断言。107openlife/原delivery-planning/PrecisionV2通过14.52s，restart单身份/withdraw取消支持，0模型/动作/Grant。证据activity-demand-and-interest-20261111及09hash锚，旧Core对新增高需求cue回退未资格。474精确CI124Core/79unit/104browser成功；b5元数据SUCCESS详细数待读。下一实际HIGH负荷与轻量兴趣/休息竞争及其余原A–H，CURRENT266+409/生产/native/APK不变。
+
+
+### 2026-11-11 · 当前负荷与轻量有源兴趣在原C竞争
+
+原motivate在HIGH当前负荷保留一项有源RELEVANT REST，不再让decide无动机地一律REST；复用原已采纳创作/当前学习兴趣/独立社交支持，LIGHT可竞争，HEAVY及无支持仍延期。原quietfirst/duePRESSING/高风险/规范/资源/收件与Manager不改，无新Store/权威/模型。5新首错；34通过/3旧统一REST契约失败2.78s保留，明确新行为精确CREATE/SOCIALIZE并加源REST/高负荷BUSY、UNKNOWN、DECLINED、重复控制。116openlife/原投递规划/PrecisionV2通过15.12s+27原Subject等11.74s，restart同主体/withdraw取消支持，0真实模型发送及动作Grant。证据load-and-light-choice-20261111/09hash锚。b5精确CI81unit/104browser成功、Core按UIonlySKIPPED；b7当时仍inprogress。原计划/framing/巩固等其他A–E及原A–H未完，CURRENT266+409/native/APK/生产不变，17:50续办启用不停工。

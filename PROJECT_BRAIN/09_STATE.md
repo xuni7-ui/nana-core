@@ -7,13 +7,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 143,
-  "as_of_us": 1794374008729028,
+  "revision": 144,
+  "as_of_us": 1794374318994713,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_ACTIVITY_DEMAND_NOT_FATIGUE",
+  "status": "IN_PROGRESS_SOURCED_LOAD_AND_LIGHT_INTEREST_COMPETE",
   "progress": [
-    "原C已采纳探索/创作及有兴趣学习可权衡HEAVY任务需求，不再被估计需求伪装HIGH当前负荷否决；实际负荷/风险/资源/投递保持。7首错保留，107相关14.52s，重启与撤回生效，0模型/动作/Grant。",
+    "原C当前HIGH负荷保留有源REST动机，同时轻量已采纳创作/学习/独立联系愿望可竞争；HEAVY/无支持仍可延期，收件BUSY/拒绝/重复仍单独约束。116相关15.12s+27主体11.74s；重启/撤回有效，真实模型和发送0。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
@@ -27,18 +27,18 @@
     "原G仍限独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移仍待改进。新加速只资格有限合成literal源选择。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "全链模型特定Token/费用/超时、产品/模型向导、运行Gateway/Core/宿主兼容与仓库闭包仍按原清单推进。",
-    "任务需求已与当前负荷分开；原C实际HIGH负荷仍一律REST，轻量兴趣竞争/情感与原C-S3-S8因果待。向导/预算DEV TLS已有，native/实机/真实provider/长期自然度仍待。",
+    "任务需求/当前负荷已分开，轻量有源兴趣可与REST竞争；原C问题/计划/巩固及其他A–E、情感/真实投递→S3/S8长期因果待。向导/预算DEV TLS已有，native/实机/真实provider仍待。",
     "远端artifact字节下载403/远端SHA对照保留独立差额，无新路径不再重复；独立本地安装不冒充远端。原A–H未完成，生产/模型/账号/手机未操作。"
   ],
   "evidence_refs": [
     "docs/nana_next_experience/CODEX_CONTINUATION_MISSION.md",
     "docs/nana_next_experience/ACTIVE_CHECKPOINT.md",
     "docs/nana_next_experience/STATUS_AND_REMAINING.md",
+    "docs/nana_next_experience/evidence/load-and-light-choice-20261111/README.md",
     "docs/nana_next_experience/evidence/activity-demand-and-interest-20261111/README.md",
     "docs/nana_next_experience/evidence/input-queue-timeout-20261111/README.md",
     "docs/nana_next_experience/evidence/admitted-response-20261111/README.md",
-    "docs/nana_next_experience/evidence/queued-sequence-client-20261111/README.md",
-    "docs/nana_next_experience/evidence/sequence-api-20261111/README.md"
+    "docs/nana_next_experience/evidence/queued-sequence-client-20261111/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->

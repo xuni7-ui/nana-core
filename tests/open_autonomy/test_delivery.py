@@ -54,7 +54,11 @@ def test_available_recipient_actual_fixture_contact_is_kernel_verified_and_admis
     (True,'RELEVANT','REPEATED','ALLOW','HIGH','LOW','AVAILABLE','STAY_SILENT'),
     (False,'LOW','NEW','UNKNOWN','LOW','LOW','AVAILABLE','IGNORE'),
     (False,'RELEVANT','NEW','UNKNOWN','LOW','LOW','AVAILABLE','STAY_SILENT'),
-    (True,'RELEVANT','NEW','ALLOW','LOW','HIGH','AVAILABLE','REST'),
+    (True,'RELEVANT','NEW','ALLOW','LOW','HIGH','AVAILABLE','SOCIALIZE'),
+    (True,'RELEVANT','NEW','ALLOW','LOW','HIGH','BUSY','SOCIALIZE'),
+    (True,'RELEVANT','NEW','ALLOW','LOW','HIGH','UNKNOWN','SOCIALIZE'),
+    (True,'RELEVANT','NEW','DECLINED','LOW','HIGH','AVAILABLE','STAY_SILENT'),
+    (True,'RELEVANT','REPEATED','ALLOW','HIGH','HIGH','AVAILABLE','STAY_SILENT'),
 ])
 def test_owned_connection_interest_can_compete_with_generic_share_relevance(
         tmp_path,owned,value,novelty,preference,frequency,load,availability,expected):
@@ -82,6 +86,9 @@ def test_owned_connection_interest_can_compete_with_generic_share_relevance(
         send(r,'small-share-choice',(mid,),realization_target=RealizationTarget(capability='world.contact',operation='CONTACT',resource=resource,resource_class='ORDINARY'))
         cycle=r.step()['cycle']
         assert cycle.intention.behavior==expected
+        if load=='HIGH':
+            rest=[m for m in cycle.motivations if m.source=='REST']
+            assert len(rest)==1 and rest[0].strength=='RELEVANT' and rest[0].source_ids
         assert cycle.evaluation.wanted
         if expected=='SOCIALIZE':
             assert cycle.intention.kind=='SOCIAL_INTERACTION' and cycle.evaluation.normative=='ENDORSED'

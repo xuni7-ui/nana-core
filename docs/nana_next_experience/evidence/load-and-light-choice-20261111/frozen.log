@@ -1,0 +1,132 @@
+FFFFF                                                                    [100%]
+=================================== FAILURES ===================================
+_ test_sourced_rest_motive_can_compete_with_light_personal_interest[CREATE-LIGHT-CREATE] _
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7fc1bcf469f0>
+behavior = 'CREATE', cost = 'LIGHT', expected = 'CREATE'
+
+    @pytest.mark.parametrize('behavior,cost,expected',[
+        ('CREATE','LIGHT','CREATE'),('LEARN','LIGHT','LEARN'),
+        ('CREATE','HEAVY','REST'),('LEARN','HEAVY','REST'),
+    ])
+    def test_sourced_rest_motive_can_compete_with_light_personal_interest(runtime,behavior,cost,expected):
+        r=runtime;adopt_interest(r)
+        mid=capture(r,'loaded-interest-option',{'source':'SYNTHETIC supported interest during current load'})
+        item=candidate(r,mid,cost=cost)
+        item=item.model_copy(update={'cue':item.cue.model_copy(update={'possible_behaviors':(behavior,'REST'),
+            'cognitive_load':'HIGH','learning_value':LearningValue(goal_value='LOW',future_reuse='LOW',interest='HIGH',
+                time_compute_cost=cost) if behavior=='LEARN' else None})})
+        q=OpportunityQueue(r);result=judge(r,q,q.offer(item))
+>       assert result['behavior']==expected
+E       AssertionError: assert 'REST' == 'CREATE'
+E         
+E         - CREATE
+E         + REST
+
+tests/open_life/test_load_competition.py:23: AssertionError
+_ test_sourced_rest_motive_can_compete_with_light_personal_interest[LEARN-LIGHT-LEARN] _
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7fc1bcf47d10>
+behavior = 'LEARN', cost = 'LIGHT', expected = 'LEARN'
+
+    @pytest.mark.parametrize('behavior,cost,expected',[
+        ('CREATE','LIGHT','CREATE'),('LEARN','LIGHT','LEARN'),
+        ('CREATE','HEAVY','REST'),('LEARN','HEAVY','REST'),
+    ])
+    def test_sourced_rest_motive_can_compete_with_light_personal_interest(runtime,behavior,cost,expected):
+        r=runtime;adopt_interest(r)
+        mid=capture(r,'loaded-interest-option',{'source':'SYNTHETIC supported interest during current load'})
+        item=candidate(r,mid,cost=cost)
+        item=item.model_copy(update={'cue':item.cue.model_copy(update={'possible_behaviors':(behavior,'REST'),
+            'cognitive_load':'HIGH','learning_value':LearningValue(goal_value='LOW',future_reuse='LOW',interest='HIGH',
+                time_compute_cost=cost) if behavior=='LEARN' else None})})
+        q=OpportunityQueue(r);result=judge(r,q,q.offer(item))
+>       assert result['behavior']==expected
+E       AssertionError: assert 'REST' == 'LEARN'
+E         
+E         - LEARN
+E         + REST
+
+tests/open_life/test_load_competition.py:23: AssertionError
+_ test_sourced_rest_motive_can_compete_with_light_personal_interest[CREATE-HEAVY-REST] _
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7fc1bce01220>
+behavior = 'CREATE', cost = 'HEAVY', expected = 'REST'
+
+    @pytest.mark.parametrize('behavior,cost,expected',[
+        ('CREATE','LIGHT','CREATE'),('LEARN','LIGHT','LEARN'),
+        ('CREATE','HEAVY','REST'),('LEARN','HEAVY','REST'),
+    ])
+    def test_sourced_rest_motive_can_compete_with_light_personal_interest(runtime,behavior,cost,expected):
+        r=runtime;adopt_interest(r)
+        mid=capture(r,'loaded-interest-option',{'source':'SYNTHETIC supported interest during current load'})
+        item=candidate(r,mid,cost=cost)
+        item=item.model_copy(update={'cue':item.cue.model_copy(update={'possible_behaviors':(behavior,'REST'),
+            'cognitive_load':'HIGH','learning_value':LearningValue(goal_value='LOW',future_reuse='LOW',interest='HIGH',
+                time_compute_cost=cost) if behavior=='LEARN' else None})})
+        q=OpportunityQueue(r);result=judge(r,q,q.offer(item))
+        assert result['behavior']==expected
+        cycle=r.subject.result(r.store.one('subject_cycles',result['cycle_id']))
+        rest=[m for m in cycle.motivations if m.source=='REST']
+>       assert len(rest)==1 and rest[0].strength=='RELEVANT' and rest[0].source_ids
+E       assert (0 == 1)
+E        +  where 0 = len([])
+
+tests/open_life/test_load_competition.py:26: AssertionError
+_ test_sourced_rest_motive_can_compete_with_light_personal_interest[LEARN-HEAVY-REST] _
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7fc1bcf39070>
+behavior = 'LEARN', cost = 'HEAVY', expected = 'REST'
+
+    @pytest.mark.parametrize('behavior,cost,expected',[
+        ('CREATE','LIGHT','CREATE'),('LEARN','LIGHT','LEARN'),
+        ('CREATE','HEAVY','REST'),('LEARN','HEAVY','REST'),
+    ])
+    def test_sourced_rest_motive_can_compete_with_light_personal_interest(runtime,behavior,cost,expected):
+        r=runtime;adopt_interest(r)
+        mid=capture(r,'loaded-interest-option',{'source':'SYNTHETIC supported interest during current load'})
+        item=candidate(r,mid,cost=cost)
+        item=item.model_copy(update={'cue':item.cue.model_copy(update={'possible_behaviors':(behavior,'REST'),
+            'cognitive_load':'HIGH','learning_value':LearningValue(goal_value='LOW',future_reuse='LOW',interest='HIGH',
+                time_compute_cost=cost) if behavior=='LEARN' else None})})
+        q=OpportunityQueue(r);result=judge(r,q,q.offer(item))
+        assert result['behavior']==expected
+        cycle=r.subject.result(r.store.one('subject_cycles',result['cycle_id']))
+        rest=[m for m in cycle.motivations if m.source=='REST']
+>       assert len(rest)==1 and rest[0].strength=='RELEVANT' and rest[0].source_ids
+E       assert (0 == 1)
+E        +  where 0 = len([])
+
+tests/open_life/test_load_competition.py:26: AssertionError
+____ test_light_choice_survives_restart_but_withdrawal_removes_its_support _____
+
+runtime = <nana_core.presence.runtime.NanaRuntime object at 0x7fc1bcf46b10>
+
+    def test_light_choice_survives_restart_but_withdrawal_removes_its_support(runtime):
+        r=runtime;support=adopt_interest(r)
+        old_event=r.store.one('subject_cycles',support[0].cycle_id)['subject_event_id']
+        support_mid=r.store.one('subject_events',old_event)['memory_id']
+        path,clock,identity=r.store.path,r.clock.source,r.identity_id;r.stop()
+        with open_runtime(path,clock) as current:
+            assert current.identity_id==identity
+            q=OpportunityQueue(current)
+            def offer(key,behaviors):
+                mid=capture(current,key,{'source':'SYNTHETIC current load with a private light option'})
+                item=candidate(current,mid)
+                return q.offer(item.model_copy(update={'cue':item.cue.model_copy(update={
+                    'possible_behaviors':behaviors,'cognitive_load':'HIGH'})}))
+            assert judge(current,q,offer('quiet-first',('REST','CREATE')))['behavior']=='REST'
+>           assert judge(current,q,offer('private-light-choice',('CREATE','REST')))['behavior']=='CREATE'
+E           AssertionError: assert 'REST' == 'CREATE'
+E             
+E             - CREATE
+E             + REST
+
+tests/open_life/test_load_competition.py:45: AssertionError
+=========================== short test summary info ============================
+FAILED tests/open_life/test_load_competition.py::test_sourced_rest_motive_can_compete_with_light_personal_interest[CREATE-LIGHT-CREATE]
+FAILED tests/open_life/test_load_competition.py::test_sourced_rest_motive_can_compete_with_light_personal_interest[LEARN-LIGHT-LEARN]
+FAILED tests/open_life/test_load_competition.py::test_sourced_rest_motive_can_compete_with_light_personal_interest[CREATE-HEAVY-REST]
+FAILED tests/open_life/test_load_competition.py::test_sourced_rest_motive_can_compete_with_light_personal_interest[LEARN-HEAVY-REST]
+FAILED tests/open_life/test_load_competition.py::test_light_choice_survives_restart_but_withdrawal_removes_its_support
+5 failed in 0.69s

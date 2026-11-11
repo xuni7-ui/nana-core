@@ -1,0 +1,6 @@
+{
+  "src/nana_core/continuity/subject/policy.py": "8c1e93ae20335fe6b038448814bbdae4e7ef821d5fcaba0acfe752a5b263ee90",
+  "tests/open_life/test_load_competition.py": "93bd192e4ba16e9c9b18e316f016253a43bb43e29c37ba8e4722eee6fd7a657f",
+  "tests/open_life/test_adopted_interest.py": "72c9e6b586bd9c9dea18b4eb8ff1409ce8dba83f543092b0cf3847be6ca9eb93",
+  "tests/open_autonomy/test_delivery.py": "79a33ec2de03d9128ab18c32510d1952ac0a2a77d33e68c211c85d0495a2e621"
+}
