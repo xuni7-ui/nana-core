@@ -7,13 +7,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 150,
-  "as_of_us": 1794382553854267,
+  "revision": 151,
+  "as_of_us": 1794391412995746,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_ORIGINAL_G_TEXT_SAME_STORE_COMPARED",
+  "status": "IN_PROGRESS_RETAINED_C_TO_G_RECOVERY_VERIFIED",
   "progress": [
-    "实际原C/G先独立TEXT资格再加入8未见来源；同Store32note/100ms冻结24查询：旧资格8支持正确/16unsupported，新资格24/24/0误召，P50/P95含证书核验2.699/3.279ms。0模型动作；0b远端43Core通过，非生产/规模验收。",
+    "旧63e4封签安装槽对新TEXT完成/待C/待G隔离副本实测；修复已提交C决定缺spec后滞留，原G接线去重/恢复32项通过，实际旧binary返回同身份完成NFKC；0模型动作，旧版pending-G仍不兼容。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
@@ -24,21 +24,21 @@
   ],
   "open_gates": [
     "已排队输入Core/BFF/SDK/Web共同回应已接；生成中的新插话仍等待，未发生成草稿重组/中断、保留合并及真实送达/C-S3-S8长期因果待。新Native有限映射仅源码，匹配APK/安装/手机仍待。",
-    "原G WORDLIKE及新TEXT仍独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移待。新TEXT为有限源/原G/context资格，旧binary对新增profile回退/安装未测。",
+    "原G WORDLIKE及新TEXT仍独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移待。新TEXT为有限源/原G/context资格，旧63e4对新增profile待G会literal_error，返回新版可恢复；最终匹配安装/安全回退仍待。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "全链模型特定Token/费用/超时、产品/模型向导、运行Gateway/Core/宿主兼容与仓库闭包仍按原清单推进。",
     "任务需求/当前负荷已分开，轻量有源兴趣可与REST竞争；原C问题/计划/巩固及其他A–E、情感/真实投递→S3/S8长期因果待。向导/预算DEV TLS已有，native/实机/真实provider仍待。",
     "远端artifact字节下载403/远端SHA对照保留独立差额，无新路径不再重复；独立本地安装不冒充远端。原A–H未完成，生产/模型/账号/手机未操作。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/text-profile-old-reader-20261111/README.md",
     "docs/nana_next_experience/CODEX_CONTINUATION_MISSION.md",
     "docs/nana_next_experience/ACTIVE_CHECKPOINT.md",
     "docs/nana_next_experience/STATUS_AND_REMAINING.md",
     "docs/nana_next_experience/evidence/text-query-g-compare-20261111/README.md",
     "docs/nana_next_experience/evidence/competence-gap-causality-20261111/README.md",
     "docs/nana_next_experience/evidence/text-query-original-g-20261111/README.md",
-    "docs/nana_next_experience/evidence/text-query-research-20261111/README.md",
-    "docs/nana_next_experience/evidence/cognition-timeout-inheritance-20261111/README.md"
+    "docs/nana_next_experience/evidence/text-query-research-20261111/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2657,3 +2657,8 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 新增原生Git目录列表与可选轻量检出指令，不迁移或删除交付。34eabd7临时验证副本的源码工作树69548KiB（不含Git对象），省略三组约1339452KiB历史快照，150文件仍在索引；CLI帮助、原19项定向检查和77导航目标通过，按需恢复一个快照目录后无Git改动。首次列表漏tests的失败已修正；既有治理CI改在源码视图运行原检查，防止再次遗漏。
 
 主治理副本保持完整；文档明确完整回归/交付审阅前恢复全部工作树。以34eabd769ae375c6f6c8d606ff557945c8ccd8b3两份账本全文为底追加，无Core/客户端/封签交付/生产改动；回退仅撤销目录列表、文档与该CI配置。
+
+
+### 2026-11-11 · 已决定但未接G的原学习恢复
+
+[实测] 旧63e4封签安装槽实际三状态副本/返回原始结果见text-profile-old-reader-20261111。已完成lesson保留；待G旧版literal_error仍不兼容，新版可恢复；待C旧版决定后无spec，5401返回滞留。修复沿原LearningService.after_cycle重接当前有源、可读、未过期PENDING LEARN，不重判、不直接造job、不复活撤回。严格DTO首错1/4保留，最终32相关12.82s通过；真实旧binary返回第32步PRACTICE，再次关闭/返回32步NFKC成功，0模型动作/同身份，不冒充32步立即完成或完整回退资格。源码表SHA256 a407a2aa673b07293cbd33e156849189ec9443fba43d2091f0c79e42e68385bb；其表不自指。原A–H/CURRENT266+409/native/生产边界保持。

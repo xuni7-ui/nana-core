@@ -361,6 +361,7 @@ class NoteRetrievalGrowth:
     def restore(self):
         """Recover trusted pending specs only after rechecking current sources."""
         r = self.runtime
+        self.restored_specs = {}
         # RUNTIME_WORK preserves the frozen proposed spec before queued C runs;
         # OPEN_LEARNING remains original G's authoritative job/trial state.
         rows = r.store.db.execute(
@@ -370,6 +371,8 @@ class NoteRetrievalGrowth:
         from .open_agency.learning import LearningSpec
 
         for row in rows:
+            if row['scope'] not in r.config.scopes or row['privacy_class'] not in r.config.privacy_classes:
+                continue
             if not RecordService(r.store).current_support(row["record_id"]):
                 continue
             body = RecordService(r.store).read(row["record_id"])["payload"]
@@ -393,6 +396,41 @@ class NoteRetrievalGrowth:
             service = self.service()
             if len(service.specs) < 16:
                 service.specs[spec.learning_key] = spec
+                self.restored_specs[spec.learning_key] = row['record_id']
+
+    def resume_selected(self, scope):
+        """Reconnect retained C choices to original G after a missing-spec host.
+
+        This neither asks C again nor resurrects a dropped/expired intention.
+        G retains its occurrence-key, concurrency and source admission checks.
+        """
+        from .subject.contracts import SubjectInput
+        from .subject.state import visible
+
+        r = self.runtime
+        if not self.restored_specs:
+            return
+        records = RecordService(r.store)
+        for intention in r.subject.pending(scope):
+            cycle_row = r.store.db.execute(
+                'SELECT * FROM subject_cycles WHERE subject_event_id=? ORDER BY revision DESC LIMIT 1',
+                (intention['subject_event_id'],),
+            ).fetchone()
+            if not cycle_row or not visible(r.store, cycle_row['record_id'], scope, r.config.privacy_classes):
+                continue
+            cycle = r.subject.result(cycle_row)
+            checkpoint = self.restored_specs.get(cycle.proposed_program_id)
+            if (not checkpoint or cycle.intention_id != intention['intention_id']
+                    or cycle.intention.behavior != 'LEARN'
+                    or not visible(r.store, checkpoint, scope, r.config.privacy_classes)):
+                continue
+            source = r.store.one('subject_events', intention['subject_event_id'])
+            if not source or not visible(r.store, source['record_id'], scope, r.config.privacy_classes):
+                continue
+            event = SubjectInput.model_validate_json(canonical(records.read(source['record_id'])['payload']['input']))
+            if event.entity_id != r.config.entity_id or event.privacy_class not in r.config.privacy_classes:
+                continue
+            self.service().after_cycle(r, cycle, event)
 
     def capture(self, key, text, scope, parents, *, predicate=None):
         from .contracts import EvidenceInput, Provenance, MemoryCandidate, MemoryType
@@ -497,6 +535,7 @@ class NoteRetrievalGrowth:
         r = self.runtime
         if r.work.paused or "PROJECT" not in r.config.privacy_classes:
             return None
+        self.resume_selected(scope)
         try:
             snapshot = self.evaluator.snapshot(scope, max_notes=self.max_notes)
         except CoreError as exc:

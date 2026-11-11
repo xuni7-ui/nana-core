@@ -1,3 +1,11 @@
+# Active continuation — retained C choices recover through original G
+
+Base5401cf5 exactlocal/remote0/0 clean before batch. Old63e4 installed seal/modulepin actual completed/pending-C/pending-G three copies first evidence retained. New current maintenance reconnects original supported PENDING/nonexpired LEARN through originalG after_cycle, with current scope/privacy/source/entity and original occurrence dedup, paused/drop/expiry/withdraw kept.32relatedPASS12.82s, first strictDTO1fail/4pass retained. Actual old-reader pending-C return first32steps PRACTICE, another closed-owner32steps NFKC/sameidentity/epoch4/0calls-actions; oldpending-G still literal_error but return current succeeds. Completed lesson preserved. Evidence text-profile-old-reader-20261111; source-table a407a2aa673b07293cbd33e156849189ec9443fba43d2091f0c79e42e68385bb. Not full/install/oldbinary-compatible/native/phone/realmodel/production qualification.
+
+Next eliminate demonstrated redundant client reruns caused solely by core-job/path-list workflow edits; preserve client/shared/global changes and affected contract checks. Then original in-flight draft/purpose/delivery, remaining A–E/affect/C-S3-S8, broaderG/retrieval/storageprivacy/Token/providers/modelproduct/repository/finalmatchingrelease originalA–H. CURRENT266+409 unchanged;17:50 alreadyenabled/workcontinues; no known403retry/production/paid/account/device actions. Root~4.6MB; builds/tests/tmp, protect old Git/DB/releases/unknown.
+
+---
+
 # Active continuation — actual G qualified same-Store benchmark
 
 Base0b68118 pushed; exactCI42979569153 SUCCESS43Core34.47s/3originalreportingwarnings/clientSUCCESS. Existingtool explicit--qualified now qualifies originalC/G TEXT32 on disjointearlier3sources before frozenlater8. SameStore32notes/100ms/4results/manual24digest unchanged: oldV2 supports8/allcorrect+16unsupported, actualqualifiedTEXT24/24/0falsepositive. P50/P952.699/3.279ms includescertificatechecks; prototype1.449/1.874ms shownseparately, nospeedclaim. Actualtrial/independentstage metadata/raw samples/facts/withdraw/action0 included; no models. Evidence text-query-g-compare-20261111/source-table anchor 8ef66fd70b7f3fecbc7a0e691d11bf2c7fb8ea4c89cb18ba0732b293824e9b2f. candidate_promoted:false meansnoCURRENT/production, newGqualification isactualcontrolledPASS. Defaultresearchmode preserved.

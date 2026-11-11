@@ -1,0 +1,158 @@
+[
+  {
+    "initial": {
+      "state": "completed",
+      "identity": "bee0e6c3-dc35-4531-a1ad-25ad50a91d89",
+      "selected": [
+        "d8f4175f-8af8-43b4-81ba-21ecfc590f6f",
+        "NFKC_CASEFOLD"
+      ],
+      "calls": 0,
+      "cycles": 8,
+      "actions": 0,
+      "now_us": 1791590464000000
+    },
+    "old": {
+      "source_commit": "63e4e323abb00f467484ee35d096f814f5585ffe",
+      "python": "3.12.14",
+      "sqlite": "3.53.1",
+      "steps": 12,
+      "identity": "bee0e6c3-dc35-4531-a1ad-25ad50a91d89",
+      "epoch": 2,
+      "calls_before": 0,
+      "cycles_before": 8,
+      "actions_before": 0,
+      "selected_before": null,
+      "calls_after": 0,
+      "cycles_after": 9,
+      "actions_after": 0,
+      "now_us": 1791590477000000,
+      "pinned_core_modules": 134,
+      "sealed_files_unchanged": true,
+      "returncode": 0
+    },
+    "new_return": {
+      "identity": "bee0e6c3-dc35-4531-a1ad-25ad50a91d89",
+      "epoch": 3,
+      "selected_before": [
+        "d8f4175f-8af8-43b4-81ba-21ecfc590f6f",
+        "NFKC_CASEFOLD"
+      ],
+      "selected_after": [
+        "d8f4175f-8af8-43b4-81ba-21ecfc590f6f",
+        "NFKC_CASEFOLD"
+      ],
+      "calls": 0,
+      "cycles": 10,
+      "actions": 0
+    }
+  },
+  {
+    "initial": {
+      "state": "pending-c",
+      "identity": "c6cf7482-afcd-4fba-a295-a0ba34d55b51",
+      "selected": [
+        "9cda983c-d3a2-47a4-81ae-4e3f2bdf36a8",
+        "UNICODE_WORDS"
+      ],
+      "calls": 0,
+      "cycles": 4,
+      "actions": 0,
+      "now_us": 1791590432000000
+    },
+    "old": {
+      "source_commit": "63e4e323abb00f467484ee35d096f814f5585ffe",
+      "python": "3.12.14",
+      "sqlite": "3.53.1",
+      "steps": 12,
+      "identity": "c6cf7482-afcd-4fba-a295-a0ba34d55b51",
+      "epoch": 2,
+      "calls_before": 0,
+      "cycles_before": 4,
+      "actions_before": 0,
+      "selected_before": [
+        "9cda983c-d3a2-47a4-81ae-4e3f2bdf36a8",
+        "UNICODE_WORDS"
+      ],
+      "calls_after": 0,
+      "cycles_after": 7,
+      "actions_after": 0,
+      "now_us": 1791590445000000,
+      "pinned_core_modules": 135,
+      "sealed_files_unchanged": true,
+      "returncode": 0
+    },
+    "new_return": {
+      "identity": "c6cf7482-afcd-4fba-a295-a0ba34d55b51",
+      "epoch": 3,
+      "selected_before": [
+        "9cda983c-d3a2-47a4-81ae-4e3f2bdf36a8",
+        "UNICODE_WORDS"
+      ],
+      "selected_after": [
+        "9cda983c-d3a2-47a4-81ae-4e3f2bdf36a8",
+        "UNICODE_WORDS"
+      ],
+      "calls": 0,
+      "cycles": 7,
+      "actions": 0
+    }
+  },
+  {
+    "initial": {
+      "state": "pending-g",
+      "identity": "84ccc974-7510-4461-b00b-e5e1aa8643a7",
+      "selected": [
+        "f3e679e7-88e2-4deb-ad34-0692308e703b",
+        "UNICODE_WORDS"
+      ],
+      "calls": 0,
+      "cycles": 5,
+      "actions": 0,
+      "now_us": 1791590433000000
+    },
+    "old": {
+      "source_commit": "63e4e323abb00f467484ee35d096f814f5585ffe",
+      "python": "3.12.14",
+      "sqlite": "3.53.1",
+      "steps": 2,
+      "identity": "84ccc974-7510-4461-b00b-e5e1aa8643a7",
+      "epoch": 2,
+      "calls_before": 0,
+      "cycles_before": 5,
+      "actions_before": 0,
+      "selected_before": [
+        "f3e679e7-88e2-4deb-ad34-0692308e703b",
+        "UNICODE_WORDS"
+      ],
+      "error_type": "ValidationError",
+      "error_code": null,
+      "error_locations": [
+        {
+          "type": "literal_error",
+          "loc": [
+            "method"
+          ]
+        }
+      ],
+      "pinned_core_modules": 134,
+      "sealed_files_unchanged": true,
+      "returncode": 0
+    },
+    "new_return": {
+      "identity": "84ccc974-7510-4461-b00b-e5e1aa8643a7",
+      "epoch": 3,
+      "selected_before": [
+        "f3e679e7-88e2-4deb-ad34-0692308e703b",
+        "UNICODE_WORDS"
+      ],
+      "selected_after": [
+        "ff8318f8-8888-4664-a2e0-0ce8fb3acdea",
+        "NFKC_CASEFOLD"
+      ],
+      "calls": 0,
+      "cycles": 8,
+      "actions": 0
+    }
+  }
+]

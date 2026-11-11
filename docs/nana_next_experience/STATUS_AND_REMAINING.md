@@ -83,3 +83,8 @@ Original retained QQ exchange now links original C/Kernel independent readback p
 
 
 2026-11-11 actualG同库对照：--qualified先原C/G独立评估TEXT32，再8未见源，同32/100ms24固定queries旧8支持正确+16unsupported→新24/24/0误召；实际资格核验在内P95为3.279ms，未作速度比较。无模型动作/生产。下一旧binary完成和pending新profile回退/返回实际探针、原A–H继续。证据text-query-g-compare-20261111。
+
+
+### 2026-11-11 · 新TEXT跨旧安装槽与已决定学习恢复
+
+详见evidence/text-profile-old-reader-20261111：真实旧63e4封签binary三类关闭副本实测，不改旧槽。新版已修复C已决定却因旧spec缺失未启动G的滞留，沿原G入口恢复/去重，32相关通过；同身份实际返回完成新TEXT资格，0模型动作。旧版待G新方法literal_error明确保留，不能宣称二进制回退全部兼容；最终匹配安装/回退仍待。原其余A–H不减。

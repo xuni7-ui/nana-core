@@ -3564,3 +3564,8 @@ CognitionBudget早期3秒默认改120秒，路由session未给显式budget时继
 ### 2026-11-11 · 实际原G资格后的同库32条文本查询对照
 
 复用现有probe加显式--qualified，原C/G用独立先前3TEXT源完成EVAL/TRANSFER后才加入冻结8later源，同Store32note/100ms/4results；旧8ae真实WORDLIKE组件支持8/24均正确+16unsupported，新实际G资格24/24/0误召，纯JOIN放宽18/24/3误召另列。含证书验证实际P50/P952.699/3.279ms，不与旧部分eligible或prototype误作提速；0模型动作、事实/学源与later撤回真实检查，原始独立trial/样本入库。源码仅tool模式扩展，默认research不改，candidate_promoted false指未动CURRENT/production。证据text-query-g-compare-20261111/09锚。0b实际CI43Core34.47s/clientSUCCESS，3原reportingwarning，非全仓。下一旧已安装binary对新完成/待恢复TEXT数据兼容与返回、减少已证多余CIclient重复，然后其余原A–H，CURRENT266+409不变，17:50启用不停车。
+
+
+### 2026-11-11 · 旧宿主缺少规格后的原C/G连续恢复
+
+实际63e4封签槽134/135Core模块旧路径固定、三状态关闭副本往返，首个pending-C滞留及pending-G旧method literal_error保留。新版maintenance从当前有源可读spec+原PENDING LEARN调用原G after_cycle，不重判/重复job，不越过暂停/放弃/过期/撤回。strictDTO首错1/4保留，修JSON重建后27相关11.18s，最终含原renewal32通过12.82s。真实旧binary返回pending-C32步PRACTICE，再次关闭/返回32步NFKC/同身份/0模型动作；completed保存、pending-G当前恢复。证据text-profile-old-reader-20261111/09指纹锚。旧binary待G仍不兼容，非当前发行安装或生产资格；原A–H/CURRENT266+409保持，继续精简已证多余CI然后能力主线。

@@ -1,0 +1,16 @@
+{
+  "identity": "c6cf7482-afcd-4fba-a295-a0ba34d55b51",
+  "epoch": 4,
+  "before": [
+    "9cda983c-d3a2-47a4-81ae-4e3f2bdf36a8",
+    "UNICODE_WORDS"
+  ],
+  "cycles_before": 7,
+  "after": [
+    "9c5f5f26-55bc-411b-8a18-bee3af9925bb",
+    "NFKC_CASEFOLD"
+  ],
+  "cycles_after": 10,
+  "calls": 0,
+  "actions": 0
+}

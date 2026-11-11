@@ -22,6 +22,48 @@ TRAIN=('SYNTHETIC ＭＩＳＴ  ＧＡＲＤＥＮ','SYNTHETIC ＯＲＢＩＴ  
 FROZEN=Path(__file__).resolve().parents[2]/'tools/nana_next_experience/qualification/note_query_diversity_v1.json'
 
 
+@pytest.mark.parametrize('boundary', ['resume', 'paused', 'dropped', 'expired', 'withdrawn'])
+def test_retained_c_learning_choice_recovers_after_host_lacked_spec(tmp_path, boundary):
+    home=tmp_path/'home';clock=VirtualClock();initialize(home,active=0)
+    with LifeApplication(home,clock=clock) as app:
+        mids=[save(app,text=text,privacy='PROJECT',request_id='missing-spec-'+str(i))['memory_id']
+              for i,text in enumerate(TRAIN)]
+        r=app.runtime;identity=r.identity_id;growth=r.work.note_retrieval_growth
+        growth.slice(SCOPE);advance(app);assert selected(app)[1]=='UNICODE_WORDS'
+        growth.slice(SCOPE)
+        key=next(k for k,s in growth.service().specs.items() if 'NFKC_CASEFOLD' in s.hypotheses)
+        growth.service().specs.pop(key)  # older host can commit C without knowing this G profile
+        advance(app,12)
+        choices=[]
+        for intention in r.subject.pending(SCOPE):
+            row=r.store.db.execute('SELECT * FROM subject_cycles WHERE subject_event_id=? ORDER BY revision DESC LIMIT 1',
+                                  (intention['subject_event_id'],)).fetchone()
+            cycle=r.subject.result(row)
+            if cycle.proposed_program_id==key and cycle.intention.behavior=='LEARN':choices.append((intention,cycle))
+        assert len(choices)==1
+        intention,cycle=choices[0]
+        assert not r.store.db.execute("SELECT 1 FROM jobs j JOIN continuity_records c ON c.record_id=j.record_id WHERE j.work_kind='LEARNING' AND c.target_id=?",(key,)).fetchone()
+        if boundary=='paused':app.pause()
+        if boundary=='dropped':r.subject.transition_intention(intention['intention_id'],expected_revision=intention['revision'],state='DROPPED')
+        if boundary=='expired':clock.advance(intention['expires_at_us']-r.clock.utc_now_us()+1)
+        if boundary=='withdrawn':app.forget(mids[0])
+        before_cycles=len(r.store.all('subject_cycles'))
+    with LifeApplication(home,clock=clock) as app:
+        r=app.runtime;growth=r.work.note_retrieval_growth
+        assert r.identity_id==identity
+        growth.slice(SCOPE)
+        jobs=r.store.db.execute("SELECT j.* FROM jobs j JOIN continuity_records c ON c.record_id=j.record_id WHERE j.work_kind='LEARNING' AND c.target_id=?",(key,)).fetchall()
+        assert len(jobs)==(1 if boundary=='resume' else 0)
+        assert len(r.store.all('subject_cycles'))==before_cycles  # no second judgment
+        if boundary=='resume':
+            assert r.store.one('subject_intentions',intention['intention_id'])['state']=='COMPLETED'
+            growth.slice(SCOPE)
+            assert len(r.store.all('subject_cycles'))==before_cycles
+            advance(app);assert selected(app)[1]=='NFKC_CASEFOLD'
+            assert len(r.store.db.execute("SELECT j.job_id FROM jobs j JOIN continuity_records c ON c.record_id=j.record_id WHERE j.work_kind='LEARNING' AND c.target_id=?",(key,)).fetchall())==1
+        assert not r.store.all('cognitive_requests') and not r.store.all('actions')
+
+
 @pytest.mark.parametrize('capacity',[16,32])
 def test_original_g_text_qualification_restores_and_reuses_on_unseen_sources_and_model(tmp_path,capacity):
     home=tmp_path/'home';clock=VirtualClock()
