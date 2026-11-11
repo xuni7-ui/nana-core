@@ -4,6 +4,7 @@ export interface ChatProgress { state: "INTERPRETING"|"RENDERING"|"PROVISIONAL_M
 import type {
   Envelope,
   MessageRequest,
+  MessageSequenceRequest,
   CommandRequest,
   HostRequest,
   HostConfirmation,
@@ -183,7 +184,7 @@ export class V2Client {
             : {}),
         },
         body: body === undefined ? undefined : JSON.stringify(body),
-        signal: AbortSignal.timeout(path === "messages" ? 1230000 : method === "GET" ? 10000 : 22000),
+        signal: AbortSignal.timeout(path === "messages/sequence" ? 2*4*600000+30000 : path === "messages" ? 1230000 : method === "GET" ? 10000 : 22000),
       });
     } catch {
       throw new V2Error(
@@ -299,9 +300,10 @@ export class V2Client {
     );
   }
   async write(
-    kind: "message" | "command" | "host.operation" | "providers.command" | "providers.runtime" | "memories.note" | "conversation.feedback",
+    kind: "message" | "message.sequence" | "command" | "host.operation" | "providers.command" | "providers.runtime" | "memories.note" | "conversation.feedback",
     body:
       | MessageRequest
+      | MessageSequenceRequest
       | CommandRequest
       | HostRequest
       | MemoryNoteRequest
@@ -313,6 +315,7 @@ export class V2Client {
       throw new V2Error("STALE_RUN_NO_REPLAY");
     const path = {
       message: "messages",
+      "message.sequence": "messages/sequence",
       command: "commands",
       "host.operation": "host/operations",
       "providers.command": "providers/commands",

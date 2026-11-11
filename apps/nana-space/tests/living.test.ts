@@ -1,6 +1,50 @@
 import { expect, test } from "vitest";
 import { platformChannels } from "../src/data/living";
-import { bilibiliReadings, credentialProfiles, mergeRetainedTurns, retainedTurns, pendingReceiptTurns, sharedCandidates, vaultMetadata } from "../src/data/living";
+import { bilibiliReadings, credentialProfiles, mergeRetainedTurns, retainedTurns, pendingReceiptTurns, sharedCandidates, vaultMetadata, sequenceTextWireBytes, sequenceReceiptTurns } from "../src/data/living";
+
+const groupMembers=()=>['one','two','parent'].map(id=>({id,input:'SYNTHETIC '+id,state:'REQUESTED',receiptId:'parent'}));
+const groupReceipt=()=>({receipt_id:'parent',operation:'MESSAGE_SEQUENCE',state:'VERIFIED',result:{
+  state:'SUBJECT_SEQUENCE_REVIEWED',external_delivery:false,results:['one','two','parent'].map((id,i)=>({
+    client_message_id:id,message_memory_id:'memory-'+i,external_delivery:false,
+    render_state:i===2?'UNVERIFIED_MODEL_WORDING':'DEFERRED_TO_CONTINUATION',
+    text:i===2?'SYNTHETIC one actual reply':null,respond_to_memory_ids:i===2?['memory-0','memory-1','memory-2']:[],
+  }))}});
+test('sequence receipt shows exactly its source-bound reply without inventing earlier assistant speech',()=>{
+  const rows=sequenceReceiptTurns('parent',groupReceipt(),groupMembers())!;
+  expect(rows.map(r=>r.state)).toEqual(['GROUPED','GROUPED','VERIFIED']);
+  expect(rows.filter(r=>r.reply).map(r=>r.reply)).toEqual(['SYNTHETIC one actual reply']);
+  expect(rows.map(r=>r.input)).toEqual(['SYNTHETIC one','SYNTHETIC two','SYNTHETIC parent']);
+  expect(rows.every(r=>r.receiptId==='parent')).toBe(true);
+});
+test('sequence UNKNOWN retains one parent verification handle and never promotes visible wording',()=>{
+  const value={...groupReceipt(),state:'UNKNOWN'};
+  const rows=sequenceReceiptTurns('parent',value,groupMembers())!;
+  expect(rows.map(r=>r.state)).toEqual(['GROUP_PENDING','GROUP_PENDING','UNKNOWN']);
+  expect(rows.some(r=>r.reply)).toBe(false);
+  const invalid=groupReceipt();invalid.result.results[2].respond_to_memory_ids.push('foreign-private-source');
+  expect(sequenceReceiptTurns('parent',invalid,groupMembers())!.some(r=>r.reply)).toBe(false);
+});
+test('withdrawal clears the whole sequence body while preserving unrelated dialogue',()=>{
+  const other={id:'unrelated',input:'SYNTHETIC other scope',state:'VERIFIED',reply:'other reply'};
+  const rows=sequenceReceiptTurns('parent',{receipt_id:'parent',operation:'MESSAGE_SEQUENCE',state:'VERIFIED',
+    result:{state:'BODY_WITHHELD_SOURCE_CHANGED'}},[other,...groupMembers()])!;
+  expect(rows[0]).toEqual(other);
+  expect(rows.slice(1).every(r=>r.input==='' && !r.reply && r.state==='SOURCE_WITHHELD')).toBe(true);
+});
+test('manual sequence verification after reload restores only actual replies and no unretained question',()=>{
+  const pending=pendingReceiptTurns({pending_receipts:[{receipt_id:'parent',state:'UNKNOWN'}]});
+  const rows=sequenceReceiptTurns('parent',groupReceipt(),pending)!;
+  expect(rows).toHaveLength(1);expect(rows[0]).toMatchObject({input:'',reply:'SYNTHETIC one actual reply',receiptId:'parent'});
+});
+test('verified sequence metadata without a cached body does not become a fake reply or uncertain execution',()=>{
+  const rows=sequenceReceiptTurns('parent',{receipt_id:'parent',operation:'MESSAGE_SEQUENCE',state:'VERIFIED',result:{}},groupMembers())!;
+  expect(rows.every(r=>r.state==='REPLY_UNAVAILABLE' && !r.reply)).toBe(true);
+});
+test('sequence pre-dispatch grouping measures ASCII-escaped IPC text including Unicode surrogate pairs',()=>{
+  expect(sequenceTextWireBytes(['月','🌙'])).toBe(25);
+  expect(sequenceTextWireBytes(['月'.repeat(2048),'月'.repeat(2048)])).toBeGreaterThan(12288);
+  expect(sequenceTextWireBytes(['one','two'])).toBeLessThan(12288);
+});
 
 test("retained history restores only valid sourced rows and withdrawal removes stale restored bodies", () => {
   const saved = retainedTurns({items: [{exchange_record_id: "exchange-1", user_text: "PROJECT common task", reply_text: "Sourced reply", created_at_us: 10}]});

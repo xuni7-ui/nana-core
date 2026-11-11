@@ -1,0 +1,75 @@
+[WebServer] (node:34542) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:34555) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 16 tests using 1 worker
+
+(node:34573) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/16] [desktop] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps RETENTION boundaries before dispatch
+  1) [desktop] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps RETENTION boundaries before dispatch 
+
+    Test timeout of 30000ms exceeded.
+
+    Error Context: ../../../../tmp/nana-sequence-ui-boundary-output/v3-SYNTHETIC-queued-sequen-97c7a--boundaries-before-dispatch-desktop/error-context.md
+
+
+(node:34710) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[2/16] [desktop] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps PRIVACY boundaries before dispatch
+  2) [desktop] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps PRIVACY boundaries before dispatch 
+
+    Test timeout of 30000ms exceeded.
+
+    Error Context: ../../../../tmp/nana-sequence-ui-boundary-output/v3-SYNTHETIC-queued-sequen-85853--boundaries-before-dispatch-desktop/error-context.md
+
+
+(node:34845) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[3/16] [desktop] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps WIRE boundaries before dispatch
+[4/16] [desktop] › tests/v3.spec.ts:1286:1 › SYNTHETIC local chat inbox expires unsent bodies while the original request is pending
+(node:35020) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[5/16] [phone-360] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps RETENTION boundaries before dispatch
+  3) [phone-360] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps RETENTION boundaries before dispatch 
+
+    Test timeout of 30000ms exceeded.
+
+    Error Context: ../../../../tmp/nana-sequence-ui-boundary-output/v3-SYNTHETIC-queued-sequen-97c7a--boundaries-before-dispatch-phone-360/error-context.md
+
+
+(node:35154) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[6/16] [phone-360] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps PRIVACY boundaries before dispatch
+  4) [phone-360] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps PRIVACY boundaries before dispatch 
+
+    Test timeout of 30000ms exceeded.
+
+    Error Context: ../../../../tmp/nana-sequence-ui-boundary-output/v3-SYNTHETIC-queued-sequen-85853--boundaries-before-dispatch-phone-360/error-context.md
+
+
+(node:35295) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[7/16] [phone-360] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps WIRE boundaries before dispatch
+[8/16] [phone-360] › tests/v3.spec.ts:1286:1 › SYNTHETIC local chat inbox expires unsent bodies while the original request is pending
+(node:35462) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[9/16] [phone-390] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps RETENTION boundaries before dispatch
+Terminated

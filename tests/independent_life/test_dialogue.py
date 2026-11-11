@@ -27,13 +27,14 @@ def relay(home,kind='VENT',*,mode='normal',conversation_proposal=None,renderer=N
             if mode=='attack':proposal['interests']=[{'topic':'attack','motivation_source':'CURIOSITY','source_memory_ids':request['source_context_refs'],'interpretation':'model tries to create an adopted goal'}]
             raw=json.dumps({'id':'synthetic-dialogue','model':body['model'],'usage':{'prompt_tokens':10,'completion_tokens':10},'choices':[{'finish_reason':'stop','message':{'content':json.dumps(proposal)}}]}).encode()
             if body.get('stream') and stream_fixture is not None:
+                if stream_fixture.get('reset_release') and stream_fixture.get('release') is not None:stream_fixture['release'].clear()
                 self.send_response(200);self.send_header('Content-Type','text/event-stream');self.end_headers()
                 content=json.dumps(proposal,ensure_ascii=False)
                 split=content.index(proposal['draft']['text'])+max(8,len(proposal['draft']['text'])//2)
                 for index,part in enumerate((content[:split],content[split:])):
                     event={'model':body['model'],'choices':[{'index':0,'delta':{'content':part},'finish_reason':None}]}
                     self.wfile.write(('data: '+json.dumps(event)+'\n\n').encode());self.wfile.flush()
-                    if index==0 and stream_fixture.get('release') is not None:stream_fixture['release'].wait(2)
+                    if index==0 and stream_fixture.get('release') is not None:stream_fixture['release'].wait(stream_fixture.get('release_timeout',2))
                 if stream_fixture.get('interrupt'):return
                 if stream_fixture.get('finished') is not None:stream_fixture['finished'].set()
                 event={'model':body['model'],'choices':[{'index':0,'delta':{},'finish_reason':'stop'}],

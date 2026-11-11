@@ -18,6 +18,23 @@ const sample = () => ({
   data: {},
 });
 afterEach(() => vi.unstubAllGlobals());
+test('finite sequence writes preserve child IDs, cover independent phase ceilings, and do not retry UNKNOWN',async()=>{
+  const timeouts:number[]=[];
+  vi.stubGlobal('AbortSignal',{timeout:(ms:number)=>{timeouts.push(ms);return new AbortController().signal;}});
+  const request=vi.fn(async(_url:unknown,options?:RequestInit)=>{
+    if(options?.method==='POST')throw new TypeError('SYNTHETIC lost ACK');
+    return new Response(JSON.stringify(sample()),{status:200});
+  });
+  vi.stubGlobal('fetch',request);const client=new V2Client();await client.bootstrap();
+  const body={client_request_id:'parent',idempotency_key:'parent',expected_revision:0,
+    run_generation:'b'.repeat(32),owner_epoch:1,messages:[{client_message_id:'first',text:'SYNTHETIC one'},
+      {client_message_id:'parent',text:'SYNTHETIC two'}]};
+  await expect(client.write('message.sequence',body)).rejects.toMatchObject({code:'UNKNOWN_VERIFY_ONLY'});
+  const posted=request.mock.calls.filter(c=>c[1]?.method==='POST');expect(posted).toHaveLength(1);
+  expect(String(posted[0][0])).toBe('/api/nana-space/v2/messages/sequence');
+  expect(JSON.parse(String(posted[0][1]?.body))).toEqual(body);
+  expect(timeouts.at(-1)).toBe(2*4*600000+30000);
+});
 test("note rejections before admission do not become unresolved writes",()=>{
   for(const code of ["REVISION_CONFLICT","SCOPE_DENIED","INVALID_REQUEST","NATIVE_OPERATION_DENIED"])
     expect(noteFailureState(new V2Error(code),true)).toBe("REJECTED");

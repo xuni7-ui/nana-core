@@ -1,0 +1,66 @@
+[WebServer] (node:32822) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:32835) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 2 tests using 1 worker
+
+(node:32853) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/2] [desktop] › tests/v3.spec.ts:1192:32 › SYNTHETIC queued sequence one bound reply
+  1) [desktop] › tests/v3.spec.ts:1192:32 › SYNTHETIC queued sequence one bound reply ──────────────
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 1
+    Received: 0
+
+    Call Log:
+    - Timeout 1500ms exceeded while waiting on the predicate
+
+      1222 |   await state.messageRoute!.fulfill({status:200,json:envelope(state,{receipt_id:first.client_request_id,state:'VERIFIED',
+      1223 |     dispatch_happened:true,result:{text:'SYNTHETIC first response complete'}})});
+    > 1224 |   await expect.poll(()=>posts,{timeout:1500}).toBe(1);
+           |                                               ^
+      1225 |   if(lost){
+      1226 |     const verify=page.getByRole('button',{name:'核验这条回执',exact:true});await expect(verify).toHaveCount(1);
+      1227 |     await verify.click();await expect.poll(()=>reads).toBe(1);expect(posts).toBe(1);
+        at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:1224:47
+
+    Error Context: ../../../../tmp/nana-sequence-ui-before-output/v3-SYNTHETIC-queued-sequence-one-bound-reply-desktop/error-context.md
+
+
+(node:32993) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[2/2] [desktop] › tests/v3.spec.ts:1192:32 › SYNTHETIC queued sequence UNKNOWN verifies parent
+  2) [desktop] › tests/v3.spec.ts:1192:32 › SYNTHETIC queued sequence UNKNOWN verifies parent ──────
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: 1
+    Received: 0
+
+    Call Log:
+    - Timeout 1500ms exceeded while waiting on the predicate
+
+      1222 |   await state.messageRoute!.fulfill({status:200,json:envelope(state,{receipt_id:first.client_request_id,state:'VERIFIED',
+      1223 |     dispatch_happened:true,result:{text:'SYNTHETIC first response complete'}})});
+    > 1224 |   await expect.poll(()=>posts,{timeout:1500}).toBe(1);
+           |                                               ^
+      1225 |   if(lost){
+      1226 |     const verify=page.getByRole('button',{name:'核验这条回执',exact:true});await expect(verify).toHaveCount(1);
+      1227 |     await verify.click();await expect.poll(()=>reads).toBe(1);expect(posts).toBe(1);
+        at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:1224:47
+
+    Error Context: ../../../../tmp/nana-sequence-ui-before-output/v3-SYNTHETIC-queued-sequence-UNKNOWN-verifies-parent-desktop/error-context.md
+
+
+  2 failed
+    [desktop] › tests/v3.spec.ts:1192:32 › SYNTHETIC queued sequence one bound reply ───────────────
+    [desktop] › tests/v3.spec.ts:1192:32 › SYNTHETIC queued sequence UNKNOWN verifies parent ───────

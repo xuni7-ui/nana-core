@@ -1,0 +1,15 @@
+{
+  "apps/nana-space/src/features/LiveSpace.tsx": "2403c8887674b452495dd450be91962e7b54bd4b4f10c810402c388d091d035a",
+  "apps/nana-space/src/features/v3/ChatPane.tsx": "4258b693fae21e5d90e30472fa1f96bb3b91716c25a45973e40fcc0aedac90e5",
+  "apps/nana-space/src/features/next/experience.css": "b19f21a911e5b7f9cd801b1d6a2374502720980a4f9d8d8d8f8a1f468602f490",
+  "apps/nana-space/src/data/living.ts": "ff549d38146219141d8a1e052f20a38cea3ecc397198f021233508e6e8634bdd",
+  "apps/nana-space/src/data/v2.ts": "1e932dc74b37fd22e78744b58a1822cac30a3f9b48ac683ca945cc48cae194e1",
+  "apps/nana-space/android/app/src/main/java/life/nana/space/NanaHostPlugin.java": "04cf3ff8aaf19b7dd24d4a858e7e852b6f78f8c05cc2142893ebbfd0b066d7fb",
+  "apps/nana-space/tests/v3.spec.ts": "d4e70576fb203c9d9c2e60779fb37a266cf5ed1e1887297ca52c809b550ead4a",
+  "apps/nana-space/tests/unified.spec.ts": "fddc5d1dbd84d36ee265ab55663ebf47b48c98dc86ed4e40fe6b7d03d7db31ca",
+  "apps/nana-space/tests/living.test.ts": "2e187dd5133f449d8e4be9a021ef5a5ef65062a4bca8e25b9f11ddb92478d9e7",
+  "apps/nana-space/tests/v2-client.test.ts": "7d21a61ad94dd798d3f54da3ec874a89208c037d949336989443f3b96d721f7b",
+  "tools/nana_first_life_android_v2/dev_serve.py": "65e582e467da770a90b4e38657cef7861fe1840ed8c5faaebf183e4b43073ab5",
+  "tests/independent_life/test_dialogue.py": "c3aeff14e000d8b94649519f4a4e654a7b74447ce095a2bbc76a5122290c0a65",
+  ".github/workflows/nana-next-qualification.yml": "62033229d7ce61c8593a53d31d225bedcb24ecca2a7c811058ae45459a17d892"
+}

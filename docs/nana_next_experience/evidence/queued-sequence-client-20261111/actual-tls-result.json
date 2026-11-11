@@ -1,0 +1,69 @@
+{
+  "subject_id": "514739fa-a3cf-4c25-88df-cbcd2cc91d45",
+  "lineage_binding": "a062f3a918621083f54b51aac4779ab5b0fa3e05424150c3e9d02da67d4b09af",
+  "runtime_active": false,
+  "counts": {
+    "identities": 1,
+    "cognitive_requests": 24,
+    "actions": 0,
+    "grants": 0,
+    "surface_events": 16
+  },
+  "roles": [
+    "INTERPRET",
+    "SOCIAL",
+    "INTERPRET",
+    "INTERPRET",
+    "INTERPRET",
+    "SOCIAL",
+    "INTERPRET",
+    "SOCIAL",
+    "INTERPRET",
+    "INTERPRET",
+    "INTERPRET",
+    "SOCIAL",
+    "INTERPRET",
+    "SOCIAL",
+    "INTERPRET",
+    "INTERPRET",
+    "INTERPRET",
+    "SOCIAL",
+    "INTERPRET",
+    "SOCIAL",
+    "INTERPRET",
+    "INTERPRET",
+    "INTERPRET",
+    "SOCIAL"
+  ],
+  "purpose_input_counts": [
+    1,
+    3,
+    1,
+    3,
+    1,
+    3,
+    1,
+    3
+  ],
+  "real_provider_calls": 0,
+  "sqlite_version": "3.53.1",
+  "python": "3.12.14",
+  "cognition_states": {
+    "PROPOSED": 24
+  },
+  "unretained_canary_matches": {
+    "artifacts": 0,
+    "memory_payloads": 0
+  },
+  "base_head": "4f8ad5bd3aafc30517a802e1fa16a38ccb9ce0f0",
+  "source_sha256": {
+    "apps/nana-space/src/features/LiveSpace.tsx": "2403c8887674b452495dd450be91962e7b54bd4b4f10c810402c388d091d035a",
+    "apps/nana-space/src/features/v3/ChatPane.tsx": "4258b693fae21e5d90e30472fa1f96bb3b91716c25a45973e40fcc0aedac90e5",
+    "apps/nana-space/src/features/next/experience.css": "b19f21a911e5b7f9cd801b1d6a2374502720980a4f9d8d8d8f8a1f468602f490",
+    "apps/nana-space/src/data/v2.ts": "1e932dc74b37fd22e78744b58a1822cac30a3f9b48ac683ca945cc48cae194e1",
+    "apps/nana-space/src/data/living.ts": "ff549d38146219141d8a1e052f20a38cea3ecc397198f021233508e6e8634bdd",
+    "apps/nana-space/tests/unified.spec.ts": "fddc5d1dbd84d36ee265ab55663ebf47b48c98dc86ed4e40fe6b7d03d7db31ca",
+    "tools/nana_first_life_android_v2/dev_serve.py": "65e582e467da770a90b4e38657cef7861fe1840ed8c5faaebf183e4b43073ab5",
+    "tests/independent_life/test_dialogue.py": "c3aeff14e000d8b94649519f4a4e654a7b74447ce095a2bbc76a5122290c0a65"
+  }
+}

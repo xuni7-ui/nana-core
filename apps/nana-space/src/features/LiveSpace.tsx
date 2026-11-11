@@ -74,7 +74,7 @@ import { ModelCenter } from "./v3/ModelCenter";
 import { MemoryCenter } from "./v3/MemoryCenter";
 import { BilibiliView } from "./v3/BilibiliView";
 import { PlatformPanel } from "./v3/PlatformPanel";
-import { mergeRetainedTurns, retainedTurns, pendingReceiptTurns, sharedCandidates, vaultMetadata } from "../data/living";
+import { mergeRetainedTurns, retainedTurns, pendingReceiptTurns, sharedCandidates, vaultMetadata, sequenceTextWireBytes, sequenceReceiptTurns } from "../data/living";
 import { languageFeedbackSample, languageFeedbackResponseBinding, reviewableResponse, type FeedbackChoice } from "../data/feedback";
 const v3Icons = {
   home: Home,
@@ -652,7 +652,7 @@ export function LiveSpace() {
     const d = object(r.data),
       result = object(d.result || {});
     setTurns((xs) =>
-      xs.map((x) =>
+      sequenceReceiptTurns(id,d,xs) ?? xs.map((x) =>
         x.id === id
           ? {
               ...x,
@@ -704,29 +704,52 @@ export function LiveSpace() {
           continue;
         }
         let dispatched = false;
+        let inFlight=[item],receiptId=id;
         setTurns(xs => xs.map(turn => turn.id === id ? {...turn, state: "REQUESTED", requestedAt: performance.now()} : turn));
         try {
-          // Re-authenticate/re-bind and reserve a fresh original receipt only
-          // when this input reaches the existing serial BFF dispatch path.
+          // Rebind before any dispatch; grouping consumes only already waiting
+          // compatible bodies, with no batching timer or future-message promise.
           const b = await fresh();
           if (version !== sessionVersion.current || bodyVersion !== bodyGeneration.current) break;
           if (!b.privacy_scope.includes(privacyClass)) throw new V2Error("SCOPE_DENIED");
           if (retain && b.capabilities.shared_life_retention !== true) throw new V2Error("RETENTION_UNAVAILABLE");
-          dispatched = true;
+          if(performance.now()>=item.expiresAt){
+            setTurns(xs=>xs.map(t=>t.id===id?{id,input:"",state:"LOCAL_EXPIRED"}:t));continue;
+          }
+          if(b.capabilities.conversation_sequence===true && !retain){
+            while(chatInputs.current.length && inFlight.length<4){
+              const next=chatInputs.current[0];
+              if(performance.now()>=next.expiresAt){
+                chatInputs.current.shift();
+                setTurns(xs=>xs.map(t=>t.id===next.id?{id:t.id,input:"",state:"LOCAL_EXPIRED"}:t));continue;
+              }
+              if(next.version!==version || next.bodyVersion!==bodyVersion || next.retain || next.privacyClass!==privacyClass
+                || sequenceTextWireBytes([...inFlight.map(m=>m.input),next.input])>12288)break;
+              inFlight.push(chatInputs.current.shift()!);
+            }
+          }
+          setWaitingInputs(chatInputs.current.length);
+          const grouped=inFlight.length>1;
+          receiptId=inFlight.at(-1)!.id;
+          if(grouped)setTurns(xs=>xs.map(t=>inFlight.some(m=>m.id===t.id)
+            ? {...t,state:"REQUESTED",receiptId,requestedAt:performance.now()}:t));
           const request = {
-            ...writeBase(b, id), text: input, topic: "daily", thread_id: "nana-space", privacy_class: privacyClass,
+            ...writeBase(b, receiptId), topic: "daily", thread_id: "nana-space", privacy_class: privacyClass,
             ...(b.capabilities.provider_readiness === true ? {require_model: true} : {}),
             ...(b.capabilities.shared_life_retention === true ? {retain_shared_life: retain} : {}),
           };
-          const result = b.capabilities.chat_streaming === true && prefs.streamReplies
-            ? await client.current.streamMessage(request, progress => {
+          dispatched = true;
+          const result = grouped
+            ? await client.current.write("message.sequence",{...request,messages:inFlight.map(m=>({client_message_id:m.id,text:m.input}))})
+            : b.capabilities.chat_streaming === true && prefs.streamReplies
+            ? await client.current.streamMessage({...request,text:input}, progress => {
                 if (version === sessionVersion.current && bodyVersion === bodyGeneration.current)
                   setTurns(xs => xs.map(turn => turn.id === id ? {...turn, phase: progress.state,
                     ...(progress.text !== undefined ? {provisional: progress.text} : {})} : turn));
               })
-            : await client.current.write("message", request);
+            : await client.current.write("message", {...request,text:input});
           if (version !== sessionVersion.current || bodyVersion !== bodyGeneration.current) break;
-          updateTurn(id, result);
+          updateTurn(receiptId, result);
           // An uncertain/rejected original receipt never drains more waiting
           // bodies automatically. Only explicitly new input may start later.
           if (object(result.data).state !== "VERIFIED") { clearQueuedInputs(); break; }
@@ -734,7 +757,8 @@ export function LiveSpace() {
         } catch (e) {
           if (version !== sessionVersion.current || bodyVersion !== bodyGeneration.current) break;
           fail(e);
-          setTurns([{id, input: "", state: dispatched ? "UNKNOWN" : "REJECTED"}]);
+          setTurns(inFlight.map(m=>({id:m.id,input:"",state:!dispatched?"REJECTED":m.id===receiptId?"UNKNOWN":"GROUP_PENDING",
+            ...(inFlight.length>1?{receiptId}:{} )})));
           if (dispatched && e instanceof V2Error && ["UNKNOWN_VERIFY_ONLY", "STREAM_INTERRUPTED_VERIFY_ONLY",
               "INVALID_STREAM", "STREAM_RESPONSE_BOUND", "STREAM_FRAME_BOUND"].includes(e.code))
             await refresh().catch(() => {});
@@ -750,17 +774,18 @@ export function LiveSpace() {
   const verify = async (id: string) => {
     const version = sessionVersion.current,
       bodyVersion = bodyGeneration.current;
+    const parent=turns.find(t=>t.id===id)?.receiptId || id;
     try {
-      const result = await client.current.receipt(id);
+      const result = await client.current.receipt(parent);
       if (
         version === sessionVersion.current &&
         bodyVersion === bodyGeneration.current
       )
-        updateTurn(id, result);
+        updateTurn(parent, result);
     } catch (e) {
       if (version === sessionVersion.current) {
         fail(e);
-        setTurns([{ id, input: "", state: "UNKNOWN" }]);
+        setTurns([{id:parent,input:"",state:"UNKNOWN",pendingReceipt:true}]);
       }
     }
   };

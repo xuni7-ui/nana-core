@@ -68,6 +68,7 @@ export interface Turn {
   provisional?: string;
   phase?: string;
   memoryUseSources?: MemoryUseSource[];
+  receiptId?: string;
 }
 /** Body text stays in React memory. Attachments are previews, never uploaded as text. */
 export function ChatPane({
@@ -287,7 +288,8 @@ export function ChatPane({
                 <span className="v3-user-initial">你</span>
               </div>
             )}
-            <div className="v3-reply-row">
+            {t.state==="GROUPED" || t.state==="GROUP_PENDING" ?
+              (t.input && <p className="v3-muted">{t.state==="GROUPED"?"回应见下方":"这几句话的结果待核验"}</p>) : <div className="v3-reply-row">
               <Avatar size={34} />
               <div className="live-reply">
                 {t.reply ? (
@@ -317,6 +319,12 @@ export function ChatPane({
                       readinessLabel(t.error)
                     ) : t.state === "UNKNOWN" ? (
                       "这条消息的结果还不能确认。先核验原回执，不重复发送。"
+                    ) : t.state === "SOURCE_WITHHELD" ? (
+                      "来源或权限已变化，这组正文已收起。"
+                    ) : t.state === "REPLY_UNAVAILABLE" ? (
+                      "原回执已核验，当前没有可恢复的回复。"
+                    ) : t.state === "ALREADY_REVIEWED" ? (
+                      "原输入已处理，不会重复生成。"
                     ) : t.state === "WAITING_LOCAL" ? (
                       "等前一条回复后再发送；现在还没有送出。"
                     ) : t.state === "LOCAL_EXPIRED" ? (
@@ -335,7 +343,7 @@ export function ChatPane({
                 )}
                 <div className="v3-reply-meta">
                   <span>
-                    {t.state === "VERIFIED" && <Check size={12} />} {({WAITING_LOCAL: "待发送", LOCAL_EXPIRED: "未发送", VERIFIED: "已收到", REQUESTED: "等待回复", REJECTED: "这次未提交", UNKNOWN: "等待核验"} as Record<string, string>)[t.state] || t.state}
+                    {t.state === "VERIFIED" && <Check size={12} />} {({WAITING_LOCAL: "待发送", LOCAL_EXPIRED: "未发送", VERIFIED: "已收到", REQUESTED: "等待回复", REJECTED: "这次未提交", UNKNOWN: "等待核验", SOURCE_WITHHELD:"正文已收起", REPLY_UNAVAILABLE:"已核验 · 无正文", ALREADY_REVIEWED:"已处理"} as Record<string, string>)[t.state] || t.state}
                     {t.model ? ` · ${t.model}` : ""}
                   </span>
                   {t.state === "WAITING_LOCAL" && cancelQueued &&
@@ -387,7 +395,7 @@ export function ChatPane({
                   </button>
                 )}
               </div>
-            </div>
+            </div>}
           </article>
         ))}
         <div ref={end} />

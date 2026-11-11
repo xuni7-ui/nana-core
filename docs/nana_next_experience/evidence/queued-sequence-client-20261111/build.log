@@ -1,0 +1,40 @@
+vite v6.4.5 building for live...
+
+(!) outDir /tmp/nana-sequence-ui-dist is not inside project root and will not be emptied.
+Use --emptyOutDir to override.
+
+transforming...
+✓ 1786 modules transformed.
+rendering chunks...
+computing gzip size...
+../../../../tmp/nana-sequence-ui-dist/index.html                          0.74 kB │ gzip:  0.47 kB
+../../../../tmp/nana-sequence-ui-dist/assets/CoreApp-DlTee8Ns.css         3.31 kB │ gzip:  0.99 kB
+../../../../tmp/nana-sequence-ui-dist/assets/ExplorePages-S7BqOZCt.css   12.93 kB │ gzip:  2.95 kB
+../../../../tmp/nana-sequence-ui-dist/assets/settings-s7FLzCO4.css       19.37 kB │ gzip:  3.76 kB
+../../../../tmp/nana-sequence-ui-dist/assets/index-CBiVU63E.css          39.56 kB │ gzip:  9.18 kB
+../../../../tmp/nana-sequence-ui-dist/assets/LiveSpace-BmuvpKJ9.css      51.19 kB │ gzip: 10.21 kB
+../../../../tmp/nana-sequence-ui-dist/assets/clock-3-v72Y9438.js          0.35 kB │ gzip:  0.27 kB
+../../../../tmp/nana-sequence-ui-dist/assets/eye-DSC6NlZJ.js              0.42 kB │ gzip:  0.30 kB
+../../../../tmp/nana-sequence-ui-dist/assets/lock-keyhole-D3f5tdmW.js     0.42 kB │ gzip:  0.32 kB
+../../../../tmp/nana-sequence-ui-dist/assets/shield-check-CD1UwGrc.js     0.48 kB │ gzip:  0.35 kB
+../../../../tmp/nana-sequence-ui-dist/assets/radio-Cw7Pv74u.js            0.83 kB │ gzip:  0.40 kB
+../../../../tmp/nana-sequence-ui-dist/assets/refresh-cw-CIAmsYkU.js       0.84 kB │ gzip:  0.41 kB
+../../../../tmp/nana-sequence-ui-dist/assets/sparkles-dZ2wqY_H.js         0.92 kB │ gzip:  0.44 kB
+../../../../tmp/nana-sequence-ui-dist/assets/smartphone-4H5HPaSx.js       1.08 kB │ gzip:  0.46 kB
+../../../../tmp/nana-sequence-ui-dist/assets/plus-CSCzTaIl.js             1.16 kB │ gzip:  0.46 kB
+../../../../tmp/nana-sequence-ui-dist/assets/Avatar-BTn8nW2M.js           1.58 kB │ gzip:  0.93 kB
+../../../../tmp/nana-sequence-ui-dist/assets/upload-Bv_-bBUo.js           1.69 kB │ gzip:  0.67 kB
+../../../../tmp/nana-sequence-ui-dist/assets/ui-BPUvaRQT.js               1.69 kB │ gzip:  0.64 kB
+../../../../tmp/nana-sequence-ui-dist/assets/sun-DIu7IA5I.js              1.85 kB │ gzip:  0.59 kB
+../../../../tmp/nana-sequence-ui-dist/assets/monitor-CNCldW1v.js          1.94 kB │ gzip:  0.70 kB
+../../../../tmp/nana-sequence-ui-dist/assets/x-CH757m_T.js                2.42 kB │ gzip:  0.83 kB
+../../../../tmp/nana-sequence-ui-dist/assets/preferences-C94fBe2z.js      3.31 kB │ gzip:  1.24 kB
+../../../../tmp/nana-sequence-ui-dist/assets/ChatPage-CzjHzK8k.js         7.31 kB │ gzip:  3.42 kB
+../../../../tmp/nana-sequence-ui-dist/assets/SettingsPage-W9da1PpR.js    10.20 kB │ gzip:  4.67 kB
+../../../../tmp/nana-sequence-ui-dist/assets/RuntimePage-C4auT0Ui.js     16.46 kB │ gzip:  6.42 kB
+../../../../tmp/nana-sequence-ui-dist/assets/CoreApp-BdfD-KXh.js         19.67 kB │ gzip:  8.37 kB
+../../../../tmp/nana-sequence-ui-dist/assets/ExplorePages-CMn1WBSu.js    27.19 kB │ gzip:  8.98 kB
+../../../../tmp/nana-sequence-ui-dist/assets/index-BKOnn4HK.js          120.23 kB │ gzip: 37.21 kB
+../../../../tmp/nana-sequence-ui-dist/assets/LiveSpace-DqgJc1z0.js      180.93 kB │ gzip: 60.60 kB
+../../../../tmp/nana-sequence-ui-dist/assets/index-CLSlUBQy.js          228.04 kB │ gzip: 71.41 kB
+✓ built in 3.63s

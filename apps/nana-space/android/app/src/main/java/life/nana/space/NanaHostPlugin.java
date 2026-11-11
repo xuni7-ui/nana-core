@@ -118,8 +118,8 @@ public class NanaHostPlugin extends Plugin {
         HttpsURLConnection connection = (HttpsURLConnection)new URL(origin(base) + PREFIX + path).openConnection();
         connection.setInstanceFollowRedirects(false);
         connection.setConnectTimeout(10000);
-        // Accommodate the configured per-call ceiling for INTERPRET + RENDER.
-        connection.setReadTimeout("messages".equals(path) ? 1230000 : 15000);
+        // Independent max600s phases: one input2, finite sequence at most2*4.
+        connection.setReadTimeout("messages/sequence".equals(path) ? 2*4*600000+30000 : "messages".equals(path) ? 1230000 : 15000);
         connection.setRequestMethod(method); connection.setRequestProperty("Accept", "application/json");
         connection.setRequestProperty("Cache-Control", "no-store");
         if (token != null) connection.setRequestProperty("Authorization", "Bearer " + token);
@@ -372,6 +372,7 @@ public class NanaHostPlugin extends Plugin {
                 else if ("conversation.feedback".equals(op)) { route = "conversation/feedback";method = "POST"; }
                 else if ("host.status".equals(op)) route = "host/operations";
                 else if ("message".equals(op)) { route = "messages";method = "POST"; }
+                else if ("message.sequence".equals(op)) { route = "messages/sequence";method = "POST"; }
                 else if ("command".equals(op)) { route = "commands";method = "POST"; }
                 else if ("host.confirm".equals(op)) { route = "host/confirmations";method = "POST"; }
                 else if ("host.operation".equals(op)) { route = "host/operations";method = "POST"; }

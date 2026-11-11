@@ -3509,3 +3509,8 @@ Android增2有限映射，javac未在PATH，本批无原生编译/APK/实机资�
 ### 2026-11-11 · 多输入正式BFF/原账本接线
 
 typed messages/sequence复用原role/CSRF/CAS/OperationLedger/UDS，子messageIDs走原principal+ID来源哈希，逐条Core实际结果/回应来源保留。Core显式能力与Gateway实核身份/owner epoch/source绑定，旧Core缺声明不启用；原16KiB界限派发前检查、原privacy/retention/readiness不授费，UNKNOWN父回执只读不重派且可在body-free history恢复标记；任一来源撤回整份缓存回复扣留。首缺cap失败；误把原stream return放到新JSON分支导致2timeout/4pass65.93s，已恢复原分支不扩超时，6通过7.74s→21HTTP/stream27.75s；8scope/pending9.84s及1withdraw2.07s分别通过。canonical generator3产物逐字复核；CI按DTO改动运行原生成器。a652精确CI75Core/72unit/84browser通过，非新API后继。环境短暂不可用时connector仅准备内存重建未写远端；恢复后实际原dirty源码/日志完整，以原文件入库。证据sequence-api-20261111。下一接SDK/Web队列/父回执映射/多阶段超时，当前Web未使用该API；无全仓新安装/native/模型/实机/生产资格，不升级CURRENT266+409。原A–H继续。
+
+
+### 2026-11-11 · Web待发多输入共同回应、父回执与真实TLS闭环
+
+已排队同域非保留输入接原sequence，保持每条expiry/consent/FIFO/ASCII逃逸字节限额；原C3条不减，模型fixture6→4。SDK/native增有限message.sequence和2*4独立600s+30s整体上限，非普通22/15秒；reply/source映射只显示实际回复，整组UNKNOWN查父回执不重发，重载不恢复未保留问题/正文缺失不伪作执行UNKNOWN。23相关单测/TS/live2.81s，20浏览器29.4s；新边界测试首漏开options，打开后发现panel真实挡Send，保留4+2timeout并停止已知重复，CSS移至composer上方，desktop4通过8.2s+phone12通过23.3s不forceclick。复用dev_serve显式synthetic模式（默认不变/私有模型不可混用），真实Supervisor观察唯一原inprocess owner而非伪装受管子进程，TLS桌面1通过6.5s+三宽3通过12.6s；16原输入/24PROPOSED/0动作及真实模型，同身份谱系，关停statusfalse，canary0。原SSE默认2s不变，仅测试可reset15s，6兼容通过6.47s。报告首错memory.text实库无列，按PRAGMA改payload_artifact_id join，不改断言；证据含rawlogs/source/Webhash，TLS/DB/auth不入库。4f8精确CI134Core/72unit/84browser成功，不冒充当前全仓。新Native只源码，APK/安装/实机/真实模型/自然度长期/生产待；生成中插话/未发草稿重组及原A–H继续。用户追加当日北京时间17:50续办已创建启用，未停工，CURRENT266+409保持。

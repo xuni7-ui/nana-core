@@ -1189,6 +1189,81 @@ test("SYNTHETIC local chat inbox waits, can cancel, and sends remaining turns in
   expect(state.messageBodies?.map(body=>body.text)).toEqual(["SYNTHETIC first turn","SYNTHETIC second turn"]);
 });
 
+for(const lost of [false,true])test(`SYNTHETIC queued sequence ${lost?'UNKNOWN verifies parent':'one bound reply'}`,async({page})=>{
+  const state=await installMock(page);state.delayMessage=true;state.capabilities={conversation_sequence:true};
+  let posts=0,reads=0,parent='',members:Array<{client_message_id:string;text:string}>=[];
+  const completed=()=>({receipt_id:parent,operation:'MESSAGE_SEQUENCE',state:'VERIFIED',dispatch_happened:true,result:{
+    state:'SUBJECT_SEQUENCE_REVIEWED',coalesced:true,external_delivery:false,results:members.map((m,i)=>({
+      client_message_id:m.client_message_id,message_memory_id:'batch-memory-'+i,
+      state:i===2?'SHADOW_REPLY_CANDIDATE':'SHADOW_INPUT_REVIEWED_NO_REPLY',
+      render_state:i===2?'UNVERIFIED_MODEL_WORDING':'DEFERRED_TO_CONTINUATION',
+      text:i===2?'SYNTHETIC one reply to the three inputs':null,raw_body_persisted:false,
+      respond_to_memory_ids:i===2?members.map((_,j)=>'batch-memory-'+j):[],external_delivery:false,
+    }))}});
+  await page.route(`**${API}messages/sequence`,route=>{
+    const body=route.request().postDataJSON();posts++;parent=body.client_request_id;members=body.messages;
+    expect(body.privacy_class).toBe('PROJECT');expect(body.retain_shared_life || false).toBe(false);
+    expect(members.map(m=>m.text)).toEqual(['SYNTHETIC burst one','SYNTHETIC burst two','SYNTHETIC burst three']);
+    expect(parent).toBe(members[2].client_message_id);expect(new Set(members.map(m=>m.client_message_id)).size).toBe(3);
+    return lost?route.abort('failed'):route.fulfill({status:200,json:envelope(state,completed())});
+  });
+  await page.route(`**${API}receipts/*`,route=>{
+    expect(route.request().url().split('/').at(-1)).toBe(parent);reads++;
+    return route.fulfill({status:200,json:envelope(state,reads===1?{receipt_id:parent,operation:'MESSAGE_SEQUENCE',state:'UNKNOWN',dispatch_happened:true}:completed())});
+  });
+  await open(page,'chat');const input=page.getByLabel('和奈奈说点什么');
+  await input.fill('SYNTHETIC first already active');await page.getByRole('button',{name:'发送',exact:true}).click();
+  await expect.poll(()=>Boolean(state.messageRoute)).toBe(true);
+  for(const text of ['SYNTHETIC burst one','SYNTHETIC burst two','SYNTHETIC burst three']){
+    await input.fill(text);await page.getByRole('button',{name:'发送',exact:true}).click();
+  }
+  expect(posts).toBe(0);
+  const first=state.messageRoute!.request().postDataJSON();
+  await state.messageRoute!.fulfill({status:200,json:envelope(state,{receipt_id:first.client_request_id,state:'VERIFIED',
+    dispatch_happened:true,result:{text:'SYNTHETIC first response complete'}})});
+  await expect.poll(()=>posts,{timeout:1500}).toBe(1);
+  if(lost){
+    const verify=page.getByRole('button',{name:'核验这条回执',exact:true});await expect(verify).toHaveCount(1);
+    await verify.click();await expect.poll(()=>reads).toBe(1);expect(posts).toBe(1);
+    await expect(verify).toBeVisible();await verify.click();await expect.poll(()=>reads).toBe(2);
+    for(const text of ['SYNTHETIC burst one','SYNTHETIC burst two','SYNTHETIC burst three'])await expect(page.getByText(text,{exact:true})).toHaveCount(0);
+  }
+  await expect(page.getByText('SYNTHETIC one reply to the three inputs',{exact:true})).toBeVisible();
+  expect(state.messageBodies).toHaveLength(1);expect(posts).toBe(1);
+  expect(await page.evaluate(()=>JSON.stringify(Object.entries(localStorage)))).not.toContain('SYNTHETIC burst');
+  await noHorizontalOverflow(page);
+});
+
+for(const boundary of ['RETENTION','PRIVACY','WIRE'] as const)test(`SYNTHETIC queued sequence keeps ${boundary} boundaries before dispatch`,async({page})=>{
+  const state=await installMock(page);state.delayMessage=true;
+  state.capabilities={conversation_sequence:true,shared_life_retention:true};
+  state.privacyScope=['PUBLIC','PROJECT','PERSONAL'];state.roles=['READER','CONVERSATION','PRIVATE_CONTEXT'];
+  let sequences=0;await page.route(`**${API}messages/sequence`,route=>{sequences++;return route.abort('failed');});
+  await open(page,'chat');const input=page.getByLabel('和奈奈说点什么');
+  await input.fill('SYNTHETIC active before split');await page.getByRole('button',{name:'发送',exact:true}).click();
+  await expect.poll(()=>state.messageRoutes?.length).toBe(1);
+  if(boundary!=='WIRE')await page.locator('.next-send-options > summary').click();
+  const texts=boundary==='WIRE'?['月'.repeat(2048),'光'.repeat(2048)]:['SYNTHETIC first scope','SYNTHETIC changed scope','SYNTHETIC last scope'];
+  for(let i=0;i<texts.length;i++){
+    await input.fill(texts[i]);
+    if(i===1 && boundary==='RETENTION')await page.getByLabel('记住这次共同经历',{exact:false}).check();
+    if(i===1 && boundary==='PRIVACY')await page.getByLabel('本次包含个人内容',{exact:false}).check();
+    await page.getByRole('button',{name:'发送',exact:true}).click();
+  }
+  for(let i=0;i<=texts.length;i++){
+    await expect.poll(()=>state.messageRoutes?.length).toBe(i+1);
+    const route=state.messageRoutes![i],body=route.request().postDataJSON();
+    await route.fulfill({status:200,json:envelope(state,{receipt_id:body.client_request_id,state:'VERIFIED',
+      dispatch_happened:true,result:{text:'SYNTHETIC individual scope reply '+i}})});
+  }
+  await expect(page.getByText('SYNTHETIC individual scope reply '+texts.length,{exact:true})).toBeVisible();
+  expect(sequences).toBe(0);const queued=state.messageBodies!.slice(1);
+  expect(queued.map(m=>m.text)).toEqual(texts);
+  if(boundary==='RETENTION')expect(queued.map(m=>m.retain_shared_life)).toEqual([false,true,false]);
+  if(boundary==='PRIVACY')expect(queued.map(m=>m.privacy_class)).toEqual(['PROJECT','PERSONAL','PROJECT']);
+  await noHorizontalOverflow(page);
+});
+
 test("SYNTHETIC local chat inbox clears queued text after an unknown original receipt",async({page})=>{
   const state=await installMock(page);state.delayMessage=true;
   await open(page,"chat");
@@ -1211,6 +1286,7 @@ test("SYNTHETIC local chat inbox clears queued text after an unknown original re
 
 test("SYNTHETIC local chat inbox expires unsent bodies while the original request is pending",async({page})=>{
   const state=await installMock(page);state.delayMessage=true;
+  state.capabilities={conversation_sequence:true};
   await page.clock.install();
   await open(page,"chat");
   const input=page.getByLabel("和奈奈说点什么");

@@ -1,0 +1,34 @@
+[WebServer] (node:36547) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:36568) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 12 tests using 1 worker
+
+(node:36587) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/12] [phone-360] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps RETENTION boundaries before dispatch
+[2/12] [phone-360] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps PRIVACY boundaries before dispatch
+[3/12] [phone-360] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps WIRE boundaries before dispatch
+[4/12] [phone-360] › tests/v3.spec.ts:1287:1 › SYNTHETIC local chat inbox expires unsent bodies while the original request is pending
+(node:36831) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[5/12] [phone-390] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps RETENTION boundaries before dispatch
+[6/12] [phone-390] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps PRIVACY boundaries before dispatch
+[7/12] [phone-390] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps WIRE boundaries before dispatch
+[8/12] [phone-390] › tests/v3.spec.ts:1287:1 › SYNTHETIC local chat inbox expires unsent bodies while the original request is pending
+(node:37065) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[9/12] [phone-412] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps RETENTION boundaries before dispatch
+[10/12] [phone-412] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps PRIVACY boundaries before dispatch
+[11/12] [phone-412] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps WIRE boundaries before dispatch
+[12/12] [phone-412] › tests/v3.spec.ts:1287:1 › SYNTHETIC local chat inbox expires unsent bodies while the original request is pending
+  12 passed (23.3s)

@@ -5,6 +5,73 @@ const record = (value: unknown): Record<string, unknown> | null =>
   value && typeof value === "object" && !Array.isArray(value)
     ? value as Record<string, unknown> : null;
 
+/** Python's existing IPC uses ASCII-escaped JSON; reserve4096bytes for its
+ * typed metadata. This estimate only chooses unsent grouping, never admission.
+ */
+export function sequenceTextWireBytes(texts: string[]): number {
+  return JSON.stringify(texts).replace(/[\u007f-\uffff]/g, c=>"\\u"+c.charCodeAt(0).toString(16).padStart(4,"0")).length;
+}
+
+/** Display the original receipt's child/source bindings, never invent a reply
+ * for a deferred input or recover unretained user wording after reload.
+ */
+export function sequenceReceiptTurns(id: string,value: unknown,turns: Turn[]): Turn[] | null {
+  const data=record(value),result=record(data?.result);
+  const members=turns.filter(t=>t.receiptId===id);
+  if(!members.length && data?.operation!=="MESSAGE_SEQUENCE" && result?.state!=="SUBJECT_SEQUENCE_REVIEWED")return null;
+  const pending=(error?:string)=>turns.map(t=>(t.receiptId===id || t.id===id)
+    ? {...t,state:t.id===id?"UNKNOWN":"GROUP_PENDING",provisional:undefined,phase:undefined,reply:undefined,error,receiptId:id}:t);
+  if(data?.receipt_id!==id)return pending("SEQUENCE_REPLY_BINDING_INVALID");
+  if(data.state!=="VERIFIED"){
+    if(data.state==="REJECTED")return turns.map(t=>(t.receiptId===id || t.id===id)
+      ? {...t,state:"REJECTED",provisional:undefined,phase:undefined,reply:undefined,
+        error:typeof data.error==="string"?data.error:undefined,receiptId:id}:t);
+    return pending(typeof data.error==="string"?data.error:undefined);
+  }
+  if(result?.state==="BODY_WITHHELD_SOURCE_CHANGED")return turns.map(t=>(t.receiptId===id || t.id===id)
+    ? {id:t.id,input:"",state:"SOURCE_WITHHELD",receiptId:id}:t);
+  if(result && !Object.keys(result).length)return turns.map(t=>(t.receiptId===id || t.id===id)
+    ? {...t,state:"REPLY_UNAVAILABLE",reply:undefined,provisional:undefined,phase:undefined,receiptId:id}:t);
+  if(result?.state!=="SUBJECT_SEQUENCE_REVIEWED" || result.external_delivery!==false
+    || !Array.isArray(result.results) || result.results.length<2 || result.results.length>4)
+    return pending("SEQUENCE_REPLY_BINDING_INVALID");
+  const rows=result.results.map(record),safeId=(v:unknown,max=128)=>typeof v==="string" && new RegExp(`^[A-Za-z0-9._:-]{1,${max}}$`).test(v);
+  if(rows.some(r=>!r || !safeId(r.client_message_id,96) || r.external_delivery!==false))return pending("SEQUENCE_REPLY_BINDING_INVALID");
+  const checked=rows as Record<string,unknown>[],ids=checked.map(r=>String(r.client_message_id));
+  const mids=checked.filter(r=>safeId(r.message_memory_id)).map(r=>String(r.message_memory_id));
+  const restored=!members.length && turns.some(t=>t.id===id && t.pendingReceipt);
+  if(new Set(ids).size!==ids.length || new Set(mids).size!==mids.length
+    || (!restored && (members.length!==ids.length || members.some(t=>!ids.includes(t.id)))))
+    return pending("SEQUENCE_REPLY_BINDING_INVALID");
+  if(checked.some(r=>!Array.isArray(r.respond_to_memory_ids) || r.respond_to_memory_ids.length>4
+    || r.respond_to_memory_ids.some(mid=>!safeId(mid) || !mids.includes(String(mid)))
+    || (r.text!==undefined && r.text!==null && (typeof r.text!=="string" || [...r.text].length>16384))
+    || (typeof r.text==="string" && r.text.length>0 && (!safeId(r.message_memory_id)
+      || !r.respond_to_memory_ids.includes(r.message_memory_id)))))return pending("SEQUENCE_REPLY_BINDING_INVALID");
+  const displayed=checked.map((row,index):Turn=>{
+    const turn=members.find(t=>t.id===row.client_message_id) || {id:String(row.client_message_id),input:"",state:"UNKNOWN"};
+    const route=record(row.route),model=route?.returned_model_id || route?.remote_model_id;
+    const common={...turn,receiptId:id,provisional:undefined,phase:undefined,error:undefined,
+      remembered:row.raw_body_persisted===true,
+      exchangeId:safeId(row.exchange_record_id)?String(row.exchange_record_id):undefined,
+      provider:typeof row.provider_state==="string" && row.provider_state.length<=128?row.provider_state:undefined,
+      model:typeof model==="string" && model.length<=128?model:undefined};
+    if(typeof row.text==="string" && row.text.length)return {...common,state:"VERIFIED",reply:row.text,pendingReceipt:false};
+    if(row.render_state==="DEFERRED_TO_CONTINUATION" && checked.slice(index+1).some(later=>
+      typeof later.text==="string" && later.text.length>0 && (later.respond_to_memory_ids as unknown[]).includes(row.message_memory_id)))
+      return {...common,state:"GROUPED",reply:undefined};
+    if(["ALREADY_REVIEWED_NO_REPLAY","ALREADY_REVIEWED_SOURCE_RETIRED"].includes(String(row.state)))
+      return {...common,state:"ALREADY_REVIEWED",reply:undefined};
+    return {...common,state:turn.id===id?"UNKNOWN":"GROUP_PENDING",reply:undefined,error:"SEQUENCE_REPLY_BINDING_INVALID"};
+  });
+  if(displayed.some(t=>t.error==="SEQUENCE_REPLY_BINDING_INVALID"))return pending("SEQUENCE_REPLY_BINDING_INVALID");
+  if(restored){
+    const replies=displayed.filter(t=>Boolean(t.reply));
+    return [...turns.filter(t=>t.id!==id),...(replies.length?replies:[{id,input:"",state:"ALREADY_REVIEWED",receiptId:id}])].slice(-32);
+  }
+  return turns.map(t=>displayed.find(row=>row.id===t.id) || t);
+}
+
 /** Only source-validated, explicitly retained server exchanges are restored.
  * A client cache is never the memory authority. Uncertain requests are not replayed.
  */

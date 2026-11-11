@@ -1,5 +1,6 @@
 import { test, expect } from "@playwright/test";
-import { readFile, mkdir } from "node:fs/promises";
+import { readFile, mkdir, writeFile } from "node:fs/promises";
+import { dirname, join } from "node:path";
 test("V4 real connection rejects undispatched model calls and respects a topic boundary", async ({ page }, info) => {
   const target = JSON.parse(await readFile(process.env.NANA_V2_TARGET!, "utf8"));
   await page.goto("/index.html?source=live#chat");
@@ -249,5 +250,46 @@ test("V4 real Core model setup resumes its original receipt after lost ACK",asyn
   expect(settings.routes).toEqual(prior.routes);
   expect(writes.some(path=>['/messages','/providers/credential','/providers/models','/host/operations','/host/confirmations'].some(end=>path.endsWith(end)))).toBe(false);
   expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
+  expect(errors).toEqual([]);
+});
+
+test("V4 real TLS queued sequence preserves three original C inputs in one reply",async({page})=>{
+  const target=JSON.parse(await readFile(process.env.NANA_V2_TARGET!,"utf8"));
+  expect(target.synthetic_sequence_qualification).toBe(true);
+  const marker=join(dirname(process.env.NANA_V2_TARGET!),'release.fixture');
+  expect(target.synthetic_release_marker).toBe(marker);
+  const errors:string[]=[];page.on('pageerror',error=>errors.push(error.message));
+  await page.goto('/index.html?source=live#chat');
+  await page.getByLabel('Subject ID',{exact:true}).fill(target.subject_id);
+  await page.getByLabel('会话口令',{exact:true}).fill('TEST_ONLY_NOT_SECRET_web_password');
+  await page.getByRole('button',{name:'安全连接',exact:true}).click();
+  const input=page.getByLabel('和奈奈说点什么');await expect(input).toBeEnabled();
+  const before=await(await page.request.get('/api/nana-space/v2/bootstrap')).json();
+  expect(before.capabilities.conversation_sequence).toBe(true);
+  expect(before.data.host.owner_managed).toBe(false); // Explicit in-process qualification owner.
+  await input.fill('SYNTHETIC first stream held for queued inputs');
+  await page.getByRole('button',{name:'发送',exact:true}).click();
+  await expect(page.getByLabel('生成中的临时回复',{exact:true})).toBeVisible();
+  for(const text of ['SYNTHETIC first additional fact','SYNTHETIC second additional fact','SYNTHETIC third additional fact']){
+    await input.fill(text);await page.getByRole('button',{name:'发送',exact:true}).click();
+  }
+  await expect(page.getByRole('button',{name:'取消这条待发消息'})).toHaveCount(3);
+  const completed=page.waitForResponse(response=>response.url().endsWith('/messages/sequence') && response.request().method()==='POST');
+  await writeFile(marker,'release');
+  const response=await completed,value=await response.json(),body=response.request().postDataJSON();
+  expect(response.status()).toBe(200);expect(value.data.state).toBe('VERIFIED');
+  expect(value.subject_id).toBe(target.subject_id);expect(value.lineage_binding).toBe(target.lineage_binding);
+  expect(value.owner_epoch).toBe(before.owner_epoch);
+  expect(body.messages).toHaveLength(3);
+  expect(value.data.result.coalesced).toBe(true);expect(value.data.result.external_delivery).toBe(false);
+  const rows=value.data.result.results;
+  expect(rows.map((r:any)=>r.client_message_id)).toEqual(body.messages.map((r:any)=>r.client_message_id));
+  expect(rows.slice(0,2).every((r:any)=>r.text===null && r.render_state==='DEFERRED_TO_CONTINUATION')).toBe(true);
+  expect(rows[2].respond_to_memory_ids).toEqual(rows.map((r:any)=>r.message_memory_id));
+  await expect(page.locator('.live-reply').filter({hasText:'SYNTHETIC combined response to 3'})).toHaveCount(1);
+  await expect(page.locator('.live-reply')).toHaveCount(2);
+  await expect(page.getByText('回应见下方',{exact:true})).toHaveCount(2);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
+  expect(await page.evaluate(()=>JSON.stringify(Object.entries(localStorage)))).not.toContain('SYNTHETIC first additional fact');
   expect(errors).toEqual([]);
 });

@@ -1,0 +1,74 @@
+[WebServer] (node:35683) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:35696) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 2 tests using 1 worker
+
+(node:35714) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/2] [desktop] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps RETENTION boundaries before dispatch
+  1) [desktop] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps RETENTION boundaries before dispatch 
+
+    Test timeout of 30000ms exceeded.
+
+    Error Context: ../../../../tmp/nana-sequence-ui-options-fixed-output/v3-SYNTHETIC-queued-sequen-97c7a--boundaries-before-dispatch-desktop/error-context.md
+
+
+(node:35847) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[2/2] [desktop] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps PRIVACY boundaries before dispatch
+  2) [desktop] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps PRIVACY boundaries before dispatch 
+
+    Test timeout of 30000ms exceeded.
+
+    Error: locator.click: Test timeout of 30000ms exceeded.
+    Call log:
+      - waiting for getByRole('button', { name: '发送', exact: true })
+        - locator resolved to <button class="v3-send" aria-label="发送">…</button>
+      - attempting click action
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <label class="v4-remember">…</label> from <details open="" class="next-send-options">…</details> subtree intercepts pointer events
+        - retrying click action
+        - waiting 20ms
+        2 × waiting for element to be visible, enabled and stable
+          - element is visible, enabled and stable
+          - scrolling into view if needed
+          - done scrolling
+          - <label class="v4-remember">…</label> from <details open="" class="next-send-options">…</details> subtree intercepts pointer events
+        - retrying click action
+          - waiting 100ms
+        55 × waiting for element to be visible, enabled and stable
+           - element is visible, enabled and stable
+           - scrolling into view if needed
+           - done scrolling
+           - <label class="v4-remember">…</label> from <details open="" class="next-send-options">…</details> subtree intercepts pointer events
+         - retrying click action
+           - waiting 500ms
+        - waiting for element to be visible, enabled and stable
+
+
+      1249 |     if(i===1 && boundary==='RETENTION')await page.getByLabel('记住这次共同经历',{exact:false}).check();
+      1250 |     if(i===1 && boundary==='PRIVACY')await page.getByLabel('本次包含个人内容',{exact:false}).check();
+    > 1251 |     await page.getByRole('button',{name:'发送',exact:true}).click();
+           |                                                           ^
+      1252 |   }
+      1253 |   for(let i=0;i<=texts.length;i++){
+      1254 |     await expect.poll(()=>state.messageRoutes?.length).toBe(i+1);
+        at /workspace/nana-unified-release/apps/nana-space/tests/v3.spec.ts:1251:59
+
+    Error Context: ../../../../tmp/nana-sequence-ui-options-fixed-output/v3-SYNTHETIC-queued-sequen-85853--boundaries-before-dispatch-desktop/error-context.md
+
+
+  2 failed
+    [desktop] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps RETENTION boundaries before dispatch 
+    [desktop] › tests/v3.spec.ts:1237:63 › SYNTHETIC queued sequence keeps PRIVACY boundaries before dispatch 

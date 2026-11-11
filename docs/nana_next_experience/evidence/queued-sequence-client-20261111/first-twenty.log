@@ -1,0 +1,46 @@
+[WebServer] (node:33361) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+[WebServer] (node:33374) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+
+Running 20 tests using 1 worker
+
+(node:33392) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/20] [desktop] › tests/v3.spec.ts:1163:1 › SYNTHETIC local chat inbox waits, can cancel, and sends remaining turns in order
+[2/20] [desktop] › tests/v3.spec.ts:1192:32 › SYNTHETIC queued sequence one bound reply
+[3/20] [desktop] › tests/v3.spec.ts:1192:32 › SYNTHETIC queued sequence UNKNOWN verifies parent
+[4/20] [desktop] › tests/v3.spec.ts:1237:1 › SYNTHETIC local chat inbox clears queued text after an unknown original receipt
+[5/20] [desktop] › tests/v3.spec.ts:1257:1 › SYNTHETIC local chat inbox expires unsent bodies while the original request is pending
+(node:33659) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[6/20] [phone-360] › tests/v3.spec.ts:1163:1 › SYNTHETIC local chat inbox waits, can cancel, and sends remaining turns in order
+[7/20] [phone-360] › tests/v3.spec.ts:1192:32 › SYNTHETIC queued sequence one bound reply
+[8/20] [phone-360] › tests/v3.spec.ts:1192:32 › SYNTHETIC queued sequence UNKNOWN verifies parent
+[9/20] [phone-360] › tests/v3.spec.ts:1237:1 › SYNTHETIC local chat inbox clears queued text after an unknown original receipt
+[10/20] [phone-360] › tests/v3.spec.ts:1257:1 › SYNTHETIC local chat inbox expires unsent bodies while the original request is pending
+(node:33925) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[11/20] [phone-390] › tests/v3.spec.ts:1163:1 › SYNTHETIC local chat inbox waits, can cancel, and sends remaining turns in order
+[12/20] [phone-390] › tests/v3.spec.ts:1192:32 › SYNTHETIC queued sequence one bound reply
+[13/20] [phone-390] › tests/v3.spec.ts:1192:32 › SYNTHETIC queued sequence UNKNOWN verifies parent
+[14/20] [phone-390] › tests/v3.spec.ts:1237:1 › SYNTHETIC local chat inbox clears queued text after an unknown original receipt
+[15/20] [phone-390] › tests/v3.spec.ts:1257:1 › SYNTHETIC local chat inbox expires unsent bodies while the original request is pending
+(node:34200) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[16/20] [phone-412] › tests/v3.spec.ts:1163:1 › SYNTHETIC local chat inbox waits, can cancel, and sends remaining turns in order
+[17/20] [phone-412] › tests/v3.spec.ts:1192:32 › SYNTHETIC queued sequence one bound reply
+[18/20] [phone-412] › tests/v3.spec.ts:1192:32 › SYNTHETIC queued sequence UNKNOWN verifies parent
+[19/20] [phone-412] › tests/v3.spec.ts:1237:1 › SYNTHETIC local chat inbox clears queued text after an unknown original receipt
+[20/20] [phone-412] › tests/v3.spec.ts:1257:1 › SYNTHETIC local chat inbox expires unsent bodies while the original request is pending
+  20 passed (29.4s)
