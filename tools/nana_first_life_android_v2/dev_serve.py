@@ -29,8 +29,12 @@ def main():
     parser.add_argument("--work", type=Path, required=True)
     parser.add_argument("--port", type=int, default=18445)
     parser.add_argument("--allow-provider-configuration", action="store_true", help="Explicit synthetic development-only config test opt-in")
+    parser.add_argument("--web-root",type=Path,help="Explicit compiled Web assets for the same source qualification")
+    parser.add_argument("--allow-provider-runtime-budget",action="store_true",help="Explicit fresh DEV metadata/budget setting qualification; no model key or inference")
     parser.add_argument("--allow-private-context", action="store_true", help="Synthetic owned DEV only: explicit PERSONAL surface retention and host scope")
     a = parser.parse_args()
+    if a.allow_provider_runtime_budget and not a.allow_provider_configuration:
+        raise ValueError("RUNTIME_BUDGET_TEST_REQUIRES_PROVIDER_CONFIGURATION_OPT_IN")
     work = a.work.absolute()
     if work.exists():
         raise ValueError("FRESH_DEVELOPMENT_DIRECTORY_REQUIRED")
@@ -57,7 +61,8 @@ def main():
     supervisor = Supervisor(home, work / "host", binding, [release], active_release="owned-dev")
     supervisor.start()
     auth = AuthService(work / "auth.json", password=PW, roles=tuple(Role))
-    service = GatewayService(supervisor, auth, work / "host", allow_provider_configuration=a.allow_provider_configuration)
+    service = GatewayService(supervisor, auth, work / "host", allow_provider_configuration=a.allow_provider_configuration,
+                             allow_provider_runtime_budget=a.allow_provider_runtime_budget)
     subprocess.run(
         [
             "openssl",
@@ -88,7 +93,7 @@ def main():
         ("127.0.0.1", a.port),
         service,
         public_origin=f"https://127.0.0.1:{a.port}",
-        web_root=ROOT / "apps/nana-space/dist",
+        web_root=a.web_root or ROOT / "apps/nana-space/dist",
         tls_context=tls,
     )
     (work / "target.json").write_text(
@@ -99,6 +104,7 @@ def main():
                 "origin": f"https://127.0.0.1:{a.port}",
                 "realm": "OWNED_DEVELOPMENT_ONLY",
                 "private_context_qualification": a.allow_private_context,
+                "runtime_budget_qualification":a.allow_provider_runtime_budget,
             }
         )
     )

@@ -146,3 +146,60 @@ test("explicit private context uses the real Core and current device scope", asy
   await mkdir("test-results/private-screens", {recursive: true});
   await page.screenshot({path: `test-results/private-screens/${info.project.name}-private-memory.png`, fullPage: true});
 });
+
+test("V4 real Core runtime budget saves through TLS Web without a model call or restart",async({page},info)=>{
+  const target=JSON.parse(await readFile(process.env.NANA_V2_TARGET!,"utf8"));
+  expect(target.runtime_budget_qualification).toBe(true);
+  const errors:string[]=[],writes:string[]=[];
+  page.on('pageerror',error=>errors.push(error.message));
+  page.on('request',request=>{if(request.method()!=='GET')writes.push(new URL(request.url()).pathname);});
+  await page.goto('/index.html?source=live#models');
+  await page.getByLabel('Subject ID',{exact:true}).fill(target.subject_id);
+  await page.getByLabel('会话口令',{exact:true}).fill('TEST_ONLY_NOT_SECRET_web_password');
+  await page.getByRole('button',{name:'安全连接',exact:true}).click();
+  await expect(page.locator('.next-setup')).toBeVisible();
+  const before=await(await page.request.get('/api/nana-space/v2/providers/runtime')).json();
+  expect(before.subject_id).toBe(target.subject_id);
+  expect(before.data.network_calls).toBe(0);
+  const cookie=(await page.context().cookies()).find(c=>c.name==='__Host-nana_v2');
+  expect(cookie?.httpOnly).toBe(true);expect(cookie?.secure).toBe(true);expect(cookie?.sameSite).toBe('Strict');
+  const setup=page.locator('.next-setup');
+  const providerSaved=page.waitForResponse(response=>response.url().endsWith('/providers/commands')
+    && response.request().method()==='POST' && response.request().postDataJSON().command.operation==='UPSERT_PROVIDER');
+  await setup.getByRole('button',{name:'保存模型配置',exact:true}).click();
+  const profileResponse=await providerSaved;
+  expect((await profileResponse.json()).data.state).toBe('VERIFIED');
+  const pid=profileResponse.request().postDataJSON().command.provider.provider_profile_id;
+  await expect(setup).toContainText('供应商与模型已保存');
+  const panel=page.getByLabel('模型运行预算',{exact:true});
+  await expect(panel).toBeVisible();
+  await panel.getByLabel('连接服务商',{exact:true}).selectOption(pid);
+  const day=7+['desktop','phone-360','phone-390','phone-412'].indexOf(info.project.name);
+  await panel.getByLabel('每日请求上限',{exact:true}).fill(String(day));
+  const save=panel.getByRole('button',{name:'保存运行预算',exact:true});
+  await expect(save).toBeDisabled();
+  await panel.getByRole('checkbox',{name:/我允许向 api.deepseek.com/}).check();
+  const changed=page.waitForResponse(response=>response.url().endsWith('/providers/runtime') && response.request().method()==='POST');
+  await save.click();
+  const response=await changed,value=await response.json();
+  expect(value.subject_id).toBe(target.subject_id);
+  expect(value.lineage_binding).toBe(target.lineage_binding);
+  expect(value.data.state).toBe('VERIFIED');
+  expect(value.owner_epoch).toBe(before.owner_epoch);
+  expect(value.data.result).toMatchObject({provider_profile_id:pid,provider_host:'api.deepseek.com',
+    runtime_applied:false,restart_required:true,network_calls:0,credential_resolved:false,subject_history_changed:false,
+    existing_mission_caps_preserved:true,live_model_test:'NOT_RUN'});
+  await expect(page.getByText('运行预算与连接域名已保存。请明确重启以应用；尚未调用模型。',{exact:true})).toBeVisible();
+  await page.reload();
+  await expect(page.getByLabel('模型运行预算',{exact:true}).getByLabel('每日请求上限',{exact:true})).toHaveValue(String(day));
+  const current=await(await page.request.get('/api/nana-space/v2/providers/runtime')).json();
+  expect(current.subject_id).toBe(target.subject_id);expect(current.lineage_binding).toBe(target.lineage_binding);
+  expect(current.data.provider_hosts).toContain('api.deepseek.com');
+  expect(current.data.limits.total_calls).toBe(before.data.limits.total_calls);
+  expect(current.data.limits.total_reserved_cost_micro).toBe(before.data.limits.total_reserved_cost_micro);
+  expect(current.data.network_calls).toBe(0);
+  expect(writes.filter(path=>path.endsWith('/providers/runtime'))).toHaveLength(1);
+  expect(writes.some(path=>['/messages','/providers/credential','/host/confirmations','/host/operations'].some(end=>path.endsWith(end)))).toBe(false);
+  expect(await page.evaluate(()=>document.documentElement.scrollWidth<=innerWidth+1)).toBe(true);
+  expect(errors).toEqual([]);
+});

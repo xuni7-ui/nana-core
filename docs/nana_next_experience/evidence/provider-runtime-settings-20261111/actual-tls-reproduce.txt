@@ -1,0 +1,26 @@
+Controlled reproduction only. Fresh owned DEV identity, no production home/key/model call.
+Requires the same configured Python3.12/private supported SQLite environment and existing npm dependencies/Chromium.
+Keep the original0mission call/reservation ceilings. Do not provide a real credential.
+
+Terminal1: compile current source Web into a separate directory.
+cd /workspace/nana-unified-release/apps/nana-space
+npx tsc --noEmit --incremental --tsBuildInfoFile /tmp/nana-budget-repro.tsbuildinfo
+npx vite build --mode live --outDir /tmp/nana-budget-repro-dist
+
+Terminal2: run the ORIGINAL existing development server on its unused default loopback test port.
+The --work directory must not exist; the tool refuses reused homes rather than resetting them.
+cd /workspace/nana-unified-release
+PYTHONDONTWRITEBYTECODE=1 PYTHONPATH="$PWD:$PWD/src" /workspace/nana-test-env/bin/python -m tools.nana_first_life_android_v2.dev_serve --work /tmp/nana-budget-repro --port 18445 --allow-provider-configuration --allow-provider-runtime-budget --web-root /tmp/nana-budget-repro-dist
+
+After OWNED_DEVELOPMENT_READY, Terminal3:
+cd /workspace/nana-unified-release/apps/nana-space
+NANA_V2_TARGET=/tmp/nana-budget-repro/target.json npx playwright test --config playwright.unified.config.ts --grep 'V4 real Core runtime budget' --reporter=line --output=/tmp/nana-budget-repro-browser
+
+Stop Terminal2 with Ctrl-C. Its original finally closes the TLS listener and stops/closes only the owned development Supervisor.
+The self-signed loopback certificate is accepted only by this existing browser configuration; never install its trust into a host or APK.
+No additional API/provider test, restart, genesis of a formal Subject, private-history or production action is implied.
+
+The recorded run used18447 with a temporary override of the SAME unified Playwright config baseURL;
+desktop then360/390/412, followed by the additional desktop cookie/epoch check.
+The working-source/Web hashes and original post-shutdown read-only counters are in nana-runtime-budget-live-result.json.
+This is source DEV integration, not installed-bundle/APK/real-provider/phone/production qualification.

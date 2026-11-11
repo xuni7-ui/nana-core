@@ -1,0 +1,87 @@
+
+Running 4 tests using 1 worker
+
+(node:23692) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/4] [desktop] › tests/unified.spec.ts:150:1 › V4 real Core runtime budget saves through TLS Web without a model call or restart
+  1) [desktop] › tests/unified.spec.ts:150:1 › V4 real Core runtime budget saves through TLS Web without a model call or restart 
+
+    Test timeout of 45000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 45000ms exceeded.
+    Call log:
+      - waiting for getByLabel('模型运行预算', { exact: true }).getByLabel('连接服务商', { exact: true })
+
+
+      172 |   const panel=page.getByLabel('模型运行预算',{exact:true});
+      173 |   await expect(panel).toBeVisible();
+    > 174 |   await panel.getByLabel('连接服务商',{exact:true}).selectOption(pid);
+          |                                                ^
+      175 |   const day=7+['desktop','phone-360','phone-390','phone-412'].indexOf(info.project.name);
+      176 |   await panel.getByLabel('每日请求上限',{exact:true}).fill(String(day));
+      177 |   const save=panel.getByRole('button',{name:'保存运行预算',exact:true});
+        at /workspace/nana-unified-release/apps/nana-space/tests/unified.spec.ts:174:48
+
+    Error Context: ../../../../tmp/nana-runtime-budget-live-browser-results2/unified-V4-real-Core-runti-accbb-out-a-model-call-or-restart-desktop/error-context.md
+
+
+(node:23833) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[2/4] [phone-360] › tests/unified.spec.ts:150:1 › V4 real Core runtime budget saves through TLS Web without a model call or restart
+  2) [phone-360] › tests/unified.spec.ts:150:1 › V4 real Core runtime budget saves through TLS Web without a model call or restart 
+
+    Test timeout of 45000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 45000ms exceeded.
+    Call log:
+      - waiting for getByLabel('模型运行预算', { exact: true }).getByLabel('连接服务商', { exact: true })
+
+
+      172 |   const panel=page.getByLabel('模型运行预算',{exact:true});
+      173 |   await expect(panel).toBeVisible();
+    > 174 |   await panel.getByLabel('连接服务商',{exact:true}).selectOption(pid);
+          |                                                ^
+      175 |   const day=7+['desktop','phone-360','phone-390','phone-412'].indexOf(info.project.name);
+      176 |   await panel.getByLabel('每日请求上限',{exact:true}).fill(String(day));
+      177 |   const save=panel.getByRole('button',{name:'保存运行预算',exact:true});
+        at /workspace/nana-unified-release/apps/nana-space/tests/unified.spec.ts:174:48
+
+    Error Context: ../../../../tmp/nana-runtime-budget-live-browser-results2/unified-V4-real-Core-runti-accbb-out-a-model-call-or-restart-phone-360/error-context.md
+
+
+(node:23976) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[3/4] [phone-390] › tests/unified.spec.ts:150:1 › V4 real Core runtime budget saves through TLS Web without a model call or restart
+  3) [phone-390] › tests/unified.spec.ts:150:1 › V4 real Core runtime budget saves through TLS Web without a model call or restart 
+
+    Test timeout of 45000ms exceeded.
+
+    Error: locator.selectOption: Test timeout of 45000ms exceeded.
+    Call log:
+      - waiting for getByLabel('模型运行预算', { exact: true }).getByLabel('连接服务商', { exact: true })
+
+
+      172 |   const panel=page.getByLabel('模型运行预算',{exact:true});
+      173 |   await expect(panel).toBeVisible();
+    > 174 |   await panel.getByLabel('连接服务商',{exact:true}).selectOption(pid);
+          |                                                ^
+      175 |   const day=7+['desktop','phone-360','phone-390','phone-412'].indexOf(info.project.name);
+      176 |   await panel.getByLabel('每日请求上限',{exact:true}).fill(String(day));
+      177 |   const save=panel.getByRole('button',{name:'保存运行预算',exact:true});
+        at /workspace/nana-unified-release/apps/nana-space/tests/unified.spec.ts:174:48
+
+    Error Context: ../../../../tmp/nana-runtime-budget-live-browser-results2/unified-V4-real-Core-runti-accbb-out-a-model-call-or-restart-phone-390/error-context.md
+
+
+(node:24126) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[4/4] [phone-412] › tests/unified.spec.ts:150:1 › V4 real Core runtime budget saves through TLS Web without a model call or restart
+Terminated

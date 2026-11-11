@@ -1,0 +1,22 @@
+{
+  "source_commit": "6155149",
+  "run_id": 42925562440,
+  "conclusion": "success",
+  "tier": "TARGETED_NOT_FULL_RELEASE",
+  "core": {
+    "job_id": 130211269189,
+    "passed": 79,
+    "seconds": 62.25
+  },
+  "client": {
+    "job_id": 130211269138,
+    "unit_passed": 72,
+    "browser_passed": 72,
+    "browser_seconds": 58.2,
+    "build": "PASS",
+    "node_contract": "PASS"
+  },
+  "full_release_install_sandbox": "NOT_RUN_BY_DESIGN",
+  "real_model_calls": 0,
+  "production_changed": false
+}

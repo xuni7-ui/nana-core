@@ -1,0 +1,104 @@
+
+Running 4 tests using 1 worker
+
+(node:23091) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[1/4] [desktop] › tests/unified.spec.ts:150:1 › V4 real Core runtime budget saves through TLS Web without a model call or restart
+  1) [desktop] › tests/unified.spec.ts:150:1 › V4 real Core runtime budget saves through TLS Web without a model call or restart 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "54a11b99-11b9-480d-a9f0-675b8587ebb8"
+    Received: undefined
+
+      159 |   await page.getByRole('button',{name:'安全连接',exact:true}).click();
+      160 |   const before=await(await page.request.get('/api/nana-space/v2/providers/runtime')).json();
+    > 161 |   expect(before.subject_id).toBe(target.subject_id);
+          |                             ^
+      162 |   expect(before.data.network_calls).toBe(0);
+      163 |   const setup=page.locator('.next-setup');
+      164 |   const providerSaved=page.waitForResponse(response=>response.url().endsWith('/providers/commands')
+        at /workspace/nana-unified-release/apps/nana-space/tests/unified.spec.ts:161:29
+
+    Error Context: ../../../../tmp/nana-runtime-budget-live-browser-results/unified-V4-real-Core-runti-accbb-out-a-model-call-or-restart-desktop/error-context.md
+
+
+(node:23229) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[2/4] [phone-360] › tests/unified.spec.ts:150:1 › V4 real Core runtime budget saves through TLS Web without a model call or restart
+  2) [phone-360] › tests/unified.spec.ts:150:1 › V4 real Core runtime budget saves through TLS Web without a model call or restart 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "54a11b99-11b9-480d-a9f0-675b8587ebb8"
+    Received: undefined
+
+      159 |   await page.getByRole('button',{name:'安全连接',exact:true}).click();
+      160 |   const before=await(await page.request.get('/api/nana-space/v2/providers/runtime')).json();
+    > 161 |   expect(before.subject_id).toBe(target.subject_id);
+          |                             ^
+      162 |   expect(before.data.network_calls).toBe(0);
+      163 |   const setup=page.locator('.next-setup');
+      164 |   const providerSaved=page.waitForResponse(response=>response.url().endsWith('/providers/commands')
+        at /workspace/nana-unified-release/apps/nana-space/tests/unified.spec.ts:161:29
+
+    Error Context: ../../../../tmp/nana-runtime-budget-live-browser-results/unified-V4-real-Core-runti-accbb-out-a-model-call-or-restart-phone-360/error-context.md
+
+
+(node:23368) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[3/4] [phone-390] › tests/unified.spec.ts:150:1 › V4 real Core runtime budget saves through TLS Web without a model call or restart
+  3) [phone-390] › tests/unified.spec.ts:150:1 › V4 real Core runtime budget saves through TLS Web without a model call or restart 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "54a11b99-11b9-480d-a9f0-675b8587ebb8"
+    Received: undefined
+
+      159 |   await page.getByRole('button',{name:'安全连接',exact:true}).click();
+      160 |   const before=await(await page.request.get('/api/nana-space/v2/providers/runtime')).json();
+    > 161 |   expect(before.subject_id).toBe(target.subject_id);
+          |                             ^
+      162 |   expect(before.data.network_calls).toBe(0);
+      163 |   const setup=page.locator('.next-setup');
+      164 |   const providerSaved=page.waitForResponse(response=>response.url().endsWith('/providers/commands')
+        at /workspace/nana-unified-release/apps/nana-space/tests/unified.spec.ts:161:29
+
+    Error Context: ../../../../tmp/nana-runtime-budget-live-browser-results/unified-V4-real-Core-runti-accbb-out-a-model-call-or-restart-phone-390/error-context.md
+
+
+(node:23507) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+
+
+[4/4] [phone-412] › tests/unified.spec.ts:150:1 › V4 real Core runtime budget saves through TLS Web without a model call or restart
+  4) [phone-412] › tests/unified.spec.ts:150:1 › V4 real Core runtime budget saves through TLS Web without a model call or restart 
+
+    Error: expect(received).toBe(expected) // Object.is equality
+
+    Expected: "54a11b99-11b9-480d-a9f0-675b8587ebb8"
+    Received: undefined
+
+      159 |   await page.getByRole('button',{name:'安全连接',exact:true}).click();
+      160 |   const before=await(await page.request.get('/api/nana-space/v2/providers/runtime')).json();
+    > 161 |   expect(before.subject_id).toBe(target.subject_id);
+          |                             ^
+      162 |   expect(before.data.network_calls).toBe(0);
+      163 |   const setup=page.locator('.next-setup');
+      164 |   const providerSaved=page.waitForResponse(response=>response.url().endsWith('/providers/commands')
+        at /workspace/nana-unified-release/apps/nana-space/tests/unified.spec.ts:161:29
+
+    Error Context: ../../../../tmp/nana-runtime-budget-live-browser-results/unified-V4-real-Core-runti-accbb-out-a-model-call-or-restart-phone-412/error-context.md
+
+
+  4 failed
+    [desktop] › tests/unified.spec.ts:150:1 › V4 real Core runtime budget saves through TLS Web without a model call or restart 
+    [phone-360] › tests/unified.spec.ts:150:1 › V4 real Core runtime budget saves through TLS Web without a model call or restart 
+    [phone-390] › tests/unified.spec.ts:150:1 › V4 real Core runtime budget saves through TLS Web without a model call or restart 
+    [phone-412] › tests/unified.spec.ts:150:1 › V4 real Core runtime budget saves through TLS Web without a model call or restart 

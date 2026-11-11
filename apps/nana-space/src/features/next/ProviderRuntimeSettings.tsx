@@ -38,7 +38,7 @@ export function ProviderRuntimeSettings({data,disabled,onSave}:{data:unknown;dis
         per_call_reserved_cost_micro:reserve,consent:true}).catch(()=>{});
     }}>
       <div className="v3-form-grid">
-        <label>连接服务商<select disabled={disabled || !ready} value={providerId} onChange={event=>{
+        <label>连接服务商<select aria-label="连接服务商" disabled={disabled || !ready} value={providerId} onChange={event=>{
           setProviderId(event.target.value);setConsent(false);
           const selected=profiles.find(p=>p.provider_profile_id===event.target.value);
           setReserve(positive(limits.per_call_reserved_cost_micro,positive(selected?.per_call_reserved_cost_micro,1000)));

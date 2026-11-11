@@ -3482,3 +3482,10 @@ Android增2有限映射，javac未在PATH，本批无原生编译/APK/实机资�
 新增原生Git目录列表与可选轻量检出指令，不迁移或删除交付。34eabd7临时验证副本的源码工作树69548KiB（不含Git对象），省略三组约1339452KiB历史快照，150文件仍在索引；CLI帮助、原19项定向检查和77导航目标通过，按需恢复一个快照目录后无Git改动。首次列表漏tests的失败已修正；既有治理CI改在源码视图运行原检查，防止再次遗漏。
 
 主治理副本保持完整；文档明确完整回归/交付审阅前恢复全部工作树。以34eabd769ae375c6f6c8d606ff557945c8ccd8b3两份账本全文为底追加，无Core/客户端/封签交付/生产改动；回退仅撤销目录列表、文档与该CI配置。
+
+
+### 2026-11-11 · 运行预算真实TLS Web/BFF/原Core联调
+
+复用dev_serve/unified原工具，仅加显式DEV预算opt-in和编译Webroot参数。首4例登录Cookie竞态留错后等待真实已连接表单；精确label因内嵌option文本匹配失败，保留2timeout并终止该已定位重复失败run，生产控件补aria-label不放宽selector。桌面1通过4.6s→三手机宽度3通过14.3s，同一真实DEV Subject/lineage读回实际配置；另桌面1通过5.6s核Cookie安全属性与owner epoch不变。无HTTPmock、无自动重启/模型/Key请求。关停后原status实核runtimefalse，原只读DB1identity/0两类认知请求/0actions/grants，原总预算0不变，SQLite3.53.1。证据provider-runtime-settings含原始日志/源码Webhash/命令入口；临时TLS私钥不入库。
+
+615精确定向CI79Core/72frontend/72browser/build/Node成功，非后继aria源码全仓或安装/native/生产资格。BPR13正常merge保留双方账本，未应用sparse profile；新code/source真实进度优先于旧817续办文本。原A–H继续，CURRENT/APK/云/真实模型/手机/私史未动。

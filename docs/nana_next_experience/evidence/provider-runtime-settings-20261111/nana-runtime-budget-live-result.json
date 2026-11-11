@@ -1,0 +1,47 @@
+{
+  "realm": "OWNED_DEVELOPMENT_ONLY",
+  "subject_id": "54a11b99-11b9-480d-a9f0-675b8587ebb8",
+  "lineage_binding": "bc87f809621827dbeda0c2012cfe0cef0bafeadaff035df8f53cc9ff3a0db553",
+  "counts": {
+    "identities": 1,
+    "cognitive_requests": 0,
+    "runtime_cognition_calls": 0,
+    "actions": 0,
+    "grants": 0
+  },
+  "core_running_after_test": false,
+  "configuration_revision": 6,
+  "provider_hosts": [
+    "api.deepseek.com"
+  ],
+  "calls_per_day": 7,
+  "provider_timeout_ms": 120000,
+  "original_mission_calls_cap": 0,
+  "original_mission_reserve_cap": 0,
+  "python": "3.12.14 (main, Aug 25 2026, 14:00:49) [Clang 22.1.3 ]",
+  "sqlite": "3.53.1",
+  "base_source_commit": "6155149a101b83e05cf6c0f5cccde1d250664b53",
+  "working_source_sha256": {
+    "src/nana_core/life/live_api/provider_settings.py": "103bd0a52391a99dad0b390b0f766ddb0ec112a0f225c6be2f2f2796f4507497",
+    "src/nana_core/life/live_api/bridge.py": "841c868b5289113ccd9ec301c028c218213a586a24a59de71b60c9687e10b38c",
+    "src/nana_core/life/live_api/server.py": "7046f6cb82eaf8dffd317c6d884e88c616204a6391fb614736755da13b735b7b",
+    "src/nana_core/life/config.py": "2c424b279aac44574e23e593c1c196a1aa77f2173b1ed77cd211f0103c34e586",
+    "apps/nana-space/src/features/next/ProviderRuntimeSettings.tsx": "b7eed6b873f890ff545902223db326e53bc1a2cb772c1a0e98f6a8c7ea15dfba",
+    "apps/nana-space/src/features/LiveSpace.tsx": "4483131a55d7bad0f1cb8d02349208b4b2d2b9fb8f6a374adfb19cf8f6bf9c2e",
+    "apps/nana-space/src/data/v2.ts": "e6bf12582ecf9e52b5ece909c2fd589d40332be593d25342ebf3da47dd855f06",
+    "tools/nana_first_life_android_v2/dev_serve.py": "d737d1b56072387b6afacc72f670906e81647626e1c44e2a390acf65a057fe43",
+    "apps/nana-space/tests/unified.spec.ts": "1c25af666393e2ae664d281d80cd2c98a753020e8f9af55d4ba5f0bf0610eb2e"
+  },
+  "web_manifest_sha256": "135d455e776ac8d8ec48974b2d510da742125ea6b33ca04330e4d720d512e10d",
+  "controlled_tls_browser": {
+    "desktop": "PASS4.6s",
+    "phone_360_390_412": "PASS3cases14.3s",
+    "extra_desktop_cookie_epoch": "PASS5.6s"
+  },
+  "actual_provider_calls": 0,
+  "physical_phone": "NOT_RUN",
+  "independent_installed_bundle": "NOT_RUN",
+  "CURRENT_updated": false,
+  "production_changed": false,
+  "runtime_stop_verified_from_original_status": true
+}
