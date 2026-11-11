@@ -1,0 +1,7 @@
+{
+  "src/nana_core/life/application.py": "c64d8f7bda98a0debd621601e93a015b77ec28d9faf3bf22ca4b27aca0522761",
+  "src/nana_core/life/dialogue_contracts.py": "b6644b4093dd775c71c0bfd6dd1926459ef4c1a07441e56fbf86be6927a22143",
+  "src/nana_core/continuity/world_loop/cognition.py": "24ce1bbac46a2b1bcc19025ecd92f462b8a1ad0efb68860bdeecf8c63fd5b088",
+  "tests/independent_life/test_dialogue.py": "b2d863d6112ef72eb85c7d000c15dd7dea15027d470ae6e18dd196e2fa89aced",
+  ".github/workflows/nana-next-qualification.yml": "60b7dbbf273e005d5e24e1d753154f1916b8518ff64ef5192e97aa2a93c407ae"
+}

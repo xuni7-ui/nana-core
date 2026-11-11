@@ -3489,3 +3489,8 @@ Android增2有限映射，javac未在PATH，本批无原生编译/APK/实机资�
 复用dev_serve/unified原工具，仅加显式DEV预算opt-in和编译Webroot参数。首4例登录Cookie竞态留错后等待真实已连接表单；精确label因内嵌option文本匹配失败，保留2timeout并终止该已定位重复失败run，生产控件补aria-label不放宽selector。桌面1通过4.6s→三手机宽度3通过14.3s，同一真实DEV Subject/lineage读回实际配置；另桌面1通过5.6s核Cookie安全属性与owner epoch不变。无HTTPmock、无自动重启/模型/Key请求。关停后原status实核runtimefalse，原只读DB1identity/0两类认知请求/0actions/grants，原总预算0不变，SQLite3.53.1。证据provider-runtime-settings含原始日志/源码Webhash/命令入口；临时TLS私钥不入库。
 
 615精确定向CI79Core/72frontend/72browser/build/Node成功，非后继aria源码全仓或安装/native/生产资格。BPR13正常merge保留双方账本，未应用sparse profile；新code/source真实进度优先于旧817续办文本。原A–H继续，CURRENT/APK/云/真实模型/手机/私史未动。
+
+
+### 2026-11-11 · 同一接收者的临时对话连续性
+
+原LifeApplication六话轮历史只按topic/privacy筛选；原版不同thread/binding/local三项均泄入另一接收者的瞬时原话，首错保留。现每条volatile turn带原平台/绑定/会话，装配前匹配；原CognitionSession独立拒绝不匹配。默认None省略兼容旧local wire，不新增Store/表/主体，不自动持久化或全局禁用记忆。49原dialogue/queue/stream/history/attribution通过25.64s；另伪造接收者1通过0.94s（-k其余27deselected如实保留），随后原surface/platform5通过1.65s。CI原affected group覆盖该合同/认知与history，不重复全发行。证据recipient-history-20261111。只资格临时history边界，不冒充全记忆接收者隔离、多消息C合并、真实投递/自然度/native/生产。原A–H继续，模型向导断点续配为下一开发。

@@ -1,0 +1,124 @@
+FFF                                                                      [100%]
+=================================== FAILURES ===================================
+___ test_transient_dialogue_history_follows_recipient_not_just_topic[thread] ___
+
+tmp_path = PosixPath('/tmp/nana-recipient-before/test_transient_dialogue_histor0')
+other = 'thread'
+
+    @pytest.mark.parametrize('other', ['thread', 'binding', 'local'])
+    def test_transient_dialogue_history_follows_recipient_not_just_topic(tmp_path, other):
+        from nana_core.life.config import update_config
+        from nana_core.life.surfaces import SurfaceBinding, SurfaceObservation
+        home = tmp_path / 'home'; cfg = initialize(home, active=0)
+        bindings = tuple(SurfaceBinding(binding_id=name, platform='nana.space',
+            surface='chat.direct', adapter='shadow.local') for name in ('chat.first', 'chat.second'))
+        update_config(home, cfg.model_copy(update={'revision':cfg.revision+1,
+            'surface_bindings':bindings}), expected_revision=cfg.revision)
+        with relay(home, 'CHAT') as (router, requests), LifeApplication(home, clock=VirtualClock(), router=router) as app:
+            app.pause(); identity=app.runtime.identity_id
+            def send(event, text, binding='chat.first', thread='recipient.first'):
+                return app.surfaces.receive(SurfaceObservation(binding_id=binding,
+                    event_id=event, thread_id=thread, text=text))
+            first=send('one', 'SYNTHETIC_RECIPIENT_FIRST secret current thought')
+            same=send('two', 'SYNTHETIC same-recipient continuation')
+            assert same['render_state']=='UNVERIFIED_MODEL_WORDING'
+            assert any(t['message_memory_id']==first['message_memory_id']
+                for t in requests[2]['role_input']['dialogue']['recent_turns'])
+            if other=='local':
+                result=app.chat('SYNTHETIC_LOCAL other recipient', privacy='PROJECT', message_id='local-other')
+            else:
+                result=send('other', 'SYNTHETIC_OTHER_RECIPIENT current thought',
+                    binding='chat.second' if other=='binding' else 'chat.first',
+                    thread='recipient.other' if other=='thread' else 'recipient.first')
+            assert result['render_state']=='UNVERIFIED_MODEL_WORDING'
+            for request in requests[4:6]:
+>               assert request['role_input']['dialogue']['recent_turns']==[]
+E               AssertionError: assert [{'message_me...6133a'], ...}] == []
+E                 
+E                 Left contains 4 more items, first extra item: {'message_memory_id': '84e5a710-2eb8-418b-85ae-b2ddc03a8acc', 'privacy_class': 'PROJECT', 'speaker': 'USER', 'support_memory_ids': [], ...}
+E                 Use -v to get more diff
+
+tests/independent_life/test_dialogue.py:299: AssertionError
+__ test_transient_dialogue_history_follows_recipient_not_just_topic[binding] ___
+
+tmp_path = PosixPath('/tmp/nana-recipient-before/test_transient_dialogue_histor1')
+other = 'binding'
+
+    @pytest.mark.parametrize('other', ['thread', 'binding', 'local'])
+    def test_transient_dialogue_history_follows_recipient_not_just_topic(tmp_path, other):
+        from nana_core.life.config import update_config
+        from nana_core.life.surfaces import SurfaceBinding, SurfaceObservation
+        home = tmp_path / 'home'; cfg = initialize(home, active=0)
+        bindings = tuple(SurfaceBinding(binding_id=name, platform='nana.space',
+            surface='chat.direct', adapter='shadow.local') for name in ('chat.first', 'chat.second'))
+        update_config(home, cfg.model_copy(update={'revision':cfg.revision+1,
+            'surface_bindings':bindings}), expected_revision=cfg.revision)
+        with relay(home, 'CHAT') as (router, requests), LifeApplication(home, clock=VirtualClock(), router=router) as app:
+            app.pause(); identity=app.runtime.identity_id
+            def send(event, text, binding='chat.first', thread='recipient.first'):
+                return app.surfaces.receive(SurfaceObservation(binding_id=binding,
+                    event_id=event, thread_id=thread, text=text))
+            first=send('one', 'SYNTHETIC_RECIPIENT_FIRST secret current thought')
+            same=send('two', 'SYNTHETIC same-recipient continuation')
+            assert same['render_state']=='UNVERIFIED_MODEL_WORDING'
+            assert any(t['message_memory_id']==first['message_memory_id']
+                for t in requests[2]['role_input']['dialogue']['recent_turns'])
+            if other=='local':
+                result=app.chat('SYNTHETIC_LOCAL other recipient', privacy='PROJECT', message_id='local-other')
+            else:
+                result=send('other', 'SYNTHETIC_OTHER_RECIPIENT current thought',
+                    binding='chat.second' if other=='binding' else 'chat.first',
+                    thread='recipient.other' if other=='thread' else 'recipient.first')
+            assert result['render_state']=='UNVERIFIED_MODEL_WORDING'
+            for request in requests[4:6]:
+>               assert request['role_input']['dialogue']['recent_turns']==[]
+E               AssertionError: assert [{'message_me...db5a1'], ...}] == []
+E                 
+E                 Left contains 4 more items, first extra item: {'message_memory_id': '3325eba4-e10f-43c6-8a84-76ba64050511', 'privacy_class': 'PROJECT', 'speaker': 'USER', 'support_memory_ids': [], ...}
+E                 Use -v to get more diff
+
+tests/independent_life/test_dialogue.py:299: AssertionError
+___ test_transient_dialogue_history_follows_recipient_not_just_topic[local] ____
+
+tmp_path = PosixPath('/tmp/nana-recipient-before/test_transient_dialogue_histor2')
+other = 'local'
+
+    @pytest.mark.parametrize('other', ['thread', 'binding', 'local'])
+    def test_transient_dialogue_history_follows_recipient_not_just_topic(tmp_path, other):
+        from nana_core.life.config import update_config
+        from nana_core.life.surfaces import SurfaceBinding, SurfaceObservation
+        home = tmp_path / 'home'; cfg = initialize(home, active=0)
+        bindings = tuple(SurfaceBinding(binding_id=name, platform='nana.space',
+            surface='chat.direct', adapter='shadow.local') for name in ('chat.first', 'chat.second'))
+        update_config(home, cfg.model_copy(update={'revision':cfg.revision+1,
+            'surface_bindings':bindings}), expected_revision=cfg.revision)
+        with relay(home, 'CHAT') as (router, requests), LifeApplication(home, clock=VirtualClock(), router=router) as app:
+            app.pause(); identity=app.runtime.identity_id
+            def send(event, text, binding='chat.first', thread='recipient.first'):
+                return app.surfaces.receive(SurfaceObservation(binding_id=binding,
+                    event_id=event, thread_id=thread, text=text))
+            first=send('one', 'SYNTHETIC_RECIPIENT_FIRST secret current thought')
+            same=send('two', 'SYNTHETIC same-recipient continuation')
+            assert same['render_state']=='UNVERIFIED_MODEL_WORDING'
+            assert any(t['message_memory_id']==first['message_memory_id']
+                for t in requests[2]['role_input']['dialogue']['recent_turns'])
+            if other=='local':
+                result=app.chat('SYNTHETIC_LOCAL other recipient', privacy='PROJECT', message_id='local-other')
+            else:
+                result=send('other', 'SYNTHETIC_OTHER_RECIPIENT current thought',
+                    binding='chat.second' if other=='binding' else 'chat.first',
+                    thread='recipient.other' if other=='thread' else 'recipient.first')
+            assert result['render_state']=='UNVERIFIED_MODEL_WORDING'
+            for request in requests[4:6]:
+>               assert request['role_input']['dialogue']['recent_turns']==[]
+E               AssertionError: assert [{'message_me...3af3f'], ...}] == []
+E                 
+E                 Left contains 4 more items, first extra item: {'message_memory_id': 'f1b37ef0-0345-43c8-b545-b95191d3af3f', 'privacy_class': 'PROJECT', 'speaker': 'USER', 'support_memory_ids': [], ...}
+E                 Use -v to get more diff
+
+tests/independent_life/test_dialogue.py:299: AssertionError
+=========================== short test summary info ============================
+FAILED tests/independent_life/test_dialogue.py::test_transient_dialogue_history_follows_recipient_not_just_topic[thread]
+FAILED tests/independent_life/test_dialogue.py::test_transient_dialogue_history_follows_recipient_not_just_topic[binding]
+FAILED tests/independent_life/test_dialogue.py::test_transient_dialogue_history_follows_recipient_not_just_topic[local]
+3 failed, 19 deselected in 2.62s

@@ -216,7 +216,7 @@ class LifeApplication:
         from ..continuity.memory import PRIVACY_RANK
         recent=[];history_sources=set()
         for turn in reversed(self._recent):
-            if turn.topic!=topic or PRIVACY_RANK[turn.privacy_class]>PRIVACY_RANK[privacy]:continue
+            if turn.recipient_context!=recipient_context or turn.topic!=topic or PRIVACY_RANK[turn.privacy_class]>PRIVACY_RANK[privacy]:continue
             try:
                 for source in (turn.message_memory_id,*turn.support_memory_ids):
                     row=MemoryService(self.runtime.store).read(source)
@@ -313,8 +313,8 @@ class LifeApplication:
         supports=RecordService(r.store).support(render_rid) if render_rid else ()
         exchange_id=None
         if render_state=='UNVERIFIED_MODEL_WORDING' and len(supports)<=64:
-            self._recent.append(DialogueTurn(message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='USER',text=text[:1024],text_truncated=len(text)>1024))
-            self._recent.append(DialogueTurn(message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='ASSISTANT',text=draft[:1024],support_memory_ids=supports,text_truncated=len(draft)>1024))
+            self._recent.append(DialogueTurn(recipient_context=recipient_context,message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='USER',text=text[:1024],text_truncated=len(text)>1024))
+            self._recent.append(DialogueTurn(recipient_context=recipient_context,message_memory_id=mid,topic=topic,privacy_class=privacy,speaker='ASSISTANT',text=draft[:1024],support_memory_ids=supports,text_truncated=len(draft)>1024))
             self._recent=self._recent[-6:]
         # Explicit retention records what was actually said, including a local
         # boundary acknowledgement or a provider-unavailable explanation. It

@@ -7,13 +7,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 135,
-  "as_of_us": 1794355446575316,
+  "revision": 136,
+  "as_of_us": 1794356009468123,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_RUNTIME_BUDGET_ACTUAL_TLS_QUALIFIED",
+  "status": "IN_PROGRESS_RECIPIENT_TRANSIENT_CONTINUITY_QUALIFIED",
   "progress": [
-    "同一Next Experience与十域主任务已恢复；唯一Subject/Store/Loop、原C/D/G/Planner及Precision V2保持。最新合法源码与Brain优先。",
+    "同一原A–H主任务持续推进，最新源码/Brain优先。原瞬时历史现按平台/绑定/会话连续，同会话接续与返回保留，跨会话/绑定/local不串话；49+1+5相关通过，无第二Store/Loop。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
@@ -23,7 +23,7 @@
     "新运行预算Web→真实TLS BFF→原DEV Core四视口通过，同主体/谱系重载、原总上限0保持；额外桌面Cookie/owner epoch通过。关停后实核1主体/0模型请求/0actions/grants，SQLite3.53.1。615定向CI79Core/72前端/72浏览器通过；非安装/native/生产。"
   ],
   "open_gates": [
-    "原A–H继承；Web/Core各逐条原C，BFF仍串行，尚无多消息目的合并/在途草稿重组及完整误触/中断闭环；其余自主性A–E/送达/长期因果继续。",
+    "原A–H继承；临时history接收者边界已资格，Web/Core仍逐条C/BFF串行，多消息目的/未发草稿重组及完整中断仍待；其余自主性/送达/长期因果继续。",
     "原G仍限独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移仍待改进。新加速只资格有限合成literal源选择。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
     "全链模型特定Token/费用/超时、产品/模型向导、运行Gateway/Core/宿主兼容与仓库闭包仍按原清单推进。",
@@ -37,7 +37,7 @@
     "docs/nana_next_experience/SOURCE_NAVIGATION_AUDIT.md",
     "docs/nana_next_experience/evidence/long-feedback-and-tiering-20261111/README.md",
     "docs/nana_next_experience/evidence/catalog-registration-20261111/README.md",
-    "docs/nana_next_experience/evidence/attention-quota-20261111/README.md",
+    "docs/nana_next_experience/evidence/recipient-history-20261111/README.md",
     "docs/nana_next_experience/evidence/provider-runtime-settings-20261111/README.md"
   ]
 }

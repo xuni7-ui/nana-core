@@ -22,7 +22,14 @@ class DialogueDraft(DTO):
     claim_memory_ids:tuple[str,...]=Field(default=(),max_length=16)
     effect_status:Literal['NONE','VERIFIED_EFFECT','UNKNOWN']='NONE'
 
+class DialogueRecipient(DTO):
+    platform: str = Field(min_length=1, max_length=96)
+    binding_id: str = Field(min_length=1, max_length=96)
+    conversation_id: str = Field(min_length=1, max_length=128)
+
+
 class DialogueTurn(DTO):
+    recipient_context: DialogueRecipient | None = None
     text_truncated: bool = False
     message_memory_id:str
     topic:str=Field(pattern=r'^[a-z][a-z0-9._-]{0,63}$')
@@ -36,6 +43,8 @@ class DialogueTurn(DTO):
         value = handler(self)
         if not self.text_truncated:
             value.pop('text_truncated', None)
+        if self.recipient_context is None:
+            value.pop('recipient_context', None)
         return value
 
 
@@ -46,12 +55,6 @@ class CommunicationPurpose(DTO):
     purpose: str = Field(min_length=1, max_length=512)
     validity: Literal['CURRENT_COGNITIVE_REQUEST_ONLY'] = 'CURRENT_COGNITIVE_REQUEST_ONLY'
     execution_authority: Literal[False] = False
-
-
-class DialogueRecipient(DTO):
-    platform: str = Field(min_length=1, max_length=96)
-    binding_id: str = Field(min_length=1, max_length=96)
-    conversation_id: str = Field(min_length=1, max_length=128)
 
 
 class DialogueContext(DTO):

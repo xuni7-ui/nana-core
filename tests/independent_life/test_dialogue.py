@@ -267,3 +267,62 @@ def test_long_reply_is_preserved_and_recent_excerpt_is_honest(tmp_path):
         assert len(requests) == 4
         assert not app.runtime.store.db.execute("SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),'SYNTHETIC_LONG_REPLY_CANARY')>0").fetchone()
         assert not app.runtime.store.all('actions')
+
+
+@pytest.mark.parametrize('other', ['thread', 'binding', 'local'])
+def test_transient_dialogue_history_follows_recipient_not_just_topic(tmp_path, other):
+    from nana_core.life.config import update_config
+    from nana_core.life.surfaces import SurfaceBinding, SurfaceObservation
+    home = tmp_path / 'home'; cfg = initialize(home, active=0)
+    bindings = tuple(SurfaceBinding(binding_id=name, platform='nana.space',
+        surface='chat.direct', adapter='shadow.local') for name in ('chat.first', 'chat.second'))
+    update_config(home, cfg.model_copy(update={'revision':cfg.revision+1,
+        'surface_bindings':bindings}), expected_revision=cfg.revision)
+    with relay(home, 'CHAT') as (router, requests), LifeApplication(home, clock=VirtualClock(), router=router) as app:
+        app.pause(); identity=app.runtime.identity_id
+        def send(event, text, binding='chat.first', thread='recipient.first'):
+            return app.surfaces.receive(SurfaceObservation(binding_id=binding,
+                event_id=event, thread_id=thread, text=text))
+        first=send('one', 'SYNTHETIC_RECIPIENT_FIRST secret current thought')
+        same=send('two', 'SYNTHETIC same-recipient continuation')
+        assert same['render_state']=='UNVERIFIED_MODEL_WORDING'
+        assert any(t['message_memory_id']==first['message_memory_id']
+            for t in requests[2]['role_input']['dialogue']['recent_turns'])
+        if other=='local':
+            result=app.chat('SYNTHETIC_LOCAL other recipient', privacy='PROJECT', message_id='local-other')
+        else:
+            result=send('other', 'SYNTHETIC_OTHER_RECIPIENT current thought',
+                binding='chat.second' if other=='binding' else 'chat.first',
+                thread='recipient.other' if other=='thread' else 'recipient.first')
+        assert result['render_state']=='UNVERIFIED_MODEL_WORDING'
+        for request in requests[4:6]:
+            assert request['role_input']['dialogue']['recent_turns']==[]
+            assert 'SYNTHETIC_RECIPIENT_FIRST' not in json.dumps(request)
+        returned=send('returned', 'SYNTHETIC back in first recipient')
+        assert returned['render_state']=='UNVERIFIED_MODEL_WORDING'
+        history=requests[6]['role_input']['dialogue']['recent_turns']
+        assert any(t['message_memory_id']==same['message_memory_id'] for t in history)
+        assert all(t['message_memory_id']!=result['message_memory_id'] for t in history)
+        assert app.runtime.identity_id==identity and len(requests)==8
+        assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants')
+        assert not app.runtime.store.db.execute("SELECT 1 FROM artifacts WHERE instr(CAST(payload AS TEXT),'SYNTHETIC_RECIPIENT_FIRST')>0").fetchone()
+
+
+def test_cognition_rejects_cross_recipient_transient_turn_before_transport(tmp_path, monkeypatch):
+    from nana_core.continuity.world_loop.cognition import CognitionSession
+    from nana_core.life.dialogue_contracts import DialogueRecipient
+    home=tmp_path/'home'; initialize(home, active=0)
+    original=CognitionSession.prepare
+    def forged(self, *args, **kwargs):
+        actual=kwargs.get('volatile_input', {}).get('dialogue')
+        if actual and actual.get('recent_turns'):
+            actual['recent_turns'][0]['recipient_context']=DialogueRecipient(
+                platform='qq.onebot', binding_id='qq.primary', conversation_id='qq.private.44').model_dump(mode='json')
+        return original(self, *args, **kwargs)
+    with relay(home, 'CHAT') as (router, requests), LifeApplication(home, clock=VirtualClock(), router=router) as app:
+        app.pause(); app.chat('SYNTHETIC original local recipient', privacy='PROJECT', message_id='first')
+        monkeypatch.setattr(CognitionSession, 'prepare', forged)
+        rejected=app.chat('SYNTHETIC next local recipient', privacy='PROJECT', message_id='forged')
+        assert rejected['provider_state']=='DIALOGUE_HISTORY_RECIPIENT_DENIED'
+        assert len(requests)==2 and len(app.runtime.store.all('cognitive_requests'))==2
+        assert not app.runtime.store.all('actions') and not app.runtime.store.all('grants')

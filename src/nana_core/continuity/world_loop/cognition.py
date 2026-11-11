@@ -467,6 +467,7 @@ class CognitionSession:
                         raise CoreError('COMMUNICATION_PURPOSE_BINDING_INVALID')
                     extra_parents=(*extra_parents,cycle.record_id)
                 for turn in actual.recent_turns:
+                    if turn.recipient_context!=descriptor.recipient_context:raise CoreError('DIALOGUE_HISTORY_RECIPIENT_DENIED')
                     if turn.message_memory_id not in source_ids or turn.topic!=descriptor.topic or PRIVACY_RANK[turn.privacy_class]>PRIVACY_RANK[actual.privacy_class] or turn.privacy_class not in allowed_for_role(self.transport,self.policy):raise CoreError('DIALOGUE_HISTORY_PRIVACY_DENIED')
                     for mid in turn.support_memory_ids:
                         m=self.records.memory.read(mid)
