@@ -91,14 +91,34 @@ jobs:
           NANA_EVENT_NAME: ${{ github.event_name }}
         run: |
           python3 - <<'PYPATHS'
-          import os, subprocess
+          import os, re, subprocess
           base=os.environ.get('NANA_CHANGE_BASE') or 'HEAD^'
           if set(base)=={'0'}:base='HEAD^'
           paths=subprocess.check_output(['git','diff','--name-only',base,'HEAD'],text=True).splitlines()
           workflow='.github/workflows/nana-next-qualification.yml'
-          explicit=os.environ['NANA_EVENT_NAME']=='workflow_dispatch' or workflow in paths
+          manual=os.environ['NANA_EVENT_NAME']=='workflow_dispatch'
+          explicit=manual or workflow in paths
+          # Core test selection or push-path registration alone does not change
+          # the client qualification. Shared classifier/global/client edits do.
+          def client_workflow_contract(text):
+              try:
+                  shared, body=text.split('\n  original-core-feedback:\n')
+                  core_job, client_job=body.split('\n  client-feedback:\n')
+              except ValueError:
+                  return text  # unknown layout: qualify conservatively
+              if re.search(r'(?m)^  \S', core_job):return text
+              shared=re.sub(r'(?m)^    paths:\n(?:      - [^\n]*\n)+', '', shared)
+              return shared+'\n  client-feedback:\n'+client_job
+          client_workflow_changed=False
+          if workflow in paths:
+              try:
+                  old=subprocess.check_output(['git','show',base+':'+workflow],text=True,stderr=subprocess.DEVNULL)
+                  current=subprocess.check_output(['git','show','HEAD:'+workflow],text=True)
+                  client_workflow_changed=client_workflow_contract(old)!=client_workflow_contract(current)
+              except subprocess.CalledProcessError:
+                  client_workflow_changed=True  # newly introduced/missing workflow
           core=explicit or any(p.startswith(('src/nana_core/','tools/nana_','packaging/portable/','tests/','contracts/','requirements-core-dev.lock')) for p in paths)
-          client=explicit or any(p.startswith(('apps/nana-space/','contracts/nana-space-live-v2/','src/nana_core/life/live_api/bridge.py','src/nana_core/life/live_api/contracts.py','tools/nana_first_life_android_v2/schema.py')) for p in paths)
+          client=manual or client_workflow_changed or any(p.startswith(('apps/nana-space/','contracts/nana-space-live-v2/','src/nana_core/life/live_api/','tools/nana_first_life_android_v2/schema.py')) for p in paths)
           native_world=any(any(marker in p for marker in ('world_loop/cognition.py','continuity/provider_routing.py','tests/provider_routing/')) for p in paths)
           with open(os.environ['GITHUB_OUTPUT'],'a') as out:
               out.write(f'core={str(core).lower()}\nclient={str(client).lower()}\nnative_world={str(native_world).lower()}\n')

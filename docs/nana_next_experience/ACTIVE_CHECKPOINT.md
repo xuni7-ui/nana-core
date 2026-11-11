@@ -1,3 +1,11 @@
+# Active continuation — reuse unaffected client qualification
+
+Basefac1b97 pushed. ActualCI43000447084 SUCCESS41Core33.69s/1originalreportingwarning/clientcorrectSKIP. Current workflow onlyCore-job/push-path edit no longer implies unchangedclient suite; shared/global/client/manual/newlayout/newworkflow stillqualify, live_api server/auth/provider changes also qualifyclient. DirectcompiledPYPATHS15realGitcommit scenariosPASS; ownsharedclassifier CI mustrunboth/readactualresult. Evidence ci-client-selection-20261111/source-table d40f8e5a401b79d2800891ffd6ff39e956b7dbcdb747f817756f89043b460d54. Previous text-profile3synthetic rawlogs now explicitlytracked despitegeneral*.logignore.
+
+Next actual capability: inspect originalC in-flight new input/unsentdraft boundary and nativeprovider/model setup; implement bounded same-subject improvement with targeted behavior proof. OriginalA–H remaining affect/causalreal delivery/Glarge/storageprivacy/Token/protocols/product/repository/finalmatchingrelease retain. NewTEXT old63e4pending-G remainsincompatible, currentreturnrecovers; no finalbinaryrollback/installclaim. CURRENT266+409 unchanged;17:50alreadyenabled/workcontinues, known403no retry; no production/paid/account/deviceaction. Root~4MB, use/tmp.
+
+---
+
 # Active continuation — retained C choices recover through original G
 
 Base5401cf5 exactlocal/remote0/0 clean before batch. Old63e4 installed seal/modulepin actual completed/pending-C/pending-G three copies first evidence retained. New current maintenance reconnects original supported PENDING/nonexpired LEARN through originalG after_cycle, with current scope/privacy/source/entity and original occurrence dedup, paused/drop/expiry/withdraw kept.32relatedPASS12.82s, first strictDTO1fail/4pass retained. Actual old-reader pending-C return first32steps PRACTICE, another closed-owner32steps NFKC/sameidentity/epoch4/0calls-actions; oldpending-G still literal_error but return current succeeds. Completed lesson preserved. Evidence text-profile-old-reader-20261111; source-table a407a2aa673b07293cbd33e156849189ec9443fba43d2091f0c79e42e68385bb. Not full/install/oldbinary-compatible/native/phone/realmodel/production qualification.

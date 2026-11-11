@@ -1,0 +1,88 @@
+F....                                                                    [100%]
+=================================== FAILURES ===================================
+___ test_retained_c_learning_choice_recovers_after_host_lacked_spec[resume] ____
+
+tmp_path = PosixPath('/tmp/nana-resume-selected-first/test_retained_c_learning_choic0')
+boundary = 'resume'
+
+    @pytest.mark.parametrize('boundary', ['resume', 'paused', 'dropped', 'expired', 'withdrawn'])
+    def test_retained_c_learning_choice_recovers_after_host_lacked_spec(tmp_path, boundary):
+        home=tmp_path/'home';clock=VirtualClock();initialize(home,active=0)
+        with LifeApplication(home,clock=clock) as app:
+            mids=[save(app,text=text,privacy='PROJECT',request_id='missing-spec-'+str(i))['memory_id']
+                  for i,text in enumerate(TRAIN)]
+            r=app.runtime;identity=r.identity_id;growth=r.work.note_retrieval_growth
+            growth.slice(SCOPE);advance(app);assert selected(app)[1]=='UNICODE_WORDS'
+            growth.slice(SCOPE)
+            key=next(k for k,s in growth.service().specs.items() if 'NFKC_CASEFOLD' in s.hypotheses)
+            growth.service().specs.pop(key)  # older host can commit C without knowing this G profile
+            advance(app,12)
+            choices=[]
+            for intention in r.subject.pending(SCOPE):
+                row=r.store.db.execute('SELECT * FROM subject_cycles WHERE subject_event_id=? ORDER BY revision DESC LIMIT 1',
+                                      (intention['subject_event_id'],)).fetchone()
+                cycle=r.subject.result(row)
+                if cycle.proposed_program_id==key and cycle.intention.behavior=='LEARN':choices.append((intention,cycle))
+            assert len(choices)==1
+            intention,cycle=choices[0]
+            assert not r.store.db.execute("SELECT 1 FROM jobs j JOIN continuity_records c ON c.record_id=j.record_id WHERE j.work_kind='LEARNING' AND c.target_id=?",(key,)).fetchone()
+            if boundary=='paused':app.pause()
+            if boundary=='dropped':r.subject.transition_intention(intention['intention_id'],expected_revision=intention['revision'],state='DROPPED')
+            if boundary=='expired':clock.advance(intention['expires_at_us']-r.clock.utc_now_us()+1)
+            if boundary=='withdrawn':app.forget(mids[0])
+            before_cycles=len(r.store.all('subject_cycles'))
+        with LifeApplication(home,clock=clock) as app:
+            r=app.runtime;growth=r.work.note_retrieval_growth
+            assert r.identity_id==identity
+>           growth.slice(SCOPE)
+
+tests/independent_life/test_retrieval_text_profile.py:54: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/retrieval_growth.py:534: in slice
+    self.resume_selected(scope)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.retrieval_growth.NoteRetrievalGrowth object at 0x7fc6f3219e80>
+scope = 'project-work'
+
+    def resume_selected(self, scope):
+        """Reconnect retained C choices to original G after a missing-spec host.
+    
+        This neither asks C again nor resurrects a dropped/expired intention.
+        G retains its occurrence-key, concurrency and source admission checks.
+        """
+        from .subject.contracts import SubjectInput
+        from .subject.state import visible
+    
+        r = self.runtime
+        records = RecordService(r.store)
+        for intention in r.subject.pending(scope):
+            cycle_row = r.store.db.execute(
+                'SELECT * FROM subject_cycles WHERE subject_event_id=? ORDER BY revision DESC LIMIT 1',
+                (intention['subject_event_id'],),
+            ).fetchone()
+            if not cycle_row or not visible(r.store, cycle_row['record_id'], scope, r.config.privacy_classes):
+                continue
+            cycle = r.subject.result(cycle_row)
+            checkpoint = self.restored_specs.get(cycle.proposed_program_id)
+            if (not checkpoint or cycle.intention_id != intention['intention_id']
+                    or cycle.intention.behavior != 'LEARN'
+                    or not visible(r.store, checkpoint, scope, r.config.privacy_classes)):
+                continue
+            source = r.store.one('subject_events', intention['subject_event_id'])
+            if not source or not visible(r.store, source['record_id'], scope, r.config.privacy_classes):
+                continue
+>           event = SubjectInput.model_validate(records.read(source['record_id'])['payload']['input'])
+                    ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+E           pydantic_core._pydantic_core.ValidationError: 2 validation errors for SubjectInput
+E           source_memory_ids
+E             Input should be a valid tuple [type=tuple_type, input_value=['09ad3237-28e3-4c87-8ea9-cbe5bb2b5bfc'], input_type=list]
+E               For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+E           constraint_memory_ids
+E             Input should be a valid tuple [type=tuple_type, input_value=[], input_type=list]
+E               For further information visit https://errors.pydantic.dev/2.13/v/tuple_type
+
+src/nana_core/continuity/retrieval_growth.py:426: ValidationError
+=========================== short test summary info ============================
+FAILED tests/independent_life/test_retrieval_text_profile.py::test_retained_c_learning_choice_recovers_after_host_lacked_spec[resume]
+1 failed, 4 passed, 5 deselected in 1.27s

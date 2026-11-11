@@ -1,0 +1,156 @@
+{
+  "controlled_real_git_cases": [
+    {
+      "case": "core-job-only",
+      "core": true,
+      "client": false,
+      "actual": {
+        "core": "true",
+        "client": "false",
+        "native_world": "false"
+      }
+    },
+    {
+      "case": "push-path-only",
+      "core": true,
+      "client": false,
+      "actual": {
+        "core": "true",
+        "client": "false",
+        "native_world": "false"
+      }
+    },
+    {
+      "case": "client-job",
+      "core": true,
+      "client": true,
+      "actual": {
+        "core": "true",
+        "client": "true",
+        "native_world": "false"
+      }
+    },
+    {
+      "case": "shared-global",
+      "core": true,
+      "client": true,
+      "actual": {
+        "core": "true",
+        "client": "true",
+        "native_world": "false"
+      }
+    },
+    {
+      "case": "shared-classifier",
+      "core": true,
+      "client": true,
+      "actual": {
+        "core": "true",
+        "client": "true",
+        "native_world": "false"
+      }
+    },
+    {
+      "case": "unknown-extra-job",
+      "core": true,
+      "client": true,
+      "actual": {
+        "core": "true",
+        "client": "true",
+        "native_world": "false"
+      }
+    },
+    {
+      "case": "unknown-layout",
+      "core": true,
+      "client": true,
+      "actual": {
+        "core": "true",
+        "client": "true",
+        "native_world": "false"
+      }
+    },
+    {
+      "case": "backend-algorithm",
+      "core": true,
+      "client": false,
+      "actual": {
+        "core": "true",
+        "client": "false",
+        "native_world": "false"
+      }
+    },
+    {
+      "case": "backend-http",
+      "core": true,
+      "client": true,
+      "actual": {
+        "core": "true",
+        "client": "true",
+        "native_world": "false"
+      }
+    },
+    {
+      "case": "backend-auth",
+      "core": true,
+      "client": true,
+      "actual": {
+        "core": "true",
+        "client": "true",
+        "native_world": "false"
+      }
+    },
+    {
+      "case": "frontend",
+      "core": false,
+      "client": true,
+      "actual": {
+        "core": "false",
+        "client": "true",
+        "native_world": "false"
+      }
+    },
+    {
+      "case": "wire-schema",
+      "core": true,
+      "client": true,
+      "actual": {
+        "core": "true",
+        "client": "true",
+        "native_world": "false"
+      }
+    },
+    {
+      "case": "docs-only",
+      "core": false,
+      "client": false,
+      "actual": {
+        "core": "false",
+        "client": "false",
+        "native_world": "false"
+      }
+    },
+    {
+      "case": "manual",
+      "core": true,
+      "client": true,
+      "actual": {
+        "core": "true",
+        "client": "true",
+        "native_world": "false"
+      }
+    },
+    {
+      "case": "new-workflow",
+      "core": true,
+      "client": true,
+      "actual": {
+        "core": "true",
+        "client": "true",
+        "native_world": "false"
+      }
+    }
+  ],
+  "fixtures_root": "/tmp/nana-ci-selection-dq86e7ed",
+  "result": "PASS"
+}

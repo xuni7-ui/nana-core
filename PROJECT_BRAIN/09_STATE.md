@@ -7,13 +7,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 151,
-  "as_of_us": 1794391412995746,
+  "revision": 152,
+  "as_of_us": 1794391606772619,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_RETAINED_C_TO_G_RECOVERY_VERIFIED",
+  "status": "IN_PROGRESS_CORE_ONLY_CI_CLIENT_REUSE",
   "progress": [
-    "旧63e4封签安装槽对新TEXT完成/待C/待G隔离副本实测；修复已提交C决定缺spec后滞留，原G接线去重/恢复32项通过，实际旧binary返回同身份完成NFKC；0模型动作，旧版pending-G仍不兼容。",
+    "fac1原C/G恢复实际CI41通过33.69s/1原报告warning，客户端正确skip。工作流仅Core组/路径注册变更可复用既有客户端资格，共享/客户端/API变更仍验证，15真实隔离Git场景通过；原A–H继续。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
@@ -31,14 +31,14 @@
     "远端artifact字节下载403/远端SHA对照保留独立差额，无新路径不再重复；独立本地安装不冒充远端。原A–H未完成，生产/模型/账号/手机未操作。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/ci-client-selection-20261111/README.md",
     "docs/nana_next_experience/evidence/text-profile-old-reader-20261111/README.md",
     "docs/nana_next_experience/CODEX_CONTINUATION_MISSION.md",
     "docs/nana_next_experience/ACTIVE_CHECKPOINT.md",
     "docs/nana_next_experience/STATUS_AND_REMAINING.md",
     "docs/nana_next_experience/evidence/text-query-g-compare-20261111/README.md",
     "docs/nana_next_experience/evidence/competence-gap-causality-20261111/README.md",
-    "docs/nana_next_experience/evidence/text-query-original-g-20261111/README.md",
-    "docs/nana_next_experience/evidence/text-query-research-20261111/README.md"
+    "docs/nana_next_experience/evidence/text-query-original-g-20261111/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2662,3 +2662,8 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-11 · 已决定但未接G的原学习恢复
 
 [实测] 旧63e4封签安装槽实际三状态副本/返回原始结果见text-profile-old-reader-20261111。已完成lesson保留；待G旧版literal_error仍不兼容，新版可恢复；待C旧版决定后无spec，5401返回滞留。修复沿原LearningService.after_cycle重接当前有源、可读、未过期PENDING LEARN，不重判、不直接造job、不复活撤回。严格DTO首错1/4保留，最终32相关12.82s通过；真实旧binary返回第32步PRACTICE，再次关闭/返回32步NFKC成功，0模型动作/同身份，不冒充32步立即完成或完整回退资格。源码表SHA256 a407a2aa673b07293cbd33e156849189ec9443fba43d2091f0c79e42e68385bb；其表不自指。原A–H/CURRENT266+409/native/生产边界保持。
+
+
+### 2026-11-11 · 复用未受影响客户端资格
+
+[实测] workflow比较原提交的共享/客户端配置，Core job/路径清单单独修改不触发无关81单测/104浏览器；共享/客户端/manual/新布局/新增workflow保持验证，API live_api源改动也保持客户端检查。15实际临时Git分支/提交场景直接执行原PYPATHS通过，不另建框架。当前修改共享分类器故自身双组仍跑。fac1实际CI43000447084 Core41通过33.69s/1原reportingwarning、clientSKIP。补显式追踪此前被通用*.log规则忽略的3份合成原始日志，原首错保留。证据ci-client-selection-20261111/源码表SHA256 d40f8e5a401b79d2800891ffd6ff39e956b7dbcdb747f817756f89043b460d54，表不自指；原A–H/CURRENT266+409不变。

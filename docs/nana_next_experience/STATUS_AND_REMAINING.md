@@ -88,3 +88,8 @@ Original retained QQ exchange now links original C/Kernel independent readback p
 ### 2026-11-11 · 新TEXT跨旧安装槽与已决定学习恢复
 
 详见evidence/text-profile-old-reader-20261111：真实旧63e4封签binary三类关闭副本实测，不改旧槽。新版已修复C已决定却因旧spec缺失未启动G的滞留，沿原G入口恢复/去重，32相关通过；同身份实际返回完成新TEXT资格，0模型动作。旧版待G新方法literal_error明确保留，不能宣称二进制回退全部兼容；最终匹配安装/回退仍待。原其余A–H不减。
+
+
+### 2026-11-11 · 已证多余客户端重复CI精简
+
+仅Core组或push路径清单的workflow变化复用原客户端资格，共享/客户端/manual/未知布局仍验证；live_api修改也选客户端。15真实隔离Git场景通过，当前分类器本身变化仍需自身双组CI。fac1原C/G恢复独立CI41通过33.69s/client正确skip；非全仓。原余A–H不减。

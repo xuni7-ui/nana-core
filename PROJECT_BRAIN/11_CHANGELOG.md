@@ -3569,3 +3569,8 @@ CognitionBudget早期3秒默认改120秒，路由session未给显式budget时继
 ### 2026-11-11 · 旧宿主缺少规格后的原C/G连续恢复
 
 实际63e4封签槽134/135Core模块旧路径固定、三状态关闭副本往返，首个pending-C滞留及pending-G旧method literal_error保留。新版maintenance从当前有源可读spec+原PENDING LEARN调用原G after_cycle，不重判/重复job，不越过暂停/放弃/过期/撤回。strictDTO首错1/4保留，修JSON重建后27相关11.18s，最终含原renewal32通过12.82s。真实旧binary返回pending-C32步PRACTICE，再次关闭/返回32步NFKC/同身份/0模型动作；completed保存、pending-G当前恢复。证据text-profile-old-reader-20261111/09指纹锚。旧binary待G仍不兼容，非当前发行安装或生产资格；原A–H/CURRENT266+409保持，继续精简已证多余CI然后能力主线。
+
+
+### 2026-11-11 · 精简Core-only工作流变更的重复客户端检查
+
+比较workflow提交前后共享/客户端部分，仅Core job或push paths变化可复用既有客户端81单测/104浏览器；共享/global/client/manual/未知/新增workflow仍验证，原live_api HTTP/auth/provider接口改动也保持客户端。原PYPATHS编译并对15真实隔离Git提交场景执行通过，无新依赖/框架；本批共享分类器自身CI应双组。fac1实际CI41Core33.69s/1原报告warning/client正确skip。显式补入3份受通用日志ignore影响的原合成测试日志，不删首错；证据ci-client-selection-20261111/09锚。继续原能力开发，原A–H/266+409/生产边界保持。
