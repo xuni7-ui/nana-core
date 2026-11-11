@@ -65,3 +65,6 @@ Original retained QQ exchange now links original C/Kernel independent readback p
 
 
 2026-11-11 light-choice补充：原C HIGH当前负荷现在有源REST动机并可同轻量已采纳创作/有兴趣学习/独立社交愿望竞争；HEAVY/无支持保持延期，收件BUSY/未知/拒绝/重复仍独立约束。116相关15.12s+27主体11.74s PASS，restart/withdraw验证，真实发送/模型0。原计划/问题/巩固等A–E、情感因果/长期自然度及其他原A–H继续，不称全自主性验收。证据load-and-light-choice-20261111。
+
+
+2026-11-11 cognition-timeout补充：原复用认知默认120s，路由会话无explicitbudget继承配置交集；精确模型无用途路由不再隐藏120s硬顶，明确短预算仍有效，Life原显式配置不改。128provider/world_loop/Life预算与UNKNOWN34.15s，真实loopback120+120及独立配置通过；不算真实provider/全链性能/发行完成。下一同32预算冻结多样检索误召/漏召及原G独立方法评价，其他原A–H继续。证据cognition-timeout-inheritance-20261111。

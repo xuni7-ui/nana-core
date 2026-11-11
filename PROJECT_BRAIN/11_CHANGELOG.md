@@ -3534,3 +3534,8 @@ typed messages/sequence复用原role/CSRF/CAS/OperationLedger/UDS，子messageID
 ### 2026-11-11 · 当前负荷与轻量有源兴趣在原C竞争
 
 原motivate在HIGH当前负荷保留一项有源RELEVANT REST，不再让decide无动机地一律REST；复用原已采纳创作/当前学习兴趣/独立社交支持，LIGHT可竞争，HEAVY及无支持仍延期。原quietfirst/duePRESSING/高风险/规范/资源/收件与Manager不改，无新Store/权威/模型。5新首错；34通过/3旧统一REST契约失败2.78s保留，明确新行为精确CREATE/SOCIALIZE并加源REST/高负荷BUSY、UNKNOWN、DECLINED、重复控制。116openlife/原投递规划/PrecisionV2通过15.12s+27原Subject等11.74s，restart同主体/withdraw取消支持，0真实模型发送及动作Grant。证据load-and-light-choice-20261111/09hash锚。b5精确CI81unit/104browser成功、Core按UIonlySKIPPED；b7当时仍inprogress。原计划/framing/巩固等其他A–E及原A–H未完，CURRENT266+409/native/APK/生产不变，17:50续办启用不停工。
+
+
+### 2026-11-11 · 原通用认知默认120秒与真实配置交集继承
+
+CognitionBudget早期3秒默认改120秒，路由session未给显式budget时继承已核验effective.timeout，精确模型无route不再虚构额外120秒顶；实际request/provider/host/显式route及caller短预算继续交集。Lifechat已有显式cfg不误称原3秒；原记录budget/digest不改，费用/privacy/UNKNOWN/原C不改。4首错/1通过保留；初59通过/1旧implicit3s过期假设失败6.69s，旧4sSTALE/单调用断言保持并显式给3s。最终128provider_routing/world_loop/Life预算与UNKNOWN通过34.15s，原HTTP实际120+120独立、配置330/180/210s和50ms0dispatch。证据cognition-timeout-inheritance-20261111/09hash锚；初命令file+folder不算distinct数。b7精确CI107Core/81unit/104browser成功，85精确CI116Core成功/clientCoreonlySKIPPED，原record_property报告warning保留。下一同预算多样原G检索评价，不只是调大限额；原A–H/CURRENT266+409/native/APK/生产边界保持，17:50启用不停止。

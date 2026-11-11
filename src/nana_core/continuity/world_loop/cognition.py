@@ -21,7 +21,7 @@ Role=Literal['INTERPRET','GOALS','PLAN','REPLAN','REFLECT','LEARN','SKILL','SOCI
 class CognitionBudget(DTO):
     input_tokens: int=Field(default=16384,ge=256,le=65536)
     output_tokens: int=Field(default=2048,ge=64,le=8192)
-    timeout_ms: int=Field(default=3000,ge=50,le=600000)
+    timeout_ms: int=Field(default=120000,ge=50,le=600000)
     cost_ceiling_micro: int=Field(default=0,ge=0,le=1000000)
 class CognitionRequest(DTO):
     _volatile_media:dict|None=PrivateAttr(default=None)
@@ -369,6 +369,10 @@ class CognitionSession:
         if r.stop_requested:raise CoreError('RUNTIME_STOP_REQUESTED_NO_DISPATCH')
         if self.route_snapshot is not None:
             snap=self.route_snapshot;limit=snap.effective
+            if budget is None:
+                # The selected route already intersects request/provider/host
+                # ceilings. A constructor default must not truncate that choice.
+                b=b.model_copy(update={'timeout_ms':limit.timeout_ms})
             if not self._route_guard or not self._route_guard():raise CoreError('ROUTE_CHANGED_BEFORE_DISPATCH')
             media_op={'VISION':'IMAGE','AUDIO_UNDERSTAND':'AUDIO','VIDEO_UNDERSTAND':'VIDEO','STT':'AUDIO'}.get(snap.operation)
             if (snap.operation=='COGNITION' and role=='MEDIA') or (media_op and (role!='MEDIA' or not role_input or role_input.get('modality')!=media_op)):raise CoreError('ROUTED_OPERATION_MISMATCH')

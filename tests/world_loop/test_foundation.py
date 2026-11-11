@@ -17,7 +17,7 @@ def test_real_http_transport_correlation_stale_duplicate_and_erasure(tmp_path):
         assert out['state']=='PROPOSED' and state['calls']==1
         assert session.execute(cid)['state']=='PROPOSED' and state['calls']==1
         assert session.accept(cid,session.proposal(out['record_id']))['replayed']
-        late=session.prepare('late','GOALS',(mid,));r.clock.source.advance(4_000_000)
+        late=session.prepare('late','GOALS',(mid,),budget=CognitionBudget(timeout_ms=3000));r.clock.source.advance(4_000_000)
         assert session.execute(late)['state']=='STALE' and state['calls']==1
         MemoryService(r.store,r.authority).forget(mid,r.authority)
         with pytest.raises(CoreError):session.proposal(out['record_id'])

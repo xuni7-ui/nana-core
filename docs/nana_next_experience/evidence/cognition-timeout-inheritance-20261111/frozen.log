@@ -1,0 +1,112 @@
+FFFF.                                                                    [100%]
+=================================== FAILURES ===================================
+______ test_default_budget_reaches_each_original_http_call_independently _______
+
+tmp_path = PosixPath('/tmp/nana-cognition-timeout-frozen/test_default_budget_reaches_ea0')
+monkeypatch = <_pytest.monkeypatch.MonkeyPatch object at 0x7f91e9c23080>
+
+    def test_default_budget_reaches_each_original_http_call_independently(tmp_path,monkeypatch):
+        with fresh(tmp_path/'subject/self.db') as runtime,provider_harness() as (port,calls):
+            original=port.opener.open;timeouts=[]
+            def open_once(request,*,timeout):
+                timeouts.append(timeout);return original(request,timeout=timeout)
+            monkeypatch.setattr(port.opener,'open',open_once)
+            session=CognitionSession(runtime,port,policy());mid=capture(runtime,'default-phases',{'data':'SYNTHETIC independent phases'})
+            ids=[]
+            for role in ('INTERPRET','GOALS'):
+                cid=session.prepare('default-'+role,role,(mid,));ids.append(cid)
+                data=request_data(session,runtime,cid)
+>               assert data['deadline_us']-data['created_at_us']==120000000
+E               assert (1791590403000000 - 1791590400000000) == 120000000
+
+tests/provider_routing/test_timeout_inheritance.py:25: AssertionError
+_ test_exact_model_without_a_route_inherits_only_real_configured_ceilings[330000-450000-600000-330000] _
+
+tmp_path = PosixPath('/tmp/nana-cognition-timeout-frozen/test_exact_model_without_a_rou0')
+request_limit = 330000, provider_limit = 450000, host_limit = 600000
+expected = 330000
+
+    @pytest.mark.parametrize('request_limit,provider_limit,host_limit,expected',[
+        (330000,450000,600000,330000),
+        (500000,180000,600000,180000),
+        (500000,450000,210000,210000),
+    ])
+    def test_exact_model_without_a_route_inherits_only_real_configured_ceilings(tmp_path,request_limit,provider_limit,host_limit,expected):
+        router,config,authority,_,ports=fixture_router(tmp_path)
+        update(config,authority,'REMOVE_CAPABILITY_ROUTE',target_id='COGNITION')
+        provider=config.load().providers[0].model_copy(update={'default_timeout_ms':provider_limit})
+        update(config,authority,'UPSERT_PROVIDER',provider=provider)
+        router.factory.policy=RoutingPolicy(timeout_ceiling_ms=host_limit)
+        target=router.resolve(RouteRequest(operation='COGNITION',timeout_ms=request_limit,
+            exact_provider_profile_id='fixture.a',exact_model_profile_id='model.a'),policy())
+>       assert target.snapshot.route_revision is None and target.snapshot.effective.timeout_ms==expected
+E       AssertionError: assert (None is None and 120000 == 330000)
+E        +  where None = RouteSnapshot(operation='COGNITION', config_revision=7, route_revision=None, provider_profile_id='fixture.a', provider...iveLimits(timeout_ms=120000, cost_ceiling=1000, context_limit=16384, output_limit=2048, permitted_privacy=('PUBLIC',))).route_revision
+E        +    where RouteSnapshot(operation='COGNITION', config_revision=7, route_revision=None, provider_profile_id='fixture.a', provider...iveLimits(timeout_ms=120000, cost_ceiling=1000, context_limit=16384, output_limit=2048, permitted_privacy=('PUBLIC',))) = <RoutedTarget sanitized=model.a>.snapshot
+E        +  and   120000 = EffectiveLimits(timeout_ms=120000, cost_ceiling=1000, context_limit=16384, output_limit=2048, permitted_privacy=('PUBLIC',)).timeout_ms
+E        +    where EffectiveLimits(timeout_ms=120000, cost_ceiling=1000, context_limit=16384, output_limit=2048, permitted_privacy=('PUBLIC',)) = RouteSnapshot(operation='COGNITION', config_revision=7, route_revision=None, provider_profile_id='fixture.a', provider...iveLimits(timeout_ms=120000, cost_ceiling=1000, context_limit=16384, output_limit=2048, permitted_privacy=('PUBLIC',))).effective
+E        +      where RouteSnapshot(operation='COGNITION', config_revision=7, route_revision=None, provider_profile_id='fixture.a', provider...iveLimits(timeout_ms=120000, cost_ceiling=1000, context_limit=16384, output_limit=2048, permitted_privacy=('PUBLIC',))) = <RoutedTarget sanitized=model.a>.snapshot
+
+tests/provider_routing/test_timeout_inheritance.py:46: AssertionError
+_ test_exact_model_without_a_route_inherits_only_real_configured_ceilings[500000-180000-600000-180000] _
+
+tmp_path = PosixPath('/tmp/nana-cognition-timeout-frozen/test_exact_model_without_a_rou1')
+request_limit = 500000, provider_limit = 180000, host_limit = 600000
+expected = 180000
+
+    @pytest.mark.parametrize('request_limit,provider_limit,host_limit,expected',[
+        (330000,450000,600000,330000),
+        (500000,180000,600000,180000),
+        (500000,450000,210000,210000),
+    ])
+    def test_exact_model_without_a_route_inherits_only_real_configured_ceilings(tmp_path,request_limit,provider_limit,host_limit,expected):
+        router,config,authority,_,ports=fixture_router(tmp_path)
+        update(config,authority,'REMOVE_CAPABILITY_ROUTE',target_id='COGNITION')
+        provider=config.load().providers[0].model_copy(update={'default_timeout_ms':provider_limit})
+        update(config,authority,'UPSERT_PROVIDER',provider=provider)
+        router.factory.policy=RoutingPolicy(timeout_ceiling_ms=host_limit)
+        target=router.resolve(RouteRequest(operation='COGNITION',timeout_ms=request_limit,
+            exact_provider_profile_id='fixture.a',exact_model_profile_id='model.a'),policy())
+>       assert target.snapshot.route_revision is None and target.snapshot.effective.timeout_ms==expected
+E       AssertionError: assert (None is None and 120000 == 180000)
+E        +  where None = RouteSnapshot(operation='COGNITION', config_revision=7, route_revision=None, provider_profile_id='fixture.a', provider...iveLimits(timeout_ms=120000, cost_ceiling=1000, context_limit=16384, output_limit=2048, permitted_privacy=('PUBLIC',))).route_revision
+E        +    where RouteSnapshot(operation='COGNITION', config_revision=7, route_revision=None, provider_profile_id='fixture.a', provider...iveLimits(timeout_ms=120000, cost_ceiling=1000, context_limit=16384, output_limit=2048, permitted_privacy=('PUBLIC',))) = <RoutedTarget sanitized=model.a>.snapshot
+E        +  and   120000 = EffectiveLimits(timeout_ms=120000, cost_ceiling=1000, context_limit=16384, output_limit=2048, permitted_privacy=('PUBLIC',)).timeout_ms
+E        +    where EffectiveLimits(timeout_ms=120000, cost_ceiling=1000, context_limit=16384, output_limit=2048, permitted_privacy=('PUBLIC',)) = RouteSnapshot(operation='COGNITION', config_revision=7, route_revision=None, provider_profile_id='fixture.a', provider...iveLimits(timeout_ms=120000, cost_ceiling=1000, context_limit=16384, output_limit=2048, permitted_privacy=('PUBLIC',))).effective
+E        +      where RouteSnapshot(operation='COGNITION', config_revision=7, route_revision=None, provider_profile_id='fixture.a', provider...iveLimits(timeout_ms=120000, cost_ceiling=1000, context_limit=16384, output_limit=2048, permitted_privacy=('PUBLIC',))) = <RoutedTarget sanitized=model.a>.snapshot
+
+tests/provider_routing/test_timeout_inheritance.py:46: AssertionError
+_ test_exact_model_without_a_route_inherits_only_real_configured_ceilings[500000-450000-210000-210000] _
+
+tmp_path = PosixPath('/tmp/nana-cognition-timeout-frozen/test_exact_model_without_a_rou2')
+request_limit = 500000, provider_limit = 450000, host_limit = 210000
+expected = 210000
+
+    @pytest.mark.parametrize('request_limit,provider_limit,host_limit,expected',[
+        (330000,450000,600000,330000),
+        (500000,180000,600000,180000),
+        (500000,450000,210000,210000),
+    ])
+    def test_exact_model_without_a_route_inherits_only_real_configured_ceilings(tmp_path,request_limit,provider_limit,host_limit,expected):
+        router,config,authority,_,ports=fixture_router(tmp_path)
+        update(config,authority,'REMOVE_CAPABILITY_ROUTE',target_id='COGNITION')
+        provider=config.load().providers[0].model_copy(update={'default_timeout_ms':provider_limit})
+        update(config,authority,'UPSERT_PROVIDER',provider=provider)
+        router.factory.policy=RoutingPolicy(timeout_ceiling_ms=host_limit)
+        target=router.resolve(RouteRequest(operation='COGNITION',timeout_ms=request_limit,
+            exact_provider_profile_id='fixture.a',exact_model_profile_id='model.a'),policy())
+>       assert target.snapshot.route_revision is None and target.snapshot.effective.timeout_ms==expected
+E       AssertionError: assert (None is None and 120000 == 210000)
+E        +  where None = RouteSnapshot(operation='COGNITION', config_revision=7, route_revision=None, provider_profile_id='fixture.a', provider...iveLimits(timeout_ms=120000, cost_ceiling=1000, context_limit=16384, output_limit=2048, permitted_privacy=('PUBLIC',))).route_revision
+E        +    where RouteSnapshot(operation='COGNITION', config_revision=7, route_revision=None, provider_profile_id='fixture.a', provider...iveLimits(timeout_ms=120000, cost_ceiling=1000, context_limit=16384, output_limit=2048, permitted_privacy=('PUBLIC',))) = <RoutedTarget sanitized=model.a>.snapshot
+E        +  and   120000 = EffectiveLimits(timeout_ms=120000, cost_ceiling=1000, context_limit=16384, output_limit=2048, permitted_privacy=('PUBLIC',)).timeout_ms
+E        +    where EffectiveLimits(timeout_ms=120000, cost_ceiling=1000, context_limit=16384, output_limit=2048, permitted_privacy=('PUBLIC',)) = RouteSnapshot(operation='COGNITION', config_revision=7, route_revision=None, provider_profile_id='fixture.a', provider...iveLimits(timeout_ms=120000, cost_ceiling=1000, context_limit=16384, output_limit=2048, permitted_privacy=('PUBLIC',))).effective
+E        +      where RouteSnapshot(operation='COGNITION', config_revision=7, route_revision=None, provider_profile_id='fixture.a', provider...iveLimits(timeout_ms=120000, cost_ceiling=1000, context_limit=16384, output_limit=2048, permitted_privacy=('PUBLIC',))) = <RoutedTarget sanitized=model.a>.snapshot
+
+tests/provider_routing/test_timeout_inheritance.py:46: AssertionError
+=========================== short test summary info ============================
+FAILED tests/provider_routing/test_timeout_inheritance.py::test_default_budget_reaches_each_original_http_call_independently
+FAILED tests/provider_routing/test_timeout_inheritance.py::test_exact_model_without_a_route_inherits_only_real_configured_ceilings[330000-450000-600000-330000]
+FAILED tests/provider_routing/test_timeout_inheritance.py::test_exact_model_without_a_route_inherits_only_real_configured_ceilings[500000-180000-600000-180000]
+FAILED tests/provider_routing/test_timeout_inheritance.py::test_exact_model_without_a_route_inherits_only_real_configured_ceilings[500000-450000-210000-210000]
+4 failed, 1 passed in 0.52s

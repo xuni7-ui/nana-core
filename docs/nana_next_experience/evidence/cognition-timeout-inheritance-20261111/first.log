@@ -1,0 +1,24 @@
+...................................................F........             [100%]
+=================================== FAILURES ===================================
+_______ test_real_http_transport_correlation_stale_duplicate_and_erasure _______
+
+tmp_path = PosixPath('/tmp/nana-cognition-timeout-first/test_real_http_transport_corre0')
+
+    def test_real_http_transport_correlation_stale_duplicate_and_erasure(tmp_path):
+        with fresh(tmp_path/'s'/'self.db') as r,provider_harness() as (port,state):
+            mid=capture(r,'source',{'data':'public synthetic context'})
+            session=CognitionSession(r,port,policy());cid=session.prepare('once','INTERPRET',(mid,));out=session.execute(cid)
+            assert out['state']=='PROPOSED' and state['calls']==1
+            assert session.execute(cid)['state']=='PROPOSED' and state['calls']==1
+            assert session.accept(cid,session.proposal(out['record_id']))['replayed']
+            late=session.prepare('late','GOALS',(mid,));r.clock.source.advance(4_000_000)
+>           assert session.execute(late)['state']=='STALE' and state['calls']==1
+E           AssertionError: assert ('PROPOSED' == 'STALE'
+E             
+E             - STALE
+E             + PROPOSED)
+
+tests/world_loop/test_foundation.py:21: AssertionError
+=========================== short test summary info ============================
+FAILED tests/world_loop/test_foundation.py::test_real_http_transport_correlation_stale_duplicate_and_erasure
+1 failed, 59 passed in 6.69s

@@ -318,7 +318,7 @@ class CapabilityRouter:
                     timeout_ms=min(
                         request.timeout_ms,
                         p.default_timeout_ms,
-                        route.timeout_ceiling_ms if route else 120000,
+                        route.timeout_ceiling_ms if route else request.timeout_ms,
                         self.factory.policy.timeout_ceiling_ms,
                     ),
                     cost_ceiling=min(
