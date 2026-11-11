@@ -3539,3 +3539,8 @@ typed messages/sequence复用原role/CSRF/CAS/OperationLedger/UDS，子messageID
 ### 2026-11-11 · 原通用认知默认120秒与真实配置交集继承
 
 CognitionBudget早期3秒默认改120秒，路由session未给显式budget时继承已核验effective.timeout，精确模型无route不再虚构额外120秒顶；实际request/provider/host/显式route及caller短预算继续交集。Lifechat已有显式cfg不误称原3秒；原记录budget/digest不改，费用/privacy/UNKNOWN/原C不改。4首错/1通过保留；初59通过/1旧implicit3s过期假设失败6.69s，旧4sSTALE/单调用断言保持并显式给3s。最终128provider_routing/world_loop/Life预算与UNKNOWN通过34.15s，原HTTP实际120+120独立、配置330/180/210s和50ms0dispatch。证据cognition-timeout-inheritance-20261111/09hash锚；初命令file+folder不算distinct数。b7精确CI107Core/81unit/104browser成功，85精确CI116Core成功/clientCoreonlySKIPPED，原record_property报告warning保留。下一同预算多样原G检索评价，不只是调大限额；原A–H/CURRENT266+409/native/APK/生产边界保持，17:50启用不停止。
+
+
+### 2026-11-11 · 原生依赖按受影响世界循环组复用，保存远端首错
+
+8ae实际CI42966106116 Core7失败/207通过101.59s，6明确缺ffmpeg/1技能活跃集空；client成功不抵Core。原pytest1267行留证cognition-timeout-inheritance/ci-first.log。新增group只装Python依赖而world/provider测试需codecs及原bwrap，现复用原full-native准备条件到实际受影响组，fullDocker旧SQLite仍fullonly；targeted先原IsolatedSkillRunner AVAILABLE全checks，不降级执行、不改原断言。原默认deadline测试加强为每次派发前虚拟过4s，5通过0.85s，两个workflowPython块compile；该test改动会重选含原7失败的128组，successorCI待实读。09source-table锚已记。已完成32note研究原型仍knownowneduntracked待下一批入库，24固定查询V2支持8/24/16unsupported、JOIN18/24/3误召、NFKC24/24/0；不宣称G资格或已接产品。原A–H/CURRENT266+409/生产边界保持，定时不停车。

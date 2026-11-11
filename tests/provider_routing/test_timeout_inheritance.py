@@ -23,6 +23,9 @@ def test_default_budget_reaches_each_original_http_call_independently(tmp_path,m
             cid=session.prepare('default-'+role,role,(mid,));ids.append(cid)
             data=request_data(session,runtime,cid)
             assert data['deadline_us']-data['created_at_us']==120000000
+            # An admitted default request remains current after the old3s cap,
+            # rather than merely reporting a larger timeout to the transport.
+            runtime.clock.source.advance(4_000_000)
             assert session.execute(cid)['state']=='PROPOSED'
             runtime.clock.source.advance(5_000_000)
         assert timeouts==[120,120] and calls['calls']==2

@@ -1,0 +1,4 @@
+{
+  ".github/workflows/nana-next-qualification.yml": "5ffcac0932c829af9a9c70c76631b55ae786803e43bb1afe959375614ca260db",
+  "tests/provider_routing/test_timeout_inheritance.py": "f94bd0c06d623a9777ff03997bcdf5be4ef4b8a031622a2051ad918171b60705"
+}

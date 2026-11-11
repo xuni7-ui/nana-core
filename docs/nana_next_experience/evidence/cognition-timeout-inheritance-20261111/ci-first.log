@@ -1,0 +1,1267 @@
+2026-11-11T05:32:32.8959378Z =================================== FAILURES ===================================
+2026-11-11T05:32:32.8960231Z __ test_original_openai_transport_native_loopback_config_to_h1[VISION-IMAGE] ___
+2026-11-11T05:32:32.8960637Z 
+2026-11-11T05:32:32.8960847Z tmp_path = PosixPath('/tmp/nq/test_original_openai_transport1')
+2026-11-11T05:32:32.8961301Z operation = 'VISION', modality = 'IMAGE'
+2026-11-11T05:32:32.8961498Z 
+2026-11-11T05:32:32.8961875Z     @pytest.mark.parametrize('operation,modality',[('COGNITION','TEXT'),('VISION','IMAGE'),('VIDEO_UNDERSTAND','VIDEO')])
+2026-11-11T05:32:32.8962664Z     def test_original_openai_transport_native_loopback_config_to_h1(tmp_path,operation,modality):
+2026-11-11T05:32:32.8963245Z         with provider_harness(semantic_proposer) as (wire,metrics):
+2026-11-11T05:32:32.8963681Z             s,a=config_service(tmp_path/'host/providers.json')
+2026-11-11T05:32:32.8964649Z             p=ProviderProfile(provider_profile_id='synthetic.http',display_name='SYNTHETIC_LOOPBACK',protocol='SYNTHETIC_LOOPBACK',base_url=wire.endpoint.removesuffix('/chat/completions'),locality='LOCAL_FIXTURE')
+2026-11-11T05:32:32.8966180Z             m=model('model.wire',p.provider_profile_id,(operation,)).model_copy(update={'remote_model_id':'harness-v1'})
+2026-11-11T05:32:32.8967496Z             update(s,a,'UPSERT_PROVIDER',provider=p);update(s,a,'UPSERT_MODEL',model=m);update(s,a,'SET_CAPABILITY_ROUTE',route=CapabilityRoute(operation=operation,primary_model_profile_id=m.model_profile_id))
+2026-11-11T05:32:32.8968908Z             router=CapabilityRouter(s,RuntimeProviderFactory(ProviderRegistry(),Resolver(),RoutingPolicy(allow_synthetic_loopback=True)))
+2026-11-11T05:32:32.8969708Z             with fresh(tmp_path/'subject/self.db') as r:
+2026-11-11T05:32:32.8970379Z                 identity=r.identity_id;t=router.resolve(RouteRequest(operation=operation,input_modalities=(modality,),output_limit=4096),policy());session=t.cognition_session(r)
+2026-11-11T05:32:32.8970940Z                 if modality=='TEXT':
+2026-11-11T05:32:32.8971601Z                     mid=capture(r,'text',{'fact':'synthetic context'});cid=session.prepare('text','INTERPRET',(mid,));assert session.execute(cid)['state']=='PROPOSED'
+2026-11-11T05:32:32.8972089Z                 else:
+2026-11-11T05:32:32.8972431Z >                   raw=media_samples()[modality];mid=ingest(r,modality,raw);service=MediaSemanticService(session)
+2026-11-11T05:32:32.8972800Z                         ^^^^^^^^^^^^^^^
+2026-11-11T05:32:32.8972942Z 
+2026-11-11T05:32:32.8973038Z tests/provider_routing/test_ports.py:29: 
+2026-11-11T05:32:32.8973541Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-11T05:32:32.8973885Z src/nana_core/continuity/world_loop/samples.py:15: in media_samples
+2026-11-11T05:32:32.8974398Z     subprocess.run(cmd,stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,check=True,timeout=10)
+2026-11-11T05:32:32.8974993Z ../../../.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/subprocess.py:548: in run
+2026-11-11T05:32:32.8975714Z     with Popen(*popenargs, **kwargs) as process:
+2026-11-11T05:32:32.8976085Z          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-11T05:32:32.8976685Z ../../../.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/subprocess.py:1026: in __init__
+2026-11-11T05:32:32.8977402Z     self._execute_child(args, executable, preexec_fn, close_fds,
+2026-11-11T05:32:32.8977894Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-11T05:32:32.8978189Z 
+2026-11-11T05:32:32.8978471Z self = <Popen: returncode: 255 args: ['ffmpeg', '-nostdin', '-v', 'error', '-f', 'l...>
+2026-11-11T05:32:32.8979049Z args = ['ffmpeg', '-nostdin', '-v', 'error', '-f', 'lavfi', ...]
+2026-11-11T05:32:32.8979600Z executable = b'ffmpeg', preexec_fn = None, close_fds = True, pass_fds = ()
+2026-11-11T05:32:32.8980195Z cwd = None, env = None, startupinfo = None, creationflags = 0, shell = False
+2026-11-11T05:32:32.8980794Z p2cread = 16, p2cwrite = -1, c2pread = -1, c2pwrite = 16, errread = -1
+2026-11-11T05:32:32.8981534Z errwrite = 16, restore_signals = True, gid = None, gids = None, uid = None
+2026-11-11T05:32:32.8982101Z umask = -1, start_new_session = False, process_group = -1
+2026-11-11T05:32:32.8982395Z 
+2026-11-11T05:32:32.8982625Z     def _execute_child(self, args, executable, preexec_fn, close_fds,
+2026-11-11T05:32:32.8983086Z                        pass_fds, cwd, env,
+2026-11-11T05:32:32.8983469Z                        startupinfo, creationflags, shell,
+2026-11-11T05:32:32.8983851Z                        p2cread, p2cwrite,
+2026-11-11T05:32:32.8984194Z                        c2pread, c2pwrite,
+2026-11-11T05:32:32.8984528Z                        errread, errwrite,
+2026-11-11T05:32:32.8984857Z                        restore_signals,
+2026-11-11T05:32:32.8985349Z                        gid, gids, uid, umask,
+2026-11-11T05:32:32.8985725Z                        start_new_session, process_group):
+2026-11-11T05:32:32.8986125Z         """Execute program (POSIX version)"""
+2026-11-11T05:32:32.8986451Z     
+2026-11-11T05:32:32.8986718Z         if isinstance(args, (str, bytes)):
+2026-11-11T05:32:32.8987052Z             args = [args]
+2026-11-11T05:32:32.8987357Z         elif isinstance(args, os.PathLike):
+2026-11-11T05:32:32.8987695Z             if shell:
+2026-11-11T05:32:32.8988058Z                 raise TypeError('path-like args is not allowed when '
+2026-11-11T05:32:32.8988489Z                                 'shell is true')
+2026-11-11T05:32:32.8988822Z             args = [args]
+2026-11-11T05:32:32.8989090Z         else:
+2026-11-11T05:32:32.8989354Z             args = list(args)
+2026-11-11T05:32:32.8989631Z     
+2026-11-11T05:32:32.8989854Z         if shell:
+2026-11-11T05:32:32.8990186Z             # On Android the default shell is at '/system/bin/sh'.
+2026-11-11T05:32:32.8990613Z             unix_shell = ('/system/bin/sh' if
+2026-11-11T05:32:32.8991040Z                       hasattr(sys, 'getandroidapilevel') else '/bin/sh')
+2026-11-11T05:32:32.8991473Z             args = [unix_shell, "-c"] + args
+2026-11-11T05:32:32.8991813Z             if executable:
+2026-11-11T05:32:32.8992109Z                 args[0] = executable
+2026-11-11T05:32:32.8992404Z     
+2026-11-11T05:32:32.8992630Z         if executable is None:
+2026-11-11T05:32:32.8992930Z             executable = args[0]
+2026-11-11T05:32:32.8993210Z     
+2026-11-11T05:32:32.8993542Z         sys.audit("subprocess.Popen", executable, args, cwd, env)
+2026-11-11T05:32:32.8993948Z     
+2026-11-11T05:32:32.8994178Z         if (_USE_POSIX_SPAWN
+2026-11-11T05:32:32.8994507Z                 and os.path.dirname(executable)
+2026-11-11T05:32:32.8995052Z                 and preexec_fn is None
+2026-11-11T05:32:32.8995505Z                 and not close_fds
+2026-11-11T05:32:32.8995814Z                 and not pass_fds
+2026-11-11T05:32:32.8996112Z                 and cwd is None
+2026-11-11T05:32:32.8996447Z                 and (p2cread == -1 or p2cread > 2)
+2026-11-11T05:32:32.8996829Z                 and (c2pwrite == -1 or c2pwrite > 2)
+2026-11-11T05:32:32.8997182Z                 and (errwrite == -1 or errwrite > 2)
+2026-11-11T05:32:32.8997425Z                 and not start_new_session
+2026-11-11T05:32:32.8997657Z                 and process_group == -1
+2026-11-11T05:32:32.8997873Z                 and gid is None
+2026-11-11T05:32:32.8998079Z                 and gids is None
+2026-11-11T05:32:32.8998285Z                 and uid is None
+2026-11-11T05:32:32.8998477Z                 and umask < 0):
+2026-11-11T05:32:32.8998736Z             self._posix_spawn(args, executable, env, restore_signals,
+2026-11-11T05:32:32.8999027Z                               p2cread, p2cwrite,
+2026-11-11T05:32:32.8999260Z                               c2pread, c2pwrite,
+2026-11-11T05:32:32.8999491Z                               errread, errwrite)
+2026-11-11T05:32:32.8999703Z             return
+2026-11-11T05:32:32.8999861Z     
+2026-11-11T05:32:32.9000019Z         orig_executable = executable
+2026-11-11T05:32:32.9000222Z     
+2026-11-11T05:32:32.9000450Z         # For transferring possible exec failure from child to parent.
+2026-11-11T05:32:32.9000890Z         # Data format: "exception name:hex errno:description"
+2026-11-11T05:32:32.9001228Z         # Pickle is not used; it is complex and involves memory allocation.
+2026-11-11T05:32:32.9001539Z         errpipe_read, errpipe_write = os.pipe()
+2026-11-11T05:32:32.9001845Z         # errpipe_write must not be in the standard io 0, 1, or 2 fd range.
+2026-11-11T05:32:32.9002129Z         low_fds_to_close = []
+2026-11-11T05:32:32.9002334Z         while errpipe_write < 3:
+2026-11-11T05:32:32.9002566Z             low_fds_to_close.append(errpipe_write)
+2026-11-11T05:32:32.9002825Z             errpipe_write = os.dup(errpipe_write)
+2026-11-11T05:32:32.9003065Z         for low_fd in low_fds_to_close:
+2026-11-11T05:32:32.9003281Z             os.close(low_fd)
+2026-11-11T05:32:32.9003468Z         try:
+2026-11-11T05:32:32.9003637Z             try:
+2026-11-11T05:32:32.9003851Z                 # We must avoid complex work that could involve
+2026-11-11T05:32:32.9004145Z                 # malloc or free in the child process to avoid
+2026-11-11T05:32:32.9004430Z                 # potential deadlocks, thus we do all this here.
+2026-11-11T05:32:32.9004700Z                 # and pass it to fork_exec()
+2026-11-11T05:32:32.9004910Z     
+2026-11-11T05:32:32.9005229Z                 if env is not None:
+2026-11-11T05:32:32.9005479Z                     env_list = []
+2026-11-11T05:32:32.9005704Z                     for k, v in env.items():
+2026-11-11T05:32:32.9005926Z                         k = os.fsencode(k)
+2026-11-11T05:32:32.9006152Z                         if b'=' in k:
+2026-11-11T05:32:32.9006417Z                             raise ValueError("illegal environment variable name")
+2026-11-11T05:32:32.9006736Z                         env_list.append(k + b'=' + os.fsencode(v))
+2026-11-11T05:32:32.9006983Z                 else:
+2026-11-11T05:32:32.9007201Z                     env_list = None  # Use execv instead of execve.
+2026-11-11T05:32:32.9007475Z                 executable = os.fsencode(executable)
+2026-11-11T05:32:32.9007738Z                 if os.path.dirname(executable):
+2026-11-11T05:32:32.9007986Z                     executable_list = (executable,)
+2026-11-11T05:32:32.9008209Z                 else:
+2026-11-11T05:32:32.9008416Z                     # This matches the behavior of os._execvpe().
+2026-11-11T05:32:32.9008680Z                     executable_list = tuple(
+2026-11-11T05:32:32.9008930Z                         os.path.join(os.fsencode(dir), executable)
+2026-11-11T05:32:32.9009198Z                         for dir in os.get_exec_path(env))
+2026-11-11T05:32:32.9009694Z                 fds_to_keep = set(pass_fds)
+2026-11-11T05:32:32.9009973Z                 fds_to_keep.add(errpipe_write)
+2026-11-11T05:32:32.9010208Z                 self.pid = _fork_exec(
+2026-11-11T05:32:32.9010440Z                         args, executable_list,
+2026-11-11T05:32:32.9010700Z                         close_fds, tuple(sorted(map(int, fds_to_keep))),
+2026-11-11T05:32:32.9010977Z                         cwd, env_list,
+2026-11-11T05:32:32.9011216Z                         p2cread, p2cwrite, c2pread, c2pwrite,
+2026-11-11T05:32:32.9011477Z                         errread, errwrite,
+2026-11-11T05:32:32.9011711Z                         errpipe_read, errpipe_write,
+2026-11-11T05:32:32.9011968Z                         restore_signals, start_new_session,
+2026-11-11T05:32:32.9012227Z                         process_group, gid, gids, uid, umask,
+2026-11-11T05:32:32.9012482Z                         preexec_fn, _USE_VFORK)
+2026-11-11T05:32:32.9012714Z                 self._child_created = True
+2026-11-11T05:32:32.9012919Z             finally:
+2026-11-11T05:32:32.9013121Z                 # be sure the FD is closed no matter what
+2026-11-11T05:32:32.9013382Z                 os.close(errpipe_write)
+2026-11-11T05:32:32.9013585Z     
+2026-11-11T05:32:32.9013768Z             self._close_pipe_fds(p2cread, p2cwrite,
+2026-11-11T05:32:32.9014008Z                                  c2pread, c2pwrite,
+2026-11-11T05:32:32.9014348Z                                  errread, errwrite)
+2026-11-11T05:32:32.9014577Z     
+2026-11-11T05:32:32.9014786Z             # Wait for exec to fail or succeed; possibly raising an
+2026-11-11T05:32:32.9015185Z             # exception (limited in size)
+2026-11-11T05:32:32.9015469Z             errpipe_data = bytearray()
+2026-11-11T05:32:32.9015683Z             while True:
+2026-11-11T05:32:32.9015885Z                 part = os.read(errpipe_read, 50000)
+2026-11-11T05:32:32.9016116Z                 errpipe_data += part
+2026-11-11T05:32:32.9016365Z                 if not part or len(errpipe_data) > 50000:
+2026-11-11T05:32:32.9016601Z                     break
+2026-11-11T05:32:32.9016775Z         finally:
+2026-11-11T05:32:32.9016965Z             # be sure the FD is closed no matter what
+2026-11-11T05:32:32.9017210Z             os.close(errpipe_read)
+2026-11-11T05:32:32.9017406Z     
+2026-11-11T05:32:32.9017566Z         if errpipe_data:
+2026-11-11T05:32:32.9017747Z             try:
+2026-11-11T05:32:32.9017935Z                 pid, sts = os.waitpid(self.pid, 0)
+2026-11-11T05:32:32.9018179Z                 if pid == self.pid:
+2026-11-11T05:32:32.9018392Z                     self._handle_exitstatus(sts)
+2026-11-11T05:32:32.9018612Z                 else:
+2026-11-11T05:32:32.9018803Z                     self.returncode = sys.maxsize
+2026-11-11T05:32:32.9019052Z             except ChildProcessError:
+2026-11-11T05:32:32.9019260Z                 pass
+2026-11-11T05:32:32.9019439Z     
+2026-11-11T05:32:32.9019585Z             try:
+2026-11-11T05:32:32.9019789Z                 exception_name, hex_errno, err_msg = (
+2026-11-11T05:32:32.9020043Z                         errpipe_data.split(b':', 2))
+2026-11-11T05:32:32.9020311Z                 # The encoding here should match the encoding
+2026-11-11T05:32:32.9020597Z                 # written in by the subprocess implementations
+2026-11-11T05:32:32.9020866Z                 # like _posixsubprocess
+2026-11-11T05:32:32.9021094Z                 err_msg = err_msg.decode()
+2026-11-11T05:32:32.9021318Z             except ValueError:
+2026-11-11T05:32:32.9021540Z                 exception_name = b'SubprocessError'
+2026-11-11T05:32:32.9021778Z                 hex_errno = b'0'
+2026-11-11T05:32:32.9022020Z                 err_msg = 'Bad exception data from child: {!r}'.format(
+2026-11-11T05:32:32.9022297Z                               bytes(errpipe_data))
+2026-11-11T05:32:32.9022532Z             child_exception_type = getattr(
+2026-11-11T05:32:32.9022788Z                     builtins, exception_name.decode('ascii'),
+2026-11-11T05:32:32.9023177Z                     SubprocessError)
+2026-11-11T05:32:32.9023445Z             if issubclass(child_exception_type, OSError) and hex_errno:
+2026-11-11T05:32:32.9023731Z                 errno_num = int(hex_errno, 16)
+2026-11-11T05:32:32.9023965Z                 if err_msg == "noexec:chdir":
+2026-11-11T05:32:32.9024186Z                     err_msg = ""
+2026-11-11T05:32:32.9024408Z                     # The error must be from chdir(cwd).
+2026-11-11T05:32:32.9024651Z                     err_filename = cwd
+2026-11-11T05:32:32.9024883Z                 elif err_msg == "noexec":
+2026-11-11T05:32:32.9025266Z                     err_msg = ""
+2026-11-11T05:32:32.9025475Z                     err_filename = None
+2026-11-11T05:32:32.9025676Z                 else:
+2026-11-11T05:32:32.9025869Z                     err_filename = orig_executable
+2026-11-11T05:32:32.9026110Z                 if errno_num != 0:
+2026-11-11T05:32:32.9026334Z                     err_msg = os.strerror(errno_num)
+2026-11-11T05:32:32.9026576Z                 if err_filename is not None:
+2026-11-11T05:32:32.9026863Z >                   raise child_exception_type(errno_num, err_msg, err_filename)
+2026-11-11T05:32:32.9027245Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-11T05:32:32.9027476Z 
+2026-11-11T05:32:32.9027750Z ../../../.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/subprocess.py:1955: FileNotFoundError
+2026-11-11T05:32:32.9028382Z _ test_original_openai_transport_native_loopback_config_to_h1[VIDEO_UNDERSTAND-VIDEO] _
+2026-11-11T05:32:32.9028664Z 
+2026-11-11T05:32:32.9028816Z tmp_path = PosixPath('/tmp/nq/test_original_openai_transport2')
+2026-11-11T05:32:32.9029123Z operation = 'VIDEO_UNDERSTAND', modality = 'VIDEO'
+2026-11-11T05:32:32.9029299Z 
+2026-11-11T05:32:32.9029573Z     @pytest.mark.parametrize('operation,modality',[('COGNITION','TEXT'),('VISION','IMAGE'),('VIDEO_UNDERSTAND','VIDEO')])
+2026-11-11T05:32:32.9030125Z     def test_original_openai_transport_native_loopback_config_to_h1(tmp_path,operation,modality):
+2026-11-11T05:32:32.9030546Z         with provider_harness(semantic_proposer) as (wire,metrics):
+2026-11-11T05:32:32.9030862Z             s,a=config_service(tmp_path/'host/providers.json')
+2026-11-11T05:32:32.9031564Z             p=ProviderProfile(provider_profile_id='synthetic.http',display_name='SYNTHETIC_LOOPBACK',protocol='SYNTHETIC_LOOPBACK',base_url=wire.endpoint.removesuffix('/chat/completions'),locality='LOCAL_FIXTURE')
+2026-11-11T05:32:32.9032433Z             m=model('model.wire',p.provider_profile_id,(operation,)).model_copy(update={'remote_model_id':'harness-v1'})
+2026-11-11T05:32:32.9033232Z             update(s,a,'UPSERT_PROVIDER',provider=p);update(s,a,'UPSERT_MODEL',model=m);update(s,a,'SET_CAPABILITY_ROUTE',route=CapabilityRoute(operation=operation,primary_model_profile_id=m.model_profile_id))
+2026-11-11T05:32:32.9034093Z             router=CapabilityRouter(s,RuntimeProviderFactory(ProviderRegistry(),Resolver(),RoutingPolicy(allow_synthetic_loopback=True)))
+2026-11-11T05:32:32.9034600Z             with fresh(tmp_path/'subject/self.db') as r:
+2026-11-11T05:32:32.9035326Z                 identity=r.identity_id;t=router.resolve(RouteRequest(operation=operation,input_modalities=(modality,),output_limit=4096),policy());session=t.cognition_session(r)
+2026-11-11T05:32:32.9035880Z                 if modality=='TEXT':
+2026-11-11T05:32:32.9036378Z                     mid=capture(r,'text',{'fact':'synthetic context'});cid=session.prepare('text','INTERPRET',(mid,));assert session.execute(cid)['state']=='PROPOSED'
+2026-11-11T05:32:32.9036849Z                 else:
+2026-11-11T05:32:32.9037192Z >                   raw=media_samples()[modality];mid=ingest(r,modality,raw);service=MediaSemanticService(session)
+2026-11-11T05:32:32.9037557Z                         ^^^^^^^^^^^^^^^
+2026-11-11T05:32:32.9037701Z 
+2026-11-11T05:32:32.9037800Z tests/provider_routing/test_ports.py:29: 
+2026-11-11T05:32:32.9038072Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-11T05:32:32.9038522Z src/nana_core/continuity/world_loop/samples.py:15: in media_samples
+2026-11-11T05:32:32.9039030Z     subprocess.run(cmd,stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,check=True,timeout=10)
+2026-11-11T05:32:32.9039628Z ../../../.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/subprocess.py:548: in run
+2026-11-11T05:32:32.9040027Z     with Popen(*popenargs, **kwargs) as process:
+2026-11-11T05:32:32.9040274Z          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-11T05:32:32.9040648Z ../../../.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/subprocess.py:1026: in __init__
+2026-11-11T05:32:32.9041089Z     self._execute_child(args, executable, preexec_fn, close_fds,
+2026-11-11T05:32:32.9041402Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-11T05:32:32.9041588Z 
+2026-11-11T05:32:32.9041761Z self = <Popen: returncode: 255 args: ['ffmpeg', '-nostdin', '-v', 'error', '-f', 'l...>
+2026-11-11T05:32:32.9042139Z args = ['ffmpeg', '-nostdin', '-v', 'error', '-f', 'lavfi', ...]
+2026-11-11T05:32:32.9042481Z executable = b'ffmpeg', preexec_fn = None, close_fds = True, pass_fds = ()
+2026-11-11T05:32:32.9042861Z cwd = None, env = None, startupinfo = None, creationflags = 0, shell = False
+2026-11-11T05:32:32.9043219Z p2cread = 16, p2cwrite = -1, c2pread = -1, c2pwrite = 16, errread = -1
+2026-11-11T05:32:32.9043581Z errwrite = 16, restore_signals = True, gid = None, gids = None, uid = None
+2026-11-11T05:32:32.9044021Z umask = -1, start_new_session = False, process_group = -1
+2026-11-11T05:32:32.9044212Z 
+2026-11-11T05:32:32.9044352Z     def _execute_child(self, args, executable, preexec_fn, close_fds,
+2026-11-11T05:32:32.9044651Z                        pass_fds, cwd, env,
+2026-11-11T05:32:32.9044890Z                        startupinfo, creationflags, shell,
+2026-11-11T05:32:32.9045295Z                        p2cread, p2cwrite,
+2026-11-11T05:32:32.9045514Z                        c2pread, c2pwrite,
+2026-11-11T05:32:32.9045738Z                        errread, errwrite,
+2026-11-11T05:32:32.9045953Z                        restore_signals,
+2026-11-11T05:32:32.9046182Z                        gid, gids, uid, umask,
+2026-11-11T05:32:32.9046422Z                        start_new_session, process_group):
+2026-11-11T05:32:32.9046682Z         """Execute program (POSIX version)"""
+2026-11-11T05:32:32.9046902Z     
+2026-11-11T05:32:32.9047080Z         if isinstance(args, (str, bytes)):
+2026-11-11T05:32:32.9047306Z             args = [args]
+2026-11-11T05:32:32.9047519Z         elif isinstance(args, os.PathLike):
+2026-11-11T05:32:32.9047757Z             if shell:
+2026-11-11T05:32:32.9047994Z                 raise TypeError('path-like args is not allowed when '
+2026-11-11T05:32:32.9048274Z                                 'shell is true')
+2026-11-11T05:32:32.9048489Z             args = [args]
+2026-11-11T05:32:32.9048677Z         else:
+2026-11-11T05:32:32.9048844Z             args = list(args)
+2026-11-11T05:32:32.9049033Z     
+2026-11-11T05:32:32.9049190Z         if shell:
+2026-11-11T05:32:32.9049423Z             # On Android the default shell is at '/system/bin/sh'.
+2026-11-11T05:32:32.9049691Z             unix_shell = ('/system/bin/sh' if
+2026-11-11T05:32:32.9049961Z                       hasattr(sys, 'getandroidapilevel') else '/bin/sh')
+2026-11-11T05:32:32.9050240Z             args = [unix_shell, "-c"] + args
+2026-11-11T05:32:32.9050467Z             if executable:
+2026-11-11T05:32:32.9050663Z                 args[0] = executable
+2026-11-11T05:32:32.9050861Z     
+2026-11-11T05:32:32.9051024Z         if executable is None:
+2026-11-11T05:32:32.9051235Z             executable = args[0]
+2026-11-11T05:32:32.9051428Z     
+2026-11-11T05:32:32.9051637Z         sys.audit("subprocess.Popen", executable, args, cwd, env)
+2026-11-11T05:32:32.9051891Z     
+2026-11-11T05:32:32.9052050Z         if (_USE_POSIX_SPAWN
+2026-11-11T05:32:32.9052275Z                 and os.path.dirname(executable)
+2026-11-11T05:32:32.9052649Z                 and preexec_fn is None
+2026-11-11T05:32:32.9052865Z                 and not close_fds
+2026-11-11T05:32:32.9053064Z                 and not pass_fds
+2026-11-11T05:32:32.9053268Z                 and cwd is None
+2026-11-11T05:32:32.9053487Z                 and (p2cread == -1 or p2cread > 2)
+2026-11-11T05:32:32.9053736Z                 and (c2pwrite == -1 or c2pwrite > 2)
+2026-11-11T05:32:32.9053983Z                 and (errwrite == -1 or errwrite > 2)
+2026-11-11T05:32:32.9054226Z                 and not start_new_session
+2026-11-11T05:32:32.9054453Z                 and process_group == -1
+2026-11-11T05:32:32.9054666Z                 and gid is None
+2026-11-11T05:32:32.9054858Z                 and gids is None
+2026-11-11T05:32:32.9055218Z                 and uid is None
+2026-11-11T05:32:32.9055426Z                 and umask < 0):
+2026-11-11T05:32:32.9055674Z             self._posix_spawn(args, executable, env, restore_signals,
+2026-11-11T05:32:32.9055953Z                               p2cread, p2cwrite,
+2026-11-11T05:32:32.9056196Z                               c2pread, c2pwrite,
+2026-11-11T05:32:32.9056424Z                               errread, errwrite)
+2026-11-11T05:32:32.9056635Z             return
+2026-11-11T05:32:32.9056799Z     
+2026-11-11T05:32:32.9056973Z         orig_executable = executable
+2026-11-11T05:32:32.9057174Z     
+2026-11-11T05:32:32.9057392Z         # For transferring possible exec failure from child to parent.
+2026-11-11T05:32:32.9057815Z         # Data format: "exception name:hex errno:description"
+2026-11-11T05:32:32.9058148Z         # Pickle is not used; it is complex and involves memory allocation.
+2026-11-11T05:32:32.9058455Z         errpipe_read, errpipe_write = os.pipe()
+2026-11-11T05:32:32.9058754Z         # errpipe_write must not be in the standard io 0, 1, or 2 fd range.
+2026-11-11T05:32:32.9059044Z         low_fds_to_close = []
+2026-11-11T05:32:32.9059258Z         while errpipe_write < 3:
+2026-11-11T05:32:32.9059486Z             low_fds_to_close.append(errpipe_write)
+2026-11-11T05:32:32.9059750Z             errpipe_write = os.dup(errpipe_write)
+2026-11-11T05:32:32.9059989Z         for low_fd in low_fds_to_close:
+2026-11-11T05:32:32.9060223Z             os.close(low_fd)
+2026-11-11T05:32:32.9060414Z         try:
+2026-11-11T05:32:32.9060578Z             try:
+2026-11-11T05:32:32.9060781Z                 # We must avoid complex work that could involve
+2026-11-11T05:32:32.9061064Z                 # malloc or free in the child process to avoid
+2026-11-11T05:32:32.9061362Z                 # potential deadlocks, thus we do all this here.
+2026-11-11T05:32:32.9061735Z                 # and pass it to fork_exec()
+2026-11-11T05:32:32.9061951Z     
+2026-11-11T05:32:32.9062114Z                 if env is not None:
+2026-11-11T05:32:32.9062331Z                     env_list = []
+2026-11-11T05:32:32.9062541Z                     for k, v in env.items():
+2026-11-11T05:32:32.9062763Z                         k = os.fsencode(k)
+2026-11-11T05:32:32.9062988Z                         if b'=' in k:
+2026-11-11T05:32:32.9063269Z                             raise ValueError("illegal environment variable name")
+2026-11-11T05:32:32.9063580Z                         env_list.append(k + b'=' + os.fsencode(v))
+2026-11-11T05:32:32.9063824Z                 else:
+2026-11-11T05:32:32.9064040Z                     env_list = None  # Use execv instead of execve.
+2026-11-11T05:32:32.9064330Z                 executable = os.fsencode(executable)
+2026-11-11T05:32:32.9064585Z                 if os.path.dirname(executable):
+2026-11-11T05:32:32.9064830Z                     executable_list = (executable,)
+2026-11-11T05:32:32.9065055Z                 else:
+2026-11-11T05:32:32.9065463Z                     # This matches the behavior of os._execvpe().
+2026-11-11T05:32:32.9065726Z                     executable_list = tuple(
+2026-11-11T05:32:32.9065975Z                         os.path.join(os.fsencode(dir), executable)
+2026-11-11T05:32:32.9066246Z                         for dir in os.get_exec_path(env))
+2026-11-11T05:32:32.9066623Z                 fds_to_keep = set(pass_fds)
+2026-11-11T05:32:32.9066862Z                 fds_to_keep.add(errpipe_write)
+2026-11-11T05:32:32.9067091Z                 self.pid = _fork_exec(
+2026-11-11T05:32:32.9067316Z                         args, executable_list,
+2026-11-11T05:32:32.9067584Z                         close_fds, tuple(sorted(map(int, fds_to_keep))),
+2026-11-11T05:32:32.9067853Z                         cwd, env_list,
+2026-11-11T05:32:32.9068097Z                         p2cread, p2cwrite, c2pread, c2pwrite,
+2026-11-11T05:32:32.9068348Z                         errread, errwrite,
+2026-11-11T05:32:32.9068595Z                         errpipe_read, errpipe_write,
+2026-11-11T05:32:32.9068852Z                         restore_signals, start_new_session,
+2026-11-11T05:32:32.9069111Z                         process_group, gid, gids, uid, umask,
+2026-11-11T05:32:32.9069365Z                         preexec_fn, _USE_VFORK)
+2026-11-11T05:32:32.9069597Z                 self._child_created = True
+2026-11-11T05:32:32.9069811Z             finally:
+2026-11-11T05:32:32.9070010Z                 # be sure the FD is closed no matter what
+2026-11-11T05:32:32.9070253Z                 os.close(errpipe_write)
+2026-11-11T05:32:32.9070463Z     
+2026-11-11T05:32:32.9070641Z             self._close_pipe_fds(p2cread, p2cwrite,
+2026-11-11T05:32:32.9070889Z                                  c2pread, c2pwrite,
+2026-11-11T05:32:32.9071120Z                                  errread, errwrite)
+2026-11-11T05:32:32.9071347Z     
+2026-11-11T05:32:32.9071667Z             # Wait for exec to fail or succeed; possibly raising an
+2026-11-11T05:32:32.9071944Z             # exception (limited in size)
+2026-11-11T05:32:32.9072173Z             errpipe_data = bytearray()
+2026-11-11T05:32:32.9072389Z             while True:
+2026-11-11T05:32:32.9072591Z                 part = os.read(errpipe_read, 50000)
+2026-11-11T05:32:32.9072831Z                 errpipe_data += part
+2026-11-11T05:32:32.9073075Z                 if not part or len(errpipe_data) > 50000:
+2026-11-11T05:32:32.9073321Z                     break
+2026-11-11T05:32:32.9073496Z         finally:
+2026-11-11T05:32:32.9073692Z             # be sure the FD is closed no matter what
+2026-11-11T05:32:32.9073926Z             os.close(errpipe_read)
+2026-11-11T05:32:32.9074133Z     
+2026-11-11T05:32:32.9074290Z         if errpipe_data:
+2026-11-11T05:32:32.9074471Z             try:
+2026-11-11T05:32:32.9074657Z                 pid, sts = os.waitpid(self.pid, 0)
+2026-11-11T05:32:32.9074891Z                 if pid == self.pid:
+2026-11-11T05:32:32.9075258Z                     self._handle_exitstatus(sts)
+2026-11-11T05:32:32.9075488Z                 else:
+2026-11-11T05:32:32.9075688Z                     self.returncode = sys.maxsize
+2026-11-11T05:32:32.9075931Z             except ChildProcessError:
+2026-11-11T05:32:32.9076148Z                 pass
+2026-11-11T05:32:32.9076326Z     
+2026-11-11T05:32:32.9076478Z             try:
+2026-11-11T05:32:32.9076677Z                 exception_name, hex_errno, err_msg = (
+2026-11-11T05:32:32.9076937Z                         errpipe_data.split(b':', 2))
+2026-11-11T05:32:32.9077202Z                 # The encoding here should match the encoding
+2026-11-11T05:32:32.9077484Z                 # written in by the subprocess implementations
+2026-11-11T05:32:32.9077749Z                 # like _posixsubprocess
+2026-11-11T05:32:32.9077984Z                 err_msg = err_msg.decode()
+2026-11-11T05:32:32.9078208Z             except ValueError:
+2026-11-11T05:32:32.9078428Z                 exception_name = b'SubprocessError'
+2026-11-11T05:32:32.9078661Z                 hex_errno = b'0'
+2026-11-11T05:32:32.9078918Z                 err_msg = 'Bad exception data from child: {!r}'.format(
+2026-11-11T05:32:32.9079234Z                               bytes(errpipe_data))
+2026-11-11T05:32:32.9079476Z             child_exception_type = getattr(
+2026-11-11T05:32:32.9079727Z                     builtins, exception_name.decode('ascii'),
+2026-11-11T05:32:32.9079985Z                     SubprocessError)
+2026-11-11T05:32:32.9080420Z             if issubclass(child_exception_type, OSError) and hex_errno:
+2026-11-11T05:32:32.9080706Z                 errno_num = int(hex_errno, 16)
+2026-11-11T05:32:32.9080948Z                 if err_msg == "noexec:chdir":
+2026-11-11T05:32:32.9081184Z                     err_msg = ""
+2026-11-11T05:32:32.9081404Z                     # The error must be from chdir(cwd).
+2026-11-11T05:32:32.9081646Z                     err_filename = cwd
+2026-11-11T05:32:32.9081860Z                 elif err_msg == "noexec":
+2026-11-11T05:32:32.9082089Z                     err_msg = ""
+2026-11-11T05:32:32.9082290Z                     err_filename = None
+2026-11-11T05:32:32.9082496Z                 else:
+2026-11-11T05:32:32.9082689Z                     err_filename = orig_executable
+2026-11-11T05:32:32.9082928Z                 if errno_num != 0:
+2026-11-11T05:32:32.9083152Z                     err_msg = os.strerror(errno_num)
+2026-11-11T05:32:32.9083394Z                 if err_filename is not None:
+2026-11-11T05:32:32.9083682Z >                   raise child_exception_type(errno_num, err_msg, err_filename)
+2026-11-11T05:32:32.9084064Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-11T05:32:32.9084291Z 
+2026-11-11T05:32:32.9084564Z ../../../.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/subprocess.py:1955: FileNotFoundError
+2026-11-11T05:32:32.9085051Z __________ test_budgeted_source_selection_and_public_recorded_domain ___________
+2026-11-11T05:32:32.9085391Z 
+2026-11-11T05:32:32.9085640Z tmp_path = PosixPath('/tmp/nq/test_budgeted_source_selection0')
+2026-11-11T05:32:32.9085841Z 
+2026-11-11T05:32:32.9086009Z     def test_budgeted_source_selection_and_public_recorded_domain(tmp_path):
+2026-11-11T05:32:32.9086390Z         from nana_core.continuity.world_loop.samples import media_samples
+2026-11-11T05:32:32.9086699Z         with fresh(tmp_path/'s'/'self.db') as r:
+2026-11-11T05:32:32.9087064Z             service=PerceptionService(r.store,providers(),policy());now=r.clock.utc_now_us()
+2026-11-11T05:32:32.9087840Z >           mid,rid=service.ingest(media_samples()['IMAGE'],PublicMediaSource(source_id='public-recording',modality='IMAGE',origin='RECORDED',event_time_us=now,observed_time_us=now),entity_id='observer',scope='world')
+2026-11-11T05:32:32.9088474Z                                    ^^^^^^^^^^^^^^^
+2026-11-11T05:32:32.9088634Z 
+2026-11-11T05:32:32.9088733Z tests/world_loop/test_boundaries.py:47: 
+2026-11-11T05:32:32.9089009Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-11T05:32:32.9089341Z src/nana_core/continuity/world_loop/samples.py:15: in media_samples
+2026-11-11T05:32:32.9089846Z     subprocess.run(cmd,stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,check=True,timeout=10)
+2026-11-11T05:32:32.9090441Z ../../../.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/subprocess.py:548: in run
+2026-11-11T05:32:32.9090836Z     with Popen(*popenargs, **kwargs) as process:
+2026-11-11T05:32:32.9091077Z          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-11T05:32:32.9091434Z ../../../.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/subprocess.py:1026: in __init__
+2026-11-11T05:32:32.9091875Z     self._execute_child(args, executable, preexec_fn, close_fds,
+2026-11-11T05:32:32.9092183Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-11T05:32:32.9092367Z 
+2026-11-11T05:32:32.9092542Z self = <Popen: returncode: 255 args: ['ffmpeg', '-nostdin', '-v', 'error', '-f', 'l...>
+2026-11-11T05:32:32.9092919Z args = ['ffmpeg', '-nostdin', '-v', 'error', '-f', 'lavfi', ...]
+2026-11-11T05:32:32.9093260Z executable = b'ffmpeg', preexec_fn = None, close_fds = True, pass_fds = ()
+2026-11-11T05:32:32.9093632Z cwd = None, env = None, startupinfo = None, creationflags = 0, shell = False
+2026-11-11T05:32:32.9093990Z p2cread = 15, p2cwrite = -1, c2pread = -1, c2pwrite = 15, errread = -1
+2026-11-11T05:32:32.9094359Z errwrite = 15, restore_signals = True, gid = None, gids = None, uid = None
+2026-11-11T05:32:32.9094813Z umask = -1, start_new_session = False, process_group = -1
+2026-11-11T05:32:32.9095004Z 
+2026-11-11T05:32:32.9095251Z     def _execute_child(self, args, executable, preexec_fn, close_fds,
+2026-11-11T05:32:32.9095549Z                        pass_fds, cwd, env,
+2026-11-11T05:32:32.9095804Z                        startupinfo, creationflags, shell,
+2026-11-11T05:32:32.9096055Z                        p2cread, p2cwrite,
+2026-11-11T05:32:32.9096283Z                        c2pread, c2pwrite,
+2026-11-11T05:32:32.9096500Z                        errread, errwrite,
+2026-11-11T05:32:32.9096726Z                        restore_signals,
+2026-11-11T05:32:32.9096949Z                        gid, gids, uid, umask,
+2026-11-11T05:32:32.9097191Z                        start_new_session, process_group):
+2026-11-11T05:32:32.9097444Z         """Execute program (POSIX version)"""
+2026-11-11T05:32:32.9097665Z     
+2026-11-11T05:32:32.9097839Z         if isinstance(args, (str, bytes)):
+2026-11-11T05:32:32.9098062Z             args = [args]
+2026-11-11T05:32:32.9098268Z         elif isinstance(args, os.PathLike):
+2026-11-11T05:32:32.9098499Z             if shell:
+2026-11-11T05:32:32.9098730Z                 raise TypeError('path-like args is not allowed when '
+2026-11-11T05:32:32.9099020Z                                 'shell is true')
+2026-11-11T05:32:32.9099244Z             args = [args]
+2026-11-11T05:32:32.9099450Z         else:
+2026-11-11T05:32:32.9099721Z             args = list(args)
+2026-11-11T05:32:32.9099914Z     
+2026-11-11T05:32:32.9100067Z         if shell:
+2026-11-11T05:32:32.9100285Z             # On Android the default shell is at '/system/bin/sh'.
+2026-11-11T05:32:32.9100556Z             unix_shell = ('/system/bin/sh' if
+2026-11-11T05:32:32.9100824Z                       hasattr(sys, 'getandroidapilevel') else '/bin/sh')
+2026-11-11T05:32:32.9101096Z             args = [unix_shell, "-c"] + args
+2026-11-11T05:32:32.9101328Z             if executable:
+2026-11-11T05:32:32.9101525Z                 args[0] = executable
+2026-11-11T05:32:32.9101724Z     
+2026-11-11T05:32:32.9101880Z         if executable is None:
+2026-11-11T05:32:32.9102084Z             executable = args[0]
+2026-11-11T05:32:32.9102484Z     
+2026-11-11T05:32:32.9102811Z         sys.audit("subprocess.Popen", executable, args, cwd, env)
+2026-11-11T05:32:32.9103405Z     
+2026-11-11T05:32:32.9103713Z         if (_USE_POSIX_SPAWN
+2026-11-11T05:32:32.9104026Z                 and os.path.dirname(executable)
+2026-11-11T05:32:32.9104456Z                 and preexec_fn is None
+2026-11-11T05:32:32.9104834Z                 and not close_fds
+2026-11-11T05:32:32.9105271Z                 and not pass_fds
+2026-11-11T05:32:32.9105616Z                 and cwd is None
+2026-11-11T05:32:32.9105926Z                 and (p2cread == -1 or p2cread > 2)
+2026-11-11T05:32:32.9106389Z                 and (c2pwrite == -1 or c2pwrite > 2)
+2026-11-11T05:32:32.9106747Z                 and (errwrite == -1 or errwrite > 2)
+2026-11-11T05:32:32.9119734Z                 and not start_new_session
+2026-11-11T05:32:32.9120013Z                 and process_group == -1
+2026-11-11T05:32:32.9120257Z                 and gid is None
+2026-11-11T05:32:32.9120474Z                 and gids is None
+2026-11-11T05:32:32.9120684Z                 and uid is None
+2026-11-11T05:32:32.9120878Z                 and umask < 0):
+2026-11-11T05:32:32.9121153Z             self._posix_spawn(args, executable, env, restore_signals,
+2026-11-11T05:32:32.9121467Z                               p2cread, p2cwrite,
+2026-11-11T05:32:32.9121734Z                               c2pread, c2pwrite,
+2026-11-11T05:32:32.9121959Z                               errread, errwrite)
+2026-11-11T05:32:32.9122179Z             return
+2026-11-11T05:32:32.9122348Z     
+2026-11-11T05:32:32.9122520Z         orig_executable = executable
+2026-11-11T05:32:32.9122719Z     
+2026-11-11T05:32:32.9122948Z         # For transferring possible exec failure from child to parent.
+2026-11-11T05:32:32.9123471Z         # Data format: "exception name:hex errno:description"
+2026-11-11T05:32:32.9123804Z         # Pickle is not used; it is complex and involves memory allocation.
+2026-11-11T05:32:32.9124120Z         errpipe_read, errpipe_write = os.pipe()
+2026-11-11T05:32:32.9124441Z         # errpipe_write must not be in the standard io 0, 1, or 2 fd range.
+2026-11-11T05:32:32.9124744Z         low_fds_to_close = []
+2026-11-11T05:32:32.9124957Z         while errpipe_write < 3:
+2026-11-11T05:32:32.9125311Z             low_fds_to_close.append(errpipe_write)
+2026-11-11T05:32:32.9125567Z             errpipe_write = os.dup(errpipe_write)
+2026-11-11T05:32:32.9125811Z         for low_fd in low_fds_to_close:
+2026-11-11T05:32:32.9126034Z             os.close(low_fd)
+2026-11-11T05:32:32.9126225Z         try:
+2026-11-11T05:32:32.9126386Z             try:
+2026-11-11T05:32:32.9126598Z                 # We must avoid complex work that could involve
+2026-11-11T05:32:32.9126886Z                 # malloc or free in the child process to avoid
+2026-11-11T05:32:32.9127179Z                 # potential deadlocks, thus we do all this here.
+2026-11-11T05:32:32.9127445Z                 # and pass it to fork_exec()
+2026-11-11T05:32:32.9127665Z     
+2026-11-11T05:32:32.9127835Z                 if env is not None:
+2026-11-11T05:32:32.9128050Z                     env_list = []
+2026-11-11T05:32:32.9128263Z                     for k, v in env.items():
+2026-11-11T05:32:32.9128501Z                         k = os.fsencode(k)
+2026-11-11T05:32:32.9128834Z                         if b'=' in k:
+2026-11-11T05:32:32.9129110Z                             raise ValueError("illegal environment variable name")
+2026-11-11T05:32:32.9129432Z                         env_list.append(k + b'=' + os.fsencode(v))
+2026-11-11T05:32:32.9129688Z                 else:
+2026-11-11T05:32:32.9129904Z                     env_list = None  # Use execv instead of execve.
+2026-11-11T05:32:32.9130177Z                 executable = os.fsencode(executable)
+2026-11-11T05:32:32.9130436Z                 if os.path.dirname(executable):
+2026-11-11T05:32:32.9130697Z                     executable_list = (executable,)
+2026-11-11T05:32:32.9130925Z                 else:
+2026-11-11T05:32:32.9131139Z                     # This matches the behavior of os._execvpe().
+2026-11-11T05:32:32.9131400Z                     executable_list = tuple(
+2026-11-11T05:32:32.9131661Z                         os.path.join(os.fsencode(dir), executable)
+2026-11-11T05:32:32.9131932Z                         for dir in os.get_exec_path(env))
+2026-11-11T05:32:32.9132184Z                 fds_to_keep = set(pass_fds)
+2026-11-11T05:32:32.9132420Z                 fds_to_keep.add(errpipe_write)
+2026-11-11T05:32:32.9132663Z                 self.pid = _fork_exec(
+2026-11-11T05:32:32.9132886Z                         args, executable_list,
+2026-11-11T05:32:32.9133156Z                         close_fds, tuple(sorted(map(int, fds_to_keep))),
+2026-11-11T05:32:32.9133422Z                         cwd, env_list,
+2026-11-11T05:32:32.9133668Z                         p2cread, p2cwrite, c2pread, c2pwrite,
+2026-11-11T05:32:32.9133927Z                         errread, errwrite,
+2026-11-11T05:32:32.9134165Z                         errpipe_read, errpipe_write,
+2026-11-11T05:32:32.9134425Z                         restore_signals, start_new_session,
+2026-11-11T05:32:32.9134693Z                         process_group, gid, gids, uid, umask,
+2026-11-11T05:32:32.9134943Z                         preexec_fn, _USE_VFORK)
+2026-11-11T05:32:32.9135296Z                 self._child_created = True
+2026-11-11T05:32:32.9135500Z             finally:
+2026-11-11T05:32:32.9135703Z                 # be sure the FD is closed no matter what
+2026-11-11T05:32:32.9135947Z                 os.close(errpipe_write)
+2026-11-11T05:32:32.9136151Z     
+2026-11-11T05:32:32.9136328Z             self._close_pipe_fds(p2cread, p2cwrite,
+2026-11-11T05:32:32.9136580Z                                  c2pread, c2pwrite,
+2026-11-11T05:32:32.9136817Z                                  errread, errwrite)
+2026-11-11T05:32:32.9137157Z     
+2026-11-11T05:32:32.9137367Z             # Wait for exec to fail or succeed; possibly raising an
+2026-11-11T05:32:32.9137655Z             # exception (limited in size)
+2026-11-11T05:32:32.9137884Z             errpipe_data = bytearray()
+2026-11-11T05:32:32.9138088Z             while True:
+2026-11-11T05:32:32.9138285Z                 part = os.read(errpipe_read, 50000)
+2026-11-11T05:32:32.9138526Z                 errpipe_data += part
+2026-11-11T05:32:32.9138764Z                 if not part or len(errpipe_data) > 50000:
+2026-11-11T05:32:32.9138998Z                     break
+2026-11-11T05:32:32.9139170Z         finally:
+2026-11-11T05:32:32.9139373Z             # be sure the FD is closed no matter what
+2026-11-11T05:32:32.9139612Z             os.close(errpipe_read)
+2026-11-11T05:32:32.9139808Z     
+2026-11-11T05:32:32.9139961Z         if errpipe_data:
+2026-11-11T05:32:32.9140149Z             try:
+2026-11-11T05:32:32.9140336Z                 pid, sts = os.waitpid(self.pid, 0)
+2026-11-11T05:32:32.9140575Z                 if pid == self.pid:
+2026-11-11T05:32:32.9140797Z                     self._handle_exitstatus(sts)
+2026-11-11T05:32:32.9141026Z                 else:
+2026-11-11T05:32:32.9141218Z                     self.returncode = sys.maxsize
+2026-11-11T05:32:32.9141460Z             except ChildProcessError:
+2026-11-11T05:32:32.9141669Z                 pass
+2026-11-11T05:32:32.9141838Z     
+2026-11-11T05:32:32.9141994Z             try:
+2026-11-11T05:32:32.9142365Z                 exception_name, hex_errno, err_msg = (
+2026-11-11T05:32:32.9142630Z                         errpipe_data.split(b':', 2))
+2026-11-11T05:32:32.9142889Z                 # The encoding here should match the encoding
+2026-11-11T05:32:32.9143181Z                 # written in by the subprocess implementations
+2026-11-11T05:32:32.9143436Z                 # like _posixsubprocess
+2026-11-11T05:32:32.9143656Z                 err_msg = err_msg.decode()
+2026-11-11T05:32:32.9143881Z             except ValueError:
+2026-11-11T05:32:32.9144111Z                 exception_name = b'SubprocessError'
+2026-11-11T05:32:32.9144355Z                 hex_errno = b'0'
+2026-11-11T05:32:32.9144601Z                 err_msg = 'Bad exception data from child: {!r}'.format(
+2026-11-11T05:32:32.9144881Z                               bytes(errpipe_data))
+2026-11-11T05:32:32.9145219Z             child_exception_type = getattr(
+2026-11-11T05:32:32.9145469Z                     builtins, exception_name.decode('ascii'),
+2026-11-11T05:32:32.9145721Z                     SubprocessError)
+2026-11-11T05:32:32.9145982Z             if issubclass(child_exception_type, OSError) and hex_errno:
+2026-11-11T05:32:32.9146274Z                 errno_num = int(hex_errno, 16)
+2026-11-11T05:32:32.9146509Z                 if err_msg == "noexec:chdir":
+2026-11-11T05:32:32.9146726Z                     err_msg = ""
+2026-11-11T05:32:32.9146944Z                     # The error must be from chdir(cwd).
+2026-11-11T05:32:32.9147189Z                     err_filename = cwd
+2026-11-11T05:32:32.9147403Z                 elif err_msg == "noexec":
+2026-11-11T05:32:32.9147615Z                     err_msg = ""
+2026-11-11T05:32:32.9147814Z                     err_filename = None
+2026-11-11T05:32:32.9148023Z                 else:
+2026-11-11T05:32:32.9148210Z                     err_filename = orig_executable
+2026-11-11T05:32:32.9148440Z                 if errno_num != 0:
+2026-11-11T05:32:32.9148658Z                     err_msg = os.strerror(errno_num)
+2026-11-11T05:32:32.9148911Z                 if err_filename is not None:
+2026-11-11T05:32:32.9149197Z >                   raise child_exception_type(errno_num, err_msg, err_filename)
+2026-11-11T05:32:32.9149564Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-11T05:32:32.9149808Z 
+2026-11-11T05:32:32.9150081Z ../../../.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/subprocess.py:1955: FileNotFoundError
+2026-11-11T05:32:32.9150584Z ________ test_actual_image_audio_video_decode_spans_and_source_erasure _________
+2026-11-11T05:32:32.9150935Z 
+2026-11-11T05:32:32.9151079Z tmp_path = PosixPath('/tmp/nq/test_actual_image_audio_video_0')
+2026-11-11T05:32:32.9151283Z 
+2026-11-11T05:32:32.9151449Z     def test_actual_image_audio_video_decode_spans_and_source_erasure(tmp_path):
+2026-11-11T05:32:32.9151787Z         with fresh(tmp_path/'s'/'self.db') as r:
+2026-11-11T05:32:32.9152092Z             p=PerceptionService(r.store,providers(),policy());reports={}
+2026-11-11T05:32:32.9152415Z >           for modality,data in media_samples().items():
+2026-11-11T05:32:32.9152670Z                                  ^^^^^^^^^^^^^^^
+2026-11-11T05:32:32.9152822Z 
+2026-11-11T05:32:32.9152918Z tests/world_loop/test_foundation.py:55: 
+2026-11-11T05:32:32.9153180Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-11T05:32:32.9153517Z src/nana_core/continuity/world_loop/samples.py:15: in media_samples
+2026-11-11T05:32:32.9154035Z     subprocess.run(cmd,stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,check=True,timeout=10)
+2026-11-11T05:32:32.9154639Z ../../../.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/subprocess.py:548: in run
+2026-11-11T05:32:32.9155051Z     with Popen(*popenargs, **kwargs) as process:
+2026-11-11T05:32:32.9155408Z          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-11T05:32:32.9155783Z ../../../.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/subprocess.py:1026: in __init__
+2026-11-11T05:32:32.9156342Z     self._execute_child(args, executable, preexec_fn, close_fds,
+2026-11-11T05:32:32.9156659Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-11T05:32:32.9156849Z 
+2026-11-11T05:32:32.9157025Z self = <Popen: returncode: 255 args: ['ffmpeg', '-nostdin', '-v', 'error', '-f', 'l...>
+2026-11-11T05:32:32.9157400Z args = ['ffmpeg', '-nostdin', '-v', 'error', '-f', 'lavfi', ...]
+2026-11-11T05:32:32.9157752Z executable = b'ffmpeg', preexec_fn = None, close_fds = True, pass_fds = ()
+2026-11-11T05:32:32.9158132Z cwd = None, env = None, startupinfo = None, creationflags = 0, shell = False
+2026-11-11T05:32:32.9158498Z p2cread = 15, p2cwrite = -1, c2pread = -1, c2pwrite = 15, errread = -1
+2026-11-11T05:32:32.9158857Z errwrite = 15, restore_signals = True, gid = None, gids = None, uid = None
+2026-11-11T05:32:32.9159200Z umask = -1, start_new_session = False, process_group = -1
+2026-11-11T05:32:32.9159387Z 
+2026-11-11T05:32:32.9159533Z     def _execute_child(self, args, executable, preexec_fn, close_fds,
+2026-11-11T05:32:32.9159825Z                        pass_fds, cwd, env,
+2026-11-11T05:32:32.9160075Z                        startupinfo, creationflags, shell,
+2026-11-11T05:32:32.9160317Z                        p2cread, p2cwrite,
+2026-11-11T05:32:32.9160537Z                        c2pread, c2pwrite,
+2026-11-11T05:32:32.9160761Z                        errread, errwrite,
+2026-11-11T05:32:32.9160989Z                        restore_signals,
+2026-11-11T05:32:32.9161213Z                        gid, gids, uid, umask,
+2026-11-11T05:32:32.9161458Z                        start_new_session, process_group):
+2026-11-11T05:32:32.9161707Z         """Execute program (POSIX version)"""
+2026-11-11T05:32:32.9161936Z     
+2026-11-11T05:32:32.9162111Z         if isinstance(args, (str, bytes)):
+2026-11-11T05:32:32.9162334Z             args = [args]
+2026-11-11T05:32:32.9162538Z         elif isinstance(args, os.PathLike):
+2026-11-11T05:32:32.9162773Z             if shell:
+2026-11-11T05:32:32.9163011Z                 raise TypeError('path-like args is not allowed when '
+2026-11-11T05:32:32.9163288Z                                 'shell is true')
+2026-11-11T05:32:32.9163510Z             args = [args]
+2026-11-11T05:32:32.9163699Z         else:
+2026-11-11T05:32:32.9163875Z             args = list(args)
+2026-11-11T05:32:32.9164065Z     
+2026-11-11T05:32:32.9164218Z         if shell:
+2026-11-11T05:32:32.9164449Z             # On Android the default shell is at '/system/bin/sh'.
+2026-11-11T05:32:32.9164719Z             unix_shell = ('/system/bin/sh' if
+2026-11-11T05:32:32.9165210Z                       hasattr(sys, 'getandroidapilevel') else '/bin/sh')
+2026-11-11T05:32:32.9165498Z             args = [unix_shell, "-c"] + args
+2026-11-11T05:32:32.9165726Z             if executable:
+2026-11-11T05:32:32.9165925Z                 args[0] = executable
+2026-11-11T05:32:32.9166122Z     
+2026-11-11T05:32:32.9166286Z         if executable is None:
+2026-11-11T05:32:32.9166491Z             executable = args[0]
+2026-11-11T05:32:32.9166693Z     
+2026-11-11T05:32:32.9166908Z         sys.audit("subprocess.Popen", executable, args, cwd, env)
+2026-11-11T05:32:32.9167171Z     
+2026-11-11T05:32:32.9167331Z         if (_USE_POSIX_SPAWN
+2026-11-11T05:32:32.9167574Z                 and os.path.dirname(executable)
+2026-11-11T05:32:32.9167812Z                 and preexec_fn is None
+2026-11-11T05:32:32.9168030Z                 and not close_fds
+2026-11-11T05:32:32.9168230Z                 and not pass_fds
+2026-11-11T05:32:32.9168441Z                 and cwd is None
+2026-11-11T05:32:32.9168660Z                 and (p2cread == -1 or p2cread > 2)
+2026-11-11T05:32:32.9168915Z                 and (c2pwrite == -1 or c2pwrite > 2)
+2026-11-11T05:32:32.9169166Z                 and (errwrite == -1 or errwrite > 2)
+2026-11-11T05:32:32.9169412Z                 and not start_new_session
+2026-11-11T05:32:32.9169639Z                 and process_group == -1
+2026-11-11T05:32:32.9169861Z                 and gid is None
+2026-11-11T05:32:32.9170054Z                 and gids is None
+2026-11-11T05:32:32.9170358Z                 and uid is None
+2026-11-11T05:32:32.9170552Z                 and umask < 0):
+2026-11-11T05:32:32.9170803Z             self._posix_spawn(args, executable, env, restore_signals,
+2026-11-11T05:32:32.9171088Z                               p2cread, p2cwrite,
+2026-11-11T05:32:32.9171331Z                               c2pread, c2pwrite,
+2026-11-11T05:32:32.9171558Z                               errread, errwrite)
+2026-11-11T05:32:32.9171770Z             return
+2026-11-11T05:32:32.9171939Z     
+2026-11-11T05:32:32.9172107Z         orig_executable = executable
+2026-11-11T05:32:32.9172323Z     
+2026-11-11T05:32:32.9172546Z         # For transferring possible exec failure from child to parent.
+2026-11-11T05:32:32.9172863Z         # Data format: "exception name:hex errno:description"
+2026-11-11T05:32:32.9173188Z         # Pickle is not used; it is complex and involves memory allocation.
+2026-11-11T05:32:32.9173502Z         errpipe_read, errpipe_write = os.pipe()
+2026-11-11T05:32:32.9173803Z         # errpipe_write must not be in the standard io 0, 1, or 2 fd range.
+2026-11-11T05:32:32.9174083Z         low_fds_to_close = []
+2026-11-11T05:32:32.9174322Z         while errpipe_write < 3:
+2026-11-11T05:32:32.9174558Z             low_fds_to_close.append(errpipe_write)
+2026-11-11T05:32:32.9174814Z             errpipe_write = os.dup(errpipe_write)
+2026-11-11T05:32:32.9175048Z         for low_fd in low_fds_to_close:
+2026-11-11T05:32:32.9175343Z             os.close(low_fd)
+2026-11-11T05:32:32.9175542Z         try:
+2026-11-11T05:32:32.9175709Z             try:
+2026-11-11T05:32:32.9175914Z                 # We must avoid complex work that could involve
+2026-11-11T05:32:32.9176207Z                 # malloc or free in the child process to avoid
+2026-11-11T05:32:32.9176499Z                 # potential deadlocks, thus we do all this here.
+2026-11-11T05:32:32.9176764Z                 # and pass it to fork_exec()
+2026-11-11T05:32:32.9176977Z     
+2026-11-11T05:32:32.9177141Z                 if env is not None:
+2026-11-11T05:32:32.9177361Z                     env_list = []
+2026-11-11T05:32:32.9177565Z                     for k, v in env.items():
+2026-11-11T05:32:32.9177792Z                         k = os.fsencode(k)
+2026-11-11T05:32:32.9178013Z                         if b'=' in k:
+2026-11-11T05:32:32.9178291Z                             raise ValueError("illegal environment variable name")
+2026-11-11T05:32:32.9178611Z                         env_list.append(k + b'=' + os.fsencode(v))
+2026-11-11T05:32:32.9178973Z                 else:
+2026-11-11T05:32:32.9179195Z                     env_list = None  # Use execv instead of execve.
+2026-11-11T05:32:32.9179481Z                 executable = os.fsencode(executable)
+2026-11-11T05:32:32.9179733Z                 if os.path.dirname(executable):
+2026-11-11T05:32:32.9179980Z                     executable_list = (executable,)
+2026-11-11T05:32:32.9180209Z                 else:
+2026-11-11T05:32:32.9180427Z                     # This matches the behavior of os._execvpe().
+2026-11-11T05:32:32.9180689Z                     executable_list = tuple(
+2026-11-11T05:32:32.9180944Z                         os.path.join(os.fsencode(dir), executable)
+2026-11-11T05:32:32.9181217Z                         for dir in os.get_exec_path(env))
+2026-11-11T05:32:32.9181470Z                 fds_to_keep = set(pass_fds)
+2026-11-11T05:32:32.9181709Z                 fds_to_keep.add(errpipe_write)
+2026-11-11T05:32:32.9181948Z                 self.pid = _fork_exec(
+2026-11-11T05:32:32.9182171Z                         args, executable_list,
+2026-11-11T05:32:32.9182441Z                         close_fds, tuple(sorted(map(int, fds_to_keep))),
+2026-11-11T05:32:32.9182700Z                         cwd, env_list,
+2026-11-11T05:32:32.9182935Z                         p2cread, p2cwrite, c2pread, c2pwrite,
+2026-11-11T05:32:32.9183185Z                         errread, errwrite,
+2026-11-11T05:32:32.9183423Z                         errpipe_read, errpipe_write,
+2026-11-11T05:32:32.9183788Z                         restore_signals, start_new_session,
+2026-11-11T05:32:32.9184057Z                         process_group, gid, gids, uid, umask,
+2026-11-11T05:32:32.9184301Z                         preexec_fn, _USE_VFORK)
+2026-11-11T05:32:32.9184538Z                 self._child_created = True
+2026-11-11T05:32:32.9184753Z             finally:
+2026-11-11T05:32:32.9184958Z                 # be sure the FD is closed no matter what
+2026-11-11T05:32:32.9185289Z                 os.close(errpipe_write)
+2026-11-11T05:32:32.9185503Z     
+2026-11-11T05:32:32.9185682Z             self._close_pipe_fds(p2cread, p2cwrite,
+2026-11-11T05:32:32.9185931Z                                  c2pread, c2pwrite,
+2026-11-11T05:32:32.9186160Z                                  errread, errwrite)
+2026-11-11T05:32:32.9186382Z     
+2026-11-11T05:32:32.9186586Z             # Wait for exec to fail or succeed; possibly raising an
+2026-11-11T05:32:32.9186863Z             # exception (limited in size)
+2026-11-11T05:32:32.9187094Z             errpipe_data = bytearray()
+2026-11-11T05:32:32.9187321Z             while True:
+2026-11-11T05:32:32.9187527Z                 part = os.read(errpipe_read, 50000)
+2026-11-11T05:32:32.9187763Z                 errpipe_data += part
+2026-11-11T05:32:32.9188001Z                 if not part or len(errpipe_data) > 50000:
+2026-11-11T05:32:32.9188232Z                     break
+2026-11-11T05:32:32.9188418Z         finally:
+2026-11-11T05:32:32.9188612Z             # be sure the FD is closed no matter what
+2026-11-11T05:32:32.9188865Z             os.close(errpipe_read)
+2026-11-11T05:32:32.9189063Z     
+2026-11-11T05:32:32.9189226Z         if errpipe_data:
+2026-11-11T05:32:32.9189410Z             try:
+2026-11-11T05:32:32.9189599Z                 pid, sts = os.waitpid(self.pid, 0)
+2026-11-11T05:32:32.9189834Z                 if pid == self.pid:
+2026-11-11T05:32:32.9190059Z                     self._handle_exitstatus(sts)
+2026-11-11T05:32:32.9190279Z                 else:
+2026-11-11T05:32:32.9190477Z                     self.returncode = sys.maxsize
+2026-11-11T05:32:32.9190721Z             except ChildProcessError:
+2026-11-11T05:32:32.9190950Z                 pass
+2026-11-11T05:32:32.9191122Z     
+2026-11-11T05:32:32.9191276Z             try:
+2026-11-11T05:32:32.9191469Z                 exception_name, hex_errno, err_msg = (
+2026-11-11T05:32:32.9191728Z                         errpipe_data.split(b':', 2))
+2026-11-11T05:32:32.9192002Z                 # The encoding here should match the encoding
+2026-11-11T05:32:32.9192292Z                 # written in by the subprocess implementations
+2026-11-11T05:32:32.9192674Z                 # like _posixsubprocess
+2026-11-11T05:32:32.9192897Z                 err_msg = err_msg.decode()
+2026-11-11T05:32:32.9193123Z             except ValueError:
+2026-11-11T05:32:32.9193347Z                 exception_name = b'SubprocessError'
+2026-11-11T05:32:32.9193578Z                 hex_errno = b'0'
+2026-11-11T05:32:32.9193827Z                 err_msg = 'Bad exception data from child: {!r}'.format(
+2026-11-11T05:32:32.9194126Z                               bytes(errpipe_data))
+2026-11-11T05:32:32.9194370Z             child_exception_type = getattr(
+2026-11-11T05:32:32.9194621Z                     builtins, exception_name.decode('ascii'),
+2026-11-11T05:32:32.9194872Z                     SubprocessError)
+2026-11-11T05:32:32.9195264Z             if issubclass(child_exception_type, OSError) and hex_errno:
+2026-11-11T05:32:32.9195558Z                 errno_num = int(hex_errno, 16)
+2026-11-11T05:32:32.9195796Z                 if err_msg == "noexec:chdir":
+2026-11-11T05:32:32.9196026Z                     err_msg = ""
+2026-11-11T05:32:32.9196259Z                     # The error must be from chdir(cwd).
+2026-11-11T05:32:32.9196502Z                     err_filename = cwd
+2026-11-11T05:32:32.9196719Z                 elif err_msg == "noexec":
+2026-11-11T05:32:32.9196935Z                     err_msg = ""
+2026-11-11T05:32:32.9197147Z                     err_filename = None
+2026-11-11T05:32:32.9197353Z                 else:
+2026-11-11T05:32:32.9197651Z                     err_filename = orig_executable
+2026-11-11T05:32:32.9197881Z                 if errno_num != 0:
+2026-11-11T05:32:32.9198112Z                     err_msg = os.strerror(errno_num)
+2026-11-11T05:32:32.9198352Z                 if err_filename is not None:
+2026-11-11T05:32:32.9198641Z >                   raise child_exception_type(errno_num, err_msg, err_filename)
+2026-11-11T05:32:32.9199011Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-11T05:32:32.9199258Z 
+2026-11-11T05:32:32.9199544Z ../../../.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/subprocess.py:1955: FileNotFoundError
+2026-11-11T05:32:32.9200050Z _________ test_dynamic_sourced_goals_and_two_self_detected_skill_kinds _________
+2026-11-11T05:32:32.9200285Z 
+2026-11-11T05:32:32.9200421Z tmp_path = PosixPath('/tmp/nq/test_dynamic_sourced_goals_and0')
+2026-11-11T05:32:32.9200628Z 
+2026-11-11T05:32:32.9200798Z     def test_dynamic_sourced_goals_and_two_self_detected_skill_kinds(tmp_path):
+2026-11-11T05:32:32.9201392Z         resources=tuple('synthetic://'+name+suffix for name in ('numbers','words','arrange') for suffix in ('','/compute','/report'))
+2026-11-11T05:32:32.9201950Z         with fresh(tmp_path/'s'/'self.db') as r,provider_harness() as (transport,metrics):
+2026-11-11T05:32:32.9202320Z             p=configure(r,tmp_path,transport,resources)
+2026-11-11T05:32:32.9202657Z             from nana_core.continuity.world_loop.ports import CognitionPlannerPort
+2026-11-11T05:32:32.9203073Z             r.work.agency.policy.planner=CognitionPlannerPort(r.work.world.cognition)
+2026-11-11T05:32:32.9203635Z             for name,method,data,expected in [('numbers','NUMERIC_SUM',[1.5,2],3.5),('words','CASEFOLD','HELLO','hello'),('arrange','SORT',[3,1,2],[1,2,3])]:
+2026-11-11T05:32:32.9204173Z                 resource='synthetic://'+name;p.seed_observation(resource,data)
+2026-11-11T05:32:32.9204796Z                 mid=capture(r,name,{'opportunities':[{'topic':name,'resource':resource,'method':method,'expected':expected,'value':'HIGH','domain':name,'motive':'CREATIVE_INTEREST'}]})
+2026-11-11T05:32:32.9205431Z                 r.work.world.observe(mid)
+2026-11-11T05:32:32.9205716Z             for _ in range(120):r.clock.source.advance(SECOND);r.step()
+2026-11-11T05:32:32.9206008Z             assert len(r.store.all('goals'))==3
+2026-11-11T05:32:32.9206307Z             assert all(g['state']=='COMPLETED' for g in r.store.all('goals'))
+2026-11-11T05:32:32.9206657Z             assert r.work.agency.policy.objectives and metrics['calls']>=1
+2026-11-11T05:32:32.9207117Z             for task in ('TEXT_CLEAN','TOKEN_ANALYSIS'):
+2026-11-11T05:32:32.9207599Z                 mid=capture(r,task,{'opportunities':[{'topic':task.lower().replace('_','-'),'value':'HIGH','skill_task':task}]});r.work.world.observe(mid)
+2026-11-11T05:32:32.9208093Z             for _ in range(100):r.clock.source.advance(SECOND);r.step()
+2026-11-11T05:32:32.9208507Z >           active=dict(r.work.world.skills.active());assert set(active)=={'TEXT_CLEAN','TOKEN_ANALYSIS'}
+2026-11-11T05:32:32.9208942Z                                                       ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-11T05:32:32.9209286Z E           AssertionError: assert set() == {'TEXT_CLEAN'...KEN_ANALYSIS'}
+2026-11-11T05:32:32.9209564Z E             
+2026-11-11T05:32:32.9209757Z E             Extra items in the right set:
+2026-11-11T05:32:32.9209992Z E             'TOKEN_ANALYSIS'
+2026-11-11T05:32:32.9210195Z E             'TEXT_CLEAN'
+2026-11-11T05:32:32.9210380Z E             
+2026-11-11T05:32:32.9210544Z E             Full diff:
+2026-11-11T05:32:32.9210736Z E             + set()
+2026-11-11T05:32:32.9210913Z E             - {
+2026-11-11T05:32:32.9211091Z E             -     'TEXT_CLEAN',
+2026-11-11T05:32:32.9211307Z E             -     'TOKEN_ANALYSIS',
+2026-11-11T05:32:32.9211521Z E             - }
+2026-11-11T05:32:32.9211617Z 
+2026-11-11T05:32:32.9211730Z tests/world_loop/test_living.py:40: AssertionError
+2026-11-11T05:32:32.9212162Z _____________ test_integrated_world_life_and_distinct_contrast[0] ______________
+2026-11-11T05:32:32.9212405Z 
+2026-11-11T05:32:32.9212571Z tmp_path = PosixPath('/tmp/nq/test_integrated_world_life_and0'), variant = 0
+2026-11-11T05:32:32.9212807Z 
+2026-11-11T05:32:32.9212918Z     @pytest.mark.parametrize('variant',[0,1])
+2026-11-11T05:32:32.9213238Z     def test_integrated_world_life_and_distinct_contrast(tmp_path,variant):
+2026-11-11T05:32:32.9213561Z >       result=run_world(tmp_path,variant=variant)
+2026-11-11T05:32:32.9213817Z                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-11T05:32:32.9213957Z 
+2026-11-11T05:32:32.9214053Z tests/world_loop/test_system.py:8: 
+2026-11-11T05:32:32.9214313Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-11T05:32:32.9214612Z src/nana_core/presence/world_demo.py:65: in run_world
+2026-11-11T05:32:32.9214903Z     for modality,raw in media_samples(variant).items():
+2026-11-11T05:32:32.9215266Z                         ^^^^^^^^^^^^^^^^^^^^^^
+2026-11-11T05:32:32.9215560Z src/nana_core/continuity/world_loop/samples.py:15: in media_samples
+2026-11-11T05:32:32.9216078Z     subprocess.run(cmd,stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,check=True,timeout=10)
+2026-11-11T05:32:32.9216680Z ../../../.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/subprocess.py:548: in run
+2026-11-11T05:32:32.9217078Z     with Popen(*popenargs, **kwargs) as process:
+2026-11-11T05:32:32.9217325Z          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-11T05:32:32.9217692Z ../../../.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/subprocess.py:1026: in __init__
+2026-11-11T05:32:32.9218136Z     self._execute_child(args, executable, preexec_fn, close_fds,
+2026-11-11T05:32:32.9218453Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-11T05:32:32.9218644Z 
+2026-11-11T05:32:32.9218822Z self = <Popen: returncode: 255 args: ['ffmpeg', '-nostdin', '-v', 'error', '-f', 'l...>
+2026-11-11T05:32:32.9219199Z args = ['ffmpeg', '-nostdin', '-v', 'error', '-f', 'lavfi', ...]
+2026-11-11T05:32:32.9219542Z executable = b'ffmpeg', preexec_fn = None, close_fds = True, pass_fds = ()
+2026-11-11T05:32:32.9219924Z cwd = None, env = None, startupinfo = None, creationflags = 0, shell = False
+2026-11-11T05:32:32.9220287Z p2cread = 16, p2cwrite = -1, c2pread = -1, c2pwrite = 16, errread = -1
+2026-11-11T05:32:32.9220659Z errwrite = 16, restore_signals = True, gid = None, gids = None, uid = None
+2026-11-11T05:32:32.9221113Z umask = -1, start_new_session = False, process_group = -1
+2026-11-11T05:32:32.9221305Z 
+2026-11-11T05:32:32.9221450Z     def _execute_child(self, args, executable, preexec_fn, close_fds,
+2026-11-11T05:32:32.9221744Z                        pass_fds, cwd, env,
+2026-11-11T05:32:32.9222000Z                        startupinfo, creationflags, shell,
+2026-11-11T05:32:32.9222250Z                        p2cread, p2cwrite,
+2026-11-11T05:32:32.9222478Z                        c2pread, c2pwrite,
+2026-11-11T05:32:32.9222696Z                        errread, errwrite,
+2026-11-11T05:32:32.9222921Z                        restore_signals,
+2026-11-11T05:32:32.9223152Z                        gid, gids, uid, umask,
+2026-11-11T05:32:32.9223399Z                        start_new_session, process_group):
+2026-11-11T05:32:32.9223652Z         """Execute program (POSIX version)"""
+2026-11-11T05:32:32.9223873Z     
+2026-11-11T05:32:32.9224044Z         if isinstance(args, (str, bytes)):
+2026-11-11T05:32:32.9224272Z             args = [args]
+2026-11-11T05:32:32.9224481Z         elif isinstance(args, os.PathLike):
+2026-11-11T05:32:32.9224717Z             if shell:
+2026-11-11T05:32:32.9224954Z                 raise TypeError('path-like args is not allowed when '
+2026-11-11T05:32:32.9225320Z                                 'shell is true')
+2026-11-11T05:32:32.9225551Z             args = [args]
+2026-11-11T05:32:32.9225741Z         else:
+2026-11-11T05:32:32.9225916Z             args = list(args)
+2026-11-11T05:32:32.9226206Z     
+2026-11-11T05:32:32.9226362Z         if shell:
+2026-11-11T05:32:32.9226602Z             # On Android the default shell is at '/system/bin/sh'.
+2026-11-11T05:32:32.9226875Z             unix_shell = ('/system/bin/sh' if
+2026-11-11T05:32:32.9227150Z                       hasattr(sys, 'getandroidapilevel') else '/bin/sh')
+2026-11-11T05:32:32.9227424Z             args = [unix_shell, "-c"] + args
+2026-11-11T05:32:32.9227661Z             if executable:
+2026-11-11T05:32:32.9227867Z                 args[0] = executable
+2026-11-11T05:32:32.9228071Z     
+2026-11-11T05:32:32.9228236Z         if executable is None:
+2026-11-11T05:32:32.9228445Z             executable = args[0]
+2026-11-11T05:32:32.9228643Z     
+2026-11-11T05:32:32.9228858Z         sys.audit("subprocess.Popen", executable, args, cwd, env)
+2026-11-11T05:32:32.9229115Z     
+2026-11-11T05:32:32.9229277Z         if (_USE_POSIX_SPAWN
+2026-11-11T05:32:32.9229506Z                 and os.path.dirname(executable)
+2026-11-11T05:32:32.9229744Z                 and preexec_fn is None
+2026-11-11T05:32:32.9229967Z                 and not close_fds
+2026-11-11T05:32:32.9230172Z                 and not pass_fds
+2026-11-11T05:32:32.9230379Z                 and cwd is None
+2026-11-11T05:32:32.9230598Z                 and (p2cread == -1 or p2cread > 2)
+2026-11-11T05:32:32.9230854Z                 and (c2pwrite == -1 or c2pwrite > 2)
+2026-11-11T05:32:32.9231103Z                 and (errwrite == -1 or errwrite > 2)
+2026-11-11T05:32:32.9231349Z                 and not start_new_session
+2026-11-11T05:32:32.9231580Z                 and process_group == -1
+2026-11-11T05:32:32.9231805Z                 and gid is None
+2026-11-11T05:32:32.9231997Z                 and gids is None
+2026-11-11T05:32:32.9232201Z                 and uid is None
+2026-11-11T05:32:32.9232474Z                 and umask < 0):
+2026-11-11T05:32:32.9232729Z             self._posix_spawn(args, executable, env, restore_signals,
+2026-11-11T05:32:32.9233020Z                               p2cread, p2cwrite,
+2026-11-11T05:32:32.9233262Z                               c2pread, c2pwrite,
+2026-11-11T05:32:32.9233497Z                               errread, errwrite)
+2026-11-11T05:32:32.9233711Z             return
+2026-11-11T05:32:32.9233875Z     
+2026-11-11T05:32:32.9234040Z         orig_executable = executable
+2026-11-11T05:32:32.9234252Z     
+2026-11-11T05:32:32.9234475Z         # For transferring possible exec failure from child to parent.
+2026-11-11T05:32:32.9234797Z         # Data format: "exception name:hex errno:description"
+2026-11-11T05:32:32.9235347Z         # Pickle is not used; it is complex and involves memory allocation.
+2026-11-11T05:32:32.9235678Z         errpipe_read, errpipe_write = os.pipe()
+2026-11-11T05:32:32.9235981Z         # errpipe_write must not be in the standard io 0, 1, or 2 fd range.
+2026-11-11T05:32:32.9236270Z         low_fds_to_close = []
+2026-11-11T05:32:32.9236478Z         while errpipe_write < 3:
+2026-11-11T05:32:32.9236717Z             low_fds_to_close.append(errpipe_write)
+2026-11-11T05:32:32.9236980Z             errpipe_write = os.dup(errpipe_write)
+2026-11-11T05:32:32.9237223Z         for low_fd in low_fds_to_close:
+2026-11-11T05:32:32.9237442Z             os.close(low_fd)
+2026-11-11T05:32:32.9237641Z         try:
+2026-11-11T05:32:32.9237805Z             try:
+2026-11-11T05:32:32.9238013Z                 # We must avoid complex work that could involve
+2026-11-11T05:32:32.9238297Z                 # malloc or free in the child process to avoid
+2026-11-11T05:32:32.9238601Z                 # potential deadlocks, thus we do all this here.
+2026-11-11T05:32:32.9238872Z                 # and pass it to fork_exec()
+2026-11-11T05:32:32.9239083Z     
+2026-11-11T05:32:32.9239247Z                 if env is not None:
+2026-11-11T05:32:32.9239472Z                     env_list = []
+2026-11-11T05:32:32.9239682Z                     for k, v in env.items():
+2026-11-11T05:32:32.9239911Z                         k = os.fsencode(k)
+2026-11-11T05:32:32.9240132Z                         if b'=' in k:
+2026-11-11T05:32:32.9240520Z                             raise ValueError("illegal environment variable name")
+2026-11-11T05:32:32.9240841Z                         env_list.append(k + b'=' + os.fsencode(v))
+2026-11-11T05:32:32.9241092Z                 else:
+2026-11-11T05:32:32.9241316Z                     env_list = None  # Use execv instead of execve.
+2026-11-11T05:32:32.9241597Z                 executable = os.fsencode(executable)
+2026-11-11T05:32:32.9241854Z                 if os.path.dirname(executable):
+2026-11-11T05:32:32.9242107Z                     executable_list = (executable,)
+2026-11-11T05:32:32.9242331Z                 else:
+2026-11-11T05:32:32.9242550Z                     # This matches the behavior of os._execvpe().
+2026-11-11T05:32:32.9242808Z                     executable_list = tuple(
+2026-11-11T05:32:32.9243059Z                         os.path.join(os.fsencode(dir), executable)
+2026-11-11T05:32:32.9243327Z                         for dir in os.get_exec_path(env))
+2026-11-11T05:32:32.9243585Z                 fds_to_keep = set(pass_fds)
+2026-11-11T05:32:32.9243827Z                 fds_to_keep.add(errpipe_write)
+2026-11-11T05:32:32.9244071Z                 self.pid = _fork_exec(
+2026-11-11T05:32:32.9244294Z                         args, executable_list,
+2026-11-11T05:32:32.9244569Z                         close_fds, tuple(sorted(map(int, fds_to_keep))),
+2026-11-11T05:32:32.9244839Z                         cwd, env_list,
+2026-11-11T05:32:32.9245157Z                         p2cread, p2cwrite, c2pread, c2pwrite,
+2026-11-11T05:32:32.9245417Z                         errread, errwrite,
+2026-11-11T05:32:32.9245660Z                         errpipe_read, errpipe_write,
+2026-11-11T05:32:32.9245923Z                         restore_signals, start_new_session,
+2026-11-11T05:32:32.9246190Z                         process_group, gid, gids, uid, umask,
+2026-11-11T05:32:32.9246440Z                         preexec_fn, _USE_VFORK)
+2026-11-11T05:32:32.9246684Z                 self._child_created = True
+2026-11-11T05:32:32.9246900Z             finally:
+2026-11-11T05:32:32.9247104Z                 # be sure the FD is closed no matter what
+2026-11-11T05:32:32.9247345Z                 os.close(errpipe_write)
+2026-11-11T05:32:32.9247560Z     
+2026-11-11T05:32:32.9247743Z             self._close_pipe_fds(p2cread, p2cwrite,
+2026-11-11T05:32:32.9247991Z                                  c2pread, c2pwrite,
+2026-11-11T05:32:32.9248226Z                                  errread, errwrite)
+2026-11-11T05:32:32.9248612Z     
+2026-11-11T05:32:32.9248817Z             # Wait for exec to fail or succeed; possibly raising an
+2026-11-11T05:32:32.9249092Z             # exception (limited in size)
+2026-11-11T05:32:32.9249321Z             errpipe_data = bytearray()
+2026-11-11T05:32:32.9249548Z             while True:
+2026-11-11T05:32:32.9249754Z                 part = os.read(errpipe_read, 50000)
+2026-11-11T05:32:32.9249986Z                 errpipe_data += part
+2026-11-11T05:32:32.9250227Z                 if not part or len(errpipe_data) > 50000:
+2026-11-11T05:32:32.9250473Z                     break
+2026-11-11T05:32:32.9250659Z         finally:
+2026-11-11T05:32:32.9250863Z             # be sure the FD is closed no matter what
+2026-11-11T05:32:32.9251105Z             os.close(errpipe_read)
+2026-11-11T05:32:32.9251308Z     
+2026-11-11T05:32:32.9251482Z         if errpipe_data:
+2026-11-11T05:32:32.9251675Z             try:
+2026-11-11T05:32:32.9251875Z                 pid, sts = os.waitpid(self.pid, 0)
+2026-11-11T05:32:32.9252119Z                 if pid == self.pid:
+2026-11-11T05:32:32.9252351Z                     self._handle_exitstatus(sts)
+2026-11-11T05:32:32.9252579Z                 else:
+2026-11-11T05:32:32.9252775Z                     self.returncode = sys.maxsize
+2026-11-11T05:32:32.9253019Z             except ChildProcessError:
+2026-11-11T05:32:32.9253240Z                 pass
+2026-11-11T05:32:32.9253408Z     
+2026-11-11T05:32:32.9253560Z             try:
+2026-11-11T05:32:32.9253754Z                 exception_name, hex_errno, err_msg = (
+2026-11-11T05:32:32.9254114Z                         errpipe_data.split(b':', 2))
+2026-11-11T05:32:32.9254393Z                 # The encoding here should match the encoding
+2026-11-11T05:32:32.9254678Z                 # written in by the subprocess implementations
+2026-11-11T05:32:32.9254940Z                 # like _posixsubprocess
+2026-11-11T05:32:32.9255281Z                 err_msg = err_msg.decode()
+2026-11-11T05:32:32.9255511Z             except ValueError:
+2026-11-11T05:32:32.9255732Z                 exception_name = b'SubprocessError'
+2026-11-11T05:32:32.9255973Z                 hex_errno = b'0'
+2026-11-11T05:32:32.9256221Z                 err_msg = 'Bad exception data from child: {!r}'.format(
+2026-11-11T05:32:32.9256515Z                               bytes(errpipe_data))
+2026-11-11T05:32:32.9256753Z             child_exception_type = getattr(
+2026-11-11T05:32:32.9257002Z                     builtins, exception_name.decode('ascii'),
+2026-11-11T05:32:32.9257248Z                     SubprocessError)
+2026-11-11T05:32:32.9257528Z             if issubclass(child_exception_type, OSError) and hex_errno:
+2026-11-11T05:32:32.9257820Z                 errno_num = int(hex_errno, 16)
+2026-11-11T05:32:32.9258058Z                 if err_msg == "noexec:chdir":
+2026-11-11T05:32:32.9258286Z                     err_msg = ""
+2026-11-11T05:32:32.9258513Z                     # The error must be from chdir(cwd).
+2026-11-11T05:32:32.9258757Z                     err_filename = cwd
+2026-11-11T05:32:32.9258974Z                 elif err_msg == "noexec":
+2026-11-11T05:32:32.9259195Z                     err_msg = ""
+2026-11-11T05:32:32.9259414Z                     err_filename = None
+2026-11-11T05:32:32.9259626Z                 else:
+2026-11-11T05:32:32.9259821Z                     err_filename = orig_executable
+2026-11-11T05:32:32.9260050Z                 if errno_num != 0:
+2026-11-11T05:32:32.9260279Z                     err_msg = os.strerror(errno_num)
+2026-11-11T05:32:32.9260522Z                 if err_filename is not None:
+2026-11-11T05:32:32.9260816Z >                   raise child_exception_type(errno_num, err_msg, err_filename)
+2026-11-11T05:32:32.9261190Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-11T05:32:32.9261428Z 
+2026-11-11T05:32:32.9261713Z ../../../.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/subprocess.py:1955: FileNotFoundError
+2026-11-11T05:32:32.9262205Z _____________ test_integrated_world_life_and_distinct_contrast[1] ______________
+2026-11-11T05:32:32.9262580Z 
+2026-11-11T05:32:32.9262746Z tmp_path = PosixPath('/tmp/nq/test_integrated_world_life_and1'), variant = 1
+2026-11-11T05:32:32.9262980Z 
+2026-11-11T05:32:32.9263088Z     @pytest.mark.parametrize('variant',[0,1])
+2026-11-11T05:32:32.9263408Z     def test_integrated_world_life_and_distinct_contrast(tmp_path,variant):
+2026-11-11T05:32:32.9263748Z >       result=run_world(tmp_path,variant=variant)
+2026-11-11T05:32:32.9263997Z                ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-11T05:32:32.9264150Z 
+2026-11-11T05:32:32.9264252Z tests/world_loop/test_system.py:8: 
+2026-11-11T05:32:32.9264512Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-11T05:32:32.9264813Z src/nana_core/presence/world_demo.py:65: in run_world
+2026-11-11T05:32:32.9264930Z     for modality,raw in media_samples(variant).items():
+2026-11-11T05:32:32.9265017Z                         ^^^^^^^^^^^^^^^^^^^^^^
+2026-11-11T05:32:32.9265245Z src/nana_core/continuity/world_loop/samples.py:15: in media_samples
+2026-11-11T05:32:32.9265559Z     subprocess.run(cmd,stdin=subprocess.DEVNULL,stdout=subprocess.DEVNULL,stderr=subprocess.DEVNULL,check=True,timeout=10)
+2026-11-11T05:32:32.9265799Z ../../../.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/subprocess.py:548: in run
+2026-11-11T05:32:32.9265902Z     with Popen(*popenargs, **kwargs) as process:
+2026-11-11T05:32:32.9265985Z          ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+2026-11-11T05:32:32.9266318Z ../../../.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/subprocess.py:1026: in __init__
+2026-11-11T05:32:32.9266463Z     self._execute_child(args, executable, preexec_fn, close_fds,
+2026-11-11T05:32:32.9266585Z _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+2026-11-11T05:32:32.9266589Z 
+2026-11-11T05:32:32.9266762Z self = <Popen: returncode: 255 args: ['ffmpeg', '-nostdin', '-v', 'error', '-f', 'l...>
+2026-11-11T05:32:32.9266891Z args = ['ffmpeg', '-nostdin', '-v', 'error', '-f', 'lavfi', ...]
+2026-11-11T05:32:32.9267057Z executable = b'ffmpeg', preexec_fn = None, close_fds = True, pass_fds = ()
+2026-11-11T05:32:32.9267204Z cwd = None, env = None, startupinfo = None, creationflags = 0, shell = False
+2026-11-11T05:32:32.9267360Z p2cread = 16, p2cwrite = -1, c2pread = -1, c2pwrite = 16, errread = -1
+2026-11-11T05:32:32.9267517Z errwrite = 16, restore_signals = True, gid = None, gids = None, uid = None
+2026-11-11T05:32:32.9267639Z umask = -1, start_new_session = False, process_group = -1
+2026-11-11T05:32:32.9267646Z 
+2026-11-11T05:32:32.9267794Z     def _execute_child(self, args, executable, preexec_fn, close_fds,
+2026-11-11T05:32:32.9267888Z                        pass_fds, cwd, env,
+2026-11-11T05:32:32.9267987Z                        startupinfo, creationflags, shell,
+2026-11-11T05:32:32.9268082Z                        p2cread, p2cwrite,
+2026-11-11T05:32:32.9268167Z                        c2pread, c2pwrite,
+2026-11-11T05:32:32.9268244Z                        errread, errwrite,
+2026-11-11T05:32:32.9268335Z                        restore_signals,
+2026-11-11T05:32:32.9268422Z                        gid, gids, uid, umask,
+2026-11-11T05:32:32.9268515Z                        start_new_session, process_group):
+2026-11-11T05:32:32.9268613Z         """Execute program (POSIX version)"""
+2026-11-11T05:32:32.9268684Z     
+2026-11-11T05:32:32.9268770Z         if isinstance(args, (str, bytes)):
+2026-11-11T05:32:32.9268856Z             args = [args]
+2026-11-11T05:32:32.9268948Z         elif isinstance(args, os.PathLike):
+2026-11-11T05:32:32.9269028Z             if shell:
+2026-11-11T05:32:32.9269161Z                 raise TypeError('path-like args is not allowed when '
+2026-11-11T05:32:32.9269246Z                                 'shell is true')
+2026-11-11T05:32:32.9269329Z             args = [args]
+2026-11-11T05:32:32.9269409Z         else:
+2026-11-11T05:32:32.9269486Z             args = list(args)
+2026-11-11T05:32:32.9269556Z     
+2026-11-11T05:32:32.9269630Z         if shell:
+2026-11-11T05:32:32.9269851Z             # On Android the default shell is at '/system/bin/sh'.
+2026-11-11T05:32:32.9269941Z             unix_shell = ('/system/bin/sh' if
+2026-11-11T05:32:32.9270064Z                       hasattr(sys, 'getandroidapilevel') else '/bin/sh')
+2026-11-11T05:32:32.9270159Z             args = [unix_shell, "-c"] + args
+2026-11-11T05:32:32.9270241Z             if executable:
+2026-11-11T05:32:32.9270322Z                 args[0] = executable
+2026-11-11T05:32:32.9270395Z     
+2026-11-11T05:32:32.9270485Z         if executable is None:
+2026-11-11T05:32:32.9270566Z             executable = args[0]
+2026-11-11T05:32:32.9270638Z     
+2026-11-11T05:32:32.9270781Z         sys.audit("subprocess.Popen", executable, args, cwd, env)
+2026-11-11T05:32:32.9270847Z     
+2026-11-11T05:32:32.9270935Z         if (_USE_POSIX_SPAWN
+2026-11-11T05:32:32.9271034Z                 and os.path.dirname(executable)
+2026-11-11T05:32:32.9271123Z                 and preexec_fn is None
+2026-11-11T05:32:32.9271211Z                 and not close_fds
+2026-11-11T05:32:32.9271291Z                 and not pass_fds
+2026-11-11T05:32:32.9271377Z                 and cwd is None
+2026-11-11T05:32:32.9271480Z                 and (p2cread == -1 or p2cread > 2)
+2026-11-11T05:32:32.9271574Z                 and (c2pwrite == -1 or c2pwrite > 2)
+2026-11-11T05:32:32.9271674Z                 and (errwrite == -1 or errwrite > 2)
+2026-11-11T05:32:32.9271763Z                 and not start_new_session
+2026-11-11T05:32:32.9271850Z                 and process_group == -1
+2026-11-11T05:32:32.9272011Z                 and gid is None
+2026-11-11T05:32:32.9272089Z                 and gids is None
+2026-11-11T05:32:32.9272169Z                 and uid is None
+2026-11-11T05:32:32.9272250Z                 and umask < 0):
+2026-11-11T05:32:32.9272379Z             self._posix_spawn(args, executable, env, restore_signals,
+2026-11-11T05:32:32.9272475Z                               p2cread, p2cwrite,
+2026-11-11T05:32:32.9272565Z                               c2pread, c2pwrite,
+2026-11-11T05:32:32.9272648Z                               errread, errwrite)
+2026-11-11T05:32:32.9272724Z             return
+2026-11-11T05:32:32.9272798Z     
+2026-11-11T05:32:32.9272881Z         orig_executable = executable
+2026-11-11T05:32:32.9272953Z     
+2026-11-11T05:32:32.9273091Z         # For transferring possible exec failure from child to parent.
+2026-11-11T05:32:32.9273214Z         # Data format: "exception name:hex errno:description"
+2026-11-11T05:32:32.9273371Z         # Pickle is not used; it is complex and involves memory allocation.
+2026-11-11T05:32:32.9273468Z         errpipe_read, errpipe_write = os.pipe()
+2026-11-11T05:32:32.9273653Z         # errpipe_write must not be in the standard io 0, 1, or 2 fd range.
+2026-11-11T05:32:32.9273737Z         low_fds_to_close = []
+2026-11-11T05:32:32.9273817Z         while errpipe_write < 3:
+2026-11-11T05:32:32.9273919Z             low_fds_to_close.append(errpipe_write)
+2026-11-11T05:32:32.9274019Z             errpipe_write = os.dup(errpipe_write)
+2026-11-11T05:32:32.9274103Z         for low_fd in low_fds_to_close:
+2026-11-11T05:32:32.9274188Z             os.close(low_fd)
+2026-11-11T05:32:32.9274265Z         try:
+2026-11-11T05:32:32.9274335Z             try:
+2026-11-11T05:32:32.9274458Z                 # We must avoid complex work that could involve
+2026-11-11T05:32:32.9274569Z                 # malloc or free in the child process to avoid
+2026-11-11T05:32:32.9274688Z                 # potential deadlocks, thus we do all this here.
+2026-11-11T05:32:32.9274785Z                 # and pass it to fork_exec()
+2026-11-11T05:32:32.9274851Z     
+2026-11-11T05:32:32.9274937Z                 if env is not None:
+2026-11-11T05:32:32.9275016Z                     env_list = []
+2026-11-11T05:32:32.9275179Z                     for k, v in env.items():
+2026-11-11T05:32:32.9275272Z                         k = os.fsencode(k)
+2026-11-11T05:32:32.9275361Z                         if b'=' in k:
+2026-11-11T05:32:32.9275501Z                             raise ValueError("illegal environment variable name")
+2026-11-11T05:32:32.9275715Z                         env_list.append(k + b'=' + os.fsencode(v))
+2026-11-11T05:32:32.9275785Z                 else:
+2026-11-11T05:32:32.9275903Z                     env_list = None  # Use execv instead of execve.
+2026-11-11T05:32:32.9276002Z                 executable = os.fsencode(executable)
+2026-11-11T05:32:32.9276090Z                 if os.path.dirname(executable):
+2026-11-11T05:32:32.9276195Z                     executable_list = (executable,)
+2026-11-11T05:32:32.9276274Z                 else:
+2026-11-11T05:32:32.9276383Z                     # This matches the behavior of os._execvpe().
+2026-11-11T05:32:32.9276484Z                     executable_list = tuple(
+2026-11-11T05:32:32.9276602Z                         os.path.join(os.fsencode(dir), executable)
+2026-11-11T05:32:32.9276702Z                         for dir in os.get_exec_path(env))
+2026-11-11T05:32:32.9276794Z                 fds_to_keep = set(pass_fds)
+2026-11-11T05:32:32.9276889Z                 fds_to_keep.add(errpipe_write)
+2026-11-11T05:32:32.9276969Z                 self.pid = _fork_exec(
+2026-11-11T05:32:32.9277060Z                         args, executable_list,
+2026-11-11T05:32:32.9277178Z                         close_fds, tuple(sorted(map(int, fds_to_keep))),
+2026-11-11T05:32:32.9277266Z                         cwd, env_list,
+2026-11-11T05:32:32.9277375Z                         p2cread, p2cwrite, c2pread, c2pwrite,
+2026-11-11T05:32:32.9277456Z                         errread, errwrite,
+2026-11-11T05:32:32.9277645Z                         errpipe_read, errpipe_write,
+2026-11-11T05:32:32.9277755Z                         restore_signals, start_new_session,
+2026-11-11T05:32:32.9277853Z                         process_group, gid, gids, uid, umask,
+2026-11-11T05:32:32.9277942Z                         preexec_fn, _USE_VFORK)
+2026-11-11T05:32:32.9278029Z                 self._child_created = True
+2026-11-11T05:32:32.9278097Z             finally:
+2026-11-11T05:32:32.9278202Z                 # be sure the FD is closed no matter what
+2026-11-11T05:32:32.9278294Z                 os.close(errpipe_write)
+2026-11-11T05:32:32.9278359Z     
+2026-11-11T05:32:32.9278464Z             self._close_pipe_fds(p2cread, p2cwrite,
+2026-11-11T05:32:32.9278552Z                                  c2pread, c2pwrite,
+2026-11-11T05:32:32.9278643Z                                  errread, errwrite)
+2026-11-11T05:32:32.9278711Z     
+2026-11-11T05:32:32.9278936Z             # Wait for exec to fail or succeed; possibly raising an
+2026-11-11T05:32:32.9279113Z             # exception (limited in size)
+2026-11-11T05:32:32.9279278Z             errpipe_data = bytearray()
+2026-11-11T05:32:32.9279391Z             while True:
+2026-11-11T05:32:32.9279562Z                 part = os.read(errpipe_read, 50000)
+2026-11-11T05:32:32.9279947Z                 errpipe_data += part
+2026-11-11T05:32:32.9280144Z                 if not part or len(errpipe_data) > 50000:
+2026-11-11T05:32:32.9280298Z                     break
+2026-11-11T05:32:32.9280407Z         finally:
+2026-11-11T05:32:32.9280569Z             # be sure the FD is closed no matter what
+2026-11-11T05:32:32.9280744Z             os.close(errpipe_read)
+2026-11-11T05:32:32.9280908Z     
+2026-11-11T05:32:32.9281068Z         if errpipe_data:
+2026-11-11T05:32:32.9281176Z             try:
+2026-11-11T05:32:32.9281332Z                 pid, sts = os.waitpid(self.pid, 0)
+2026-11-11T05:32:32.9281577Z                 if pid == self.pid:
+2026-11-11T05:32:32.9281705Z                     self._handle_exitstatus(sts)
+2026-11-11T05:32:32.9281858Z                 else:
+2026-11-11T05:32:32.9282029Z                     self.returncode = sys.maxsize
+2026-11-11T05:32:32.9282140Z             except ChildProcessError:
+2026-11-11T05:32:32.9282322Z                 pass
+2026-11-11T05:32:32.9293935Z     
+2026-11-11T05:32:32.9294040Z             try:
+2026-11-11T05:32:32.9294178Z                 exception_name, hex_errno, err_msg = (
+2026-11-11T05:32:32.9294290Z                         errpipe_data.split(b':', 2))
+2026-11-11T05:32:32.9294574Z                 # The encoding here should match the encoding
+2026-11-11T05:32:32.9610634Z                 # written in by the subprocess implementations
+2026-11-11T05:32:32.9610825Z                 # like _posixsubprocess
+2026-11-11T05:32:32.9610950Z                 err_msg = err_msg.decode()
+2026-11-11T05:32:32.9611080Z             except ValueError:
+2026-11-11T05:32:32.9611239Z                 exception_name = b'SubprocessError'
+2026-11-11T05:32:32.9611357Z                 hex_errno = b'0'
+2026-11-11T05:32:32.9611601Z                 err_msg = 'Bad exception data from child: {!r}'.format(
+2026-11-11T05:32:32.9611746Z                               bytes(errpipe_data))
+2026-11-11T05:32:32.9611877Z             child_exception_type = getattr(
+2026-11-11T05:32:32.9612053Z                     builtins, exception_name.decode('ascii'),
+2026-11-11T05:32:32.9612174Z                     SubprocessError)
+2026-11-11T05:32:32.9612394Z             if issubclass(child_exception_type, OSError) and hex_errno:
+2026-11-11T05:32:32.9612552Z                 errno_num = int(hex_errno, 16)
+2026-11-11T05:32:32.9612676Z                 if err_msg == "noexec:chdir":
+2026-11-11T05:32:32.9612800Z                     err_msg = ""
+2026-11-11T05:32:32.9612957Z                     # The error must be from chdir(cwd).
+2026-11-11T05:32:32.9613073Z                     err_filename = cwd
+2026-11-11T05:32:32.9613203Z                 elif err_msg == "noexec":
+2026-11-11T05:32:32.9613315Z                     err_msg = ""
+2026-11-11T05:32:32.9613794Z                     err_filename = None
+2026-11-11T05:32:32.9613906Z                 else:
+2026-11-11T05:32:32.9614049Z                     err_filename = orig_executable
+2026-11-11T05:32:32.9614162Z                 if errno_num != 0:
+2026-11-11T05:32:32.9614310Z                     err_msg = os.strerror(errno_num)
+2026-11-11T05:32:32.9614432Z                 if err_filename is not None:
+2026-11-11T05:32:32.9614668Z >                   raise child_exception_type(errno_num, err_msg, err_filename)
+2026-11-11T05:32:32.9614935Z E                   FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-11T05:32:32.9614943Z 
+2026-11-11T05:32:32.9615523Z ../../../.local/share/uv/python/cpython-3.12.14-linux-x86_64-gnu/lib/python3.12/subprocess.py:1955: FileNotFoundError
+2026-11-11T05:32:32.9615726Z =========================== short test summary info ============================
+2026-11-11T05:32:32.9616307Z FAILED tests/provider_routing/test_ports.py::test_original_openai_transport_native_loopback_config_to_h1[VISION-IMAGE] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-11T05:32:32.9616784Z FAILED tests/provider_routing/test_ports.py::test_original_openai_transport_native_loopback_config_to_h1[VIDEO_UNDERSTAND-VIDEO] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-11T05:32:32.9617183Z FAILED tests/world_loop/test_boundaries.py::test_budgeted_source_selection_and_public_recorded_domain - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-11T05:32:32.9617594Z FAILED tests/world_loop/test_foundation.py::test_actual_image_audio_video_decode_spans_and_source_erasure - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-11T05:32:32.9617984Z FAILED tests/world_loop/test_living.py::test_dynamic_sourced_goals_and_two_self_detected_skill_kinds - AssertionError: assert set() == {'TEXT_CLEAN'...KEN_ANALYSIS'}
+2026-11-11T05:32:32.9618056Z   
+2026-11-11T05:32:32.9618151Z   Extra items in the right set:
+2026-11-11T05:32:32.9618238Z   'TOKEN_ANALYSIS'
+2026-11-11T05:32:32.9618309Z   'TEXT_CLEAN'
+2026-11-11T05:32:32.9618380Z   
+2026-11-11T05:32:32.9618447Z   Full diff:
+2026-11-11T05:32:32.9618519Z   + set()
+2026-11-11T05:32:32.9618592Z   - {
+2026-11-11T05:32:32.9618666Z   -     'TEXT_CLEAN',
+2026-11-11T05:32:32.9618749Z   -     'TOKEN_ANALYSIS',
+2026-11-11T05:32:32.9618822Z   - }
+2026-11-11T05:32:32.9619194Z FAILED tests/world_loop/test_system.py::test_integrated_world_life_and_distinct_contrast[0] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-11T05:32:32.9619699Z FAILED tests/world_loop/test_system.py::test_integrated_world_life_and_distinct_contrast[1] - FileNotFoundError: [Errno 2] No such file or directory: 'ffmpeg'
+2026-11-11T05:32:32.9619800Z 7 failed, 207 passed in 101.59s (0:01:41)

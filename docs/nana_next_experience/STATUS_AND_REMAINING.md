@@ -68,3 +68,6 @@ Original retained QQ exchange now links original C/Kernel independent readback p
 
 
 2026-11-11 cognition-timeout补充：原复用认知默认120s，路由会话无explicitbudget继承配置交集；精确模型无用途路由不再隐藏120s硬顶，明确短预算仍有效，Life原显式配置不改。128provider/world_loop/Life预算与UNKNOWN34.15s，真实loopback120+120及独立配置通过；不算真实provider/全链性能/发行完成。下一同32预算冻结多样检索误召/漏召及原G独立方法评价，其他原A–H继续。证据cognition-timeout-inheritance-20261111。
+
+
+2026-11-11 ownCI更正：8ae远端7fail/207pass，不是远端Core通过；6缺ffmpeg/1技能活跃集空。已按实际受影响组复用原native依赖及严格bwrap资格，successor需实读；本地128与client成功单列。首错原日志完整保存。研究原型24固定query对照已有但未G资格/产品接线，原A–H继续。

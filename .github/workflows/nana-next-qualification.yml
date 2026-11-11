@@ -73,6 +73,7 @@ jobs:
     outputs:
       core: ${{ steps.paths.outputs.core }}
       client: ${{ steps.paths.outputs.client }}
+      native_world: ${{ steps.paths.outputs.native_world }}
     steps:
       - uses: actions/checkout@v4
         with:
@@ -93,8 +94,9 @@ jobs:
           explicit=os.environ['NANA_EVENT_NAME']=='workflow_dispatch' or workflow in paths
           core=explicit or any(p.startswith(('src/nana_core/','tools/nana_','packaging/portable/','tests/','contracts/','requirements-core-dev.lock')) for p in paths)
           client=explicit or any(p.startswith(('apps/nana-space/','contracts/nana-space-live-v2/','src/nana_core/life/live_api/bridge.py','src/nana_core/life/live_api/contracts.py','tools/nana_first_life_android_v2/schema.py')) for p in paths)
+          native_world=any(any(marker in p for marker in ('world_loop/cognition.py','continuity/provider_routing.py','tests/provider_routing/')) for p in paths)
           with open(os.environ['GITHUB_OUTPUT'],'a') as out:
-              out.write(f'core={str(core).lower()}\nclient={str(client).lower()}\n')
+              out.write(f'core={str(core).lower()}\nclient={str(client).lower()}\nnative_world={str(native_world).lower()}\n')
           print('Affected components:',{'core':core,'client':client})
           PYPATHS
 
@@ -110,8 +112,8 @@ jobs:
       PYTHONDONTWRITEBYTECODE: '1'
       NANA_FULL_QUALIFICATION: ${{ github.event_name == 'workflow_dispatch' && inputs.qualification == 'full' }}
     steps:
-      - name: Full qualification host and old SQLite fixture
-        if: env.NANA_FULL_QUALIFICATION == 'true'
+      - name: Native codecs and original sandbox host for affected integration
+        if: env.NANA_FULL_QUALIFICATION == 'true' || needs.affected-components.outputs.native_world == 'true'
         run: |
           sudo apt-get update
           sudo apt-get install --yes --no-install-recommends apparmor bubblewrap ffmpeg gnupg
@@ -129,6 +131,9 @@ jobs:
           }
           PROFILE
           sudo apparmor_parser -r /etc/apparmor.d/bwrap
+      - name: Full qualification old SQLite fixture
+        if: env.NANA_FULL_QUALIFICATION == 'true'
+        run: |
           command -v docker
           mkdir -p /tmp/nana-old-sqlite-context
           docker build --tag nana-old-sqlite:3.46.1 -f - /tmp/nana-old-sqlite-context <<'DOCKERFILE'
@@ -242,6 +247,11 @@ jobs:
           if not selected: selected=['tests/first_life_android_v2/test_http_integration.py']
           print('TARGETED_CHECKS',selected,flush=True)
           assert all(pathlib.Path(test).exists() for test in selected)
+          if any(test in selected for test in ('tests/provider_routing','tests/world_loop')):
+              from nana_core.continuity.open_agency.code_skills import IsolatedSkillRunner
+              probe=IsolatedSkillRunner().qualify()
+              print('ORIGINAL_SANDBOX_FOR_AFFECTED_WORLD',probe,flush=True)
+              assert probe['state']=='AVAILABLE' and all(probe['checks'].values())
           subprocess.run([sys.executable,'-m','pytest','-q','--junitxml=qualification-core.xml','--basetemp=/tmp/nq',*selected],check=True)
           PYTARGET
       - name: Matching portable candidate, reproducible builds and offline installation
