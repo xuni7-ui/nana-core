@@ -140,6 +140,7 @@ class OpenAIJSONTransport:
     Application provides exact endpoint/model/credential. Loopback HTTP is only
     available as explicitly SYNTHETIC harness; external HTTP is always denied.
     """
+    supports_json_stream = True
     def __init__(self,endpoint,model_id,*,provider_id='development-http',credential=None,harness=False,thinking_mode='PROVIDER_DEFAULT',token_counter=None):
         if thinking_mode not in {'PROVIDER_DEFAULT','DISABLED'}:raise CoreError('PROVIDER_OPTIONS_INVALID')
         from ..context import ModelTokenCounter
@@ -270,10 +271,14 @@ class OpenAIJSONTransport:
         actual._volatile_media=volatile_input
         return len(self.request_body(actual))+self.response_bound(actual)+1
 
+    def request_headers(self,request_id):
+        headers={'Content-Type':'application/json','Accept':'application/json','X-Request-ID':request_id}
+        if self._credential:headers['Authorization']='Bearer '+self._credential
+        return headers
+
     def exchange(self,request):
         data=self.request_body(request)
-        headers={'Content-Type':'application/json','Accept':'application/json','X-Request-ID':request.request_id}
-        if self._credential:headers['Authorization']='Bearer '+self._credential
+        headers=self.request_headers(request.request_id)
         req=urllib.request.Request(self.endpoint,data=data,headers=headers,method='POST');started=time.monotonic()
         deadline=started+request.budget.timeout_ms/1000
         observation={'request_body_sha256':hashlib.sha256(data).hexdigest(),
@@ -394,7 +399,7 @@ class CognitionSession:
         def make_request(context_json):
             package=json.loads(context_json)
             source_refs=tuple(dict.fromkeys((*source_ids,*(m for block in package['blocks'] for m in block['source_memory_ids']))))
-            return CognitionRequest(response_mode='JSON_STREAM' if role=='SOCIAL' and self.draft_sink is not None and isinstance(self.transport,OpenAIJSONTransport) else 'JSON',
+            return CognitionRequest(response_mode='JSON_STREAM' if role=='SOCIAL' and self.draft_sink is not None and getattr(self.transport,'supports_json_stream',False) else 'JSON',
                 request_id=request_id,subject_epoch=r.lease.epoch,subject_revision=r.subject.revision,cognitive_role=role,
                 source_context_refs=source_refs,primary_source_refs=tuple(source_ids),context_json=context_json,
                 current_goals=current,available_capabilities=tuple(capabilities),world_stamp=world_stamp,

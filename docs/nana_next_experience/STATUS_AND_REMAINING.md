@@ -93,3 +93,8 @@ Original retained QQ exchange now links original C/Kernel independent readback p
 ### 2026-11-11 · 已证多余客户端重复CI精简
 
 仅Core组或push路径清单的workflow变化复用原客户端资格，共享/客户端/manual/未知布局仍验证；live_api修改也选客户端。15真实隔离Git场景通过，当前分类器本身变化仍需自身双组CI。fac1原C/G恢复独立CI41通过33.69s/client正确skip；非全仓。原余A–H不减。
+
+
+### 2026-11-11 · Anthropic原生文字和原产品入口
+
+原Router/Cognition/HTTP接Messages原生认证/格式/usage/stop，Web向导/目录读取/显式预算同源接通；153相关/82单测/编译/16四视口通过，原C→RENDER及重启同身份4localhost fixture、真实0。native流式和媒体、真实API、手机/最终匹配安装未资格，其他协议/Token/长期与原余A–H继续。首错证据anthropic-native-20261111，不以OpenAI-compatible冒充原生，不变266+409。

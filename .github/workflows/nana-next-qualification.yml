@@ -38,6 +38,7 @@ on:
       - tests/vision_first/test_context_fit.py
       - src/nana_core/continuity/lived_language.py
       - src/nana_core/life/live_api/provider_settings.py
+      - src/nana_core/life/live_api/provider_models.py
       - src/nana_core/life/live_api/server.py
       - src/nana_core/life/live_api/auth.py
       - tests/first_life_android_v2/test_response_authorization.py
@@ -56,6 +57,7 @@ on:
       - src/nana_core/life/application.py
       - src/nana_core/life/dialogue_contracts.py
       - src/nana_core/continuity/world_loop/cognition.py
+      - src/nana_core/continuity/world_loop/anthropic.py
       - src/nana_core/continuity/provider_routing.py
       - tests/provider_routing/**
       - src/nana_core/continuity/person_self.py
@@ -119,7 +121,7 @@ jobs:
                   client_workflow_changed=True  # newly introduced/missing workflow
           core=explicit or any(p.startswith(('src/nana_core/','tools/nana_','packaging/portable/','tests/','contracts/','requirements-core-dev.lock')) for p in paths)
           client=manual or client_workflow_changed or any(p.startswith(('apps/nana-space/','contracts/nana-space-live-v2/','src/nana_core/life/live_api/','tools/nana_first_life_android_v2/schema.py')) for p in paths)
-          native_world=any(any(marker in p for marker in ('world_loop/cognition.py','continuity/provider_routing.py','tests/provider_routing/')) for p in paths)
+          native_world=any(any(marker in p for marker in ('world_loop/cognition.py','world_loop/anthropic.py','continuity/provider_routing.py','tests/provider_routing/')) for p in paths)
           with open(os.environ['GITHUB_OUTPUT'],'a') as out:
               out.write(f'core={str(core).lower()}\nclient={str(client).lower()}\nnative_world={str(native_world).lower()}\n')
           print('Affected components:',{'core':core,'client':client})
@@ -255,13 +257,13 @@ jobs:
           groups=[
             (('subject/experience_need.py','test_experience_need.py'), ['tests/foundation_closure/test_experience_need.py','tests/independent_life/test_retrieval_text_profile.py','tests/independent_life/test_retrieval_growth.py','tests/independent_life/test_retrieval_growth_expanded.py','tests/open_life/test_learning_renewal.py']),
             (('open_agency/world.py',), ['tests/open_autonomy/test_learning.py','tests/precision/test_learning.py','tests/open_life/test_learning_renewal.py']),
-            (('world_loop/cognition.py','continuity/provider_routing.py','tests/provider_routing/'), ['tests/provider_routing','tests/world_loop','tests/cloud_life/test_provider_budget.py','tests/independent_life/test_unknown_background_contract.py']),
+            (('world_loop/cognition.py','world_loop/anthropic.py','continuity/provider_routing.py','tests/provider_routing/'), ['tests/provider_routing','tests/world_loop','tests/cloud_life/test_provider_budget.py','tests/independent_life/test_unknown_background_contract.py']),
             (('live_api/auth.py','live_api/server.py','test_response_authorization.py'), ['tests/first_life_android_v2/test_response_authorization.py','tests/first_life_android_v2/test_auth_contract.py','tests/first_life_android_v2/test_http_integration.py','tests/first_life_android_v2/test_chat_stream_http.py']),
             (('tests/independent_life/test_dialogue.py','tools/nana_first_life_android_v2/dev_serve.py'), ['tests/independent_life/test_dialogue.py','tests/independent_life/test_streaming.py','tests/first_life_android_v2/test_chat_stream_http.py']),
             (('lived_language.py','live_api/bridge.py','live_api/contracts.py','long_feedback','feedback.ts','feedback.test.ts','nana-space-live-v2'),
              ['tests/person_self/test_memory_use_feedback.py','tests/person_self/test_long_feedback_binding.py','tests/person_self/test_learning.py','tests/person_self/test_dialogue_integration.py','tests/first_life_android_v2/test_long_feedback.py','tests/first_life_android_v2/test_http_integration.py']),
             (('continuity/context.py','continuity/retrieval_growth.py','test_retrieval_growth','test_retrieval_text_profile.py','note_query_diversity_v1.json','test_note_recall'), ['tests/independent_life/test_retrieval_text_profile.py','tests/independent_life/test_retrieval_growth.py','tests/independent_life/test_retrieval_growth_expanded.py','tests/independent_life/test_note_recall.py','tests/continuous_self/test_context.py','tests/person_self/test_context_selection_efficiency.py','tests/living_release_v4/test_private_context.py']),
-            (('live_api/provider_settings.py','live_api/server.py','test_provider_runtime_settings.py'), ['tests/first_life_android_v2/test_provider_runtime_settings.py','tests/first_life_android_v2/test_provider_models.py','tests/first_life_android_v2/test_http_integration.py']),
+            (('live_api/provider_settings.py','live_api/provider_models.py','live_api/server.py','test_provider_models.py','test_provider_runtime_settings.py'), ['tests/first_life_android_v2/test_provider_runtime_settings.py','tests/first_life_android_v2/test_provider_models.py','tests/first_life_android_v2/test_http_integration.py']),
             (('subject/context_fit.py','test_context_fit.py'), ['tests/vision_first/test_context_fit.py','tests/independent_life/test_dialogue.py']),
             (('subject/policy.py','subject/opportunities.py','open_life/opportunities.py','tests/open_life/'), ['tests/open_life','tests/open_autonomy/test_delivery.py','tests/open_autonomy/test_planning.py','tests/precision/test_planning.py','tests/precision/test_recovery.py']),
             (('life/control.py','life/application.py','life/dialogue_contracts.py','world_loop/cognition.py','life/surfaces.py','life/__main__.py','live_api/bridge.py','live_api/contracts.py','live_api/server.py','test_continuous_inputs.py','test_conversation_sequence.py','test_message_sequence_http.py'), ['tests/first_life_android_v2/test_message_sequence_http.py','tests/first_life_android_v2/test_conversation_sequence.py','tests/first_life_android_v2/test_continuous_inputs.py','tests/first_life_android_v2/test_http_integration.py','tests/first_life_android_v2/test_chat_stream_http.py','tests/independent_life/test_dialogue.py','tests/independent_life/test_streaming.py','tests/person_self/test_history_bound.py','tests/person_self/test_rest_and_attribution.py']),

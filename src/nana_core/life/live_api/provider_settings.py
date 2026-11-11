@@ -222,7 +222,7 @@ def configure_runtime(service,principal,body):
         profile=next((p for p in document.providers if p.provider_profile_id==body.provider_profile_id),None)
         if profile is None or profile.revision!=body.profile_revision:
             raise ApiError('PROVIDER_CONFIG_REVISION_CONFLICT',409)
-        if not profile.enabled or profile.locality!='REMOTE' or profile.protocol!='OPENAI_COMPATIBLE_CHAT':
+        if not profile.enabled or profile.locality!='REMOTE' or profile.protocol not in {'OPENAI_COMPATIBLE_CHAT','ANTHROPIC'}:
             raise ApiError('PROVIDER_RUNTIME_PROFILE_UNSUPPORTED',409)
         return profile
 

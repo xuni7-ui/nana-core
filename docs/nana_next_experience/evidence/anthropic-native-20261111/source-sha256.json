@@ -1,0 +1,17 @@
+{
+  ".github/workflows/nana-next-qualification.yml": "9bd090910d358842011ffc8e2359bc0aad29068381c92690dce831cc7924c17a",
+  "apps/nana-space/src/data/provider-center.ts": "348bbe2d2f02d543349243c91de20a4967bc55a0b8ccbaaa6187475ccd1dd5cd",
+  "apps/nana-space/src/data/provider-commands.ts": "8baee0b78a104df1d958dc54531072d59fd027a115be2bb6d5ca0af70190c72c",
+  "apps/nana-space/src/features/next/ModelSetup.tsx": "b748e7f9b4595657f011f714827f5cd852505e6873f8f3170b6d7f3b23e07b5c",
+  "apps/nana-space/src/features/next/ProviderRuntimeSettings.tsx": "1aa0ca572c628746b554820399ba99e76deca61a5cfdf0752ee5448d4d8874b0",
+  "apps/nana-space/tests/provider-commands.test.ts": "515a99786a886104776f8ed90ea627ef0eff64e68a92571ebc83bffa26972a7e",
+  "apps/nana-space/tests/v3.spec.ts": "2caa5213632aec54811e1548563352c81eb3834254002ef8ab86c37d282d6810",
+  "src/nana_core/continuity/provider_routing.py": "7d5f541405ca000815a93a70fc61369bbcf2923da6aa8f916bcbd373b1b91eca",
+  "src/nana_core/continuity/world_loop/anthropic.py": "66cf6854c165c07faca74ea4584f96f9209df27cbff30d3c9e96451d598d8e8d",
+  "src/nana_core/continuity/world_loop/cognition.py": "45881e304ca3b99b807d1abfac6da9ccfbe1474583c62de25193ec74d2beab64",
+  "src/nana_core/life/live_api/provider_models.py": "92887e5c3b03437dd6d04a3d5aa6aac3039c9b096e8caa188819f2fd676cbaa4",
+  "src/nana_core/life/live_api/provider_settings.py": "f20c9064605dcd93713c18262277978bb6eb56d379650a9cda5b91aff2ef39ac",
+  "tests/first_life_android_v2/test_provider_models.py": "cd570c8aa53e1a78c9b79fda449c24ea4653847c15da5e9b416489521f4cedae",
+  "tests/first_life_android_v2/test_provider_runtime_settings.py": "70ae98ae27abd6ba569704b223d7b4823e7e57a26a8dcffe4861045a294aa739",
+  "tests/provider_routing/test_anthropic_native.py": "38b01a5a5cc8ebc6198ddd015fb8f4b029b90bc674b602235fba4b5292f2693b"
+}

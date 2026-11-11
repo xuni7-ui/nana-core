@@ -16,18 +16,19 @@ from .test_http_integration import running, http, login
 
 def profile(**changes):
     return ProviderProfile(provider_profile_id='catalog.main', display_name='Catalog',
-        protocol='OPENAI_COMPATIBLE_CHAT', locality='REMOTE', base_url='https://catalog.example/v1',
+        protocol=changes.pop('protocol','OPENAI_COMPATIBLE_CHAT'), locality='REMOTE', base_url='https://catalog.example/v1',
         secret_ref='catalog.main', **changes)
 
 
-def test_authenticated_catalog_from_existing_vault_does_not_change_routes(running, monkeypatch):
+@pytest.mark.parametrize('protocol',['OPENAI_COMPATIBLE_CHAT','ANTHROPIC'])
+def test_authenticated_catalog_from_existing_vault_does_not_change_routes(running, monkeypatch,protocol):
     server, service = running
     headers = login(server, service)
     service.allow_provider_configuration = True
     service.credential_resolver = MemorySecretResolver()
     service.credential_resolver.bind('catalog.main', 'TEST_ONLY_NOT_SECRET_CATALOG')
     cfg, authority = config_service(service.supervisor.home/'providers.json')
-    update(cfg, authority, 'UPSERT_PROVIDER', provider=profile())
+    update(cfg, authority, 'UPSERT_PROVIDER', provider=profile(protocol=protocol))
     life = load_config(service.supervisor.home)
     update_config(service.supervisor.home, life.model_copy(update={
         'revision':life.revision+1, 'provider_hosts':('catalog.example',)}), expected_revision=life.revision)
@@ -85,3 +86,22 @@ def test_catalog_wire_is_bounded_and_no_redirect_or_inference(monkeypatch, rows,
     else:
         assert provider_models.read_catalog(profile(), 'TEST_ONLY_NOT_SECRET_CATALOG')['models']==['model.good']
     assert len(calls)==1
+
+
+def test_native_catalog_uses_native_headers_and_reports_remaining_pages(monkeypatch):
+    calls=[]
+    class Response(io.BytesIO):
+        status=200
+        headers=Message()
+    Response.headers['Content-Type']='application/json'
+    class Opener:
+        def open(self,request,timeout):
+            calls.append(request)
+            assert request.full_url=='https://catalog.example/v1/models' and request.get_method()=='GET'
+            assert request.get_header('X-api-key')=='TEST_ONLY_NOT_SECRET_CATALOG'
+            assert request.get_header('Anthropic-version')=='2026-10-21'
+            assert request.get_header('Authorization') is None and request.data is None
+            return Response(json.dumps({'data':[{'type':'model','id':'native.synthetic'}],'has_more':True}).encode())
+    monkeypatch.setattr(provider_models.urllib.request,'build_opener',lambda handler:Opener())
+    result=provider_models.read_catalog(profile(protocol='ANTHROPIC'),'TEST_ONLY_NOT_SECRET_CATALOG')
+    assert result=={'models':['native.synthetic'],'truncated':True} and len(calls)==1

@@ -1,0 +1,40 @@
+vite v6.4.5 building for live...
+
+(!) outDir /tmp/nana-native-web is not inside project root and will not be emptied.
+Use --emptyOutDir to override.
+
+transforming...
+✓ 1786 modules transformed.
+rendering chunks...
+computing gzip size...
+../../../../tmp/nana-native-web/index.html                          0.74 kB │ gzip:  0.47 kB
+../../../../tmp/nana-native-web/assets/CoreApp-DlTee8Ns.css         3.31 kB │ gzip:  0.99 kB
+../../../../tmp/nana-native-web/assets/ExplorePages-S7BqOZCt.css   12.93 kB │ gzip:  2.95 kB
+../../../../tmp/nana-native-web/assets/settings-s7FLzCO4.css       19.37 kB │ gzip:  3.76 kB
+../../../../tmp/nana-native-web/assets/index-CBiVU63E.css          39.56 kB │ gzip:  9.18 kB
+../../../../tmp/nana-native-web/assets/LiveSpace-BmuvpKJ9.css      51.19 kB │ gzip: 10.21 kB
+../../../../tmp/nana-native-web/assets/clock-3-CTC0xBlp.js          0.35 kB │ gzip:  0.27 kB
+../../../../tmp/nana-native-web/assets/eye-C0fjE0lg.js              0.42 kB │ gzip:  0.30 kB
+../../../../tmp/nana-native-web/assets/lock-keyhole-Dw6Tq5DW.js     0.42 kB │ gzip:  0.32 kB
+../../../../tmp/nana-native-web/assets/shield-check-DK-dF62l.js     0.48 kB │ gzip:  0.35 kB
+../../../../tmp/nana-native-web/assets/radio-85RMdeeG.js            0.83 kB │ gzip:  0.40 kB
+../../../../tmp/nana-native-web/assets/refresh-cw-BQzBL56k.js       0.84 kB │ gzip:  0.41 kB
+../../../../tmp/nana-native-web/assets/sparkles-b9V-cKBW.js         0.92 kB │ gzip:  0.44 kB
+../../../../tmp/nana-native-web/assets/smartphone-DvqIDKN5.js       1.08 kB │ gzip:  0.46 kB
+../../../../tmp/nana-native-web/assets/plus-60kcxwVg.js             1.16 kB │ gzip:  0.46 kB
+../../../../tmp/nana-native-web/assets/Avatar-D-n3khcN.js           1.58 kB │ gzip:  0.93 kB
+../../../../tmp/nana-native-web/assets/upload-ChbRm3KH.js           1.69 kB │ gzip:  0.67 kB
+../../../../tmp/nana-native-web/assets/ui-DLqgVYFH.js               1.69 kB │ gzip:  0.64 kB
+../../../../tmp/nana-native-web/assets/sun-rZClGlOA.js              1.85 kB │ gzip:  0.59 kB
+../../../../tmp/nana-native-web/assets/monitor-D47y7FfE.js          1.94 kB │ gzip:  0.70 kB
+../../../../tmp/nana-native-web/assets/x-gTC3dE89.js                2.42 kB │ gzip:  0.83 kB
+../../../../tmp/nana-native-web/assets/preferences-BHpMp5mn.js      3.31 kB │ gzip:  1.24 kB
+../../../../tmp/nana-native-web/assets/ChatPage-WCOSMfSu.js         7.31 kB │ gzip:  3.42 kB
+../../../../tmp/nana-native-web/assets/SettingsPage-CSuYUJko.js    10.20 kB │ gzip:  4.67 kB
+../../../../tmp/nana-native-web/assets/RuntimePage-DMQt6wFs.js     16.46 kB │ gzip:  6.42 kB
+../../../../tmp/nana-native-web/assets/CoreApp-BQjscvK8.js         19.67 kB │ gzip:  8.37 kB
+../../../../tmp/nana-native-web/assets/ExplorePages-Hkf-Oyxg.js    27.19 kB │ gzip:  8.98 kB
+../../../../tmp/nana-native-web/assets/index-C-lxtd1t.js          120.23 kB │ gzip: 37.21 kB
+../../../../tmp/nana-native-web/assets/LiveSpace-Y2r4pL0n.js      181.35 kB │ gzip: 60.72 kB
+../../../../tmp/nana-native-web/assets/index-D1hVOChT.js          228.04 kB │ gzip: 71.41 kB
+✓ built in 2.93s

@@ -95,7 +95,7 @@ export const providerPresets = [
     id: "anthropic",
     name: "Anthropic",
     protocol: "ANTHROPIC",
-    note: "原生协议扩展位，当前无已资格运行适配器",
+    note: "原生 Messages 文字认知与对话；流式和多模态尚未接通",
   },
   {
     id: "gemini",

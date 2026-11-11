@@ -1,0 +1,33 @@
+[WebServer] (node:45435) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+[WebServer] (node:45448) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+[WebServer] (Use `node --trace-warnings ...` to show where the warning was created)
+
+Running 16 tests using 1 worker
+
+(node:45466) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   1 [desktop] › tests/v3.spec.ts:869:1 › SYNTHETIC model catalog: explicit list read fills draft and registers only the chosen model (1.8s)
+  ✓   2 [desktop] › tests/v3.spec.ts:1350:78 › SYNTHETIC model setup: numeric UUID SAVED (978ms)
+  ✓   3 [desktop] › tests/v3.spec.ts:1350:78 › SYNTHETIC model setup: numeric UUID ANTHROPIC (991ms)
+  ✓   4 [desktop] › tests/v3.spec.ts:1482:96 › SYNTHETIC runtime budget: explicit consent and ANTHROPIC receipt (1.3s)
+(node:45702) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   5 [phone-360] › tests/v3.spec.ts:869:1 › SYNTHETIC model catalog: explicit list read fills draft and registers only the chosen model (1.1s)
+  ✓   6 [phone-360] › tests/v3.spec.ts:1350:78 › SYNTHETIC model setup: numeric UUID SAVED (1.0s)
+  ✓   7 [phone-360] › tests/v3.spec.ts:1350:78 › SYNTHETIC model setup: numeric UUID ANTHROPIC (1.0s)
+  ✓   8 [phone-360] › tests/v3.spec.ts:1482:96 › SYNTHETIC runtime budget: explicit consent and ANTHROPIC receipt (1.1s)
+(node:45935) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓   9 [phone-390] › tests/v3.spec.ts:869:1 › SYNTHETIC model catalog: explicit list read fills draft and registers only the chosen model (1.3s)
+  ✓  10 [phone-390] › tests/v3.spec.ts:1350:78 › SYNTHETIC model setup: numeric UUID SAVED (963ms)
+  ✓  11 [phone-390] › tests/v3.spec.ts:1350:78 › SYNTHETIC model setup: numeric UUID ANTHROPIC (1.0s)
+  ✓  12 [phone-390] › tests/v3.spec.ts:1482:96 › SYNTHETIC runtime budget: explicit consent and ANTHROPIC receipt (1.0s)
+(node:46188) Warning: The 'NO_COLOR' env is ignored due to the 'FORCE_COLOR' env being set.
+(Use `node --trace-warnings ...` to show where the warning was created)
+  ✓  13 [phone-412] › tests/v3.spec.ts:869:1 › SYNTHETIC model catalog: explicit list read fills draft and registers only the chosen model (1.2s)
+  ✓  14 [phone-412] › tests/v3.spec.ts:1350:78 › SYNTHETIC model setup: numeric UUID SAVED (983ms)
+  ✓  15 [phone-412] › tests/v3.spec.ts:1350:78 › SYNTHETIC model setup: numeric UUID ANTHROPIC (1.0s)
+  ✓  16 [phone-412] › tests/v3.spec.ts:1482:96 › SYNTHETIC runtime budget: explicit consent and ANTHROPIC receipt (1.1s)
+
+  16 passed (23.1s)

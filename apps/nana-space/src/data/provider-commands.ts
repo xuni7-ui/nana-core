@@ -23,14 +23,14 @@ export function providerCommand(
 ): ProviderCommand {
   const errors = validateProviderDraft(draft, "PROVIDER");
   if (errors.length) throw new Error(errors[0]);
-  if (draft.protocol !== "OPENAI_COMPATIBLE_CHAT")
+  if (draft.protocol !== "OPENAI_COMPATIBLE_CHAT" && draft.protocol !== "ANTHROPIC")
     throw new Error(
-      "此版本仅支持 OpenAI-compatible 远程配置；其他协议保留为草稿。",
+      "此版本支持 OpenAI-compatible 和 Anthropic 原生协议；其他协议保留为草稿。",
     );
   const provider: ProviderProfile = {
     provider_profile_id: profile(providerId),
     display_name: draft.displayName.trim(),
-    protocol: "OPENAI_COMPATIBLE_CHAT",
+    protocol: draft.protocol,
     base_url: safeProviderUrl(draft.baseUrl),
     locality: "REMOTE",
     permitted_privacy: ["PUBLIC", "PROJECT"],
@@ -53,6 +53,8 @@ export function modelCommand(
   const errors = validateProviderDraft(draft, "MODEL");
   if (errors.length) throw new Error(errors[0]);
   const op = draft.operation;
+  if (draft.protocol === "ANTHROPIC" && op !== "COGNITION")
+    throw new Error("Anthropic 原生协议当前仅接通文字认知与对话。");
   const inputs: Partial<
     Record<CoreOperation, "TEXT" | "IMAGE" | "AUDIO" | "VIDEO">
   > = {

@@ -6,13 +6,13 @@ from nana_core.life.live_api import provider_settings
 from .test_http_integration import running,http,login,base
 
 
-def configure_profile(service):
+def configure_profile(service,protocol='OPENAI_COMPATIBLE_CHAT'):
     authority=ProviderConfigurationAuthority()
     settings=ProviderConfigService(service.supervisor.home/'providers.json',authority)
     document=settings.initialize(authority)
     return settings.update(ProviderCommand(operation='UPSERT_PROVIDER',expected_revision=document.revision,
         provider=ProviderProfile(provider_profile_id='provider.runtime',display_name='SYNTHETIC runtime provider',
-            protocol='OPENAI_COMPATIBLE_CHAT',base_url='https://provider.example/v1',locality='REMOTE',
+            protocol=protocol,base_url='https://provider.example/v1',locality='REMOTE',
             permitted_privacy=('PUBLIC','PROJECT'),default_timeout_ms=120000,default_cost_ceiling=1000)),authority)
 
 
@@ -24,8 +24,9 @@ def request_body(service,key='runtime-settings'):
         'per_call_reserved_cost_micro':500,'consent':True}
 
 
-def test_runtime_settings_explicit_host_opt_in_cas_and_same_receipt(running):
-    server,service=running;configure_profile(service);headers=login(server,service)
+@pytest.mark.parametrize('protocol',['OPENAI_COMPATIBLE_CHAT','ANTHROPIC'])
+def test_runtime_settings_explicit_host_opt_in_cas_and_same_receipt(running,protocol):
+    server,service=running;configure_profile(service,protocol);headers=login(server,service)
     service.allow_provider_configuration=True;service.allow_provider_runtime_budget=True
     before=load_config(service.supervisor.home);identity=service.binding.subject_id
     code,status,_=http(server,'providers/runtime',headers=headers)

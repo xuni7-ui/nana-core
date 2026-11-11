@@ -1,3 +1,11 @@
+# Active continuation — native Anthropic text now reaches original C
+
+Base52a8e21. NativeMessages endpoint/auth/version/system/body/stop/usage on originalHTTP/Router/Cognition; originalC thenRENDER/sameSubjectrestart proven4localhostfixture/real0. Nativecatalog has_more honest, Webpreset/protocolsave/nonmedia guard/runtimebudget API+UI wired. Native JSON only, no fakeSSE/media.153affected53.86s,82unit4.94s/TS/Vite2.93s/16browser23.1s desktop360390412. Factoryunsupported/defaultDTO omission/testhostno-remote-privacy and firstbrowserlocator failure+interruption retained, originalgates notweakened. Evidence anthropic-native-20261111/source-table c2166b7e73a24434783f3a47b7cdb694f3fa77e15d86846117417459120f5354. 52a exactCI43000873735 SUCCESS12Core28.23s/81unit/104browser1.5m/build3.02s; newCI pendingread afterpush. No full/portableinstall/nativeAndroid/realprovider/phone/human/production claim.
+
+Next originalC in-flight new-input/unsentdraft boundary: inspect LifeApplication.chat/_defer_render and originalIPC serialization/stream draft admission, extend one originalSubject/Store with targetedbehavior proof, notsecondqueuebrain. Then originalremaining A–E/affect/delivery-C-S3-S8/Glarge/storageprivacy/actualToken/otherproviders/multiend/repository/finalmatchingrelease allA–H retain. NewTEXT old63e4pending-G still incompatible, currentreturnrecovers. CURRENT266+409 unchanged;17:50alreadyenabled/currentworkcontinues; no repeatedartifact403/production/paid/account/deviceaction. Root~3.6MB, tests/builds/tmp and protect knownold/unknownassets.
+
+---
+
 # Active continuation — reuse unaffected client qualification
 
 Basefac1b97 pushed. ActualCI43000447084 SUCCESS41Core33.69s/1originalreportingwarning/clientcorrectSKIP. Current workflow onlyCore-job/push-path edit no longer implies unchangedclient suite; shared/global/client/manual/newlayout/newworkflow stillqualify, live_api server/auth/provider changes also qualifyclient. DirectcompiledPYPATHS15realGitcommit scenariosPASS; ownsharedclassifier CI mustrunboth/readactualresult. Evidence ci-client-selection-20261111/source-table d40f8e5a401b79d2800891ffd6ff39e956b7dbcdb747f817756f89043b460d54. Previous text-profile3synthetic rawlogs now explicitlytracked despitegeneral*.logignore.

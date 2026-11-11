@@ -1,0 +1,45 @@
+........F.................................................               [100%]
+=================================== FAILURES ===================================
+____ test_native_messages_reach_original_c_render_and_same_subject_restart _____
+
+tmp_path = PosixPath('/tmp/nana-native-integration/test_native_messages_reach_ori0')
+
+    def test_native_messages_reach_original_c_render_and_same_subject_restart(tmp_path):
+        from nana_core.continuity.world_loop.anthropic import AnthropicJSONTransport
+        from nana_core.continuity.provider_routing import CapabilityRouter
+        from nana_core.continuity.provider_config import CapabilityRoute
+        from nana_core.life.application import LifeApplication
+        from nana_core.presence.authority import VirtualClock
+        from tests.independent_life.conftest import initialize
+        from .helpers import config_service,update
+        home=tmp_path/'home';initialize(home,active=0);clock=VirtualClock()
+        with native_wire('dialogue') as (endpoint,calls):
+            cfg,authority=config_service(home/'synthetic-native-providers.json')
+            p=ProviderProfile(provider_profile_id='native.fixture',display_name='SYNTHETIC native codec only',
+                protocol='ANTHROPIC',locality='REMOTE',base_url='https://native.example/v1',secret_ref='native.fixture',
+                permitted_privacy=('PUBLIC','PROJECT'))
+            m=model('model.native',p.provider_profile_id).model_copy(update={'remote_model_id':'synthetic-native'})
+            update(cfg,authority,'UPSERT_PROVIDER',provider=p);update(cfg,authority,'UPSERT_MODEL',model=m)
+            update(cfg,authority,'SET_CAPABILITY_ROUTE',route=CapabilityRoute(operation='COGNITION',primary_model_profile_id=m.model_profile_id,
+                   permitted_privacy=('PUBLIC','PROJECT')))
+            class SyntheticNativeFactory(RuntimeProviderFactory):
+                # Explicit fixture injection, never mislabel localhost as a real provider.
+                def create(self,provider,model,operation):
+                    self.available(provider,model,operation)
+                    return AnthropicJSONTransport(endpoint,model.remote_model_id,provider_id=provider.provider_profile_id,harness=True)
+            factory=SyntheticNativeFactory(ProviderRegistry(),Resolver(('native.fixture',)),
+                RoutingPolicy(allow_remote=True,allowed_remote_hosts=('native.example',)))
+            router=CapabilityRouter(cfg,factory)
+            with LifeApplication(home,clock=clock,router=router) as app:
+                app.pause();identity=app.runtime.identity_id
+                answer=app.chat('SYNTHETIC native greeting',privacy='PROJECT',message_id='native-one')
+>               assert answer['mode']=='CHAT' and answer['text']=='SYNTHETIC native response'
+E               AssertionError: assert ('UNCLEAR' == 'CHAT'
+E                 
+E                 - CHAT
+E                 + UNCLEAR)
+
+tests/provider_routing/test_anthropic_native.py:130: AssertionError
+=========================== short test summary info ============================
+FAILED tests/provider_routing/test_anthropic_native.py::test_native_messages_reach_original_c_render_and_same_subject_restart
+1 failed, 57 passed in 21.52s

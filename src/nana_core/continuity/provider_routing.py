@@ -114,13 +114,16 @@ class RuntimeProviderFactory:
                 raise CoreError("SECRET_UNAVAILABLE") from None
         try:
             from .world_loop.cognition import OpenAIJSONTransport
+            from .world_loop.anthropic import AnthropicJSONTransport
             from .world_loop.semantics import OpenAIMediaTransport
             from .world_loop.semantic_contracts import SemanticDescriptor
 
             endpoint = provider.base_url + "/chat/completions"
             kw = dict(provider_id=provider.provider_profile_id, credential=credential, harness=harness)
             if operation == "COGNITION":
-                return OpenAIJSONTransport(
+                transport=AnthropicJSONTransport if provider.protocol=='ANTHROPIC' else OpenAIJSONTransport
+                if provider.protocol=='ANTHROPIC':endpoint=provider.base_url+'/messages'
+                return transport(
                     endpoint, model.remote_model_id, thinking_mode=provider.chat_thinking_mode, token_counter=self.token_counters.get(model.model_profile_id), **kw
                 )
             modality = {"VISION": "IMAGE", "AUDIO_UNDERSTAND": "AUDIO", "VIDEO_UNDERSTAND": "VIDEO"}[operation]
@@ -151,9 +154,11 @@ class RuntimeProviderFactory:
             if d != model.descriptor(provider):
                 raise CoreError("PRE_DISPATCH_UNAVAILABLE")
             return
-        if provider.protocol not in {"OPENAI_COMPATIBLE_CHAT", "SYNTHETIC_LOOPBACK"}:
+        if provider.protocol not in {"OPENAI_COMPATIBLE_CHAT", "SYNTHETIC_LOOPBACK", "ANTHROPIC"}:
             raise CoreError("PROVIDER_PROTOCOL_UNAVAILABLE")
         if operation not in {"COGNITION", "VISION", "AUDIO_UNDERSTAND", "VIDEO_UNDERSTAND"}:
+            raise CoreError("OPERATION_UNSUPPORTED")
+        if provider.protocol=='ANTHROPIC' and operation!='COGNITION':
             raise CoreError("OPERATION_UNSUPPORTED")
         harness = provider.protocol == "SYNTHETIC_LOOPBACK"
         if harness and not self.policy.allow_synthetic_loopback:

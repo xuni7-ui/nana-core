@@ -24,12 +24,18 @@ test("commands use original model/provider IDs and exact config revision without
 });
 test("unsupported protocol, wrong IDs and repeated fallback refuse locally", () => {
   expect(() =>
-    providerCommand({ ...draft(), protocol: "ANTHROPIC" }, "provider.a", 0),
+    providerCommand({ ...draft(), protocol: "GEMINI_NATIVE" }, "provider.a", 0),
   ).toThrow();
   expect(() => providerCommand(draft(), "not_valid_without_dot", 0)).toThrow();
   expect(() => routeCommand("VISION", "model.a", ["model.a"], 1)).toThrow();
   const r = routeCommand("COGNITION", "model.a", ["model.b"], 5);
   expect(r.route?.permitted_privacy).toEqual(["PUBLIC", "PROJECT"]);
+});
+test("native Anthropic configuration preserves its protocol and refuses unwired media", () => {
+  const native = {...draft(), protocol: "ANTHROPIC"};
+  expect(providerCommand(native,"provider.native",0).provider?.protocol).toBe("ANTHROPIC");
+  expect(modelCommand(native,"provider.native","model.native",1).model?.operations).toEqual(["COGNITION"]);
+  expect(()=>modelCommand({...native,operation:"VISION"},"provider.native","model.native",1)).toThrow(/文字认知/);
 });
 
 test("provider and selected-model registration validate only their own fields", () => {

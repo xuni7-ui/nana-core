@@ -11,7 +11,7 @@ const positive = (value: unknown, fallback: number) =>
 export function ProviderRuntimeSettings({data,disabled,onSave}:{data:unknown;disabled:boolean;onSave:(input:RuntimeBudgetInput)=>Promise<void>}) {
   const settings=object(data),limits=object(settings.limits);
   const profiles=Array.isArray(settings.profiles) && settings.profiles.length<=64
-    ? settings.profiles.map(object).filter(p=>p.enabled===true && p.locality==="REMOTE" && p.protocol==="OPENAI_COMPATIBLE_CHAT"
+    ? settings.profiles.map(object).filter(p=>p.enabled===true && p.locality==="REMOTE" && (p.protocol==="OPENAI_COMPATIBLE_CHAT" || p.protocol==="ANTHROPIC")
       && typeof p.provider_profile_id==="string" && typeof p.profile_revision==="number" && typeof p.host==="string") : [];
   const [providerId,setProviderId]=useState(String(profiles[0]?.provider_profile_id || ""));
   const profile=profiles.find(p=>p.provider_profile_id===providerId);

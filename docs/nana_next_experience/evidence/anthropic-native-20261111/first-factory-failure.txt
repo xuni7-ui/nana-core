@@ -1,0 +1,46 @@
+F                                                                        [100%]
+=================================== FAILURES ===================================
+__ test_native_factory_uses_messages_endpoint_and_existing_host_secret_gates ___
+
+    def test_native_factory_uses_messages_endpoint_and_existing_host_secret_gates():
+        p=ProviderProfile(provider_profile_id='native.main',display_name='Native',protocol='ANTHROPIC',
+            base_url='https://native.example/v1',locality='REMOTE',secret_ref='native.main')
+        m=model('model.native',p.provider_profile_id).model_copy(update={'remote_model_id':'synthetic-native'})
+        resolver=Resolver(('native.main',));factory=RuntimeProviderFactory(ProviderRegistry(),resolver,
+            RoutingPolicy(allow_remote=True,allowed_remote_hosts=('native.example',)))
+>       port=factory.create(p,m,'COGNITION')
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+tests/provider_routing/test_anthropic_native.py:21: 
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+src/nana_core/continuity/provider_routing.py:99: in create
+    self.available(provider, model, operation)
+_ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ _ 
+
+self = <nana_core.continuity.provider_routing.RuntimeProviderFactory object at 0x7f621b2723c0>
+provider = ProviderProfile(provider_profile_id='native.main', display_name='Native', protocol='ANTHROPIC', chat_thinking_mode='PR...enabled=True, permitted_privacy=('PUBLIC',), default_timeout_ms=120000, default_cost_ceiling=1000, tags=(), revision=1)
+model = ModelProfile(model_profile_id='model.native', provider_profile_id='native.main', remote_model_id='synthetic-native', m...put_limit=4096, tool_proposals=False, latency_class='UNKNOWN', cost_class='UNKNOWN', enabled=True, tags=(), revision=1)
+operation = 'COGNITION'
+
+    def available(self, provider, model, operation):
+        """Check construction gates without resolving a secret or dispatching.
+    
+        This is local readiness, never provider authentication/HTTP qualification.
+        Both route inspection and actual construction use the same gates.
+        """
+        if provider.protocol == "LOCAL":
+            try:
+                d, port = self.registry._resolve(model.model_profile_id, operation)
+            except CoreError:
+                raise CoreError("PRE_DISPATCH_UNAVAILABLE") from None
+            if d != model.descriptor(provider):
+                raise CoreError("PRE_DISPATCH_UNAVAILABLE")
+            return
+        if provider.protocol not in {"OPENAI_COMPATIBLE_CHAT", "SYNTHETIC_LOOPBACK"}:
+>           raise CoreError("PROVIDER_PROTOCOL_UNAVAILABLE")
+E           nana_core.contracts.CoreError: PROVIDER_PROTOCOL_UNAVAILABLE
+
+src/nana_core/continuity/provider_routing.py:155: CoreError
+=========================== short test summary info ============================
+FAILED tests/provider_routing/test_anthropic_native.py::test_native_factory_uses_messages_endpoint_and_existing_host_secret_gates
+1 failed, 6 deselected in 0.34s

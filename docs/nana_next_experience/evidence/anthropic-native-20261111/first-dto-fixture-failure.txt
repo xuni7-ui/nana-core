@@ -1,0 +1,22 @@
+......F                                                                  [100%]
+=================================== FAILURES ===================================
+___________ test_native_social_does_not_request_an_openai_sse_stream ___________
+
+tmp_path = PosixPath('/tmp/nana-native-second/test_native_social_does_not_re0')
+
+    def test_native_social_does_not_request_an_openai_sse_stream(tmp_path):
+        from nana_core.continuity.world_loop.anthropic import AnthropicJSONTransport
+        with fresh(tmp_path/'self.db') as r:
+            port=AnthropicJSONTransport('http://127.0.0.1:1/v1/messages','synthetic-native',harness=True)
+            session=CognitionSession(r,port,policy());session.draft_sink=lambda value:None
+            mid=capture(r,'social-native',{'fact':'SYNTHETIC'})
+            cid=session.prepare('native-social','SOCIAL',(mid,))
+            data=session.records.read(r.store.one('cognitive_requests',cid)['record_id'])['payload']['request']
+>           assert data['response_mode']=='JSON' and not r.store.all('actions')
+                   ^^^^^^^^^^^^^^^^^^^^^
+E           KeyError: 'response_mode'
+
+tests/provider_routing/test_anthropic_native.py:86: KeyError
+=========================== short test summary info ============================
+FAILED tests/provider_routing/test_anthropic_native.py::test_native_social_does_not_request_an_openai_sse_stream
+1 failed, 6 passed in 3.53s

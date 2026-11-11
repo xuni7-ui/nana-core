@@ -1347,7 +1347,7 @@ test("SYNTHETIC long reply feedback binds full Unicode response without repostin
 });
 
 
-for (const scenario of ['SAVED','LOST_ACK','REJECTED'] as const) test(`SYNTHETIC model setup: numeric UUID ${scenario}`, async ({page}) => {
+for (const scenario of ['SAVED','LOST_ACK','REJECTED','ANTHROPIC'] as const) test(`SYNTHETIC model setup: numeric UUID ${scenario}`, async ({page}) => {
   const lostAck=scenario==='LOST_ACK';
   const rejected=scenario==='REJECTED';
   const state=await installMock(page);
@@ -1382,6 +1382,11 @@ for (const scenario of ['SAVED','LOST_ACK','REJECTED'] as const) test(`SYNTHETIC
   });
   await open(page,'models');
   const setup=page.locator('.next-setup');
+  if(scenario==='ANTHROPIC'){
+    await setup.getByRole('combobox',{name:'服务商',exact:true}).selectOption({label:'Anthropic'});
+    await expect(setup.getByLabel('API 地址',{exact:true})).toHaveValue('https://api.anthropic.com/v1');
+    await setup.getByLabel('模型名称',{exact:true}).fill('synthetic-native-model');
+  }
   await setup.getByRole('button',{name:'保存模型配置',exact:true}).click();
   if(rejected){
     await expect(page.getByText('最近操作 · 未执行',{exact:true})).toBeVisible();
@@ -1404,7 +1409,8 @@ for (const scenario of ['SAVED','LOST_ACK','REJECTED'] as const) test(`SYNTHETIC
     expect(model.model_profile_id).toMatch(/^model\.[a-z][a-z0-9._-]+$/);
     expect(model.provider_profile_id).toBe(provider.provider_profile_id);
     expect(provider.default_timeout_ms).toBe(120000);
-    expect(model.remote_model_id).toBe('deepseek-chat');
+    expect(model.remote_model_id).toBe(scenario==='ANTHROPIC'?'synthetic-native-model':'deepseek-chat');
+    expect(provider.protocol).toBe(scenario==='ANTHROPIC'?'ANTHROPIC':'OPENAI_COMPATIBLE_CHAT');
   }
   expect(commands.some(c=>c.operation==='SET_CAPABILITY_ROUTE')).toBe(false);
   expect(state.requests.some(r=>r.path==='providers/credentials/bind'||r.path==='providers/models')).toBe(false);
@@ -1473,7 +1479,8 @@ for(const outcome of ['MODEL_REJECTED','PROVIDER_UNKNOWN','MODEL_UNKNOWN'] as co
   await noHorizontalOverflow(page);
 });
 
-for(const outcome of ['VERIFIED','UNKNOWN','REJECTED','PROFILE_CHANGED'] as const) test(`SYNTHETIC runtime budget: explicit consent and ${outcome} receipt`,async({page})=>{
+for(const variant of ['VERIFIED','UNKNOWN','REJECTED','PROFILE_CHANGED','ANTHROPIC'] as const) test(`SYNTHETIC runtime budget: explicit consent and ${variant} receipt`,async({page})=>{
+  const outcome=variant==='ANTHROPIC'?'VERIFIED':variant;
   const state=await installMock(page);
   state.capabilities={provider_configuration_write:true,provider_runtime_configuration:true};
   let configRevision=3,day=6,posts=0,receiptReads=0,requestId='',profileRevision=1;
@@ -1481,7 +1488,7 @@ for(const outcome of ['VERIFIED','UNKNOWN','REJECTED','PROFILE_CHANGED'] as cons
     limits:{calls_per_day:day,calls_per_hour:4,per_provider_calls_per_day:6,per_call_reserved_cost_micro:500,total_calls:20,total_reserved_cost_micro:10000},
     output_tokens:1024,context_tokens:8192,profiles:[{provider_profile_id:'provider-a',profile_revision:profileRevision,
       display_name:'SYNTHETIC Text Resource',host:profileRevision===1?'provider-a.example':'changed.example',enabled:true,locality:'REMOTE',
-      protocol:'OPENAI_COMPATIBLE_CHAT',per_call_reserved_cost_micro:1000}],network_calls:0});
+      protocol:variant==='ANTHROPIC'?'ANTHROPIC':'OPENAI_COMPATIBLE_CHAT',per_call_reserved_cost_micro:1000}],network_calls:0});
   await page.route(`**${API}providers/runtime`,async route=>{
     if(route.request().method()==='GET')return route.fulfill({status:200,json:envelope(state,runtime())});
     const body=route.request().postDataJSON();posts++;requestId=body.client_request_id;

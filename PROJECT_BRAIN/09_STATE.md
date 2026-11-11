@@ -7,13 +7,13 @@
   "project_id": "nana-core",
   "scope": "project-work",
   "privacy_class": "PROJECT",
-  "revision": 152,
-  "as_of_us": 1794391606772619,
+  "revision": 153,
+  "as_of_us": 1794392572757105,
   "stage": "H",
   "workstream": "NEXT_EXPERIENCE_AND_TEN_DOMAIN_REFINEMENT",
-  "status": "IN_PROGRESS_CORE_ONLY_CI_CLIENT_REUSE",
+  "status": "IN_PROGRESS_ANTHROPIC_NATIVE_TEXT_WIRED",
   "progress": [
-    "fac1原C/G恢复实际CI41通过33.69s/1原报告warning，客户端正确skip。工作流仅Core组/路径注册变更可复用既有客户端资格，共享/客户端/API变更仍验证，15真实隔离Git场景通过；原A–H继续。",
+    "原路由/HTTP/认知链接通Anthropic原生Messages文字、目录/预算/Web向导；153相关53.86s、82前端、编译及16四视口通过，原C→RENDER/同身份重启真实localhost合成验证，0真实模型；native流式/媒体及实机仍待。",
     "四模式原接口复用；C33独立CI42548690816通过27Core/67前端/24浏览器及双构建离线安装，Core/Web实际下载核SHA并在本地独立安装BFF/反馈/重启撤回通过；未打新APK。",
     "原G独立V2/32保留默认/旧16资格；38相关通过，24冻结后续查询同预算9/24→24/24，误召0；不是大规模/长期成长。",
     "acdd本地284文件双构建同6a8848…0f00，独立离线BFF/反馈/重启撤回/合成QQ收件归因通过；同DEV DB acdd→6fd→acdd停机二进制回退返回0新增认知。匹配817包95afe6…ac3d实际离线安装及BFF组合通过。",
@@ -26,19 +26,19 @@
     "已排队输入Core/BFF/SDK/Web共同回应已接；生成中的新插话仍等待，未发生成草稿重组/中断、保留合并及真实送达/C-S3-S8长期因果待。新Native有限映射仅源码，匹配APK/安装/手机仍待。",
     "原G WORDLIKE及新TEXT仍独立16/32；更大语义检索/2字符或大量未索引笔记/200k少量超时、真实Core/Iris绑定及长期迁移待。新TEXT为有限源/原G/context资格，旧63e4对新增profile待G会literal_error，返回新版可恢复；最终匹配安装/安全回退仍待。",
     "主文件显式整理仅受控实验；新副本增量缓存待全仓/新安装；原source全日志重放、冷驱逐/跨归档引用/恢复/隐私闭包及DR仍需开发/资格。",
-    "全链模型特定Token/费用/超时、产品/模型向导、运行Gateway/Core/宿主兼容与仓库闭包仍按原清单推进。",
+    "全链模型特定Token/费用/超时、其他原生协议及模型产品、Gateway/Core/宿主/仓库闭包待；Anthropic文字已接原链并定向资格，真实API/完整目录分页/原生流式媒体/最终安装未资格。",
     "任务需求/当前负荷已分开，轻量有源兴趣可与REST竞争；原C问题/计划/巩固及其他A–E、情感/真实投递→S3/S8长期因果待。向导/预算DEV TLS已有，native/实机/真实provider仍待。",
     "远端artifact字节下载403/远端SHA对照保留独立差额，无新路径不再重复；独立本地安装不冒充远端。原A–H未完成，生产/模型/账号/手机未操作。"
   ],
   "evidence_refs": [
+    "docs/nana_next_experience/evidence/anthropic-native-20261111/README.md",
     "docs/nana_next_experience/evidence/ci-client-selection-20261111/README.md",
     "docs/nana_next_experience/evidence/text-profile-old-reader-20261111/README.md",
     "docs/nana_next_experience/CODEX_CONTINUATION_MISSION.md",
     "docs/nana_next_experience/ACTIVE_CHECKPOINT.md",
     "docs/nana_next_experience/STATUS_AND_REMAINING.md",
     "docs/nana_next_experience/evidence/text-query-g-compare-20261111/README.md",
-    "docs/nana_next_experience/evidence/competence-gap-causality-20261111/README.md",
-    "docs/nana_next_experience/evidence/text-query-original-g-20261111/README.md"
+    "docs/nana_next_experience/evidence/competence-gap-causality-20261111/README.md"
   ]
 }
 <!-- /CORE_PROJECT_CURRENT_STATE_V1 -->
@@ -2667,3 +2667,8 @@ Source a917c03 accepts explicit four-mode feedback bound to a current source in 
 ### 2026-11-11 · 复用未受影响客户端资格
 
 [实测] workflow比较原提交的共享/客户端配置，Core job/路径清单单独修改不触发无关81单测/104浏览器；共享/客户端/manual/新布局/新增workflow保持验证，API live_api源改动也保持客户端检查。15实际临时Git分支/提交场景直接执行原PYPATHS通过，不另建框架。当前修改共享分类器故自身双组仍跑。fac1实际CI43000447084 Core41通过33.69s/1原reportingwarning、clientSKIP。补显式追踪此前被通用*.log规则忽略的3份合成原始日志，原首错保留。证据ci-client-selection-20261111/源码表SHA256 d40f8e5a401b79d2800891ffd6ff39e956b7dbcdb747f817756f89043b460d54，表不自指；原A–H/CURRENT266+409不变。
+
+
+### 2026-11-11 · 原Anthropic Messages文字与产品接线
+
+[实测] 原Core HTTP/Router/Cognition基础上native top-level system/messages/x-api-key/version2026-10-21，非OpenAI线缆。原G/C/权限/Store不改；拒绝截断/tools，缓存读写及未缓存input合计但费用UNKNOWN，thinking不入主体记忆。原目录GET/has_more、显式预算和Web向导保存native协议已接。153相关53.86s、82前端、TS/Vite2.93s、16四视口23.1s；原C/RENDER两话轮4localhost fixture/同主体重启/0真实模型动作。首个unsupported、默认JSON字段夹具、缺远端隐私许可夹具、浏览器定位首错/中断均保留，不改原许可。证据anthropic-native-20261111；源码表SHA256 c2166b7e73a24434783f3a47b7cdb694f3fa77e15d86846117417459120f5354，不自指。52a实际CI12Core28.23s/81unit/104browser/live3.02成功，本源码CI待读；非全仓/最终安装/nativeAndroid/真实provider/人类长期/生产资格，266+409保持，原A–H继续。
